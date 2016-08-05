@@ -10,3 +10,7 @@ export function stopEvent(e) {
   e.preventDefault();
   e.stopPropagation();
 }
+
+export function getTimestamp() {
+  return Date.now() / 1000;
+}

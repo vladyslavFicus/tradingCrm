@@ -5,6 +5,7 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
  */
 import SignInRoute from './SignIn';
 import DashboardRoute from './Dashboard';
+import UsersRoute from './Users';
 import NotFoundRoute from './NotFound';
 
 export const requireAuth = (store) => (nextState, replace) => {
@@ -27,6 +28,7 @@ export const createRoutes = (store) => ({
       component: AuthenticatedLayout,
       childRoutes: [
         DashboardRoute(store),
+        UsersRoute(store),
       ],
     },
     NotFoundRoute(store),
