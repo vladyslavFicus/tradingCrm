@@ -20,9 +20,8 @@ class Sidebar extends Component {
     const { menuItems } = this.state;
     return <nav className="left-menu">
       <div className="logo-container">
-        <Link to={'/'} className="logo">
-          <img src="/img/logo.png" alt="Clean UI Admin Template"/>
-          <img className="logo-inverse" src="/img/logo-inverse.png" alt="Clean UI Admin Template"/>
+        <Link to={'/'} className="logo" style={{fontSize: 32 + 'px'}}>
+          <span style={{color:'#fff'}}>NEW</span><span style={{color:'rgb(26, 122, 175)'}}>AGE</span>
         </Link>
       </div>
       <div className="left-menu-inner scroll-pane">
