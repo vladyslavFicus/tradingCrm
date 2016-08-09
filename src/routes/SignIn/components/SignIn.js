@@ -13,13 +13,13 @@ class SignIn extends Component {
 
   render() {
     return <section className="page-content">
-      <div className="page-content-inner" style={{ backgroundImage: `url(${BackgroundImage})` }}>
+      <div className="page-content-inner" style={{ background: '#0e1836' }}>
         <div className="single-page-block-header">
           <div className="row">
             <div className="col-lg-4">
               <div className="logo">
-                <a href="./">
-                  <img src="/img/logo-inverse.png" alt="Clean UI Admin Template"/>
+                <a href='/' className="logo" style={{fontSize: 32 + 'px'}}>
+                  <span style={{color:'#e7edff'}}>NEW</span><span style={{color:'rgb(26, 122, 175)'}}>AGE</span>
                 </a>
               </div>
             </div>
@@ -27,7 +27,7 @@ class SignIn extends Component {
         </div>
         <div className="single-page-block">
           <div className="single-page-block-inner effect-3d-element" ref="innerBlock">
-            <div className="blur-placeholder" style={{ backgroundImage: `url(${BackgroundImage})` }}>&nbsp;</div>
+            <h2>Sign in</h2>
             <div className="single-page-block-form">
               <br/>
               <SignInForm {...this.props}/>
