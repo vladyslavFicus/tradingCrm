@@ -1,5 +1,5 @@
 import 'whatwg-fetch';
-import { WEB_API, ContentType } from '../constants';
+import { WEB_API, ContentType } from 'constants/index';
 import { camelizeKeys } from 'humps';
 
 const API_ROOT = 'http://staging.ua.newage.io/gateway/';

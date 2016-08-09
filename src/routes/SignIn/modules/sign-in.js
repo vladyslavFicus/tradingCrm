@@ -1,4 +1,4 @@
-import { WEB_API, ContentType } from '../../../constants';
+import { WEB_API, ContentType } from 'constants/index';
 import { actionTypes as authActionTypes } from 'redux/modules/auth';
 
 function login(username, password) {

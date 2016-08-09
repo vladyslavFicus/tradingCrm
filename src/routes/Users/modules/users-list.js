@@ -1,4 +1,4 @@
-import { WEB_API } from '../../../constants';
+import { WEB_API } from 'constants/index';
 
 const KEY = 'users-list';
 
