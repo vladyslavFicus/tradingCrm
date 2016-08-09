@@ -34,7 +34,7 @@ task dockerTag(type: com.bmuschko.gradle.docker.tasks.image.DockerTagImage) {
 
 
 task dockerPush(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
-    imageName = remoteNamex
+    imageName = remoteName
     tag = 'latest'
 }
 
