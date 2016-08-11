@@ -1,8 +1,9 @@
 import 'whatwg-fetch';
 import { WEB_API, ContentType } from 'constants/index';
 import { camelizeKeys } from 'humps';
+import { actionCreators as authActionCreator } from 'redux/modules/auth';
 
-const API_ROOT = 'http://staging.ua.newage.io/gateway/';
+const API_ROOT = 'http://moon.ua.newage.io/gateway/';
 
 function buildUrl(url, parameters) {
   var queryString = '';
@@ -24,7 +25,10 @@ function checkStatus(response) {
     return parseJson(response)
       .then(prettifyResponse)
       .then(function (formattedResponse) {
-        var error = new Error(formattedResponse.message || response.statusText);
+        var error = new Error(formattedResponse.message || formattedResponse.errorDescription || response.statusText);
+        if (formattedResponse.error) {
+          error.code = formattedResponse.error;
+        }
         error.response = response;
 
         return Promise.reject(error);

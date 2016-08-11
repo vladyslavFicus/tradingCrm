@@ -6,7 +6,7 @@ class Users extends Component {
   componentWillMount() {
     const { profile, loadProfile, params } = this.props;
 
-    if ((!profile.receivedAt || params.id !== profile.data.uiid) && !profile.isLoading) {
+    if (!profile.isLoading) {
       loadProfile(params.id);
     }
   }

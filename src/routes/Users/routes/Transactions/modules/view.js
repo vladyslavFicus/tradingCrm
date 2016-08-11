@@ -15,37 +15,12 @@ function loadTransactions(page = 0, uuid) {
       [WEB_API]: {
         method: 'GET',
         types: [TRANSACTIONS_REQUEST, TRANSACTIONS_SUCCESS, TRANSACTIONS_FAILURE],
-        endpoint: `payment/payments/${uuid}`,
-        endpointParams: { page },
+        endpoint: `payment/payment/transactions/${uuid}`,
         headers: auth.token ? { Authorization: `Bearer ${auth.token}` } : {},
       },
       page,
     });
   };
-}
-
-function rand(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-function getFakeTransactions(count, page) {
-  const fake = {
-    description: 'Play game, payed by CARD #XXXX-XXXX-XXXX-0000',
-    type: ['Deposit', 'Withdraw'],
-    status: 'cancelled',
-  };
-  const items = [];
-
-  for (let i = 0; i < count; i++) {
-    items.push({
-      ...fake,
-      id: (i + 1) + (page * count),
-      amount: parseFloat(rand(0.01, 1000000)).toFixed(2),
-      type: fake.type[rand(0, fake.type.length - 1)],
-    });
-  }
-
-  return items;
 }
 
 const actionHandlers = {
@@ -56,22 +31,15 @@ const actionHandlers = {
   }),
   [TRANSACTIONS_SUCCESS]: (state, action) => ({
     ...state,
-    data: { ...action.response },
+    data: { ...state.data, items: action.response },
     isLoading: false,
     receivedAt: getTimestamp(),
-    page: action.page,
   }),
   [TRANSACTIONS_FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     isFailed: true,
     receivedAt: getTimestamp(),
-    page: action.page,
-    data: {
-      ...state.data,
-      items: getFakeTransactions(20, action.page),
-      hasNext: action.page < 9,
-    },
   }),
 };
 

@@ -4,7 +4,6 @@ import childRoutes from './routes';
 export default (store) => ({
   path: '/users',
   getComponent (nextState, cb) {
-    console.debug(nextState);
     require.ensure([], (require) => {
       if (!!nextState.params.id) {
         injectReducer(store, { key: 'userProfile', reducer: require('./modules/view').default });
