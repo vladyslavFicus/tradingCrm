@@ -14,3 +14,7 @@ export function stopEvent(e) {
 export function getTimestamp() {
   return Date.now() / 1000;
 }
+
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}

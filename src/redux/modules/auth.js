@@ -28,7 +28,7 @@ const handlers = {
 };
 
 function extractJwtData(token) {
-  const extractedData = { username: null, uuid: null }
+  const extractedData = { username: null, uuid: null };
   try {
     const data = jwtDecode(token);
 

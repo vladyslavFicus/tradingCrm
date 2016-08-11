@@ -1,4 +1,4 @@
-import { WEB_API } from '../../../../../constants';
+import { WEB_API } from 'constants/index';
 import { getTimestamp } from 'utils/helpers';
 
 const KEY = 'user-profile';

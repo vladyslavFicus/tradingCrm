@@ -10,7 +10,7 @@ class Table extends Component {
       <td className="text-center">{item.currency}</td>
       <td className="text-center">{item.uuid}</td>
       <td className="text-center">
-        <Link to={`/users/view/${item.uuid}`} title={'View user profile'}>
+        <Link to={`/users/${item.uuid}/profile`} title={'View user profile'}>
           <i className="fa fa-search"/>
         </Link>&nbsp;
 
