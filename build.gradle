@@ -1,0 +1,40 @@
+plugins {
+    id "com.moowork.node" version "0.13"
+    id "com.bmuschko.docker-remote-api" version "3.0.1"
+}
+
+node {
+    version = '6.3.1'
+}
+
+docker {
+    url = project.properties.getOrDefault('dockerUrl', System.getenv('DOCKER_HOST'))
+    if (System.getenv('DOCKER_CERT_PATH')) {
+        certPath = new File(System.getenv('DOCKER_CERT_PATH').toString())
+    }
+}
+
+task npmDeploy(type: NpmTask) {
+  args = ['run', 'deploy']
+}
+
+def localName = 'nas/manager'
+def remoteName = "registry.ua.newage.io:5000/$localName"
+
+task dockerBuild(type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
+    inputDir = project.projectDir
+    tag = localName
+}
+
+task dockerTag(type: com.bmuschko.gradle.docker.tasks.image.DockerTagImage) {
+    imageId = localName
+    tag = 'latest'
+    repository = remoteName
+}
+
+
+task dockerPush(type: com.bmuschko.gradle.docker.tasks.image.DockerPushImage) {
+    imageName = remoteName
+    tag = 'latest'
+}
+
