@@ -29,9 +29,9 @@ class List extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ users: { ...state.usersList} });
+const mapStateToProps = (state) => ({ users: { ...state.usersList } });
 const mapActions = {
-  loadItems: usersListActionCreators.loadItems,
+  ...usersListActionCreators,
 };
 
 export default connect(mapStateToProps, mapActions)(List);

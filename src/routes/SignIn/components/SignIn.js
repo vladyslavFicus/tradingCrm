@@ -18,8 +18,8 @@ class SignIn extends Component {
           <div className="row">
             <div className="col-lg-4">
               <div className="logo">
-                <a href='/' className="logo" style={{fontSize: 32 + 'px'}}>
-                  <span style={{color:'#e7edff'}}>NEW</span><span style={{color:'rgb(26, 122, 175)'}}>AGE</span>
+                <a href='/' className="logo" style={{ fontSize: 32 + 'px' }}>
+                  <span style={{ color: '#e7edff' }}>NEW</span><span style={{ color: 'rgb(26, 122, 175)' }}>AGE</span>
                 </a>
               </div>
             </div>

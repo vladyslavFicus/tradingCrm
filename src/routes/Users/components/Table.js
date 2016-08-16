@@ -50,7 +50,7 @@ class Table extends Component {
       <tbody>
       {isLoading ? this.renderLoadingRow() : items.map(this.renderRow)}
       </tbody>
-    </table>
+    </table>;
   }
 }
 

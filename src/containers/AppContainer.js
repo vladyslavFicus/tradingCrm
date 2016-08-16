@@ -9,13 +9,13 @@ class AppContainer extends Component {
     store: PropTypes.object.isRequired
   };
 
-  render () {
+  render() {
     const { history, routes, store } = this.props
 
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>
-          <Router history={history} children={routes} />
+          <Router history={history} children={routes}/>
         </div>
       </Provider>
     )

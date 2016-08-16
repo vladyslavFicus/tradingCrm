@@ -1,4 +1,5 @@
-import Storage from '../../utils/storage';
+import { replace } from 'react-router-redux';
+import Storage from 'utils/storage';
 import jwtDecode from 'jwt-decode';
 
 const KEY = 'auth';
@@ -17,14 +18,15 @@ const handlers = {
       ...state,
       token: action.response.token,
       uuid,
-      username
+      username,
     };
   },
+
   [LOGOUT]: (state, action) => ({
     ...initialState,
     token: null,
     uuid: null,
-  })
+  }),
 };
 
 function extractJwtData(token) {
@@ -43,7 +45,24 @@ function extractJwtData(token) {
 
 function logout() {
   return {
-    type: LOGOUT
+    type: LOGOUT,
+  };
+}
+
+function logoutAndRedirect() {
+  return (dispatch, getState) => {
+    const { token, uuid } = getState().auth;
+
+    if (!token || !uuid) {
+      return { type: false };
+    }
+
+    dispatch(logout());
+
+    return replace({
+      pathname: '/sign-in',
+      state: { nextPathname: getState().router.locationBeforeTransitions.pathname },
+    });
   };
 }
 
@@ -56,7 +75,7 @@ const initialState = {
   token: null,
   uuid: null,
   username: null,
-  ...storageValue
+  ...storageValue,
 };
 
 function reducer(state = initialState, action) {
@@ -82,7 +101,8 @@ const actionTypes = {
 };
 
 const actionCreators = {
-  logout
+  logout,
+  logoutAndRedirect,
 };
 
 export { actionCreators, actionTypes };
