@@ -24,7 +24,7 @@ function loadItems(page = 0) {
 }
 
 const handlers = {
-  [USERS_REQUEST]: (state, action) => ({ ...state, isLoading: true }),
+  [USERS_REQUEST]: (state, action) => ({ ...state, users: { ...state.users, isLoading: true } }),
   [USERS_SUCCESS]: (state, action) => ({
     ...state,
     users: {
@@ -33,7 +33,7 @@ const handlers = {
       isLoading: false,
     },
   }),
-  [USERS_FAILURE]: (state, action) => ({ ...state, isLoading: false }),
+  [USERS_FAILURE]: (state, action) => ({ ...state, users: { ...state.users, isLoading: false } }),
 };
 
 const initialState = {
