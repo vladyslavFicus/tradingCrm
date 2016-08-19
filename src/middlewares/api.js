@@ -9,12 +9,14 @@ function buildUrl(url, parameters) {
   var queryString = '';
   for (let key in parameters) {
     var value = parameters[key];
-    queryString += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&";
+    queryString += encodeURIComponent(key) + '=' + encodeURIComponent(value) + '&';
   }
+
   if (queryString.length > 0) {
     queryString = queryString.substring(0, queryString.length - 1);
     url = url + '?' + queryString;
   }
+
   return url;
 }
 
@@ -29,6 +31,7 @@ function checkStatus(response) {
         if (formattedResponse.error) {
           error.code = formattedResponse.error;
         }
+
         error.response = response;
 
         return Promise.reject(error);
@@ -71,7 +74,7 @@ function callApi(method = 'GET', type = ContentType.JSON, endpoint, params = {},
       }
     }
   } else {
-    fullUrl = buildUrl(fullUrl, params)
+    fullUrl = buildUrl(fullUrl, params);
   }
 
   return fetch(fullUrl, options)
