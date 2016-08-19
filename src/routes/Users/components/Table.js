@@ -48,9 +48,9 @@ class Table extends Component {
       </tr>
       </thead>
       <tbody>
-      {isLoading ? this.renderLoadingRow() : items.map(this.renderRow)}
+      {items.map(this.renderRow)}
       </tbody>
-    </table>
+    </table>;
   }
 }
 
