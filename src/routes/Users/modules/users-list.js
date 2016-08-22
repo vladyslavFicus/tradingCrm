@@ -1,4 +1,5 @@
 import { WEB_API } from 'constants/index';
+import { getTimestamp } from 'utils/helpers';
 
 const KEY = 'users-list';
 
@@ -6,45 +7,74 @@ const USERS_REQUEST = `${KEY}/request`;
 const USERS_SUCCESS = `${KEY}/success`;
 const USERS_FAILURE = `${KEY}/failure`;
 
-function loadItems(page = 0) {
+function loadItems(page = 0, filters = {}) {
   return (dispatch, getState) => {
-    const { token } = getState().auth;
+    const { token, uuid } = getState().auth;
+
+    if (!token || !uuid) {
+      return { type: false };
+    }
+
+    filters = Object.keys(filters).reduce((result, key) => {
+      if (filters[key]) {
+        result[key] = filters[key];
+      }
+
+      return result;
+    }, {});
+
+    const endpointParams = { page, ...filters };
 
     return dispatch({
       [WEB_API]: {
         method: 'GET',
         types: [USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE],
         endpoint: 'profile/profiles',
-        endpointParams: { page },
+        endpointParams,
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
-      page
+      page,
+      filters,
     });
-  }
+  };
 }
 
 const handlers = {
-  [USERS_REQUEST]: (state, action) => ({ ...state, users: { ...state.users, isLoading: true } }),
+  [USERS_REQUEST]: (state, action) => ({
+    ...state,
+    filters: { ...state.filters, ...action.filters },
+    isLoading: true,
+    isFailed: false,
+  }),
   [USERS_SUCCESS]: (state, action) => ({
     ...state,
-    users: {
-      ...state.users,
-      ...action.response,
-      isLoading: false,
-    },
+    users: { ...action.response, },
+    isLoading: false,
+    receivedAt: getTimestamp(),
   }),
-  [USERS_FAILURE]: (state, action) => ({ ...state, users: { ...state.users, isLoading: false } }),
+  [USERS_FAILURE]: (state, action) => ({
+    ...state, isLoading: false,
+    isFailed: true,
+    receivedAt: getTimestamp(),
+  }),
 };
 
 const initialState = {
   users: {
-    currentPage: null,
+    first: null,
+    last: null,
+    number: null,
+    numberOfElements: null,
+    size: null,
+    sort: null,
     totalElements: null,
     totalPages: null,
     content: [],
-    isLoading: false,
-    receivedAt: null,
   },
+  filters: {},
+  isLoading: false,
+  isFailed: false,
+  receivedAt: null,
 };
 function reducer(state = initialState, action) {
   const handler = handlers[action.type];
@@ -59,7 +89,7 @@ const actionTypes = {
 };
 
 const actionCreators = {
-  loadItems
+  loadItems,
 };
 
 export { actionCreators, actionTypes };

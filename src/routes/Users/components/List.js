@@ -8,19 +8,49 @@ class List extends Component {
   constructor(props) {
     super(props);
 
-    this.handleSelect = this.handleSelect.bind(this);
+    this.handleSelectPage = this.handleSelectPage.bind(this);
+    this.handleFilterChanged = this.handleFilterChanged.bind(this);
+
+    this.state = {
+      filters: {
+        username: '',
+        email: '',
+        currency: '',
+        uuid: '',
+      },
+    };
   }
 
   componentWillMount() {
-    this.props.loadItems(0);
+    this.onFiltersChanged();
   }
 
-  handleSelect(eventKey) {
-    this.props.loadItems(eventKey - 1);
+  handleSelectPage(eventKey) {
+    this.props.loadItems(eventKey - 1, this.state.filters);
+  }
+
+  handleFilterChanged(name, value) {
+    if (value === null || value !== '' && value.length < 3) {
+      return false;
+    }
+
+    if (name in this.state.filters) {
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          [name]: value,
+        },
+      }, this.onFiltersChanged);
+    }
+  }
+
+  onFiltersChanged() {
+    this.props.loadItems(0, this.state.filters);
   }
 
   render() {
-    const { users } = this.props;
+    const { users: data } = this.props;
+    const { users, isLoading } = data;
 
     return <div className="page-content-inner">
       <section className="panel panel-with-borders">
@@ -31,11 +61,14 @@ class List extends Component {
         <div className="panel-body">
           <div className="row">
             <div className="col-lg-12">
-              <Table isLoading={users.isLoading} items={users.content}/>
+              <Table
+                handleFilterChange={this.handleFilterChanged}
+                items={users.content}
+              />
             </div>
           </div>
 
-          <div className="row">
+          {users.totalPages > 1 && <div className="row">
             <div className="col-lg-12">
               <Pagination
                 prev
@@ -46,17 +79,17 @@ class List extends Component {
                 boundaryLinks
                 items={users.totalPages}
                 maxButtons={5}
-                activePage={users.currentPage + 1}
-                onSelect={this.handleSelect}/>
+                activePage={users.number + 1}
+                onSelect={this.handleSelectPage}/>
             </div>
-          </div>
+          </div>}
         </div>
       </section>
     </div>;
   }
 }
 
-const mapStateToProps = (state) => ({ ...state.usersList });
+const mapStateToProps = (state) => ({ users: { ...state.usersList } });
 const mapActions = {
   ...usersListActionCreators,
 };
