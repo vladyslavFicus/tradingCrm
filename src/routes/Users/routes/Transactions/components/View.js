@@ -22,22 +22,21 @@ class View extends Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.handlePaymentTypeChange = this.handlePaymentTypeChange.bind(this);
     this.handleDatesChange = this.handleDatesChange.bind(this);
+    this.onFiltersChanged = this.onFiltersChanged.bind(this);
   }
 
   handleSelect(eventKey) {
     const { transactions, loadTransactions, params } = this.props;
 
     if (!transactions.isLoading) {
-      loadTransactions(eventKey - 1, params.id, this.state.paymentType);
+      loadTransactions(eventKey - 1, params.id, this.state.filters);
     }
   }
 
   handlePaymentTypeChange(e) {
     const target = e.target;
 
-    this.setState({ filters: { ...this.state.filters, paymentType: target.value } }, () => {
-      this.props.loadTransactions(0, this.props.params.id, this.state.filters);
-    });
+    this.setState({ filters: { ...this.state.filters, paymentType: target.value } }, this.onFiltersChanged);
   }
 
   handleDatesChange({ startDate, endDate }) {
@@ -48,17 +47,19 @@ class View extends Component {
           startDate: startDate.format('YYYY/MM/DD'),
           endDate: endDate.format('YYYY/MM/DD'),
         },
-      }, () => {
-        this.props.loadTransactions(0, this.props.params.id, this.state.filters);
-      });
+      }, this.onFiltersChanged);
     }
+  }
+
+  onFiltersChanged() {
+    this.props.loadTransactions(0, this.props.params.id, this.state.filters);
   }
 
   componentWillMount() {
     const { transactions, loadTransactions, params } = this.props;
 
     if (!transactions.isLoading) {
-      loadTransactions(0, params.id, this.state.paymentType);
+      loadTransactions(0, params.id, this.state.filters);
     }
   }
 
