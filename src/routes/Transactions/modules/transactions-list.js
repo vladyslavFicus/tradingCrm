@@ -18,6 +18,7 @@ function loadTransactions(page = 0, filters = {}) {
     if (filters.playerUUID) {
       endpointParams.playerUUID = filters.playerUUID;
     }
+
     if (filters.paymentType) {
       endpointParams.type = filters.paymentType;
     }
