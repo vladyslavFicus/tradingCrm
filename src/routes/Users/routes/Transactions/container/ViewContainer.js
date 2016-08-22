@@ -7,7 +7,7 @@ const mapStateToProps = (state) => ({
   transactions: { ...state.transactionsView },
 });
 const mapActions = {
-  loadTransactions: viewActionCreators.loadTransactions,
+    ...viewActionCreators,
 };
 
 const ViewContainer = (props) => <View {...props}/>;
