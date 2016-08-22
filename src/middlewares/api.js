@@ -1,9 +1,10 @@
 import 'whatwg-fetch';
 import { WEB_API, ContentType } from 'constants/index';
 import { camelizeKeys } from 'humps';
-import { actionCreators as authActionCreator } from 'redux/modules/auth';
+import { getApiRoot } from 'config/index';
+import { actionCreators as authActionCreators } from 'redux/modules/auth';
 
-const API_ROOT = 'http://moon.ua.newage.io/gateway/';
+const API_ROOT = getApiRoot();
 
 function buildUrl(url, parameters) {
   var queryString = '';
@@ -23,6 +24,11 @@ function buildUrl(url, parameters) {
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 304) {
     return response;
+  } else if (response.status === 401) {
+    const error = new Error('Unauthorized');
+    error.code = 401;
+
+    return Promise.reject(error);
   } else {
     return parseJson(response)
       .then(prettifyResponse)
@@ -40,7 +46,7 @@ function checkStatus(response) {
 }
 
 function parseJson(response) {
-  return response.json().then(json => ({ json, response }));
+  return response.text().then(text => ({ json: (text ? JSON.parse(text) : {}), response }));
 }
 
 function prettifyResponse({ json, response }) {
@@ -59,7 +65,7 @@ function callApi(method = 'GET', type = ContentType.JSON, endpoint, params = {},
     },
   };
 
-  if (method === 'POST') {
+  if (method === 'POST' || method === 'PUT') {
     if (type === ContentType.JSON) {
       options.headers['Content-Type'] = type;
       options.body = JSON.stringify(params);
@@ -133,9 +139,14 @@ export default store => next => action => {
       response,
       type: successType,
     })),
-    error => next(actionWith({
-      type: failureType,
-      error: error || { message: 'Something bad happened' },
-    }))
-  );
+    (error) => {
+      if (error.code && error.code === 401) {
+        next(authActionCreators.logoutAndRedirect()(next, store.getState));
+      }
+
+      return next(actionWith({
+        type: failureType,
+        error: error || { message: 'Something bad happened' },
+      }));
+    });
 };
