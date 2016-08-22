@@ -94,7 +94,6 @@ class View extends Component {
             >
               <option value="">All</option>
               <option value="PaymentCompleted">PaymentCompleted</option>
-              <option value="PaymentFailed">PaymentFailed</option>
               <option value="PaymentFraudDetected">PaymentFraudDetected</option>
               <option value="WithdrawCompleted">WithdrawCompleted</option>
               <option value="WithdrawFailed">WithdrawFailed</option>
