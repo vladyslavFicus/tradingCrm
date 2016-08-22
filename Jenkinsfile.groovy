@@ -2,6 +2,7 @@ node {
     stage 'Checkout'
     checkout scm
 
+    env.CONFIG_ENV = 'test'
     stage 'Build And Test'
     def node = tool name: 'nodejs', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
     env.PATH = "$node/bin:${env.PATH}"
