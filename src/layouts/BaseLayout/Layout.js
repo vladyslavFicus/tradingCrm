@@ -1,4 +1,5 @@
 import React from 'react';
+import 'styles/core.scss';
 
 export const Layout = ({ children }) => (
   <div style={{ height: '100%' }}>

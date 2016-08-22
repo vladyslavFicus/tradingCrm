@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { stopEvent } from 'utils/helpers';
+import { Pagination } from 'react-bootstrap';
+import DateRangePicker from 'components/Forms/DateRangePickerWrapper';
+import moment from 'moment';
 
 const config = { tabName: 'transactions' };
 
@@ -8,94 +11,129 @@ class View extends Component {
   constructor(props) {
     super(props);
 
-    this.onNavigatePrev = this.onNavigatePrev.bind(this);
-    this.onNavigateNext = this.onNavigateNext.bind(this);
-    this.goToPage = this.goToPage.bind(this);
+    this.state = {
+      filters: {
+        paymentType: '',
+        startDate: '',
+        endDate: '',
+      },
+    };
+
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handlePaymentTypeChange = this.handlePaymentTypeChange.bind(this);
+    this.handleDatesChange = this.handleDatesChange.bind(this);
+    this.onFiltersChanged = this.onFiltersChanged.bind(this);
   }
 
-  goToPage(page) {
-    const { loadTransactions, params } = this.props;
+  handleSelect(eventKey) {
+    const { transactions, loadTransactions, params } = this.props;
 
-    if (!this.props.transactions.isLoading) {
-      loadTransactions(page, params.id);
+    if (!transactions.isLoading) {
+      loadTransactions(eventKey - 1, params.id, this.state.filters);
     }
   }
 
-  onNavigatePrev(e) {
-    stopEvent(e);
+  handlePaymentTypeChange(e) {
+    const target = e.target;
 
-    const { transactions } = this.props;
+    this.setState({ filters: { ...this.state.filters, paymentType: target.value } }, this.onFiltersChanged);
+  }
 
-    if (transactions.page > 0) {
-      this.goToPage(transactions.page - 1);
+  handleDatesChange({ startDate, endDate }) {
+    if (startDate && endDate) {
+      this.setState({
+        filters: {
+          ...this.state.filters,
+          startDate: startDate.format('YYYY/MM/DD'),
+          endDate: endDate.format('YYYY/MM/DD'),
+        },
+      }, this.onFiltersChanged);
     }
   }
 
-  onNavigateNext(e) {
-    stopEvent(e);
-
-    const { transactions } = this.props;
-
-    if (transactions.page >= 0) {
-      this.goToPage(transactions.page + 1);
-    }
+  onFiltersChanged() {
+    this.props.loadTransactions(0, this.props.params.id, this.state.filters);
   }
 
   componentWillMount() {
     const { transactions, loadTransactions, params } = this.props;
 
     if (!transactions.isLoading) {
-      loadTransactions(0, params.id);
+      loadTransactions(0, params.id, this.state.filters);
     }
   }
 
-  renderPagination(page, isLoading) {
-    return <div className="row">
-      <div className="col-sm-12">
-        <div className="btn-group pull-right">
-          <a href="#"
-             className={classNames('btn btn-primary', { disabled: page === 0 || isLoading })}
-             onClick={this.onNavigatePrev}>
-            <Translate value="FRONTEND.PAGE_PREV_BUTTON"/>
-          </a>
-
-          <a href="#"
-             className={classNames('btn btn-primary', { disabled: isLoading || !data.hasNext })}
-             onClick={this.onNavigateNext}>
-            <Translate value="FRONTEND.PAGE_NEXT_BUTTON"/>
-          </a>
-        </div>
-      </div>
-    </div>;
-  }
-
   render() {
-    const { transactions } = this.props;
-    const { data, page, isLoading } = transactions;
+    const { transactions: data } = this.props;
+    const { transactions, isLoading } = data;
 
     return <div id={`tab-${config.tabName}`} className={classNames('tab-pane fade in active')}>
       <table className="table table-striped table-responsive">
-        <thead>
+        <thead className="thead-default">
         <tr>
-          <th>#</th>
-          <th>Time</th>
-          <th>Description</th>
-          <th>Amount</th>
+          <th width={'20%'}>Transaction ID</th>
+          <th width={'20%'} className="text-center">Time</th>
+          <th width={'15%'} className="text-center">Payment type</th>
+          <th width={'35%'} className="text-center">Payment option</th>
+          <th width={'10%'}>Amount</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td className="text-center">
+            <DateRangePicker
+              withPortal
+              allowPastDates
+              onDatesChange={this.handleDatesChange}
+            />
+          </td>
+          <td className="text-center">
+            <select
+              name="paymentType"
+              id="paymentType"
+              className="form-control"
+              onChange={this.handlePaymentTypeChange}
+            >
+              <option value="">All</option>
+              <option value="PaymentCompleted">PaymentCompleted</option>
+              <option value="PaymentFraudDetected">PaymentFraudDetected</option>
+              <option value="WithdrawCompleted">WithdrawCompleted</option>
+              <option value="WithdrawFailed">WithdrawFailed</option>
+            </select>
+          </td>
+          <td/>
+          <td/>
         </tr>
         </thead>
         <tbody>
-        {data.items.map((item) => <tr key={item.transactionId + item.transactionTime}>
+        {transactions.content.map((item) => <tr key={item.transactionId}>
           <td>
             <small>{item.transactionId}</small>
           </td>
-          <td>
-            {item.transactionTime}
+          <td className="text-center">
+            {moment(item.transactionTime).format('DD.MM.YYYY HH:mm:ss')}
           </td>
-          <td>{item.transactionName}</td>
+          <td className="text-center">{item.transactionName}</td>
+          <td className="text-center">{item.paymentOption}</td>
           <td>${item.amount}</td>
         </tr>)}
         </tbody>
       </table>
+
+      {transactions.totalPages > 1 && <div className="row">
+        <div className="col-lg-12">
+          <Pagination
+            prev
+            next
+            first
+            last
+            ellipsis
+            boundaryLinks
+            items={transactions.totalPages}
+            maxButtons={5}
+            activePage={transactions.number + 1}
+            onSelect={this.handleSelect}/>
+        </div>
+      </div>}
     </div>;
   }
 }

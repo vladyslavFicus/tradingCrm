@@ -15,26 +15,36 @@ function loadItems(page = 0) {
         method: 'GET',
         types: [USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE],
         endpoint: 'profile/profiles',
+        endpointParams: { page },
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
+      page
     });
   }
 }
 
 const handlers = {
-  [USERS_REQUEST]: (state, action) => ({ ...state, isLoading: true }),
+  [USERS_REQUEST]: (state, action) => ({ ...state, users: { ...state.users, isLoading: true } }),
   [USERS_SUCCESS]: (state, action) => ({
     ...state,
-    items: action.response,
-    isLoading: false,
+    users: {
+      ...state.users,
+      ...action.response,
+      isLoading: false,
+    },
   }),
-  [USERS_FAILURE]: (state, action) => ({ ...state, isLoading: false }),
+  [USERS_FAILURE]: (state, action) => ({ ...state, users: { ...state.users, isLoading: false } }),
 };
 
 const initialState = {
-  items: [],
-  isLoading: false,
-  receivedAt: null,
+  users: {
+    currentPage: null,
+    totalElements: null,
+    totalPages: null,
+    content: [],
+    isLoading: false,
+    receivedAt: null,
+  },
 };
 function reducer(state = initialState, action) {
   const handler = handlers[action.type];

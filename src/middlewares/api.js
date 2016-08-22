@@ -33,8 +33,11 @@ function checkStatus(response) {
     return parseJson(response)
       .then(prettifyResponse)
       .then(function (formattedResponse) {
-        var error = new Error(formattedResponse.message || response.statusText);
-        error.code = response.status;
+        var error = new Error(formattedResponse.message || formattedResponse.errorDescription || response.statusText);
+        if (formattedResponse.error) {
+          error.code = formattedResponse.error;
+        }
+
         error.response = response;
 
         return Promise.reject(error);

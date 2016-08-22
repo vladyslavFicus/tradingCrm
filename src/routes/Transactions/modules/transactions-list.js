@@ -6,19 +6,33 @@ const TRANSACTIONS_REQUEST = `${KEY}/transactions-request`;
 const TRANSACTIONS_SUCCESS = `${KEY}/transactions-success`;
 const TRANSACTIONS_FAILURE = `${KEY}/transactions-failure`;
 
-function loadTransactions(page = 0, uuid = '') {
+function loadTransactions(page = 0, filters = {}) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
+    const { token, uuid } = getState().auth;
 
-    if (!token || !currentUuid) {
+    if (!token || !uuid) {
       return { type: false };
+    }
+
+    const endpointParams = { page };
+    if (filters.playerUUID) {
+      endpointParams.playerUUID = filters.playerUUID;
+    }
+    if (filters.paymentType) {
+      endpointParams.type = filters.paymentType;
+    }
+
+    if (filters.startDate && filters.endDate) {
+      endpointParams.startDate = filters.startDate;
+      endpointParams.endDate = filters.endDate;
     }
 
     return dispatch({
       [WEB_API]: {
         method: 'GET',
         types: [TRANSACTIONS_REQUEST, TRANSACTIONS_SUCCESS, TRANSACTIONS_FAILURE],
-        endpoint: `payment/transactions/${uuid}`,
+        endpoint: `payment/transactions`,
+        endpointParams,
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
       page,
@@ -29,12 +43,13 @@ function loadTransactions(page = 0, uuid = '') {
 const actionHandlers = {
   [TRANSACTIONS_REQUEST]: (state, action) => ({
     ...state,
+    filters: { ...state.filters, ...action.filters },
     isLoading: true,
     isFailed: false,
   }),
   [TRANSACTIONS_SUCCESS]: (state, action) => ({
     ...state,
-    data: { ...state.data, items: action.response },
+    transactions: { ...action.response },
     isLoading: false,
     receivedAt: getTimestamp(),
   }),
@@ -47,11 +62,18 @@ const actionHandlers = {
 };
 
 const initialState = {
-  data: {
-    items: [],
-    hasNext: true,
+  transactions: {
+    first: null,
+    last: null,
+    number: null,
+    numberOfElements: null,
+    size: null,
+    sort: null,
+    totalElements: null,
+    totalPages: null,
+    content: [],
   },
-  page: 0,
+  filters: {},
   isLoading: false,
   isFailed: false,
   receivedAt: null,
