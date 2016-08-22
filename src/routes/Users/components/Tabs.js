@@ -15,7 +15,8 @@ const Tabs = ({ activeTabName }) => (props) => <ul className="nav nav-tabs" role
     return <li
       key={name}
       className={classNames('nav-item', { active: activeTabName === name })}>
-      {activeTabName === name ? <a className="nav-link active" href="javascript:void(0)">{item.label}</a> : <Link to={item.route.replace(/:id/, props.params.id)}>{item.label}</Link>}
+      {activeTabName === name ? <a className="nav-link active" href="javascript:void(0)">{item.label}</a> :
+        <Link to={item.route.replace(/:id/, props.params.id)}>{item.label}</Link>}
     </li>;
   })}
 </ul>;
