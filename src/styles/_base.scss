@@ -10,3 +10,16 @@ For example:
 @import './variables/components';
 @import './themes/default';
 */
+
+@import '~react-dates/css/variables';
+@import '~react-dates/css/styles.scss';
+
+.DateInput {
+  font-size: 14px;
+  line-height: 18px;
+  padding: 4px 8px;
+}
+
+.CalendarMonth__caption {
+  text-align: center;
+}

@@ -6,7 +6,9 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
 import SignInRoute from './SignIn';
 import DashboardRoute from './Dashboard';
 import UsersRoute from './Users';
+import TransactionsRoute from './Transactions';
 import NotFoundRoute from './NotFound';
+import LogoutRoute from './Logout';
 
 export const requireAuth = (store) => (nextState, replace) => {
   const { auth } = store.getState();
@@ -14,7 +16,7 @@ export const requireAuth = (store) => (nextState, replace) => {
   if (auth.token === null) {
     replace({
       pathname: '/sign-in',
-      state: { nextPathname: nextState.location.pathname }
+      state: { nextPathname: nextState.location.pathname },
     });
   }
 };
@@ -29,10 +31,12 @@ export const createRoutes = (store) => ({
       childRoutes: [
         DashboardRoute(store),
         UsersRoute(store),
+        TransactionsRoute(store),
+        LogoutRoute(store),
       ],
     },
     NotFoundRoute(store),
-  ]
+  ],
 });
 
 export default createRoutes;

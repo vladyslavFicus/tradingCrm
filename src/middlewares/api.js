@@ -1,26 +1,34 @@
 import 'whatwg-fetch';
 import { WEB_API, ContentType } from 'constants/index';
 import { camelizeKeys } from 'humps';
-import { actionCreators as authActionCreator } from 'redux/modules/auth';
+import { getApiRoot } from 'config/index';
+import { actionCreators as authActionCreators } from 'redux/modules/auth';
 
-const API_ROOT = 'http://moon.ua.newage.io/gateway/';
+const API_ROOT = getApiRoot();
 
 function buildUrl(url, parameters) {
   var queryString = '';
   for (let key in parameters) {
     var value = parameters[key];
-    queryString += encodeURIComponent(key) + "=" + encodeURIComponent(value) + "&";
+    queryString += encodeURIComponent(key) + '=' + encodeURIComponent(value) + '&';
   }
+
   if (queryString.length > 0) {
     queryString = queryString.substring(0, queryString.length - 1);
     url = url + '?' + queryString;
   }
+
   return url;
 }
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 304) {
     return response;
+  } else if (response.status === 401) {
+    const error = new Error('Unauthorized');
+    error.code = 401;
+
+    return Promise.reject(error);
   } else {
     return parseJson(response)
       .then(prettifyResponse)
@@ -29,6 +37,7 @@ function checkStatus(response) {
         if (formattedResponse.error) {
           error.code = formattedResponse.error;
         }
+
         error.response = response;
 
         return Promise.reject(error);
@@ -37,7 +46,7 @@ function checkStatus(response) {
 }
 
 function parseJson(response) {
-  return response.json().then(json => ({ json, response }));
+  return response.text().then(text => ({ json: (text ? JSON.parse(text) : {}), response }));
 }
 
 function prettifyResponse({ json, response }) {
@@ -56,7 +65,7 @@ function callApi(method = 'GET', type = ContentType.JSON, endpoint, params = {},
     },
   };
 
-  if (method === 'POST') {
+  if (method === 'POST' || method === 'PUT') {
     if (type === ContentType.JSON) {
       options.headers['Content-Type'] = type;
       options.body = JSON.stringify(params);
@@ -71,7 +80,7 @@ function callApi(method = 'GET', type = ContentType.JSON, endpoint, params = {},
       }
     }
   } else {
-    fullUrl = buildUrl(fullUrl, params)
+    fullUrl = buildUrl(fullUrl, params);
   }
 
   return fetch(fullUrl, options)
@@ -130,9 +139,14 @@ export default store => next => action => {
       response,
       type: successType,
     })),
-    error => next(actionWith({
-      type: failureType,
-      error: error || { message: 'Something bad happened' },
-    }))
-  );
+    (error) => {
+      if (error.code && error.code === 401) {
+        next(authActionCreators.logoutAndRedirect()(next, store.getState));
+      }
+
+      return next(actionWith({
+        type: failureType,
+        error: error || { message: 'Something bad happened' },
+      }));
+    });
 };

@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 const menuItems = [
   { label: 'Users', url: '/users', icon: 'fa fa-users' },
+  { label: 'Transactions', url: '/transactions', icon: 'fa fa-credit-card' },
 ];
 
 class Sidebar extends Component {
@@ -20,14 +21,16 @@ class Sidebar extends Component {
     const { menuItems } = this.state;
     return <nav className="left-menu">
       <div className="logo-container">
-        <Link to={'/'} className="logo" style={{fontSize: 32 + 'px'}}>
-          <span style={{color:'#fff'}}>NEW</span><span style={{color:'rgb(26, 122, 175)'}}>AGE</span>
+        <Link to={'/'} className="logo" style={{ fontSize: 32 + 'px' }}>
+          <span style={{ color: '#fff' }}>NEW</span>
+          <span style={{ color: 'rgb(26, 122, 175)' }}>AGE</span>
         </Link>
       </div>
       <div className="left-menu-inner scroll-pane">
         <ul className="left-menu-list left-menu-list-root list-unstyled">
           {menuItems.map((item) => (
-            <li key={item.url} className={classNames({ 'left-menu-list-active': location.pathname.indexOf(item.url) !== -1 })}>
+            <li key={item.url}
+                className={classNames({ 'left-menu-list-active': location.pathname.indexOf(item.url) !== -1 })}>
               <Link className="left-menu-link" to={item.url}>
                 {item.icon && <i className={classNames('left-menu-link-icon', item.icon)}/>}
                 {item.label}

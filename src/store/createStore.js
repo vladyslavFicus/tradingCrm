@@ -3,12 +3,13 @@ import { routerMiddleware } from 'react-router-redux';
 import thunk from 'redux-thunk';
 import makeRootReducer from './reducers';
 import api from '../middlewares/api';
+import refreshToken from 'middlewares/refreshToken';
 
 export default (initialState = {}, history) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk, api, routerMiddleware(history)];
+  const middleware = [thunk, api, refreshToken(), routerMiddleware(history)];
 
   // ======================================================
   // Store Enhancers

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 class Table extends Component {
@@ -25,16 +25,8 @@ class Table extends Component {
     </tr>;
   }
 
-  renderLoadingRow() {
-    return <tr>
-      <td colSpan={6}>
-        Loading...
-      </td>
-    </tr>;
-  }
-
   render() {
-    const { isLoading, items } = this.props;
+    const { items } = this.props;
 
     return <table className="table table-stripped table-hovered">
       <thead className="thead-default">
@@ -46,12 +38,57 @@ class Table extends Component {
         <th className="text-center">UUID</th>
         <th className="text-center">Actions</th>
       </tr>
+      <tr>
+        <td></td>
+        <td>
+          <input
+            type="text"
+            id="filter-username"
+            className="form-control"
+            onChange={(e) => this.props.handleFilterChange('username', e.target.value)}
+          />
+        </td>
+        <td>
+          <input
+            type="text"
+            id="filter-email"
+            className="form-control"
+            onChange={(e) => this.props.handleFilterChange('email', e.target.value)}
+          />
+        </td>
+        <td>
+          <select
+            id="filter-currency"
+            className="form-control"
+            onChange={(e) => this.props.handleFilterChange('currency', e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="UAH">UAH</option>
+          </select>
+        </td>
+        <td>
+          <input
+            type="text"
+            id="filter-uuid"
+            className="form-control"
+            onChange={(e) => this.props.handleFilterChange('uuid', e.target.value)}
+          />
+        </td>
+        <td></td>
+      </tr>
       </thead>
       <tbody>
-      {isLoading ? this.renderLoadingRow() : items.map(this.renderRow)}
+      {items.map(this.renderRow)}
       </tbody>
-    </table>
+    </table>;
   }
 }
+
+Table.propTypes = {
+  items: PropTypes.array.isRequired,
+  handleFilterChange: PropTypes.func.isRequired,
+};
 
 export default Table;
