@@ -4,15 +4,14 @@ import { actionTypes as authActionTypes } from 'redux/modules/auth';
 function login(username, password) {
   return (dispatch, getState) => dispatch({
     [WEB_API]: {
-      type: ContentType.FORM_DATA,
       method: 'POST',
-      endpoint: 'token',
+      endpoint: 'auth/signin',
       endpointParams: {
         username,
-        password
+        password,
       },
       types: [authActionTypes.LOGIN_REQUEST, authActionTypes.LOGIN_SUCCESS, authActionTypes.LOGIN_FAILURE],
-    }
+    },
   });
 }
 
@@ -36,14 +35,16 @@ const handlers = {
         failureMessage: null,
       };
     }
+
     return state;
   },
+
   [authActionTypes.LOGIN_FAILURE]: function (state, action) {
     const newState = {
       ...state,
       isOnRequest: false,
       isSuccess: false,
-      isFailure: true
+      isFailure: true,
     };
 
     if (action.error.message) {
@@ -51,7 +52,7 @@ const handlers = {
     }
 
     return newState;
-  }
+  },
 };
 
 // ------------------------------------

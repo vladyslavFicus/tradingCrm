@@ -8,6 +8,7 @@ import DashboardRoute from './Dashboard';
 import UsersRoute from './Users';
 import TransactionsRoute from './Transactions';
 import NotFoundRoute from './NotFound';
+import LogoutRoute from './Logout';
 
 export const requireAuth = (store) => (nextState, replace) => {
   const { auth } = store.getState();
@@ -31,6 +32,7 @@ export const createRoutes = (store) => ({
         DashboardRoute(store),
         UsersRoute(store),
         TransactionsRoute(store),
+        LogoutRoute(store),
       ],
     },
     NotFoundRoute(store),
