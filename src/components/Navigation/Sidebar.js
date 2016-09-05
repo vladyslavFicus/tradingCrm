@@ -5,6 +5,7 @@ import classNames from 'classnames';
 const menuItems = [
   { label: 'Users', url: '/users', icon: 'fa fa-users' },
   { label: 'Transactions', url: '/transactions', icon: 'fa fa-credit-card' },
+  { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
 ];
 
 class Sidebar extends Component {
@@ -12,7 +13,7 @@ class Sidebar extends Component {
     super(props);
 
     this.state = {
-      menuItems
+      menuItems,
     };
   }
 

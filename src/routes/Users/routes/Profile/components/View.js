@@ -5,10 +5,10 @@ const config = { tabName: 'profile' };
 
 class View extends Component {
   componentWillMount() {
-    const { profile, loadProfile, params } = this.props;
+    const { profile, loadFullProfile, params } = this.props;
 
     if ((!profile.receivedAt || params.id !== profile.data.uiid) && !profile.isLoading) {
-      loadProfile(params.id);
+      loadFullProfile(params.id);
     }
   }
 
@@ -27,7 +27,8 @@ class View extends Component {
         <dd>{profile.data.uuid}</dd>
 
         <dt>Balance</dt>
-        <dd>10 {profile.data.currency}</dd>
+        <dd>{!isNaN(parseFloat(profile.data.balance)) ?
+          parseFloat(profile.data.balance).toFixed(2) : 0.00} {profile.data.currency}</dd>
       </dl>
     </div>;
   }
