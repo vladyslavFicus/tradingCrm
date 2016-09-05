@@ -31,7 +31,7 @@ class Sidebar extends Component {
         <ul className="left-menu-list left-menu-list-root list-unstyled">
           {menuItems.map((item) => (
             <li key={item.url}
-                className={classNames({ 'left-menu-list-active': location.pathname.indexOf(item.url) !== -1 })}>
+                className={classNames({ 'left-menu-list-active': location.pathname.indexOf(item.url) === 0 })}>
               <Link className="left-menu-link" to={item.url}>
                 {item.icon && <i className={classNames('left-menu-link-icon', item.icon)}/>}
                 {item.label}

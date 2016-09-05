@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { actionCreators as viewActionCreators } from '../../../modules/view';
 
 const mapStateToProps = (state) => ({
-  profile: { ...state.userProfile },
+  ...state.userProfile,
+  user: state.auth,
 });
 const mapActions = {
   ...viewActionCreators,

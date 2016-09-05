@@ -19,7 +19,7 @@ class Users extends Component {
         <div className="profile-header">
           <div className="profile-header-info">
             <div className="row">
-              <div className="col-xl-8 col-xl-offset-4">
+              <div className="col-xl-8">
                 <div className="profile-header-title">
                   <h2>{profile.data.username}</h2>
                   <p>{profile.data.email}</p>
@@ -46,7 +46,9 @@ class Users extends Component {
     </div>;
   }
 }
-const mapStateToProps = (state) => ({ profile: state.userProfile });
+const mapStateToProps = (state) => ({
+  ...state.userProfile,
+});
 const mapActions = {
   ...profileViewActionCreators,
 };
