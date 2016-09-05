@@ -4,10 +4,10 @@ import { actionCreators as profileViewActionCreators } from '../modules/view';
 
 class Users extends Component {
   componentWillMount() {
-    const { profile, loadProfile, params } = this.props;
+    const { profile, loadFullProfile, params } = this.props;
 
     if (!profile.isLoading) {
-      loadProfile(params.id);
+      loadFullProfile(params.id);
     }
   }
 
@@ -48,7 +48,7 @@ class Users extends Component {
 }
 const mapStateToProps = (state) => ({ profile: state.userProfile });
 const mapActions = {
-  ...profileViewActionCreators
+  ...profileViewActionCreators,
 };
 
 export default connect(mapStateToProps, mapActions)(Users);

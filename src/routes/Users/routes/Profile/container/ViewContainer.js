@@ -7,7 +7,7 @@ const mapStateToProps = (state) => ({
   profile: { ...state.userProfile },
 });
 const mapActions = {
-  loadProfile: viewActionCreators.loadProfile,
+  ...viewActionCreators,
 };
 
 const ViewContainer = (props) => <View {...props}/>;

@@ -10,6 +10,6 @@ export default (store) => ({
       });
 
       cb(null, require('./components/List').default);
-    }, 'users-list');
+    }, 'transactions-list');
   },
 });
