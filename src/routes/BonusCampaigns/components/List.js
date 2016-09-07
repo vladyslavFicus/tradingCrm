@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Table from './Table';
 import { Pagination } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { actionCreators as campaignsListActionCreators } from '../modules/list';
 
 class List extends Component {
   constructor(props) {
@@ -95,4 +97,13 @@ class List extends Component {
   }
 }
 
-export default List;
+const mapStateToProps = (state) => ({
+  campaigns: {
+    ...state.bonusCampaignsList,
+  },
+});
+const mapActions = {
+  ...campaignsListActionCreators,
+};
+
+export default connect(mapStateToProps, mapActions)(List);

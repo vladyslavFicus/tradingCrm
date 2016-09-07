@@ -54,7 +54,7 @@ class Table extends Component {
       {items.length > 0 ?
         items.map(this.renderRow) : <tr>
         <td colSpan="8" className="text-center">
-          <i className="fa fa-warning"/> No campaigns, <a href="#" className="btn btn-primary btn-sm">
+          <i className="fa fa-warning"/> No campaigns, <a href="/bonus-campaigns/create" className="btn btn-primary btn-sm">
           Create first campaign
         </a>
         </td>

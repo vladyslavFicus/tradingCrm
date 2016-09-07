@@ -1,4 +1,5 @@
-import { injectReducer } from '../../store/reducers';
+import { injectReducer } from 'store/reducers';
+import CreateRoute from './routes/Create';
 
 export default (store) => ({
   path: '/bonus-campaigns',
@@ -12,4 +13,6 @@ export default (store) => ({
       cb(null, require('./container/Campaigns').default);
     }, 'bonus-campaigns-list');
   },
+
+  childRoutes: [CreateRoute(store), ],
 });
