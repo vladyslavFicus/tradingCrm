@@ -4,8 +4,8 @@
 
 var cleanUI = {
   hasTouch: (function () {
-    return ('ontouchstart' in document.documentElement)
-  })()
+    return ('ontouchstart' in document.documentElement);
+  })(),
 };
 
 
@@ -44,8 +44,8 @@ $(function () {
       if ($('nav.left-menu').length) {
         api = el.jScrollPane({
           autoReinitialise: true,
-          autoReinitialiseDelay: 100
-        }).data().jsp
+          autoReinitialiseDelay: 100,
+        }).data().jsp;
       }
     }
 
@@ -90,7 +90,7 @@ $(function () {
           $('.left-menu-list-root > li').show();
 
         }
-      }, 50)
+      }, 50);
     }
 
     function initVerticalScroll() {
@@ -167,7 +167,7 @@ $(function () {
   $('.left-menu-toggle').on('click', function () {
     $(this).toggleClass('active');
     $('nav.left-menu').toggleClass('left-menu-showed');
-    $('.main-backdrop').toggleClass('main-backdrop-showed')
+    $('.main-backdrop').toggleClass('main-backdrop-showed');
   });
 
   /////////////////////////////////////////////////////////////////////////////
@@ -176,7 +176,7 @@ $(function () {
   $('.main-backdrop').on('click', function () {
     $('.left-menu-toggle').removeClass('active');
     $('nav.left-menu').removeClass('left-menu-showed');
-    $('.main-backdrop').removeClass('main-backdrop-showed')
+    $('.main-backdrop').removeClass('main-backdrop-showed');
   });
 
 });

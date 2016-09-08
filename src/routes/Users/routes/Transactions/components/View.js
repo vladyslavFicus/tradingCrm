@@ -110,7 +110,7 @@ class View extends Component {
             <small>{item.transactionId}</small>
           </td>
           <td className="text-center">
-            {moment(localDateToString(item.transactionTime)).format('DD.MM.YYYY HH:mm:ss')}
+            {moment(item.transactionTime).format('DD.MM.YYYY HH:mm:ss')}
           </td>
           <td className="text-center">{item.transactionName}</td>
           <td className="text-center">{item.paymentOption}</td>
