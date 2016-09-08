@@ -14,5 +14,5 @@ export default (store) => ({
     }, 'bonus-campaigns-list');
   },
 
-  childRoutes: [CreateRoute(store), ],
+  childRoutes: [CreateRoute(store)],
 });

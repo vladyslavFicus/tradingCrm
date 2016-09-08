@@ -1,13 +1,14 @@
 const defaultValidators = {
   require: {
     validate: (value) => !!value,
-    message: (field) => `${field} is required.`,
+    message: `"{{fieldName}}" is required.`,
   },
 };
 
+const displayError = (label, error) => error.replace('/\{\{fieldName\}\}/', label);
+
 const validate = (scenario, rules, data) => {
   const errors = {};
-
   const addError = (name, message) => {
     if (!errors[name]) {
       errors[name] = [];
@@ -16,29 +17,39 @@ const validate = (scenario, rules, data) => {
     errors[name].push(message);
   };
 
-  rules.every((rule) => {
+  rules.forEach((rule) => {
     const { fields, validator, on, message } = rule;
-    if (scenario !== on) {
-      return true;
-    }
-
-    const validatorObject = defaultValidators[validator];
-    return fields.every((fieldName) => {
-      if (!validatorObject.validate(data[fieldName])) {
-        addError(fieldName, message ? message : validatorObject.message(fieldName));
-
-        return false;
+    if (on === undefined || scenario === on) {
+      const validatorObject = defaultValidators[validator];
+      if (validatorObject === undefined) {
+        throw Error('Unknown validator');
       }
 
-      return true;
-    });
+      fields.forEach((fieldName) => {
+        const result = validatorObject.validate(data[fieldName]);
+        if (!result) {
+          addError(fieldName, message ? message : validatorObject.message);
+        }
+      });
+    }
   });
 
   return errors;
 };
 
-export default (rules) => {
+const getFirstErrors = (errors) => {
+  return Object.keys(errors).reduce((result, current) => ({
+    ...result,
+    [current]: errors[current][0],
+  }), {});
+};
+
+const createValidator = (rules, multipleErrors = true) => {
   return (data, scenario = 'default') => {
-    return validate(scenario, rules, data);
+    const errors = validate(scenario, rules, data);
+
+    return multipleErrors ? errors : getFirstErrors(errors);
   };
 };
+
+export { createValidator, displayError };

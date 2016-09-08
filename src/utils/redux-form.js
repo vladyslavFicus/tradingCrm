@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+const displayError = (label, error) => error.replace(/\{\{fieldName\}\}/, label);
+
 export const renderInput = ({ input, label, type, values, meta: { touched, error } }) => {
   if (type === 'select') {
     return <select {...input}
@@ -27,8 +29,15 @@ export const renderField = ({ input, label, type, values, meta: { touched, error
     <div className="col-md-9">
       {renderInput({ input, label, type, values, meta: { touched, error } })}
       {touched && error && <div className="form-control-feedback">
-        {error}
+        {displayError(label, error)}
       </div>}
     </div>
   </div>
 );
+
+export const renderError = ({ input, label, type, values, meta: { touched, error } }) => (<div>
+  {renderInput({ input, label, type, values, meta: { touched, error } })}
+  {touched && error && <div className="form-control-feedback">
+    {displayError(label, error)}
+  </div>}
+</div>);

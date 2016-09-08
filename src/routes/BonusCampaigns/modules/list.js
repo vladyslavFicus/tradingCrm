@@ -15,6 +15,7 @@ function loadEntities(filters = {}) {
     }
 
     const endpointParams = {
+      orderByPriority: true,
       page: 0,
     };
 

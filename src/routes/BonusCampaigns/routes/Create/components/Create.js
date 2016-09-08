@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import ManageForm from './ManageForm';
+import ManageForm from '../../../components/ManageForm';
+import { actionTypes } from '../modules/campaign';
 
 export default class Create extends Component {
   constructor(props) {
@@ -9,7 +10,12 @@ export default class Create extends Component {
   }
 
   handleSubmit(data) {
-    this.props.createCampaign(data);
+    this.props.createCampaign(data)
+      .then((action) => {
+        if (action.type === actionTypes.CAMPAIGN_CREATE_SUCCESS) {
+          this.props.router.replace('/bonus-campaigns');
+        }
+      });
   }
 
   render() {

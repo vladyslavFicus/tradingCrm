@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { localDateToString } from 'utils/helpers';
 
 class Table extends Component {
   renderRow(item) {
@@ -8,9 +9,10 @@ class Table extends Component {
       <td>{item.campaignName}</td>
       <td>{item.bonusLifetime}</td>
       <td>{item.triggerType}</td>
-      <td>{item.startDate} &mdash; {item.endDate}</td>
+      <td>{localDateToString(item.startDate)} &mdash; {localDateToString(item.endDate)}</td>
+      <td>{item.state}</td>
       <td>
-        {'{view} {update} {delete}'}
+        <small>{'{view} {update} {delete}'}</small>
       </td>
     </tr>;
   }
@@ -41,10 +43,9 @@ class Table extends Component {
           <select className="form-control" onChange={this.props.handleStatusChange}>
             <option value="">All</option>
             <option value="ACTIVE">Active</option>
-            <option value="INACTIVE">Inactive</option>
-            <option value="IN_PROGRESS">In progress</option>
+            <option value="CREATED">Created</option>
+            <option value="DEACTIVATED">Deactivated</option>
             <option value="COMPLETED">Completed</option>
-            <option value="EXPIRED">Expired</option>
           </select>
         </td>
         <td/>
@@ -54,9 +55,7 @@ class Table extends Component {
       {items.length > 0 ?
         items.map(this.renderRow) : <tr>
         <td colSpan="8" className="text-center">
-          <i className="fa fa-warning"/> No campaigns, <a href="/bonus-campaigns/create" className="btn btn-primary btn-sm">
-          Create first campaign
-        </a>
+          <i className="fa fa-warning"/> No campaigns
         </td>
       </tr>
       }

@@ -3,6 +3,7 @@ import Table from './Table';
 import { Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { actionCreators as campaignsListActionCreators } from '../modules/list';
+import { Link } from 'react-router';
 
 class List extends Component {
   constructor(props) {
@@ -66,6 +67,14 @@ class List extends Component {
         </div>
 
         <div className="panel-body">
+          <div className="row margin-bottom-15">
+            <div className="col-lg-12">
+              <div className="text-right">
+                <Link to={'/bonus-campaigns/create'} className="btn btn-primary">Create campaign</Link>
+              </div>
+            </div>
+          </div>
+
           <div className="row">
             <div className="col-lg-12">
               <Table

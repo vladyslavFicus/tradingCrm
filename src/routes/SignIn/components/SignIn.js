@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import SignInForm from './Forms/SignIn';
-import BackgroundImage from 'static/img/temp/login/2.jpg';
 
 class SignIn extends Component {
   componentWillMount() {
