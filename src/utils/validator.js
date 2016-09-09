@@ -1,41 +1,9 @@
-const defaultValidators = {
-  require: {
-    validate: (value) => !!value,
-    message: `"{{fieldName}}" is required.`,
-  },
-};
+import Validator from 'validatorjs';
 
-const displayError = (label, error) => error.replace('/\{\{fieldName\}\}/', label);
-
-const validate = (scenario, rules, data) => {
-  const errors = {};
-  const addError = (name, message) => {
-    if (!errors[name]) {
-      errors[name] = [];
-    }
-
-    errors[name].push(message);
-  };
-
-  rules.forEach((rule) => {
-    const { fields, validator, on, message } = rule;
-    if (on === undefined || scenario === on) {
-      const validatorObject = defaultValidators[validator];
-      if (validatorObject === undefined) {
-        throw Error('Unknown validator');
-      }
-
-      fields.forEach((fieldName) => {
-        const result = validatorObject.validate(data[fieldName]);
-        if (!result) {
-          addError(fieldName, message ? message : validatorObject.message);
-        }
-      });
-    }
-  });
-
-  return errors;
-};
+Validator.register('nextDate', function(value, requirement, attribute) {
+  console.log(value, this.validator.input, requirement, attribute);
+  return value >= this.validator.input[requirement];
+}, 'The :attribute must be equal or bigger');
 
 const getFirstErrors = (errors) => {
   return Object.keys(errors).reduce((result, current) => ({
@@ -44,12 +12,13 @@ const getFirstErrors = (errors) => {
   }), {});
 };
 
-const createValidator = (rules, multipleErrors = true) => {
-  return (data, scenario = 'default') => {
-    const errors = validate(scenario, rules, data);
+const createValidator = (rules, attributeLabels = {}, multipleErrors = true) => {
+  return (data) => {
+    const validation = new Validator(data, rules);
+    validation.setAttributeNames(attributeLabels);
 
-    return multipleErrors ? errors : getFirstErrors(errors);
+    return validation.fails() ? multipleErrors ? validation.errors.all() : getFirstErrors(validation.errors.all()) : {};
   };
 };
 
-export { createValidator, displayError };
+export { createValidator };

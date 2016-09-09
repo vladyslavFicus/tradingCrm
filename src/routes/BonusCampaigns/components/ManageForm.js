@@ -2,128 +2,179 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import classNames from 'classnames';
-import DateRangePickerWrapper from 'components/Forms/DateRangePickerWrapper';
-import { renderField, renderError } from 'utils/redux-form';
+import RemoteDateRangePickerWrapper from 'components/Forms/RemoteDateRangePickerWrapper';
+import { renderField, renderError, formErrorSelector } from 'utils/redux-form';
 import { stopEvent } from 'utils/helpers';
-import { createValidator, displayError } from 'utils/validator';
+import { createValidator } from 'utils/validator';
 import moment from 'moment';
 
-const selector = formValueSelector('campaignCreation');
+const formName = 'campaignCreation';
+const valueSelector = formValueSelector(formName);
+const errorSelector = formErrorSelector(formName);
 
-const validator = createValidator([
-  {
-    fields: [
-      'campaignName',
-      'startDate',
-      'endDate',
-      'bonusLifetime',
-      'campaignRatio',
-      'bonusAmount',
-      'wagerWinMultiplier',
-      'triggerType',
-      'priorityMoneyTypeUsage',
-    ],
-    validator: 'require',
-  },
-], false);
+const attributeLabels = {
+  campaignName: 'Name',
+  startDate: 'Start date',
+  endDate: 'End date',
+  bonusLifetime: 'Bonus life time',
+  campaignRatio: 'Ratio',
+  bonusAmount: 'Bonus amount',
+  wagerWinMultiplier: 'Multiplier',
+  triggerType: 'Trigger type',
+  priorityMoneyTypeUsage: 'Money usage',
+};
+
+const triggerTypes = {
+  FIRST_DEPOSIT: 'First deposit',
+};
+
+const priorityMoneyTypeUsage = {
+  REAL: 'Real money',
+  BONUS: 'Bonus money',
+};
+
+const validator = createValidator({
+  campaignName: 'required',
+  startDate: 'required',
+  endDate: 'required|nextDate:startDate',
+  bonusLifetime: 'required|integer',
+  campaignRatio: 'required|numeric',
+  bonusAmount: 'required|numeric',
+  wagerWinMultiplier: 'required|integer|max:999',
+  triggerType: ['required', 'in:' + Object.keys(triggerTypes).join()],
+  priorityMoneyTypeUsage: ['required', 'in:' + Object.keys(priorityMoneyTypeUsage).join()],
+}, attributeLabels, false);
 
 class ManageForm extends Component {
   constructor(props) {
     super(props);
 
     this.handleDatesChange = this.handleDatesChange.bind(this);
+    this.handleResetForm = this.handleResetForm.bind(this);
+
+    this.state = {
+      startDate: null,
+      endDate: null,
+    };
   }
 
   handleDatesChange({ startDate, endDate }) {
     const { dispatch, change, fields } = this.props;
 
-    if (startDate) {
-      const formattedDate = startDate.format('YYYY/MM/DD') + ' 00:00';
-      if (fields.startDate !== formattedDate) {
-        dispatch(change('startDate', formattedDate));
+    this.setState({ startDate, endDate }, () => {
+      if (startDate) {
+        const formattedDate = startDate.format('YYYY/MM/DD') + ' 00:00';
+        if (fields.startDate !== formattedDate) {
+          dispatch(change('startDate', formattedDate));
+        }
       }
-    }
 
-    if (endDate) {
-      const formattedDate = endDate.format('YYYY/MM/DD') + ' 23:59';
-      if (fields.endDate !== formattedDate) {
-        dispatch(change('endDate', formattedDate));
+      if (endDate) {
+        const formattedDate = endDate.format('YYYY/MM/DD') + ' 23:59';
+        if (fields.endDate !== formattedDate) {
+          dispatch(change('endDate', formattedDate));
+        }
       }
-    }
+    });
+  }
+
+  handleResetForm() {
+    this.handleDatesChange({ startDate: null, endDate: null });
+
+    this.props.reset();
   }
 
   render() {
-    const { handleSubmit, pristine, reset, submitting, onSubmit } = this.props;
+    const { startDate, endDate } = this.state;
+    const { handleSubmit, pristine, submitting, onSubmit, errors } = this.props;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
       <Field
         name="campaignName"
-        label="Name"
+        label={attributeLabels.campaignName}
         type="text"
         component={renderField}
       />
       <Field
         name="bonusLifetime"
-        label="Bonus life time"
+        label={attributeLabels.bonusLifetime}
         type="text"
         component={renderField}
       />
       <Field
         name="campaignRatio"
-        label="Ratio"
+        label={attributeLabels.campaignRatio}
         type="text"
         component={renderField}
       />
       <Field
         name="bonusAmount"
-        label="Bonus amount"
+        label={attributeLabels.bonusAmount}
         type="text"
         component={renderField}
       />
       <Field
         name="wagerWinMultiplier"
-        label="Multiplier"
+        label={attributeLabels.wagerWinMultiplier}
         type="text"
         component={renderField}
       />
       <Field
         name="triggerType"
-        label="Trigger type"
+        label={attributeLabels.triggerType}
         type="select"
-        values={{ '': '-- Choose --', FIRST_DEPOSIT: 'First deposit' }}
+        values={{ '': '-- Choose --', ...triggerTypes }}
         component={renderField}
       />
       <Field
         name="priorityMoneyTypeUsage"
-        label="Money usage"
+        label={attributeLabels.priorityMoneyTypeUsage}
         type="select"
-        values={{ '': '-- Choose --', REAL: 'Real money', BONUS: 'Bonus money' }}
+        values={{ '': '-- Choose --', ...priorityMoneyTypeUsage }}
         component={renderField}
       />
 
-      <div className={classNames('form-group row')}>
+      <div className={classNames('form-group row', { 'has-danger': errors.startDate || errors.endDate })}>
         <div className="col-md-3">
           <label className="form-control-label">Period</label>
         </div>
         <div className="col-md-9">
-          <DateRangePickerWrapper
+          <RemoteDateRangePickerWrapper
             isOutsideRange={(day) => day <= moment()}
             onDatesChange={this.handleDatesChange}
+            startDate={startDate}
+            endDate={endDate}
           />
 
-          <Field type="hidden" component={renderError} name="startDate"/>
-          <Field type="hidden" component={renderError} name="endDate"/>
+          <Field type="hidden" component="input" name="startDate"/>
+          <Field type="hidden" component="input" name="endDate"/>
+
+          {errors.startDate && <div className="form-control-feedback">
+            {errors.startDate}
+          </div>}
+          {errors.endDate && <div className="form-control-feedback">
+            {errors.endDate}
+          </div>}
         </div>
       </div>
 
       <div className="form-actions">
         <div className="form-group row">
           <div className="col-md-9 col-md-offset-3">
-            <button type="submit" disabled={submitting} className="btn width-150 btn-primary">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn width-150 btn-primary"
+            >
               Submit
             </button>
 
-            <button type="button" disabled={pristine || submitting} onClick={reset} className="btn btn-default">
+            <button
+              type="button"
+              disabled={pristine || submitting}
+              onClick={this.handleResetForm}
+              className="btn btn-default"
+            >
               Cancel
             </button>
           </div>
@@ -134,12 +185,13 @@ class ManageForm extends Component {
 }
 
 let ManageReduxForm = reduxForm({
-  form: 'campaignCreation',
+  form: formName,
   validate: validator,
 })(ManageForm);
 
 ManageReduxForm = connect((state) => ({
-  fields: selector(state, 'startDate', 'endDate'),
+  fields: valueSelector(state, 'startDate', 'endDate'),
+  errors: errorSelector(state),
 }), {})(ManageReduxForm);
 
 export default ManageReduxForm;
