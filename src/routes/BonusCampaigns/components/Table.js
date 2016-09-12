@@ -1,6 +1,51 @@
 import React, { Component } from 'react';
+import { localDateToString } from 'utils/helpers';
 
 class Table extends Component {
+  constructor(props) {
+    super(props);
+
+    this.renderRow = this.renderRow.bind(this);
+    this.renderActions = this.renderActions.bind(this);
+
+    this.handleActivate = this.handleActivate.bind(this);
+    this.handleDeactivate = this.handleDeactivate.bind(this);
+    this.handleComplete = this.handleComplete.bind(this);
+  }
+
+  handleActivate(id) {
+    this.props.onChangeCampaignState('activate', id);
+  }
+
+  handleDeactivate(id) {
+    this.props.onChangeCampaignState('deactivate', id);
+  }
+
+  handleComplete(id) {
+    this.props.onChangeCampaignState('complete', id);
+  }
+
+  renderActions(item) {
+    let content = null;
+
+    if (item.state === 'ACTIVE') {
+      content = <a className="btn btn-sm btn-success btn-secondary" onClick={() => this.handleComplete(item.id)}>
+        <i className="fa fa-check"/> Complete
+      </a>;
+    } else if (item.state === 'CREATED') {
+      content = <a className="btn btn-sm btn-success btn-secondary" onClick={() => this.handleActivate(item.id)}>
+        <i className="fa fa-check"/> Activate
+      </a>;
+    }
+
+    return <div className="btn-group btn-group-sm">
+      {content}
+      <a className="btn btn-sm btn-danger btn-secondary" onClick={() => this.handleDeactivate(item.id)}>
+        <i className="fa fa-close"/> Deactivate
+      </a>
+    </div>;
+  }
+
   renderRow(item) {
     return <tr key={item.id}>
       <td>{item.id}</td>
@@ -8,9 +53,10 @@ class Table extends Component {
       <td>{item.campaignName}</td>
       <td>{item.bonusLifetime}</td>
       <td>{item.triggerType}</td>
-      <td>{item.startDate} &mdash; {item.endDate}</td>
+      <td>{localDateToString(item.startDate)} &mdash; {localDateToString(item.endDate)}</td>
+      <td>{item.state}</td>
       <td>
-        {'{view} {update} {delete}'}
+        {this.renderActions(item)}
       </td>
     </tr>;
   }

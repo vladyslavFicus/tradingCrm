@@ -70,6 +70,7 @@ class List extends Component {
                 isLoading={isLoading}
                 items={entities.content}
                 handleStatusChange={this.handleStatusChange}
+                onChangeCampaignState={this.props.changeCampaignState}
               />
             </div>
           </div>
