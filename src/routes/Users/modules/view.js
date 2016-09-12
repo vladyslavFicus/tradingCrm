@@ -27,14 +27,12 @@ const profileInitialState = {
   isFailed: false,
   receivedAt: null,
 };
-
 const depositInitialState = {
   reasons: [],
   isLoading: false,
   isFailed: false,
   receivedAt: null,
 };
-
 const withdrawInitialState = {
   reasons: [],
   isLoading: false,

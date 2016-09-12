@@ -1,14 +1,6 @@
-import { connect } from 'react-redux';
+import React from 'react';
 import List from '../components/List';
-import { actionCreators as campaignsListActionCreators } from '../modules/list';
 
-const mapStateToProps = (state) => ({
-  campaigns: {
-    ...state.bonusCampaignsList,
-  },
-});
-const mapActions = {
-  ...campaignsListActionCreators,
-};
+const Container = ({ children, content }) => content ? content : <List />;
 
-export default connect(mapStateToProps, mapActions)(List);
+export default Container;
