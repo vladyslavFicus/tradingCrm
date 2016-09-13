@@ -2,7 +2,7 @@ import React from 'react';
 import { DateRangePicker } from 'react-dates';
 import moment from 'moment';
 
-class DateRangePickerWrapper extends React.Component {
+class RemoteDateRangePickerWrapper extends React.Component {
   constructor(props) {
     super(props);
 
@@ -17,18 +17,9 @@ class DateRangePickerWrapper extends React.Component {
 
     this.state = {
       focusedInput: null,
-      startDate: null,
-      endDate: null,
     };
 
-    this.onDatesChange = this.onDatesChange.bind(this);
     this.onFocusChange = this.onFocusChange.bind(this);
-  }
-
-  onDatesChange({ startDate, endDate }) {
-    this.setState({ startDate, endDate }, () => {
-      this.props.onDatesChange({ startDate, endDate });
-    });
   }
 
   onFocusChange(focusedInput) {
@@ -36,13 +27,14 @@ class DateRangePickerWrapper extends React.Component {
   }
 
   render() {
-    const { focusedInput, startDate, endDate } = this.state;
+    const { startDate, endDate } = this.props;
+    const { focusedInput } = this.state;
 
     return (
       <div>
         <DateRangePicker
           {...this.props}
-          onDatesChange={this.onDatesChange}
+          onDatesChange={this.props.onDatesChange}
           onFocusChange={this.onFocusChange}
           focusedInput={focusedInput}
           startDate={startDate}
@@ -53,8 +45,10 @@ class DateRangePickerWrapper extends React.Component {
   }
 }
 
-DateRangePickerWrapper.propTypes = {
+RemoteDateRangePickerWrapper.propTypes = {
   onDatesChange: React.PropTypes.func,
+  startDate: React.PropTypes.object,
+  endDate: React.PropTypes.object,
 };
 
-export default DateRangePickerWrapper;
+export default RemoteDateRangePickerWrapper;

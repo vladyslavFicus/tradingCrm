@@ -21,7 +21,7 @@ describe('Redux::Auth', () => {
     it('Should return initial state when initialize reducer', () => {
       const newState = reducer(undefined, {});
 
-      expect(newState).to.equal(initialState);
+      expect(newState).to.deep.equal(initialState);
     });
 
     it('Should return initial state on logout', () => {
