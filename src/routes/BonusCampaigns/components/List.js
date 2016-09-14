@@ -19,6 +19,7 @@ class List extends Component {
 
     this.handleSelect = this.handleSelect.bind(this);
     this.handleStatusChange = this.handleStatusChange.bind(this);
+    this.handleChangeCampaignState = this.handleChangeCampaignState.bind(this);
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
   }
 
@@ -47,6 +48,10 @@ class List extends Component {
 
   handleSelect(eventKey) {
     this.setFilter('page', eventKey - 1);
+  }
+
+  handleChangeCampaignState(state, id) {
+    this.props.changeCampaignState(this.state.filters, state, id);
   }
 
   componentWillMount() {
@@ -82,6 +87,7 @@ class List extends Component {
                 isLoading={isLoading}
                 items={entities.content}
                 handleStatusChange={this.handleStatusChange}
+                onChangeCampaignState={this.handleChangeCampaignState}
               />
             </div>
           </div>

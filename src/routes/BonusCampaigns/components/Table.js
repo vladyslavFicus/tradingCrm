@@ -2,6 +2,36 @@ import React, { Component } from 'react';
 import { localDateToString } from 'utils/helpers';
 
 class Table extends Component {
+  constructor(props) {
+    super(props);
+
+    this.renderRow = this.renderRow.bind(this);
+    this.renderActions = this.renderActions.bind(this);
+
+    this.handleActivate = this.handleActivate.bind(this);
+    this.handleComplete = this.handleComplete.bind(this);
+  }
+
+  handleActivate(id) {
+    this.props.onChangeCampaignState('activate', id);
+  }
+
+  handleComplete(id) {
+    this.props.onChangeCampaignState('complete', id);
+  }
+
+  renderActions(item) {
+    return <div className="btn-group btn-group-sm">
+      {item.state === 'INACTIVE' &&
+      <a className="btn btn-sm btn-primary btn-secondary" onClick={() => this.handleActivate(item.id)}>
+        <i className="fa fa-check"/> Activate
+      </a>}
+      <a className="btn btn-sm btn-success btn-secondary" onClick={() => this.handleComplete(item.id)}>
+        <i className="fa fa-check"/> Complete
+      </a>
+    </div>;
+  }
+
   renderRow(item) {
     return <tr key={item.id}>
       <td>{item.id}</td>
@@ -12,7 +42,7 @@ class Table extends Component {
       <td>{localDateToString(item.startDate)} &mdash; {localDateToString(item.endDate)}</td>
       <td>{item.state}</td>
       <td>
-        <small>{'{view} {update} {delete}'}</small>
+        {this.renderActions(item)}
       </td>
     </tr>;
   }
@@ -42,9 +72,8 @@ class Table extends Component {
         <td>
           <select className="form-control" onChange={this.props.handleStatusChange}>
             <option value="">All</option>
+            <option value="INACTIVE">Inactive</option>
             <option value="ACTIVE">Active</option>
-            <option value="CREATED">Created</option>
-            <option value="DEACTIVATED">Deactivated</option>
             <option value="COMPLETED">Completed</option>
           </select>
         </td>
@@ -57,8 +86,7 @@ class Table extends Component {
         <td colSpan="8" className="text-center">
           <i className="fa fa-warning"/> No campaigns
         </td>
-      </tr>
-      }
+      </tr>}
       </tbody>
     </table>;
   }
