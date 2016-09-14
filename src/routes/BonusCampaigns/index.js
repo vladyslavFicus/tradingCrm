@@ -1,5 +1,6 @@
 import { injectReducer } from 'store/reducers';
 import CreateRoute from './routes/Create';
+import UpdateRoute from './routes/Update';
 
 export default (store) => ({
   path: '/bonus-campaigns',
@@ -14,5 +15,8 @@ export default (store) => ({
     }, 'bonus-campaigns-list');
   },
 
-  childRoutes: [CreateRoute(store)],
+  childRoutes: [
+    CreateRoute(store),
+    UpdateRoute(store),
+  ],
 });

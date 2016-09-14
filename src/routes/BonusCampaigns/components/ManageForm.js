@@ -27,12 +27,10 @@ const attributeLabels = {
 const triggerTypes = {
   FIRST_DEPOSIT: 'First deposit',
 };
-
 const priorityMoneyTypeUsage = {
   REAL: 'Real money',
   BONUS: 'Bonus money',
 };
-
 const validator = createValidator({
   campaignName: 'required',
   startDate: 'required',
@@ -53,8 +51,10 @@ class ManageForm extends Component {
     this.handleResetForm = this.handleResetForm.bind(this);
 
     this.state = {
-      startDate: null,
-      endDate: null,
+      startDate: props.initialValues && props.initialValues.startDate !== undefined ?
+        moment(props.initialValues.startDate) : null,
+      endDate: props.initialValues && props.initialValues.endDate !== undefined ?
+        moment(props.initialValues.endDate) : null,
     };
   }
 

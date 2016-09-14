@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import ManageForm from '../../../components/ManageForm';
-import { actionTypes } from '../modules/create';
+import { actionTypes } from '../modules/update';
 
 export default class Create extends Component {
   constructor(props) {
@@ -11,25 +11,29 @@ export default class Create extends Component {
   }
 
   handleSubmit(data) {
-    this.props.createCampaign(data)
+    this.props.updateCampaign(this.props.data.id, data)
       .then((action) => {
-        if (action.type === actionTypes.CAMPAIGN_CREATE_SUCCESS) {
+        if (action.type === actionTypes.CAMPAIGN_UPDATE.SUCCESS) {
           this.props.router.replace('/bonus-campaigns');
         }
       });
   }
 
   render() {
+    const { data }  = this.props;
+
     return <div className="page-content-inner">
       <Panel>
         <Title>
-          <h3>Create new campaign</h3>
+          <h3>Update campaign</h3>
         </Title>
+
         <Content>
           <div className="row">
             <div className="col-lg-8">
               <div className="margin-bottom-50">
                 <ManageForm
+                  initialValues={data}
                   onSubmit={this.handleSubmit}
                 />
               </div>

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Panel, { Title, Content } from 'components/Panel';
 import Table from './Table';
 import { Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -61,12 +62,12 @@ class List extends Component {
     const { entities, isLoading } = data;
 
     return <div className="page-content-inner">
-      <section className="panel panel-with-borders">
-        <div className="panel-heading">
+      <Panel withBorders>
+        <Title>
           <h3>Bonus campaigns</h3>
-        </div>
+        </Title>
 
-        <div className="panel-body">
+        <Content>
           <div className="row margin-bottom-15">
             <div className="col-lg-12">
               <div className="text-right">
@@ -100,8 +101,8 @@ class List extends Component {
                 onSelect={this.handleSelect}/>
             </div>
           </div>}
-        </div>
-      </section>
+        </Content>
+      </Panel>
     </div>;
   }
 }

@@ -1,7 +1,6 @@
 import Validator from 'validatorjs';
 
 Validator.register('nextDate', function(value, requirement, attribute) {
-  console.log(value, this.validator.input, requirement, attribute);
   return value >= this.validator.input[requirement];
 }, 'The :attribute must be equal or bigger');
 

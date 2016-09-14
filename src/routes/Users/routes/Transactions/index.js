@@ -1,7 +1,7 @@
 import { injectReducer } from 'store/reducers';
 
 export default (store) => ({
-  path: '/users/:id/transactions',
+  path: ':id/transactions',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, { key: 'transactionsView', reducer: require('./modules/view').default });
