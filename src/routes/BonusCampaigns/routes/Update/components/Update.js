@@ -35,6 +35,7 @@ export default class Create extends Component {
                 <ManageForm
                   initialValues={data}
                   onSubmit={this.handleSubmit}
+                  disabled={data.state !== 'INACTIVE'}
                 />
               </div>
             </div>

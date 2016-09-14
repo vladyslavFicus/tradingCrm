@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { localDateToString } from 'utils/helpers';
 
 class Table extends Component {
@@ -22,13 +23,27 @@ class Table extends Component {
 
   renderActions(item) {
     return <div className="btn-group btn-group-sm">
-      {item.state === 'INACTIVE' &&
-      <a className="btn btn-sm btn-primary btn-secondary" onClick={() => this.handleActivate(item.id)}>
-        <i className="fa fa-check"/> Activate
+      {item.state === 'INACTIVE' && <Link
+        to={`/bonus-campaigns/update/${item.id}`}
+        className="btn btn-sm btn-primary btn-secondary"
+        title="Edit campaign"
+      >
+        <i className="fa fa-pencil"/>
+      </Link>}
+      {item.state === 'INACTIVE' && <a
+        className="btn btn-sm btn-success btn-secondary"
+        onClick={() => this.handleActivate(item.id)}
+        title="Activate campaign"
+      >
+        <i className="fa fa-check"/>
       </a>}
-      <a className="btn btn-sm btn-success btn-secondary" onClick={() => this.handleComplete(item.id)}>
-        <i className="fa fa-check"/> Complete
-      </a>
+      {item.state !== 'COMPLETED' && <a
+        className="btn btn-sm btn-danger btn-secondary"
+        onClick={() => this.handleComplete(item.id)}
+        title="Complete campaign"
+      >
+        <i className="fa fa-times"/>
+      </a>}
     </div>;
   }
 
@@ -41,7 +56,7 @@ class Table extends Component {
       <td>{item.triggerType}</td>
       <td>{localDateToString(item.startDate)} &mdash; {localDateToString(item.endDate)}</td>
       <td>{item.state}</td>
-      <td>
+      <td className="text-right">
         {this.renderActions(item)}
       </td>
     </tr>;
