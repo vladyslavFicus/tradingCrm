@@ -9,7 +9,6 @@ class Table extends Component {
     this.renderActions = this.renderActions.bind(this);
 
     this.handleActivate = this.handleActivate.bind(this);
-    this.handleDeactivate = this.handleDeactivate.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
   }
 
@@ -17,31 +16,18 @@ class Table extends Component {
     this.props.onChangeCampaignState('activate', id);
   }
 
-  handleDeactivate(id) {
-    this.props.onChangeCampaignState('deactivate', id);
-  }
-
   handleComplete(id) {
     this.props.onChangeCampaignState('complete', id);
   }
 
   renderActions(item) {
-    let content = null;
-
-    if (item.state === 'ACTIVE') {
-      content = <a className="btn btn-sm btn-success btn-secondary" onClick={() => this.handleComplete(item.id)}>
-        <i className="fa fa-check"/> Complete
-      </a>;
-    } else if (item.state === 'CREATED') {
-      content = <a className="btn btn-sm btn-success btn-secondary" onClick={() => this.handleActivate(item.id)}>
-        <i className="fa fa-check"/> Activate
-      </a>;
-    }
-
     return <div className="btn-group btn-group-sm">
-      {content}
-      <a className="btn btn-sm btn-danger btn-secondary" onClick={() => this.handleDeactivate(item.id)}>
-        <i className="fa fa-close"/> Deactivate
+      {item.state === 'INACTIVE' &&
+      <a className="btn btn-sm btn-primary btn-secondary" onClick={() => this.handleActivate(item.id)}>
+        <i className="fa fa-check"/> Activate
+      </a>}
+      <a className="btn btn-sm btn-success btn-secondary" onClick={() => this.handleComplete(item.id)}>
+        <i className="fa fa-check"/> Complete
       </a>
     </div>;
   }
@@ -86,9 +72,8 @@ class Table extends Component {
         <td>
           <select className="form-control" onChange={this.props.handleStatusChange}>
             <option value="">All</option>
+            <option value="INACTIVE">Inactive</option>
             <option value="ACTIVE">Active</option>
-            <option value="CREATED">Created</option>
-            <option value="DEACTIVATED">Deactivated</option>
             <option value="COMPLETED">Completed</option>
           </select>
         </td>
@@ -101,8 +86,7 @@ class Table extends Component {
         <td colSpan="8" className="text-center">
           <i className="fa fa-warning"/> No campaigns
         </td>
-      </tr>
-      }
+      </tr>}
       </tbody>
     </table>;
   }

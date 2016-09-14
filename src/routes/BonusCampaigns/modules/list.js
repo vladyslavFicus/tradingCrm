@@ -1,14 +1,14 @@
 import { WEB_API } from 'constants/index';
 import { getTimestamp } from 'utils/helpers';
+import { createRequestTypes } from 'utils/redux';
 
 const KEY = 'bonus-campaigns';
 const ENTITIES_REQUEST = `${KEY}/entities-request`;
 const ENTITIES_SUCCESS = `${KEY}/entities-success`;
 const ENTITIES_FAILURE = `${KEY}/entities-failure`;
 
-const CHANGE_CAMPAIGN_STATE_REQUEST = `${KEY}/change-campaign-state-request`;
-const CHANGE_CAMPAIGN_STATE_SUCCESS = `${KEY}/change-campaign-state-success`;
-const CHANGE_CAMPAIGN_STATE_FAILURE = `${KEY}/change-campaign-state-failure`;
+const ENTITIES = createRequestTypes(`${KEY}/entities`);
+const CHANGE_CAMPAIGN_STATE = createRequestTypes(`${KEY}/change-campaign-state`);
 
 function loadEntities(filters = {}) {
   return (dispatch, getState) => {
@@ -34,7 +34,11 @@ function loadEntities(filters = {}) {
     return dispatch({
       [WEB_API]: {
         method: 'GET',
-        types: [ENTITIES_REQUEST, ENTITIES_SUCCESS, ENTITIES_FAILURE],
+        types: [
+          ENTITIES.REQUEST,
+          ENTITIES.SUCCESS,
+          ENTITIES.FAILURE,
+        ],
         endpoint: `promotion/campaigns`,
         endpointParams,
         headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -43,8 +47,7 @@ function loadEntities(filters = {}) {
   };
 }
 
-function changeCampaignState(state, id) {
-  console.log('change state', state, id);
+function changeCampaignState(filters, state, id) {
   return (dispatch, getState) => {
     const { token, uuid } = getState().auth;
 
@@ -55,28 +58,32 @@ function changeCampaignState(state, id) {
     return dispatch({
       [WEB_API]: {
         method: 'POST',
-        types: [CHANGE_CAMPAIGN_STATE_REQUEST, CHANGE_CAMPAIGN_STATE_SUCCESS, CHANGE_CAMPAIGN_STATE_FAILURE],
+        types: [
+          CHANGE_CAMPAIGN_STATE.REQUEST,
+          CHANGE_CAMPAIGN_STATE.SUCCESS,
+          CHANGE_CAMPAIGN_STATE.FAILURE,
+        ],
         endpoint: `promotion/campaigns/${id}/${state}`,
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
-    });
+    }).then(() => dispatch(loadEntities(filters)));
   };
 }
 
 const actionHandlers = {
-  [ENTITIES_REQUEST]: (state, action) => ({
+  [ENTITIES.REQUEST]: (state, action) => ({
     ...state,
     filters: { ...state.filters, ...action.filters },
     isLoading: true,
     isFailed: false,
   }),
-  [ENTITIES_SUCCESS]: (state, action) => ({
+  [ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
     entities: { ...action.response },
     isLoading: false,
     receivedAt: getTimestamp(),
   }),
-  [ENTITIES_FAILURE]: (state, action) => ({
+  [ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     isFailed: true,
@@ -108,9 +115,8 @@ function reducer(state = initialState, action) {
 }
 
 const actionTypes = {
-  ENTITIES_REQUEST,
-  ENTITIES_SUCCESS,
-  ENTITIES_FAILURE,
+  ENTITIES,
+  CHANGE_CAMPAIGN_STATE,
 };
 
 const actionCreators = {
