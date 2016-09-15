@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Panel, { Title, Content } from 'components/Panel';
 import Table from './Table';
 import { Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -18,6 +19,7 @@ class List extends Component {
 
     this.handleSelect = this.handleSelect.bind(this);
     this.handleStatusChange = this.handleStatusChange.bind(this);
+    this.handleChangeCampaignState = this.handleChangeCampaignState.bind(this);
     this.onFiltersChanged = this.onFiltersChanged.bind(this);
   }
 
@@ -48,6 +50,10 @@ class List extends Component {
     this.setFilter('page', eventKey - 1);
   }
 
+  handleChangeCampaignState(state, id) {
+    this.props.changeCampaignState(this.state.filters, state, id);
+  }
+
   componentWillMount() {
     const { campaigns } = this.props;
 
@@ -61,12 +67,12 @@ class List extends Component {
     const { entities, isLoading } = data;
 
     return <div className="page-content-inner">
-      <section className="panel panel-with-borders">
-        <div className="panel-heading">
+      <Panel withBorders>
+        <Title>
           <h3>Bonus campaigns</h3>
-        </div>
+        </Title>
 
-        <div className="panel-body">
+        <Content>
           <div className="row margin-bottom-15">
             <div className="col-lg-12">
               <div className="text-right">
@@ -81,6 +87,7 @@ class List extends Component {
                 isLoading={isLoading}
                 items={entities.content}
                 handleStatusChange={this.handleStatusChange}
+                onChangeCampaignState={this.handleChangeCampaignState}
               />
             </div>
           </div>
@@ -100,8 +107,8 @@ class List extends Component {
                 onSelect={this.handleSelect}/>
             </div>
           </div>}
-        </div>
-      </section>
+        </Content>
+      </Panel>
     </div>;
   }
 }

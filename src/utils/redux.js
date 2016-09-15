@@ -1,3 +1,10 @@
+/**
+ * Create action types object
+ * @constructor
+ * @param {string} base - Base key.
+ *
+ * @return {Object}
+ */
 export function createRequestTypes(base) {
   return ['REQUEST', 'SUCCESS', 'FAILURE'].reduce((acc, type) => {
     acc[type] = `${base}-${type.toLowerCase()}`;

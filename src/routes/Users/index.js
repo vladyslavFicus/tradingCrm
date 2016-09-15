@@ -2,7 +2,7 @@ import { injectReducer } from '../../store/reducers';
 import childRoutes from './routes';
 
 export default (store) => ({
-  path: '/users',
+  path: 'users',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       if (!!nextState.params.id) {

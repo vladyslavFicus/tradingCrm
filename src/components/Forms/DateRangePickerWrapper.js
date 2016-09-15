@@ -1,19 +1,9 @@
 import React from 'react';
 import { DateRangePicker } from 'react-dates';
-import moment from 'moment';
 
 class DateRangePickerWrapper extends React.Component {
   constructor(props) {
     super(props);
-
-    /**
-     * Dirty hack =)
-     */
-    moment.updateLocale('en', {
-      longDateFormat: {
-        L: 'DD.MM.YYYY',
-      },
-    });
 
     this.state = {
       focusedInput: null,

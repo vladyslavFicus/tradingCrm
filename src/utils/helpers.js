@@ -8,7 +8,7 @@ export function parseJson(data) {
 
 export function localDateToString(object) {
   if (typeof object !== 'object') {
-    return '';
+    return object;
   }
 
   const payload = {

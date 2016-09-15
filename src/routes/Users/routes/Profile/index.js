@@ -1,7 +1,7 @@
 import { injectReducer } from 'store/reducers';
 
 export default (store) => ({
-  path: '/users/:id/profile',
+  path: ':id/profile',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const TabsComponent = require('../../components/Tabs').default;

@@ -1,19 +1,10 @@
 import React from 'react';
 import SingleDatePicker from 'react-dates';
-import moment from 'moment';
 
 class SingleDatePickerWrapper extends React.Component {
   constructor(props) {
     super(props);
 
-    /**
-     * Dirty hack =)
-     */
-    moment.updateLocale('en', {
-      longDateFormat: {
-        L: 'DD.MM.YYYY',
-      },
-    });
     this.state = {
       focused: false,
       date: null,

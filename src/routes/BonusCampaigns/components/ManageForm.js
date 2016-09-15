@@ -27,12 +27,10 @@ const attributeLabels = {
 const triggerTypes = {
   FIRST_DEPOSIT: 'First deposit',
 };
-
 const priorityMoneyTypeUsage = {
   REAL: 'Real money',
   BONUS: 'Bonus money',
 };
-
 const validator = createValidator({
   campaignName: 'required',
   startDate: 'required',
@@ -53,8 +51,10 @@ class ManageForm extends Component {
     this.handleResetForm = this.handleResetForm.bind(this);
 
     this.state = {
-      startDate: null,
-      endDate: null,
+      startDate: props.initialValues && props.initialValues.startDate !== undefined ?
+        moment(props.initialValues.startDate) : null,
+      endDate: props.initialValues && props.initialValues.endDate !== undefined ?
+        moment(props.initialValues.endDate) : null,
     };
   }
 
@@ -86,37 +86,43 @@ class ManageForm extends Component {
 
   render() {
     const { startDate, endDate } = this.state;
-    const { handleSubmit, pristine, submitting, onSubmit, errors } = this.props;
+    const { handleSubmit, pristine, submitting, onSubmit, errors, disabled } = this.props;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
+      {disabled && <div className="alert alert-warning">You can't edit the campaign.</div>}
       <Field
         name="campaignName"
         label={attributeLabels.campaignName}
         type="text"
+        disabled={disabled}
         component={renderField}
       />
       <Field
         name="bonusLifetime"
         label={attributeLabels.bonusLifetime}
         type="text"
+        disabled={disabled}
         component={renderField}
       />
       <Field
         name="campaignRatio"
         label={attributeLabels.campaignRatio}
         type="text"
+        disabled={disabled}
         component={renderField}
       />
       <Field
         name="bonusAmount"
         label={attributeLabels.bonusAmount}
         type="text"
+        disabled={disabled}
         component={renderField}
       />
       <Field
         name="wagerWinMultiplier"
         label={attributeLabels.wagerWinMultiplier}
         type="text"
+        disabled={disabled}
         component={renderField}
       />
       <Field
@@ -124,6 +130,7 @@ class ManageForm extends Component {
         label={attributeLabels.triggerType}
         type="select"
         values={{ '': '-- Choose --', ...triggerTypes }}
+        disabled={disabled}
         component={renderField}
       />
       <Field
@@ -131,6 +138,7 @@ class ManageForm extends Component {
         label={attributeLabels.priorityMoneyTypeUsage}
         type="select"
         values={{ '': '-- Choose --', ...priorityMoneyTypeUsage }}
+        disabled={disabled}
         component={renderField}
       />
 
@@ -144,6 +152,7 @@ class ManageForm extends Component {
             onDatesChange={this.handleDatesChange}
             startDate={startDate}
             endDate={endDate}
+            disabled={disabled}
           />
 
           <Field type="hidden" component="input" name="startDate"/>
@@ -158,7 +167,7 @@ class ManageForm extends Component {
         </div>
       </div>
 
-      <div className="form-actions">
+      {!disabled && <div className="form-actions">
         <div className="form-group row">
           <div className="col-md-9 col-md-offset-3">
             <button
@@ -179,7 +188,7 @@ class ManageForm extends Component {
             </button>
           </div>
         </div>
-      </div>
+      </div>}
     </form>;
   }
 }
