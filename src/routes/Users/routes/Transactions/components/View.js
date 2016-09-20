@@ -44,8 +44,8 @@ class View extends Component {
       this.setState({
         filters: {
           ...this.state.filters,
-          startDate: startDate.format('YYYY/MM/DD'),
-          endDate: endDate.format('YYYY/MM/DD'),
+          startDate: startDate.format('YYYY-MM-DD'),
+          endDate: endDate.format('YYYY-MM-DD'),
         },
       }, this.onFiltersChanged);
     }

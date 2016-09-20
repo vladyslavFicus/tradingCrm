@@ -63,14 +63,14 @@ class ManageForm extends Component {
 
     this.setState({ startDate, endDate }, () => {
       if (startDate) {
-        const formattedDate = startDate.format('YYYY/MM/DD') + ' 00:00';
+        const formattedDate = startDate.format('YYYY-MM-DD') + 'T00:00:00';
         if (fields.startDate !== formattedDate) {
           dispatch(change('startDate', formattedDate));
         }
       }
 
       if (endDate) {
-        const formattedDate = endDate.format('YYYY/MM/DD') + ' 23:59';
+        const formattedDate = endDate.format('YYYY-MM-DD') + 'T23:59:59';
         if (fields.endDate !== formattedDate) {
           dispatch(change('endDate', formattedDate));
         }
