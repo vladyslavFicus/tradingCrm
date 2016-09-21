@@ -9,7 +9,7 @@ export default (store) => ({
         reducer: require('./modules/create').default,
       });
 
-      cb(null, { content: require('./container/Container').default });
+      cb(null, require('./container/Container').default);
     }, 'bonus-campaigns-create');
   },
 });
