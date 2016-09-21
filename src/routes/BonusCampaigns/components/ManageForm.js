@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import classNames from 'classnames';
 import RemoteDateRangePickerWrapper from 'components/Forms/RemoteDateRangePickerWrapper';
+import { CustomValueField, SelectField } from 'components/ReduxForm';
 import { renderField, renderError, formErrorSelector } from 'utils/redux-form';
 import { stopEvent } from 'utils/helpers';
 import { createValidator } from 'utils/validator';
+import { priorityMoneyTypeUsage, eventsTypes, customValueFieldTypesLabels } from 'constants/form';
 import moment from 'moment';
 
 const formName = 'campaignCreation';
@@ -18,28 +20,38 @@ const attributeLabels = {
   endDate: 'End date',
   bonusLifetime: 'Bonus life time',
   campaignRatio: 'Ratio',
+  'campaignRatio.value': 'Ratio value',
+  'campaignRatio.type': 'Ratio value type',
   bonusAmount: 'Bonus amount',
+  capping: 'Capping',
+  'capping.value': 'Capping value',
+  'capping.type': 'Capping value type',
+  conversionPrize: 'Conversion prize',
+  'conversionPrize.value': 'Conversion prize value',
+  'conversionPrize.type': 'Conversion prize value type',
   wagerWinMultiplier: 'Multiplier',
-  triggerType: 'Trigger type',
+  eventsTypes: 'Events types',
   priorityMoneyTypeUsage: 'Money usage',
 };
 
-const triggerTypes = {
-  FIRST_DEPOSIT: 'First deposit',
-};
-const priorityMoneyTypeUsage = {
-  REAL: 'Real money',
-  BONUS: 'Bonus money',
-};
 const validator = createValidator({
   campaignName: 'required',
   startDate: 'required',
   endDate: 'required|nextDate:startDate',
   bonusLifetime: 'required|integer',
-  campaignRatio: 'required|numeric',
+  'campaignRatio.value': 'required|numeric|customTypeValue.value',
+  'campaignRatio.type': ['required', 'in:' + Object.keys(customValueFieldTypesLabels).join()],
+  capping: {
+    value: 'required|numeric|customTypeValue.value',
+    type: ['required', 'in:' + Object.keys(customValueFieldTypesLabels).join()],
+  },
+  conversionPrize: {
+    value: 'required|numeric|customTypeValue.value',
+    type: ['required', 'in:' + Object.keys(customValueFieldTypesLabels).join()],
+  },
   bonusAmount: 'required|numeric',
   wagerWinMultiplier: 'required|integer|max:999',
-  triggerType: ['required', 'in:' + Object.keys(triggerTypes).join()],
+  eventsTypes: ['required', 'array', 'in:' + Object.keys(eventsTypes).join()],
   priorityMoneyTypeUsage: ['required', 'in:' + Object.keys(priorityMoneyTypeUsage).join()],
 }, attributeLabels, false);
 
@@ -90,6 +102,7 @@ class ManageForm extends Component {
 
     return <form onSubmit={handleSubmit(onSubmit)}>
       {disabled && <div className="alert alert-warning">You can't edit the campaign.</div>}
+
       <Field
         name="campaignName"
         label={attributeLabels.campaignName}
@@ -104,12 +117,12 @@ class ManageForm extends Component {
         disabled={disabled}
         component={renderField}
       />
-      <Field
-        name="campaignRatio"
+      <CustomValueField
+        basename={'campaignRatio'}
         label={attributeLabels.campaignRatio}
-        type="text"
+        typeValues={customValueFieldTypesLabels}
         disabled={disabled}
-        component={renderField}
+        errors={errors}
       />
       <Field
         name="bonusAmount"
@@ -117,6 +130,20 @@ class ManageForm extends Component {
         type="text"
         disabled={disabled}
         component={renderField}
+      />
+      <CustomValueField
+        basename={'capping'}
+        label={attributeLabels.capping}
+        typeValues={customValueFieldTypesLabels}
+        disabled={disabled}
+        errors={errors}
+      />
+      <CustomValueField
+        basename={'conversionPrize'}
+        label={attributeLabels.conversionPrize}
+        typeValues={customValueFieldTypesLabels}
+        disabled={disabled}
+        errors={errors}
       />
       <Field
         name="wagerWinMultiplier"
@@ -126,13 +153,17 @@ class ManageForm extends Component {
         component={renderField}
       />
       <Field
-        name="triggerType"
-        label={attributeLabels.triggerType}
-        type="select"
-        values={{ '': '-- Choose --', ...triggerTypes }}
+        name="eventsType"
+        label={attributeLabels.eventsTypes}
+        type="select-multiple"
+        multiple={true}
         disabled={disabled}
-        component={renderField}
-      />
+        component={SelectField}
+      >
+        {Object.keys(eventsTypes).map((key) => (
+          <option key={key} value={key}>{eventsTypes[key]}</option>
+        ))}
+      </Field>
       <Field
         name="priorityMoneyTypeUsage"
         label={attributeLabels.priorityMoneyTypeUsage}
@@ -167,6 +198,21 @@ class ManageForm extends Component {
         </div>
       </div>
 
+      <div className={classNames('form-group row')}>
+        <div className="col-md-9 col-md-offset-3">
+          <div className="checkbox">
+            <label>
+              <Field
+                name="optIn"
+                type="checkbox"
+                component="input"
+                disabled={disabled}
+              /> Opt-In
+            </label>
+          </div>
+        </div>
+      </div>
+
       {!disabled && <div className="form-actions">
         <div className="form-group row">
           <div className="col-md-9 col-md-offset-3">
@@ -197,7 +243,6 @@ let ManageReduxForm = reduxForm({
   form: formName,
   validate: validator,
 })(ManageForm);
-
 ManageReduxForm = connect((state) => ({
   fields: valueSelector(state, 'startDate', 'endDate'),
   errors: errorSelector(state),
