@@ -15,7 +15,7 @@ docker {
 }
 
 task npmDeploy(type: NpmTask) {
-  args = ['run', 'deploy']
+  args = ['run', 'deploy:prod']
 }
 
 def localName = 'nas/manager'
