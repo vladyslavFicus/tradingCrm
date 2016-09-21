@@ -42,20 +42,34 @@ export const renderError = ({ input, label, type, values, meta: { touched, error
   </div>}
 </div>);
 
-export const formErrorSelector = (formName) => {
-  return (state) => {
-    const formData = state.form[formName];
+const getError = (name, data, errors) => (data.touched && errors[name]) ? errors[name] : null;
 
-    if (!formData || !formData.fields || !formData.syncErrors) {
-      return {};
+const getErrors = (items, name, value, errors) => {
+  const error = getError(name, value, errors);
+
+  if (error !== null) {
+    items[name] = error;
+  } else {
+    Object.keys(value).forEach((subName) => {
+      items = getErrors(items, `${name}.${subName}`, value[subName], errors);
+    });
+  }
+
+  return items;
+};
+
+export const formErrorSelector = (formName) => (state) => {
+  const formData = state.form[formName];
+
+  if (!formData || !formData.fields || !formData.syncErrors) {
+    return {};
+  }
+
+  return Object.keys(formData.fields).reduce((result, fieldName) => {
+    if (formData.fields[fieldName]) {
+      result = getErrors(result, fieldName, formData.fields[fieldName], formData.syncErrors);
     }
 
-    return Object.keys(formData.fields).reduce((result, fieldName) => {
-      if (formData.fields[fieldName] && formData.fields[fieldName].touched && formData.syncErrors[fieldName]) {
-        result[fieldName] = formData.syncErrors[fieldName];
-      }
-
-      return result;
-    }, {});
-  };
+    return result;
+  }, {});
 };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { localDateToString } from 'utils/helpers';
+import moment from 'moment';
 
 class Table extends Component {
   constructor(props) {
@@ -53,8 +53,12 @@ class Table extends Component {
       <td>{item.campaignPriority}</td>
       <td>{item.campaignName}</td>
       <td>{item.bonusLifetime}</td>
-      <td>{item.triggerType}</td>
-      <td>{localDateToString(item.startDate)} &mdash; {localDateToString(item.endDate)}</td>
+      <td>{item.eventsType.join()}</td>
+      <td>
+        {moment(item.startDate).format('YYYY-MM-DD HH:mm:ss')}
+        &mdash;
+        {moment(item.endDate).format('YYYY-MM-DD HH:mm:ss')}
+      </td>
       <td>{item.state}</td>
       <td className="text-right">
         {this.renderActions(item)}
@@ -72,7 +76,7 @@ class Table extends Component {
         <th width={'10%'}>Priority</th>
         <th width={'15%'}>Name</th>
         <th width={'10%'}>Bonus lifetime</th>
-        <th width={'15%'}>Trigger type</th>
+        <th width={'15%'}>Events type</th>
         <th width={'20%'}>Period</th>
         <th width={'10%'}>Status</th>
         <th width={'10%'}>Actions</th>

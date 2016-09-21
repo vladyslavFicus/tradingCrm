@@ -1,0 +1,88 @@
+import React, { PropTypes } from 'react';
+import { Field } from 'redux-form';
+import classNames from 'classnames';
+
+const CustomValueField = (props) => {
+  const {
+    basename,
+    label,
+    disabled,
+    valueInputClassName,
+    typeInputClassName,
+    typeValues,
+    errors,
+  } = props;
+
+  const classList = {
+    formGroup: classNames('form-group row', {
+      'has-danger': !!errors[`${basename}.value`] || !!errors[`${basename}.type`],
+    }),
+    valueInput: classNames('form-control', valueInputClassName, {
+      'has-danger': !!errors[`${basename}.value`],
+    }),
+    typeInput: classNames('form-control', typeInputClassName, {
+      'has-danger': !!errors[`${basename}.type`],
+    }),
+  };
+
+  return <div
+    className={classList.formGroup}>
+    <div className="col-md-3">
+      <label className="form-control-label">
+        {label}
+      </label>
+    </div>
+    <div className="col-md-9">
+      <div className="row">
+        <div className="col-md-9">
+          <Field
+            name={`${basename}.value`}
+            disabled={disabled}
+            placeholder={label}
+            component="input"
+            type="text"
+            className={classList.valueInput}
+          />
+        </div>
+        <div className="col-md-3">
+          <Field
+            name={`${basename}.type`}
+            className={classList.typeInput}
+            component="select"
+            disabled={disabled}
+          >
+            <option value="" disabled>-- Choose --</option>
+            {Object.keys(typeValues)
+              .map((key) => <option key={key} value={key}>
+                {typeValues[key]}
+              </option>)
+            }
+          </Field>
+        </div>
+      </div>
+      {!!errors[`${basename}.value`] && <div className="form-control-feedback">
+        {errors[`${basename}.value`]}
+      </div>}
+      {!!errors[`${basename}.type`] && <div className="form-control-feedback">
+        {errors[`${basename}.type`]}
+      </div>}
+    </div>
+  </div>;
+};
+
+CustomValueField.defaultProps = {
+  valueInputClassName: '',
+  typeInputClassName: '',
+  errors: {},
+};
+
+CustomValueField.propTypes = {
+  basename: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  typeValues: PropTypes.object.isRequired,
+  valueInputClassName: PropTypes.string,
+  typeInputClassName: PropTypes.string,
+  errors: PropTypes.object,
+};
+
+export default CustomValueField;
