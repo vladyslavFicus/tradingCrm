@@ -1,70 +1,71 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { actionCreators as transactionsListActionCreators } from '../modules/transactions-list';
-import Table from './Table';
-import { Pagination } from 'react-bootstrap';
+import GridView, { GridColumn } from 'components/GridView';
+import DateRangePicker from 'components/Forms/DateRangePickerWrapper';
+import moment from 'moment';
+
+const DateRangeFilter = ({ onFilterChange }) => (
+  <DateRangePicker
+    withPortal
+    allowPastDates
+    onDatesChange={({ startDate, endDate }) => {
+      if (startDate && endDate) {
+        onFilterChange({
+          startDate: startDate.format('YYYY-MM-DD'),
+          endDate: endDate.format('YYYY-MM-DD'),
+        });
+      }
+    }}
+  />
+);
+
+const PlayerUuidFilter = ({ onFilterChange }) => (
+  <input
+    type="text"
+    className="form-control"
+    onChange={(e) => onFilterChange({ playerUUID: e.target.value })}
+  />
+);
+
+const PaymentTypeFilter = ({ onFilterChange }) => (
+  <select
+    className="form-control"
+    onChange={(e) => onFilterChange({ paymentType: e.target.value })}
+  >
+    <option value="">All</option>
+    <option value="PaymentCompleted">PaymentCompleted</option>
+    <option value="PaymentFraudDetected">PaymentFraudDetected</option>
+    <option value="WithdrawCompleted">WithdrawCompleted</option>
+    <option value="WithdrawFailed">WithdrawFailed</option>
+  </select>
+);
 
 class List extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      filters: {
-        playerUUID: '',
-        paymentType: '',
-        startDate: '',
-        endDate: '',
-      },
-    };
-
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handlePlayerUuidChange = this.handlePlayerUuidChange.bind(this);
-    this.handlePaymentTypeChange = this.handlePaymentTypeChange.bind(this);
-    this.handleDatesChange = this.handleDatesChange.bind(this);
-    this.onFiltersChanged = this.onFiltersChanged.bind(this);
+    this.handlePageChanged = this.handlePageChanged.bind(this);
+    this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
   }
 
-  handleSelect(eventKey) {
+  handlePageChanged(page) {
     const { transactions, loadTransactions } = this.props;
 
     if (!transactions.isLoading) {
-      loadTransactions(eventKey - 1, this.state.filters);
+      loadTransactions(page - 1, this.state.filters);
     }
   }
 
-  handlePaymentTypeChange(e) {
-    const target = e.target;
-
-    this.setState({ filters: { ...this.state.filters, paymentType: target.value } }, this.onFiltersChanged);
-  }
-
-  handleDatesChange({ startDate, endDate }) {
-    if (startDate && endDate) {
-      this.setState({
-        filters: {
-          ...this.state.filters,
-          startDate: startDate.format('YYYY-MM-DD'),
-          endDate: endDate.format('YYYY-MM-DD'),
-        },
-      }, this.onFiltersChanged);
-    }
-  }
-
-  handlePlayerUuidChange(e) {
-    const target = e.target;
-
-    this.setState({ filters: { ...this.state.filters, playerUUID: target.value } }, this.onFiltersChanged);
-  }
-
-  onFiltersChanged() {
-    this.props.loadTransactions(0, this.state.filters);
+  handleFiltersChanged(filters) {
+    this.props.loadTransactions(0, filters);
   }
 
   componentWillMount() {
     const { transactions, loadTransactions } = this.props;
 
     if (!transactions.isLoading) {
-      loadTransactions(0, this.state.filters);
+      loadTransactions();
     }
   }
 
@@ -79,33 +80,42 @@ class List extends Component {
         </div>
 
         <div className="panel-body">
-          <div className="row">
-            <div className="col-lg-12">
-              <Table
-                handlePlayerUuidChange={this.handlePlayerUuidChange}
-                handlePaymentTypeChange={this.handlePaymentTypeChange}
-                handleDatesChange={this.handleDatesChange}
-                isLoading={isLoading}
-                items={transactions.content}
-              />
-            </div>
-          </div>
-
-          {transactions.totalPages > 1 && <div className="row">
-            <div className="col-lg-12">
-              <Pagination
-                prev
-                next
-                first
-                last
-                ellipsis
-                boundaryLinks
-                items={transactions.totalPages}
-                maxButtons={5}
-                activePage={transactions.number + 1}
-                onSelect={this.handleSelect}/>
-            </div>
-          </div>}
+          <GridView
+            dataSource={transactions.content}
+            onFiltersChanged={this.handleFiltersChanged}
+            onPageChange={this.handlePageChanged}
+          >
+            <GridColumn
+              name="transactionId"
+              header="Transaction ID"
+              render={(data, column) => <small>{data[column.name]}</small>}
+            />
+            <GridColumn
+              name="playerUUID"
+              header="Player UUID"
+              render={(data, column) => <small>{data[column.name]}</small>}
+              filter={(onFilterChange) => <PlayerUuidFilter onFilterChange={onFilterChange}/>}
+            />
+            <GridColumn
+              name="time"
+              header="Time"
+              headerClassName="text-center"
+              render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
+              filter={(onFilterChange) => <DateRangeFilter onFilterChange={onFilterChange}/>}
+              filterClassName="text-center"
+            />
+            <GridColumn
+              name="paymentOption"
+              header="Payment option"
+              headerClassName="text-center"
+              filter={(onFilterChange) => <PaymentTypeFilter onFilterChange={onFilterChange}/>}
+            />
+            <GridColumn
+              name="amount"
+              header="Amount"
+              render={(data, column) => `$${data[column.name]}`}
+            />
+          </GridView>
         </div>
       </section>
     </div>;

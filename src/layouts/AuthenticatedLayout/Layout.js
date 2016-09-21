@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import TopMenu from 'components/Navigation/TopMenu';
 import Sidebar from 'components/Navigation/Sidebar';
 
-export const Layout = (props) => (
+export const Layout = ({ children, location }) => (
   <div>
     <Sidebar
-      location={props.location}
+      location={location}
       menuItems={[
         { label: 'Users', url: '/users', icon: 'fa fa-users' },
         { label: 'Transactions', url: '/transactions', icon: 'fa fa-credit-card' },
@@ -13,14 +13,19 @@ export const Layout = (props) => (
         { label: 'Bonuses', url: '/bonuses', icon: 'fa fa-gift' },
       ]}
     />
-    <TopMenu location={props.location}/>
+    <TopMenu
+      location={location}
+    />
 
-    <section className="page-content">{props.children}</section>
+    <section className="page-content">
+      {children}
+    </section>
   </div>
 );
 
 Layout.propTypes = {
-  children: React.PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default Layout;

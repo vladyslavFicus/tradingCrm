@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
-import Table from './Table';
+import GridView, { GridColumn } from 'components/GridView';
 import { Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { actionCreators as listActionCreators } from '../modules/list';
@@ -79,12 +79,7 @@ class List extends Component {
 
           <div className="row">
             <div className="col-lg-12">
-              <Table
-                isLoading={isLoading}
-                items={entities.content}
-                handleStatusChange={this.handleStatusChange}
-                onChangeCampaignState={this.handleChangeCampaignState}
-              />
+              1321
             </div>
           </div>
 
