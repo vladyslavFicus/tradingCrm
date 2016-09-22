@@ -13,18 +13,18 @@ class List extends Component {
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
   }
 
-  handlePageChanged(page, filters) {
+  handlePageChanged(page, filters = {}) {
     if (!this.props.list.isLoading) {
       this.props.fetchEntities({ ...filters, page: page - 1 });
     }
   }
 
-  handleFiltersChanged(filters) {
+  handleFiltersChanged(filters = {}) {
     this.props.fetchEntities({ ...filters, page: 0 });
   }
 
   componentWillMount() {
-    this.handleFiltersChanged({});
+    this.handleFiltersChanged();
   }
 
   render() {
@@ -56,19 +56,48 @@ class List extends Component {
             <GridColumn
               name="label"
               header="Name"
+              headerClassName="text-center"
               filter={(onFilterChange) => <TextFilter
                 name="label"
                 onFilterChange={onFilterChange}
               />}
+              filterClassName="text-center"
+              className="text-center"
             />
-            <GridColumn name="playerUUID" header="Player"/>
-            <GridColumn name="grantedAmount" header="Granted amount"/>
-            <GridColumn name="converted" header="Converted"/>
-            <GridColumn name="wagered" header="Wagered"/>
-            <GridColumn name="amountToWage" header="Amount to wage"/>
+            <GridColumn
+              name="playerUUID"
+              header="Player"
+              headerClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="grantedAmount"
+              header="Granted amount"
+              headerClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="capping"
+              header="Capping"
+              headerClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="prize"
+              header="Prize"
+              headerClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="amountToWage"
+              header="Amount to wage"
+              headerClassName="text-center"
+              className="text-center"
+            />
             <GridColumn
               name="state"
               header="Status"
+              headerClassName="text-center"
               filter={(onFilterChange) => <DropDownFilter
                 name="state"
                 items={{
@@ -82,6 +111,8 @@ class List extends Component {
                 }}
                 onFilterChange={onFilterChange}
               />}
+              filterClassName="text-center"
+              className="text-center"
             />
             <GridColumn
               name="createdDate"
