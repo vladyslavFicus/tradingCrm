@@ -1,97 +1,117 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { actionCreators as usersListActionCreators } from '../modules/users-list';
-import Table from './Table';
-import { Pagination } from 'react-bootstrap';
+import Panel, { Title, Content } from 'components/Panel';
+import GridView, { GridColumn } from 'components/GridView';
+import { Link } from 'react-router';
+import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 
 class List extends Component {
   constructor(props) {
     super(props);
 
-    this.handleSelectPage = this.handleSelectPage.bind(this);
-    this.handleFilterChanged = this.handleFilterChanged.bind(this);
+    this.handlePageChanged = this.handlePageChanged.bind(this);
+    this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
+    this.renderActions = this.renderActions.bind(this);
+  }
 
-    this.state = {
-      filters: {
-        username: '',
-        email: '',
-        currency: '',
-        uuid: '',
-      },
-    };
+  handlePageChanged(page, filters = {}) {
+    if (!this.props.list.isLoading) {
+      this.props.fetchEntities({ ...filters, page: page - 1 });
+    }
+  }
+
+  handleFiltersChanged(filters = {}) {
+    this.props.fetchEntities({ ...filters, page: 0 });
   }
 
   componentWillMount() {
-    this.onFiltersChanged();
+    this.handleFiltersChanged();
   }
 
-  handleSelectPage(eventKey) {
-    this.props.loadItems(eventKey - 1, this.state.filters);
-  }
-
-  handleFilterChanged(name, value) {
-    if (value === null || value !== '' && value.length < 3) {
-      return false;
-    }
-
-    if (name in this.state.filters) {
-      this.setState({
-        filters: {
-          ...this.state.filters,
-          [name]: value,
-        },
-      }, this.onFiltersChanged);
-    }
-  }
-
-  onFiltersChanged() {
-    this.props.loadItems(0, this.state.filters);
+  renderActions(data, column, filters) {
+    return <div>
+      <Link to={`/users/${data.uuid}/profile`} title={'View user profile'}>
+        <i className="fa fa-search"/>
+      </Link>
+    </div>;
   }
 
   render() {
-    const { users: data } = this.props;
-    const { users, isLoading } = data;
+    const { list: { entities } } = this.props;
 
     return <div className="page-content-inner">
-      <section className="panel panel-with-borders">
-        <div className="panel-heading">
+      <Panel withBorders>
+        <Title>
           <h3>Users</h3>
-        </div>
+        </Title>
 
-        <div className="panel-body">
-          <div className="row">
-            <div className="col-lg-12">
-              <Table
-                handleFilterChange={this.handleFilterChanged}
-                items={users.content}
-              />
-            </div>
-          </div>
-
-          {users.totalPages > 1 && <div className="row">
-            <div className="col-lg-12">
-              <Pagination
-                prev
-                next
-                first
-                last
-                ellipsis
-                boundaryLinks
-                items={users.totalPages}
-                maxButtons={5}
-                activePage={users.number + 1}
-                onSelect={this.handleSelectPage}/>
-            </div>
-          </div>}
-        </div>
-      </section>
+        <Content>
+          <GridView
+            dataSource={entities.content}
+            onFiltersChanged={this.handleFiltersChanged}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+          >
+            <GridColumn
+              name="id"
+              header="#"
+              headerClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="username"
+              header="Username"
+              headerClassName="text-center"
+              filter={(onFilterChange) => <TextFilter
+                name="username"
+                onFilterChange={onFilterChange}
+              />}
+              className="text-center"
+            />
+            <GridColumn
+              name="email"
+              header="Email"
+              headerClassName="text-center"
+              filter={(onFilterChange) => <TextFilter
+                name="email"
+                onFilterChange={onFilterChange}
+              />}
+              className="text-center"
+            />
+            <GridColumn
+              name="currency"
+              header="Currency"
+              headerClassName="text-center"
+              filter={(onFilterChange) => <DropDownFilter
+                name="currency"
+                items={{
+                  '': 'All',
+                  USD: 'USD',
+                  EUR: 'EUR',
+                  UAH: 'UAH',
+                }}
+                onFilterChange={onFilterChange}
+              />}
+              className="text-center"
+            />
+            <GridColumn
+              name="uuid"
+              header="UUID"
+              headerClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="actions"
+              header="Actions"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderActions}
+            />
+          </GridView>
+        </Content>
+      </Panel>
     </div>;
   }
 }
 
-const mapStateToProps = (state) => ({ users: { ...state.usersList } });
-const mapActions = {
-  ...usersListActionCreators,
-};
-
-export default connect(mapStateToProps, mapActions)(List);
+export default List;

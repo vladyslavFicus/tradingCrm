@@ -1,45 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { actionCreators as transactionsListActionCreators } from '../modules/transactions-list';
 import GridView, { GridColumn } from 'components/GridView';
-import DateRangePicker from 'components/Forms/DateRangePickerWrapper';
+import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 import moment from 'moment';
-
-const DateRangeFilter = ({ onFilterChange }) => (
-  <DateRangePicker
-    withPortal
-    allowPastDates
-    onDatesChange={({ startDate, endDate }) => {
-      if (startDate && endDate) {
-        onFilterChange({
-          startDate: startDate.format('YYYY-MM-DD'),
-          endDate: endDate.format('YYYY-MM-DD'),
-        });
-      }
-    }}
-  />
-);
-
-const PlayerUuidFilter = ({ onFilterChange }) => (
-  <input
-    type="text"
-    className="form-control"
-    onChange={(e) => onFilterChange({ playerUUID: e.target.value })}
-  />
-);
-
-const PaymentTypeFilter = ({ onFilterChange }) => (
-  <select
-    className="form-control"
-    onChange={(e) => onFilterChange({ paymentType: e.target.value })}
-  >
-    <option value="">All</option>
-    <option value="PaymentCompleted">PaymentCompleted</option>
-    <option value="PaymentFraudDetected">PaymentFraudDetected</option>
-    <option value="WithdrawCompleted">WithdrawCompleted</option>
-    <option value="WithdrawFailed">WithdrawFailed</option>
-  </select>
-);
 
 class List extends Component {
   constructor(props) {
@@ -49,29 +11,22 @@ class List extends Component {
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
   }
 
-  handlePageChanged(page) {
-    const { transactions, loadTransactions } = this.props;
-
-    if (!transactions.isLoading) {
-      loadTransactions(page - 1, this.state.filters);
+  handlePageChanged(page, filters) {
+    if (!this.props.list.isLoading) {
+      this.props.fetchEntities({ ...filters, page: page - 1 });
     }
   }
 
   handleFiltersChanged(filters) {
-    this.props.loadTransactions(0, filters);
+    this.props.fetchEntities({ ...filters, page: 0 });
   }
 
   componentWillMount() {
-    const { transactions, loadTransactions } = this.props;
-
-    if (!transactions.isLoading) {
-      loadTransactions();
-    }
+    this.handleFiltersChanged({});
   }
 
   render() {
-    const { transactions: data } = this.props;
-    const { transactions, isLoading } = data;
+    const { list: { entities } } = this.props;
 
     return <div className="page-content-inner">
       <section className="panel panel-with-borders">
@@ -81,39 +36,69 @@ class List extends Component {
 
         <div className="panel-body">
           <GridView
-            dataSource={transactions.content}
+            dataSource={entities.content}
             onFiltersChanged={this.handleFiltersChanged}
             onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
           >
             <GridColumn
               name="transactionId"
               header="Transaction ID"
+              headerStyle={{ width: '20%' }}
               render={(data, column) => <small>{data[column.name]}</small>}
             />
             <GridColumn
               name="playerUUID"
               header="Player UUID"
+              headerStyle={{ width: '20%' }}
               render={(data, column) => <small>{data[column.name]}</small>}
-              filter={(onFilterChange) => <PlayerUuidFilter onFilterChange={onFilterChange}/>}
+              filter={(onFilterChange) => <TextFilter
+                name="playerUUID"
+                onFilterChange={onFilterChange}
+              />}
             />
             <GridColumn
-              name="time"
+              name="transactionTime"
               header="Time"
               headerClassName="text-center"
+              headerStyle={{ width: '20%' }}
               render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
               filter={(onFilterChange) => <DateRangeFilter onFilterChange={onFilterChange}/>}
               filterClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="transactionName"
+              header="Payment type"
+              headerClassName="text-center"
+              headerStyle={{ width: '10%' }}
+              className="text-center"
+              filter={(onFilterChange) => <DropDownFilter
+                name="paymentType"
+                items={{
+                  '': 'All',
+                  PaymentCompleted: 'PaymentCompleted',
+                  PaymentFraudDetected: 'PaymentFraudDetected',
+                  WithdrawCompleted: 'WithdrawCompleted',
+                  WithdrawFailed: 'WithdrawFailed',
+                }}
+                onFilterChange={onFilterChange}
+              />}
             />
             <GridColumn
               name="paymentOption"
               header="Payment option"
               headerClassName="text-center"
-              filter={(onFilterChange) => <PaymentTypeFilter onFilterChange={onFilterChange}/>}
+              className="text-center"
             />
             <GridColumn
               name="amount"
               header="Amount"
+              headerClassName="text-center"
+              headerStyle={{ width: '10%' }}
               render={(data, column) => `$${data[column.name]}`}
+              className="text-center"
             />
           </GridView>
         </div>
@@ -122,9 +107,4 @@ class List extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ transactions: { ...state.transactionsList } });
-const mapActions = {
-  ...transactionsListActionCreators,
-};
-
-export default connect(mapStateToProps, mapActions)(List);
+export default List;

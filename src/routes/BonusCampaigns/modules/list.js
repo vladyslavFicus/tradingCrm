@@ -3,14 +3,10 @@ import { getTimestamp } from 'utils/helpers';
 import { createRequestTypes } from 'utils/redux';
 
 const KEY = 'bonus-campaigns';
-const ENTITIES_REQUEST = `${KEY}/entities-request`;
-const ENTITIES_SUCCESS = `${KEY}/entities-success`;
-const ENTITIES_FAILURE = `${KEY}/entities-failure`;
-
-const ENTITIES = createRequestTypes(`${KEY}/entities`);
+const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
 const CHANGE_CAMPAIGN_STATE = createRequestTypes(`${KEY}/change-campaign-state`);
 
-function loadEntities(filters = {}) {
+function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
     const { token, uuid } = getState().auth;
 
@@ -35,9 +31,9 @@ function loadEntities(filters = {}) {
       [WEB_API]: {
         method: 'GET',
         types: [
-          ENTITIES.REQUEST,
-          ENTITIES.SUCCESS,
-          ENTITIES.FAILURE,
+          FETCH_ENTITIES.REQUEST,
+          FETCH_ENTITIES.SUCCESS,
+          FETCH_ENTITIES.FAILURE,
         ],
         endpoint: `promotion/campaigns`,
         endpointParams,
@@ -66,24 +62,24 @@ function changeCampaignState(filters, state, id) {
         endpoint: `promotion/campaigns/${id}/${state}`,
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
-    }).then(() => dispatch(loadEntities(filters)));
+    }).then(() => dispatch(fetchEntities(filters)));
   };
 }
 
 const actionHandlers = {
-  [ENTITIES.REQUEST]: (state, action) => ({
+  [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
     filters: { ...state.filters, ...action.filters },
     isLoading: true,
     isFailed: false,
   }),
-  [ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
     entities: { ...action.response },
     isLoading: false,
     receivedAt: getTimestamp(),
   }),
-  [ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     isFailed: true,
@@ -115,12 +111,12 @@ function reducer(state = initialState, action) {
 }
 
 const actionTypes = {
-  ENTITIES,
+  FETCH_ENTITIES,
   CHANGE_CAMPAIGN_STATE,
 };
 
 const actionCreators = {
-  loadEntities,
+  fetchEntities,
   changeCampaignState,
 };
 

@@ -6,10 +6,10 @@ export default (store) => ({
     require.ensure([], (require) => {
       injectReducer(store, {
         key: 'transactionsList',
-        reducer: require('./modules/transactions-list').default,
+        reducer: require('./modules/list').default,
       });
 
-      cb(null, require('./components/List').default);
+      cb(null, require('./container/Transactions').default);
     }, 'transactions-list');
   },
 });

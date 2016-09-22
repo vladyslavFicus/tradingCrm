@@ -12,7 +12,7 @@ export default (store) => ({
       } else {
         injectReducer(store, {
           key: 'usersList',
-          reducer: require('./modules/users-list').default,
+          reducer: require('./modules/list').default,
         });
 
         cb(null, require('./container/Users').default);

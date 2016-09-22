@@ -1,66 +1,34 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
-import { Pagination } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { actionCreators as listActionCreators } from '../modules/list';
 import { Link } from 'react-router';
+import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
+import moment from 'moment';
 
 class List extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      filters: {
-        label: '',
-        state: '',
-        page: 0,
-      },
-    };
-
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handleStatusChange = this.handleStatusChange.bind(this);
-    this.onFiltersChanged = this.onFiltersChanged.bind(this);
+    this.handlePageChanged = this.handlePageChanged.bind(this);
+    this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
   }
 
-  setFilter(name, value) {
-    return this.setFilters({ [name]: value });
-  }
-
-  setFilters(filters) {
-    return this.setState({
-      filters: {
-        ...this.state.filters,
-        ...filters,
-      },
-    }, this.onFiltersChanged);
-  }
-
-  onFiltersChanged() {
-    this.props.fetchEntities(this.state.filters);
-  }
-
-  handleStatusChange(e) {
-    const target = e.target;
-
-    this.setFilter('state', target.value);
-  }
-
-  handleSelect(eventKey) {
-    this.setFilter('page', eventKey - 1);
-  }
-
-  componentWillMount() {
-    const { bonuses } = this.props;
-
-    if (!bonuses.isLoading) {
-      this.onFiltersChanged();
+  handlePageChanged(page, filters) {
+    if (!this.props.list.isLoading) {
+      this.props.fetchEntities({ ...filters, page: page - 1 });
     }
   }
 
+  handleFiltersChanged(filters) {
+    this.props.fetchEntities({ ...filters, page: 0 });
+  }
+
+  componentWillMount() {
+    this.handleFiltersChanged({});
+  }
+
   render() {
-    const { bonuses: data } = this.props;
-    const { entities, isLoading } = data;
+    const { list: { entities } } = this.props;
 
     return <div className="page-content-inner">
       <Panel withBorders>
@@ -77,40 +45,59 @@ class List extends Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-lg-12">
-              1321
-            </div>
-          </div>
-
-          {entities.totalPages > 1 && <div className="row">
-            <div className="col-lg-12">
-              <Pagination
-                prev
-                next
-                first
-                last
-                ellipsis
-                boundaryLinks
-                items={entities.totalPages}
-                maxButtons={5}
-                activePage={entities.number + 1}
-                onSelect={this.handleSelect}/>
-            </div>
-          </div>}
+          <GridView
+            dataSource={entities.content}
+            onFiltersChanged={this.handleFiltersChanged}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+          >
+            <GridColumn name="id" header="ID"/>
+            <GridColumn
+              name="label"
+              header="Name"
+              filter={(onFilterChange) => <TextFilter
+                name="label"
+                onFilterChange={onFilterChange}
+              />}
+            />
+            <GridColumn name="playerUUID" header="Player"/>
+            <GridColumn name="grantedAmount" header="Granted amount"/>
+            <GridColumn name="converted" header="Converted"/>
+            <GridColumn name="wagered" header="Wagered"/>
+            <GridColumn name="amountToWage" header="Amount to wage"/>
+            <GridColumn
+              name="state"
+              header="Status"
+              filter={(onFilterChange) => <DropDownFilter
+                name="state"
+                items={{
+                  '': 'All',
+                  INACTIVE: 'INACTIVE',
+                  IN_PROGRESS: 'IN_PROGRESS',
+                  WAGERING_COMPLETE: 'WAGERING_COMPLETE',
+                  CONSUMED: 'CONSUMED',
+                  CANCELLED: 'CANCELLED',
+                  EXPIRED: 'EXPIRED',
+                }}
+                onFilterChange={onFilterChange}
+              />}
+            />
+            <GridColumn
+              name="createdDate"
+              header="Created at"
+              headerClassName="text-center"
+              headerStyle={{ width: '20%' }}
+              render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
+              filter={(onFilterChange) => <DateRangeFilter onFilterChange={onFilterChange}/>}
+              filterClassName="text-center"
+              className="text-center"
+            />
+          </GridView>
         </Content>
       </Panel>
     </div>;
   }
 }
 
-const mapStateToProps = (state) => ({
-  bonuses: {
-    ...state.bonusesList,
-  },
-});
-const mapActions = {
-  ...listActionCreators,
-};
-
-export default connect(mapStateToProps, mapActions)(List);
+export default List;

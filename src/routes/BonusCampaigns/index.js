@@ -11,7 +11,7 @@ export default (store) => ({
         reducer: require('./modules/list').default,
       });
 
-      cb(null, require('./container/Campaigns').default);
+      cb(null, require('./layouts/Campaigns').default);
     }, 'bonus-campaigns-list');
   },
 

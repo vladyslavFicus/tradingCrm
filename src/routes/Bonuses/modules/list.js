@@ -3,7 +3,7 @@ import { getTimestamp } from 'utils/helpers';
 import { createRequestTypes } from 'utils/redux';
 
 const KEY = 'bonuses';
-const ENTITIES = createRequestTypes(`${KEY}/entities`);
+const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
@@ -14,21 +14,29 @@ function fetchEntities(filters = {}) {
     }
 
     const endpointParams = {
-      orderByPriority: true,
-      page: 0,
+      page: filters.page ? filters.page : 0,
     };
 
-    if (filters.page !== undefined) {
-      endpointParams.page = filters.page;
+    if (filters.label) {
+      endpointParams.label = filters.label;
+    }
+
+    if (filters.state) {
+      endpointParams.state = filters.state;
+    }
+
+    if (filters.startDate && filters.endDate) {
+      endpointParams.startDate = filters.startDate;
+      endpointParams.endDate = filters.endDate;
     }
 
     return dispatch({
       [WEB_API]: {
         method: 'GET',
         types: [
-          ENTITIES.REQUEST,
-          ENTITIES.SUCCESS,
-          ENTITIES.FAILURE,
+          FETCH_ENTITIES.REQUEST,
+          FETCH_ENTITIES.SUCCESS,
+          FETCH_ENTITIES.FAILURE,
         ],
         endpoint: `bonus/bonuses`,
         endpointParams,
@@ -39,19 +47,19 @@ function fetchEntities(filters = {}) {
 }
 
 const actionHandlers = {
-  [ENTITIES.REQUEST]: (state, action) => ({
+  [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
     filters: { ...state.filters, ...action.filters },
     isLoading: true,
     isFailed: false,
   }),
-  [ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
     entities: { ...action.response },
     isLoading: false,
     receivedAt: getTimestamp(),
   }),
-  [ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     isFailed: true,
@@ -83,7 +91,7 @@ function reducer(state = initialState, action) {
 }
 
 const actionTypes = {
-  ENTITIES,
+  FETCH_ENTITIES,
 };
 
 const actionCreators = {

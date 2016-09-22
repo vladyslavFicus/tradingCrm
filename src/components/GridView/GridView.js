@@ -21,22 +21,21 @@ class GridView extends Component {
     this.setFilters = this.setFilters.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
 
-    let grids = React.Children.toArray(this.props.children).filter((child) => {
-      return child.type.name === 'GridColumn';
-    });
-
     this.state = {
       filters: {},
-      headerColumns: this.recognizeHeaders(grids),
-      filterColumns: this.recognizeFilters(grids),
     };
   }
 
   recognizeHeaders(grids) {
     return grids.map(({ props }) => {
-      const config = { name: props.header };
+      const config = { children: props.header };
+
       if (props.headerClassName) {
         config.className = props.headerClassName;
+      }
+
+      if (props.headerStyle) {
+        config.style = props.headerStyle;
       }
 
       return config;
@@ -46,10 +45,14 @@ class GridView extends Component {
   recognizeFilters(grids) {
     return grids.map(({ props }) => {
       if (typeof props.filter === 'function') {
-        const config = { filter: props.filter(this.setFilters) };
+        const config = { children: props.filter(this.setFilters) };
 
         if (props.filterClassName) {
           config.className = props.filterClassName;
+        }
+
+        if (props.filterStyle) {
+          config.style = props.filterStyle;
         }
 
         return config;
@@ -73,19 +76,23 @@ class GridView extends Component {
   }
 
   handlePageChange(eventKey) {
-    this.props.onPageChange(eventKey);
+    this.props.onPageChange(eventKey, this.state.filters);
   }
 
   render() {
+    let grids = React.Children.toArray(this.props.children).filter((child) => {
+      return child.type.name === 'GridColumn';
+    });
+
     return <div className="row">
       <div className="col-md-12">
         <table className={classList.table}>
           <thead className={classList.thead}>
-          {this.renderHead()}
-          {this.renderFilters()}
+          {this.renderHead(this.recognizeHeaders(grids))}
+          {this.renderFilters(this.recognizeFilters(grids))}
           </thead>
           <tbody>
-          {this.renderBody()}
+          {this.renderBody(grids)}
           </tbody>
         </table>
 
@@ -94,33 +101,24 @@ class GridView extends Component {
     </div>;
   }
 
-  renderHead() {
-    const { headerColumns } = this.state;
-
+  renderHead(columns) {
     return <tr>
-      {headerColumns.map((item, key) => <th
-        className={item.className}
-        key={key}
-      >
-        {item.name}
-      </th>)}
+      {columns.map((item, key) => <th key={key} {...item}/>)}
     </tr>;
   }
 
-  renderFilters() {
-    const { filterColumns } = this.state;
-
+  renderFilters(columns) {
     return <tr>
-      {filterColumns.map((item, key) =>
-        item ?
-          <td className={item.className} key={key}>{item.filter}</td> :
+      {columns.map((item, key) =>
+        !!item ?
+          <td key={key} {...item}/> :
           <td key={key}/>
       )}
     </tr>;
   }
 
-  renderBody() {
-    const { dataSource, columns } = this.props;
+  renderBody(columns) {
+    const { dataSource } = this.props;
 
     return dataSource.map((data, key) => this.renderRow(key, columns, data));
   }
@@ -134,19 +132,19 @@ class GridView extends Component {
   renderColumn(key, column, data) {
     let content = null;
 
-    if (typeof column.value === 'function') {
-      content = column.value.call(null, data, column);
-    } else if (typeof column.name === 'string') {
-      content = data[column.name];
+    if (typeof column.props.render === 'function') {
+      content = column.props.render.call(null, data, column.props, this.state.filters);
+    } else if (typeof column.props.name === 'string') {
+      content = data[column.props.name];
     }
 
-    return <td key={key}>{content}</td>;
+    return <td className={column.props.className} key={key}>{content}</td>;
   }
 
   renderPagination() {
-    const { dataSource } = this.props;
+    const { activePage, totalPages } = this.props;
 
-    if (dataSource.totalPages < 1) {
+    if (totalPages < 1) {
       return null;
     }
 
@@ -159,9 +157,9 @@ class GridView extends Component {
           last
           ellipsis
           boundaryLinks
-          items={dataSource.totalPages}
+          items={totalPages}
           maxButtons={5}
-          activePage={dataSource.number + 1}
+          activePage={activePage}
           onSelect={this.handlePageChange}
         />
       </div>
@@ -173,6 +171,8 @@ GridView.propTypes = {
   onFiltersChanged: PropTypes.func,
   onPageChange: PropTypes.func,
   dataSource: PropTypes.array.isRequired,
+  activePage: PropTypes.number,
+  totalPages: PropTypes.number,
 };
 
 export default GridView;

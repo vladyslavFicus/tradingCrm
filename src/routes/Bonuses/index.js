@@ -11,7 +11,7 @@ export default (store) => ({
         reducer: require('./modules/list').default,
       });
 
-      cb(null, require('./container/Container').default);
+      cb(null, require('./layouts/Bonuses').default);
     }, 'bonuses-list');
   },
 
