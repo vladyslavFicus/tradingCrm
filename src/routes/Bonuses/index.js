@@ -3,16 +3,16 @@ import CreateRoute from './routes/Create';
 import UpdateRoute from './routes/Update';
 
 export default (store) => ({
-  path: '/bonus-campaigns',
+  path: '/bonuses',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, {
-        key: 'bonusCampaignsList',
+        key: 'bonusesList',
         reducer: require('./modules/list').default,
       });
 
-      cb(null, require('./layouts/Campaigns').default);
-    }, 'bonus-campaigns-list');
+      cb(null, require('./layouts/Bonuses').default);
+    }, 'bonuses-list');
   },
 
   childRoutes: [

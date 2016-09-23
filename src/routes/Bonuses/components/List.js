@@ -3,6 +3,7 @@ import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import { Link } from 'react-router';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
+import moment from 'moment';
 
 class List extends Component {
   constructor(props) {
@@ -10,7 +11,6 @@ class List extends Component {
 
     this.handlePageChanged = this.handlePageChanged.bind(this);
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
-    this.renderActions = this.renderActions.bind(this);
   }
 
   handlePageChanged(page, filters = {}) {
@@ -27,24 +27,24 @@ class List extends Component {
     this.handleFiltersChanged();
   }
 
-  renderActions(data, column, filters) {
-    return <div>
-      <Link to={`/users/${data.uuid}/profile`} title={'View user profile'}>
-        <i className="fa fa-search"/>
-      </Link>
-    </div>;
-  }
-
   render() {
     const { list: { entities } } = this.props;
 
     return <div className="page-content-inner">
       <Panel withBorders>
         <Title>
-          <h3>Users</h3>
+          <h3>Bonuses</h3>
         </Title>
 
         <Content>
+          <div className="row margin-bottom-15">
+            <div className="col-lg-12">
+              <div className="text-right">
+                <Link to={'/bonuses/create'} className="btn btn-primary">Create bonus</Link>
+              </div>
+            </div>
+          </div>
+
           <GridView
             dataSource={entities.content}
             onFiltersChanged={this.handleFiltersChanged}
@@ -52,60 +52,77 @@ class List extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
           >
+            <GridColumn name="id" header="ID"/>
             <GridColumn
-              name="id"
-              header="#"
-              headerClassName="text-center"
-              className="text-center"
-            />
-            <GridColumn
-              name="username"
-              header="Username"
+              name="label"
+              header="Name"
               headerClassName="text-center"
               filter={(onFilterChange) => <TextFilter
-                name="username"
+                name="label"
                 onFilterChange={onFilterChange}
               />}
+              filterClassName="text-center"
               className="text-center"
             />
             <GridColumn
-              name="email"
-              header="Email"
+              name="playerUUID"
+              header="Player"
               headerClassName="text-center"
-              filter={(onFilterChange) => <TextFilter
-                name="email"
-                onFilterChange={onFilterChange}
-              />}
               className="text-center"
             />
             <GridColumn
-              name="currency"
-              header="Currency"
+              name="grantedAmount"
+              header="Granted amount"
+              headerClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="capping"
+              header="Capping"
+              headerClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="prize"
+              header="Prize"
+              headerClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="amountToWage"
+              header="Amount to wage"
+              headerClassName="text-center"
+              className="text-center"
+            />
+            <GridColumn
+              name="state"
+              header="Status"
               headerClassName="text-center"
               filter={(onFilterChange) => <DropDownFilter
-                name="currency"
+                name="state"
                 items={{
                   '': 'All',
-                  USD: 'USD',
-                  EUR: 'EUR',
-                  UAH: 'UAH',
+                  INACTIVE: 'INACTIVE',
+                  IN_PROGRESS: 'IN_PROGRESS',
+                  WAGERING_COMPLETE: 'WAGERING_COMPLETE',
+                  CONSUMED: 'CONSUMED',
+                  CANCELLED: 'CANCELLED',
+                  EXPIRED: 'EXPIRED',
                 }}
                 onFilterChange={onFilterChange}
               />}
+              filterClassName="text-center"
               className="text-center"
             />
             <GridColumn
-              name="uuid"
-              header="UUID"
+              name="createdDate"
+              header="Created at"
               headerClassName="text-center"
+              headerStyle={{ width: '20%' }}
+              render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
+              filter={(onFilterChange) => <DateRangeFilter onFilterChange={onFilterChange}/>}
+              filterClassName="text-center"
               className="text-center"
-            />
-            <GridColumn
-              name="actions"
-              header="Actions"
-              headerClassName="text-center"
-              className="text-center"
-              render={this.renderActions}
             />
           </GridView>
         </Content>

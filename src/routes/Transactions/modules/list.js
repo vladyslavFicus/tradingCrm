@@ -1,12 +1,11 @@
 import { WEB_API } from 'constants/index';
 import { getTimestamp } from 'utils/helpers';
+import { createRequestTypes } from 'utils/redux';
 
 const KEY = 'transactions';
-const TRANSACTIONS_REQUEST = `${KEY}/transactions-request`;
-const TRANSACTIONS_SUCCESS = `${KEY}/transactions-success`;
-const TRANSACTIONS_FAILURE = `${KEY}/transactions-failure`;
+const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
 
-function loadTransactions(page = 0, filters = {}) {
+function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
     const { token, uuid } = getState().auth;
 
@@ -14,7 +13,8 @@ function loadTransactions(page = 0, filters = {}) {
       return { type: false };
     }
 
-    const endpointParams = { page };
+    const endpointParams = { page: filters.page ? filters.page : 0 };
+
     if (filters.playerUUID) {
       endpointParams.playerUUID = filters.playerUUID;
     }
@@ -31,30 +31,30 @@ function loadTransactions(page = 0, filters = {}) {
     return dispatch({
       [WEB_API]: {
         method: 'GET',
-        types: [TRANSACTIONS_REQUEST, TRANSACTIONS_SUCCESS, TRANSACTIONS_FAILURE],
+        types: [FETCH_ENTITIES.REQUEST, FETCH_ENTITIES.SUCCESS, FETCH_ENTITIES.FAILURE],
         endpoint: `payment/transactions`,
         endpointParams,
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
-      page,
+      page: endpointParams.page,
     });
   };
 }
 
 const actionHandlers = {
-  [TRANSACTIONS_REQUEST]: (state, action) => ({
+  [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
     filters: { ...state.filters, ...action.filters },
     isLoading: true,
     isFailed: false,
   }),
-  [TRANSACTIONS_SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
-    transactions: { ...action.response },
+    entities: { ...action.response },
     isLoading: false,
     receivedAt: getTimestamp(),
   }),
-  [TRANSACTIONS_FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     isFailed: true,
@@ -63,7 +63,7 @@ const actionHandlers = {
 };
 
 const initialState = {
-  transactions: {
+  entities: {
     first: null,
     last: null,
     number: null,
@@ -86,13 +86,11 @@ function reducer(state = initialState, action) {
 }
 
 const actionTypes = {
-  TRANSACTIONS_REQUEST,
-  TRANSACTIONS_SUCCESS,
-  TRANSACTIONS_FAILURE,
+  FETCH_ENTITIES,
 };
 
 const actionCreators = {
-  loadTransactions,
+  fetchEntities,
 };
 
 export {

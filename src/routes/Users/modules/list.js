@@ -1,13 +1,11 @@
 import { WEB_API } from 'constants/index';
 import { getTimestamp } from 'utils/helpers';
+import { createRequestTypes } from 'utils/redux';
 
-const KEY = 'users-list';
+const KEY = 'users';
+const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
 
-const USERS_REQUEST = `${KEY}/request`;
-const USERS_SUCCESS = `${KEY}/success`;
-const USERS_FAILURE = `${KEY}/failure`;
-
-function loadItems(page = 0, filters = {}) {
+function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
     const { token, uuid } = getState().auth;
 
@@ -23,36 +21,39 @@ function loadItems(page = 0, filters = {}) {
       return result;
     }, {});
 
-    const endpointParams = { page, ...filters };
+    const endpointParams = { page: 0, ...filters };
 
     return dispatch({
       [WEB_API]: {
         method: 'GET',
-        types: [USERS_REQUEST, USERS_SUCCESS, USERS_FAILURE],
+        types: [
+          FETCH_ENTITIES.REQUEST,
+          FETCH_ENTITIES.SUCCESS,
+          FETCH_ENTITIES.FAILURE,
+        ],
         endpoint: 'profile/profiles',
         endpointParams,
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
-      page,
       filters,
     });
   };
 }
 
 const handlers = {
-  [USERS_REQUEST]: (state, action) => ({
+  [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
     filters: { ...state.filters, ...action.filters },
     isLoading: true,
     isFailed: false,
   }),
-  [USERS_SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
-    users: { ...action.response, },
+    entities: { ...action.response, },
     isLoading: false,
     receivedAt: getTimestamp(),
   }),
-  [USERS_FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state, isLoading: false,
     isFailed: true,
     receivedAt: getTimestamp(),
@@ -60,7 +61,7 @@ const handlers = {
 };
 
 const initialState = {
-  users: {
+  entities: {
     first: null,
     last: null,
     number: null,
@@ -83,13 +84,11 @@ function reducer(state = initialState, action) {
 }
 
 const actionTypes = {
-  USERS_REQUEST,
-  USERS_SUCCESS,
-  USERS_FAILURE,
+  FETCH_ENTITIES,
 };
 
 const actionCreators = {
-  loadItems,
+  fetchEntities,
 };
 
 export { actionCreators, actionTypes };

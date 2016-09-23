@@ -2,9 +2,8 @@ import { WEB_API } from 'constants/index';
 import { getTimestamp } from 'utils/helpers';
 import { createRequestTypes } from 'utils/redux';
 
-const KEY = 'bonus-campaigns';
+const KEY = 'bonuses';
 const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
-const CHANGE_CAMPAIGN_STATE = createRequestTypes(`${KEY}/change-campaign-state`);
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
@@ -15,16 +14,20 @@ function fetchEntities(filters = {}) {
     }
 
     const endpointParams = {
-      orderByPriority: true,
-      page: 0,
+      page: filters.page ? filters.page : 0,
     };
 
-    if (filters.page !== undefined) {
-      endpointParams.page = filters.page;
+    if (filters.label) {
+      endpointParams.label = filters.label;
     }
 
     if (filters.state) {
       endpointParams.state = filters.state;
+    }
+
+    if (filters.startDate && filters.endDate) {
+      endpointParams.startDate = filters.startDate;
+      endpointParams.endDate = filters.endDate;
     }
 
     return dispatch({
@@ -35,34 +38,11 @@ function fetchEntities(filters = {}) {
           FETCH_ENTITIES.SUCCESS,
           FETCH_ENTITIES.FAILURE,
         ],
-        endpoint: `promotion/campaigns`,
+        endpoint: `bonus/bonuses`,
         endpointParams,
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
     });
-  };
-}
-
-function changeCampaignState(filters, state, id) {
-  return (dispatch, getState) => {
-    const { token, uuid } = getState().auth;
-
-    if (!token || !uuid) {
-      return { type: false };
-    }
-
-    return dispatch({
-      [WEB_API]: {
-        method: 'POST',
-        types: [
-          CHANGE_CAMPAIGN_STATE.REQUEST,
-          CHANGE_CAMPAIGN_STATE.SUCCESS,
-          CHANGE_CAMPAIGN_STATE.FAILURE,
-        ],
-        endpoint: `promotion/campaigns/${id}/${state}`,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      },
-    }).then(() => dispatch(fetchEntities(filters)));
   };
 }
 
@@ -112,12 +92,10 @@ function reducer(state = initialState, action) {
 
 const actionTypes = {
   FETCH_ENTITIES,
-  CHANGE_CAMPAIGN_STATE,
 };
 
 const actionCreators = {
   fetchEntities,
-  changeCampaignState,
 };
 
 export {

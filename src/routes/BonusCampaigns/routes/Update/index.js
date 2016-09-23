@@ -14,15 +14,14 @@ export default (store) => ({
         store.dispatch(actionCreators.fetchCampaign(nextState.params.id))
           .then((action) => {
             if (actionTypes.FETCH_CAMPAIGN.SUCCESS === action.type) {
-              cb(null, { content: require('./container/Container').default });
+              cb(null, require('./container/Container').default);
             } else {
-              cb(null, { content: require('routes/NotFound/container/Container').default });
+              cb(null, require('routes/NotFound/container/Container').default);
             }
           });
       } else {
-        cb(null, { content: require('routes/NotFound/container/Container').default });
+        cb(null, require('routes/NotFound/container/Container').default);
       }
     }, 'bonus-campaigns-update');
   },
-})
-;
+});
