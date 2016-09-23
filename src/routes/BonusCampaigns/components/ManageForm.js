@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import classNames from 'classnames';
 import RemoteDateRangePickerWrapper from 'components/Forms/RemoteDateRangePickerWrapper';
-import { CustomValueField, SelectField } from 'components/ReduxForm';
-import { renderField, renderError, formErrorSelector } from 'utils/redux-form';
+import { CustomValueField, SelectField, InputField } from 'components/ReduxForm';
+import { formErrorSelector } from 'utils/redux-form';
 import { stopEvent } from 'utils/helpers';
 import { createValidator } from 'utils/validator';
 import { priorityMoneyTypeUsage, eventsTypes, customValueFieldTypesLabels } from 'constants/form';
@@ -32,6 +32,7 @@ const attributeLabels = {
   wagerWinMultiplier: 'Multiplier',
   eventsTypes: 'Events types',
   priorityMoneyTypeUsage: 'Money usage',
+  optIn: 'Opt-In',
 };
 
 const validator = createValidator({
@@ -108,14 +109,14 @@ class ManageForm extends Component {
         label={attributeLabels.campaignName}
         type="text"
         disabled={disabled}
-        component={renderField}
+        component={InputField}
       />
       <Field
         name="bonusLifetime"
         label={attributeLabels.bonusLifetime}
         type="text"
         disabled={disabled}
-        component={renderField}
+        component={InputField}
       />
       <CustomValueField
         basename={'campaignRatio'}
@@ -129,7 +130,7 @@ class ManageForm extends Component {
         label={attributeLabels.bonusAmount}
         type="text"
         disabled={disabled}
-        component={renderField}
+        component={InputField}
       />
       <CustomValueField
         basename={'capping'}
@@ -150,7 +151,7 @@ class ManageForm extends Component {
         label={attributeLabels.wagerWinMultiplier}
         type="text"
         disabled={disabled}
-        component={renderField}
+        component={InputField}
       />
       <Field
         name="eventsType"
@@ -168,10 +169,14 @@ class ManageForm extends Component {
         name="priorityMoneyTypeUsage"
         label={attributeLabels.priorityMoneyTypeUsage}
         type="select"
-        values={{ '': '-- Choose --', ...priorityMoneyTypeUsage }}
         disabled={disabled}
-        component={renderField}
-      />
+        component={SelectField}
+      >
+        <option value="" disabled>-- Choose --</option>
+        {Object.keys(priorityMoneyTypeUsage).map((key) => (
+          <option key={key} value={key}>{priorityMoneyTypeUsage[key]}</option>
+        ))}
+      </Field>
 
       <div className={classNames('form-group row', { 'has-danger': errors.startDate || errors.endDate })}>
         <div className="col-md-3">
@@ -207,7 +212,7 @@ class ManageForm extends Component {
                 type="checkbox"
                 component="input"
                 disabled={disabled}
-              /> Opt-In
+              /> {attributeLabels.optIn}
             </label>
           </div>
         </div>
