@@ -48,6 +48,13 @@ export default class Create extends Component {
   }
 
   render() {
+    const { params } = this.props;
+    const initialValues = { state: 'INACTIVE' };
+
+    if (params.uuid) {
+      initialValues.playerUUID = params.uuid;
+    }
+
     return <div className="page-content-inner">
       <Panel>
         <Title>
@@ -61,7 +68,7 @@ export default class Create extends Component {
                   asyncValidate={this.handleAsyncValidate}
                   asyncBlurFields={['playerUUID']}
                   onSubmit={this.handleSubmit}
-                  initialValues={{ state: 'INACTIVE' }}
+                  initialValues={initialValues}
                 />
               </div>
             </div>
