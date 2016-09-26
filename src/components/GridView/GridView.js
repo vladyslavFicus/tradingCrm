@@ -144,7 +144,7 @@ class GridView extends Component {
   renderPagination() {
     const { activePage, totalPages } = this.props;
 
-    if (totalPages < 1) {
+    if (totalPages < 2) {
       return null;
     }
 
@@ -161,6 +161,7 @@ class GridView extends Component {
           maxButtons={5}
           activePage={activePage}
           onSelect={this.handlePageChange}
+          className="b3-pagination"
         />
       </div>
     </div>;

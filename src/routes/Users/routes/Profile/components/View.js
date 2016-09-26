@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import classNames from 'classnames';
 import PaymentOperationState from './PaymentOperationState';
 
@@ -87,6 +88,14 @@ class View extends Component {
         onLock={this.handleLock.bind(this, 'withdraw')}
         onUnlock={this.handleUnlock.bind(this, 'withdraw')}
       />
+
+      <div className="form-group row">
+        <div className="col-sm-10 col-sm-offset-1">
+          <Link className="btn btn-primary" to={`/bonuses/create/${this.props.params.id}`}>
+            Create bonus for user
+          </Link>
+        </div>
+      </div>
     </div>;
   }
 }
