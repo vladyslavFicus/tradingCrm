@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 class Logout extends Component {
   componentDidMount() {
     this.props.logout()
-      .then(() => this.props.router.replace('/'));
+      .then(() => this.props.router.replace('/sign-in'));
   }
 
   render() {

@@ -1,30 +1,42 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
+import DropDownWrapper from 'components/Bootstrap/DropDownWrapper';
+import { DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Link } from 'react-router';
 
-const TopMenu = (props) => (
-  <nav className="top-menu">
-    <div className="menu-icon-container hidden-md-up">
-      <div className="animate-menu-button left-menu-toggle">
-        <div/>
-      </div>
-    </div>
-    <div className="menu">
-      <div className="menu-user-block">
-        <div className="dropdown dropdown-avatar">
-          <a href="#" className="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            <i className="fa fa-user-secret fa-3x"/>
-          </a>
-          <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="" role="menu">
-            <a className="dropdown-item" href="#">
-              <i className="dropdown-icon icmn-user"/>Profile
-            </a>
-            <a className="dropdown-item" href="#">
-              <i className="dropdown-icon icmn-exit"/>Logout
-            </a>
-          </ul>
+class TopMenu extends Component {
+  render() {
+    return <nav className="top-menu">
+      <div className="menu-icon-container hidden-md-up">
+        <div className="animate-menu-button left-menu-toggle">
+          <div/>
         </div>
       </div>
-    </div>
-  </nav>
-);
+      <div className="menu">
+        <div className="menu-user-block">
+          <DropDownWrapper className="dropdown-avatar">
+            <DropdownToggle caret tag="a">
+              <i className="fa fa-user-secret fa-3x"/>
+            </DropdownToggle>
+            <DropdownMenu className="dropdown-menu-right">
+              <DropdownItem>
+                <Link to={`/users/${this.context.user.uuid}/profile`}>Profile</Link>
+              </DropdownItem>
+              <DropdownItem>
+                <Link to={'/logout'}>Logout</Link>
+              </DropdownItem>
+            </DropdownMenu>
+          </DropDownWrapper>
+        </div>
+      </div>
+    </nav>;
+  }
+}
+
+TopMenu.contextTypes = {
+  user: PropTypes.shape({
+    token: PropTypes.string,
+    uuid: PropTypes.string,
+  }).isRequired,
+};
 
 export default TopMenu;

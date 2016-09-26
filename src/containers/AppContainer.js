@@ -10,7 +10,7 @@ class AppContainer extends Component {
   };
 
   render() {
-    const { history, routes, store } = this.props
+    const { history, routes, store } = this.props;
 
     return (
       <Provider store={store}>
