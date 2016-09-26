@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import GridColumn from './GridColumn';
 import { Pagination } from 'react-bootstrap';
 import classNames from 'classnames';
 
@@ -81,7 +82,7 @@ class GridView extends Component {
 
   render() {
     let grids = React.Children.toArray(this.props.children).filter((child) => {
-      return child.type.name === 'GridColumn';
+      return child.type === GridColumn;
     });
 
     return <div className="row">
