@@ -36,7 +36,7 @@ const validator = createValidator({
   expirationDate: 'required',
   prize: 'required_if:capping|numeric|min:0',
   capping: 'numeric|required_if:prize|min:0',
-  optIn: 'required|boolean',
+  optIn: 'boolean',
   converted: 'required',
   wagered: 'required',
 }, attributeLabels, false);
