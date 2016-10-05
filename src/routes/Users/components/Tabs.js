@@ -4,8 +4,8 @@ import { Link } from 'react-router';
 
 const tabItems = {
   profile: { label: 'Profile', route: '/users/:id/profile' },
-  transactions: { label: 'Transactions', route: '/users/:id/transactions' }, /*
-   'balance': { label: 'Deposit/withdraw', component: Tabs.Balance },*/
+  transactions: { label: 'Transactions', route: '/users/:id/transactions' },
+  bonuses: { label: 'Bonuses', route: '/users/:id/bonuses' },
 };
 
 const Tabs = ({ activeTabName }) => (props) => <ul className="nav nav-tabs" role="tablist">
@@ -15,8 +15,12 @@ const Tabs = ({ activeTabName }) => (props) => <ul className="nav nav-tabs" role
     return <li
       key={name}
       className={classNames('nav-item')}>
-      {activeTabName === name ? <a className="nav-link active" href="javascript:void(0)">{item.label}</a> :
-        <Link className={'nav-link'} to={item.route.replace(/:id/, props.params.id)}>{item.label}</Link>}
+      <Link
+        className={classNames(['nav-link', { active: activeTabName === name }])}
+        to={item.route.replace(/:id/, props.params.id)}
+      >
+        {item.label}
+      </Link>
     </li>;
   })}
 </ul>;

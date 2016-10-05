@@ -23,7 +23,7 @@ class GridView extends Component {
     this.handlePageChange = this.handlePageChange.bind(this);
 
     this.state = {
-      filters: {},
+      filters: props.defaultFilters || {},
     };
   }
 
@@ -169,9 +169,14 @@ class GridView extends Component {
   }
 }
 
+GridView.defaultProps = {
+  defaultFilters: {},
+};
+
 GridView.propTypes = {
   onFiltersChanged: PropTypes.func,
   onPageChange: PropTypes.func,
+  defaultFilters: PropTypes.object,
   dataSource: PropTypes.array.isRequired,
   activePage: PropTypes.number,
   totalPages: PropTypes.number,

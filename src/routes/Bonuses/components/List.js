@@ -68,6 +68,11 @@ class List extends Component {
               name="playerUUID"
               header="Player"
               headerClassName="text-center"
+              filter={(onFilterChange) => <TextFilter
+                name="playerUUID"
+                onFilterChange={onFilterChange}
+              />}
+              filterClassName="text-center"
               className="text-center"
             />
             <GridColumn

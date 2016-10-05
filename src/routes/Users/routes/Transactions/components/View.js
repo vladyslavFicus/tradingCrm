@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { stopEvent, localDateToString } from 'utils/helpers';
 import { Pagination } from 'react-bootstrap';
 import DateRangePicker from 'components/Forms/DateRangePickerWrapper';
 import moment from 'moment';
