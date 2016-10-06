@@ -8,45 +8,65 @@ class List extends Component {
   constructor(props) {
     super(props);
 
+    this.handleRefresh = this.handleRefresh.bind(this);
     this.handlePageChanged = this.handlePageChanged.bind(this);
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
+
+    this.handleAcceptBonus = this.handleAcceptBonus.bind(this);
+    this.handleCancelBonus = this.handleCancelBonus.bind(this);
+
+    this.renderActions = this.renderActions.bind(this);
+
+    this.state = {
+      filters: {
+        playerUUID: props.params.id,
+      },
+      page: 0,
+    };
   }
 
-  handlePageChanged(page, filters = {}) {
-    if (!this.props.list.isLoading) {
-      this.props.fetchEntities({ ...filters, page: page - 1 });
-    }
+  handlePageChanged(page) {
+    this.setState({ page: page - 1 }, () => this.handleRefresh());
   }
 
   handleFiltersChanged(filters = {}) {
-    this.props.fetchEntities({ ...filters, page: 0 });
+    this.setState({ filters, page: 0 }, () => this.handleRefresh());
+  }
+
+  handleRefresh() {
+    return this.props.fetchEntities({ ...this.state.filters, page: this.state.page });
+  }
+
+  handleAcceptBonus(id) {
+    this.props.acceptBonus(id)
+      .then(() => this.handleRefresh());
+  }
+
+  handleCancelBonus(id) {
+    this.props.cancelBonus(id, this.props.params.id)
+      .then(() => this.handleRefresh());
+  }
+
+  componentWillMount() {
+    this.handleRefresh();
   }
 
   renderActions(data, column, filters) {
+    const { userBonus }  = this.props;
+
     return <div className="btn-group btn-group-sm">
-      {data.state === 'INACTIVE' && <a
-        className="btn btn-sm btn-success btn-secondary"
-        onClick={() => this.props.changeCampaignState(filters, 'activate', data.id)}
-        title="Accept bonus"
-      >
-        <i className="fa fa-check"/>
-      </a>}
-      {data.state !== 'COMPLETED' && <a
+      {['COMPLETED', 'CANCELLED', 'EXPIRED'].indexOf(data.state) === -1 && <a
         className="btn btn-sm btn-danger btn-secondary"
-        onClick={() => this.props.changeCampaignState(filters, 'complete', data.id)}
-        title="Complete campaign"
+        onClick={() => this.handleCancelBonus(data.id)}
+        title="Cancel bonus"
       >
         <i className="fa fa-times"/>
       </a>}
     </div>;
   }
 
-  componentWillMount() {
-    this.handleFiltersChanged({ playerUUID: this.props.params.id });
-  }
-
   render() {
-    const { list: { entities }, params } = this.props;
+    const { list: { entities } } = this.props;
 
     return <div className={'tab-pane fade in active'}>
       <GridView
@@ -55,9 +75,7 @@ class List extends Component {
         onPageChange={this.handlePageChanged}
         activePage={entities.number + 1}
         totalPages={entities.totalPages}
-        defaultFilters={{
-          playerUUID: params.id,
-        }}
+        defaultFilters={this.state.filters}
       >
         <GridColumn name="id" header="ID"/>
         <GridColumn

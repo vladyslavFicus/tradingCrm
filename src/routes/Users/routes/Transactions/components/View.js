@@ -104,7 +104,7 @@ class View extends Component {
         </tr>
         </thead>
         <tbody>
-        {transactions.content.map((item) => <tr key={item.transactionId}>
+        {transactions.content.map((item) => <tr key={item.id}>
           <td>
             <small>{item.transactionId}</small>
           </td>
