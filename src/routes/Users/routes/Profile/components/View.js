@@ -10,6 +10,7 @@ class View extends Component {
     super(props);
 
     this.hasAccessByUuid = this.hasAccessByUuid.bind(this);
+    this.handleCancelBonus = this.handleCancelBonus.bind(this);
   }
 
   componentWillMount() {
@@ -18,6 +19,11 @@ class View extends Component {
     if ((!profile.receivedAt || params.id !== profile.data.uiid) && !profile.isLoading) {
       loadFullProfile(params.id);
     }
+  }
+
+  handleCancelBonus(id) {
+    this.props.cancelBonus(id, this.props.params.id)
+      .then(() => this.props.fetchActiveBonus(this.props.params.id));
   }
 
   handleLock(operation, reason) {
@@ -41,7 +47,7 @@ class View extends Component {
   }
 
   render() {
-    const { profile, deposit, withdraw } = this.props;
+    const { profile, deposit, withdraw, bonus, } = this.props;
 
     return <div id={`tab-${config.tabName}`} className={classNames('tab-pane fade in active')}>
       <div className="form-group row">
@@ -72,6 +78,20 @@ class View extends Component {
             parseFloat(profile.data.balance).toFixed(2) : 0.00} {profile.data.currency}
         </div>
       </div>
+
+      {!!bonus.data && <div className="form-group row">
+        <label className="col-sm-1 col-form-label text-right">Bonus</label>
+        <div className="col-sm-5">
+          {bonus.data.label}, Converted: {bonus.data.converted || '0.00'}, Wagered: {bonus.data.wagered || '0.00'}&nbsp;
+          <button
+            className="btn btn-xs btn-danger"
+            onClick={() => {
+              this.handleCancelBonus(bonus.data.id);
+            }}
+          ><i className="fa fa-times"/>
+          </button>
+        </div>
+      </div>}
 
       <PaymentOperationState
         name={'Deposit lock'}

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { actionCreators as profileViewActionCreators } from '../modules/view';
+import { actionCreators as bonusActionCreators } from '../modules/bonus';
 
 class Users extends Component {
   componentWillMount() {
-    const { profile, loadFullProfile, params } = this.props;
+    const { profile, loadFullProfile, fetchActiveBonus, params } = this.props;
 
     if (!profile.isLoading) {
-      loadFullProfile(params.id);
+      loadFullProfile(params.id)
+        .then(() => fetchActiveBonus(params.id));
     }
   }
 
@@ -48,9 +50,11 @@ class Users extends Component {
 }
 const mapStateToProps = (state) => ({
   ...state.userProfile,
+  bonus: { ...state.userBonus },
 });
 const mapActions = {
   ...profileViewActionCreators,
+  ...bonusActionCreators,
 };
 
 export default connect(mapStateToProps, mapActions)(Users);
