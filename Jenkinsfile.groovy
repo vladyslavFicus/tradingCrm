@@ -12,5 +12,5 @@ node {
     sh './gradlew dockerBuild dockerTag dockerPush -PdockerUrl=http://172.17.0.1:2376'
 
     stage 'Deploy'
-    build job: 'NAS QA Deploy', wait: false, parameters: [string(name: 'service', value: 'manager')]
+    build job: 'casino-qa-deploy', wait: false, parameters: [string(name: 'service', value: 'manager')]
 }
