@@ -5,6 +5,7 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
  */
 import SignInRoute from './SignIn';
 import DashboardRoute from './Dashboard';
+import KYCRoute from './KYC';
 import UsersRoute from './Users';
 import TransactionsRoute from './Transactions';
 import BonusCampaignsRoute from './BonusCampaigns';
@@ -31,6 +32,7 @@ export const createRoutes = (store) => ({
       onEnter: requireAuth(store),
       component: AuthenticatedLayout,
       childRoutes: [
+        KYCRoute(store),
         DashboardRoute(store),
         UsersRoute(store),
         TransactionsRoute(store),

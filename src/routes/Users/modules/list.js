@@ -91,6 +91,6 @@ const actionCreators = {
   fetchEntities,
 };
 
-export { actionCreators, actionTypes };
+export { actionCreators, actionTypes, initialState };
 
 export default reducer;
