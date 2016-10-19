@@ -2,9 +2,25 @@ import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
-import AbstractProfileGrid from 'components/GridView/HighOrderComponents/AbstractProfileGrid';
+import GridWrapper from 'components/GridWrapper/PagenableFilterable';
+import { Link } from 'react-router';
 
 class List extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.renderActions = this.renderActions.bind(this);
+  }
+
+  renderActions(data) {
+    return <div>
+      <Link to={`/users/${data.uuid}/profile`} title={'View user profile'}>
+        <i className="fa fa-gear"/>
+      </Link>
+    </div>;
+  }
+
   render() {
     const { list: { entities } } = this.props;
 
@@ -78,7 +94,7 @@ class List extends Component {
                 header="Actions"
                 headerClassName="text-center"
                 className="text-center"
-                render={this.props.renderActions}
+                render={this.renderActions}
               />
             </GridView>
           </Content>
@@ -89,4 +105,4 @@ class List extends Component {
 
 }
 
-export default AbstractProfileGrid(List);
+export default GridWrapper(List);

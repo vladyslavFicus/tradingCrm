@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 
 export default (CustomComponent) => class AbstractProfileGridComponent extends Component {
 
@@ -8,7 +7,6 @@ export default (CustomComponent) => class AbstractProfileGridComponent extends C
 
     this.handlePageChanged = this.handlePageChanged.bind(this);
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
-    this.renderActions = this.renderActions.bind(this);
   }
 
   handlePageChanged(page, filters = {}) {
@@ -25,20 +23,11 @@ export default (CustomComponent) => class AbstractProfileGridComponent extends C
     this.handleFiltersChanged();
   }
 
-  renderActions(data) {
-    return <div>
-      <Link to={`/users/${data.uuid}/profile`} title={'View user profile'}>
-        <i className="fa fa-gear"/>
-      </Link>
-    </div>;
-  }
-
   render() {
     return <CustomComponent
       {...this.props}
       handlePageChanged={ this.handlePageChanged }
       handleFiltersChanged={ this.handleFiltersChanged }
-      renderActions={ this.renderActions }
     />;
   }
 };

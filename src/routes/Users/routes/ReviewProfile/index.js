@@ -1,7 +1,7 @@
 import { injectReducer } from 'store/reducers';
 
 export default store => ({
-  path: '/kyc/in-review-profiles',
+  path: '/users/review',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, {

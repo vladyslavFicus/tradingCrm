@@ -1,7 +1,10 @@
 import { WEB_API } from 'constants/index';
 import { getTimestamp } from 'utils/helpers';
 import { createRequestTypes } from 'utils/redux';
-import { actionCreators as usersActionCreators, initialState } from '../../../../Users/modules/list';
+import {
+  actionCreators as usersActionCreators,
+  initialState
+} from 'routes/Users/modules/list';
 
 const KEY = 'users';
 const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
