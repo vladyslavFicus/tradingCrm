@@ -6,7 +6,6 @@ import GridWrapper from 'components/GridWrapper/PagenableFilterable';
 import { Link } from 'react-router';
 
 class List extends Component {
-
   constructor(props) {
     super(props);
 
