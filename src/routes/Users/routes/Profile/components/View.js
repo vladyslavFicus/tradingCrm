@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 import PaymentOperationState from './PaymentOperationState';
+import ApprovalState from './ApprovalState';
 
 const config = { tabName: 'profile' };
 
@@ -116,6 +117,16 @@ class View extends Component {
           </Link>
         </div>
       </div>
+
+      <ApprovalState
+        profileData={{
+          userId: profile.data.id,
+          uuid: profile.data.uuid,
+          state: profile.data.state,
+        }}
+        onApproval={ this.props.approvalProfile }
+      />
+
     </div>;
   }
 }
