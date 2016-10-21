@@ -124,7 +124,8 @@ class View extends Component {
           uuid: profile.data.uuid,
           state: profile.data.state,
         }}
-        onApproval={ this.props.approvalProfile }
+        onApprove={ this.props.approveProfile }
+        onReject={ this.props.rejectProfile }
       />
 
     </div>;

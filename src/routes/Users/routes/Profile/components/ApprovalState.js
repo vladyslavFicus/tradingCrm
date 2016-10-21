@@ -26,11 +26,11 @@ class ApprovalState extends Component {
   }
 
   handleApprovalClick(type) {
-    const { onApproval, profileData: { userId, uuid } } = this.props;
+    const { approveProfile, rejectProfile, profileData: { userId, uuid } } = this.props;
     if (type === APPROVAL_TYPE_APPROVE) {
-      onApproval(userId, uuid);
+      approveProfile(userId, uuid);
     } else if (type === APPROVAL_TYPE_REJECT) {
-      onApproval(userId, uuid, this.state.reasonMessage);
+      rejectProfile(userId, uuid, this.state.reasonMessage);
     }
   }
 
@@ -93,7 +93,8 @@ export default ApprovalState;
 
 ApprovalState.propTypes = {
   profileData: PropTypes.object.isRequired,
-  onApproval: PropTypes.func.isRequired,
+  approveProfile: PropTypes.func.isRequired,
+  rejectProfile: PropTypes.func.isRequired,
 };
 
 ApprovalState.defaultProps = {

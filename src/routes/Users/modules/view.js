@@ -54,28 +54,44 @@ export const initialState = {
   kyc: kycApprovalInitialState,
 };
 
-function approvalProfile(userId, uuid, reason = false) {
+function approveProfile(userId, uuid) {
   return (dispatch, getState) => {
-
     const { token, uuid: currentUuid } = getState().auth;
 
     if (!token || !currentUuid) {
       return { type: false };
     }
 
-    const approvalType = reason ? `reject?reason=${reason}` : 'approve';
+    return dispatch({
+      [WEB_API]: {
+        method: 'PUT',
+        types: [KYC_APPROVAL.REQUEST, KYC_APPROVAL.SUCCESS, KYC_APPROVAL.FAILURE],
+        endpoint: `profile/kyc/${userId}/approve`,
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      },
+    }).then(() => dispatch(loadProfile(uuid)));
+  };
+}
+
+function rejectProfile(userId, uuid, reason) {
+  return (dispatch, getState) => {
+    const { token, uuid: currentUuid } = getState().auth;
+
+    if (!token || !currentUuid) {
+      return { type: false };
+    }
 
     return dispatch({
       [WEB_API]: {
         method: 'PUT',
         types: [KYC_APPROVAL.REQUEST, KYC_APPROVAL.SUCCESS, KYC_APPROVAL.FAILURE],
-        endpoint: `profile/kyc/${userId}/${approvalType}`,
+        endpoint: `profile/kyc/${userId}/reject?reason=${reason}`,
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
     }).then(() => dispatch(loadProfile(uuid)));
 
   };
-}
+};
 
 function loadProfile(uuid) {
   return (dispatch, getState) => {
@@ -419,7 +435,8 @@ const actionCreators = {
   unlockDeposit,
   lockWithdraw,
   unlockWithdraw,
-  approvalProfile,
+  approveProfile,
+  rejectProfile,
 };
 
 export {
