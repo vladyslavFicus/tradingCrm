@@ -15,6 +15,8 @@ const DEPOSIT_UNLOCK = createRequestTypes(`${KEY}/deposit-unlock`);
 const WITHDRAW_LOCK = createRequestTypes(`${KEY}/withdraw-lock`);
 const WITHDRAW_UNLOCK = createRequestTypes(`${KEY}/withdraw-unlock`);
 
+const KYC_APPROVAL = createRequestTypes(`${KEY}/kyc-approval`);
+
 const profileInitialState = {
   data: {
     id: null,
@@ -39,11 +41,56 @@ const withdrawInitialState = {
   isFailed: false,
   receivedAt: null,
 };
+const kycApprovalInitialState = {
+  isLoading: false,
+  isFailed: false,
+  receivedAt: null,
+};
 
 export const initialState = {
   profile: profileInitialState,
   deposit: depositInitialState,
   withdraw: withdrawInitialState,
+  kyc: kycApprovalInitialState,
+};
+
+function approveProfile(userId, uuid) {
+  return (dispatch, getState) => {
+    const { token, uuid: currentUuid } = getState().auth;
+
+    if (!token || !currentUuid) {
+      return { type: false };
+    }
+
+    return dispatch({
+      [WEB_API]: {
+        method: 'PUT',
+        types: [KYC_APPROVAL.REQUEST, KYC_APPROVAL.SUCCESS, KYC_APPROVAL.FAILURE],
+        endpoint: `profile/kyc/${userId}/approve`,
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      },
+    }).then(() => dispatch(loadProfile(uuid)));
+  };
+}
+
+function rejectProfile(userId, uuid, reason) {
+  return (dispatch, getState) => {
+    const { token, uuid: currentUuid } = getState().auth;
+
+    if (!token || !currentUuid) {
+      return { type: false };
+    }
+
+    return dispatch({
+      [WEB_API]: {
+        method: 'PUT',
+        types: [KYC_APPROVAL.REQUEST, KYC_APPROVAL.SUCCESS, KYC_APPROVAL.FAILURE],
+        endpoint: `profile/kyc/${userId}/reject?reason=${reason}`,
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      },
+    }).then(() => dispatch(loadProfile(uuid)));
+
+  };
 };
 
 function loadProfile(uuid) {
@@ -259,6 +306,7 @@ const depositActionHandlers = {
 
     return newState;
   },
+
   [CHECK_LOCK.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
@@ -337,6 +385,26 @@ const withdrawActionHandlers = {
   }),
 };
 
+const kycApprovalActionHandlers = {
+  [KYC_APPROVAL.REQUEST]: (state, action) => ({
+    ...state,
+    isLoading: true,
+    isFailure: false,
+  }),
+  [KYC_APPROVAL.SUCCESS]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    isFailure: false,
+    receivedAt: getTimestamp(),
+  }),
+  [KYC_APPROVAL.FAILURE]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    isFailure: true,
+    receivedAt: getTimestamp(),
+  }),
+};
+
 function reducer(handlers, state, action) {
   const handler = handlers[action.type];
 
@@ -348,6 +416,7 @@ function rootReducer(state = initialState, action) {
     profile: reducer(profileActionHandlers, state.profile, action),
     deposit: reducer(depositActionHandlers, state.deposit, action),
     withdraw: reducer(withdrawActionHandlers, state.withdraw, action),
+    kyc: reducer(kycApprovalActionHandlers, state.kyc, action),
   };
 }
 
@@ -366,6 +435,8 @@ const actionCreators = {
   unlockDeposit,
   lockWithdraw,
   unlockWithdraw,
+  approveProfile,
+  rejectProfile,
 };
 
 export {

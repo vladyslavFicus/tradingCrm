@@ -1,4 +1,4 @@
 export default {
-  apiRoot: 'http://casino.app',
-  endpointEntry: '/gateway/',
+  apiRoot: 'http://api.casino.app',
+  endpointEntry: '/',
 };
