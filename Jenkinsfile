@@ -12,9 +12,9 @@ node('build') {
     }      
     
     stage('Docker') {         
-        sh 'docker build -t nas/website .'         
-        sh 'docker tag nas/website registry.app/nas/website'         
-        sh 'docker push registry.app/nas/website'     
+        sh 'docker build -t nas/manager .'         
+        sh 'docker tag nas/website registry.app/nas/manager'         
+        sh 'docker push registry.app/nas/manager'     
     }      
     
     stage('Deploy') {         
