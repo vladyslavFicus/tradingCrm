@@ -18,6 +18,6 @@ node('build') {
     }      
     
     stage('Deploy') {         
-        build job: 'casino-qa-deploy', wait: false, parameters: [string(name: 'service', value: 'website')]     
+        build job: 'casino-qa-deploy', wait: false, parameters: [string(name: 'service', value: 'manager')]     
     } 
 }
