@@ -1,8 +1,9 @@
 import { injectReducer } from 'store/reducers';
 import CreateRoute from './routes/Create';
+import ViewRoute from './routes/View';
 
 export default (store) => ({
-  path: '/terms-and-conditions',
+  path: '/terms',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, {
@@ -16,5 +17,6 @@ export default (store) => ({
 
   childRoutes: [
     CreateRoute(store),
+    ViewRoute(store),
   ],
 });

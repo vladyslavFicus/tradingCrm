@@ -1,13 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import classNames from 'classnames';
-import { InputField } from 'components/ReduxForm';
-import { formErrorSelector } from 'utils/redux-form';
+import { EditorField } from 'components/ReduxForm';
 import { createValidator } from 'utils/validator';
-
-const formName = 'termsManage';
-const errorSelector = formErrorSelector(formName);
 
 const attributeLabels = {
   content: 'Content',
@@ -34,10 +28,9 @@ class ManageForm extends Component {
     return <form onSubmit={handleSubmit(onSubmit)}>
       <Field
         name="content"
-        label={attributeLabels.priority}
-        type="text"
+        label={attributeLabels.content}
         disabled={disabled}
-        component={InputField}
+        component={EditorField}
       />
 
       {!disabled && <div className="form-actions">
@@ -66,12 +59,8 @@ class ManageForm extends Component {
   }
 }
 
-let ManageReduxForm = reduxForm({
-  form: formName,
+
+export default reduxForm({
+  form: 'termsManage',
   validate: validator,
 })(ManageForm);
-ManageReduxForm = connect((state) => ({
-  errors: errorSelector(state),
-}), {})(ManageReduxForm);
-
-export default ManageReduxForm;

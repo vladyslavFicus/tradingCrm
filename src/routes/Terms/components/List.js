@@ -27,6 +27,18 @@ class List extends Component {
     this.handleFiltersChanged();
   }
 
+  renderActions(data, column, filters) {
+    return <div>
+      <Link
+        to={`/terms/view/${data.id}`}
+        className="btn btn-sm btn-primary btn-secondary"
+        title="View"
+      >
+        <i className="fa fa-search"/>
+      </Link>
+    </div>;
+  }
+
   render() {
     const { list: { entities } } = this.props;
 
@@ -40,7 +52,7 @@ class List extends Component {
           <div className="row margin-bottom-15">
             <div className="col-lg-12">
               <div className="text-right">
-                <Link to={'/bonuses/create'} className="btn btn-primary">Create</Link>
+                <Link to={'/terms/create'} className="btn btn-primary">Create</Link>
               </div>
             </div>
           </div>
@@ -52,7 +64,35 @@ class List extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
           >
-            <GridColumn name="id" header="ID"/>
+            <GridColumn
+              name="id"
+              header="ID"
+              headerStyle={{ width: '10%' }}
+            />
+            <GridColumn
+              name="publicationDate"
+              header="Publication date"
+              headerClassName="text-center"
+              headerStyle={{ width: '15%' }}
+              render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
+              className="text-center"
+            />
+            <GridColumn
+              name="content"
+              header="Content"
+              render={(data, column) => {
+                let content = data[column.name].replace(/<[^>]*>/g, '');
+
+                return content.length > 255 ? content.substr(0, 255) + '...' : content;
+              }}
+
+            />
+            <GridColumn
+              name="actions"
+              header="Actions"
+              headerStyle={{ width: '10%' }}
+              render={this.renderActions}
+            />
           </GridView>
         </Content>
       </Panel>
