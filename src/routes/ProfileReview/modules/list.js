@@ -1,6 +1,5 @@
-import { WEB_API } from '../../../constants/index';
-import { getTimestamp } from '../../../utils/helpers';
-import { createRequestTypes } from '../../../utils/redux';
+import { getTimestamp } from 'utils/helpers';
+import { createRequestTypes } from 'utils/redux';
 import { actionCreators as usersActionCreators } from 'redux/modules/users';
 
 const KEY = 'users-review';

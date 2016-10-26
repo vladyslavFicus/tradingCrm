@@ -10,7 +10,7 @@ export default store => ({
         reducer: require('./modules/list').default,
       });
 
-      cb(null, require('./layouts/UsersReview').default);
+      cb(null, require('./layouts/ProfileReview').default);
     }, 'user-list');
   },
   childRoutes: [

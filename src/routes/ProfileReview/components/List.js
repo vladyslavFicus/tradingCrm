@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
-import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
-import GridWrapper from '../../../components/GridWrapper/PagenableFilterable';
+import { TextFilter } from 'components/Forms/Filters';
+import GridWrapper from 'components/GridWrapper/PagenableFilterable';
 import { Link } from 'react-router';
 
 class List extends Component {

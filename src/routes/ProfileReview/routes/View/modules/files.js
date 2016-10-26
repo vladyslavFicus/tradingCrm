@@ -1,4 +1,3 @@
-import { WEB_API } from 'constants/index';
 import { createRequestTypes } from 'utils/redux';
 import { getApiRoot } from 'config/index';
 
