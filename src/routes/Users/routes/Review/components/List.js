@@ -14,7 +14,7 @@ class List extends Component {
 
   renderActions(data) {
     return <div>
-      <Link to={`/users/${data.uuid}/profile`} title={'View user profile'}>
+      <Link to={`/users/review/${data.uuid}`} title={'Review user profile'}>
         <i className="fa fa-gear"/>
       </Link>
     </div>;

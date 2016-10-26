@@ -6,7 +6,7 @@ import {
   initialState
 } from 'routes/Users/modules/list';
 
-const KEY = 'users';
+const KEY = 'users-review';
 const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
 
 function fetchEntities(filters = {}) {

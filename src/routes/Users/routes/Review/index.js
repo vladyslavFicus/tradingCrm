@@ -1,15 +1,15 @@
 import { injectReducer } from 'store/reducers';
 
 export default store => ({
-  path: '/users/review',
+  path: 'review',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, {
-        key: 'inReviewProfilesList',
+        key: 'reviewProfilesList',
         reducer: require('./modules/list').default,
       });
 
-      cb(null, require('./container/InReviewProfiles').default);
+      cb(null, require('./container/ReviewProfiles').default);
     }, 'in-review-profiles-list');
   },
 });
