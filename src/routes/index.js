@@ -10,6 +10,7 @@ import UsersReviewRoute from './UsersReview';
 import TransactionsRoute from './Transactions';
 import BonusCampaignsRoute from './BonusCampaigns';
 import BonusesRoute from './Bonuses';
+import TermsRoute from './Terms';
 import NotFoundRoute from './NotFound';
 import LogoutRoute from './Logout';
 
@@ -38,6 +39,7 @@ export const createRoutes = (store) => ({
         TransactionsRoute(store),
         BonusCampaignsRoute(store),
         BonusesRoute(store),
+        TermsRoute(store),
         LogoutRoute(store),
       ],
     },

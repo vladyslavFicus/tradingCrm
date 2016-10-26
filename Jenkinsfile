@@ -1,4 +1,7 @@
-node('build') {     
+def service = 'backoffice'
+
+node('build') {    
+
     stage('Checkout') {         
         checkout scm     
     }      
@@ -12,12 +15,12 @@ node('build') {
     }      
     
     stage('Docker') {         
-        sh 'docker build -t nas/manager .'         
-        sh 'docker tag nas/website registry.app/nas/manager'         
-        sh 'docker push registry.app/nas/manager'     
+        sh "docker build -t nas/$service ."
+        sh "docker tag nas/$service registry.app/nas/$service"
+        sh "docker push registry.app/nas/$service"
     }      
     
     stage('Deploy') {         
-        build job: 'casino-qa-deploy', wait: false, parameters: [string(name: 'service', value: 'manager')]     
+        build job: 'casino-qa-deploy', wait: false, parameters: [string(name: 'service', value: service)]     
     } 
 }

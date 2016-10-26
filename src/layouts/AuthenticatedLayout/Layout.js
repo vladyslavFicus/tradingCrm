@@ -27,6 +27,7 @@ class Layout extends Component {
           { label: 'Transactions', url: '/transactions', icon: 'fa fa-credit-card' },
           { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
           { label: 'Bonuses', url: '/bonuses', icon: 'fa fa-gift' },
+          { label: 'Terms & conditions', url: '/terms', icon: 'fa fa-align-justify' },
         ]}
       />
       <TopMenu
