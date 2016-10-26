@@ -6,6 +6,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
 import moment from 'moment';
+import withScroll from 'scroll-behavior';
 
 moment.updateLocale('en', {
   longDateFormat: {
@@ -16,9 +17,9 @@ moment.updateLocale('en', {
 // ========================================================
 // Browser History Setup
 // ========================================================
-const browserHistory = useRouterHistory(createBrowserHistory)({
+const browserHistory = withScroll(useRouterHistory(createBrowserHistory)({
   basename: __BASENAME__,
-});
+}));
 
 // ========================================================
 // Store and History Instantiation

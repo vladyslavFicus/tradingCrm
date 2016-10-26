@@ -10,4 +10,4 @@ const mapStateToProps = (state) => ({
   uuid: state.auth.uuid,
 });
 
-export default connect(mapStateToProps, mapActionCreators)(Logout)
+export default connect(mapStateToProps, mapActionCreators)(Logout);
