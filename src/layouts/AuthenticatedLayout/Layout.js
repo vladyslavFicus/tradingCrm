@@ -12,6 +12,7 @@ export const Layout = ({ children, location }) => (
         { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
         { label: 'Bonuses', url: '/bonuses', icon: 'fa fa-gift' },
         { label: 'InReview profiles', url: '/users/review', icon: 'fa fa-user-times' },
+        { label: 'Terms & conditions', url: '/terms', icon: 'fa fa-align-justify' },
       ]}
     />
     <TopMenu

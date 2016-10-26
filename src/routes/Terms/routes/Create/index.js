@@ -5,11 +5,11 @@ export default (store) => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, {
-        key: 'bonusCreate',
+        key: 'termsCreate',
         reducer: require('./modules/create').default,
       });
 
       cb(null, require('./container/Container').default);
-    }, 'bonus-create');
+    }, 'terms-create');
   },
 });
