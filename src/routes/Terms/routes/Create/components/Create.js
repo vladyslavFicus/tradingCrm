@@ -20,8 +20,6 @@ export default class Create extends Component {
   }
 
   render() {
-    const { params } = this.props;
-
     return <div className="page-content-inner">
       <Panel>
         <Title>

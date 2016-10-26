@@ -59,7 +59,6 @@ class ManageForm extends Component {
   }
 }
 
-
 export default reduxForm({
   form: 'termsManage',
   validate: validator,

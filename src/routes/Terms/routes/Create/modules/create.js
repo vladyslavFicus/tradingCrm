@@ -56,7 +56,7 @@ function reducer(state = initialState, action) {
 }
 
 const actionTypes = {
-    CREATE_TERMS,
+  CREATE_TERMS,
 };
 
 const actionCreators = {
