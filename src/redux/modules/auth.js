@@ -98,10 +98,9 @@ export const initialState = {
   token: null,
   uuid: null,
   username: null,
-  ...storageValue,
 };
 
-function reducer(state = initialState, action) {
+function reducer(state = { ...initialState, ...storageValue }, action) {
   const handler = handlers[action.type];
 
   if (handler) {

@@ -65,6 +65,15 @@ class List extends Component {
               className="text-center"
             />
             <GridColumn
+              name="optIn"
+              header="Opt-in"
+              headerClassName="text-center"
+              className="text-center"
+              render={(data, column) => (
+                <input type="checkbox" checked={data[column.name]} disabled/>
+              )}
+            />
+            <GridColumn
               name="playerUUID"
               header="Player"
               headerClassName="text-center"

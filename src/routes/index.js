@@ -6,6 +6,7 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
 import SignInRoute from './SignIn';
 import DashboardRoute from './Dashboard';
 import UsersRoute from './Users';
+import ProfileReviewRoute from './ProfileReview';
 import TransactionsRoute from './Transactions';
 import BonusCampaignsRoute from './BonusCampaigns';
 import BonusesRoute from './Bonuses';
@@ -34,6 +35,7 @@ export const createRoutes = (store) => ({
       childRoutes: [
         DashboardRoute(store),
         UsersRoute(store),
+        ProfileReviewRoute(store),
         TransactionsRoute(store),
         BonusCampaignsRoute(store),
         BonusesRoute(store),

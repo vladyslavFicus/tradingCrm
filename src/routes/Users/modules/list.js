@@ -1,43 +1,13 @@
 import { WEB_API } from 'constants/index';
 import { getTimestamp } from 'utils/helpers';
 import { createRequestTypes } from 'utils/redux';
+import { actionCreators as usersActionCreators } from 'redux/modules/users';
 
 const KEY = 'users';
 const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
 
 function fetchEntities(filters = {}) {
-  return (dispatch, getState) => {
-    const { token, uuid } = getState().auth;
-
-    if (!token || !uuid) {
-      return { type: false };
-    }
-
-    filters = Object.keys(filters).reduce((result, key) => {
-      if (filters[key]) {
-        result[key] = filters[key];
-      }
-
-      return result;
-    }, {});
-
-    const endpointParams = { page: 0, ...filters };
-
-    return dispatch({
-      [WEB_API]: {
-        method: 'GET',
-        types: [
-          FETCH_ENTITIES.REQUEST,
-          FETCH_ENTITIES.SUCCESS,
-          FETCH_ENTITIES.FAILURE,
-        ],
-        endpoint: 'profile/profiles',
-        endpointParams,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      },
-      filters,
-    });
-  };
+  return usersActionCreators.fetchEntities(FETCH_ENTITIES)(filters);
 }
 
 const handlers = {
