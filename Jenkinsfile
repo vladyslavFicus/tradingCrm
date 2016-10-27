@@ -6,12 +6,16 @@ node('build') {
         checkout scm     
     }      
     
-    docker.image('kkarczmarczyk/node-yarn').inside {         
+    docker.image('kkarczmarczyk/node-yarn:6.7').inside('-v /home/jenkins:/home/jenkins') {
         env.CONFIG_ENV = 'test'         
+        
         stage('Build') {             
-            sh 'yarn'             
-            sh 'npm run deploy:prod'         
-        }     
+            sh '''
+export HOME=/home/jenkins
+yarn
+npm run deploy:prod
+'''         
+        }        
     }      
     
     stage('Docker') {         
