@@ -1,5 +1,4 @@
 def service = 'backoffice'
-
 node('build') {    
 
     stage('Checkout') {         
