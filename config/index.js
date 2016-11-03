@@ -15,7 +15,7 @@ const resolveEnvironmentConfig = (env) => {
 
   return environmentConfigurations.indexOf(env) > -1 ? {
     ...(require(`./${getEnvironmentPath(env)}/config/index.js`).default || {}),
-    ...(API_ROOT ? { apiRoot: API_ROOT } : {}),
+    ...(API_ROOT ? { API_ROOT } : {}),
   } : {};
 };
 

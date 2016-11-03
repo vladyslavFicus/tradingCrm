@@ -1,4 +1,3 @@
 export default {
-  apiRoot: 'http://staging.ua.newage.io',
-  endpointEntry: '/gateway/',
+  API_ROOT: 'http://staging.ua.newage.io',
 };
