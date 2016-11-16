@@ -8,13 +8,15 @@ const localip = ip.address();
 const debug = _debug('app:config');
 debug('Creating default configuration.');
 
-const environmentConfigurations = {
-  test: './app/test.json',
-  staging: './app/staging.json',
-  production: './app/production.json',
-};
+const getEnvironmentPath = (env) => `app/${env}`;
+const environmentConfigurations = ['test', 'staging', 'production'];
 const resolveEnvironmentConfig = (env) => {
-  return environmentConfigurations[env] ? require(environmentConfigurations[env]) : {};
+  const { API_ROOT } = process.env;
+
+  return environmentConfigurations.indexOf(env) > -1 ? {
+    ...(require(`./${getEnvironmentPath(env)}/config/index.js`).default || {}),
+    ...(API_ROOT ? { API_ROOT } : {}),
+  } : {};
 };
 
 // ========================================================
@@ -80,6 +82,8 @@ const config = {
  -------------------------------------------------
  ************************************************/
 
+config.config_environment_path = getEnvironmentPath(config.config_environment);
+
 // ------------------------------------
 // Environment
 // ------------------------------------
@@ -87,9 +91,10 @@ const config = {
 config.globals = {
   'process.env': {
     NODE_ENV: JSON.stringify(config.env),
+    CONFIG_ENV: JSON.stringify(config.config_environment),
   },
   NODE_ENV: config.env,
-  CONFIG_ENV: JSON.stringify(config.config_environment),
+  CONFIG_ENV: config.config_environment,
   __DEV__: config.env === 'development',
   __PROD__: config.env === 'production',
   __TEST__: config.env === 'test',

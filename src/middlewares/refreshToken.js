@@ -10,7 +10,7 @@ export default function () {
   let initializationRefresh = false;
   let lastRefreshTimeout = null;
 
-  const scheduleRefreshToken = (dispatch, token) => {
+  const scheduleRefreshToken = ({ dispatch, getState }, token) => {
     if (!token) {
       return false;
     }
@@ -25,10 +25,19 @@ export default function () {
 
     console.info('Token will be refresh in: ', timeout);
     lastRefreshTimeout = setTimeout(() => {
-      console.info('Token refresh started');
       clearTimeout(lastRefreshTimeout);
       lastRefreshTimeout = null;
-      dispatch(authActionCreators.refreshToken());
+
+      const { token } = getState().auth;
+      const data = jwtDecode(token);
+      const timeout = (data.exp * 1000 - Date.now()) - (60 * 1000);
+      if (timeout > 60 * 1000) {
+        console.info('Token already refreshed');
+        scheduleRefreshToken({ dispatch, getState }, token);
+      } else {
+        console.info('Token refresh started');
+        dispatch(authActionCreators.refreshToken());
+      }
     }, timeout);
 
     return true;
@@ -36,14 +45,14 @@ export default function () {
 
   return ({ dispatch, getState }) => next => action => {
     if (lastRefreshTimeout === null && !initializationRefresh) {
-      scheduleRefreshToken(dispatch, getState().auth.token);
+      scheduleRefreshToken({ dispatch, getState }, getState().auth.token);
       initializationRefresh = true;
     } else if (allowedTypes.indexOf(action.type) > -1) {
       console.info('Trying to schedule token refresh.');
       const token = action.type === authActionTypes.REFRESH_TOKEN_SUCCESS ?
         action.response.jwtToken : action.response.token;
 
-      scheduleRefreshToken(dispatch, token);
+      scheduleRefreshToken({ dispatch, getState }, token);
     }
 
     return next(action);

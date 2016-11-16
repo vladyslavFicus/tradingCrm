@@ -1,19 +1,5 @@
-import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { actionCreators } from '../modules/list';
 import List from '../components/List';
 
-class Users extends Component {
-  render() {
-    const { children, content: nestedContent, params } = this.props;
-    let content = <List params={params}/>;
-
-    if (children) {
-      content = children;
-    } else if (nestedContent) {
-      content = nestedContent;
-    }
-
-    return <div>{ content }</div>;
-  }
-}
-
-export default Users;
+export default connect((state) => ({ list: state.usersList }), { ...actionCreators })(List);

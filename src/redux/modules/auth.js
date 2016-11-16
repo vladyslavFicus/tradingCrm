@@ -39,8 +39,6 @@ const handlers = {
 
   [LOGOUT_SUCCESS]: (state, action) => ({
     ...initialState,
-    token: null,
-    uuid: null,
   }),
 };
 
@@ -96,14 +94,13 @@ if (storageValue && storageValue.token) {
   storageValue = { ...storageValue };
 }
 
-const initialState = {
+export const initialState = {
   token: null,
   uuid: null,
   username: null,
-  ...storageValue,
 };
 
-function reducer(state = initialState, action) {
+function reducer(state = { ...initialState, ...storageValue }, action) {
   const handler = handlers[action.type];
 
   if (handler) {
@@ -125,6 +122,9 @@ const actionTypes = {
   REFRESH_TOKEN_REQUEST,
   REFRESH_TOKEN_SUCCESS,
   REFRESH_TOKEN_FAILURE,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE,
   LOGOUT,
 };
 

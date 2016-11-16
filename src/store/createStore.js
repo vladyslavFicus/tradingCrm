@@ -18,7 +18,7 @@ export default (initialState = {}, history) => {
   if (__DEBUG__) {
     const devToolsExtension = window.devToolsExtension;
     if (typeof devToolsExtension === 'function') {
-      enhancers.push(devToolsExtension())
+      enhancers.push(devToolsExtension());
     }
   }
 
@@ -38,9 +38,9 @@ export default (initialState = {}, history) => {
   if (module.hot) {
     module.hot.accept('./reducers', () => {
       const reducers = require('./reducers').default;
-      store.replaceReducer(reducers(store.asyncReducers))
-    })
+      store.replaceReducer(reducers(store.asyncReducers));
+    });
   }
 
-  return store
-}
+  return store;
+};

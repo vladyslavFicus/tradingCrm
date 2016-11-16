@@ -54,7 +54,9 @@ function prettifyResponse({ json, response }) {
 }
 
 function callApi(method = 'GET', type = ContentType.JSON, endpoint, params = {}, headers = {}) {
-  let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
+  let fullUrl = (endpoint.indexOf(API_ROOT) === -1) ?
+    `${API_ROOT}/${endpoint.replace(/^\//, '')}` :
+    endpoint;
 
   const options = {
     credentials: 'same-origin',

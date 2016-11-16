@@ -1,3 +1,5 @@
+import * as form from './form';
+
 export const WEB_API = 'WEB_API';
 
 export const ContentType = {
@@ -8,4 +10,5 @@ export const ContentType = {
 export default {
   WEB_API,
   ContentType,
+  form,
 };

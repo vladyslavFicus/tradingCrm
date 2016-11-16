@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { stopEvent } from 'utils/helpers';
 import { Pagination } from 'react-bootstrap';
 import DateRangePicker from 'components/Forms/DateRangePickerWrapper';
 import moment from 'moment';
@@ -44,8 +43,8 @@ class View extends Component {
       this.setState({
         filters: {
           ...this.state.filters,
-          startDate: startDate.format('YYYY/MM/DD'),
-          endDate: endDate.format('YYYY/MM/DD'),
+          startDate: startDate.format('YYYY-MM-DD'),
+          endDate: endDate.format('YYYY-MM-DD'),
         },
       }, this.onFiltersChanged);
     }
@@ -105,7 +104,7 @@ class View extends Component {
         </tr>
         </thead>
         <tbody>
-        {transactions.content.map((item) => <tr key={item.transactionId}>
+        {transactions.content.map((item) => <tr key={item.id}>
           <td>
             <small>{item.transactionId}</small>
           </td>

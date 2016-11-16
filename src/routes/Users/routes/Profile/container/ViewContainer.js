@@ -2,12 +2,16 @@ import React from 'react';
 import View from '../components/View';
 import { connect } from 'react-redux';
 import { actionCreators as viewActionCreators } from '../../../modules/view';
+import { actionCreators as bonusActionCreators } from '../../../modules/bonus';
 
 const mapStateToProps = (state) => ({
-  profile: { ...state.userProfile },
+  ...state.userProfile,
+  user: state.auth,
+  bonus: state.userBonus,
 });
 const mapActions = {
-  loadProfile: viewActionCreators.loadProfile,
+  ...viewActionCreators,
+  ...bonusActionCreators,
 };
 
 const ViewContainer = (props) => <View {...props}/>;

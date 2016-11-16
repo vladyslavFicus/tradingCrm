@@ -2,21 +2,20 @@ import { injectReducer } from '../../store/reducers';
 import childRoutes from './routes';
 
 export default (store) => ({
-  path: '/users',
+  path: 'users',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       if (!!nextState.params.id) {
         injectReducer(store, { key: 'userProfile', reducer: require('./modules/view').default });
-
-        cb(null, require('./layouts/Users').default);
+        injectReducer(store, { key: 'userBonus', reducer: require('./modules/bonus').default });
       } else {
         injectReducer(store, {
           key: 'usersList',
-          reducer: require('./modules/users-list').default,
+          reducer: require('./modules/list').default,
         });
-
-        cb(null, require('./container/Users').default);
       }
+
+      cb(null, require('./layouts/Users').default);
     }, 'users-list');
   },
 
