@@ -9,7 +9,7 @@ function fetchFile({ fileId, profileId }) {
   return (dispatch, getState) => {
     const { auth: { token } } = getState();
 
-    return fetch(`${getApiRoot()}profile/kyc/${profileId}/download/${fileId}`, {
+    return fetch(`${getApiRoot()}/profile/kyc/${profileId}/download/${fileId}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,

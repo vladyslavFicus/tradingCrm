@@ -20,7 +20,7 @@ const LOGOUT = `${KEY}/logout`;
 
 const handlers = {
   [LOGIN_SUCCESS]: (state, action) => {
-    const { username, playerUUID: uuid, token } = action.response;
+    const { login: username, uuid, token } = action.response;
 
     return {
       ...state,

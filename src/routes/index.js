@@ -13,6 +13,7 @@ import BonusesRoute from './Bonuses';
 import TermsRoute from './Terms';
 import NotFoundRoute from './NotFound';
 import LogoutRoute from './Logout';
+import ReportsRoute from './Reports';
 
 export const requireAuth = (store) => (nextState, replace) => {
   const { auth } = store.getState();
@@ -41,6 +42,7 @@ export const createRoutes = (store) => ({
         BonusesRoute(store),
         TermsRoute(store),
         LogoutRoute(store),
+        ReportsRoute(store),
       ],
     },
     NotFoundRoute(store),

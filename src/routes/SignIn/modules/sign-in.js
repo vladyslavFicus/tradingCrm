@@ -1,13 +1,13 @@
 import { WEB_API, ContentType } from 'constants/index';
 import { actionTypes as authActionTypes } from 'redux/modules/auth';
 
-function login(username, password) {
+function login(login, password) {
   return (dispatch, getState) => dispatch({
     [WEB_API]: {
       method: 'POST',
       endpoint: 'auth/signin',
       endpointParams: {
-        username,
+        login,
         password,
       },
       types: [authActionTypes.LOGIN_REQUEST, authActionTypes.LOGIN_SUCCESS, authActionTypes.LOGIN_FAILURE],
