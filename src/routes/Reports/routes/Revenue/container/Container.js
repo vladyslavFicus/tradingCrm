@@ -1,11 +1,17 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators } from '../modules';
+import { formValueSelector, getFormSyncErrors } from 'redux-form';
 
-const mapStateToProps = ({ revenueReport }) => ({
+const valuesSelector = formValueSelector('revenueReport');
+const errorSelector = getFormSyncErrors('revenueReport');
+const mapStateToProps = ({ revenueReport }, ...state) => ({
   ...revenueReport,
+  errors: errorSelector(state) || {},
+  values: valuesSelector(state, 'startDate', 'endDate') || {},
 });
 const mapActions = {
   onDownload: actionCreators.fetchReport,
 };
-connect(mapStateToProps, mapActions)(View);
+
+export default connect(mapStateToProps, mapActions)(View);

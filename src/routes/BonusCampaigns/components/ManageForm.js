@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import RemoteDateRangePickerWrapper from 'components/Forms/RemoteDateRangePickerWrapper';
 import { CustomValueField, SelectField, InputField } from 'components/ReduxForm';
 import { formErrorSelector } from 'utils/redux-form';
-import { stopEvent } from 'utils/helpers';
 import { createValidator } from 'utils/validator';
 import { priorityMoneyTypeUsage, eventsTypes, customValueFieldTypesLabels } from 'constants/form';
 import moment from 'moment';

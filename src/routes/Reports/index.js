@@ -1,13 +1,10 @@
-import { actionCreators } from './modules/player-liability';
+import RevenueRoute from './routes/Revenue';
+import PlayerLiabilityRoute from './routes/PlayerLiability';
 
 export default (store) => ({
-  path: '/reports/player-liability',
-  onEnter: (nextState, replace, cb) => {
-    store.dispatch(actionCreators.fetchReport())
-      .then(() => {
-        replace({ path: '/' });
-
-        cb();
-      }, () => cb());
-  },
+  path: 'reports',
+  childRoutes: [
+    PlayerLiabilityRoute(store),
+    RevenueRoute(store),
+  ],
 });

@@ -47,7 +47,7 @@ function fetchReport(params, fileName = 'revenue.csv') {
     }
 
     dispatch({ type: FETCH_REPORT.REQUEST });
-    const url = `${getApiRoot()}/mga_report/reports/player-country-revenue?${buildQueryString(params)}`;
+    const url = `${getApiRoot()}/mga_report/reports/vat?${buildQueryString(params)}`;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -56,15 +56,21 @@ function fetchReport(params, fileName = 'revenue.csv') {
       },
     })
       .then(
-        (resp) => resp.blob(),
+        (resp) => ({ blob: resp.blob(), response: resp }),
         (err) => dispatch({ type: FETCH_REPORT.FAILURE, error: true, payload: err })
       )
       .then(
-        (blob) => {
-          downloadBlob(fileName, blob);
+        ({ blob, response }) => {
+          if (response.status === 200) {
+            downloadBlob(fileName, blob);
 
-          return dispatch({ type: FETCH_REPORT.SUCCESS });
+            return dispatch({ type: FETCH_REPORT.SUCCESS });
+          } else {
+            console.log(response);
+            return dispatch({ type: FETCH_REPORT.FAILURE, error: true, payload: response.statusText });
+          }
         },
+
         (err) => dispatch({ type: FETCH_REPORT.FAILURE, error: true, payload: err })
       );
   };

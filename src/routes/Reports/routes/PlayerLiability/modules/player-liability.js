@@ -1,6 +1,6 @@
-import { createRequestTypes } from 'utils/redux';
-import { getApiRoot } from 'config/index';
-import downloadBlob from 'utils/downloadBlob';
+import { createRequestTypes } from '../../../../../utils/redux';
+import { getApiRoot } from '../../../../../config/index';
+import downloadBlob from '../../../../../utils/downloadBlob';
 
 const KEY = 'reports/player-liability';
 const FETCH_REPORT = createRequestTypes(`${KEY}/fetch-report`);
