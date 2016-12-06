@@ -110,7 +110,7 @@ function lockDeposit(playerUUID, reason) {
       [WEB_API]: {
         method: 'POST',
         types: [DEPOSIT_LOCK.REQUEST, DEPOSIT_LOCK.SUCCESS, DEPOSIT_LOCK.FAILURE],
-        endpoint: `payment/lock/deposit/${playerUUID}`,
+        endpoint: `payment/lock/deposit`,
         endpointParams: { reason, playerUUID },
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
@@ -151,7 +151,7 @@ function lockWithdraw(playerUUID, reason) {
       [WEB_API]: {
         method: 'POST',
         types: [WITHDRAW_LOCK.REQUEST, WITHDRAW_LOCK.SUCCESS, WITHDRAW_LOCK.FAILURE],
-        endpoint: `payment/lock/withdraw/${playerUUID}`,
+        endpoint: `payment/lock/withdraw`,
         endpointParams: { reason, playerUUID },
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
