@@ -98,7 +98,7 @@ function checkLock(uuid) {
   };
 }
 
-function lockDeposit(uuid, reason) {
+function lockDeposit(playerUUID, reason) {
   return (dispatch, getState) => {
     const { token, uuid: currentUuid } = getState().auth;
 
@@ -109,14 +109,13 @@ function lockDeposit(uuid, reason) {
     return dispatch({
       [WEB_API]: {
         method: 'POST',
-        type: ContentType.FORM_DATA,
         types: [DEPOSIT_LOCK.REQUEST, DEPOSIT_LOCK.SUCCESS, DEPOSIT_LOCK.FAILURE],
-        endpoint: `payment/lock/deposit/${uuid}`,
-        endpointParams: { reason },
+        endpoint: `payment/lock/deposit/${playerUUID}`,
+        endpointParams: { reason, playerUUID },
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
     })
-      .then(() => dispatch(checkLock(uuid)));
+      .then(() => dispatch(checkLock(playerUUID)));
   };
 }
 
@@ -140,7 +139,7 @@ function unlockDeposit(uuid) {
   };
 }
 
-function lockWithdraw(uuid, reason) {
+function lockWithdraw(playerUUID, reason) {
   return (dispatch, getState) => {
     const { token, uuid: currentUuid } = getState().auth;
 
@@ -151,13 +150,12 @@ function lockWithdraw(uuid, reason) {
     return dispatch({
       [WEB_API]: {
         method: 'POST',
-        type: ContentType.FORM_DATA,
         types: [WITHDRAW_LOCK.REQUEST, WITHDRAW_LOCK.SUCCESS, WITHDRAW_LOCK.FAILURE],
-        endpoint: `payment/lock/withdraw/${uuid}`,
-        endpointParams: { reason },
+        endpoint: `payment/lock/withdraw/${playerUUID}`,
+        endpointParams: { reason, playerUUID },
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       },
-    }).then(() => dispatch(checkLock(uuid)));
+    }).then(() => dispatch(checkLock(playerUUID)));
   };
 }
 

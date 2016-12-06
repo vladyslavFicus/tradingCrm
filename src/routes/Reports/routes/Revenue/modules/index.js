@@ -66,8 +66,11 @@ function fetchReport(params, fileName = 'revenue.csv') {
 
             return dispatch({ type: FETCH_REPORT.SUCCESS });
           } else {
-            console.log(response);
-            return dispatch({ type: FETCH_REPORT.FAILURE, error: true, payload: response.statusText });
+            return dispatch({
+              type: FETCH_REPORT.FAILURE,
+              error: true,
+              payload: response.statusText,
+            });
           }
         },
 
