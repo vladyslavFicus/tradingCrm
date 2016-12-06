@@ -56,22 +56,21 @@ function fetchReport(params, fileName = 'revenue.csv') {
       },
     })
       .then(
-        (resp) => ({ blob: resp.blob(), response: resp }),
+        (resp) => {
+          if (resp.status !== 200) {
+            throw new Error(resp.statusText);
+          }
+
+          return resp.blob();
+        },
+
         (err) => dispatch({ type: FETCH_REPORT.FAILURE, error: true, payload: err })
       )
       .then(
-        ({ blob, response }) => {
-          if (response.status === 200) {
-            downloadBlob(fileName, blob);
+        (blob) => {
+          downloadBlob(fileName, blob);
 
-            return dispatch({ type: FETCH_REPORT.SUCCESS });
-          } else {
-            return dispatch({
-              type: FETCH_REPORT.FAILURE,
-              error: true,
-              payload: response.statusText,
-            });
-          }
+          return dispatch({ type: FETCH_REPORT.SUCCESS });
         },
 
         (err) => dispatch({ type: FETCH_REPORT.FAILURE, error: true, payload: err })
