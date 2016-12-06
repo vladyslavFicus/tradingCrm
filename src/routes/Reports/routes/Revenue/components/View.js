@@ -15,7 +15,6 @@ class View extends Component {
 
   render() {
     const { errors, values } = this.props;
-    console.log(values);
 
     return <div className="page-content-inner">
       <Panel withBorders>
