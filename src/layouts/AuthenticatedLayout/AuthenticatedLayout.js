@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import TopMenu from 'components/Navigation/TopMenu';
 import Sidebar from 'components/Navigation/Sidebar';
 
-class Layout extends Component {
+class AuthenticatedLayout extends Component {
   static childContextTypes = {
     user: PropTypes.shape({
       token: PropTypes.string,
@@ -32,6 +32,7 @@ class Layout extends Component {
             label: 'Reports', icon: 'fa fa-align-justify',
             items: [
               { label: 'Player liability', url: '/reports/player-liability' },
+              { label: 'Revenue', url: '/reports/revenue' },
             ],
           },
         ]}
@@ -47,7 +48,7 @@ class Layout extends Component {
   }
 }
 
-Layout.propTypes = {
+AuthenticatedLayout.propTypes = {
   children: PropTypes.element.isRequired,
   location: PropTypes.object.isRequired,
   user: PropTypes.shape({
@@ -60,4 +61,4 @@ const mapStateToProps = (state) => ({
   user: state.auth,
 });
 
-export default connect(mapStateToProps, {})(Layout);
+export default connect(mapStateToProps, {})(AuthenticatedLayout);

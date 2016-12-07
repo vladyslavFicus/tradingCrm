@@ -1,3 +1,3 @@
-import Layout from './Layout';
+import AuthenticatedLayout from './AuthenticatedLayout';
 
-export default Layout;
+export default AuthenticatedLayout;
