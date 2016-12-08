@@ -1,74 +1,65 @@
-import { WEB_API } from 'constants/index';
-import { replace } from 'react-router-redux';
+import { CALL_API } from 'redux-api-middleware';
+import createRequestAction from 'utils/createRequestAction';
 import Storage from 'utils/storage';
 
 const KEY = 'auth';
+const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
+const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
+const LOGOUT = createRequestAction(`${KEY}/logout`);
 
-const LOGIN_REQUEST = `${KEY}/login-request`;
-const LOGIN_SUCCESS = `${KEY}/login-success`;
-const LOGIN_FAILURE = `${KEY}/login-failure`;
-
-const REFRESH_TOKEN_REQUEST = `${KEY}/refresh-token-request`;
-const REFRESH_TOKEN_SUCCESS = `${KEY}/refresh-token-success`;
-const REFRESH_TOKEN_FAILURE = `${KEY}/refresh-token-failure`;
-
-const LOGOUT_REQUEST = `${KEY}/logout-request`;
-const LOGOUT_SUCCESS = `${KEY}/logout-success`;
-const LOGOUT_FAILURE = `${KEY}/logout-failure`;
-
-const LOGOUT = `${KEY}/logout`;
-
-const handlers = {
-  [LOGIN_SUCCESS]: (state, action) => {
-    const { login: username, uuid, token } = action.response;
+const actionHandlers = {
+  [SIGN_IN.SUCCESS]: (state, action) => {
+    const { login: username, uuid, token } = action.payload;
 
     return {
       ...state,
       token,
       uuid,
       username,
+      logged: true,
     };
   },
 
-  [REFRESH_TOKEN_SUCCESS]: (state, action) => {
-    return {
-      ...state,
-      token: action.response.jwtToken,
-    };
-  },
-
-  [LOGOUT_SUCCESS]: (state, action) => ({
-    ...initialState,
+  [REFRESH_TOKEN.SUCCESS]: (state, action) => ({
+    ...state,
+    token: action.payload.jwtToken,
   }),
+  [LOGOUT.SUCCESS]: (state, action) => ({ ...initialState, }),
 };
 
-function logoutAndRedirect() {
-  return (dispatch, getState) => {
-    const { token, uuid } = getState().auth;
-
-    if (!token || !uuid) {
-      return { type: false };
-    }
-
-    dispatch(logout());
-
-    return replace({
-      pathname: '/sign-in',
-      state: { nextPathname: getState().router.locationBeforeTransitions.pathname },
-    });
+function signIn({ login, password }) {
+  return {
+    [CALL_API]: {
+      endpoint: '/auth/signin',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login,
+        password,
+      }),
+      types: [SIGN_IN.REQUEST, SIGN_IN.SUCCESS, SIGN_IN.FAILURE],
+    },
   };
 }
 
 function refreshToken() {
   return (dispatch, getState) => {
-    const { token } = getState().auth;
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
+      [CALL_API]: {
         method: 'GET',
-        types: [REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_FAILURE],
-        endpoint: `auth/token/renew?token=${token}`,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        endpoint: `/auth/token/renew?token=${token}`,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [REFRESH_TOKEN.REQUEST, REFRESH_TOKEN.SUCCESS, REFRESH_TOKEN.FAILURE],
+        bailout: !logged,
       },
     });
   };
@@ -76,61 +67,45 @@ function refreshToken() {
 
 function logout() {
   return (dispatch, getState) => {
-    const { token } = getState().auth;
+    const { auth: { token } } = getState();
 
     return dispatch({
-      [WEB_API]: {
+      [CALL_API]: {
+        endpoint: `/auth/logout`,
         method: 'GET',
-        types: [LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE],
-        endpoint: `auth/logout`,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [LOGOUT.REQUEST, LOGOUT.SUCCESS, LOGOUT.FAILURE],
       },
     });
   };
 }
 
-let storageValue = Storage.get(KEY, true);
-if (storageValue && storageValue.token) {
-  storageValue = { ...storageValue };
-}
-
-export const initialState = {
+const initialState = {
+  logged: false,
   token: null,
   uuid: null,
   username: null,
 };
 
-function reducer(state = { ...initialState, ...storageValue }, action) {
-  const handler = handlers[action.type];
+function reducer(state = initialState, action) {
+  const handler = actionHandlers[action.type];
 
-  if (handler) {
-    const newState = handler(state, action);
-    if (newState.token !== state.token) {
-      Storage.set(KEY, newState);
-    }
-
-    return newState;
-  } else {
-    return state;
-  }
+  return handler ? handler(state, action) : state;
 }
 
 const actionTypes = {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  REFRESH_TOKEN_REQUEST,
-  REFRESH_TOKEN_SUCCESS,
-  REFRESH_TOKEN_FAILURE,
-  LOGOUT_REQUEST,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAILURE,
+  SIGN_IN,
+  REFRESH_TOKEN,
   LOGOUT,
 };
 
 const actionCreators = {
+  signIn,
   logout,
-  logoutAndRedirect,
   refreshToken,
 };
 
