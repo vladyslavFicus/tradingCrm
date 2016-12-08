@@ -48,9 +48,9 @@ class Users extends Component {
     </div>;
   }
 }
-const mapStateToProps = (state) => ({
-  ...state.userProfile,
-  bonus: { ...state.userBonus },
+const mapStateToProps = ({ userProfile, userBonus: bonus }) => ({
+  ...userProfile,
+  bonus,
 });
 const mapActions = {
   ...profileViewActionCreators,

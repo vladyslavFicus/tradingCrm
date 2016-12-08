@@ -3,11 +3,11 @@ import View from '../components/View';
 import { connect } from 'react-redux';
 import { actionCreators as viewActionCreators } from '../modules/view';
 
-const mapStateToProps = (state) => ({
-  transactions: { ...state.transactionsView },
+const mapStateToProps = ({ userTransactions }) => ({
+  ...userTransactions,
 });
 const mapActions = {
-    ...viewActionCreators,
+  ...viewActionCreators,
 };
 
 const ViewContainer = (props) => <View {...props}/>;

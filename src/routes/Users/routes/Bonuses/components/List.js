@@ -34,7 +34,10 @@ class List extends Component {
   }
 
   handleRefresh() {
-    return this.props.fetchEntities({ ...this.state.filters, page: this.state.page });
+    return this.props.fetchEntities({
+      ...this.state.filters,
+      page: this.state.page,
+    });
   }
 
   handleAcceptBonus(id) {
@@ -51,9 +54,7 @@ class List extends Component {
     this.handleRefresh();
   }
 
-  renderActions(data, column, filters) {
-    const { userBonus }  = this.props;
-
+  renderActions(data) {
     return <div className="btn-group btn-group-sm">
       {['COMPLETED', 'CANCELLED', 'EXPIRED'].indexOf(data.state) === -1 && <a
         className="btn btn-sm btn-danger btn-secondary"

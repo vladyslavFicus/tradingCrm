@@ -22,10 +22,18 @@ function fetchEntities(type) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        types: [type.REQUEST, type.SUCCESS, type.FAILURE],
+        types: [
+          {
+            type: type.REQUEST,
+            meta: {
+              filters,
+            },
+          },
+          type.SUCCESS,
+          type.FAILURE,
+        ],
         bailout: !logged,
       },
-      filters,
     });
   };
 }

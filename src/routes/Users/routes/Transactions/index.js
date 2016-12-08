@@ -4,7 +4,7 @@ export default (store) => ({
   path: ':id/transactions',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      injectReducer(store, { key: 'transactionsView', reducer: require('./modules/view').default });
+      injectReducer(store, { key: 'userTransactions', reducer: require('./modules/view').default });
       const TabsComponent = require('../../components/Tabs').default;
       cb(null, {
         content: require('./container/ViewContainer').default,

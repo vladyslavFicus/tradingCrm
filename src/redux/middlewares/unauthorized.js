@@ -5,13 +5,14 @@ export default (codes = [401]) => {
   const isValidMiddlewareAction = ({ auth }, action) => {
     return auth.logged && action
       && action.error && action.payload
-      && codes.indexOf(action.payload.status);
+      && codes.indexOf(action.payload.status) > -1;
   };
 
   return ({ dispatch, getState }) => next => action => {
     const { auth, location } = getState();
 
     if (isValidMiddlewareAction({ auth }, action)) {
+      console.log(action);
       dispatch({ type: actionTypes.LOGOUT.SUCCESS });
 
       if (!action.meta || !action.meta.ignoreByAuthMiddleware || location && location.pathname !== 'sign-in') {
