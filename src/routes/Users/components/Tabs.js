@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 const tabItems = {
   profile: { label: 'Profile', route: '/users/:id/profile' },
   transactions: { label: 'Transactions', route: '/users/:id/transactions' },
+  gameActivity: { label: 'Game activity', route: '/users/:id/game-activity' },
   bonuses: { label: 'Bonuses', route: '/users/:id/bonuses' },
 };
 
