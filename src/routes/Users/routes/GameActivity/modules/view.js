@@ -137,7 +137,7 @@ const actionHandlers = {
 
   [FETCH_GAMES.SUCCESS]: (state, action) => {
     const allGames = {};
-    action.response.forEach((game) => {
+    action.payload.forEach((game) => {
       allGames[game.gameId] = game.fullGameName;
     });
 
