@@ -15,11 +15,14 @@ export default (codes = [401]) => {
       console.log(action);
       dispatch({ type: actionTypes.LOGOUT.SUCCESS });
 
-      if (!action.meta || !action.meta.ignoreByAuthMiddleware || location && location.pathname !== 'sign-in') {
+      if (
+        !action.meta || !action.meta.ignoreByAuthMiddleware
+        || location && location.pathname !== 'sign-in'
+      ) {
         browserHistory.push(`/sign-in?returnUrl=${location.pathname}`);
       }
     }
 
     return next(action);
-  }
+  };
 };
