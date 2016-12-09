@@ -165,6 +165,7 @@ class View extends Component {
           render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
           filter={(onFilterChange) => <DateRangeFilter
             onFilterChange={onFilterChange}
+            isOutsideRange={(date) => date.isAfter(moment())}
           />}
         />
       </GridView>
