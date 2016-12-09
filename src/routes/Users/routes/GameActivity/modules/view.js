@@ -1,7 +1,8 @@
-import { getTimestamp } from 'utils/helpers';
-import { WEB_API } from 'constants/index';
+import { CALL_API } from 'redux-api-middleware';
+import timestamp from 'utils/timestamp';
+import buildQueryString from 'utils/buildQueryString';
+import createRequestAction from 'utils/createRequestAction';
 import GraylogClient from 'nas-graylog-api';
-import { createRequestTypes } from 'utils/redux';
 
 const client = new GraylogClient({
   auth: 'Basic ' + btoa('admin:admin'),
@@ -11,8 +12,8 @@ const client = new GraylogClient({
 });
 
 const KEY = 'user/game-activity';
-const FETCH_ACTIVITY = createRequestTypes(`${KEY}/fetch-activity`);
-const FETCH_GAMES = createRequestTypes(`${KEY}/fetch-games`);
+const FETCH_ACTIVITY = createRequestAction(`${KEY}/fetch-activity`);
+const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
 
 const CLIENT_METHOD_ABSOLUTE = 'searchAbsolute';
 const CLIENT_METHOD_RELATIVE = 'searchRelative';
@@ -36,25 +37,25 @@ const buildPaginationCriteria = (page) => ({
 
 const buildDateCriteria = (params) => (
   params.startDate && params.startDate ?
-  { from: `${params.startDate} 00:00:00`, to: `${params.endDate} 23:59:59` } :
-  { range: 0 }
+    { from: `${params.startDate} 00:00:00`, to: `${params.endDate} 23:59:59` } :
+    { range: 0 }
 );
 
 function fetchGames() {
   return (dispatch, getState) => {
-    const { token, uuid } = getState().auth;
-
-    if (!token || !uuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
+      [CALL_API]: {
+        endpoint: `/game_info/game/list?${buildQueryString({ limit: 9999 })}`,
         method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         types: [FETCH_GAMES.REQUEST, FETCH_GAMES.SUCCESS, FETCH_GAMES.FAILURE],
-        endpoint: `/game_info/game/list`,
-        endpointParams: { limit: 9999 },
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        bailout: !logged,
       },
     });
   };
@@ -63,19 +64,14 @@ function fetchGames() {
 function fetchGameActivity(params, page) {
   return (dispatch, getState) => {
     const {
-      auth: { token, uuid },
       userGameActivity : { allGames, allActions, allProviders },
     } = getState();
-
-    if (!token || !uuid) {
-      return { type: false };
-    }
 
     const method = params.startDate && params.startDate ?
       CLIENT_METHOD_ABSOLUTE :
       CLIENT_METHOD_RELATIVE;
 
-    dispatch({ type: FETCH_ACTIVITY.REQUEST });
+    dispatch({ type: FETCH_ACTIVITY.REQUEST, meta: { filters: { ...params, page } } });
     return client[method]({
       ...buildQueryCriteria(params),
       ...buildPaginationCriteria(page),
@@ -122,22 +118,23 @@ function fetchGameActivity(params, page) {
 const actionHandlers = {
   [FETCH_ACTIVITY.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...state.filters, ...action.filters },
+    filters: { ...action.meta.filters },
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
   [FETCH_ACTIVITY.SUCCESS]: (state, action) => ({
     ...state,
     ...action.payload,
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [FETCH_ACTIVITY.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
+
   [FETCH_GAMES.SUCCESS]: (state, action) => {
     const allGames = {};
     action.response.forEach((game) => {

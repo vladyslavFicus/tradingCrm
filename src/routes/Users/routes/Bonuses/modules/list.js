@@ -10,30 +10,9 @@ function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    const endpointParams = {
-      page: filters.page ? filters.page : 0,
-    };
-
-    if (filters.label) {
-      endpointParams.label = filters.label;
-    }
-
-    if (filters.playerUUID) {
-      endpointParams.playerUUID = filters.playerUUID;
-    }
-
-    if (filters.state) {
-      endpointParams.state = filters.state;
-    }
-
-    if (filters.startDate && filters.endDate) {
-      endpointParams.startDate = filters.startDate;
-      endpointParams.endDate = filters.endDate;
-    }
-
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus/bonuses?${buildQueryString(endpointParams)}`,
+        endpoint: `bonus/bonuses?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
