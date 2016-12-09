@@ -1,20 +1,12 @@
 import { createRequestTypes } from 'utils/redux';
 import { getApiRoot } from 'config/index';
+import downloadBlob from 'utils/downloadBlob';
 
 const KEY = 'reports/player-liability';
 const FETCH_REPORT = createRequestTypes(`${KEY}/fetch-report`);
 
 const initialState = {};
 const actionHandlers = {};
-
-function download(name, data) {
-  const a = document.createElement('a');
-  a.href = window.URL.createObjectURL(data);
-  a.download = name;
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-}
 
 function fetchReport(fileName = 'player-liability.csv') {
   return (dispatch, getState) => {
@@ -29,10 +21,10 @@ function fetchReport(fileName = 'player-liability.csv') {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'text/csv',
-      }
+      },
     })
       .then((resp) => resp.blob())
-      .then((blob) => download(fileName, blob));
+      .then((blob) => downloadBlob(fileName, blob));
   };
 }
 

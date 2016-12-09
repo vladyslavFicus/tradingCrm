@@ -3,7 +3,6 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { stopEvent } from 'utils/helpers';
 
-
 const initialState = {
   reasonMessage: '',
   reasonMessageError: '',
