@@ -1,25 +1,31 @@
-import { WEB_API, ContentType } from 'constants/index';
-import { getTimestamp } from 'utils/helpers';
-import { createRequestTypes } from 'utils/redux';
+import { CALL_API } from 'redux-api-middleware';
+import timestamp from 'utils/timestamp';
+import buildQueryString from 'utils/buildQueryString';
+import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'terms-and-conditions';
-const CREATE_TERMS = createRequestTypes(`${KEY}/create`);
+const CREATE_TERMS = createRequestAction(`${KEY}/create`);
 
 function createTerm(data) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
-        method: 'POST',
-        types: [CREATE_TERMS.REQUEST, CREATE_TERMS.SUCCESS, CREATE_TERMS.FAILURE],
+      [CALL_API]: {
         endpoint: `profile/terms-and-conditions`,
-        endpointParams: data,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          CREATE_TERMS.REQUEST,
+          CREATE_TERMS.SUCCESS,
+          CREATE_TERMS.FAILURE,
+        ],
+        bailout: !logged,
       },
     });
   };
@@ -29,24 +35,24 @@ const actionHandlers = {
   [CREATE_TERMS.REQUEST]: (state, action) => ({
     ...state,
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
   [CREATE_TERMS.SUCCESS]: (state, action) => ({
     ...state,
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [CREATE_TERMS.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 };
 
 const initialState = {
+  error: null,
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 function reducer(state = initialState, action) {
@@ -69,3 +75,4 @@ export {
 };
 
 export default reducer;
+

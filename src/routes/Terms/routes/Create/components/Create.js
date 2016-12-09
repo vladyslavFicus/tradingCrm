@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
-import ManageForm from '../../../components/ManageForm';
+import ManageForm from 'routes/Terms/components/ManageForm';
 import { actionTypes } from '../modules/create';
 
 export default class Create extends Component {
@@ -13,7 +13,7 @@ export default class Create extends Component {
   handleSubmit(data) {
     this.props.createTerm(data)
       .then((action) => {
-        if (action.type === actionTypes.CREATE_TERMS.SUCCESS) {
+        if (action && action.type === actionTypes.CREATE_TERMS.SUCCESS) {
           this.props.router.replace('/terms');
         }
       });

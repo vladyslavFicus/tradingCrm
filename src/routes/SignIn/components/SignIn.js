@@ -14,12 +14,14 @@ class SignIn extends Component {
   handleSubmit({ login, password }) {
     return this.props.signIn({ login, password })
       .then((action) => {
-        if (action.type === authActionTypes.SIGN_IN.SUCCESS) {
-          this.props.router.replace('/');
-        } else if (action.error) {
-          const _error = action.payload.response.error ?
-            action.payload.response.error : action.payload.message;
-          throw new SubmissionError({ _error });
+        if (action) {
+          if (action.type === authActionTypes.SIGN_IN.SUCCESS) {
+            this.props.router.replace('/');
+          } else if (action.error) {
+            const _error = action.payload.response.error ?
+              action.payload.response.error : action.payload.message;
+            throw new SubmissionError({ _error });
+          }
         }
       });
   }

@@ -13,7 +13,7 @@ export default class Create extends Component {
   handleSubmit(data) {
     this.props.updateCampaign(this.props.data.id, data)
       .then((action) => {
-        if (action.type === actionTypes.CAMPAIGN_UPDATE.SUCCESS) {
+        if (action && action.type === actionTypes.CAMPAIGN_UPDATE.SUCCESS) {
           this.props.router.replace('/bonus-campaigns');
         }
       });

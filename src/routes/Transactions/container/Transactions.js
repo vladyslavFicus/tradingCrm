@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../modules/list';
 import List from '../components/List';
 
-const mapStateToProps = (state) => ({ list: { ...state.transactionsList } });
+const mapStateToProps = ({ transactionsList: list }) => ({ list });
 const mapActions = {
   ...actionCreators,
 };

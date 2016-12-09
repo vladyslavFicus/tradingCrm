@@ -16,7 +16,7 @@ export default class Create extends Component {
   handleSubmit(data) {
     this.props.createBonus(data)
       .then((action) => {
-        if (action.type === actionTypes.CREATE_BONUS.SUCCESS) {
+        if (action && action.type === actionTypes.CREATE_BONUS.SUCCESS) {
           this.props.router.replace('/bonuses');
         }
       });

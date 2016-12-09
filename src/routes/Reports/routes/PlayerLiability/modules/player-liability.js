@@ -1,9 +1,9 @@
-import { createRequestTypes } from 'utils/redux';
 import { getApiRoot } from 'config/index';
+import createRequestAction from 'utils/createRequestAction';
 import downloadBlob from 'utils/downloadBlob';
 
 const KEY = 'reports/player-liability';
-const FETCH_REPORT = createRequestTypes(`${KEY}/fetch-report`);
+const FETCH_REPORT = createRequestAction(`${KEY}/fetch-report`);
 
 const initialState = {};
 const actionHandlers = {};

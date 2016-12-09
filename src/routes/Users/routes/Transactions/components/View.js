@@ -52,7 +52,10 @@ class View extends Component {
           headerClassName="text-center"
           headerStyle={{ width: '20%' }}
           render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
-          filter={(onFilterChange) => <DateRangeFilter onFilterChange={onFilterChange}/>}
+          filter={(onFilterChange) => <DateRangeFilter
+            isOutsideRange={(date) => date.isAfter(moment())}
+            onFilterChange={onFilterChange}
+          />}
           filterClassName="text-center"
           className="text-center"
         />
