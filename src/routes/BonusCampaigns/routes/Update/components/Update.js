@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
-import ManageForm from '../../../components/ManageForm';
+import ManageForm from 'routes/BonusCampaigns/components/ManageForm';
 import { actionTypes } from '../modules/update';
 
 export default class Create extends Component {

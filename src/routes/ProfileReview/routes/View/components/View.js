@@ -18,7 +18,7 @@ class View extends Component {
     fetchProfile(params.uuid)
       .then((action) => {
         if (action.type === actionTypes.FETCH_PROFILE.SUCCESS) {
-          const { kycMetaData, id } = action.response;
+          const { kycMetaData, id } = action.payload;
 
           if (kycMetaData && kycMetaData.length > 0) {
             kycMetaData

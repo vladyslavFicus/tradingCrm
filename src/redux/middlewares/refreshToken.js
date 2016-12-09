@@ -3,6 +3,7 @@ import {
   actionTypes as authActionTypes,
   actionCreators as authActionCreators
 } from 'redux/modules/auth';
+import { REHYDRATE } from 'redux-persist/constants';
 
 const timestamp = () => Date.now() / 1000;
 
@@ -31,7 +32,10 @@ class Timer {
   }
 }
 
-const allowedTypes = [authActionTypes.REFRESH_TOKEN.SUCCESS, authActionTypes.SIGN_IN.SUCCESS];
+const allowedTypes = [
+  authActionTypes.REFRESH_TOKEN.SUCCESS,
+  authActionTypes.SIGN_IN.SUCCESS,
+];
 const EXPIRE_TIME_OFFSET = 60;
 
 export default function () {
@@ -64,8 +68,10 @@ export default function () {
 
     let token = null;
     if (!timer.isDelayed() && !initializationRefresh) {
-      initializationRefresh = true;
-      token = getState().auth.token;
+      if (action.type === REHYDRATE) {
+        initializationRefresh = true;
+        token = action.payload.auth.token;
+      }
     } else if (allowedTypes.indexOf(action.type) > -1) {
       console.info('Trying to schedule token refresh.');
       token = action.type === authActionTypes.REFRESH_TOKEN.SUCCESS ?

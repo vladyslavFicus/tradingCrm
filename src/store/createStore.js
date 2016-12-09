@@ -11,7 +11,7 @@ import unauthorized from 'redux/middlewares/unauthorized';
 import refreshToken from 'redux/middlewares/refreshToken';
 
 export default (initialState = {}, onComplete) => {
-  const middleware = [thunk, apiUrl, apiMiddleware, unauthorized([401, 403]), refreshToken()];
+  const middleware = [thunk, apiUrl, apiMiddleware, unauthorized([401]), refreshToken()];
 
   // ======================================================
   // Store Enhancers

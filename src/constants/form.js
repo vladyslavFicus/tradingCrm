@@ -2,11 +2,6 @@ const eventsTypes = {
   FirstDeposit: 'First deposit',
 };
 
-const priorityMoneyTypeUsage = {
-  REAL: 'Real money',
-  BONUS: 'Bonus money',
-};
-
 const customValueFieldTypes = {
   ABSOLUTE: 'ABSOLUTE',
   PERCENTAGE: 'PERCENTAGE',
@@ -19,7 +14,6 @@ const customValueFieldTypesLabels = {
 
 export {
   eventsTypes,
-  priorityMoneyTypeUsage,
   customValueFieldTypes,
   customValueFieldTypesLabels,
 };

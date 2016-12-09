@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
-import ManageForm from '../../../components/ManageForm';
+import ManageForm from 'routes/Bonuses/components/ManageForm';
 import { actionTypes } from '../modules/create';
 import { actionTypes as profileActionTypes } from 'routes/Users/modules/view';
 

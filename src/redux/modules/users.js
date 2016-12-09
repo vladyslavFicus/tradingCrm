@@ -1,6 +1,26 @@
 import { CALL_API } from 'redux-api-middleware';
 import buildQueryString from 'utils/buildQueryString';
 
+function fetchProfile(type) {
+  return (uuid) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${uuid}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [type.REQUEST, type.SUCCESS, type.FAILURE],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function fetchEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -49,6 +69,7 @@ const reducer = (state = initialState, action) => {
 
 const actionTypes = {};
 const actionCreators = {
+  fetchProfile,
   fetchEntities,
 };
 

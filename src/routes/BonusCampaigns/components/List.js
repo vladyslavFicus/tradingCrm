@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import { Link } from 'react-router';
-import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
+import { DropDownFilter } from 'components/Forms/Filters';
 import moment from 'moment';
 
 class List extends Component {
@@ -11,6 +11,7 @@ class List extends Component {
 
     this.handlePageChanged = this.handlePageChanged.bind(this);
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
+    this.handleChangeCampaignState = this.handleChangeCampaignState.bind(this);
     this.renderActions = this.renderActions.bind(this);
   }
 
@@ -28,6 +29,11 @@ class List extends Component {
     this.handleFiltersChanged({});
   }
 
+  handleChangeCampaignState(filters, state, id) {
+    this.props.changeCampaignState(state, id)
+      .then(() => this.props.fetchEntities(filters));
+  }
+
   renderActions(data, column, filters) {
     return <div className="btn-group btn-group-sm">
       {data.state === 'INACTIVE' && <Link
@@ -39,14 +45,14 @@ class List extends Component {
       </Link>}
       {data.state === 'INACTIVE' && <a
         className="btn btn-sm btn-success btn-secondary"
-        onClick={() => this.props.changeCampaignState(filters, 'activate', data.id)}
+        onClick={() => this.handleChangeCampaignState(filters, 'activate', data.id)}
         title="Activate campaign"
       >
         <i className="fa fa-check"/>
       </a>}
       {data.state !== 'COMPLETED' && <a
         className="btn btn-sm btn-danger btn-secondary"
-        onClick={() => this.props.changeCampaignState(filters, 'complete', data.id)}
+        onClick={() => this.handleChangeCampaignState(filters, 'complete', data.id)}
         title="Complete campaign"
       >
         <i className="fa fa-times"/>

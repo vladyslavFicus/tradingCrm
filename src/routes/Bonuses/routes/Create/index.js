@@ -1,7 +1,7 @@
 import { injectReducer } from 'store/reducers';
 
 export default (store) => ({
-  path: 'create',
+  path: 'create(/:uuid)',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, {

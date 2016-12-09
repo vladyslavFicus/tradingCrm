@@ -1,10 +1,9 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
-import buildFormData from 'utils/buildFormData';
+import { actionCreators as usersActionCreators } from 'redux/modules/users';
 
 const KEY = 'user-profile';
-
 const PROFILE = createRequestAction(`${KEY}/view`);
 const BALANCE = createRequestAction(`${KEY}/balance`);
 
@@ -47,24 +46,8 @@ export const initialState = {
   withdraw: withdrawInitialState,
 };
 
-function loadProfile(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `profile/profiles/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [PROFILE.REQUEST, PROFILE.SUCCESS, PROFILE.FAILURE],
-        bailout: !logged,
-      },
-    });
-  };
+function fetchProfile(uuid) {
+  return usersActionCreators.fetchProfile(PROFILE)(uuid);
 }
 
 function getBalance(uuid) {
@@ -107,24 +90,28 @@ function checkLock(uuid) {
   };
 }
 
-function lockDeposit(uuid, reason) {
+function lockDeposit(playerUUID, reason) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/deposit/${uuid}`,
+        endpoint: `payment/lock/deposit`,
         method: 'POST',
         types: [DEPOSIT_LOCK.REQUEST, DEPOSIT_LOCK.SUCCESS, DEPOSIT_LOCK.FAILURE],
         headers: {
           Accept: 'application/json',
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: buildFormData({ reason }),
+        body: JSON.stringify({
+          reason,
+          playerUUID,
+        }),
         bailout: !logged,
       },
     })
-      .then(() => dispatch(checkLock(uuid)));
+      .then(() => dispatch(checkLock(playerUUID)));
   };
 }
 
@@ -149,23 +136,27 @@ function unlockDeposit(uuid) {
   };
 }
 
-function lockWithdraw(uuid, reason) {
+function lockWithdraw(playerUUID, reason) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/withdraw/${uuid}`,
+        endpoint: `payment/lock/withdraw`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: buildFormData({ reason }),
+        body: JSON.stringify({
+          reason,
+          playerUUID,
+        }),
         types: [WITHDRAW_LOCK.REQUEST, WITHDRAW_LOCK.SUCCESS, WITHDRAW_LOCK.FAILURE],
         bailout: !logged,
       },
-    }).then(() => dispatch(checkLock(uuid)));
+    }).then(() => dispatch(checkLock(playerUUID)));
   };
 }
 
@@ -191,7 +182,7 @@ function unlockWithdraw(uuid) {
 }
 
 function loadFullProfile(uuid) {
-  return dispatch => dispatch(loadProfile(uuid))
+  return dispatch => dispatch(fetchProfile(uuid))
     .then(() => dispatch(getBalance(uuid)))
     .then(() => dispatch(checkLock(uuid)));
 }
@@ -361,7 +352,7 @@ const actionTypes = {
 };
 
 const actionCreators = {
-  loadProfile,
+  fetchProfile,
   getBalance,
   loadFullProfile,
   checkLock,
