@@ -15,6 +15,7 @@ class View extends Component {
       filters: {
         playerUUID: this.props.params.id,
         gl2_source_input: '584569002ab79c0001f8cc64',
+        'NOT gameId': 'unknown',
       },
       page: 0,
     };
@@ -54,7 +55,12 @@ class View extends Component {
   }
 
   render() {
-    const { items, allGames, allActions, allProviders, totalItems, currency } = this.props;
+    const {
+      items,
+      totalItems,
+      currency,
+      allGames, allActions, allProviders,
+    } = this.props;
 
     return <div id={`tab-${config.tabName}`} className={classNames('tab-pane fade in active')}>
       <GridView
