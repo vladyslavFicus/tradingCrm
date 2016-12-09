@@ -14,7 +14,7 @@ class View extends Component {
     this.state = {
       filters: {
         playerUUID: this.props.params.id,
-        gl2_source_input: '584569002ab79c0001f8cc64',
+        gl2_source_input: '584ac1472ab79c00014020bc',
         'NOT gameId': 'unknown',
       },
       page: 0,
