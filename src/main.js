@@ -2,6 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
+import moment from 'moment';
+
+moment.updateLocale('en', {
+  longDateFormat: {
+    L: 'YYYY/MM/DD',
+  },
+});
 
 const initialState = window.___INITIAL_STATE__;
 const store = createStore(initialState, () => {
