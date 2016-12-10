@@ -26,7 +26,7 @@ class List extends Component {
     this.handleFiltersChanged();
   }
 
-  renderActions(data, column, filters) {
+  renderActions(data) {
     return <div>
       <Link
         to={`/terms/view/${data.id}`}

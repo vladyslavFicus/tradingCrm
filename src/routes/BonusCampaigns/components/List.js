@@ -3,6 +3,7 @@ import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import { Link } from 'react-router';
 import { DropDownFilter } from 'components/Forms/Filters';
+import { actions, statuses, statusesLabels } from '../constants';
 import moment from 'moment';
 
 class List extends Component {
@@ -36,23 +37,23 @@ class List extends Component {
 
   renderActions(data, column, filters) {
     return <div className="btn-group btn-group-sm">
-      {data.state === 'INACTIVE' && <Link
+      {data.state === statuses.INACTIVE && <Link
         to={`/bonus-campaigns/update/${data.id}`}
         className="btn btn-sm btn-primary btn-secondary"
         title="Edit campaign"
       >
         <i className="fa fa-pencil"/>
       </Link>}
-      {data.state === 'INACTIVE' && <a
+      {data.state === statuses.INACTIVE && <a
         className="btn btn-sm btn-success btn-secondary"
-        onClick={() => this.handleChangeCampaignState(filters, 'activate', data.id)}
+        onClick={() => this.handleChangeCampaignState(filters, actions.activate, data.id)}
         title="Activate campaign"
       >
         <i className="fa fa-check"/>
       </a>}
-      {data.state !== 'COMPLETED' && <a
+      {data.state !== statuses.COMPLETED && <a
         className="btn btn-sm btn-danger btn-secondary"
-        onClick={() => this.handleChangeCampaignState(filters, 'complete', data.id)}
+        onClick={() => this.handleChangeCampaignState(filters, actions.complete, data.id)}
         title="Complete campaign"
       >
         <i className="fa fa-times"/>
@@ -130,10 +131,7 @@ class List extends Component {
                 name="state"
                 items={{
                   '': 'All',
-                  INACTIVE: 'Inactive',
-                  IN_PROGRESS: 'In progress',
-                  ACTIVE: 'Active',
-                  COMPLETED: 'Completed',
+                  ...statusesLabels,
                 }}
                 onFilterChange={onFilterChange}
               />}

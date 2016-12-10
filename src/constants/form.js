@@ -1,7 +1,3 @@
-const eventsTypes = {
-  FirstDeposit: 'First deposit',
-};
-
 const customValueFieldTypes = {
   ABSOLUTE: 'ABSOLUTE',
   PERCENTAGE: 'PERCENTAGE',
@@ -13,7 +9,6 @@ const customValueFieldTypesLabels = {
 };
 
 export {
-  eventsTypes,
   customValueFieldTypes,
   customValueFieldTypesLabels,
 };

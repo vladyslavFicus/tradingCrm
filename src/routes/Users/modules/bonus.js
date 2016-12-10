@@ -68,7 +68,7 @@ function cancelBonus(id, playerUUID) {
         types: [
           CANCEL_BONUS.REQUEST,
           CANCEL_BONUS.SUCCESS,
-          CANCEL_BONUS.FAILURE
+          CANCEL_BONUS.FAILURE,
         ],
         bailout: !logged,
       },
@@ -95,6 +95,7 @@ const actionHandlers = {
 
     return newState;
   },
+
   [FETCH_ACTIVE_BONUS.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,

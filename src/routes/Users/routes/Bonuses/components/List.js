@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import GridView, { GridColumn } from 'components/GridView';
-import { Link } from 'react-router';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 import moment from 'moment';
 

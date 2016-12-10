@@ -6,7 +6,8 @@ import RemoteDateRangePickerWrapper from 'components/Forms/RemoteDateRangePicker
 import { CustomValueField, SelectField, InputField } from 'components/ReduxForm';
 import { formErrorSelector } from 'utils/redux-form';
 import { createValidator } from 'utils/validator';
-import { eventsTypes, customValueFieldTypesLabels } from 'constants/form';
+import { customValueFieldTypesLabels } from 'constants/form';
+import { eventTypesLabels } from '../constants';
 import moment from 'moment';
 
 const formName = 'campaignCreation';
@@ -48,7 +49,7 @@ const validator = createValidator({
     type: ['required', 'in:' + Object.keys(customValueFieldTypesLabels).join()],
   },
   wagerWinMultiplier: 'required|integer|max:999',
-  eventsTypes: ['required', 'array', 'in:' + Object.keys(eventsTypes).join()],
+  eventsTypes: ['required', 'array', 'in:' + Object.keys(eventTypesLabels).join()],
 }, attributeLabels, false);
 
 class ManageForm extends Component {
@@ -149,8 +150,8 @@ class ManageForm extends Component {
         disabled={disabled}
         component={SelectField}
       >
-        {Object.keys(eventsTypes).map((key) => (
-          <option key={key} value={key}>{eventsTypes[key]}</option>
+        {Object.keys(eventTypesLabels).map((key) => (
+          <option key={key} value={key}>{eventTypesLabels[key]}</option>
         ))}
       </Field>
 
