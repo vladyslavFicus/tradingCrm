@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import classNames from 'classnames';
 import { InputField, SingleDateField } from 'components/ReduxForm';
-import { renderField, renderError, formErrorSelector } from 'utils/redux-form';
-import { stopEvent } from 'utils/helpers';
+import { formErrorSelector } from 'utils/redux-form';
 import { createValidator } from 'utils/validator';
 
 const formName = 'bonusManage';

@@ -11,9 +11,9 @@ class SingleDateField extends Component {
   }
 
   handleDateChange(date) {
-    const { input: { name, onChange } } = this.props;
+    const { input: { onChange } } = this.props;
 
-    onChange(name, date ? date.format('YYYY-MM-DD') + 'T00:00:00' : '');
+    onChange(date ? date.format('YYYY-MM-DD') + 'T00:00:00' : '');
   }
 
   render() {

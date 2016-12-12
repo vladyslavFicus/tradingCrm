@@ -5,9 +5,6 @@ import Logout from '../components/Logout';
 const mapActionCreators = {
   logout: authActionCreators.logout,
 };
-const mapStateToProps = (state) => ({
-  token: state.auth.token,
-  uuid: state.auth.uuid,
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, mapActionCreators)(Logout);

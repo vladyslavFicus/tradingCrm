@@ -47,7 +47,7 @@ class View extends Component {
   }
 
   render() {
-    const { profile, deposit, withdraw, bonus, } = this.props;
+    const { profile, deposit, withdraw, bonus } = this.props;
 
     return <div id={`tab-${config.tabName}`} className={classNames('tab-pane fade in active')}>
       <div className="form-group row">

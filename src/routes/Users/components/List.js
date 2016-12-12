@@ -27,7 +27,7 @@ class List extends Component {
     this.handleFiltersChanged();
   }
 
-  renderActions(data, column, filters) {
+  renderActions(data) {
     return <div>
       <Link to={`/users/${data.uuid}/profile`} title={'View user profile'}>
         <i className="fa fa-search"/>

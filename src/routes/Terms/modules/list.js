@@ -1,33 +1,33 @@
-import { WEB_API } from 'constants/index';
-import { getTimestamp } from 'utils/helpers';
-import { createRequestTypes } from 'utils/redux';
+import { CALL_API } from 'redux-api-middleware';
+import timestamp from 'utils/timestamp';
+import buildQueryString from 'utils/buildQueryString';
+import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'terms-and-conditions';
-const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
+const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
-    const { token, uuid } = getState().auth;
-
-    if (!token || !uuid) {
-      return { type: false };
-    }
-
-    const endpointParams = {
-      page: filters.page ? filters.page : 0,
-    };
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
+      [CALL_API]: {
+        endpoint: `profile/terms-and-conditions?${buildQueryString(filters)}`,
         method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         types: [
-          FETCH_ENTITIES.REQUEST,
+          {
+            type: FETCH_ENTITIES.REQUEST,
+            meta: { filters },
+          },
           FETCH_ENTITIES.SUCCESS,
           FETCH_ENTITIES.FAILURE,
         ],
-        endpoint: `profile/terms-and-conditions`,
-        endpointParams,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        bailout: !logged,
       },
     });
   };
@@ -36,21 +36,24 @@ function fetchEntities(filters = {}) {
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...state.filters, ...action.filters },
+    filters: { ...action.filters },
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
-    entities: { ...action.response },
+    entities: {
+      ...state.entities,
+      ...action.payload,
+    },
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 };
 
@@ -68,7 +71,7 @@ const initialState = {
   },
   filters: {},
   isLoading: false,
-  isFailed: false,
+  error: null,
   receivedAt: null,
 };
 function reducer(state = initialState, action) {

@@ -1,53 +1,57 @@
-import { WEB_API, ContentType } from 'constants/index';
-import { getTimestamp } from 'utils/helpers';
+import { CALL_API } from 'redux-api-middleware';
+import timestamp from 'utils/timestamp';
+import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'campaign';
-const CAMPAIGN_CREATE_REQUEST = `${KEY}/campaign-create-request`;
-const CAMPAIGN_CREATE_SUCCESS = `${KEY}/campaign-create-success`;
-const CAMPAIGN_CREATE_FAILURE = `${KEY}/campaign-create-failure`;
+const CAMPAIGN_CREATE = createRequestAction(`${KEY}/campaign-create`);
 
 function createCampaign(data) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
-        method: 'POST',
-        types: [CAMPAIGN_CREATE_REQUEST, CAMPAIGN_CREATE_SUCCESS, CAMPAIGN_CREATE_FAILURE],
+      [CALL_API]: {
         endpoint: `promotion/campaigns`,
-        endpointParams: data,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          CAMPAIGN_CREATE.REQUEST,
+          CAMPAIGN_CREATE.SUCCESS,
+          CAMPAIGN_CREATE.FAILURE,
+        ],
+        bailout: !logged,
       },
     });
   };
 }
 
 const actionHandlers = {
-  [CAMPAIGN_CREATE_REQUEST]: (state, action) => ({
+  [CAMPAIGN_CREATE.REQUEST]: (state, action) => ({
     ...state,
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
-  [CAMPAIGN_CREATE_SUCCESS]: (state, action) => ({
+  [CAMPAIGN_CREATE.SUCCESS]: (state, action) => ({
     ...state,
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
-  [CAMPAIGN_CREATE_FAILURE]: (state, action) => ({
+  [CAMPAIGN_CREATE.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 };
 
 const initialState = {
+  error: null,
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 function reducer(state = initialState, action) {
@@ -57,9 +61,7 @@ function reducer(state = initialState, action) {
 }
 
 const actionTypes = {
-  CAMPAIGN_CREATE_REQUEST,
-  CAMPAIGN_CREATE_SUCCESS,
-  CAMPAIGN_CREATE_FAILURE,
+  CAMPAIGN_CREATE,
 };
 
 const actionCreators = {

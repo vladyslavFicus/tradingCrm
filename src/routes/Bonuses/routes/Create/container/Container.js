@@ -5,10 +5,10 @@ import { actionCreators as bonusActionCreators } from '../modules/create';
 import { actionCreators as profileActionCreators } from 'routes/Users/modules/view';
 import { withRouter } from 'react-router';
 
-const mapStateToProps = (state) => ({
-  ...state.bonusCreate,
+const mapStateToProps = ({ bonusCreate }) => ({
+  ...bonusCreate,
 });
 export default withRouter(connect(mapStateToProps, {
   ...bonusActionCreators,
-  fetchProfile: profileActionCreators.loadProfile,
+  fetchProfile: profileActionCreators.fetchProfile,
 })(Create));

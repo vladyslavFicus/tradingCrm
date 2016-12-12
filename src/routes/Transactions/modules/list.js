@@ -1,42 +1,31 @@
-import { WEB_API } from 'constants/index';
-import { getTimestamp } from 'utils/helpers';
-import { createRequestTypes } from 'utils/redux';
+import { CALL_API } from 'redux-api-middleware';
+import timestamp from 'utils/timestamp';
+import buildQueryString from 'utils/buildQueryString';
+import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'transactions';
-const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
+const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
-    const { token, uuid } = getState().auth;
-
-    if (!token || !uuid) {
-      return { type: false };
-    }
-
-    const endpointParams = { page: filters.page ? filters.page : 0 };
-
-    if (filters.playerUUID) {
-      endpointParams.playerUUID = filters.playerUUID;
-    }
-
-    if (filters.paymentType) {
-      endpointParams.type = filters.paymentType;
-    }
-
-    if (filters.startDate && filters.endDate) {
-      endpointParams.startDate = filters.startDate;
-      endpointParams.endDate = filters.endDate;
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
+      [CALL_API]: {
+        endpoint: `payment/transactions?${buildQueryString(filters)}`,
         method: 'GET',
-        types: [FETCH_ENTITIES.REQUEST, FETCH_ENTITIES.SUCCESS, FETCH_ENTITIES.FAILURE],
-        endpoint: `payment/transactions`,
-        endpointParams,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          FETCH_ENTITIES.REQUEST,
+          FETCH_ENTITIES.SUCCESS,
+          FETCH_ENTITIES.FAILURE,
+        ],
+        bailout: !logged,
       },
-      page: endpointParams.page,
     });
   };
 }
@@ -44,21 +33,24 @@ function fetchEntities(filters = {}) {
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...state.filters, ...action.filters },
+    filters: { ...action.filters },
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
-    entities: { ...action.response },
+    entities: {
+      ...state.entities,
+      ...action.payload,
+    },
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 };
 
@@ -74,9 +66,9 @@ const initialState = {
     totalPages: null,
     content: [],
   },
+  error: null,
   filters: {},
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 function reducer(state = initialState, action) {

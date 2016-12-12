@@ -12,12 +12,22 @@ const config = {
   ...environmentConfiguration,
 };
 
-if (!!window && !!window.NAS && typeof window.NAS === 'object' && !!window.NAS.NAS_API_ROOT) {
-  config.API_ROOT = window.NAS.NAS_API_ROOT;
+if (!!window && !!window.NAS && typeof window.NAS === 'object') {
+  if (!!window.NAS.NAS_API_ROOT) {
+    config.API_ROOT = window.NAS.NAS_API_ROOT;
+  }
+
+  if (!!window.NAS.NAS_DOMAIN) {
+    config.DOMAIN = window.NAS.NAS_DOMAIN;
+  }
 }
 
 export function getApiRoot() {
   return config.API_ROOT.replace(/\/$/, '');
+}
+
+export function getDomain() {
+  return config.DOMAIN.replace(/\/$/, '');
 }
 
 export default config;

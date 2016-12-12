@@ -1,5 +1,3 @@
-import { injectReducer } from 'store/reducers';
-
 export default (store) => ({
   path: ':id/profile',
   getComponents(nextState, cb) {

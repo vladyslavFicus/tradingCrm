@@ -31,6 +31,7 @@ class ApprovalDropDown extends Component {
 
   handleShowModal() {
     this.setState({
+      opened: false,
       modalOpened: true,
     });
   }
@@ -38,7 +39,7 @@ class ApprovalDropDown extends Component {
   handleHideModal(cb) {
     this.setState({
       modalOpened: false,
-    }, cb);
+    }, () => cb());
   }
 
   handleReject({ reason }) {
@@ -60,12 +61,12 @@ class ApprovalDropDown extends Component {
         </DropdownMenu>
       </ButtonDropdown>
 
-      <RejectModal
+      {modalOpened && <RejectModal
         show={modalOpened}
         onSubmit={this.handleReject}
         onToggle={this.handleToggleModal}
-        onClose={this.handleHideModal}
-      />
+        onClose={() => this.handleHideModal()}
+      />}
     </div>);
   }
 }
