@@ -3,10 +3,9 @@ import View from '../components/View';
 import { connect } from 'react-redux';
 import { actionCreators as viewActionCreators } from '../modules/view';
 
-const mapStateToProps = (state) => ({
-  ...state.userGameActivity,
-  currency: state.userProfile.profile.data.currency,
-  user: state.auth,
+const mapStateToProps = ({ userGameActivity, userProfile }) => ({
+  ...userGameActivity,
+  currency: userProfile.profile.data.currency,
 });
 const mapActions = {
   ...viewActionCreators,

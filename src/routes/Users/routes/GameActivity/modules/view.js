@@ -38,6 +38,10 @@ const mapMessage = ({ providers, games, actions }) => item => ({
   amountWin: item.message.amountWin,
   stake: item.message.stake,
 });
+const mapGames = (items) => items.reduce((result, item) => ({
+  ...result,
+  [item.gameId]: item.fullGameName,
+}), {});
 
 const buildQueryCriteria = (params) => ({
   query: Object
@@ -134,9 +138,7 @@ const actionHandlers = {
 
   [FETCH_GAMES.SUCCESS]: (state, action) => ({
     ...state,
-    games: action.payload.reduce((res, game) => ({
-      ...res, [game.gameId]: game.fullGameName,
-    }), {}),
+    games: mapGames(action.payload),
   }),
 };
 
@@ -158,6 +160,7 @@ const initialState = {
   isFailed: false,
   receivedAt: null,
 };
+
 function reducer(state = initialState, action) {
   const handler = actionHandlers[action.type];
 
@@ -168,7 +171,6 @@ const actionTypes = {
   FETCH_ACTIVITY,
   FETCH_GAMES,
 };
-
 const actionCreators = {
   fetchGameActivity,
   fetchGames,
