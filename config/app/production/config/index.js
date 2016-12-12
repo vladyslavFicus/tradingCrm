@@ -1,3 +1,3 @@
 export default {
-  API_ROOT: 'http://casino.ua.newage.io',
+  API_ROOT: 'http://api.ua.newage.io',
 };
