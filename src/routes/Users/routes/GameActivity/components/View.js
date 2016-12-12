@@ -58,6 +58,7 @@ class View extends Component {
       currency,
       games, actions, providers,
     } = this.props;
+    console.log(this.props);
 
     return <div className={classNames('tab-pane fade in active')}>
       <GridView
