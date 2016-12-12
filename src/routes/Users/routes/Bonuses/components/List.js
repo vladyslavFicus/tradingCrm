@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import GridView, { GridColumn } from 'components/GridView';
-import { Link } from 'react-router';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 import moment from 'moment';
 
@@ -34,7 +33,10 @@ class List extends Component {
   }
 
   handleRefresh() {
-    return this.props.fetchEntities({ ...this.state.filters, page: this.state.page });
+    return this.props.fetchEntities({
+      ...this.state.filters,
+      page: this.state.page,
+    });
   }
 
   handleAcceptBonus(id) {
@@ -51,9 +53,7 @@ class List extends Component {
     this.handleRefresh();
   }
 
-  renderActions(data, column, filters) {
-    const { userBonus }  = this.props;
-
+  renderActions(data) {
     return <div className="btn-group btn-group-sm">
       {['COMPLETED', 'CANCELLED', 'EXPIRED'].indexOf(data.state) === -1 && <a
         className="btn btn-sm btn-danger btn-secondary"
@@ -139,7 +139,10 @@ class List extends Component {
           headerClassName="text-center"
           headerStyle={{ width: '20%' }}
           render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
-          filter={(onFilterChange) => <DateRangeFilter onFilterChange={onFilterChange}/>}
+          filter={(onFilterChange) => <DateRangeFilter
+            isOutsideRange={(date) => date.isAfter(moment())}
+            onFilterChange={onFilterChange}
+          />}
           filterClassName="text-center"
           className="text-center"
         />

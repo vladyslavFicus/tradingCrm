@@ -6,7 +6,8 @@ import RemoteDateRangePickerWrapper from 'components/Forms/RemoteDateRangePicker
 import { CustomValueField, SelectField, InputField } from 'components/ReduxForm';
 import { formErrorSelector } from 'utils/redux-form';
 import { createValidator } from 'utils/validator';
-import { priorityMoneyTypeUsage, eventsTypes, customValueFieldTypesLabels } from 'constants/form';
+import { customValueFieldTypesLabels } from 'constants/form';
+import { eventTypesLabels } from '../constants';
 import moment from 'moment';
 
 const formName = 'campaignCreation';
@@ -21,7 +22,6 @@ const attributeLabels = {
   campaignRatio: 'Ratio',
   'campaignRatio.value': 'Ratio value',
   'campaignRatio.type': 'Ratio value type',
-  bonusAmount: 'Bonus amount',
   capping: 'Capping',
   'capping.value': 'Capping value',
   'capping.type': 'Capping value type',
@@ -30,7 +30,6 @@ const attributeLabels = {
   'conversionPrize.type': 'Conversion prize value type',
   wagerWinMultiplier: 'Multiplier',
   eventsTypes: 'Events types',
-  priorityMoneyTypeUsage: 'Money usage',
   optIn: 'Opt-In',
 };
 
@@ -49,10 +48,8 @@ const validator = createValidator({
     value: 'required|numeric|customTypeValue.value',
     type: ['required', 'in:' + Object.keys(customValueFieldTypesLabels).join()],
   },
-  bonusAmount: 'required|numeric',
   wagerWinMultiplier: 'required|integer|max:999',
-  eventsTypes: ['required', 'array', 'in:' + Object.keys(eventsTypes).join()],
-  priorityMoneyTypeUsage: ['required', 'in:' + Object.keys(priorityMoneyTypeUsage).join()],
+  eventsTypes: ['required', 'array', 'in:' + Object.keys(eventTypesLabels).join()],
 }, attributeLabels, false);
 
 class ManageForm extends Component {
@@ -71,20 +68,20 @@ class ManageForm extends Component {
   }
 
   handleDatesChange({ startDate, endDate }) {
-    const { dispatch, change, fields } = this.props;
+    const { change, fields } = this.props;
 
     this.setState({ startDate, endDate }, () => {
       if (startDate) {
         const formattedDate = startDate.format('YYYY-MM-DD') + 'T00:00:00';
         if (fields.startDate !== formattedDate) {
-          dispatch(change('startDate', formattedDate));
+          change('startDate', formattedDate);
         }
       }
 
       if (endDate) {
         const formattedDate = endDate.format('YYYY-MM-DD') + 'T23:59:59';
         if (fields.endDate !== formattedDate) {
-          dispatch(change('endDate', formattedDate));
+          change('endDate', formattedDate);
         }
       }
     });
@@ -124,13 +121,6 @@ class ManageForm extends Component {
         disabled={disabled}
         errors={errors}
       />
-      <Field
-        name="bonusAmount"
-        label={attributeLabels.bonusAmount}
-        type="text"
-        disabled={disabled}
-        component={InputField}
-      />
       <CustomValueField
         basename={'capping'}
         label={attributeLabels.capping}
@@ -160,20 +150,8 @@ class ManageForm extends Component {
         disabled={disabled}
         component={SelectField}
       >
-        {Object.keys(eventsTypes).map((key) => (
-          <option key={key} value={key}>{eventsTypes[key]}</option>
-        ))}
-      </Field>
-      <Field
-        name="priorityMoneyTypeUsage"
-        label={attributeLabels.priorityMoneyTypeUsage}
-        type="select"
-        disabled={disabled}
-        component={SelectField}
-      >
-        <option value="" disabled>-- Choose --</option>
-        {Object.keys(priorityMoneyTypeUsage).map((key) => (
-          <option key={key} value={key}>{priorityMoneyTypeUsage[key]}</option>
+        {Object.keys(eventTypesLabels).map((key) => (
+          <option key={key} value={key}>{eventTypesLabels[key]}</option>
         ))}
       </Field>
 

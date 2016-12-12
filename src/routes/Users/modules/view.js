@@ -1,19 +1,19 @@
-import { WEB_API, ContentType } from 'constants/index';
-import { getTimestamp } from 'utils/helpers';
-import { createRequestTypes } from 'utils/redux';
+import { CALL_API } from 'redux-api-middleware';
+import createRequestAction from 'utils/createRequestAction';
+import timestamp from 'utils/timestamp';
+import { actionCreators as usersActionCreators } from 'redux/modules/users';
 
 const KEY = 'user-profile';
+const PROFILE = createRequestAction(`${KEY}/view`);
+const BALANCE = createRequestAction(`${KEY}/balance`);
 
-const PROFILE = createRequestTypes(`${KEY}/view`);
-const BALANCE = createRequestTypes(`${KEY}/balance`);
+const CHECK_LOCK = createRequestAction(`${KEY}/check-lock`);
 
-const CHECK_LOCK = createRequestTypes(`${KEY}/check-lock`);
+const DEPOSIT_LOCK = createRequestAction(`${KEY}/deposit-lock`);
+const DEPOSIT_UNLOCK = createRequestAction(`${KEY}/deposit-unlock`);
 
-const DEPOSIT_LOCK = createRequestTypes(`${KEY}/deposit-lock`);
-const DEPOSIT_UNLOCK = createRequestTypes(`${KEY}/deposit-unlock`);
-
-const WITHDRAW_LOCK = createRequestTypes(`${KEY}/withdraw-lock`);
-const WITHDRAW_UNLOCK = createRequestTypes(`${KEY}/withdraw-unlock`);
+const WITHDRAW_LOCK = createRequestAction(`${KEY}/withdraw-lock`);
+const WITHDRAW_UNLOCK = createRequestAction(`${KEY}/withdraw-unlock`);
 
 const profileInitialState = {
   data: {
@@ -23,20 +23,20 @@ const profileInitialState = {
     currency: null,
     balance: null,
   },
+  error: null,
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 const depositInitialState = {
   reasons: [],
+  error: false,
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 const withdrawInitialState = {
   reasons: [],
+  error: false,
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 
@@ -46,34 +46,25 @@ export const initialState = {
   withdraw: withdrawInitialState,
 };
 
-function loadProfile(uuid) {
-  return (dispatch, getState) => {
-    const { auth } = getState();
-    return dispatch({
-      [WEB_API]: {
-        method: 'GET',
-        types: [PROFILE.REQUEST, PROFILE.SUCCESS, PROFILE.FAILURE],
-        endpoint: `profile/profiles/${uuid}`,
-        headers: auth.token ? { Authorization: `Bearer ${auth.token}` } : {},
-      },
-    });
-  };
+function fetchProfile(uuid) {
+  return usersActionCreators.fetchProfile(PROFILE)(uuid);
 }
 
 function getBalance(uuid) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
-        method: 'GET',
-        types: [BALANCE.REQUEST, BALANCE.SUCCESS, BALANCE.FAILURE],
+      [CALL_API]: {
         endpoint: `wallet/balance/${uuid}`,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [BALANCE.REQUEST, BALANCE.SUCCESS, BALANCE.FAILURE],
+        bailout: !logged,
       },
     });
   };
@@ -81,18 +72,19 @@ function getBalance(uuid) {
 
 function checkLock(uuid) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
-        method: 'GET',
-        types: [CHECK_LOCK.REQUEST, CHECK_LOCK.SUCCESS, CHECK_LOCK.FAILURE],
+      [CALL_API]: {
         endpoint: `payment/lock/${uuid}`,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [CHECK_LOCK.REQUEST, CHECK_LOCK.SUCCESS, CHECK_LOCK.FAILURE],
+        bailout: !logged,
       },
     });
   };
@@ -100,19 +92,23 @@ function checkLock(uuid) {
 
 function lockDeposit(playerUUID, reason) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
+      [CALL_API]: {
+        endpoint: `payment/lock/deposit`,
         method: 'POST',
         types: [DEPOSIT_LOCK.REQUEST, DEPOSIT_LOCK.SUCCESS, DEPOSIT_LOCK.FAILURE],
-        endpoint: `payment/lock/deposit`,
-        endpointParams: { reason, playerUUID },
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          reason,
+          playerUUID,
+        }),
+        bailout: !logged,
       },
     })
       .then(() => dispatch(checkLock(playerUUID)));
@@ -121,18 +117,19 @@ function lockDeposit(playerUUID, reason) {
 
 function unlockDeposit(uuid) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
-        method: 'DELETE',
-        types: [DEPOSIT_UNLOCK.REQUEST, DEPOSIT_UNLOCK.SUCCESS, DEPOSIT_UNLOCK.FAILURE],
+      [CALL_API]: {
         endpoint: `payment/lock/deposit/${uuid}`,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [DEPOSIT_UNLOCK.REQUEST, DEPOSIT_UNLOCK.SUCCESS, DEPOSIT_UNLOCK.FAILURE],
+        bailout: !logged,
       },
     })
       .then(() => dispatch(checkLock(uuid)));
@@ -141,19 +138,23 @@ function unlockDeposit(uuid) {
 
 function lockWithdraw(playerUUID, reason) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
-        method: 'POST',
-        types: [WITHDRAW_LOCK.REQUEST, WITHDRAW_LOCK.SUCCESS, WITHDRAW_LOCK.FAILURE],
+      [CALL_API]: {
         endpoint: `payment/lock/withdraw`,
-        endpointParams: { reason, playerUUID },
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          reason,
+          playerUUID,
+        }),
+        types: [WITHDRAW_LOCK.REQUEST, WITHDRAW_LOCK.SUCCESS, WITHDRAW_LOCK.FAILURE],
+        bailout: !logged,
       },
     }).then(() => dispatch(checkLock(playerUUID)));
   };
@@ -161,18 +162,19 @@ function lockWithdraw(playerUUID, reason) {
 
 function unlockWithdraw(uuid) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
-        method: 'DELETE',
-        types: [WITHDRAW_UNLOCK.REQUEST, WITHDRAW_UNLOCK.SUCCESS, WITHDRAW_UNLOCK.FAILURE],
+      [CALL_API]: {
         endpoint: `payment/lock/withdraw/${uuid}`,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [WITHDRAW_UNLOCK.REQUEST, WITHDRAW_UNLOCK.SUCCESS, WITHDRAW_UNLOCK.FAILURE],
+        bailout: !logged,
       },
     })
       .then(() => dispatch(checkLock(uuid)));
@@ -180,7 +182,7 @@ function unlockWithdraw(uuid) {
 }
 
 function loadFullProfile(uuid) {
-  return dispatch => dispatch(loadProfile(uuid))
+  return dispatch => dispatch(fetchProfile(uuid))
     .then(() => dispatch(getBalance(uuid)))
     .then(() => dispatch(checkLock(uuid)));
 }
@@ -189,44 +191,44 @@ const balanceActionHandlers = {
   [BALANCE.REQUEST]: (state, action) => ({
     ...state,
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
   [BALANCE.SUCCESS]: (state, action) => ({
     ...state,
     data: {
       ...state.data,
-      balance: action.response.balance !== undefined ? action.response.balance : 0.00,
+      balance: action.payload.balance !== undefined ? action.payload.balance : 0.00,
     },
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [BALANCE.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 };
 const profileActionHandlers = {
   [PROFILE.REQUEST]: (state, action) => ({
     ...state,
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
   [PROFILE.SUCCESS]: (state, action) => ({
     ...state,
     data: {
       ...state.data,
-      ...action.response,
+      ...action.payload,
     },
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [PROFILE.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
   ...balanceActionHandlers,
 };
@@ -234,18 +236,17 @@ const depositActionHandlers = {
   [CHECK_LOCK.REQUEST]: (state, action) => ({
     ...state,
     isLoading: true,
-    isFailure: false,
+    error: null,
   }),
   [CHECK_LOCK.SUCCESS]: (state, action) => {
     const newState = {
       ...state,
       reasons: [],
       isLoading: false,
-      isFailure: false,
-      receivedAt: getTimestamp(),
+      receivedAt: timestamp(),
     };
 
-    newState.reasons = action.response.reduce((result, current) => {
+    newState.reasons = action.payload.reduce((result, current) => {
       if (current.type === 'DEPOSIT') {
         result.push(current);
       }
@@ -259,44 +260,42 @@ const depositActionHandlers = {
   [CHECK_LOCK.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailure: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 
   [DEPOSIT_LOCK.REQUEST]: (state, action) => ({
     ...state,
     isLoading: true,
-    isFailure: false,
+    error: null,
   }),
   [DEPOSIT_LOCK.SUCCESS]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailure: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [DEPOSIT_LOCK.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailure: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 };
 const withdrawActionHandlers = {
   [CHECK_LOCK.REQUEST]: (state, action) => ({
     ...state,
     isLoading: true,
-    isFailure: false,
+    error: null,
   }),
   [CHECK_LOCK.SUCCESS]: (state, action) => {
     const newState = {
       ...state,
       reasons: [],
       isLoading: false,
-      isFailure: false,
-      receivedAt: getTimestamp(),
+      receivedAt: timestamp(),
     };
 
-    newState.reasons = action.response.reduce((result, current) => {
+    newState.reasons = action.payload.reduce((result, current) => {
       if (current.type === 'WITHDRAW') {
         result.push(current);
       }
@@ -310,26 +309,25 @@ const withdrawActionHandlers = {
   [CHECK_LOCK.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailure: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 
   [WITHDRAW_LOCK.REQUEST]: (state, action) => ({
     ...state,
     isLoading: true,
-    isFailure: false,
+    error: null,
   }),
   [WITHDRAW_LOCK.SUCCESS]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailure: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [WITHDRAW_LOCK.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailure: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 };
 
@@ -354,7 +352,7 @@ const actionTypes = {
 };
 
 const actionCreators = {
-  loadProfile,
+  fetchProfile,
   getBalance,
   loadFullProfile,
   checkLock,

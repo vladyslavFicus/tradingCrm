@@ -1,7 +1,31 @@
 import React, { Component, PropTypes } from 'react';
-import SignInForm from './Forms/SignIn';
+import { withRouter } from 'react-router';
+import { actionTypes as authActionTypes } from 'redux/modules/auth';
+import { SubmissionError } from 'redux-form';
+import SignInForm from './SignInForm';
 
 class SignIn extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit({ login, password }) {
+    return this.props.signIn({ login, password })
+      .then((action) => {
+        if (action) {
+          if (action.type === authActionTypes.SIGN_IN.SUCCESS) {
+            this.props.router.replace('/');
+          } else if (action.error) {
+            const _error = action.payload.response.error ?
+              action.payload.response.error : action.payload.message;
+            throw new SubmissionError({ _error });
+          }
+        }
+      });
+  }
+
   componentWillMount() {
     document.body.classList.add('full-height');
   }
@@ -29,7 +53,9 @@ class SignIn extends Component {
             <h2>Sign in</h2>
             <div className="single-page-block-form">
               <br/>
-              <SignInForm {...this.props}/>
+              <SignInForm
+                onSubmit={this.handleSubmit}
+              />
             </div>
           </div>
         </div>
@@ -40,5 +66,10 @@ class SignIn extends Component {
   }
 }
 
-export default SignIn;
+SignIn.propTypes = {
+  signIn: PropTypes.func.isRequired,
+  user: PropTypes.object,
+};
+
+export default withRouter(SignIn);
 

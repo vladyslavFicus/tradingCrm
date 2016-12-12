@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import DateRangePicker from 'components/Forms/DateRangePickerWrapper';
 
-const DateRangeFilter = ({ onFilterChange }) => (
+const DateRangeFilter = ({ onFilterChange, ...rest }) => (
   <DateRangePicker
     withPortal
     allowPastDates
@@ -13,6 +13,7 @@ const DateRangeFilter = ({ onFilterChange }) => (
         });
       }
     }}
+    {...rest}
   />
 );
 

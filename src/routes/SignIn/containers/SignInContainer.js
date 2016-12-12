@@ -1,15 +1,12 @@
 import { connect } from 'react-redux';
-import { actionCreators as signInActionCreators } from '../modules/sign-in';
-import SignIn from '../components/SignIn';
+import { actionCreators as authActionCreators } from 'redux/modules/auth';
 
+import SignIn from '../components/SignIn';
 const mapActionCreators = {
-  login: signInActionCreators.login,
+  signIn: authActionCreators.signIn,
 };
-const mapStateToProps = (state) => ({
-  isSuccess: state.signIn.isSuccess,
-  isOnRequest: state.signIn.isOnRequest,
-  isFailure: state.signIn.isFailure,
-  failureMessage: state.signIn.failureMessage,
+const mapStateToProps = ({ auth }) => ({
+  user: auth,
 });
 
-export default connect(mapStateToProps, mapActionCreators)(SignIn)
+export default connect(mapStateToProps, mapActionCreators)(SignIn);

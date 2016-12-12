@@ -1,24 +1,25 @@
-import { WEB_API, ContentType } from 'constants/index';
-import { getTimestamp, localDateToString } from 'utils/helpers';
-import { createRequestTypes } from 'utils/redux';
+import { CALL_API } from 'redux-api-middleware';
+import timestamp from 'utils/timestamp';
+import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'term-view';
-const FETCH_TERM = createRequestTypes(`${KEY}/campaign-fetch`);
+const FETCH_TERM = createRequestAction(`${KEY}/campaign-fetch`);
 
 function fetchTerm(id) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
-        method: 'GET',
-        types: [FETCH_TERM.REQUEST, FETCH_TERM.SUCCESS, FETCH_TERM.FAILURE],
+      [CALL_API]: {
         endpoint: `profile/terms-and-conditions/${id}`,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [FETCH_TERM.REQUEST, FETCH_TERM.SUCCESS, FETCH_TERM.FAILURE],
+        bailout: !logged,
       },
     });
   };
@@ -29,18 +30,21 @@ const actionHandlers = {
     ...state,
     error: null,
     isLoading: true,
-    isFailed: false,
   }),
   [FETCH_TERM.SUCCESS]: (state, action) => ({
     ...state,
-    data: { ...state.data, ...action.response },
+    isLoading: false,
+    data: {
+      ...state.data,
+      ...action.payload,
+    },
+    receivedAt: timestamp(),
   }),
   [FETCH_TERM.FAILURE]: (state, action) => ({
     ...state,
-    error: action.error,
+    error: action.payload,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
 };
 
@@ -48,7 +52,6 @@ const initialState = {
   data: {},
   error: null,
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 function reducer(state = initialState, action) {

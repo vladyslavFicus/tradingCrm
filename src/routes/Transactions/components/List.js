@@ -64,7 +64,10 @@ class List extends Component {
               headerClassName="text-center"
               headerStyle={{ width: '20%' }}
               render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
-              filter={(onFilterChange) => <DateRangeFilter onFilterChange={onFilterChange}/>}
+              filter={(onFilterChange) => <DateRangeFilter
+                isOutsideRange={(date) => date.isAfter(moment())}
+                onFilterChange={onFilterChange}
+              />}
               filterClassName="text-center"
               className="text-center"
             />
@@ -75,7 +78,7 @@ class List extends Component {
               headerStyle={{ width: '10%' }}
               className="text-center"
               filter={(onFilterChange) => <DropDownFilter
-                name="paymentType"
+                name="type"
                 items={{
                   '': 'All',
                   PaymentCompleted: 'PaymentCompleted',

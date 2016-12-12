@@ -1,25 +1,30 @@
-import { WEB_API, ContentType } from 'constants/index';
-import { getTimestamp } from 'utils/helpers';
-import { createRequestTypes } from 'utils/redux';
+import { CALL_API } from 'redux-api-middleware';
+import timestamp from 'utils/timestamp';
+import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'bonus';
-const CREATE_BONUS = createRequestTypes(`${KEY}/create`);
+const CREATE_BONUS = createRequestAction(`${KEY}/create`);
 
 function createBonus(data) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
-        method: 'POST',
-        types: [CREATE_BONUS.REQUEST, CREATE_BONUS.SUCCESS, CREATE_BONUS.FAILURE],
+      [CALL_API]: {
         endpoint: `bonus/bonuses`,
-        endpointParams: data,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          CREATE_BONUS.REQUEST,
+          CREATE_BONUS.SUCCESS,
+          CREATE_BONUS.FAILURE,
+        ],
+        bailout: !logged,
       },
     });
   };
@@ -29,24 +34,24 @@ const actionHandlers = {
   [CREATE_BONUS.REQUEST]: (state, action) => ({
     ...state,
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
   [CREATE_BONUS.SUCCESS]: (state, action) => ({
     ...state,
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [CREATE_BONUS.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 };
 
 const initialState = {
   isLoading: false,
-  isFailed: false,
+  error: null,
   receivedAt: null,
 };
 function reducer(state = initialState, action) {
@@ -56,7 +61,7 @@ function reducer(state = initialState, action) {
 }
 
 const actionTypes = {
-    CREATE_BONUS,
+  CREATE_BONUS,
 };
 
 const actionCreators = {

@@ -4,8 +4,8 @@ import Create from '../components/Create';
 import { actionCreators } from '../modules/create';
 import { withRouter } from 'react-router';
 
-const mapStateToProps = (state) => ({
-  ...state.termsCreate,
+const mapStateToProps = ({ termsCreate }) => ({
+  ...termsCreate,
 });
 export default withRouter(connect(mapStateToProps, {
   ...actionCreators,

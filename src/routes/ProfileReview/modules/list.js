@@ -1,9 +1,9 @@
-import { getTimestamp } from 'utils/helpers';
-import { createRequestTypes } from 'utils/redux';
+import timestamp from 'utils/timestamp';
+import createRequestAction from 'utils/createRequestAction';
 import { actionCreators as usersActionCreators } from 'redux/modules/users';
 
 const KEY = 'users-review';
-const FETCH_ENTITIES = createRequestTypes(`${KEY}/entities`);
+const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 
 function fetchEntities(filters = {}) {
   return usersActionCreators.fetchEntities(FETCH_ENTITIES)({
@@ -25,41 +25,53 @@ const initialState = {
     totalPages: null,
     content: [],
   },
+  error: null,
   filters: {},
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
-const handlers = {
+const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...state.filters, ...action.filters },
+    filters: { ...action.meta.filters },
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
-    entities: { ...action.response, },
+    entities: {
+      ...state.entities,
+      ...action.payload,
+    },
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
-    ...state, isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    ...state,
+    isLoading: false,
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 };
 
 function reducer(state = initialState, action) {
-  const handler = handlers[action.type];
+  const handler = actionHandlers[action.type];
 
   return handler ? handler(state, action) : state;
 }
 
+const actionTypes = {
+  FETCH_ENTITIES,
+};
 const actionCreators = {
   fetchEntities,
 };
 
-export { actionCreators, };
+export {
+  initialState,
+  actionHandlers,
+  actionCreators,
+  actionTypes,
+};
 
 export default reducer;

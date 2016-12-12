@@ -1,25 +1,31 @@
-import { WEB_API, ContentType } from 'constants/index';
-import { getTimestamp, localDateToString } from 'utils/helpers';
-import { createRequestTypes } from 'utils/redux';
+import { CALL_API } from 'redux-api-middleware';
+import timestamp from 'utils/timestamp';
+import buildQueryString from 'utils/buildQueryString';
+import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'campaign';
-const CAMPAIGN_UPDATE = createRequestTypes(`${KEY}/campaign-update`);
-const FETCH_CAMPAIGN = createRequestTypes(`${KEY}/campaign-fetch`);
+const CAMPAIGN_UPDATE = createRequestAction(`${KEY}/campaign-update`);
+const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
 
 function fetchCampaign(id) {
   return (dispatch, getState) => {
-    const { token, uuid: currentUuid } = getState().auth;
-
-    if (!token || !currentUuid) {
-      return { type: false };
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
-        method: 'GET',
-        types: [FETCH_CAMPAIGN.REQUEST, FETCH_CAMPAIGN.SUCCESS, FETCH_CAMPAIGN.FAILURE],
+      [CALL_API]: {
         endpoint: `promotion/campaigns/${id}`,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          FETCH_CAMPAIGN.REQUEST,
+          FETCH_CAMPAIGN.SUCCESS,
+          FETCH_CAMPAIGN.FAILURE,
+        ],
+        bailout: !logged,
       },
     });
   };
@@ -34,14 +40,24 @@ function updateCampaign(id, data) {
     }
 
     return dispatch({
-      [WEB_API]: {
-        method: 'PUT',
-        types: [CAMPAIGN_UPDATE.REQUEST, CAMPAIGN_UPDATE.SUCCESS, CAMPAIGN_UPDATE.FAILURE],
+      [CALL_API]: {
         endpoint: `promotion/campaigns/${id}`,
-        endpointParams: data,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          {
+            type: CAMPAIGN_UPDATE.REQUEST,
+            meta: { data },
+          },
+          CAMPAIGN_UPDATE.SUCCESS,
+          CAMPAIGN_UPDATE.FAILURE,
+        ],
       },
-      data,
     });
   };
 }
@@ -50,39 +66,41 @@ const actionHandlers = {
   [CAMPAIGN_UPDATE.REQUEST]: (state, action) => ({
     ...state,
     error: null,
-    data: { ...state.data, ...action.data },
+    data: {
+      ...state.data,
+      ...action.meta.data,
+    },
     isLoading: true,
-    isFailed: false,
   }),
   [CAMPAIGN_UPDATE.SUCCESS]: (state, action) => ({
     ...state,
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
   [CAMPAIGN_UPDATE.FAILURE]: (state, action) => ({
     ...state,
     error: action.error,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
 
   [FETCH_CAMPAIGN.REQUEST]: (state, action) => ({
     ...state,
     error: null,
     isLoading: true,
-    isFailed: false,
   }),
   [FETCH_CAMPAIGN.SUCCESS]: (state, action) => ({
     ...state,
-    data: { ...state.data, ...action.response },
+    data: {
+      ...state.data,
+      ...action.payload,
+    },
   }),
   [FETCH_CAMPAIGN.FAILURE]: (state, action) => ({
     ...state,
     error: action.error,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
 };
 
@@ -90,7 +108,6 @@ const initialState = {
   data: {},
   error: null,
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 function reducer(state = initialState, action) {

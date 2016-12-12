@@ -4,7 +4,7 @@ import Update from '../components/Update';
 import { actionCreators as createCampaignActionCreators } from '../modules/update';
 import { withRouter } from 'react-router';
 
-const mapStateToProps = (state) => ({
-  ...state.bonusCampaignUpdate,
+const mapStateToProps = ({ bonusCampaignUpdate }) => ({
+  ...bonusCampaignUpdate,
 });
 export default withRouter(connect(mapStateToProps, { ...createCampaignActionCreators })(Update));

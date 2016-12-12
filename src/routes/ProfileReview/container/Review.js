@@ -5,7 +5,6 @@ import List from '../components/List';
 const mapStateToProps = ({ reviewList: list }) => ({
   list,
 });
-
 const mapActions = {
   ...actionCreators,
 };

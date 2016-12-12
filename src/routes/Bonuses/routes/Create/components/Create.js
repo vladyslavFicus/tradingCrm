@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
-import ManageForm from '../../../components/ManageForm';
+import ManageForm from 'routes/Bonuses/components/ManageForm';
 import { actionTypes } from '../modules/create';
 import { actionTypes as profileActionTypes } from 'routes/Users/modules/view';
 
@@ -16,7 +16,7 @@ export default class Create extends Component {
   handleSubmit(data) {
     this.props.createBonus(data)
       .then((action) => {
-        if (action.type === actionTypes.CREATE_BONUS.SUCCESS) {
+        if (action && action.type === actionTypes.CREATE_BONUS.SUCCESS) {
           this.props.router.replace('/bonuses');
         }
       });

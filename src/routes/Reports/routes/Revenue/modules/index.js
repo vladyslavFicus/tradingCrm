@@ -1,10 +1,10 @@
-import { createRequestTypes } from 'utils/redux';
 import { getApiRoot } from 'config/index';
 import buildQueryString from 'utils/buildQueryString';
+import createRequestAction from 'utils/createRequestAction';
 import downloadBlob from 'utils/downloadBlob';
 
 const KEY = 'revenue';
-const FETCH_REPORT = createRequestTypes(`${KEY}/fetch-report`);
+const FETCH_REPORT = createRequestAction(`${KEY}/fetch-report`);
 const LOADING_PROGRESS = `${KEY}/loading-progress`;
 
 const initialState = {

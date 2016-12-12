@@ -33,20 +33,20 @@ class Form extends Component {
   }
 
   handleDatesChange({ startDate, endDate }) {
-    const { dispatch, change, fields } = this.props;
+    const { change, fields } = this.props;
 
     this.setState({ startDate, endDate }, () => {
       if (startDate) {
         const formattedDate = startDate.format('YYYY-MM-DD');
         if (fields.startDate !== formattedDate) {
-          dispatch(change('startDate', formattedDate));
+          change('startDate', formattedDate);
         }
       }
 
       if (endDate) {
         const formattedDate = endDate.format('YYYY-MM-DD');
         if (fields.endDate !== formattedDate) {
-          dispatch(change('endDate', formattedDate));
+          change('endDate', formattedDate);
         }
       }
     });
@@ -73,7 +73,7 @@ class Form extends Component {
         <option>-- Select --</option>
         {Object.keys(Types).map((key) => <option key={key} value={key}>
           {Types[key]}
-          </option>)}
+        </option>)}
       </Field>
 
       <div className={classes.period(errors)}>

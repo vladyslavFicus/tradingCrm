@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
-import ManageForm from '../../../components/ManageForm';
+import ManageForm from 'routes/BonusCampaigns/components/ManageForm';
 import { actionTypes } from '../modules/update';
+import { statuses } from 'routes/BonusCampaigns/constants';
 
 export default class Create extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class Create extends Component {
   handleSubmit(data) {
     this.props.updateCampaign(this.props.data.id, data)
       .then((action) => {
-        if (action.type === actionTypes.CAMPAIGN_UPDATE.SUCCESS) {
+        if (action && action.type === actionTypes.CAMPAIGN_UPDATE.SUCCESS) {
           this.props.router.replace('/bonus-campaigns');
         }
       });
@@ -35,7 +36,7 @@ export default class Create extends Component {
                 <ManageForm
                   initialValues={data}
                   onSubmit={this.handleSubmit}
-                  disabled={data.state !== 'INACTIVE'}
+                  disabled={data.state !== statuses.INACTIVE}
                 />
               </div>
             </div>

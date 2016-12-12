@@ -1,65 +1,67 @@
-import { WEB_API } from 'constants/index';
-import { getTimestamp } from 'utils/helpers';
+import { CALL_API } from 'redux-api-middleware';
+import createRequestAction from 'utils/createRequestAction';
+import timestamp from 'utils/timestamp';
+import buildQueryString from 'utils/buildQueryString';
 
-const KEY = 'transactions-view';
-const TRANSACTIONS_REQUEST = `${KEY}/transactions-request`;
-const TRANSACTIONS_SUCCESS = `${KEY}/transactions-success`;
-const TRANSACTIONS_FAILURE = `${KEY}/transactions-failure`;
+const KEY = 'user/transactions';
+const FETCH_TRANSACTIONS = createRequestAction(`${KEY}/fetch-transactions`);
 
-function loadTransactions(page = 0, playerUUID, filters = {}) {
+function fetchTransactions(filters = {}) {
   return (dispatch, getState) => {
-    const { token, uuid } = getState().auth;
-
-    if (!token || !uuid) {
-      return { type: false };
-    }
-
-    const endpointParams = { page, playerUUID };
-    if (filters.paymentType) {
-      endpointParams.type = filters.paymentType;
-    }
-
-    if (filters.startDate && filters.endDate) {
-      endpointParams.startDate = filters.startDate;
-      endpointParams.endDate = filters.endDate;
-    }
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [WEB_API]: {
+      [CALL_API]: {
+        endpoint: `payment/transactions?${buildQueryString(filters)}`,
         method: 'GET',
-        types: [TRANSACTIONS_REQUEST, TRANSACTIONS_SUCCESS, TRANSACTIONS_FAILURE],
-        endpoint: `payment/transactions`,
-        endpointParams,
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          {
+            type: FETCH_TRANSACTIONS.REQUEST,
+            meta: { filters },
+          },
+          FETCH_TRANSACTIONS.SUCCESS,
+          FETCH_TRANSACTIONS.FAILURE,
+        ],
+        bailout: !logged,
       },
-      page,
     });
   };
 }
 
 const actionHandlers = {
-  [TRANSACTIONS_REQUEST]: (state, action) => ({
+  [FETCH_TRANSACTIONS.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...state.filters, ...action.filters },
+    filters: {
+      ...state.filters,
+      ...action.meta.filters,
+    },
     isLoading: true,
     isFailed: false,
   }),
-  [TRANSACTIONS_SUCCESS]: (state, action) => ({
+  [FETCH_TRANSACTIONS.SUCCESS]: (state, action) => ({
     ...state,
-    transactions: { ...action.response },
+    entities: {
+      ...state.entities,
+      ...action.payload,
+    },
     isLoading: false,
-    receivedAt: getTimestamp(),
+    receivedAt: timestamp(),
   }),
-  [TRANSACTIONS_FAILURE]: (state, action) => ({
+  [FETCH_TRANSACTIONS.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
-    isFailed: true,
-    receivedAt: getTimestamp(),
+    error: action.payload,
+    receivedAt: timestamp(),
   }),
 };
 
 const initialState = {
-  transactions: {
+  entities: {
     first: null,
     last: null,
     number: null,
@@ -82,13 +84,11 @@ function reducer(state = initialState, action) {
 }
 
 const actionTypes = {
-  TRANSACTIONS_REQUEST,
-  TRANSACTIONS_SUCCESS,
-  TRANSACTIONS_FAILURE,
+  FETCH_TRANSACTIONS,
 };
 
 const actionCreators = {
-  loadTransactions,
+  fetchTransactions,
 };
 
 export {
