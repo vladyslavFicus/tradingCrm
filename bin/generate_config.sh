@@ -22,15 +22,20 @@ echo "window.NAS = {" > $FILE
 while read -r line
 do
     if ! [[ $line =~  ^#.*$ ]]
+    then
+      if [ -z "$(printenv $line)" ]
       then
-        if [ -z "$(printenv $line)" ]
+        echoerr "Has errors: $line"
+        rm $FILE
+        exit;
+      else
+        if [[ "$(printenv $line)" =~ ^\{(.*)\}$ ]]
         then
-          echoerr "Has errors: $line"
-          rm $FILE
-          exit;
+          echo "  \"$line\":$(printenv $line)," >> $FILE
         else
           echo "  \"$line\":\"$(printenv $line)\"," >> $FILE
         fi
+      fi
     fi
 done < "$filename"
 
