@@ -1,12 +1,25 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 
-const TextFilter = ({ name, onFilterChange }) => (
-  <input
-    type="text"
-    className="form-control"
-    onChange={(e) => onFilterChange({ [name]: e.target.value })}
-  />
-);
+class TextFilter extends Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleChange = _.debounce(this.handleChange.bind(this), 300);
+  }
+
+  handleChange(value) {
+    this.props.onFilterChange({ [this.props.name]: value });
+  }
+
+  render() {
+    return <input
+      type="text"
+      className="form-control"
+      onChange={(e) => this.handleChange(e.target.value)}
+    />;
+  }
+}
 
 TextFilter.propTypes = {
   name: PropTypes.string.isRequired,

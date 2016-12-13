@@ -6,16 +6,13 @@ import moment from 'moment';
 import { ITEMS_PER_PAGE } from '../modules/view';
 import Amount from 'components/Amount';
 
-const config = { tabName: 'game-activity' };
-
 class View extends Component {
   constructor(props, context) {
     super(props, context);
 
     this.state = {
       filters: {
-        //playerUUID: this.props.params.id,
-        gl2_source_input: '584ac1472ab79c00014020bc',
+        playerUUID: this.props.params.id,
         'NOT gameId': 'unknown',
       },
       page: 0,
@@ -60,10 +57,10 @@ class View extends Component {
       items,
       totalItems,
       currency,
-      allGames, allActions, allProviders,
+      games, actions, providers,
     } = this.props;
 
-    return <div id={`tab-${config.tabName}`} className={classNames('tab-pane fade in active')}>
+    return <div className={classNames('tab-pane fade in active')}>
       <GridView
         dataSource={items || []}
         onFiltersChanged={this.handleFiltersChanged}
@@ -79,7 +76,7 @@ class View extends Component {
             name="name"
             items={{
               '': 'All',
-              ...allActions,
+              ...actions,
             }}
             onFilterChange={onFilterChange}
           />}
@@ -92,7 +89,7 @@ class View extends Component {
             name="gameProviderId"
             items={{
               '': 'All',
-              ...allProviders,
+              ...providers,
             }}
             onFilterChange={onFilterChange}
           />}
@@ -105,7 +102,7 @@ class View extends Component {
             name="gameId"
             items={{
               '': 'All',
-              ...allGames,
+              ...games,
             }}
             onFilterChange={onFilterChange}
           />}
@@ -143,7 +140,7 @@ class View extends Component {
 
         <GridColumn
           name="balance"
-          header={`Balance ${currency}`}
+          header="Balance"
           headerStyle={{ width: '5%' }}
           filter={(onFilterChange) => <TextFilter
             name="balance"
@@ -154,10 +151,10 @@ class View extends Component {
 
         <GridColumn
           name="stake"
-          header={`Stake ${currency}`}
+          header="Stake"
           headerStyle={{ width: '5%' }}
           filter={(onFilterChange) => <TextFilter
-            name="Stake"
+            name="stake"
             onFilterChange={onFilterChange}
           />}
           render={(data, column) => <Amount amount={data[column.name]} />}
@@ -177,8 +174,18 @@ class View extends Component {
   }
 }
 
-View.defaultProp = {
+View.defaultProps = {
   items: [],
+  games: {},
+  providers: {},
+  actions: {},
+};
+
+View.propTypes = {
+  items: PropTypes.array.isRequired,
+  games: PropTypes.object.isRequired,
+  providers: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
 export default View;
