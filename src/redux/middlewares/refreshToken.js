@@ -70,7 +70,9 @@ export default function () {
     if (!timer.isDelayed() && !initializationRefresh) {
       if (action.type === REHYDRATE) {
         initializationRefresh = true;
-        token = action.payload.auth.token;
+        if (action.payload.auth && action.payload.auth.token) {
+          token = action.payload.auth.token;
+        }
       }
     } else if (allowedTypes.indexOf(action.type) > -1) {
       console.info('Trying to schedule token refresh.');

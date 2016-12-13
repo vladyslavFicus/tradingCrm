@@ -1,6 +1,7 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import { apiMiddleware } from 'redux-api-middleware';
 import { browserHistory } from 'react-router';
+import config from 'config/index';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import withScroll from 'scroll-behavior';
 import thunk from 'redux-thunk';
@@ -9,9 +10,17 @@ import apiUrl from 'redux/middlewares/apiUrl';
 import { actionCreators as locationActionCreators } from 'redux/modules/location';
 import unauthorized from 'redux/middlewares/unauthorized';
 import refreshToken from 'redux/middlewares/refreshToken';
+import graylogMiddleware from 'redux/middlewares/graylog';
 
 export default (initialState = {}, onComplete) => {
-  const middleware = [thunk, apiUrl, apiMiddleware, unauthorized([401]), refreshToken()];
+  const middleware = [
+    thunk,
+    graylogMiddleware(config.GRAYLOG),
+    apiUrl,
+    apiMiddleware,
+    unauthorized([401]),
+    refreshToken(),
+  ];
 
   // ======================================================
   // Store Enhancers

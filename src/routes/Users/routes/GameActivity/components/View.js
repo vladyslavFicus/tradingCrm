@@ -5,8 +5,6 @@ import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Fi
 import moment from 'moment';
 import { ITEMS_PER_PAGE } from '../modules/view';
 
-const config = { tabName: 'profile' };
-
 class View extends Component {
   constructor(props, context) {
     super(props, context);
@@ -14,7 +12,6 @@ class View extends Component {
     this.state = {
       filters: {
         playerUUID: this.props.params.id,
-        gl2_source_input: '584ac1472ab79c00014020bc',
         'NOT gameId': 'unknown',
       },
       page: 0,
@@ -59,10 +56,10 @@ class View extends Component {
       items,
       totalItems,
       currency,
-      allGames, allActions, allProviders,
+      games, actions, providers,
     } = this.props;
 
-    return <div id={`tab-${config.tabName}`} className={classNames('tab-pane fade in active')}>
+    return <div className={classNames('tab-pane fade in active')}>
       <GridView
         dataSource={items || []}
         onFiltersChanged={this.handleFiltersChanged}
@@ -78,7 +75,7 @@ class View extends Component {
             name="name"
             items={{
               '': 'All',
-              ...allActions,
+              ...actions,
             }}
             onFilterChange={onFilterChange}
           />}
@@ -91,7 +88,7 @@ class View extends Component {
             name="gameProviderId"
             items={{
               '': 'All',
-              ...allProviders,
+              ...providers,
             }}
             onFilterChange={onFilterChange}
           />}
@@ -104,7 +101,7 @@ class View extends Component {
             name="gameId"
             items={{
               '': 'All',
-              ...allGames,
+              ...games,
             }}
             onFilterChange={onFilterChange}
           />}
@@ -154,7 +151,7 @@ class View extends Component {
           header={`Stake ${currency}`}
           headerStyle={{ width: '5%' }}
           filter={(onFilterChange) => <TextFilter
-            name="Stake"
+            name="stake"
             onFilterChange={onFilterChange}
           />}
         />
@@ -173,8 +170,18 @@ class View extends Component {
   }
 }
 
-View.defaultProp = {
+View.defaultProps = {
   items: [],
+  games: {},
+  providers: {},
+  actions: {},
+};
+
+View.propTypes = {
+  items: PropTypes.array.isRequired,
+  games: PropTypes.object.isRequired,
+  providers: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
 export default View;
