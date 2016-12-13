@@ -13,7 +13,6 @@ class View extends Component {
     this.state = {
       filters: {
         playerUUID: this.props.params.id,
-        'NOT gameId': 'unknown',
       },
       page: 0,
     };

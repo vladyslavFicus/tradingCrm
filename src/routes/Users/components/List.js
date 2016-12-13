@@ -99,6 +99,10 @@ class List extends Component {
               header="UUID"
               headerClassName="text-center"
               className="text-center"
+              filter={(onFilterChange) => <TextFilter
+                name="uuid"
+                onFilterChange={onFilterChange}
+              />}
             />
             <GridColumn
               name="actions"

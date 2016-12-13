@@ -14,7 +14,7 @@ class Amount extends Component {
 
     return <tag className={className}>
       <span className={currencyClassName}>{currency}</span>
-      <span className={amountClassName}>{amount}</span>
+      <span className={amountClassName}>{parseFloat(amount).toFixed(2)}</span>
     </tag>;
   }
 }
