@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import GridView, { GridColumn } from 'components/GridView';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 import moment from 'moment';
+import Amount from 'components/Amount';
 
 class List extends Component {
   constructor(props) {
@@ -100,7 +101,7 @@ class List extends Component {
               header="Amount"
               headerClassName="text-center"
               headerStyle={{ width: '10%' }}
-              render={(data, column) => `$${data[column.name]}`}
+              render={(data, column) => <Amount amount={data[column.name]} />}
               className="text-center"
             />
           </GridView>

@@ -10,6 +10,8 @@ class Amount extends Component {
       currencyClassName,
     } = this.props;
 
+    if (!amount) return null;
+
     return <tag className={className}>
       <span className={currencyClassName}>{currency}</span>
       <span className={amountClassName}>{amount}</span>
@@ -18,11 +20,11 @@ class Amount extends Component {
 }
 
 Amount.defaultProps = {
-  currency: '$',
+  currency: '€',
 };
 
 Amount.propTypes = {
-  amount: PropTypes.number.isRequired,
+  amount: PropTypes.number,
   currency: PropTypes.string.isRequired,
   className: PropTypes.string,
   amountClassName: PropTypes.string,

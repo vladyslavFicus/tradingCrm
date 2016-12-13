@@ -4,8 +4,9 @@ import classNames from 'classnames';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 import moment from 'moment';
 import { ITEMS_PER_PAGE } from '../modules/view';
+import Amount from 'components/Amount';
 
-const config = { tabName: 'profile' };
+const config = { tabName: 'game-activity' };
 
 class View extends Component {
   constructor(props, context) {
@@ -13,7 +14,7 @@ class View extends Component {
 
     this.state = {
       filters: {
-        playerUUID: this.props.params.id,
+        //playerUUID: this.props.params.id,
         gl2_source_input: '584ac1472ab79c00014020bc',
         'NOT gameId': 'unknown',
       },
@@ -131,12 +132,13 @@ class View extends Component {
 
         <GridColumn
           name="amountWin"
-          header={`Amount ${currency}`}
+          header="Amount"
           headerStyle={{ width: '5%' }}
           filter={(onFilterChange) => <TextFilter
             name="amountWin"
             onFilterChange={onFilterChange}
           />}
+          render={(data, column) => <Amount amount={data[column.name]} />}
         />
 
         <GridColumn
@@ -147,6 +149,7 @@ class View extends Component {
             name="balance"
             onFilterChange={onFilterChange}
           />}
+          render={(data, column) => <Amount amount={data[column.name]} />}
         />
 
         <GridColumn
@@ -157,6 +160,7 @@ class View extends Component {
             name="Stake"
             onFilterChange={onFilterChange}
           />}
+          render={(data, column) => <Amount amount={data[column.name]} />}
         />
 
         <GridColumn
