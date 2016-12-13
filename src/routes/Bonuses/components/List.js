@@ -4,6 +4,7 @@ import GridView, { GridColumn } from 'components/GridView';
 import { Link } from 'react-router';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 import moment from 'moment';
+import Amount from 'components/Amount';
 
 class List extends Component {
   constructor(props) {
@@ -89,24 +90,28 @@ class List extends Component {
               header="Granted amount"
               headerClassName="text-center"
               className="text-center"
+              render={(data, column) => <Amount amount={data[column.name]} />}
             />
             <GridColumn
               name="capping"
               header="Capping"
               headerClassName="text-center"
               className="text-center"
+              render={(data, column) => <Amount amount={data[column.name]} />}
             />
             <GridColumn
               name="prize"
               header="Prize"
               headerClassName="text-center"
               className="text-center"
+              render={(data, column) => <Amount amount={data[column.name]} />}
             />
             <GridColumn
               name="amountToWage"
               header="Amount to wage"
               headerClassName="text-center"
               className="text-center"
+              render={(data, column) => <Amount amount={data[column.name]} />}
             />
             <GridColumn
               name="state"

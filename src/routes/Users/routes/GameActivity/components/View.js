@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 import moment from 'moment';
 import { ITEMS_PER_PAGE } from '../modules/view';
+import Amount from 'components/Amount';
 
 class View extends Component {
   constructor(props, context) {
@@ -128,32 +129,35 @@ class View extends Component {
 
         <GridColumn
           name="amountWin"
-          header={`Amount ${currency}`}
+          header="Amount"
           headerStyle={{ width: '5%' }}
           filter={(onFilterChange) => <TextFilter
             name="amountWin"
             onFilterChange={onFilterChange}
           />}
+          render={(data, column) => <Amount amount={data[column.name]} />}
         />
 
         <GridColumn
           name="balance"
-          header={`Balance ${currency}`}
+          header="Balance"
           headerStyle={{ width: '5%' }}
           filter={(onFilterChange) => <TextFilter
             name="balance"
             onFilterChange={onFilterChange}
           />}
+          render={(data, column) => <Amount amount={data[column.name]} />}
         />
 
         <GridColumn
           name="stake"
-          header={`Stake ${currency}`}
+          header="Stake"
           headerStyle={{ width: '5%' }}
           filter={(onFilterChange) => <TextFilter
             name="stake"
             onFilterChange={onFilterChange}
           />}
+          render={(data, column) => <Amount amount={data[column.name]} />}
         />
 
         <GridColumn

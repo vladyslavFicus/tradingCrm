@@ -7,6 +7,7 @@ const tabItems = {
   transactions: { label: 'Transactions', route: '/users/:id/transactions' },
   gameActivity: { label: 'Game activity', route: '/users/:id/game-activity' },
   bonuses: { label: 'Bonuses', route: '/users/:id/bonuses' },
+  limits: { label: 'Limits', route: '/users/:id/limits' },
 };
 
 const Tabs = ({ activeTabName }) => (props) => <ul className="nav nav-tabs" role="tablist">

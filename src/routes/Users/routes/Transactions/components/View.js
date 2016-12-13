@@ -3,6 +3,7 @@ import GridView, { GridColumn } from 'components/GridView';
 import { DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 import classNames from 'classnames';
 import moment from 'moment';
+import Amount from 'components/Amount';
 
 const config = { tabName: 'transactions' };
 
@@ -88,7 +89,7 @@ class View extends Component {
           header="Amount"
           headerClassName="text-center"
           headerStyle={{ width: '10%' }}
-          render={(data, column) => `$${data[column.name]}`}
+          render={(data, column) => <Amount amount={data[column.name]} />}
           className="text-center"
         />
       </GridView>
