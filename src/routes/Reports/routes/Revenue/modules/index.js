@@ -38,7 +38,7 @@ const actionHandlers = {
   }),
 };
 
-function fetchReport(params, fileName = 'revenue.csv') {
+function downloadReport(params, fileName = 'revenue.csv') {
   return (dispatch, getState) => {
     const { token, uuid } = getState().auth;
 
@@ -89,7 +89,7 @@ const actionTypes = {
   FETCH_REPORT,
 };
 const actionCreators = {
-  fetchReport,
+  downloadReport,
 };
 
 export {

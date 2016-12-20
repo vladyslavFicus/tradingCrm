@@ -1,20 +1,59 @@
+import { CALL_API } from 'redux-api-middleware';
 import { getApiRoot } from 'config/index';
 import createRequestAction from 'utils/createRequestAction';
 import downloadBlob from 'utils/downloadBlob';
+import buildQueryString from 'utils/buildQueryString';
 
 const KEY = 'reports/player-liability';
+const DOWNLOAD_REPORT = createRequestAction(`${KEY}/download-report`);
 const FETCH_REPORT = createRequestAction(`${KEY}/fetch-report`);
 
-const initialState = {};
+const initialState = {
+  entities: {
+    first: null,
+    last: null,
+    number: null,
+    numberOfElements: null,
+    size: null,
+    sort: null,
+    totalElements: null,
+    totalPages: null,
+    content: [],
+  },
+  filters: {},
+  error: null,
+  isLoading: false,
+  receivedAt: null,
+};
 const actionHandlers = {};
 
-function fetchReport(fileName = 'player-liability.csv') {
+function fetchReport(filters = {}) {
   return (dispatch, getState) => {
-    const { token, uuid } = getState().auth;
+    const { auth: { token, logged } } = getState();
 
-    if (!token || !uuid) {
-      return { type: false };
-    }
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `mga_report/reports/player-liability-json?${buildQueryString(filters)}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          FETCH_REPORT.REQUEST,
+          FETCH_REPORT.SUCCESS,
+          FETCH_REPORT.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function downloadReport(fileName = 'player-liability.csv') {
+  return (dispatch, getState) => {
+    const { token } = getState().auth;
 
     return fetch(`${getApiRoot()}/mga_report/reports/player-liability`, {
       method: 'GET',
@@ -34,8 +73,14 @@ const reducer = (state = initialState, action) => {
   return handler ? handler(state, action) : state;
 };
 
-const actionTypes = { FETCH_REPORT };
-const actionCreators = { fetchReport };
+const actionTypes = {
+  FETCH_REPORT,
+  DOWNLOAD_REPORT,
+};
+const actionCreators = {
+  downloadReport,
+  fetchReport,
+};
 
 export {
   initialState,
