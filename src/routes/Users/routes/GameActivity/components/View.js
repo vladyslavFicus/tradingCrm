@@ -7,67 +7,43 @@ import { ITEMS_PER_PAGE } from '../modules/view';
 import Amount from 'components/Amount';
 
 class View extends Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      filters: {
-        playerUUID: this.props.params.id,
-      },
-      page: 0,
-    };
+  constructor(props) {
+    super(props);
 
     this.handlePageChanged = this.handlePageChanged.bind(this);
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
   }
 
-  componentDidMount() {
-    this.onFiltersChanged();
-  }
-
-  handleFiltersChanged(filters) {
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        ...filters,
-      },
-      page: 0,
-    }, this.onFiltersChanged);
-  }
-
   handlePageChanged(page, filters) {
     if (!this.props.isLoading) {
-      this.setState({
-        filters: {
-          ...this.state.filters,
-          ...filters,
-        },
-        page: page - 1,
-      }, this.onFiltersChanged);
+      this.props.fetchGameActivity(this.props.params.id, { ...filters, page: page - 1, });
     }
   }
 
-  onFiltersChanged() {
-    this.props.fetchGameActivity(this.state.filters, this.state.page);
+  handleFiltersChanged(filters) {
+    this.props.fetchGameActivity(this.props.params.id, { ...filters, page: 0, limit: 20, });
+  }
+
+  componentWillMount() {
+    this.handleFiltersChanged();
   }
 
   render() {
     const {
-      items,
-      totalItems,
-      currency,
-      games, actions, providers,
+      entities,
+      games,
+      actions,
+      providers,
     } = this.props;
 
     return <div className={classNames('tab-pane fade in active')}>
       <GridView
-        dataSource={items || []}
+        dataSource={entities.content}
         onFiltersChanged={this.handleFiltersChanged}
         onPageChange={this.handlePageChanged}
-        activePage={this.state.page + 1}
-        totalPages={Math.ceil(totalItems / ITEMS_PER_PAGE)}
+        activePage={entities.number + 1}
+        totalPages={entities.totalPages}
       >
-
         <GridColumn
           name="name"
           header="Action"
@@ -134,7 +110,7 @@ class View extends Component {
             name="amountWin"
             onFilterChange={onFilterChange}
           />}
-          render={(data, column) => <Amount amount={data[column.name]} />}
+          render={(data, column) => <Amount amount={data[column.name]}/>}
         />
 
         <GridColumn
@@ -145,7 +121,7 @@ class View extends Component {
             name="balance"
             onFilterChange={onFilterChange}
           />}
-          render={(data, column) => <Amount amount={data[column.name]} />}
+          render={(data, column) => <Amount amount={data[column.name]}/>}
         />
 
         <GridColumn
@@ -156,7 +132,7 @@ class View extends Component {
             name="stake"
             onFilterChange={onFilterChange}
           />}
-          render={(data, column) => <Amount amount={data[column.name]} />}
+          render={(data, column) => <Amount amount={data[column.name]}/>}
         />
 
         <GridColumn
