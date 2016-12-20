@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import GridView, { GridColumn } from 'components/GridView';
 import classNames from 'classnames';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
+import { actions, actionsLabels } from '../constants';
 import moment from 'moment';
-import { ITEMS_PER_PAGE } from '../modules/view';
 import Amount from 'components/Amount';
 
 class View extends Component {
@@ -12,6 +12,9 @@ class View extends Component {
 
     this.handlePageChanged = this.handlePageChanged.bind(this);
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
+
+    this.renderGame = this.renderGame.bind(this);
+    this.renderProvider = this.renderProvider.bind(this);
   }
 
   handlePageChanged(page, filters) {
@@ -21,18 +24,37 @@ class View extends Component {
   }
 
   handleFiltersChanged(filters) {
-    this.props.fetchGameActivity(this.props.params.id, { ...filters, page: 0, limit: 20, });
+    this.props.fetchGameActivity(this.props.params.id, { ...filters, page: 0, });
   }
 
   componentWillMount() {
     this.handleFiltersChanged();
   }
 
+  renderEntityAction(data, column) {
+    return actionsLabels[data[column.name]] || data[column.name];
+  }
+
+  renderGame(data, column) {
+    const { games } = this.props;
+
+    return games[data[column.name]] || data[column.name];
+  }
+
+  renderProvider(data, column) {
+    const { providers } = this.props;
+
+    return providers[data[column.name]] || data[column.name];
+  }
+
+  renderAmount(data) {
+    return <Amount amount={actions.WinCollectedEvent === data.name ? data.amountWin : data.stake}/>;
+  }
+
   render() {
     const {
       entities,
       games,
-      actions,
       providers,
     } = this.props;
 
@@ -47,11 +69,12 @@ class View extends Component {
         <GridColumn
           name="name"
           header="Action"
+          render={this.renderEntityAction}
           filter={(onFilterChange) => <DropDownFilter
             name="name"
             items={{
               '': 'All',
-              ...actions,
+              ...actionsLabels,
             }}
             onFilterChange={onFilterChange}
           />}
@@ -60,6 +83,7 @@ class View extends Component {
         <GridColumn
           name="gameProviderId"
           header="Game Provider"
+          render={this.renderProvider}
           filter={(onFilterChange) => <DropDownFilter
             name="gameProviderId"
             items={{
@@ -73,6 +97,7 @@ class View extends Component {
         <GridColumn
           name="gameId"
           header="Game"
+          render={this.renderGame}
           filter={(onFilterChange) => <DropDownFilter
             name="gameId"
             items={{
@@ -96,42 +121,19 @@ class View extends Component {
           name="playerIpAddress"
           header="Action IP"
           headerStyle={{ width: '10%' }}
-          filter={(onFilterChange) => <TextFilter
-            name="playerIpAddress"
-            onFilterChange={onFilterChange}
-          />}
         />
 
         <GridColumn
-          name="amountWin"
+          name="amount"
           header="Amount"
           headerStyle={{ width: '5%' }}
-          filter={(onFilterChange) => <TextFilter
-            name="amountWin"
-            onFilterChange={onFilterChange}
-          />}
-          render={(data, column) => <Amount amount={data[column.name]}/>}
+          render={this.renderAmount}
         />
 
         <GridColumn
           name="balance"
           header="Balance"
           headerStyle={{ width: '5%' }}
-          filter={(onFilterChange) => <TextFilter
-            name="balance"
-            onFilterChange={onFilterChange}
-          />}
-          render={(data, column) => <Amount amount={data[column.name]}/>}
-        />
-
-        <GridColumn
-          name="stake"
-          header="Stake"
-          headerStyle={{ width: '5%' }}
-          filter={(onFilterChange) => <TextFilter
-            name="stake"
-            onFilterChange={onFilterChange}
-          />}
           render={(data, column) => <Amount amount={data[column.name]}/>}
         />
 
@@ -160,7 +162,6 @@ View.propTypes = {
   items: PropTypes.array.isRequired,
   games: PropTypes.object.isRequired,
   providers: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
 };
 
 export default View;

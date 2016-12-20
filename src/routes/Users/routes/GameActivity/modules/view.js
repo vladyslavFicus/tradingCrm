@@ -101,12 +101,6 @@ const initialState = {
     content: [],
   },
   games: {},
-  actions: {
-    StopGameSessionEvent: 'Stop Game',
-    StartGameSessionEvent: 'Start Game',
-    BetPlacedEvent: 'Bet',
-    WinCollectedEvent: 'Win',
-  },
   providers: {
     stakelogic: 'Stakelogic',
   },
