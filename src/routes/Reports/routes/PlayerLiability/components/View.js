@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import GridView, { GridColumn } from 'components/GridView';
 import Panel, { Title, Content } from 'components/Panel';
 
 class View extends Component {
@@ -7,11 +8,12 @@ class View extends Component {
 
     this.handlePageChanged = this.handlePageChanged.bind(this);
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
+    this.handleExportClick = this.handleExportClick.bind(this);
   }
 
   handlePageChanged(page, filters) {
-    if (!this.props.list.isLoading) {
-      this.props.fetchEntities({ ...filters, page: page - 1 });
+    if (!this.props.isLoading) {
+      this.props.onFetch({ ...filters, page: page - 1 });
     }
   }
 
@@ -19,16 +21,30 @@ class View extends Component {
     this.props.onFetch({ ...filters, page: 0 });
   }
 
-  componentWillMount() {
+  handleExportClick(e) {
+    this.props.onDownload();
+  }
+
+  componentDidMount() {
     this.handleFiltersChanged({});
   }
 
+  renderEuColumn(data, column) {
+    return <input type="checkbox" readOnly disabled defaultValue={data[column.name]}/>;
+  }
+
   render() {
-    const { list: { entities } } = this.props;
+    const { entities } = this.props;
 
     return <div className="page-content-inner">
       <Panel withBorders>
         <Title>
+          <div className="pull-right">
+            <button className="btn btn-primary" onClick={this.handleExportClick}>
+              Export as CSV
+            </button>
+          </div>
+
           <h3>Player liability report</h3>
         </Title>
 
@@ -43,49 +59,47 @@ class View extends Component {
             <GridColumn
               name="id"
               header="ID"
-              headerStyle={{ width: '20%' }}
+              headerStyle={{ width: '10%' }}
               render={(data, column) => <small>{data[column.name]}</small>}
             />
             <GridColumn
               name="playerUUID"
               header="Player"
               headerStyle={{ width: '20%' }}
-              render={(data, column) => <small>{data[column.name]}</small>}
             />
             <GridColumn
               name="country"
               header="Country"
-              headerStyle={{ width: '20%' }}
-              render={(data, column) => <small>{data[column.name]}</small>}
+              headerStyle={{ width: '10%' }}
             />
             <GridColumn
               name="eu"
               header="EU"
-              headerStyle={{ width: '20%' }}
-              render={(data, column) => <small>{data[column.name]}</small>}
+              headerStyle={{ width: '5%' }}
+              render={this.renderEuColumn}
             />
             <GridColumn
               name="balance"
               header="Balance"
-              headerStyle={{ width: '20%' }}
+              headerStyle={{ width: '15%' }}
               render={(data, column) => <small>{data[column.name]}</small>}
             />
             <GridColumn
               name="realMoneyBalance"
               header="Real money balance"
-              headerStyle={{ width: '20%' }}
+              headerStyle={{ width: '15%' }}
               render={(data, column) => <small>{data[column.name]}</small>}
             />
             <GridColumn
               name="bonusBalance"
               header="Bonus balance"
-              headerStyle={{ width: '20%' }}
+              headerStyle={{ width: '15%' }}
               render={(data, column) => <small>{data[column.name]}</small>}
             />
             <GridColumn
               name="pendingBets"
               header="Pending bets"
-              headerStyle={{ width: '20%' }}
+              headerStyle={{ width: '10%' }}
               render={(data, column) => <small>{data[column.name]}</small>}
             />
           </GridView>

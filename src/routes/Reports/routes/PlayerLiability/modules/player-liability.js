@@ -1,8 +1,9 @@
-import { CALL_API } from 'redux-api-middleware';
 import { getApiRoot } from 'config/index';
-import createRequestAction from 'utils/createRequestAction';
 import downloadBlob from 'utils/downloadBlob';
+import { CALL_API } from 'redux-api-middleware';
+import timestamp from 'utils/timestamp';
 import buildQueryString from 'utils/buildQueryString';
+import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'reports/player-liability';
 const DOWNLOAD_REPORT = createRequestAction(`${KEY}/download-report`);
@@ -25,7 +26,29 @@ const initialState = {
   isLoading: false,
   receivedAt: null,
 };
-const actionHandlers = {};
+const actionHandlers = {
+  [FETCH_REPORT.REQUEST]: (state, action) => ({
+    ...state,
+    filters: { ...action.meta.filters },
+    isLoading: true,
+    error: null,
+  }),
+  [FETCH_REPORT.SUCCESS]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      ...action.payload,
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  }),
+  [FETCH_REPORT.FAILURE]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.payload,
+    receivedAt: timestamp(),
+  }),
+};
 
 function fetchReport(filters = {}) {
   return (dispatch, getState) => {
@@ -33,7 +56,7 @@ function fetchReport(filters = {}) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `mga_report/reports/player-liability-json?${buildQueryString(filters)}`,
+        endpoint: `mga_report/reports/player-liability?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -41,7 +64,10 @@ function fetchReport(filters = {}) {
           Authorization: `Bearer ${token}`,
         },
         types: [
-          FETCH_REPORT.REQUEST,
+          {
+            type: FETCH_REPORT.REQUEST,
+            meta: { filters },
+          },
           FETCH_REPORT.SUCCESS,
           FETCH_REPORT.FAILURE,
         ],
