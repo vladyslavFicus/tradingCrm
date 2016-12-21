@@ -60,7 +60,7 @@ class Form extends Component {
 
   render() {
     const { startDate, endDate } = this.state;
-    const { handleSubmit, pristine, submitting, onSubmit, disabled, errors } = this.props;
+    const { handleSubmit, valid, pristine, submitting, onSubmit, disabled, errors } = this.props;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
       <Field
@@ -106,7 +106,7 @@ class Form extends Component {
           <div className="col-md-9 col-md-offset-3">
             <button
               type="submit"
-              disabled={pristine || submitting}
+              disabled={!valid || submitting}
               className="btn width-150 btn-primary">
               Download
             </button>

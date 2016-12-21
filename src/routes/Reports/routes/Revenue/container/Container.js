@@ -11,7 +11,8 @@ const mapStateToProps = ({ revenueReport }, ...state) => ({
   values: valuesSelector(state, 'startDate', 'endDate') || {},
 });
 const mapActions = {
-  onDownload: actionCreators.fetchReport,
+  onDownload: actionCreators.downloadReport,
+  onFetch: actionCreators.fetchReport,
 };
 
 export default connect(mapStateToProps, mapActions)(View);
