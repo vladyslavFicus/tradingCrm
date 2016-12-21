@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import GridView, { GridColumn } from 'components/GridView';
 import Panel, { Title, Content } from 'components/Panel';
+import PreviewGrid from './PreviewGrid';
 import Form from './Form';
 
 class View extends Component {
@@ -8,6 +8,16 @@ class View extends Component {
     super(props, context);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handlePageChanged = this.handlePageChanged.bind(this);
+    this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
+  }
+
+  handleExportClick(e) {
+    this.props.onDownload(this.props.filters);
+  }
+
+  handleSubmit(data) {
+    return this.handleFiltersChanged(data);
   }
 
   handlePageChanged(page, filters) {
@@ -20,16 +30,13 @@ class View extends Component {
     this.props.onFetch({ ...filters, page: 0 });
   }
 
-  handleExportClick(e) {
-    this.props.onDownload(this.props.filters);
-  }
-
-  handleSubmit(data) {
-    return this.handleFiltersChanged(data);
-  }
-
   render() {
-    const { errors, values, entities, filters } = this.props;
+    const {
+      errors,
+      values,
+      entities,
+      filters,
+    } = this.props;
 
     return <div className="page-content-inner">
       <Panel withBorders>
@@ -44,60 +51,13 @@ class View extends Component {
             onSubmit={this.handleSubmit}
           />
 
-          {Object.keys(filters).length > 0 && <GridView
-            dataSource={entities.content}
+          {Object.keys(filters).length > 0 && <PreviewGrid
             onFiltersChanged={this.handleFiltersChanged}
-            onPageChange={this.handlePageChanged}
-            activePage={entities.number + 1}
-            totalPages={entities.totalPages}
-          >
-            <GridColumn
-              name="id"
-              header="ID"
-              headerStyle={{ width: '10%' }}
-              render={(data, column) => <small>{data[column.name]}</small>}
-            />
-            <GridColumn
-              name="playerUUID"
-              header="Player"
-              headerStyle={{ width: '20%' }}
-            />
-            <GridColumn
-              name="country"
-              header="Country"
-              headerStyle={{ width: '10%' }}
-            />
-            <GridColumn
-              name="eu"
-              header="EU"
-              headerStyle={{ width: '5%' }}
-              render={this.renderEuColumn}
-            />
-            <GridColumn
-              name="balance"
-              header="Balance"
-              headerStyle={{ width: '15%' }}
-              render={(data, column) => <small>{data[column.name]}</small>}
-            />
-            <GridColumn
-              name="realMoneyBalance"
-              header="Real money balance"
-              headerStyle={{ width: '15%' }}
-              render={(data, column) => <small>{data[column.name]}</small>}
-            />
-            <GridColumn
-              name="bonusBalance"
-              header="Bonus balance"
-              headerStyle={{ width: '15%' }}
-              render={(data, column) => <small>{data[column.name]}</small>}
-            />
-            <GridColumn
-              name="pendingBets"
-              header="Pending bets"
-              headerStyle={{ width: '10%' }}
-              render={(data, column) => <small>{data[column.name]}</small>}
-            />
-          </GridView>}
+            onPageChanged={this.handlePageChanged}
+            reportType={filters.type}
+            filters={filters}
+            {...entities}
+          />}
         </Content>
       </Panel>
     </div>;

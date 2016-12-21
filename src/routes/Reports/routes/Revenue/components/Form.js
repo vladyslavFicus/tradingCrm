@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import RemoteDateRangePickerWrapper from 'components/Forms/RemoteDateRangePickerWrapper';
 import { SelectField } from 'components/ReduxForm';
 import { createValidator } from 'utils/validator';
-import { Types } from '../contants';
+import { typesLabels } from 'constants/revenue-report';
 import classNames from 'classnames';
 import moment from 'moment';
 
@@ -22,7 +22,6 @@ class Form extends Component {
     super(props, context);
 
     this.handleDatesChange = this.handleDatesChange.bind(this);
-    this.handleResetForm = this.handleResetForm.bind(this);
 
     this.state = {
       startDate: props.initialValues && props.initialValues.startDate !== undefined ?
@@ -52,15 +51,9 @@ class Form extends Component {
     });
   }
 
-  handleResetForm() {
-    this.handleDatesChange({ startDate: null, endDate: null });
-
-    this.props.reset();
-  }
-
   render() {
     const { startDate, endDate } = this.state;
-    const { handleSubmit, valid, pristine, submitting, onSubmit, disabled, errors } = this.props;
+    const { handleSubmit, valid, submitting, onSubmit, disabled, errors } = this.props;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
       <Field
@@ -71,8 +64,8 @@ class Form extends Component {
         component={SelectField}
       >
         <option>-- Select --</option>
-        {Object.keys(Types).map((key) => <option key={key} value={key}>
-          {Types[key]}
+        {Object.keys(typesLabels).map((key) => <option key={key} value={key}>
+          {typesLabels[key]}
         </option>)}
       </Field>
 
@@ -108,7 +101,7 @@ class Form extends Component {
               type="submit"
               disabled={!valid || submitting}
               className="btn width-150 btn-primary">
-              Download
+              Preview
             </button>
           </div>
         </div>

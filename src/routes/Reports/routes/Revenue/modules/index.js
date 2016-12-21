@@ -20,6 +20,7 @@ const initialState = {
     sort: null,
     totalElements: null,
     totalPages: null,
+    totalsRow: [],
     content: [],
   },
   filters: {},
