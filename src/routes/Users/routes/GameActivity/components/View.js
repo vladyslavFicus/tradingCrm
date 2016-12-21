@@ -85,6 +85,7 @@ class View extends Component {
           header="Game Provider"
           render={this.renderProvider}
           filter={(onFilterChange) => <DropDownFilter
+            name="gameProviderId"
             items={{
               '': 'All',
               ...providers,
@@ -98,6 +99,7 @@ class View extends Component {
           header="Game"
           render={this.renderGame}
           filter={(onFilterChange) => <DropDownFilter
+            name="gameId"
             items={{
               '': 'All',
               ...games,
@@ -110,6 +112,7 @@ class View extends Component {
           name="gameSessionUUID"
           header="Game Session"
           filter={(onFilterChange) => <TextFilter
+            name="gameSessionUUID"
             onFilterChange={onFilterChange}
           />}
         />
@@ -137,7 +140,10 @@ class View extends Component {
         <GridColumn
           name="timestamp"
           header="Date"
-          render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
+          render={(data, column) => data[column.name]
+            ? moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')
+            : null
+          }
           filter={(onFilterChange) => <DateRangeFilter
             startDateFormat={'YYYY-MM-DD 00:00:00'}
             endDateFormat={'YYYY-MM-DD 23:59:59'}
