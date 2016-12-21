@@ -142,6 +142,8 @@ class View extends Component {
           header="Date"
           render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
           filter={(onFilterChange) => <DateRangeFilter
+            startDateFormat={'YYYY-MM-DD 00:00:00'}
+            endDateFormat={'YYYY-MM-DD 23:59:59'}
             onFilterChange={onFilterChange}
             isOutsideRange={(date) => date.isAfter(moment())}
           />}

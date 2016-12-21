@@ -103,6 +103,7 @@ const initialState = {
   games: {},
   providers: {
     stakelogic: 'Stakelogic',
+    netent: 'Netent',
   },
   filters: {},
   isLoading: false,
