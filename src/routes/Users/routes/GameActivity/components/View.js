@@ -32,23 +32,23 @@ class View extends Component {
   }
 
   renderEntityAction(data, column) {
-    return actionsLabels[data[column.name]] || data[column.name];
+    return actionsLabels[data.gameEvent[column.name]] || data.gameEvent[column.name];
   }
 
   renderGame(data, column) {
     const { games } = this.props;
 
-    return games[data[column.name]] || data[column.name];
+    return games[data.gameEvent[column.name]] || data.gameEvent[column.name];
   }
 
   renderProvider(data, column) {
     const { providers } = this.props;
 
-    return providers[data[column.name]] || data[column.name];
+    return providers[data.gameEvent[column.name]] || data.gameEvent[column.name];
   }
 
   renderAmount(data) {
-    return <Amount amount={actions.WinCollectedEvent === data.name ? data.amountWin : data.stake}/>;
+    return <Amount amount={actions.WinCollectedEvent === data.name ? data.gameEvent.amountWin : data.gameEvent.stake}/>;
   }
 
   render() {
@@ -111,6 +111,7 @@ class View extends Component {
         <GridColumn
           name="gameSessionUUID"
           header="Game Session"
+          render={(data, column) => data.gameEvent[column.name]}
           filter={(onFilterChange) => <TextFilter
             name="gameSessionUUID"
             onFilterChange={onFilterChange}
@@ -121,6 +122,7 @@ class View extends Component {
           name="playerIpAddress"
           header="Action IP"
           headerStyle={{ width: '10%' }}
+          render={(data, column) => data.gameEvent[column.name]}
         />
 
         <GridColumn
@@ -134,19 +136,17 @@ class View extends Component {
           name="balance"
           header="Balance"
           headerStyle={{ width: '5%' }}
-          render={(data, column) => <Amount amount={data[column.name]}/>}
+          render={(data, column) => <Amount amount={data.gameEvent[column.name]}/>}
         />
 
         <GridColumn
-          name="timestamp"
+          name="dateTime"
           header="Date"
           render={(data, column) => data[column.name]
             ? moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')
             : null
           }
           filter={(onFilterChange) => <DateRangeFilter
-            startDateFormat={'YYYY-MM-DD 00:00:00'}
-            endDateFormat={'YYYY-MM-DD 23:59:59'}
             onFilterChange={onFilterChange}
             isOutsideRange={(date) => date.isAfter(moment())}
           />}
