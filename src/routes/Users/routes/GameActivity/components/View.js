@@ -85,7 +85,6 @@ class View extends Component {
           header="Game Provider"
           render={this.renderProvider}
           filter={(onFilterChange) => <DropDownFilter
-            name="gameProviderId"
             items={{
               '': 'All',
               ...providers,
@@ -99,7 +98,6 @@ class View extends Component {
           header="Game"
           render={this.renderGame}
           filter={(onFilterChange) => <DropDownFilter
-            name="gameId"
             items={{
               '': 'All',
               ...games,
@@ -112,7 +110,6 @@ class View extends Component {
           name="gameSessionUUID"
           header="Game Session"
           filter={(onFilterChange) => <TextFilter
-            name="gameSessionUUID"
             onFilterChange={onFilterChange}
           />}
         />
