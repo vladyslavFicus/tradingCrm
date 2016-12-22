@@ -5358,9 +5358,9 @@ redux-api-middleware@^1.0.2:
     isomorphic-fetch "^2.1.1"
     lodash.isplainobject "^3.2.0"
 
-redux-form@^6.0.2:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-6.2.1.tgz#5996f9b648e2b2bc2012adb2dea03b9997dcf0ff"
+redux-form:
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-6.3.2.tgz#8a839412633e7ad155b1accf885736c16fcbe5a1"
   dependencies:
     array-findindex-polyfill "^0.1.0"
     deep-equal "^1.0.1"

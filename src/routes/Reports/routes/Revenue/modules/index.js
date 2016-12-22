@@ -107,8 +107,8 @@ function downloadReport(filters, fileName = 'revenue.csv') {
   return (dispatch, getState) => {
     const { token, uuid } = getState().auth;
 
-    if (!token || !uuid) {
-      return { type: false };
+    if (!token || !uuid || Object.keys(filters).length === 0) {
+      return null;
     }
 
     dispatch({ type: DOWNLOAD_REPORT.REQUEST });

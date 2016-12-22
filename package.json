@@ -131,7 +131,7 @@
     "reactstrap": "^3.3.0",
     "redux": "^3.0.0",
     "redux-api-middleware": "^1.0.2",
-    "redux-form": "^6.0.2",
+    "redux-form": "^6.3.2",
     "redux-persist": "^4.0.0-beta1",
     "redux-thunk": "^2.0.0",
     "rimraf": "^2.5.1",

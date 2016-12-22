@@ -14,10 +14,19 @@ class PreviewGrid extends Component {
   }
 
   renderCountryGrid() {
-    const { content, number, filters, totalPages, onFiltersChanged, onPageChanged } = this.props;
+    const {
+      content,
+      totalsRow,
+      number,
+      filters,
+      totalPages,
+      onFiltersChanged,
+      onPageChanged,
+    } = this.props;
 
     return <GridView
       dataSource={content}
+      summaryRow={totalsRow[0]}
       onFiltersChanged={onFiltersChanged}
       onPageChange={onPageChanged}
       activePage={number + 1}
@@ -69,10 +78,19 @@ class PreviewGrid extends Component {
   }
 
   renderPlayerGrid() {
-    const { content, number, filters, totalPages, onFiltersChanged, onPageChanged } = this.props;
+    const {
+      content,
+      totalsRow,
+      number,
+      filters,
+      totalPages,
+      onFiltersChanged,
+      onPageChanged,
+    } = this.props;
 
     return <GridView
       dataSource={content}
+      summaryRow={totalsRow[0]}
       onFiltersChanged={onFiltersChanged}
       onPageChange={onPageChanged}
       activePage={number + 1}

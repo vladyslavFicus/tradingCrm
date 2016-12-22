@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators } from '../modules';
-import { formValueSelector, getFormSyncErrors } from 'redux-form';
+import { getFormValues, getFormSubmitErrors } from 'redux-form';
 
-const valuesSelector = formValueSelector('revenueReport');
-const errorSelector = getFormSyncErrors('revenueReport');
-const mapStateToProps = ({ revenueReport }, ...state) => ({
+const valuesSelector = getFormValues('revenueReport');
+const errorSelector = getFormSubmitErrors('revenueReport');
+const mapStateToProps = ({ revenueReport, ...state }) => ({
+  form: {
+    errors: errorSelector(state) || {},
+    values: valuesSelector(state, 'startDate', 'endDate') || {},
+  },
   ...revenueReport,
-  errors: errorSelector(state) || {},
-  values: valuesSelector(state, 'startDate', 'endDate') || {},
 });
 const mapActions = {
   onDownload: actionCreators.downloadReport,

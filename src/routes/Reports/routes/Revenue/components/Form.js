@@ -22,6 +22,7 @@ class Form extends Component {
     super(props, context);
 
     this.handleDatesChange = this.handleDatesChange.bind(this);
+    this.handleDownload = this.handleDownload.bind(this);
 
     this.state = {
       startDate: props.initialValues && props.initialValues.startDate !== undefined ?
@@ -51,9 +52,21 @@ class Form extends Component {
     });
   }
 
+  handleDownload(e) {
+    this.props.onDownload(this.props.fields);
+  }
+
   render() {
     const { startDate, endDate } = this.state;
-    const { handleSubmit, valid, submitting, onSubmit, disabled, errors } = this.props;
+    const {
+      handleSubmit,
+      valid,
+      submitting,
+      onSubmit,
+      disabled,
+      pristine,
+      errors,
+    } = this.props;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
       <Field
@@ -85,10 +98,10 @@ class Form extends Component {
           <Field type="hidden" component="input" name="startDate"/>
           <Field type="hidden" component="input" name="endDate"/>
 
-          {!!errors.startDate && <div className="form-control-feedback">
+          {!pristine && !!errors.startDate && <div className="form-control-feedback">
             {errors.startDate}
           </div>}
-          {!!errors.endDate && <div className="form-control-feedback">
+          {!pristine && !!errors.endDate && <div className="form-control-feedback">
             {errors.endDate}
           </div>}
         </div>
@@ -103,6 +116,14 @@ class Form extends Component {
               className="btn width-150 btn-primary">
               Preview
             </button>
+            &nbsp;
+            {valid && <button
+              type="button"
+              disabled={!valid || submitting}
+              onClick={this.handleDownload}
+              className="btn width-150 btn-primary">
+              Export as CSV
+            </button>}
           </div>
         </div>
       </div>

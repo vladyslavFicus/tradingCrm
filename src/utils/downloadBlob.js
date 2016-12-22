@@ -5,4 +5,5 @@ export default (name, data) => {
   a.style.display = 'none';
   document.body.appendChild(a);
   a.click();
+  window.URL.revokeObjectURL(a.href);
 };

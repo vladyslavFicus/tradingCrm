@@ -32,10 +32,10 @@ class View extends Component {
 
   render() {
     const {
-      errors,
-      values,
+      form,
       entities,
       filters,
+      onDownload,
     } = this.props;
 
     return <div className="page-content-inner">
@@ -46,8 +46,9 @@ class View extends Component {
 
         <Content>
           <Form
-            fields={values}
-            errors={errors}
+            fields={form.values}
+            errors={form.errors}
+            onDownload={onDownload}
             onSubmit={this.handleSubmit}
           />
 
