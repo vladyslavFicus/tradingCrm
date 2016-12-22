@@ -10,11 +10,12 @@ class Amount extends Component {
       currencyClassName,
     } = this.props;
 
-    if (!amount) return null;
+    const parsedAmount = parseFloat(amount);
+    if (isNaN(parsedAmount)) return null;
 
     return <tag className={className}>
       <span className={currencyClassName}>{currency}</span>
-      <span className={amountClassName}>{parseFloat(amount).toFixed(2)}</span>
+      <span className={amountClassName}>{parsedAmount.toFixed(2)}</span>
     </tag>;
   }
 }
