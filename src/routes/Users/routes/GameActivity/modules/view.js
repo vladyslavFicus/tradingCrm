@@ -1,5 +1,4 @@
 import { CALL_API } from 'redux-api-middleware';
-import { CALL_GRAYLOG } from 'redux/middlewares/graylog';
 import timestamp from 'utils/timestamp';
 import buildQueryString from 'utils/buildQueryString';
 import createRequestAction from 'utils/createRequestAction';
@@ -8,62 +7,10 @@ const KEY = 'user/game-activity';
 const FETCH_ACTIVITY = createRequestAction(`${KEY}/fetch-activity`);
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
 
-const CLIENT_METHOD_ABSOLUTE = 'searchAbsolute';
-const CLIENT_METHOD_RELATIVE = 'searchRelative';
-export const ITEMS_PER_PAGE = 10;
-const fields = [
-  '@class',
-  'amountWin',
-  'balance',
-  'gameId',
-  'gameProviderId',
-  'gameRoundId',
-  'gameSessionUUID',
-  'gameType',
-  'name',
-  'playerIpAddress',
-  'playerUUID',
-  'stake',
-  'streams',
-].join();
-
-const mapMessage = ({ providers, games, actions }) => item => ({
-  name: actions[item.message.name],
-  gameId: games[item.message.gameId],
-  gameProviderId: providers[item.message.gameProviderId],
-  gameSessionUUID: item.message.gameSessionUUID,
-  playerIpAddress: item.message.playerIpAddress,
-  timestamp: item.message.timestamp,
-  balance: item.message.balance,
-  amountWin: item.message.amountWin,
-  stake: item.message.stake,
-});
 const mapGames = (items) => items.reduce((result, item) => ({
   ...result,
   [item.gameId]: item.fullGameName,
 }), {});
-
-const buildQueryCriteria = (params) => ({
-  query: Object
-    .keys(params).filter(value =>
-      params[value] !== '' &&
-      value !== 'startDate'
-      && value !== 'endDate'
-    )
-    .map(key => `${key}:${params[key]}`)
-    .join(' AND '),
-});
-
-const buildPaginationCriteria = (page) => ({
-  limit: ITEMS_PER_PAGE,
-  offset: page * ITEMS_PER_PAGE,
-});
-
-const buildDateCriteria = (params) => (
-  params.startDate && params.startDate ?
-    { from: `${params.startDate} 00:00:00`, to: `${params.endDate} 23:59:59` } :
-    { range: 0 }
-);
 
 function fetchGames() {
   return (dispatch, getState) => {
@@ -85,31 +32,28 @@ function fetchGames() {
   };
 }
 
-function fetchGameActivity(params, page) {
-  return dispatch => {
-    const method = params.startDate && params.startDate ?
-      CLIENT_METHOD_ABSOLUTE :
-      CLIENT_METHOD_RELATIVE;
+function fetchGameActivity(playerUUID, filters = { page: 0 }) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
 
     return dispatch({
-      [CALL_GRAYLOG]: {
-        method,
-        parameters: {
-          ...buildQueryCriteria(params),
-          ...buildPaginationCriteria(page),
-          ...buildDateCriteria(params),
-          fields,
+      [CALL_API]: {
+        endpoint: `/playing-session/gaming-activity/${playerUUID}?${buildQueryString(filters)}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         types: [
           {
             type: FETCH_ACTIVITY.REQUEST,
-            meta: {
-              filters: { ...params, page },
-            },
+            meta: { filters },
           },
           FETCH_ACTIVITY.SUCCESS,
           FETCH_ACTIVITY.FAILURE,
         ],
+        bailout: !logged,
       },
     });
   };
@@ -124,8 +68,10 @@ const actionHandlers = {
   }),
   [FETCH_ACTIVITY.SUCCESS]: (state, action) => ({
     ...state,
-    items: action.payload.messages ? action.payload.messages.map(mapMessage(state)) : [],
-    totalItems: action.payload.messages ? action.payload.total_results : 0,
+    entities: {
+      ...state.entities,
+      ...action.payload
+    },
     isLoading: false,
     receivedAt: timestamp(),
   }),
@@ -143,18 +89,22 @@ const actionHandlers = {
 };
 
 const initialState = {
-  items: [],
-  games: {},
-  actions: {
-    StopGameSessionEvent: 'Stop Game',
-    StartGameSessionEvent: 'Start Game',
-    BetPlacedEvent: 'Bet',
-    WinCollectedEvent: 'Win',
+  entities: {
+    first: null,
+    last: null,
+    number: null,
+    numberOfElements: null,
+    size: null,
+    sort: null,
+    totalElements: null,
+    totalPages: null,
+    content: [],
   },
+  games: {},
   providers: {
     stakelogic: 'Stakelogic',
+    netent: 'Netent',
   },
-  totalItems: null,
   filters: {},
   isLoading: false,
   isFailed: false,
