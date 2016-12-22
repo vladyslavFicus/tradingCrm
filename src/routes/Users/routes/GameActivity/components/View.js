@@ -148,7 +148,7 @@ class View extends Component {
           }
           filter={(onFilterChange) => <DateRangeFilter
             onFilterChange={onFilterChange}
-            isOutsideRange={(date) => date.isAfter(moment())}
+            isOutsideRange={(date) => moment() <= date}
           />}
         />
       </GridView>
