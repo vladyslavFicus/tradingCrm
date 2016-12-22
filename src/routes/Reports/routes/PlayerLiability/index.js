@@ -10,6 +10,6 @@ export default (store) => ({
       });
 
       cb(null, require('./container/Container').default);
-    }, 'revenue-report');
+    }, 'player-liability-report');
   },
 });
