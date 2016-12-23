@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import { Link } from 'react-router';
-import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
+import { TextFilter, DropDownFilter } from 'components/Forms/Filters';
 
 class List extends Component {
   constructor(props) {
@@ -10,7 +10,6 @@ class List extends Component {
 
     this.handlePageChanged = this.handlePageChanged.bind(this);
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
-    this.renderActions = this.renderActions.bind(this);
   }
 
   handlePageChanged(page, filters = {}) {

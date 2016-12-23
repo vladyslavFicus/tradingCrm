@@ -14,7 +14,7 @@ class Users extends Component {
   }
 
   render() {
-    const { profile, tabs, content } = this.props;
+    const { profile: { data }, tabs, content } = this.props;
 
     return <div className="page-content-inner">
       <nav className="top-submenu top-submenu-with-background">
@@ -23,8 +23,8 @@ class Users extends Component {
             <div className="row">
               <div className="col-xl-8">
                 <div className="profile-header-title">
-                  <h2>{profile.data.username}</h2>
-                  <p>{profile.data.email}</p>
+                  <h2>{data.username}</h2>
+                  <p>{data.email}</p>
                 </div>
               </div>
             </div>

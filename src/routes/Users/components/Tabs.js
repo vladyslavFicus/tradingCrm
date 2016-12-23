@@ -2,15 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-const tabItems = {
-  profile: { label: 'Profile', route: '/users/:id/profile' },
-  transactions: { label: 'Transactions', route: '/users/:id/transactions' },
-  gameActivity: { label: 'Game activity', route: '/users/:id/game-activity' },
-  bonuses: { label: 'Bonuses', route: '/users/:id/bonuses' },
-  limits: { label: 'Limits', route: '/users/:id/limits' },
-};
-
-const Tabs = ({ activeTabName }) => (props) => <ul className="nav nav-tabs" role="tablist">
+const Tabs = (props) => <ul className="nav nav-tabs" role="tablist">
   {Object.keys(tabItems).map((name) => {
     const item = tabItems[name];
 
@@ -18,7 +10,7 @@ const Tabs = ({ activeTabName }) => (props) => <ul className="nav nav-tabs" role
       key={name}
       className={classNames('nav-item')}>
       <Link
-        className={classNames(['nav-link', { active: activeTabName === name }])}
+        className={classNames(['nav-link', { active: location.pathname.indexOf(item.route) > -1 }])}
         to={item.route.replace(/:id/, props.params.id)}
       >
         {item.label}
