@@ -13,6 +13,10 @@ class PreviewGrid extends Component {
       : this.renderPlayerGrid();
   }
 
+  renderEuColumn(data, column) {
+    return <input type="checkbox" readOnly disabled defaultValue={data[column.name]}/>;
+  }
+
   renderCountryGrid() {
     const {
       content,
@@ -38,6 +42,11 @@ class PreviewGrid extends Component {
         header="COUNTRY"
         headerStyle={{ width: '10%' }}
         render={(data, column) => <small>{data[column.name]}</small>}
+      />
+      <GridColumn
+        name="EU"
+        header="EU"
+        render={this.renderEuColumn}
       />
       <GridColumn
         name="HOLD_BONUS_TOTAL"
@@ -107,6 +116,11 @@ class PreviewGrid extends Component {
         header="COUNTRY"
         headerStyle={{ width: '10%' }}
         render={(data, column) => <small>{data[column.name]}</small>}
+      />
+      <GridColumn
+        name="EU"
+        header="EU"
+        render={this.renderEuColumn}
       />
       <GridColumn
         name="HOLD_BONUS_TOTAL"
