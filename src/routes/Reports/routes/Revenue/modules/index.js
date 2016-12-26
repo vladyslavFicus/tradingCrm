@@ -8,7 +8,6 @@ import timestamp from 'utils/timestamp';
 const KEY = 'reports/revenue';
 const DOWNLOAD_REPORT = createRequestAction(`${KEY}/download-report`);
 const FETCH_REPORT = createRequestAction(`${KEY}/fetch-report`);
-const LOADING_PROGRESS = `${KEY}/loading-progress`;
 
 const initialState = {
   entities: {
@@ -24,32 +23,23 @@ const initialState = {
     content: [],
   },
   filters: {},
-  progress: null,
   error: null,
   isLoading: false,
 };
 
 const actionHandlers = {
-  [LOADING_PROGRESS]: (state, action) => ({
-    ...state,
-    progress: action.payload,
-    isLoading: state.isLoading && action.payload < 100,
-  }),
   [DOWNLOAD_REPORT.REQUEST]: (state, action) => ({
     ...state,
     error: null,
-    progress: 0,
     isLoading: true,
   }),
   [DOWNLOAD_REPORT.SUCCESS]: (state, action) => ({
     ...state,
-    progress: null,
     isLoading: false,
   }),
   [DOWNLOAD_REPORT.FAILURE]: (state, action) => ({
     ...state,
     error: action.payload,
-    progress: null,
     isLoading: false,
   }),
 
@@ -150,7 +140,6 @@ const reducer = (state = initialState, action) => {
 };
 
 const actionTypes = {
-  LOADING_PROGRESS,
   FETCH_REPORT,
   DOWNLOAD_REPORT,
 };

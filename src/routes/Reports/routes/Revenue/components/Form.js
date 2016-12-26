@@ -52,7 +52,7 @@ class Form extends Component {
     });
   }
 
-  handleDownload(e) {
+  handleDownload() {
     this.props.onDownload(this.props.fields);
   }
 

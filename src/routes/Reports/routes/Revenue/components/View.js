@@ -12,10 +12,6 @@ class View extends Component {
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
   }
 
-  handleExportClick(e) {
-    this.props.onDownload(this.props.filters);
-  }
-
   handleSubmit(data) {
     return this.handleFiltersChanged(data);
   }
