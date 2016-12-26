@@ -24,7 +24,7 @@ class AuthenticatedLayout extends Component {
         menuItems={[
           { label: 'Users', url: '/users', icon: 'fa fa-users' },
           { label: 'InReview profiles', url: '/profiles-review', icon: 'fa fa-user-times' },
-          { label: 'Transactions', url: '/transactions', icon: 'fa fa-credit-card' },
+          { label: 'Payments', url: '/payments', icon: 'fa fa-credit-card' },
           { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
           { label: 'Bonuses', url: '/bonuses', icon: 'fa fa-gift' },
           { label: 'Terms & conditions', url: '/terms', icon: 'fa fa-align-justify' },

@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
+const currencyMap = {
+  EUR: '€',
+  USD: '$',
+};
+
 class Amount extends Component {
   render() {
     const {
@@ -13,20 +18,20 @@ class Amount extends Component {
     const parsedAmount = parseFloat(amount);
     if (isNaN(parsedAmount)) return null;
 
-    return <tag className={className}>
-      <span className={currencyClassName}>{currency}</span>
+    return <span className={className}>
+      <span className={currencyClassName}>{currencyMap[currency] || currency}</span>
       <span className={amountClassName}>{parsedAmount.toFixed(2)}</span>
-    </tag>;
+    </span>;
   }
 }
 
 Amount.defaultProps = {
-  currency: '€',
+  currency: 'EUR',
 };
 
 Amount.propTypes = {
-  amount: PropTypes.number,
-  currency: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
+  currency: PropTypes.string,
   className: PropTypes.string,
   amountClassName: PropTypes.string,
   currencyClassName: PropTypes.string,

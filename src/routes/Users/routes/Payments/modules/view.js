@@ -1,10 +1,10 @@
 import { CALL_API } from 'redux-api-middleware';
+import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
 import buildQueryString from 'utils/buildQueryString';
-import createRequestAction from 'utils/createRequestAction';
 
-const KEY = 'transactions';
-const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
+const KEY = 'user/payments';
+const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
@@ -12,7 +12,7 @@ function fetchEntities(filters = {}) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/transactions?${buildQueryString(filters)}`,
+        endpoint: `payment/payments?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -20,7 +20,10 @@ function fetchEntities(filters = {}) {
           Authorization: `Bearer ${token}`,
         },
         types: [
-          FETCH_ENTITIES.REQUEST,
+          {
+            type: FETCH_ENTITIES.REQUEST,
+            meta: { filters },
+          },
           FETCH_ENTITIES.SUCCESS,
           FETCH_ENTITIES.FAILURE,
         ],
@@ -33,9 +36,12 @@ function fetchEntities(filters = {}) {
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...action.filters },
+    filters: {
+      ...state.filters,
+      ...action.meta.filters,
+    },
     isLoading: true,
-    error: null,
+    isFailed: false,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
@@ -66,9 +72,9 @@ const initialState = {
     totalPages: null,
     content: [],
   },
-  error: null,
   filters: {},
   isLoading: false,
+  isFailed: false,
   receivedAt: null,
 };
 function reducer(state = initialState, action) {
