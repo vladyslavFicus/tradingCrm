@@ -49,6 +49,7 @@ function fetchEntities(type) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
+        body: playerUuidList ? JSON.stringify({ playerUuidList }) : undefined,
         types: [
           {
             type: type.REQUEST,

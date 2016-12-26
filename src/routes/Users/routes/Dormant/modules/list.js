@@ -15,7 +15,7 @@ function fetchDormantUsers(filters = {}) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `auth/dormants?${buildQueryString(filters)}`,
+        endpoint: `auth/credentials/dormants?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
