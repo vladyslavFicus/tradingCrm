@@ -66,7 +66,7 @@ class List extends Component {
               headerStyle={{ width: '20%' }}
               render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
               filter={(onFilterChange) => <DateRangeFilter
-                isOutsideRange={(date) => date.isAfter(moment())}
+                isOutsideRange={(date) => moment() <= date}
                 onFilterChange={onFilterChange}
               />}
               filterClassName="text-center"
@@ -101,7 +101,7 @@ class List extends Component {
               header="Amount"
               headerClassName="text-center"
               headerStyle={{ width: '10%' }}
-              render={(data, column) => <Amount amount={data[column.name]} />}
+              render={(data, column) => <Amount amount={data[column.name]}/>}
               className="text-center"
             />
           </GridView>

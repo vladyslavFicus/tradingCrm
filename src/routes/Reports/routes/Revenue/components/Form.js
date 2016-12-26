@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import RemoteDateRangePickerWrapper from 'components/Forms/RemoteDateRangePickerWrapper';
 import { SelectField } from 'components/ReduxForm';
 import { createValidator } from 'utils/validator';
-import { Types } from '../contants';
+import { typesLabels } from 'constants/revenue-report';
 import classNames from 'classnames';
 import moment from 'moment';
 
@@ -22,7 +22,7 @@ class Form extends Component {
     super(props, context);
 
     this.handleDatesChange = this.handleDatesChange.bind(this);
-    this.handleResetForm = this.handleResetForm.bind(this);
+    this.handleDownload = this.handleDownload.bind(this);
 
     this.state = {
       startDate: props.initialValues && props.initialValues.startDate !== undefined ?
@@ -52,15 +52,21 @@ class Form extends Component {
     });
   }
 
-  handleResetForm() {
-    this.handleDatesChange({ startDate: null, endDate: null });
-
-    this.props.reset();
+  handleDownload() {
+    this.props.onDownload(this.props.fields);
   }
 
   render() {
     const { startDate, endDate } = this.state;
-    const { handleSubmit, pristine, submitting, onSubmit, disabled, errors } = this.props;
+    const {
+      handleSubmit,
+      valid,
+      submitting,
+      onSubmit,
+      disabled,
+      pristine,
+      errors,
+    } = this.props;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
       <Field
@@ -71,8 +77,8 @@ class Form extends Component {
         component={SelectField}
       >
         <option>-- Select --</option>
-        {Object.keys(Types).map((key) => <option key={key} value={key}>
-          {Types[key]}
+        {Object.keys(typesLabels).map((key) => <option key={key} value={key}>
+          {typesLabels[key]}
         </option>)}
       </Field>
 
@@ -92,10 +98,10 @@ class Form extends Component {
           <Field type="hidden" component="input" name="startDate"/>
           <Field type="hidden" component="input" name="endDate"/>
 
-          {!!errors.startDate && <div className="form-control-feedback">
+          {!pristine && !!errors.startDate && <div className="form-control-feedback">
             {errors.startDate}
           </div>}
-          {!!errors.endDate && <div className="form-control-feedback">
+          {!pristine && !!errors.endDate && <div className="form-control-feedback">
             {errors.endDate}
           </div>}
         </div>
@@ -106,10 +112,18 @@ class Form extends Component {
           <div className="col-md-9 col-md-offset-3">
             <button
               type="submit"
-              disabled={pristine || submitting}
+              disabled={!valid || submitting}
               className="btn width-150 btn-primary">
-              Download
+              Preview
             </button>
+            &nbsp;
+            {valid && <button
+              type="button"
+              disabled={!valid || submitting}
+              onClick={this.handleDownload}
+              className="btn width-150 btn-primary">
+              Export as CSV
+            </button>}
           </div>
         </div>
       </div>

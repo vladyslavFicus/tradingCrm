@@ -92,9 +92,9 @@ class GridView extends Component {
           {this.renderHead(this.recognizeHeaders(grids))}
           {this.renderFilters(this.recognizeFilters(grids))}
           </thead>
-          <tbody>
+
           {this.renderBody(grids)}
-          </tbody>
+          {this.renderFooter(grids)}
         </table>
 
         {this.renderPagination()}
@@ -121,7 +121,9 @@ class GridView extends Component {
   renderBody(columns) {
     const { dataSource } = this.props;
 
-    return dataSource.map((data, key) => this.renderRow(key, columns, data));
+    return <tbody>
+    {dataSource.map((data, key) => this.renderRow(key, columns, data))}
+    </tbody>;
   }
 
   renderRow(key, columns, data) {
@@ -140,6 +142,18 @@ class GridView extends Component {
     }
 
     return <td className={column.props.className} key={key}>{content}</td>;
+  }
+
+  renderFooter(columns) {
+    const { summaryRow } = this.props;
+
+    return summaryRow ? <tfoot>
+      <tr>
+        {columns.map(({ props }, key) =>
+          <td key={key}>{summaryRow[props.name]}</td>
+        )}
+      </tr>
+      </tfoot> : null;
   }
 
   renderPagination() {
@@ -171,6 +185,7 @@ class GridView extends Component {
 
 GridView.defaultProps = {
   defaultFilters: {},
+  summaryRow: null,
 };
 
 GridView.propTypes = {
@@ -180,6 +195,7 @@ GridView.propTypes = {
   dataSource: PropTypes.array.isRequired,
   activePage: PropTypes.number,
   totalPages: PropTypes.number,
+  summaryRow: PropTypes.object,
 };
 
 export default GridView;

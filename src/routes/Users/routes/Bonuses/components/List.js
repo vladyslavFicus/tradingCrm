@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import GridView, { GridColumn } from 'components/GridView';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
+import { statuses, statusesLabels } from 'constants/bonus';
 import moment from 'moment';
 import Amount from 'components/Amount';
 
@@ -56,7 +57,7 @@ class List extends Component {
 
   renderActions(data) {
     return <div className="btn-group btn-group-sm">
-      {['COMPLETED', 'CANCELLED', 'EXPIRED'].indexOf(data.state) === -1 && <a
+      {[statuses.COMPLETED, statuses.CANCELLED, statuses.EXPIRED].indexOf(data.state) === -1 && <a
         className="btn btn-sm btn-danger btn-secondary"
         onClick={() => this.handleCancelBonus(data.id)}
         title="Cancel bonus"
@@ -95,28 +96,28 @@ class List extends Component {
           header="Granted amount"
           headerClassName="text-center"
           className="text-center"
-          render={(data, column) => <Amount amount={data[column.name]} />}
+          render={(data, column) => <Amount amount={data[column.name]}/>}
         />
         <GridColumn
           name="capping"
           header="Capping"
           headerClassName="text-center"
           className="text-center"
-          render={(data, column) => <Amount amount={data[column.name]} />}
+          render={(data, column) => <Amount amount={data[column.name]}/>}
         />
         <GridColumn
           name="prize"
           header="Prize"
           headerClassName="text-center"
           className="text-center"
-          render={(data, column) => <Amount amount={data[column.name]} />}
+          render={(data, column) => <Amount amount={data[column.name]}/>}
         />
         <GridColumn
           name="amountToWage"
           header="Amount to wage"
           headerClassName="text-center"
           className="text-center"
-          render={(data, column) => <Amount amount={data[column.name]} />}
+          render={(data, column) => <Amount amount={data[column.name]}/>}
         />
         <GridColumn
           name="state"
@@ -126,12 +127,7 @@ class List extends Component {
             name="state"
             items={{
               '': 'All',
-              INACTIVE: 'INACTIVE',
-              IN_PROGRESS: 'IN_PROGRESS',
-              WAGERING_COMPLETE: 'WAGERING_COMPLETE',
-              CONSUMED: 'CONSUMED',
-              CANCELLED: 'CANCELLED',
-              EXPIRED: 'EXPIRED',
+              ...statusesLabels,
             }}
             onFilterChange={onFilterChange}
           />}
@@ -145,7 +141,7 @@ class List extends Component {
           headerStyle={{ width: '20%' }}
           render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
           filter={(onFilterChange) => <DateRangeFilter
-            isOutsideRange={(date) => date.isAfter(moment())}
+            isOutsideRange={(date) => moment() <= date}
             onFilterChange={onFilterChange}
           />}
           filterClassName="text-center"
