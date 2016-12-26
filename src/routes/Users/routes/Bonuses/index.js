@@ -2,14 +2,11 @@ import { injectReducer } from 'store/reducers';
 
 export default (store) => ({
   path: ':id/bonuses',
-  getComponents(nextState, cb) {
+  getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, { key: 'userBonusesList', reducer: require('./modules/list').default });
-      const TabsComponent = require('../../components/Tabs').default;
-      cb(null, {
-        content: require('./container/Bonuses').default,
-        tabs: TabsComponent({ activeTabName: 'bonuses' }),
-      });
+
+      cb(null, require('./container/Bonuses').default);
     }, 'user-bonuses-list');
   },
 });

@@ -89,7 +89,7 @@ class View extends Component {
           header="Amount"
           headerClassName="text-center"
           headerStyle={{ width: '10%' }}
-          render={(data, column) => <Amount amount={data[column.name]} />}
+          render={(data, column) => <Amount amount={data[column.name]}/>}
           className="text-center"
         />
       </GridView>

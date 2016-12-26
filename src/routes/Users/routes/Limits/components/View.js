@@ -32,11 +32,11 @@ class View extends Component {
     );
 
     return isCancellable ? <button
-      className="btn btn-danger btn-sm"
-      onClick={() => this.handleCancelLimit(data.type, data.id)}
-    >
-      Cancel
-    </button> : null;
+        className="btn btn-danger btn-sm"
+        onClick={() => this.handleCancelLimit(data.type, data.id)}
+      >
+        Cancel
+      </button> : null;
   }
 
   renderLimit(data) {
@@ -45,7 +45,7 @@ class View extends Component {
         {data.durationLimit} {data.durationLimitTimeUnit.toLowerCase()}
       </span> :
       <span>
-        <Amount amount={data.moneyLimit} /> per {data.duration} {data.durationUnit.toLowerCase()}
+        <Amount amount={data.moneyLimit}/> per {data.duration} {data.durationUnit.toLowerCase()}
       </span>;
   }
 
@@ -67,8 +67,10 @@ class View extends Component {
       <div id={`tab-${config.tabName}`} className={classNames('tab-pane fade in active')}>
         <GridView
           dataSource={list || []}
-          onFiltersChanged={() => {}}
-          onPageChange={() => {}}
+          onFiltersChanged={() => {
+          }}
+          onPageChange={() => {
+          }}
           activePage={0}
           totalPages={1}
         >

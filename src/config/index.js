@@ -9,7 +9,6 @@ const config = {
   ],
   API_ROOT: '',
   DOMAIN: '',
-  GRAYLOG: {},
   ...environmentConfiguration,
 };
 
@@ -20,10 +19,6 @@ if (!!window && !!window.NAS && typeof window.NAS === 'object') {
 
   if (!!window.NAS.NAS_DOMAIN) {
     config.DOMAIN = window.NAS.NAS_DOMAIN;
-  }
-
-  if (window.NAS.GRAYLOG) {
-    config.GRAYLOG = window.NAS.GRAYLOG;
   }
 }
 

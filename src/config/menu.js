@@ -20,6 +20,15 @@ const sidebar = [
   },
 ];
 
+const userProfileTabs = [
+  { label: 'Profile', url: '/users/:id/profile' },
+  { label: 'Transactions', url: '/users/:id/transactions' },
+  { label: 'Game activity', url: '/users/:id/game-activity' },
+  { label: 'Bonuses', url: '/users/:id/bonuses' },
+  { label: 'Limits', url: '/users/:id/limits' },
+];
+
 export {
   sidebar,
+  userProfileTabs,
 };

@@ -7,9 +7,11 @@ import BonusesRoute from './Bonuses';
 import LimitsRoute from './Limits';
 
 import ListRoute from './List';
+import DormantRoute from './Dormant';
 
 export default (store) => [
   ListRoute(store),
+  DormantRoute(store),
   {
     getComponent(nextState, cb) {
       require.ensure([], (require) => {

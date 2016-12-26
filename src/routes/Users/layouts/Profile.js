@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Tabs from '../components/Tabs';
+import { userProfileTabs } from 'config/menu';
 import { actionCreators as profileViewActionCreators } from '../modules/view';
 import { actionCreators as bonusActionCreators } from '../modules/bonus';
 
@@ -14,7 +16,7 @@ class Users extends Component {
   }
 
   render() {
-    const { profile: { data }, tabs, content } = this.props;
+    const { profile: { data }, children, params, location } = this.props;
 
     return <div className="page-content-inner">
       <nav className="top-submenu top-submenu-with-background">
@@ -36,10 +38,14 @@ class Users extends Component {
         <section className="panel profile-user-content">
           <div className="panel-body">
             <div className="nav-tabs-horizontal">
-              {tabs}
+              <Tabs
+                items={userProfileTabs}
+                location={location}
+                params={params}
+              />
 
               <div className="tab-content padding-vertical-20">
-                {content}
+                {children}
               </div>
             </div>
           </div>

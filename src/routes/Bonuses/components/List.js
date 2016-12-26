@@ -90,28 +90,28 @@ class List extends Component {
               header="Granted amount"
               headerClassName="text-center"
               className="text-center"
-              render={(data, column) => <Amount amount={data[column.name]} />}
+              render={(data, column) => <Amount amount={data[column.name]}/>}
             />
             <GridColumn
               name="capping"
               header="Capping"
               headerClassName="text-center"
               className="text-center"
-              render={(data, column) => <Amount amount={data[column.name]} />}
+              render={(data, column) => <Amount amount={data[column.name]}/>}
             />
             <GridColumn
               name="prize"
               header="Prize"
               headerClassName="text-center"
               className="text-center"
-              render={(data, column) => <Amount amount={data[column.name]} />}
+              render={(data, column) => <Amount amount={data[column.name]}/>}
             />
             <GridColumn
               name="amountToWage"
               header="Amount to wage"
               headerClassName="text-center"
               className="text-center"
-              render={(data, column) => <Amount amount={data[column.name]} />}
+              render={(data, column) => <Amount amount={data[column.name]}/>}
             />
             <GridColumn
               name="state"

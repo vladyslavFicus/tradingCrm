@@ -2,21 +2,24 @@ import React from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
 
-const Tabs = (props) => <ul className="nav nav-tabs" role="tablist">
-  {Object.keys(tabItems).map((name) => {
-    const item = tabItems[name];
-
-    return <li
-      key={name}
-      className={classNames('nav-item')}>
-      <Link
-        className={classNames(['nav-link', { active: location.pathname.indexOf(item.route) > -1 }])}
-        to={item.route.replace(/:id/, props.params.id)}
-      >
-        {item.label}
-      </Link>
-    </li>;
-  })}
+const Tabs = ({ location, items, params }) => <ul className="nav nav-tabs">
+  {items.map((item, key) => <li key={key} className={classNames('nav-item')}>
+    <Link
+      activeClassName={'active'}
+      className={'nav-link'}
+      to={item.url.replace(/:id/, params.id)}
+    >{item.label}</Link>
+  </li>)}
 </ul>;
+
+Tabs.propTypes = {
+  location: React.PropTypes.shape({
+    pathname: React.PropTypes.string.isRequired,
+  }).isRequired,
+  items: React.PropTypes.arrayOf(React.PropTypes.shape({
+    label: React.PropTypes.string.isRequired,
+    url: React.PropTypes.string.isRequired,
+  })),
+};
 
 export default Tabs;
