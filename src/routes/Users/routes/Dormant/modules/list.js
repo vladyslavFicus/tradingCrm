@@ -41,7 +41,7 @@ function fetchEntities(filters = {}) {
     .then((action) => {
       const response = action.payload;
 
-      return response.content ? dispatch(fetchUserEntities({ playerUuidList: response.content }))
+      return response.content && response.content.length ? dispatch(fetchUserEntities({ playerUuidList: response.content }))
           .then(action => ({
             ...action,
             payload: {
