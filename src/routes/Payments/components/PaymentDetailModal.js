@@ -3,6 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import GridView, { GridColumn } from 'components/GridView';
 import { statusesLabels as transactionsStatusesLabels } from 'constants/transaction';
 import {
+  types as paymentTypes,
   statuses as paymentsStatuses,
   methodsLabels as paymentsMethodsLabels,
   statusesLabels as paymentsStatusesLabels,
@@ -61,7 +62,7 @@ class PaymentDetailModal extends Component {
         </GridView>
       </ModalBody>
 
-      {status === paymentsStatuses.PENDING && <ModalFooter>
+      {discriminator === paymentTypes.Withdraw && status === paymentsStatuses.PENDING && <ModalFooter>
         <Button color="primary" onClick={(e) => onChangePaymentStatus('approve', paymentId)}>Approve</Button>{' '}
         <Button color="danger" onClick={(e) => onChangePaymentStatus('reject', paymentId)}>Reject</Button>
       </ModalFooter>}

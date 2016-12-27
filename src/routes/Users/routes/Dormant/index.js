@@ -7,6 +7,6 @@ export default (store) => ({
       injectReducer(store, { key: 'dormantUserList', reducer: require('./modules/list').default });
 
       cb(null, require('./container/Container').default);
-    }, 'users-list');
+    }, 'dormant-users-list');
   },
 });
