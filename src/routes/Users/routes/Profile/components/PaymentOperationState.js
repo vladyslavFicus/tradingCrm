@@ -86,11 +86,11 @@ class PaymentOperationState extends Component {
     const { name, reasons } = this.props;
 
     return name !== undefined ? <div className="form-group row">
-      <label className="col-sm-1 col-form-label text-right">{name}</label>
-      <div className="col-sm-4">
-        {reasons.length > 0 ? this.renderReasons(reasons) : this.renderLockForm()}
-      </div>
-    </div> : null;
+        <label className="col-sm-1 col-form-label text-right">{name}</label>
+        <div className="col-sm-4">
+          {reasons.length > 0 ? this.renderReasons(reasons) : this.renderLockForm()}
+        </div>
+      </div> : null;
   }
 }
 

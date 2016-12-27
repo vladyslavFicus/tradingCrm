@@ -2,14 +2,11 @@ import { injectReducer } from 'store/reducers';
 
 export default (store) => ({
   path: ':id/limits',
-  getComponents(nextState, cb) {
+  getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, { key: 'userLimits', reducer: require('./modules/view').default });
-      const TabsComponent = require('../../components/Tabs').default;
-      cb(null, {
-        content: require('./container/ViewContainer').default,
-        tabs: TabsComponent({ activeTabName: 'limits' }),
-      });
-    }, 'limits-view');
+
+      cb(null, require('./container/ViewContainer').default);
+    }, 'user-limits-view');
   },
 });

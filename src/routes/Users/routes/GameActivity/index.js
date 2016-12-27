@@ -10,13 +10,9 @@ export default (store) => ({
       .then(() => callback());
   },
 
-  getComponents(nextState, cb) {
+  getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      const TabsComponent = require('../../components/Tabs').default;
-      cb(null, {
-        content: require('./container/ViewContainer').default,
-        tabs: TabsComponent({ activeTabName: 'gameActivity' }),
-      });
+      cb(null, require('./container/ViewContainer').default);
     }, 'game-activity-view');
   },
 });

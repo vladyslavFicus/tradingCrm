@@ -58,12 +58,12 @@ class View extends Component {
         <Title>
           <div className="heading-buttons pull-right">
             {data.state === 'IN_REVIEW' ? <ApprovalDropDown
-              onApprove={this.handleApprove}
-              onReject={this.handleReject}
-            /> : <span className={classNames('label', {
-              'label-danger': data.state === 'REJECTED',
-              'label-success': data.state === 'APPROVED',
-            })}>{data.state}</span>}
+                onApprove={this.handleApprove}
+                onReject={this.handleReject}
+              /> : <span className={classNames('label', {
+                'label-danger': data.state === 'REJECTED',
+                'label-success': data.state === 'APPROVED',
+              })}>{data.state}</span>}
           </div>
 
           <h3>KYC Data</h3>
