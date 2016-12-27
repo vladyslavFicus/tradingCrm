@@ -9,7 +9,7 @@ function fetchEntities(filters = {}) {
   return usersActionCreators.fetchEntities(FETCH_ENTITIES)(filters);
 }
 
-const handlers = {
+const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
     filters: { ...action.meta.filters },
@@ -51,7 +51,7 @@ const initialState = {
   receivedAt: null,
 };
 function reducer(state = initialState, action) {
-  const handler = handlers[action.type];
+  const handler = actionHandlers[action.type];
 
   return handler ? handler(state, action) : state;
 }

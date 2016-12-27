@@ -1,12 +1,8 @@
 export default (store) => ({
   path: ':id/profile',
-  getComponents(nextState, cb) {
+  getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      const TabsComponent = require('../../components/Tabs').default;
-      cb(null, {
-        content: require('./container/ViewContainer').default,
-        tabs: TabsComponent({ activeTabName: 'profile' }),
-      });
+      cb(null, require('./container/ViewContainer').default);
     }, 'profile-view');
   },
 });

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import { Link } from 'react-router';
-import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
+import { TextFilter, DropDownFilter } from 'components/Forms/Filters';
 
 class List extends Component {
   constructor(props) {
@@ -10,7 +10,6 @@ class List extends Component {
 
     this.handlePageChanged = this.handlePageChanged.bind(this);
     this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
-    this.renderActions = this.renderActions.bind(this);
   }
 
   handlePageChanged(page, filters = {}) {
@@ -41,7 +40,7 @@ class List extends Component {
     return <div className="page-content-inner">
       <Panel withBorders>
         <Title>
-          <h3>Users</h3>
+          <h3>Dormant users</h3>
         </Title>
 
         <Content>
@@ -62,36 +61,18 @@ class List extends Component {
               name="username"
               header="Username"
               headerClassName="text-center"
-              filter={(onFilterChange) => <TextFilter
-                name="username"
-                onFilterChange={onFilterChange}
-              />}
               className="text-center"
             />
             <GridColumn
               name="email"
               header="Email"
               headerClassName="text-center"
-              filter={(onFilterChange) => <TextFilter
-                name="email"
-                onFilterChange={onFilterChange}
-              />}
               className="text-center"
             />
             <GridColumn
               name="currency"
               header="Currency"
               headerClassName="text-center"
-              filter={(onFilterChange) => <DropDownFilter
-                name="currency"
-                items={{
-                  '': 'All',
-                  USD: 'USD',
-                  EUR: 'EUR',
-                  UAH: 'UAH',
-                }}
-                onFilterChange={onFilterChange}
-              />}
               className="text-center"
             />
             <GridColumn
@@ -99,10 +80,6 @@ class List extends Component {
               header="UUID"
               headerClassName="text-center"
               className="text-center"
-              filter={(onFilterChange) => <TextFilter
-                name="uuid"
-                onFilterChange={onFilterChange}
-              />}
             />
             <GridColumn
               name="actions"
