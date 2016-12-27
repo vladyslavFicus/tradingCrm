@@ -4,7 +4,7 @@ import createRequestAction from 'utils/createRequestAction';
 import { actionCreators as usersActionCreators } from 'redux/modules/users';
 import buildQueryString from 'utils/buildQueryString';
 
-const KEY = 'users';
+const KEY = 'dormant-users';
 const FETCH_DORMANT_UUIDS = createRequestAction(`${KEY}/fetch-dormant-uuids`);
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 const fetchUserEntities = usersActionCreators.fetchEntities(FETCH_ENTITIES);

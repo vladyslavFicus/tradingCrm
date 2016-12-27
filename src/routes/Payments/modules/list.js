@@ -1,18 +1,18 @@
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
 import buildQueryString from 'utils/buildQueryString';
+import createRequestAction from 'utils/createRequestAction';
 
-const KEY = 'user/transactions';
-const FETCH_TRANSACTIONS = createRequestAction(`${KEY}/fetch-transactions`);
+const KEY = 'payments';
+const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 
-function fetchTransactions(filters = {}) {
+function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/transactions?${buildQueryString(filters)}`,
+        endpoint: `payment/payments?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -21,11 +21,11 @@ function fetchTransactions(filters = {}) {
         },
         types: [
           {
-            type: FETCH_TRANSACTIONS.REQUEST,
+            type: FETCH_ENTITIES.REQUEST,
             meta: { filters },
           },
-          FETCH_TRANSACTIONS.SUCCESS,
-          FETCH_TRANSACTIONS.FAILURE,
+          FETCH_ENTITIES.SUCCESS,
+          FETCH_ENTITIES.FAILURE,
         ],
         bailout: !logged,
       },
@@ -34,16 +34,13 @@ function fetchTransactions(filters = {}) {
 }
 
 const actionHandlers = {
-  [FETCH_TRANSACTIONS.REQUEST]: (state, action) => ({
+  [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: {
-      ...state.filters,
-      ...action.meta.filters,
-    },
+    filters: { ...state.filters, ...action.meta.filters, },
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
-  [FETCH_TRANSACTIONS.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
     entities: {
       ...state.entities,
@@ -52,7 +49,7 @@ const actionHandlers = {
     isLoading: false,
     receivedAt: timestamp(),
   }),
-  [FETCH_TRANSACTIONS.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
@@ -72,9 +69,9 @@ const initialState = {
     totalPages: null,
     content: [],
   },
+  error: null,
   filters: {},
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 function reducer(state = initialState, action) {
@@ -84,11 +81,11 @@ function reducer(state = initialState, action) {
 }
 
 const actionTypes = {
-  FETCH_TRANSACTIONS,
+  FETCH_ENTITIES,
 };
 
 const actionCreators = {
-  fetchTransactions,
+  fetchEntities,
 };
 
 export {

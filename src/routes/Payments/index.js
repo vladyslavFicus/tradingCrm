@@ -1,12 +1,15 @@
 import { injectReducer } from 'store/reducers';
 
 export default (store) => ({
-  path: ':id/transactions',
+  path: 'payments',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      injectReducer(store, { key: 'userTransactions', reducer: require('./modules/view').default });
+      injectReducer(store, {
+        key: 'paymentsList',
+        reducer: require('./modules/list').default,
+      });
 
       cb(null, require('./container/ViewContainer').default);
-    }, 'transactions-view');
+    }, 'payments-list');
   },
 });

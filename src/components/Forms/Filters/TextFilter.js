@@ -13,10 +13,13 @@ class TextFilter extends Component {
   }
 
   render() {
+    const { name, onFilterChange, ...rest } = this.props;
+
     return <input
       type="text"
       className="form-control"
       onChange={(e) => this.handleChange(e.target.value)}
+      {...rest}
     />;
   }
 }
