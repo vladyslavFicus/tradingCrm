@@ -1,4 +1,5 @@
 def service = 'backoffice'
+
 node('build') {    
 
     stage('Checkout') {         
@@ -23,7 +24,7 @@ npm run deploy:prod
         sh "docker push registry.app/nas/$service"
     }      
     
-    stage('Deploy') {         
-        build job: 'casino-qa-deploy', wait: false, parameters: [string(name: 'service', value: service)]     
+    stage('Deploy') {        
+        build job: 'casino-deploy', wait: false, parameters: [string(name: 'profile', value: 'dev'), string(name: 'service', value: service)]         
     } 
 }
