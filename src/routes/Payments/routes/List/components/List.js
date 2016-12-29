@@ -3,7 +3,7 @@ import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 import { statuses, statusesLabels, methodsLabels, typesLabels } from 'constants/payment';
-import PaymentDetailModal from './PaymentDetailModal';
+import PaymentDetailModal from '../../../components/PaymentDetailModal';
 import moment from 'moment';
 import Amount from 'components/Amount';
 

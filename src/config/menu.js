@@ -7,7 +7,13 @@ const sidebar = [
     ],
   },
   { label: 'InReview profiles', url: '/profiles-review', icon: 'fa fa-user-times' },
-  { label: 'Payments', url: '/payments', icon: 'fa fa-credit-card' },
+  {
+    label: 'Payments', icon: 'fa fa-credit-card',
+    items: [
+      { label: 'All', url: '/payments' },
+      { label: 'Open loop', url: '/payments/open-loops' },
+    ],
+  },
   { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
   { label: 'Bonuses', url: '/bonuses', icon: 'fa fa-gift' },
   { label: 'Terms & conditions', url: '/terms', icon: 'fa fa-align-justify' },

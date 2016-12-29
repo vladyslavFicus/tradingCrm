@@ -2,7 +2,6 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import { apiMiddleware } from 'redux-api-middleware';
 import { browserHistory } from 'react-router';
 import { persistStore, autoRehydrate } from 'redux-persist';
-import withScroll from 'scroll-behavior';
 import thunk from 'redux-thunk';
 import makeRootReducer from './reducers';
 import apiUrl from 'redux/middlewares/apiUrl';
@@ -46,7 +45,7 @@ export default (initialState = {}, onComplete) => {
   persistStore(store, { whitelist: ['auth'] }, onComplete);
 
   store.asyncReducers = {};
-  store.unsubscribeHistory = withScroll(browserHistory)
+  store.unsubscribeHistory = browserHistory
     .listen(locationActionCreators.updateLocation(store));
 
   if (module.hot) {
