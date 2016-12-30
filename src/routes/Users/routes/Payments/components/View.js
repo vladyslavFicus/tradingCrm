@@ -4,7 +4,7 @@ import { DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
 import classNames from 'classnames';
 import moment from 'moment';
 import Amount from 'components/Amount';
-import { statusesLabels, methodsLabels } from 'constants/payment';
+import { statusesLabels, methodsLabels, typesLabels } from 'constants/payment';
 import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
 
 const defaultModalState = {
@@ -36,7 +36,14 @@ class View extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.setState({ modal: { ...defaultModalState, name, params } })
+    this.props.loadPaymentTransactions(params.payment.paymentId)
+      .then(action => {
+        if (action && !action.error) {
+          params.transactions = action.payload;
+        }
+
+        this.setState({ modal: { ...defaultModalState, name, params } });
+      });
   };
 
   handleCloseModal = (e, callback) => {
@@ -83,6 +90,7 @@ class View extends Component {
         activePage={entities.number + 1}
         totalPages={entities.totalPages}
         defaultFilters={{ playerUUID: params.id }}
+        rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
       >
         <GridColumn
           name="paymentId"
@@ -100,7 +108,7 @@ class View extends Component {
             name="type"
             items={{
               '': 'All',
-              ...methodsLabels,
+              ...typesLabels,
             }}
             onFilterChange={onFilterChange}
           />}
