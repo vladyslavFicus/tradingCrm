@@ -12,7 +12,7 @@ function fetchEntities(filters = {}) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/payments?${buildQueryString(filters)}`,
+        endpoint: `payment/payments/openloop?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

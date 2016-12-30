@@ -93,6 +93,7 @@ class List extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             defaultFilters={{ ...defaultFilters }}
+            rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
           >
             <GridColumn
               name="paymentId"
