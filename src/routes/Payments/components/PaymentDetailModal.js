@@ -12,8 +12,6 @@ import Amount from 'components/Amount';
 import moment from 'moment';
 
 class PaymentDetailModal extends Component {
-
-
   render() {
     const {
       payment: {
