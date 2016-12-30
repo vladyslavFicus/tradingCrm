@@ -12,17 +12,19 @@ import Amount from 'components/Amount';
 import moment from 'moment';
 
 class PaymentDetailModal extends Component {
+
+
   render() {
     const {
       payment: {
         discriminator,
         paymentMethod,
         status,
-        transactions,
         paymentId,
         amount,
         currency,
       },
+      transactions,
       isOpen,
       onClose,
       onChangePaymentStatus,
