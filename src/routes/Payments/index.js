@@ -1,15 +1,8 @@
-import { injectReducer } from 'store/reducers';
+import ListRoute from './routes/List';
+import routes from './routes';
 
 export default (store) => ({
   path: 'payments',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      injectReducer(store, {
-        key: 'paymentsList',
-        reducer: require('./modules/list').default,
-      });
-
-      cb(null, require('./container/ViewContainer').default);
-    }, 'payments-list');
-  },
+  indexRoute: ListRoute(store),
+  childRoutes: routes(store),
 });
