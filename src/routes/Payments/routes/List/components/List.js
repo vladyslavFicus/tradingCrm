@@ -28,10 +28,10 @@ class List extends Component {
     this.props.fetchEntities({ ...filters, page: 0 });
   };
 
-  handleChangePaymentStatus = (status, paymentId) => {
+  handleChangePaymentStatus = (status, paymentId, options = {}) => {
     const { list: { filters }, fetchEntities, onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus({ status, paymentId })
+    return onChangePaymentStatus({ status, paymentId, options })
       .then(() => fetchEntities(filters))
       .then(() => this.handleCloseModal());
   };

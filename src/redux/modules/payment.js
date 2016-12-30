@@ -5,19 +5,20 @@ const KEY = `payment`;
 const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
 const FETCH_PAYMENT_TRANSACTIONS = createRequestAction(`${KEY}/fetch-payment-transactions`);
 
-function changePaymentStatus({ status, paymentId }) {
+function changePaymentStatus({ status, paymentId, options = {} }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
         endpoint: `payment/${status}/${paymentId}`,
-        method: 'PUT',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify(options),
         types: [CHANGE_PAYMENT_STATUS.REQUEST, CHANGE_PAYMENT_STATUS.SUCCESS, CHANGE_PAYMENT_STATUS.FAILURE],
         bailout: !logged,
       },

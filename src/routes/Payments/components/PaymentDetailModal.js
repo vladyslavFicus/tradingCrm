@@ -15,12 +15,13 @@ class PaymentDetailModal extends Component {
   render() {
     const {
       payment: {
-        discriminator,
+        paymentType,
         paymentMethod,
         status,
         paymentId,
         amount,
         currency,
+        playerUUID,
       },
       transactions,
       isOpen,
@@ -34,7 +35,7 @@ class PaymentDetailModal extends Component {
       <ModalBody>
         <p><strong>ID</strong>: {paymentId}</p>
         <p><strong>Status</strong>: {paymentsStatusesLabels[status] || status}</p>
-        <p><strong>Type</strong>: {discriminator}</p>
+        <p><strong>Type</strong>: {paymentType}</p>
         <p><strong>Method</strong>: {paymentsMethodsLabels[paymentMethod] || paymentMethod}</p>
         <p><strong>Amount</strong>: <Amount currency={currency} amount={amount}/></p>
 
@@ -62,9 +63,13 @@ class PaymentDetailModal extends Component {
         </GridView>
       </ModalBody>
 
-      {discriminator === paymentTypes.Withdraw && status === paymentsStatuses.PENDING && <ModalFooter>
+      {paymentType === paymentTypes.Withdraw && status === paymentsStatuses.PENDING && <ModalFooter>
         <Button color="primary" onClick={(e) => onChangePaymentStatus('approve', paymentId)}>Approve</Button>{' '}
-        <Button color="danger" onClick={(e) => onChangePaymentStatus('reject', paymentId)}>Reject</Button>
+        <Button color="danger" onClick={(e) => onChangePaymentStatus('refuse', paymentId, {
+          playerUUID,
+          reason: 'Bad withdraw',
+          fraud: false,
+        })}>Reject</Button>
       </ModalFooter>}
     </Modal>;
   }

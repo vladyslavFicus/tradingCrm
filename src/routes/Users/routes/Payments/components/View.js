@@ -24,10 +24,10 @@ class View extends Component {
     return this.props.fetchEntities({ ...filters, page: 0 });
   };
 
-  handleChangePaymentStatus = (status, paymentId) => {
-    const { filters, fetchEntities, onChangePaymentStatus } = this.props;
+  handleChangePaymentStatus = (status, paymentId, options = {}) => {
+    const { list: { filters }, fetchEntities, onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus({ status, paymentId })
+    return onChangePaymentStatus({ status, paymentId, options })
       .then(() => fetchEntities(filters))
       .then(() => this.handleCloseModal());
   };

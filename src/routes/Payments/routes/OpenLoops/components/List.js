@@ -28,10 +28,10 @@ class List extends Component {
     this.props.fetchEntities({ ...filters, page: 0 });
   };
 
-  handleChangePaymentStatus = (status, paymentId) => {
+  handleChangePaymentStatus = (status, paymentId, options = {}) => {
     const { list: { filters }, fetchEntities, onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus({ status, paymentId })
+    return onChangePaymentStatus({ status, paymentId, options })
       .then(() => fetchEntities(filters))
       .then(() => this.handleCloseModal());
   };
@@ -40,7 +40,14 @@ class List extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.setState({ modal: { ...defaultModalState, name, params } })
+    this.props.loadPaymentTransactions(params.payment.paymentId)
+      .then(action => {
+        if (action && !action.error) {
+          params.transactions = action.payload;
+        }
+
+        this.setState({ modal: { ...defaultModalState, name, params } });
+      });
   };
 
   handleCloseModal = (e, callback) => {
