@@ -109,7 +109,7 @@ class List extends Component {
               render={(data, column) => <small>{data[column.name]}</small>}
             />
             <GridColumn
-              name="discriminator"
+              name="paymentType"
               header="Payment type"
               headerClassName="text-center"
               headerStyle={{ width: '10%' }}
