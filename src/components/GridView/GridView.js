@@ -126,11 +126,21 @@ class GridView extends Component {
     </tbody>;
   }
 
-  renderRow(key, columns, data) {
-    return <tr key={key}>
+  renderRow = (key, columns, data) => {
+    return <tr key={key} className={this.getRowClassName(data)}>
       {columns.map((column, columnKey) => this.renderColumn(`${key}-${columnKey}`, column, data))}
     </tr>;
-  }
+  };
+
+  getRowClassName = (data) => {
+    let className = this.props.rowClassName;
+
+    if (typeof className === 'function') {
+      className = className(data);
+    }
+
+    return className;
+  };
 
   renderColumn(key, column, data) {
     let content = null;

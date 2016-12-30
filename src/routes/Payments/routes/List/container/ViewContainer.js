@@ -7,6 +7,7 @@ const mapStateToProps = ({ paymentsList: list }) => ({ list });
 const mapActions = {
   ...actionCreators,
   onChangePaymentStatus: paymentActionCreators.changePaymentStatus,
+  loadPaymentTransactions: paymentActionCreators.fetchTransactions,
 };
 
 export default connect(mapStateToProps, mapActions)(List);

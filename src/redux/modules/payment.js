@@ -3,6 +3,7 @@ import createRequestAction from 'utils/createRequestAction';
 
 const KEY = `payment`;
 const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
+const FETCH_PAYMENT_TRANSACTIONS = createRequestAction(`${KEY}/fetch-payment-transactions`);
 
 function changePaymentStatus({ status, paymentId }) {
   return (dispatch, getState) => {
@@ -24,6 +25,33 @@ function changePaymentStatus({ status, paymentId }) {
   };
 }
 
+function fetchTransactions(id) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `payment/${id}/transactions`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          {
+            type: FETCH_PAYMENT_TRANSACTIONS.REQUEST,
+            meta: { id },
+          },
+          FETCH_PAYMENT_TRANSACTIONS.SUCCESS,
+          FETCH_PAYMENT_TRANSACTIONS.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const initialState = {};
 const actionHandlers = {};
 
@@ -38,6 +66,7 @@ const actionTypes = {
 };
 const actionCreators = {
   changePaymentStatus,
+  fetchTransactions,
 };
 
 export {

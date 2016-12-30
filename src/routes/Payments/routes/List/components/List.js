@@ -40,7 +40,14 @@ class List extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.setState({ modal: { ...defaultModalState, name, params } })
+    this.props.loadPaymentTransactions(params.payment.paymentId)
+      .then(action => {
+        if (action && !action.error) {
+          params.transactions = action.payload;
+        }
+
+        this.setState({ modal: { ...defaultModalState, name, params } });
+      });
   };
 
   handleCloseModal = (e, callback) => {
@@ -93,6 +100,7 @@ class List extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             defaultFilters={{ ...defaultFilters }}
+            rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
           >
             <GridColumn
               name="paymentId"

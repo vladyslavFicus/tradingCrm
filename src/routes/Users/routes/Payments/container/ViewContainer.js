@@ -10,6 +10,7 @@ const mapStateToProps = ({ userPayments }) => ({
 const mapActions = {
   ...viewActionCreators,
   onChangePaymentStatus: paymentActionCreators.changePaymentStatus,
+  loadPaymentTransactions: paymentActionCreators.fetchTransactions,
 };
 
 export default connect(mapStateToProps, mapActions)(View);
