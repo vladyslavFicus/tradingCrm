@@ -11,7 +11,7 @@ moment.updateLocale('en', {
 });
 
 const initialState = window.___INITIAL_STATE__;
-const store = createStore(initialState, () => {
+createStore(initialState, (store) => {
   const MOUNT_NODE = document.getElementById('root');
 
   let render = () => {
@@ -55,8 +55,5 @@ const store = createStore(initialState, () => {
     }
   }
 
-  // ========================================================
-  // Go!
-  // ========================================================
   render();
 });
