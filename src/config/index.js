@@ -1,33 +1,42 @@
-const environmentConfiguration = __CONFIG_ENV__ || {};
+import _ from 'lodash';
+const environmentConfig = {};
+
+if (window) {
+  window.nas = window.nas || {};
+
+  const params = Object.keys(window.nas);
+  if (params.length > 0) {
+    params.map(i => _.set(environmentConfig, i, window.nas[i]));
+  }
+}
 
 const config = {
-  name: 'NAS Casino',
-  version: '0.0.1a',
-  availableLocales: [
-    'en',
-    'ru',
-  ],
-  API_ROOT: '',
-  DOMAIN: '',
-  ...environmentConfiguration,
+  app: {
+    name: null,
+    apiRoot: null,
+    domain: null,
+    version: null,
+    security: false,
+    currencies: [],
+  },
+  ...environmentConfig,
 };
 
-if (!!window && !!window.NAS && typeof window.NAS === 'object') {
-  if (!!window.NAS.NAS_API_ROOT) {
-    config.API_ROOT = window.NAS.NAS_API_ROOT;
-  }
-
-  if (!!window.NAS.NAS_DOMAIN) {
-    config.DOMAIN = window.NAS.NAS_DOMAIN;
-  }
+function getApiRoot() {
+  return config.app.apiRoot
+    ? config.app.apiRoot.replace(/\/$/, '')
+    : '';
 }
 
-export function getApiRoot() {
-  return config.API_ROOT.replace(/\/$/, '');
+function getDomain() {
+  return config.app.domain
+    ? `http${config.app.security ? 's' : ''}://${config.app.domain.replace(/\/$/, '')}`
+    : '';
 }
 
-export function getDomain() {
-  return config.DOMAIN.replace(/\/$/, '');
-}
+export {
+  getApiRoot,
+  getDomain,
+};
 
 export default config;

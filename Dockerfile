@@ -1,4 +1,6 @@
 FROM nginx
+RUN apt-get update && apt-get install -y curl jq
+
 RUN mkdir /etc/nginx/logs && touch /etc/nginx/logs/static.log
 
 ENV BUILD_PATH /opt/build

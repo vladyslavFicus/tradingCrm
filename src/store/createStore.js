@@ -42,7 +42,9 @@ export default (initialState = {}, onComplete) => {
       ...enhancers
     )
   );
-  persistStore(store, { whitelist: ['auth'] }, onComplete);
+  persistStore(store, { whitelist: ['auth'] }, () => {
+    onComplete(store);
+  });
 
   store.asyncReducers = {};
   store.unsubscribeHistory = browserHistory
@@ -54,6 +56,4 @@ export default (initialState = {}, onComplete) => {
       store.replaceReducer(reducers(store.asyncReducers));
     });
   }
-
-  return store;
 };

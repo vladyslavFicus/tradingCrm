@@ -18,8 +18,7 @@
     "__PROD__"       : false,
     "__DEBUG__"      : false,
     "__COVERAGE__"   : false,
-    "__BASENAME__"   : false,
-    "__CONFIG_ENV__" : false
+    "__BASENAME__"   : false
   },
   "rules": {
     "semi" : [2, "never"],
