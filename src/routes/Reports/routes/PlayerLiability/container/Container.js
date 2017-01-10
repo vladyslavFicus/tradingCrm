@@ -1,13 +1,15 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
-import { actionCreators } from '../modules/player-liability';
+import { actionCreators } from '../modules/index';
 
 const mapStateToProps = ({ playerLiabilityReport }) => ({
   ...playerLiabilityReport,
 });
 const mapActions = {
-  onDownload: actionCreators.downloadReport,
-  onFetch: actionCreators.fetchReport,
+  onReportDownload: actionCreators.downloadReport,
+  onReportFetch: actionCreators.fetchReport,
+  onFilesDownload: actionCreators.downloadReportFile,
+  onFilesFetch: actionCreators.fetchReportFiles,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

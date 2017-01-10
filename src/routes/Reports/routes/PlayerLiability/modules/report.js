@@ -5,8 +5,7 @@ import timestamp from 'utils/timestamp';
 import buildQueryString from 'utils/buildQueryString';
 import createRequestAction from 'utils/createRequestAction';
 
-const KEY = 'reports/player-liability';
-const DOWNLOAD_REPORT = createRequestAction(`${KEY}/download-report`);
+const KEY = 'reports/player-liability/report';
 const FETCH_REPORT = createRequestAction(`${KEY}/fetch-report`);
 
 const initialState = {
@@ -101,7 +100,6 @@ const reducer = (state = initialState, action) => {
 
 const actionTypes = {
   FETCH_REPORT,
-  DOWNLOAD_REPORT,
 };
 const actionCreators = {
   downloadReport,

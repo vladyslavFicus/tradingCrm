@@ -6,7 +6,7 @@ export default (store) => ({
     require.ensure([], (require) => {
       injectReducer(store, {
         key: 'playerLiabilityReport',
-        reducer: require('./modules/player-liability').default,
+        reducer: require('./modules/index').default,
       });
 
       cb(null, require('./container/Container').default);
