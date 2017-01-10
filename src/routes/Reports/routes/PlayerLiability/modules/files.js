@@ -5,9 +5,9 @@ import timestamp from 'utils/timestamp';
 import buildQueryString from 'utils/buildQueryString';
 import createRequestAction from 'utils/createRequestAction';
 
-const KEY = 'reports/player-liability';
-const DOWNLOAD_REPORT = createRequestAction(`${KEY}/download-report`);
+const KEY = 'reports/player-liability/files';
 const FETCH_REPORT = createRequestAction(`${KEY}/fetch-report`);
+const FETCH_REPORT_FILES = createRequestAction(`${KEY}/fetch-report-files`);
 
 const initialState = {
   entities: {
@@ -50,13 +50,13 @@ const actionHandlers = {
   }),
 };
 
-function fetchReport(filters = {}) {
+function fetchReportFiles(filters = {}) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `mga_report/reports/player-liability?${buildQueryString(filters)}`,
+        endpoint: `mga_report/reports/player-liability/files?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -65,11 +65,11 @@ function fetchReport(filters = {}) {
         },
         types: [
           {
-            type: FETCH_REPORT.REQUEST,
+            type: FETCH_REPORT_FILES.REQUEST,
             meta: { filters },
           },
-          FETCH_REPORT.SUCCESS,
-          FETCH_REPORT.FAILURE,
+          FETCH_REPORT_FILES.SUCCESS,
+          FETCH_REPORT_FILES.FAILURE,
         ],
         bailout: !logged,
       },
@@ -77,11 +77,11 @@ function fetchReport(filters = {}) {
   };
 }
 
-function downloadReport(fileName = 'player-liability.csv') {
+function downloadReportFile(file) {
   return (dispatch, getState) => {
     const { token } = getState().auth;
 
-    return fetch(`${getApiRoot()}/mga_report/reports/player-liability`, {
+    return fetch(`${getApiRoot()}/mga_report/reports/player-liability/files/${file}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -89,7 +89,7 @@ function downloadReport(fileName = 'player-liability.csv') {
       },
     })
       .then((resp) => resp.blob())
-      .then((blob) => downloadBlob(fileName, blob));
+      .then((blob) => downloadBlob(file, blob));
   };
 }
 
@@ -100,12 +100,11 @@ const reducer = (state = initialState, action) => {
 };
 
 const actionTypes = {
-  FETCH_REPORT,
-  DOWNLOAD_REPORT,
+  FETCH_REPORT_FILES,
 };
 const actionCreators = {
-  downloadReport,
-  fetchReport,
+  fetchReportFiles,
+  downloadReportFile,
 };
 
 export {
