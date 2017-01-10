@@ -8,7 +8,7 @@ const mapStateToProps = ({ playerLiabilityReport }) => ({
 const mapActions = {
   onReportDownload: actionCreators.downloadReport,
   onReportFetch: actionCreators.fetchReport,
-  onFileDownload: actionCreators.downloadReportFile,
+  onFilesDownload: actionCreators.downloadReportFile,
   onFilesFetch: actionCreators.fetchReportFiles,
 };
 

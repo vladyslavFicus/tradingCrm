@@ -13,8 +13,8 @@ class Files extends Component {
     this.props.onFetch({ ...filters, page: 0 });
   };
 
-  handleExportClick = (e) => {
-    this.props.onDownload();
+  handleDownload = (id) => {
+    this.props.onDownload(id);
   };
 
   componentDidMount() {
@@ -30,22 +30,39 @@ class Files extends Component {
       </Title>
 
       <Content>
-        <GridView
-          dataSource={entities.content}
-          onFiltersChanged={this.handleFiltersChanged}
-          onPageChange={this.handlePageChanged}
-          activePage={entities.number + 1}
-          totalPages={entities.totalPages}
-        >
-          <GridColumn
-            name="id"
-            header="ID"
-            headerStyle={{ width: '10%' }}
-            render={(data, column) => <small>{data[column.name]}</small>}
-          />
-        </GridView>
+        <div className="row">
+          <div className="col-sm-4">
+            <GridView
+              dataSource={entities.content}
+              onFiltersChanged={this.handleFiltersChanged}
+              onPageChange={this.handlePageChanged}
+              activePage={entities.number + 1}
+              totalPages={entities.totalPages}
+            >
+              <GridColumn
+                name="fileName"
+                header="Name"
+                headerStyle={{ width: '90%' }}
+              />
+              <GridColumn
+                name="actions"
+                header="Actions"
+                headerStyle={{ width: '10%' }}
+                headerClassName={'text-center'}
+                render={this.renderActions}
+                className={'text-center'}
+              />
+            </GridView>
+          </div>
+        </div>
       </Content>
     </Panel>;
+  }
+
+  renderActions = (data) => {
+    return <a
+      onClick={(e) => this.handleDownload(data.fileName)}
+    ><i className="fa fa-download"/></a>;
   }
 }
 

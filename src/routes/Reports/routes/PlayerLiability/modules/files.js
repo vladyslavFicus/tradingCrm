@@ -6,7 +6,6 @@ import buildQueryString from 'utils/buildQueryString';
 import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'reports/player-liability/files';
-const FETCH_REPORT = createRequestAction(`${KEY}/fetch-report`);
 const FETCH_REPORT_FILES = createRequestAction(`${KEY}/fetch-report-files`);
 
 const initialState = {
@@ -27,13 +26,13 @@ const initialState = {
   receivedAt: null,
 };
 const actionHandlers = {
-  [FETCH_REPORT.REQUEST]: (state, action) => ({
+  [FETCH_REPORT_FILES.REQUEST]: (state, action) => ({
     ...state,
     filters: { ...action.meta.filters },
     isLoading: true,
     error: null,
   }),
-  [FETCH_REPORT.SUCCESS]: (state, action) => ({
+  [FETCH_REPORT_FILES.SUCCESS]: (state, action) => ({
     ...state,
     entities: {
       ...state.entities,
@@ -42,7 +41,7 @@ const actionHandlers = {
     isLoading: false,
     receivedAt: timestamp(),
   }),
-  [FETCH_REPORT.FAILURE]: (state, action) => ({
+  [FETCH_REPORT_FILES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
