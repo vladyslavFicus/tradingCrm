@@ -18,6 +18,7 @@ const attributeLabels = {
   campaignName: 'Name',
   startDate: 'Start date',
   endDate: 'End date',
+  currency: 'Currency',
   bonusLifetime: 'Bonus life time',
   campaignRatio: 'Ratio',
   'campaignRatio.value': 'Ratio value',
@@ -37,6 +38,7 @@ const validator = createValidator({
   campaignName: 'required',
   startDate: 'required',
   endDate: 'required|nextDate:startDate',
+  currency: 'required',
   bonusLifetime: 'required|integer',
   'campaignRatio.value': 'required|numeric|customTypeValue.value',
   'campaignRatio.type': ['required', 'in:' + Object.keys(customValueFieldTypesLabels).join()],
@@ -56,9 +58,6 @@ class ManageForm extends Component {
   constructor(props) {
     super(props);
 
-    this.handleDatesChange = this.handleDatesChange.bind(this);
-    this.handleResetForm = this.handleResetForm.bind(this);
-
     this.state = {
       startDate: props.initialValues && props.initialValues.startDate !== undefined ?
         moment(props.initialValues.startDate) : null,
@@ -67,7 +66,7 @@ class ManageForm extends Component {
     };
   }
 
-  handleDatesChange({ startDate, endDate }) {
+  handleDatesChange = ({ startDate, endDate }) => {
     const { change, fields } = this.props;
 
     this.setState({ startDate, endDate }, () => {
@@ -85,17 +84,21 @@ class ManageForm extends Component {
         }
       }
     });
-  }
+  };
 
-  handleResetForm() {
+  handleResetForm = () => {
     this.handleDatesChange({ startDate: null, endDate: null });
 
     this.props.reset();
+  };
+
+  componentDidMount() {
+    this.props.onMount();
   }
 
   render() {
     const { startDate, endDate } = this.state;
-    const { handleSubmit, pristine, submitting, onSubmit, errors, disabled } = this.props;
+    const { handleSubmit, pristine, submitting, onSubmit, errors, disabled, currencies } = this.props;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
       {disabled && <div className="alert alert-warning">You can't edit the campaign.</div>}
@@ -114,6 +117,22 @@ class ManageForm extends Component {
         disabled={disabled}
         component={InputField}
       />
+
+      <Field
+        name="currency"
+        label={attributeLabels.currency}
+        type="select"
+        disabled={disabled}
+        component={SelectField}
+      >
+        <option value="">--- Chose currency ---</option>
+        {currencies.map((item) => (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        ))}
+      </Field>
+
       <CustomValueField
         basename={'campaignRatio'}
         label={attributeLabels.campaignRatio}
@@ -220,6 +239,14 @@ class ManageForm extends Component {
     </form>;
   }
 }
+
+ManageForm.defaultProps = {
+  currencies: [],
+};
+ManageForm.propTypes = {
+  onMount: PropTypes.func.isRequired,
+  currencies: PropTypes.array,
+};
 
 let ManageReduxForm = reduxForm({
   form: formName,

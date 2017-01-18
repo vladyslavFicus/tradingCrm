@@ -16,6 +16,14 @@ export default {
         host: 'http://localhost:8000',
         match: /^\/api\/.*/
       }
+    },
+    applicationConfig: {
+      "api.entry": "http://api.casino.app",
+      "middlewares.persist.keyPrefix": "nas:",
+      "middlewares.persist.whitelist[0]": "auth",
+      "middlewares.unauthorized[0]": 401,
+      "middlewares.unauthorized[1]": 403,
+      "validation.password": "/^(?=[^\\s]*\\d)[^\\s]{6,20}$/g"
     }
   }),
 

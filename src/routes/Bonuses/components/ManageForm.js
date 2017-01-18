@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import classNames from 'classnames';
-import { InputField, SingleDateField } from 'components/ReduxForm';
+import { InputField, SingleDateField, SelectField } from 'components/ReduxForm';
 import { formErrorSelector } from 'utils/redux-form';
 import { createValidator } from 'utils/validator';
 
@@ -13,6 +13,7 @@ const attributeLabels = {
   playerUUID: 'Player UUID',
   label: 'Name',
   priority: 'Priority',
+  currency: 'Currency',
   state: 'State',
   grantedAmount: 'Granted amount',
   amountToWage: 'Amount to wage',
@@ -38,6 +39,7 @@ const validator = createValidator({
   optIn: 'boolean',
   converted: 'required',
   wagered: 'required',
+  currency: 'required',
 }, attributeLabels, false);
 
 class ManageForm extends Component {
@@ -51,8 +53,12 @@ class ManageForm extends Component {
     this.props.reset();
   }
 
+  componentDidMount() {
+    this.props.onMount();
+  }
+
   render() {
-    const { handleSubmit, pristine, submitting, onSubmit, disabled } = this.props;
+    const { handleSubmit, pristine, submitting, onSubmit, disabled, currencies } = this.props;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
       {disabled && <div className="alert alert-warning">You can't edit the bonus.</div>}
@@ -78,6 +84,20 @@ class ManageForm extends Component {
         disabled={disabled}
         component={InputField}
       />
+      <Field
+        name="currency"
+        label={attributeLabels.currency}
+        type="select"
+        disabled={disabled}
+        component={SelectField}
+      >
+        <option value="">--- Chose currency ---</option>
+        {currencies.map((item) => (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        ))}
+      </Field>
       <Field
         name="grantedAmount"
         label={attributeLabels.grantedAmount}
@@ -154,6 +174,14 @@ class ManageForm extends Component {
     </form>;
   }
 }
+
+ManageForm.defaultProps = {
+  currencies: [],
+};
+ManageForm.propTypes = {
+  onMount: PropTypes.func.isRequired,
+  currencies: PropTypes.array,
+};
 
 let ManageReduxForm = reduxForm({
   form: formName,

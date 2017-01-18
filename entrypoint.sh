@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-config=$(curl -s http://config:9090/backoffice/$BUILD_ENV  | jq '.propertySources[0] | .source' | cat)
+config=$(curl -s $CONFIG_SERVICE_ROOT/website/$BUILD_ENV  | jq -a -r -S 'reduce .propertySources[].source as $item ({}; . + $item)' | cat)
 
 if ! [ -z $1 ]
 then
@@ -15,6 +15,6 @@ then
    touch $FILE
 fi
 
-echo "window.nas = $config;" >> $FILE
+echo "window.nas = $config;" > $FILE
 
 $(which nginx) -g "daemon off;"

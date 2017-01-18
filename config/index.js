@@ -128,4 +128,8 @@ if (overrides) {
   debug('No environment overrides found, defaults will be used.');
 }
 
+if (config.applicationConfig) {
+  config.applicationConfig['api.entry'] = process.env.API_ROOT || config.applicationConfig['api.entry'];
+}
+
 export default config;

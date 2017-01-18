@@ -4,24 +4,22 @@ import ManageForm from 'routes/BonusCampaigns/components/ManageForm';
 import { actionTypes } from '../modules/update';
 import { statuses } from 'routes/BonusCampaigns/constants';
 
-export default class Create extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(data) {
+export default class Update extends Component {
+  handleSubmit = (data) => {
     this.props.updateCampaign(this.props.data.id, data)
       .then((action) => {
-        if (action && action.type === actionTypes.CAMPAIGN_UPDATE.SUCCESS) {
+        if (action && !action.error) {
           this.props.router.replace('/bonus-campaigns');
         }
       });
-  }
+  };
+
+  handleFormMount = () => {
+    this.props.loadCurrencies();
+  };
 
   render() {
-    const { data }  = this.props;
+    const { data, currency }  = this.props;
 
     return <div className="page-content-inner">
       <Panel>
@@ -37,6 +35,8 @@ export default class Create extends Component {
                   initialValues={data}
                   onSubmit={this.handleSubmit}
                   disabled={data.state !== statuses.INACTIVE}
+                  onMount={this.handleFormMount}
+                  currencies={currency.list}
                 />
               </div>
             </div>
