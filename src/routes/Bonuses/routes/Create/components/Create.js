@@ -5,24 +5,16 @@ import { actionTypes } from '../modules/create';
 import { actionTypes as profileActionTypes } from 'routes/Users/modules/view';
 
 export default class Create extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCheckExists = this.handleCheckExists.bind(this);
-    this.handleAsyncValidate = this.handleAsyncValidate.bind(this);
-  }
-
-  handleSubmit(data) {
+  handleSubmit = (data) => {
     this.props.createBonus(data)
       .then((action) => {
-        if (action && action.type === actionTypes.CREATE_BONUS.SUCCESS) {
+        if (action && !action.error) {
           this.props.router.replace('/bonuses');
         }
       });
-  }
+  };
 
-  handleAsyncValidate(values, dispatch, props, blurredField) {
+  handleAsyncValidate = (values, dispatch, props, blurredField) => {
     const oldErrors = props.asyncErrors || {};
 
     return new Promise((resolve, reject) => {
@@ -36,19 +28,23 @@ export default class Create extends Component {
         resolve(oldErrors);
       }
     });
-  }
+  };
 
-  handleCheckExists(field, value) {
+  handleCheckExists = (field, value) => {
     return this.props.fetchProfile(value)
       .then((action) => {
         if (action.type !== profileActionTypes.PROFILE.SUCCESS) {
           throw { [field]: 'Player not found.' };
         }
       });
-  }
+  };
+
+  handleFormMount = () => {
+    this.props.loadCurrencies();
+  };
 
   render() {
-    const { params } = this.props;
+    const { params, currency } = this.props;
     const initialValues = { state: 'INACTIVE' };
 
     if (params.uuid) {
@@ -69,6 +65,8 @@ export default class Create extends Component {
                   asyncBlurFields={['playerUUID']}
                   onSubmit={this.handleSubmit}
                   initialValues={initialValues}
+                  currencies={currency.list}
+                  onMount={this.handleFormMount}
                 />
               </div>
             </div>

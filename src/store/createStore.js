@@ -8,13 +8,14 @@ import apiUrl from 'redux/middlewares/apiUrl';
 import { actionCreators as locationActionCreators } from 'redux/modules/location';
 import unauthorized from 'redux/middlewares/unauthorized';
 import refreshToken from 'redux/middlewares/refreshToken';
+import config from 'config/index';
 
 export default (initialState = {}, onComplete) => {
   const middleware = [
     thunk,
     apiUrl,
     apiMiddleware,
-    unauthorized([401]),
+    unauthorized(config.middlewares.unauthorized),
     refreshToken(),
   ];
 
@@ -42,7 +43,7 @@ export default (initialState = {}, onComplete) => {
       ...enhancers
     )
   );
-  persistStore(store, { whitelist: ['auth'] }, () => {
+  persistStore(store, config.middlewares.persist, () => {
     onComplete(store);
   });
 

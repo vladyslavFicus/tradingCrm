@@ -1,4 +1,5 @@
 import _ from 'lodash';
+
 const environmentConfig = {};
 
 if (window) {
@@ -11,27 +12,22 @@ if (window) {
 }
 
 const config = {
-  app: {
-    name: null,
-    apiRoot: null,
-    domain: null,
-    version: null,
-    security: false,
-    currencies: [],
+  api: {},
+  validation: {
+    password: null,
   },
+  middlewares: {},
   ...environmentConfig,
 };
 
 function getApiRoot() {
-  return config.app.apiRoot
-    ? config.app.apiRoot.replace(/\/$/, '')
+  return config.api.entry
+    ? config.api.entry.replace(/\/$/, '')
     : '';
 }
 
 function getDomain() {
-  return config.app.domain
-    ? `http${config.app.security ? 's' : ''}://${config.app.domain.replace(/\/$/, '')}`
-    : '';
+  return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
 }
 
 export {

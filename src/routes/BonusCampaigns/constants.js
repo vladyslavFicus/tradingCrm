@@ -19,9 +19,9 @@ const statusesLabels = {
   [statuses.COMPLETED]: 'Completed',
 };
 
-const eventTypes = {
+const eventTypes = keyMirror({
   FirstDeposit: null,
-};
+});
 
 const eventTypesLabels = {
   [eventTypes.FirstDeposit]: 'First deposit',
