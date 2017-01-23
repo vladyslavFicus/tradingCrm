@@ -1,39 +1,54 @@
 import React, { Component, PropTypes } from 'react';
+import Currency, { currenciesConfig } from './Currency';
 
-const currencyMap = {
-  EUR: '€',
-  USD: '$',
+const formatMoney = amount => {
+  const n = amount.toString();
+  const p = n.indexOf('.');
+  return n.replace(/\d(?=(?:\d{3})+(?:\.|$))/g, ($0, i) => p < 0 || i < p ? ($0 + ' ') : $0);
 };
 
 class Amount extends Component {
   render() {
     const {
+      tag,
+      className,
       amount,
       currency,
-      className,
       amountClassName,
       currencyClassName,
     } = this.props;
 
-    const parsedAmount = parseFloat(amount);
-    if (isNaN(parsedAmount)) return null;
+    const parsedAmount = parseFloat(amount).toFixed(2);
+    if (isNaN(parsedAmount)) {
+      return null;
+    }
 
-    return <span className={className}>
-      <span className={currencyClassName}>{currencyMap[currency] || currency}</span>
-      <span className={amountClassName}>{parsedAmount.toFixed(2)}</span>
-    </span>;
+    const { symbolOnLeft } = currenciesConfig[currency];
+
+    const chunks = [
+      <Currency key="currency" code={currency} className={currencyClassName}/>,
+      <span key="amount" className={amountClassName}>
+        {formatMoney(parsedAmount)}
+      </span>,
+    ];
+
+    if (!symbolOnLeft) {
+      chunks.reverse();
+    }
+
+    return React.createElement(tag, { className }, chunks);
   }
 }
 
 Amount.defaultProps = {
-  currency: 'EUR',
+  tag: 'span',
 };
-
 Amount.propTypes = {
-  amount: PropTypes.number.isRequired,
-  currency: PropTypes.string,
+  tag: PropTypes.string,
   className: PropTypes.string,
+  amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   amountClassName: PropTypes.string,
+  currency: PropTypes.string.isRequired,
   currencyClassName: PropTypes.string,
 };
 
