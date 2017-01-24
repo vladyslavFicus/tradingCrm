@@ -14,6 +14,4 @@ const mapActions = {
   ...bonusActionCreators,
 };
 
-const ViewContainer = (props) => <View {...props}/>;
-
-export default connect(mapStateToProps, mapActions)(ViewContainer);
+export default connect(mapStateToProps, mapActions)(View);

@@ -6,6 +6,7 @@ import { actionCreators as usersActionCreators } from 'redux/modules/users';
 const KEY = 'user-profile';
 const PROFILE = createRequestAction(`${KEY}/view`);
 const BALANCE = createRequestAction(`${KEY}/balance`);
+const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 
 const CHECK_LOCK = createRequestAction(`${KEY}/check-lock`);
 
@@ -21,7 +22,7 @@ const profileInitialState = {
     username: null,
     email: null,
     currency: null,
-    balance: null,
+    balance: { amount: 0, currency: 'EUR' },
   },
   error: null,
   isLoading: false,
@@ -46,6 +47,18 @@ export const initialState = {
   withdraw: withdrawInitialState,
 };
 
+const mapBalances = (items) => {
+  return Object
+    .keys(items)
+    .reduce((result, item) => (
+      result.push({
+        amount: parseFloat(items[item].replace(item, '')).toFixed(2),
+        currency: item,
+      }),
+        result
+    ), []);
+};
+
 function fetchProfile(uuid) {
   return usersActionCreators.fetchProfile(PROFILE)(uuid);
 }
@@ -64,6 +77,30 @@ function getBalance(uuid) {
           Authorization: `Bearer ${token}`,
         },
         types: [BALANCE.REQUEST, BALANCE.SUCCESS, BALANCE.FAILURE],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function fetchBalances(uuid) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/wallet/balances/${uuid}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          FETCH_BALANCES.REQUEST,
+          FETCH_BALANCES.SUCCESS,
+          FETCH_BALANCES.FAILURE,
+        ],
         bailout: !logged,
       },
     });
@@ -183,26 +220,34 @@ function unlockWithdraw(uuid) {
 
 function loadFullProfile(uuid) {
   return dispatch => dispatch(fetchProfile(uuid))
-    .then(() => dispatch(getBalance(uuid)))
+    .then(() => dispatch(fetchBalances(uuid)))
     .then(() => dispatch(checkLock(uuid)));
 }
 
 const balanceActionHandlers = {
-  [BALANCE.REQUEST]: (state, action) => ({
+  [FETCH_BALANCES.REQUEST]: (state, action) => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [BALANCE.SUCCESS]: (state, action) => ({
-    ...state,
-    data: {
-      ...state.data,
-      balance: action.payload.balance !== undefined ? action.payload.balance : 0.00,
-    },
-    isLoading: false,
-    receivedAt: timestamp(),
-  }),
-  [BALANCE.FAILURE]: (state, action) => ({
+  [FETCH_BALANCES.SUCCESS]: (state, action) => {
+    const newState = {
+      ...state,
+      isLoading: false,
+      receivedAt: timestamp(),
+    };
+
+    if (action.payload.balances) {
+      const balances = mapBalances(action.payload.balances);
+
+      if (balances.length > 0) {
+        newState.data.balance = { ...balances[0] };
+      }
+    }
+
+    return newState;
+  },
+  [FETCH_BALANCES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
@@ -360,6 +405,7 @@ const actionCreators = {
   unlockDeposit,
   lockWithdraw,
   unlockWithdraw,
+  fetchBalances,
 };
 
 export {

@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
+import Amount from 'components/Amount';
 import PaymentOperationState from './PaymentOperationState';
 
 const config = { tabName: 'profile' };
 
 class View extends Component {
-  constructor(props) {
-    super(props);
-
-    this.hasAccessByUuid = this.hasAccessByUuid.bind(this);
-    this.handleCancelBonus = this.handleCancelBonus.bind(this);
-  }
-
   componentWillMount() {
     const { profile, loadFullProfile, params } = this.props;
 
@@ -21,30 +15,30 @@ class View extends Component {
     }
   }
 
-  handleCancelBonus(id) {
+  handleCancelBonus = (id) => {
     this.props.cancelBonus(id, this.props.params.id)
       .then(() => this.props.fetchActiveBonus(this.props.params.id));
-  }
+  };
 
-  handleLock(operation, reason) {
+  handleLock = (operation, reason) => {
     if (operation === 'deposit') {
       this.props.lockDeposit(this.props.params.id, reason);
     } else if (operation === 'withdraw') {
       this.props.lockWithdraw(this.props.params.id, reason);
     }
-  }
+  };
 
-  handleUnlock(operation) {
+  handleUnlock = (operation) => {
     if (operation === 'deposit') {
       this.props.unlockDeposit(this.props.params.id);
     } else if (operation === 'withdraw') {
       this.props.unlockWithdraw(this.props.params.id);
     }
-  }
+  };
 
-  hasAccessByUuid(uuid) {
+  hasAccessByUuid = (uuid) => {
     return this.props.user.uuid === uuid;
-  }
+  };
 
   render() {
     const { profile, deposit, withdraw, bonus } = this.props;
@@ -74,8 +68,7 @@ class View extends Component {
       <div className="form-group row">
         <label className="col-sm-1 col-form-label text-right">Balance</label>
         <div className="col-sm-10">
-          {!isNaN(parseFloat(profile.data.balance)) ?
-            parseFloat(profile.data.balance).toFixed(2) : 0.00} {profile.data.currency}
+          <Amount {...profile.data.balance} />
         </div>
       </div>
 
