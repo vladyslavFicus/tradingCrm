@@ -1,6 +1,7 @@
 import { injectReducer } from 'store/reducers';
 
 import ProfileRoute from './Profile';
+import DocumentsRoute from './Documents';
 import GameActivityRoute from './GameActivity';
 import PaymentsRoute from './Payments';
 import BonusesRoute from './Bonuses';
@@ -24,6 +25,7 @@ export default (store) => [
 
     childRoutes: [
       ProfileRoute(store),
+      DocumentsRoute(store),
       GameActivityRoute(store),
       PaymentsRoute(store),
       BonusesRoute(store),

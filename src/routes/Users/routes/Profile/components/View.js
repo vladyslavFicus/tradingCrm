@@ -3,6 +3,9 @@ import { Link } from 'react-router';
 import classNames from 'classnames';
 import Amount from 'components/Amount';
 import PaymentOperationState from './PaymentOperationState';
+import moment from 'moment';
+import { statesLabels } from 'routes/Users/constants';
+import { startCase } from 'lodash';
 
 const config = { tabName: 'profile' };
 
@@ -40,30 +43,63 @@ class View extends Component {
     return this.props.user.uuid === uuid;
   };
 
+  renderUserData() {
+    const { profile: { data } } = this.props;
+    const simpleFields = ['uuid', 'email', 'username', 'address', 'country', 'firstName', 'lastName'];
+
+    const simple =  Object
+      .keys(data)
+      .filter(value => simpleFields.includes(value))
+      .filter(value => data[value] !== null)
+      .map((key, id) => (
+          <div key={id} className="form-group row">
+            <label className="col-sm-1 col-form-label text-right"> { startCase(key) } </label>
+            <div className="col-sm-10">
+              {data[key]}
+            </div>
+          </div>
+        )
+      );
+
+    return (
+      <div>
+        { simple }
+        <div className="form-group row">
+          <label className="col-sm-1 col-form-label text-right">Birth Date</label>
+          <div className="col-sm-10">
+            { moment(data.birthDate).format('DD.MM.YYYY HH:mm:ss') }
+          </div>
+        </div>
+        <div className="form-group row">
+          <label className="col-sm-1 col-form-label text-right">Creation Date</label>
+          <div className="col-sm-10">
+            { moment(data.creationDate).format('DD.MM.YYYY HH:mm:ss') }
+          </div>
+        </div>
+        <div className="form-group row">
+          <label className="col-sm-1 col-form-label text-right">State</label>
+          <div className="col-sm-10">
+            { statesLabels[data.state] }
+          </div>
+        </div>
+        <div className="form-group row">
+          <label className="col-sm-1 col-form-label text-right">Verified</label>
+          <div className="col-sm-10">
+            <span className={
+              classNames('donut', data.verified ? 'donut-success' : 'donut-danger')
+            } />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { profile, deposit, withdraw, bonus } = this.props;
 
     return <div id={`tab-${config.tabName}`} className={classNames('tab-pane fade in active')}>
-      <div className="form-group row">
-        <label className="col-sm-1 col-form-label text-right">Username</label>
-        <div className="col-sm-10">
-          {profile.data.username}
-        </div>
-      </div>
 
-      <div className="form-group row">
-        <label className="col-sm-1 col-form-label text-right">Email</label>
-        <div className="col-sm-10">
-          {profile.data.email}
-        </div>
-      </div>
-
-      <div className="form-group row">
-        <label className="col-sm-1 col-form-label text-right">UUID</label>
-        <div className="col-sm-10">
-          {profile.data.uuid}
-        </div>
-      </div>
+      { this.renderUserData() }
 
       <div className="form-group row">
         <label className="col-sm-1 col-form-label text-right">Balance</label>
