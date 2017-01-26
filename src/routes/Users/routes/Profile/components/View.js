@@ -47,7 +47,7 @@ class View extends Component {
     const { profile: { data } } = this.props;
     const simpleFields = ['uuid', 'email', 'username', 'address', 'country', 'firstName', 'lastName'];
 
-    const simple =  Object
+    const simpleRow =  Object
       .keys(data)
       .filter(value => simpleFields.includes(value))
       .filter(value => data[value] !== null)
@@ -63,7 +63,7 @@ class View extends Component {
 
     return (
       <div>
-        { simple }
+        { simpleRow }
         <div className="form-group row">
           <label className="col-sm-1 col-form-label text-right">Birth Date</label>
           <div className="col-sm-10">
