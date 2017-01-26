@@ -7,49 +7,48 @@ import moment from 'moment';
 import Amount from 'components/Amount';
 
 class View extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handlePageChanged = this.handlePageChanged.bind(this);
-    this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
-
-    this.renderGame = this.renderGame.bind(this);
-    this.renderProvider = this.renderProvider.bind(this);
-  }
-
-  handlePageChanged(page, filters) {
+  handlePageChanged = (page, filters) => {
     if (!this.props.isLoading) {
       this.props.fetchGameActivity(this.props.params.id, { ...filters, page: page - 1, });
     }
-  }
+  };
 
-  handleFiltersChanged(filters) {
+  handleFiltersChanged = (filters) => {
     this.props.fetchGameActivity(this.props.params.id, { ...filters, page: 0, });
-  }
+  };
 
   componentWillMount() {
     this.handleFiltersChanged();
   }
 
-  renderEntityAction(data, column) {
+  renderEntityAction = (data, column) => {
+    if (typeof data.gameEvent[column.name] !== 'string') {
+      console.log(data.gameEvent)
+    }
     return actionsLabels[data.gameEvent[column.name]] || data.gameEvent[column.name];
-  }
+  };
 
-  renderGame(data, column) {
+  renderGame = (data, column) => {
     const { games } = this.props;
 
     return games[data.gameEvent[column.name]] || data.gameEvent[column.name];
-  }
+  };
 
-  renderProvider(data, column) {
+  renderProvider = (data, column) => {
     const { providers } = this.props;
 
     return providers[data.gameEvent[column.name]] || data.gameEvent[column.name];
-  }
+  };
 
-  renderAmount(data) {
-    return <Amount amount={actions.WinCollectedEvent === data.name ? data.gameEvent.amountWin : data.gameEvent.stake}/>;
-  }
+  renderAmount = (data) => {
+    if (actions.WinCollectedEvent === data.gameEvent.name) {
+      return <Amount {...data.gameEvent.amountWin}/>
+    } else if (actions.BetPlacedEvent === data.gameEvent.name) {
+      return <Amount {...data.gameEvent.stake}/>;
+    }
+
+    return null;
+  };
 
   render() {
     const {
@@ -136,7 +135,10 @@ class View extends Component {
           name="balance"
           header="Balance"
           headerStyle={{ width: '5%' }}
-          render={(data, column) => <Amount amount={data.gameEvent[column.name]}/>}
+          render={(data, column) => data.gameEvent[column.name]
+            ? <Amount {...data.gameEvent[column.name]}/>
+            : null
+          }
         />
 
         <GridColumn

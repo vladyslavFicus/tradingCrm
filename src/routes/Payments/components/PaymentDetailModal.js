@@ -37,7 +37,7 @@ class PaymentDetailModal extends Component {
         <p><strong>Status</strong>: {paymentsStatusesLabels[status] || status}</p>
         <p><strong>Type</strong>: {paymentType}</p>
         <p><strong>Method</strong>: {paymentsMethodsLabels[paymentMethod] || paymentMethod}</p>
-        <p><strong>Amount</strong>: <Amount currency={currency} amount={amount}/></p>
+        <p><strong>Amount</strong>: <Amount {...amount}/></p>
 
         <hr />
 

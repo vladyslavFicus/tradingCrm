@@ -6,56 +6,43 @@ import moment from 'moment';
 import Amount from 'components/Amount';
 
 class List extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    filters: {
+      playerUUID: this.props.params.id,
+    },
+    page: 0,
+  };
 
-    this.handleRefresh = this.handleRefresh.bind(this);
-    this.handlePageChanged = this.handlePageChanged.bind(this);
-    this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
-
-    this.handleAcceptBonus = this.handleAcceptBonus.bind(this);
-    this.handleCancelBonus = this.handleCancelBonus.bind(this);
-
-    this.renderActions = this.renderActions.bind(this);
-
-    this.state = {
-      filters: {
-        playerUUID: props.params.id,
-      },
-      page: 0,
-    };
-  }
-
-  handlePageChanged(page) {
+  handlePageChanged = (page) => {
     this.setState({ page: page - 1 }, () => this.handleRefresh());
-  }
+  };
 
-  handleFiltersChanged(filters = {}) {
+  handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
-  }
+  };
 
-  handleRefresh() {
+  handleRefresh = () => {
     return this.props.fetchEntities({
       ...this.state.filters,
       page: this.state.page,
     });
-  }
+  };
 
-  handleAcceptBonus(id) {
+  handleAcceptBonus = (id) => {
     this.props.acceptBonus(id)
       .then(() => this.handleRefresh());
-  }
+  };
 
-  handleCancelBonus(id) {
+  handleCancelBonus = (id) => {
     this.props.cancelBonus(id, this.props.params.id)
       .then(() => this.handleRefresh());
-  }
+  };
 
   componentWillMount() {
     this.handleRefresh();
   }
 
-  renderActions(data) {
+  renderActions = (data) => {
     return <div className="btn-group btn-group-sm">
       {[statuses.COMPLETED, statuses.CANCELLED, statuses.EXPIRED].indexOf(data.state) === -1 && <a
         className="btn btn-sm btn-danger btn-secondary"
@@ -65,7 +52,7 @@ class List extends Component {
         <i className="fa fa-times"/>
       </a>}
     </div>;
-  }
+  };
 
   render() {
     const { list: { entities } } = this.props;
@@ -96,28 +83,28 @@ class List extends Component {
           header="Granted amount"
           headerClassName="text-center"
           className="text-center"
-          render={(data, column) => <Amount amount={data[column.name]}/>}
+          render={(data, column) => <Amount {...data[column.name]}/>}
         />
         <GridColumn
           name="capping"
           header="Capping"
           headerClassName="text-center"
           className="text-center"
-          render={(data, column) => <Amount amount={data[column.name]}/>}
+          render={(data, column) => <Amount {...data[column.name]}/>}
         />
         <GridColumn
           name="prize"
           header="Prize"
           headerClassName="text-center"
           className="text-center"
-          render={(data, column) => <Amount amount={data[column.name]}/>}
+          render={(data, column) => <Amount {...data[column.name]}/>}
         />
         <GridColumn
           name="amountToWage"
           header="Amount to wage"
           headerClassName="text-center"
           className="text-center"
-          render={(data, column) => <Amount amount={data[column.name]}/>}
+          render={(data, column) => <Amount {...data[column.name]}/>}
         />
         <GridColumn
           name="state"

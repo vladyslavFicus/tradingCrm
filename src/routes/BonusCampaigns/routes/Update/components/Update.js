@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import ManageForm from 'routes/BonusCampaigns/components/ManageForm';
-import { actionTypes } from '../modules/update';
 import { statuses } from 'routes/BonusCampaigns/constants';
 
 export default class Update extends Component {
@@ -14,12 +13,8 @@ export default class Update extends Component {
       });
   };
 
-  handleFormMount = () => {
-    this.props.loadCurrencies();
-  };
-
   render() {
-    const { data, currency }  = this.props;
+    const { data, currencies }  = this.props;
 
     return <div className="page-content-inner">
       <Panel>
@@ -35,8 +30,7 @@ export default class Update extends Component {
                   initialValues={data}
                   onSubmit={this.handleSubmit}
                   disabled={data.state !== statuses.INACTIVE}
-                  onMount={this.handleFormMount}
-                  currencies={currency.list}
+                  currencies={currencies}
                 />
               </div>
             </div>

@@ -28,7 +28,7 @@ class SingleDateField extends Component {
       <div className="col-md-9">
         <SingleDatePicker
           id={`single-date-picker-${input.name}`}
-          isOutsideRange={(day) => day <= moment()}
+          isOutsideRange={(day) => day < moment()}
           onDateChange={this.handleDateChange}
           date={input.value ? moment(input.value) : null}
           disabled={disabled}

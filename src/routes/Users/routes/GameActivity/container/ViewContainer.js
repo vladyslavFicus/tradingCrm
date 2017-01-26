@@ -5,7 +5,6 @@ import { actionCreators as viewActionCreators } from '../modules/view';
 
 const mapStateToProps = ({ userGameActivity, userProfile }) => ({
   ...userGameActivity,
-  currency: userProfile.profile.data.currency,
 });
 const mapActions = {
   ...viewActionCreators,
