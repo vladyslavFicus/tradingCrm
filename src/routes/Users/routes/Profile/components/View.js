@@ -6,6 +6,7 @@ import PaymentOperationState from './PaymentOperationState';
 import moment from 'moment';
 import { statesLabels } from 'routes/Users/constants';
 import { startCase } from 'lodash';
+import SimpleRow from 'components/FormGroup/SimpleRow';
 
 const config = { tabName: 'profile' };
 
@@ -51,15 +52,12 @@ class View extends Component {
       .keys(data)
       .filter(value => simpleFields.includes(value))
       .filter(value => data[value] !== null)
-      .map((key, id) => (
-          <div key={id} className="form-group row">
-            <label className="col-sm-1 col-form-label text-right"> { startCase(key) } </label>
-            <div className="col-sm-10">
-              {data[key]}
-            </div>
-          </div>
-        )
-      );
+      .map((key, id) => <SimpleRow
+        key={id}
+        id={id}
+        label={startCase(key)}
+        data={data[key]}
+      />);
 
     return (
       <div>
