@@ -39,12 +39,8 @@ export default class Create extends Component {
       });
   };
 
-  handleFormMount = () => {
-    this.props.loadCurrencies();
-  };
-
   render() {
-    const { params, currency } = this.props;
+    const { params, currencies } = this.props;
     const initialValues = { state: 'INACTIVE' };
 
     if (params.uuid) {
@@ -65,8 +61,7 @@ export default class Create extends Component {
                   asyncBlurFields={['playerUUID']}
                   onSubmit={this.handleSubmit}
                   initialValues={initialValues}
-                  currencies={currency.list}
-                  onMount={this.handleFormMount}
+                  currencies={currencies}
                 />
               </div>
             </div>

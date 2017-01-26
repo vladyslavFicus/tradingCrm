@@ -23,6 +23,11 @@ export default {
       "middlewares.persist.whitelist[0]": "auth",
       "middlewares.unauthorized[0]": 401,
       "middlewares.unauthorized[1]": 403,
+      "nas.currencies.base": "EUR",
+      "nas.currencies.supported[0]": "EUR",
+      "nas.currencies.supported[1]": "USD",
+      "nas.currencies.supported[2]": "SEK",
+      "nas.currencies.supported[3]": "NOK",
       "validation.password": "/^(?=[^\\s]*\\d)[^\\s]{6,20}$/g"
     }
   }),

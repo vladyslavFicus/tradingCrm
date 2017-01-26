@@ -93,7 +93,9 @@ class ManageForm extends Component {
   };
 
   componentDidMount() {
-    this.props.onMount();
+    if (typeof this.props.onMount === 'function') {
+      this.props.onMount();
+    }
   }
 
   render() {
@@ -244,7 +246,7 @@ ManageForm.defaultProps = {
   currencies: [],
 };
 ManageForm.propTypes = {
-  onMount: PropTypes.func.isRequired,
+  onMount: PropTypes.func,
   currencies: PropTypes.array,
 };
 

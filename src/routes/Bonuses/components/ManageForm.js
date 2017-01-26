@@ -43,18 +43,14 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 class ManageForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleResetForm = this.handleResetForm.bind(this);
-  }
-
-  handleResetForm() {
+  handleResetForm = () => {
     this.props.reset();
-  }
+  };
 
   componentDidMount() {
-    this.props.onMount();
+    if (typeof this.props.onMount === 'function') {
+      this.props.onMount();
+    }
   }
 
   render() {
@@ -179,7 +175,7 @@ ManageForm.defaultProps = {
   currencies: [],
 };
 ManageForm.propTypes = {
-  onMount: PropTypes.func.isRequired,
+  onMount: PropTypes.func,
   currencies: PropTypes.array,
 };
 

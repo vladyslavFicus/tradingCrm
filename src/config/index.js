@@ -13,6 +13,12 @@ if (window) {
 
 const config = {
   api: {},
+  nas: {
+    currencies: {
+      base: null,
+      supported: [],
+    },
+  },
   validation: {
     password: null,
   },

@@ -71,7 +71,7 @@ class List extends Component {
   }
 
   renderAmount(data, column) {
-    return <Amount currency={data.currency} amount={data[column.name]}/>;
+    return <Amount {...data[column.name]}/>;
   }
 
   renderActions = (data) => {

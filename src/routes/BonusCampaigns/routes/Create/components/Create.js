@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import ManageForm from 'routes/BonusCampaigns/components/ManageForm';
-import { actionTypes } from '../modules/create';
 
 export default class Create extends Component {
   handleSubmit = (data) => {
@@ -13,12 +12,8 @@ export default class Create extends Component {
       });
   };
 
-  handleFormMount = () => {
-    this.props.loadCurrencies();
-  };
-
   render() {
-    const { currency } = this.props;
+    const { currencies } = this.props;
 
     return <div className="page-content-inner">
       <Panel>
@@ -32,8 +27,7 @@ export default class Create extends Component {
               <div className="margin-bottom-50">
                 <ManageForm
                   onSubmit={this.handleSubmit}
-                  currencies={currency.list}
-                  onMount={this.handleFormMount}
+                  currencies={currencies}
                 />
               </div>
             </div>
