@@ -5,7 +5,7 @@ const KEY = 'user-files';
 const FETCH_FILE = createRequestTypes(`${KEY}/fetch-file`);
 const CLEAR_FILES = `${KEY}/clear-files`;
 
-function fetchFile({ fileId, profileId }) {
+function fetchFile({ fileId, profileId, isLoading = true }) {
   return (dispatch, getState) => {
     const { auth: { token } } = getState();
 
@@ -22,6 +22,7 @@ function fetchFile({ fileId, profileId }) {
         payload: {
           fileId: fileId,
           content: URL.createObjectURL(data),
+          isLoading,
         },
       }));
   };
@@ -33,12 +34,19 @@ function clearFiles() {
   };
 }
 
-const initialState = {};
+const initialState = {
+  items: {},
+  isLoading: false,
+};
 
 const actionHandlers = {
   [FETCH_FILE.SUCCESS]: (state, action) => ({
     ...state,
-    [action.payload.fileId]: action.payload.content,
+    items: {
+      ...state.items,
+      [action.payload.fileId]: action.payload.content,
+    },
+    isLoading: action.payload.isLoading,
   }),
   [CLEAR_FILES]: (state, action) => ({
     ...initialState,

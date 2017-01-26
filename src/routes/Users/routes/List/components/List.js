@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import { Link } from 'react-router';
-import { TextFilter, DropDownFilter } from 'components/Forms/Filters';
+import { TextFilter } from 'components/Forms/Filters';
+import classNames from 'classnames';
 
 class List extends Component {
   constructor(props) {
@@ -24,14 +25,6 @@ class List extends Component {
 
   componentWillMount() {
     this.handleFiltersChanged();
-  }
-
-  renderActions(data) {
-    return <div>
-      <Link to={`/users/${data.uuid}/profile`} title={'View user profile'}>
-        <i className="fa fa-search"/>
-      </Link>
-    </div>;
   }
 
   render() {
@@ -67,28 +60,35 @@ class List extends Component {
               />}
               className="text-center"
             />
+
+            <GridColumn
+              name="firstName"
+              header="Firstname"
+              headerClassName="text-center"
+              filter={(onFilterChange) => <TextFilter
+                name="firstName"
+                onFilterChange={onFilterChange}
+              />}
+              className="text-center"
+            />
+
+            <GridColumn
+              name="lastName"
+              header="Lastname"
+              headerClassName="text-center"
+              filter={(onFilterChange) => <TextFilter
+                name="lastName"
+                onFilterChange={onFilterChange}
+              />}
+              className="text-center"
+            />
+
             <GridColumn
               name="email"
               header="Email"
               headerClassName="text-center"
               filter={(onFilterChange) => <TextFilter
                 name="email"
-                onFilterChange={onFilterChange}
-              />}
-              className="text-center"
-            />
-            <GridColumn
-              name="currency"
-              header="Currency"
-              headerClassName="text-center"
-              filter={(onFilterChange) => <DropDownFilter
-                name="currency"
-                items={{
-                  '': 'All',
-                  USD: 'USD',
-                  EUR: 'EUR',
-                  UAH: 'UAH',
-                }}
                 onFilterChange={onFilterChange}
               />}
               className="text-center"
@@ -103,6 +103,22 @@ class List extends Component {
                 onFilterChange={onFilterChange}
               />}
             />
+
+            <GridColumn
+              name="country"
+              header="Country"
+              headerClassName="text-center"
+              className="text-center"
+            />
+
+            <GridColumn
+              name="verified"
+              header="Verified"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderVerified}
+            />
+
             <GridColumn
               name="actions"
               header="Actions"
@@ -115,6 +131,21 @@ class List extends Component {
       </Panel>
     </div>;
   }
+
+  renderActions(data) {
+    return <div>
+      <Link to={`/users/${data.uuid}/profile`} title={'View user profile'}>
+        <i className="fa fa-search"/>
+      </Link>
+    </div>;
+  }
+
+  renderVerified(data, column) {
+    return <span className={
+      classNames('donut', data[column.name] ? 'donut-success' : 'donut-danger')
+    }/>;
+  }
+
 }
 
 export default List;

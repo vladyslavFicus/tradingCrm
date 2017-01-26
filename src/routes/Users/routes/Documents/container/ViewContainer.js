@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import { actionCreators as filesActionCreators } from '../modules/files';
 
 const mapStateToProps = ({
-  userProfile: { profile: { data: { id, kycMetaData } } },
+  userProfile: { profile: { data: { id, kycMetaData }, receivedAt } },
   userDocuments,
 }) => ({
   id,
+  profileLoaded: !!receivedAt,
   kycMetaData: kycMetaData || [],
-  userDocuments: Object.keys(userDocuments).length > 0 ? userDocuments : null,
+  userDocuments,
 });
 
 const mapActions = {
