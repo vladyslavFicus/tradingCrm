@@ -1,5 +1,7 @@
 def service = 'backoffice'
 
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10'))])
+
 node('build') {    
 
     stage('Checkout') {         
