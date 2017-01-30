@@ -18,14 +18,16 @@ class PreviewGrid extends Component {
     return <input type="checkbox" readOnly disabled defaultValue={data[column.name]}/>;
   }
 
-  renderAmountColumn(amount) {
+  renderAmountColumn = (data, column) => {
     const { currency } = this.props;
-    return <Amount amount={amount} currency={currency} />;
+    return <Amount amount={data[column.name]} currency={currency} />;
   }
 
   renderSummaryRow = () => {
     const { totalsRow, currency }  = this.props;
-    if (totalsRow.length < 1) return null;
+    if (totalsRow.length < 1) {
+      return null;
+    }
 
     return Object.keys(totalsRow[0]).reduce((res, item) => {
       res[item] = <Amount amount={totalsRow[0][item]} currency={currency}/>;
@@ -67,43 +69,43 @@ class PreviewGrid extends Component {
         name="Hold_Bonus_Total"
         header="Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="Hold_RM_Total"
         header="Hold RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="stakelogic_Hold_Bonus_Total"
         header="Stakelogic Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="stakelogic_RM_Total"
         header="Stakelogic RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="Total_BMC"
         header="Total BMC"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="unknown_Hold_Bonus_Total"
         header="Unknown Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="unknown_RM_Total"
         header="Unknown RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
     </GridView>;
   }
@@ -147,43 +149,43 @@ class PreviewGrid extends Component {
         name="Hold_Bonus_Total"
         header="Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="Hold_RM_Total"
         header="Hold RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="stakelogic_Hold_Bonus_Total"
         header="Stakelogic Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="stakelogic_RM_Total"
         header="Stakelogic RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="Total_BMC"
         header="Total BMC"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="unknown_Hold_Bonus_Total"
         header="Unknown Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
       <GridColumn
         name="unknown_RM_Total"
         header="Unknown RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data[column.name])}
+        render={this.renderAmountColumn}
       />
     </GridView>;
   }
