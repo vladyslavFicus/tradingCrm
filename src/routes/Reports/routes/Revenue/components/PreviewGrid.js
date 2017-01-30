@@ -18,14 +18,24 @@ class PreviewGrid extends Component {
     return <input type="checkbox" readOnly disabled defaultValue={data[column.name]}/>;
   }
 
-  renderAmountColumn(data, column) {
-    return <Amount amount={data[column.name]} currency={data.CURRENCY}/>;
+  renderAmountColumn(amount) {
+    const { currency } = this.props;
+    return <Amount amount={amount} currency={currency} />;
   }
+
+  renderSummaryRow = () => {
+    const { totalsRow, currency }  = this.props;
+    if (totalsRow.length < 1) return null;
+
+    return Object.keys(totalsRow[0]).reduce((res, item) => {
+      res[item] = <Amount amount={totalsRow[0][item]} currency={currency}/>;
+      return res;
+    }, {});
+  };
 
   renderCountryGrid() {
     const {
       content,
-      totalsRow,
       number,
       filters,
       totalPages,
@@ -35,7 +45,7 @@ class PreviewGrid extends Component {
 
     return <GridView
       dataSource={content}
-      summaryRow={totalsRow[0]}
+      summaryRow={this.renderSummaryRow()}
       onFiltersChanged={onFiltersChanged}
       onPageChange={onPageChanged}
       activePage={number + 1}
@@ -57,43 +67,43 @@ class PreviewGrid extends Component {
         name="Hold_Bonus_Total"
         header="Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="Hold_RM_Total"
         header="Hold RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="stakelogic_Hold_Bonus_Total"
         header="Stakelogic Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="stakelogic_RM_Total"
         header="Stakelogic RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="Total_BMC"
         header="Total BMC"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="unknown_Hold_Bonus_Total"
         header="Unknown Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="unknown_RM_Total"
         header="Unknown RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
     </GridView>;
   }
@@ -101,7 +111,6 @@ class PreviewGrid extends Component {
   renderPlayerGrid() {
     const {
       content,
-      totalsRow,
       number,
       filters,
       totalPages,
@@ -111,7 +120,7 @@ class PreviewGrid extends Component {
 
     return <GridView
       dataSource={content}
-      summaryRow={totalsRow[0]}
+      summaryRow={this.renderSummaryRow()}
       onFiltersChanged={onFiltersChanged}
       onPageChange={onPageChanged}
       activePage={number + 1}
@@ -138,48 +147,56 @@ class PreviewGrid extends Component {
         name="Hold_Bonus_Total"
         header="Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="Hold_RM_Total"
         header="Hold RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="stakelogic_Hold_Bonus_Total"
         header="Stakelogic Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="stakelogic_RM_Total"
         header="Stakelogic RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="Total_BMC"
         header="Total BMC"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="unknown_Hold_Bonus_Total"
         header="Unknown Hold Bonus Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
       <GridColumn
         name="unknown_RM_Total"
         header="Unknown RM Total"
         headerStyle={{ width: '10%' }}
-        render={(data, column) => this.renderAmountColumn(data, column)}
+        render={(data, column) => this.renderAmountColumn(data[column.name])}
       />
     </GridView>;
   }
 }
 
-PreviewGrid.propTypes = {};
+PreviewGrid.propTypes = {
+  currency: PropTypes.string.isRequired,
+  content: PropTypes.array,
+  onFiltersChanged: PropTypes.func,
+  onPageChanged: PropTypes.func,
+  reportType: PropTypes.string.isRequired,
+  totalsRow: PropTypes.array,
+  filters: PropTypes.object,
+};
 
 export default PreviewGrid;

@@ -32,6 +32,7 @@ class View extends Component {
       entities,
       filters,
       onDownload,
+      currency,
     } = this.props;
 
     return <div className="page-content-inner">
@@ -54,6 +55,7 @@ class View extends Component {
             reportType={filters.type}
             filters={filters}
             {...entities}
+            currency={currency}
           />}
         </Content>
       </Panel>
