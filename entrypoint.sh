@@ -8,6 +8,10 @@ config=$(curl -s $CONFIG_SERVICE_ROOT/backoffice/$BUILD_ENV \
     --retry-delay 0 \
     --retry-max-time 60 | jq -a -r -S 'reduce .propertySources[].source as $item ({}; . + $item)' | cat)
 
+if [ -z "$config" ]; then
+  config="{}"
+fi
+
 if ! [ -z $1 ]
 then
   FILE=$1"/"$2
