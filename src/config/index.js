@@ -18,13 +18,19 @@ const config = {
       base: null,
       supported: [],
     },
-  },
-  validation: {
-    password: null,
+    validation: {
+      password: null,
+    },
   },
   middlewares: {},
   ...environmentConfig,
 };
+
+if (config.nas.validation) {
+  if (config.nas.validation.password) {
+    config.nas.validation.password = new RegExp(config.nas.validation.password, 'g');
+  }
+}
 
 function getApiRoot() {
   return config.api.entry
