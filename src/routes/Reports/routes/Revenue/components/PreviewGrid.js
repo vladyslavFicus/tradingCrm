@@ -21,7 +21,7 @@ class PreviewGrid extends Component {
   renderAmountColumn = (data, column) => {
     const { currency } = this.props;
     return <Amount amount={data[column.name]} currency={currency} />;
-  }
+  };
 
   renderSummaryRow = () => {
     const { totalsRow, currency }  = this.props;
