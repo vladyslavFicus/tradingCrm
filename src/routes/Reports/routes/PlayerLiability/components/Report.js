@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import GridView, { GridColumn } from 'components/GridView';
 import Panel, { Title, Content } from 'components/Panel';
+import Amount from 'components/Amount';
 
 class Report extends Component {
   handlePageChanged = (page, filters) => {
@@ -27,6 +28,11 @@ class Report extends Component {
     disabled
     defaultValue={data[column.name]}
   />;
+
+  renderAmountColumn = (data, column) => {
+    const { currency } = this.props;
+    return <Amount amount={data[column.name]} currency={currency} />;
+  };
 
   render() {
     const { entities } = this.props;
@@ -76,19 +82,19 @@ class Report extends Component {
             name="balance"
             header="Balance"
             headerStyle={{ width: '15%' }}
-            render={(data, column) => <small>{data[column.name]}</small>}
+            render={this.renderAmountColumn}
           />
           <GridColumn
             name="realMoneyBalance"
             header="Real money balance"
             headerStyle={{ width: '15%' }}
-            render={(data, column) => <small>{data[column.name]}</small>}
+            render={this.renderAmountColumn}
           />
           <GridColumn
             name="bonusBalance"
             header="Bonus balance"
             headerStyle={{ width: '15%' }}
-            render={(data, column) => <small>{data[column.name]}</small>}
+            render={this.renderAmountColumn}
           />
           <GridColumn
             name="pendingBets"
@@ -106,6 +112,7 @@ Report.propTypes = {
   entities: PropTypes.object.isRequired,
   onDownload: PropTypes.func.isRequired,
   onFetch: PropTypes.func.isRequired,
+  currency: PropTypes.string.isRequired,
 };
 
 export default Report;

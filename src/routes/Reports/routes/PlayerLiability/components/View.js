@@ -11,6 +11,7 @@ class View extends Component {
       onFilesFetch,
       onReportDownload,
       onReportFetch,
+      currency,
     } = this.props;
 
     return <div className="page-content-inner">
@@ -23,6 +24,7 @@ class View extends Component {
         {...report}
         onDownload={onReportDownload}
         onFetch={onReportFetch}
+        currency={currency}
       />
     </div>;
   }
@@ -35,6 +37,7 @@ View.propTypes = {
   report: PropTypes.object.isRequired,
   onReportFetch: PropTypes.func.isRequired,
   onReportDownload: PropTypes.func.isRequired,
+  currency: PropTypes.string.isRequired,
 };
 
 export default View;
