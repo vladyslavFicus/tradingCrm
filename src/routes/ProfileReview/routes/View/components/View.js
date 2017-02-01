@@ -5,13 +5,6 @@ import classNames from 'classnames';
 import { actionTypes } from '../modules/index';
 
 class View extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleApprove = this.handleApprove.bind(this);
-    this.handleReject = this.handleReject.bind(this);
-  }
-
   componentWillMount() {
     const { fetchFile, fetchProfile, params } = this.props;
 
@@ -36,19 +29,19 @@ class View extends Component {
     clearFiles();
   }
 
-  handleApprove() {
+  handleApprove = () => {
     const { view: { data }, approveProfile, fetchProfile, params } = this.props;
 
     approveProfile(data.id)
       .then(() => fetchProfile(params.uuid));
-  }
+  };
 
-  handleReject(reason) {
+  handleReject = (reason) => {
     const { view: { data }, rejectProfile, fetchProfile, params } = this.props;
 
     rejectProfile(data.id, reason)
       .then(() => fetchProfile(params.uuid));
-  }
+  };
 
   render() {
     const { view: { data }, files } = this.props;
@@ -57,13 +50,13 @@ class View extends Component {
       <Panel withBorders>
         <Title>
           <div className="heading-buttons pull-right">
-            {data.state === 'IN_REVIEW' ? <ApprovalDropDown
+            {data.kycStatus === 'IN_REVIEW' ? <ApprovalDropDown
                 onApprove={this.handleApprove}
                 onReject={this.handleReject}
               /> : <span className={classNames('label', {
-                'label-danger': data.state === 'REJECTED',
-                'label-success': data.state === 'APPROVED',
-              })}>{data.state}</span>}
+                'label-danger': data.kycStatus === 'REJECTED',
+                'label-success': data.kycStatus === 'APPROVED',
+              })}>{data.kycStatus}</span>}
           </div>
 
           <h3>KYC Data</h3>
