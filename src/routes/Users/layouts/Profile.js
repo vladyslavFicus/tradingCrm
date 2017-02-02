@@ -23,7 +23,7 @@ class Users extends Component {
         <div className="profile-header">
           <div className="profile-header-info">
             <div className="row">
-              <div className="col-xl-8">
+              <div className="col-sm-2">
                 <div className="profile-header-title">
                   <h2>{data.username}</h2>
                   <p>{data.email}</p>

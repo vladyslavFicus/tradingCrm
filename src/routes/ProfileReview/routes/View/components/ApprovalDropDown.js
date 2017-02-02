@@ -3,48 +3,39 @@ import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reac
 import RejectModal from './RejectModal';
 
 class ApprovalDropDown extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    opened: false,
+    modalOpened: false,
+  };
 
-    this.toggle = this.toggle.bind(this);
-    this.handleShowModal = this.handleShowModal.bind(this);
-    this.handleHideModal = this.handleHideModal.bind(this);
-    this.handleToggleModal = this.handleToggleModal.bind(this);
-    this.handleReject = this.handleReject.bind(this);
-    this.state = {
-      opened: false,
-      modalOpened: false,
-    };
-  }
-
-  toggle() {
+  toggle = () => {
     this.setState({
       opened: !this.state.opened,
     });
-  }
+  };
 
-  handleToggleModal() {
+  handleToggleModal = () => {
     this.setState({
       modalOpened: !this.state.modalOpened,
     });
-  }
+  };
 
-  handleShowModal() {
+  handleShowModal = () => {
     this.setState({
       opened: false,
       modalOpened: true,
     });
-  }
+  };
 
-  handleHideModal(cb) {
+  handleHideModal = (cb) => {
     this.setState({
       modalOpened: false,
     }, () => cb());
-  }
+  };
 
-  handleReject({ reason }) {
+  handleReject = ({ reason }) => {
     this.handleHideModal(() => this.props.onReject(reason));
-  }
+  };
 
   render() {
     const { onApprove } = this.props;

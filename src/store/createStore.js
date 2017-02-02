@@ -7,16 +7,16 @@ import makeRootReducer from './reducers';
 import apiUrl from 'redux/middlewares/apiUrl';
 import { actionCreators as locationActionCreators } from 'redux/modules/location';
 import unauthorized from 'redux/middlewares/unauthorized';
-import refreshToken from 'redux/middlewares/refreshToken';
+import updateToken from 'redux/middlewares/updateToken';
 import config from 'config/index';
 
 export default (initialState = {}, onComplete) => {
   const middleware = [
     thunk,
     apiUrl,
+    updateToken({}),
     apiMiddleware,
     unauthorized(config.middlewares.unauthorized),
-    refreshToken(),
   ];
 
   // ======================================================

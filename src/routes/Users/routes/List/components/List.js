@@ -6,22 +6,15 @@ import { TextFilter } from 'components/Forms/Filters';
 import classNames from 'classnames';
 
 class List extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handlePageChanged = this.handlePageChanged.bind(this);
-    this.handleFiltersChanged = this.handleFiltersChanged.bind(this);
-  }
-
-  handlePageChanged(page, filters = {}) {
+  handlePageChanged = (page, filters = {}) => {
     if (!this.props.list.isLoading) {
       this.props.fetchEntities({ ...filters, page: page - 1 });
     }
-  }
+  };
 
-  handleFiltersChanged(filters = {}) {
+  handleFiltersChanged = (filters = {}) => {
     this.props.fetchEntities({ ...filters, page: 0 });
-  }
+  };
 
   componentWillMount() {
     this.handleFiltersChanged();
@@ -107,6 +100,13 @@ class List extends Component {
             <GridColumn
               name="country"
               header="Country"
+              headerClassName="text-center"
+              className="text-center"
+            />
+
+            <GridColumn
+              name="profileStatus"
+              header="Status"
               headerClassName="text-center"
               className="text-center"
             />

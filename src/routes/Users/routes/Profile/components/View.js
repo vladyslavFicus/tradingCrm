@@ -46,9 +46,17 @@ class View extends Component {
 
   renderUserData() {
     const { profile: { data } } = this.props;
-    const simpleFields = ['uuid', 'email', 'username', 'address', 'country', 'firstName', 'lastName'];
+    const simpleFields = [
+      'uuid',
+      'email',
+      'username',
+      'address',
+      'country',
+      'firstName',
+      'lastName',
+    ];
 
-    const simpleRow =  Object
+    const simpleRow = Object
       .keys(data)
       .filter(value => simpleFields.includes(value))
       .filter(value => data[value] !== null)
@@ -75,9 +83,17 @@ class View extends Component {
           </div>
         </div>
         <div className="form-group row">
-          <label className="col-sm-1 col-form-label text-right">State</label>
+          <label className="col-sm-1 col-form-label text-right">Profile status</label>
           <div className="col-sm-10">
-            { statesLabels[data.state] }
+            <span className="label label-info">{data.profileStatus}</span>
+            {!!data.profileStatusReason && <p>{' '}<strong>Reason</strong>: {data.profileStatusReason}</p>}
+          </div>
+        </div>
+        <div className="form-group row">
+          <label className="col-sm-1 col-form-label text-right">KYC status</label>
+          <div className="col-sm-10">
+            <span className="label label-info">{ statesLabels[data.kycStatus] }</span>
+            {!!data.kycStatusReason && <p>{' '}<strong>Reason</strong>: {data.kycStatusReason}</p>}
           </div>
         </div>
         <div className="form-group row">
@@ -85,7 +101,7 @@ class View extends Component {
           <div className="col-sm-10">
             <span className={
               classNames('donut', data.verified ? 'donut-success' : 'donut-danger')
-            } />
+            }/>
           </div>
         </div>
       </div>
