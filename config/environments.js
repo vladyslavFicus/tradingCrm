@@ -28,6 +28,10 @@ export default {
       "nas.currencies.supported[1]": "USD",
       "nas.currencies.supported[2]": "SEK",
       "nas.currencies.supported[3]": "NOK",
+      "nas.departments[0]": "PLAYER",
+      "nas.departments[1]": "CS",
+      "nas.departments[2]": "RFP",
+      "nas.departments[3]": "MARKETING",
       "validation.password": "/^(?=[^\\s]*\\d)[^\\s]{6,20}$/g"
     }
   }),

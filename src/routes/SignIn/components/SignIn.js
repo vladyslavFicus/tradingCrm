@@ -5,14 +5,8 @@ import { SubmissionError } from 'redux-form';
 import SignInForm from './SignInForm';
 
 class SignIn extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit({ login, password }) {
-    return this.props.signIn({ login, password })
+  handleSubmit = (data) => {
+    return this.props.signIn(data)
       .then((action) => {
         if (action) {
           if (action.type === authActionTypes.SIGN_IN.SUCCESS) {
@@ -24,7 +18,7 @@ class SignIn extends Component {
           }
         }
       });
-  }
+  };
 
   componentWillMount() {
     document.body.classList.add('full-height');
@@ -35,6 +29,8 @@ class SignIn extends Component {
   }
 
   render() {
+    const { departments } = this.props;
+
     return <section className="page-content">
       <div className="page-content-inner" style={{ background: '#0e1836' }}>
         <div className="single-page-block-header">
@@ -54,6 +50,7 @@ class SignIn extends Component {
             <div className="single-page-block-form">
               <br/>
               <SignInForm
+                departments={departments}
                 onSubmit={this.handleSubmit}
               />
             </div>

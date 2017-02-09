@@ -2,21 +2,24 @@ import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from 'utils/validator';
 import SignInFormField from './SingInFormField';
+import SignInFormDropField from './SignInFormDropField';
 
 const formName = 'signInForm';
 const attributeLabels = {
   login: 'Login',
   password: 'Password',
+  department: 'Department',
 };
 
 const validator = createValidator({
   login: 'required',
   password: 'required|min:6',
+  department: 'required',
 }, attributeLabels, false);
 
 class SignInForm extends Component {
   render() {
-    const { handleSubmit, pristine, submitting, onSubmit, error, disabled } = this.props;
+    const { handleSubmit, pristine, submitting, onSubmit, error, disabled, departments } = this.props;
 
     return <form
       name="form-validation"
@@ -26,6 +29,12 @@ class SignInForm extends Component {
       {error && <div className="alert alert-warning">
         {error}
       </div>}
+      <Field
+        name="department"
+        label={attributeLabels.department}
+        component={SignInFormDropField}
+        items={departments}
+      />
       <Field
         name="login"
         label={attributeLabels.login}

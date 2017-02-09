@@ -26,7 +26,7 @@ const actionHandlers = {
   [LOGOUT.SUCCESS]: (state, action) => ({ ...initialState, }),
 };
 
-function signIn({ login, password }) {
+function signIn(data) {
   return {
     [CALL_API]: {
       endpoint: '/auth/signin',
@@ -35,10 +35,7 @@ function signIn({ login, password }) {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        login,
-        password,
-      }),
+      body: JSON.stringify(data),
       types: [SIGN_IN.REQUEST, SIGN_IN.SUCCESS, SIGN_IN.FAILURE],
     },
   };
