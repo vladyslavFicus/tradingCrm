@@ -12,14 +12,13 @@ export default (codes = [401]) => {
     const { auth, location } = getState();
 
     if (isValidMiddlewareAction({ auth }, action)) {
-      console.log(action);
       dispatch({ type: actionTypes.LOGOUT.SUCCESS });
 
       if (
         !action.meta || !action.meta.ignoreByAuthMiddleware
         || location && location.pathname !== 'sign-in'
       ) {
-        browserHistory.push(`/sign-in?returnUrl=${location.pathname}`);
+        browserHistory.push(`/sign-in${location && location.pathname ? `?returnUrl=${location.pathname}` : ''}`);
       }
     }
 
