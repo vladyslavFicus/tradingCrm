@@ -28,7 +28,8 @@ npm run deploy:prod
     
     stage('Deploy') {        
         if (env.BRANCH_NAME == 'master' && !env.GIT_COMMIT_MESSAGE.contains("[skip deploy]")) {
-            build job: 'casino-deploy', wait: false, parameters: [string(name: 'profile', value: 'dev'), string(name: 'service', value: service)]         
+            build job: 'casino-platform/casino-orchestra/master', wait: false, 
+                parameters: [string(name: 'env', value: 'dev2'), string(name: 'service', value: service), string(name: 'version', value: 'latest')]
         }
     } 
 }
