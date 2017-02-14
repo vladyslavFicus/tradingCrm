@@ -105,6 +105,6 @@ const actionCreators = {
   refreshToken,
 };
 
-export { actionCreators, actionTypes };
+export { actionCreators, actionTypes, initialState };
 
 export default reducer;
