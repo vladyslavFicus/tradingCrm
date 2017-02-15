@@ -29,12 +29,111 @@ describe('utils/permissions', () => {
       expect(permissionInstance).to.respondTo('or');
     });
 
-    it('should contain previous and new permissions with condition as first', () => {
-
+    it('should have "check" method in instance', () => {
+      expect(permissionInstance).to.respondTo('check');
     });
 
-    it('should grant access', () => {
+    it('should throw error when pass invalid param to "check" method', () => {
+      expect(permissionInstance.check.bind(null, null)).to.throw(Error);
+      expect(permissionInstance.check.bind(null, 0)).to.throw(Error);
+      expect(permissionInstance.check.bind(null, 'test')).to.throw(Error);
+      expect(permissionInstance.check.bind(null, {})).to.throw(Error);
+    });
 
+    it('should contain previous and new permissions with condition as first', () => {
+      const resultPermission = [
+        CONDITIONS.OR,
+        [
+          [CONDITIONS.OR, [
+            [CONDITIONS.AND, [
+              permission.AREA_ONE.STAGE_A, permission.AREA_ONE.STAGE_B,
+            ]],
+            permission.AREA_TWO.STAGE_B,
+          ]],
+          permission.AREA_TWO.STAGE_A,
+        ],
+      ];
+      const compiledPermissions = permissionInstance
+        .and([permission.AREA_ONE.STAGE_A, permission.AREA_ONE.STAGE_B])
+        .or(permission.AREA_TWO.STAGE_B)
+        .or(permission.AREA_TWO.STAGE_A)
+        .getCompiled();
+
+      expect(compiledPermissions).to.deep.equal(resultPermission);
+    });
+
+    it('should grant access by "OR" condition', () => {
+      expect(
+        permissionInstance
+          .and([permission.AREA_TWO.STAGE_A, permission.AREA_ONE.STAGE_B])
+          .or(permission.AREA_ONE.STAGE_A)
+          .check([permission.AREA_ONE.STAGE_A])
+      ).to.equal(true);
+      expect(
+        permissionInstance
+          .and([
+            permission.AREA_ONE.STAGE_A,
+            permission.AREA_TWO.STAGE_A,
+            permission.AREA_ONE.STAGE_B,
+          ])
+          .or([
+            permission.AREA_ONE.STAGE_A,
+            permission.AREA_ONE.STAGE_B,
+            permission.AREA_TWO.STAGE_A,
+          ])
+          .or([
+            permission.AREA_ONE.STAGE_A,
+            permission.AREA_ONE.STAGE_B,
+            permission.AREA_TWO.STAGE_B,
+          ])
+          .check([
+            permission.AREA_ONE.STAGE_A,
+            permission.AREA_ONE.STAGE_B,
+            permission.AREA_TWO.STAGE_B,
+          ])
+      ).to.equal(true);
+    });
+
+    it('should grant access by "AND" condition', () => {
+      expect(
+        permissionInstance
+          .and([permission.AREA_TWO.STAGE_A, permission.AREA_ONE.STAGE_B])
+          .check([permission.AREA_TWO.STAGE_A, permission.AREA_ONE.STAGE_B])
+      ).to.equal(true);
+      expect(
+        permissionInstance
+          .and([
+            permission.AREA_ONE.STAGE_A,
+            permission.AREA_TWO.STAGE_A,
+            permission.AREA_ONE.STAGE_B,
+          ])
+          .check([
+            permission.AREA_ONE.STAGE_A,
+            permission.AREA_ONE.STAGE_B,
+            permission.AREA_TWO.STAGE_A,
+          ])
+      ).to.equal(true);
+    });
+
+    it('should restrict access', () => {
+      expect(
+        permissionInstance
+          .and([permission.AREA_TWO.STAGE_A, permission.AREA_ONE.STAGE_B])
+          .or(permission.AREA_ONE.STAGE_A)
+          .check([permission.AREA_ONE.STAGE_B])
+      ).to.equal(false);
+      expect(
+        permissionInstance
+          .and([permission.AREA_TWO.STAGE_A, permission.AREA_ONE.STAGE_B])
+          .or(permission.AREA_ONE.STAGE_A)
+          .check([permission.AREA_TWO.STAGE_B])
+      ).to.equal(false);
+      expect(
+        permissionInstance
+          .and([permission.AREA_TWO.STAGE_A, permission.AREA_ONE.STAGE_B])
+          .or(permission.AREA_ONE.STAGE_A)
+          .check()
+      ).to.equal(false);
     });
   });
 

@@ -47,7 +47,7 @@ const actionHandlers = {
   }),
   [FETCH_PERMISSIONS.SUCCESS]: (state, action) => ({
     ...state,
-    data: action.payload,
+    data: action.payload.map(item => `${item.serviceName};${item.httpMethod};${item.urlPattern}`),
     isLoading: false,
   }),
   [FETCH_PERMISSIONS.FAILURE]: (state, action) => ({
@@ -62,9 +62,11 @@ const actionHandlers = {
   [authActionTypes.SIGN_IN.SUCCESS]: (state, action) => ({
     ...state,
     data: (
-      typeof action.payload.permissions === 'string'
-      ? JSON.parse(action.payload.permissions)
-      : action.payload.permissions
+      action.payload.permissions ?
+        typeof action.payload.permissions === 'string'
+          ? JSON.parse(action.payload.permissions)
+          : action.payload.permissions
+        : []
     ).map(item => `${item.serviceName};${item.httpMethod};${item.urlPattern}`),
   }),
   [authActionTypes.LOGOUT.SUCCESS]: (state, action) => ({

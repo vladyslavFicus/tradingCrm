@@ -4,6 +4,7 @@ import createRequestAction from 'utils/createRequestAction';
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
 const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
+const VALIDATE_TOKEN = createRequestAction(`${KEY}/validate-token`);
 const LOGOUT = createRequestAction(`${KEY}/logout`);
 
 const actionHandlers = {
@@ -24,6 +25,11 @@ const actionHandlers = {
     token: action.payload.jwtToken,
   }),
   [LOGOUT.SUCCESS]: (state, action) => ({ ...initialState, }),
+  [VALIDATE_TOKEN.SUCCESS]: (state, action) => (
+    !action.payload.valid
+      ? { ...initialState, }
+      : state
+  ),
 };
 
 function signIn(data) {
@@ -55,6 +61,26 @@ function refreshToken() {
           Authorization: `Bearer ${token}`,
         },
         types: [REFRESH_TOKEN.REQUEST, REFRESH_TOKEN.SUCCESS, REFRESH_TOKEN.FAILURE],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function validateToken() {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        method: 'GET',
+        endpoint: `/auth/token/validate?token=${token}`,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [VALIDATE_TOKEN.REQUEST, VALIDATE_TOKEN.SUCCESS, VALIDATE_TOKEN.FAILURE],
         bailout: !logged,
       },
     });
@@ -96,6 +122,7 @@ function reducer(state = initialState, action) {
 const actionTypes = {
   SIGN_IN,
   REFRESH_TOKEN,
+  VALIDATE_TOKEN,
   LOGOUT,
 };
 
@@ -103,6 +130,7 @@ const actionCreators = {
   signIn,
   logout,
   refreshToken,
+  validateToken,
 };
 
 export { actionCreators, actionTypes, initialState };
