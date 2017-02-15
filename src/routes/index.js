@@ -4,6 +4,7 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
  * Routes
  */
 import SignInRoute from './SignIn';
+import UserProfileRoute from './UserProfile';
 import DashboardRoute from './Dashboard';
 import UsersRoute from './Users';
 import ProfileReviewRoute from './ProfileReview';
@@ -45,6 +46,7 @@ export const createRoutes = (store) => ({
         ReportsRoute(store),
       ],
     },
+    UserProfileRoute(store),
     NotFoundRoute(store),
   ],
 });

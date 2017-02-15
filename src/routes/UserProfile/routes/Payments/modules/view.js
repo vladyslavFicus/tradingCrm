@@ -3,23 +3,16 @@ import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
 import buildQueryString from 'utils/buildQueryString';
 
-const KEY = 'bonuses';
-const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
+const KEY = 'user/payments';
+const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    if (!filters.playerUUID) {
-      throw new Error('playerUUID not defined');
-    }
-
-    const playerUUID = filters.playerUUID;
-    delete filters.playerUUID;
-
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus/bonuses/${playerUUID}?${buildQueryString(filters)}`,
+        endpoint: `payment/payments?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -43,9 +36,12 @@ function fetchEntities(filters = {}) {
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...action.filters },
+    filters: {
+      ...state.filters,
+      ...action.meta.filters,
+    },
     isLoading: true,
-    error: null,
+    isFailed: false,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,

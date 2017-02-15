@@ -45,3 +45,5 @@
 @import url(./apps/mail.css);
 @import url(./apps/calendar.css);
 @import url(./apps/gallery.css);
+@import url(./user-profile/flags.css);
+@import url(./user-profile/form.css);
