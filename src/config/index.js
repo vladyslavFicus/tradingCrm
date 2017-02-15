@@ -14,6 +14,11 @@ if (window) {
 const config = {
   api: {},
   availableDepartments: [],
+  components: {
+    Currency: {
+      currencies: {},
+    },
+  },
   nas: {
     currencies: {
       base: null,
