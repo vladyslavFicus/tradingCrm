@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import Currency, { currenciesConfig } from './Currency';
+import Currency  from './Currency';
+import config from 'config/index';
 
 const formatMoney = amount => {
   const n = amount.toString();
@@ -23,7 +24,7 @@ class Amount extends Component {
       return null;
     }
 
-    const { symbolOnLeft } = currenciesConfig[currency];
+    const { symbolOnLeft } = config.components.Currency.currencies[currency];
 
     const chunks = [
       <Currency key="currency" code={currency} className={currencyClassName}/>,
