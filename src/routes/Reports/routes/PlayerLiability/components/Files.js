@@ -1,6 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import GridView, { GridColumn } from 'components/GridView';
 import Panel, { Title, Content } from 'components/Panel';
+import PermissionContent from 'components/PermissionContent';
+import Permissions from 'utils/permissions';
+import permission from 'config/permissions';
+
+const viewFileRequiredPermissions = new Permissions([permission.REPORTS.PLAYER_LIABILITY_FILE_VIEW]);
 
 class Files extends Component {
   handlePageChanged = (page, filters) => {
@@ -44,14 +49,16 @@ class Files extends Component {
                 header="Name"
                 headerStyle={{ width: '90%' }}
               />
-              <GridColumn
-                name="actions"
-                header="Actions"
-                headerStyle={{ width: '10%' }}
-                headerClassName={'text-center'}
-                render={this.renderActions}
-                className={'text-center'}
-              />
+              <PermissionContent permissions={viewFileRequiredPermissions}>
+                <GridColumn
+                  name="actions"
+                  header="Actions"
+                  headerStyle={{ width: '10%' }}
+                  headerClassName={'text-center'}
+                  render={this.renderActions}
+                  className={'text-center'}
+                />
+              </PermissionContent>
             </GridView>
           </div>
         </div>

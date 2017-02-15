@@ -1,8 +1,10 @@
+import { actionCreators as authActionCreators } from 'redux/modules/auth';
+
 export default (store) => ({
   path: 'logout',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      cb(null, require('./container/Logout').default);
-    }, 'logout');
+  onEnter(nextState, replace, cb) {
+    store.dispatch(authActionCreators.logout())
+      .then(() => replace('/sign-in'))
+      .then(() => cb());
   },
 });

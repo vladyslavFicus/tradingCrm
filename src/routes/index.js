@@ -1,3 +1,5 @@
+import onEnterStack from 'utils/onEnterStack';
+import requireAuth from 'utils/requireAuth';
 import BaseLayout from '../layouts/BaseLayout';
 import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
 /**
@@ -15,23 +17,11 @@ import NotFoundRoute from './NotFound';
 import LogoutRoute from './Logout';
 import ReportsRoute from './Reports';
 
-export const requireAuth = (store) => (nextState, replace) => {
-  const { auth } = store.getState();
-
-  if (auth.token === null) {
-    replace({
-      pathname: '/sign-in',
-      state: { nextPathname: nextState.location.pathname },
-    });
-  }
-};
-
 export const createRoutes = (store) => ({
   component: BaseLayout,
   childRoutes: [
     SignInRoute(store),
-    {
-      onEnter: requireAuth(store),
+    onEnterStack({
       component: AuthenticatedLayout,
       childRoutes: [
         DashboardRoute(store),
@@ -44,7 +34,7 @@ export const createRoutes = (store) => ({
         LogoutRoute(store),
         ReportsRoute(store),
       ],
-    },
+    }, requireAuth(store)),
     NotFoundRoute(store),
   ],
 });

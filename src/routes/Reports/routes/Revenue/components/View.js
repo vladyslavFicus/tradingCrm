@@ -2,6 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import PreviewGrid from './PreviewGrid';
 import Form from './Form';
+import PermissionContent from 'components/PermissionContent';
+import Permissions from 'utils/permissions';
+import permission from 'config/permissions';
+
+const viewReportPermissions = new Permissions(permission.REPORTS.PLAYER_LIABILITY_VIEW);
 
 class View extends Component {
   constructor(props, context) {
@@ -41,28 +46,28 @@ class View extends Component {
           <h3>Revenue report</h3>
         </Title>
 
-        <Content>
-          <Form
-            fields={form.values}
-            errors={form.errors}
-            onDownload={onDownload}
-            onSubmit={this.handleSubmit}
-          />
+        <PermissionContent permissions={viewReportPermissions}>
+          <Content>
+            <Form
+              fields={form.values}
+              errors={form.errors}
+              onDownload={onDownload}
+              onSubmit={this.handleSubmit}
+            />
 
-          {Object.keys(filters).length > 0 && <PreviewGrid
-            onFiltersChanged={this.handleFiltersChanged}
-            onPageChanged={this.handlePageChanged}
-            reportType={filters.type}
-            filters={filters}
-            {...entities}
-            currency={currency}
-          />}
-        </Content>
+            {Object.keys(filters).length > 0 && <PreviewGrid
+              onFiltersChanged={this.handleFiltersChanged}
+              onPageChanged={this.handlePageChanged}
+              reportType={filters.type}
+              filters={filters}
+              {...entities}
+              currency={currency}
+            />}
+          </Content>
+        </PermissionContent>
       </Panel>
     </div>;
   }
 }
-
-View.propTypes = {};
 
 export default View;
