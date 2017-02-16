@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Tabs from '../components/Tabs';
 import Header from '../components/Header';
-import Information from '../components/Information';
+import Information from '../components/Information/Container';
 
 import { userProfileTabsNew } from 'config/menu';
 import { actionCreators as userProfileActionCreators } from '../modules';
@@ -19,7 +19,7 @@ class ProfileLayout extends Component {
   }
 
   render() {
-    const { profile: { data }, children, params, location } = this.props;
+    const { profile: { data }, children, params, ip, location } = this.props;
 
     return (
       <div className="player container panel ">
@@ -29,6 +29,7 @@ class ProfileLayout extends Component {
           />
           <Information
             data={data}
+            ips={ip.entities.content}
           />
           <hr />
 
@@ -64,6 +65,7 @@ const mapStateToProps = ({ profile: { view: userProfile, bonus, ip } }) => ({
 const mapActions = {
   ...userProfileActionCreators,
   fetchIp: userProfileActionCreators.fetchEntities,
+
   //TODO resolve multi-fetchEntities func conflict
 };
 
