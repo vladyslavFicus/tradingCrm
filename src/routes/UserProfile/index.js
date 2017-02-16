@@ -12,6 +12,7 @@ export default (store) => ({
     require.ensure([], (require) => {
       injectReducer(store, { key: 'userProfile', reducer: require('./modules/view').default });
       injectReducer(store, { key: 'userBonus', reducer: require('./modules/bonus').default });
+      injectReducer(store, { key: 'userIp', reducer: require('./modules/ip').default });
 
       cb(null, require('./layouts/ProfileLayout').default);
     });

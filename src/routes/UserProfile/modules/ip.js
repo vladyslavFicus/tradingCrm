@@ -6,13 +6,13 @@ import createRequestAction from 'utils/createRequestAction';
 const KEY = 'user/ip';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 
-function fetchEntities(filters = {}) {
+function fetchEntities(uuid, filters = {}) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `auth/signin/history?${buildQueryString(filters)}`,
+        endpoint: `auth/signin/history/${uuid}?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

@@ -7,14 +7,16 @@ import Information from '../components/Information';
 import { userProfileTabsNew } from 'config/menu';
 import { actionCreators as profileViewActionCreators } from '../modules/view';
 import { actionCreators as bonusActionCreators } from '../modules/bonus';
+import { actionCreators as ipActionCreators } from '../modules/ip';
 
 class ProfileLayout extends Component {
   componentWillMount() {
-    const { profile, loadFullProfile, fetchActiveBonus, params } = this.props;
+    const { profile, loadFullProfile, fetchActiveBonus, fetchIp, params } = this.props;
 
     if (!profile.isLoading) {
       loadFullProfile(params.id)
-        .then(() => fetchActiveBonus(params.id));
+        .then(() => fetchActiveBonus(params.id))
+        .then(() => fetchIp(params.id, { limit: 10 }));
     }
   }
 
@@ -62,6 +64,7 @@ const mapStateToProps = ({ userProfile, userBonus: bonus }) => ({
 const mapActions = {
   ...profileViewActionCreators,
   ...bonusActionCreators,
+  fetchIp: ipActionCreators.fetchEntities,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);
