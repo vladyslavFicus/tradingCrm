@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import makeRootReducer from './reducers';
 import apiUrl from 'redux/middlewares/apiUrl';
 import { actionCreators as locationActionCreators } from 'redux/modules/location';
+import { actionCreators as permissionsActionCreators } from 'redux/modules/permissions';
 import unauthorized from 'redux/middlewares/unauthorized';
 import updateToken from 'redux/middlewares/updateToken';
 import config from 'config/index';
@@ -44,6 +45,10 @@ export default (initialState = {}, onComplete) => {
     )
   );
   persistStore(store, config.middlewares.persist, () => {
+    if (store.getState().auth && store.getState().auth.logged) {
+      store.dispatch(permissionsActionCreators.fetchPermissions());
+    }
+
     onComplete(store);
   });
 

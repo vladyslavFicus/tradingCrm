@@ -11,17 +11,20 @@ class AuthenticatedLayout extends Component {
       uuid: PropTypes.string,
     }).isRequired,
     location: PropTypes.object,
+    permissions: PropTypes.array,
   };
 
   getChildContext() {
     const {
       user,
       location,
+      permissions,
     } = this.props;
 
     return {
       user,
       location,
+      permissions,
     };
   }
 
@@ -49,10 +52,12 @@ AuthenticatedLayout.propTypes = {
     token: PropTypes.string,
     uuid: PropTypes.string,
   }).isRequired,
+  permissions: PropTypes.array,
 };
 
 const mapStateToProps = (state) => ({
   user: state.auth,
+  permissions: state.permissions.data,
 });
 
 export default connect(mapStateToProps, {})(AuthenticatedLayout);

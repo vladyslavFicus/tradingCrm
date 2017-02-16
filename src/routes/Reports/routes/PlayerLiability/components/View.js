@@ -1,6 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import PermissionContent from 'components/PermissionContent';
+import Permissions from 'utils/permissions';
+import permission from 'config/permissions';
 import Report from './Report';
 import Files from './Files';
+
+const viewFilesPermissions = new Permissions(permission.REPORTS.PLAYER_LIABILITY_FILES_VIEW);
+const viewReportPermissions = new Permissions(permission.REPORTS.PLAYER_LIABILITY_VIEW);
 
 class View extends Component {
   render() {
@@ -15,17 +21,22 @@ class View extends Component {
     } = this.props;
 
     return <div className="page-content-inner">
-      <Files
-        {...files}
-        onDownload={onFilesDownload}
-        onFetch={onFilesFetch}
-      />
-      <Report
-        {...report}
-        onDownload={onReportDownload}
-        onFetch={onReportFetch}
-        currency={currency}
-      />
+      <PermissionContent permissions={viewFilesPermissions}>
+        <Files
+          {...files}
+          onDownload={onFilesDownload}
+          onFetch={onFilesFetch}
+        />
+      </PermissionContent>
+
+      <PermissionContent permissions={viewReportPermissions}>
+        <Report
+          {...report}
+          onDownload={onReportDownload}
+          onFetch={onReportFetch}
+          currency={currency}
+        />
+      </PermissionContent>
     </div>;
   }
 }

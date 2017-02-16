@@ -1,3 +1,6 @@
+import Permissions, { CONDITIONS } from 'utils/permissions';
+import permission from 'config/permissions';
+
 const sidebar = [
   {
     label: 'Users', icon: 'fa fa-users',
@@ -20,8 +23,20 @@ const sidebar = [
   {
     label: 'Reports', icon: 'fa fa-align-justify',
     items: [
-      { label: 'Player liability', url: '/reports/player-liability' },
-      { label: 'Revenue', url: '/reports/revenue' },
+      {
+        label: 'Player liability',
+        url: '/reports/player-liability',
+        permissions: new Permissions([
+          permission.REPORTS.PLAYER_LIABILITY_VIEW,
+          permission.REPORTS.PLAYER_LIABILITY_FILE_VIEW,
+          permission.REPORTS.PLAYER_LIABILITY_FILES_VIEW,
+        ], CONDITIONS.OR),
+      },
+      {
+        label: 'Revenue',
+        url: '/reports/revenue',
+        permissions: new Permissions([permission.REPORTS.VAT_VIEW]),
+      },
     ],
   },
 ];

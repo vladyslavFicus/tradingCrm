@@ -1,20 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
+import Permissions from 'utils/permissions';
 import { stopEvent } from 'utils/helpers';
 
 class SidebarItem extends Component {
-  constructor(props, context) {
-    super(props, context);
+  state = {
+    opened: false,
+  };
 
-    this.state = {
-      opened: false,
-    };
+  static contextTypes = {
+    permissions: PropTypes.array.isRequired,
+  };
 
-    this.handleToggle = this.handleToggle.bind(this);
-  }
-
-  handleToggle(e) {
+  handleToggle = (e) => {
     const { items } = this.props;
 
     if (!!items && items.length > 0) {
@@ -22,22 +21,39 @@ class SidebarItem extends Component {
 
       this.setState({ opened: !this.state.opened });
     }
-  }
+  };
 
-  renderSubItems(opened, items, location) {
+  renderSubItems(opened, items) {
     const style = { display: opened ? 'block' : null };
+
     return <ul className="left-menu-list list-unstyled" style={style}>
-      {items.map((item, key) => <SidebarItem key={key} location={location} {...item}/>)}
+      {items.map(item => item)}
     </ul>;
   }
 
   render() {
     const { opened } = this.state;
     const { label, icon, items, url, location } = this.props;
+    const { permissions: currentPermissions } = this.context;
     const withSubmenu = !!items && items.length > 0;
+    let subMenu = [];
 
     if (!label || !url && !withSubmenu) {
       return null;
+    }
+
+    if (withSubmenu) {
+      subMenu = items.reduce((result, item, key) => {
+        if (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions)) {
+          result.push(<SidebarItem key={key} location={location} {...item}/>);
+        }
+
+        return result;
+      }, []);
+
+      if (!subMenu.length) {
+        return null;
+      }
     }
 
     const className = classNames({
@@ -52,7 +68,7 @@ class SidebarItem extends Component {
         {label}
       </Link>
 
-      {withSubmenu && this.renderSubItems(opened, items, location)}
+      {withSubmenu && this.renderSubItems(opened, subMenu)}
     </li>;
   }
 }
