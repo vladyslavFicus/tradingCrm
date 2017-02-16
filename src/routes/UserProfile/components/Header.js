@@ -19,6 +19,8 @@ class Header extends Component {
         username,
         uuid,
         languageCode,
+        btag,
+        affiliateId,
       },
     } = this.props;
 
@@ -29,7 +31,7 @@ class Header extends Component {
             <div className="player__account pull-left">
               <h1 className="player__account__name">
                 {[firstName, lastName, this.getUserAge()].join(' ')}
-                <i className="green fa fa-check"></i>
+                <i className="green fa fa-check"/>
               </h1>
               <span className="player__account__ids">
                 {[username, uuid, languageCode].join(' - ')}
@@ -40,7 +42,7 @@ class Header extends Component {
                 Negative
               </a>
               <a href="#" className="label label-default font-size-14 margin-inline">
-                <i className="fa fa-plus-square"></i>
+                <i className="fa fa-plus-square" />
               </a>
             </div>
           </div>
@@ -74,7 +76,6 @@ class Header extends Component {
             </div>
             <small className="player__account__registered-date">
               on { moment(registrationDate).format('DD.MM.YYYY') } <br/>
-              from Ukraine
             </small>
           </div>
           <div className="player__account__lastlogin col-md-2">
@@ -82,11 +83,15 @@ class Header extends Component {
             <div className="player__account__lastlogin-current">
               13 Days ago
             </div>
-            <small className="player__account__lastlogin-date">on 13.09.2016 13:00<br/> from Ukraine</small>
+            <small className="player__account__lastlogin-date">on 13.09.2016 13:00</small>
           </div>
           <div className="player__account__affiliate col-md-3">
-            <span className="player__account__affiliate-label text-uppercase">Affiliate</span>
-            <div className="player__account__affiliate-current">BTAG 97897897897897879876</div>
+            <span className="player__account__affiliate-label text-uppercase">
+              Affiliate {' '} { !!affiliateId && affiliateId}
+            </span>
+            <div className="player__account__affiliate-current">
+              BTAG {' '} { !!btag && btag }
+            </div>
           </div>
         </div>
       </div>
