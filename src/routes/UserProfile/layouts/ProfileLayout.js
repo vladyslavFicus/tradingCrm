@@ -5,9 +5,7 @@ import Header from '../components/Header';
 import Information from '../components/Information';
 
 import { userProfileTabsNew } from 'config/menu';
-import { actionCreators as profileViewActionCreators } from '../modules/view';
-import { actionCreators as bonusActionCreators } from '../modules/bonus';
-import { actionCreators as ipActionCreators } from '../modules/ip';
+import { actionCreators as userProfileActionCreators } from '../modules';
 
 class ProfileLayout extends Component {
   componentWillMount() {
@@ -57,14 +55,16 @@ class ProfileLayout extends Component {
     );
   }
 }
-const mapStateToProps = ({ userProfile, userBonus: bonus }) => ({
+const mapStateToProps = ({ profile: { view: userProfile, bonus, ip } }) => ({
   ...userProfile,
   bonus,
+  ip,
 });
+
 const mapActions = {
-  ...profileViewActionCreators,
-  ...bonusActionCreators,
-  fetchIp: ipActionCreators.fetchEntities,
+  ...userProfileActionCreators,
+  fetchIp: userProfileActionCreators.fetchEntities,
+  //TODO resolve multi-fetchEntities func conflict
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);

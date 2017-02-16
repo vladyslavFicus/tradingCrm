@@ -3,7 +3,7 @@ import { actionCreators } from '../modules/list';
 import { actionCreators as bonusActionCreators } from '../../../modules/bonus';
 import List from '../components/List';
 
-const mapStateToProps = ({ userBonus: bonus, userBonusesList: list }) => ({
+const mapStateToProps = ({ profile: { bonus }, userBonusesList: list }) => ({
   list,
   bonus,
 });

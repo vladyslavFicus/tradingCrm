@@ -129,6 +129,7 @@ const actionCreators = {
 };
 
 export {
+  initialState,
   actionTypes,
   actionCreators,
 };
