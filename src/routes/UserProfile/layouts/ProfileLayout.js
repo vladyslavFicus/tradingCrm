@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Tabs from '../components/Tabs';
 import Header from '../components/Header';
-import Status from '../components/Status';
-import moment from 'moment';
+import Information from '../components/Information';
 
 import { userProfileTabsNew } from 'config/menu';
 import { actionCreators as profileViewActionCreators } from '../modules/view';
@@ -28,34 +27,10 @@ class ProfileLayout extends Component {
           <Header
             data={data}
           />
-          <Status
+          <Information
             data={data}
           />
           <hr />
-
-          <div className="player__account__details row panel-body">
-
-            <div className="player__account__details_personal col-md-3">
-              <span className="player__account__details_personal-label">Personal information</span>
-              <div className="panel panel-with-borders">
-                <div className="panel-body padding-5">
-                  {
-                    !!data.birthDate &&
-                    <div><b>Date of birth</b>: {moment().format('DD.MM.YYYY')}</div>
-                  }
-
-                  <div><b>Gender</b>: Male</div>
-                  <div><b>Phone</b>: +380 500777974</div>
-                  <div><b>Email</b>: migoweb@gmail.com</div>
-                  <div><b>Country</b>: Ukraine</div>
-                  <div><b>Full address</b>: vul. Eleny Teligy 1</div>
-                  <div><b>City</b>: Kyiv</div>
-                  <div><b>Post code</b>: 03129</div>
-                </div>
-              </div>
-            </div>
-
-          </div>
 
           <div className="row">
             <section className="panel profile-user-content">

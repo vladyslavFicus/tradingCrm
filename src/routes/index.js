@@ -28,26 +28,30 @@ export const requireAuth = (store) => (nextState, replace) => {
 };
 
 export const createRoutes = (store) => ({
-  component: BaseLayout,
   childRoutes: [
-    SignInRoute(store),
+    UserProfileRoute(store),
     {
-      onEnter: requireAuth(store),
-      component: AuthenticatedLayout,
+      component: BaseLayout,
       childRoutes: [
-        DashboardRoute(store),
-        UsersRoute(store),
-        ProfileReviewRoute(store),
-        PaymentsRoute(store),
-        BonusCampaignsRoute(store),
-        BonusesRoute(store),
-        TermsRoute(store),
-        LogoutRoute(store),
-        ReportsRoute(store),
+        SignInRoute(store),
+        {
+          onEnter: requireAuth(store),
+          component: AuthenticatedLayout,
+          childRoutes: [
+            DashboardRoute(store),
+            UsersRoute(store),
+            ProfileReviewRoute(store),
+            PaymentsRoute(store),
+            BonusCampaignsRoute(store),
+            BonusesRoute(store),
+            TermsRoute(store),
+            LogoutRoute(store),
+            ReportsRoute(store),
+          ],
+        },
+        NotFoundRoute(store),
       ],
     },
-    UserProfileRoute(store),
-    NotFoundRoute(store),
   ],
 });
 
