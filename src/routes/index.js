@@ -20,7 +20,10 @@ import ReportsRoute from './Reports';
 
 export const createRoutes = (store) => ({
   childRoutes: [
-    UserProfileRoute(store),
+    onEnterStack(
+      UserProfileRoute(store),
+      requireAuth(store)
+    ),
     {
       component: BaseLayout,
       childRoutes: [
