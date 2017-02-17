@@ -137,6 +137,9 @@ class List extends Component {
       <Link to={`/users/${data.uuid}/profile`} title={'View user profile'}>
         <i className="fa fa-search"/>
       </Link>
+      <Link to={`/user/${data.uuid}/profile`} title={'View user profile'}>
+        <i className="fa fa-user"/>
+      </Link>
     </div>;
   }
 

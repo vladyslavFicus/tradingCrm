@@ -21,6 +21,7 @@ class Header extends Component {
         languageCode,
         btag,
         affiliateId,
+        profileStatus,
       },
     } = this.props;
 
@@ -37,18 +38,6 @@ class Header extends Component {
                 {[username, uuid, languageCode].join(' - ')}
               </span>
             </div>
-            <div className="player__account__labels">
-              <a href="#" className="label label-danger font-size-14 margin-inline">
-                Negative
-              </a>
-              <a href="#" className="label label-default font-size-14 margin-inline">
-                <i className="fa fa-plus-square" />
-              </a>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <button type="button" className="btn margin-inline">Add note</button>
-            <button type="button" className="btn margin-inline">Reset password</button>
           </div>
         </div>
 
@@ -56,8 +45,7 @@ class Header extends Component {
           <div className="player__account__status col-md-2">
             <a href="#">
               <span className="player__account__status-label text-uppercase">Account Status</span>
-              <div className="player__account__status-current-active">Active</div>
-              <small className="player__account__status-scince">Since 15.11.2016</small>
+              <div className="player__account__status-current-active">{profileStatus}</div>
             </a>
           </div>
           <div className="player__account__balance col-md-3">
@@ -66,7 +54,6 @@ class Header extends Component {
               <div className="player__account__balance-current">
                 <Amount { ...balance } />
               </div>
-              <small className="player__account__balance-additional">RM €15.205,00 + BM €5.000,00</small>
             </a>
           </div>
           <div className="player__account__registered col-md-2">
