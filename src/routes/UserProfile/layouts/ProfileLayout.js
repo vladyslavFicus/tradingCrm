@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Tabs from '../components/Tabs';
 import Header from '../components/Header';
 import Information from '../components/Information/Container';
+import { getAvailableTags } from 'config/index';
 
 import { userProfileTabsNew } from 'config/menu';
 import { actionCreators as userProfileActionCreators } from '../modules';
@@ -19,13 +20,25 @@ class ProfileLayout extends Component {
   }
 
   render() {
-    const { profile: { data }, children, params, ip, location } = this.props;
+    const {
+      profile: { data },
+      children,
+      params,
+      ip,
+      location,
+      availableTags,
+      addTag,
+      deleteTag,
+    } = this.props;
 
     return (
       <div className="player container panel ">
         <div className="container-fluid">
           <Header
             data={data}
+            availableTags={availableTags}
+            addTag={addTag.bind(null, params.id)}
+            deleteTag={deleteTag.bind(null, params.id)}
           />
           <Information
             data={data}
@@ -56,10 +69,11 @@ class ProfileLayout extends Component {
     );
   }
 }
-const mapStateToProps = ({ profile: { view: userProfile, bonus, ip } }) => ({
+const mapStateToProps = ({ profile: { view: userProfile, bonus, ip }, auth }) => ({
   ...userProfile,
   bonus,
   ip,
+  availableTags: getAvailableTags(auth.department),
 });
 
 const mapActions = {

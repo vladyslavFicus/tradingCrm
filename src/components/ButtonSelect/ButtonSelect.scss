@@ -1,0 +1,30 @@
+.button-select {
+  display: inline-block;
+  position: relative;
+
+  & > button {
+    position: relative;
+    z-index: 3;
+  }
+
+  & > .auto-complete {
+    position: absolute;
+    top: -7px;
+    left: -6px;
+    display: none;
+    width: 300px;
+    z-index: 2;
+
+    &.opened {
+      display: block;
+    }
+  }
+
+  & .Select--single > .Select-control .Select-value, .Select-placeholder {
+    left: 20px;
+  }
+
+  & .Select-input {
+    padding-left: 30px;
+  }
+}
