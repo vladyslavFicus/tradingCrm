@@ -14,7 +14,7 @@ class Container extends Component {
         <Personal data={data}/>
         <Additional/>
         <IpList ips={ips}/>
-        <Notes/>
+        {/*<Notes/>*/}
       </div>
     );
   }

@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import Tabs from '../components/Tabs';
 import Header from '../components/Header';
 import Information from '../components/Information/Container';
-
 import { userProfileTabsNew } from 'config/menu';
-import { actionCreators as userProfileActionCreators } from '../modules';
+import { actionCreators as ipActionCreators } from '../modules/ip';
+import { actionCreators as bonusActionCreators } from '../modules/bonus';
+import { actionCreators as viewActionCreators } from '../modules/view';
 
 class ProfileLayout extends Component {
   componentWillMount() {
@@ -63,10 +64,21 @@ const mapStateToProps = ({ profile: { view: userProfile, bonus, ip } }) => ({
 });
 
 const mapActions = {
-  ...userProfileActionCreators,
-  fetchIp: userProfileActionCreators.fetchEntities,
+  fetchIp: ipActionCreators.fetchEntities,
 
-  //TODO resolve multi-fetchEntities func conflict
+  acceptBonus: bonusActionCreators.acceptBonus,
+  cancelBonus: bonusActionCreators.cancelBonus,
+  fetchActiveBonus: bonusActionCreators.fetchActiveBonus,
+
+  checkLock: viewActionCreators.checkLock,
+  fetchBalances: viewActionCreators.fetchBalances,
+  fetchProfile: viewActionCreators.fetchProfile,
+  getBalance: viewActionCreators.getBalance,
+  loadFullProfile: viewActionCreators.loadFullProfile,
+  lockDeposit: viewActionCreators.lockDeposit,
+  lockWithdraw: viewActionCreators.lockWithdraw,
+  unlockDeposit: viewActionCreators.unlockDeposit,
+  unlockWithdraw: viewActionCreators.unlockWithdraw,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);
