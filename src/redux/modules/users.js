@@ -25,16 +25,6 @@ function updateProfile(type) {
   return (uuid, data) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    let params = {
-      firstName: null,
-      lastName: null,
-    };
-
-    params = Object.keys(params).reduce((result, key) => ({
-      ...result,
-      [key]: data[key] || undefined,
-    }), params);
-
     return dispatch({
       [CALL_API]: {
         endpoint: `/profile/profiles/${uuid}`,
@@ -44,7 +34,7 @@ function updateProfile(type) {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(params),
+        body: JSON.stringify(data),
         types: [type.REQUEST, type.SUCCESS, type.FAILURE],
         bailout: !logged,
       },

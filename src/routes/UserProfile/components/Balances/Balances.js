@@ -55,7 +55,7 @@ class Balances extends Component {
 Balances.propTypes = {
   label: PropTypes.any.isRequired,
   accumulatedBalances: PropTypes.shape({
-    data: PropTypes.object.isRequired
+    data: PropTypes.object
   }),
 };
 

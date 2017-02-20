@@ -10,26 +10,31 @@ const attributeLabels = {
 
 const validator = createValidator({
   email: 'required|email',
-  phoneNumber: 'required|phone',
 }, attributeLabels, false);
 
 class ContactForm extends Component {
   render() {
-    const { pristine, submitting } = this.props;
+    const {
+      pristine,
+      submitting,
+      handleSubmit,
+      onSubmit,
+      valid,
+    } = this.props;
 
     return (
       <div>
-        <div className="row">
-          <h5 className="pull-left">Contacts</h5>
-          {
-            !(pristine || submitting) &&
-            <button className="btn btn-sm btn-primary pull-right" disabled={pristine || submitting} type="submit">
-              Save changes
-            </button>
-          }
-        </div>
-        <div className="row">
-          <form>
+        <form role="form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="row">
+            <h5 className="pull-left">Contacts</h5>
+            {
+              !(pristine || submitting || !valid) &&
+              <button className="btn btn-sm btn-primary pull-right" disabled={pristine || submitting} type="submit">
+                Save changes
+              </button>
+            }
+          </div>
+          <div className="row">
             <Field
               name="phoneNumber"
               label={attributeLabels.phoneNumber}
@@ -46,8 +51,8 @@ class ContactForm extends Component {
               wrapperClassName="col-lg-4"
               showErrorMessage
             />
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     );
   }
