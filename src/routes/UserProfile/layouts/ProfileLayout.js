@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Tabs from '../components/Tabs';
 import Header from '../components/Header';
 import Information from '../components/Information/Container';
-import { userProfileTabsNew } from 'config/menu';
+import { userProfileTabs } from 'config/menu';
 
 class ProfileLayout extends Component {
   componentWillMount() {
@@ -35,7 +35,7 @@ class ProfileLayout extends Component {
               <div className="panel-body">
                 <div className="nav-tabs-horizontal">
                   <Tabs
-                    items={userProfileTabsNew}
+                    items={userProfileTabs}
                     location={location}
                     params={params}
                   />
