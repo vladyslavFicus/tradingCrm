@@ -16,13 +16,23 @@ class ProfileLayout extends Component {
   }
 
   render() {
-    const { profile: { data }, children, params, ip, location } = this.props;
+    const {
+      profile: { data },
+      children,
+      params,
+      ip,
+      location,
+      availableStatuses,
+      changeStatus,
+    } = this.props;
 
     return (
       <div className="player container panel ">
         <div className="container-fluid">
           <Header
             data={data}
+            availableStatuses={availableStatuses}
+            onStatusChange={changeStatus}
           />
           <Information
             data={data}
