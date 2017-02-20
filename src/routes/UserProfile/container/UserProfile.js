@@ -3,11 +3,17 @@ import { actionCreators as ipActionCreators } from '../modules/ip';
 import { actionCreators as bonusActionCreators } from '../modules/bonus';
 import { actionCreators as viewActionCreators } from '../modules/view';
 import ProfileLayout from '../layouts/ProfileLayout';
+import { statusActions } from 'config/user';
 
 const mapStateToProps = ({ profile: { view: userProfile, bonus, ip } }) => ({
   ...userProfile,
   bonus,
   ip,
+  availableStatuses: userProfile && userProfile.profile && userProfile.profile.data
+    ? statusActions[userProfile.profile.data.profileStatus]
+      ? statusActions[userProfile.profile.data.profileStatus]
+      : []
+    : [],
 });
 
 const mapActions = {
@@ -24,6 +30,7 @@ const mapActions = {
   lockWithdraw: viewActionCreators.lockWithdraw,
   unlockDeposit: viewActionCreators.unlockDeposit,
   unlockWithdraw: viewActionCreators.unlockWithdraw,
+  changeStatus: viewActionCreators.changeStatus,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);

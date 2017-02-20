@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import AccountStatusModal from './AccountStatusModal';
+import { suspendPeriods } from 'config/user';
 import moment from 'moment';
 
 class AccountStatus extends Component {
@@ -49,11 +50,11 @@ class AccountStatus extends Component {
   handleSubmit = ({ period, ...data }) => {
     this.handleModalHide(null, () => {
       if (period) {
-        if (period === 'day') {
+        if (period === suspendPeriods.DAY) {
           data.suspendEndDate = moment().add(1, 'days').format('YYYY-MM-DD\THH:mm:ss');
-        } else if (period === 'week') {
+        } else if (period === suspendPeriods.WEEK) {
           data.suspendEndDate = moment().add(7, 'days').format('YYYY-MM-DD\THH:mm:ss');
-        } else if (period === 'month') {
+        } else if (period === suspendPeriods.MONTH) {
           data.suspendEndDate = moment().add(1, 'months').format('YYYY-MM-DD\THH:mm:ss');
         }
       }
