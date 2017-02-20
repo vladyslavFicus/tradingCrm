@@ -63,6 +63,10 @@ function fetchProfile(uuid) {
   return usersActionCreators.fetchProfile(PROFILE)(uuid);
 }
 
+function updateProfile(uuid, data) {
+  return usersActionCreators.updateProfile(PROFILE)(uuid, data);
+}
+
 function getBalance(uuid) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -398,6 +402,7 @@ const actionTypes = {
 
 const actionCreators = {
   fetchProfile,
+  updateProfile,
   getBalance,
   loadFullProfile,
   checkLock,

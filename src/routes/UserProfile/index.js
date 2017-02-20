@@ -7,12 +7,12 @@ import LimitsRoute from './routes/Limits';
 import { injectReducer } from 'store/reducers';
 
 export default (store) => ({
-  path: 'user',
+  path: 'users',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, { key: 'profile', reducer: require('./modules').default });
 
-      cb(null, require('./layouts/ProfileLayout').default);
+      cb(null, require('./container/UserProfile').default);
     });
   },
 

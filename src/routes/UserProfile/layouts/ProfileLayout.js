@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Tabs from '../components/Tabs';
 import Header from '../components/Header';
 import Information from '../components/Information/Container';
-import { userProfileTabsNew } from 'config/menu';
-import { actionCreators as ipActionCreators } from '../modules/ip';
-import { actionCreators as bonusActionCreators } from '../modules/bonus';
-import { actionCreators as viewActionCreators } from '../modules/view';
+import { userProfileTabs } from 'config/menu';
 
 class ProfileLayout extends Component {
   componentWillMount() {
@@ -39,7 +35,7 @@ class ProfileLayout extends Component {
               <div className="panel-body">
                 <div className="nav-tabs-horizontal">
                   <Tabs
-                    items={userProfileTabsNew}
+                    items={userProfileTabs}
                     location={location}
                     params={params}
                   />
@@ -57,28 +53,5 @@ class ProfileLayout extends Component {
     );
   }
 }
-const mapStateToProps = ({ profile: { view: userProfile, bonus, ip } }) => ({
-  ...userProfile,
-  bonus,
-  ip,
-});
 
-const mapActions = {
-  fetchIp: ipActionCreators.fetchEntities,
-
-  acceptBonus: bonusActionCreators.acceptBonus,
-  cancelBonus: bonusActionCreators.cancelBonus,
-  fetchActiveBonus: bonusActionCreators.fetchActiveBonus,
-
-  checkLock: viewActionCreators.checkLock,
-  fetchBalances: viewActionCreators.fetchBalances,
-  fetchProfile: viewActionCreators.fetchProfile,
-  getBalance: viewActionCreators.getBalance,
-  loadFullProfile: viewActionCreators.loadFullProfile,
-  lockDeposit: viewActionCreators.lockDeposit,
-  lockWithdraw: viewActionCreators.lockWithdraw,
-  unlockDeposit: viewActionCreators.unlockDeposit,
-  unlockWithdraw: viewActionCreators.unlockWithdraw,
-};
-
-export default connect(mapStateToProps, mapActions)(ProfileLayout);
+export default ProfileLayout;
