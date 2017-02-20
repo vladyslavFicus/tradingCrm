@@ -69,7 +69,4 @@ class View extends Component {
   }
 }
 
-View.propTypes = {};
-View.defaultProps = {};
-
 export default View;
