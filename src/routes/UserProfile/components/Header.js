@@ -3,6 +3,7 @@ import moment from 'moment';
 import Amount from 'components/Amount';
 import AccountStatus from './AccountStatus';
 import { SubmissionError } from 'redux-form';
+import Balances from './Balances';
 
 class Header extends Component {
   getUserAge = () => {
@@ -37,6 +38,7 @@ class Header extends Component {
         suspendEndDate,
       },
       availableStatuses,
+      accumulatedBalances,
     } = this.props;
 
     return (
@@ -75,12 +77,19 @@ class Header extends Component {
             />
           </div>
           <div className="player__account__balance col-md-3">
-            <a href="#">
-              <span className="player__account__balance-label text-uppercase">Balance</span>
-              <div className="player__account__balance-current">
-                <Amount { ...balance } />
-              </div>
-            </a>
+            {
+              <Balances
+                label={
+                  <div>
+                    <span className="player__account__balance-label text-uppercase">Balance</span>
+                    <div className="player__account__balance-current">
+                      <Amount { ...balance } />
+                    </div>
+                  </div>
+                }
+                accumulatedBalances={accumulatedBalances}
+              />
+            }
           </div>
           <div className="player__account__registered col-md-2">
             <span className="player__account__registered-label text-uppercase">Registered</span>

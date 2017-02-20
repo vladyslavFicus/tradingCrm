@@ -6,12 +6,20 @@ import { userProfileTabs } from 'config/menu';
 
 class ProfileLayout extends Component {
   componentWillMount() {
-    const { profile, loadFullProfile, fetchActiveBonus, fetchIp, params } = this.props;
+    const {
+      profile,
+      loadFullProfile,
+      fetchActiveBonus,
+      fetchIp,
+      fetchAccumulatedBalances,
+      params,
+    } = this.props;
 
     if (!profile.isLoading) {
       loadFullProfile(params.id)
         .then(() => fetchActiveBonus(params.id))
-        .then(() => fetchIp(params.id, { limit: 10 }));
+        .then(() => fetchIp(params.id, { limit: 10 }))
+        .then(() => fetchAccumulatedBalances(params.id));
     }
   }
 
@@ -23,6 +31,7 @@ class ProfileLayout extends Component {
       ip,
       location,
       availableStatuses,
+      accumulatedBalances,
       changeStatus,
     } = this.props;
 
@@ -31,6 +40,7 @@ class ProfileLayout extends Component {
         <div className="container-fluid">
           <Header
             data={data}
+            accumulatedBalances={accumulatedBalances}
             availableStatuses={availableStatuses}
             onStatusChange={changeStatus}
           />

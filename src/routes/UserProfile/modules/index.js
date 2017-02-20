@@ -18,15 +18,23 @@ import ip, {
   initialState as ipInitialState,
 } from './ip';
 
+import accumulatedBalances, {
+  actionCreators as balancesActionCreators,
+  actionTypes as balancesActionTypes,
+  initialState as balancesInitialState,
+} from './accumulatedBalances';
+
 const actionCreators = {
   ...bonusActionCreators,
   ...viewActionCreators,
   ...ipActionCreators,
+  ...balancesActionCreators,
 };
 const actionTypes = {
   ...bonusActionTypes,
   ...viewActionTypes,
   ...ipActionTypes,
+  ...balancesActionTypes,
 };
 export {
   actionTypes,
@@ -36,12 +44,14 @@ const initialState = {
   bonus: bonusInitialState,
   view: viewInitialState,
   ip: ipInitialState,
+  accumulatedBalances: balancesInitialState,
 };
 export default (state = initialState, action) => {
   const reducer = combineReducers({
     bonus,
     view,
     ip,
+    accumulatedBalances,
   });
 
   return reducer(state, action);
