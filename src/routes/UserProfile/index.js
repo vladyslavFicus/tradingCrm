@@ -12,7 +12,7 @@ export default (store) => ({
     require.ensure([], (require) => {
       injectReducer(store, { key: 'profile', reducer: require('./modules').default });
 
-      cb(null, require('./layouts/ProfileLayout').default);
+      cb(null, require('./container/UserProfile').default);
     });
   },
 
