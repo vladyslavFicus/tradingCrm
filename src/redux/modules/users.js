@@ -21,6 +21,37 @@ function fetchProfile(type) {
   };
 }
 
+function updateProfile(type) {
+  return (uuid, data) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    let params = {
+      firstName: null,
+      lastName: null,
+    };
+
+    params = Object.keys(params).reduce((result, key) => ({
+      ...result,
+      [key]: data[key] || undefined,
+    }), params);
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/profiles/${uuid}`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+        types: [type.REQUEST, type.SUCCESS, type.FAILURE],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function fetchEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -79,6 +110,7 @@ const actionTypes = {};
 const actionCreators = {
   fetchProfile,
   fetchEntities,
+  updateProfile,
 };
 
 export {
