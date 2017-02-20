@@ -1,35 +1,7 @@
-import { injectReducer } from 'store/reducers';
-
-import ProfileRoute from './Profile';
-import DocumentsRoute from './Documents';
-import GameActivityRoute from './GameActivity';
-import PaymentsRoute from './Payments';
-import BonusesRoute from './Bonuses';
-import LimitsRoute from './Limits';
-
 import ListRoute from './List';
 import DormantRoute from './Dormant';
 
 export default (store) => [
   ListRoute(store),
   DormantRoute(store),
-  {
-    getComponent(nextState, cb) {
-      require.ensure([], (require) => {
-        injectReducer(store, { key: 'userProfile', reducer: require('../modules/view').default });
-        injectReducer(store, { key: 'userBonus', reducer: require('../modules/bonus').default });
-
-        cb(null, require('../layouts/Profile').default);
-      });
-    },
-
-    childRoutes: [
-      ProfileRoute(store),
-      DocumentsRoute(store),
-      GameActivityRoute(store),
-      PaymentsRoute(store),
-      BonusesRoute(store),
-      LimitsRoute(store),
-    ],
-  },
 ];
