@@ -4,18 +4,20 @@ import AccountStatusModal from './AccountStatusModal';
 import { suspendPeriods } from 'config/user';
 import moment from 'moment';
 
+const initialState = {
+  dropDownOpen: false,
+  modal: {
+    show: false,
+    params: {},
+  },
+};
+
 class AccountStatus extends Component {
-  state = {
-    dropdownOpen: false,
-    modal: {
-      show: false,
-      params: {},
-    },
-  };
+  state = { ...initialState };
 
   toggle = () => {
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      dropDownOpen: !this.state.dropDownOpen
     });
   };
 
@@ -36,10 +38,7 @@ class AccountStatus extends Component {
 
   handleModalHide = (e, callback) => {
     this.setState({
-      modal: {
-        show: false,
-        params: {},
-      },
+      modal: { ...initialState.modal },
     }, function () {
       if (typeof callback === 'function') {
         callback();
@@ -64,20 +63,20 @@ class AccountStatus extends Component {
   };
 
   render() {
-    const { dropdownOpen, modal } = this.state;
+    const { dropDownOpen, modal } = this.state;
     const { label, availableStatuses } = this.props;
 
     return (
       availableStatuses.length === 0
         ? label
-        : this.renderDropDown(label, availableStatuses, dropdownOpen, modal)
+        : this.renderDropDown(label, availableStatuses, dropDownOpen, modal)
     );
   }
 
-  renderDropDown = (label, availableStatuses, dropdownOpen, modal) => {
+  renderDropDown = (label, availableStatuses, dropDownOpen, modal) => {
     return (
       <div>
-        <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
+        <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
           <span onClick={this.toggle}>{label}</span>
 
           <DropdownMenu>
@@ -110,6 +109,7 @@ class AccountStatus extends Component {
 AccountStatus.propTypes = {
   label: PropTypes.any.isRequired,
   availableStatuses: PropTypes.array.isRequired,
+  onStatusChange: PropTypes.func.isRequired,
 };
 
 export default AccountStatus;

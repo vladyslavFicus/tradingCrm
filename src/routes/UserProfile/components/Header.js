@@ -12,8 +12,10 @@ class Header extends Component {
   };
 
   handleStatusChange = (data) => {
-    if (this.props.data && this.props.data.uuid) {
-      this.props.onStatusChange({ ...data, playerUUID: this.props.data.uuid });
+    const { data: profileData, onStatusChange } = this.props;
+
+    if (profileData && profileData.uuid) {
+      onStatusChange({ ...data, playerUUID: profileData.uuid });
     } else {
       throw new SubmissionError({ _error: 'User uuid not found.' })
     }
@@ -111,7 +113,22 @@ class Header extends Component {
   }
 }
 
-Header.propTypes = {};
-Header.defaultProps = {};
+Header.propTypes = {
+  data: PropTypes.shape({
+    balance: PropTypes.object,
+    registrationDate: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    username: PropTypes.string,
+    uuid: PropTypes.string,
+    languageCode: PropTypes.string,
+    btag: PropTypes.string,
+    affiliateId: PropTypes.string,
+    profileStatus: PropTypes.string,
+    suspendEndDate: PropTypes.string,
+  }),
+  availableStatuses: PropTypes.array,
+  onStatusChange: PropTypes.func.isRequired,
+};
 
 export default Header;
