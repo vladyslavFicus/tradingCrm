@@ -50,17 +50,7 @@ const userProfileTabs = [
   { label: 'Limits', url: '/users/:id/limits' },
 ];
 
-const userProfileTabsNew = [
-  { label: 'Profile', url: '/user/:id/profile' },
-  { label: 'Documents', url: '/user/:id/documents' },
-  { label: 'Payments', url: '/user/:id/payments' },
-  { label: 'Game activity', url: '/user/:id/game-activity' },
-  { label: 'Bonuses', url: '/user/:id/bonuses' },
-  { label: 'Limits', url: '/user/:id/limits' },
-];
-
 export {
   sidebar,
   userProfileTabs,
-  userProfileTabsNew,
 };
