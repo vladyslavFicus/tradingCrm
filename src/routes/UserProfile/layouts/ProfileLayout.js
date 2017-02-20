@@ -25,6 +25,8 @@ class ProfileLayout extends Component {
       availableTags,
       addTag,
       deleteTag,
+      availableStatuses,
+      changeStatus,
     } = this.props;
 
     return (
@@ -32,6 +34,8 @@ class ProfileLayout extends Component {
         <div className="container-fluid">
           <Header
             data={data}
+            availableStatuses={availableStatuses}
+            onStatusChange={changeStatus}
             availableTags={availableTags}
             addTag={addTag.bind(null, params.id)}
             deleteTag={deleteTag.bind(null, params.id)}

@@ -4,12 +4,18 @@ import { actionCreators as bonusActionCreators } from '../modules/bonus';
 import { actionCreators as viewActionCreators } from '../modules/view';
 import ProfileLayout from '../layouts/ProfileLayout';
 import { getAvailableTags } from 'config/index';
+import { statusActions } from 'config/user';
 
 const mapStateToProps = ({ profile: { view: userProfile, bonus, ip }, auth }) => ({
   ...userProfile,
   bonus,
   ip,
   availableTags: getAvailableTags(auth.department),
+  availableStatuses: userProfile && userProfile.profile && userProfile.profile.data
+    ? statusActions[userProfile.profile.data.profileStatus]
+      ? statusActions[userProfile.profile.data.profileStatus]
+      : []
+    : [],
 });
 
 const mapActions = {
@@ -28,6 +34,7 @@ const mapActions = {
   unlockWithdraw: viewActionCreators.unlockWithdraw,
   addTag: viewActionCreators.addTag,
   deleteTag: viewActionCreators.deleteTag,
+  changeStatus: viewActionCreators.changeStatus,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);

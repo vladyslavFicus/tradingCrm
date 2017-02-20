@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import Amount from 'components/Amount';
+import AccountStatus from './AccountStatus';
+import { SubmissionError } from 'redux-form';
 import ProfileTags from 'components/ProfileTags';
 
 class Header extends Component {
@@ -18,6 +20,16 @@ class Header extends Component {
     this.props.deleteTag(option.id);
   };
 
+  handleStatusChange = (data) => {
+    const { data: profileData, onStatusChange } = this.props;
+
+    if (profileData && profileData.uuid) {
+      onStatusChange({ ...data, playerUUID: profileData.uuid });
+    } else {
+      throw new SubmissionError({ _error: 'User uuid not found.' })
+    }
+  };
+
   render() {
     const {
       data: {
@@ -31,8 +43,10 @@ class Header extends Component {
         btag,
         affiliateId,
         profileStatus,
+        suspendEndDate,
         profileTags,
       },
+      availableStatuses,
       availableTags,
     } = this.props;
     const selectedTags = profileTags
@@ -74,10 +88,22 @@ class Header extends Component {
 
         <div className="row panel-body">
           <div className="player__account__status col-md-2">
-            <a href="#">
-              <span className="player__account__status-label text-uppercase">Account Status</span>
-              <div className="player__account__status-current-active">{profileStatus}</div>
-            </a>
+            <AccountStatus
+              onStatusChange={this.handleStatusChange}
+              label={
+                <div>
+                  <span className="player__account__status-label text-uppercase">Account Status</span>
+                  <div className="player__account__status-current-active">{profileStatus}</div>
+                  {
+                    !!suspendEndDate &&
+                    <small className="player__account__status-scince">
+                      Until {moment(suspendEndDate).format('L')}
+                    </small>
+                  }
+                </div>
+              }
+              availableStatuses={availableStatuses}
+            />
           </div>
           <div className="player__account__balance col-md-3">
             <a href="#">
@@ -118,7 +144,24 @@ class Header extends Component {
   }
 }
 
-Header.propTypes = {};
-Header.defaultProps = {};
+Header.propTypes = {
+  data: PropTypes.shape({
+    balance: PropTypes.object,
+    registrationDate: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    username: PropTypes.string,
+    uuid: PropTypes.string,
+    languageCode: PropTypes.string,
+    btag: PropTypes.string,
+    affiliateId: PropTypes.string,
+    profileStatus: PropTypes.string,
+    suspendEndDate: PropTypes.string,
+    profileTags: PropTypes.array,
+  }),
+  availableStatuses: PropTypes.array,
+  availableTags: PropTypes.array,
+  onStatusChange: PropTypes.func.isRequired,
+};
 
 export default Header;
