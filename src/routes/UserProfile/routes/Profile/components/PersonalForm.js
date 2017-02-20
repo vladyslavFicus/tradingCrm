@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { InputField, SingleDateField, SelectField } from 'components/ReduxForm/UserProfile';
-import { createValidator } from '../../../../../utils/validator';
+import { createValidator } from 'utils/validator';
 
 const genders = ['male', 'female'];
 

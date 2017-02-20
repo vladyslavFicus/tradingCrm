@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { InputField } from 'components/ReduxForm/UserProfile';
 import { Field, reduxForm } from 'redux-form';
-import { createValidator } from '../../../../../utils/validator';
+import { createValidator } from 'utils/validator';
 
 const attributeLabels = {
   phoneNumber: 'Phone',
