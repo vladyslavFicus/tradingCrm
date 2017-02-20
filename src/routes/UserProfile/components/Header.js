@@ -1,12 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import Amount from 'components/Amount';
+import AccountStatus from './AccountStatus';
+import { SubmissionError } from 'redux-form';
 
 class Header extends Component {
   getUserAge = () => {
-    const { data: { birthDate }} = this.props;
+    const { data: { birthDate } } = this.props;
 
     return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
+  };
+
+  handleStatusChange = (data) => {
+    if (this.props.data && this.props.data.uuid) {
+      this.props.onStatusChange({ ...data, playerUUID: this.props.data.uuid });
+    } else {
+      throw new SubmissionError({ _error: 'User uuid not found.' })
+    }
   };
 
   render() {
@@ -22,7 +32,9 @@ class Header extends Component {
         btag,
         affiliateId,
         profileStatus,
+        suspendEndDate,
       },
+      availableStatuses,
     } = this.props;
 
     return (
@@ -43,10 +55,22 @@ class Header extends Component {
 
         <div className="row panel-body">
           <div className="player__account__status col-md-2">
-            <a href="#">
-              <span className="player__account__status-label text-uppercase">Account Status</span>
-              <div className="player__account__status-current-active">{profileStatus}</div>
-            </a>
+            <AccountStatus
+              onStatusChange={this.handleStatusChange}
+              label={
+                <div>
+                  <span className="player__account__status-label text-uppercase">Account Status</span>
+                  <div className="player__account__status-current-active">{profileStatus}</div>
+                  {
+                    !!suspendEndDate &&
+                    <small className="player__account__status-scince">
+                      Until {moment(suspendEndDate).format('L')}
+                    </small>
+                  }
+                </div>
+              }
+              availableStatuses={availableStatuses}
+            />
           </div>
           <div className="player__account__balance col-md-3">
             <a href="#">

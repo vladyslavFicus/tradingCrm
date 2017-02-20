@@ -7,6 +7,7 @@ import { userProfileTabsNew } from 'config/menu';
 import { actionCreators as ipActionCreators } from '../modules/ip';
 import { actionCreators as bonusActionCreators } from '../modules/bonus';
 import { actionCreators as viewActionCreators } from '../modules/view';
+import { statusActions } from 'config/user';
 
 class ProfileLayout extends Component {
   componentWillMount() {
@@ -20,13 +21,15 @@ class ProfileLayout extends Component {
   }
 
   render() {
-    const { profile: { data }, children, params, ip, location } = this.props;
+    const { profile: { data }, children, params, ip, location, nextStatuses, changeStatus } = this.props;
 
     return (
       <div className="player container panel ">
         <div className="container-fluid">
           <Header
             data={data}
+            nextStatuses={nextStatuses}
+            onStatusChange={changeStatus}
           />
           <Information
             data={data}
@@ -58,13 +61,20 @@ class ProfileLayout extends Component {
   }
 }
 const mapStateToProps = ({ profile: { view: userProfile, bonus, ip } }) => ({
-  ...userProfile,
-  bonus,
-  ip,
-});
+    ...userProfile,
+    bonus,
+    ip,
+    nextStatuses: userProfile && userProfile.profile && userProfile.profile.data
+      ? statusActions[userProfile.profile.data.profileStatus]
+        ? statusActions[userProfile.profile.data.profileStatus]
+        : []
+      : [],
+  })
+;
 
 const mapActions = {
   fetchIp: ipActionCreators.fetchEntities,
+  changeStatus: viewActionCreators.changeStatus,
 
   acceptBonus: bonusActionCreators.acceptBonus,
   cancelBonus: bonusActionCreators.cancelBonus,
