@@ -16,13 +16,25 @@ class ProfileLayout extends Component {
   }
 
   render() {
-    const { profile: { data }, children, params, ip, location } = this.props;
+    const {
+      profile: { data },
+      children,
+      params,
+      ip,
+      location,
+      availableTags,
+      addTag,
+      deleteTag,
+    } = this.props;
 
     return (
       <div className="player container panel ">
         <div className="container-fluid">
           <Header
             data={data}
+            availableTags={availableTags}
+            addTag={addTag.bind(null, params.id)}
+            deleteTag={deleteTag.bind(null, params.id)}
           />
           <Information
             data={data}

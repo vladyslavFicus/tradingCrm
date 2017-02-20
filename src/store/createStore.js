@@ -9,14 +9,13 @@ import { actionCreators as locationActionCreators } from 'redux/modules/location
 import { actionCreators as permissionsActionCreators } from 'redux/modules/permissions';
 import unauthorized from 'redux/middlewares/unauthorized';
 import updateToken from 'redux/middlewares/updateToken';
-import refreshToken from 'redux/middlewares/refreshToken';
 import config from 'config/index';
 
 export default (initialState = {}, onComplete) => {
   const middleware = [
     thunk,
     apiUrl,
-    __DEV__ ? refreshToken() : updateToken({}),
+    updateToken({}),
     apiMiddleware,
     unauthorized(config.middlewares.unauthorized),
   ];

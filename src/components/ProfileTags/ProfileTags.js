@@ -33,7 +33,7 @@ class ProfileTags extends PureComponent {
 
   handleSelect = (value) => {
     this.handleToggleAutoComplete(() => {
-      this.props.onSelectValue(value);
+      this.props.onAdd(value);
     });
   };
 
@@ -43,7 +43,7 @@ class ProfileTags extends PureComponent {
         <button
           type="button"
           className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]}`}
-          onClick={(e) => this.props.onDeleteValue(tag)}
+          onClick={(e) => this.props.onDelete(tag)}
         >&times;</button>
         <span className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]}`}>
         {tag.value}
@@ -65,7 +65,7 @@ class ProfileTags extends PureComponent {
     return <div>
       {this.renderTags(value)}
 
-      <ButtonSelect
+      {options.length > 0 && <ButtonSelect
         opened={showAutoComplete}
         className="btn btn-xs btn-default font-size-14 margin-inline"
         onChange={this.handleSelect}
@@ -75,14 +75,14 @@ class ProfileTags extends PureComponent {
         label={<i className="fa fa-plus-square"/>}
         handleClickOutside={this.handleOutsideClick}
         disableClickOutside={!showAutoComplete}
-      />
+      />}
     </div>;
   }
 }
 
 ProfileTags.propTypes = {
-  onSelectValue: PropTypes.func.isRequired,
-  onDeleteValue: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default ProfileTags;

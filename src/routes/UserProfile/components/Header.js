@@ -1,12 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import Amount from 'components/Amount';
+import ProfileTags from 'components/ProfileTags';
 
 class Header extends Component {
   getUserAge = () => {
-    const { data: { birthDate }} = this.props;
+    const { data: { birthDate } } = this.props;
 
     return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
+  };
+
+  handleTagAdd = (option) => {
+    this.props.addTag(option.value, option.priority);
+  };
+
+  handleTagDelete = (option) => {
+    this.props.deleteTag(option.id);
   };
 
   render() {
@@ -22,22 +31,44 @@ class Header extends Component {
         btag,
         affiliateId,
         profileStatus,
+        profileTags,
       },
+      availableTags,
     } = this.props;
+    const selectedTags = profileTags
+      ? profileTags.map(option => `${option.tagPriority}/${option.tag}`)
+      : [];
+    const availableOptions = selectedTags && availableTags
+      ? availableTags.filter(option => selectedTags.indexOf(`${option.priority}/${option.value}`) === -1)
+      : [];
+    const valueOptions = profileTags
+      ? profileTags.map(option => ({
+        id: option.id,
+        label: option.tag,
+        value: option.tag,
+        priority: option.tagPriority,
+      }))
+      : [];
 
     return (
       <div>
         <div className="row panel-heading">
-          <div className="col-md-8">
-            <div className="player__account pull-left">
-              <h1 className="player__account__name">
-                {[firstName, lastName, this.getUserAge()].join(' ')}
-                <i className="green fa fa-check"/>
-              </h1>
-              <span className="player__account__ids">
+          <div className="col-md-4">
+            <h1 className="player__account__name">
+              {[firstName, lastName, this.getUserAge()].join(' ')}
+              <i className="green fa fa-check"/>
+            </h1>
+            <span className="player__account__ids">
                 {[username, uuid, languageCode].join(' - ')}
               </span>
-            </div>
+          </div>
+          <div className="col-md-4">
+            {profileTags && <ProfileTags
+              onAdd={this.handleTagAdd}
+              options={availableOptions}
+              value={valueOptions}
+              onDelete={this.handleTagDelete}
+            />}
           </div>
         </div>
 
