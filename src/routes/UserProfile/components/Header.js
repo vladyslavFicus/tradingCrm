@@ -12,6 +12,19 @@ class Header extends Component {
     return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
   };
 
+  getRealWithBonusBalance = () => {
+    const { data: { balance }, bonus: { data: bonus } } = this.props;
+    
+    const content = !bonus ?
+      <div>RM <Amount { ...balance } /> + BM <Amount amount="0" currency={balance.currency} /></div> :
+      <div>
+        RM <Amount amount={balance.amount - bonus.balance.amount} currency={balance.currency} /> +
+        BM <Amount { ...bonus.balance } />
+      </div>;
+
+    return <small className="player__account__balance-additional"> {content} </small>;
+  };
+
   handleStatusChange = (data) => {
     const { data: profileData, onStatusChange } = this.props;
 
@@ -85,6 +98,7 @@ class Header extends Component {
                     <div className="player__account__balance-current">
                       <Amount { ...balance } />
                     </div>
+                    { this.getRealWithBonusBalance() }
                   </div>
                 }
                 accumulatedBalances={accumulatedBalances}
