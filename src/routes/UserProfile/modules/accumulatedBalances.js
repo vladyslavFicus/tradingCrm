@@ -38,11 +38,11 @@ const actionHandlers = {
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
     data: {
-      walletCurrencyDeposits: Object.keys(action.payload.walletCurrencyDeposits).length !== 0 ? {
+      deposits: Object.keys(action.payload.walletCurrencyDeposits).length !== 0 ? {
         amount: action.payload.walletCurrencyDeposits[Object.keys(action.payload.walletCurrencyDeposits)[0]],
         currency: Object.keys(action.payload.walletCurrencyDeposits)[0],
       } : null,
-      walletCurrencyWithdraws: Object.keys(action.payload.walletCurrencyWithdraws).length !== 0 ? {
+      withdraws: Object.keys(action.payload.walletCurrencyWithdraws).length !== 0 ? {
         amount: action.payload.walletCurrencyWithdraws[Object.keys(action.payload.walletCurrencyWithdraws)[0]],
         currency: Object.keys(action.payload.walletCurrencyWithdraws)[0],
       } : null,
@@ -59,7 +59,13 @@ const actionHandlers = {
 };
 
 const initialState = {
-  data: null,
+  data: {
+    deposits: null,
+    withdraws: null,
+    total: null,
+    bonus: null,
+    real: null,
+  },
   error: null,
   isLoading: false,
   receivedAt: null,

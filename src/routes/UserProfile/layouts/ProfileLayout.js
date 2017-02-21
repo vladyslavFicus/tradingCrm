@@ -26,7 +26,6 @@ class ProfileLayout extends Component {
   render() {
     const {
       profile: { data },
-      bonus,
       children,
       params,
       ip,
@@ -44,7 +43,6 @@ class ProfileLayout extends Component {
         <div className="container-fluid">
           <Header
             data={data}
-            bonus={bonus}
             accumulatedBalances={accumulatedBalances}
             availableStatuses={availableStatuses}
             onStatusChange={changeStatus}

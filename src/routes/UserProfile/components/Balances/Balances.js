@@ -29,22 +29,14 @@ class Balances extends Component {
       <div>
         <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
           <span onClick={this.toggle}>{label}</span>
-          {
-            !!data.walletCurrencyDeposits &&
             <DropdownMenu>
               <DropdownItem>
-                Deposit - <Amount { ...data.walletCurrencyDeposits } />
+                Deposit - <Amount { ...data.deposits } />
               </DropdownItem>
-            </DropdownMenu>
-          }
-          {
-            !!data.walletCurrencyWithdraws &&
-            <DropdownMenu>
               <DropdownItem>
-                Withdraws - <Amount { ...data.walletCurrencyWithdraws } />
+                Withdraws - <Amount { ...data.withdraws } />
               </DropdownItem>
             </DropdownMenu>
-          }
         </Dropdown>
       </div>
     );

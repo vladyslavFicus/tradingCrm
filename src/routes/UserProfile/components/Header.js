@@ -14,16 +14,13 @@ class Header extends Component {
   };
 
   getRealWithBonusBalance = () => {
-    const { data: { balance }, bonus: { data: bonus } } = this.props;
+    const { accumulatedBalances: { data: { real, bonus } } } = this.props;
 
-    const content = !bonus ?
-      <div>RM <Amount { ...balance } /> + BM <Amount amount="0" currency={balance.currency} /></div> :
-      <div>
-        RM <Amount amount={balance.amount - bonus.balance.amount} currency={balance.currency} /> +
-        BM <Amount { ...bonus.balance } />
-      </div>;
-
-    return <small className="player__account__balance-additional"> {content} </small>;
+    return (
+      <small className="player__account__balance-additional">
+        RM <Amount { ...real } /> + BM <Amount { ...bonus } />
+      </small>
+    );
   };
 
   handleTagAdd = (option) => {
