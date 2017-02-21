@@ -6,6 +6,8 @@ import { actionCreators as usersActionCreators } from 'redux/modules/users';
 
 const KEY = 'user-profile';
 const PROFILE = createRequestAction(`${KEY}/view`);
+const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
+const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
 const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 
@@ -70,7 +72,11 @@ function fetchProfile(uuid) {
 }
 
 function updateProfile(uuid, data) {
-  return usersActionCreators.updateProfile(PROFILE)(uuid, data);
+  return usersActionCreators.updateProfile(UPDATE_PROFILE)(uuid, data);
+}
+
+function updateIdentifier(uuid, identifier) {
+  return usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER)(uuid, identifier);
 }
 
 function getBalance(uuid) {
@@ -508,11 +514,13 @@ const actionTypes = {
   PROFILE,
   BALANCE,
   CHECK_LOCK,
+  UPDATE_PROFILE,
 };
 
 const actionCreators = {
   fetchProfile,
   updateProfile,
+  updateIdentifier,
   getBalance,
   loadFullProfile,
   checkLock,
