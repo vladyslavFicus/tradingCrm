@@ -3,6 +3,7 @@ import moment from 'moment';
 import Amount from 'components/Amount';
 import AccountStatus from './AccountStatus';
 import { SubmissionError } from 'redux-form';
+import ProfileTags from 'components/ProfileTags';
 import Balances from './Balances';
 
 class Header extends Component {
@@ -14,7 +15,7 @@ class Header extends Component {
 
   getRealWithBonusBalance = () => {
     const { data: { balance }, bonus: { data: bonus } } = this.props;
-    
+
     const content = !bonus ?
       <div>RM <Amount { ...balance } /> + BM <Amount amount="0" currency={balance.currency} /></div> :
       <div>
@@ -23,6 +24,14 @@ class Header extends Component {
       </div>;
 
     return <small className="player__account__balance-additional"> {content} </small>;
+  };
+
+  handleTagAdd = (option) => {
+    this.props.addTag(option.value, option.priority);
+  };
+
+  handleTagDelete = (option) => {
+    this.props.deleteTag(option.id);
   };
 
   handleStatusChange = (data) => {
@@ -49,24 +58,46 @@ class Header extends Component {
         affiliateId,
         profileStatus,
         suspendEndDate,
+        profileTags,
       },
       availableStatuses,
       accumulatedBalances,
+      availableTags,
     } = this.props;
+    const selectedTags = profileTags
+      ? profileTags.map(option => `${option.tagPriority}/${option.tag}`)
+      : [];
+    const availableOptions = selectedTags && availableTags
+      ? availableTags.filter(option => selectedTags.indexOf(`${option.priority}/${option.value}`) === -1)
+      : [];
+    const valueOptions = profileTags
+      ? profileTags.map(option => ({
+        id: option.id,
+        label: option.tag,
+        value: option.tag,
+        priority: option.tagPriority,
+      }))
+      : [];
 
     return (
       <div>
         <div className="row panel-heading">
-          <div className="col-md-8">
-            <div className="player__account pull-left">
-              <h1 className="player__account__name">
-                {[firstName, lastName, this.getUserAge()].join(' ')}
-                <i className="green fa fa-check"/>
-              </h1>
-              <span className="player__account__ids">
+          <div className="col-md-4">
+            <h1 className="player__account__name">
+              {[firstName, lastName, this.getUserAge()].join(' ')}
+              <i className="green fa fa-check"/>
+            </h1>
+            <span className="player__account__ids">
                 {[username, uuid, languageCode].join(' - ')}
               </span>
-            </div>
+          </div>
+          <div className="col-md-4">
+            {profileTags && <ProfileTags
+              onAdd={this.handleTagAdd}
+              options={availableOptions}
+              value={valueOptions}
+              onDelete={this.handleTagDelete}
+            />}
           </div>
         </div>
 
@@ -149,8 +180,10 @@ Header.propTypes = {
     affiliateId: PropTypes.string,
     profileStatus: PropTypes.string,
     suspendEndDate: PropTypes.string,
+    profileTags: PropTypes.array,
   }),
   availableStatuses: PropTypes.array,
+  availableTags: PropTypes.array,
   onStatusChange: PropTypes.func.isRequired,
 };
 

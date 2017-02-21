@@ -4,13 +4,15 @@ import { actionCreators as accumulatedBalancesActionCreators } from '../modules/
 import { actionCreators as bonusActionCreators } from '../modules/bonus';
 import { actionCreators as viewActionCreators } from '../modules/view';
 import ProfileLayout from '../layouts/ProfileLayout';
+import { getAvailableTags } from 'config/index';
 import { statusActions } from 'config/user';
 
-const mapStateToProps = ({ profile: { view: userProfile, bonus, ip, accumulatedBalances, } }) => ({
+const mapStateToProps = ({ profile: { view: userProfile, bonus, ip, accumulatedBalances }, auth }) => ({
   ...userProfile,
   bonus,
   ip,
   accumulatedBalances,
+  availableTags: getAvailableTags(auth.department),
   availableStatuses: userProfile && userProfile.profile && userProfile.profile.data
     ? statusActions[userProfile.profile.data.profileStatus]
       ? statusActions[userProfile.profile.data.profileStatus]
@@ -33,6 +35,8 @@ const mapActions = {
   lockWithdraw: viewActionCreators.lockWithdraw,
   unlockDeposit: viewActionCreators.unlockDeposit,
   unlockWithdraw: viewActionCreators.unlockWithdraw,
+  addTag: viewActionCreators.addTag,
+  deleteTag: viewActionCreators.deleteTag,
   changeStatus: viewActionCreators.changeStatus,
 };
 

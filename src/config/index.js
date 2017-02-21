@@ -14,6 +14,7 @@ if (window) {
 const config = {
   api: {},
   availableDepartments: [],
+  availableTags: [],
   components: {
     Currency: {
       currencies: {},
@@ -28,6 +29,7 @@ const config = {
       password: null,
     },
     departments: [],
+    tags: {},
   },
   middlewares: {},
   ...environmentConfig,
@@ -42,7 +44,34 @@ if (config.nas.validation) {
 if (config.nas.departments) {
   config.availableDepartments = config.nas.departments;
   config.availableDepartments.splice(config.availableDepartments.indexOf('PLAYER'), 1);
-  config.availableDepartments = config.availableDepartments.map(item => ({ value: item, label: item }));
+  config.availableDepartments = config.availableDepartments.map(item => ({
+    value: item,
+    label: item,
+  }));
+}
+
+if (config.nas.tags) {
+  config.nas.tags = Object
+    .keys(config.nas.tags.priorities)
+    .reduce((result, priority) => {
+      Object.keys(config.nas.tags.priorities[priority])
+        .forEach(tag => {
+          config.nas.tags.priorities[priority][tag].departments.forEach(department => {
+            result.push({
+              label: tag,
+              value: tag,
+              priority,
+              department,
+            });
+          });
+        });
+
+      return result;
+    }, []);
+}
+
+export function getAvailableTags(department) {
+  return config.nas.tags.filter(item => item.department === department);
 }
 
 function getApiRoot() {

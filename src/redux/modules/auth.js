@@ -8,6 +8,12 @@ const VALIDATE_TOKEN = createRequestAction(`${KEY}/validate-token`);
 const LOGOUT = createRequestAction(`${KEY}/logout`);
 
 const actionHandlers = {
+  [SIGN_IN.REQUEST]: (state, action) => ({
+    ...state,
+    department: action.meta && action.meta.department
+      ? action.meta.department
+      : state.department,
+  }),
   [SIGN_IN.SUCCESS]: (state, action) => {
     const { login: username, uuid, token } = action.payload;
 
@@ -19,6 +25,10 @@ const actionHandlers = {
       logged: true,
     };
   },
+  [SIGN_IN.FAILURE]: (state, action) => ({
+    ...state,
+    department: null,
+  }),
 
   [REFRESH_TOKEN.SUCCESS]: (state, action) => ({
     ...state,
@@ -42,7 +52,14 @@ function signIn(data) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-      types: [SIGN_IN.REQUEST, SIGN_IN.SUCCESS, SIGN_IN.FAILURE],
+      types: [
+        {
+          type: SIGN_IN.REQUEST,
+          meta: { department: data.department },
+        },
+        SIGN_IN.SUCCESS,
+        SIGN_IN.FAILURE,
+      ],
     },
   };
 }
@@ -107,6 +124,7 @@ function logout() {
 }
 
 const initialState = {
+  department: null,
   logged: false,
   token: null,
   uuid: null,

@@ -30,12 +30,6 @@ class SignInForm extends Component {
         {error}
       </div>}
       <Field
-        name="department"
-        label={attributeLabels.department}
-        component={SignInFormDropField}
-        items={departments}
-      />
-      <Field
         name="login"
         label={attributeLabels.login}
         type="text"
@@ -47,6 +41,12 @@ class SignInForm extends Component {
         type="password"
         disabled={disabled}
         component={SignInFormField}
+      />
+      <Field
+        name="department"
+        label={attributeLabels.department}
+        component={SignInFormDropField}
+        items={departments}
       />
 
       <div className="form-actions">

@@ -18,6 +18,9 @@ const UNBLOCK_PROFILE = createRequestAction(`${KEY}/unblock-profile`);
 
 const CHECK_LOCK = createRequestAction(`${KEY}/check-lock`);
 
+const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
+const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
+
 const DEPOSIT_LOCK = createRequestAction(`${KEY}/deposit-lock`);
 const DEPOSIT_UNLOCK = createRequestAction(`${KEY}/deposit-unlock`);
 
@@ -77,6 +80,52 @@ function updateProfile(uuid, data) {
 
 function updateIdentifier(uuid, identifier) {
   return usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER)(uuid, identifier);
+}
+
+function addTag(playerUUID, tag, priority) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${playerUUID}/tags`,
+        method: 'POST',
+        types: [ADD_TAG.REQUEST, ADD_TAG.SUCCESS, ADD_TAG.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          tag,
+          tagPriority: priority,
+        }),
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
+function deleteTag(playerUUID, id) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${playerUUID}/tags/${id}`,
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [DELETE_TAG.REQUEST, DELETE_TAG.SUCCESS, DELETE_TAG.FAILURE],
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
 }
 
 function getBalance(uuid) {
@@ -512,6 +561,8 @@ function rootReducer(state = initialState, action) {
 
 const actionTypes = {
   PROFILE,
+  ADD_TAG,
+  DELETE_TAG,
   BALANCE,
   CHECK_LOCK,
   UPDATE_PROFILE,
@@ -530,6 +581,8 @@ const actionCreators = {
   unlockWithdraw,
   fetchBalances,
   changeStatus,
+  addTag,
+  deleteTag,
 };
 
 export {

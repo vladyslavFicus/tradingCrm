@@ -31,6 +31,9 @@ class ProfileLayout extends Component {
       params,
       ip,
       location,
+      availableTags,
+      addTag,
+      deleteTag,
       availableStatuses,
       accumulatedBalances,
       changeStatus,
@@ -45,6 +48,9 @@ class ProfileLayout extends Component {
             accumulatedBalances={accumulatedBalances}
             availableStatuses={availableStatuses}
             onStatusChange={changeStatus}
+            availableTags={availableTags}
+            addTag={addTag.bind(null, params.id)}
+            deleteTag={deleteTag.bind(null, params.id)}
           />
           <Information
             data={data}
