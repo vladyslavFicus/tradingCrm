@@ -4,12 +4,23 @@ import Amount from 'components/Amount';
 import AccountStatus from './AccountStatus';
 import { SubmissionError } from 'redux-form';
 import ProfileTags from 'components/ProfileTags';
+import Balances from './Balances';
 
 class Header extends Component {
   getUserAge = () => {
     const { data: { birthDate } } = this.props;
 
     return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
+  };
+
+  getRealWithBonusBalance = () => {
+    const { accumulatedBalances: { data: { real, bonus } } } = this.props;
+
+    return (
+      <small className="player__account__balance-additional">
+        RM <Amount { ...real } /> + BM <Amount { ...bonus } />
+      </small>
+    );
   };
 
   handleTagAdd = (option) => {
@@ -47,6 +58,7 @@ class Header extends Component {
         profileTags,
       },
       availableStatuses,
+      accumulatedBalances,
       availableTags,
     } = this.props;
     const selectedTags = profileTags
@@ -106,12 +118,20 @@ class Header extends Component {
             />
           </div>
           <div className="player__account__balance col-md-3">
-            <a href="#">
-              <span className="player__account__balance-label text-uppercase">Balance</span>
-              <div className="player__account__balance-current">
-                <Amount { ...balance } />
-              </div>
-            </a>
+            {
+              <Balances
+                label={
+                  <div>
+                    <span className="player__account__balance-label text-uppercase">Balance</span>
+                    <div className="player__account__balance-current">
+                      <Amount { ...balance } />
+                    </div>
+                    { this.getRealWithBonusBalance() }
+                  </div>
+                }
+                accumulatedBalances={accumulatedBalances}
+              />
+            }
           </div>
           <div className="player__account__registered col-md-2">
             <span className="player__account__registered-label text-uppercase">Registered</span>

@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { InputField, SingleDateField, SelectField } from 'components/ReduxForm/UserProfile';
 import { createValidator } from 'utils/validator';
 
-const genders = ['male', 'female'];
+const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
 
 const attributeLabels = {
   firstName: 'First name',
@@ -26,6 +26,7 @@ class PersonalForm extends Component {
       onSubmit,
       pristine,
       submitting,
+      valid,
     } = this.props;
 
     return (
@@ -33,7 +34,7 @@ class PersonalForm extends Component {
         <form className="form-horizontal" role="form" onSubmit={handleSubmit(onSubmit)}>
           <div className="row">
             <h5 className="pull-left">Personal information</h5>
-            { !(pristine || submitting) &&
+            { !(pristine || submitting || !valid) &&
             <button className="btn btn-sm btn-primary pull-right" type="submit">
               Save changes
             </button>
@@ -80,7 +81,6 @@ class PersonalForm extends Component {
               wrapperClassName="col-lg-3"
               component={SelectField}
             >
-              <option value="">None</option>
               {genders.map((item) => (
                 <option key={item} value={item}>
                   {item}

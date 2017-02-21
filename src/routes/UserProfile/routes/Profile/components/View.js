@@ -2,11 +2,22 @@ import React, { Component, PropTypes } from 'react';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
+import { actionTypes as profileActionTypes } from '../../../modules/view';
 
 class View extends Component {
   handleSubmit = (data) => {
     const { params } = this.props;
     return this.props.updateProfile(params.id, data);
+  };
+
+  handleSubmitPersonal = (data) => {
+    const { params: { id }, updateProfile, updateIdentifier } = this.props;
+
+    return updateProfile(id, data).then(action => {
+      if (action.type === profileActionTypes.UPDATE_PROFILE.SUCCESS && data.identifier) {
+        updateIdentifier(id, data.identifier);
+      }
+    });
   };
   
   render() {
@@ -29,7 +40,7 @@ class View extends Component {
                     identifier: data.identifier,
                     gender: data.gender,
                   }}
-                  onSubmit={this.handleSubmit}
+                  onSubmit={this.handleSubmitPersonal}
                 />
               </div>
             </div>
