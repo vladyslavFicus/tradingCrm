@@ -22,6 +22,9 @@ class ProfileLayout extends Component {
       params,
       ip,
       location,
+      availableTags,
+      addTag,
+      deleteTag,
       availableStatuses,
       changeStatus,
     } = this.props;
@@ -33,6 +36,9 @@ class ProfileLayout extends Component {
             data={data}
             availableStatuses={availableStatuses}
             onStatusChange={changeStatus}
+            availableTags={availableTags}
+            addTag={addTag.bind(null, params.id)}
+            deleteTag={deleteTag.bind(null, params.id)}
           />
           <Information
             data={data}
