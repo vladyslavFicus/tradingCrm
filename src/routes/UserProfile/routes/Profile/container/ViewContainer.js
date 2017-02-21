@@ -1,10 +1,10 @@
 import React from 'react';
 import View from '../components/View';
 import { connect } from 'react-redux';
-import { actionCreators as viewActionCreators } from 'routes/Users/modules/view';
-import { actionCreators as bonusActionCreators } from 'routes/Users/modules/bonus';
+import { actionCreators as viewActionCreators } from 'routes/UserProfile/modules/view';
+import { actionCreators as bonusActionCreators } from 'routes/UserProfile/modules/bonus';
 
-const mapStateToProps = ({ userProfile, userBonus: bonus, auth: user }) => ({
+const mapStateToProps = ({ profile: { view: userProfile, bonus }, auth: user }) => ({
   ...userProfile,
   user,
   bonus,

@@ -1,0 +1,209 @@
+i.green {
+  color: #46be8a;
+}
+.float-left {
+  float: left;
+}
+.panel-yellow {
+  background-color: #ffea85;
+}
+
+.no-padding {
+  padding: 0px;
+}
+.avatar {
+  border-radius: 4px;
+}
+
+/** Account status **/
+/** ************** **/
+.player__account__name {
+  margin-bottom: 5px;
+  font-size: 28px;
+}
+.player__account__ids {
+  color: #827ca1;
+}
+.player__account__labels {
+  margin: 10px 35px;
+}
+.player__account__labels .label {
+  margin: 0 0 0 5px;
+}
+.player__account__status-label {
+  font-size: 13px;
+  font-weight: bold;
+}
+.player__account__status-current {}
+.player__account__status-current-active{
+  color: #46be8a;
+  font-size: 19px;
+  font-weight: bold;
+
+}
+.player__account__status-current-suspend{}
+.player__account__status-current-block{}
+
+/** Account balance **/
+/** ************** **/
+.player__account__balance {}
+.player__account__balance-label {
+  font-size: 13px;
+  font-weight: bold;
+}
+.player__account__balance-current {
+  font-size: 18px;
+  font-weight: bold;
+}
+.player__account__balance-additional {}
+
+/** Account registered **/
+/** ************** **/
+.player__account__registered {}
+.player__account__registered-label {
+  font-size: 13px;
+  font-weight: bold;
+}
+.player__account__registered-current {
+  font-size: 14px;
+  font-weight: bold;
+}
+.player__account__registered-date {}
+
+/** Account last login **/
+/** ************** **/
+.player__account__lastlogin {}
+.player__account__lastlogin-label {
+  font-size: 13px;
+  font-weight: bold;
+}
+.player__account__lastlogin-current {
+  font-size: 14px;
+  font-weight: bold;
+}
+.player__account__lastlogin-date {}
+
+/** Account affiliate **/
+/** ************** **/
+.player__account__affiliate {}
+.player__account__affiliate-label {
+  font-size: 13px;
+  font-weight: bold;
+}
+.player__account__affiliate-current {
+  font-size: 14px;
+  font-weight: bold;
+}
+.player__account__affiliate-date {}
+
+
+/** Account details **/
+/** ************** **/
+.player__account__details{}
+.player__account__details_personal{}
+.player__account__details_personal .panel-body{
+  padding: 7px!important;
+}
+.player__account__details_personal-label{
+    text-transform: uppercase !important;
+    font-size: 13px;
+    font-weight: bold;
+}
+.player__account__details_additional{}
+.player__account__details_additional small.label {
+  font-size: 14px;
+  margin: 0px 10px 10px 0px;
+}
+.player__account__details_additional .panel-body{
+  padding: 7px!important;
+}
+.player__account__details_additional-label {
+  color: #827ca1;
+}
+.player__account__details_additional-label{
+    text-transform: uppercase !important;
+    font-size: 13px;
+    font-weight: bold;
+}
+.player__account__details_networking{}
+.player__account__details_networking .panel-body{
+  padding: 7px!important;
+  height: 182px;
+  overflow-x: hidden;
+}
+.player__account__details_networking-label{
+    text-transform: uppercase !important;
+    font-size: 13px;
+    font-weight: bold;
+}
+.player__account__details_notes{}
+.player__account__details_notes-label{
+    text-transform: uppercase !important;
+    font-size: 13px;
+    font-weight: bold;
+}
+.player__account__details_notes .notes{
+  padding: 7px!important;
+  height: 182px;
+  overflow-x: hidden;
+}
+.player__account__details_notes .note{
+  margin-bottom: 9px;
+}
+.player__account__details_notes .note-content {
+  padding: 7px!important;
+}
+
+.player__account__page-list {}
+.player__account__page_kyc {}
+.player__account__page_kyc-label {
+  font-size: 18px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+.player__account__page_kyc-date {}
+
+
+.player__account__page__kyc-document-label {
+  color: #827ca1;
+  font-weight: bold;
+}
+.player__account__page__kyc-document-add {
+}
+.player__account__page_transactions-label {
+  font-weight: bold;
+  font-size: 16px;
+  float: left;
+}
+
+.player__account__page_transactions-input {
+  display: inline-block;
+  width: auto;
+}
+.player__account__page_transactions-filter {
+  background-color: #f7f8fb;
+  border-radius: 0;
+}
+.player__account__page_transactions-filter .panel-body{
+  padding: 7px 0 0px 17px;
+}
+
+.player__account__page_transactions-filter .control {
+  width: auto;
+  float: left;
+  padding-left: 10px;
+}
+.player__account__page_transactions-filter .control input,
+.player__account__page_transactions-filter .control select {
+  padding: 4px 16px;
+}
+.player__account__page_transactions-filter .control input.min {
+  width: 65px;
+}
+
+.player__account__page_feed-item-details {
+  padding: 10px !important;
+}
+.player__account__page_feed-item-details p{
+  margin-bottom: 0px;
+}

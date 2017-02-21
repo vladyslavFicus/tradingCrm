@@ -12,15 +12,20 @@ class TopMenu extends Component {
         </div>
       </div>
       <div className="menu">
+        <div className="menu-info-block">
+          <div className="left hidden-md-down">
+            <div className="example-top-menu-chart">
+              <span className="title"><strong>Department</strong>:</span>
+              <span className="count">{this.context.user.department}</span>
+            </div>
+          </div>
+        </div>
         <div className="menu-user-block">
           <DropDownWrapper className="dropdown-avatar">
             <DropdownToggle caret tag="a">
               <i className="fa fa-user-secret fa-3x"/>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-right">
-              <DropdownItem>
-                <Link to={`/users/${this.context.user.uuid}/profile`}>Profile</Link>
-              </DropdownItem>
               <DropdownItem>
                 <Link to={'/logout'}>Logout</Link>
               </DropdownItem>

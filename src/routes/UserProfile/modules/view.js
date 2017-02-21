@@ -1,17 +1,25 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
+import { actions } from 'config/user';
 import { actionCreators as usersActionCreators } from 'redux/modules/users';
 
 const KEY = 'user-profile';
 const PROFILE = createRequestAction(`${KEY}/view`);
+const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
+const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
 const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 
-const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
-const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
+const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
+const RESUME_PROFILE = createRequestAction(`${KEY}/resume-profile`);
+const BLOCK_PROFILE = createRequestAction(`${KEY}/block-profile`);
+const UNBLOCK_PROFILE = createRequestAction(`${KEY}/unblock-profile`);
 
 const CHECK_LOCK = createRequestAction(`${KEY}/check-lock`);
+
+const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
+const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
 
 const DEPOSIT_LOCK = createRequestAction(`${KEY}/deposit-lock`);
 const DEPOSIT_UNLOCK = createRequestAction(`${KEY}/deposit-unlock`);
@@ -64,6 +72,14 @@ const mapBalances = (items) => {
 
 function fetchProfile(uuid) {
   return usersActionCreators.fetchProfile(PROFILE)(uuid);
+}
+
+function updateProfile(uuid, data) {
+  return usersActionCreators.updateProfile(UPDATE_PROFILE)(uuid, data);
+}
+
+function updateIdentifier(uuid, identifier) {
+  return usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER)(uuid, identifier);
 }
 
 function addTag(playerUUID, tag, priority) {
@@ -267,6 +283,110 @@ function unlockWithdraw(uuid) {
   };
 }
 
+function suspendProfile({ playerUUID, ...data }) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${playerUUID}/suspend`,
+        method: 'PUT',
+        types: [SUSPEND_PROFILE.REQUEST, SUSPEND_PROFILE.SUCCESS, SUSPEND_PROFILE.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
+function resumeProfile({ playerUUID, ...data }) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${playerUUID}/resume`,
+        method: 'PUT',
+        types: [RESUME_PROFILE.REQUEST, RESUME_PROFILE.SUCCESS, RESUME_PROFILE.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
+function blockProfile({ playerUUID, ...data }) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${playerUUID}/block`,
+        method: 'PUT',
+        types: [BLOCK_PROFILE.REQUEST, BLOCK_PROFILE.SUCCESS, BLOCK_PROFILE.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
+function unblockProfile({ playerUUID, ...data }) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${playerUUID}/unblock`,
+        method: 'PUT',
+        types: [UNBLOCK_PROFILE.REQUEST, UNBLOCK_PROFILE.SUCCESS, UNBLOCK_PROFILE.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
+function changeStatus({ action, ...data }) {
+  return dispatch => {
+    if (action === actions.BLOCK) {
+      return dispatch(blockProfile(data));
+    } else if (action === actions.UNBLOCK) {
+      return dispatch(unblockProfile(data));
+    } else if (action === actions.SUSPEND) {
+      return dispatch(suspendProfile(data));
+    } else if (action === actions.RESUME) {
+      return dispatch(unblockProfile(data));
+    }
+
+    throw new Error(`Unknown status change action "${action}".`);
+  };
+}
+
 function loadFullProfile(uuid) {
   return dispatch => dispatch(fetchProfile(uuid))
     .then(() => dispatch(fetchBalances(uuid)))
@@ -445,12 +565,13 @@ const actionTypes = {
   DELETE_TAG,
   BALANCE,
   CHECK_LOCK,
+  UPDATE_PROFILE,
 };
 
 const actionCreators = {
   fetchProfile,
-  addTag,
-  deleteTag,
+  updateProfile,
+  updateIdentifier,
   getBalance,
   loadFullProfile,
   checkLock,
@@ -459,6 +580,9 @@ const actionCreators = {
   lockWithdraw,
   unlockWithdraw,
   fetchBalances,
+  changeStatus,
+  addTag,
+  deleteTag,
 };
 
 export {
