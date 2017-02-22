@@ -13,7 +13,10 @@ class IpList extends Component {
             {
               ips.map((item) => (
                 <div key={v4()}>
-                  <i className="fs-icon fs-gb" style={{ marginRight: 10 }}></i>
+                  <i
+                    className={`fs-icon fs-${item.country.toLowerCase()}`}
+                    style={{ marginRight: 10 }}
+                  />
                   {item.ipAddress}
                 </div>
               ))
@@ -24,8 +27,5 @@ class IpList extends Component {
     );
   }
 }
-
-IpList.propTypes = {};
-IpList.defaultProps = {};
 
 export default IpList;

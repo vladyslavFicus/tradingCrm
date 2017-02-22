@@ -22,6 +22,12 @@ class Header extends Component {
       </small>
     );
   };
+  
+  getUuid = () => {
+    const { data: { uuid } } = this.props;
+
+    return uuid ? 'PL-' + uuid.split('-', 2).join('-') : null;
+  };
 
   handleTagAdd = (option) => {
     this.props.addTag(option.value, option.priority);
@@ -49,7 +55,6 @@ class Header extends Component {
         firstName,
         lastName,
         username,
-        uuid,
         languageCode,
         btag,
         affiliateId,
@@ -80,12 +85,12 @@ class Header extends Component {
       <div>
         <div className="row panel-heading">
           <div className="col-md-4">
-            <h1 className="player__account__name">
+            <div className="player__account__name h1">
               {[firstName, lastName, this.getUserAge()].join(' ')}
               <i className="green fa fa-check"/>
-            </h1>
+            </div>
             <span className="player__account__ids">
-                {[username, uuid, languageCode].join(' - ')}
+                {[username, this.getUuid(), languageCode].join(' - ')}
               </span>
           </div>
           <div className="col-md-4">
