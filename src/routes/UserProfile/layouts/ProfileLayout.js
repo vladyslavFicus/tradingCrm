@@ -35,6 +35,7 @@ class ProfileLayout extends Component {
       deleteTag,
       availableStatuses,
       accumulatedBalances,
+      updateSubscription,
       changeStatus,
     } = this.props;
 
@@ -53,8 +54,8 @@ class ProfileLayout extends Component {
           <Information
             data={data}
             ips={ip.entities.content}
+            updateSubscription={updateSubscription.bind(null, params.id)}
           />
-          <hr />
 
           <div className="row">
             <section className="panel profile-user-content">

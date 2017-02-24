@@ -9,7 +9,7 @@ class IpList extends Component {
       <div className="player__account__details_networking col-md-2">
         <span className="player__account__details_networking-label">Last 10 ip's</span>
         <div className="panel panel-with-borders">
-          <div className="panel-body">
+          <div className="panel-body panel-body-min-height">
             {
               ips.map((item) => (
                 <div key={v4()}>

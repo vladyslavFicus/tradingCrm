@@ -16,6 +16,8 @@ const RESUME_PROFILE = createRequestAction(`${KEY}/resume-profile`);
 const BLOCK_PROFILE = createRequestAction(`${KEY}/block-profile`);
 const UNBLOCK_PROFILE = createRequestAction(`${KEY}/unblock-profile`);
 
+const UPDATE_SUBSCRIPTION = createRequestAction(`${KEY}/update-subscription`);
+
 const CHECK_LOCK = createRequestAction(`${KEY}/check-lock`);
 
 const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
@@ -80,6 +82,28 @@ function updateProfile(uuid, data) {
 
 function updateIdentifier(uuid, identifier) {
   return usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER)(uuid, identifier);
+}
+
+function updateSubscription(playerUUID, name, value) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${playerUUID}/subscription`,
+        method: 'PUT',
+        types: [UPDATE_SUBSCRIPTION.REQUEST, UPDATE_SUBSCRIPTION.SUCCESS, UPDATE_SUBSCRIPTION.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ [name]: value }),
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
 }
 
 function addTag(playerUUID, tag, priority) {
@@ -572,6 +596,7 @@ const actionCreators = {
   fetchProfile,
   updateProfile,
   updateIdentifier,
+  updateSubscription,
   getBalance,
   loadFullProfile,
   checkLock,
