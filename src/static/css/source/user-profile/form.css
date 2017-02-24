@@ -32,7 +32,6 @@ i.green {
 }
 .player__account__status-label {
   font-size: 13px;
-  font-weight: bold;
 }
 .player__account__status-current {}
 .player__account__status-current-active{
@@ -49,7 +48,6 @@ i.green {
 .player__account__balance {}
 .player__account__balance-label {
   font-size: 13px;
-  font-weight: bold;
 }
 .player__account__balance-current {
   font-size: 18px;
@@ -62,7 +60,6 @@ i.green {
 .player__account__registered {}
 .player__account__registered-label {
   font-size: 13px;
-  font-weight: bold;
 }
 .player__account__registered-current {
   font-size: 14px;
@@ -75,7 +72,6 @@ i.green {
 .player__account__lastlogin {}
 .player__account__lastlogin-label {
   font-size: 13px;
-  font-weight: bold;
 }
 .player__account__lastlogin-current {
   font-size: 14px;
@@ -88,7 +84,6 @@ i.green {
 .player__account__affiliate {}
 .player__account__affiliate-label {
   font-size: 13px;
-  font-weight: bold;
 }
 .player__account__affiliate-current {
   font-size: 14px;
@@ -120,15 +115,19 @@ i.green {
 .player__account__details_additional-label {
   color: #827ca1;
 }
-.player__account__details_additional-label{
+.player__account__details_additional-label {
     text-transform: uppercase !important;
     font-size: 13px;
     font-weight: bold;
 }
+.player__account__details_additional-switcher {
+  float: right;
+  margin-right: 10px;
+}
+
 .player__account__details_networking{}
 .player__account__details_networking .panel-body{
   padding: 7px!important;
-  height: 182px;
   overflow-x: hidden;
 }
 .player__account__details_networking-label{
@@ -144,7 +143,6 @@ i.green {
 }
 .player__account__details_notes .notes{
   padding: 7px!important;
-  height: 182px;
   overflow-x: hidden;
 }
 .player__account__details_notes .note{
@@ -206,4 +204,46 @@ i.green {
 }
 .player__account__page_feed-item-details p{
   margin-bottom: 0px;
+}
+
+.tag-arrow {
+  height: 21px;
+  border: 0.77em solid transparent;
+  border-right: 10px solid #6a7a84;
+  float: left;
+}
+
+.tag-arrow-danger {
+  border-right-color: #fb434a;
+}
+
+.tag-arrow-success {
+  border-right-color: #46be8a;
+}
+
+.panel-body-min-height {
+  min-height: 150px;
+}
+
+.dropdown-caret:after {
+  display: inline-block;
+  color: green;
+  width: 0;
+  height: 0;
+  margin-right: .25rem;
+  margin-left: .25rem;
+  vertical-align: middle;
+  content: "";
+  border-top: .3em solid;
+  border-right: .3em solid transparent;
+  border-left: .3em solid transparent;
+}
+
+.player-header-blocks > div {
+  border-right: 1px solid #dfe4ed;
+  min-height: 70px;
+}
+
+.player-header-blocks > div:last-child {
+  border-right: none;
 }

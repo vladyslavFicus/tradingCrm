@@ -84,7 +84,7 @@ class Header extends Component {
     return (
       <div>
         <div className="row panel-heading">
-          <div className="col-md-4">
+          <div className="pull-left">
             <div className="player__account__name h1">
               {[firstName, lastName, this.getUserAge()].join(' ')}
               <i className="green fa fa-check"/>
@@ -103,7 +103,7 @@ class Header extends Component {
           </div>
         </div>
 
-        <div className="row panel-body">
+        <div className="row panel-body player-header-blocks">
           <div className="player__account__status col-md-2">
             <AccountStatus
               onStatusChange={this.handleStatusChange}
