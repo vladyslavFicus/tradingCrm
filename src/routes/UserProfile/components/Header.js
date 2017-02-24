@@ -5,6 +5,8 @@ import AccountStatus from './AccountStatus';
 import { SubmissionError } from 'redux-form';
 import ProfileTags from 'components/ProfileTags';
 import Balances from './Balances';
+import { statuses } from 'config/user';
+import classNames from 'classnames';
 
 class Header extends Component {
   getUserAge = () => {
@@ -104,7 +106,9 @@ class Header extends Component {
         </div>
 
         <div className="row panel-body player-header-blocks">
-          <div className="player__account__status col-md-2">
+          <div className={classNames('player__account__status col-md-2', {
+            'cursor-pointer': profileStatus !== statuses.SUSPENDED,
+          })}>
             <AccountStatus
               onStatusChange={this.handleStatusChange}
               label={
@@ -122,7 +126,7 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
           </div>
-          <div className="player__account__balance col-md-3">
+          <div className="player__account__balance col-md-3 cursor-pointer">
             {
               <Balances
                 label={
