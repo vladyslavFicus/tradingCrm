@@ -8,6 +8,13 @@ import Balances from './Balances';
 import { statuses } from 'config/user';
 import classNames from 'classnames';
 
+const statusColorNames = {
+  [statuses.ACTIVE]: 'color-success',
+  [statuses.INACTIVE]: 'color-warning',
+  [statuses.BLOCKED]: 'color-danger',
+  [statuses.SUSPENDED]: 'color-secondary',
+};
+
 class Header extends Component {
   getUserAge = () => {
     const { data: { birthDate } } = this.props;
@@ -114,7 +121,7 @@ class Header extends Component {
               label={
                 <div>
                   <span className="player__account__status-label text-uppercase">Account Status</span>
-                  <div className="player__account__status-current-active">{profileStatus}</div>
+                  <div className={`player__account__status-current ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
                   {
                     !!suspendEndDate &&
                     <small className="player__account__status-scince">
