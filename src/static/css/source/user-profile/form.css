@@ -33,13 +33,12 @@ i.green {
 .player__account__status-label {
   font-size: 13px;
 }
-.player__account__status-current {}
-.player__account__status-current-active{
-  color: #46be8a;
+
+.player__account__status-current {
   font-size: 19px;
   font-weight: bold;
-
 }
+
 .player__account__status-current-suspend{}
 .player__account__status-current-block{}
 
