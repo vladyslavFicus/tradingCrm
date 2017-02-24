@@ -14,7 +14,7 @@ class ButtonSelect extends Component {
         {label}
       </button>
 
-      <div className={classNames('auto-complete', 'ignore-react-onclickoutside', { opened })}>
+      <div className={classNames('auto-complete', 'ignore-react-onclickoutside margin-left-10', { opened })}>
         <ReactSelect {...rest}/>
       </div>
     </div>;
