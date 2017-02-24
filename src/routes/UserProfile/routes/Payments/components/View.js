@@ -25,7 +25,7 @@ class View extends Component {
   };
 
   handleChangePaymentStatus = (status, paymentId, options = {}) => {
-    const { list: { filters }, fetchEntities, onChangePaymentStatus } = this.props;
+    const { filters, fetchEntities, onChangePaymentStatus } = this.props;
 
     return onChangePaymentStatus({ status, paymentId, options })
       .then(() => fetchEntities(filters))

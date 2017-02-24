@@ -24,7 +24,7 @@ class Header extends Component {
       </small>
     );
   };
-  
+
   getUuid = () => {
     const { data: { uuid } } = this.props;
 
@@ -89,7 +89,6 @@ class Header extends Component {
           <div className="pull-left">
             <div className="player__account__name h1">
               {[firstName, lastName, this.getUserAge()].join(' ')}
-              <i className="green fa fa-check"/>
             </div>
             <span className="player__account__ids">
                 {[username, this.getUuid(), languageCode].join(' - ')}
