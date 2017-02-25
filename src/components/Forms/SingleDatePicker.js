@@ -1,26 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { SingleDatePicker } from 'react-dates';
 
-class SingleDatePickerWrapper extends React.Component {
-  constructor(props) {
-    super(props);
+class SingleDatePickerWrapper extends Component {
+  state = {
+    focused: false,
+    date: null,
+  };
 
-    this.state = {
-      focused: false,
-      date: null,
-    };
-
-    this.onDateChange = this.onDateChange.bind(this);
-    this.onFocusChange = this.onFocusChange.bind(this);
-  }
-
-  onDateChange(date) {
+  onDateChange = (date) => {
     this.setState({ date });
-  }
+  };
 
-  onFocusChange({ focused }) {
+  onFocusChange = ({ focused }) => {
     this.setState({ focused });
-  }
+  };
 
   render() {
     const { focused, date } = this.state;

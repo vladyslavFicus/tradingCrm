@@ -160,21 +160,20 @@ class Header extends Component {
           <div className="player__account__lastlogin col-md-2">
             <span className="player__account__lastlogin-label text-uppercase">Last login</span>
             <div className="player__account__lastlogin-current">
-              13 Days ago
+              unavailable
             </div>
-            <small className="player__account__lastlogin-date">on 13.09.2016 13:00</small>
+            <small className="player__account__lastlogin-date">unavailable</small>
           </div>
           <div className="player__account__affiliate col-md-3">
             <span className="player__account__affiliate-label text-uppercase">
               Affiliate {' '} { !!affiliateId && affiliateId}
             </span>
             <div className="player__account__affiliate-current">
-              BTAG {' '} { !!btag && btag }
+              BTAG {'-'} { !!btag ? btag : 'Empty' }
             </div>
           </div>
         </div>
       </div>
-
     );
   }
 }

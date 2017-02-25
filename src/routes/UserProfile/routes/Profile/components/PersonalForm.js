@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { InputField, SingleDateField, SelectField } from 'components/ReduxForm/UserProfile';
+import { InputField, SelectField, BirthdayField } from 'components/ReduxForm/UserProfile';
 import { createValidator } from 'utils/validator';
 
 const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
@@ -16,7 +16,7 @@ const attributeLabels = {
 const validator = createValidator({
   firstName: 'string',
   lastName: 'string',
-  birthDate: 'required|date',
+  birthDate: 'date',
 }, attributeLabels, false);
 
 class PersonalForm extends Component {
@@ -57,7 +57,6 @@ class PersonalForm extends Component {
               wrapperClassName="col-lg-5"
               showErrorMessage
             />
-
             <Field
               name="identifier"
               label={attributeLabels.identifier}
@@ -66,14 +65,12 @@ class PersonalForm extends Component {
               wrapperClassName="col-lg-5"
               showErrorMessage
             />
-
             <Field
               name="birthDate"
               label={attributeLabels.birthDate}
               wrapperClassName="col-lg-4"
-              component={SingleDateField}
+              component={BirthdayField}
             />
-
             <Field
               name="gender"
               label={attributeLabels.gender}
