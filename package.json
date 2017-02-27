@@ -111,7 +111,7 @@
     "koa-proxy": "^0.6.0",
     "koa-static": "^3.0.0",
     "lodash": "latest",
-    "moment": "^2.14.1",
+    "moment": "^2.17.1",
     "nas-graylog-api": "^0.0.7",
     "node-sass": "3.7.0",
     "normalize.css": "^4.1.1",

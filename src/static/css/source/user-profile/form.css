@@ -246,3 +246,23 @@ i.green {
 .player-header-blocks > div:last-child {
   border-right: none;
 }
+
+.dropdown-inline.dropdown.open .dropdown-menu {
+  display: inline-flex;
+}
+
+.dropdown-inline.dropdown.open .dropdown-menu button {
+  border-right: 1px solid #dfe4ed;
+  padding: 0px 40px;
+  height: 50px;
+  text-align: center;
+}
+
+.dropdown-inline.dropdown.open .dropdown-menu span.amount {
+  font-weight: bold;
+  color: #514d6a;
+}
+
+.dropdown-inline.dropdown.open .dropdown-menu button:last-child {
+  border-right: none;
+}

@@ -4,17 +4,11 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 class SingleDateField extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleDateChange = this.handleDateChange.bind(this);
-  }
-
-  handleDateChange(date) {
+  handleDateChange = (date) => {
     const { input: { onChange } } = this.props;
 
     onChange(date ? date.format('YYYY-MM-DD') + 'T00:00:00' : '');
-  }
+  };
 
   render() {
     const { input, label, disabled, meta: { touched, error } } = this.props;

@@ -1,11 +1,11 @@
 import InputField from './InputField';
-import SingleDateField from './SingleDateField';
+import BirthdayField from './BirthdayField';
 import SelectField from './SelectField';
 import TextAreaField from './TextAreaField';
 
 export {
   InputField,
-  SingleDateField,
+  BirthdayField,
   SelectField,
   TextAreaField,
 };
