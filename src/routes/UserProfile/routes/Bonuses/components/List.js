@@ -1,15 +1,25 @@
 import React, { Component, PropTypes } from 'react';
 import GridView, { GridColumn } from 'components/GridView';
-import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
-import { statuses, statusesLabels } from 'constants/bonus';
+import BonusGridFilter from './BonusGridFilter';
+import ViewModal from './ViewModal';
+import {
+  statuses,
+  statusesLabels,
+  statusesProps,
+  typesLabels,
+  typesProps,
+} from 'constants/bonus';
 import moment from 'moment';
 import Amount from 'components/Amount';
+import { shortify } from 'utils/uuid';
+
+const modalInitialState = { name: null, params: {} };
+const VIEW_MODAL = 'view-modal';
 
 class List extends Component {
   state = {
-    filters: {
-      playerUUID: this.props.params.id,
-    },
+    modal: { ...modalInitialState },
+    filters: {},
     page: 0,
   };
 
@@ -25,124 +35,228 @@ class List extends Component {
     return this.props.fetchEntities({
       ...this.state.filters,
       page: this.state.page,
+      playerUUID: this.props.params.id,
     });
-  };
-
-  handleAcceptBonus = (id) => {
-    this.props.acceptBonus(id)
-      .then(() => this.handleRefresh());
-  };
-
-  handleCancelBonus = (id) => {
-    this.props.cancelBonus(id, this.props.params.id)
-      .then(() => this.handleRefresh());
   };
 
   componentWillMount() {
     this.handleRefresh();
   }
 
-  renderActions = (data) => {
-    return <div className="btn-group btn-group-sm">
-      {[statuses.COMPLETED, statuses.CANCELLED, statuses.EXPIRED].indexOf(data.state) === -1 && <a
-        className="btn btn-sm btn-danger btn-secondary"
-        onClick={() => this.handleCancelBonus(data.id)}
-        title="Cancel bonus"
-      >
-        <i className="fa fa-times"/>
-      </a>}
-    </div>;
+  handleSubmit = (filters) => {
+    if (filters.states) {
+      filters.states = [filters.states];
+    }
+
+    this.setState({ filters, page: 0 }, () => this.handleRefresh());
+  };
+
+  handleRowClick = (data) => {
+    this.setState({
+      modal: {
+        name: VIEW_MODAL,
+        params: {
+          item: data,
+        },
+      }
+    })
+  };
+
+  handleModalClose = () => {
+    this.setState({ modal: { ...modalInitialState } });
   };
 
   render() {
-    const { list: { entities } } = this.props;
+    const { modal } = this.state;
+    const { list: { entities }, profile, accumulatedBalances } = this.props;
 
     return <div className={'tab-pane fade in active'}>
+      <BonusGridFilter
+        onSubmit={this.handleSubmit}
+        initialValues={this.state.filters}
+      />
+
       <GridView
+        tableClassName="table table-hovered"
+        headerClassName=""
         dataSource={entities.content}
-        onFiltersChanged={this.handleFiltersChanged}
         onPageChange={this.handlePageChanged}
         activePage={entities.number + 1}
         totalPages={entities.totalPages}
-        defaultFilters={this.state.filters}
+        onRowClick={this.handleRowClick}
       >
-        <GridColumn name="id" header="ID"/>
         <GridColumn
-          name="label"
-          header="Name"
-          headerClassName="text-center"
-          filter={(onFilterChange) => <TextFilter
-            name="label"
-            onFilterChange={onFilterChange}
-          />}
-          filterClassName="text-center"
-          className="text-center"
+          name="mainInfo"
+          header={"Bonus"}
+          headerClassName={'text-uppercase'}
+          render={this.renderMainInfo}
         />
+
         <GridColumn
-          name="grantedAmount"
-          header="Granted amount"
-          headerClassName="text-center"
-          className="text-center"
-          render={(data, column) => <Amount {...data[column.name]}/>}
+          name="available"
+          header={"Available"}
+          headerClassName={'text-uppercase'}
+          render={this.renderAvailablePeriod}
         />
+
         <GridColumn
-          name="capping"
-          header="Capping"
-          headerClassName="text-center"
-          className="text-center"
-          render={(data, column) => <Amount {...data[column.name]}/>}
+          name="priority"
+          header={"Priority"}
+          headerClassName={'text-uppercase'}
         />
+
         <GridColumn
-          name="prize"
-          header="Prize"
-          headerClassName="text-center"
-          className="text-center"
-          render={(data, column) => <Amount {...data[column.name]}/>}
+          name="granted"
+          header={"Granted"}
+          headerClassName={'text-uppercase'}
+          render={this.renderGrantedAmount}
         />
+
         <GridColumn
-          name="amountToWage"
-          header="Amount to wage"
-          headerClassName="text-center"
-          className="text-center"
-          render={(data, column) => <Amount {...data[column.name]}/>}
+          name="wagered"
+          header={"Wagered"}
+          headerClassName={'text-uppercase'}
+          render={this.renderWageredAmount}
         />
+
         <GridColumn
-          name="state"
-          header="Status"
-          headerClassName="text-center"
-          filter={(onFilterChange) => <DropDownFilter
-            name="state"
-            items={{
-              '': 'All',
-              ...statusesLabels,
-            }}
-            onFilterChange={onFilterChange}
-          />}
-          filterClassName="text-center"
-          className="text-center"
+          name="toWager"
+          header={"To wager"}
+          headerClassName={'text-uppercase'}
+          render={this.renderToWagerAmount}
         />
+
         <GridColumn
-          name="createdDate"
-          header="Created at"
-          headerClassName="text-center"
-          headerStyle={{ width: '20%' }}
-          render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
-          filter={(onFilterChange) => <DateRangeFilter
-            isOutsideRange={(date) => moment() <= date}
-            onFilterChange={onFilterChange}
-          />}
-          filterClassName="text-center"
-          className="text-center"
+          name="type"
+          header={"Bonus type"}
+          headerClassName={'text-uppercase'}
+          render={this.renderType}
         />
+
+        <GridColumn
+          name="status"
+          header={"Status"}
+          headerClassName={'text-uppercase'}
+          render={this.renderStatus}
+        />
+
         <GridColumn
           name="actions"
-          header="Actions"
-          headerStyle={{ width: '10%' }}
+          header={""}
           render={this.renderActions}
         />
       </GridView>
+
+      {modal.name === VIEW_MODAL && <ViewModal
+        isOpen={true}
+        profile={profile}
+        accumulatedBalances={accumulatedBalances}
+        {...modal.params}
+        onClose={this.handleModalClose}
+      />}
     </div>;
   }
+
+  renderMainInfo = (data) => {
+    return <span>
+      <span className="font-weight-600">{data.label}</span><br />
+      <small className="text-muted">{shortify(data.bonusUUID, 'BM')}</small>
+      <br/>
+      {
+        !!data.campaignUUID &&
+        <small className="text-muted">
+          by Campaign {shortify(data.campaignUUID, 'CO')}
+        </small>
+      }
+      {
+        !data.campaignUUID && !!data.operatorUUID &&
+        <small className="text-muted">
+          by Manual Bonus {shortify(data.operatorUUID, 'OP')}
+        </small>
+      }
+    </span>;
+  };
+
+  renderAvailablePeriod = (data) => {
+    return data.createdDate ? <div>
+      <span className="font-weight-600">
+        {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
+        </span>
+      <br/>
+      {
+        !!data.expirationDate &&
+        <small>
+          {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+        </small>
+      }
+    </div> : <span>&mdash</span>;
+  };
+
+  renderGrantedAmount = (data) => {
+    return <Amount className="font-weight-600" {...data.grantedAmount}/>;
+  };
+
+  renderWageredAmount = (data) => {
+    return <Amount className="font-weight-600" {...data.wagered}/>;
+  };
+
+  renderToWagerAmount = (data) => {
+    const toWagerAmount = {
+      amount: Math.max(
+        data.amountToWage && !isNaN(data.amountToWage.amount) &&
+        data.wagered && !isNaN(data.wagered.amount)
+          ? data.amountToWage.amount - data.wagered.amount : 0,
+        0
+      ), currency: data.currency
+    };
+
+    return <div>
+      <Amount {...toWagerAmount}/><br />
+      <small>out of <Amount {...data.amountToWage}/></small>
+    </div>;
+  };
+
+  renderType = (data) => {
+    if (!data.bonusType) {
+      return data.bonusType;
+    }
+
+    const label = typesLabels[data.bonusType] || data.bonusType;
+    const props = typesProps[data.bonusType] || {};
+
+    return <div>
+      <span {...props}>{label}</span><br/>
+      <small>{
+        data.optIn
+          ? 'Opt-in'
+          : 'Non Opt-in'
+      }</small>
+    </div>;
+  };
+
+  renderStatus = (data) => {
+    if (!data.state) {
+      return data.state;
+    }
+
+    const label = statusesLabels[data.state] || data.state;
+    const props = statusesProps[data.state] || {};
+
+    return <div>
+      <span {...props}>{label}</span><br/>
+      {data.state === statuses.IN_PROGRESS && this.renderStatusActive(data)}
+    </div>;
+  };
+
+  renderStatusActive = (data) => {
+    return data.expirationDate
+      ? <small>Until {moment(data.expirationDate).format('DD.MM.YYYY')}</small>
+      : null;
+  };
+
+  renderActions = (data, column) => {
+
+  };
 }
 
 export default List;

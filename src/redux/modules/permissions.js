@@ -13,7 +13,7 @@ function fetchPermissions() {
     return dispatch({
       [CALL_API]: {
         method: 'GET',
-        endpoint: `/auth/permissions`,
+        endpoint: `auth/permissions`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
