@@ -58,7 +58,7 @@ function cancelBonus(id, playerUUID) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus/bonuses/${playerUUID}/${id}/cancel`,
+        endpoint: `bonus/bonuses/${id}/cancel?playerUUID=${playerUUID}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',

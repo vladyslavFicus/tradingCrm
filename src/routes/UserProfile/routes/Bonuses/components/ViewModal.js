@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import classNames from 'classnames';
 import './ViewModal.scss';
 import { shortify } from 'utils/uuid';
 import Amount from 'components/Amount';
@@ -29,7 +30,7 @@ class ViewModal extends Component {
   };
 
   render() {
-    const { item, profile, accumulatedBalances, onClose, ...rest } = this.props;
+    const { item, profile, actions, accumulatedBalances, onClose, ...rest } = this.props;
 
     return (
       <Modal className="view-bonus-modal" toggle={onClose} {...rest}>
@@ -40,7 +41,16 @@ class ViewModal extends Component {
           {this.renderBonusStats(item)}
         </ModalBody>
         <ModalFooter>
-          <Button color="secondary" onClick={onClose}>Close</Button>
+          {
+            actions.length === 2 &&
+            <div className="row">
+              {actions.map((action, index) => (
+                <div className={classNames("col-md-6", { 'text-right': index !== 0 })}>
+                  <button {...action}/>
+                </div>
+              ))}
+            </div>
+          }
         </ModalFooter>
       </Modal>
     );

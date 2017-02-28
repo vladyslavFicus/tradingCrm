@@ -13,8 +13,8 @@ const types = keyMirror({
   Manual: null,
 });
 const assign = keyMirror({
-  Operator: null,
-  Campaign: null,
+  manual: null,
+  campaign: null,
 });
 
 const statusesLabels = {
@@ -30,8 +30,8 @@ const typesLabels = {
   [types.Manual]: 'No deposit',
 };
 const assignLabels = {
-  [assign.Operator]: 'Operator',
-  [assign.Campaign]: 'Campaign',
+  [assign.manual]: 'Operator',
+  [assign.campaign]: 'Campaign',
 };
 
 const statusesProps = {

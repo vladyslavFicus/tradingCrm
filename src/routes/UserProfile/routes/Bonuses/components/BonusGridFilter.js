@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
+import { Link } from 'react-router';
 import { statusesLabels, typesLabels, assignLabels } from 'constants/bonus';
 import { createValidator } from 'utils/validator';
+import { formValueSelector } from 'redux-form';
+import DateTime from 'react-datetime';
 import classNames from 'classnames';
+import moment from 'moment';
 
+const FORM_NAME = 'userBonusesFilter';
+const bonusGridValuesSelector = formValueSelector(FORM_NAME);
 const attributeLabels = {
   keyword: 'Bonus ID, Bonus name, Granted by...',
   assigned: 'Assigned by',
@@ -22,12 +29,33 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 class BonusGridFilter extends Component {
+  handleDateTimeChange = (callback) => (value) => {
+    callback(value ? value.format('YYYY-MM-DD') : '');
+  };
+
+  startDateValidator = (current) => {
+    const { currentValues } = this.props;
+
+    return currentValues.endDate
+      ? current.isSameOrBefore(moment(currentValues.endDate))
+      : true;
+  };
+
+  endDateValidator = (current) => {
+    const { currentValues } = this.props;
+
+    return currentValues.startDate
+      ? current.isSameOrAfter(moment(currentValues.startDate))
+      : true;
+  };
+
   render() {
     const {
       submitting,
       handleSubmit,
       onSubmit,
       reset,
+      playerUUID,
     } = this.props;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
@@ -36,7 +64,9 @@ class BonusGridFilter extends Component {
           <span className="font-size-20">Bonus</span>
         </div>
         <div className="col-md-1 col-md-offset-9">
-          <button className="btn btn-primary-outline">+ Manual bonus</button>
+          <Link className="btn btn-primary-outline" to={`/bonuses/create/${playerUUID}`}>
+            + Manual bonus
+          </Link>
         </div>
       </div>
 
@@ -110,6 +140,7 @@ class BonusGridFilter extends Component {
                         name="startDate"
                         placeholder={attributeLabels.startDate}
                         component={this.renderDateField}
+                        isValidDate={this.startDateValidator}
                       />
                     </div>
                     <div className="col-md-5">
@@ -117,6 +148,7 @@ class BonusGridFilter extends Component {
                         name="endDate"
                         placeholder={attributeLabels.endDate}
                         component={this.renderDateField}
+                        isValidDate={this.endDateValidator}
                       />
                     </div>
                   </div>
@@ -172,16 +204,20 @@ class BonusGridFilter extends Component {
     </div>;
   };
 
-  renderDateField = ({ input, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
+  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
     return <div className={classNames('form-group', { 'has-danger': touched && error })}>
       <div className="input-group">
-        <input
-          {...input}
-          disabled={disabled}
-          type={type}
-          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-          placeholder={placeholder}
-          title={placeholder}
+        <DateTime
+          dateFormat="MM/DD/YYYY"
+          timeFormat={false}
+          onChange={this.handleDateTimeChange(input.onChange)}
+          value={input.value ? moment(input.value) : null}
+          closeOnSelect={true}
+          inputProps={{
+            disabled,
+            placeholder,
+          }}
+          isValidDate={isValidDate}
         />
         <span className="input-group-addon">
           <i className="fa fa-calendar"/>
@@ -191,7 +227,19 @@ class BonusGridFilter extends Component {
   };
 }
 
-export default reduxForm({
-  form: 'userBonusesFilter',
+const FilterForm = reduxForm({
+  form: FORM_NAME,
   validate: validator,
 })(BonusGridFilter);
+
+export default connect((state) => {
+  return {
+    currentValues: {
+      keyword: bonusGridValuesSelector(state, 'keyword'),
+      states: bonusGridValuesSelector(state, 'states'),
+      assigned: bonusGridValuesSelector(state, 'assigned'),
+      startDate: bonusGridValuesSelector(state, 'startDate'),
+      endDate: bonusGridValuesSelector(state, 'endDate'),
+    },
+  };
+})(FilterForm);

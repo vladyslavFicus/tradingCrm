@@ -2,4 +2,8 @@
   &.modal-dialog {
     width: 750px;
   }
+
+  & .modal-footer {
+    text-align: left;
+  }
 }

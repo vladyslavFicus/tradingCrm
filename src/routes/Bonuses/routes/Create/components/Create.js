@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import ManageForm from 'routes/Bonuses/components/ManageForm';
-import { actionTypes } from '../modules/create';
 import { actionTypes as profileActionTypes } from 'routes/Users/modules/view';
 
 export default class Create extends Component {
@@ -9,7 +8,11 @@ export default class Create extends Component {
     this.props.createBonus(data)
       .then((action) => {
         if (action && !action.error) {
-          this.props.router.replace('/bonuses');
+          if (this.props.params.uuid) {
+            this.props.router.replace(`/users/${this.props.params.uuid}/bonuses`);
+          } else {
+            this.props.router.replace(`/bonuses`);
+          }
         }
       });
   };

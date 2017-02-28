@@ -52,11 +52,28 @@ class List extends Component {
   };
 
   handleRowClick = (data) => {
+    const actions = [
+      {
+        children: 'Close',
+        onClick: this.handleModalClose,
+        className: 'btn btn-default-outline text-uppercase',
+      },
+    ];
+
+    if ([statuses.COMPLETED, statuses.CANCELLED, statuses.EXPIRED, statuses.CONSUMED].indexOf(data.state) === -1) {
+      actions.push({
+        children: 'Cancel bonus',
+        onClick: this.handleCancelBonus.bind(null, data.id),
+        className: 'btn btn-danger text-uppercase',
+      })
+    }
+
     this.setState({
       modal: {
         name: VIEW_MODAL,
         params: {
           item: data,
+          actions,
         },
       }
     })
@@ -64,6 +81,11 @@ class List extends Component {
 
   handleModalClose = () => {
     this.setState({ modal: { ...modalInitialState } });
+  };
+
+  handleCancelBonus = (id) => {
+    this.props.cancelBonus(id, this.props.params.id)
+      .then(() => this.handleRefresh());
   };
 
   render() {
@@ -74,6 +96,7 @@ class List extends Component {
       <BonusGridFilter
         onSubmit={this.handleSubmit}
         initialValues={this.state.filters}
+        playerUUID={profile.data.uuid}
       />
 
       <GridView
