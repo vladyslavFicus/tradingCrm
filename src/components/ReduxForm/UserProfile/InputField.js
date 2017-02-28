@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
 const InputField = (props) => {
-  const { input, label, type, wrapperClassName, disabled, meta: { touched, error } } = props;
+  const { input, label, type, wrapperClassName, disabled, meta: { touched, error }, inputClassName } = props;
 
   return (
     <div className={wrapperClassName}>
@@ -12,7 +12,7 @@ const InputField = (props) => {
           {...input}
           disabled={disabled}
           type={type}
-          className={classNames('form-control', { 'has-danger': touched && error })}
+          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
           placeholder={label}
         />
       </div>

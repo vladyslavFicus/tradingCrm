@@ -1,6 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
+import { types } from 'constants/bonus';
 
 const KEY = 'bonus';
 const CREATE_BONUS = createRequestAction(`${KEY}/create`);
@@ -18,7 +19,7 @@ function createBonus(data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, bonusType: types.Manual }),
         types: [
           CREATE_BONUS.REQUEST,
           CREATE_BONUS.SUCCESS,

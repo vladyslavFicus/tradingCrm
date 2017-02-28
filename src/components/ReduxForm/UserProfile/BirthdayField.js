@@ -25,7 +25,7 @@ class BirthdayField extends Component {
         <label>{label}</label>
         <div className="input-group">
           <span className="input-group-addon">
-            <i className="fa fa-calendar"></i>
+            <i className="fa fa-calendar"/>
           </span>
           <DatePicker
             dateFormat="MM/DD/YYYY"
