@@ -1,0 +1,80 @@
+import { actionCreators as noteActionCreators } from 'redux/modules/note';
+import timestamp from 'utils/timestamp';
+import createRequestAction from 'utils/createRequestAction';
+
+const KEY = 'user/notes';
+const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
+const ADD_NOTE = createRequestAction(`${KEY}/fetch-entities`);
+const EDIT_NOTE = createRequestAction(`${KEY}/fetch-entities`);
+const DELETE_NOTE = createRequestAction(`${KEY}/fetch-entities`);
+
+const fetchNotes = noteActionCreators.fetchNotes(FETCH_ENTITIES);
+const addNote = noteActionCreators.addNote(ADD_NOTE);
+const editNote = noteActionCreators.addNote(EDIT_NOTE);
+const deleteNote = noteActionCreators.addNote(DELETE_NOTE);
+
+const actionHandlers = {
+  [FETCH_ENTITIES.REQUEST]: (state, action) => ({
+    ...state,
+    filters: { ...state.filters, ...action.meta.filters, },
+    isLoading: true,
+    error: null,
+  }),
+  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      ...action.payload,
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  }),
+  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+    ...state,
+    isLoading: false,
+    error: action.payload,
+    receivedAt: timestamp(),
+  }),
+};
+const initialState = {
+  entities: {
+    first: null,
+    last: null,
+    number: null,
+    numberOfElements: null,
+    size: null,
+    sort: null,
+    totalElements: null,
+    totalPages: null,
+    content: [],
+  },
+  error: null,
+  filters: {},
+  isLoading: false,
+  receivedAt: null,
+};
+
+const reducer = (state = initialState, action) => {
+  const handler = actionHandlers[action.type];
+
+  return handler ? handler(state, action) : state;
+};
+
+const actionTypes = {
+  FETCH_ENTITIES,
+};
+const actionCreators = {
+  fetchNotes,
+  addNote,
+  editNote,
+  deleteNote,
+};
+
+export {
+  initialState,
+  actionTypes,
+  actionCreators,
+  actionHandlers,
+};
+
+export default reducer;

@@ -74,6 +74,7 @@ class Header extends Component {
       availableStatuses,
       accumulatedBalances,
       availableTags,
+      onAddNoteClick,
     } = this.props;
     const selectedTags = profileTags
       ? profileTags.map(option => `${option.tagPriority}/${option.tag}`)
@@ -108,6 +109,9 @@ class Header extends Component {
               value={valueOptions}
               onDelete={this.handleTagDelete}
             />}
+          </div>
+          <div className="col-md-1">
+            <button type="button" className="btn margin-inline" id="add-note-button" onClick={(e) => onAddNoteClick('add-note-button')}>Add note</button>
           </div>
         </div>
 

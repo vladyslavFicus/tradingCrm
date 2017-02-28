@@ -3,8 +3,18 @@ import Tabs from '../components/Tabs';
 import Header from '../components/Header';
 import Information from '../components/Information/Container';
 import { userProfileTabs } from 'config/menu';
+import NotePopover from '../components/NotePopover';
+
+const popoverInitialState = {
+  name: null,
+  params: {},
+};
 
 class ProfileLayout extends Component {
+  state = {
+    popover: { ...popoverInitialState },
+  };
+
   componentWillMount() {
     const {
       profile,
@@ -12,18 +22,36 @@ class ProfileLayout extends Component {
       fetchActiveBonus,
       fetchIp,
       fetchAccumulatedBalances,
+      fetchNotes,
       params,
     } = this.props;
 
     if (!profile.isLoading) {
       loadFullProfile(params.id)
+        .then(() => fetchNotes({ playerUUID: params.id }))
         .then(() => fetchActiveBonus(params.id))
         .then(() => fetchIp(params.id, { limit: 10 }))
         .then(() => fetchAccumulatedBalances(params.id));
     }
   }
 
+  handleAddNoteClick = (target) => {
+    this.setState({
+      popover: {
+        name: 'note-popover',
+        params: {
+          target,
+        },
+      }
+    })
+  };
+
+  handlePopoverHide = () => {
+    this.setState({ popover: { ...popoverInitialState } });
+  };
+
   render() {
+    const { popover } = this.state;
     const {
       profile: { data },
       children,
@@ -37,6 +65,11 @@ class ProfileLayout extends Component {
       accumulatedBalances,
       updateSubscription,
       changeStatus,
+      addNote,
+      editNote,
+      deleteNote,
+      fetchNotes,
+      notes,
     } = this.props;
 
     return (
@@ -50,11 +83,17 @@ class ProfileLayout extends Component {
             availableTags={availableTags}
             addTag={addTag.bind(null, params.id)}
             deleteTag={deleteTag.bind(null, params.id)}
+            onAddNoteClick={this.handleAddNoteClick}
           />
           <Information
             data={data}
             ips={ip.entities.content}
             updateSubscription={updateSubscription.bind(null, params.id)}
+            fetchNote={fetchNotes}
+            addNote={addNote}
+            editNote={editNote}
+            deleteNote={deleteNote}
+            notes={notes}
           />
 
           <div className="row">
@@ -76,6 +115,11 @@ class ProfileLayout extends Component {
           </div>
 
         </div>
+        {popover.name === 'note-popover' && <NotePopover
+          toggle={this.handlePopoverHide}
+          isOpen
+          {...popover.params}
+        />}
       </div>
     );
   }

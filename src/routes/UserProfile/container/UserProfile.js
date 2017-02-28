@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { actionCreators } from '../modules';
 import { actionCreators as ipActionCreators } from '../modules/ip';
 import { actionCreators as accumulatedBalancesActionCreators } from '../modules/accumulatedBalances';
 import { actionCreators as bonusActionCreators } from '../modules/bonus';
@@ -7,7 +8,7 @@ import ProfileLayout from '../layouts/ProfileLayout';
 import { getAvailableTags } from 'config/index';
 import { statusActions } from 'config/user';
 
-const mapStateToProps = ({ profile: { view: userProfile, bonus, ip, accumulatedBalances }, auth }) => {
+const mapStateToProps = ({ profile: { view: userProfile, bonus, ip, accumulatedBalances, notes }, auth }) => {
   const userBalance = userProfile.profile.data.balance;
   const emptyBalance = {
     amount: 0,
@@ -17,6 +18,7 @@ const mapStateToProps = ({ profile: { view: userProfile, bonus, ip, accumulatedB
   return {
     ...userProfile,
     ip,
+    notes,
     accumulatedBalances: {
       ...accumulatedBalances,
       data: {
@@ -35,8 +37,8 @@ const mapStateToProps = ({ profile: { view: userProfile, bonus, ip, accumulatedB
     availableTags: getAvailableTags(auth.department),
     availableStatuses: userProfile && userProfile.profile && userProfile.profile.data
       ? statusActions[userProfile.profile.data.profileStatus]
-      ? statusActions[userProfile.profile.data.profileStatus]
-      : []
+        ? statusActions[userProfile.profile.data.profileStatus]
+        : []
       : [],
   };
 };
@@ -60,6 +62,10 @@ const mapActions = {
   addTag: viewActionCreators.addTag,
   deleteTag: viewActionCreators.deleteTag,
   changeStatus: viewActionCreators.changeStatus,
+  fetchNotes: actionCreators.fetchNotes,
+  addNote: actionCreators.addNote,
+  editNote: actionCreators.editNote,
+  deleteNote: actionCreators.deleteNote,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);
