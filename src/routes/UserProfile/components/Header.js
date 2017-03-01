@@ -7,6 +7,7 @@ import ProfileTags from 'components/ProfileTags';
 import Balances from './Balances';
 import { statuses } from 'config/user';
 import classNames from 'classnames';
+import NoteButton from './NoteButton';
 
 const statusColorNames = {
   [statuses.ACTIVE]: 'color-success',
@@ -110,8 +111,13 @@ class Header extends Component {
               onDelete={this.handleTagDelete}
             />}
           </div>
-          <div className="col-md-1">
-            <button type="button" className="btn margin-inline" id="add-note-button" onClick={(e) => onAddNoteClick('add-note-button')}>Add note</button>
+          <div className="pull-right">
+            <NoteButton
+              id="header-add-note-button"
+              className="btn btn-default-outline"
+              onClick={onAddNoteClick}
+              label={"Add note"}
+            />
           </div>
         </div>
 
@@ -124,7 +130,8 @@ class Header extends Component {
               label={
                 <div>
                   <span className="player__account__status-label text-uppercase">Account Status</span>
-                  <div className={`player__account__status-current ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
+                  <div
+                    className={`player__account__status-current ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
                   {
                     !!suspendEndDate &&
                     <small className="player__account__status-scince">

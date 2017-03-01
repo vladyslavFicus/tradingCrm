@@ -41,6 +41,9 @@ class ProfileLayout extends Component {
         name: 'note-popover',
         params: {
           target,
+          initialValues: {
+            pinned: false,
+          },
         },
       }
     })
@@ -48,6 +51,10 @@ class ProfileLayout extends Component {
 
   handlePopoverHide = () => {
     this.setState({ popover: { ...popoverInitialState } });
+  };
+
+  handleSubmitNote = (data) => {
+    console.log(data);
   };
 
   render() {
@@ -119,6 +126,7 @@ class ProfileLayout extends Component {
           toggle={this.handlePopoverHide}
           isOpen
           {...popover.params}
+          onSubmit={this.handleSubmitNote}
         />}
       </div>
     );
