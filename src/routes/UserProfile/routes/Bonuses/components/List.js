@@ -12,6 +12,7 @@ import {
 import moment from 'moment';
 import Amount from 'components/Amount';
 import { shortify } from 'utils/uuid';
+import './List.scss';
 
 const modalInitialState = { name: null, params: {} };
 const VIEW_MODAL = 'view-modal';
@@ -92,7 +93,7 @@ class List extends Component {
     const { modal } = this.state;
     const { list: { entities }, profile, accumulatedBalances } = this.props;
 
-    return <div className={'tab-pane fade in active'}>
+    return <div className={'tab-pane fade in active bonus-list-tab'}>
       <BonusGridFilter
         onSubmit={this.handleSubmit}
         initialValues={this.state.filters}
@@ -100,7 +101,7 @@ class List extends Component {
       />
 
       <GridView
-        tableClassName="table table-hovered"
+        tableClassName="table table-responsive"
         headerClassName=""
         dataSource={entities.content}
         onPageChange={this.handlePageChanged}
@@ -182,18 +183,17 @@ class List extends Component {
 
   renderMainInfo = (data) => {
     return <span>
-      <span className="font-weight-600">{data.label}</span><br />
-      <small className="text-muted">{shortify(data.bonusUUID, 'BM')}</small>
-      <br/>
+      <span className="font-weight-600 display-block">{data.label}</span>
+      <small className="text-muted display-block">{shortify(data.bonusUUID, 'BM')}</small>
       {
         !!data.campaignUUID &&
-        <small className="text-muted">
+        <small className="text-muted display-block">
           by Campaign {shortify(data.campaignUUID, 'CO')}
         </small>
       }
       {
         !data.campaignUUID && !!data.operatorUUID &&
-        <small className="text-muted">
+        <small className="text-muted display-block">
           by Manual Bonus {shortify(data.operatorUUID, 'OP')}
         </small>
       }
@@ -202,13 +202,12 @@ class List extends Component {
 
   renderAvailablePeriod = (data) => {
     return data.createdDate ? <div>
-      <span className="font-weight-600">
+      <span className="font-weight-600 display-block">
         {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
         </span>
-      <br/>
       {
         !!data.expirationDate &&
-        <small>
+        <small className="display-block">
           {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
         </small>
       }
@@ -234,8 +233,8 @@ class List extends Component {
     };
 
     return <div>
-      <Amount {...toWagerAmount}/><br />
-      <small>out of <Amount {...data.amountToWage}/></small>
+      <Amount className="display-block" {...toWagerAmount} />
+      <small className="display-block">out of <Amount {...data.amountToWage}/></small>
     </div>;
   };
 
@@ -248,8 +247,8 @@ class List extends Component {
     const props = typesProps[data.bonusType] || {};
 
     return <div>
-      <span {...props}>{label}</span><br/>
-      <small>{
+      <span className="display-block" {...props}>{label}</span>
+      <small className="display-block">{
         data.optIn
           ? 'Opt-in'
           : 'Non Opt-in'

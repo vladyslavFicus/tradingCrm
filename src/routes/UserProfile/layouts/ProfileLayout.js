@@ -59,7 +59,7 @@ class ProfileLayout extends Component {
 
           <div className="row">
             <section className="panel profile-user-content">
-              <div className="panel-body">
+              <div className="panel-body padding-horizontal-0">
                 <div className="nav-tabs-horizontal">
                   <Tabs
                     items={userProfileTabs}

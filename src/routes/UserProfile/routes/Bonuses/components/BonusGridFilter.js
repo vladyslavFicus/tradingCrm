@@ -63,8 +63,8 @@ class BonusGridFilter extends Component {
         <div className="col-md-1">
           <span className="font-size-20">Bonus</span>
         </div>
-        <div className="col-md-1 col-md-offset-9">
-          <Link className="btn btn-primary-outline" to={`/bonuses/create/${playerUUID}`}>
+        <div className="col-md-2 col-md-offset-9 text-right">
+          <Link className="btn btn-sm btn-primary-outline" to={`/bonuses/create/${playerUUID}`}>
             + Manual bonus
           </Link>
         </div>
@@ -160,11 +160,10 @@ class BonusGridFilter extends Component {
           <div className="col-md-2">
             <div className="form-group">
               <br/>
-              <button disabled={submitting} className="btn btn-default" onClick={reset}>
+              <button disabled={submitting} className="btn btn-default btn-sm margin-right-20 font-weight-700" onClick={reset}>
                 Reset
               </button>
-              {' '}
-              <button disabled={submitting} className="btn btn-primary" type="submit">
+              <button disabled={submitting} className="btn btn-primary btn-sm font-weight-700" type="submit">
                 Apply
               </button>
             </div>
