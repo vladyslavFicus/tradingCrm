@@ -56,7 +56,7 @@ function editNote(type) {
     return dispatch({
       [CALL_API]: {
         endpoint: `note/notes/${id}`,
-        method: 'POST',
+        method: 'PUT',
         types: [type.REQUEST, type.SUCCESS, type.FAILURE],
         headers: {
           Accept: 'application/json',

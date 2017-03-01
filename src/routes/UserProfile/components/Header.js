@@ -116,8 +116,9 @@ class Header extends Component {
               id="header-add-note-button"
               className="btn btn-default-outline"
               onClick={onAddNoteClick}
-              label={"Add note"}
-            />
+            >
+              Add note
+            </NoteButton>
           </div>
         </div>
 

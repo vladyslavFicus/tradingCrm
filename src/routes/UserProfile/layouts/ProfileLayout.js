@@ -28,7 +28,7 @@ class ProfileLayout extends Component {
 
     if (!profile.isLoading) {
       loadFullProfile(params.id)
-        .then(() => fetchNotes({ playerUUID: params.id }))
+        .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
         .then(() => fetchActiveBonus(params.id))
         .then(() => fetchIp(params.id, { limit: 10 }))
         .then(() => fetchAccumulatedBalances(params.id));
@@ -43,7 +43,24 @@ class ProfileLayout extends Component {
           target,
           initialValues: {
             pinned: false,
+            targetType: 'profile',
+            targetUUID: this.props.params.id,
+            playerUUID: this.props.params.id,
           },
+        },
+      }
+    })
+  };
+
+  handleEditNoteClick = (target, item, params) => {
+    this.setState({
+      popover: {
+        name: 'note-popover',
+        params: {
+          ...params,
+          item,
+          target,
+          initialValues: { ...item },
         },
       }
     })
@@ -54,7 +71,16 @@ class ProfileLayout extends Component {
   };
 
   handleSubmitNote = (data) => {
-    console.log(data);
+    return new Promise(resolve => {
+      if (data.uuid) {
+        return resolve(this.props.editNote(data.uuid, data));
+      } else {
+        return resolve(this.props.addNote(data));
+      }
+    }).then(() => {
+      this.handlePopoverHide();
+      this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
+    });
   };
 
   render() {
@@ -72,10 +98,6 @@ class ProfileLayout extends Component {
       accumulatedBalances,
       updateSubscription,
       changeStatus,
-      addNote,
-      editNote,
-      deleteNote,
-      fetchNotes,
       notes,
     } = this.props;
 
@@ -96,10 +118,7 @@ class ProfileLayout extends Component {
             data={data}
             ips={ip.entities.content}
             updateSubscription={updateSubscription.bind(null, params.id)}
-            fetchNote={fetchNotes}
-            addNote={addNote}
-            editNote={editNote}
-            deleteNote={deleteNote}
+            onEditNoteClick={this.handleEditNoteClick}
             notes={notes}
           />
 

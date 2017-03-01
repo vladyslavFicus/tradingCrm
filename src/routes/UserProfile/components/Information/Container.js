@@ -6,7 +6,7 @@ import Notes from './Notes';
 
 class Container extends Component {
   render() {
-    const { data, ips, updateSubscription } = this.props;
+    const { data, ips, updateSubscription, notes, onEditNoteClick } = this.props;
 
     return (
       <div className="player__account__details row panel-body">
@@ -20,13 +20,14 @@ class Container extends Component {
           updateSubscription={updateSubscription}
         />
         <IpList ips={ips}/>
-        {/*<Notes/>*/}
+
+        <Notes
+          notes={notes}
+          onEditNoteClick={onEditNoteClick}
+        />
       </div>
     );
   }
 }
-
-Container.propTypes = {};
-Container.defaultProps = {};
 
 export default Container;

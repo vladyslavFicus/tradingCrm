@@ -5,6 +5,9 @@ import { reduxForm, Field, formValueSelector } from 'redux-form';
 import { createValidator } from 'utils/validator';
 import ReactSwitch from 'react-toggle-switch';
 import classNames from 'classnames';
+import moment from 'moment';
+import { entities, entitiesPrefixes } from 'constants/uuid';
+import { shortify } from 'utils/uuid';
 import NotePopoverStyle from './NotePopover.scss';
 
 const MAX_CONTENT_LENGTH = 500;
@@ -22,6 +25,7 @@ const validator = createValidator({
 class NotePopover extends Component {
   static propTypes = {
     item: PropTypes.object,
+    placement: PropTypes.string,
     isOpen: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     defaultTitleLabel: PropTypes.string,
@@ -29,16 +33,13 @@ class NotePopover extends Component {
 
   static defaultProps = {
     defaultTitleLabel: 'Notes',
-  };
-
-  handleClick = () => {
-    console.log('test');
+    placement: 'bottom',
   };
 
   render() {
     const {
       item,
-      defaultTitleLabel,
+      placement,
       onSubmit,
       target,
       isOpen,
@@ -47,20 +48,21 @@ class NotePopover extends Component {
       currentValues,
       submitting,
       invalid,
+      pristine,
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Popover
-          cssModule={NotePopoverStyle}
-          placement="bottom"
-          isOpen={isOpen}
-          toggle={toggle}
-          target={target}
-        >
-          <PopoverTitle>
-            {defaultTitleLabel}
-          </PopoverTitle>
+      <Popover
+        cssModule={NotePopoverStyle}
+        placement={placement}
+        isOpen={isOpen}
+        toggle={toggle}
+        target={target}
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="popover-title">
+            {this.renderTitle()}
+          </div>
           <PopoverContent>
             <div className="row">
               <div className="col-md-12">
@@ -95,16 +97,16 @@ class NotePopover extends Component {
 
                 <button
                   type="submit"
-                  className="btn btn-success btn-sm margin-inline"
-                  disabled={submitting || invalid}
+                  className="btn btn-success btn-sm margin-inline text-uppercase"
+                  disabled={pristine || submitting || invalid}
                 >
-                  Save
+                  {item && item.uuid ? 'Update' : 'Save'}
                 </button>
               </div>
             </div>
           </PopoverContent>
-        </Popover>
-      </form>
+        </form>
+      </Popover>
     );
   }
 
@@ -133,6 +135,33 @@ class NotePopover extends Component {
         />
       </div>
     );
+  };
+
+  renderTitle = () => {
+    const { defaultTitleLabel, item } = this.props;
+
+    if (!item) {
+      return defaultTitleLabel;
+    }
+
+    return <div>
+      <span className="display-block color-secondary font-size-12">
+            <span className="font-weight-700">Unknown operator</span>
+        {' - '}
+        {shortify(item.creatorUUID, entitiesPrefixes[entities.operator])}
+          </span>
+          <span className="display-block font-size-10 color-secondary">
+          {
+            item.creationDate
+              ? moment(item.creationDate).format('DD.MM.YYYY HH:mm:ss')
+              : 'Unknown time'
+          } to {this.renderItemId(item)}
+          </span>
+    </div>
+  };
+
+  renderItemId = (item) => {
+    return shortify(item.targetUUID, entitiesPrefixes[item.targetType]);
   };
 }
 

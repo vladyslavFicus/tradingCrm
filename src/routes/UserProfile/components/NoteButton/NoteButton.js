@@ -16,11 +16,11 @@ class NoteButton extends Component {
   };
 
   render() {
-    const { label, onClick, ...rest } = this.props;
+    const { children, onClick, ...rest } = this.props;
 
     return (
       <span onClick={this.handleClick} {...rest}>
-        {label}
+        {children}
       </span>
     );
   }

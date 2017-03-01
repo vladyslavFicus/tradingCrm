@@ -3,15 +3,15 @@ import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'user/notes';
-const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
-const ADD_NOTE = createRequestAction(`${KEY}/fetch-entities`);
-const EDIT_NOTE = createRequestAction(`${KEY}/fetch-entities`);
-const DELETE_NOTE = createRequestAction(`${KEY}/fetch-entities`);
+const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-notes`);
+const ADD_NOTE = createRequestAction(`${KEY}/add-note`);
+const EDIT_NOTE = createRequestAction(`${KEY}/edit-note`);
+const DELETE_NOTE = createRequestAction(`${KEY}/delete-note`);
 
 const fetchNotes = noteActionCreators.fetchNotes(FETCH_ENTITIES);
 const addNote = noteActionCreators.addNote(ADD_NOTE);
-const editNote = noteActionCreators.addNote(EDIT_NOTE);
-const deleteNote = noteActionCreators.addNote(DELETE_NOTE);
+const editNote = noteActionCreators.editNote(EDIT_NOTE);
+const deleteNote = noteActionCreators.deleteNote(DELETE_NOTE);
 
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
