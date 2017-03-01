@@ -52,6 +52,13 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       ...action.payload,
+      content: action.payload.content.map(item => {
+        if (item.wagered === null) {
+          item.wagered = { amount: 0, currency: item.currency };
+        }
+
+        return item;
+      }),
     },
     isLoading: false,
     receivedAt: timestamp(),

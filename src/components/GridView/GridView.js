@@ -1,12 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import GridColumn from './GridColumn';
 import { Pagination } from 'react-bootstrap';
-import classNames from 'classnames';
-
-const classList = {
-  table: classNames('table table-stripped table-hovered'),
-  thead: 'thead-default',
-};
 
 class GridView extends Component {
   constructor(props) {
@@ -81,14 +75,18 @@ class GridView extends Component {
   }
 
   render() {
+    const {
+      tableClassName,
+      headerClassName,
+    } = this.props;
     let grids = React.Children.toArray(this.props.children).filter((child) => {
       return child.type === GridColumn;
     });
 
     return <div className="row">
       <div className="col-md-12">
-        <table className={classList.table}>
-          <thead className={classList.thead}>
+        <table className={tableClassName}>
+          <thead className={headerClassName}>
           {this.renderHead(this.recognizeHeaders(grids))}
           {this.renderFilters(this.recognizeFilters(grids))}
           </thead>
@@ -127,7 +125,13 @@ class GridView extends Component {
   }
 
   renderRow = (key, columns, data) => {
-    return <tr key={key} className={this.getRowClassName(data)}>
+    const { onRowClick } = this.props;
+
+    return <tr key={key} className={this.getRowClassName(data)} onClick={(e) => {
+      if (typeof onRowClick === 'function') {
+        onRowClick(data);
+      }
+    }}>
       {columns.map((column, columnKey) => this.renderColumn(`${key}-${columnKey}`, column, data))}
     </tr>;
   };
@@ -158,12 +162,12 @@ class GridView extends Component {
     const { summaryRow } = this.props;
 
     return summaryRow ? <tfoot>
-      <tr>
-        {columns.map(({ props }, key) =>
-          <td key={key}>{summaryRow[props.name]}</td>
-        )}
-      </tr>
-      </tfoot> : null;
+    <tr>
+      {columns.map(({ props }, key) =>
+        <td key={key}>{summaryRow[props.name]}</td>
+      )}
+    </tr>
+    </tfoot> : null;
   }
 
   renderPagination() {
@@ -194,11 +198,15 @@ class GridView extends Component {
 }
 
 GridView.defaultProps = {
+  tableClassName: 'table table-stripped table-hovered',
+  headerClassName: 'thead-default',
   defaultFilters: {},
   summaryRow: null,
 };
 
 GridView.propTypes = {
+  tableClassName: PropTypes.string,
+  headerClassName: PropTypes.string,
   onFiltersChanged: PropTypes.func,
   onPageChange: PropTypes.func,
   defaultFilters: PropTypes.object,

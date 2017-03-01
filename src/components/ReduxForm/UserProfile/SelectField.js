@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
 const SelectField = (props) => {
-  const { input, label, children, wrapperClassName, meta: { touched, error } } = props;
+  const { input, label, children, wrapperClassName, meta: { touched, error }, inputClassName } = props;
 
   return (
     <div className={wrapperClassName}>
@@ -10,7 +10,7 @@ const SelectField = (props) => {
         <label>{label}</label>
         <select
           {...input}
-          className={classNames('form-control', { 'has-danger': touched && error })}
+          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
         >
           {children}
         </select>
