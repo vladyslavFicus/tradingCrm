@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Popover, PopoverTitle, PopoverContent } from 'reactstrap';
+import { Popover, PopoverContent } from 'reactstrap';
 import { reduxForm, Field, formValueSelector } from 'redux-form';
 import { createValidator } from 'utils/validator';
 import ReactSwitch from 'react-toggle-switch';
@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { entities, entitiesPrefixes } from 'constants/uuid';
 import { shortify } from 'utils/uuid';
+import shallowEqual from 'utils/shallowEqual';
 import NotePopoverStyle from './NotePopover.scss';
 
 const MAX_CONTENT_LENGTH = 500;
@@ -30,10 +31,21 @@ class NotePopover extends Component {
     onSubmit: PropTypes.func.isRequired,
     defaultTitleLabel: PropTypes.string,
   };
-
   static defaultProps = {
     defaultTitleLabel: 'Notes',
     placement: 'bottom',
+  };
+
+  handleHide = (ignoreChanges = false) => {
+    const { isOpen, toggle, currentValues, item } = this.props;
+    const shouldClose = isOpen && (
+        ignoreChanges || currentValues.content === item.content
+        && currentValues.pinned === item.pinned
+      );
+
+    if (shouldClose) {
+      toggle();
+    }
   };
 
   render() {
@@ -44,7 +56,6 @@ class NotePopover extends Component {
       target,
       isOpen,
       handleSubmit,
-      toggle,
       currentValues,
       submitting,
       invalid,
@@ -56,7 +67,7 @@ class NotePopover extends Component {
         cssModule={NotePopoverStyle}
         placement={placement}
         isOpen={isOpen}
-        toggle={toggle}
+        toggle={this.handleHide}
         target={target}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -90,7 +101,7 @@ class NotePopover extends Component {
               <div className="col-md-6 text-right">
                 <button
                   className="btn btn-link btn-sm margin-inline"
-                  onClick={toggle}
+                  onClick={() => this.handleHide(true)}
                 >
                   Cancel
                 </button>
@@ -119,8 +130,10 @@ class NotePopover extends Component {
         className="vertical-align-middle small-switch"
         onClick={onClick}
       />
-      &nbsp;
-      <span className="text-middle cursor-pointer" onClick={onClick}>{label}</span>
+      {' '}
+      <span className="text-middle cursor-pointer" onClick={onClick}>
+        {label}
+      </span>
     </span>;
   };
 
@@ -138,25 +151,32 @@ class NotePopover extends Component {
   };
 
   renderTitle = () => {
-    const { defaultTitleLabel, item } = this.props;
+    const { defaultTitleLabel, item, onDelete } = this.props;
 
     if (!item) {
       return defaultTitleLabel;
     }
 
-    return <div>
-      <span className="display-block color-secondary font-size-12">
-            <span className="font-weight-700">Unknown operator</span>
-        {' - '}
-        {shortify(item.creatorUUID, entitiesPrefixes[entities.operator])}
-          </span>
-          <span className="display-block font-size-10 color-secondary">
+    return <div className="row">
+      <div className="col-md-10">
+        <span className="display-block color-secondary font-size-12">
+          <span className="font-weight-700">Unknown operator</span>
+          {' - '}
+          {shortify(item.creatorUUID, entitiesPrefixes[entities.operator])}
+        </span>
+        <span className="display-block font-size-10 color-secondary">
           {
             item.creationDate
               ? moment(item.creationDate).format('DD.MM.YYYY HH:mm:ss')
               : 'Unknown time'
           } to {this.renderItemId(item)}
-          </span>
+      </span>
+      </div>
+      <div className="col-md-2 text-right">
+        <span onClick={() => onDelete(item)} className="font-size-12 color-danger text-right">
+          <i className="fa fa-trash"/>
+        </span>
+      </div>
     </div>
   };
 

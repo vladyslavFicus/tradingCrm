@@ -6,7 +6,13 @@ import Notes from './Notes';
 
 class Container extends Component {
   render() {
-    const { data, ips, updateSubscription, notes, onEditNoteClick } = this.props;
+    const {
+      data,
+      ips,
+      updateSubscription,
+      notes,
+      onEditNoteClick,
+    } = this.props;
 
     return (
       <div className="player__account__details row panel-body">

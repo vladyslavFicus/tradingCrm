@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import Tabs from '../components/Tabs';
 import Header from '../components/Header';
 import Information from '../components/Information/Container';
-import { userProfileTabs } from 'config/menu';
 import NotePopover from '../components/NotePopover';
+import { userProfileTabs } from 'config/menu';
+import { targetTypes } from 'constants/note';
 
+const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
   name: null,
   params: {},
@@ -35,16 +37,16 @@ class ProfileLayout extends Component {
     }
   }
 
-  handleAddNoteClick = (target) => {
+  handleAddNoteClick = (targetUUID, targetType) => (target) => {
     this.setState({
       popover: {
         name: 'note-popover',
         params: {
           target,
           initialValues: {
+            targetUUID,
+            targetType,
             pinned: false,
-            targetType: 'profile',
-            targetUUID: this.props.params.id,
             playerUUID: this.props.params.id,
           },
         },
@@ -64,6 +66,14 @@ class ProfileLayout extends Component {
         },
       }
     })
+  };
+
+  handleDeleteNoteClick = (item) => {
+    this.props.deleteNote(item.uuid)
+      .then(() => {
+        this.handlePopoverHide();
+        this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
+      });
   };
 
   handlePopoverHide = () => {
@@ -112,7 +122,7 @@ class ProfileLayout extends Component {
             availableTags={availableTags}
             addTag={addTag.bind(null, params.id)}
             deleteTag={deleteTag.bind(null, params.id)}
-            onAddNoteClick={this.handleAddNoteClick}
+            onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
           />
           <Information
             data={data}
@@ -139,14 +149,17 @@ class ProfileLayout extends Component {
               </div>
             </section>
           </div>
-
         </div>
-        {popover.name === 'note-popover' && <NotePopover
-          toggle={this.handlePopoverHide}
-          isOpen
-          {...popover.params}
-          onSubmit={this.handleSubmitNote}
-        />}
+        {
+          popover.name === NOTE_POPOVER &&
+          <NotePopover
+            toggle={this.handlePopoverHide}
+            isOpen
+            {...popover.params}
+            onSubmit={this.handleSubmitNote}
+            onDelete={this.handleDeleteNoteClick}
+          />
+        }
       </div>
     );
   }

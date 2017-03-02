@@ -41,7 +41,6 @@ class Notes extends Component {
         key={item.uuid}
         id={`profile-pinned-note-${item.uuid}`}
         onClick={(id) => this.props.onEditNoteClick(id, item, { placement: 'left' })}
-
       >
         <div className="note-content panel-body panel-yellow">
           <span className="display-block color-secondary font-size-12">
