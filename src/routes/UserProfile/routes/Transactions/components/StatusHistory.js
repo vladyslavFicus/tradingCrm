@@ -4,6 +4,19 @@ import { statusesColor } from 'constants/transaction';
 import classNames from 'classnames';
 
 class StatusHistory extends Component {
+  static propTypes = {
+    label: PropTypes.any.isRequired,
+    statusHistory: PropTypes.arrayOf(PropTypes.shape({
+      transactionName: PropTypes.string,
+      transactionId: PropTypes.string,
+    })).isRequired,
+    onLoad: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    statusHistory: [],
+  };
+
   state = {
     dropDownOpen: false,
   };
@@ -30,39 +43,22 @@ class StatusHistory extends Component {
   }
 
   renderDropDown = (label, statusHistory, dropDownOpen) => {
-    return (
-      <div>
-        <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-          <span onClick={this.toggle}>{label}</span>
-          <DropdownMenu>
-            {
-              statusHistory.map((status) => (
-                <DropdownItem
-                  className={classNames(statusesColor[status.transactionName], 'text-uppercase')}
-                  key={status.transactionId}
-                >
-                  {status.transactionName}
-                </DropdownItem>
-              ))
-            }
-          </DropdownMenu>
-        </Dropdown>
-      </div>
-    );
+    return <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
+      <span onClick={this.toggle}>{label}</span>
+      <DropdownMenu>
+        {
+          statusHistory.map((status) => (
+            <DropdownItem
+              className={classNames(statusesColor[status.transactionName], 'text-uppercase')}
+              key={status.transactionId}
+            >
+              {status.transactionName}
+            </DropdownItem>
+          ))
+        }
+      </DropdownMenu>
+    </Dropdown>
   }
 }
-
-StatusHistory.propTypes = {
-  label: PropTypes.any.isRequired,
-  statusHistory: PropTypes.arrayOf(PropTypes.shape({
-    transactionName: PropTypes.string,
-    transactionId: PropTypes.string,
-  })).isRequired,
-  onLoad: PropTypes.func.isRequired,
-};
-
-StatusHistory.defaultProps = {
-  statusHistory: []
-};
 
 export default StatusHistory;
