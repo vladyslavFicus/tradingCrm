@@ -79,23 +79,23 @@ class View extends Component {
     return <b {...props}>{label}</b>;
   }
 
-  renderAmount(data, column) {
+  renderAmount(data) {
     return (
       <strong
         className={classNames('', { 'color-danger': data.paymentType === types.Withdraw })}
       >
-        {data.paymentType === types.Withdraw && '-'}<Amount {...data[column.name]}/>
+        {data.paymentType === types.Withdraw && '-'}<Amount { ...data.amount } />
       </strong>
     );
   }
 
-  renderDateTime(data, column) {
+  renderDateTime(data) {
     return (
       <div>
-        <b>{moment(data[column.name]).format('DD.MM.YYYY')}</b>
+        <b>{moment(data.creationTime).format('DD.MM.YYYY')}</b>
         <br />
         <span className="font-size-10 color-default">
-          {moment(data[column.name]).format('HH:mm')}
+          {moment(data.creationTime).format('HH:mm')}
         </span>
       </div>
     );
@@ -126,14 +126,6 @@ class View extends Component {
       aria-hidden="true"
     ></i>;
   }
-
-  renderActions = (data) => {
-    return <div>
-      <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', { payment: data })} title={'View payment'}>
-        <i className="fa fa-search"/>
-      </a>
-    </div>;
-  };
 
   render() {
     const { entities, params } = this.props;
