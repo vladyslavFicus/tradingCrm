@@ -5,17 +5,9 @@ import './ViewModal.scss';
 import { shortify } from 'utils/uuid';
 import Amount from 'components/Amount';
 import moment from 'moment';
-import { statuses as userStatuses } from 'config/user';
+import { statusColorNames } from 'constants/user';
 import BonusType from './BonusType';
 import BonusStatus from './BonusStatus';
-
-// @todo Reuse this
-const statusColorNames = {
-  [userStatuses.ACTIVE]: 'color-success',
-  [userStatuses.INACTIVE]: 'color-warning',
-  [userStatuses.BLOCKED]: 'color-danger',
-  [userStatuses.SUSPENDED]: 'color-secondary',
-};
 
 class ViewModal extends Component {
   static propTypes = {

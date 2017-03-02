@@ -5,7 +5,7 @@ import AccountStatus from './AccountStatus';
 import { SubmissionError } from 'redux-form';
 import ProfileTags from 'components/ProfileTags';
 import Balances from './Balances';
-import { statuses } from 'config/user';
+import { statuses } from 'constants/user';
 import classNames from 'classnames';
 
 const statusColorNames = {
