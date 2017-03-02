@@ -6,13 +6,8 @@ import { shortify } from 'utils/uuid';
 import Amount from 'components/Amount';
 import moment from 'moment';
 import { statuses as userStatuses } from 'config/user';
-import {
-  statuses,
-  statusesLabels,
-  statusesProps,
-  typesLabels,
-  typesProps,
-} from 'constants/bonus';
+import BonusType from './BonusType';
+import BonusStatus from './BonusStatus';
 
 // @todo Reuse this
 const statusColorNames = {
@@ -137,20 +132,8 @@ class ViewModal extends Component {
 
         {this.renderPriority(item)}
       </div>
-      <div className="col-md-2">
-        <p className="color-default text-uppercase">
-          Bonus type
-        </p>
-
-        {this.renderType(item)}
-      </div>
-      <div className="col-md-2">
-        <p className="color-default text-uppercase">
-          Status
-        </p>
-
-        {this.renderStatus(item)}
-      </div>
+      <BonusType className="col-md-2" bonus={item} label="Bonus type"/>
+      <BonusStatus className="col-md-2" bonus={item} label="Status"/>
     </div>;
   };
 
@@ -193,44 +176,6 @@ class ViewModal extends Component {
     return <span>{data.priority}</span>;
   };
 
-  renderType = (data) => {
-    if (!data.bonusType) {
-      return data.bonusType;
-    }
-
-    const label = typesLabels[data.bonusType] || data.bonusType;
-    const props = typesProps[data.bonusType] || {};
-
-    return <div>
-      <span {...props}>{label}</span><br/>
-      <small>{
-        data.optIn
-          ? 'Opt-in'
-          : 'Non Opt-in'
-      }</small>
-    </div>;
-  };
-
-  renderStatus = (data) => {
-    if (!data.state) {
-      return data.state;
-    }
-
-    const label = statusesLabels[data.state] || data.state;
-    const props = statusesProps[data.state] || {};
-
-    return <div>
-      <span {...props}>{label}</span><br/>
-      {data.state === statuses.IN_PROGRESS && this.renderStatusActive(data)}
-    </div>;
-  };
-
-  renderStatusActive = (data) => {
-    return data.expirationDate
-      ? <small>Until {moment(data.expirationDate).format('DD.MM.YYYY')}</small>
-      : null;
-  };
-
   renderPlayer = (profile, balances) => {
     return <div className="row player-header-blocks margin-bottom-10">
       <div className="col-sm-4">
@@ -257,6 +202,9 @@ class ViewModal extends Component {
     </div>;
   };
 
+  /**
+   * @todo Move to component
+   */
   renderPlayerInfo = (profile) => {
     return <span>
       <span
@@ -270,6 +218,9 @@ class ViewModal extends Component {
     </span>;
   };
 
+  /**
+   * @todo Move to component
+   */
   renderPlayerStatus = (profile) => {
     return <span>
       <span
@@ -287,6 +238,9 @@ class ViewModal extends Component {
     </span>;
   };
 
+  /**
+   * @todo Move to component
+   */
   renderBalance = ({ total, bonus, real }) => {
     return <span>
       <Amount className={'font-weight-600 text-uppercase'} {...total} /><br/>
