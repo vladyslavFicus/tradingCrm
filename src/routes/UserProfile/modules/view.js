@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
-import { actions } from 'config/user';
+import { actions } from 'constants/user';
 import { actionCreators as usersActionCreators } from 'redux/modules/users';
 
 const KEY = 'user-profile';

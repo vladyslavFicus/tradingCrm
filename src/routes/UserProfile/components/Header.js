@@ -5,8 +5,9 @@ import AccountStatus from './AccountStatus';
 import { SubmissionError } from 'redux-form';
 import ProfileTags from 'components/ProfileTags';
 import Balances from './Balances';
-import { statuses } from 'config/user';
+import { statuses } from 'constants/user';
 import classNames from 'classnames';
+import { shortify } from 'utils/uuid';
 import NoteButton from './NoteButton';
 
 const statusColorNames = {
@@ -31,12 +32,6 @@ class Header extends Component {
         RM <Amount { ...real } /> + BM <Amount { ...bonus } />
       </small>
     );
-  };
-
-  getUuid = () => {
-    const { data: { uuid } } = this.props;
-
-    return uuid ? 'PL-' + uuid.split('-', 2).join('-') : null;
   };
 
   handleTagAdd = (option) => {
@@ -71,6 +66,7 @@ class Header extends Component {
         profileStatus,
         suspendEndDate,
         profileTags,
+        uuid,
       },
       availableStatuses,
       accumulatedBalances,
@@ -100,7 +96,7 @@ class Header extends Component {
               {[firstName, lastName, this.getUserAge()].join(' ')}
             </div>
             <span className="player__account__ids">
-                {[username, this.getUuid(), languageCode].join(' - ')}
+                {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
               </span>
           </div>
           <div className="col-md-4">
