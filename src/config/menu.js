@@ -42,11 +42,11 @@ const sidebar = [
 
 const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
-  { label: 'Documents', url: '/users/:id/documents' },
-  { label: 'Payments', url: '/users/:id/payments' },
-  { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Bonuses', url: '/users/:id/bonuses' },
+  { label: 'Game activity', url: '/users/:id/game-activity' },
+  { label: 'Payments', url: '/users/:id/payments' },
   { label: 'Limits', url: '/users/:id/limits' },
+  { label: 'Documents', url: '/users/:id/documents' },
 ];
 
 export {
