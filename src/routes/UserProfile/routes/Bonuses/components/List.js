@@ -101,7 +101,7 @@ class List extends Component {
       />
 
       <GridView
-        tableClassName="table table-responsive"
+        tableClassName="table table-hovered"
         headerClassName=""
         dataSource={entities.content}
         onPageChange={this.handlePageChanged}
@@ -182,44 +182,44 @@ class List extends Component {
   }
 
   renderMainInfo = (data) => {
-    return <span>
-      <span className="font-weight-600 display-block">{data.label}</span>
-      <small className="text-muted display-block">{shortify(data.bonusUUID, 'BM')}</small>
+    return <div>
+      <div className="font-weight-600">{data.label}</div>
+      <div className="text-muted font-size-10">{shortify(data.bonusUUID, 'BM')}</div>
       {
         !!data.campaignUUID &&
-        <small className="text-muted display-block">
+        <div className="text-muted font-size-10">
           by Campaign {shortify(data.campaignUUID, 'CO')}
-        </small>
+        </div>
       }
       {
         !data.campaignUUID && !!data.operatorUUID &&
-        <small className="text-muted display-block">
+        <div className="text-muted font-size-10">
           by Manual Bonus {shortify(data.operatorUUID, 'OP')}
-        </small>
+        </div>
       }
-    </span>;
+    </div>;
   };
 
   renderAvailablePeriod = (data) => {
     return data.createdDate ? <div>
-      <span className="font-weight-600 display-block">
+      <div className="font-weight-600">
         {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-        </span>
+        </div>
       {
         !!data.expirationDate &&
-        <small className="display-block">
+        <div className="font-size-10">
           {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
-        </small>
+        </div>
       }
     </div> : <span>&mdash</span>;
   };
 
   renderGrantedAmount = (data) => {
-    return <Amount className="font-weight-600" {...data.grantedAmount}/>;
+    return <Amount tag="div" className="font-weight-600" {...data.grantedAmount}/>;
   };
 
   renderWageredAmount = (data) => {
-    return <Amount className="font-weight-600" {...data.wagered}/>;
+    return <Amount tag="div" className="font-weight-600" {...data.wagered}/>;
   };
 
   renderToWagerAmount = (data) => {
@@ -233,8 +233,10 @@ class List extends Component {
     };
 
     return <div>
-      <Amount className="display-block" {...toWagerAmount} />
-      <small className="display-block">out of <Amount {...data.amountToWage}/></small>
+      <Amount tag="div" {...toWagerAmount} />
+      <div className="font-size-10">
+        out of <Amount {...data.amountToWage}/>
+      </div>
     </div>;
   };
 
@@ -247,12 +249,12 @@ class List extends Component {
     const props = typesProps[data.bonusType] || {};
 
     return <div>
-      <span className="display-block" {...props}>{label}</span>
-      <small className="display-block">{
+      <div {...props}>{label}</div>
+      <div className="font-size-10">{
         data.optIn
           ? 'Opt-in'
           : 'Non Opt-in'
-      }</small>
+      }</div>
     </div>;
   };
 
