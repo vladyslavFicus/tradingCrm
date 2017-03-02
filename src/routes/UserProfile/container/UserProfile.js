@@ -5,7 +5,7 @@ import { actionCreators as bonusActionCreators } from '../modules/bonus';
 import { actionCreators as viewActionCreators } from '../modules/view';
 import ProfileLayout from '../layouts/ProfileLayout';
 import { getAvailableTags } from 'config/index';
-import { statusActions } from 'config/user';
+import { statusActions } from 'constants/user';
 
 const mapStateToProps = ({ profile: { view: userProfile, bonus, ip, accumulatedBalances }, auth }) => {
   const userBalance = userProfile.profile.data.balance;

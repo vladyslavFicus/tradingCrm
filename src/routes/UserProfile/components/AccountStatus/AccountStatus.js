@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import AccountStatusModal from './AccountStatusModal';
-import { suspendPeriods } from 'config/user';
+import { suspendPeriods } from 'constants/user';
 import moment from 'moment';
 
 const initialState = {
