@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { actionCreators as viewActionCreators } from '../modules/view';
 import { actionCreators as paymentActionCreators } from 'redux/modules/payment';
 
-const mapStateToProps = ({ userPayments }) => ({
-  ...userPayments,
+const mapStateToProps = ({ userTransactions }) => ({
+  ...userTransactions,
 });
 const mapActions = {
   ...viewActionCreators,

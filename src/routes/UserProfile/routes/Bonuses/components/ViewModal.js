@@ -5,22 +5,9 @@ import './ViewModal.scss';
 import { shortify } from 'utils/uuid';
 import Amount from 'components/Amount';
 import moment from 'moment';
-import { statuses as userStatuses } from 'config/user';
-import {
-  statuses,
-  statusesLabels,
-  statusesProps,
-  typesLabels,
-  typesProps,
-} from 'constants/bonus';
-
-// @todo Reuse this
-const statusColorNames = {
-  [userStatuses.ACTIVE]: 'color-success',
-  [userStatuses.INACTIVE]: 'color-warning',
-  [userStatuses.BLOCKED]: 'color-danger',
-  [userStatuses.SUSPENDED]: 'color-secondary',
-};
+import { statusColorNames } from 'constants/user';
+import BonusType from './BonusType';
+import BonusStatus from './BonusStatus';
 
 class ViewModal extends Component {
   static propTypes = {
@@ -138,20 +125,8 @@ class ViewModal extends Component {
 
         {this.renderPriority(item)}
       </div>
-      <div className="col-md-2">
-        <div className="color-default text-uppercase font-size-11">
-          Bonus type
-        </div>
-
-        {this.renderType(item)}
-      </div>
-      <div className="col-md-2">
-        <div className="color-default text-uppercase font-size-11">
-          Status
-        </div>
-
-        {this.renderStatus(item)}
-      </div>
+      <BonusType className="col-md-2" bonus={item} label="Bonus type"/>
+      <BonusStatus className="col-md-2" bonus={item} label="Status"/>
     </div>;
   };
 
@@ -192,44 +167,6 @@ class ViewModal extends Component {
     return <span>{data.priority}</span>;
   };
 
-  renderType = (data) => {
-    if (!data.bonusType) {
-      return data.bonusType;
-    }
-
-    const label = typesLabels[data.bonusType] || data.bonusType;
-    const props = typesProps[data.bonusType] || {};
-
-    return <div>
-      <div {...props}>{label}</div>
-      <div className="little-grey-text font-size-11">{
-        data.optIn
-          ? 'Opt-in'
-          : 'Non Opt-in'
-      }</div>
-    </div>;
-  };
-
-  renderStatus = (data) => {
-    if (!data.state) {
-      return data.state;
-    }
-
-    const label = statusesLabels[data.state] || data.state;
-    const props = statusesProps[data.state] || {};
-
-    return <div>
-      <span {...props}>{label}</span><br/>
-      {data.state === statuses.IN_PROGRESS && this.renderStatusActive(data)}
-    </div>;
-  };
-
-  renderStatusActive = (data) => {
-    return data.expirationDate
-      ? <small>Until {moment(data.expirationDate).format('DD.MM.YYYY')}</small>
-      : null;
-  };
-
   renderPlayer = (profile, balances) => {
     return <div className="row player-header-blocks margin-bottom-10 equal">
       <div className="col-sm-4 equal-in">
@@ -256,6 +193,9 @@ class ViewModal extends Component {
     </div>;
   };
 
+  /**
+   * @todo Move to component
+   */
   renderPlayerInfo = (profile) => {
     return <div className="line-height-1">
       <span
@@ -269,6 +209,9 @@ class ViewModal extends Component {
     </div>;
   };
 
+  /**
+   * @todo Move to component
+   */
   renderPlayerStatus = (profile) => {
     return <div>
       <div
@@ -285,6 +228,9 @@ class ViewModal extends Component {
     </div>;
   };
 
+  /**
+   * @todo Move to component
+   */
   renderBalance = ({ total, bonus, real }) => {
     return <div>
       <Amount tag="div" className={'font-weight-600 text-uppercase'} {...total} />

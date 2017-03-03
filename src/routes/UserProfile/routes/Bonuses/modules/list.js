@@ -57,6 +57,16 @@ const actionHandlers = {
           item.wagered = { amount: 0, currency: item.currency };
         }
 
+        item.toWager = {
+          amount: Math.max(
+            item.amountToWage && !isNaN(item.amountToWage.amount) &&
+            item.wagered && !isNaN(item.wagered.amount)
+              ? item.amountToWage.amount - item.wagered.amount : 0,
+            0
+          ),
+          currency: item.currency,
+        };
+
         return item;
       }),
     },
