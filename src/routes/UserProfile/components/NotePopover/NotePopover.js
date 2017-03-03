@@ -197,16 +197,23 @@ class NotePopover extends Component {
 
     return <div className="row">
       <div className="col-md-10">
-        <span className="display-block color-secondary font-size-14 font-weight-700">
-          {shortify(item.creatorUUID, entitiesPrefixes[entities.operator])}
-        </span>
-        <span className="display-block font-size-10 color-secondary">
+        <div className="color-secondary font-size-10">
           {
-            item.creationDate
-              ? moment(item.creationDate).format('DD.MM.YYYY HH:mm:ss')
+            item.lastEditionDate && item.creationDate && item.lastEditionDate === item.creationDate
+              ? 'Created'
+              : 'Last changed'
+          }
+        </div>
+        <div className="color-secondary font-size-14 font-weight-700">
+          by {shortify(item.lastEditorUUID, entitiesPrefixes[entities.operator])}
+        </div>
+        <div className="font-size-10 color-secondary">
+          {
+            item.lastEditionDate
+              ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
               : 'Unknown time'
           } to {this.renderItemId(item)}
-      </span>
+        </div>
       </div>
       <div className="col-md-2 text-right">
         <span onClick={() => this.handleDelete(item)} className="font-size-12 color-danger text-right">

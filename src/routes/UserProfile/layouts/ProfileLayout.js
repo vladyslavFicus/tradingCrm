@@ -15,17 +15,20 @@ const popoverInitialState = {
 class ProfileLayout extends Component {
   state = {
     popover: { ...popoverInitialState },
+    noteChangedCallback: null,
   };
 
   static childContextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
   };
 
   getChildContext() {
     return {
       onAddNoteClick: this.handleAddNoteClick,
       onEditNoteClick: this.handleEditNoteClick,
+      setNoteChangedCallback: this.setNoteChangedCallback,
     };
   }
 
@@ -48,6 +51,10 @@ class ProfileLayout extends Component {
         .then(() => fetchAccumulatedBalances(params.id));
     }
   }
+
+  setNoteChangedCallback = (cb) => {
+    this.setState({ noteChangedCallback: cb });
+  };
 
   handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
     this.setState({
@@ -82,11 +89,16 @@ class ProfileLayout extends Component {
   };
 
   handleDeleteNoteClick = (item) => {
+    const { noteChangedCallback } = this.state;
+
     return new Promise(resolve => {
       return this.props.deleteNote(item.uuid)
         .then(() => {
           this.handlePopoverHide();
           this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
+          if (typeof noteChangedCallback === 'function') {
+            noteChangedCallback();
+          }
 
           return resolve();
         });
@@ -94,6 +106,8 @@ class ProfileLayout extends Component {
   };
 
   handleSubmitNote = (data) => {
+    const { noteChangedCallback } = this.state;
+
     return new Promise(resolve => {
       if (data.uuid) {
         return resolve(this.props.editNote(data.uuid, data));
@@ -103,6 +117,10 @@ class ProfileLayout extends Component {
     }).then(() => {
       this.handlePopoverHide();
       this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
+
+      if (typeof noteChangedCallback === 'function') {
+        noteChangedCallback();
+      }
     });
   };
 

@@ -30,16 +30,19 @@ class List extends Component {
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
   };
 
+  componentDidMount() {
+    this.context.setNoteChangedCallback(this.handleRefresh);
+  }
+
+  componentWillUnmount() {
+    this.context.setNoteChangedCallback(null);
+  }
+
   getNotePopoverParams = () => ({
-    placement: 'left',
-    onSubmitSuccess: () => {
-      this.handleRefresh();
-    },
-    onDeleteSuccess: () => {
-      this.handleRefresh();
-    },
+    placement: 'left'
   });
 
   handleNoteClick = (target, data) => {

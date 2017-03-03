@@ -44,14 +44,12 @@ class Notes extends Component {
       >
         <div className="note-content panel-body panel-yellow">
           <span className="display-block color-secondary font-size-12">
-            <span className="font-weight-700">Unknown operator</span>
-            {' - '}
-            {shortify(item.creatorUUID, entitiesPrefixes[entities.operator])}
+            {shortify(item.lastEditorUUID, entitiesPrefixes[entities.operator])}
           </span>
           <span className="display-block font-size-10 color-secondary">
           {
-            item.creationDate
-              ? moment(item.creationDate).format('DD.MM.YYYY HH:mm:ss')
+            item.lastEditionDate
+              ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
               : 'Unknown time'
           } to {this.renderItemId(item)}
           </span>

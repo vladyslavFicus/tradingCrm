@@ -17,16 +17,19 @@ class View extends Component {
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
   };
 
+  componentDidMount() {
+    this.context.setNoteChangedCallback(this.handleFiltersChanged.bind(this, { playerUUID: this.props.params.id }));
+  }
+
+  componentWillUnmount() {
+    this.context.setNoteChangedCallback(null);
+  }
+
   getNotePopoverParams = () => ({
-    placement: 'left',
-    onSubmitSuccess: () => {
-      this.handleFiltersChanged({ playerUUID: this.props.params.id });
-    },
-    onDeleteSuccess: () => {
-      this.handleFiltersChanged({ playerUUID: this.props.params.id });
-    },
+    placement: 'left'
   });
 
   handleNoteClick = (target, data) => {
