@@ -3,7 +3,6 @@ import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
 import buildQueryString from 'utils/buildQueryString';
 import { actionCreators as noteActionCreators } from 'redux/modules/note';
-
 import { targetTypes } from 'constants/note';
 
 const KEY = 'user/bonuses/list';
@@ -11,7 +10,7 @@ const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
 const fetchNotes = noteActionCreators.fetchNotesByType(FETCH_NOTES);
-const mapBonuses = (dispatch, pageable) => {
+const mapEntities = (dispatch, pageable) => {
   const uuids = pageable.content.map(item => item.bonusUUID);
 
   if (!uuids.length) {
@@ -86,7 +85,7 @@ function fetchEntities(filters = {}) {
             payload: (action, state, res) => {
               const contentType = res.headers.get('Content-Type');
               if (contentType && ~contentType.indexOf('json')) {
-                return res.json().then((json) => mapBonuses(dispatch, json));
+                return res.json().then((json) => mapEntities(dispatch, json));
               }
             },
           },

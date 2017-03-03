@@ -4,14 +4,14 @@ const entities = keyMirror({
   operator: null,
   profile: null,
   bonus: null,
-  transaction: null,
+  payment: null,
 });
 
 const entitiesPrefixes = {
   [entities.operator]: 'OP',
   [entities.profile]: 'PL',
   [entities.bonus]: 'BM',
-  [entities.transaction]: 'TR',
+  [entities.payment]: 'TA',
 };
 
 export {

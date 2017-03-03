@@ -5,11 +5,11 @@ import ViewModal from './ViewModal';
 import moment from 'moment';
 import Amount from 'components/Amount';
 import { shortify } from 'utils/uuid';
+import classNames from 'classnames';
 import BonusType from "./BonusType";
 import BonusStatus from "./BonusStatus";
 import { statuses } from 'constants/bonus';
 import { targetTypes } from 'constants/note';
-import classNames from 'classnames';
 import NoteButton from "../../../components/NoteButton";
 
 const modalInitialState = { name: null, params: {} };
