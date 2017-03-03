@@ -24,6 +24,7 @@ class ViewModal extends Component {
         <ModalHeader toggle={onClose}>Bonus details</ModalHeader>
         <ModalBody>
           {this.renderPlayer(profile.data, accumulatedBalances.data)}
+          <hr />
           {this.renderBonus(item)}
           {this.renderBonusStats(item)}
         </ModalBody>
@@ -44,32 +45,32 @@ class ViewModal extends Component {
   }
 
   renderBonusStats = (data) => {
-    return <div className="row margin-10 well player-header-blocks">
-      <div className="col-md-3">
-        <p className="color-default text-uppercase">
+    return <div className="row well player-header-blocks">
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
           Granted
-        </p>
+        </div>
 
         {this.renderGrantedAmount(data)}
       </div>
-      <div className="col-md-3">
-        <p className="color-default text-uppercase">
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
           Wagered
-        </p>
+        </div>
 
         {this.renderWageredAmount(data)}
       </div>
-      <div className="col-md-3">
-        <p className="color-default text-uppercase">
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
           To wager
-        </p>
+        </div>
 
         {this.renderToWagerAmount(data)}
       </div>
-      <div className="col-md-3">
-        <p className="color-default text-uppercase">
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
           Total to wager
-        </p>
+        </div>
 
         {this.renderTotalToWagerAmount(data)}
       </div>
@@ -104,23 +105,23 @@ class ViewModal extends Component {
   renderBonus = (item) => {
     return <div className="row margin-vertical-20">
       <div className="col-md-3">
-        <p className="color-default text-uppercase">
+        <div className="color-default text-uppercase font-size-11">
           Bonus
-        </p>
+        </div>
 
         {this.renderMainInfo(item)}
       </div>
       <div className="col-md-3">
-        <p className="color-default text-uppercase">
+        <div className="color-default text-uppercase font-size-11">
           Available
-        </p>
+        </div>
 
         {this.renderAvailablePeriod(item)}
       </div>
       <div className="col-md-2">
-        <p className="color-default text-uppercase">
+        <div className="color-default text-uppercase font-size-11">
           Priority
-        </p>
+        </div>
 
         {this.renderPriority(item)}
       </div>
@@ -131,35 +132,33 @@ class ViewModal extends Component {
 
   renderMainInfo = (data) => {
     return <span>
-      <span className="font-weight-600">{data.label}</span><br />
-      <small className="text-muted">{shortify(data.bonusUUID, 'BM')}</small>
-      <br/>
+      <div className="font-weight-600">{data.label}</div>
+      <div className="little-grey-text font-size-11">{shortify(data.bonusUUID, 'BM')}</div>
       {
         !!data.campaignUUID &&
-        <small className="text-muted">
+        <div className="little-grey-text font-size-11">
           by Campaign {shortify(data.campaignUUID, 'CO')}
-        </small>
+        </div>
       }
       {
         !data.campaignUUID && !!data.operatorUUID &&
-        <small className="text-muted">
+        <div className="ittle-grey-text font-size-11">
           by Manual Bonus {shortify(data.operatorUUID, 'OP')}
-        </small>
+        </div>
       }
     </span>;
   };
 
   renderAvailablePeriod = (data) => {
     return data.createdDate ? <div>
-      <span className="font-weight-600">
+      <div className="font-weight-600">
         {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-        </span>
-      <br/>
+        </div>
       {
         !!data.expirationDate &&
-        <small>
+        <div className="little-grey-text font-size-11">
           {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
-        </small>
+        </div>
       }
     </div> : <span>&mdash</span>;
   };
@@ -169,25 +168,25 @@ class ViewModal extends Component {
   };
 
   renderPlayer = (profile, balances) => {
-    return <div className="row player-header-blocks margin-bottom-10">
-      <div className="col-sm-4">
-        <p className="color-default text-uppercase">
+    return <div className="row player-header-blocks margin-bottom-10 equal">
+      <div className="col-sm-4 equal-in">
+        <div className="color-default text-uppercase font-size-11">
           Player
-        </p>
+        </div>
 
         {this.renderPlayerInfo(profile)}
       </div>
-      <div className="col-sm-4">
-        <p className="color-default text-uppercase">
+      <div className="col-sm-4 equal-in">
+        <div className="color-default text-uppercase font-size-11">
           Account status
-        </p>
+        </div>
 
         {this.renderPlayerStatus(profile)}
       </div>
-      <div className="col-sm-4">
-        <p className="color-default text-uppercase">
+      <div className="col-sm-4 equal-in">
+        <div className="color-default text-uppercase font-size-11">
           Balance
-        </p>
+        </div>
 
         {this.renderBalance(balances)}
       </div>
@@ -198,48 +197,47 @@ class ViewModal extends Component {
    * @todo Move to component
    */
   renderPlayerInfo = (profile) => {
-    return <span>
+    return <div className="line-height-1">
       <span
-        className="font-weight-600 text-capitalize font-size-12">
+        className="font-weight-600 text-capitalize font-size-14">
         {[profile.firstName, profile.lastName].join(' ')}
       </span>
       {' '}
       {!!profile.birthDate && <span>({moment().diff(profile.birthDate, 'years')})</span>}
       <br/>
-      <span className="font-size-10">{profile.username} - {shortify(profile.uuid, 'PL')}</span>
-    </span>;
+      <span className="little-grey-text font-size-11">{profile.username} - {shortify(profile.uuid, 'PL')}</span>
+    </div>;
   };
 
   /**
    * @todo Move to component
    */
   renderPlayerStatus = (profile) => {
-    return <span>
-      <span
+    return <div>
+      <div
         className={`font-weight-600 text-uppercase ${statusColorNames[profile.profileStatus]}`}
       >
         {profile.profileStatus}
-        </span>
-      <br/>
+        </div>
       {
         !!profile.suspendEndDate &&
-        <span className="color-default font-size-10">
+        <div className="color-default font-size-11">
           Until {moment(profile.suspendEndDate).format('L')}
-        </span>
+        </div>
       }
-    </span>;
+    </div>;
   };
 
   /**
    * @todo Move to component
    */
   renderBalance = ({ total, bonus, real }) => {
-    return <span>
-      <Amount className={'font-weight-600 text-uppercase'} {...total} /><br/>
-      <span className="font-size-10">
+    return <div>
+      <Amount tag="div" className={'font-weight-600 text-uppercase'} {...total} />
+      <div className="little-grey-text font-size-11">
         RM <Amount { ...real } /> + BM <Amount { ...bonus } />
-      </span>
-    </span>;
+      </div>
+    </div>;
   };
 }
 

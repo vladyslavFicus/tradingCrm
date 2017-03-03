@@ -11,6 +11,7 @@ import BonusStatus from "./BonusStatus";
 import { statuses } from 'constants/bonus';
 import { targetTypes } from 'constants/note';
 import NoteButton from "../../../components/NoteButton";
+import './List.scss';
 
 const modalInitialState = { name: null, params: {} };
 const VIEW_MODAL = 'view-modal';
@@ -125,7 +126,7 @@ class List extends Component {
     const { modal } = this.state;
     const { list: { entities }, profile, accumulatedBalances } = this.props;
 
-    return <div className={'tab-pane fade in active'}>
+    return <div className={'tab-pane fade in active bonus-list-tab'}>
       <BonusGridFilter
         onSubmit={this.handleSubmit}
         initialValues={this.state.filters}
@@ -213,55 +214,54 @@ class List extends Component {
   }
 
   renderMainInfo = (data) => {
-    return <span>
-      <span onClick={() => this.handleRowClick(data)} className="cursor-pointer font-weight-600">{data.label}</span>
-      <br />
-      <small className="text-muted">{shortify(data.bonusUUID, 'BM')}</small>
-      <br/>
+    return <div>
+      <div className="font-weight-600 cursor-pointer" onClick={() => this.handleRowClick(data)}>{data.label}</div>
+      <div className="text-muted font-size-10">{shortify(data.bonusUUID, 'BM')}</div>
       {
         !!data.campaignUUID &&
-        <small className="text-muted">
+        <div className="text-muted font-size-10">
           by Campaign {shortify(data.campaignUUID, 'CO')}
-        </small>
+        </div>
       }
       {
         !data.campaignUUID && !!data.operatorUUID &&
-        <small className="text-muted">
+        <div className="text-muted font-size-10">
           by Manual Bonus {shortify(data.operatorUUID, 'OP')}
-        </small>
+        </div>
       }
-    </span>;
+    </div>;
   };
 
   renderAvailablePeriod = (data) => {
     return data.createdDate ? <div>
-      <span className="font-weight-600">
+      <div className="font-weight-600">
         {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-        </span>
-      <br/>
+        </div>
       {
         !!data.expirationDate &&
-        <small>
+        <div className="font-size-10">
           {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
-        </small>
+        </div>
       }
     </div> : <span>&mdash</span>;
   };
 
   renderGrantedAmount = (data) => {
-    return <Amount className="font-weight-600" {...data.grantedAmount}/>;
+    return <Amount tag="div" className="font-weight-600" {...data.grantedAmount}/>;
   };
 
   renderWageredAmount = (data) => {
     const isCompleted = data.toWager && !isNaN(data.toWager.amount) && data.toWager.amount <= 0;
 
-    return <Amount className={classNames({ 'font-weight-600 color-success': isCompleted })} {...data.wagered}/>;
+    return <Amount tag="div" className={classNames({ 'font-weight-600 color-success': isCompleted })} {...data.wagered}/>;
   };
 
   renderToWagerAmount = (data) => {
     return <div>
-      <Amount {...data.toWager}/><br />
-      <small>out of <Amount {...data.amountToWage}/></small>
+      <Amount tag="div" {...data.toWager}/>
+      <div className="font-size-10">
+        out of <Amount {...data.amountToWage}/>
+      </div>
     </div>;
   };
 

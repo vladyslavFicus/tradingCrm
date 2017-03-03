@@ -5,6 +5,7 @@ import Information from '../components/Information/Container';
 import NotePopover from '../components/NotePopover';
 import { userProfileTabs } from 'config/menu';
 import { targetTypes } from 'constants/note';
+import './ProfileLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -147,7 +148,7 @@ class ProfileLayout extends Component {
     } = this.props;
 
     return (
-      <div className="player container panel ">
+      <div className="player container panel profile-layout">
         <div className="container-fluid">
           <Header
             data={data}
