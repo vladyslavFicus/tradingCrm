@@ -107,13 +107,14 @@ class GridView extends Component {
   }
 
   renderFilters(columns) {
-    return <tr>
+    return columns.some(column => !!column)
+      ? <tr>
       {columns.map((item, key) =>
         !!item ?
           <td key={key} {...item}/> :
           <td key={key}/>
       )}
-    </tr>;
+    </tr> : null;
   }
 
   renderBody(columns) {
