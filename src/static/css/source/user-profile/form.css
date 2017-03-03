@@ -31,11 +31,11 @@ i.green {
   margin: 0 0 0 5px;
 }
 .player__account__status-label {
-  font-size: 13px;
+  font-size: 11px;
 }
 
 .player__account__status-current {
-  font-size: 19px;
+  font-size: 14px;
   font-weight: bold;
 }
 
@@ -46,7 +46,7 @@ i.green {
 /** ************** **/
 .player__account__balance {}
 .player__account__balance-label {
-  font-size: 13px;
+  font-size: 11px;
 }
 .player__account__balance-current {
   font-size: 18px;
@@ -58,7 +58,7 @@ i.green {
 /** ************** **/
 .player__account__registered {}
 .player__account__registered-label {
-  font-size: 13px;
+  font-size: 11px;
 }
 .player__account__registered-current {
   font-size: 14px;
@@ -70,7 +70,7 @@ i.green {
 /** ************** **/
 .player__account__lastlogin {}
 .player__account__lastlogin-label {
-  font-size: 13px;
+  font-size: 11px;
 }
 .player__account__lastlogin-current {
   font-size: 14px;
@@ -82,7 +82,7 @@ i.green {
 /** ************** **/
 .player__account__affiliate {}
 .player__account__affiliate-label {
-  font-size: 13px;
+  font-size: 11px;
 }
 .player__account__affiliate-current {
   font-size: 14px;

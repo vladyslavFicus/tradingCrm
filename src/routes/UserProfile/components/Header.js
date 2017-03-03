@@ -125,11 +125,9 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
 
-          <div className="player__account__balance col-md-3 cursor-pointer">
-            {
               <Balances
                 label={
-                  <div>
+                  <div className="balance-tab">
                     <span className="player__account__balance-label text-uppercase">Balance</span>
                     <div className="player__account__balance-current">
                       <Amount { ...balance } />
@@ -139,9 +137,8 @@ class Header extends Component {
                 }
                 accumulatedBalances={accumulatedBalances}
               />
-            }
-          </div>
-          <div className="player__account__registered col-md-2">
+
+          <div className="player__account__registered width-20">
             <span className="player__account__registered-label text-uppercase">Registered</span>
             <div className="player__account__registered-current">
               { moment(registrationDate).fromNow() }
@@ -150,14 +147,14 @@ class Header extends Component {
               on { moment(registrationDate).format('DD.MM.YYYY') } <br/>
             </small>
           </div>
-          <div className="player__account__lastlogin col-md-2">
+          <div className="player__account__lastlogin width-20">
             <span className="player__account__lastlogin-label text-uppercase">Last login</span>
             <div className="player__account__lastlogin-current">
               unavailable
             </div>
             <small className="player__account__lastlogin-date">unavailable</small>
           </div>
-          <div className="player__account__affiliate col-md-3">
+          <div className="player__account__affiliate width-20">
             <span className="player__account__affiliate-label text-uppercase">
               Affiliate {' '} { !!affiliateId && affiliateId}
             </span>

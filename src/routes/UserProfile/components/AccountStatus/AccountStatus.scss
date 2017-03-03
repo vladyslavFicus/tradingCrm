@@ -1,45 +1,65 @@
+//Синяя полоска сверху при клике//
+.player__account__status:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #ffffff;
+}
+
+.player__account__status.dropdown-open {
+  border-right: 0;
+
+    &:before {
+      background: #01a8fe;
+    }
+}
+//Конец синей полоски//
+
 .player__account__status {
-
-  &:before {
-    content: '';
+  .dropdown {
     display: block;
-    position: absolute;
-    top: -4px;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: #ffffff;
+
+    .dropdown-tab {
+      padding: 0 2rem;
+      border: 1px solid #ffffff;
+    }
+
+    .dropdown-menu {
+      min-width: 100%;
+      margin: 0;
+      padding: 0;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      border: 1px solid #eeeeee;
+      top: 100%;
+      -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
+      -moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
+
+      .dropdown-item {
+        padding: 10px 2rem;
+      }
+
+      .dropdown-item:first-child {
+        border-bottom: 1px solid #eeeeee;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(242, 242, 242, 1);
+      }
+    }
   }
 }
 
 
-.dropdown-open {
-  border-right: 0 !important;
-
-  &:before {
-    background: #01a8fe;
+.player__account__status .open {
+  .dropdown-tab {
+    border: 1px solid #eeeeee;
+    border-bottom: none;
   }
 }
-
-.dropdown-menu {
-  padding: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-
-  .dropdown-item {
-    padding: 10px 15px;
-  }
-
-  .dropdown-item:first-child {
-    border-bottom: 1px solid #eeeeee;
-
-  }
-
-  .dropdown-item:hover {
-    background: rgba(242, 242, 242, 1);
-  }
-}
-
-
-

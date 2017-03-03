@@ -6,7 +6,6 @@ import moment from 'moment';
 import classNames from 'classnames';
 import {statuses} from 'constants/user';
 import './AccountStatus.scss'
-import DropdownStyles  from './Dropdown.scss'
 
 const initialState = {
   dropDownOpen: false,
@@ -71,7 +70,7 @@ class AccountStatus extends Component {
     const {label, availableStatuses, profileStatus} = this.props;
 
     return (
-      <div className={classNames('player__account__status col-md-2 padding-0', {
+      <div className={classNames('player__account__status width-20 padding-0', {
         'cursor-pointer': profileStatus !== statuses.SUSPENDED,
         'dropdown-open': dropDownOpen,
       })}>{
@@ -96,7 +95,7 @@ class AccountStatus extends Component {
 
   renderDropDown = (label, availableStatuses, dropDownOpen, modal) => {
     return (
-      <Dropdown isOpen={dropDownOpen} toggle={this.toggle} cssModule={DropdownStyles} onClick={this.toggle}>
+      <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
         {label}
 
         <DropdownMenu>
