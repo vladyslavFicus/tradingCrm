@@ -6,7 +6,6 @@ import { SubmissionError } from 'redux-form';
 import ProfileTags from 'components/ProfileTags';
 import Balances from './Balances';
 import { statuses } from 'constants/user';
-import classNames from 'classnames';
 import { shortify } from 'utils/uuid';
 
 const statusColorNames = {
@@ -108,13 +107,11 @@ class Header extends Component {
         </div>
 
         <div className="row panel-body player-header-blocks">
-          <div className={classNames('player__account__status col-md-2', {
-            'cursor-pointer': profileStatus !== statuses.SUSPENDED,
-          })}>
             <AccountStatus
+              profileStatus={profileStatus}
               onStatusChange={this.handleStatusChange}
               label={
-                <div>
+                <div className="dropdown-tab">
                   <span className="player__account__status-label text-uppercase">Account Status</span>
                   <div className={`player__account__status-current ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
                   {
@@ -127,7 +124,7 @@ class Header extends Component {
               }
               availableStatuses={availableStatuses}
             />
-          </div>
+
           <div className="player__account__balance col-md-3 cursor-pointer">
             {
               <Balances

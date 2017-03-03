@@ -1,0 +1,22 @@
+.dropdown {
+  display: block;
+
+  .dropdown-tab {
+    padding: 0 .975rem;
+    border: 1px solid #ffffff;
+  }
+
+  .dropdown-menu {
+    min-width: 100%;
+    margin: 0;
+    top: 100%;
+    border: 1px solid #eeeeee;
+  }
+}
+
+.open {
+  .dropdown-tab {
+    border: 1px solid #eeeeee;
+    border-bottom: none;
+  }
+}
