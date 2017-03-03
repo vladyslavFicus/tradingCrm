@@ -34,6 +34,22 @@ const typesLabels = {
   [types.Withdraw]: 'Withdraw',
 };
 
+const typesProps = {
+  [types.Deposit]: {
+    className: 'text-uppercase color-primary',
+  },
+  [types.Withdraw]: {
+    className: 'text-uppercase color-danger',
+  },
+};
+
+const statusesColor = {
+  [statuses.PENDING]: 'color-info',
+  [statuses.REFUSED]: 'color-warning',
+  [statuses.FAILED]: 'color-danger',
+  [statuses.COMPLETED]: 'color-success',
+};
+
 export {
   statuses,
   statusesLabels,
@@ -41,4 +57,6 @@ export {
   methodsLabels,
   types,
   typesLabels,
+  typesProps,
+  statusesColor,
 };

@@ -20,7 +20,18 @@ const statusesLabels = {
   [statuses.Submitted]: 'Submitted',
 };
 
+const statusesColor = {
+  [statuses.Completed]: 'color-success',
+  [statuses.Failed]: 'color-danger',
+  [statuses.Refused]: 'color-warning',
+  [statuses.Created]: 'color-default',
+  [statuses.Processed]: 'color-secondary',
+  [statuses.Approved]: 'color-info',
+  [statuses.Submitted]: 'color-primary',
+};
+
 export {
   statuses,
   statusesLabels,
+  statusesColor,
 };

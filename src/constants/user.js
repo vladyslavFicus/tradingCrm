@@ -55,9 +55,17 @@ const statusActions = {
   ],
 };
 
+const statusColorNames = {
+  [statuses.ACTIVE]: 'color-success',
+  [statuses.INACTIVE]: 'color-warning',
+  [statuses.BLOCKED]: 'color-danger',
+  [statuses.SUSPENDED]: 'color-secondary',
+};
+
 export {
   statuses,
   actions,
   statusActions,
   suspendPeriods,
+  statusColorNames,
 };

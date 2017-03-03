@@ -2,16 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import GridView, { GridColumn } from 'components/GridView';
 import BonusGridFilter from './BonusGridFilter';
 import ViewModal from './ViewModal';
-import {
-  statuses,
-  statusesLabels,
-  statusesProps,
-  typesLabels,
-  typesProps,
-} from 'constants/bonus';
 import moment from 'moment';
 import Amount from 'components/Amount';
 import { shortify } from 'utils/uuid';
+import BonusType from "./BonusType";
+import BonusStatus from "./BonusStatus";
+import { statuses } from 'constants/bonus';
+import classNames from 'classnames';
 import './List.scss';
 
 const modalInitialState = { name: null, params: {} };
@@ -22,6 +19,12 @@ class List extends Component {
     modal: { ...modalInitialState },
     filters: {},
     page: 0,
+  };
+
+  static propTypes = {
+    list: PropTypes.object,
+    profile: PropTypes.object,
+    accumulatedBalances: PropTypes.object,
   };
 
   handlePageChanged = (page) => {
@@ -61,7 +64,7 @@ class List extends Component {
       },
     ];
 
-    if ([statuses.COMPLETED, statuses.CANCELLED, statuses.EXPIRED, statuses.CONSUMED].indexOf(data.state) === -1) {
+    if ([statuses.INACTIVE, statuses.IN_PROGRESS].indexOf(data.state) > -1) {
       actions.push({
         children: 'Cancel bonus',
         onClick: this.handleCancelBonus.bind(null, data.id),
@@ -86,7 +89,10 @@ class List extends Component {
 
   handleCancelBonus = (id) => {
     this.props.cancelBonus(id, this.props.params.id)
-      .then(() => this.handleRefresh());
+      .then(() => {
+        this.handleModalClose();
+        this.handleRefresh();
+      });
   };
 
   render() {
@@ -107,7 +113,6 @@ class List extends Component {
         onPageChange={this.handlePageChanged}
         activePage={entities.number + 1}
         totalPages={entities.totalPages}
-        onRowClick={this.handleRowClick}
       >
         <GridColumn
           name="mainInfo"
@@ -154,14 +159,14 @@ class List extends Component {
           name="type"
           header={"Bonus type"}
           headerClassName={'text-uppercase'}
-          render={this.renderType}
+          render={(data) => <BonusType bonus={data}/>}
         />
 
         <GridColumn
           name="status"
           header={"Status"}
           headerClassName={'text-uppercase'}
-          render={this.renderStatus}
+          render={(data) => <BonusStatus bonus={data}/>}
         />
 
         <GridColumn
@@ -183,7 +188,7 @@ class List extends Component {
 
   renderMainInfo = (data) => {
     return <div>
-      <div className="font-weight-600">{data.label}</div>
+      <div className="font-weight-600 cursor-pointer" onClick={() => this.handleRowClick(data)}>{data.label}</div>
       <div className="text-muted font-size-10">{shortify(data.bonusUUID, 'BM')}</div>
       {
         !!data.campaignUUID &&
@@ -219,67 +224,18 @@ class List extends Component {
   };
 
   renderWageredAmount = (data) => {
-    return <Amount tag="div" className="font-weight-600" {...data.wagered}/>;
+    const isCompleted = data.toWager && !isNaN(data.toWager.amount) && data.toWager.amount <= 0;
+
+    return <Amount tag="div" className={classNames({ 'font-weight-600 color-success': isCompleted })} {...data.wagered}/>;
   };
 
   renderToWagerAmount = (data) => {
-    const toWagerAmount = {
-      amount: Math.max(
-        data.amountToWage && !isNaN(data.amountToWage.amount) &&
-        data.wagered && !isNaN(data.wagered.amount)
-          ? data.amountToWage.amount - data.wagered.amount : 0,
-        0
-      ), currency: data.currency
-    };
-
     return <div>
-      <Amount tag="div" {...toWagerAmount} />
+      <Amount tag="div" {...data.toWager}/>
       <div className="font-size-10">
         out of <Amount {...data.amountToWage}/>
       </div>
     </div>;
-  };
-
-  renderType = (data) => {
-    if (!data.bonusType) {
-      return data.bonusType;
-    }
-
-    const label = typesLabels[data.bonusType] || data.bonusType;
-    const props = typesProps[data.bonusType] || {};
-
-    return <div>
-      <div {...props}>{label}</div>
-      <div className="font-size-10">{
-        data.optIn
-          ? 'Opt-in'
-          : 'Non Opt-in'
-      }</div>
-    </div>;
-  };
-
-  renderStatus = (data) => {
-    if (!data.state) {
-      return data.state;
-    }
-
-    const label = statusesLabels[data.state] || data.state;
-    const props = statusesProps[data.state] || {};
-
-    return <div>
-      <span {...props}>{label}</span><br/>
-      {data.state === statuses.IN_PROGRESS && this.renderStatusActive(data)}
-    </div>;
-  };
-
-  renderStatusActive = (data) => {
-    return data.expirationDate
-      ? <small>Until {moment(data.expirationDate).format('DD.MM.YYYY')}</small>
-      : null;
-  };
-
-  renderActions = (data, column) => {
-
   };
 }
 
