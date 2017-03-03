@@ -28,6 +28,30 @@ function fetchNotes(type) {
   };
 }
 
+function fetchNotesByType(type) {
+  return (targetType, targetUUIDs) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `note/notes/info/${targetType}?${buildQueryString({ targetUUIDs })}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function addNote(type) {
   return ({ content, pinned, playerUUID, targetType, targetUUID }) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -90,28 +114,14 @@ function deleteNote(type) {
   };
 }
 
-const initialState = {};
-const actionHandlers = {};
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-};
-
-const actionTypes = {};
 const actionCreators = {
   fetchNotes,
+  fetchNotesByType,
   addNote,
   editNote,
   deleteNote,
 };
 
 export {
-  initialState,
-  actionTypes,
   actionCreators,
-  actionHandlers,
 };
-
-export default reducer;

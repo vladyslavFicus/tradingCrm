@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { entities, entitiesPrefixes } from 'constants/uuid';
 import { shortify } from 'utils/uuid';
-import shallowEqual from 'utils/shallowEqual';
 import NotePopoverStyle from './NotePopover.scss';
 
 const MAX_CONTENT_LENGTH = 500;
@@ -29,6 +28,10 @@ class NotePopover extends Component {
     placement: PropTypes.string,
     isOpen: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
+    onSubmitSuccess: PropTypes.func,
+    onSubmitFailure: PropTypes.func,
+    onDeleteSuccess: PropTypes.func,
+    onDeleteFailure: PropTypes.func,
     defaultTitleLabel: PropTypes.string,
   };
   static defaultProps = {
@@ -39,13 +42,48 @@ class NotePopover extends Component {
   handleHide = (ignoreChanges = false) => {
     const { isOpen, toggle, currentValues, item } = this.props;
     const shouldClose = isOpen && (
-        ignoreChanges || currentValues.content === item.content
-        && currentValues.pinned === item.pinned
+        ignoreChanges || (
+          !item
+          || currentValues.content === item.content
+          && currentValues.pinned === item.pinned
+        )
       );
 
     if (shouldClose) {
       toggle();
     }
+  };
+
+  handleSubmit = (data) => {
+    this.props.onSubmit(data)
+      .then(
+        () => {
+          if (typeof this.props.onSubmitSuccess === 'function') {
+            this.props.onSubmitSuccess();
+          }
+        },
+        () => {
+          if (typeof this.props.onSubmitFailure === 'function') {
+            this.props.onSubmitFailure();
+          }
+        }
+      );
+  };
+
+  handleDelete = (item) => {
+    this.props.onDelete(item)
+      .then(
+        () => {
+          if (typeof this.props.onSubmitSuccess === 'function') {
+            this.props.onDeleteSuccess();
+          }
+        },
+        () => {
+          if (typeof this.props.onSubmitFailure === 'function') {
+            this.props.onDeleteFailure();
+          }
+        }
+      );
   };
 
   render() {
@@ -151,7 +189,7 @@ class NotePopover extends Component {
   };
 
   renderTitle = () => {
-    const { defaultTitleLabel, item, onDelete } = this.props;
+    const { defaultTitleLabel, item } = this.props;
 
     if (!item) {
       return defaultTitleLabel;
@@ -159,9 +197,7 @@ class NotePopover extends Component {
 
     return <div className="row">
       <div className="col-md-10">
-        <span className="display-block color-secondary font-size-12">
-          <span className="font-weight-700">Unknown operator</span>
-          {' - '}
+        <span className="display-block color-secondary font-size-14 font-weight-700">
           {shortify(item.creatorUUID, entitiesPrefixes[entities.operator])}
         </span>
         <span className="display-block font-size-10 color-secondary">
@@ -173,7 +209,7 @@ class NotePopover extends Component {
       </span>
       </div>
       <div className="col-md-2 text-right">
-        <span onClick={() => onDelete(item)} className="font-size-12 color-danger text-right">
+        <span onClick={() => this.handleDelete(item)} className="font-size-12 color-danger text-right">
           <i className="fa fa-trash"/>
         </span>
       </div>

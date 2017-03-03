@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import { actionCreators } from '../modules/list';
+import { actionCreators } from '../modules';
 import { actionCreators as bonusActionCreators } from '../../../modules/bonus';
 import List from '../components/List';
 
-const mapStateToProps = ({ profile: { bonus, view: { profile } }, userBonusesList: list }) => {
+const mapStateToProps = ({ profile: { bonus, view: { profile } }, userBonusesList: { list } }) => {
   const userBalance = profile.data.balance;
   const emptyBalance = {
     amount: 0,

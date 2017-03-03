@@ -8,7 +8,9 @@ import { shortify } from 'utils/uuid';
 import BonusType from "./BonusType";
 import BonusStatus from "./BonusStatus";
 import { statuses } from 'constants/bonus';
+import { targetTypes } from 'constants/note';
 import classNames from 'classnames';
+import NoteButton from "../../../components/NoteButton";
 
 const modalInitialState = { name: null, params: {} };
 const VIEW_MODAL = 'view-modal';
@@ -24,6 +26,28 @@ class List extends Component {
     list: PropTypes.object,
     profile: PropTypes.object,
     accumulatedBalances: PropTypes.object,
+  };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+  };
+
+  getNotePopoverParams = () => ({
+    placement: 'left',
+    onSubmitSuccess: () => {
+      this.handleRefresh();
+    },
+    onDeleteSuccess: () => {
+      this.handleRefresh();
+    },
+  });
+
+  handleNoteClick = (target, data) => {
+    if (data.note) {
+      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
+    } else {
+      this.context.onAddNoteClick(data.bonusUUID, targetTypes.BONUS)(target, this.getNotePopoverParams());
+    }
   };
 
   handlePageChanged = (page) => {
@@ -235,6 +259,21 @@ class List extends Component {
     return <div>
       <Amount {...data.toWager}/><br />
       <small>out of <Amount {...data.amountToWage}/></small>
+    </div>;
+  };
+
+  renderActions = (data) => {
+    return <div>
+      <NoteButton
+        id={`bonus-item-note-button-${data.bonusUUID}`}
+        className="cursor-pointer"
+        onClick={(id) => this.handleNoteClick(id, data)}
+      >
+        {data.note
+          ? <i className="fa fa-sticky-note"/>
+          : <i className="fa fa-sticky-note-o"/>
+        }
+      </NoteButton>
     </div>;
   };
 }

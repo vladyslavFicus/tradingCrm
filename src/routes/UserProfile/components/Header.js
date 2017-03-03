@@ -5,17 +5,10 @@ import AccountStatus from './AccountStatus';
 import { SubmissionError } from 'redux-form';
 import ProfileTags from 'components/ProfileTags';
 import Balances from './Balances';
-import { statuses } from 'constants/user';
+import { statuses, statusColorNames } from 'constants/user';
 import classNames from 'classnames';
 import { shortify } from 'utils/uuid';
 import NoteButton from './NoteButton';
-
-const statusColorNames = {
-  [statuses.ACTIVE]: 'color-success',
-  [statuses.INACTIVE]: 'color-warning',
-  [statuses.BLOCKED]: 'color-danger',
-  [statuses.SUSPENDED]: 'color-secondary',
-};
 
 class Header extends Component {
   getUserAge = () => {

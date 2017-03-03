@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Tabs from '../components/Tabs';
 import Header from '../components/Header';
 import Information from '../components/Information/Container';
@@ -16,6 +16,18 @@ class ProfileLayout extends Component {
   state = {
     popover: { ...popoverInitialState },
   };
+
+  static childContextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+  };
+
+  getChildContext() {
+    return {
+      onAddNoteClick: this.handleAddNoteClick,
+      onEditNoteClick: this.handleEditNoteClick,
+    };
+  }
 
   componentWillMount() {
     const {
@@ -37,11 +49,12 @@ class ProfileLayout extends Component {
     }
   }
 
-  handleAddNoteClick = (targetUUID, targetType) => (target) => {
+  handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
     this.setState({
       popover: {
         name: 'note-popover',
         params: {
+          ...params,
           target,
           initialValues: {
             targetUUID,
@@ -54,7 +67,7 @@ class ProfileLayout extends Component {
     })
   };
 
-  handleEditNoteClick = (target, item, params) => {
+  handleEditNoteClick = (target, item, params = {}) => {
     this.setState({
       popover: {
         name: 'note-popover',
@@ -69,15 +82,15 @@ class ProfileLayout extends Component {
   };
 
   handleDeleteNoteClick = (item) => {
-    this.props.deleteNote(item.uuid)
-      .then(() => {
-        this.handlePopoverHide();
-        this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
-      });
-  };
+    return new Promise(resolve => {
+      return this.props.deleteNote(item.uuid)
+        .then(() => {
+          this.handlePopoverHide();
+          this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
 
-  handlePopoverHide = () => {
-    this.setState({ popover: { ...popoverInitialState } });
+          return resolve();
+        });
+    });
   };
 
   handleSubmitNote = (data) => {
@@ -91,6 +104,10 @@ class ProfileLayout extends Component {
       this.handlePopoverHide();
       this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
     });
+  };
+
+  handlePopoverHide = () => {
+    this.setState({ popover: { ...popoverInitialState } });
   };
 
   render() {

@@ -2,9 +2,59 @@ import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
 import buildQueryString from 'utils/buildQueryString';
+import { actionCreators as noteActionCreators } from 'redux/modules/note';
 
-const KEY = 'bonuses';
+import { targetTypes } from 'constants/note';
+
+const KEY = 'user/bonuses/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
+const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
+
+const fetchNotes = noteActionCreators.fetchNotesByType(FETCH_NOTES);
+const mapBonuses = (dispatch, pageable) => {
+  const uuids = pageable.content.map(item => item.bonusUUID);
+
+  if (!uuids.length) {
+    return pageable;
+  }
+
+  pageable.content = pageable.content.map(item => {
+    if (item.wagered === null) {
+      item.wagered = { amount: 0, currency: item.currency };
+    }
+
+    item.toWager = {
+      amount: Math.max(
+        item.amountToWage && !isNaN(item.amountToWage.amount) &&
+        item.wagered && !isNaN(item.wagered.amount)
+          ? item.amountToWage.amount - item.wagered.amount : 0,
+        0
+      ),
+      currency: item.currency,
+    };
+
+    return item;
+  });
+
+  return dispatch(fetchNotes(targetTypes.BONUS, uuids))
+    .then(action => {
+      if (!action || action.error) {
+        return pageable;
+      }
+
+      return new Promise(resolve => {
+        pageable.content = pageable.content.map(item => {
+          item.note = action.payload[item.bonusUUID] && action.payload[item.bonusUUID].length
+            ? action.payload[item.bonusUUID][0]
+            : null;
+
+          return item;
+        });
+
+        return resolve(pageable);
+      });
+    });
+};
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
@@ -31,7 +81,15 @@ function fetchEntities(filters = {}) {
             type: FETCH_ENTITIES.REQUEST,
             meta: { filters },
           },
-          FETCH_ENTITIES.SUCCESS,
+          {
+            type: FETCH_ENTITIES.SUCCESS,
+            payload: (action, state, res) => {
+              const contentType = res.headers.get('Content-Type');
+              if (contentType && ~contentType.indexOf('json')) {
+                return res.json().then((json) => mapBonuses(dispatch, json));
+              }
+            },
+          },
           FETCH_ENTITIES.FAILURE,
         ],
         bailout: !logged,
@@ -52,23 +110,6 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       ...action.payload,
-      content: action.payload.content.map(item => {
-        if (item.wagered === null) {
-          item.wagered = { amount: 0, currency: item.currency };
-        }
-
-        item.toWager = {
-          amount: Math.max(
-            item.amountToWage && !isNaN(item.amountToWage.amount) &&
-            item.wagered && !isNaN(item.wagered.amount)
-              ? item.amountToWage.amount - item.wagered.amount : 0,
-            0
-          ),
-          currency: item.currency,
-        };
-
-        return item;
-      }),
     },
     isLoading: false,
     receivedAt: timestamp(),
@@ -106,15 +147,18 @@ function reducer(state = initialState, action) {
 
 const actionTypes = {
   FETCH_ENTITIES,
+  FETCH_NOTES,
 };
 
 const actionCreators = {
   fetchEntities,
+  fetchNotes,
 };
 
 export {
   actionTypes,
   actionCreators,
+  initialState,
 };
 
 export default reducer;
