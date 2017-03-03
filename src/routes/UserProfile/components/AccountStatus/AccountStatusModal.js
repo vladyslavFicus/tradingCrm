@@ -3,7 +3,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from 'utils/validator';
 import { TextAreaField, SelectField } from 'components/ReduxForm/UserProfile';
-import { actions, suspendPeriods } from 'config/user';
+import { actions, suspendPeriods } from 'constants/user';
 
 const attributeLabels = {
   period: 'Period',

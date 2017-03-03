@@ -3,6 +3,7 @@ import Tabs from '../components/Tabs';
 import Header from '../components/Header';
 import Information from '../components/Information/Container';
 import { userProfileTabs } from 'config/menu';
+import './ProfileLayout.scss';
 
 class ProfileLayout extends Component {
   componentWillMount() {
@@ -40,7 +41,7 @@ class ProfileLayout extends Component {
     } = this.props;
 
     return (
-      <div className="player container panel ">
+      <div className="player container panel profile-layout">
         <div className="container-fluid">
           <Header
             data={data}
