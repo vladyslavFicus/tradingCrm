@@ -9,7 +9,6 @@ import BonusType from "./BonusType";
 import BonusStatus from "./BonusStatus";
 import { statuses } from 'constants/bonus';
 import classNames from 'classnames';
-import './List.scss';
 
 const modalInitialState = { name: null, params: {} };
 const VIEW_MODAL = 'view-modal';
@@ -95,7 +94,7 @@ class List extends Component {
     const { modal, filters } = this.state;
     const { list: { entities }, profile, accumulatedBalances } = this.props;
 
-    return <div className={'tab-pane fade in active bonus-list-tab'}>
+    return <div className={'tab-pane fade in active profile-tab-container'}>
       <BonusGridFilter
         onSubmit={this.handleSubmit}
         initialValues={filters}
@@ -103,7 +102,7 @@ class List extends Component {
       />
 
       <GridView
-        tableClassName="table table-hovered"
+        tableClassName="table table-hovered profile-table"
         headerClassName=""
         dataSource={entities.content}
         onPageChange={this.handlePageChanged}

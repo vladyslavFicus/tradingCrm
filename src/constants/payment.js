@@ -36,10 +36,10 @@ const typesLabels = {
 
 const typesProps = {
   [types.Deposit]: {
-    className: 'text-uppercase color-primary',
+    className: 'text-uppercase font-weight-700 color-primary',
   },
   [types.Withdraw]: {
-    className: 'text-uppercase color-danger',
+    className: 'text-uppercase font-weight-700 color-danger',
   },
 };
 

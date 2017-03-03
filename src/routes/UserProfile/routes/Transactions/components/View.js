@@ -60,26 +60,10 @@ class View extends Component {
       });
   };
 
-  renderStatus = (data) => {
-    return (
-      <StatusHistory
-        onLoad={this.handleLoadStatusHistory(data.paymentId)}
-        label={
-          <strong
-            className={statusesColor[data.status]}>
-            {statusesLabels[data.status] || data.status}
-          </strong>
-        }
-        statusHistory={this.state.statusHistory}
-      />
-    );
-  };
-
   renderTransactionId(data) {
     return (
       <span>
-        <b>{shortify(data.paymentId, 'TA')}</b>
-        <br />
+        <div className="font-weight-700">{shortify(data.paymentId, 'TA')}</div>
         <span className="font-size-10 text-uppercase color-default">
           by {shortify(data.playerUUID, 'PL')}
         </span>
@@ -91,26 +75,30 @@ class View extends Component {
     const label = typesLabels[data.paymentType] || data.paymentType;
     const props = typesProps[data.paymentType] || {};
 
-    //console.log('paymentSystemRefs', data.paymentSystemRefs);
-
-    return <b {...props}>{label}</b>;
+    return (
+      <div>
+        <div { ...props }> {label} </div>
+        <span className="font-size-10 text-uppercase color-default">
+          {data.paymentSystemRefs.map((SystemRef, index) => (
+            <div key={`${SystemRef}-${index}`} children={SystemRef} />
+          ))}
+        </span>
+      </div>
+    );
   }
 
   renderAmount(data) {
-    return (
-      <strong
-        className={classNames('', { 'color-danger': data.paymentType === types.Withdraw })}
-      >
-        {data.paymentType === types.Withdraw && '-'}<Amount { ...data.amount } />
-      </strong>
-    );
+    return <div className={classNames('font-weight-700', { 'color-danger': data.paymentType === types.Withdraw })}>
+      {data.paymentType === types.Withdraw && '-'}<Amount { ...data.amount } />
+    </div>;
   }
 
   renderDateTime(data) {
     return (
       <div>
-        <b>{moment(data.creationTime).format('DD.MM.YYYY')}</b>
-        <br />
+        <div className="font-weight-700">
+          {moment(data.creationTime).format('DD.MM.YYYY')}
+        </div>
         <span className="font-size-10 color-default">
           {moment(data.creationTime).format('HH:mm')}
         </span>
@@ -129,7 +117,9 @@ class View extends Component {
   renderMethod(data) {
     return (
       <div>
-        <b> {methodsLabels[data.paymentMethod] || data.paymentMethod } </b> <br />
+        <div className="font-weight-700">
+          {methodsLabels[data.paymentMethod] || data.paymentMethod }
+        </div>
         <span className="font-size-10">
           { shortify(data.paymentAccount, null, 2) }
         </span>
@@ -144,11 +134,30 @@ class View extends Component {
     ></i>;
   }
 
+  renderStatus = (data) => {
+    return (
+      <StatusHistory
+        onLoad={this.handleLoadStatusHistory(data.paymentId)}
+        label={
+          <div>
+            <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
+              {statusesLabels[data.status] || data.status}
+            </div>
+            <span className="font-size-10 color-default">
+              {moment(data.creationTime).format('DD.MM.YYYY \- HH:mm')}
+            </span>
+          </div>
+        }
+        statusHistory={this.state.statusHistory}
+      />
+    );
+  };
+
   render() {
     const { filters } = this.state;
     const { entities, currencyCode } = this.props;
 
-    return <div className='tab-pane fade in active'>
+    return <div className='tab-pane fade in active profile-tab-container'>
       <TransactionGridFilter
         currencyCode={currencyCode}
         onSubmit={this.handleFilterSubmit}
@@ -156,7 +165,7 @@ class View extends Component {
       />
 
       <GridView
-        tableClassName="table table-hovered"
+        tableClassName="table table-hovered profile-table"
         headerClassName=""
         dataSource={entities.content}
         onPageChange={this.handlePageChanged}
