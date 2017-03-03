@@ -6,29 +6,48 @@ import Amount from 'components/Amount';
 import { types, statusesLabels, methodsLabels, typesLabels, typesProps, statusesColor } from 'constants/payment';
 import { shortify } from 'utils/uuid';
 import StatusHistory from './StatusHistory';
+import TransactionGridFilter from './TransactionGridFilter';
 
 class View extends Component {
   state = {
-    statusHistory: []
+    statusHistory: [],
+    filters: {},
+    page: 0,
   };
 
-  handlePageChanged = (page, filters) => {
+  handlePageChanged = (page) => {
     if (!this.props.isLoading) {
-      this.props.fetchEntities({ ...filters, page: page - 1 });
+      this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
 
-  handleFiltersChanged = (filters) => {
-    return this.props.fetchEntities({ ...filters, page: 0 });
+  handleRefresh = () => {
+    return this.props.fetchEntities({
+      ...this.state.filters,
+      page: this.state.page,
+      playerUUID: this.props.params.id,
+    });
   };
 
-  handleChangePaymentStatus = (status, paymentId, options = {}) => {
+  componentWillMount() {
+    this.handleRefresh();
+  }
+
+  handleFilterSubmit = (filters) => {
+    if (filters.states) {
+      filters.states = [filters.states];
+    }
+
+    this.setState({ filters, page: 0 }, () => this.handleRefresh());
+  };
+
+  /*handleChangePaymentStatus = (status, paymentId, options = {}) => {
     const { filters, fetchEntities, onChangePaymentStatus } = this.props;
 
     return onChangePaymentStatus({ status, paymentId, options })
       .then(() => fetchEntities(filters))
       .then(() => this.handleCloseModal());
-  };
+  };*/
 
   handleLoadStatusHistory = (paymentId) => () => {
     this.props.loadPaymentTransactions(paymentId)
@@ -40,10 +59,6 @@ class View extends Component {
         }
       });
   };
-
-  componentWillMount() {
-    this.handleFiltersChanged({ playerUUID: this.props.params.id });
-  }
 
   renderStatus = (data) => {
     return (
@@ -75,6 +90,8 @@ class View extends Component {
   renderType(data) {
     const label = typesLabels[data.paymentType] || data.paymentType;
     const props = typesProps[data.paymentType] || {};
+
+    //console.log('paymentSystemRefs', data.paymentSystemRefs);
 
     return <b {...props}>{label}</b>;
   }
@@ -128,18 +145,23 @@ class View extends Component {
   }
 
   render() {
-    const { entities, params } = this.props;
+    const { filters } = this.state;
+    const { entities, currencyCode } = this.props;
 
     return <div className='tab-pane fade in active'>
+      <TransactionGridFilter
+        currencyCode={currencyCode}
+        onSubmit={this.handleFilterSubmit}
+        initialValues={filters}
+      />
+
       <GridView
         tableClassName="table table-hovered"
         headerClassName=""
         dataSource={entities.content}
-        onFiltersChanged={this.handleFiltersChanged}
         onPageChange={this.handlePageChanged}
         activePage={entities.number + 1}
         totalPages={entities.totalPages}
-        defaultFilters={{ playerUUID: params.id }}
         rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
       >
         <GridColumn

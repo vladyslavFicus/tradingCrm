@@ -10,6 +10,11 @@ const statuses = keyMirror({
   Submitted: null,
 });
 
+const initiators = keyMirror({
+  PLAYER: null,
+  OPERATOR: null,
+});
+
 const statusesLabels = {
   [statuses.Approved]: 'Approved',
   [statuses.Completed]: 'Completed',
@@ -18,6 +23,11 @@ const statusesLabels = {
   [statuses.Processed]: 'Processed',
   [statuses.Refused]: 'Refused',
   [statuses.Submitted]: 'Submitted',
+};
+
+const initiatorsLabels = {
+  [initiators.PLAYER]: 'Player',
+  [initiators.OPERATOR]: 'Operator',
 };
 
 const statusesColor = {
@@ -32,6 +42,8 @@ const statusesColor = {
 
 export {
   statuses,
+  initiators,
   statusesLabels,
+  initiatorsLabels,
   statusesColor,
 };

@@ -27,10 +27,6 @@ class List extends Component {
     this.setState({ page: page - 1 }, () => this.handleRefresh());
   };
 
-  handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters, page: 0 }, () => this.handleRefresh());
-  };
-
   handleRefresh = () => {
     return this.props.fetchEntities({
       ...this.state.filters,
@@ -89,13 +85,13 @@ class List extends Component {
   };
 
   render() {
-    const { modal } = this.state;
+    const { modal, filters } = this.state;
     const { list: { entities }, profile, accumulatedBalances } = this.props;
 
     return <div className={'tab-pane fade in active'}>
       <BonusGridFilter
         onSubmit={this.handleSubmit}
-        initialValues={this.state.filters}
+        initialValues={filters}
         playerUUID={profile.data.uuid}
       />
 
