@@ -26,7 +26,7 @@ class Header extends Component {
     const { accumulatedBalances: { data: { real, bonus } } } = this.props;
 
     return (
-      <small className="player__account__balance-additional">
+      <small>
         RM <Amount { ...real } /> + BM <Amount { ...bonus } />
       </small>
     );
@@ -112,8 +112,8 @@ class Header extends Component {
               onStatusChange={this.handleStatusChange}
               label={
                 <div className="dropdown-tab">
-                  <span className="player__account__status-label text-uppercase">Account Status</span>
-                  <div className={`player__account__status-current ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
+                  <span className="font-size-11 text-uppercase">Account Status</span>
+                  <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
                   {
                     !!suspendEndDate &&
                     <small className="player__account__status-scince">
@@ -128,8 +128,8 @@ class Header extends Component {
               <Balances
                 label={
                   <div className="balance-tab">
-                    <span className="player__account__balance-label text-uppercase">Balance</span>
-                    <div className="player__account__balance-current">
+                    <span className="font-size-11 text-uppercase">Balance</span>
+                    <div className="player__account-bold">
                       <Amount { ...balance } />
                     </div>
                     { this.getRealWithBonusBalance() }
@@ -138,27 +138,27 @@ class Header extends Component {
                 accumulatedBalances={accumulatedBalances}
               />
 
-          <div className="player__account__registered width-20">
-            <span className="player__account__registered-label text-uppercase">Registered</span>
-            <div className="player__account__registered-current">
+          <div className="width-20">
+            <span className="font-size-11 text-uppercase">Registered</span>
+            <div className="player__account-bold">
               { moment(registrationDate).fromNow() }
             </div>
-            <small className="player__account__registered-date">
+            <small>
               on { moment(registrationDate).format('DD.MM.YYYY') } <br/>
             </small>
           </div>
-          <div className="player__account__lastlogin width-20">
-            <span className="player__account__lastlogin-label text-uppercase">Last login</span>
-            <div className="player__account__lastlogin-current">
+          <div className="width-20">
+            <span className="font-size-11 text-uppercase">Last login</span>
+            <div className="">
               unavailable
             </div>
-            <small className="player__account__lastlogin-date">unavailable</small>
+            <small>unavailable</small>
           </div>
-          <div className="player__account__affiliate width-20">
-            <span className="player__account__affiliate-label text-uppercase">
+          <div className="width-20">
+            <span className="font-size-11 text-uppercase">
               Affiliate {' '} { !!affiliateId && affiliateId}
             </span>
-            <div className="player__account__affiliate-current">
+            <div className="player__account-bold">
               BTAG {'-'} { !!btag ? btag : 'Empty' }
             </div>
           </div>

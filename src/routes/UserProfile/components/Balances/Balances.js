@@ -20,7 +20,7 @@ class Balances extends Component {
     const { label, accumulatedBalances: { data } } = this.props;
 
     return (
-      <div className={classNames('player__account__balance width-20 cursor-pointer padding-0', {
+      <div className={classNames('player__account__balance dropdown-highlight width-20 padding-0 cursor-pointer', {
         'dropdown-open': dropDownOpen,
       })}>{
                    !data
@@ -39,12 +39,12 @@ class Balances extends Component {
         {label}
         <DropdownMenu>
           <DropdownItem>
-            <span className="amount"> <Amount { ...data.deposits } /> </span> <br />
-            <span className="text-uppercase font-size-11">Deposit</span>
+            <div className="amount"> <Amount { ...data.deposits } /> </div>
+            <div className="text-uppercase font-size-11">Deposit</div>
           </DropdownItem>
           <DropdownItem>
-            <span className="amount"> <Amount { ...data.withdraws } /> </span> <br />
-            <span className="text-uppercase font-size-11">Withdraws</span>
+            <div className="amount"> <Amount { ...data.withdraws } /> </div>
+            <div className="text-uppercase font-size-11">Withdraws</div>
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>

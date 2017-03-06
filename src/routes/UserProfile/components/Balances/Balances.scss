@@ -1,65 +1,35 @@
-.player-header-blocks {
-  small {
-    font-size: 11px;
-    color: #666;
-  }
-}
-
-.width-20 {
-  position: relative;
-  width: 20%;
-  float: left;
-  padding: 0 2.5rem;
-}
-
-.padding-0 {
-  padding: 0 !important;
-}
-
-//Синяя полоска сверху при клике//
-.player__account__balance:before {
-  content: '';
-  display: block;
-  position: absolute;
-  top: -3px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: #ffffff;
-  z-index: 100;
-}
-
-.player__account__balance.dropdown-open {
-
-  &:before {
-    background: #01a8fe;
-  }
-
-  .dropdown-menu {
-    min-width: 100%;
-    border: none;
-    margin: 0;
-    padding: 10px 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    top: 100%;
-    -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
-    -moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
-  }
-
-  .dropdown-item:hover{
-    color: #827ca1;
-  }
-}
-//Конец синей полоски//
-
 .balance-tab {
-  padding: 0 2.8rem;
+  padding-left: 2.5rem;
 }
 
-//Точно надо бы вынести выше/ Шрифты часто встречаются//
-.font-size-11 {
-  font-size: 11px;
+@media only screen and (max-width: 991px) {
+  .balance-tab{
+    padding-left: 1rem;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .balance-tab {
+    padding-left: 2rem;
+  }
+
+  .dropdown-inline.dropdown.open .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+  }
+
+  .dropdown-inline.dropdown.open .dropdown-menu button {
+    border-right: none;
+    border-bottom: 1px solid #dfe4ed ;
+  }
+
+  .dropdown-inline.dropdown.open .dropdown-menu button:last-child {
+    border-bottom: none;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .balance-tab {
+    padding-left: 1rem;
+  }
 }

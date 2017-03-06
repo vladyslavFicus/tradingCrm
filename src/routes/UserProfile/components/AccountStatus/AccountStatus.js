@@ -70,7 +70,7 @@ class AccountStatus extends Component {
     const {label, availableStatuses, profileStatus} = this.props;
 
     return (
-      <div className={classNames('player__account__status width-20 padding-0', {
+      <div className={classNames('player__account__status dropdown-highlight width-20 padding-0', {
         'cursor-pointer': profileStatus !== statuses.SUSPENDED,
         'dropdown-open': dropDownOpen,
       })}>{

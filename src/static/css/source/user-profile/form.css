@@ -8,15 +8,24 @@ i.green {
   background-color: #ffea85;
 }
 
-.no-padding {
-  padding: 0px;
-}
+/*.no-padding {*/
+  /*padding: 0px;*/
+/*}*/
 .avatar {
   border-radius: 4px;
 }
 
 /** Account status **/
 /** ************** **/
+
+/* Один класс для всех промежуточных дивов  */
+.player__account-bold {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+
+
 .player__account__name {
   margin-bottom: 5px;
   font-size: 28px;
@@ -30,66 +39,42 @@ i.green {
 .player__account__labels .label {
   margin: 0 0 0 5px;
 }
-.player__account__status-label {
-  font-size: 11px;
-}
 
-.player__account__status-current {
-  font-size: 14px;
-  font-weight: bold;
-}
+/*.player__account__status-current {*/
+  /*font-size: 14px;*/
+  /*font-weight: bold;*/
+/*}*/
 
-.player__account__status-current-suspend{}
-.player__account__status-current-block{}
+/*.player__account__status-current-suspend{}*/
+/*.player__account__status-current-block{}*/
 
 /** Account balance **/
 /** ************** **/
-.player__account__balance {}
-.player__account__balance-label {
-  font-size: 11px;
-}
-.player__account__balance-current {
-  font-size: 18px;
-  font-weight: bold;
-}
-.player__account__balance-additional {}
+/*.player__account__balance-current {*/
+  /*font-size: 18px;*/
+  /*font-weight: bold;*/
+/*}*/
 
 /** Account registered **/
 /** ************** **/
-.player__account__registered {}
-.player__account__registered-label {
-  font-size: 11px;
-}
-.player__account__registered-current {
-  font-size: 14px;
-  font-weight: bold;
-}
-.player__account__registered-date {}
+/*.player__account__registered-current {*/
+  /*font-size: 14px;*/
+  /*font-weight: bold;*/
+/*}*/
 
 /** Account last login **/
 /** ************** **/
-.player__account__lastlogin {}
-.player__account__lastlogin-label {
-  font-size: 11px;
-}
-.player__account__lastlogin-current {
-  font-size: 14px;
-  font-weight: bold;
-}
-.player__account__lastlogin-date {}
+/*.player__account__lastlogin-current {*/
+  /*font-size: 14px;*/
+  /*font-weight: bold;*/
+/*}*/
 
 /** Account affiliate **/
 /** ************** **/
-.player__account__affiliate {}
-.player__account__affiliate-label {
-  font-size: 11px;
-}
-.player__account__affiliate-current {
-  font-size: 14px;
-  font-weight: bold;
-}
-.player__account__affiliate-date {}
-
+/*.player__account__affiliate-current {*/
+  /*font-size: 14px;*/
+  /*font-weight: bold;*/
+/*}*/
 
 /** Account details **/
 /** ************** **/
