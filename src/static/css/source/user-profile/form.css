@@ -67,10 +67,6 @@ i.green {
     font-size: 13px;
     font-weight: bold;
 }
-.player__account__details_additional-switcher {
-  float: right;
-  margin-right: 10px;
-}
 
 .player__account__details_networking{}
 .player__account__details_networking .panel-body{
