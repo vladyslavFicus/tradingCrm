@@ -167,7 +167,7 @@ class Header extends Component {
             <small>
               {lastLoginDate && moment(lastLoginDate).format('DD.MM.YYYY hh:mm')}
             </small>
-            <small>{lastLoginCountry && `from ${lastLoginCountry}`}</small>
+            <small>{lastLoginCountry && ` from ${lastLoginCountry}`}</small>
           </div>
           <div className="width-20">
             <span className="font-size-11 text-uppercase">
