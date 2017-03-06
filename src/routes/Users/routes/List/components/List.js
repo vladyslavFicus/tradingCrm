@@ -10,30 +10,50 @@ import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels
 } from 'constants/user';
+import UserGridFilter from './UserGridFilter';
 
 class List extends Component {
-  handlePageChanged = (page, filters = {}) => {
-    if (!this.props.list.isLoading) {
-      this.props.fetchESEntities({ ...filters, page: page - 1 });
+  state = {
+    filters: {},
+    page: 0,
+  };
+
+  handlePageChanged = (page) => {
+    if (!this.props.isLoading) {
+      this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
 
-  handleFiltersChanged = (filters = {}) => {
-    this.props.fetchESEntities({ ...filters, page: 0 });
+  handleRefresh = () => {
+    return this.props.fetchESEntities({
+      ...this.state.filters,
+      page: this.state.page,
+      playerUUID: this.props.params.id,
+    });
   };
 
   componentWillMount() {
-    this.handleFiltersChanged();
+    this.handleRefresh();
   }
 
+  handleFilterSubmit = (filters) => {
+    this.setState({ filters, page: 0 }, () => this.handleRefresh());
+  };
+  
   render() {
-    const { list: { entities } } = this.props;
+    const { filters } = this.state;
+    const { list: { entities }, availableTags } = this.props;
 
     return <div className="page-content-inner user-list-layout">
       <Panel withBorders>
         <Title><h3>Players</h3></Title>
 
         <Content>
+          <UserGridFilter
+            onSubmit={this.handleFilterSubmit}
+            initialValues={filters}
+            availableTags={availableTags}
+          />
           <GridView
             tableClassName="table table-hovered user-list-table"
             headerClassName=""
@@ -127,7 +147,7 @@ class List extends Component {
   };
 
   renderBalance = data => {
-    return data.balance ? <Amount { ...data.balance }/> : <Amount { ...data.balance }/>;
+    return data.balance ? <Amount { ...data.balance }/> : 'Empty';
   };
 
   renderStatus = data => {
