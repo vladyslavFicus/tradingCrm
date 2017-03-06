@@ -168,10 +168,10 @@ class Header extends Component {
           <div className="player__account__lastlogin col-md-2">
             <span className="player__account__lastlogin-label text-uppercase">Last login</span>
             <div className="player__account__lastlogin-current">
-              {lastLoginDate && `${moment(lastLoginDate).fromNow()}`}
+              {lastLoginDate && moment(lastLoginDate).fromNow()}
             </div>
             <small className="player__account__lastlogin-info">
-              {lastLoginDate && `${moment(lastLoginDate).format('DD.MM.YYYY hh:mm')}`}
+              {lastLoginDate && moment(lastLoginDate).format('DD.MM.YYYY hh:mm')}
             </small>
             <small className="player__account__lastlogin-info">
               {lastLoginCountry && `from ${lastLoginCountry}`}
