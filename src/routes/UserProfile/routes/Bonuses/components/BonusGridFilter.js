@@ -158,8 +158,7 @@ class BonusGridFilter extends Component {
           </div>
 
           <div className="col-md-2">
-            <div className="form-group">
-              <br/>
+            <div className="form-group margin-top-25">
               <button disabled={submitting} className="btn btn-default btn-sm margin-inline font-weight-700" onClick={reset}>
                 Reset
               </button>

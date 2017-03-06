@@ -272,8 +272,8 @@ class List extends Component {
         onClick={(id) => this.handleNoteClick(id, data)}
       >
         <i className={classNames('fa', {
-          'fa-sticky-note': !data.note,
-          'fa-sticky-note-o': !!data.note,
+          'fa-sticky-note': !!data.note,
+          'fa-sticky-note-o': !data.note,
         })}/>
       </NoteButton>
     </div>;

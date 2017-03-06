@@ -200,13 +200,12 @@ class TransactionGridFilter extends Component {
             </div>
 
             <div className="col-md-2">
-              <div className="form-group">
-                <br/>
-                <button disabled={submitting} className="btn btn-default" onClick={reset}>
+              <div className="form-group margin-top-25">
+                <button disabled={submitting} className="btn btn-default btn-sm margin-inline font-weight-700" onClick={reset}>
                   Reset
                 </button>
                 {' '}
-                <button disabled={submitting} className="btn btn-primary" type="submit">
+                <button disabled={submitting} className="btn btn-primary btn-sm margin-inline font-weight-700" type="submit">
                   Apply
                 </button>
               </div>

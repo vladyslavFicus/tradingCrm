@@ -17,6 +17,7 @@ class ProfileLayout extends Component {
   state = {
     popover: { ...popoverInitialState },
     noteChangedCallback: null,
+    informationShowed: true,
   };
 
   static childContextTypes = {
@@ -55,6 +56,10 @@ class ProfileLayout extends Component {
 
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
+  };
+
+  handleToggleInformationBlock = () => {
+    this.setState({ informationShowed: !this.state.informationShowed });
   };
 
   handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
@@ -130,7 +135,7 @@ class ProfileLayout extends Component {
   };
 
   render() {
-    const { popover } = this.state;
+    const { popover, informationShowed } = this.state;
     const {
       profile: { data },
       children,
@@ -162,23 +167,27 @@ class ProfileLayout extends Component {
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
           />
 
-            <div className="row">
-              <div className="col-sm-12">
-                <div className="dash-text">Hide details</div>
-                {/*<div className="dash-text">Show details</div>*/}
-                <div className="col-xs-12">
-                  <hr />
-                </div>
+          <div className="row">
+            <div className="col-sm-12">
+              <div className="dash-text" onClick={this.handleToggleInformationBlock}>
+                {!informationShowed ? 'Show details' : 'Hide details'}
+              </div>
+              <div className="col-xs-12">
+                <hr />
               </div>
             </div>
+          </div>
 
-          <Information
-            data={data}
-            ips={ip.entities.content}
-            updateSubscription={updateSubscription.bind(null, params.id)}
-            onEditNoteClick={this.handleEditNoteClick}
-            notes={notes}
-          />
+          {
+            informationShowed &&
+            <Information
+              data={data}
+              ips={ip.entities.content}
+              updateSubscription={updateSubscription.bind(null, params.id)}
+              onEditNoteClick={this.handleEditNoteClick}
+              notes={notes}
+            />
+          }
 
           <div className="row">
             <section className="panel profile-user-content">
