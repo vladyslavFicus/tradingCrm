@@ -38,6 +38,10 @@ class View extends Component {
     setNoteChangedCallback: PropTypes.func.isRequired,
   };
 
+  componentDidMount() {
+    this.context.setNoteChangedCallback(this.handleRefresh);
+  }
+
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
   }
