@@ -5,10 +5,13 @@ import ViewModal from './ViewModal';
 import moment from 'moment';
 import Amount from 'components/Amount';
 import { shortify } from 'utils/uuid';
+import classNames from 'classnames';
 import BonusType from "./BonusType";
 import BonusStatus from "./BonusStatus";
 import { statuses } from 'constants/bonus';
-import classNames from 'classnames';
+import { targetTypes } from 'constants/note';
+import NoteButton from "../../../components/NoteButton";
+import './List.scss';
 
 const modalInitialState = { name: null, params: {} };
 const VIEW_MODAL = 'view-modal';
@@ -24,6 +27,31 @@ class List extends Component {
     list: PropTypes.object,
     profile: PropTypes.object,
     accumulatedBalances: PropTypes.object,
+  };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
+  };
+
+  componentDidMount() {
+    this.context.setNoteChangedCallback(this.handleRefresh);
+  }
+
+  componentWillUnmount() {
+    this.context.setNoteChangedCallback(null);
+  }
+
+  getNotePopoverParams = () => ({
+    placement: 'left'
+  });
+
+  handleNoteClick = (target, data) => {
+    if (data.note) {
+      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
+    } else {
+      this.context.onAddNoteClick(data.bonusUUID, targetTypes.BONUS)(target, this.getNotePopoverParams());
+    }
   };
 
   handlePageChanged = (page) => {
@@ -204,7 +232,7 @@ class List extends Component {
     return data.createdDate ? <div>
       <div className="font-weight-600">
         {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-        </div>
+      </div>
       {
         !!data.expirationDate &&
         <div className="font-size-10">
@@ -221,7 +249,11 @@ class List extends Component {
   renderWageredAmount = (data) => {
     const isCompleted = data.toWager && !isNaN(data.toWager.amount) && data.toWager.amount <= 0;
 
-    return <Amount tag="div" className={classNames({ 'font-weight-600 color-success': isCompleted })} {...data.wagered}/>;
+    return <Amount
+      tag="div"
+      className={classNames({ 'font-weight-600 color-success': isCompleted })}
+      {...data.wagered}
+    />;
   };
 
   renderToWagerAmount = (data) => {
@@ -230,6 +262,21 @@ class List extends Component {
       <div className="font-size-10">
         out of <Amount {...data.amountToWage}/>
       </div>
+    </div>;
+  };
+
+  renderActions = (data) => {
+    return <div>
+      <NoteButton
+        id={`bonus-item-note-button-${data.bonusUUID}`}
+        className="cursor-pointer"
+        onClick={(id) => this.handleNoteClick(id, data)}
+      >
+        <i className={classNames('fa', {
+          'fa-sticky-note': !data.note,
+          'fa-sticky-note-o': !!data.note,
+        })}/>
+      </NoteButton>
     </div>;
   };
 }

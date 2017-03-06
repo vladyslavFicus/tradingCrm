@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import GridView, { GridColumn } from 'components/GridView';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -6,6 +6,8 @@ import Amount from 'components/Amount';
 import { types, statusesLabels, methodsLabels, typesLabels, typesProps, statusesColor } from 'constants/payment';
 import { shortify } from 'utils/uuid';
 import StatusHistory from './StatusHistory';
+import { targetTypes } from 'constants/note';
+import NoteButton from "../../../components/NoteButton";
 import TransactionGridFilter from './TransactionGridFilter';
 
 class View extends Component {
@@ -13,6 +15,32 @@ class View extends Component {
     statusHistory: [],
     filters: {},
     page: 0,
+  };
+
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
+  };
+
+  componentDidMount() {
+    this.context.setNoteChangedCallback(this.handleFiltersChanged.bind(this, { playerUUID: this.props.params.id }));
+  }
+
+  componentWillUnmount() {
+    this.context.setNoteChangedCallback(null);
+  }
+
+  getNotePopoverParams = () => ({
+    placement: 'left'
+  });
+
+  handleNoteClick = (target, data) => {
+    if (data.note) {
+      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
+    } else {
+      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, this.getNotePopoverParams());
+    }
   };
 
   handlePageChanged = (page) => {
@@ -111,7 +139,7 @@ class View extends Component {
       return data.country;
     }
 
-    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} />;
+    return <i className={`fs-icon fs-${data.country.toLowerCase()}`}/>;
   }
 
   renderMethod(data) {
@@ -223,9 +251,29 @@ class View extends Component {
           className='text-uppercase'
           render={this.renderStatus}
         />
+        <GridColumn
+          name="actions"
+          header={""}
+          render={this.renderActions}
+        />
       </GridView>
     </div>;
   }
+
+  renderActions = (data) => {
+    return <div>
+      <NoteButton
+        id={`bonus-item-note-button-${data.bonusUUID}`}
+        className="cursor-pointer"
+        onClick={(id) => this.handleNoteClick(id, data)}
+      >
+        {data.note
+          ? <i className="fa fa-sticky-note"/>
+          : <i className="fa fa-sticky-note-o"/>
+        }
+      </NoteButton>
+    </div>;
+  };
 }
 
 export default View;

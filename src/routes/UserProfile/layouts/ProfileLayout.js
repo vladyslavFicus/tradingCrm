@@ -1,11 +1,38 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Tabs from '../components/Tabs';
 import Header from '../components/Header';
 import Information from '../components/Information/Container';
+import NotePopover from '../components/NotePopover';
 import { userProfileTabs } from 'config/menu';
+import { targetTypes } from 'constants/note';
 import './ProfileLayout.scss';
 
+const NOTE_POPOVER = 'note-popover';
+const popoverInitialState = {
+  name: null,
+  params: {},
+};
+
 class ProfileLayout extends Component {
+  state = {
+    popover: { ...popoverInitialState },
+    noteChangedCallback: null,
+  };
+
+  static childContextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
+  };
+
+  getChildContext() {
+    return {
+      onAddNoteClick: this.handleAddNoteClick,
+      onEditNoteClick: this.handleEditNoteClick,
+      setNoteChangedCallback: this.setNoteChangedCallback,
+    };
+  }
+
   componentWillMount() {
     const {
       profile,
@@ -13,18 +40,97 @@ class ProfileLayout extends Component {
       fetchActiveBonus,
       fetchIp,
       fetchAccumulatedBalances,
+      fetchNotes,
       params,
     } = this.props;
 
     if (!profile.isLoading) {
       loadFullProfile(params.id)
+        .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
         .then(() => fetchActiveBonus(params.id))
         .then(() => fetchIp(params.id, { limit: 10 }))
         .then(() => fetchAccumulatedBalances(params.id));
     }
   }
 
+  setNoteChangedCallback = (cb) => {
+    this.setState({ noteChangedCallback: cb });
+  };
+
+  handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
+    this.setState({
+      popover: {
+        name: 'note-popover',
+        params: {
+          ...params,
+          target,
+          initialValues: {
+            targetUUID,
+            targetType,
+            pinned: false,
+            playerUUID: this.props.params.id,
+          },
+        },
+      }
+    })
+  };
+
+  handleEditNoteClick = (target, item, params = {}) => {
+    this.setState({
+      popover: {
+        name: 'note-popover',
+        params: {
+          ...params,
+          item,
+          target,
+          initialValues: { ...item },
+        },
+      }
+    })
+  };
+
+  handleDeleteNoteClick = (item) => {
+    const { noteChangedCallback } = this.state;
+
+    return new Promise(resolve => {
+      return this.props.deleteNote(item.uuid)
+        .then(() => {
+          this.handlePopoverHide();
+          this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
+          if (typeof noteChangedCallback === 'function') {
+            noteChangedCallback();
+          }
+
+          return resolve();
+        });
+    });
+  };
+
+  handleSubmitNote = (data) => {
+    const { noteChangedCallback } = this.state;
+
+    return new Promise(resolve => {
+      if (data.uuid) {
+        return resolve(this.props.editNote(data.uuid, data));
+      } else {
+        return resolve(this.props.addNote(data));
+      }
+    }).then(() => {
+      this.handlePopoverHide();
+      this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
+
+      if (typeof noteChangedCallback === 'function') {
+        noteChangedCallback();
+      }
+    });
+  };
+
+  handlePopoverHide = () => {
+    this.setState({ popover: { ...popoverInitialState } });
+  };
+
   render() {
+    const { popover } = this.state;
     const {
       profile: { data },
       children,
@@ -38,6 +144,7 @@ class ProfileLayout extends Component {
       accumulatedBalances,
       updateSubscription,
       changeStatus,
+      notes,
     } = this.props;
 
     return (
@@ -51,11 +158,14 @@ class ProfileLayout extends Component {
             availableTags={availableTags}
             addTag={addTag.bind(null, params.id)}
             deleteTag={deleteTag.bind(null, params.id)}
+            onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
           />
           <Information
             data={data}
             ips={ip.entities.content}
             updateSubscription={updateSubscription.bind(null, params.id)}
+            onEditNoteClick={this.handleEditNoteClick}
+            notes={notes}
           />
 
           <div className="row">
@@ -75,8 +185,17 @@ class ProfileLayout extends Component {
               </div>
             </section>
           </div>
-
         </div>
+        {
+          popover.name === NOTE_POPOVER &&
+          <NotePopover
+            toggle={this.handlePopoverHide}
+            isOpen
+            {...popover.params}
+            onSubmit={this.handleSubmitNote}
+            onDelete={this.handleDeleteNoteClick}
+          />
+        }
       </div>
     );
   }
