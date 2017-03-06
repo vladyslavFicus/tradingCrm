@@ -18,16 +18,16 @@ class Balances extends Component {
   render() {
     const { dropDownOpen } = this.state;
     const { label, accumulatedBalances: { data } } = this.props;
+    const dropdownClassName = classNames('player__account__balance dropdown-highlight width-20 cursor-pointer padding-0', {
+      'dropdown-open': dropDownOpen,
+    });
 
     return (
-      <div className={classNames('player__account__balance dropdown-highlight width-20 padding-0 cursor-pointer', {
-        'dropdown-open': dropDownOpen,
-      })}>{
-                   !data
-                     ? label
-                     : this.renderDropDown(label, data, dropDownOpen)
-
-                 }
+      <div className={dropdownClassName}>
+        {!data
+          ? label
+          : this.renderDropDown(label, data, dropDownOpen)
+        }
       </div>
 
     );
@@ -39,11 +39,11 @@ class Balances extends Component {
         {label}
         <DropdownMenu>
           <DropdownItem>
-            <div className="amount"> <Amount { ...data.deposits } /> </div>
+            <div className="amount"><Amount { ...data.deposits } /></div>
             <div className="text-uppercase font-size-11">Deposit</div>
           </DropdownItem>
           <DropdownItem>
-            <div className="amount"> <Amount { ...data.withdraws } /> </div>
+            <div className="amount"><Amount { ...data.withdraws } /></div>
             <div className="text-uppercase font-size-11">Withdraws</div>
           </DropdownItem>
         </DropdownMenu>
@@ -55,7 +55,7 @@ class Balances extends Component {
 
 Balances.propTypes = {
   label: PropTypes.any.isRequired,
-    profileStatus: PropTypes.string,
+  profileStatus: PropTypes.string,
   accumulatedBalances: PropTypes.shape({
     data: PropTypes.object
   }),

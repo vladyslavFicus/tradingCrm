@@ -1,10 +1,10 @@
-import React, {Component, PropTypes} from 'react';
-import {Dropdown, DropdownMenu, DropdownItem} from 'reactstrap';
+import React, { Component, PropTypes } from 'react';
+import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import AccountStatusModal from './AccountStatusModal';
-import {suspendPeriods} from 'constants/user';
+import { suspendPeriods } from 'constants/user';
 import moment from 'moment';
 import classNames from 'classnames';
-import {statuses} from 'constants/user';
+import { statuses } from 'constants/user';
 import './AccountStatus.scss'
 
 const initialState = {
@@ -16,7 +16,7 @@ const initialState = {
 };
 
 class AccountStatus extends Component {
-  state = {...initialState};
+  state = { ...initialState };
 
   toggle = () => {
     this.setState({
@@ -41,7 +41,7 @@ class AccountStatus extends Component {
 
   handleModalHide = (e, callback) => {
     this.setState({
-      modal: {...initialState.modal},
+      modal: { ...initialState.modal },
     }, function () {
       if (typeof callback === 'function') {
         callback();
@@ -49,7 +49,7 @@ class AccountStatus extends Component {
     })
   };
 
-  handleSubmit = ({period, ...data}) => {
+  handleSubmit = ({ period, ...data }) => {
     this.handleModalHide(null, () => {
       if (period) {
         if (period === suspendPeriods.DAY) {
@@ -66,18 +66,19 @@ class AccountStatus extends Component {
   };
 
   render() {
-    const {dropDownOpen, modal} = this.state;
-    const {label, availableStatuses, profileStatus} = this.props;
-
+    const { dropDownOpen, modal } = this.state;
+    const { label, availableStatuses, profileStatus } = this.props;
+    const dropdownClassName = classNames('player__account__status dropdown-highlight width-20 padding-0', {
+      'cursor-pointer': profileStatus !== statuses.SUSPENDED,
+      'dropdown-open': dropDownOpen,
+    })
     return (
-      <div className={classNames('player__account__status dropdown-highlight width-20 padding-0', {
-        'cursor-pointer': profileStatus !== statuses.SUSPENDED,
-        'dropdown-open': dropDownOpen,
-      })}>{
-        availableStatuses.length === 0
-          ? label
-          : this.renderDropDown(label, availableStatuses, dropDownOpen, modal)
-      }
+      <div className={dropdownClassName}>
+        {
+          availableStatuses.length === 0
+            ? label
+            : this.renderDropDown(label, availableStatuses, dropDownOpen, modal)
+        }
 
         {
           availableStatuses.length > 0 && modal.show &&
@@ -100,11 +101,11 @@ class AccountStatus extends Component {
 
         <DropdownMenu>
           {
-            availableStatuses.map(({label, reasons, ...rest}) => (
+            availableStatuses.map(({ label, reasons, ...rest }) => (
               <DropdownItem
                 key={rest.action}
                 {...rest}
-                onClick={this.handleStatusClick.bind(this, {label, reasons, ...rest})}
+                onClick={this.handleStatusClick.bind(this, { label, reasons, ...rest })}
               >
                 {label}
               </DropdownItem>

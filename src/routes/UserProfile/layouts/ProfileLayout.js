@@ -52,6 +52,7 @@ class ProfileLayout extends Component {
             addTag={addTag.bind(null, params.id)}
             deleteTag={deleteTag.bind(null, params.id)}
           />
+
           <Information
             data={data}
             ips={ip.entities.content}
