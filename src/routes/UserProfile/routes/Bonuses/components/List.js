@@ -11,7 +11,6 @@ import BonusStatus from "./BonusStatus";
 import { statuses } from 'constants/bonus';
 import { targetTypes } from 'constants/note';
 import NoteButton from "../../../components/NoteButton";
-import './List.scss';
 
 const modalInitialState = { name: null, params: {} };
 const VIEW_MODAL = 'view-modal';

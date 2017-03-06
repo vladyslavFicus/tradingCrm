@@ -34,7 +34,7 @@ const profileInitialState = {
     id: null,
     username: null,
     email: null,
-    currency: null,
+    currencyCode: null,
     balance: { amount: 0, currency: 'EUR' },
   },
   error: null,
