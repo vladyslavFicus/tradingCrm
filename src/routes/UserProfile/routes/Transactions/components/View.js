@@ -3,15 +3,33 @@ import GridView, { GridColumn } from 'components/GridView';
 import classNames from 'classnames';
 import moment from 'moment';
 import Amount from 'components/Amount';
-import { types, statusesLabels, methodsLabels, typesLabels, typesProps, statusesColor } from 'constants/payment';
+import {
+  types as paymentTypes,
+  statusesLabels,
+  methodsLabels,
+  typesLabels,
+  typesProps,
+  statusesColor,
+  statuses as paymentsStatuses,
+} from 'constants/payment';
 import { shortify } from 'utils/uuid';
 import StatusHistory from './StatusHistory';
 import { targetTypes } from 'constants/note';
 import NoteButton from "../../../components/NoteButton";
+import TransactionGridFilter from './TransactionGridFilter';
+import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
+
+const defaultModalState = {
+  name: null,
+  params: {},
+};
 
 class View extends Component {
   state = {
-    statusHistory: []
+    statusHistory: [],
+    filters: {},
+    page: 0,
+    modal: defaultModalState,
   };
 
   static contextTypes = {
@@ -21,7 +39,7 @@ class View extends Component {
   };
 
   componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleFiltersChanged.bind(this, { playerUUID: this.props.params.id }));
+    this.context.setNoteChangedCallback(this.handleRefresh);
   }
 
   componentWillUnmount() {
@@ -40,14 +58,30 @@ class View extends Component {
     }
   };
 
-  handlePageChanged = (page, filters) => {
+  handlePageChanged = (page) => {
     if (!this.props.isLoading) {
-      this.props.fetchEntities({ ...filters, page: page - 1 });
+      this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
 
-  handleFiltersChanged = (filters) => {
-    return this.props.fetchEntities({ ...filters, page: 0 });
+  handleRefresh = () => {
+    return this.props.fetchEntities({
+      ...this.state.filters,
+      page: this.state.page,
+      playerUUID: this.props.params.id,
+    });
+  };
+
+  componentWillMount() {
+    this.handleRefresh();
+  }
+
+  handleFilterSubmit = (filters) => {
+    if (filters.states) {
+      filters.states = [filters.states];
+    }
+
+    this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
   handleChangePaymentStatus = (status, paymentId, options = {}) => {
@@ -56,6 +90,28 @@ class View extends Component {
     return onChangePaymentStatus({ status, paymentId, options })
       .then(() => fetchEntities(filters))
       .then(() => this.handleCloseModal());
+  };
+
+  handleOpenModal = (e, name, params) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props.loadPaymentTransactions(params.payment.paymentId)
+      .then(action => {
+        if (action && !action.error) {
+          params.transactions = action.payload;
+        }
+
+        this.setState({ modal: { ...defaultModalState, name, params } });
+      });
+  };
+
+  handleCloseModal = (e, callback) => {
+    this.setState({ modal: { ...defaultModalState } }, () => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
   };
 
   handleLoadStatusHistory = (paymentId) => () => {
@@ -69,30 +125,10 @@ class View extends Component {
       });
   };
 
-  componentWillMount() {
-    this.handleFiltersChanged({ playerUUID: this.props.params.id });
-  }
-
-  renderStatus = (data) => {
-    return (
-      <StatusHistory
-        onLoad={this.handleLoadStatusHistory(data.paymentId)}
-        label={
-          <strong
-            className={statusesColor[data.status]}>
-            {statusesLabels[data.status] || data.status}
-          </strong>
-        }
-        statusHistory={this.state.statusHistory}
-      />
-    );
-  };
-
   renderTransactionId(data) {
     return (
       <span>
-        <b>{shortify(data.paymentId, 'TA')}</b>
-        <br />
+        <div className="font-weight-700">{shortify(data.paymentId, 'TA')}</div>
         <span className="font-size-10 text-uppercase color-default">
           by {shortify(data.playerUUID, 'PL')}
         </span>
@@ -104,24 +140,30 @@ class View extends Component {
     const label = typesLabels[data.paymentType] || data.paymentType;
     const props = typesProps[data.paymentType] || {};
 
-    return <b {...props}>{label}</b>;
+    return (
+      <div>
+        <div { ...props }> {label} </div>
+        <span className="font-size-10 text-uppercase color-default">
+          {data.paymentSystemRefs.map((SystemRef, index) => (
+            <div key={`${SystemRef}-${index}`} children={SystemRef} />
+          ))}
+        </span>
+      </div>
+    );
   }
 
   renderAmount(data) {
-    return (
-      <strong
-        className={classNames('', { 'color-danger': data.paymentType === types.Withdraw })}
-      >
-        {data.paymentType === types.Withdraw && '-'}<Amount { ...data.amount } />
-      </strong>
-    );
+    return <div className={classNames('font-weight-700', { 'color-danger': data.paymentType === paymentTypes.Withdraw })}>
+      {data.paymentType === paymentTypes.Withdraw && '-'}<Amount { ...data.amount } />
+    </div>;
   }
 
   renderDateTime(data) {
     return (
       <div>
-        <b>{moment(data.creationTime).format('DD.MM.YYYY')}</b>
-        <br />
+        <div className="font-weight-700">
+          {moment(data.creationTime).format('DD.MM.YYYY')}
+        </div>
         <span className="font-size-10 color-default">
           {moment(data.creationTime).format('HH:mm')}
         </span>
@@ -140,7 +182,9 @@ class View extends Component {
   renderMethod(data) {
     return (
       <div>
-        <b> {methodsLabels[data.paymentMethod] || data.paymentMethod } </b> <br />
+        <div className="font-weight-700">
+          {methodsLabels[data.paymentMethod] || data.paymentMethod }
+        </div>
         <span className="font-size-10">
           { shortify(data.paymentAccount, null, 2) }
         </span>
@@ -155,19 +199,43 @@ class View extends Component {
     ></i>;
   }
 
-  render() {
-    const { entities, params } = this.props;
+  renderStatus = (data) => {
+    return (
+      <StatusHistory
+        onLoad={this.handleLoadStatusHistory(data.paymentId)}
+        label={
+          <div>
+            <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
+              {statusesLabels[data.status] || data.status}
+            </div>
+            <span className="font-size-10 color-default">
+              {moment(data.creationTime).format('DD.MM.YYYY \- HH:mm')}
+            </span>
+          </div>
+        }
+        statusHistory={this.state.statusHistory}
+      />
+    );
+  };
 
-    return <div className='tab-pane fade in active'>
+  render() {
+    const { filters, modal } = this.state;
+    const { entities, currencyCode } = this.props;
+
+    return <div className='tab-pane fade in active profile-tab-container'>
+      <TransactionGridFilter
+        currencyCode={currencyCode}
+        onSubmit={this.handleFilterSubmit}
+        initialValues={filters}
+      />
+
       <GridView
-        tableClassName="table table-hovered"
+        tableClassName="table table-hovered profile-table"
         headerClassName=""
         dataSource={entities.content}
-        onFiltersChanged={this.handleFiltersChanged}
         onPageChange={this.handlePageChanged}
         activePage={entities.number + 1}
         totalPages={entities.totalPages}
-        defaultFilters={{ playerUUID: params.id }}
         rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
       >
         <GridColumn
@@ -226,14 +294,21 @@ class View extends Component {
           render={this.renderActions}
         />
       </GridView>
+
+      {modal.name === 'payment-detail' && <PaymentDetailModal
+        { ...modal.params }
+        isOpen
+        onClose={this.handleCloseModal}
+        onChangePaymentStatus={this.handleChangePaymentStatus}
+      />}
     </div>;
   }
 
-  renderActions = (data) => {
+  renderActions = data => {
     return <div>
       <NoteButton
-        id={`bonus-item-note-button-${data.bonusUUID}`}
-        className="cursor-pointer"
+        id={`bonus-item-note-button-${data.paymentId}`}
+        className="cursor-pointer margin-right-5"
         onClick={(id) => this.handleNoteClick(id, data)}
       >
         {data.note
@@ -241,6 +316,12 @@ class View extends Component {
           : <i className="fa fa-sticky-note-o"/>
         }
       </NoteButton>
+      {
+        data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
+        <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', { payment: data })} title={'View payment'}>
+          <i className="fa fa-search"/>
+        </a>
+      }
     </div>;
   };
 }

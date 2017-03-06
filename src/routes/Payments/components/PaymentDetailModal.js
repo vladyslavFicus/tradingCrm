@@ -1,15 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import GridView, { GridColumn } from 'components/GridView';
-import { statusesLabels as transactionsStatusesLabels } from 'constants/transaction';
 import {
-  types as paymentTypes,
-  statuses as paymentsStatuses,
   methodsLabels as paymentsMethodsLabels,
   statusesLabels as paymentsStatusesLabels,
 } from 'constants/payment';
 import Amount from 'components/Amount';
-import moment from 'moment';
 
 class PaymentDetailModal extends Component {
   render() {
@@ -20,10 +15,8 @@ class PaymentDetailModal extends Component {
         status,
         paymentId,
         amount,
-        currency,
         playerUUID,
       },
-      transactions,
       isOpen,
       onClose,
       onChangePaymentStatus,
@@ -38,49 +31,19 @@ class PaymentDetailModal extends Component {
         <p><strong>Type</strong>: {paymentType}</p>
         <p><strong>Method</strong>: {paymentsMethodsLabels[paymentMethod] || paymentMethod}</p>
         <p><strong>Amount</strong>: <Amount {...amount}/></p>
-
-        <hr />
-
-        <GridView dataSource={transactions} totalPages={0}>
-          <GridColumn
-            name="transactionId"
-            header="ID"
-            headerStyle={{ width: '20%' }}
-            render={(data, column) => <small>{data[column.name]}</small>}
-          />
-          <GridColumn
-            name="transactionName"
-            header="Status"
-            headerStyle={{ width: '20%' }}
-            render={this.renderStatus}
-          />
-          <GridColumn
-            name="transactionTime"
-            header="Time"
-            headerStyle={{ width: '20%' }}
-            render={this.renderTransactionTime}
-          />
-        </GridView>
       </ModalBody>
 
-      {paymentType === paymentTypes.Withdraw && status === paymentsStatuses.PENDING && <ModalFooter>
-        <Button color="primary" onClick={(e) => onChangePaymentStatus('approve', paymentId)}>Approve</Button>{' '}
+      <ModalFooter>
+        <Button color="primary"
+                onClick={(e) => onChangePaymentStatus('approve', paymentId)}>Approve</Button>{' '}
         <Button color="danger" onClick={(e) => onChangePaymentStatus('refuse', paymentId, {
           playerUUID,
           reason: 'Bad withdraw',
           fraud: false,
         })}>Reject</Button>
-      </ModalFooter>}
+      </ModalFooter>
     </Modal>;
   }
-
-  renderStatus = (data, column) => {
-    return transactionsStatusesLabels[data[column.name]] || data[column.name];
-  };
-
-  renderTransactionTime = (data, column) => {
-    return moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss');
-  };
 }
 
 PaymentDetailModal.propTypes = {

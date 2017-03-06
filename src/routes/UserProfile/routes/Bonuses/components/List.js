@@ -11,7 +11,6 @@ import BonusStatus from "./BonusStatus";
 import { statuses } from 'constants/bonus';
 import { targetTypes } from 'constants/note';
 import NoteButton from "../../../components/NoteButton";
-import './List.scss';
 
 const modalInitialState = { name: null, params: {} };
 const VIEW_MODAL = 'view-modal';
@@ -56,10 +55,6 @@ class List extends Component {
 
   handlePageChanged = (page) => {
     this.setState({ page: page - 1 }, () => this.handleRefresh());
-  };
-
-  handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
   handleRefresh = () => {
@@ -123,18 +118,18 @@ class List extends Component {
   };
 
   render() {
-    const { modal } = this.state;
+    const { modal, filters } = this.state;
     const { list: { entities }, profile, accumulatedBalances } = this.props;
 
-    return <div className={'tab-pane fade in active bonus-list-tab'}>
+    return <div className={'tab-pane fade in active profile-tab-container'}>
       <BonusGridFilter
         onSubmit={this.handleSubmit}
-        initialValues={this.state.filters}
+        initialValues={filters}
         playerUUID={profile.data.uuid}
       />
 
       <GridView
-        tableClassName="table table-hovered"
+        tableClassName="table table-hovered profile-table"
         headerClassName=""
         dataSource={entities.content}
         onPageChange={this.handlePageChanged}
