@@ -236,7 +236,7 @@ class List extends Component {
     return data.createdDate ? <div>
       <div className="font-weight-600">
         {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-        </div>
+      </div>
       {
         !!data.expirationDate &&
         <div className="font-size-10">
@@ -253,7 +253,11 @@ class List extends Component {
   renderWageredAmount = (data) => {
     const isCompleted = data.toWager && !isNaN(data.toWager.amount) && data.toWager.amount <= 0;
 
-    return <Amount tag="div" className={classNames({ 'font-weight-600 color-success': isCompleted })} {...data.wagered}/>;
+    return <Amount
+      tag="div"
+      className={classNames({ 'font-weight-600 color-success': isCompleted })}
+      {...data.wagered}
+    />;
   };
 
   renderToWagerAmount = (data) => {
@@ -272,10 +276,10 @@ class List extends Component {
         className="cursor-pointer"
         onClick={(id) => this.handleNoteClick(id, data)}
       >
-        {data.note
-          ? <i className="fa fa-sticky-note"/>
-          : <i className="fa fa-sticky-note-o"/>
-        }
+        <i className={classNames('fa', {
+          'fa-sticky-note': !data.note,
+          'fa-sticky-note-o': !!data.note,
+        })}/>
       </NoteButton>
     </div>;
   };

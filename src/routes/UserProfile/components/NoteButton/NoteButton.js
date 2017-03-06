@@ -11,7 +11,7 @@ class NoteButton extends Component {
     label: <i className="fa fa-sticky-note"/>,
   };
 
-  handleClick = (e) => {
+  handleClick = () => {
     this.props.onClick(this.props.id);
   };
 
