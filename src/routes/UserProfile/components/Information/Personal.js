@@ -18,7 +18,7 @@ class Personal extends Component {
       <div className="player__account__details_personal col-md-3">
         <span className="player__account__details_personal-label">Personal information</span>
         <div className="panel panel-with-borders">
-          <div className="panel-body padding-5 panel-body-min-height">
+          <div className="panel-body padding-5 height-200">
             {
               !!birthDate &&
               <div><b>Date of birth</b>: {moment(birthDate).format('DD.MM.YYYY')}</div>
