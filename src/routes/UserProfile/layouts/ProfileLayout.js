@@ -152,6 +152,7 @@ class ProfileLayout extends Component {
         <div className="container-fluid">
           <Header
             data={data}
+            lastIp={ip.entities.content[0] || {}}
             accumulatedBalances={accumulatedBalances}
             availableStatuses={availableStatuses}
             onStatusChange={changeStatus}

@@ -10,6 +10,8 @@ import classNames from 'classnames';
 import { shortify } from 'utils/uuid';
 import NoteButton from './NoteButton';
 
+import './Header.scss';
+
 class Header extends Component {
   getUserAge = () => {
     const { data: { birthDate } } = this.props;
@@ -61,6 +63,7 @@ class Header extends Component {
         profileTags,
         uuid,
       },
+      lastIp,
       availableStatuses,
       accumulatedBalances,
       availableTags,
@@ -80,6 +83,10 @@ class Header extends Component {
         priority: option.tagPriority,
       }))
       : [];
+    const {
+      country: lastLoginCountry,
+      signInDate: lastLoginDate,
+    } = lastIp;
 
     return (
       <div>
@@ -154,10 +161,13 @@ class Header extends Component {
           </div>
           <div className="width-20">
             <span className="font-size-11 text-uppercase">Last login</span>
-            <div className="">
-              unavailable
+            <div>
+              {lastLoginDate && moment(lastLoginDate).fromNow()}
             </div>
-            <small>unavailable</small>
+            <small>
+              {lastLoginDate && moment(lastLoginDate).format('DD.MM.YYYY hh:mm')}
+            </small>
+            <small>{lastLoginCountry && `from ${lastLoginCountry}`}</small>
           </div>
           <div className="width-20">
             <span className="font-size-11 text-uppercase">
@@ -188,6 +198,7 @@ Header.propTypes = {
     suspendEndDate: PropTypes.string,
     profileTags: PropTypes.array,
   }),
+  lastIp: PropTypes.object,
   availableStatuses: PropTypes.array,
   availableTags: PropTypes.array,
   onStatusChange: PropTypes.func.isRequired,
