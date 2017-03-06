@@ -21,28 +21,37 @@ class Additional extends Component {
             <small className="player__account__details_additional-label">
               Marketing
             </small>
-            <div><b>SMS</b>:
-              <div className="player__account__details_additional-switcher">
-                <Switch
-                  active={initialValues[SUBSCRIPTION_TYPE_SMS]}
-                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
-                />
+            <div className="row">
+              <div className="col-xs-6">
+                <b>SMS</b>:
+              </div>
+              <div className="col-xs-6 text-right">
+                  <Switch
+                    active={initialValues[SUBSCRIPTION_TYPE_SMS]}
+                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
+                  />
               </div>
             </div>
-            <div><b>News</b>:
-              <div className="player__account__details_additional-switcher">
-                <Switch
-                  active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
-                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
-                />
+            <div className="row">
+              <div className="col-xs-6">
+                <b>News</b>:
+              </div>
+              <div className="col-xs-6 text-right">
+                  <Switch
+                    active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
+                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
+                  />
               </div>
             </div>
-            <div><b>Snail mail</b>:
-              <div className="player__account__details_additional-switcher">
-                <Switch
-                  active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
-                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
-                />
+            <div className="row">
+              <div className="col-xs-6">
+                <b>Snail mail</b>:
+              </div>
+              <div className="col-xs-6 text-right">
+                  <Switch
+                    active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
+                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
+                  />
               </div>
             </div>
           </div>
