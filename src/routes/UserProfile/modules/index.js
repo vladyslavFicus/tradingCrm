@@ -6,6 +6,12 @@ import bonus, {
   initialState as bonusInitialState,
 } from './bonus';
 
+import notes, {
+  actionCreators as notesActionCreators,
+  actionTypes as notesActionTypes,
+  initialState as notesInitialState,
+} from './notes';
+
 import view, {
   actionCreators as viewActionCreators,
   actionTypes as viewActionTypes,
@@ -29,30 +35,32 @@ const actionCreators = {
   ...viewActionCreators,
   ...ipActionCreators,
   ...accumulatedBalancesActionCreators,
+  ...notesActionCreators,
 };
 const actionTypes = {
   ...bonusActionTypes,
   ...viewActionTypes,
   ...ipActionTypes,
   ...accumulatedBalancesActionTypes,
-};
-export {
-  actionTypes,
-  actionCreators,
+  ...notesActionTypes,
 };
 const initialState = {
   bonus: bonusInitialState,
   view: viewInitialState,
   ip: ipInitialState,
   accumulatedBalances: accumulatedBalancesInitialState,
+  notes: notesInitialState,
 };
-export default (state = initialState, action) => {
-  const reducer = combineReducers({
-    bonus,
-    view,
-    ip,
-    accumulatedBalances,
-  });
 
-  return reducer(state, action);
+export {
+  actionTypes,
+  actionCreators,
+  initialState,
 };
+export default combineReducers({
+  bonus,
+  view,
+  ip,
+  accumulatedBalances,
+  notes,
+});

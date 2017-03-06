@@ -5,15 +5,10 @@ import AccountStatus from './AccountStatus';
 import { SubmissionError } from 'redux-form';
 import ProfileTags from 'components/ProfileTags';
 import Balances from './Balances';
-import { statuses } from 'constants/user';
+import { statuses, statusColorNames } from 'constants/user';
+import classNames from 'classnames';
 import { shortify } from 'utils/uuid';
-
-const statusColorNames = {
-  [statuses.ACTIVE]: 'color-success',
-  [statuses.INACTIVE]: 'color-warning',
-  [statuses.BLOCKED]: 'color-danger',
-  [statuses.SUSPENDED]: 'color-secondary',
-};
+import NoteButton from './NoteButton';
 
 class Header extends Component {
   getUserAge = () => {
@@ -69,6 +64,7 @@ class Header extends Component {
       availableStatuses,
       accumulatedBalances,
       availableTags,
+      onAddNoteClick,
     } = this.props;
     const selectedTags = profileTags
       ? profileTags.map(option => `${option.tagPriority}/${option.tag}`)
@@ -103,6 +99,15 @@ class Header extends Component {
               value={valueOptions}
               onDelete={this.handleTagDelete}
             />}
+          </div>
+          <div className="pull-right">
+            <NoteButton
+              id="header-add-note-button"
+              className="btn btn-default-outline"
+              onClick={onAddNoteClick}
+            >
+              Add note
+            </NoteButton>
           </div>
         </div>
 
