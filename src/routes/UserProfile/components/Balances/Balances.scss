@@ -1,0 +1,35 @@
+.balance-tab {
+  padding-left: 2.5rem;
+}
+
+@media only screen and (max-width: 991px) {
+  .balance-tab{
+    padding-left: 1rem;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .balance-tab {
+    padding-left: 2rem;
+  }
+
+  .dropdown-inline.dropdown.open .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 0;
+  }
+
+  .dropdown-inline.dropdown.open .dropdown-menu button {
+    border-right: none;
+    border-bottom: 1px solid #dfe4ed ;
+  }
+
+  .dropdown-inline.dropdown.open .dropdown-menu button:last-child {
+    border-bottom: none;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .balance-tab {
+    padding-left: 1rem;
+  }
+}

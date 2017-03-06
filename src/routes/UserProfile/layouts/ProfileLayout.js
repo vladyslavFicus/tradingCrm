@@ -161,6 +161,17 @@ class ProfileLayout extends Component {
             deleteTag={deleteTag.bind(null, params.id)}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
           />
+
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="dash-text">Hide details</div>
+                {/*<div className="dash-text">Show details</div>*/}
+                <div className="col-xs-12">
+                  <hr />
+                </div>
+              </div>
+            </div>
+
           <Information
             data={data}
             ips={ip.entities.content}

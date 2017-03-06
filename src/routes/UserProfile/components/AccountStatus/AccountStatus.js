@@ -3,6 +3,9 @@ import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import AccountStatusModal from './AccountStatusModal';
 import { suspendPeriods } from 'constants/user';
 import moment from 'moment';
+import classNames from 'classnames';
+import { statuses } from 'constants/user';
+import './AccountStatus.scss'
 
 const initialState = {
   dropDownOpen: false,
@@ -64,50 +67,59 @@ class AccountStatus extends Component {
 
   render() {
     const { dropDownOpen, modal } = this.state;
-    const { label, availableStatuses } = this.props;
-
+    const { label, availableStatuses, profileStatus } = this.props;
+    const dropdownClassName = classNames('player__account__status dropdown-highlight width-20 padding-0', {
+      'cursor-pointer': profileStatus !== statuses.SUSPENDED,
+      'dropdown-open': dropDownOpen,
+    })
     return (
-      availableStatuses.length === 0
-        ? label
-        : this.renderDropDown(label, availableStatuses, dropDownOpen, modal)
+      <div className={dropdownClassName}>
+        {
+          availableStatuses.length === 0
+            ? label
+            : this.renderDropDown(label, availableStatuses, dropDownOpen, modal)
+        }
+
+        {
+          availableStatuses.length > 0 && modal.show &&
+          <AccountStatusModal
+            title={'Change account status'}
+            show={true}
+            {...modal.params}
+            onSubmit={this.handleSubmit}
+            onHide={this.handleModalHide}
+          />
+        }
+      </div>
     );
   }
 
   renderDropDown = (label, availableStatuses, dropDownOpen, modal) => {
     return (
-      <div>
-        <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-          <span onClick={this.toggle}>{label}</span>
+      <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
+        {label}
 
-          <DropdownMenu>
-            {
-              availableStatuses.map(({ label, reasons, ...rest }) => (
-                <DropdownItem
-                  key={rest.action}
-                  {...rest}
-                  onClick={this.handleStatusClick.bind(this, { label, reasons, ...rest })}
-                >
-                  {label}
-                </DropdownItem>
-              ))
-            }
-          </DropdownMenu>
-        </Dropdown>
-
-        {modal.show && <AccountStatusModal
-          title={'Change account status'}
-          show={true}
-          {...modal.params}
-          onSubmit={this.handleSubmit}
-          onHide={this.handleModalHide}
-        />}
-      </div>
+        <DropdownMenu>
+          {
+            availableStatuses.map(({ label, reasons, ...rest }) => (
+              <DropdownItem
+                key={rest.action}
+                {...rest}
+                onClick={this.handleStatusClick.bind(this, { label, reasons, ...rest })}
+              >
+                {label}
+              </DropdownItem>
+            ))
+          }
+        </DropdownMenu>
+      </Dropdown>
     );
   }
 }
 
 AccountStatus.propTypes = {
   label: PropTypes.any.isRequired,
+  profileStatus: PropTypes.string,
   availableStatuses: PropTypes.array.isRequired,
   onStatusChange: PropTypes.func.isRequired,
 };

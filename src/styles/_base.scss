@@ -54,3 +54,69 @@ For example:
 .small-switch.on .switch-toggle {
   left: 15px;
 }
+
+.width-20 {
+  position: relative;
+  width: 20%;
+  float: left;
+  padding-left: 2.5rem;
+}
+
+small {
+  font-size: 11px;
+  color: #666;
+}
+
+.font-size-11 {
+  font-size: 11px;
+}
+
+.padding-0 {
+  padding: 0 !important;
+}
+
+//Синяя полоска сверху при клике//
+.dropdown-highlight:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #ffffff;
+  z-index: 100;
+}
+
+.dropdown-highlight.dropdown-open {
+
+  &:before {
+    background: #01a8fe;
+  }
+
+  .dropdown-menu {
+    min-width: 100%;
+    border: none;
+    margin: 0;
+    padding: 10px 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    top: 100%;
+    -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
+    -moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
+  }
+
+  .dropdown-item:hover{
+    color: #827ca1;
+  }
+}
+//Конец синей полоски//
+
+
+@media only screen and (max-width: 991px) {
+  .width-20{
+    padding-left: 1rem;
+  }
+}

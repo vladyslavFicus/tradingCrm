@@ -37,7 +37,8 @@ $grey-small-color: #666;
     outline: none;
   }
 
-  .equal {
+  .equal,
+  .player-header-blocks{
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -45,7 +46,8 @@ $grey-small-color: #666;
     display: flex;
   }
 
-  .equal-in {
+  .equal-in,
+  .grey-back-tab {
     flex: 1;
   }
 
