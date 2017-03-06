@@ -89,8 +89,8 @@ class Header extends Component {
               {[firstName, lastName, this.getUserAge()].join(' ')}
             </div>
             <span className="player__account__ids">
-                {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
-              </span>
+              {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
+            </span>
           </div>
           <div className="col-md-4">
             {profileTags && <ProfileTags

@@ -1,19 +1,25 @@
 import React, { Component, PropTypes } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
-import { Link } from 'react-router';
-import { TextFilter } from 'components/Forms/Filters';
 import classNames from 'classnames';
+import './List.scss';
+import moment from 'moment';
+import { shortify } from 'utils/uuid';
+import Amount from 'components/Amount';
+import {
+  statusColorNames as userStatusColorNames,
+  statusesLabels as userStatusesLabels
+} from 'constants/user';
 
 class List extends Component {
   handlePageChanged = (page, filters = {}) => {
     if (!this.props.list.isLoading) {
-      this.props.fetchEntities({ ...filters, page: page - 1 });
+      this.props.fetchESEntities({ ...filters, page: page - 1 });
     }
   };
 
   handleFiltersChanged = (filters = {}) => {
-    this.props.fetchEntities({ ...filters, page: 0 });
+    this.props.fetchESEntities({ ...filters, page: 0 });
   };
 
   componentWillMount() {
@@ -23,14 +29,14 @@ class List extends Component {
   render() {
     const { list: { entities } } = this.props;
 
-    return <div className="page-content-inner">
+    return <div className="page-content-inner user-list-layout">
       <Panel withBorders>
-        <Title>
-          <h3>Users</h3>
-        </Title>
+        <Title><h3>Players</h3></Title>
 
         <Content>
           <GridView
+            tableClassName="table table-hovered user-list-table"
+            headerClassName=""
             dataSource={entities.content}
             onFiltersChanged={this.handleFiltersChanged}
             onPageChange={this.handlePageChanged}
@@ -39,92 +45,39 @@ class List extends Component {
           >
             <GridColumn
               name="id"
-              header="#"
-              headerClassName="text-center"
-              className="text-center"
+              header="Player"
+              headerClassName='text-uppercase'
+              render={this.renderUserInfo}
             />
             <GridColumn
-              name="username"
-              header="Username"
-              headerClassName="text-center"
-              filter={(onFilterChange) => <TextFilter
-                name="username"
-                onFilterChange={onFilterChange}
-              />}
-              className="text-center"
-            />
-
-            <GridColumn
-              name="firstName"
-              header="Firstname"
-              headerClassName="text-center"
-              filter={(onFilterChange) => <TextFilter
-                name="firstName"
-                onFilterChange={onFilterChange}
-              />}
-              className="text-center"
-            />
-
-            <GridColumn
-              name="lastName"
-              header="Lastname"
-              headerClassName="text-center"
-              filter={(onFilterChange) => <TextFilter
-                name="lastName"
-                onFilterChange={onFilterChange}
-              />}
-              className="text-center"
-            />
-
-            <GridColumn
-              name="email"
-              header="Email"
-              headerClassName="text-center"
-              filter={(onFilterChange) => <TextFilter
-                name="email"
-                onFilterChange={onFilterChange}
-              />}
-              className="text-center"
+              name="location"
+              header="Location"
+              headerClassName='text-uppercase'
+              render={this.renderLocation}
             />
             <GridColumn
-              name="uuid"
-              header="UUID"
-              headerClassName="text-center"
-              className="text-center"
-              filter={(onFilterChange) => <TextFilter
-                name="uuid"
-                onFilterChange={onFilterChange}
-              />}
+              name="affiliateId"
+              header="Affiliate"
+              headerClassName='text-uppercase'
+              render={this.renderAffiliate}
             />
-
             <GridColumn
-              name="country"
-              header="Country"
-              headerClassName="text-center"
-              className="text-center"
+              name="registrationDate"
+              header="Registered"
+              headerClassName='text-uppercase'
+              render={this.renderRegistered}
             />
-
+            <GridColumn
+              name="balance"
+              header="Balance"
+              headerClassName='text-uppercase'
+              render={this.renderBalance}
+            />
             <GridColumn
               name="profileStatus"
               header="Status"
-              headerClassName="text-center"
-              className="text-center"
-            />
-
-            <GridColumn
-              name="verified"
-              header="Verified"
-              headerClassName="text-center"
-              className="text-center"
-              render={this.renderVerified}
-            />
-
-            <GridColumn
-              name="actions"
-              header="Actions"
-              headerClassName="text-center"
-              className="text-center"
-              render={this.renderActions}
+              headerClassName='text-uppercase'
+              render={this.renderStatus}
             />
           </GridView>
         </Content>
@@ -132,19 +85,63 @@ class List extends Component {
     </div>;
   }
 
-  renderActions(data) {
-    return <div>
-      <Link target="_blank" to={`/users/${data.uuid}/profile`} title={'View user profile'}>
-        <i className="fa fa-search"/>
-      </Link>
-    </div>;
-  }
+  getUserAge = (birthDate) => {
+    return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
+  };
 
-  renderVerified(data, column) {
-    return <span className={
-      classNames('donut', data[column.name] ? 'donut-success' : 'donut-danger')
-    }/>;
-  }
+  renderUserInfo = data => {
+    return (
+      <div>
+        <div className="font-weight-700">
+          {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
+        </div>
+        <div className="font-size-12 color-default">
+          <div>{[data.username, shortify(data.playerUUID, 'PL')].join(' - ')}</div>
+          <div>{data.languageCode}</div>
+          </div>
+      </div>
+    );
+  };
+
+  renderLocation = data => {
+    return (
+      <div className="font-weight-700">{data.country}</div>
+    );
+  };
+
+  renderAffiliate = data => {
+    return (
+      <div>{!!data.affiliateId ? data.affiliateId : 'Empty'}</div>
+    );
+  };
+
+  renderRegistered = data => {
+    return (
+      <div>
+        <div className="font-weight-700">{ moment(data.registrationDate).format('DD.MM.YYYY') }</div>
+        <div className="font-size-12 color-default">
+          { moment(data.registrationDate).format('HH.mm') }
+        </div>
+      </div>
+    );
+  };
+
+  renderBalance = data => {
+    return data.balance ? <Amount { ...data.balance }/> : <Amount { ...data.balance }/>;
+  };
+
+  renderStatus = data => {
+    return (
+      <div>
+        <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
+          {userStatusesLabels[data.profileStatus] || data.profileStatus}
+        </div>
+        <div className="font-size-12 color-default">
+          Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
+        </div>
+      </div>
+    );
+  };
 
 }
 

@@ -108,6 +108,51 @@ function fetchEntities(type) {
   };
 }
 
+function fetchESEntities(type) {
+  return (filters = {}) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+    let method = 'GET';
+    let playerUuidList = filters.playerUuidList;
+    filters = Object.keys(filters).reduce((result, key) => {
+      if (filters[key]) {
+        result[key] = filters[key];
+      }
+
+      return result;
+    }, {});
+
+    if (playerUuidList) {
+      method = 'POST';
+      delete filters.playerUuidList;
+    }
+
+    const endpointParams = { page: 0, ...filters };
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/es?${buildQueryString(endpointParams)}`,
+        method,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: playerUuidList ? JSON.stringify({ playerUuidList }) : undefined,
+        types: [
+          {
+            type: type.REQUEST,
+            meta: {
+              filters,
+            },
+          },
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const initialState = {};
 const actionHandlers = {};
 
@@ -121,6 +166,7 @@ const actionTypes = {};
 const actionCreators = {
   fetchProfile,
   fetchEntities,
+  fetchESEntities,
   updateProfile,
   updateIdentifier,
 };
