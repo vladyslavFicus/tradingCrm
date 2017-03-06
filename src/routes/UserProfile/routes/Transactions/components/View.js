@@ -3,18 +3,33 @@ import GridView, { GridColumn } from 'components/GridView';
 import classNames from 'classnames';
 import moment from 'moment';
 import Amount from 'components/Amount';
-import { types, statusesLabels, methodsLabels, typesLabels, typesProps, statusesColor } from 'constants/payment';
+import {
+  types as paymentTypes,
+  statusesLabels,
+  methodsLabels,
+  typesLabels,
+  typesProps,
+  statusesColor,
+  statuses as paymentsStatuses,
+} from 'constants/payment';
 import { shortify } from 'utils/uuid';
 import StatusHistory from './StatusHistory';
 import { targetTypes } from 'constants/note';
 import NoteButton from "../../../components/NoteButton";
 import TransactionGridFilter from './TransactionGridFilter';
+import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
+
+const defaultModalState = {
+  name: null,
+  params: {},
+};
 
 class View extends Component {
   state = {
     statusHistory: [],
     filters: {},
     page: 0,
+    modal: defaultModalState,
   };
 
   static contextTypes = {
@@ -22,10 +37,6 @@ class View extends Component {
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
   };
-
-  componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleFiltersChanged.bind(this, { playerUUID: this.props.params.id }));
-  }
 
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
@@ -69,13 +80,35 @@ class View extends Component {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
-  /*handleChangePaymentStatus = (status, paymentId, options = {}) => {
+  handleChangePaymentStatus = (status, paymentId, options = {}) => {
     const { filters, fetchEntities, onChangePaymentStatus } = this.props;
 
     return onChangePaymentStatus({ status, paymentId, options })
       .then(() => fetchEntities(filters))
       .then(() => this.handleCloseModal());
-  };*/
+  };
+
+  handleOpenModal = (e, name, params) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props.loadPaymentTransactions(params.payment.paymentId)
+      .then(action => {
+        if (action && !action.error) {
+          params.transactions = action.payload;
+        }
+
+        this.setState({ modal: { ...defaultModalState, name, params } });
+      });
+  };
+
+  handleCloseModal = (e, callback) => {
+    this.setState({ modal: { ...defaultModalState } }, () => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
+  };
 
   handleLoadStatusHistory = (paymentId) => () => {
     this.props.loadPaymentTransactions(paymentId)
@@ -116,8 +149,8 @@ class View extends Component {
   }
 
   renderAmount(data) {
-    return <div className={classNames('font-weight-700', { 'color-danger': data.paymentType === types.Withdraw })}>
-      {data.paymentType === types.Withdraw && '-'}<Amount { ...data.amount } />
+    return <div className={classNames('font-weight-700', { 'color-danger': data.paymentType === paymentTypes.Withdraw })}>
+      {data.paymentType === paymentTypes.Withdraw && '-'}<Amount { ...data.amount } />
     </div>;
   }
 
@@ -182,7 +215,7 @@ class View extends Component {
   };
 
   render() {
-    const { filters } = this.state;
+    const { filters, modal } = this.state;
     const { entities, currencyCode } = this.props;
 
     return <div className='tab-pane fade in active profile-tab-container'>
@@ -257,14 +290,21 @@ class View extends Component {
           render={this.renderActions}
         />
       </GridView>
+
+      {modal.name === 'payment-detail' && <PaymentDetailModal
+        { ...modal.params }
+        isOpen
+        onClose={this.handleCloseModal}
+        onChangePaymentStatus={this.handleChangePaymentStatus}
+      />}
     </div>;
   }
 
-  renderActions = (data) => {
+  renderActions = data => {
     return <div>
       <NoteButton
-        id={`bonus-item-note-button-${data.bonusUUID}`}
-        className="cursor-pointer"
+        id={`bonus-item-note-button-${data.paymentId}`}
+        className="cursor-pointer margin-right-5"
         onClick={(id) => this.handleNoteClick(id, data)}
       >
         {data.note
@@ -272,6 +312,12 @@ class View extends Component {
           : <i className="fa fa-sticky-note-o"/>
         }
       </NoteButton>
+      {
+        data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
+        <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', { payment: data })} title={'View payment'}>
+          <i className="fa fa-search"/>
+        </a>
+      }
     </div>;
   };
 }
