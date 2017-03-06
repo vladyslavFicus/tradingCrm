@@ -186,7 +186,6 @@ class UserGridFilter extends Component {
                       <div className="col-md-5">
                         <Field
                           name="registrationDateFrom"
-                          placeholder={attributeLabels.registrationDateFrom}
                           component={this.renderDateField}
                           isValidDate={this.startDateValidator}
                         />
@@ -194,7 +193,6 @@ class UserGridFilter extends Component {
                       <div className="col-md-5">
                         <Field
                           name="registrationDateFrom"
-                          placeholder={attributeLabels.registrationDateFrom}
                           component={this.renderDateField}
                           isValidDate={this.endDateValidator}
                         />
