@@ -8,9 +8,6 @@ i.green {
   background-color: #ffea85;
 }
 
-/*.no-padding {*/
-  /*padding: 0px;*/
-/*}*/
 .avatar {
   border-radius: 4px;
 }
@@ -40,45 +37,11 @@ i.green {
   margin: 0 0 0 5px;
 }
 
-/*.player__account__status-current {*/
-  /*font-size: 14px;*/
-  /*font-weight: bold;*/
-/*}*/
-
-/*.player__account__status-current-suspend{}*/
-/*.player__account__status-current-block{}*/
-
-/** Account balance **/
-/** ************** **/
-/*.player__account__balance-current {*/
-  /*font-size: 18px;*/
-  /*font-weight: bold;*/
-/*}*/
-
-/** Account registered **/
-/** ************** **/
-/*.player__account__registered-current {*/
-  /*font-size: 14px;*/
-  /*font-weight: bold;*/
-/*}*/
-
-/** Account last login **/
-/** ************** **/
-/*.player__account__lastlogin-current {*/
-  /*font-size: 14px;*/
-  /*font-weight: bold;*/
-/*}*/
-
-/** Account affiliate **/
-/** ************** **/
-/*.player__account__affiliate-current {*/
-  /*font-size: 14px;*/
-  /*font-weight: bold;*/
-/*}*/
-
 /** Account details **/
 /** ************** **/
-.player__account__details{}
+.player__account__details.panel-body{
+  padding: 25px 12px;
+}
 .player__account__details_personal{}
 .player__account__details_personal .panel-body{
   padding: 7px!important;
