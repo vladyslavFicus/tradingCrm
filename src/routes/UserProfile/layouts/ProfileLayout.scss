@@ -33,6 +33,7 @@
   .well {
     margin: 0 -25px;
     border: none;
+    padding: 25px;
   }
   .well label {
     margin-bottom: 0;
@@ -40,6 +41,15 @@
   }
   .btn-sm {
     padding: 2px 15px;
+  }
+
+  .well .btn-default {
+    margin-left: 15px;
+  }
+
+  .well .btn-sm:last-child {
+    margin: 0;
+    float: right;
   }
 }
 
