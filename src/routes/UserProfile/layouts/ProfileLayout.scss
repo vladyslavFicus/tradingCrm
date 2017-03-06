@@ -28,3 +28,28 @@
     z-index: 1;
   }
 }
+
+.profile-tab-container {
+  .well {
+    margin: 0 -25px;
+    border: none;
+  }
+  .well label {
+    margin-bottom: 0;
+    padding-left: 2px;
+  }
+  .btn-sm {
+    padding: 2px 15px;
+  }
+}
+
+.profile-table {
+  thead>tr>th,
+  tbody>tr>th,
+  tfoot>tr>th,
+  thead>tr>td,
+  tbody>tr>td,
+  tfoot>tr>td {
+    border: none;
+  }
+}

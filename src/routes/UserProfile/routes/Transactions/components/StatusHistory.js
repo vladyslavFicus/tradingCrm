@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import { statusesColor } from 'constants/transaction';
 import classNames from 'classnames';
+import moment from 'moment';
 
 class StatusHistory extends Component {
   static propTypes = {
@@ -48,11 +49,13 @@ class StatusHistory extends Component {
       <DropdownMenu>
         {
           statusHistory.map((status) => (
-            <DropdownItem
-              className={classNames(statusesColor[status.transactionName], 'text-uppercase')}
-              key={status.transactionId}
-            >
-              {status.transactionName}
+            <DropdownItem className='text-uppercase' key={status.transactionId}>
+              <div className={classNames(statusesColor[status.transactionName], 'font-weight-700')}>
+                {status.transactionName}
+              </div>
+              <span className="font-size-10 color-default">
+                {moment(statusHistory.transactionTime).format('DD.MM.YYYY \- HH:mm')}
+              </span>
             </DropdownItem>
           ))
         }

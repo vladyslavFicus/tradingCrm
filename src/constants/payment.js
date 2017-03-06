@@ -7,6 +7,16 @@ const statuses = keyMirror({
   COMPLETED: null,
 });
 
+const methods = keyMirror({
+  PAYPAL: null,
+  CREDIT_CARD: null,
+});
+
+const types = keyMirror({
+  Deposit: null,
+  Withdraw: null,
+});
+
 const statusesLabels = {
   [statuses.PENDING]: 'Pending',
   [statuses.REFUSED]: 'Refused',
@@ -14,20 +24,10 @@ const statusesLabels = {
   [statuses.COMPLETED]: 'Completed',
 };
 
-const methods = keyMirror({
-  paypal: null,
-  creditCard: null,
-});
-
 const methodsLabels = {
-  [methods.paypal]: 'Paypal',
-  [methods.creditCard]: 'Adyen',
+  [methods.PAYPAL]: 'Paypal',
+  [methods.CREDIT_CARD]: 'Adyen',
 };
-
-const types = keyMirror({
-  Deposit: null,
-  Withdraw: null,
-});
 
 const typesLabels = {
   [types.Deposit]: 'Deposit',
@@ -36,10 +36,10 @@ const typesLabels = {
 
 const typesProps = {
   [types.Deposit]: {
-    className: 'text-uppercase color-primary',
+    className: 'text-uppercase font-weight-700 color-primary',
   },
   [types.Withdraw]: {
-    className: 'text-uppercase color-danger',
+    className: 'text-uppercase font-weight-700 color-danger',
   },
 };
 

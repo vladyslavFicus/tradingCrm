@@ -34,7 +34,7 @@ const profileInitialState = {
     id: null,
     username: null,
     email: null,
-    currency: null,
+    currencyCode: null,
     balance: { amount: 0, currency: 'EUR' },
   },
   error: null,
@@ -60,8 +60,8 @@ export const initialState = {
   withdraw: withdrawInitialState,
 };
 
-const mapBalances = (items) => {
-  return Object
+const mapBalances = (items) =>
+  Object
     .keys(items)
     .reduce((result, item) => (
       result.push({
@@ -70,7 +70,6 @@ const mapBalances = (items) => {
       }),
         result
     ), []);
-};
 
 function fetchProfile(uuid) {
   return usersActionCreators.fetchProfile(PROFILE)(uuid);
@@ -92,7 +91,11 @@ function updateSubscription(playerUUID, name, value) {
       [CALL_API]: {
         endpoint: `profile/profiles/${playerUUID}/subscription`,
         method: 'PUT',
-        types: [UPDATE_SUBSCRIPTION.REQUEST, UPDATE_SUBSCRIPTION.SUCCESS, UPDATE_SUBSCRIPTION.FAILURE],
+        types: [
+          UPDATE_SUBSCRIPTION.REQUEST,
+          UPDATE_SUBSCRIPTION.SUCCESS,
+          UPDATE_SUBSCRIPTION.FAILURE,
+        ],
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -435,6 +438,7 @@ const balanceActionHandlers = {
 
       if (balances.length > 0) {
         newState.data.balance = { ...balances[0] };
+        newState.data.currencyCode = newState.data.balance.currency;
       }
     }
 

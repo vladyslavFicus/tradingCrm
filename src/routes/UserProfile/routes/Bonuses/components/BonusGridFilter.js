@@ -236,6 +236,7 @@ export default connect((state) => {
     currentValues: {
       keyword: bonusGridValuesSelector(state, 'keyword'),
       states: bonusGridValuesSelector(state, 'states'),
+      type: bonusGridValuesSelector(state, 'type'),
       assigned: bonusGridValuesSelector(state, 'assigned'),
       startDate: bonusGridValuesSelector(state, 'startDate'),
       endDate: bonusGridValuesSelector(state, 'endDate'),
