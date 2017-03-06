@@ -10,6 +10,8 @@ import classNames from 'classnames';
 import { shortify } from 'utils/uuid';
 import NoteButton from './NoteButton';
 
+import './Header.scss';
+
 class Header extends Component {
   getUserAge = () => {
     const { data: { birthDate } } = this.props;
@@ -61,6 +63,7 @@ class Header extends Component {
         profileTags,
         uuid,
       },
+      lastIp,
       availableStatuses,
       accumulatedBalances,
       availableTags,
@@ -80,6 +83,10 @@ class Header extends Component {
         priority: option.tagPriority,
       }))
       : [];
+    const {
+      country: lastLoginCountry,
+      signInDate: lastLoginDate,
+    } = lastIp;
 
     return (
       <div>
@@ -161,9 +168,14 @@ class Header extends Component {
           <div className="player__account__lastlogin col-md-2">
             <span className="player__account__lastlogin-label text-uppercase">Last login</span>
             <div className="player__account__lastlogin-current">
-              unavailable
+              {lastLoginDate && moment(lastLoginDate).fromNow()}
             </div>
-            <small className="player__account__lastlogin-date">unavailable</small>
+            <small className="player__account__lastlogin-info">
+              {lastLoginDate && moment(lastLoginDate).format('DD.MM.YYYY hh:mm')}
+            </small>
+            <small className="player__account__lastlogin-info">
+              {lastLoginCountry && `from ${lastLoginCountry}`}
+            </small>
           </div>
           <div className="player__account__affiliate col-md-3">
             <span className="player__account__affiliate-label text-uppercase">
@@ -194,6 +206,7 @@ Header.propTypes = {
     suspendEndDate: PropTypes.string,
     profileTags: PropTypes.array,
   }),
+  lastIp: PropTypes.object,
   availableStatuses: PropTypes.array,
   availableTags: PropTypes.array,
   onStatusChange: PropTypes.func.isRequired,
