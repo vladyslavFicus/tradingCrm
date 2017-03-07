@@ -42,8 +42,8 @@ class List extends Component {
 
   render() {
     const { filters } = this.state;
-    const { list: { entities }, availableTags } = this.props;
-
+    const { list: { entities }, availableTags, filterValues } = this.props;
+    console.log(filterValues);
     return <div className="page-content-inner user-list-layout">
       <Panel withBorders>
         <Content>
@@ -51,6 +51,7 @@ class List extends Component {
             onSubmit={this.handleFilterSubmit}
             initialValues={filters}
             availableTags={availableTags}
+            filterValues={filterValues}
           />
           <GridView
             tableClassName="table table-hovered user-list-table"
@@ -116,7 +117,7 @@ class List extends Component {
         <div className="font-size-12 color-default">
           <div>{[data.username, shortify(data.playerUUID, 'PL')].join(' - ')}</div>
           <div>{data.languageCode}</div>
-          </div>
+        </div>
       </div>
     );
   };

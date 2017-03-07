@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { formValueSelector } from 'redux-form';
-import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import classNames from 'classnames';
 import { createValidator } from 'utils/validator';
@@ -8,9 +6,6 @@ import moment from 'moment';
 import DateTime from 'react-datetime';
 import countryList from 'country-list';
 import { statusesLabels } from 'constants/user';
-
-const FORM_NAME = 'userFilter';
-const userGridValuesSelector = formValueSelector(FORM_NAME);
 
 const countries = countryList().getData().reduce((result, item) => ({
   ...result,
@@ -42,32 +37,35 @@ class UserGridFilter extends Component {
   };
 
   startDateValidator = (current) => {
-    const { currentValues } = this.props;
+    const { filterValues } = this.props;
 
-    return currentValues.endDate
-      ? current.isSameOrBefore(moment(currentValues.endDate))
+    return filterValues.endDate
+      ? current.isSameOrBefore(moment(filterValues.endDate))
       : true;
   };
 
   endDateValidator = (current) => {
-    const { currentValues } = this.props;
+    const { filterValues } = this.props;
 
-    return currentValues.startDate
-      ? current.isSameOrAfter(moment(currentValues.startDate))
+    return filterValues.startDate
+      ? current.isSameOrAfter(moment(filterValues.startDate))
       : true;
+  };
+
+  handleSubmit = () => {
+    return this.props.onSubmit(this.props.filterValues);
   };
 
   render() {
     const {
       submitting,
       handleSubmit,
-      onSubmit,
       reset,
       availableTags,
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(this.handleSubmit)}>
         <div className="row margin-bottom-20">
           <div className="col-md-3">
             <span className="font-size-20">Players</span>
@@ -165,7 +163,7 @@ class UserGridFilter extends Component {
                     component={this.renderSelectField}
                   >
                     {availableTags.map((tag) =>
-                      <option key={tag.label+tag.priority+tag.value} value={tag.value}>{tag.value}</option>)
+                      <option key={tag.label + tag.priority + tag.value} value={tag.value}>{tag.value}</option>)
                     }
                   </Field>
                 </div>
@@ -206,14 +204,20 @@ class UserGridFilter extends Component {
             <div className="col-md-2">
               <div className="form-group">
                 <br/>
-                <button disabled={submitting}
-                        className="btn btn-default btn-sm margin-inline font-weight-700"
-                        onClick={reset}> Reset
+                <button
+                  disabled={submitting}
+                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  onClick={reset}
+                >
+                  Reset
                 </button>
                 {' '}
-                <button disabled={submitting}
-                        className="btn btn-primary btn-sm margin-inline font-weight-700"
-                        type="submit"> Apply
+                <button
+                  disabled={submitting}
+                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  type="submit"
+                >
+                  Apply
                 </button>
               </div>
             </div>
@@ -263,7 +267,7 @@ class UserGridFilter extends Component {
         {...input}
         className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
       >
-        <option>{emptyOptionLabel}</option>
+        <option value="">{emptyOptionLabel}</option>
         {children}
       </select>
     </div>;
@@ -290,29 +294,9 @@ class UserGridFilter extends Component {
       </div>
     </div>;
   };
-
 }
 
-const FilterForm = reduxForm({
-  form: FORM_NAME,
+export default reduxForm({
+  form: 'userListGridFilter',
   validate: validator,
 })(UserGridFilter);
-
-export default connect((state) => {
-  return {
-    currentValues: {
-      keyword: userGridValuesSelector(state, 'keyword'),
-      country: userGridValuesSelector(state, 'country'),
-      city: userGridValuesSelector(state, 'city'),
-      ageFrom: userGridValuesSelector(state, 'ageFrom'),
-      ageTo: userGridValuesSelector(state, 'ageTo'),
-      currency: userGridValuesSelector(state, 'currency'),
-      affiliateId: userGridValuesSelector(state, 'affiliateId'),
-      status: userGridValuesSelector(state, 'status'),
-      tags: userGridValuesSelector(state, 'tags'),
-      segments: userGridValuesSelector(state, 'segments'),
-      registrationDateFrom: userGridValuesSelector(state, 'registrationDateFrom'),
-      registrationDateTo: userGridValuesSelector(state, 'registrationDateTo'),
-    },
-  };
-})(FilterForm);
