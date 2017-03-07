@@ -5,8 +5,8 @@ import { actionCreators as usersActionCreators } from 'redux/modules/users';
 const KEY = 'users';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 
-function fetchEntities(filters = {}) {
-  return usersActionCreators.fetchEntities(FETCH_ENTITIES)(filters);
+function fetchESEntities(filters = {}) {
+  return usersActionCreators.fetchESEntities(FETCH_ENTITIES)(filters);
 }
 
 const actionHandlers = {
@@ -61,7 +61,7 @@ const actionTypes = {
 };
 
 const actionCreators = {
-  fetchEntities,
+  fetchESEntities,
 };
 
 export { actionCreators, actionTypes, initialState };

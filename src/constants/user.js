@@ -21,6 +21,13 @@ const reasons = [
   'REASON_FOUR',
 ];
 
+const statusesLabels = {
+  [statuses.INACTIVE]: 'Inactive',
+  [statuses.ACTIVE]: 'Active',
+  [statuses.BLOCKED]: 'Blocked',
+  [statuses.SUSPENDED]: 'Suspended',
+};
+
 const suspendPeriods = keyMirror({
   DAY: null,
   WEEK: null,
@@ -64,6 +71,7 @@ const statusColorNames = {
 
 export {
   statuses,
+  statusesLabels,
   actions,
   statusActions,
   suspendPeriods,
