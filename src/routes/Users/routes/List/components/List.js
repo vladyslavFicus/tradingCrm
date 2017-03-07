@@ -42,15 +42,14 @@ class List extends Component {
 
   render() {
     const { filters } = this.state;
-    const { list: { entities }, availableTags, filterValues } = this.props;
-    console.log(filterValues);
+    const { list: { entities }, filterValues } = this.props;
+
     return <div className="page-content-inner user-list-layout">
       <Panel withBorders>
         <Content>
           <UserGridFilter
             onSubmit={this.handleFilterSubmit}
             initialValues={filters}
-            availableTags={availableTags}
             filterValues={filterValues}
           />
           <GridView

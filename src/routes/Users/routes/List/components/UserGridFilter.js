@@ -6,12 +6,16 @@ import moment from 'moment';
 import DateTime from 'react-datetime';
 import countryList from 'country-list';
 import { statusesLabels } from 'constants/user';
+import config from 'config/index';
 
+const tags = config.nas.tags.reduce((result, item) => ({
+  ...result,
+  [item.value]: item.label,
+}), {});
 const countries = countryList().getData().reduce((result, item) => ({
   ...result,
   [item.code]: item.name,
 }), {});
-
 const attributeLabels = {
   keyword: 'Name, username, phone, email...',
   country: 'Country',
@@ -26,9 +30,18 @@ const attributeLabels = {
   registrationDateFrom: 'registrationDateFrom',
   registrationDateTo: 'registrationDateTo',
 };
-
 const validator = createValidator({
-  //todo add validator
+  keyword: 'string',
+  country: `in:,${Object.keys(countries).join(',')}`,
+  ageFrom: 'integer',
+  ageTo: 'integer',
+  currency: 'string',
+  affiliateId: 'string',
+  status: 'string',
+  tags: `in:,${Object.keys(tags).join(',')}`,
+  segments: 'string',
+  registrationDateFrom: 'string',
+  registrationDateTo: 'string',
 }, attributeLabels, false);
 
 class UserGridFilter extends Component {
@@ -53,7 +66,19 @@ class UserGridFilter extends Component {
   };
 
   handleSubmit = () => {
-    return this.props.onSubmit(this.props.filterValues);
+    const data = { ...this.props.filterValues };
+
+    if (data.countries) {
+      data.countries = [data.countries];
+    }
+    if (data.tags) {
+      data.tags = [data.tags];
+    }
+    if (data.statuses) {
+      data.statuses= [data.statuses];
+    }
+
+    return this.props.onSubmit(data);
   };
 
   render() {
@@ -61,7 +86,6 @@ class UserGridFilter extends Component {
       submitting,
       handleSubmit,
       reset,
-      availableTags,
     } = this.props;
 
     return (
@@ -162,9 +186,11 @@ class UserGridFilter extends Component {
                     emptyOptionLabel="Any"
                     component={this.renderSelectField}
                   >
-                    {availableTags.map((tag) =>
-                      <option key={tag.label + tag.priority + tag.value} value={tag.value}>{tag.value}</option>)
-                    }
+                    {Object.keys(tags).map(item => (
+                      <option key={tags[item]} value={item}>
+                        {item}
+                      </option>
+                    ))}
                   </Field>
                 </div>
                 <div className="col-md-2">

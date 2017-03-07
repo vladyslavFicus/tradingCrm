@@ -2,11 +2,9 @@ import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { actionCreators } from '../modules/list';
 import List from '../components/List';
-import { getAvailableTags } from 'config/index';
 
-const mapStateToProps = ({ usersList: list, auth, ...state }) => ({
+const mapStateToProps = ({ usersList: list, ...state }) => ({
   list,
-  availableTags: getAvailableTags(auth.department),
   filterValues: getFormValues('userListGridFilter')(state) || {},
 });
 
