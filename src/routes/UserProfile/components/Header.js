@@ -5,11 +5,9 @@ import AccountStatus from './AccountStatus';
 import { SubmissionError } from 'redux-form';
 import ProfileTags from 'components/ProfileTags';
 import Balances from './Balances';
-import { statuses, statusColorNames } from 'constants/user';
-import classNames from 'classnames';
+import { statusColorNames } from 'constants/user';
 import { shortify } from 'utils/uuid';
 import NoteButton from './NoteButton';
-
 import './Header.scss';
 
 class Header extends Component {
@@ -47,6 +45,18 @@ class Header extends Component {
     }
   };
 
+  renderLastLogin = () => {
+    const { lastIp } = this.props;
+
+    return !lastIp
+      ? 'Unavailable'
+      : [
+        <div key="time-ago">{lastIp.signInDate && moment(lastIp.signInDate).fromNow()}</div>,
+        <small key="time">{lastIp.signInDate && moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}</small>,
+        <small key="country">{lastIp.country && ` from ${lastIp.country}`}</small>,
+      ];
+  };
+
   render() {
     const {
       data: {
@@ -63,7 +73,6 @@ class Header extends Component {
         profileTags,
         uuid,
       },
-      lastIp,
       availableStatuses,
       accumulatedBalances,
       availableTags,
@@ -83,10 +92,6 @@ class Header extends Component {
         priority: option.tagPriority,
       }))
       : [];
-    const {
-      country: lastLoginCountry,
-      signInDate: lastLoginDate,
-    } = lastIp;
 
     return (
       <div>
@@ -119,36 +124,36 @@ class Header extends Component {
         </div>
 
         <div className="row panel-body player-header-blocks">
-            <AccountStatus
-              profileStatus={profileStatus}
-              onStatusChange={this.handleStatusChange}
-              label={
-                <div className="dropdown-tab">
-                  <span className="font-size-11 text-uppercase">Account Status</span>
-                  <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
-                  {
-                    !!suspendEndDate &&
-                    <small className="player__account__status-scince">
-                      Until {moment(suspendEndDate).format('L')}
-                    </small>
-                  }
-                </div>
-              }
-              availableStatuses={availableStatuses}
-            />
-
-              <Balances
-                label={
-                  <div className="balance-tab">
-                    <span className="font-size-11 text-uppercase">Balance</span>
-                    <div className="player__account-bold">
-                      <Amount { ...balance } />
-                    </div>
-                    { this.getRealWithBonusBalance() }
-                  </div>
+          <AccountStatus
+            profileStatus={profileStatus}
+            onStatusChange={this.handleStatusChange}
+            label={
+              <div className="dropdown-tab">
+                <span className="font-size-11 text-uppercase">Account Status</span>
+                <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
+                {
+                  !!suspendEndDate &&
+                  <small className="player__account__status-scince">
+                    Until {moment(suspendEndDate).format('L')}
+                  </small>
                 }
-                accumulatedBalances={accumulatedBalances}
-              />
+              </div>
+            }
+            availableStatuses={availableStatuses}
+          />
+
+          <Balances
+            label={
+              <div className="balance-tab">
+                <span className="font-size-11 text-uppercase">Balance</span>
+                <div className="player__account-bold">
+                  <Amount { ...balance } />
+                </div>
+                { this.getRealWithBonusBalance() }
+              </div>
+            }
+            accumulatedBalances={accumulatedBalances}
+          />
 
           <div className="width-20">
             <span className="font-size-11 text-uppercase">Registered</span>
@@ -161,13 +166,7 @@ class Header extends Component {
           </div>
           <div className="width-20">
             <span className="font-size-11 text-uppercase">Last login</span>
-            <div>
-              {lastLoginDate && moment(lastLoginDate).fromNow()}
-            </div>
-            <small>
-              {lastLoginDate && moment(lastLoginDate).format('DD.MM.YYYY hh:mm')}
-            </small>
-            <small>{lastLoginCountry && ` from ${lastLoginCountry}`}</small>
+            {this.renderLastLogin()}
           </div>
           <div className="width-20">
             <span className="font-size-11 text-uppercase">

@@ -14,10 +14,14 @@ const mapStateToProps = ({ profile: { view: userProfile, bonus, ip, accumulatedB
     amount: 0,
     currency: userBalance.currency,
   };
+  const lastIp = ip.entities.content
+    ? ip.entities.content[ip.entities.content.length - 1]
+    : null;
 
   return {
     ...userProfile,
     ip,
+    lastIp,
     notes,
     accumulatedBalances: {
       ...accumulatedBalances,
