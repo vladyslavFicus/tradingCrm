@@ -70,7 +70,7 @@ class UserGridFilter extends Component {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
           <div className="col-md-3">
-            <span className="font-size-20">Transactions</span>
+            <span className="font-size-20">Players</span>
           </div>
         </div>
 

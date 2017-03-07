@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Panel, { Title, Content } from 'components/Panel';
+import Panel, { Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import classNames from 'classnames';
 import './List.scss';
@@ -39,15 +39,13 @@ class List extends Component {
   handleFilterSubmit = (filters) => {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
-  
+
   render() {
     const { filters } = this.state;
     const { list: { entities }, availableTags } = this.props;
 
     return <div className="page-content-inner user-list-layout">
       <Panel withBorders>
-        <Title><h3>Players</h3></Title>
-
         <Content>
           <UserGridFilter
             onSubmit={this.handleFilterSubmit}
