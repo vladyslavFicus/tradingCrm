@@ -192,7 +192,7 @@ class UserGridFilter extends Component {
                       </div>
                       <div className="col-md-5">
                         <Field
-                          name="registrationDateFrom"
+                          name="registrationDateTo"
                           component={this.renderDateField}
                           isValidDate={this.endDateValidator}
                         />
