@@ -11,6 +11,7 @@ import {
   statusesLabels as userStatusesLabels
 } from 'constants/user';
 import UserGridFilter from './UserGridFilter';
+import { Link } from 'react-router';
 
 class List extends Component {
   state = {
@@ -111,7 +112,9 @@ class List extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
+          <Link to={`/users/${data.playerUUID}/profile`} target="_blank">
+            {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
+          </Link>
         </div>
         <div className="font-size-12 color-default">
           <div>{[data.username, shortify(data.playerUUID, 'PL')].join(' - ')}</div>
