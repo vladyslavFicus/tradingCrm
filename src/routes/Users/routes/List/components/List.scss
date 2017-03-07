@@ -16,3 +16,14 @@
     border: none;
   }
 }
+
+.dash-after-input {
+  width: 0;
+  top: 5px;
+  padding: 0;
+}
+
+.dash-after-input:after {
+  content: "\2013";
+  margin-left: -5px;
+}

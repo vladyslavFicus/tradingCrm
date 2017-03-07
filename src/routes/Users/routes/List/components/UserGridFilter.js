@@ -12,6 +12,7 @@ const tags = config.nas.tags.reduce((result, item) => ({
   ...result,
   [item.value]: item.label,
 }), {});
+const currencies = config.nas.currencies.supported || [];
 const countries = countryList().getData().reduce((result, item) => ({
   ...result,
   [item.code]: item.name,
@@ -29,19 +30,24 @@ const attributeLabels = {
   segments: 'Segments',
   registrationDateFrom: 'registrationDateFrom',
   registrationDateTo: 'registrationDateTo',
+  balanceFrom: 'balanceFrom',
+  balanceTo: 'balanceTo',
 };
+
 const validator = createValidator({
   keyword: 'string',
   country: `in:,${Object.keys(countries).join(',')}`,
+  currency: `in:,${currencies.join(',')}`,
   ageFrom: 'integer',
   ageTo: 'integer',
-  currency: 'string',
   affiliateId: 'string',
   status: 'string',
   tags: `in:,${Object.keys(tags).join(',')}`,
   segments: 'string',
   registrationDateFrom: 'string',
   registrationDateTo: 'string',
+  balanceFrom: 'integer',
+  balanceTo: 'integer',
 }, attributeLabels, false);
 
 class UserGridFilter extends Component {
@@ -98,9 +104,9 @@ class UserGridFilter extends Component {
 
         <div className="well">
           <div className="row">
-            <div className="col-md-10">
+            <div className="col-md-12">
               <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-3">
                   <Field
                     name="searchValue"
                     type="text"
@@ -122,7 +128,7 @@ class UserGridFilter extends Component {
                     }
                   </Field>
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-1">
                   <Field
                     name="city"
                     type="text"
@@ -139,13 +145,38 @@ class UserGridFilter extends Component {
                         <Field
                           name="ageFrom"
                           type="text"
-                          placeholder='0'
+                          placeholder='20'
                           component={this.renderTextField}
                         />
                       </div>
+                      <div className="col-md-1 dash-after-input"></div>
                       <div className="col-md-5">
                         <Field
                           name="ageTo"
+                          type="text"
+                          placeholder='30'
+                          component={this.renderTextField}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-2">
+                  <div className="form-group">
+                    <label className="form-label">Balance</label>
+                    <div className="row">
+                      <div className="col-md-5">
+                        <Field
+                          name="balanceFrom"
+                          type="text"
+                          placeholder='100'
+                          component={this.renderTextField}
+                        />
+                      </div>
+                      <div className="col-md-1 dash-after-input"></div>
+                      <div className="col-md-5">
+                        <Field
+                          name="balanceTo"
                           type="text"
                           placeholder='150'
                           component={this.renderTextField}
@@ -156,6 +187,22 @@ class UserGridFilter extends Component {
                 </div>
                 <div className="col-md-2">
                   <Field
+                    name="currency"
+                    label={attributeLabels.currency}
+                    emptyOptionLabel="Any"
+                    component={this.renderSelectField}
+                  >
+                    {currencies.map(currency => (
+                      <option key={currency} value={currency}>
+                        {currency}
+                      </option>
+                    ))}
+                  </Field>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-2">
+                  <Field
                     name="affiliateId"
                     type="text"
                     label='Affiliate'
@@ -163,9 +210,7 @@ class UserGridFilter extends Component {
                     component={this.renderTextField}
                   />
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-md-2">
+                <div className="col-md-1">
                   <Field
                     name="statuses"
                     label={attributeLabels.status}
@@ -179,7 +224,7 @@ class UserGridFilter extends Component {
                     ))}
                   </Field>
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-1">
                   <Field
                     name="tags"
                     label={attributeLabels.tags}
@@ -193,7 +238,7 @@ class UserGridFilter extends Component {
                     ))}
                   </Field>
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-1">
                   <Field
                     name="segments"
                     label={attributeLabels.segments}
@@ -202,8 +247,7 @@ class UserGridFilter extends Component {
                   >
                   </Field>
                 </div>
-
-                <div className="col-md-6">
+                <div className="col-md-5">
                   <div className="form-group">
                     <label className="form-label">Registration date range</label>
                     <div className="row">
@@ -224,27 +268,26 @@ class UserGridFilter extends Component {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="col-md-2">
-              <div className="form-group">
-                <br/>
-                <button
-                  disabled={submitting}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
-                  onClick={reset}
-                >
-                  Reset
-                </button>
-                {' '}
-                <button
-                  disabled={submitting}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
-                  type="submit"
-                >
-                  Apply
-                </button>
+                <div className="col-md-2">
+                  <div className="form-group">
+                    <br/>
+                    <button
+                      disabled={submitting}
+                      className="btn btn-default btn-sm margin-inline font-weight-700"
+                      onClick={reset}
+                    >
+                      Reset
+                    </button>
+                    {' '}
+                    <button
+                      disabled={submitting}
+                      className="btn btn-primary btn-sm margin-inline font-weight-700"
+                      type="submit"
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
