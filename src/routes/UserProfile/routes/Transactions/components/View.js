@@ -188,7 +188,7 @@ class View extends Component {
     return <i
       className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
       aria-hidden="true"
-    ></i>;
+    />;
   }
 
   renderStatus = (data) => {
@@ -310,7 +310,11 @@ class View extends Component {
       </NoteButton>
       {
         data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
-        <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', { payment: data })} title={'View payment'}>
+        <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', {
+          payment: data,
+          profile: this.props.profile,
+          accumulatedBalances: this.props.accumulatedBalances
+        })} title={'View payment'}>
           <i className="fa fa-search"/>
         </a>
       }
