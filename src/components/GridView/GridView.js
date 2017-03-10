@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import GridColumn from './GridColumn';
 import { Pagination } from 'react-bootstrap';
+import InfiniteScroll from 'react-infinite-scroller';
 
 class GridView extends Component {
   constructor(props) {
@@ -19,6 +20,14 @@ class GridView extends Component {
     this.state = {
       filters: props.defaultFilters || {},
     };
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (!this.props.lazyLoad) {
+      return true;
+    }
+
+    return nextProps.dataSource.length > this.props.dataSource.length;
   }
 
   recognizeHeaders(grids) {
@@ -78,6 +87,7 @@ class GridView extends Component {
     const {
       tableClassName,
       headerClassName,
+      lazyLoad,
     } = this.props;
     let grids = React.Children.toArray(this.props.children).filter((child) => {
       return child.type === GridColumn;
@@ -95,7 +105,7 @@ class GridView extends Component {
           {this.renderFooter(grids)}
         </table>
 
-        {this.renderPagination()}
+        {!lazyLoad && this.renderPagination()}
       </div>
     </div>;
   }
@@ -118,11 +128,24 @@ class GridView extends Component {
   }
 
   renderBody(columns) {
-    const { dataSource } = this.props;
+    const {
+      dataSource,
+      lazyLoad,
+      totalPages,
+      activePage
+    } = this.props;
 
-    return <tbody>
-    {dataSource.map((data, key) => this.renderRow(key, columns, data))}
-    </tbody>;
+    const rows = dataSource.map((data, key) => this.renderRow(key, columns, data));
+
+    return lazyLoad
+      ? <InfiniteScroll
+        loadMore={() => {this.handlePageChange(activePage + 1);}}
+        element="tbody"
+        hasMore={totalPages > activePage}
+      >
+        {rows}
+      </InfiniteScroll>
+      : <tbody>{rows}</tbody>;
   }
 
   renderRow = (key, columns, data) => {
@@ -215,6 +238,7 @@ GridView.propTypes = {
   activePage: PropTypes.number,
   totalPages: PropTypes.number,
   summaryRow: PropTypes.object,
+  lazyLoad: PropTypes.bool,
 };
 
 export default GridView;

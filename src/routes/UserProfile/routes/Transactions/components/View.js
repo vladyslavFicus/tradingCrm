@@ -237,6 +237,7 @@ class View extends Component {
         activePage={entities.number + 1}
         totalPages={entities.totalPages}
         rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
+        lazyLoad
       >
         <GridColumn
           name="paymentId"

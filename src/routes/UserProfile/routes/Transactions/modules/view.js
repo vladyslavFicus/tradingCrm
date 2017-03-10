@@ -83,14 +83,18 @@ const actionHandlers = {
     isFailed: false,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
-    ...state,
-    entities: {
-      ...state.entities,
-      ...action.payload,
-    },
-    isLoading: false,
-    receivedAt: timestamp(),
-  }),
+      ...state,
+      entities: {
+        ...state.entities,
+        ...action.payload,
+        content: [
+          ...state.entities.content,
+          ...action.payload.content
+        ],
+      },
+      isLoading: false,
+      receivedAt: timestamp(),
+    }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
