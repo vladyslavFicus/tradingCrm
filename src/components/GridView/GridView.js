@@ -23,11 +23,19 @@ class GridView extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (!this.props.lazyLoad) {
+
+    const {
+      lazyLoad,
+      dataSource,
+      activePage
+    } = this.props;
+
+    if (!lazyLoad) {
       return true;
     }
 
-    return nextProps.dataSource.length > this.props.dataSource.length;
+    return nextProps.dataSource.length !== dataSource.length
+      || nextProps.activePage !== activePage;
   }
 
   recognizeHeaders(grids) {

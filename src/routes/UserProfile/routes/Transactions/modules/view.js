@@ -87,14 +87,16 @@ const actionHandlers = {
       entities: {
         ...state.entities,
         ...action.payload,
-        content: [
+        content: action.payload.number === 0
+          ? action.payload.content
+          : [
           ...state.entities.content,
           ...action.payload.content
         ],
       },
       isLoading: false,
       receivedAt: timestamp(),
-    }),
+  }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
