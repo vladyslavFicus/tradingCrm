@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-
 import {
   Button,
   Modal,
@@ -8,25 +7,19 @@ import {
   ModalFooter,
   Input,
 } from 'reactstrap';
-
 import classNames from 'classnames';
 import { statusColorNames } from 'constants/user';
 import { targetTypes } from 'constants/note';
-
-// TODO: move NoteButton to top components
 import NoteButton from '../../../routes/UserProfile/components/NoteButton';
-
 import './PaymentDetailModal.scss';
-
 import { shortify } from 'utils/uuid';
 
 class PaymentRejectModal extends Component {
-
   state = {
-    dropdownOpen: false,
-    selectedReason: "Reason 1",
+    dropDownOpen: false,
+    selectedReason: 'Reason 1',
     isOtherReason: false,
-    reason: ""
+    reason: 'Reason 1'
   };
 
   static contextTypes = {
@@ -49,15 +42,15 @@ class PaymentRejectModal extends Component {
 
   toggle = () => {
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      dropDownOpen: !this.state.dropDownOpen
     });
   };
 
   selectReason = (e) => {
     this.setState({
       selectedReason: e.target.value,
-      isOtherReason: e.target.value === "Other",
-      reason: e.target.value === "Other" ? "" : e.target.value,
+      isOtherReason: e.target.value === 'Other',
+      reason: e.target.value === 'Other' ? '' : e.target.value,
     });
   };
 
@@ -84,7 +77,7 @@ class PaymentRejectModal extends Component {
       rejectReasons,
     } = this.props;
 
-    return <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, "payment-detail-modal")}>
+    return <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, 'payment-detail-modal')}>
       <ModalHeader toggle={onClose}>Withdrawal rejection</ModalHeader>
 
       <ModalBody>
@@ -109,7 +102,12 @@ class PaymentRejectModal extends Component {
               <option>Other</option>
             </Input>
             {this.state.isOtherReason
-              && <Input type="textarea" onChange={this.changeReason} value={this.state.reason}/>}
+              && <div>
+                <Input type="textarea" onChange={this.changeReason} value={this.state.reason}/>
+                <div className="color-default text-uppercase font-size-11">
+                  {this.state.reason.length}/500
+                </div>
+              </div>}
           </div>
         </div>
 
@@ -133,11 +131,13 @@ class PaymentRejectModal extends Component {
       <ModalFooter className="payment-detail-footer">
         <Button onClick={onClose}>Defer</Button>
         <div className="payment-details-actions">
-          <Button color="danger" onClick={(e) => onChangePaymentStatus('refuse', paymentId, {
-            playerUUID,
-            reason: this.state.reason,
-            fraud: false,
-          })}>Reject withdraw transaction</Button>
+          <Button disabled={this.state.reason.length === 0 || this.state.reason.length > 500}
+                  color="danger"
+                  onClick={(e) => onChangePaymentStatus('refuse', paymentId, {
+                    playerUUID,
+                    reason: this.state.reason,
+                    fraud: false,
+                  })}>Reject withdraw transaction</Button>
         </div>
       </ModalFooter>
     </Modal>;
