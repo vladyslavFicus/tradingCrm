@@ -347,7 +347,7 @@ class UserGridFilter extends Component {
       <div className="input-group">
         <DateTime
           dateFormat="MM/DD/YYYY"
-          timeFormat={true}
+          timeFormat={false}
           onChange={this.handleDateTimeChange(input.onChange)}
           value={input.value ? moment(input.value) : null}
           closeOnSelect={true}
