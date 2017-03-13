@@ -11,16 +11,11 @@ import {
 import { statusColorNames } from 'constants/user';
 import { targetTypes } from 'constants/note';
 import Amount from 'components/Amount';
-
-// TODO: move NoteButton to top components
 import NoteButton from '../../../routes/UserProfile/components/NoteButton';
-
+import { shortify } from 'utils/uuid';
 import './PaymentDetailModal.scss';
 
-import { shortify } from 'utils/uuid';
-
 class PaymentDetailModal extends Component {
-
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
@@ -72,7 +67,7 @@ class PaymentDetailModal extends Component {
       onAboutToReject
     } = this.props;
 
-    return <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, "payment-detail-modal")}>
+    return <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, 'payment-detail-modal')}>
       <ModalHeader toggle={onClose}>Payment details</ModalHeader>
 
       <ModalBody>
