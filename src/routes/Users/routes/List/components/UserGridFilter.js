@@ -52,7 +52,7 @@ const validator = createValidator({
 
 class UserGridFilter extends Component {
   handleDateTimeChange = (callback) => (value) => {
-    callback(value ? value.format('YYYY-MM-DD') : '');
+    callback(value ? value.format('YYYY-MM-DD\THH:mm:00') : '');
   };
 
   startDateValidator = (current) => {
@@ -347,7 +347,7 @@ class UserGridFilter extends Component {
       <div className="input-group">
         <DateTime
           dateFormat="MM/DD/YYYY"
-          timeFormat={false}
+          timeFormat="HH:mm"
           onChange={this.handleDateTimeChange(input.onChange)}
           value={input.value ? moment(input.value) : null}
           closeOnSelect={true}
