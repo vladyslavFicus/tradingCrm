@@ -69,6 +69,7 @@ class PaymentDetailModal extends Component {
       isOpen,
       onClose,
       onChangePaymentStatus,
+      onAboutToReject
     } = this.props;
 
     return <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, "payment-detail-modal")}>
@@ -219,11 +220,7 @@ class PaymentDetailModal extends Component {
         <div className="payment-details-actions">
           <Button color="primary"
                   onClick={(e) => onChangePaymentStatus('approve', paymentId)}>Approve</Button>{' '}
-          <Button color="danger" onClick={(e) => onChangePaymentStatus('refuse', paymentId, {
-            playerUUID,
-            reason: 'Bad withdraw',
-            fraud: false,
-          })}>Reject</Button>
+          <Button color="danger" onClick={(e) => onAboutToReject(e, this.props.payment)}>Reject</Button>
         </div>
       </ModalFooter>
     </Modal>;
@@ -235,6 +232,7 @@ PaymentDetailModal.propTypes = {
     paymentId: PropTypes.string,
     transactions: PropTypes.array,
   }),
+  onAboutToReject: PropTypes.func
 };
 
 export default PaymentDetailModal;
