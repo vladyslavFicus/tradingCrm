@@ -81,6 +81,7 @@ class PaymentRejectModal extends Component {
       isOpen,
       onClose,
       onChangePaymentStatus,
+      rejectReasons,
     } = this.props;
 
     return <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, "payment-detail-modal")}>
@@ -104,10 +105,7 @@ class PaymentRejectModal extends Component {
               Reason
             </div>
             <Input type="select" onChange={this.selectReason} value={this.state.selectedReason}>
-              <option>Reason 1</option>
-              <option>Reason 2</option>
-              <option>Reason 3</option>
-              <option>Reason 4</option>
+              {rejectReasons.map((reason, i) => <option key={i}>{reason}</option>)}
               <option>Other</option>
             </Input>
             {this.state.isOtherReason
@@ -151,7 +149,8 @@ PaymentRejectModal.propTypes = {
     paymentId: PropTypes.string,
     transactions: PropTypes.array,
   }),
-  onAboutToReject: PropTypes.func
+  onAboutToReject: PropTypes.func,
+  rejectReasons: PropTypes.array,
 };
 
 export default PaymentRejectModal;

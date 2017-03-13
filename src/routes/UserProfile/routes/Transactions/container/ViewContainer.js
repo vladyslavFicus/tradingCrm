@@ -3,6 +3,7 @@ import View from '../components/View';
 import { connect } from 'react-redux';
 import { actionCreators as viewActionCreators } from '../modules/view';
 import { actionCreators as paymentActionCreators } from 'redux/modules/payment';
+import { getTransactionRejectReasons } from 'config/index';
 
 const mapStateToProps = ({ userTransactions, profile: { bonus, view: { profile } } }) => {
 
@@ -23,9 +24,11 @@ const mapStateToProps = ({ userTransactions, profile: { bonus, view: { profile }
           amount: userBalance.amount - bonus.data.balance.amount,
           currency: userBalance.currency,
         } : userBalance,
-    }
-  }
+    },
+    paymentRejectReasons: getTransactionRejectReasons(),
+  };
 };
+
 const mapActions = {
   ...viewActionCreators,
   onChangePaymentStatus: paymentActionCreators.changePaymentStatus,
@@ -33,4 +36,3 @@ const mapActions = {
 };
 
 export default connect(mapStateToProps, mapActions)(View);
-
