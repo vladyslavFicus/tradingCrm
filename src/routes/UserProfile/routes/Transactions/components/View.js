@@ -26,7 +26,6 @@ const defaultModalState = {
 
 class View extends Component {
   state = {
-    statusHistory: [],
     filters: {},
     page: 0,
     modal: defaultModalState,
@@ -114,15 +113,8 @@ class View extends Component {
     });
   };
 
-  handleLoadStatusHistory = (paymentId) => () => {
-    this.props.loadPaymentStatuses(paymentId)
-      .then(action => {
-        if (action && !action.error) {
-          this.setState({
-            statusHistory: action.payload,
-          });
-        }
-      });
+  handleLoadStatusHistory = paymentId => () => {
+    return this.props.loadPaymentStatuses(paymentId);
   };
 
   renderTransactionId(data) {
@@ -213,7 +205,6 @@ class View extends Component {
             </span>
           </div>
         }
-        statusHistory={this.state.statusHistory}
       />
     );
   };
