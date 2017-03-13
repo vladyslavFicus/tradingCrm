@@ -99,7 +99,8 @@ class View extends Component {
     this.handleOpenModal(e, 'payment-about-to-reject', {
       payment,
       profile: this.props.profile,
-      accumulatedBalances: this.props.accumulatedBalances
+      accumulatedBalances: this.props.accumulatedBalances,
+      rejectReasons: this.props.paymentRejectReasons
     });
 };
 
@@ -341,7 +342,7 @@ class View extends Component {
         <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', {
           payment: data,
           profile: this.props.profile,
-          accumulatedBalances: this.props.accumulatedBalances
+          accumulatedBalances: this.props.accumulatedBalances,
         })} title={'View payment'}>
           <i className="fa fa-search"/>
         </a>

@@ -63,7 +63,11 @@ export default {
       "nas.tags.priorities.positive.tag2.departments[0]": "RFP",
       "nas.tags.priorities.positive.tag3.departments[0]": "CS",
       "nas.tags.priorities.positive.tag3.departments[1]": "MARKETING",
-      "validation.password": "/^(?=[^\\s]*\\d)[^\\s]{6,20}$/g"
+      "validation.password": "/^(?=[^\\s]*\\d)[^\\s]{6,20}$/g",
+      "nas.reasons.rejection[0]": "Reason 1",
+      "nas.reasons.rejection[1]": "Reason 2",
+      "nas.reasons.rejection[2]": "Reason 3",
+      "nas.reasons.rejection[3]": "Reason 4",
     }
   }),
 
