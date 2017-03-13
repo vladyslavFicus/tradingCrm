@@ -98,15 +98,10 @@ class PaymentDetailModal extends Component {
             <div className="font-size-14">
               <div className="font-weight-700">
                 <div className={` ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
-                {
-                  !!suspendEndDate &&
-                  <small className="player__account__status-scince">
-                  </small>
-                }
+                  {!!suspendEndDate && <span className="font-size-10 text-uppercase color-default">
+                    Until {moment(suspendEndDate).format('L')}
+                  </span>}
               </div>
-              {!!suspendEndDate && <span className="font-size-10 text-uppercase color-default">
-                Until {moment(suspendEndDate).format('L')}
-              </span>}
             </div>
           </div>
           <div className="col-md-4 payment-detail-player-block">
