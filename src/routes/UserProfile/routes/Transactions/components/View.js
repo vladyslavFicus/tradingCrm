@@ -18,6 +18,7 @@ import { targetTypes } from 'constants/note';
 import NoteButton from "../../../components/NoteButton";
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
+import PaymentRejectModal from 'routes/Payments/components/PaymentRejectModal';
 
 const defaultModalState = {
   name: null,
@@ -91,6 +92,16 @@ class View extends Component {
       .then(() => fetchEntities(filters))
       .then(() => this.handleCloseModal());
   };
+
+  handleAboutToReject = (e, payment) => {
+    this.handleCloseModal();
+
+    this.handleOpenModal(e, 'payment-about-to-reject', {
+      payment,
+      profile: this.props.profile,
+      accumulatedBalances: this.props.accumulatedBalances
+    });
+};
 
   handleOpenModal = (e, name, params) => {
     e.preventDefault();
@@ -300,7 +311,16 @@ class View extends Component {
         isOpen
         onClose={this.handleCloseModal}
         onChangePaymentStatus={this.handleChangePaymentStatus}
+        onAboutToReject={this.handleAboutToReject}
       />}
+
+      {modal.name === 'payment-about-to-reject' && <PaymentRejectModal
+        { ...modal.params }
+        isOpen
+        onClose={this.handleCloseModal}
+        onChangePaymentStatus={this.handleChangePaymentStatus}
+      />}
+
     </div>;
   }
 
