@@ -1,9 +1,9 @@
-import { CALL_API } from 'redux-api-middleware';
+import {CALL_API} from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
 import buildQueryString from 'utils/buildQueryString';
-import { actionCreators as noteActionCreators } from 'redux/modules/note';
-import { targetTypes } from 'constants/note';
+import {actionCreators as noteActionCreators} from 'redux/modules/note';
+import {targetTypes} from 'constants/note';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
@@ -39,7 +39,7 @@ const mapEntities = (dispatch, pageable) => {
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const {auth: {token, logged}} = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -53,7 +53,7 @@ function fetchEntities(filters = {}) {
         types: [
           {
             type: FETCH_ENTITIES.REQUEST,
-            meta: { filters },
+            meta: {filters},
           },
           {
             type: FETCH_ENTITIES.SUCCESS,
@@ -83,19 +83,19 @@ const actionHandlers = {
     isFailed: false,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
-      ...state,
-      entities: {
-        ...state.entities,
-        ...action.payload,
-        content: action.payload.number === 0
-          ? action.payload.content
-          : [
+    ...state,
+    entities: {
+      ...state.entities,
+      ...action.payload,
+      content: action.payload.number === 0
+        ? action.payload.content
+        : [
           ...state.entities.content,
-          ...action.payload.content
+          ...action.payload.content,
         ],
-      },
-      isLoading: false,
-      receivedAt: timestamp(),
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,

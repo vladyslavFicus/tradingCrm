@@ -87,7 +87,7 @@ const actionHandlers = {
         ? action.payload.content
         : [
           ...state.entities.content,
-          ...action.payload.content
+          ...action.payload.content,
         ],
     },
     isLoading: false,

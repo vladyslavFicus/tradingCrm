@@ -1,6 +1,6 @@
 import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
-import { actionCreators as usersActionCreators } from 'redux/modules/users';
+import {actionCreators as usersActionCreators} from 'redux/modules/users';
 
 const KEY = 'users';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
@@ -12,7 +12,7 @@ function fetchESEntities(filters = {}) {
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...action.meta.filters },
+    filters: {...action.meta.filters},
     isLoading: true,
     error: null,
   }),
@@ -25,7 +25,7 @@ const actionHandlers = {
         ? action.payload.content
         : [
           ...state.entities.content,
-          ...action.payload.content
+          ...action.payload.content,
         ],
     },
     isLoading: false,
@@ -70,6 +70,6 @@ const actionCreators = {
   fetchESEntities,
 };
 
-export { actionCreators, actionTypes, initialState };
+export {actionCreators, actionTypes, initialState};
 
 export default reducer;

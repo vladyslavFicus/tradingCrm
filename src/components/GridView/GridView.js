@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import GridColumn from './GridColumn';
 import { Pagination } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
+import shallowEqual from 'utils/shallowEqual';
 
 class GridView extends Component {
   constructor(props) {
@@ -27,15 +28,14 @@ class GridView extends Component {
     const {
       lazyLoad,
       dataSource,
-      activePage
     } = this.props;
 
     if (!lazyLoad) {
       return true;
     }
 
-    return nextProps.dataSource.length !== dataSource.length
-      || nextProps.activePage !== activePage;
+    return !shallowEqual(nextProps.dataSource, dataSource);
+
   }
 
   recognizeHeaders(grids) {
@@ -147,7 +147,7 @@ class GridView extends Component {
 
     return lazyLoad
       ? <InfiniteScroll
-        loadMore={() => {this.handlePageChange(activePage + 1);}}
+        loadMore={() => this.handlePageChange(activePage + 1)}
         element="tbody"
         hasMore={totalPages > activePage}
       >
