@@ -11,7 +11,7 @@ const mapStateToProps = ({ userTransactions, profile: { bonus, view: { profile }
 const mapActions = {
   ...viewActionCreators,
   onChangePaymentStatus: paymentActionCreators.changePaymentStatus,
-  loadPaymentTransactions: paymentActionCreators.fetchTransactions,
+  loadPaymentStatuses: paymentActionCreators.fetchPaymentStatuses,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

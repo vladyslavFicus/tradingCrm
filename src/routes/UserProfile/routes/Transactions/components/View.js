@@ -96,7 +96,7 @@ class View extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.loadPaymentTransactions(params.payment.paymentId)
+    this.props.loadPaymentStatuses(params.payment.paymentId)
       .then(action => {
         if (action && !action.error) {
           params.transactions = action.payload;
@@ -115,7 +115,7 @@ class View extends Component {
   };
 
   handleLoadStatusHistory = (paymentId) => () => {
-    this.props.loadPaymentTransactions(paymentId)
+    this.props.loadPaymentStatuses(paymentId)
       .then(action => {
         if (action && !action.error) {
           this.setState({
@@ -237,6 +237,7 @@ class View extends Component {
         activePage={entities.number + 1}
         totalPages={entities.totalPages}
         rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
+        lazyLoad
       >
         <GridColumn
           name="paymentId"

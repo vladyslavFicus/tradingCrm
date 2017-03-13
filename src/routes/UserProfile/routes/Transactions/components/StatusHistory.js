@@ -8,8 +8,9 @@ class StatusHistory extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
     statusHistory: PropTypes.arrayOf(PropTypes.shape({
-      transactionName: PropTypes.string,
-      transactionId: PropTypes.string,
+      paymentStatus: PropTypes.string,
+      creationTime: PropTypes.string,
+      reference: PropTypes.string,
     })).isRequired,
     onLoad: PropTypes.func.isRequired,
   };
@@ -49,12 +50,12 @@ class StatusHistory extends Component {
       <DropdownMenu>
         {
           statusHistory.map((status) => (
-            <DropdownItem className='text-uppercase' key={status.transactionId}>
-              <div className={classNames(statusesColor[status.transactionName], 'font-weight-700')}>
-                {status.transactionName}
+            <DropdownItem className='text-uppercase' key={status.reference}>
+              <div className={classNames(statusesColor[status.paymentStatus], 'font-weight-700')}>
+                {status.paymentStatus}
               </div>
               <span className="font-size-10 color-default">
-                {moment(status.transactionTime).format('DD.MM.YYYY \- HH:mm:ss')}
+                {moment(status.creationTime).format('DD.MM.YYYY \- HH:mm:ss')}
               </span>
             </DropdownItem>
           ))

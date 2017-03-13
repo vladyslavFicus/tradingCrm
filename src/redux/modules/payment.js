@@ -26,13 +26,13 @@ function changePaymentStatus({ status, paymentId, options = {} }) {
   };
 }
 
-function fetchTransactions(id) {
+function fetchPaymentStatuses(id) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/${id}/transactions`,
+        endpoint: `payment/${id}/statuses`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -67,7 +67,7 @@ const actionTypes = {
 };
 const actionCreators = {
   changePaymentStatus,
-  fetchTransactions,
+  fetchPaymentStatuses,
 };
 
 export {
