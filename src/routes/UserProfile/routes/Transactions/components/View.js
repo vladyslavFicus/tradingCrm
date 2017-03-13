@@ -157,7 +157,7 @@ class View extends Component {
           {moment(data.creationTime).format('DD.MM.YYYY')}
         </div>
         <span className="font-size-10 color-default">
-          {moment(data.creationTime).format('HH:mm')}
+          {moment(data.creationTime).format('HH:mm:ss')}
         </span>
       </div>
     );
@@ -201,7 +201,7 @@ class View extends Component {
               {statusesLabels[data.status] || data.status}
             </div>
             <span className="font-size-10 color-default">
-              {moment(data.creationTime).format('DD.MM.YYYY \- HH:mm')}
+              {moment(data.creationTime).format('DD.MM.YYYY \- HH:mm:ss')}
             </span>
           </div>
         }

@@ -54,7 +54,7 @@ class StatusHistory extends Component {
                 {status.paymentStatus}
               </div>
               <span className="font-size-10 color-default">
-                {moment(status.creationTime).format('DD.MM.YYYY \- HH:mm')}
+                {moment(status.creationTime).format('DD.MM.YYYY \- HH:mm:ss')}
               </span>
             </DropdownItem>
           ))
