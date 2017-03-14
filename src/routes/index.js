@@ -6,6 +6,7 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
  * Routes
  */
 import SignInRoute from './SignIn';
+import ResetPasswordRoute from './ResetPassword';
 import UserProfileRoute from './UserProfile';
 import DashboardRoute from './Dashboard';
 import UsersRoute from './Users';
@@ -28,6 +29,7 @@ export const createRoutes = (store) => ({
       component: BaseLayout,
       childRoutes: [
         SignInRoute(store),
+        ResetPasswordRoute(store),
         onEnterStack({
           component: AuthenticatedLayout,
           childRoutes: [

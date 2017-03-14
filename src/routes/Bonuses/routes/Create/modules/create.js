@@ -1,3 +1,4 @@
+import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
@@ -49,29 +50,23 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
 };
-
 const initialState = {
   isLoading: false,
   error: null,
   receivedAt: null,
 };
-function reducer(state = initialState, action) {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
 const actionTypes = {
   CREATE_BONUS,
 };
-
 const actionCreators = {
   createBonus,
 };
 
 export {
+  initialState,
   actionTypes,
   actionCreators,
+  actionHandlers,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

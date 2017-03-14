@@ -11,11 +11,6 @@ import report, {
   initialState as reportInitialState,
 } from './report';
 
-const reducer = combineReducers({
-  files,
-  report,
-});
-
 const initialState = {
   files: filesInitialState,
   report: reportInitialState,
@@ -35,4 +30,7 @@ export {
   initialState,
 };
 
-export default reducer;
+export default combineReducers({
+  files,
+  report,
+});

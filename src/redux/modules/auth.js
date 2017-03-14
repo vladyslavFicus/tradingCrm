@@ -1,3 +1,4 @@
+import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 
@@ -130,20 +131,12 @@ const initialState = {
   uuid: null,
   username: null,
 };
-
-function reducer(state = initialState, action) {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
 const actionTypes = {
   SIGN_IN,
   REFRESH_TOKEN,
   VALIDATE_TOKEN,
   LOGOUT,
 };
-
 const actionCreators = {
   signIn,
   logout,
@@ -151,6 +144,10 @@ const actionCreators = {
   validateToken,
 };
 
-export { actionCreators, actionTypes, initialState };
+export {
+  actionCreators,
+  actionTypes,
+  initialState,
+};
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

@@ -1,3 +1,4 @@
+import createReducer from 'utils/createReducer';
 import { actionCreators as noteActionCreators } from 'redux/modules/note';
 import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
@@ -53,13 +54,6 @@ const initialState = {
   isLoading: false,
   receivedAt: null,
 };
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-};
-
 const actionTypes = {
   FETCH_ENTITIES,
 };
@@ -77,4 +71,4 @@ export {
   actionHandlers,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

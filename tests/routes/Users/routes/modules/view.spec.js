@@ -1,6 +1,4 @@
 import reducer, {
-  actionTypes,
-  actionCreators,
   initialState
 } from '../../../../../src/routes/Users/modules/view';
 

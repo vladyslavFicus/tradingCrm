@@ -1,9 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import DropDownWrapper from 'components/Bootstrap/DropDownWrapper';
 import { DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { Link } from 'react-router';
+import { withRouter } from 'react-router';
 
 class TopMenu extends Component {
+  static contextTypes = {
+    user: PropTypes.shape({
+      token: PropTypes.string,
+      uuid: PropTypes.string,
+    }).isRequired,
+  };
+
+  handleLogout = () => {
+    this.props.router.replace('/logout');
+  };
+
   render() {
     return <nav className="top-menu">
       <div className="menu-icon-container hidden-md-up">
@@ -26,9 +37,7 @@ class TopMenu extends Component {
               <i className="fa fa-user-secret fa-3x"/>
             </DropdownToggle>
             <DropdownMenu className="dropdown-menu-right">
-              <DropdownItem>
-                <Link to={'/logout'}>Logout</Link>
-              </DropdownItem>
+              <DropdownItem onClick={this.handleLogout}>Logout</DropdownItem>
             </DropdownMenu>
           </DropDownWrapper>
         </div>
@@ -37,11 +46,4 @@ class TopMenu extends Component {
   }
 }
 
-TopMenu.contextTypes = {
-  user: PropTypes.shape({
-    token: PropTypes.string,
-    uuid: PropTypes.string,
-  }).isRequired,
-};
-
-export default TopMenu;
+export default withRouter(TopMenu);

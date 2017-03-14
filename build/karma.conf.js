@@ -62,7 +62,7 @@ const karmaConfig = {
   },
 };
 
-if (config.globals.__COVERAGE__) {
+/*if (config.globals.__COVERAGE__) {
   karmaConfig.reporters.push('coverage');
   karmaConfig.webpack.module.preLoaders = [{
     test: /\.(js|jsx)$/,
@@ -70,7 +70,7 @@ if (config.globals.__COVERAGE__) {
     loader: 'isparta',
     exclude: /node_modules/,
   },];
-}
+}*/
 
 // cannot use `export default` because of Karma.
 module.exports = (cfg) => cfg.set(karmaConfig);
