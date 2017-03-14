@@ -30,16 +30,14 @@ class PersonalForm extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="padding-bottom-20">
         <form className="form-horizontal" role="form" onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
-            <h5 className="pull-left">Personal information</h5>
-            { !(pristine || submitting || !valid) &&
-            <button className="btn btn-sm btn-primary pull-right" type="submit">
-              Save changes
-            </button>
-            }
-          </div>
+          <h5>Personal information</h5>
+          { !(pristine || submitting || !valid) &&
+          <button className="btn btn-sm btn-primary pull-right" type="submit">
+            Save changes
+          </button>
+          }
           <div className="row">
             <Field
               name="firstName"

@@ -53,7 +53,7 @@
   }
 }
 
-.profile-table {
+.profile-table, .documents-table {
   thead>tr>th,
   tbody>tr>th,
   tfoot>tr>th,
@@ -62,4 +62,8 @@
   tfoot>tr>td {
     border: none;
   }
+}
+
+.profile-bordered-block {
+  border-right: 1px solid #eee;
 }
