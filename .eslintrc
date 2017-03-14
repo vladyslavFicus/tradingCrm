@@ -21,10 +21,10 @@
     "__BASENAME__"   : false
   },
   "rules": {
-    "semi" : [2, "never"],
+    "semi" : [2, "always"],
     "max-len": [2, 120, 2],
     "generator-star-spacing": 0,
     "babel/generator-star-spacing": 1,
-    "jsx-quotes": [2, "prefer-single"]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }
