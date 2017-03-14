@@ -8,12 +8,11 @@ import ProfileLayout from '../layouts/ProfileLayout';
 import { getAvailableTags } from 'config/index';
 import { statusActions } from 'constants/user';
 
-const mapStateToProps = ({ profile: { view: userProfile, bonus, ip, accumulatedBalances, notes }, auth }) => {
-  const userBalance = userProfile.profile.data.balance;
-  const emptyBalance = {
-    amount: 0,
-    currency: userBalance.currency,
-  };
+const mapStateToProps = ({
+  profile: {
+    view: userProfile, ip, accumulatedBalances: { data: accumulatedBalances }, notes,
+  }, auth,
+}) => {
   const lastIp = ip.entities.content
     ? ip.entities.content[ip.entities.content.length - 1]
     : null;
@@ -23,21 +22,7 @@ const mapStateToProps = ({ profile: { view: userProfile, bonus, ip, accumulatedB
     ip,
     lastIp,
     notes,
-    accumulatedBalances: {
-      ...accumulatedBalances,
-      data: {
-        deposits: accumulatedBalances.data && accumulatedBalances.data.deposits ?
-          accumulatedBalances.data.deposits : emptyBalance,
-        withdraws: accumulatedBalances.data && accumulatedBalances.data.withdraws ?
-          accumulatedBalances.data.withdraws : emptyBalance,
-        total: userBalance,
-        bonus: bonus && bonus.data ? bonus.data.balance : emptyBalance,
-        real: bonus && bonus.data ? {
-          amount: userBalance.amount - bonus.data.balance.amount,
-          currency: userBalance.currency,
-        } : userBalance,
-      },
-    },
+    accumulatedBalances,
     availableTags: getAvailableTags(auth.department),
     availableStatuses: userProfile && userProfile.profile && userProfile.profile.data
       ? statusActions[userProfile.profile.data.profileStatus]
