@@ -9,6 +9,7 @@ import SignInRoute from './SignIn';
 import UserProfileRoute from './UserProfile';
 import DashboardRoute from './Dashboard';
 import UsersRoute from './Users';
+import OperatorsRoute from './Operators';
 import ProfileReviewRoute from './ProfileReview';
 import PaymentsRoute from './Payments';
 import BonusCampaignsRoute from './BonusCampaigns';
@@ -33,6 +34,7 @@ export const createRoutes = (store) => ({
           childRoutes: [
             DashboardRoute(store),
             UsersRoute(store),
+            OperatorsRoute(store),
             ProfileReviewRoute(store),
             PaymentsRoute(store),
             BonusCampaignsRoute(store),

@@ -9,6 +9,12 @@ const sidebar = [
       { label: 'Dormant', url: '/users/dormant' },
     ],
   },
+  {
+    label: 'Operators', icon: 'fa fa-user',
+    items: [
+      { label: 'All', url: '/operators/list' },
+    ],
+  },
   { label: 'InReview profiles', url: '/profiles-review', icon: 'fa fa-user-times' },
   {
     label: 'Payments', icon: 'fa fa-credit-card',
