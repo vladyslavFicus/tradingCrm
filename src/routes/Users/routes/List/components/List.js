@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import Panel, { Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import classNames from 'classnames';
-import './List.scss';
 import moment from 'moment';
 import { shortify } from 'utils/uuid';
 import Amount from 'components/Amount';
@@ -45,7 +44,7 @@ class List extends Component {
     const { filters } = this.state;
     const { list: { entities }, filterValues } = this.props;
 
-    return <div className="page-content-inner user-list-layout">
+    return <div className="page-content-inner">
       <Panel withBorders>
         <Content>
           <UserGridFilter
@@ -54,7 +53,7 @@ class List extends Component {
             filterValues={filterValues}
           />
           <GridView
-            tableClassName="table table-hovered user-list-table"
+            tableClassName="table table-hovered data-grid-layout"
             headerClassName=""
             dataSource={entities.content}
             onFiltersChanged={this.handleFiltersChanged}

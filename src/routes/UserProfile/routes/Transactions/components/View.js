@@ -221,7 +221,7 @@ class View extends Component {
       />
 
       <GridView
-        tableClassName="table table-hovered profile-table"
+        tableClassName="table table-hovered data-grid-layout"
         headerClassName=""
         dataSource={entities.content}
         onPageChange={this.handlePageChanged}

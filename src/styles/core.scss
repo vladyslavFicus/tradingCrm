@@ -21,4 +21,31 @@
     box-sizing: inherit;
   }
 
+  .data-grid-layout {
+    thead th {
+      font-size: 12px;
+      color: #666;
+      font-weight: 400;
+    }
+
+    thead > tr > th,
+    tbody > tr > th,
+    tfoot > tr > th,
+    thead > tr > td,
+    tbody > tr > td,
+    tfoot > tr > td {
+      border: none;
+    }
+  }
+
+  .dash-after-input {
+    width: 0;
+    top: 5px;
+    padding: 0;
+  }
+
+  .dash-after-input:after {
+    content: "\2013";
+    margin-left: -5px;
+  }
 }
