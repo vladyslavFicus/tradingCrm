@@ -80,12 +80,6 @@ class OperatorGridFilter extends Component {
         </div>
 
         <form onSubmit={handleSubmit(this.handleSubmit)}>
-          <div className="row margin-bottom-20">
-            <div className="col-md-3">
-              <span className="font-size-20">Operators</span>
-            </div>
-          </div>
-
           <div className="well">
             <div className="row">
               <div className="col-md-12">
