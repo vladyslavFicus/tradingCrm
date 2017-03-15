@@ -133,7 +133,6 @@ class BonusGridFilter extends Component {
               <div className="col-md-6">
                 <div className="form-group">
                   <label className="form-label">Availability date range</label>
-
                   <div className="row">
                     <div className="col-md-5">
                       <Field
@@ -156,7 +155,6 @@ class BonusGridFilter extends Component {
               </div>
             </div>
           </div>
-
           <div className="col-md-2">
             <div className="form-group margin-top-25">
               <button disabled={submitting} className="btn btn-default btn-sm margin-inline font-weight-700" onClick={reset}>

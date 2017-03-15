@@ -270,7 +270,6 @@ class UserGridFilter extends Component {
                 </div>
                 <div className="col-md-2">
                   <div className="form-group">
-                    <br/>
                     <button
                       disabled={submitting}
                       className="btn btn-default btn-sm margin-inline font-weight-700"
@@ -278,7 +277,6 @@ class UserGridFilter extends Component {
                     >
                       Reset
                     </button>
-                    {' '}
                     <button
                       disabled={submitting}
                       className="btn btn-primary btn-sm margin-inline font-weight-700"
