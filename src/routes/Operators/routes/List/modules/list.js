@@ -1,8 +1,34 @@
+import { CALL_API } from 'redux-api-middleware';
 import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
 const KEY = 'operators';
+const CREATE_OPERATOR = createRequestAction(`${KEY}/create-operator`);
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
-import { CALL_API } from 'redux-api-middleware';
+
+function createOperator(data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `operator/operators`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          CREATE_OPERATOR.REQUEST,
+          CREATE_OPERATOR.SUCCESS,
+          CREATE_OPERATOR.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+};
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
@@ -87,6 +113,7 @@ const actionTypes = {
 
 const actionCreators = {
   fetchEntities,
+  createOperator,
 };
 
 export { actionCreators, actionTypes, initialState };

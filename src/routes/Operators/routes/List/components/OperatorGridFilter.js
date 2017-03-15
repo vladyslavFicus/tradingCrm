@@ -11,54 +11,62 @@ class OperatorGridFilter extends Component {
       submitting,
       handleSubmit,
       reset,
+      onCreateOperatorClick,
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.handleSubmit)}>
+      <div>
         <div className="row margin-bottom-20">
           <div className="col-md-3">
             <span className="font-size-20">Operators</span>
           </div>
+          <div className="col-md-3 col-md-offset-6">
+            <button className="btn btn-default-outline" onClick={onCreateOperatorClick}>
+              + New operator
+            </button>
+          </div>
         </div>
 
-        <div className="well">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="row">
-                <div className="col-md-3"></div>
-                <div className="col-md-3"></div>
-                <div className="col-md-3"></div>
-                <div className="col-md-3"></div>
-              </div>
-              <div className="row">
-                <div className="col-md-3"></div>
-                <div className="col-md-3"></div>
-                <div className="col-md-3"></div>
-                <div className="col-md-3">
-                  <div className="form-group">
-                    <br/>
-                    <button
-                      disabled={submitting}
-                      className="btn btn-default btn-sm margin-inline font-weight-700"
-                      onClick={reset}
-                    >
-                      Reset
-                    </button>
-                    {' '}
-                    <button
-                      disabled={submitting}
-                      className="btn btn-primary btn-sm margin-inline font-weight-700"
-                      type="submit"
-                    >
-                      Apply
-                    </button>
+        <form onSubmit={handleSubmit(this.handleSubmit)}>
+          <div className="well">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="row">
+                  <div className="col-md-3"></div>
+                  <div className="col-md-3"></div>
+                  <div className="col-md-3"></div>
+                  <div className="col-md-3"></div>
+                </div>
+                <div className="row">
+                  <div className="col-md-3"></div>
+                  <div className="col-md-3"></div>
+                  <div className="col-md-3"></div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <br/>
+                      <button
+                        disabled={submitting}
+                        className="btn btn-default btn-sm margin-inline font-weight-700"
+                        onClick={reset}
+                      >
+                        Reset
+                      </button>
+                      {' '}
+                      <button
+                        disabled={submitting}
+                        className="btn btn-primary btn-sm margin-inline font-weight-700"
+                        type="submit"
+                      >
+                        Apply
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 }
