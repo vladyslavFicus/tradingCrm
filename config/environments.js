@@ -53,7 +53,6 @@ const applicationConfig = {
   'nas.reasons.rejection[1]': 'Reason 2',
   'nas.reasons.rejection[2]': 'Reason 3',
   'nas.reasons.rejection[3]': 'Reason 4',
-
 };
 
 export default {
