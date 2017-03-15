@@ -63,138 +63,152 @@ class OperatorGridFilter extends Component {
       submitting,
       handleSubmit,
       reset,
+      onCreateOperatorClick,
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.handleSubmit)}>
+      <div>
         <div className="row margin-bottom-20">
           <div className="col-md-3">
             <span className="font-size-20">Operators</span>
           </div>
+          <div className="col-md-3 col-md-offset-6">
+            <button className="btn btn-default-outline" onClick={onCreateOperatorClick}>
+              + New operator
+            </button>
+          </div>
         </div>
 
-        <div className="well">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="row">
-                <div className="col-md-3">
-                  <Field
-                    name="searchValue"
-                    type="text"
-                    label='Search by'
-                    placeholder={attributeLabels.keyword}
-                    component={this.renderQueryField}
-                  />
-                </div>
-                <div className="col-md-3">
-                  <Field
-                    name="countries"
-                    label={attributeLabels.country}
-                    emptyOptionLabel="Any"
-                    component={this.renderSelectField}
-                  >
-                    {Object
-                      .keys(countries)
-                      .map((key) => <option key={key} value={key}>{countries[key]}</option>)
-                    }
-                  </Field>
-                </div>
-                <div className="col-md-3">
-                  <Field
-                    name="statuses"
-                    label={attributeLabels.status}
-                    emptyOptionLabel="Any"
-                    component={this.renderSelectField}
-                  >
-                    {Object.keys(statusesLabels).map(status => (
-                      <option key={status} value={status}>
-                        {statusesLabels[status]}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-3">
-                  <Field
-                    name="department"
-                    label={attributeLabels.department}
-                    component={this.renderSelectField}
-                    position="vertical"
-                    emptyOptionLabel="Any"
-                    showErrorMessage={false}
-                    children={[
-                      departments.map(({ label, value }) => (
-                        <option key={value} value={value}>
-                          {label}
-                        </option>
-                      )),
-                    ]}
-                  />
-                </div>
-                <div className="col-md-3">
-                  <Field
-                    name="role"
-                    label={attributeLabels.role}
-                    component={this.renderSelectField}
-                    position="vertical"
-                    emptyOptionLabel="Any"
-                    showErrorMessage={false}
-                    children={[
-                      roles.map(({ label, value }) => (
-                        <option key={value} value={value}>
-                          {label}
-                        </option>
-                      )),
-                    ]}
-                  />
-                </div>
+        <form onSubmit={handleSubmit(this.handleSubmit)}>
+          <div className="row margin-bottom-20">
+            <div className="col-md-3">
+              <span className="font-size-20">Operators</span>
+            </div>
+          </div>
 
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label className="form-label">Registration date range</label>
-                    <div className="row">
-                      <div className="col-md-5">
-                        <Field
-                          name="registrationDateFrom"
-                          component={this.renderDateField}
-                          isValidDate={this.startDateValidator}
-                        />
-                      </div>
-                      <div className="col-md-5">
-                        <Field
-                          name="registrationDateTo"
-                          component={this.renderDateField}
-                          isValidDate={this.endDateValidator}
-                        />
+          <div className="well">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="row">
+                  <div className="col-md-3">
+                    <Field
+                      name="searchValue"
+                      type="text"
+                      label='Search by'
+                      placeholder={attributeLabels.keyword}
+                      component={this.renderQueryField}
+                    />
+                  </div>
+                  <div className="col-md-3">
+                    <Field
+                      name="countries"
+                      label={attributeLabels.country}
+                      emptyOptionLabel="Any"
+                      component={this.renderSelectField}
+                    >
+                      {Object
+                        .keys(countries)
+                        .map((key) => <option key={key} value={key}>{countries[key]}</option>)
+                      }
+                    </Field>
+                  </div>
+                  <div className="col-md-3">
+                    <Field
+                      name="statuses"
+                      label={attributeLabels.status}
+                      emptyOptionLabel="Any"
+                      component={this.renderSelectField}
+                    >
+                      {Object.keys(statusesLabels).map(status => (
+                        <option key={status} value={status}>
+                          {statusesLabels[status]}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-3">
+                    <Field
+                      name="department"
+                      label={attributeLabels.department}
+                      component={this.renderSelectField}
+                      position="vertical"
+                      emptyOptionLabel="Any"
+                      showErrorMessage={false}
+                      children={[
+                        departments.map(({ label, value }) => (
+                          <option key={value} value={value}>
+                            {label}
+                          </option>
+                        )),
+                      ]}
+                    />
+                  </div>
+                  <div className="col-md-3">
+                    <Field
+                      name="role"
+                      label={attributeLabels.role}
+                      component={this.renderSelectField}
+                      position="vertical"
+                      emptyOptionLabel="Any"
+                      showErrorMessage={false}
+                      children={[
+                        roles.map(({ label, value }) => (
+                          <option key={value} value={value}>
+                            {label}
+                          </option>
+                        )),
+                      ]}
+                    />
+                  </div>
+
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label className="form-label">Registration date range</label>
+                      <div className="row">
+                        <div className="col-md-5">
+                          <Field
+                            name="registrationDateFrom"
+                            component={this.renderDateField}
+                            isValidDate={this.startDateValidator}
+                          />
+                        </div>
+                        <div className="col-md-5">
+                          <Field
+                            name="registrationDateTo"
+                            component={this.renderDateField}
+                            isValidDate={this.endDateValidator}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="col-md-2">
-                  <div className="form-group">
-                    <button
-                      disabled={submitting}
-                      className="btn btn-default btn-sm margin-inline font-weight-700"
-                      onClick={reset}
-                    >
-                      Reset
-                    </button>
-                    <button
-                      disabled={submitting}
-                      className="btn btn-primary btn-sm margin-inline font-weight-700"
-                      type="submit"
-                    >
-                      Apply
-                    </button>
+                  <div className="col-md-2">
+                    <div className="form-group">
+                      <button
+                        disabled={submitting}
+                        className="btn btn-default btn-sm margin-inline font-weight-700"
+                        onClick={reset}
+                      >
+                        Reset
+                      </button>
+                      <button
+                        disabled={submitting}
+                        className="btn btn-primary btn-sm margin-inline font-weight-700"
+                        type="submit"
+                      >
+                        Apply
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 
