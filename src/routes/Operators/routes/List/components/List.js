@@ -55,21 +55,24 @@ class List extends Component {
     });
   };
 
-  handleModalClose = () => {
-    this.setState({ modal: { ...modalInitialState } });
+  handleModalClose = (cb) => {
+    this.setState({ modal: { ...modalInitialState } }, () => {
+      if (typeof cb === 'function') {
+        cb();
+      }
+    });
   };
 
   handleSubmitNewOperator = async (data) => {
-    console.log(data);
     const action = await this.props.onSubmitNewOperator(data);
-    console.log(action);
 
     if (action.error) {
       throw new SubmissionError({ __error: action.payload });
     }
 
-    this.handleModalClose();
-    //this.props.router.push(`/operators/${action.payload.uuid}/profile`);
+    this.handleModalClose(() => {
+      this.props.router.push(`/operators/${action.payload.uuid}/profile`);
+    });
   };
 
   render() {
