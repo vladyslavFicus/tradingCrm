@@ -1,0 +1,18 @@
+.create-operator-modal {
+  &.modal-dialog {
+    width: 655px;
+  }
+
+  & .modal-footer {
+    text-align: left;
+  }
+
+  .modal-title {
+    font-weight: 300;
+  }
+
+  .modal-header {
+    background-color: rgb(223, 242, 255);
+    border: none;
+  }
+}
