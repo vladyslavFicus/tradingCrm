@@ -6,44 +6,28 @@ import StatusDropDown from './StatusDropDown';
 
 class Form extends Component {
   handleStatusChange = (data) => {
-    console.log('implement', data);
+    console.log('implement handleStatusChange ', data);
   };
   
   render() {
-    const dataSource = [
-      {
-        fileName: 'myidscan2016.jpg',
-        datetime: '2017-03-07T13:31:08.261',
-        status: 'VERIFIED'
-      },
-      {
-        fileName: 'myidscan2016.jpg',
-        datetime: '2017-03-07T13:31:08.261',
-        status: 'VERIFIED'
-      },
-      {
-        fileName: 'myidscan2016.jpg',
-        datetime: '2017-03-07T13:31:08.261',
-        status: 'VERIFIED'
-      },
-    ];
+    const { entities } = this.props;
 
     return (
       <div className="player__account__page__kyc-document--list">
         <GridView
           tableClassName="table table-hovered documents-table"
           headerClassName=""
-          dataSource={dataSource}
+          dataSource={entities}
           totalPages={0}
         >
           <GridColumn
-            name="file"
+            name="realName"
             header="File"
             headerClassName='text-uppercase'
             render={this.renderFile}
           />
           <GridColumn
-            name="datetime"
+            name="uploadDate"
             header="Date & Time"
             headerClassName='text-uppercase'
             render={this.renderDateTime}
@@ -68,7 +52,7 @@ class Form extends Component {
     return (
       <div>
         <div>
-          <span className="font-weight-700">{data.fileName}</span> {' - '}
+          <span className="font-weight-700">{data.realName}</span> {' - '}
           <span>{shortify('345d5445', 'FL')}</span>
         </div>
         <span className="font-size-10 color-default">{shortify('83675', 'OP')}</span>
@@ -80,10 +64,10 @@ class Form extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          {moment(data.datetime).format('DD.MM.YYYY')}
+          {moment(data.uploadDate).format('DD.MM.YYYY')}
         </div>
         <span className="font-size-10 color-default">
-          {moment(data.datetime).format('HH:mm')}
+          {moment(data.uploadDate).format('HH:mm')}
         </span>
       </div>
     );
@@ -97,7 +81,7 @@ class Form extends Component {
           label={
             <div>
               <div className='color-success font-weight-700'>
-                {data.status}
+                {data.status.value}
               </div>
               <span className="font-size-10 color-default">
                 {shortify('83675', 'OP')}

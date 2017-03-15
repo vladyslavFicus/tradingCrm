@@ -4,13 +4,13 @@ import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
 import DocumentsForm from './Documents/Form';
 import { actionTypes as profileActionTypes } from '../../../modules/view';
-import KycVerify from './KycVerify';
+import VerifyIdentity from './Kyc/VerifyIdentity';
 import { types as kysTypes } from 'constants/kyc';
 
 class View extends Component {
   handleSubmit = (data) => {
-    const { params } = this.props;
-    return this.props.updateProfile(params.id, data);
+    const { params : { id }, updateProfile } = this.props;
+    return updateProfile(id, data);
   };
 
   handleSubmitPersonal = (data) => {
@@ -23,10 +23,22 @@ class View extends Component {
     });
   };
 
-  handleKYCStatusChange = () => {
-    console.log('handleKYCStatusChange');
+  handleVerifyIdentity = (type) => () => {
+    const { params: { id }, verifyIdentity } = this.props;
+    verifyIdentity(id, type)
+      .then(action => {
+        console.log('handleVerifyIdentity action', action);
+    });
   };
-  
+
+  handleRefuseIdentity = type => data => {
+    const { params: { id }, refuseIdentity } = this.props;
+    return refuseIdentity(id, type, data)
+      .then(action => {
+        console.log('refuseIdentity action', action);
+      });
+  };
+
   render() {
     const { profile: { data, receivedAt } } = this.props;
     if (!receivedAt) {
@@ -50,13 +62,19 @@ class View extends Component {
                   onSubmit={this.handleSubmitPersonal}
                 />
                 <hr />
-                <DocumentsForm />
+                <DocumentsForm
+                  entities={data.personalKycMetaData}
+                />
               </div>
               <div className="col-md-4">
-                <KycVerify
-                  type={kysTypes.PERSONAL}
-                  status={data.personalStatus.value}
-                  onStatusChange={this.handleKYCStatusChange}
+                <VerifyIdentity
+                  onVerifyIdentity={this.handleVerifyIdentity(kysTypes.PERSONAL)}
+                  onRefuseIdentity={this.handleRefuseIdentity(kysTypes.PERSONAL)}
+                  status={data.personalStatus}
+                  profile={{
+                    initials: [data.firstName, data.lastName].join(' '),
+                    language: data.languageCode,
+                  }}
                 />
               </div>
             </div>
@@ -72,12 +90,20 @@ class View extends Component {
                   }}
                   onSubmit={this.handleSubmit}
                 />
+                <hr />
+                <DocumentsForm
+                  entities={data.addressKycMetaData}
+                />
               </div>
               <div className="col-md-4">
-                <KycVerify
-                  type={kysTypes.ADDRESS}
-                  status={data.addressStatus.value}
-                  onStatusChange={this.handleKYCStatusChange}
+                <VerifyIdentity
+                  onVerifyIdentity={this.handleVerifyIdentity(kysTypes.ADDRESS)}
+                  onRefuseIdentity={this.handleRefuseIdentity(kysTypes.ADDRESS)}
+                  status={data.addressStatus}
+                  profile={{
+                    initials: [data.firstName, data.lastName].join(' '),
+                    language: data.languageCode,
+                  }}
                 />
               </div>
             </div>
