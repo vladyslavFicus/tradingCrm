@@ -15,17 +15,17 @@ import './PaymentDetailModal.scss';
 import { shortify } from 'utils/uuid';
 
 class PaymentRejectModal extends Component {
-  state = {
-    dropDownOpen: false,
-    selectedReason: 'Reason 1',
-    isOtherReason: false,
-    reason: 'Reason 1'
-  };
-
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
+  };
+
+  state = {
+    dropDownOpen: false,
+    selectedReason: 'Reason 1',
+    isOtherReason: false,
+    reason: 'Reason 1',
   };
 
   getNotePopoverParams = () => ({
@@ -42,7 +42,7 @@ class PaymentRejectModal extends Component {
 
   toggle = () => {
     this.setState({
-      dropDownOpen: !this.state.dropDownOpen
+      dropDownOpen: !this.state.dropDownOpen,
     });
   };
 
@@ -56,7 +56,7 @@ class PaymentRejectModal extends Component {
 
   changeReason = (e) => {
     this.setState({
-      reason: e.target.value
+      reason: e.target.value,
     });
   };
 
@@ -65,7 +65,7 @@ class PaymentRejectModal extends Component {
       payment: {
         paymentId,
         playerUUID,
-        note
+        note,
       },
       profile: {
         firstName,
@@ -77,80 +77,89 @@ class PaymentRejectModal extends Component {
       rejectReasons,
     } = this.props;
 
-    return <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, 'payment-detail-modal')}>
-      <ModalHeader toggle={onClose}>Withdrawal rejection</ModalHeader>
+    return (
+      <Modal
+        isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, 'payment-detail-modal')}
+      >
+        <ModalHeader toggle={onClose}>Withdrawal rejection</ModalHeader>
 
-      <ModalBody>
-        <div className="row">
-          <div className="col-md-12 text-center">
-            <div className="font-weight-700">
+        <ModalBody>
+          <div className="row">
+            <div className="col-md-12 text-center">
+              <div className="font-weight-700">
               You are about to reject withdraw transaction {shortify(paymentId, 'TA')}
-            </div>
-            <div className="font-weight-400">
+              </div>
+              <div className="font-weight-400">
               from <span className="font-weight-700">{firstName} {lastName} </span>{shortify(playerUUID, 'PL')}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-12">
-            <div className="color-default text-uppercase font-size-11">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="color-default text-uppercase font-size-11">
               Reason
             </div>
-            <Input type="select" onChange={this.selectReason} value={this.state.selectedReason}>
-              {rejectReasons.map((reason, i) => <option key={i}>{reason}</option>)}
-              <option>Other</option>
-            </Input>
-            {this.state.isOtherReason
+              <Input type="select" onChange={this.selectReason} value={this.state.selectedReason}>
+                {rejectReasons.map((reason, i) => <option key={i}>{reason}</option>)}
+                <option>Other</option>
+              </Input>
+              {this.state.isOtherReason
               && <div>
-                <Input type="textarea" onChange={this.changeReason} value={this.state.reason}/>
+                <Input type="textarea" onChange={this.changeReason} value={this.state.reason} />
                 <div className="color-default text-uppercase font-size-11">
                   {this.state.reason.length}/500
                 </div>
               </div>}
+            </div>
           </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-12 text-center">
-            <NoteButton
-              id="payment-reject-modal-note"
-              className="cursor-pointer margin-right-5"
-              onClick={(id) => this.handleNoteClick(id, this.props.payment)}
-            >
-              {note
-                ? <i className="fa fa-sticky-note"/>
-                : <i className="fa fa-sticky-note-o"/>
+          <div className="row">
+            <div className="col-md-12 text-center">
+              <NoteButton
+                id="payment-reject-modal-note"
+                className="cursor-pointer margin-right-5"
+                onClick={id => this.handleNoteClick(id, this.props.payment)}
+              >
+                {note
+                ? <i className="fa fa-sticky-note" />
+                : <i className="fa fa-sticky-note-o" />
               }
-            </NoteButton>
+              </NoteButton>
+            </div>
           </div>
-        </div>
 
-      </ModalBody>
+        </ModalBody>
 
-      <ModalFooter className="payment-detail-footer">
-        <Button onClick={onClose}>Defer</Button>
-        <div className="payment-details-actions">
-          <Button disabled={this.state.reason.length === 0 || this.state.reason.length > 500}
-                  color="danger"
-                  onClick={(e) => onChangePaymentStatus('refuse', paymentId, {
-                    playerUUID,
-                    reason: this.state.reason,
-                    fraud: false,
-                  })}>Reject withdraw transaction</Button>
-        </div>
-      </ModalFooter>
-    </Modal>;
+        <ModalFooter className="payment-detail-footer">
+          <Button onClick={onClose}>Defer</Button>
+          <div className="payment-details-actions">
+            <Button
+              disabled={this.state.reason.length === 0 || this.state.reason.length > 500}
+              color="danger"
+              onClick={() => onChangePaymentStatus('refuse', paymentId, {
+                playerUUID,
+                reason: this.state.reason,
+                fraud: false,
+              })}
+            >Reject withdraw transaction</Button>
+          </div>
+        </ModalFooter>
+      </Modal>);
   }
 }
 
 PaymentRejectModal.propTypes = {
-  payment: PropTypes.shape({
-    paymentId: PropTypes.string,
-    transactions: PropTypes.array,
+  payment: PropTypes.object,
+  profile: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
   }),
-  onAboutToReject: PropTypes.func,
   rejectReasons: PropTypes.array,
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  onChangePaymentStatus: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default PaymentRejectModal;
