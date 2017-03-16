@@ -23,7 +23,7 @@ class ViewModal extends Component {
       <Modal className="view-bonus-modal" toggle={onClose} {...rest}>
         <ModalHeader toggle={onClose}>Bonus details</ModalHeader>
         <ModalBody>
-          {this.renderPlayer(profile.data, accumulatedBalances.data)}
+          {this.renderPlayer(profile.data, accumulatedBalances)}
           <hr />
           {this.renderBonus(item)}
           {this.renderBonusStats(item)}
@@ -33,7 +33,7 @@ class ViewModal extends Component {
             actions.length === 2 &&
             <div className="row">
               {actions.map((action, index) => (
-                <div className={classNames("col-md-6", { 'text-right': index !== 0 })}>
+                <div key={index} className={classNames("col-md-6", { 'text-right': index !== 0 })}>
                   <button {...action}/>
                 </div>
               ))}

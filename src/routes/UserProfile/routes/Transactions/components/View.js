@@ -18,6 +18,7 @@ import { targetTypes } from 'constants/note';
 import NoteButton from "../../../components/NoteButton";
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
+import PaymentRejectModal from 'routes/Payments/components/PaymentRejectModal';
 
 const defaultModalState = {
   name: null,
@@ -90,6 +91,17 @@ class View extends Component {
       .then(() => fetchEntities(filters))
       .then(() => this.handleCloseModal());
   };
+
+  handleAboutToReject = (e, payment) => {
+    this.handleCloseModal();
+
+    this.handleOpenModal(e, 'payment-about-to-reject', {
+      payment,
+      profile: this.props.profile,
+      accumulatedBalances: this.props.accumulatedBalances,
+      rejectReasons: this.props.paymentRejectReasons
+    });
+};
 
   handleOpenModal = (e, name, params) => {
     e.preventDefault();
@@ -188,7 +200,7 @@ class View extends Component {
     return <i
       className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
       aria-hidden="true"
-    ></i>;
+    />;
   }
 
   renderStatus = (data) => {
@@ -292,7 +304,16 @@ class View extends Component {
         isOpen
         onClose={this.handleCloseModal}
         onChangePaymentStatus={this.handleChangePaymentStatus}
+        onAboutToReject={this.handleAboutToReject}
       />}
+
+      {modal.name === 'payment-about-to-reject' && <PaymentRejectModal
+        { ...modal.params }
+        isOpen
+        onClose={this.handleCloseModal}
+        onChangePaymentStatus={this.handleChangePaymentStatus}
+      />}
+
     </div>;
   }
 
@@ -310,7 +331,11 @@ class View extends Component {
       </NoteButton>
       {
         data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
-        <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', { payment: data })} title={'View payment'}>
+        <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', {
+          payment: data,
+          profile: this.props.profile,
+          accumulatedBalances: this.props.accumulatedBalances,
+        })} title={'View payment'}>
           <i className="fa fa-search"/>
         </a>
       }
