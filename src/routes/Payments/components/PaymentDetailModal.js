@@ -23,7 +23,7 @@ class PaymentDetailModal extends Component {
   };
 
   getNotePopoverParams = () => ({
-    placement: 'left'
+    placement: 'top',
   });
 
   handleNoteClick = (target, data) => {
@@ -47,7 +47,7 @@ class PaymentDetailModal extends Component {
         creationTime,
         country,
         mobile,
-        note
+        note,
       },
       profile: {
         firstName,
@@ -64,7 +64,7 @@ class PaymentDetailModal extends Component {
       isOpen,
       onClose,
       onChangePaymentStatus,
-      onAboutToReject
+      onAboutToReject,
     } = this.props;
 
     return <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, 'payment-detail-modal')}>
@@ -172,7 +172,7 @@ class PaymentDetailModal extends Component {
               Amount
             </div>
             <div className={classNames('font-size-16 font-weight-700', { 'color-danger': paymentType === paymentsTypes.Withdraw })}>
-              {paymentType === paymentsTypes.Withdraw && '-'}<Amount { ...amount } />
+              {paymentType === paymentsTypes.Withdraw && '-'}<Amount {...amount} />
             </div>
           </div>
           <div className="payment-detail-amount-block">
@@ -192,13 +192,13 @@ class PaymentDetailModal extends Component {
         <div className="row">
           <div className="col-md-12 text-center">
             <NoteButton
-              id={`bonus-item-note-button-${paymentId}`}
+              id="payment-detail-modal-note"
               className="cursor-pointer margin-right-5"
-              onClick={(id) => this.handleNoteClick(id, {note})}
+              onClick={(id) => this.handleNoteClick(id, this.props.payment)}
             >
               {note
-                ? <i className="fa fa-sticky-note"/>
-                : <i className="fa fa-sticky-note-o"/>
+                ? <i className="fa fa-sticky-note" />
+                : <i className="fa fa-sticky-note-o" />
               }
             </NoteButton>
           </div>
@@ -222,7 +222,7 @@ PaymentDetailModal.propTypes = {
     paymentId: PropTypes.string,
     transactions: PropTypes.array,
   }),
-  onAboutToReject: PropTypes.func
+  onAboutToReject: PropTypes.func,
 };
 
 export default PaymentDetailModal;

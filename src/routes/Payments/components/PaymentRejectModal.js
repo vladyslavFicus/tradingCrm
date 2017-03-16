@@ -29,7 +29,7 @@ class PaymentRejectModal extends Component {
   };
 
   getNotePopoverParams = () => ({
-    placement: 'left'
+    placement: 'top',
   });
 
   handleNoteClick = (target, data) => {
@@ -114,9 +114,9 @@ class PaymentRejectModal extends Component {
         <div className="row">
           <div className="col-md-12 text-center">
             <NoteButton
-              id={`bonus-item-note-button-${paymentId}`}
+              id="payment-reject-modal-note"
               className="cursor-pointer margin-right-5"
-              onClick={(id) => this.handleNoteClick(id, {note})}
+              onClick={(id) => this.handleNoteClick(id, this.props.payment)}
             >
               {note
                 ? <i className="fa fa-sticky-note"/>
