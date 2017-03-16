@@ -169,7 +169,7 @@ class List extends Component {
               onCreateOperatorClick={this.handleOpenCreateModal}
             />
             <GridView
-              tableClassName="table table-hovered"
+              tableClassName="table table-hovered data-grid-layout"
               headerClassName=""
               dataSource={entities.content}
               onFiltersChanged={this.handleFiltersChanged}

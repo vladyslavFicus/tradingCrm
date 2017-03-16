@@ -28,12 +28,7 @@
       font-weight: 400;
     }
 
-    thead > tr > th,
-    tbody > tr > th,
-    tfoot > tr > th,
-    thead > tr > td,
-    tbody > tr > td,
-    tfoot > tr > td {
+    tr, th {
       border: none;
     }
   }
