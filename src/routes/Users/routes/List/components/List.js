@@ -94,7 +94,19 @@ class List extends Component {
   };
 
   renderBalance = (data) => {
-    return data.balance ? <Amount {...data.balance} /> : 'Empty';
+    return data.balance ?
+      <div>
+        <div className="font-weight-700">
+          <Amount {...data.balance} />
+        </div>
+        {
+          data.lastDeposit && data.lastDeposit.transactionDate &&
+          <div className="font-size-12 color-default">
+            Last deposit { moment(data.lastDeposit.transactionDate).format('DD.MM.YYYY') }
+          </div>
+        }
+      </div>
+      : 'Empty';
   };
 
   renderStatus = (data) => {
