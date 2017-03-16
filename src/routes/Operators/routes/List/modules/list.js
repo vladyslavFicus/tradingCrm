@@ -11,7 +11,7 @@ function createOperator(data) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `operator/operators`,
+        endpoint: 'operator/operators',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -28,7 +28,7 @@ function createOperator(data) {
       },
     });
   };
-};
+}
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
@@ -36,7 +36,7 @@ function fetchEntities(filters = {}) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `operator/operators`,
+        endpoint: 'operator/operators',
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -44,7 +44,10 @@ function fetchEntities(filters = {}) {
           Authorization: `Bearer ${token}`,
         },
         types: [
-          FETCH_ENTITIES.REQUEST,
+          {
+            type: FETCH_ENTITIES.REQUEST,
+            meta: { filters },
+          },
           FETCH_ENTITIES.SUCCESS,
           FETCH_ENTITIES.FAILURE,
         ],
@@ -94,7 +97,31 @@ const initialState = {
     sort: null,
     totalElements: null,
     totalPages: null,
-    content: [],
+    content: [{
+      operatorId: 'af2f614a-bc85-4bea-b910-20124e1acee7',
+      firstName: 'Jimmy',
+      lastName: 'Black',
+      country: 'United Kingdom',
+      registered: '2017-02-02T12:12:12',
+      status: 'INACTIVE',
+      statusChanged: '2017-02-02T11:11:11',
+    }, {
+      operatorId: 'af2f614a-bc85-4bea-b910-20124e1acee7',
+      firstName: 'Jimmy',
+      lastName: 'Black',
+      country: 'Denmark',
+      registered: '2017-02-02T12:12:12',
+      status: 'ACTIVE',
+      statusChanged: '2017-02-02T11:11:11',
+    }, {
+      operatorId: 'af2f614a-bc85-4bea-b910-20124e1acee7',
+      firstName: 'Britney',
+      lastName: 'Pregualman',
+      country: 'Germany',
+      registered: '2017-02-02T12:12:12',
+      status: 'CLOSED',
+      statusChanged: '2017-02-02T11:11:11',
+    }],
   },
   filters: {},
   isLoading: false,
