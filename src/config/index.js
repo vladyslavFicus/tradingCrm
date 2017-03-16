@@ -76,8 +76,12 @@ if (config.nas.tags) {
     }, []);
 }
 
-export function getAvailableTags(department) {
+function getAvailableTags(department) {
   return config.nas.tags.filter(item => item.department === department);
+}
+
+function getTransactionRejectReasons() {
+  return config.nas.reasons.rejection || [];
 }
 
 function getApiRoot() {
@@ -93,6 +97,8 @@ function getDomain() {
 export {
   getApiRoot,
   getDomain,
+  getAvailableTags,
+  getTransactionRejectReasons,
 };
 
 export default config;

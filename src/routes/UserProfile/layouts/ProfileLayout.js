@@ -17,7 +17,7 @@ class ProfileLayout extends Component {
   state = {
     popover: { ...popoverInitialState },
     noteChangedCallback: null,
-    informationShowed: true,
+    informationShown: true,
   };
 
   static childContextTypes = {
@@ -59,7 +59,7 @@ class ProfileLayout extends Component {
   };
 
   handleToggleInformationBlock = () => {
-    this.setState({ informationShowed: !this.state.informationShowed });
+    this.setState({ informationShown: !this.state.informationShown });
   };
 
   handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
@@ -135,7 +135,7 @@ class ProfileLayout extends Component {
   };
 
   render() {
-    const { popover, informationShowed } = this.state;
+    const { popover, informationShown } = this.state;
     const {
       profile: { data },
       children,
@@ -171,7 +171,7 @@ class ProfileLayout extends Component {
           <div className="row">
             <div className="col-sm-12">
               <div className="dash-text" onClick={this.handleToggleInformationBlock}>
-                {!informationShowed ? 'Show details' : 'Hide details'}
+                {!informationShown ? 'Show details' : 'Hide details'}
               </div>
               <div className="col-xs-12">
                 <hr />
@@ -180,7 +180,7 @@ class ProfileLayout extends Component {
           </div>
 
           {
-            informationShowed &&
+            informationShown &&
             <Information
               data={data}
               ips={ip.entities.content}

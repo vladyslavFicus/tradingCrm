@@ -11,10 +11,10 @@ class NoteButton extends Component {
   };
 
   render() {
-    const { children, onClick, ...rest } = this.props;
+    const { children, ...rest } = this.props;
 
     return (
-      <span onClick={this.handleClick} {...rest}>
+      <span {...rest} onClick={this.handleClick}>
         {children}
       </span>
     );
@@ -22,3 +22,7 @@ class NoteButton extends Component {
 }
 
 export default NoteButton;
+
+NoteButton.propTypes = {
+  children: PropTypes.node,
+};

@@ -18,6 +18,7 @@ import { targetTypes } from 'constants/note';
 import NoteButton from "../../../components/NoteButton";
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
+import PaymentRejectModal from 'routes/Payments/components/PaymentRejectModal';
 
 const defaultModalState = {
   name: null,
@@ -102,6 +103,17 @@ class View extends Component {
       .then(() => fetchEntities(filters))
       .then(() => this.handleCloseModal());
   };
+
+  handleAboutToReject = (e, payment) => {
+    this.handleCloseModal();
+
+    this.handleOpenModal(e, 'payment-about-to-reject', {
+      payment,
+      profile: this.props.profile,
+      accumulatedBalances: this.props.accumulatedBalances,
+      rejectReasons: this.props.paymentRejectReasons
+    });
+};
 
   handleOpenModal = (e, name, params) => {
     e.preventDefault();
@@ -225,31 +237,29 @@ class View extends Component {
     );
   };
 
-  renderActions = (data) => {
-    return (
-      <div>
-        <NoteButton
-          id={`bonus-item-note-button-${data.paymentId}`}
-          className="cursor-pointer margin-right-5"
-          onClick={id => this.handleNoteClick(id, data)}
-        >
-          {data.note
-            ? <i className="fa fa-sticky-note" />
-            : <i className="fa fa-sticky-note-o" />
-          }
-        </NoteButton>
-        {
-          data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
-          <a
-            href="#"
-            onClick={e => this.handleOpenModal(e, 'payment-detail', { payment: data })}
-            title="View payment"
-          >
-            <i className="fa fa-search" />
-          </a>
+  renderActions = data => {
+    return <div>
+      <NoteButton
+        id={`bonus-item-note-button-${data.paymentId}`}
+        className="cursor-pointer margin-right-5"
+        onClick={(id) => this.handleNoteClick(id, data)}
+      >
+        {data.note
+          ? <i className="fa fa-sticky-note"/>
+          : <i className="fa fa-sticky-note-o"/>
         }
-      </div>
-    );
+      </NoteButton>
+      {
+        data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
+        <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', {
+          payment: data,
+          profile: this.props.profile,
+          accumulatedBalances: this.props.accumulatedBalances,
+        })} title={'View payment'}>
+          <i className="fa fa-search"/>
+        </a>
+      }
+    </div>;
   };
 
   render() {
@@ -336,9 +346,16 @@ class View extends Component {
           isOpen
           onClose={this.handleCloseModal}
           onChangePaymentStatus={this.handleChangePaymentStatus}
+          onAboutToReject={this.handleAboutToReject}
         />}
-      </div>
-    );
+
+        {modal.name === 'payment-about-to-reject' && <PaymentRejectModal
+          { ...modal.params }
+          isOpen
+          onClose={this.handleCloseModal}
+          onChangePaymentStatus={this.handleChangePaymentStatus}
+        />}
+    </div>;
   }
 }
 

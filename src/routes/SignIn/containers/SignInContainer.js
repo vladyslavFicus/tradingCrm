@@ -8,7 +8,7 @@ const mapActionCreators = {
 };
 const mapStateToProps = ({ auth }) => ({
   user: auth,
-  departments: [{ value: '', label: '-- Chose department --' }, ...config.availableDepartments],
+  departments: [{ value: '', label: '-- Choose department --' }, ...config.availableDepartments],
 });
 
 export default connect(mapStateToProps, mapActionCreators)(SignIn);
