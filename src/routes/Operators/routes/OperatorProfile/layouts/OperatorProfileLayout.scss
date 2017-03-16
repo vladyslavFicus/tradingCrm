@@ -1,0 +1,28 @@
+.operator-profile-layout {
+
+  &-info-toggle {
+    display: flex;
+    justify-content: center;
+
+    &-button {
+      background-color: #ffffff;
+      color: #999;
+      border: 0;
+      position: absolute;
+      white-space: nowrap;
+      z-index: 1;
+      font-size: 11px;
+      height: 28px;
+      text-decoration: underline;
+
+      &:focus {
+        border: 0;
+        outline: none;
+      }
+
+      &:active {
+        border: 0;
+      }
+    }
+  }
+}
