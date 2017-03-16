@@ -22,6 +22,12 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       ...action.payload,
+      content: action.payload.number === 0
+        ? action.payload.content
+        : [
+          ...state.entities.content,
+          ...action.payload.content,
+        ],
     },
     isLoading: false,
     receivedAt: timestamp(),

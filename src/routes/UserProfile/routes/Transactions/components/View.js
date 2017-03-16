@@ -26,7 +26,6 @@ const defaultModalState = {
 
 class View extends Component {
   state = {
-    statusHistory: [],
     filters: {},
     page: 0,
     modal: defaultModalState,
@@ -114,15 +113,8 @@ class View extends Component {
     });
   };
 
-  handleLoadStatusHistory = (paymentId) => () => {
-    this.props.loadPaymentStatuses(paymentId)
-      .then(action => {
-        if (action && !action.error) {
-          this.setState({
-            statusHistory: action.payload,
-          });
-        }
-      });
+  handleLoadStatusHistory = paymentId => () => {
+    return this.props.loadPaymentStatuses(paymentId);
   };
 
   renderTransactionId(data) {
@@ -165,7 +157,7 @@ class View extends Component {
           {moment(data.creationTime).format('DD.MM.YYYY')}
         </div>
         <span className="font-size-10 color-default">
-          {moment(data.creationTime).format('HH:mm')}
+          {moment(data.creationTime).format('HH:mm:ss')}
         </span>
       </div>
     );
@@ -209,11 +201,10 @@ class View extends Component {
               {statusesLabels[data.status] || data.status}
             </div>
             <span className="font-size-10 color-default">
-              {moment(data.creationTime).format('DD.MM.YYYY \- HH:mm')}
+              {moment(data.creationTime).format('DD.MM.YYYY \- HH:mm:ss')}
             </span>
           </div>
         }
-        statusHistory={this.state.statusHistory}
       />
     );
   };
@@ -237,6 +228,7 @@ class View extends Component {
         activePage={entities.number + 1}
         totalPages={entities.totalPages}
         rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
+        lazyLoad
       >
         <GridColumn
           name="paymentId"

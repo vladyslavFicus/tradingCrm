@@ -7,20 +7,12 @@ import moment from 'moment';
 class StatusHistory extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
-    statusHistory: PropTypes.arrayOf(PropTypes.shape({
-      paymentStatus: PropTypes.string,
-      creationTime: PropTypes.string,
-      reference: PropTypes.string,
-    })).isRequired,
     onLoad: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    statusHistory: [],
   };
 
   state = {
     dropDownOpen: false,
+    statusHistory: [],
   };
 
   toggle = () => {
@@ -28,14 +20,21 @@ class StatusHistory extends Component {
       dropDownOpen: !this.state.dropDownOpen
     }, () => {
       if (this.state.dropDownOpen) {
-        this.props.onLoad();
+        this.props.onLoad()
+          .then(action => {
+            if (action && !action.error) {
+              this.setState({
+                statusHistory: action.payload,
+              });
+            }
+          });
       }
     });
   };
 
   render() {
-    const { dropDownOpen } = this.state;
-    const { label, statusHistory } = this.props;
+    const { dropDownOpen, statusHistory } = this.state;
+    const { label } = this.props;
 
     return (
       !statusHistory
@@ -55,7 +54,7 @@ class StatusHistory extends Component {
                 {status.paymentStatus}
               </div>
               <span className="font-size-10 color-default">
-                {moment(status.creationTime).format('DD.MM.YYYY \- HH:mm')}
+                {moment(status.creationTime).format('DD.MM.YYYY \- HH:mm:ss')}
               </span>
             </DropdownItem>
           ))
