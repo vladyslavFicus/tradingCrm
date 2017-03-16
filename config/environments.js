@@ -48,7 +48,7 @@ const applicationConfig = {
   'nas.tags.priorities.positive.tag2.departments[0]': 'RFP',
   'nas.tags.priorities.positive.tag3.departments[0]': 'CS',
   'nas.tags.priorities.positive.tag3.departments[1]': 'MARKETING',
-  'validation.password': '/^(?=[^\\s]*\\d)[^\\s]{6,20}$/g',
+  'nas.validation.password': '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$',
 };
 
 export default {
@@ -87,7 +87,8 @@ export default {
 
   test: config => ({
     globals: {
-      ...config.globals, window: JSON.stringify({
+      ...config.globals,
+      window: JSON.stringify({
         nas: applicationConfig,
       }),
     },

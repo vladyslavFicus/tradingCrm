@@ -1,9 +1,9 @@
 import { CALL_API } from 'redux-api-middleware';
 
 function passwordResetRequest(type) {
-  return ({ email }) => (dispatch, getState) => dispatch({
+  return ({ email }) => dispatch => dispatch({
     [CALL_API]: {
-      endpoint: `auth/password/reset/request`,
+      endpoint: 'auth/password/reset/request',
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -20,15 +20,15 @@ function passwordResetRequest(type) {
 }
 
 function passwordResetConfirm(type) {
-  return ({ password, repeatPassword, token }) => (dispatch, getState) => dispatch({
+  return ({ password, token }) => dispatch => dispatch({
     [CALL_API]: {
-      endpoint: `/auth/password/reset`,
+      endpoint: '/operator/public/operators/activate',
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ password, repeatPassword, token }),
+      body: JSON.stringify({ password, token }),
       types: [
         type.REQUEST,
         type.SUCCESS,
