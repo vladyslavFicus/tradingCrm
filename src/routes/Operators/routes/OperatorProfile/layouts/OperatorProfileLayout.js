@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Tabs from '../../../../../components/Tabs';
 import { operatorProfileTabs } from 'config/menu';
+import Header from '../components/Header';
 
 export default class OperatorProfileLayout extends Component {
   render() {
@@ -17,7 +18,7 @@ export default class OperatorProfileLayout extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12">
-              Operator profile {this.props.params.id} layout
+              <Header operatorProfile={this.props.data} />
             </div>
           </div>
           <div className="row">
@@ -48,4 +49,5 @@ OperatorProfileLayout.propTypes = {
   }),
   location: PropTypes.string,
   children: PropTypes.node,
+  data: PropTypes.object,
 };

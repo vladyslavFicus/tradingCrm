@@ -2,7 +2,7 @@ import React from 'react';
 import OperatorProfileLayout from '../layouts/OperatorProfileLayout';
 import { connect } from 'react-redux';
 
-const mapStateToProps = ({ operatorProfile }) => ({
+const mapStateToProps = ({ operatorProfile: { view: operatorProfile } }) => ({
   ...operatorProfile,
   // user,
   // bonus,
