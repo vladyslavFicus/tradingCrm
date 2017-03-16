@@ -25,20 +25,28 @@ const attributeLabels = {
 
 const validator = createValidator({
   keyword: 'string',
-  country: ['string', 'in:' + Object.keys(countries).join('')],
-  status: ['string', 'in:' + Object.keys(statuses).join()],
-  department: ['string', 'in:' + departments.map(role => role.value).join()],
-  role: ['string', 'in:' + roles.map(role => role.value).join()],
+  country: ['string', `in:${Object.keys(countries).join('')}`],
+  status: ['string', `in:${Object.keys(statuses).join()}`],
+  department: ['string', `in:${departments.map(role => role.value).join()}`],
+  role: ['string', `in:${roles.map(role => role.value).join()}`],
   registrationDateFrom: 'string',
   registrationDateTo: 'string',
 }, attributeLabels, false);
 
 class OperatorGridFilter extends Component {
+  static propTypes = {
+    filterValues: PropTypes.object,
+    onCreateOperatorClick: PropTypes.func.isRequired,
+    reset: PropTypes.func,
+    handleSubmit: PropTypes.func,
+    submitting: PropTypes.bool,
+  };
+
   handleSubmit = () => {
     console.log('implement handleSubmit');
   };
 
-  handleDateTimeChange = (callback) => (value) => {
+  handleDateTimeChange = callback => (value) => {
     callback(value ? value.format('YYYY-MM-DD') : '');
   };
 
@@ -56,6 +64,64 @@ class OperatorGridFilter extends Component {
     return filterValues.startDate
       ? current.isSameOrAfter(moment(filterValues.startDate))
       : true;
+  };
+
+  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <label>{label}</label>
+        <div className="form-input-icon">
+          <i className="icmn-search" />
+          <input
+            {...input}
+            disabled={disabled}
+            type={type}
+            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
+            placeholder={placeholder}
+            title={placeholder}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <label>{label}</label>
+        <select
+          {...input}
+          className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
+        >
+          <option value="">{emptyOptionLabel}</option>
+          {children}
+        </select>
+      </div>
+    );
+  };
+
+  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <div className="input-group">
+          <DateTime
+            dateFormat="MM/DD/YYYY"
+            timeFormat={false}
+            onChange={this.handleDateTimeChange(input.onChange)}
+            value={input.value ? moment(input.value) : null}
+            closeOnSelect
+            inputProps={{
+              disabled,
+              placeholder,
+            }}
+            isValidDate={isValidDate}
+          />
+          <span className="input-group-addon">
+            <i className="fa fa-calendar" />
+          </span>
+        </div>
+      </div>
+    );
   };
 
   render() {
@@ -88,7 +154,7 @@ class OperatorGridFilter extends Component {
                     <Field
                       name="searchValue"
                       type="text"
-                      label='Search by'
+                      label="Search by"
                       placeholder={attributeLabels.keyword}
                       component={this.renderQueryField}
                     />
@@ -102,7 +168,7 @@ class OperatorGridFilter extends Component {
                     >
                       {Object
                         .keys(countries)
-                        .map((key) => <option key={key} value={key}>{countries[key]}</option>)
+                        .map(key => <option key={key} value={key}>{countries[key]}</option>)
                       }
                     </Field>
                   </div>
@@ -205,72 +271,6 @@ class OperatorGridFilter extends Component {
       </div>
     );
   }
-
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <label>{label}</label>
-      <div className="form-input-icon">
-        <i className="icmn-search"/>
-        <input
-          {...input}
-          disabled={disabled}
-          type={type}
-          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-          placeholder={placeholder}
-          title={placeholder}
-        />
-      </div>
-    </div>;
-  };
-
-  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <label>{label}</label>
-      <select
-        {...input}
-        className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
-      >
-        <option value="">{emptyOptionLabel}</option>
-        {children}
-      </select>
-    </div>;
-  };
-
-  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <label>{label}</label>
-      <select
-        {...input}
-        className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
-      >
-        <option value="">{emptyOptionLabel}</option>
-        {children}
-      </select>
-    </div>;
-  };
-
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <div className="input-group">
-        <DateTime
-          dateFormat="MM/DD/YYYY"
-          timeFormat={false}
-          onChange={this.handleDateTimeChange(input.onChange)}
-          value={input.value ? moment(input.value) : null}
-          closeOnSelect={true}
-          inputProps={{
-            disabled,
-            placeholder,
-          }}
-          isValidDate={isValidDate}
-        />
-        <span className="input-group-addon">
-          <i className="fa fa-calendar"/>
-        </span>
-      </div>
-    </div>;
-  };
-
 }
 
 export default reduxForm({

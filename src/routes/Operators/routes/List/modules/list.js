@@ -11,7 +11,7 @@ function createOperator(data) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `operator/operators`,
+        endpoint: 'operator/operators',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -28,7 +28,7 @@ function createOperator(data) {
       },
     });
   };
-};
+}
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
@@ -36,7 +36,7 @@ function fetchEntities(filters = {}) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `operator/operators`,
+        endpoint: 'operator/operators',
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -44,7 +44,10 @@ function fetchEntities(filters = {}) {
           Authorization: `Bearer ${token}`,
         },
         types: [
-          FETCH_ENTITIES.REQUEST,
+          {
+            type: FETCH_ENTITIES.REQUEST,
+            meta: { filters },
+          },
           FETCH_ENTITIES.SUCCESS,
           FETCH_ENTITIES.FAILURE,
         ],

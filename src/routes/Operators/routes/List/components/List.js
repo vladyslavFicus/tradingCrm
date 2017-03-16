@@ -8,7 +8,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import {
   statusColorNames as operatorStatusColorNames,
-  statusesLabels as operatorStatusesLabels
+  statusesLabels as operatorStatusesLabels,
 } from 'constants/operators';
 import CreateOperatorModal from '../../../components/CreateOperatorModal';
 import { SubmissionError } from 'redux-form';
@@ -19,14 +19,10 @@ const modalInitialState = {
 };
 
 class List extends Component {
-  state = {
-    modal: { ...modalInitialState },
-    filters: {},
-    page: 0,
-  };
-
   static propTypes = {
+    isLoading: PropTypes.bool,
     onSubmitNewOperator: PropTypes.func.isRequired,
+    fetchEntities: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
@@ -35,24 +31,40 @@ class List extends Component {
       label: PropTypes.string,
       value: PropTypes.string,
     })),
+    router: PropTypes.object,
+    filterValues: PropTypes.object,
+    list: PropTypes.object,
   };
 
-  handlePageChanged = (page) => {
-    if (!this.props.isLoading) {
-      this.setState({ page: page - 1 }, () => this.handleRefresh());
-    }
-  };
-
-  handleRefresh = () => {
-    console.log('implement handleRefresh');
+  state = {
+    modal: { ...modalInitialState },
+    filters: {},
+    page: 0,
   };
 
   componentWillMount() {
     this.handleRefresh();
   }
 
+  handlePageChanged = (page) => {
+    if (!this.props.isLoading) {
+      this.setState({ page: page - 1 }, () => {
+        this.handleRefresh();
+      });
+    }
+  };
+
+  handleRefresh = () => {
+    this.props.fetchEntities({
+      ...this.state.filters,
+      page: this.state.page,
+    });
+  };
+
   handleFilterSubmit = (filters) => {
-    this.setState({ filters, page: 0 }, () => this.handleRefresh());
+    this.setState({ filters, page: 0 }, () => {
+      this.handleRefresh();
+    });
   };
 
   handleOpenCreateModal = () => {
@@ -60,7 +72,7 @@ class List extends Component {
       modal: {
         name: 'create-operator',
         params: {},
-      }
+      },
     });
   };
 
@@ -84,76 +96,24 @@ class List extends Component {
     });
   };
 
-  render() {
-    const { filters, modal } = this.state;
-    const {
-      list: { entities },
-      filterValues,
-      departments,
-      roles,
-    } = this.props;
+  renderStatus = (data) => {
+    return (
+      <div>
+        <div
+          className={
+            classNames(operatorStatusColorNames[data.status], 'text-uppercase font-weight-700')
+          }
+        >
+          {operatorStatusesLabels[data.status] || data.status}
+        </div>
+        <div className="font-size-12 color-default">
+          Since {moment(data.statusChanged).format('DD.MM.YYYY')}
+        </div>
+      </div>
+    );
+  };
 
-    return <div className="page-content-inner">
-      <Panel withBorders>
-        <Content>
-          <OperatorGridFilter
-            onSubmit={this.handleFilterSubmit}
-            initialValues={filters}
-            filterValues={filterValues}
-            onCreateOperatorClick={this.handleOpenCreateModal}
-          />
-          <GridView
-            tableClassName="table table-hovered"
-            headerClassName=""
-            dataSource={entities.content}
-            onFiltersChanged={this.handleFiltersChanged}
-            onPageChange={this.handlePageChanged}
-            activePage={entities.number + 1}
-            totalPages={entities.totalPages}
-            lazyLoad
-          >
-            <GridColumn
-              name="operatorId"
-              header="Operator"
-              headerClassName='text-uppercase'
-              render={this.renderOperator}
-            />
-            <GridColumn
-              name="country"
-              header="Country"
-              headerClassName='text-uppercase'
-              render={this.renderCountry}
-            />
-            <GridColumn
-              name="registered"
-              header="Registered"
-              headerClassName='text-uppercase'
-              render={this.renderRegistered}
-            />
-            <GridColumn
-              name="status"
-              header="Status"
-              headerClassName='text-uppercase'
-              render={this.renderStatus}
-            />
-          </GridView>
-        </Content>
-      </Panel>
-
-      {
-        modal.name === 'create-operator' &&
-        <CreateOperatorModal
-          onSubmit={this.handleSubmitNewOperator}
-          departments={departments}
-          roles={roles}
-          onClose={this.handleModalClose}
-          isOpen={true}
-        />
-      }
-    </div>;
-  }
-
-  renderOperator = data => {
+  renderOperator = (data) => {
     return (
       <div>
         <div className="font-weight-700">
@@ -168,7 +128,7 @@ class List extends Component {
     );
   };
 
-  renderCountry = data => {
+  renderCountry = (data) => {
     return (
       <div className="font-weight-700">
         {data.country}
@@ -176,7 +136,7 @@ class List extends Component {
     );
   };
 
-  renderRegistered = data => {
+  renderRegistered = (data) => {
     return (
       <div>
         <div className="font-weight-700">
@@ -189,20 +149,76 @@ class List extends Component {
     );
   };
 
-  renderStatus = data => {
+  render() {
+    const { filters, modal } = this.state;
+    const {
+      list: { entities },
+      filterValues,
+      departments,
+      roles,
+    } = this.props;
+
     return (
-      <div>
-        <div className={
-          classNames(operatorStatusColorNames[data.status], 'text-uppercase font-weight-700')
-        }>
-          {operatorStatusesLabels[data.status] || data.status}
-        </div>
-        <div className="font-size-12 color-default">
-          Since {moment(data.statusChanged).format('DD.MM.YYYY')}
-        </div>
+      <div className="page-content-inner">
+        <Panel withBorders>
+          <Content>
+            <OperatorGridFilter
+              onSubmit={this.handleFilterSubmit}
+              initialValues={filters}
+              filterValues={filterValues}
+              onCreateOperatorClick={this.handleOpenCreateModal}
+            />
+            <GridView
+              tableClassName="table table-hovered"
+              headerClassName=""
+              dataSource={entities.content}
+              onFiltersChanged={this.handleFiltersChanged}
+              onPageChange={this.handlePageChanged}
+              activePage={entities.number + 1}
+              totalPages={entities.totalPages}
+              lazyLoad
+            >
+              <GridColumn
+                name="operatorId"
+                header="Operator"
+                headerClassName="text-uppercase"
+                render={this.renderOperator}
+              />
+              <GridColumn
+                name="country"
+                header="Country"
+                headerClassName="text-uppercase"
+                render={this.renderCountry}
+              />
+              <GridColumn
+                name="registered"
+                header="Registered"
+                headerClassName="text-uppercase"
+                render={this.renderRegistered}
+              />
+              <GridColumn
+                name="status"
+                header="Status"
+                headerClassName="text-uppercase"
+                render={this.renderStatus}
+              />
+            </GridView>
+          </Content>
+        </Panel>
+
+        {
+          modal.name === 'create-operator' &&
+          <CreateOperatorModal
+            onSubmit={this.handleSubmitNewOperator}
+            departments={departments}
+            roles={roles}
+            onClose={this.handleModalClose}
+            isOpen
+          />
+        }
       </div>
     );
-  };
+  }
 }
 
 export default List;

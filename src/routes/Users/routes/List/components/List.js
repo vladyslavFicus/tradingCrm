@@ -13,10 +13,24 @@ import UserGridFilter from './UserGridFilter';
 import { Link } from 'react-router';
 
 class List extends Component {
+  static propTypes = {
+    isLoading: PropTypes.bool,
+    fetchESEntities: PropTypes.func.isRequired,
+    list: PropTypes.object,
+    filterValues: PropTypes.object,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  };
+
   state = {
     filters: {},
     page: 0,
   };
+
+  componentWillMount() {
+    this.handleRefresh();
+  }
 
   handlePageChanged = (page) => {
     if (!this.props.isLoading) {
@@ -32,83 +46,15 @@ class List extends Component {
     });
   };
 
-  componentWillMount() {
-    this.handleRefresh();
-  }
-
   handleFilterSubmit = (filters) => {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
-
-  render() {
-    const { filters } = this.state;
-    const { list: { entities }, filterValues } = this.props;
-
-    return <div className="page-content-inner">
-      <Panel withBorders>
-        <Content>
-          <UserGridFilter
-            onSubmit={this.handleFilterSubmit}
-            initialValues={filters}
-            filterValues={filterValues}
-          />
-          <GridView
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName=""
-            dataSource={entities.content}
-            onFiltersChanged={this.handleFiltersChanged}
-            onPageChange={this.handlePageChanged}
-            activePage={entities.number + 1}
-            totalPages={entities.totalPages}
-            lazyLoad
-          >
-            <GridColumn
-              name="id"
-              header="Player"
-              headerClassName='text-uppercase'
-              render={this.renderUserInfo}
-            />
-            <GridColumn
-              name="location"
-              header="Location"
-              headerClassName='text-uppercase'
-              render={this.renderLocation}
-            />
-            <GridColumn
-              name="affiliateId"
-              header="Affiliate"
-              headerClassName='text-uppercase'
-              render={this.renderAffiliate}
-            />
-            <GridColumn
-              name="registrationDate"
-              header="Registered"
-              headerClassName='text-uppercase'
-              render={this.renderRegistered}
-            />
-            <GridColumn
-              name="balance"
-              header="Balance"
-              headerClassName='text-uppercase'
-              render={this.renderBalance}
-            />
-            <GridColumn
-              name="profileStatus"
-              header="Status"
-              headerClassName='text-uppercase'
-              render={this.renderStatus}
-            />
-          </GridView>
-        </Content>
-      </Panel>
-    </div>;
-  }
 
   getUserAge = (birthDate) => {
     return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
   };
 
-  renderUserInfo = data => {
+  renderUserInfo = (data) => {
     return (
       <div>
         <div className="font-weight-700">
@@ -124,19 +70,19 @@ class List extends Component {
     );
   };
 
-  renderLocation = data => {
+  renderLocation = (data) => {
     return (
       <div className="font-weight-700">{data.country}</div>
     );
   };
 
-  renderAffiliate = data => {
+  renderAffiliate = (data) => {
     return (
-      <div>{!!data.affiliateId ? data.affiliateId : 'Empty'}</div>
+      <div>{data.affiliateId ? data.affiliateId : 'Empty'}</div>
     );
   };
 
-  renderRegistered = data => {
+  renderRegistered = (data) => {
     return (
       <div>
         <div className="font-weight-700">{ moment(data.registrationDate).format('DD.MM.YYYY') }</div>
@@ -147,11 +93,11 @@ class List extends Component {
     );
   };
 
-  renderBalance = data => {
-    return data.balance ? <Amount { ...data.balance }/> : 'Empty';
+  renderBalance = (data) => {
+    return data.balance ? <Amount {...data.balance} /> : 'Empty';
   };
 
-  renderStatus = data => {
+  renderStatus = (data) => {
     return (
       <div>
         <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
@@ -164,6 +110,71 @@ class List extends Component {
     );
   };
 
+  render() {
+    const { filters } = this.state;
+    const { list: { entities }, filterValues } = this.props;
+
+    return (
+      <div className="page-content-inner">
+        <Panel withBorders>
+          <Content>
+            <UserGridFilter
+              onSubmit={this.handleFilterSubmit}
+              initialValues={filters}
+              filterValues={filterValues}
+            />
+            <GridView
+              tableClassName="table table-hovered data-grid-layout"
+              headerClassName=""
+              dataSource={entities.content}
+              onFiltersChanged={this.handleFiltersChanged}
+              onPageChange={this.handlePageChanged}
+              activePage={entities.number + 1}
+              totalPages={entities.totalPages}
+              lazyLoad
+            >
+              <GridColumn
+                name="id"
+                header="Player"
+                headerClassName="text-uppercase"
+                render={this.renderUserInfo}
+              />
+              <GridColumn
+                name="location"
+                header="Location"
+                headerClassName="text-uppercase"
+                render={this.renderLocation}
+              />
+              <GridColumn
+                name="affiliateId"
+                header="Affiliate"
+                headerClassName="text-uppercase"
+                render={this.renderAffiliate}
+              />
+              <GridColumn
+                name="registrationDate"
+                header="Registered"
+                headerClassName="text-uppercase"
+                render={this.renderRegistered}
+              />
+              <GridColumn
+                name="balance"
+                header="Balance"
+                headerClassName="text-uppercase"
+                render={this.renderBalance}
+              />
+              <GridColumn
+                name="profileStatus"
+                header="Status"
+                headerClassName="text-uppercase"
+                render={this.renderStatus}
+              />
+            </GridView>
+          </Content>
+        </Panel>
+      </div>
+    );
+  }
 }
 
 export default List;
