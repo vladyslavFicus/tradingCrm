@@ -26,12 +26,6 @@ class SelectField extends Component {
     multiple: false,
   };
 
-  render() {
-    return this.props.position === 'vertical'
-      ? this.renderVertical(this.props)
-      : this.renderHorizontal(this.props);
-  }
-
   renderVertical = (props) => {
     const { input, label, children, multiple, disabled, meta: { touched, error }, showErrorMessage } = props;
 
@@ -85,6 +79,12 @@ class SelectField extends Component {
       </div>
     );
   };
+
+  render() {
+    return this.props.position === 'vertical'
+      ? this.renderVertical(this.props)
+      : this.renderHorizontal(this.props);
+  }
 }
 
 export default SelectField;

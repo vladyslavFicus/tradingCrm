@@ -24,12 +24,6 @@ class InputField extends Component {
     disabled: false,
   };
 
-  render() {
-    return this.props.position === 'vertical'
-      ? this.renderVertical(this.props)
-      : this.renderHorizontal(this.props);
-  }
-
   renderHorizontal = (props) => {
     const { input, label, type, disabled, meta: { touched, error }, showErrorMessage } = props;
 
@@ -82,6 +76,12 @@ class InputField extends Component {
       </div>
     );
   };
+
+  render() {
+    return this.props.position === 'vertical'
+      ? this.renderVertical(this.props)
+      : this.renderHorizontal(this.props);
+  }
 }
 
 export default InputField;
