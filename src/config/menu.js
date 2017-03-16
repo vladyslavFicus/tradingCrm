@@ -55,7 +55,12 @@ const userProfileTabs = [
   { label: 'Documents', url: '/users/:id/documents' },
 ];
 
+const operatorProfileTabs = [
+  { label: 'Profile', url: '/operators/:id/profile' },
+];
+
 export {
   sidebar,
   userProfileTabs,
+  operatorProfileTabs,
 };

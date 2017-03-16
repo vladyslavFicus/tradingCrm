@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Tabs from '../components/Tabs';
+import Tabs from '../../../components/Tabs';
 import Header from '../components/Header';
 import Information from '../components/Information/Container';
 import NotePopover from '../components/NotePopover';
