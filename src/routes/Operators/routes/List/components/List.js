@@ -101,13 +101,13 @@ class List extends Component {
       <div>
         <div
           className={
-            classNames(operatorStatusColorNames[data.status], 'text-uppercase font-weight-700')
+            classNames(operatorStatusColorNames[data.operatorStatus], 'text-uppercase font-weight-700')
           }
         >
-          {operatorStatusesLabels[data.status] || data.status}
+          {operatorStatusesLabels[data.operatorStatus] || data.operatorStatus}
         </div>
         <div className="font-size-12 color-default">
-          Since {moment(data.statusChanged).format('DD.MM.YYYY')}
+          Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
         </div>
       </div>
     );
@@ -122,7 +122,7 @@ class List extends Component {
           </Link>
         </div>
         <div className="font-size-12 color-default">
-          {shortify(data.operatorId, 'OP')}
+          {shortify(data.uuid)}
         </div>
       </div>
     );
