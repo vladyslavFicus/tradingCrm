@@ -6,7 +6,6 @@ import Header from '../components/Header';
 import "./OperatorProfileLayout.scss";
 
 export default class OperatorProfileLayout extends Component {
-
   state = {
     informationShown: true,
   };
@@ -46,7 +45,10 @@ export default class OperatorProfileLayout extends Component {
 
           <div className="row">
             <div className="col-sm-12 operator-profile-layout-info-toggle">
-              <button className="operator-profile-layout-info-toggle-button" onClick={this.handleToggleInformationBlock}>
+              <button
+                className="operator-profile-layout-info-toggle-button"
+                onClick={this.handleToggleInformationBlock}
+              >
                 {!informationShown ? 'Show details' : 'Hide details'}
               </button>
               <div className="col-xs-12">

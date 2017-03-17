@@ -5,7 +5,6 @@ import './Header.scss';
 
 export default class Header extends Component {
   render() {
-
     const {
       operatorProfile: {
         operatorId,

@@ -78,6 +78,14 @@ class OperatorPersonalForm extends Component {
   }
 }
 
+OperatorPersonalForm.propTypes = {
+  handleSubmit: PropTypes.func,
+  onSubmit: PropTypes.func,
+  pristine: PropTypes.func,
+  submitting: PropTypes,bool,
+  valid: PropTypes.bool,
+};
+
 export default reduxForm({
   form: 'updateOperatorProfilePersonal',
   validate: validator,

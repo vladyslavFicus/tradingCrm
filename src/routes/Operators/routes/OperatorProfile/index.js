@@ -1,5 +1,5 @@
 import { injectReducer } from 'store/reducers';
-import ProfileRoute from './routes/Profile';
+import EditRoute from './routes/Edit';
 
 export default store => ({
   path: 'operators/:id',
@@ -10,6 +10,6 @@ export default store => ({
     }, 'operator-profile-layout');
   },
   childRoutes: [
-    ProfileRoute(store),
+    EditRoute(store),
   ],
 });
