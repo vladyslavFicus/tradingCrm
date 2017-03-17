@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 import Personal from './Personal';
 import Additional from './Additional';
 import IpList from './IpList';
 import Notes from './Notes';
 
-class Container extends Component {
+import './Information.scss';
+
+export default class Container extends Component {
   render() {
     const {
       data,
@@ -12,11 +15,12 @@ class Container extends Component {
       updateSubscription,
       notes,
       onEditNoteClick,
+      showNotes,
     } = this.props;
 
     return (
-      <div className="player__account__details row panel-body">
-        <Personal data={data}/>
+      <div className={classNames('player__account__details row panel-body profile-information', { 'hide-notes': !showNotes })}>
+        <Personal data={data} />
         <Additional
           initialValues={{
             marketingMail: data.marketingMail,
@@ -25,15 +29,18 @@ class Container extends Component {
           }}
           updateSubscription={updateSubscription}
         />
-        <IpList ips={ips}/>
+        <IpList ips={ips} />
 
-        <Notes
+        {showNotes && <Notes
           notes={notes}
           onEditNoteClick={onEditNoteClick}
-        />
+        />}
       </div>
     );
   }
 }
 
-export default Container;
+Container.propTypes = {
+  data: PropTypes.object,
+  showNotes: PropTypes.bool,
+};

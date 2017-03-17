@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import Tabs from '../components/Tabs';
+import Tabs from '../../../components/Tabs';
 import Header from '../components/Header';
-import Information from '../components/Information/Container';
-import NotePopover from '../components/NotePopover';
+import Information from '../../../components/Information/Container';
+import NotePopover from 'components/NotePopover';
 import { userProfileTabs } from 'config/menu';
 import { targetTypes } from 'constants/note';
 import './ProfileLayout.scss';
@@ -14,16 +14,16 @@ const popoverInitialState = {
 };
 
 class ProfileLayout extends Component {
-  state = {
-    popover: { ...popoverInitialState },
-    noteChangedCallback: null,
-    informationShown: true,
-  };
-
   static childContextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
+  };
+
+  state = {
+    popover: { ...popoverInitialState },
+    noteChangedCallback: null,
+    informationShown: true,
   };
 
   getChildContext() {
@@ -76,8 +76,8 @@ class ProfileLayout extends Component {
             playerUUID: this.props.params.id,
           },
         },
-      }
-    })
+      },
+    });
   };
 
   handleEditNoteClick = (target, item, params = {}) => {
@@ -90,14 +90,14 @@ class ProfileLayout extends Component {
           target,
           initialValues: { ...item },
         },
-      }
-    })
+      },
+    });
   };
 
   handleDeleteNoteClick = (item) => {
     const { noteChangedCallback } = this.state;
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       return this.props.deleteNote(item.uuid)
         .then(() => {
           this.handlePopoverHide();
@@ -114,7 +114,7 @@ class ProfileLayout extends Component {
   handleSubmitNote = (data) => {
     const { noteChangedCallback } = this.state;
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (data.uuid) {
         return resolve(this.props.editNote(data.uuid, data));
       } else {
@@ -187,6 +187,7 @@ class ProfileLayout extends Component {
               updateSubscription={updateSubscription.bind(null, params.id)}
               onEditNoteClick={this.handleEditNoteClick}
               notes={notes}
+              showNotes={true}
             />
           }
 

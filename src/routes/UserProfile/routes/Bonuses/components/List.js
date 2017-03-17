@@ -10,7 +10,7 @@ import BonusType from "./BonusType";
 import BonusStatus from "./BonusStatus";
 import { statuses } from 'constants/bonus';
 import { targetTypes } from 'constants/note';
-import NoteButton from "../../../components/NoteButton";
+import NoteButton from "components/NoteButton";
 
 const modalInitialState = { name: null, params: {} };
 const VIEW_MODAL = 'view-modal';
