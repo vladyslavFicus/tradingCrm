@@ -3,7 +3,6 @@ import OperatorPersonalForm from './OperatorPersonalForm';
 import OperatorContactsForm from './OperatorContactsForm';
 
 export default class OperatorProfile extends Component {
-
   handleSubmitOperatorPersonal = (personalData) => {
     console.log(personalData);
   };
@@ -39,7 +38,8 @@ export default class OperatorProfile extends Component {
                 />
               </div>
             </div>
-          </div><div className="panel">
+          </div>
+          <div className="panel">
             <div className="panel-body row">
               <div className="col-md-8">
                 <OperatorContactsForm

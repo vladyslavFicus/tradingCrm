@@ -15,8 +15,6 @@ export default class OperatorProfileLayout extends Component {
   };
 
   render() {
-    console.log(this.props);
-
     const {
       location,
       params,

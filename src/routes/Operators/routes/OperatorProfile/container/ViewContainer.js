@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = ({ operatorProfile: { view: operatorProfile } }) => ({
   ...operatorProfile,
-  // user,
-  // bonus,
 });
 const mapActions = {
 };

@@ -4,9 +4,7 @@ $button-color: #acb7bf;
 $font-size-small: 11px;
 
 .operator-profile-header {
-
   .operator-profile-info {
-
     float: left;
 
     &-name {
@@ -19,7 +17,6 @@ $font-size-small: 11px;
   }
 
   .operator-profile-actions {
-
     float: right;
 
     &-button {
@@ -33,9 +30,7 @@ $font-size-small: 11px;
   }
 
   .header-blocks {
-
     .header-block {
-
       border-right: 1px solid $header-border-color;
 
       &:last-child {
@@ -45,7 +40,7 @@ $font-size-small: 11px;
       &-title {
         text-transform: uppercase;
         margin-bottom: 5px;
-        font-size: $font-size-small; // :(
+        font-size: $font-size-small;
       }
 
       &-text {
