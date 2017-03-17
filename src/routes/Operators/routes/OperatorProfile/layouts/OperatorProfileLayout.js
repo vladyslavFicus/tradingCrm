@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import Tabs from '../../../../../components/Tabs';
-import Information from '../../../../../components/Information/Container';
+import Tabs from 'components/Tabs';
+import Information from 'components/Information/Container';
 import { operatorProfileTabs } from 'config/menu';
 import Header from '../components/Header';
 import "./OperatorProfileLayout.scss";
