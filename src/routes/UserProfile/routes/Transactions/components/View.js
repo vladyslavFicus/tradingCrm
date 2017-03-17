@@ -15,7 +15,7 @@ import {
 import { shortify } from 'utils/uuid';
 import StatusHistory from './StatusHistory';
 import { targetTypes } from 'constants/note';
-import NoteButton from "../../../components/NoteButton";
+import NoteButton from "components/NoteButton";
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
 import PaymentRejectModal from 'routes/Payments/components/PaymentRejectModal';

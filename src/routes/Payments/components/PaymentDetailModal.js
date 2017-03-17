@@ -11,7 +11,7 @@ import {
 import { statusColorNames } from 'constants/user';
 import { targetTypes } from 'constants/note';
 import Amount from 'components/Amount';
-import NoteButton from '../../../routes/UserProfile/components/NoteButton';
+import NoteButton from 'components/NoteButton';
 import { shortify } from 'utils/uuid';
 import './PaymentDetailModal.scss';
 
