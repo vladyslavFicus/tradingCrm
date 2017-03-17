@@ -18,6 +18,7 @@ import { targetTypes } from 'constants/note';
 import NoteButton from "components/NoteButton";
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
+import PaymentRejectModal from 'routes/Payments/components/PaymentRejectModal';
 
 const defaultModalState = {
   name: null,
@@ -36,6 +37,9 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+    profile: PropTypes.object,
+    accumulatedBalances: PropTypes.object,
+    paymentRejectReasons: PropTypes.array,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -101,6 +105,17 @@ class View extends Component {
     return onChangePaymentStatus({ status, paymentId, options })
       .then(() => fetchEntities(filters))
       .then(() => this.handleCloseModal());
+  };
+
+  handleAboutToReject = (e, payment) => {
+    this.handleCloseModal();
+
+    this.handleOpenModal(e, 'payment-about-to-reject', {
+      payment,
+      profile: this.props.profile,
+      accumulatedBalances: this.props.accumulatedBalances,
+      rejectReasons: this.props.paymentRejectReasons,
+    });
   };
 
   handleOpenModal = (e, name, params) => {
@@ -231,7 +246,7 @@ class View extends Component {
         <NoteButton
           id={`bonus-item-note-button-${data.paymentId}`}
           className="cursor-pointer margin-right-5"
-          onClick={id => this.handleNoteClick(id, data)}
+          onClick={(id) => this.handleNoteClick(id, data)}
         >
           {data.note
             ? <i className="fa fa-sticky-note" />
@@ -242,8 +257,11 @@ class View extends Component {
           data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
           <a
             href="#"
-            onClick={e => this.handleOpenModal(e, 'payment-detail', { payment: data })}
-            title="View payment"
+            onClick={(e) => this.handleOpenModal(e, 'payment-detail', {
+              payment: data,
+              profile: this.props.profile,
+              accumulatedBalances: this.props.accumulatedBalances,
+          })} title={'View payment'}
           >
             <i className="fa fa-search" />
           </a>
@@ -332,6 +350,14 @@ class View extends Component {
         </GridView>
 
         {modal.name === 'payment-detail' && <PaymentDetailModal
+          {...modal.params}
+          isOpen
+          onClose={this.handleCloseModal}
+          onChangePaymentStatus={this.handleChangePaymentStatus}
+          onAboutToReject={this.handleAboutToReject}
+        />}
+
+        {modal.name === 'payment-about-to-reject' && <PaymentRejectModal
           {...modal.params}
           isOpen
           onClose={this.handleCloseModal}

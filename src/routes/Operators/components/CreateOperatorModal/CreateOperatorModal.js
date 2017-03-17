@@ -27,6 +27,7 @@ class CreateOperatorModal extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
@@ -35,6 +36,10 @@ class CreateOperatorModal extends Component {
       label: PropTypes.string,
       value: PropTypes.string,
     })),
+    isOpen: PropTypes.bool,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool,
   };
 
   handleSubmit = (data) => {
@@ -54,125 +59,127 @@ class CreateOperatorModal extends Component {
       isOpen,
     } = this.props;
 
-    return <Modal className="create-operator-modal" toggle={onClose} isOpen={isOpen}>
-      <ModalHeader toggle={onClose}>New operator</ModalHeader>
+    return (
+      <Modal className="create-operator-modal" toggle={onClose} isOpen={isOpen}>
+        <ModalHeader toggle={onClose}>New operator</ModalHeader>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalBody>
-          <div className="row">
-            <div className="col-md-6">
-              <Field
-                name="firstName"
-                type="text"
-                label={attributeLabels.firstName}
-                component={InputField}
-                position="vertical"
-                showErrorMessage={false}
-              />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalBody>
+            <div className="row">
+              <div className="col-md-6">
+                <Field
+                  name="firstName"
+                  type="text"
+                  label={attributeLabels.firstName}
+                  component={InputField}
+                  position="vertical"
+                  showErrorMessage={false}
+                />
+              </div>
+              <div className="col-md-6">
+                <Field
+                  name="lastName"
+                  type="text"
+                  label={attributeLabels.lastName}
+                  component={InputField}
+                  position="vertical"
+                  showErrorMessage={false}
+                />
+              </div>
             </div>
-            <div className="col-md-6">
-              <Field
-                name="lastName"
-                type="text"
-                label={attributeLabels.lastName}
-                component={InputField}
-                position="vertical"
-                showErrorMessage={false}
-              />
-            </div>
-          </div>
 
-          <div className="row">
-            <div className="col-md-6">
-              <Field
-                name="email"
-                type="text"
-                label={attributeLabels.email}
-                component={InputField}
-                position="vertical"
-                showErrorMessage={false}
-              />
+            <div className="row">
+              <div className="col-md-6">
+                <Field
+                  name="email"
+                  type="text"
+                  label={attributeLabels.email}
+                  component={InputField}
+                  position="vertical"
+                  showErrorMessage={false}
+                />
+              </div>
+              <div className="col-md-6">
+                <Field
+                  name="phone"
+                  type="text"
+                  label={attributeLabels.phone}
+                  component={InputField}
+                  position="vertical"
+                  showErrorMessage={false}
+                />
+              </div>
             </div>
-            <div className="col-md-6">
-              <Field
-                name="phone"
-                type="text"
-                label={attributeLabels.phone}
-                component={InputField}
-                position="vertical"
-                showErrorMessage={false}
-              />
-            </div>
-          </div>
 
-          <div className="row">
-            <div className="col-md-6">
-              <div className="row margin-left-0">
-                <div className="col-md-6">
-                  <Field
-                    name="department"
-                    label={attributeLabels.department}
-                    component={SelectField}
-                    position="vertical"
-                    showErrorMessage={false}
-                    children={[
-                      <option value="">Select department</option>,
-                      ...departments.map(({ label, value }) => (
-                        <option key={value} value={value}>
-                          {label}
-                        </option>
-                      )),
-                    ]}
-                  />
-                </div>
-                <div className="col-md-4 col-md-offset-1">
-                  <Field
-                    name="role"
-                    label={attributeLabels.role}
-                    component={SelectField}
-                    position="vertical"
-                    showErrorMessage={false}
-                    children={[
-                      <option value="">Select role</option>,
-                      ...roles.map(({ label, value }) => (
-                        <option key={value} value={value}>
-                          {label}
-                        </option>
-                      )),
-                    ]}
-                  />
+            <div className="row">
+              <div className="col-md-6">
+                <div className="row margin-left-0">
+                  <div className="col-md-6">
+                    <Field
+                      name="department"
+                      label={attributeLabels.department}
+                      component={SelectField}
+                      position="vertical"
+                      showErrorMessage={false}
+                      children={[
+                        <option value="">Select department</option>,
+                        ...departments.map(({ label, value }) => (
+                          <option key={value} value={value}>
+                            {label}
+                          </option>
+                        )),
+                      ]}
+                    />
+                  </div>
+                  <div className="col-md-4 col-md-offset-1">
+                    <Field
+                      name="role"
+                      label={attributeLabels.role}
+                      component={SelectField}
+                      position="vertical"
+                      showErrorMessage={false}
+                      children={[
+                        <option value="">Select role</option>,
+                        ...roles.map(({ label, value }) => (
+                          <option key={value} value={value}>
+                            {label}
+                          </option>
+                        )),
+                      ]}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </ModalBody>
+          </ModalBody>
 
-        <ModalFooter>
-          <div className="row">
-            <div className="col-sm-7 text-muted font-size-12">
-              <b>Note</b>: You will be able to set additional departments in operator's profile once it's created
-            </div>
-            <div className="col-sm-5 text-right">
-              <button
-                type="reset"
-                className="btn btn-default-outline text-uppercase"
-                onClick={onClose}
-              >
-                Cancel
-              </button>
+          <ModalFooter>
+            <div className="row">
+              <div className="col-sm-7 text-muted font-size-12">
+                <b>Note</b>: You will be able to set additional departments in operator's profile once it's created
+              </div>
+              <div className="col-sm-5 text-right">
+                <button
+                  type="reset"
+                  className="btn btn-default-outline text-uppercase"
+                  onClick={onClose}
+                >
+                  Cancel
+                </button>
 
-              <button
-                type="submit"
-                disabled={pristine || submitting || !valid}
-                className="btn btn-primary text-uppercase"
-              >
-                Create & open
-              </button>
+                <button
+                  type="submit"
+                  disabled={pristine || submitting || !valid}
+                  className="btn btn-primary text-uppercase"
+                >
+                  Create & open
+                </button>
+              </div>
             </div>
-          </div>
-        </ModalFooter>
-      </form>
-    </Modal>;
+          </ModalFooter>
+        </form>
+      </Modal>
+    );
   }
 }
 

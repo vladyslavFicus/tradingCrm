@@ -3,21 +3,24 @@ import permission from 'config/permissions';
 
 const sidebar = [
   {
-    label: 'Users', icon: 'fa fa-users',
+    label: 'Users',
+    icon: 'fa fa-users',
     items: [
       { label: 'All', url: '/users/list' },
       { label: 'Dormant', url: '/users/dormant' },
     ],
   },
   {
-    label: 'Operators', icon: 'fa fa-user',
+    label: 'Operators',
+    icon: 'fa fa-user',
     items: [
       { label: 'All', url: '/operators/list' },
     ],
   },
   { label: 'InReview profiles', url: '/profiles-review', icon: 'fa fa-user-times' },
   {
-    label: 'Payments', icon: 'fa fa-credit-card',
+    label: 'Payments',
+    icon: 'fa fa-credit-card',
     items: [
       { label: 'All', url: '/payments' },
       { label: 'Open loop', url: '/payments/open-loops' },
@@ -26,7 +29,8 @@ const sidebar = [
   { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
   { label: 'Terms & conditions', url: '/terms', icon: 'fa fa-align-justify' },
   {
-    label: 'Reports', icon: 'fa fa-align-justify',
+    label: 'Reports',
+    icon: 'fa fa-align-justify',
     items: [
       {
         label: 'Player liability',

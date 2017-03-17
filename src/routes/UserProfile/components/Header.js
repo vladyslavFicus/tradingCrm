@@ -18,7 +18,7 @@ class Header extends Component {
   };
 
   getRealWithBonusBalance = () => {
-    const { accumulatedBalances: { data: { real, bonus } } } = this.props;
+    const { accumulatedBalances: { real, bonus } } = this.props;
 
     return (
       <small>
