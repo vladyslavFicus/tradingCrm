@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Tabs from '../../../components/Tabs';
 import Header from '../components/Header';
 import Information from '../../../components/Information/Container';
-import NotePopover from '../components/NotePopover';
+import NotePopover from 'components/NotePopover';
 import { userProfileTabs } from 'config/menu';
 import { targetTypes } from 'constants/note';
 import './ProfileLayout.scss';

@@ -11,6 +11,8 @@ const operatorProfileInitialState = {
     registered: '2017-02-02T12:12:12',
     status: 'INACTIVE',
     statusChanged: '2017-02-02T11:11:11',
+    email: 'email@server.com',
+    phone: '123 456 789',
   },
   error: null,
   isLoading: false,

@@ -1,10 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import OperatorPersonalForm from './OperatorPersonalForm';
+import OperatorContactsForm from './OperatorContactsForm';
 
 export default class OperatorProfile extends Component {
 
   handleSubmitOperatorPersonal = (personalData) => {
     console.log(personalData);
+  };
+
+  handleSubmitOperatorContacts = (contactsData) => {
+    console.log(contactsData);
   };
 
   render() {
@@ -13,6 +18,8 @@ export default class OperatorProfile extends Component {
         firstName,
         lastName,
         country,
+        email,
+        phone,
       },
     } = this.props;
 
@@ -29,6 +36,18 @@ export default class OperatorProfile extends Component {
                     country,
                   }}
                   onSubmit={this.handleSubmitOperatorPersonal}
+                />
+              </div>
+            </div>
+          </div><div className="panel">
+            <div className="panel-body row">
+              <div className="col-md-8">
+                <OperatorContactsForm
+                  initialValues={{
+                    phone,
+                    email,
+                  }}
+                  onSubmit={this.handleSubmitOperatorContacts}
                 />
               </div>
             </div>

@@ -22,12 +22,6 @@ import ReportsRoute from './Reports';
 
 export const createRoutes = (store) => ({
   childRoutes: [
-    onEnterStack({
-      childRoutes: [
-        UserProfileRoute(store),
-        OperatorProfileRoute(store),
-      ],
-    }, requireAuth(store)),
     {
       component: BaseLayout,
       childRoutes: [
@@ -47,9 +41,15 @@ export const createRoutes = (store) => ({
             ReportsRoute(store),
           ],
         }, requireAuth(store)),
-        NotFoundRoute(store),
       ],
     },
+    onEnterStack({
+      childRoutes: [
+        UserProfileRoute(store),
+        OperatorProfileRoute(store),
+      ],
+    }, requireAuth(store)),
+    NotFoundRoute(store),
   ],
 });
 
