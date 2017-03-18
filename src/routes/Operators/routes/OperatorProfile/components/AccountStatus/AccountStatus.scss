@@ -1,0 +1,104 @@
+.player__account__status {
+  .dropdown {
+    display: block;
+
+    .dropdown-tab {
+      padding-left: 2rem;
+      border: 1px solid #ffffff;
+    }
+
+    .dropdown-menu {
+      min-width: 100%;
+      margin: 0;
+      padding: 0;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      border: 1px solid #eeeeee;
+      top: 100%;
+      -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
+      -moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
+
+      .dropdown-item {
+        padding: 10px 0 10px 2rem;
+      }
+
+      .dropdown-item:first-child {
+        border-bottom: 1px solid #eeeeee;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(242, 242, 242, 1);
+      }
+    }
+  }
+}
+
+
+.player__account__status .open {
+  .dropdown-tab {
+    border-left: 1px solid #eeeeee;
+    border-bottom: none;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .player__account__status .dropdown .dropdown-tab,
+  .player__account__status .dropdown .dropdown-menu .dropdown-item{
+    padding-left: 1rem;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .panel .panel-heading + .panel-body {
+    padding: 10px;
+  }
+
+  .player__account__status .dropdown .dropdown-tab,
+  .player__account__status .dropdown .dropdown-menu .dropdown-item{
+    padding-left: 2rem;
+  }
+
+  .width-20:nth-child(1),
+  .width-20:nth-child(2) {
+    width: 50%;
+    margin-bottom: 25px;
+  }
+
+  .width-20:nth-child(2) {
+    border-right: none;
+  }
+
+  .width-20:nth-child(3),
+  .width-20:nth-child(4),
+  .width-20:nth-child(5){
+    width: 33.3333333%;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .player-header-blocks > div {
+    min-height: 50px;
+  }
+
+  .dropdown-highlight:before {
+    top: -10px;
+  }
+
+  .player__account__status .dropdown .dropdown-tab,
+  .player__account__status .dropdown .dropdown-menu .dropdown-item{
+    padding-left: 1rem;
+  }
+
+  .width-20:nth-child(1),
+  .width-20:nth-child(2),
+  .width-20:nth-child(3),
+  .width-20:nth-child(4),
+  .width-20:nth-child(5) {
+    width: 100%;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #dfe4ed;
+    border-right: none;
+  }
+}

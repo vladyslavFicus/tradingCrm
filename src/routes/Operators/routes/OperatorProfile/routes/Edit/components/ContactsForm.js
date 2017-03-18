@@ -13,7 +13,15 @@ const validator = createValidator({
   email: 'string',
 }, attributeLabels, false);
 
-class OperatorContactsForm extends Component {
+class ContactsForm extends Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    onSubmit: PropTypes.func,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool,
+  };
+
   render() {
     const {
       handleSubmit,
@@ -58,15 +66,7 @@ class OperatorContactsForm extends Component {
   }
 }
 
-OperatorContactsForm.propTypes = {
-  handleSubmit: PropTypes.func,
-  onSubmit: PropTypes.func,
-  pristine: PropTypes.func,
-  submitting: PropTypes,bool,
-  valid: PropTypes.bool,
-};
-
 export default reduxForm({
   form: 'updateOperatorProfileContacts',
   validate: validator,
-})(OperatorContactsForm);
+})(ContactsForm);

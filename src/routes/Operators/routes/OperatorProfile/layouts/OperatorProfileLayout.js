@@ -5,10 +5,31 @@ import { operatorProfileTabs } from 'config/menu';
 import Header from '../components/Header';
 import "./OperatorProfileLayout.scss";
 
-export default class OperatorProfileLayout extends Component {
+class OperatorProfileLayout extends Component {
+  static propTypes = {
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    location: PropTypes.object,
+    children: PropTypes.node,
+    data: PropTypes.object,
+    availableStatuses: PropTypes.array.isRequired,
+    changeStatus: PropTypes.func.isRequired,
+    fetchProfile: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool,
+  };
+
   state = {
     informationShown: true,
   };
+
+  componentDidMount() {
+    const { isLoading, fetchProfile, params: { id } } = this.props;
+
+    if (!isLoading) {
+      fetchProfile(id);
+    }
+  }
 
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
@@ -20,6 +41,8 @@ export default class OperatorProfileLayout extends Component {
       params,
       children,
       data,
+      availableStatuses,
+      changeStatus,
     } = this.props;
 
     const {
@@ -37,7 +60,11 @@ export default class OperatorProfileLayout extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12">
-              <Header operatorProfile={data} />
+              <Header
+                data={data}
+                availableStatuses={availableStatuses}
+                onStatusChange={changeStatus}
+              />
             </div>
           </div>
 
@@ -87,11 +114,4 @@ export default class OperatorProfileLayout extends Component {
   }
 }
 
-OperatorProfileLayout.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string,
-  }),
-  location: PropTypes.string,
-  children: PropTypes.node,
-  data: PropTypes.object,
-};
+export default OperatorProfileLayout;

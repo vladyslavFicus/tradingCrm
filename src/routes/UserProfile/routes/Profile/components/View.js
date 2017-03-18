@@ -5,21 +5,33 @@ import ContactForm from './ContactForm';
 import { actionTypes as profileActionTypes } from '../../../modules/view';
 
 class View extends Component {
+  static propTypes = {
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    profile: PropTypes.shape({
+      data: PropTypes.object,
+      receivedAt: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+    }),
+    updateProfile: PropTypes.func.isRequired,
+    updateIdentifier: PropTypes.func.isRequired,
+  };
+
   handleSubmit = (data) => {
-    const { params } = this.props;
-    return this.props.updateProfile(params.id, data);
+    const { params: { id }, updateProfile } = this.props;
+    return updateProfile(id, data);
   };
 
   handleSubmitPersonal = (data) => {
     const { params: { id }, updateProfile, updateIdentifier } = this.props;
 
-    return updateProfile(id, data).then(action => {
+    return updateProfile(id, data).then((action) => {
       if (action.type === profileActionTypes.UPDATE_PROFILE.SUCCESS && data.identifier) {
         updateIdentifier(id, data.identifier);
       }
     });
   };
-  
+
   render() {
     const { profile: { data, receivedAt } } = this.props;
     if (!receivedAt) {

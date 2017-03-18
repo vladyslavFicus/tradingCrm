@@ -7,7 +7,14 @@ import Notes from './Notes';
 
 import './Information.scss';
 
-export default class Container extends Component {
+class Container extends Component {
+  static propTypes = {
+    data: PropTypes.object,
+    showNotes: PropTypes.bool,
+    updateSubscription: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+  };
+
   render() {
     const {
       data,
@@ -19,7 +26,11 @@ export default class Container extends Component {
     } = this.props;
 
     return (
-      <div className={classNames('player__account__details row panel-body profile-information', { 'hide-notes': !showNotes })}>
+      <div
+        className={classNames('player__account__details row panel-body profile-information', {
+          'hide-notes': !showNotes,
+        })}
+      >
         <Personal data={data} />
         <Additional
           initialValues={{
@@ -40,7 +51,4 @@ export default class Container extends Component {
   }
 }
 
-Container.propTypes = {
-  data: PropTypes.object,
-  showNotes: PropTypes.bool,
-};
+export default Container;

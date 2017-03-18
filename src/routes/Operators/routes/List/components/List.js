@@ -106,9 +106,12 @@ class List extends Component {
         >
           {operatorStatusesLabels[data.operatorStatus] || data.operatorStatus}
         </div>
-        <div className="font-size-12 color-default">
-          Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
-        </div>
+        {
+          data.statusChangeDate &&
+          <div className="font-size-12 color-default">
+            Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
+          </div>
+        }
       </div>
     );
   };
@@ -117,7 +120,7 @@ class List extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          <Link to={`/operators/${data.operatorId}/profile`} target="_blank">
+          <Link to={`/operators/${data.uuid}/profile`} target="_blank">
             {[data.firstName, data.lastName].join(' ')}
           </Link>
         </div>
@@ -179,7 +182,7 @@ class List extends Component {
               lazyLoad
             >
               <GridColumn
-                name="operatorId"
+                name="uuid"
                 header="Operator"
                 headerClassName="text-uppercase"
                 render={this.renderOperator}

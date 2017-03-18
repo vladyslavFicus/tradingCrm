@@ -2,16 +2,40 @@ import React, { Component, PropTypes } from 'react';
 import { Button } from 'reactstrap';
 import { shortify } from 'utils/uuid';
 import './Header.scss';
+import moment from 'moment';
+import AccountStatus from './AccountStatus';
+import { statusColorNames } from 'constants/operators';
 
-export default class Header extends Component {
+class Header extends Component {
+  static propTypes = {
+    data: PropTypes.shape({
+      uuid: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      registrationDate: PropTypes.string,
+    }),
+    availableStatuses: PropTypes.array.isRequired,
+    onStatusChange: PropTypes.func.isRequired,
+  };
+
+  handleStatusChange = (data) => {
+    const { data: profileData, onStatusChange } = this.props;
+
+    onStatusChange({ ...data, playerUUID: profileData.uuid });
+  };
+
   render() {
     const {
-      operatorProfile: {
-        operatorId,
+      data: {
+        uuid,
         firstName,
         lastName,
         country,
+        registrationDate,
+        operatorStatus,
+        statusChangeDate,
       },
+      availableStatuses,
     } = this.props;
 
     return (
@@ -20,7 +44,7 @@ export default class Header extends Component {
           <div className="operator-profile-info">
             <h3 className="operator-profile-info-name">{`${firstName} ${lastName}`}</h3>
             <span className="operator-profile-info-id">
-              {`${shortify(operatorId, 'OP')} - ${country}`}
+              { shortify(uuid) } { country && ` - ${country}` }
             </span>
           </div>
           <div className="operator-profile-actions">
@@ -29,15 +53,38 @@ export default class Header extends Component {
           </div>
         </div>
         <div className="row panel-heading header-blocks">
-          <div className="header-block width-33">
-            <div className="header-block-title">Account</div>
-            <div className="header-block-text">Lorem ipsum dolor sit</div>
-            <div className="header-block-secondary-text">Lorem ipsum dolor</div>
+          <div className="header-block">
+            <AccountStatus
+              profileStatus={operatorStatus}
+              onStatusChange={this.handleStatusChange}
+              label={
+                <div className="dropdown-tab">
+                  <div className="header-block-title">Account Status</div>
+                  <div className={`header-block-text ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
+                  {
+                    !!statusChangeDate &&
+                    <small>
+                      Since {moment(statusChangeDate).format('DD.MM.YYYY')}
+                    </small>
+                  }
+                </div>
+              }
+              availableStatuses={availableStatuses}
+            />
           </div>
           <div className="header-block width-33">
-            <div className="header-block-title">Account</div>
-            <div className="header-block-text">Lorem ipsum dolor sit</div>
-            <div className="header-block-secondary-text">Lorem ipsum dolor</div>
+            <div className="header-block-title">Registered</div>
+            {
+              registrationDate &&
+              <div>
+                <div className="header-block-text">
+                  { moment(registrationDate).fromNow() }
+                </div>
+                <div className="header-block-secondary-text">
+                  on { moment(registrationDate).format('YYYY-MM-DD HH:mm') }
+                </div>
+              </div>
+            }
           </div>
           <div className="header-block width-33">
             <div className="header-block-title">Account</div>
@@ -50,6 +97,4 @@ export default class Header extends Component {
   }
 }
 
-Header.propTypes = {
-  operatorProfile: PropTypes.object,
-};
+export default Header;

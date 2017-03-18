@@ -1,26 +1,27 @@
 import React, { Component, PropTypes } from 'react';
-import OperatorPersonalForm from './OperatorPersonalForm';
-import OperatorContactsForm from './OperatorContactsForm';
+import PersonalForm from './PersonalForm';
+import ContactsForm from './ContactsForm';
 
-export default class OperatorProfile extends Component {
-  handleSubmitOperatorPersonal = (personalData) => {
-    console.log(personalData);
+class View extends Component {
+  static propTypes = {
+    updateProfile: PropTypes.func.isRequired,
+    data: PropTypes.object,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    receivedAt: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
   };
 
-  handleSubmitOperatorContacts = (contactsData) => {
-    console.log(contactsData);
+  handleSubmit = (data) => {
+    const { params: { id }, updateProfile } = this.props;
+    return updateProfile(id, data);
   };
 
   render() {
-    const {
-      data: {
-        firstName,
-        lastName,
-        country,
-        email,
-        phone,
-      },
-    } = this.props;
+    const { data, receivedAt } = this.props;
+    if (!receivedAt) {
+      return null;
+    }
 
     return (
       <div className="player__account__page_profile tab-content padding-vertical-20">
@@ -28,13 +29,13 @@ export default class OperatorProfile extends Component {
           <div className="panel">
             <div className="panel-body row">
               <div className="col-md-8">
-                <OperatorPersonalForm
+                <PersonalForm
                   initialValues={{
-                    firstName,
-                    lastName,
-                    country,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    country: data.country,
                   }}
-                  onSubmit={this.handleSubmitOperatorPersonal}
+                  onSubmit={this.handleSubmit}
                 />
               </div>
             </div>
@@ -42,12 +43,12 @@ export default class OperatorProfile extends Component {
           <div className="panel">
             <div className="panel-body row">
               <div className="col-md-8">
-                <OperatorContactsForm
+                <ContactsForm
                   initialValues={{
-                    phone,
-                    email,
+                    phone: data.phone,
+                    email: data.email,
                   }}
-                  onSubmit={this.handleSubmitOperatorContacts}
+                  onSubmit={this.handleSubmit}
                 />
               </div>
             </div>
@@ -57,10 +58,4 @@ export default class OperatorProfile extends Component {
     );
   }
 }
-
-OperatorProfile.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string,
-  }),
-  data: PropTypes.object,
-};
+export default View;

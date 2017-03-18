@@ -21,7 +21,15 @@ const validator = createValidator({
   country: [`in:,${Object.keys(countries).join()}`],
 }, attributeLabels, false);
 
-class OperatorPersonalForm extends Component {
+class PersonalForm extends Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    onSubmit: PropTypes.func,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool,
+  };
+
   render() {
     const {
       handleSubmit,
@@ -78,15 +86,7 @@ class OperatorPersonalForm extends Component {
   }
 }
 
-OperatorPersonalForm.propTypes = {
-  handleSubmit: PropTypes.func,
-  onSubmit: PropTypes.func,
-  pristine: PropTypes.func,
-  submitting: PropTypes,bool,
-  valid: PropTypes.bool,
-};
-
 export default reduxForm({
   form: 'updateOperatorProfilePersonal',
   validate: validator,
-})(OperatorPersonalForm);
+})(PersonalForm);

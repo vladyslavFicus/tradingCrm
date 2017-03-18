@@ -225,7 +225,7 @@ function lockDeposit(playerUUID, reason) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/deposit`,
+        endpoint: 'payment/lock/deposit',
         method: 'POST',
         types: [DEPOSIT_LOCK.REQUEST, DEPOSIT_LOCK.SUCCESS, DEPOSIT_LOCK.FAILURE],
         headers: {
@@ -271,7 +271,7 @@ function lockWithdraw(playerUUID, reason) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/withdraw`,
+        endpoint: 'payment/lock/withdraw',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -399,7 +399,7 @@ function unblockProfile({ playerUUID, ...data }) {
 }
 
 function changeStatus({ action, ...data }) {
-  return dispatch => {
+  return (dispatch) => {
     if (action === actions.BLOCK) {
       return dispatch(blockProfile(data));
     } else if (action === actions.UNBLOCK) {
@@ -421,7 +421,7 @@ function loadFullProfile(uuid) {
 }
 
 const balanceActionHandlers = {
-  [FETCH_BALANCES.REQUEST]: (state, action) => ({
+  [FETCH_BALANCES.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
@@ -452,7 +452,7 @@ const balanceActionHandlers = {
   }),
 };
 const profileActionHandlers = {
-  [PROFILE.REQUEST]: (state, action) => ({
+  [PROFILE.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
@@ -475,7 +475,7 @@ const profileActionHandlers = {
   ...balanceActionHandlers,
 };
 const depositActionHandlers = {
-  [CHECK_LOCK.REQUEST]: (state, action) => ({
+  [CHECK_LOCK.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
@@ -506,12 +506,12 @@ const depositActionHandlers = {
     receivedAt: timestamp(),
   }),
 
-  [DEPOSIT_LOCK.REQUEST]: (state, action) => ({
+  [DEPOSIT_LOCK.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [DEPOSIT_LOCK.SUCCESS]: (state, action) => ({
+  [DEPOSIT_LOCK.SUCCESS]: state => ({
     ...state,
     isLoading: false,
     receivedAt: timestamp(),
@@ -524,7 +524,7 @@ const depositActionHandlers = {
   }),
 };
 const withdrawActionHandlers = {
-  [CHECK_LOCK.REQUEST]: (state, action) => ({
+  [CHECK_LOCK.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
@@ -555,12 +555,12 @@ const withdrawActionHandlers = {
     receivedAt: timestamp(),
   }),
 
-  [WITHDRAW_LOCK.REQUEST]: (state, action) => ({
+  [WITHDRAW_LOCK.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [WITHDRAW_LOCK.SUCCESS]: (state, action) => ({
+  [WITHDRAW_LOCK.SUCCESS]: state => ({
     ...state,
     isLoading: false,
     receivedAt: timestamp(),

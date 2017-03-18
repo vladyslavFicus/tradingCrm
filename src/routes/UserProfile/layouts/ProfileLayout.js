@@ -14,6 +14,20 @@ const popoverInitialState = {
 };
 
 class ProfileLayout extends Component {
+  static propTypes = {
+    updateSubscription: PropTypes.func.isRequired,
+    fetchNotes: PropTypes.func.isRequired,
+    loadFullProfile: PropTypes.func.isRequired,
+    fetchActiveBonus: PropTypes.func.isRequired,
+    fetchIp: PropTypes.func.isRequired,
+    fetchAccumulatedBalances: PropTypes.func.isRequired,
+    deleteNote: PropTypes.func.isRequired,
+    editNote: PropTypes.func.isRequired,
+    addNote: PropTypes.func.isRequired,
+    profile: PropTypes.object,
+    params: PropTypes.object,
+  };
+
   static childContextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
@@ -117,9 +131,8 @@ class ProfileLayout extends Component {
     return new Promise((resolve) => {
       if (data.uuid) {
         return resolve(this.props.editNote(data.uuid, data));
-      } else {
-        return resolve(this.props.addNote(data));
       }
+      return resolve(this.props.addNote(data));
     }).then(() => {
       this.handlePopoverHide();
       this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
@@ -187,7 +200,7 @@ class ProfileLayout extends Component {
               updateSubscription={updateSubscription.bind(null, params.id)}
               onEditNoteClick={this.handleEditNoteClick}
               notes={notes}
-              showNotes={true}
+              showNotes
             />
           }
 
