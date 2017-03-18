@@ -8,9 +8,8 @@ import {
   Input,
 } from 'reactstrap';
 import classNames from 'classnames';
-import { statusColorNames } from 'constants/user';
 import { targetTypes } from 'constants/note';
-import NoteButton from '../../../routes/UserProfile/components/NoteButton';
+import NoteButton from 'components/NoteButton';
 import './PaymentDetailModal.scss';
 import { shortify } from 'utils/uuid';
 

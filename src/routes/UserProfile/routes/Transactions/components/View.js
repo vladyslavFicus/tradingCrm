@@ -15,7 +15,7 @@ import {
 import { shortify } from 'utils/uuid';
 import StatusHistory from './StatusHistory';
 import { targetTypes } from 'constants/note';
-import NoteButton from "../../../components/NoteButton";
+import NoteButton from "components/NoteButton";
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
 import PaymentRejectModal from 'routes/Payments/components/PaymentRejectModal';
@@ -26,17 +26,36 @@ const defaultModalState = {
 };
 
 class View extends Component {
+  static propTypes = {
+    isLoading: PropTypes.bool,
+    fetchEntities: PropTypes.func.isRequired,
+    loadPaymentStatuses: PropTypes.func.isRequired,
+    onChangePaymentStatus: PropTypes.func.isRequired,
+    entities: PropTypes.object,
+    currencyCode: PropTypes.string,
+    filters: PropTypes.object,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    profile: PropTypes.object,
+    accumulatedBalances: PropTypes.object,
+    paymentRejectReasons: PropTypes.array,
+  };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
+  };
+
   state = {
     filters: {},
     page: 0,
     modal: defaultModalState,
   };
 
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    setNoteChangedCallback: PropTypes.func.isRequired,
-  };
+  componentWillMount() {
+    this.handleRefresh();
+  }
 
   componentDidMount() {
     this.context.setNoteChangedCallback(this.handleRefresh);
@@ -47,7 +66,7 @@ class View extends Component {
   }
 
   getNotePopoverParams = () => ({
-    placement: 'left'
+    placement: 'left',
   });
 
   handleNoteClick = (target, data) => {
@@ -72,10 +91,6 @@ class View extends Component {
     });
   };
 
-  componentWillMount() {
-    this.handleRefresh();
-  }
-
   handleFilterSubmit = (filters) => {
     if (filters.states) {
       filters.states = [filters.states];
@@ -99,16 +114,16 @@ class View extends Component {
       payment,
       profile: this.props.profile,
       accumulatedBalances: this.props.accumulatedBalances,
-      rejectReasons: this.props.paymentRejectReasons
+      rejectReasons: this.props.paymentRejectReasons,
     });
-};
+  };
 
   handleOpenModal = (e, name, params) => {
     e.preventDefault();
     e.stopPropagation();
 
     this.props.loadPaymentStatuses(params.payment.paymentId)
-      .then(action => {
+      .then((action) => {
         if (action && !action.error) {
           params.transactions = action.payload;
         }
@@ -129,7 +144,7 @@ class View extends Component {
     return this.props.loadPaymentStatuses(paymentId);
   };
 
-  renderTransactionId(data) {
+  renderTransactionId = (data) => {
     return (
       <span>
         <div className="font-weight-700">{shortify(data.paymentId, 'TA')}</div>
@@ -138,15 +153,15 @@ class View extends Component {
         </span>
       </span>
     );
-  }
+  };
 
-  renderType(data) {
+  renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
     const props = typesProps[data.paymentType] || {};
 
     return (
       <div>
-        <div { ...props }> {label} </div>
+        <div {...props}> {label} </div>
         <span className="font-size-10 text-uppercase color-default">
           {data.paymentSystemRefs.map((SystemRef, index) => (
             <div key={`${SystemRef}-${index}`} children={SystemRef} />
@@ -154,15 +169,17 @@ class View extends Component {
         </span>
       </div>
     );
-  }
+  };
 
-  renderAmount(data) {
-    return <div className={classNames('font-weight-700', { 'color-danger': data.paymentType === paymentTypes.Withdraw })}>
-      {data.paymentType === paymentTypes.Withdraw && '-'}<Amount { ...data.amount } />
-    </div>;
-  }
+  renderAmount = (data) => {
+    return (
+      <div className={classNames('font-weight-700', { 'color-danger': data.paymentType === paymentTypes.Withdraw })}>
+        {data.paymentType === paymentTypes.Withdraw && '-'}<Amount {...data.amount} />
+      </div>
+    );
+  };
 
-  renderDateTime(data) {
+  renderDateTime = (data) => {
     return (
       <div>
         <div className="font-weight-700">
@@ -173,17 +190,17 @@ class View extends Component {
         </span>
       </div>
     );
-  }
+  };
 
-  renderIP(data) {
+  renderIP = (data) => {
     if (!data.country) {
       return data.country;
     }
 
-    return <i className={`fs-icon fs-${data.country.toLowerCase()}`}/>;
-  }
+    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} />;
+  };
 
-  renderMethod(data) {
+  renderMethod = (data) => {
     return (
       <div>
         <div className="font-weight-700">
@@ -194,14 +211,16 @@ class View extends Component {
         </span>
       </div>
     );
-  }
+  };
 
-  renderDevice(data) {
-    return <i
-      className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
-      aria-hidden="true"
-    />;
-  }
+  renderDevice = (data) => {
+    return (
+      <i
+        className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
+        aria-hidden="true"
+      />
+    );
+  };
 
   renderStatus = (data) => {
     return (
@@ -213,7 +232,7 @@ class View extends Component {
               {statusesLabels[data.status] || data.status}
             </div>
             <span className="font-size-10 color-default">
-              {moment(data.creationTime).format('DD.MM.YYYY \- HH:mm:ss')}
+              {moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
             </span>
           </div>
         }
@@ -221,126 +240,132 @@ class View extends Component {
     );
   };
 
+  renderActions = (data) => {
+    return (
+      <div>
+        <NoteButton
+          id={`bonus-item-note-button-${data.paymentId}`}
+          className="cursor-pointer margin-right-5"
+          onClick={(id) => this.handleNoteClick(id, data)}
+        >
+          {data.note
+            ? <i className="fa fa-sticky-note" />
+            : <i className="fa fa-sticky-note-o" />
+          }
+        </NoteButton>
+        {
+          data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
+          <a
+            href="#"
+            onClick={(e) => this.handleOpenModal(e, 'payment-detail', {
+              payment: data,
+              profile: this.props.profile,
+              accumulatedBalances: this.props.accumulatedBalances,
+          })} title={'View payment'}
+          >
+            <i className="fa fa-search" />
+          </a>
+        }
+      </div>
+    );
+  };
+
   render() {
     const { filters, modal } = this.state;
     const { entities, currencyCode } = this.props;
 
-    return <div className='tab-pane fade in active profile-tab-container'>
-      <TransactionGridFilter
-        currencyCode={currencyCode}
-        onSubmit={this.handleFilterSubmit}
-        initialValues={filters}
-      />
+    return (
+      <div className="tab-pane fade in active profile-tab-container">
+        <TransactionGridFilter
+          currencyCode={currencyCode}
+          onSubmit={this.handleFilterSubmit}
+          initialValues={filters}
+        />
 
-      <GridView
-        tableClassName="table table-hovered profile-table"
-        headerClassName=""
-        dataSource={entities.content}
-        onPageChange={this.handlePageChanged}
-        activePage={entities.number + 1}
-        totalPages={entities.totalPages}
-        rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
-        lazyLoad
-      >
-        <GridColumn
-          name="paymentId"
-          header="Transaction"
-          headerClassName='text-uppercase'
-          render={this.renderTransactionId}
-        />
-        <GridColumn
-          name="paymentType"
-          header="Type"
-          headerClassName='text-uppercase'
-          render={this.renderType}
-        />
-        <GridColumn
-          name="amount"
-          header="Amount"
-          headerClassName='text-uppercase'
-          render={this.renderAmount}
-        />
-        <GridColumn
-          name="creationTime"
-          header="DATE & TIME"
-          headerClassName='text-uppercase'
-          render={this.renderDateTime}
-        />
-        <GridColumn
-          name="country"
-          header="Ip"
-          headerClassName='text-uppercase text-center'
-          render={this.renderIP}
-        />
-        <GridColumn
-          name="paymentMethod"
-          header="Method"
-          headerClassName='text-uppercase'
-          render={this.renderMethod}
-        />
-        <GridColumn
-          name="mobile"
-          header="Device"
-          headerClassName='text-uppercase text-center'
-          className='text-center'
-          render={this.renderDevice}
-        />
-        <GridColumn
-          name="status"
-          header="Status"
-          headerClassName='text-uppercase'
-          className='text-uppercase'
-          render={this.renderStatus}
-        />
-        <GridColumn
-          name="actions"
-          header={""}
-          render={this.renderActions}
-        />
-      </GridView>
+        <GridView
+          tableClassName="table table-hovered data-grid-layout"
+          headerClassName=""
+          dataSource={entities.content}
+          onPageChange={this.handlePageChanged}
+          activePage={entities.number + 1}
+          totalPages={entities.totalPages}
+          rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
+          lazyLoad
+        >
+          <GridColumn
+            name="paymentId"
+            header="Transaction"
+            headerClassName="text-uppercase"
+            render={this.renderTransactionId}
+          />
+          <GridColumn
+            name="paymentType"
+            header="Type"
+            headerClassName="text-uppercase"
+            render={this.renderType}
+          />
+          <GridColumn
+            name="amount"
+            header="Amount"
+            headerClassName="text-uppercase"
+            render={this.renderAmount}
+          />
+          <GridColumn
+            name="creationTime"
+            header="DATE & TIME"
+            headerClassName="text-uppercase"
+            render={this.renderDateTime}
+          />
+          <GridColumn
+            name="country"
+            header="Ip"
+            headerClassName="text-uppercase text-center"
+            render={this.renderIP}
+          />
+          <GridColumn
+            name="paymentMethod"
+            header="Method"
+            headerClassName="text-uppercase"
+            render={this.renderMethod}
+          />
+          <GridColumn
+            name="mobile"
+            header="Device"
+            headerClassName="text-uppercase text-center"
+            className="text-center"
+            render={this.renderDevice}
+          />
+          <GridColumn
+            name="status"
+            header="Status"
+            headerClassName="text-uppercase"
+            className="text-uppercase"
+            render={this.renderStatus}
+          />
+          <GridColumn
+            name="actions"
+            header=""
+            render={this.renderActions}
+          />
+        </GridView>
 
-      {modal.name === 'payment-detail' && <PaymentDetailModal
-        { ...modal.params }
-        isOpen
-        onClose={this.handleCloseModal}
-        onChangePaymentStatus={this.handleChangePaymentStatus}
-        onAboutToReject={this.handleAboutToReject}
-      />}
+        {modal.name === 'payment-detail' && <PaymentDetailModal
+          {...modal.params}
+          isOpen
+          onClose={this.handleCloseModal}
+          onChangePaymentStatus={this.handleChangePaymentStatus}
+          onAboutToReject={this.handleAboutToReject}
+        />}
 
-      {modal.name === 'payment-about-to-reject' && <PaymentRejectModal
-        { ...modal.params }
-        isOpen
-        onClose={this.handleCloseModal}
-        onChangePaymentStatus={this.handleChangePaymentStatus}
-      />}
-
-    </div>;
+        {modal.name === 'payment-about-to-reject' && <PaymentRejectModal
+          {...modal.params}
+          isOpen
+          onClose={this.handleCloseModal}
+          onChangePaymentStatus={this.handleChangePaymentStatus}
+        />}
+      </div>
+    );
   }
-
-  renderActions = data => {
-    return <div>
-      <NoteButton
-        id={`bonus-item-note-button-${data.paymentId}`}
-        className="cursor-pointer margin-right-5"
-        onClick={(id) => this.handleNoteClick(id, data)}
-      >
-        {data.note
-          ? <i className="fa fa-sticky-note"/>
-          : <i className="fa fa-sticky-note-o"/>
-        }
-      </NoteButton>
-      {
-        data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
-        <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', {
-          payment: data,
-          profile: this.props.profile,
-          accumulatedBalances: this.props.accumulatedBalances,
-        })} title={'View payment'}>
-          <i className="fa fa-search"/>
-        </a>
-      }
-    </div>;
-  };
 }
 
 export default View;

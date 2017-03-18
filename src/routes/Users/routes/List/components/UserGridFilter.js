@@ -51,8 +51,16 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 class UserGridFilter extends Component {
-  handleDateTimeChange = (callback) => (value) => {
-    callback(value ? value.format('YYYY-MM-DD\THH:mm:00') : '');
+  static propTypes = {
+    filterValues: PropTypes.object,
+    reset: PropTypes.func,
+    handleSubmit: PropTypes.func,
+    onSubmit: PropTypes.func,
+    submitting: PropTypes.bool,
+  };
+
+  handleDateTimeChange = callback => (value) => {
+    callback(value ? value.format('YYYY-MM-DDTHH:mm:00') : '');
   };
 
   startDateValidator = (current) => {
@@ -81,10 +89,86 @@ class UserGridFilter extends Component {
       data.tags = [data.tags];
     }
     if (data.statuses) {
-      data.statuses= [data.statuses];
+      data.statuses = [data.statuses];
     }
 
     return this.props.onSubmit(data);
+  };
+
+  renderTextField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <div className="input-group">
+          <label>{label}</label>
+          <input
+            {...input}
+            disabled={disabled}
+            type={type}
+            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
+            placeholder={placeholder}
+            title={placeholder}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <label>{label}</label>
+        <div className="form-input-icon">
+          <i className="icmn-search" />
+          <input
+            {...input}
+            disabled={disabled}
+            type={type}
+            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
+            placeholder={placeholder}
+            title={placeholder}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <label>{label}</label>
+        <select
+          {...input}
+          className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
+        >
+          <option value="">{emptyOptionLabel}</option>
+          {children}
+        </select>
+      </div>
+    );
+  };
+
+  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <div className="input-group">
+          <DateTime
+            dateFormat="MM/DD/YYYY"
+            timeFormat="HH:mm"
+            onChange={this.handleDateTimeChange(input.onChange)}
+            value={input.value ? moment(input.value) : null}
+            closeOnSelect
+            inputProps={{
+              disabled,
+              placeholder,
+            }}
+            isValidDate={isValidDate}
+          />
+          <span className="input-group-addon">
+            <i className="fa fa-calendar" />
+          </span>
+        </div>
+      </div>
+    );
   };
 
   render() {
@@ -110,7 +194,7 @@ class UserGridFilter extends Component {
                   <Field
                     name="searchValue"
                     type="text"
-                    label='Search by'
+                    label="Search by"
                     placeholder={attributeLabels.keyword}
                     component={this.renderQueryField}
                   />
@@ -124,7 +208,7 @@ class UserGridFilter extends Component {
                   >
                     {Object
                       .keys(countries)
-                      .map((key) => <option key={key} value={key}>{countries[key]}</option>)
+                      .map(key => <option key={key} value={key}>{countries[key]}</option>)
                     }
                   </Field>
                 </div>
@@ -132,7 +216,7 @@ class UserGridFilter extends Component {
                   <Field
                     name="city"
                     type="text"
-                    label='City'
+                    label="City"
                     placeholder={attributeLabels.city}
                     component={this.renderTextField}
                   />
@@ -145,16 +229,16 @@ class UserGridFilter extends Component {
                         <Field
                           name="ageFrom"
                           type="text"
-                          placeholder='20'
+                          placeholder="20"
                           component={this.renderTextField}
                         />
                       </div>
-                      <div className="col-md-1 dash-after-input"></div>
+                      <div className="col-md-1 dash-after-input" />
                       <div className="col-md-5">
                         <Field
                           name="ageTo"
                           type="text"
-                          placeholder='30'
+                          placeholder="30"
                           component={this.renderTextField}
                         />
                       </div>
@@ -169,16 +253,16 @@ class UserGridFilter extends Component {
                         <Field
                           name="balanceFrom"
                           type="text"
-                          placeholder='100'
+                          placeholder="100"
                           component={this.renderTextField}
                         />
                       </div>
-                      <div className="col-md-1 dash-after-input"></div>
+                      <div className="col-md-1 dash-after-input" />
                       <div className="col-md-5">
                         <Field
                           name="balanceTo"
                           type="text"
-                          placeholder='150'
+                          placeholder="150"
                           component={this.renderTextField}
                         />
                       </div>
@@ -205,7 +289,7 @@ class UserGridFilter extends Component {
                   <Field
                     name="affiliateId"
                     type="text"
-                    label='Affiliate'
+                    label="Affiliate"
                     placeholder={attributeLabels.affiliateId}
                     component={this.renderTextField}
                   />
@@ -244,8 +328,7 @@ class UserGridFilter extends Component {
                     label={attributeLabels.segments}
                     emptyOptionLabel="Any"
                     component={this.renderSelectField}
-                  >
-                  </Field>
+                  />
                 </div>
                 <div className="col-md-5">
                   <div className="form-group">
@@ -270,7 +353,6 @@ class UserGridFilter extends Component {
                 </div>
                 <div className="col-md-2">
                   <div className="form-group">
-                    <br/>
                     <button
                       disabled={submitting}
                       className="btn btn-default btn-sm margin-inline font-weight-700"
@@ -278,7 +360,6 @@ class UserGridFilter extends Component {
                     >
                       Reset
                     </button>
-                    {' '}
                     <button
                       disabled={submitting}
                       className="btn btn-primary btn-sm margin-inline font-weight-700"
@@ -295,74 +376,6 @@ class UserGridFilter extends Component {
       </form>
     );
   }
-
-  renderTextField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <div className="input-group">
-        <label>{label}</label>
-        <input
-          {...input}
-          disabled={disabled}
-          type={type}
-          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-          placeholder={placeholder}
-          title={placeholder}
-        />
-      </div>
-    </div>;
-  };
-
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <label>{label}</label>
-      <div className="form-input-icon">
-        <i className="icmn-search"/>
-        <input
-          {...input}
-          disabled={disabled}
-          type={type}
-          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-          placeholder={placeholder}
-          title={placeholder}
-        />
-      </div>
-    </div>;
-  };
-
-  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <label>{label}</label>
-      <select
-        {...input}
-        className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
-      >
-        <option value="">{emptyOptionLabel}</option>
-        {children}
-      </select>
-    </div>;
-  };
-
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <div className="input-group">
-        <DateTime
-          dateFormat="MM/DD/YYYY"
-          timeFormat="HH:mm"
-          onChange={this.handleDateTimeChange(input.onChange)}
-          value={input.value ? moment(input.value) : null}
-          closeOnSelect={true}
-          inputProps={{
-            disabled,
-            placeholder,
-          }}
-          isValidDate={isValidDate}
-        />
-        <span className="input-group-addon">
-          <i className="fa fa-calendar"/>
-        </span>
-      </div>
-    </div>;
-  };
 }
 
 export default reduxForm({
