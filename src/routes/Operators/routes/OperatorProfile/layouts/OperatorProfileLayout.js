@@ -10,8 +10,28 @@ export default class OperatorProfileLayout extends Component {
     informationShown: true,
   };
 
+  static propTypes = {
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    location: PropTypes.string,
+    children: PropTypes.node,
+    data: PropTypes.object,
+    onResetPassword: PropTypes.func.isRequired,
+  };
+
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
+  };
+
+  handleResetPasswordClick = () => {
+    const { onResetPassword, data } = this.props;
+
+    return onResetPassword({ email: data.email });
+  };
+
+  handleStatusChange = () => {
+    // @TODO: Implement logic
   };
 
   render() {
@@ -37,7 +57,11 @@ export default class OperatorProfileLayout extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12">
-              <Header operatorProfile={data} />
+              <Header
+                operatorProfile={data}
+                onResetPasswordClick={this.handleResetPasswordClick}
+                onStatusChange={this.handleStatusChange}
+              />
             </div>
           </div>
 
@@ -60,7 +84,8 @@ export default class OperatorProfileLayout extends Component {
             <Information
               data={data}
               ips={ip.entities.content}
-              updateSubscription={() => {} /* updateSubscription.bind(null, params.id) */}
+              updateSubscription={() => {
+              } /* updateSubscription.bind(null, params.id) */}
               showNotes={false}
             />
           }
@@ -86,12 +111,3 @@ export default class OperatorProfileLayout extends Component {
     );
   }
 }
-
-OperatorProfileLayout.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string,
-  }),
-  location: PropTypes.string,
-  children: PropTypes.node,
-  data: PropTypes.object,
-};

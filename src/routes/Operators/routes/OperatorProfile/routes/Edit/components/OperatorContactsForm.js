@@ -62,7 +62,7 @@ OperatorContactsForm.propTypes = {
   handleSubmit: PropTypes.func,
   onSubmit: PropTypes.func,
   pristine: PropTypes.func,
-  submitting: PropTypes,bool,
+  submitting: PropTypes.bool,
   valid: PropTypes.bool,
 };
 
