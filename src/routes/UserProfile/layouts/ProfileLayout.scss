@@ -1,10 +1,4 @@
 .profile-layout {
-  .table thead th {
-    font-size: 12px;
-    color: #666;
-    font-weight: 400;
-  }
-
   .dash-text {
     text-align: center;
     position: relative;
@@ -50,16 +44,5 @@
   .well .btn-sm:last-child {
     margin: 0;
     float: right;
-  }
-}
-
-.profile-table {
-  thead>tr>th,
-  tbody>tr>th,
-  tfoot>tr>th,
-  thead>tr>td,
-  tbody>tr>td,
-  tfoot>tr>td {
-    border: none;
   }
 }

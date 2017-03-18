@@ -49,6 +49,10 @@ const applicationConfig = {
   'nas.tags.priorities.positive.tag3.departments[0]': 'CS',
   'nas.tags.priorities.positive.tag3.departments[1]': 'MARKETING',
   'nas.validation.password': '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$',
+  'nas.reasons.rejection[0]': 'Reason 1',
+  'nas.reasons.rejection[1]': 'Reason 2',
+  'nas.reasons.rejection[2]': 'Reason 3',
+  'nas.reasons.rejection[3]': 'Reason 4',
 };
 
 export default {

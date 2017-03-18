@@ -14,6 +14,12 @@ if (window) {
 const config = {
   api: {},
   availableDepartments: [],
+  availableRoles: [
+    { value: 'role1', label: 'Role 1' },
+    { value: 'role2', label: 'Role 2' },
+    { value: 'role3', label: 'Role 3' },
+    { value: 'role4', label: 'Role 4' },
+  ],
   availableTags: [],
   components: {
     Currency: {
@@ -70,8 +76,12 @@ if (config.nas.tags) {
     }, []);
 }
 
-export function getAvailableTags(department) {
+function getAvailableTags(department) {
   return config.nas.tags.filter(item => item.department === department);
+}
+
+function getTransactionRejectReasons() {
+  return config.nas.reasons.rejection || [];
 }
 
 function getApiRoot() {
@@ -87,6 +97,8 @@ function getDomain() {
 export {
   getApiRoot,
   getDomain,
+  getAvailableTags,
+  getTransactionRejectReasons,
 };
 
 export default config;

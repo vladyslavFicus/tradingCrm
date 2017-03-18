@@ -10,35 +10,19 @@ const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
-const fetchNotes = noteActionCreators.fetchNotesByType(FETCH_NOTES);
-const mapEntities = (dispatch, pageable) => {
-  const uuids = pageable.content.map(item => item.paymentId);
-
-  if (!uuids.length) {
-    return pageable;
+const fetchNotesFn = noteActionCreators.fetchNotesByType(FETCH_NOTES);
+const mapNotesToTransactions = (transactions, notes) => {
+  if (!notes || Object.keys(notes).length === 0) {
+    return transactions;
   }
 
-  return dispatch(fetchNotes(targetTypes.PAYMENT, uuids))
-    .then(action => {
-      if (!action || action.error) {
-        return pageable;
-      }
-
-      return new Promise(resolve => {
-        pageable.content = pageable.content.map(item => {
-          item.note = action.payload[item.paymentId] && action.payload[item.paymentId].length
-            ? action.payload[item.paymentId][0]
-            : null;
-
-          return item;
-        });
-
-        return resolve(pageable);
-      });
-    });
+  return transactions.map(t => ({
+    ...t,
+    note: notes[t.paymentId] ? notes[t.paymentId][0] : null,
+  }));
 };
 
-function fetchEntities(filters = {}) {
+function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -56,19 +40,17 @@ function fetchEntities(filters = {}) {
             type: FETCH_ENTITIES.REQUEST,
             meta: { filters },
           },
-          {
-            type: FETCH_ENTITIES.SUCCESS,
-            payload: (action, state, res) => {
-              const contentType = res.headers.get('Content-Type');
-              if (contentType && ~contentType.indexOf('json')) {
-                return res.json().then((json) => mapEntities(dispatch, json));
-              }
-            },
-          },
+          FETCH_ENTITIES.SUCCESS,
           FETCH_ENTITIES.FAILURE,
         ],
         bailout: !logged,
       },
+    }).then((action) => {
+      if (action && action.type === FETCH_ENTITIES.SUCCESS) {
+        dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
+      }
+
+      return action;
     });
   };
 }
@@ -104,6 +86,15 @@ const actionHandlers = {
     error: action.payload,
     receivedAt: timestamp(),
   }),
+  [FETCH_NOTES.SUCCESS]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      content: [
+        ...mapNotesToTransactions(state.entities.content, action.payload),
+      ],
+    },
+  }),
 };
 const initialState = {
   entities: {
@@ -130,6 +121,7 @@ const actionCreators = {
 };
 
 export {
+  initialState,
   actionTypes,
   actionCreators,
 };

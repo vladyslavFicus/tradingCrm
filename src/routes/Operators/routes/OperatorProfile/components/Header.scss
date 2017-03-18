@@ -1,0 +1,57 @@
+$header-dim-color: #827ca1;
+$header-border-color: #dfe4ed;
+$button-color: #acb7bf;
+$font-size-small: 11px;
+
+.operator-profile-header {
+  .operator-profile-info {
+    float: left;
+
+    &-name {
+      margin-bottom: 5px;
+    }
+
+    &-id {
+      color: $header-dim-color;
+    }
+  }
+
+  .operator-profile-actions {
+    float: right;
+
+    &-button {
+      border-color: $button-color;
+      color: $button-color;
+
+      &:first-child {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .header-blocks {
+    .header-block {
+      border-right: 1px solid $header-border-color;
+
+      &:last-child {
+        border-right: 0;
+      }
+
+      &-title {
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        font-size: $font-size-small;
+      }
+
+      &-text {
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      &-secondary-text {
+        font-size: $font-size-small;
+      }
+    }
+
+  }
+}

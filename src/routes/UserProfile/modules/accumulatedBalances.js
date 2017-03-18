@@ -2,6 +2,9 @@ import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
+import { actionTypes as bonusActionTypes } from './bonus';
+import { actionTypes as viewActionTypes, mapBalances } from './view';
+import config from 'config/index';
 
 const KEY = 'user/balances';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -39,14 +42,15 @@ const actionHandlers = {
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
     data: {
+      ...state.data,
       deposits: Object.keys(action.payload.walletCurrencyDeposits).length !== 0 ? {
         amount: action.payload.walletCurrencyDeposits[Object.keys(action.payload.walletCurrencyDeposits)[0]],
         currency: Object.keys(action.payload.walletCurrencyDeposits)[0],
-      } : null,
+      } : state.data.deposits,
       withdraws: Object.keys(action.payload.walletCurrencyWithdraws).length !== 0 ? {
         amount: action.payload.walletCurrencyWithdraws[Object.keys(action.payload.walletCurrencyWithdraws)[0]],
         currency: Object.keys(action.payload.walletCurrencyWithdraws)[0],
-      } : null,
+      } : state.data.withdraws,
     },
     isLoading: false,
     receivedAt: timestamp(),
@@ -57,15 +61,61 @@ const actionHandlers = {
     error: action.payload,
     receivedAt: timestamp(),
   }),
+  [bonusActionTypes.FETCH_ACTIVE_BONUS.SUCCESS]: (state, action) => {
+    if (!action.payload.content || action.payload.content.length === 0) {
+      return state;
+    }
+
+    const newState = {
+      ...state,
+    };
+
+    newState.data.bonus = action.payload.content[0].balance;
+
+    const total = state.data.total;
+
+    newState.data.real = total && total.amount ? {
+        amount: total.amount - newState.data.bonus.amount,
+        currency: total.currency,
+      } : total;
+
+    return newState;
+  },
+
+  [viewActionTypes.FETCH_BALANCES.SUCCESS]: (state, action) => {
+    if (!action.payload.balances) {
+      return state;
+    }
+
+    const newState = {
+      ...state,
+      isLoading: false,
+      receivedAt: timestamp(),
+    };
+
+    const balances = mapBalances(action.payload.balances);
+    newState.data.total = { ...balances[0] };
+
+    ['deposits', 'withdraws', 'bonus', 'real'].forEach(key => {
+      newState.data[key] = { ...balances[0], amount: newState.data[key].amount };
+    });
+
+    return newState;
+  },
+};
+
+const emptyBalance = {
+  amount: 0,
+  currency: config.nas.currencies.base,
 };
 
 const initialState = {
   data: {
-    deposits: null,
-    withdraws: null,
-    total: null,
-    bonus: null,
-    real: null,
+    deposits: emptyBalance,
+    withdraws: emptyBalance,
+    total: emptyBalance,
+    bonus: emptyBalance,
+    real: emptyBalance,
   },
   error: null,
   isLoading: false,
