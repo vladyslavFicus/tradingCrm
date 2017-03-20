@@ -58,14 +58,14 @@ const actionHandlers = {
 };
 const initialState = {
   entities: {
-    first: null,
-    last: null,
-    number: null,
-    numberOfElements: null,
-    size: null,
-    sort: null,
-    totalElements: null,
-    totalPages: null,
+    first: false,
+    last: false,
+    number: 0,
+    numberOfElements: 0,
+    size: 0,
+    sort: [],
+    totalElements: 0,
+    totalPages: 0,
     content: [],
   },
   error: null,

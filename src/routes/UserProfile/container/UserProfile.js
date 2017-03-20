@@ -8,11 +8,12 @@ import ProfileLayout from '../layouts/ProfileLayout';
 import { getAvailableTags } from 'config/index';
 import { statusActions } from 'constants/user';
 
-const mapStateToProps = ({
-  profile: {
-    view: userProfile, ip, accumulatedBalances: { data: accumulatedBalances }, notes,
-  }, auth,
-}) => {
+const mapStateToProps = (state) => {
+  const {
+    profile: {
+      view: userProfile, ip, accumulatedBalances: { data: accumulatedBalances }, notes,
+    }, auth,
+  } = state;
   const lastIp = ip.entities.content
     ? ip.entities.content[ip.entities.content.length - 1]
     : null;
@@ -55,6 +56,7 @@ const mapActions = {
   addNote: actionCreators.addNote,
   editNote: actionCreators.editNote,
   deleteNote: actionCreators.deleteNote,
+  resetPassword: actionCreators.resetPassword,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);

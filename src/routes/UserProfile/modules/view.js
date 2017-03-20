@@ -10,6 +10,7 @@ const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
 const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
+const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
 const RESUME_PROFILE = createRequestAction(`${KEY}/resume-profile`);
@@ -71,17 +72,10 @@ export const mapBalances = (items) =>
         result
     ), []);
 
-function fetchProfile(uuid) {
-  return usersActionCreators.fetchProfile(PROFILE)(uuid);
-}
-
-function updateProfile(uuid, data) {
-  return usersActionCreators.updateProfile(UPDATE_PROFILE)(uuid, data);
-}
-
-function updateIdentifier(uuid, identifier) {
-  return usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER)(uuid, identifier);
-}
+const fetchProfile = usersActionCreators.fetchProfile(PROFILE);
+const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
+const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
+const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
 
 function updateSubscription(playerUUID, name, value) {
   return (dispatch, getState) => {
@@ -601,6 +595,7 @@ const actionCreators = {
   fetchProfile,
   updateProfile,
   updateIdentifier,
+  resetPassword,
   updateSubscription,
   getBalance,
   loadFullProfile,
