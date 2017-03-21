@@ -29,4 +29,7 @@ export {
   actionCreators,
 };
 
-export default (state = initialState, action) => combineReducers({ view, files })(state, action);
+export default combineReducers({
+  view,
+  files,
+});

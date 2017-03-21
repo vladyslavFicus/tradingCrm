@@ -12,6 +12,7 @@ export default class Header extends Component {
         lastName,
         country,
       },
+      onResetPasswordClick,
     } = this.props;
 
     return (
@@ -25,7 +26,10 @@ export default class Header extends Component {
           </div>
           <div className="operator-profile-actions">
             <Button className="operator-profile-actions-button btn-default-outline">Send Invitation</Button>
-            <Button className="operator-profile-actions-button btn-default-outline">Reset Password</Button>
+            <Button
+              className="operator-profile-actions-button btn-default-outline"
+              onClick={onResetPasswordClick}
+            >Reset Password</Button>
           </div>
         </div>
         <div className="row panel-heading header-blocks">
@@ -52,4 +56,5 @@ export default class Header extends Component {
 
 Header.propTypes = {
   operatorProfile: PropTypes.object,
+  onResetPasswordClick: PropTypes.func.isRequired,
 };

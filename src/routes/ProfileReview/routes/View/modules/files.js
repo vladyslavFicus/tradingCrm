@@ -1,3 +1,4 @@
+import createReducer from 'utils/createReducer';
 import { createRequestTypes } from 'utils/redux';
 import { getApiRoot } from 'config/index';
 
@@ -34,7 +35,6 @@ function clearFiles() {
 }
 
 const initialState = {};
-
 const actionHandlers = {
   [FETCH_FILE.SUCCESS]: (state, action) => ({
     ...state,
@@ -43,12 +43,6 @@ const actionHandlers = {
   [CLEAR_FILES]: (state, action) => ({
     ...initialState,
   }),
-};
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
 };
 
 const actionTypes = {
@@ -67,4 +61,4 @@ export {
   actionHandlers,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

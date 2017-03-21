@@ -1,3 +1,5 @@
+import { combineReducers }from 'redux';
+import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
@@ -55,7 +57,7 @@ const withdrawInitialState = {
   receivedAt: null,
 };
 
-export const initialState = {
+const initialState = {
   profile: profileInitialState,
   deposit: depositInitialState,
   withdraw: withdrawInitialState,
@@ -567,20 +569,6 @@ const withdrawActionHandlers = {
   }),
 };
 
-function reducer(handlers, state, action) {
-  const handler = handlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
-function rootReducer(state = initialState, action) {
-  return {
-    profile: reducer(profileActionHandlers, state.profile, action),
-    deposit: reducer(depositActionHandlers, state.deposit, action),
-    withdraw: reducer(withdrawActionHandlers, state.withdraw, action),
-  };
-}
-
 const actionTypes = {
   PROFILE,
   ADD_TAG,
@@ -590,7 +578,6 @@ const actionTypes = {
   UPDATE_PROFILE,
   FETCH_BALANCES,
 };
-
 const actionCreators = {
   fetchProfile,
   updateProfile,
@@ -611,8 +598,13 @@ const actionCreators = {
 };
 
 export {
+  initialState,
   actionTypes,
   actionCreators,
 };
 
-export default rootReducer;
+export default combineReducers({
+  profile: createReducer(profileInitialState, profileActionHandlers),
+  deposit: createReducer(depositInitialState, depositActionHandlers),
+  withdraw: createReducer(withdrawInitialState, withdrawActionHandlers),
+});
