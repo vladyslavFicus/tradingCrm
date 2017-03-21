@@ -1,13 +1,9 @@
-import React from 'react';
-import View from '../components/View';
 import { connect } from 'react-redux';
-import { actionCreators as viewActionCreators } from '../modules/view';
+import View from '../components/View';
+import { actionCreators } from '../modules/index';
 
-const mapStateToProps = ({ userGameActivity, userProfile }) => ({
-  ...userGameActivity,
+const mapStateToProps = state => ({
+  ...state.userGamingActivity,
 });
-const mapActions = {
-  ...viewActionCreators,
-};
 
-export default connect(mapStateToProps, mapActions)(View);
+export default connect(mapStateToProps, actionCreators)(View);

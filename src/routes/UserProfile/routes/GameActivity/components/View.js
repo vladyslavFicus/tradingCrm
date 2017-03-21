@@ -1,16 +1,20 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
+import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 
 class View extends Component {
   static propTypes = {
-    entities: PropTypes.shape().isRequired,
-    games: PropTypes.shape().isRequired,
-    providers: PropTypes.shape().isRequired,
+    activity: PropTypes.pageable(PropTypes.gamingActivityEntity).isRequired,
+    games: PropTypes.shape({
+      entities: PropTypes.object.isRequired,
+      isLoading: PropTypes.bool.isRequired,
+      receivedAt: PropTypes.number.isRequired,
+    }).isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-    isLoading: PropTypes.bool,
+    fetchEntities: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -22,31 +26,29 @@ class View extends Component {
   }
 
   handlePageChanged = (page, filters) => {
-    if (!this.props.isLoading) {
-      this.props.fetchGameActivity(this.props.params.id, { ...filters, page: page - 1 });
+    if (!this.props.activity.isLoading) {
+      this.props.fetchEntities(this.props.params.id, { ...filters, page: page - 1 });
     }
   };
 
   handleFiltersChanged = (filters) => {
-    this.props.fetchGameActivity(this.props.params.id, { ...filters, page: 0 });
+    this.props.fetchEntities(this.props.params.id, { ...filters, page: 0 });
   };
 
   render() {
     const {
-      entities,
-      games,
-      providers,
+      activity,
     } = this.props;
 
     return <div className={classNames('tab-pane fade in active')}>
       <GridView
-        dataSource={entities.content}
+        dataSource={activity.entities.content}
         onFiltersChanged={this.handleFiltersChanged}
         onPageChange={this.handlePageChanged}
-        activePage={entities.number + 1}
-        totalPages={entities.totalPages}
+        activePage={activity.entities.number + 1}
+        totalPages={activity.entities.totalPages}
       >
-        <GridColumn name="" />
+        <GridColumn name="id" />
       </GridView>
     </div>;
   }
