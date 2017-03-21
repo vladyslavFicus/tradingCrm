@@ -1,17 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import Panel, { Content } from 'components/Panel';
-import GridView, { GridColumn } from 'components/GridView';
+import { Link } from 'react-router';
 import classNames from 'classnames';
-import './List.scss';
 import moment from 'moment';
+import UserGridFilter from './UserGridFilter';
+import './List.scss';
+import GridView, { GridColumn } from 'components/GridView';
 import { shortify } from 'utils/uuid';
+import Panel, { Content } from 'components/Panel';
 import Amount from 'components/Amount';
 import {
-  statusColorNames as userStatusColorNames,
-  statusesLabels as userStatusesLabels
+statusColorNames as userStatusColorNames,
+statusesLabels as userStatusesLabels,
 } from 'constants/user';
-import UserGridFilter from './UserGridFilter';
-import { Link } from 'react-router';
 
 class List extends Component {
   state = {
@@ -25,13 +25,17 @@ class List extends Component {
     }
   };
 
-  handleRefresh = () => {
-    return this.props.fetchESEntities({
-      ...this.state.filters,
-      page: this.state.page,
-      playerUUID: this.props.params.id,
-    });
-  };
+  handleRefresh = () => this.props.fetchESEntities({
+    ...this.state.filters,
+    page: this.state.page,
+    playerUUID: this.props.params.id,
+  });
+
+  handleExport = () => this.props.exportEntities({
+    ...this.state.filters,
+    page: this.state.page,
+    playerUUID: this.props.params.id,
+  });
 
   componentWillMount() {
     this.handleRefresh();
@@ -43,15 +47,17 @@ class List extends Component {
 
   render() {
     const { filters } = this.state;
-    const { list: { entities }, filterValues } = this.props;
+    const { list: { entities, exporting }, filterValues } = this.props;
 
-    return <div className="page-content-inner user-list-layout">
+    return (<div className="page-content-inner user-list-layout">
       <Panel withBorders>
         <Content>
           <UserGridFilter
             onSubmit={this.handleFilterSubmit}
             initialValues={filters}
             filterValues={filterValues}
+            onExportClick={this.handleExport}
+            isExportable={!exporting}
           />
           <GridView
             tableClassName="table table-hovered user-list-table"
@@ -66,104 +72,90 @@ class List extends Component {
             <GridColumn
               name="id"
               header="Player"
-              headerClassName='text-uppercase'
+              headerClassName="text-uppercase"
               render={this.renderUserInfo}
             />
             <GridColumn
               name="location"
               header="Location"
-              headerClassName='text-uppercase'
+              headerClassName="text-uppercase"
               render={this.renderLocation}
             />
             <GridColumn
               name="affiliateId"
               header="Affiliate"
-              headerClassName='text-uppercase'
+              headerClassName="text-uppercase"
               render={this.renderAffiliate}
             />
             <GridColumn
               name="registrationDate"
               header="Registered"
-              headerClassName='text-uppercase'
+              headerClassName="text-uppercase"
               render={this.renderRegistered}
             />
             <GridColumn
               name="balance"
               header="Balance"
-              headerClassName='text-uppercase'
+              headerClassName="text-uppercase"
               render={this.renderBalance}
             />
             <GridColumn
               name="profileStatus"
               header="Status"
-              headerClassName='text-uppercase'
+              headerClassName="text-uppercase"
               render={this.renderStatus}
             />
           </GridView>
         </Content>
       </Panel>
-    </div>;
+    </div>);
   }
 
-  getUserAge = (birthDate) => {
-    return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
-  };
+  getUserAge = birthDate => birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
 
-  renderUserInfo = data => {
-    return (
-      <div>
-        <div className="font-weight-700">
-          <Link to={`/users/${data.playerUUID}/profile`} target="_blank">
-            {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
-          </Link>
-        </div>
-        <div className="font-size-12 color-default">
-          <div>{[data.username, shortify(data.playerUUID, 'PL')].join(' - ')}</div>
-          <div>{data.languageCode}</div>
-        </div>
+  renderUserInfo = data => (
+    <div>
+      <div className="font-weight-700">
+        <Link to={`/users/${data.playerUUID}/profile`} target="_blank">
+          {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
+        </Link>
       </div>
-    );
-  };
-
-  renderLocation = data => {
-    return (
-      <div className="font-weight-700">{data.country}</div>
-    );
-  };
-
-  renderAffiliate = data => {
-    return (
-      <div>{!!data.affiliateId ? data.affiliateId : 'Empty'}</div>
-    );
-  };
-
-  renderRegistered = data => {
-    return (
-      <div>
-        <div className="font-weight-700">{ moment(data.registrationDate).format('DD.MM.YYYY') }</div>
-        <div className="font-size-12 color-default">
-          { moment(data.registrationDate).format('HH.mm.ss') }
-        </div>
+      <div className="font-size-12 color-default">
+        <div>{[data.username, shortify(data.playerUUID, 'PL')].join(' - ')}</div>
+        <div>{data.languageCode}</div>
       </div>
-    );
-  };
+    </div>
+  );
 
-  renderBalance = data => {
-    return data.balance ? <Amount { ...data.balance }/> : 'Empty';
-  };
+  renderLocation = data => (
+    <div className="font-weight-700">{data.country}</div>
+  );
 
-  renderStatus = data => {
-    return (
-      <div>
-        <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
-          {userStatusesLabels[data.profileStatus] || data.profileStatus}
-        </div>
-        <div className="font-size-12 color-default">
-          Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
-        </div>
+  renderAffiliate = data => (
+    <div>{data.affiliateId ? data.affiliateId : 'Empty'}</div>
+  );
+
+  renderRegistered = data => (
+    <div>
+      <div className="font-weight-700">{ moment(data.registrationDate).format('DD.MM.YYYY') }</div>
+      <div className="font-size-12 color-default">
+        { moment(data.registrationDate).format('HH.mm.ss') }
       </div>
-    );
-  };
+    </div>
+  );
+
+  renderBalance = data => data.balance ? <Amount {...data.balance} /> : 'Empty';
+
+  renderStatus = data => (
+    <div>
+      <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
+        {userStatusesLabels[data.profileStatus] || data.profileStatus}
+      </div>
+      <div className="font-size-12 color-default">
+        Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
+      </div>
+    </div>
+  );
 
 }
 

@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
-import { reduxForm, Field } from 'redux-form';
-import classNames from 'classnames';
-import { createValidator } from 'utils/validator';
 import moment from 'moment';
 import DateTime from 'react-datetime';
 import countryList from 'country-list';
-import { statusesLabels } from 'constants/user';
-import config from 'config/index';
+import { reduxForm, Field } from 'redux-form';
+import classNames from 'classnames';
+import { createValidator } from '../../../../../utils/validator';
+import { statusesLabels } from '../../../../../constants/user';
+import config from '../../../../../config/index';
 
 const tags = config.nas.tags.reduce((result, item) => ({
   ...result,
@@ -51,23 +51,65 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 class UserGridFilter extends Component {
-  handleDateTimeChange = (callback) => (value) => {
-    callback(value ? value.format('YYYY-MM-DD\THH:mm:00') : '');
+  static propTypes = {
+    filterValues: PropTypes.shape({
+      keyword: PropTypes.string,
+      country: PropTypes.string,
+      currency: PropTypes.string,
+      ageFrom: PropTypes.string,
+      ageTo: PropTypes.string,
+      affiliateId: PropTypes.string,
+      status: PropTypes.string,
+      tags: PropTypes.string,
+      segments: PropTypes.string,
+      registrationDateFrom: PropTypes.string,
+      registrationDateTo: PropTypes.string,
+      balanceFrom: PropTypes.string,
+      balanceTo: PropTypes.string,
+    }).isRequired,
+    submitting: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+    onExportClick: PropTypes.func.isRequired,
+    isExportable: PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
   };
 
-  startDateValidator = (current) => {
+  static defaultProps = {
+    filterValues: {
+      keyword: '',
+      country: '',
+      currency: '',
+      ageFrom: '',
+      ageTo: '',
+      affiliateId: '',
+      status: '',
+      tags: '',
+      segments: '',
+      registrationDateFrom: '',
+      registrationDateTo: '',
+      balanceFrom: '',
+      balanceTo: '',
+    },
+  };
+
+  handleDateTimeChange = callback => (value) => {
+    callback(value ? value.format('YYYY-MM-DDTHH:mm:00') : '');
+  };
+
+  startDateValidator = toAttribute => (current) => {
     const { filterValues } = this.props;
 
-    return filterValues.endDate
-      ? current.isSameOrBefore(moment(filterValues.endDate))
+    return filterValues[toAttribute]
+      ? current.isSameOrBefore(moment(filterValues[toAttribute]))
       : true;
   };
 
-  endDateValidator = (current) => {
+  endDateValidator = fromAttribute => (current) => {
     const { filterValues } = this.props;
 
-    return filterValues.startDate
-      ? current.isSameOrAfter(moment(filterValues.startDate))
+    return filterValues[fromAttribute]
+      ? current.isSameOrAfter(moment(filterValues[fromAttribute]))
       : true;
   };
 
@@ -81,7 +123,7 @@ class UserGridFilter extends Component {
       data.tags = [data.tags];
     }
     if (data.statuses) {
-      data.statuses= [data.statuses];
+      data.statuses = [data.statuses];
     }
 
     return this.props.onSubmit(data);
@@ -92,231 +134,239 @@ class UserGridFilter extends Component {
       submitting,
       handleSubmit,
       reset,
+      onExportClick,
+      isExportable,
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.handleSubmit)}>
+      <div>
         <div className="row margin-bottom-20">
           <div className="col-md-3">
             <span className="font-size-20">Players</span>
           </div>
-        </div>
 
-        <div className="well">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="row">
-                <div className="col-md-3">
-                  <Field
-                    name="searchValue"
-                    type="text"
-                    label='Search by'
-                    placeholder={attributeLabels.keyword}
-                    component={this.renderQueryField}
-                  />
-                </div>
-                <div className="col-md-2">
-                  <Field
-                    name="countries"
-                    label={attributeLabels.country}
-                    emptyOptionLabel="Any"
-                    component={this.renderSelectField}
-                  >
-                    {Object
-                      .keys(countries)
-                      .map((key) => <option key={key} value={key}>{countries[key]}</option>)
-                    }
-                  </Field>
-                </div>
-                <div className="col-md-1">
-                  <Field
-                    name="city"
-                    type="text"
-                    label='City'
-                    placeholder={attributeLabels.city}
-                    component={this.renderTextField}
-                  />
-                </div>
-                <div className="col-md-2">
-                  <div className="form-group">
-                    <label className="form-label">Age</label>
-                    <div className="row">
-                      <div className="col-md-5">
-                        <Field
-                          name="ageFrom"
-                          type="text"
-                          placeholder='20'
-                          component={this.renderTextField}
-                        />
-                      </div>
-                      <div className="col-md-1 dash-after-input"></div>
-                      <div className="col-md-5">
-                        <Field
-                          name="ageTo"
-                          type="text"
-                          placeholder='30'
-                          component={this.renderTextField}
-                        />
-                      </div>
-                    </div>
+          <div className="col-md-3 col-md-offset-6 text-right">
+            <button disabled={!isExportable} className="btn btn-default-outline" onClick={onExportClick}>
+              Export
+            </button>
+          </div>
+        </div>
+        <form onSubmit={handleSubmit(this.handleSubmit)}>
+          <div className="well">
+            <div className="row">
+              <div className="col-md-12">
+                <div className="row">
+                  <div className="col-md-3">
+                    <Field
+                      name="searchValue"
+                      type="text"
+                      label="Search by"
+                      placeholder={attributeLabels.keyword}
+                      component={this.renderQueryField}
+                    />
                   </div>
-                </div>
-                <div className="col-md-2">
-                  <div className="form-group">
-                    <label className="form-label">Balance</label>
-                    <div className="row">
-                      <div className="col-md-5">
-                        <Field
-                          name="balanceFrom"
-                          type="text"
-                          placeholder='100'
-                          component={this.renderTextField}
-                        />
-                      </div>
-                      <div className="col-md-1 dash-after-input"></div>
-                      <div className="col-md-5">
-                        <Field
-                          name="balanceTo"
-                          type="text"
-                          placeholder='150'
-                          component={this.renderTextField}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-2">
-                  <Field
-                    name="currency"
-                    label={attributeLabels.currency}
-                    emptyOptionLabel="Any"
-                    component={this.renderSelectField}
-                  >
-                    {currencies.map(currency => (
-                      <option key={currency} value={currency}>
-                        {currency}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-2">
-                  <Field
-                    name="affiliateId"
-                    type="text"
-                    label='Affiliate'
-                    placeholder={attributeLabels.affiliateId}
-                    component={this.renderTextField}
-                  />
-                </div>
-                <div className="col-md-1">
-                  <Field
-                    name="statuses"
-                    label={attributeLabels.status}
-                    emptyOptionLabel="Any"
-                    component={this.renderSelectField}
-                  >
-                    {Object.keys(statusesLabels).map(status => (
-                      <option key={status} value={status}>
-                        {statusesLabels[status]}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-1">
-                  <Field
-                    name="tags"
-                    label={attributeLabels.tags}
-                    emptyOptionLabel="Any"
-                    component={this.renderSelectField}
-                  >
-                    {Object.keys(tags).map(item => (
-                      <option key={tags[item]} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-1">
-                  <Field
-                    name="segments"
-                    label={attributeLabels.segments}
-                    emptyOptionLabel="Any"
-                    component={this.renderSelectField}
-                  >
-                  </Field>
-                </div>
-                <div className="col-md-5">
-                  <div className="form-group">
-                    <label className="form-label">Registration date range</label>
-                    <div className="row">
-                      <div className="col-md-5">
-                        <Field
-                          name="registrationDateFrom"
-                          component={this.renderDateField}
-                          isValidDate={this.startDateValidator}
-                        />
-                      </div>
-                      <div className="col-md-5">
-                        <Field
-                          name="registrationDateTo"
-                          component={this.renderDateField}
-                          isValidDate={this.endDateValidator}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-2">
-                  <div className="form-group">
-                    <br/>
-                    <button
-                      disabled={submitting}
-                      className="btn btn-default btn-sm margin-inline font-weight-700"
-                      onClick={reset}
+                  <div className="col-md-2">
+                    <Field
+                      name="countries"
+                      label={attributeLabels.country}
+                      emptyOptionLabel="Any"
+                      component={this.renderSelectField}
                     >
-                      Reset
-                    </button>
-                    {' '}
-                    <button
-                      disabled={submitting}
-                      className="btn btn-primary btn-sm margin-inline font-weight-700"
-                      type="submit"
+                      {Object
+                        .keys(countries)
+                        .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                      }
+                    </Field>
+                  </div>
+                  <div className="col-md-1">
+                    <Field
+                      name="city"
+                      type="text"
+                      label="City"
+                      placeholder={attributeLabels.city}
+                      component={this.renderTextField}
+                    />
+                  </div>
+                  <div className="col-md-2">
+                    <div className="form-group">
+                      <label className="form-label">Age</label>
+                      <div className="row">
+                        <div className="col-md-5">
+                          <Field
+                            name="ageFrom"
+                            type="text"
+                            placeholder="20"
+                            component={this.renderTextField}
+                          />
+                        </div>
+                        <div className="col-md-1 dash-after-input" />
+                        <div className="col-md-5">
+                          <Field
+                            name="ageTo"
+                            type="text"
+                            placeholder="30"
+                            component={this.renderTextField}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-2">
+                    <div className="form-group">
+                      <label className="form-label">Balance</label>
+                      <div className="row">
+                        <div className="col-md-5">
+                          <Field
+                            name="balanceFrom"
+                            type="text"
+                            placeholder="100"
+                            component={this.renderTextField}
+                          />
+                        </div>
+                        <div className="col-md-1 dash-after-input" />
+                        <div className="col-md-5">
+                          <Field
+                            name="balanceTo"
+                            type="text"
+                            placeholder="150"
+                            component={this.renderTextField}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-2">
+                    <Field
+                      name="currency"
+                      label={attributeLabels.currency}
+                      emptyOptionLabel="Any"
+                      component={this.renderSelectField}
                     >
-                      Apply
-                    </button>
+                      {currencies.map(currency => (
+                        <option key={currency} value={currency}>
+                          {currency}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-2">
+                    <Field
+                      name="affiliateId"
+                      type="text"
+                      label="Affiliate"
+                      placeholder={attributeLabels.affiliateId}
+                      component={this.renderTextField}
+                    />
+                  </div>
+                  <div className="col-md-1">
+                    <Field
+                      name="statuses"
+                      label={attributeLabels.status}
+                      emptyOptionLabel="Any"
+                      component={this.renderSelectField}
+                    >
+                      {Object.keys(statusesLabels).map(status => (
+                        <option key={status} value={status}>
+                          {statusesLabels[status]}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
+                  <div className="col-md-1">
+                    <Field
+                      name="tags"
+                      label={attributeLabels.tags}
+                      emptyOptionLabel="Any"
+                      component={this.renderSelectField}
+                    >
+                      {Object.keys(tags).map(item => (
+                        <option key={tags[item]} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
+                  <div className="col-md-1">
+                    <Field
+                      name="segments"
+                      label={attributeLabels.segments}
+                      emptyOptionLabel="Any"
+                      component={this.renderSelectField}
+                    />
+                  </div>
+                  <div className="col-md-5">
+                    <div className="form-group">
+                      <label className="form-label">Registration date range</label>
+                      <div className="row">
+                        <div className="col-md-5">
+                          <Field
+                            name="registrationDateFrom"
+                            component={this.renderDateField}
+                            isValidDate={this.startDateValidator('registrationDateTo')}
+                          />
+                        </div>
+                        <div className="col-md-5">
+                          <Field
+                            name="registrationDateTo"
+                            component={this.renderDateField}
+                            isValidDate={this.endDateValidator('registrationDateFrom')}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-2">
+                    <div className="form-group">
+                      <br />
+                      <button
+                        disabled={submitting}
+                        className="btn btn-default btn-sm margin-inline font-weight-700"
+                        onClick={reset}
+                      >
+                        Reset
+                      </button>
+                      {' '}
+                      <button
+                        disabled={submitting}
+                        className="btn btn-primary btn-sm margin-inline font-weight-700"
+                        type="submit"
+                      >
+                        Apply
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 
-  renderTextField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <div className="input-group">
-        <label>{label}</label>
-        <input
-          {...input}
-          disabled={disabled}
-          type={type}
-          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-          placeholder={placeholder}
-          title={placeholder}
-        />
-      </div>
-    </div>;
-  };
+  renderTextField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => <div
+    className={classNames('form-group', { 'has-danger': touched && error })}
+  >
+    <div className="input-group">
+      <label>{label}</label>
+      <input
+        {...input}
+        disabled={disabled}
+        type={type}
+        className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
+        placeholder={placeholder}
+        title={placeholder}
+      />
+    </div>
+  </div>;
 
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
+  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => (
+    <div className={classNames('form-group', { 'has-danger': touched && error })}>
       <label>{label}</label>
       <div className="form-input-icon">
-        <i className="icmn-search"/>
+        <i className="icmn-search" />
         <input
           {...input}
           disabled={disabled}
@@ -326,11 +376,11 @@ class UserGridFilter extends Component {
           title={placeholder}
         />
       </div>
-    </div>;
-  };
+    </div>
+  );
 
-  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
+  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => (
+    <div className={classNames('form-group', { 'has-danger': touched && error })}>
       <label>{label}</label>
       <select
         {...input}
@@ -339,18 +389,18 @@ class UserGridFilter extends Component {
         <option value="">{emptyOptionLabel}</option>
         {children}
       </select>
-    </div>;
-  };
+    </div>
+  );
 
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
-    return <div className={classNames('form-group', { 'has-danger': touched && error })}>
+  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => (
+    <div className={classNames('form-group', { 'has-danger': touched && error })}>
       <div className="input-group">
         <DateTime
           dateFormat="MM/DD/YYYY"
           timeFormat="HH:mm"
           onChange={this.handleDateTimeChange(input.onChange)}
           value={input.value ? moment(input.value) : null}
-          closeOnSelect={true}
+          closeOnSelect
           inputProps={{
             disabled,
             placeholder,
@@ -358,11 +408,11 @@ class UserGridFilter extends Component {
           isValidDate={isValidDate}
         />
         <span className="input-group-addon">
-          <i className="fa fa-calendar"/>
+          <i className="fa fa-calendar" />
         </span>
       </div>
-    </div>;
-  };
+    </div>
+  );
 }
 
 export default reduxForm({
