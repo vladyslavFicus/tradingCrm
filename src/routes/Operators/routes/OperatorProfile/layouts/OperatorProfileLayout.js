@@ -84,8 +84,6 @@ export default class OperatorProfileLayout extends Component {
             <Information
               data={data}
               ips={ip.entities.content}
-              updateSubscription={() => {
-              } /* updateSubscription.bind(null, params.id) */}
               showNotes={false}
             />
           }

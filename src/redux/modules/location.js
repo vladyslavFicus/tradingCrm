@@ -1,4 +1,4 @@
-import createReducer from 'utils/createReducer';
+import createReducer from '../../utils/createReducer';
 
 const KEY = 'location';
 const LOCATION_CHANGE = `${KEY}/location-change`;

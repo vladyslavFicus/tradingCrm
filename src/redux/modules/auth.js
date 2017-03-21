@@ -1,6 +1,6 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
+import createReducer from '../../utils/createReducer';
+import createRequestAction from '../../utils/createRequestAction';
 
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
