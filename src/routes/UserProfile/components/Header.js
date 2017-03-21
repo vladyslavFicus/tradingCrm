@@ -7,7 +7,7 @@ import ProfileTags from 'components/ProfileTags';
 import Balances from './Balances';
 import { statusColorNames } from 'constants/user';
 import { shortify } from 'utils/uuid';
-import NoteButton from './NoteButton';
+import NoteButton from 'components/NoteButton';
 import './Header.scss';
 
 class Header extends Component {
@@ -18,7 +18,7 @@ class Header extends Component {
   };
 
   getRealWithBonusBalance = () => {
-    const { accumulatedBalances: { data: { real, bonus } } } = this.props;
+    const { accumulatedBalances: { real, bonus } } = this.props;
 
     return (
       <small>

@@ -92,7 +92,7 @@ export const initialState = {
   withdraw: withdrawInitialState,
 };
 
-const mapBalances = (items) =>
+export const mapBalances = (items) =>
   Object
     .keys(items)
     .reduce((result, item) => (
@@ -626,6 +626,7 @@ const actionTypes = {
   BALANCE,
   CHECK_LOCK,
   UPDATE_PROFILE,
+  FETCH_BALANCES,
 };
 
 const actionCreators = {
