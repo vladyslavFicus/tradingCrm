@@ -1,53 +1,34 @@
 import React, { Component, PropTypes } from 'react';
-import GridView, { GridColumn } from 'components/GridView';
 import classNames from 'classnames';
-import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
-import { actions, actionsLabels } from '../constants';
-import moment from 'moment';
-import Amount from 'components/Amount';
+import GridView, { GridColumn } from '../../../../../components/GridView';
 
 class View extends Component {
-  handlePageChanged = (page, filters) => {
-    if (!this.props.isLoading) {
-      this.props.fetchGameActivity(this.props.params.id, { ...filters, page: page - 1, });
-    }
+  static propTypes = {
+    entities: PropTypes.shape().isRequired,
+    games: PropTypes.shape().isRequired,
+    providers: PropTypes.shape().isRequired,
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+    isLoading: PropTypes.bool,
   };
 
-  handleFiltersChanged = (filters) => {
-    this.props.fetchGameActivity(this.props.params.id, { ...filters, page: 0, });
+  static defaultProps = {
+    isLoading: false,
   };
 
   componentWillMount() {
     this.handleFiltersChanged();
   }
 
-  renderEntityAction = (data, column) => {
-    if (typeof data.gameEvent[column.name] !== 'string') {
-      console.log(data.gameEvent)
+  handlePageChanged = (page, filters) => {
+    if (!this.props.isLoading) {
+      this.props.fetchGameActivity(this.props.params.id, { ...filters, page: page - 1 });
     }
-    return actionsLabels[data.gameEvent[column.name]] || data.gameEvent[column.name];
   };
 
-  renderGame = (data, column) => {
-    const { games } = this.props;
-
-    return games[data.gameEvent[column.name]] || data.gameEvent[column.name];
-  };
-
-  renderProvider = (data, column) => {
-    const { providers } = this.props;
-
-    return providers[data.gameEvent[column.name]] || data.gameEvent[column.name];
-  };
-
-  renderAmount = (data) => {
-    if (actions.WinCollectedEvent === data.gameEvent.name) {
-      return <Amount {...data.gameEvent.amountWin}/>
-    } else if (actions.BetPlacedEvent === data.gameEvent.name) {
-      return <Amount {...data.gameEvent.stake}/>;
-    }
-
-    return null;
+  handleFiltersChanged = (filters) => {
+    this.props.fetchGameActivity(this.props.params.id, { ...filters, page: 0 });
   };
 
   render() {
@@ -65,110 +46,10 @@ class View extends Component {
         activePage={entities.number + 1}
         totalPages={entities.totalPages}
       >
-        <GridColumn
-          name="name"
-          header="Action"
-          render={this.renderEntityAction}
-          filter={(onFilterChange) => <DropDownFilter
-            name="name"
-            items={{
-              '': 'All',
-              ...actionsLabels,
-            }}
-            onFilterChange={onFilterChange}
-          />}
-        />
-
-        <GridColumn
-          name="gameProviderId"
-          header="Game Provider"
-          render={this.renderProvider}
-          filter={(onFilterChange) => <DropDownFilter
-            name="gameProviderId"
-            items={{
-              '': 'All',
-              ...providers,
-            }}
-            onFilterChange={onFilterChange}
-          />}
-        />
-
-        <GridColumn
-          name="gameId"
-          header="Game"
-          render={this.renderGame}
-          filter={(onFilterChange) => <DropDownFilter
-            name="gameId"
-            items={{
-              '': 'All',
-              ...games,
-            }}
-            onFilterChange={onFilterChange}
-          />}
-        />
-
-        <GridColumn
-          name="gameSessionUUID"
-          header="Game Session"
-          render={(data, column) => data.gameEvent[column.name]}
-          filter={(onFilterChange) => <TextFilter
-            name="gameSessionUUID"
-            onFilterChange={onFilterChange}
-          />}
-        />
-
-        <GridColumn
-          name="playerIpAddress"
-          header="Action IP"
-          headerStyle={{ width: '10%' }}
-          render={(data, column) => data.gameEvent[column.name]}
-        />
-
-        <GridColumn
-          name="amount"
-          header="Amount"
-          headerStyle={{ width: '5%' }}
-          render={this.renderAmount}
-        />
-
-        <GridColumn
-          name="balance"
-          header="Balance"
-          headerStyle={{ width: '5%' }}
-          render={(data, column) => data.gameEvent[column.name]
-            ? <Amount {...data.gameEvent[column.name]}/>
-            : null
-          }
-        />
-
-        <GridColumn
-          name="dateTime"
-          header="Date"
-          render={(data, column) => data[column.name]
-            ? moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')
-            : null
-          }
-          filter={(onFilterChange) => <DateRangeFilter
-            onFilterChange={onFilterChange}
-            isOutsideRange={(date) => moment() <= date}
-          />}
-        />
+        <GridColumn name="" />
       </GridView>
     </div>;
   }
 }
-
-View.defaultProps = {
-  items: [],
-  games: {},
-  providers: {},
-  actions: {},
-};
-
-View.propTypes = {
-  items: PropTypes.array.isRequired,
-  games: PropTypes.object.isRequired,
-  providers: PropTypes.object.isRequired,
-};
 
 export default View;

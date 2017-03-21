@@ -1,13 +1,13 @@
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
-import createRequestAction from 'utils/createRequestAction';
+import timestamp from '../../../../../utils/timestamp';
+import buildQueryString from '../../../../../utils/buildQueryString';
+import createRequestAction from '../../../../../utils/createRequestAction';
 
 const KEY = 'user/game-activity';
 const FETCH_ACTIVITY = createRequestAction(`${KEY}/fetch-activity`);
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
 
-const mapGames = (items) => items.reduce((result, item) => ({
+const mapGames = items => items.reduce((result, item) => ({
   ...result,
   [item.gameId]: item.fullGameName,
 }), {});
@@ -38,7 +38,7 @@ function fetchGameActivity(playerUUID, filters = { page: 0 }) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/gaming-activity/${playerUUID}?${buildQueryString(filters)}`,
+        endpoint: `/gaming_activity/gaming/activity/${playerUUID}?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -70,7 +70,7 @@ const actionHandlers = {
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload
+      ...action.payload,
     },
     isLoading: false,
     receivedAt: timestamp(),
