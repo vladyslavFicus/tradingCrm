@@ -1,6 +1,5 @@
 import reducer, {
   actionTypes,
-  actionCreators,
   initialState
 } from 'redux/modules/auth';
 

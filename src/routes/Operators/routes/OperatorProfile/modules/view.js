@@ -1,6 +1,12 @@
 // import { CALL_API } from 'redux-api-middleware';
-// import createRequestAction from 'utils/createRequestAction';
+import createRequestAction from 'utils/createRequestAction';
 // import timestamp from 'utils/timestamp';
+import { sourceActionCreators as operatorSourceActionCreators } from 'redux/modules/operator';
+
+const KEY = 'operator-profile/view';
+const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
+
+const resetPassword = operatorSourceActionCreators.passwordResetRequest(RESET_PASSWORD);
 
 const operatorProfileInitialState = {
   data: {
@@ -19,7 +25,7 @@ const operatorProfileInitialState = {
   receivedAt: null,
 };
 
-function reducer(handlers, state, action) {
+function reducer(state, action) {
   // const handler = handlers[action.type];
   //
   // return handler ? handler(state, action) : state;
@@ -29,8 +35,20 @@ function reducer(handlers, state, action) {
   };
 }
 
-export const initialState = {
+const initialState = {
   operatorProfile: operatorProfileInitialState,
+};
+const actionTypes = {
+  RESET_PASSWORD,
+};
+const actionCreators = {
+  resetPassword,
+};
+
+export {
+  initialState,
+  actionTypes,
+  actionCreators,
 };
 
 export default reducer;

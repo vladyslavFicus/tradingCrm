@@ -1,3 +1,4 @@
+import createReducer from 'utils/createReducer';
 import { createRequestTypes } from 'utils/redux';
 import { getApiRoot } from 'config/index';
 
@@ -38,7 +39,6 @@ const initialState = {
   items: {},
   isLoading: false,
 };
-
 const actionHandlers = {
   [FETCH_FILE.SUCCESS]: (state, action) => ({
     ...state,
@@ -52,13 +52,6 @@ const actionHandlers = {
     ...initialState,
   }),
 };
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-};
-
 const actionTypes = {
   FETCH_FILE,
   CLEAR_FILES,
@@ -75,4 +68,4 @@ export {
   actionHandlers,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);
