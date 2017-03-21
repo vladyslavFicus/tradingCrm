@@ -17,6 +17,7 @@ class OperatorProfileLayout extends Component {
     changeStatus: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
     fetchIp: PropTypes.func.isRequired,
+    onResetPassword: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
     ip: PropTypes.object.isRequired,
   };
@@ -41,6 +42,16 @@ class OperatorProfileLayout extends Component {
 
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
+  };
+
+  handleResetPasswordClick = () => {
+    const { onResetPassword, data } = this.props;
+
+    return onResetPassword({ email: data.email });
+  };
+
+  handleStatusChange = () => {
+    // @TODO: Implement logic
   };
 
   render() {
@@ -68,6 +79,7 @@ class OperatorProfileLayout extends Component {
                 data={data}
                 lastIp={lastIp}
                 availableStatuses={availableStatuses}
+                onResetPasswordClick={this.handleResetPasswordClick}
                 onStatusChange={changeStatus}
               />
             </div>

@@ -21,6 +21,25 @@ function fetchProfile(type) {
   };
 }
 
+function passwordResetRequest(type) {
+  return ({ email }) => dispatch => dispatch({
+    [CALL_API]: {
+      endpoint: 'auth/password/reset/request',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+      types: [
+        type.REQUEST,
+        type.SUCCESS,
+        type.FAILURE,
+      ],
+    },
+  });
+}
+
 function updateProfile(type) {
   return (uuid, data) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -153,15 +172,6 @@ function fetchESEntities(type) {
   };
 }
 
-const initialState = {};
-const actionHandlers = {};
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-};
-
 const actionTypes = {};
 const actionCreators = {
   fetchProfile,
@@ -169,13 +179,10 @@ const actionCreators = {
   fetchESEntities,
   updateProfile,
   updateIdentifier,
+  passwordResetRequest,
 };
 
 export {
-  initialState,
   actionTypes,
   actionCreators,
-  actionHandlers,
 };
-
-export default reducer;

@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
-import Amount from 'components/Amount';
-import AccountStatus from './AccountStatus';
 import { SubmissionError } from 'redux-form';
-import ProfileTags from 'components/ProfileTags';
+import AccountStatus from './AccountStatus';
+import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
+import ProfileTags from 'components/ProfileTags';
+import Amount from 'components/Amount';
+import NoteButton from 'components/NoteButton';
 import { statusColorNames } from 'constants/user';
 import { shortify } from 'utils/uuid';
-import NoteButton from 'components/NoteButton';
 import './Header.scss';
 
 class Header extends Component {
@@ -26,14 +27,15 @@ class Header extends Component {
       suspendEndDate: PropTypes.string,
       profileTags: PropTypes.array,
     }),
+    lastIp: PropTypes.object,
     accumulatedBalances: PropTypes.object,
+    availableStatuses: PropTypes.array,
+    availableTags: PropTypes.array,
     addTag: PropTypes.func.isRequired,
     deleteTag: PropTypes.func.isRequired,
     onAddNoteClick: PropTypes.func.isRequired,
-    lastIp: PropTypes.object,
-    availableStatuses: PropTypes.array,
-    availableTags: PropTypes.array,
     onStatusChange: PropTypes.func.isRequired,
+    onResetPasswordClick: PropTypes.func.isRequired,
   };
 
   getUserAge = () => {
@@ -66,7 +68,7 @@ class Header extends Component {
     if (profileData && profileData.uuid) {
       onStatusChange({ ...data, playerUUID: profileData.uuid });
     } else {
-      throw new SubmissionError({ _error: 'User uuid not found.' })
+      throw new SubmissionError({ _error: 'User uuid not found.' });
     }
   };
 
@@ -144,6 +146,12 @@ class Header extends Component {
             >
               Add note
             </NoteButton>
+            {' '}
+            <UserProfileOptions
+              items={[
+                { label: 'Reset password', onClick: this.props.onResetPasswordClick },
+              ]}
+            />
           </div>
         </div>
 
@@ -185,7 +193,7 @@ class Header extends Component {
               { moment(registrationDate).fromNow() }
             </div>
             <small>
-              on { moment(registrationDate).format('DD.MM.YYYY') } <br/>
+              on { moment(registrationDate).format('DD.MM.YYYY') } <br />
             </small>
           </div>
           <div className="width-20">
@@ -197,7 +205,7 @@ class Header extends Component {
               Affiliate {' '} { !!affiliateId && affiliateId}
             </span>
             <div className="player__account-bold">
-              BTAG {'-'} { !!btag ? btag : 'Empty' }
+              BTAG {'-'} { btag || 'Empty' }
             </div>
           </div>
         </div>

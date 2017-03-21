@@ -1,3 +1,4 @@
+import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
@@ -76,7 +77,6 @@ const initialState = {
   isFailed: false,
   receivedAt: null,
 };
-
 const actionHandlers = {
   [FETCH_PROFILE.REQUEST]: (state, action) => ({
     ...state,
@@ -99,13 +99,6 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
 };
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-};
-
 const actionTypes = {
   FETCH_PROFILE,
 };
@@ -122,4 +115,4 @@ export {
   actionHandlers,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

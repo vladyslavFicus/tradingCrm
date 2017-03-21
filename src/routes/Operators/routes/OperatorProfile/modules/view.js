@@ -1,9 +1,11 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
+import { sourceActionCreators as operatorSourceActionCreators } from 'redux/modules/operator';
 
 const KEY = 'operator-profile';
 const PROFILE = createRequestAction(`${KEY}/view`);
+const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 
 function fetchProfile(uuid) {
@@ -101,10 +103,12 @@ const actionCreators = {
   fetchProfile,
   updateProfile,
   changeStatus,
+  resetPassword,
 };
 
 const actionTypes = {
   PROFILE,
+  RESET_PASSWORD,
 };
 
 export {

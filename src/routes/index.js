@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 import onEnterStack from 'utils/onEnterStack';
 import requireAuth from 'utils/requireAuth';
 import BaseLayout from '../layouts/BaseLayout';
@@ -6,6 +7,7 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
  * Routes
  */
 import SignInRoute from './SignIn';
+import SetPasswordRoute from './SetPassword';
 import UserProfileRoute from './UserProfile';
 import OperatorProfileRoute from './Operators/routes/OperatorProfile';
 import DashboardRoute from './Dashboard';
@@ -20,12 +22,13 @@ import NotFoundRoute from './NotFound';
 import LogoutRoute from './Logout';
 import ReportsRoute from './Reports';
 
-export const createRoutes = (store) => ({
+export const createRoutes = store => ({
   childRoutes: [
     {
       component: BaseLayout,
       childRoutes: [
         SignInRoute(store),
+        SetPasswordRoute(store),
         onEnterStack({
           component: AuthenticatedLayout,
           childRoutes: [

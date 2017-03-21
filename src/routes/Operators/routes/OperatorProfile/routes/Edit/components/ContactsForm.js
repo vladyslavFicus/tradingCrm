@@ -66,6 +66,14 @@ class ContactsForm extends Component {
   }
 }
 
+OperatorContactsForm.propTypes = {
+  handleSubmit: PropTypes.func,
+  onSubmit: PropTypes.func,
+  pristine: PropTypes.func,
+  submitting: PropTypes.bool,
+  valid: PropTypes.bool,
+};
+
 export default reduxForm({
   form: 'updateOperatorProfileContacts',
   validate: validator,
