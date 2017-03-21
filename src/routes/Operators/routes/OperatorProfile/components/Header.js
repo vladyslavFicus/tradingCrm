@@ -1,19 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'reactstrap';
-import { shortify } from 'utils/uuid';
-import './Header.scss';
 import moment from 'moment';
+import { Button } from 'reactstrap';
+import { shortify } from '../../../../../utils/uuid';
+import { statusColorNames } from '../../../../../constants/operators';
 import AccountStatus from './AccountStatus';
-import { statusColorNames } from 'constants/operators';
+import './Header.scss';
 
 class Header extends Component {
   static propTypes = {
-    data: PropTypes.shape({
-      uuid: PropTypes.string,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      registrationDate: PropTypes.string,
-    }),
+    data: PropTypes.object,
+    lastIp: PropTypes.object,
     availableStatuses: PropTypes.array.isRequired,
     onStatusChange: PropTypes.func.isRequired,
   };
@@ -22,6 +18,32 @@ class Header extends Component {
     const { data: profileData, onStatusChange } = this.props;
 
     onStatusChange({ ...data, playerUUID: profileData.uuid });
+  };
+
+  renderLastLogin = () => {
+    const { lastIp } = this.props;
+    return !lastIp
+      ? 'Unavailable'
+      : [
+        <div
+          key="time-ago"
+          className="header-block-text"
+        >
+          {lastIp.signInDate && moment(lastIp.signInDate).fromNow()}
+        </div>,
+        <div
+          key="time"
+          className="header-block-secondary-text"
+        >
+          {lastIp.signInDate && ` on ${moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}`}
+        </div>,
+        <div
+          key="country"
+          className="header-block-secondary-text"
+        >
+          {lastIp.country && ` from ${lastIp.country}`}
+        </div>,
+      ];
   };
 
   render() {
@@ -87,9 +109,8 @@ class Header extends Component {
             }
           </div>
           <div className="header-block width-33">
-            <div className="header-block-title">Account</div>
-            <div className="header-block-text">Lorem ipsum dolor sit</div>
-            <div className="header-block-secondary-text">Lorem ipsum dolor</div>
+            <div className="header-block-title">Last Login</div>
+            {this.renderLastLogin()}
           </div>
         </div>
       </div>

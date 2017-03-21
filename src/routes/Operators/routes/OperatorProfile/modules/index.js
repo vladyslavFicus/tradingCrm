@@ -6,16 +6,25 @@ import view, {
   initialState as viewInitialState,
 } from './view';
 
+import ip, {
+  actionCreators as ipActionCreators,
+  actionTypes as ipActionTypes,
+  initialState as ipInitialState,
+} from './ip';
+
 const actionCreators = {
   ...viewActionCreators,
+  ...ipActionCreators,
 };
 
 const actionTypes = {
   ...viewActionTypes,
+  ...ipActionTypes,
 };
 
 const initialState = {
   view: viewInitialState,
+  ip: ipInitialState,
 };
 
 export {
@@ -26,4 +35,5 @@ export {
 
 export default combineReducers({
   view,
+  ip,
 });

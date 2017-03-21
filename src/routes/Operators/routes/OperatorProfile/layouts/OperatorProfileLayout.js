@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import Tabs from 'components/Tabs';
-import Information from 'components/Information/Container';
-import { operatorProfileTabs } from 'config/menu';
+import Tabs from '../../../../../components/Tabs';
+import Information from '../components/Information';
+import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
-import "./OperatorProfileLayout.scss";
+import './OperatorProfileLayout.scss';
 
 class OperatorProfileLayout extends Component {
   static propTypes = {
@@ -16,7 +16,9 @@ class OperatorProfileLayout extends Component {
     availableStatuses: PropTypes.array.isRequired,
     changeStatus: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
+    fetchIp: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
+    ip: PropTypes.object.isRequired,
   };
 
   state = {
@@ -24,10 +26,16 @@ class OperatorProfileLayout extends Component {
   };
 
   componentDidMount() {
-    const { isLoading, fetchProfile, params: { id } } = this.props;
+    const {
+      isLoading,
+      fetchProfile,
+      params: { id },
+      fetchIp,
+    } = this.props;
 
     if (!isLoading) {
-      fetchProfile(id);
+      fetchProfile(id)
+        .then(() => fetchIp(id, { limit: 10 }));
     }
   }
 
@@ -41,6 +49,8 @@ class OperatorProfileLayout extends Component {
       params,
       children,
       data,
+      ip,
+      lastIp,
       availableStatuses,
       changeStatus,
     } = this.props;
@@ -49,12 +59,6 @@ class OperatorProfileLayout extends Component {
       informationShown,
     } = this.state;
 
-    const ip = {
-      entities: {
-        content: [],
-      },
-    };
-
     return (
       <div className="player container panel operator-profile-layout">
         <div className="container-fluid">
@@ -62,6 +66,7 @@ class OperatorProfileLayout extends Component {
             <div className="col-md-12">
               <Header
                 data={data}
+                lastIp={lastIp}
                 availableStatuses={availableStatuses}
                 onStatusChange={changeStatus}
               />
@@ -74,7 +79,7 @@ class OperatorProfileLayout extends Component {
                 className="operator-profile-layout-info-toggle-button"
                 onClick={this.handleToggleInformationBlock}
               >
-                {!informationShown ? 'Show details' : 'Hide details'}
+                {informationShown ? 'Hide details' : 'Show details'}
               </button>
               <div className="col-xs-12">
                 <hr />
@@ -87,8 +92,6 @@ class OperatorProfileLayout extends Component {
             <Information
               data={data}
               ips={ip.entities.content}
-              updateSubscription={() => {} /* updateSubscription.bind(null, params.id) */}
-              showNotes={false}
             />
           }
 

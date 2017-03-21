@@ -83,7 +83,9 @@ function changeStatus() {
 }
 
 const initialState = {
-  data: {},
+  data: {
+    authorities: [],
+  },
   error: null,
   isLoading: false,
   receivedAt: null,
