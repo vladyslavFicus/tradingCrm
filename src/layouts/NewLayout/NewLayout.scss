@@ -1,0 +1,60 @@
+@import "~bootstrap/scss/bootstrap.scss";
+
+.navbar {
+  padding: 0.6rem 1.5rem;
+  font-size: 18px;
+  .fa {
+    color: #464a4c;
+  }
+}
+
+.navbar-brand {
+  display: block;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    width: 26px;
+  }
+}
+
+.dropdown__left {
+  padding: 0 1.5rem;
+  border-left: 1px solid #464a4c;
+  border-right: 1px solid #464a4c;
+  line-height: 1;
+  .dropdown-toggle {
+    padding: 0 !important;
+    font-size: 1em;
+    &:after {
+      display: none;
+    }
+  }
+  .fa {
+    padding-left: 8px;
+  }
+}
+
+.form-inline {
+  .form-control {
+    height: 28px;
+    background: transparent;
+    font-size: 13px;
+    border: none;
+    &:focus {
+      border: none;
+    }
+  }
+}
+
+.navigation-right {
+  .fa {
+    color: #ffffff;
+  }
+}
+
+
