@@ -19,6 +19,7 @@ import NoteButton from "components/NoteButton";
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
 import PaymentRejectModal from 'routes/Payments/components/PaymentRejectModal';
+import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 
 const defaultModalState = {
   name: null,
@@ -215,10 +216,22 @@ class View extends Component {
 
   renderDevice = (data) => {
     return (
-      <i
-        className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
-        aria-hidden="true"
-      />
+      <div>
+        <i
+          id={data.paymentId}
+          className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
+          aria-hidden="true"
+        />
+        <UncontrolledTooltip
+          placement="bottom"
+          target={data.paymentId}
+          delay={{
+            show: 350, hide: 250,
+          }}
+        >
+          {data.userAgent ? data.userAgent : 'User agent not defined'}
+        </UncontrolledTooltip>
+      </div>
     );
   };
 
