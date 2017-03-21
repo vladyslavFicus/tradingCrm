@@ -7,8 +7,10 @@ import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
  */
 import SignInRoute from './SignIn';
 import UserProfileRoute from './UserProfile';
+import OperatorProfileRoute from './Operators/routes/OperatorProfile';
 import DashboardRoute from './Dashboard';
 import UsersRoute from './Users';
+import OperatorsRoute from './Operators';
 import ProfileReviewRoute from './ProfileReview';
 import PaymentsRoute from './Payments';
 import BonusCampaignsRoute from './BonusCampaigns';
@@ -20,10 +22,6 @@ import ReportsRoute from './Reports';
 
 export const createRoutes = (store) => ({
   childRoutes: [
-    onEnterStack(
-      UserProfileRoute(store),
-      requireAuth(store)
-    ),
     {
       component: BaseLayout,
       childRoutes: [
@@ -33,6 +31,7 @@ export const createRoutes = (store) => ({
           childRoutes: [
             DashboardRoute(store),
             UsersRoute(store),
+            OperatorsRoute(store),
             ProfileReviewRoute(store),
             PaymentsRoute(store),
             BonusCampaignsRoute(store),
@@ -42,9 +41,15 @@ export const createRoutes = (store) => ({
             ReportsRoute(store),
           ],
         }, requireAuth(store)),
-        NotFoundRoute(store),
       ],
     },
+    onEnterStack({
+      childRoutes: [
+        UserProfileRoute(store),
+        OperatorProfileRoute(store),
+      ],
+    }, requireAuth(store)),
+    NotFoundRoute(store),
   ],
 });
 

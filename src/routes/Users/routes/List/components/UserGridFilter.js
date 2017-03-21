@@ -129,6 +129,82 @@ class UserGridFilter extends Component {
     return this.props.onSubmit(data);
   };
 
+  renderTextField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <div className="input-group">
+          <label>{label}</label>
+          <input
+            {...input}
+            disabled={disabled}
+            type={type}
+            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
+            placeholder={placeholder}
+            title={placeholder}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <label>{label}</label>
+        <div className="form-input-icon">
+          <i className="icmn-search" />
+          <input
+            {...input}
+            disabled={disabled}
+            type={type}
+            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
+            placeholder={placeholder}
+            title={placeholder}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <label>{label}</label>
+        <select
+          {...input}
+          className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
+        >
+          <option value="">{emptyOptionLabel}</option>
+          {children}
+        </select>
+      </div>
+    );
+  };
+
+  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
+    return (
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
+        <div className="input-group">
+          <DateTime
+            dateFormat="MM/DD/YYYY"
+            timeFormat="HH:mm"
+            onChange={this.handleDateTimeChange(input.onChange)}
+            value={input.value ? moment(input.value) : null}
+            closeOnSelect
+            inputProps={{
+              disabled,
+              placeholder,
+            }}
+            isValidDate={isValidDate}
+          />
+          <span className="input-group-addon">
+            <i className="fa fa-calendar" />
+          </span>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const {
       submitting,
@@ -319,7 +395,6 @@ class UserGridFilter extends Component {
                   </div>
                   <div className="col-md-2">
                     <div className="form-group">
-                      <br />
                       <button
                         disabled={submitting}
                         className="btn btn-default btn-sm margin-inline font-weight-700"
@@ -327,7 +402,6 @@ class UserGridFilter extends Component {
                       >
                         Reset
                       </button>
-                      {' '}
                       <button
                         disabled={submitting}
                         className="btn btn-primary btn-sm margin-inline font-weight-700"
@@ -345,74 +419,6 @@ class UserGridFilter extends Component {
       </div>
     );
   }
-
-  renderTextField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => <div
-    className={classNames('form-group', { 'has-danger': touched && error })}
-  >
-    <div className="input-group">
-      <label>{label}</label>
-      <input
-        {...input}
-        disabled={disabled}
-        type={type}
-        className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-        placeholder={placeholder}
-        title={placeholder}
-      />
-    </div>
-  </div>;
-
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => (
-    <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <label>{label}</label>
-      <div className="form-input-icon">
-        <i className="icmn-search" />
-        <input
-          {...input}
-          disabled={disabled}
-          type={type}
-          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-          placeholder={placeholder}
-          title={placeholder}
-        />
-      </div>
-    </div>
-  );
-
-  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => (
-    <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <label>{label}</label>
-      <select
-        {...input}
-        className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
-      >
-        <option value="">{emptyOptionLabel}</option>
-        {children}
-      </select>
-    </div>
-  );
-
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => (
-    <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <div className="input-group">
-        <DateTime
-          dateFormat="MM/DD/YYYY"
-          timeFormat="HH:mm"
-          onChange={this.handleDateTimeChange(input.onChange)}
-          value={input.value ? moment(input.value) : null}
-          closeOnSelect
-          inputProps={{
-            disabled,
-            placeholder,
-          }}
-          isValidDate={isValidDate}
-        />
-        <span className="input-group-addon">
-          <i className="fa fa-calendar" />
-        </span>
-      </div>
-    </div>
-  );
 }
 
 export default reduxForm({

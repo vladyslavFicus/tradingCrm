@@ -204,7 +204,6 @@ class TransactionGridFilter extends Component {
                 <button disabled={submitting} className="btn btn-default btn-sm margin-inline font-weight-700" onClick={reset}>
                   Reset
                 </button>
-                {' '}
                 <button disabled={submitting} className="btn btn-primary btn-sm margin-inline font-weight-700" type="submit">
                   Apply
                 </button>
