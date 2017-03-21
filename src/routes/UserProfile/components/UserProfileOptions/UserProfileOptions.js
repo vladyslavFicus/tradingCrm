@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const UserProfileOption = PropTypes.shape({
   label: PropTypes.string,

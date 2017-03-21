@@ -11,25 +11,29 @@ import { statusActions } from 'constants/user';
 const mapStateToProps = (state) => {
   const {
     profile: {
-      view: userProfile, ip, accumulatedBalances: { data: accumulatedBalances }, notes,
+      view,
+      ip,
+      accumulatedBalances: { data: accumulatedBalances },
+      notes,
     }, auth,
   } = state;
   const lastIp = ip.entities.content
     ? ip.entities.content[ip.entities.content.length - 1]
     : null;
+  let availableStatuses = [];
+
+  if (view && view.profile && view.profile.data && statusActions[view.profile.data.profileStatus]) {
+    availableStatuses = statusActions[view.profile.data.profileStatus];
+  }
 
   return {
-    ...userProfile,
+    ...view,
     ip,
     lastIp,
     notes,
     accumulatedBalances,
     availableTags: getAvailableTags(auth.department),
-    availableStatuses: userProfile && userProfile.profile && userProfile.profile.data
-      ? statusActions[userProfile.profile.data.profileStatus]
-        ? statusActions[userProfile.profile.data.profileStatus]
-        : []
-      : [],
+    availableStatuses,
   };
 };
 

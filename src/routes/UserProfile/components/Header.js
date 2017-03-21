@@ -12,6 +12,32 @@ import { shortify } from 'utils/uuid';
 import './Header.scss';
 
 class Header extends Component {
+  static propTypes = {
+    data: PropTypes.shape({
+      balance: PropTypes.object,
+      registrationDate: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      username: PropTypes.string,
+      uuid: PropTypes.string,
+      languageCode: PropTypes.string,
+      btag: PropTypes.string,
+      affiliateId: PropTypes.string,
+      profileStatus: PropTypes.string,
+      suspendEndDate: PropTypes.string,
+      profileTags: PropTypes.array,
+    }),
+    lastIp: PropTypes.object,
+    accumulatedBalances: PropTypes.object,
+    availableStatuses: PropTypes.array,
+    availableTags: PropTypes.array,
+    addTag: PropTypes.func.isRequired,
+    deleteTag: PropTypes.func.isRequired,
+    onAddNoteClick: PropTypes.func.isRequired,
+    onStatusChange: PropTypes.func.isRequired,
+    onResetPasswordClick: PropTypes.func.isRequired,
+  };
+
   getUserAge = () => {
     const { data: { birthDate } } = this.props;
 
@@ -188,30 +214,5 @@ class Header extends Component {
     );
   }
 }
-
-Header.propTypes = {
-  data: PropTypes.shape({
-    balance: PropTypes.object,
-    registrationDate: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    username: PropTypes.string,
-    uuid: PropTypes.string,
-    languageCode: PropTypes.string,
-    btag: PropTypes.string,
-    affiliateId: PropTypes.string,
-    profileStatus: PropTypes.string,
-    suspendEndDate: PropTypes.string,
-    profileTags: PropTypes.array,
-  }),
-  lastIp: PropTypes.object,
-  availableStatuses: PropTypes.array,
-  availableTags: PropTypes.array,
-  addTag: PropTypes.func.isRequired,
-  deleteTag: PropTypes.func.isRequired,
-  onAddNoteClick: PropTypes.func.isRequired,
-  onStatusChange: PropTypes.func.isRequired,
-  onResetPasswordClick: PropTypes.func.isRequired,
-};
 
 export default Header;

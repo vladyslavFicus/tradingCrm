@@ -59,6 +59,7 @@ class ProfileLayout extends Component {
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
+    resetPassword: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {

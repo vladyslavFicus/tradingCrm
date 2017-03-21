@@ -16,7 +16,7 @@ const deleteNote = noteActionCreators.deleteNote(DELETE_NOTE);
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...state.filters, ...action.meta.filters, },
+    filters: { ...state.filters, ...action.meta.filters },
     isLoading: true,
     error: null,
   }),
