@@ -1,10 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Tabs from '../../../components/Tabs';
+import Modal from '../../../components/Modal';
 import Header from '../components/Header';
 import Information from '../../../components/Information/Container';
-import NotePopover from 'components/NotePopover';
-import { userProfileTabs } from 'config/menu';
-import { targetTypes } from 'constants/note';
+import NotePopover from '../../../components/NotePopover';
+import { userProfileTabs } from '../../../config/menu';
+import { targetTypes } from '../../../constants/note';
+import PropTypes from '../../../constants/propTypes';
 import './ProfileLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -12,8 +14,54 @@ const popoverInitialState = {
   name: null,
   params: {},
 };
+const INFO_MODAL = 'info-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
+};
 
 class ProfileLayout extends Component {
+  static propTypes = {
+    profile: PropTypes.shape({
+      balance: PropTypes.object,
+      registrationDate: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      username: PropTypes.string,
+      uuid: PropTypes.string,
+      languageCode: PropTypes.string,
+      btag: PropTypes.string,
+      affiliateId: PropTypes.string,
+      profileStatus: PropTypes.string,
+      suspendEndDate: PropTypes.string,
+      profileTags: PropTypes.array,
+    }).isRequired,
+    children: PropTypes.any.isRequired,
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+    ip: PropTypes.pageableState(PropTypes.ipEntity).isRequired,
+    notes: PropTypes.pageableState(PropTypes.noteEntity).isRequired,
+    lastIp: PropTypes.ipEntity,
+    location: PropTypes.object.isRequired,
+    availableTags: PropTypes.array.isRequired,
+    addTag: PropTypes.func.isRequired,
+    deleteTag: PropTypes.func.isRequired,
+    availableStatuses: PropTypes.arrayOf(PropTypes.object),
+    accumulatedBalances: PropTypes.object.isRequired,
+    updateSubscription: PropTypes.func.isRequired,
+    changeStatus: PropTypes.func.isRequired,
+    loadFullProfile: PropTypes.func.isRequired,
+    fetchActiveBonus: PropTypes.func.isRequired,
+    fetchIp: PropTypes.func.isRequired,
+    fetchAccumulatedBalances: PropTypes.func.isRequired,
+    fetchNotes: PropTypes.func.isRequired,
+    addNote: PropTypes.func.isRequired,
+    editNote: PropTypes.func.isRequired,
+    deleteNote: PropTypes.func.isRequired,
+    resetPassword: PropTypes.func.isRequired,
+  };
+
   static childContextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
@@ -22,6 +70,7 @@ class ProfileLayout extends Component {
 
   state = {
     popover: { ...popoverInitialState },
+    modal: { ...modalInitialState },
     noteChangedCallback: null,
     informationShown: true,
   };
@@ -56,6 +105,20 @@ class ProfileLayout extends Component {
 
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
+  };
+
+  handleOpenModal = (name, params) => {
+    this.setState({
+      modal: {
+        ...this.state.modal,
+        name,
+        params,
+      },
+    });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ modal: { ...modalInitialState } });
   };
 
   handleToggleInformationBlock = () => {
@@ -97,18 +160,16 @@ class ProfileLayout extends Component {
   handleDeleteNoteClick = (item) => {
     const { noteChangedCallback } = this.state;
 
-    return new Promise((resolve) => {
-      return this.props.deleteNote(item.uuid)
-        .then(() => {
-          this.handlePopoverHide();
-          this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
-          if (typeof noteChangedCallback === 'function') {
-            noteChangedCallback();
-          }
+    return new Promise(resolve => this.props.deleteNote(item.uuid)
+      .then(() => {
+        this.handlePopoverHide();
+        this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
+        if (typeof noteChangedCallback === 'function') {
+          noteChangedCallback();
+        }
 
-          return resolve();
-        });
-    });
+        return resolve();
+      }));
   };
 
   handleSubmitNote = (data) => {
@@ -117,9 +178,8 @@ class ProfileLayout extends Component {
     return new Promise((resolve) => {
       if (data.uuid) {
         return resolve(this.props.editNote(data.uuid, data));
-      } else {
-        return resolve(this.props.addNote(data));
       }
+      return resolve(this.props.addNote(data));
     }).then(() => {
       this.handlePopoverHide();
       this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
@@ -134,8 +194,32 @@ class ProfileLayout extends Component {
     this.setState({ popover: { ...popoverInitialState } });
   };
 
+  handleResetPasswordClick = async () => {
+    const { resetPassword, profile: { data } } = this.props;
+
+    if (data.email) {
+      const action = await resetPassword({ email: data.email });
+
+      if (action && !action.error) {
+        this.handleOpenModal(INFO_MODAL, {
+          header: 'Reset password',
+          body: (
+            <span>
+              Reset password link was sent to <strong>{data.email}</strong>.
+            </span>
+          ),
+          footer: (
+            <button className="btn btn-default" onClick={this.handleCloseModal}>
+              Close
+            </button>
+          ),
+        });
+      }
+    }
+  };
+
   render() {
-    const { popover, informationShown } = this.state;
+    const { modal, popover, informationShown } = this.state;
     const {
       profile: { data },
       children,
@@ -166,6 +250,7 @@ class ProfileLayout extends Component {
             addTag={addTag.bind(null, params.id)}
             deleteTag={deleteTag.bind(null, params.id)}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
+            onResetPasswordClick={this.handleResetPasswordClick}
           />
 
           <div className="row">
@@ -187,7 +272,7 @@ class ProfileLayout extends Component {
               updateSubscription={updateSubscription.bind(null, params.id)}
               onEditNoteClick={this.handleEditNoteClick}
               notes={notes}
-              showNotes={true}
+              showNotes
             />
           }
 
@@ -217,6 +302,14 @@ class ProfileLayout extends Component {
             {...popover.params}
             onSubmit={this.handleSubmitNote}
             onDelete={this.handleDeleteNoteClick}
+          />
+        }
+        {
+          modal.name === INFO_MODAL &&
+          <Modal
+            onClose={this.handleCloseModal}
+            isOpen
+            {...modal.params}
           />
         }
       </div>
