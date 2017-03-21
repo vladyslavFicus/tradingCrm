@@ -3,15 +3,14 @@ import { Link } from 'react-router';
 import classNames from 'classnames';
 import moment from 'moment';
 import UserGridFilter from './UserGridFilter';
-import './List.scss';
-import GridView, { GridColumn } from 'components/GridView';
-import { shortify } from 'utils/uuid';
-import Panel, { Content } from 'components/Panel';
-import Amount from 'components/Amount';
+import GridView, { GridColumn } from '../../../../../components/GridView';
+import { shortify } from '../../../../../utils/uuid';
+import Panel, { Content } from '../../../../../components/Panel';
+import Amount from '../../../../../components/Amount';
 import {
-statusColorNames as userStatusColorNames,
-statusesLabels as userStatusesLabels,
-} from 'constants/user';
+  statusColorNames as userStatusColorNames,
+  statusesLabels as userStatusesLabels,
+} from '../../../../../constants/user';
 
 class List extends Component {
   static propTypes = {
