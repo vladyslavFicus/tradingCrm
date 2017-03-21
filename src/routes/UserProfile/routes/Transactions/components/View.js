@@ -92,7 +92,9 @@ class View extends Component {
     });
   };
 
-  handleFilterSubmit = (filters) => {
+  handleFilterSubmit = (inputFilters) => {
+    const filters = inputFilters;
+
     if (filters.states) {
       filters.states = [filters.states];
     }
@@ -119,7 +121,9 @@ class View extends Component {
     });
   };
 
-  handleOpenModal = (e, name, params) => {
+  handleOpenModal = (e, name, inputParams) => {
+    const params = inputParams;
+
     e.preventDefault();
     e.stopPropagation();
 
@@ -259,7 +263,7 @@ class View extends Component {
         <NoteButton
           id={`bonus-item-note-button-${data.paymentId}`}
           className="cursor-pointer margin-right-5"
-          onClick={(id) => this.handleNoteClick(id, data)}
+          onClick={id => this.handleNoteClick(id, data)}
         >
           {data.note
             ? <i className="fa fa-sticky-note" />
@@ -270,11 +274,11 @@ class View extends Component {
           data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
           <a
             href="#"
-            onClick={(e) => this.handleOpenModal(e, 'payment-detail', {
+            onClick={e => this.handleOpenModal(e, 'payment-detail', {
               payment: data,
               profile: this.props.profile,
               accumulatedBalances: this.props.accumulatedBalances,
-          })} title={'View payment'}
+            })} title={'View payment'}
           >
             <i className="fa fa-search" />
           </a>
@@ -302,7 +306,7 @@ class View extends Component {
           onPageChange={this.handlePageChanged}
           activePage={entities.number + 1}
           totalPages={entities.totalPages}
-          rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
+          rowClassName={data => data.amountBarrierReached ? 'highlighted-row' : ''}
           lazyLoad
         >
           <GridColumn

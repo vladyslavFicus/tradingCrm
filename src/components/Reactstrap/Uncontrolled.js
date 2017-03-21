@@ -7,20 +7,15 @@ const components = {
 
 Object.keys(components).forEach((key) => {
   const Tag = components[key];
-  const defaultValue = false;
 
   class Uncontrolled extends Component {
-    constructor(props) {
-      super(props);
+    state = {
+      isOpen: false,
+    };
 
-      this.state = { isOpen: defaultValue };
-
-      this.toggle = this.toggle.bind(this);
-    }
-
-    toggle() {
+    toggle = () => {
       this.setState({ isOpen: !this.state.isOpen });
-    }
+    };
 
     render() {
       return <Tag isOpen={this.state.isOpen} toggle={this.toggle} {...this.props} />;
