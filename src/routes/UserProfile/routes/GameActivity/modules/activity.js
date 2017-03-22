@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
 import _ from 'lodash';
-import config, { getApiRoot } from '../../../../../config/index';
+import { getApiRoot } from '../../../../../config/index';
 import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
