@@ -21,6 +21,11 @@ const config = {
     { value: 'role4', label: 'Role 4' },
   ],
   availableTags: [],
+  providers: {
+    stakelogic: 'Stakelogic',
+    netent: 'Netent',
+    igromat: 'Igromat',
+  },
   components: {
     Currency: {
       currencies: {},

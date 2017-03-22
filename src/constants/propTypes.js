@@ -10,19 +10,23 @@ PropTypes.pageable = content => PropTypes.shape({
   number: PropTypes.number.isRequired,
   numberOfElements: PropTypes.number.isRequired,
   size: PropTypes.number.isRequired,
-  sort: PropTypes.array,
+  sort: PropTypes.arrayOf(PropTypes.shape({
+    ascending: PropTypes.bool.isRequired,
+    direction: PropTypes.string.isRequired,
+    ignoreCase: PropTypes.bool.isRequired,
+    nullHandling: PropTypes.string.isRequired,
+    property: PropTypes.string.isRequired,
+  })),
   totalElements: PropTypes.number.isRequired,
   totalPages: PropTypes.number.isRequired,
   content: PropTypes.arrayOf(content).isRequired,
 });
-
 PropTypes.pageableState = content => PropTypes.shape({
   entities: PropTypes.pageable(content).isRequired,
   isLoading: PropTypes.bool.isRequired,
   receivedAt: PropTypes.number,
   error: PropTypes.object,
 });
-
 PropTypes.ipEntity = PropTypes.shape({
   agent: PropTypes.string.isRequired,
   signInDate: PropTypes.string.isRequired,
@@ -30,7 +34,6 @@ PropTypes.ipEntity = PropTypes.shape({
   ipAddress: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
-
 PropTypes.noteEntity = PropTypes.shape({
   content: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
@@ -42,6 +45,22 @@ PropTypes.noteEntity = PropTypes.shape({
   targetType: PropTypes.string.isRequired,
   targetUUID: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
+});
+PropTypes.gamingActivityEntity = PropTypes.shape({
+  betDate: PropTypes.string,
+  bonusBetAmount: PropTypes.price,
+  bonusWinAmount: PropTypes.price,
+  gameId: PropTypes.string.isRequired,
+  gameProviderId: PropTypes.string.isRequired,
+  gameRoundId: PropTypes.string.isRequired,
+  gameSessionId: PropTypes.string.isRequired,
+  gameType: PropTypes.string.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  realBetAmount: PropTypes.price,
+  realWinAmount: PropTypes.price,
+  totalBetAmount: PropTypes.price,
+  totalWinAmount: PropTypes.price,
+  winDate: PropTypes.string,
 });
 
 export default PropTypes;
