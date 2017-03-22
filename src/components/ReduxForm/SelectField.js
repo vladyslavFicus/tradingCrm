@@ -41,7 +41,7 @@ class SelectField extends Component {
     } = props;
 
     return (
-      <div className={classNames('form-group row', { 'has-danger': touched && error })}>
+      <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label className={labelClassName}>{label}</label>
         <select
           {...input}

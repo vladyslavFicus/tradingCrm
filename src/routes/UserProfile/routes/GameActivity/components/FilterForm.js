@@ -180,7 +180,7 @@ class FilterForm extends Component {
   };
 
   renderBottomFilters = () => (
-    <div className="col-md-10">
+    <div className="row">
       <div className="col-md-2">
         <Field
           name="winTypes"
@@ -202,7 +202,6 @@ class FilterForm extends Component {
       <div className="col-md-6">
         <div className="form-group">
           <label className="form-label">Activity date range</label>
-
           <div className="row">
             <div className="col-md-5">
               <Field
@@ -244,7 +243,9 @@ class FilterForm extends Component {
           </div>
 
           <div className="row">
-            {this.renderBottomFilters()}
+            <div className="col-md-10">
+              {this.renderBottomFilters()}
+            </div>
             <div className="col-md-2">
               <div className="form-group margin-top-25">
                 <button

@@ -80,31 +80,6 @@ function exportGameActivity(playerUUID, filters = { page: 0 }) {
   };
 }
 
-const mapPayload = payload => ({
-  ...payload,
-  content: payload.content.map(activity => ({
-    ...activity,
-    bonusBetAmount: !isNaN(parseFloat(activity.bonusBetAmount))
-      ? { amount: activity.bonusBetAmount, currency: config.nas.currencies.base }
-      : activity.bonusBetAmount,
-    bonusWinAmount: !isNaN(parseFloat(activity.bonusWinAmount))
-      ? { amount: activity.bonusWinAmount, currency: config.nas.currencies.base }
-      : activity.bonusWinAmount,
-    realBetAmount: !isNaN(parseFloat(activity.realBetAmount))
-      ? { amount: activity.realBetAmount, currency: config.nas.currencies.base }
-      : activity.realBetAmount,
-    realWinAmount: !isNaN(parseFloat(activity.realWinAmount))
-      ? { amount: activity.realWinAmount, currency: config.nas.currencies.base }
-      : activity.realWinAmount,
-    totalBetAmount: !isNaN(parseFloat(activity.totalBetAmount))
-      ? { amount: activity.totalBetAmount, currency: config.nas.currencies.base }
-      : activity.totalBetAmount,
-    totalWinAmount: !isNaN(parseFloat(activity.totalWinAmount))
-      ? { amount: activity.totalWinAmount, currency: config.nas.currencies.base }
-      : activity.totalWinAmount,
-  })),
-});
-
 const actionHandlers = {
   [FETCH_ACTIVITY.REQUEST]: (state, action) => ({
     ...state,
@@ -113,25 +88,21 @@ const actionHandlers = {
     error: null,
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
   }),
-  [FETCH_ACTIVITY.SUCCESS]: (state, action) => {
-    const payload = mapPayload(action.payload);
-
-    return {
-      ...state,
-      entities: {
-        ...state.entities,
-        ...payload,
-        content: payload.number === 0
-          ? payload.content
-          : [
-            ...state.entities.content,
-            ...payload.content,
-          ],
-      },
-      isLoading: false,
-      receivedAt: timestamp(),
-    };
-  },
+  [FETCH_ACTIVITY.SUCCESS]: (state, action) => ({
+    ...state,
+    entities: {
+      ...state.entities,
+      ...action.payload,
+      content: action.payload.number === 0
+        ? action.payload.content
+        : [
+          ...state.entities.content,
+          ...action.payload.content,
+        ],
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  }),
   [FETCH_ACTIVITY.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
