@@ -1,16 +1,22 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import { Button } from 'reactstrap';
 import { shortify } from '../../../../../utils/uuid';
 import { statusColorNames, statuses } from '../../../../../constants/operators';
 import AccountStatus from './AccountStatus';
+import PropTypes from '../../../../../constants/propTypes';
 import './Header.scss';
 
 class Header extends Component {
   static propTypes = {
     data: PropTypes.object,
-    lastIp: PropTypes.object,
-    availableStatuses: PropTypes.array.isRequired,
+    lastIp: PropTypes.ipEntity,
+    availableStatuses: PropTypes.arrayOf(PropTypes.shape({
+      action: PropTypes.string,
+      label: PropTypes.string,
+      role: PropTypes.string,
+      reasons: PropTypes.array,
+    })).isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
   };
@@ -62,6 +68,8 @@ class Header extends Component {
       availableStatuses,
       onResetPasswordClick,
     } = this.props;
+
+    console.log('availableStatuses', availableStatuses);
 
     return (
       <div className="operator-profile-header">

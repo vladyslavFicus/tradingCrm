@@ -1,14 +1,12 @@
-import createReducer from 'utils/createReducer';
+import createReducer from '../../../utils/createReducer';
 import timestamp from '../../../utils/timestamp';
 import createRequestAction from '../../../utils/createRequestAction';
-import { actionCreators as ipActionCreators } from '../../../redux/modules/ip';
+import { sourceActionCreators as ipActionCreators } from '../../../redux/modules/ip';
 
 const KEY = 'user/ip';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 
-function fetchEntities(uuid, filters = {}) {
-  return ipActionCreators.fetchEntities(FETCH_ENTITIES)(uuid, filters);
-}
+const fetchEntities = ipActionCreators.fetchEntities(FETCH_ENTITIES);
 
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({

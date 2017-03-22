@@ -1,13 +1,12 @@
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { actionCreators as ipActionCreators } from '../../../../../redux/modules/ip';
+import { sourceActionCreators as ipActionCreators } from '../../../../../redux/modules/ip';
+import createReducer from '../../../../../utils/createReducer';
 
 const KEY = 'user/ip';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 
-function fetchEntities(uuid, filters = {}) {
-  return ipActionCreators.fetchEntities(FETCH_ENTITIES)(uuid, filters);
-}
+const fetchEntities = ipActionCreators.fetchEntities(FETCH_ENTITIES);
 
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
@@ -34,26 +33,20 @@ const actionHandlers = {
 };
 const initialState = {
   entities: {
-    first: null,
-    last: null,
-    number: null,
-    numberOfElements: null,
-    size: null,
-    sort: null,
-    totalElements: null,
-    totalPages: null,
+    first: false,
+    last: false,
+    number: 0,
+    numberOfElements: 0,
+    size: 0,
+    sort: [],
+    totalElements: 0,
+    totalPages: 0,
     content: [],
   },
   error: null,
   filters: {},
   isLoading: false,
   receivedAt: null,
-};
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
 };
 
 const actionTypes = {
@@ -70,4 +63,4 @@ export {
   actionHandlers,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

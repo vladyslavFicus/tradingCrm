@@ -4,12 +4,10 @@ import Personal from '../../../components/Information/Personal';
 import Additional from '../../../components/Information/Additional';
 import IpList from '../../../components/Information/IpList';
 import Notes from '../../../components/Information/Notes';
-import '../../../components/Information/Information.scss';
 
 class Information extends Component {
   static propTypes = {
     data: PropTypes.object,
-    showNotes: PropTypes.bool,
     updateSubscription: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     ips: PropTypes.array.isRequired,
@@ -23,15 +21,10 @@ class Information extends Component {
       updateSubscription,
       notes,
       onEditNoteClick,
-      showNotes,
     } = this.props;
 
     return (
-      <div
-        className={classNames('player__account__details row panel-body profile-information', {
-          'hide-notes': !showNotes,
-        })}
-      >
+      <div className="player__account__details row panel-body">
         <Personal data={data} />
         <Additional
           initialValues={{
@@ -43,10 +36,10 @@ class Information extends Component {
         />
         <IpList ips={ips} />
 
-        {showNotes && <Notes
+        <Notes
           notes={notes}
           onEditNoteClick={onEditNoteClick}
-        />}
+        />
       </div>
     );
   }

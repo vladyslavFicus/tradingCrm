@@ -7,7 +7,7 @@ import { actionTypes as profileActionTypes } from '../../../modules/view';
 class View extends Component {
   static propTypes = {
     params: PropTypes.shape({
-      id: PropTypes.string,
+      id: PropTypes.string.isRequired,
     }),
     profile: PropTypes.shape({
       data: PropTypes.object,

@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
 import Personal from '../../../../../components/Information/Personal';
 import Departments from '../../../../../components/Information/Departments';
 import IpList from '../../../../../components/Information/IpList';
-import '../../../../../components/Information/Information.scss';
 
 class Information extends Component {
   static propTypes = {
@@ -19,7 +17,7 @@ class Information extends Component {
 
     return (
       <div
-        className={classNames('player__account__details row panel-body profile-information')}
+        className="player__account__details row panel-body"
       >
         <Personal data={data} />
         <Departments

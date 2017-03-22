@@ -2,7 +2,11 @@ import React, { Component, PropTypes } from 'react';
 
 class Departments extends Component {
   static propTypes = {
-    authorities: PropTypes.array.isRequired,
+    authorities: PropTypes.arrayOf(PropTypes.shape({
+      department: PropTypes.string,
+      id: PropTypes.number,
+      role: PropTypes.string,
+    })),
   };
 
   render() {

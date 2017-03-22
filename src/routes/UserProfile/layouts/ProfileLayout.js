@@ -272,7 +272,6 @@ class ProfileLayout extends Component {
               updateSubscription={updateSubscription.bind(null, params.id)}
               onEditNoteClick={this.handleEditNoteClick}
               notes={notes}
-              showNotes
             />
           }
 

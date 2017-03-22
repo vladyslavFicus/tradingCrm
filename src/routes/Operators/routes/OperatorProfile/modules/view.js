@@ -2,6 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import { sourceActionCreators as operatorSourceActionCreators } from '../../../../../redux/modules/operator';
+import createReducer from '../../../../../utils/createReducer';
 
 const KEY = 'operator-profile';
 const PROFILE = createRequestAction(`${KEY}/view`);
@@ -128,12 +129,6 @@ const initialState = {
   receivedAt: null,
 };
 
-function reducer(state = initialState, action) {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
 const actionCreators = {
   fetchProfile,
   updateProfile,
@@ -152,4 +147,4 @@ export {
   actionCreators,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

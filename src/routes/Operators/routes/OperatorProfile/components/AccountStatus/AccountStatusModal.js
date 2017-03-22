@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
-import { createValidator } from 'utils/validator';
-import {  SelectField } from 'components/ReduxForm/UserProfile';
-import { reasons as operatorChangeStatusReasons } from 'constants/operators'
+import { createValidator } from '../../../../../../utils/validator';
+import { SelectField } from '../../../../../../components/ReduxForm/UserProfile';
+import { reasons as operatorChangeStatusReasons } from '../../../../../../constants/operators';
 
 const attributeLabels = {
   reason: 'Reason',

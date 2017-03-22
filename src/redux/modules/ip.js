@@ -28,25 +28,10 @@ function fetchEntities(type) {
   };
 }
 
-const initialState = {};
-const actionHandlers = {};
-const actionTypes = {};
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-};
-
-const actionCreators = {
+const sourceActionCreators = {
   fetchEntities,
 };
 
 export {
-  initialState,
-  actionTypes,
-  actionCreators,
-  actionHandlers,
+  sourceActionCreators,
 };
-
-export default reducer;
