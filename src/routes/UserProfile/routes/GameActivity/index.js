@@ -3,11 +3,15 @@ import { actionCreators } from './modules/index';
 
 export default store => ({
   path: ':id/game-activity',
-  onEnter: (nextState, replace, callback) => {
-    injectReducer(store, { key: 'userGameActivity', reducer: require('./modules/index').default });
+  onEnter: async (nextState, replace, callback) => {
+    injectReducer(store, { key: 'userGamingActivity', reducer: require('./modules/index').default });
 
-    store.dispatch(actionCreators.fetchGames())
-      .then(() => callback());
+    await Promise.all([
+      store.dispatch(actionCreators.fetchGames()),
+      store.dispatch(actionCreators.fetchGameCategories()),
+    ]);
+
+    callback();
   },
 
   getComponent(nextState, cb) {

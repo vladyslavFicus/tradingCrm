@@ -46,7 +46,7 @@ const actionHandlers = {
   }),
   [FETCH_GAMES.SUCCESS]: (state, action) => ({
     ...state,
-    entities: mapGames(action.payload),
+    entities: mapGames(action.payload.content),
     isLoading: false,
     receivedAt: timestamp(),
   }),

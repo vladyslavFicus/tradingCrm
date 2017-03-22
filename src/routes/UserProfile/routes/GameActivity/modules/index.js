@@ -10,18 +10,26 @@ import games, {
   actionTypes as gamesActionTypes,
   actionCreators as gamesActionCreators,
 } from './games';
+import gameCategories, {
+  initialState as gameCategoriesInitialState,
+  actionTypes as gameCategoriesActionTypes,
+  actionCreators as gameCategoriesActionCreators,
+} from './gameCategories';
 
 const initialState = {
   activity: activityInitialState,
   games: gamesInitialState,
+  gameCategories: gameCategoriesInitialState,
 };
 const actionTypes = {
   ...activityActionTypes,
   ...gamesActionTypes,
+  ...gameCategoriesActionTypes,
 };
 const actionCreators = {
   ...activityActionCreators,
-  ...gamesActionCreators
+  ...gamesActionCreators,
+  ...gameCategoriesActionCreators,
 };
 
 export {
@@ -33,4 +41,5 @@ export {
 export default combineReducers({
   activity,
   games,
+  gameCategories,
 });

@@ -47,20 +47,20 @@ PropTypes.noteEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.gamingActivityEntity = PropTypes.shape({
-  betDate: PropTypes.string.isRequired,
-  bonusBetAmount: PropTypes.number.isRequired,
-  bonusWinAmount: PropTypes.number.isRequired,
+  betDate: PropTypes.string,
+  bonusBetAmount: PropTypes.price,
+  bonusWinAmount: PropTypes.price,
   gameId: PropTypes.string.isRequired,
   gameProviderId: PropTypes.string.isRequired,
   gameRoundId: PropTypes.string.isRequired,
   gameSessionId: PropTypes.string.isRequired,
   gameType: PropTypes.string.isRequired,
   playerUUID: PropTypes.string.isRequired,
-  realBetAmount: PropTypes.number.isRequired,
-  realWinAmount: PropTypes.number.isRequired,
-  totalBetAmount: PropTypes.number.isRequired,
-  totalWinAmount: PropTypes.number.isRequired,
-  winDate: PropTypes.string.isRequired,
+  realBetAmount: PropTypes.price,
+  realWinAmount: PropTypes.price,
+  totalBetAmount: PropTypes.price,
+  totalWinAmount: PropTypes.price,
+  winDate: PropTypes.string,
 });
 
 export default PropTypes;

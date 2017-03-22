@@ -8,6 +8,7 @@ class SelectField extends Component {
       value: PropTypes.any,
     }).isRequired,
     label: PropTypes.string.isRequired,
+    labelClassName: PropTypes.string,
     children: PropTypes.node.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
@@ -20,6 +21,7 @@ class SelectField extends Component {
   };
 
   static defaultProps = {
+    labelClassName: 'form-control-label',
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,
@@ -27,11 +29,20 @@ class SelectField extends Component {
   };
 
   renderVertical = (props) => {
-    const { input, label, children, multiple, disabled, meta: { touched, error }, showErrorMessage } = props;
+    const {
+      input,
+      label,
+      labelClassName,
+      children,
+      multiple,
+      disabled,
+      meta: { touched, error },
+      showErrorMessage,
+    } = props;
 
     return (
       <div className={classNames('form-group row', { 'has-danger': touched && error })}>
-        <label className="form-control-label">{label}</label>
+        <label className={labelClassName}>{label}</label>
         <select
           {...input}
           multiple={multiple}
@@ -51,12 +62,21 @@ class SelectField extends Component {
   };
 
   renderHorizontal = (props) => {
-    const { input, label, children, multiple, disabled, meta: { touched, error }, showErrorMessage } = props;
+    const {
+      input,
+      label,
+      labelClassName,
+      children,
+      multiple,
+      disabled,
+      meta: { touched, error },
+      showErrorMessage,
+    } = props;
 
     return (
       <div className={classNames('form-group row', { 'has-danger': touched && error })}>
         <div className="col-md-3">
-          <label className="form-control-label">
+          <label className={labelClassName}>
             {label}
           </label>
         </div>
