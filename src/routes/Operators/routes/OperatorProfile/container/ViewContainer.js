@@ -25,7 +25,7 @@ const mapActions = {
   fetchIp: ipActionCreators.fetchEntities,
   fetchProfile: viewActionCreators.fetchProfile,
   changeStatus: viewActionCreators.changeStatus,
-  onResetPassword: actionCreators.resetPassword,
+  onResetPassword: viewActionCreators.resetPassword,
 };
 
 export default connect(mapStateToProps, mapActions)(OperatorProfileLayout);
