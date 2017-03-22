@@ -1,27 +1,39 @@
 import { combineReducers } from 'redux';
 
 import view, {
-  initialState as viewInitialState,
-  actionTypes as viewActionTypes,
   actionCreators as viewActionCreators,
+  actionTypes as viewActionTypes,
+  initialState as viewInitialState,
 } from './view';
+
+import ip, {
+  actionCreators as ipActionCreators,
+  actionTypes as ipActionTypes,
+  initialState as ipInitialState,
+} from './ip';
+
+const actionCreators = {
+  ...viewActionCreators,
+  ...ipActionCreators,
+};
+
+const actionTypes = {
+  ...viewActionTypes,
+  ...ipActionTypes,
+};
 
 const initialState = {
   view: viewInitialState,
-};
-const actionTypes = {
-  ...viewActionTypes,
-};
-const actionCreators = {
-  ...viewActionCreators,
+  ip: ipInitialState,
 };
 
 export {
   initialState,
-  actionTypes,
   actionCreators,
+  actionTypes,
 };
 
 export default combineReducers({
   view,
+  ip,
 });

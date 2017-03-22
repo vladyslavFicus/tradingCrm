@@ -8,6 +8,8 @@ const attributeLabels = {
   firstName: 'First name',
   lastName: 'Last name',
   country: 'Country',
+  phoneNumber: 'Phone',
+  email: 'Email',
 };
 
 const countries = countryList().getData().reduce((result, item) => ({
@@ -16,12 +18,22 @@ const countries = countryList().getData().reduce((result, item) => ({
 }), {});
 
 const validator = createValidator({
-  firstName: 'string',
-  lastName: 'string',
+  firstName: ['required', 'string'],
+  lastName: ['required', 'string'],
+  email: ['required', 'email'],
   country: [`in:,${Object.keys(countries).join()}`],
+  phoneNumber: 'string',
 }, attributeLabels, false);
 
-class OperatorPersonalForm extends Component {
+class Form extends Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    onSubmit: PropTypes.func,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool,
+  };
+
   render() {
     const {
       handleSubmit,
@@ -56,7 +68,29 @@ class OperatorPersonalForm extends Component {
               label={attributeLabels.lastName}
               type="text"
               component={InputField}
-              wrapperClassName="col-lg-5"
+              wrapperClassName="col-lg-4"
+              showErrorMessage
+            />
+            <Field
+              name="email"
+              label={attributeLabels.email}
+              type="text"
+              component={InputField}
+              wrapperClassName="col-lg-4"
+              showErrorMessage
+            />
+          </div>
+          <hr />
+          <div className="row">
+            <h5 className="pull-left">Contacts</h5>
+          </div>
+          <div className="row">
+            <Field
+              name="phoneNumber"
+              label={attributeLabels.phoneNumber}
+              type="text"
+              component={InputField}
+              wrapperClassName="col-lg-4"
               showErrorMessage
             />
             <Field
@@ -78,15 +112,7 @@ class OperatorPersonalForm extends Component {
   }
 }
 
-OperatorPersonalForm.propTypes = {
-  handleSubmit: PropTypes.func,
-  onSubmit: PropTypes.func,
-  pristine: PropTypes.func,
-  submitting: PropTypes.bool,
-  valid: PropTypes.bool,
-};
-
 export default reduxForm({
   form: 'updateOperatorProfilePersonal',
   validate: validator,
-})(OperatorPersonalForm);
+})(Form);

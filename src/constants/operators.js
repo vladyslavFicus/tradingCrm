@@ -6,6 +6,11 @@ const statuses = keyMirror({
   CLOSED: null,
 });
 
+const actions = keyMirror({
+  ACTIVE: null,
+  CLOSED: null,
+});
+
 const statusesLabels = {
   [statuses.INACTIVE]: 'Inactive',
   [statuses.ACTIVE]: 'Active',
@@ -18,8 +23,35 @@ const statusColorNames = {
   [statuses.CLOSED]: 'color-danger',
 };
 
+const reasons = [
+  'REASON_ONE',
+  'REASON_TWO',
+  'REASON_THREE',
+  'REASON_FOUR',
+];
+
+const statusActions = {
+  [statuses.ACTIVE]: [
+    {
+      action: actions.CLOSED,
+      label: 'Close',
+      reasons,
+    },
+  ],
+  [statuses.CLOSED]: [
+    {
+      action: actions.ACTIVE,
+      label: 'Activate',
+      reasons,
+    },
+  ],
+};
+
 export {
+  actions,
   statuses,
   statusesLabels,
   statusColorNames,
+  statusActions,
+  reasons,
 };

@@ -4,9 +4,8 @@ import { connect } from 'react-redux';
 import { actionCreators as viewActionCreators } from 'routes/UserProfile/modules/view';
 import { actionCreators as bonusActionCreators } from 'routes/UserProfile/modules/bonus';
 
-const mapStateToProps = ({ profile: { view: userProfile, bonus }, auth: user }) => ({
+const mapStateToProps = ({ profile: { view: userProfile, bonus } }) => ({
   ...userProfile,
-  user,
   bonus,
 });
 const mapActions = {

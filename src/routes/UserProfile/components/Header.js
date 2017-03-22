@@ -74,7 +74,6 @@ class Header extends Component {
 
   renderLastLogin = () => {
     const { lastIp } = this.props;
-
     return !lastIp
       ? 'Unavailable'
       : [
