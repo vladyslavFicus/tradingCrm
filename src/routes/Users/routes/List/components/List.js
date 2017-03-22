@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import Panel, { Content } from 'components/Panel';
-import GridView, { GridColumn } from 'components/GridView';
+import { Link } from 'react-router';
 import classNames from 'classnames';
 import moment from 'moment';
-import { shortify } from 'utils/uuid';
-import Amount from 'components/Amount';
+import UserGridFilter from './UserGridFilter';
+import GridView, { GridColumn } from '../../../../../components/GridView';
+import { shortify } from '../../../../../utils/uuid';
+import Panel, { Content } from '../../../../../components/Panel';
+import Amount from '../../../../../components/Amount';
 import {
   statusColorNames as userStatusColorNames,
-  statusesLabels as userStatusesLabels
-} from 'constants/user';
-import UserGridFilter from './UserGridFilter';
-import { Link } from 'react-router';
+  statusesLabels as userStatusesLabels,
+} from '../../../../../constants/user';
 
 class List extends Component {
   static propTypes = {
@@ -38,13 +38,17 @@ class List extends Component {
     }
   };
 
-  handleRefresh = () => {
-    return this.props.fetchESEntities({
-      ...this.state.filters,
-      page: this.state.page,
-      playerUUID: this.props.params.id,
-    });
-  };
+  handleRefresh = () => this.props.fetchESEntities({
+    ...this.state.filters,
+    page: this.state.page,
+    playerUUID: this.props.params.id,
+  });
+
+  handleExport = () => this.props.exportEntities({
+    ...this.state.filters,
+    page: this.state.page,
+    playerUUID: this.props.params.id,
+  });
 
   handleFilterSubmit = (filters) => {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
@@ -124,7 +128,7 @@ class List extends Component {
 
   render() {
     const { filters } = this.state;
-    const { list: { entities }, filterValues } = this.props;
+    const { list: { entities, exporting }, filterValues } = this.props;
 
     return (
       <div className="page-content-inner">
@@ -134,6 +138,8 @@ class List extends Component {
               onSubmit={this.handleFilterSubmit}
               initialValues={filters}
               filterValues={filterValues}
+              onExportClick={this.handleExport}
+              isExportable={!exporting}
             />
             <GridView
               tableClassName="table table-hovered data-grid-layout"
