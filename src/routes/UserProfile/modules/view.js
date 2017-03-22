@@ -1,3 +1,5 @@
+import { combineReducers }from 'redux';
+import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
@@ -10,6 +12,7 @@ const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
 const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
+const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
 const RESUME_PROFILE = createRequestAction(`${KEY}/resume-profile`);
@@ -54,7 +57,7 @@ const withdrawInitialState = {
   receivedAt: null,
 };
 
-export const initialState = {
+const initialState = {
   profile: profileInitialState,
   deposit: depositInitialState,
   withdraw: withdrawInitialState,
@@ -71,17 +74,10 @@ export const mapBalances = (items) =>
         result
     ), []);
 
-function fetchProfile(uuid) {
-  return usersActionCreators.fetchProfile(PROFILE)(uuid);
-}
-
-function updateProfile(uuid, data) {
-  return usersActionCreators.updateProfile(UPDATE_PROFILE)(uuid, data);
-}
-
-function updateIdentifier(uuid, identifier) {
-  return usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER)(uuid, identifier);
-}
+const fetchProfile = usersActionCreators.fetchProfile(PROFILE);
+const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
+const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
+const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
 
 function updateSubscription(playerUUID, name, value) {
   return (dispatch, getState) => {
@@ -573,20 +569,6 @@ const withdrawActionHandlers = {
   }),
 };
 
-function reducer(handlers, state, action) {
-  const handler = handlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
-function rootReducer(state = initialState, action) {
-  return {
-    profile: reducer(profileActionHandlers, state.profile, action),
-    deposit: reducer(depositActionHandlers, state.deposit, action),
-    withdraw: reducer(withdrawActionHandlers, state.withdraw, action),
-  };
-}
-
 const actionTypes = {
   PROFILE,
   ADD_TAG,
@@ -596,11 +578,11 @@ const actionTypes = {
   UPDATE_PROFILE,
   FETCH_BALANCES,
 };
-
 const actionCreators = {
   fetchProfile,
   updateProfile,
   updateIdentifier,
+  resetPassword,
   updateSubscription,
   getBalance,
   loadFullProfile,
@@ -616,8 +598,13 @@ const actionCreators = {
 };
 
 export {
+  initialState,
   actionTypes,
   actionCreators,
 };
 
-export default rootReducer;
+export default combineReducers({
+  profile: createReducer(profileInitialState, profileActionHandlers),
+  deposit: createReducer(depositInitialState, depositActionHandlers),
+  withdraw: createReducer(withdrawInitialState, withdrawActionHandlers),
+});

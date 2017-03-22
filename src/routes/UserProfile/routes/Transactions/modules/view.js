@@ -1,3 +1,4 @@
+import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
@@ -95,7 +96,6 @@ const actionHandlers = {
     },
   }),
 };
-
 const initialState = {
   entities: {
     first: null,
@@ -113,16 +113,9 @@ const initialState = {
   isFailed: false,
   receivedAt: null,
 };
-function reducer(state = initialState, action) {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
 const actionTypes = {
   FETCH_ENTITIES,
 };
-
 const actionCreators = {
   fetchEntities,
 };
@@ -133,4 +126,4 @@ export {
   actionCreators,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

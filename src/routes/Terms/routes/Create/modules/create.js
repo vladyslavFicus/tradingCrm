@@ -1,6 +1,6 @@
+import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
 import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'terms-and-conditions';
@@ -49,30 +49,24 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
 };
-
 const initialState = {
   error: null,
   isLoading: false,
   receivedAt: null,
 };
-function reducer(state = initialState, action) {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
 const actionTypes = {
   CREATE_TERMS,
 };
-
 const actionCreators = {
   createTerm,
 };
 
 export {
+  initialState,
   actionTypes,
   actionCreators,
+  actionHandlers,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);
 

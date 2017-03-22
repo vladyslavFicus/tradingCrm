@@ -138,7 +138,7 @@ class OperatorGridFilter extends Component {
           <div className="col-md-3">
             <span className="font-size-20">Operators</span>
           </div>
-          <div className="col-md-3 col-md-offset-6">
+          <div className="col-md-3 col-md-offset-6 text-right">
             <button className="btn btn-default-outline" onClick={onCreateOperatorClick}>
               + New operator
             </button>

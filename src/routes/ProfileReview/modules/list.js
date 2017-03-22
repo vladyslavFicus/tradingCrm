@@ -1,3 +1,4 @@
+import createReducer from 'utils/createReducer';
 import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
 import { actionCreators as usersActionCreators } from 'redux/modules/users';
@@ -53,13 +54,6 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
 };
-
-function reducer(state = initialState, action) {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
 const actionTypes = {
   FETCH_ENTITIES,
 };
@@ -74,4 +68,4 @@ export {
   actionTypes,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);
