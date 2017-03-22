@@ -62,7 +62,8 @@ function exportGameActivity(playerUUID, filters = { page: 0 }) {
       return dispatch({ type: EXPORT_ACTIVITY.FAILED });
     }
 
-    const requestUrl = `${getApiRoot()}/gaming_activity/gaming/activity/${playerUUID}?${buildQueryString(filters)}`;
+    const queryString = buildQueryString(_.omitBy(mapListArrayValues(filters, arrayedFilters), val => !val));
+    const requestUrl = `${getApiRoot()}/gaming_activity/gaming/activity/${playerUUID}?${queryString}`;
     const response = await fetch(requestUrl, {
       method: 'GET',
       headers: {
