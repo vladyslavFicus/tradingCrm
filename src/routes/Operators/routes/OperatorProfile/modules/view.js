@@ -123,6 +123,16 @@ const actionHandlers = {
 const initialState = {
   data: {
     authorities: [],
+    uuid: null,
+    email: null,
+    firstName: null,
+    lastName: null,
+    phoneNumber: null,
+    country: null,
+    registrationDate: null,
+    operatorStatus: null,
+    statusChangeDate: null,
+    statusChangeAuthor: null,
   },
   error: null,
   isLoading: false,

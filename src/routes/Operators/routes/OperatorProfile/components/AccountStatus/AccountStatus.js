@@ -1,11 +1,9 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import AccountStatusModal from './AccountStatusModal';
-import { suspendPeriods } from 'constants/user';
-import moment from 'moment';
-import classNames from 'classnames';
-import { statuses } from 'constants/user';
-import './AccountStatus.scss'
+import { statuses } from '../../../../../../constants/user';
+import './AccountStatus.scss';
 
 const initialState = {
   dropDownOpen: false,

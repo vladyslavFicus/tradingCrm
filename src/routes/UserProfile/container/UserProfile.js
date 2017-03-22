@@ -5,8 +5,8 @@ import { actionCreators as accumulatedBalancesActionCreators } from '../modules/
 import { actionCreators as bonusActionCreators } from '../modules/bonus';
 import { actionCreators as viewActionCreators } from '../modules/view';
 import ProfileLayout from '../layouts/ProfileLayout';
-import { getAvailableTags } from 'config/index';
-import { statusActions } from 'constants/user';
+import { getAvailableTags } from '../../../config/index';
+import { statusActions } from '../../../constants/user';
 
 const mapStateToProps = (state) => {
   const {

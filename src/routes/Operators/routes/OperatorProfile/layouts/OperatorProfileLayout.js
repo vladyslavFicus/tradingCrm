@@ -1,9 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Tabs from '../../../../../components/Tabs';
 import Information from '../components/Information';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import './OperatorProfileLayout.scss';
+import PropTypes from '../../../../../constants/propTypes';
 
 class OperatorProfileLayout extends Component {
   static propTypes = {
@@ -20,6 +21,7 @@ class OperatorProfileLayout extends Component {
     onResetPassword: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
     ip: PropTypes.object.isRequired,
+    lastIp: PropTypes.ipEntity,
   };
 
   state = {

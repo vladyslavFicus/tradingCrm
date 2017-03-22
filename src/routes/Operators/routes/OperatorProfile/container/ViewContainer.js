@@ -1,8 +1,6 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import OperatorProfileLayout from '../layouts/OperatorProfileLayout';
-import { actionCreators as ipActionCreators } from '../modules/ip';
-import { actionCreators as viewActionCreators } from '../modules/view';
+import { actionCreators } from '../modules';
 import { statusActions } from '../../../../../constants/operators';
 
 const mapStateToProps = ({ operatorProfile: { view: operatorProfile, ip } }) => {
@@ -22,10 +20,10 @@ const mapStateToProps = ({ operatorProfile: { view: operatorProfile, ip } }) => 
   };
 };
 const mapActions = {
-  fetchIp: ipActionCreators.fetchEntities,
-  fetchProfile: viewActionCreators.fetchProfile,
-  changeStatus: viewActionCreators.changeStatus,
-  onResetPassword: viewActionCreators.resetPassword,
+  fetchIp: actionCreators.fetchEntities,
+  fetchProfile: actionCreators.fetchProfile,
+  changeStatus: actionCreators.changeStatus,
+  onResetPassword: actionCreators.resetPassword,
 };
 
 export default connect(mapStateToProps, mapActions)(OperatorProfileLayout);
