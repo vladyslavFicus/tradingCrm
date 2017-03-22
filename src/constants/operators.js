@@ -7,8 +7,8 @@ const statuses = keyMirror({
 });
 
 const actions = keyMirror({
-  ACTIVATE: null,
-  CLOSE: null,
+  ACTIVE: null,
+  CLOSED: null,
 });
 
 const statusesLabels = {
@@ -33,14 +33,14 @@ const reasons = [
 const statusActions = {
   [statuses.ACTIVE]: [
     {
-      action: actions.CLOSE,
+      action: actions.CLOSED,
       label: 'Close',
       reasons,
     },
   ],
   [statuses.CLOSED]: [
     {
-      action: actions.ACTIVATE,
+      action: actions.ACTIVE,
       label: 'Activate',
       reasons,
     },
