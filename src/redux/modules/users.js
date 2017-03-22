@@ -1,5 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
-import buildQueryString from 'utils/buildQueryString';
+import _ from 'lodash';
+import buildQueryString from '../../utils/buildQueryString';
 
 function fetchProfile(type) {
   return uuid => (dispatch, getState) => {
@@ -85,32 +86,20 @@ function updateIdentifier(type) {
 function fetchEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
-    let method = 'GET';
-    const playerUuidList = filters.playerUuidList;
-    filters = Object.keys(filters).reduce((result, key) => {
-      if (filters[key]) {
-        result[key] = filters[key];
-      }
+    const queryString = buildQueryString(
+      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
+    );
 
-      return result;
-    }, {});
-
-    if (playerUuidList) {
-      method = 'POST';
-      delete filters.playerUuidList;
-    }
-
-    const endpointParams = { page: 0, ...filters };
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/profiles?${buildQueryString(endpointParams)}`,
-        method,
+        endpoint: `profile/profiles?${queryString}`,
+        method: filters.playerUuidList ? 'POST' : 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: playerUuidList ? JSON.stringify({ playerUuidList }) : undefined,
+        body: filters.playerUuidList ? JSON.stringify({ playerUuidList: filters.playerUuidList }) : undefined,
         types: [
           {
             type: type.REQUEST,
@@ -130,15 +119,13 @@ function fetchEntities(type) {
 function fetchESEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
-
-    const endpointParams = Object.keys(filters).reduce((result, key) => ({
-      ...result,
-      ...(filters[key] && key !== 'playerUuidList' ? { [key]: filters[key] } : {}),
-    }), { page: 0 });
+    const queryString = buildQueryString(
+      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
+    );
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/profiles/es?${buildQueryString(endpointParams)}`,
+        endpoint: `profile/profiles/es?${queryString}`,
         method: filters.playerUuidList ? 'POST' : 'GET',
         headers: {
           Accept: 'application/json',

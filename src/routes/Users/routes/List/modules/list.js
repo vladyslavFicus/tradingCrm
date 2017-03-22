@@ -1,4 +1,5 @@
 import moment from 'moment';
+import _ from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
@@ -22,12 +23,11 @@ function exportEntities(filters = {}) {
       return dispatch({ type: EXPORT_ENTITIES.FAILED });
     }
 
-    const endpointParams = Object.keys(filters).reduce((result, key) => ({
-      ...result,
-      ...(filters[key] && key !== 'playerUuidList' ? { [key]: filters[key] } : {}),
-    }), { page: 0 });
+    const queryString = buildQueryString(
+      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
+    );
 
-    const response = await fetch(`${getApiRoot()}/profile/profiles/es?${buildQueryString(endpointParams)}`, {
+    const response = await fetch(`${getApiRoot()}/profile/profiles/es?${queryString}`, {
       method: filters.playerUuidList ? 'POST' : 'GET',
       headers: {
         Accept: 'text/csv',
