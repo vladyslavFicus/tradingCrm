@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import PersonalForm from './PersonalForm';
-import ContactsForm from './ContactsForm';
+import Form from './Form';
 
 class View extends Component {
   static propTypes = {
@@ -28,25 +27,14 @@ class View extends Component {
         <div className="tab-pane active" id="home1" role="tabpanel">
           <div className="panel">
             <div className="panel-body row">
-              <div className="col-md-8">
-                <PersonalForm
+              <div className="col-md-12">
+                <Form
                   initialValues={{
                     firstName: data.firstName,
                     lastName: data.lastName,
                     country: data.country,
-                  }}
-                  onSubmit={this.handleSubmit}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="panel">
-            <div className="panel-body row">
-              <div className="col-md-8">
-                <ContactsForm
-                  initialValues={{
-                    phone: data.phone,
                     email: data.email,
+                    phoneNumber: data.phoneNumber,
                   }}
                   onSubmit={this.handleSubmit}
                 />

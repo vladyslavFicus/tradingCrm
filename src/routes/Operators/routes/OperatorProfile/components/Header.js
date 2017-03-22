@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { Button } from 'reactstrap';
 import { shortify } from '../../../../../utils/uuid';
-import { statusColorNames } from '../../../../../constants/operators';
+import { statusColorNames, statuses } from '../../../../../constants/operators';
 import AccountStatus from './AccountStatus';
 import './Header.scss';
 
@@ -12,12 +12,13 @@ class Header extends Component {
     lastIp: PropTypes.object,
     availableStatuses: PropTypes.array.isRequired,
     onStatusChange: PropTypes.func.isRequired,
+    onResetPasswordClick: PropTypes.func.isRequired,
   };
 
   handleStatusChange = (data) => {
     const { data: profileData, onStatusChange } = this.props;
 
-    onStatusChange({ ...data, playerUUID: profileData.uuid });
+    onStatusChange({ ...data, uuid: profileData.uuid });
   };
 
   renderLastLogin = () => {
@@ -56,6 +57,7 @@ class Header extends Component {
         registrationDate,
         operatorStatus,
         statusChangeDate,
+        statusChangeAuthor,
       },
       availableStatuses,
       onResetPasswordClick,
@@ -88,10 +90,27 @@ class Header extends Component {
                   <div className="header-block-title">Account Status</div>
                   <div className={`header-block-text ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
                   {
-                    !!statusChangeDate &&
+                    operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
                     <small>
                       Since {moment(statusChangeDate).format('DD.MM.YYYY')}
                     </small>
+                  }
+                  {
+                    operatorStatus === statuses.CLOSED &&
+                    <div>
+                      {
+                        statusChangeAuthor &&
+                        <div className="header-block-secondary-text">
+                          by { shortify(statusChangeAuthor, 'OP') }
+                        </div>
+                      }
+                      {
+                        statusChangeDate &&
+                        <div className="header-block-secondary-text">
+                          on { moment(statusChangeDate).format('MM.DD.YYYY') }
+                        </div>
+                      }
+                    </div>
                   }
                 </div>
               }

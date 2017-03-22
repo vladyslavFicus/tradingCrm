@@ -16,11 +16,18 @@ const initialState = {
 };
 
 class AccountStatus extends Component {
+  static propTypes = {
+    label: PropTypes.any.isRequired,
+    profileStatus: PropTypes.string,
+    availableStatuses: PropTypes.array.isRequired,
+    onStatusChange: PropTypes.func.isRequired,
+  };
+
   state = { ...initialState };
 
   toggle = () => {
     this.setState({
-      dropDownOpen: !this.state.dropDownOpen
+      dropDownOpen: !this.state.dropDownOpen,
     });
   };
 
@@ -30,8 +37,7 @@ class AccountStatus extends Component {
         show: true,
         params: {
           initialValues: {
-            action: action.action,
-            reasons: action.reasons,
+            status: action.action,
           },
           ...action,
         },
@@ -49,20 +55,8 @@ class AccountStatus extends Component {
     });
   };
 
-  handleSubmit = ({ period, ...data }) => {
-    this.handleModalHide(null, () => {
-      if (period) {
-        if (period === suspendPeriods.DAY) {
-          data.suspendEndDate = moment().add(1, 'days').format('YYYY-MM-DDTHH:mm:ss');
-        } else if (period === suspendPeriods.WEEK) {
-          data.suspendEndDate = moment().add(7, 'days').format('YYYY-MM-DDTHH:mm:ss');
-        } else if (period === suspendPeriods.MONTH) {
-          data.suspendEndDate = moment().add(1, 'months').format('YYYY-MM-DDTHH:mm:ss');
-        }
-      }
-
-      return this.props.onStatusChange(data);
-    });
+  handleSubmit = (data) => {
+    this.handleModalHide(null, () => this.props.onStatusChange(data));
   };
 
   renderDropDown = (label, availableStatuses, dropDownOpen) => {
@@ -78,7 +72,7 @@ class AccountStatus extends Component {
                 {...rest}
                 onClick={this.handleStatusClick.bind(this, { statusLabel, reasons, ...rest })}
               >
-                {label}
+                {statusLabel}
               </DropdownItem>
             ))
           }
@@ -116,12 +110,5 @@ class AccountStatus extends Component {
     );
   }
 }
-
-AccountStatus.propTypes = {
-  label: PropTypes.any.isRequired,
-  profileStatus: PropTypes.string,
-  availableStatuses: PropTypes.array.isRequired,
-  onStatusChange: PropTypes.func.isRequired,
-};
 
 export default AccountStatus;

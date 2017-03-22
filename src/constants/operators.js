@@ -7,10 +7,8 @@ const statuses = keyMirror({
 });
 
 const actions = keyMirror({
-  BLOCK: null,
-  UNBLOCK: null,
-  SUSPEND: null,
-  RESUME: null,
+  ACTIVATE: null,
+  CLOSE: null,
 });
 
 const statusesLabels = {
@@ -35,26 +33,16 @@ const reasons = [
 const statusActions = {
   [statuses.ACTIVE]: [
     {
-      action: actions.BLOCK,
-      label: 'Block',
-      reasons,
-    },
-    {
-      action: actions.SUSPEND,
-      label: 'Suspend',
+      action: actions.CLOSE,
+      label: 'Close',
       reasons,
     },
   ],
-  [statuses.BLOCKED]: [
+  [statuses.CLOSED]: [
     {
-      action: actions.UNBLOCK,
-      label: 'Unblock',
-      reasons: [
-        'UNBLOCK_REASON_ONE',
-        'UNBLOCK_REASON_TWO',
-        'UNBLOCK_REASON_THREE',
-        'UNBLOCK_REASON_FOUR',
-      ],
+      action: actions.ACTIVATE,
+      label: 'Activate',
+      reasons,
     },
   ],
 };
@@ -65,4 +53,5 @@ export {
   statusesLabels,
   statusColorNames,
   statusActions,
+  reasons,
 };
