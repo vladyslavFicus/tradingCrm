@@ -57,7 +57,7 @@ class Notes extends Component {
   };
 
   render() {
-    const { notes: { notesEntities } } = this.props;
+    const { notes: { entities: notesEntities } } = this.props;
 
     return (
       <div className="player__account__details_notes col-md-4">
