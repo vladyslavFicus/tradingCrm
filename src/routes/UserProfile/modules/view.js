@@ -36,6 +36,8 @@ const profileInitialState = {
   data: {
     id: null,
     username: null,
+    firstName: null,
+    lastName: null,
     email: null,
     currencyCode: null,
     balance: { amount: 0, currency: 'EUR' },

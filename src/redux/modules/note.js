@@ -1,8 +1,8 @@
 import { CALL_API } from 'redux-api-middleware';
-import buildQueryString from 'utils/buildQueryString';
+import buildQueryString from '../../utils/buildQueryString';
 
 function fetchNotes(type) {
-  return (filters) => (dispatch, getState) => {
+  return filters => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
@@ -54,11 +54,14 @@ function fetchNotesByType(type) {
 
 function addNote(type) {
   return ({ content, pinned, playerUUID, targetType, targetUUID }) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const {
+      auth: { token, logged },
+      profile: { view: { profile: { data: profileData } } },
+    } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `note/notes`,
+        endpoint: 'note/notes',
         method: 'POST',
         types: [type.REQUEST, type.SUCCESS, type.FAILURE],
         headers: {
@@ -66,7 +69,14 @@ function addNote(type) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ content, pinned, playerUUID, targetType, targetUUID }),
+        body: JSON.stringify({
+          content,
+          pinned,
+          playerUUID,
+          targetType,
+          targetUUID,
+          author: [profileData.firstName, profileData.lastName].join(' '),
+        }),
         bailout: !logged,
       },
     });
@@ -95,7 +105,7 @@ function editNote(type) {
 }
 
 function deleteNote(type) {
-  return (id) => (dispatch, getState) => {
+  return id => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
