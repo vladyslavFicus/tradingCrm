@@ -40,16 +40,16 @@ class FilesFilterForm extends Component {
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.endDate
-      ? current.isSameOrBefore(moment(currentValues.endDate))
+    return currentValues && currentValues.uploadDateTo
+      ? current.isSameOrBefore(moment(currentValues.uploadDateTo))
       : true;
   };
 
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.startDate
-      ? current.isSameOrAfter(moment(currentValues.startDate))
+    return currentValues && currentValues.uploadDateFrom
+      ? current.isSameOrAfter(moment(currentValues.uploadDateFrom))
       : true;
   };
 

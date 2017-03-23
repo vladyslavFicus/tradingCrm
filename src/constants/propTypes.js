@@ -65,8 +65,6 @@ PropTypes.gamingActivityEntity = PropTypes.shape({
 PropTypes.fileEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
-  file: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   playerUuid: PropTypes.string.isRequired,
   realName: PropTypes.string.isRequired,

@@ -1,10 +1,12 @@
 import { CALL_API } from 'redux-api-middleware';
+import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../constants/note';
+import downloadBlob from '../../../../../utils/downloadBlob';
 
 const KEY = 'user/files/files';
 const FETCH_FILES = createRequestAction(`${KEY}/fetch-files`);
@@ -56,10 +58,35 @@ function fetchFilesAndNotes(playerUUID, filters, fetchFilesFn = fetchFiles, fetc
     const action = await dispatch(fetchFilesFn(playerUUID, filters));
 
     if (action && !action.error) {
-      dispatch(fetchNotesFn(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
+      dispatch(fetchNotesFn(targetTypes.FILE, action.payload.content.map(item => item.uuid)));
     }
 
     return action;
+  };
+}
+
+function downloadFile(profileUUID, data) {
+  return async (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    if (!logged) {
+      return dispatch({ type: DOWNLOAD_FILE.FAILURE, payload: new Error('Unauthorized') });
+    }
+
+    const requestUrl = `${getApiRoot()}/profile/files/${profileUUID}/${data.uuid}`;
+    const response = await fetch(requestUrl, {
+      method: 'GET',
+      headers: {
+        Accept: data.type,
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const blobData = await response.blob();
+    downloadBlob(data.name, blobData);
+
+    return dispatch({ type: DOWNLOAD_FILE.SUCCESS });
   };
 }
 
@@ -150,6 +177,7 @@ const actionTypes = {
 const actionCreators = {
   fetchFiles,
   fetchFilesAndNotes,
+  downloadFile,
   deleteFile,
 };
 

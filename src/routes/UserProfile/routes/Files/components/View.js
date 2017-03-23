@@ -16,7 +16,7 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-    fetchFiles: PropTypes.func.isRequired,
+    fetchFilesAndNotes: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
   };
@@ -55,7 +55,7 @@ class View extends Component {
   };
 
   handleRefresh = () => {
-    this.props.fetchFiles(this.props.params.id, {
+    this.props.fetchFilesAndNotes(this.props.params.id, {
       ...this.state.filters,
       page: this.state.page,
     });
@@ -81,13 +81,14 @@ class View extends Component {
   handleDownloadClick = (e, data) => {
     e.preventDefault();
 
-    this.props.downloadFile(this.props.params.id, data.uuid);
+    this.props.downloadFile(this.props.params.id, data);
   };
 
-  handleRemoveClick = (e, data) => {
+  handleDeleteClick = async (e, data) => {
     e.preventDefault();
 
-    this.props.deleteFile(this.props.params.id, data.uuid);
+    await this.props.deleteFile(this.props.params.id, data.uuid);
+    this.handleRefresh();
   };
 
   renderFileName = data => (
@@ -95,11 +96,11 @@ class View extends Component {
       <div className="font-weight-700">
         {data.name}
         <span className="margin-left-5">
-          <a href="#" onClick={() => this.handleDownloadClick(e, data)}>
+          <a href="#" onClick={(e) => this.handleDownloadClick(e, data)}>
             <i className="fa fa-download" />
           </a>
           {' '}
-          <a href="#" className="color-danger" onClick={() => this.handleDownloadClick(e, data)}>
+          <a href="#" className="color-danger" onClick={(e) => this.handleDeleteClick(e, data)}>
             <i className="fa fa-trash" />
           </a>
         </span>
