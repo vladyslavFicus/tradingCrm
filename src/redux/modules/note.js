@@ -1,8 +1,8 @@
 import { CALL_API } from 'redux-api-middleware';
-import buildQueryString from 'utils/buildQueryString';
+import buildQueryString from '../../utils/buildQueryString';
 
 function fetchNotes(type) {
-  return (filters) => (dispatch, getState) => {
+  return filters => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
@@ -46,7 +46,7 @@ function fetchNotesByType(type) {
           type.SUCCESS,
           type.FAILURE,
         ],
-        bailout: !logged,
+        bailout: !logged || !targetUUIDs.length,
       },
     });
   };
@@ -58,7 +58,7 @@ function addNote(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `note/notes`,
+        endpoint: 'note/notes',
         method: 'POST',
         types: [type.REQUEST, type.SUCCESS, type.FAILURE],
         headers: {
@@ -95,7 +95,7 @@ function editNote(type) {
 }
 
 function deleteNote(type) {
-  return (id) => (dispatch, getState) => {
+  return id => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({

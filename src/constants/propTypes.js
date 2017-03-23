@@ -62,5 +62,24 @@ PropTypes.gamingActivityEntity = PropTypes.shape({
   totalWinAmount: PropTypes.price,
   winDate: PropTypes.string,
 });
+PropTypes.fileEntity = PropTypes.shape({
+  author: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  file: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  playerUuid: PropTypes.string.isRequired,
+  realName: PropTypes.string.isRequired,
+  status: PropTypes.shape({
+    author: PropTypes.string.isRequired,
+    comment: PropTypes.string.isRequired,
+    editDate: PropTypes.string.isRequired,
+    reason: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  }).isRequired,
+  type: PropTypes.string.isRequired,
+  uploadDate: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+});
 
 export default PropTypes;

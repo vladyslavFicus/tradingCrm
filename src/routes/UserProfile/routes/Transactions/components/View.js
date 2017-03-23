@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import GridView, { GridColumn } from 'components/GridView';
-import classNames from 'classnames';
 import moment from 'moment';
-import Amount from 'components/Amount';
+import classNames from 'classnames';
+import GridView, { GridColumn } from '../../../../../components/GridView';
+import Amount from '../../../../../components/Amount';
 import {
   types as paymentTypes,
   statusesLabels,
@@ -11,15 +11,15 @@ import {
   typesProps,
   statusesColor,
   statuses as paymentsStatuses,
-} from 'constants/payment';
-import { shortify } from 'utils/uuid';
+} from '../../../../../constants/payment';
+import { shortify } from '../../../../../utils/uuid';
 import StatusHistory from './StatusHistory';
-import { targetTypes } from 'constants/note';
-import NoteButton from "components/NoteButton";
+import { targetTypes } from '../../../../../constants/note';
+import NoteButton from '../../../../../components/NoteButton';
 import TransactionGridFilter from './TransactionGridFilter';
-import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
-import PaymentRejectModal from 'routes/Payments/components/PaymentRejectModal';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import PaymentDetailModal from '../../../../../routes/Payments/components/PaymentDetailModal';
+import PaymentRejectModal from '../../../../../routes/Payments/components/PaymentRejectModal';
+import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 
 const defaultModalState = {
   name: null,
