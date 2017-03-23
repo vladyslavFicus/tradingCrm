@@ -1,17 +1,5 @@
-.balance-tab {
-  padding-left: 2rem;
-}
-
-@media only screen and (max-width: 991px) {
-  .balance-tab{
-    padding-left: 1rem;
-  }
-}
+// TODO: Extract to dropdown.scss?
 @media only screen and (max-width: 767px) {
-  .balance-tab {
-    padding-left: 2rem;
-  }
-
   .dropdown-inline.dropdown.open .dropdown-menu {
     display: flex;
     flex-direction: column;
@@ -28,8 +16,7 @@
   }
 }
 
-@media only screen and (max-width: 440px) {
-  .balance-tab {
-    padding-left: 1rem;
-  }
+.balances-block {
+  cursor: pointer;
+  padding: 0;
 }

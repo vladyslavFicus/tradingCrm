@@ -1,0 +1,3 @@
+@mixin rel-width($blocksCount) {
+ width: 100% / $blocksCount;
+}

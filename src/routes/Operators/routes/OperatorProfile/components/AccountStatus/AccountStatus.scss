@@ -3,7 +3,7 @@
     display: block;
 
     .dropdown-tab {
-      padding-left: 2rem;
+      padding-left: 1.2em;
       border: 1px solid #ffffff;
     }
 
@@ -43,21 +43,9 @@
   }
 }
 
-@media only screen and (max-width: 991px) {
-  .player__account__status .dropdown .dropdown-tab,
-  .player__account__status .dropdown .dropdown-menu .dropdown-item{
-    padding-left: 1rem;
-  }
-}
-
 @media only screen and (max-width: 767px) {
   .panel .panel-heading + .panel-body {
     padding: 10px;
-  }
-
-  .player__account__status .dropdown .dropdown-tab,
-  .player__account__status .dropdown .dropdown-menu .dropdown-item{
-    padding-left: 2rem;
   }
 
   .width-20:nth-child(1),
@@ -84,11 +72,6 @@
 
   .dropdown-highlight:before {
     top: -10px;
-  }
-
-  .player__account__status .dropdown .dropdown-tab,
-  .player__account__status .dropdown .dropdown-menu .dropdown-item{
-    padding-left: 1rem;
   }
 
   .width-20:nth-child(1),
