@@ -1,48 +1,17 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../utils/createReducer';
 import createRequestAction from '../../utils/createRequestAction';
+import { sourceActionCreators as operatorSourceActionCreators } from './operator';
 
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
+const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
 const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
 const VALIDATE_TOKEN = createRequestAction(`${KEY}/validate-token`);
 const LOGOUT = createRequestAction(`${KEY}/logout`);
 
-const actionHandlers = {
-  [SIGN_IN.REQUEST]: (state, action) => ({
-    ...state,
-    department: action.meta && action.meta.department
-      ? action.meta.department
-      : state.department,
-  }),
-  [SIGN_IN.SUCCESS]: (state, action) => {
-    const { login: username, uuid, token } = action.payload;
 
-    return {
-      ...state,
-      token,
-      uuid,
-      username,
-      logged: true,
-    };
-  },
-  [SIGN_IN.FAILURE]: (state, action) => ({
-    ...state,
-    department: null,
-  }),
-
-  [REFRESH_TOKEN.SUCCESS]: (state, action) => ({
-    ...state,
-    token: action.payload.jwtToken,
-  }),
-  [LOGOUT.SUCCESS]: (state, action) => ({ ...initialState, }),
-  [VALIDATE_TOKEN.SUCCESS]: (state, action) => (
-    !action.payload.valid
-      ? { ...initialState, }
-      : state
-  ),
-};
-
+const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 function signIn(data) {
   return {
     [CALL_API]: {
@@ -111,7 +80,7 @@ function logout() {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/auth/logout`,
+        endpoint: '/auth/logout',
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -130,15 +99,58 @@ const initialState = {
   token: null,
   uuid: null,
   username: null,
+  fullName: null,
+  data: {},
+};
+const actionHandlers = {
+  [SIGN_IN.REQUEST]: (state, action) => ({
+    ...state,
+    department: action.meta && action.meta.department
+      ? action.meta.department
+      : state.department,
+  }),
+  [SIGN_IN.SUCCESS]: (state, action) => {
+    const { login: username, uuid, token } = action.payload;
+
+    return {
+      ...state,
+      token,
+      uuid,
+      username,
+      logged: true,
+    };
+  },
+  [SIGN_IN.FAILURE]: state => ({
+    ...state,
+    department: null,
+  }),
+  [FETCH_PROFILE.SUCCESS]: (state, action) => ({
+    ...state,
+    fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
+    data: action.payload,
+  }),
+
+  [REFRESH_TOKEN.SUCCESS]: (state, action) => ({
+    ...state,
+    token: action.payload.jwtToken,
+  }),
+  [LOGOUT.SUCCESS]: () => ({ ...initialState }),
+  [VALIDATE_TOKEN.SUCCESS]: (state, action) => (
+    !action.payload.valid
+      ? { ...initialState }
+      : state
+  ),
 };
 const actionTypes = {
   SIGN_IN,
+  FETCH_PROFILE,
   REFRESH_TOKEN,
   VALIDATE_TOKEN,
   LOGOUT,
 };
 const actionCreators = {
   signIn,
+  fetchProfile,
   logout,
   refreshToken,
   validateToken,

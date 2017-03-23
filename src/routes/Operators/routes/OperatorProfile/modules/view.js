@@ -10,31 +10,8 @@ const CHANGE_STATUS = createRequestAction(`${KEY}/change-status`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 
+const fetchProfile = operatorSourceActionCreators.fetchProfile(PROFILE);
 const resetPassword = operatorSourceActionCreators.passwordResetRequest(RESET_PASSWORD);
-
-function fetchProfile(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `operator/operators/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          PROFILE.REQUEST,
-          PROFILE.SUCCESS,
-          PROFILE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
 
 function updateProfile(uuid, data) {
   return (dispatch, getState) => {

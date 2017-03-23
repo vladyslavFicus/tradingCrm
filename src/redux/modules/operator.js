@@ -38,7 +38,32 @@ function passwordResetConfirm(type) {
   });
 }
 
+function fetchProfile(type) {
+  return (uuid, insideToken = null) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `operator/operators/${uuid}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${insideToken || token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged && !insideToken,
+      },
+    });
+  };
+}
+
 const sourceActionCreators = {
+  fetchProfile,
   passwordResetRequest,
   passwordResetConfirm,
 };

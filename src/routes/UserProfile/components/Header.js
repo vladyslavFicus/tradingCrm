@@ -48,9 +48,9 @@ class Header extends Component {
     const { accumulatedBalances: { real, bonus } } = this.props;
 
     return (
-      <small>
+      <div className="header-block-secondary-text">
         RM <Amount {...real} /> + BM <Amount {...bonus} />
-      </small>
+      </div>
     );
   };
 
@@ -75,7 +75,7 @@ class Header extends Component {
   renderLastLogin = () => {
     const { lastIp } = this.props;
     return !lastIp
-      ? 'Unavailable'
+      ? <div className="header-block-secondary-text">Unavailable</div>
       : [
         <div key="time-ago">{lastIp.signInDate && moment(lastIp.signInDate).fromNow()}</div>,
         <small key="time">{lastIp.signInDate && moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}</small>,
@@ -155,56 +155,59 @@ class Header extends Component {
           </div>
         </div>
 
-        <div className="row panel-body player-header-blocks">
-          <AccountStatus
-            profileStatus={profileStatus}
-            onStatusChange={this.handleStatusChange}
-            label={
-              <div className="dropdown-tab">
-                <span className="font-size-11 text-uppercase">Account Status</span>
-                <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
-                {
-                  !!suspendEndDate &&
-                  <small className="player__account__status-scince">
-                    Until {moment(suspendEndDate).format('L')}
-                  </small>
-                }
-              </div>
-            }
-            availableStatuses={availableStatuses}
-          />
-
-          <Balances
-            label={
-              <div className="balance-tab">
-                <span className="font-size-11 text-uppercase">Balance</span>
-                <div className="player__account-bold">
-                  <Amount {...balance} />
+        <div className="row panel-body header-blocks header-blocks-5">
+          <div className="header-block">
+            <AccountStatus
+              profileStatus={profileStatus}
+              onStatusChange={this.handleStatusChange}
+              label={
+                <div className="dropdown-tab">
+                  <span className="header-title">Account Status</span>
+                  <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
+                  {
+                    !!suspendEndDate &&
+                    <small className="player__account__status-scince">
+                      Until {moment(suspendEndDate).format('L')}
+                    </small>
+                  }
                 </div>
-                { this.getRealWithBonusBalance() }
-              </div>
-            }
-            accumulatedBalances={accumulatedBalances}
-          />
+              }
+              availableStatuses={availableStatuses}
+            />
+          </div>
+          <div className="header-block">
+            <Balances
+              label={
+                <div className="balance-tab">
+                  <span className="header-block-title">Balance</span>
+                  <div className="header-block-text">
+                    <Amount {...balance} />
+                  </div>
+                  { this.getRealWithBonusBalance() }
+                </div>
+              }
+              accumulatedBalances={accumulatedBalances}
+            />
+          </div>
 
-          <div className="width-20">
-            <span className="font-size-11 text-uppercase">Registered</span>
-            <div className="player__account-bold">
+          <div className="header-block">
+            <span className="header-block-title">Registered</span>
+            <div className="header-block-text">
               { moment(registrationDate).fromNow() }
             </div>
             <small>
               on { moment(registrationDate).format('DD.MM.YYYY') } <br />
             </small>
           </div>
-          <div className="width-20">
-            <span className="font-size-11 text-uppercase">Last login</span>
+          <div className="header-block">
+            <span className="header-block-title">Last login</span>
             {this.renderLastLogin()}
           </div>
-          <div className="width-20">
-            <span className="font-size-11 text-uppercase">
+          <div className="header-block">
+            <span className="header-block-title">
               Affiliate {' '} { !!affiliateId && affiliateId}
             </span>
-            <div className="player__account-bold">
+            <div className="header-block-text">
               BTAG {'-'} { btag || 'Empty' }
             </div>
           </div>

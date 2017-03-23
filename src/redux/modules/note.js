@@ -54,7 +54,9 @@ function fetchNotesByType(type) {
 
 function addNote(type) {
   return ({ content, pinned, playerUUID, targetType, targetUUID }) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const {
+      auth: { token, logged, fullName },
+    } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -66,7 +68,14 @@ function addNote(type) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ content, pinned, playerUUID, targetType, targetUUID }),
+        body: JSON.stringify({
+          content,
+          pinned,
+          playerUUID,
+          targetType,
+          targetUUID,
+          author: fullName,
+        }),
         bailout: !logged,
       },
     });
