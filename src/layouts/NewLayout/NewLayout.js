@@ -1,58 +1,144 @@
 import React, { Component } from 'react';
 import 'font-awesome/css/font-awesome.min.css';
+import classNames from 'classnames';
+import SidebarMenu from './Menu';
 
 import './NewLayout.scss';
 
+const sidebarTopMenuItems = [
+  {label: 'Players', icon: 'fa fa-users', items: [
+    {label: 'User 1', url: '#'},
+    {label: 'User 2', url: '#'},
+    {label: 'User 3', url: '#'},
+    {label: 'User 4', url: '#'},
+  ]},
+  {label: 'Operators', icon: 'fa fa-eye', url: '#'},
+  {label: 'Providers', icon: 'fa fa-gamepad', url: '#'},
+  {label: 'Reports', icon: 'fa fa-pie-chart', url: '#'},
+  {label: 'Content', icon: 'fa fa-pencil-square-o', items: [
+    {label: 'Custom pages', url: '#'},
+    {label: 'Promotions', url: '#'},
+    {label: 'Blog', url: '#'},
+    {label: 'FAQ', url: '#'},
+  ]},
+  {label: 'Bonuses', icon: 'fa fa-asterisk', url: '#'},
+  {label: 'Payments', icon: 'fa fa-credit-card', url: '#'},
+];
+
+const sidebarBottomMenuItems = [
+  {label: 'Support', icon: 'fa fa-life-ring', url: '#'},
+];
+
 class NewLayout extends Component {
-  render() {
-    const { children } = this.props;
+  state = {
+    searchFieldActive: false,
+    searchOverlayActive: false,
+    dropDownOpen: false,
+    arrowToggle: false,
+    footerOpen: false,
+    // tabRemove: false,
+  }
+
+  handleSearchFieldClick = () => {
+    this.setState({ searchFieldActive: true}, () => {
+      this.searchInput.focus();
+    });
+  }
+
+  handleOverlayClick = () => {
+    this.setState({ searchFieldActive: false });
+  }
+
+  handleDropDownClick = () => {
+    this.setState({ dropDownOpen: !this.state.dropDownOpen, arrowToggle: !this.state.arrowToggle });
+  }
+
+  handleFooterOpenClick = () => {
+    this.setState({ footerOpen: true });
+  }
+
+  // handleTabRemoveClick = () => {
+  //   this.setState({ tabRemove: true });
+  // }
+
+  render () {
+    const {children} = this.props
 
     return <div>
       {this.renderHeader()}
       {this.renderSidebar()}
       {this.renderTabs(children)}
-    </div>;
+    </div>
   }
 
-  renderHeader() {
+  renderHeader () {
+    const {searchFieldActive} = this.state;
+    const {searchOverlayActive} = this.state;
+    const {dropDownOpen} = this.state;
+    const {arrowToggle} = this.state;
+
     return (
       <header>
-        <nav className="navbar fixed-top navbar-toggleable navbar-inverse bg-inverse">
-
-          <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon" />
-          </button>
+        <nav className="navbar fixed-top navbar-toggleable navbar-inverse justify-content-center">
 
           <a className="navbar-brand" href="#">
-            <img src="http://dxlfb468n8ekd.cloudfront.net/gsc/YXLK5A/81/37/cd/8137cd9157d3485280ea94bb3658c013/images/bo_header/u11598.png?token=c6a7f3fb262045340fe683845ff8347a" alt="logo" />
+            <img className="img-fluid" src="/img/temp/logo.png" alt="current-lottery-logo" />
           </a>
 
-          <div className="collapse navbar-collapse align-items-center" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item dropdown dropdown__left mx-sm-3 align-self-sm-center">
-                <a className="nav-link active dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Customer Service<i className="fa fa-angle-down" />
+          <div className="collapse navbar-collapse align-items-center">
+            <ul className="navbar-nav mr-auto align-items-center">
+              <li className="nav-item dropdown mx-sm-2 mx-md-3 department">
+                <a className="nav-link dropdown-toggle" href="#" onClick={this.handleDropDownClick}>
+                  Customer Service<i className={classNames('fa fa-angle-down', {arrowup: arrowToggle})} />
                 </a>
-                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a className="dropdown-item" href="#">Action</a>
-                  <a className="dropdown-item" href="#">Another action</a>
-                  <a className="dropdown-item" href="#">Something else here</a>
+                <span className="role">Head of department</span>
+                <div className={classNames('dropdown-menu', {activated: dropDownOpen})}>
+                  <div className="dropdown-item">
+                    <a href="#">Risk Fraud & Payment</a>
+                    <span className="role">Manager</span>
+                  </div>
+                  <div className="dropdown-item">
+                    <a href="#">Marketing</a>
+                    <span className="role">Senior Manager</span>
+                  </div>
                 </div>
               </li>
               <form className="form-inline">
-                <i className="fa fa-search" aria-hidden="true" /><input className="form-control" type="text" placeholder="Type to search" />
-                  {/*<button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>*/}
+                <i className="fa fa-search"/><input className="form-control" type="text" placeholder="Type to search" onClick={this.handleSearchFieldClick} />
+                <div className={classNames('search-overlay', {open: searchFieldActive})}>
+                  <div className="search-overlay__content">
+                    <button type="button" className={classNames('overlay-close', {closed: searchOverlayActive})} onClick={this.handleOverlayClick}>&#10005;</button>
+                    <form className="form-inline">
+                      <input className="form-control" type="text" placeholder="Search..." autoFocus ref={(node) => {this.searchInput = node}}/>
+                    </form>
+                  </div>
+                </div>
               </form>
             </ul>
             <ul className="navbar-nav navigation-right">
-              <li className="nav-item active">
-                <i className="fa fa-bell" />
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#">
+                  <i className="fa fa-bell" />
+                </a>
+                <div className="dropdown-menu">
+                  <div className="dropdown-item">Notifications</div>
+                </div>
               </li>
-              <li className="nav-item ml-sm-5">
-                <i className="fa fa-star" />
+              <li className="nav-item dropdown mx-sm-4">
+                <a className="nav-link dropdown-toggle" href="#">
+                  <i className="fa fa-star" />
+                </a>
+                <div className="dropdown-menu">
+                  <div className="dropdown-item">Favorites</div>
+                </div>
               </li>
-              <li className="nav-item ml-sm-5">
-                <i className="fa fa-user" />
+              <li className="nav-item dropdown">
+                <a className="nav-link dropdown-toggle" href="#">
+                  <i className="fa fa-user" />
+                </a>
+                <div className="dropdown-menu">
+                  <a className="dropdown-item" href="#">Log-out</a>
+                </div>
               </li>
             </ul>
           </div>
@@ -61,20 +147,44 @@ class NewLayout extends Component {
     );
   }
 
-  renderSidebar() {
-    return <aside>
-      Sidebar
-    </aside>;
+  renderSidebar () {
+    return (
+      <aside className="sidebar">
+        <SidebarMenu items={sidebarTopMenuItems} />
+        <SidebarMenu className="navbar-nav support-tab" items={sidebarBottomMenuItems} />
+      </aside>
+    );
   }
 
   renderTabs = (children) => {
-    return <footer>
+    const {footerOpen} = this.state;
+    // const {tabRemove} = this.state;
 
-      {children}
-
-    </footer>;
-  };
+    return (
+      <footer className={`footer ${footerOpen ? 'empty' : ''}`}>
+        <div className="footer-content row">
+          <div className="footer-content_tab tab-1 col-2">
+            {children}
+          </div>
+          <div className="footer-content_tab tab-2 col-2">
+            {children}
+          </div>
+          <div className="footer-content_tab tab-3 col-2">
+            {children}
+          </div>
+          <div className="footer-content_tab tab-4 col-2">
+            {children}
+          </div>
+          <div className="footer-content_tab tab-5 col-2">
+            {children}
+          </div>
+        </div>
+        <div className="footer-menu" onClick={::this.handleFooterOpenClick}>
+          &#10005;
+        </div>
+      </footer>
+    );
+  }
 }
 
 export default NewLayout;
-
