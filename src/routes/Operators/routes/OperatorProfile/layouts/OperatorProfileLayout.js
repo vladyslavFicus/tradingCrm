@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import Tabs from '../../../../../components/Tabs';
+import Modal from '../../../../../components/Modal';
 import Information from '../components/Information';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import './OperatorProfileLayout.scss';
 import PropTypes from '../../../../../constants/propTypes';
+
+const INFO_MODAL = 'info-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
+};
 
 class OperatorProfileLayout extends Component {
   static propTypes = {
@@ -25,6 +32,7 @@ class OperatorProfileLayout extends Component {
   };
 
   state = {
+    modal: { ...modalInitialState },
     informationShown: true,
   };
 
@@ -46,17 +54,46 @@ class OperatorProfileLayout extends Component {
     this.setState({ informationShown: !this.state.informationShown });
   };
 
-  handleResetPasswordClick = () => {
+  handleResetPasswordClick = async () => {
     const { onResetPassword, data } = this.props;
 
-    return onResetPassword({ email: data.email });
+    if (data.email) {
+      const action = await onResetPassword({ email: data.email });
+
+      if (action && !action.error) {
+        this.handleOpenModal(INFO_MODAL, {
+          header: 'Reset password',
+          body: (
+            <span>
+              Reset password link was sent to <strong>{data.email}</strong>.
+            </span>
+          ),
+          footer: (
+            <button className="btn btn-default" onClick={this.handleCloseModal}>
+              Close
+            </button>
+          ),
+        });
+      }
+    }
   };
 
-  handleStatusChange = () => {
-    // @TODO: Implement logic
+  handleOpenModal = (name, params) => {
+    this.setState({
+      modal: {
+        ...this.state.modal,
+        name,
+        params,
+      },
+    });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ modal: { ...modalInitialState } });
   };
 
   render() {
+    const { modal } = this.state;
     const {
       location,
       params,
@@ -126,6 +163,14 @@ class OperatorProfileLayout extends Component {
             </section>
           </div>
         </div>
+        {
+          modal.name === INFO_MODAL &&
+          <Modal
+            onClose={this.handleCloseModal}
+            isOpen
+            {...modal.params}
+          />
+        }
       </div>
     );
   }
