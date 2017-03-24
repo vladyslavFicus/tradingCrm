@@ -1,7 +1,7 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
-import { LIMIT_TYPES, LIMIT_STATUSES } from '../constants';
+import createReducer from '../../../../../utils/createReducer';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import { types, statuses } from '../../../../../constants/limits';
 
 const KEY = 'user-limits';
 const SET_LIMITS_LIST = `${KEY}/set-limits-list`;
@@ -15,7 +15,7 @@ function fetchLimitsByType(uuid, type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${uuid}/limits/${type}`,
+        endpoint: `/playing-session/${uuid}/limit-history/${type}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -26,12 +26,6 @@ function fetchLimitsByType(uuid, type) {
           FETCH_LIMITS.REQUEST,
           {
             type: FETCH_LIMITS.SUCCESS,
-            payload: (action, state, res) => {
-              const contentType = res.headers.get('Content-Type');
-              if (contentType && ~contentType.indexOf('json')) {
-                return res.json().then((json) => json);
-              }
-            },
             meta: { type },
           },
           FETCH_LIMITS.FAILURE,
@@ -60,15 +54,23 @@ function sortByDate(a, b) {
 }
 
 function sortByStatus(a, b) {
-  if (a.status === LIMIT_STATUSES.ACTIVE && b.status === LIMIT_STATUSES.ACTIVE) {
+  if (a.status === statuses.IN_PROGRESS && b.status === statuses.IN_PROGRESS) {
     return sortByDate(a, b);
-  } else if (a.status === LIMIT_STATUSES.ACTIVE) {
+  } else if (a.status === statuses.IN_PROGRESS) {
     return 1;
-  } else if (b.status === LIMIT_STATUSES.ACTIVE) {
+  } else if (b.status === statuses.IN_PROGRESS) {
     return -1;
   }
 
   return sortByDate(a, b);
+}
+
+function mapLimitType(type) {
+  return item => ({ ...item, type });
+}
+
+function mapLimitFetchActions(action) {
+  return action.error ? [] : action.payload.map(mapLimitType(action.meta.type));
 }
 
 function mapLimitsActions(actions) {
@@ -78,20 +80,12 @@ function mapLimitsActions(actions) {
     .sort(sortByStatus);
 }
 
-function mapLimitFetchActions(action) {
-  return action.error ? [] : action.payload.content.map(mapLimitType(action.meta.type));
-}
-
-function mapLimitType(type) {
-  return (item, key) => ({ ...item, type });
-}
-
 function fetchLimits(uuid) {
-  return (dispatch, getState) => Promise.all([
-    dispatch(fetchLimitsByType(uuid, LIMIT_TYPES.SESSION_DURATION)),
-    dispatch(fetchLimitsByType(uuid, LIMIT_TYPES.LOSS)),
-    dispatch(fetchLimitsByType(uuid, LIMIT_TYPES.WAGER)),
-  ]).then((actions) => dispatch(setLimitsList(mapLimitsActions(actions))));
+  return dispatch => Promise.all([
+    dispatch(fetchLimitsByType(uuid, types.SESSION_DURATION)),
+    dispatch(fetchLimitsByType(uuid, types.LOSS)),
+    dispatch(fetchLimitsByType(uuid, types.WAGER)),
+  ]).then(actions => dispatch(setLimitsList(mapLimitsActions(actions))));
 }
 
 function setLimit(type, data) {
