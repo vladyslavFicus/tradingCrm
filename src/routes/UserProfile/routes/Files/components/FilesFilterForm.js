@@ -96,7 +96,7 @@ class FilesFilterForm extends Component {
               </div>
               <div className="col-md-6">
                 <div className="form-group">
-                  <label className="form-label">Activity date range</label>
+                  <label className="form-label">Date range</label>
                   <div className="row">
                     <div className="col-md-5">
                       <Field

@@ -1,0 +1,27 @@
+.upload-modal {
+  &.modal-dialog {
+    width: 735px;
+  }
+
+  .modal-footer {
+    text-align: left;
+  }
+
+  .modal-title {
+    font-weight: 300;
+  }
+
+  .modal-header {
+    background-color: rgb(223, 242, 255);
+    border: none;
+  }
+
+  .close {
+    font-size: 4rem;
+    background: transparent;
+  }
+
+  .close:focus {
+    outline: none;
+  }
+}

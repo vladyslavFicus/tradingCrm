@@ -1,10 +1,11 @@
-import { combineReducers }from 'redux';
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
-import timestamp from 'utils/timestamp';
-import { actions } from 'constants/user';
-import { actionCreators as usersActionCreators } from 'redux/modules/users';
+import { combineReducers } from 'redux';
+import createReducer from '../../../utils/createReducer';
+import createRequestAction from '../../../utils/createRequestAction';
+import timestamp from '../../../utils/timestamp';
+import { shortify } from '../../../utils/uuid';
+import { actions } from '../../../constants/user';
+import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
 
 const KEY = 'user-profile';
 const PROFILE = createRequestAction(`${KEY}/view`);
@@ -460,6 +461,8 @@ const profileActionHandlers = {
     data: {
       ...state.data,
       ...action.payload,
+      fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
+      shortUUID: shortify(action.payload.uuid, 'PL'),
     },
     isLoading: false,
     receivedAt: timestamp(),

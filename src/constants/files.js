@@ -8,11 +8,13 @@ const actions = keyMirror({
 const categories = keyMirror({
   KYC_PERSONAL: null,
   KYC_ADDRESS: null,
+  OTHER: null,
 });
 
 const categoriesLabels = {
   [categories.KYC_PERSONAL]: 'KYC - Personal',
   [categories.KYC_ADDRESS]: 'KYC - Address',
+  [categories.OTHER]: 'Other',
 };
 
 const statuses = keyMirror({

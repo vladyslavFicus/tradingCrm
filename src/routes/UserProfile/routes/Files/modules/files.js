@@ -6,12 +6,16 @@ import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../constants/note';
+import { actions } from '../../../../../constants/files';
 import downloadBlob from '../../../../../utils/downloadBlob';
 
 const KEY = 'user/files/files';
 const FETCH_FILES = createRequestAction(`${KEY}/fetch-files`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
+const SAVE_FILES = createRequestAction(`${KEY}/save-files`);
 const DOWNLOAD_FILE = createRequestAction(`${KEY}/download-file`);
+const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
+const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 const DELETE_FILE = createRequestAction(`${KEY}/delete-file`);
 
 const fetchNotes = noteActionCreators.fetchNotesByType(FETCH_NOTES);
@@ -65,7 +69,32 @@ function fetchFilesAndNotes(playerUUID, filters, fetchFilesFn = fetchFiles, fetc
   };
 }
 
-function downloadFile(profileUUID, data) {
+function saveFiles(playerUUID, data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/files/confirm/${playerUUID}`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          SAVE_FILES.REQUEST,
+          SAVE_FILES.SUCCESS,
+          SAVE_FILES.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function downloadFile(data) {
   return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -73,7 +102,7 @@ function downloadFile(profileUUID, data) {
       return dispatch({ type: DOWNLOAD_FILE.FAILURE, payload: new Error('Unauthorized') });
     }
 
-    const requestUrl = `${getApiRoot()}/profile/files/${profileUUID}/${data.uuid}`;
+    const requestUrl = `${getApiRoot()}/profile/files/download/${data.uuid}`;
     const response = await fetch(requestUrl, {
       method: 'GET',
       headers: {
@@ -111,6 +140,69 @@ function deleteFile(playerUUID, fileUUID) {
         bailout: !logged,
       },
     });
+  };
+}
+
+function verifyFile(uuid) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/files/${uuid}/status/verify`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          VERIFY_FILE.REQUEST,
+          VERIFY_FILE.SUCCESS,
+          VERIFY_FILE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function refuseFile(uuid) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/files/${uuid}/status/refuse`,
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          REFUSE_FILE.REQUEST,
+          REFUSE_FILE.SUCCESS,
+          REFUSE_FILE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function changeStatusByAction(uuid, action) {
+  return (dispatch) => {
+    switch (action) {
+      case actions.VERIFY: {
+        return dispatch(verifyFile(uuid));
+      }
+      case actions.REFUSE: {
+        return dispatch(refuseFile(uuid));
+      }
+      default:
+        return null;
+    }
   };
 }
 
@@ -172,12 +264,16 @@ const actionHandlers = {
 const actionTypes = {
   FETCH_FILES,
   DOWNLOAD_FILE,
+  VERIFY_FILE,
+  REFUSE_FILE,
   DELETE_FILE,
 };
 const actionCreators = {
   fetchFiles,
   fetchFilesAndNotes,
+  saveFiles,
   downloadFile,
+  changeStatusByAction,
   deleteFile,
 };
 

@@ -5,15 +5,23 @@ import files, {
   actionTypes as filesActionTypes,
   actionCreators as filesActionCreators,
 } from './files';
+import uploading, {
+  initialState as uploadingInitialState,
+  actionTypes as uploadingActionTypes,
+  actionCreators as uploadingActionCreators,
+} from './uploading';
 
 const initialState = {
   files: filesInitialState,
+  uploading: uploadingInitialState,
 };
 const actionTypes = {
   ...filesActionTypes,
+  ...uploadingActionTypes,
 };
 const actionCreators = {
   ...filesActionCreators,
+  ...uploadingActionCreators,
 };
 
 export {
@@ -24,4 +32,5 @@ export {
 
 export default combineReducers({
   files,
+  uploading,
 });

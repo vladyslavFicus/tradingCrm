@@ -1,5 +1,5 @@
-import Permissions, { CONDITIONS } from 'utils/permissions';
-import permission from 'config/permissions';
+import Permissions, { CONDITIONS } from '../utils/permissions';
+import permission from './permissions';
 
 const sidebar = [
   {
@@ -54,7 +54,7 @@ const userProfileTabs = [
   { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Transactions', url: '/users/:id/transactions' },
   { label: 'Files', url: '/users/:id/files' },
-  { label: 'Documents', url: '/users/:id/documents' },
+  { label: 'Limits', url: '/users/:id/limits' },
 ];
 
 const operatorProfileTabs = [

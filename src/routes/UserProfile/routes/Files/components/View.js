@@ -1,24 +1,39 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import classNames from 'classnames';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import Amount from '../../../../../components/Amount';
 import { shortify } from '../../../../../utils/uuid';
 import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
-import { categoriesLabels, statusesLabels } from '../../../../../constants/files';
+import { categoriesLabels } from '../../../../../constants/files';
+import UploadModal from './UploadModal';
 import FilesFilterForm from './FilesFilterForm';
+import FileStatusDropDown from './FileStatusDropDown';
+import DeleteModal from "./DeleteModal/DeleteModal";
+
+const DELETE_MODAL = 'delete-modal';
+const UPLOAD_MODAL = 'upload-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
+};
 
 class View extends Component {
   static propTypes = {
+    profile: PropTypes.object.isRequired,
     files: PropTypes.pageableState(PropTypes.fileEntity).isRequired,
+    uploading: PropTypes.object.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
     fetchFilesAndNotes: PropTypes.func.isRequired,
+    uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
+    changeStatusByAction: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
+    saveFiles: PropTypes.func.isRequired,
+    cancelFile: PropTypes.func.isRequired,
+    resetUploading: PropTypes.func.isRequired,
   };
 
   static contextTypes = {
@@ -28,6 +43,7 @@ class View extends Component {
   };
 
   state = {
+    modal: { ...modalInitialState },
     filters: {},
     page: 0,
   };
@@ -74,21 +90,74 @@ class View extends Component {
     }, () => this.handleRefresh());
   };
 
-  handleUploadFileClick = () => {
+  handleUploadFile = (errors, file) => {
+    this.props.uploadFile(file);
+  };
 
+  handleUploadFileClick = () => {
+    this.setState({
+      modal: {
+        name: UPLOAD_MODAL,
+        params: {
+          profile: this.props.profile.data,
+        },
+      },
+    });
   };
 
   handleDownloadClick = (e, data) => {
     e.preventDefault();
 
-    this.props.downloadFile(this.props.params.id, data);
+    this.props.downloadFile(data);
   };
 
-  handleDeleteClick = async (e, data) => {
+  handleDeleteClick = (e, data) => {
     e.preventDefault();
 
-    await this.props.deleteFile(this.props.params.id, data.uuid);
-    this.handleRefresh();
+    this.setState({
+      modal: {
+        name: DELETE_MODAL,
+        params: {
+          file: data,
+          onSuccess: this.handleDelete.bind(null, data),
+        },
+      },
+    });
+  };
+
+  handleDelete = async (data) => {
+    this.handleCloseModal(async () => {
+      await this.props.deleteFile(this.props.params.id, data.uuid);
+      this.handleRefresh();
+    });
+  };
+
+  handleUploadingFileDelete = (file) => {
+    this.props.cancelFile(file);
+  };
+
+  handleStatusActionClick = (file, action) => {
+    this.props.changeStatusByAction(file.uuid, action);
+  };
+
+  handleSubmitUploadModal = async (data) => {
+    this.handleCloseModal(async () => {
+      await this.props.saveFiles(this.props.params.id, data);
+      this.props.resetUploading();
+      this.handleRefresh();
+    });
+  };
+
+  handleCloseUploadModal = () => {
+    this.handleCloseModal(this.props.resetUploading);
+  };
+
+  handleCloseModal = (callback) => {
+    this.setState({ modal: { ...modalInitialState } }, () => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
   };
 
   renderFileName = data => (
@@ -106,7 +175,7 @@ class View extends Component {
         </span>
       </div>
       <div>
-        {data.name === data.realName ? null : data.realName} - {shortify(data.uuid)}
+        {data.name === data.realName ? null : `${data.realName} - `}{shortify(data.uuid)}
       </div>
       <div>
         by {shortify(data.author, data.author.indexOf('OPERATOR') === -1 ? 'PL' : '')}
@@ -132,16 +201,11 @@ class View extends Component {
   );
 
   renderStatus = (data) => {
-    const { value: status } = data.status;
-
     return (
-      <div className="font-weight-700">
-        {
-          status && statusesLabels[status]
-            ? statusesLabels[status]
-            : status
-        }
-      </div>
+      <FileStatusDropDown
+        file={data}
+        onActionClick={this.handleStatusActionClick}
+      />
     );
   };
 
@@ -159,10 +223,12 @@ class View extends Component {
   );
 
   render() {
+    const { modal } = this.state;
     const {
       files: {
         entities,
       },
+      uploading,
     } = this.props;
 
     return (
@@ -219,6 +285,28 @@ class View extends Component {
             render={this.renderNote}
           />
         </GridView>
+
+        {
+          modal.name === UPLOAD_MODAL &&
+          <UploadModal
+            {...modal.params}
+            isOpen
+            uploading={Object.values(uploading)}
+            onUploadFile={this.handleUploadFile}
+            onCancelFile={this.handleUploadingFileDelete}
+            onSubmit={this.handleSubmitUploadModal}
+            onClose={this.handleCloseUploadModal}
+          />
+        }
+        {
+          modal.name === DELETE_MODAL &&
+          <DeleteModal
+            {...modal.params}
+            isOpen
+            profile={this.props.profile.data}
+            onClose={this.handleCloseModal}
+          />
+        }
       </div>
     );
   }

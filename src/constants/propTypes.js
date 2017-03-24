@@ -79,5 +79,12 @@ PropTypes.fileEntity = PropTypes.shape({
   uploadDate: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+PropTypes.uploadingFile = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  uploaded: PropTypes.bool.isRequired,
+  progress: PropTypes.number.isRequired,
+  fileUUID: PropTypes.string,
+  error: PropTypes.object,
+});
 
 export default PropTypes;
