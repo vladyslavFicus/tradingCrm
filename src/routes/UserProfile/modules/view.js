@@ -1,4 +1,4 @@
-import { combineReducers }from 'redux';
+import { combineReducers } from 'redux';
 import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
@@ -35,44 +35,59 @@ const WITHDRAW_UNLOCK = createRequestAction(`${KEY}/withdraw-unlock`);
 const profileInitialState = {
   data: {
     id: null,
+    acceptedTermsId: null,
     username: null,
+    uuid: null,
     firstName: null,
     lastName: null,
     email: null,
+    registrationIP: null,
+    address: null,
+    identifier: null,
+    title: null,
+    gender: null,
+    country: null,
+    city: null,
+    postCode: null,
+    languageCode: null,
     currencyCode: null,
+    phoneNumber: null,
+    phoneNumberVerified: false,
+    affiliateId: null,
+    btag: null,
+    marketingSMS: false,
+    marketingNews: false,
+    marketingMail: false,
+    token: null,
+    tokenExpirationDate: null,
+    profileStatus: null,
+    profileStatusReason: null,
+    profileStatusComment: null,
+    suspendEndDate: null,
+    birthDate: null,
+    registrationDate: null,
+    profileTags: [],
+    kycStatus: null,
+    kycStatusReason: null,
+    kycCompleted: false,
+    completed: false,
     balance: { amount: 0, currency: 'EUR' },
-    addressStatus: {},
-    personalStatus: {},
-    personalKycMetaData: [{
-      id: 1,
-      name: 'name',
-      realName: 'realName',
-      uploadDate: '2017-03-14T09:49:20.217',
-      author: 'author',
-      type: 'type',
-      status: {
-        type: 'type',
-        value: 'value',
-        editDate: 'editDate',
-        author: 'author',
-        reason: 'reason',
-      },
-    }],
-    addressKycMetaData: [{
-      id: 1,
-      name: 'name',
-      realName: 'realName',
-      uploadDate: '2017-03-14T09:49:20.21',
-      author: 'author',
-      type: 'type',
-      status: {
-        type: 'type',
-        value: 'value',
-        editDate: 'editDate',
-        author: 'author',
-        reason: 'reason',
-      },
-    }],
+    addressStatus: {
+      value: null,
+      editDate: null,
+      author: null,
+      reason: null,
+      comment: null,
+    },
+    personalStatus: {
+      value: null,
+      editDate: null,
+      author: null,
+      reason: null,
+      comment: null,
+    },
+    personalKycMetaData: [],
+    addressKycMetaData: [],
   },
   error: null,
   isLoading: false,
@@ -97,7 +112,7 @@ const initialState = {
   withdraw: withdrawInitialState,
 };
 
-export const mapBalances = (items) =>
+export const mapBalances = items =>
   Object
     .keys(items)
     .reduce((result, item) => (

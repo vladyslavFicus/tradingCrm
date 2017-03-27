@@ -1,17 +1,13 @@
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
-import { actionCreators as usersActionCreators } from 'redux/modules/users';
+import createReducer from '../../../../../utils/createReducer';
+import createRequestAction from '../../../../../utils/createRequestAction';
 
-const KEY = `kyc`;
+const KEY = 'kyc';
 const VERIFY_IDENTITY = createRequestAction(`${KEY}/verify-identity`);
 const REFUSE_IDENTITY = createRequestAction(`${KEY}/refuse-identity`);
 
-function fetchProfile(uuid) {
-  return usersActionCreators.fetchProfile(VERIFY_IDENTITY)(uuid);
-}
-
 function verifyIdentity(playerUUID, type) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
@@ -23,10 +19,14 @@ function verifyIdentity(playerUUID, type) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        types: [VERIFY_IDENTITY.REQUEST, VERIFY_IDENTITY.SUCCESS, VERIFY_IDENTITY.FAILURE],
+        types: [
+          VERIFY_IDENTITY.REQUEST,
+          VERIFY_IDENTITY.SUCCESS,
+          VERIFY_IDENTITY.FAILURE,
+        ],
         bailout: !logged,
       },
-    }).then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -36,7 +36,7 @@ function refuseIdentity(playerUUID, type, data) {
 
     return dispatch({
       [CALL_API]: {
-        //endpoint: `profile/kyc/${playerUUID}/${type}`,
+        endpoint: `profile/kyc/${playerUUID}/${type}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
@@ -44,21 +44,19 @@ function refuseIdentity(playerUUID, type, data) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
-        types: [REFUSE_IDENTITY.REQUEST, REFUSE_IDENTITY.SUCCESS, REFUSE_IDENTITY.FAILURE],
+        types: [
+          REFUSE_IDENTITY.REQUEST,
+          REFUSE_IDENTITY.SUCCESS,
+          REFUSE_IDENTITY.FAILURE,
+        ],
         bailout: !logged,
       },
-    }).then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
 const initialState = {};
 const actionHandlers = {};
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-};
 
 const actionTypes = {
   VERIFY_IDENTITY,
@@ -76,4 +74,4 @@ export {
   actionHandlers,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

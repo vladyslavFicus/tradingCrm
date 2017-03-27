@@ -36,10 +36,11 @@ class View extends Component {
   };
   handleVerifyIdentity = (type) => () => {
     const { params: { id }, verifyIdentity } = this.props;
+
     verifyIdentity(id, type)
       .then(action => {
         console.log('handleVerifyIdentity action', action);
-    });
+      });
   };
 
   handleRefuseIdentity = type => data => {
@@ -49,6 +50,7 @@ class View extends Component {
         console.log('refuseIdentity action', action);
       });
   };
+
   render() {
     const { profile: { data, receivedAt } } = this.props;
     if (!receivedAt) {
@@ -57,7 +59,25 @@ class View extends Component {
 
     return (
       <div className="player__account__page_profile tab-content padding-vertical-20">
-        <div className="tab-pane active" id="home1" role="tabpanel">
+        <div className="row">
+          <div className="col-md-6">
+            <h3>KYC Request</h3>
+            <span className="font-size-12">
+              sent on {'hlll'}
+            </span>
+          </div>
+          <div className="col-md-6 text-right">
+            <div className="display-inline-block margin-inline">
+              <button className="btn btn-danger-outline">Refuse All</button>
+            </div>
+
+            <div className="display-inline-block margin-inline">
+              <button className="btn btn-success-outline">Verify All</button>
+            </div>
+          </div>
+        </div>
+
+        <div className="tab-pane active">
           <div className="panel">
             <div className="panel-body row">
               <div className="col-md-8 profile-bordered-block">
