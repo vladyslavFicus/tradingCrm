@@ -57,8 +57,7 @@ if (config.nas.departments) {
 }
 
 if (config.nas.roles) {
-  config.availableRoles = config.nas.roles;
-  config.availableRoles = config.availableRoles.map(item => ({
+  config.availableRoles = config.nas.roles.map(item => ({
     value: item,
     label: item,
   }));
