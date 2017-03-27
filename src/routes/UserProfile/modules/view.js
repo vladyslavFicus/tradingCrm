@@ -23,6 +23,8 @@ const UPDATE_SUBSCRIPTION = createRequestAction(`${KEY}/update-subscription`);
 
 const CHECK_LOCK = createRequestAction(`${KEY}/check-lock`);
 
+const VERIFY_KYC = createRequestAction(`${KEY}/verify-kyc`);
+
 const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
 const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
 
@@ -103,6 +105,36 @@ function updateSubscription(playerUUID, name, value) {
         bailout: !logged,
       },
     })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
+function verifyKYCByType(type, playerUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/kyc/${playerUUID}/${type}/verify`,
+        method: 'POST',
+        types: [VERIFY_KYC.REQUEST, VERIFY_KYC.SUCCESS, VERIFY_KYC.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function verifyKYC(playerUUID) {
+  return (dispatch) => {
+    return Promise.all([
+      dispatch(verifyKYCByType('KYC_PERSONAL', playerUUID)),
+      dispatch(verifyKYCByType('KYC_ADDRESS', playerUUID)),
+    ])
       .then(() => dispatch(fetchProfile(playerUUID)));
   };
 }
@@ -597,6 +629,7 @@ const actionCreators = {
   changeStatus,
   addTag,
   deleteTag,
+  verifyKYC,
 };
 
 export {
