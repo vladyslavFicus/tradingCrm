@@ -145,7 +145,6 @@ class List extends Component {
               tableClassName="table table-hovered data-grid-layout"
               headerClassName=""
               dataSource={entities.content}
-              onFiltersChanged={this.handleFiltersChanged}
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
