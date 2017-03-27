@@ -136,9 +136,7 @@ function fetchESEntities(type) {
         types: [
           {
             type: type.REQUEST,
-            meta: {
-              filters,
-            },
+            meta: { filters },
           },
           type.SUCCESS,
           type.FAILURE,

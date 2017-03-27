@@ -40,10 +40,11 @@ class OperatorGridFilter extends Component {
     reset: PropTypes.func,
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
   };
 
   handleSubmit = () => {
-    console.log('implement handleSubmit');
+    return this.props.onSubmit(this.props.filterValues);
   };
 
   handleDateTimeChange = callback => (value) => {
