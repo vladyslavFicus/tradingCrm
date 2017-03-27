@@ -1,12 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import Switch from 'components/Forms/Switch';
+import Switch from '../../components/Forms/Switch';
 
 const SUBSCRIPTION_TYPE_SMS = 'marketingSMS';
 const SUBSCRIPTION_TYPE_NEWS = 'marketingNews';
 const SUBSCRIPTION_TYPE_MAIL = 'marketingMail';
 
 class Additional extends Component {
-  handleSwitch = (name) => (value) => {
+  static propTypes = {
+    initialValues: PropTypes.object,
+    updateSubscription: PropTypes.func.isRequired,
+  };
+
+  handleSwitch = name => (value) => {
     this.props.updateSubscription(name, value);
   };
 
@@ -26,10 +31,10 @@ class Additional extends Component {
                 <b>SMS</b>:
               </div>
               <div className="col-xs-6 text-right">
-                  <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_SMS]}
-                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
-                  />
+                <Switch
+                  active={initialValues[SUBSCRIPTION_TYPE_SMS]}
+                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
+                />
               </div>
             </div>
             <div className="row">
@@ -37,10 +42,10 @@ class Additional extends Component {
                 <b>News</b>:
               </div>
               <div className="col-xs-6 text-right">
-                  <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
-                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
-                  />
+                <Switch
+                  active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
+                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
+                />
               </div>
             </div>
             <div className="row">
@@ -48,10 +53,10 @@ class Additional extends Component {
                 <b>Snail mail</b>:
               </div>
               <div className="col-xs-6 text-right">
-                  <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
-                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
-                  />
+                <Switch
+                  active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
+                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
+                />
               </div>
             </div>
           </div>
@@ -60,10 +65,5 @@ class Additional extends Component {
     );
   }
 }
-
-Additional.propTypes = {
-  updateSubscription: PropTypes.func.isRequired,
-};
-Additional.defaultProps = {};
 
 export default Additional;

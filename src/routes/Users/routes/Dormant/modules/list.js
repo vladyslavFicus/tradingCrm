@@ -1,3 +1,4 @@
+import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
@@ -42,13 +43,13 @@ function fetchEntities(filters = {}) {
       const response = action.payload;
 
       return response.content && response.content.length ? dispatch(fetchUserEntities({ playerUuidList: response.content }))
-          .then(action => ({
-            ...action,
-            payload: {
-              ...response.payload,
-              content: action.payload.content,
-            },
-          })) : action;
+        .then(action => ({
+          ...action,
+          payload: {
+            ...response.payload,
+            content: action.payload.content,
+          },
+        })) : action;
     });
 }
 
@@ -75,7 +76,6 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
 };
-
 const initialState = {
   entities: {
     first: null,
@@ -93,20 +93,18 @@ const initialState = {
   error: null,
   receivedAt: null,
 };
-function reducer(state = initialState, action) {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
 const actionTypes = {
   FETCH_ENTITIES,
 };
-
 const actionCreators = {
   fetchEntities,
 };
 
-export { actionCreators, actionTypes, initialState };
+export {
+  initialState,
+  actionCreators,
+  actionTypes,
+  actionHandlers,
+};
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

@@ -1,13 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import Personal from './Personal';
-import Additional from './Additional';
-import IpList from './IpList';
-import Notes from './Notes';
+import Personal from '../../../components/Information/Personal';
+import Additional from '../../../components/Information/Additional';
+import IpList from '../../../components/Information/IpList';
+import Notes from '../../../components/Information/Notes';
 
-import './Information.scss';
+class Information extends Component {
+  static propTypes = {
+    data: PropTypes.object,
+    updateSubscription: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    ips: PropTypes.array.isRequired,
+    notes: PropTypes.object.isRequired,
+  };
 
-export default class Container extends Component {
   render() {
     const {
       data,
@@ -15,11 +21,10 @@ export default class Container extends Component {
       updateSubscription,
       notes,
       onEditNoteClick,
-      showNotes,
     } = this.props;
 
     return (
-      <div className={classNames('player__account__details row panel-body profile-information', { 'hide-notes': !showNotes })}>
+      <div className="player__account__details row panel-body">
         <Personal data={data} />
         <Additional
           initialValues={{
@@ -31,16 +36,13 @@ export default class Container extends Component {
         />
         <IpList ips={ips} />
 
-        {showNotes && <Notes
+        <Notes
           notes={notes}
           onEditNoteClick={onEditNoteClick}
-        />}
+        />
       </div>
     );
   }
 }
 
-Container.propTypes = {
-  data: PropTypes.object,
-  showNotes: PropTypes.bool,
-};
+export default Information;

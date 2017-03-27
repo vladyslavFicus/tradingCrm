@@ -1,43 +1,126 @@
-import React, { Component, PropTypes } from 'react';
-import Tabs from 'components/Tabs';
-import Information from 'components/Information/Container';
-import { operatorProfileTabs } from 'config/menu';
+import React, { Component } from 'react';
+import Tabs from '../../../../../components/Tabs';
+import Modal from '../../../../../components/Modal';
+import Information from '../components/Information';
+import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
-import "./OperatorProfileLayout.scss";
+import './OperatorProfileLayout.scss';
+import PropTypes from '../../../../../constants/propTypes';
 
-export default class OperatorProfileLayout extends Component {
+const INFO_MODAL = 'info-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
+};
+
+class OperatorProfileLayout extends Component {
+  static propTypes = {
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    location: PropTypes.object,
+    children: PropTypes.node,
+    data: PropTypes.object,
+    availableStatuses: PropTypes.array.isRequired,
+    changeStatus: PropTypes.func.isRequired,
+    fetchProfile: PropTypes.func.isRequired,
+    fetchIp: PropTypes.func.isRequired,
+    onResetPassword: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool,
+    ip: PropTypes.object.isRequired,
+    lastIp: PropTypes.ipEntity,
+  };
+
   state = {
+    modal: { ...modalInitialState },
     informationShown: true,
   };
+
+  componentDidMount() {
+    const {
+      isLoading,
+      fetchProfile,
+      params: { id },
+      fetchIp,
+    } = this.props;
+
+    if (!isLoading) {
+      fetchProfile(id)
+        .then(() => fetchIp(id, { limit: 10 }));
+    }
+  }
 
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
   };
 
+  handleResetPasswordClick = async () => {
+    const { onResetPassword, data } = this.props;
+
+    if (data.email) {
+      const action = await onResetPassword({ email: data.email });
+
+      if (action && !action.error) {
+        this.handleOpenModal(INFO_MODAL, {
+          header: 'Reset password',
+          body: (
+            <span>
+              Reset password link was sent to <strong>{data.email}</strong>.
+            </span>
+          ),
+          footer: (
+            <button className="btn btn-default" onClick={this.handleCloseModal}>
+              Close
+            </button>
+          ),
+        });
+      }
+    }
+  };
+
+  handleOpenModal = (name, params) => {
+    this.setState({
+      modal: {
+        ...this.state.modal,
+        name,
+        params,
+      },
+    });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ modal: { ...modalInitialState } });
+  };
+
   render() {
+    const { modal } = this.state;
     const {
       location,
       params,
       children,
       data,
+      ip,
+      lastIp,
+      availableStatuses,
+      changeStatus,
     } = this.props;
 
     const {
       informationShown,
     } = this.state;
 
-    const ip = {
-      entities: {
-        content: [],
-      },
-    };
-
     return (
       <div className="player container panel operator-profile-layout">
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12">
-              <Header operatorProfile={data} />
+              <Header
+                data={data}
+                lastIp={lastIp}
+                availableStatuses={availableStatuses}
+                onResetPasswordClick={this.handleResetPasswordClick}
+                onStatusChange={changeStatus}
+              />
             </div>
           </div>
 
@@ -47,7 +130,7 @@ export default class OperatorProfileLayout extends Component {
                 className="operator-profile-layout-info-toggle-button"
                 onClick={this.handleToggleInformationBlock}
               >
-                {!informationShown ? 'Show details' : 'Hide details'}
+                {informationShown ? 'Hide details' : 'Show details'}
               </button>
               <div className="col-xs-12">
                 <hr />
@@ -60,8 +143,6 @@ export default class OperatorProfileLayout extends Component {
             <Information
               data={data}
               ips={ip.entities.content}
-              updateSubscription={() => {} /* updateSubscription.bind(null, params.id) */}
-              showNotes={false}
             />
           }
 
@@ -82,16 +163,17 @@ export default class OperatorProfileLayout extends Component {
             </section>
           </div>
         </div>
+        {
+          modal.name === INFO_MODAL &&
+          <Modal
+            onClose={this.handleCloseModal}
+            isOpen
+            {...modal.params}
+          />
+        }
       </div>
     );
   }
 }
 
-OperatorProfileLayout.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string,
-  }),
-  location: PropTypes.string,
-  children: PropTypes.node,
-  data: PropTypes.object,
-};
+export default OperatorProfileLayout;

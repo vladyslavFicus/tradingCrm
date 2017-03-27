@@ -1,3 +1,5 @@
+import { combineReducers }from 'redux';
+import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from 'utils/createRequestAction';
 import timestamp from 'utils/timestamp';
@@ -10,6 +12,7 @@ const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
 const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
+const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
 const RESUME_PROFILE = createRequestAction(`${KEY}/resume-profile`);
@@ -33,6 +36,8 @@ const profileInitialState = {
   data: {
     id: null,
     username: null,
+    firstName: null,
+    lastName: null,
     email: null,
     currencyCode: null,
     balance: { amount: 0, currency: 'EUR' },
@@ -86,7 +91,7 @@ const withdrawInitialState = {
   receivedAt: null,
 };
 
-export const initialState = {
+const initialState = {
   profile: profileInitialState,
   deposit: depositInitialState,
   withdraw: withdrawInitialState,
@@ -103,17 +108,10 @@ export const mapBalances = (items) =>
         result
     ), []);
 
-function fetchProfile(uuid) {
-  return usersActionCreators.fetchProfile(PROFILE)(uuid);
-}
-
-function updateProfile(uuid, data) {
-  return usersActionCreators.updateProfile(UPDATE_PROFILE)(uuid, data);
-}
-
-function updateIdentifier(uuid, identifier) {
-  return usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER)(uuid, identifier);
-}
+const fetchProfile = usersActionCreators.fetchProfile(PROFILE);
+const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
+const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
+const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
 
 function updateSubscription(playerUUID, name, value) {
   return (dispatch, getState) => {
@@ -257,7 +255,7 @@ function lockDeposit(playerUUID, reason) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/deposit`,
+        endpoint: 'payment/lock/deposit',
         method: 'POST',
         types: [DEPOSIT_LOCK.REQUEST, DEPOSIT_LOCK.SUCCESS, DEPOSIT_LOCK.FAILURE],
         headers: {
@@ -303,7 +301,7 @@ function lockWithdraw(playerUUID, reason) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/withdraw`,
+        endpoint: 'payment/lock/withdraw',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -431,7 +429,7 @@ function unblockProfile({ playerUUID, ...data }) {
 }
 
 function changeStatus({ action, ...data }) {
-  return dispatch => {
+  return (dispatch) => {
     if (action === actions.BLOCK) {
       return dispatch(blockProfile(data));
     } else if (action === actions.UNBLOCK) {
@@ -453,7 +451,7 @@ function loadFullProfile(uuid) {
 }
 
 const balanceActionHandlers = {
-  [FETCH_BALANCES.REQUEST]: (state, action) => ({
+  [FETCH_BALANCES.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
@@ -484,7 +482,7 @@ const balanceActionHandlers = {
   }),
 };
 const profileActionHandlers = {
-  [PROFILE.REQUEST]: (state, action) => ({
+  [PROFILE.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
@@ -507,7 +505,7 @@ const profileActionHandlers = {
   ...balanceActionHandlers,
 };
 const depositActionHandlers = {
-  [CHECK_LOCK.REQUEST]: (state, action) => ({
+  [CHECK_LOCK.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
@@ -538,12 +536,12 @@ const depositActionHandlers = {
     receivedAt: timestamp(),
   }),
 
-  [DEPOSIT_LOCK.REQUEST]: (state, action) => ({
+  [DEPOSIT_LOCK.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [DEPOSIT_LOCK.SUCCESS]: (state, action) => ({
+  [DEPOSIT_LOCK.SUCCESS]: state => ({
     ...state,
     isLoading: false,
     receivedAt: timestamp(),
@@ -556,7 +554,7 @@ const depositActionHandlers = {
   }),
 };
 const withdrawActionHandlers = {
-  [CHECK_LOCK.REQUEST]: (state, action) => ({
+  [CHECK_LOCK.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
@@ -587,12 +585,12 @@ const withdrawActionHandlers = {
     receivedAt: timestamp(),
   }),
 
-  [WITHDRAW_LOCK.REQUEST]: (state, action) => ({
+  [WITHDRAW_LOCK.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [WITHDRAW_LOCK.SUCCESS]: (state, action) => ({
+  [WITHDRAW_LOCK.SUCCESS]: state => ({
     ...state,
     isLoading: false,
     receivedAt: timestamp(),
@@ -605,20 +603,6 @@ const withdrawActionHandlers = {
   }),
 };
 
-function reducer(handlers, state, action) {
-  const handler = handlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
-function rootReducer(state = initialState, action) {
-  return {
-    profile: reducer(profileActionHandlers, state.profile, action),
-    deposit: reducer(depositActionHandlers, state.deposit, action),
-    withdraw: reducer(withdrawActionHandlers, state.withdraw, action),
-  };
-}
-
 const actionTypes = {
   PROFILE,
   ADD_TAG,
@@ -628,11 +612,11 @@ const actionTypes = {
   UPDATE_PROFILE,
   FETCH_BALANCES,
 };
-
 const actionCreators = {
   fetchProfile,
   updateProfile,
   updateIdentifier,
+  resetPassword,
   updateSubscription,
   getBalance,
   loadFullProfile,
@@ -648,8 +632,13 @@ const actionCreators = {
 };
 
 export {
+  initialState,
   actionTypes,
   actionCreators,
 };
 
-export default rootReducer;
+export default combineReducers({
+  profile: createReducer(profileInitialState, profileActionHandlers),
+  deposit: createReducer(depositInitialState, depositActionHandlers),
+  withdraw: createReducer(withdrawInitialState, withdrawActionHandlers),
+});

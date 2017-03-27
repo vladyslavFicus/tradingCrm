@@ -1,6 +1,6 @@
+import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
 import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
 import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'campaign';
@@ -103,32 +103,26 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
 };
-
 const initialState = {
   data: {},
   error: null,
   isLoading: false,
   receivedAt: null,
 };
-function reducer(state = initialState, action) {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
 const actionTypes = {
   CAMPAIGN_UPDATE,
   FETCH_CAMPAIGN,
 };
-
 const actionCreators = {
   fetchCampaign,
   updateCampaign,
 };
 
 export {
+  initialState,
   actionTypes,
   actionCreators,
+  actionHandlers,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

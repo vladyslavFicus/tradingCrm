@@ -4,12 +4,13 @@ import { browserHistory } from 'react-router';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import thunk from 'redux-thunk';
 import makeRootReducer from './reducers';
-import apiUrl from 'redux/middlewares/apiUrl';
-import { actionCreators as locationActionCreators } from 'redux/modules/location';
-import { actionCreators as permissionsActionCreators } from 'redux/modules/permissions';
-import unauthorized from 'redux/middlewares/unauthorized';
-import updateToken from 'redux/middlewares/updateToken';
-import config from 'config/index';
+import apiUrl from '../redux/middlewares/apiUrl';
+import authMiddleware from '../redux/middlewares/auth';
+import { actionCreators as locationActionCreators } from '../redux/modules/location';
+import { actionCreators as permissionsActionCreators } from '../redux/modules/permissions';
+import unauthorized from '../redux/middlewares/unauthorized';
+import updateToken from '../redux/middlewares/updateToken';
+import config from '../config/index';
 
 export default (initialState = {}, onComplete) => {
   const middleware = [
@@ -18,6 +19,7 @@ export default (initialState = {}, onComplete) => {
     updateToken({}),
     apiMiddleware,
     unauthorized(config.middlewares.unauthorized),
+    authMiddleware,
   ];
 
   // ======================================================

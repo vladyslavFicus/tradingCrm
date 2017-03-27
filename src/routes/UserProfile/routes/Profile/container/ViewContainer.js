@@ -5,9 +5,8 @@ import { actionCreators as viewActionCreators } from 'routes/UserProfile/modules
 import { actionCreators as bonusActionCreators } from 'routes/UserProfile/modules/bonus';
 import { actionCreators as kycActionCreators } from '../modules/kyc';
 
-const mapStateToProps = ({ profile: { view: userProfile, bonus }, auth: user }) => ({
+const mapStateToProps = ({ profile: { view: userProfile, bonus } }) => ({
   ...userProfile,
-  user,
   bonus,
 });
 const mapActions = {

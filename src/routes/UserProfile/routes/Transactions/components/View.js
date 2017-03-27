@@ -19,6 +19,7 @@ import NoteButton from "components/NoteButton";
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
 import PaymentRejectModal from 'routes/Payments/components/PaymentRejectModal';
+import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
 
 const defaultModalState = {
   name: null,
@@ -91,7 +92,9 @@ class View extends Component {
     });
   };
 
-  handleFilterSubmit = (filters) => {
+  handleFilterSubmit = (inputFilters) => {
+    const filters = inputFilters;
+
     if (filters.states) {
       filters.states = [filters.states];
     }
@@ -118,7 +121,9 @@ class View extends Component {
     });
   };
 
-  handleOpenModal = (e, name, params) => {
+  handleOpenModal = (e, name, inputParams) => {
+    const params = inputParams;
+
     e.preventDefault();
     e.stopPropagation();
 
@@ -215,10 +220,22 @@ class View extends Component {
 
   renderDevice = (data) => {
     return (
-      <i
-        className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
-        aria-hidden="true"
-      />
+      <div>
+        <i
+          id={data.paymentId}
+          className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
+          aria-hidden="true"
+        />
+        <UncontrolledTooltip
+          placement="bottom"
+          target={data.paymentId}
+          delay={{
+            show: 350, hide: 250,
+          }}
+        >
+          {data.userAgent ? data.userAgent : 'User agent not defined'}
+        </UncontrolledTooltip>
+      </div>
     );
   };
 
@@ -246,7 +263,7 @@ class View extends Component {
         <NoteButton
           id={`bonus-item-note-button-${data.paymentId}`}
           className="cursor-pointer margin-right-5"
-          onClick={(id) => this.handleNoteClick(id, data)}
+          onClick={id => this.handleNoteClick(id, data)}
         >
           {data.note
             ? <i className="fa fa-sticky-note" />
@@ -257,11 +274,11 @@ class View extends Component {
           data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
           <a
             href="#"
-            onClick={(e) => this.handleOpenModal(e, 'payment-detail', {
+            onClick={e => this.handleOpenModal(e, 'payment-detail', {
               payment: data,
               profile: this.props.profile,
               accumulatedBalances: this.props.accumulatedBalances,
-          })} title={'View payment'}
+            })} title={'View payment'}
           >
             <i className="fa fa-search" />
           </a>
@@ -289,7 +306,7 @@ class View extends Component {
           onPageChange={this.handlePageChanged}
           activePage={entities.number + 1}
           totalPages={entities.totalPages}
-          rowClassName={(data) => data.amountBarrierReached ? 'highlighted-row' : ''}
+          rowClassName={data => data.amountBarrierReached ? 'highlighted-row' : ''}
           lazyLoad
         >
           <GridColumn

@@ -40,10 +40,11 @@ class OperatorGridFilter extends Component {
     reset: PropTypes.func,
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
   };
 
   handleSubmit = () => {
-    console.log('implement handleSubmit');
+    return this.props.onSubmit(this.props.filterValues);
   };
 
   handleDateTimeChange = callback => (value) => {
@@ -138,7 +139,7 @@ class OperatorGridFilter extends Component {
           <div className="col-md-3">
             <span className="font-size-20">Operators</span>
           </div>
-          <div className="col-md-3 col-md-offset-6">
+          <div className="col-md-3 col-md-offset-6 text-right">
             <button className="btn btn-default-outline" onClick={onCreateOperatorClick}>
               + New operator
             </button>

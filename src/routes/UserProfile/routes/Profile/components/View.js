@@ -8,21 +8,32 @@ import VerifyIdentity from './Kyc/VerifyIdentity';
 import { types as kysTypes } from 'constants/kyc';
 
 class View extends Component {
+  static propTypes = {
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
+    profile: PropTypes.shape({
+      data: PropTypes.object,
+      receivedAt: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+    }),
+    updateProfile: PropTypes.func.isRequired,
+    updateIdentifier: PropTypes.func.isRequired,
+  };
+
   handleSubmit = (data) => {
-    const { params : { id }, updateProfile } = this.props;
+    const { params: { id }, updateProfile } = this.props;
     return updateProfile(id, data);
   };
 
   handleSubmitPersonal = (data) => {
     const { params: { id }, updateProfile, updateIdentifier } = this.props;
 
-    return updateProfile(id, data).then(action => {
+    return updateProfile(id, data).then((action) => {
       if (action.type === profileActionTypes.UPDATE_PROFILE.SUCCESS && data.identifier) {
         updateIdentifier(id, data.identifier);
       }
     });
   };
-
   handleVerifyIdentity = (type) => () => {
     const { params: { id }, verifyIdentity } = this.props;
     verifyIdentity(id, type)
@@ -38,7 +49,6 @@ class View extends Component {
         console.log('refuseIdentity action', action);
       });
   };
-
   render() {
     const { profile: { data, receivedAt } } = this.props;
     if (!receivedAt) {

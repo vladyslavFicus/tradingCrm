@@ -1,6 +1,8 @@
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from 'utils/timestamp';
-import createRequestAction from 'utils/createRequestAction';
+import timestamp from '../../../../../utils/timestamp';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import buildQueryString from '../../../../../utils/buildQueryString';
+
 const KEY = 'operators';
 const CREATE_OPERATOR = createRequestAction(`${KEY}/create-operator`);
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
@@ -36,7 +38,7 @@ function fetchEntities(filters = {}) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'operator/operators',
+        endpoint: `operator/operators?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

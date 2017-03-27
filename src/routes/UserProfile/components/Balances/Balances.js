@@ -18,7 +18,7 @@ class Balances extends Component {
   render() {
     const { dropDownOpen } = this.state;
     const { label, accumulatedBalances: { data } } = this.props;
-    const dropdownClassName = classNames('player__account__balance dropdown-highlight width-20 cursor-pointer padding-0', {
+    const dropdownClassName = classNames('balances-block dropdown-highlight', {
       'dropdown-open': dropDownOpen,
     });
 
