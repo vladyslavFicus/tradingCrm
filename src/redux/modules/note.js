@@ -55,8 +55,7 @@ function fetchNotesByType(type) {
 function addNote(type) {
   return ({ content, pinned, playerUUID, targetType, targetUUID }) => (dispatch, getState) => {
     const {
-      auth: { token, logged },
-      profile: { view: { profile: { data: profileData } } },
+      auth: { token, logged, fullName },
     } = getState();
 
     return dispatch({
@@ -75,7 +74,7 @@ function addNote(type) {
           playerUUID,
           targetType,
           targetUUID,
-          author: [profileData.firstName, profileData.lastName].join(' '),
+          author: fullName,
         }),
         bailout: !logged,
       },
