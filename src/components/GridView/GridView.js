@@ -154,7 +154,8 @@ class GridView extends Component {
       }}
       >
         {columns.map((column, columnKey) => this.renderColumn(`${key}-${columnKey}`, column, data))}
-      </tr>);
+      </tr>
+    );
   };
 
   renderColumn(key, column, data) {
