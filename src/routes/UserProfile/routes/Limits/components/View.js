@@ -40,12 +40,13 @@ class View extends Component {
     return this.props.fetchEntities(this.props.params.id);
   };
 
-  handleCancelLimit = (type, limitId) => {
-    this.props.cancelLimit(this.props.params.id, type, limitId)
-      .then(() => {
-        this.handleCloseModal();
-        this.props.fetchEntities(this.props.params.id);
-      });
+  handleCancelLimit = async (type, limitId) => {
+    const action = await this.props.cancelLimit(this.props.params.id, type, limitId);
+    this.handleCloseModal();
+
+    if (action && !action.error) {
+      this.props.fetchEntities(this.props.params.id);
+    }
   };
 
   handleOpenCancelLimitModal = (e, name, params) => {

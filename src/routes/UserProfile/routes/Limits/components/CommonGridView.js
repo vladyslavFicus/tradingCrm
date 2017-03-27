@@ -25,12 +25,27 @@ class CommonGridView extends Component {
   };
 
   static defaultProps = {
-    insideModal: true,
+    insideModal: false,
   };
 
   renderActions = (data) => {
     const isCancellable = data.status === statuses.IN_PROGRESS || data.status === statuses.PENDING;
     const buttonLabel = data.status === statuses.IN_PROGRESS ? 'Cancel' : 'Dismiss';
+
+    const modalStaticParams = {};
+    if (data.status === statuses.IN_PROGRESS) {
+      modalStaticParams.modalTitle = 'Cancel limit';
+      modalStaticParams.modalSubTitle = 'You are about to cancel the wager limit';
+      modalStaticParams.cancelButtonLabel = 'Leave active';
+      modalStaticParams.submitButtonLabel = 'Cancel limit';
+      modalStaticParams.noteText = 'The limit can only be canceled after the cool off period';
+    } else if (data.status === statuses.PENDING) {
+      modalStaticParams.modalTitle = 'Dismiss pending limit';
+      modalStaticParams.modalSubTitle = 'You are about to dismiss the pending loss limit';
+      modalStaticParams.cancelButtonLabel = 'Leave pending';
+      modalStaticParams.submitButtonLabel = 'Dismiss limit';
+      modalStaticParams.noteText = 'The limit will be immediately dismissed';
+    }
 
     return isCancellable ?
       <button
@@ -38,6 +53,7 @@ class CommonGridView extends Component {
         onClick={e => this.props.onOpenCancelLimitModal(e, 'cancel-limit', {
           data,
           buttonLabel,
+          ...modalStaticParams,
         })}
       >
         {buttonLabel}
@@ -143,7 +159,7 @@ class CommonGridView extends Component {
             {
               data.expirationDate &&
               <div className="font-size-10 color-default">
-                { data.status === statuses.COOLOFF ? 'until' : 'on'}
+                {data.status === statuses.COOLOFF ? 'until' : 'on'}
                 {moment(data.expirationDate).format('DD.MM.YYYY')}
               </div>
             }
@@ -238,7 +254,7 @@ class CommonGridView extends Component {
           />
 
           {
-            insideModal &&
+            !insideModal &&
             <GridColumn
               name="notes"
               header="Note"
@@ -248,7 +264,7 @@ class CommonGridView extends Component {
           }
 
           {
-            insideModal &&
+            !insideModal &&
             <GridColumn
               name="actions"
               header=""

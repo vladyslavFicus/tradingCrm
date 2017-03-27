@@ -1,8 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import {
-  statuses,
-} from '../../../../../../constants/limits';
 import './CancelLimitModal.scss';
 import CommonGridView from '../CommonGridView';
 
@@ -12,30 +9,25 @@ class CancelLimitModal extends Component {
     onSubmit: PropTypes.func.isRequired,
     isOpen: PropTypes.bool,
     data: PropTypes.object,
+    modalTitle: PropTypes.string.isRequired,
+    modalSubTitle: PropTypes.string.isRequired,
+    cancelButtonLabel: PropTypes.string.isRequired,
+    submitButtonLabel: PropTypes.string.isRequired,
+    noteText: PropTypes.string.isRequired,
   };
 
   render() {
-    const { onClose, onSubmit, isOpen, data } = this.props;
-
-    let cancelButtonLabel;
-    let submitButtonLabel;
-    let modalTitle;
-    let modalSubTitle;
-    let noteText;
-
-    if (data.status === statuses.IN_PROGRESS) {
-      modalTitle = 'Cancel limit';
-      modalSubTitle = 'You are about to cancel the wager limit';
-      cancelButtonLabel = 'Leave active';
-      submitButtonLabel = 'Cancel limit';
-      noteText = 'The limit can only be canceled after the cool off period';
-    } else if (data.status === statuses.PENDING) {
-      modalTitle = 'Dismiss pending limit';
-      modalSubTitle = 'You are about to dismiss the pending loss limit';
-      cancelButtonLabel = 'Leave pending';
-      submitButtonLabel = 'Dismiss limit';
-      noteText = 'The limit will be immediately dismissed';
-    }
+    const {
+      onClose,
+      onSubmit,
+      isOpen,
+      data,
+      modalTitle,
+      modalSubTitle,
+      cancelButtonLabel,
+      submitButtonLabel,
+      noteText,
+    } = this.props;
 
     return (
       <Modal className="cancel-limit-modal" toggle={onClose} isOpen={isOpen}>
@@ -46,7 +38,7 @@ class CancelLimitModal extends Component {
           </div>
           <CommonGridView
             dataSource={[this.props.data]}
-            insideModal={false}
+            insideModal
           />
         </ModalBody>
 
