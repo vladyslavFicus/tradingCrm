@@ -1,13 +1,20 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
-import { actionCreators as viewActionCreators } from '../modules/view';
+import { actionCreators } from '../modules';
 
-const mapStateToProps = state => ({
-  ...state.userLimits,
+const mapStateToProps = ({ userLimits: { notes, view } }) => ({
+  ...view,
+  notes,
 });
 
 const mapActions = {
-  ...viewActionCreators,
+  cancelLimit: actionCreators.cancelLimit,
+  fetchEntities: actionCreators.fetchLimits,
+  setLimit: actionCreators.setLimit,
+  fetchNotes: actionCreators.fetchNotes,
+  addNote: actionCreators.addNote,
+  editNote: actionCreators.editNote,
+  deleteNote: actionCreators.deleteNote,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

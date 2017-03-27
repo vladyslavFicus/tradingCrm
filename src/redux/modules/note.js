@@ -85,7 +85,10 @@ function addNote(type) {
 
 function editNote(type) {
   return (id, { content, pinned, playerUUID, targetType, targetUUID }) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const {
+      auth: { token, logged },
+      profile: { view: { profile: { data: profileData } } },
+    } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -97,7 +100,14 @@ function editNote(type) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ content, pinned, playerUUID, targetType, targetUUID }),
+        body: JSON.stringify({
+          content,
+          pinned,
+          playerUUID,
+          targetType,
+          targetUUID,
+          author: [profileData.firstName, profileData.lastName].join(' '),
+        }),
         bailout: !logged,
       },
     });

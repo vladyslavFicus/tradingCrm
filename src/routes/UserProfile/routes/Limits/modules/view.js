@@ -2,12 +2,27 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { types, statuses } from '../../../../../constants/limits';
+import { targetTypes } from '../../../../../constants/note';
+import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
 
 const KEY = 'user-limits';
 const SET_LIMITS_LIST = `${KEY}/set-limits-list`;
 const FETCH_LIMITS = createRequestAction(`${KEY}/fetch-limits-by-type`);
 const SET_LIMIT = createRequestAction(`${KEY}/set-limit`);
 const CANCEL_LIMIT = createRequestAction(`${KEY}/cancel-limit`);
+const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
+
+const fetchNotesFn = noteActionCreators.fetchNotesByType(FETCH_NOTES);
+const mapNotesToLimits = (limits, notes) => {
+  if (!notes || Object.keys(notes).length === 0) {
+    return limits;
+  }
+
+  return limits.map(limit => ({
+    ...limit,
+    note: notes[limit.uuid] ? notes[limit.uuid][0] : null,
+  }));
+};
 
 function fetchLimitsByType(uuid, type) {
   return (dispatch, getState) => {
@@ -80,12 +95,13 @@ function mapLimitsActions(actions) {
     .sort(sortByStatus);
 }
 
-function fetchLimits(uuid) {
+function fetchLimits(uuid, fetchNotes = fetchNotesFn) {
   return dispatch => Promise.all([
     dispatch(fetchLimitsByType(uuid, types.SESSION_DURATION)),
     dispatch(fetchLimitsByType(uuid, types.LOSS)),
     dispatch(fetchLimitsByType(uuid, types.WAGER)),
-  ]).then(actions => dispatch(setLimitsList(mapLimitsActions(actions))));
+  ]).then(actions => dispatch(setLimitsList(mapLimitsActions(actions))))
+    .then(action => dispatch(fetchNotes(targetTypes.LIMIT, action.payload.map(item => item.uuid))));
 }
 
 function setLimit(type, data) {
@@ -109,13 +125,13 @@ function setLimit(type, data) {
   };
 }
 
-function cancelLimit(uuid, type, id) {
+function cancelLimit(playerUUID, type, limitId) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${uuid}/limits/${type}/${id}`,
+        endpoint: `/playing-session/${playerUUID}/limits/${type}/${limitId}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
@@ -140,6 +156,10 @@ const actionHandlers = {
   [SET_LIMITS_LIST]: (state, action) => ({
     ...state,
     list: [...action.payload],
+  }),
+  [FETCH_NOTES.SUCCESS]: (state, action) => ({
+    ...state,
+    list: mapNotesToLimits(state.list, action.payload),
   }),
 };
 const actionTypes = {
