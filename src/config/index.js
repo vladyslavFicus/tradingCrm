@@ -14,12 +14,7 @@ if (window) {
 const config = {
   api: {},
   availableDepartments: [],
-  availableRoles: [
-    { value: 'role1', label: 'Role 1' },
-    { value: 'role2', label: 'Role 2' },
-    { value: 'role3', label: 'Role 3' },
-    { value: 'role4', label: 'Role 4' },
-  ],
+  availableRoles: [],
   availableTags: [],
   providers: {
     stakelogic: 'Stakelogic',
@@ -56,6 +51,14 @@ if (config.nas.departments) {
   config.availableDepartments = config.nas.departments;
   config.availableDepartments.splice(config.availableDepartments.indexOf('PLAYER'), 1);
   config.availableDepartments = config.availableDepartments.map(item => ({
+    value: item,
+    label: item,
+  }));
+}
+
+if (config.nas.roles) {
+  config.availableRoles = config.nas.roles;
+  config.availableRoles = config.availableRoles.map(item => ({
     value: item,
     label: item,
   }));
