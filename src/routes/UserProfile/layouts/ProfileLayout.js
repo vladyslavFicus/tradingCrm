@@ -218,6 +218,30 @@ class ProfileLayout extends Component {
     }
   };
 
+  handleApproveKYCClick = async () => {
+    const { verifyKYC, profile: { data } } = this.props;
+
+    if (data.uuid) {
+      const action = await verifyKYC(data.uuid);
+
+      if (action && !action.error) {
+        this.handleOpenModal(INFO_MODAL, {
+          header: 'KYC Status',
+          body: (
+            <span>
+              KYC status obnovilsya!
+            </span>
+          ),
+          footer: (
+            <button className="btn btn-default" onClick={this.handleCloseModal}>
+              Close
+            </button>
+          ),
+        });
+      }
+    }
+  };
+
   render() {
     const { modal, popover, informationShown } = this.state;
     const {
@@ -251,6 +275,7 @@ class ProfileLayout extends Component {
             deleteTag={deleteTag.bind(null, params.id)}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
+            onApproveKYCClick={this.handleApproveKYCClick}
           />
 
           <div className="row">
