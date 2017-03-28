@@ -131,7 +131,11 @@ function fetchLimits(uuid, fetchNotes = fetchNotesFn) {
     dispatch(fetchLimitsByType(uuid, types.WAGER)),
     dispatch(fetchDepositLimit(uuid)),
   ]).then(actions => dispatch(setLimitsList(mapLimitsActions(actions))))
-    .then(action => dispatch(fetchNotes(targetTypes.LIMIT, action.payload.map(item => item.uuid))));
+    .then((action) => {
+      if (action.payload.length) {
+        dispatch(fetchNotes(targetTypes.LIMIT, action.payload.map(item => item.uuid)));
+      }
+    });
 }
 
 function setPlayingSessionLimit(type, data) {
