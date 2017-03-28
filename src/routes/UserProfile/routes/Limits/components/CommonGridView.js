@@ -29,8 +29,11 @@ class CommonGridView extends Component {
   };
 
   renderActions = (data) => {
-    const isCancellable = data.status === statuses.IN_PROGRESS || data.status === statuses.PENDING;
-    const buttonLabel = data.status === statuses.IN_PROGRESS ? 'Cancel' : 'Dismiss';
+    if (!(data.status === statuses.IN_PROGRESS || data.status === statuses.PENDING)) {
+      return null;
+    }
+
+    let buttonLabel = 'Cancel';
 
     const modalStaticParams = {};
     if (data.status === statuses.IN_PROGRESS) {
@@ -40,6 +43,7 @@ class CommonGridView extends Component {
       modalStaticParams.submitButtonLabel = 'Cancel limit';
       modalStaticParams.noteText = 'The limit can only be canceled after the cool off period';
     } else if (data.status === statuses.PENDING) {
+      buttonLabel = 'Dismiss';
       modalStaticParams.modalTitle = 'Dismiss pending limit';
       modalStaticParams.modalSubTitle = 'You are about to dismiss the pending loss limit';
       modalStaticParams.cancelButtonLabel = 'Leave pending';
@@ -47,17 +51,17 @@ class CommonGridView extends Component {
       modalStaticParams.noteText = 'The limit will be immediately dismissed';
     }
 
-    return isCancellable ?
+    return (
       <button
         className="btn btn-sm"
         onClick={e => this.props.onOpenCancelLimitModal(e, 'cancel-limit', {
           data,
-          buttonLabel,
           ...modalStaticParams,
         })}
       >
         {buttonLabel}
-      </button> : null;
+      </button>
+    );
   };
 
   renderNotes = (data) => {
@@ -211,11 +215,6 @@ class CommonGridView extends Component {
           tableClassName="table table-hovered data-grid-layout"
           headerClassName=""
           dataSource={dataSource}
-          onFiltersChanged={() => {
-          }}
-          onPageChange={() => {
-          }}
-          activePage={0}
           totalPages={1}
         >
           <GridColumn

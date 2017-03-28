@@ -18,6 +18,7 @@ const types = {
   SESSION_DURATION: 'session_duration',
   WAGER: 'wager',
   LOSS: 'loss',
+  DEPOSIT: 'deposit',
 };
 
 const amountTypes = {
@@ -29,6 +30,7 @@ const typesLabels = {
   [types.SESSION_DURATION]: 'Session limit',
   [types.WAGER]: 'Wager limit',
   [types.LOSS]: 'Loss limit',
+  [types.DEPOSIT]: 'Deposit limit',
 };
 
 const statusesColor = {

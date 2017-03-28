@@ -84,10 +84,7 @@ function addNote(type) {
 
 function editNote(type) {
   return (id, { content, pinned, playerUUID, targetType, targetUUID }) => (dispatch, getState) => {
-    const {
-      auth: { token, logged },
-      profile: { view: { profile: { data: profileData } } },
-    } = getState();
+    const { auth: { token, logged, fullName } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -105,7 +102,7 @@ function editNote(type) {
           playerUUID,
           targetType,
           targetUUID,
-          author: [profileData.firstName, profileData.lastName].join(' '),
+          author: fullName,
         }),
         bailout: !logged,
       },
