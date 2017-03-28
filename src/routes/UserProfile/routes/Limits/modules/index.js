@@ -1,11 +1,5 @@
 import { combineReducers } from 'redux';
 
-import notes, {
-  actionCreators as notesActionCreators,
-  actionTypes as notesActionTypes,
-  initialState as notesInitialState,
-} from './notes';
-
 import view, {
   actionCreators as viewActionCreators,
   actionTypes as viewActionTypes,
@@ -14,15 +8,12 @@ import view, {
 
 const actionCreators = {
   ...viewActionCreators,
-  ...notesActionCreators,
 };
 const actionTypes = {
   ...viewActionTypes,
-  ...notesActionTypes,
 };
 const initialState = {
   view: viewInitialState,
-  notes: notesInitialState,
 };
 
 export {
@@ -33,5 +24,4 @@ export {
 
 export default combineReducers({
   view,
-  notes,
 });

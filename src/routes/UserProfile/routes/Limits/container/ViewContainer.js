@@ -2,9 +2,8 @@ import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators } from '../modules';
 
-const mapStateToProps = ({ userLimits: { notes, view } }) => ({
+const mapStateToProps = ({ userLimits: { view } }) => ({
   ...view,
-  notes,
 });
 
 const mapActions = {
