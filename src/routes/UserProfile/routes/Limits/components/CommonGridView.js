@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import humanizeDuration from 'humanize-duration';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -9,6 +9,7 @@ import {
 } from '../../../../../constants/limits';
 import Amount from '../../../../../components/Amount';
 import NoteButton from '../../../../../components/NoteButton';
+import PropTypes from '../../../../../constants/propTypes';
 
 const humanizeDurationConfig = {
   language: 'en',
@@ -18,7 +19,7 @@ const humanizeDurationConfig = {
 
 class CommonGridView extends Component {
   static propTypes = {
-    dataSource: PropTypes.array.isRequired,
+    dataSource: PropTypes.arrayOf(PropTypes.limitEntity),
     onOpenCancelLimitModal: PropTypes.func,
     onNoteClick: PropTypes.func,
     insideModal: PropTypes.bool,

@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import CancelLimitModal from './CancelLimitModal';
 import CommonGridView from './CommonGridView';
 import { targetTypes } from '../../../../../constants/note';
+import PropTypes from '../../../../../constants/propTypes';
 
 const modalInitialState = {
   name: null,
@@ -13,7 +14,7 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
-    list: PropTypes.array.isRequired,
+    list: PropTypes.arrayOf(PropTypes.limitEntity),
     fetchEntities: PropTypes.func.isRequired,
     cancelLimit: PropTypes.func.isRequired,
   };

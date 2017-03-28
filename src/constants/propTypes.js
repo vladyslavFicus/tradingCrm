@@ -62,5 +62,37 @@ PropTypes.gamingActivityEntity = PropTypes.shape({
   totalWinAmount: PropTypes.price,
   winDate: PropTypes.string,
 });
+PropTypes.limitEntity = PropTypes.shape({
+  author: PropTypes.string.isRequired,
+  creationDate: PropTypes.string.isRequired,
+  expirationDate: PropTypes.any,
+  period: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.number,
+  ]),
+  playerUUID: PropTypes.string.isRequired,
+  startDate: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+  ]),
+  status: PropTypes.string.isRequired,
+  statusAuthor: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+  value: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    limit: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.number,
+    ]),
+    left: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.number,
+    ]),
+    used: PropTypes.oneOfType([
+      PropTypes.object,
+      PropTypes.number,
+    ]),
+  }).isRequired,
+});
 
 export default PropTypes;

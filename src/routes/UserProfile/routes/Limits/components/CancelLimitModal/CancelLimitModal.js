@@ -1,14 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './CancelLimitModal.scss';
 import CommonGridView from '../CommonGridView';
+import PropTypes from '../../../../../../constants/propTypes';
 
 class CancelLimitModal extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     isOpen: PropTypes.bool,
-    data: PropTypes.object,
+    data: PropTypes.limitEntity,
     modalTitle: PropTypes.string.isRequired,
     modalSubTitle: PropTypes.string.isRequired,
     cancelButtonLabel: PropTypes.string.isRequired,
