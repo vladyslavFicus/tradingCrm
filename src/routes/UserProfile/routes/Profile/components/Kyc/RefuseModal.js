@@ -1,67 +1,131 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { getFormValues, Field, reduxForm } from 'redux-form';
+import PropTypes from '../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../utils/validator';
+import { categories as kycCategories } from '../../../../../../constants/kyc';
 
+const FORM_NAME = 'refuseModal';
 const attributeLabels = {
-  reason: 'Identity rejection reason',
+  [kycCategories.KYC_PERSONAL]: 'Refuse Identity verification',
+  [`${kycCategories.KYC_PERSONAL}_reason`]: 'Identity rejection reason',
+  [kycCategories.KYC_ADDRESS]: 'Refuse Address verification',
+  [`${kycCategories.KYC_ADDRESS}_reason`]: 'Address rejection reason',
 };
 
 const validator = createValidator({
-  reason: 'required|string',
+  [kycCategories.KYC_PERSONAL]: 'boolean',
+  [`${kycCategories.KYC_PERSONAL}_reason`]: [`required_if:${kycCategories.KYC_PERSONAL}`, 'string'],
+  [kycCategories.KYC_ADDRESS]: 'boolean',
+  [`${kycCategories.KYC_ADDRESS}_reason`]: [`required_if:${kycCategories.KYC_ADDRESS}`, 'string'],
 }, attributeLabels, false);
 
 class RefuseModal extends Component {
-  render() {
-    const {
-      profile: {
-        initials,
-        language,
-      },
-      onSubmit,
-      handleSubmit,
-      pristine,
-      submitting,
-      invalid,
-      isOpen,
-      onClose,
-      className,
-    } = this.props;
+  static propTypes = {
+    profile: PropTypes.userProfile.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    isOpen: PropTypes.bool,
+    onClose: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    selectedValues: PropTypes.object,
+  };
 
+  renderRejectByType = (type, label, reasonLabel, checked = false) => {
     return (
-      <Modal isOpen={isOpen} toggle={onClose} className={className}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader toggle={onClose}>KYC Request rejection</ModalHeader>
-          <ModalBody>
-            <div className="text-center">
-              <h3>Refusing verification</h3>
-              <div className="font-weight-700">{initials}</div>
-              <div>Account language: {language}</div>
-            </div>
+      <div className="row">
+        <div className="col-md-12">
+          <div className="text-center">
+            <Field
+              id={`${type}-reject-reason-checkbox`}
+              name={type}
+              component="input"
+              type="checkbox"
+            />
+            {' '}
+            <label htmlFor={`${type}-reject-reason-checkbox`}>{label}</label>
+          </div>
+
+          {
+            checked &&
             <div className="form-group padding-top-20">
-              <label>{attributeLabels.reason}</label>
+              <label>{reasonLabel}</label>
               <Field
-                name="reason"
-                label={attributeLabels.reason}
+                name={`${type}_reason`}
                 component="textarea"
                 className="form-control"
                 rows="3"
               />
             </div>
+          }
+        </div>
+      </div>
+    );
+  };
+
+  render() {
+    const {
+      profile,
+      onSubmit,
+      handleSubmit,
+      pristine,
+      submitting,
+      invalid,
+      onClose,
+      selectedValues,
+    } = this.props;
+
+    return (
+      <Modal isOpen toggle={onClose}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader toggle={onClose}>KYC Request rejection</ModalHeader>
+          <ModalBody>
+            <div className="text-center">
+              <h1>Refusing verification</h1>
+
+              <div className="margin-top-10">
+                <div className="font-weight-700">{`${profile.firstName} ${profile.lastName}`}</div>
+                <div>Account language: {profile.languageCode}</div>
+              </div>
+            </div>
+
+            {this.renderRejectByType(
+              kycCategories.KYC_PERSONAL,
+              attributeLabels[kycCategories.KYC_PERSONAL],
+              attributeLabels[`${kycCategories.KYC_PERSONAL}_reason`],
+              selectedValues && selectedValues[kycCategories.KYC_PERSONAL]
+                ? selectedValues[kycCategories.KYC_PERSONAL]
+                : false
+            )}
+            {this.renderRejectByType(
+              kycCategories.KYC_ADDRESS,
+              attributeLabels[kycCategories.KYC_ADDRESS],
+              attributeLabels[`${kycCategories.KYC_ADDRESS}_reason`],
+              selectedValues && selectedValues[kycCategories.KYC_ADDRESS]
+                ? selectedValues[kycCategories.KYC_ADDRESS]
+                : false
+            )}
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              color=""
+            <button
               onClick={onClose}
-              className="btn margin-inline"
-            >Cancel</Button> {' '}
-            <Button
+              className="btn btn-default-outline"
+            >
+              Cancel
+            </button>
+            {' '}
+            <button
               type="submit"
-              color="danger"
-              className="btn margin-inline"
+              className="btn btn-danger-outline"
               disabled={pristine || submitting || invalid}
-            >Refuse & Send notification</Button>
+            >
+              Refuse & Send notification
+            </button>
           </ModalFooter>
         </form>
       </Modal>
@@ -69,7 +133,9 @@ class RefuseModal extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'refuseModal',
-  validate: validator,
-})(RefuseModal);
+export default connect(state => ({ selectedValues: getFormValues(FORM_NAME)(state) }))(
+  reduxForm({
+    form: FORM_NAME,
+    validate: validator,
+  })(RefuseModal)
+);

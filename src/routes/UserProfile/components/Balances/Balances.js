@@ -1,17 +1,25 @@
 import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
-import Amount from 'components/Amount';
 import classNames from 'classnames';
-import './Balances.scss'
+import Amount from '../../../../components/Amount';
+import './Balances.scss';
 
 class Balances extends Component {
+  static propTypes = {
+    label: PropTypes.any.isRequired,
+    profileStatus: PropTypes.string,
+    accumulatedBalances: PropTypes.shape({
+      data: PropTypes.object,
+    }),
+  };
+
   state = {
     dropDownOpen: false,
   };
 
   toggle = () => {
     this.setState({
-      dropDownOpen: !this.state.dropDownOpen
+      dropDownOpen: !this.state.dropDownOpen,
     });
   };
 
@@ -29,36 +37,25 @@ class Balances extends Component {
           : this.renderDropDown(label, data, dropDownOpen)
         }
       </div>
-
     );
   }
 
-  renderDropDown = (label, data, dropDownOpen) => {
-    return (
-      <Dropdown className='dropdown-inline' isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-        {label}
-        <DropdownMenu>
-          <DropdownItem>
-            <div className="amount"><Amount { ...data.deposits } /></div>
-            <div className="text-uppercase font-size-11">Deposit</div>
-          </DropdownItem>
-          <DropdownItem>
-            <div className="amount"><Amount { ...data.withdraws } /></div>
-            <div className="text-uppercase font-size-11">Withdraws</div>
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-    );
-  }
+  renderDropDown = (label, data, dropDownOpen) => (
+    <Dropdown className="dropdown-inline" isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
+      {label}
 
+      <DropdownMenu>
+        <DropdownItem>
+          <div className="amount"><Amount {...data.deposits} /></div>
+          <div className="text-uppercase font-size-11">Deposit</div>
+        </DropdownItem>
+        <DropdownItem>
+          <div className="amount"><Amount {...data.withdraws} /></div>
+          <div className="text-uppercase font-size-11">Withdraws</div>
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  )
 }
-
-Balances.propTypes = {
-  label: PropTypes.any.isRequired,
-  profileStatus: PropTypes.string,
-  accumulatedBalances: PropTypes.shape({
-    data: PropTypes.object
-  }),
-};
 
 export default Balances;

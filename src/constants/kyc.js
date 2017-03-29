@@ -1,22 +1,27 @@
 import keyMirror from 'keymirror';
 
 const statuses = keyMirror({
-  VERIFY: null,
-  REFUSE: null,
+  VERIFIED: null,
+  REFUSED: null,
 });
 
 const types = keyMirror({
-  PERSONAL: null,
-  ADDRESS: null,
+  personal: null,
+  address: null,
+});
+const categories = keyMirror({
+  KYC_PERSONAL: null,
+  KYC_ADDRESS: null,
 });
 
 const statusesLabels = {
-  [statuses.VERIFY]: 'Verify',
-  [statuses.REFUSE]: 'Completed',
+  [statuses.VERIFIED]: 'Verified',
+  [statuses.REFUSED]: 'Refused',
 };
 
 export {
   statuses,
   types,
+  categories,
   statusesLabels,
 };

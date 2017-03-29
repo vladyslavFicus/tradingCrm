@@ -4,11 +4,11 @@ import { SubmissionError } from 'redux-form';
 import AccountStatus from './AccountStatus';
 import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
-import ProfileTags from 'components/ProfileTags';
-import Amount from 'components/Amount';
-import NoteButton from 'components/NoteButton';
-import { statusColorNames } from 'constants/user';
-import { shortify } from 'utils/uuid';
+import ProfileTags from '../../../components/ProfileTags';
+import Amount from '../../../components/Amount';
+import NoteButton from '../../../components/NoteButton';
+import { statuses, statusColorNames } from '../../../constants/user';
+import { shortify } from '../../../utils/uuid';
 import './Header.scss';
 
 class Header extends Component {
@@ -98,6 +98,8 @@ class Header extends Component {
         suspendEndDate,
         profileTags,
         uuid,
+        kycCompleted,
+        profileStatusReason,
       },
       availableStatuses,
       accumulatedBalances,
@@ -125,18 +127,23 @@ class Header extends Component {
           <div className="pull-left">
             <div className="player__account__name h1">
               {[firstName, lastName, this.getUserAge()].join(' ')}
+              {' '}
+              {kycCompleted && <i className="fa fa-check text-success" />}
             </div>
             <span className="player__account__ids">
               {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
             </span>
           </div>
           <div className="col-md-4">
-            {profileTags && <ProfileTags
-              onAdd={this.handleTagAdd}
-              options={availableOptions}
-              value={valueOptions}
-              onDelete={this.handleTagDelete}
-            />}
+            {
+              profileTags &&
+              <ProfileTags
+                onAdd={this.handleTagAdd}
+                options={availableOptions}
+                value={valueOptions}
+                onDelete={this.handleTagDelete}
+              />
+            }
           </div>
           <div className="pull-right">
             <NoteButton
@@ -165,10 +172,16 @@ class Header extends Component {
                   <span className="header-title">Account Status</span>
                   <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
                   {
+                    !!profileStatusReason &&
+                    <span className="font-size-12 color-default">
+                      by {profileStatusReason}
+                    </span>
+                  }
+                  {
                     !!suspendEndDate &&
-                    <small className="player__account__status-scince">
+                    <span className="player__account__status-since font-size-12">
                       Until {moment(suspendEndDate).format('L')}
-                    </small>
+                    </span>
                   }
                 </div>
               }

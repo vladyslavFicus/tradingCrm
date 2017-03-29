@@ -1,11 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { InputField, SelectField, BirthdayField } from 'components/ReduxForm/UserProfile';
-import { createValidator } from 'utils/validator';
+import PropTypes from '../../../../../constants/propTypes';
+import { InputField, SelectField, BirthdayField } from '../../../../../components/ReduxForm/UserProfile';
+import { createValidator } from '../../../../../utils/validator';
 
 const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
+const titles = ['Mr.', 'Ms.', 'Mrs.'];
 
 const attributeLabels = {
+  title: 'Title',
   firstName: 'First name',
   lastName: 'Last name',
   identifier: 'ID Number',
@@ -20,6 +23,14 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 class PersonalForm extends Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool,
+  };
+
   render() {
     const {
       handleSubmit,
@@ -32,13 +43,36 @@ class PersonalForm extends Component {
     return (
       <div className="padding-bottom-20">
         <form className="form-horizontal" role="form" onSubmit={handleSubmit(onSubmit)}>
-          <h5>Personal information</h5>
-          { !(pristine || submitting || !valid) &&
-          <button className="btn btn-sm btn-primary pull-right" type="submit">
-            Save changes
-          </button>
-          }
           <div className="row">
+            <div className="col-md-6">
+              <h5>Personal information</h5>
+            </div>
+
+            <div className="col-md-6 text-right">
+              {
+                !(pristine || submitting || !valid) &&
+                <button className="btn btn-sm btn-primary" type="submit">
+                  Save changes
+                </button>
+              }
+            </div>
+          </div>
+
+          <div className="row">
+            <Field
+              name="title"
+              label={attributeLabels.title}
+              type="text"
+              wrapperClassName="col-lg-2"
+              component={SelectField}
+            >
+              <option value="">None</option>
+              {titles.map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Field>
             <Field
               name="firstName"
               label={attributeLabels.firstName}
@@ -76,7 +110,7 @@ class PersonalForm extends Component {
               wrapperClassName="col-lg-3"
               component={SelectField}
             >
-              {genders.map((item) => (
+              {genders.map(item => (
                 <option key={item} value={item}>
                   {item}
                 </option>

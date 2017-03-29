@@ -1,49 +1,73 @@
 import React, { Component, PropTypes } from 'react';
-import { Dropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
+import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
-
-const statusList = [
-  'ACTIVE', 'INACTIVE'
-];
+import { shortify } from '../../../../../../utils/uuid';
+import { statuses, statusActions, statusesColorNames, statusesLabels } from '../../../../../../constants/files';
 
 class StatusDropDown extends Component {
+  static propTypes = {
+    status: PropTypes.status.isRequired,
+    onStatusChange: PropTypes.func.isRequired,
+  };
+
   state = {
     dropDownOpen: false,
   };
 
   toggle = () => {
     this.setState({
-      dropDownOpen: !this.state.dropDownOpen
+      dropDownOpen: !this.state.dropDownOpen,
     });
-  };
-
-  handleStatusClick = (action) => {
-    const { onStatusChange } = this.props;
-    onStatusChange(action.status);
   };
 
   render() {
     const { dropDownOpen } = this.state;
-    const { label } = this.props;
+    const { status } = this.props;
 
-    return <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-      <span onClick={this.toggle}>{label}</span>
-      <DropdownMenu>
+    const label = (
+      <div>
+        <div className={classNames('font-weight-700', statusesColorNames[status.value])}>
+          {
+            statusesLabels[status.value]
+              ? statusesLabels[status.value]
+              : status.value
+          }
+        </div>
         {
-          statusList.map(status => (
-            <DropdownItem
-              onClick={this.handleStatusClick.bind(this, { status })}
-              className='text-uppercase'
-              key={status}
-            >
-              <div className={classNames('color-success', 'font-weight-700')}>
-                {status}
-              </div>
-            </DropdownItem>
-          ))
+          status.value !== statuses.UNDER_REVIEW &&
+          <span className="font-size-10 color-default">
+              by {shortify(status.author)}
+            </span>
         }
-      </DropdownMenu>
-    </Dropdown>
+      </div>
+    );
+
+    if (!statusActions[status.value]) {
+      return label;
+    }
+
+    return (
+      <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
+        <span onClick={this.toggle} className="cursor-pointer">
+          {label}
+        </span>
+        <DropdownMenu>
+          {
+            statusActions[status.value].map(item => (
+              <DropdownItem
+                onClick={() => this.props.onStatusChange(item.action)}
+                className="text-uppercase"
+                key={item.label}
+              >
+                <div className={'font-weight-700'}>
+                  {item.label}
+                </div>
+              </DropdownItem>
+            ))
+          }
+        </DropdownMenu>
+      </Dropdown>
+    );
   }
 }
 
