@@ -23,19 +23,10 @@ const modalInitialState = {
 class ProfileLayout extends Component {
   static propTypes = {
     profile: PropTypes.shape({
-      balance: PropTypes.object,
-      registrationDate: PropTypes.string,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      username: PropTypes.string,
-      uuid: PropTypes.string,
-      languageCode: PropTypes.string,
-      btag: PropTypes.string,
-      affiliateId: PropTypes.string,
-      profileStatus: PropTypes.string,
-      suspendEndDate: PropTypes.string,
-      profileTags: PropTypes.array,
-    }).isRequired,
+      data: PropTypes.userProfile,
+      error: PropTypes.string,
+      isLoading: PropTypes.bool.isRequired,
+    }),
     children: PropTypes.any.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -163,6 +154,7 @@ class ProfileLayout extends Component {
     return new Promise(resolve => this.props.deleteNote(item.uuid)
       .then(() => {
         this.handlePopoverHide();
+
         this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
         if (typeof noteChangedCallback === 'function') {
           noteChangedCallback();
@@ -218,28 +210,12 @@ class ProfileLayout extends Component {
     }
   };
 
-  handleApproveKYCClick = async () => {
-    const { verifyKYC, profile: { data } } = this.props;
+  handleAddTag = (tag, priority) => {
+    this.props.addTag(this.props.params.id, tag, priority);
+  };
 
-    if (data.uuid) {
-      const action = await verifyKYC(data.uuid);
-
-      if (action && !action.error) {
-        this.handleOpenModal(INFO_MODAL, {
-          header: 'KYC Status',
-          body: (
-            <span>
-              KYC status obnovilsya!
-            </span>
-          ),
-          footer: (
-            <button className="btn btn-default" onClick={this.handleCloseModal}>
-              Close
-            </button>
-          ),
-        });
-      }
-    }
+  handleDeleteTag = (id) => {
+    this.props.deleteTag(this.props.params.id, id);
   };
 
   render() {
@@ -252,8 +228,6 @@ class ProfileLayout extends Component {
       lastIp,
       location,
       availableTags,
-      addTag,
-      deleteTag,
       availableStatuses,
       accumulatedBalances,
       updateSubscription,
@@ -271,11 +245,10 @@ class ProfileLayout extends Component {
             availableStatuses={availableStatuses}
             onStatusChange={changeStatus}
             availableTags={availableTags}
-            addTag={addTag.bind(null, params.id)}
-            deleteTag={deleteTag.bind(null, params.id)}
+            addTag={this.handleAddTag}
+            deleteTag={this.handleDeleteTag}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
-            onApproveKYCClick={this.handleApproveKYCClick}
           />
 
           <div className="row">
