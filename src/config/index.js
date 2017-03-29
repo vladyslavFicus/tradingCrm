@@ -36,6 +36,9 @@ const config = {
     },
     departments: [],
     tags: {},
+    reasons: {
+      rejection: [],
+    },
   },
   middlewares: {},
   ...environmentConfig,

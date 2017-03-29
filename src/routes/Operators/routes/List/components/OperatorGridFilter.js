@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
 import { reduxForm, Field } from 'redux-form';
-import { createValidator } from 'utils/validator';
+import DateTime from 'react-datetime';
 import classNames from 'classnames';
 import countryList from 'country-list';
-import { statusesLabels, statuses } from 'constants/operators';
-import moment from 'moment';
-import DateTime from 'react-datetime';
-import config from 'config/index';
+import { createValidator } from '../../../../../utils/validator';
+import { statusesLabels, statuses } from '../../../../../constants/operators';
+import config from '../../../../../config/index';
 
 const { availableDepartments: departments, availableRoles: roles } = config;
 const countries = countryList().getData().reduce((result, item) => ({
@@ -25,7 +25,7 @@ const attributeLabels = {
 
 const validator = createValidator({
   keyword: 'string',
-  country: ['string', `in:${Object.keys(countries).join('')}`],
+  country: ['string', `in:${Object.keys(countries).join()}`],
   status: ['string', `in:${Object.keys(statuses).join()}`],
   department: ['string', `in:${departments.map(role => role.value).join()}`],
   role: ['string', `in:${roles.map(role => role.value).join()}`],
@@ -153,7 +153,7 @@ class OperatorGridFilter extends Component {
                 <div className="row">
                   <div className="col-md-3">
                     <Field
-                      name="searchValue"
+                      name="searchBy"
                       type="text"
                       label="Search by"
                       placeholder={attributeLabels.keyword}
@@ -162,7 +162,7 @@ class OperatorGridFilter extends Component {
                   </div>
                   <div className="col-md-3">
                     <Field
-                      name="countries"
+                      name="country"
                       label={attributeLabels.country}
                       emptyOptionLabel="Any"
                       component={this.renderSelectField}
@@ -175,7 +175,7 @@ class OperatorGridFilter extends Component {
                   </div>
                   <div className="col-md-3">
                     <Field
-                      name="statuses"
+                      name="status"
                       label={attributeLabels.status}
                       emptyOptionLabel="Any"
                       component={this.renderSelectField}
@@ -230,14 +230,14 @@ class OperatorGridFilter extends Component {
                       <div className="row">
                         <div className="col-md-5">
                           <Field
-                            name="registrationDateFrom"
+                            name="registration_date_from"
                             component={this.renderDateField}
                             isValidDate={this.startDateValidator}
                           />
                         </div>
                         <div className="col-md-5">
                           <Field
-                            name="registrationDateTo"
+                            name="registration_date_to"
                             component={this.renderDateField}
                             isValidDate={this.endDateValidator}
                           />

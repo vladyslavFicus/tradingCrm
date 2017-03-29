@@ -250,6 +250,7 @@ class ProfileLayout extends Component {
             deleteTag={this.handleDeleteTag}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
+            onApproveKYCClick={this.handleApproveKYCClick}
           />
 
           <div className="row">
