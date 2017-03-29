@@ -222,7 +222,7 @@ class GridView extends Component {
 
     return (
       <div className="row">
-        <div className="col-md-12">
+        <div className="col-md-12 table-responsive">
           <table className={tableClassName}>
             <thead className={headerClassName}>
               {this.renderHead(this.recognizeHeaders(grids))}
