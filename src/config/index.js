@@ -66,6 +66,10 @@ if (config.nas.roles) {
   }));
 }
 
+if (config.nas.reasons) {
+  console.log('config.nas.reasons');
+}
+
 if (config.nas.tags) {
   config.nas.tags = Object
     .keys(config.nas.tags.priorities)
@@ -91,7 +95,7 @@ function getAvailableTags(department) {
 }
 
 function getTransactionRejectReasons() {
-  return config.nas.reasons.rejection || [];
+  return config.nas.reasons && config.nas.reasons.rejection ? config.nas.reasons.rejection : [];
 }
 
 function getApiRoot() {
