@@ -57,6 +57,23 @@ const applicationConfig = {
   'nas.reasons.rejection[1]': 'Reason 2',
   'nas.reasons.rejection[2]': 'Reason 3',
   'nas.reasons.rejection[3]': 'Reason 4',
+  'nas.limits.deposit.periods[0]': '24 HOURS',
+  'nas.limits.deposit.periods[1]': '7 DAYS',
+  'nas.limits.deposit.periods[2]': '30 DAYS',
+  'nas.limits.wager.periods[0]': '24 HOURS',
+  'nas.limits.wager.periods[1]': '7 DAYS',
+  'nas.limits.wager.periods[2]': '30 DAYS',
+  'nas.limits.loss.periods[0]': '24 HOURS',
+  'nas.limits.loss.periods[1]': '7 DAYS',
+  'nas.limits.loss.periods[2]': '30 DAYS',
+  'nas.limits.session_duration.periods[0]': '1 HOURS',
+  'nas.limits.session_duration.periods[1]': '2 HOURS',
+  'nas.limits.session_duration.periods[2]': '3 HOURS',
+  'nas.limits.session_duration.periods[3]': '4 HOURS',
+  'nas.limits.session_duration.periods[4]': '5 HOURS',
+  'nas.limits.session_duration.periods[5]': '6 HOURS',
+  'nas.limits.session_duration.periods[6]': '7 HOURS',
+  'nas.limits.session_duration.periods[7]': '8 HOURS',
 };
 
 export default {

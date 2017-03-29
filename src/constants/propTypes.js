@@ -1,4 +1,5 @@
 import { PropTypes } from 'react';
+import { types as limitTypes } from '../constants/limits';
 
 PropTypes.price = PropTypes.shape({
   amount: PropTypes.number,
@@ -153,6 +154,12 @@ PropTypes.userProfile = PropTypes.shape({
   tokenExpirationDate: PropTypes.string,
   username: PropTypes.string,
   uuid: PropTypes.string,
+});
+PropTypes.limitPeriodEntity = PropTypes.shape({
+  [limitTypes.DEPOSIT]: PropTypes.arrayOf(PropTypes.string).isRequired,
+  [limitTypes.SESSION_DURATION]: PropTypes.arrayOf(PropTypes.string).isRequired,
+  [limitTypes.LOSS]: PropTypes.arrayOf(PropTypes.string).isRequired,
+  [limitTypes.WAGER]: PropTypes.arrayOf(PropTypes.string).isRequired,
 });
 
 export default PropTypes;

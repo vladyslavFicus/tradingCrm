@@ -3,6 +3,7 @@ import keyMirror from 'keymirror';
 const statuses = keyMirror({
   PENDING: null,
   IN_PROGRESS: null,
+  ACTIVE: null,
   CANCELED: null,
   COOLOFF: null,
 });
@@ -10,6 +11,7 @@ const statuses = keyMirror({
 const statusesLabels = {
   [statuses.PENDING]: 'Pending',
   [statuses.IN_PROGRESS]: 'Active',
+  [statuses.ACTIVE]: 'Active',
   [statuses.CANCELED]: 'Canceled',
   [statuses.COOLOFF]: 'Cooloff',
 };
@@ -35,6 +37,7 @@ const typesLabels = {
 
 const statusesColor = {
   [statuses.IN_PROGRESS]: 'color-success',
+  [statuses.ACTIVE]: 'color-success',
   [statuses.CANCELED]: 'color-danger',
   [statuses.COOLOFF]: 'color-info',
   [statuses.PENDING]: 'color-secondary',

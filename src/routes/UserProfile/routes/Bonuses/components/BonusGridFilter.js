@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
-import { Link } from 'react-router';
-import { statusesLabels, typesLabels, assignLabels } from 'constants/bonus';
-import { createValidator } from 'utils/validator';
-import { formValueSelector } from 'redux-form';
 import DateTime from 'react-datetime';
 import classNames from 'classnames';
 import moment from 'moment';
+import { reduxForm, Field, formValueSelector } from 'redux-form';
+import { Link } from 'react-router';
+import { statusesLabels, typesLabels, assignLabels } from '../../../../../constants/bonus';
+import { createValidator } from '../../../../../utils/validator';
 
 const FORM_NAME = 'userBonusesFilter';
 const bonusGridValuesSelector = formValueSelector(FORM_NAME);

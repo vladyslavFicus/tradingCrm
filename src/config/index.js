@@ -39,6 +39,7 @@ const config = {
     reasons: {
       rejection: [],
     },
+    limits: {},
   },
   middlewares: {},
   ...environmentConfig,
@@ -64,10 +65,6 @@ if (config.nas.roles) {
     value: item,
     label: item,
   }));
-}
-
-if (config.nas.reasons) {
-  console.log('config.nas.reasons');
 }
 
 if (config.nas.tags) {
@@ -98,6 +95,10 @@ function getTransactionRejectReasons() {
   return config.nas.reasons && config.nas.reasons.rejection ? config.nas.reasons.rejection : [];
 }
 
+function getLimitPeriods() {
+  return config.nas.limits || [];
+}
+
 function getApiRoot() {
   return config.api.entry
     ? config.api.entry.replace(/\/$/, '')
@@ -113,6 +114,7 @@ export {
   getDomain,
   getAvailableTags,
   getTransactionRejectReasons,
+  getLimitPeriods,
 };
 
 export default config;

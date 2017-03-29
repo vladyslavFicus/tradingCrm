@@ -30,14 +30,14 @@ class CommonGridView extends Component {
   };
 
   renderActions = (data) => {
-    if (!(data.status === statuses.IN_PROGRESS || data.status === statuses.PENDING)) {
+    if ([statuses.IN_PROGRESS, statuses.ACTIVE, statuses.PENDING].indexOf(data.status) === -1) {
       return null;
     }
 
     let buttonLabel = 'Cancel';
 
     const modalStaticParams = {};
-    if (data.status === statuses.IN_PROGRESS) {
+    if (data.status === statuses.IN_PROGRESS || data.status === statuses.ACTIVE) {
       modalStaticParams.modalTitle = 'Cancel limit';
       modalStaticParams.modalSubTitle = 'You are about to cancel the wager limit';
       modalStaticParams.cancelButtonLabel = 'Leave active';
@@ -130,7 +130,7 @@ class CommonGridView extends Component {
           {statusesLabels[data.status] || data.status}
         </div>
         {
-          data.status === statuses.IN_PROGRESS &&
+          (data.status === statuses.IN_PROGRESS || data.status === statuses.ACTIVE) &&
           <div className="font-size-10 color-default">
             since {moment(data.startDate).format('DD.MM.YYYY')}
           </div>
@@ -164,7 +164,7 @@ class CommonGridView extends Component {
             {
               data.expirationDate &&
               <div className="font-size-10 color-default">
-                {data.status === statuses.COOLOFF ? 'until' : 'on'}
+                {data.status === statuses.COOLOFF ? 'until' : 'on'} {' '}
                 {moment(data.expirationDate).format('DD.MM.YYYY')}
               </div>
             }
