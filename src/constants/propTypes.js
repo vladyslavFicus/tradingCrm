@@ -1,4 +1,5 @@
 import { PropTypes } from 'react';
+import { types as limitTypes } from '../constants/limits';
 
 PropTypes.price = PropTypes.shape({
   amount: PropTypes.number,
@@ -93,6 +94,12 @@ PropTypes.limitEntity = PropTypes.shape({
       PropTypes.number,
     ]),
   }).isRequired,
+});
+PropTypes.limitPeriodEntity = PropTypes.shape({
+  [limitTypes.DEPOSIT]: PropTypes.array.isRequired,
+  [limitTypes.SESSION_DURATION]: PropTypes.array.isRequired,
+  [limitTypes.LOSS]: PropTypes.array.isRequired,
+  [limitTypes.WAGER]: PropTypes.array.isRequired,
 });
 
 export default PropTypes;
