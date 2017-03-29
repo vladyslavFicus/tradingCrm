@@ -156,10 +156,10 @@ PropTypes.userProfile = PropTypes.shape({
   uuid: PropTypes.string,
 });
 PropTypes.limitPeriodEntity = PropTypes.shape({
-  [limitTypes.DEPOSIT]: PropTypes.array.isRequired,
-  [limitTypes.SESSION_DURATION]: PropTypes.array.isRequired,
-  [limitTypes.LOSS]: PropTypes.array.isRequired,
-  [limitTypes.WAGER]: PropTypes.array.isRequired,
+  [limitTypes.DEPOSIT]: PropTypes.arrayOf(PropTypes.string).isRequired,
+  [limitTypes.SESSION_DURATION]: PropTypes.arrayOf(PropTypes.string).isRequired,
+  [limitTypes.LOSS]: PropTypes.arrayOf(PropTypes.string).isRequired,
+  [limitTypes.WAGER]: PropTypes.arrayOf(PropTypes.string).isRequired,
 });
 
 export default PropTypes;

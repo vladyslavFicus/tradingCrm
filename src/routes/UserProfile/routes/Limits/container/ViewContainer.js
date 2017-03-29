@@ -7,10 +7,10 @@ const configLimitPeriods = getLimitPeriods();
 
 const limitPeriods = Object
   .keys(configLimitPeriods)
-  .reduce((result, period) => {
-    result[period] = configLimitPeriods[period].periods;
-    return result;
-  }, {});
+  .reduce((result, period) => ({
+    ...result,
+    [period]: configLimitPeriods[period].periods || [],
+  }), {});
 
 const mapStateToProps = ({ userLimits: { view } }) => ({
   ...view,
