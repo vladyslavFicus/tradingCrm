@@ -46,7 +46,6 @@ const mapActions = {
   updateSubscription: viewActionCreators.updateSubscription,
   checkLock: viewActionCreators.checkLock,
   fetchBalances: viewActionCreators.fetchBalances,
-  fetchProfile: viewActionCreators.fetchProfile,
   getBalance: viewActionCreators.getBalance,
   loadFullProfile: viewActionCreators.loadFullProfile,
   lockDeposit: viewActionCreators.lockDeposit,

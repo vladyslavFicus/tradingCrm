@@ -7,7 +7,7 @@ import Balances from './Balances';
 import ProfileTags from '../../../components/ProfileTags';
 import Amount from '../../../components/Amount';
 import NoteButton from '../../../components/NoteButton';
-import { statuses, statusColorNames } from '../../../constants/user';
+import { statusColorNames } from '../../../constants/user';
 import { shortify } from '../../../utils/uuid';
 import './Header.scss';
 

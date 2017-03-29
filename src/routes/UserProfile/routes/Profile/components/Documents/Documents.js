@@ -33,9 +33,9 @@ class Documents extends Component {
         {' - '}
         <span>{shortify(data.uuid)}</span>
         {' '}
-        <a href="#" onClick={e => this.handleDownloadFile(e, data)}>
+        <button className="btn-transparent" onClick={e => this.handleDownloadFile(e, data)}>
           <i className="fa fa-download" />
-        </a>
+        </button>
       </div>
       <span className="font-size-10 color-default">
         by {shortify(data.author)}

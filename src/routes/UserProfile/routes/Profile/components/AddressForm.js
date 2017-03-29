@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { InputField, SelectField, TextAreaField } from 'components/ReduxForm/UserProfile';
 import countryList from 'country-list';
-import { createValidator } from 'utils/validator';
+import { InputField, SelectField, TextAreaField } from '../../../../../components/ReduxForm/UserProfile';
+import { createValidator } from '../../../../../utils/validator';
 
 const attributeLabels = {
   country: 'Country',

@@ -43,7 +43,6 @@ class ProfileLayout extends Component {
     updateSubscription: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
     loadFullProfile: PropTypes.func.isRequired,
-    fetchProfile: PropTypes.func.isRequired,
     fetchActiveBonus: PropTypes.func.isRequired,
     fetchIp: PropTypes.func.isRequired,
     fetchAccumulatedBalances: PropTypes.func.isRequired,

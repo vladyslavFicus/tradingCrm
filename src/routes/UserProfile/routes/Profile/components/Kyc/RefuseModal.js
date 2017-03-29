@@ -14,12 +14,29 @@ const attributeLabels = {
   [`${kycCategories.KYC_ADDRESS}_reason`]: 'Address rejection reason',
 };
 
-const validator = createValidator({
-  [kycCategories.KYC_PERSONAL]: 'boolean',
-  [`${kycCategories.KYC_PERSONAL}_reason`]: [`required_if:${kycCategories.KYC_PERSONAL}`, 'string'],
-  [kycCategories.KYC_ADDRESS]: 'boolean',
-  [`${kycCategories.KYC_ADDRESS}_reason`]: [`required_if:${kycCategories.KYC_ADDRESS}`, 'string'],
-}, attributeLabels, false);
+const validator = (values) => {
+  const rules = {
+    [kycCategories.KYC_PERSONAL]: ['boolean'],
+    [`${kycCategories.KYC_PERSONAL}_reason`]: ['string'],
+    [kycCategories.KYC_ADDRESS]: ['boolean'],
+    [`${kycCategories.KYC_ADDRESS}_reason`]: ['string'],
+  };
+
+  if (values[kycCategories.KYC_PERSONAL]) {
+    rules[`${kycCategories.KYC_PERSONAL}_reason`].push('required');
+  }
+
+  if (values[kycCategories.KYC_ADDRESS]) {
+    rules[`${kycCategories.KYC_ADDRESS}_reason`].push('required');
+  }
+
+  if (!values[kycCategories.KYC_PERSONAL] && !values[kycCategories.KYC_ADDRESS]) {
+    rules[kycCategories.KYC_PERSONAL].push('required');
+    rules[kycCategories.KYC_ADDRESS].push('required');
+  }
+
+  return createValidator(rules, attributeLabels, false)(values);
+};
 
 class RefuseModal extends Component {
   static propTypes = {
@@ -35,7 +52,9 @@ class RefuseModal extends Component {
     selectedValues: PropTypes.object,
   };
 
-  renderRejectByType = (type, label, reasonLabel, checked = false) => {
+  renderRejectByType = (type) => {
+    const { selectedValues } = this.props;
+
     return (
       <div className="row">
         <div className="col-md-12">
@@ -47,13 +66,13 @@ class RefuseModal extends Component {
               type="checkbox"
             />
             {' '}
-            <label htmlFor={`${type}-reject-reason-checkbox`}>{label}</label>
+            <label htmlFor={`${type}-reject-reason-checkbox`}>{attributeLabels[type]}</label>
           </div>
 
           {
-            checked &&
+            selectedValues && selectedValues[type] &&
             <div className="form-group padding-top-20">
-              <label>{reasonLabel}</label>
+              <label>{attributeLabels[`${type}_reason`]}</label>
               <Field
                 name={`${type}_reason`}
                 component="textarea"
@@ -76,7 +95,6 @@ class RefuseModal extends Component {
       submitting,
       invalid,
       onClose,
-      selectedValues,
     } = this.props;
 
     return (
@@ -93,22 +111,12 @@ class RefuseModal extends Component {
               </div>
             </div>
 
-            {this.renderRejectByType(
-              kycCategories.KYC_PERSONAL,
-              attributeLabels[kycCategories.KYC_PERSONAL],
-              attributeLabels[`${kycCategories.KYC_PERSONAL}_reason`],
-              selectedValues && selectedValues[kycCategories.KYC_PERSONAL]
-                ? selectedValues[kycCategories.KYC_PERSONAL]
-                : false
-            )}
-            {this.renderRejectByType(
-              kycCategories.KYC_ADDRESS,
-              attributeLabels[kycCategories.KYC_ADDRESS],
-              attributeLabels[`${kycCategories.KYC_ADDRESS}_reason`],
-              selectedValues && selectedValues[kycCategories.KYC_ADDRESS]
-                ? selectedValues[kycCategories.KYC_ADDRESS]
-                : false
-            )}
+            <div className="margin-top-30">
+              {this.renderRejectByType(kycCategories.KYC_PERSONAL)}
+            </div>
+            <div className="margin-top-5">
+              {this.renderRejectByType(kycCategories.KYC_ADDRESS)}
+            </div>
           </ModalBody>
 
           <ModalFooter>

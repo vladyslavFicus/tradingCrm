@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import PersonalInformationItem from './PersonalInformationItem';
+import PropTypes from '../../constants/propTypes';
 import { statuses as kycStatuses } from '../../constants/kyc';
 import { statuses as userStatuses } from '../../constants/user';
 
 class Personal extends Component {
+  static propTypes = {
+    data: PropTypes.userProfile.isRequired,
+  };
+
   render() {
     const {
       data: {

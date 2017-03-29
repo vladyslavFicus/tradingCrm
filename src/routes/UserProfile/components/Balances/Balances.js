@@ -7,7 +7,6 @@ import './Balances.scss';
 class Balances extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
-    profileStatus: PropTypes.string,
     accumulatedBalances: PropTypes.shape({
       data: PropTypes.object,
     }),
