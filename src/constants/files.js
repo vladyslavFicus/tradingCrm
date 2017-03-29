@@ -33,6 +33,18 @@ const statusActions = {
       label: 'Refuse',
     },
   ],
+  [statuses.VERIFIED]: [
+    {
+      action: actions.REFUSE,
+      label: 'Refuse',
+    },
+  ],
+  [statuses.REFUSED]: [
+    {
+      action: actions.VERIFY,
+      label: 'Verify',
+    },
+  ],
 };
 const statusesColorNames = {
   [statuses.UNDER_REVIEW]: 'color-default',

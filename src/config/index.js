@@ -14,12 +14,7 @@ if (window) {
 const config = {
   api: {},
   availableDepartments: [],
-  availableRoles: [
-    { value: 'role1', label: 'Role 1' },
-    { value: 'role2', label: 'Role 2' },
-    { value: 'role3', label: 'Role 3' },
-    { value: 'role4', label: 'Role 4' },
-  ],
+  availableRoles: [],
   availableTags: [],
   providers: {
     stakelogic: 'Stakelogic',
@@ -41,6 +36,9 @@ const config = {
     },
     departments: [],
     tags: {},
+    reasons: {
+      rejection: [],
+    },
   },
   middlewares: {},
   ...environmentConfig,
@@ -59,6 +57,17 @@ if (config.nas.departments) {
     value: item,
     label: item,
   }));
+}
+
+if (config.nas.roles) {
+  config.availableRoles = config.nas.roles.map(item => ({
+    value: item,
+    label: item,
+  }));
+}
+
+if (config.nas.reasons) {
+  console.log('config.nas.reasons');
 }
 
 if (config.nas.tags) {
@@ -86,7 +95,7 @@ function getAvailableTags(department) {
 }
 
 function getTransactionRejectReasons() {
-  return config.nas.reasons.rejection || [];
+  return config.nas.reasons && config.nas.reasons.rejection ? config.nas.reasons.rejection : [];
 }
 
 function getApiRoot() {

@@ -195,7 +195,6 @@ class View extends Component {
           dataSource={entities.content}
           tableClassName="table table-hovered data-grid-layout"
           headerClassName="text-uppercase"
-          onFiltersChanged={this.handleFiltersChanged}
           onPageChange={this.handlePageChanged}
           activePage={entities.number + 1}
           totalPages={entities.totalPages}

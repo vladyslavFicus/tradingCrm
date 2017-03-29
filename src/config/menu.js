@@ -15,7 +15,6 @@ const sidebar = [
     icon: 'fa fa-user',
     url: '/operators/list',
   },
-  { label: 'InReview profiles', url: '/profiles-review', icon: 'fa fa-user-times' },
   {
     label: 'Payments',
     icon: 'fa fa-credit-card',

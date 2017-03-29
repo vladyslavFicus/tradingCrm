@@ -9,7 +9,7 @@ export function shortify(uuid, prefix, size = 1) {
     const sourcePrefix = elements[0];
 
     if (sourcePrefix.toUpperCase() === sourcePrefix) {
-      elements[0] = sourcePrefix.slice(0, 2);
+      elements[0] = sourcePrefix.slice(0, size + 1);
 
       return elements.slice(0, 2).join('-');
     }

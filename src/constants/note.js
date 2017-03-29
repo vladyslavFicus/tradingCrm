@@ -3,6 +3,7 @@ const targetTypes = {
   BONUS: 'bonus',
   PAYMENT: 'payment',
   FILE: 'file',
+  LIMIT: 'limit',
 };
 
 export {

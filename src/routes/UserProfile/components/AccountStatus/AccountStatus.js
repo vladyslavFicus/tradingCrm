@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
-import classNames from 'classnames';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
+import classNames from 'classnames';
+import moment from 'moment';
 import AccountStatusModal from './AccountStatusModal';
 import { statuses, suspendPeriods } from '../../../../constants/user';
 import './AccountStatus.scss';
@@ -15,6 +15,13 @@ const initialState = {
 };
 
 class AccountStatus extends Component {
+  static propTypes = {
+    label: PropTypes.any.isRequired,
+    profileStatus: PropTypes.string,
+    availableStatuses: PropTypes.array.isRequired,
+    onStatusChange: PropTypes.func.isRequired,
+  };
+
   state = { ...initialState };
 
   toggle = () => {
@@ -50,17 +57,18 @@ class AccountStatus extends Component {
 
   handleSubmit = ({ period, ...data }) => {
     this.handleModalHide(null, () => {
+      const statusData = { ...data };
       if (period) {
         if (period === suspendPeriods.DAY) {
-          data.suspendEndDate = moment().add(1, 'days').format('YYYY-MM-DDTHH:mm:ss');
+          statusData.suspendEndDate = moment().add(1, 'days').format('YYYY-MM-DDTHH:mm:ss');
         } else if (period === suspendPeriods.WEEK) {
-          data.suspendEndDate = moment().add(7, 'days').format('YYYY-MM-DDTHH:mm:ss');
+          statusData.suspendEndDate = moment().add(7, 'days').format('YYYY-MM-DDTHH:mm:ss');
         } else if (period === suspendPeriods.MONTH) {
-          data.suspendEndDate = moment().add(1, 'months').format('YYYY-MM-DDTHH:mm:ss');
+          statusData.suspendEndDate = moment().add(1, 'months').format('YYYY-MM-DDTHH:mm:ss');
         }
       }
 
-      return this.props.onStatusChange(data);
+      return this.props.onStatusChange(statusData);
     });
   };
 
@@ -93,19 +101,19 @@ class AccountStatus extends Component {
     );
   }
 
-  renderDropDown = (label, availableStatuses, dropDownOpen, modal) => (
+  renderDropDown = (label, availableStatuses, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
       {label}
 
       <DropdownMenu>
         {
-          availableStatuses.map(({ label, reasons, ...rest }) => (
+          availableStatuses.map(({ label: statusLabel, reasons, ...rest }) => (
             <DropdownItem
               key={rest.action}
               {...rest}
-              onClick={this.handleStatusClick.bind(this, { label, reasons, ...rest })}
+              onClick={() => this.handleStatusClick({ statusLabel, reasons, ...rest })}
             >
-              {label}
+              {statusLabel}
             </DropdownItem>
           ))
         }
@@ -113,12 +121,5 @@ class AccountStatus extends Component {
     </Dropdown>
   )
 }
-
-AccountStatus.propTypes = {
-  label: PropTypes.any.isRequired,
-  profileStatus: PropTypes.string,
-  availableStatuses: PropTypes.array.isRequired,
-  onStatusChange: PropTypes.func.isRequired,
-};
 
 export default AccountStatus;

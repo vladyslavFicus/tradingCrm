@@ -46,7 +46,7 @@ function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
         bailout: !logged,
       },
     }).then((action) => {
-      if (action && action.type === FETCH_ENTITIES.SUCCESS) {
+      if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.content.length) {
         dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
       }
 
