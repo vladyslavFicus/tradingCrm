@@ -34,8 +34,6 @@ const UPDATE_SUBSCRIPTION = createRequestAction(`${KEY}/update-subscription`);
 
 const CHECK_LOCK = createRequestAction(`${KEY}/check-lock`);
 
-const VERIFY_KYC = createRequestAction(`${KEY}/verify-kyc`);
-
 const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
 const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
 
@@ -875,7 +873,6 @@ const actionCreators = {
   changeStatus,
   addTag,
   deleteTag,
-  verifyKYC,
 };
 
 export {

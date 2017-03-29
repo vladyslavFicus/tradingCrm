@@ -61,7 +61,6 @@ const mapActions = {
   editNote: actionCreators.editNote,
   deleteNote: actionCreators.deleteNote,
   resetPassword: actionCreators.resetPassword,
-  verifyKYC: actionCreators.verifyKYC,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);

@@ -36,7 +36,6 @@ class Header extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
-    onApproveKYCClick: PropTypes.func.isRequired,
   };
 
   getUserAge = () => {
@@ -158,7 +157,6 @@ class Header extends Component {
             <UserProfileOptions
               items={[
                 { label: 'Reset password', onClick: this.props.onResetPasswordClick },
-                { label: 'Approve KYC', onClick: this.props.onApproveKYCClick },
               ]}
             />
           </div>
