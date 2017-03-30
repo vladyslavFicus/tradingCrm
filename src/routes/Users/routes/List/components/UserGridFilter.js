@@ -70,6 +70,7 @@ class UserGridFilter extends Component {
     submitting: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired,
     onExportClick: PropTypes.func.isRequired,
     isExportable: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -127,6 +128,11 @@ class UserGridFilter extends Component {
     }
 
     return this.props.onSubmit(data);
+  };
+
+  handleReset = () => {
+    this.props.reset();
+    this.props.onSubmit();
   };
 
   renderTextField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
@@ -209,7 +215,6 @@ class UserGridFilter extends Component {
     const {
       submitting,
       handleSubmit,
-      reset,
       onExportClick,
       isExportable,
     } = this.props;
@@ -398,7 +403,8 @@ class UserGridFilter extends Component {
                       <button
                         disabled={submitting}
                         className="btn btn-default btn-sm margin-inline font-weight-700"
-                        onClick={reset}
+                        onClick={this.handleReset}
+                        type="reset"
                       >
                         Reset
                       </button>

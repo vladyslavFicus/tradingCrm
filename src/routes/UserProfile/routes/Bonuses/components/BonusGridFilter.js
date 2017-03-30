@@ -57,6 +57,11 @@ class BonusGridFilter extends Component {
       : true;
   };
 
+  handleReset = () => {
+    this.props.reset();
+    this.props.onSubmit();
+  };
+
   renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
@@ -120,7 +125,6 @@ class BonusGridFilter extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      reset,
       playerUUID,
     } = this.props;
 
@@ -225,8 +229,10 @@ class BonusGridFilter extends Component {
             <div className="col-md-2">
               <div className="form-group margin-top-25">
                 <button
-                  disabled={submitting} className="btn btn-default btn-sm margin-inline font-weight-700"
-                  onClick={reset}
+                  disabled={submitting}
+                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  onClick={this.handleReset}
+                  type="reset"
                 >
                   Reset
                 </button>
