@@ -1,5 +1,5 @@
-import onEnterStack from 'utils/onEnterStack';
-import requireAuth from 'utils/requireAuth';
+import onEnterStack from '../utils/onEnterStack';
+import requireAuth from '../utils/requireAuth';
 import NewLayout from '../layouts/NewLayout';
 import BaseLayout from '../layouts/BaseLayout';
 import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
@@ -35,7 +35,7 @@ export const createRoutes = (store) => ({
       childRoutes: [
         SignInRoute(store),
         onEnterStack({
-          component: AuthenticatedLayout,
+          component: NewLayout,
           childRoutes: [
             DashboardRoute(store),
             UsersRoute(store),
