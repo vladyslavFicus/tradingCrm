@@ -155,6 +155,24 @@ PropTypes.userProfile = PropTypes.shape({
   username: PropTypes.string,
   uuid: PropTypes.string,
 });
+PropTypes.authorityEntity = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  department: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
+});
+PropTypes.operatorProfile = PropTypes.shape({
+  authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
+  country: PropTypes.any,
+  email: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  operatorStatus: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string.isRequired,
+  registrationDate: PropTypes.string.isRequired,
+  statusChangeAuthor: PropTypes.any,
+  statusChangeDate: PropTypes.any,
+  uuid: PropTypes.string.isRequired,
+});
 PropTypes.limitPeriodEntity = PropTypes.shape({
   [limitTypes.DEPOSIT]: PropTypes.arrayOf(PropTypes.string).isRequired,
   [limitTypes.SESSION_DURATION]: PropTypes.arrayOf(PropTypes.string).isRequired,

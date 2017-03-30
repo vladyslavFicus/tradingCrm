@@ -69,8 +69,6 @@ class Header extends Component {
       onResetPasswordClick,
     } = this.props;
 
-    console.log('availableStatuses', availableStatuses);
-
     return (
       <div className="operator-profile-header">
         <div className="row panel-heading">

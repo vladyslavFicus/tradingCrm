@@ -1,7 +1,5 @@
-import { injectReducer } from '../../store/reducers';
-
 export default store => ({
-  path: 'set-password',
+  path: 'reset-password',
   getComponent({ location: { query } }, cb) {
     require.ensure([], (require) => {
       const { auth: { logged } } = store.getState();
@@ -14,9 +12,7 @@ export default store => ({
         return cb(null, require('../../routes/Forbidden/container/Container').default);
       }
 
-      injectReducer(store, { key: 'passwordResetView', reducer: require('./modules').default });
-
       return cb(null, require('./container/Container').default);
-    }, 'set-password');
+    }, 'reset-password');
   },
 });

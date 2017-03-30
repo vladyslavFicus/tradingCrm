@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import Switch from '../../components/Forms/Switch';
+import Switch from '../../../../components/Forms/Switch';
 
 const SUBSCRIPTION_TYPE_SMS = 'marketingSMS';
 const SUBSCRIPTION_TYPE_NEWS = 'marketingNews';
