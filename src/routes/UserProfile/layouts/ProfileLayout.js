@@ -51,6 +51,7 @@ class ProfileLayout extends Component {
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
+    activateProfile: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {
@@ -210,6 +211,30 @@ class ProfileLayout extends Component {
     }
   };
 
+  handleProfileActivateClick = async () => {
+    const { activateProfile, profile: { data: { uuid, email } } } = this.props;
+
+    if (uuid) {
+      const action = await activateProfile(uuid);
+
+      if (action && !action.error) {
+        this.handleOpenModal(INFO_MODAL, {
+          header: 'Send user activation link',
+          body: (
+            <span>
+              Activation link has been sent to <strong>{email || uuid}</strong>.
+            </span>
+          ),
+          footer: (
+            <button className="btn btn-default" onClick={this.handleCloseModal}>
+              Close
+            </button>
+          ),
+        });
+      }
+    }
+  };
+
   handleAddTag = (tag, priority) => {
     this.props.addTag(this.props.params.id, tag, priority);
   };
@@ -249,6 +274,7 @@ class ProfileLayout extends Component {
             deleteTag={this.handleDeleteTag}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
+            onProfileActivateClick={this.handleProfileActivateClick}
           />
 
           <div className="row">
