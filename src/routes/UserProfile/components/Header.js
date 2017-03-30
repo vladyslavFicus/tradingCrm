@@ -131,6 +131,8 @@ class Header extends Component {
       }))
       : [];
 
+    console.log('currentPermissions', currentPermissions);
+
     return (
       <div>
         <div className="row panel-heading">

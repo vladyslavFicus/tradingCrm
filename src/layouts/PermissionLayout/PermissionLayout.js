@@ -12,12 +12,8 @@ class PermissionLayout extends Component {
   };
 
   getChildContext() {
-    const {
-      permissions,
-    } = this.props;
-
     return {
-      permissions,
+      permissions: this.props.permissions,
     };
   }
 
