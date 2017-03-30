@@ -92,7 +92,7 @@ class View extends Component {
     });
   };
 
-  handleFilterSubmit = (inputFilters) => {
+  handleFilterSubmit = (inputFilters = {}) => {
     const filters = inputFilters;
 
     if (filters.states) {

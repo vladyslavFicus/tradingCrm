@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { formValueSelector, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -37,6 +37,14 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 class TransactionGridFilter extends Component {
+  static propTypes = {
+    reset: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
+    submitting: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
+    currencyCode: PropTypes.string,
+  };
+
   handleDateTimeChange = callback => (value) => {
     callback(value ? value.format('YYYY-MM-DD') : '');
   };
@@ -57,12 +65,17 @@ class TransactionGridFilter extends Component {
       : true;
   };
 
+  handleReset = () => {
+    this.props.reset();
+    this.props.onSubmit();
+  };
+
   renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label>{label}</label>
         <div className="form-input-icon">
-          <i className="icmn-search"/>
+          <i className="icmn-search" />
           <input
             {...input}
             disabled={disabled}
@@ -142,7 +155,6 @@ class TransactionGridFilter extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      reset,
       currencyCode,
     } = this.props;
 
@@ -283,7 +295,8 @@ class TransactionGridFilter extends Component {
                 <button
                   disabled={submitting}
                   className="btn btn-default btn-sm margin-inline font-weight-700"
-                  onClick={reset}
+                  onClick={this.handleReset}
+                  type="reset"
                 >
                   Reset
                 </button>
@@ -311,15 +324,15 @@ const FilterForm = reduxForm({
 export default connect((state) => {
   return {
     currentValues: {
-      keyword: transactionGridValuesSelector(state, 'keyword'),
-      initiatorType: transactionGridValuesSelector(state, 'initiatorType'),
-      type: transactionGridValuesSelector(state, 'type'),
-      statuses: transactionGridValuesSelector(state, 'statuses'),
-      paymentMethod: transactionGridValuesSelector(state, 'paymentMethod'),
-      startDate: transactionGridValuesSelector(state, 'startDate'),
-      endDate: transactionGridValuesSelector(state, 'endDate'),
-      amountLowerBound: transactionGridValuesSelector(state, 'amountLowerBound'),
-      amountUpperBound: transactionGridValuesSelector(state, 'amountUpperBound'),
+      keyword: transactionGridValuesSelector(state, 'keyword') || '',
+      initiatorType: transactionGridValuesSelector(state, 'initiatorType') || '',
+      type: transactionGridValuesSelector(state, 'type') || '',
+      statuses: transactionGridValuesSelector(state, 'statuses') || '',
+      paymentMethod: transactionGridValuesSelector(state, 'paymentMethod') || '',
+      startDate: transactionGridValuesSelector(state, 'startDate') || '',
+      endDate: transactionGridValuesSelector(state, 'endDate') || '',
+      amountLowerBound: transactionGridValuesSelector(state, 'amountLowerBound') || '',
+      amountUpperBound: transactionGridValuesSelector(state, 'amountUpperBound') || '',
     },
   };
 })(FilterForm);

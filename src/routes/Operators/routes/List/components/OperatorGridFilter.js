@@ -37,7 +37,8 @@ class OperatorGridFilter extends Component {
   static propTypes = {
     filterValues: PropTypes.object,
     onCreateOperatorClick: PropTypes.func.isRequired,
-    reset: PropTypes.func,
+    reset: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
@@ -65,6 +66,11 @@ class OperatorGridFilter extends Component {
     return filterValues.startDate
       ? current.isSameOrAfter(moment(filterValues.startDate))
       : true;
+  };
+
+  handleReset = () => {
+    this.props.reset();
+    this.props.onSubmit();
   };
 
   renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
@@ -129,7 +135,6 @@ class OperatorGridFilter extends Component {
     const {
       submitting,
       handleSubmit,
-      reset,
       onCreateOperatorClick,
     } = this.props;
 
@@ -251,7 +256,8 @@ class OperatorGridFilter extends Component {
                       <button
                         disabled={submitting}
                         className="btn btn-default btn-sm margin-inline font-weight-700"
-                        onClick={reset}
+                        onClick={this.handleReset}
+                        type="reset"
                       >
                         Reset
                       </button>
