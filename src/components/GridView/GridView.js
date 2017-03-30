@@ -17,7 +17,7 @@ class GridView extends Component {
     activePage: PropTypes.number,
     totalPages: PropTypes.number,
     summaryRow: PropTypes.object,
-    rowClassName: PropTypes.string,
+    rowClassName: PropTypes.func,
     lazyLoad: PropTypes.bool,
   };
 

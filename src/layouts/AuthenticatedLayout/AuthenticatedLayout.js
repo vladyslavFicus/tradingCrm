@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import TopMenu from 'components/Navigation/TopMenu';
-import Sidebar from 'components/Navigation/Sidebar';
-import { sidebar as sidebarItems } from 'config/menu';
+import TopMenu from '../../components/Navigation/TopMenu';
+import Sidebar from '../../components/Navigation/Sidebar';
+import { sidebar as sidebarItems } from '../../config/menu';
 
 class AuthenticatedLayout extends Component {
   static childContextTypes = {
@@ -31,17 +31,19 @@ class AuthenticatedLayout extends Component {
   render() {
     const { children, location } = this.props;
 
-    return <div>
-      <Sidebar
-        location={location}
-        menuItems={sidebarItems}
-      />
-      <TopMenu/>
+    return (
+      <div>
+        <Sidebar
+          location={location}
+          menuItems={sidebarItems}
+        />
+        <TopMenu />
 
-      <section className="page-content">
-        {children}
-      </section>
-    </div>;
+        <section className="page-content">
+          {children}
+        </section>
+      </div>
+    );
   }
 }
 
@@ -55,7 +57,7 @@ AuthenticatedLayout.propTypes = {
   permissions: PropTypes.array,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: state.auth,
   permissions: state.permissions.data,
 });

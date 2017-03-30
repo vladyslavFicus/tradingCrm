@@ -60,6 +60,30 @@ function passwordResetRequest(type) {
   });
 }
 
+function profileActivateRequest(type) {
+  return uuid => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${uuid}/send-activation-link`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function updateProfile(type) {
   return (uuid, data) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -174,6 +198,7 @@ const actionCreators = {
   updateProfile,
   updateIdentifier,
   passwordResetRequest,
+  profileActivateRequest,
 };
 
 export {

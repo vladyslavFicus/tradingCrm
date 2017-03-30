@@ -1,19 +1,19 @@
-import { sourceActionCreators } from '../../../redux/modules/operator';
+import { actionCreators as authActionCreators } from '../../../redux/modules/auth';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 
-const KEY = 'set-password';
-const SET_NEW_PASSWORD = createRequestAction(`${KEY}/set-new-password`);
+const KEY = 'reset-password';
+const RESET_PASSWORD_CONFIRM = createRequestAction(`${KEY}/confirm`);
 
-const setNewPassword = sourceActionCreators.passwordResetConfirm(SET_NEW_PASSWORD);
+const resetPasswordConfirm = authActionCreators.resetPasswordConfirm(RESET_PASSWORD_CONFIRM);
 
 const initialState = {};
 const actionHandlers = {};
 const actionTypes = {
-  SET_NEW_PASSWORD,
+  RESET_PASSWORD_CONFIRM,
 };
 const actionCreators = {
-  setNewPassword,
+  resetPasswordConfirm,
 };
 
 export {

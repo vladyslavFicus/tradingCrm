@@ -10,8 +10,8 @@ const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
 const VALIDATE_TOKEN = createRequestAction(`${KEY}/validate-token`);
 const LOGOUT = createRequestAction(`${KEY}/logout`);
 
-
 const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
+
 function signIn(data) {
   return {
     [CALL_API]: {
@@ -93,6 +93,25 @@ function logout() {
   };
 }
 
+function resetPasswordConfirm(type) {
+  return ({ password, repeatPassword, token }) => dispatch => dispatch({
+    [CALL_API]: {
+      endpoint: '/auth/password/reset',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password, repeatPassword, token }),
+      types: [
+        type.REQUEST,
+        type.SUCCESS,
+        type.FAILURE,
+      ],
+    },
+  });
+}
+
 const initialState = {
   department: null,
   logged: false,
@@ -154,6 +173,7 @@ const actionCreators = {
   logout,
   refreshToken,
   validateToken,
+  resetPasswordConfirm,
 };
 
 export {

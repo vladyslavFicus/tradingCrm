@@ -20,7 +20,7 @@ class OperatorProfileLayout extends Component {
     }),
     location: PropTypes.object,
     children: PropTypes.node,
-    data: PropTypes.object,
+    data: PropTypes.operatorProfile.isRequired,
     availableStatuses: PropTypes.array.isRequired,
     changeStatus: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,

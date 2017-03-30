@@ -23,6 +23,7 @@ const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
 const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
+const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
 
 const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
 const DOWNLOAD_FILE = createRequestAction(`${KEY}/download-file`);
@@ -141,6 +142,7 @@ const fetchProfile = usersActionCreators.fetchProfile(PROFILE);
 const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
 const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
+const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
 const changeStatusByAction = filesSourceActionCreators.changeStatusByAction({
   [filesActions.VERIFY]: VERIFY_FILE,
   [filesActions.REFUSE]: REFUSE_FILE,
@@ -818,6 +820,7 @@ const actionCreators = {
   updateProfile,
   updateIdentifier,
   resetPassword,
+  activateProfile,
   updateSubscription,
   getBalance,
   loadFullProfile,

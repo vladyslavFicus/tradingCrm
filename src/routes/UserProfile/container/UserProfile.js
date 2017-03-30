@@ -60,6 +60,7 @@ const mapActions = {
   editNote: actionCreators.editNote,
   deleteNote: actionCreators.deleteNote,
   resetPassword: actionCreators.resetPassword,
+  activateProfile: actionCreators.activateProfile,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);

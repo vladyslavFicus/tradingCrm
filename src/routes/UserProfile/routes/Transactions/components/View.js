@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
 import classNames from 'classnames';
+import moment from 'moment';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
 import {
@@ -92,7 +92,7 @@ class View extends Component {
     });
   };
 
-  handleFilterSubmit = (inputFilters) => {
+  handleFilterSubmit = (inputFilters = {}) => {
     const filters = inputFilters;
 
     if (filters.states) {

@@ -28,6 +28,7 @@ class UserProfileOptions extends Component {
   render() {
     const { isOpened } = this.state;
     const { label, items } = this.props;
+    const visibleItems = items.filter(item => item.visible === undefined || item.visible);
 
     return (
       <Dropdown isOpen={isOpened} toggle={this.handleToggleDropDownState}>
@@ -36,7 +37,7 @@ class UserProfileOptions extends Component {
         </button>
 
         <DropdownMenu right>
-          {items.map((item, index) => (
+          {visibleItems.map((item, index) => (
             <DropdownItem
               key={index}
               onClick={item.onClick}
