@@ -55,7 +55,7 @@ const userProfileTabs = [
   { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Transactions', url: '/users/:id/transactions' },
   { label: 'Limits', url: '/users/:id/limits' },
-  { label: 'Documents', url: '/users/:id/documents' },
+  { label: 'Feed', url: '/users/:id/feed' },
 ];
 
 const operatorProfileTabs = [

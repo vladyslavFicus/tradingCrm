@@ -1,5 +1,5 @@
 import ProfileRoute from './routes/Profile';
-import DocumentsRoute from './routes/Documents';
+import FeedRoute from './routes/Feed';
 import GameActivityRoute from './routes/GameActivity';
 import UserPaymentsRoute from './routes/Transactions';
 import UserBonusesRoute from './routes/Bonuses';
@@ -18,7 +18,7 @@ export default (store) => ({
 
   childRoutes: [
     ProfileRoute(store),
-    DocumentsRoute(store),
+    FeedRoute(store),
     GameActivityRoute(store),
     UserPaymentsRoute(store),
     UserBonusesRoute(store),
