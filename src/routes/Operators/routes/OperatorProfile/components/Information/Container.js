@@ -1,11 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import Personal from '../../../../../components/Information/Personal';
-import Departments from '../../../../../components/Information/Departments';
-import IpList from '../../../../../components/Information/IpList';
+import React, { Component } from 'react';
+import Personal from './Personal';
+import Departments from './Departments';
+import IpList from '../../../../../../components/Information/IpList';
+import PropTypes from '../../../../../../constants/propTypes';
 
-class Information extends Component {
+class Container extends Component {
   static propTypes = {
-    data: PropTypes.object,
+    data: PropTypes.operatorProfile.isRequired,
     ips: PropTypes.array.isRequired,
   };
 
@@ -29,4 +30,4 @@ class Information extends Component {
   }
 }
 
-export default Information;
+export default Container;

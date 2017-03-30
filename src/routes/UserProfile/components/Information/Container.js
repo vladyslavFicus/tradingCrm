@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
-import Personal from '../../../components/Information/Personal';
-import Additional from '../../../components/Information/Additional';
-import IpList from '../../../components/Information/IpList';
-import Notes from '../../../components/Information/Notes';
+import IpList from '../../../../components/Information/IpList';
+import Personal from './Personal';
+import Additional from './Additional';
+import Notes from './Notes';
 
-class Information extends Component {
+class Container extends Component {
   static propTypes = {
     data: PropTypes.object,
     updateSubscription: PropTypes.func.isRequired,
@@ -45,4 +44,4 @@ class Information extends Component {
   }
 }
 
-export default Information;
+export default Container;
