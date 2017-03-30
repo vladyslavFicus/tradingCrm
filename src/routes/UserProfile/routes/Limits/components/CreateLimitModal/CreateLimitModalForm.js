@@ -17,12 +17,15 @@ const attributeLabels = {
 };
 
 const validator = (values, props) => {
-  const limitPeriodValues = props.limitPeriods[values.type];
-
   const rules = {
     type: ['required', `in:${Object.values(types).join()}`],
-    period: ['required', `in:${limitPeriodValues.join()}`],
   };
+
+  const limitPeriodValues = props.limitPeriods[values.type];
+
+  if (limitPeriodValues) {
+    rules.period = ['required', `in:${limitPeriodValues.join()}`];
+  }
 
   if (values.type && [types.LOSS, types.WAGER, types.DEPOSIT].indexOf(values.type) >= 0) {
     rules.amount = 'required|numeric';
@@ -53,7 +56,7 @@ class CreateLimitModal extends Component {
   renderPeriodField = () => {
     const { currentValues: { type }, limitPeriods } = this.props;
 
-    if (!limitPeriods || !type) {
+    if (!limitPeriods || !type || !limitPeriods[type]) {
       return null;
     }
 
