@@ -36,6 +36,7 @@ class Header extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
+    onProfileActivateClick: PropTypes.func.isRequired,
   };
 
   getUserAge = () => {
@@ -105,6 +106,8 @@ class Header extends Component {
       accumulatedBalances,
       availableTags,
       onAddNoteClick,
+      onResetPasswordClick,
+      onProfileActivateClick,
     } = this.props;
     const selectedTags = profileTags
       ? profileTags.map(option => `${option.tagPriority}/${option.tag}`)
@@ -156,7 +159,8 @@ class Header extends Component {
             {' '}
             <UserProfileOptions
               items={[
-                { label: 'Reset password', onClick: this.props.onResetPasswordClick },
+                { label: 'Reset password', onClick: onResetPasswordClick },
+                { label: 'Send activation link', onClick: onProfileActivateClick },
               ]}
             />
           </div>

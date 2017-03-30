@@ -22,6 +22,7 @@ const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
 const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
+const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
 const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 
@@ -138,6 +139,7 @@ const fetchProfile = usersActionCreators.fetchProfile(PROFILE);
 const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
 const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
+const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
 
 function updateSubscription(playerUUID, name, value) {
   return (dispatch, getState) => {
@@ -861,6 +863,7 @@ const actionCreators = {
   updateProfile,
   updateIdentifier,
   resetPassword,
+  activateProfile,
   updateSubscription,
   getBalance,
   loadFullProfile,
