@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Tabs from '../../../../../components/Tabs';
 import Modal from '../../../../../components/Modal';
-import Information from '../components/Information/Container';
+import Information from '../components/Information';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import './OperatorProfileLayout.scss';

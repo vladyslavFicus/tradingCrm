@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import NotePopover from '../../../components/NotePopover';
 import { userProfileTabs } from '../../../config/menu';
 import { targetTypes } from '../../../constants/note';
-import Information from '../components/Information/Container';
+import Information from '../components/Information';
 import PropTypes from '../../../constants/propTypes';
 import './ProfileLayout.scss';
 

@@ -4,7 +4,7 @@ import Departments from './Departments';
 import IpList from '../../../../../../components/Information/IpList';
 import PropTypes from '../../../../../../constants/propTypes';
 
-class Container extends Component {
+class Information extends Component {
   static propTypes = {
     data: PropTypes.operatorProfile.isRequired,
     ips: PropTypes.array.isRequired,
@@ -30,4 +30,4 @@ class Container extends Component {
   }
 }
 
-export default Container;
+export default Information;

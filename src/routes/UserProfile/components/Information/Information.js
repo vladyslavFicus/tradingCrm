@@ -4,7 +4,7 @@ import Personal from './Personal';
 import Additional from './Additional';
 import Notes from './Notes';
 
-class Container extends Component {
+class Information extends Component {
   static propTypes = {
     data: PropTypes.object,
     updateSubscription: PropTypes.func.isRequired,
@@ -44,4 +44,4 @@ class Container extends Component {
   }
 }
 
-export default Container;
+export default Information;
