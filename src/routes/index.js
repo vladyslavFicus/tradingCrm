@@ -1,8 +1,9 @@
 /* eslint-disable new-cap */
-import onEnterStack from 'utils/onEnterStack';
-import requireAuth from 'utils/requireAuth';
+import onEnterStack from '../utils/onEnterStack';
+import requireAuth from '../utils/requireAuth';
 import BaseLayout from '../layouts/BaseLayout';
 import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
+import PermissionLayout from '../layouts/PermissionLayout';
 /**
  * Routes
  */
@@ -49,6 +50,7 @@ export const createRoutes = store => ({
       ],
     },
     onEnterStack({
+      component: PermissionLayout,
       childRoutes: [
         UserProfileRoute(store),
         OperatorProfileRoute(store),
