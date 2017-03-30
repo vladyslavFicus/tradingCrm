@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import fileSize from 'filesize';
 import PropTypes from '../../../../../../constants/propTypes';
 import FileUpload from '../../../../../../components/FileUpload';
 import { categories } from '../../../../../../constants/files';
+import UploadingFile from '../UploadingFile';
 import './UploadModal.scss';
 
 class UploadModal extends Component {
@@ -23,59 +23,35 @@ class UploadModal extends Component {
     }), {}));
   };
 
-  handleDeleteFileClick = (e, item) => {
-    e.preventDefault();
-
-    this.props.onCancelFile(item);
-  };
-
-  renderFileStatus = item => (
-    <span>
-      {
-        !item.uploaded
-          ? <span className="color-primary">Uploading - {item.progress}%</span>
-          : (
-          !item.error
-            ? <span className="color-success">Uploaded</span>
-            : <span className="color-danger">Failed</span>
-        )
-      }
-      <span className="color-default">
-          ({fileSize(item.file.size)})
-        </span>
-      {' '}
-      <a href="#" onClick={e => this.handleDeleteFileClick(e, item)}>
-        <i className="color-danger fa fa-trash" />
-      </a>
-    </span>
-  );
-
   renderFile = (item, index) => (
-    <tr key={item.id}>
-      <td>{index + 1}</td>
-      <td>{item.file.name}<br />{item.fileUUID}</td>
-      <td>CATEGORY</td>
-      <td>{this.renderFileStatus(item)}</td>
-    </tr>
+    <UploadingFile
+      number={index + 1}
+      data={item}
+      onCancelClick={this.props.onCancelFile}
+    />
   );
 
-  renderFiles = () => this.props.uploading.length
-    ? (
-      <table>
+  renderFilesTable = () => {
+    return (
+      <table className="uploading-files">
         <thead>
         <tr>
-          <th />
-          <th>Name</th>
-          <th>Category</th>
-          <th>Status</th>
-          <th />
+          <th className="uploading-files__header-number" />
+          <th className="uploading-files__header-name">Name</th>
+          <th className="uploading-files__header-category">Category</th>
+          <th className="uploading-files__header-status">Status</th>
+          <th className="uploading-files__header-note" />
         </tr>
         </thead>
         <tbody>
         {this.props.uploading.map(this.renderFile)}
         </tbody>
       </table>
-    )
+    );
+  };
+
+  renderFiles = () => this.props.uploading.length
+    ? this.renderFilesTable()
     : <span className="text-muted font-size-12">There are no uploaded files</span>;
 
   render() {
@@ -92,23 +68,24 @@ class UploadModal extends Component {
     return (
       <Modal {...rest} className="upload-modal" toggle={onClose}>
         <ModalHeader toggle={onClose}>File upload</ModalHeader>
-        <ModalBody className="text-center">
-          <p>
+        <ModalBody>
+          <div className="text-center">
             <strong>You are about to upload file(s) to {profile.fullName}</strong> - {profile.shortUUID}
             {' '}
             <strong>account</strong>
-          </p>
+          </div>
 
           <div className="margin-vertical-20">
             {this.renderFiles()}
           </div>
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-12 text-center">
               <FileUpload
                 label="+ Add files"
-                allowedSize={5}
+                allowedSize={2}
                 allowedTypes={['image/jpeg', 'image/png']}
                 onChosen={onUploadFile}
+                singleMode={false}
               />
             </div>
           </div>

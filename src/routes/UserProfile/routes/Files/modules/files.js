@@ -6,8 +6,9 @@ import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../constants/note';
-import { actions } from '../../../../../constants/files';
+import { actions as filesActions } from '../../../../../constants/files';
 import downloadBlob from '../../../../../utils/downloadBlob';
+import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/files';
 
 const KEY = 'user/files/files';
 const FETCH_FILES = createRequestAction(`${KEY}/fetch-files`);
@@ -19,6 +20,10 @@ const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 const DELETE_FILE = createRequestAction(`${KEY}/delete-file`);
 
 const fetchNotes = noteActionCreators.fetchNotesByType(FETCH_NOTES);
+const changeStatusByAction = filesSourceActionCreators.changeStatusByAction({
+  [filesActions.VERIFY]: VERIFY_FILE,
+  [filesActions.REFUSE]: REFUSE_FILE,
+});
 const mapNotesToFiles = (items, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
     return items;
@@ -143,67 +148,25 @@ function deleteFile(playerUUID, fileUUID) {
   };
 }
 
-function verifyFile(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+function updateFileStatusReducer(state, action) {
+  const index = state.entities.content.findIndex(file => file.uuid === action.payload.uuid);
 
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/files/${uuid}/status/verify`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          VERIFY_FILE.REQUEST,
-          VERIFY_FILE.SUCCESS,
-          VERIFY_FILE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
+  if (index === -1) {
+    return state;
+  }
+
+  const newState = {
+    ...state,
+    entities: {
+      ...state.entities,
+      content: [
+        ...state.entities.content,
+      ],
+    },
   };
-}
+  newState.entities.content[index] = action.payload;
 
-function refuseFile(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/files/${uuid}/status/refuse`,
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          REFUSE_FILE.REQUEST,
-          REFUSE_FILE.SUCCESS,
-          REFUSE_FILE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function changeStatusByAction(uuid, action) {
-  return (dispatch) => {
-    switch (action) {
-      case actions.VERIFY: {
-        return dispatch(verifyFile(uuid));
-      }
-      case actions.REFUSE: {
-        return dispatch(refuseFile(uuid));
-      }
-      default:
-        return null;
-    }
-  };
+  return newState;
 }
 
 const initialState = {
@@ -260,6 +223,8 @@ const actionHandlers = {
       ],
     },
   }),
+  [VERIFY_FILE.SUCCESS]: updateFileStatusReducer,
+  [REFUSE_FILE.SUCCESS]: updateFileStatusReducer,
 };
 const actionTypes = {
   FETCH_FILES,

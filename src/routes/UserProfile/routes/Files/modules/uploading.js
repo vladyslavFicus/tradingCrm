@@ -19,10 +19,15 @@ function updateProgress(id, progress) {
   };
 }
 
-function uploadFile(file) {
+function uploadFile(file, errors) {
   return async (dispatch, getState) => {
-    const { auth: { token, logged, fullName } } = getState();
+    const { auth: { token, fullName } } = getState();
     const id = v4();
+
+    if (errors && errors.length) {
+      dispatch({ type: UPLOAD_FILE.REQUEST, payload: { id, file } });
+      dispatch({ type: UPLOAD_FILE.FAILURE, payload: errors[0] });
+    }
 
     try {
       const uploadUrl = `${getApiRoot()}/profile/files`;
@@ -48,7 +53,7 @@ function uploadFile(file) {
         payload: response,
       });
     } catch (e) {
-      return dispatch({ type: UPLOAD_FILE.FAILURE, meta: { id }, payload: e });
+      return dispatch({ type: UPLOAD_FILE.FAILURE, meta: { id }, payload: e.message });
     }
   };
 }
@@ -66,15 +71,27 @@ function resetUploading() {
   };
 }
 
-const initialState = {};
+const initialState = {
+  noname: {
+    error: null,
+    progress: 100,
+    uploading: false,
+    note: null,
+    file: {
+      name: 'asdjhjashdhasdkhjasjdlsad ads dasd asdasd-.jpg',
+      size: 1231432431,
+    },
+  },
+};
 const actionHandlers = {
   [UPLOAD_FILE.REQUEST]: (state, action) => ({
     ...state,
     [action.payload.id]: ({
       ...action.payload,
-      uploaded: false,
-      progress: 0,
       error: null,
+      uploading: false,
+      progress: 0,
+      note: null,
     }),
   }),
   [UPLOAD_FILE.SUCCESS]: (state, action) => {
@@ -85,7 +102,7 @@ const actionHandlers = {
           ...state[action.meta.id],
           ...action.payload,
           progress: 100,
-          uploaded: true,
+          uploading: false,
         },
       };
     }
@@ -99,6 +116,7 @@ const actionHandlers = {
         [action.meta.id]: {
           ...state[action.meta.id],
           error: action.payload,
+          uploading: false,
         },
       };
     }
@@ -112,7 +130,6 @@ const actionHandlers = {
         [action.meta.id]: {
           ...state[action.meta.id],
           progress: action.payload,
-          uploaded: action.payload === 100,
         },
       };
     }

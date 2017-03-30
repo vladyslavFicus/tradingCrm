@@ -1,5 +1,4 @@
 import { injectReducer } from '../../../../store/reducers';
-import { actionCreators } from './modules/index';
 
 export default store => ({
   path: ':id/files',

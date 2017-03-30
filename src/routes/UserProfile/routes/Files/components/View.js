@@ -8,8 +8,8 @@ import NoteButton from '../../../../../components/NoteButton';
 import { categoriesLabels } from '../../../../../constants/files';
 import UploadModal from './UploadModal';
 import FilesFilterForm from './FilesFilterForm';
-import FileStatusDropDown from './FileStatusDropDown';
-import DeleteModal from "./DeleteModal/DeleteModal";
+import FileStatusDropDown from '../../../../../components/FileStatusDropDown';
+import DeleteModal from './DeleteModal';
 
 const DELETE_MODAL = 'delete-modal';
 const UPLOAD_MODAL = 'upload-modal';
@@ -35,13 +35,11 @@ class View extends Component {
     cancelFile: PropTypes.func.isRequired,
     resetUploading: PropTypes.func.isRequired,
   };
-
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
   };
-
   state = {
     modal: { ...modalInitialState },
     filters: {},
@@ -90,8 +88,8 @@ class View extends Component {
     }, () => this.handleRefresh());
   };
 
-  handleUploadFile = (errors, file) => {
-    this.props.uploadFile(file);
+  handleUploadFile = (errors, files) => {
+    Object.keys(files).forEach(index => this.props.uploadFile(files[index], errors[index]));
   };
 
   handleUploadFileClick = () => {
@@ -132,12 +130,13 @@ class View extends Component {
     });
   };
 
-  handleUploadingFileDelete = (file) => {
+  handleUploadingFileDelete = async (file) => {
+    await this.props.deleteFile(this.props.params.id, file.fileUUID);
     this.props.cancelFile(file);
   };
 
-  handleStatusActionClick = (file, action) => {
-    this.props.changeStatusByAction(file.uuid, action);
+  handleStatusActionClick = (uuid, action) => {
+    this.props.changeStatusByAction(uuid, action);
   };
 
   handleSubmitUploadModal = async (data) => {
@@ -165,11 +164,11 @@ class View extends Component {
       <div className="font-weight-700">
         {data.name}
         <span className="margin-left-5">
-          <a href="#" onClick={(e) => this.handleDownloadClick(e, data)}>
+          <a href="#" onClick={e => this.handleDownloadClick(e, data)}>
             <i className="fa fa-download" />
           </a>
           {' '}
-          <a href="#" className="color-danger" onClick={(e) => this.handleDeleteClick(e, data)}>
+          <a href="#" className="color-danger" onClick={e => this.handleDeleteClick(e, data)}>
             <i className="fa fa-trash" />
           </a>
         </span>
@@ -200,14 +199,12 @@ class View extends Component {
     </div>
   );
 
-  renderStatus = (data) => {
-    return (
-      <FileStatusDropDown
-        file={data}
-        onActionClick={this.handleStatusActionClick}
-      />
-    );
-  };
+  renderStatus = data => (
+    <FileStatusDropDown
+      status={data.status}
+      onStatusChange={action => this.handleStatusActionClick(data.uuid, action)}
+    />
+  );
 
   renderNote = data => (
     <NoteButton

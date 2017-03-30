@@ -1,5 +1,5 @@
 import { browserHistory } from 'react-router';
-import { actionTypes } from 'redux/modules/auth';
+import { actionTypes } from '../modules/auth';
 
 export default (codes = [401]) => {
   const isValidMiddlewareAction = ({ auth }, action) => {

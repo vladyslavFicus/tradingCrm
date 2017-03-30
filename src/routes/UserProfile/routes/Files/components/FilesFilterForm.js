@@ -37,6 +37,11 @@ class FilesFilterForm extends Component {
     callback(value ? value.format('YYYY-MM-DD') : '');
   };
 
+  handleReset = () => {
+    this.props.reset();
+    this.props.onSubmit();
+  };
+
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
@@ -75,7 +80,6 @@ class FilesFilterForm extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      reset,
     } = this.props;
 
     return (
@@ -123,7 +127,8 @@ class FilesFilterForm extends Component {
                 <button
                   disabled={submitting}
                   className="btn btn-default btn-sm margin-inline font-weight-700"
-                  onClick={reset}
+                  onClick={this.handleReset}
+                  type="reset"
                 >
                   Reset
                 </button>

@@ -1,5 +1,4 @@
 import ProfileRoute from './routes/Profile';
-import DocumentsRoute from './routes/Documents';
 import GameActivityRoute from './routes/GameActivity';
 import FilesRoute from './routes/Files';
 import UserPaymentsRoute from './routes/Transactions';
@@ -19,7 +18,6 @@ export default store => ({
 
   childRoutes: [
     ProfileRoute(store),
-    DocumentsRoute(store),
     GameActivityRoute(store),
     FilesRoute(store),
     UserPaymentsRoute(store),

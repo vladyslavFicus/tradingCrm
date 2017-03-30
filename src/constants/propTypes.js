@@ -117,7 +117,7 @@ PropTypes.uploadingFile = PropTypes.shape({
   uploaded: PropTypes.bool.isRequired,
   progress: PropTypes.number.isRequired,
   fileUUID: PropTypes.string,
-  error: PropTypes.object,
+  errors: PropTypes.arrayOf(PropTypes.string),
 });
 PropTypes.userProfile = PropTypes.shape({
   acceptedTermsId: PropTypes.number,
