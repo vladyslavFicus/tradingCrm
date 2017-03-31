@@ -24,7 +24,7 @@ class ProfileLayout extends Component {
   static propTypes = {
     profile: PropTypes.shape({
       data: PropTypes.userProfile,
-      error: PropTypes.string,
+      error: PropTypes.any,
       isLoading: PropTypes.bool.isRequired,
     }),
     children: PropTypes.any.isRequired,
