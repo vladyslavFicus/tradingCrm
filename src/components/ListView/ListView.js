@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import React, { Component, PropTypes } from 'react';
 import shallowEqual from '../../utils/shallowEqual';
 
-class GridView extends Component {
+class ListView extends Component {
   static propTypes = {
     render: PropTypes.func.isRequired,
     lazyLoad: PropTypes.bool,
@@ -113,4 +113,4 @@ class GridView extends Component {
   }
 }
 
-export default GridView;
+export default ListView;
