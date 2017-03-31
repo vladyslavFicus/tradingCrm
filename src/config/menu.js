@@ -1,7 +1,7 @@
-import Permissions, { CONDITIONS } from 'utils/permissions';
-import permission from 'config/permissions';
+import Permissions, { CONDITIONS } from '../utils/permissions';
+import permission from './permissions';
 
-const sidebar = [
+const sidebarTopMenu = [
   {
     label: 'Users',
     icon: 'fa fa-users',
@@ -49,6 +49,9 @@ const sidebar = [
     ],
   },
 ];
+const sidebarBottomMenu = [
+  { label: 'Support', icon: 'fa fa-life-ring', url: '#' },
+];
 
 const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
@@ -64,7 +67,8 @@ const operatorProfileTabs = [
 ];
 
 export {
-  sidebar,
+  sidebarTopMenu,
+  sidebarBottomMenu,
   userProfileTabs,
   operatorProfileTabs,
 };
