@@ -12,7 +12,6 @@ class View extends Component {
   static propTypes = {
     view: PropTypes.pageableState(PropTypes.noteEntity),
     isLoading: PropTypes.bool,
-    filters: PropTypes.object,
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
