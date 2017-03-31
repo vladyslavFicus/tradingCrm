@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from '../../constants/propTypes';
-import NavItem from './NavItem';
+import NavItem from '../NavItem';
 
 class Nav extends Component {
   static propTypes = {
@@ -19,8 +19,9 @@ class Nav extends Component {
 
     return (
       <ul className={className}>
-        {items.map(item => (
+        {items.map((item, index) => (
           <NavItem
+            key={index}
             label={item.label}
             icon={item.icon}
             url={item.url}

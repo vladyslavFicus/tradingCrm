@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Nav from '../Nav';
-import PropTypes from '../../../constants/propTypes';
+import PropTypes from '../../constants/propTypes';
 
 class Sidebar extends Component {
   static propTypes = {
@@ -11,8 +11,13 @@ class Sidebar extends Component {
   render() {
     return (
       <aside className="sidebar">
-        <Nav items={this.props.topMenu} />
-        <Nav className="navbar-nav support-tab" items={this.props.bottomMenu} />
+        <Nav
+          items={this.props.topMenu}
+        />
+        <Nav
+          className="navbar-nav support-tab"
+          items={this.props.bottomMenu}
+        />
       </aside>
     );
   }

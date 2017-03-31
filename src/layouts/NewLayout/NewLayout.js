@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import 'font-awesome/css/font-awesome.min.css';
 import classNames from 'classnames';
+import { IndexLink } from 'react-router';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
-import Sidebar from './Sidebar';
+import Sidebar from '../../components/Sidebar';
 
 import './NewLayout.scss';
 
@@ -56,10 +57,9 @@ class NewLayout extends Component {
     return (
       <header>
         <nav className="navbar fixed-top navbar-toggleable navbar-inverse justify-content-center">
-
-          <a className="navbar-brand" href="#">
+          <IndexLink className="navbar-brand" href={'/'}>
             <img className="img-fluid" src="/img/temp/logo.png" alt="current-lottery-logo" />
-          </a>
+          </IndexLink>
 
           <div className="collapse navbar-collapse align-items-center">
             <ul className="navbar-nav mr-auto align-items-center">
@@ -91,13 +91,13 @@ class NewLayout extends Component {
                       type="button" className={classNames('overlay-close', { closed: searchOverlayActive })}
                       onClick={this.handleOverlayClick}
                     >&#10005;</button>
-                    <form className="form-inline">
+                    <div className="form-inline">
                       <input
                         className="form-control" type="text" placeholder="Search..." autoFocus ref={(node) => {
-                        this.searchInput = node;
-                      }}
+                          this.searchInput = node;
+                        }}
                       />
-                    </form>
+                    </div>
                   </div>
                 </div>
               </form>

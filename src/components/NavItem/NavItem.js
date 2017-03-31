@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
-import SubMenu from './SubMenu';
+import SubNav from '../SubNav';
 import PropTypes from '../../constants/propTypes';
 
 class NavItem extends Component {
@@ -39,7 +39,7 @@ class NavItem extends Component {
               <i className="fa fa-angle-down" />
             </span>
           </a>
-          <SubMenu
+          <SubNav
             items={items}
             opened
           />
