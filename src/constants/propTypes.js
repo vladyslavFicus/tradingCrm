@@ -44,15 +44,15 @@ PropTypes.ipEntity = PropTypes.shape({
 });
 PropTypes.noteEntity = PropTypes.shape({
   content: PropTypes.string.isRequired,
-  creationDate: PropTypes.string.isRequired,
+  creationDate: PropTypes.string,
   creatorUUID: PropTypes.string.isRequired,
-  lastEditionDate: PropTypes.string.isRequired,
+  lastEditionDate: PropTypes.string,
   lastEditorUUID: PropTypes.string.isRequired,
   pinned: PropTypes.bool.isRequired,
   playerUUID: PropTypes.string.isRequired,
   targetType: PropTypes.string.isRequired,
-  targetUUID: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
+  targetUUID: PropTypes.string,
+  uuid: PropTypes.string,
 });
 PropTypes.gamingActivityEntity = PropTypes.shape({
   betDate: PropTypes.string,
@@ -115,10 +115,10 @@ PropTypes.fileEntity = PropTypes.shape({
 });
 PropTypes.uploadingFile = PropTypes.shape({
   id: PropTypes.string.isRequired,
-  uploaded: PropTypes.bool.isRequired,
+  uploading: PropTypes.bool.isRequired,
   progress: PropTypes.number.isRequired,
   fileUUID: PropTypes.string,
-  errors: PropTypes.arrayOf(PropTypes.string),
+  error: PropTypes.string,
 });
 PropTypes.userProfile = PropTypes.shape({
   acceptedTermsId: PropTypes.number,

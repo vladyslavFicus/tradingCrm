@@ -6,16 +6,19 @@ import moment from 'moment';
 import DateTime from 'react-datetime';
 import { createValidator } from '../../../../../utils/validator';
 import PropTypes from '../../../../../constants/propTypes';
-import { InputField } from '../../../../../components/ReduxForm';
+import { categoriesLabels } from '../../../../../constants/files';
+import { InputField, SelectField } from '../../../../../components/ReduxForm';
 
 const FORM_NAME = 'userFilesFilter';
 const attributeLabels = {
   keyword: 'Search by',
+  fileCategory: 'File category',
   uploadDateFrom: 'Start date',
   uploadDateTo: 'End date',
 };
 const validate = createValidator({
   searchBy: 'string',
+  category: 'string',
   uploadDateFrom: 'string',
   uploadDateTo: 'string',
 }, attributeLabels, false);
@@ -97,6 +100,22 @@ class FilesFilterForm extends Component {
                   component={InputField}
                   position="vertical"
                 />
+              </div>
+              <div className="col-md-2">
+                <Field
+                  name="fileCategory"
+                  label={attributeLabels.fileCategory}
+                  labelClassName="form-label"
+                  component={SelectField}
+                  position="vertical"
+                >
+                  <option value="">Any</option>
+                  {Object.keys(categoriesLabels).map(category => (
+                    <option key={category} value={category}>
+                      {categoriesLabels[category]}
+                    </option>
+                  ))}
+                </Field>
               </div>
               <div className="col-md-6">
                 <div className="form-group">

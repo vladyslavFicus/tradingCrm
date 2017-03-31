@@ -630,6 +630,64 @@ function successUpdateFileStatusReducer(state, action) {
   return newState;
 }
 
+function successUploadFilesReducer(state, action) {
+  const profileFiles = action.payload
+    .filter(i => [filesCategories.KYC_PERSONAL, filesCategories.KYC_ADDRESS].indexOf(i.category) > -1);
+
+  if (!profileFiles.length) {
+    return state;
+  }
+
+  const newState = {
+    ...state,
+  };
+
+  profileFiles.forEach((file) => {
+    if (file.category === filesCategories.KYC_PERSONAL) {
+      newState.data.personalKycMetaData = [
+        ...newState.data.personalKycMetaData,
+        file,
+      ];
+    } else if (file.category === filesCategories.KYC_PERSONAL) {
+      newState.data.personalKycMetaData = [
+        ...newState.data.personalKycMetaData,
+        file,
+      ];
+    }
+  });
+
+  return newState;
+}
+
+function successDeleteFileReducer(state, action) {
+  if (!action.meta && !action.meta.uuid) {
+    return state;
+  }
+
+  const fields = ['personalKycMetaData', 'addressKycMetaData'];
+  let index;
+  for (const field of fields) {
+    index = state.data[field].findIndex(file => file.uuid === action.meta.uuid);
+
+    if (index !== -1) {
+      const newState = {
+        ...state,
+        data: {
+          ...state.data,
+          [field]: [
+            ...state.data[field],
+          ],
+        },
+      };
+      newState.data[field].splice(index, 1);
+
+      return newState;
+    }
+  }
+
+  return state;
+}
+
 const balanceActionHandlers = {
   [FETCH_BALANCES.REQUEST]: state => ({
     ...state,
@@ -689,10 +747,12 @@ const profileActionHandlers = {
   [UPDATE_IDENTIFIER.SUCCESS]: successUpdateProfileReducer,
   [VERIFY_DATA.SUCCESS]: successUpdateProfileReducer,
   [REFUSE_DATA.SUCCESS]: successUpdateProfileReducer,
-  [VERIFY_FILE]: successUpdateFileStatusReducer,
-  [REFUSE_FILE]: successUpdateFileStatusReducer,
-  [userProfileFilesActionTypes.VERIFY_FILE]: successUpdateFileStatusReducer,
-  [userProfileFilesActionTypes.REFUSE_FILE]: successUpdateFileStatusReducer,
+  [VERIFY_FILE.SUCCESS]: successUpdateFileStatusReducer,
+  [REFUSE_FILE.SUCCESS]: successUpdateFileStatusReducer,
+  [userProfileFilesActionTypes.VERIFY_FILE.SUCCESS]: successUpdateFileStatusReducer,
+  [userProfileFilesActionTypes.REFUSE_FILE.SUCCESS]: successUpdateFileStatusReducer,
+  [userProfileFilesActionTypes.DELETE_FILE.SUCCESS]: successDeleteFileReducer,
+  [userProfileFilesActionTypes.SAVE_FILES.SUCCESS]: successUploadFilesReducer,
   ...balanceActionHandlers,
 };
 const depositActionHandlers = {

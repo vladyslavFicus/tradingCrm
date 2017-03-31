@@ -139,7 +139,7 @@ function deleteFile(playerUUID, fileUUID) {
         },
         types: [
           DELETE_FILE.REQUEST,
-          DELETE_FILE.SUCCESS,
+          { type: DELETE_FILE.SUCCESS, meta: { uuid: fileUUID } },
           DELETE_FILE.FAILURE,
         ],
         bailout: !logged,
@@ -229,6 +229,7 @@ const actionHandlers = {
 const actionTypes = {
   FETCH_FILES,
   DOWNLOAD_FILE,
+  SAVE_FILES,
   VERIFY_FILE,
   REFUSE_FILE,
   DELETE_FILE,

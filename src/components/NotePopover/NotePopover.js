@@ -1,13 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Popover, PopoverContent } from 'reactstrap';
 import { reduxForm, Field, formValueSelector } from 'redux-form';
-import { createValidator } from 'utils/validator';
 import ReactSwitch from 'react-toggle-switch';
 import classNames from 'classnames';
 import moment from 'moment';
-import { entities, entitiesPrefixes } from 'constants/uuid';
-import { shortify } from 'utils/uuid';
+import PropTypes from '../../constants/propTypes';
+import { createValidator } from '../../utils/validator';
+import { entities, entitiesPrefixes } from '../../constants/uuid';
+import { shortify } from '../../utils/uuid';
 import NotePopoverStyle from './NotePopover.scss';
 
 const MAX_CONTENT_LENGTH = 500;
@@ -24,15 +25,28 @@ const validator = createValidator({
 
 class NotePopover extends Component {
   static propTypes = {
-    item: PropTypes.object,
+    item: PropTypes.noteEntity,
+    target: PropTypes.string.isRequired,
     placement: PropTypes.string,
     isOpen: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
     onSubmitSuccess: PropTypes.func,
     onSubmitFailure: PropTypes.func,
     onDeleteSuccess: PropTypes.func,
     onDeleteFailure: PropTypes.func,
     defaultTitleLabel: PropTypes.string,
+    handleSubmit: PropTypes.func,
+    currentValues: PropTypes.shape({
+      pinned: PropTypes.bool,
+      content: PropTypes.string,
+      targetType: PropTypes.string,
+      targetUUID: PropTypes.string,
+    }),
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    pristine: PropTypes.bool,
+    toggle: PropTypes.func,
   };
   static defaultProps = {
     defaultTitleLabel: 'Notes',
@@ -86,6 +100,84 @@ class NotePopover extends Component {
       );
   };
 
+  renderSwitchField = ({ input, label, wrapperClassName }) => {
+    const onClick = () => input.onChange(!input.value);
+
+    return (
+      <span className={wrapperClassName}>
+        <ReactSwitch
+          on={input.value}
+          className="vertical-align-middle small-switch"
+          onClick={onClick}
+        />
+        {' '}
+        <button type="button" className="btn-transparent text-middle cursor-pointer" onClick={onClick}>
+          {label}
+        </button>
+      </span>
+    );
+  };
+
+  renderMessageField = ({ input, disabled, meta: { touched, error } }) => (
+    <div className={classNames('form-group', { 'has-danger': touched && error })}>
+      <textarea
+        rows="3"
+        {...input}
+        className="form-control"
+        disabled={disabled}
+      />
+    </div>
+  );
+
+  renderTitle = () => {
+    const { defaultTitleLabel, item } = this.props;
+
+    if (!item) {
+      return defaultTitleLabel;
+    }
+
+    return (
+      <div className="row">
+        <div className="col-md-10">
+          {
+            item.lastEditionDate && item.creationDate &&
+            <div className="color-secondary font-size-10">
+              {
+                item.lastEditionDate === item.creationDate
+                  ? 'Created'
+                  : 'Last changed'
+              }
+            </div>
+          }
+          <div className="color-secondary font-size-14 font-weight-700">
+            by {shortify(item.lastEditorUUID, entitiesPrefixes[entities.operator])}
+          </div>
+          {
+            item.lastEditionDate &&
+            <div className="font-size-10 color-secondary">
+              {
+                item.lastEditionDate
+                  ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
+                  : 'Unknown time'
+              } to {this.renderItemId(item)}
+            </div>
+          }
+        </div>
+        <div className="col-md-2 text-right">
+          <button
+            type="reset"
+            onClick={() => this.handleDelete(item)}
+            className="btn-transparent font-size-12 color-danger text-right"
+          >
+            <i className="fa fa-trash" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  renderItemId = item => shortify(item.targetUUID, entitiesPrefixes[item.targetType]);
+
   render() {
     const {
       item,
@@ -138,6 +230,7 @@ class NotePopover extends Component {
 
               <div className="col-md-6 text-right">
                 <button
+                  type="reset"
                   className="btn btn-link btn-sm margin-inline"
                   onClick={() => this.handleHide(true)}
                 >
@@ -158,74 +251,6 @@ class NotePopover extends Component {
       </Popover>
     );
   }
-
-  renderSwitchField = ({ input, label, wrapperClassName }) => {
-    const onClick = () => input.onChange(!input.value);
-
-    return <span className={wrapperClassName}>
-      <ReactSwitch
-        on={input.value}
-        className="vertical-align-middle small-switch"
-        onClick={onClick}
-      />
-      {' '}
-      <span className="text-middle cursor-pointer" onClick={onClick}>
-        {label}
-      </span>
-    </span>;
-  };
-
-  renderMessageField = ({ input, disabled, meta: { touched, error } }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <textarea
-          rows="3"
-          {...input}
-          className="form-control"
-          disabled={disabled}
-        />
-      </div>
-    );
-  };
-
-  renderTitle = () => {
-    const { defaultTitleLabel, item } = this.props;
-
-    if (!item) {
-      return defaultTitleLabel;
-    }
-
-    return <div className="row">
-      <div className="col-md-10">
-        <div className="color-secondary font-size-10">
-          {
-            item.lastEditionDate && item.creationDate && item.lastEditionDate === item.creationDate
-              ? 'Created'
-              : 'Last changed'
-          }
-        </div>
-        <div className="color-secondary font-size-14 font-weight-700">
-          by {shortify(item.lastEditorUUID, entitiesPrefixes[entities.operator])}
-        </div>
-        <div className="font-size-10 color-secondary">
-          {
-            item.lastEditionDate
-              ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
-              : 'Unknown time'
-          } to {this.renderItemId(item)}
-        </div>
-      </div>
-      <div className="col-md-2 text-right">
-        <span onClick={() => this.handleDelete(item)} className="font-size-12 color-danger text-right">
-          <i className="fa fa-trash"/>
-        </span>
-      </div>
-    </div>
-  };
-
-  renderItemId = (item) => {
-    return shortify(item.targetUUID, entitiesPrefixes[item.targetType]);
-  };
 }
 
 const NoteForm = reduxForm({
@@ -233,13 +258,11 @@ const NoteForm = reduxForm({
   validate: validator,
 })(NotePopover);
 
-export default connect((state) => {
-  return {
-    currentValues: {
-      content: notePopoverValuesSelector(state, 'content') || '',
-      pinned: notePopoverValuesSelector(state, 'pinned') || false,
-      targetType: notePopoverValuesSelector(state, 'targetType') || '',
-      targetUUID: notePopoverValuesSelector(state, 'targetUUID') || '',
-    },
-  };
-})(NoteForm);
+export default connect(state => ({
+  currentValues: {
+    content: notePopoverValuesSelector(state, 'content') || '',
+    pinned: notePopoverValuesSelector(state, 'pinned') || false,
+    targetType: notePopoverValuesSelector(state, 'targetType') || '',
+    targetUUID: notePopoverValuesSelector(state, 'targetUUID') || '',
+  },
+}))(NoteForm);

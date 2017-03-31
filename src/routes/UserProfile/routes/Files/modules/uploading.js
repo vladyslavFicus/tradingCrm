@@ -8,6 +8,7 @@ import { getApiRoot } from '../../../../../config';
 const KEY = 'user/files/uploading';
 const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
 const CANCEL_FILE = `${KEY}/cancel-file`;
+const MANAGE_NOTE = `${KEY}/manage-note`;
 const PROGRESS = `${KEY}/progress`;
 const RESET = `${KEY}/reset`;
 
@@ -26,7 +27,7 @@ function uploadFile(file, errors) {
 
     if (errors && errors.length) {
       dispatch({ type: UPLOAD_FILE.REQUEST, payload: { id, file } });
-      dispatch({ type: UPLOAD_FILE.FAILURE, payload: errors[0] });
+      return dispatch({ type: UPLOAD_FILE.FAILURE, payload: errors[0], meta: { id } });
     }
 
     try {
@@ -65,24 +66,30 @@ function cancelFile(file) {
   };
 }
 
+function manageNote(id, data) {
+  return (dispatch, getState) => {
+    const { auth: { uuid, fullName } } = getState();
+
+    return dispatch({
+      type: MANAGE_NOTE,
+      meta: { id },
+      payload: data !== null ? {
+        ...data,
+        author: fullName,
+        creatorUUID: uuid,
+        lastEditorUUID: uuid,
+      } : data,
+    });
+  };
+}
+
 function resetUploading() {
   return {
     type: RESET,
   };
 }
 
-const initialState = {
-  noname: {
-    error: null,
-    progress: 100,
-    uploading: false,
-    note: null,
-    file: {
-      name: 'asdjhjashdhasdkhjasjdlsad ads dasd asdasd-.jpg',
-      size: 1231432431,
-    },
-  },
-};
+const initialState = {};
 const actionHandlers = {
   [UPLOAD_FILE.REQUEST]: (state, action) => ({
     ...state,
@@ -136,6 +143,19 @@ const actionHandlers = {
 
     return state;
   },
+  [MANAGE_NOTE]: (state, action) => {
+    if (state[action.meta.id]) {
+      return {
+        ...state,
+        [action.meta.id]: {
+          ...state[action.meta.id],
+          note: action.payload,
+        },
+      };
+    }
+
+    return state;
+  },
   [CANCEL_FILE]: (state, action) => {
     if (state[action.payload.id]) {
       const newState = {
@@ -143,7 +163,7 @@ const actionHandlers = {
       };
       const fileState = newState[action.payload.id];
 
-      if (fileState.uploading && fileState.xhr) {
+      if (fileState.uploading && fileState.xhr) { // Dirty hack
         fileState.xhr.abort();
       }
       delete newState[action.payload.id];
@@ -157,11 +177,13 @@ const actionHandlers = {
 };
 const actionTypes = {
   UPLOAD_FILE,
+  MANAGE_NOTE,
   PROGRESS,
   RESET,
 };
 const actionCreators = {
   uploadFile,
+  manageNote,
   cancelFile,
   updateProgress,
   resetUploading,

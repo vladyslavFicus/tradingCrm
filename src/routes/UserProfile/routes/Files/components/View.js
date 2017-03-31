@@ -20,7 +20,8 @@ const modalInitialState = {
 
 class View extends Component {
   static propTypes = {
-    profile: PropTypes.object.isRequired,
+    uploadModalInitialValues: PropTypes.object.isRequired,
+    profile: PropTypes.userProfile.isRequired,
     files: PropTypes.pageableState(PropTypes.fileEntity).isRequired,
     uploading: PropTypes.object.isRequired,
     params: PropTypes.shape({
@@ -32,13 +33,16 @@ class View extends Component {
     changeStatusByAction: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
     saveFiles: PropTypes.func.isRequired,
+    manageNote: PropTypes.func.isRequired,
     cancelFile: PropTypes.func.isRequired,
     resetUploading: PropTypes.func.isRequired,
   };
   static contextTypes = {
+    onAddNote: PropTypes.func.isRequired,
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
+    refreshPinnedNotes: PropTypes.func.isRequired,
   };
   state = {
     modal: { ...modalInitialState },
@@ -139,16 +143,45 @@ class View extends Component {
     this.props.changeStatusByAction(uuid, action);
   };
 
+  handleResetUploading = () => {
+    Object
+      .values(this.props.uploading)
+      .forEach((file) => {
+        this.props.cancelFile(file);
+      });
+
+    this.props.resetUploading();
+  };
+
   handleSubmitUploadModal = async (data) => {
     this.handleCloseModal(async () => {
-      await this.props.saveFiles(this.props.params.id, data);
-      this.props.resetUploading();
+      const action = await this.props.saveFiles(this.props.params.id, data);
+      let hasPinnedNotes = false;
+
+      if (action && !action.error) {
+        await Promise.all(Object.values(this.props.uploading).map((file) => {
+          if (file.note !== null) {
+            if (!hasPinnedNotes && file.note.pinned) {
+              hasPinnedNotes = true;
+            }
+            return this.context.onAddNote({ ...file.note, targetUUID: file.fileUUID });
+          }
+
+          return false;
+        }));
+      }
+
+      if (hasPinnedNotes) {
+        this.context.refreshPinnedNotes();
+      }
+
+      this.handleResetUploading();
       this.handleRefresh();
     });
   };
 
   handleCloseUploadModal = () => {
-    this.handleCloseModal(this.props.resetUploading);
+    this.handleCloseModal(this.handleResetUploading);
   };
 
   handleCloseModal = (callback) => {
@@ -163,23 +196,26 @@ class View extends Component {
     <div>
       <div className="font-weight-700">
         {data.name}
-        <span className="margin-left-5">
-          <a href="#" onClick={e => this.handleDownloadClick(e, data)}>
-            <i className="fa fa-download" />
-          </a>
-          {' '}
-          <a href="#" className="color-danger" onClick={e => this.handleDeleteClick(e, data)}>
-            <i className="fa fa-trash" />
-          </a>
-        </span>
       </div>
-      <div>
+      <div className="font-size-12">
         {data.name === data.realName ? null : `${data.realName} - `}{shortify(data.uuid)}
       </div>
-      <div>
+      <div className="font-size-12">
         by {shortify(data.author, data.author.indexOf('OPERATOR') === -1 ? 'PL' : '')}
       </div>
     </div>
+  );
+
+  renderActions = data => (
+    <span className="margin-left-5">
+      <button className="btn-transparent" onClick={e => this.handleDownloadClick(e, data)}>
+        <i className="fa fa-download" />
+      </button>
+      {' '}
+      <button className="btn-transparent color-danger" onClick={e => this.handleDeleteClick(e, data)}>
+        <i className="fa fa-trash" />
+      </button>
+    </span>
   );
 
   renderDate = column => data => (
@@ -226,6 +262,8 @@ class View extends Component {
         entities,
       },
       uploading,
+      uploadModalInitialValues,
+      manageNote,
     } = this.props;
 
     return (
@@ -262,6 +300,12 @@ class View extends Component {
             render={this.renderFileName}
           />
           <GridColumn
+            name="actions"
+            header=""
+            headerClassName="width-60"
+            render={this.renderActions}
+          />
+          <GridColumn
             name="date"
             header="Date & Time"
             render={this.renderDate('uploadDate')}
@@ -289,10 +333,12 @@ class View extends Component {
             {...modal.params}
             isOpen
             uploading={Object.values(uploading)}
+            initialValues={uploadModalInitialValues}
             onUploadFile={this.handleUploadFile}
             onCancelFile={this.handleUploadingFileDelete}
             onSubmit={this.handleSubmitUploadModal}
             onClose={this.handleCloseUploadModal}
+            onManageNote={manageNote}
           />
         }
         {
