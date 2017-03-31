@@ -22,10 +22,12 @@ class FileUpload extends Component {
     className: PropTypes.string,
     label: PropTypes.any.isRequired,
     onChosen: PropTypes.func.isRequired,
+    singleMode: PropTypes.bool,
   };
   static defaultProps = {
     className: 'btn btn-primary',
     label: 'Upload file',
+    singleMode: true,
   };
 
   handleClick = (e) => {
@@ -34,13 +36,14 @@ class FileUpload extends Component {
 
   handleChange = (e) => {
     const fileInput = e.target;
-    const { onChosen } = this.props;
+    const { onChosen, singleMode } = this.props;
+    const files = fileInput.value ? fileInput.files : [];
 
-    onChosen(fileInput.value ? fileInput.files[0] : null);
+    onChosen(singleMode ? files.item(0) : files);
   };
 
   render() {
-    const { className, label } = this.props;
+    const { className, label, singleMode } = this.props;
 
     return (
       <div
@@ -52,6 +55,7 @@ class FileUpload extends Component {
           style={styles.fileInput}
           onClick={this.handleClick}
           onChange={this.handleChange}
+          multiple={!singleMode}
         />
         {label}
       </div>
