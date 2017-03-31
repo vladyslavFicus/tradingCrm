@@ -610,6 +610,10 @@ function successUpdateFileStatusReducer(state, action) {
     field = 'addressKycMetaData';
   }
 
+  if (!field) {
+    return state;
+  }
+
   const index = state.data[field].findIndex(file => file.uuid === action.payload.uuid);
 
   if (index === -1) {
