@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import NotesGridFilter from './NotesGridFilter';
 import ListView from '../../../../../components/ListView';
 import PropTypes from '../../../../../constants/propTypes';
 import NoteButton from '../../../../../components/NoteButton';
+import { entities, entitiesPrefixes } from '../../../../../constants/uuid';
+import { shortify } from '../../../../../utils/uuid';
 import './NoteItem.scss';
 
 class View extends Component {
@@ -78,8 +81,22 @@ class View extends Component {
           </div>
           <div className="s2">
             <div className="user-wall-item-head">
-              <strong>Barak Obama</strong>
-              <small>11 minutes ago</small>
+              <div className="display-block color-secondary font-size-12">
+                {
+                  data.author &&
+                  <span className="font-weight-700 note-author">{`${data.author} - `}</span>
+                }
+                <span>
+                  {shortify(data.lastEditorUUID, entitiesPrefixes[entities.operator])}
+                </span>
+              </div>
+              <span className="display-block font-size-10 color-secondary">
+                {
+                  data.lastEditionDate
+                    ? moment(data.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
+                    : 'Unknown time'
+                } to {shortify(data.targetUUID, entitiesPrefixes[data.targetType])}
+              </span>
             </div>
             <div className="note panel panel-with-borders">
               <div className="note-content panel-yellow padding-10 font-size-12">
@@ -112,7 +129,11 @@ class View extends Component {
 
   render() {
     const { filters } = this.state;
-    const { view: { entities } } = this.props;
+    const {
+      view: {
+        entities: { content, number, totalPages },
+      },
+    } = this.props;
 
     return (
       <div className="tab-pane fade in active profile-tab-container">
@@ -124,12 +145,12 @@ class View extends Component {
         <div className="padding-top-20 margin-top-20">
           <div className="user-wall">
             <ListView
-              dataSource={entities.content}
+              dataSource={content}
               itemClassName="padding-bottom-20"
               onPageChange={this.handlePageChanged}
               render={this.renderItem}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
+              activePage={number + 1}
+              totalPages={totalPages}
               lazyLoad
             />
           </div>
