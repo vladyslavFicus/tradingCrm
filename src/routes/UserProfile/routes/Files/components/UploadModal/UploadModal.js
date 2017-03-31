@@ -59,10 +59,9 @@ class UploadModal extends Component {
     />
   );
 
-  renderFilesTable = () => {
-    return (
-      <table className="uploading-files">
-        <thead>
+  renderFilesTable = () => (
+    <table className="uploading-files">
+      <thead>
         <tr>
           <th className="uploading-files__header-number" />
           <th className="uploading-files__header-name">Name</th>
@@ -70,13 +69,12 @@ class UploadModal extends Component {
           <th className="uploading-files__header-status">Status</th>
           <th className="uploading-files__header-note" />
         </tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
         {this.props.uploading.map(this.renderFile)}
-        </tbody>
-      </table>
-    );
-  };
+      </tbody>
+    </table>
+  );
 
   renderFiles = () => this.props.uploading.length
     ? this.renderFilesTable()
