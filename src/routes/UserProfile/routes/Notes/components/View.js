@@ -65,9 +65,7 @@ class View extends Component {
 
   handleNoteClick = (target, data) => {
     if (data) {
-      this.setState({
-        page: 0,
-      }, this.context.onEditNoteClick(target, data, { placement: 'left' }));
+      this.context.onEditNoteClick(target, data, { placement: 'left' })
     }
   };
 
