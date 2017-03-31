@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Nav from '../Nav';
 import PropTypes from '../../constants/propTypes';
+import './Sidebar.scss';
 
 class Sidebar extends Component {
   static propTypes = {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from '../../constants/propTypes';
 import NavItem from '../NavItem';
+import './Nav.scss';
 
 class Nav extends Component {
   static propTypes = {
