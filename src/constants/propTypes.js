@@ -44,15 +44,15 @@ PropTypes.ipEntity = PropTypes.shape({
 });
 PropTypes.noteEntity = PropTypes.shape({
   content: PropTypes.string.isRequired,
-  creationDate: PropTypes.string.isRequired,
+  creationDate: PropTypes.string,
   creatorUUID: PropTypes.string.isRequired,
-  lastEditionDate: PropTypes.string.isRequired,
+  lastEditionDate: PropTypes.string,
   lastEditorUUID: PropTypes.string.isRequired,
   pinned: PropTypes.bool.isRequired,
   playerUUID: PropTypes.string.isRequired,
   targetType: PropTypes.string.isRequired,
-  targetUUID: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
+  targetUUID: PropTypes.string,
+  uuid: PropTypes.string,
 });
 PropTypes.gamingActivityEntity = PropTypes.shape({
   betDate: PropTypes.string,
@@ -103,15 +103,22 @@ PropTypes.limitEntity = PropTypes.shape({
   }).isRequired,
 });
 PropTypes.fileEntity = PropTypes.shape({
-  author: PropTypes.string,
-  category: PropTypes.string,
-  name: PropTypes.string,
-  playerUuid: PropTypes.string,
-  realName: PropTypes.string,
-  status: PropTypes.status,
-  type: PropTypes.string,
-  uploadDate: PropTypes.string,
-  uuid: PropTypes.string,
+  author: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  playerUuid: PropTypes.string.isRequired,
+  realName: PropTypes.string.isRequired,
+  status: PropTypes.status.isRequired,
+  type: PropTypes.string.isRequired,
+  uploadDate: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+});
+PropTypes.uploadingFile = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  uploading: PropTypes.bool.isRequired,
+  progress: PropTypes.number.isRequired,
+  fileUUID: PropTypes.string,
+  error: PropTypes.string,
 });
 PropTypes.userProfile = PropTypes.shape({
   acceptedTermsId: PropTypes.number,

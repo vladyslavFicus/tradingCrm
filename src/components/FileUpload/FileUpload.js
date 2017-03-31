@@ -6,17 +6,22 @@ class FileUpload extends Component {
     onChosen: PropTypes.func.isRequired,
     allowedSize: PropTypes.number,
     allowedTypes: PropTypes.array,
+    singleMode: PropTypes.bool,
   };
   static defaultProps = {
     allowedSize: 2,
     allowedTypes: [],
     incorrectFileSize: 'Incorrect file size',
     invalidFileType: 'Invalid file type',
+    singleMode: true,
   };
 
-  handleChoose = (file) => {
-    const errors = this.validate(file);
-    this.props.onChosen(errors, file);
+  handleChoose = (files) => {
+    const errors = !this.props.singleMode
+      ? Object.keys(files).map(index => this.validate(files[index]))
+      : this.validate(files);
+
+    this.props.onChosen(errors, files);
   };
 
   validate = (file) => {

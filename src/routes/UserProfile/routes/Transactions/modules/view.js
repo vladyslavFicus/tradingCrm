@@ -1,10 +1,10 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
-import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
-import { actionCreators as noteActionCreators } from 'redux/modules/note';
-import { targetTypes } from 'constants/note';
+import createReducer from '../../../../../utils/createReducer';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import timestamp from '../../../../../utils/timestamp';
+import buildQueryString from '../../../../../utils/buildQueryString';
+import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
+import { targetTypes } from '../../../../../constants/note';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);

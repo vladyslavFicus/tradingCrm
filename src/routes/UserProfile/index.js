@@ -1,12 +1,12 @@
 import ProfileRoute from './routes/Profile';
-import DocumentsRoute from './routes/Documents';
 import GameActivityRoute from './routes/GameActivity';
+import FilesRoute from './routes/Files';
 import UserPaymentsRoute from './routes/Transactions';
 import UserBonusesRoute from './routes/Bonuses';
 import LimitsRoute from './routes/Limits';
-import { injectReducer } from 'store/reducers';
+import { injectReducer } from '../../store/reducers';
 
-export default (store) => ({
+export default store => ({
   path: 'users',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
@@ -18,8 +18,8 @@ export default (store) => ({
 
   childRoutes: [
     ProfileRoute(store),
-    DocumentsRoute(store),
     GameActivityRoute(store),
+    FilesRoute(store),
     UserPaymentsRoute(store),
     UserBonusesRoute(store),
     LimitsRoute(store),

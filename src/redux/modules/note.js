@@ -46,7 +46,7 @@ function fetchNotesByType(type) {
           type.SUCCESS,
           type.FAILURE,
         ],
-        bailout: !logged,
+        bailout: !logged || !targetUUIDs.length,
       },
     });
   };

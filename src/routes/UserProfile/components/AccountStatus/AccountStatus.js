@@ -79,7 +79,6 @@ class AccountStatus extends Component {
       'cursor-pointer': profileStatus !== statuses.SUSPENDED,
       'dropdown-open': dropDownOpen,
     });
-
     return (
       <div className={dropdownClassName}>
         {
