@@ -1,130 +1,171 @@
-import React, { Component, PropTypes } from 'react';
-import GridView, { GridColumn } from 'components/GridView';
-import classNames from 'classnames';
-import { LIMIT_TYPES_LABELS, LIMIT_TYPES, LIMIT_STATUSES } from '../constants';
-import Amount from 'components/Amount';
-import moment from 'moment';
+import React, { Component } from 'react';
+import CancelLimitModal from './CancelLimitModal';
+import CreateLimitModal from './CreateLimitModal';
+import CommonGridView from './CommonGridView';
+import { targetTypes } from '../../../../../constants/note';
+import { types as limitTypes } from '../../../../../constants/limits';
+import PropTypes from '../../../../../constants/propTypes';
 
-const config = { tabName: 'limits' };
+const modalInitialState = {
+  name: null,
+  params: {},
+};
 
 class View extends Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+    list: PropTypes.arrayOf(PropTypes.limitEntity),
+    fetchEntities: PropTypes.func.isRequired,
+    cancelLimit: PropTypes.func.isRequired,
+    setLimit: PropTypes.func.isRequired,
+    limitPeriods: PropTypes.limitPeriodEntity,
+  };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
+  };
 
-    this.renderActions = this.renderActions.bind(this);
-    this.handleCancelLimit = this.handleCancelLimit.bind(this);
-  }
+  state = {
+    modal: { ...modalInitialState },
+  };
 
   componentDidMount() {
-    this.props.fetchLimits(this.props.params.id);
+    this.handleRefresh();
+    this.context.setNoteChangedCallback(this.handleRefresh);
   }
 
-  handleCancelLimit(type, id) {
-    this.props.cancelLimit(this.props.params.id, type, id)
-      .then(() => this.props.fetchLimits(this.props.params.id));
+  componentWillUnmount() {
+    this.context.setNoteChangedCallback(null);
   }
 
-  renderActions(data) {
-    const isCancellable = !(
-      data.status === LIMIT_STATUSES.IN_PROGRESS
-      && data.expirationDate !== null
-      || data.status === LIMIT_STATUSES.CANCELLED
-    );
+  handleRefresh = () => {
+    return this.props.fetchEntities(this.props.params.id);
+  };
 
-    return isCancellable ? <button
-        className="btn btn-danger btn-sm"
-        onClick={() => this.handleCancelLimit(data.type, data.id)}
-      >
-        Cancel
-      </button> : null;
-  }
+  handleCancelLimit = async (type, limitId) => {
+    const { params: { id }, cancelLimit, fetchEntities } = this.props;
 
-  renderLimit(data) {
-    return data.type === LIMIT_TYPES.SESSION_DURATION ?
-      <span>
-        {data.durationLimit} {data.durationLimitTimeUnit.toLowerCase()}
-      </span> :
-      <span>
-        <Amount amount={data.moneyLimit}/> per {data.duration} {data.durationUnit.toLowerCase()}
-      </span>;
-  }
+    const action = await cancelLimit(id, type, limitId);
+    this.handleCloseModal();
 
-  renderStatus(data) {
-    return <div>
-      {data.status}
-      {data.status === LIMIT_STATUSES.CANCELLED && !!data.expirationDate ?
-        <p className="text-muted">
-          {`Active until ${moment(data.expirationDate).format('YYYY.MM.DD HH:mm:ss')}`}
-        </p> : null
+    if (action && !action.error) {
+      fetchEntities(id);
+    }
+  };
+
+  handleCreateLimit = async (params) => {
+    const { setLimit, fetchEntities, params: { id } } = this.props;
+    const { type, period, amount } = params;
+
+    const duration = period.split(' ');
+    const data = {
+      duration: duration.shift(),
+      durationUnit: duration.shift(),
+    };
+
+    if ([limitTypes.WAGER, limitTypes.LOSS, limitTypes.DEPOSIT].indexOf(type) > -1) {
+      data.amount = amount;
+    }
+
+    const action = await setLimit(id, type, data);
+    this.handleCloseModal();
+
+    if (action && !action.error) {
+      fetchEntities(id);
+    }
+  };
+
+  handleOpenCancelLimitModal = (e, name, params) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.setState({
+      modal: {
+        name: 'cancel-limit',
+        params,
+      },
+    });
+  };
+
+  handleOpenCreateLimitModal = (e, name, params) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.setState({
+      modal: {
+        name: 'create-limit',
+        params,
+      },
+    });
+  };
+
+  handleCloseModal = (cb) => {
+    this.setState({ modal: { ...modalInitialState } }, () => {
+      if (typeof cb === 'function') {
+        cb();
       }
-    </div>;
-  }
+    });
+  };
+
+  handleNoteClick = (target, data) => {
+    if (data.note) {
+      this.context.onEditNoteClick(target, data.note, { placement: 'left' });
+    } else {
+      this.context.onAddNoteClick(data.uuid, targetTypes.LIMIT)(target, { placement: 'left' });
+    }
+  };
 
   render() {
-    const { list } = this.props;
+    const { modal } = this.state;
+    const { list, limitPeriods } = this.props;
 
     return (
-      <div id={`tab-${config.tabName}`} className={classNames('tab-pane fade in active')}>
-        <GridView
-          dataSource={list || []}
-          onFiltersChanged={() => {
-          }}
-          onPageChange={() => {
-          }}
-          activePage={0}
-          totalPages={1}
-        >
+      <div>
+        <div className="row margin-bottom-20">
+          <div className="col-sm-2 col-xs-6">
+            <span className="font-size-20">Limits</span>
+          </div>
+          <div className="col-sm-10 col-xs-6 text-right">
+            <button
+              className="btn btn-sm btn-primary-outline"
+              onClick={this.handleOpenCreateLimitModal}
+            >
+              + New limit
+            </button>
+          </div>
+        </div>
 
-          <GridColumn
-            name="type"
-            header="Limit Type"
-            headerClassName="text-center"
-            className="text-center"
-            render={(data, column) => <span> {LIMIT_TYPES_LABELS[data[column.name]]} </span>}
+        <CommonGridView
+          dataSource={list}
+          onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
+          onNoteClick={this.handleNoteClick}
+        />
+        {
+          modal.name === 'cancel-limit' &&
+          <CancelLimitModal
+            {...modal.params}
+            onSubmit={this.handleCancelLimit}
+            onClose={this.handleCloseModal}
+            isOpen
           />
-
-          <GridColumn
-            name="creationDate"
-            header="Set On"
-            headerClassName="text-center"
-            className="text-center"
-            render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
+        }
+        {
+          modal.name === 'create-limit' &&
+          <CreateLimitModal
+            {...modal.params}
+            initialValues={{
+              type: limitTypes.DEPOSIT,
+              period: limitPeriods.deposit[0],
+            }}
+            limitPeriods={limitPeriods}
+            onSubmit={this.handleCreateLimit}
+            onClose={this.handleCloseModal}
+            isOpen
           />
-
-          <GridColumn
-            name="startDate"
-            header="Start Date"
-            headerClassName="text-center"
-            className="text-center"
-            render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
-          />
-
-          <GridColumn
-            name="status"
-            header="Status"
-            headerClassName="text-center"
-            className="text-center"
-            render={this.renderStatus}
-          />
-
-          <GridColumn
-            name="durationLimit"
-            header="Amount/Value"
-            headerClassName="text-center"
-            className="text-center"
-            render={this.renderLimit}
-          />
-
-          <GridColumn
-            name="actions"
-            header="Actions"
-            headerClassName="text-center"
-            className="text-center"
-            render={this.renderActions}
-          />
-
-        </GridView>
-
+        }
       </div>
     );
   }

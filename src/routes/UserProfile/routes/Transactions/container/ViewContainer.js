@@ -1,9 +1,8 @@
-import React from 'react';
-import View from '../components/View';
 import { connect } from 'react-redux';
+import View from '../components/View';
 import { actionCreators as viewActionCreators } from '../modules/view';
-import { actionCreators as paymentActionCreators } from 'redux/modules/payment';
-import { getTransactionRejectReasons } from 'config/index';
+import { actionCreators as paymentActionCreators } from '../../../../../redux/modules/payment';
+import { getTransactionRejectReasons } from '../../../../../config/index';
 
 const mapStateToProps = ({
   userTransactions,

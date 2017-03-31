@@ -1,27 +1,36 @@
-import React, { Component, PropTypes } from 'react';
-import GridColumn from './GridColumn';
 import { Pagination } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
-import shallowEqual from 'utils/shallowEqual';
+import React, { Component, PropTypes } from 'react';
+import GridColumn from './GridColumn';
+import shallowEqual from '../../utils/shallowEqual';
 
 class GridView extends Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    tableClassName: PropTypes.string,
+    headerClassName: PropTypes.string,
+    onFiltersChanged: PropTypes.func,
+    onPageChange: PropTypes.func,
+    onRowClick: PropTypes.func,
+    defaultFilters: PropTypes.object,
+    dataSource: PropTypes.array.isRequired,
+    activePage: PropTypes.number,
+    totalPages: PropTypes.number,
+    summaryRow: PropTypes.object,
+    rowClassName: PropTypes.func,
+    lazyLoad: PropTypes.bool,
+  };
 
-    this.renderHead = this.renderHead.bind(this);
-    this.renderFilters = this.renderFilters.bind(this);
-    this.renderBody = this.renderBody.bind(this);
-    this.renderRow = this.renderRow.bind(this);
-    this.renderColumn = this.renderColumn.bind(this);
-    this.renderPagination = this.renderPagination.bind(this);
+  static defaultProps = {
+    tableClassName: 'table table-stripped table-hovered',
+    headerClassName: 'thead-default',
+    defaultFilters: {},
+    summaryRow: null,
+  };
 
-    this.setFilters = this.setFilters.bind(this);
-    this.handlePageChange = this.handlePageChange.bind(this);
-
-    this.state = {
-      filters: props.defaultFilters || {},
-    };
-  }
+  state = {
+    filters: this.props.defaultFilters || {},
+  };
 
   shouldComponentUpdate(nextProps) {
     if (!this.props.lazyLoad) {
@@ -31,7 +40,20 @@ class GridView extends Component {
     return !shallowEqual(nextProps.dataSource, this.props.dataSource);
   }
 
-  recognizeHeaders(grids) {
+  onFiltersChanged() {
+    this.props.onFiltersChanged(this.state.filters);
+  }
+
+  setFilters(filters) {
+    return this.setState({
+      filters: {
+        ...this.state.filters,
+        ...filters,
+      },
+    }, this.onFiltersChanged);
+  }
+
+  recognizeHeaders = (grids) => {
     return grids.map(({ props }) => {
       const config = { children: props.header };
 
@@ -45,7 +67,7 @@ class GridView extends Component {
 
       return config;
     });
-  }
+  };
 
   recognizeFilters(grids) {
     return grids.map(({ props }) => {
@@ -67,73 +89,45 @@ class GridView extends Component {
     });
   }
 
-  setFilters(filters) {
-    return this.setState({
-      filters: {
-        ...this.state.filters,
-        ...filters,
-      },
-    }, this.onFiltersChanged);
-  }
+  getRowClassName = (data) => {
+    let className = this.props.rowClassName;
 
-  onFiltersChanged() {
-    this.props.onFiltersChanged(this.state.filters);
-  }
+    if (typeof className === 'function') {
+      className = className(data);
+    }
+
+    return className;
+  };
 
   handlePageChange(eventKey) {
     this.props.onPageChange(eventKey, this.state.filters);
   }
 
-  render() {
-    const {
-      tableClassName,
-      headerClassName,
-      lazyLoad,
-    } = this.props;
-    let grids = React.Children.toArray(this.props.children).filter((child) => {
-      return child.type === GridColumn;
-    });
-
-    return <div className="row">
-      <div className="col-md-12">
-        <table className={tableClassName}>
-          <thead className={headerClassName}>
-          {this.renderHead(this.recognizeHeaders(grids))}
-          {this.renderFilters(this.recognizeFilters(grids))}
-          </thead>
-
-          {this.renderBody(grids)}
-          {this.renderFooter(grids)}
-        </table>
-
-        {!lazyLoad && this.renderPagination()}
-      </div>
-    </div>;
-  }
-
-  renderHead(columns) {
-    return <tr>
-      {columns.map((item, key) => <th key={key} {...item}/>)}
-    </tr>;
-  }
+  renderHead = (columns) => {
+    return (
+      <tr>
+        {columns.map((item, key) => <th key={key} {...item} />)}
+      </tr>
+    );
+  };
 
   renderFilters(columns) {
     return columns.some(column => !!column)
       ? <tr>
-      {columns.map((item, key) =>
-        !!item ?
-          <td key={key} {...item}/> :
-          <td key={key}/>
-      )}
-    </tr> : null;
+        {columns.map((item, key) =>
+          !!item ?
+            <td key={key} {...item} /> :
+            <td key={key} />
+        )}
+      </tr> : null;
   }
 
-  renderBody(columns) {
+  renderBody = (columns) => {
     const {
       dataSource,
       lazyLoad,
       totalPages,
-      activePage
+      activePage,
     } = this.props;
 
     const rows = dataSource.map((data, key) => this.renderRow(key, columns, data));
@@ -147,28 +141,21 @@ class GridView extends Component {
         {rows}
       </InfiniteScroll>
       : <tbody>{rows}</tbody>;
-  }
+  };
 
   renderRow = (key, columns, data) => {
     const { onRowClick } = this.props;
 
-    return <tr key={key} className={this.getRowClassName(data)} onClick={(e) => {
-      if (typeof onRowClick === 'function') {
-        onRowClick(data);
-      }
-    }}>
-      {columns.map((column, columnKey) => this.renderColumn(`${key}-${columnKey}`, column, data))}
-    </tr>;
-  };
-
-  getRowClassName = (data) => {
-    let className = this.props.rowClassName;
-
-    if (typeof className === 'function') {
-      className = className(data);
-    }
-
-    return className;
+    return (
+      <tr key={key} className={this.getRowClassName(data)} onClick={() => {
+        if (typeof onRowClick === 'function') {
+          onRowClick(data);
+        }
+      }}
+      >
+        {columns.map((column, columnKey) => this.renderColumn(`${key}-${columnKey}`, column, data))}
+      </tr>
+    );
   };
 
   renderColumn(key, column, data) {
@@ -187,11 +174,11 @@ class GridView extends Component {
     const { summaryRow } = this.props;
 
     return summaryRow ? <tfoot>
-    <tr>
-      {columns.map(({ props }, key) =>
-        <td key={key}>{summaryRow[props.name]}</td>
-      )}
-    </tr>
+      <tr>
+        {columns.map(({ props }, key) =>
+          <td key={key}>{summaryRow[props.name]}</td>
+        )}
+      </tr>
     </tfoot> : null;
   }
 
@@ -202,44 +189,55 @@ class GridView extends Component {
       return null;
     }
 
-    return <div className="row">
-      <div className="col-md-12">
-        <Pagination
-          prev
-          next
-          first
-          last
-          ellipsis
-          boundaryLinks
-          items={totalPages}
-          maxButtons={5}
-          activePage={activePage}
-          onSelect={this.handlePageChange}
-          className="b3-pagination"
-        />
+    return (
+      <div className="row">
+        <div className="col-md-12">
+          <Pagination
+            prev
+            next
+            first
+            last
+            ellipsis
+            boundaryLinks
+            items={totalPages}
+            maxButtons={5}
+            activePage={activePage}
+            onSelect={this.handlePageChange}
+            className="b3-pagination"
+          />
+        </div>
       </div>
-    </div>;
+    );
+  }
+
+  render() {
+    const {
+      tableClassName,
+      headerClassName,
+      lazyLoad,
+    } = this.props;
+    const grids = React.Children.toArray(this.props.children).filter((child) => {
+      return child.type === GridColumn;
+    });
+
+    return (
+      <div className="row">
+        <div className="col-md-12">
+          <table className={tableClassName}>
+            <thead className={headerClassName}>
+              {this.renderHead(this.recognizeHeaders(grids))}
+              {this.renderFilters(this.recognizeFilters(grids))}
+            </thead>
+
+            {this.renderBody(grids)}
+            {this.renderFooter(grids)}
+          </table>
+
+          {!lazyLoad && this.renderPagination()}
+        </div>
+      </div>
+    );
   }
 }
-
-GridView.defaultProps = {
-  tableClassName: 'table table-stripped table-hovered',
-  headerClassName: 'thead-default',
-  defaultFilters: {},
-  summaryRow: null,
-};
-
-GridView.propTypes = {
-  tableClassName: PropTypes.string,
-  headerClassName: PropTypes.string,
-  onFiltersChanged: PropTypes.func,
-  onPageChange: PropTypes.func,
-  defaultFilters: PropTypes.object,
-  dataSource: PropTypes.array.isRequired,
-  activePage: PropTypes.number,
-  totalPages: PropTypes.number,
-  summaryRow: PropTypes.object,
-  lazyLoad: PropTypes.bool,
-};
 
 export default GridView;

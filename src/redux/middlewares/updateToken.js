@@ -1,14 +1,14 @@
 import { isValidRSAA } from 'redux-api-middleware';
 import jwtDecode from 'jwt-decode';
 import {
-  actionCreators as authActionCreators
-} from 'redux/modules/auth';
-import timestamp from 'utils/timestamp';
+  actionCreators as authActionCreators,
+} from '../../redux/modules/auth';
+import timestamp from '../../utils/timestamp';
 
 export default function ({ expireThreshold = 60 }) {
   let refreshing = false;
 
-  return store => next => action => {
+  return store => next => (action) => {
     if (!refreshing) {
       const { auth: { logged, token } } = store.getState();
 
@@ -35,4 +35,4 @@ export default function ({ expireThreshold = 60 }) {
 
     return next(action);
   };
-};
+}

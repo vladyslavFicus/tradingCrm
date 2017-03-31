@@ -5,30 +5,35 @@ import { actionCreators as accumulatedBalancesActionCreators } from '../modules/
 import { actionCreators as bonusActionCreators } from '../modules/bonus';
 import { actionCreators as viewActionCreators } from '../modules/view';
 import ProfileLayout from '../layouts/ProfileLayout';
-import { getAvailableTags } from 'config/index';
-import { statusActions } from 'constants/user';
+import { getAvailableTags } from '../../../config/index';
+import { statusActions } from '../../../constants/user';
 
-const mapStateToProps = ({
-  profile: {
-    view: userProfile, ip, accumulatedBalances: { data: accumulatedBalances }, notes,
-  }, auth,
-}) => {
+const mapStateToProps = (state) => {
+  const {
+    profile: {
+      view,
+      ip,
+      accumulatedBalances: { data: accumulatedBalances },
+      notes,
+    }, auth,
+  } = state;
   const lastIp = ip.entities.content
     ? ip.entities.content[ip.entities.content.length - 1]
     : null;
+  let availableStatuses = [];
+
+  if (view && view.profile && view.profile.data && statusActions[view.profile.data.profileStatus]) {
+    availableStatuses = statusActions[view.profile.data.profileStatus];
+  }
 
   return {
-    ...userProfile,
+    ...view,
     ip,
     lastIp,
     notes,
     accumulatedBalances,
     availableTags: getAvailableTags(auth.department),
-    availableStatuses: userProfile && userProfile.profile && userProfile.profile.data
-      ? statusActions[userProfile.profile.data.profileStatus]
-        ? statusActions[userProfile.profile.data.profileStatus]
-        : []
-      : [],
+    availableStatuses,
   };
 };
 
@@ -41,7 +46,6 @@ const mapActions = {
   updateSubscription: viewActionCreators.updateSubscription,
   checkLock: viewActionCreators.checkLock,
   fetchBalances: viewActionCreators.fetchBalances,
-  fetchProfile: viewActionCreators.fetchProfile,
   getBalance: viewActionCreators.getBalance,
   loadFullProfile: viewActionCreators.loadFullProfile,
   lockDeposit: viewActionCreators.lockDeposit,
@@ -55,6 +59,8 @@ const mapActions = {
   addNote: actionCreators.addNote,
   editNote: actionCreators.editNote,
   deleteNote: actionCreators.deleteNote,
+  resetPassword: actionCreators.resetPassword,
+  activateProfile: actionCreators.activateProfile,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);

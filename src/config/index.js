@@ -14,13 +14,13 @@ if (window) {
 const config = {
   api: {},
   availableDepartments: [],
-  availableRoles: [
-    { value: 'role1', label: 'Role 1' },
-    { value: 'role2', label: 'Role 2' },
-    { value: 'role3', label: 'Role 3' },
-    { value: 'role4', label: 'Role 4' },
-  ],
+  availableRoles: [],
   availableTags: [],
+  providers: {
+    stakelogic: 'Stakelogic',
+    netent: 'Netent',
+    igromat: 'Igromat',
+  },
   components: {
     Currency: {
       currencies: {},
@@ -36,6 +36,10 @@ const config = {
     },
     departments: [],
     tags: {},
+    reasons: {
+      rejection: [],
+    },
+    limits: {},
   },
   middlewares: {},
   ...environmentConfig,
@@ -51,6 +55,13 @@ if (config.nas.departments) {
   config.availableDepartments = config.nas.departments;
   config.availableDepartments.splice(config.availableDepartments.indexOf('PLAYER'), 1);
   config.availableDepartments = config.availableDepartments.map(item => ({
+    value: item,
+    label: item,
+  }));
+}
+
+if (config.nas.roles) {
+  config.availableRoles = config.nas.roles.map(item => ({
     value: item,
     label: item,
   }));
@@ -81,7 +92,11 @@ function getAvailableTags(department) {
 }
 
 function getTransactionRejectReasons() {
-  return config.nas.reasons.rejection || [];
+  return config.nas.reasons && config.nas.reasons.rejection ? config.nas.reasons.rejection : [];
+}
+
+function getLimitPeriods() {
+  return config.nas.limits || [];
 }
 
 function getApiRoot() {
@@ -99,6 +114,7 @@ export {
   getDomain,
   getAvailableTags,
   getTransactionRejectReasons,
+  getLimitPeriods,
 };
 
 export default config;

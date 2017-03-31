@@ -1,17 +1,17 @@
-import React, { Component, PropTypes } from 'react';
-import Panel, { Content } from 'components/Panel';
-import GridView, { GridColumn } from 'components/GridView';
-import OperatorGridFilter from './OperatorGridFilter';
+import { SubmissionError } from 'redux-form';
 import { Link } from 'react-router';
-import { shortify } from 'utils/uuid';
 import moment from 'moment';
 import classNames from 'classnames';
+import React, { Component, PropTypes } from 'react';
+import Panel, { Content } from '../../../../../components/Panel';
+import GridView, { GridColumn } from '../../../../../components/GridView';
+import OperatorGridFilter from './OperatorGridFilter';
+import { shortify } from '../../../../../utils/uuid';
 import {
   statusColorNames as operatorStatusColorNames,
   statusesLabels as operatorStatusesLabels,
-} from 'constants/operators';
+} from '../../../../../constants/operators';
 import CreateOperatorModal from '../../../components/CreateOperatorModal';
-import { SubmissionError } from 'redux-form';
 
 const modalInitialState = {
   name: null,
@@ -48,23 +48,17 @@ class List extends Component {
 
   handlePageChanged = (page) => {
     if (!this.props.isLoading) {
-      this.setState({ page: page - 1 }, () => {
-        this.handleRefresh();
-      });
+      this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
 
-  handleRefresh = () => {
-    this.props.fetchEntities({
-      ...this.state.filters,
-      page: this.state.page,
-    });
-  };
+  handleRefresh = () => this.props.fetchEntities({
+    ...this.state.filters,
+    page: this.state.page,
+  });
 
   handleFilterSubmit = (filters) => {
-    this.setState({ filters, page: 0 }, () => {
-      this.handleRefresh();
-    });
+    this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
   handleOpenCreateModal = () => {
@@ -106,9 +100,12 @@ class List extends Component {
         >
           {operatorStatusesLabels[data.operatorStatus] || data.operatorStatus}
         </div>
-        <div className="font-size-12 color-default">
-          Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
-        </div>
+        {
+          data.statusChangeDate &&
+          <div className="font-size-12 color-default">
+            Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
+          </div>
+        }
       </div>
     );
   };
@@ -117,7 +114,7 @@ class List extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          <Link to={`/operators/${data.operatorId}/profile`} target="_blank">
+          <Link to={`/operators/${data.uuid}/profile`} target="_blank">
             {[data.firstName, data.lastName].join(' ')}
           </Link>
         </div>
@@ -172,14 +169,13 @@ class List extends Component {
               tableClassName="table table-hovered data-grid-layout"
               headerClassName=""
               dataSource={entities.content}
-              onFiltersChanged={this.handleFiltersChanged}
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad
             >
               <GridColumn
-                name="operatorId"
+                name="uuid"
                 header="Operator"
                 headerClassName="text-uppercase"
                 render={this.renderOperator}

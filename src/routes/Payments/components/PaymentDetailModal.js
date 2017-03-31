@@ -14,6 +14,7 @@ import Amount from 'components/Amount';
 import NoteButton from 'components/NoteButton';
 import { shortify } from 'utils/uuid';
 import './PaymentDetailModal.scss';
+import { UncontrolledTooltip } from '../../../components/Reactstrap/Uncontrolled';
 
 class PaymentDetailModal extends Component {
   static contextTypes = {
@@ -48,6 +49,7 @@ class PaymentDetailModal extends Component {
         country,
         mobile,
         note,
+        userAgent,
       },
       profile: {
         firstName,
@@ -149,7 +151,19 @@ class PaymentDetailModal extends Component {
             <div className="color-default text-uppercase font-size-11">
               Device
             </div>
-            <i className={`fa font-size-20 ${mobile ? 'fa-mobile' : 'fa-desktop'}`}/>
+            <i
+              id={`${paymentId}-popup`}
+              className={`fa font-size-20 ${mobile ? 'fa-mobile' : 'fa-desktop'}`}
+            />
+            <UncontrolledTooltip
+              placement="bottom"
+              target={`${paymentId}-popup`}
+              delay={{
+                show: 350, hide: 250,
+              }}
+            >
+              {userAgent ? userAgent : 'User agent not defined'}
+            </UncontrolledTooltip>
           </div>
           <div className="col-md-3 payment-detail-block">
             <div className="color-default text-uppercase font-size-11">

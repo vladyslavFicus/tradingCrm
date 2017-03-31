@@ -1,8 +1,16 @@
 import { CALL_API } from 'redux-api-middleware';
-import buildQueryString from 'utils/buildQueryString';
+import _ from 'lodash';
+import buildQueryString from '../../utils/buildQueryString';
+
+const mapProfile = payload => ({
+  ...payload,
+  kycDate: payload.personalStatus.editDate > payload.addressStatus.editDate
+    ? payload.personalStatus.editDate
+    : payload.addressStatus.editDate,
+});
 
 function fetchProfile(type) {
-  return (uuid) => (dispatch, getState) => {
+  return uuid => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
@@ -14,7 +22,62 @@ function fetchProfile(type) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        types: [type.REQUEST, type.SUCCESS, type.FAILURE],
+        types: [
+          type.REQUEST,
+          {
+            type: type.SUCCESS,
+            payload: (action, state, res) => {
+              const contentType = res.headers.get('Content-Type');
+              if (contentType && ~contentType.indexOf('json')) {
+                return res.json().then(json => mapProfile(json));
+              }
+            },
+          },
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function passwordResetRequest(type) {
+  return ({ email }) => dispatch => dispatch({
+    [CALL_API]: {
+      endpoint: 'auth/password/reset/request',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+      types: [
+        type.REQUEST,
+        type.SUCCESS,
+        type.FAILURE,
+      ],
+    },
+  });
+}
+
+function profileActivateRequest(type) {
+  return uuid => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${uuid}/send-activation-link`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
         bailout: !logged,
       },
     });
@@ -66,32 +129,20 @@ function updateIdentifier(type) {
 function fetchEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
-    let method = 'GET';
-    let playerUuidList = filters.playerUuidList;
-    filters = Object.keys(filters).reduce((result, key) => {
-      if (filters[key]) {
-        result[key] = filters[key];
-      }
+    const queryString = buildQueryString(
+      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
+    );
 
-      return result;
-    }, {});
-
-    if (playerUuidList) {
-      method = 'POST';
-      delete filters.playerUuidList;
-    }
-
-    const endpointParams = { page: 0, ...filters };
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/profiles?${buildQueryString(endpointParams)}`,
-        method,
+        endpoint: `profile/profiles?${queryString}`,
+        method: filters.playerUuidList ? 'POST' : 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: playerUuidList ? JSON.stringify({ playerUuidList }) : undefined,
+        body: filters.playerUuidList ? JSON.stringify({ playerUuidList: filters.playerUuidList }) : undefined,
         types: [
           {
             type: type.REQUEST,
@@ -111,38 +162,24 @@ function fetchEntities(type) {
 function fetchESEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
-    let method = 'GET';
-    let playerUuidList = filters.playerUuidList;
-    filters = Object.keys(filters).reduce((result, key) => {
-      if (filters[key]) {
-        result[key] = filters[key];
-      }
+    const queryString = buildQueryString(
+      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
+    );
 
-      return result;
-    }, {});
-
-    if (playerUuidList) {
-      method = 'POST';
-      delete filters.playerUuidList;
-    }
-
-    const endpointParams = { page: 0, ...filters };
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/profiles/es?${buildQueryString(endpointParams)}`,
-        method,
+        endpoint: `profile/profiles/es?${queryString}`,
+        method: filters.playerUuidList ? 'POST' : 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: playerUuidList ? JSON.stringify({ playerUuidList }) : undefined,
+        body: filters.playerUuidList ? JSON.stringify({ playerUuidList: filters.playerUuidList }) : undefined,
         types: [
           {
             type: type.REQUEST,
-            meta: {
-              filters,
-            },
+            meta: { filters },
           },
           type.SUCCESS,
           type.FAILURE,
@@ -153,15 +190,6 @@ function fetchESEntities(type) {
   };
 }
 
-const initialState = {};
-const actionHandlers = {};
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-};
-
 const actionTypes = {};
 const actionCreators = {
   fetchProfile,
@@ -169,13 +197,11 @@ const actionCreators = {
   fetchESEntities,
   updateProfile,
   updateIdentifier,
+  passwordResetRequest,
+  profileActivateRequest,
 };
 
 export {
-  initialState,
   actionTypes,
   actionCreators,
-  actionHandlers,
 };
-
-export default reducer;

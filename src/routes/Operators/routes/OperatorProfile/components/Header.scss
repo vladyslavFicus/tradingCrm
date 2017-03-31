@@ -28,30 +28,4 @@ $font-size-small: 11px;
       }
     }
   }
-
-  .header-blocks {
-    .header-block {
-      border-right: 1px solid $header-border-color;
-
-      &:last-child {
-        border-right: 0;
-      }
-
-      &-title {
-        text-transform: uppercase;
-        margin-bottom: 5px;
-        font-size: $font-size-small;
-      }
-
-      &-text {
-        font-weight: 600;
-        font-size: 14px;
-      }
-
-      &-secondary-text {
-        font-size: $font-size-small;
-      }
-    }
-
-  }
 }
