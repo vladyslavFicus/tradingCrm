@@ -17,6 +17,7 @@ class ListView extends Component {
 
   static defaultProps = {
     defaultFilters: {},
+    lazyLoad: false,
   };
 
   state = {
