@@ -3,7 +3,7 @@ import { injectReducer } from '../../../../store/reducers';
 export default store => ({
   path: ':id/feed',
   onEnter: async (nextState, replace, callback) => {
-    injectReducer(store, { key: 'userFeed', reducer: require('./modules/index').default });
+    injectReducer(store, { key: 'userFeed', reducer: require('./modules').default });
 
     callback();
   },

@@ -179,5 +179,14 @@ PropTypes.limitPeriodEntity = PropTypes.shape({
   [limitTypes.LOSS]: PropTypes.arrayOf(PropTypes.string).isRequired,
   [limitTypes.WAGER]: PropTypes.arrayOf(PropTypes.string).isRequired,
 });
+PropTypes.auditEntity = PropTypes.shape({
+  authorUUID: PropTypes.string.isRequired,
+  sessionIp: PropTypes.string,
+  country: PropTypes.string,
+  device: PropTypes.string,
+  sessionId: PropTypes.string,
+  sessionStart: PropTypes.string,
+  sessionEnd: PropTypes.string,
+});
 
 export default PropTypes;
