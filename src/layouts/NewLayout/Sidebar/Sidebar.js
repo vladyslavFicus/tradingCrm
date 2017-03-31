@@ -4,15 +4,15 @@ import PropTypes from '../../../constants/propTypes';
 
 class Sidebar extends Component {
   static propTypes = {
-    topMenu: PropTypes.arrayOf(PropTypes.menuItem).isRequired,
-    bottomMenu: PropTypes.arrayOf(PropTypes.menuItem).isRequired,
+    topMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
+    bottomMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
   };
 
   render() {
     return (
       <aside className="sidebar">
-        <Nav items={sidebarTopMenuItems} />
-        <SidebarMenu className="navbar-nav support-tab" items={sidebarBottomMenuItems} />
+        <Nav items={this.props.topMenu} />
+        <Nav className="navbar-nav support-tab" items={this.props.bottomMenu} />
       </aside>
     );
   }

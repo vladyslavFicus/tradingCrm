@@ -80,7 +80,8 @@ class NewLayout extends Component {
                 </div>
               </li>
               <form className="form-inline">
-                <i className="fa fa-search" /><input
+                <i className="fa fa-search" />
+                <input
                   className="form-control" type="text" placeholder="Type to search"
                   onClick={this.handleSearchFieldClick}
                 />
@@ -93,8 +94,8 @@ class NewLayout extends Component {
                     <form className="form-inline">
                       <input
                         className="form-control" type="text" placeholder="Search..." autoFocus ref={(node) => {
-                          this.searchInput = node;
-                        }}
+                        this.searchInput = node;
+                      }}
                       />
                     </form>
                   </div>

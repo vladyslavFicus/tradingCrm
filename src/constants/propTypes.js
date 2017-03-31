@@ -179,11 +179,15 @@ PropTypes.limitPeriodEntity = PropTypes.shape({
   [limitTypes.LOSS]: PropTypes.arrayOf(PropTypes.string).isRequired,
   [limitTypes.WAGER]: PropTypes.arrayOf(PropTypes.string).isRequired,
 });
+PropTypes.navSubItem = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+});
 PropTypes.navItem = PropTypes.shape({
   icon: PropTypes.string,
   label: PropTypes.string.isRequired,
   url: PropTypes.string,
-  items: PropTypes.arrayOf(PropTypes.navItem),
+  items: PropTypes.arrayOf(PropTypes.navSubItem),
 });
 
 export default PropTypes;
