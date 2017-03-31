@@ -10,6 +10,8 @@ import NoteButton from '../../../components/NoteButton';
 import { statusColorNames } from '../../../constants/user';
 import { shortify } from '../../../utils/uuid';
 import './Header.scss';
+import permission from '../../../config/permissions';
+import Permissions from '../../../utils/permissions';
 
 class Header extends Component {
   static propTypes = {
@@ -36,6 +38,11 @@ class Header extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
+    onProfileActivateClick: PropTypes.func.isRequired,
+  };
+
+  static contextTypes = {
+    permissions: PropTypes.array.isRequired,
   };
 
   getUserAge = () => {
@@ -105,7 +112,10 @@ class Header extends Component {
       accumulatedBalances,
       availableTags,
       onAddNoteClick,
+      onResetPasswordClick,
+      onProfileActivateClick,
     } = this.props;
+    const { permissions: currentPermissions } = this.context;
     const selectedTags = profileTags
       ? profileTags.map(option => `${option.tagPriority}/${option.tag}`)
       : [];
@@ -156,7 +166,12 @@ class Header extends Component {
             {' '}
             <UserProfileOptions
               items={[
-                { label: 'Reset password', onClick: this.props.onResetPasswordClick },
+                { label: 'Reset password', onClick: onResetPasswordClick },
+                {
+                  label: 'Send activation link',
+                  onClick: onProfileActivateClick,
+                  visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
+                },
               ]}
             />
           </div>

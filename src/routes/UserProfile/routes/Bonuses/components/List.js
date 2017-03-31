@@ -74,7 +74,9 @@ class List extends Component {
     });
   };
 
-  handleSubmit = (filters) => {
+  handleSubmit = (inputFilters = {}) => {
+    const filters = inputFilters;
+
     if (filters.states) {
       filters.states = [filters.states];
     }

@@ -1,13 +1,15 @@
 /* eslint-disable new-cap */
-import onEnterStack from 'utils/onEnterStack';
-import requireAuth from 'utils/requireAuth';
+import onEnterStack from '../utils/onEnterStack';
+import requireAuth from '../utils/requireAuth';
 import BaseLayout from '../layouts/BaseLayout';
 import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
+import PermissionLayout from '../layouts/PermissionLayout';
 /**
  * Routes
  */
 import SignInRoute from './SignIn';
 import SetPasswordRoute from './SetPassword';
+import ResetPasswordRoute from './ResetPassword';
 import UserProfileRoute from './UserProfile';
 import OperatorProfileRoute from './Operators/routes/OperatorProfile';
 import DashboardRoute from './Dashboard';
@@ -29,6 +31,7 @@ export const createRoutes = store => ({
       childRoutes: [
         SignInRoute(store),
         SetPasswordRoute(store),
+        ResetPasswordRoute(store),
         onEnterStack({
           component: AuthenticatedLayout,
           childRoutes: [
@@ -47,6 +50,7 @@ export const createRoutes = store => ({
       ],
     },
     onEnterStack({
+      component: PermissionLayout,
       childRoutes: [
         UserProfileRoute(store),
         OperatorProfileRoute(store),

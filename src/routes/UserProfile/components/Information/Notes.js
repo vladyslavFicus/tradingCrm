@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
-import { entities, entitiesPrefixes } from '../../constants/uuid';
-import { shortify } from '../../utils/uuid';
-import NoteButton from '../NoteButton';
+import { entities, entitiesPrefixes } from '../../../../constants/uuid';
+import { shortify } from '../../../../utils/uuid';
+import NoteButton from '../../../../components/NoteButton';
 
 class Notes extends Component {
   static propTypes = {
