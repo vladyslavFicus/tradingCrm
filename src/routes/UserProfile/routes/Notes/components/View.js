@@ -31,14 +31,14 @@ class View extends Component {
 
   componentDidMount() {
     this.handleRefresh();
-    this.context.setNoteChangedCallback(this.handleSetNoteChanged);
+    this.context.setNoteChangedCallback(this.handleNoteChanged);
   }
 
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
   }
 
-  handleSetNoteChanged = () => {
+  handleNoteChanged = () => {
     this.setState({
       page: 0,
     }, this.handleRefresh());
