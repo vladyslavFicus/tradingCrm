@@ -51,7 +51,6 @@ class Balances extends Component {
       'dropdown-open': dropDownOpen,
     });
 
-    console.log(balances);
     return (
       <div className={dropdownClassName}>
         {!balances
