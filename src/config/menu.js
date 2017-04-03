@@ -13,9 +13,7 @@ const sidebarTopMenu = [
   {
     label: 'Operators',
     icon: 'fa fa-user',
-    items: [
-      { label: 'All', url: '/operators/list' },
-    ],
+    url: '/operators/list',
   },
   {
     label: 'Payments',
@@ -58,7 +56,8 @@ const userProfileTabs = [
   { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Transactions', url: '/users/:id/transactions' },
   { label: 'Limits', url: '/users/:id/limits' },
-  { label: 'Documents', url: '/users/:id/documents' },
+  { label: 'Files', url: '/users/:id/files' },
+  { label: 'Notes', url: '/users/:id/notes' },
 ];
 
 const operatorProfileTabs = [

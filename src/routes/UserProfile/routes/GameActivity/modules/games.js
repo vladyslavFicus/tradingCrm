@@ -18,7 +18,7 @@ function fetchGames() {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/game_info/public/games?${buildQueryString({ limit: 9999 })}`,
+        endpoint: `/game_info/public/games?${buildQueryString({ size: 9999 })}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

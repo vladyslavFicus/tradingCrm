@@ -1,0 +1,53 @@
+.upload-modal {
+  &.modal-dialog {
+    width: 735px;
+  }
+
+  .modal-footer {
+    text-align: left;
+  }
+
+  .modal-title {
+    font-weight: 300;
+  }
+
+  .modal-header {
+    background-color: rgb(223, 242, 255);
+    border: none;
+  }
+
+  .modal-body {
+    .uploading-files {
+      width: 100%;
+      tr > th, tr > td {
+        vertical-align: top;
+        padding: 5px;
+      }
+
+      &__header-number {
+        width: 50px;
+      }
+      &__header-name {
+        width: 270px;
+      }
+      &__header-category {
+        width: 185px;
+      }
+      &__header-status {
+        width: 190px;
+      }
+      &__header-note {
+        width: 35px;
+      }
+    }
+  }
+
+  .close {
+    font-size: 4rem;
+    background: transparent;
+  }
+
+  .close:focus {
+    outline: none;
+  }
+}

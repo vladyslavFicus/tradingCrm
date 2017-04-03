@@ -24,7 +24,7 @@ class ProfileLayout extends Component {
   static propTypes = {
     profile: PropTypes.shape({
       data: PropTypes.userProfile,
-      error: PropTypes.string,
+      error: PropTypes.any,
       isLoading: PropTypes.bool.isRequired,
     }),
     children: PropTypes.any.isRequired,
@@ -55,9 +55,13 @@ class ProfileLayout extends Component {
   };
 
   static childContextTypes = {
+    onAddNote: PropTypes.func.isRequired,
+    onEditNote: PropTypes.func.isRequired,
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
+    refreshPinnedNotes: PropTypes.func.isRequired,
+    hidePopover: PropTypes.func.isRequired,
   };
 
   state = {
@@ -69,9 +73,13 @@ class ProfileLayout extends Component {
 
   getChildContext() {
     return {
+      onAddNote: this.props.addNote,
+      onEditNote: this.props.addNote,
       onAddNoteClick: this.handleAddNoteClick,
       onEditNoteClick: this.handleEditNoteClick,
       setNoteChangedCallback: this.setNoteChangedCallback,
+      refreshPinnedNotes: this.handleRefreshPinnedNotes,
+      hidePopover: this.handlePopoverHide,
     };
   }
 
@@ -165,6 +173,10 @@ class ProfileLayout extends Component {
       }));
   };
 
+  handleRefreshPinnedNotes = () => {
+    this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
+  };
+
   handleSubmitNote = (data) => {
     const { noteChangedCallback } = this.state;
 
@@ -175,7 +187,7 @@ class ProfileLayout extends Component {
       return resolve(this.props.addNote(data));
     }).then(() => {
       this.handlePopoverHide();
-      this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
+      this.handleRefreshPinnedNotes();
 
       if (typeof noteChangedCallback === 'function') {
         noteChangedCallback();
@@ -322,9 +334,9 @@ class ProfileLayout extends Component {
           <NotePopover
             toggle={this.handlePopoverHide}
             isOpen
-            {...popover.params}
             onSubmit={this.handleSubmitNote}
             onDelete={this.handleDeleteNoteClick}
+            {...popover.params}
           />
         }
         {
