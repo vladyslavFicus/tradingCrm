@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from '../../constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
+import { actionCreators as authActionCreators } from '../../redux/modules/auth';
+import { actionCreators as permissionsActionCreators } from '../../redux/modules/permissions';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
@@ -9,7 +12,39 @@ import './NewLayout.scss';
 class NewLayout extends Component {
   static propTypes = {
     children: PropTypes.any,
+    user: PropTypes.shape({
+      token: PropTypes.string,
+      uuid: PropTypes.string,
+    }).isRequired,
+    location: PropTypes.object,
+    permissions: PropTypes.array,
+    changeDepartment: PropTypes.func.isRequired,
   };
+  static childContextTypes = {
+    user: PropTypes.shape({
+      token: PropTypes.string,
+      uuid: PropTypes.string,
+    }).isRequired,
+    location: PropTypes.object,
+    permissions: PropTypes.array,
+    changeDepartment: PropTypes.func.isRequired,
+  };
+
+  getChildContext() {
+    const {
+      user,
+      location,
+      permissions,
+      changeDepartment,
+    } = this.props;
+
+    return {
+      user,
+      location,
+      permissions,
+      changeDepartment,
+    };
+  }
 
   state = {
     hasTabs: false,
@@ -53,4 +88,11 @@ class NewLayout extends Component {
   )
 }
 
-export default NewLayout;
+const mapStateToProps = state => ({
+  user: state.auth,
+  permissions: state.permissions.data,
+});
+
+export default connect(mapStateToProps, {
+  changeDepartment: authActionCreators.changeDepartment,
+})(NewLayout);

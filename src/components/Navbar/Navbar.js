@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { IndexLink } from 'react-router';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import './Navbar.scss';
 
 class Navbar extends Component {
   static propTypes = {};
+  static contextTypes = {
+    user: PropTypes.shape({
+      department: PropTypes.string.isRequired,
+      authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
+    }),
+    changeDepartment: PropTypes.func.isRequired,
+  };
 
   state = {
     searchFieldActive: false,
@@ -24,6 +31,7 @@ class Navbar extends Component {
   };
 
   render() {
+    const { user, changeDepartment } = this.context;
     const { searchFieldActive, searchOverlayActive } = this.state;
 
     return (
@@ -35,11 +43,9 @@ class Navbar extends Component {
         <div className="left-navigation">
           <div className="department">
             <DepartmentsDropDown
-              current={{ name: 'Customer Service', role: 'Head of department' }}
-              departments={[
-                { name: 'Risk Fraud & Payment', role: 'Manager' },
-                { name: 'Marketing', role: 'Team lead' },
-              ]}
+              onChange={changeDepartment}
+              current={user.authorities.find(authority => authority.department === user.department)}
+              authorities={user.authorities.filter(authority => authority.department !== user.department)}
             />
           </div>
 

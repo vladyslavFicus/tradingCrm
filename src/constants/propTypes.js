@@ -202,9 +202,5 @@ PropTypes.userPanelItem = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
 });
-PropTypes.departmentItem = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired,
-});
 
 export default PropTypes;
