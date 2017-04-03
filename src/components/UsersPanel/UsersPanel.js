@@ -5,32 +5,22 @@ import './UsersPanel.scss';
 
 class UsersPanel extends Component {
   static propTypes = {
-    //footerName: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
+    onClose: PropTypes.func.isRequired,
   };
 
-  // static defaultProps = {
-  //   footerName: 'footer',
-  // };
-
-  // state = {
-  //   footerOpen: false,
-  // };
-
-
   render() {
+    const { items, onClose } = this.props;
+
     return (
       <footer className="footer">
         <div className="footer-content row">
-          <UsersPanelItem
-            fullName="Jimmy Black"
-            login="202222"
-            uiid="PL-22222"
-          />
+          {items.map(item => <UsersPanelItem key={item.uuid} {...item} />)}
         </div>
-        <div className="footer-menu" onClick={this.handleFooterOpenClick}>
-          &#10005;
-        </div>
+
+        <button className="footer-menu btn-transparent" onClick={onClose}>
+          &times;
+        </button>
       </footer>
     );
   }

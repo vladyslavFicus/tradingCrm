@@ -196,5 +196,15 @@ PropTypes.navItem = PropTypes.shape({
   url: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.navSubItem),
 });
+PropTypes.userPanelItem = PropTypes.shape({
+  fullName: PropTypes.string.isRequired,
+  login: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+});
+PropTypes.departmentItem = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
+});
 
 export default PropTypes;

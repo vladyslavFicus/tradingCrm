@@ -3,7 +3,6 @@ import onEnterStack from '../utils/onEnterStack';
 import requireAuth from '../utils/requireAuth';
 import NewLayout from '../layouts/NewLayout';
 import BaseLayout from '../layouts/BaseLayout';
-import AuthenticatedLayout from '../layouts/AuthenticatedLayout';
 import PermissionLayout from '../layouts/PermissionLayout';
 /**
  * Routes
