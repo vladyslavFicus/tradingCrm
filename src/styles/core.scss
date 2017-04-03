@@ -48,4 +48,14 @@
     background-color: rgba(51, 51, 51, 1);
     color:#FFFFFF;
   }
+
+  .sort-arrow {
+    position: relative;
+    left: 4px;
+    transition: all .2s;
+    color: #3366CC;
+    &_is-active {
+      transform: rotate(180deg);
+    }
+  }
 }

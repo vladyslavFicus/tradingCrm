@@ -55,7 +55,7 @@ class GridView extends Component {
 
   recognizeHeaders = (grids) => {
     return grids.map(({ props }) => {
-      const config = { children: props.header };
+      const config = { children: typeof props.header === 'function'? props.header() : props.header};
 
       if (props.headerClassName) {
         config.className = props.headerClassName;
