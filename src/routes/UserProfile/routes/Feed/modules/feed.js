@@ -8,6 +8,7 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import shallowEqual from '../../../../../utils/shallowEqual';
 import downloadBlob from '../../../../../utils/downloadBlob';
+import fixtures from '../fixtures';
 
 const KEY = 'user/feed/feed';
 const FETCH_FEED = createRequestAction(`${KEY}/fetch-feed`);
@@ -45,7 +46,7 @@ function fetchFeed(playerUUID, filters = { page: 0 }) {
             type: FETCH_FEED.REQUEST,
             meta: { filters },
           },
-          FETCH_FEED.SUCCESS,
+          { type: FETCH_FEED.SUCCESS, payload: fixtures },
           FETCH_FEED.FAILURE,
         ],
         bailout: !logged,

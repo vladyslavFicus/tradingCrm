@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from '../../../../../constants/propTypes';
+import ListView from '../../../../../components/ListView';
 import FeedItem from './FeedItem';
 
 class View extends Component {
@@ -66,7 +67,15 @@ class View extends Component {
 
         <div className="row">
           <div className="col-md-12">
-            {entities.map((item, key) => <FeedItem key={key} {...item} />)}
+            <ListView
+              dataSource={entities.content}
+              itemClassName="padding-bottom-20"
+              onPageChange={this.handlePageChanged}
+              render={(item, key) => <FeedItem key={key} data={item} letter="o" letterColor="green" />}
+              activePage={entities.number + 1}
+              totalPages={entities.totalPages}
+              lazyLoad
+            />
           </div>
         </div>
       </div>
