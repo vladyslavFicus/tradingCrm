@@ -116,14 +116,19 @@
     }
     .dropdown-item {
       padding: .8rem 1.5rem;
+      color: #000000;
       &:hover {
-        color: #000000;
+        color: #cccccc;
       }
     }
-    .dropdown:hover {
-      .dropdown-menu {
-        display: block;
-      }
-    }
+  }
+  .dropdown-btn {
+    font-size: 18px;
+    padding: 0 5px;
+    line-height: 1;
+    color: #fff;
+    background: transparent !important;
+    border: none !important;
+    text-align: left;
   }
 }

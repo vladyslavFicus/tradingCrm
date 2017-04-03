@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { IndexLink } from 'react-router';
 import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
+import NavbarNav from '../NavbarNav';
 import './Navbar.scss';
 
 class Navbar extends Component {
@@ -74,14 +75,7 @@ class Navbar extends Component {
           </form>
         </div>
         <div className="right-navigation">
-          <div className="nav-item dropdown">
-            <a className="nav-link dropdown-toggle" href="#">
-              <i className="fa fa-user" />
-            </a>
-            <div className="dropdown-menu">
-              <a className="dropdown-item" href="#">Log-out</a>
-            </div>
-          </div>
+          <NavbarNav />
         </div>
       </header>
     );

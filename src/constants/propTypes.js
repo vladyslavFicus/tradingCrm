@@ -202,5 +202,9 @@ PropTypes.userPanelItem = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
 });
+PropTypes.navbarNavItem = PropTypes.shape({
+  label: PropTypes.any.isRequired,
+  onClick: PropTypes.func,
+});
 
 export default PropTypes;
