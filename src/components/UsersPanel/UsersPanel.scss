@@ -1,18 +1,8 @@
-//@import "~bootstrap/scss/bootstrap.scss";
-@import "~font-awesome/css/font-awesome.min.css";
-@import "../../static/css/source/main.css";
-
-$nav-height: 48px;
-
-//colors
 $orange: #ff6600;
 $green: #009900;
 $purple: #6600ff;
 $blue: #0066ff;
 $pink: #cc00ff;
-$grey: #cccccc;
-
-
 
 .footer {
   position: fixed;
@@ -26,7 +16,7 @@ $grey: #cccccc;
   -moz-box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.149019607843137);
   -webkit-box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.149019607843137);
   box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.149019607843137);
-  color: $grey;
+  color: #cccccc;
   transition: .5s ease-out;
   overflow: hidden;
   &.empty {
@@ -46,31 +36,31 @@ $grey: #cccccc;
     &.view {
       padding-top: 0;
       transition: padding .2s ease, color .2s ease;
-      &.tab-1 .tab-div {
+      &.tab-orange .tab-div {
         margin-top: -4px;
         background: $orange;
         border-color: $orange;
 
       }
-      &.tab-2 .tab-div {
+      &.tab-green .tab-div {
         margin-top: -4px;
         background: $green;
         border-color: $green;
 
       }
-      &.tab-3 .tab-div {
+      &.tab-purple .tab-div {
         margin-top: -4px;
         background: $purple;
         border-color: $purple;
 
       }
-      &.tab-4 .tab-div {
+      &.tab-blue .tab-div {
         margin-top: -4px;
         background: $blue;
         border-color: $blue;
 
       }
-      &.tab-5 .tab-div {
+      &.tab-pink .tab-div {
         margin-top: -4px;
         background: $pink;
         border-color: $pink;
@@ -139,19 +129,19 @@ $grey: #cccccc;
     overflow: hidden;
     line-height: .9;
   }
-  .tab-1 .tab-child {
+  .tab-orange .tab-child {
     border-color: $orange;
   }
-  .tab-2 .tab-child {
+  .tab-green .tab-child {
     border-color: $green;
   }
-  .tab-3 .tab-child {
+  .tab-purple .tab-child {
     border-color: $purple;
   }
-  .tab-4 .tab-child {
+  .tab-blue .tab-child {
     border-color: $blue;
   }
-  .tab-5 .tab-child {
+  .tab-pink .tab-child {
     border-color: $pink;
   }
   .footer-menu {
@@ -191,13 +181,4 @@ $grey: #cccccc;
 
 .border-pink {
   border-color: $pink;
-}
-
-.section-container {
-  position: fixed;
-  height: 95%;
-  width: 100%;
-  margin-top: 48px;
-  padding: 40px 40px 40px 100px;
-  overflow-y: auto;
 }

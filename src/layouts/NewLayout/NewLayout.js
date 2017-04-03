@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import 'font-awesome/css/font-awesome.min.css';
 import classNames from 'classnames';
 import { IndexLink } from 'react-router';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
 import Sidebar from '../../components/Sidebar';
+import UsersPanel from '../../components/UsersPanel';
 
 import './NewLayout.scss';
 
@@ -15,28 +15,28 @@ class NewLayout extends Component {
     arrowToggle: false,
     footerOpen: false,
     // tabRemove: false,
-  };
+  }
 
   handleSearchFieldClick = () => {
-    this.setState({ searchFieldActive: true }, () => {
+    this.setState({searchFieldActive: true}, () => {
       this.searchInput.focus();
-    });
-  };
+    })
+  }
 
   handleOverlayClick = () => {
-    this.setState({ searchFieldActive: false });
-  };
+    this.setState({searchFieldActive: false});
+  }
 
   handleDropDownClick = () => {
-    this.setState({ dropDownOpen: !this.state.dropDownOpen, arrowToggle: !this.state.arrowToggle });
-  };
+    this.setState({dropDownOpen: !this.state.dropDownOpen, arrowToggle: !this.state.arrowToggle});
+  }
 
   handleFooterOpenClick = () => {
-    this.setState({ footerOpen: true });
-  };
+    this.setState({footerOpen: true});
+  }
 
-  render() {
-    const { children } = this.props;
+  render () {
+    const {children} = this.props;
 
     return (<div>
       {this.renderHeader()}
@@ -44,31 +44,32 @@ class NewLayout extends Component {
         topMenu={sidebarTopMenu}
         bottomMenu={sidebarBottomMenu}
       />
-      {this.renderTabs(children)}
+      {this.renderSection(children) }
+      <UsersPanel />
+      {/*{this.renderTabs()}*/}
     </div>);
   }
 
-  renderHeader() {
-    const { searchFieldActive } = this.state;
-    const { searchOverlayActive } = this.state;
-    const { dropDownOpen } = this.state;
-    const { arrowToggle } = this.state;
+  renderHeader () {
+    const {searchFieldActive} = this.state;
+    const {searchOverlayActive} = this.state;
+    const {dropDownOpen} = this.state;
+    const {arrowToggle} = this.state;
 
     return (
-      <header>
-        <nav className="navbar fixed-top navbar-toggleable navbar-inverse justify-content-center">
+      <header className="layout-header">
+        <nav className="navbar navbar-fixed-top">
           <IndexLink className="navbar-brand" href={'/'}>
-            <img className="img-fluid" src="/img/temp/logo.png" alt="current-lottery-logo" />
+            <img className="img-fluid" src="/img/temp/logo.png" alt="current-lottery-logo"/>
           </IndexLink>
 
-          <div className="collapse navbar-collapse align-items-center">
-            <ul className="navbar-nav mr-auto align-items-center">
-              <li className="nav-item dropdown mx-sm-2 mx-md-3 department">
+            <ul className="navbar-nav left-navigation">
+              <li className="nav-item dropdown department">
                 <a className="nav-link dropdown-toggle" href="#" onClick={this.handleDropDownClick}>
-                  Customer Service<i className={classNames('fa fa-angle-down', { arrowup: arrowToggle })} />
+                  Customer Service<i className={classNames('fa fa-angle-down', {arrowup: arrowToggle})} />
+                  <div className="role">Head of department</div>
                 </a>
-                <span className="role">Head of department</span>
-                <div className={classNames('dropdown-menu', { activated: dropDownOpen })}>
+                <div className={classNames('dropdown-menu', {activated: dropDownOpen})}>
                   <div className="dropdown-item">
                     <a href="#">Risk Fraud & Payment</a>
                     <span className="role">Manager</span>
@@ -85,16 +86,16 @@ class NewLayout extends Component {
                   className="form-control" type="text" placeholder="Type to search"
                   onClick={this.handleSearchFieldClick}
                 />
-                <div className={classNames('search-overlay', { open: searchFieldActive })}>
+                <div className={classNames('search-overlay', {open: searchFieldActive})}>
                   <div className="search-overlay__content">
                     <button
-                      type="button" className={classNames('overlay-close', { closed: searchOverlayActive })}
+                      type="button" className={classNames('overlay-close', {closed: searchOverlayActive})}
                       onClick={this.handleOverlayClick}
                     >&#10005;</button>
                     <div className="form-inline">
                       <input
                         className="form-control" type="text" placeholder="Search..." autoFocus ref={(node) => {
-                          this.searchInput = node;
+                          this.searchInput = node
                         }}
                       />
                     </div>
@@ -102,7 +103,7 @@ class NewLayout extends Component {
                 </div>
               </form>
             </ul>
-            <ul className="navbar-nav navigation-right">
+            <ul className="navbar-nav right-navigation">
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#">
                   <i className="fa fa-bell" />
@@ -111,7 +112,7 @@ class NewLayout extends Component {
                   <div className="dropdown-item">Notifications</div>
                 </div>
               </li>
-              <li className="nav-item dropdown mx-sm-4">
+              <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#">
                   <i className="fa fa-star" />
                 </a>
@@ -128,39 +129,18 @@ class NewLayout extends Component {
                 </div>
               </li>
             </ul>
-          </div>
         </nav>
       </header>
     );
   }
 
-  renderTabs = (children) => {
-    const { footerOpen } = this.state;
-    // const {tabRemove} = this.state;
-
+  renderSection = (children) => {
     return (
-      <footer className={`footer ${footerOpen ? 'empty' : ''}`}>
-        <div className="footer-content row">
-          <div className="footer-content_tab tab-1 col-2">
-            {children}
-          </div>
-          <div className="footer-content_tab tab-2 col-2">
-            {children}
-          </div>
-          <div className="footer-content_tab tab-3 col-2">
-            {children}
-          </div>
-          <div className="footer-content_tab tab-4 col-2">
-            {children}
-          </div>
-          <div className="footer-content_tab tab-5 col-2">
-            {children}
-          </div>
+      <section>
+        <div className="section-container">
+          {children}
         </div>
-        <div className="footer-menu" onClick={this.handleFooterOpenClick}>
-          &#10005;
-        </div>
-      </footer>
+      </section>
     );
   }
 }
