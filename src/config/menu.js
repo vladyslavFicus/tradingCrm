@@ -1,5 +1,5 @@
-import Permissions, { CONDITIONS } from 'utils/permissions';
-import permission from 'config/permissions';
+import Permissions, { CONDITIONS } from '../utils/permissions';
+import permission from './permissions';
 
 const sidebar = [
   {
@@ -13,9 +13,7 @@ const sidebar = [
   {
     label: 'Operators',
     icon: 'fa fa-user',
-    items: [
-      { label: 'All', url: '/operators/list' },
-    ],
+    url: '/operators/list',
   },
   {
     label: 'Payments',
@@ -55,6 +53,8 @@ const userProfileTabs = [
   { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Transactions', url: '/users/:id/transactions' },
   { label: 'Limits', url: '/users/:id/limits' },
+  { label: 'Files', url: '/users/:id/files' },
+  { label: 'Notes', url: '/users/:id/notes' },
   { label: 'Feed', url: '/users/:id/feed' },
 ];
 

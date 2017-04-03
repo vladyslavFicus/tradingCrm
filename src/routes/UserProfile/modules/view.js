@@ -3,31 +3,34 @@ import { combineReducers } from 'redux';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import timestamp from '../../../utils/timestamp';
+import { shortify } from '../../../utils/uuid';
 import buildFormData from '../../../utils/buildFormData';
 import { actions } from '../../../constants/user';
-import { actions as filesActions } from '../../../constants/files';
+import { actions as filesActions, categories as filesCategories } from '../../../constants/files';
 import downloadBlob from '../../../utils/downloadBlob';
 import { getApiRoot } from '../../../config';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
+import { sourceActionCreators as filesSourceActionCreators } from '../../../redux/modules/files';
+import { actionTypes as userProfileFilesActionTypes } from '../routes/Files/modules/files';
 
 const KEY = 'user-profile';
 const PROFILE = createRequestAction(`${KEY}/view`);
 const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
-const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
 const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
 const REFUSE_DATA = createRequestAction(`${KEY}/refuse-data`);
-const DOWNLOAD_FILE = createRequestAction(`${KEY}/download-file`);
 const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
 const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
+
+const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
+const DOWNLOAD_FILE = createRequestAction(`${KEY}/download-file`);
 const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
-const RESUME_PROFILE = createRequestAction(`${KEY}/resume-profile`);
 const BLOCK_PROFILE = createRequestAction(`${KEY}/block-profile`);
 const UNBLOCK_PROFILE = createRequestAction(`${KEY}/unblock-profile`);
 
@@ -140,6 +143,10 @@ const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
 const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
+const changeStatusByAction = filesSourceActionCreators.changeStatusByAction({
+  [filesActions.VERIFY]: VERIFY_FILE,
+  [filesActions.REFUSE]: REFUSE_FILE,
+});
 
 function updateSubscription(playerUUID, name, value) {
   return (dispatch, getState) => {
@@ -516,28 +523,6 @@ function suspendProfile({ playerUUID, ...data }) {
   };
 }
 
-function resumeProfile({ playerUUID, ...data }) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `profile/profiles/${playerUUID}/resume`,
-        method: 'PUT',
-        types: [RESUME_PROFILE.REQUEST, RESUME_PROFILE.SUCCESS, RESUME_PROFILE.FAILURE],
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-        bailout: !logged,
-      },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
-  };
-}
-
 function blockProfile({ playerUUID, ...data }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -598,84 +583,114 @@ function changeStatus({ action, ...data }) {
   };
 }
 
-function verifyFile(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/files/${uuid}/status/verify`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          VERIFY_FILE.REQUEST,
-          VERIFY_FILE.SUCCESS,
-          VERIFY_FILE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function refuseFile(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/files/${uuid}/status/refuse`,
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          REFUSE_FILE.REQUEST,
-          REFUSE_FILE.SUCCESS,
-          REFUSE_FILE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function changeStatusByAction(uuid, action) {
-  return (dispatch) => {
-    switch (action) {
-      case filesActions.VERIFY: {
-        return dispatch(verifyFile(uuid));
-      }
-      case filesActions.REFUSE: {
-        return dispatch(refuseFile(uuid));
-      }
-      default:
-        return null;
-    }
-  };
-}
-
 function loadFullProfile(uuid) {
   return dispatch => dispatch(fetchProfile(uuid))
     .then(() => dispatch(fetchBalances(uuid)))
     .then(() => dispatch(checkLock(uuid)));
 }
 
-const successUpdateProfileReducer = (state, action) => ({
-  ...state,
-  data: {
-    ...state.data,
-    ...action.payload,
-  },
-  isLoading: false,
-  receivedAt: timestamp(),
-});
+function successUpdateProfileReducer(state, action) {
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      ...action.payload,
+      fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
+      shortUUID: shortify(action.payload.uuid, 'PL'),
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  };
+}
+function successUpdateFileStatusReducer(state, action) {
+  let field;
+  if (action.payload.category === filesCategories.KYC_PERSONAL) {
+    field = 'personalKycMetaData';
+  } else if (action.payload.category === filesCategories.KYC_ADDRESS) {
+    field = 'addressKycMetaData';
+  }
+
+  if (!field) {
+    return state;
+  }
+
+  const index = state.data[field].findIndex(file => file.uuid === action.payload.uuid);
+
+  if (index === -1) {
+    return state;
+  }
+
+  const newState = {
+    ...state,
+    data: {
+      ...state.data,
+      [field]: [
+        ...state.data[field],
+      ],
+    },
+  };
+  newState.data[field][index] = action.payload;
+
+  return newState;
+}
+
+function successUploadFilesReducer(state, action) {
+  const profileFiles = action.payload
+    .filter(i => [filesCategories.KYC_PERSONAL, filesCategories.KYC_ADDRESS].indexOf(i.category) > -1);
+
+  if (!profileFiles.length) {
+    return state;
+  }
+
+  const newState = {
+    ...state,
+  };
+
+  profileFiles.forEach((file) => {
+    if (file.category === filesCategories.KYC_PERSONAL) {
+      newState.data.personalKycMetaData = [
+        ...newState.data.personalKycMetaData,
+        file,
+      ];
+    } else if (file.category === filesCategories.KYC_PERSONAL) {
+      newState.data.personalKycMetaData = [
+        ...newState.data.personalKycMetaData,
+        file,
+      ];
+    }
+  });
+
+  return newState;
+}
+
+function successDeleteFileReducer(state, action) {
+  if (!action.meta && !action.meta.uuid) {
+    return state;
+  }
+
+  const fields = ['personalKycMetaData', 'addressKycMetaData'];
+  let index;
+  for (const field of fields) {
+    index = state.data[field].findIndex(file => file.uuid === action.meta.uuid);
+
+    if (index !== -1) {
+      const newState = {
+        ...state,
+        data: {
+          ...state.data,
+          [field]: [
+            ...state.data[field],
+          ],
+        },
+      };
+      newState.data[field].splice(index, 1);
+
+      return newState;
+    }
+  }
+
+  return state;
+}
 
 const balanceActionHandlers = {
   [FETCH_BALANCES.REQUEST]: state => ({
@@ -736,6 +751,12 @@ const profileActionHandlers = {
   [UPDATE_IDENTIFIER.SUCCESS]: successUpdateProfileReducer,
   [VERIFY_DATA.SUCCESS]: successUpdateProfileReducer,
   [REFUSE_DATA.SUCCESS]: successUpdateProfileReducer,
+  [VERIFY_FILE.SUCCESS]: successUpdateFileStatusReducer,
+  [REFUSE_FILE.SUCCESS]: successUpdateFileStatusReducer,
+  [userProfileFilesActionTypes.VERIFY_FILE.SUCCESS]: successUpdateFileStatusReducer,
+  [userProfileFilesActionTypes.REFUSE_FILE.SUCCESS]: successUpdateFileStatusReducer,
+  [userProfileFilesActionTypes.DELETE_FILE.SUCCESS]: successDeleteFileReducer,
+  [userProfileFilesActionTypes.SAVE_FILES.SUCCESS]: successUploadFilesReducer,
   ...balanceActionHandlers,
 };
 const depositActionHandlers = {
