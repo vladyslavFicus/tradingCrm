@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from '../../constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
-import LayoutHeader from '../../components/LayoutHeader';
+import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
 import './NewLayout.scss';
@@ -24,7 +24,7 @@ class NewLayout extends Component {
 
     return (
       <div>
-        <LayoutHeader />
+        <Navbar />
         <Sidebar
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from '../../constants/propTypes';
+import './UsersPanelItem.scss';
 
 class UsersPanelItem extends Component {
   static propTypes = {
@@ -18,9 +19,9 @@ class UsersPanelItem extends Component {
     } = this.props;
 
     return (
-      <button className={`btn-transparent footer-content_tab tab-${color} col-xs-2`}>
-        <div className="tab-div">
-          <div className="tab-child">
+      <button className={`btn-transparent users-panel-row_item tab-${color}`}>
+        <div className="users-panel-row_item-block">
+          <div className="users-panel-row_item-block-info">
             <div className="player-name">{fullName}</div>
             <div className="player-info">{login} - {uuid}</div>
           </div>

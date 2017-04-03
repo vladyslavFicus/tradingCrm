@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import PropTypes from '../../constants/propTypes';
+import './DepartmentsDropDown.scss';
 
 class DepartmentsDropDown extends Component {
   static propTypes = {
@@ -38,7 +39,7 @@ class DepartmentsDropDown extends Component {
 
     return (
       <Dropdown isOpen={active} toggle={this.handleToggleState}>
-        <DropdownToggle>
+        <DropdownToggle className="dropdown-btn">
           {currentDepartmentNode}
         </DropdownToggle>
         <DropdownMenu>

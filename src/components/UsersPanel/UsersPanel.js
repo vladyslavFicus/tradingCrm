@@ -13,12 +13,12 @@ class UsersPanel extends Component {
     const { items, onClose } = this.props;
 
     return (
-      <footer className="footer">
-        <div className="footer-content row">
+      <footer className="users-panel">
+        <div className="users-panel-row">
           {items.map(item => <UsersPanelItem key={item.uuid} {...item} />)}
         </div>
 
-        <button className="footer-menu btn-transparent" onClick={onClose}>
+        <button className="users-panel-menu btn-transparent" onClick={onClose}>
           &times;
         </button>
       </footer>
