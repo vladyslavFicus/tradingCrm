@@ -132,7 +132,7 @@ export const mapBalances = items =>
     .keys(items)
     .reduce((result, item) => (
       result.push({
-        amount: parseFloat(items[item].replace(item, '')).toFixed(2),
+        amount: parseFloat(parseFloat(items[item].replace(item, '')).toFixed(2)),
         currency: item,
       }),
         result
