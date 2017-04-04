@@ -1,15 +1,15 @@
 import React from 'react';
+import moment from 'moment';
 import PropTypes from '../../../../../../constants/propTypes';
 import { attributeLabels } from '../../../../../../constants/user';
-import moment from 'moment';
 
-const formaters = {
+const formatters = {
   birthDate: [value => moment(value).format('DD.MM.YYYY')],
   tokenExpirationDate: [value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
 };
 const formatValue = (attribute, value) => {
-  return formaters[attribute]
-    ? formaters[attribute].reduce((res, formatter) => formatter(res), value)
+  return formatters[attribute]
+    ? formatters[attribute].reduce((res, formatter) => formatter(res), value)
     : value;
 };
 
