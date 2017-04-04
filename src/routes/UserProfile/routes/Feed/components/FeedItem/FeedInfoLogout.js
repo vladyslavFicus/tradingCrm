@@ -41,7 +41,7 @@ const FeedInfoLogout = ({ data }) => (
     {
       data.details.sessionEnd &&
       <div>
-        Session Start:
+        Session End:
         <span className="information_value">
           {moment(data.details.sessionEnd).format('YYYY-MM-DD \\a\\t HH:mm:ss')}
         </span>
