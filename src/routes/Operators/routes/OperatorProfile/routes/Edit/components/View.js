@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Form from './Form';
 import DepartmentsForm from './DepartmentsForm';
 import PropTypes from '../../../../../../../constants/propTypes';
+import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
 
 class View extends Component {
   static propTypes = {
@@ -19,8 +20,8 @@ class View extends Component {
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
     authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
-    departments: PropTypes.arrayOf(PropTypes.configDepartmentEntity),
-    roles: PropTypes.arrayOf(PropTypes.configRoleEntity),
+    departments: PropTypes.arrayOf(PropTypes.dropDownOption),
+    roles: PropTypes.arrayOf(PropTypes.dropDownOption),
   };
 
   handleSubmit = data => this.props.updateProfile(this.props.params.id, data);
@@ -77,8 +78,8 @@ class View extends Component {
                   {
                     authorities.map((authority, key) => (
                       <div key={key} className="form-group col-md-12">
-                        <div className="col-md-4 font-weight-700">
-                          {authority.department} - {authority.role}
+                        <div className="col-md-5 font-weight-700">
+                          {departmentsLabels[authority.department]} - {rolesLabels[authority.role]}
                           <i
                             onClick={() => this.handleDeleteAuthority(authority.department, authority.role)}
                             className="fa fa-trash color-danger float-right"

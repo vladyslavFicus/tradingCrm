@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { SelectField } from '../../../../../../../components/ReduxForm/UserProfile';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../../utils/validator';
+import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
 
 const attributeLabels = {
   department: 'Department',
@@ -33,8 +34,8 @@ class DepartmentsForm extends Component {
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     onFetch: PropTypes.func.isRequired,
-    roles: PropTypes.arrayOf(PropTypes.configRoleEntity),
-    departments: PropTypes.arrayOf(PropTypes.configDepartmentEntity),
+    roles: PropTypes.arrayOf(PropTypes.dropDownOption),
+    departments: PropTypes.arrayOf(PropTypes.dropDownOption),
     authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
   };
 
@@ -86,7 +87,7 @@ class DepartmentsForm extends Component {
         {
           this.state.show &&
             <div className="row">
-              <div className="col-lg-8">
+              <div className="col-lg-10">
                 <form
                   onSubmit={handleSubmit(this.handleSubmitAndHide)}
                 >
@@ -103,7 +104,7 @@ class DepartmentsForm extends Component {
                           {
                             availableDepartments.map(({ label, value }) => (
                               <option key={value} value={value}>
-                                {label}
+                                {departmentsLabels[label]}
                               </option>
                             ))
                           }
@@ -122,7 +123,7 @@ class DepartmentsForm extends Component {
                           {
                             roles.map(({ label, value }) => (
                               <option key={value} value={value}>
-                                {label}
+                                {rolesLabels[label]}
                               </option>
                             ))
                           }

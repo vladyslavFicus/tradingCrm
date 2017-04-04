@@ -167,11 +167,7 @@ PropTypes.authorityEntity = PropTypes.shape({
   department: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
 });
-PropTypes.configRoleEntity = PropTypes.shape({
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-});
-PropTypes.configDepartmentEntity = PropTypes.shape({
+PropTypes.dropDownOption = PropTypes.shape({
   label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
 });
