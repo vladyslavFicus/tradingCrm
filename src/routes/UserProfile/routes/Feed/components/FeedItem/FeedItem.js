@@ -12,7 +12,7 @@ import FeedInfoProfileChanged from './FeedInfoProfileChanged';
 class FeedItem extends Component {
   static propTypes = {
     letter: PropTypes.string.isRequired,
-    letterColor: PropTypes.oneOf(['green', 'blue', 'red']).isRequired,
+    color: PropTypes.oneOf(['', 'orange', 'blue']),
     data: PropTypes.auditEntity.isRequired,
   };
   state = {
@@ -40,20 +40,20 @@ class FeedItem extends Component {
     const { opened } = this.state;
     const {
       letter,
-      letterColor,
+      color,
       data,
     } = this.props;
 
     return (
       <div className="row feed-item">
         <div className="col-xs-1">
-          <div className={`letter letter-${letterColor}`}>
+          <div className={`letter letter-${color}`}>
             {letter}
           </div>
         </div>
         <div className="col-xs-11 padding-left-0">
           <div className="first-row">
-            <span className="audit-name">{data.authorFullName}</span> - {shortify(data.authorUuid)}
+            <span className={classNames('audit-name', color)}>{data.authorFullName}</span> - {shortify(data.authorUuid)}
             <span className="pull-right">{shortify(data.uuid)}</span>
           </div>
           <div className="date-time-ip">

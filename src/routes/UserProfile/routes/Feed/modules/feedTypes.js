@@ -6,13 +6,13 @@ import timestamp from '../../../../../utils/timestamp';
 const KEY = 'user/feed/feed-types';
 const FETCH_FEED_TYPES = createRequestAction(`${KEY}/fetch-feed-types`);
 
-function fetchFeedTypes() {
+function fetchFeedTypes(playerUUID) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: '/audit/audit/logs/types',
+        endpoint: `/audit/audit/logs/${playerUUID}/types`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -31,7 +31,7 @@ function fetchFeedTypes() {
 }
 
 const initialState = {
-  entities: {},
+  data: [],
   error: null,
   isLoading: false,
   receivedAt: null,
@@ -44,7 +44,7 @@ const actionHandlers = {
   }),
   [FETCH_FEED_TYPES.SUCCESS]: (state, action) => ({
     ...state,
-    entities: action.payload.reduce((result, item) => ({ ...result, [item]: item }), {}),
+    data: Object.keys(action.payload),
     isLoading: false,
     receivedAt: timestamp(),
   }),

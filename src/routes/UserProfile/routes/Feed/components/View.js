@@ -3,14 +3,18 @@ import classNames from 'classnames';
 import PropTypes from '../../../../../constants/propTypes';
 import ListView from '../../../../../components/ListView';
 import FeedItem from './FeedItem';
+import FeedFilterForm from './FeedFilterForm';
 
 class View extends Component {
   static propTypes = {
-    feed: PropTypes.pageableState().isRequired,
+    feed: PropTypes.pageableState(PropTypes.auditEntity).isRequired,
+    feedTypes: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
     fetchFeed: PropTypes.func.isRequired,
+    exportFeed: PropTypes.func.isRequired,
     params: PropTypes.object,
   };
-
   static defaultProps = {
     isLoading: false,
   };
@@ -44,10 +48,21 @@ class View extends Component {
     }, () => this.handleRefresh());
   };
 
+  handleExportClick = () => {
+    this.props.exportFeed(this.props.params.id, {
+      ...this.state.filters,
+      page: this.state.page,
+    });
+  };
+
   render() {
     const {
       feed: {
         entities,
+        exporting,
+      },
+      feedTypes: {
+        data: availableTypes,
       },
     } = this.props;
 
@@ -59,11 +74,16 @@ class View extends Component {
           </div>
 
           <div className="col-md-3 col-md-offset-6 text-right">
-            <button disabled className="btn btn-default-outline">
+            <button disabled={exporting} className="btn btn-default-outline" onClick={this.handleExportClick}>
               Export
             </button>
           </div>
         </div>
+
+        <FeedFilterForm
+          availableTypes={availableTypes}
+          onSubmit={this.handleFiltersChanged}
+        />
 
         <div className="row">
           <div className="col-md-12">
@@ -71,7 +91,30 @@ class View extends Component {
               dataSource={entities.content}
               itemClassName="padding-bottom-20"
               onPageChange={this.handlePageChanged}
-              render={(item, key) => <FeedItem key={key} data={item} letter="o" letterColor="green" />}
+              render={(item, key) => {
+                const options = {
+                  color: '',
+                  letter: 'P',
+                };
+
+                if (item.authorUuid !== item.targetUuid) {
+                  if (item.authorUuid) {
+                    options.color = 'blue';
+                    options.letter = 'o';
+                  } else {
+                    options.color = 'orange';
+                    options.letter = 's';
+                  }
+                }
+
+                return (
+                  <FeedItem
+                    key={key}
+                    data={item}
+                    {...options}
+                  />
+                );
+              }}
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad

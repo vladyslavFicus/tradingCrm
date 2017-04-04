@@ -63,7 +63,7 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
     }
 
     const queryString = buildQueryString(_.omitBy(mapListArrayValues(filters, arrayedFilters), val => !val));
-    const requestUrl = `${getApiRoot()}/gaming_activity/gaming/activity/${playerUUID}?${queryString}`;
+    const requestUrl = `${getApiRoot()}/audit/audit/logs/${playerUUID}?${queryString}&sort=creationDate,desc`;
     const response = await fetch(requestUrl, {
       method: 'GET',
       headers: {
@@ -74,7 +74,7 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
     });
 
     const blobData = await response.blob();
-    downloadBlob(`player-game-activity-${playerUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`player-audit-log-${playerUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
     return dispatch({ type: EXPORT_FEED.SUCCESS });
   };
