@@ -37,7 +37,7 @@ class FeedFilterForm extends Component {
   };
 
   handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DDTHH:mm:00') : '');
+    callback(value && moment.isMoment(value) ? value.format('YYYY-MM-DDTHH:mm:00') : '');
   };
 
   handleReset = () => {

@@ -13,7 +13,7 @@ const KEY = 'user/feed/feed';
 const FETCH_FEED = createRequestAction(`${KEY}/fetch-feed`);
 const EXPORT_FEED = createRequestAction(`${KEY}/export-feed`);
 
-const arrayedFilters = ['providers', 'games', 'gameTypes', 'betTypes', 'winTypes'];
+const arrayedFilters = ['actionType'];
 const mapListArrayValues = (values, fields) => {
   const mapped = { ...values };
 
