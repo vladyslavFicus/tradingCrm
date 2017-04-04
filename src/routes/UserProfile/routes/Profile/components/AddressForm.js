@@ -91,7 +91,7 @@ class AddressForm extends Component {
               />
 
               <Field
-                name="address"
+                name="fullAddress"
                 label={attributeLabels.address}
                 type="text"
                 component={TextAreaField}

@@ -8,7 +8,6 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import shallowEqual from '../../../../../utils/shallowEqual';
 import downloadBlob from '../../../../../utils/downloadBlob';
-import fixtures from '../fixtures';
 
 const KEY = 'user/feed/feed';
 const FETCH_FEED = createRequestAction(`${KEY}/fetch-feed`);
@@ -34,7 +33,7 @@ function fetchFeed(playerUUID, filters = { page: 0 }) {
     const queryString = buildQueryString(_.omitBy(mapListArrayValues(filters, arrayedFilters), val => !val));
     return dispatch({
       [CALL_API]: {
-        endpoint: `/audit/audit/logs/${playerUUID}?${queryString}`,
+        endpoint: `/audit/audit/logs/${playerUUID}?${queryString}&sort=creationDate,desc`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -46,7 +45,7 @@ function fetchFeed(playerUUID, filters = { page: 0 }) {
             type: FETCH_FEED.REQUEST,
             meta: { filters },
           },
-          { type: FETCH_FEED.SUCCESS, payload: fixtures },
+          FETCH_FEED.SUCCESS,
           FETCH_FEED.FAILURE,
         ],
         bailout: !logged,
@@ -81,6 +80,12 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
   };
 }
 
+const mapAuditEntities = entities => entities.map((entity) => {
+  return typeof entity.details === 'string'
+    ? { ...entity, details: JSON.parse(entity.details) }
+    : entity;
+});
+
 const actionHandlers = {
   [FETCH_FEED.REQUEST]: (state, action) => ({
     ...state,
@@ -94,11 +99,12 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       ...action.payload,
+      ...action.payload,
       content: action.payload.number === 0
-        ? action.payload.content
+        ? mapAuditEntities(action.payload.content)
         : [
           ...state.entities.content,
-          ...action.payload.content,
+          ...mapAuditEntities(action.payload.content),
         ],
     },
     isLoading: false,
