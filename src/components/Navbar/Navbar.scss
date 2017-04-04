@@ -21,10 +21,11 @@
     }
   }
   .left-navigation {
+    display: flex;
     margin-right: auto;
   }
   .dropdown-menu {
-    top: 100%;
+    top: 124%;
     margin: 0;
     padding: 0;
     border: none;
@@ -111,6 +112,7 @@
     }
     .dropdown-menu {
       width: auto;
+      top: 101%;
       right: 0;
       left: auto;
     }
