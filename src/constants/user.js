@@ -1,5 +1,48 @@
 import keyMirror from 'keymirror';
 
+const attributeLabels = {
+  acceptedTermsId: 'Accepted terms ID',
+  address: 'Address',
+  addressKycMetaData: 'Address files',
+  addressStatus: 'Address status',
+  affiliateId: 'Affiliate ID',
+  birthDate: 'Birth date',
+  btag: 'B-Tag',
+  city: 'City',
+  completed: 'Profile completion',
+  country: 'Country',
+  email: 'E-mail',
+  firstName: 'First name',
+  gender: 'Gender',
+  id: 'Profile ID',
+  identifier: 'Passport ID',
+  kycCompleted: 'KYC Completion',
+  kycStatus: 'KYC Status',
+  kycStatusReason: 'KYC Status reason',
+  languageCode: 'Language',
+  lastName: 'Last name',
+  marketingMail: 'Marketing Mails',
+  marketingNews: 'Marketing News',
+  marketingSMS: 'Marketing SMS',
+  personalKycMetaData: 'Personal files',
+  personalStatus: 'Personal status',
+  phoneNumber: 'Phone number',
+  phoneNumberVerified: 'Phone number verification',
+  postCode: 'Post code',
+  profileStatus: 'Status',
+  profileStatusComment: 'Status comment',
+  profileStatusReason: 'Status reason',
+  profileTags: 'Profile tags',
+  registrationDate: 'Registration date',
+  registrationIP: 'Registration IP',
+  suspendEndDate: 'Suspend end date',
+  title: 'Title',
+  token: 'Token',
+  tokenExpirationDate: 'Token expiration date',
+  username: 'Username',
+  uuid: 'ID',
+};
+
 const statuses = keyMirror({
   INACTIVE: null,
   ACTIVE: null,
@@ -70,6 +113,7 @@ const statusColorNames = {
 };
 
 export {
+  attributeLabels,
   statuses,
   statusesLabels,
   actions,

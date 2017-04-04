@@ -210,5 +210,17 @@ PropTypes.navbarNavItem = PropTypes.shape({
   label: PropTypes.any.isRequired,
   onClick: PropTypes.func,
 });
+PropTypes.auditEntity = PropTypes.shape({
+  authorFullName: PropTypes.string.isRequired,
+  authorUuid: PropTypes.string.isRequired,
+  creationDate: PropTypes.string.isRequired,
+  details: PropTypes.object.isRequired,
+  id: PropTypes.number.isRequired,
+  ip: PropTypes.string.isRequired,
+  targetFullName: PropTypes.string.isRequired,
+  targetUuid: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+});
 
 export default PropTypes;

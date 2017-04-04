@@ -58,6 +58,7 @@ const userProfileTabs = [
   { label: 'Limits', url: '/users/:id/limits' },
   { label: 'Files', url: '/users/:id/files' },
   { label: 'Notes', url: '/users/:id/notes' },
+  { label: 'Feed', url: '/users/:id/feed' },
 ];
 
 const operatorProfileTabs = [

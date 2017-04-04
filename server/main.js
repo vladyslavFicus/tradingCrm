@@ -44,7 +44,7 @@ if (config.env === 'development') {
   // when the application is compiled.
   app.use(serve(paths.client('static')));
   app.use(async (ctx, next) => {
-    if ('/config.js' === ctx.path) {
+    if (ctx.path === '/config.js') {
       ctx.body = `window.nas = ${JSON.stringify(config.applicationConfig, null, 2)};`;
     }
 
