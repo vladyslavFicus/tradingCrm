@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { shortify } from '../../utils/uuid';
-import { statuses, statusActions, statusesColorNames, statusesLabels } from '../../constants/files';
+import { statuses, statusActions, statusesColorNames, statusesLabels, actionsColorNames } from '../../constants/files';
+import './FileStatusDropDown.scss';
 
 class FileStatusDropDown extends Component {
   static propTypes = {
@@ -26,18 +27,19 @@ class FileStatusDropDown extends Component {
 
     const label = (
       <div>
-        <div className={classNames('font-weight-700', statusesColorNames[status.value])}>
+        <div className={classNames('font-weight-700 file-status', statusesColorNames[status.value])}>
           {
             statusesLabels[status.value]
               ? statusesLabels[status.value]
               : status.value
           }
+          <i className="fa fa-angle-down" />
         </div>
         {
           status.value !== statuses.UNDER_REVIEW &&
-          <span className="font-size-10 color-default">
+          <div className="font-size-10 color-default">
               by {shortify(status.author)}
-            </span>
+          </div>
         }
       </div>
     );
@@ -56,10 +58,10 @@ class FileStatusDropDown extends Component {
             statusActions[status.value].map(item => (
               <DropdownItem
                 onClick={() => this.props.onStatusChange(item.action)}
-                className="text-uppercase"
+                className={classNames('text-uppercase', actionsColorNames[item.action])}
                 key={item.label}
               >
-                <div className={'font-weight-700'}>
+                <div className="font-weight-700">
                   {item.label}
                 </div>
               </DropdownItem>
