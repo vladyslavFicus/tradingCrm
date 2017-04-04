@@ -8,6 +8,7 @@ import './FeedItem.scss';
 import FeedInfoLogin from './FeedInfoLogin';
 import FeedInfoLogout from './FeedInfoLogout';
 import FeedInfoProfileChanged from './FeedInfoProfileChanged';
+import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
 
 class FeedItem extends Component {
   static propTypes = {
@@ -31,6 +32,8 @@ class FeedItem extends Component {
         return <FeedInfoLogout data={data} />;
       case types.PLAYER_PROFILE_CHANGED:
         return <FeedInfoProfileChanged data={data} />;
+      case types.PLAYER_PROFILE_REGISTERED:
+        return <FeedInfoProfileRegistered data={data} />;
       default:
         return null;
     }
@@ -53,7 +56,9 @@ class FeedItem extends Component {
         </div>
         <div className="col-xs-11 padding-left-0">
           <div className="first-row">
-            <span className={classNames('audit-name', color)}>{data.authorFullName}</span> - {shortify(data.authorUuid)}
+            <span className={classNames('audit-name', color)}>
+              {data.authorFullName}
+            </span> - {shortify(data.authorUuid, data.authorUuid === data.targetUuid ? 'PL' : null)}
             <span className="pull-right">{shortify(data.uuid)}</span>
           </div>
           <div className="date-time-ip">
