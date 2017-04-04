@@ -47,6 +47,29 @@ const statusActions = {
   ],
 };
 
+const departments = keyMirror({
+  CS: null,
+  RFP: null,
+  MARKETING: null,
+});
+const departmentsLabels = {
+  [departments.CS]: 'Customer service',
+  [departments.RFP]: 'Risk Fraud & Payment',
+  [departments.MARKETING]: 'Marketing',
+};
+const roles = keyMirror({
+  ROLE1: null,
+  ROLE2: null,
+  ROLE3: null,
+  ROLE4: null,
+});
+const rolesLabels = {
+  [roles.ROLE1]: 'Executive',
+  [roles.ROLE2]: 'Team Leader',
+  [roles.ROLE3]: 'Manager',
+  [roles.ROLE4]: 'Head of department',
+};
+
 export {
   actions,
   statuses,
@@ -54,4 +77,8 @@ export {
   statusColorNames,
   statusActions,
   reasons,
+  departments,
+  departmentsLabels,
+  roles,
+  rolesLabels,
 };

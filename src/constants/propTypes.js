@@ -194,5 +194,25 @@ PropTypes.limitPeriodEntity = PropTypes.shape({
   [limitTypes.LOSS]: PropTypes.arrayOf(PropTypes.string).isRequired,
   [limitTypes.WAGER]: PropTypes.arrayOf(PropTypes.string).isRequired,
 });
+PropTypes.navSubItem = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+});
+PropTypes.navItem = PropTypes.shape({
+  icon: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string,
+  items: PropTypes.arrayOf(PropTypes.navSubItem),
+});
+PropTypes.userPanelItem = PropTypes.shape({
+  fullName: PropTypes.string.isRequired,
+  login: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+});
+PropTypes.navbarNavItem = PropTypes.shape({
+  label: PropTypes.any.isRequired,
+  onClick: PropTypes.func,
+});
 
 export default PropTypes;
