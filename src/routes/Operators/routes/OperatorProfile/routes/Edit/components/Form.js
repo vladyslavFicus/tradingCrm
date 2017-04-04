@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { InputField, SelectField } from 'components/ReduxForm/UserProfile';
-import { createValidator } from 'utils/validator';
 import countryList from 'country-list';
+import { InputField, SelectField } from '../../../../../../../components/ReduxForm/UserProfile';
+import { createValidator } from '../../../../../../../utils/validator';
 
 const attributeLabels = {
   firstName: 'First name',
@@ -102,7 +102,7 @@ class Form extends Component {
             >
               {Object
                 .keys(countries)
-                .map((key) => <option key={key} value={key}>{countries[key]}</option>)
+                .map(key => <option key={key} value={key}>{countries[key]}</option>)
               }
             </Field>
           </div>

@@ -12,17 +12,26 @@ import ip, {
   initialState as ipInitialState,
 } from './ip';
 
+import authorities, {
+  actionCreators as authoritiesActionCreators,
+  actionTypes as authoritiesActionTypes,
+  initialState as authoritiesInitialState,
+} from './authorities';
+
 const actionCreators = {
   ...viewActionCreators,
   ...ipActionCreators,
+  ...authoritiesActionCreators,
 };
 
 const actionTypes = {
   ...viewActionTypes,
   ...ipActionTypes,
+  ...authoritiesActionTypes,
 };
 
 const initialState = {
+  authorities: authoritiesInitialState,
   view: viewInitialState,
   ip: ipInitialState,
 };
@@ -36,4 +45,5 @@ export {
 export default combineReducers({
   view,
   ip,
+  authorities,
 });

@@ -21,7 +21,7 @@ class Departments extends Component {
               DEPARTMENTS
             </small>
             {
-              authorities.length &&
+              !!authorities.length &&
               <div className="row padding-15">
                 {
                   authorities.map(authority =>
