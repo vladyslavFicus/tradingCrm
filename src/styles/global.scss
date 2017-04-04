@@ -1,3 +1,119 @@
 // Temporary solution for system-wide styles
 
 @import "header";
+
+.filter-row {
+  @include flexbox();
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  &_big {
+    @include flex(0.1 0 350px);
+    padding: 0 .5rem;
+  }
+  &_middle {
+    @include flex(0.1 0 250px);
+    padding: 0 .5rem;
+  }
+  &_small {
+    @include flex(0.1 0 150px);
+    padding: 0 .5rem;
+  }
+  .input-group {
+    @include flexbox();
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    label,
+    input,
+    .form-input-icon {
+      @include flex(0 0 100%);
+    }
+  }
+  .form-group__with-select {
+    @include flexbox();
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    label,
+    select {
+      @include flex(0 0 100%);
+    }
+  }
+  .two-inputs {
+    @include flexbox();
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    .form-label {
+      @include flex(0 0 100%);
+    }
+    .form-control {
+      @include flex(0 0 44%);
+    }
+  }
+  .two-inputs__with-date {
+    .input-group {
+      display: table;
+    }
+    .form-group {
+      @include flex(0 0 48%);
+      margin-bottom: 0;
+    }
+  }
+  .dash {
+    align-self: center;
+  }
+  .dash:after {
+    content: '\2013';
+    position: relative;
+    bottom: 2px;
+  }
+  .button-block {
+    margin-left: auto;
+    margin-top: 4px;
+    align-self: center;
+    .form-group {
+      @include flexbox();
+      -webkit-flex-flow: row nowrap;
+      flex-flow: row nowrap;
+      justify-content: flex-end;
+      margin-bottom: 0;
+    }
+    .btn {
+      font-weight: 700;
+      padding: 6px 16px;
+    }
+    .btn-primary {
+      margin-left: 15px;
+    }
+  }
+  .fa-times {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    font-size: 12px;
+    cursor: pointer;
+    color: #990000;
+  }
+  .input-case {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 2px 4px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    z-index: 10;
+    font-size: 14px;
+    color: #fff;
+    background-color: rgba(0, 102, 153, 1);
+    cursor: pointer;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+    &.toggled {
+      color: #999999;
+      background-color: #e4e4e4;
+    }
+  }
+}
