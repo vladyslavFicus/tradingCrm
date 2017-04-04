@@ -77,11 +77,9 @@ class NewLayout extends Component {
   }
 
   renderSection = children => (
-    <section>
-      <div className="section-container">
-        {children}
-      </div>
-    </section>
+    <div className="section-container">
+      {children}
+    </div>
   )
 }
 
