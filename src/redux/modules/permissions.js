@@ -1,24 +1,24 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
-import { actionTypes as authActionTypes } from 'redux/modules/auth';
+import createReducer from '../../utils/createReducer';
+import createRequestAction from '../../utils/createRequestAction';
+import { actionTypes as authActionTypes } from '../../redux/modules/auth';
 
 const KEY = 'permissions';
 const FETCH_PERMISSIONS = createRequestAction(`${KEY}/fetch-permissions`);
 const SET_PERMISSIONS = `${KEY}/set-permissions`;
 
-function fetchPermissions() {
+function fetchPermissions(insideToken = null) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
         method: 'GET',
-        endpoint: `auth/permissions`,
+        endpoint: 'auth/permissions',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${insideToken || token}`,
         },
         types: [FETCH_PERMISSIONS.REQUEST, FETCH_PERMISSIONS.SUCCESS, FETCH_PERMISSIONS.FAILURE],
         bailout: !logged,
@@ -34,6 +34,18 @@ function setPermissions(permissions) {
   };
 }
 
+function successSignInReducer(state, action) {
+  const permissions = action.payload.permissions || [];
+  return {
+    ...state,
+    data: (
+      typeof permissions === 'string'
+        ? JSON.parse(permissions)
+        : permissions
+    ).map(item => `${item.serviceName};${item.httpMethod};${item.urlPattern}`),
+  };
+}
+
 const initialState = {
   data: [],
   error: null,
@@ -41,7 +53,7 @@ const initialState = {
   receivedAt: null,
 };
 const actionHandlers = {
-  [FETCH_PERMISSIONS.REQUEST]: (state, action) => ({
+  [FETCH_PERMISSIONS.REQUEST]: (state) => ({
     ...state,
     error: null,
     isLoading: true,
@@ -60,17 +72,9 @@ const actionHandlers = {
     ...state,
     data: action.payload,
   }),
-  [authActionTypes.SIGN_IN.SUCCESS]: (state, action) => ({
-    ...state,
-    data: (
-      action.payload.permissions ?
-        typeof action.payload.permissions === 'string'
-          ? JSON.parse(action.payload.permissions)
-          : action.payload.permissions
-        : []
-    ).map(item => `${item.serviceName};${item.httpMethod};${item.urlPattern}`),
-  }),
-  [authActionTypes.LOGOUT.SUCCESS]: (state, action) => ({
+  [authActionTypes.SIGN_IN.SUCCESS]: successSignInReducer,
+  [authActionTypes.CHANGE_AUTHORITY.SUCCESS]: successSignInReducer,
+  [authActionTypes.LOGOUT.SUCCESS]: () => ({
     ...initialState,
   }),
 };
