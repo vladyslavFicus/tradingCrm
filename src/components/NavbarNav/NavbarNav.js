@@ -17,17 +17,20 @@ class NavbarNav extends Component {
   };
 
   render() {
-    const {active} = this.state;
+    const { active } = this.state;
+    const { label, items } = this.props;
 
     return (
       <Dropdown isOpen={active} toggle={this.handleToggleState}>
         <DropdownToggle className="dropdown-btn">
-          <i className="fa fa-user" />
+          {label}
         </DropdownToggle>
         <DropdownMenu>
-            <DropdownItem>
-              Log-out
+          {items.map(item => (
+            <DropdownItem key={item.label} onClick={item.onClick}>
+              {item.label}
             </DropdownItem>
+          ))}
         </DropdownMenu>
       </Dropdown>
     );

@@ -27,7 +27,7 @@ export default store => next => (action) => {
         auth = action.payload.auth;
       }
 
-      if (auth && auth.logged && auth.uuid && auth.token) {
+      if (auth && auth.uuid && auth.token) {
         store.dispatch(authActionCreators.fetchProfile(auth.uuid, auth.token));
         store.dispatch(authActionCreators.fetchAuthorities(auth.uuid, auth.token));
       }

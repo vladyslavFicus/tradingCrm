@@ -12,6 +12,10 @@ class UsersPanel extends Component {
   render() {
     const { items, onClose } = this.props;
 
+    if (!items.length) {
+      return null;
+    }
+
     return (
       <footer className="users-panel">
         <div className="users-panel-row">
