@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from '../../constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
-import { actionCreators as permissionsActionCreators } from '../../redux/modules/permissions';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
@@ -15,6 +14,10 @@ class NewLayout extends Component {
     user: PropTypes.shape({
       token: PropTypes.string,
       uuid: PropTypes.string,
+    }).isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+      replace: PropTypes.func.isRequired,
     }).isRequired,
     location: PropTypes.object,
     permissions: PropTypes.array,
@@ -55,24 +58,18 @@ class NewLayout extends Component {
   };
 
   render() {
-    const { children } = this.props;
+    const { children, router } = this.props;
 
     return (
       <div>
-        <Navbar />
+        <Navbar router={router} />
         <Sidebar
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}
         />
         {this.renderSection(children) }
         <UsersPanel
-          items={[
-            { fullName: 'John Doe', login: 'johndoe', uuid: 'PL-12312315', color: 'purple' },
-            { fullName: 'John Doe', login: 'johndoe', uuid: 'PL-12312312', color: 'green' },
-            { fullName: 'John Doe', login: 'johndoe', uuid: 'PL-12312314', color: 'blue' },
-            { fullName: 'John Doe', login: 'johndoe', uuid: 'PL-12312313', color: 'orange' },
-            { fullName: 'John Doe', login: 'johndoe', uuid: 'PL-12312316', color: 'pink' },
-          ]}
+          items={[]}
           onClose={this.handleCloseTabs}
         />
       </div>

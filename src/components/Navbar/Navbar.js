@@ -7,7 +7,11 @@ import NavbarNav from '../NavbarNav';
 import './Navbar.scss';
 
 class Navbar extends Component {
-  static propTypes = {};
+  static propTypes = {
+    router: PropTypes.shape({
+      replace: PropTypes.func.isRequired,
+    }).isRequired,
+  };
   static contextTypes = {
     user: PropTypes.shape({
       department: PropTypes.string.isRequired,
@@ -75,7 +79,12 @@ class Navbar extends Component {
           </form>
         </div>
         <div className="right-navigation">
-          <NavbarNav />
+          <NavbarNav
+            label={<i className="fa fa-user" />}
+            items={[
+              { label: 'Logout', onClick: () => this.props.router.replace('/logout') },
+            ]}
+          />
         </div>
       </header>
     );
