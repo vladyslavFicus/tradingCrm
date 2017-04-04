@@ -1,13 +1,20 @@
-import React from 'react';
-import View from '../components/View';
 import { connect } from 'react-redux';
-import { actionCreators as viewActionCreators } from '../../../modules/view';
+import View from '../components/View';
+import config from '../../../../../../../config/index';
+import { actionCreators } from '../../../modules';
 
-const mapStateToProps = ({ operatorProfile: { view: operatorProfile } }) => ({
-  ...operatorProfile,
+const mapStateToProps = ({ operatorProfile: { view, authorities } }) => ({
+  profile: view,
+  authorities,
+  departments: config.availableDepartments,
+  roles: config.availableRoles,
 });
+
 const mapActions = {
-  updateProfile: viewActionCreators.updateProfile,
+  updateProfile: actionCreators.updateProfile,
+  fetchAuthority: actionCreators.fetchAuthority,
+  addAuthority: actionCreators.addAuthority,
+  deleteAuthority: actionCreators.deleteAuthority,
 };
 
 export default connect(mapStateToProps, mapActions)(View);
