@@ -1,0 +1,98 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from '../../constants/propTypes';
+import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
+import { actionCreators as authActionCreators } from '../../redux/modules/auth';
+import { actionCreators as permissionsActionCreators } from '../../redux/modules/permissions';
+import Navbar from '../../components/Navbar';
+import Sidebar from '../../components/Sidebar';
+import UsersPanel from '../../components/UsersPanel';
+import './NewLayout.scss';
+
+class NewLayout extends Component {
+  static propTypes = {
+    children: PropTypes.any,
+    user: PropTypes.shape({
+      token: PropTypes.string,
+      uuid: PropTypes.string,
+    }).isRequired,
+    location: PropTypes.object,
+    permissions: PropTypes.array,
+    changeDepartment: PropTypes.func.isRequired,
+  };
+  static childContextTypes = {
+    user: PropTypes.shape({
+      token: PropTypes.string,
+      uuid: PropTypes.string,
+    }).isRequired,
+    location: PropTypes.object,
+    permissions: PropTypes.array,
+    changeDepartment: PropTypes.func.isRequired,
+  };
+
+  getChildContext() {
+    const {
+      user,
+      location,
+      permissions,
+      changeDepartment,
+    } = this.props;
+
+    return {
+      user,
+      location,
+      permissions,
+      changeDepartment,
+    };
+  }
+
+  state = {
+    hasTabs: false,
+  };
+
+  handleCloseTabs = () => {
+    this.setState({ hasTabs: false });
+  };
+
+  render() {
+    const { children } = this.props;
+
+    return (
+      <div>
+        <Navbar />
+        <Sidebar
+          topMenu={sidebarTopMenu}
+          bottomMenu={sidebarBottomMenu}
+        />
+        {this.renderSection(children) }
+        <UsersPanel
+          items={[
+            { fullName: 'John Doe', login: 'johndoe', uuid: 'PL-12312315', color: 'purple' },
+            { fullName: 'John Doe', login: 'johndoe', uuid: 'PL-12312312', color: 'green' },
+            { fullName: 'John Doe', login: 'johndoe', uuid: 'PL-12312314', color: 'blue' },
+            { fullName: 'John Doe', login: 'johndoe', uuid: 'PL-12312313', color: 'orange' },
+            { fullName: 'John Doe', login: 'johndoe', uuid: 'PL-12312316', color: 'pink' },
+          ]}
+          onClose={this.handleCloseTabs}
+        />
+      </div>
+    );
+  }
+
+  renderSection = children => (
+    <section>
+      <div className="section-container">
+        {children}
+      </div>
+    </section>
+  )
+}
+
+const mapStateToProps = state => ({
+  user: state.auth,
+  permissions: state.permissions.data,
+});
+
+export default connect(mapStateToProps, {
+  changeDepartment: authActionCreators.changeDepartment,
+})(NewLayout);

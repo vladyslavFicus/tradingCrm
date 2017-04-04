@@ -1,0 +1,203 @@
+//@import "~bootstrap/scss/bootstrap.scss";
+@import "~font-awesome/css/font-awesome.min.css";
+@import "../../static/css/source/main.css";
+
+$nav-height: 48px;
+
+//colors
+$orange: #ff6600;
+$green: #009900;
+$purple: #6600ff;
+$blue: #0066ff;
+$pink: #cc00ff;
+$grey: #cccccc;
+
+
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 45px;
+  background: #333333;
+  opacity: .9;
+  visibility: visible;
+  -moz-box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.149019607843137);
+  -webkit-box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.149019607843137);
+  box-shadow: 0px -5px 5px rgba(0, 0, 0, 0.149019607843137);
+  color: $grey;
+  transition: .5s ease-out;
+  overflow: hidden;
+  &.empty {
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .footer-content {
+    padding-left: 4.5rem;
+    margin: 0;
+  }
+  .footer-content_tab {
+    padding: .3rem .5rem;
+    max-width: 12%;
+    opacity: 1;
+    visibility: visible;
+    &.view {
+      padding-top: 0;
+      transition: padding .2s ease, color .2s ease;
+      &.tab-1 .tab-div {
+        margin-top: -4px;
+        background: $orange;
+        border-color: $orange;
+
+      }
+      &.tab-2 .tab-div {
+        margin-top: -4px;
+        background: $green;
+        border-color: $green;
+
+      }
+      &.tab-3 .tab-div {
+        margin-top: -4px;
+        background: $purple;
+        border-color: $purple;
+
+      }
+      &.tab-4 .tab-div {
+        margin-top: -4px;
+        background: $blue;
+        border-color: $blue;
+
+      }
+      &.tab-5 .tab-div {
+        margin-top: -4px;
+        background: $pink;
+        border-color: $pink;
+
+      }
+      .tab-child {
+        padding-top: .5rem;
+        -moz-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.498039215686275);
+        -webkit-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.498039215686275);
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.498039215686275);
+      }
+      .fa {
+        bottom: 30px;
+        color: #ffffff;
+      }
+      .player-name {
+        color: #ffffff;
+      }
+      .player-info {
+        color: #e4e4e4;
+      }
+    }
+    &.closed {
+      max-width: 0;
+      padding: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: max-width .5s ease;
+    }
+  }
+  .tab-div {
+    border: 1.5px solid #ffffff;
+    border-radius: 4px;
+    background: #ffffff;
+  }
+  .tab-child {
+    display: block;
+    padding: .125rem 2rem .4rem .5rem;
+    border-left: 8px solid;
+    border-radius: 4px;
+    line-height: normal;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .fa {
+    position: relative;
+    bottom: 26px;
+    right: .5rem;
+    float: right;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: lighten(#666666, 30%);
+  }
+  .player-name {
+    font-size: 14px;
+    color: #666666;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .player-info {
+    font-size: 11px;
+    color: #999999;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: .9;
+  }
+  .tab-1 .tab-child {
+    border-color: $orange;
+  }
+  .tab-2 .tab-child {
+    border-color: $green;
+  }
+  .tab-3 .tab-child {
+    border-color: $purple;
+  }
+  .tab-4 .tab-child {
+    border-color: $blue;
+  }
+  .tab-5 .tab-child {
+    border-color: $pink;
+  }
+  .footer-menu {
+    position: absolute;
+    right: 1rem;
+    bottom: .8rem;
+    cursor: pointer;
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}
+
+.border {
+  border-top: 4px solid #ffffff;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  transition: none;
+}
+
+.border-orange {
+  border-color: $orange;
+}
+
+.border-green {
+  border-color: $green;
+}
+
+.border-purple {
+  border-color: $purple;
+}
+
+.border-blue {
+  border-color: $blue;
+}
+
+.border-pink {
+  border-color: $pink;
+}
+
+.section-container {
+  position: fixed;
+  height: 95%;
+  width: 100%;
+  margin-top: 48px;
+  padding: 40px 40px 40px 100px;
+  overflow-y: auto;
+}

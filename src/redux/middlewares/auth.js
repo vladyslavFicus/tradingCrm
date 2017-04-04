@@ -13,7 +13,7 @@ const triggerActions = {
     authActionTypes.LOGOUT.SUCCESS,
   ],
 };
-export default store => next => action => {
+export default store => next => (action) => {
   if (action) {
     if (action.type === REHYDRATE) {
       if (action.payload.auth && action.payload.auth.isLoading) {
@@ -27,7 +27,10 @@ export default store => next => action => {
         auth = action.payload.auth;
       }
 
-      store.dispatch(authActionCreators.fetchProfile(auth.uuid, auth.token));
+      if (auth && auth.logged && auth.uuid && auth.token) {
+        store.dispatch(authActionCreators.fetchProfile(auth.uuid, auth.token));
+        store.dispatch(authActionCreators.fetchAuthorities(auth.uuid, auth.token));
+      }
     }
   }
 
