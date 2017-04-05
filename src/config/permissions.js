@@ -13,4 +13,7 @@ export default {
   USER_PROFILE: {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',
   },
+  PAYMENTS: {
+    APPROVE_WITHDRAW: 'payment;POST;/approve/{paymentId}',
+  },
 };
