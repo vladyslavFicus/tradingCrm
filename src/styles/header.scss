@@ -21,8 +21,11 @@
     padding-left: 1.2em;
     min-height: 70px;
 
-    &:nth-child(1),
-    &:nth-child(2) {
+    &_account {
+      padding-left: 0;
+    }
+
+    &_balance {
       padding-left: 0;
     }
 
