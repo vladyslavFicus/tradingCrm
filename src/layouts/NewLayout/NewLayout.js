@@ -62,7 +62,7 @@ class NewLayout extends Component {
 
     return (
       <div>
-        <Navbar router={router} />
+        <Navbar router={router} showSearch={false} />
         <Sidebar
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}
