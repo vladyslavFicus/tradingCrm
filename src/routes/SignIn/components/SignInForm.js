@@ -1,10 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { createValidator } from 'utils/validator';
-import SignInFormField from './SingInFormField';
-import SignInFormDropField from './SignInFormDropField';
+import { createValidator } from '../../../utils/validator';
+import { departmentsLabels } from '../../../constants/operators';
+import { SelectField, InputField } from '../../../components/ReduxForm/UserProfile';
+import { renderLabel } from '../../../routes/Operators/utils';
+import PropTypes from '../../../constants/propTypes';
 
-const formName = 'signInForm';
 const attributeLabels = {
   login: 'Login',
   password: 'Password',
@@ -18,51 +19,75 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 class SignInForm extends Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    onSubmit: PropTypes.func,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    departments: PropTypes.arrayOf(PropTypes.dropDownOption),
+  };
+
   render() {
-    const { handleSubmit, pristine, submitting, onSubmit, error, disabled, departments } = this.props;
+    const {
+      handleSubmit,
+      pristine,
+      submitting,
+      onSubmit,
+      error,
+      departments,
+    } = this.props;
 
-    return <form
-      name="form-validation"
-      className="form-horizontal"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      {error && <div className="alert alert-warning">
-        {error}
-      </div>}
-      <Field
-        name="login"
-        label={attributeLabels.login}
-        type="text"
-        component={SignInFormField}
-      />
-      <Field
-        name="password"
-        label={attributeLabels.password}
-        type="password"
-        disabled={disabled}
-        component={SignInFormField}
-      />
-      <Field
-        name="department"
-        label={attributeLabels.department}
-        component={SignInFormDropField}
-        items={departments}
-      />
-
-      <div className="form-actions">
-        <button
-          type="submit"
-          className="btn btn-primary width-150"
-          disabled={pristine || submitting}
+    return (
+      <form
+        name="form-validation"
+        className="form-horizontal"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        {error && <div className="alert alert-warning">
+          {error}
+        </div>}
+        <Field
+          name="login"
+          label=""
+          type="text"
+          component={InputField}
+        />
+        <Field
+          name="password"
+          label=""
+          type="password"
+          component={InputField}
+        />
+        <Field
+          name="department"
+          label={attributeLabels.department}
+          type="text"
+          component={SelectField}
         >
-          SIGN IN
-        </button>
-      </div>
-    </form>;
+          <option value="">-- Choose department --</option>
+          {
+            departments.map(({ label, value }) => (
+              <option key={value} value={value}>
+                { renderLabel(label, departmentsLabels) }
+              </option>
+            ))
+          }
+        </Field>
+        <div className="form-actions">
+          <button
+            type="submit"
+            className="btn btn-primary width-150"
+            disabled={pristine || submitting}
+          >
+            SIGN IN
+          </button>
+        </div>
+      </form>
+    );
   }
 }
 
 export default reduxForm({
-  form: formName,
+  form: 'signInForm',
   validate: validator,
 })(SignInForm);

@@ -7,7 +7,10 @@ const InputField = (props) => {
   return (
     <div className={wrapperClassName}>
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
+        {
+          label &&
+          <label>{label}</label>
+        }
         <input
           {...input}
           disabled={disabled}

@@ -19,7 +19,7 @@ class Additional extends Component {
     const { initialValues } = this.props;
 
     return (
-      <div className="player__account__details_additional col-md-3">
+      <div className="player__account__details_additional">
         <span className="player__account__details_additional-label">Additional information</span>
         <div className="panel panel-with-borders">
           <div className="panel-body padding-5 height-200">
