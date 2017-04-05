@@ -13,6 +13,7 @@ class ListView extends Component {
     onPageChange: PropTypes.func,
     activePage: PropTypes.number,
     totalPages: PropTypes.number,
+    itemClassName: PropTypes.string,
   };
 
   static defaultProps = {
@@ -68,7 +69,7 @@ class ListView extends Component {
     const content = this.props.render.call(null, data, this.props, this.state.filters);
 
     return (
-      <div key={key}>
+      <div className={this.props.itemClassName} key={key}>
         {content}
       </div>
     );
