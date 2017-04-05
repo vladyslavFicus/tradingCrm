@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
+import createRequestAction from '../../utils/createRequestAction';
 
-const KEY = `payment`;
+const KEY = 'payment';
 const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
 const FETCH_PAYMENT_TRANSACTIONS = createRequestAction(`${KEY}/fetch-payment-transactions`);
 
