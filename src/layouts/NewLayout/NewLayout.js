@@ -58,34 +58,36 @@ class NewLayout extends Component {
   };
 
   render() {
-    const { children, router } = this.props;
+    const { children, router, userPanels } = this.props;
 
     return (
       <div>
-        <Navbar router={router} showSearch={false} />
+        <Navbar
+          router={router}
+          showSearch={false}
+        />
         <Sidebar
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}
         />
-        {this.renderSection(children) }
+
+        <div className="section-container">
+          {children}
+        </div>
+
         <UsersPanel
-          items={[]}
+          items={userPanels}
           onClose={this.handleCloseTabs}
         />
       </div>
     );
   }
-
-  renderSection = children => (
-    <div className="section-container">
-      {children}
-    </div>
-  )
 }
 
 const mapStateToProps = state => ({
   user: state.auth,
   permissions: state.permissions.data,
+  userPanels: state.userPanels,
 });
 
 export default connect(mapStateToProps, {
