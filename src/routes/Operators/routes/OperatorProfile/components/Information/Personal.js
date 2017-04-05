@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import PersonalInformationItem from '../../../../../../components/Information/PersonalInformationItem';
 import PropTypes from '../../../../../../constants/propTypes';
 
@@ -46,7 +47,7 @@ class Personal extends Component {
             />
             <PersonalInformationItem
               label="Registration Date"
-              value={registrationDate}
+              value={moment(registrationDate).format('YYYY-MM-DD HH:mm')}
             />
           </div>
         </div>
