@@ -4,6 +4,7 @@ import { SelectField } from '../../../../../../../components/ReduxForm/UserProfi
 import PropTypes from '../../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../../utils/validator';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
+import { renderLabel } from '../../../../../utils';
 
 const attributeLabels = {
   department: 'Department',
@@ -104,7 +105,7 @@ class DepartmentsForm extends Component {
                           {
                             availableDepartments.map(({ label, value }) => (
                               <option key={value} value={value}>
-                                {departmentsLabels[label]}
+                                { renderLabel(label, departmentsLabels) }
                               </option>
                             ))
                           }
@@ -123,7 +124,7 @@ class DepartmentsForm extends Component {
                           {
                             roles.map(({ label, value }) => (
                               <option key={value} value={value}>
-                                {rolesLabels[label]}
+                                { renderLabel(label, rolesLabels) }
                               </option>
                             ))
                           }

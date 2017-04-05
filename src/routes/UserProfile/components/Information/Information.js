@@ -24,21 +24,28 @@ class Information extends Component {
 
     return (
       <div className="player__account__details row panel-body">
-        <Personal data={data} />
-        <Additional
-          initialValues={{
-            marketingMail: data.marketingMail,
-            marketingNews: data.marketingNews,
-            marketingSMS: data.marketingSMS,
-          }}
-          updateSubscription={updateSubscription}
-        />
-        <IpList ips={ips} />
-
-        <Notes
-          notes={notes}
-          onEditNoteClick={onEditNoteClick}
-        />
+        <div className="col-md-3">
+          <Personal data={data} />
+        </div>
+        <div className="col-md-3">
+          <Additional
+            initialValues={{
+              marketingMail: data.marketingMail,
+              marketingNews: data.marketingNews,
+              marketingSMS: data.marketingSMS,
+            }}
+            updateSubscription={updateSubscription}
+          />
+        </div>
+        <div className="col-md-2">
+          <IpList ips={ips} />
+        </div>
+        <div className="col-md-4">
+          <Notes
+            notes={notes}
+            onEditNoteClick={onEditNoteClick}
+          />
+        </div>
       </div>
     );
   }

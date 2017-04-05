@@ -97,7 +97,7 @@ class Header extends Component {
           </div>
         </div>
         <div className="row panel-heading header-blocks">
-          <div className="header-block width-33">
+          <div className="header-block header-block_account width-33">
             <AccountStatus
               profileStatus={operatorStatus}
               onStatusChange={this.handleStatusChange}

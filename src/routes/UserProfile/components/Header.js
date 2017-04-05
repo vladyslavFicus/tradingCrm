@@ -178,7 +178,7 @@ class Header extends Component {
         </div>
 
         <div className="row panel-body header-blocks header-blocks-5">
-          <div className="header-block">
+          <div className="header-block header-block_account">
             <AccountStatus
               profileStatus={profileStatus}
               onStatusChange={this.handleStatusChange}
@@ -203,7 +203,7 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
           </div>
-          <div className="header-block">
+          <div className="header-block header-block_balance">
             <Balances
               label={
                 <div className="balance-tab">
