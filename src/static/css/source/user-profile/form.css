@@ -160,6 +160,10 @@ i.green {
   border-right-color: #46be8a;
 }
 
+.tag-arrow-default {
+  border-right-color: #acb7bf;
+}
+
 .panel-body-min-height {
   min-height: 150px;
 }

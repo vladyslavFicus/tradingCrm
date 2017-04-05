@@ -1,6 +1,13 @@
 .button-select {
   display: inline-block;
   position: relative;
+  vertical-align: middle;
+
+  .btn-default {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    float: left;
+  }
 
   & > button {
     position: relative;
@@ -9,8 +16,8 @@
 
   & > .auto-complete {
     position: absolute;
-    top: -7px;
-    left: -6px;
+    top: 0;
+    left: 10px;
     display: none;
     width: 300px;
     z-index: 2;
@@ -20,11 +27,23 @@
     }
   }
 
-  & .Select--single > .Select-control .Select-value, .Select-placeholder {
-    left: 20px;
+  .Select-control {
+    display: inline-block;
+    width: 35%;
+    height: 21px;
+    border-radius: 0;
+    .Select-input {
+      height: 21px;
+    }
+    .Select-placeholder {
+      line-height: 22;
+    }
   }
-
-  & .Select-input {
-    padding-left: 30px;
-  }
+  //& .Select--single > .Select-control .Select-value, .Select-placeholder {
+  //  left: 20px;
+  //}
+  //
+  //.Select-input {
+  //  padding-left: 30px;
+  //}
 }

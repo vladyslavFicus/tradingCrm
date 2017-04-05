@@ -73,7 +73,7 @@ class ProfileTags extends PureComponent {
 
       {options.length > 0 && <ButtonSelect
         opened={showAutoComplete}
-        className="btn btn-xs btn-default font-size-14 margin-left-10"
+        className="btn btn-xs btn-default font-size-14"
         onChange={this.handleSelect}
         optionRenderer={this.renderOption}
         options={options}

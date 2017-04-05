@@ -9,13 +9,14 @@ class ButtonSelect extends Component {
   render() {
     const { opened, onClick, label, className, ...rest } = this.props;
 
-    return <div className={classNames('button-select')}>
+    return <div className={classNames('button-select margin-left-10')}>
+      <span className="tag-arrow tag-arrow-default" />
       <button className={className} onClick={onClick}>
         {label}
       </button>
 
       <div className={classNames('auto-complete', 'ignore-react-onclickoutside margin-left-10', { opened })}>
-        <ReactSelect {...rest}/>
+        <ReactSelect {...rest} />
       </div>
     </div>;
   }
