@@ -74,7 +74,7 @@ class View extends Component {
       <div className="padding-bottom-20">
         <div className="user-wall-item clearfix">
           <div className="s1">
-            <span className="avatar" />
+            <div className="letter letter-blue">o</div>
           </div>
           <div className="s2">
             <div className="user-wall-item-head">
@@ -143,7 +143,7 @@ class View extends Component {
           <div className="user-wall">
             <ListView
               dataSource={content}
-              itemClassName="padding-bottom-20"
+              itemClassName="note-item"
               onPageChange={this.handlePageChanged}
               render={this.renderItem}
               activePage={number + 1}

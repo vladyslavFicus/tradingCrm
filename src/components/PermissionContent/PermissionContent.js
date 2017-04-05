@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import shallowEqual from 'utils/shallowEqual';
+import shallowEqual from '../../utils/shallowEqual';
 
 class PermissionContent extends Component {
   static propTypes = {
+    children: PropTypes.any.isRequired,
     permissions: PropTypes.object,
   };
-
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
   };

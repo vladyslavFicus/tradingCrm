@@ -20,11 +20,15 @@ class Information extends Component {
       <div
         className="player__account__details row panel-body"
       >
-        <Personal data={data} />
-        <Departments
-          authorities={data.authorities}
-        />
-        <IpList ips={ips} />
+        <div className="col-md-3">
+          <Personal data={data} />
+        </div>
+        <div className="col-md-3">
+          <Departments authorities={data.authorities} />
+        </div>
+        <div className="col-md-3">
+          <IpList ips={ips} />
+        </div>
       </div>
     );
   }

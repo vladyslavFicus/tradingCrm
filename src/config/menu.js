@@ -3,7 +3,7 @@ import permission from './permissions';
 
 const sidebarTopMenu = [
   {
-    label: 'Users',
+    label: 'Players',
     icon: 'fa fa-users',
     items: [
       { label: 'All', url: '/users/list' },

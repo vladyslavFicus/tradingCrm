@@ -193,7 +193,7 @@ i.green {
 
 .dropdown-inline.dropdown.open .dropdown-menu button {
   border-right: 1px solid #dfe4ed;
-  padding: 0px 40px;
+  padding: 0px 1.2rem;
   height: 50px;
   text-align: center;
 }
