@@ -28,9 +28,12 @@ class Departments extends Component {
                 {
                   authorities.map(authority =>
                     <span key={authority.id} className="label label-black margin-inline">
-                      { renderLabel(authority.department, departmentsLabels) }
-                      {' - '}
-                      { renderLabel(authority.role, rolesLabels) }
+                      <div className="label-department">
+                        { renderLabel(authority.department, departmentsLabels) }
+                      </div>
+                      <div className="label-role">
+                        { renderLabel(authority.role, rolesLabels) }
+                      </div>
                     </span>
                   )
                 }
