@@ -8,6 +8,8 @@ class UsersPanelItem extends Component {
     login: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    onRemoveClick: PropTypes.func.isRequired,
   };
 
   render() {
@@ -16,17 +18,21 @@ class UsersPanelItem extends Component {
       login,
       uuid,
       color,
+      onClick,
+      onRemoveClick,
     } = this.props;
 
     return (
-      <button className={`btn-transparent users-panel-row_item tab-${color}`}>
+      <button className={`btn-transparent users-panel-row_item tab-${color}`} onClick={onClick}>
         <div className="users-panel-row_item-block">
           <div className="users-panel-row_item-block-info">
             <div className="player-name">{fullName}</div>
             <div className="player-info">{login} - {uuid}</div>
           </div>
 
-          <i className="fa fa-times-circle" />
+          <button className="btn-transparent color-black" onClick={onRemoveClick}>
+            <i className="fa fa-times-circle" />
+          </button>
         </div>
       </button>
     );
