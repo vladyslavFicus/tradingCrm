@@ -74,7 +74,7 @@ const actionHandlers = {
 
     return newState;
   },
-  [RESET]: () => [],
+  [RESET]: () => ({ ...initialState }),
 };
 const actionTypes = {
   ADD,
