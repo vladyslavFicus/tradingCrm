@@ -77,6 +77,15 @@ $pink: #cc00ff;
       font-size: 1.2rem;
       color: lighten(#666666, 30%);
     }
+    .btn-transparent {
+      position: absolute;
+      right: 10px;
+      bottom: 14px;
+    }
+    .fa-times-circle {
+      right: 0;
+      bottom: 0;
+    }
   }
   &_item-block-info {
     padding: .125rem 2rem .4rem .5rem;
