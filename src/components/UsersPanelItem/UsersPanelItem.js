@@ -23,7 +23,7 @@ class UsersPanelItem extends Component {
     } = this.props;
 
     return (
-      <button className={`btn-transparent users-panel-row_item tab-${color}`} onClick={onClick}>
+      <div className={`btn-transparent users-panel-row_item tab-${color}`} onClick={onClick}>
         <div className="users-panel-row_item-block">
           <div className="users-panel-row_item-block-info">
             <div className="player-name">{fullName}</div>
@@ -34,7 +34,7 @@ class UsersPanelItem extends Component {
             <i className="fa fa-times-circle" />
           </button>
         </div>
-      </button>
+      </div>
     );
   }
 }
