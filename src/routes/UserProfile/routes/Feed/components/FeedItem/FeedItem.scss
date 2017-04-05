@@ -1,0 +1,104 @@
+.feed-item {
+  color: #666666;
+  margin-top: 10px;
+  .letter {
+    height: 40px;
+    width: 40px;
+    margin-left: auto;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    color: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    background: #666666;
+    &:after {
+      content: '';
+      position: relative;
+      top: 1px;
+    }
+    &-blue {
+      background: #0267cc;
+    }
+    &-orange {
+      background: #ff9900;
+    }
+  }
+  .first-row {
+    font-size: 13px;
+    .audit-name {
+      font-weight: 700;
+      &.blue {
+        color: #0066cc;
+      }
+    }
+    .pull-right {
+      color: #999999;
+      font-size: 11px;
+    }
+  }
+  .date-time-ip {
+    font-size: 11px;
+    line-height: 1;
+  }
+  .status {
+    padding-right: 5px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333333;
+    &.green {
+      color: #009900;
+    }
+    &.blue {
+      color: #003399;
+    }
+    &.red {
+      color: #ff0000;
+    }
+  }
+  .hide {
+    font-size: 11px;
+    text-decoration: underline;
+    cursor: pointer;
+    .fa {
+      position: relative;
+      top: 2px;
+      left: 4px;
+    }
+  }
+  .information {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: #f8fafd;
+    font-size: 12px;
+    line-height: 1.2;
+    &_value {
+      padding-left: 2px;
+      font-weight: 700;
+    }
+  }
+  .rejection {
+    padding-top: 10px;
+    font-style: italic;
+    color: #000;
+    &_heading {
+      font-weight: 700;
+    }
+  }
+  .tag {
+    margin-right: 5px;
+    padding: 1px 8px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color: #ffffff;
+    font-weight: 700;
+    background: #333333;
+    text-transform: uppercase;
+  }
+}

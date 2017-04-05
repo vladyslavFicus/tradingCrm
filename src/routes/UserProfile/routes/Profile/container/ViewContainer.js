@@ -17,7 +17,7 @@ const mapStateToProps = ({ profile: { view: { profile } } }) => ({
     country: profile.data.country,
     city: profile.data.city,
     postCode: profile.data.postCode,
-    address: profile.data.address,
+    fullAddress: profile.data.address,
   },
   contactData: {
     email: profile.data.email,

@@ -91,7 +91,7 @@ class List extends Component {
       <div>
         <div className="font-weight-700">{ moment(data.registrationDate).format('DD.MM.YYYY') }</div>
         <div className="font-size-12 color-default">
-          { moment(data.registrationDate).format('HH.mm.ss') }
+          { moment(data.registrationDate).format('HH:mm:ss') }
         </div>
       </div>
     );

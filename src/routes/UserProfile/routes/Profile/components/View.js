@@ -90,7 +90,7 @@ class View extends Component {
 
     return Promise.all([
       verifyData(params.id, kycCategories.KYC_PERSONAL),
-      verifyData(params.id, kycCategories.KYC_PERSONAL),
+      verifyData(params.id, kycCategories.KYC_ADDRESS),
     ]);
   };
 
