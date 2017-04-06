@@ -4,12 +4,31 @@ $purple: #6600ff;
 $blue: #0066ff;
 $pink: #cc00ff;
 
-.users-panel {
+body.user-panel-open {
+  overflow: hidden;
+}
+
+.user-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  &.active {
+    background: white;
+    z-index: 15;
+    .users-panel-footer {
+      opacity: 1;
+    }
+  }
+}
+
+.users-panel-footer {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 45px;
+  height: 48px;
   background: #333333;
   opacity: .9;
   visibility: visible;

@@ -19,22 +19,24 @@ class UsersPanel extends Component {
     }
 
     return (
-      <footer className="users-panel border">
-        <div className="users-panel-row">
-          {items.map((item, index) => (
-            <UsersPanelItem
-              key={item.uuid}
-              {...item}
-              onClick={() => onItemClick(index)}
-              onRemoveClick={() => onRemove(index)}
-            />
-          ))}
-        </div>
+      <div className="user-panel">
+        <footer className="users-panel-footer border">
+          <div className="users-panel-footer-row">
+            {items.map((item, index) => (
+              <UsersPanelItem
+                key={item.uuid}
+                {...item}
+                onClick={() => onItemClick(index)}
+                onRemoveClick={() => onRemove(index)}
+              />
+            ))}
+          </div>
 
-        <button className="users-panel-menu btn-transparent" onClick={onClose}>
-          &times;
-        </button>
-      </footer>
+          <button className="users-panel-footer-menu btn-transparent" onClick={onClose}>
+            &times;
+          </button>
+        </footer>
+      </div>
     );
   }
 }

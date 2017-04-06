@@ -23,9 +23,9 @@ class UsersPanelItem extends Component {
     } = this.props;
 
     return (
-      <div className={`btn-transparent users-panel-row_item tab-${color}`} onClick={onClick}>
-        <div className="users-panel-row_item-block">
-          <div className="users-panel-row_item-block-info">
+      <div className={`btn-transparent users-panel-footer-row_item tab-${color}`} onClick={onClick}>
+        <div className="users-panel-footer-row_item-block">
+          <div className="users-panel-footer-row_item-block-info">
             <div className="player-name">{fullName}</div>
             <div className="player-info">{login} - {uuid}</div>
           </div>
