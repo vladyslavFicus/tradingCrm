@@ -19,7 +19,10 @@ class UsersPanel extends Component {
     }
 
     return (
-      <div className="user-panel">
+      <div className="users-panel">
+        <div className="users-panel-content">
+
+        </div>
         <footer className="users-panel-footer border">
           <div className="users-panel-footer-row">
             {items.map((item, index) => (
