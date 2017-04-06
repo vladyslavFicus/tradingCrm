@@ -138,16 +138,16 @@ function fetchLimits(uuid, fetchNotes = fetchNotesFn) {
     });
 }
 
-function setPlayingSessionLimit(type, data) {
+function setPlayingSessionLimit(playerUUID, type, data) {
   return (dispatch, getState) => {
     const {
-      auth: { token, uuid, logged },
-      profile: { data: { balance: { currency: currencyCode } } },
+      auth: { token, logged },
+      profile: { accumulatedBalances: { data: { real: { currency: currencyCode } } } },
     } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${uuid}/limits/${type}`,
+        endpoint: `/playing-session/${playerUUID}/limits/${type}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -165,16 +165,16 @@ function setPlayingSessionLimit(type, data) {
   };
 }
 
-function setDepositLimit(data) {
+function setDepositLimit(playerUUID, data) {
   return (dispatch, getState) => {
     const {
-      auth: { token, uuid, logged },
-      profile: { data: { balance: { currency: currencyCode } } },
+      auth: { token, logged },
+      profile: { accumulatedBalances: { data: { real: { currency: currencyCode } } } },
     } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/payment/${uuid}/limits/deposit`,
+        endpoint: `/payment/${playerUUID}/limits/deposit`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -192,12 +192,12 @@ function setDepositLimit(data) {
   };
 }
 
-function setLimit(type, data) {
+function setLimit(playerUUID, type, data) {
   return (dispatch) => {
     if ([types.WAGER, types.LOSS, types.SESSION_DURATION].indexOf(type) > -1) {
-      return dispatch(setPlayingSessionLimit(type, data));
+      return dispatch(setPlayingSessionLimit(playerUUID, type, data));
     } else if (type === types.DEPOSIT) {
-      return dispatch(setDepositLimit(data));
+      return dispatch(setDepositLimit(playerUUID, data));
     }
 
     throw new Error(`Unknown limit type "${type}" inside setLimit`);

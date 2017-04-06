@@ -2,6 +2,13 @@ import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import buildQueryString from '../../utils/buildQueryString';
 
+const mapProfile = payload => ({
+  ...payload,
+  kycDate: payload.personalStatus.editDate > payload.addressStatus.editDate
+    ? payload.personalStatus.editDate
+    : payload.addressStatus.editDate,
+});
+
 function fetchProfile(type) {
   return uuid => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -15,7 +22,19 @@ function fetchProfile(type) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        types: [type.REQUEST, type.SUCCESS, type.FAILURE],
+        types: [
+          type.REQUEST,
+          {
+            type: type.SUCCESS,
+            payload: (action, state, res) => {
+              const contentType = res.headers.get('Content-Type');
+              if (contentType && ~contentType.indexOf('json')) {
+                return res.json().then(json => mapProfile(json));
+              }
+            },
+          },
+          type.FAILURE,
+        ],
         bailout: !logged,
       },
     });
@@ -39,6 +58,30 @@ function passwordResetRequest(type) {
       ],
     },
   });
+}
+
+function profileActivateRequest(type) {
+  return uuid => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${uuid}/send-activation-link`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
 }
 
 function updateProfile(type) {
@@ -155,6 +198,7 @@ const actionCreators = {
   updateProfile,
   updateIdentifier,
   passwordResetRequest,
+  profileActivateRequest,
 };
 
 export {

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import CancelLimitModal from './CancelLimitModal';
+import CreateLimitModal from './CreateLimitModal';
 import CommonGridView from './CommonGridView';
 import { targetTypes } from '../../../../../constants/note';
+import { types as limitTypes } from '../../../../../constants/limits';
 import PropTypes from '../../../../../constants/propTypes';
 
 const modalInitialState = {
@@ -17,6 +19,8 @@ class View extends Component {
     list: PropTypes.arrayOf(PropTypes.limitEntity),
     fetchEntities: PropTypes.func.isRequired,
     cancelLimit: PropTypes.func.isRequired,
+    setLimit: PropTypes.func.isRequired,
+    limitPeriods: PropTypes.limitPeriodEntity,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -42,11 +46,35 @@ class View extends Component {
   };
 
   handleCancelLimit = async (type, limitId) => {
-    const action = await this.props.cancelLimit(this.props.params.id, type, limitId);
+    const { params: { id }, cancelLimit, fetchEntities } = this.props;
+
+    const action = await cancelLimit(id, type, limitId);
     this.handleCloseModal();
 
     if (action && !action.error) {
-      this.props.fetchEntities(this.props.params.id);
+      fetchEntities(id);
+    }
+  };
+
+  handleCreateLimit = async (params) => {
+    const { setLimit, fetchEntities, params: { id } } = this.props;
+    const { type, period, amount } = params;
+
+    const duration = period.split(' ');
+    const data = {
+      duration: duration.shift(),
+      durationUnit: duration.shift(),
+    };
+
+    if ([limitTypes.WAGER, limitTypes.LOSS, limitTypes.DEPOSIT].indexOf(type) > -1) {
+      data.amount = amount;
+    }
+
+    const action = await setLimit(id, type, data);
+    this.handleCloseModal();
+
+    if (action && !action.error) {
+      fetchEntities(id);
     }
   };
 
@@ -57,6 +85,18 @@ class View extends Component {
     this.setState({
       modal: {
         name: 'cancel-limit',
+        params,
+      },
+    });
+  };
+
+  handleOpenCreateLimitModal = (e, name, params) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.setState({
+      modal: {
+        name: 'create-limit',
         params,
       },
     });
@@ -80,10 +120,24 @@ class View extends Component {
 
   render() {
     const { modal } = this.state;
-    const { list } = this.props;
+    const { list, limitPeriods } = this.props;
 
     return (
       <div>
+        <div className="row margin-bottom-20">
+          <div className="col-sm-2 col-xs-6">
+            <span className="font-size-20">Limits</span>
+          </div>
+          <div className="col-sm-10 col-xs-6 text-right">
+            <button
+              className="btn btn-sm btn-primary-outline"
+              onClick={this.handleOpenCreateLimitModal}
+            >
+              + New limit
+            </button>
+          </div>
+        </div>
+
         <CommonGridView
           dataSource={list}
           onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
@@ -94,6 +148,20 @@ class View extends Component {
           <CancelLimitModal
             {...modal.params}
             onSubmit={this.handleCancelLimit}
+            onClose={this.handleCloseModal}
+            isOpen
+          />
+        }
+        {
+          modal.name === 'create-limit' &&
+          <CreateLimitModal
+            {...modal.params}
+            initialValues={{
+              type: limitTypes.DEPOSIT,
+              period: limitPeriods.deposit[0],
+            }}
+            limitPeriods={limitPeriods}
+            onSubmit={this.handleCreateLimit}
             onClose={this.handleCloseModal}
             isOpen
           />

@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
-import { InputField } from 'components/ReduxForm/UserProfile';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { createValidator } from 'utils/validator';
+import PropTypes from '../../../../../constants/propTypes';
+import { InputField } from '../../../../../components/ReduxForm/UserProfile';
+import { createValidator } from '../../../../../utils/validator';
 
 const attributeLabels = {
   phoneNumber: 'Phone',
@@ -13,6 +14,14 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 class ContactForm extends Component {
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    valid: PropTypes.bool,
+  };
+
   render() {
     const {
       pristine,
@@ -26,14 +35,20 @@ class ContactForm extends Component {
       <div>
         <form role="form" onSubmit={handleSubmit(onSubmit)}>
           <div className="row">
-            <h5 className="pull-left">Contacts</h5>
-            {
-              !(pristine || submitting || !valid) &&
-              <button className="btn btn-sm btn-primary pull-right" disabled={pristine || submitting} type="submit">
-                Save changes
-              </button>
-            }
+            <div className="col-md-6">
+              <h5 className="pull-left">Contacts</h5>
+            </div>
+
+            <div className="col-md-6 text-right">
+              {
+                !(pristine || submitting || !valid) &&
+                <button className="btn btn-sm btn-primary" type="submit">
+                  Save changes
+                </button>
+              }
+            </div>
           </div>
+
           <div className="row">
             <Field
               name="phoneNumber"

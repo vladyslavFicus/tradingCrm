@@ -1,6 +1,6 @@
-import { injectReducer } from 'store/reducers';
+import { injectReducer } from '../../../../store/reducers';
 
-export default (store) => ({
+export default store => ({
   path: ':id/limits',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {

@@ -23,19 +23,10 @@ const modalInitialState = {
 class ProfileLayout extends Component {
   static propTypes = {
     profile: PropTypes.shape({
-      balance: PropTypes.object,
-      registrationDate: PropTypes.string,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      username: PropTypes.string,
-      uuid: PropTypes.string,
-      languageCode: PropTypes.string,
-      btag: PropTypes.string,
-      affiliateId: PropTypes.string,
-      profileStatus: PropTypes.string,
-      suspendEndDate: PropTypes.string,
-      profileTags: PropTypes.array,
-    }).isRequired,
+      data: PropTypes.userProfile,
+      error: PropTypes.any,
+      isLoading: PropTypes.bool.isRequired,
+    }),
     children: PropTypes.any.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -60,12 +51,17 @@ class ProfileLayout extends Component {
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
+    activateProfile: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {
+    onAddNote: PropTypes.func.isRequired,
+    onEditNote: PropTypes.func.isRequired,
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
+    refreshPinnedNotes: PropTypes.func.isRequired,
+    hidePopover: PropTypes.func.isRequired,
   };
 
   state = {
@@ -77,9 +73,13 @@ class ProfileLayout extends Component {
 
   getChildContext() {
     return {
+      onAddNote: this.props.addNote,
+      onEditNote: this.props.addNote,
       onAddNoteClick: this.handleAddNoteClick,
       onEditNoteClick: this.handleEditNoteClick,
       setNoteChangedCallback: this.setNoteChangedCallback,
+      refreshPinnedNotes: this.handleRefreshPinnedNotes,
+      hidePopover: this.handlePopoverHide,
     };
   }
 
@@ -163,6 +163,7 @@ class ProfileLayout extends Component {
     return new Promise(resolve => this.props.deleteNote(item.uuid)
       .then(() => {
         this.handlePopoverHide();
+
         this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
         if (typeof noteChangedCallback === 'function') {
           noteChangedCallback();
@@ -170,6 +171,10 @@ class ProfileLayout extends Component {
 
         return resolve();
       }));
+  };
+
+  handleRefreshPinnedNotes = () => {
+    this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
   };
 
   handleSubmitNote = (data) => {
@@ -182,7 +187,7 @@ class ProfileLayout extends Component {
       return resolve(this.props.addNote(data));
     }).then(() => {
       this.handlePopoverHide();
-      this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
+      this.handleRefreshPinnedNotes();
 
       if (typeof noteChangedCallback === 'function') {
         noteChangedCallback();
@@ -218,18 +223,18 @@ class ProfileLayout extends Component {
     }
   };
 
-  handleApproveKYCClick = async () => {
-    const { verifyKYC, profile: { data } } = this.props;
+  handleProfileActivateClick = async () => {
+    const { activateProfile, profile: { data: { uuid, email } } } = this.props;
 
-    if (data.uuid) {
-      const action = await verifyKYC(data.uuid);
+    if (uuid) {
+      const action = await activateProfile(uuid);
 
       if (action && !action.error) {
         this.handleOpenModal(INFO_MODAL, {
-          header: 'KYC Status',
+          header: 'Send user activation link',
           body: (
             <span>
-              KYC status obnovilsya!
+              Activation link has been sent to <strong>{email || uuid}</strong>.
             </span>
           ),
           footer: (
@@ -242,6 +247,14 @@ class ProfileLayout extends Component {
     }
   };
 
+  handleAddTag = (tag, priority) => {
+    this.props.addTag(this.props.params.id, tag, priority);
+  };
+
+  handleDeleteTag = (id) => {
+    this.props.deleteTag(this.props.params.id, id);
+  };
+
   render() {
     const { modal, popover, informationShown } = this.state;
     const {
@@ -252,8 +265,6 @@ class ProfileLayout extends Component {
       lastIp,
       location,
       availableTags,
-      addTag,
-      deleteTag,
       availableStatuses,
       accumulatedBalances,
       updateSubscription,
@@ -271,11 +282,11 @@ class ProfileLayout extends Component {
             availableStatuses={availableStatuses}
             onStatusChange={changeStatus}
             availableTags={availableTags}
-            addTag={addTag.bind(null, params.id)}
-            deleteTag={deleteTag.bind(null, params.id)}
+            addTag={this.handleAddTag}
+            deleteTag={this.handleDeleteTag}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
-            onApproveKYCClick={this.handleApproveKYCClick}
+            onProfileActivateClick={this.handleProfileActivateClick}
           />
 
           <div className="row">
@@ -323,9 +334,9 @@ class ProfileLayout extends Component {
           <NotePopover
             toggle={this.handlePopoverHide}
             isOpen
-            {...popover.params}
             onSubmit={this.handleSubmitNote}
             onDelete={this.handleDeleteNoteClick}
+            {...popover.params}
           />
         }
         {

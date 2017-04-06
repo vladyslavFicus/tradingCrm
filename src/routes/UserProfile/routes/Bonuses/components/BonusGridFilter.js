@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
-import { Link } from 'react-router';
-import { statusesLabels, typesLabels, assignLabels } from 'constants/bonus';
-import { createValidator } from 'utils/validator';
-import { formValueSelector } from 'redux-form';
 import DateTime from 'react-datetime';
 import classNames from 'classnames';
 import moment from 'moment';
+import { reduxForm, Field, formValueSelector } from 'redux-form';
+import { Link } from 'react-router';
+import { statusesLabels, typesLabels, assignLabels } from '../../../../../constants/bonus';
+import { createValidator } from '../../../../../utils/validator';
 
 const FORM_NAME = 'userBonusesFilter';
 const bonusGridValuesSelector = formValueSelector(FORM_NAME);
@@ -56,6 +55,11 @@ class BonusGridFilter extends Component {
     return currentValues.startDate
       ? current.isSameOrAfter(moment(currentValues.startDate))
       : true;
+  };
+
+  handleReset = () => {
+    this.props.reset();
+    this.props.onSubmit();
   };
 
   renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
@@ -121,7 +125,6 @@ class BonusGridFilter extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      reset,
       playerUUID,
     } = this.props;
 
@@ -226,8 +229,10 @@ class BonusGridFilter extends Component {
             <div className="col-md-2">
               <div className="form-group margin-top-25">
                 <button
-                  disabled={submitting} className="btn btn-default btn-sm margin-inline font-weight-700"
-                  onClick={reset}
+                  disabled={submitting}
+                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  onClick={this.handleReset}
+                  type="reset"
                 >
                   Reset
                 </button>

@@ -69,8 +69,6 @@ class Header extends Component {
       onResetPasswordClick,
     } = this.props;
 
-    console.log('availableStatuses', availableStatuses);
-
     return (
       <div className="operator-profile-header">
         <div className="row panel-heading">
@@ -81,15 +79,25 @@ class Header extends Component {
             </span>
           </div>
           <div className="operator-profile-actions">
-            <Button className="operator-profile-actions-button btn-default-outline">Send Invitation</Button>
-            <Button
-              className="operator-profile-actions-button btn-default-outline"
-              onClick={onResetPasswordClick}
-            >Reset Password</Button>
+            {
+              operatorStatus === statuses.INACTIVE &&
+              <Button className="operator-profile-actions-button btn-default-outline">
+                Send Invitation
+              </Button>
+            }
+            {
+              operatorStatus === statuses.ACTIVE &&
+              <Button
+                className="operator-profile-actions-button btn-default-outline"
+                onClick={onResetPasswordClick}
+              >
+                Reset Password
+              </Button>
+            }
           </div>
         </div>
         <div className="row panel-heading header-blocks">
-          <div className="header-block width-33">
+          <div className="header-block header-block_account width-33">
             <AccountStatus
               profileStatus={operatorStatus}
               onStatusChange={this.handleStatusChange}

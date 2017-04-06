@@ -1,6 +1,6 @@
-import { sourceActionCreators } from 'redux/modules/operator';
-import createReducer from 'utils/createReducer';
-import createRequestAction from 'utils/createRequestAction';
+import { sourceActionCreators } from '../../../redux/modules/operator';
+import createReducer from '../../../utils/createReducer';
+import createRequestAction from '../../../utils/createRequestAction';
 
 const KEY = 'set-password';
 const SET_NEW_PASSWORD = createRequestAction(`${KEY}/set-new-password`);

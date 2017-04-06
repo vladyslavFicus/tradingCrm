@@ -39,6 +39,7 @@ const config = {
     reasons: {
       rejection: [],
     },
+    limits: {},
   },
   middlewares: {},
   ...environmentConfig,
@@ -91,7 +92,11 @@ function getAvailableTags(department) {
 }
 
 function getTransactionRejectReasons() {
-  return config.nas.reasons.rejection || [];
+  return config.nas.reasons && config.nas.reasons.rejection ? config.nas.reasons.rejection : [];
+}
+
+function getLimitPeriods() {
+  return config.nas.limits || [];
 }
 
 function getApiRoot() {
@@ -109,6 +114,7 @@ export {
   getDomain,
   getAvailableTags,
   getTransactionRejectReasons,
+  getLimitPeriods,
 };
 
 export default config;

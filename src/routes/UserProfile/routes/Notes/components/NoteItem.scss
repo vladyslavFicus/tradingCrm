@@ -1,0 +1,30 @@
+.note-item {
+  .letter {
+    height: 40px;
+    width: 40px;
+    margin-left: auto;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    color: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    background: #666666;
+    &:after {
+      content: '';
+      position: relative;
+      top: 1px;
+    }
+    &-blue {
+      background: #0267cc;
+    }
+  }
+  .note-author {
+    color: #0066CC;
+  }
+  .note-label {
+    font-size: 10px;
+  }
+}

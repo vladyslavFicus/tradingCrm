@@ -16,7 +16,7 @@ export default store => ({
 
       injectReducer(store, { key: 'passwordResetView', reducer: require('./modules').default });
 
-      return cb(null, require('./containers/Container').default);
+      return cb(null, require('./container/Container').default);
     }, 'set-password');
   },
 });

@@ -4,12 +4,14 @@ import { SubmissionError } from 'redux-form';
 import AccountStatus from './AccountStatus';
 import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
-import ProfileTags from 'components/ProfileTags';
-import Amount from 'components/Amount';
-import NoteButton from 'components/NoteButton';
-import { statusColorNames } from 'constants/user';
-import { shortify } from 'utils/uuid';
+import ProfileTags from '../../../components/ProfileTags';
+import Amount from '../../../components/Amount';
+import NoteButton from '../../../components/NoteButton';
+import { statusColorNames } from '../../../constants/user';
+import { shortify } from '../../../utils/uuid';
 import './Header.scss';
+import permission from '../../../config/permissions';
+import Permissions from '../../../utils/permissions';
 
 class Header extends Component {
   static propTypes = {
@@ -36,7 +38,11 @@ class Header extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
-    onApproveKYCClick: PropTypes.func.isRequired,
+    onProfileActivateClick: PropTypes.func.isRequired,
+  };
+
+  static contextTypes = {
+    permissions: PropTypes.array.isRequired,
   };
 
   getUserAge = () => {
@@ -99,12 +105,17 @@ class Header extends Component {
         suspendEndDate,
         profileTags,
         uuid,
+        kycCompleted,
+        profileStatusReason,
       },
       availableStatuses,
       accumulatedBalances,
       availableTags,
       onAddNoteClick,
+      onResetPasswordClick,
+      onProfileActivateClick,
     } = this.props;
+    const { permissions: currentPermissions } = this.context;
     const selectedTags = profileTags
       ? profileTags.map(option => `${option.tagPriority}/${option.tag}`)
       : [];
@@ -126,18 +137,23 @@ class Header extends Component {
           <div className="pull-left">
             <div className="player__account__name h1">
               {[firstName, lastName, this.getUserAge()].join(' ')}
+              {' '}
+              {kycCompleted && <i className="fa fa-check text-success" />}
             </div>
             <span className="player__account__ids">
               {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
             </span>
           </div>
           <div className="col-md-4">
-            {profileTags && <ProfileTags
-              onAdd={this.handleTagAdd}
-              options={availableOptions}
-              value={valueOptions}
-              onDelete={this.handleTagDelete}
-            />}
+            {
+              profileTags &&
+              <ProfileTags
+                onAdd={this.handleTagAdd}
+                options={availableOptions}
+                value={valueOptions}
+                onDelete={this.handleTagDelete}
+              />
+            }
           </div>
           <div className="pull-right">
             <NoteButton
@@ -150,15 +166,19 @@ class Header extends Component {
             {' '}
             <UserProfileOptions
               items={[
-                { label: 'Reset password', onClick: this.props.onResetPasswordClick },
-                { label: 'Approve KYC', onClick: this.props.onApproveKYCClick },
+                { label: 'Reset password', onClick: onResetPasswordClick },
+                {
+                  label: 'Send activation link',
+                  onClick: onProfileActivateClick,
+                  visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
+                },
               ]}
             />
           </div>
         </div>
 
         <div className="row panel-body header-blocks header-blocks-5">
-          <div className="header-block">
+          <div className="header-block header-block_account">
             <AccountStatus
               profileStatus={profileStatus}
               onStatusChange={this.handleStatusChange}
@@ -167,17 +187,23 @@ class Header extends Component {
                   <span className="header-title">Account Status</span>
                   <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
                   {
+                    !!profileStatusReason &&
+                    <span className="font-size-12 color-default">
+                      by {profileStatusReason}
+                    </span>
+                  }
+                  {
                     !!suspendEndDate &&
-                    <small className="player__account__status-scince">
+                    <span className="player__account__status-since font-size-12">
                       Until {moment(suspendEndDate).format('L')}
-                    </small>
+                    </span>
                   }
                 </div>
               }
               availableStatuses={availableStatuses}
             />
           </div>
-          <div className="header-block">
+          <div className="header-block header-block_balance">
             <Balances
               label={
                 <div className="balance-tab">

@@ -27,6 +27,17 @@ For example:
   caption-side: initial;
 }
 
+.btn-transparent {
+  background: Transparent no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+}
+
 .highlighted-row {
   background: #d7d7d8;
 }
@@ -64,7 +75,7 @@ For example:
 
 .width-33 {
   position: relative;
-  width: 33%;
+  width: 33.3333333%;
   float: left;
   padding-left: 2rem;
 }
@@ -114,15 +125,15 @@ small {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
   }
 
-  .dropdown-item:hover{
+  .dropdown-item:hover {
     color: #827ca1;
   }
 }
+
 //Конец синей полоски//
 
-
 @media only screen and (max-width: 991px) {
-  .width-20{
+  .width-20 {
     padding-left: 1rem;
   }
 }
