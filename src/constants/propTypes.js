@@ -167,24 +167,60 @@ PropTypes.authorityEntity = PropTypes.shape({
   department: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
 });
+PropTypes.dropDownOption = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+});
 PropTypes.operatorProfile = PropTypes.shape({
   authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
   country: PropTypes.any,
-  email: PropTypes.string.isRequired,
-  firstName: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  operatorStatus: PropTypes.string.isRequired,
-  phoneNumber: PropTypes.string.isRequired,
-  registrationDate: PropTypes.string.isRequired,
+  email: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  operatorStatus: PropTypes.string,
+  phoneNumber: PropTypes.string,
+  registrationDate: PropTypes.string,
   statusChangeAuthor: PropTypes.any,
   statusChangeDate: PropTypes.any,
-  uuid: PropTypes.string.isRequired,
+  uuid: PropTypes.string,
 });
 PropTypes.limitPeriodEntity = PropTypes.shape({
   [limitTypes.DEPOSIT]: PropTypes.arrayOf(PropTypes.string).isRequired,
   [limitTypes.SESSION_DURATION]: PropTypes.arrayOf(PropTypes.string).isRequired,
   [limitTypes.LOSS]: PropTypes.arrayOf(PropTypes.string).isRequired,
   [limitTypes.WAGER]: PropTypes.arrayOf(PropTypes.string).isRequired,
+});
+PropTypes.navSubItem = PropTypes.shape({
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+});
+PropTypes.navItem = PropTypes.shape({
+  icon: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string,
+  items: PropTypes.arrayOf(PropTypes.navSubItem),
+});
+PropTypes.userPanelItem = PropTypes.shape({
+  fullName: PropTypes.string.isRequired,
+  login: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+});
+PropTypes.navbarNavItem = PropTypes.shape({
+  label: PropTypes.any.isRequired,
+  onClick: PropTypes.func,
+});
+PropTypes.auditEntity = PropTypes.shape({
+  authorFullName: PropTypes.string.isRequired,
+  authorUuid: PropTypes.string.isRequired,
+  creationDate: PropTypes.string.isRequired,
+  details: PropTypes.object.isRequired,
+  id: PropTypes.number.isRequired,
+  ip: PropTypes.string.isRequired,
+  targetFullName: PropTypes.string.isRequired,
+  targetUuid: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
 });
 
 export default PropTypes;

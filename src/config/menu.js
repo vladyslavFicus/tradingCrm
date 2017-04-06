@@ -1,9 +1,9 @@
 import Permissions, { CONDITIONS } from '../utils/permissions';
 import permission from './permissions';
 
-const sidebar = [
+const sidebarTopMenu = [
   {
-    label: 'Users',
+    label: 'Players',
     icon: 'fa fa-users',
     items: [
       { label: 'All', url: '/users/list' },
@@ -46,6 +46,9 @@ const sidebar = [
     ],
   },
 ];
+const sidebarBottomMenu = [
+  { label: 'Support', icon: 'fa fa-life-ring', url: '#' },
+];
 
 const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
@@ -55,6 +58,7 @@ const userProfileTabs = [
   { label: 'Limits', url: '/users/:id/limits' },
   { label: 'Files', url: '/users/:id/files' },
   { label: 'Notes', url: '/users/:id/notes' },
+  { label: 'Feed', url: '/users/:id/feed' },
 ];
 
 const operatorProfileTabs = [
@@ -62,7 +66,8 @@ const operatorProfileTabs = [
 ];
 
 export {
-  sidebar,
+  sidebarTopMenu,
+  sidebarBottomMenu,
   userProfileTabs,
   operatorProfileTabs,
 };

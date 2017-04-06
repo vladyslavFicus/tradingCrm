@@ -3,7 +3,7 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 import { sourceActionCreators as ipActionCreators } from '../../../../../redux/modules/ip';
 import createReducer from '../../../../../utils/createReducer';
 
-const KEY = 'user/ip';
+const KEY = 'operator/ip';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 
 const fetchEntities = ipActionCreators.fetchEntities(FETCH_ENTITIES);

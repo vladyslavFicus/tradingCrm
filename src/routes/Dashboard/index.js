@@ -1,7 +1,8 @@
-import View from './components/DashboardView';
-
 // Sync route definition
-export default (store) => ({
+export default () => ({
   path: '/',
-  component: View,
+  onEnter(nextState, replace, cb) {
+    replace({ pathname: '/users/list' });
+    cb();
+  },
 });

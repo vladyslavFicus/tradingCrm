@@ -19,10 +19,13 @@
     position: relative;
     float: left;
     padding-left: 1.2em;
-
     min-height: 70px;
 
-    &:first-child {
+    &_account {
+      padding-left: 0;
+    }
+
+    &_balance {
       padding-left: 0;
     }
 
