@@ -1,31 +1,47 @@
-$header-dim-color: #827ca1;
 $header-border-color: #dfe4ed;
 $button-color: #acb7bf;
 $font-size-small: 11px;
 
-.operator-profile-header {
-  .operator-profile-info {
-    float: left;
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
 
-    &-name {
-      margin-bottom: 5px;
+
+.panel-heading-row {
+  @include flexbox();
+  align-items: center;
+  padding: 25px 25px 0;
+  &_name-and-ids {
+    .operator-profile-info-name {
+      margin-bottom: 0;
+      font-size: 20px;
+      font-weight: bold;
     }
-
-    &-id {
-      color: $header-dim-color;
+    .operator-profile-info-id {
+      color: #827ca1;
     }
   }
-
   .operator-profile-actions {
-    float: right;
+    margin-left: auto;
+  }
+}
 
-    &-button {
-      border-color: $button-color;
-      color: $button-color;
+.operator-profile-header {
+  .fa-angle-down {
+    position: absolute;
+    bottom: 12px;
+    right: 10px;
+    color: #999999;
+    transition: all .2s;
+  }
 
-      &:first-child {
-        margin-right: 10px;
-      }
+  .open {
+    .fa-angle-down {
+      transform: rotate(180deg);
     }
   }
 }

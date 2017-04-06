@@ -16,12 +16,8 @@ i.green {
   font-size: 14px;
   font-weight: bold;
 }
-
-
-
 .player__account__name {
-  margin-bottom: 5px;
-  font-size: 28px;
+  font-size: 20px;
 }
 .player__account__ids {
   color: #827ca1;

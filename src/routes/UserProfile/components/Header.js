@@ -133,9 +133,9 @@ class Header extends Component {
 
     return (
       <div>
-        <div className="row panel-heading">
-          <div className="pull-left">
-            <div className="player__account__name h1">
+        <div className="panel-heading-row">
+          <div className="panel-heading-row_name-and-ids">
+            <div className="player__account__name">
               {[firstName, lastName, this.getUserAge()].join(' ')}
               {' '}
               {kycCompleted && <i className="fa fa-check text-success" />}
@@ -144,7 +144,7 @@ class Header extends Component {
               {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
             </span>
           </div>
-          <div className="col-md-4">
+          <div className="panel-heading-row_tags">
             {
               profileTags &&
               <ProfileTags
@@ -155,7 +155,7 @@ class Header extends Component {
               />
             }
           </div>
-          <div className="pull-right">
+          <div className="panel-heading-row_add-note">
             <NoteButton
               id="header-add-note-button"
               className="btn btn-default-outline"
@@ -184,7 +184,7 @@ class Header extends Component {
               onStatusChange={this.handleStatusChange}
               label={
                 <div className="dropdown-tab">
-                  <span className="header-title">Account Status</span>
+                  <span className="header-title">Account Status</span><i className="fa fa-angle-down" />
                   <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
                   {
                     !!profileStatusReason &&

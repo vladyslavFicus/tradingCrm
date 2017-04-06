@@ -71,29 +71,29 @@ class Header extends Component {
 
     return (
       <div className="operator-profile-header">
-        <div className="row panel-heading">
-          <div className="operator-profile-info">
-            <h3 className="operator-profile-info-name">{`${firstName} ${lastName}`}</h3>
+        <div className="panel-heading-row">
+          <div className="panel-heading-row_name-and-ids">
+            <div className="operator-profile-info-name">{`${firstName} ${lastName}`}</div>
             <span className="operator-profile-info-id">
               { shortify(uuid) } { country && ` - ${country}` }
             </span>
           </div>
           <div className="operator-profile-actions">
-            <Button className="operator-profile-actions-button btn-default-outline">Send Invitation</Button>
+            <Button className="btn-default-outline margin-right-10">Send Invitation</Button>
             <Button
-              className="operator-profile-actions-button btn-default-outline"
+              className="btn-default-outline"
               onClick={onResetPasswordClick}
             >Reset Password</Button>
           </div>
         </div>
         <div className="row panel-heading header-blocks">
-          <div className="header-block header-block_account width-33">
+          <div className="header-block header-block_account col-xs-3 padding-0">
             <AccountStatus
               profileStatus={operatorStatus}
               onStatusChange={this.handleStatusChange}
               label={
                 <div className="dropdown-tab">
-                  <div className="header-block-title">Account Status</div>
+                  <div className="header-block-title">Account Status</div><i className="fa fa-angle-down" />
                   <div className={`header-block-text ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
                   {
                     operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
@@ -105,7 +105,7 @@ class Header extends Component {
                     operatorStatus === statuses.CLOSED &&
                     <div>
                       {
-                        statusChangeAuthor &&
+                        statusChangeAuthor &&-
                         <div className="header-block-secondary-text">
                           by { shortify(statusChangeAuthor, 'OP') }
                         </div>
@@ -123,7 +123,7 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
           </div>
-          <div className="header-block width-33">
+          <div className="header-block col-xs-3">
             <div className="header-block-title">Registered</div>
             {
               registrationDate &&
@@ -137,7 +137,7 @@ class Header extends Component {
               </div>
             }
           </div>
-          <div className="header-block width-33">
+          <div className="header-block col-xs-6">
             <div className="header-block-title">Last Login</div>
             {this.renderLastLogin()}
           </div>
