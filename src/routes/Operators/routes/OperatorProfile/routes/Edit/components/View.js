@@ -3,6 +3,7 @@ import Form from './Form';
 import DepartmentsForm from './DepartmentsForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
+import { renderLabel } from '../../../../../utils';
 
 class View extends Component {
   static propTypes = {
@@ -74,22 +75,28 @@ class View extends Component {
                 <div className="row">
                   <h5 className="pull-left">Departments</h5>
                 </div>
-                <div className="row">
-                  {
-                    authorities.map((authority, key) => (
-                      <div key={key} className="form-group col-md-12">
-                        <div className="col-md-5 font-weight-700">
-                          {departmentsLabels[authority.department]} - {rolesLabels[authority.role]}
-                          <i
-                            onClick={() => this.handleDeleteAuthority(authority.department, authority.role)}
-                            className="fa fa-trash color-danger float-right"
-                            aria-hidden="true"
-                          />
+                {
+                  authorities.map((authority, key) => (
+                    <div key={key} className="form-group col-md-12">
+                      <div className="font-weight-700">
+                        <div className="row">
+                          <div className="pull-left">
+                            { renderLabel(authority.department, departmentsLabels) }
+                            {' - '}
+                            { renderLabel(authority.role, rolesLabels) }
+                          </div>
+                          <div className="pull-left margin-left-20">
+                            <i
+                              onClick={() => this.handleDeleteAuthority(authority.department, authority.role)}
+                              className="fa fa-trash color-danger"
+                              aria-hidden="true"
+                            />
+                          </div>
                         </div>
                       </div>
-                    ))
-                  }
-                </div>
+                    </div>
+                  ))
+                }
                 <div className="col-md-12">
                   <DepartmentsForm
                     onFetch={this.handleFetchAuthority}

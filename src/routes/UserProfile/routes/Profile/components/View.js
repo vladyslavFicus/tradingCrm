@@ -90,7 +90,7 @@ class View extends Component {
 
     return Promise.all([
       verifyData(params.id, kycCategories.KYC_PERSONAL),
-      verifyData(params.id, kycCategories.KYC_PERSONAL),
+      verifyData(params.id, kycCategories.KYC_ADDRESS),
     ]);
   };
 
@@ -180,29 +180,7 @@ class View extends Component {
       <div className="player__account__page_profile tab-content padding-vertical-20">
         <div className="row margin-bottom-20">
           <div className="col-md-6">
-            <div className="h3 margin-bottom-0">KYC Request</div>
-            <span className="font-size-12">
-              sent on {moment(data.kycDate).format('DD.MM.YYYY')}
-            </span>
-          </div>
-          <div className="col-md-6 text-right">
-            {
-              canRefuseAll &&
-              <div className="display-inline-block margin-inline">
-                <button className="btn btn-sm btn-danger-outline" onClick={this.handleRefuseAllClick}>
-                  Refuse All
-                </button>
-              </div>
-            }
-
-            {
-              canVerifyAll &&
-              <div className="display-inline-block margin-inline">
-                <button className="btn btn-sm btn-success-outline" onClick={this.handleVerifyAll}>
-                  Verify All
-                </button>
-              </div>
-            }
+            <div className="h3 margin-bottom-0">Profile</div>
           </div>
         </div>
 

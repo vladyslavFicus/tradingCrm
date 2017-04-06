@@ -8,9 +8,13 @@ import './Navbar.scss';
 
 class Navbar extends Component {
   static propTypes = {
+    showSearch: PropTypes.bool,
     router: PropTypes.shape({
       replace: PropTypes.func.isRequired,
     }).isRequired,
+  };
+  static defaultProps = {
+    showSearch: true,
   };
   static contextTypes = {
     user: PropTypes.shape({
@@ -38,11 +42,12 @@ class Navbar extends Component {
   render() {
     const { user, changeDepartment } = this.context;
     const { searchFieldActive, searchOverlayActive } = this.state;
+    const { showSearch } = this.props;
 
     return (
       <header className="layout-header navbar-fixed-top">
         <IndexLink className="navbar-brand" href={'/'}>
-          <img className="img-fluid" src="/img/temp/logo.png" alt="current-lottery-logo" />
+          <img className="img-fluid" src="/img/logoNewAge.png" alt="current-lottery-logo" />
         </IndexLink>
 
         <div className="left-navigation">
@@ -54,29 +59,32 @@ class Navbar extends Component {
             />
           </div>
 
-          <form className="form-inline">
-            <i className="fa fa-search" />
-            <input
-              className="form-control" type="text" placeholder="Type to search"
-              onClick={this.handleSearchFieldClick}
-            />
+          {
+            showSearch &&
+            <form className="form-inline">
+              <i className="fa fa-search" />
+              <input
+                className="form-control" type="text" placeholder="Type to search"
+                onClick={this.handleSearchFieldClick}
+              />
 
-            <div className={classNames('search-overlay', { open: searchFieldActive })}>
-              <div className="search-overlay__content">
-                <button
-                  type="button" className={classNames('overlay-close', { closed: searchOverlayActive })}
-                  onClick={this.handleOverlayClick}
-                >&#10005;</button>
-                <div className="form-inline">
-                  <input
-                    className="form-control" type="text" placeholder="Search..." autoFocus ref={(node) => {
-                    this.searchInput = node;
-                  }}
-                  />
+              <div className={classNames('search-overlay', { open: searchFieldActive })}>
+                <div className="search-overlay__content">
+                  <button
+                    type="button" className={classNames('overlay-close', { closed: searchOverlayActive })}
+                    onClick={this.handleOverlayClick}
+                  >&#10005;</button>
+                  <div className="form-inline">
+                    <input
+                      className="form-control" type="text" placeholder="Search..." autoFocus ref={(node) => {
+                      this.searchInput = node;
+                    }}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
+            </form>
+          }
         </div>
         <div className="right-navigation">
           <NavbarNav
