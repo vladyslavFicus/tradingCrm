@@ -86,7 +86,7 @@ class View extends Component {
         />
 
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-12 margin-top-20">
             <ListView
               dataSource={entities.content}
               itemClassName="padding-bottom-20"
