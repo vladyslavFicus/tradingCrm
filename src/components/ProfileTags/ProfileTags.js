@@ -75,10 +75,11 @@ class ProfileTags extends PureComponent {
         opened={showAutoComplete}
         className="btn btn-xs btn-default font-size-14"
         onChange={this.handleSelect}
+        onCloseClick={this.handleOutsideClick}
         optionRenderer={this.renderOption}
         options={options}
         onClick={this.handleToggleAutoComplete}
-        label={<i className="fa fa-plus-square"/>}
+        label={<i className="fa fa-plus-square" />}
         handleClickOutside={this.handleOutsideClick}
         disableClickOutside={!showAutoComplete}
       />}
