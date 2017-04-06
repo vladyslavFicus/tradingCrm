@@ -110,7 +110,7 @@ class NewLayout extends Component {
 const mapStateToProps = state => ({
   user: state.auth,
   permissions: state.permissions.data,
-  activeUserPanel: state.userPanels[state.userPanels.activeIndex] || null,
+  activeUserPanel: state.userPanels.items[state.userPanels.activeIndex] || null,
   userPanels: state.userPanels.items,
 });
 

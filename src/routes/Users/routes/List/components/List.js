@@ -64,8 +64,7 @@ class List extends Component {
 
   renderUserInfo = (data) => {
     const panelData = {
-      fullName: `${data.firstName} ${data.lastName}`,
-      color: 'orange',
+      fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
       login: data.username,
       uuid: data.playerUUID,
     };

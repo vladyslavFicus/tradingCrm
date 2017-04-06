@@ -13,10 +13,10 @@ function add(panel) {
   };
 }
 
-function remove(panel) {
+function remove(index) {
   return {
     type: REMOVE,
-    payload: panel,
+    payload: index,
   };
 }
 
@@ -40,9 +40,13 @@ const initialState = {
 const actionHandlers = {
   [SET_ACTIVE]: (state, action) => ({
     ...state,
-    activeIndex: action.payload,
+    activeIndex: state.activeIndex !== action.payload ? action.payload : null,
   }),
   [ADD]: (state, action) => {
+    if (state.items.length >= 5) {
+      return state;
+    }
+
     const existIndex = state.items.findIndex(item => item.uuid === action.payload.uuid);
 
     if (existIndex > -1) {
@@ -65,12 +69,16 @@ const actionHandlers = {
     return newState;
   },
   [REMOVE]: (state, action) => {
-    if (!state[action.payload]) {
+    if (!state.items[action.payload]) {
       return state;
     }
 
-    const newState = [...state];
-    newState.splice(action.payload, 1);
+    const newState = { ...state, items: [...state.items] };
+    newState.items.splice(action.payload, 1);
+
+    if (newState.activeIndex === action.payload) {
+      newState.activeIndex = newState.items.length > 0 || null;
+    }
 
     return newState;
   },

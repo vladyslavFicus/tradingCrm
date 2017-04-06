@@ -17,17 +17,14 @@ body.user-panel-open {
     .users-panel-footer {
       opacity: 1;
       z-index: 15;
-      &-row {
-        padding-left: 0;
-      }
     }
   }
   &-content {
-   position: fixed;
-   top: 0;
-   left: 0;
-   right: 0;
-   bottom: 44px;
+    position: fixed;
+    top: 48px;
+    left: 60px;
+    width: calc(100% - 60px);
+    height: calc(100% - 48px);
   }
 }
 

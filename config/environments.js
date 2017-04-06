@@ -20,6 +20,7 @@ const applicationConfig = {
   'components.Currency.currencies.USD.symbolOnLeft': true,
   'middlewares.persist.keyPrefix': 'nas:',
   'middlewares.persist.whitelist[0]': 'auth',
+  'middlewares.persist.whitelist[1]': 'userPanels',
   'middlewares.unauthorized[0]': 401,
   'middlewares.unauthorized[1]': 403,
   'nas.currencies.base': 'EUR',
