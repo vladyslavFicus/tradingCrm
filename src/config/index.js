@@ -40,6 +40,9 @@ const config = {
       rejection: [],
     },
     limits: {},
+    logstash: {
+      url: '',
+    },
   },
   middlewares: {},
   ...environmentConfig,
@@ -105,12 +108,17 @@ function getApiRoot() {
     : '';
 }
 
+function getErrorApiUrl() {
+  return config.nas.logstash.url || '';
+}
+
 function getDomain() {
   return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
 }
 
 export {
   getApiRoot,
+  getErrorApiUrl,
   getDomain,
   getAvailableTags,
   getTransactionRejectReasons,
