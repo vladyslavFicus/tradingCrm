@@ -45,9 +45,9 @@ class ProfileTags extends PureComponent {
   renderTags = (tags) => {
     return tags.map(tag => (
       <div key={tag.id} className="btn-group">
-        <span className={`tag-arrow tag-arrow-${tagClassNames[tag.priority]}`}></span>
+        <span className={`tag-arrow tag-arrow-${tagClassNames[tag.priority]}`} />
         <span className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]}`}>
-        {tag.value}
+          {tag.value}
         </span>
         <button
           type="button"

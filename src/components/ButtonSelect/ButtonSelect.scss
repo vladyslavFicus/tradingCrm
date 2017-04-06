@@ -4,9 +4,11 @@
   vertical-align: middle;
 
   .btn-default {
+    border-left: 0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     float: left;
+    background: #6a7a84;
   }
 
   & > button {
@@ -27,23 +29,42 @@
     }
   }
 
+  .Select:focus {
+    outline: none;
+  }
+
   .Select-control {
     display: inline-block;
-    width: 35%;
+    width: 32px;
     height: 21px;
     border-radius: 0;
+    background: #6a7a84;
+    border: 0;
+    color: #fff;
     .Select-input {
-      height: 21px;
+      height: 12px;
+      font-size: 10px;
+      input {
+        padding: 0 0 3px 0;
+      }
     }
-    .Select-placeholder {
-      line-height: 22;
+    .Select-arrow-zone {
+      display: none;
     }
   }
-  //& .Select--single > .Select-control .Select-value, .Select-placeholder {
-  //  left: 20px;
-  //}
-  //
-  //.Select-input {
-  //  padding-left: 30px;
-  //}
+
+  .btn-delete {
+    display: none;
+    left: 32px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .opened + .btn-default {
+    display: none;
+
+    &+.btn-delete {
+      display: block;
+    }
+  }
 }

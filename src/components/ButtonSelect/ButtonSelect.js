@@ -9,15 +9,22 @@ class ButtonSelect extends Component {
   render() {
     const { opened, onClick, label, className, ...rest } = this.props;
 
-    return <div className={classNames('button-select margin-left-10')}>
+    return <div className={classNames('button-select')}>
       <span className="tag-arrow tag-arrow-default" />
+
+      <div className={classNames('auto-complete', 'ignore-react-onclickoutside margin-left-10', { opened })}>
+        <ReactSelect {...rest} placeholder="" />
+      </div>
+
       <button className={className} onClick={onClick}>
         {label}
       </button>
 
-      <div className={classNames('auto-complete', 'ignore-react-onclickoutside margin-left-10', { opened })}>
-        <ReactSelect {...rest} />
-      </div>
+      <button
+        type="button"
+        className={`btn btn-xs btn-secondary btn-delete`}
+        onClick={(e) => this.props.onDelete(tag)}
+      >&times;</button>
     </div>;
   }
 }
