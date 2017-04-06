@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import moment from 'moment';
 import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
-import moment from 'moment';
 
 moment.updateLocale('en', {
   longDateFormat: {
