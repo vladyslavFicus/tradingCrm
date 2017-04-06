@@ -8,18 +8,26 @@ body.user-panel-open {
   overflow: hidden;
 }
 
-.user-panel {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  &.active {
-    background: white;
-    z-index: 15;
+.users-panel {
+  &-opened {
+    .users-panel-content {
+      background: white;
+      z-index: 15;
+    }
     .users-panel-footer {
       opacity: 1;
+      z-index: 15;
+      &-row {
+        padding-left: 0;
+      }
     }
+  }
+  &-content {
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 44px;
   }
 }
 
@@ -79,3 +87,4 @@ body.user-panel-open {
     }
   }
 }
+
