@@ -72,11 +72,11 @@ class View extends Component {
   renderItem = (data) => {
     return (
       <div className="padding-bottom-20">
-        <div className="user-wall-item clearfix">
-          <div className="s1">
+        <div className="row feed-item">
+          <div className="col-xs-1">
             <div className="letter letter-blue">o</div>
           </div>
-          <div className="s2">
+          <div className="col-xs-11 padding-left-0">
             <div className="user-wall-item-head">
               <div className="display-block color-secondary font-size-12">
                 {
@@ -96,7 +96,7 @@ class View extends Component {
               </span>
             </div>
             <div className="note panel panel-with-borders">
-              <div className="note-content panel-yellow padding-10 font-size-12">
+              <div className="note-content padding-10 font-size-12">
                 <div className="row">
                   <div className="col-md-11">
                     { data.content }
@@ -139,7 +139,7 @@ class View extends Component {
           initialValues={filters}
         />
 
-        <div className="padding-top-20 margin-top-20">
+        <div className="margin-top-30">
           <div className="user-wall">
             <ListView
               dataSource={content}
