@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import moment from 'moment';
 import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
+import { sendError, errorTypes } from './utils/errorLog';
 
 moment.updateLocale('en', {
   longDateFormat: {
@@ -56,4 +57,18 @@ createStore(initialState, (store) => {
   }
 
   render();
+});
+
+window.addEventListener('error', (e) => {
+  const error = {
+    message: `${errorTypes.INTERNAL} error - ${e.message}`,
+    errorType: errorTypes.INTERNAL,
+  };
+
+  const stack = e.error.stack;
+  if (stack) {
+    error.stack = `\n${stack}`;
+  }
+
+  sendError(error);
 });
