@@ -48,19 +48,19 @@ class SignInForm extends Component {
         </div>}
         <Field
           name="login"
-          label=""
           type="text"
           component={InputField}
+          placeholder={attributeLabels.login}
         />
         <Field
           name="password"
-          label=""
           type="password"
           component={InputField}
+          placeholder={attributeLabels.password}
         />
         <Field
           name="department"
-          label={attributeLabels.department}
+          placeholder={attributeLabels.department}
           type="text"
           component={SelectField}
         >

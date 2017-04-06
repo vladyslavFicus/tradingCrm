@@ -10,7 +10,7 @@ const FORM_NAME = 'userNotesFilter';
 const notesGridValuesSelector = formValueSelector(FORM_NAME);
 
 const attributeLabels = {
-  author: 'Fulltext search',
+  author: 'Author, targetId',
   startDate: 'Start date',
   endDate: 'End date',
 };
