@@ -60,7 +60,7 @@ class Notes extends Component {
     const { notes: { entities: notesEntities } } = this.props;
 
     return (
-      <div className="player__account__details_notes col-md-4">
+      <div className="player__account__details_notes">
         <span className="player__account__details_notes-label">Pined note's</span>
         <div className="panel panel-with-borders">
           <div className="notes panel-body height-200">

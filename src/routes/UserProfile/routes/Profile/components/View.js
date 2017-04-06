@@ -167,8 +167,6 @@ class View extends Component {
       personalData,
       addressData,
       contactData,
-      canVerifyAll,
-      canRefuseAll,
       downloadFile,
     } = this.props;
 

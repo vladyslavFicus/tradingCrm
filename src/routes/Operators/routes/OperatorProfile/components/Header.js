@@ -79,11 +79,21 @@ class Header extends Component {
             </span>
           </div>
           <div className="operator-profile-actions">
-            <Button className="btn-default-outline margin-right-10">Send Invitation</Button>
-            <Button
-              className="btn-default-outline"
-              onClick={onResetPasswordClick}
-            >Reset Password</Button>
+            {
+              operatorStatus === statuses.INACTIVE &&
+              <Button className="btn-default-outline margin-right-10">
+                Send Invitation
+              </Button>
+            }
+            {
+              operatorStatus === statuses.ACTIVE &&
+              <Button
+                className="btn-default-outline"
+                onClick={onResetPasswordClick}
+              >
+                Reset Password
+              </Button>
+            }
           </div>
         </div>
         <div className="row panel-heading header-blocks">
