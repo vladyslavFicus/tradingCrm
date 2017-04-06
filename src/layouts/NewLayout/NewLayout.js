@@ -76,7 +76,7 @@ class NewLayout extends Component {
       router,
       userPanels,
       activeUserPanel,
-      resetPanels,
+      removePanel,
       setActivePanel,
     } = this.props;
 
@@ -99,7 +99,7 @@ class NewLayout extends Component {
           active={activeUserPanel}
           items={userPanels}
           onItemClick={setActivePanel}
-          onRemove={resetPanels}
+          onRemove={removePanel}
           onClose={this.handleCloseTabs}
         />
       </div>
