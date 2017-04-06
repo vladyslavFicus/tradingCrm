@@ -3,7 +3,7 @@ import { sendError, errorTypes } from '../../utils/errorLog';
 const regExp = new RegExp('-failure$');
 
 export default () => next => (action) => {
-  if (action.error && regExp.test(action.type)) {
+  if (action && action.error && regExp.test(action.type)) {
     const error = {
       errorType: errorTypes.API,
       message: `${errorTypes.API} error`,

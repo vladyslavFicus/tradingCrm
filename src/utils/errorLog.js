@@ -7,8 +7,7 @@ const errorTypes = keyMirror({
 });
 
 const sendError = (params) => {
-  const errorApiUrl = getErrorApiUrl();
-  fetch(errorApiUrl, {
+  fetch(getErrorApiUrl(), {
     method: 'PUT',
     headers: {
       Accept: 'application/json',

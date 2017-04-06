@@ -59,16 +59,18 @@ createStore(initialState, (store) => {
   render();
 });
 
-window.addEventListener('error', (e) => {
-  const error = {
-    message: `${errorTypes.INTERNAL} error - ${e.message}`,
-    errorType: errorTypes.INTERNAL,
-  };
+if (window) {
+  window.addEventListener('error', (e) => {
+    const error = {
+      message: `${errorTypes.INTERNAL} error - ${e.message}`,
+      errorType: errorTypes.INTERNAL,
+    };
 
-  const stack = e.error.stack;
-  if (stack) {
-    error.stack = `\n${stack}`;
-  }
+    const stack = e.error.stack;
+    if (stack) {
+      error.stack = `\n${stack}`;
+    }
 
-  sendError(error);
-});
+    sendError(error);
+  });
+}
