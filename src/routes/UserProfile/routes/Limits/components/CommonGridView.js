@@ -132,7 +132,7 @@ class CommonGridView extends Component {
         {
           (data.status === statuses.IN_PROGRESS || data.status === statuses.ACTIVE) &&
           <div className="font-size-10 color-default">
-            since {moment(data.startDate).format('DD.MM.YYYY')}
+            since {moment(data.startDate).format('DD.MM.YYYY HH:mm')}
           </div>
         }
         {
@@ -147,7 +147,7 @@ class CommonGridView extends Component {
             {
               data.startDate &&
               <div className="font-size-10 color-default">
-                activates on {moment(data.startDate).format('DD.MM.YYYY')}
+                activates on {moment(data.startDate).format('DD.MM.YYYY HH:mm')}
               </div>
             }
           </div>
@@ -165,7 +165,7 @@ class CommonGridView extends Component {
               data.expirationDate &&
               <div className="font-size-10 color-default">
                 {data.status === statuses.COOLOFF ? 'until' : 'on'} {' '}
-                {moment(data.expirationDate).format('DD.MM.YYYY')}
+                {moment(data.expirationDate).format('DD.MM.YYYY HH:mm')}
               </div>
             }
           </div>
@@ -178,7 +178,7 @@ class CommonGridView extends Component {
     return (
       <div>
         <div className="font-weight-700">{typesLabels[data.type]}</div>
-        <div className="text-muted font-size-10">{shortify(data.author, 'OP')}</div>
+        <div className="text-muted font-size-10">{shortify(data.author)}</div>
       </div>
     );
   };
