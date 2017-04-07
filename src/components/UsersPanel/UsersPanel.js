@@ -44,7 +44,8 @@ class UsersPanel extends Component {
     const blockClassName = classNames('users-panel', { 'users-panel-opened': !!active });
     const footerClassName = classNames('users-panel-footer', {
       border: !!active,
-    }, `border-${colors[activeIndex]}`);
+      [`border-${colors[activeIndex]}`]: !!active,
+    });
 
     return (
       <div className={blockClassName}>

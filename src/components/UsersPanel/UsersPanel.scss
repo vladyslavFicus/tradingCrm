@@ -43,6 +43,7 @@ body.user-panel-open {
   color: #cccccc;
   transition: .5s ease-out;
   overflow: hidden;
+  z-index: 16;
   &-row {
     padding-left: 4.5rem;
   }
