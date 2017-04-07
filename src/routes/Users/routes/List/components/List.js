@@ -36,9 +36,7 @@ class List extends Component {
     this.handleRefresh();
   }
 
-  getUserAge = (birthDate) => {
-    return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
-  };
+  getUserAge = birthDate => birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
 
   handlePageChanged = (page) => {
     if (!this.props.isLoading) {
@@ -71,10 +69,8 @@ class List extends Component {
 
     return (
       <div>
-        <div className="font-weight-700">
-          <button className="btn-transparent" onClick={() => this.context.addPanel(panelData)}>
-            {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
-          </button>
+        <div className="font-weight-700 cursor-pointer" onClick={() => this.context.addPanel(panelData)}>
+          {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
         </div>
         <div className="font-size-11 color-default line-height-1">
           <div>{[data.username, shortify(data.playerUUID, 'PL')].join(' - ')}</div>
@@ -84,31 +80,25 @@ class List extends Component {
     );
   };
 
-  renderLocation = (data) => {
-    return (
-      <div className="font-weight-700">{data.country}</div>
-    );
-  };
+  renderLocation = data => (
+    <div className="font-weight-700">{data.country}</div>
+  );
 
-  renderAffiliate = (data) => {
-    return (
-      <div>{data.affiliateId ? data.affiliateId : 'Empty'}</div>
-    );
-  };
+  renderAffiliate = data => (
+    <div>{data.affiliateId ? data.affiliateId : 'Empty'}</div>
+  );
 
-  renderRegistered = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700">{ moment(data.registrationDate).format('DD.MM.YYYY') }</div>
-        <div className="font-size-11 color-default">
-          { moment(data.registrationDate).format('HH:mm:ss') }
-        </div>
+  renderRegistered = data => (
+    <div>
+      <div className="font-weight-700">{ moment(data.registrationDate).format('DD.MM.YYYY') }</div>
+      <div className="font-size-11 color-default">
+        { moment(data.registrationDate).format('HH:mm:ss') }
       </div>
-    );
-  };
+    </div>
+  );
 
-  renderBalance = (data) => {
-    return data.balance ?
+  renderBalance = data => (
+    data.balance ?
       <div>
         <div className="font-weight-700">
           <Amount {...data.balance} />
@@ -120,21 +110,19 @@ class List extends Component {
           </div>
         }
       </div>
-      : 'Empty';
-  };
+      : 'Empty'
+  );
 
-  renderStatus = (data) => {
-    return (
-      <div>
-        <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
-          {userStatusesLabels[data.profileStatus] || data.profileStatus}
-        </div>
-        <div className="font-size-11 color-default">
-          Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
-        </div>
+  renderStatus = data => (
+    <div>
+      <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
+        {userStatusesLabels[data.profileStatus] || data.profileStatus}
       </div>
-    );
-  };
+      <div className="font-size-11 color-default">
+        Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
+      </div>
+    </div>
+  );
 
   render() {
     const { filters } = this.state;

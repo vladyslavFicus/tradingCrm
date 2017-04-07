@@ -55,7 +55,11 @@ class UsersPanel extends Component {
               frameBorder={0}
               src={`/users/${item.uuid}/profile`}
               key={item.uuid}
-              style={{ display: active && active.uuid === item.uuid ? 'block' : 'none', width: '100%', height: '100%' }}
+              style={{
+                display: active && active.uuid === item.uuid ? 'block' : 'none',
+                width: '100%',
+                height: 'calc(100% - 48px)',
+              }}
             />
           ))}
         </div>

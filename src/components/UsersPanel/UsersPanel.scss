@@ -11,12 +11,10 @@ body.user-panel-open {
 .users-panel {
   &-opened {
     .users-panel-content {
-      background: white;
-      z-index: 15;
+      z-index: 16;
     }
     .users-panel-footer {
-      opacity: 1;
-      z-index: 15;
+      z-index: 16;
     }
   }
   &-content {
