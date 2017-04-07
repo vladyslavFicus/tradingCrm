@@ -15,6 +15,9 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+    noteTypes: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
   };
   static contextTypes = {
@@ -53,7 +56,7 @@ class View extends Component {
     });
   };
 
-  handleFilterSubmit = (filters = {}) => {
+  handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
@@ -125,18 +128,20 @@ class View extends Component {
   };
 
   render() {
-    const { filters } = this.state;
     const {
       view: {
         entities: { content, number, totalPages },
+      },
+      noteTypes: {
+        data: availableTypes,
       },
     } = this.props;
 
     return (
       <div className="tab-pane fade in active profile-tab-container">
         <NotesGridFilter
-          onSubmit={this.handleFilterSubmit}
-          initialValues={filters}
+          onSubmit={this.handleFiltersChanged}
+          availableTypes={availableTypes}
         />
 
         <div className="margin-top-30">

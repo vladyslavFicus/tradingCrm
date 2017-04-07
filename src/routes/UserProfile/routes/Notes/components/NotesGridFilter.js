@@ -1,23 +1,25 @@
 import React, { Component, PropTypes } from 'react';
-import { formValueSelector, reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import moment from 'moment';
 import DateTime from 'react-datetime';
 import { createValidator } from '../../../../../utils/validator';
+import { SelectField } from '../../../../../components/ReduxForm';
+import { targetTypesLabels } from '../../../../../constants/note';
 
 const FORM_NAME = 'userNotesFilter';
-const notesGridValuesSelector = formValueSelector(FORM_NAME);
-
 const attributeLabels = {
   searchValue: 'Author, targetUUID',
+  targetType: 'Target type',
   startDate: 'Start date',
   endDate: 'End date',
 };
 
-const validator = createValidator({
+const validate = (values, props) => createValidator({
   searchValue: 'string',
   startDate: 'string',
+  targetType: ['string', `in:,${props.availableTypes.join()}`],
   endDate: 'string',
 }, attributeLabels, false);
 
@@ -28,10 +30,16 @@ class NotesGridFilter extends Component {
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     currentValues: PropTypes.shape({
-      searchValue: PropTypes.string.isRequired,
-      startDate: PropTypes.string.isRequired,
-      endDate: PropTypes.string.isRequired,
+      searchValue: PropTypes.string,
+      targetType: PropTypes.string,
+      startDate: PropTypes.string,
+      endDate: PropTypes.string,
     }),
+    availableTypes: PropTypes.arrayOf(PropTypes.string),
+  };
+
+  static defaultProps = {
+    currentValues: {},
   };
 
   handleDateTimeChange = callback => (value) => {
@@ -41,7 +49,7 @@ class NotesGridFilter extends Component {
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues.endDate
+    return currentValues && currentValues.endDate
       ? current.isSameOrBefore(moment(currentValues.endDate))
       : true;
   };
@@ -49,7 +57,7 @@ class NotesGridFilter extends Component {
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues.startDate
+    return currentValues && currentValues.startDate
       ? current.isSameOrAfter(moment(currentValues.startDate))
       : true;
   };
@@ -107,6 +115,7 @@ class NotesGridFilter extends Component {
       submitting,
       handleSubmit,
       onSubmit,
+      availableTypes,
     } = this.props;
 
     return (
@@ -121,7 +130,7 @@ class NotesGridFilter extends Component {
           <div className="row">
             <div className="col-md-10">
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-3">
                   <Field
                     name="searchValue"
                     type="text"
@@ -129,6 +138,23 @@ class NotesGridFilter extends Component {
                     placeholder={attributeLabels.searchValue}
                     component={this.renderQueryField}
                   />
+                </div>
+
+                <div className="col-md-3">
+                  <Field
+                    name="targetType"
+                    label={attributeLabels.targetType}
+                    labelClassName="form-label"
+                    component={SelectField}
+                    position="vertical"
+                  >
+                    <option value="">All types</option>
+                    {availableTypes.map(type => (
+                      <option key={type} value={type}>
+                        {targetTypesLabels[type] || type}
+                      </option>
+                    ))}
+                  </Field>
                 </div>
 
                 <div className="col-md-6">
@@ -183,15 +209,11 @@ class NotesGridFilter extends Component {
   }
 }
 
-const FilterForm = reduxForm({
-  form: FORM_NAME,
-  validate: validator,
-})(NotesGridFilter);
-
 export default connect(state => ({
-  currentValues: {
-    searchValue: notesGridValuesSelector(state, 'searchValue') || '',
-    startDate: notesGridValuesSelector(state, 'startDate') || '',
-    endDate: notesGridValuesSelector(state, 'endDate') || '',
-  },
-}))(FilterForm);
+  currentValues: getFormValues(FORM_NAME)(state),
+}))(
+  reduxForm({
+    form: FORM_NAME,
+    validate,
+  })(NotesGridFilter)
+);
