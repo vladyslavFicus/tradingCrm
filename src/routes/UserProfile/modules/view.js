@@ -396,7 +396,7 @@ function checkLock(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/${uuid}`,
+        endpoint: `payment/payments/lock/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -416,7 +416,7 @@ function lockDeposit(playerUUID, reason) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'payment/lock/deposit',
+        endpoint: 'payment/payments/lock/deposit',
         method: 'POST',
         types: [DEPOSIT_LOCK.REQUEST, DEPOSIT_LOCK.SUCCESS, DEPOSIT_LOCK.FAILURE],
         headers: {
@@ -441,7 +441,7 @@ function unlockDeposit(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/deposit/${uuid}`,
+        endpoint: `payment/payments/lock/${uuid}/deposit`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
@@ -462,7 +462,7 @@ function lockWithdraw(playerUUID, reason) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'payment/lock/withdraw',
+        endpoint: 'payment/payments/lock/withdraw',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -486,7 +486,7 @@ function unlockWithdraw(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/withdraw/${uuid}`,
+        endpoint: `payment/payments/lock/${uuid}/withdraw`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',

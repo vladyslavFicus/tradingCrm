@@ -32,7 +32,7 @@ function fetchPaymentStatuses(id) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/${id}/statuses`,
+        endpoint: `payment/payments/${id}/statuses`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

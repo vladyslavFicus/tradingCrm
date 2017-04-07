@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
-import timestamp from 'utils/timestamp';
-import { actionCreators as usersActionCreators } from 'redux/modules/users';
+import createRequestAction from '../../../utils/createRequestAction';
+import timestamp from '../../../utils/timestamp';
+import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
 
 const KEY = 'user-profile';
 const PROFILE = createRequestAction(`${KEY}/view`);
@@ -50,17 +50,15 @@ export const initialState = {
   withdraw: withdrawInitialState,
 };
 
-const mapBalances = (items) => {
-  return Object
-    .keys(items)
-    .reduce((result, item) => (
-      result.push({
-        amount: parseFloat(items[item].replace(item, '')).toFixed(2),
-        currency: item,
-      }),
-        result
-    ), []);
-};
+const mapBalances = items => Object
+  .keys(items)
+  .reduce((result, item) => (
+    result.push({
+      amount: parseFloat(items[item].replace(item, '')).toFixed(2),
+      currency: item,
+    }),
+      result
+  ), []);
 
 function fetchProfile(uuid) {
   return usersActionCreators.fetchProfile(PROFILE)(uuid);
@@ -162,7 +160,7 @@ function checkLock(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/${uuid}`,
+        endpoint: `payment/payments/lock/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -182,7 +180,7 @@ function lockDeposit(playerUUID, reason) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/deposit`,
+        endpoint: 'payment/payments/lock/deposit',
         method: 'POST',
         types: [DEPOSIT_LOCK.REQUEST, DEPOSIT_LOCK.SUCCESS, DEPOSIT_LOCK.FAILURE],
         headers: {
@@ -207,7 +205,7 @@ function unlockDeposit(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/deposit/${uuid}`,
+        endpoint: `payment/payments/lock/${uuid}/deposit`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
@@ -228,7 +226,7 @@ function lockWithdraw(playerUUID, reason) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/withdraw`,
+        endpoint: 'payment/payments/lock/withdraw',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -252,7 +250,7 @@ function unlockWithdraw(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/withdraw/${uuid}`,
+        endpoint: `payment/payments/lock/${uuid}/withdraw`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',

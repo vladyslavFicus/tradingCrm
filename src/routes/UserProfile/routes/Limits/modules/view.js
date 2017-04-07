@@ -59,7 +59,7 @@ function fetchDepositLimit(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/payment/${uuid}/limits`,
+        endpoint: `/payment/payments/limits/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -174,7 +174,7 @@ function setDepositLimit(playerUUID, data) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/payment/${playerUUID}/limits/deposit`,
+        endpoint: `/payment/payments/limits/${playerUUID}/deposit`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -234,7 +234,7 @@ function cancelDepositLimit(playerUUID, limitId) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/payment/${playerUUID}/limits/deposit/${limitId}`,
+        endpoint: `/payment/payments/limits/${playerUUID}/deposit/${limitId}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
