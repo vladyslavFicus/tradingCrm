@@ -136,7 +136,6 @@
     "redux-api-middleware": "^1.0.2",
     "redux-form": "^6.5.0",
     "redux-persist": "^4.6.0",
-    "redux-thunk": "^2.2.0",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.3",
     "scroll-behavior": "^0.9.2",
