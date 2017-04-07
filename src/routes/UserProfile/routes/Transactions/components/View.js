@@ -329,13 +329,8 @@ class View extends Component {
           />
           <GridColumn
             name="creationTime"
-            header={() => {
-              return <div>
-                DATE & TIME
-                <span className="fa fa-caret-down sort-arrow" />
-              </div>;
-            }}
-            headerClassName="text-uppercase cursor-pointer"
+            header="DATE & TIME"
+            headerClassName="text-uppercase"
             render={this.renderDateTime}
           />
           <GridColumn
