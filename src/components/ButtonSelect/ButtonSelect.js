@@ -22,7 +22,7 @@ class ButtonSelect extends Component {
     return <div className={classNames('button-select')}>
       <span className="tag-arrow tag-arrow-default" />
 
-      <div className={classNames('auto-complete', 'ignore-react-onclickoutside margin-left-10', { opened })}>
+      <div className={classNames('auto-complete', 'ignore-react-onclickoutside', { opened })}>
         <ReactSelect {...rest} placeholder="" ref={(selectField) => { this.selectField = selectField; }} />
       </div>
 

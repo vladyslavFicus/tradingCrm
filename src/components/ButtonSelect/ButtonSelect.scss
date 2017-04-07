@@ -9,6 +9,7 @@
     border-bottom-left-radius: 0;
     float: left;
     background: #6a7a84;
+    border-color: #6a7a84;
   }
 
   & > button {
@@ -17,15 +18,24 @@
   }
 
   & > .auto-complete {
-    position: absolute;
+    position: relative;
     top: 0;
-    left: 10px;
     display: none;
-    width: 300px;
+    height: 21px;
     z-index: 2;
 
     &.opened {
       display: block;
+      float: left;
+    }
+  }
+
+  .Select {
+    position: relative;
+    height: 22px;
+    .Select-menu-outer {
+      position: absolute;
+      min-width: 150px;
     }
   }
 
@@ -35,12 +45,15 @@
 
   .Select-control {
     display: inline-block;
-    width: 32px;
     height: 21px;
+    min-width: 31px;
     border-radius: 0;
     background: #6a7a84;
     border: 0;
     color: #fff;
+    .Select-placeholder {
+      padding: 0;
+    }
     .Select-input {
       height: 12px;
       font-size: 10px;
@@ -55,7 +68,7 @@
 
   .btn-delete {
     display: none;
-    left: 32px;
+    float: left;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }

@@ -1,3 +1,58 @@
 .player__account__lastlogin-info {
   display: block;
 }
+
+.tag-group {
+  transition: 0s;
+  opacity: 0.8;
+  .btn + .btn {
+    margin-left: 0;
+  }
+  .tag-red {
+    background: #fb434a;
+    border-color: #fb434a;
+    &:hover {
+      background: #fb434a;
+      border-color: #fb434a;
+    }
+  }
+  .tag-green {
+    background: #46be8a;
+    border-color: #46be8a;
+    &:hover {
+      background: #46be8a;
+      border-color: #46be8a;
+    }
+  }
+  .tag-grey {
+    background: #6a7a84;
+    border-color: #6a7a84;
+    &:hover {
+      background: #6a7a84;
+      border-color: #6a7a84;
+    }
+  }
+  .btn,
+  .btn:hover {
+    transition: 0s;
+  }
+  &:hover {
+    opacity: 1;
+    .tag-arrow,
+    .btn {
+      opacity: 1;
+      transition: 0s;
+    }
+  }
+  .btn-hello {
+    background: red;
+    border-color: red;
+    &:hover {
+      background: red;
+      border-color: red;
+    }
+  }
+  .btn-del:hover {
+    opacity: 0.8;
+  }
+}
