@@ -20,17 +20,17 @@ class Additional extends Component {
 
     return (
       <div className="player__account__details_additional">
-        <span className="player__account__details_additional-label">Additional information</span>
-        <div className="panel panel-with-borders">
-          <div className="panel-body padding-5 height-200">
+        <span className="player__account__details-label">Additional information</span>
+        <div className="panel">
+          <div className="panel-body height-200">
             <small className="player__account__details_additional-label">
               Marketing
             </small>
             <div className="row">
-              <div className="col-xs-6">
-                <b>SMS</b>:
+              <div className="col-xs-8">
+                <span>SMS</span>
               </div>
-              <div className="col-xs-6 text-right">
+              <div className="col-xs-4 text-right">
                 <Switch
                   active={initialValues[SUBSCRIPTION_TYPE_SMS]}
                   handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
@@ -38,10 +38,10 @@ class Additional extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-6">
-                <b>News</b>:
+              <div className="col-xs-8">
+                <span>News</span>
               </div>
-              <div className="col-xs-6 text-right">
+              <div className="col-xs-4 text-right">
                 <Switch
                   active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
                   handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
@@ -49,10 +49,10 @@ class Additional extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-6">
-                <b>Snail mail</b>:
+              <div className="col-xs-8">
+                <span>Snail mail</span>
               </div>
-              <div className="col-xs-6 text-right">
+              <div className="col-xs-4 text-right">
                 <Switch
                   active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
                   handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
@@ -67,3 +67,4 @@ class Additional extends Component {
 }
 
 export default Additional;
+
