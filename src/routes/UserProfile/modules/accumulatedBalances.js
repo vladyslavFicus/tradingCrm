@@ -15,7 +15,7 @@ function fetchEntities(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/payments/accumulated/${uuid}`,
+        endpoint: `payment/accumulated/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
