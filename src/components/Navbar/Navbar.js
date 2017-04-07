@@ -45,7 +45,7 @@ class Navbar extends Component {
     const { showSearch } = this.props;
 
     return (
-      <header className="layout-header navbar-fixed-top">
+      <header className="layout-header">
         <IndexLink className="navbar-brand" href={'/'}>
           <img className="img-fluid" src="/img/logoNewAge.png" alt="current-lottery-logo" />
         </IndexLink>

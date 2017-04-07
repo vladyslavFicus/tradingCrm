@@ -21,6 +21,10 @@ class List extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+    exportEntities: PropTypes.func.isRequired,
+  };
+  static contextTypes = {
+    addPanel: PropTypes.func.isRequired,
   };
 
   state = {
@@ -31,6 +35,10 @@ class List extends Component {
   componentWillMount() {
     this.handleRefresh();
   }
+
+  getUserAge = (birthDate) => {
+    return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
+  };
 
   handlePageChanged = (page) => {
     if (!this.props.isLoading) {
@@ -54,17 +62,19 @@ class List extends Component {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
-  getUserAge = (birthDate) => {
-    return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
-  };
-
   renderUserInfo = (data) => {
+    const panelData = {
+      fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
+      login: data.username,
+      uuid: data.playerUUID,
+    };
+
     return (
       <div>
         <div className="font-weight-700">
-          <Link to={`/users/${data.playerUUID}/profile`} target="_blank">
+          <button className="btn-transparent" onClick={() => this.context.addPanel(panelData)}>
             {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
-          </Link>
+          </button>
         </div>
         <div className="font-size-11 color-default line-height-1">
           <div>{[data.username, shortify(data.playerUUID, 'PL')].join(' - ')}</div>
