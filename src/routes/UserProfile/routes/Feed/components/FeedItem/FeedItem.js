@@ -54,7 +54,7 @@ class FeedItem extends Component {
             {letter}
           </div>
         </div>
-        <div className="col-xs-11 padding-left-0 line-height-1">
+        <div className="col-xs-11 padding-left-0 line-height-115">
           <div>
             <span className={classNames('status', typesClassNames[data.type])}>
               {
