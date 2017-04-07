@@ -128,7 +128,7 @@ class ProfileLayout extends Component {
   handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
     this.setState({
       popover: {
-        name: 'note-popover',
+        name: NOTE_POPOVER,
         params: {
           ...params,
           target,
@@ -146,7 +146,7 @@ class ProfileLayout extends Component {
   handleEditNoteClick = (target, item, params = {}) => {
     this.setState({
       popover: {
-        name: 'note-popover',
+        name: NOTE_POPOVER,
         params: {
           ...params,
           item,

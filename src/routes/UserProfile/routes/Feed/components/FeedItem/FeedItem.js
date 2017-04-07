@@ -54,22 +54,8 @@ class FeedItem extends Component {
             {letter}
           </div>
         </div>
-        <div className="col-xs-11 padding-left-0">
-          <div className="first-row">
-            <span className={classNames('audit-name', color)}>
-              {data.authorFullName}
-            </span> - {shortify(data.authorUuid, data.authorUuid === data.targetUuid ? 'PL' : null)}
-            <span className="pull-right">{shortify(data.uuid)}</span>
-          </div>
-          <div className="date-time-ip">
-            {data.creationDate ? moment(data.creationDate).format('YYYY-MM-DD HH:mm:ss') : null}
-            {
-              [types.PLAYER_LOG_IN, types.PLAYER_LOG_OUT].indexOf(data.type) === -1 && data.ip
-                ? ` from ${data.ip}`
-                : null
-            }
-          </div>
-          <div className="padding-top-5">
+        <div className="col-xs-11 padding-left-0 line-height-1">
+          <div>
             <span className={classNames('status', typesClassNames[data.type])}>
               {
                 data.type && typesLabels[data.type]
@@ -77,6 +63,20 @@ class FeedItem extends Component {
                   : data.type
               }
             </span>
+          </div>
+          <div className="first-row">
+            <span className={classNames('audit-name', color)}>
+              {data.authorFullName}
+            </span> - {shortify(data.authorUuid, data.authorUuid === data.targetUuid ? 'PL' : null)}
+            <span className="pull-right">{shortify(data.uuid)}</span>
+          </div>
+          <div className="date-time-ip padding-bottom-5">
+            {data.creationDate ? moment(data.creationDate).format('YYYY-MM-DD HH:mm:ss') : null}
+            {
+              [types.PLAYER_LOG_IN, types.PLAYER_LOG_OUT].indexOf(data.type) === -1 && data.ip
+                ? ` from ${data.ip}`
+                : null
+            }
             <button className="btn-transparent hide" onClick={this.handleToggleClick}>
               {
                 opened

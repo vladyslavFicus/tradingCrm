@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import makeRootReducer from './reducers';
 import apiUrl from '../redux/middlewares/apiUrl';
 import authMiddleware from '../redux/middlewares/auth';
+import apiErrors from '../redux/middlewares/apiErrors';
 import { actionCreators as locationActionCreators } from '../redux/modules/location';
 import { actionCreators as permissionsActionCreators } from '../redux/modules/permissions';
 import unauthorized from '../redux/middlewares/unauthorized';
@@ -20,6 +21,7 @@ export default (initialState = {}, onComplete) => {
     apiMiddleware,
     unauthorized(config.middlewares.unauthorized),
     authMiddleware,
+    apiErrors,
   ];
 
   // ======================================================

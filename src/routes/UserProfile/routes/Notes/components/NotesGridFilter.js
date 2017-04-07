@@ -10,13 +10,13 @@ const FORM_NAME = 'userNotesFilter';
 const notesGridValuesSelector = formValueSelector(FORM_NAME);
 
 const attributeLabels = {
-  author: 'Author, targetId',
+  searchValue: 'Author, targetUUID',
   startDate: 'Start date',
   endDate: 'End date',
 };
 
 const validator = createValidator({
-  author: 'string',
+  searchValue: 'string',
   startDate: 'string',
   endDate: 'string',
 }, attributeLabels, false);
@@ -28,7 +28,7 @@ class NotesGridFilter extends Component {
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     currentValues: PropTypes.shape({
-      author: PropTypes.string.isRequired,
+      searchValue: PropTypes.string.isRequired,
       startDate: PropTypes.string.isRequired,
       endDate: PropTypes.string.isRequired,
     }),
@@ -123,10 +123,10 @@ class NotesGridFilter extends Component {
               <div className="row">
                 <div className="col-md-6">
                   <Field
-                    name="author"
+                    name="searchValue"
                     type="text"
                     label={'Search by'}
-                    placeholder={attributeLabels.author}
+                    placeholder={attributeLabels.searchValue}
                     component={this.renderQueryField}
                   />
                 </div>
@@ -190,7 +190,7 @@ const FilterForm = reduxForm({
 
 export default connect(state => ({
   currentValues: {
-    author: notesGridValuesSelector(state, 'author') || '',
+    searchValue: notesGridValuesSelector(state, 'searchValue') || '',
     startDate: notesGridValuesSelector(state, 'startDate') || '',
     endDate: notesGridValuesSelector(state, 'endDate') || '',
   },

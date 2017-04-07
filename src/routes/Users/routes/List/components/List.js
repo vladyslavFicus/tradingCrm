@@ -66,7 +66,7 @@ class List extends Component {
             {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
           </Link>
         </div>
-        <div className="font-size-12 color-default">
+        <div className="font-size-11 color-default line-height-1">
           <div>{[data.username, shortify(data.playerUUID, 'PL')].join(' - ')}</div>
           <div>{data.languageCode}</div>
         </div>
@@ -90,7 +90,7 @@ class List extends Component {
     return (
       <div>
         <div className="font-weight-700">{ moment(data.registrationDate).format('DD.MM.YYYY') }</div>
-        <div className="font-size-12 color-default">
+        <div className="font-size-11 color-default">
           { moment(data.registrationDate).format('HH:mm:ss') }
         </div>
       </div>
@@ -105,7 +105,7 @@ class List extends Component {
         </div>
         {
           data.lastDeposit && data.lastDeposit.transactionDate &&
-          <div className="font-size-12 color-default">
+          <div className="font-size-11 color-default">
             Last deposit { moment(data.lastDeposit.transactionDate).format('DD.MM.YYYY') }
           </div>
         }
@@ -119,7 +119,7 @@ class List extends Component {
         <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
           {userStatusesLabels[data.profileStatus] || data.profileStatus}
         </div>
-        <div className="font-size-12 color-default">
+        <div className="font-size-11 color-default">
           Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
         </div>
       </div>
@@ -143,7 +143,7 @@ class List extends Component {
             />
             <GridView
               tableClassName="table table-hovered data-grid-layout"
-              headerClassName=""
+              headerClassName="text-uppercase"
               dataSource={entities.content}
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
@@ -153,37 +153,31 @@ class List extends Component {
               <GridColumn
                 name="id"
                 header="Player"
-                headerClassName="text-uppercase"
                 render={this.renderUserInfo}
               />
               <GridColumn
                 name="location"
                 header="Location"
-                headerClassName="text-uppercase"
                 render={this.renderLocation}
               />
               <GridColumn
                 name="affiliateId"
                 header="Affiliate"
-                headerClassName="text-uppercase"
                 render={this.renderAffiliate}
               />
               <GridColumn
                 name="registrationDate"
                 header="Registered"
-                headerClassName="text-uppercase"
                 render={this.renderRegistered}
               />
               <GridColumn
                 name="balance"
                 header="Balance"
-                headerClassName="text-uppercase"
                 render={this.renderBalance}
               />
               <GridColumn
                 name="profileStatus"
                 header="Status"
-                headerClassName="text-uppercase"
                 render={this.renderStatus}
               />
             </GridView>
