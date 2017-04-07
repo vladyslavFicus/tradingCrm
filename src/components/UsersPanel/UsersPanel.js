@@ -24,7 +24,7 @@ class UsersPanel extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.active && this.props.active) {
+    if (nextProps.active && !this.props.active) {
       document.body.classList.add('user-panel-open');
     }
 

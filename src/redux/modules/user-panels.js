@@ -78,6 +78,8 @@ const actionHandlers = {
 
     if (newState.activeIndex === action.payload) {
       newState.activeIndex = newState.items.length > 0 || null;
+    } else {
+      newState.activeIndex = newState.items.indexOf(state.items[state.activeIndex]);
     }
 
     return newState;
