@@ -29,7 +29,6 @@
 
 .panel-heading-row {
   @include flexbox();
-  align-items: center;
   padding: 25px 25px 0;
   &_name-and-ids {
     max-width: 40%;
@@ -43,9 +42,11 @@
     }
   }
   &_tags {
-    max-width: 30%;
+    max-width: 40%;
+    margin-top: 4px;
   }
   &_add-note {
     margin-left: auto;
+    align-self: center;
   }
 }
