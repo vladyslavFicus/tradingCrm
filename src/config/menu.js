@@ -5,26 +5,46 @@ const sidebarTopMenu = [
   {
     label: 'Players',
     icon: 'fa fa-users',
-    items: [
-      { label: 'All', url: '/users/list' },
-      { label: 'Dormant', url: '/users/dormant' },
-    ],
+    url: '/users/list',
   },
   {
     label: 'Operators',
-    icon: 'fa fa-user',
+    icon: 'fa fa-eye',
     url: '/operators/list',
   },
   {
     label: 'Payments',
     icon: 'fa fa-credit-card',
+    url: '/payments',
     items: [
-      { label: 'All', url: '/payments' },
-      { label: 'Open loop', url: '/payments/open-loops' },
+      { label: 'Transactions', url: '/payments' },
+      { label: 'Payment methods', url: '/payment-methods' },
     ],
   },
-  { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
-  { label: 'Terms & conditions', url: '/terms', icon: 'fa fa-align-justify' },
+  {
+    label: 'Bonus campaigns',
+    icon: 'fa fa-gift',
+    url: '/bonus-campaigns',
+  },
+  {
+    label: 'MGA',
+    icon: 'fa fa-pie-chart',
+    url: '/reports/player-liability',
+    items: [
+      { label: 'Player liability report', url: '/reports/player-liability' },
+      { label: 'Revenue report', url: '/reports/revenue' },
+      { label: 'Dormant players', url: '/users/dormant' },
+      { label: 'Open loops', url: '/payments/open-loops' },
+    ],
+  },
+  {
+    label: 'Settings',
+    icon: 'fa fa-cog',
+    url: '/settings/countries',
+    items: [
+      { label: 'Countries', url: '/settings/countries' },
+    ],
+  },
   {
     label: 'Reports',
     icon: 'fa fa-align-justify',
