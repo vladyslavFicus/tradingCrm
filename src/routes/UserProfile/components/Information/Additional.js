@@ -27,10 +27,10 @@ class Additional extends Component {
               Marketing
             </small>
             <div className="row">
-              <div className="col-xs-6">
+              <div className="col-xs-8">
                 <span>SMS</span>
               </div>
-              <div className="col-xs-6 text-right">
+              <div className="col-xs-4 text-right">
                 <Switch
                   active={initialValues[SUBSCRIPTION_TYPE_SMS]}
                   handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
@@ -38,10 +38,10 @@ class Additional extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-6">
+              <div className="col-xs-8">
                 <span>News</span>
               </div>
-              <div className="col-xs-6 text-right">
+              <div className="col-xs-4 text-right">
                 <Switch
                   active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
                   handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
@@ -49,10 +49,10 @@ class Additional extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-6">
+              <div className="col-xs-8">
                 <span>Snail mail</span>
               </div>
-              <div className="col-xs-6 text-right">
+              <div className="col-xs-4 text-right">
                 <Switch
                   active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
                   handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}

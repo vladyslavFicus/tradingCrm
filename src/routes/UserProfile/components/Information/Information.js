@@ -25,10 +25,10 @@ class Information extends Component {
 
     return (
       <div className="player__account__details row">
-        <div className="col-md-3">
+        <div className="col-md-4">
           <Personal data={data} />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-2">
           <Additional
             initialValues={{
               marketingMail: data.marketingMail,
