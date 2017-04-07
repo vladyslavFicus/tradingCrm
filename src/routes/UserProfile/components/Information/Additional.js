@@ -20,15 +20,15 @@ class Additional extends Component {
 
     return (
       <div className="player__account__details_additional">
-        <span className="player__account__details_additional-label">Additional information</span>
-        <div className="panel panel-with-borders">
-          <div className="panel-body padding-5 height-200">
+        <span className="player__account__details-label">Additional information</span>
+        <div className="panel">
+          <div className="panel-body height-200">
             <small className="player__account__details_additional-label">
               Marketing
             </small>
             <div className="row">
               <div className="col-xs-6">
-                <b>SMS</b>:
+                <span>SMS</span>
               </div>
               <div className="col-xs-6 text-right">
                 <Switch
@@ -39,7 +39,7 @@ class Additional extends Component {
             </div>
             <div className="row">
               <div className="col-xs-6">
-                <b>News</b>:
+                <span>News</span>
               </div>
               <div className="col-xs-6 text-right">
                 <Switch
@@ -50,7 +50,7 @@ class Additional extends Component {
             </div>
             <div className="row">
               <div className="col-xs-6">
-                <b>Snail mail</b>:
+                <span>Snail mail</span>
               </div>
               <div className="col-xs-6 text-right">
                 <Switch
@@ -67,3 +67,4 @@ class Additional extends Component {
 }
 
 export default Additional;
+
