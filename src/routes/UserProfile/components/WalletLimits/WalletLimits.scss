@@ -3,8 +3,8 @@
     padding-left: 1.2rem;
     &_status {
       font-size: 13px;
-      font-weight: bold;
-      color: #000000;
+      font-weight: 600;
+      color: #333333;
       &_is-locked {
         text-transform: uppercase;
         color: #CC0000;
@@ -14,5 +14,29 @@
         color: #009900;
       }
     }
+    &_log {
+      font-size: 11px;
+    }
+  }
+  &_btn-group {
+    display: inline-flex;
+    padding: 1rem 1.2rem;
+    button {
+      flex: 1 0 auto;
+    }
+  }
+  .limits-info {
+    padding: .5rem 1.2rem;
+    border-top: 1px solid #eeeeee;
+    cursor: default;
+    &_tab {
+      padding: .5rem 0;
+      line-height: 1.2;
+    }
+  }
+  .open .dropdown-menu {
+    display: inline-block;
+    padding: .2rem 0;
+    box-shadow: 4px 4px 4px rgba(0,0,0,.15);
   }
 }
