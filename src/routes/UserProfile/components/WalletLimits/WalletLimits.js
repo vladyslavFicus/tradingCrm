@@ -24,13 +24,9 @@ class WalletLimits extends Component {
       {label}
 
       <DropdownMenu>
-        <DropdownItem>
-          <button type="button" className="btn btn-danger-outline">Unlock deposit</button>
-          <button type="button" className="btn btn-danger-outline">Lock Withdrawal</button>
-        </DropdownItem>
-        <DropdownItem>
-          <div className="text-uppercase font-size-11">Withdraws</div>
-        </DropdownItem>
+        <button type="button" className="btn btn-danger-outline margin-right-10">Unlock deposit</button>
+        <button type="button" className="btn btn-danger-outline">Lock Withdrawal</button>
+        <div className="text-uppercase font-size-11">Withdraws</div>
       </DropdownMenu>
     </Dropdown>
   );
