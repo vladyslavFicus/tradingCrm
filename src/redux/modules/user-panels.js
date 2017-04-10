@@ -1,3 +1,4 @@
+import { actionTypes as locationActionTypes } from './location';
 import createReducer from '../../utils/createReducer';
 
 const KEY = 'user-panels';
@@ -85,6 +86,7 @@ const actionHandlers = {
     return newState;
   },
   [RESET]: () => ({ ...initialState }),
+  [locationActionTypes.LOCATION_CHANGE]: state => ({ ...state, activeIndex: null }),
 };
 const actionTypes = {
   ADD,
