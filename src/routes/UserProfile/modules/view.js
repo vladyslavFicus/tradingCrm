@@ -441,7 +441,7 @@ function unlockDeposit(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/deposit/${uuid}`,
+        endpoint: `payment/lock/${uuid}/deposit`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
@@ -486,7 +486,7 @@ function unlockWithdraw(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/withdraw/${uuid}`,
+        endpoint: `payment/lock/${uuid}/withdraw`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',

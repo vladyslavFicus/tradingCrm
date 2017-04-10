@@ -40,7 +40,7 @@ class List extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.loadPaymentStatuses(params.payment.paymentId)
+    this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId)
       .then(action => {
         if (action && !action.error) {
           params.transactions = action.payload;
@@ -71,13 +71,13 @@ class List extends Component {
   }
 
   renderAmount(data, column) {
-    return <Amount {...data[column.name]}/>;
+    return <Amount {...data[column.name]} />;
   }
 
   renderActions = (data) => {
     return <div>
       <a href="#" onClick={(e) => this.handleOpenModal(e, 'payment-detail', { payment: data })} title={'View payment'}>
-        <i className="fa fa-search"/>
+        <i className="fa fa-search" />
       </a>
     </div>;
   };

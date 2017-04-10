@@ -8,10 +8,12 @@ const KEY = 'operator-profile';
 const PROFILE = createRequestAction(`${KEY}/view`);
 const CHANGE_STATUS = createRequestAction(`${KEY}/change-status`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
+const SEND_INVITATION = createRequestAction(`${KEY}/send-activation`);
 const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 
 const fetchProfile = operatorSourceActionCreators.fetchProfile(PROFILE);
 const resetPassword = operatorSourceActionCreators.passwordResetRequest(RESET_PASSWORD);
+const sendInvitation = operatorSourceActionCreators.sendInvitationRequest(SEND_INVITATION);
 
 function updateProfile(uuid, data) {
   return (dispatch, getState) => {
@@ -121,6 +123,7 @@ const actionCreators = {
   updateProfile,
   changeStatus,
   resetPassword,
+  sendInvitation,
 };
 
 const actionTypes = {

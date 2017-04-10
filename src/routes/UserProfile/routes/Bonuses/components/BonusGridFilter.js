@@ -135,7 +135,7 @@ class BonusGridFilter extends Component {
             <span className="font-size-20">Bonus</span>
           </div>
           <div className="col-sm-10 col-xs-6 text-right">
-            <Link className="btn btn-sm btn-primary-outline" to={`/bonuses/create/${playerUUID}`}>
+            <Link className="btn btn-sm btn-primary-outline" target="_blank" to={`/bonuses/create/${playerUUID}`}>
               + Manual bonus
             </Link>
           </div>

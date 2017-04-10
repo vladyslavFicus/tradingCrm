@@ -4,7 +4,7 @@
   position: fixed;
   padding-top: 1.5rem;
   padding-right: 4px;
-  z-index: 5;
+  z-index: 17;
   top: 48px;
   left: 0;
   background-color: #333333;
@@ -130,6 +130,7 @@
   .support-tab {
     position: absolute;
     bottom: 3.35em;
+    width: 100%;
   }
   &:hover {
     width: 240px;

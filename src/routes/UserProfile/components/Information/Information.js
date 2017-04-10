@@ -3,6 +3,7 @@ import IpList from '../../../../components/Information/IpList';
 import Personal from './Personal';
 import Additional from './Additional';
 import Notes from './Notes';
+import './Information.scss';
 
 class Information extends Component {
   static propTypes = {
@@ -23,11 +24,11 @@ class Information extends Component {
     } = this.props;
 
     return (
-      <div className="player__account__details row panel-body">
-        <div className="col-md-3">
+      <div className="player__account__details row">
+        <div className="col-md-4">
           <Personal data={data} />
         </div>
-        <div className="col-md-3">
+        <div className="col-md-2">
           <Additional
             initialValues={{
               marketingMail: data.marketingMail,

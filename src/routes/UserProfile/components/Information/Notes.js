@@ -22,31 +22,31 @@ class Notes extends Component {
   renderItem = (item) => {
     return (
       <NoteButton
-        className="display-block note panel panel-with-borders"
+        className="display-block note panel"
         key={item.uuid}
         id={`profile-pinned-note-${item.uuid}`}
         onClick={id => this.props.onEditNoteClick(id, item, { placement: 'left' })}
       >
-        <div className="note-content panel-body panel-yellow">
-          <div className="display-block color-secondary font-size-12">
+        <div className="note-content">
+          <div className="font-size-13 line-height-1">
             {
               item.author &&
-              <span className="font-weight-700">{`${item.author} - `}</span>
+              <b>{`${item.author} - `}</b>
             }
             <span>
               {shortify(item.lastEditorUUID, entitiesPrefixes[entities.operator])}
             </span>
           </div>
-          <span className="display-block font-size-10 color-secondary">
+          <small className="font-size-11">
             {
               item.lastEditionDate
                 ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
                 : 'Unknown time'
             } to {this.renderItemId(item)}
-          </span>
-          <i className="display-block font-size-14 margin-top-15">
+          </small>
+          <div className="font-size-13 font-italic margin-top-5">
             {item.content}
-          </i>
+          </div>
         </div>
       </NoteButton>
     );
@@ -61,8 +61,8 @@ class Notes extends Component {
 
     return (
       <div className="player__account__details_notes">
-        <span className="player__account__details_notes-label">Pined note's</span>
-        <div className="panel panel-with-borders">
+        <span className="player__account__details-label">Pined note's</span>
+        <div className="panel">
           <div className="notes panel-body height-200">
             {notesEntities.content.map(this.renderItem)}
           </div>

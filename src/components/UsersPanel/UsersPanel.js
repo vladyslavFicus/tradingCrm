@@ -1,31 +1,82 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
 
 class UsersPanel extends Component {
   static propTypes = {
+    active: PropTypes.userPanelItem,
     items: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
+    onItemClick: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
   };
 
+  componentWillMount() {
+    if (this.props.active && this.props.items.length > 0) {
+      document.body.classList.add('user-panel-open');
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.active && !this.props.active) {
+      document.body.classList.add('user-panel-open');
+    }
+
+    if (this.props.active && !nextProps.active) {
+      document.body.classList.remove('user-panel-open');
+    }
+  }
+
   render() {
-    const { items, onClose } = this.props;
+    const { active, items, onClose, onRemove, onItemClick } = this.props;
 
     if (!items.length) {
       return null;
     }
 
-    return (
-      <footer className="users-panel">
-        <div className="users-panel-row">
-          {items.map(item => <UsersPanelItem key={item.uuid} {...item} />)}
-        </div>
+    const activeIndex = items.indexOf(active);
+    const blockClassName = classNames('users-panel', { 'users-panel-opened': !!active });
+    const footerClassName = classNames('users-panel-footer', {
+      border: !!active,
+      [`border-${items[activeIndex] && items[activeIndex].color ? items[activeIndex].color : undefined}`]: !!active,
+    });
 
-        <button className="users-panel-menu btn-transparent" onClick={onClose}>
-          &times;
-        </button>
-      </footer>
+    return (
+      <div className={blockClassName}>
+        <div className="users-panel-content" style={{ display: active ? 'block' : 'none' }}>
+          {items.map(item => (
+            <iframe
+              frameBorder={0}
+              src={`/users/${item.uuid}/profile`}
+              key={item.uuid}
+              style={{
+                display: active && active.uuid === item.uuid ? 'block' : 'none',
+                width: '100%',
+                height: 'calc(100% - 48px)',
+              }}
+            />
+          ))}
+        </div>
+        <footer className={footerClassName}>
+          <div className="users-panel-footer-row">
+            {items.map((item, index) => (
+              <UsersPanelItem
+                active={active && active.uuid === item.uuid}
+                key={item.uuid}
+                {...item}
+                onClick={() => onItemClick(index)}
+                onRemoveClick={() => onRemove(index)}
+              />
+            ))}
+          </div>
+
+          <button className="users-panel-footer-menu btn-transparent" onClick={onClose}>
+            &times;
+          </button>
+        </footer>
+      </div>
     );
   }
 }

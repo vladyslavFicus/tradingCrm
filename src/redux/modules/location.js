@@ -10,7 +10,7 @@ function locationChange(location = '/') {
   };
 }
 
-const updateLocation = ({ dispatch }) => (nextLocation) => dispatch(locationChange(nextLocation));
+const updateLocation = ({ dispatch }) => nextLocation => dispatch(locationChange(nextLocation));
 
 const initialState = null;
 const actionHandlers = {

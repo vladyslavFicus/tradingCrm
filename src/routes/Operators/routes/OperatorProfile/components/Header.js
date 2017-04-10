@@ -5,7 +5,12 @@ import { shortify } from '../../../../../utils/uuid';
 import { statusColorNames, statuses } from '../../../../../constants/operators';
 import AccountStatus from './AccountStatus';
 import PropTypes from '../../../../../constants/propTypes';
+import PermissionContent from '../../../../../components/PermissionContent';
+import Permissions from '../../../../../utils/permissions';
+import permission from '../../../../../config/permissions';
 import './Header.scss';
+
+const sendInvitationRequiredPermissions = new Permissions([permission.OPERATORS.OPERATOR_SEND_INVITATION]);
 
 class Header extends Component {
   static propTypes = {
@@ -19,6 +24,7 @@ class Header extends Component {
     })).isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
+    onSendInvitationClick: PropTypes.func.isRequired,
   };
 
   handleStatusChange = (data) => {
@@ -67,6 +73,7 @@ class Header extends Component {
       },
       availableStatuses,
       onResetPasswordClick,
+      onSendInvitationClick,
     } = this.props;
 
     return (
@@ -81,9 +88,14 @@ class Header extends Component {
           <div className="operator-profile-actions">
             {
               operatorStatus === statuses.INACTIVE &&
-              <Button className="btn-default-outline margin-right-10">
-                Send Invitation
-              </Button>
+              <PermissionContent permissions={sendInvitationRequiredPermissions}>
+                <Button
+                  className="btn-default-outline margin-right-10"
+                  onClick={onSendInvitationClick}
+                >
+                  Send Invitation
+                </Button>
+              </PermissionContent>
             }
             {
               operatorStatus === statuses.ACTIVE &&
@@ -115,7 +127,7 @@ class Header extends Component {
                     operatorStatus === statuses.CLOSED &&
                     <div>
                       {
-                        statusChangeAuthor &&-
+                        statusChangeAuthor &&
                         <div className="header-block-secondary-text">
                           by { shortify(statusChangeAuthor, 'OP') }
                         </div>
