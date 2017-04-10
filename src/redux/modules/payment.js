@@ -11,7 +11,7 @@ function changePaymentStatus({ status, paymentId, options = {} }) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/${status}/${paymentId}`,
+        endpoint: `payment/payments/${paymentId}/${status}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -32,7 +32,7 @@ function fetchPaymentStatuses(id) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/${id}/statuses`,
+        endpoint: `payment/payments/${id}/statuses`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
