@@ -11,10 +11,6 @@ class UsersPanel extends Component {
     onItemClick: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
-    colors: PropTypes.arrayOf(PropTypes.string),
-  };
-  static defaultProps = {
-    colors: ['orange', 'green', 'purple', 'blue', 'pink'],
   };
 
   componentWillMount() {
@@ -34,7 +30,7 @@ class UsersPanel extends Component {
   }
 
   render() {
-    const { active, items, onClose, onRemove, onItemClick, colors } = this.props;
+    const { active, items, onClose, onRemove, onItemClick } = this.props;
 
     if (!items.length) {
       return null;
@@ -44,7 +40,7 @@ class UsersPanel extends Component {
     const blockClassName = classNames('users-panel', { 'users-panel-opened': !!active });
     const footerClassName = classNames('users-panel-footer', {
       border: !!active,
-      [`border-${colors[activeIndex]}`]: !!active,
+      [`border-${items[activeIndex] && items[activeIndex].color ? items[activeIndex].color : undefined}`]: !!active,
     });
 
     return (
@@ -70,7 +66,6 @@ class UsersPanel extends Component {
                 active={active && active.uuid === item.uuid}
                 key={item.uuid}
                 {...item}
-                color={colors[index]}
                 onClick={() => onItemClick(index)}
                 onRemoveClick={() => onRemove(index)}
               />
