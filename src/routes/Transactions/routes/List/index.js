@@ -1,10 +1,10 @@
-import { injectReducer } from 'store/reducers';
+import { injectReducer } from '../../../../store/reducers';
 
-export default (store) => ({
+export default store => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, {
-        key: 'paymentsList',
+        key: 'transactionsList',
         reducer: require('./modules/list').default,
       });
 
