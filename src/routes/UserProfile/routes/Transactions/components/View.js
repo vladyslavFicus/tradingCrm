@@ -127,7 +127,7 @@ class View extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.loadPaymentStatuses(params.payment.paymentId)
+    this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId)
       .then((action) => {
         if (action && !action.error) {
           params.transactions = action.payload;
@@ -145,8 +145,8 @@ class View extends Component {
     });
   };
 
-  handleLoadStatusHistory = paymentId => () => {
-    return this.props.loadPaymentStatuses(paymentId);
+  handleLoadStatusHistory = (playerUUID, paymentId) => () => {
+    return this.props.loadPaymentStatuses(playerUUID, paymentId);
   };
 
   renderTransactionId = (data) => {
@@ -242,7 +242,7 @@ class View extends Component {
   renderStatus = (data) => {
     return (
       <StatusHistory
-        onLoad={this.handleLoadStatusHistory(data.paymentId)}
+        onLoad={this.handleLoadStatusHistory(data.playerUUID, data.paymentId)}
         label={
           <div>
             <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
