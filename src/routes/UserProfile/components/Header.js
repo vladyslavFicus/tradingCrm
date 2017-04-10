@@ -12,6 +12,7 @@ import { shortify } from '../../../utils/uuid';
 import './Header.scss';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
+import WalletLimits from './WalletLimits';
 
 class Header extends Component {
   static propTypes = {
@@ -217,7 +218,25 @@ class Header extends Component {
               accumulatedBalances={accumulatedBalances}
             />
           </div>
-
+          <div className="header-block header-block_wallet-limits">
+            <WalletLimits
+              label={
+                <div className="header-block_wallet-limits-tab">
+                  <span className="header-block-title">Locks</span>
+                  <div className="header-block_wallet-limits-tab_status">
+                    Deposit - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
+                  </div>
+                  <div className="header-block_wallet-limits-tab_status">
+                    Withdrawal - <span className="header-block_wallet-limits-tab_status_is-allowed">Allowed</span>
+                  </div>
+                </div>
+              }
+            />
+          </div>
+          <div className="header-block">
+            <span className="header-block-title">Last login</span>
+            {this.renderLastLogin()}
+          </div>
           <div className="header-block">
             <span className="header-block-title">Registered</span>
             <div className="header-block-text">
@@ -226,18 +245,6 @@ class Header extends Component {
             <small>
               on { moment(registrationDate).format('DD.MM.YYYY') } <br />
             </small>
-          </div>
-          <div className="header-block">
-            <span className="header-block-title">Last login</span>
-            {this.renderLastLogin()}
-          </div>
-          <div className="header-block">
-            <span className="header-block-title">
-              Affiliate {' '} { !!affiliateId && affiliateId}
-            </span>
-            <div className="header-block-text">
-              BTAG {'-'} { btag || 'Empty' }
-            </div>
           </div>
         </div>
       </div>
