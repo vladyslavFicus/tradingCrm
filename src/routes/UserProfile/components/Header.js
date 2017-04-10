@@ -184,7 +184,7 @@ class Header extends Component {
               onStatusChange={this.handleStatusChange}
               label={
                 <div className="dropdown-tab">
-                  <span className="header-title">Account Status</span>
+                  <span className="header-block-title">Account Status</span>
                   <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
                   {
                     !!profileStatusReason &&
