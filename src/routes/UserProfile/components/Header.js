@@ -11,6 +11,7 @@ import { statusColorNames } from '../../../constants/user';
 import { shortify } from '../../../utils/uuid';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
+import './Header.scss';
 
 class Header extends Component {
   static propTypes = {
