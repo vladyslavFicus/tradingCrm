@@ -3,11 +3,11 @@ import PropTypes from '../../../../../../constants/propTypes';
 import { attributeLabels } from '../../../../../../constants/user';
 
 const FeedInfoProfileChanged = ({ data }) => (
-  <div className="information">
+  <div className="feed-item_info-details">
     {Object.keys(data.details).map(attribute => (
       <div key={attribute}>
         {attributeLabels[attribute] || attribute}:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {data.details[attribute].toString()}
         </span>
       </div>

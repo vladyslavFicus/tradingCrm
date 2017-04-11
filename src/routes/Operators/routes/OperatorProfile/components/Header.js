@@ -40,19 +40,19 @@ class Header extends Component {
       : [
         <div
           key="time-ago"
-          className="header-block-text"
+          className="header-block-middle"
         >
           {lastIp.signInDate && moment(lastIp.signInDate).fromNow()}
         </div>,
         <div
           key="time"
-          className="header-block-secondary-text"
+          className="header-block-small"
         >
           {lastIp.signInDate && ` on ${moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}`}
         </div>,
         <div
           key="country"
-          className="header-block-secondary-text"
+          className="header-block-small"
         >
           {lastIp.country && ` from ${lastIp.country}`}
         </div>,
@@ -116,25 +116,25 @@ class Header extends Component {
               label={
                 <div className="dropdown-tab">
                   <div className="header-block-title">Account Status</div><i className="fa fa-angle-down" />
-                  <div className={`header-block-text ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
+                  <div className={`header-block-middle ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
                   {
                     operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
-                    <small>
+                    <div className="header-block-small">
                       Since {moment(statusChangeDate).format('DD.MM.YYYY')}
-                    </small>
+                    </div>
                   }
                   {
                     operatorStatus === statuses.CLOSED &&
                     <div>
                       {
                         statusChangeAuthor &&
-                        <div className="header-block-secondary-text">
+                        <div className="header-block-small">
                           by { shortify(statusChangeAuthor, 'OP') }
                         </div>
                       }
                       {
                         statusChangeDate &&
-                        <div className="header-block-secondary-text">
+                        <div className="header-block-small">
                           on { moment(statusChangeDate).format('MM.DD.YYYY') }
                         </div>
                       }
@@ -150,10 +150,10 @@ class Header extends Component {
             {
               registrationDate &&
               <div>
-                <div className="header-block-text">
+                <div className="header-block-middle">
                   { moment(registrationDate).fromNow() }
                 </div>
-                <div className="header-block-secondary-text">
+                <div className="header-block-small">
                   on { moment(registrationDate).format('YYYY-MM-DD HH:mm') }
                 </div>
               </div>

@@ -93,16 +93,15 @@ class View extends Component {
               onPageChange={this.handlePageChanged}
               render={(item, key) => {
                 const options = {
-                  color: '',
-                  letter: 'P',
+                  color: 'blue',
+                  letter: item.authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
                 };
 
                 if (item.authorUuid !== item.targetUuid) {
                   if (item.authorUuid) {
-                    options.color = 'blue';
-                    options.letter = 'o';
-                  } else {
                     options.color = 'orange';
+                  } else {
+                    options.color = '';
                     options.letter = 's';
                   }
                 }
