@@ -6,9 +6,13 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../constants/note';
 
-const KEY = 'user/payments';
-const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
+const KEY = 'transactions/transactions';
+const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
+
+const mergeEntities = () => {
+
+}
 
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
@@ -58,12 +62,9 @@ function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: {
-      ...state.filters,
-      ...action.meta.filters,
-    },
+    filters: action.meta.filters,
     isLoading: true,
-    isFailed: false,
+    error: null,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
@@ -72,10 +73,7 @@ const actionHandlers = {
       ...action.payload,
       content: action.payload.number === 0
         ? action.payload.content
-        : [
-          ...state.entities.content,
-          ...action.payload.content,
-        ],
+        : mergeEntities(state.entities.content, action.payload.content),
     },
     isLoading: false,
     receivedAt: timestamp(),
@@ -124,6 +122,7 @@ export {
   initialState,
   actionTypes,
   actionCreators,
+  actionHandlers,
 };
 
 export default createReducer(initialState, actionHandlers);

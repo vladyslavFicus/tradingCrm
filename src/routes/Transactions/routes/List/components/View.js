@@ -1,8 +1,10 @@
-import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
+import React, { Component } from 'react';
 import moment from 'moment';
+import classNames from 'classnames';
+import TransactionsFilterForm from './TransactionsFilterForm';
+import PropTypes from '../../../../../constants/propTypes';
+import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import Amount from '../../../../../components/Amount';
 import {
   types as paymentTypes,
   statusesLabels,
@@ -13,16 +15,19 @@ import {
   statuses as paymentsStatuses,
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
+import PaymentDetailModal from '../../../components/PaymentDetailModal';
+import PaymentRejectModal from '../../../components/PaymentRejectModal';
 import StatusHistory from '../../../../../components/TransactionStatusHistory';
 import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
-import TransactionGridFilter from './TransactionGridFilter';
-import PaymentDetailModal from '../../../../../routes/Transactions/components/PaymentDetailModal';
-import PaymentRejectModal from '../../../../../routes/Transactions/components/PaymentRejectModal';
+import Amount from '../../../../../components/Amount';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_REJECT = 'payment-reject';
+const defaultFilters = {
+  status: paymentsStatuses.PENDING,
+};
 const defaultModalState = {
   name: null,
   params: {},
@@ -30,30 +35,26 @@ const defaultModalState = {
 
 class View extends Component {
   static propTypes = {
-    isLoading: PropTypes.bool,
+    transactions: PropTypes.pageableState(PropTypes.paymentEntity).isRequired,
     fetchEntities: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    entities: PropTypes.object,
-    currencyCode: PropTypes.string,
-    filters: PropTypes.object,
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-    profile: PropTypes.object,
-    accumulatedBalances: PropTypes.object,
-    paymentRejectReasons: PropTypes.array,
   };
   static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    setNoteChangedCallback: PropTypes.func.isRequired,
+    notes: PropTypes.shape({
+      onAddNote: PropTypes.func.isRequired,
+      onEditNote: PropTypes.func.isRequired,
+      onAddNoteClick: PropTypes.func.isRequired,
+      onEditNoteClick: PropTypes.func.isRequired,
+      setNoteChangedCallback: PropTypes.func.isRequired,
+      hidePopover: PropTypes.func.isRequired,
+    }),
   };
 
   state = {
-    filters: {},
+    filters: { ...defaultFilters },
     page: 0,
-    modal: defaultModalState,
+    modal: { ...defaultModalState },
   };
 
   componentWillMount() {
@@ -61,34 +62,37 @@ class View extends Component {
   }
 
   componentDidMount() {
-    this.context.setNoteChangedCallback(this.handleRefresh);
+    this.context.notes.setNoteChangedCallback(this.handleRefresh);
   }
 
   componentWillUnmount() {
-    this.context.setNoteChangedCallback(null);
+    this.context.notes.setNoteChangedCallback(null);
   }
 
   handleNoteClick = (target, data) => {
     if (data.note) {
-      this.context.onEditNoteClick(target, data.note, { placement: 'left' });
+      this.context.notes.onEditNoteClick(target, data.note, { placement: 'left' });
     } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'left' });
-    }
-  };
-
-  handlePageChanged = (page) => {
-    if (!this.props.isLoading) {
-      this.setState({ page: page - 1 }, this.handleRefresh);
+      this.context.notes.onAddNoteClick(
+        target,
+        { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT },
+        { placement: 'left' }
+      );
     }
   };
 
   handleRefresh = () => this.props.fetchEntities({
     ...this.state.filters,
     page: this.state.page,
-    playerUUID: this.props.params.id,
   });
 
-  handleFilterSubmit = (data = {}) => {
+  handlePageChanged = (page) => {
+    if (!this.props.transactions.isLoading) {
+      this.setState({ page: page - 1 }, () => this.handleRefresh());
+    }
+  };
+
+  handleFiltersChanged = (data = {}) => {
     const filters = { ...data };
 
     if (filters.states) {
@@ -134,7 +138,7 @@ class View extends Component {
     });
   };
 
-  handleCloseModal = (e, callback) => {
+  handleCloseModal = (callback) => {
     this.setState({ modal: { ...defaultModalState } }, () => {
       if (typeof callback === 'function') {
         callback();
@@ -157,7 +161,7 @@ class View extends Component {
 
     return (
       <div>
-        <div {...props}> {label} </div>
+        <div {...props}>{label}</div>
         <span className="font-size-10 text-uppercase color-default">
           {data.paymentSystemRefs.map((SystemRef, index) => (
             <div key={`${SystemRef}-${index}`} children={SystemRef} />
@@ -195,10 +199,10 @@ class View extends Component {
   renderMethod = data => (
     <div>
       <div className="font-weight-700">
-        {methodsLabels[data.paymentMethod] || data.paymentMethod }
+        {methodsLabels[data.paymentMethod] || data.paymentMethod}
       </div>
       <span className="font-size-10">
-        { shortify(data.paymentAccount, null, 2) }
+        {shortify(data.paymentAccount, null, 2)}
       </span>
     </div>
   );
@@ -246,7 +250,7 @@ class View extends Component {
   renderActions = data => (
     <div>
       <NoteButton
-        id={`bonus-item-note-button-${data.paymentId}`}
+        id={`transaction-item-note-button-${data.paymentId}`}
         className="cursor-pointer margin-right-5"
         onClick={id => this.handleNoteClick(id, data)}
       >
@@ -259,12 +263,11 @@ class View extends Component {
         data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
         <button
           className="btn-transparent"
-          onClick={() => this.handleOpenModal(MODAL_PAYMENT_DETAIL, {
+          onClick={() => this.handleOpenModal('payment-detail', {
             payment: data,
             profile: this.props.profile,
             accumulatedBalances: this.props.accumulatedBalances,
-          })}
-          title={'View payment'}
+          })} title={'View payment'}
         >
           <i className="fa fa-search" />
         </button>
@@ -273,103 +276,115 @@ class View extends Component {
   );
 
   render() {
+    const { transactions: { entities } } = this.props;
     const { modal } = this.state;
-    const { entities, currencyCode } = this.props;
 
     return (
-      <div className="tab-pane fade in active profile-tab-container">
-        <TransactionGridFilter
-          currencyCode={currencyCode}
-          onSubmit={this.handleFilterSubmit}
-        />
+      <div className="page-content-inner">
+        <Panel withBorders>
+          <div className="row margin-bottom-20">
+            <div className="col-md-3">
+              <Title>
+                <h3>Transactions</h3>
+              </Title>
+            </div>
+          </div>
 
-        <GridView
-          tableClassName="table table-hovered data-grid-layout"
-          headerClassName=""
-          dataSource={entities.content}
-          onPageChange={this.handlePageChanged}
-          activePage={entities.number + 1}
-          totalPages={entities.totalPages}
-          rowClassName={data => (data.amountBarrierReached ? 'highlighted-row' : '')}
-          lazyLoad
-        >
-          <GridColumn
-            name="paymentId"
-            header="Transaction"
-            headerClassName="text-uppercase"
-            render={this.renderTransactionId}
-          />
-          <GridColumn
-            name="paymentType"
-            header="Type"
-            headerClassName="text-uppercase"
-            render={this.renderType}
-          />
-          <GridColumn
-            name="amount"
-            header="Amount"
-            headerClassName="text-uppercase"
-            render={this.renderAmount}
-          />
-          <GridColumn
-            name="creationTime"
-            header="DATE & TIME"
-            headerClassName="text-uppercase"
-            render={this.renderDateTime}
-          />
-          <GridColumn
-            name="country"
-            header="Ip"
-            headerClassName="text-uppercase text-center"
-            render={this.renderIP}
-          />
-          <GridColumn
-            name="paymentMethod"
-            header="Method"
-            headerClassName="text-uppercase"
-            render={this.renderMethod}
-          />
-          <GridColumn
-            name="mobile"
-            header="Device"
-            headerClassName="text-uppercase text-center"
-            className="text-center"
-            render={this.renderDevice}
-          />
-          <GridColumn
-            name="status"
-            header="Status"
-            headerClassName="text-uppercase"
-            className="text-uppercase"
-            render={this.renderStatus}
-          />
-          <GridColumn
-            name="actions"
-            header=""
-            render={this.renderActions}
-          />
-        </GridView>
+          <Content>
+            <TransactionsFilterForm
+              onSubmit={this.handleFiltersChanged}
+              initialValues={defaultFilters}
+            />
 
-        {
-          modal.name === MODAL_PAYMENT_DETAIL &&
-          <PaymentDetailModal
-            {...modal.params}
-            isOpen
-            onClose={this.handleCloseModal}
-            onChangePaymentStatus={this.handleChangePaymentStatus}
-            onAboutToReject={this.handleAboutToReject}
-          />
-        }
+            <GridView
+              tableClassName="table table-hovered data-grid-layout"
+              headerClassName=""
+              dataSource={entities.content}
+              onPageChange={this.handlePageChanged}
+              activePage={entities.number + 1}
+              totalPages={entities.totalPages}
+              rowClassName={data => (data.amountBarrierReached ? 'highlighted-row' : '')}
+              lazyLoad
+            >
+              <GridColumn
+                name="paymentId"
+                header="Transaction"
+                headerClassName="text-uppercase"
+                render={this.renderTransactionId}
+              />
+              <GridColumn
+                name="paymentType"
+                header="Type"
+                headerClassName="text-uppercase"
+                render={this.renderType}
+              />
+              <GridColumn
+                name="amount"
+                header="Amount"
+                headerClassName="text-uppercase"
+                render={this.renderAmount}
+              />
+              <GridColumn
+                name="creationTime"
+                header="DATE & TIME"
+                headerClassName="text-uppercase"
+                render={this.renderDateTime}
+              />
+              <GridColumn
+                name="country"
+                header="Ip"
+                headerClassName="text-uppercase text-center"
+                render={this.renderIP}
+              />
+              <GridColumn
+                name="paymentMethod"
+                header="Method"
+                headerClassName="text-uppercase"
+                render={this.renderMethod}
+              />
+              <GridColumn
+                name="mobile"
+                header="Device"
+                headerClassName="text-uppercase text-center"
+                className="text-center"
+                render={this.renderDevice}
+              />
+              <GridColumn
+                name="status"
+                header="Status"
+                headerClassName="text-uppercase"
+                className="text-uppercase"
+                render={this.renderStatus}
+              />
+              <GridColumn
+                name="actions"
+                header=""
+                render={this.renderActions}
+              />
+            </GridView>
 
-        {
-          modal.name === MODAL_PAYMENT_REJECT &&
-          <PaymentRejectModal
-            {...modal.params}
-            isOpen
-            onClose={this.handleCloseModal}
-            onChangePaymentStatus={this.handleChangePaymentStatus}
-          />
-        }
+            {
+              modal.name === MODAL_PAYMENT_DETAIL &&
+              <PaymentDetailModal
+                {...modal.params}
+                isOpen
+                onClose={() => this.handleCloseModal()}
+                onChangePaymentStatus={this.handleChangePaymentStatus}
+                onAboutToReject={this.handleAboutToReject}
+              />
+            }
+
+            {
+              modal.name === MODAL_PAYMENT_REJECT &&
+              <PaymentRejectModal
+                {...modal.params}
+                isOpen
+                onClose={() => this.handleCloseModal()}
+                onChangePaymentStatus={this.handleChangePaymentStatus}
+              />
+            }
+          </Content>
+        </Panel>
       </div>
     );
   }
