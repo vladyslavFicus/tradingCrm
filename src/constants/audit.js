@@ -15,10 +15,10 @@ const typesLabels = {
 };
 
 const typesClassNames = {
-  [types.PLAYER_LOG_IN]: 'text-info font-weight-700',
-  [types.PLAYER_LOG_OUT]: 'text-black font-weight-700',
-  [types.PLAYER_PROFILE_REGISTERED]: 'text-primary font-weight-700',
-  [types.PLAYER_PROFILE_CHANGED]: 'text-success font-weight-700',
+  [types.PLAYER_LOG_IN]: 'feed-item_info-status__blue',
+  [types.PLAYER_LOG_OUT]: '',
+  [types.PLAYER_PROFILE_REGISTERED]: 'feed-item_info-status__blue',
+  [types.PLAYER_PROFILE_CHANGED]: 'feed-item_info-status__green',
 };
 
 export {
