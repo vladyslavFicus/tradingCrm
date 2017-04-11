@@ -2,7 +2,7 @@
   display: flex;
   flex-flow: row nowrap;
   margin-top: 10px;
-  color: #666666;
+  color: #666;
   &_avatar {
     margin-right: 10px;
     &-letter {
@@ -74,7 +74,7 @@
     }
     &-details {
       padding: 10px;
-      border: 1px solid #cccccc;
+      border: 1px solid #ccc;
       -webkit-border-radius: 3px;
       -moz-border-radius: 3px;
       border-radius: 3px;
