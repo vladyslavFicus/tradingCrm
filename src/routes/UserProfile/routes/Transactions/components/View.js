@@ -85,11 +85,12 @@ class View extends Component {
   };
 
   handleRefresh = () => {
-    return this.props.fetchEntities({
-      ...this.state.filters,
-      page: this.state.page,
-      playerUUID: this.props.params.id,
-    });
+    return this.props.fetchEntities(
+      this.props.params.id, {
+        ...this.state.filters,
+        page: this.state.page,
+      }
+    );
   };
 
   handleFilterSubmit = (inputFilters = {}) => {
