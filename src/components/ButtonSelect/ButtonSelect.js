@@ -8,17 +8,16 @@ import './ButtonSelect.scss';
 class ButtonSelect extends Component {
   focus = () => {
     this.props.onClick();
-    this.selectField.focus();
   };
 
   render() {
-    const { opened, onClick, onCloseClick, label, className, ...rest } = this.props;
+    const { opened, onCloseClick, label, className, ...rest } = this.props;
 
     return <div className={classNames('button-select')}>
       <span className="tag-arrow tag-arrow-default" />
 
       <div className={classNames('auto-complete', 'ignore-react-onclickoutside margin-left-10', { opened })}>
-        <ReactSelect {...rest} placeholder="" ref={(selectField) => { this.selectField = selectField; }} />
+        <ReactSelect {...rest} placeholder="" />
       </div>
 
       <button className={className} onClick={this.focus}>
