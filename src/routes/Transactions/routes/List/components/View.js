@@ -263,10 +263,10 @@ class View extends Component {
         data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
         <button
           className="btn-transparent"
-          onClick={() => this.handleOpenModal('payment-detail', {
+          onClick={() => this.handleOpenModal(MODAL_PAYMENT_DETAIL, {
             payment: data,
-            profile: this.props.profile,
-            accumulatedBalances: this.props.accumulatedBalances,
+            profile: data.profile,
+            accumulatedBalances: {},
           })} title={'View payment'}
         >
           <i className="fa fa-search" />

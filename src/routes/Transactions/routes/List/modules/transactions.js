@@ -4,15 +4,25 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
+import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
 import { targetTypes } from '../../../../../constants/note';
 
 const KEY = 'transactions/transactions';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
+const FETCH_PROFILES = createRequestAction(`${KEY}/fetch-profiles`);
 
-const mergeEntities = () => {
+const mergeEntities = (stored, fetched) => {
+  const merged = [...stored];
 
-}
+  fetched.forEach((item) => {
+    if (merged.findIndex(i => i.paymentId === item.paymentId) === -1) {
+      merged.push(item);
+    }
+  });
+
+  return merged;
+};
 
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
@@ -26,9 +36,21 @@ const mapNotesToTransactions = (transactions, notes) => {
   }));
 };
 
-function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
+const fetchProfilesFn = usersActionCreators.fetchEntities(FETCH_PROFILES);
+const mapProfilesToTransactions = (transactions, profiles) => {
+  if (!profiles || Object.keys(profiles).length === 0) {
+    return transactions;
+  }
+
+  return transactions.map(t => ({
+    ...t,
+    profile: profiles[t.playerUUID] ? profiles[t.playerUUID] : null,
+  }));
+};
+
+function fetchEntities(filters = {}, fetchNotes = fetchNotesFn, fetchProfiles = fetchProfilesFn) {
   return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged }, transactions } = getState();
 
     const action = await dispatch({
       [CALL_API]: {
@@ -52,6 +74,11 @@ function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
     });
 
     if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.content.length) {
+      const currentPlayerUuidList = Object.keys(transactions.transactions.profiles);
+      const playerUuidList = action.payload.content
+        .map(item => item.playerUUID)
+        .filter((value, index, list) => list.indexOf(value) === index && currentPlayerUuidList.indexOf(value) === -1);
+      await dispatch(fetchProfiles({ playerUuidList }));
       await dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
     }
 
@@ -93,6 +120,19 @@ const actionHandlers = {
       ],
     },
   }),
+  [FETCH_PROFILES.SUCCESS]: (state, action) => {
+    const newState = {
+      ...state,
+      profiles: {
+        ...state.profiles,
+        ...action.payload.content.reduce((res, profile) => ({ ...res, [profile.uuid]: profile }, res), {}),
+      },
+    };
+
+    newState.entities = mapProfilesToTransactions(newState.entities.content, newState.profiles);
+
+    return newState;
+  },
 };
 const initialState = {
   entities: {
@@ -106,6 +146,7 @@ const initialState = {
     totalPages: 0,
     content: [],
   },
+  profiles: {},
   error: null,
   filters: {},
   isLoading: false,
