@@ -1,10 +1,10 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
-import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
-import { actionCreators as noteActionCreators } from 'redux/modules/note';
-import { targetTypes } from 'constants/note';
+import createReducer from '../../../../../utils/createReducer';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import timestamp from '../../../../../utils/timestamp';
+import buildQueryString from '../../../../../utils/buildQueryString';
+import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
+import { targetTypes } from '../../../../../constants/note';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
@@ -22,13 +22,13 @@ const mapNotesToTransactions = (transactions, notes) => {
   }));
 };
 
-function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
+function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/payments?${buildQueryString(filters)}`,
+        endpoint: `payment/payments/${playerUUID}?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -46,7 +46,7 @@ function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
         bailout: !logged,
       },
     }).then((action) => {
-      if (action && action.type === FETCH_ENTITIES.SUCCESS) {
+      if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.content.length) {
         dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
       }
 

@@ -4,12 +4,13 @@ import { SubmissionError } from 'redux-form';
 import AccountStatus from './AccountStatus';
 import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
-import ProfileTags from 'components/ProfileTags';
-import Amount from 'components/Amount';
-import NoteButton from 'components/NoteButton';
-import { statusColorNames } from 'constants/user';
-import { shortify } from 'utils/uuid';
-import './Header.scss';
+import ProfileTags from '../../../components/ProfileTags';
+import Amount from '../../../components/Amount';
+import NoteButton from '../../../components/NoteButton';
+import { statusColorNames } from '../../../constants/user';
+import { shortify } from '../../../utils/uuid';
+import permission from '../../../config/permissions';
+import Permissions from '../../../utils/permissions';
 
 class Header extends Component {
   static propTypes = {
@@ -36,6 +37,11 @@ class Header extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
+    onProfileActivateClick: PropTypes.func.isRequired,
+  };
+
+  static contextTypes = {
+    permissions: PropTypes.array.isRequired,
   };
 
   getUserAge = () => {
@@ -48,7 +54,7 @@ class Header extends Component {
     const { accumulatedBalances: { real, bonus } } = this.props;
 
     return (
-      <div className="header-block-secondary-text">
+      <div className="header-block-small">
         RM <Amount {...real} /> + BM <Amount {...bonus} />
       </div>
     );
@@ -75,11 +81,11 @@ class Header extends Component {
   renderLastLogin = () => {
     const { lastIp } = this.props;
     return !lastIp
-      ? <div className="header-block-secondary-text">Unavailable</div>
+      ? <div className="header-block-middle">Unavailable</div>
       : [
-        <div key="time-ago">{lastIp.signInDate && moment(lastIp.signInDate).fromNow()}</div>,
-        <small key="time">{lastIp.signInDate && moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}</small>,
-        <small key="country">{lastIp.country && ` from ${lastIp.country}`}</small>,
+        <div className="header-block-middle" key="time-ago">{lastIp.signInDate && moment(lastIp.signInDate).fromNow()}</div>,
+        <div className="header-block-small" key="time">{lastIp.signInDate && moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}</div>,
+        <div className="header-block-small" key="country">{lastIp.country && ` from ${lastIp.country}`}</div>,
       ];
   };
 
@@ -98,12 +104,17 @@ class Header extends Component {
         suspendEndDate,
         profileTags,
         uuid,
+        kycCompleted,
+        profileStatusReason,
       },
       availableStatuses,
       accumulatedBalances,
       availableTags,
       onAddNoteClick,
+      onResetPasswordClick,
+      onProfileActivateClick,
     } = this.props;
+    const { permissions: currentPermissions } = this.context;
     const selectedTags = profileTags
       ? profileTags.map(option => `${option.tagPriority}/${option.tag}`)
       : [];
@@ -125,18 +136,23 @@ class Header extends Component {
           <div className="pull-left">
             <div className="player__account__name h1">
               {[firstName, lastName, this.getUserAge()].join(' ')}
+              {' '}
+              {kycCompleted && <i className="fa fa-check text-success" />}
             </div>
             <span className="player__account__ids">
               {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
             </span>
           </div>
           <div className="col-md-4">
-            {profileTags && <ProfileTags
-              onAdd={this.handleTagAdd}
-              options={availableOptions}
-              value={valueOptions}
-              onDelete={this.handleTagDelete}
-            />}
+            {
+              profileTags &&
+              <ProfileTags
+                onAdd={this.handleTagAdd}
+                options={availableOptions}
+                value={valueOptions}
+                onDelete={this.handleTagDelete}
+              />
+            }
           </div>
           <div className="pull-right">
             <NoteButton
@@ -149,38 +165,49 @@ class Header extends Component {
             {' '}
             <UserProfileOptions
               items={[
-                { label: 'Reset password', onClick: this.props.onResetPasswordClick },
+                { label: 'Reset password', onClick: onResetPasswordClick },
+                {
+                  label: 'Send activation link',
+                  onClick: onProfileActivateClick,
+                  visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
+                },
               ]}
             />
           </div>
         </div>
 
         <div className="row panel-body header-blocks header-blocks-5">
-          <div className="header-block">
+          <div className="header-block header-block_account">
             <AccountStatus
               profileStatus={profileStatus}
               onStatusChange={this.handleStatusChange}
               label={
                 <div className="dropdown-tab">
-                  <span className="header-title">Account Status</span>
-                  <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
+                  <div className="header-block-title">Account Status</div>
+                  <div className={`header-block-middle ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
+                  {
+                    !!profileStatusReason &&
+                    <div className="header-block-small">
+                      by {profileStatusReason}
+                    </div>
+                  }
                   {
                     !!suspendEndDate &&
-                    <small className="player__account__status-scince">
+                    <div className="header-block-small">
                       Until {moment(suspendEndDate).format('L')}
-                    </small>
+                    </div>
                   }
                 </div>
               }
               availableStatuses={availableStatuses}
             />
           </div>
-          <div className="header-block">
+          <div className="header-block header-block_balance">
             <Balances
               label={
-                <div className="balance-tab">
-                  <span className="header-block-title">Balance</span>
-                  <div className="header-block-text">
+                <div className="dropdown-tab">
+                  <div className="header-block-title">Balance</div>
+                  <div className="header-block-middle">
                     <Amount {...balance} />
                   </div>
                   { this.getRealWithBonusBalance() }
@@ -191,16 +218,16 @@ class Header extends Component {
           </div>
 
           <div className="header-block">
-            <span className="header-block-title">Registered</span>
-            <div className="header-block-text">
+            <div className="header-block-title">Registered</div>
+            <div className="header-block-middle">
               { moment(registrationDate).fromNow() }
             </div>
-            <small>
+            <div className="header-block-small">
               on { moment(registrationDate).format('DD.MM.YYYY') } <br />
-            </small>
+            </div>
           </div>
           <div className="header-block">
-            <span className="header-block-title">Last login</span>
+            <div className="header-block-title">Last login</div>
             {this.renderLastLogin()}
           </div>
           <div className="header-block">

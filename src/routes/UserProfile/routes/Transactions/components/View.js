@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import GridView, { GridColumn } from 'components/GridView';
 import classNames from 'classnames';
 import moment from 'moment';
-import Amount from 'components/Amount';
+import GridView, { GridColumn } from '../../../../../components/GridView';
+import Amount from '../../../../../components/Amount';
 import {
   types as paymentTypes,
   statusesLabels,
@@ -11,15 +11,15 @@ import {
   typesProps,
   statusesColor,
   statuses as paymentsStatuses,
-} from 'constants/payment';
-import { shortify } from 'utils/uuid';
+} from '../../../../../constants/payment';
+import { shortify } from '../../../../../utils/uuid';
 import StatusHistory from './StatusHistory';
-import { targetTypes } from 'constants/note';
-import NoteButton from "components/NoteButton";
+import { targetTypes } from '../../../../../constants/note';
+import NoteButton from '../../../../../components/NoteButton';
 import TransactionGridFilter from './TransactionGridFilter';
-import PaymentDetailModal from 'routes/Payments/components/PaymentDetailModal';
-import PaymentRejectModal from 'routes/Payments/components/PaymentRejectModal';
-import { UncontrolledTooltip } from 'components/Reactstrap/Uncontrolled';
+import PaymentDetailModal from '../../../../../routes/Payments/components/PaymentDetailModal';
+import PaymentRejectModal from '../../../../../routes/Payments/components/PaymentRejectModal';
+import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 
 const defaultModalState = {
   name: null,
@@ -85,14 +85,15 @@ class View extends Component {
   };
 
   handleRefresh = () => {
-    return this.props.fetchEntities({
-      ...this.state.filters,
-      page: this.state.page,
-      playerUUID: this.props.params.id,
-    });
+    return this.props.fetchEntities(
+      this.props.params.id, {
+        ...this.state.filters,
+        page: this.state.page,
+      }
+    );
   };
 
-  handleFilterSubmit = (inputFilters) => {
+  handleFilterSubmit = (inputFilters = {}) => {
     const filters = inputFilters;
 
     if (filters.states) {
@@ -127,7 +128,7 @@ class View extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.loadPaymentStatuses(params.payment.paymentId)
+    this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId)
       .then((action) => {
         if (action && !action.error) {
           params.transactions = action.payload;
@@ -145,8 +146,8 @@ class View extends Component {
     });
   };
 
-  handleLoadStatusHistory = paymentId => () => {
-    return this.props.loadPaymentStatuses(paymentId);
+  handleLoadStatusHistory = (playerUUID, paymentId) => () => {
+    return this.props.loadPaymentStatuses(playerUUID, paymentId);
   };
 
   renderTransactionId = (data) => {
@@ -242,7 +243,7 @@ class View extends Component {
   renderStatus = (data) => {
     return (
       <StatusHistory
-        onLoad={this.handleLoadStatusHistory(data.paymentId)}
+        onLoad={this.handleLoadStatusHistory(data.playerUUID, data.paymentId)}
         label={
           <div>
             <div className={classNames(statusesColor[data.status], 'font-weight-700')}>

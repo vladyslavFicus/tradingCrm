@@ -112,7 +112,7 @@ class CreateOperatorModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-8">
                 <div className="row margin-left-0">
                   <div className="col-md-6">
                     <Field
@@ -131,7 +131,7 @@ class CreateOperatorModal extends Component {
                       ]}
                     />
                   </div>
-                  <div className="col-md-4 col-md-offset-1">
+                  <div className="col-md-5 col-md-offset-1">
                     <Field
                       name="role"
                       label={attributeLabels.role}

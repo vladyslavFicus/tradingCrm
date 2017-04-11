@@ -1,10 +1,10 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from 'utils/timestamp';
-import createRequestAction from 'utils/createRequestAction';
+import createReducer from '../../../utils/createReducer';
+import timestamp from '../../../utils/timestamp';
+import createRequestAction from '../../../utils/createRequestAction';
+import config from '../../../config/index';
 import { actionTypes as bonusActionTypes } from './bonus';
 import { actionTypes as viewActionTypes, mapBalances } from './view';
-import config from 'config/index';
 
 const KEY = 'user/balances';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -34,7 +34,7 @@ function fetchEntities(uuid) {
 }
 
 const actionHandlers = {
-  [FETCH_ENTITIES.REQUEST]: (state, action) => ({
+  [FETCH_ENTITIES.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
@@ -75,9 +75,9 @@ const actionHandlers = {
     const total = state.data.total;
 
     newState.data.real = total && total.amount ? {
-        amount: total.amount - newState.data.bonus.amount,
-        currency: total.currency,
-      } : total;
+      amount: total.amount - newState.data.bonus.amount,
+      currency: total.currency,
+    } : total;
 
     return newState;
   },
@@ -96,7 +96,7 @@ const actionHandlers = {
     const balances = mapBalances(action.payload.balances);
     newState.data.total = { ...balances[0] };
 
-    ['deposits', 'withdraws', 'bonus', 'real'].forEach(key => {
+    ['deposits', 'withdraws', 'bonus', 'real'].forEach((key) => {
       newState.data[key] = { ...balances[0], amount: newState.data[key].amount };
     });
 

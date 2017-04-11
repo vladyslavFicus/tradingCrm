@@ -1,10 +1,10 @@
-import { injectReducer } from 'store/reducers';
+import { injectReducer } from '../../../../store/reducers';
 
-export default (store) => ({
+export default store => ({
   path: ':id/limits',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      injectReducer(store, { key: 'userLimits', reducer: require('./modules/view').default });
+      injectReducer(store, { key: 'userLimits', reducer: require('./modules').default });
 
       cb(null, require('./container/ViewContainer').default);
     }, 'user-limits-view');

@@ -19,6 +19,30 @@ function passwordResetRequest(type) {
   });
 }
 
+function sendInvitationRequest(type) {
+  return operatorUUID => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `operator/operators/${operatorUUID}/send/invitation`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  }
+}
+
 function passwordResetConfirm(type) {
   return ({ password, token }) => dispatch => dispatch({
     [CALL_API]: {
@@ -62,10 +86,36 @@ function fetchProfile(type) {
   };
 }
 
+function fetchAuthorities(type) {
+  return (uuid, insideToken = null) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `auth/credentials/${uuid}/authorities`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${insideToken || token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged && !insideToken,
+      },
+    });
+  };
+}
+
 const sourceActionCreators = {
   fetchProfile,
+  fetchAuthorities,
   passwordResetRequest,
   passwordResetConfirm,
+  sendInvitationRequest,
 };
 
 export {

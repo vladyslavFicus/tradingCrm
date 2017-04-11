@@ -4,7 +4,7 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
 
 node('build') {    
 
-    stage('Checkout') {         
+    stage('checkout') {         
         checkout scm     
         env.GIT_COMMIT_MESSAGE = sh returnStdout: true, script: 'git log --oneline -1'    
     }      
@@ -20,16 +20,16 @@ npm run deploy:prod
         }        
     }      
     
-    stage('Assemble') {         
-        sh "docker build -t nas/$service ."
-        sh "docker tag nas/$service registry.app/nas/$service"
-        sh "docker push registry.app/nas/$service"
+    stage('assemble') {         
+        sh "docker build -t registry.app/nas/$service:latest ."
+        sh "docker push registry.app/nas/${service}:latest"
     }      
     
-    stage('Deploy') {        
+    stage('deploy') {        
         if (env.BRANCH_NAME == 'master' && !env.GIT_COMMIT_MESSAGE.contains("[skip deploy]")) {
-            build job: 'casino-platform/casino-orchestra/master', wait: false, 
-                parameters: [string(name: 'env', value: 'dev2'), string(name: 'service', value: service), string(name: 'version', value: 'latest')]
+            build(job: 'casino-deploy-dev', wait: false,
+                parameters: [string(name: 'service', value: service),
+                    booleanParam(name: 'skipRelease', value: true)])
         }
     } 
 }

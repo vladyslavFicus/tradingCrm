@@ -1,13 +1,30 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
-import { LIMIT_TYPES, LIMIT_STATUSES } from '../constants';
+import createReducer from '../../../../../utils/createReducer';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import { types, statuses } from '../../../../../constants/limits';
+import { targetTypes } from '../../../../../constants/note';
+import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
 
 const KEY = 'user-limits';
 const SET_LIMITS_LIST = `${KEY}/set-limits-list`;
 const FETCH_LIMITS = createRequestAction(`${KEY}/fetch-limits-by-type`);
+const FETCH_DEPOSIT_LIMIT = createRequestAction(`${KEY}/fetch-deposit-limits`);
 const SET_LIMIT = createRequestAction(`${KEY}/set-limit`);
 const CANCEL_LIMIT = createRequestAction(`${KEY}/cancel-limit`);
+const CANCEL_DEPOSIT_LIMIT = createRequestAction(`${KEY}/cancel-deposit-limit`);
+const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
+
+const fetchNotesFn = noteActionCreators.fetchNotesByType(FETCH_NOTES);
+const mapNotesToLimits = (limits, notes) => {
+  if (!notes || Object.keys(notes).length === 0) {
+    return limits;
+  }
+
+  return limits.map(limit => ({
+    ...limit,
+    note: notes[limit.uuid] ? notes[limit.uuid][0] : null,
+  }));
+};
 
 function fetchLimitsByType(uuid, type) {
   return (dispatch, getState) => {
@@ -15,7 +32,7 @@ function fetchLimitsByType(uuid, type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${uuid}/limits/${type}`,
+        endpoint: `/playing-session/${uuid}/limit-history/${type}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -26,15 +43,36 @@ function fetchLimitsByType(uuid, type) {
           FETCH_LIMITS.REQUEST,
           {
             type: FETCH_LIMITS.SUCCESS,
-            payload: (action, state, res) => {
-              const contentType = res.headers.get('Content-Type');
-              if (contentType && ~contentType.indexOf('json')) {
-                return res.json().then((json) => json);
-              }
-            },
             meta: { type },
           },
           FETCH_LIMITS.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function fetchDepositLimit(uuid) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/payment/limits/${uuid}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          FETCH_DEPOSIT_LIMIT.REQUEST,
+          {
+            type: FETCH_DEPOSIT_LIMIT.SUCCESS,
+            meta: { type: types.DEPOSIT },
+          },
+          FETCH_DEPOSIT_LIMIT.FAILURE,
         ],
         bailout: !logged,
       },
@@ -60,15 +98,23 @@ function sortByDate(a, b) {
 }
 
 function sortByStatus(a, b) {
-  if (a.status === LIMIT_STATUSES.ACTIVE && b.status === LIMIT_STATUSES.ACTIVE) {
+  if (a.status === statuses.IN_PROGRESS && b.status === statuses.IN_PROGRESS) {
     return sortByDate(a, b);
-  } else if (a.status === LIMIT_STATUSES.ACTIVE) {
+  } else if (a.status === statuses.IN_PROGRESS) {
     return 1;
-  } else if (b.status === LIMIT_STATUSES.ACTIVE) {
+  } else if (b.status === statuses.IN_PROGRESS) {
     return -1;
   }
 
   return sortByDate(a, b);
+}
+
+function mapLimitType(type) {
+  return item => ({ ...item, type });
+}
+
+function mapLimitFetchActions(action) {
+  return action.error ? [] : action.payload.map(mapLimitType(action.meta.type));
 }
 
 function mapLimitsActions(actions) {
@@ -78,36 +124,40 @@ function mapLimitsActions(actions) {
     .sort(sortByStatus);
 }
 
-function mapLimitFetchActions(action) {
-  return action.error ? [] : action.payload.content.map(mapLimitType(action.meta.type));
+function fetchLimits(uuid, fetchNotes = fetchNotesFn) {
+  return dispatch => Promise.all([
+    dispatch(fetchLimitsByType(uuid, types.SESSION_DURATION)),
+    dispatch(fetchLimitsByType(uuid, types.LOSS)),
+    dispatch(fetchLimitsByType(uuid, types.WAGER)),
+    dispatch(fetchDepositLimit(uuid)),
+  ]).then(actions => dispatch(setLimitsList(mapLimitsActions(actions))))
+    .then((action) => {
+      if (action.payload.length) {
+        dispatch(fetchNotes(targetTypes.LIMIT, action.payload.map(item => item.uuid)));
+      }
+    });
 }
 
-function mapLimitType(type) {
-  return (item, key) => ({ ...item, type });
-}
-
-function fetchLimits(uuid) {
-  return (dispatch, getState) => Promise.all([
-    dispatch(fetchLimitsByType(uuid, LIMIT_TYPES.SESSION_DURATION)),
-    dispatch(fetchLimitsByType(uuid, LIMIT_TYPES.LOSS)),
-    dispatch(fetchLimitsByType(uuid, LIMIT_TYPES.WAGER)),
-  ]).then((actions) => dispatch(setLimitsList(mapLimitsActions(actions))));
-}
-
-function setLimit(type, data) {
+function setPlayingSessionLimit(playerUUID, type, data) {
   return (dispatch, getState) => {
-    const { auth: { token, uuid, logged } } = getState();
+    const {
+      auth: { token, logged },
+      profile: { accumulatedBalances: { data: { real: { currency: currencyCode } } } },
+    } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${uuid}/limits/${type}`,
+        endpoint: `/playing-session/${playerUUID}/limits/${type}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          currencyCode,
+        }),
         types: [SET_LIMIT.REQUEST, SET_LIMIT.SUCCESS, SET_LIMIT.FAILURE],
         bailout: !logged,
       },
@@ -115,13 +165,52 @@ function setLimit(type, data) {
   };
 }
 
-function cancelLimit(uuid, type, id) {
+function setDepositLimit(playerUUID, data) {
+  return (dispatch, getState) => {
+    const {
+      auth: { token, logged },
+      profile: { accumulatedBalances: { data: { real: { currency: currencyCode } } } },
+    } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/payment/limits/${playerUUID}/deposit`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...data,
+          currencyCode,
+        }),
+        types: [SET_LIMIT.REQUEST, SET_LIMIT.SUCCESS, SET_LIMIT.FAILURE],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function setLimit(playerUUID, type, data) {
+  return (dispatch) => {
+    if ([types.WAGER, types.LOSS, types.SESSION_DURATION].indexOf(type) > -1) {
+      return dispatch(setPlayingSessionLimit(playerUUID, type, data));
+    } else if (type === types.DEPOSIT) {
+      return dispatch(setDepositLimit(playerUUID, data));
+    }
+
+    throw new Error(`Unknown limit type "${type}" inside setLimit`);
+  };
+}
+
+function cancelPlayingSessionLimit(playerUUID, type, limitId) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${uuid}/limits/${type}/${id}`,
+        endpoint: `/playing-session/${playerUUID}/limits/${type}/${limitId}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
@@ -139,6 +228,42 @@ function cancelLimit(uuid, type, id) {
   };
 }
 
+function cancelDepositLimit(playerUUID, limitId) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/payment/limits/${playerUUID}/deposit/${limitId}`,
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          CANCEL_DEPOSIT_LIMIT.REQUEST,
+          CANCEL_DEPOSIT_LIMIT.SUCCESS,
+          CANCEL_DEPOSIT_LIMIT.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function cancelLimit(playerUUID, type, limitId) {
+  return (dispatch) => {
+    if ([types.WAGER, types.LOSS, types.SESSION_DURATION].indexOf(type) > -1) {
+      return dispatch(cancelPlayingSessionLimit(playerUUID, type, limitId));
+    } else if (type === types.DEPOSIT) {
+      return dispatch(cancelDepositLimit(playerUUID, limitId));
+    }
+
+    throw new Error(`Unknown limit type "${type}" inside cancelLimit`);
+  };
+}
+
 const initialState = {
   list: [],
 };
@@ -146,6 +271,10 @@ const actionHandlers = {
   [SET_LIMITS_LIST]: (state, action) => ({
     ...state,
     list: [...action.payload],
+  }),
+  [FETCH_NOTES.SUCCESS]: (state, action) => ({
+    ...state,
+    list: mapNotesToLimits(state.list, action.payload),
   }),
 };
 const actionTypes = {

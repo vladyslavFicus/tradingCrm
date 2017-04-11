@@ -1,9 +1,9 @@
-import Permissions, { CONDITIONS } from 'utils/permissions';
-import permission from 'config/permissions';
+import Permissions, { CONDITIONS } from '../utils/permissions';
+import permission from './permissions';
 
-const sidebar = [
+const sidebarTopMenu = [
   {
-    label: 'Users',
+    label: 'Players',
     icon: 'fa fa-users',
     items: [
       { label: 'All', url: '/users/list' },
@@ -13,9 +13,7 @@ const sidebar = [
   {
     label: 'Operators',
     icon: 'fa fa-user',
-    items: [
-      { label: 'All', url: '/operators/list' },
-    ],
+    url: '/operators/list',
   },
   {
     label: 'Payments',
@@ -48,6 +46,9 @@ const sidebar = [
     ],
   },
 ];
+const sidebarBottomMenu = [
+  { label: 'Support', icon: 'fa fa-life-ring', url: '#' },
+];
 
 const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
@@ -55,7 +56,9 @@ const userProfileTabs = [
   { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Transactions', url: '/users/:id/transactions' },
   { label: 'Limits', url: '/users/:id/limits' },
-  { label: 'Documents', url: '/users/:id/documents' },
+  { label: 'Files', url: '/users/:id/files' },
+  { label: 'Notes', url: '/users/:id/notes' },
+  { label: 'Feed', url: '/users/:id/feed' },
 ];
 
 const operatorProfileTabs = [
@@ -63,7 +66,8 @@ const operatorProfileTabs = [
 ];
 
 export {
-  sidebar,
+  sidebarTopMenu,
+  sidebarBottomMenu,
   userProfileTabs,
   operatorProfileTabs,
 };

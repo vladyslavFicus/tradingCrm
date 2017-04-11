@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import GridView, { GridColumn } from 'components/GridView';
+import moment from 'moment';
+import classNames from 'classnames';
+import { shortify } from '../../../../../utils/uuid';
+import Amount from '../../../../../components/Amount';
+import GridView, { GridColumn } from '../../../../../components/GridView';
 import BonusGridFilter from './BonusGridFilter';
 import ViewModal from './ViewModal';
-import moment from 'moment';
-import Amount from 'components/Amount';
-import { shortify } from 'utils/uuid';
-import classNames from 'classnames';
-import BonusType from "./BonusType";
-import BonusStatus from "./BonusStatus";
-import { statuses } from 'constants/bonus';
-import { targetTypes } from 'constants/note';
-import NoteButton from "components/NoteButton";
+import BonusType from './BonusType';
+import BonusStatus from './BonusStatus';
+import { statuses } from '../../../../../constants/bonus';
+import { targetTypes } from '../../../../../constants/note';
+import NoteButton from '../../../../../components/NoteButton';
 
 const modalInitialState = { name: null, params: {} };
 const VIEW_MODAL = 'view-modal';
@@ -74,7 +74,9 @@ class List extends Component {
     });
   };
 
-  handleSubmit = (filters) => {
+  handleSubmit = (inputFilters = {}) => {
+    const filters = inputFilters;
+
     if (filters.states) {
       filters.states = [filters.states];
     }

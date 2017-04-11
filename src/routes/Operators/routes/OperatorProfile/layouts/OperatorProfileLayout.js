@@ -20,12 +20,13 @@ class OperatorProfileLayout extends Component {
     }),
     location: PropTypes.object,
     children: PropTypes.node,
-    data: PropTypes.object,
+    data: PropTypes.operatorProfile.isRequired,
     availableStatuses: PropTypes.array.isRequired,
     changeStatus: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
     fetchIp: PropTypes.func.isRequired,
     onResetPassword: PropTypes.func.isRequired,
+    onSendInvitation: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
     ip: PropTypes.object.isRequired,
     lastIp: PropTypes.ipEntity,
@@ -66,6 +67,30 @@ class OperatorProfileLayout extends Component {
           body: (
             <span>
               Reset password link was sent to <strong>{data.email}</strong>.
+            </span>
+          ),
+          footer: (
+            <button className="btn btn-default" onClick={this.handleCloseModal}>
+              Close
+            </button>
+          ),
+        });
+      }
+    }
+  };
+
+  handleSendInvitationClick = async () => {
+    const { onSendInvitation, data, params: { id: operatorUUID } } = this.props;
+
+    if (operatorUUID) {
+      const action = await onSendInvitation(operatorUUID);
+
+      if (action && !action.error) {
+        this.handleOpenModal(INFO_MODAL, {
+          header: 'Send invitation link',
+          body: (
+            <span>
+              Invitation link was sent to <strong>{data.email || operatorUUID}</strong>.
             </span>
           ),
           footer: (
@@ -119,6 +144,7 @@ class OperatorProfileLayout extends Component {
                 lastIp={lastIp}
                 availableStatuses={availableStatuses}
                 onResetPasswordClick={this.handleResetPasswordClick}
+                onSendInvitationClick={this.handleSendInvitationClick}
                 onStatusChange={changeStatus}
               />
             </div>

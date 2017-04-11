@@ -8,7 +8,8 @@ export default (store, basePath = '') => (nextState, replace, callback) => {
   }
 
   const signInRoute = {
-    pathname: `${basePath}/sign-in`, state: {
+    pathname: `${basePath}/sign-in`,
+    state: {
       nextPathname: {
         pathname: nextState.location.pathname,
         query: nextState.location.query,
@@ -30,8 +31,8 @@ export default (store, basePath = '') => (nextState, replace, callback) => {
   const resolveAuthStatus = (resolve) => {
     store.dispatch(authActionCreators.validateToken())
       .then(
-        (action) => resolve(!action || action.error && action.payload.status === 401 || !action.payload.valid),
-        (error) => resolve(true)
+        action => resolve(!action || action.error && action.payload.status === 401 || !action.payload.valid),
+        () => resolve(true)
       );
   };
 
