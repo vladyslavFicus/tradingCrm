@@ -48,4 +48,23 @@
     background-color: rgba(51, 51, 51, 1);
     color:#FFFFFF;
   }
+
+  .sort-arrow {
+    position: relative;
+    left: 4px;
+    transition: all .2s;
+    color: #3366CC;
+    &_is-active {
+      transform: rotate(180deg);
+    }
+  }
 }
+
+.table thead th,
+.table td {
+  border: none;
+}
+
+.line-height-1 {
+   line-height: 1;
+ }

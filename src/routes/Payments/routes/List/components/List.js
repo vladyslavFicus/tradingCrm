@@ -40,7 +40,7 @@ class List extends Component {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.loadPaymentStatuses(params.payment.paymentId)
+    this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId)
       .then(action => {
         if (action && !action.error) {
           params.transactions = action.payload;

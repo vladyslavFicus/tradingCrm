@@ -21,9 +21,8 @@ npm run deploy:prod
     }      
     
     stage('assemble') {         
-        sh "docker build -t nas/$service ."
-        sh "docker tag nas/$service registry.app/nas/$service"
-        sh "docker push registry.app/nas/$service"
+        sh "docker build -t registry.app/nas/$service:latest ."
+        sh "docker push registry.app/nas/${service}:latest"
     }      
     
     stage('deploy') {        

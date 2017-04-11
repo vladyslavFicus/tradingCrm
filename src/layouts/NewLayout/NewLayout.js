@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from '../../constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
+import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
@@ -22,6 +23,12 @@ class NewLayout extends Component {
     location: PropTypes.object,
     permissions: PropTypes.array,
     changeDepartment: PropTypes.func.isRequired,
+    activeUserPanel: PropTypes.userPanelItem,
+    userPanels: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
+    addPanel: PropTypes.func.isRequired,
+    removePanel: PropTypes.func.isRequired,
+    resetPanels: PropTypes.func.isRequired,
+    setActivePanel: PropTypes.func.isRequired,
   };
   static childContextTypes = {
     user: PropTypes.shape({
@@ -31,6 +38,8 @@ class NewLayout extends Component {
     location: PropTypes.object,
     permissions: PropTypes.array,
     changeDepartment: PropTypes.func.isRequired,
+    addPanel: PropTypes.func.isRequired,
+    removePanel: PropTypes.func.isRequired,
   };
 
   getChildContext() {
@@ -39,6 +48,8 @@ class NewLayout extends Component {
       location,
       permissions,
       changeDepartment,
+      addPanel,
+      removePanel,
     } = this.props;
 
     return {
@@ -46,6 +57,8 @@ class NewLayout extends Component {
       location,
       permissions,
       changeDepartment,
+      addPanel,
+      removePanel,
     };
   }
 
@@ -54,40 +67,57 @@ class NewLayout extends Component {
   };
 
   handleCloseTabs = () => {
-    this.setState({ hasTabs: false });
+    this.props.resetPanels();
   };
 
   render() {
-    const { children, router } = this.props;
+    const {
+      children,
+      router,
+      userPanels,
+      activeUserPanel,
+      removePanel,
+      setActivePanel,
+    } = this.props;
 
     return (
       <div>
-        <Navbar router={router} showSearch={false} />
+        <Navbar
+          router={router}
+          showSearch={false}
+        />
         <Sidebar
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}
         />
-        {this.renderSection(children) }
+
+        <div className="section-container">
+          {children}
+        </div>
+
         <UsersPanel
-          items={[]}
+          active={activeUserPanel}
+          items={userPanels}
+          onItemClick={setActivePanel}
+          onRemove={removePanel}
           onClose={this.handleCloseTabs}
         />
       </div>
     );
   }
-
-  renderSection = children => (
-    <div className="section-container">
-      {children}
-    </div>
-  )
 }
 
 const mapStateToProps = state => ({
   user: state.auth,
   permissions: state.permissions.data,
+  activeUserPanel: state.userPanels.items[state.userPanels.activeIndex] || null,
+  userPanels: state.userPanels.items,
 });
 
 export default connect(mapStateToProps, {
   changeDepartment: authActionCreators.changeDepartment,
+  addPanel: userPanelsActionCreators.add,
+  removePanel: userPanelsActionCreators.remove,
+  resetPanels: userPanelsActionCreators.reset,
+  setActivePanel: userPanelsActionCreators.setActive,
 })(NewLayout);

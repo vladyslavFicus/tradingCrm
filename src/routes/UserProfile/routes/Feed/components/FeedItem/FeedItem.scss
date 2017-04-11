@@ -1,85 +1,90 @@
 .feed-item {
-  color: #666666;
+  display: flex;
+  flex-flow: row nowrap;
   margin-top: 10px;
-  .letter {
-    height: 40px;
-    width: 40px;
-    margin-left: auto;
-    font-size: 24px;
-    font-weight: 700;
-    text-align: center;
-    color: #ffffff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    text-transform: uppercase;
-    background: #666666;
-    &:after {
-      content: '';
-      position: relative;
-      top: 1px;
-    }
-    &-blue {
-      background: #0267cc;
-    }
-    &-orange {
-      background: #ff9900;
-    }
-  }
-  .first-row {
-    font-size: 13px;
-    .audit-name {
-      font-weight: 700;
-      &.blue {
-        color: #0066cc;
+  color: #666;
+  &_avatar {
+    margin-right: 10px;
+    &-letter {
+      height: 40px;
+      width: 40px;
+      margin-top: 2px;
+      margin-left: auto;
+      padding-top: 2px;
+      font-size: 22px;
+      font-weight: 600;
+      text-align: center;
+      color: #fff;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      background: #000;
+      &_blue {
+        background: #0267cc;
+      }
+      &_orange {
+        background: #ff9900;
       }
     }
-    .pull-right {
-      color: #999999;
-      font-size: 11px;
-    }
   }
-  .date-time-ip {
-    font-size: 11px;
-    line-height: 1;
-  }
-  .status {
-    padding-right: 5px;
-    font-size: 14px;
-    font-weight: 700;
-    color: #333333;
-    &.green {
-      color: #009900;
-    }
-    &.blue {
-      color: #003399;
-    }
-    &.red {
-      color: #ff0000;
-    }
-  }
-  .hide {
-    font-size: 11px;
-    text-decoration: underline;
-    cursor: pointer;
-    .fa {
-      position: relative;
-      top: 2px;
-      left: 4px;
-    }
-  }
-  .information {
-    padding: 10px;
-    border: 1px solid #cccccc;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    background: #f8fafd;
-    font-size: 12px;
-    line-height: 1.2;
-    &_value {
-      padding-left: 2px;
+  &_info {
+    flex: 0 0 95%;
+    line-height: 1.15;
+    &-status {
+      font-size: 14px;
       font-weight: 700;
+      color: #333;
+      &__green {
+        color: #009900;
+      }
+      &__blue {
+        color: #003399;
+      }
+      &__red {
+        color: #ff0000;
+      }
+      .pull-right {
+        color: #999;
+        font-size: 11px;
+        font-weight: 300;
+      }
+    }
+    &-name {
+      font-size: 13px;
+      .audit-name {
+        font-weight: 700;
+        &.blue {
+          color: #0066cc;
+        }
+      }
+    }
+    &-date {
+      padding-bottom: 5px;
+      font-size: 11px;
+      &_btn-hide {
+        text-decoration: underline;
+        cursor: pointer;
+        .fa {
+          position: relative;
+          top: 2px;
+          left: 4px;
+        }
+      }
+    }
+    &-details {
+      padding: 10px;
+      border: 1px solid #ccc;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      background: #f8fafd;
+      font-size: 12px;
+      line-height: 1.2;
+      &_value {
+        padding-left: 2px;
+        font-weight: 700;
+      }
     }
   }
   .rejection {
@@ -96,9 +101,9 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    color: #ffffff;
+    color: #fff;
     font-weight: 700;
-    background: #333333;
+    background: #333;
     text-transform: uppercase;
   }
 }

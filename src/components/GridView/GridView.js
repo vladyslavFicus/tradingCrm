@@ -40,54 +40,48 @@ class GridView extends Component {
     return !shallowEqual(nextProps.dataSource, this.props.dataSource);
   }
 
-  onFiltersChanged() {
+  onFiltersChanged = () => {
     this.props.onFiltersChanged(this.state.filters);
-  }
+  };
 
-  setFilters(filters) {
-    return this.setState({
-      filters: {
-        ...this.state.filters,
-        ...filters,
-      },
-    }, this.onFiltersChanged);
-  }
+  setFilters = filters => this.setState({
+    filters: {
+      ...this.state.filters,
+      ...filters,
+    },
+  }, this.onFiltersChanged);
 
-  recognizeHeaders = (grids) => {
-    return grids.map(({ props }) => {
-      const config = { children: props.header };
+  recognizeHeaders = grids => grids.map(({ props }) => {
+    const config = { children: typeof props.header === 'function' ? props.header() : props.header };
 
-      if (props.headerClassName) {
-        config.className = props.headerClassName;
+    if (props.headerClassName) {
+      config.className = props.headerClassName;
+    }
+
+    if (props.headerStyle) {
+      config.style = props.headerStyle;
+    }
+
+    return config;
+  });
+
+  recognizeFilters = grids => grids.map(({ props }) => {
+    if (typeof props.filter === 'function') {
+      const config = { children: props.filter(this.setFilters) };
+
+      if (props.filterClassName) {
+        config.className = props.filterClassName;
       }
 
-      if (props.headerStyle) {
-        config.style = props.headerStyle;
+      if (props.filterStyle) {
+        config.style = props.filterStyle;
       }
 
       return config;
-    });
-  };
+    }
 
-  recognizeFilters(grids) {
-    return grids.map(({ props }) => {
-      if (typeof props.filter === 'function') {
-        const config = { children: props.filter(this.setFilters) };
-
-        if (props.filterClassName) {
-          config.className = props.filterClassName;
-        }
-
-        if (props.filterStyle) {
-          config.style = props.filterStyle;
-        }
-
-        return config;
-      }
-
-      return null;
-    });
-  }
+    return null;
+  });
 
   getRowClassName = (data) => {
     let className = this.props.rowClassName;
@@ -99,28 +93,29 @@ class GridView extends Component {
     return className;
   };
 
-  handlePageChange(eventKey) {
+  handlePageChange = (eventKey) => {
     this.props.onPageChange(eventKey, this.state.filters);
-  }
-
-  renderHead = (columns) => {
-    return (
-      <tr>
-        {columns.map((item, key) => <th key={key} {...item} />)}
-      </tr>
-    );
   };
 
-  renderFilters(columns) {
-    return columns.some(column => !!column)
-      ? <tr>
+  renderHead = columns => (
+    <tr>
+      {columns.map((item, key) => <th key={key} {...item} />)}
+    </tr>
+  );
+
+  renderFilters = columns => (
+    columns.some(column => !!column)
+      ? (
+      <tr>
         {columns.map((item, key) =>
-          !!item ?
+          item ?
             <td key={key} {...item} /> :
             <td key={key} />
         )}
-      </tr> : null;
-  }
+      </tr>
+    )
+      : null
+  );
 
   renderBody = (columns) => {
     const {
@@ -147,11 +142,14 @@ class GridView extends Component {
     const { onRowClick } = this.props;
 
     return (
-      <tr key={key} className={this.getRowClassName(data)} onClick={() => {
-        if (typeof onRowClick === 'function') {
-          onRowClick(data);
-        }
-      }}
+      <tr
+        key={key}
+        className={this.getRowClassName(data)}
+        onClick={() => {
+          if (typeof onRowClick === 'function') {
+            onRowClick(data);
+          }
+        }}
       >
         {columns.map((column, columnKey) => this.renderColumn(`${key}-${columnKey}`, column, data))}
       </tr>
@@ -173,13 +171,15 @@ class GridView extends Component {
   renderFooter(columns) {
     const { summaryRow } = this.props;
 
-    return summaryRow ? <tfoot>
+    return summaryRow ? (
+      <tfoot>
       <tr>
         {columns.map(({ props }, key) =>
           <td key={key}>{summaryRow[props.name]}</td>
         )}
       </tr>
-    </tfoot> : null;
+      </tfoot>
+    ) : null;
   }
 
   renderPagination() {
@@ -216,17 +216,15 @@ class GridView extends Component {
       headerClassName,
       lazyLoad,
     } = this.props;
-    const grids = React.Children.toArray(this.props.children).filter((child) => {
-      return child.type === GridColumn;
-    });
+    const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
       <div className="row">
-        <div className="col-md-12">
+        <div className="col-md-12 table-responsive">
           <table className={tableClassName}>
             <thead className={headerClassName}>
-              {this.renderHead(this.recognizeHeaders(grids))}
-              {this.renderFilters(this.recognizeFilters(grids))}
+            {this.renderHead(this.recognizeHeaders(grids))}
+            {this.renderFilters(this.recognizeFilters(grids))}
             </thead>
 
             {this.renderBody(grids)}

@@ -2,6 +2,7 @@
   .letter {
     height: 40px;
     width: 40px;
+    margin-top: 4px;
     margin-left: auto;
     font-size: 24px;
     font-weight: 700;
@@ -21,10 +22,14 @@
       background: #0267cc;
     }
   }
+  .user-wall-item-head {
+    font-size: 13px;
+  }
+  .note-content {
+    background: rgb(255, 253, 230);
+    font-size: 13px;
+  }
   .note-author {
     color: #0066CC;
-  }
-  .note-label {
-    font-size: 10px;
   }
 }

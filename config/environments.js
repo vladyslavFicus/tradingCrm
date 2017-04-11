@@ -20,6 +20,7 @@ const applicationConfig = {
   'components.Currency.currencies.USD.symbolOnLeft': true,
   'middlewares.persist.keyPrefix': 'nas:',
   'middlewares.persist.whitelist[0]': 'auth',
+  'middlewares.persist.whitelist[1]': 'userPanels',
   'middlewares.unauthorized[0]': 401,
   'middlewares.unauthorized[1]': 403,
   'nas.currencies.base': 'EUR',
@@ -74,6 +75,7 @@ const applicationConfig = {
   'nas.limits.session_duration.periods[5]': '6 HOURS',
   'nas.limits.session_duration.periods[6]': '7 HOURS',
   'nas.limits.session_duration.periods[7]': '8 HOURS',
+  'nas.logstash.url': 'http://hrzn01-stage-elk.hrzn.stage:12202',
 };
 
 export default {

@@ -9,8 +9,12 @@ export default {
     OPERATORS_LIST_VIEW: 'operator;GET;/operators',
     PROFILE_VIEW: 'operator;GET;/operators/{uuid}',
     CREATE: 'operator;POST;/operators',
+    OPERATOR_SEND_INVITATION: 'operator;PUT;/operators/{uuid}/send/invitation',
   },
   USER_PROFILE: {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',
+  },
+  PAYMENTS: {
+    APPROVE_WITHDRAW: 'payment;POST;/approve/{paymentId}',
   },
 };

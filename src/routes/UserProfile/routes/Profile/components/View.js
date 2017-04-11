@@ -57,22 +57,10 @@ class View extends Component {
     modal: { ...modalInitialState },
   };
 
-  handleSubmitPersonal = async (data) => {
-    const { params: { id }, submitData, updateIdentifier, profile } = this.props;
-
-    const action = await submitData(id, kycTypes.personal, data);
-
-    if (action && !action.error && data.identifier !== profile.data.identifier) {
-      updateIdentifier(id, data.identifier);
-    }
-
-    return action;
-  };
-
-  handleSubmitAddress = (data) => {
+  handleSubmitKYC = type => (data) => {
     const { params: { id }, submitData } = this.props;
 
-    return submitData(id, kycTypes.address, data);
+    return submitData(id, type, data);
   };
 
   handleSubmitContact = (data) => {
@@ -83,15 +71,6 @@ class View extends Component {
 
   handleVerify = type => () => {
     this.props.verifyData(this.props.params.id, type);
-  };
-
-  handleVerifyAll = () => {
-    const { verifyData, params } = this.props;
-
-    return Promise.all([
-      verifyData(params.id, kycCategories.KYC_PERSONAL),
-      verifyData(params.id, kycCategories.KYC_ADDRESS),
-    ]);
   };
 
   handleRefuse = async (data) => {
@@ -111,15 +90,6 @@ class View extends Component {
     this.handleOpenModal(REFUSE_MODAL, {
       initialValues: {
         [type]: true,
-      },
-    });
-  };
-
-  handleRefuseAllClick = () => {
-    this.handleOpenModal(REFUSE_MODAL, {
-      initialValues: {
-        [kycCategories.KYC_PERSONAL]: true,
-        [kycCategories.KYC_ADDRESS]: true,
       },
     });
   };
@@ -167,8 +137,6 @@ class View extends Component {
       personalData,
       addressData,
       contactData,
-      canVerifyAll,
-      canRefuseAll,
       downloadFile,
     } = this.props;
 
@@ -190,7 +158,7 @@ class View extends Component {
               <div className="col-md-8 profile-bordered-block">
                 <PersonalForm
                   initialValues={personalData}
-                  onSubmit={this.handleSubmitPersonal}
+                  onSubmit={this.handleSubmitKYC(kycTypes.personal)}
                 />
                 <hr />
                 <Documents
@@ -217,7 +185,7 @@ class View extends Component {
               <div className="col-md-8 profile-bordered-block">
                 <AddressForm
                   initialValues={addressData}
-                  onSubmit={this.handleSubmitAddress}
+                  onSubmit={this.handleSubmitKYC(kycTypes.address)}
                 />
                 <hr />
                 <Documents

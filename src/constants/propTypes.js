@@ -204,7 +204,6 @@ PropTypes.userPanelItem = PropTypes.shape({
   fullName: PropTypes.string.isRequired,
   login: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
 });
 PropTypes.navbarNavItem = PropTypes.shape({
   label: PropTypes.any.isRequired,

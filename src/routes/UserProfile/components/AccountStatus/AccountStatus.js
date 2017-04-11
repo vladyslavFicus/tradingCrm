@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import moment from 'moment';
 import AccountStatusModal from './AccountStatusModal';
 import { statuses, suspendPeriods } from '../../../../constants/user';
-import './AccountStatus.scss';
 
 const initialState = {
   dropDownOpen: false,
@@ -75,8 +74,9 @@ class AccountStatus extends Component {
   render() {
     const { dropDownOpen, modal } = this.state;
     const { label, availableStatuses, profileStatus } = this.props;
-    const dropdownClassName = classNames('player__account__status dropdown-highlight padding-0', {
-      'cursor-pointer': profileStatus !== statuses.SUSPENDED,
+    const dropdownClassName = classNames('dropdown-highlight', {
+      'cursor-pointer': profileStatus !== statuses.SUSPENDED && profileStatus !== statuses.INACTIVE,
+      'no-dropdown': profileStatus !== statuses.ACTIVE,
       'dropdown-open': dropDownOpen,
     });
     return (

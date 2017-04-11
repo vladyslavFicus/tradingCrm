@@ -4,12 +4,11 @@ $purple: #6600ff;
 $blue: #0066ff;
 $pink: #cc00ff;
 
-.users-panel-row {
+.users-panel-footer-row {
   &_item {
     position: relative;
     float: left;
-    width: 12%;
-    max-width: 12%;
+    width: 230px;
     padding: .3rem .5rem;
     opacity: 1;
     visibility: visible;
@@ -17,37 +16,37 @@ $pink: #cc00ff;
     &.view {
       padding-top: 0;
       transition: padding .2s ease, color .2s ease;
-      &.tab-orange .users-panel-row_item-block {
+      &.tab-orange .users-panel-footer-row_item-block {
         margin-top: -4px;
         background: $orange;
         border-color: $orange;
 
       }
-      &.tab-green .users-panel-row_item-block {
+      &.tab-green .users-panel-footer-row_item-block {
         margin-top: -4px;
         background: $green;
         border-color: $green;
 
       }
-      &.tab-purple .users-panel-row_item-block {
+      &.tab-purple .users-panel-footer-row_item-block {
         margin-top: -4px;
         background: $purple;
         border-color: $purple;
 
       }
-      &.tab-blue .users-panel-row_item-block {
+      &.tab-blue .users-panel-footer-row_item-block {
         margin-top: -4px;
         background: $blue;
         border-color: $blue;
 
       }
-      &.tab-pink .users-panel-row_item-block {
+      &.tab-pink .users-panel-footer-row_item-block {
         margin-top: -4px;
         background: $pink;
         border-color: $pink;
 
       }
-      .users-panel-row_item-block-info {
+      .users-panel-footer-row_item-block-info {
         padding-top: .5rem;
         -moz-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.498039215686275);
         -webkit-box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.498039215686275);
@@ -77,6 +76,15 @@ $pink: #cc00ff;
       font-size: 1.2rem;
       color: lighten(#666666, 30%);
     }
+    .btn-transparent {
+      position: absolute;
+      right: 10px;
+      bottom: 14px;
+    }
+    .fa-times-circle {
+      right: 0;
+      bottom: 0;
+    }
   }
   &_item-block-info {
     padding: .125rem 2rem .4rem .5rem;
@@ -98,19 +106,19 @@ $pink: #cc00ff;
       line-height: .9;
     }
   }
-  .tab-orange .users-panel-row_item-block-info {
+  .tab-orange .users-panel-footer-row_item-block-info {
     border-color: $orange;
   }
-  .tab-green .users-panel-row_item-block-info {
+  .tab-green .users-panel-footer-row_item-block-info {
     border-color: $green;
   }
-  .tab-purple .users-panel-row_item-block-info {
+  .tab-purple .users-panel-footer-row_item-block-info {
     border-color: $purple;
   }
-  .tab-blue .users-panel-row_item-block-info {
+  .tab-blue .users-panel-footer-row_item-block-info {
     border-color: $blue;
   }
-  .tab-pink .users-panel-row_item-block-info {
+  .tab-pink .users-panel-footer-row_item-block-info {
     border-color: $pink;
   }
 }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import PersonalInformationItem from '../../../../../../components/Information/PersonalInformationItem';
 import PropTypes from '../../../../../../constants/propTypes';
+import './Information.scss';
 
 class Personal extends Component {
   static propTypes = {
@@ -20,10 +22,10 @@ class Personal extends Component {
     } = this.props;
 
     return (
-      <div className="player__account__details_personal col-md-3">
-        <span className="player__account__details_personal-label">Personal information</span>
-        <div className="panel panel-with-borders">
-          <div className="panel-body padding-5 height-200">
+      <div className="player__account__details_personal">
+        <span className="player__account__details-label">Personal information</span>
+        <div className="panel">
+          <div className="panel-body height-200">
             <PersonalInformationItem
               label="First Name"
               value={firstName}
@@ -46,7 +48,7 @@ class Personal extends Component {
             />
             <PersonalInformationItem
               label="Registration Date"
-              value={registrationDate}
+              value={moment(registrationDate).format('YYYY-MM-DD HH:mm')}
             />
           </div>
         </div>

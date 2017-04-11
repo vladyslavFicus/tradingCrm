@@ -48,36 +48,34 @@ class FeedItem extends Component {
     } = this.props;
 
     return (
-      <div className="row feed-item">
-        <div className="col-xs-1">
-          <div className={`letter letter-${color}`}>
+      <div className="feed-item">
+        <div className="feed-item_avatar">
+          <div className={`feed-item_avatar-letter feed-item_avatar-letter_${color}`}>
             {letter}
           </div>
         </div>
-        <div className="col-xs-11 padding-left-0">
-          <div className="first-row">
+        <div className="feed-item_info">
+          <div className={classNames('feed-item_info-status', typesClassNames[data.type])}>
+            {
+              data.type && typesLabels[data.type]
+                ? typesLabels[data.type]
+                : data.type
+            }
+            <span className="pull-right">{shortify(data.uuid)}</span>
+          </div>
+          <div className="feed-item_info-name">
             <span className={classNames('audit-name', color)}>
               {data.authorFullName}
             </span> - {shortify(data.authorUuid, data.authorUuid === data.targetUuid ? 'PL' : null)}
-            <span className="pull-right">{shortify(data.uuid)}</span>
           </div>
-          <div className="date-time-ip">
+          <div className="feed-item_info-date">
             {data.creationDate ? moment(data.creationDate).format('YYYY-MM-DD HH:mm:ss') : null}
             {
               [types.PLAYER_LOG_IN, types.PLAYER_LOG_OUT].indexOf(data.type) === -1 && data.ip
                 ? ` from ${data.ip}`
                 : null
             }
-          </div>
-          <div className="padding-top-5">
-            <span className={classNames('status', typesClassNames[data.type])}>
-              {
-                data.type && typesLabels[data.type]
-                  ? typesLabels[data.type]
-                  : data.type
-              }
-            </span>
-            <button className="btn-transparent hide" onClick={this.handleToggleClick}>
+            <button className="feed-item_info-date_btn-hide btn-transparent" onClick={this.handleToggleClick}>
               {
                 opened
                   ? <span>Hide details<i className="fa fa-caret-up" /></span>
@@ -93,3 +91,4 @@ class FeedItem extends Component {
 }
 
 export default FeedItem;
+

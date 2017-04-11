@@ -86,23 +86,22 @@ class View extends Component {
         />
 
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-12 margin-top-20">
             <ListView
               dataSource={entities.content}
               itemClassName="padding-bottom-20"
               onPageChange={this.handlePageChanged}
               render={(item, key) => {
                 const options = {
-                  color: '',
-                  letter: 'P',
+                  color: 'blue',
+                  letter: item.authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
                 };
 
                 if (item.authorUuid !== item.targetUuid) {
                   if (item.authorUuid) {
-                    options.color = 'blue';
-                    options.letter = 'o';
-                  } else {
                     options.color = 'orange';
+                  } else {
+                    options.color = '';
                     options.letter = 's';
                   }
                 }
