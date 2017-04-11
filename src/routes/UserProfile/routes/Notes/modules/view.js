@@ -11,7 +11,7 @@ const fetchEntities = noteActionCreators.fetchNotes(FETCH_ENTITIES);
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...state.filters, ...action.meta.filters },
+    filters: action.meta.filters,
     isLoading: true,
     error: null,
   }),

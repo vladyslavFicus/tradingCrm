@@ -1,0 +1,36 @@
+.player__account__details {
+  padding: 10px 15px;
+  &-label {
+    color: #999999;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+  &_personal {
+    .panel-body {
+      padding: 7px;
+      font-size: 13px;
+    }
+  }
+  &_additional {
+    .panel-body {
+      padding: 5px 7px;
+      font-size: 13px;
+      overflow-x: hidden;
+    }
+    &-label {
+      color: #999999;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    &-departments {
+      padding: 5px 14px;
+    }
+  }
+  &_networking {
+    .panel-body {
+      padding: 7px;
+      font-size: 13px;
+      overflow-x: hidden;
+    }
+  }
+}

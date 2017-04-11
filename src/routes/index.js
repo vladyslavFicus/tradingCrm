@@ -28,12 +28,6 @@ import ReportsRoute from './Reports';
 export const createRoutes = store => ({
   childRoutes: [
     {
-      component: NewLayout,
-      childRoutes: [
-        MarkupRoute(store),
-      ],
-    },
-    {
       component: BaseLayout,
       childRoutes: [
         SignInRoute(store),

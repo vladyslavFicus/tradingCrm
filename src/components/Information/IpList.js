@@ -7,8 +7,8 @@ class IpList extends Component {
 
     return (
       <div className="player__account__details_networking">
-        <span className="player__account__details_networking-label">Last 10 ip's</span>
-        <div className="panel panel-with-borders">
+        <span className="player__account__details-label">Last 10 ip's</span>
+        <div className="panel">
           <div className="panel-body height-200">
             {
               ips.map((item) => (
