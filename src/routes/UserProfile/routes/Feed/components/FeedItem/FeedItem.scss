@@ -1,20 +1,25 @@
 .feed-item {
   color: #666666;
   margin-top: 10px;
+  &-right {
+    padding-left: 0;
+    line-height: 1.15;
+  }
   .letter {
     height: 40px;
     width: 40px;
     margin-top: 2px;
     margin-left: auto;
-    font-size: 24px;
-    font-weight: 700;
+    padding-top: 2px;
+    font-size: 22px;
+    font-weight: 600;
     text-align: center;
     color: #ffffff;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     text-transform: uppercase;
-    background: #666666;
+    background: #000000;
     &:after {
       content: '';
       position: relative;
@@ -41,12 +46,11 @@
     }
   }
   .date-time-ip {
+    padding-bottom: 5px;
     font-size: 11px;
   }
   .status {
-    padding-right: 5px;
     font-size: 14px;
-    font-weight: 700;
     color: #333333;
     &.green {
       color: #009900;

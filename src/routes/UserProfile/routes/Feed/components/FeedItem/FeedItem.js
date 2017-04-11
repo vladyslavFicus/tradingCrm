@@ -54,7 +54,7 @@ class FeedItem extends Component {
             {letter}
           </div>
         </div>
-        <div className="col-xs-11 padding-left-0 line-height-115">
+        <div className="col-xs-11 feed-item-right">
           <div>
             <span className={classNames('status', typesClassNames[data.type])}>
               {
@@ -70,7 +70,7 @@ class FeedItem extends Component {
             </span> - {shortify(data.authorUuid, data.authorUuid === data.targetUuid ? 'PL' : null)}
             <span className="pull-right">{shortify(data.uuid)}</span>
           </div>
-          <div className="date-time-ip padding-bottom-5">
+          <div className="date-time-ip">
             {data.creationDate ? moment(data.creationDate).format('YYYY-MM-DD HH:mm:ss') : null}
             {
               [types.PLAYER_LOG_IN, types.PLAYER_LOG_OUT].indexOf(data.type) === -1 && data.ip
@@ -93,3 +93,4 @@ class FeedItem extends Component {
 }
 
 export default FeedItem;
+
