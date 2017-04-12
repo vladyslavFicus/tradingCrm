@@ -1,24 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import moment from 'moment';
 import classNames from 'classnames';
-import PropTypes from '../../../constants/propTypes';
 import {
   methodsLabels as paymentsMethodsLabels,
   statusesLabels as paymentsStatusesLabels,
   statusesColor as paymentsStatusesColor,
   types as paymentsTypes,
-} from '../../../constants/payment';
-import { statusColorNames } from '../../../constants/user';
-import { targetTypes } from '../../../constants/note';
-import Amount from '../../../components/Amount';
-import NoteButton from '../../../components/NoteButton';
-import { shortify } from '../../../utils/uuid';
+} from '../../../../../constants/payment';
+import { statusColorNames } from '../../../../../constants/user';
+import { targetTypes } from '../../../../../constants/note';
+import Amount from '../../../../../components/Amount';
+import NoteButton from '../../../../../components/NoteButton';
+import { shortify } from '../../../../../utils/uuid';
 import './PaymentDetailModal.scss';
-import { UncontrolledTooltip } from '../../../components/Reactstrap/Uncontrolled';
-import PermissionContent from '../../../components/PermissionContent';
-import Permissions from '../../../utils/permissions';
-import permission from '../../../config/permissions';
+import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
+import PermissionContent from '../../../../../components/PermissionContent';
+import Permissions from '../../../../../utils/permissions';
+import permission from '../../../../../config/permissions';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
 class PaymentDetailModal extends Component {
@@ -40,21 +39,16 @@ class PaymentDetailModal extends Component {
     isOpen: false,
   };
   static contextTypes = {
-    notes: PropTypes.shape({
-      onAddNoteClick: PropTypes.func.isRequired,
-      onEditNoteClick: PropTypes.func.isRequired,
-    }),
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
   };
 
   handleNoteClick = (target, data) => {
     if (data.note) {
       this.context.notes.onEditNoteClick(target, data.note, { placement: 'top' });
     } else {
-      this.context.notes.onAddNoteClick(target, {
-        playerUUID: data.playerUUID,
-        targetUUID: data.paymentId,
-        targetType: targetTypes.PAYMENT,
-      }, { placement: 'top' });
+      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'top' });
     }
   };
 
@@ -238,7 +232,7 @@ class PaymentDetailModal extends Component {
                   { paymentsMethodsLabels[paymentMethod] || paymentMethod }
                 </div>
                 <span className="font-size-10">
-                  { shortify(paymentAccount, null, 2) }
+                  {shortify(paymentAccount, null, 2)}
                 </span>
               </div>
             </div>

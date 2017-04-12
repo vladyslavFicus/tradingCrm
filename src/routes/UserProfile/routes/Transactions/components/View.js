@@ -17,8 +17,8 @@ import StatusHistory from '../../../../../components/TransactionStatusHistory';
 import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
 import TransactionGridFilter from './TransactionGridFilter';
-import PaymentDetailModal from '../../../../../routes/Transactions/components/PaymentDetailModal';
-import PaymentRejectModal from '../../../../../routes/Transactions/components/PaymentRejectModal';
+import PaymentDetailModal from './PaymentDetailModal';
+import PaymentRejectModal from './PaymentRejectModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
@@ -82,11 +82,12 @@ class View extends Component {
     }
   };
 
-  handleRefresh = () =>  this.props.fetchEntities(
-      this.props.params.id, {...this.state.filters,
+  handleRefresh = () => this.props.fetchEntities(
+    this.props.params.id, {
+      ...this.state.filters,
       page: this.state.page,
-      }
-    );
+    }
+  );
 
 
   handleFilterSubmit = (data = {}) => {
@@ -99,21 +100,19 @@ class View extends Component {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
-  handleChangePaymentStatus = (status, paymentId, options = {}) => {
+  handleChangePaymentStatus = (status, playerUUID, paymentId, options = {}) => {
     const { onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus({ status, paymentId, options })
+    return onChangePaymentStatus({ status, playerUUID, paymentId, options })
       .then(this.handleRefresh)
       .then(this.handleCloseModal);
   };
 
-  handleAboutToReject = (payment) => {
+  handleRejectClick = (data) => {
     this.handleCloseModal();
 
-    this.handleOpenModal(MODAL_PAYMENT_REJECT, {
-      payment,
-      profile: this.props.profile,
-      accumulatedBalances: this.props.accumulatedBalances,
+    return this.handleOpenModal(MODAL_PAYMENT_REJECT, {
+      ...data,
       rejectReasons: this.props.paymentRejectReasons,
     });
   };
@@ -358,7 +357,7 @@ class View extends Component {
             isOpen
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
-            onAboutToReject={this.handleAboutToReject}
+            onRejectClick={this.handleRejectClick}
           />
         }
 

@@ -1,4 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
+import moment from 'moment';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
@@ -6,11 +7,14 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
 import { targetTypes } from '../../../../../constants/note';
+import config from '../../../../../config';
 
 const KEY = 'transactions/transactions';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 const FETCH_PROFILES = createRequestAction(`${KEY}/fetch-profiles`);
+const FETCH_PROFILE_REAL_BALANCE = createRequestAction(`${KEY}/fetch-profile-balance`);
+const FETCH_PROFILE_BONUS_BALANCE = createRequestAction(`${KEY}/fetch-profile-bonus`);
 
 const mergeEntities = (stored, fetched) => {
   const merged = [...stored];
@@ -86,6 +90,183 @@ function fetchEntities(filters = {}, fetchNotes = fetchNotesFn, fetchProfiles = 
   };
 }
 
+const mapSuccessBonusPayload = playerUUID => async (action, state, res) => {
+  const contentType = res.headers.get('Content-Type');
+  if (contentType && ~contentType.indexOf('json')) {
+    const response = await res.json();
+
+    if (response.content.length) {
+      return { playerUUID, balance: { ...response.content[0].balance } };
+    }
+  }
+
+  return { playerUUID, balance: null };
+};
+function fetchBonus(playerUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `bonus/bonuses/${playerUUID}?${buildQueryString({ states: 'IN_PROGRESS' })}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          FETCH_PROFILE_BONUS_BALANCE.REQUEST,
+          {
+            type: FETCH_PROFILE_BONUS_BALANCE.SUCCESS,
+            payload: mapSuccessBonusPayload(playerUUID),
+          },
+          FETCH_PROFILE_BONUS_BALANCE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+
+const mapSuccessBalancePayload = playerUUID => async (action, state, res) => {
+  const contentType = res.headers.get('Content-Type');
+  if (contentType && ~contentType.indexOf('json')) {
+    const response = await res.json();
+
+    if (response.balances) {
+      const [balance] = Object
+        .keys(response.balances)
+        .reduce((result, item) => (
+          result.push({
+            amount: Number(parseFloat(response.balances[item].replace(item, '')).toFixed(2)),
+            currency: item,
+          }),
+            result
+        ), []);
+
+      return { playerUUID, balance };
+    }
+  }
+  return { playerUUID, balance: null };
+};
+function fetchBalance(playerUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/wallet/balances/${playerUUID}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          FETCH_PROFILE_REAL_BALANCE.REQUEST,
+          {
+            type: FETCH_PROFILE_REAL_BALANCE.SUCCESS,
+            payload: mapSuccessBalancePayload(playerUUID),
+          },
+          FETCH_PROFILE_REAL_BALANCE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function fetchBalances(playerUUID) {
+  return async dispatch => await Promise.all([
+    dispatch(fetchBalance(playerUUID)),
+    dispatch(fetchBonus(playerUUID)),
+  ]);
+}
+
+const mapBalancesToTransactions = (playerUUID, balanceField, value, transactions) => transactions.map((transaction) => {
+  if (transaction.playerUUID !== playerUUID) {
+    return transaction;
+  }
+
+  let accumulatedBalances = { ...transaction.profile.accumulatedBalances };
+  if (balanceField === 'real') {
+    accumulatedBalances = {
+      ...accumulatedBalances,
+      real: { ...value, amount: value.amount - accumulatedBalances.bonus.amount },
+    };
+  } else if (balanceField === 'bonus') {
+    accumulatedBalances = {
+      ...accumulatedBalances,
+      bonus: value,
+      real: {
+        ...accumulatedBalances.real,
+        amount: transaction.profile.balance.amount - value.amount,
+      },
+    };
+  }
+
+  return {
+    ...transaction,
+    profile: {
+      ...transaction.profile,
+      balance: balanceField === 'real' ? value : transaction.profile.balance,
+      accumulatedBalances,
+    },
+  };
+});
+
+const createSuccessBalanceReducer = balanceField => (state, action) => {
+  if (action.payload.balance === null) {
+    return state;
+  }
+
+  const newState = {
+    ...state,
+    entities: {
+      ...state.entities,
+      content: mapBalancesToTransactions(
+        action.payload.playerUUID,
+        balanceField,
+        action.payload.balance,
+        [...state.entities.content]
+      ),
+    },
+  };
+
+  if (newState.profiles[action.payload.playerUUID]) {
+    let accumulatedBalances = { ...newState.profiles[action.payload.playerUUID].accumulatedBalances };
+    if (balanceField === 'real') {
+      accumulatedBalances = {
+        ...accumulatedBalances,
+        real: { ...action.payload.balance, amount: action.payload.balance.amount - accumulatedBalances.bonus.amount },
+      };
+    } else if (balanceField === 'bonus') {
+      accumulatedBalances = {
+        ...accumulatedBalances,
+        bonus: action.payload.balance,
+        real: {
+          ...accumulatedBalances.real,
+          amount: newState.profiles[action.payload.playerUUID].balance.amount - action.payload.balance.amount,
+        },
+      };
+    }
+    newState.profiles = {
+      ...newState.profiles,
+      [action.payload.playerUUID]: {
+        ...newState.profiles[action.payload.playerUUID],
+        balance: balanceField === 'real'
+          ? action.payload.balance
+          : newState.profiles[action.payload.playerUUID].balance,
+        accumulatedBalances,
+      },
+    };
+  }
+
+  return newState;
+};
+
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
@@ -121,23 +302,26 @@ const actionHandlers = {
   [FETCH_PROFILES.SUCCESS]: (state, action) => {
     const newState = {
       ...state,
-      profiles: {
-        ...state.profiles,
-        ...action.payload.content.reduce((res, profile) => ({
-          ...res,
-          [profile.uuid]: {
-            uuid: profile.uuid,
-            firstName: profile.firstName,
-            lastName: profile.lastName,
-            kycCompleted: profile.kycCompleted,
-            birthDate: profile.birthDate,
-            username: profile.username,
-            languageCode: profile.languageCode,
-            suspendEndDate: profile.suspendEndDate,
-            profileStatus: profile.profileStatus,
+      profiles: action.payload.content.reduce((res, profile) => ({
+        ...res,
+        [profile.uuid]: res[profile.uuid] ? res[profile.uuid] : {
+          uuid: profile.uuid,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          kycCompleted: profile.kycCompleted,
+          birthDate: profile.birthDate,
+          username: profile.username,
+          languageCode: profile.languageCode,
+          suspendEndDate: profile.suspendEndDate,
+          profileStatus: profile.profileStatus,
+          age: moment().diff(profile.birthDate, 'years'),
+          balance: { amount: 0, currency: config.nas.currencies.base },
+          accumulatedBalances: {
+            real: { amount: 0, currency: config.nas.currencies.base },
+            bonus: { amount: 0, currency: config.nas.currencies.base },
           },
-        }), {}),
-      },
+        },
+      }), { ...state.profiles }),
     };
 
     newState.entities = {
@@ -147,6 +331,8 @@ const actionHandlers = {
 
     return newState;
   },
+  [FETCH_PROFILE_BONUS_BALANCE.SUCCESS]: createSuccessBalanceReducer('bonus'),
+  [FETCH_PROFILE_REAL_BALANCE.SUCCESS]: createSuccessBalanceReducer('real'),
 };
 const initialState = {
   entities: {
@@ -168,9 +354,15 @@ const initialState = {
 };
 const actionTypes = {
   FETCH_ENTITIES,
+  FETCH_PROFILES,
+  FETCH_PROFILE_REAL_BALANCE,
+  FETCH_PROFILE_BONUS_BALANCE,
 };
 const actionCreators = {
   fetchEntities,
+  fetchBonus,
+  fetchBalance,
+  fetchBalances,
 };
 
 export {

@@ -8,10 +8,10 @@ import {
   Input,
 } from 'reactstrap';
 import classNames from 'classnames';
-import { targetTypes } from '../../../constants/note';
-import NoteButton from '../../../components/NoteButton';
-import { shortify } from '../../../utils/uuid';
+import { targetTypes } from '../../../../../constants/note';
+import NoteButton from '../../../../../components/NoteButton';
 import './PaymentDetailModal.scss';
+import { shortify } from '../../../../../utils/uuid';
 
 class PaymentRejectModal extends Component {
   static propTypes = {
@@ -32,10 +32,9 @@ class PaymentRejectModal extends Component {
     isOpen: false,
   };
   static contextTypes = {
-    notes: PropTypes.shape({
-      onAddNoteClick: PropTypes.func.isRequired,
-      onEditNoteClick: PropTypes.func.isRequired,
-    }),
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
   };
 
   state = {
@@ -45,15 +44,15 @@ class PaymentRejectModal extends Component {
     reason: 'Reason 1',
   };
 
+  getNotePopoverParams = () => ({
+    placement: 'top',
+  });
+
   handleNoteClick = (target, data) => {
     if (data.note) {
-      this.context.notes.onEditNoteClick(target, data.note, { placement: 'top' });
+      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
     } else {
-      this.context.notes.onAddNoteClick(target, {
-        playerUUID: data.playerUUID,
-        targetUUID: data.paymentId,
-        targetType: targetTypes.PAYMENT,
-      }, { placement: 'top' });
+      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, this.getNotePopoverParams());
     }
   };
 
@@ -84,7 +83,6 @@ class PaymentRejectModal extends Component {
         playerUUID,
         note,
       },
-      payment,
       profile: {
         firstName,
         lastName,
@@ -120,15 +118,13 @@ class PaymentRejectModal extends Component {
                 {rejectReasons.map((reason, i) => <option key={i}>{reason}</option>)}
                 <option>Other</option>
               </Input>
-              {
-                this.state.isOtherReason
-                && <div>
-                  <Input type="textarea" onChange={this.changeReason} value={this.state.reason} />
-                  <div className="color-default text-uppercase font-size-11">
-                    {this.state.reason.length}/500
-                  </div>
+              {this.state.isOtherReason
+              && <div>
+                <Input type="textarea" onChange={this.changeReason} value={this.state.reason} />
+                <div className="color-default text-uppercase font-size-11">
+                  {this.state.reason.length}/500
                 </div>
-              }
+              </div>}
             </div>
           </div>
 
@@ -137,7 +133,7 @@ class PaymentRejectModal extends Component {
               <NoteButton
                 id="payment-reject-modal-note"
                 className="cursor-pointer margin-right-5"
-                onClick={id => this.handleNoteClick(id, payment)}
+                onClick={id => this.handleNoteClick(id, this.props.payment)}
               >
                 {note
                   ? <i className="fa fa-sticky-note" />
@@ -159,9 +155,7 @@ class PaymentRejectModal extends Component {
                 reason: this.state.reason,
                 fraud: false,
               })}
-            >
-              Reject withdraw transaction
-            </Button>
+            >Reject withdraw transaction</Button>
           </div>
         </ModalFooter>
       </Modal>

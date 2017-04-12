@@ -40,6 +40,7 @@ class View extends Component {
     fetchEntities: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
+    paymentRejectReasons: PropTypes.arrayOf(PropTypes.string),
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -103,26 +104,25 @@ class View extends Component {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
-  handleChangePaymentStatus = (status, paymentId, options = {}) => {
+  handleChangePaymentStatus = (status, playerUUID, paymentId, options = {}) => {
     const { onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus({ status, paymentId, options })
+    return onChangePaymentStatus({ status, playerUUID, paymentId, options })
       .then(this.handleRefresh)
       .then(this.handleCloseModal);
   };
 
-  handleAboutToReject = (payment) => {
+  handleRejectClick = (data) => {
     this.handleCloseModal();
 
-    this.handleOpenModal(MODAL_PAYMENT_REJECT, {
-      payment,
-      profile: this.props.profile,
-      accumulatedBalances: this.props.accumulatedBalances,
+    return this.handleOpenModal(MODAL_PAYMENT_REJECT, {
+      ...data,
       rejectReasons: this.props.paymentRejectReasons,
     });
   };
 
   handleOpenModal = async (name, params) => {
+    await this.props.fetchBalances(params.payment.playerUUID);
     const action = await this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId);
 
     this.setState({
@@ -147,8 +147,6 @@ class View extends Component {
     });
   };
 
-  getUserAge = birthDate => birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
-
   renderUserInfo = (data) => {
     return (
       <PlayerPlaceholder ready={!!data.profile} firstLaunchOnly>
@@ -156,7 +154,7 @@ class View extends Component {
           {
             !!data.profile &&
             <div className="font-weight-700">
-              {[data.profile.firstName, data.profile.lastName, this.getUserAge(data.profile.birthDate)].join(' ')}
+              {[data.profile.firstName, data.profile.lastName, `(${data.profile.age})`].join(' ')}
               {' '}
               {data.profile.kycCompleted && <i className="fa fa-check text-success" />}
             </div>
@@ -293,7 +291,7 @@ class View extends Component {
           onClick={() => this.handleOpenModal(MODAL_PAYMENT_DETAIL, {
             payment: data,
             profile: data.profile,
-            accumulatedBalances: {},
+            accumulatedBalances: data.profile.accumulatedBalances,
           })} title={'View payment'}
         >
           <i className="fa fa-search" />
@@ -403,7 +401,7 @@ class View extends Component {
                 isOpen
                 onClose={this.handleCloseModal}
                 onChangePaymentStatus={this.handleChangePaymentStatus}
-                onAboutToReject={this.handleAboutToReject}
+                onRejectClick={this.handleRejectClick}
               />
             }
             {
