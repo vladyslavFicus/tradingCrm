@@ -22,6 +22,7 @@ import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
 import Amount from '../../../../../components/Amount';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
+import PlayerPlaceholder from './PlayerPlaceholder';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_REJECT = 'payment-reject';
@@ -146,8 +147,34 @@ class View extends Component {
     });
   };
 
+  getUserAge = birthDate => birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
+
+  renderUserInfo = (data) => {
+    return (
+      <PlayerPlaceholder ready={!!data.profile} firstLaunchOnly>
+        <div>
+          {
+            !!data.profile &&
+            <div className="font-weight-700">
+              {[data.profile.firstName, data.profile.lastName, this.getUserAge(data.profile.birthDate)].join(' ')}
+              {' '}
+              {data.profile.kycCompleted && <i className="fa fa-check text-success" />}
+            </div>
+          }
+          {
+            !!data.profile &&
+            <div className="font-size-11 color-default line-height-1">
+              <div>{[data.profile.username, shortify(data.profile.uuid, 'PL')].join(' - ')}</div>
+              <div>{data.profile.languageCode}</div>
+            </div>
+          }
+        </div>
+      </PlayerPlaceholder>
+    );
+  };
+
   renderTransactionId = data => (
-    <span>
+    <span id={`payment-${data.paymentId}`}>
       <div className="font-weight-700">{shortify(data.paymentId, 'TA')}</div>
       <span className="font-size-10 text-uppercase color-default">
           by {shortify(data.playerUUID, 'PL')}
@@ -307,6 +334,12 @@ class View extends Component {
               lazyLoad
             >
               <GridColumn
+                name="profile"
+                header="Player"
+                headerClassName="text-uppercase"
+                render={this.renderUserInfo}
+              />
+              <GridColumn
                 name="paymentId"
                 header="Transaction"
                 headerClassName="text-uppercase"
@@ -368,18 +401,17 @@ class View extends Component {
               <PaymentDetailModal
                 {...modal.params}
                 isOpen
-                onClose={() => this.handleCloseModal()}
+                onClose={this.handleCloseModal}
                 onChangePaymentStatus={this.handleChangePaymentStatus}
                 onAboutToReject={this.handleAboutToReject}
               />
             }
-
             {
               modal.name === MODAL_PAYMENT_REJECT &&
               <PaymentRejectModal
                 {...modal.params}
                 isOpen
-                onClose={() => this.handleCloseModal()}
+                onClose={this.handleCloseModal}
                 onChangePaymentStatus={this.handleChangePaymentStatus}
               />
             }

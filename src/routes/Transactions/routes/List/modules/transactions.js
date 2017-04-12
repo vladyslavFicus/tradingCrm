@@ -78,7 +78,7 @@ function fetchEntities(filters = {}, fetchNotes = fetchNotesFn, fetchProfiles = 
       const playerUuidList = action.payload.content
         .map(item => item.playerUUID)
         .filter((value, index, list) => list.indexOf(value) === index && currentPlayerUuidList.indexOf(value) === -1);
-      await dispatch(fetchProfiles({ playerUuidList }));
+      await dispatch(fetchProfiles({ playerUuidList, limit: playerUuidList.length }));
       await dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
     }
 
@@ -115,9 +115,7 @@ const actionHandlers = {
     ...state,
     entities: {
       ...state.entities,
-      content: [
-        ...mapNotesToTransactions(state.entities.content, action.payload),
-      ],
+      content: mapNotesToTransactions(state.entities.content, action.payload),
     },
   }),
   [FETCH_PROFILES.SUCCESS]: (state, action) => {
@@ -125,11 +123,27 @@ const actionHandlers = {
       ...state,
       profiles: {
         ...state.profiles,
-        ...action.payload.content.reduce((res, profile) => ({ ...res, [profile.uuid]: profile }, res), {}),
+        ...action.payload.content.reduce((res, profile) => ({
+          ...res,
+          [profile.uuid]: {
+            uuid: profile.uuid,
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            kycCompleted: profile.kycCompleted,
+            birthDate: profile.birthDate,
+            username: profile.username,
+            languageCode: profile.languageCode,
+            suspendEndDate: profile.suspendEndDate,
+            profileStatus: profile.profileStatus,
+          },
+        }), {}),
       },
     };
 
-    newState.entities = mapProfilesToTransactions(newState.entities.content, newState.profiles);
+    newState.entities = {
+      ...newState.entities,
+      content: mapProfilesToTransactions(newState.entities.content, newState.profiles),
+    };
 
     return newState;
   },

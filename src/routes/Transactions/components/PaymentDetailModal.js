@@ -35,7 +35,11 @@ class PaymentDetailModal extends Component {
     if (data.note) {
       this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
     } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, this.getNotePopoverParams());
+      this.context.onAddNoteClick(target, {
+        playerUUID: data.playerUUID,
+        targetUUID: data.paymentId,
+        targetType: targetTypes.PAYMENT,
+      }, this.getNotePopoverParams());
     }
   };
 
@@ -86,8 +90,9 @@ class PaymentDetailModal extends Component {
               <div className="font-size-14">
                 <div className="font-weight-700">
                   {firstName} {lastName}
-                  <span
-                    className="font-weight-400"> {birthDate ? `(${moment().diff(birthDate, 'years')})` : null}</span>
+                  <span className="font-weight-400">
+                    {birthDate ? `(${moment().diff(birthDate, 'years')})` : null}
+                  </span>
                 </div>
                 <span className="font-size-10 text-uppercase color-default">
                 {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
@@ -116,8 +121,8 @@ class PaymentDetailModal extends Component {
                   <Amount {...balance} />
                 </div>
                 <span className="font-size-10 text-uppercase color-default">
-                RM <Amount {...real} /> + BM <Amount {...bonus} />
-              </span>
+                  RM <Amount {...real} /> + BM <Amount {...bonus} />
+                </span>
               </div>
             </div>
           </div>
@@ -143,8 +148,8 @@ class PaymentDetailModal extends Component {
                   {moment(creationTime).format('DD.MM.YYYY')}
                 </div>
                 <span className="font-size-10 color-default">
-                {moment(creationTime).format('HH:mm')}
-              </span>
+                  {moment(creationTime).format('HH:mm')}
+                </span>
               </div>
             </div>
             <div className="col-md-1 payment-detail-block">
@@ -158,18 +163,18 @@ class PaymentDetailModal extends Component {
                 Device
               </div>
               <i
-                id={`${paymentId}-popup`}
+                id={`payment-detail-${paymentId}-tooltip`}
                 className={`fa font-size-20 ${mobile ? 'fa-mobile' : 'fa-desktop'}`}
               />
-              <UncontrolledTooltip
-                placement="bottom"
-                target={`${paymentId}-popup`}
-                delay={{
-                  show: 350, hide: 250,
-                }}
-              >
-                {userAgent || 'User agent not defined'}
-              </UncontrolledTooltip>
+                <UncontrolledTooltip
+                  placement="bottom"
+                  target={`payment-detail-${paymentId}-tooltip`}
+                  delay={{
+                    show: 350, hide: 250,
+                  }}
+                >
+                  {userAgent || 'User agent not defined'}
+                </UncontrolledTooltip>
             </div>
             <div className="col-md-3 payment-detail-block">
               <div className="color-default text-uppercase font-size-11">
