@@ -6,7 +6,6 @@ import { createValidator } from '../../../../../utils/validator';
 
 const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
 const titles = ['Mr.', 'Ms.', 'Mrs.'];
-
 const attributeLabels = {
   title: 'Title',
   firstName: 'First name',
@@ -15,11 +14,12 @@ const attributeLabels = {
   birthDate: 'Date of birth',
   gender: 'Gender',
 };
-
 const validator = createValidator({
+  title: ['required', 'string'],
   firstName: 'string',
   lastName: 'string',
   birthDate: 'date',
+  identifier: ['required', 'string'],
 }, attributeLabels, false);
 
 class PersonalForm extends Component {

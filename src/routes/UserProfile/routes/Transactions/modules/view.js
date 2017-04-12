@@ -22,13 +22,13 @@ const mapNotesToTransactions = (transactions, notes) => {
   }));
 };
 
-function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
+function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
   return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     const action = await dispatch({
       [CALL_API]: {
-        endpoint: `payment/payments?${buildQueryString(filters)}`,
+        endpoint: `payment/payments/${playerUUID}?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

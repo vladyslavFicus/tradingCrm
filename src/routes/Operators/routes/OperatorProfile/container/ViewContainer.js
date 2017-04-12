@@ -24,6 +24,7 @@ const mapActions = {
   fetchProfile: actionCreators.fetchProfile,
   changeStatus: actionCreators.changeStatus,
   onResetPassword: actionCreators.resetPassword,
+  onSendInvitation: actionCreators.sendInvitation,
 };
 
 export default connect(mapStateToProps, mapActions)(OperatorProfileLayout);
