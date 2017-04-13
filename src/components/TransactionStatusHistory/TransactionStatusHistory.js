@@ -18,16 +18,15 @@ class StatusHistory extends Component {
   toggle = () => {
     this.setState({
       dropDownOpen: !this.state.dropDownOpen,
-    }, () => {
+    }, async () => {
       if (this.state.dropDownOpen) {
-        this.props.onLoad()
-          .then((action) => {
-            if (action && !action.error) {
-              this.setState({
-                statusHistory: action.payload,
-              });
-            }
+        const action = await this.props.onLoad();
+
+        if (action && !action.error) {
+          this.setState({
+            statusHistory: action.payload,
           });
+        }
       }
     });
   };
