@@ -4,10 +4,10 @@ import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
-import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../constants/note';
 import { actions as filesActions } from '../../../../../constants/files';
 import downloadBlob from '../../../../../utils/downloadBlob';
+import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/files';
 
 const KEY = 'user/files/files';
@@ -19,7 +19,7 @@ const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 const DELETE_FILE = createRequestAction(`${KEY}/delete-file`);
 
-const fetchNotes = noteActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const changeStatusByAction = filesSourceActionCreators.changeStatusByAction({
   [filesActions.VERIFY]: VERIFY_FILE,
   [filesActions.REFUSE]: REFUSE_FILE,

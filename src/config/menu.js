@@ -16,11 +16,11 @@ const sidebarTopMenu = [
     url: '/operators/list',
   },
   {
-    label: 'Payments',
+    label: 'Transactions',
     icon: 'fa fa-credit-card',
     items: [
-      { label: 'All', url: '/payments' },
-      { label: 'Open loop', url: '/payments/open-loops' },
+      { label: 'All', url: '/transactions' },
+      { label: 'Open loop', url: '/transactions/open-loops' },
     ],
   },
   { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
