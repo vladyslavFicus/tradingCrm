@@ -22,10 +22,10 @@ const mapNotesToPaymentAccounts = (paymentAccounts, notes) => {
 };
 
 function fetchEntities(playerUUID, fetchNotes = fetchNotesFn) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    return dispatch({
+    const action = await dispatch({
       [CALL_API]: {
         endpoint: `payment/accounts/${playerUUID}`,
         method: 'GET',
@@ -41,13 +41,13 @@ function fetchEntities(playerUUID, fetchNotes = fetchNotesFn) {
         ],
         bailout: !logged,
       },
-    }).then((action) => {
-      if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.length) {
-        dispatch(fetchNotes(targetTypes.PAYMENT_ACCOUNT, action.payload.map(item => item.uuid)));
-      }
-
-      return action;
     });
+
+    if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.length) {
+      await dispatch(fetchNotes(targetTypes.PAYMENT_ACCOUNT, action.payload.map(item => item.uuid)));
+    }
+
+    return action;
   };
 }
 
