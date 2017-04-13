@@ -52,6 +52,14 @@ class ProfileLayout extends Component {
     deleteNote: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
     activateProfile: PropTypes.func.isRequired,
+    checkLock: PropTypes.func.isRequired,
+    walletLimits: PropTypes.shape({
+      entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+      error: PropTypes.object,
+      isLoading: PropTypes.bool.isRequired,
+      receivedAt: PropTypes.number,
+    }).isRequired,
+    walletLimitAction: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {
@@ -92,6 +100,7 @@ class ProfileLayout extends Component {
       fetchAccumulatedBalances,
       fetchNotes,
       params,
+      checkLock,
     } = this.props;
 
     if (!profile.isLoading) {
@@ -99,7 +108,8 @@ class ProfileLayout extends Component {
         .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
         .then(() => fetchActiveBonus(params.id))
         .then(() => fetchIp(params.id, { limit: 10 }))
-        .then(() => fetchAccumulatedBalances(params.id));
+        .then(() => fetchAccumulatedBalances(params.id))
+        .then(() => checkLock(params.id));
     }
   }
 
@@ -270,6 +280,8 @@ class ProfileLayout extends Component {
       updateSubscription,
       changeStatus,
       notes,
+      walletLimits,
+      walletLimitAction,
     } = this.props;
 
     return (
@@ -282,6 +294,10 @@ class ProfileLayout extends Component {
             availableStatuses={availableStatuses}
             onStatusChange={changeStatus}
             availableTags={availableTags}
+            walletLimits={{
+              state: walletLimits,
+              actions: { walletLimitAction },
+            }}
             addTag={this.handleAddTag}
             deleteTag={this.handleDeleteTag}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}

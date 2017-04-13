@@ -40,6 +40,17 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onProfileActivateClick: PropTypes.func.isRequired,
+    walletLimits: PropTypes.shape({
+      state: PropTypes.shape({
+        entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+        error: PropTypes.object,
+        isLoading: PropTypes.bool.isRequired,
+        receivedAt: PropTypes.number,
+      }).isRequired,
+      actions: PropTypes.shape({
+        walletLimitAction: PropTypes.func.isRequired,
+      }),
+    }),
   };
 
   static contextTypes = {
@@ -115,6 +126,7 @@ class Header extends Component {
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
+      walletLimits,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const selectedTags = profileTags
@@ -220,17 +232,8 @@ class Header extends Component {
           </div>
           <div className="header-block header-block_wallet-limits">
             <WalletLimits
-              label={
-                <div className="header-block_wallet-limits-tab">
-                  <span className="header-block-title">Locks</span>
-                  <div className="header-block_wallet-limits-tab_status">
-                    Deposit - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
-                  </div>
-                  <div className="header-block_wallet-limits-tab_status">
-                    Withdrawal - <span className="header-block_wallet-limits-tab_status_is-allowed">Allowed</span>
-                  </div>
-                </div>
-              }
+              limits={walletLimits.state}
+              onChange={walletLimits.actions.walletLimitAction}
             />
           </div>
           <div className="header-block">

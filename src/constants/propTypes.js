@@ -221,5 +221,14 @@ PropTypes.auditEntity = PropTypes.shape({
   type: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+PropTypes.walletLimitEntity = PropTypes.shape({
+  author: PropTypes.string.isRequired,
+  authorUUID: PropTypes.any,
+  id: PropTypes.number.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  reason: PropTypes.string.isRequired,
+  startLock: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+});
 
 export default PropTypes;

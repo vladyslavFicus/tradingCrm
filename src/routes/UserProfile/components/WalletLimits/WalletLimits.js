@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { Dropdown, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
+import moment from 'moment';
 import PropTypes from '../../../../constants/propTypes';
+import { shortify } from '../../../../utils/uuid';
 import './WalletLimits.scss';
 
 class WalletLimits extends Component {
   static propTypes = {
-    label: PropTypes.any.isRequired,
+    limits: PropTypes.shape({
+      entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+      error: PropTypes.object,
+      isLoading: PropTypes.bool.isRequired,
+      receivedAt: PropTypes.number,
+    }).isRequired,
   };
 
   state = {
@@ -19,68 +26,57 @@ class WalletLimits extends Component {
     });
   };
 
-  renderDropDown = (label, dropDownOpen) => (
-    <Dropdown className="dropdown-inline" isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-      {label}
-
-      <DropdownMenu>
-        <div className="header-block_wallet-limits_btn-group">
-            <button type="button" className="btn btn-danger-outline margin-right-10">Unlock deposit</button>
-            <button type="button" className="btn btn-danger-outline">Lock withdrawal</button>
-        </div>
-        <div className="limits-info">
-          <div className="limits-info_tab">
-            <div className="header-block_wallet-limits-tab_status">
-              Deposit - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
-            </div>
-            <div className="header-block_wallet-limits-tab_log">by OP-675p567</div>
-            <div className="header-block_wallet-limits-tab_log">Reason - Reason3</div>
-            <div className="header-block_wallet-limits-tab_log">on 14.10.2016 13:00</div>
-          </div>
-          <div className="limits-info_tab">
-            <div className="header-block_wallet-limits-tab_status">
-              Deposit - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
-            </div>
-            <div className="header-block_wallet-limits-tab_log">Reason: Profile incomplete</div>
-          </div>
-          <div className="limits-info_tab">
-            <div className="header-block_wallet-limits-tab_status">
-              Withdrawal - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
-            </div>
-            <div className="header-block_wallet-limits-tab_log">by OP-675p567</div>
-            <div className="header-block_wallet-limits-tab_log">Reason - Reason4</div>
-            <div className="header-block_wallet-limits-tab_log">on 14.10.2016 13:00</div>
-          </div>
-          <div className="limits-info_tab">
-            <div className="header-block_wallet-limits-tab_status">
-              Withdrawal - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
-            </div>
-            <div className="header-block_wallet-limits-tab_log">Reason - KYC not verified</div>
-          </div>
-          <div className="limits-info_tab">
-            <div className="header-block_wallet-limits-tab_status">
-              Withdrawal - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
-            </div>
-            <div className="header-block_wallet-limits-tab_log">by BM-675p567</div>
-            <div className="header-block_wallet-limits-tab_log">until 14.10.2016 13:00</div>
-          </div>
-        </div>
-      </DropdownMenu>
-    </Dropdown>
-  );
-
   render() {
     const { dropDownOpen } = this.state;
-    const { label } = this.props;
-    const dropdownClassName = classNames('balances-block dropdown-highlight', {
+    const { limits, onChange } = this.props;
+    const className = classNames('balances-block dropdown-highlight', {
       'dropdown-open': dropDownOpen,
     });
 
     return (
-      <div className={dropdownClassName}>
-        {
-          this.renderDropDown(label, dropDownOpen)
-        }
+      <div className={className}>
+        <Dropdown className="dropdown-inline" isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
+          <div className="header-block_wallet-limits-tab">
+            <span className="header-block-title">Locks</span>
+            <div className="header-block_wallet-limits-tab_status">
+              Deposit - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
+            </div>
+            <div className="header-block_wallet-limits-tab_status">
+              Withdrawal - <span className="header-block_wallet-limits-tab_status_is-allowed">Allowed</span>
+            </div>
+          </div>
+
+          <DropdownMenu>
+            <div className="header-block_wallet-limits_btn-group">
+              <button type="button" className="btn btn-danger-outline margin-right-10">Unlock deposit</button>
+              <button type="button" className="btn btn-danger-outline">Lock withdrawal</button>
+            </div>
+            <div className="limits-info">
+              {limits.entities.map((limit) => {
+                return (
+                  <div key={limit.id} className="limits-info_tab">
+                    <div className="header-block_wallet-limits-tab_status">
+                      {limit.type} - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
+                    </div>
+                    {
+                      limit.authorUuid &&
+                      <div className="header-block_wallet-limits-tab_log">
+                        by {shortify(limit.authorUuid)}
+                      </div>
+                    }
+                    <div className="header-block_wallet-limits-tab_log">Reason - {limit.reason}</div>
+                    {
+                      limit.startLock && moment(limit.startLock).isValid() &&
+                      <div className="header-block_wallet-limits-tab_log">
+                        on {moment(limit.startLock).format('DD.MM.YYYY HH:mm')}
+                      </div>
+                    }
+                  </div>
+                );
+              })}
+            </div>
+          </DropdownMenu>
+        </Dropdown>
       </div>
     );
   }
