@@ -264,7 +264,7 @@ PropTypes.userPaymentAccountEntity = PropTypes.shape({
   playerUUID: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
-PropTypes.depositLimitShape = PropTypes.shape({
+PropTypes.paymentMethodLimit = PropTypes.shape({
   currencyCode: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
   max: PropTypes.number,
@@ -272,12 +272,12 @@ PropTypes.depositLimitShape = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.paymentMethod = PropTypes.shape({
-  depositLimit: PropTypes.depositLimitShape.isRequired,
+  depositLimit: PropTypes.paymentMethodLimit.isRequired,
   methodName: PropTypes.string.isRequired,
   order: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
-  withdrawalLimit: PropTypes.depositLimitShape.isRequired,
+  withdrawalLimit: PropTypes.paymentMethodLimit.isRequired,
 });
 
 export default PropTypes;

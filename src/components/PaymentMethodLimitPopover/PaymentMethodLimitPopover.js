@@ -18,9 +18,9 @@ const validator = createValidator({
 
 class PaymentMethodLimitPopover extends Component {
   static propTypes = {
-    onDisable: PropTypes.func,
-    onEnable: PropTypes.func,
-    onSubmit: PropTypes.func,
+    onDisable: PropTypes.func.isRequired,
+    onEnable: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
     limitUUID: PropTypes.string.isRequired,
     methodUUID: PropTypes.string.isRequired,
     disabled: PropTypes.bool.isRequired,
