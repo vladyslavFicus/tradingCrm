@@ -10,16 +10,15 @@ const attributeLabels = {
   postCode: 'Post Code',
   address: 'Full Address',
 };
-
 const countries = countryList().getData().reduce((result, item) => ({
   ...result,
   [item.code]: item.name,
 }), {});
-
 const validator = createValidator({
   country: [`in:,${Object.keys(countries).join()}`],
   city: ['string', 'min:3'],
   postCode: ['string', 'min:3'],
+  address: ['string'],
 }, attributeLabels, false);
 
 class AddressForm extends Component {
@@ -66,6 +65,7 @@ class AddressForm extends Component {
                 wrapperClassName="col-lg-4"
                 component={SelectField}
               >
+                <option value="">-- Select --</option>
                 {Object
                   .keys(countries)
                   .map(key => <option key={key} value={key}>{countries[key]}</option>)
@@ -91,7 +91,7 @@ class AddressForm extends Component {
               />
 
               <Field
-                name="fullAddress"
+                name="address"
                 label={attributeLabels.address}
                 type="text"
                 component={TextAreaField}

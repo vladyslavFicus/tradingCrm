@@ -3,12 +3,12 @@ import moment from 'moment';
 import PropTypes from '../../../../../../constants/propTypes';
 
 const FeedInfoLogin = ({ data }) => (
-  <div className="information">
+  <div className="feed-item_info-details">
     {
       data.details.sessionId &&
       <div>
         Session ID:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {data.details.sessionId}
         </span>
       </div>
@@ -17,7 +17,7 @@ const FeedInfoLogin = ({ data }) => (
       data.ip &&
       <div>
         Session IP:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {data.ip}
         </span>
       </div>
@@ -26,7 +26,7 @@ const FeedInfoLogin = ({ data }) => (
       data.details.sessionStart &&
       <div>
         Session Start:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {moment(data.details.sessionStart).format('YYYY-MM-DD \\a\\t HH:mm:ss')}
         </span>
       </div>
@@ -35,7 +35,7 @@ const FeedInfoLogin = ({ data }) => (
       data.details.device &&
       <div>
         Device:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {data.details.device}
         </span>
       </div>
