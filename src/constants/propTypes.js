@@ -221,5 +221,13 @@ PropTypes.auditEntity = PropTypes.shape({
   type: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+PropTypes.userPaymentAccountEntity = PropTypes.shape({
+  creationDate: PropTypes.string.isRequired,
+  details: PropTypes.string.isRequired,
+  lastActivityDate: PropTypes.string.isRequired,
+  paymentMethod: PropTypes.string.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+});
 
 export default PropTypes;

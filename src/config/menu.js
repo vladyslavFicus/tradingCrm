@@ -55,6 +55,7 @@ const userProfileTabs = [
   { label: 'Bonuses', url: '/users/:id/bonuses' },
   { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Transactions', url: '/users/:id/transactions' },
+  { label: 'Payments', url: '/users/:id/paymentAccounts' },
   { label: 'Limits', url: '/users/:id/limits' },
   { label: 'Files', url: '/users/:id/files' },
   { label: 'Notes', url: '/users/:id/notes' },
