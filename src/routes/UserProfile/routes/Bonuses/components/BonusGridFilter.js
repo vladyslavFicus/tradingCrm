@@ -43,7 +43,7 @@ class BonusGridFilter extends Component {
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues.endDate
+    return currentValues && currentValues.endDate
       ? current.isSameOrBefore(moment(currentValues.endDate))
       : true;
   };
@@ -51,7 +51,7 @@ class BonusGridFilter extends Component {
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues.startDate
+    return currentValues && currentValues.startDate
       ? current.isSameOrAfter(moment(currentValues.startDate))
       : true;
   };
