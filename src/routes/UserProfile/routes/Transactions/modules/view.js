@@ -3,14 +3,14 @@ import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
-import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
+import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../constants/note';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
-const fetchNotesFn = noteActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
     return transactions;
@@ -23,10 +23,10 @@ const mapNotesToTransactions = (transactions, notes) => {
 };
 
 function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    return dispatch({
+    const action = await dispatch({
       [CALL_API]: {
         endpoint: `payment/payments/${playerUUID}?${buildQueryString(filters)}`,
         method: 'GET',
@@ -45,13 +45,13 @@ function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
         ],
         bailout: !logged,
       },
-    }).then((action) => {
-      if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.content.length) {
-        dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
-      }
-
-      return action;
     });
+
+    if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.content.length) {
+      await dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
+    }
+
+    return action;
   };
 }
 
@@ -98,19 +98,19 @@ const actionHandlers = {
 };
 const initialState = {
   entities: {
-    first: null,
-    last: null,
-    number: null,
-    numberOfElements: null,
-    size: null,
-    sort: null,
-    totalElements: null,
-    totalPages: null,
+    first: false,
+    last: false,
+    number: 0,
+    numberOfElements: 0,
+    size: 0,
+    sort: [],
+    totalElements: 0,
+    totalPages: 0,
     content: [],
   },
+  error: null,
   filters: {},
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 const actionTypes = {
