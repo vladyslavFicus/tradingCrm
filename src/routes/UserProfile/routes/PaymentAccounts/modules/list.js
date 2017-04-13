@@ -2,14 +2,14 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
+import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../constants/note';
 
 const KEY = 'user-payment-accounts';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
-const fetchNotesFn = noteActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapNotesToPaymentAccounts = (paymentAccounts, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
     return paymentAccounts;
