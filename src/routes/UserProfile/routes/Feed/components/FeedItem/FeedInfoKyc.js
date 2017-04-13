@@ -5,9 +5,7 @@ import { attributeLabels } from '../../../../../../constants/user';
 import { types } from '../../../../../../constants/audit';
 
 const formatters = {
-  uploadedFileList: [
-    value => value,
-  ],
+  uploadedFileList: [() => null],
   reason: [() => null],
   creationDate: [() => null],
   birthDate: [value => moment(value).format('DD.MM.YYYY')],
@@ -23,7 +21,12 @@ const FeedInfoKyc = ({ data }) => (
         return null;
       }
 
-      const value = formatValue(attribute, data.details[attribute].toString());
+      const value = formatValue(
+        attribute,
+        Array.isArray(data.details[attribute])
+          ? data.details[attribute]
+          : data.details[attribute].toString()
+      );
 
       return value === null ? null : (
         <div key={attribute}>
@@ -34,6 +37,16 @@ const FeedInfoKyc = ({ data }) => (
         </div>
       );
     })}
+    {
+      data.details.uploadedFileList && data.details.uploadedFileList.length > 0 &&
+      <div>
+        {data.details.uploadedFileList.map((file, index) => (
+          <div key={file.uuid}>
+            {index + 1}. Uploaded file - <span className="feed-item_info-details_value">{file.name}</span> - {file.uuid}
+          </div>
+        ))}
+      </div>
+    }
     {
       [types.KYC_PERSONAL_REFUSED, types.KYC_ADDRESS_REFUSED].indexOf(data.type) > -1 && data.details.reason &&
       <div className="rejection">
