@@ -136,18 +136,15 @@ class List extends Component {
   };
 
   renderLimit = (data, column) => {
-    const { min, max, disabled, uuid: limitUUID, currencyCode } = data[column.name];
+    const item = data[column.name];
 
     return (
       <PopoverButton
-        id={`payment-method-${limitUUID}`}
+        id={`payment-method-${item.uuid}`}
         onClick={id => this.handleSetLimitClick(id, {
-          min,
-          max,
+          ...item,
           methodUUID: data.uuid,
-          currencyCode,
-          limitUUID,
-          disabled,
+          limitUUID: item.uuid,
           type: column.name,
           limitType: column.name === 'depositLimit' ? 'deposits' : 'withdrawals',
         })}

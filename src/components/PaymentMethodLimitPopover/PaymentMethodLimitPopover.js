@@ -23,7 +23,7 @@ class PaymentMethodLimitPopover extends Component {
     onSubmit: PropTypes.func,
     limitUUID: PropTypes.string.isRequired,
     methodUUID: PropTypes.string.isRequired,
-    currencyCode: PropTypes.string.isRequired,
+    currencyCode: PropTypes.string,
     disabled: PropTypes.bool.isRequired,
     placement: PropTypes.string,
     target: PropTypes.string.isRequired,
