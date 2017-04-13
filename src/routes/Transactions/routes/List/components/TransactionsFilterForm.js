@@ -7,9 +7,9 @@ import DateTime from 'react-datetime';
 import { initiators, initiatorsLabels } from '../../../../../constants/transaction';
 import { createValidator } from '../../../../../utils/validator';
 import { types, statuses, methods, typesLabels, statusesLabels, methodsLabels } from '../../../../../constants/payment';
-import Currency from '../../../../../components/Amount/Currency';
+import { InputField, SelectField } from '../../../../../components/ReduxForm';
 
-const FORM_NAME = 'userTransactionsFilter';
+const FORM_NAME = 'transactionsFilter';
 const attributeLabels = {
   keyword: 'Payment ID, External reference...',
   initiatorType: 'Initiated by',
@@ -33,13 +33,12 @@ const validator = createValidator({
   amountUpperBound: 'numeric',
 }, attributeLabels, false);
 
-class TransactionGridFilter extends Component {
+class TransactionsFilterForm extends Component {
   static propTypes = {
     reset: PropTypes.func,
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
-    currencyCode: PropTypes.string,
     currentValues: PropTypes.shape({
       keyword: PropTypes.string,
       initiatorType: PropTypes.string,
@@ -96,45 +95,6 @@ class TransactionGridFilter extends Component {
     );
   };
 
-  renderAmountField = (props) => {
-    const { input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName, currencyCode } = props;
-
-    return (
-      <div><label>{label}</label>
-        <div className={classNames('input-group', { 'has-danger': touched && error })}>
-          <div className="input-group-addon">
-            {currencyCode && <Currency code={currencyCode} />}
-          </div>
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder}
-            title={placeholder}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  renderSelectField = (props) => {
-    const { input, children, label, meta: { touched, error }, emptyOptionLabel } = props;
-
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <select
-          {...input}
-          className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
-        >
-          <option>{emptyOptionLabel}</option>
-          {children}
-        </select>
-      </div>
-    );
-  };
-
   renderDateField = (props) => {
     const { input, placeholder, disabled, meta: { touched, error }, isValidDate } = props;
 
@@ -166,17 +126,10 @@ class TransactionGridFilter extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      currencyCode,
     } = this.props;
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row margin-bottom-20">
-          <div className="col-md-3">
-            <span className="font-size-20">Transactions</span>
-          </div>
-        </div>
-
         <div className="well">
           <div className="row">
             <div className="col-md-10">
@@ -194,9 +147,11 @@ class TransactionGridFilter extends Component {
                   <Field
                     name="initiatorType"
                     label={attributeLabels.initiatorType}
-                    emptyOptionLabel="Anyone"
-                    component={this.renderSelectField}
+                    labelClassName="form-label"
+                    position="vertical"
+                    component={SelectField}
                   >
+                    <option value="">Anyone</option>
                     {Object.keys(initiatorsLabels).map(assign => (
                       <option key={assign} value={assign}>
                         {initiatorsLabels[assign]}
@@ -208,9 +163,11 @@ class TransactionGridFilter extends Component {
                   <Field
                     name="type"
                     label={attributeLabels.type}
-                    emptyOptionLabel="Any type"
-                    component={this.renderSelectField}
+                    labelClassName="form-label"
+                    position="vertical"
+                    component={SelectField}
                   >
+                    <option value="">Any type</option>
                     {Object.keys(typesLabels).map(type => (
                       <option key={type} value={type}>
                         {typesLabels[type]}
@@ -222,9 +179,11 @@ class TransactionGridFilter extends Component {
                   <Field
                     name="statuses"
                     label={attributeLabels.statuses}
-                    emptyOptionLabel="Any status"
-                    component={this.renderSelectField}
+                    labelClassName="form-label"
+                    position="vertical"
+                    component={SelectField}
                   >
+                    <option value="">Any status</option>
                     {Object.keys(statusesLabels).map(status => (
                       <option key={status} value={status}>
                         {statusesLabels[status]}
@@ -236,9 +195,11 @@ class TransactionGridFilter extends Component {
                   <Field
                     name="paymentMethod"
                     label={attributeLabels.paymentMethod}
-                    emptyOptionLabel="Any method"
-                    component={this.renderSelectField}
+                    labelClassName="form-label"
+                    position="vertical"
+                    component={SelectField}
                   >
+                    <option value="">Any method</option>
                     {Object.keys(methodsLabels).map(method => (
                       <option key={method} value={method}>
                         {methodsLabels[method]}
@@ -256,9 +217,10 @@ class TransactionGridFilter extends Component {
                           name="amountLowerBound"
                           type="text"
                           label={attributeLabels.amountLowerBound}
+                          labelClassName="form-label"
+                          position="vertical"
                           placeholder="0.00"
-                          currencyCode={currencyCode}
-                          component={this.renderAmountField}
+                          component={InputField}
                         />
                       </div>
                       <div className="col-md-5">
@@ -266,9 +228,10 @@ class TransactionGridFilter extends Component {
                           name="amountUpperBound"
                           type="text"
                           label={attributeLabels.amountUpperBound}
+                          labelClassName="form-label"
+                          position="vertical"
                           placeholder="0.00"
-                          currencyCode={currencyCode}
-                          component={this.renderAmountField}
+                          component={InputField}
                         />
                       </div>
                     </div>
@@ -330,7 +293,7 @@ class TransactionGridFilter extends Component {
 const FilterForm = reduxForm({
   form: FORM_NAME,
   validate: validator,
-})(TransactionGridFilter);
+})(TransactionsFilterForm);
 
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),

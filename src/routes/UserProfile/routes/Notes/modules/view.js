@@ -1,12 +1,12 @@
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
-import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
+import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 
 const KEY = 'user-notes';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-notes`);
 
-const fetchEntities = noteActionCreators.fetchNotes(FETCH_ENTITIES);
+const fetchEntities = noteSourceActionCreators.fetchNotes(FETCH_ENTITIES);
 
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({

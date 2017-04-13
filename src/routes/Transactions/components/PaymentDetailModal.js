@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import moment from 'moment';
 import classNames from 'classnames';
+import PropTypes from '../../../constants/propTypes';
 import {
   methodsLabels as paymentsMethodsLabels,
   statusesLabels as paymentsStatusesLabels,
@@ -22,29 +23,51 @@ import permission from '../../../config/permissions';
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
 class PaymentDetailModal extends Component {
   static propTypes = {
-    payment: PropTypes.shape({
-      paymentId: PropTypes.string,
-      transactions: PropTypes.array,
+    className: PropTypes.string,
+    isOpen: PropTypes.bool,
+    onClose: PropTypes.func.isRequired,
+    onChangePaymentStatus: PropTypes.func.isRequired,
+    onRejectClick: PropTypes.func.isRequired,
+    accumulatedBalances: PropTypes.shape({
+      real: PropTypes.price.isRequired,
+      bonus: PropTypes.price.isRequired,
     }),
-    onAboutToReject: PropTypes.func,
+    profile: PropTypes.userProfile,
+    payment: PropTypes.paymentEntity,
   };
-
+  static defaultProps = {
+    className: '',
+    isOpen: false,
+  };
   static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    setNoteChangedCallback: PropTypes.func.isRequired,
+    notes: PropTypes.shape({
+      onAddNoteClick: PropTypes.func.isRequired,
+      onEditNoteClick: PropTypes.func.isRequired,
+    }),
   };
-
-  getNotePopoverParams = () => ({
-    placement: 'top',
-  });
 
   handleNoteClick = (target, data) => {
     if (data.note) {
-      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
+      this.context.notes.onEditNoteClick(target, data.note, { placement: 'top' });
     } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, this.getNotePopoverParams());
+      this.context.notes.onAddNoteClick(target, {
+        playerUUID: data.playerUUID,
+        targetUUID: data.paymentId,
+        targetType: targetTypes.PAYMENT,
+      }, { placement: 'top' });
     }
+  };
+
+  handleApproveClick = () => {
+    const { payment: { paymentId, playerUUID }, onChangePaymentStatus } = this.props;
+
+    return onChangePaymentStatus('approve', playerUUID, paymentId);
+  };
+
+  handleRejectClick = () => {
+    const { payment, profile, accumulatedBalances, onRejectClick } = this.props;
+
+    return onRejectClick({ payment, profile, accumulatedBalances });
   };
 
   render() {
@@ -77,12 +100,12 @@ class PaymentDetailModal extends Component {
       accumulatedBalances: { real, bonus },
       isOpen,
       onClose,
-      onChangePaymentStatus,
-      onAboutToReject,
+      className,
     } = this.props;
+    const isWithdraw = paymentType === paymentsTypes.Withdraw;
 
     return (
-      <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, 'payment-detail-modal')}>
+      <Modal isOpen={isOpen} toggle={onClose} className={classNames(className, 'payment-detail-modal')}>
         <ModalHeader toggle={onClose}>Payment details</ModalHeader>
 
         <ModalBody>
@@ -94,9 +117,7 @@ class PaymentDetailModal extends Component {
               <div className="font-size-14">
                 <div className="font-weight-700">
                   {firstName} {lastName}
-                  <span
-                    className="font-weight-400"
-                  >
+                  <span className="font-weight-400">
                     {birthDate ? `(${moment().diff(birthDate, 'years')})` : null}
                   </span>
                 </div>
@@ -141,7 +162,7 @@ class PaymentDetailModal extends Component {
               <div className="font-size-14">
                 <div className="font-weight-700">{shortify(paymentId, 'TA')}</div>
                 <span className="font-size-10 text-uppercase color-default">
-                  by {shortify(playerUUID, 'PL')}
+                by {shortify(playerUUID, 'PL')}
                 </span>
               </div>
             </div>
@@ -169,12 +190,12 @@ class PaymentDetailModal extends Component {
                 Device
               </div>
               <i
-                id={`${paymentId}-popup`}
+                id={`payment-detail-${paymentId}-tooltip`}
                 className={`fa font-size-20 ${mobile ? 'fa-mobile' : 'fa-desktop'}`}
               />
               <UncontrolledTooltip
                 placement="bottom"
-                target={`${paymentId}-popup`}
+                target={`payment-detail-${paymentId}-tooltip`}
                 delay={{
                   show: 350, hide: 250,
                 }}
@@ -203,11 +224,9 @@ class PaymentDetailModal extends Component {
                 Amount
               </div>
               <div
-                className={classNames('font-size-16 font-weight-700', {
-                  'color-danger': paymentType === paymentsTypes.Withdraw,
-                })}
+                className={classNames('font-size-16 font-weight-700', { 'color-danger': isWithdraw })}
               >
-                {paymentType === paymentsTypes.Withdraw && '-'}<Amount {...amount} />
+                {isWithdraw && '-'}<Amount {...amount} />
               </div>
             </div>
             <div className="payment-detail-amount-block">
@@ -242,17 +261,23 @@ class PaymentDetailModal extends Component {
 
         <ModalFooter className="payment-detail-footer">
           <Button onClick={onClose}>Defer</Button>
+
           <div className="payment-details-actions">
             <PermissionContent permissions={approvePendingWithdraw}>
               <Button
                 color="primary"
-                onClick={() => onChangePaymentStatus('approve', paymentId)}
+                onClick={this.handleApproveClick}
               >
                 Approve
               </Button>
             </PermissionContent>
             {' '}
-            <Button color="danger" onClick={e => onAboutToReject(e, this.props.payment)}>Reject</Button>
+            <Button
+              color="danger"
+              onClick={this.handleRejectClick}
+            >
+              Reject
+            </Button>
           </div>
         </ModalFooter>
       </Modal>

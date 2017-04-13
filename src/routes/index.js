@@ -7,7 +7,6 @@ import PermissionLayout from '../layouts/PermissionLayout';
 /**
  * Routes
  */
-import MarkupRoute from './Markup';
 import SignInRoute from './SignIn';
 import SetPasswordRoute from './SetPassword';
 import ResetPasswordRoute from './ResetPassword';
@@ -17,7 +16,7 @@ import DashboardRoute from './Dashboard';
 import UsersRoute from './Users';
 import OperatorsRoute from './Operators';
 import ProfileReviewRoute from './ProfileReview';
-import PaymentsRoute from './Payments';
+import TransactionsRoute from './Transactions';
 import BonusCampaignsRoute from './BonusCampaigns';
 import BonusesRoute from './Bonuses';
 import TermsRoute from './Terms';
@@ -40,7 +39,7 @@ export const createRoutes = store => ({
             UsersRoute(store),
             OperatorsRoute(store),
             ProfileReviewRoute(store),
-            PaymentsRoute(store),
+            TransactionsRoute(store),
             BonusCampaignsRoute(store),
             BonusesRoute(store),
             TermsRoute(store),
