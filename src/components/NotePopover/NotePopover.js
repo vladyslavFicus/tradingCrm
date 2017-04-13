@@ -57,8 +57,10 @@ class NotePopover extends Component {
     const shouldClose = isOpen && (
         ignoreChanges || (
           !item
-          || currentValues.content === item.content
-          && currentValues.pinned === item.pinned
+          || (
+            currentValues && currentValues.content === item.content
+            && currentValues && currentValues.pinned === item.pinned
+          )
         )
       );
 
@@ -216,7 +218,7 @@ class NotePopover extends Component {
             <div className="row">
               <div className="col-md-6">
                 <span className="display-block color-default font-size-10">
-                  {currentValues.content.length}/{MAX_CONTENT_LENGTH}
+                  {currentValues && currentValues.content ? currentValues.content.length : 0}/{MAX_CONTENT_LENGTH}
                 </span>
 
                 <Field
