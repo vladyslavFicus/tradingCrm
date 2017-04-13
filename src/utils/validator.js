@@ -5,6 +5,24 @@ Validator.register('nextDate', function (value, requirement, attribute) {
   return value >= this.validator.input[requirement];
 }, 'The :attribute must be equal or bigger');
 
+Validator.register('lessThan', function (value, requirement) {
+  const greaterValue = this.validator.input[requirement];
+
+  const valueNumber = Number(value);
+  const greaterValueNumber = Number(greaterValue);
+
+  return greaterValueNumber === 0 || valueNumber < greaterValueNumber;
+}, 'The :attribute must be less');
+
+Validator.register('greaterThan', function (value, requirement) {
+  const lessValue = this.validator.input[requirement];
+
+  const valueNumber = Number(value);
+  const lessValueNumber = Number(lessValue);
+
+  return lessValueNumber === 0 || valueNumber > lessValueNumber;
+}, 'The :attribute must be greater');
+
 Validator.register('customTypeValue.value', function (value, requirement, attribute) {
   const attributeBaseName = attribute.replace(/\.value/, '');
 

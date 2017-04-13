@@ -8,7 +8,7 @@ import {
   typesLabels, types, statuses, statusesColor, statusesLabels, amountTypes,
 } from '../../../../../constants/limits';
 import Amount from '../../../../../components/Amount';
-import NoteButton from '../../../../../components/NoteButton';
+import PopoverButton from '../../../../../components/PopoverButton';
 import PropTypes from '../../../../../constants/propTypes';
 
 const humanizeDurationConfig = {
@@ -68,7 +68,7 @@ class CommonGridView extends Component {
   renderNotes = (data) => {
     return (
       <div>
-        <NoteButton
+        <PopoverButton
           id={`limit-item-note-button-${data.uuid}`}
           className="cursor-pointer margin-right-5"
           onClick={id => this.props.onNoteClick(id, data)}
@@ -77,12 +77,12 @@ class CommonGridView extends Component {
             ? <i className="fa fa-sticky-note" />
             : <i className="fa fa-sticky-note-o" />
           }
-        </NoteButton>
+        </PopoverButton>
       </div>
     );
   };
 
-  renderLimit(data) {
+  renderLimit = (data) => {
     return (
       <div>
         {
@@ -121,9 +121,9 @@ class CommonGridView extends Component {
         }
       </div>
     );
-  }
+  };
 
-  renderStatus(data) {
+  renderStatus = (data) => {
     return (
       <div>
         <div className={classNames(statusesColor[data.status], 'text-uppercase font-weight-700')}>
@@ -172,7 +172,7 @@ class CommonGridView extends Component {
         }
       </div>
     );
-  }
+  };
 
   renderType = (data) => {
     return (

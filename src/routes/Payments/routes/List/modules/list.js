@@ -1,8 +1,8 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
-import createRequestAction from 'utils/createRequestAction';
+import createReducer from '../../../../../utils/createReducer';
+import timestamp from '../../../../../utils/timestamp';
+import buildQueryString from '../../../../../utils/buildQueryString';
+import createRequestAction from '../../../../../utils/createRequestAction';
 
 const KEY = 'payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -37,7 +37,7 @@ function fetchEntities(filters = {}) {
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...state.filters, ...action.meta.filters, },
+    filters: { ...state.filters, ...action.meta.filters },
     isLoading: true,
     error: null,
   }),

@@ -221,5 +221,20 @@ PropTypes.auditEntity = PropTypes.shape({
   type: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+PropTypes.depositLimitShape = PropTypes.shape({
+  currencyCode: PropTypes.string,
+  disabled: PropTypes.bool.isRequired,
+  max: PropTypes.number,
+  min: PropTypes.number,
+  uuid: PropTypes.string.isRequired,
+});
+PropTypes.paymentMethod = PropTypes.shape({
+  depositLimit: PropTypes.depositLimitShape.isRequired,
+  methodName: PropTypes.string.isRequired,
+  order: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+  withdrawalLimit: PropTypes.depositLimitShape.isRequired,
+});
 
 export default PropTypes;

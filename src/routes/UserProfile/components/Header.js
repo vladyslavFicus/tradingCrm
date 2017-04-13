@@ -6,7 +6,7 @@ import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
 import ProfileTags from '../../../components/ProfileTags';
 import Amount from '../../../components/Amount';
-import NoteButton from '../../../components/NoteButton';
+import PopoverButton from '../../../components/PopoverButton';
 import { statusColorNames } from '../../../constants/user';
 import { shortify } from '../../../utils/uuid';
 import './Header.scss';
@@ -156,13 +156,13 @@ class Header extends Component {
             }
           </div>
           <div className="pull-right">
-            <NoteButton
+            <PopoverButton
               id="header-add-note-button"
               className="btn btn-default-outline"
               onClick={onAddNoteClick}
             >
               Add note
-            </NoteButton>
+            </PopoverButton>
             {' '}
             <UserProfileOptions
               items={[

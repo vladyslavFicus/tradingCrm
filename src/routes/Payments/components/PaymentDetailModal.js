@@ -11,7 +11,7 @@ import {
 import { statusColorNames } from '../../../constants/user';
 import { targetTypes } from '../../../constants/note';
 import Amount from '../../../components/Amount';
-import NoteButton from '../../../components/NoteButton';
+import PopoverButton from '../../../components/PopoverButton';
 import { shortify } from '../../../utils/uuid';
 import './PaymentDetailModal.scss';
 import { UncontrolledTooltip } from '../../../components/Reactstrap/Uncontrolled';
@@ -21,6 +21,14 @@ import permission from '../../../config/permissions';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
 class PaymentDetailModal extends Component {
+  static propTypes = {
+    payment: PropTypes.shape({
+      paymentId: PropTypes.string,
+      transactions: PropTypes.array,
+    }),
+    onAboutToReject: PropTypes.func,
+  };
+
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
@@ -87,11 +95,14 @@ class PaymentDetailModal extends Component {
                 <div className="font-weight-700">
                   {firstName} {lastName}
                   <span
-                    className="font-weight-400"> {birthDate ? `(${moment().diff(birthDate, 'years')})` : null}</span>
+                    className="font-weight-400"
+                  >
+                    {birthDate ? `(${moment().diff(birthDate, 'years')})` : null}
+                  </span>
                 </div>
                 <span className="font-size-10 text-uppercase color-default">
-                {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
-              </span>
+                  {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
+                </span>
               </div>
             </div>
             <div className="col-md-4 payment-detail-player-block">
@@ -116,8 +127,8 @@ class PaymentDetailModal extends Component {
                   <Amount {...balance} />
                 </div>
                 <span className="font-size-10 text-uppercase color-default">
-                RM <Amount {...real} /> + BM <Amount {...bonus} />
-              </span>
+                  RM <Amount {...real} /> + BM <Amount {...bonus} />
+                </span>
               </div>
             </div>
           </div>
@@ -130,8 +141,8 @@ class PaymentDetailModal extends Component {
               <div className="font-size-14">
                 <div className="font-weight-700">{shortify(paymentId, 'TA')}</div>
                 <span className="font-size-10 text-uppercase color-default">
-                by {shortify(playerUUID, 'PL')}
-              </span>
+                  by {shortify(playerUUID, 'PL')}
+                </span>
               </div>
             </div>
             <div className="col-md-3 payment-detail-block">
@@ -143,8 +154,8 @@ class PaymentDetailModal extends Component {
                   {moment(creationTime).format('DD.MM.YYYY')}
                 </div>
                 <span className="font-size-10 color-default">
-                {moment(creationTime).format('HH:mm')}
-              </span>
+                  {moment(creationTime).format('HH:mm')}
+                </span>
               </div>
             </div>
             <div className="col-md-1 payment-detail-block">
@@ -180,8 +191,8 @@ class PaymentDetailModal extends Component {
                   {paymentsStatusesLabels[status] || status}
                 </div>
                 <span className="font-size-10 color-default">
-                {moment(creationTime).format('DD.MM.YYYY \- HH:mm')}
-              </span>
+                  {moment(creationTime).format('DD.MM.YYYY - HH:mm')}
+                </span>
               </div>
             </div>
           </div>
@@ -192,7 +203,9 @@ class PaymentDetailModal extends Component {
                 Amount
               </div>
               <div
-                className={classNames('font-size-16 font-weight-700', { 'color-danger': paymentType === paymentsTypes.Withdraw })}
+                className={classNames('font-size-16 font-weight-700', {
+                  'color-danger': paymentType === paymentsTypes.Withdraw,
+                })}
               >
                 {paymentType === paymentsTypes.Withdraw && '-'}<Amount {...amount} />
               </div>
@@ -206,14 +219,14 @@ class PaymentDetailModal extends Component {
                   { paymentsMethodsLabels[paymentMethod] || paymentMethod }
                 </div>
                 <span className="font-size-10">
-                { shortify(paymentAccount, null, 2) }
-              </span>
+                  { shortify(paymentAccount, null, 2) }
+                </span>
               </div>
             </div>
           </div>
           <div className="row">
             <div className="col-md-12 text-center">
-              <NoteButton
+              <PopoverButton
                 id="payment-detail-modal-note"
                 className="cursor-pointer margin-right-5"
                 onClick={id => this.handleNoteClick(id, this.props.payment)}
@@ -222,7 +235,7 @@ class PaymentDetailModal extends Component {
                   ? <i className="fa fa-sticky-note" />
                   : <i className="fa fa-sticky-note-o" />
                 }
-              </NoteButton>
+              </PopoverButton>
             </div>
           </div>
         </ModalBody>
@@ -246,13 +259,5 @@ class PaymentDetailModal extends Component {
     );
   }
 }
-
-PaymentDetailModal.propTypes = {
-  payment: PropTypes.shape({
-    paymentId: PropTypes.string,
-    transactions: PropTypes.array,
-  }),
-  onAboutToReject: PropTypes.func,
-};
 
 export default PaymentDetailModal;

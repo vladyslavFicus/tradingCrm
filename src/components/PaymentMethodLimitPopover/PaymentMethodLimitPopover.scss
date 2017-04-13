@@ -1,0 +1,20 @@
+.popover {
+  max-width: 300px;
+  width: 300px;
+  background-color: #f7f7f7;
+
+  .popover-title {
+    background: #FFFDE6;
+    border: none;
+  }
+}
+
+.popover-content {
+  .popover-body {
+    display: flex;
+    align-items: flex-end;
+  }
+  .form-group {
+    margin-bottom: 0px;
+  }
+}

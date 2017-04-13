@@ -1,0 +1,129 @@
+import React, { Component, PropTypes } from 'react';
+import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import GridColumn from '../GridView/GridColumn';
+import shallowEqual from '../../utils/shallowEqual';
+
+const SortableItem = SortableElement(({ data, index, columns }) => {
+  return (
+    <tr>
+      {
+        columns.map((column, columnKey) => {
+          let content = null;
+
+          if (typeof column.props.render === 'function') {
+            content = column.props.render.call(null, data, column.props);
+          } else if (typeof column.props.name === 'string') {
+            content = data[column.props.name];
+          }
+
+          return (
+            <td className={column.props.className} key={`${index}-${columnKey}`}>{content}</td>
+          );
+        })
+      }
+    </tr>
+  );
+});
+
+const SortableList = SortableContainer(({ items, columns }) => {
+  return (
+    <tbody>
+      {items.map((value, index) => (
+        <SortableItem key={`item-${index}`} index={index} data={value} columns={columns} />
+      ))}
+    </tbody>
+  );
+});
+
+class SortableGridView extends Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    tableClassName: PropTypes.string,
+    headerClassName: PropTypes.string,
+    onFiltersChanged: PropTypes.func,
+    defaultFilters: PropTypes.object,
+    dataSource: PropTypes.array.isRequired,
+  };
+
+  static defaultProps = {
+    tableClassName: 'table table-stripped table-hovered',
+    headerClassName: 'thead-default',
+    defaultFilters: {},
+  };
+
+  state = {
+    filters: this.props.defaultFilters || {},
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (!shallowEqual(nextProps.dataSource, this.props.dataSource)) {
+      this.setState({
+        dataSource: nextProps.dataSource,
+      });
+    }
+  }
+
+  onFiltersChanged() {
+    this.props.onFiltersChanged(this.state.filters);
+  }
+
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    this.setState({
+      dataSource: arrayMove(this.state.dataSource, oldIndex, newIndex),
+    });
+  };
+
+  recognizeHeaders = (grids) => {
+    return grids.map(({ props }) => {
+      const config = { children: props.header };
+
+      if (props.headerClassName) {
+        config.className = props.headerClassName;
+      }
+
+      if (props.headerStyle) {
+        config.style = props.headerStyle;
+      }
+
+      return config;
+    });
+  };
+
+  renderHead = columns => <tr>{columns.map((item, key) => <th key={key} {...item} />)}</tr>;
+
+  render() {
+    const {
+      tableClassName,
+      headerClassName,
+    } = this.props;
+
+    const { dataSource } = this.state;
+
+    const columns = React.Children.toArray(this.props.children).filter((child) => {
+      return child.type === GridColumn;
+    });
+
+    return (
+      <div className="row">
+        <div className="col-md-12">
+          <table className={tableClassName}>
+            <thead className={headerClassName}>
+              { this.renderHead(this.recognizeHeaders(columns)) }
+            </thead>
+            {
+              dataSource &&
+              <SortableList
+                useDragHandle
+                columns={columns}
+                items={dataSource}
+                onSortEnd={this.onSortEnd}
+              />
+            }
+          </table>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default SortableGridView;

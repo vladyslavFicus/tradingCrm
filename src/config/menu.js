@@ -21,6 +21,7 @@ const sidebarTopMenu = [
     items: [
       { label: 'All', url: '/payments' },
       { label: 'Open loop', url: '/payments/open-loops' },
+      { label: 'Methods', url: '/payments/methods' },
     ],
   },
   { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
