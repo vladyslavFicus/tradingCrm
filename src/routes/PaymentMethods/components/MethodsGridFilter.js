@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { SelectField } from '../../../../../components/ReduxForm';
-import { methodsStatusesLabels, methodStatuses } from '../../../../../constants/payment';
-import { createValidator } from '../../../../../utils/validator';
+import { SelectField } from '../../../components/ReduxForm';
+import { methodsStatusesLabels, methodStatuses } from '../../../constants/payment';
+import { createValidator } from '../../../utils/validator';
 
 const attributeLabels = {
   status: 'Status',

@@ -17,6 +17,7 @@ import UsersRoute from './Users';
 import OperatorsRoute from './Operators';
 import ProfileReviewRoute from './ProfileReview';
 import TransactionsRoute from './Transactions';
+import PaymentMethodsRoute from './PaymentMethods';
 import BonusCampaignsRoute from './BonusCampaigns';
 import BonusesRoute from './Bonuses';
 import TermsRoute from './Terms';
@@ -40,6 +41,7 @@ export const createRoutes = store => ({
             OperatorsRoute(store),
             ProfileReviewRoute(store),
             TransactionsRoute(store),
+            PaymentMethodsRoute(store),
             BonusCampaignsRoute(store),
             BonusesRoute(store),
             TermsRoute(store),

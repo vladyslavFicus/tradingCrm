@@ -11,7 +11,7 @@ import {
 import { statusColorNames } from '../../../../../constants/user';
 import { targetTypes } from '../../../../../constants/note';
 import Amount from '../../../../../components/Amount';
-import NoteButton from '../../../../../components/NoteButton';
+import PopoverButton from '../../../../../components/PopoverButton';
 import { shortify } from '../../../../../utils/uuid';
 import './PaymentDetailModal.scss';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
@@ -239,7 +239,7 @@ class PaymentDetailModal extends Component {
           </div>
           <div className="row">
             <div className="col-md-12 text-center">
-              <NoteButton
+              <PopoverButton
                 id="payment-detail-modal-note"
                 className="cursor-pointer margin-right-5"
                 onClick={id => this.handleNoteClick(id, this.props.payment)}
@@ -248,7 +248,7 @@ class PaymentDetailModal extends Component {
                   ? <i className="fa fa-sticky-note" />
                   : <i className="fa fa-sticky-note-o" />
                 }
-              </NoteButton>
+              </PopoverButton>
             </div>
           </div>
         </ModalBody>

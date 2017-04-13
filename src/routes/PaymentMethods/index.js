@@ -1,7 +1,7 @@
-import { injectReducer } from '../../../../store/reducers';
+import { injectReducer } from '../../store/reducers';
 
 export default store => ({
-  path: 'methods',
+  path: 'paymentMethods',
   getComponent(nextState, cb) {
     injectReducer(store, { key: 'methodsList', reducer: require('./modules').default });
 

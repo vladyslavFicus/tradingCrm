@@ -23,7 +23,6 @@ class PaymentMethodLimitPopover extends Component {
     onSubmit: PropTypes.func,
     limitUUID: PropTypes.string.isRequired,
     methodUUID: PropTypes.string.isRequired,
-    currencyCode: PropTypes.string,
     disabled: PropTypes.bool.isRequired,
     placement: PropTypes.string,
     target: PropTypes.string.isRequired,
@@ -40,8 +39,8 @@ class PaymentMethodLimitPopover extends Component {
   };
 
   handleSubmit = (data) => {
-    const { onSubmit, methodUUID, limitUUID, currencyCode } = this.props;
-    return onSubmit(methodUUID, limitUUID, { ...data, currencyCode });
+    const { onSubmit, methodUUID, limitUUID } = this.props;
+    return onSubmit(methodUUID, limitUUID, data);
   };
 
   renderLimitDisableOptions = () => {

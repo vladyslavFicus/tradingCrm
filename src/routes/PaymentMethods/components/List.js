@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
-import Panel, { Title, Content } from '../../../../../components/Panel';
-import SortableGridView from '../../../../../components/GridView/SortableGridView';
-import { GridColumn } from '../../../../../components/GridView';
-import Amount from '../../../../../components/Amount';
+import Panel, { Title, Content } from '../../../components/Panel';
+import SortableGridView from '../../../components/GridView/SortableGridView';
+import { GridColumn } from '../../../components/GridView';
+import Amount from '../../../components/Amount';
 import MethodGridFilter from './MethodsGridFilter';
-import LimitPopover from '../../../../../components/PaymentMethodLimitPopover';
-import PopoverButton from '../../../../../components/PopoverButton';
-import PropTypes from '../../../../../constants/propTypes';
+import LimitPopover from '../../../components/PaymentMethodLimitPopover';
+import PopoverButton from '../../../components/PopoverButton';
+import PropTypes from '../../../constants/propTypes';
 import StatusDropDown from './StatusDropDown';
 
 const DragHandle = SortableHandle(({ order }) => <span>:: {order}</span>);
