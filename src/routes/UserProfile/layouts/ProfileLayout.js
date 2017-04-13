@@ -74,7 +74,7 @@ class ProfileLayout extends Component {
   getChildContext() {
     return {
       onAddNote: this.props.addNote,
-      onEditNote: this.props.addNote,
+      onEditNote: this.props.editNote,
       onAddNoteClick: this.handleAddNoteClick,
       onEditNoteClick: this.handleEditNoteClick,
       setNoteChangedCallback: this.setNoteChangedCallback,

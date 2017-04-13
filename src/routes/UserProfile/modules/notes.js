@@ -1,7 +1,7 @@
-import createReducer from 'utils/createReducer';
-import { actionCreators as noteActionCreators } from 'redux/modules/note';
-import timestamp from 'utils/timestamp';
-import createRequestAction from 'utils/createRequestAction';
+import { sourceActionCreators as noteSourceActionCreators } from '../../../redux/modules/note';
+import createReducer from '../../../utils/createReducer';
+import timestamp from '../../../utils/timestamp';
+import createRequestAction from '../../../utils/createRequestAction';
 
 const KEY = 'user/notes';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-notes`);
@@ -9,10 +9,10 @@ const ADD_NOTE = createRequestAction(`${KEY}/add-note`);
 const EDIT_NOTE = createRequestAction(`${KEY}/edit-note`);
 const DELETE_NOTE = createRequestAction(`${KEY}/delete-note`);
 
-const fetchNotes = noteActionCreators.fetchNotes(FETCH_ENTITIES);
-const addNote = noteActionCreators.addNote(ADD_NOTE);
-const editNote = noteActionCreators.editNote(EDIT_NOTE);
-const deleteNote = noteActionCreators.deleteNote(DELETE_NOTE);
+const fetchNotes = noteSourceActionCreators.fetchNotes(FETCH_ENTITIES);
+const addNote = noteSourceActionCreators.addNote(ADD_NOTE);
+const editNote = noteSourceActionCreators.editNote(EDIT_NOTE);
+const deleteNote = noteSourceActionCreators.deleteNote(DELETE_NOTE);
 
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({

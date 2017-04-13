@@ -1,29 +1,29 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from 'utils/createRequestAction';
-import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
-import { actionCreators as noteActionCreators } from 'redux/modules/note';
-import { targetTypes } from 'constants/note';
+import createReducer from '../../../../../utils/createReducer';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import timestamp from '../../../../../utils/timestamp';
+import buildQueryString from '../../../../../utils/buildQueryString';
+import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
+import { targetTypes } from '../../../../../constants/note';
 
 const KEY = 'user/bonuses/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
-const fetchNotes = noteActionCreators.fetchNotesByType(FETCH_NOTES);
-const mapEntities = (dispatch, pageable) => {
+const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
+const mapEntities = async (dispatch, pageable) => {
   const uuids = pageable.content.map(item => item.bonusUUID);
 
   if (!uuids.length) {
     return pageable;
   }
 
-  pageable.content = pageable.content.map(item => {
-    if (item.wagered === null) {
-      item.wagered = { amount: 0, currency: item.currency };
-    }
-
-    item.toWager = {
+  pageable.content = pageable.content.map(item => ({
+    ...item,
+    wagered: item.wagered === null
+      ? { amount: 0, currency: item.currency }
+      : item.wagered,
+    toWager: {
       amount: Math.max(
         item.amountToWage && !isNaN(item.amountToWage.amount) &&
         item.wagered && !isNaN(item.wagered.amount)
@@ -31,29 +31,24 @@ const mapEntities = (dispatch, pageable) => {
         0
       ),
       currency: item.currency,
-    };
+    },
+  }));
 
-    return item;
+  const action = await dispatch(fetchNotes(targetTypes.BONUS, uuids));
+  if (!action || action.error) {
+    return pageable;
+  }
+
+  return new Promise(resolve => {
+    pageable.content = pageable.content.map(item => ({
+      ...item,
+      note: action.payload[item.bonusUUID] && action.payload[item.bonusUUID].length
+        ? action.payload[item.bonusUUID][0]
+        : null,
+    }));
+
+    return resolve(pageable);
   });
-
-  return dispatch(fetchNotes(targetTypes.BONUS, uuids))
-    .then(action => {
-      if (!action || action.error) {
-        return pageable;
-      }
-
-      return new Promise(resolve => {
-        pageable.content = pageable.content.map(item => {
-          item.note = action.payload[item.bonusUUID] && action.payload[item.bonusUUID].length
-            ? action.payload[item.bonusUUID][0]
-            : null;
-
-          return item;
-        });
-
-        return resolve(pageable);
-      });
-    });
 };
 
 function fetchEntities(filters = {}) {

@@ -1,5 +1,5 @@
 import OpenLoopsRoute from './OpenLoops';
 
-export default (store) => [
+export default store => [
   OpenLoopsRoute(store),
 ];

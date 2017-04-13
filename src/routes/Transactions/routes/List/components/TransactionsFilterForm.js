@@ -1,49 +1,63 @@
 import React, { Component, PropTypes } from 'react';
+import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import DateTime from 'react-datetime';
 import classNames from 'classnames';
 import moment from 'moment';
-import { reduxForm, Field, getFormValues } from 'redux-form';
-import { Link } from 'react-router';
-import { statusesLabels, typesLabels, assignLabels } from '../../../../../constants/bonus';
+import DateTime from 'react-datetime';
+import { initiators, initiatorsLabels } from '../../../../../constants/transaction';
 import { createValidator } from '../../../../../utils/validator';
+import { types, statuses, methods, typesLabels, statusesLabels, methodsLabels } from '../../../../../constants/payment';
+import { InputField, SelectField } from '../../../../../components/ReduxForm';
 
-const FORM_NAME = 'userBonusesFilter';
+const FORM_NAME = 'transactionsFilter';
 const attributeLabels = {
-  keyword: 'Bonus ID, Bonus name, Granted by...',
-  assigned: 'Assigned by',
-  states: 'Bonus status',
-  type: 'Bonus type',
+  keyword: 'Payment ID, External reference...',
+  initiatorType: 'Initiated by',
+  type: 'Transaction type',
+  statuses: 'Transaction status',
+  paymentMethod: 'Payment method',
   startDate: 'Start date',
   endDate: 'End date',
+  amountLowerBound: 'From',
+  amountUpperBound: 'To',
 };
 const validator = createValidator({
   keyword: 'string',
-  assigned: 'string',
-  states: 'string',
-  type: 'string',
+  initiatorType: ['string', `in:${Object.keys(initiators).join()}`],
+  type: ['string', `in:${Object.keys(types).join()}`],
+  statuses: ['string', `in:${Object.keys(statuses).join()}`],
+  paymentMethod: ['string', `in:${Object.keys(methods).join()}`],
   startDate: 'string',
   endDate: 'string',
+  amountLowerBound: 'numeric',
+  amountUpperBound: 'numeric',
 }, attributeLabels, false);
 
-class BonusGridFilter extends Component {
+class TransactionsFilterForm extends Component {
   static propTypes = {
-    playerUUID: PropTypes.string,
-    onSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func,
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
-    currentValues: PropTypes.object,
+    onSubmit: PropTypes.func.isRequired,
+    currentValues: PropTypes.shape({
+      keyword: PropTypes.string,
+      initiatorType: PropTypes.string,
+      type: PropTypes.string,
+      statuses: PropTypes.string,
+      paymentMethod: PropTypes.string,
+      startDate: PropTypes.string,
+      endDate: PropTypes.string,
+    }),
   };
 
   handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DD') : '');
+    callback(value && moment(value).isValid() ? value.format('YYYY-MM-DD') : '');
   };
 
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues.endDate
+    return currentValues && currentValues.endDate
       ? current.isSameOrBefore(moment(currentValues.endDate))
       : true;
   };
@@ -51,7 +65,7 @@ class BonusGridFilter extends Component {
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues.startDate
+    return currentValues && currentValues.startDate
       ? current.isSameOrAfter(moment(currentValues.startDate))
       : true;
   };
@@ -61,22 +75,8 @@ class BonusGridFilter extends Component {
     this.props.onSubmit();
   };
 
-  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <select
-          {...input}
-          className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
-        >
-          <option>{emptyOptionLabel}</option>
-          {children}
-        </select>
-      </div>
-    );
-  };
-
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
+  renderQueryField = (props) => {
+    const { input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName } = props;
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label>{label}</label>
@@ -95,7 +95,9 @@ class BonusGridFilter extends Component {
     );
   };
 
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
+  renderDateField = (props) => {
+    const { input, placeholder, disabled, meta: { touched, error }, isValidDate } = props;
+
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <div className="input-group">
@@ -124,27 +126,15 @@ class BonusGridFilter extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      playerUUID,
     } = this.props;
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row margin-bottom-20">
-          <div className="col-sm-2 col-xs-6">
-            <span className="font-size-20">Bonus</span>
-          </div>
-          <div className="col-sm-10 col-xs-6 text-right">
-            <Link className="btn btn-sm btn-primary-outline" target="_blank" to={`/bonuses/create/${playerUUID}`}>
-              + Manual bonus
-            </Link>
-          </div>
-        </div>
-
         <div className="well">
           <div className="row">
             <div className="col-md-10">
               <div className="row">
-                <div className="col-md-5">
+                <div className="col-md-4">
                   <Field
                     name="keyword"
                     type="text"
@@ -153,29 +143,31 @@ class BonusGridFilter extends Component {
                     component={this.renderQueryField}
                   />
                 </div>
-
                 <div className="col-md-2">
                   <Field
-                    name="assigned"
-                    label={attributeLabels.assigned}
-                    emptyOptionLabel="Anyone"
-                    component={this.renderSelectField}
+                    name="initiatorType"
+                    label={attributeLabels.initiatorType}
+                    labelClassName="form-label"
+                    position="vertical"
+                    component={SelectField}
                   >
-                    {Object.keys(assignLabels).map(assign => (
+                    <option value="">Anyone</option>
+                    {Object.keys(initiatorsLabels).map(assign => (
                       <option key={assign} value={assign}>
-                        {assignLabels[assign]}
+                        {initiatorsLabels[assign]}
                       </option>
                     ))}
                   </Field>
                 </div>
-
                 <div className="col-md-2">
                   <Field
                     name="type"
                     label={attributeLabels.type}
-                    emptyOptionLabel="Any type"
-                    component={this.renderSelectField}
+                    labelClassName="form-label"
+                    position="vertical"
+                    component={SelectField}
                   >
+                    <option value="">Any type</option>
                     {Object.keys(typesLabels).map(type => (
                       <option key={type} value={type}>
                         {typesLabels[type]}
@@ -183,17 +175,34 @@ class BonusGridFilter extends Component {
                     ))}
                   </Field>
                 </div>
-
                 <div className="col-md-2">
                   <Field
-                    name="states"
-                    label={attributeLabels.states}
-                    emptyOptionLabel="Any status"
-                    component={this.renderSelectField}
+                    name="statuses"
+                    label={attributeLabels.statuses}
+                    labelClassName="form-label"
+                    position="vertical"
+                    component={SelectField}
                   >
+                    <option value="">Any status</option>
                     {Object.keys(statusesLabels).map(status => (
                       <option key={status} value={status}>
                         {statusesLabels[status]}
+                      </option>
+                    ))}
+                  </Field>
+                </div>
+                <div className="col-md-2">
+                  <Field
+                    name="paymentMethod"
+                    label={attributeLabels.paymentMethod}
+                    labelClassName="form-label"
+                    position="vertical"
+                    component={SelectField}
+                  >
+                    <option value="">Any method</option>
+                    {Object.keys(methodsLabels).map(method => (
+                      <option key={method} value={method}>
+                        {methodsLabels[method]}
                       </option>
                     ))}
                   </Field>
@@ -202,7 +211,36 @@ class BonusGridFilter extends Component {
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label className="form-label">Availability date range</label>
+                    <div className="row">
+                      <div className="col-md-5">
+                        <Field
+                          name="amountLowerBound"
+                          type="text"
+                          label={attributeLabels.amountLowerBound}
+                          labelClassName="form-label"
+                          position="vertical"
+                          placeholder="0.00"
+                          component={InputField}
+                        />
+                      </div>
+                      <div className="col-md-5">
+                        <Field
+                          name="amountUpperBound"
+                          type="text"
+                          label={attributeLabels.amountUpperBound}
+                          labelClassName="form-label"
+                          position="vertical"
+                          placeholder="0.00"
+                          component={InputField}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label className="form-label">Creation date range</label>
+
                     <div className="row">
                       <div className="col-md-5">
                         <Field
@@ -225,6 +263,7 @@ class BonusGridFilter extends Component {
                 </div>
               </div>
             </div>
+
             <div className="col-md-2">
               <div className="form-group margin-top-25">
                 <button
@@ -236,7 +275,8 @@ class BonusGridFilter extends Component {
                   Reset
                 </button>
                 <button
-                  disabled={submitting} className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  disabled={submitting}
+                  className="btn btn-primary btn-sm margin-inline font-weight-700"
                   type="submit"
                 >
                   Apply
@@ -253,10 +293,8 @@ class BonusGridFilter extends Component {
 const FilterForm = reduxForm({
   form: FORM_NAME,
   validate: validator,
-})(BonusGridFilter);
+})(TransactionsFilterForm);
 
-export default connect((state) => {
-  return {
-    currentValues: getFormValues(FORM_NAME)(state),
-  };
-})(FilterForm);
+export default connect(state => ({
+  currentValues: getFormValues(FORM_NAME)(state),
+}))(FilterForm);
