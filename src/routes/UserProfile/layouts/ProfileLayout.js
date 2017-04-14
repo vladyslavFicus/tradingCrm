@@ -14,7 +14,8 @@ const popoverInitialState = {
   name: null,
   params: {},
 };
-const INFO_MODAL = 'info-modal';
+const MODAL_WALLET_LIMIT = 'wallet-limit-modal';
+const MODAL_INFO = 'info-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -224,7 +225,7 @@ class ProfileLayout extends Component {
       const action = await resetPassword({ email: data.email });
 
       if (action && !action.error) {
-        this.handleOpenModal(INFO_MODAL, {
+        this.handleOpenModal(MODAL_INFO, {
           header: 'Reset password',
           body: (
             <span>
@@ -248,7 +249,7 @@ class ProfileLayout extends Component {
       const action = await activateProfile(uuid);
 
       if (action && !action.error) {
-        this.handleOpenModal(INFO_MODAL, {
+        this.handleOpenModal(MODAL_INFO, {
           header: 'Send user activation link',
           body: (
             <span>
@@ -271,6 +272,10 @@ class ProfileLayout extends Component {
 
   handleDeleteTag = (id) => {
     this.props.deleteTag(this.props.params.id, id);
+  };
+
+  handleChangeWalletLimitState = (type, newState) => {
+    this.handleOpenModal(MODAL_WALLET_LIMIT, {});
   };
 
   render() {
@@ -364,7 +369,7 @@ class ProfileLayout extends Component {
           />
         }
         {
-          modal.name === INFO_MODAL &&
+          modal.name === MODAL_INFO &&
           <Modal
             onClose={this.handleCloseModal}
             isOpen
