@@ -55,6 +55,14 @@ class ProfileLayout extends Component {
     checkLock: PropTypes.func.isRequired,
     walletLimits: PropTypes.shape({
       entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+      deposit: PropTypes.shape({
+        locked: PropTypes.bool.isRequired,
+        canUnlock: PropTypes.bool.isRequired,
+      }).isRequired,
+      withdraw: PropTypes.shape({
+        locked: PropTypes.bool.isRequired,
+        canUnlock: PropTypes.bool.isRequired,
+      }).isRequired,
       error: PropTypes.object,
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number,

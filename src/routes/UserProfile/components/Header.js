@@ -43,6 +43,14 @@ class Header extends Component {
     walletLimits: PropTypes.shape({
       state: PropTypes.shape({
         entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+        deposit: PropTypes.shape({
+          locked: PropTypes.bool.isRequired,
+          canUnlock: PropTypes.bool.isRequired,
+        }).isRequired,
+        withdraw: PropTypes.shape({
+          locked: PropTypes.bool.isRequired,
+          canUnlock: PropTypes.bool.isRequired,
+        }).isRequired,
         error: PropTypes.object,
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,
@@ -111,8 +119,6 @@ class Header extends Component {
         lastName,
         username,
         languageCode,
-        btag,
-        affiliateId,
         profileStatus,
         suspendEndDate,
         profileTags,
