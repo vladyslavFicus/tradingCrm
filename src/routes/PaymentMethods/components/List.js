@@ -62,7 +62,7 @@ class List extends Component {
   };
 
   handleDisableLimit = async (methodUUID, limitUUID) => {
-    const action = this.props.disableLimit(methodUUID, limitUUID);
+    const action = await this.props.disableLimit(methodUUID, limitUUID);
     if (action && !action.error) {
       this.handlePopoverHide();
       this.handleRefresh();
@@ -195,7 +195,7 @@ class List extends Component {
                 render={this.renderLimit}
               />
               <GridColumn
-                name="withdrawalLimit"
+                name="withdrawLimit"
                 header="Withdrawal"
                 headerClassName={'text-uppercase'}
                 render={this.renderLimit}

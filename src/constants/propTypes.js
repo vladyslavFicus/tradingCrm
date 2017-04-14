@@ -268,7 +268,7 @@ PropTypes.paymentMethod = PropTypes.shape({
   order: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
-  withdrawalLimit: PropTypes.depositLimitShape.isRequired,
+  withdrawLimit: PropTypes.depositLimitShape.isRequired,
 });
 
 export default PropTypes;

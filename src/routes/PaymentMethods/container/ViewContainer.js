@@ -3,7 +3,7 @@ import { actionCreators } from '../modules';
 import List from '../components/List';
 
 const mapStateToProps = ({
-  methodsList: { list: { items: paymentMethods } },
+  paymentMethodsList: { list: { items: paymentMethods } },
 }) => ({
   paymentMethods,
 });
