@@ -275,7 +275,10 @@ class ProfileLayout extends Component {
   };
 
   handleChangeWalletLimitState = (type, newState) => {
-    this.handleOpenModal(MODAL_WALLET_LIMIT, {});
+    this.handleOpenModal(MODAL_WALLET_LIMIT, {
+      type,
+      newState,
+    });
   };
 
   render() {
@@ -294,7 +297,6 @@ class ProfileLayout extends Component {
       changeStatus,
       notes,
       walletLimits,
-      walletLimitAction,
     } = this.props;
 
     return (
@@ -309,7 +311,7 @@ class ProfileLayout extends Component {
             availableTags={availableTags}
             walletLimits={{
               state: walletLimits,
-              actions: { walletLimitAction },
+              actions: { onChange: this.handleChangeWalletLimitState },
             }}
             addTag={this.handleAddTag}
             deleteTag={this.handleDeleteTag}
