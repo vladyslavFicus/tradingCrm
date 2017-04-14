@@ -11,7 +11,32 @@ body.user-panel-open {
 .users-panel {
   &-opened {
     .users-panel-content {
+      background-color: #f2f2f2;
       z-index: 16;
+
+      .user-panel-content-frame {
+        width: 1140px;
+        margin: 25px auto 0;
+        border-top: 5px solid;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+
+        &-orange {
+          border-top-color: $orange;
+        }
+        &-green {
+          border-top-color: $green;
+        }
+        &-purple {
+          border-top-color: $purple;
+        }
+        &-blue {
+          border-top-color: $blue;
+        }
+        &-pink {
+          border-top-color: $pink;
+        }
+      }
     }
     .users-panel-footer {
       z-index: 16;
