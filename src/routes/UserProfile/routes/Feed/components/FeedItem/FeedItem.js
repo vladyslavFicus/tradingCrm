@@ -36,6 +36,7 @@ class FeedItem extends Component {
       case types.KYC_PERSONAL_REFUSED:
       case types.KYC_PERSONAL_VERIFIED:
         return <FeedInfoKyc data={data} />;
+      case types.PLAYER_PROFILE_VERIFIED_EMAIL:
       case types.PLAYER_PROFILE_CHANGED:
         return <FeedInfoProfileChanged data={data} />;
       case types.PLAYER_PROFILE_REGISTERED:
