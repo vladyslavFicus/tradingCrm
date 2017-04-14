@@ -264,5 +264,20 @@ PropTypes.userPaymentAccountEntity = PropTypes.shape({
   playerUUID: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+PropTypes.paymentMethodLimit = PropTypes.shape({
+  currencyCode: PropTypes.string,
+  disabled: PropTypes.bool.isRequired,
+  max: PropTypes.number,
+  min: PropTypes.number,
+  uuid: PropTypes.string.isRequired,
+});
+PropTypes.paymentMethod = PropTypes.shape({
+  depositLimit: PropTypes.paymentMethodLimit.isRequired,
+  methodName: PropTypes.string.isRequired,
+  order: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+  withdrawLimit: PropTypes.paymentMethodLimit.isRequired,
+});
 
 export default PropTypes;

@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 import classNames from 'classnames';
 import { targetTypes } from '../../../../../constants/note';
-import NoteButton from '../../../../../components/NoteButton';
+import PopoverButton from '../../../../../components/PopoverButton';
 import './PaymentDetailModal.scss';
 import { shortify } from '../../../../../utils/uuid';
 
@@ -130,7 +130,7 @@ class PaymentRejectModal extends Component {
 
           <div className="row">
             <div className="col-md-12 text-center">
-              <NoteButton
+              <PopoverButton
                 id="payment-reject-modal-note"
                 className="cursor-pointer margin-right-5"
                 onClick={id => this.handleNoteClick(id, this.props.payment)}
@@ -139,7 +139,7 @@ class PaymentRejectModal extends Component {
                   ? <i className="fa fa-sticky-note" />
                   : <i className="fa fa-sticky-note-o" />
                 }
-              </NoteButton>
+              </PopoverButton>
             </div>
           </div>
 
