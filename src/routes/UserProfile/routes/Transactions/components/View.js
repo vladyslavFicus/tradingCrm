@@ -23,6 +23,7 @@ import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncont
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_REJECT = 'payment-reject';
+const MODAL_PAYMENT_ADD = 'payment-add';
 const defaultModalState = {
   name: null,
   params: {},
