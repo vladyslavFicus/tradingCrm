@@ -3,6 +3,7 @@ import moment from 'moment';
 import PropTypes from '../../../../../../constants/propTypes';
 import { attributeLabels } from '../../../../../../constants/user';
 import { types } from '../../../../../../constants/audit';
+import { shortify } from '../../../../../../utils/uuid';
 
 const formatters = {
   uploadedFileList: [() => null],
@@ -42,7 +43,10 @@ const FeedInfoKyc = ({ data }) => (
       <div>
         {data.details.uploadedFileList.map((file, index) => (
           <div key={file.uuid}>
-            {index + 1}. Uploaded file - <span className="feed-item_info-details_value">{file.name}</span> - {file.uuid}
+            {index + 1}.
+            {' '}
+            Uploaded file - <span className="feed-item_info-details_value">{file.name}</span>
+            ` - ${shortify(file.uuid)}`
           </div>
         ))}
       </div>
