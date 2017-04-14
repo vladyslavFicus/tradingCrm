@@ -6,15 +6,21 @@ import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
+import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../constants/note';
 import config from '../../../../../config';
 
 const KEY = 'transactions/transactions';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
+const FETCH_PAYMENT_STATUSES = createRequestAction(`${KEY}/fetch-payment-statuses`);
+const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 const FETCH_PROFILES = createRequestAction(`${KEY}/fetch-profiles`);
 const FETCH_PROFILE_REAL_BALANCE = createRequestAction(`${KEY}/fetch-profile-balance`);
 const FETCH_PROFILE_BONUS_BALANCE = createRequestAction(`${KEY}/fetch-profile-bonus`);
+
+const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FETCH_PAYMENT_STATUSES);
+const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
 
 const mergeEntities = (stored, fetched) => {
   const merged = [...stored];
@@ -354,6 +360,8 @@ const initialState = {
 };
 const actionTypes = {
   FETCH_ENTITIES,
+  FETCH_PAYMENT_STATUSES,
+  CHANGE_PAYMENT_STATUS,
   FETCH_PROFILES,
   FETCH_PROFILE_REAL_BALANCE,
   FETCH_PROFILE_BONUS_BALANCE,
@@ -363,6 +371,8 @@ const actionCreators = {
   fetchBonus,
   fetchBalance,
   fetchBalances,
+  fetchPaymentStatuses,
+  changePaymentStatus,
 };
 
 export {

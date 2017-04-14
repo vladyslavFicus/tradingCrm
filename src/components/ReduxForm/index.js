@@ -4,6 +4,7 @@ import InputField from './InputField';
 import SingleDateField from './SingleDateField';
 import TextAreaField from './TextAreaField';
 import EditorField from './EditorField';
+import AmountCurrencyField from './AmountCurrencyField';
 
 export {
   CustomValueField,
@@ -12,4 +13,5 @@ export {
   SingleDateField,
   TextAreaField,
   EditorField,
+  AmountCurrencyField,
 };

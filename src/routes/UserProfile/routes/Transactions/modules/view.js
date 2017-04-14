@@ -4,11 +4,20 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
+import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../constants/note';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
+const FETCH_PAYMENT_STATUSES = createRequestAction(`${KEY}/fetch-payment-statuses`);
+const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
+const MANUAL_DEPOSIT = createRequestAction(`${KEY}/manual-deposit`);
+const MANUAL_WITHDRAW = createRequestAction(`${KEY}/manual-withdraw`);
+const CONFISCATE = createRequestAction(`${KEY}/confiscate`);
+
+const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FETCH_PAYMENT_STATUSES);
+const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
 
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
@@ -52,6 +61,81 @@ function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
     }
 
     return action;
+  };
+}
+
+function manualDeposit(playerUUID, params) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `payment/payments/${playerUUID}/deposit/manual`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+        types: [
+          MANUAL_DEPOSIT.REQUEST,
+          MANUAL_DEPOSIT.SUCCESS,
+          MANUAL_DEPOSIT.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function manualWithdraw(playerUUID, params) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `payment/payments/${playerUUID}/withdraw`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+        types: [
+          MANUAL_WITHDRAW.REQUEST,
+          MANUAL_WITHDRAW.SUCCESS,
+          MANUAL_WITHDRAW.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function confiscate(playerUUID, params) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `payment/payments/${playerUUID}/confiscate`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+        types: [
+          CONFISCATE.REQUEST,
+          CONFISCATE.SUCCESS,
+          CONFISCATE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
   };
 }
 
@@ -115,9 +199,20 @@ const initialState = {
 };
 const actionTypes = {
   FETCH_ENTITIES,
+  FETCH_PAYMENT_STATUSES,
+  CHANGE_PAYMENT_STATUS,
+  MANUAL_DEPOSIT,
+  MANUAL_WITHDRAW,
+  CONFISCATE,
 };
+
 const actionCreators = {
   fetchEntities,
+  fetchPaymentStatuses,
+  changePaymentStatus,
+  manualDeposit,
+  manualWithdraw,
+  confiscate,
 };
 
 export {

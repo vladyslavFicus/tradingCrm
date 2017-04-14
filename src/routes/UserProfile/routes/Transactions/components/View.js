@@ -19,6 +19,7 @@ import NoteButton from '../../../../../components/NoteButton';
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from './PaymentDetailModal';
 import PaymentRejectModal from './PaymentRejectModal';
+import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
@@ -107,6 +108,19 @@ class View extends Component {
     return onChangePaymentStatus({ status, playerUUID, paymentId, options })
       .then(this.handleRefresh)
       .then(this.handleCloseModal);
+  };
+
+  handleAddPayment = (params) => {
+    console.log('handleAddPayment', params);
+    //const { onAddPayment } = this.props;
+  };
+
+  handleOpenAddPaymentModal = () => {
+    this.setState({
+      modal: {
+        name: MODAL_PAYMENT_ADD,
+      },
+    });
   };
 
   handleRejectClick = (data) => {
@@ -279,6 +293,20 @@ class View extends Component {
 
     return (
       <div className="tab-pane fade in active profile-tab-container">
+        <div className="row margin-bottom-20">
+          <div className="col-sm-2 col-xs-6">
+            <span className="font-size-20">Transactions</span>
+          </div>
+          <div className="col-sm-10 col-xs-6 text-right">
+            <button
+              className="btn btn-sm btn-primary-outline"
+              onClick={this.handleOpenAddPaymentModal}
+            >
+              + Add transaction
+            </button>
+          </div>
+        </div>
+
         <TransactionGridFilter
           currencyCode={currencyCode}
           onSubmit={this.handleFilterSubmit}
@@ -369,6 +397,16 @@ class View extends Component {
             isOpen
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
+          />
+        }
+
+        {
+          modal.name === MODAL_PAYMENT_ADD &&
+          <PaymentAddModal
+            {...modal.params}
+            currencyCode={currencyCode}
+            onClose={this.handleCloseModal}
+            onSubmit={this.handleAddPayment}
           />
         }
       </div>
