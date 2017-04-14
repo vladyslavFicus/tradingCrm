@@ -1,5 +1,11 @@
 import { CALL_API } from 'redux-api-middleware';
 import buildQueryString from '../../utils/buildQueryString';
+import createRequestAction from '../../utils/createRequestAction';
+
+const KEY = 'common/note';
+const ADD_NOTE = createRequestAction(`${KEY}/add`);
+const EDIT_NOTE = createRequestAction(`${KEY}/edit`);
+const DELETE_NOTE = createRequestAction(`${KEY}/delete`);
 
 function fetchNotes(type) {
   return filters => (dispatch, getState) => {
@@ -130,7 +136,17 @@ function deleteNote(type) {
   };
 }
 
+const actionTypes = {
+  ADD_NOTE,
+  EDIT_NOTE,
+  DELETE_NOTE,
+};
 const actionCreators = {
+  addNote: addNote(ADD_NOTE),
+  editNote: editNote(EDIT_NOTE),
+  deleteNote: deleteNote(DELETE_NOTE),
+};
+const sourceActionCreators = {
   fetchNotes,
   fetchNotesByType,
   addNote,
@@ -139,5 +155,7 @@ const actionCreators = {
 };
 
 export {
+  actionTypes,
   actionCreators,
+  sourceActionCreators,
 };

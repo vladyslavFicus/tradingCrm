@@ -14,11 +14,11 @@ const formatValue = (attribute, value) => {
 };
 
 const FeedInfoProfileRegistered = ({ data }) => (
-  <div className="information">
+  <div className="feed-item_info-details">
     {Object.keys(data.details).map(attribute => (
       <div key={attribute}>
         {attributeLabels[attribute] || attribute}:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {formatValue(attribute, data.details[attribute].toString())}
         </span>
       </div>

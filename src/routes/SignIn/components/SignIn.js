@@ -37,7 +37,7 @@ class SignIn extends Component {
       if (action.type === authActionTypes.SIGN_IN.SUCCESS) {
         let nextUrl = '/';
 
-        if (location.query && location.query.returnUrl) {
+        if (location.query && location.query.returnUrl && !/sign\-in/.test(location.query.returnUrl)) {
           nextUrl = location.query.returnUrl;
         }
 

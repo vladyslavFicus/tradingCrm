@@ -6,6 +6,7 @@ const targetTypes = keyMirror({
   PAYMENT: null,
   FILE: null,
   LIMIT: null,
+  PAYMENT_ACCOUNT: null,
 });
 
 const targetTypesLabels = {
@@ -14,6 +15,7 @@ const targetTypesLabels = {
   [targetTypes.PAYMENT]: 'Payment',
   [targetTypes.FILE]: 'File',
   [targetTypes.LIMIT]: 'Limit',
+  [targetTypes.PAYMENT_ACCOUNT]: 'Payment Account',
 };
 
 export {

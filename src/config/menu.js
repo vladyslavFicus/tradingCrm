@@ -16,12 +16,17 @@ const sidebarTopMenu = [
     url: '/operators/list',
   },
   {
-    label: 'Payments',
+    label: 'Transactions',
     icon: 'fa fa-credit-card',
     items: [
-      { label: 'All', url: '/payments' },
-      { label: 'Open loop', url: '/payments/open-loops' },
+      { label: 'All', url: '/transactions' },
+      { label: 'Open loop', url: '/transactions/open-loops' },
     ],
+  },
+  {
+    label: 'Payment methods',
+    icon: 'fa fa-cc-visa',
+    url: '/paymentMethods',
   },
   { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
   { label: 'Terms & conditions', url: '/terms', icon: 'fa fa-align-justify' },
@@ -55,6 +60,7 @@ const userProfileTabs = [
   { label: 'Bonuses', url: '/users/:id/bonuses' },
   { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Transactions', url: '/users/:id/transactions' },
+  { label: 'Payments', url: '/users/:id/paymentAccounts' },
   { label: 'Limits', url: '/users/:id/limits' },
   { label: 'Files', url: '/users/:id/files' },
   { label: 'Notes', url: '/users/:id/notes' },

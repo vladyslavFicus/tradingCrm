@@ -51,7 +51,7 @@ describe('UserProfile::Transactions::view', () => {
       const fetchNotesStub = sinon.spy();
       const dispatch = arg => Promise.resolve(action);
 
-      const fetchEntitiesFn = actionCreators.fetchEntities({}, fetchNotesStub);
+      const fetchEntitiesFn = actionCreators.fetchEntities('', {}, fetchNotesStub);
       const fetchEntitiesResult = fetchEntitiesFn(dispatch, () => ({auth: {}}));
 
       fetchEntitiesResult.then((r) => {

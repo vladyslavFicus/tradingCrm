@@ -91,7 +91,7 @@ class ProfileLayout extends Component {
   getChildContext() {
     return {
       onAddNote: this.props.addNote,
-      onEditNote: this.props.addNote,
+      onEditNote: this.props.editNote,
       onAddNoteClick: this.handleAddNoteClick,
       onEditNoteClick: this.handleEditNoteClick,
       setNoteChangedCallback: this.setNoteChangedCallback,
@@ -298,7 +298,7 @@ class ProfileLayout extends Component {
     } = this.props;
 
     return (
-      <div className="player container panel profile-layout">
+      <div className="player panel profile-layout">
         <div className="container-fluid">
           <Header
             data={data}

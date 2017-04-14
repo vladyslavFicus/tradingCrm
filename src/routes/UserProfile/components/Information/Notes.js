@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { entities, entitiesPrefixes } from '../../../../constants/uuid';
 import { shortify } from '../../../../utils/uuid';
-import NoteButton from '../../../../components/NoteButton';
+import PopoverButton from '../../../../components/PopoverButton';
 
 class Notes extends Component {
   static propTypes = {
@@ -21,7 +21,7 @@ class Notes extends Component {
 
   renderItem = (item) => {
     return (
-      <NoteButton
+      <PopoverButton
         className="display-block note panel"
         key={item.uuid}
         id={`profile-pinned-note-${item.uuid}`}
@@ -48,7 +48,7 @@ class Notes extends Component {
             {item.content}
           </div>
         </div>
-      </NoteButton>
+      </PopoverButton>
     );
   };
 

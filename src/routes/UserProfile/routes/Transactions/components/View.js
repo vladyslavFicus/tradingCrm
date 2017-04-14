@@ -13,14 +13,16 @@ import {
   statuses as paymentsStatuses,
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
-import StatusHistory from './StatusHistory';
+import StatusHistory from '../../../../../components/TransactionStatusHistory';
 import { targetTypes } from '../../../../../constants/note';
-import NoteButton from '../../../../../components/NoteButton';
+import PopoverButton from '../../../../../components/PopoverButton';
 import TransactionGridFilter from './TransactionGridFilter';
-import PaymentDetailModal from '../../../../../routes/Payments/components/PaymentDetailModal';
-import PaymentRejectModal from '../../../../../routes/Payments/components/PaymentRejectModal';
+import PaymentDetailModal from './PaymentDetailModal';
+import PaymentRejectModal from './PaymentRejectModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 
+const MODAL_PAYMENT_DETAIL = 'payment-detail';
+const MODAL_PAYMENT_REJECT = 'payment-reject';
 const defaultModalState = {
   name: null,
   params: {},
@@ -66,75 +68,70 @@ class View extends Component {
     this.context.setNoteChangedCallback(null);
   }
 
-  getNotePopoverParams = () => ({
-    placement: 'left',
-  });
-
   handleNoteClick = (target, data) => {
     if (data.note) {
-      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
+      this.context.onEditNoteClick(target, data.note, { placement: 'left' });
     } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, this.getNotePopoverParams());
+      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'left' });
     }
   };
 
   handlePageChanged = (page) => {
     if (!this.props.isLoading) {
-      this.setState({ page: page - 1 }, () => this.handleRefresh());
+      this.setState({ page: page - 1 }, this.handleRefresh);
     }
   };
 
-  handleRefresh = () => {
-    return this.props.fetchEntities({
+  handleRefresh = () => this.props.fetchEntities(
+    this.props.params.id, {
       ...this.state.filters,
       page: this.state.page,
-      playerUUID: this.props.params.id,
-    });
-  };
+    }
+  );
 
-  handleFilterSubmit = (inputFilters = {}) => {
-    const filters = inputFilters;
+
+  handleFilterSubmit = (data = {}) => {
+    const filters = { ...data };
 
     if (filters.states) {
       filters.states = [filters.states];
     }
 
-    this.setState({ filters, page: 0 }, () => this.handleRefresh());
+    this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
-  handleChangePaymentStatus = (status, paymentId, options = {}) => {
-    const { filters, fetchEntities, onChangePaymentStatus } = this.props;
+  handleChangePaymentStatus = (status, playerUUID, paymentId, options = {}) => {
+    const { onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus({ status, paymentId, options })
-      .then(() => fetchEntities(filters))
-      .then(() => this.handleCloseModal());
+    return onChangePaymentStatus({ status, playerUUID, paymentId, options })
+      .then(this.handleRefresh)
+      .then(this.handleCloseModal);
   };
 
-  handleAboutToReject = (e, payment) => {
+  handleRejectClick = (data) => {
     this.handleCloseModal();
 
-    this.handleOpenModal(e, 'payment-about-to-reject', {
-      payment,
-      profile: this.props.profile,
-      accumulatedBalances: this.props.accumulatedBalances,
+    return this.handleOpenModal(MODAL_PAYMENT_REJECT, {
+      ...data,
       rejectReasons: this.props.paymentRejectReasons,
     });
   };
 
-  handleOpenModal = (e, name, inputParams) => {
-    const params = inputParams;
+  handleOpenModal = async (name, params) => {
+    const action = await this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId);
 
-    e.preventDefault();
-    e.stopPropagation();
-
-    this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId)
-      .then((action) => {
-        if (action && !action.error) {
-          params.transactions = action.payload;
-        }
-
-        this.setState({ modal: { ...defaultModalState, name, params } });
-      });
+    this.setState({
+      modal: {
+        ...defaultModalState,
+        name,
+        params: {
+          ...params,
+          transactions: action && !action.error
+            ? action.payload
+            : [],
+        },
+      },
+    });
   };
 
   handleCloseModal = (e, callback) => {
@@ -145,20 +142,14 @@ class View extends Component {
     });
   };
 
-  handleLoadStatusHistory = (playerUUID, paymentId) => () => {
-    return this.props.loadPaymentStatuses(playerUUID, paymentId);
-  };
-
-  renderTransactionId = (data) => {
-    return (
-      <span>
-        <div className="font-weight-700">{shortify(data.paymentId, 'TA')}</div>
-        <span className="font-size-10 text-uppercase color-default">
+  renderTransactionId = data => (
+    <span>
+      <div className="font-weight-700">{shortify(data.paymentId, 'TA')}</div>
+      <span className="font-size-10 text-uppercase color-default">
           by {shortify(data.playerUUID, 'PL')}
-        </span>
       </span>
-    );
-  };
+    </span>
+  );
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -176,26 +167,22 @@ class View extends Component {
     );
   };
 
-  renderAmount = (data) => {
-    return (
-      <div className={classNames('font-weight-700', { 'color-danger': data.paymentType === paymentTypes.Withdraw })}>
-        {data.paymentType === paymentTypes.Withdraw && '-'}<Amount {...data.amount} />
-      </div>
-    );
-  };
+  renderAmount = data => (
+    <div className={classNames('font-weight-700', { 'color-danger': data.paymentType === paymentTypes.Withdraw })}>
+      {data.paymentType === paymentTypes.Withdraw && '-'}<Amount {...data.amount} />
+    </div>
+  );
 
-  renderDateTime = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700">
-          {moment(data.creationTime).format('DD.MM.YYYY')}
-        </div>
-        <span className="font-size-10 color-default">
-          {moment(data.creationTime).format('HH:mm:ss')}
-        </span>
+  renderDateTime = data => (
+    <div>
+      <div className="font-weight-700">
+        {moment(data.creationTime).format('DD.MM.YYYY')}
       </div>
-    );
-  };
+      <span className="font-size-10 color-default">
+        {moment(data.creationTime).format('HH:mm:ss')}
+      </span>
+    </div>
+  );
 
   renderIP = (data) => {
     if (!data.country) {
@@ -205,32 +192,33 @@ class View extends Component {
     return <i className={`fs-icon fs-${data.country.toLowerCase()}`} />;
   };
 
-  renderMethod = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700">
-          {methodsLabels[data.paymentMethod] || data.paymentMethod }
-        </div>
-        <span className="font-size-10">
-          { shortify(data.paymentAccount, null, 2) }
-        </span>
+  renderMethod = data => (
+    <div>
+      <div className="font-weight-700">
+        {methodsLabels[data.paymentMethod] || data.paymentMethod }
       </div>
-    );
-  };
+      <span className="font-size-10">
+        { shortify(data.paymentAccount, null, 2) }
+      </span>
+    </div>
+  );
 
   renderDevice = (data) => {
+    const id = `payment-device-${data.paymentId}`;
+
     return (
       <div>
         <i
-          id={data.paymentId}
+          id={id}
           className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
           aria-hidden="true"
         />
         <UncontrolledTooltip
           placement="bottom"
-          target={data.paymentId}
+          target={id}
           delay={{
-            show: 350, hide: 250,
+            show: 350,
+            hide: 250,
           }}
         >
           {data.userAgent ? data.userAgent : 'User agent not defined'}
@@ -239,56 +227,53 @@ class View extends Component {
     );
   };
 
-  renderStatus = (data) => {
-    return (
-      <StatusHistory
-        onLoad={this.handleLoadStatusHistory(data.playerUUID, data.paymentId)}
-        label={
-          <div>
-            <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
-              {statusesLabels[data.status] || data.status}
-            </div>
-            <span className="font-size-10 color-default">
-              {moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
-            </span>
+  renderStatus = data => (
+    <StatusHistory
+      onLoad={() => this.props.loadPaymentStatuses(data.playerUUID, data.paymentId)}
+      label={
+        <div>
+          <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
+            {statusesLabels[data.status] || data.status}
           </div>
-        }
-      />
-    );
-  };
+          <span className="font-size-10 color-default">
+            {moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
+          </span>
+        </div>
+      }
+    />
+  );
 
-  renderActions = (data) => {
-    return (
-      <div>
-        <NoteButton
-          id={`bonus-item-note-button-${data.paymentId}`}
-          className="cursor-pointer margin-right-5"
-          onClick={id => this.handleNoteClick(id, data)}
-        >
-          {data.note
-            ? <i className="fa fa-sticky-note" />
-            : <i className="fa fa-sticky-note-o" />
-          }
-        </NoteButton>
-        {
-          data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
-          <a
-            href="#"
-            onClick={e => this.handleOpenModal(e, 'payment-detail', {
-              payment: data,
-              profile: this.props.profile,
-              accumulatedBalances: this.props.accumulatedBalances,
-            })} title={'View payment'}
-          >
-            <i className="fa fa-search" />
-          </a>
+  renderActions = data => (
+    <div>
+      <PopoverButton
+        id={`bonus-item-note-button-${data.paymentId}`}
+        className="cursor-pointer margin-right-5"
+        onClick={id => this.handleNoteClick(id, data)}
+      >
+        {data.note
+          ? <i className="fa fa-sticky-note" />
+          : <i className="fa fa-sticky-note-o" />
         }
-      </div>
-    );
-  };
+      </PopoverButton>
+      {
+        data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
+        <button
+          className="btn-transparent"
+          onClick={() => this.handleOpenModal(MODAL_PAYMENT_DETAIL, {
+            payment: data,
+            profile: this.props.profile,
+            accumulatedBalances: this.props.accumulatedBalances,
+          })}
+          title={'View payment'}
+        >
+          <i className="fa fa-search" />
+        </button>
+      }
+    </div>
+  );
 
   render() {
-    const { filters, modal } = this.state;
+    const { modal } = this.state;
     const { entities, currencyCode } = this.props;
 
     return (
@@ -296,7 +281,6 @@ class View extends Component {
         <TransactionGridFilter
           currencyCode={currencyCode}
           onSubmit={this.handleFilterSubmit}
-          initialValues={filters}
         />
 
         <GridView
@@ -306,7 +290,7 @@ class View extends Component {
           onPageChange={this.handlePageChanged}
           activePage={entities.number + 1}
           totalPages={entities.totalPages}
-          rowClassName={data => data.amountBarrierReached ? 'highlighted-row' : ''}
+          rowClassName={data => (data.amountBarrierReached ? 'highlighted-row' : '')}
           lazyLoad
         >
           <GridColumn
@@ -366,20 +350,26 @@ class View extends Component {
           />
         </GridView>
 
-        {modal.name === 'payment-detail' && <PaymentDetailModal
-          {...modal.params}
-          isOpen
-          onClose={this.handleCloseModal}
-          onChangePaymentStatus={this.handleChangePaymentStatus}
-          onAboutToReject={this.handleAboutToReject}
-        />}
+        {
+          modal.name === MODAL_PAYMENT_DETAIL &&
+          <PaymentDetailModal
+            {...modal.params}
+            isOpen
+            onClose={this.handleCloseModal}
+            onChangePaymentStatus={this.handleChangePaymentStatus}
+            onRejectClick={this.handleRejectClick}
+          />
+        }
 
-        {modal.name === 'payment-about-to-reject' && <PaymentRejectModal
-          {...modal.params}
-          isOpen
-          onClose={this.handleCloseModal}
-          onChangePaymentStatus={this.handleChangePaymentStatus}
-        />}
+        {
+          modal.name === MODAL_PAYMENT_REJECT &&
+          <PaymentRejectModal
+            {...modal.params}
+            isOpen
+            onClose={this.handleCloseModal}
+            onChangePaymentStatus={this.handleChangePaymentStatus}
+          />
+        }
       </div>
     );
   }

@@ -10,12 +10,12 @@ const humanizeDurationConfig = {
   round: true,
 };
 const FeedInfoLogout = ({ data }) => (
-  <div className="information">
+  <div className="feed-item_info-details">
     {
       data.details.sessionId &&
       <div>
         Session ID:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {data.details.sessionId}
         </span>
       </div>
@@ -24,7 +24,7 @@ const FeedInfoLogout = ({ data }) => (
       data.ip &&
       <div>
         Session IP:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {data.ip}
         </span>
       </div>
@@ -33,7 +33,7 @@ const FeedInfoLogout = ({ data }) => (
       data.details.sessionStart &&
       <div>
         Session Start:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {moment(data.details.sessionStart).format('YYYY-MM-DD \\a\\t HH:mm:ss')}
         </span>
       </div>
@@ -42,7 +42,7 @@ const FeedInfoLogout = ({ data }) => (
       data.details.sessionEnd &&
       <div>
         Session End:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {moment(data.details.sessionEnd).format('YYYY-MM-DD \\a\\t HH:mm:ss')}
         </span>
       </div>
@@ -51,7 +51,7 @@ const FeedInfoLogout = ({ data }) => (
       data.details.sessionDuration &&
       <div>
         Session duration:
-        <span className="information_value">
+        <span className="feed-item_info-details_value">
           {humanizeDuration(data.details.sessionDuration, humanizeDurationConfig)}
         </span>
       </div>

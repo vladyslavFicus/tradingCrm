@@ -6,10 +6,9 @@ import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
 import ProfileTags from '../../../components/ProfileTags';
 import Amount from '../../../components/Amount';
-import NoteButton from '../../../components/NoteButton';
+import PopoverButton from '../../../components/PopoverButton';
 import { statusColorNames } from '../../../constants/user';
 import { shortify } from '../../../utils/uuid';
-import './Header.scss';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
 import WalletLimits from './WalletLimits';
@@ -75,7 +74,7 @@ class Header extends Component {
     const { accumulatedBalances: { real, bonus } } = this.props;
 
     return (
-      <div className="header-block-secondary-text">
+      <div className="header-block-small">
         RM <Amount {...real} /> + BM <Amount {...bonus} />
       </div>
     );
@@ -102,11 +101,11 @@ class Header extends Component {
   renderLastLogin = () => {
     const { lastIp } = this.props;
     return !lastIp
-      ? <div className="header-block-secondary-text">Unavailable</div>
+      ? <div className="header-block-middle">Unavailable</div>
       : [
-        <div key="time-ago">{lastIp.signInDate && moment(lastIp.signInDate).fromNow()}</div>,
-        <small key="time">{lastIp.signInDate && moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}</small>,
-        <small key="country">{lastIp.country && ` from ${lastIp.country}`}</small>,
+        <div className="header-block-middle" key="time-ago">{lastIp.signInDate && moment(lastIp.signInDate).fromNow()}</div>,
+        <div className="header-block-small" key="time">{lastIp.signInDate && moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}</div>,
+        <div className="header-block-small" key="country">{lastIp.country && ` from ${lastIp.country}`}</div>,
       ];
   };
 
@@ -175,13 +174,13 @@ class Header extends Component {
             }
           </div>
           <div className="pull-right">
-            <NoteButton
+            <PopoverButton
               id="header-add-note-button"
               className="btn btn-default-outline"
               onClick={onAddNoteClick}
             >
               Add note
-            </NoteButton>
+            </PopoverButton>
             {' '}
             <UserProfileOptions
               items={[
@@ -203,19 +202,19 @@ class Header extends Component {
               onStatusChange={this.handleStatusChange}
               label={
                 <div className="dropdown-tab">
-                  <span className="header-title">Account Status</span>
-                  <div className={`player__account-bold ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
+                  <div className="header-block-title">Account Status</div>
+                  <div className={`header-block-middle ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
                   {
                     !!profileStatusReason &&
-                    <span className="font-size-12 color-default">
+                    <div className="header-block-small">
                       by {profileStatusReason}
-                    </span>
+                    </div>
                   }
                   {
                     !!suspendEndDate &&
-                    <span className="player__account__status-since font-size-12">
+                    <div className="header-block-small">
                       Until {moment(suspendEndDate).format('L')}
-                    </span>
+                    </div>
                   }
                 </div>
               }
@@ -225,9 +224,9 @@ class Header extends Component {
           <div className="header-block header-block_balance">
             <Balances
               label={
-                <div className="balance-tab">
-                  <span className="header-block-title">Balance</span>
-                  <div className="header-block-text">
+                <div className="dropdown-tab">
+                  <div className="header-block-title">Balance</div>
+                  <div className="header-block-middle">
                     <Amount {...balance} />
                   </div>
                   { this.getRealWithBonusBalance() }
@@ -243,7 +242,7 @@ class Header extends Component {
             />
           </div>
           <div className="header-block">
-            <span className="header-block-title">Last login</span>
+            <div className="header-block-title">Last login</div>
             {this.renderLastLogin()}
           </div>
           <div className="header-block">

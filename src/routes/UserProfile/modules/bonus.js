@@ -1,8 +1,8 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
-import createRequestAction from 'utils/createRequestAction';
+import createReducer from '../../../utils/createReducer';
+import timestamp from '../../../utils/timestamp';
+import buildQueryString from '../../../utils/buildQueryString';
+import createRequestAction from '../../../utils/createRequestAction';
 
 const KEY = 'user-bonus';
 const FETCH_ACTIVE_BONUS = createRequestAction(`${KEY}/fetch-active-bonus`);

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import Amount from '../../../../components/Amount';
-import './Balances.scss';
 import PropTypes from '../../../../constants/propTypes';
 
 class Balances extends Component {
@@ -28,17 +27,17 @@ class Balances extends Component {
   };
 
   renderDropDown = (label, balances, dropDownOpen) => (
-    <Dropdown className="dropdown-inline" isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
+    <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
       {label}
 
       <DropdownMenu>
         <DropdownItem>
           <div className="amount"><Amount {...balances.deposits} /></div>
-          <div className="text-uppercase font-size-11">Deposit</div>
+          <div className="amount_label">Deposited</div>
         </DropdownItem>
         <DropdownItem>
           <div className="amount"><Amount {...balances.withdraws} /></div>
-          <div className="text-uppercase font-size-11">Withdraws</div>
+          <div className="amount_label">Withdrawn</div>
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
@@ -47,7 +46,7 @@ class Balances extends Component {
   render() {
     const { dropDownOpen } = this.state;
     const { label, accumulatedBalances: balances } = this.props;
-    const dropdownClassName = classNames('balances-block dropdown-highlight', {
+    const dropdownClassName = classNames('dropdown-highlight cursor-pointer', {
       'dropdown-open': dropDownOpen,
     });
 
