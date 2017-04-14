@@ -2517,7 +2517,7 @@ fastparse@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/fastparse/-/fastparse-1.1.1.tgz#d1e2643b38a94d7583b479060e6c4affc94071f8"
 
-fbjs@^0.8.1, fbjs@^0.8.4:
+fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.12"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.12.tgz#10b5d92f76d45575fd63a217d4ea02bea2f8ed04"
   dependencies:
@@ -4088,7 +4088,7 @@ lodash@^3.8.0:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@^4.0.1, lodash@^4.1.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.5.0, lodash@latest:
+lodash@^4.0.0, lodash@^4.0.1, lodash@^4.1.0, lodash@^4.12.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0, lodash@^4.5.0, lodash@latest:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -5136,6 +5136,12 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+prop-types@^15.5.7:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  dependencies:
+    fbjs "^0.8.9"
+
 prr@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/prr/-/prr-0.0.0.tgz#1a84b85908325501411853d0081ee3fa86e2926a"
@@ -5414,6 +5420,15 @@ react-select@^1.0.0-rc.3:
   dependencies:
     classnames "^2.2.4"
     react-input-autosize "^1.1.0"
+
+react-sortable-hoc@^0.6.1:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/react-sortable-hoc/-/react-sortable-hoc-0.6.2.tgz#9f0b5aea0a496de1ecb9e1da97d8d2dbbed0905c"
+  dependencies:
+    babel-runtime "^6.11.6"
+    invariant "^2.2.1"
+    lodash "^4.12.0"
+    prop-types "^15.5.7"
 
 react-time@^4.2.0:
   version "4.2.0"
