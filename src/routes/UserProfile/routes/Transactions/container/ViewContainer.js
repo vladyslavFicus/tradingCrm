@@ -15,10 +15,11 @@ const mapStateToProps = ({
 });
 
 const mapActions = {
-  ...viewActionCreators,
+  fetchEntities: viewActionCreators.fetchEntities,
   onChangePaymentStatus: viewActionCreators.changePaymentStatus,
   loadPaymentStatuses: viewActionCreators.fetchPaymentStatuses,
-  //loadWithdrawMethods: paymentActionCreators
+  loadPaymentMethods: viewActionCreators.fetchPaymentAccounts,
+  addPayment: viewActionCreators.addPayment,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

@@ -1,60 +1,130 @@
 import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
-import keyMirror from 'keymirror';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { InputField, SelectField, AmountCurrencyField } from '../../../../../components/ReduxForm';
+import { createValidator } from '../../../../../utils/validator';
+import { SelectField, AmountCurrencyField } from '../../../../../components/ReduxForm';
+import { shortify } from '../../../../../utils/uuid';
+import Amount from '../../../../../components/Amount';
+import {
+  manualTypes as paymentTypes,
+  manualTypesLabels as paymentTypesLabels,
+} from '../../../../../constants/payment';
 
 const FORM_NAME = 'createPaymentForm';
 
-const paymentTypes = keyMirror({
-  DEPOSIT: null,
-  WITHDRAW: null,
-  CONFISCATE: null,
-});
-
-const paymentTypeLabels = {
-  [paymentTypes.DEPOSIT]: 'Manual deposit',
-  [paymentTypes.WITHDRAW]: 'Manual withdraw',
-  [paymentTypes.CONFISCATE]: 'Confiscate',
-};
-
 const attributeLabels = {
-  paymentType: 'PaymentType',
+  type: 'Payment Type',
   amount: 'Amount',
   paymentMethod: 'Payment method',
 };
 
+const validate = (values) => {
+  const rules = {
+    type: 'required|string',
+    amount: 'required|numeric',
+  };
+
+  if (values.type === paymentTypes.WITHDRAW) {
+    rules.paymentMethod = 'required|string';
+  }
+
+  return createValidator(
+    rules,
+    attributeLabels,
+    false
+  )(values);
+};
+
 class PaymentAddModal extends Component {
   static propTypes = {
-    currencyCode: PropTypes.string,
+    playerInfo: PropTypes.shape({
+      currencyCode: PropTypes.string,
+      fullName: PropTypes.string,
+      shortUUID: PropTypes.string,
+    }),
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    onLoadPaymentMethods: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     currentValues: PropTypes.shape({
-      paymentType: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
     }),
   };
 
+  state = {
+    availablePaymentMethods: [],
+  };
+
+  componentDidMount() {
+    const { onLoadPaymentMethods, playerInfo: { currencyCode } } = this.props;
+
+    onLoadPaymentMethods().then((action) => {
+      if (action && !action.error) {
+        const availablePaymentMethods = action.payload.map(method => ({
+          paymentMethod: method.paymentMethod,
+          currency: method.lastPayment && method.lastPayment.currency ?
+            method.lastPayment.currency : currencyCode,
+          paymentAccountId: method.uuid,
+          label: `${method.paymentMethod} - ${shortify(method.details)}`,
+        }));
+        this.setState({
+          availablePaymentMethods,
+        });
+      }
+    });
+  }
+
   renderPaymentMethodField = () => {
     const { currentValues } = this.props;
+    const { availablePaymentMethods } = this.state;
 
-    if (currentValues && currentValues.paymentType && currentValues.paymentType !== paymentTypes.WITHDRAW) {
+    if ((currentValues && currentValues.type && currentValues.type !== paymentTypes.WITHDRAW)
+      || !availablePaymentMethods.length
+    ) {
       return null;
     }
 
     return (
-      <div className="col-md-4">
+      <div className="col-md-5">
         <Field
           name="paymentMethod"
           label={attributeLabels.paymentMethod}
           type="text"
-          component={InputField}
+          component={SelectField}
           position="vertical"
-        />
+          showErrorMessage={false}
+        >
+          <option key="empty" value="">Choose payment method</option>
+          {availablePaymentMethods.map(item => (
+            <option key={item.paymentAccountId} value={item.paymentMethod}>
+              {item.label}
+            </option>
+          ))}
+        </Field>
+      </div>
+    );
+  };
+
+  renderInfoBlock = () => {
+    const {
+      playerInfo: { shortUUID, fullName, currencyCode },
+      currentValues,
+      valid,
+    } = this.props;
+
+    if (!valid || !(currentValues && currentValues.amount) || !currencyCode) {
+      return null;
+    }
+
+    return (
+      <div className="center-block text-center width-400 font-weight-700">
+        {`You are about to ${paymentTypesLabels[currentValues.type]}`} {' '}
+        <Amount currency={currencyCode} amount={currentValues.amount} /> {' '}
+        {`from ${fullName} ${shortUUID} account`}
       </div>
     );
   };
@@ -67,8 +137,7 @@ class PaymentAddModal extends Component {
       pristine,
       submitting,
       valid,
-      currencyCode,
-      currentValues,
+      playerInfo: { currencyCode },
     } = this.props;
 
     return (
@@ -80,32 +149,37 @@ class PaymentAddModal extends Component {
             <div className="row">
               <div className="col-md-4">
                 <Field
-                  name="paymentType"
+                  name="type"
                   type="text"
-                  label={attributeLabels.paymentType}
+                  label={attributeLabels.type}
+                  showErrorMessage={false}
                   component={SelectField}
                   position="vertical"
                 >
                   {Object.keys(paymentTypes).map(type => (
                     <option key={type} value={type}>
-                      {paymentTypeLabels[type]}
+                      {paymentTypesLabels[type]}
                     </option>
                   ))}
                 </Field>
               </div>
 
-              <div className="col-md-4">
+              <div className="col-md-3">
                 <Field
                   name="amount"
                   label={attributeLabels.amount}
                   type="text"
                   placeholder="0.00"
                   currencyCode={currencyCode}
+                  showErrorMessage={false}
                   component={AmountCurrencyField}
                 />
               </div>
 
               {this.renderPaymentMethodField()}
+            </div>
+            <div className="row">
+              { this.renderInfoBlock() }
             </div>
           </ModalBody>
           <ModalFooter>
@@ -143,8 +217,8 @@ export default connect(state => ({
   reduxForm({
     form: FORM_NAME,
     initialValues: {
-      paymentType: paymentTypes.DEPOSIT,
+      type: paymentTypes.DEPOSIT,
     },
-    //validate,
+    validate,
   })(PaymentAddModal)
 );

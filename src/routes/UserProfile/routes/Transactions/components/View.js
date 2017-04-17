@@ -11,6 +11,7 @@ import {
   typesProps,
   statusesColor,
   statuses as paymentsStatuses,
+  manualTypes as paymentManualTypes,
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
 import StatusHistory from '../../../../../components/TransactionStatusHistory';
@@ -36,9 +37,10 @@ class View extends Component {
     fetchEntities: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
+    loadPaymentMethods: PropTypes.func.isRequired,
+    addPayment: PropTypes.func.isRequired,
     entities: PropTypes.object,
     currencyCode: PropTypes.string,
-    filters: PropTypes.object,
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
@@ -110,9 +112,22 @@ class View extends Component {
       .then(this.handleCloseModal);
   };
 
-  handleAddPayment = (params) => {
-    console.log('handleAddPayment', params);
-    //const { onAddPayment } = this.props;
+  handleAddPayment = async (inputParams) => {
+    const { addPayment, params: { id: playerUUID }, currencyCode } = this.props;
+
+    const params = {
+      ...inputParams,
+      currency: currencyCode,
+    };
+
+    if (inputParams.type !== paymentManualTypes.WITHDRAW) {
+      delete params.paymentMethod;
+    }
+
+    const action = await addPayment(playerUUID, params);
+    if (action && !action.error) {
+      this.handleCloseModal();
+    }
   };
 
   handleOpenAddPaymentModal = () => {
@@ -289,7 +304,13 @@ class View extends Component {
 
   render() {
     const { modal } = this.state;
-    const { entities, currencyCode } = this.props;
+    const {
+      entities,
+      currencyCode,
+      loadPaymentMethods,
+      profile: { fullName, shortUUID },
+      params: { id: playerUUID },
+    } = this.props;
 
     return (
       <div className="tab-pane fade in active profile-tab-container">
@@ -404,8 +425,13 @@ class View extends Component {
           modal.name === MODAL_PAYMENT_ADD &&
           <PaymentAddModal
             {...modal.params}
-            currencyCode={currencyCode}
+            playerInfo={{
+              currencyCode,
+              fullName,
+              shortUUID,
+            }}
             onClose={this.handleCloseModal}
+            onLoadPaymentMethods={() => loadPaymentMethods(playerUUID)}
             onSubmit={this.handleAddPayment}
           />
         }

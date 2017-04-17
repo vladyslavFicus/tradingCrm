@@ -17,6 +17,18 @@ const types = keyMirror({
   Withdraw: null,
 });
 
+const manualTypes = keyMirror({
+  DEPOSIT: null,
+  WITHDRAW: null,
+  CONFISCATE: null,
+});
+
+const manualTypesLabels = {
+  [manualTypes.DEPOSIT]: 'Manual deposit',
+  [manualTypes.WITHDRAW]: 'Manual withdraw',
+  [manualTypes.CONFISCATE]: 'Confiscate',
+};
+
 const statusesLabels = {
   [statuses.PENDING]: 'Pending',
   [statuses.REFUSED]: 'Refused',
@@ -56,6 +68,8 @@ export {
   methods,
   methodsLabels,
   types,
+  manualTypes,
+  manualTypesLabels,
   typesLabels,
   typesProps,
   statusesColor,
