@@ -34,16 +34,10 @@ class InputField extends Component {
 
   renderHorizontal = (props) => {
     const {
-      input,
       label,
-      placeholder,
       labelClassName,
-      inputClassName,
-      type,
-      disabled,
       meta: { touched, error },
       showErrorMessage,
-      inputAddon,
     } = props;
 
     return (
@@ -52,27 +46,13 @@ class InputField extends Component {
           <label className={labelClassName}> {label} </label>
         </div>
         <div className="col-md-9">
-          <div className="input-group">
-            {
-              inputAddon &&
-              <div className="input-group-addon">
-                {inputAddon}
-              </div>
-            }
-            <input
-              {...input}
-              disabled={disabled}
-              type={type}
-              className={classNames(inputClassName, { 'has-danger': touched && error })}
-              placeholder={placeholder || label}
-            />
-            {
-              showErrorMessage && touched && error &&
-              <div className="form-control-feedback">
-                {error}
-              </div>
-            }
-          </div>
+          { this.renderInput() }
+          {
+            showErrorMessage && touched && error &&
+            <div className="form-control-feedback">
+              {error}
+            </div>
+          }
         </div>
       </div>
     );
@@ -80,36 +60,16 @@ class InputField extends Component {
 
   renderVertical = (props) => {
     const {
-      input,
       label,
       labelClassName,
-      inputClassName,
-      placeholder,
-      type,
-      disabled,
       meta: { touched, error },
       showErrorMessage,
-      inputAddon,
     } = props;
 
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label className={labelClassName}>{label}</label>
-        <div className="input-group">
-          {
-            inputAddon &&
-            <div className="input-group-addon">
-              {inputAddon}
-            </div>
-          }
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames(inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder || label}
-          />
-        </div>
+        { this.renderInput() }
         {
           showErrorMessage && touched && error &&
           <div className="form-control-feedback">
@@ -118,6 +78,42 @@ class InputField extends Component {
         }
       </div>
     );
+  };
+
+  renderInput = () => {
+    const {
+      inputAddon,
+      input,
+      disabled,
+      type,
+      inputClassName,
+      meta: { touched, error },
+      placeholder,
+      label,
+    } = this.props;
+
+    const inputField = (
+      <input
+        {...input}
+        disabled={disabled}
+        type={type}
+        className={classNames(inputClassName, { 'has-danger': touched && error })}
+        placeholder={placeholder || label}
+      />
+    );
+
+    if (inputAddon) {
+      return (
+        <div className="input-group">
+          <div className="input-group-addon">
+            {inputAddon}
+          </div>
+          { inputField }
+        </div>
+      );
+    }
+
+    return inputField;
   };
 
   render() {
