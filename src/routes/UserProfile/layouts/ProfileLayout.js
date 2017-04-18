@@ -70,7 +70,6 @@ class ProfileLayout extends Component {
     }).isRequired,
     walletLimitAction: PropTypes.func.isRequired,
   };
-
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
     onEditNote: PropTypes.func.isRequired,
@@ -274,11 +273,8 @@ class ProfileLayout extends Component {
     this.props.deleteTag(this.props.params.id, id);
   };
 
-  handleChangeWalletLimitState = (type, newState) => {
-    this.handleOpenModal(MODAL_WALLET_LIMIT, {
-      type,
-      newState,
-    });
+  handleChangeWalletLimitState = (data) => {
+    this.props.walletLimitAction({ ...data, playerUUID: this.props.params.id });
   };
 
   render() {
@@ -318,6 +314,7 @@ class ProfileLayout extends Component {
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
+            onWalletLimitChange={this.handleChangeWalletLimitState}
           />
 
           <div className="row">
@@ -372,6 +369,14 @@ class ProfileLayout extends Component {
         }
         {
           modal.name === MODAL_INFO &&
+          <Modal
+            onClose={this.handleCloseModal}
+            isOpen
+            {...modal.params}
+          />
+        }
+        {
+          modal.name === MODAL_WALLET_LIMIT &&
           <Modal
             onClose={this.handleCloseModal}
             isOpen

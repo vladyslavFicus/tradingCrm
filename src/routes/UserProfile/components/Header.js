@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
-import AccountStatus from './AccountStatus';
+import PlayerStatus from './PlayerStatus';
 import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
 import ProfileTags from '../../../components/ProfileTags';
 import Amount from '../../../components/Amount';
 import PopoverButton from '../../../components/PopoverButton';
-import { statusColorNames } from '../../../constants/user';
 import { shortify } from '../../../utils/uuid';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
@@ -39,6 +38,7 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onProfileActivateClick: PropTypes.func.isRequired,
+    onWalletLimitChange: PropTypes.func.isRequired,
     walletLimits: PropTypes.shape({
       state: PropTypes.shape({
         entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
@@ -54,12 +54,8 @@ class Header extends Component {
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,
       }).isRequired,
-      actions: PropTypes.shape({
-        walletLimitAction: PropTypes.func.isRequired,
-      }),
     }),
   };
-
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
   };
@@ -125,12 +121,14 @@ class Header extends Component {
         kycCompleted,
         profileStatusReason,
       },
+      data: profile,
       availableStatuses,
       accumulatedBalances,
       availableTags,
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
+      onWalletLimitChange,
       walletLimits,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
@@ -197,27 +195,11 @@ class Header extends Component {
 
         <div className="row panel-body header-blocks header-blocks-5">
           <div className="header-block header-block_account">
-            <AccountStatus
-              profileStatus={profileStatus}
-              onStatusChange={this.handleStatusChange}
-              label={
-                <div className="dropdown-tab">
-                  <div className="header-block-title">Account Status</div>
-                  <div className={`header-block-middle ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
-                  {
-                    !!profileStatusReason &&
-                    <div className="header-block-small">
-                      by {profileStatusReason}
-                    </div>
-                  }
-                  {
-                    !!suspendEndDate &&
-                    <div className="header-block-small">
-                      Until {moment(suspendEndDate).format('L')}
-                    </div>
-                  }
-                </div>
-              }
+            <PlayerStatus
+              status={profileStatus}
+              reason={profileStatusReason}
+              endDate={suspendEndDate}
+              onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
             />
           </div>
@@ -229,7 +211,7 @@ class Header extends Component {
                   <div className="header-block-middle">
                     <Amount {...balance} />
                   </div>
-                  { this.getRealWithBonusBalance() }
+                  {this.getRealWithBonusBalance()}
                 </div>
               }
               accumulatedBalances={accumulatedBalances}
@@ -237,8 +219,9 @@ class Header extends Component {
           </div>
           <div className="header-block header-block_wallet-limits">
             <WalletLimits
+              profile={profile}
               limits={walletLimits.state}
-              onChange={walletLimits.actions.walletLimitAction}
+              onChange={onWalletLimitChange}
             />
           </div>
           <div className="header-block">

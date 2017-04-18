@@ -3,11 +3,22 @@ import { Dropdown, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
 import PropTypes from '../../../../constants/propTypes';
+import { types, actions, reasons } from '../../../../constants/wallet';
 import { shortify } from '../../../../utils/uuid';
+import WalletLimitsModal from './WalletLimitsModal';
 import './WalletLimits.scss';
+
+const initialState = {
+  dropDownOpen: false,
+  modal: {
+    show: false,
+    params: {},
+  },
+};
 
 class WalletLimits extends Component {
   static propTypes = {
+    profile: PropTypes.userProfile.isRequired,
     limits: PropTypes.shape({
       entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
       deposit: PropTypes.shape({
@@ -22,16 +33,47 @@ class WalletLimits extends Component {
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number,
     }).isRequired,
+    onChange: PropTypes.func.isRequired,
   };
 
-  state = {
-    dropDownOpen: false,
-  };
+  state = { ...initialState };
 
   toggle = () => {
     this.setState({
       dropDownOpen: !this.state.dropDownOpen,
     });
+  };
+
+  handleActionClick = (type, action) => {
+    this.setState({
+      modal: {
+        show: true,
+        params: {
+          title: `${action.toLowerCase()} player's ${type}`,
+          initialValues: {
+            action,
+            type,
+          },
+          type: type.toUpperCase(),
+          action,
+          reasons: reasons[action],
+        },
+      },
+    });
+  };
+
+  handleModalHide = (e, callback) => {
+    this.setState({
+      modal: { ...initialState.modal },
+    }, () => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
+  };
+
+  handleSubmit = (data) => {
+    this.handleModalHide(null, () => this.props.onChange(data));
   };
 
   renderStatus = (label, locked) => {
@@ -48,13 +90,11 @@ class WalletLimits extends Component {
     );
   };
 
-  renderButton = (label, canUnlock, className) => {
-    return (
-      <button type="button" className={className}>
-        {canUnlock ? 'Unlock' : 'Lock'} {label}
-      </button>
-    );
-  };
+  renderButton = (label, canUnlock, className, onChange) => (
+    <button type="button" className={className} onClick={onChange}>
+      {canUnlock ? 'Unlock' : 'Lock'} {label}
+    </button>
+  );
 
   renderLimit = limit => (
     <div key={limit.id} className="limits-info_tab">
@@ -78,9 +118,9 @@ class WalletLimits extends Component {
   );
 
   render() {
-    const { dropDownOpen } = this.state;
-    const { limits: { entities, deposit, withdraw } } = this.props;
-    const className = classNames('balances-block dropdown-highlight', {
+    const { dropDownOpen, modal } = this.state;
+    const { limits: { entities, deposit, withdraw }, profile } = this.props;
+    const className = classNames('balances-block dropdown-highlight cursor-pointer', {
       'dropdown-open': dropDownOpen,
     });
 
@@ -95,8 +135,18 @@ class WalletLimits extends Component {
 
           <DropdownMenu>
             <div className="header-block_wallet-limits_btn-group">
-              {this.renderButton('deposit', deposit.canUnlock, 'btn btn-danger-outline margin-right-10')}
-              {this.renderButton('withdrawal', withdraw.canUnlock, 'btn btn-danger-outline')}
+              {this.renderButton(
+                'deposit',
+                deposit.canUnlock,
+                'btn btn-danger-outline margin-right-10',
+                this.handleActionClick.bind(null, types.DEPOSIT, deposit.canUnlock ? actions.UNLOCK : actions.LOCK),
+              )}
+              {this.renderButton(
+                'withdrawal',
+                withdraw.canUnlock,
+                'btn btn-danger-outline',
+                this.handleActionClick.bind(null, types.WITHDRAW, withdraw.canUnlock ? actions.UNLOCK : actions.LOCK),
+              )}
             </div>
             {
               entities.length > 0 &&
@@ -106,6 +156,17 @@ class WalletLimits extends Component {
             }
           </DropdownMenu>
         </Dropdown>
+
+        {
+          modal.show &&
+          <WalletLimitsModal
+            show
+            {...modal.params}
+            onSubmit={this.handleSubmit}
+            onHide={this.handleModalHide}
+            profile={profile}
+          />
+        }
       </div>
     );
   }

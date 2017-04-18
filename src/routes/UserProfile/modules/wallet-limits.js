@@ -29,28 +29,56 @@ function checkLock(uuid) {
   };
 }
 
-function walletLimitAction({ playerUUID, action, type, reason }) {
+function lockWallet({ playerUUID, type, reason }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/lock/${playerUUID}/${type}`,
-        method: action === actions.UNLOCK ? 'DELETE' : 'POST',
+        endpoint: `payment/lock/${type}`,
+        method: 'POST',
         types: [LOCK.REQUEST, LOCK.SUCCESS, LOCK.FAILURE],
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          reason,
-          playerUUID,
-        }),
+        body: JSON.stringify({ reason, playerUUID }),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(checkLock(playerUUID)));
+    });
+  };
+}
+
+function unlockWallet({ playerUUID, type, reason }) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `payment/lock/${playerUUID}/${type}`,
+        method: 'DELETE',
+        types: [UNLOCK.REQUEST, UNLOCK.SUCCESS, UNLOCK.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ reason }),
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function walletLimitAction({ playerUUID, action, type, reason }) {
+  return async (dispatch) => {
+    const actionFn = action === actions.LOCK
+      ? lockWallet
+      : unlockWallet;
+    await dispatch(actionFn({ playerUUID, type, reason }));
+
+    return dispatch(checkLock(playerUUID));
   };
 }
 

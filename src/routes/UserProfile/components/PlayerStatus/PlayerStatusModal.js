@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
-import { createValidator } from 'utils/validator';
-import { TextAreaField, SelectField } from 'components/ReduxForm/UserProfile';
-import { actions, suspendPeriods } from 'constants/user';
+import { createValidator } from '../../../../utils/validator';
+import { TextAreaField, SelectField } from '../../../../components/ReduxForm/UserProfile';
+import { actions, suspendPeriods } from '../../../../constants/user';
 
 const attributeLabels = {
   period: 'Period',
@@ -26,7 +26,18 @@ const validator = (data) => {
   return createValidator(rules, attributeLabels, false)(data);
 };
 
-class AccountStatusModal extends Component {
+class PlayerStatusModal extends Component {
+  static propTypes = {
+    isOpen: PropTypes.bool,
+    show: PropTypes.bool,
+    action: PropTypes.string,
+    reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
+    title: PropTypes.string,
+    onHide: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
+  };
+
   render() {
     const {
       show,
@@ -36,7 +47,7 @@ class AccountStatusModal extends Component {
       onHide,
       onSubmit,
       handleSubmit,
-      ...rest,
+      ...rest
     } = this.props;
 
     return (
@@ -79,47 +90,43 @@ class AccountStatusModal extends Component {
     );
   }
 
-  renderReasonsSelect = (reasons) => {
-    return <div className="form-group">
+  renderReasonsSelect = reasons => (
+    <div className="form-group">
       <Field
         name="reason"
         label={attributeLabels.reason}
         component={SelectField}
         className={'form-control'}
       >
-        <option>-- Select reason --</option>
+        <option value="">-- Select reason --</option>
         {reasons.map(item => (
           <option key={item} value={item}>
             {item}
           </option>
         ))}
       </Field>
-    </div>;
-  };
+    </div>
+  );
 
-  renderPeriodSelect = () => {
-    return <div className="form-group">
+  renderPeriodSelect = () => (
+    <div className="form-group">
       <Field
         name="period"
         label={attributeLabels.period}
         component={SelectField}
         className={'form-control'}
       >
-        <option>-- Select period --</option>
+        <option value="">-- Select period --</option>
         <option value={suspendPeriods.DAY}>Day</option>
         <option value={suspendPeriods.WEEK}>Week</option>
         <option value={suspendPeriods.MONTH}>Month</option>
         <option value={suspendPeriods.PERMANENT}>Permanent</option>
       </Field>
-    </div>;
-  }
+    </div>
+  );
 }
 
-AccountStatusModal.propTypes = {
-  isOpen: PropTypes.bool,
-};
-
 export default reduxForm({
-  form: 'accountStatusModal',
+  form: 'playerStatusModal',
   validate: validator,
-})(AccountStatusModal);
+})(PlayerStatusModal);
