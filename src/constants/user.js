@@ -10,6 +10,7 @@ const attributeLabels = {
   btag: 'B-Tag',
   city: 'City',
   completed: 'Profile completion',
+  confirmedEmail: 'Confirmed email',
   country: 'Country',
   email: 'E-mail',
   firstName: 'First name',

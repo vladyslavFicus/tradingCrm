@@ -1,3 +1,4 @@
+import { parsePath } from 'history/lib/PathUtils';
 import createReducer from '../../utils/createReducer';
 
 const KEY = 'location';
@@ -12,7 +13,9 @@ function locationChange(location = '/') {
 
 const updateLocation = ({ dispatch }) => nextLocation => dispatch(locationChange(nextLocation));
 
-const initialState = null;
+const initialState = window.location
+  ? parsePath(`${window.location.pathname}${window.location.search}${window.location.hash}`)
+  : null;
 const actionHandlers = {
   [LOCATION_CHANGE]: (state, action) => action.payload,
 };

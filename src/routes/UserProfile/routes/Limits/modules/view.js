@@ -3,7 +3,7 @@ import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { types, statuses } from '../../../../../constants/limits';
 import { targetTypes } from '../../../../../constants/note';
-import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
+import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 
 const KEY = 'user-limits';
 const SET_LIMITS_LIST = `${KEY}/set-limits-list`;
@@ -14,7 +14,7 @@ const CANCEL_LIMIT = createRequestAction(`${KEY}/cancel-limit`);
 const CANCEL_DEPOSIT_LIMIT = createRequestAction(`${KEY}/cancel-deposit-limit`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
-const fetchNotesFn = noteActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapNotesToLimits = (limits, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
     return limits;
