@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import Currency from '../../components/Amount/Currency';
 
 class InputField extends Component {
   static propTypes = {
@@ -11,6 +12,7 @@ class InputField extends Component {
     labelClassName: PropTypes.string,
     inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
+    currencyCode: PropTypes.string,
     type: PropTypes.string.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
@@ -28,6 +30,7 @@ class InputField extends Component {
     showErrorMessage: true,
     disabled: false,
     placeholder: null,
+    currencyCode: null,
   };
 
   renderHorizontal = (props) => {
@@ -41,29 +44,36 @@ class InputField extends Component {
       disabled,
       meta: { touched, error },
       showErrorMessage,
+      currencyCode,
     } = props;
 
     return (
       <div className={classNames('form-group row', { 'has-danger': touched && error })}>
         <div className="col-md-3">
-          <label className={labelClassName}>
-            {label}
-          </label>
+          <label className={labelClassName}> {label} </label>
         </div>
         <div className="col-md-9">
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames(inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder || label}
-          />
-          {
-            showErrorMessage && touched && error &&
-            <div className="form-control-feedback">
-              {error}
-            </div>
-          }
+          <div className="input-group">
+            {
+              currencyCode &&
+              <div className="input-group-addon">
+                <Currency code={currencyCode} />
+              </div>
+            }
+            <input
+              {...input}
+              disabled={disabled}
+              type={type}
+              className={classNames(inputClassName, { 'has-danger': touched && error })}
+              placeholder={placeholder || label}
+            />
+            {
+              showErrorMessage && touched && error &&
+              <div className="form-control-feedback">
+                {error}
+              </div>
+            }
+          </div>
         </div>
       </div>
     );
@@ -80,19 +90,27 @@ class InputField extends Component {
       disabled,
       meta: { touched, error },
       showErrorMessage,
+      currencyCode,
     } = props;
 
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label className={labelClassName}>{label}</label>
-
-        <input
-          {...input}
-          disabled={disabled}
-          type={type}
-          className={classNames(inputClassName, { 'has-danger': touched && error })}
-          placeholder={placeholder || label}
-        />
+        <div className="input-group">
+          {
+            currencyCode &&
+            <div className="input-group-addon">
+              <Currency code={currencyCode} />
+            </div>
+          }
+          <input
+            {...input}
+            disabled={disabled}
+            type={type}
+            className={classNames(inputClassName, { 'has-danger': touched && error })}
+            placeholder={placeholder || label}
+          />
+        </div>
         {
           showErrorMessage && touched && error &&
           <div className="form-control-feedback">

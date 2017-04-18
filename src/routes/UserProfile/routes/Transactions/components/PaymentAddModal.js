@@ -3,10 +3,10 @@ import { Field, reduxForm, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator } from '../../../../../utils/validator';
-import { SelectField, AmountCurrencyField } from '../../../../../components/ReduxForm';
+import { SelectField, InputField } from '../../../../../components/ReduxForm';
 import { shortify } from '../../../../../utils/uuid';
 import Amount from '../../../../../components/Amount';
-import NoteButton from '../../../../../components/NoteButton';
+import PopoverButton from '../../../../../components/PopoverButton';
 import {
   types as paymentTypes,
   manualTypesLabels as paymentTypesLabels,
@@ -139,7 +139,7 @@ class PaymentAddModal extends Component {
           position="vertical"
           showErrorMessage={false}
         >
-          <option key="empty" value="">Choose payment method</option>
+          <option value="">Choose payment method</option>
           {availablePaymentMethods.map(item => (
             <option key={item.paymentAccountId} value={item.paymentMethod}>
               {item.label}
@@ -214,7 +214,8 @@ class PaymentAddModal extends Component {
                   placeholder="0.00"
                   currencyCode={currencyCode}
                   showErrorMessage={false}
-                  component={AmountCurrencyField}
+                  position="vertical"
+                  component={InputField}
                 />
               </div>
 
@@ -224,7 +225,7 @@ class PaymentAddModal extends Component {
               { this.renderInfoBlock() }
             </div>
             <div className="row text-center">
-              <NoteButton
+              <PopoverButton
                 id="add-transaction-item-note-button"
                 className="cursor-pointer"
                 onClick={id => this.handleNoteClick(id)}
@@ -233,7 +234,7 @@ class PaymentAddModal extends Component {
                   ? <i className="fa fa-sticky-note" />
                   : <i className="fa fa-sticky-note-o" />
                 }
-              </NoteButton>
+              </PopoverButton>
             </div>
           </ModalBody>
           <ModalFooter>
