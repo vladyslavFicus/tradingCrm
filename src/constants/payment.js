@@ -35,7 +35,14 @@ const methodStatusActions = {
 const types = keyMirror({
   Deposit: null,
   Withdraw: null,
+  Confiscate: null,
 });
+
+const manualTypesLabels = {
+  [types.Deposit]: 'Manual deposit',
+  [types.Withdraw]: 'Manual withdraw',
+  [types.Confiscate]: 'Confiscate',
+};
 
 const statusesLabels = {
   [statuses.PENDING]: 'Pending',
@@ -57,6 +64,7 @@ const methodsStatusesLabels = {
 const typesLabels = {
   [types.Deposit]: 'Deposit',
   [types.Withdraw]: 'Withdraw',
+  [types.Confiscate]: 'Confiscate',
 };
 
 const typesProps = {
@@ -65,6 +73,9 @@ const typesProps = {
   },
   [types.Withdraw]: {
     className: 'text-uppercase font-weight-700 color-danger',
+  },
+  [types.Confiscate]: {
+    className: 'text-uppercase font-weight-700 color-secondary',
   },
 };
 
@@ -88,6 +99,7 @@ export {
   methodsStatusesLabels,
   methodsLabels,
   types,
+  manualTypesLabels,
   typesLabels,
   typesProps,
   statusesColor,
