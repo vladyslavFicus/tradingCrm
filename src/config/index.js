@@ -41,7 +41,8 @@ const config = {
     },
     limits: {},
     logstash: {
-      url: '',
+      dev: '',
+      stage: '',
     },
   },
   middlewares: {},
@@ -108,8 +109,8 @@ function getApiRoot() {
     : '';
 }
 
-function getErrorApiUrl() {
-  return config.nas.logstash.url || '';
+function getErrorApiUrl(env = 'dev') {
+  return config.nas.logstash[env] || '';
 }
 
 function getDomain() {

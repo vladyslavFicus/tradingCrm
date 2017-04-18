@@ -33,7 +33,8 @@
       "command": "nodemon --exec babel-node bin/server",
       "env": {
         "NODE_ENV": "development",
-        "DEBUG": "app:*"
+        "DEBUG": "app:*",
+        "DISABLE_LOG": true
       }
     },
     "deploy": {

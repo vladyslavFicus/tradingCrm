@@ -7,19 +7,23 @@ const errorTypes = keyMirror({
 });
 
 const sendError = (params) => {
-  if (__PROD__) {
-    fetch(getErrorApiUrl(), {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(params),
-    });
-  }
-  if (__DEV__) {
+  if (__DEV__ && DISABLE_LOG) {
     console.warn(params);
+    return false;
   }
+
+  if (!__PROD__ && !__DEV__) {
+    return false;
+  }
+
+  return fetch(getErrorApiUrl(__DEV__ ? 'dev' : 'stage'), {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+  });
 };
 
 export {
