@@ -15,7 +15,7 @@ import {
 import { shortify } from '../../../../../utils/uuid';
 import StatusHistory from '../../../../../components/TransactionStatusHistory';
 import { targetTypes } from '../../../../../constants/note';
-import NoteButton from '../../../../../components/NoteButton';
+import PopoverButton from '../../../../../components/PopoverButton';
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from './PaymentDetailModal';
 import PaymentRejectModal from './PaymentRejectModal';
@@ -296,7 +296,7 @@ class View extends Component {
 
   renderActions = data => (
     <div>
-      <NoteButton
+      <PopoverButton
         id={`bonus-item-note-button-${data.paymentId}`}
         className="cursor-pointer margin-right-5"
         onClick={id => this.handleNoteClick(id, data)}
@@ -305,7 +305,7 @@ class View extends Component {
           ? <i className="fa fa-sticky-note" />
           : <i className="fa fa-sticky-note-o" />
         }
-      </NoteButton>
+      </PopoverButton>
       {
         data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
         <button

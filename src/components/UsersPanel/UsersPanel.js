@@ -46,18 +46,25 @@ class UsersPanel extends Component {
     return (
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ display: active ? 'block' : 'none' }}>
-          {items.map(item => (
-            <iframe
-              frameBorder={0}
-              src={`/users/${item.uuid}/profile`}
-              key={item.uuid}
-              style={{
-                display: active && active.uuid === item.uuid ? 'block' : 'none',
-                width: '100%',
-                height: 'calc(100% - 48px)',
-              }}
-            />
-          ))}
+          {items.map((item) => {
+            const className = classNames(
+              'user-panel-content-frame',
+              active && active.color ? `user-panel-content-frame-${active.color}` : ''
+            );
+
+            return (
+              <iframe
+                className={className}
+                frameBorder={0}
+                src={`/users/${item.uuid}/profile`}
+                key={item.uuid}
+                style={{
+                  display: active && active.uuid === item.uuid ? 'block' : 'none',
+                  height: 'calc(100% - 73px)',
+                }}
+              />
+            );
+          })}
         </div>
         <footer className={footerClassName}>
           <div className="users-panel-footer-row">

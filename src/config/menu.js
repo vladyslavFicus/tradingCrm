@@ -23,6 +23,11 @@ const sidebarTopMenu = [
       { label: 'Open loop', url: '/transactions/open-loops' },
     ],
   },
+  {
+    label: 'Payment methods',
+    icon: 'fa fa-cc-visa',
+    url: '/paymentMethods',
+  },
   { label: 'Bonus campaigns', url: '/bonus-campaigns', icon: 'fa fa-gift' },
   { label: 'Terms & conditions', url: '/terms', icon: 'fa fa-align-justify' },
   {

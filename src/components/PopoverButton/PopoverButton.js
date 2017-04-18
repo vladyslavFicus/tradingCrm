@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-class NoteButton extends Component {
+class PopoverButton extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
@@ -21,8 +21,8 @@ class NoteButton extends Component {
   }
 }
 
-export default NoteButton;
+export default PopoverButton;
 
-NoteButton.propTypes = {
+PopoverButton.propTypes = {
   children: PropTypes.node,
 };

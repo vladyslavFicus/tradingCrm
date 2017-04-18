@@ -12,6 +12,26 @@ const methods = keyMirror({
   CREDIT_CARD: null,
 });
 
+const methodStatuses = keyMirror({
+  ACTIVE: null,
+  INACTIVE: null,
+});
+
+const methodStatusActions = {
+  [methodStatuses.ACTIVE]: [
+    {
+      action: methodStatuses.INACTIVE,
+      label: 'Deactivate',
+    },
+  ],
+  [methodStatuses.INACTIVE]: [
+    {
+      action: methodStatuses.ACTIVE,
+      label: 'Activate',
+    },
+  ],
+};
+
 const types = keyMirror({
   Deposit: null,
   Withdraw: null,
@@ -34,6 +54,11 @@ const statusesLabels = {
 const methodsLabels = {
   [methods.PAYPAL]: 'Paypal',
   [methods.CREDIT_CARD]: 'Adyen',
+};
+
+const methodsStatusesLabels = {
+  [methodStatuses.ACTIVE]: 'Active',
+  [methodStatuses.INACTIVE]: 'Inactive',
 };
 
 const typesLabels = {
@@ -61,14 +86,23 @@ const statusesColor = {
   [statuses.COMPLETED]: 'color-success',
 };
 
+const methodStatusesColor = {
+  [methodStatuses.ACTIVE]: 'color-success',
+  [methodStatuses.INACTIVE]: 'color-default',
+};
+
 export {
   statuses,
   statusesLabels,
   methods,
+  methodStatuses,
+  methodsStatusesLabels,
   methodsLabels,
   types,
   manualTypesLabels,
   typesLabels,
   typesProps,
   statusesColor,
+  methodStatusesColor,
+  methodStatusActions,
 };

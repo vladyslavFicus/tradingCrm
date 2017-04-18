@@ -4,7 +4,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import { shortify } from '../../../../../utils/uuid';
 import { targetTypes } from '../../../../../constants/note';
-import NoteButton from '../../../../../components/NoteButton';
+import PopoverButton from '../../../../../components/PopoverButton';
 import { categoriesLabels } from '../../../../../constants/files';
 import UploadModal from './UploadModal';
 import FilesFilterForm from './FilesFilterForm';
@@ -243,7 +243,7 @@ class View extends Component {
   );
 
   renderNote = data => (
-    <NoteButton
+    <PopoverButton
       id={`file-item-note-button-${data.fileId}`}
       className="cursor-pointer margin-right-5"
       onClick={id => this.handleNoteClick(id, data)}
@@ -252,7 +252,7 @@ class View extends Component {
         ? <i className="fa fa-sticky-note" />
         : <i className="fa fa-sticky-note-o" />
       }
-    </NoteButton>
+    </PopoverButton>
   );
 
   render() {

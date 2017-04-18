@@ -4,7 +4,7 @@ import { targetTypes } from '../../../../../constants/note';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import { shortify } from '../../../../../utils/uuid';
-import NoteButton from '../../../../../components/NoteButton';
+import PopoverButton from '../../../../../components/PopoverButton';
 
 class View extends Component {
   static propTypes = {
@@ -83,7 +83,7 @@ class View extends Component {
   renderNotes = (data) => {
     return (
       <div>
-        <NoteButton
+        <PopoverButton
           id={`payment-account-item-note-button-${data.uuid}`}
           className="cursor-pointer margin-right-5"
           onClick={id => this.handleNoteClick(id, data)}
@@ -92,7 +92,7 @@ class View extends Component {
             ? <i className="fa fa-sticky-note" />
             : <i className="fa fa-sticky-note-o" />
           }
-        </NoteButton>
+        </PopoverButton>
       </div>
     );
   };

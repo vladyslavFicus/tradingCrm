@@ -9,6 +9,7 @@ class InputField extends Component {
     }).isRequired,
     label: PropTypes.string.isRequired,
     labelClassName: PropTypes.string,
+    inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
     type: PropTypes.string.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
@@ -22,6 +23,7 @@ class InputField extends Component {
 
   static defaultProps = {
     labelClassName: 'form-control-label',
+    inputClassName: 'form-control',
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,
@@ -34,6 +36,7 @@ class InputField extends Component {
       label,
       placeholder,
       labelClassName,
+      inputClassName,
       type,
       disabled,
       meta: { touched, error },
@@ -52,7 +55,7 @@ class InputField extends Component {
             {...input}
             disabled={disabled}
             type={type}
-            className={classNames('form-control', { 'has-danger': touched && error })}
+            className={classNames(inputClassName, { 'has-danger': touched && error })}
             placeholder={placeholder || label}
           />
           {
@@ -71,6 +74,7 @@ class InputField extends Component {
       input,
       label,
       labelClassName,
+      inputClassName,
       placeholder,
       type,
       disabled,
@@ -86,7 +90,7 @@ class InputField extends Component {
           {...input}
           disabled={disabled}
           type={type}
-          className={classNames('form-control', { 'has-danger': touched && error })}
+          className={classNames(inputClassName, { 'has-danger': touched && error })}
           placeholder={placeholder || label}
         />
         {

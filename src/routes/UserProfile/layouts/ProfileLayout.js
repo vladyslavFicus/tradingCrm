@@ -273,7 +273,7 @@ class ProfileLayout extends Component {
     } = this.props;
 
     return (
-      <div className="player container panel profile-layout">
+      <div className="player panel profile-layout">
         <div className="container-fluid">
           <Header
             data={data}

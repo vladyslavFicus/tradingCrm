@@ -3,7 +3,7 @@ import moment from 'moment';
 import NotesGridFilter from './NotesGridFilter';
 import ListView from '../../../../../components/ListView';
 import PropTypes from '../../../../../constants/propTypes';
-import NoteButton from '../../../../../components/NoteButton';
+import PopoverButton from '../../../../../components/PopoverButton';
 import { entities, entitiesPrefixes } from '../../../../../constants/uuid';
 import { shortify } from '../../../../../utils/uuid';
 import './NoteItem.scss';
@@ -111,12 +111,12 @@ class View extends Component {
                     }
                   </div>
                   <div className="col-md-1 text-right">
-                    <NoteButton
+                    <PopoverButton
                       id={`note-item-${data.uuid}`}
                       onClick={id => this.handleNoteClick(id, data)}
                     >
                       <i className="fa fa-edit fa-2x" />
-                    </NoteButton>
+                    </PopoverButton>
                   </div>
                 </div>
               </div>
