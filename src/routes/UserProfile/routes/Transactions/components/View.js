@@ -140,7 +140,7 @@ class View extends Component {
 
       if (action && !action.error) {
         if (unsavedNote) {
-          this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.paymentId });
+          await this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.paymentId });
           if (unsavedNote.pinned) {
             this.context.refreshPinnedNotes();
           }
