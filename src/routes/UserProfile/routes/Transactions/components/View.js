@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import GridView, { GridColumn } from '../../../../../components/GridView';
@@ -22,6 +22,7 @@ import PaymentDetailModal from './PaymentDetailModal';
 import PaymentRejectModal from './PaymentRejectModal';
 import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
+import PropTypes from '../../../../../constants/propTypes';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_REJECT = 'payment-reject';
@@ -39,17 +40,22 @@ class View extends Component {
     onChangePaymentStatus: PropTypes.func.isRequired,
     loadPaymentMethods: PropTypes.func.isRequired,
     addPayment: PropTypes.func.isRequired,
+    manageNote: PropTypes.func.isRequired,
+    resetNote: PropTypes.func.isRequired,
     entities: PropTypes.object,
     currencyCode: PropTypes.string,
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+    newPaymentNote: PropTypes.noteEntity,
     profile: PropTypes.object,
     accumulatedBalances: PropTypes.object,
     paymentRejectReasons: PropTypes.array,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
+    onAddNote: PropTypes.func.isRequired,
+    refreshPinnedNotes: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
   };
@@ -93,7 +99,6 @@ class View extends Component {
     }
   );
 
-
   handleFilterSubmit = (data = {}) => {
     const filters = { ...data };
 
@@ -113,21 +118,38 @@ class View extends Component {
   };
 
   handleAddPayment = async (inputParams) => {
-    const { addPayment, params: { id: playerUUID }, currencyCode } = this.props;
+    this.handleCloseModal(async () => {
+      const {
+        addPayment,
+        params: { id: playerUUID },
+        currencyCode,
+        resetNote,
+        newPaymentNote: unsavedNote,
+      } = this.props;
 
-    const params = {
-      ...inputParams,
-      currency: currencyCode,
-    };
+      const params = {
+        ...inputParams,
+        currency: currencyCode,
+      };
 
-    if (inputParams.type !== paymentManualTypes.WITHDRAW) {
-      delete params.paymentMethod;
-    }
+      if (inputParams.type !== paymentManualTypes.WITHDRAW) {
+        delete params.paymentMethod;
+      }
 
-    const action = await addPayment(playerUUID, params);
-    if (action && !action.error) {
-      this.handleCloseModal();
-    }
+      const action = await addPayment(playerUUID, params);
+
+      if (action && !action.error) {
+        if (unsavedNote) {
+          this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.paymentId });
+          if (unsavedNote.pinned) {
+            this.context.refreshPinnedNotes();
+          }
+        }
+      }
+
+      resetNote();
+      this.handleRefresh();
+    });
   };
 
   handleOpenAddPaymentModal = () => {
@@ -164,7 +186,7 @@ class View extends Component {
     });
   };
 
-  handleCloseModal = (e, callback) => {
+  handleCloseModal = (callback) => {
     this.setState({ modal: { ...defaultModalState } }, () => {
       if (typeof callback === 'function') {
         callback();
@@ -308,8 +330,10 @@ class View extends Component {
       entities,
       currencyCode,
       loadPaymentMethods,
+      manageNote,
       profile: { fullName, shortUUID },
       params: { id: playerUUID },
+      newPaymentNote,
     } = this.props;
 
     return (
@@ -425,6 +449,7 @@ class View extends Component {
           modal.name === MODAL_PAYMENT_ADD &&
           <PaymentAddModal
             {...modal.params}
+            note={newPaymentNote}
             playerInfo={{
               currencyCode,
               fullName,
@@ -433,6 +458,7 @@ class View extends Component {
             onClose={this.handleCloseModal}
             onLoadPaymentMethods={() => loadPaymentMethods(playerUUID)}
             onSubmit={this.handleAddPayment}
+            onManageNote={manageNote}
           />
         }
       </div>

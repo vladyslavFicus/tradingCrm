@@ -17,6 +17,8 @@ const FETCH_PAYMENT_ACCOUNTS = createRequestAction(`${KEY}/fetch-payment-statuse
 const MANUAL_DEPOSIT = createRequestAction(`${KEY}/manual-deposit`);
 const MANUAL_WITHDRAW = createRequestAction(`${KEY}/manual-withdraw`);
 const CONFISCATE = createRequestAction(`${KEY}/confiscate`);
+const MANAGE_NOTE = `${KEY}/manage-note`;
+const RESET_NOTE = `${KEY}/reset-note`;
 
 const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FETCH_PAYMENT_STATUSES);
 const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
@@ -68,10 +70,10 @@ function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
 }
 
 function manualDeposit(playerUUID, params) {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    const action = await dispatch({
+    return dispatch({
       [CALL_API]: {
         endpoint: `payment/payments/${playerUUID}/deposit/manual`,
         method: 'PUT',
@@ -89,19 +91,14 @@ function manualDeposit(playerUUID, params) {
         bailout: !logged,
       },
     });
-
-    if (action && !action.error) {
-      await dispatch(fetchEntities(playerUUID));
-    }
-    return action;
   };
 }
 
 function manualWithdraw(playerUUID, params) {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    const action = await dispatch({
+    return dispatch({
       [CALL_API]: {
         endpoint: `payment/payments/${playerUUID}/withdraw`,
         method: 'PUT',
@@ -119,19 +116,14 @@ function manualWithdraw(playerUUID, params) {
         bailout: !logged,
       },
     });
-
-    if (action && !action.error) {
-      await dispatch(fetchEntities(playerUUID));
-    }
-    return action;
   };
 }
 
 function confiscate(playerUUID, params) {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    const action = await dispatch({
+    return dispatch({
       [CALL_API]: {
         endpoint: `payment/payments/${playerUUID}/confiscate`,
         method: 'PUT',
@@ -149,11 +141,6 @@ function confiscate(playerUUID, params) {
         bailout: !logged,
       },
     });
-
-    if (action && !action.error) {
-      await dispatch(fetchEntities(playerUUID));
-    }
-    return action;
   };
 }
 
@@ -168,6 +155,28 @@ function addPayment(playerUUID, { type, ...data }) {
     }
 
     throw new Error(`Unknown payment type "${type}".`);
+  };
+}
+
+function manageNote(data) {
+  return (dispatch, getState) => {
+    const { auth: { uuid, fullName } } = getState();
+
+    return dispatch({
+      type: MANAGE_NOTE,
+      payload: data !== null ? {
+        ...data,
+        author: fullName,
+        creatorUUID: uuid,
+        lastEditorUUID: uuid,
+      } : data,
+    });
+  };
+}
+
+function resetNote() {
+  return {
+    type: RESET_NOTE,
   };
 }
 
@@ -211,6 +220,14 @@ const actionHandlers = {
       ],
     },
   }),
+  [MANAGE_NOTE]: (state, action) => ({
+    ...state,
+    newPaymentNote: action.payload,
+  }),
+  [RESET_NOTE]: state => ({
+    ...state,
+    newPaymentNote: null,
+  }),
 };
 const initialState = {
   entities: {
@@ -228,6 +245,7 @@ const initialState = {
   filters: {},
   isLoading: false,
   receivedAt: null,
+  newPaymentNote: null,
 };
 const actionTypes = {
   FETCH_ENTITIES,
@@ -244,6 +262,8 @@ const actionCreators = {
   changePaymentStatus,
   fetchPaymentAccounts,
   addPayment,
+  manageNote,
+  resetNote,
 };
 
 export {

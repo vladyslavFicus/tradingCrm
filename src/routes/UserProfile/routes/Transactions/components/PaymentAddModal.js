@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Field, reduxForm, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -6,10 +6,13 @@ import { createValidator } from '../../../../../utils/validator';
 import { SelectField, AmountCurrencyField } from '../../../../../components/ReduxForm';
 import { shortify } from '../../../../../utils/uuid';
 import Amount from '../../../../../components/Amount';
+import NoteButton from '../../../../../components/NoteButton';
 import {
   manualTypes as paymentTypes,
   manualTypesLabels as paymentTypesLabels,
 } from '../../../../../constants/payment';
+import { targetTypes } from '../../../../../constants/note';
+import PropTypes from '../../../../../constants/propTypes';
 
 const FORM_NAME = 'createPaymentForm';
 
@@ -47,36 +50,74 @@ class PaymentAddModal extends Component {
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onLoadPaymentMethods: PropTypes.func.isRequired,
+    onManageNote: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     currentValues: PropTypes.shape({
       type: PropTypes.string.isRequired,
     }),
+    note: PropTypes.noteEntity,
+  };
+
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    hidePopover: PropTypes.func.isRequired,
   };
 
   state = {
     availablePaymentMethods: [],
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { onLoadPaymentMethods, playerInfo: { currencyCode } } = this.props;
 
-    onLoadPaymentMethods().then((action) => {
-      if (action && !action.error) {
-        const availablePaymentMethods = action.payload.map(method => ({
-          paymentMethod: method.paymentMethod,
-          currency: method.lastPayment && method.lastPayment.currency ?
-            method.lastPayment.currency : currencyCode,
-          paymentAccountId: method.uuid,
-          label: `${method.paymentMethod} - ${shortify(method.details)}`,
-        }));
-        this.setState({
-          availablePaymentMethods,
-        });
-      }
-    });
+    const action = await onLoadPaymentMethods();
+    if (action && !action.error) {
+      const availablePaymentMethods = action.payload.map(method => ({
+        paymentMethod: method.paymentMethod,
+        currency: method.lastPayment && method.lastPayment.currency ?
+          method.lastPayment.currency : currencyCode,
+        paymentAccountId: method.uuid,
+        label: `${method.paymentMethod} - ${shortify(method.details)}`,
+      }));
+      this.setState({
+        availablePaymentMethods,
+      });
+    }
   }
+
+  getNotePopoverParams = () => ({
+    placement: 'bottom',
+    onSubmit: this.handleSubmitNote,
+    onDelete: this.handleDeleteNote,
+  });
+
+  handleNoteClick = (target) => {
+    const { note } = this.props;
+    if (note) {
+      this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
+    } else {
+      this.context.onAddNoteClick(null, targetTypes.PAYMENT)(target, this.getNotePopoverParams());
+    }
+  };
+
+  handleSubmitNote = (data) => {
+    return new Promise((resolve) => {
+      this.props.onManageNote(data);
+      this.context.hidePopover();
+      resolve();
+    });
+  };
+
+  handleDeleteNote = () => {
+    return new Promise((resolve) => {
+      this.props.onManageNote(null);
+      this.context.hidePopover();
+      resolve();
+    });
+  };
 
   renderPaymentMethodField = () => {
     const { currentValues } = this.props;
@@ -138,6 +179,7 @@ class PaymentAddModal extends Component {
       submitting,
       valid,
       playerInfo: { currencyCode },
+      note,
     } = this.props;
 
     return (
@@ -181,11 +223,23 @@ class PaymentAddModal extends Component {
             <div className="row">
               { this.renderInfoBlock() }
             </div>
+            <div className="row text-center">
+              <NoteButton
+                id="add-transaction-item-note-button"
+                className="cursor-pointer"
+                onClick={id => this.handleNoteClick(id)}
+              >
+                {note
+                  ? <i className="fa fa-sticky-note" />
+                  : <i className="fa fa-sticky-note-o" />
+                }
+              </NoteButton>
+            </div>
           </ModalBody>
           <ModalFooter>
             <div className="row">
               <div className="col-sm-6 text-muted font-size-12 text-left">
-                <b>Note</b>: This action can not be undone!
+                <span className="font-weight-700">Note</span>: This action can not be undone!
               </div>
               <div className="col-sm-6 text-right">
                 <button

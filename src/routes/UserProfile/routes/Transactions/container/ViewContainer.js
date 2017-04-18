@@ -20,6 +20,8 @@ const mapActions = {
   loadPaymentStatuses: viewActionCreators.fetchPaymentStatuses,
   loadPaymentMethods: viewActionCreators.fetchPaymentAccounts,
   addPayment: viewActionCreators.addPayment,
+  manageNote: viewActionCreators.manageNote,
+  resetNote: viewActionCreators.resetNote,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

@@ -15,6 +15,7 @@ const methods = keyMirror({
 const types = keyMirror({
   Deposit: null,
   Withdraw: null,
+  Confiscate: null,
 });
 
 const manualTypes = keyMirror({
@@ -44,6 +45,7 @@ const methodsLabels = {
 const typesLabels = {
   [types.Deposit]: 'Deposit',
   [types.Withdraw]: 'Withdraw',
+  [types.Confiscate]: 'Confiscate',
 };
 
 const typesProps = {
@@ -52,6 +54,9 @@ const typesProps = {
   },
   [types.Withdraw]: {
     className: 'text-uppercase font-weight-700 color-danger',
+  },
+  [types.Confiscate]: {
+    className: 'text-uppercase font-weight-700 color-secondary',
   },
 };
 
