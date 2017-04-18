@@ -108,7 +108,7 @@ class InputField extends Component {
           <div className="input-group-addon">
             {inputAddon}
           </div>
-          { inputField }
+          {inputField}
         </div>
       );
     }
