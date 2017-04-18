@@ -1,10 +1,10 @@
-import { injectReducer } from '../../../../store/reducers';
+import { injectReducer } from '../../../../../../store/reducers';
 import { actionCreators as feedTypesActionCreators } from './modules/feedTypes';
 
 export default store => ({
-  path: ':id/feed',
+  path: 'feed',
   onEnter: async (nextState, replace, callback) => {
-    injectReducer(store, { key: 'userFeed', reducer: require('./modules').default });
+    injectReducer(store, { key: 'operatorFeed', reducer: require('./modules').default });
 
     await store.dispatch(feedTypesActionCreators.fetchFeedTypes(nextState.params.id));
     callback();
@@ -13,6 +13,6 @@ export default store => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       cb(null, require('./container/ViewContainer').default);
-    }, 'user-profile-feed-view');
+    }, 'operator-profile-feed-view');
   },
 });

@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import PropTypes from '../../../../../../constants/propTypes';
-import { shortify } from '../../../../../../utils/uuid';
-import { types, typesLabels, typesClassNames } from '../../../../../../constants/audit';
-import './FeedItem.scss';
-import FeedInfoKyc from './FeedInfoKyc';
+import PropTypes from '../../../../../../../../constants/propTypes';
+import { shortify } from '../../../../../../../../utils/uuid';
+import { types, typesLabels, typesClassNames } from '../../../../../../../../constants/audit';
 import FeedInfoLogin from './FeedInfoLogin';
 import FeedInfoLogout from './FeedInfoLogout';
-import FeedInfoProfileChanged from './FeedInfoProfileChanged';
-import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
+import './FeedItem.scss';
 
 class FeedItem extends Component {
   static propTypes = {
@@ -31,16 +28,6 @@ class FeedItem extends Component {
         return <FeedInfoLogin data={data} />;
       case types.LOG_OUT:
         return <FeedInfoLogout data={data} />;
-      case types.KYC_ADDRESS_REFUSED:
-      case types.KYC_ADDRESS_VERIFIED:
-      case types.KYC_PERSONAL_REFUSED:
-      case types.KYC_PERSONAL_VERIFIED:
-        return <FeedInfoKyc data={data} />;
-      case types.PLAYER_PROFILE_VERIFIED_EMAIL:
-      case types.PLAYER_PROFILE_CHANGED:
-        return <FeedInfoProfileChanged data={data} />;
-      case types.PLAYER_PROFILE_REGISTERED:
-        return <FeedInfoProfileRegistered data={data} />;
       default:
         return null;
     }

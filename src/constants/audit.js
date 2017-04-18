@@ -1,8 +1,8 @@
 import keyMirror from 'keymirror';
 
 const types = keyMirror({
-  PLAYER_LOG_IN: null,
-  PLAYER_LOG_OUT: null,
+  LOG_IN: null,
+  LOG_OUT: null,
   PLAYER_PROFILE_VERIFIED_EMAIL: null,
   KYC_ADDRESS_REFUSED: null,
   KYC_ADDRESS_VERIFIED: null,
@@ -13,8 +13,8 @@ const types = keyMirror({
 });
 
 const typesLabels = {
-  [types.PLAYER_LOG_IN]: 'Player - logged in',
-  [types.PLAYER_LOG_OUT]: 'Player - logged out',
+  [types.LOG_IN]: 'Logged in',
+  [types.LOG_OUT]: 'Logged out',
   [types.PLAYER_PROFILE_VERIFIED_EMAIL]: 'Personal info - Email verified',
   [types.KYC_ADDRESS_REFUSED]: 'KYC - Address - rejected',
   [types.KYC_ADDRESS_VERIFIED]: 'KYC - Address - verified',
@@ -25,8 +25,8 @@ const typesLabels = {
 };
 
 const typesClassNames = {
-  [types.PLAYER_LOG_IN]: 'feed-item_info-status__blue',
-  [types.PLAYER_LOG_OUT]: '',
+  [types.LOG_IN]: 'feed-item_info-status__blue',
+  [types.LOG_OUT]: '',
   [types.PLAYER_PROFILE_VERIFIED_EMAIL]: 'feed-item_info-status__blue',
   [types.KYC_ADDRESS_REFUSED]: 'feed-item_info-status__red',
   [types.KYC_ADDRESS_VERIFIED]: 'feed-item_info-status__green',
