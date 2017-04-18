@@ -8,7 +8,7 @@ import { shortify } from '../../../../../utils/uuid';
 import Amount from '../../../../../components/Amount';
 import NoteButton from '../../../../../components/NoteButton';
 import {
-  manualTypes as paymentTypes,
+  types as paymentTypes,
   manualTypesLabels as paymentTypesLabels,
 } from '../../../../../constants/payment';
 import { targetTypes } from '../../../../../constants/note';
@@ -28,7 +28,7 @@ const validate = (values) => {
     amount: 'required|numeric',
   };
 
-  if (values.type === paymentTypes.WITHDRAW) {
+  if (values.type === paymentTypes.Withdraw) {
     rules.paymentMethod = 'required|string';
   }
 
@@ -123,7 +123,7 @@ class PaymentAddModal extends Component {
     const { currentValues } = this.props;
     const { availablePaymentMethods } = this.state;
 
-    if ((currentValues && currentValues.type && currentValues.type !== paymentTypes.WITHDRAW)
+    if ((currentValues && currentValues.type && currentValues.type !== paymentTypes.Withdraw)
       || !availablePaymentMethods.length
     ) {
       return null;
@@ -271,7 +271,7 @@ export default connect(state => ({
   reduxForm({
     form: FORM_NAME,
     initialValues: {
-      type: paymentTypes.DEPOSIT,
+      type: paymentTypes.Deposit,
     },
     validate,
   })(PaymentAddModal)

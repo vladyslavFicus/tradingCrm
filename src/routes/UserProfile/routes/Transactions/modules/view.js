@@ -6,7 +6,7 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../constants/note';
-import { manualTypes as paymentManualTypes } from '../../../../../constants/payment';
+import { types as paymentTypes } from '../../../../../constants/payment';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
@@ -146,11 +146,11 @@ function confiscate(playerUUID, params) {
 
 function addPayment(playerUUID, { type, ...data }) {
   return (dispatch) => {
-    if (type === paymentManualTypes.DEPOSIT) {
+    if (type === paymentTypes.Deposit) {
       return dispatch(manualDeposit(playerUUID, data));
-    } else if (type === paymentManualTypes.WITHDRAW) {
+    } else if (type === paymentTypes.Withdraw) {
       return dispatch(manualWithdraw(playerUUID, data));
-    } else if (type === paymentManualTypes.CONFISCATE) {
+    } else if (type === paymentTypes.Confiscate) {
       return dispatch(confiscate(playerUUID, data));
     }
 

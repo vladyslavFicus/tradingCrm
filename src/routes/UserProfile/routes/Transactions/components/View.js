@@ -11,7 +11,6 @@ import {
   typesProps,
   statusesColor,
   statuses as paymentsStatuses,
-  manualTypes as paymentManualTypes,
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
 import StatusHistory from '../../../../../components/TransactionStatusHistory';
@@ -132,7 +131,7 @@ class View extends Component {
         currency: currencyCode,
       };
 
-      if (inputParams.type !== paymentManualTypes.WITHDRAW) {
+      if (inputParams.type !== paymentTypes.Withdraw) {
         delete params.paymentMethod;
       }
 
