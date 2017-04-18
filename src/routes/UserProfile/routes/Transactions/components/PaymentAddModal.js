@@ -13,6 +13,7 @@ import {
 } from '../../../../../constants/payment';
 import { targetTypes } from '../../../../../constants/note';
 import PropTypes from '../../../../../constants/propTypes';
+import Currency from '../../../../../components/Amount/Currency';
 
 const FORM_NAME = 'createPaymentForm';
 
@@ -212,6 +213,7 @@ class PaymentAddModal extends Component {
                   label={attributeLabels.amount}
                   type="text"
                   placeholder="0.00"
+                  inputAddon={<Currency code={currencyCode} />}
                   currencyCode={currencyCode}
                   showErrorMessage={false}
                   position="vertical"

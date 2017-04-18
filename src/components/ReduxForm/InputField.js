@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import Currency from '../../components/Amount/Currency';
 
 class InputField extends Component {
   static propTypes = {
@@ -12,7 +11,7 @@ class InputField extends Component {
     labelClassName: PropTypes.string,
     inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
-    currencyCode: PropTypes.string,
+    inputAddon: PropTypes.element,
     type: PropTypes.string.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
@@ -30,7 +29,7 @@ class InputField extends Component {
     showErrorMessage: true,
     disabled: false,
     placeholder: null,
-    currencyCode: null,
+    inputAddon: null,
   };
 
   renderHorizontal = (props) => {
@@ -44,7 +43,7 @@ class InputField extends Component {
       disabled,
       meta: { touched, error },
       showErrorMessage,
-      currencyCode,
+      inputAddon,
     } = props;
 
     return (
@@ -55,9 +54,9 @@ class InputField extends Component {
         <div className="col-md-9">
           <div className="input-group">
             {
-              currencyCode &&
+              inputAddon &&
               <div className="input-group-addon">
-                <Currency code={currencyCode} />
+                {inputAddon}
               </div>
             }
             <input
@@ -90,7 +89,7 @@ class InputField extends Component {
       disabled,
       meta: { touched, error },
       showErrorMessage,
-      currencyCode,
+      inputAddon,
     } = props;
 
     return (
@@ -98,9 +97,9 @@ class InputField extends Component {
         <label className={labelClassName}>{label}</label>
         <div className="input-group">
           {
-            currencyCode &&
+            inputAddon &&
             <div className="input-group-addon">
-              <Currency code={currencyCode} />
+              {inputAddon}
             </div>
           }
           <input
