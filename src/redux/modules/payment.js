@@ -5,13 +5,13 @@ const KEY = 'payment';
 const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
 const FETCH_PAYMENT_TRANSACTIONS = createRequestAction(`${KEY}/fetch-payment-transactions`);
 
-function changePaymentStatus({ status, paymentId, options = {} }) {
+function changePaymentStatus({ status, playerUUID, paymentId, options = {} }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/${status}/${paymentId}`,
+        endpoint: `payment/payments/${playerUUID}/${paymentId}/${status}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -26,13 +26,13 @@ function changePaymentStatus({ status, paymentId, options = {} }) {
   };
 }
 
-function fetchPaymentStatuses(id) {
+function fetchPaymentStatuses(playerUUID, id) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/${id}/statuses`,
+        endpoint: `payment/payments/${playerUUID}/${id}/statuses`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

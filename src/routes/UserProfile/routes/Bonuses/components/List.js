@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import GridView, { GridColumn } from 'components/GridView';
+import moment from 'moment';
+import classNames from 'classnames';
+import { shortify } from '../../../../../utils/uuid';
+import Amount from '../../../../../components/Amount';
+import GridView, { GridColumn } from '../../../../../components/GridView';
 import BonusGridFilter from './BonusGridFilter';
 import ViewModal from './ViewModal';
-import moment from 'moment';
-import Amount from 'components/Amount';
-import { shortify } from 'utils/uuid';
-import classNames from 'classnames';
-import BonusType from "./BonusType";
-import BonusStatus from "./BonusStatus";
-import { statuses } from 'constants/bonus';
-import { targetTypes } from 'constants/note';
-import NoteButton from "components/NoteButton";
+import BonusType from './BonusType';
+import BonusStatus from './BonusStatus';
+import { statuses } from '../../../../../constants/bonus';
+import { targetTypes } from '../../../../../constants/note';
+import PopoverButton from '../../../../../components/PopoverButton';
 
 const modalInitialState = { name: null, params: {} };
 const VIEW_MODAL = 'view-modal';
@@ -147,16 +147,16 @@ class List extends Component {
 
   renderAvailablePeriod = (data) => {
     return data.createdDate ? <div>
-        <div className="font-weight-600">
-          {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
+      <div className="font-weight-600">
+        {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
+      </div>
+      {
+        !!data.expirationDate &&
+        <div className="font-size-10">
+          {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
         </div>
-        {
-          !!data.expirationDate &&
-          <div className="font-size-10">
-            {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
-          </div>
-        }
-      </div> : <span>&mdash</span>;
+      }
+    </div> : <span>&mdash</span>;
   };
 
   renderGrantedAmount = (data) => {
@@ -189,7 +189,7 @@ class List extends Component {
   renderActions = (data) => {
     return (
       <div>
-        <NoteButton
+        <PopoverButton
           id={`bonus-item-note-button-${data.bonusUUID}`}
           className="cursor-pointer"
           onClick={id => this.handleNoteClick(id, data)}
@@ -200,7 +200,7 @@ class List extends Component {
               'fa-sticky-note-o': !data.note,
             })}
           />
-        </NoteButton>
+        </PopoverButton>
       </div>
     );
   };

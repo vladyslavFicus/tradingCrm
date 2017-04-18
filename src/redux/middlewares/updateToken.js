@@ -5,30 +5,27 @@ import {
 } from '../../redux/modules/auth';
 import timestamp from '../../utils/timestamp';
 
+const state = {
+  pending: false,
+};
 export default function ({ expireThreshold = 60 }) {
-  let refreshing = false;
-
-  return store => next => (action) => {
-    if (!refreshing) {
+  return store => next => async (action) => {
+    if (!state.pending) {
       const { auth: { logged, token } } = store.getState();
 
       if (logged && token) {
         const tokenData = jwtDecode(token);
 
         if ((tokenData.exp - timestamp()) <= expireThreshold && isValidRSAA(action)) {
-          console.info('[Token]: Start refreshing...');
-          refreshing = true;
+          console.info('[Token]: Start refreshing...', tokenData.exp - timestamp(), expireThreshold);
+          state.pending = true;
 
-          return next(action)
-            .then(responseAction => store
-              .dispatch(authActionCreators.refreshToken())
-              .then(() => {
-                console.info('[Token]: Stop refreshing...');
-                refreshing = false;
+          const responseAction = await next(action);
+          await store.dispatch(authActionCreators.refreshToken());
+          console.info('[Token]: Stop refreshing...');
+          state.pending = false;
 
-                return responseAction;
-              })
-            );
+          return responseAction;
         }
       }
     }

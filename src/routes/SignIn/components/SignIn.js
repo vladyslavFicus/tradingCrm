@@ -6,6 +6,14 @@ import SignInForm from './SignInForm';
 
 class SignIn extends Component {
   static propTypes = {
+    router: PropTypes.shape({
+      replace: PropTypes.func.isRequired,
+    }).isRequired,
+    location: PropTypes.shape({
+      query: PropTypes.shape({
+        returnUrl: PropTypes.string,
+      }),
+    }).isRequired,
     signIn: PropTypes.func.isRequired,
     departments: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -21,18 +29,26 @@ class SignIn extends Component {
     document.body.classList.remove('full-height');
   }
 
-  handleSubmit = data => this.props.signIn(data)
-    .then((action) => {
-      if (action) {
-        if (action.type === authActionTypes.SIGN_IN.SUCCESS) {
-          this.props.router.replace('/');
-        } else if (action.error) {
-          const _error = action.payload.response.error ?
-            action.payload.response.error : action.payload.message;
-          throw new SubmissionError({ _error });
+  handleSubmit = async (data) => {
+    const { location, router, signIn } = this.props;
+    const action = await signIn(data);
+
+    if (action) {
+      if (action.type === authActionTypes.SIGN_IN.SUCCESS) {
+        let nextUrl = '/';
+
+        if (location.query && location.query.returnUrl && !/sign\-in/.test(location.query.returnUrl)) {
+          nextUrl = location.query.returnUrl;
         }
+
+        router.replace(nextUrl);
+      } else if (action.error) {
+        const error = action.payload.response.error ?
+          action.payload.response.error : action.payload.message;
+        throw new SubmissionError({ _error: error });
       }
-    });
+    }
+  };
 
   render() {
     const { departments } = this.props;
@@ -71,5 +87,5 @@ class SignIn extends Component {
   }
 }
 
-export default withRouter(SignIn);
+export default SignIn;
 

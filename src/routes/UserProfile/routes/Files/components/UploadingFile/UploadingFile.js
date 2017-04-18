@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import fileSize from 'filesize';
 import { Field } from 'redux-form';
-import NoteButton from '../../../../../../components/NoteButton';
+import PopoverButton from '../../../../../../components/PopoverButton';
 import { targetTypes } from '../../../../../../constants/note';
 import { categoriesLabels } from '../../../../../../constants/files';
 import PropTypes from '../../../../../../constants/propTypes';
@@ -120,7 +120,7 @@ class UploadingFile extends Component {
           {this.renderStatus(data)}
         </td>
         <td className={`${blockName}__row-note`}>
-          <NoteButton
+          <PopoverButton
             id={`uploading-file-item-note-button-${data.fileId}`}
             className="cursor-pointer margin-right-5"
             onClick={id => this.handleNoteClick(id, data)}
@@ -129,7 +129,7 @@ class UploadingFile extends Component {
               ? <i className="fa fa-sticky-note" />
               : <i className="fa fa-sticky-note-o" />
             }
-          </NoteButton>
+          </PopoverButton>
         </td>
       </tr>
     );

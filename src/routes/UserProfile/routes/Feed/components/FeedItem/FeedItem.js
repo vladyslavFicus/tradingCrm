@@ -5,6 +5,7 @@ import PropTypes from '../../../../../../constants/propTypes';
 import { shortify } from '../../../../../../utils/uuid';
 import { types, typesLabels, typesClassNames } from '../../../../../../constants/audit';
 import './FeedItem.scss';
+import FeedInfoKyc from './FeedInfoKyc';
 import FeedInfoLogin from './FeedInfoLogin';
 import FeedInfoLogout from './FeedInfoLogout';
 import FeedInfoProfileChanged from './FeedInfoProfileChanged';
@@ -30,6 +31,12 @@ class FeedItem extends Component {
         return <FeedInfoLogin data={data} />;
       case types.PLAYER_LOG_OUT:
         return <FeedInfoLogout data={data} />;
+      case types.KYC_ADDRESS_REFUSED:
+      case types.KYC_ADDRESS_VERIFIED:
+      case types.KYC_PERSONAL_REFUSED:
+      case types.KYC_PERSONAL_VERIFIED:
+        return <FeedInfoKyc data={data} />;
+      case types.PLAYER_PROFILE_VERIFIED_EMAIL:
       case types.PLAYER_PROFILE_CHANGED:
         return <FeedInfoProfileChanged data={data} />;
       case types.PLAYER_PROFILE_REGISTERED:
@@ -48,36 +55,34 @@ class FeedItem extends Component {
     } = this.props;
 
     return (
-      <div className="row feed-item">
-        <div className="col-xs-1">
-          <div className={`letter letter-${color}`}>
+      <div className="feed-item">
+        <div className="feed-item_avatar">
+          <div className={`feed-item_avatar-letter feed-item_avatar-letter_${color}`}>
             {letter}
           </div>
         </div>
-        <div className="col-xs-11 padding-left-0 line-height-1">
-          <div>
-            <span className={classNames('status', typesClassNames[data.type])}>
-              {
-                data.type && typesLabels[data.type]
-                  ? typesLabels[data.type]
-                  : data.type
-              }
-            </span>
+        <div className="feed-item_info">
+          <div className={classNames('feed-item_info-status', typesClassNames[data.type])}>
+            {
+              data.type && typesLabels[data.type]
+                ? typesLabels[data.type]
+                : data.type
+            }
+            <span className="pull-right">{shortify(data.uuid)}</span>
           </div>
-          <div className="first-row">
+          <div className="feed-item_info-name">
             <span className={classNames('audit-name', color)}>
               {data.authorFullName}
             </span> - {shortify(data.authorUuid, data.authorUuid === data.targetUuid ? 'PL' : null)}
-            <span className="pull-right">{shortify(data.uuid)}</span>
           </div>
-          <div className="date-time-ip padding-bottom-5">
+          <div className="feed-item_info-date">
             {data.creationDate ? moment(data.creationDate).format('YYYY-MM-DD HH:mm:ss') : null}
             {
               [types.PLAYER_LOG_IN, types.PLAYER_LOG_OUT].indexOf(data.type) === -1 && data.ip
                 ? ` from ${data.ip}`
                 : null
             }
-            <button className="btn-transparent hide" onClick={this.handleToggleClick}>
+            <button className="feed-item_info-date_btn-hide btn-transparent" onClick={this.handleToggleClick}>
               {
                 opened
                   ? <span>Hide details<i className="fa fa-caret-up" /></span>
@@ -93,3 +98,4 @@ class FeedItem extends Component {
 }
 
 export default FeedItem;
+

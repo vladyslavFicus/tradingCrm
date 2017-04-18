@@ -204,7 +204,6 @@ PropTypes.userPanelItem = PropTypes.shape({
   fullName: PropTypes.string.isRequired,
   login: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
 });
 PropTypes.navbarNavItem = PropTypes.shape({
   label: PropTypes.any.isRequired,
@@ -221,6 +220,64 @@ PropTypes.auditEntity = PropTypes.shape({
   targetUuid: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
+});
+PropTypes.paymentEntityStatus = PropTypes.shape({
+  creationTime: PropTypes.string.isRequired,
+  initiatorId: PropTypes.string.isRequired,
+  initiatorType: PropTypes.string.isRequired,
+  paymentStatus: PropTypes.string.isRequired,
+  reason: PropTypes.any,
+  reference: PropTypes.string.isRequired,
+});
+PropTypes.paymentEntity = PropTypes.shape({
+  amount: PropTypes.price.isRequired,
+  amountBarrierReached: PropTypes.bool.isRequired,
+  baseCurrencyAmount: PropTypes.price,
+  clientIp: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
+  creationTime: PropTypes.string.isRequired,
+  creatorType: PropTypes.string.isRequired,
+  creatorUUID: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
+  fraud: PropTypes.bool.isRequired,
+  mobile: PropTypes.bool.isRequired,
+  needApprove: PropTypes.bool.isRequired,
+  paymentAccount: PropTypes.string,
+  paymentFlowStatuses: PropTypes.arrayOf(PropTypes.paymentEntityStatus).isRequired,
+  paymentId: PropTypes.string.isRequired,
+  paymentMethod: PropTypes.string.isRequired,
+  paymentSystemRefs: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  paymentType: PropTypes.string.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  reason: PropTypes.any,
+  status: PropTypes.string.isRequired,
+  success: PropTypes.bool,
+  updateTime: PropTypes.string,
+  userAgent: PropTypes.string.isRequired,
+});
+PropTypes.userPaymentAccountEntity = PropTypes.shape({
+  creationDate: PropTypes.string.isRequired,
+  details: PropTypes.string.isRequired,
+  lastActivityDate: PropTypes.string.isRequired,
+  lastPayment: PropTypes.paymentEntity.isRequired,
+  paymentMethod: PropTypes.string.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+});
+PropTypes.paymentMethodLimit = PropTypes.shape({
+  currencyCode: PropTypes.string,
+  disabled: PropTypes.bool.isRequired,
+  max: PropTypes.number,
+  min: PropTypes.number,
+  uuid: PropTypes.string.isRequired,
+});
+PropTypes.paymentMethod = PropTypes.shape({
+  depositLimit: PropTypes.paymentMethodLimit.isRequired,
+  methodName: PropTypes.string.isRequired,
+  order: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+  withdrawLimit: PropTypes.paymentMethodLimit.isRequired,
 });
 
 export default PropTypes;

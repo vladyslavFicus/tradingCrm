@@ -5,6 +5,7 @@ import FilesRoute from './routes/Files';
 import UserPaymentsRoute from './routes/Transactions';
 import UserBonusesRoute from './routes/Bonuses';
 import LimitsRoute from './routes/Limits';
+import PaymentAccountsRoute from './routes/PaymentAccounts';
 import NotesRoute from './routes/Notes';
 import { injectReducer } from '../../store/reducers';
 
@@ -25,6 +26,7 @@ export default store => ({
     FilesRoute(store),
     UserPaymentsRoute(store),
     UserBonusesRoute(store),
+    PaymentAccountsRoute(store),
     LimitsRoute(store),
     NotesRoute(store),
   ],

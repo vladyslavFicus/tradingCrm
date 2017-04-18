@@ -18,7 +18,7 @@ const sidebarTopMenu = [
     url: '/payments',
     items: [
       { label: 'Transactions', url: '/payments' },
-      { label: 'Payment methods', url: '/payment-methods' },
+      { label: 'Payment methods', url: '/paymentMethods' },
     ],
   },
   {
@@ -31,10 +31,28 @@ const sidebarTopMenu = [
     icon: 'fa fa-pie-chart',
     url: '/reports/player-liability',
     items: [
-      { label: 'Player liability report', url: '/reports/player-liability' },
-      { label: 'Revenue report', url: '/reports/revenue' },
-      { label: 'Dormant players', url: '/users/dormant' },
-      { label: 'Open loops', url: '/payments/open-loops' },
+      {
+        label: 'Player liability report',
+        url: '/reports/player-liability',
+        permissions: new Permissions([
+          permission.REPORTS.PLAYER_LIABILITY_VIEW,
+          permission.REPORTS.PLAYER_LIABILITY_FILE_VIEW,
+          permission.REPORTS.PLAYER_LIABILITY_FILES_VIEW,
+        ], CONDITIONS.OR),
+      },
+      {
+        label: 'Revenue report',
+        url: '/reports/revenue',
+        permissions: new Permissions([permission.REPORTS.VAT_VIEW]),
+      },
+      {
+        label: 'Dormant players',
+        url: '/users/dormant'
+      },
+      {
+        label: 'Open loops',
+        url: '/payments/open-loops'
+      },
     ],
   },
   {
@@ -75,6 +93,7 @@ const userProfileTabs = [
   { label: 'Bonuses', url: '/users/:id/bonuses' },
   { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Transactions', url: '/users/:id/transactions' },
+  { label: 'Payments', url: '/users/:id/paymentAccounts' },
   { label: 'Limits', url: '/users/:id/limits' },
   { label: 'Files', url: '/users/:id/files' },
   { label: 'Notes', url: '/users/:id/notes' },

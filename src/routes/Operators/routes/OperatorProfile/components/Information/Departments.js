@@ -16,18 +16,18 @@ class Departments extends Component {
 
     return (
       <div className="player__account__details_additional">
-        <span className="player__account__details_additional-label">Additional information</span>
-        <div className="panel panel-with-borders">
-          <div className="panel-body padding-5 height-200">
+        <span className="player__account__details-label">Additional information</span>
+        <div className="panel">
+          <div className="panel-body height-200">
             <small className="player__account__details_additional-label">
               DEPARTMENTS
             </small>
             {
               !!authorities.length &&
-              <div className="row padding-15">
+              <div className="row player__account__details_additional-departments">
                 {
                   authorities.map(authority =>
-                    <span key={authority.id} className="label label-black margin-inline">
+                    <span key={authority.id} className="label label-black">
                       <div className="label-department">
                         { renderLabel(authority.department, departmentsLabels) }
                       </div>
