@@ -11,6 +11,7 @@ import { shortify } from '../../../utils/uuid';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
 import WalletLimits from './WalletLimits';
+import ProfileLastLogin from '../../../components/ProfileLastLogin';
 
 class Header extends Component {
   static propTypes = {
@@ -94,17 +95,6 @@ class Header extends Component {
     }
   };
 
-  renderLastLogin = () => {
-    const { lastIp } = this.props;
-    return !lastIp
-      ? <div className="header-block-middle">Unavailable</div>
-      : [
-        <div className="header-block-middle" key="time-ago">{lastIp.signInDate && moment(lastIp.signInDate).fromNow()}</div>,
-        <div className="header-block-small" key="time">{lastIp.signInDate && moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}</div>,
-        <div className="header-block-small" key="country">{lastIp.country && ` from ${lastIp.country}`}</div>,
-      ];
-  };
-
   render() {
     const {
       data: {
@@ -130,6 +120,7 @@ class Header extends Component {
       onProfileActivateClick,
       onWalletLimitChange,
       walletLimits,
+      lastIp,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const selectedTags = profileTags
@@ -224,18 +215,15 @@ class Header extends Component {
               onChange={onWalletLimitChange}
             />
           </div>
-          <div className="header-block">
-            <div className="header-block-title">Last login</div>
-            {this.renderLastLogin()}
-          </div>
+          <ProfileLastLogin lastIp={lastIp} />
           <div className="header-block">
             <span className="header-block-title">Registered</span>
             <div className="header-block-text">
-              { moment(registrationDate).fromNow() }
+              {moment(registrationDate).fromNow()}
             </div>
-            <small>
-              on { moment(registrationDate).format('DD.MM.YYYY') } <br />
-            </small>
+            <div className="font-size-12">
+              on {moment(registrationDate).format('DD.MM.YYYY')}
+            </div>
           </div>
         </div>
       </div>

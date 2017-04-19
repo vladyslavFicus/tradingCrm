@@ -16,11 +16,11 @@ const validator = (data) => {
   };
 
   if (data.reasons) {
-    rules.reason = `required|string|in:${data.reasons.join(',')}`;
+    rules.reason = `required|string|in:${data.reasons.join()}`;
   }
 
   if (data.action === actions.SUSPEND) {
-    rules.period = `required|in:${Object.keys(suspendPeriods).join(',')}`;
+    rules.period = `required|in:${Object.keys(suspendPeriods).join()}`;
   }
 
   return createValidator(rules, attributeLabels, false)(data);
@@ -37,6 +37,41 @@ class PlayerStatusModal extends Component {
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
   };
+
+  renderReasonsSelect = reasons => (
+    <div className="form-group">
+      <Field
+        name="reason"
+        label={attributeLabels.reason}
+        component={SelectField}
+        className={'form-control'}
+      >
+        <option value="">-- Select reason --</option>
+        {reasons.map(item => (
+          <option key={item} value={item}>
+            {item}
+          </option>
+        ))}
+      </Field>
+    </div>
+  );
+
+  renderPeriodSelect = () => (
+    <div className="form-group">
+      <Field
+        name="period"
+        label={attributeLabels.period}
+        component={SelectField}
+        className={'form-control'}
+      >
+        <option value="">-- Select period --</option>
+        <option value={suspendPeriods.DAY}>Day</option>
+        <option value={suspendPeriods.WEEK}>Week</option>
+        <option value={suspendPeriods.MONTH}>Month</option>
+        <option value={suspendPeriods.PERMANENT}>Permanent</option>
+      </Field>
+    </div>
+  );
 
   render() {
     const {
@@ -89,41 +124,6 @@ class PlayerStatusModal extends Component {
       </Modal>
     );
   }
-
-  renderReasonsSelect = reasons => (
-    <div className="form-group">
-      <Field
-        name="reason"
-        label={attributeLabels.reason}
-        component={SelectField}
-        className={'form-control'}
-      >
-        <option value="">-- Select reason --</option>
-        {reasons.map(item => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </Field>
-    </div>
-  );
-
-  renderPeriodSelect = () => (
-    <div className="form-group">
-      <Field
-        name="period"
-        label={attributeLabels.period}
-        component={SelectField}
-        className={'form-control'}
-      >
-        <option value="">-- Select period --</option>
-        <option value={suspendPeriods.DAY}>Day</option>
-        <option value={suspendPeriods.WEEK}>Week</option>
-        <option value={suspendPeriods.MONTH}>Month</option>
-        <option value={suspendPeriods.PERMANENT}>Permanent</option>
-      </Field>
-    </div>
-  );
 }
 
 export default reduxForm({

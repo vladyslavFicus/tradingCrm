@@ -36,13 +36,13 @@ const attributeLabels = {
 
 const validator = createValidator({
   keyword: 'string',
-  country: `in:,${Object.keys(countries).join(',')}`,
-  currency: `in:,${currencies.join(',')}`,
+  country: `in:,${Object.keys(countries).join()}`,
+  currency: `in:,${currencies.join()}`,
   ageFrom: 'integer',
   ageTo: 'integer',
   affiliateId: 'string',
   status: 'string',
-  tags: `in:,${Object.keys(tags).join(',')}`,
+  tags: `in:,${Object.keys(tags).join()}`,
   segments: 'string',
   registrationDateFrom: 'string',
   registrationDateTo: 'string',
