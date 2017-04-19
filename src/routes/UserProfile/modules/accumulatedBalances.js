@@ -4,7 +4,7 @@ import timestamp from '../../../utils/timestamp';
 import createRequestAction from '../../../utils/createRequestAction';
 import config from '../../../config/index';
 import { actionTypes as bonusActionTypes } from './bonus';
-import { actionTypes as viewActionTypes, mapBalances } from './view';
+import { actionTypes as profileActionTypes, mapBalances } from './profile';
 
 const KEY = 'user/balances';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -82,7 +82,7 @@ const actionHandlers = {
     return newState;
   },
 
-  [viewActionTypes.FETCH_BALANCES.SUCCESS]: (state, action) => {
+  [profileActionTypes.FETCH_BALANCES.SUCCESS]: (state, action) => {
     if (!action.payload.balances) {
       return state;
     }

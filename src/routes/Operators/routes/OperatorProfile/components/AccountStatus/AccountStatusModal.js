@@ -8,15 +8,20 @@ import { reasons as operatorChangeStatusReasons } from '../../../../../../consta
 const attributeLabels = {
   reason: 'Reason',
 };
-const validator = (data) => {
-  return createValidator({
-    reason: `required|string|in:${operatorChangeStatusReasons.join(',')}`,
-  }, attributeLabels, false)(data);
-};
+const validator = createValidator({
+  reason: `required|string|in:${operatorChangeStatusReasons.join()}`,
+}, attributeLabels, false);
 
 class AccountStatusModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool,
+    show: PropTypes.bool,
+    action: PropTypes.string,
+    reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
+    title: PropTypes.string,
+    onHide: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
   };
 
   render() {
@@ -28,7 +33,7 @@ class AccountStatusModal extends Component {
       onHide,
       onSubmit,
       handleSubmit,
-      ...rest,
+      ...rest
     } = this.props;
 
     return (

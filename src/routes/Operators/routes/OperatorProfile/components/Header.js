@@ -6,6 +6,7 @@ import { statusColorNames, statuses } from '../../../../../constants/operators';
 import AccountStatus from './AccountStatus';
 import PropTypes from '../../../../../constants/propTypes';
 import PermissionContent from '../../../../../components/PermissionContent';
+import ProfileLastLogin from '../../../../../components/ProfileLastLogin';
 import Permissions from '../../../../../utils/permissions';
 import permission from '../../../../../config/permissions';
 import './Header.scss';
@@ -33,32 +34,6 @@ class Header extends Component {
     onStatusChange({ ...data, uuid: profileData.uuid });
   };
 
-  renderLastLogin = () => {
-    const { lastIp } = this.props;
-    return !lastIp
-      ? 'Unavailable'
-      : [
-        <div
-          key="time-ago"
-          className="header-block-middle"
-        >
-          {lastIp.signInDate && moment(lastIp.signInDate).fromNow()}
-        </div>,
-        <div
-          key="time"
-          className="header-block-small"
-        >
-          {lastIp.signInDate && ` on ${moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}`}
-        </div>,
-        <div
-          key="country"
-          className="header-block-small"
-        >
-          {lastIp.country && ` from ${lastIp.country}`}
-        </div>,
-      ];
-  };
-
   render() {
     const {
       data: {
@@ -71,6 +46,7 @@ class Header extends Component {
         statusChangeDate,
         statusChangeAuthor,
       },
+      lastIp,
       availableStatuses,
       onResetPasswordClick,
       onSendInvitationClick,
@@ -159,10 +135,7 @@ class Header extends Component {
               </div>
             }
           </div>
-          <div className="header-block width-33">
-            <div className="header-block-title">Last Login</div>
-            {this.renderLastLogin()}
-          </div>
+          <ProfileLastLogin className="header-block width-33" lastIp={lastIp} />
         </div>
       </div>
     );
