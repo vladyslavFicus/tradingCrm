@@ -91,11 +91,13 @@ class Navbar extends Component {
           }
         </div>
 
-        <LocaleSwitcher
-          languages={languages}
-          currentLocale={locale}
-          changeLocale={onLocaleChange}
-        />
+        <div className="margin-right-20">
+          <LocaleSwitcher
+            languages={languages}
+            currentLocale={locale}
+            changeLocale={onLocaleChange}
+          />
+        </div>
 
         <div className="right-navigation">
           <NavbarNav

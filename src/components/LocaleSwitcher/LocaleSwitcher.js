@@ -4,7 +4,7 @@ import PropTypes from '../../constants/propTypes';
 
 class LocaleSwitcher extends Component {
   static propTypes = {
-    languages: PropTypes.dropDownOption.isRequired,
+    languages: PropTypes.arrayOf(PropTypes.dropDownOption).isRequired,
     currentLocale: PropTypes.string.isRequired,
     changeLocale: PropTypes.func.isRequired,
   };
@@ -23,17 +23,16 @@ class LocaleSwitcher extends Component {
     const { languages } = this.props;
 
     return (
-      <div>
-        <ButtonGroup>
-          {languages.map(language => (
-            <Button
-              color=""
-              onClick={() => this.handleChoose(language.value)}
-              active={value === language.value}
-            >{language.label}</Button>
-          ))}
-        </ButtonGroup>
-      </div>
+      <ButtonGroup>
+        {languages.map(language => (
+          <Button
+            key={language.value}
+            color=""
+            onClick={() => this.handleChoose(language.value)}
+            active={value === language.value}
+          >{language.label}</Button>
+        ))}
+      </ButtonGroup>
     );
   }
 }
