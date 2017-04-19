@@ -106,8 +106,8 @@ class List extends Component {
 
   renderStatus = data => (
     <div>
-      <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
-        {userStatusesLabels[data.profileStatus] || data.profileStatus}
+      <div className={classNames(userStatusColorNames[data.status], 'text-uppercase font-weight-700')}>
+        {userStatusesLabels[data.status] || data.status}
       </div>
       <div className="font-size-11 color-default">
         Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}

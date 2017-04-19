@@ -12,11 +12,11 @@ import notes, {
   initialState as notesInitialState,
 } from './notes';
 
-import view, {
-  actionCreators as viewActionCreators,
-  actionTypes as viewActionTypes,
-  initialState as viewInitialState,
-} from './view';
+import profile, {
+  actionCreators as profileActionCreators,
+  actionTypes as profileActionTypes,
+  initialState as profileInitialState,
+} from './profile';
 
 import ip, {
   actionCreators as ipActionCreators,
@@ -30,26 +30,35 @@ import accumulatedBalances, {
   initialState as accumulatedBalancesInitialState,
 } from './accumulatedBalances';
 
+import walletLimits, {
+  actionCreators as walletLimitsActionCreators,
+  actionTypes as walletLimitsActionTypes,
+  initialState as walletLimitsInitialState,
+} from './wallet-limits';
+
 const actionCreators = {
   ...bonusActionCreators,
-  ...viewActionCreators,
+  ...profileActionCreators,
   ...ipActionCreators,
   ...accumulatedBalancesActionCreators,
   ...notesActionCreators,
+  ...walletLimitsActionCreators,
 };
 const actionTypes = {
   ...bonusActionTypes,
-  ...viewActionTypes,
+  ...profileActionTypes,
   ...ipActionTypes,
   ...accumulatedBalancesActionTypes,
   ...notesActionTypes,
+  ...walletLimitsActionTypes,
 };
 const initialState = {
   bonus: bonusInitialState,
-  view: viewInitialState,
+  view: profileInitialState,
   ip: ipInitialState,
   accumulatedBalances: accumulatedBalancesInitialState,
   notes: notesInitialState,
+  walletLimits: walletLimitsInitialState,
 };
 
 export {
@@ -59,8 +68,9 @@ export {
 };
 export default combineReducers({
   bonus,
-  view,
+  profile,
   ip,
   accumulatedBalances,
   notes,
+  walletLimits,
 });

@@ -1,12 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from '../../utils/createRequestAction';
 
-const KEY = 'payment';
-const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
-const FETCH_PAYMENT_TRANSACTIONS = createRequestAction(`${KEY}/fetch-payment-transactions`);
-
-function changePaymentStatus({ status, playerUUID, paymentId, options = {} }) {
-  return (dispatch, getState) => {
+function changePaymentStatus(type) {
+  return ({ status, playerUUID, paymentId, options = {} }) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
@@ -19,15 +14,19 @@ function changePaymentStatus({ status, playerUUID, paymentId, options = {} }) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(options),
-        types: [CHANGE_PAYMENT_STATUS.REQUEST, CHANGE_PAYMENT_STATUS.SUCCESS, CHANGE_PAYMENT_STATUS.FAILURE],
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE
+        ],
         bailout: !logged,
       },
     });
   };
 }
 
-function fetchPaymentStatuses(playerUUID, id) {
-  return (dispatch, getState) => {
+function fetchPaymentStatuses(type) {
+  return (playerUUID, id) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
@@ -41,11 +40,11 @@ function fetchPaymentStatuses(playerUUID, id) {
         },
         types: [
           {
-            type: FETCH_PAYMENT_TRANSACTIONS.REQUEST,
+            type: type.REQUEST,
             meta: { id },
           },
-          FETCH_PAYMENT_TRANSACTIONS.SUCCESS,
-          FETCH_PAYMENT_TRANSACTIONS.FAILURE,
+          type.SUCCESS,
+          type.FAILURE,
         ],
         bailout: !logged,
       },
@@ -53,15 +52,36 @@ function fetchPaymentStatuses(playerUUID, id) {
   };
 }
 
-const actionTypes = {
-  CHANGE_PAYMENT_STATUS,
-};
-const actionCreators = {
+function fetchPaymentAccounts(type) {
+  return playerUUID => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `payment/accounts/${playerUUID}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+const sourceActionCreators = {
   changePaymentStatus,
   fetchPaymentStatuses,
+  fetchPaymentAccounts,
 };
 
 export {
-  actionTypes,
-  actionCreators,
+  sourceActionCreators,
 };

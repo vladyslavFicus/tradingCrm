@@ -1,8 +1,8 @@
-import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
+import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../constants/note';
 
 const KEY = 'user-payment-accounts';
@@ -21,27 +21,11 @@ const mapNotesToPaymentAccounts = (paymentAccounts, notes) => {
   }));
 };
 
-function fetchEntities(playerUUID, fetchNotes = fetchNotesFn) {
-  return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+const fetchPaymentAccountsFn = paymentSourceActionCreators.fetchPaymentAccounts(FETCH_ENTITIES);
 
-    const action = await dispatch({
-      [CALL_API]: {
-        endpoint: `payment/accounts/${playerUUID}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          FETCH_ENTITIES.REQUEST,
-          FETCH_ENTITIES.SUCCESS,
-          FETCH_ENTITIES.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
+function fetchEntities(playerUUID, fetchNotes = fetchNotesFn, fetchPaymentAccounts = fetchPaymentAccountsFn) {
+  return async (dispatch) => {
+    const action = await dispatch(fetchPaymentAccounts(playerUUID));
 
     if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.length) {
       await dispatch(fetchNotes(targetTypes.PAYMENT_ACCOUNT, action.payload.map(item => item.uuid)));

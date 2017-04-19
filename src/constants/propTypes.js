@@ -279,5 +279,14 @@ PropTypes.paymentMethod = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   withdrawLimit: PropTypes.paymentMethodLimit.isRequired,
 });
+PropTypes.walletLimitEntity = PropTypes.shape({
+  author: PropTypes.string.isRequired,
+  authorUUID: PropTypes.any,
+  id: PropTypes.number.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  reason: PropTypes.string.isRequired,
+  startLock: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+});
 
 export default PropTypes;

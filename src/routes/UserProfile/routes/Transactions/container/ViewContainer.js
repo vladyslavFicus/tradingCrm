@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators as viewActionCreators } from '../modules/view';
-import { actionCreators as paymentActionCreators } from '../../../../../redux/modules/payment';
 import { getTransactionRejectReasons } from '../../../../../config/index';
 
 const mapStateToProps = ({
@@ -16,9 +15,13 @@ const mapStateToProps = ({
 });
 
 const mapActions = {
-  ...viewActionCreators,
-  onChangePaymentStatus: paymentActionCreators.changePaymentStatus,
-  loadPaymentStatuses: paymentActionCreators.fetchPaymentStatuses,
+  fetchEntities: viewActionCreators.fetchEntities,
+  onChangePaymentStatus: viewActionCreators.changePaymentStatus,
+  loadPaymentStatuses: viewActionCreators.fetchPaymentStatuses,
+  loadPaymentMethods: viewActionCreators.fetchPaymentAccounts,
+  addPayment: viewActionCreators.addPayment,
+  manageNote: viewActionCreators.manageNote,
+  resetNote: viewActionCreators.resetNote,
 };
 
 export default connect(mapStateToProps, mapActions)(View);
