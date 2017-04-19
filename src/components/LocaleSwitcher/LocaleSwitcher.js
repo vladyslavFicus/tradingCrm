@@ -16,7 +16,7 @@ class LocaleSwitcher extends Component {
     };
   }
 
-  handleChoose = value => this.setState({ value }, this.props.changeLocale(value));
+  handleChoose = value => this.setState({ value }, () => this.props.changeLocale(value));
 
   render() {
     const { value } = this.state;
