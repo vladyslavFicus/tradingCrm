@@ -1,16 +1,20 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import { i18nReducer } from 'react-redux-i18n';
 import location from '../redux/modules/location';
 import auth from '../redux/modules/auth';
 import permissions from '../redux/modules/permissions';
 import userPanels from '../redux/modules/user-panels';
+import language from '../redux/modules/language';
 
 export const makeRootReducer = asyncReducers => combineReducers({
   location,
   auth,
   permissions,
   userPanels,
+  language,
   form: formReducer,
+  i18n: i18nReducer,
   ...asyncReducers,
 });
 

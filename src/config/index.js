@@ -43,6 +43,10 @@ const config = {
     logstash: {
       url: '',
     },
+    locale: {
+      languages: [],
+    },
+    defaultLanguage: '',
   },
   middlewares: {},
   ...environmentConfig,
@@ -112,6 +116,10 @@ function getErrorApiUrl() {
   return config.nas.logstash.url || '';
 }
 
+function getAvailableLanguages() {
+  return config.nas.locale.languages || [];
+}
+
 function getDomain() {
   return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
 }
@@ -123,6 +131,7 @@ export {
   getAvailableTags,
   getTransactionRejectReasons,
   getLimitPeriods,
+  getAvailableLanguages,
 };
 
 export default config;

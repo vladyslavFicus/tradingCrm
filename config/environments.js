@@ -4,6 +4,11 @@
 
 const applicationConfig = {
   'api.entry': 'http://api.casino.app',
+  'nas.locale.defaultLanguage': 'en',
+  'nas.locale.languages[0].value': 'en',
+  'nas.locale.languages[0].label': 'ENG',
+  'nas.locale.languages[1].value': 'ru',
+  'nas.locale.languages[1].label': 'RUS',
   'components.Currency.currencies.EUR.symbol': '\u20ac',
   'components.Currency.currencies.EUR.symbolOnLeft': true,
   'components.Currency.currencies.GBP.symbol': '\u00a3',
@@ -21,6 +26,7 @@ const applicationConfig = {
   'middlewares.persist.keyPrefix': 'nas:',
   'middlewares.persist.whitelist[0]': 'auth',
   'middlewares.persist.whitelist[1]': 'userPanels',
+  'middlewares.persist.whitelist[2]': 'language',
   'middlewares.unauthorized[0]': 401,
   'middlewares.unauthorized[1]': 403,
   'nas.currencies.base': 'EUR',
