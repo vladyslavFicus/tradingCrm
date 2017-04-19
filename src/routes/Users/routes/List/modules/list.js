@@ -47,7 +47,7 @@ function exportEntities(filters = {}) {
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...action.meta.filters },
+    filters: action.meta.filters,
     isLoading: true,
     error: null,
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
@@ -58,10 +58,10 @@ const actionHandlers = {
       ...state.entities,
       ...action.payload,
       content: action.payload.number === 0
-        ? action.payload.content
+        ? action.payload.content.map(i => ({ ...i, age: moment().diff(i.birthDate, 'years') }))
         : [
           ...state.entities.content,
-          ...action.payload.content,
+          ...action.payload.content.map(i => ({ ...i, age: moment().diff(i.birthDate, 'years') })),
         ],
     },
     isLoading: false,

@@ -13,6 +13,12 @@ const KEY = 'operator/feed/feed';
 const FETCH_FEED = createRequestAction(`${KEY}/fetch-feed`);
 const EXPORT_FEED = createRequestAction(`${KEY}/export-feed`);
 
+const rangeAttributes = [
+  { name: 'age', start: 'ageFrom', end: 'ageTo' },
+  { name: 'balance', start: 'balanceFrom', end: 'balanceTo' },
+  { name: 'registrationDate', start: 'registrationDateFrom', end: 'registrationDateTo' },
+];
+
 const arrayedFilters = ['actionType'];
 const mapListArrayValues = (values, fields) => {
   const mapped = { ...values };
@@ -54,7 +60,7 @@ function fetchFeed(playerUUID, filters = { page: 0 }) {
   };
 }
 
-function exportFeed(playerUUID, filters = { page: 0 }) {
+function exportFeed(operatorUUID, filters = { page: 0 }) {
   return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -63,7 +69,7 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
     }
 
     const queryString = buildQueryString(_.omitBy(mapListArrayValues(filters, arrayedFilters), val => !val));
-    const requestUrl = `${getApiRoot()}/audit/audit/logs/${playerUUID}?${queryString}&sort=creationDate,desc`;
+    const requestUrl = `${getApiRoot()}/audit/audit/logs/${operatorUUID}?${queryString}&sort=creationDate,desc`;
     const response = await fetch(requestUrl, {
       method: 'GET',
       headers: {
@@ -74,16 +80,32 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
     });
 
     const blobData = await response.blob();
-    downloadBlob(`player-audit-log-${playerUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`operator-audit-log-${operatorUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
     return dispatch({ type: EXPORT_FEED.SUCCESS });
   };
 }
 
 const mapAuditEntities = entities => entities.map((entity) => {
-  return typeof entity.details === 'string'
-    ? { ...entity, details: JSON.parse(entity.details) }
-    : entity;
+  if (typeof entity.details === 'string') {
+    const details = JSON.parse(entity.details);
+
+    if (Object.keys(details)) {
+      rangeAttributes.forEach((rangeAttribute) => {
+        if (details[rangeAttribute.start] && details[rangeAttribute.end]) {
+          details[rangeAttribute.name] = `${details[rangeAttribute.start]} - ${details[rangeAttribute.end]}`;
+          delete details[rangeAttribute.start];
+          delete details[rangeAttribute.end];
+        }
+      });
+    }
+
+    return {
+      ...entity,
+      details,
+    };
+  }
+  return entity;
 });
 
 const actionHandlers = {

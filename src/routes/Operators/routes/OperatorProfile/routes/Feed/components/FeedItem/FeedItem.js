@@ -6,6 +6,7 @@ import { shortify } from '../../../../../../../../utils/uuid';
 import { types, typesLabels, typesClassNames } from '../../../../../../../../constants/audit';
 import FeedInfoLogin from './FeedInfoLogin';
 import FeedInfoLogout from './FeedInfoLogout';
+import FeedInfoPlayerProfileSearch from './FeedInfoPlayerProfileSearch';
 import './FeedItem.scss';
 
 class FeedItem extends Component {
@@ -28,6 +29,8 @@ class FeedItem extends Component {
         return <FeedInfoLogin data={data} />;
       case types.LOG_OUT:
         return <FeedInfoLogout data={data} />;
+      case types.PLAYER_PROFILE_SEARCH:
+        return <FeedInfoPlayerProfileSearch data={data} />;
       default:
         return null;
     }
@@ -40,6 +43,7 @@ class FeedItem extends Component {
       color,
       data,
     } = this.props;
+    const hasInformation = Object.keys(data.details).length > 0;
 
     return (
       <div className="feed-item">
@@ -69,15 +73,18 @@ class FeedItem extends Component {
                 ? ` from ${data.ip}`
                 : null
             }
-            <button className="feed-item_info-date_btn-hide btn-transparent" onClick={this.handleToggleClick}>
-              {
-                opened
-                  ? <span>Hide details<i className="fa fa-caret-up" /></span>
-                  : <span>Show details<i className="fa fa-caret-down" /></span>
-              }
-            </button>
+            {
+              hasInformation &&
+              <button className="feed-item_info-date_btn-hide btn-transparent" onClick={this.handleToggleClick}>
+                {
+                  opened
+                    ? <span>Hide details<i className="fa fa-caret-up" /></span>
+                    : <span>Show details<i className="fa fa-caret-down" /></span>
+                }
+              </button>
+            }
           </div>
-          {opened && this.renderInformation(data)}
+          {hasInformation && opened && this.renderInformation(data)}
         </div>
       </div>
     );

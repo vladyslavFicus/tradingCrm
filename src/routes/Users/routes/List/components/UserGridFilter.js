@@ -4,8 +4,9 @@ import DateTime from 'react-datetime';
 import countryList from 'country-list';
 import { reduxForm, Field } from 'redux-form';
 import classNames from 'classnames';
+import { InputField, SelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
-import { statusesLabels } from '../../../../../constants/user';
+import { statusesLabels, filterLabels } from '../../../../../constants/user';
 import config from '../../../../../config/index';
 
 const tags = config.nas.tags.reduce((result, item) => ({
@@ -17,27 +18,10 @@ const countries = countryList().getData().reduce((result, item) => ({
   ...result,
   [item.code]: item.name,
 }), {});
-const attributeLabels = {
-  keyword: 'Name, username, phone, email...',
-  country: 'Country',
-  city: 'City',
-  ageFrom: 'Age from',
-  ageTo: 'Age to',
-  currency: 'Currency',
-  affiliateId: 'Affiliate ID',
-  status: 'Status',
-  tags: 'Tags',
-  segments: 'Segments',
-  registrationDateFrom: 'registrationDateFrom',
-  registrationDateTo: 'registrationDateTo',
-  balanceFrom: 'balanceFrom',
-  balanceTo: 'balanceTo',
-};
-
 const validator = createValidator({
   keyword: 'string',
   country: `in:,${Object.keys(countries).join(',')}`,
-  currency: `in:,${currencies.join(',')}`,
+  currencies: `in:,${currencies.join(',')}`,
   ageFrom: 'integer',
   ageTo: 'integer',
   affiliateId: 'string',
@@ -48,7 +32,7 @@ const validator = createValidator({
   registrationDateTo: 'string',
   balanceFrom: 'integer',
   balanceTo: 'integer',
-}, attributeLabels, false);
+}, filterLabels, false);
 
 class UserGridFilter extends Component {
   static propTypes = {
@@ -75,7 +59,6 @@ class UserGridFilter extends Component {
     isExportable: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
-
   static defaultProps = {
     filterValues: {
       keyword: '',
@@ -135,24 +118,6 @@ class UserGridFilter extends Component {
     this.props.onSubmit();
   };
 
-  renderTextField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <div className="input-group">
-          <label>{label}</label>
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder}
-            title={placeholder}
-          />
-        </div>
-      </div>
-    );
-  };
-
   renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
@@ -168,21 +133,6 @@ class UserGridFilter extends Component {
             title={placeholder}
           />
         </div>
-      </div>
-    );
-  };
-
-  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <select
-          {...input}
-          className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
-        >
-          <option value="">{emptyOptionLabel}</option>
-          {children}
-        </select>
       </div>
     );
   };
@@ -241,18 +191,19 @@ class UserGridFilter extends Component {
                     <Field
                       name="searchValue"
                       type="text"
-                      label="Search by"
-                      placeholder={attributeLabels.keyword}
+                      label={filterLabels.searchValue}
+                      placeholder="Name, username, phone, email..."
                       component={this.renderQueryField}
                     />
                   </div>
                   <div className="col-md-2">
                     <Field
                       name="countries"
-                      label={attributeLabels.country}
-                      emptyOptionLabel="Any"
-                      component={this.renderSelectField}
+                      label={filterLabels.country}
+                      component={SelectField}
+                      position="vertical"
                     >
+                      <option value="">Any</option>
                       {Object
                         .keys(countries)
                         .map(key => <option key={key} value={key}>{countries[key]}</option>)
@@ -264,8 +215,9 @@ class UserGridFilter extends Component {
                       name="city"
                       type="text"
                       label="City"
-                      placeholder={attributeLabels.city}
-                      component={this.renderTextField}
+                      placeholder={filterLabels.city}
+                      component={InputField}
+                      position="vertical"
                     />
                   </div>
                   <div className="col-md-2">
@@ -277,7 +229,8 @@ class UserGridFilter extends Component {
                             name="ageFrom"
                             type="text"
                             placeholder="20"
-                            component={this.renderTextField}
+                            component={InputField}
+                            position="vertical"
                           />
                         </div>
                         <div className="col-md-1 dash-after-input" />
@@ -286,7 +239,8 @@ class UserGridFilter extends Component {
                             name="ageTo"
                             type="text"
                             placeholder="30"
-                            component={this.renderTextField}
+                            component={InputField}
+                            position="vertical"
                           />
                         </div>
                       </div>
@@ -301,7 +255,8 @@ class UserGridFilter extends Component {
                             name="balanceFrom"
                             type="text"
                             placeholder="100"
-                            component={this.renderTextField}
+                            component={InputField}
+                            position="vertical"
                           />
                         </div>
                         <div className="col-md-1 dash-after-input" />
@@ -310,7 +265,8 @@ class UserGridFilter extends Component {
                             name="balanceTo"
                             type="text"
                             placeholder="150"
-                            component={this.renderTextField}
+                            component={InputField}
+                            position="vertical"
                           />
                         </div>
                       </div>
@@ -318,11 +274,12 @@ class UserGridFilter extends Component {
                   </div>
                   <div className="col-md-2">
                     <Field
-                      name="currency"
-                      label={attributeLabels.currency}
-                      emptyOptionLabel="Any"
-                      component={this.renderSelectField}
+                      name="currencies"
+                      label={filterLabels.currencies}
+                      component={SelectField}
+                      position="vertical"
                     >
+                      <option value="">Any</option>
                       {currencies.map(currency => (
                         <option key={currency} value={currency}>
                           {currency}
@@ -337,17 +294,19 @@ class UserGridFilter extends Component {
                       name="affiliateId"
                       type="text"
                       label="Affiliate"
-                      placeholder={attributeLabels.affiliateId}
-                      component={this.renderTextField}
+                      placeholder={filterLabels.affiliateId}
+                      component={InputField}
+                      position="vertical"
                     />
                   </div>
                   <div className="col-md-1">
                     <Field
                       name="statuses"
-                      label={attributeLabels.status}
-                      emptyOptionLabel="Any"
-                      component={this.renderSelectField}
+                      label={filterLabels.status}
+                      component={SelectField}
+                      position="vertical"
                     >
+                      <option value="">Any</option>
                       {Object.keys(statusesLabels).map(status => (
                         <option key={status} value={status}>
                           {statusesLabels[status]}
@@ -358,10 +317,11 @@ class UserGridFilter extends Component {
                   <div className="col-md-1">
                     <Field
                       name="tags"
-                      label={attributeLabels.tags}
-                      emptyOptionLabel="Any"
-                      component={this.renderSelectField}
+                      label={filterLabels.tags}
+                      component={SelectField}
+                      position="vertical"
                     >
+                      <option value="">Any</option>
                       {Object.keys(tags).map(item => (
                         <option key={tags[item]} value={item}>
                           {item}
@@ -372,10 +332,12 @@ class UserGridFilter extends Component {
                   <div className="col-md-1">
                     <Field
                       name="segments"
-                      label={attributeLabels.segments}
-                      emptyOptionLabel="Any"
-                      component={this.renderSelectField}
-                    />
+                      label={filterLabels.segments}
+                      component={SelectField}
+                      position="vertical"
+                    >
+                      <option value="">Any</option>
+                    </Field>
                   </div>
                   <div className="col-md-5">
                     <div className="form-group">

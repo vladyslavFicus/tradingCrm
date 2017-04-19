@@ -10,8 +10,8 @@ const types = keyMirror({
   KYC_PERSONAL_VERIFIED: null,
   PLAYER_PROFILE_REGISTERED: null,
   PLAYER_PROFILE_CHANGED: null,
+  PLAYER_PROFILE_SEARCH: null,
 });
-
 const typesLabels = {
   [types.LOG_IN]: 'Logged in',
   [types.LOG_OUT]: 'Logged out',
@@ -22,8 +22,8 @@ const typesLabels = {
   [types.KYC_PERSONAL_VERIFIED]: 'KYC - Identity - verified',
   [types.PLAYER_PROFILE_REGISTERED]: 'Registration',
   [types.PLAYER_PROFILE_CHANGED]: 'Personal details change',
+  [types.PLAYER_PROFILE_SEARCH]: 'Players\' search',
 };
-
 const typesClassNames = {
   [types.LOG_IN]: 'feed-item_info-status__blue',
   [types.LOG_OUT]: '',
@@ -34,6 +34,7 @@ const typesClassNames = {
   [types.KYC_PERSONAL_VERIFIED]: 'feed-item_info-status__green',
   [types.PLAYER_PROFILE_REGISTERED]: 'feed-item_info-status__blue',
   [types.PLAYER_PROFILE_CHANGED]: 'feed-item_info-status__green',
+  [types.PLAYER_PROFILE_SEARCH]: '',
 };
 
 export {
