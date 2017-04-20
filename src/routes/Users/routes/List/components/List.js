@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import UserGridFilter from './UserGridFilter';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import Panel, { Content } from '../../../../../components/Panel';
+import Panel, { Title, Content } from '../../../../../components/Panel';
 import Amount from '../../../../../components/Amount';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import {
@@ -122,14 +122,27 @@ class List extends Component {
     return (
       <div className="page-content-inner">
         <Panel withBorders>
+          <Title>
+            <div className="row">
+              <div className="col-md-3">
+                <h3>Players</h3>
+              </div>
+
+              <div className="col-md-3 col-md-offset-6 text-right">
+                <button disabled={exporting} className="btn btn-default-outline btn-sm" onClick={this.handleExport}>
+                  Export
+                </button>
+              </div>
+            </div>
+          </Title>
+
+          <UserGridFilter
+            onSubmit={this.handleFilterSubmit}
+            initialValues={filters}
+            filterValues={filterValues}
+          />
+
           <Content>
-            <UserGridFilter
-              onSubmit={this.handleFilterSubmit}
-              initialValues={filters}
-              filterValues={filterValues}
-              onExportClick={this.handleExport}
-              isExportable={!exporting}
-            />
             <GridView
               tableClassName="table table-hovered data-grid-layout"
               headerClassName="text-uppercase"

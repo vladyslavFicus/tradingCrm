@@ -1,10 +1,18 @@
 .popover {
   max-width: 400px;
-  width: 400px;
+  width: 400px !important;
   background-color: #FFFDE6;
 
   .popover-title {
     background: #FFFDE6;
     border: none;
+  }
+
+  .popover-content {
+    background: #FFFDE6;
+  }
+
+  .popover-arrow {
+    display: none;
   }
 }

@@ -283,20 +283,16 @@ class View extends Component {
     return (
       <div className="page-content-inner">
         <Panel withBorders>
-          <div className="row margin-bottom-20">
-            <div className="col-md-3">
-              <Title>
-                <h3>Transactions</h3>
-              </Title>
-            </div>
-          </div>
+          <Title>
+            <h3>Transactions</h3>
+          </Title>
+
+          <TransactionsFilterForm
+            onSubmit={this.handleFiltersChanged}
+            initialValues={defaultFilters}
+          />
 
           <Content>
-            <TransactionsFilterForm
-              onSubmit={this.handleFiltersChanged}
-              initialValues={defaultFilters}
-            />
-
             <GridView
               tableClassName="table table-hovered data-grid-layout"
               headerClassName=""

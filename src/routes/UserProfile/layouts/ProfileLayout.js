@@ -156,6 +156,7 @@ class ProfileLayout extends Component {
             pinned: false,
             playerUUID: this.props.params.id,
           },
+          placement: 'left bottom',
         },
       },
     });

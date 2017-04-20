@@ -171,17 +171,6 @@ class UserGridFilter extends Component {
 
     return (
       <div>
-        <div className="row margin-bottom-20">
-          <div className="col-md-3">
-            <span className="font-size-20">Players</span>
-          </div>
-
-          <div className="col-md-3 col-md-offset-6 text-right">
-            <button disabled={!isExportable} className="btn btn-default-outline" onClick={onExportClick}>
-              Export
-            </button>
-          </div>
-        </div>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <div className="well">
             <div className="row">
