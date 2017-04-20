@@ -15,7 +15,7 @@ export default {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',
   },
   PAYMENTS: {
-    APPROVE_WITHDRAW: 'payment;POST;payments/{playerUUID}/{paymentId}/approve',
-    REFUSE_WITHDRAW: 'payment;POST;payments/{playerUUID}/{paymentId}/refuse',
+    APPROVE_WITHDRAW: 'payment;POST;/payments/{playerUUID}/{paymentId}/approve',
+    REFUSE_WITHDRAW: 'payment;POST;/payments/{playerUUID}/{paymentId}/refuse',
   },
 };
