@@ -43,13 +43,15 @@ class InputField extends Component {
     return (
       <div className={classNames('form-group row', { 'has-danger': touched && error })}>
         {
-          !!label &&<div className="col-md-3">
-          <label className={labelClassName}>
-            {label}
-          </label>
-        </div>}
+          !!label &&
+          <div className="col-md-3">
+            <label className={labelClassName}>
+              {label}
+            </label>
+          </div>
+        }
         <div className="col-md-9">
-          { this.renderInput() }
+          {this.renderInput()}
           {
             showErrorMessage && touched && error &&
             <div className="form-control-feedback">
