@@ -9,18 +9,10 @@ class LocaleSwitcher extends Component {
     changeLocale: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: props.currentLocale,
-    };
-  }
-
-  handleChoose = value => this.setState({ value }, () => this.props.changeLocale(value));
+  handleChoose = value => this.props.changeLocale(value);
 
   render() {
-    const { value } = this.state;
-    const { languages } = this.props;
+    const { languages, currentLocale } = this.props;
 
     return (
       <ButtonGroup>
@@ -29,7 +21,7 @@ class LocaleSwitcher extends Component {
             key={language.value}
             color=""
             onClick={() => this.handleChoose(language.value)}
-            active={value === language.value}
+            active={currentLocale === language.value}
           >{language.label}</Button>
         ))}
       </ButtonGroup>

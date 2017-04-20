@@ -1,4 +1,5 @@
 import { SET_LOCALE } from 'react-redux-i18n';
+import createReducer from '../../utils/createReducer';
 
 function setLocale(language) {
   return {
@@ -10,12 +11,6 @@ function setLocale(language) {
 const initialState = null;
 const actionHandlers = {
   [SET_LOCALE]: (state, action) => action.locale,
-};
-
-const reducer = (state = initialState, action) => {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
 };
 
 const actionTypes = {};
@@ -30,4 +25,4 @@ export {
   actionHandlers,
 };
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);
