@@ -55,8 +55,6 @@ class UserGridFilter extends Component {
     handleSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired,
-    onExportClick: PropTypes.func.isRequired,
-    isExportable: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
   static defaultProps = {
