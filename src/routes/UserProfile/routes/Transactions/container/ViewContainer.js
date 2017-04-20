@@ -5,7 +5,7 @@ import { getTransactionRejectReasons } from '../../../../../config/index';
 
 const mapStateToProps = ({
   userTransactions,
-  profile: { view: { profile }, accumulatedBalances: { data: accumulatedBalances } },
+  profile: { profile, accumulatedBalances: { data: accumulatedBalances } },
 }) => ({
   ...userTransactions,
   currencyCode: profile.data.currencyCode,
