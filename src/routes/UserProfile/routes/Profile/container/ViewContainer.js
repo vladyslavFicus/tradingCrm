@@ -39,6 +39,7 @@ const mapActions = {
   uploadFile: profileActionCreators.uploadFile,
   downloadFile: profileActionCreators.downloadFile,
   changeStatusByAction: profileActionCreators.changeStatusByAction,
+  checkLock: profileActionCreators.checkLock,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

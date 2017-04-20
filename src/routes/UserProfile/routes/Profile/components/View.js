@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
@@ -48,9 +47,7 @@ class View extends Component {
       email: PropTypes.string,
       phoneNumber: PropTypes.string,
     }),
-    canVerifyAll: PropTypes.bool.isRequired,
-    canRefuseAll: PropTypes.bool.isRequired,
-    updateIdentifier: PropTypes.func.isRequired,
+    checkLock: PropTypes.func.isRequired,
   };
 
   state = {
@@ -70,11 +67,14 @@ class View extends Component {
   };
 
   handleVerify = type => () => {
-    this.props.verifyData(this.props.params.id, type);
+    const { verifyData, params, checkLock } = this.props;
+
+    verifyData(params.id, type);
+    checkLock(params.id);
   };
 
   handleRefuse = async (data) => {
-    const { refuseData, params } = this.props;
+    const { refuseData, params, checkLock } = this.props;
 
     if (data[kycCategories.KYC_PERSONAL]) {
       await refuseData(params.id, kycCategories.KYC_PERSONAL, { reason: data[`${kycCategories.KYC_PERSONAL}_reason`] });
@@ -83,6 +83,7 @@ class View extends Component {
       await refuseData(params.id, kycCategories.KYC_ADDRESS, { reason: data[`${kycCategories.KYC_ADDRESS}_reason`] });
     }
 
+    checkLock(params.id);
     this.handleCloseModal();
   };
 
