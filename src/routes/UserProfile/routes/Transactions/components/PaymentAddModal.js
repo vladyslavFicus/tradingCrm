@@ -124,11 +124,12 @@ class PaymentAddModal extends Component {
     const { currentValues } = this.props;
     const { availablePaymentMethods } = this.state;
 
-    if ((currentValues && currentValues.type && currentValues.type !== paymentTypes.Withdraw)
-      || !availablePaymentMethods.length
-    ) {
+    if (currentValues && currentValues.type && currentValues.type !== paymentTypes.Withdraw) {
       return null;
     }
+
+    const emptyOptionLabel = availablePaymentMethods.length === 0 ?
+      'No payment methods' : 'Choose payment method';
 
     return (
       <div className="col-md-5">
@@ -140,7 +141,7 @@ class PaymentAddModal extends Component {
           position="vertical"
           showErrorMessage={false}
         >
-          <option value="">Choose payment method</option>
+          <option value="">{emptyOptionLabel}</option>
           {availablePaymentMethods.map(item => (
             <option key={item.paymentAccountId} value={item.paymentMethod}>
               {item.label}
