@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import PropTypes from '../../../../../../constants/propTypes';
-import { shortify } from '../../../../../../utils/uuid';
-import { types, typesLabels, typesClassNames } from '../../../../../../constants/audit';
-import './FeedItem.scss';
-import FeedInfoKyc from './FeedInfoKyc';
+import PropTypes from '../../../../../../../../constants/propTypes';
+import { shortify } from '../../../../../../../../utils/uuid';
+import { types, typesLabels, typesClassNames } from '../../../../../../../../constants/audit';
 import FeedInfoLogin from './FeedInfoLogin';
 import FeedInfoLogout from './FeedInfoLogout';
-import FeedInfoProfileChanged from './FeedInfoProfileChanged';
-import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
+import FeedInfoPlayerProfileSearch from './FeedInfoPlayerProfileSearch';
+import './FeedItem.scss';
 
 class FeedItem extends Component {
   static propTypes = {
@@ -31,16 +29,8 @@ class FeedItem extends Component {
         return <FeedInfoLogin data={data} />;
       case types.LOG_OUT:
         return <FeedInfoLogout data={data} />;
-      case types.KYC_ADDRESS_REFUSED:
-      case types.KYC_ADDRESS_VERIFIED:
-      case types.KYC_PERSONAL_REFUSED:
-      case types.KYC_PERSONAL_VERIFIED:
-        return <FeedInfoKyc data={data} />;
-      case types.PLAYER_PROFILE_VERIFIED_EMAIL:
-      case types.PLAYER_PROFILE_CHANGED:
-        return <FeedInfoProfileChanged data={data} />;
-      case types.PLAYER_PROFILE_REGISTERED:
-        return <FeedInfoProfileRegistered data={data} />;
+      case types.PLAYER_PROFILE_SEARCH:
+        return <FeedInfoPlayerProfileSearch data={data} />;
       default:
         return null;
     }
@@ -53,6 +43,7 @@ class FeedItem extends Component {
       color,
       data,
     } = this.props;
+    const hasInformation = Object.keys(data.details).length > 0;
 
     return (
       <div className="feed-item">
@@ -82,15 +73,18 @@ class FeedItem extends Component {
                 ? ` from ${data.ip}`
                 : null
             }
-            <button className="feed-item_info-date_btn-hide btn-transparent" onClick={this.handleToggleClick}>
-              {
-                opened
-                  ? <span>Hide details<i className="fa fa-caret-up" /></span>
-                  : <span>Show details<i className="fa fa-caret-down" /></span>
-              }
-            </button>
+            {
+              hasInformation &&
+              <button className="feed-item_info-date_btn-hide btn-transparent" onClick={this.handleToggleClick}>
+                {
+                  opened
+                    ? <span>Hide details<i className="fa fa-caret-up" /></span>
+                    : <span>Show details<i className="fa fa-caret-down" /></span>
+                }
+              </button>
+            }
           </div>
-          {opened && this.renderInformation(data)}
+          {hasInformation && opened && this.renderInformation(data)}
         </div>
       </div>
     );

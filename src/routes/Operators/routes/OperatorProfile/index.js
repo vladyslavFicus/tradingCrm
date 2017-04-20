@@ -1,5 +1,6 @@
-import { injectReducer } from 'store/reducers';
+import { injectReducer } from '../../../../store/reducers';
 import EditRoute from './routes/Edit';
+import FeedRoute from './routes/Feed';
 
 export default store => ({
   path: 'operators/:id',
@@ -12,5 +13,6 @@ export default store => ({
   },
   childRoutes: [
     EditRoute(store),
+    FeedRoute(store),
   ],
 });

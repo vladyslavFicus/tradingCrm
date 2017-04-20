@@ -43,6 +43,25 @@ const attributeLabels = {
   username: 'Username',
   uuid: 'ID',
 };
+const filterLabels = {
+  searchValue: 'Search by',
+  country: 'Country',
+  city: 'City',
+  age: 'Age',
+  ageFrom: 'Age from',
+  ageTo: 'Age to',
+  currencies: 'Currency',
+  affiliateId: 'Affiliate ID',
+  status: 'Status',
+  tags: 'Tags',
+  segments: 'Segments',
+  registrationDate: 'Registered',
+  registrationDateFrom: 'Registered from',
+  registrationDateTo: 'Registered to',
+  balance: 'Balance',
+  balanceFrom: 'Balance from',
+  balanceTo: 'Balance to',
+};
 const statuses = keyMirror({
   INACTIVE: null,
   ACTIVE: null,
@@ -114,4 +133,5 @@ export {
   statusActions,
   suspendPeriods,
   statusColorNames,
+  filterLabels,
 };

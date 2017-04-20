@@ -7,7 +7,7 @@ class InputField extends Component {
       name: PropTypes.string,
       value: PropTypes.any,
     }).isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     labelClassName: PropTypes.string,
     inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
@@ -21,8 +21,8 @@ class InputField extends Component {
       error: PropTypes.string,
     }).isRequired,
   };
-
   static defaultProps = {
+    label: null,
     labelClassName: 'form-control-label',
     inputClassName: 'form-control',
     position: 'horizontal',
@@ -42,11 +42,16 @@ class InputField extends Component {
 
     return (
       <div className={classNames('form-group row', { 'has-danger': touched && error })}>
-        <div className="col-md-3">
-          <label className={labelClassName}> {label} </label>
-        </div>
+        {
+          !!label &&
+          <div className="col-md-3">
+            <label className={labelClassName}>
+              {label}
+            </label>
+          </div>
+        }
         <div className="col-md-9">
-          { this.renderInput() }
+          {this.renderInput()}
           {
             showErrorMessage && touched && error &&
             <div className="form-control-feedback">
@@ -68,8 +73,8 @@ class InputField extends Component {
 
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label className={labelClassName}>{label}</label>
-        { this.renderInput() }
+        {!!label && <label className={labelClassName}>{label}</label>}
+        {this.renderInput()}
         {
           showErrorMessage && touched && error &&
           <div className="form-control-feedback">

@@ -69,6 +69,7 @@ const userProfileTabs = [
 
 const operatorProfileTabs = [
   { label: 'Profile', url: '/operators/:id/profile' },
+  { label: 'Feed', url: '/operators/:id/feed' },
 ];
 
 export {

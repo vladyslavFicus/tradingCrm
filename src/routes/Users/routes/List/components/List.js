@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import classNames from 'classnames';
 import moment from 'moment';
 import UserGridFilter from './UserGridFilter';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import { shortify } from '../../../../../utils/uuid';
 import Panel, { Content } from '../../../../../components/Panel';
 import Amount from '../../../../../components/Amount';
+import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
@@ -32,18 +31,15 @@ class List extends Component {
     page: 0,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.handleRefresh();
   }
-
-  getUserAge = birthDate => birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
 
   handlePageChanged = (page) => {
     if (!this.props.isLoading) {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
-
   handleRefresh = () => this.props.fetchESEntities({
     ...this.state.filters,
     page: this.state.page,
@@ -68,15 +64,10 @@ class List extends Component {
     };
 
     return (
-      <div>
-        <div className="font-weight-700 cursor-pointer" onClick={() => this.context.addPanel(panelData)}>
-          {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
-        </div>
-        <div className="font-size-11 color-default line-height-1">
-          <div>{[data.username, shortify(data.playerUUID, 'PL')].join(' - ')}</div>
-          <div>{data.languageCode}</div>
-        </div>
-      </div>
+      <GridPlayerInfo
+        profile={{ ...data, uuid: data.playerUUID }}
+        onClick={() => this.context.addPanel(panelData)}
+      />
     );
   };
 
