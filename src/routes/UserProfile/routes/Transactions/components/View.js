@@ -294,34 +294,40 @@ class View extends Component {
     />
   );
 
-  renderActions = data => (
-    <div>
-      <PopoverButton
-        id={`bonus-item-note-button-${data.paymentId}`}
-        className="cursor-pointer margin-right-5"
-        onClick={id => this.handleNoteClick(id, data)}
-      >
-        {data.note
-          ? <i className="fa fa-sticky-note" />
-          : <i className="fa fa-sticky-note-o" />
-        }
-      </PopoverButton>
-      {
-        data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
-        <button
-          className="btn-transparent"
-          onClick={() => this.handleOpenModal(MODAL_PAYMENT_DETAIL, {
-            payment: data,
-            profile: this.props.profile,
-            accumulatedBalances: this.props.accumulatedBalances,
-          })}
-          title={'View payment'}
+  renderActions = (data) => {
+    const showPaymentDetails =
+      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
+      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
+
+    return (
+      <div>
+        <PopoverButton
+          id={`bonus-item-note-button-${data.paymentId}`}
+          className="cursor-pointer margin-right-5"
+          onClick={id => this.handleNoteClick(id, data)}
         >
-          <i className="fa fa-search" />
-        </button>
-      }
-    </div>
-  );
+          {data.note
+            ? <i className="fa fa-sticky-note" />
+            : <i className="fa fa-sticky-note-o" />
+          }
+        </PopoverButton>
+        {
+          showPaymentDetails &&
+          <button
+            className="btn-transparent"
+            onClick={() => this.handleOpenModal(MODAL_PAYMENT_DETAIL, {
+              payment: data,
+              profile: this.props.profile,
+              accumulatedBalances: this.props.accumulatedBalances,
+            })}
+            title={'View payment'}
+          >
+            <i className="fa fa-search" />
+          </button>
+        }
+      </div>
+    );
+  };
 
   render() {
     const { modal } = this.state;

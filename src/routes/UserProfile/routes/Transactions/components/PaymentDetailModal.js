@@ -64,6 +64,63 @@ class PaymentDetailModal extends Component {
     return onRejectClick({ payment, profile, accumulatedBalances });
   };
 
+  handleChargebackClick = () => {
+    const { payment, profile, accumulatedBalances, onChargebackClick } = this.props;
+
+    return onChargebackClick({ payment, profile, accumulatedBalances });
+  };
+
+  renderFooter = () => {
+    const { onClose, payment: { paymentType } } = this.props;
+
+    let actions = null;
+    if (paymentType === paymentsTypes.Withdraw) {
+      actions = (
+        <div>
+          <PermissionContent permissions={approvePendingWithdraw}>
+            <Button
+              color="primary"
+              onClick={this.handleApproveClick}
+            >
+              Approve
+            </Button>
+          </PermissionContent>
+          <Button
+            color="danger"
+            onClick={this.handleRejectClick}
+          >
+            Reject
+          </Button>
+        </div>
+      );
+    }
+
+    if (paymentType === paymentsTypes.Deposit) {
+      actions = (
+        <div>
+          <Button
+            color="danger"
+            onClick={this.handleChargebackClick}
+          >
+            Mark as chargeback
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <ModalFooter className="payment-detail-footer">
+        <Button onClick={onClose}>Defer</Button>
+        {
+          actions &&
+          <div className="payment-details-actions">
+            { actions }
+          </div>
+        }
+      </ModalFooter>
+    );
+  };
+
   render() {
     const {
       payment: {
@@ -253,27 +310,7 @@ class PaymentDetailModal extends Component {
           </div>
         </ModalBody>
 
-        <ModalFooter className="payment-detail-footer">
-          <Button onClick={onClose}>Defer</Button>
-
-          <div className="payment-details-actions">
-            <PermissionContent permissions={approvePendingWithdraw}>
-              <Button
-                color="primary"
-                onClick={this.handleApproveClick}
-              >
-                Approve
-              </Button>
-            </PermissionContent>
-            {' '}
-            <Button
-              color="danger"
-              onClick={this.handleRejectClick}
-            >
-              Reject
-            </Button>
-          </div>
-        </ModalFooter>
+        { this.renderFooter() }
       </Modal>
     );
   }
