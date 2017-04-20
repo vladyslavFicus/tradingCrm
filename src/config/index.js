@@ -45,8 +45,8 @@ const config = {
     },
     locale: {
       languages: [],
+      defaultLanguage: 'en',
     },
-    defaultLanguage: '',
   },
   middlewares: {},
   ...environmentConfig,
