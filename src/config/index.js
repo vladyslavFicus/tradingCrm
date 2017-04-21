@@ -41,8 +41,7 @@ const config = {
     },
     limits: {},
     logstash: {
-      dev: '',
-      stage: '',
+      url: '',
     },
     locale: {
       languages: [],
@@ -117,8 +116,8 @@ function getApiRoot() {
     : '';
 }
 
-function getErrorApiUrl(env = 'dev') {
-  return config.nas.logstash[env] || '';
+function getErrorApiUrl() {
+  return config.nas.logstash.url || '';
 }
 
 function getAvailableLanguages() {

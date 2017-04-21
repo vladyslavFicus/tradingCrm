@@ -7,7 +7,7 @@ const errorTypes = keyMirror({
 });
 
 const sendError = (params) => {
-  if (__DEV__ && DISABLE_LOG) {
+  if (DISABLE_LOG) {
     console.warn(params);
     return false;
   }
@@ -16,7 +16,7 @@ const sendError = (params) => {
     return false;
   }
 
-  return fetch(getErrorApiUrl(__DEV__ ? 'dev' : 'stage'), {
+  return fetch(getErrorApiUrl(), {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
