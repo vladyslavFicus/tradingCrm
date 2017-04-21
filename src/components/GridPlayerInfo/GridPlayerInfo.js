@@ -10,7 +10,7 @@ const GridPlayerInfo = props => (
       !!props.profile &&
       <div>
         <div
-          className={classNames(props.mainInfoClassName, { 'cursor-pointer': !!props.onClick })}
+          className={classNames('font-weight-700', { 'cursor-pointer': !!props.onClick }, props.mainInfoClassName)}
           onClick={props.onClick}
         >
           {[props.profile.firstName, props.profile.lastName, `(${props.profile.age})`].join(' ')}
