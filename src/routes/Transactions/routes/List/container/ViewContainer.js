@@ -1,11 +1,15 @@
 import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
 import View from '../components/View';
-import { getTransactionRejectReasons } from '../../../../../config';
+import { paymentActions } from '../../../../../constants/payment';
+import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../config';
 
 const mapStateToProps = ({ transactions }) => ({
   ...transactions,
-  paymentRejectReasons: getTransactionRejectReasons(),
+  paymentActionReasons: {
+    [paymentActions.REJECT]: getTransactionRejectReasons(),
+    [paymentActions.CHARGEBACK]: getTransactionChargebackReasons(),
+  },
 });
 
 const mapActions = {

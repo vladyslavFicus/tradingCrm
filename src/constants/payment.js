@@ -5,6 +5,7 @@ const statuses = keyMirror({
   REFUSED: null,
   FAILED: null,
   COMPLETED: null,
+  CHARGEBACK: null,
 });
 
 const methods = keyMirror({
@@ -32,6 +33,12 @@ const methodStatusActions = {
   ],
 };
 
+const paymentActions = {
+  REJECT: 'refuse',
+  CHARGEBACK: 'chargeback',
+  APPROVE: 'approve',
+};
+
 const types = keyMirror({
   Deposit: null,
   Withdraw: null,
@@ -49,6 +56,7 @@ const statusesLabels = {
   [statuses.REFUSED]: 'Refused',
   [statuses.FAILED]: 'Failed',
   [statuses.COMPLETED]: 'Completed',
+  [statuses.CHARGEBACK]: 'Chargeback',
 };
 
 const methodsLabels = {
@@ -84,6 +92,7 @@ const statusesColor = {
   [statuses.REFUSED]: 'color-warning',
   [statuses.FAILED]: 'color-danger',
   [statuses.COMPLETED]: 'color-success',
+  [statuses.CHARGEBACK]: 'color-secondary',
 };
 
 const methodStatusesColor = {
@@ -105,4 +114,5 @@ export {
   statusesColor,
   methodStatusesColor,
   methodStatusActions,
+  paymentActions,
 };
