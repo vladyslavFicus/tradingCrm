@@ -8,6 +8,7 @@ import {
   statusesLabels as paymentsStatusesLabels,
   statusesColor as paymentsStatusesColor,
   types as paymentsTypes,
+  paymentActions,
 } from '../../../constants/payment';
 import { statusColorNames } from '../../../constants/user';
 import { targetTypes } from '../../../constants/note';
@@ -21,13 +22,15 @@ import Permissions from '../../../utils/permissions';
 import permission from '../../../config/permissions';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
+const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
+
 class PaymentDetailModal extends Component {
   static propTypes = {
     className: PropTypes.string,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    onRejectClick: PropTypes.func.isRequired,
+    onAskReason: PropTypes.func.isRequired,
     accumulatedBalances: PropTypes.shape({
       real: PropTypes.price.isRequired,
       bonus: PropTypes.price.isRequired,
@@ -61,13 +64,94 @@ class PaymentDetailModal extends Component {
   handleApproveClick = () => {
     const { payment: { paymentId, playerUUID }, onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus('approve', playerUUID, paymentId);
+    return onChangePaymentStatus(paymentActions.APPROVE, playerUUID, paymentId);
   };
 
   handleRejectClick = () => {
-    const { payment, profile, accumulatedBalances, onRejectClick } = this.props;
+    const { payment, profile, accumulatedBalances, onAskReason } = this.props;
 
-    return onRejectClick({ payment, profile, accumulatedBalances });
+    return onAskReason({
+      payment,
+      profile,
+      accumulatedBalances,
+      action: paymentActions.REJECT,
+      modalStaticParams: {
+        title: 'Withdrawal rejection',
+        actionButtonLabel: 'Reject withdraw transaction',
+        actionDescription: `You are about to reject withdraw transaction ' +
+        '${shortify(payment.paymentId, 'TA')} from`,
+      },
+    });
+  };
+
+  handleChargebackClick = () => {
+    const { payment, profile, accumulatedBalances, onAskReason } = this.props;
+
+    return onAskReason({
+      payment,
+      profile,
+      accumulatedBalances,
+      action: paymentActions.CHARGEBACK,
+      modalStaticParams: {
+        actionButtonLabel: 'Confirm',
+        title: 'Deposit chargeback',
+        actionDescription: 'You are about to mark the deposit transaction ' +
+        `${shortify(payment.paymentId, 'TA')} as chargeback in`,
+      },
+    });
+  };
+
+  renderFooter = () => {
+    const { onClose, payment: { paymentType } } = this.props;
+
+    let actions = null;
+    if (paymentType === paymentsTypes.Withdraw) {
+      actions = (
+        <div>
+          <PermissionContent permissions={approvePendingWithdraw}>
+            <Button
+              color="primary"
+              onClick={this.handleApproveClick}
+            >
+              Approve
+            </Button>
+          </PermissionContent>
+          <Button
+            color="danger"
+            onClick={this.handleRejectClick}
+          >
+            Reject
+          </Button>
+        </div>
+      );
+    }
+
+    if (paymentType === paymentsTypes.Deposit) {
+      actions = (
+        <div>
+          <PermissionContent permissions={chargebackCompletedDeposit}>
+            <Button
+              color="danger"
+              onClick={this.handleChargebackClick}
+            >
+              Mark as chargeback
+            </Button>
+          </PermissionContent>
+        </div>
+      );
+    }
+
+    return (
+      <ModalFooter className="payment-detail-footer">
+        <Button onClick={onClose}>Defer</Button>
+        {
+          actions &&
+          <div className="payment-details-actions">
+            { actions }
+          </div>
+        }
+      </ModalFooter>
+    );
   };
 
   render() {
@@ -259,27 +343,7 @@ class PaymentDetailModal extends Component {
           </div>
         </ModalBody>
 
-        <ModalFooter className="payment-detail-footer">
-          <Button onClick={onClose}>Defer</Button>
-
-          <div className="payment-details-actions">
-            <PermissionContent permissions={approvePendingWithdraw}>
-              <Button
-                color="primary"
-                onClick={this.handleApproveClick}
-              >
-                Approve
-              </Button>
-            </PermissionContent>
-            {' '}
-            <Button
-              color="danger"
-              onClick={this.handleRejectClick}
-            >
-              Reject
-            </Button>
-          </div>
-        </ModalFooter>
+        { this.renderFooter() }
       </Modal>
     );
   }

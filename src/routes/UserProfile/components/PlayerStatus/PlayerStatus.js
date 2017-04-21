@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
-import AccountStatusModal from './AccountStatusModal';
-import { statuses, suspendPeriods } from '../../../../constants/user';
+import PlayerStatusModal from './PlayerStatusModal';
+import { statuses, suspendPeriods, statusColorNames } from '../../../../constants/user';
 
 const initialState = {
   dropDownOpen: false,
@@ -13,12 +13,13 @@ const initialState = {
   },
 };
 
-class AccountStatus extends Component {
+class PlayerStatus extends Component {
   static propTypes = {
-    label: PropTypes.any.isRequired,
-    profileStatus: PropTypes.string,
+    status: PropTypes.oneOf(Object.keys(statuses)),
+    reason: PropTypes.string,
+    endDate: PropTypes.string,
     availableStatuses: PropTypes.array.isRequired,
-    onStatusChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
   };
 
   state = { ...initialState };
@@ -71,36 +72,6 @@ class AccountStatus extends Component {
     });
   };
 
-  render() {
-    const { dropDownOpen, modal } = this.state;
-    const { label, availableStatuses, profileStatus } = this.props;
-    const dropdownClassName = classNames('dropdown-highlight', {
-      'cursor-pointer': profileStatus !== statuses.SUSPENDED && profileStatus !== statuses.INACTIVE,
-      'no-dropdown': profileStatus !== statuses.ACTIVE,
-      'dropdown-open': dropDownOpen,
-    });
-    return (
-      <div className={dropdownClassName}>
-        {
-          availableStatuses.length === 0
-            ? label
-            : this.renderDropDown(label, availableStatuses, dropDownOpen, modal)
-        }
-
-        {
-          availableStatuses.length > 0 && modal.show &&
-          <AccountStatusModal
-            title={'Change account status'}
-            show
-            {...modal.params}
-            onSubmit={this.handleSubmit}
-            onHide={this.handleModalHide}
-          />
-        }
-      </div>
-    );
-  }
-
   renderDropDown = (label, availableStatuses, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
       {label}
@@ -119,7 +90,60 @@ class AccountStatus extends Component {
         }
       </DropdownMenu>
     </Dropdown>
-  )
+  );
+
+  render() {
+    const { dropDownOpen, modal } = this.state;
+    const { availableStatuses, status, reason, endDate } = this.props;
+    const dropDownClassName = classNames('dropdown-highlight', {
+      'cursor-pointer': status !== statuses.SUSPENDED && status !== statuses.INACTIVE,
+      'no-dropdown': status !== statuses.ACTIVE,
+      'dropdown-open': dropDownOpen,
+    });
+    const label = (
+      <div className="dropdown-tab">
+        <div className="header-block-title">Account Status</div>
+        <div className={`header-block-middle ${statusColorNames[status]}`}>{status}</div>
+        {
+          !!reason &&
+          <div className="header-block-small">
+            by {reason}
+          </div>
+        }
+        {
+          !!endDate &&
+          <div className="header-block-small">
+            Until {moment(endDate).format('L')}
+          </div>
+        }
+      </div>
+    );
+
+    if (availableStatuses.length === 0) {
+      return label;
+    }
+
+    return (
+      <div className={dropDownClassName}>
+        {
+          availableStatuses.length === 0
+            ? label
+            : this.renderDropDown(label, availableStatuses, dropDownOpen, modal)
+        }
+
+        {
+          availableStatuses.length > 0 && modal.show &&
+          <PlayerStatusModal
+            title={'Change account status'}
+            show
+            {...modal.params}
+            onSubmit={this.handleSubmit}
+            onHide={this.handleModalHide}
+          />
+        }
+      </div>
+    );
+  }
 }
 
-export default AccountStatus;
+export default PlayerStatus;

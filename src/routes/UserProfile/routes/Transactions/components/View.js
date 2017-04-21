@@ -18,13 +18,13 @@ import { targetTypes } from '../../../../../constants/note';
 import PopoverButton from '../../../../../components/PopoverButton';
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from './PaymentDetailModal';
-import PaymentRejectModal from './PaymentRejectModal';
+import PaymentActionReasonModal from './PaymentActionReasonModal';
 import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 import PropTypes from '../../../../../constants/propTypes';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
-const MODAL_PAYMENT_REJECT = 'payment-reject';
+const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
 const MODAL_PAYMENT_ADD = 'payment-add';
 const defaultModalState = {
   name: null,
@@ -49,7 +49,7 @@ class View extends Component {
     newPaymentNote: PropTypes.noteEntity,
     profile: PropTypes.object,
     accumulatedBalances: PropTypes.object,
-    paymentRejectReasons: PropTypes.array,
+    paymentActionReasons: PropTypes.paymentActionReasons,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -108,10 +108,10 @@ class View extends Component {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
-  handleChangePaymentStatus = (status, playerUUID, paymentId, options = {}) => {
+  handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
     const { onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus({ status, playerUUID, paymentId, options })
+    return onChangePaymentStatus({ action, playerUUID, paymentId, options })
       .then(this.handleRefresh)
       .then(this.handleCloseModal);
   };
@@ -159,22 +159,32 @@ class View extends Component {
     });
   };
 
-  handleRejectClick = (data) => {
+  handleAskReason = (data) => {
     this.handleCloseModal();
 
-    return this.handleOpenModal(MODAL_PAYMENT_REJECT, {
+    return this.handleOpenReasonModal({
       ...data,
-      rejectReasons: this.props.paymentRejectReasons,
+      reasons: this.props.paymentActionReasons[data.action] || [],
     });
   };
 
-  handleOpenModal = async (name, params) => {
+  handleOpenReasonModal = (params) => {
+    this.setState({
+      modal: {
+        ...defaultModalState,
+        name: MODAL_PAYMENT_ACTION_REASON,
+        params,
+      },
+    });
+  };
+
+  handleOpenDetailModal = async (params) => {
     const action = await this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId);
 
     this.setState({
       modal: {
         ...defaultModalState,
-        name,
+        name: MODAL_PAYMENT_DETAIL,
         params: {
           ...params,
           transactions: action && !action.error
@@ -294,34 +304,40 @@ class View extends Component {
     />
   );
 
-  renderActions = data => (
-    <div>
-      <PopoverButton
-        id={`bonus-item-note-button-${data.paymentId}`}
-        className="cursor-pointer margin-right-5"
-        onClick={id => this.handleNoteClick(id, data)}
-      >
-        {data.note
-          ? <i className="fa fa-sticky-note" />
-          : <i className="fa fa-sticky-note-o" />
-        }
-      </PopoverButton>
-      {
-        data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
-        <button
-          className="btn-transparent"
-          onClick={() => this.handleOpenModal(MODAL_PAYMENT_DETAIL, {
-            payment: data,
-            profile: this.props.profile,
-            accumulatedBalances: this.props.accumulatedBalances,
-          })}
-          title={'View payment'}
+  renderActions = (data) => {
+    const showPaymentDetails =
+      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
+      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
+
+    return (
+      <div>
+        <PopoverButton
+          id={`bonus-item-note-button-${data.paymentId}`}
+          className="cursor-pointer margin-right-5"
+          onClick={id => this.handleNoteClick(id, data)}
         >
-          <i className="fa fa-search" />
-        </button>
-      }
-    </div>
-  );
+          {data.note
+            ? <i className="fa fa-sticky-note" />
+            : <i className="fa fa-sticky-note-o" />
+          }
+        </PopoverButton>
+        {
+          showPaymentDetails &&
+          <button
+            className="btn-transparent"
+            onClick={() => this.handleOpenDetailModal({
+              payment: data,
+              profile: this.props.profile,
+              accumulatedBalances: this.props.accumulatedBalances,
+            })}
+            title={'View payment'}
+          >
+            <i className="fa fa-search" />
+          </button>
+        }
+      </div>
+    );
+  };
 
   render() {
     const { modal } = this.state;
@@ -430,13 +446,13 @@ class View extends Component {
             isOpen
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
-            onRejectClick={this.handleRejectClick}
+            onAskReason={this.handleAskReason}
           />
         }
 
         {
-          modal.name === MODAL_PAYMENT_REJECT &&
-          <PaymentRejectModal
+          modal.name === MODAL_PAYMENT_ACTION_REASON &&
+          <PaymentActionReasonModal
             {...modal.params}
             isOpen
             onClose={this.handleCloseModal}

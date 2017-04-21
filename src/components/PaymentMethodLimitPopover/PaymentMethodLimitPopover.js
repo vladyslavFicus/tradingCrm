@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { InputField } from '../../components/ReduxForm';
-import Style from './PaymentMethodLimitPopover.scss';
+import PaymentMethodLimitPopoverStyle from './PaymentMethodLimitPopover.scss';
 
 const attributeLabels = {
   min: 'Min',
@@ -87,7 +87,7 @@ class PaymentMethodLimitPopover extends Component {
 
     return (
       <Popover
-        cssModule={Style}
+        cssModule={PaymentMethodLimitPopoverStyle}
         placement={placement}
         isOpen
         toggle={toggle}

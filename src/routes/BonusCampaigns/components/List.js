@@ -120,8 +120,8 @@ class List extends Component {
               header="Period"
               headerStyle={{ width: '20%' }}
               render={(data, column) => <small>
-                {moment(data.startDate).format('YYYY-MM-DD HH:mm:ss')} &mdash;
-                {moment(data.endDate).format('YYYY-MM-DD HH:mm:ss')}
+                {moment(data.startDate).format('DD.MM.YYYY HH:mm:ss')} &mdash;
+                {moment(data.endDate).format('DD.MM.YYYY HH:mm:ss')}
               </small>}
             />
             <GridColumn

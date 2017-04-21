@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getAvailableLanguages } from '../../config/index';
 import PropTypes from '../../constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
+import { actionCreators as languageActionCreators } from '../../redux/modules/language';
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
 import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
 import NotePopover from '../../components/NotePopover';
@@ -20,6 +22,9 @@ const popoverInitialState = {
 class NewLayout extends Component {
   static propTypes = {
     children: PropTypes.any,
+    locale: PropTypes.string.isRequired,
+    languages: PropTypes.arrayOf(PropTypes.dropDownOption).isRequired,
+    onLocaleChange: PropTypes.func.isRequired,
     user: PropTypes.shape({
       token: PropTypes.string,
       uuid: PropTypes.string,
@@ -49,6 +54,7 @@ class NewLayout extends Component {
     location: PropTypes.object,
     permissions: PropTypes.array,
     changeDepartment: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
     addPanel: PropTypes.func.isRequired,
     removePanel: PropTypes.func.isRequired,
     notes: PropTypes.shape({
@@ -67,6 +73,7 @@ class NewLayout extends Component {
       location,
       permissions,
       changeDepartment,
+      locale,
       addPanel,
       removePanel,
     } = this.props;
@@ -76,6 +83,7 @@ class NewLayout extends Component {
       location,
       permissions,
       changeDepartment,
+      locale,
       addPanel,
       removePanel,
       notes: {
@@ -173,11 +181,19 @@ class NewLayout extends Component {
       activeUserPanel,
       removePanel,
       setActivePanel,
+      onLocaleChange,
+      languages,
     } = this.props;
 
     return (
       <div>
-        <Navbar router={router} showSearch={false} />
+        <Navbar
+          router={router}
+          showSearch={false}
+          languages={languages}
+          onLocaleChange={onLocaleChange}
+        />
+
         <Sidebar topMenu={sidebarTopMenu} bottomMenu={sidebarBottomMenu} />
 
         <div className="section-container">
@@ -212,6 +228,8 @@ const mapStateToProps = state => ({
   permissions: state.permissions.data,
   activeUserPanel: state.userPanels.items[state.userPanels.activeIndex] || null,
   userPanels: state.userPanels.items,
+  locale: state.i18n.locale,
+  languages: getAvailableLanguages(),
 });
 
 export default connect(mapStateToProps, {
@@ -223,4 +241,5 @@ export default connect(mapStateToProps, {
   addNote: noteActionCreators.addNote,
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,
+  onLocaleChange: languageActionCreators.setLocale,
 })(NewLayout);

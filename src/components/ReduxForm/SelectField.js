@@ -19,7 +19,6 @@ class SelectField extends Component {
       error: PropTypes.string,
     }).isRequired,
   };
-
   static defaultProps = {
     labelClassName: 'form-control-label',
     position: 'horizontal',

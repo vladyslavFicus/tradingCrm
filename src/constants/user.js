@@ -43,42 +43,55 @@ const attributeLabels = {
   username: 'Username',
   uuid: 'ID',
 };
-
+const filterLabels = {
+  searchValue: 'Search by',
+  country: 'Country',
+  city: 'City',
+  age: 'Age',
+  ageFrom: 'Age from',
+  ageTo: 'Age to',
+  currencies: 'Currency',
+  affiliateId: 'Affiliate ID',
+  status: 'Status',
+  tags: 'Tags',
+  segments: 'Segments',
+  registrationDate: 'Registered',
+  registrationDateFrom: 'Registered from',
+  registrationDateTo: 'Registered to',
+  balance: 'Balance',
+  balanceFrom: 'Balance from',
+  balanceTo: 'Balance to',
+};
 const statuses = keyMirror({
   INACTIVE: null,
   ACTIVE: null,
   BLOCKED: null,
   SUSPENDED: null,
 });
-
 const actions = keyMirror({
   BLOCK: null,
   UNBLOCK: null,
   SUSPEND: null,
   RESUME: null,
 });
-
 const reasons = [
   'REASON_ONE',
   'REASON_TWO',
   'REASON_THREE',
   'REASON_FOUR',
 ];
-
 const statusesLabels = {
   [statuses.INACTIVE]: 'Inactive',
   [statuses.ACTIVE]: 'Active',
   [statuses.BLOCKED]: 'Blocked',
   [statuses.SUSPENDED]: 'Suspended',
 };
-
 const suspendPeriods = keyMirror({
   DAY: null,
   WEEK: null,
   MONTH: null,
   PERMANENT: null,
 });
-
 const statusActions = {
   [statuses.ACTIVE]: [
     {
@@ -105,7 +118,6 @@ const statusActions = {
     },
   ],
 };
-
 const statusColorNames = {
   [statuses.ACTIVE]: 'color-success',
   [statuses.INACTIVE]: 'color-warning',
@@ -121,4 +133,5 @@ export {
   statusActions,
   suspendPeriods,
   statusColorNames,
+  filterLabels,
 };

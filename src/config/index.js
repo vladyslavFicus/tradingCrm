@@ -44,6 +44,10 @@ const config = {
       dev: '',
       stage: '',
     },
+    locale: {
+      languages: [],
+      defaultLanguage: 'en',
+    },
   },
   middlewares: {},
   ...environmentConfig,
@@ -99,6 +103,10 @@ function getTransactionRejectReasons() {
   return config.nas.reasons && config.nas.reasons.rejection ? config.nas.reasons.rejection : [];
 }
 
+function getTransactionChargebackReasons() {
+  return config.nas.reasons && config.nas.reasons.chargeback ? config.nas.reasons.chargeback : [];
+}
+
 function getLimitPeriods() {
   return config.nas.limits || [];
 }
@@ -113,6 +121,10 @@ function getErrorApiUrl(env = 'dev') {
   return config.nas.logstash[env] || '';
 }
 
+function getAvailableLanguages() {
+  return config.nas.locale.languages || [];
+}
+
 function getDomain() {
   return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
 }
@@ -123,7 +135,9 @@ export {
   getDomain,
   getAvailableTags,
   getTransactionRejectReasons,
+  getTransactionChargebackReasons,
   getLimitPeriods,
+  getAvailableLanguages,
 };
 
 export default config;

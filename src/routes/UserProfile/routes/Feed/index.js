@@ -13,6 +13,6 @@ export default store => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       cb(null, require('./container/ViewContainer').default);
-    }, 'user-profile-game-activity-view');
+    }, 'user-profile-feed-view');
   },
 });
