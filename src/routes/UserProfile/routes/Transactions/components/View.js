@@ -111,10 +111,10 @@ class View extends Component {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
-  handleChangePaymentStatus = (status, playerUUID, paymentId, options = {}) => {
+  handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
     const { onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus({ status, playerUUID, paymentId, options })
+    return onChangePaymentStatus({ action, playerUUID, paymentId, options })
       .then(this.handleRefresh)
       .then(this.handleCloseModal);
   };

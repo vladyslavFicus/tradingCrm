@@ -1,12 +1,12 @@
 import { CALL_API } from 'redux-api-middleware';
 
 function changePaymentStatus(type) {
-  return ({ status, playerUUID, paymentId, options = {} }) => (dispatch, getState) => {
+  return ({ action, playerUUID, paymentId, options = {} }) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `payment/payments/${playerUUID}/${paymentId}/${status}`,
+        endpoint: `payment/payments/${playerUUID}/${paymentId}/${action}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',

@@ -36,6 +36,7 @@ const methodStatusActions = {
 const paymentActions = {
   REJECT: 'refuse',
   CHARGEBACK: 'chargeback',
+  APPROVE: 'approve',
 };
 
 const types = keyMirror({

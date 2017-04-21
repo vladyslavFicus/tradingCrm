@@ -58,7 +58,7 @@ class PaymentDetailModal extends Component {
   handleApproveClick = () => {
     const { payment: { paymentId, playerUUID }, onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus('approve', playerUUID, paymentId);
+    return onChangePaymentStatus(paymentActions.APPROVE, playerUUID, paymentId);
   };
 
   handleRejectClick = () => {
@@ -78,7 +78,7 @@ class PaymentDetailModal extends Component {
     });
   };
 
-  handleChargeBackClick = () => {
+  handleChargebackClick = () => {
     const { payment, profile, accumulatedBalances, onAskReason } = this.props;
 
     return onAskReason({
@@ -126,7 +126,7 @@ class PaymentDetailModal extends Component {
           <PermissionContent permissions={chargebackCompletedDeposit}>
             <Button
               color="danger"
-              onClick={this.handleChargeBackClick}
+              onClick={this.handleChargebackClick}
             >
               Mark as chargeback
             </Button>
