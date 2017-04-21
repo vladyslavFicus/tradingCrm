@@ -111,7 +111,7 @@ class Header extends Component {
                       {
                         statusChangeDate &&
                         <div className="header-block-small">
-                          on { moment(statusChangeDate).format('MM.DD.YYYY') }
+                          on { moment(statusChangeDate).format('DD.MM.YYYY') }
                         </div>
                       }
                     </div>
@@ -130,7 +130,7 @@ class Header extends Component {
                   { moment(registrationDate).fromNow() }
                 </div>
                 <div className="header-block-small">
-                  on { moment(registrationDate).format('YYYY-MM-DD HH:mm') }
+                  on { moment(registrationDate).format('DD.MM.YYYY HH:mm') }
                 </div>
               </div>
             }

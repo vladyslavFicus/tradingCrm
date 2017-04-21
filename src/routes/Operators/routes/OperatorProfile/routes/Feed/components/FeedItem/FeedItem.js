@@ -64,10 +64,10 @@ class FeedItem extends Component {
           <div className="feed-item_info-name">
             <span className={classNames('audit-name', color)}>
               {data.authorFullName}
-            </span> - {shortify(data.authorUuid, data.authorUuid === data.targetUuid ? 'PL' : null)}
+            </span> - {shortify(data.authorUuid)}
           </div>
           <div className="feed-item_info-date">
-            {data.creationDate ? moment(data.creationDate).format('YYYY-MM-DD HH:mm:ss') : null}
+            {data.creationDate ? moment(data.creationDate).format('DD.MM.YYYY HH:mm:ss') : null}
             {
               [types.LOG_IN, types.LOG_OUT].indexOf(data.type) === -1 && data.ip
                 ? ` from ${data.ip}`
