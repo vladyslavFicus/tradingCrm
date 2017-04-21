@@ -70,12 +70,12 @@ class Personal extends Component {
               verified={addressStatus.value === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem
-              label="Affiliate"
-              value={affiliateId}
+              label="Source"
+              value={affiliateId || <span className="color-default">no source</span>}
             />
             <PersonalInformationItem
               label="B-TAG"
-              value={btag}
+              value={btag || <span className="color-default">no b-tag</span>}
             />
           </div>
         </div>

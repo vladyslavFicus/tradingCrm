@@ -32,7 +32,9 @@ class ProfileLayout extends Component {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-    ip: PropTypes.pageableState(PropTypes.ipEntity).isRequired,
+    ip: PropTypes.shape({
+      list: PropTypes.arrayOf(PropTypes.ipEntity).isRequired,
+    }).isRequired,
     notes: PropTypes.pageableState(PropTypes.noteEntity).isRequired,
     lastIp: PropTypes.ipEntity,
     location: PropTypes.object.isRequired,
@@ -333,7 +335,7 @@ class ProfileLayout extends Component {
             informationShown &&
             <Information
               data={data}
-              ips={ip.entities.content}
+              ips={ip.list}
               updateSubscription={updateSubscription.bind(null, params.id)}
               onEditNoteClick={this.handleEditNoteClick}
               notes={notes}

@@ -315,6 +315,8 @@ const actionHandlers = {
           firstName: profile.firstName,
           lastName: profile.lastName,
           kycCompleted: profile.kycCompleted,
+          profileStatus: profile.profileStatus,
+          profileStatusReason: profile.profileStatusReason,
           birthDate: profile.birthDate,
           username: profile.username,
           languageCode: profile.languageCode,
