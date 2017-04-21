@@ -14,6 +14,7 @@
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
     "dev": "better-npm-run dev",
+    "dev:no-log": "better-npm-run dev:no-log",
     "dev:no-debug": "npm run dev -- --no_debug",
     "test": "better-npm-run test",
     "test:dev": "npm run test -- --watch",
@@ -30,6 +31,13 @@
       }
     },
     "dev": {
+      "command": "nodemon --exec babel-node bin/server",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "app:*"
+      }
+    },
+    "dev:no-log": {
       "command": "nodemon --exec babel-node bin/server",
       "env": {
         "NODE_ENV": "development",
