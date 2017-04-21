@@ -34,7 +34,7 @@ createStore(initialState, (store) => {
       const renderError = (error) => {
         const RedBox = require('redbox-react').default;
 
-        ReactDOM.render(<RedBox error={error}/>, MOUNT_NODE);
+        ReactDOM.render(<RedBox error={error} />, MOUNT_NODE);
       };
 
       // Wrap render in try/catch

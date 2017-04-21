@@ -28,7 +28,6 @@ const applicationConfig = {
   'middlewares.persist.whitelist[1]': 'userPanels',
   'middlewares.persist.whitelist[2]': 'language',
   'middlewares.unauthorized[0]': 401,
-  'middlewares.unauthorized[1]': 403,
   'nas.currencies.base': 'EUR',
   'nas.currencies.supported[0]': 'EUR',
   'nas.currencies.supported[1]': 'USD',
