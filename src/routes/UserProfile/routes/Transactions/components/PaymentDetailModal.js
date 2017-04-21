@@ -7,6 +7,7 @@ import {
   statusesLabels as paymentsStatusesLabels,
   statusesColor as paymentsStatusesColor,
   types as paymentsTypes,
+  paymentActions,
 } from '../../../../../constants/payment';
 import { statusColorNames } from '../../../../../constants/user';
 import { targetTypes } from '../../../../../constants/note';
@@ -20,13 +21,15 @@ import Permissions from '../../../../../utils/permissions';
 import permission from '../../../../../config/permissions';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
+const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
+
 class PaymentDetailModal extends Component {
   static propTypes = {
     className: PropTypes.string,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    onRejectClick: PropTypes.func.isRequired,
+    onAskReason: PropTypes.func.isRequired,
     accumulatedBalances: PropTypes.shape({
       real: PropTypes.price.isRequired,
       bonus: PropTypes.price.isRequired,
@@ -59,15 +62,37 @@ class PaymentDetailModal extends Component {
   };
 
   handleRejectClick = () => {
-    const { payment, profile, accumulatedBalances, onRejectClick } = this.props;
+    const { payment, profile, accumulatedBalances, onAskReason } = this.props;
 
-    return onRejectClick({ payment, profile, accumulatedBalances });
+    return onAskReason({
+      payment,
+      profile,
+      accumulatedBalances,
+      action: paymentActions.REJECT,
+      modalStaticParams: {
+        title: 'Withdrawal rejection',
+        actionButtonLabel: 'Reject withdraw transaction',
+        actionDescription: `You are about to reject withdraw transaction ' +
+        '${shortify(payment.paymentId, 'TA')} from`,
+      },
+    });
   };
 
-  handleChargebackClick = () => {
-    const { payment, profile, accumulatedBalances, onChargebackClick } = this.props;
+  handleChargeBackClick = () => {
+    const { payment, profile, accumulatedBalances, onAskReason } = this.props;
 
-    return onChargebackClick({ payment, profile, accumulatedBalances });
+    return onAskReason({
+      payment,
+      profile,
+      accumulatedBalances,
+      action: paymentActions.CHARGEBACK,
+      modalStaticParams: {
+        actionButtonLabel: 'Confirm',
+        title: 'Deposit chargeback',
+        actionDescription: 'You are about to mark the deposit transaction ' +
+        `${shortify(payment.paymentId, 'TA')} as chargeback in`,
+      },
+    });
   };
 
   renderFooter = () => {
@@ -98,12 +123,14 @@ class PaymentDetailModal extends Component {
     if (paymentType === paymentsTypes.Deposit) {
       actions = (
         <div>
-          <Button
-            color="danger"
-            onClick={this.handleChargebackClick}
-          >
-            Mark as chargeback
-          </Button>
+          <PermissionContent permissions={chargebackCompletedDeposit}>
+            <Button
+              color="danger"
+              onClick={this.handleChargeBackClick}
+            >
+              Mark as chargeback
+            </Button>
+          </PermissionContent>
         </div>
       );
     }

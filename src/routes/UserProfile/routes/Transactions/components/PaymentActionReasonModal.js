@@ -13,19 +13,21 @@ import PopoverButton from '../../../../../components/PopoverButton';
 import './PaymentDetailModal.scss';
 import { shortify } from '../../../../../utils/uuid';
 
-class PaymentRejectModal extends Component {
+class PaymentActionReasonModal extends Component {
   static propTypes = {
     className: PropTypes.string,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    accumulatedBalances: PropTypes.shape({
-      real: PropTypes.price.isRequired,
-      bonus: PropTypes.price.isRequired,
-    }),
     profile: PropTypes.userProfile,
     payment: PropTypes.paymentEntity,
-    rejectReasons: PropTypes.arrayOf(PropTypes.string),
+    reasons: PropTypes.arrayOf(PropTypes.string),
+    action: PropTypes.string.isRequired,
+    modalStaticParams: PropTypes.shape({
+      title: PropTypes.string,
+      actionButtonLabel: PropTypes.string,
+      actionDescription: PropTypes.string,
+    }),
   };
   static defaultProps = {
     className: '',
@@ -90,21 +92,25 @@ class PaymentRejectModal extends Component {
       isOpen,
       onClose,
       onChangePaymentStatus,
-      rejectReasons,
+      reasons,
+      action,
+      modalStaticParams,
     } = this.props;
 
     return (
       <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, 'payment-detail-modal')}>
-        <ModalHeader toggle={onClose}>Withdrawal rejection</ModalHeader>
+        <ModalHeader toggle={onClose}>
+          {modalStaticParams.title}
+        </ModalHeader>
 
         <ModalBody>
           <div className="row">
             <div className="col-md-12 text-center">
               <div className="font-weight-700">
-                You are about to reject withdraw transaction {shortify(paymentId, 'TA')}
+                {modalStaticParams.actionDescription}
               </div>
               <div className="font-weight-400">
-                from <span className="font-weight-700">{firstName} {lastName} </span>{shortify(playerUUID, 'PL')}
+                <span className="font-weight-700">{firstName} {lastName} </span>{shortify(playerUUID, 'PL')}
               </div>
             </div>
           </div>
@@ -115,7 +121,7 @@ class PaymentRejectModal extends Component {
                 Reason
               </div>
               <Input type="select" onChange={this.selectReason} value={this.state.selectedReason}>
-                {rejectReasons.map((reason, i) => <option key={i}>{reason}</option>)}
+                {reasons.map((reason, i) => <option key={i}>{reason}</option>)}
                 <option>Other</option>
               </Input>
               {this.state.isOtherReason
@@ -151,11 +157,11 @@ class PaymentRejectModal extends Component {
             <Button
               disabled={this.state.reason.length === 0 || this.state.reason.length > 500}
               color="danger"
-              onClick={() => onChangePaymentStatus('refuse', playerUUID, paymentId, {
+              onClick={() => onChangePaymentStatus(action, playerUUID, paymentId, {
                 reason: this.state.reason,
                 fraud: false,
               })}
-            >Reject withdraw transaction</Button>
+            >{modalStaticParams.actionButtonLabel}</Button>
           </div>
         </ModalFooter>
       </Modal>
@@ -163,4 +169,4 @@ class PaymentRejectModal extends Component {
   }
 }
 
-export default PaymentRejectModal;
+export default PaymentActionReasonModal;

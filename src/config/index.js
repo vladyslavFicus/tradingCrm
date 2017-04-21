@@ -102,6 +102,10 @@ function getTransactionRejectReasons() {
   return config.nas.reasons && config.nas.reasons.rejection ? config.nas.reasons.rejection : [];
 }
 
+function getTransactionChargebackReasons() {
+  return config.nas.reasons && config.nas.reasons.chargeback ? config.nas.reasons.chargeback : [];
+}
+
 function getLimitPeriods() {
   return config.nas.limits || [];
 }
@@ -130,6 +134,7 @@ export {
   getDomain,
   getAvailableTags,
   getTransactionRejectReasons,
+  getTransactionChargebackReasons,
   getLimitPeriods,
   getAvailableLanguages,
 };
