@@ -49,10 +49,7 @@ class View extends Component {
     newPaymentNote: PropTypes.noteEntity,
     profile: PropTypes.object,
     accumulatedBalances: PropTypes.object,
-    paymentActionReasons: PropTypes.shape({
-      reject: PropTypes.arrayOf(PropTypes.string),
-      chargeback: PropTypes.arrayOf(PropTypes.string),
-    }),
+    paymentActionReasons: PropTypes.paymentActionReasons,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,

@@ -23,11 +23,7 @@ class PaymentActionReasonModal extends Component {
     payment: PropTypes.paymentEntity,
     reasons: PropTypes.arrayOf(PropTypes.string),
     action: PropTypes.string.isRequired,
-    modalStaticParams: PropTypes.shape({
-      title: PropTypes.string,
-      actionButtonLabel: PropTypes.string,
-      actionDescription: PropTypes.string,
-    }),
+    modalStaticParams: PropTypes.paymentReasonModalStaticParams,
   };
   static defaultProps = {
     className: '',
