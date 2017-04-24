@@ -21,7 +21,7 @@ class Navbar extends Component {
   };
   static contextTypes = {
     user: PropTypes.shape({
-      department: PropTypes.string.isRequired,
+      department: PropTypes.string,
       authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
     }),
     changeDepartment: PropTypes.func.isRequired,
