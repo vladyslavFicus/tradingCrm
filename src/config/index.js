@@ -79,8 +79,8 @@ if (config.nas.tags) {
     .keys(config.nas.tags.priorities)
     .reduce((result, priority) => {
       Object.keys(config.nas.tags.priorities[priority])
-        .forEach(tag => {
-          config.nas.tags.priorities[priority][tag].departments.forEach(department => {
+        .forEach((tag) => {
+          config.nas.tags.priorities[priority][tag].departments.forEach((department) => {
             result.push({
               label: tag,
               value: tag,
@@ -121,7 +121,7 @@ function getAvailableLanguages() {
 }
 
 function getDomain() {
-  return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+  return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
 }
 
 export {
