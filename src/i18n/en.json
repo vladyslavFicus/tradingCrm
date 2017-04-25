@@ -1,0 +1,24 @@
+{
+  "SIDEBAR": {
+    "TOP_MENU": {
+      "PLAYERS": "Players",
+      "DORMANT": "Dormant",
+      "OPERATORS": "Operators",
+      "PAYMENTS": "Payments",
+      "TRANSACTIONS": "Transactions",
+      "OPEN_LOOP": "Open loop",
+      "PAYMENT_METHODS": "Payment methods",
+      "BONUS_CAMPAIGNS": "Bonus campaigns",
+      "TERMS": "Terms & conditions",
+      "REPORTS": "Reports",
+      "PLAYER_LIABILITY": "Player liability",
+      "REVENUE": "Revenue",
+      "COMMON": {
+        "ALL": "All"
+      }
+    },
+    "BOTTOM_MENU": {
+      "SUPPORT": "Support"
+    }
+  }
+}

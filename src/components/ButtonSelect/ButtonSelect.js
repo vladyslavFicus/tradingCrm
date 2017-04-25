@@ -6,18 +6,12 @@ import 'react-select/dist/react-select.css';
 import './ButtonSelect.scss';
 
 class ButtonSelect extends Component {
-  constructor(props) {
-    super(props);
-    this.focus = this.focus.bind(this);
-  }
-
-  focus() {
+  focus = () => {
     this.props.onClick();
-    this.selectField.focus();
-  }
+  };
 
   render() {
-    const { opened, onClick, onCloseClick, label, className, ...rest } = this.props;
+    const { opened, onCloseClick, label, className, ...rest } = this.props;
 
     return <div className={classNames('button-select')}>
       <span className="tag-arrow tag-arrow-default" />

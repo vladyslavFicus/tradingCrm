@@ -1,12 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import classNames from 'classnames';
 import moment from 'moment';
 import UserGridFilter from './UserGridFilter';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import { shortify } from '../../../../../utils/uuid';
-import Panel, { Content } from '../../../../../components/Panel';
+import Panel, { Title, Content } from '../../../../../components/Panel';
 import Amount from '../../../../../components/Amount';
+import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
@@ -32,18 +31,15 @@ class List extends Component {
     page: 0,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.handleRefresh();
   }
-
-  getUserAge = birthDate => birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
 
   handlePageChanged = (page) => {
     if (!this.props.isLoading) {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
-
   handleRefresh = () => this.props.fetchESEntities({
     ...this.state.filters,
     page: this.state.page,
@@ -68,15 +64,10 @@ class List extends Component {
     };
 
     return (
-      <div>
-        <div className="font-weight-700 cursor-pointer" onClick={() => this.context.addPanel(panelData)}>
-          {[data.firstName, data.lastName, this.getUserAge(data.birthDate)].join(' ')}
-        </div>
-        <div className="font-size-11 color-default line-height-1">
-          <div>{[data.username, shortify(data.playerUUID, 'PL')].join(' - ')}</div>
-          <div>{data.languageCode}</div>
-        </div>
-      </div>
+      <GridPlayerInfo
+        profile={{ ...data, uuid: data.playerUUID }}
+        onClick={() => this.context.addPanel(panelData)}
+      />
     );
   };
 
@@ -115,8 +106,8 @@ class List extends Component {
 
   renderStatus = data => (
     <div>
-      <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
-        {userStatusesLabels[data.profileStatus] || data.profileStatus}
+      <div className={classNames(userStatusColorNames[data.status], 'text-uppercase font-weight-700')}>
+        {userStatusesLabels[data.status] || data.status}
       </div>
       <div className="font-size-11 color-default">
         Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
@@ -131,14 +122,27 @@ class List extends Component {
     return (
       <div className="page-content-inner">
         <Panel withBorders>
+          <Title>
+            <div className="row">
+              <div className="col-md-3">
+                <h3>Players</h3>
+              </div>
+
+              <div className="col-md-3 col-md-offset-6 text-right">
+                <button disabled={exporting} className="btn btn-default-outline btn-sm" onClick={this.handleExport}>
+                  Export
+                </button>
+              </div>
+            </div>
+          </Title>
+
+          <UserGridFilter
+            onSubmit={this.handleFilterSubmit}
+            initialValues={filters}
+            filterValues={filterValues}
+          />
+
           <Content>
-            <UserGridFilter
-              onSubmit={this.handleFilterSubmit}
-              initialValues={filters}
-              filterValues={filterValues}
-              onExportClick={this.handleExport}
-              isExportable={!exporting}
-            />
             <GridView
               tableClassName="table table-hovered data-grid-layout"
               headerClassName="text-uppercase"

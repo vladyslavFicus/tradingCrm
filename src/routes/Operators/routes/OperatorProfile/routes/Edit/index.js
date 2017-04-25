@@ -1,4 +1,4 @@
-export default (store) => ({
+export default () => ({
   path: 'profile',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {

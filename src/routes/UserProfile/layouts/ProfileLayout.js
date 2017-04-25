@@ -14,7 +14,8 @@ const popoverInitialState = {
   name: null,
   params: {},
 };
-const INFO_MODAL = 'info-modal';
+const MODAL_WALLET_LIMIT = 'wallet-limit-modal';
+const MODAL_INFO = 'info-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -31,7 +32,9 @@ class ProfileLayout extends Component {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-    ip: PropTypes.pageableState(PropTypes.ipEntity).isRequired,
+    ip: PropTypes.shape({
+      list: PropTypes.arrayOf(PropTypes.ipEntity).isRequired,
+    }).isRequired,
     notes: PropTypes.pageableState(PropTypes.noteEntity).isRequired,
     lastIp: PropTypes.ipEntity,
     location: PropTypes.object.isRequired,
@@ -52,8 +55,23 @@ class ProfileLayout extends Component {
     deleteNote: PropTypes.func.isRequired,
     resetPassword: PropTypes.func.isRequired,
     activateProfile: PropTypes.func.isRequired,
+    checkLock: PropTypes.func.isRequired,
+    walletLimits: PropTypes.shape({
+      entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+      deposit: PropTypes.shape({
+        locked: PropTypes.bool.isRequired,
+        canUnlock: PropTypes.bool.isRequired,
+      }).isRequired,
+      withdraw: PropTypes.shape({
+        locked: PropTypes.bool.isRequired,
+        canUnlock: PropTypes.bool.isRequired,
+      }).isRequired,
+      error: PropTypes.object,
+      isLoading: PropTypes.bool.isRequired,
+      receivedAt: PropTypes.number,
+    }).isRequired,
+    walletLimitAction: PropTypes.func.isRequired,
   };
-
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
     onEditNote: PropTypes.func.isRequired,
@@ -74,7 +92,7 @@ class ProfileLayout extends Component {
   getChildContext() {
     return {
       onAddNote: this.props.addNote,
-      onEditNote: this.props.addNote,
+      onEditNote: this.props.editNote,
       onAddNoteClick: this.handleAddNoteClick,
       onEditNoteClick: this.handleEditNoteClick,
       setNoteChangedCallback: this.setNoteChangedCallback,
@@ -92,6 +110,7 @@ class ProfileLayout extends Component {
       fetchAccumulatedBalances,
       fetchNotes,
       params,
+      checkLock,
     } = this.props;
 
     if (!profile.isLoading) {
@@ -99,7 +118,8 @@ class ProfileLayout extends Component {
         .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
         .then(() => fetchActiveBonus(params.id))
         .then(() => fetchIp(params.id, { limit: 10 }))
-        .then(() => fetchAccumulatedBalances(params.id));
+        .then(() => fetchAccumulatedBalances(params.id))
+        .then(() => checkLock(params.id));
     }
   }
 
@@ -138,6 +158,7 @@ class ProfileLayout extends Component {
             pinned: false,
             playerUUID: this.props.params.id,
           },
+          placement: 'left bottom',
         },
       },
     });
@@ -206,7 +227,7 @@ class ProfileLayout extends Component {
       const action = await resetPassword({ email: data.email });
 
       if (action && !action.error) {
-        this.handleOpenModal(INFO_MODAL, {
+        this.handleOpenModal(MODAL_INFO, {
           header: 'Reset password',
           body: (
             <span>
@@ -230,7 +251,7 @@ class ProfileLayout extends Component {
       const action = await activateProfile(uuid);
 
       if (action && !action.error) {
-        this.handleOpenModal(INFO_MODAL, {
+        this.handleOpenModal(MODAL_INFO, {
           header: 'Send user activation link',
           body: (
             <span>
@@ -255,6 +276,10 @@ class ProfileLayout extends Component {
     this.props.deleteTag(this.props.params.id, id);
   };
 
+  handleChangeWalletLimitState = (data) => {
+    this.props.walletLimitAction({ ...data, playerUUID: this.props.params.id });
+  };
+
   render() {
     const { modal, popover, informationShown } = this.state;
     const {
@@ -270,10 +295,11 @@ class ProfileLayout extends Component {
       updateSubscription,
       changeStatus,
       notes,
+      walletLimits,
     } = this.props;
 
     return (
-      <div className="player container panel profile-layout">
+      <div className="player panel profile-layout">
         <div className="container-fluid">
           <Header
             data={data}
@@ -282,11 +308,16 @@ class ProfileLayout extends Component {
             availableStatuses={availableStatuses}
             onStatusChange={changeStatus}
             availableTags={availableTags}
+            walletLimits={{
+              state: walletLimits,
+              actions: { onChange: this.handleChangeWalletLimitState },
+            }}
             addTag={this.handleAddTag}
             deleteTag={this.handleDeleteTag}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
+            onWalletLimitChange={this.handleChangeWalletLimitState}
           />
 
           <div className="row">
@@ -304,7 +335,7 @@ class ProfileLayout extends Component {
             informationShown &&
             <Information
               data={data}
-              ips={ip.entities.content}
+              ips={ip.list}
               updateSubscription={updateSubscription.bind(null, params.id)}
               onEditNoteClick={this.handleEditNoteClick}
               notes={notes}
@@ -340,7 +371,15 @@ class ProfileLayout extends Component {
           />
         }
         {
-          modal.name === INFO_MODAL &&
+          modal.name === MODAL_INFO &&
+          <Modal
+            onClose={this.handleCloseModal}
+            isOpen
+            {...modal.params}
+          />
+        }
+        {
+          modal.name === MODAL_WALLET_LIMIT &&
           <Modal
             onClose={this.handleCloseModal}
             isOpen

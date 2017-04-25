@@ -28,7 +28,9 @@ class OperatorProfileLayout extends Component {
     onResetPassword: PropTypes.func.isRequired,
     onSendInvitation: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
-    ip: PropTypes.object.isRequired,
+    ip: PropTypes.shape({
+      list: PropTypes.arrayOf(PropTypes.ipEntity).isRequired,
+    }).isRequired,
     lastIp: PropTypes.ipEntity,
   };
 
@@ -168,7 +170,7 @@ class OperatorProfileLayout extends Component {
             informationShown &&
             <Information
               data={data}
-              ips={ip.entities.content}
+              ips={ip.list}
             />
           }
 

@@ -1,0 +1,44 @@
+.payment-detail-modal {
+  .payment-detail-player {
+    display: flex;
+    margin-bottom: 15px;
+    min-height: 70px;
+
+    .payment-detail-player-block {
+      border-right: 1px solid #dfe4ed; // TODO: move to variables
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+  }
+
+  .payment-detail-blocks {
+    min-height: 70px;
+  }
+
+  .payment-detail-amount {
+    display: flex;
+    justify-content: center;
+
+    .payment-detail-amount-block {
+      padding: 0 20px;
+
+      &:first-child {
+        border-right: 1px solid #d6d6d6; // TODO: move to variables
+      }
+    }
+
+  }
+
+  .payment-detail-footer {
+    display: flex;
+    justify-content: space-between;
+
+    .payment-details-actions {
+      flex-grow: 100;
+      text-align: right;
+    }
+  }
+}

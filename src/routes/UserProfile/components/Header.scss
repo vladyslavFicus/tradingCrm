@@ -48,3 +48,43 @@
     opacity: 0.8;
   }
 }
+
+.player__account__status {
+  .fa-angle-down {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    color: #999999;
+    transition: all .2s;
+  }
+
+  .open {
+    .fa-angle-down {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.panel-heading-row {
+  @include flexbox();
+  padding: 25px 25px 0;
+  &_name-and-ids {
+    max-width: 40%;
+    .player__account__name {
+      margin-bottom: 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .player__account__ids {
+      color: #827ca1;
+    }
+  }
+  &_tags {
+    max-width: 40%;
+    margin-top: 4px;
+  }
+  &_add-note {
+    margin-left: auto;
+    align-self: center;
+  }
+}

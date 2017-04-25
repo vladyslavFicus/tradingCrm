@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Link } from 'react-router';
+import { I18n } from 'react-redux-i18n';
 import Permissions from '../../utils/permissions';
 import SubNav from '../SubNav';
 import PropTypes from '../../constants/propTypes';
@@ -41,7 +42,7 @@ class NavItem extends Component {
     }
 
     if (withSubmenu) {
-      subMenu = items.reduce((result, item, key) => {
+      subMenu = items.reduce((result, item) => {
         if (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions)) {
           result.push(item);
         }
@@ -59,7 +60,7 @@ class NavItem extends Component {
         <Link className="nav-link" to={url}>
           {!!icon && <i className={icon} />}
           <span className="link-text">
-            {label}
+            {I18n.t(label)}
             {withSubmenu && <i className="fa fa-angle-down" />}
           </span>
         </Link>

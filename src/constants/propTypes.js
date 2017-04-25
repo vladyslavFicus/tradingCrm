@@ -221,5 +221,81 @@ PropTypes.auditEntity = PropTypes.shape({
   type: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+PropTypes.paymentEntityStatus = PropTypes.shape({
+  creationTime: PropTypes.string.isRequired,
+  initiatorId: PropTypes.string.isRequired,
+  initiatorType: PropTypes.string.isRequired,
+  paymentStatus: PropTypes.string.isRequired,
+  reason: PropTypes.any,
+  reference: PropTypes.string.isRequired,
+});
+PropTypes.paymentEntity = PropTypes.shape({
+  amount: PropTypes.price.isRequired,
+  amountBarrierReached: PropTypes.bool.isRequired,
+  baseCurrencyAmount: PropTypes.price,
+  clientIp: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
+  creationTime: PropTypes.string.isRequired,
+  creatorType: PropTypes.string.isRequired,
+  creatorUUID: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
+  fraud: PropTypes.bool.isRequired,
+  mobile: PropTypes.bool.isRequired,
+  needApprove: PropTypes.bool.isRequired,
+  paymentAccount: PropTypes.string,
+  paymentFlowStatuses: PropTypes.arrayOf(PropTypes.paymentEntityStatus).isRequired,
+  paymentId: PropTypes.string.isRequired,
+  paymentMethod: PropTypes.string.isRequired,
+  paymentSystemRefs: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  paymentType: PropTypes.string.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  reason: PropTypes.any,
+  status: PropTypes.string.isRequired,
+  success: PropTypes.bool,
+  updateTime: PropTypes.string,
+  userAgent: PropTypes.string.isRequired,
+});
+PropTypes.userPaymentAccountEntity = PropTypes.shape({
+  creationDate: PropTypes.string.isRequired,
+  details: PropTypes.string.isRequired,
+  lastActivityDate: PropTypes.string.isRequired,
+  lastPayment: PropTypes.paymentEntity.isRequired,
+  paymentMethod: PropTypes.string.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+});
+PropTypes.paymentMethodLimit = PropTypes.shape({
+  currencyCode: PropTypes.string,
+  disabled: PropTypes.bool.isRequired,
+  max: PropTypes.number,
+  min: PropTypes.number,
+  uuid: PropTypes.string.isRequired,
+});
+PropTypes.paymentMethod = PropTypes.shape({
+  depositLimit: PropTypes.paymentMethodLimit.isRequired,
+  methodName: PropTypes.string.isRequired,
+  order: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+  withdrawLimit: PropTypes.paymentMethodLimit.isRequired,
+});
+PropTypes.paymentActionReasons = PropTypes.shape({
+  reject: PropTypes.arrayOf(PropTypes.string),
+  chargeback: PropTypes.arrayOf(PropTypes.string),
+});
+PropTypes.paymentReasonModalStaticParams = PropTypes.shape({
+  title: PropTypes.string,
+  actionButtonLabel: PropTypes.string,
+  actionDescription: PropTypes.string,
+});
+PropTypes.walletLimitEntity = PropTypes.shape({
+  author: PropTypes.string.isRequired,
+  authorUUID: PropTypes.any,
+  id: PropTypes.number.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  reason: PropTypes.string.isRequired,
+  startLock: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+});
 
 export default PropTypes;

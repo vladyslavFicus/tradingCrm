@@ -1,5 +1,6 @@
 .create-operator-modal {
   width: 655px;
+  margin: 80px auto;
 
   .modal-header {
     background-color: rgb(223, 242, 255);
@@ -12,5 +13,9 @@
 
   .modal-footer {
     text-align: left;
+  }
+
+  .close span {
+    font-size: 50px;
   }
 }

@@ -48,7 +48,7 @@ class Personal extends Component {
             />
             <PersonalInformationItem
               label="Registration Date"
-              value={moment(registrationDate).format('YYYY-MM-DD HH:mm')}
+              value={moment(registrationDate).format('DD.MM.YYYY HH:mm')}
             />
           </div>
         </div>
