@@ -1,27 +1,29 @@
+@import "../../../../../styles/mixins/mixins";
+
+
 .operator-profile-layout {
-  &-info-toggle {
-    display: flex;
-    justify-content: center;
+  &-heading {
+    margin: 0 -1rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(248, 248, 248, 1) 100%, rgba(248, 248, 248, 1) 100%);
+  }
 
-    &-button {
-      background-color: #ffffff;
-      color: #999;
-      border: 0;
-      position: absolute;
-      white-space: nowrap;
-      z-index: 1;
-      font-size: 11px;
-      height: 28px;
+  .hide-details-block {
+    @include flexbox();
+    flex-flow: row nowrap;
+    align-items: center;
+    margin: 0 .9375rem;
+    &_arrow {
+      @include flex(1 0 40%);
+      min-height: 1px;
+      border-top: 1px solid #eee;
+    }
+    &_text {
+      text-align: center;
+      width: 80px;
       text-decoration: underline;
-
-      &:focus {
-        border: 0;
-        outline: none;
-      }
-
-      &:active {
-        border: 0;
-      }
+      font-size: 11px;
+      color: #999;
+      cursor: pointer;
     }
   }
 }

@@ -139,41 +139,36 @@ class OperatorProfileLayout extends Component {
     return (
       <div className="player container panel operator-profile-layout">
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">
-              <Header
-                data={data}
-                lastIp={lastIp}
-                availableStatuses={availableStatuses}
-                onResetPasswordClick={this.handleResetPasswordClick}
-                onSendInvitationClick={this.handleSendInvitationClick}
-                onStatusChange={changeStatus}
-              />
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-sm-12 operator-profile-layout-info-toggle">
-              <button
-                className="operator-profile-layout-info-toggle-button"
-                onClick={this.handleToggleInformationBlock}
-              >
-                {informationShown ? 'Hide details' : 'Show details'}
-              </button>
-              <div className="col-xs-12">
-                <hr />
+          <div className="operator-profile-layout-heading">
+            <div className="row">
+              <div className="col-md-12">
+                <Header
+                  data={data}
+                  lastIp={lastIp}
+                  availableStatuses={availableStatuses}
+                  onResetPasswordClick={this.handleResetPasswordClick}
+                  onSendInvitationClick={this.handleSendInvitationClick}
+                  onStatusChange={changeStatus}
+                />
               </div>
             </div>
+
+            <div className="hide-details-block">
+              <div className="hide-details-block_arrow" />
+              <div className="hide-details-block_text" onClick={this.handleToggleInformationBlock}>
+                {informationShown ? 'Hide details' : 'Show details'}
+              </div>
+              <div className="hide-details-block_arrow" />
+            </div>
+
+            {
+              informationShown &&
+              <Information
+                data={data}
+                ips={ip.list}
+              />
+            }
           </div>
-
-          {
-            informationShown &&
-            <Information
-              data={data}
-              ips={ip.list}
-            />
-          }
-
           <div className="row">
             <section className="panel profile-user-content">
               <div className="panel-body">
