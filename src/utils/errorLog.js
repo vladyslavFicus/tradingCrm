@@ -12,7 +12,7 @@ const sendError = (params) => {
     return false;
   }
 
-  if (!__PROD__ && !__DEV__) {
+  if (__TEST__) {
     return false;
   }
 
