@@ -9,7 +9,7 @@ import { actionTypes as profileActionTypes, mapBalances } from './profile';
 const KEY = 'user/balances';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 
-function fetchEntities(uuid) {
+function fetchBalances(uuid) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -125,7 +125,7 @@ const actionTypes = {
   FETCH_ENTITIES,
 };
 const actionCreators = {
-  fetchEntities,
+  fetchBalances,
 };
 
 export {
