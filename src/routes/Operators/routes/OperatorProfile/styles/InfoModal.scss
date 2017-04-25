@@ -1,0 +1,23 @@
+.modal {
+  .modal-header {
+    background-color: #FFCC66;
+    border: none;
+  }
+  .close {
+    font-size: 45px;
+    font-weight: 100;
+  }
+  &-body {
+    padding: 50px 15px;
+    &_text {
+      text-align: center;
+      font-weight: bold;
+    }
+    &_uid {
+      font-weight: 100;
+    }
+  }
+  .btn {
+    text-transform: uppercase;
+  }
+}

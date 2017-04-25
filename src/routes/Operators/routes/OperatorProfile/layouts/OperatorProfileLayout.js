@@ -5,6 +5,7 @@ import Information from '../components/Information';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import './OperatorProfileLayout.scss';
+import modalCssModule from '../styles/InfoModal.scss';
 import PropTypes from '../../../../../constants/propTypes';
 
 const INFO_MODAL = 'info-modal';
@@ -65,16 +66,25 @@ class OperatorProfileLayout extends Component {
 
       if (action && !action.error) {
         this.handleOpenModal(INFO_MODAL, {
-          header: 'Reset password',
+          header: 'Operators password reset - Confirmation',
           body: (
-            <span>
-              Reset password link was sent to <strong>{data.email}</strong>.
-            </span>
+            <div className="modal-body_text">
+              You are about to reset password for <br /> Helen Cassar - <span className="modal-body_uid">OP-659d4581</span> operator account
+            </div>
           ),
           footer: (
-            <button className="btn btn-default" onClick={this.handleCloseModal}>
-              Close
-            </button>
+            <div>
+              <div className="col-xs-6 text-left">
+                <button className="btn-default-outline btn btn-secondary" onClick={this.handleCloseModal}>
+                  Close
+                </button>
+              </div>
+              <div className="col-xs-6">
+                <button className="btn btn-danger">
+                  Reset password
+                </button>
+              </div>
+            </div>
           ),
         });
       }
@@ -89,16 +99,25 @@ class OperatorProfileLayout extends Component {
 
       if (action && !action.error) {
         this.handleOpenModal(INFO_MODAL, {
-          header: 'Send invitation link',
+          header: 'Send invitation to operator - Confirmation',
           body: (
-            <span>
-              Invitation link was sent to <strong>{data.email || operatorUUID}</strong>.
-            </span>
+            <div className="modal-body_text">
+              You are about to send an invation to <br /> operator Helen Cassar - <span className="modal-body_uid">OP-659d4581</span>
+            </div>
           ),
           footer: (
-            <button className="btn btn-default" onClick={this.handleCloseModal}>
-              Close
-            </button>
+            <div>
+              <div className="col-xs-6 text-left">
+                <button className="btn-default-outline btn btn-secondary" onClick={this.handleCloseModal}>
+                  Close
+                </button>
+              </div>
+              <div className="col-xs-6">
+                <button className="btn btn-danger">
+                  Reset password
+                </button>
+              </div>
+            </div>
           ),
         });
       }
@@ -196,6 +215,7 @@ class OperatorProfileLayout extends Component {
           <Modal
             onClose={this.handleCloseModal}
             isOpen
+            cssModule={modalCssModule}
             {...modal.params}
           />
         }
