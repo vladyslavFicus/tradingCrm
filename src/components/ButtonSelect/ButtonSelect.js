@@ -6,17 +6,29 @@ import 'react-select/dist/react-select.css';
 import './ButtonSelect.scss';
 
 class ButtonSelect extends Component {
+  focus = () => {
+    this.props.onClick();
+  };
+
   render() {
-    const { opened, onClick, label, className, ...rest } = this.props;
+    const { opened, onCloseClick, label, className, ...rest } = this.props;
 
     return <div className={classNames('button-select')}>
-      <button className={className} onClick={onClick}>
+      <span className="tag-arrow tag-arrow-default" />
+
+      <div className={classNames('auto-complete', 'ignore-react-onclickoutside margin-left-10', { opened })}>
+        <ReactSelect {...rest} placeholder="" />
+      </div>
+
+      <button className={className} onClick={this.focus}>
         {label}
       </button>
 
-      <div className={classNames('auto-complete', 'ignore-react-onclickoutside margin-left-10', { opened })}>
-        <ReactSelect {...rest}/>
-      </div>
+      <button
+        type="button"
+        className={`btn btn-xs btn-secondary btn-delete`}
+        onClick={onCloseClick}
+      >&times;</button>
     </div>;
   }
 }

@@ -18,10 +18,8 @@ i.green {
   font-size: 14px;
   font-weight: bold;
 }
-
 .player__account__name {
-  margin-bottom: 5px;
-  font-size: 28px;
+  font-size: 20px;
 }
 
 .player__account__ids {
@@ -118,6 +116,10 @@ i.green {
 
 .tag-arrow-success {
   border-right-color: #46be8a;
+}
+
+.tag-arrow-default {
+  border-right-color: #6a7a84;
 }
 
 .panel-body-min-height {
