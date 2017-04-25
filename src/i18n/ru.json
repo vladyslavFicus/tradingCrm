@@ -1,0 +1,23 @@
+{
+  "SIDEBAR": {
+    "TOP_MENU": {
+      "PLAYERS": "Игроки",
+      "DORMANT": "Бездействующие",
+      "OPERATORS": "Операторы",
+      "TRANSACTIONS": "Транзакции",
+      "OPEN_LOOP": "Open loop",
+      "PAYMENT_METHODS": "Пплатежные методы",
+      "BONUS_CAMPAIGNS": "Бонусные программы",
+      "TERMS": "Правила",
+      "REPORTS": "Отчеты",
+      "PLAYER_LIABILITY": "Обязательства",
+      "REVENUE": "Доход",
+      "COMMON": {
+        "ALL": "Все"
+      }
+    },
+    "BOTTOM_MENU": {
+      "SUPPORT": "Поддержка"
+    }
+  }
+}

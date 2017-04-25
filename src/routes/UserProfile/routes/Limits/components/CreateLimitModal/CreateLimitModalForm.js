@@ -140,7 +140,7 @@ class CreateLimitModal extends Component {
           </ModalBody>
           <ModalFooter>
             <div className="row">
-              <div className="col-sm-6 text-muted font-size-12">
+              <div className="col-sm-6 text-muted font-size-12 text-left">
                 <b>Note</b>: The limit can only be canceled after the cool off period
               </div>
               <div className="col-sm-6 text-right">

@@ -22,6 +22,21 @@
       text-transform: uppercase;
       font-size: 11px;
     }
+    .switch {
+      border: none;
+      border-radius: 8px;
+      &-toggle {
+        border-radius: 50%;
+      }
+    }
+    .small-switch {
+      .switch-toggle {
+        top: 3px;
+      }
+      &.on .switch-toggle {
+        left: 17px;
+      }
+    }
   }
   .font-size-13 {
     color: #666666;

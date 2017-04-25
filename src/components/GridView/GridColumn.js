@@ -4,7 +4,7 @@ class GridColumn extends Component {
   render() {
     return (
       <td>
-        { this.props.children }
+        {this.props.children}
       </td>
     );
   }
@@ -21,6 +21,7 @@ GridColumn.propTypes = {
   render: PropTypes.func,
   className: PropTypes.string,
   style: PropTypes.object,
+  children: PropTypes.any,
 };
 
 export default GridColumn;

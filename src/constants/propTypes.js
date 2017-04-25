@@ -279,5 +279,23 @@ PropTypes.paymentMethod = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   withdrawLimit: PropTypes.paymentMethodLimit.isRequired,
 });
+PropTypes.paymentActionReasons = PropTypes.shape({
+  reject: PropTypes.arrayOf(PropTypes.string),
+  chargeback: PropTypes.arrayOf(PropTypes.string),
+});
+PropTypes.paymentReasonModalStaticParams = PropTypes.shape({
+  title: PropTypes.string,
+  actionButtonLabel: PropTypes.string,
+  actionDescription: PropTypes.string,
+});
+PropTypes.walletLimitEntity = PropTypes.shape({
+  author: PropTypes.string.isRequired,
+  authorUUID: PropTypes.any,
+  id: PropTypes.number.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  reason: PropTypes.string.isRequired,
+  startLock: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+});
 
 export default PropTypes;

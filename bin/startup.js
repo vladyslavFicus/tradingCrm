@@ -1,31 +1,33 @@
 const process = require('process');
 const fs = require('fs');
-require('isomorphic-fetch');
+const fetch = require('isomorphic-fetch');
 
-const consolePrefix = `[startup.js]: `;
-const log = (data) => console.log(consolePrefix, data);
-const delay = (time) => new Promise(resolve => setTimeout(resolve, time));
+const consolePrefix = '[startup.js]: ';
+const log = data => console.log(consolePrefix, data);
+const delay = time => new Promise(resolve => setTimeout(resolve, time));
+const STATUS = {
+  UP: 'UP',
+  DOWN: 'DOWN',
+};
 function fetchConfigByURL(url, timeout = 5, attempts = 10) {
-  const loadConfig = (url, sleep = 0, retry = 0) => {
-    return fetch(url)
-      .then(response => {
-        retry++;
-        log(`Retry: ${retry}, sleep: ${sleep}`);
-        log(`Status: ${response.status}`);
+  const loadConfig = (url, sleep = 0, retry = 0) => fetch(url)
+    .then((response) => {
+      retry++;
+      log(`Retry: ${retry}, sleep: ${sleep}`);
+      log(`Status: ${response.status}`);
 
-        if (response.status !== 200) {
-          if (retry === attempts) {
-            throw new Error('Config service is too long unavailable');
-          }
-
-          sleep += timeout;
-          return delay(sleep * 1000)
-            .then(() => loadConfig(url, sleep, retry));
+      if (response.status !== 200) {
+        if (retry === attempts) {
+          throw new Error('Config service is too long unavailable');
         }
 
-        return response.json();
-      });
-  };
+        sleep += timeout;
+        return delay(sleep * 1000)
+          .then(() => loadConfig(url, sleep, retry));
+      }
+
+      return response.json();
+    });
 
   return new Promise((resolve, reject) => {
     loadConfig(url)
@@ -40,11 +42,17 @@ function processSpringConfig(springConfig) {
     if (error) {
       processError(error);
     }
+
+    if (config['api.entry']) {
+      const status = STATUS.UP;
+      fs.writeFileSync('/opt/health.json', JSON.stringify({ status, config: { status } }));
+    }
   });
 }
 
 function processError(error) {
   log(error);
+  fs.writeFileSync('/opt/health.json', JSON.stringify({ status: STATUS.DOWN, config: { status: STATUS.DOWN } }));
   process.exit(1);
 }
 

@@ -5,7 +5,7 @@ import { actionCreators } from '../modules/index';
 const mapStateToProps = (state) => {
   const props = {
     ...state.userFiles,
-    profile: state.profile.view.profile,
+    profile: state.profile.profile,
     uploadModalInitialValues: {},
   };
 

@@ -1,5 +1,4 @@
 import { CALL_API } from 'redux-api-middleware';
-import { combineReducers } from 'redux';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import timestamp from '../../../utils/timestamp';
@@ -13,7 +12,7 @@ import { actionCreators as usersActionCreators } from '../../../redux/modules/us
 import { sourceActionCreators as filesSourceActionCreators } from '../../../redux/modules/files';
 import { actionTypes as userProfileFilesActionTypes } from '../routes/Files/modules/files';
 
-const KEY = 'user-profile';
+const KEY = 'user-profile/view';
 const PROFILE = createRequestAction(`${KEY}/view`);
 const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
@@ -36,18 +35,10 @@ const UNBLOCK_PROFILE = createRequestAction(`${KEY}/unblock-profile`);
 
 const UPDATE_SUBSCRIPTION = createRequestAction(`${KEY}/update-subscription`);
 
-const CHECK_LOCK = createRequestAction(`${KEY}/check-lock`);
-
 const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
 const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
 
-const DEPOSIT_LOCK = createRequestAction(`${KEY}/deposit-lock`);
-const DEPOSIT_UNLOCK = createRequestAction(`${KEY}/deposit-unlock`);
-
-const WITHDRAW_LOCK = createRequestAction(`${KEY}/withdraw-lock`);
-const WITHDRAW_UNLOCK = createRequestAction(`${KEY}/withdraw-unlock`);
-
-const profileInitialState = {
+const initialState = {
   data: {
     id: null,
     acceptedTermsId: null,
@@ -107,24 +98,6 @@ const profileInitialState = {
   error: null,
   isLoading: false,
   receivedAt: null,
-};
-const depositInitialState = {
-  reasons: [],
-  error: false,
-  isLoading: false,
-  receivedAt: null,
-};
-const withdrawInitialState = {
-  reasons: [],
-  error: false,
-  isLoading: false,
-  receivedAt: null,
-};
-
-const initialState = {
-  profile: profileInitialState,
-  deposit: depositInitialState,
-  withdraw: withdrawInitialState,
 };
 
 export const mapBalances = items =>
@@ -390,117 +363,6 @@ function fetchBalances(uuid) {
   };
 }
 
-function checkLock(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `payment/lock/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [CHECK_LOCK.REQUEST, CHECK_LOCK.SUCCESS, CHECK_LOCK.FAILURE],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function lockDeposit(playerUUID, reason) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: 'payment/lock/deposit',
-        method: 'POST',
-        types: [DEPOSIT_LOCK.REQUEST, DEPOSIT_LOCK.SUCCESS, DEPOSIT_LOCK.FAILURE],
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          reason,
-          playerUUID,
-        }),
-        bailout: !logged,
-      },
-    })
-      .then(() => dispatch(checkLock(playerUUID)));
-  };
-}
-
-function unlockDeposit(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `payment/lock/${uuid}/deposit`,
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [DEPOSIT_UNLOCK.REQUEST, DEPOSIT_UNLOCK.SUCCESS, DEPOSIT_UNLOCK.FAILURE],
-        bailout: !logged,
-      },
-    })
-      .then(() => dispatch(checkLock(uuid)));
-  };
-}
-
-function lockWithdraw(playerUUID, reason) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: 'payment/lock/withdraw',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          reason,
-          playerUUID,
-        }),
-        types: [WITHDRAW_LOCK.REQUEST, WITHDRAW_LOCK.SUCCESS, WITHDRAW_LOCK.FAILURE],
-        bailout: !logged,
-      },
-    }).then(() => dispatch(checkLock(playerUUID)));
-  };
-}
-
-function unlockWithdraw(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `payment/lock/${uuid}/withdraw`,
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [WITHDRAW_UNLOCK.REQUEST, WITHDRAW_UNLOCK.SUCCESS, WITHDRAW_UNLOCK.FAILURE],
-        bailout: !logged,
-      },
-    })
-      .then(() => dispatch(checkLock(uuid)));
-  };
-}
-
 function suspendProfile({ playerUUID, ...data }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -585,8 +447,7 @@ function changeStatus({ action, ...data }) {
 
 function loadFullProfile(uuid) {
   return dispatch => dispatch(fetchProfile(uuid))
-    .then(() => dispatch(fetchBalances(uuid)))
-    .then(() => dispatch(checkLock(uuid)));
+    .then(() => dispatch(fetchBalances(uuid)));
 }
 
 function successUpdateProfileReducer(state, action) {
@@ -692,38 +553,7 @@ function successDeleteFileReducer(state, action) {
   return state;
 }
 
-const balanceActionHandlers = {
-  [FETCH_BALANCES.REQUEST]: state => ({
-    ...state,
-    isLoading: true,
-    error: null,
-  }),
-  [FETCH_BALANCES.SUCCESS]: (state, action) => {
-    const newState = {
-      ...state,
-      isLoading: false,
-      receivedAt: timestamp(),
-    };
-
-    if (action.payload.balances) {
-      const balances = mapBalances(action.payload.balances);
-
-      if (balances.length > 0) {
-        newState.data.balance = { ...balances[0] };
-        newState.data.currencyCode = newState.data.balance.currency;
-      }
-    }
-
-    return newState;
-  },
-  [FETCH_BALANCES.FAILURE]: (state, action) => ({
-    ...state,
-    isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
-  }),
-};
-const profileActionHandlers = {
+const actionHandlers = {
   [PROFILE.REQUEST]: state => ({
     ...state,
     isLoading: true,
@@ -757,100 +587,30 @@ const profileActionHandlers = {
   [userProfileFilesActionTypes.REFUSE_FILE.SUCCESS]: successUpdateFileStatusReducer,
   [userProfileFilesActionTypes.DELETE_FILE.SUCCESS]: successDeleteFileReducer,
   [userProfileFilesActionTypes.SAVE_FILES.SUCCESS]: successUploadFilesReducer,
-  ...balanceActionHandlers,
-};
-const depositActionHandlers = {
-  [CHECK_LOCK.REQUEST]: state => ({
+  [FETCH_BALANCES.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [CHECK_LOCK.SUCCESS]: (state, action) => {
+  [FETCH_BALANCES.SUCCESS]: (state, action) => {
     const newState = {
       ...state,
-      reasons: [],
       isLoading: false,
       receivedAt: timestamp(),
     };
 
-    newState.reasons = action.payload.reduce((result, current) => {
-      if (current.type === 'DEPOSIT') {
-        result.push(current);
-      }
+    if (action.payload.balances) {
+      const balances = mapBalances(action.payload.balances);
 
-      return result;
-    }, []);
+      if (balances.length > 0) {
+        newState.data.balance = { ...balances[0] };
+        newState.data.currencyCode = newState.data.balance.currency;
+      }
+    }
 
     return newState;
   },
-
-  [CHECK_LOCK.FAILURE]: (state, action) => ({
-    ...state,
-    isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
-  }),
-
-  [DEPOSIT_LOCK.REQUEST]: state => ({
-    ...state,
-    isLoading: true,
-    error: null,
-  }),
-  [DEPOSIT_LOCK.SUCCESS]: state => ({
-    ...state,
-    isLoading: false,
-    receivedAt: timestamp(),
-  }),
-  [DEPOSIT_LOCK.FAILURE]: (state, action) => ({
-    ...state,
-    isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
-  }),
-};
-const withdrawActionHandlers = {
-  [CHECK_LOCK.REQUEST]: state => ({
-    ...state,
-    isLoading: true,
-    error: null,
-  }),
-  [CHECK_LOCK.SUCCESS]: (state, action) => {
-    const newState = {
-      ...state,
-      reasons: [],
-      isLoading: false,
-      receivedAt: timestamp(),
-    };
-
-    newState.reasons = action.payload.reduce((result, current) => {
-      if (current.type === 'WITHDRAW') {
-        result.push(current);
-      }
-
-      return result;
-    }, []);
-
-    return newState;
-  },
-
-  [CHECK_LOCK.FAILURE]: (state, action) => ({
-    ...state,
-    isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
-  }),
-
-  [WITHDRAW_LOCK.REQUEST]: state => ({
-    ...state,
-    isLoading: true,
-    error: null,
-  }),
-  [WITHDRAW_LOCK.SUCCESS]: state => ({
-    ...state,
-    isLoading: false,
-    receivedAt: timestamp(),
-  }),
-  [WITHDRAW_LOCK.FAILURE]: (state, action) => ({
+  [FETCH_BALANCES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
@@ -863,7 +623,6 @@ const actionTypes = {
   ADD_TAG,
   DELETE_TAG,
   BALANCE,
-  CHECK_LOCK,
   UPDATE_PROFILE,
   SUBMIT_KYC,
   FETCH_BALANCES,
@@ -888,11 +647,6 @@ const actionCreators = {
   updateSubscription,
   getBalance,
   loadFullProfile,
-  checkLock,
-  lockDeposit,
-  unlockDeposit,
-  lockWithdraw,
-  unlockWithdraw,
   fetchBalances,
   changeStatus,
   addTag,
@@ -903,11 +657,7 @@ export {
   initialState,
   actionTypes,
   actionCreators,
-  profileActionHandlers,
+  actionHandlers,
 };
 
-export default combineReducers({
-  profile: createReducer(profileInitialState, profileActionHandlers),
-  deposit: createReducer(depositInitialState, depositActionHandlers),
-  withdraw: createReducer(withdrawInitialState, withdrawActionHandlers),
-});
+export default createReducer(initialState, actionHandlers);

@@ -27,7 +27,7 @@ const FeedInfoLogin = ({ data }) => (
       <div>
         Session Start:
         <span className="feed-item_info-details_value">
-          {moment(data.details.sessionStart).format('YYYY-MM-DD \\a\\t HH:mm:ss')}
+          {moment(data.details.sessionStart).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
         </span>
       </div>
     }

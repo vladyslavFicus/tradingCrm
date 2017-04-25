@@ -215,9 +215,9 @@ class ViewModal extends Component {
   renderPlayerStatus = (profile) => {
     return <div>
       <div
-        className={`font-weight-600 text-uppercase ${statusColorNames[profile.profileStatus]}`}
+        className={`font-weight-600 text-uppercase ${statusColorNames[profile.status]}`}
       >
-        {profile.profileStatus}
+        {profile.status}
         </div>
       {
         !!profile.suspendEndDate &&

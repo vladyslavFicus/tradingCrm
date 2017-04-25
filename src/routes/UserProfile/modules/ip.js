@@ -5,22 +5,18 @@ import { sourceActionCreators as ipActionCreators } from '../../../redux/modules
 
 const KEY = 'user/ip';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
-
 const fetchEntities = ipActionCreators.fetchEntities(FETCH_ENTITIES);
 
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: { ...state.filters, ...action.meta.filters, },
+    filters: action.meta.filters,
     isLoading: true,
     error: null,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
-    entities: {
-      ...state.entities,
-      ...action.payload,
-    },
+    list: action.payload,
     isLoading: false,
     receivedAt: timestamp(),
   }),
@@ -32,17 +28,7 @@ const actionHandlers = {
   }),
 };
 const initialState = {
-  entities: {
-    first: false,
-    last: false,
-    number: 0,
-    numberOfElements: 0,
-    size: 0,
-    sort: [],
-    totalElements: 0,
-    totalPages: 0,
-    content: [],
-  },
+  list: [],
   error: null,
   filters: {},
   isLoading: false,

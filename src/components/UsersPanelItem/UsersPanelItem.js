@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
+import { shortify } from '../../utils/uuid';
 import './UsersPanelItem.scss';
 
 class UsersPanelItem extends Component {
@@ -40,7 +41,7 @@ class UsersPanelItem extends Component {
         <div className="users-panel-footer-row_item-block">
           <div className="users-panel-footer-row_item-block-info">
             <div className="player-name">{fullName}</div>
-            <div className="player-info">{login} - {uuid}</div>
+            <div className="player-info">{login} - {shortify(uuid, 'PL')}</div>
           </div>
 
           <button className="btn-transparent color-black" onClick={this.handleRemoveClick}>

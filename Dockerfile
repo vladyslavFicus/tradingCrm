@@ -17,4 +17,6 @@ RUN chmod +x /opt/entrypoint.sh
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
 
+HEALTHCHECK CMD curl --fail http://localhost/health || exit 1
+
 EXPOSE 80
