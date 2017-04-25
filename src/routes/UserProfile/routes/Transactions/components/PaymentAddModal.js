@@ -59,6 +59,7 @@ class PaymentAddModal extends Component {
       type: PropTypes.string.isRequired,
     }),
     note: PropTypes.noteEntity,
+    error: PropTypes.string,
   };
 
   static contextTypes = {
@@ -182,6 +183,7 @@ class PaymentAddModal extends Component {
       valid,
       playerInfo: { currencyCode },
       note,
+      error,
     } = this.props;
 
     return (
@@ -190,6 +192,9 @@ class PaymentAddModal extends Component {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
+            {error && <div className="alert alert-warning">
+              {error}
+            </div>}
             <div className="row">
               <div className="col-md-4">
                 <Field
