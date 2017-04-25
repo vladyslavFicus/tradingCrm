@@ -5,7 +5,7 @@ import { sourceActionCreators as ipActionCreators } from '../../../redux/modules
 
 const KEY = 'user/ip';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
-const fetchEntities = ipActionCreators.fetchEntities(FETCH_ENTITIES);
+const fetchIPs = ipActionCreators.fetchEntities(FETCH_ENTITIES);
 
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
@@ -38,7 +38,7 @@ const actionTypes = {
   FETCH_ENTITIES,
 };
 const actionCreators = {
-  fetchEntities,
+  fetchIPs,
 };
 
 export {

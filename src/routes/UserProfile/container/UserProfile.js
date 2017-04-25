@@ -36,8 +36,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapActions = {
-  fetchIp: actionCreators.fetchEntities,
-  fetchAccumulatedBalances: actionCreators.fetchEntities,
+  fetchIp: actionCreators.fetchIPs,
+  fetchAccumulatedBalances: actionCreators.fetchBalances,
   acceptBonus: actionCreators.acceptBonus,
   cancelBonus: actionCreators.cancelBonus,
   fetchActiveBonus: actionCreators.fetchActiveBonus,

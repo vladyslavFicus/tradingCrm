@@ -19,7 +19,8 @@
   .navbar-nav {
     margin-bottom: 0;
     padding-left: 0;
-    max-height: 70%;
+    max-height: 300px;
+    height: 300px;
     overflow-y: hidden;
     overflow-x: hidden;
     list-style: none;
@@ -131,6 +132,7 @@
     position: absolute;
     bottom: 3.35em;
     width: 100%;
+    height: auto;
   }
   &:hover {
     width: 240px;
