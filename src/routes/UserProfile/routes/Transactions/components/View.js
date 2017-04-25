@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import { SubmissionError } from 'redux-form';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
 import {
@@ -116,39 +117,42 @@ class View extends Component {
       .then(this.handleCloseModal);
   };
 
-  handleAddPayment = async (inputParams) => {
-    this.handleCloseModal(async () => {
-      const {
-        addPayment,
-        params: { id: playerUUID },
-        currencyCode,
-        resetNote,
-        newPaymentNote: unsavedNote,
-      } = this.props;
+  handleAddPayment = async(inputParams) => {
+    const {
+      addPayment,
+      params: { id: playerUUID },
+      currencyCode,
+      resetNote,
+      newPaymentNote: unsavedNote,
+    } = this.props;
 
-      const params = {
-        ...inputParams,
-        currency: currencyCode,
-      };
+    const params = {
+      ...inputParams,
+      currency: currencyCode,
+    };
 
-      if (inputParams.type !== paymentTypes.Withdraw) {
-        delete params.paymentMethod;
-      }
+    if (inputParams.type !== paymentTypes.Withdraw) {
+      delete params.paymentMethod;
+    }
 
-      const action = await addPayment(playerUUID, params);
+    const action = await addPayment(playerUUID, params);
 
-      if (action && !action.error) {
-        if (unsavedNote) {
-          await this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.paymentId });
-          if (unsavedNote.pinned) {
-            this.context.refreshPinnedNotes();
-          }
+    if (action && action.error) {
+      throw new SubmissionError({ _error: action.payload.response.error });
+    } else {
+      if (unsavedNote) {
+        await this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.paymentId });
+        if (unsavedNote.pinned) {
+          this.context.refreshPinnedNotes();
         }
       }
 
       resetNote();
       this.handleRefresh();
-    });
+      this.handleCloseModal();
+    }
+
+    return action;
   };
 
   handleOpenAddPaymentModal = () => {

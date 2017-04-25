@@ -42,8 +42,6 @@ const mapActions = {
   cancelBonus: actionCreators.cancelBonus,
   fetchActiveBonus: actionCreators.fetchActiveBonus,
   updateSubscription: actionCreators.updateSubscription,
-  fetchBalances: actionCreators.fetchBalances,
-  getBalance: actionCreators.getBalance,
   loadFullProfile: actionCreators.loadFullProfile,
   lockDeposit: actionCreators.lockDeposit,
   lockWithdraw: actionCreators.lockWithdraw,

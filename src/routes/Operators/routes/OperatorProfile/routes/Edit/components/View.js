@@ -4,6 +4,13 @@ import DepartmentsForm from './DepartmentsForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
 import { renderLabel } from '../../../../../utils';
+import PermissionContent from '../../../../../../../components/PermissionContent';
+import Permissions from '../../../../../../../utils/permissions';
+import permission from '../../../../../../../config/permissions';
+
+const manageDepartmentsPermissions = new Permissions([
+  permission.OPERATORS.ADD_AUTHORITY, permission.OPERATORS.DELETE_AUTHORITY
+]);
 
 class View extends Component {
   static propTypes = {
@@ -69,46 +76,48 @@ class View extends Component {
               </div>
             </div>
           </div>
-          <div className="panel">
-            <div className="panel-body row">
-              <div className="col-md-12">
-                <div className="row">
-                  <h5 className="pull-left">Departments</h5>
-                </div>
-                {
-                  authorities.map((authority, key) => (
-                    <div key={key} className="form-group col-md-12">
-                      <div className="font-weight-700">
-                        <div className="row">
-                          <div className="pull-left">
-                            { renderLabel(authority.department, departmentsLabels) }
-                            {' - '}
-                            { renderLabel(authority.role, rolesLabels) }
-                          </div>
-                          <div className="pull-left margin-left-20">
-                            <i
-                              onClick={() => this.handleDeleteAuthority(authority.department, authority.role)}
-                              className="fa fa-trash color-danger"
-                              aria-hidden="true"
-                            />
+          <PermissionContent permissions={manageDepartmentsPermissions}>
+            <div className="panel">
+              <div className="panel-body row">
+                <div className="col-md-12">
+                  <div className="row">
+                    <h5 className="pull-left">Departments</h5>
+                  </div>
+                  {
+                    authorities.map((authority, key) => (
+                      <div key={key} className="form-group col-md-12">
+                        <div className="font-weight-700">
+                          <div className="row">
+                            <div className="pull-left">
+                              { renderLabel(authority.department, departmentsLabels) }
+                              {' - '}
+                              { renderLabel(authority.role, rolesLabels) }
+                            </div>
+                            <div className="pull-left margin-left-20">
+                              <i
+                                onClick={() => this.handleDeleteAuthority(authority.department, authority.role)}
+                                className="fa fa-trash color-danger"
+                                aria-hidden="true"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))
-                }
-                <div className="col-md-12">
-                  <DepartmentsForm
-                    onFetch={this.handleFetchAuthority}
-                    onSubmit={this.handleAddAuthority}
-                    authorities={authorities}
-                    departments={departments}
-                    roles={roles}
-                  />
+                    ))
+                  }
+                  <div className="col-md-12">
+                    <DepartmentsForm
+                      onFetch={this.handleFetchAuthority}
+                      onSubmit={this.handleAddAuthority}
+                      authorities={authorities}
+                      departments={departments}
+                      roles={roles}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </PermissionContent>
         </div>
       </div>
     );
