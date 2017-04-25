@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { formValueSelector, reduxForm, Field } from 'redux-form';
+import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -10,8 +10,6 @@ import { types, statuses, methods, typesLabels, statusesLabels, methodsLabels } 
 import Currency from '../../../../../components/Amount/Currency';
 
 const FORM_NAME = 'userTransactionsFilter';
-const transactionGridValuesSelector = formValueSelector(FORM_NAME);
-
 const attributeLabels = {
   keyword: 'Payment ID, External reference...',
   initiatorType: 'Initiated by',
@@ -23,7 +21,6 @@ const attributeLabels = {
   amountLowerBound: 'From',
   amountUpperBound: 'To',
 };
-
 const validator = createValidator({
   keyword: 'string',
   initiatorType: ['string', `in:${Object.keys(initiators).join()}`],
@@ -38,21 +35,30 @@ const validator = createValidator({
 
 class TransactionGridFilter extends Component {
   static propTypes = {
-    reset: PropTypes.func.isRequired,
+    reset: PropTypes.func,
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     currencyCode: PropTypes.string,
+    currentValues: PropTypes.shape({
+      keyword: PropTypes.string,
+      initiatorType: PropTypes.string,
+      type: PropTypes.string,
+      statuses: PropTypes.string,
+      paymentMethod: PropTypes.string,
+      startDate: PropTypes.string,
+      endDate: PropTypes.string,
+    }),
   };
 
   handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DD') : '');
+    callback(value && moment(value).isValid() ? value.format('YYYY-MM-DD') : '');
   };
 
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues.endDate
+    return currentValues && currentValues.endDate
       ? current.isSameOrBefore(moment(currentValues.endDate))
       : true;
   };
@@ -60,7 +66,7 @@ class TransactionGridFilter extends Component {
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues.startDate
+    return currentValues && currentValues.startDate
       ? current.isSameOrAfter(moment(currentValues.startDate))
       : true;
   };
@@ -70,7 +76,8 @@ class TransactionGridFilter extends Component {
     this.props.onSubmit();
   };
 
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
+  renderQueryField = (props) => {
+    const { input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName } = props;
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label>{label}</label>
@@ -89,14 +96,14 @@ class TransactionGridFilter extends Component {
     );
   };
 
-  renderAmountField = ({
-    input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName, currencyCode,
-  }) => {
+  renderAmountField = (props) => {
+    const { input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName, currencyCode } = props;
+
     return (
       <div><label>{label}</label>
         <div className={classNames('input-group', { 'has-danger': touched && error })}>
           <div className="input-group-addon">
-            { currencyCode && <Currency code={currencyCode} /> }
+            {currencyCode && <Currency code={currencyCode} />}
           </div>
           <input
             {...input}
@@ -111,7 +118,9 @@ class TransactionGridFilter extends Component {
     );
   };
 
-  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
+  renderSelectField = (props) => {
+    const { input, children, label, meta: { touched, error }, emptyOptionLabel } = props;
+
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label>{label}</label>
@@ -126,7 +135,9 @@ class TransactionGridFilter extends Component {
     );
   };
 
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
+  renderDateField = (props) => {
+    const { input, placeholder, disabled, meta: { touched, error }, isValidDate } = props;
+
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <div className="input-group">
@@ -160,12 +171,6 @@ class TransactionGridFilter extends Component {
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row margin-bottom-20">
-          <div className="col-md-3">
-            <span className="font-size-20">Transactions</span>
-          </div>
-        </div>
-
         <div className="well">
           <div className="row">
             <div className="col-md-10">
@@ -321,18 +326,6 @@ const FilterForm = reduxForm({
   validate: validator,
 })(TransactionGridFilter);
 
-export default connect((state) => {
-  return {
-    currentValues: {
-      keyword: transactionGridValuesSelector(state, 'keyword') || '',
-      initiatorType: transactionGridValuesSelector(state, 'initiatorType') || '',
-      type: transactionGridValuesSelector(state, 'type') || '',
-      statuses: transactionGridValuesSelector(state, 'statuses') || '',
-      paymentMethod: transactionGridValuesSelector(state, 'paymentMethod') || '',
-      startDate: transactionGridValuesSelector(state, 'startDate') || '',
-      endDate: transactionGridValuesSelector(state, 'endDate') || '',
-      amountLowerBound: transactionGridValuesSelector(state, 'amountLowerBound') || '',
-      amountUpperBound: transactionGridValuesSelector(state, 'amountUpperBound') || '',
-    },
-  };
-})(FilterForm);
+export default connect(state => ({
+  currentValues: getFormValues(FORM_NAME)(state),
+}))(FilterForm);

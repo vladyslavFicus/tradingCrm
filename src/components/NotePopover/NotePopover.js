@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Popover, PopoverContent } from 'reactstrap';
-import { reduxForm, Field, formValueSelector } from 'redux-form';
+import { reduxForm, Field, getFormValues } from 'redux-form';
 import ReactSwitch from 'react-toggle-switch';
 import classNames from 'classnames';
 import moment from 'moment';
@@ -13,7 +13,6 @@ import NotePopoverStyle from './NotePopover.scss';
 
 const MAX_CONTENT_LENGTH = 500;
 const FORM_NAME = 'notePopoverForm';
-const notePopoverValuesSelector = formValueSelector(FORM_NAME);
 const attributeLabels = {
   pinned: 'Pin',
   content: 'Content',
@@ -58,8 +57,10 @@ class NotePopover extends Component {
     const shouldClose = isOpen && (
         ignoreChanges || (
           !item
-          || currentValues.content === item.content
-          && currentValues.pinned === item.pinned
+          || (
+            currentValues && currentValues.content === item.content
+            && currentValues && currentValues.pinned === item.pinned
+          )
         )
       );
 
@@ -217,7 +218,7 @@ class NotePopover extends Component {
             <div className="row">
               <div className="col-md-6">
                 <span className="display-block color-default font-size-10">
-                  {currentValues.content.length}/{MAX_CONTENT_LENGTH}
+                  {currentValues && currentValues.content ? currentValues.content.length : 0}/{MAX_CONTENT_LENGTH}
                 </span>
 
                 <Field
@@ -259,10 +260,5 @@ const NoteForm = reduxForm({
 })(NotePopover);
 
 export default connect(state => ({
-  currentValues: {
-    content: notePopoverValuesSelector(state, 'content') || '',
-    pinned: notePopoverValuesSelector(state, 'pinned') || false,
-    targetType: notePopoverValuesSelector(state, 'targetType') || '',
-    targetUUID: notePopoverValuesSelector(state, 'targetUUID') || '',
-  },
+  currentValues: getFormValues(FORM_NAME)(state),
 }))(NoteForm);

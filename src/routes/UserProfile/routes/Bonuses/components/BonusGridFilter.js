@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import DateTime from 'react-datetime';
 import classNames from 'classnames';
 import moment from 'moment';
-import { reduxForm, Field, formValueSelector } from 'redux-form';
+import { reduxForm, Field, getFormValues } from 'redux-form';
 import { Link } from 'react-router';
 import { statusesLabels, typesLabels, assignLabels } from '../../../../../constants/bonus';
 import { createValidator } from '../../../../../utils/validator';
 
 const FORM_NAME = 'userBonusesFilter';
-const bonusGridValuesSelector = formValueSelector(FORM_NAME);
 const attributeLabels = {
   keyword: 'Bonus ID, Bonus name, Granted by...',
   assigned: 'Assigned by',
@@ -44,7 +43,7 @@ class BonusGridFilter extends Component {
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues.endDate
+    return currentValues && currentValues.endDate
       ? current.isSameOrBefore(moment(currentValues.endDate))
       : true;
   };
@@ -52,7 +51,7 @@ class BonusGridFilter extends Component {
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues.startDate
+    return currentValues && currentValues.startDate
       ? current.isSameOrAfter(moment(currentValues.startDate))
       : true;
   };
@@ -258,13 +257,6 @@ const FilterForm = reduxForm({
 
 export default connect((state) => {
   return {
-    currentValues: {
-      keyword: bonusGridValuesSelector(state, 'keyword'),
-      states: bonusGridValuesSelector(state, 'states'),
-      type: bonusGridValuesSelector(state, 'type'),
-      assigned: bonusGridValuesSelector(state, 'assigned'),
-      startDate: bonusGridValuesSelector(state, 'startDate'),
-      endDate: bonusGridValuesSelector(state, 'endDate'),
-    },
+    currentValues: getFormValues(FORM_NAME)(state),
   };
 })(FilterForm);

@@ -4,6 +4,7 @@ import { IndexLink } from 'react-router';
 import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import NavbarNav from '../NavbarNav';
+import LocaleSwitcher from '../LocaleSwitcher';
 import './Navbar.scss';
 
 class Navbar extends Component {
@@ -12,16 +13,19 @@ class Navbar extends Component {
     router: PropTypes.shape({
       replace: PropTypes.func.isRequired,
     }).isRequired,
+    onLocaleChange: PropTypes.func.isRequired,
+    languages: PropTypes.arrayOf(PropTypes.dropDownOption).isRequired,
   };
   static defaultProps = {
     showSearch: true,
   };
   static contextTypes = {
     user: PropTypes.shape({
-      department: PropTypes.string.isRequired,
+      department: PropTypes.string,
       authorities: PropTypes.arrayOf(PropTypes.authorityEntity),
     }),
     changeDepartment: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
   state = {
@@ -40,9 +44,9 @@ class Navbar extends Component {
   };
 
   render() {
-    const { user, changeDepartment } = this.context;
+    const { user, changeDepartment, locale } = this.context;
     const { searchFieldActive, searchOverlayActive } = this.state;
-    const { showSearch } = this.props;
+    const { showSearch, onLocaleChange, languages } = this.props;
 
     return (
       <header className="layout-header">
@@ -86,6 +90,15 @@ class Navbar extends Component {
             </form>
           }
         </div>
+
+        <div className="margin-right-20">
+          <LocaleSwitcher
+            languages={languages}
+            currentLocale={locale}
+            changeLocale={onLocaleChange}
+          />
+        </div>
+
         <div className="right-navigation">
           <NavbarNav
             label={<i className="fa fa-user" />}

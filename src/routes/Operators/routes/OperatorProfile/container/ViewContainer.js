@@ -4,8 +4,8 @@ import { actionCreators } from '../modules';
 import { statusActions } from '../../../../../constants/operators';
 
 const mapStateToProps = ({ operatorProfile: { view: operatorProfile, ip } }) => {
-  const lastIp = ip.entities.content
-    ? ip.entities.content[ip.entities.content.length - 1]
+  const lastIp = ip.list.length > 0
+    ? ip.list[0]
     : null;
 
   return {

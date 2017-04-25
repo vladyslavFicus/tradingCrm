@@ -24,6 +24,8 @@ class Personal extends Component {
         profileStatus,
         phoneNumberVerified,
         city,
+        affiliateId,
+        btag,
       },
     } = this.props;
 
@@ -66,6 +68,14 @@ class Personal extends Component {
               label="City"
               value={city}
               verified={addressStatus.value === kycStatuses.VERIFIED}
+            />
+            <PersonalInformationItem
+              label="Source"
+              value={affiliateId || <span className="color-default">no source</span>}
+            />
+            <PersonalInformationItem
+              label="B-TAG"
+              value={btag || <span className="color-default">no b-tag</span>}
             />
           </div>
         </div>

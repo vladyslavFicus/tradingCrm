@@ -5,7 +5,7 @@ import { attributeLabels } from '../../../../../../constants/user';
 
 const formatters = {
   birthDate: [value => moment(value).format('DD.MM.YYYY')],
-  tokenExpirationDate: [value => moment(value).format('YYYY-MM-DD HH:mm:ss')],
+  tokenExpirationDate: [value => moment(value).format('DD.MM.YYYY HH:mm:ss')],
 };
 const formatValue = (attribute, value) => {
   return formatters[attribute]

@@ -1,9 +1,5 @@
 import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
-import { actionCreators as ipActionCreators } from '../modules/ip';
-import { actionCreators as accumulatedBalancesActionCreators } from '../modules/accumulatedBalances';
-import { actionCreators as bonusActionCreators } from '../modules/bonus';
-import { actionCreators as viewActionCreators } from '../modules/view';
 import ProfileLayout from '../layouts/ProfileLayout';
 import { getAvailableTags } from '../../../config/index';
 import { statusActions } from '../../../constants/user';
@@ -11,56 +7,59 @@ import { statusActions } from '../../../constants/user';
 const mapStateToProps = (state) => {
   const {
     profile: {
-      view,
+      profile,
       ip,
       accumulatedBalances: { data: accumulatedBalances },
       notes,
+      walletLimits,
     }, auth,
   } = state;
-  const lastIp = ip.entities.content
-    ? ip.entities.content[ip.entities.content.length - 1]
+  const lastIp = ip.list.length > 0
+    ? ip.list[0]
     : null;
   let availableStatuses = [];
 
-  if (view && view.profile && view.profile.data && statusActions[view.profile.data.profileStatus]) {
-    availableStatuses = statusActions[view.profile.data.profileStatus];
+  if (profile && profile.data && statusActions[profile.data.profileStatus]) {
+    availableStatuses = statusActions[profile.data.profileStatus];
   }
 
   return {
-    ...view,
+    profile,
     ip,
     lastIp,
     notes,
     accumulatedBalances,
     availableTags: getAvailableTags(auth.department),
     availableStatuses,
+    walletLimits,
   };
 };
 
 const mapActions = {
-  fetchIp: ipActionCreators.fetchEntities,
-  fetchAccumulatedBalances: accumulatedBalancesActionCreators.fetchEntities,
-  acceptBonus: bonusActionCreators.acceptBonus,
-  cancelBonus: bonusActionCreators.cancelBonus,
-  fetchActiveBonus: bonusActionCreators.fetchActiveBonus,
-  updateSubscription: viewActionCreators.updateSubscription,
-  checkLock: viewActionCreators.checkLock,
-  fetchBalances: viewActionCreators.fetchBalances,
-  getBalance: viewActionCreators.getBalance,
-  loadFullProfile: viewActionCreators.loadFullProfile,
-  lockDeposit: viewActionCreators.lockDeposit,
-  lockWithdraw: viewActionCreators.lockWithdraw,
-  unlockDeposit: viewActionCreators.unlockDeposit,
-  unlockWithdraw: viewActionCreators.unlockWithdraw,
-  addTag: viewActionCreators.addTag,
-  deleteTag: viewActionCreators.deleteTag,
-  changeStatus: viewActionCreators.changeStatus,
+  fetchIp: actionCreators.fetchEntities,
+  fetchAccumulatedBalances: actionCreators.fetchEntities,
+  acceptBonus: actionCreators.acceptBonus,
+  cancelBonus: actionCreators.cancelBonus,
+  fetchActiveBonus: actionCreators.fetchActiveBonus,
+  updateSubscription: actionCreators.updateSubscription,
+  fetchBalances: actionCreators.fetchBalances,
+  getBalance: actionCreators.getBalance,
+  loadFullProfile: actionCreators.loadFullProfile,
+  lockDeposit: actionCreators.lockDeposit,
+  lockWithdraw: actionCreators.lockWithdraw,
+  unlockDeposit: actionCreators.unlockDeposit,
+  unlockWithdraw: actionCreators.unlockWithdraw,
+  addTag: actionCreators.addTag,
+  deleteTag: actionCreators.deleteTag,
+  changeStatus: actionCreators.changeStatus,
   fetchNotes: actionCreators.fetchNotes,
   addNote: actionCreators.addNote,
   editNote: actionCreators.editNote,
   deleteNote: actionCreators.deleteNote,
   resetPassword: actionCreators.resetPassword,
   activateProfile: actionCreators.activateProfile,
+  checkLock: actionCreators.checkLock,
+  walletLimitAction: actionCreators.walletLimitAction,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);

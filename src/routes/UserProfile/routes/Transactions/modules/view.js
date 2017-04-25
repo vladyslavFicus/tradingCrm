@@ -3,14 +3,28 @@ import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
-import { actionCreators as noteActionCreators } from '../../../../../redux/modules/note';
+import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
+import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../constants/note';
+import { types as paymentTypes } from '../../../../../constants/payment';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
+const FETCH_PAYMENT_STATUSES = createRequestAction(`${KEY}/fetch-payment-statuses`);
+const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
+const FETCH_PAYMENT_ACCOUNTS = createRequestAction(`${KEY}/fetch-payment-statuses`);
+const MANUAL_DEPOSIT = createRequestAction(`${KEY}/manual-deposit`);
+const MANUAL_WITHDRAW = createRequestAction(`${KEY}/manual-withdraw`);
+const CONFISCATE = createRequestAction(`${KEY}/confiscate`);
+const MANAGE_NOTE = `${KEY}/manage-note`;
+const RESET_NOTE = `${KEY}/reset-note`;
 
-const fetchNotesFn = noteActionCreators.fetchNotesByType(FETCH_NOTES);
+const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FETCH_PAYMENT_STATUSES);
+const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
+const fetchPaymentAccounts = paymentSourceActionCreators.fetchPaymentAccounts(FETCH_PAYMENT_ACCOUNTS);
+
+const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
     return transactions;
@@ -23,10 +37,10 @@ const mapNotesToTransactions = (transactions, notes) => {
 };
 
 function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    return dispatch({
+    const action = await dispatch({
       [CALL_API]: {
         endpoint: `payment/payments/${playerUUID}?${buildQueryString(filters)}`,
         method: 'GET',
@@ -45,13 +59,124 @@ function fetchEntities(playerUUID, filters = {}, fetchNotes = fetchNotesFn) {
         ],
         bailout: !logged,
       },
-    }).then((action) => {
-      if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.content.length) {
-        dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
-      }
-
-      return action;
     });
+
+    if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.content.length) {
+      await dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
+    }
+
+    return action;
+  };
+}
+
+function manualDeposit(playerUUID, params) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `payment/payments/${playerUUID}/deposit/manual`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+        types: [
+          MANUAL_DEPOSIT.REQUEST,
+          MANUAL_DEPOSIT.SUCCESS,
+          MANUAL_DEPOSIT.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function manualWithdraw(playerUUID, params) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `payment/payments/${playerUUID}/withdraw`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+        types: [
+          MANUAL_WITHDRAW.REQUEST,
+          MANUAL_WITHDRAW.SUCCESS,
+          MANUAL_WITHDRAW.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function confiscate(playerUUID, params) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `payment/payments/${playerUUID}/confiscate`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+        types: [
+          CONFISCATE.REQUEST,
+          CONFISCATE.SUCCESS,
+          CONFISCATE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function addPayment(playerUUID, { type, ...data }) {
+  return (dispatch) => {
+    if (type === paymentTypes.Deposit) {
+      return dispatch(manualDeposit(playerUUID, data));
+    } else if (type === paymentTypes.Withdraw) {
+      return dispatch(manualWithdraw(playerUUID, data));
+    } else if (type === paymentTypes.Confiscate) {
+      return dispatch(confiscate(playerUUID, data));
+    }
+
+    throw new Error(`Unknown payment type "${type}".`);
+  };
+}
+
+function manageNote(data) {
+  return (dispatch, getState) => {
+    const { auth: { uuid, fullName } } = getState();
+
+    return dispatch({
+      type: MANAGE_NOTE,
+      payload: data !== null ? {
+        ...data,
+        author: fullName,
+        creatorUUID: uuid,
+        lastEditorUUID: uuid,
+      } : data,
+    });
+  };
+}
+
+function resetNote() {
+  return {
+    type: RESET_NOTE,
   };
 }
 
@@ -95,29 +220,50 @@ const actionHandlers = {
       ],
     },
   }),
+  [MANAGE_NOTE]: (state, action) => ({
+    ...state,
+    newPaymentNote: action.payload,
+  }),
+  [RESET_NOTE]: state => ({
+    ...state,
+    newPaymentNote: null,
+  }),
 };
 const initialState = {
   entities: {
-    first: null,
-    last: null,
-    number: null,
-    numberOfElements: null,
-    size: null,
-    sort: null,
-    totalElements: null,
-    totalPages: null,
+    first: false,
+    last: false,
+    number: 0,
+    numberOfElements: 0,
+    size: 0,
+    sort: [],
+    totalElements: 0,
+    totalPages: 0,
     content: [],
   },
+  error: null,
   filters: {},
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
+  newPaymentNote: null,
 };
 const actionTypes = {
   FETCH_ENTITIES,
+  FETCH_PAYMENT_STATUSES,
+  CHANGE_PAYMENT_STATUS,
+  MANUAL_DEPOSIT,
+  MANUAL_WITHDRAW,
+  CONFISCATE,
 };
+
 const actionCreators = {
   fetchEntities,
+  fetchPaymentStatuses,
+  changePaymentStatus,
+  fetchPaymentAccounts,
+  addPayment,
+  manageNote,
+  resetNote,
 };
 
 export {

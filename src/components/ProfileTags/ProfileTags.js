@@ -45,9 +45,9 @@ class ProfileTags extends PureComponent {
   renderTags = (tags) => {
     return tags.map(tag => (
       <div key={tag.id} className="btn-group">
-        <span className={`tag-arrow tag-arrow-${tagClassNames[tag.priority]}`}></span>
+        <span className={`tag-arrow tag-arrow-${tagClassNames[tag.priority]}`} />
         <span className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]}`}>
-        {tag.value}
+          {tag.value}
         </span>
         <button
           type="button"
@@ -73,12 +73,13 @@ class ProfileTags extends PureComponent {
 
       {options.length > 0 && <ButtonSelect
         opened={showAutoComplete}
-        className="btn btn-xs btn-default font-size-14 margin-left-10"
+        className="btn btn-xs btn-default font-size-14"
         onChange={this.handleSelect}
+        onCloseClick={this.handleOutsideClick}
         optionRenderer={this.renderOption}
         options={options}
         onClick={this.handleToggleAutoComplete}
-        label={<i className="fa fa-plus-square"/>}
+        label={<i className="fa fa-plus-square" />}
         handleClickOutside={this.handleOutsideClick}
         disableClickOutside={!showAutoComplete}
       />}

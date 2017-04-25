@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 
 class SubNavItem extends Component {
@@ -16,7 +17,7 @@ class SubNavItem extends Component {
 
     return (
       <Link className="dropdown-item" to={url}>
-        {label}
+        {I18n.t(label)}
       </Link>
     );
   }

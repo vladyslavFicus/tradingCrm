@@ -1,9 +1,11 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
+import moment from 'moment';
 import buildQueryString from '../../utils/buildQueryString';
 
 const mapProfile = payload => ({
   ...payload,
+  age: moment().diff(payload.birthDate, 'years'),
   kycDate: payload.personalStatus.editDate > payload.addressStatus.editDate
     ? payload.personalStatus.editDate
     : payload.addressStatus.editDate,
@@ -147,7 +149,7 @@ function fetchEntities(type) {
           {
             type: type.REQUEST,
             meta: {
-              filters,
+              ...filters,
             },
           },
           type.SUCCESS,
@@ -179,7 +181,7 @@ function fetchESEntities(type) {
         types: [
           {
             type: type.REQUEST,
-            meta: { filters },
+            meta: { ...filters },
           },
           type.SUCCESS,
           type.FAILURE,
