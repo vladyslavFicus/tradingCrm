@@ -84,7 +84,7 @@ const applicationConfig = {
   'nas.limits.session_duration.periods[5]': '6 HOURS',
   'nas.limits.session_duration.periods[6]': '7 HOURS',
   'nas.limits.session_duration.periods[7]': '8 HOURS',
-  'nas.logstash.url': 'http://hrzn01-stage-elk.hrzn.stage:12202',
+  'nas.logstash.url': 'http://hrzn01-dev-elk01.hrzn.dev:12202',
 };
 
 export default {
