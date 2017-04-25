@@ -56,14 +56,6 @@ const sidebarTopMenu = [
       },
     ],
   },
-  {
-    label: 'Settings',
-    icon: 'fa fa-cog',
-    url: '/settings/countries',
-    items: [
-      { label: 'Countries', url: '/settings/countries' },
-    ],
-  },
 ];
 const sidebarBottomMenu = [
   { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'fa fa-life-ring', url: '#' },
