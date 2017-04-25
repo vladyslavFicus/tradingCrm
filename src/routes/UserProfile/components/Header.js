@@ -1,17 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
-import AccountStatus from './AccountStatus';
+import PlayerStatus from './PlayerStatus';
 import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
 import ProfileTags from '../../../components/ProfileTags';
 import Amount from '../../../components/Amount';
 import PopoverButton from '../../../components/PopoverButton';
-import { statusColorNames } from '../../../constants/user';
 import { shortify } from '../../../utils/uuid';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
 import './Header.scss';
+import WalletLimits from './WalletLimits';
+import ProfileLastLogin from '../../../components/ProfileLastLogin';
 
 class Header extends Component {
   static propTypes = {
@@ -39,8 +40,24 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onProfileActivateClick: PropTypes.func.isRequired,
+    onWalletLimitChange: PropTypes.func.isRequired,
+    walletLimits: PropTypes.shape({
+      state: PropTypes.shape({
+        entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+        deposit: PropTypes.shape({
+          locked: PropTypes.bool.isRequired,
+          canUnlock: PropTypes.bool.isRequired,
+        }).isRequired,
+        withdraw: PropTypes.shape({
+          locked: PropTypes.bool.isRequired,
+          canUnlock: PropTypes.bool.isRequired,
+        }).isRequired,
+        error: PropTypes.object,
+        isLoading: PropTypes.bool.isRequired,
+        receivedAt: PropTypes.number,
+      }).isRequired,
+    }),
   };
-
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
   };
@@ -79,17 +96,6 @@ class Header extends Component {
     }
   };
 
-  renderLastLogin = () => {
-    const { lastIp } = this.props;
-    return !lastIp
-      ? <div className="header-block-middle">Unavailable</div>
-      : [
-        <div className="header-block-middle" key="time-ago">{lastIp.signInDate && moment(lastIp.signInDate).fromNow()}</div>,
-        <div className="header-block-small" key="time">{lastIp.signInDate && moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}</div>,
-        <div className="header-block-small" key="country">{lastIp.country && ` from ${lastIp.country}`}</div>,
-      ];
-  };
-
   render() {
     const {
       data: {
@@ -99,8 +105,6 @@ class Header extends Component {
         lastName,
         username,
         languageCode,
-        btag,
-        affiliateId,
         profileStatus,
         suspendEndDate,
         profileTags,
@@ -108,12 +112,16 @@ class Header extends Component {
         kycCompleted,
         profileStatusReason,
       },
+      data: profile,
       availableStatuses,
       accumulatedBalances,
       availableTags,
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
+      onWalletLimitChange,
+      walletLimits,
+      lastIp,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const selectedTags = profileTags
@@ -179,27 +187,11 @@ class Header extends Component {
 
         <div className="row panel-body header-blocks header-blocks-5">
           <div className="header-block header-block_account">
-            <AccountStatus
-              profileStatus={profileStatus}
-              onStatusChange={this.handleStatusChange}
-              label={
-                <div className="dropdown-tab">
-                  <div className="header-block-title">Account Status</div><i className="fa fa-angle-down" />
-                  <div className={`header-block-middle ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
-                  {
-                    !!profileStatusReason &&
-                    <div className="header-block-small">
-                      by {profileStatusReason}
-                    </div>
-                  }
-                  {
-                    !!suspendEndDate &&
-                    <div className="header-block-small">
-                      Until {moment(suspendEndDate).format('L')}
-                    </div>
-                  }
-                </div>
-              }
+            <PlayerStatus
+              status={profileStatus}
+              reason={profileStatusReason}
+              endDate={suspendEndDate}
+              onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
             />
           </div>
@@ -211,32 +203,27 @@ class Header extends Component {
                   <div className="header-block-middle">
                     <Amount {...balance} />
                   </div>
-                  { this.getRealWithBonusBalance() }
+                  {this.getRealWithBonusBalance()}
                 </div>
               }
               accumulatedBalances={accumulatedBalances}
             />
           </div>
-
-          <div className="header-block">
-            <div className="header-block-title">Registered</div>
-            <div className="header-block-middle">
-              { moment(registrationDate).fromNow() }
-            </div>
-            <div className="header-block-small">
-              on { moment(registrationDate).format('DD.MM.YYYY') } <br />
-            </div>
+          <div className="header-block header-block_wallet-limits">
+            <WalletLimits
+              profile={profile}
+              limits={walletLimits.state}
+              onChange={onWalletLimitChange}
+            />
           </div>
+          <ProfileLastLogin lastIp={lastIp} />
           <div className="header-block">
-            <div className="header-block-title">Last login</div>
-            {this.renderLastLogin()}
-          </div>
-          <div className="header-block">
-            <span className="header-block-title">
-              Affiliate {' '} { !!affiliateId && affiliateId}
-            </span>
+            <span className="header-block-title">Registered</span>
             <div className="header-block-text">
-              BTAG {'-'} { btag || 'Empty' }
+              {moment(registrationDate).fromNow()}
+            </div>
+            <div className="font-size-12">
+              on {moment(registrationDate).format('DD.MM.YYYY')}
             </div>
           </div>
         </div>

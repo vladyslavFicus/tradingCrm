@@ -17,6 +17,11 @@
   float: left;
   padding-left: 1.2em;
   min-height: 60px;
+
+  &_wallet-limits {
+    padding-left: 0;
+  }
+
   &:last-child {
     border-right: 0;
   }

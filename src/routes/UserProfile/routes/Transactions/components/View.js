@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import GridView, { GridColumn } from '../../../../../components/GridView';
@@ -18,11 +18,14 @@ import { targetTypes } from '../../../../../constants/note';
 import PopoverButton from '../../../../../components/PopoverButton';
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from './PaymentDetailModal';
-import PaymentRejectModal from './PaymentRejectModal';
+import PaymentActionReasonModal from './PaymentActionReasonModal';
+import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
+import PropTypes from '../../../../../constants/propTypes';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
-const MODAL_PAYMENT_REJECT = 'payment-reject';
+const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
+const MODAL_PAYMENT_ADD = 'payment-add';
 const defaultModalState = {
   name: null,
   params: {},
@@ -34,18 +37,24 @@ class View extends Component {
     fetchEntities: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
+    loadPaymentMethods: PropTypes.func.isRequired,
+    addPayment: PropTypes.func.isRequired,
+    manageNote: PropTypes.func.isRequired,
+    resetNote: PropTypes.func.isRequired,
     entities: PropTypes.object,
     currencyCode: PropTypes.string,
-    filters: PropTypes.object,
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+    newPaymentNote: PropTypes.noteEntity,
     profile: PropTypes.object,
     accumulatedBalances: PropTypes.object,
-    paymentRejectReasons: PropTypes.array,
+    paymentActionReasons: PropTypes.paymentActionReasons,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
+    onAddNote: PropTypes.func.isRequired,
+    refreshPinnedNotes: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
   };
@@ -89,7 +98,6 @@ class View extends Component {
     }
   );
 
-
   handleFilterSubmit = (data = {}) => {
     const filters = { ...data };
 
@@ -100,30 +108,83 @@ class View extends Component {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
-  handleChangePaymentStatus = (status, playerUUID, paymentId, options = {}) => {
+  handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
     const { onChangePaymentStatus } = this.props;
 
-    return onChangePaymentStatus({ status, playerUUID, paymentId, options })
+    return onChangePaymentStatus({ action, playerUUID, paymentId, options })
       .then(this.handleRefresh)
       .then(this.handleCloseModal);
   };
 
-  handleRejectClick = (data) => {
-    this.handleCloseModal();
+  handleAddPayment = async (inputParams) => {
+    this.handleCloseModal(async () => {
+      const {
+        addPayment,
+        params: { id: playerUUID },
+        currencyCode,
+        resetNote,
+        newPaymentNote: unsavedNote,
+      } = this.props;
 
-    return this.handleOpenModal(MODAL_PAYMENT_REJECT, {
-      ...data,
-      rejectReasons: this.props.paymentRejectReasons,
+      const params = {
+        ...inputParams,
+        currency: currencyCode,
+      };
+
+      if (inputParams.type !== paymentTypes.Withdraw) {
+        delete params.paymentMethod;
+      }
+
+      const action = await addPayment(playerUUID, params);
+
+      if (action && !action.error) {
+        if (unsavedNote) {
+          await this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.paymentId });
+          if (unsavedNote.pinned) {
+            this.context.refreshPinnedNotes();
+          }
+        }
+      }
+
+      resetNote();
+      this.handleRefresh();
     });
   };
 
-  handleOpenModal = async (name, params) => {
+  handleOpenAddPaymentModal = () => {
+    this.setState({
+      modal: {
+        name: MODAL_PAYMENT_ADD,
+      },
+    });
+  };
+
+  handleAskReason = (data) => {
+    this.handleCloseModal();
+
+    return this.handleOpenReasonModal({
+      ...data,
+      reasons: this.props.paymentActionReasons[data.action] || [],
+    });
+  };
+
+  handleOpenReasonModal = (params) => {
+    this.setState({
+      modal: {
+        ...defaultModalState,
+        name: MODAL_PAYMENT_ACTION_REASON,
+        params,
+      },
+    });
+  };
+
+  handleOpenDetailModal = async (params) => {
     const action = await this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId);
 
     this.setState({
       modal: {
         ...defaultModalState,
-        name,
+        name: MODAL_PAYMENT_DETAIL,
         params: {
           ...params,
           transactions: action && !action.error
@@ -134,7 +195,7 @@ class View extends Component {
     });
   };
 
-  handleCloseModal = (e, callback) => {
+  handleCloseModal = (callback) => {
     this.setState({ modal: { ...defaultModalState } }, () => {
       if (typeof callback === 'function') {
         callback();
@@ -243,41 +304,69 @@ class View extends Component {
     />
   );
 
-  renderActions = data => (
-    <div>
-      <PopoverButton
-        id={`bonus-item-note-button-${data.paymentId}`}
-        className="cursor-pointer margin-right-5"
-        onClick={id => this.handleNoteClick(id, data)}
-      >
-        {data.note
-          ? <i className="fa fa-sticky-note" />
-          : <i className="fa fa-sticky-note-o" />
-        }
-      </PopoverButton>
-      {
-        data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING &&
-        <button
-          className="btn-transparent"
-          onClick={() => this.handleOpenModal(MODAL_PAYMENT_DETAIL, {
-            payment: data,
-            profile: this.props.profile,
-            accumulatedBalances: this.props.accumulatedBalances,
-          })}
-          title={'View payment'}
+  renderActions = (data) => {
+    const showPaymentDetails =
+      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
+      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
+
+    return (
+      <div>
+        <PopoverButton
+          id={`bonus-item-note-button-${data.paymentId}`}
+          className="cursor-pointer margin-right-5"
+          onClick={id => this.handleNoteClick(id, data)}
         >
-          <i className="fa fa-search" />
-        </button>
-      }
-    </div>
-  );
+          {data.note
+            ? <i className="fa fa-sticky-note" />
+            : <i className="fa fa-sticky-note-o" />
+          }
+        </PopoverButton>
+        {
+          showPaymentDetails &&
+          <button
+            className="btn-transparent"
+            onClick={() => this.handleOpenDetailModal({
+              payment: data,
+              profile: this.props.profile,
+              accumulatedBalances: this.props.accumulatedBalances,
+            })}
+            title={'View payment'}
+          >
+            <i className="fa fa-search" />
+          </button>
+        }
+      </div>
+    );
+  };
 
   render() {
     const { modal } = this.state;
-    const { entities, currencyCode } = this.props;
+    const {
+      entities,
+      currencyCode,
+      loadPaymentMethods,
+      manageNote,
+      profile: { fullName, shortUUID },
+      params: { id: playerUUID },
+      newPaymentNote,
+    } = this.props;
 
     return (
       <div className="tab-pane fade in active profile-tab-container">
+        <div className="row margin-bottom-20">
+          <div className="col-sm-2 col-xs-6">
+            <span className="font-size-20">Transactions</span>
+          </div>
+          <div className="col-sm-10 col-xs-6 text-right">
+            <button
+              className="btn btn-sm btn-primary-outline"
+              onClick={this.handleOpenAddPaymentModal}
+            >
+              + Add transaction
+            </button>
+          </div>
+        </div>
+
         <TransactionGridFilter
           currencyCode={currencyCode}
           onSubmit={this.handleFilterSubmit}
@@ -357,17 +446,34 @@ class View extends Component {
             isOpen
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
-            onRejectClick={this.handleRejectClick}
+            onAskReason={this.handleAskReason}
           />
         }
 
         {
-          modal.name === MODAL_PAYMENT_REJECT &&
-          <PaymentRejectModal
+          modal.name === MODAL_PAYMENT_ACTION_REASON &&
+          <PaymentActionReasonModal
             {...modal.params}
             isOpen
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
+          />
+        }
+
+        {
+          modal.name === MODAL_PAYMENT_ADD &&
+          <PaymentAddModal
+            {...modal.params}
+            note={newPaymentNote}
+            playerInfo={{
+              currencyCode,
+              fullName,
+              shortUUID,
+            }}
+            onClose={this.handleCloseModal}
+            onLoadPaymentMethods={() => loadPaymentMethods(playerUUID)}
+            onSubmit={this.handleAddPayment}
+            onManageNote={manageNote}
           />
         }
       </div>

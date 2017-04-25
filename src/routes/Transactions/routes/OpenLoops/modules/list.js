@@ -1,11 +1,17 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
-import createRequestAction from 'utils/createRequestAction';
+import createReducer from '../../../../../utils/createReducer';
+import timestamp from '../../../../../utils/timestamp';
+import buildQueryString from '../../../../../utils/buildQueryString';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
 
 const KEY = 'open-loops-payment';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
+const FETCH_PAYMENT_STATUSES = createRequestAction(`${KEY}/fetch-payment-statuses`);
+const CHANGE_PAYMENT_STATUS = createRequestAction(`${KEY}/change-payment-status`);
+
+const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FETCH_PAYMENT_STATUSES);
+const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
 
 function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
@@ -76,9 +82,13 @@ const initialState = {
 };
 const actionTypes = {
   FETCH_ENTITIES,
+  FETCH_PAYMENT_STATUSES,
+  CHANGE_PAYMENT_STATUS,
 };
 const actionCreators = {
   fetchEntities,
+  fetchPaymentStatuses,
+  changePaymentStatus,
 };
 
 export {

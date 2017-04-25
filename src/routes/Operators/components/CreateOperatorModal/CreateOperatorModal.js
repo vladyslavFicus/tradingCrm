@@ -120,7 +120,7 @@ class CreateOperatorModal extends Component {
                   position="vertical"
                   showErrorMessage={false}
                   children={[
-                    <option value="">Select department</option>,
+                    <option key="empty" value="">Select department</option>,
                     ...departments.map(({ label, value }) => (
                       <option key={value} value={value}>
                         {label}
@@ -137,7 +137,7 @@ class CreateOperatorModal extends Component {
                   position="vertical"
                   showErrorMessage={false}
                   children={[
-                    <option value="">Select role</option>,
+                    <option key="empty" value="">Select role</option>,
                     ...roles.map(({ label, value }) => (
                       <option key={value} value={value}>
                         {label}

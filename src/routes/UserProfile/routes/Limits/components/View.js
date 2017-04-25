@@ -6,6 +6,8 @@ import { targetTypes } from '../../../../../constants/note';
 import { types as limitTypes } from '../../../../../constants/limits';
 import PropTypes from '../../../../../constants/propTypes';
 
+const CANCEL_LIMIT_MODAL = 'cancel-limit';
+const CREATE_LIMIT_MODAL = 'create-limit';
 const modalInitialState = {
   name: null,
   params: {},
@@ -84,7 +86,7 @@ class View extends Component {
 
     this.setState({
       modal: {
-        name: 'cancel-limit',
+        name: CANCEL_LIMIT_MODAL,
         params,
       },
     });
@@ -96,7 +98,7 @@ class View extends Component {
 
     this.setState({
       modal: {
-        name: 'create-limit',
+        name: CREATE_LIMIT_MODAL,
         params,
       },
     });
@@ -144,7 +146,7 @@ class View extends Component {
           onNoteClick={this.handleNoteClick}
         />
         {
-          modal.name === 'cancel-limit' &&
+          modal.name === CANCEL_LIMIT_MODAL &&
           <CancelLimitModal
             {...modal.params}
             onSubmit={this.handleCancelLimit}
@@ -153,7 +155,7 @@ class View extends Component {
           />
         }
         {
-          modal.name === 'create-limit' &&
+          modal.name === CREATE_LIMIT_MODAL &&
           <CreateLimitModal
             {...modal.params}
             initialValues={{

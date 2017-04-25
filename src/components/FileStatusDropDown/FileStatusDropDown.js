@@ -38,7 +38,7 @@ class FileStatusDropDown extends Component {
         {
           status.value !== statuses.UNDER_REVIEW &&
           <div className="font-size-10 color-default">
-              by {shortify(status.author)}
+            by {shortify(status.author)}
           </div>
         }
       </div>
@@ -49,26 +49,28 @@ class FileStatusDropDown extends Component {
     }
 
     return (
-      <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
+      <div className="file-status-dropdown">
+        <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
         <span onClick={this.toggle} className="cursor-pointer">
           {label}
         </span>
-        <DropdownMenu>
-          {
-            statusActions[status.value].map(item => (
-              <DropdownItem
-                onClick={() => this.props.onStatusChange(item.action)}
-                className={classNames('text-uppercase', actionsColorNames[item.action])}
-                key={item.label}
-              >
-                <div className="font-weight-700">
-                  {item.label}
-                </div>
-              </DropdownItem>
-            ))
-          }
-        </DropdownMenu>
-      </Dropdown>
+          <DropdownMenu>
+            {
+              statusActions[status.value].map(item => (
+                <DropdownItem
+                  onClick={() => this.props.onStatusChange(item.action)}
+                  className={classNames('text-uppercase', actionsColorNames[item.action])}
+                  key={item.label}
+                >
+                  <div className="font-weight-700">
+                    {item.label}
+                  </div>
+                </DropdownItem>
+              ))
+            }
+          </DropdownMenu>
+        </Dropdown>
+      </div>
     );
   }
 }

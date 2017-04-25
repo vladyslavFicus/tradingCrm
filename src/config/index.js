@@ -43,6 +43,10 @@ const config = {
     logstash: {
       url: '',
     },
+    locale: {
+      languages: [],
+      defaultLanguage: 'en',
+    },
   },
   middlewares: {},
   ...environmentConfig,
@@ -75,8 +79,8 @@ if (config.nas.tags) {
     .keys(config.nas.tags.priorities)
     .reduce((result, priority) => {
       Object.keys(config.nas.tags.priorities[priority])
-        .forEach(tag => {
-          config.nas.tags.priorities[priority][tag].departments.forEach(department => {
+        .forEach((tag) => {
+          config.nas.tags.priorities[priority][tag].departments.forEach((department) => {
             result.push({
               label: tag,
               value: tag,
@@ -98,6 +102,10 @@ function getTransactionRejectReasons() {
   return config.nas.reasons && config.nas.reasons.rejection ? config.nas.reasons.rejection : [];
 }
 
+function getTransactionChargebackReasons() {
+  return config.nas.reasons && config.nas.reasons.chargeback ? config.nas.reasons.chargeback : [];
+}
+
 function getLimitPeriods() {
   return config.nas.limits || [];
 }
@@ -112,8 +120,12 @@ function getErrorApiUrl() {
   return config.nas.logstash.url || '';
 }
 
+function getAvailableLanguages() {
+  return config.nas.locale.languages || [];
+}
+
 function getDomain() {
-  return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
+  return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
 }
 
 export {
@@ -122,7 +134,9 @@ export {
   getDomain,
   getAvailableTags,
   getTransactionRejectReasons,
+  getTransactionChargebackReasons,
   getLimitPeriods,
+  getAvailableLanguages,
 };
 
 export default config;
