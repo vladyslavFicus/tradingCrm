@@ -49,19 +49,16 @@ class UsersPanel extends Component {
           {items.map((item) => {
             const className = classNames(
               'user-panel-content-frame',
-              active && active.color ? `user-panel-content-frame-${active.color}` : ''
+              active && active.color ? `user-panel-content-frame-${active.color} users-panel-content-frame-active` : 'users-panel-content-frame-inactive'
             );
 
             return (
               <iframe
+                scrolling="yes"
                 className={className}
                 frameBorder={0}
                 src={`/users/${item.uuid}/profile`}
                 key={item.uuid}
-                style={{
-                  display: active && active.uuid === item.uuid ? 'block' : 'none',
-                  height: 'calc(100% - 73px)',
-                }}
               />
             );
           })}
