@@ -4,7 +4,7 @@ import {
 } from 'reactstrap';
 import classNames from 'classnames';
 import keyMirror from 'keymirror';
-import Amount from '../../../components/Amount';
+import Amount from '../../../../components/Amount';
 import AvailabilityPopoverStyle from './AvailabilityPopover.scss';
 
 const tabs = keyMirror({
@@ -153,7 +153,7 @@ class AvailabilityPopover extends Component {
       });
     });
 
-    if (!tabListElements.length) {
+    if (!tabListElements.length && search) {
       return (
         <Col>
           {'No countries begins from '}
