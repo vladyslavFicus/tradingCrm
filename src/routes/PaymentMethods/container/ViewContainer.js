@@ -14,6 +14,7 @@ const mapActions = {
   enableLimit: actionCreators.enableLimit,
   changeStatus: actionCreators.changeStatus,
   changeLimit: actionCreators.changeLimit,
+  getCountryAvailability: actionCreators.getCountryAvailability,
 };
 
 export default connect(mapStateToProps, mapActions)(List);
