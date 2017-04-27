@@ -17,6 +17,7 @@ const mapActions = {
   changeStatus: actionCreators.changeStatus,
   changeLimit: actionCreators.changeLimit,
   getCountryAvailability: actionCreators.getCountryAvailability,
+  changePaymentMethodOrder: actionCreators.changePaymentMethodOrder,
 };
 
 export default connect(mapStateToProps, mapActions)(List);
