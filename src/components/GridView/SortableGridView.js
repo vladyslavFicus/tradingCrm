@@ -29,7 +29,7 @@ const SortableList = SortableContainer(({ items, columns }) => {
   return (
     <tbody>
       {items.map((value, index) => (
-        <SortableItem key={`item-${index}`} index={index + 1} data={value} columns={columns} />
+        <SortableItem key={`item-${index}`} index={index} data={value} columns={columns} />
       ))}
     </tbody>
   );
@@ -71,7 +71,7 @@ class SortableGridView extends Component {
   onSortEnd = ({ oldIndex, newIndex }) => {
     this.setState({
       dataSource: arrayMove(this.state.dataSource, oldIndex, newIndex),
-    }, this.props.onSortEnd({ from: oldIndex, to: newIndex }));
+    }, () => this.props.onSortEnd({ from: oldIndex + 1, to: newIndex + 1}));
   };
 
   recognizeHeaders = (grids) => {
