@@ -28,6 +28,7 @@ class List extends Component {
     enableLimit: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
     changeLimit: PropTypes.func.isRequired,
+    changePaymentMethodOrder: PropTypes.func.isRequired,
     getCountryAvailability: PropTypes.func.isRequired,
     paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod),
   };
@@ -117,6 +118,16 @@ class List extends Component {
     this.setState({ popover: { ...popoverInitialState } });
   };
 
+  handleSortEnd = async (orderParams) => {
+    const action = await this.props.changePaymentMethodOrder({
+      ...orderParams,
+      countryCode: this.state.filters.countryCode,
+    });
+    if (action && !action.error) {
+      this.handleRefresh();
+    }
+  };
+
   renderStatus = data => (
     <StatusDropDown
       status={data.status}
@@ -195,7 +206,7 @@ class List extends Component {
 
   render() {
     const { paymentMethods } = this.props;
-    const { popover } = this.state;
+    const { popover, filters } = this.state;
 
     return (
       <div className="page-content-inner">
@@ -213,6 +224,7 @@ class List extends Component {
               tableClassName="table table-hovered data-grid-layout"
               headerClassName=""
               dataSource={paymentMethods}
+              onSortEnd={this.handleSortEnd}
             >
               <GridColumn
                 name="order"
@@ -239,19 +251,25 @@ class List extends Component {
                 headerClassName={'text-uppercase'}
                 render={this.renderLimit}
               />
-              <GridColumn
-                name="availability"
-                header="Availability"
-                className="text-center"
-                headerClassName={'text-uppercase text-center'}
-                render={this.renderCountryAvailability}
-              />
-              <GridColumn
-                name="status"
-                header="Status"
-                headerClassName={'text-uppercase'}
-                render={this.renderStatus}
-              />
+              {
+                !filters.countryCode &&
+                <GridColumn
+                  name="availability"
+                  header="Availability"
+                  className="text-center"
+                  headerClassName={'text-uppercase text-center'}
+                  render={this.renderCountryAvailability}
+                />
+              }
+              {
+                !filters.countryCode &&
+                <GridColumn
+                  name="status"
+                  header="Status"
+                  headerClassName={'text-uppercase'}
+                  render={this.renderStatus}
+                />
+              }
             </SortableGridView>
           </Content>
         </Panel>

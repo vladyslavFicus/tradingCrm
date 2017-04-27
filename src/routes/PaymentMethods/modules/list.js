@@ -11,9 +11,10 @@ const DISABLE_LIMIT = createRequestAction(`${KEY}/disable-limit`);
 const ENABLE_LIMIT = createRequestAction(`${KEY}/enable-limit`);
 const CHANGE_STATUS = createRequestAction(`${KEY}/change-status`);
 const CHANGE_LIMIT = createRequestAction(`${KEY}/change-limit`);
+const CHANGE_PAYMENT_ORDER = createRequestAction(`${KEY}/change-payment-order`);
 const GET_COUNTRY_AVAILABILITY = createRequestAction(`${KEY}/get-country-availability`);
 
-const mapCountries = payload => Object.keys(payload).reduce((result, item) => ({
+const mapCountries = payload => Object.keys(payload).sort().reduce((result, item) => ({
   ...result,
   [countries().getName(item)]: payload[item],
 }), {});
@@ -169,7 +170,31 @@ function getCountryAvailability(methodUUID) {
         bailout: !logged,
       },
     });
+  };
+}
 
+function changePaymentMethodOrder(params) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: '/payment/methods/reorder',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+        types: [
+          CHANGE_PAYMENT_ORDER.REQUEST,
+          CHANGE_PAYMENT_ORDER.SUCCESS,
+          CHANGE_PAYMENT_ORDER.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
   };
 }
 
@@ -211,6 +236,7 @@ const actionCreators = {
   changeStatus,
   changeLimit,
   getCountryAvailability,
+  changePaymentMethodOrder,
 };
 
 export {
