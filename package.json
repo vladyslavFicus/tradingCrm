@@ -21,7 +21,8 @@
     "deploy": "better-npm-run deploy",
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
-    "codecov": "cat coverage/*/lcov.info | codecov"
+    "codecov": "cat coverage/*/lcov.info | codecov",
+    "i18n": "i18n-parser --config=./config/i18n.json"
   },
   "betterScripts": {
     "compile": {
@@ -107,6 +108,7 @@
     "html-webpack-plugin": "^2.7.1",
     "humanize-duration": "^3.10.0",
     "humps": "^1.1.0",
+    "i18n-parser": "^1.0.0",
     "imports-loader": "^0.6.5",
     "ip": "^1.1.2",
     "json-loader": "^0.5.4",

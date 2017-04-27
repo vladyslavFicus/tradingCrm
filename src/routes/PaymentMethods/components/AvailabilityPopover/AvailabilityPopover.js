@@ -4,6 +4,8 @@ import {
 } from 'reactstrap';
 import classNames from 'classnames';
 import keyMirror from 'keymirror';
+import { I18n } from 'react-redux-i18n';
+import fakeI18n from '../../../../utils/fake-i18n';
 import Amount from '../../../../components/Amount';
 import AvailabilityPopoverStyle from './AvailabilityPopover.scss';
 
@@ -14,9 +16,9 @@ const tabs = keyMirror({
 });
 
 const tabsLabels = {
-  [tabs.DEPOSIT]: 'Deposit',
-  [tabs.WITHDRAW]: 'Withdraw',
-  [tabs.FULLY_DISABLED]: 'Fully disabled',
+  [tabs.DEPOSIT]: fakeI18n.t('PAYMENT.METHODS.AVAILABILITY.TAB.DEPOSIT'),
+  [tabs.WITHDRAW]: fakeI18n.t('PAYMENT.METHODS.AVAILABILITY.TAB.WITHDRAW'),
+  [tabs.FULLY_DISABLED]: fakeI18n.t('PAYMENT.METHODS.AVAILABILITY.TAB.FULLY_DISABLED'),
 };
 
 class AvailabilityPopover extends Component {
@@ -65,7 +67,7 @@ class AvailabilityPopover extends Component {
         result = [];
     }
 
-    const groupByFirstLetter = result.filter(country => country.startsWith(search)).reduce((result, item) => {
+    return result.filter(country => country.startsWith(search)).reduce((result, item) => {
       const countryFirstLetter = item.charAt(0);
 
       if (result[countryFirstLetter]) {
@@ -74,9 +76,7 @@ class AvailabilityPopover extends Component {
         result = { ...result, [countryFirstLetter]: [item] };
       }
       return result;
-    }, []);
-
-    return groupByFirstLetter;
+    }, {});
   };
 
   toggleTab = (tab) => {
@@ -101,11 +101,11 @@ class AvailabilityPopover extends Component {
     const { disabled, min, max, currencyCode } = countries[country][limitType];
 
     if (disabled) {
-      return <span className="color-danger">Disabled</span>;
+      return <span className="color-danger">{I18n.t('PAYMENT.METHODS.LIMITS.DISABLED')}</span>;
     }
 
     if (!min && !max) {
-      return <span>Not limited</span>;
+      return <span>{I18n.t('PAYMENT.METHODS.LIMITS.NOT_LIMITED')}</span>;
     }
 
     if (min && max) {
@@ -119,14 +119,14 @@ class AvailabilityPopover extends Component {
     }
 
     if (min) {
-      return <span> min. <Amount amount={min} currency={currencyCode} /> </span>;
+      return <span>min. <Amount amount={min} currency={currencyCode} /></span>;
     }
 
     if (max) {
-      return <span> max. <Amount amount={max} currency={currencyCode} /> </span>;
+      return <span>max. <Amount amount={max} currency={currencyCode} /></span>;
     }
 
-    return 'unavailable';
+    return I18n.t('PAYMENT.METHODS.LIMITS.UNAVAILABLE');
   };
 
   renderTabListElements = () => {
@@ -135,37 +135,36 @@ class AvailabilityPopover extends Component {
 
     const tabListElements = [];
     Object.keys(tabCountries).map((letter, key) => {
-      const letterElement = (
+      tabListElements.push(
         <Col key={`${key}-${letter}`}>
           <span className="font-weight-700">{letter}</span>
         </Col>
       );
-      tabListElements.push(letterElement);
 
-      tabCountries[letter].map(country => {
-        const countryElement = (
+      tabCountries[letter].map((country) => {
+        tabListElements.push(
           <Col key={`${key}-${country}`}>
             <span className="font-weight-700">{country}</span> {'- '}
             <span className="color-default">{this.renderLimit(country)}</span>
           </Col>
         );
-        tabListElements.push(countryElement);
       });
     });
 
     if (!tabListElements.length && search) {
       return (
-        <Col>
-          {'No countries begins from '}
-          <span className="font-weight-700">{search}</span> {'found in '}
-          <span className="tab-name">{tabsLabels[activeTab]}</span>
-        </Col>
+        <Col
+          dangerouslySetInnerHTML={{
+            __html: I18n.t('PAYMENT.METHODS.AVAILABILITY.NO_RESULT_BY_SEARCH', {
+              search: `<span class="font-weight-700">${search}</span>`,
+              tabName: `<span class="tab-name">${I18n.t(tabsLabels[activeTab])}</span>`,
+            }),
+          }}
+        />
       );
     }
 
-    return (
-      tabListElements.map(element => element)
-    );
+    return tabListElements;
   };
 
   render() {
@@ -181,41 +180,38 @@ class AvailabilityPopover extends Component {
         target={target}
       >
         <PopoverContent>
-          <div className="availability-popover">
-            <Nav tabs>
-              {
-                Object.keys(tabs).map(tab => (
-                  <NavItem key={tab}>
-                    <NavLink
-                      className={classNames({ active: activeTab === tab })}
-                      onClick={() => { this.toggleTab(tab); }}
-                    >
-                      {tabsLabels[tab]}
-                    </NavLink>
-                  </NavItem>
-                ))
-              }
-            </Nav>
-            <TabContent activeTab={activeTab}>
-              <div className="form-input-icon">
-                <i className="icmn-search" />
-                <Input
-                  onChange={this.handleSearch}
-                  className="form-control input-sm"
-                  value={search}
-                  type="text"
-                  name="search"
-                  placeholder="Quick search by country"
-                />
-              </div>
-              <hr />
-              <TabPane tabId={activeTab}>
-                <Row>
-                  { this.renderTabListElements() }
-                </Row>
-              </TabPane>
-            </TabContent>
-          </div>
+          <Nav tabs>
+            {
+              Object.keys(tabs).map(tab => (
+                <NavItem key={tab}>
+                  <NavLink
+                    className={classNames({ active: activeTab === tab })}
+                    onClick={() => { this.toggleTab(tab); }}
+                  >
+                    {I18n.t(tabsLabels[tab])}
+                  </NavLink>
+                </NavItem>
+              ))
+            }
+          </Nav>
+          <TabContent activeTab={activeTab}>
+            <div className="form-input-icon">
+              <i className="icmn-search" />
+              <Input
+                onChange={this.handleSearch}
+                className="form-control input-sm"
+                value={search}
+                type="text"
+                placeholder={I18n.t('PAYMENT.METHODS.AVAILABILITY.SEARCH_PLACEHOLDER')}
+              />
+            </div>
+            <hr />
+            <TabPane tabId={activeTab}>
+              <Row>
+                {this.renderTabListElements()}
+              </Row>
+            </TabPane>
+          </TabContent>
         </PopoverContent>
       </Popover>
     );

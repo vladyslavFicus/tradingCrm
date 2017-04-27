@@ -4,8 +4,10 @@ import List from '../components/List';
 
 const mapStateToProps = ({
   paymentMethodsList: { list: { items: paymentMethods } },
+  i18n: { locale },
 }) => ({
   paymentMethods,
+  locale,
 });
 
 const mapActions = {
