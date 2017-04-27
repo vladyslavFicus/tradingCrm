@@ -4,8 +4,10 @@ import List from '../components/List';
 
 const mapStateToProps = ({
   paymentMethodsList: { list: { items: paymentMethods } },
+  i18n: { locale },
 }) => ({
   paymentMethods,
+  locale,
 });
 
 const mapActions = {
@@ -14,6 +16,7 @@ const mapActions = {
   enableLimit: actionCreators.enableLimit,
   changeStatus: actionCreators.changeStatus,
   changeLimit: actionCreators.changeLimit,
+  getCountryAvailability: actionCreators.getCountryAvailability,
 };
 
 export default connect(mapStateToProps, mapActions)(List);

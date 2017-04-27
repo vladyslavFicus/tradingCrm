@@ -2,23 +2,36 @@
   "SIDEBAR": {
     "TOP_MENU": {
       "PLAYERS": "Игроки",
-      "DORMANT": "Бездействующие",
       "OPERATORS": "Операторы",
       "PAYMENTS": "Платежи",
       "TRANSACTIONS": "Транзакции",
-      "OPEN_LOOP": "Open loop",
-      "PAYMENT_METHODS": "Пплатежные методы",
+      "PAYMENT_METHODS": "Платежные методы",
       "BONUS_CAMPAIGNS": "Бонусные программы",
-      "TERMS": "Правила",
-      "REPORTS": "Отчеты",
       "PLAYER_LIABILITY": "Обязательства",
       "REVENUE": "Доход",
-      "COMMON": {
-        "ALL": "Все"
-      }
+      "DORMANT": "Бездействующие",
+      "OPEN_LOOP": "Open loop"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
+    }
+  },
+  "PAYMENT": {
+    "METHODS": {
+      "LIMITS": {
+        "NOT_LIMITED": "Не ограничен",
+        "UNAVAILABLE": "Недоступен",
+        "DISABLED": "Отключен"
+      },
+      "AVAILABILITY": {
+        "TAB": {
+          "DEPOSIT": "Депозит",
+          "WITHDRAW": "Вывод",
+          "FULLY_DISABLED": "Полностью отключен"
+        },
+        "SEARCH_PLACEHOLDER": "Поиск по стране",
+        "NO_RESULT_BY_SEARCH": "Не найдено страны “%{search}” в %{tabName}"
+      }
     }
   }
 }

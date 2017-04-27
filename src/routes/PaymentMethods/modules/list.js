@@ -1,4 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
+import countries from 'country-list';
 import createReducer from '../../../utils/createReducer';
 import timestamp from '../../../utils/timestamp';
 import createRequestAction from '../../../utils/createRequestAction';
@@ -10,6 +11,12 @@ const DISABLE_LIMIT = createRequestAction(`${KEY}/disable-limit`);
 const ENABLE_LIMIT = createRequestAction(`${KEY}/enable-limit`);
 const CHANGE_STATUS = createRequestAction(`${KEY}/change-status`);
 const CHANGE_LIMIT = createRequestAction(`${KEY}/change-limit`);
+const GET_COUNTRY_AVAILABILITY = createRequestAction(`${KEY}/get-country-availability`);
+
+const mapCountries = payload => Object.keys(payload).reduce((result, item) => ({
+  ...result,
+  [countries().getName(item)]: payload[item],
+}), {});
 
 function fetchEntities(filters) {
   return (dispatch, getState) => {
@@ -133,6 +140,39 @@ function changeLimit(methodUUID, limitUUID, params) {
   };
 }
 
+function getCountryAvailability(methodUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `payment/methods/${methodUUID}/availability`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          GET_COUNTRY_AVAILABILITY.REQUEST,
+          {
+            type: GET_COUNTRY_AVAILABILITY.SUCCESS,
+            payload: (action, state, res) => {
+              const contentType = res.headers.get('Content-Type');
+              if (contentType && ~contentType.indexOf('json')) {
+                return res.json().then(json => mapCountries(json));
+              }
+            },
+          },
+          GET_COUNTRY_AVAILABILITY.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+
+  };
+}
+
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: state => ({
     ...state,
@@ -170,6 +210,7 @@ const actionCreators = {
   enableLimit,
   changeStatus,
   changeLimit,
+  getCountryAvailability,
 };
 
 export {
