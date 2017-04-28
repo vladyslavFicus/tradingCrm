@@ -33,5 +33,24 @@
         "NO_RESULT_BY_SEARCH": "No countries begins from “%{search}” found in %{tabName}"
       }
     }
+  },
+  "PLAYER_PROFILE": {
+    "PROFILE": {
+      "CONTACTS": {
+        "TITLE": "Contacts",
+        "VERIFIED": "Verified",
+        "VERIFY_PHONE": "Verify phone",
+        "VERIFY_EMAIL": "Verify email"
+      },
+      "PERSONAL": {
+        "TITLE": "Personal information"
+      },
+      "ADDRESS": {
+        "TITLE": "Address"
+      }
+    }
+  },
+  "COMMON": {
+    "SAVE_CHANGES": "Save changes"
   }
 }

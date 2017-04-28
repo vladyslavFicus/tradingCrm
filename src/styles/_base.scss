@@ -27,11 +27,11 @@ For example:
   caption-side: initial;
 }
 
-@keyframes placeHolderShimmer{
-  0%{
+@keyframes placeHolderShimmer {
+  0% {
     background-position: -468px 0
   }
-  100%{
+  100% {
     background-position: 468px 0
   }
 }
@@ -169,5 +169,33 @@ small {
 
 .table-responsive {
   overflow: visible;
+}
+
+.player-profile {
+  &__contact-phone {
+    .form-control-label {
+      width: 250px;
+    }
+  }
+  &__contact-email {
+    .form-control-label {
+      width: 250px;
+    }
+  }
+}
+
+.form-control-with-button {
+  .form-control {
+    display: inline-block;
+    width: 250px;
+    margin-right: 10px;
+  }
+  .form-control-button {
+    display: inline-block;
+
+    .btn {
+      margin-top: -3px;
+    }
+  }
 }
 

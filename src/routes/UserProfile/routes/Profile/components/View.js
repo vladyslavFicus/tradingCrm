@@ -48,6 +48,8 @@ class View extends Component {
       phoneNumber: PropTypes.string,
     }),
     checkLock: PropTypes.func.isRequired,
+    verifyPhone: PropTypes.func.isRequired,
+    verifyEmail: PropTypes.func.isRequired,
   };
 
   state = {
@@ -63,7 +65,7 @@ class View extends Component {
   handleSubmitContact = (data) => {
     const { params, updateProfile } = this.props;
 
-    updateProfile(params.id, data);
+    updateProfile(params.id, { phoneNumber: data.phoneNumber.replace('+', '') });
   };
 
   handleVerify = type => () => {
@@ -129,6 +131,26 @@ class View extends Component {
     if (action && !action.error) {
       fetchProfile(params.id);
     }
+  };
+
+  handleVerifyPhone = async (phoneNumber) => {
+    const { params, profile, verifyPhone, updateProfile } = this.props;
+
+    if (phoneNumber !== profile.data.phoneNumber) {
+      await updateProfile(params.id, { phoneNumber });
+    }
+
+    return verifyPhone(params.id);
+  };
+
+  handleVerifyEmail = async (email) => {
+    const { params, profile, verifyEmail, updateProfile } = this.props;
+
+    if (email !== profile.data.email) {
+      await updateProfile(params.id, { email });
+    }
+
+    return verifyEmail(params.id);
   };
 
   render() {
@@ -210,12 +232,13 @@ class View extends Component {
 
           <div className="panel">
             <div className="panel-body row">
-              <div className="col-md-8">
-                <ContactForm
-                  initialValues={contactData}
-                  onSubmit={this.handleSubmitContact}
-                />
-              </div>
+              <ContactForm
+                profile={data}
+                initialValues={contactData}
+                onSubmit={this.handleSubmitContact}
+                onVerifyPhoneClick={this.handleVerifyPhone}
+                onVerifyEmailClick={this.handleVerifyEmail}
+              />
             </div>
           </div>
 

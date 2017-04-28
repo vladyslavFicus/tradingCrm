@@ -33,5 +33,24 @@
         "NO_RESULT_BY_SEARCH": "Не найдено страны “%{search}” в %{tabName}"
       }
     }
+  },
+  "PLAYER_PROFILE": {
+    "PROFILE": {
+      "CONTACTS": {
+        "TITLE": "Контакты",
+        "VERIFIED": "Подтвержден",
+        "VERIFY_PHONE": "Подтвердить телефон",
+        "VERIFY_EMAIL": "Подтвердить email"
+      },
+      "PERSONAL": {
+        "TITLE": "Персональная информация"
+      },
+      "ADDRESS": {
+        "TITLE": "Адрес"
+      }
+    }
+  },
+  "COMMON": {
+    "SAVE_CHANGES": "Сохранить изменения"
   }
 }
