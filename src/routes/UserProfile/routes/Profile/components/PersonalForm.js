@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import { InputField, SelectField, BirthdayField } from '../../../../../components/ReduxForm/UserProfile';
 import { createValidator } from '../../../../../utils/validator';
@@ -45,14 +46,14 @@ class PersonalForm extends Component {
         <form className="form-horizontal" role="form" onSubmit={handleSubmit(onSubmit)}>
           <div className="row">
             <div className="col-md-6">
-              <h5>Personal information</h5>
+              <h5>{I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE')}</h5>
             </div>
 
             <div className="col-md-6 text-right">
               {
                 !(pristine || submitting || !valid) &&
                 <button className="btn btn-sm btn-primary" type="submit">
-                  Save changes
+                  {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
               }
             </div>

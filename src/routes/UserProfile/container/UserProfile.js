@@ -12,7 +12,9 @@ const mapStateToProps = (state) => {
       accumulatedBalances: { data: accumulatedBalances },
       notes,
       walletLimits,
-    }, auth,
+    },
+    auth,
+    i18n: { locale },
   } = state;
   const lastIp = ip.list.length > 0
     ? ip.list[0]
@@ -32,6 +34,7 @@ const mapStateToProps = (state) => {
     availableTags: getAvailableTags(auth.department),
     availableStatuses,
     walletLimits,
+    locale,
   };
 };
 
