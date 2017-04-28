@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { I18n } from 'react-redux-i18n';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
@@ -65,7 +66,7 @@ class View extends Component {
   handleSubmitContact = (data) => {
     const { params, updateProfile } = this.props;
 
-    updateProfile(params.id, { phoneNumber: data.phoneNumber.replace('+', '') });
+    return updateProfile(params.id, { phoneNumber: data.phoneNumber });
   };
 
   handleVerify = type => () => {
@@ -171,7 +172,7 @@ class View extends Component {
       <div className="player__account__page_profile tab-content padding-vertical-20">
         <div className="row margin-bottom-20">
           <div className="col-md-6">
-            <div className="h3 margin-bottom-0">Profile</div>
+            <div className="h3 margin-bottom-0">{I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}</div>
           </div>
         </div>
 
@@ -193,8 +194,8 @@ class View extends Component {
               </div>
               <div className="col-md-4">
                 <VerifyData
-                  title="Identity"
-                  description="In order to get verified we require at least one valid proof of Identification. The ID or Passport scan need to be sharp with clear picture, readable and not expired or damaged."
+                  title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
+                  description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_DESCRIPTION')}
                   onVerify={this.handleVerify(kycCategories.KYC_PERSONAL)}
                   onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
                   status={data.personalStatus}
@@ -220,8 +221,8 @@ class View extends Component {
               </div>
               <div className="col-md-4">
                 <VerifyData
-                  title="Address"
-                  description="Proof of address can be any document showing your name and proof of address AND a date of issuing not older than 6 months from moment of providing."
+                  title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
+                  description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_DESCRIPTION')}
                   onVerify={this.handleVerify(kycCategories.KYC_ADDRESS)}
                   onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
                   status={data.addressStatus}

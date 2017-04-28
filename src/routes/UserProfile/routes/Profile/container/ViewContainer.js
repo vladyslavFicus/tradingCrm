@@ -3,7 +3,7 @@ import View from '../components/View';
 import { actionCreators as profileActionCreators } from '../../../modules';
 import { statuses as kycStatuses } from '../../../../../constants/kyc';
 
-const mapStateToProps = ({ profile: { profile }, i18n: { locale } }) => ({
+const mapStateToProps = ({ profile: { profile }, i18n: { locale } }, ...state) => ({
   profile,
   personalData: {
     title: profile.data.title,

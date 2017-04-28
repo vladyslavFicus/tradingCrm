@@ -605,6 +605,7 @@ const actionHandlers = {
     error: null,
   }),
   [PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [PROFILE.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,

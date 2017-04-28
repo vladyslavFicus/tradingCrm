@@ -171,19 +171,6 @@ small {
   overflow: visible;
 }
 
-.player-profile {
-  &__contact-phone {
-    .form-control-label {
-      width: 250px;
-    }
-  }
-  &__contact-email {
-    .form-control-label {
-      width: 250px;
-    }
-  }
-}
-
 .form-control-with-button {
   .form-control {
     display: inline-block;

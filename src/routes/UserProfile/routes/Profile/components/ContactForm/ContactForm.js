@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../constants/propTypes';
-import { InputField } from '../../../../../components/ReduxForm';
-import { createValidator } from '../../../../../utils/validator';
-import { statuses as playerStatuses } from '../../../../../constants/user';
+import PropTypes from '../../../../../../constants/propTypes';
+import { InputField } from '../../../../../../components/ReduxForm';
+import { createValidator } from '../../../../../../utils/validator';
+import { statuses as playerStatuses } from '../../../../../../constants/user';
+import './ContactForm.scss';
 
 const FORM_NAME = 'updateProfileContact';
 const attributeLabels = {
@@ -64,7 +65,6 @@ class ContactForm extends Component {
       currentValues,
     } = this.props;
     const isPhoneNumberDirty = currentValues.phoneNumber !== initialValues.phoneNumber;
-    const isEmailDirty = currentValues.email !== initialValues.email;
 
     return (
       <div>
@@ -76,7 +76,7 @@ class ContactForm extends Component {
 
             <div className="col-md-6 text-right">
               {
-                dirty && submitting && valid &&
+                dirty && !submitting && valid &&
                 <button className="btn btn-sm btn-primary" type="submit">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
@@ -126,18 +126,11 @@ class ContactForm extends Component {
                 showErrorMessage
                 inputButton={
                   <button className="btn btn-success-outline" onClick={this.handleVerifyEmailClick}>
-                    {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
+                    {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
                   </button>
                 }
-                showInputButton={isEmailDirty || profile.status === playerStatuses.INACTIVE}
+                showInputButton={profile.status === playerStatuses.INACTIVE}
               />
-
-              {
-                profile.status === playerStatuses.INACTIVE &&
-                <button className="btn btn-success-outline">
-                  {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
-                </button>
-              }
             </div>
           </div>
         </form>
