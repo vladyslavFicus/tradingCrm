@@ -56,6 +56,15 @@ const FeedInfoLogout = ({ data }) => (
         </span>
       </div>
     }
+    {
+      data.details.device &&
+      <div>
+        Device:
+        <span className="feed-item_info-details_value">
+          {data.details.device}
+        </span>
+      </div>
+    }
   </div>
 );
 
