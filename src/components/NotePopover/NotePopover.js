@@ -48,7 +48,7 @@ class NotePopover extends Component {
     toggle: PropTypes.func,
   };
   static defaultProps = {
-    defaultTitleLabel: 'Notes',
+    defaultTitleLabel: 'Note',
     placement: 'bottom',
   };
 
@@ -217,22 +217,22 @@ class NotePopover extends Component {
 
             <div className="row">
               <div className="col-md-6">
-                <span className="display-block color-default font-size-10">
+                <div className="color-default font-size-10">
                   {currentValues && currentValues.content ? currentValues.content.length : 0}/{MAX_CONTENT_LENGTH}
-                </span>
+                </div>
 
                 <Field
                   name="pinned"
-                  wrapperClassName="display-block font-size-12"
+                  wrapperClassName="display-block font-size-12 margin-top-10"
                   label="Pin"
                   component={this.renderSwitchField}
                 />
               </div>
 
-              <div className="col-md-6 text-right">
+              <div className="col-md-6 text-right margin-top-10">
                 <button
                   type="reset"
-                  className="btn btn-link btn-sm margin-inline"
+                  className="btn btn-link btn-sm"
                   onClick={() => this.handleHide(true)}
                 >
                   Cancel
@@ -240,7 +240,7 @@ class NotePopover extends Component {
 
                 <button
                   type="submit"
-                  className="btn btn-success btn-sm margin-inline text-uppercase"
+                  className="btn btn-success btn-sm text-uppercase"
                   disabled={pristine || submitting || invalid}
                 >
                   {item && item.uuid ? 'Update' : 'Save'}
