@@ -45,20 +45,24 @@ class UsersPanel extends Component {
 
     return (
       <div className={blockClassName}>
-        <div className="users-panel-content" style={{ display: active ? 'block' : 'none' }}>
+        <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
           {items.map((item) => {
             const className = classNames(
               'user-panel-content-frame',
-              active && active.color ? `user-panel-content-frame-${active.color} users-panel-content-frame-active` : 'users-panel-content-frame-inactive'
+              active && active.color ? `user-panel-content-frame-${active.color}` : ''
             );
 
             return (
               <iframe
-                scrolling="yes"
                 className={className}
                 frameBorder={0}
                 src={`/users/${item.uuid}/profile`}
                 key={item.uuid}
+                style={{
+                  height: active && active.uuid === item.uuid ? 'calc(100% - 73px)' : '0',
+                  margin: active && active.uuid === item.uuid ? '0 auto' : '0',
+                  borderTop: active && active.uuid === item.uuid ? '' : '0',
+                }}
               />
             );
           })}

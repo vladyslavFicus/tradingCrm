@@ -92,6 +92,7 @@ $pink: #cc00ff;
     border-radius: 4px;
     line-height: normal;
     .player-name {
+      margin-bottom: -3px;
       font-size: 14px;
       color: #666666;
       font-weight: bold;
@@ -103,7 +104,6 @@ $pink: #cc00ff;
       color: #999999;
       white-space: nowrap;
       overflow: hidden;
-      line-height: .9;
     }
   }
   .tab-orange .users-panel-footer-row_item-block-info {
