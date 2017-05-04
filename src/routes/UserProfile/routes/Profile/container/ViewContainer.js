@@ -3,7 +3,7 @@ import View from '../components/View';
 import { actionCreators as profileActionCreators } from '../../../modules';
 import { statuses as kycStatuses } from '../../../../../constants/kyc';
 
-const mapStateToProps = ({ profile: { profile } }) => ({
+const mapStateToProps = ({ profile: { profile }, i18n: { locale } }, ...state) => ({
   profile,
   personalData: {
     title: profile.data.title,
@@ -28,6 +28,7 @@ const mapStateToProps = ({ profile: { profile } }) => ({
     (profile.data.addressStatus && profile.data.addressStatus.value === kycStatuses.VERIFIED)
   ),
   canVerifyAll: !profile.data.kycCompleted,
+  locale,
 });
 const mapActions = {
   fetchProfile: profileActionCreators.fetchProfile,
@@ -40,6 +41,8 @@ const mapActions = {
   downloadFile: profileActionCreators.downloadFile,
   changeStatusByAction: profileActionCreators.changeStatusByAction,
   checkLock: profileActionCreators.checkLock,
+  verifyPhone: profileActionCreators.verifyPhone,
+  verifyEmail: profileActionCreators.verifyEmail,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

@@ -16,7 +16,6 @@ const sidebarTopMenu = [
   {
     label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
     icon: 'fa fa-credit-card',
-    url: '/transactions',
     items: [
       { label: I18n.t('SIDEBAR.TOP_MENU.TRANSACTIONS'), url: '/transactions' },
       { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'), url: '/paymentMethods' },
@@ -30,7 +29,6 @@ const sidebarTopMenu = [
   {
     label: 'MGA',
     icon: 'fa fa-pie-chart',
-    url: '/reports/player-liability',
     items: [
       {
         label: I18n.t('SIDEBAR.TOP_MENU.PLAYER_LIABILITY'),
@@ -60,7 +58,6 @@ const sidebarTopMenu = [
 const sidebarBottomMenu = [
   { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'fa fa-life-ring', url: '#' },
 ];
-
 const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
   { label: 'Bonuses', url: '/users/:id/bonuses' },
@@ -72,7 +69,6 @@ const userProfileTabs = [
   { label: 'Notes', url: '/users/:id/notes' },
   { label: 'Feed', url: '/users/:id/feed' },
 ];
-
 const operatorProfileTabs = [
   { label: 'Profile', url: '/operators/:id/profile' },
   { label: 'Feed', url: '/operators/:id/feed' },
