@@ -1,6 +1,10 @@
 /*
  * TABS
  */
+.nav-tabs {
+  border-bottom: none;
+}
+
 .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
   border-color: transparent;
 }
