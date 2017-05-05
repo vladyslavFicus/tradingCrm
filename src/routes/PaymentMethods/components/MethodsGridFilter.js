@@ -1,15 +1,23 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, Field } from 'redux-form';
+import countryList from 'country-list';
 import { SelectField } from '../../../components/ReduxForm';
 import { methodsStatusesLabels, methodStatuses } from '../../../constants/payment';
 import { createValidator } from '../../../utils/validator';
 
+const countries = countryList().getData().reduce((result, item) => ({
+  ...result,
+  [item.code]: item.name,
+}), {});
+
 const attributeLabels = {
   status: 'Status',
+  country: 'Country sorting',
 };
 
 const validator = createValidator({
   status: ['string', `in:,${Object.keys(methodStatuses).join()}`],
+  country: ['string', `in:${Object.keys(countries).join()}`],
 }, attributeLabels, false);
 
 class MethodsGridFilter extends Component {
@@ -34,7 +42,22 @@ class MethodsGridFilter extends Component {
           <div className="row">
             <div className="col-md-10">
               <div className="row">
-                <div className="col-md-5">
+                <div className="col-md-4">
+                  <Field
+                    name="countryCode"
+                    label={attributeLabels.country}
+                    labelClassName="form-label"
+                    component={SelectField}
+                    position="vertical"
+                  >
+                    <option value="">- General -</option>
+                    {Object
+                      .keys(countries)
+                      .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                    }
+                  </Field>
+                </div>
+                <div className="col-md-4">
                   <Field
                     name="status"
                     label={attributeLabels.status}

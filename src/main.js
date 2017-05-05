@@ -47,7 +47,6 @@ createStore(initialState, (store) => {
         }
       };
 
-      // Setup hot module replacement
       module.hot.accept('./routes/index', () =>
         setImmediate(() => {
           ReactDOM.unmountComponentAtNode(MOUNT_NODE);
