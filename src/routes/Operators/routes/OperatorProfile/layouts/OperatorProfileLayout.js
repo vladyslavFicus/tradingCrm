@@ -4,7 +4,6 @@ import Modal from '../../../../../components/Modal';
 import Information from '../components/Information';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
-import './OperatorProfileLayout.scss';
 import PropTypes from '../../../../../constants/propTypes';
 
 const INFO_MODAL = 'info-modal';
@@ -137,43 +136,38 @@ class OperatorProfileLayout extends Component {
     } = this.state;
 
     return (
-      <div className="player container panel operator-profile-layout">
+      <div className="player container panel profile-layout">
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">
-              <Header
-                data={data}
-                lastIp={lastIp}
-                availableStatuses={availableStatuses}
-                onResetPasswordClick={this.handleResetPasswordClick}
-                onSendInvitationClick={this.handleSendInvitationClick}
-                onStatusChange={changeStatus}
-              />
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-sm-12 operator-profile-layout-info-toggle">
-              <button
-                className="operator-profile-layout-info-toggle-button"
-                onClick={this.handleToggleInformationBlock}
-              >
-                {informationShown ? 'Hide details' : 'Show details'}
-              </button>
-              <div className="col-xs-12">
-                <hr />
+          <div className="profile-layout-heading">
+            <div className="row">
+              <div className="col-md-12">
+                <Header
+                  data={data}
+                  lastIp={lastIp}
+                  availableStatuses={availableStatuses}
+                  onResetPasswordClick={this.handleResetPasswordClick}
+                  onSendInvitationClick={this.handleSendInvitationClick}
+                  onStatusChange={changeStatus}
+                />
               </div>
             </div>
+
+            <div className="hide-details-block">
+              <div className="hide-details-block_arrow" />
+              <div className="hide-details-block_text" onClick={this.handleToggleInformationBlock}>
+                {informationShown ? 'Hide details' : 'Show details'}
+              </div>
+              <div className="hide-details-block_arrow" />
+            </div>
+
+            {
+              informationShown &&
+              <Information
+                data={data}
+                ips={ip.list}
+              />
+            }
           </div>
-
-          {
-            informationShown &&
-            <Information
-              data={data}
-              ips={ip.list}
-            />
-          }
-
           <div className="row">
             <section className="panel profile-user-content">
               <div className="panel-body">
