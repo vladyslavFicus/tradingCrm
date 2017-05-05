@@ -4,7 +4,6 @@ import Modal from '../../../../../components/Modal';
 import Information from '../components/Information';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
-import './OperatorProfileLayout.scss';
 import PropTypes from '../../../../../constants/propTypes';
 
 const INFO_MODAL = 'info-modal';
@@ -137,9 +136,9 @@ class OperatorProfileLayout extends Component {
     } = this.state;
 
     return (
-      <div className="player container panel operator-profile-layout">
+      <div className="player container panel profile-layout">
         <div className="container-fluid">
-          <div className="operator-profile-layout-heading">
+          <div className="profile-layout-heading">
             <div className="row">
               <div className="col-md-12">
                 <Header
