@@ -1,6 +1,13 @@
 .profile-layout {
   border: none;
 
+  .profile-user-content {
+    border: none;
+    .nav-tabs {
+      border-bottom: none;
+    }
+  }
+
   .dash-text {
     text-align: center;
     position: relative;

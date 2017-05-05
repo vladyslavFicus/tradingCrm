@@ -5,22 +5,13 @@
   border-color: transparent;
 }
 
-.nav-tabs-horizontal .nav-tabs {
-  border-bottom: 1px solid #dfe4ed;
-}
-
-.nav-tabs-horizontal .nav-tabs .nav-item {
-  margin-bottom: -2px;
-  cursor: pointer;
-}
-
 .nav-tabs-horizontal .nav-tabs .nav-item .nav-link {
   border: none;
-  border-bottom: 3px solid transparent;
+  border-top: 3px solid transparent;
 }
 
 .nav-tabs-horizontal .nav-tabs .nav-item .nav-link.active, .nav-tabs-horizontal .nav-tabs .nav-item .nav-link:focus {
-  border-bottom-color: #01a8fe !important;
+  border-top-color: #01a8fe !important;
 }
 
 .nav-tabs-horizontal .nav-tabs .nav-item .nav-link:hover {
