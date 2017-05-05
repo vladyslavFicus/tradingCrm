@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import PropTypes from '../../../../../../constants/propTypes';
-import FileUpload from '../../../../../../components/FileUpload';
-import GridView, { GridColumn } from '../../../../../../components/GridView';
-import { shortify } from '../../../../../../utils/uuid';
-import StatusDropDown from './StatusDropDown';
+import PropTypes from '../../../../../constants/propTypes';
+import FileUpload from '../../../../../components/FileUpload';
+import GridView, { GridColumn } from '../../../../../components/GridView';
+import { shortify } from '../../../../../utils/uuid';
+import StatusDropDown from '../../../../../components/FileStatusDropDown';
 
 class Documents extends Component {
   static propTypes = {
