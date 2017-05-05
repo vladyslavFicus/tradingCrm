@@ -68,7 +68,7 @@ class PlayerStatus extends Component {
         }
       }
 
-      return this.props.onStatusChange(statusData);
+      return this.props.onChange(statusData);
     });
   };
 

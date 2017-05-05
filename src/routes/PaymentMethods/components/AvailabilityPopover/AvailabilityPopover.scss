@@ -1,0 +1,48 @@
+.popover {
+  max-width: 350px;
+  width: 350px;
+
+  .popover-title {
+    background: #FFFDE6;
+    border: none;
+  }
+
+  .tab-pane {
+    overflow-x: hidden;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  .nav-item {
+    .active {
+      color: #0088ff;
+      &:hover {
+        color: #0088ff;
+      }
+    }
+    .nav-link {
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  .nav-tabs {
+    border-bottom: none;
+    font-weight: 700;
+  }
+
+  .tab-name {
+    font-weight: 700;
+    color: #08f;
+  }
+
+  .icmn-search {
+    font-size: 12px;
+  }
+  .popover-content {
+    background: white;
+  }
+}
+
+
+

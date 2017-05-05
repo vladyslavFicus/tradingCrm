@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import ReactPhoneInput from 'react-phone-input';
+import './PhoneField.scss';
 
-class InputField extends Component {
+class PhoneField extends Component {
   static propTypes = {
     className: PropTypes.string,
     input: PropTypes.shape({
@@ -11,11 +13,7 @@ class InputField extends Component {
     label: PropTypes.string,
     labelAddon: PropTypes.any,
     labelClassName: PropTypes.string,
-    inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
-    inputAddon: PropTypes.element,
-    inputButton: PropTypes.any,
-    showInputButton: PropTypes.bool,
     type: PropTypes.string.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
@@ -24,19 +22,28 @@ class InputField extends Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
     }).isRequired,
+    phoneInput: PropTypes.shape({
+      defaultCountry: PropTypes.string,
+      excludeCountries: PropTypes.arrayOf(PropTypes.string),
+      onlyCountries: PropTypes.arrayOf(PropTypes.string),
+      preferredCountries: PropTypes.arrayOf(PropTypes.string),
+    }),
   };
   static defaultProps = {
     className: 'form-group',
     label: null,
     labelAddon: null,
     labelClassName: 'form-control-label',
-    inputClassName: 'form-control',
-    showInputButton: false,
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,
     placeholder: null,
-    inputAddon: null,
+    phoneInput: {
+      defaultCountry: 'ua',
+      excludeCountries: [],
+      onlyCountries: [],
+      preferredCountries: [],
+    },
   };
 
   renderLabel = (props) => {
@@ -70,7 +77,7 @@ class InputField extends Component {
     } = props;
 
     return (
-      <div className={classNames(`${className} row`, { 'has-danger': touched && error })}>
+      <div className={classNames('redux-form__phone-field', `${className} row`, { 'has-danger': touched && error })}>
         {this.renderLabel(props)}
         <div className="col-md-9">
           {this.renderInput(props)}
@@ -93,7 +100,7 @@ class InputField extends Component {
     } = props;
 
     return (
-      <div className={classNames(className, { 'has-danger': touched && error })}>
+      <div className={classNames('phone-field', className, { 'has-danger': touched && error })}>
         {this.renderLabel(props)}
         {this.renderInput(props)}
         {
@@ -107,52 +114,9 @@ class InputField extends Component {
   };
 
   renderInput = (props) => {
-    const {
-      inputAddon,
-      inputButton,
-      showInputButton,
-      input,
-      disabled,
-      type,
-      inputClassName,
-      meta: { touched, error },
-      placeholder,
-      label,
-    } = props;
+    const { input, phoneInput } = props;
 
-    let inputField = (
-      <input
-        {...input}
-        disabled={disabled}
-        type={type}
-        className={classNames(inputClassName, { 'has-danger': touched && error })}
-        placeholder={placeholder || label}
-      />
-    );
-
-    if (inputAddon) {
-      inputField = (
-        <div className="input-group">
-          <div className="input-group-addon">
-            {inputAddon}
-          </div>
-          {inputField}
-        </div>
-      );
-    }
-
-    if (inputButton) {
-      inputField = (
-        <div className="form-control-with-button">
-          {inputField}
-          <div className="form-control-button">
-            {showInputButton && inputButton}
-          </div>
-        </div>
-      );
-    }
-
-    return inputField;
+    return <ReactPhoneInput {...input} {...phoneInput} />;
   };
 
   render() {
@@ -162,4 +126,4 @@ class InputField extends Component {
   }
 }
 
-export default InputField;
+export default PhoneField;
