@@ -1,36 +1,4 @@
-.profile-layout {
-  border: none;
-
-  .profile-user-content {
-    border: none;
-    .nav-tabs {
-      border-bottom: none;
-    }
-  }
-
-  .dash-text {
-    text-align: center;
-    position: relative;
-    width: 80px;
-    background: white;
-    margin: auto;
-    text-decoration: underline;
-    z-index: 1;
-    font-size: 11px;
-    color: #999999;
-    cursor: pointer;
-  }
-
-  hr {
-    margin: 0 auto;
-    border-top: 1px solid #eee;
-    position: relative;
-    top: -8px;
-    left: 0;
-    width: 100%;
-    z-index: 0;
-  }
-}
+@import "../../../styles/mixins/mixins";
 
 .profile-tab-container {
   .well {

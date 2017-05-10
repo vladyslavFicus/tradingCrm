@@ -232,11 +232,14 @@ class View extends Component {
     );
   };
 
-  renderAmount = data => (
-    <div className={classNames('font-weight-700', { 'color-danger': data.paymentType === paymentTypes.Withdraw })}>
-      {data.paymentType === paymentTypes.Withdraw && '-'}<Amount {...data.amount} />
-    </div>
-  );
+  renderAmount = (data) => {
+    const negativeOperation = [paymentTypes.Withdraw, paymentTypes.Confiscate].indexOf(data.paymentType) !== -1;
+    return (
+      <div className={classNames('font-weight-700', { 'color-danger': negativeOperation })}>
+        {negativeOperation && '-'}<Amount {...data.amount} />
+      </div>
+    );
+  };
 
   renderDateTime = data => (
     <div>
