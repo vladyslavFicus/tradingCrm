@@ -11,6 +11,7 @@
 
 .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
   border-color: transparent;
+  outline: none;
 }
 
 .nav-tabs-horizontal .nav-tabs .nav-item .nav-link {
