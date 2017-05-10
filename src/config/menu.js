@@ -60,9 +60,9 @@ const sidebarBottomMenu = [
 ];
 const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
-  { label: 'Bonuses', url: '/users/:id/bonuses' },
-  { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Transactions', url: '/users/:id/transactions' },
+  { label: 'Bonuses', url: '/users/:id/bonuses' },
+  { label: 'Activity', url: '/users/:id/game-activity' },
   { label: 'Payments', url: '/users/:id/paymentAccounts' },
   { label: 'Limits', url: '/users/:id/limits' },
   { label: 'Files', url: '/users/:id/files' },
