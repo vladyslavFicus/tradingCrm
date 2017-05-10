@@ -112,12 +112,18 @@
     height: auto;
     padding-top: 0;
   }
+  .scroll-bar {
+    opacity: 0;
+  }
   &:hover {
     width: 240px;
     -webkit-transition-delay: .25s;
     -moz-transition-delay: .25s;
     -o-transition-delay: .25s;
     transition-delay: .25s;
+    .scroll-bar {
+      opacity: 1;
+    }
     .link-text {
       opacity: 1;
       transition-delay: .25s;

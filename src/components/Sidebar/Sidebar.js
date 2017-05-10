@@ -10,32 +10,14 @@ class Sidebar extends Component {
     bottomMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
   };
 
-  state = {
-    scrollbarHover: false,
-  };
-
-  handleMouseEnter = () => {
-    this.setState({ scrollbarHover: true });
-  };
-
-  handleMouseLeave = () => {
-    this.setState({ scrollbarHover: false });
-  };
-
-  renderThumbVertical = ({ style, ...props }) => {
-    const { hover } = this.state;
-    return <div style={{ ...style, opacity: hover ? 1 : 0 }} {...props} />;
-  };
-
   render () {
     return (
       <aside className="sidebar">
         <Scrollbars
-          renderThumbVertical={this.renderTrackVertical}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
           renderTrackHorizontal={props => <div {...props} className="track-vertical" style={{ display: 'none' }} />}
           renderThumbHorizontal={props => <div {...props} className="thumb-vertical" style={{ display: 'none' }} />}
+          renderThumbVertical={({ style, ...props }) =>
+            <div className="scroll-bar" {...props} style={{ ...style, backgroundColor: 'rgba(223,228,237,0.25)' }} />}
           style={{
             height: 'calc(100% - 100px)',
           }}
