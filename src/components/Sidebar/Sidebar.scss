@@ -2,8 +2,6 @@
   height: 100%;
   width: 60px;
   position: fixed;
-  padding-top: 1.5rem;
-  padding-right: 4px;
   z-index: 17;
   top: 48px;
   left: 0;
@@ -17,32 +15,10 @@
   transition: .25s width linear;
   transition-delay: .75s;
   .navbar-nav {
+    padding-top: 1.5rem;
     margin-bottom: 0;
     padding-left: 0;
-    max-height: 300px;
-    height: 300px;
-    overflow-y: hidden;
-    overflow-x: hidden;
     list-style: none;
-    &::-webkit-scrollbar {
-      -webkit-appearance: none;
-    }
-    &::-webkit-scrollbar:vertical {
-      width: 4px;
-    }
-    &::-webkit-scrollbar-thumb {
-      -webkit-border-radius: 8px;
-      -moz-border-radius: 8px;
-      border-radius: 8px;
-      border: 2px solid #000;
-      background-color: #000;
-    }
-    &::-webkit-scrollbar-track {
-      background-color: #333333;
-      -webkit-border-radius: 8px;
-      -moz-border-radius: 8px;
-      border-radius: 8px;
-    }
   }
   .link-text {
     font-weight: 600;
@@ -59,7 +35,7 @@
     font-size: 15px;
     color: #cccccc;
     white-space: nowrap;
-    padding-bottom: 1rem;
+    padding-top: 1rem;
     cursor: pointer;
   }
   .nav-item + .nav-item {
@@ -87,7 +63,7 @@
   .fa-angle-down {
     opacity: 0;
     position: absolute;
-    top: 4px;
+    top: 18px;
     right: 12px;
     width: auto;
   }
@@ -106,6 +82,7 @@
     border-radius: 0;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2) inset;
     transition: ease-out .25s;
+    z-index: 0;
     .dropdown-item {
       padding: 0 1.5rem 0 4rem;
       margin-bottom: 5px;
@@ -133,6 +110,7 @@
     bottom: 3.35em;
     width: 100%;
     height: auto;
+    padding-top: 0;
   }
   &:hover {
     width: 240px;
@@ -140,9 +118,6 @@
     -moz-transition-delay: .25s;
     -o-transition-delay: .25s;
     transition-delay: .25s;
-    .navbar-nav {
-      overflow-y: auto;
-    }
     .link-text {
       opacity: 1;
       transition-delay: .25s;
