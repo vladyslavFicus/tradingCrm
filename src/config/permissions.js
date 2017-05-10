@@ -10,6 +10,8 @@ export default {
     PROFILE_VIEW: 'operator;GET;/operators/{uuid}',
     CREATE: 'operator;POST;/operators',
     OPERATOR_SEND_INVITATION: 'operator;PUT;/operators/{uuid}/send/invitation',
+    ADD_AUTHORITY: 'auth;POST;/credentials/{uuid}/authorities',
+    DELETE_AUTHORITY: 'auth;DELETE;/credentials/{uuid}/authorities',
   },
   USER_PROFILE: {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',

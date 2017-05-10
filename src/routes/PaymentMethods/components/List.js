@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
+import classNames from 'classnames';
 import Panel, { Title, Content } from '../../../components/Panel';
 import SortableGridView from '../../../components/GridView/SortableGridView';
 import { GridColumn } from '../../../components/GridView';
 import Amount from '../../../components/Amount';
 import MethodGridFilter from './MethodsGridFilter';
 import LimitPopover from '../../../components/PaymentMethodLimitPopover';
+import AvailabilityPopover from './AvailabilityPopover';
 import PopoverButton from '../../../components/PopoverButton';
 import PropTypes from '../../../constants/propTypes';
 import StatusDropDown from './StatusDropDown';
 
 const DragHandle = SortableHandle(({ order }) => <span>:: {order}</span>);
 const PAYMENT_METHOD_LIMIT_POPOVER = 'payment-method-limit-popover';
+const PAYMENT_METHOD_AVAILABILITY_POPOVER = 'payment-method-availability-popover';
 
 const popoverInitialState = {
   name: null,
@@ -25,6 +28,8 @@ class List extends Component {
     enableLimit: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
     changeLimit: PropTypes.func.isRequired,
+    changePaymentMethodOrder: PropTypes.func.isRequired,
+    getCountryAvailability: PropTypes.func.isRequired,
     paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod),
   };
 
@@ -61,6 +66,23 @@ class List extends Component {
     });
   };
 
+  handleOpenCountryAvailability = async (target, methodUUID) => {
+    const action = await this.props.getCountryAvailability(methodUUID);
+
+    if (action && !action.error) {
+      this.setState({
+        popover: {
+          name: PAYMENT_METHOD_AVAILABILITY_POPOVER,
+          params: {
+            target,
+            methodUUID,
+            countries: action.payload,
+          },
+        },
+      });
+    }
+  };
+
   handleDisableLimit = async (methodUUID, limitUUID) => {
     const action = await this.props.disableLimit(methodUUID, limitUUID);
     if (action && !action.error) {
@@ -94,6 +116,16 @@ class List extends Component {
 
   handlePopoverHide = () => {
     this.setState({ popover: { ...popoverInitialState } });
+  };
+
+  handleSortEnd = async (orderParams) => {
+    const action = await this.props.changePaymentMethodOrder({
+      ...orderParams,
+      countryCode: this.state.filters.countryCode,
+    });
+    if (action && !action.error) {
+      this.handleRefresh();
+    }
   };
 
   renderStatus = data => (
@@ -140,7 +172,7 @@ class List extends Component {
 
     return (
       <PopoverButton
-        id={`payment-method-${item.uuid}`}
+        id={`payment-method-limit-${item.uuid}`}
         onClick={id => this.handleSetLimitClick(id, {
           ...item,
           methodUUID: data.uuid,
@@ -154,9 +186,27 @@ class List extends Component {
     );
   };
 
+  renderCountryAvailability = (data) => {
+    const { popover } = this.state;
+    return (
+      <PopoverButton
+        id={`payment-method-availability-${data.uuid}`}
+        onClick={id => this.handleOpenCountryAvailability(id, data.uuid)}
+      >
+        <i
+          aria-hidden="true"
+          className={classNames('fa font-size-30 fa-globe', {
+            'color-info': popover.params.methodUUID === data.uuid &&
+            popover.name === PAYMENT_METHOD_AVAILABILITY_POPOVER,
+          })}
+        />
+      </PopoverButton>
+    );
+  };
+
   render() {
     const { paymentMethods } = this.props;
-    const { popover } = this.state;
+    const { popover, filters } = this.state;
 
     return (
       <div className="page-content-inner">
@@ -174,6 +224,7 @@ class List extends Component {
               tableClassName="table table-hovered data-grid-layout"
               headerClassName=""
               dataSource={paymentMethods}
+              onSortEnd={this.handleSortEnd}
             >
               <GridColumn
                 name="order"
@@ -200,12 +251,25 @@ class List extends Component {
                 headerClassName={'text-uppercase'}
                 render={this.renderLimit}
               />
-              <GridColumn
-                name="status"
-                header="Status"
-                headerClassName={'text-uppercase'}
-                render={this.renderStatus}
-              />
+              {
+                !filters.countryCode &&
+                <GridColumn
+                  name="availability"
+                  header="Availability"
+                  className="text-center"
+                  headerClassName={'text-uppercase text-center'}
+                  render={this.renderCountryAvailability}
+                />
+              }
+              {
+                !filters.countryCode &&
+                <GridColumn
+                  name="status"
+                  header="Status"
+                  headerClassName={'text-uppercase'}
+                  render={this.renderStatus}
+                />
+              }
             </SortableGridView>
           </Content>
         </Panel>
@@ -218,6 +282,16 @@ class List extends Component {
             onSubmit={this.handleChangeLimit}
             onDisable={this.handleDisableLimit}
             onEnable={this.handleEnabledLimit}
+            {...popover.params}
+          />
+        }
+
+        {
+          popover.name === PAYMENT_METHOD_AVAILABILITY_POPOVER &&
+          <AvailabilityPopover
+            toggle={this.handlePopoverHide}
+            isOpen
+            onSubmit={this.handleChangeLimit}
             {...popover.params}
           />
         }

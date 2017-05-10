@@ -218,11 +218,11 @@ class Header extends Component {
           </div>
           <ProfileLastLogin lastIp={lastIp} />
           <div className="header-block">
-            <span className="header-block-title">Registered</span>
-            <div className="header-block-text">
+            <div className="header-block-title">Registered</div>
+            <div className="header-block-middle">
               {moment(registrationDate).fromNow()}
             </div>
-            <div className="font-size-12">
+            <div className="header-block-small">
               on {moment(registrationDate).format('DD.MM.YYYY')}
             </div>
           </div>

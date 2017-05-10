@@ -83,7 +83,7 @@ const typesProps = {
     className: 'text-uppercase font-weight-700 color-danger',
   },
   [types.Confiscate]: {
-    className: 'text-uppercase font-weight-700 color-secondary',
+    className: 'text-uppercase font-weight-700 color-danger',
   },
 };
 

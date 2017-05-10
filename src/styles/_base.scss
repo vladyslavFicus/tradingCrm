@@ -27,11 +27,11 @@ For example:
   caption-side: initial;
 }
 
-@keyframes placeHolderShimmer{
-  0%{
+@keyframes placeHolderShimmer {
+  0% {
     background-position: -468px 0
   }
-  100%{
+  100% {
     background-position: 468px 0
   }
 }
@@ -123,7 +123,7 @@ small {
   left: 0;
   width: 100%;
   height: 3px;
-  background: #ffffff;
+  background: transparent;
 }
 
 .dropdown-highlight.dropdown-open {
@@ -159,6 +159,14 @@ small {
   }
 }
 
+.font-size-13 {
+  font-size: 13px;
+}
+
+.line-height-1 {
+  line-height: 1;
+}
+
 //notes
 .note-with-text {
   background: url("../static/img/notes/note-with-text.png") no-repeat;
@@ -187,3 +195,19 @@ small {
 .table-responsive {
   overflow: visible;
 }
+
+.form-control-with-button {
+  .form-control {
+    display: inline-block;
+    width: 250px;
+    margin-right: 10px;
+  }
+  .form-control-button {
+    display: inline-block;
+
+    .btn {
+      margin-top: -3px;
+    }
+  }
+}
+

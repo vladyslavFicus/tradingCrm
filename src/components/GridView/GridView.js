@@ -215,7 +215,13 @@ class GridView extends Component {
       tableClassName,
       headerClassName,
       lazyLoad,
+      dataSource,
     } = this.props;
+
+    if (!dataSource.length) {
+      return null;
+    }
+
     const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
@@ -223,8 +229,8 @@ class GridView extends Component {
         <div className="col-md-12 table-responsive">
           <table className={tableClassName}>
             <thead className={headerClassName}>
-            {this.renderHead(this.recognizeHeaders(grids))}
-            {this.renderFilters(this.recognizeFilters(grids))}
+              {this.renderHead(this.recognizeHeaders(grids))}
+              {this.renderFilters(this.recognizeFilters(grids))}
             </thead>
 
             {this.renderBody(grids)}
