@@ -6,34 +6,29 @@ const sidebarTopMenu = [
   {
     label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS'),
     icon: 'fa fa-users',
-    items: [
-      { label: I18n.t('SIDEBAR.TOP_MENU.COMMON.ALL'), url: '/users/list' },
-      { label: I18n.t('SIDEBAR.TOP_MENU.DORMANT'), url: '/users/dormant' },
-    ],
+    url: '/users/list',
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
-    icon: 'fa fa-user',
+    icon: 'fa fa-eye',
     url: '/operators/list',
   },
   {
-    label: I18n.t('SIDEBAR.TOP_MENU.TRANSACTIONS'),
+    label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
     icon: 'fa fa-credit-card',
     items: [
-      { label: I18n.t('SIDEBAR.TOP_MENU.COMMON.ALL'), url: '/transactions' },
-      { label: I18n.t('SIDEBAR.TOP_MENU.OPEN_LOOP'), url: '/transactions/open-loops' },
+      { label: I18n.t('SIDEBAR.TOP_MENU.TRANSACTIONS'), url: '/transactions' },
+      { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'), url: '/paymentMethods' },
     ],
   },
   {
-    label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'),
-    icon: 'fa fa-cc-visa',
-    url: '/paymentMethods',
+    label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'),
+    icon: 'fa fa-gift',
+    url: '/bonus-campaigns',
   },
-  { label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'), url: '/bonus-campaigns', icon: 'fa fa-gift' },
-  { label: I18n.t('SIDEBAR.TOP_MENU.TERMS'), url: '/terms', icon: 'fa fa-align-justify' },
   {
-    label: I18n.t('SIDEBAR.TOP_MENU.REPORTS'),
-    icon: 'fa fa-align-justify',
+    label: 'MGA',
+    icon: 'fa fa-pie-chart',
     items: [
       {
         label: I18n.t('SIDEBAR.TOP_MENU.PLAYER_LIABILITY'),
@@ -49,13 +44,20 @@ const sidebarTopMenu = [
         url: '/reports/revenue',
         permissions: new Permissions([permission.REPORTS.VAT_VIEW]),
       },
+      {
+        label: I18n.t('SIDEBAR.TOP_MENU.DORMANT'),
+        url: '/users/dormant',
+      },
+      {
+        label: I18n.t('SIDEBAR.TOP_MENU.OPEN_LOOP'),
+        url: '/transactions/open-loops',
+      },
     ],
   },
 ];
 const sidebarBottomMenu = [
   { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'fa fa-life-ring', url: '#' },
 ];
-
 const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
   { label: 'Bonuses', url: '/users/:id/bonuses' },
@@ -67,7 +69,6 @@ const userProfileTabs = [
   { label: 'Notes', url: '/users/:id/notes' },
   { label: 'Feed', url: '/users/:id/feed' },
 ];
-
 const operatorProfileTabs = [
   { label: 'Profile', url: '/operators/:id/profile' },
   { label: 'Feed', url: '/operators/:id/feed' },

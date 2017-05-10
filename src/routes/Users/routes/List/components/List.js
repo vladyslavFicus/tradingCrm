@@ -31,10 +31,6 @@ class List extends Component {
     page: 0,
   };
 
-  componentDidMount() {
-    this.handleRefresh();
-  }
-
   handlePageChanged = (page) => {
     if (!this.props.isLoading) {
       this.setState({ page: page - 1 }, () => this.handleRefresh());

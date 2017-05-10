@@ -128,7 +128,7 @@ class WalletLimits extends Component {
       <div className={className}>
         <Dropdown className="dropdown-inline" isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
           <div className="header-block_wallet-limits-tab">
-            <span className="header-block-title">Locks</span>
+            <div className="header-block-title">Locks</div>
             {this.renderStatus('Deposit', deposit.locked)}
             {this.renderStatus('Withdrawal', withdraw.locked)}
           </div>

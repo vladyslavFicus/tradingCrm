@@ -14,13 +14,15 @@
     "lint:fix": "npm run lint -- --fix",
     "start": "better-npm-run start",
     "dev": "better-npm-run dev",
+    "dev:no-log": "better-npm-run dev:no-log",
     "dev:no-debug": "npm run dev -- --no_debug",
     "test": "better-npm-run test",
     "test:dev": "npm run test -- --watch",
     "deploy": "better-npm-run deploy",
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
-    "codecov": "cat coverage/*/lcov.info | codecov"
+    "codecov": "cat coverage/*/lcov.info | codecov",
+    "i18n": "i18n-parser --config=./config/i18n.json"
   },
   "betterScripts": {
     "compile": {
@@ -34,6 +36,14 @@
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
+      }
+    },
+    "dev:no-log": {
+      "command": "nodemon --exec babel-node bin/server",
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "app:*",
+        "DISABLE_LOG": true
       }
     },
     "deploy": {
@@ -98,6 +108,7 @@
     "html-webpack-plugin": "^2.7.1",
     "humanize-duration": "^3.10.0",
     "humps": "^1.1.0",
+    "i18n-parser": "^1.0.0",
     "imports-loader": "^0.6.5",
     "ip": "^1.1.2",
     "json-loader": "^0.5.4",
@@ -124,6 +135,7 @@
     "react-dom": "^15.4.2",
     "react-infinite-scroller": "^1.0.7",
     "react-onclickoutside": "^5.10.0",
+    "react-phone-input": "^1.2.1",
     "react-placeholder": "^1.0.1",
     "react-quill": "^1.0.0-beta-4",
     "react-redux": "5.0.1",

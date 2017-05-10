@@ -33,6 +33,9 @@ const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
 const BLOCK_PROFILE = createRequestAction(`${KEY}/block-profile`);
 const UNBLOCK_PROFILE = createRequestAction(`${KEY}/unblock-profile`);
 
+const VERIFY_PROFILE_PHONE = createRequestAction(`${KEY}/verify-profile-phone`);
+const VERIFY_PROFILE_EMAIL = createRequestAction(`${KEY}/verify-profile-email`);
+
 const UPDATE_SUBSCRIPTION = createRequestAction(`${KEY}/update-subscription`);
 
 const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
@@ -429,6 +432,48 @@ function unblockProfile({ playerUUID, ...data }) {
   };
 }
 
+function verifyPhone(playerUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/verification/${playerUUID}/phone`,
+        method: 'POST',
+        types: [VERIFY_PROFILE_PHONE.REQUEST, VERIFY_PROFILE_PHONE.SUCCESS, VERIFY_PROFILE_PHONE.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
+function verifyEmail(playerUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/verification/${playerUUID}`,
+        method: 'POST',
+        types: [VERIFY_PROFILE_EMAIL.REQUEST, VERIFY_PROFILE_EMAIL.SUCCESS, VERIFY_PROFILE_EMAIL.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
 function changeStatus({ action, ...data }) {
   return (dispatch) => {
     if (action === actions.BLOCK) {
@@ -560,6 +605,7 @@ const actionHandlers = {
     error: null,
   }),
   [PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [PROFILE.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
@@ -631,6 +677,8 @@ const actionTypes = {
   DOWNLOAD_FILE,
   VERIFY_FILE,
   REFUSE_FILE,
+  VERIFY_PROFILE_PHONE,
+  VERIFY_PROFILE_EMAIL,
 };
 const actionCreators = {
   fetchProfile,
@@ -651,6 +699,8 @@ const actionCreators = {
   changeStatus,
   addTag,
   deleteTag,
+  verifyPhone,
+  verifyEmail,
 };
 
 export {

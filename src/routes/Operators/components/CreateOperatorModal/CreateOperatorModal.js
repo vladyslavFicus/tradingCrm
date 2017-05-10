@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
-import { InputField, SelectField } from 'components/ReduxForm';
-import { createValidator } from 'utils/validator';
+import { InputField, SelectField } from '../../../../components/ReduxForm';
+import { createValidator } from '../../../../utils/validator';
 import './CreateOperatorModal.scss';
 
 const attributeLabels = {
@@ -112,43 +112,39 @@ class CreateOperatorModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-8">
-                <div className="row margin-left-0">
-                  <div className="col-md-6">
-                    <Field
-                      name="department"
-                      label={attributeLabels.department}
-                      component={SelectField}
-                      position="vertical"
-                      showErrorMessage={false}
-                      children={[
-                        <option key="empty" value="">Select department</option>,
-                        ...departments.map(({ label, value }) => (
-                          <option key={value} value={value}>
-                            {label}
-                          </option>
-                        )),
-                      ]}
-                    />
-                  </div>
-                  <div className="col-md-5 col-md-offset-1">
-                    <Field
-                      name="role"
-                      label={attributeLabels.role}
-                      component={SelectField}
-                      position="vertical"
-                      showErrorMessage={false}
-                      children={[
-                        <option key="empty" value="">Select role</option>,
-                        ...roles.map(({ label, value }) => (
-                          <option key={value} value={value}>
-                            {label}
-                          </option>
-                        )),
-                      ]}
-                    />
-                  </div>
-                </div>
+              <div className="col-md-6">
+                <Field
+                  name="department"
+                  label={attributeLabels.department}
+                  component={SelectField}
+                  position="vertical"
+                  showErrorMessage={false}
+                  children={[
+                    <option key="empty" value="">Select department</option>,
+                    ...departments.map(({ label, value }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    )),
+                  ]}
+                />
+              </div>
+              <div className="col-md-6">
+                <Field
+                  name="role"
+                  label={attributeLabels.role}
+                  component={SelectField}
+                  position="vertical"
+                  showErrorMessage={false}
+                  children={[
+                    <option key="empty" value="">Select role</option>,
+                    ...roles.map(({ label, value }) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    )),
+                  ]}
+                />
               </div>
             </div>
           </ModalBody>

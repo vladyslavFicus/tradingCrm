@@ -208,6 +208,10 @@ class List extends Component {
             onSubmit={this.handleSubmitNewOperator}
             departments={departments}
             roles={roles}
+            initialValues={{
+              department: departments[0] ? departments[0].value : null,
+              role: roles[0] ? roles[0].value : null,
+            }}
             onClose={this.handleModalClose}
             isOpen
           />
