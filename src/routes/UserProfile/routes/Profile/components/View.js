@@ -69,10 +69,10 @@ class View extends Component {
     return updateProfile(params.id, { phoneNumber: data.phoneNumber });
   };
 
-  handleVerify = type => () => {
+  handleVerify = type => async () => {
     const { verifyData, params, checkLock } = this.props;
 
-    verifyData(params.id, type);
+    await verifyData(params.id, type);
     checkLock(params.id);
   };
 
