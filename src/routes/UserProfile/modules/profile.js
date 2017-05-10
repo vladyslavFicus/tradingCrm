@@ -19,7 +19,6 @@ const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
 const REFUSE_DATA = createRequestAction(`${KEY}/refuse-data`);
 const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
-const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
@@ -102,17 +101,6 @@ const initialState = {
   isLoading: false,
   receivedAt: null,
 };
-
-export const mapBalances = items =>
-  Object
-    .keys(items)
-    .reduce((result, item) => (
-      result.push({
-        amount: Number(parseFloat(items[item].replace(item, '')).toFixed(2)),
-        currency: item,
-      }),
-        result
-    ), []);
 
 const fetchProfile = usersActionCreators.fetchProfile(PROFILE);
 const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
@@ -218,26 +206,6 @@ function deleteTag(playerUUID, id) {
       },
     })
       .then(() => dispatch(fetchProfile(playerUUID)));
-  };
-}
-
-function getBalance(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `wallet/balance/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [BALANCE.REQUEST, BALANCE.SUCCESS, BALANCE.FAILURE],
-        bailout: !logged,
-      },
-    });
   };
 }
 
@@ -348,7 +316,7 @@ function fetchBalances(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/wallet/balances/${uuid}`,
+        endpoint: `/profile/profiles/es/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -638,24 +606,15 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_BALANCES.SUCCESS]: (state, action) => {
-    const newState = {
-      ...state,
-      isLoading: false,
-      receivedAt: timestamp(),
-    };
-
-    if (action.payload.balances) {
-      const balances = mapBalances(action.payload.balances);
-
-      if (balances.length > 0) {
-        newState.data.balance = { ...balances[0] };
-        newState.data.currencyCode = newState.data.balance.currency;
-      }
-    }
-
-    return newState;
-  },
+  [FETCH_BALANCES.SUCCESS]: (state, action) => ({
+    ...state,
+    data: {
+      ...state.data,
+      balance: action.payload.balance || state.data.balance,
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  }),
   [FETCH_BALANCES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
@@ -668,7 +627,6 @@ const actionTypes = {
   PROFILE,
   ADD_TAG,
   DELETE_TAG,
-  BALANCE,
   UPDATE_PROFILE,
   SUBMIT_KYC,
   FETCH_BALANCES,
@@ -693,7 +651,6 @@ const actionCreators = {
   resetPassword,
   activateProfile,
   updateSubscription,
-  getBalance,
   loadFullProfile,
   fetchBalances,
   changeStatus,
