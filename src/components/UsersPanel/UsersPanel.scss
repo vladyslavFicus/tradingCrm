@@ -48,6 +48,11 @@ body.user-panel-open {
     left: 60px;
     width: calc(100% - 60px);
     height: calc(100% - 48px);
+    iframe {
+      display: block;
+      position: relative;
+      top: 70px;
+    }
   }
 }
 
@@ -108,4 +113,3 @@ body.user-panel-open {
     }
   }
 }
-
