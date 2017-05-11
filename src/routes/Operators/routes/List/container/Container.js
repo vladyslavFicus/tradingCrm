@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { actionCreators } from '../modules/list';
-import config from 'config/index';
+import config from '../../../../../config/index';
 import List from '../components/List';
 
 const mapStateToProps = ({ operatorsList: list, ...state }) => ({

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import countryList from 'country-list';
+import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField, TextAreaField } from '../../../../../components/ReduxForm/UserProfile';
 import { createValidator } from '../../../../../utils/validator';
 
@@ -44,14 +45,14 @@ class AddressForm extends Component {
         <form className="form-horizontal" role="form" onSubmit={handleSubmit(onSubmit)}>
           <div className="row">
             <div className="col-md-6">
-              <h5>Address</h5>
+              <h5>{I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}</h5>
             </div>
 
             <div className="col-md-6 text-right">
               {
                 !(pristine || submitting || !valid) &&
                 <button className="btn btn-sm btn-primary" type="submit">
-                  Save changes
+                  {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
               }
             </div>

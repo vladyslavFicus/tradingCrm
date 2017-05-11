@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
-import { InputField, SelectField } from 'components/ReduxForm';
-import { createValidator } from 'utils/validator';
+import { InputField, SelectField } from '../../../../components/ReduxForm';
+import { createValidator } from '../../../../utils/validator';
 import './CreateOperatorModal.scss';
 
 const attributeLabels = {

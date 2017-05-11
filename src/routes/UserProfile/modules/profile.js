@@ -17,7 +17,6 @@ const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
 const REFUSE_DATA = createRequestAction(`${KEY}/refuse-data`);
 const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
-const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
@@ -29,6 +28,9 @@ const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
 const BLOCK_PROFILE = createRequestAction(`${KEY}/block-profile`);
 const UNBLOCK_PROFILE = createRequestAction(`${KEY}/unblock-profile`);
+
+const VERIFY_PROFILE_PHONE = createRequestAction(`${KEY}/verify-profile-phone`);
+const VERIFY_PROFILE_EMAIL = createRequestAction(`${KEY}/verify-profile-email`);
 
 const UPDATE_SUBSCRIPTION = createRequestAction(`${KEY}/update-subscription`);
 
@@ -96,17 +98,6 @@ const initialState = {
   isLoading: false,
   receivedAt: null,
 };
-
-export const mapBalances = items =>
-  Object
-    .keys(items)
-    .reduce((result, item) => (
-      result.push({
-        amount: Number(parseFloat(items[item].replace(item, '')).toFixed(2)),
-        currency: item,
-      }),
-        result
-    ), []);
 
 const fetchProfile = usersActionCreators.fetchProfile(PROFILE);
 const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
@@ -215,26 +206,6 @@ function deleteTag(playerUUID, id) {
   };
 }
 
-function getBalance(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `wallet/balance/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [BALANCE.REQUEST, BALANCE.SUCCESS, BALANCE.FAILURE],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
 function verifyData(playerUUID, type) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -317,7 +288,7 @@ function fetchBalances(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/wallet/balances/${uuid}`,
+        endpoint: `/profile/profiles/es/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -394,6 +365,48 @@ function unblockProfile({ playerUUID, ...data }) {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
+function verifyPhone(playerUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/verification/${playerUUID}/phone`,
+        method: 'POST',
+        types: [VERIFY_PROFILE_PHONE.REQUEST, VERIFY_PROFILE_PHONE.SUCCESS, VERIFY_PROFILE_PHONE.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
+function verifyEmail(playerUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/verification/${playerUUID}`,
+        method: 'POST',
+        types: [VERIFY_PROFILE_EMAIL.REQUEST, VERIFY_PROFILE_EMAIL.SUCCESS, VERIFY_PROFILE_EMAIL.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         bailout: !logged,
       },
     })
@@ -532,6 +545,7 @@ const actionHandlers = {
     error: null,
   }),
   [PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [PROFILE.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
@@ -564,24 +578,15 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_BALANCES.SUCCESS]: (state, action) => {
-    const newState = {
-      ...state,
-      isLoading: false,
-      receivedAt: timestamp(),
-    };
-
-    if (action.payload.balances) {
-      const balances = mapBalances(action.payload.balances);
-
-      if (balances.length > 0) {
-        newState.data.balance = { ...balances[0] };
-        newState.data.currencyCode = newState.data.balance.currency;
-      }
-    }
-
-    return newState;
-  },
+  [FETCH_BALANCES.SUCCESS]: (state, action) => ({
+    ...state,
+    data: {
+      ...state.data,
+      balance: action.payload.balance || state.data.balance,
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  }),
   [FETCH_BALANCES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
@@ -594,7 +599,6 @@ const actionTypes = {
   PROFILE,
   ADD_TAG,
   DELETE_TAG,
-  BALANCE,
   UPDATE_PROFILE,
   SUBMIT_KYC,
   FETCH_BALANCES,
@@ -602,6 +606,8 @@ const actionTypes = {
   REFUSE_DATA,
   VERIFY_FILE,
   REFUSE_FILE,
+  VERIFY_PROFILE_PHONE,
+  VERIFY_PROFILE_EMAIL,
 };
 const actionCreators = {
   fetchProfile,
@@ -615,12 +621,13 @@ const actionCreators = {
   resetPassword,
   activateProfile,
   updateSubscription,
-  getBalance,
   loadFullProfile,
   fetchBalances,
   changeStatus,
   addTag,
   deleteTag,
+  verifyPhone,
+  verifyEmail,
 };
 
 export {

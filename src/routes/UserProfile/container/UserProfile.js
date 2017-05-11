@@ -14,7 +14,9 @@ const mapStateToProps = (state) => {
       notes,
       walletLimits,
       uploading,
-    }, auth,
+    },
+    auth,
+    i18n: { locale },
   } = state;
   const lastIp = ip.list.length > 0
     ? ip.list[0]
@@ -44,6 +46,7 @@ const mapStateToProps = (state) => {
     walletLimits,
     uploading,
     uploadModalInitialValues,
+    locale,
   };
 };
 

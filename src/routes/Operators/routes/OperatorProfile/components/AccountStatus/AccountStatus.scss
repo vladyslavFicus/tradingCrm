@@ -4,7 +4,7 @@
 
     & .dropdown-tab {
       padding-left: 1.2em;
-      border: 1px solid #ffffff;
+      border-left: 1px solid transparent;
     }
 
     & .dropdown-menu {
@@ -14,7 +14,7 @@
       -webkit-border-radius: 0;
       -moz-border-radius: 0;
       border-radius: 0;
-      border: 1px solid #eeeeee;
+      border: 1px solid #eee;
       top: 100%;
       -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
       -moz-box-shadow: 2px 2px 4px rgba(0, 0, 0, .175);
@@ -25,7 +25,7 @@
       }
 
       .dropdown-item:first-child {
-        border-bottom: 1px solid #eeeeee;
+        border-bottom: 1px solid #eee;
       }
 
       .dropdown-item:hover {
@@ -38,7 +38,7 @@
 
 .player__account__status .open {
   .dropdown-tab {
-    border-left: 1px solid #eeeeee;
+    border-left: 1px solid #eee;
     border-bottom: 1px solid transparent;
   }
 }

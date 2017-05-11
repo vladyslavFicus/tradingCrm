@@ -407,7 +407,6 @@ class ProfileLayout extends Component {
       changeStatus,
       notes,
       walletLimits,
-
       uploading,
       uploadModalInitialValues,
       manageNote,
@@ -416,46 +415,45 @@ class ProfileLayout extends Component {
     return (
       <div className="player panel profile-layout">
         <div className="container-fluid">
-          <Header
-            data={profileData}
-            lastIp={lastIp}
-            accumulatedBalances={accumulatedBalances}
-            availableStatuses={availableStatuses}
-            onStatusChange={changeStatus}
-            availableTags={availableTags}
-            walletLimits={{
-              state: walletLimits,
-              actions: { onChange: this.handleChangeWalletLimitState },
-            }}
-            addTag={this.handleAddTag}
-            deleteTag={this.handleDeleteTag}
-            onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
-            onResetPasswordClick={this.handleResetPasswordClick}
-            onProfileActivateClick={this.handleProfileActivateClick}
-            onWalletLimitChange={this.handleChangeWalletLimitState}
-          />
+          <div className="profile-layout-heading">
+            <Header
+              data={profileData}
+              lastIp={lastIp}
+              accumulatedBalances={accumulatedBalances}
+              availableStatuses={availableStatuses}
+              onStatusChange={changeStatus}
+              availableTags={availableTags}
+              walletLimits={{
+                state: walletLimits,
+                actions: { onChange: this.handleChangeWalletLimitState },
+              }}
+              addTag={this.handleAddTag}
+              deleteTag={this.handleDeleteTag}
+              onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
+              onResetPasswordClick={this.handleResetPasswordClick}
+              onProfileActivateClick={this.handleProfileActivateClick}
+              onWalletLimitChange={this.handleChangeWalletLimitState}
+            />
 
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="dash-text" onClick={this.handleToggleInformationBlock}>
+            <div className="hide-details-block">
+              <div className="hide-details-block_arrow" />
+              <div className="hide-details-block_text" onClick={this.handleToggleInformationBlock}>
                 {informationShown ? 'Hide details' : 'Show details'}
               </div>
-              <div className="col-xs-12">
-                <hr />
-              </div>
+              <div className="hide-details-block_arrow" />
             </div>
-          </div>
 
-          {
-            informationShown &&
-            <Information
-              data={profileData}
-              ips={ip.list}
-              updateSubscription={updateSubscription.bind(null, params.id)}
-              onEditNoteClick={this.handleEditNoteClick}
-              notes={notes}
-            />
-          }
+            {
+              informationShown &&
+              <Information
+                data={profileData}
+                ips={ip.list}
+                updateSubscription={updateSubscription.bind(null, params.id)}
+                onEditNoteClick={this.handleEditNoteClick}
+                notes={notes}
+              />
+            }
+          </div>
 
           <div className="row">
             <section className="panel profile-user-content">
