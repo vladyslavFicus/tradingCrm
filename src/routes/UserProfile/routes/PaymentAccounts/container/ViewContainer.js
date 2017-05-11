@@ -12,7 +12,7 @@ const mapStateToProps = ({
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
   fetchFilesAndNotes: actionCreators.fetchFilesAndNotes,
-  changeStatusByAction: actionCreators.changeStatusByAction,
+  changeFileStatusByAction: actionCreators.changeFileStatusByAction,
   downloadFile: filesActionCreators.downloadFile,
 };
 

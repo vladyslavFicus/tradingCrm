@@ -104,7 +104,7 @@ const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
 const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
-const changeStatusByAction = filesSourceActionCreators.changeStatusByAction({
+const changeFileStatusByAction = filesSourceActionCreators.changeStatusByAction({
   [filesActions.VERIFY]: VERIFY_FILE,
   [filesActions.REFUSE]: REFUSE_FILE,
 });
@@ -615,7 +615,7 @@ const actionCreators = {
   verifyData,
   refuseData,
   uploadProfileFile,
-  changeStatusByAction,
+  changeFileStatusByAction,
   updateProfile,
   updateIdentifier,
   resetPassword,

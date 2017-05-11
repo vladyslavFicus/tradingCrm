@@ -9,7 +9,7 @@ const mapStateToProps = ({ userFiles: { list: files } }) => ({
 
 const mapActions = {
   fetchFilesAndNotes: actionCreators.fetchFilesAndNotes,
-  changeStatusByAction: actionCreators.changeStatusByAction,
+  changeFileStatusByAction: actionCreators.changeFileStatusByAction,
   downloadFile: filesActionCreators.downloadFile,
 };
 

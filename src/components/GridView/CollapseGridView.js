@@ -57,7 +57,7 @@ class CollapseGridView extends Component {
   };
 
   renderRow = (key, columns, data) => {
-    const { onRowClick, collapseClassName, collapsedDataFieldName } = this.props;
+    const { onRowClick, collapseClassName, collapsedDataFieldName, openUUID, renderCollapseBlock } = this.props;
 
     const values = [
       <tr
@@ -73,14 +73,14 @@ class CollapseGridView extends Component {
       </tr>,
     ];
 
-    if (Object.keys(data[collapsedDataFieldName]).length && this.props.openUUID && data.uuid === this.props.openUUID) {
+    if (Object.keys(data[collapsedDataFieldName]).length && openUUID && data.uuid === openUUID) {
       values.push(
         <tr
           key={`${key}-collapse`}
           className={collapseClassName}
         >
           <td colSpan={columns.length}>
-            {this.props.renderCollapseBlock(data)}
+            {renderCollapseBlock(data)}
           </td>
         </tr>
       );

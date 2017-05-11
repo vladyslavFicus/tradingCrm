@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from '../../../../../constants/propTypes';
 import { targetTypes } from '../../../../../constants/note';
+import { targetTypes as fileTargetTypes } from '../../../../../components/Files/constants';
 import FilesFilterForm from './FilesFilterForm';
 import CommonFileGridView from '../../../components/CommonFileGridView';
 
@@ -11,7 +12,7 @@ class View extends Component {
       id: PropTypes.string.isRequired,
     }).isRequired,
     fetchFilesAndNotes: PropTypes.func.isRequired,
-    changeStatusByAction: PropTypes.func.isRequired,
+    changeFileStatusByAction: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
   };
   static contextTypes = {
@@ -71,7 +72,7 @@ class View extends Component {
   };
 
   handleStatusActionClick = (uuid, action) => {
-    this.props.changeStatusByAction(uuid, action);
+    this.props.changeFileStatusByAction(uuid, action);
   };
 
   handleDownloadFileClick = (e, data) => {
@@ -101,8 +102,8 @@ class View extends Component {
           <div className="col-md-3 col-md-offset-6 text-right">
             <button
               className="btn btn-primary-outline"
-              onClick={() => this.context.onUploadFileClick(null, {
-                category: 'FILES',
+              onClick={() => this.context.onUploadFileClick({
+                targetType: fileTargetTypes.FILES,
               })}
             >
               + Upload file

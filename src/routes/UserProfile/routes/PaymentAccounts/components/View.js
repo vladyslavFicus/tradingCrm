@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import _ from 'lodash';
-import { targetTypes } from '../../../../../constants/note';
+import { targetTypes as noteTargetTypes } from '../../../../../constants/note';
 import PropTypes from '../../../../../constants/propTypes';
 import { GridColumn } from '../../../../../components/GridView';
 import { shortify } from '../../../../../utils/uuid';
 import PopoverButton from '../../../../../components/PopoverButton';
 import CollapseGridView from '../../../../../components/GridView/CollapseGridView';
 import CommonFileGridView from '../../../components/CommonFileGridView';
+import { targetTypes as fileTargetTypes } from '../../../../../components/Files/constants';
 
 class View extends Component {
   static propTypes = {
@@ -16,7 +17,7 @@ class View extends Component {
     }),
     paymentAccounts: PropTypes.object,
     fetchEntities: PropTypes.func.isRequired,
-    changeStatusByAction: PropTypes.func.isRequired,
+    changeFileStatusByAction: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     fetchFilesAndNotes: PropTypes.func.isRequired,
   };
@@ -56,12 +57,12 @@ class View extends Component {
     if (data.note) {
       this.context.onEditNoteClick(target, data.note, { placement: 'left' });
     } else {
-      this.context.onAddNoteClick(data.uuid, targetTypes.PAYMENT_ACCOUNT)(target, { placement: 'left' });
+      this.context.onAddNoteClick(data.uuid, noteTargetTypes.PAYMENT_ACCOUNT)(target, { placement: 'left' });
     }
   };
 
   handleStatusActionClick = (uuid, action) => {
-    this.props.changeStatusByAction(uuid, action);
+    this.props.changeFileStatusByAction(uuid, action);
   };
 
   handleDownloadFileClick = (e, data) => {
@@ -83,9 +84,9 @@ class View extends Component {
   handleUploadFileClick = (data) => {
     this.context.onUploadFileClick({
       targetUuid: data.uuid,
-      targetType: 'PAYMENT_ACCOUNT',
+      targetType: fileTargetTypes.PAYMENT_ACCOUNT,
       fileInitialValues: {
-        category: 'PAYMENT_ACCOUNT',
+        category: fileTargetTypes.PAYMENT_ACCOUNT,
       },
     });
   };
@@ -151,22 +152,24 @@ class View extends Component {
 
     if (!filesCount) {
       return (
-        <div
+        <button
+          className="btn-transparent"
           onClick={() => this.handleUploadFileClick(data)}
         >
           <span className="margin-right-5">+</span>
           <i className="fa fa-paperclip" aria-hidden="true" />
-        </div>
+        </button>
       );
     }
 
     return (
-      <div
+      <button
+        className="btn-transparent"
         onClick={() => this.toggleAccountFiles(data.uuid)}
       >
         <span className="margin-right-5">{filesCount}</span>
         <i className="fa fa-paperclip" aria-hidden="true" />
-      </div>
+      </button>
     );
   };
 

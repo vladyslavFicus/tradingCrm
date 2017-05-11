@@ -15,7 +15,7 @@ const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 
 const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
-const changeStatusByAction = filesSourceActionCreators.changeStatusByAction({
+const changeFileStatusByAction = filesSourceActionCreators.changeStatusByAction({
   [filesActions.VERIFY]: VERIFY_FILE,
   [filesActions.REFUSE]: REFUSE_FILE,
 });
@@ -156,7 +156,7 @@ const actionTypes = {
 const actionCreators = {
   fetchFiles,
   fetchFilesAndNotes,
-  changeStatusByAction,
+  changeFileStatusByAction,
 };
 
 export {

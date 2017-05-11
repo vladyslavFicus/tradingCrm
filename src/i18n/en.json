@@ -56,6 +56,38 @@
     }
   },
   "COMMON": {
-    "SAVE_CHANGES": "Save changes"
+    "SAVE_CHANGES": "Save changes",
+    "BUTTONS": {
+      "CANCEL": "Cancel",
+      "CONFIRM": "Confirm"
+    }
+  },
+  "FILES": {
+    "UPLOAD_MODAL": {
+      "FILE": {
+        "TITLE": "Title",
+        "CATEGORY": "Category",
+        "STATUS": "Status",
+        "TITLE_PLACEHOLDER": "File title (required)",
+        "UPLOADED": "Uploaded",
+        "FAILED": "Failed",
+        "UPLOADING": "Uploading",
+        "CATEGORY_DEFAULT_OPTION": "Choose category"
+      },
+      "TITLE": "File upload",
+      "ACTION_TEXT": "You are about to upload file(s) to %{fullName} - %{shortUUID} - account",
+      "NO_UPLOADED": "There are no uploaded files",
+      "BUTTONS": {
+        "ADD_FILES": "Add files"
+      }
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Delete file - Confirmation",
+      "BUTTONS": {
+        "DELETE": "Delete File"
+      },
+      "WARNING_TEXT": "This action can not be undone!",
+      "ACTION_TEXT": "You are about to delete file %{fileName} from %{fullName} - %{shortUUID} - account"
+    }
   }
 }

@@ -7,8 +7,10 @@ import { userProfileTabs } from '../../../config/menu';
 import { targetTypes } from '../../../constants/note';
 import Information from '../components/Information';
 import PropTypes from '../../../constants/propTypes';
-import UploadModal from '../../../components/Files/UploadModal';
-import DeleteModal from '../../../components/Files/DeleteModal';
+import {
+  UploadModal as UploadFileModal,
+  DeleteModal as DeleteFileModal,
+} from '../../../components/Files';
 import './ProfileLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -18,8 +20,8 @@ const popoverInitialState = {
 };
 const MODAL_WALLET_LIMIT = 'wallet-limit-modal';
 const MODAL_INFO = 'info-modal';
-const UPLOAD_MODAL = 'upload-modal';
-const DELETE_MODAL = 'delete-modal';
+const MODAL_UPLOAD_FILE = 'upload-modal';
+const MODAL_DELETE_FILE = 'delete-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -188,7 +190,7 @@ class ProfileLayout extends Component {
   handleUploadFileClick = (params) => {
     this.setState({
       modal: {
-        name: UPLOAD_MODAL,
+        name: MODAL_UPLOAD_FILE,
         params: {
           profile: this.props.profile.data,
           ...params,
@@ -253,7 +255,7 @@ class ProfileLayout extends Component {
 
     this.setState({
       modal: {
-        name: DELETE_MODAL,
+        name: MODAL_DELETE_FILE,
         params: {
           file: data,
           onSuccess: this.handleDelete.bind(null, data),
@@ -484,8 +486,8 @@ class ProfileLayout extends Component {
           />
         }
         {
-          modal.name === UPLOAD_MODAL &&
-          <UploadModal
+          modal.name === MODAL_UPLOAD_FILE &&
+          <UploadFileModal
             {...modal.params}
             isOpen
             onClose={this.handleCloseUploadModal}
@@ -498,8 +500,8 @@ class ProfileLayout extends Component {
           />
         }
         {
-          modal.name === DELETE_MODAL &&
-          <DeleteModal
+          modal.name === MODAL_DELETE_FILE &&
+          <DeleteFileModal
             {...modal.params}
             isOpen
             profile={profileData}

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import fileSize from 'filesize';
 import { Field } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import PopoverButton from '../../../components/PopoverButton';
-import { targetTypes } from '../../../constants/note';
+import { targetTypes as noteTargetTypes } from '../../../constants/note';
 import { categoriesLabels } from '../../../constants/files';
 import PropTypes from '../../../constants/propTypes';
+import { targetTypes } from '../constants';
 
 class UploadingFile extends Component {
   static propTypes = {
@@ -17,7 +19,7 @@ class UploadingFile extends Component {
   };
   static defaultProps = {
     blockName: 'uploading-file',
-    targetType: 'FILES',
+    targetType: targetTypes.FILES,
   };
 
   static contextTypes = {
@@ -52,7 +54,7 @@ class UploadingFile extends Component {
     if (data.note) {
       this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
     } else {
-      this.context.onAddNoteClick(data.uuid, targetTypes.FILE)(target, this.getNotePopoverParams());
+      this.context.onAddNoteClick(data.uuid, noteTargetTypes.FILE)(target, this.getNotePopoverParams());
     }
   };
 
@@ -63,12 +65,16 @@ class UploadingFile extends Component {
   };
 
   renderStatus = (data) => {
-    let status = <span className="color-primary">Uploading - {data.progress}%</span>;
+    let status = (
+      <span className="color-primary">
+        {I18n.t('FILES.UPLOAD_MODAL.FILE.UPLOADING')} - {data.progress}%
+      </span>
+    );
 
     if (!data.uploading) {
       status = !data.error
-        ? <span className="color-success">Uploaded</span>
-        : <span className="color-danger">Failed</span>;
+        ? <span className="color-success">{I18n.t('FILES.UPLOAD_MODAL.FILE.UPLOADED')}</span>
+        : <span className="color-danger">{I18n.t('FILES.UPLOAD_MODAL.FILE.FAILED')}</span>;
     }
 
     return (
@@ -102,7 +108,7 @@ class UploadingFile extends Component {
             name={`${data.id}[name]`}
             component="input"
             type="text"
-            placeholder="File title (required)"
+            placeholder={I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE_PLACEHOLDER')}
             className="form-control"
           />
           <div className="font-size-11">
@@ -110,11 +116,11 @@ class UploadingFile extends Component {
           </div>
         </td>
         {
-          targetType === 'FILES' &&
+          targetType === targetTypes.FILES &&
           <td className={`${blockName}__row-category`}>
             <div className="form-group">
               <Field name={`${data.id}[category]`} component="select" className="form-control">
-                <option>Choose category</option>
+                <option>{I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY_DEFAULT_OPTION')}</option>
                 {Object.keys(categoriesLabels).map(item => (
                   <option key={item} value={item}>{categoriesLabels[item]}</option>
                 ))}

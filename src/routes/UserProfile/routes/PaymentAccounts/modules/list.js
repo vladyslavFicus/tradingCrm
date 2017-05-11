@@ -22,7 +22,7 @@ const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const fetchFilesNotes = noteSourceActionCreators.fetchNotesByType(FETCH_FILES_NOTES);
 const fetchPaymentAccountsFn = paymentSourceActionCreators.fetchPaymentAccounts(FETCH_ENTITIES);
 
-const changeStatusByAction = filesSourceActionCreators.changeStatusByAction({
+const changeFileStatusByAction = filesSourceActionCreators.changeStatusByAction({
   [filesActions.VERIFY]: VERIFY_FILE,
   [filesActions.REFUSE]: REFUSE_FILE,
 });
@@ -197,7 +197,7 @@ const actionTypes = {
 const actionCreators = {
   fetchEntities,
   fetchFilesAndNotes,
-  changeStatusByAction,
+  changeFileStatusByAction,
 };
 
 export {
