@@ -98,7 +98,11 @@ class AvailabilityPopover extends Component {
     const { countries } = this.props;
 
     const limitType = activeTab === tabs.DEPOSIT ? 'depositLimit' : 'withdrawLimit';
-    const { disabled, min, max, currencyCode } = countries[country][limitType];
+    const { disabled, available, min, max, currencyCode } = countries[country][limitType];
+
+    if (!available) {
+      return <span className="color-warning">{I18n.t('PAYMENT.METHODS.LIMITS.NOT_AVAILABLE')}</span>;
+    }
 
     if (disabled) {
       return <span className="color-danger">{I18n.t('PAYMENT.METHODS.LIMITS.DISABLED')}</span>;
@@ -126,7 +130,7 @@ class AvailabilityPopover extends Component {
       return <span>max. <Amount amount={max} currency={currencyCode} /></span>;
     }
 
-    return I18n.t('PAYMENT.METHODS.LIMITS.UNAVAILABLE');
+    return I18n.t('PAYMENT.METHODS.LIMITS.UNDEFINED');
   };
 
   renderTabListElements = () => {

@@ -20,8 +20,9 @@
     "METHODS": {
       "LIMITS": {
         "NOT_LIMITED": "Не ограничен",
-        "UNAVAILABLE": "Недоступен",
-        "DISABLED": "Отключен"
+        "DISABLED": "Отключен",
+        "NOT_AVAILABLE": "Недоступен",
+        "UNDEFINED": "Не определен"
       },
       "AVAILABILITY": {
         "TAB": {
