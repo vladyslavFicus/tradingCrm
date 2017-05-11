@@ -610,7 +610,12 @@ const actionHandlers = {
     ...state,
     data: {
       ...state.data,
-      balance: action.payload.balance || state.data.balance,
+      balance: action.payload && action.payload.balance
+        ? action.payload.balance
+        : state.data.balance,
+      currencyCode: action.payload && action.payload.balance
+        ? action.payload.balance.currency
+        : state.data.currencyCode,
     },
     isLoading: false,
     receivedAt: timestamp(),
