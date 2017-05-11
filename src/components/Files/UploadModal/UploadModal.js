@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from '../../../constants/propTypes';
-import FileUpload from '../../FileUpload'; // move to this directory
+import FileUpload from '../../FileUpload';
 import { categories } from '../../../constants/files';
 import { createValidator } from '../../../utils/validator';
 import UploadingFile from '../UploadingFile';
