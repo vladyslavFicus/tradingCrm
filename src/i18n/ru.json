@@ -57,6 +57,89 @@
     }
   },
   "COMMON": {
-    "SAVE_CHANGES": "Сохранить изменения"
+    "SAVE_CHANGES": "Сохранить изменения",
+    "RESET": "Сбросить",
+    "APPLY": "Применить",
+    "EXPORT": "Экспорт",
+    "FROM": "С",
+    "EMAIL": "E-mail",
+    "PHONE": "Телефон",
+    "DEPARTMENT": "Департамент",
+    "ROLE": "Роль"
+  },
+  "CONSTANTS": {
+    "AUDIT": {
+      "TYPES": {
+        "LOG_IN": "Авторизация",
+        "LOG_OUT": "Выход",
+        "PLAYER_PROFILE_VERIFIED_EMAIL": "Персональная информация - E-mail подтвержден",
+        "KYC_ADDRESS_REFUSED": "KYC - Адрес - отклонен",
+        "KYC_ADDRESS_VERIFIED": "KYC - Адрес - подтвержден",
+        "KYC_PERSONAL_REFUSED": "KYC - Личность - отклонена",
+        "KYC_PERSONAL_VERIFIED": "KYC - Личность - подтверждена",
+        "PLAYER_PROFILE_REGISTERED": "Регистрация",
+        "PLAYER_PROFILE_CHANGED": "Изменение персональных данных",
+        "PLAYER_PROFILE_SEARCH": "Поиск игроков",
+        "NEW_OPERATOR_ACCOUNT_CREATED": "Оператор - Новый оператор создан",
+        "OPERATOR_ACCOUNT_CREATED": "Оператор - Аккаунт создан"
+      }
+    },
+    "OPERATORS": {
+      "DEPARTMENTS": {
+        "CS": "Обслуживание клиентов",
+        "RFP": "Risk Fraud & Payment",
+        "MARKETING": "Маркетинг"
+      },
+      "ROLES": {
+        "ROLE1": "Executive",
+        "ROLE2": "Team leader",
+        "ROLE3": "Менеджер",
+        "ROLE4": "Глава департамента"
+      }
+    }
+  },
+  "OPERATOR_PROFILE": {
+    "FEED": {
+      "FILTER_FORM": {
+        "SEARCH_BY_LABEL": "Поиск по",
+        "SEARCH_BY_PLACEHOLDER": "ID действия, ID оператора, IP",
+        "ACTION_TYPE_EMPTY_OPTION": "Все действия",
+        "ACTION_DATE_RANGE": "Action date range"
+      },
+      "TITLE": "Действия",
+      "FEED_ITEM": {
+        "HIDE_DETAILS": "Скрыть детали",
+        "SHOW_DETAILS": "Показать детали"
+      }
+    }
+  },
+  "FEED_ITEM": {
+    "LOG_IN": {
+      "UPLOADED_FILE": "Загружен файл",
+      "SESSION_ID": "ID сессии",
+      "SESSION_IP": "IP сессии",
+      "SESSION_START": "Начало сессии",
+      "DEVICE": "Устройство"
+    },
+    "KYC": {
+      "REJECT_REASON": "Причина отказа"
+    },
+    "LOG_OUT": {
+      "SESSION_ID": "ID сессии",
+      "SESSION_IP": "IP сессии",
+      "SESSION_START": "Начало сессии",
+      "SESSION_END": "Конец сессии",
+      "SESSION_DURATION": "Длина сессии",
+      "DEVICE": "Устройство"
+    },
+    "PLAYER_PROFILE_SEARCH": {
+      "SEARCH_PARAMETERS": "Параметры поиска"
+    },
+    "OPERATOR_CREATION": {
+      "OPERATOR_NAME": "Имя оператора",
+      "INVITATION_SENT": "Приглашение",
+      "INVITATION_SENT_SUCCESS": "Успешно отправлено",
+      "INVITATION_SENT_FAILURE": "Не отправлено"
+    }
   }
 }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import ListView from '../../../../../../../components/ListView';
-import FeedItem from './FeedItem';
+import FeedItem from '../../../../../../../components/FeedItem';
 import FeedFilterForm from './FeedFilterForm';
 
 class View extends Component {
@@ -24,7 +25,7 @@ class View extends Component {
     page: 0,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.handleFiltersChanged();
   }
 
@@ -70,12 +71,12 @@ class View extends Component {
       <div className={classNames('tab-pane fade in active profile-tab-container')}>
         <div className="row margin-bottom-20">
           <div className="col-md-3">
-            <span className="font-size-20">Feed</span>
+            <span className="font-size-20">{I18n.t('OPERATOR_PROFILE.FEED.TITLE')}</span>
           </div>
 
           <div className="col-md-3 col-md-offset-6 text-right">
             <button disabled={exporting} className="btn btn-default-outline" onClick={this.handleExportClick}>
-              Export
+              {I18n.t('COMMON.EXPORT')}
             </button>
           </div>
         </div>
