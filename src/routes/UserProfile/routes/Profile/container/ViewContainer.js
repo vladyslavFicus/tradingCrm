@@ -4,7 +4,7 @@ import { actionCreators as profileActionCreators } from '../../../modules';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { statuses as kycStatuses } from '../../../../../constants/kyc';
 
-const mapStateToProps = ({ profile: { profile }, i18n: { locale } }, ...state) => ({
+const mapStateToProps = ({ profile: { profile }, i18n: { locale } }) => ({
   profile,
   personalData: {
     title: profile.data.title,
