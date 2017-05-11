@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import fileSize from 'filesize';
 import { Field } from 'redux-form';
-import PopoverButton from '../../../../../../components/PopoverButton';
-import { targetTypes } from '../../../../../../constants/note';
-import { categoriesLabels } from '../../../../../../constants/files';
-import PropTypes from '../../../../../../constants/propTypes';
+import PopoverButton from '../../../components/PopoverButton';
+import { targetTypes } from '../../../constants/note';
+import { categoriesLabels } from '../../../constants/files';
+import PropTypes from '../../../constants/propTypes';
 
 class UploadingFile extends Component {
   static propTypes = {
@@ -13,9 +13,11 @@ class UploadingFile extends Component {
     data: PropTypes.uploadingFile.isRequired,
     onCancelClick: PropTypes.func.isRequired,
     onManageNote: PropTypes.func.isRequired,
+    targetType: PropTypes.string,
   };
   static defaultProps = {
     blockName: 'uploading-file',
+    targetType: 'FILES',
   };
 
   static contextTypes = {
@@ -89,6 +91,7 @@ class UploadingFile extends Component {
       blockName,
       number,
       data,
+      targetType,
     } = this.props;
 
     return (
@@ -106,16 +109,19 @@ class UploadingFile extends Component {
             <strong>{data.file.name}</strong> - {data.fileUUID}
           </div>
         </td>
-        <td className={`${blockName}__row-category`}>
-          <div className="form-group">
-            <Field name={`${data.id}[category]`} component="select" className="form-control">
-              <option>Choose category</option>
-              {Object.keys(categoriesLabels).map(item => (
-                <option key={item} value={item}>{categoriesLabels[item]}</option>
-              ))}
-            </Field>
-          </div>
-        </td>
+        {
+          targetType === 'FILES' &&
+          <td className={`${blockName}__row-category`}>
+            <div className="form-group">
+              <Field name={`${data.id}[category]`} component="select" className="form-control">
+                <option>Choose category</option>
+                {Object.keys(categoriesLabels).map(item => (
+                  <option key={item} value={item}>{categoriesLabels[item]}</option>
+                ))}
+              </Field>
+            </div>
+          </td>
+        }
         <td className={`${blockName}__row-status`}>
           {this.renderStatus(data)}
         </td>

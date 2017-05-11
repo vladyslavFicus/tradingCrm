@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import PropTypes from '../../../../../../constants/propTypes';
+import PropTypes from '../../../constants/propTypes';
 import './DeleteModal.scss';
 
 class DeleteModal extends Component {
@@ -17,7 +17,7 @@ class DeleteModal extends Component {
       file,
       onSuccess,
       onClose,
-      ...rest,
+      ...rest
     } = this.props;
 
     return (

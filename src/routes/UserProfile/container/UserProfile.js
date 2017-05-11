@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
+import { actionCreators as filesActionCreators } from '../modules/files';
 import ProfileLayout from '../layouts/ProfileLayout';
 import { getAvailableTags } from '../../../config/index';
 import { statusActions } from '../../../constants/user';
@@ -12,6 +13,7 @@ const mapStateToProps = (state) => {
       accumulatedBalances: { data: accumulatedBalances },
       notes,
       walletLimits,
+      uploading,
     }, auth,
   } = state;
   const lastIp = ip.list.length > 0
@@ -23,6 +25,14 @@ const mapStateToProps = (state) => {
     availableStatuses = statusActions[profile.data.profileStatus];
   }
 
+  const uploadModalInitialValues = {};
+  const uploadingFilesUUIDs = Object.keys(uploading);
+  if (uploadingFilesUUIDs.length) {
+    uploadingFilesUUIDs.forEach((uuid) => {
+      uploadModalInitialValues[uuid] = { name: '', category: '' };
+    });
+  }
+
   return {
     profile,
     ip,
@@ -32,6 +42,8 @@ const mapStateToProps = (state) => {
     availableTags: getAvailableTags(auth.department),
     availableStatuses,
     walletLimits,
+    uploading,
+    uploadModalInitialValues,
   };
 };
 
@@ -58,6 +70,14 @@ const mapActions = {
   activateProfile: actionCreators.activateProfile,
   checkLock: actionCreators.checkLock,
   walletLimitAction: actionCreators.walletLimitAction,
+  changeStatusByAction: actionCreators.changeStatusByAction,
+  uploadFile: actionCreators.uploadFile,
+  cancelFile: actionCreators.cancelFile,
+  resetUploading: actionCreators.resetUploading,
+  manageNote: actionCreators.manageNote,
+  saveFiles: filesActionCreators.saveFiles,
+  deleteFile: filesActionCreators.deleteFile,
+  downloadFile: filesActionCreators.downloadFile,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);

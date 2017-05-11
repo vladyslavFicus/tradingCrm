@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import PropTypes from '../../../../../../constants/propTypes';
-import FileUpload from '../../../../../../components/FileUpload';
-import { categories } from '../../../../../../constants/files';
-import { createValidator } from '../../../../../../utils/validator';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import PropTypes from '../../../constants/propTypes';
+import FileUpload from '../../FileUpload'; // move to this directory
+import { categories } from '../../../constants/files';
+import { createValidator } from '../../../utils/validator';
 import UploadingFile from '../UploadingFile';
 import './UploadModal.scss';
 
 const FORM_NAME = 'userUploadModal';
 const attributeLabels = {
-  title: 'File title',
+  name: 'File title',
   category: 'Choose category',
 };
 const validator = createValidator({
-  title: ['required', 'string', 'min:3'],
+  name: ['required', 'string', 'min:3'],
   category: ['required', 'string', `in:${Object.keys(categories).join()}`],
 }, attributeLabels, false);
 
@@ -35,18 +35,30 @@ class UploadModal extends Component {
     handleSubmit: PropTypes.func,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onUploadFile: PropTypes.func.isRequired,
     onCancelFile: PropTypes.func.isRequired,
     onManageNote: PropTypes.func.isRequired,
+    uploadFile: PropTypes.func.isRequired,
+    targetType: PropTypes.string,
+    fileInitialValues: PropTypes.object,
+    targetUuid: PropTypes.string,
   };
 
   handleSubmit = (data) => {
-    const result = this.props.uploading.reduce((res, file) => ({
+    const { uploading, fileInitialValues } = this.props;
+    const result = uploading.reduce((res, file) => ({
       ...res,
-      [file.fileUUID]: data[file.id],
+      [file.fileUUID]: {
+        ...data[file.id],
+        ...fileInitialValues,
+      },
     }), {});
 
     return this.props.onSubmit(result);
+  };
+
+  handleUploadFile = (errors, files) => {
+    Object.keys(files)
+      .forEach(index => this.props.uploadFile(files[index], errors[index], this.props.targetUuid));
   };
 
   renderFile = (item, index) => (
@@ -56,6 +68,7 @@ class UploadModal extends Component {
       data={item}
       onCancelClick={this.props.onCancelFile}
       onManageNote={this.props.onManageNote}
+      targetType={this.props.targetType}
     />
   );
 
@@ -65,7 +78,10 @@ class UploadModal extends Component {
         <tr>
           <th className="uploading-files__header-number" />
           <th className="uploading-files__header-name">Name</th>
-          <th className="uploading-files__header-category">Category</th>
+          {
+            this.props.targetType === 'PAYMENT_ACCOUNT' &&
+            <th className="uploading-files__header-category">Category</th>
+          }
           <th className="uploading-files__header-status">Status</th>
           <th className="uploading-files__header-note" />
         </tr>
@@ -92,7 +108,6 @@ class UploadModal extends Component {
       invalid,
       submitting,
       handleSubmit,
-      onUploadFile,
     } = this.props;
 
     return (
@@ -115,7 +130,7 @@ class UploadModal extends Component {
                   label="+ Add files"
                   allowedSize={2}
                   allowedTypes={['image/jpeg', 'image/png']}
-                  onChosen={onUploadFile}
+                  onChosen={this.handleUploadFile}
                   singleMode={false}
                 />
               </div>

@@ -1,36 +1,27 @@
 import { combineReducers } from 'redux';
 
-import files, {
-  initialState as filesInitialState,
-  actionTypes as filesActionTypes,
-  actionCreators as filesActionCreators,
-} from './files';
-import uploading, {
-  initialState as uploadingInitialState,
-  actionTypes as uploadingActionTypes,
-  actionCreators as uploadingActionCreators,
-} from './uploading';
+import list, {
+  actionCreators as listActionCreators,
+  actionTypes as listActionTypes,
+  initialState as listInitialState,
+} from './list';
 
-const initialState = {
-  files: filesInitialState,
-  uploading: uploadingInitialState,
+const actionCreators = {
+  ...listActionCreators,
 };
 const actionTypes = {
-  ...filesActionTypes,
-  ...uploadingActionTypes,
+  ...listActionTypes,
 };
-const actionCreators = {
-  ...filesActionCreators,
-  ...uploadingActionCreators,
+const initialState = {
+  list: listInitialState,
 };
 
 export {
-  initialState,
   actionTypes,
   actionCreators,
+  initialState,
 };
 
 export default combineReducers({
-  files,
-  uploading,
+  list,
 });

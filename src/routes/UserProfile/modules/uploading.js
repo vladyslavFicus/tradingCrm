@@ -1,9 +1,9 @@
 import { v4 } from 'uuid';
-import createReducer from '../../../../../utils/createReducer';
-import createRequestAction from '../../../../../utils/createRequestAction';
-import buildFormData from '../../../../../utils/buildFormData';
-import asyncFileUpload from '../../../../../utils/asyncFileUpload';
-import { getApiRoot } from '../../../../../config';
+import createReducer from '../../../utils/createReducer';
+import createRequestAction from '../../../utils/createRequestAction';
+import buildFormData from '../../../utils/buildFormData';
+import asyncFileUpload from '../../../utils/asyncFileUpload';
+import { getApiRoot } from '../../../config';
 
 const KEY = 'user/files/uploading';
 const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
@@ -20,7 +20,7 @@ function updateProgress(id, progress) {
   };
 }
 
-function uploadFile(file, errors) {
+function uploadFile(file, errors, targetUuid) {
   return async (dispatch, getState) => {
     const { auth: { token, fullName } } = getState();
     const id = v4();
@@ -28,6 +28,15 @@ function uploadFile(file, errors) {
     if (errors && errors.length) {
       dispatch({ type: UPLOAD_FILE.REQUEST, payload: { id, file } });
       return dispatch({ type: UPLOAD_FILE.FAILURE, payload: errors[0], meta: { id } });
+    }
+
+    const formParams = {
+      file,
+      attachmentAuthor: fullName,
+    };
+
+    if (targetUuid) {
+      formParams.targetUuid = targetUuid;
     }
 
     try {
@@ -38,7 +47,7 @@ function uploadFile(file, errors) {
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: buildFormData({ file, attachmentAuthor: fullName }),
+        body: buildFormData(formParams),
         onprogress: (e) => {
           dispatch(updateProgress(id, (e.loaded / e.total) * 100));
         },
@@ -185,7 +194,6 @@ const actionCreators = {
   uploadFile,
   manageNote,
   cancelFile,
-  updateProgress,
   resetUploading,
 };
 

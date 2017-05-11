@@ -6,11 +6,9 @@ import { shortify } from '../../../utils/uuid';
 import buildFormData from '../../../utils/buildFormData';
 import { actions } from '../../../constants/user';
 import { actions as filesActions, categories as filesCategories } from '../../../constants/files';
-import downloadBlob from '../../../utils/downloadBlob';
-import { getApiRoot } from '../../../config';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../redux/modules/files';
-import { actionTypes as userProfileFilesActionTypes } from '../routes/Files/modules/files';
+import { actionTypes as userProfileFilesActionTypes } from './files';
 
 const KEY = 'user-profile/view';
 const PROFILE = createRequestAction(`${KEY}/view`);
@@ -25,7 +23,6 @@ const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
 
 const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
-const DOWNLOAD_FILE = createRequestAction(`${KEY}/download-file`);
 const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 
@@ -287,7 +284,7 @@ function refuseData(playerUUID, type, data) {
   };
 }
 
-function uploadFile(playerUUID, type, file) {
+function uploadProfileFile(playerUUID, type, file) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -311,31 +308,6 @@ function uploadFile(playerUUID, type, file) {
         bailout: !logged,
       },
     });
-  };
-}
-
-function downloadFile(data) {
-  return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    if (!logged) {
-      return dispatch({ type: DOWNLOAD_FILE.FAILURE, payload: new Error('Unauthorized') });
-    }
-
-    const requestUrl = `${getApiRoot()}/profile/files/download/${data.uuid}`;
-    const response = await fetch(requestUrl, {
-      method: 'GET',
-      headers: {
-        Accept: data.type,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const blobData = await response.blob();
-    downloadBlob(data.name, blobData);
-
-    return dispatch({ type: DOWNLOAD_FILE.SUCCESS });
   };
 }
 
@@ -628,7 +600,6 @@ const actionTypes = {
   FETCH_BALANCES,
   VERIFY_DATA,
   REFUSE_DATA,
-  DOWNLOAD_FILE,
   VERIFY_FILE,
   REFUSE_FILE,
 };
@@ -637,8 +608,7 @@ const actionCreators = {
   submitData,
   verifyData,
   refuseData,
-  uploadFile,
-  downloadFile,
+  uploadProfileFile,
   changeStatusByAction,
   updateProfile,
   updateIdentifier,

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators as profileActionCreators } from '../../../modules';
+import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { statuses as kycStatuses } from '../../../../../constants/kyc';
 
 const mapStateToProps = ({ profile: { profile } }) => ({
@@ -36,10 +37,10 @@ const mapActions = {
   verifyData: profileActionCreators.verifyData,
   refuseData: profileActionCreators.refuseData,
   updateProfile: profileActionCreators.updateProfile,
-  uploadFile: profileActionCreators.uploadFile,
-  downloadFile: profileActionCreators.downloadFile,
-  changeStatusByAction: profileActionCreators.changeStatusByAction,
+  uploadFile: profileActionCreators.uploadProfileFile,
+  downloadFile: filesActionCreators.downloadFile,
   checkLock: profileActionCreators.checkLock,
+  changeStatusByAction: profileActionCreators.changeStatusByAction,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

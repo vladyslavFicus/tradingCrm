@@ -7,6 +7,8 @@ import { userProfileTabs } from '../../../config/menu';
 import { targetTypes } from '../../../constants/note';
 import Information from '../components/Information';
 import PropTypes from '../../../constants/propTypes';
+import UploadModal from '../../../components/Files/UploadModal';
+import DeleteModal from '../../../components/Files/DeleteModal';
 import './ProfileLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -16,6 +18,8 @@ const popoverInitialState = {
 };
 const MODAL_WALLET_LIMIT = 'wallet-limit-modal';
 const MODAL_INFO = 'info-modal';
+const UPLOAD_MODAL = 'upload-modal';
+const DELETE_MODAL = 'delete-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -71,6 +75,12 @@ class ProfileLayout extends Component {
       receivedAt: PropTypes.number,
     }).isRequired,
     walletLimitAction: PropTypes.func.isRequired,
+    uploadModalInitialValues: PropTypes.object.isRequired,
+    cancelFile: PropTypes.func.isRequired,
+    resetUploading: PropTypes.func.isRequired,
+    uploading: PropTypes.object.isRequired,
+    uploadFile: PropTypes.func.isRequired,
+    manageNote: PropTypes.func.isRequired,
   };
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
@@ -80,12 +90,16 @@ class ProfileLayout extends Component {
     setNoteChangedCallback: PropTypes.func.isRequired,
     refreshPinnedNotes: PropTypes.func.isRequired,
     hidePopover: PropTypes.func.isRequired,
+    onUploadFileClick: PropTypes.func.isRequired,
+    setFileChangedCallback: PropTypes.func.isRequired,
+    onDeleteFileClick: PropTypes.func.isRequired,
   };
 
   state = {
     popover: { ...popoverInitialState },
     modal: { ...modalInitialState },
     noteChangedCallback: null,
+    fileChangedCallback: null,
     informationShown: true,
   };
 
@@ -98,6 +112,9 @@ class ProfileLayout extends Component {
       setNoteChangedCallback: this.setNoteChangedCallback,
       refreshPinnedNotes: this.handleRefreshPinnedNotes,
       hidePopover: this.handlePopoverHide,
+      onUploadFileClick: this.handleUploadFileClick,
+      setFileChangedCallback: this.setFileChangedCallback,
+      onDeleteFileClick: this.handleDeleteFileClick,
     };
   }
 
@@ -125,6 +142,10 @@ class ProfileLayout extends Component {
 
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
+  };
+
+  setFileChangedCallback = (cb) => {
+    this.setState({ fileChangedCallback: cb });
   };
 
   handleOpenModal = (name, params) => {
@@ -162,6 +183,96 @@ class ProfileLayout extends Component {
         },
       },
     });
+  };
+
+  handleUploadFileClick = (params) => {
+    this.setState({
+      modal: {
+        name: UPLOAD_MODAL,
+        params: {
+          profile: this.props.profile.data,
+          ...params,
+        },
+      },
+    });
+  };
+
+  handleCloseUploadModal = () => {
+    this.handleCloseModal();
+    this.handleResetUploading();
+  };
+
+  handleResetUploading = () => {
+    Object
+      .values(this.props.uploading)
+      .forEach((file) => {
+        this.props.cancelFile(file);
+      });
+
+    this.props.resetUploading();
+  };
+
+  handleSubmitUploadModal = async (data) => {
+    const { fileChangedCallback } = this.state;
+
+    const action = await this.props.saveFiles(this.props.params.id, data);
+    let hasPinnedNotes = false;
+
+    if (action && !action.error) {
+      await Promise.all(Object.values(this.props.uploading).map((file) => {
+        if (file.note !== null) {
+          if (!hasPinnedNotes && file.note.pinned) {
+            hasPinnedNotes = true;
+          }
+          return this.props.addNote({ ...file.note, targetUUID: file.fileUUID });
+        }
+
+        return false;
+      }));
+    }
+
+    if (hasPinnedNotes) {
+      this.handleRefreshPinnedNotes();
+    }
+
+    this.handleResetUploading();
+    this.handleCloseModal();
+
+    if (typeof fileChangedCallback === 'function') {
+      fileChangedCallback();
+    }
+  };
+
+  handleUploadingFileDelete = async (file) => {
+    await this.props.deleteFile(this.props.params.id, file.fileUUID);
+    this.props.cancelFile(file);
+  };
+
+  handleDeleteFileClick = (e, data) => {
+    e.preventDefault();
+
+    this.setState({
+      modal: {
+        name: DELETE_MODAL,
+        params: {
+          file: data,
+          onSuccess: this.handleDelete.bind(null, data),
+        },
+      },
+    });
+  };
+
+  handleDelete = async (data) => {
+    const { deleteFile } = this.props;
+    const { fileChangedCallback } = this.state;
+
+    const action = await deleteFile(this.props.params.id, data.uuid);
+    if (action && !action.error) {
+      if (typeof fileChangedCallback === 'function') {
+        fileChangedCallback();
+      }
+      this.handleCloseModal();
+    }
   };
 
   handleEditNoteClick = (target, item, params = {}) => {
@@ -283,7 +394,7 @@ class ProfileLayout extends Component {
   render() {
     const { modal, popover, informationShown } = this.state;
     const {
-      profile: { data },
+      profile: { data: profileData },
       children,
       params,
       ip,
@@ -296,13 +407,17 @@ class ProfileLayout extends Component {
       changeStatus,
       notes,
       walletLimits,
+
+      uploading,
+      uploadModalInitialValues,
+      manageNote,
     } = this.props;
 
     return (
       <div className="player panel profile-layout">
         <div className="container-fluid">
           <Header
-            data={data}
+            data={profileData}
             lastIp={lastIp}
             accumulatedBalances={accumulatedBalances}
             availableStatuses={availableStatuses}
@@ -334,7 +449,7 @@ class ProfileLayout extends Component {
           {
             informationShown &&
             <Information
-              data={data}
+              data={profileData}
               ips={ip.list}
               updateSubscription={updateSubscription.bind(null, params.id)}
               onEditNoteClick={this.handleEditNoteClick}
@@ -368,6 +483,29 @@ class ProfileLayout extends Component {
             onSubmit={this.handleSubmitNote}
             onDelete={this.handleDeleteNoteClick}
             {...popover.params}
+          />
+        }
+        {
+          modal.name === UPLOAD_MODAL &&
+          <UploadModal
+            {...modal.params}
+            isOpen
+            onClose={this.handleCloseUploadModal}
+            uploading={Object.values(uploading)}
+            initialValues={uploadModalInitialValues}
+            uploadFile={this.props.uploadFile}
+            onCancelFile={this.handleUploadingFileDelete}
+            onSubmit={this.handleSubmitUploadModal}
+            onManageNote={manageNote}
+          />
+        }
+        {
+          modal.name === DELETE_MODAL &&
+          <DeleteModal
+            {...modal.params}
+            isOpen
+            profile={profileData}
+            onClose={this.handleCloseModal}
           />
         }
         {
