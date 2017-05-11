@@ -20,8 +20,9 @@
     "METHODS": {
       "LIMITS": {
         "NOT_LIMITED": "Not limited",
-        "UNAVAILABLE": "Unavailable",
-        "DISABLED": "Disabled"
+        "DISABLED": "Disabled",
+        "NOT_AVAILABLE": "Not available",
+        "UNDEFINED": "Unavailable"
       },
       "AVAILABILITY": {
         "TAB": {
