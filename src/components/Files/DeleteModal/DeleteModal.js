@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import PropTypes from '../../../../../../constants/propTypes';
+import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../constants/propTypes';
 import './DeleteModal.scss';
 
 class DeleteModal extends Component {
@@ -17,33 +18,35 @@ class DeleteModal extends Component {
       file,
       onSuccess,
       onClose,
-      ...rest,
+      ...rest
     } = this.props;
 
     return (
       <Modal {...rest} className="delete-modal" toggle={onClose}>
-        <ModalHeader toggle={onClose}>Delete file - Confirmation</ModalHeader>
+        <ModalHeader toggle={onClose}> {I18n.t('FILES.DELETE_MODAL.TITLE')} </ModalHeader>
         <ModalBody className="text-center">
-          <div className="margin-bottom-20">
-            <strong>You are about to delete file {file.name} from {profile.fullName}</strong> - {profile.shortUUID}
-            {' '}
-            <strong>account</strong>
-          </div>
-
-          <div className="margin-bottom-20">
-            This action can not be undone!
-          </div>
+          <div
+            className="margin-bottom-20 font-weight-700"
+            dangerouslySetInnerHTML={{
+              __html: I18n.t('FILES.DELETE_MODAL.ACTION_TEXT', {
+                fileName: file.name,
+                fullName: profile.fullName,
+                shortUUID: `<span class="font-weight-100">${profile.shortUUID}</span>`,
+              }),
+            }}
+          />
+          <div className="margin-bottom-20"> {I18n.t('FILES.DELETE_MODAL.WARNING_TEXT')} </div>
         </ModalBody>
         <ModalFooter>
           <div className="row">
             <div className="col-md-6">
               <button className="btn btn-default-outline text-uppercase" onClick={onClose}>
-                Cancel
+                {I18n.t('COMMON.BUTTONS.CANCEL')}
               </button>
             </div>
             <div className="col-md-6 text-right">
               <button className="btn btn-danger text-uppercase" onClick={onSuccess}>
-                Delete File
+                {I18n.t('FILES.DELETE_MODAL.BUTTONS.DELETE')}
               </button>
             </div>
           </div>

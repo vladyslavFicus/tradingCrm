@@ -36,6 +36,12 @@ import walletLimits, {
   initialState as walletLimitsInitialState,
 } from './wallet-limits';
 
+import uploading, {
+  initialState as uploadingInitialState,
+  actionTypes as uploadingActionTypes,
+  actionCreators as uploadingActionCreators,
+} from './uploading';
+
 const actionCreators = {
   ...bonusActionCreators,
   ...profileActionCreators,
@@ -43,6 +49,7 @@ const actionCreators = {
   ...accumulatedBalancesActionCreators,
   ...notesActionCreators,
   ...walletLimitsActionCreators,
+  ...uploadingActionCreators,
 };
 const actionTypes = {
   ...bonusActionTypes,
@@ -51,6 +58,7 @@ const actionTypes = {
   ...accumulatedBalancesActionTypes,
   ...notesActionTypes,
   ...walletLimitsActionTypes,
+  ...uploadingActionTypes,
 };
 const initialState = {
   bonus: bonusInitialState,
@@ -59,6 +67,7 @@ const initialState = {
   accumulatedBalances: accumulatedBalancesInitialState,
   notes: notesInitialState,
   walletLimits: walletLimitsInitialState,
+  uploading: uploadingInitialState,
 };
 
 export {
@@ -73,4 +82,5 @@ export default combineReducers({
   accumulatedBalances,
   notes,
   walletLimits,
+  uploading,
 });

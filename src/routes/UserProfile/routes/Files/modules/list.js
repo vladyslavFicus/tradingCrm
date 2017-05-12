@@ -1,26 +1,21 @@
 import { CALL_API } from 'redux-api-middleware';
-import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { targetTypes } from '../../../../../constants/note';
 import { actions as filesActions } from '../../../../../constants/files';
-import downloadBlob from '../../../../../utils/downloadBlob';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/files';
 
 const KEY = 'user/files/files';
 const FETCH_FILES = createRequestAction(`${KEY}/fetch-files`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
-const SAVE_FILES = createRequestAction(`${KEY}/save-files`);
-const DOWNLOAD_FILE = createRequestAction(`${KEY}/download-file`);
 const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
-const DELETE_FILE = createRequestAction(`${KEY}/delete-file`);
 
 const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
-const changeStatusByAction = filesSourceActionCreators.changeStatusByAction({
+const changeFileStatusByAction = filesSourceActionCreators.changeStatusByAction({
   [filesActions.VERIFY]: VERIFY_FILE,
   [filesActions.REFUSE]: REFUSE_FILE,
 });
@@ -71,80 +66,6 @@ function fetchFilesAndNotes(playerUUID, filters, fetchFilesFn = fetchFiles, fetc
     }
 
     return action;
-  };
-}
-
-function saveFiles(playerUUID, data) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/files/confirm/${playerUUID}`,
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-        types: [
-          SAVE_FILES.REQUEST,
-          SAVE_FILES.SUCCESS,
-          SAVE_FILES.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function downloadFile(data) {
-  return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    if (!logged) {
-      return dispatch({ type: DOWNLOAD_FILE.FAILURE, payload: new Error('Unauthorized') });
-    }
-
-    const requestUrl = `${getApiRoot()}/profile/files/download/${data.uuid}`;
-    const response = await fetch(requestUrl, {
-      method: 'GET',
-      headers: {
-        Accept: data.type,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const blobData = await response.blob();
-    downloadBlob(data.name, blobData);
-
-    return dispatch({ type: DOWNLOAD_FILE.SUCCESS });
-  };
-}
-
-function deleteFile(playerUUID, fileUUID) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/files/${playerUUID}/${fileUUID}`,
-        method: 'DELETE',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          DELETE_FILE.REQUEST,
-          { type: DELETE_FILE.SUCCESS, meta: { uuid: fileUUID } },
-          DELETE_FILE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
   };
 }
 
@@ -228,19 +149,14 @@ const actionHandlers = {
 };
 const actionTypes = {
   FETCH_FILES,
-  DOWNLOAD_FILE,
-  SAVE_FILES,
+  FETCH_NOTES,
   VERIFY_FILE,
   REFUSE_FILE,
-  DELETE_FILE,
 };
 const actionCreators = {
   fetchFiles,
   fetchFilesAndNotes,
-  saveFiles,
-  downloadFile,
-  changeStatusByAction,
-  deleteFile,
+  changeFileStatusByAction,
 };
 
 export {

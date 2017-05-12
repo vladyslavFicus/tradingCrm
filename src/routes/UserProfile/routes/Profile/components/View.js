@@ -29,7 +29,7 @@ class View extends Component {
     updateProfile: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
-    changeStatusByAction: PropTypes.func.isRequired,
+    changeFileStatusByAction: PropTypes.func.isRequired,
     personalData: PropTypes.shape({
       title: PropTypes.string,
       firstName: PropTypes.string,
@@ -126,8 +126,8 @@ class View extends Component {
   };
 
   handleChangeFileStatus = async (uuid, fileAction) => {
-    const { params, changeStatusByAction, fetchProfile } = this.props;
-    const action = await changeStatusByAction(uuid, fileAction);
+    const { params, changeFileStatusByAction, fetchProfile } = this.props;
+    const action = await changeFileStatusByAction(uuid, fileAction);
 
     if (action && !action.error) {
       fetchProfile(params.id);

@@ -54,6 +54,70 @@
       "VERIFY_PERSONAL_DATA_DESCRIPTION": "In order to get verified we require at least one valid proof of Identification. The ID or Passport scan need to be sharp with clear picture, readable and not expired or damaged.",
       "VERIFY_ADDRESS_DATA_TITLE": "Address",
       "VERIFY_ADDRESS_DATA_DESCRIPTION": "Proof of address can be any document showing your name and proof of address AND a date of issuing not older than 6 months from moment of providing."
+    },
+    "GAME_ACTIVITY": {
+      "FILTER_FORM": {
+        "KEYWORD_LABEL": "Search by",
+        "PROVIDERS_LABEL": "Providers",
+        "GAMES_LABEL": "Games",
+        "GAME_TYPES_LABEL": "Game types",
+        "BET_TYPES_LABEL": "Bet types",
+        "WIN_TYPES_LABEL": "Win types",
+        "START_DATE_LABEL": "Start date",
+        "END_DATE_LABEL": "End date",
+        "KEYWORD_INPUT_PLACEHOLDER": "Game round ID, Game ID, Provider ID",
+        "ACTIVITY_DATE_RANGE": "Activity date range"
+      },
+      "PENDING_STATUS": "Pending",
+      "TITLE": "Game Activity",
+      "GRID_VIEW": {
+        "GAME_ROUND": "Game round",
+        "GAME": "Game",
+        "BET_DATE": "Bet date",
+        "BET_AMOUNT": "Bet amount",
+        "WIN_DATE": "Win date",
+        "WIN_AMOUNT": "Win amount"
+      }
+    }
+  },
+  "COMMON": {
+    "SAVE_CHANGES": "Save changes",
+    "ANY": "Any",
+    "RESET": "Reset",
+    "APPLY": "Apply",
+    "ROLLBACK": "Rollback",
+    "EXPORT": "Export",
+    "BUTTONS": {
+      "CANCEL": "Cancel",
+      "CONFIRM": "Confirm"
+    }
+  },
+  "FILES": {
+    "UPLOAD_MODAL": {
+      "FILE": {
+        "TITLE": "Title",
+        "CATEGORY": "Category",
+        "STATUS": "Status",
+        "TITLE_PLACEHOLDER": "File title (required)",
+        "UPLOADED": "Uploaded",
+        "FAILED": "Failed",
+        "UPLOADING": "Uploading",
+        "CATEGORY_DEFAULT_OPTION": "Choose category"
+      },
+      "TITLE": "File upload",
+      "ACTION_TEXT": "You are about to upload file(s) to %{fullName} - %{shortUUID} - account",
+      "NO_UPLOADED": "There are no uploaded files",
+      "BUTTONS": {
+        "ADD_FILES": "Add files"
+      }
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Delete file - Confirmation",
+      "BUTTONS": {
+        "DELETE": "Delete File"
+      },
+      "WARNING_TEXT": "This action can not be undone!",
+      "ACTION_TEXT": "You are about to delete file %{fileName} from %{fullName} - %{shortUUID} - account"
     }
   },
   "COMMON": {

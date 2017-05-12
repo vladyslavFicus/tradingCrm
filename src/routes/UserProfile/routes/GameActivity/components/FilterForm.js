@@ -4,23 +4,15 @@ import { reduxForm, Field, getFormValues } from 'redux-form';
 import classNames from 'classnames';
 import moment from 'moment';
 import DateTime from 'react-datetime';
+import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../utils/validator';
 import PropTypes from '../../../../../constants/propTypes';
 import { moneyTypeLabels } from '../../../../../constants/gaming-activity';
 import config from '../../../../../config';
 import { InputField, SelectField } from '../../../../../components/ReduxForm';
+import { filterFormAttributeLabels } from '../constants';
 
 const FORM_NAME = 'userGameActivityFilter';
-const attributeLabels = {
-  keyword: 'Search by',
-  providers: 'Providers',
-  games: 'Games',
-  gameTypes: 'Game types',
-  betTypes: 'Bet types',
-  winTypes: 'Win types',
-  startDate: 'Start date',
-  endDate: 'End date',
-};
 const validate = createValidator({
   keyword: 'string',
   providers: ['string', `in:${Object.keys(config.providers).join()}`],
@@ -30,7 +22,7 @@ const validate = createValidator({
   winTypes: ['string', `in:${Object.keys(moneyTypeLabels).join()}`],
   startDate: 'string',
   endDate: 'string',
-}, attributeLabels, false);
+}, filterFormAttributeLabels, false);
 
 class FilterForm extends Component {
   static propTypes = {
@@ -96,9 +88,9 @@ class FilterForm extends Component {
           <Field
             name="keyword"
             type="text"
-            label={attributeLabels.keyword}
+            label={I18n.t(filterFormAttributeLabels.keyword)}
             labelClassName="form-label"
-            placeholder={'Game round ID, Game ID, Provider ID'}
+            placeholder={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.KEYWORD_INPUT_PLACEHOLDER')}
             component={InputField}
             position="vertical"
           />
@@ -106,14 +98,13 @@ class FilterForm extends Component {
         <div className="col-md-2">
           <Field
             name="providers"
-            label={attributeLabels.providers}
+            label={I18n.t(filterFormAttributeLabels.providers)}
             labelClassName="form-label"
-            emptyOptionLabel="Any"
             component={SelectField}
             position="vertical"
             showErrorMessage={false}
           >
-            <option value="">Any</option>
+            <option value="">{I18n.t('COMMON.ANY')}</option>
             {Object.keys(config.providers).map(item => (
               <option key={item} value={item}>
                 {config.providers[item]}
@@ -124,14 +115,13 @@ class FilterForm extends Component {
         <div className="col-md-2">
           <Field
             name="games"
-            label={attributeLabels.games}
+            label={I18n.t(filterFormAttributeLabels.games)}
             labelClassName="form-label"
-            emptyOptionLabel="Any"
             component={SelectField}
             position="vertical"
             showErrorMessage={false}
           >
-            <option value="">Any</option>
+            <option value="">{I18n.t('COMMON.ANY')}</option>
             {Object.keys(games).map(item => (
               <option key={item} value={item}>
                 {games[item]}
@@ -142,14 +132,13 @@ class FilterForm extends Component {
         <div className="col-md-2">
           <Field
             name="gameTypes"
-            label={attributeLabels.gameTypes}
+            label={I18n.t(filterFormAttributeLabels.gameTypes)}
             labelClassName="form-label"
-            emptyOptionLabel="Any"
             component={SelectField}
             position="vertical"
             showErrorMessage={false}
           >
-            <option value="">Any</option>
+            <option value="">{I18n.t('COMMON.ANY')}</option>
             {Object.keys(gameCategories).map(item => (
               <option key={item} value={item}>
                 {gameCategories[item]}
@@ -160,14 +149,13 @@ class FilterForm extends Component {
         <div className="col-md-2">
           <Field
             name="betTypes"
-            label={attributeLabels.betTypes}
+            label={I18n.t(filterFormAttributeLabels.betTypes)}
             labelClassName="form-label"
-            emptyOptionLabel="Any"
             component={SelectField}
             position="vertical"
             showErrorMessage={false}
           >
-            <option value="">Any</option>
+            <option value="">{I18n.t('COMMON.ANY')}</option>
             {Object.keys(moneyTypeLabels).map(item => (
               <option key={item} value={item}>
                 {moneyTypeLabels[item]}
@@ -184,14 +172,13 @@ class FilterForm extends Component {
       <div className="col-md-2">
         <Field
           name="winTypes"
-          label={attributeLabels.winTypes}
+          label={I18n.t(filterFormAttributeLabels.winTypes)}
           labelClassName="form-label"
-          emptyOptionLabel="Any"
           component={SelectField}
           position="vertical"
           showErrorMessage={false}
         >
-          <option value="">Any</option>
+          <option value="">{I18n.t('COMMON.ANY')}</option>
           {Object.keys(moneyTypeLabels).map(item => (
             <option key={item} value={item}>
               {moneyTypeLabels[item]}
@@ -201,12 +188,14 @@ class FilterForm extends Component {
       </div>
       <div className="col-md-6">
         <div className="form-group">
-          <label className="form-label">Activity date range</label>
+          <label className="form-label">
+            {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.ACTIVITY_DATE_RANGE')}
+          </label>
           <div className="row">
             <div className="col-md-5">
               <Field
                 name="startDate"
-                placeholder={attributeLabels.startDate}
+                placeholder={I18n.t(filterFormAttributeLabels.startDate)}
                 component={this.renderDateField}
                 isValidDate={this.startDateValidator}
               />
@@ -214,7 +203,7 @@ class FilterForm extends Component {
             <div className="col-md-5">
               <Field
                 name="endDate"
-                placeholder={attributeLabels.endDate}
+                placeholder={I18n.t(filterFormAttributeLabels.endDate)}
                 component={this.renderDateField}
                 isValidDate={this.endDateValidator}
               />
@@ -253,14 +242,14 @@ class FilterForm extends Component {
                   className="btn btn-default btn-sm margin-inline font-weight-700"
                   onClick={reset}
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
                   disabled={submitting}
                   className="btn btn-primary btn-sm margin-inline font-weight-700"
                   type="submit"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>

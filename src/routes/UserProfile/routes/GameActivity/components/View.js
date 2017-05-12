@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
@@ -69,11 +70,12 @@ class View extends Component {
   };
 
   renderGameRound = data => (
-    <span>
+    <span className={classNames({ 'text-danger': data.rollback })}>
       <div className="font-weight-700">{shortify(data.gameRoundId, 'GR')}</div>
-      <span className="font-size-12 text-uppercase">
+      {data.rollback && <div className="font-size-12 text-uppercase">{I18n.t('COMMON.ROLLBACK')}</div>}
+      <div className="font-size-12 text-uppercase">
         {shortify(data.gameSessionId, 'GS')}
-      </span>
+      </div>
     </span>
   );
 
@@ -104,7 +106,7 @@ class View extends Component {
     if (!data[column]) {
       return hasPendingStatus ? (
         <span className="color-primary text-uppercase font-weight-700">
-          Pending
+          {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.PENDING_STATUS')}
         </span>
       ) : <span>&mdash;</span>;
     }
@@ -175,12 +177,12 @@ class View extends Component {
       <div className={classNames('tab-pane fade in active profile-tab-container')}>
         <div className="row margin-bottom-20">
           <div className="col-md-3">
-            <span className="font-size-20">Game Activity</span>
+            <span className="font-size-20">{I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.TITLE')}</span>
           </div>
 
           <div className="col-md-3 col-md-offset-6 text-right">
             <button disabled={exporting} className="btn btn-default-outline" onClick={this.handleExportClick}>
-              Export
+              {I18n.t('COMMON.EXPORT')}
             </button>
           </div>
         </div>
@@ -202,32 +204,32 @@ class View extends Component {
         >
           <GridColumn
             name="gameRound"
-            header="Game round"
+            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.GAME_ROUND')}
             render={this.renderGameRound}
           />
           <GridColumn
             name="game"
-            header="Game"
+            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.GAME')}
             render={this.renderGame}
           />
           <GridColumn
             name="betDate"
-            header="Bet date"
+            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BET_DATE')}
             render={this.renderDate('betDate')}
           />
           <GridColumn
             name="betAmount"
-            header="Bet amount"
+            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BET_AMOUNT')}
             render={this.renderAmount('totalBetAmount', 'realBetAmount', 'bonusBetAmount')}
           />
           <GridColumn
             name="winDate"
-            header="Win date"
+            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_DATE')}
             render={this.renderDate('winDate', true)}
           />
           <GridColumn
             name="winAmount"
-            header="Win amount"
+            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_AMOUNT')}
             render={this.renderAmount('totalWinAmount', 'realWinAmount', 'bonusWinAmount')}
           />
         </GridView>
