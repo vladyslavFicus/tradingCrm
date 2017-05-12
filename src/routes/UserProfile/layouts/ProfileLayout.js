@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import NotificationContainer from 'react-notification-system';
 import Tabs from '../../../components/Tabs';
 import Modal from '../../../components/Modal';
 import Header from '../components/Header';
@@ -95,6 +96,7 @@ class ProfileLayout extends Component {
     onUploadFileClick: PropTypes.func.isRequired,
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
+    onAddNotification: PropTypes.func.isRequired,
   };
 
   state = {
@@ -117,6 +119,7 @@ class ProfileLayout extends Component {
       onUploadFileClick: this.handleUploadFileClick,
       setFileChangedCallback: this.setFileChangedCallback,
       onDeleteFileClick: this.handleDeleteFileClick,
+      onAddNotification: this.handleAddNotification,
     };
   }
 
@@ -157,6 +160,13 @@ class ProfileLayout extends Component {
         name,
         params,
       },
+    });
+  };
+
+  handleAddNotification = (params) => {
+    this.notificationNode.addNotification({
+      position: 'bc',
+      ...params,
     });
   };
 
@@ -524,6 +534,16 @@ class ProfileLayout extends Component {
             {...modal.params}
           />
         }
+
+        <NotificationContainer
+          ref={(node) => { this.notificationNode = node; }}
+          style={{
+            Containers: {
+              DefaultStyle: { zIndex: 1, bottom: '46px' },
+              bc: { left: 'auto', right: '0px', marginLeft: '0px' },
+            },
+          }}
+        />
       </div>
     );
   }

@@ -78,6 +78,12 @@
         "WIN_DATE": "Дата выигрыша",
         "WIN_AMOUNT": "Сумма выигрыша"
       }
+    },
+    "MARKETING": {
+      "MAIL": "Почта",
+      "NEWS": "Новости",
+      "SMS": "СМС",
+      "TITLE": "Маркетинг"
     }
   },
   "COMMON": {
@@ -97,6 +103,13 @@
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить"
+    },
+    "ACTIONS": {
+      "ON": "Вкл",
+      "OFF": "Выкл",
+      "UNSUCCESSFULLY": "Неуспешно",
+      "SUCCESSFULLY": "Успешно",
+      "UPDATED": "Обновлено"
     }
   },
   "FILES": {
