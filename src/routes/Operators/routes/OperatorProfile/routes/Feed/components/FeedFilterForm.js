@@ -109,7 +109,7 @@ class FeedFilterForm extends Component {
                   <option value="">{I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_TYPE_EMPTY_OPTION')}</option>
                   {availableTypes.map(type => (
                     <option key={type} value={type}>
-                      {typesLabels[type] || type}
+                      {typesLabels[type] ? I18n.t(typesLabels[type]) : type}
                     </option>
                   ))}
                 </Field>
