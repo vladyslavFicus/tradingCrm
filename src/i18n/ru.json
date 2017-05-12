@@ -65,7 +65,9 @@
     "EMAIL": "E-mail",
     "PHONE": "Телефон",
     "DEPARTMENT": "Департамент",
-    "ROLE": "Роль"
+    "ROLE": "Роль",
+    "PLAYER": "Игрок",
+    "DEPARTMENTS": "Департаменты"
   },
   "CONSTANTS": {
     "AUDIT": {
@@ -81,7 +83,8 @@
         "PLAYER_PROFILE_CHANGED": "Изменение персональных данных",
         "PLAYER_PROFILE_SEARCH": "Поиск игроков",
         "NEW_OPERATOR_ACCOUNT_CREATED": "Оператор - Новый оператор создан",
-        "OPERATOR_ACCOUNT_CREATED": "Оператор - Аккаунт создан"
+        "OPERATOR_ACCOUNT_CREATED": "Оператор - Аккаунт создан",
+        "PLAYER_PROFILE_VIEWED": "Просмотр профиля игрока"
       }
     },
     "OPERATORS": {

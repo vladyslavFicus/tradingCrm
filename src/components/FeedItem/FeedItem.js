@@ -12,6 +12,7 @@ import FeedInfoPlayerProfileSearch from './FeedInfoPlayerProfileSearch';
 import FeedInfoProfileChanged from './FeedInfoProfileChanged';
 import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
 import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
+import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
 import './FeedItem.scss';
 
 class FeedItem extends Component {
@@ -49,6 +50,8 @@ class FeedItem extends Component {
       case types.NEW_OPERATOR_ACCOUNT_CREATED:
       case types.OPERATOR_ACCOUNT_CREATED:
         return <FeedInfoOperatorCreation data={data} />;
+      case types.PLAYER_PROFILE_VIEWED:
+        return <FeedInfoPlayerProfileViewed data={data} />;
       default:
         return null;
     }
@@ -82,7 +85,7 @@ class FeedItem extends Component {
           <div className="feed-item_info-name">
             <span className={classNames('audit-name', color)}>
               {data.authorFullName}
-            </span> - {shortify(data.authorUuid)}
+            </span> - {shortify(data.authorUuid, data.authorUuid.indexOf('OPERATOR') === -1 ? 'PL' : '')}
           </div>
           <div className="feed-item_info-date">
             {data.creationDate ? moment(data.creationDate).format('DD.MM.YYYY HH:mm:ss') : null}

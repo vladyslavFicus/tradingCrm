@@ -65,7 +65,9 @@
     "EMAIL": "E-mail",
     "PHONE": "Phone",
     "DEPARTMENT": "Department",
-    "ROLE": "Role"
+    "ROLE": "Role",
+    "PLAYER": "Player",
+    "DEPARTMENTS": "Departments"
   },
   "CONSTANTS": {
     "AUDIT": {
@@ -81,7 +83,8 @@
         "PLAYER_PROFILE_CHANGED": "Personal details change",
         "PLAYER_PROFILE_SEARCH": "Players' search",
         "NEW_OPERATOR_ACCOUNT_CREATED": "Operator - New operator created",
-        "OPERATOR_ACCOUNT_CREATED": "Operator - Account created"
+        "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
+        "PLAYER_PROFILE_VIEWED": "Players' profile viewed"
       }
     },
     "OPERATORS": {

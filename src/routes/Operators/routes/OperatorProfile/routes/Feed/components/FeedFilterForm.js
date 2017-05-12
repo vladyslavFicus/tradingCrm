@@ -123,7 +123,7 @@ class FeedFilterForm extends Component {
                     <div className="col-md-5">
                       <Field
                         name="creationDateFrom"
-                        placeholder={I18n.t(filterFormAttributeLabels.startDate)}
+                        placeholder={I18n.t(filterFormAttributeLabels.creationDateFrom)}
                         component={this.renderDateField}
                         isValidDate={this.startDateValidator}
                       />
@@ -131,7 +131,7 @@ class FeedFilterForm extends Component {
                     <div className="col-md-5">
                       <Field
                         name="creationDateTo"
-                        placeholder={I18n.t(filterFormAttributeLabels.endDate)}
+                        placeholder={I18n.t(filterFormAttributeLabels.creationDateTo)}
                         component={this.renderDateField}
                         isValidDate={this.endDateValidator}
                       />

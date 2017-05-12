@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { I18n } from 'react-redux-i18n';
 import { renderLabel } from '../../../../utils';
 import { departmentsLabels, rolesLabels } from '../../../../../../constants/operators';
 
@@ -20,7 +21,7 @@ class Departments extends Component {
         <div className="panel">
           <div className="panel-body height-200">
             <small className="player__account__details_additional-label">
-              DEPARTMENTS
+              {I18n.t('COMMON.DEPARTMENTS')}
             </small>
             {
               !!authorities.length &&

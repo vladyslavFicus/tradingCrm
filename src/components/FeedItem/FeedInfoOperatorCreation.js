@@ -1,7 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
-import { rolesLabels } from '../../constants/operators';
+import { departmentsLabels, rolesLabels } from '../../constants/operators';
 
 const FeedInfoOperatorCreation = ({ data }) => (
   <div className="feed-item_info-details">
@@ -38,8 +38,8 @@ const FeedInfoOperatorCreation = ({ data }) => (
         {I18n.t('COMMON.DEPARTMENT')}:
         <span className="feed-item_info-details_value">
           {
-            rolesLabels[data.details.department]
-              ? I18n.t(rolesLabels[data.details.department])
+            departmentsLabels[data.details.department]
+              ? I18n.t(departmentsLabels[data.details.department])
               : data.details.role
           }
         </span>
