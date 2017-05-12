@@ -85,7 +85,11 @@ class FeedItem extends Component {
           <div className="feed-item_info-name">
             <span className={classNames('audit-name', color)}>
               {data.authorFullName}
-            </span> - {shortify(data.authorUuid, data.authorUuid.indexOf('OPERATOR') === -1 ? 'PL' : '')}
+            </span>
+            {
+              !!data.authorUuid &&
+              ` - ${shortify(data.authorUuid, data.authorUuid.indexOf('OPERATOR') === -1 ? 'PL' : '')}`
+            }
           </div>
           <div className="feed-item_info-date">
             {data.creationDate ? moment(data.creationDate).format('DD.MM.YYYY HH:mm:ss') : null}
@@ -100,15 +104,15 @@ class FeedItem extends Component {
                 {
                   opened
                     ? (
-                      <span>
+                    <span>
                         {I18n.t('OPERATOR_PROFILE.FEED.FEED_ITEM.HIDE_DETAILS')}
-                        <i className="fa fa-caret-up" />
+                      <i className="fa fa-caret-up" />
                       </span>
                   )
                     : (
-                      <span>
+                    <span>
                         {I18n.t('OPERATOR_PROFILE.FEED.FEED_ITEM.SHOW_DETAILS')}
-                        <i className="fa fa-caret-down" />
+                      <i className="fa fa-caret-down" />
                       </span>
                   )
                 }
