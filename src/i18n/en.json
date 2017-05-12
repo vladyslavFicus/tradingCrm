@@ -84,6 +84,19 @@
       "NEWS": "News",
       "SMS": "SMS",
       "TITLE": "Marketing"
+    },
+    "PAYMENT_ACCOUNT": {
+      "COLUMN": {
+        "PAYMENT_ACCOUNT": "Payment account",
+        "DATE_ADDED": "Date Added",
+        "LAST_PAYMENT": "Last Payment",
+        "WITHDRAWS": "Withdrawals",
+        "DEPOSITS": "Deposits",
+        "FILES": "Files",
+        "NOTE": "Note"
+      },
+      "TITLE": "Payments",
+      "ATTACHED_FILES": "Attached files"
     }
   },
   "COMMON": {
@@ -102,7 +115,8 @@
     "ROLLBACK": "Rollback",
     "BUTTONS": {
       "CANCEL": "Cancel",
-      "CONFIRM": "Confirm"
+      "CONFIRM": "Confirm",
+      "UPLOAD_FILE": "Upload file"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -110,7 +124,8 @@
       "UNSUCCESSFULLY": "Unsuccessfully",
       "SUCCESSFULLY": "Successfully",
       "UPDATED": "Updated"
-    }
+    },
+    "COUNT": "Count"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -138,6 +153,15 @@
       },
       "WARNING_TEXT": "This action can not be undone!",
       "ACTION_TEXT": "You are about to delete file %{fileName} from %{fullName} - %{shortUUID} - account"
+    },
+    "GRID": {
+      "COLUMN": {
+        "NAME": "File",
+        "DATE_TIME": "Date & Time",
+        "CATEGORY": "Category",
+        "NOTE": "Note",
+        "STATUS": "Status"
+      }
     }
   },
   "CONSTANTS": {

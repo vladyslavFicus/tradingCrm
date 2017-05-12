@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import { shortify } from '../../../../utils/uuid';
 import { categoriesLabels } from '../../../../constants/files';
 import { targetTypes } from '../../../../constants/note';
@@ -106,7 +107,7 @@ class CommonFileGridView extends Component {
       >
         <GridColumn
           name="fileName"
-          header="File"
+          header={I18n.t('FILES.GRID.COLUMN.NAME')}
           render={this.renderFileName}
         />
         <GridColumn
@@ -117,22 +118,22 @@ class CommonFileGridView extends Component {
         />
         <GridColumn
           name="date"
-          header="Date & Time"
+          header={I18n.t('FILES.GRID.COLUMN.DATE_TIME')}
           render={this.renderDate('uploadDate')}
         />
         <GridColumn
           name="category"
-          header="Category"
+          header={I18n.t('FILES.GRID.COLUMN.CATEGORY')}
           render={this.renderCategory}
         />
         <GridColumn
           name="status"
-          header="Status"
+          header={I18n.t('FILES.GRID.COLUMN.STATUS')}
           render={this.renderStatus}
         />
         <GridColumn
           name="note"
-          header="Note"
+          header={I18n.t('FILES.GRID.COLUMN.NOTE')}
           render={this.renderNote}
         />
       </GridView>
