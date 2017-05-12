@@ -539,7 +539,7 @@ class ProfileLayout extends Component {
           ref={(node) => { this.notificationNode = node; }}
           style={{
             Containers: {
-              DefaultStyle: { zIndex: 1, bottom: '46px' },
+              DefaultStyle: { zIndex: 1 },
               bc: { left: 'auto', right: '0px', marginLeft: '0px' },
             },
           }}
