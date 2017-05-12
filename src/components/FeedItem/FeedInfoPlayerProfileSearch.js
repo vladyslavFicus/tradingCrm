@@ -1,6 +1,7 @@
 import React from 'react';
-import PropTypes from '../../../../../../../../constants/propTypes';
-import { filterLabels } from '../../../../../../../../constants/user';
+import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../constants/propTypes';
+import { filterLabels } from '../../constants/user';
 
 const formatters = {};
 const formatValue = (attribute, value) => formatters[attribute]
@@ -10,7 +11,7 @@ const formatValue = (attribute, value) => formatters[attribute]
 const FeedInfoPlayerProfileSearch = ({ data }) => (
   <div className="feed-item_info-details">
     <div className="text-uppercase margin-bottom-10">
-      SEARCH PARAMETERS
+      {I18n.t('FEED_ITEM.PLAYER_PROFILE_SEARCH.SEARCH_PARAMETERS')}
     </div>
 
     {Object.keys(data.details).map(attribute => (

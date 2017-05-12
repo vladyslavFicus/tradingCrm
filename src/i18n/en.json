@@ -82,11 +82,18 @@
   },
   "COMMON": {
     "SAVE_CHANGES": "Save changes",
-    "ANY": "Any",
     "RESET": "Reset",
     "APPLY": "Apply",
-    "ROLLBACK": "Rollback",
     "EXPORT": "Export",
+    "FROM": "From",
+    "EMAIL": "E-mail",
+    "PHONE": "Phone",
+    "DEPARTMENT": "Department",
+    "ROLE": "Role",
+    "PLAYER": "Player",
+    "DEPARTMENTS": "Departments",
+    "ANY": "Any",
+    "ROLLBACK": "Rollback",
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm"
@@ -118,6 +125,82 @@
       },
       "WARNING_TEXT": "This action can not be undone!",
       "ACTION_TEXT": "You are about to delete file %{fileName} from %{fullName} - %{shortUUID} - account"
+    }
+  },
+  "CONSTANTS": {
+    "AUDIT": {
+      "TYPES": {
+        "LOG_IN": "Logged in",
+        "LOG_OUT": "Logged out",
+        "PLAYER_PROFILE_VERIFIED_EMAIL": "Personal info - Email verified",
+        "KYC_ADDRESS_REFUSED": "KYC - Address - rejected",
+        "KYC_ADDRESS_VERIFIED": "KYC - Address - verified",
+        "KYC_PERSONAL_REFUSED": "KYC - Identity - rejected",
+        "KYC_PERSONAL_VERIFIED": "KYC - Identity - verified",
+        "PLAYER_PROFILE_REGISTERED": "Registration",
+        "PLAYER_PROFILE_CHANGED": "Personal details change",
+        "PLAYER_PROFILE_SEARCH": "Players' search",
+        "NEW_OPERATOR_ACCOUNT_CREATED": "Operator - New operator created",
+        "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
+        "PLAYER_PROFILE_VIEWED": "Players' profile viewed"
+      }
+    },
+    "OPERATORS": {
+      "DEPARTMENTS": {
+        "CS": "Customer service",
+        "RFP": "Risk Fraud & Payment",
+        "MARKETING": "Marketing"
+      },
+      "ROLES": {
+        "ROLE1": "Executive",
+        "ROLE2": "Team leader",
+        "ROLE3": "Manager",
+        "ROLE4": "Head of department"
+      }
+    }
+  },
+  "OPERATOR_PROFILE": {
+    "FEED": {
+      "FILTER_FORM": {
+        "SEARCH_BY_LABEL": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
+        "ACTION_TYPE_EMPTY_OPTION": "Any action",
+        "ACTION_DATE_RANGE": "Action date range"
+      },
+      "TITLE": "Feed",
+      "FEED_ITEM": {
+        "HIDE_DETAILS": "Hide details",
+        "SHOW_DETAILS": "Show details"
+      }
+    }
+  },
+  "FEED_ITEM": {
+    "LOG_IN": {
+      "UPLOADED_FILE": "Uploaded file",
+      "SESSION_ID": "Session ID",
+      "SESSION_IP": "Session IP",
+      "SESSION_START": "Session start",
+      "DEVICE": "Device"
+    },
+    "KYC": {
+      "REJECT_REASON": "Rejection reason"
+    },
+    "LOG_OUT": {
+      "SESSION_ID": "Session ID",
+      "SESSION_IP": "Session IP",
+      "SESSION_START": "Session start",
+      "SESSION_END": "Session end",
+      "SESSION_DURATION": "Session duration",
+      "DEVICE": "Device"
+    },
+    "PLAYER_PROFILE_SEARCH": {
+      "SEARCH_PARAMETERS": "Search parameters"
+    },
+    "OPERATOR_CREATION": {
+      "OPERATOR_NAME": "Operator's name",
+      "INVITATION_SENT": "Invitation",
+      "INVITATION_SENT_SUCCESS": "Successfully sent",
+      "INVITATION_SENT_FAILURE": "Not sent"
     }
   }
 }

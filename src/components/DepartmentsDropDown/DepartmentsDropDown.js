@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 import { departmentsLabels, rolesLabels } from '../../constants/operators';
 import './DepartmentsDropDown.scss';
@@ -21,7 +22,7 @@ class DepartmentsDropDown extends Component {
 
   renderLabel = (entityValue, labels) => {
     return entityValue && labels[entityValue]
-      ? labels[entityValue]
+      ? I18n.t(labels[entityValue])
       : entityValue;
   };
 

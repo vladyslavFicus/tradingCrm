@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import humanizeDuration from 'humanize-duration';
-import PropTypes from '../../../../../../../../constants/propTypes';
+import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../constants/propTypes';
 
 const humanizeDurationConfig = {
   language: 'en',
@@ -14,7 +15,7 @@ const FeedInfoLogout = ({ data }) => (
     {
       data.details.sessionId &&
       <div>
-        Session ID:
+        {I18n.t('FEED_ITEM.LOG_OUT.SESSION_ID')}:
         <span className="feed-item_info-details_value">
           {data.details.sessionId}
         </span>
@@ -23,7 +24,7 @@ const FeedInfoLogout = ({ data }) => (
     {
       data.ip &&
       <div>
-        Session IP:
+        {I18n.t('FEED_ITEM.LOG_OUT.SESSION_IP')}:
         <span className="feed-item_info-details_value">
           {data.ip}
         </span>
@@ -32,7 +33,7 @@ const FeedInfoLogout = ({ data }) => (
     {
       data.details.sessionStart &&
       <div>
-        Session Start:
+        {I18n.t('FEED_ITEM.LOG_OUT.SESSION_START')}:
         <span className="feed-item_info-details_value">
           {moment(data.details.sessionStart).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
         </span>
@@ -41,7 +42,7 @@ const FeedInfoLogout = ({ data }) => (
     {
       data.details.sessionEnd &&
       <div>
-        Session End:
+        {I18n.t('FEED_ITEM.LOG_OUT.SESSION_END')}:
         <span className="feed-item_info-details_value">
           {moment(data.details.sessionEnd).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
         </span>
@@ -50,7 +51,7 @@ const FeedInfoLogout = ({ data }) => (
     {
       data.details.sessionDuration &&
       <div>
-        Session duration:
+        {I18n.t('FEED_ITEM.LOG_OUT.SESSION_DURATION')}:
         <span className="feed-item_info-details_value">
           {humanizeDuration(data.details.sessionDuration, humanizeDurationConfig)}
         </span>
@@ -59,7 +60,7 @@ const FeedInfoLogout = ({ data }) => (
     {
       data.details.device &&
       <div>
-        Device:
+        {I18n.t('FEED_ITEM.LOG_OUT.DEVICE')}:
         <span className="feed-item_info-details_value">
           {data.details.device}
         </span>

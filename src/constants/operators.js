@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import I18n from '../utils/fake-i18n';
 
 const statuses = keyMirror({
   INACTIVE: null,
@@ -53,9 +54,9 @@ const departments = keyMirror({
   MARKETING: null,
 });
 const departmentsLabels = {
-  [departments.CS]: 'Customer service',
-  [departments.RFP]: 'Risk Fraud & Payment',
-  [departments.MARKETING]: 'Marketing',
+  [departments.CS]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.CS'),
+  [departments.RFP]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.RFP'),
+  [departments.MARKETING]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.MARKETING'),
 };
 const roles = keyMirror({
   ROLE1: null,
@@ -64,10 +65,10 @@ const roles = keyMirror({
   ROLE4: null,
 });
 const rolesLabels = {
-  [roles.ROLE1]: 'Executive',
-  [roles.ROLE2]: 'Team Leader',
-  [roles.ROLE3]: 'Manager',
-  [roles.ROLE4]: 'Head of department',
+  [roles.ROLE1]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE1'),
+  [roles.ROLE2]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE2'),
+  [roles.ROLE3]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE3'),
+  [roles.ROLE4]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE4'),
 };
 
 export {
