@@ -1,5 +1,4 @@
 import React from 'react';
-import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 import { attributeLabels } from '../../constants/user';
 
