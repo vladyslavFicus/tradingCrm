@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import UserGridFilter from './UserGridFilter';
+import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import Amount from '../../../../../components/Amount';
@@ -17,6 +18,7 @@ class List extends Component {
     fetchESEntities: PropTypes.func.isRequired,
     list: PropTypes.object,
     filterValues: PropTypes.object,
+    reset: PropTypes.func,
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
@@ -48,8 +50,25 @@ class List extends Component {
     playerUUID: this.props.params.id,
   });
 
-  handleFilterSubmit = (filters) => {
+  handleFilterSubmit = (data) => {
+    const filters = { ...data };
+
+    if (filters.countries) {
+      filters.countries = [filters.countries];
+    }
+    if (filters.tags) {
+      filters.tags = [filters.tags];
+    }
+    if (filters.statuses) {
+      filters.statuses = [filters.statuses];
+    }
+
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
+  };
+
+  handleFilterReset = () => {
+    this.props.reset();
+    this.setState({ filters: {}, page: 0 });
   };
 
   renderUserInfo = (data) => {
@@ -112,8 +131,9 @@ class List extends Component {
   );
 
   render() {
-    const { filters } = this.state;
     const { list: { entities, exporting }, filterValues } = this.props;
+    const { filters } = this.state;
+    const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <div className="page-content-inner">
@@ -125,7 +145,11 @@ class List extends Component {
               </div>
 
               <div className="col-md-3 col-md-offset-6 text-right">
-                <button disabled={exporting} className="btn btn-default-outline btn-sm" onClick={this.handleExport}>
+                <button
+                  disabled={exporting || !allowActions}
+                  className="btn btn-default-outline btn-sm"
+                  onClick={this.handleExport}
+                >
                   Export
                 </button>
               </div>
@@ -134,7 +158,9 @@ class List extends Component {
 
           <UserGridFilter
             onSubmit={this.handleFilterSubmit}
+            onReset={this.handleFilterReset}
             initialValues={filters}
+            disabled={!allowActions}
             filterValues={filterValues}
           />
 

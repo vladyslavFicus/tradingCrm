@@ -59,7 +59,7 @@ class UsersPanel extends Component {
                 src={`/users/${item.uuid}/profile`}
                 key={item.uuid}
                 style={{
-                  height: active && active.uuid === item.uuid ? 'calc(100% - 73px)' : '0',
+                  height: active && active.uuid === item.uuid ? 'calc(100% - 118px)' : '0',
                   margin: active && active.uuid === item.uuid ? '0 auto' : '0',
                   borderTop: active && active.uuid === item.uuid ? '' : '0',
                 }}

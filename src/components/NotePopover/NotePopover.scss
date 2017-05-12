@@ -3,13 +3,32 @@
   width: 400px !important;
   background-color: #FFFDE6;
 
+  textarea {
+    padding: 2px;
+    border-radius: 0;
+    border-color: #ccc;
+    font-size: 14px;
+    background-attachment: local;
+    background-image:
+      linear-gradient(to right, white 0px, transparent 0px),
+      linear-gradient(to left, white 0px, transparent 0px),
+      repeating-linear-gradient(#FFFDE6, #FFFDE6 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
+  }
+
   .popover-title {
+    padding-bottom: 0;
+    font-size: 16px;
+    font-weight: normal;
     background: #FFFDE6;
     border: none;
   }
 
   .popover-content {
+    padding-top: 0;
     background: #FFFDE6;
+    .form-group {
+      margin-bottom: 0;
+    }
   }
 
   .popover-arrow {

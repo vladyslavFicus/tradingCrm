@@ -4,24 +4,20 @@ import { reduxForm, Field, getFormValues } from 'redux-form';
 import classNames from 'classnames';
 import moment from 'moment';
 import DateTime from 'react-datetime';
+import { I18n } from 'react-redux-i18n';
+import { filterFormAttributeLabels } from '../constants';
 import { createValidator } from '../../../../../../../utils/validator';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { typesLabels } from '../../../../../../../constants/audit';
 import { InputField, SelectField } from '../../../../../../../components/ReduxForm';
 
 const FORM_NAME = 'userFeedFilter';
-const attributeLabels = {
-  searchBy: 'Search by',
-  actionType: 'Action types',
-  creationDateFrom: 'Creation date from',
-  creationDateTo: 'Creation date to',
-};
 const validate = createValidator({
   searchBy: 'string',
   actionType: 'string',
   creationDateFrom: 'string',
   creationDateTo: 'string',
-}, attributeLabels, false);
+}, filterFormAttributeLabels, false);
 
 class FeedFilterForm extends Component {
   static propTypes = {
@@ -95,9 +91,9 @@ class FeedFilterForm extends Component {
                 <Field
                   name="searchBy"
                   type="text"
-                  label={attributeLabels.searchBy}
+                  label={I18n.t(filterFormAttributeLabels.searchBy)}
                   labelClassName="form-label"
-                  placeholder={'Action ID, Operator ID, IP'}
+                  placeholder={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
                   component={InputField}
                   position="vertical"
                 />
@@ -105,27 +101,29 @@ class FeedFilterForm extends Component {
               <div className="col-md-3">
                 <Field
                   name="actionType"
-                  label={attributeLabels.actionType}
+                  label={I18n.t(filterFormAttributeLabels.actionType)}
                   labelClassName="form-label"
                   component={SelectField}
                   position="vertical"
                 >
-                  <option value="">All actions</option>
+                  <option value="">{I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_TYPE_EMPTY_OPTION')}</option>
                   {availableTypes.map(type => (
                     <option key={type} value={type}>
-                      {typesLabels[type] || type}
+                      {typesLabels[type] ? I18n.t(typesLabels[type]) : type}
                     </option>
                   ))}
                 </Field>
               </div>
               <div className="col-md-6">
                 <div className="form-group">
-                  <label className="form-label">Action date range</label>
+                  <label className="form-label">
+                    {I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.ACTION_DATE_RANGE')}
+                  </label>
                   <div className="row">
                     <div className="col-md-5">
                       <Field
                         name="creationDateFrom"
-                        placeholder={attributeLabels.startDate}
+                        placeholder={I18n.t(filterFormAttributeLabels.creationDateFrom)}
                         component={this.renderDateField}
                         isValidDate={this.startDateValidator}
                       />
@@ -133,7 +131,7 @@ class FeedFilterForm extends Component {
                     <div className="col-md-5">
                       <Field
                         name="creationDateTo"
-                        placeholder={attributeLabels.endDate}
+                        placeholder={I18n.t(filterFormAttributeLabels.creationDateTo)}
                         component={this.renderDateField}
                         isValidDate={this.endDateValidator}
                       />
@@ -150,14 +148,14 @@ class FeedFilterForm extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
                   disabled={submitting}
                   className="btn btn-primary btn-sm margin-inline font-weight-700"
                   type="submit"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>

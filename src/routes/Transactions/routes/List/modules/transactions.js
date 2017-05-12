@@ -18,6 +18,7 @@ const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 const FETCH_PROFILES = createRequestAction(`${KEY}/fetch-profiles`);
 const FETCH_PROFILE_REAL_BALANCE = createRequestAction(`${KEY}/fetch-profile-balance`);
 const FETCH_PROFILE_BONUS_BALANCE = createRequestAction(`${KEY}/fetch-profile-bonus`);
+const RESET_TRANSACTIONS = `${KEY}/reset`;
 
 const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FETCH_PAYMENT_STATUSES);
 const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
@@ -108,6 +109,7 @@ const mapSuccessBonusPayload = playerUUID => async (action, state, res) => {
 
   return { playerUUID, balance: null };
 };
+
 function fetchBonus(playerUUID) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -135,6 +137,11 @@ function fetchBonus(playerUUID) {
   };
 }
 
+function resetTransactions() {
+  return {
+    type: RESET_TRANSACTIONS,
+  };
+}
 
 const mapSuccessBalancePayload = playerUUID => async (action, state, res) => {
   const contentType = res.headers.get('Content-Type');
@@ -273,6 +280,24 @@ const createSuccessBalanceReducer = balanceField => (state, action) => {
   return newState;
 };
 
+const initialState = {
+  entities: {
+    first: false,
+    last: false,
+    number: 0,
+    numberOfElements: 0,
+    size: 0,
+    sort: [],
+    totalElements: 0,
+    totalPages: 0,
+    content: [],
+  },
+  profiles: {},
+  error: null,
+  filters: {},
+  isLoading: false,
+  receivedAt: null,
+};
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
@@ -341,24 +366,7 @@ const actionHandlers = {
   },
   [FETCH_PROFILE_BONUS_BALANCE.SUCCESS]: createSuccessBalanceReducer('bonus'),
   [FETCH_PROFILE_REAL_BALANCE.SUCCESS]: createSuccessBalanceReducer('real'),
-};
-const initialState = {
-  entities: {
-    first: false,
-    last: false,
-    number: 0,
-    numberOfElements: 0,
-    size: 0,
-    sort: [],
-    totalElements: 0,
-    totalPages: 0,
-    content: [],
-  },
-  profiles: {},
-  error: null,
-  filters: {},
-  isLoading: false,
-  receivedAt: null,
+  [RESET_TRANSACTIONS]: () => ({ ...initialState }),
 };
 const actionTypes = {
   FETCH_ENTITIES,
@@ -367,6 +375,7 @@ const actionTypes = {
   FETCH_PROFILES,
   FETCH_PROFILE_REAL_BALANCE,
   FETCH_PROFILE_BONUS_BALANCE,
+  RESET_TRANSACTIONS,
 };
 const actionCreators = {
   fetchEntities,
@@ -375,6 +384,7 @@ const actionCreators = {
   fetchBalances,
   fetchPaymentStatuses,
   changePaymentStatus,
+  resetTransactions,
 };
 
 export {

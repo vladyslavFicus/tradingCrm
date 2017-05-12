@@ -14,6 +14,9 @@ const actionTypes = {
 };
 const actionCreators = {
   ...transactionsActionCreators,
+  resetAll: () => (dispatch) => {
+    dispatch(transactionsActionCreators.resetTransactions());
+  },
 };
 
 export {

@@ -51,10 +51,11 @@ class UserGridFilter extends Component {
       balanceFrom: PropTypes.string,
       balanceTo: PropTypes.string,
     }).isRequired,
-    submitting: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired,
-    submit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func,
+    reset: PropTypes.func,
+    onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
   static defaultProps = {
@@ -95,25 +96,9 @@ class UserGridFilter extends Component {
       : true;
   };
 
-  handleSubmit = () => {
-    const data = { ...this.props.filterValues };
-
-    if (data.countries) {
-      data.countries = [data.countries];
-    }
-    if (data.tags) {
-      data.tags = [data.tags];
-    }
-    if (data.statuses) {
-      data.statuses = [data.statuses];
-    }
-
-    return this.props.onSubmit(data);
-  };
-
   handleReset = () => {
     this.props.reset();
-    this.props.onSubmit();
+    this.props.onReset();
   };
 
   renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
@@ -162,14 +147,15 @@ class UserGridFilter extends Component {
   render() {
     const {
       submitting,
+      pristine,
       handleSubmit,
-      onExportClick,
-      isExportable,
+      onSubmit,
+      disabled,
     } = this.props;
 
     return (
       <div>
-        <form onSubmit={handleSubmit(this.handleSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="well">
             <div className="row">
               <div className="col-md-12">
@@ -350,7 +336,7 @@ class UserGridFilter extends Component {
                   <div className="col-md-2">
                     <div className="form-group">
                       <button
-                        disabled={submitting}
+                        disabled={submitting || (disabled && pristine)}
                         className="btn btn-default btn-sm margin-inline font-weight-700"
                         onClick={this.handleReset}
                         type="reset"
@@ -358,7 +344,7 @@ class UserGridFilter extends Component {
                         Reset
                       </button>
                       <button
-                        disabled={submitting}
+                        disabled={submitting || (disabled && pristine)}
                         className="btn btn-primary btn-sm margin-inline font-weight-700"
                         type="submit"
                       >
