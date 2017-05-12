@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from '../../../../../constants/propTypes';
 import ListView from '../../../../../components/ListView';
-import FeedItem from './FeedItem';
+import FeedItem from '../../../../../components/FeedItem';
 import FeedFilterForm from './FeedFilterForm';
 
 class View extends Component {

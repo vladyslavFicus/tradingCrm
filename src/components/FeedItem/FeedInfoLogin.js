@@ -1,13 +1,14 @@
 import React from 'react';
 import moment from 'moment';
-import PropTypes from '../../../../../../../../constants/propTypes';
+import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../constants/propTypes';
 
 const FeedInfoLogin = ({ data }) => (
   <div className="feed-item_info-details">
     {
       data.details.sessionId &&
       <div>
-        Session ID:
+        {I18n.t('FEED_ITEM.LOG_IN.SESSION_ID')}:
         <span className="feed-item_info-details_value">
           {data.details.sessionId}
         </span>
@@ -16,7 +17,7 @@ const FeedInfoLogin = ({ data }) => (
     {
       data.ip &&
       <div>
-        Session IP:
+        {I18n.t('FEED_ITEM.LOG_IN.SESSION_IP')}:
         <span className="feed-item_info-details_value">
           {data.ip}
         </span>
@@ -25,7 +26,7 @@ const FeedInfoLogin = ({ data }) => (
     {
       data.details.sessionStart &&
       <div>
-        Session Start:
+        {I18n.t('FEED_ITEM.LOG_IN.SESSION_START')}:
         <span className="feed-item_info-details_value">
           {moment(data.details.sessionStart).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
         </span>
@@ -34,7 +35,7 @@ const FeedInfoLogin = ({ data }) => (
     {
       data.details.device &&
       <div>
-        Device:
+        {I18n.t('FEED_ITEM.LOG_IN.DEVICE')}:
         <span className="feed-item_info-details_value">
           {data.details.device}
         </span>
