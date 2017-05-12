@@ -70,12 +70,12 @@ class View extends Component {
     return (
       <div className={classNames('tab-pane fade in active profile-tab-container')}>
         <div className="row margin-bottom-20">
-          <div className="col-md-3">
+          <div className="col-sm-3 col-xs-6">
             <span className="font-size-20">{I18n.t('OPERATOR_PROFILE.FEED.TITLE')}</span>
           </div>
 
-          <div className="col-md-3 col-md-offset-6 text-right">
-            <button disabled={exporting} className="btn btn-default-outline" onClick={this.handleExportClick}>
+          <div className="col-sm-9 col-xs-6 text-right">
+            <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
               {I18n.t('COMMON.EXPORT')}
             </button>
           </div>

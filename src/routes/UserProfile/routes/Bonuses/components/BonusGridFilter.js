@@ -130,10 +130,10 @@ class BonusGridFilter extends Component {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
-          <div className="col-sm-2 col-xs-6">
+          <div className="col-sm-3 col-xs-6">
             <span className="font-size-20">Bonus</span>
           </div>
-          <div className="col-sm-10 col-xs-6 text-right">
+          <div className="col-sm-9 col-xs-6 text-right">
             <Link className="btn btn-sm btn-primary-outline" target="_blank" to={`/bonuses/create/${playerUUID}`}>
               + Manual bonus
             </Link>
