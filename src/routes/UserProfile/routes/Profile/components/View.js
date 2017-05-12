@@ -169,10 +169,10 @@ class View extends Component {
     }
 
     return (
-      <div className="player__account__page_profile tab-content padding-vertical-20">
+      <div className="player__account__page_profile tab-content">
         <div className="row margin-bottom-20">
           <div className="col-md-6">
-            <div className="h3 margin-bottom-0">{I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}</div>
+            <span className="font-size-20">{I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}</span>
           </div>
         </div>
 

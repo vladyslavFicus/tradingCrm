@@ -269,12 +269,12 @@ class View extends Component {
     return (
       <div className={'tab-pane fade in active profile-tab-container'}>
         <div className="row margin-bottom-20">
-          <div className="col-md-3">
+          <div className="col-sm-3 col-xs-6">
             <span className="font-size-20">Files</span>
           </div>
 
-          <div className="col-md-3 col-md-offset-6 text-right">
-            <button className="btn btn-primary-outline" onClick={this.handleUploadFileClick}>
+          <div className="col-sm-9 col-xs-6 text-right">
+            <button className="btn btn-sm btn-primary-outline" onClick={this.handleUploadFileClick}>
               + Upload file
             </button>
           </div>
