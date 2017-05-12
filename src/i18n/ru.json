@@ -86,6 +86,38 @@
     "RESET": "Сбросить",
     "APPLY": "Применить",
     "ROLLBACK": "Rollback",
-    "EXPORT": "Экспорт"
+    "EXPORT": "Экспорт",
+    "BUTTONS": {
+      "CANCEL": "Отменить",
+      "CONFIRM": "Подтвердить"
+    }
+  },
+  "FILES": {
+    "UPLOAD_MODAL": {
+      "FILE": {
+        "TITLE": "Название",
+        "CATEGORY": "Категория",
+        "STATUS": "Статус",
+        "TITLE_PLACEHOLDER": "Название файлы (обязательно)",
+        "UPLOADED": "Загружено",
+        "FAILED": "Неудачно",
+        "UPLOADING": "Загружается",
+        "CATEGORY_DEFAULT_OPTION": "Выбрать категорию"
+      },
+      "TITLE": "Загрузка файлов",
+      "ACTION_TEXT": "Вы собираетесь загрузить файл(ы) игроку %{fullName} - %{shortUUID} - запись",
+      "NO_UPLOADED": "Нет загруженных файлов",
+      "BUTTONS": {
+        "ADD_FILES": "Добавить файлы"
+      }
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Удаление файла - Подтверждение",
+      "BUTTONS": {
+        "DELETE": "Удалить файл"
+      },
+      "WARNING_TEXT": "Это действие не может быть отменено!",
+      "ACTION_TEXT": "Вы собираетесь удалить файл %{fileName} игроку %{fullName} - %{shortUUID} - запись"
+    }
   }
 }

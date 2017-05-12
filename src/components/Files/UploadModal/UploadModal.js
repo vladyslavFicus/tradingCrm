@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import PropTypes from '../../../../../../constants/propTypes';
-import FileUpload from '../../../../../../components/FileUpload';
-import { categories } from '../../../../../../constants/files';
-import { createValidator } from '../../../../../../utils/validator';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../constants/propTypes';
+import FileUpload from '../../FileUpload';
+import { categories } from '../../../constants/files';
+import { createValidator } from '../../../utils/validator';
 import UploadingFile from '../UploadingFile';
+import { targetTypes } from '../constants';
 import './UploadModal.scss';
 
 const FORM_NAME = 'userUploadModal';
 const attributeLabels = {
-  title: 'File title',
+  name: 'File title',
   category: 'Choose category',
 };
 const validator = createValidator({
-  title: ['required', 'string', 'min:3'],
+  name: ['required', 'string', 'min:3'],
   category: ['required', 'string', `in:${Object.keys(categories).join()}`],
 }, attributeLabels, false);
 
@@ -35,18 +37,30 @@ class UploadModal extends Component {
     handleSubmit: PropTypes.func,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onUploadFile: PropTypes.func.isRequired,
     onCancelFile: PropTypes.func.isRequired,
     onManageNote: PropTypes.func.isRequired,
+    uploadFile: PropTypes.func.isRequired,
+    targetType: PropTypes.string,
+    fileInitialValues: PropTypes.object,
+    targetUuid: PropTypes.string,
   };
 
   handleSubmit = (data) => {
-    const result = this.props.uploading.reduce((res, file) => ({
+    const { uploading, fileInitialValues } = this.props;
+    const result = uploading.reduce((res, file) => ({
       ...res,
-      [file.fileUUID]: data[file.id],
+      [file.fileUUID]: {
+        ...data[file.id],
+        ...fileInitialValues,
+      },
     }), {});
 
     return this.props.onSubmit(result);
+  };
+
+  handleUploadFile = (errors, files) => {
+    Object.keys(files)
+      .forEach(index => this.props.uploadFile(files[index], errors[index], this.props.targetUuid));
   };
 
   renderFile = (item, index) => (
@@ -56,6 +70,7 @@ class UploadModal extends Component {
       data={item}
       onCancelClick={this.props.onCancelFile}
       onManageNote={this.props.onManageNote}
+      targetType={this.props.targetType}
     />
   );
 
@@ -64,9 +79,18 @@ class UploadModal extends Component {
       <thead>
         <tr>
           <th className="uploading-files__header-number" />
-          <th className="uploading-files__header-name">Name</th>
-          <th className="uploading-files__header-category">Category</th>
-          <th className="uploading-files__header-status">Status</th>
+          <th className="uploading-files__header-name">
+            {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
+          </th>
+          {
+            this.props.targetType === targetTypes.FILES &&
+            <th className="uploading-files__header-category">
+              {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
+            </th>
+          }
+          <th className="uploading-files__header-status">
+            {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}
+          </th>
           <th className="uploading-files__header-note" />
         </tr>
       </thead>
@@ -80,7 +104,9 @@ class UploadModal extends Component {
     ? this.renderFilesTable()
     : (
       <div className="text-center">
-        <span className="text-muted font-size-12">There are no uploaded files</span>
+        <span className="text-muted font-size-12">
+          {I18n.t('FILES.UPLOAD_MODAL.NO_UPLOADED')}
+        </span>
       </div>
     );
 
@@ -92,30 +118,34 @@ class UploadModal extends Component {
       invalid,
       submitting,
       handleSubmit,
-      onUploadFile,
     } = this.props;
 
     return (
       <Modal isOpen keyboard={false} backdrop="static" className="upload-modal" toggle={onClose}>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
-          <ModalHeader toggle={onClose}>File upload</ModalHeader>
+          <ModalHeader toggle={onClose}>
+            {I18n.t('FILES.UPLOAD_MODAL.TITLE')}
+          </ModalHeader>
           <ModalBody>
-            <div className="text-center">
-              <strong>You are about to upload file(s) to {profile.fullName}</strong> - {profile.shortUUID}
-              {' '}
-              <strong>account</strong>
-            </div>
-
+            <div
+              className="text-center font-weight-700"
+              dangerouslySetInnerHTML={{
+                __html: I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT', {
+                  fullName: profile.fullName,
+                  shortUUID: `<span class="font-weight-100">${profile.shortUUID}</span>`,
+                }),
+              }}
+            />
             <div className="margin-vertical-20">
               {this.renderFiles()}
             </div>
             <div className="row">
               <div className="col-md-12 text-center">
                 <FileUpload
-                  label="+ Add files"
+                  label={`+ ${I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}`}
                   allowedSize={2}
                   allowedTypes={['image/jpeg', 'image/png']}
-                  onChosen={onUploadFile}
+                  onChosen={this.handleUploadFile}
                   singleMode={false}
                 />
               </div>
@@ -130,7 +160,7 @@ class UploadModal extends Component {
                   className="btn btn-default-outline text-uppercase"
                   onClick={onClose}
                 >
-                  Cancel
+                  {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </button>
               </div>
               <div className="col-md-6 text-right">
@@ -138,7 +168,7 @@ class UploadModal extends Component {
                   disabled={submitting || invalid || uploading.length === 0 || uploading.some(i => i.uploading)}
                   className="btn btn-primary text-uppercase"
                 >
-                  Confirm
+                  {I18n.t('COMMON.BUTTONS.CONFIRM')}
                 </button>
               </div>
             </div>
