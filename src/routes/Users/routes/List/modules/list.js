@@ -12,8 +12,14 @@ import shallowEqual from '../../../../../utils/shallowEqual';
 const KEY = 'users';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
+const RESET = `${KEY}/reset`;
 
 const fetchESEntities = usersActionCreators.fetchESEntities(FETCH_ENTITIES);
+function reset() {
+  return {
+    type: RESET,
+  };
+}
 
 function exportEntities(filters = {}) {
   return async (dispatch, getState) => {
@@ -44,10 +50,28 @@ function exportEntities(filters = {}) {
   };
 }
 
+const initialState = {
+  entities: {
+    first: null,
+    last: null,
+    number: null,
+    numberOfElements: null,
+    size: null,
+    sort: null,
+    totalElements: null,
+    totalPages: null,
+    content: [],
+  },
+  filters: {},
+  isLoading: false,
+  error: null,
+  receivedAt: null,
+  exporting: false,
+};
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
-    filters: action.meta.filters,
+    filters: { ...action.meta.filters },
     isLoading: true,
     error: null,
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
@@ -85,31 +109,17 @@ const actionHandlers = {
     ...state,
     exporting: false,
   }),
-};
-const initialState = {
-  entities: {
-    first: null,
-    last: null,
-    number: null,
-    numberOfElements: null,
-    size: null,
-    sort: null,
-    totalElements: null,
-    totalPages: null,
-    content: [],
-  },
-  filters: {},
-  isLoading: false,
-  error: null,
-  receivedAt: null,
-  exporting: false,
+  [RESET]: () => ({ ...initialState }),
 };
 const actionTypes = {
   FETCH_ENTITIES,
+  EXPORT_ENTITIES,
+  RESET,
 };
 const actionCreators = {
   fetchESEntities,
   exportEntities,
+  reset,
 };
 
 export {
