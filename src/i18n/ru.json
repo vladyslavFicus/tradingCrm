@@ -20,8 +20,9 @@
     "METHODS": {
       "LIMITS": {
         "NOT_LIMITED": "Не ограничен",
-        "UNAVAILABLE": "Недоступен",
-        "DISABLED": "Отключен"
+        "DISABLED": "Отключен",
+        "NOT_AVAILABLE": "Недоступен",
+        "UNDEFINED": "Не определен"
       },
       "AVAILABILITY": {
         "TAB": {
@@ -53,9 +54,38 @@
       "VERIFY_PERSONAL_DATA_DESCRIPTION": "Чтобы получить подтверждение, мы требуем, по крайней мере, одного действительного доказательства идентификации. Идентификация или проверка паспорта должны быть четкими, с четким изображением, читабельным, а не просроченным или поврежденным.",
       "VERIFY_ADDRESS_DATA_TITLE": "Адрес",
       "VERIFY_ADDRESS_DATA_DESCRIPTION": "Подтверждением адреса может быть любой документ с указанием вашего имени и доказательство адреса И дата выдачи не старше 6 месяцев с момента предоставления."
+    },
+    "GAME_ACTIVITY": {
+      "FILTER_FORM": {
+        "KEYWORD_LABEL": "Поиск по",
+        "PROVIDERS_LABEL": "Провайдеры",
+        "GAMES_LABEL": "Игры",
+        "GAME_TYPES_LABEL": "Типы игр",
+        "BET_TYPES_LABEL": "Типы ставок",
+        "WIN_TYPES_LABEL": "Типы выигрышей",
+        "START_DATE_LABEL": "Начальная дата",
+        "END_DATE_LABEL": "Конечная дата",
+        "KEYWORD_INPUT_PLACEHOLDER": "ID Раунда, ID Игры, ID Провайдера",
+        "ACTIVITY_DATE_RANGE": "Временной диапазон"
+      },
+      "PENDING_STATUS": "Ожидает",
+      "TITLE": "Игровая активность",
+      "GRID_VIEW": {
+        "GAME_ROUND": "Раунд",
+        "GAME": "Игра",
+        "BET_DATE": "Дата ставки",
+        "BET_AMOUNT": "Сумма ставки",
+        "WIN_DATE": "Дата выигрыша",
+        "WIN_AMOUNT": "Сумма выигрыша"
+      }
     }
   },
   "COMMON": {
-    "SAVE_CHANGES": "Сохранить изменения"
+    "SAVE_CHANGES": "Сохранить изменения",
+    "ANY": "Любые",
+    "RESET": "Сбросить",
+    "APPLY": "Применить",
+    "ROLLBACK": "Rollback",
+    "EXPORT": "Экспорт"
   }
 }

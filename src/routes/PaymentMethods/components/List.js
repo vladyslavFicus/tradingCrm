@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import Panel, { Title, Content } from '../../../components/Panel';
 import SortableGridView from '../../../components/GridView/SortableGridView';
 import { GridColumn } from '../../../components/GridView';
@@ -136,14 +137,18 @@ class List extends Component {
   );
 
   renderLimitRepresentation = (data, column) => {
-    const { disabled, min, max, currencyCode } = data[column.name];
+    const { disabled, available, min, max, currencyCode } = data[column.name];
+
+    if (!available) {
+      return <span className="color-warning">{I18n.t('PAYMENT.METHODS.LIMITS.NOT_AVAILABLE')}</span>;
+    }
 
     if (disabled) {
-      return <span className="color-danger">Disabled</span>;
+      return <span className="color-danger">{I18n.t('PAYMENT.METHODS.LIMITS.DISABLED')}</span>;
     }
 
     if (!min && !max) {
-      return <span>Not limited</span>;
+      return <span>{I18n.t('PAYMENT.METHODS.LIMITS.NOT_LIMITED')}</span>;
     }
 
     if (min && max) {
@@ -164,7 +169,7 @@ class List extends Component {
       return <span> max. <Amount amount={max} currency={currencyCode} /> </span>;
     }
 
-    return 'unavailable';
+    return I18n.t('PAYMENT.METHODS.LIMITS.UNDEFINED');
   };
 
   renderLimit = (data, column) => {
