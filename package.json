@@ -130,6 +130,7 @@
     "react-addons-test-utils": "^15.4.2",
     "react-addons-transition-group": "^15.4.2",
     "react-bootstrap": "^0.30.8",
+    "react-custom-scrollbars": "^4.1.1",
     "react-dates": "^9.0.1",
     "react-datetime": "^2.8.8",
     "react-dom": "^15.4.2",

@@ -127,10 +127,10 @@ class View extends Component {
     return (
       <div>
         <div className="row margin-bottom-20">
-          <div className="col-sm-2 col-xs-6">
+          <div className="col-sm-3 col-xs-6">
             <span className="font-size-20">Limits</span>
           </div>
-          <div className="col-sm-10 col-xs-6 text-right">
+          <div className="col-sm-9 col-xs-6 text-right">
             <button
               className="btn btn-sm btn-primary-outline"
               onClick={this.handleOpenCreateLimitModal}
