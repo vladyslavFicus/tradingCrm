@@ -82,11 +82,18 @@
   },
   "COMMON": {
     "SAVE_CHANGES": "Save changes",
-    "ANY": "Any",
     "RESET": "Reset",
     "APPLY": "Apply",
-    "ROLLBACK": "Rollback",
     "EXPORT": "Export",
+    "FROM": "From",
+    "EMAIL": "E-mail",
+    "PHONE": "Phone",
+    "DEPARTMENT": "Department",
+    "ROLE": "Role",
+    "PLAYER": "Player",
+    "DEPARTMENTS": "Departments",
+    "ANY": "Any",
+    "ROLLBACK": "Rollback",
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm"
@@ -119,19 +126,6 @@
       "WARNING_TEXT": "This action can not be undone!",
       "ACTION_TEXT": "You are about to delete file %{fileName} from %{fullName} - %{shortUUID} - account"
     }
-  },
-  "COMMON": {
-    "SAVE_CHANGES": "Save changes",
-    "RESET": "Reset",
-    "APPLY": "Apply",
-    "EXPORT": "Export",
-    "FROM": "From",
-    "EMAIL": "E-mail",
-    "PHONE": "Phone",
-    "DEPARTMENT": "Department",
-    "ROLE": "Role",
-    "PLAYER": "Player",
-    "DEPARTMENTS": "Departments"
   },
   "CONSTANTS": {
     "AUDIT": {

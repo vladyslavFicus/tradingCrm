@@ -82,11 +82,18 @@
   },
   "COMMON": {
     "SAVE_CHANGES": "Сохранить изменения",
-    "ANY": "Любые",
     "RESET": "Сбросить",
     "APPLY": "Применить",
-    "ROLLBACK": "Rollback",
     "EXPORT": "Экспорт",
+    "FROM": "С",
+    "EMAIL": "E-mail",
+    "PHONE": "Телефон",
+    "DEPARTMENT": "Департамент",
+    "ROLE": "Роль",
+    "PLAYER": "Игрок",
+    "DEPARTMENTS": "Департаменты",
+    "ANY": "Любые",
+    "ROLLBACK": "Rollback",
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить"
@@ -119,19 +126,6 @@
       "WARNING_TEXT": "Это действие не может быть отменено!",
       "ACTION_TEXT": "Вы собираетесь удалить файл %{fileName} игроку %{fullName} - %{shortUUID} - запись"
     }
-  },
-  "COMMON": {
-    "SAVE_CHANGES": "Сохранить изменения",
-    "RESET": "Сбросить",
-    "APPLY": "Применить",
-    "EXPORT": "Экспорт",
-    "FROM": "С",
-    "EMAIL": "E-mail",
-    "PHONE": "Телефон",
-    "DEPARTMENT": "Департамент",
-    "ROLE": "Роль",
-    "PLAYER": "Игрок",
-    "DEPARTMENTS": "Департаменты"
   },
   "CONSTANTS": {
     "AUDIT": {
