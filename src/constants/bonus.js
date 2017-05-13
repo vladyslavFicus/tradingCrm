@@ -10,6 +10,7 @@ const statuses = keyMirror({
 });
 const types = keyMirror({
   FirstDeposit: null,
+  PlayerProfileCompleted: null,
   Manual: null,
 });
 const assign = keyMirror({
@@ -27,6 +28,7 @@ const statusesLabels = {
 };
 const typesLabels = {
   [types.FirstDeposit]: 'Welcome',
+  [types.PlayerProfileCompleted]: 'Profile completed',
   [types.Manual]: 'No deposit',
 };
 const assignLabels = {

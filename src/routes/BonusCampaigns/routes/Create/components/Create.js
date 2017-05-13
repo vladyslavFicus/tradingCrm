@@ -15,25 +15,27 @@ export default class Create extends Component {
   render() {
     const { currencies } = this.props;
 
-    return <div className="page-content-inner">
-      <Panel>
-        <Title>
-          <h3>Create new campaign</h3>
-        </Title>
+    return (
+      <div className="page-content-inner">
+        <Panel>
+          <Title>
+            <h3>Create new campaign</h3>
+          </Title>
 
-        <Content>
-          <div className="row">
-            <div className="col-lg-8">
-              <div className="margin-bottom-50">
-                <ManageForm
-                  onSubmit={this.handleSubmit}
-                  currencies={currencies}
-                />
+          <Content>
+            <div className="row">
+              <div className="col-lg-8">
+                <div className="margin-bottom-50">
+                  <ManageForm
+                    onSubmit={this.handleSubmit}
+                    currencies={currencies}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </Content>
-      </Panel>
-    </div>;
+          </Content>
+        </Panel>
+      </div>
+    );
   }
 }
