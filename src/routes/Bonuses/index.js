@@ -1,5 +1,4 @@
 import { injectReducer } from 'store/reducers';
-import CreateRoute from './routes/Create';
 
 export default (store) => ({
   path: '/bonuses',
@@ -13,8 +12,4 @@ export default (store) => ({
       cb(null, require('./layouts/Bonuses').default);
     }, 'bonuses-list');
   },
-
-  childRoutes: [
-    CreateRoute(store),
-  ],
 });
