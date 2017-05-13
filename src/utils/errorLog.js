@@ -24,7 +24,7 @@ const sendError = (params) => {
     },
     body: JSON.stringify({
       ...params,
-      _brand: getBrand(),
+      brand: getBrand(),
     }),
   });
 };
