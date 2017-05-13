@@ -135,6 +135,7 @@
     "react-datetime": "^2.8.8",
     "react-dom": "^15.4.2",
     "react-infinite-scroller": "^1.0.7",
+    "react-notification-system": "^0.2.14",
     "react-onclickoutside": "^5.10.0",
     "react-phone-input": "^1.2.1",
     "react-placeholder": "^1.0.1",
