@@ -53,20 +53,43 @@ class View extends Component {
     verifyEmail: PropTypes.func.isRequired,
   };
 
+  static contextTypes = {
+    onAddNotification: PropTypes.func.isRequired,
+  };
+
   state = {
     modal: { ...modalInitialState },
   };
 
-  handleSubmitKYC = type => (data) => {
+  handleSubmitKYC = type => async (data) => {
     const { params: { id }, submitData } = this.props;
 
-    return submitData(id, type, data);
+    const action = await submitData(id, type, data);
+    if (action) {
+      this.context.onAddNotification({
+        level: action.error ? 'error' : 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
+        message: `Update ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    }
+
+    return action;
   };
 
-  handleSubmitContact = (data) => {
+  handleSubmitContact = async (data) => {
     const { params, updateProfile } = this.props;
 
-    return updateProfile(params.id, { phoneNumber: data.phoneNumber });
+    const action = await updateProfile(params.id, { phoneNumber: data.phoneNumber });
+    if (action) {
+      this.context.onAddNotification({
+        level: action.error ? 'error' : 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
+          ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    }
+    return action;
   };
 
   handleVerify = type => async () => {

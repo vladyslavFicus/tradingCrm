@@ -27,6 +27,7 @@ const config = {
     },
   },
   nas: {
+    brand: '',
     currencies: {
       base: null,
       supported: [],
@@ -120,6 +121,10 @@ function getErrorApiUrl() {
   return config.nas.logstash.url || '';
 }
 
+function getBrand() {
+  return config.nas.brand;
+}
+
 function getAvailableLanguages() {
   return config.nas.locale.languages || [];
 }
@@ -130,6 +135,7 @@ function getDomain() {
 
 export {
   getApiRoot,
+  getBrand,
   getErrorApiUrl,
   getDomain,
   getAvailableTags,

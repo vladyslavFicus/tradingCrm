@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import Switch from '../../../../components/Forms/Switch';
+import { I18n } from 'react-redux-i18n';
+import Switch from '../../../../../components/Forms/Switch/index';
+import { marketingTypes } from './constants';
 
 const SUBSCRIPTION_TYPE_SMS = 'marketingSMS';
 const SUBSCRIPTION_TYPE_NEWS = 'marketingNews';
@@ -11,8 +13,23 @@ class Additional extends Component {
     updateSubscription: PropTypes.func.isRequired,
   };
 
-  handleSwitch = name => (value) => {
-    this.props.updateSubscription(name, value);
+  static contextTypes = {
+    onAddNotification: PropTypes.func.isRequired,
+  };
+
+  handleSwitch = name => async (value) => {
+    const action = await this.props.updateSubscription(name, value);
+    if (action) {
+      const message = `${I18n.t(marketingTypes[name])}
+          ${value ? I18n.t('COMMON.ACTIONS.ON') : I18n.t('COMMON.ACTIONS.OFF')}
+          ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`;
+
+      this.context.onAddNotification({
+        level: action.error ? 'error' : 'success',
+        title: I18n.t('PLAYER_PROFILE.MARKETING.TITLE'),
+        message,
+      });
+    }
   };
 
   render() {

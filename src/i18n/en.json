@@ -78,6 +78,12 @@
         "WIN_DATE": "Win date",
         "WIN_AMOUNT": "Win amount"
       }
+    },
+    "MARKETING": {
+      "MAIL": "Snail mail",
+      "NEWS": "News",
+      "SMS": "SMS",
+      "TITLE": "Marketing"
     }
   },
   "COMMON": {
@@ -97,6 +103,13 @@
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm"
+    },
+    "ACTIONS": {
+      "ON": "Turn on",
+      "OFF": "Turn off",
+      "UNSUCCESSFULLY": "Unsuccessfully",
+      "SUCCESSFULLY": "Successfully",
+      "UPDATED": "Updated"
     }
   },
   "FILES": {
