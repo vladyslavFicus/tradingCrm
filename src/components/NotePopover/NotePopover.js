@@ -201,54 +201,56 @@ class NotePopover extends Component {
         toggle={this.handleHide}
         target={target}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="popover-title">
-            {this.renderTitle()}
-          </div>
-          <PopoverContent>
-            <div className="row">
-              <div className="col-md-12">
-                <Field
-                  name="content"
-                  component={this.renderMessageField}
-                />
-              </div>
+        <div className="note-popover-container">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="popover-title">
+              {this.renderTitle()}
             </div>
+            <PopoverContent>
+              <div className="row">
+                <div className="col-md-12">
+                  <Field
+                    name="content"
+                    component={this.renderMessageField}
+                  />
+                </div>
+              </div>
 
-            <div className="row">
-              <div className="col-md-6">
-                <div className="color-default font-size-10">
-                  {currentValues && currentValues.content ? currentValues.content.length : 0}/{MAX_CONTENT_LENGTH}
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="color-default font-size-10">
+                    {currentValues && currentValues.content ? currentValues.content.length : 0}/{MAX_CONTENT_LENGTH}
+                  </div>
+
+                  <Field
+                    name="pinned"
+                    wrapperClassName="display-block font-size-12 margin-top-10"
+                    label="Pin"
+                    component={this.renderSwitchField}
+                  />
                 </div>
 
-                <Field
-                  name="pinned"
-                  wrapperClassName="display-block font-size-12 margin-top-10"
-                  label="Pin"
-                  component={this.renderSwitchField}
-                />
-              </div>
+                <div className="col-md-6 text-right margin-top-10">
+                  <button
+                    type="reset"
+                    className="btn btn-link btn-sm"
+                    onClick={() => this.handleHide(true)}
+                  >
+                    Cancel
+                  </button>
 
-              <div className="col-md-6 text-right margin-top-10">
-                <button
-                  type="reset"
-                  className="btn btn-link btn-sm"
-                  onClick={() => this.handleHide(true)}
-                >
-                  Cancel
-                </button>
-
-                <button
-                  type="submit"
-                  className="btn btn-success btn-sm text-uppercase"
-                  disabled={pristine || submitting || invalid}
-                >
-                  {item && item.uuid ? 'Update' : 'Save'}
-                </button>
+                  <button
+                    type="submit"
+                    className="btn btn-success btn-sm text-uppercase"
+                    disabled={pristine || submitting || invalid}
+                  >
+                    {item && item.uuid ? 'Update' : 'Save'}
+                  </button>
+                </div>
               </div>
-            </div>
-          </PopoverContent>
-        </form>
+            </PopoverContent>
+          </form>
+        </div>
       </Popover>
     );
   }
