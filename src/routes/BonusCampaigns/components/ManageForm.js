@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, getFormValues } from 'redux-form';
 import classNames from 'classnames';
 import moment from 'moment';
-import RemoteDateRangePickerWrapper from '../../../components/Forms/RemoteDateRangePickerWrapper';
+import DateTime from 'react-datetime';
 import { CustomValueField, SelectField, InputField } from '../../../components/ReduxForm';
 import { formErrorSelector } from '../../../utils/redux-form';
 import { createValidator } from '../../../utils/validator';
@@ -70,42 +70,11 @@ class ManageForm extends Component {
     currencies: [],
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      startDate: props.initialValues && props.initialValues.startDate !== undefined ?
-        moment(props.initialValues.startDate) : null,
-      endDate: props.initialValues && props.initialValues.endDate !== undefined ?
-        moment(props.initialValues.endDate) : null,
-    };
-  }
-
   componentDidMount() {
     if (typeof this.props.onMount === 'function') {
       this.props.onMount();
     }
   }
-
-  handleDatesChange = ({ startDate, endDate }) => {
-    const { change, fields } = this.props;
-
-    this.setState({ startDate, endDate }, () => {
-      if (startDate) {
-        const formattedDate = `${startDate.format('YYYY-MM-DD')}T00:00:00`;
-        if (fields.startDate !== formattedDate) {
-          change('startDate', formattedDate);
-        }
-      }
-
-      if (endDate) {
-        const formattedDate = `${endDate.format('YYYY-MM-DD')}T23:59:59`;
-        if (fields.endDate !== formattedDate) {
-          change('endDate', formattedDate);
-        }
-      }
-    });
-  };
 
   handleResetForm = () => {
     this.handleDatesChange({ startDate: null, endDate: null });
@@ -113,9 +82,61 @@ class ManageForm extends Component {
     this.props.reset();
   };
 
+  handleDateTimeChange = callback => (value) => {
+    callback(value ? value.format('YYYY-MM-DDTHH:mm:00') : '');
+  };
+
+  startDateValidator = toAttribute => (current) => {
+    const { fields: currentValues } = this.props;
+
+    return current.isSameOrAfter(moment().subtract(1, 'd')) && (
+        currentValues[toAttribute]
+          ? current.isSameOrBefore(moment(currentValues[toAttribute]))
+          : true
+      );
+  };
+
+  endDateValidator = fromAttribute => (current) => {
+    const { fields: currentValues } = this.props;
+
+    return current.isSameOrAfter(moment().subtract(1, 'd')) && (
+        currentValues[fromAttribute]
+          ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
+          : true
+      );
+  };
+
+  renderDateField = ({ input, label, placeholder, disabled, meta: { touched, error }, isValidDate }) => (
+    <div className={classNames('form-group row', { 'has-danger': touched && error })}>
+      <div className="col-md-3">
+        <label className="form-control-label">
+          {label}
+        </label>
+      </div>
+      <div className="col-md-9">
+        <div className="input-group">
+          <DateTime
+            dateFormat="MM/DD/YYYY"
+            timeFormat="HH:mm"
+            onChange={this.handleDateTimeChange(input.onChange)}
+            value={input.value ? moment(input.value) : null}
+            closeOnSelect
+            inputProps={{
+              disabled,
+              placeholder,
+            }}
+            isValidDate={isValidDate}
+          />
+          <span className="input-group-addon">
+          <i className="fa fa-calendar" />
+        </span>
+        </div>
+      </div>
+    </div>
+  );
+
   render() {
-    const { startDate, endDate } = this.state;
-    const { handleSubmit, pristine, submitting, onSubmit, errors, disabled, currencies } = this.props;
+    const { handleSubmit, pristine, submitting, onSubmit, errors, disabled, currencies, invalid } = this.props;
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -192,30 +213,19 @@ class ManageForm extends Component {
           ))}
         </Field>
 
-        <div className={classNames('form-group row', { 'has-danger': errors.startDate || errors.endDate })}>
-          <div className="col-md-3">
-            <label className="form-control-label">Period</label>
-          </div>
-          <div className="col-md-9">
-            <RemoteDateRangePickerWrapper
-              isOutsideRange={day => day <= moment()}
-              onDatesChange={this.handleDatesChange}
-              startDate={startDate}
-              endDate={endDate}
-              disabled={disabled}
-            />
+        <Field
+          name="startDate"
+          label="Start date"
+          component={this.renderDateField}
+          isValidDate={this.startDateValidator('endDate')}
+        />
 
-            <Field type="hidden" component="input" name="startDate" />
-            <Field type="hidden" component="input" name="endDate" />
-
-            {errors.startDate && <div className="form-control-feedback">
-              {errors.startDate}
-            </div>}
-            {errors.endDate && <div className="form-control-feedback">
-              {errors.endDate}
-            </div>}
-          </div>
-        </div>
+        <Field
+          name="endDate"
+          label="End date"
+          component={this.renderDateField}
+          isValidDate={this.endDateValidator('startDate')}
+        />
 
         <div className={classNames('form-group row')}>
           <div className="col-md-9 col-md-offset-3">
@@ -237,7 +247,7 @@ class ManageForm extends Component {
             <div className="col-md-9 col-md-offset-3">
               <button
                 type="submit"
-                disabled={submitting}
+                disabled={submitting || invalid}
                 className="btn width-150 btn-primary"
               >
                 Submit
@@ -264,6 +274,6 @@ const ManageReduxForm = reduxForm({
   validate: validator,
 })(ManageForm);
 export default connect(state => ({
-  fields: getFormValues(FORM_NAME)(state),
+  fields: getFormValues(FORM_NAME)(state) || {},
   errors: errorSelector(state),
 }), {})(ManageReduxForm);

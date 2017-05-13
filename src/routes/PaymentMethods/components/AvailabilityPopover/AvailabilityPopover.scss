@@ -1,7 +1,4 @@
-.popover {
-  max-width: 350px;
-  width: 350px;
-
+.availability-popover-container {
   .popover-title {
     background: #FFFDE6;
     border: none;
@@ -27,6 +24,7 @@
   }
 
   .nav-tabs {
+    margin-top: 0;
     border-bottom: none;
     font-weight: 700;
   }
@@ -43,6 +41,3 @@
     background: white;
   }
 }
-
-
-
