@@ -3,6 +3,35 @@
   width: 400px !important;
   background-color: #FFFDE6;
 
+  .popover-title {
+    background: #FFFDE6;
+    border: none;
+  }
+
+  .popover-content {
+    background: #FFFDE6;
+  }
+
+  .popover-arrow {
+    display: none;
+  }
+}
+
+.add-note-popover {
+
+  .popover-title {
+    padding-bottom: 0;
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  .popover-content {
+    padding-top: 0;
+    .form-group {
+      margin-bottom: 0;
+    }
+  }
+
   textarea {
     padding: 2px;
     border-radius: 0;
@@ -13,25 +42,5 @@
       linear-gradient(to right, white 0px, transparent 0px),
       linear-gradient(to left, white 0px, transparent 0px),
       repeating-linear-gradient(#FFFDE6, #FFFDE6 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
-  }
-
-  .popover-title {
-    padding-bottom: 0;
-    font-size: 16px;
-    font-weight: normal;
-    background: #FFFDE6;
-    border: none;
-  }
-
-  .popover-content {
-    padding-top: 0;
-    background: #FFFDE6;
-    .form-group {
-      margin-bottom: 0;
-    }
-  }
-
-  .popover-arrow {
-    display: none;
   }
 }
