@@ -12,14 +12,14 @@ function createCampaign(data) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns`,
+        endpoint: 'promotion/campaigns',
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, optIn: data.optIn || false }),
         types: [
           CAMPAIGN_CREATE.REQUEST,
           CAMPAIGN_CREATE.SUCCESS,
@@ -32,12 +32,12 @@ function createCampaign(data) {
 }
 
 const actionHandlers = {
-  [CAMPAIGN_CREATE.REQUEST]: (state, action) => ({
+  [CAMPAIGN_CREATE.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [CAMPAIGN_CREATE.SUCCESS]: (state, action) => ({
+  [CAMPAIGN_CREATE.SUCCESS]: state => ({
     ...state,
     isLoading: false,
     receivedAt: timestamp(),

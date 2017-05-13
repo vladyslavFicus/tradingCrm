@@ -20,11 +20,13 @@ const statusesLabels = {
 };
 
 const eventTypes = keyMirror({
-  FirstDeposit: null,
+  FIRST_DEPOSIT: null,
+  PROFILE_COMPLETED: null,
 });
 
 const eventTypesLabels = {
-  [eventTypes.FirstDeposit]: 'First deposit',
+  [eventTypes.FIRST_DEPOSIT]: 'First deposit',
+  [eventTypes.PROFILE_COMPLETED]: 'Profile completed',
 };
 
 export {

@@ -4,6 +4,7 @@
 
 const applicationConfig = {
   'api.entry': 'http://api.casino.app',
+  'nas.brand': 'local',
   'nas.locale.defaultLanguage': 'en',
   'nas.locale.languages[0].value': 'en',
   'nas.locale.languages[0].label': 'ENG',

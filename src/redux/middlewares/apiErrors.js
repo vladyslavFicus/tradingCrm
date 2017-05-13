@@ -4,9 +4,16 @@ const regExp = new RegExp('-failure$');
 
 export default () => next => (action) => {
   if (action && action.error && regExp.test(action.type)) {
+    const message = `${errorTypes.API} error`;
+    const errorType = errorTypes.API;
+
     const error = {
-      errorType: errorTypes.API,
-      message: `${errorTypes.API} error`,
+      errorType,
+      message,
+      response: {
+        error: errorType,
+        error_description: message,
+      },
     };
 
     if (action.type) {
@@ -14,7 +21,9 @@ export default () => next => (action) => {
     }
 
     if (action.payload && action.payload.status) {
-      error.errorCode = action.payload.status;
+      const errorCode = action.payload.status;
+      error.errorCode = errorCode;
+      error.response.error = errorCode;
     }
 
     if (action.payload && action.payload.response) {
