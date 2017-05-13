@@ -108,7 +108,7 @@ function createBonus(data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...data, bonusType: bonusTypes.Manual }),
+        body: JSON.stringify({ ...data, bonusType: bonusTypes.Manual, optIn: data.optIn || false }),
         types: [
           CREATE_BONUS.REQUEST,
           CREATE_BONUS.SUCCESS,

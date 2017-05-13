@@ -84,6 +84,30 @@
       "NEWS": "News",
       "SMS": "SMS",
       "TITLE": "Marketing"
+    },
+    "BONUS": {
+      "MODAL_CREATE": {
+        "TITLE": "Manual bonus",
+        "CHOOSE_CURRENCY": "-- Choose currency --"
+      },
+      "CANCEL_BONUS": "Cancel bonus",
+      "PLAYER_NOT_FOUND": "Player not found",
+      "MANUAL_CREATION_FAILURE": "Error",
+      "CREATED_BY_CAMPAIGN": "by Campaign %{uuid}",
+      "CREATED_BY_OPERATOR": "by Operator %{uuid}",
+      "AMOUNT_TO_WAGE_PREPENDED_TEXT": "out of",
+      "TITLE": "Bonus",
+      "MANUAL_BONUS_BUTTON": "+ Manual bonus",
+      "GRID_VIEW": {
+        "BONUS": "Bonus",
+        "AVAILABLE": "Available",
+        "PRIORITY": "Priority",
+        "GRANTED": "Granted",
+        "WAGERED": "Wagered",
+        "TO_WAGER": "To wager",
+        "BONUS_TYPE": "Bonus type",
+        "BONUS_STATUS": "Status"
+      }
     }
   },
   "COMMON": {
@@ -110,7 +134,8 @@
       "UNSUCCESSFULLY": "Unsuccessfully",
       "SUCCESSFULLY": "Successfully",
       "UPDATED": "Updated"
-    }
+    },
+    "CLOSE": "Close"
   },
   "FILES": {
     "UPLOAD_MODAL": {

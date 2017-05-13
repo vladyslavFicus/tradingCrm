@@ -84,6 +84,30 @@
       "NEWS": "Новости",
       "SMS": "СМС",
       "TITLE": "Маркетинг"
+    },
+    "BONUS": {
+      "MODAL_CREATE": {
+        "TITLE": "Мануальный бонус",
+        "CHOOSE_CURRENCY": "-- Выберите валюту --"
+      },
+      "CANCEL_BONUS": "Отменить бонус",
+      "PLAYER_NOT_FOUND": "Игрок не найден",
+      "MANUAL_CREATION_FAILURE": "Не удалось создать бонус",
+      "CREATED_BY_CAMPAIGN": "Кампания",
+      "CREATED_BY_OPERATOR": "Оператор",
+      "AMOUNT_TO_WAGE_PREPENDED_TEXT": "из",
+      "TITLE": "Бонус",
+      "MANUAL_BONUS_BUTTON": "+ Мануальный бонус",
+      "GRID_VIEW": {
+        "BONUS": "Бонус",
+        "AVAILABLE": "Доступен",
+        "PRIORITY": "Приоритет",
+        "GRANTED": "Выдано",
+        "WAGERED": "Поставлено",
+        "TO_WAGER": "К ставке",
+        "BONUS_TYPE": "Тип бонуса",
+        "BONUS_STATUS": "Статус"
+      }
     }
   },
   "COMMON": {
@@ -110,7 +134,8 @@
       "UNSUCCESSFULLY": "Неуспешно",
       "SUCCESSFULLY": "Успешно",
       "UPDATED": "Обновлено"
-    }
+    },
+    "CLOSE": "Закрыть"
   },
   "FILES": {
     "UPLOAD_MODAL": {

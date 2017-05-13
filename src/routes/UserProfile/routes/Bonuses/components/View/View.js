@@ -169,7 +169,7 @@ class View extends Component {
       >
         {data.label}
       </div>
-      <div className="text-muted font-size-10">{shortify(data.bonusUUID, 'BM')}</div>
+      <div className="text-muted font-size-10">{shortify(data.bonusUUID)}</div>
       {
         !!data.campaignUUID &&
         <div className="text-muted font-size-10">
