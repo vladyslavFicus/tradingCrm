@@ -201,7 +201,7 @@ class NotePopover extends Component {
         toggle={this.handleHide}
         target={target}
       >
-        <div className="add-note-popover">
+        <div className="note-popover-container">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="popover-title">
               {this.renderTitle()}
