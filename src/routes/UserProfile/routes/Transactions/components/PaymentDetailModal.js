@@ -72,8 +72,8 @@ class PaymentDetailModal extends Component {
       modalStaticParams: {
         title: 'Withdrawal rejection',
         actionButtonLabel: 'Reject withdraw transaction',
-        actionDescription: `You are about to reject withdraw transaction ' +
-        '${shortify(payment.paymentId, 'TA')} from`,
+        actionDescription: `You are about to reject withdraw transaction
+          ${shortify(payment.paymentId, 'TA')} from'`,
       },
     });
   };
@@ -89,8 +89,8 @@ class PaymentDetailModal extends Component {
       modalStaticParams: {
         actionButtonLabel: 'Confirm',
         title: 'Deposit chargeback',
-        actionDescription: 'You are about to mark the deposit transaction ' +
-        `${shortify(payment.paymentId, 'TA')} as chargeback in`,
+        actionDescription: `You are about to mark the deposit transaction
+        ${shortify(payment.paymentId, 'TA')} as chargeback in`,
       },
     });
   };
