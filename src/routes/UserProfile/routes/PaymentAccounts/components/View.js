@@ -22,6 +22,7 @@ class View extends Component {
     changeFileStatusByAction: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     fetchFilesAndNotes: PropTypes.func.isRequired,
+    currencyCode: PropTypes.string,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -133,18 +134,21 @@ class View extends Component {
   };
 
   renderAggregateAmount = (data, column) => {
+    const { currencyCode } = this.props;
     const aggregate = data[column.name];
     if (!aggregate) {
       return null;
     }
 
+    const total = aggregate.total ? aggregate.total : { amount: 0, currency: currencyCode };
+
     return (
       <div>
         <div className="font-weight-700">
-          <Amount {...aggregate.total} />
+          <Amount {...total} />
         </div>
         <span className="font-size-10 color-default">
-          {I18n.t('COMMON.COUNT')}: {aggregate.count}
+          {I18n.t('COMMON.COUNT')}: {aggregate.number}
         </span>
       </div>
     );
@@ -207,7 +211,7 @@ class View extends Component {
               className="btn btn-sm btn-primary-outline"
               onClick={() => this.handleUploadFileClick(data)}
             >
-              + {I18n.t('COMMON.BUTTONS.UPLOAD_FILE')}
+              {I18n.t('COMMON.BUTTONS.UPLOAD_FILE')}
             </button>
           </div>
         </div>
@@ -264,12 +268,12 @@ class View extends Component {
             render={this.renderLastPaymentDate}
           />
           <GridColumn
-            name="withdraws"
+            name="totalWithdraws"
             header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.WITHDRAWS')}
             render={this.renderAggregateAmount}
           />
           <GridColumn
-            name="deposits"
+            name="totalDeposits"
             header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.DEPOSITS')}
             render={this.renderAggregateAmount}
           />

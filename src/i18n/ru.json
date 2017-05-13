@@ -116,7 +116,7 @@
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить",
-      "UPLOAD_FILE": "Загрузить файл"
+      "UPLOAD_FILE": "+ Загрузить файл"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -143,7 +143,7 @@
       "ACTION_TEXT": "Вы собираетесь загрузить файл(ы) игроку %{fullName} - %{shortUUID} - запись",
       "NO_UPLOADED": "Нет загруженных файлов",
       "BUTTONS": {
-        "ADD_FILES": "Добавить файлы"
+        "ADD_FILES": "+ Добавить файлы"
       }
     },
     "DELETE_MODAL": {

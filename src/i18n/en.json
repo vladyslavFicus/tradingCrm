@@ -116,7 +116,7 @@
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm",
-      "UPLOAD_FILE": "Upload file"
+      "UPLOAD_FILE": "+ Upload file"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -143,7 +143,7 @@
       "ACTION_TEXT": "You are about to upload file(s) to %{fullName} - %{shortUUID} - account",
       "NO_UPLOADED": "There are no uploaded files",
       "BUTTONS": {
-        "ADD_FILES": "Add files"
+        "ADD_FILES": "+ Add files"
       }
     },
     "DELETE_MODAL": {
