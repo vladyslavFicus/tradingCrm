@@ -7,16 +7,21 @@ export default class Create extends Component {
   handleSubmit = async (data) => {
     const action = await this.props.createCampaign(data);
 
-    if (action && !action.error) {
-      this.props.router.replace('/bonus-campaigns');
-    } else if (action.payload.field_errors) {
-      throw new SubmissionError(Object.keys(action.payload.field_errors).reduce((res, name) => ({
-        ...res,
-        [name]: action.payload.field_errors[name].error,
-      }), {}));
-    } else if (action.payload.error) {
-      throw new SubmissionError({ _error: action.payload.error });
+    if (action) {
+      if (!action.error) {
+        this.props.router.replace('/bonus-campaigns');
+      } else if (action.payload.response.fields_errors) {
+        const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
+          ...res,
+          [name]: action.payload.response.fields_errors[name].error,
+        }), {});
+        throw new SubmissionError(errors);
+      } else if (action.payload.response.error) {
+        throw new SubmissionError({ _error: action.payload.response.error });
+      }
     }
+
+    return action;
   };
 
   render() {
