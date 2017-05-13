@@ -22,7 +22,7 @@ const validator = createValidator({
   converted: 'required',
   wagered: 'required',
   currency: 'required',
-}, attributeLabels, false);
+}, Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}), false);
 
 class CreateModal extends Component {
   static propTypes = {
@@ -78,8 +78,8 @@ class CreateModal extends Component {
                 />
 
                 <Field
-                  name="prize"
-                  label={I18n.t(attributeLabels.prize)}
+                  name="capping"
+                  label={I18n.t(attributeLabels.capping)}
                   type="text"
                   disabled={disabled}
                   component={InputField}
@@ -114,8 +114,8 @@ class CreateModal extends Component {
                 />
 
                 <Field
-                  name="capping"
-                  label={I18n.t(attributeLabels.capping)}
+                  name="prize"
+                  label={I18n.t(attributeLabels.prize)}
                   type="text"
                   disabled={disabled}
                   component={InputField}
