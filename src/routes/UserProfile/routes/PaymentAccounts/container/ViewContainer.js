@@ -5,8 +5,10 @@ import { actionCreators as filesActionCreators } from '../../../modules/files';
 
 const mapStateToProps = ({
   userPaymentAccounts: { list: { items: paymentAccounts } },
+  profile: { profile: { data: { currencyCode } } },
 }) => ({
   paymentAccounts,
+  currencyCode,
 });
 
 const mapActions = {

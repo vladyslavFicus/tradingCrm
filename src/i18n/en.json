@@ -85,6 +85,19 @@
       "SMS": "SMS",
       "TITLE": "Marketing"
     },
+    "PAYMENT_ACCOUNT": {
+      "COLUMN": {
+        "PAYMENT_ACCOUNT": "Payment account",
+        "DATE_ADDED": "Date Added",
+        "LAST_PAYMENT": "Last Payment",
+        "WITHDRAWS": "Withdrawals",
+        "DEPOSITS": "Deposits",
+        "FILES": "Files",
+        "NOTE": "Note"
+      },
+      "TITLE": "Payments",
+      "ATTACHED_FILES": "Attached files"
+    },
     "BONUS": {
       "MODAL_CREATE": {
         "TITLE": "Manual bonus",
@@ -142,7 +155,8 @@
     "ROLLBACK": "Rollback",
     "BUTTONS": {
       "CANCEL": "Cancel",
-      "CONFIRM": "Confirm"
+      "CONFIRM": "Confirm",
+      "UPLOAD_FILE": "+ Upload file"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -151,6 +165,7 @@
       "SUCCESSFULLY": "Successfully",
       "UPDATED": "Updated"
     },
+    "COUNT": "Count",
     "CLOSE": "Close",
     "CANCEL": "Cancel",
     "SAVE": "Save",
@@ -173,7 +188,7 @@
       "ACTION_TEXT": "You are about to upload file(s) to %{fullName} - %{shortUUID} - account",
       "NO_UPLOADED": "There are no uploaded files",
       "BUTTONS": {
-        "ADD_FILES": "Add files"
+        "ADD_FILES": "+ Add files"
       }
     },
     "DELETE_MODAL": {
@@ -183,6 +198,15 @@
       },
       "WARNING_TEXT": "This action can not be undone!",
       "ACTION_TEXT": "You are about to delete file %{fileName} from %{fullName} - %{shortUUID} - account"
+    },
+    "GRID": {
+      "COLUMN": {
+        "NAME": "File",
+        "DATE_TIME": "Date & Time",
+        "CATEGORY": "Category",
+        "NOTE": "Note",
+        "STATUS": "Status"
+      }
     }
   },
   "CONSTANTS": {

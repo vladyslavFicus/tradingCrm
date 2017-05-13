@@ -142,7 +142,7 @@ class UploadModal extends Component {
             <div className="row">
               <div className="col-md-12 text-center">
                 <FileUpload
-                  label={`+ ${I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}`}
+                  label={I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}
                   allowedSize={2}
                   allowedTypes={['image/jpeg', 'image/png']}
                   onChosen={this.handleUploadFile}

@@ -85,6 +85,19 @@
       "SMS": "СМС",
       "TITLE": "Маркетинг"
     },
+    "PAYMENT_ACCOUNT": {
+      "COLUMN": {
+        "PAYMENT_ACCOUNT": "Платежный счет",
+        "DATE_ADDED": "Дата добавления",
+        "LAST_PAYMENT": "Последний платеж",
+        "WITHDRAWS": "Выводы",
+        "DEPOSITS": "Депозиты",
+        "FILES": "Файлы",
+        "NOTE": "Заметки"
+      },
+      "TITLE": "Платежи",
+      "ATTACHED_FILES": "Прикрепленные файлы"
+    },
     "BONUS": {
       "MODAL_CREATE": {
         "TITLE": "Мануальный бонус",
@@ -142,7 +155,8 @@
     "ROLLBACK": "Rollback",
     "BUTTONS": {
       "CANCEL": "Отменить",
-      "CONFIRM": "Подтвердить"
+      "CONFIRM": "Подтвердить",
+      "UPLOAD_FILE": "+ Загрузить файл"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -151,6 +165,7 @@
       "SUCCESSFULLY": "Успешно",
       "UPDATED": "Обновлено"
     },
+    "COUNT": "Количество",
     "CLOSE": "Закрыть",
     "CANCEL": "Отмена",
     "SAVE": "Сохранение",
@@ -173,7 +188,7 @@
       "ACTION_TEXT": "Вы собираетесь загрузить файл(ы) игроку %{fullName} - %{shortUUID} - запись",
       "NO_UPLOADED": "Нет загруженных файлов",
       "BUTTONS": {
-        "ADD_FILES": "Добавить файлы"
+        "ADD_FILES": "+ Добавить файлы"
       }
     },
     "DELETE_MODAL": {
@@ -183,6 +198,15 @@
       },
       "WARNING_TEXT": "Это действие не может быть отменено!",
       "ACTION_TEXT": "Вы собираетесь удалить файл %{fileName} игроку %{fullName} - %{shortUUID} - запись"
+    },
+    "GRID": {
+      "COLUMN": {
+        "NAME": "Файл",
+        "DATE_TIME": "Дата и время",
+        "CATEGORY": "Категория",
+        "NOTE": "Заметки",
+        "STATUS": "Статус"
+      }
     }
   },
   "CONSTANTS": {

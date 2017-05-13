@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import _ from 'lodash';
+import { I18n } from 'react-redux-i18n';
 import { targetTypes as noteTargetTypes } from '../../../../../constants/note';
 import PropTypes from '../../../../../constants/propTypes';
 import { GridColumn } from '../../../../../components/GridView';
@@ -9,6 +10,7 @@ import PopoverButton from '../../../../../components/PopoverButton';
 import CollapseGridView from '../../../../../components/GridView/CollapseGridView';
 import CommonFileGridView from '../../../components/CommonFileGridView';
 import { targetTypes as fileTargetTypes } from '../../../../../components/Files/constants';
+import Amount from '../../../../../components/Amount';
 
 class View extends Component {
   static propTypes = {
@@ -20,6 +22,7 @@ class View extends Component {
     changeFileStatusByAction: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     fetchFilesAndNotes: PropTypes.func.isRequired,
+    currencyCode: PropTypes.string,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -130,6 +133,27 @@ class View extends Component {
     );
   };
 
+  renderAggregateAmount = (data, column) => {
+    const { currencyCode } = this.props;
+    const aggregate = data[column.name];
+    if (!aggregate) {
+      return null;
+    }
+
+    const total = aggregate.total ? aggregate.total : { amount: 0, currency: currencyCode };
+
+    return (
+      <div>
+        <div className="font-weight-700">
+          <Amount {...total} />
+        </div>
+        <span className="font-size-10 color-default">
+          {I18n.t('COMMON.COUNT')}: {aggregate.number}
+        </span>
+      </div>
+    );
+  };
+
   renderNotes = (data) => {
     return (
       <div>
@@ -177,15 +201,17 @@ class View extends Component {
     return (
       <div>
         <div className="row margin-bottom-10">
-          <div className="col-sm-2 col-xs-6">
-            <span className="font-size-16">Attached files</span>
+          <div className="col-sm-4 col-xs-6">
+            <span className="font-size-16">
+              {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.ATTACHED_FILES')}
+            </span>
           </div>
-          <div className="col-sm-10 col-xs-6 text-right">
+          <div className="col-sm-8 col-xs-6 text-right">
             <button
               className="btn btn-sm btn-primary-outline"
               onClick={() => this.handleUploadFileClick(data)}
             >
-              + Upload file
+              {I18n.t('COMMON.BUTTONS.UPLOAD_FILE')}
             </button>
           </div>
         </div>
@@ -211,7 +237,9 @@ class View extends Component {
       <div className={'tab-pane fade in active profile-tab-container'}>
         <div className="row margin-bottom-20">
           <div className="col-md-3">
-            <span className="font-size-20">Payments</span>
+            <span className="font-size-20">
+              {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.TITLE')}
+            </span>
           </div>
         </div>
 
@@ -226,28 +254,38 @@ class View extends Component {
         >
           <GridColumn
             name="paymentMethod"
-            header="Payment Account"
+            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.PAYMENT_ACCOUNT')}
             render={this.renderPaymentAccount}
           />
           <GridColumn
             name="dateAdded"
-            header="Date Added"
+            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.DATE_ADDED')}
             render={this.renderAddDate}
           />
           <GridColumn
             name="lastPayment"
-            header="Last Payment"
+            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.LAST_PAYMENT')}
             render={this.renderLastPaymentDate}
           />
           <GridColumn
+            name="totalWithdraws"
+            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.WITHDRAWS')}
+            render={this.renderAggregateAmount}
+          />
+          <GridColumn
+            name="totalDeposits"
+            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.DEPOSITS')}
+            render={this.renderAggregateAmount}
+          />
+          <GridColumn
             name="Files"
-            header="Files"
+            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.FILES')}
             headerClassName="text-uppercase"
             render={this.renderFiles}
           />
           <GridColumn
             name="notes"
-            header="Note"
+            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.NOTE')}
             headerClassName="text-uppercase"
             render={this.renderNotes}
           />
