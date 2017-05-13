@@ -97,6 +97,46 @@
       },
       "TITLE": "Платежи",
       "ATTACHED_FILES": "Прикрепленные файлы"
+    },
+    "BONUS": {
+      "MODAL_CREATE": {
+        "TITLE": "Мануальный бонус",
+        "CHOOSE_CURRENCY": "-- Выберите валюту --",
+        "LABELS": {
+          "PLAYER_UUID": "UUID Пользователя",
+          "LABEL": "Название",
+          "PRIORITY": "Приоритет",
+          "CURRENCY": "Валюта",
+          "STATE": "Состояние",
+          "GRANTED_AMOUNT": "Выданная сумма",
+          "AMOUNT_TO_WAGE": "Amount to wage",
+          "CREATED_DATE": "Дата создания",
+          "EXPIRATION_DATE": "Дата окончания",
+          "PRIZE": "PRIZE",
+          "CAPPING": "CAPPING",
+          "OPT_IN": "Opt-In",
+          "CONVERTED": "Converted",
+          "WAGERED": "Wagered"
+        }
+      },
+      "CANCEL_BONUS": "Отменить бонус",
+      "PLAYER_NOT_FOUND": "Игрок не найден",
+      "MANUAL_CREATION_FAILURE": "Не удалось создать бонус",
+      "CREATED_BY_CAMPAIGN": "Кампания",
+      "CREATED_BY_OPERATOR": "Оператор",
+      "AMOUNT_TO_WAGE_PREPENDED_TEXT": "из",
+      "TITLE": "Бонус",
+      "MANUAL_BONUS_BUTTON": "+ Мануальный бонус",
+      "GRID_VIEW": {
+        "BONUS": "Бонус",
+        "AVAILABLE": "Доступен",
+        "PRIORITY": "Приоритет",
+        "GRANTED": "Выдано",
+        "WAGERED": "Поставлено",
+        "TO_WAGER": "К ставке",
+        "BONUS_TYPE": "Тип бонуса",
+        "BONUS_STATUS": "Статус"
+      }
     }
   },
   "COMMON": {
@@ -125,7 +165,12 @@
       "SUCCESSFULLY": "Успешно",
       "UPDATED": "Обновлено"
     },
-    "COUNT": "Количество"
+    "COUNT": "Количество",
+    "CLOSE": "Закрыть",
+    "CANCEL": "Отмена",
+    "SAVE": "Сохранение",
+    "ACCOUNT_STATUS": "Статус аккаунта",
+    "BALANCE": "Баланс"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -193,6 +238,25 @@
         "ROLE2": "Team leader",
         "ROLE3": "Менеджер",
         "ROLE4": "Глава департамента"
+      }
+    },
+    "BONUS": {
+      "STATUSES": {
+        "INACTIVE": "Неактивный",
+        "IN_PROGRESS": "Активный",
+        "WAGERING_COMPLETE": "Выполненый",
+        "CONSUMED": "Израсходованный",
+        "CANCELLED": "Отмененный",
+        "EXPIRED": "Истекло"
+      },
+      "TYPES": {
+        "FIRSTDEPOSIT": "Первый депозит",
+        "PLAYERPROFILECOMPLETED": "Профиль заполнен",
+        "MANUAL": "Без депозита"
+      },
+      "ASSIGN": {
+        "MANUAL": "Оператор",
+        "CAMPAIGN": "Кампания"
       }
     }
   },

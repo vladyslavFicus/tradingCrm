@@ -97,6 +97,46 @@
       },
       "TITLE": "Payments",
       "ATTACHED_FILES": "Attached files"
+    },
+    "BONUS": {
+      "MODAL_CREATE": {
+        "TITLE": "Manual bonus",
+        "CHOOSE_CURRENCY": "-- Choose currency --",
+        "LABELS": {
+          "PLAYER_UUID": "Player UUID",
+          "LABEL": "Name",
+          "PRIORITY": "Priority",
+          "CURRENCY": "Currency",
+          "STATE": "State",
+          "GRANTED_AMOUNT": "Granted amount",
+          "AMOUNT_TO_WAGE": "Amount to wage",
+          "CREATED_DATE": "Created date",
+          "EXPIRATION_DATE": "Expiration date",
+          "PRIZE": "Prize",
+          "CAPPING": "Capping",
+          "OPT_IN": "Opt-In",
+          "CONVERTED": "Converted",
+          "WAGERED": "Wagered"
+        }
+      },
+      "CANCEL_BONUS": "Cancel bonus",
+      "PLAYER_NOT_FOUND": "Player not found",
+      "MANUAL_CREATION_FAILURE": "Error",
+      "CREATED_BY_CAMPAIGN": "by Campaign %{uuid}",
+      "CREATED_BY_OPERATOR": "by Operator %{uuid}",
+      "AMOUNT_TO_WAGE_PREPENDED_TEXT": "out of",
+      "TITLE": "Bonus",
+      "MANUAL_BONUS_BUTTON": "+ Manual bonus",
+      "GRID_VIEW": {
+        "BONUS": "Bonus",
+        "AVAILABLE": "Available",
+        "PRIORITY": "Priority",
+        "GRANTED": "Granted",
+        "WAGERED": "Wagered",
+        "TO_WAGER": "To wager",
+        "BONUS_TYPE": "Bonus type",
+        "BONUS_STATUS": "Status"
+      }
     }
   },
   "COMMON": {
@@ -125,7 +165,12 @@
       "SUCCESSFULLY": "Successfully",
       "UPDATED": "Updated"
     },
-    "COUNT": "Count"
+    "COUNT": "Count",
+    "CLOSE": "Close",
+    "CANCEL": "Cancel",
+    "SAVE": "Save",
+    "ACCOUNT_STATUS": "Account Status",
+    "BALANCE": "Balance"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -193,6 +238,25 @@
         "ROLE2": "Team leader",
         "ROLE3": "Manager",
         "ROLE4": "Head of department"
+      }
+    },
+    "BONUS": {
+      "STATUSES": {
+        "INACTIVE": "Inactive",
+        "IN_PROGRESS": "In Progress",
+        "WAGERING_COMPLETE": "Wagering complete",
+        "CONSUMED": "Consumed",
+        "CANCELLED": "Cancelled",
+        "EXPIRED": "Expired"
+      },
+      "TYPES": {
+        "FIRSTDEPOSIT": "First deposit",
+        "PLAYERPROFILECOMPLETED": "Profile completed",
+        "MANUAL": "No Deposit"
+      },
+      "ASSIGN": {
+        "MANUAL": "by Operator",
+        "CAMPAIGN": "by Campaign"
       }
     }
   },
