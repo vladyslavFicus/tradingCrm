@@ -242,7 +242,7 @@ class ManageForm extends Component {
               >
                 Submit
               </button>
-
+              {' '}
               <button
                 type="button"
                 disabled={pristine || submitting}

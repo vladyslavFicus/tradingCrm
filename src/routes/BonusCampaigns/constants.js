@@ -21,10 +21,12 @@ const statusesLabels = {
 
 const eventTypes = keyMirror({
   FirstDeposit: null,
+  PlayerProfileCompleted: null,
 });
 
 const eventTypesLabels = {
   [eventTypes.FirstDeposit]: 'First deposit',
+  [eventTypes.PlayerProfileCompleted]: 'Profile completed',
 };
 
 export {
