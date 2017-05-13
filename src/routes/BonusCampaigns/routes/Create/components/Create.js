@@ -1,15 +1,22 @@
-import React, { Component, PropTypes } from 'react';
-import Panel, { Title, Content } from 'components/Panel';
-import ManageForm from 'routes/BonusCampaigns/components/ManageForm';
+import React, { Component } from 'react';
+import { SubmissionError } from 'redux-form';
+import Panel, { Title, Content } from '../../../../../components/Panel';
+import ManageForm from '../../../components/ManageForm';
 
 export default class Create extends Component {
-  handleSubmit = (data) => {
-    this.props.createCampaign(data)
-      .then((action) => {
-        if (action && !action.error) {
-          this.props.router.replace('/bonus-campaigns');
-        }
-      });
+  handleSubmit = async (data) => {
+    const action = await this.props.createCampaign(data);
+
+    if (action && !action.error) {
+      this.props.router.replace('/bonus-campaigns');
+    } else if (action.payload.field_errors) {
+      throw new SubmissionError(Object.keys(action.payload.field_errors).reduce((res, name) => ({
+        ...res,
+        [name]: action.payload.field_errors[name].error,
+      }), {}));
+    } else if (action.payload.error) {
+      throw new SubmissionError({ _error: action.payload.error });
+    }
   };
 
   render() {
