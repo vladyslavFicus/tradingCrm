@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classNames from 'classnames';
-import './ViewModal.scss';
-import { shortify } from 'utils/uuid';
-import Amount from 'components/Amount';
 import moment from 'moment';
-import { statusColorNames } from 'constants/user';
-import BonusType from './BonusType';
-import BonusStatus from './BonusStatus';
+import './ViewModal.scss';
+import { shortify } from '../../../../../../utils/uuid';
+import Amount from '../../../../../../components/Amount';
+import { statusColorNames } from '../../../../../../constants/user';
+import BonusType from '../BonusType';
+import BonusStatus from '../BonusStatus';
 
 class ViewModal extends Component {
   static propTypes = {
@@ -47,35 +47,37 @@ class ViewModal extends Component {
   renderBonusStats = data => <div className="row well player-header-blocks">
     <div className="col-md-3 grey-back-tab">
       <div className="color-default text-uppercase font-size-11">
-          Granted
-        </div>
+        Granted
+      </div>
 
       {this.renderGrantedAmount(data)}
     </div>
     <div className="col-md-3 grey-back-tab">
       <div className="color-default text-uppercase font-size-11">
-          Wagered
-        </div>
+        Wagered
+      </div>
 
       {this.renderWageredAmount(data)}
     </div>
     <div className="col-md-3 grey-back-tab">
       <div className="color-default text-uppercase font-size-11">
-          To wager
-        </div>
+        To wager
+      </div>
 
       {this.renderToWagerAmount(data)}
     </div>
     <div className="col-md-3 grey-back-tab">
       <div className="color-default text-uppercase font-size-11">
-          Total to wager
-        </div>
+        Total to wager
+      </div>
 
       {this.renderTotalToWagerAmount(data)}
     </div>
   </div>;
 
-  renderGrantedAmount = data => <Amount className="font-weight-600 font-size-20 color-primary" {...data.grantedAmount} />;
+  renderGrantedAmount = data => <Amount
+    className="font-weight-600 font-size-20 color-primary" {...data.grantedAmount}
+  />;
 
   renderWageredAmount = data => <Amount className="font-weight-600 font-size-20 color-primary" {...data.wagered} />;
 
@@ -93,27 +95,29 @@ class ViewModal extends Component {
     return <Amount className="font-weight-600 font-size-20 color-primary" {...toWagerAmount} />;
   };
 
-  renderTotalToWagerAmount = data => <Amount className="font-weight-600 font-size-20 color-primary" {...data.amountToWage} />;
+  renderTotalToWagerAmount = data => (
+    <Amount className="font-weight-600 font-size-20 color-primary" {...data.amountToWage} />
+  );
 
   renderBonus = item => <div className="row margin-vertical-20">
     <div className="col-md-3">
       <div className="color-default text-uppercase font-size-11">
-          Bonus
-        </div>
+        Bonus
+      </div>
 
       {this.renderMainInfo(item)}
     </div>
     <div className="col-md-3">
       <div className="color-default text-uppercase font-size-11">
-          Available
-        </div>
+        Available
+      </div>
 
       {this.renderAvailablePeriod(item)}
     </div>
     <div className="col-md-2">
       <div className="color-default text-uppercase font-size-11">
-          Priority
-        </div>
+        Priority
+      </div>
 
       {this.renderPriority(item)}
     </div>
@@ -125,17 +129,17 @@ class ViewModal extends Component {
     <div className="font-weight-600">{data.label}</div>
     <div className="little-grey-text font-size-11">{shortify(data.bonusUUID, 'BM')}</div>
     {
-        !!data.campaignUUID &&
-        <div className="little-grey-text font-size-11">
-          by Campaign {shortify(data.campaignUUID, 'CO')}
-        </div>
-      }
+      !!data.campaignUUID &&
+      <div className="little-grey-text font-size-11">
+        by Campaign {shortify(data.campaignUUID, 'CO')}
+      </div>
+    }
     {
-        !data.campaignUUID && !!data.operatorUUID &&
-        <div className="ittle-grey-text font-size-11">
-          by Manual Bonus {shortify(data.operatorUUID, 'OP')}
-        </div>
-      }
+      !data.campaignUUID && !!data.operatorUUID &&
+      <div className="ittle-grey-text font-size-11">
+        by Manual Bonus {shortify(data.operatorUUID, 'OP')}
+      </div>
+    }
   </span>;
 
   renderAvailablePeriod = data => data.createdDate ? <div>
@@ -143,11 +147,11 @@ class ViewModal extends Component {
       {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
     </div>
     {
-        !!data.expirationDate &&
-        <div className="little-grey-text font-size-11">
-          {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
-        </div>
-      }
+      !!data.expirationDate &&
+      <div className="little-grey-text font-size-11">
+        {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+      </div>
+    }
   </div> : <span>&mdash</span>;
 
   renderPriority = data => <span>{data.priority}</span>;
@@ -155,22 +159,22 @@ class ViewModal extends Component {
   renderPlayer = (profile, balances) => <div className="row player-header-blocks margin-bottom-10 equal">
     <div className="col-sm-4 equal-in">
       <div className="color-default text-uppercase font-size-11">
-          Player
-        </div>
+        Player
+      </div>
 
       {this.renderPlayerInfo(profile)}
     </div>
     <div className="col-sm-4 equal-in">
       <div className="color-default text-uppercase font-size-11">
-          Account status
-        </div>
+        Account status
+      </div>
 
       {this.renderPlayerStatus(profile)}
     </div>
     <div className="col-sm-4 equal-in">
       <div className="color-default text-uppercase font-size-11">
-          Balance
-        </div>
+        Balance
+      </div>
 
       {this.renderBalance(balances)}
     </div>
@@ -201,11 +205,11 @@ class ViewModal extends Component {
       {profile.status}
     </div>
     {
-        !!profile.suspendEndDate &&
-        <div className="color-default font-size-11">
-          Until {moment(profile.suspendEndDate).format('L')}
-        </div>
-      }
+      !!profile.suspendEndDate &&
+      <div className="color-default font-size-11">
+        Until {moment(profile.suspendEndDate).format('L')}
+      </div>
+    }
   </div>;
 
   /**
@@ -214,7 +218,7 @@ class ViewModal extends Component {
   renderBalance = ({ total, bonus, real }) => <div>
     <Amount tag="div" className={'font-weight-600 text-uppercase'} {...total} />
     <div className="little-grey-text font-size-11">
-        RM <Amount {...real} /> + BM <Amount {...bonus} />
+      RM <Amount {...real} /> + BM <Amount {...bonus} />
     </div>
   </div>;
 }

@@ -5,10 +5,12 @@ import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../constants/note';
+import { types as bonusTypes } from '../../../../../constants/bonus';
 
 const KEY = 'user/bonuses/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
+const CREATE_BONUS = createRequestAction(`${KEY}/create`);
 
 const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapEntities = async (dispatch, pageable) => {
@@ -39,7 +41,7 @@ const mapEntities = async (dispatch, pageable) => {
     return pageable;
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     pageable.content = pageable.content.map(item => ({
       ...item,
       note: action.payload[item.bonusUUID] && action.payload[item.bonusUUID].length
@@ -81,11 +83,36 @@ function fetchEntities(filters = {}) {
             payload: (action, state, res) => {
               const contentType = res.headers.get('Content-Type');
               if (contentType && ~contentType.indexOf('json')) {
-                return res.json().then((json) => mapEntities(dispatch, json));
+                return res.json().then(json => mapEntities(dispatch, json));
               }
             },
           },
           FETCH_ENTITIES.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function createBonus(data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: 'bonus/bonuses',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ...data, bonusType: bonusTypes.Manual }),
+        types: [
+          CREATE_BONUS.REQUEST,
+          CREATE_BONUS.SUCCESS,
+          CREATE_BONUS.FAILURE,
         ],
         bailout: !logged,
       },
@@ -140,6 +167,7 @@ const actionTypes = {
 const actionCreators = {
   fetchEntities,
   fetchNotes,
+  createBonus,
 };
 
 export {
