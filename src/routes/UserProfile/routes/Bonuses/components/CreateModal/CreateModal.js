@@ -5,32 +5,16 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { InputField, SingleDateField, SelectField } from '../../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../../utils/validator';
+import { attributeLabels } from './constants';
 import './CreateModal.scss';
 
 const FORM_NAME = 'bonusManage';
-const attributeLabels = {
-  playerUUID: 'Player UUID',
-  label: 'Name',
-  priority: 'Priority',
-  currency: 'Currency',
-  state: 'State',
-  grantedAmount: 'Granted amount',
-  amountToWage: 'Amount to wage',
-  createdDate: 'Created date',
-  expirationDate: 'Expiration date',
-  prize: 'Prize',
-  capping: 'Capping',
-  optIn: 'Opt-in',
-  converted: 'Converted',
-  wagered: 'Wagered',
-};
 const validator = createValidator({
   playerUUID: 'required|string',
   label: 'required|string',
   priority: 'required|numeric|min:0',
   grantedAmount: 'required|numeric|min:0',
   amountToWage: 'required|numeric|min:0',
-  createdDate: 'required',
   expirationDate: 'required',
   prize: 'required_if:capping|numeric|min:0',
   capping: 'numeric|required_if:prize|min:0',
@@ -50,24 +34,8 @@ class CreateModal extends Component {
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     disabled: PropTypes.bool,
-    onMount: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    currencies: PropTypes.array,
     onClose: PropTypes.func.isRequired,
-  };
-  static defaultProps = {
-    currencies: [],
-    onMount: null,
-  };
-
-  componentDidMount() {
-    if (typeof this.props.onMount === 'function') {
-      this.props.onMount();
-    }
-  }
-
-  handleResetForm = () => {
-    this.props.reset();
   };
 
   render() {
@@ -79,7 +47,6 @@ class CreateModal extends Component {
       pristine,
       submitting,
       disabled,
-      currencies,
       invalid,
     } = this.props;
 
@@ -94,7 +61,7 @@ class CreateModal extends Component {
               <div className="col-md-6">
                 <Field
                   name="label"
-                  label={attributeLabels.label}
+                  label={I18n.t(attributeLabels.label)}
                   type="text"
                   disabled={disabled}
                   component={InputField}
@@ -102,17 +69,8 @@ class CreateModal extends Component {
                 />
 
                 <Field
-                  name="playerUUID"
-                  label={attributeLabels.playerUUID}
-                  type="text"
-                  disabled
-                  component={InputField}
-                  position="vertical"
-                />
-
-                <Field
                   name="grantedAmount"
-                  label={attributeLabels.grantedAmount}
+                  label={I18n.t(attributeLabels.grantedAmount)}
                   type="text"
                   disabled={disabled}
                   component={InputField}
@@ -121,7 +79,7 @@ class CreateModal extends Component {
 
                 <Field
                   name="prize"
-                  label={attributeLabels.prize}
+                  label={I18n.t(attributeLabels.prize)}
                   type="text"
                   disabled={disabled}
                   component={InputField}
@@ -130,17 +88,16 @@ class CreateModal extends Component {
 
                 <Field
                   name="expirationDate"
-                  label={attributeLabels.expirationDate}
+                  label={I18n.t(attributeLabels.expirationDate)}
                   disabled={disabled}
                   component={SingleDateField}
-                  onChange={this.props.change}
                   position="vertical"
                 />
               </div>
               <div className="col-md-6">
                 <Field
                   name="priority"
-                  label={attributeLabels.priority}
+                  label={I18n.t(attributeLabels.priority)}
                   type="text"
                   disabled={disabled}
                   component={InputField}
@@ -148,24 +105,8 @@ class CreateModal extends Component {
                 />
 
                 <Field
-                  name="currency"
-                  label={attributeLabels.currency}
-                  type="select"
-                  disabled={disabled}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.CHOOSE_CURRENCY')}</option>
-                  {currencies.map(item => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-
-                <Field
                   name="amountToWage"
-                  label={attributeLabels.amountToWage}
+                  label={I18n.t(attributeLabels.amountToWage)}
                   type="text"
                   disabled={disabled}
                   component={InputField}
@@ -174,7 +115,7 @@ class CreateModal extends Component {
 
                 <Field
                   name="capping"
-                  label={attributeLabels.capping}
+                  label={I18n.t(attributeLabels.capping)}
                   type="text"
                   disabled={disabled}
                   component={InputField}
@@ -190,7 +131,7 @@ class CreateModal extends Component {
                           type="checkbox"
                           component="input"
                           disabled={disabled}
-                        /> {attributeLabels.optIn}
+                        /> {I18n.t(attributeLabels.optIn)}
                       </label>
                     </div>
                   </div>
@@ -207,7 +148,7 @@ class CreateModal extends Component {
                   type="reset"
                   onClick={onClose}
                 >
-                  Cancel
+                  {I18n.t('COMMON.CANCEL')}
                 </button>
               </div>
               <div className="col-md-6 text-right">
@@ -216,7 +157,7 @@ class CreateModal extends Component {
                   className="btn btn-primary"
                   disabled={pristine || submitting || invalid}
                 >
-                  Save
+                  {I18n.t('COMMON.SAVE')}
                 </button>
               </div>
             </div>

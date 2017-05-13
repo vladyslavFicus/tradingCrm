@@ -1,3 +1,3 @@
-import ViewModal from './ViewModal';
+import CreateModal from './CreateModal';
 
-export default ViewModal;
+export default CreateModal;

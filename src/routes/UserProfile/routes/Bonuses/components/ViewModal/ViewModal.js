@@ -5,9 +5,9 @@ import moment from 'moment';
 import './ViewModal.scss';
 import { shortify } from '../../../../../../utils/uuid';
 import Amount from '../../../../../../components/Amount';
-import { statusColorNames } from '../../../../../../constants/user';
 import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
+import ModalPlayerInfo from '../../../../../../components/ModalPlayerInfo';
 
 class ViewModal extends Component {
   static propTypes = {
@@ -131,80 +131,6 @@ class ViewModal extends Component {
 
   renderPriority = data => <span>{data.priority}</span>;
 
-  renderPlayer = (profile, balances) => (
-    <div className="row player-header-blocks margin-bottom-10 equal">
-      <div className="col-sm-4 equal-in">
-        <div className="color-default text-uppercase font-size-11">
-          Player
-        </div>
-
-        {this.renderPlayerInfo(profile)}
-      </div>
-      <div className="col-sm-4 equal-in">
-        <div className="color-default text-uppercase font-size-11">
-          Account status
-        </div>
-
-        {this.renderPlayerStatus(profile)}
-      </div>
-      <div className="col-sm-4 equal-in">
-        <div className="color-default text-uppercase font-size-11">
-          Balance
-        </div>
-
-        {this.renderBalance(balances)}
-      </div>
-    </div>
-  );
-
-  /**
-   * @todo Move to component
-   */
-  renderPlayerInfo = profile => (
-    <div className="line-height-1">
-    <span
-      className="font-weight-600 text-capitalize font-size-14"
-    >
-      {[profile.firstName, profile.lastName].join(' ')}
-    </span>
-      {' '}
-      {!!profile.birthDate && <span>({moment().diff(profile.birthDate, 'years')})</span>}
-      <br />
-      <span className="little-grey-text font-size-11">{profile.username} - {shortify(profile.uuid, 'PL')}</span>
-    </div>
-  );
-
-  /**
-   * @todo Move to component
-   */
-  renderPlayerStatus = profile => (
-    <div>
-      <div
-        className={`font-weight-600 text-uppercase ${statusColorNames[profile.profileStatus]}`}
-      >
-        {profile.profileStatus}
-      </div>
-      {
-        !!profile.suspendEndDate &&
-        <div className="color-default font-size-11">
-          Until {moment(profile.suspendEndDate).format('L')}
-        </div>
-      }
-    </div>
-  );
-
-  /**
-   * @todo Move to component
-   */
-  renderBalance = ({ total, bonus, real }) => (
-    <div>
-      <Amount tag="div" className={'font-weight-600 text-uppercase'} {...total} />
-      <div className="little-grey-text font-size-11">
-        RM <Amount {...real} /> + BM <Amount {...bonus} />
-      </div>
-    </div>
-  );
-
   render() {
     const { item, profile, actions, accumulatedBalances, onClose, ...rest } = this.props;
 
@@ -212,7 +138,10 @@ class ViewModal extends Component {
       <Modal className="view-bonus-modal" toggle={onClose} {...rest}>
         <ModalHeader toggle={onClose}>Bonus details</ModalHeader>
         <ModalBody>
-          {this.renderPlayer(profile.data, accumulatedBalances)}
+          <ModalPlayerInfo
+            profile={profile.data}
+            balances={accumulatedBalances}
+          />
           <hr />
           {this.renderBonus(item)}
           {this.renderBonusStats(item)}

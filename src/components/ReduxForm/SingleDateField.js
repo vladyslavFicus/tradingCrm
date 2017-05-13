@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import SingleDatePicker from '../Forms/RemoteSingleDatePicker';
+import PropTypes from '../../constants/propTypes';
+import RemoteSingleDatePicker from '../Forms/RemoteSingleDatePicker';
 
 class SingleDateField extends Component {
   static propTypes = {
@@ -13,11 +14,9 @@ class SingleDateField extends Component {
     label: PropTypes.string,
     labelAddon: PropTypes.any,
     labelClassName: PropTypes.string,
-    inputClassName: PropTypes.string,
     inputAddon: PropTypes.element,
     inputButton: PropTypes.any,
     showInputButton: PropTypes.bool,
-    type: PropTypes.string.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -31,7 +30,6 @@ class SingleDateField extends Component {
     label: null,
     labelAddon: null,
     labelClassName: 'form-control-label',
-    inputClassName: 'form-control',
     showInputButton: false,
     position: 'horizontal',
     showErrorMessage: true,
@@ -40,9 +38,14 @@ class SingleDateField extends Component {
   };
 
   handleDateChange = (date) => {
-    const { input: { onChange } } = this.props;
+    const { input: { onChange: defaultOnChange }, onChange } = this.props;
+    const value = date ? `${date.format('YYYY-MM-DD')}T00:00:00` : '';
 
-    onChange(date ? `${date.format('YYYY-MM-DD')}T00:00:00` : '');
+    if (typeof onChange === 'function') {
+      defaultOnChange(value);
+    } else {
+      defaultOnChange(value);
+    }
   };
 
   renderLabel = (props) => {
@@ -118,20 +121,18 @@ class SingleDateField extends Component {
       showInputButton,
       input,
       disabled,
-      inputClassName,
       meta: { touched, error },
       label,
     } = props;
 
     let inputField = (
       <div>
-        <SingleDatePicker
+        <RemoteSingleDatePicker
           id={`single-date-picker-${input.name}`}
           isOutsideRange={day => day < moment()}
           onDateChange={this.handleDateChange}
           date={input.value ? moment(input.value) : null}
           disabled={disabled}
-          className={inputClassName}
         />
 
         <input

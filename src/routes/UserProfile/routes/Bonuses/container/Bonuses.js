@@ -16,8 +16,8 @@ const mapStateToProps = ({
   currencies: config.nas.currencies.supported || [],
 });
 const mapActions = {
-  ...actionCreators,
   ...bonusActionCreators,
+  ...actionCreators,
   fetchProfile: profileActionCreators.fetchProfile,
 };
 

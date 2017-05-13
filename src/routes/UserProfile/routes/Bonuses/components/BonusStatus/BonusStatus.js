@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import {
   statuses,
@@ -26,7 +27,7 @@ class BonusStatus extends Component {
     }
 
     const label = statusesLabels[bonus.state]
-      ? statusesLabels[bonus.state]
+      ? I18n.t(statusesLabels[bonus.state])
       : bonus.state;
     const props = statusesProps[bonus.state] || {};
     let content = null;

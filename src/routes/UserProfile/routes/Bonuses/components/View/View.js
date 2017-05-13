@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { shortify } from '../../../../../../utils/uuid';
-import createReduxFormAsyncValidator from '../../../../../../utils/createReduxFormAsyncValidator';
 import Amount from '../../../../../../components/Amount';
 import GridView, { GridColumn } from '../../../../../../components/GridView';
 import { statuses } from '../../../../../../constants/bonus';
@@ -113,17 +112,6 @@ class View extends Component {
     });
   };
 
-  handleCheckExists = (field, value) => {
-    this.props.fetchProfile(value)
-      .then((action) => {
-        if (action && action.error) {
-          throw { [field]: I18n.t('PLAYER_PROFILE.BONUS.PLAYER_NOT_FOUND') };
-        }
-      });
-  };
-
-  handleAsyncValidate = createReduxFormAsyncValidator(this.handleCheckExists);
-
   handleModalOpen = (name, params) => {
     this.setState({
       modal: {
@@ -133,8 +121,8 @@ class View extends Component {
     });
   };
 
-  handleModalClose = () => {
-    this.setState({ modal: { ...modalInitialState } });
+  handleModalClose = (callback) => {
+    this.setState({ modal: { ...modalInitialState } }, callback);
   };
 
   handleCancelBonus = (id) => {
@@ -335,11 +323,8 @@ class View extends Component {
           modal.name === MODAL_CREATE &&
           <CreateModal
             isOpen
-            currencies={currencies}
-            initialValues={{ playerUUID: profile.data.uuid, state: 'INACTIVE' }}
+            initialValues={{ playerUUID: profile.data.uuid, state: 'INACTIVE', currency: profile.data.currencyCode }}
             onSubmit={this.handleSubmitManualBonus}
-            asyncValidate={this.handleAsyncValidate}
-            asyncBlurFields={['playerUUID']}
             onClose={this.handleModalClose}
           />
         }
