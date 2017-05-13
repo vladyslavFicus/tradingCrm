@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import I18n from '../utils/fake-i18n';
 
 const statuses = keyMirror({
   INACTIVE: null,
@@ -19,21 +20,21 @@ const assign = keyMirror({
 });
 
 const statusesLabels = {
-  [statuses.INACTIVE]: 'In active',
-  [statuses.IN_PROGRESS]: 'Active',
-  [statuses.WAGERING_COMPLETE]: 'Wagering complete',
-  [statuses.CONSUMED]: 'Consumed',
-  [statuses.CANCELLED]: 'Cancelled',
-  [statuses.EXPIRED]: 'Expired',
+  [statuses.INACTIVE]: I18n.t('CONSTANTS.BONUS.STATUSES.INACTIVE'),
+  [statuses.IN_PROGRESS]: I18n.t('CONSTANTS.BONUS.STATUSES.IN_PROGRESS'),
+  [statuses.WAGERING_COMPLETE]: I18n.t('CONSTANTS.BONUS.STATUSES.WAGERING_COMPLETE'),
+  [statuses.CONSUMED]: I18n.t('CONSTANTS.BONUS.STATUSES.CONSUMED'),
+  [statuses.CANCELLED]: I18n.t('CONSTANTS.BONUS.STATUSES.CANCELLED'),
+  [statuses.EXPIRED]: I18n.t('CONSTANTS.BONUS.STATUSES.EXPIRED'),
 };
 const typesLabels = {
-  [types.FirstDeposit]: 'Welcome',
-  [types.PlayerProfileCompleted]: 'Profile completed',
-  [types.Manual]: 'No deposit',
+  [types.FirstDeposit]: I18n.t('CONSTANTS.BONUS.TYPES.FIRSTDEPOSIT'),
+  [types.PlayerProfileCompleted]: I18n.t('CONSTANTS.BONUS.TYPES.PLAYERPROFILECOMPLETED'),
+  [types.Manual]: I18n.t('CONSTANTS.BONUS.TYPES.MANUAL'),
 };
 const assignLabels = {
-  [assign.manual]: 'Operator',
-  [assign.campaign]: 'Campaign',
+  [assign.manual]: I18n.t('CONSTANTS.BONUS.ASSIGN.MANUAL'),
+  [assign.campaign]: I18n.t('CONSTANTS.BONUS.ASSIGN.CAMPAIGN'),
 };
 
 const statusesProps = {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import {
   typesLabels,
@@ -22,7 +23,9 @@ class BonusStatus extends Component {
       return bonus.bonusType;
     }
 
-    const label = typesLabels[bonus.bonusType] || bonus.bonusType;
+    const label = typesLabels[bonus.bonusType]
+      ? I18n.t(typesLabels[bonus.bonusType])
+      : bonus.bonusType;
     const props = typesProps[bonus.bonusType] || {};
 
     return (
