@@ -50,6 +50,7 @@ class ProfileLayout extends Component {
     deleteTag: PropTypes.func.isRequired,
     availableStatuses: PropTypes.arrayOf(PropTypes.object),
     accumulatedBalances: PropTypes.object.isRequired,
+    fetchProfile: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
     loadFullProfile: PropTypes.func.isRequired,
@@ -403,6 +404,15 @@ class ProfileLayout extends Component {
     this.props.walletLimitAction({ ...data, playerUUID: this.props.params.id });
   };
 
+  handleUpdateSubscription = async (name, value) => {
+    const { params: { id: playerUUID }, updateSubscription, fetchProfile } = this.props;
+    const action = await updateSubscription(playerUUID, name, value);
+    if (action && !action.error) {
+      await fetchProfile(playerUUID);
+    }
+    return action;
+  }
+
   render() {
     const { modal, popover, informationShown } = this.state;
     const {
@@ -415,7 +425,6 @@ class ProfileLayout extends Component {
       availableTags,
       availableStatuses,
       accumulatedBalances,
-      updateSubscription,
       changeStatus,
       notes,
       walletLimits,
@@ -460,7 +469,7 @@ class ProfileLayout extends Component {
               <Information
                 data={profileData}
                 ips={ip.list}
-                updateSubscription={updateSubscription.bind(null, params.id)}
+                updateSubscription={this.handleUpdateSubscription}
                 onEditNoteClick={this.handleEditNoteClick}
                 notes={notes}
               />

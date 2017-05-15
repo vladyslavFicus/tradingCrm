@@ -4,6 +4,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import FileUpload from '../../../../../components/FileUpload';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import { shortify } from '../../../../../utils/uuid';
+import { shortifyInMiddle } from '../../../../../utils/stringFormat';
 import StatusDropDown from '../../../../../components/FileStatusDropDown';
 
 class Documents extends Component {
@@ -27,8 +28,8 @@ class Documents extends Component {
   renderFile = data => (
     <div>
       <div>
-        <span className="font-weight-700">
-          {data.realName}
+        <span title={data.realName} className="font-weight-700">
+          {shortifyInMiddle(data.realName, 30)}
         </span>
         {' - '}
         <span>{shortify(data.uuid)}</span>
@@ -77,7 +78,7 @@ class Documents extends Component {
             <GridColumn
               name="realName"
               header="File"
-              headerClassName="text-uppercase width-300"
+              headerClassName="text-uppercase"
               render={this.renderFile}
             />
             <GridColumn
