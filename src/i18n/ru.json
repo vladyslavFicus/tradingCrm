@@ -303,5 +303,10 @@
       "INVITATION_SENT_SUCCESS": "Успешно отправлено",
       "INVITATION_SENT_FAILURE": "Не отправлено"
     }
+  },
+  "LOGGED_FORBIDDEN": {
+    "TITLE": "Доступ запрещен",
+    "DESCRIPTION": "Эта часть сайта доступна только для гостей.",
+    "LOGOUT_BUTTON": "Выйти из аккаунта"
   }
 }

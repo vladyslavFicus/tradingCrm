@@ -303,5 +303,10 @@
       "INVITATION_SENT_SUCCESS": "Successfully sent",
       "INVITATION_SENT_FAILURE": "Not sent"
     }
+  },
+  "LOGGED_FORBIDDEN": {
+    "TITLE": "Access denied",
+    "DESCRIPTION": "This part of the site is accessible only to guests.",
+    "LOGOUT_BUTTON": "Logout"
   }
 }
