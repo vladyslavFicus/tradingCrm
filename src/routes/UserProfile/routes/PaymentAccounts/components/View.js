@@ -117,17 +117,17 @@ class View extends Component {
   };
 
   renderLastPaymentDate = (data) => {
-    if (!(data.lastPayment && data.lastPayment.creationTime)) {
+    if (!data.lastActivityDate) {
       return null;
     }
 
     return (
       <div>
         <div className="font-weight-700">
-          {moment(data.lastPayment.creationTime).format('DD.MM.YYYY')}
+          {moment(data.lastActivityDate).format('DD.MM.YYYY')}
         </div>
         <span className="font-size-10 color-default">
-          {moment(data.lastPayment.creationTime).format('HH:mm:ss')}
+          {moment(data.lastActivityDate).format('HH:mm:ss')}
         </span>
       </div>
     );
