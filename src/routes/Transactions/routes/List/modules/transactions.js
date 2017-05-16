@@ -346,7 +346,6 @@ const actionHandlers = {
           username: profile.username,
           languageCode: profile.languageCode,
           suspendEndDate: profile.suspendEndDate,
-          status: profile.status,
           age: moment().diff(profile.birthDate, 'years'),
           balance: { amount: 0, currency: config.nas.currencies.base },
           accumulatedBalances: {

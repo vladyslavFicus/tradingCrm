@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
+import CopyToClipboard from 'react-copy-to-clipboard';
 import PlayerStatus from './PlayerStatus';
 import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
@@ -60,6 +62,7 @@ class Header extends Component {
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
+    onAddNotification: PropTypes.func.isRequired,
   };
 
   getUserAge = () => {
@@ -148,9 +151,20 @@ class Header extends Component {
               {' '}
               {kycCompleted && <i className="fa fa-check text-success" />}
             </div>
-            <span className="player__account__ids">
-              {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
-            </span>
+            <div className="player__account__ids">
+              <span>{username}</span> {' - '}
+              <CopyToClipboard
+                text={uuid}
+                onCopy={() => this.context.onAddNotification({
+                  level: 'info',
+                  title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.COPY_FULL_UUID.TITLE'),
+                  message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE'),
+                })}
+              >
+                <span className="short__uuid">{shortify(uuid, 'PL')}</span>
+              </CopyToClipboard> {' - '}
+              <span>{languageCode}</span>
+            </div>
           </div>
           <div className="panel-heading-row_tags">
             {

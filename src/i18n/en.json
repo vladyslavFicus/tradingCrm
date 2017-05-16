@@ -137,6 +137,12 @@
         "BONUS_TYPE": "Bonus type",
         "BONUS_STATUS": "Status"
       }
+    },
+    "NOTIFICATIONS": {
+      "COPY_FULL_UUID": {
+        "TITLE": "Copied",
+        "MESSAGE": "Full playerUUID has been copied to clipboard"
+      }
     }
   },
   "COMMON": {

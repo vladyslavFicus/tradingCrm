@@ -32,6 +32,10 @@
     }
     .player__account__ids {
       color: #827ca1;
+      .short__uuid:hover {
+        border-bottom: 1px dashed rgba(187, 184, 203, 0.5);
+        cursor: copy;
+      }
     }
   }
   &_tags {

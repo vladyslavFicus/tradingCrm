@@ -10,16 +10,20 @@ class AppContainer extends Component {
   };
 
   render() {
-    const { routes, store } = this.props;
+    const { routes: containerRoutes, store } = this.props;
 
     return (
       <Provider store={store}>
         <Router
           history={browserHistory}
-          children={routes}
-          render={applyRouterMiddleware(useScroll((prevRouterProps, { location }) => (
-            prevRouterProps && location.pathname !== prevRouterProps.location.pathname
-          )))}
+          children={containerRoutes}
+          render={applyRouterMiddleware(useScroll((prevRouterProps, { routes, location }) => {
+            if (routes.some(route => route.ignoreScrollBehavior)) {
+              return false;
+            }
+
+            return prevRouterProps && location.pathname !== prevRouterProps.location.pathname;
+          }))}
         />
       </Provider>
     );
