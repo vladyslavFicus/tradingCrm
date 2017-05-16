@@ -30,6 +30,8 @@ class Additional extends Component {
         message,
       });
     }
+
+    return action;
   };
 
   render() {

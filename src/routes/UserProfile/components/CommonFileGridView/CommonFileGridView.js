@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { shortify } from '../../../../utils/uuid';
+import { shortifyInMiddle } from '../../../../utils/stringFormat';
 import { categoriesLabels } from '../../../../constants/files';
 import { targetTypes } from '../../../../constants/note';
 import GridView, { GridColumn } from '../../../../components/GridView';
@@ -40,8 +41,8 @@ class CommonFileGridView extends Component {
       <div className="font-weight-700">
         {data.name}
       </div>
-      <div className="font-size-12">
-        {data.name === data.realName ? null : `${data.realName} - `}{shortify(data.uuid)}
+      <div title={data.realName} className="font-size-12">
+        {data.name === data.realName ? null : `${shortifyInMiddle(data.realName, 40)} - `}{shortify(data.uuid)}
       </div>
       <div className="font-size-12">
         by {shortify(data.author, data.author.indexOf('OPERATOR') === -1 ? 'PL' : '')}

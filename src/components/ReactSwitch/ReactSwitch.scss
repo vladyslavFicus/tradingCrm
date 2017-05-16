@@ -1,0 +1,34 @@
+.react-switch {
+  cursor:pointer;
+  display:inline-block;
+  width: 29px;
+  height: 15px;
+  left: 2px;
+  background-color: rgba(153, 153, 153, 1);
+  border: none;
+  border-radius: 8px;
+
+  &.on {
+    background-color:green;
+    .switch-toggle {
+      left: 17px;
+    }
+  }
+
+  .disabled {
+    cursor:not-allowed
+  }
+
+  .switch-toggle {
+    background:#fff;
+    position:relative;
+    transition:left .2s ease-in-out;
+    width: 9px;
+    height: 9px;
+    border: none;
+    box-shadow: none;
+    left: 3px;
+    border-radius: 50%;
+    top: 3px;
+  }
+}
