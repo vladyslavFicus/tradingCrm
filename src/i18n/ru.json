@@ -137,6 +137,12 @@
         "BONUS_TYPE": "Тип бонуса",
         "BONUS_STATUS": "Статус"
       }
+    },
+    "NOTIFICATIONS": {
+      "COPY_FULL_UUID": {
+        "TITLE": "Скопировано",
+        "MESSAGE": "Полный playerUUID скопирован в буфер обмена"
+      }
     }
   },
   "COMMON": {
