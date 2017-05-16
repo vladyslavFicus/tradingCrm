@@ -130,8 +130,7 @@ function updateSubscription(playerUUID, name, value) {
         body: JSON.stringify({ [name]: value }),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 

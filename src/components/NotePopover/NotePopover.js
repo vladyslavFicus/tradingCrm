@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Popover, PopoverContent } from 'reactstrap';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import ReactSwitch from 'react-toggle-switch';
 import classNames from 'classnames';
 import moment from 'moment';
+import ReactSwitch from '../../components/ReactSwitch';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
@@ -108,7 +108,7 @@ class NotePopover extends Component {
       <span className={wrapperClassName}>
         <ReactSwitch
           on={input.value}
-          className="vertical-align-middle small-switch"
+          className="vertical-align-middle"
           onClick={onClick}
         />
         {' '}

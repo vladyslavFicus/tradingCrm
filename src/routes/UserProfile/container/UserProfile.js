@@ -51,6 +51,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapActions = {
+  fetchProfile: actionCreators.fetchProfile,
   fetchIp: actionCreators.fetchIPs,
   fetchAccumulatedBalances: actionCreators.fetchBalances,
   acceptBonus: actionCreators.acceptBonus,
