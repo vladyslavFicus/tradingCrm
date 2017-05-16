@@ -410,6 +410,7 @@ class ProfileLayout extends Component {
     if (action && !action.error) {
       await fetchProfile(playerUUID);
     }
+
     return action;
   }
 

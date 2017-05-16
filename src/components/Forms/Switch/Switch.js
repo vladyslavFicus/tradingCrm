@@ -26,7 +26,7 @@ class Switch extends Component {
     });
   }
 
-  revert = _.debounce(() => { this.toggle(); }, 300);
+  revert = _.debounce(this.toggle, 301);
 
   handleSwitch = async () => {
     this.toggle();
