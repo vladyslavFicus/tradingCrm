@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import CopyToClipboard from 'react-copy-to-clipboard';
 import PlayerStatus from './PlayerStatus';
 import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
@@ -15,6 +14,7 @@ import Permissions from '../../../utils/permissions';
 import './Header.scss';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
+import CopyToClipboard from '../../../components/CopyToClipboard';
 
 class Header extends Component {
   static propTypes = {
