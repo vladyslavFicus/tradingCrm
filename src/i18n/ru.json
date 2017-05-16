@@ -140,7 +140,6 @@
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
-        "TITLE": "Скопировано",
         "MESSAGE": "Полный playerUUID скопирован в буфер обмена"
       }
     }
@@ -176,7 +175,10 @@
     "CANCEL": "Отмена",
     "SAVE": "Сохранение",
     "ACCOUNT_STATUS": "Статус аккаунта",
-    "BALANCE": "Баланс"
+    "BALANCE": "Баланс",
+    "NOTIFICATIONS": {
+      "COPIED": "Скопировано"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {

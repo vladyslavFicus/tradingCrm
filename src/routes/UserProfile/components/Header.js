@@ -62,7 +62,6 @@ class Header extends Component {
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
-    onAddNotification: PropTypes.func.isRequired,
   };
 
   getUserAge = () => {
@@ -154,12 +153,9 @@ class Header extends Component {
             <div className="player__account__ids">
               <span>{username}</span> {' - '}
               <CopyToClipboard
+                notify
                 text={uuid}
-                onCopy={() => this.context.onAddNotification({
-                  level: 'info',
-                  title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.COPY_FULL_UUID.TITLE'),
-                  message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE'),
-                })}
+                notificationMessage={I18n.t('PLAYER_PROFILE.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE')}
               >
                 <span className="short__uuid">{shortify(uuid, 'PL')}</span>
               </CopyToClipboard> {' - '}

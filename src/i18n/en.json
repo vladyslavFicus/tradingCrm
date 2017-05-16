@@ -140,7 +140,6 @@
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
-        "TITLE": "Copied",
         "MESSAGE": "Full playerUUID has been copied to clipboard"
       }
     }
@@ -176,7 +175,10 @@
     "CANCEL": "Cancel",
     "SAVE": "Save",
     "ACCOUNT_STATUS": "Account Status",
-    "BALANCE": "Balance"
+    "BALANCE": "Balance",
+    "NOTIFICATIONS": {
+      "COPIED": "Copied"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {

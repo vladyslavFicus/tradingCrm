@@ -1,13 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import ClipboardContainer from 'react-copy-to-clipboard';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import './CopyToClipboard.scss';
 
 class CopyToClipboard extends Component {
   static propTypes = {
-    onCopy: PropTypes.func.isRequired,
     text: PropTypes.string,
     children: PropTypes.node.isRequired,
+    notificationMessage: PropTypes.string.isRequired,
+    notify: PropTypes.bool,
+  };
+  static defaultProps = {
+    notify: false,
+    notificationMessage: 'Full UUID has been copied to clipboard',
+  };
+  static contextTypes = {
+    onAddNotification: PropTypes.func.isRequired,
   };
 
   state = {
@@ -26,8 +35,18 @@ class CopyToClipboard extends Component {
   }
 
   handleCopy = () => {
-    this.props.onCopy();
+    const { onAddNotification } = this.context;
+    const { notificationMessage, notify } = this.props;
+
     this.animate();
+
+    if (notify) {
+      onAddNotification({
+        level: 'info',
+        title: I18n.t('COMMON.NOTIFICATIONS.COPIED'),
+        message: notificationMessage,
+      });
+    }
   }
 
   render() {
