@@ -1,11 +1,42 @@
 import fs from 'fs-extra';
+import webpack from 'webpack';
 import _debug from 'debug';
-import webpackCompiler from '../build/webpack-compiler';
-import webpackConfig from '../build/webpack.config';
-import config from '../config';
+import webpackConfig from '../config/webpack';
+import config from '../config/project';
 
 const debug = _debug('app:bin:compile');
-const paths = config.utils_paths;
+const paths = config.paths;
+const webpackDebug = _debug('app:build:webpack-compiler');
+const DEFAULT_STATS_FORMAT = config.compiler_stats;
+
+const webpackCompiler = (cfg, statsFormat = DEFAULT_STATS_FORMAT) => {
+  return new Promise((resolve, reject) => {
+    const compiler = webpack(cfg);
+
+    compiler.run(function (err, stats) {
+      const jsonStats = stats.toJson();
+
+      webpackDebug('Webpack compile completed.');
+      webpackDebug(stats.toString(statsFormat));
+
+      if (err) {
+        webpackDebug('Webpack compiler encountered a fatal error.', err);
+        return reject(err);
+      } else if (jsonStats.errors.length > 0) {
+        webpackDebug('Webpack compiler encountered errors.');
+        webpackDebug(jsonStats.errors.join('\n'));
+        return reject(new Error('Webpack compiler encountered errors'));
+      } else if (jsonStats.warnings.length > 0) {
+        webpackDebug('Webpack compiler encountered warnings.');
+        webpackDebug(jsonStats.warnings.join('\n'));
+      } else {
+        webpackDebug('No errors or warnings encountered.');
+      }
+
+      resolve(jsonStats);
+    });
+  });
+};
 
 (async function () {
   try {

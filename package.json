@@ -73,7 +73,7 @@
       }
     },
     "test": {
-      "command": "babel-node ./node_modules/karma/bin/karma start build/karma.conf",
+      "command": "babel-node ./node_modules/karma/bin/karma start config/karma",
       "env": {
         "NODE_ENV": "test",
         "DEBUG": "app:*"
@@ -100,6 +100,7 @@
     "css-loader": "^0.28.1",
     "cssnano": "^3.3.2",
     "debug": "^2.6.6",
+    "eslint-plugin-node": "^4.2.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
     "filesize": "^3.5.9",
@@ -121,7 +122,7 @@
     "koa-static": "^3.0.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "node-sass": "^3.7.0",
+    "node-sass": "^4.5.2",
     "normalize.css": "^7.0.0",
     "postcss-loader": "^2.0.5",
     "react": "^15.5.4",

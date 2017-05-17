@@ -20,6 +20,7 @@ const config = {
   dir_client: 'src',
   dir_dist: 'dist',
   dir_server: 'server',
+  dir_public: 'public',
   dir_test: 'tests',
 
   // ----------------------------------
@@ -109,9 +110,10 @@ const resolve = path.resolve;
 const base = (...args) =>
   Reflect.apply(resolve, null, [config.path_base, ...args]);
 
-config.utils_paths = {
+config.paths = {
   base: base,
   client: base.bind(null, config.dir_client),
+  public: base.bind(null, config.dir_public),
   dist: base.bind(null, config.dir_dist),
 };
 

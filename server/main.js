@@ -1,17 +1,17 @@
 import Koa from 'koa';
 import convert from 'koa-convert';
 import webpack from 'webpack';
-import webpackConfig from '../build/webpack.config';
-import historyApiFallback from 'koa-connect-history-api-fallback';
-import serve from 'koa-static';
-import proxy from 'koa-proxy';
 import _debug from 'debug';
-import config from '../config';
+import proxy from 'koa-proxy';
+import serve from 'koa-static';
+import historyApiFallback from 'koa-connect-history-api-fallback';
+import webpackConfig from '../config/webpack';
+import config from '../config/project';
 import webpackDevMiddleware from './middleware/webpack-dev';
 import webpackHMRMiddleware from './middleware/webpack-hmr';
 
 const debug = _debug('app:server');
-const paths = config.utils_paths;
+const paths = config.paths;
 const app = new Koa();
 
 // Enable koa-proxy if it has been enabled in the config.
@@ -42,7 +42,7 @@ if (config.env === 'development') {
   // these files. This middleware doesn't need to be enabled outside
   // of development since this directory will be copied into ~/dist
   // when the application is compiled.
-  app.use(serve(paths.client('static')));
+  app.use(serve(paths.base('public')));
   app.use(async (ctx, next) => {
     if (ctx.path === '/config.js') {
       ctx.body = `window.nas = ${JSON.stringify(config.applicationConfig, null, 2)};`;

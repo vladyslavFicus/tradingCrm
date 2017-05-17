@@ -1,7 +1,7 @@
 import { argv } from 'yargs';
-import config from '../config';
-import webpackConfig from './webpack.config';
 import _debug from 'debug';
+import config from './project';
+import webpackConfig from './webpack';
 
 const debug = _debug('app:karma');
 debug('Create configuration.');
@@ -62,15 +62,5 @@ const karmaConfig = {
   },
 };
 
-/*if (config.globals.__COVERAGE__) {
-  karmaConfig.reporters.push('coverage');
-  karmaConfig.webpack.module.preLoaders = [{
-    test: /\.(js|jsx)$/,
-    include: new RegExp(config.dir_client),
-    loader: 'isparta',
-    exclude: /node_modules/,
-  },];
-}*/
-
 // cannot use `export default` because of Karma.
-module.exports = (cfg) => cfg.set(karmaConfig);
+module.exports = cfg => cfg.set(karmaConfig);
