@@ -138,6 +138,11 @@
         "BONUS_TYPE": "Тип бонуса",
         "BONUS_STATUS": "Статус"
       }
+    },
+    "NOTIFICATIONS": {
+      "COPY_FULL_UUID": {
+        "MESSAGE": "Полный playerUUID скопирован в буфер обмена"
+      }
     }
   },
   "COMMON": {
@@ -172,6 +177,9 @@
     "SAVE": "Сохранение",
     "ACCOUNT_STATUS": "Статус аккаунта",
     "BALANCE": "Баланс",
+    "NOTIFICATIONS": {
+      "COPIED": "Скопировано"
+    },
     "OR": "Или"
   },
   "FILES": {
