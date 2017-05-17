@@ -615,8 +615,7 @@ class ProfileLayout extends Component {
           }}
         />
       </div>
-    )
-      ;
+    );
   }
 }
 
