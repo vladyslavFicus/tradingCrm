@@ -1,4 +1,3 @@
-
 .layout-header {
   position: fixed;
   top: 0;
@@ -8,7 +7,7 @@
   align-items: center;
   width: 100%;
   height: 48px;
-  padding: 0 1.4rem 0 1rem;
+  padding-right: 1.4rem;
   font-size: 18px;
   color: #666666;
   background: #000000;
@@ -20,9 +19,12 @@
     display: none;
   }
   .navbar-brand {
+    margin-right: 0;
     padding: 0;
-    .img-fluid {
-      width: 30px;
+    img {
+      width: 60px;
+      height: 48px;
+      max-width: 100%;
     }
   }
   .left-navigation {
