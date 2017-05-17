@@ -52,9 +52,9 @@ class View extends Component {
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
   };
-
   static contextTypes = {
     onAddNotification: PropTypes.func.isRequired,
+    showImages: PropTypes.func.isRequired,
   };
 
   state = {
@@ -177,6 +177,10 @@ class View extends Component {
     return verifyEmail(params.id);
   };
 
+  handlePreviewImageClick = (data) => {
+    this.context.showImages(`${this.props.filesUrl}${data.uuid}`, data.type);
+  };
+
   render() {
     const { modal } = this.state;
     const {
@@ -213,6 +217,7 @@ class View extends Component {
                   onUpload={this.handleUploadDocument(kycCategories.KYC_PERSONAL)}
                   onDownload={downloadFile}
                   files={data.personalKycMetaData}
+                  onDocumentClick={this.handlePreviewImageClick}
                 />
               </div>
               <div className="col-md-4">
@@ -240,6 +245,7 @@ class View extends Component {
                   onUpload={this.handleUploadDocument(kycCategories.KYC_ADDRESS)}
                   onDownload={downloadFile}
                   files={data.addressKycMetaData}
+                  onDocumentClick={this.handlePreviewImageClick}
                 />
               </div>
               <div className="col-md-4">

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import classNames from 'classnames';
 import PropTypes from '../../../../../constants/propTypes';
 import FileUpload from '../../../../../components/FileUpload';
 import GridView, { GridColumn } from '../../../../../components/GridView';
@@ -13,6 +14,10 @@ class Documents extends Component {
     onUpload: PropTypes.func.isRequired,
     onDownload: PropTypes.func.isRequired,
     onChangeStatus: PropTypes.func.isRequired,
+    onDocumentClick: PropTypes.func,
+  };
+  static defaultProps = {
+    onDocumentClick: null,
   };
 
   handleStatusChange = uuid => (action) => {
@@ -25,24 +30,36 @@ class Documents extends Component {
     this.props.onDownload(data);
   };
 
-  renderFile = data => (
-    <div>
+  renderFile = (data) => {
+    const isClickable = /image/.test(data.type) && this.props.onDocumentClick;
+
+    return (
       <div>
-        <span title={data.realName} className="font-weight-700">
-          {shortifyInMiddle(data.realName, 30)}
-        </span>
-        {' - '}
-        <span>{shortify(data.uuid)}</span>
-        {' '}
-        <button className="btn-transparent" onClick={e => this.handleDownloadFile(e, data)}>
-          <i className="fa fa-download" />
-        </button>
-      </div>
-      <span className="font-size-10 color-default">
+        <div>
+          <span
+            title={data.realName}
+            className={classNames('font-weight-700', { 'cursor-pointer': isClickable })}
+            onClick={
+              isClickable
+                ? () => this.props.onDocumentClick(data)
+                : null
+            }
+          >
+            {shortifyInMiddle(data.realName, 30)}
+          </span>
+          {' - '}
+          <span>{shortify(data.uuid)}</span>
+          {' '}
+          <button className="btn-transparent" onClick={e => this.handleDownloadFile(e, data)}>
+            <i className="fa fa-download" />
+          </button>
+        </div>
+        <span className="font-size-10 color-default">
         by {shortify(data.author)}
-      </span>
-    </div>
-  );
+        </span>
+      </div>
+    );
+  };
 
   renderDateTime = data => (
     <div>

@@ -19,6 +19,7 @@ class View extends Component {
     }),
     paymentAccounts: PropTypes.object,
     fetchEntities: PropTypes.func.isRequired,
+    filesUrl: PropTypes.string.isRequired,
     changeFileStatusByAction: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     fetchFilesAndNotes: PropTypes.func.isRequired,
@@ -31,6 +32,7 @@ class View extends Component {
     onUploadFileClick: PropTypes.func.isRequired,
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
+    showImages: PropTypes.func.isRequired,
   };
   state = {
     openUUID: null,
@@ -76,7 +78,7 @@ class View extends Component {
 
   handleDeleteFileClick = (e, data) => {
     this.context.onDeleteFileClick(e, data);
-  }
+  };
 
   toggleAccountFiles = (openUUID) => {
     this.setState({
@@ -92,6 +94,10 @@ class View extends Component {
         category: fileTargetTypes.PAYMENT_ACCOUNT,
       },
     });
+  };
+
+  handlePreviewImageClick = (data) => {
+    this.context.showImages(`${this.props.filesUrl}${data.uuid}`, data.type);
   };
 
   renderPaymentAccount = (data) => {
@@ -181,7 +187,7 @@ class View extends Component {
           onClick={() => this.handleUploadFileClick(data)}
         >
           <span className="margin-right-5">+</span>
-          <i className="fa fa-paperclip" aria-hidden="true" />
+          <i className="fa fa-paperclip" />
         </button>
       );
     }
@@ -192,7 +198,7 @@ class View extends Component {
         onClick={() => this.toggleAccountFiles(data.uuid)}
       >
         <span className="margin-right-5">{filesCount}</span>
-        <i className="fa fa-paperclip" aria-hidden="true" />
+        <i className="fa fa-paperclip" />
       </button>
     );
   };
@@ -224,6 +230,7 @@ class View extends Component {
           onStatusActionClick={this.handleStatusActionClick}
           onDownloadFileClick={this.handleDownloadFileClick}
           onDeleteFileClick={this.handleDeleteFileClick}
+          onPreviewImageClick={this.handlePreviewImageClick}
         />
       </div>
     );
