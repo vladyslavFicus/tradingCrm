@@ -4,9 +4,11 @@ import { targetTypes } from '../../../../../constants/note';
 import { targetTypes as fileTargetTypes } from '../../../../../components/Files/constants';
 import FilesFilterForm from './FilesFilterForm';
 import CommonFileGridView from '../../../components/CommonFileGridView';
+import getFileBlobUrl from '../../../../../utils/getFileBlobUrl';
 
 class View extends Component {
   static propTypes = {
+    filesUrl: PropTypes.string.isRequired,
     files: PropTypes.pageableState(PropTypes.fileEntity).isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -22,6 +24,7 @@ class View extends Component {
     onUploadFileClick: PropTypes.func.isRequired,
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
+    showImages: PropTypes.func.isRequired,
   };
   state = {
     filters: {},
@@ -85,6 +88,10 @@ class View extends Component {
     this.context.onDeleteFileClick(e, data);
   };
 
+  handlePreviewImageClick = (data) => {
+    this.context.showImages(`${this.props.filesUrl}${data.uuid}`, data.type);
+  };
+
   render() {
     const {
       files: {
@@ -126,6 +133,7 @@ class View extends Component {
           onStatusActionClick={this.handleStatusActionClick}
           onDownloadFileClick={this.handleDownloadFileClick}
           onDeleteFileClick={this.handleDeleteFileClick}
+          onPreviewImageClick={this.handlePreviewImageClick}
         />
       </div>
     );

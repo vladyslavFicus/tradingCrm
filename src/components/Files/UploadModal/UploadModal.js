@@ -43,6 +43,12 @@ class UploadModal extends Component {
     targetType: PropTypes.string,
     fileInitialValues: PropTypes.object,
     targetUuid: PropTypes.string,
+    maxFileSize: PropTypes.number,
+    allowedFileTypes: PropTypes.arrayOf(PropTypes.string),
+  };
+  static defaultProps = {
+    maxFileSize: 2,
+    allowedFileTypes: ['image/jpeg', 'image/png'],
   };
 
   handleSubmit = (data) => {
@@ -77,25 +83,25 @@ class UploadModal extends Component {
   renderFilesTable = () => (
     <table className="uploading-files">
       <thead>
-        <tr>
-          <th className="uploading-files__header-number" />
-          <th className="uploading-files__header-name">
-            {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
+      <tr>
+        <th className="uploading-files__header-number" />
+        <th className="uploading-files__header-name">
+          {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
+        </th>
+        {
+          this.props.targetType === targetTypes.FILES &&
+          <th className="uploading-files__header-category">
+            {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
           </th>
-          {
-            this.props.targetType === targetTypes.FILES &&
-            <th className="uploading-files__header-category">
-              {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
-            </th>
-          }
-          <th className="uploading-files__header-status">
-            {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}
-          </th>
-          <th className="uploading-files__header-note" />
-        </tr>
+        }
+        <th className="uploading-files__header-status">
+          {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}
+        </th>
+        <th className="uploading-files__header-note" />
+      </tr>
       </thead>
       <tbody>
-        {this.props.uploading.map(this.renderFile)}
+      {this.props.uploading.map(this.renderFile)}
       </tbody>
     </table>
   );
@@ -118,6 +124,8 @@ class UploadModal extends Component {
       invalid,
       submitting,
       handleSubmit,
+      maxFileSize,
+      allowedFileTypes,
     } = this.props;
 
     return (
@@ -143,8 +151,8 @@ class UploadModal extends Component {
               <div className="col-md-12 text-center">
                 <FileUpload
                   label={I18n.t('FILES.UPLOAD_MODAL.BUTTONS.ADD_FILES')}
-                  allowedSize={2}
-                  allowedTypes={['image/jpeg', 'image/png']}
+                  allowedSize={maxFileSize}
+                  allowedTypes={allowedFileTypes}
                   onChosen={this.handleUploadFile}
                   singleMode={false}
                 />
@@ -181,6 +189,5 @@ class UploadModal extends Component {
 
 export default reduxForm({
   form: FORM_NAME,
-  enableReinitialize: true,
   validate,
 })(UploadModal);
