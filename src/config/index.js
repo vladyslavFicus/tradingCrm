@@ -133,11 +133,16 @@ function getDomain() {
   return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
 }
 
+function getLogo() {
+  return /vslots/.test(getApiRoot()) ? '/img/vslots-logo.png' : '/img/logoNewAge.png';
+}
+
 export {
   getApiRoot,
   getBrand,
   getErrorApiUrl,
   getDomain,
+  getLogo,
   getAvailableTags,
   getTransactionRejectReasons,
   getTransactionChargebackReasons,
