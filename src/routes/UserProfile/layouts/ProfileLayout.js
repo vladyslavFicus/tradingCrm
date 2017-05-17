@@ -412,7 +412,7 @@ class ProfileLayout extends Component {
     }
 
     return action;
-  }
+  };
 
   render() {
     const { modal, popover, informationShown } = this.state;

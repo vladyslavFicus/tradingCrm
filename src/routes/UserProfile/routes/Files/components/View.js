@@ -83,7 +83,7 @@ class View extends Component {
 
   handleDeleteFileClick = (e, data) => {
     this.context.onDeleteFileClick(e, data);
-  }
+  };
 
   render() {
     const {

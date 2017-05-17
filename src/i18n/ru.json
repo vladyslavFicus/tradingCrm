@@ -10,7 +10,8 @@
       "PLAYER_LIABILITY": "Обязательства",
       "REVENUE": "Доход",
       "DORMANT": "Бездействующие",
-      "OPEN_LOOP": "Open loop"
+      "OPEN_LOOP": "Open loop",
+      "GAMES": "Игры"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -170,7 +171,8 @@
     "CANCEL": "Отмена",
     "SAVE": "Сохранение",
     "ACCOUNT_STATUS": "Статус аккаунта",
-    "BALANCE": "Баланс"
+    "BALANCE": "Баланс",
+    "OR": "Или"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -308,5 +310,16 @@
     "TITLE": "Доступ запрещен",
     "DESCRIPTION": "Эта часть сайта доступна только для гостей.",
     "LOGOUT_BUTTON": "Выйти из аккаунта"
+  },
+  "GAMES": {
+    "TITLE": "Игры",
+    "EXPORT_BUTTON": "Экспорт игр",
+    "UPLOAD_FILE_BUTTON": "Импорт игр"
+  },
+  "ERRORS": {
+    "FILE": {
+      "INVALID_FILE_EXTENSION": "Некорректное расширение файла",
+      "INVALID_FILE_SIZE": "Некорректное размер файла"
+    }
   }
 }
