@@ -16,11 +16,11 @@ const attributeLabels = {
   gender: 'Gender',
 };
 const validator = createValidator({
-  title: ['required', 'string'],
+  title: ['string'],
   firstName: 'string',
   lastName: 'string',
   birthDate: 'date',
-  identifier: ['required', 'string'],
+  identifier: ['string'],
 }, attributeLabels, false);
 
 class PersonalForm extends Component {
