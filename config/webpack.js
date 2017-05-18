@@ -253,19 +253,20 @@ webpackConfig.module.rules.push(
 
 if (!__DEV__) {
   debug('Applying ExtractTextPlugin to CSS loaders.');
-  webpackConfig.module.rules.filter(rule =>
-    Array.isArray(rule.use) && rule.use.find(use => /css/.test(use.loader)),
-  ).map((rule) => {
-    const [first, ...rest] = rule.loader;
 
-    return {
-      ...rule,
-      loader: ExtractTextPlugin.extract({
-        fallback: first,
-        loader: rest,
-      }),
-    };
-  });
+  webpackConfig.module.rules
+    .filter(rule => Array.isArray(rule.use) && rule.use.some(use => use.loader && /css/.test(use.loader)))
+    .map((rule) => {
+      const [first, ...rest] = rule.use;
+
+      return {
+        ...rule,
+        loader: ExtractTextPlugin.extract({
+          fallback: first,
+          use: rest,
+        }),
+      };
+    });
 
   webpackConfig.plugins.push(
     new ExtractTextPlugin({
