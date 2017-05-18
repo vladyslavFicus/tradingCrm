@@ -147,6 +147,21 @@ class CreateOperatorModal extends Component {
                 />
               </div>
             </div>
+
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-check">
+                  <label className="form-check-label">
+                    <Field
+                      className="form-check-input"
+                      name="sendMail"
+                      type="checkbox"
+                      component="input"
+                    /> Send invitation
+                  </label>
+                </div>
+              </div>
+            </div>
           </ModalBody>
 
           <ModalFooter>
