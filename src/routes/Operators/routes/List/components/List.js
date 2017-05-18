@@ -211,6 +211,7 @@ class List extends Component {
             initialValues={{
               department: departments[0] ? departments[0].value : null,
               role: roles[0] ? roles[0].value : null,
+              sendMail: true,
             }}
             onClose={this.handleModalClose}
             isOpen

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
 import { actionCreators as filesActionCreators } from '../modules/files';
 import ProfileLayout from '../layouts/ProfileLayout';
-import { getAvailableTags } from '../../../config/index';
+import config, { getAvailableTags } from '../../../config/index';
 import { statusActions } from '../../../constants/user';
 
 const mapStateToProps = (state) => {
@@ -36,6 +36,7 @@ const mapStateToProps = (state) => {
   }
 
   return {
+    auth,
     profile,
     ip,
     lastIp,
@@ -47,10 +48,12 @@ const mapStateToProps = (state) => {
     uploading,
     uploadModalInitialValues,
     locale,
+    config: config.player,
   };
 };
 
 const mapActions = {
+  fetchProfile: actionCreators.fetchProfile,
   fetchIp: actionCreators.fetchIPs,
   fetchAccumulatedBalances: actionCreators.fetchBalances,
   acceptBonus: actionCreators.acceptBonus,

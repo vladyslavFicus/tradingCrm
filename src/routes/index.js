@@ -24,6 +24,7 @@ import TermsRoute from './Terms';
 import NotFoundRoute from './NotFound';
 import LogoutRoute from './Logout';
 import ReportsRoute from './Reports';
+import GamesRoute from './Games';
 
 export const createRoutes = store => ({
   childRoutes: [
@@ -47,6 +48,7 @@ export const createRoutes = store => ({
             TermsRoute(store),
             LogoutRoute(store),
             ReportsRoute(store),
+            GamesRoute(store),
           ],
         }, requireAuth(store)),
       ],

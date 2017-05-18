@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import PlayerStatus from './PlayerStatus';
 import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
@@ -13,6 +14,7 @@ import Permissions from '../../../utils/permissions';
 import './Header.scss';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
+import CopyToClipboard from '../../../components/CopyToClipboard';
 
 class Header extends Component {
   static propTypes = {
@@ -148,9 +150,17 @@ class Header extends Component {
               {' '}
               {kycCompleted && <i className="fa fa-check text-success" />}
             </div>
-            <span className="player__account__ids">
-              {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
-            </span>
+            <div className="player__account__ids">
+              <span>{username}</span> {' - '}
+              <CopyToClipboard
+                notify
+                text={uuid}
+                notificationMessage={I18n.t('PLAYER_PROFILE.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE')}
+              >
+                <span className="short__uuid">{shortify(uuid, 'PL')}</span>
+              </CopyToClipboard> {' - '}
+              <span>{languageCode}</span>
+            </div>
           </div>
           <div className="panel-heading-row_tags">
             {

@@ -7,6 +7,7 @@ import { targetTypes as noteTargetTypes } from '../../../constants/note';
 import { categoriesLabels } from '../../../constants/files';
 import PropTypes from '../../../constants/propTypes';
 import { targetTypes } from '../constants';
+import { shortifyInMiddle } from '../../../utils/stringFormat';
 
 class UploadingFile extends Component {
   static propTypes = {
@@ -112,7 +113,12 @@ class UploadingFile extends Component {
             className="form-control"
           />
           <div className="font-size-11">
-            <strong>{data.file.name}</strong> - {data.fileUUID}
+            <div title={data.file.name} className="font-weight-700">
+              {shortifyInMiddle(data.file.name, 40)}
+            </div>
+            <div>
+              {data.fileUUID}
+            </div>
           </div>
         </td>
         {

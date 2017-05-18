@@ -2,9 +2,11 @@ import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { actionCreators } from '../modules/list';
+import { getApiRoot } from '../../../../../config';
 
 const mapStateToProps = ({ userFiles: { list: files } }) => ({
   files,
+  filesUrl: `${getApiRoot()}/profile/files/download/`,
 });
 
 const mapActions = {

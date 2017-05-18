@@ -54,6 +54,11 @@ const sidebarTopMenu = [
       },
     ],
   },
+  {
+    label: I18n.t('SIDEBAR.TOP_MENU.GAMES'),
+    icon: 'fa fa-gamepad',
+    url: '/games',
+  },
 ];
 const sidebarBottomMenu = [
   { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'fa fa-life-ring', url: '#' },

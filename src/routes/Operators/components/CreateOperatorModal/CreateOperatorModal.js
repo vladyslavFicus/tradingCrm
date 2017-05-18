@@ -3,6 +3,8 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { InputField, SelectField } from '../../../../components/ReduxForm';
 import { createValidator } from '../../../../utils/validator';
+import renderLabel from '../../../../utils/renderLabel';
+import { departmentsLabels, rolesLabels } from '../../../../constants/operators';
 import './CreateOperatorModal.scss';
 
 const attributeLabels = {
@@ -120,10 +122,9 @@ class CreateOperatorModal extends Component {
                   position="vertical"
                   showErrorMessage={false}
                   children={[
-                    <option key="empty" value="">Select department</option>,
                     ...departments.map(({ label, value }) => (
                       <option key={value} value={value}>
-                        {label}
+                        {renderLabel(label, departmentsLabels)}
                       </option>
                     )),
                   ]}
@@ -137,14 +138,28 @@ class CreateOperatorModal extends Component {
                   position="vertical"
                   showErrorMessage={false}
                   children={[
-                    <option key="empty" value="">Select role</option>,
                     ...roles.map(({ label, value }) => (
                       <option key={value} value={value}>
-                        {label}
+                        {renderLabel(label, rolesLabels)}
                       </option>
                     )),
                   ]}
                 />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-check">
+                  <label className="form-check-label">
+                    <Field
+                      className="form-check-input"
+                      name="sendMail"
+                      type="checkbox"
+                      component="input"
+                    /> Send invitation
+                  </label>
+                </div>
               </div>
             </div>
           </ModalBody>

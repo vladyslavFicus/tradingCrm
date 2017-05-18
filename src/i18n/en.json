@@ -10,7 +10,8 @@
       "PLAYER_LIABILITY": "Player liability",
       "REVENUE": "Revenue",
       "DORMANT": "Dormant",
-      "OPEN_LOOP": "Open loop"
+      "OPEN_LOOP": "Open loop",
+      "GAMES": "Games"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -137,6 +138,11 @@
         "BONUS_TYPE": "Bonus type",
         "BONUS_STATUS": "Status"
       }
+    },
+    "NOTIFICATIONS": {
+      "COPY_FULL_UUID": {
+        "MESSAGE": "Full playerUUID has been copied to clipboard"
+      }
     }
   },
   "COMMON": {
@@ -170,7 +176,11 @@
     "CANCEL": "Cancel",
     "SAVE": "Save",
     "ACCOUNT_STATUS": "Account Status",
-    "BALANCE": "Balance"
+    "BALANCE": "Balance",
+    "NOTIFICATIONS": {
+      "COPIED": "Copied"
+    },
+    "OR": "Or"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -308,5 +318,16 @@
     "TITLE": "Access denied",
     "DESCRIPTION": "This part of the site is accessible only to guests.",
     "LOGOUT_BUTTON": "Logout"
+  },
+  "GAMES": {
+    "TITLE": "Games",
+    "EXPORT_BUTTON": "Export games",
+    "UPLOAD_FILE_BUTTON": "Import games"
+  },
+  "ERRORS": {
+    "FILE": {
+      "INVALID_FILE_EXTENSION": "Invalid file extension",
+      "INVALID_FILE_SIZE": "Invalid file size"
+    }
   }
 }

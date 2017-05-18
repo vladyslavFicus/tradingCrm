@@ -26,6 +26,28 @@ const config = {
       currencies: {},
     },
   },
+  player: {
+    files: {
+      maxSize: 2,
+      types: [
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // xlsx
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation', // pptp
+        'application/vnd.oasis.opendocument.text', // odt
+        'application/vnd.oasis.opendocument.spreadsheet', // ods
+        'application/msword', // doc
+        'application/vnd.ms-excel', // xls
+        'application/vnd.ms-powerpoint', // ppt
+        'application/pdf', // pdf
+        'image/tiff', // tiff
+        'image/jpeg', // jpg, jpeg
+        'image/png', // png
+        'image/gif', // gif
+        'image/bmp', // bmp
+        'text/plain', // txt
+      ],
+    },
+  },
   nas: {
     brand: '',
     currencies: {
@@ -133,11 +155,16 @@ function getDomain() {
   return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
 }
 
+function getLogo() {
+  return /vslots/.test(getApiRoot()) ? '/img/vslots-logo.png' : '/img/logoNewAge.png';
+}
+
 export {
   getApiRoot,
   getBrand,
   getErrorApiUrl,
   getDomain,
+  getLogo,
   getAvailableTags,
   getTransactionRejectReasons,
   getTransactionChargebackReasons,

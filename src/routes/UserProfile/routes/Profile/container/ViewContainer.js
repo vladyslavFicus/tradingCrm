@@ -3,6 +3,7 @@ import View from '../components/View';
 import { actionCreators as profileActionCreators } from '../../../modules';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { statuses as kycStatuses } from '../../../../../constants/kyc';
+import { getApiRoot } from '../../../../../config';
 
 const mapStateToProps = ({ profile: { profile }, i18n: { locale } }) => ({
   profile,
@@ -30,6 +31,7 @@ const mapStateToProps = ({ profile: { profile }, i18n: { locale } }) => ({
   ),
   canVerifyAll: !profile.data.kycCompleted,
   locale,
+  filesUrl: `${getApiRoot()}/profile/files/download/`,
 });
 const mapActions = {
   fetchProfile: profileActionCreators.fetchProfile,

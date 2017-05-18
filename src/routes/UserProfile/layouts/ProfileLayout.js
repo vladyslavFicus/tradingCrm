@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NotificationContainer from 'react-notification-system';
+import ImageViewer from 'react-images';
 import Tabs from '../../../components/Tabs';
 import Modal from '../../../components/Modal';
 import Header from '../components/Header';
@@ -8,6 +9,7 @@ import { userProfileTabs } from '../../../config/menu';
 import { targetTypes } from '../../../constants/note';
 import Information from '../components/Information';
 import PropTypes from '../../../constants/propTypes';
+import getFileBlobUrl from '../../../utils/getFileBlobUrl';
 import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal,
@@ -27,6 +29,10 @@ const modalInitialState = {
   name: null,
   params: {},
 };
+const imageViewerInitialState = {
+  isOpen: false,
+  images: [],
+};
 
 class ProfileLayout extends Component {
   static propTypes = {
@@ -45,11 +51,21 @@ class ProfileLayout extends Component {
     notes: PropTypes.pageableState(PropTypes.noteEntity).isRequired,
     lastIp: PropTypes.ipEntity,
     location: PropTypes.object.isRequired,
+    config: PropTypes.shape({
+      files: PropTypes.shape({
+        maxSize: PropTypes.number.isRequired,
+        types: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }).isRequired,
+    }).isRequired,
+    auth: PropTypes.shape({
+      token: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+    }).isRequired,
     availableTags: PropTypes.array.isRequired,
     addTag: PropTypes.func.isRequired,
     deleteTag: PropTypes.func.isRequired,
     availableStatuses: PropTypes.arrayOf(PropTypes.object),
     accumulatedBalances: PropTypes.object.isRequired,
+    fetchProfile: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
     loadFullProfile: PropTypes.func.isRequired,
@@ -97,11 +113,13 @@ class ProfileLayout extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     onAddNotification: PropTypes.func.isRequired,
+    showImages: PropTypes.func.isRequired,
   };
 
   state = {
     popover: { ...popoverInitialState },
     modal: { ...modalInitialState },
+    imageViewer: { ...imageViewerInitialState },
     noteChangedCallback: null,
     fileChangedCallback: null,
     informationShown: true,
@@ -120,6 +138,7 @@ class ProfileLayout extends Component {
       setFileChangedCallback: this.setFileChangedCallback,
       onDeleteFileClick: this.handleDeleteFileClick,
       onAddNotification: this.handleAddNotification,
+      showImages: this.showImages,
     };
   }
 
@@ -403,8 +422,49 @@ class ProfileLayout extends Component {
     this.props.walletLimitAction({ ...data, playerUUID: this.props.params.id });
   };
 
+  handleUpdateSubscription = async (name, value) => {
+    const { params: { id: playerUUID }, updateSubscription, fetchProfile } = this.props;
+    const action = await updateSubscription(playerUUID, name, value);
+
+    if (action && !action.error) {
+      await fetchProfile(playerUUID);
+    }
+
+    return action;
+  };
+
+  showImages = async (url, type, options = {}) => {
+    const images = [{
+      src: await getFileBlobUrl(url, {
+        method: 'GET',
+        headers: {
+          Accept: type,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.props.auth.token}`,
+        },
+      }),
+    }];
+
+    this.setState({
+      imageViewer: {
+        isOpen: true,
+        images,
+        ...options,
+        onClose: () => this.handleCloseImageViewer(() => window.URL.revokeObjectURL(images[0])),
+      },
+    });
+  };
+
+  handleCloseImageViewer = (cb) => {
+    this.setState({ imageViewer: { ...imageViewerInitialState } }, () => {
+      if (typeof cb === 'function') {
+        cb();
+      }
+    });
+  };
+
   render() {
-    const { modal, popover, informationShown } = this.state;
+    const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
     const {
       profile: { data: profileData },
       children,
@@ -415,13 +475,13 @@ class ProfileLayout extends Component {
       availableTags,
       availableStatuses,
       accumulatedBalances,
-      updateSubscription,
       changeStatus,
       notes,
       walletLimits,
       uploading,
       uploadModalInitialValues,
       manageNote,
+      config,
     } = this.props;
 
     return (
@@ -460,7 +520,7 @@ class ProfileLayout extends Component {
               <Information
                 data={profileData}
                 ips={ip.list}
-                updateSubscription={updateSubscription.bind(null, params.id)}
+                updateSubscription={this.handleUpdateSubscription}
                 onEditNoteClick={this.handleEditNoteClick}
                 notes={notes}
               />
@@ -507,6 +567,8 @@ class ProfileLayout extends Component {
             onCancelFile={this.handleUploadingFileDelete}
             onSubmit={this.handleSubmitUploadModal}
             onManageNote={manageNote}
+            maxFileSize={config.files.maxSize}
+            allowedFileTypes={config.files.types}
           />
         }
         {
@@ -535,8 +597,16 @@ class ProfileLayout extends Component {
           />
         }
 
+        <ImageViewer
+          backdropClosesModal
+          showImageCount={false}
+          {...imageViewerState}
+          onClose={this.handleCloseImageViewer}
+        />
         <NotificationContainer
-          ref={(node) => { this.notificationNode = node; }}
+          ref={(node) => {
+            this.notificationNode = node;
+          }}
           style={{
             Containers: {
               DefaultStyle: { zIndex: 1 },
