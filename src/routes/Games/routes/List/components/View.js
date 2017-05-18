@@ -19,7 +19,12 @@ class View extends Component {
     }),
     uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
+    clearAll: PropTypes.func.isRequired,
   };
+
+  componentWillUnmount() {
+    this.props.clearAll();
+  }
 
   handleDownloadClick = () => {
     this.props.downloadFile();
@@ -66,7 +71,7 @@ class View extends Component {
                   disabled={disabled}
                   label={I18n.t('GAMES.UPLOAD_FILE_BUTTON')}
                   allowedSize={5}
-                  allowedTypes={['text/csv']}
+                  allowedTypes={['text/csv', 'application/vnd.ms-excel']}
                   incorrectFileType={I18n.t('ERRORS.FILE.INVALID_FILE_EXTENSION')}
                   incorrectFileSize={I18n.t('ERRORS.FILE.INVALID_FILE_SIZE')}
                   onChosen={this.handleUploadFile}

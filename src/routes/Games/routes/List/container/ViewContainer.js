@@ -8,6 +8,7 @@ const mapStateToProps = ({ games }) => ({
 const mapActions = {
   downloadFile: actionCreators.downloadFile,
   uploadFile: actionCreators.uploadFile,
+  clearAll: actionCreators.clearAll,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

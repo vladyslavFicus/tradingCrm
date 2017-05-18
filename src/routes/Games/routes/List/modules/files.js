@@ -11,6 +11,7 @@ const KEY = 'games/list/files';
 const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
 const PROGRESS = `${KEY}/upload-progress`;
 const DOWNLOAD_FILE = createRequestAction(`${KEY}/download-file`);
+const CLEAR_FILES = `${KEY}/clear-files`;
 
 function updateProgress(id, progress) {
   return {
@@ -86,6 +87,12 @@ function downloadFile(name = 'games.csv') {
   };
 }
 
+function clearFiles() {
+  return {
+    type: CLEAR_FILES,
+  };
+}
+
 const initialState = {
   download: {
     error: null,
@@ -95,7 +102,7 @@ const initialState = {
     error: null,
     uploading: false,
     progress: 0,
-  }
+  },
 };
 const actionHandlers = {
   [UPLOAD_FILE.REQUEST]: (state, action) => ({
@@ -107,11 +114,10 @@ const actionHandlers = {
       progress: 0,
     }),
   }),
-  [UPLOAD_FILE.SUCCESS]: (state, action) => ({
+  [UPLOAD_FILE.SUCCESS]: (state) => ({
     ...state,
     upload: {
       ...state.upload,
-      ...action.payload,
       progress: 100,
       uploading: false,
     },
@@ -131,14 +137,14 @@ const actionHandlers = {
       progress: action.payload,
     },
   }),
-  [DOWNLOAD_FILE.REQUEST]: (state) => ({
+  [DOWNLOAD_FILE.REQUEST]: state => ({
     ...state,
     download: {
       loading: true,
       error: null,
     },
   }),
-  [DOWNLOAD_FILE.SUCCESS]: (state) => ({
+  [DOWNLOAD_FILE.SUCCESS]: state => ({
     ...state,
     download: {
       loading: false,
@@ -151,14 +157,17 @@ const actionHandlers = {
       error: action.payload,
     },
   }),
+  [CLEAR_FILES]: () => ({ ...initialState }),
 };
 const actionTypes = {
   UPLOAD_FILE,
   DOWNLOAD_FILE,
+  CLEAR_FILES,
 };
 const actionCreators = {
   uploadFile,
   downloadFile,
+  clearFiles,
 };
 
 export {

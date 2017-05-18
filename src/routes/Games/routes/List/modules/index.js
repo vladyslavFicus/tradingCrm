@@ -14,6 +14,9 @@ const actionTypes = {
 };
 const actionCreators = {
   ...filesActionCreators,
+  clearAll: () => (dispatch) => {
+    dispatch(filesActionCreators.clearFiles());
+  },
 };
 
 export {
