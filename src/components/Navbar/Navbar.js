@@ -52,7 +52,7 @@ class Navbar extends Component {
     return (
       <header className="layout-header">
         <IndexLink className="navbar-brand" href={'/'}>
-          <img className="img-fluid" src={getLogo()} alt="current-lottery-logo" />
+          <img src={getLogo()} alt="current-lottery-logo" />
         </IndexLink>
 
         <div className="left-navigation">
