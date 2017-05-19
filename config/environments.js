@@ -3,7 +3,7 @@
 // the base configuration will apply your overrides before exporting itself.
 
 const applicationConfig = {
-  'api.entry': 'http://api.casino.app',
+  'nas.api.url': 'http://api.casino.app',
   'nas.brand': 'local',
   'nas.locale.defaultLanguage': 'en',
   'nas.locale.languages[0].value': 'en',
