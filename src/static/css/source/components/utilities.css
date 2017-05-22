@@ -1,19 +1,4 @@
 /*
- * EXAMPLE BLOCK
- */
-.example-block {
-  padding: 15px 15px;
-  border: 1px solid #eceff4;
-}
-
-.example-block:before {
-  content: 'EXAMPLE';
-  display: block;
-  margin-bottom: 15px;
-  color: #827ca1;
-}
-
-/*
  * TEXT COLOR
  */
 .color-black {
