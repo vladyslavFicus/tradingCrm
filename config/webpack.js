@@ -170,6 +170,7 @@ if (__DEV__) {
 // JavaScript / JSON
 webpackConfig.module.rules = [
   {
+    enforce: 'pre',
     test: /\.(js|jsx)$/,
     exclude: /node_modules/,
     loader: 'babel',
@@ -222,11 +223,11 @@ webpackConfig.module.rules.push({
 webpackConfig.module.rules.push(
   {
     test: /\.woff(\?.*)?$/,
-    use: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff',
+    loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff',
   },
   {
     test: /\.woff2(\?.*)?$/,
-    use: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff2',
+    loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff2',
   },
   {
     test: /\.otf(\?.*)?$/,

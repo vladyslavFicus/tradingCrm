@@ -1,16 +1,16 @@
 import { argv } from 'yargs';
 import _debug from 'debug';
-import config from './project';
-import webpackConfig from './webpack';
+import project from './project';
+import webpack from './webpack';
 
 const debug = _debug('app:karma');
 debug('Create configuration.');
 
 const karmaConfig = {
-  basePath: '../', // project root in relation to bin/karma.js
+  basePath: '../',
   files: [
     {
-      pattern: `./${config.dir_test}/test-bundler.js`,
+      pattern: `./${project.dir_test}/test-bundler.js`,
       watched: false,
       served: true,
       included: true,
@@ -20,24 +20,28 @@ const karmaConfig = {
   frameworks: ['mocha'],
   reporters: ['mocha'],
   preprocessors: {
-    [`${config.dir_test}/test-bundler.js`]: ['webpack'],
+    [`${project.dir_test}/test-bundler.js`]: ['webpack'],
   },
   browsers: ['PhantomJS'],
   webpack: {
+    entry: `./${project.dir_test}/test-bundler.js`,
     devtool: 'cheap-module-source-map',
     resolve: {
-      ...webpackConfig.resolve,
+      ...webpack.resolve,
       alias: {
-        ...webpackConfig.resolve.alias,
+        ...webpack.resolve.alias,
         sinon: 'sinon/pkg/sinon.js',
       },
     },
-    plugins: webpackConfig.plugins,
+    resolveLoader: {
+      moduleExtensions: ['-loader'],
+    },
+    plugins: webpack.plugins,
     module: {
       noParse: [
         /\/sinon\.js/,
       ],
-      loaders: webpackConfig.module.loaders.concat([
+      rules: webpack.module.rules.concat([
         {
           test: /sinon(\\|\/)pkg(\\|\/)sinon\.js/,
           loader: 'imports?define=>false,require=>false',
@@ -47,18 +51,17 @@ const karmaConfig = {
     // Enzyme fix, see:
     // https://github.com/airbnb/enzyme/issues/47
     externals: {
-      ...webpackConfig.externals,
+      ...webpack.externals,
       'react/addons': true,
       'react/lib/ExecutionEnvironment': true,
       'react/lib/ReactContext': 'window',
     },
-    sassLoader: webpackConfig.sassLoader,
   },
   webpackMiddleware: {
     noInfo: true,
   },
   coverageReporter: {
-    reporters: config.coverage_reporters,
+    reporters: project.coverage_reporters,
   },
 };
 

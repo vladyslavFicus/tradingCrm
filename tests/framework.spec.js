@@ -1,9 +1,10 @@
 import assert from 'assert';
 import React from 'react';
-import { mount, render, shallow } from 'enzyme';
+import { mount, render } from 'enzyme';
+import shallow from 'react-test-renderer/shallow';
 
 class Fixture extends React.Component {
-  render () {
+  render() {
     return (
       <div>
         <input id='checked' defaultChecked />
