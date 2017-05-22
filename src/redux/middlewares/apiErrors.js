@@ -5,7 +5,8 @@ const regExp = new RegExp('-failure$');
 export default () => next => (action) => {
   if (
     action && action.error && regExp.test(action.type)
-    && action.payload.response && action.payload.response.error !== 'JWT_TOKEN_EXPIRED'
+    && action.payload.response
+    && (!action.payload.response.message || action.payload.response.message !== 'JWT_TOKEN_EXPIRED')
   ) {
     const message = `${errorTypes.API} error`;
     const errorType = errorTypes.API;
