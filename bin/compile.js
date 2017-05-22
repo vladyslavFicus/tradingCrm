@@ -48,7 +48,7 @@ const webpackCompiler = (cfg, statsFormat = DEFAULT_STATS_FORMAT) => {
     }
 
     debug('Copy static assets to dist folder.');
-    fs.copySync(paths.client('static'), paths.dist());
+    fs.copySync(paths.base('public'), paths.dist());
   } catch (e) {
     debug('Compiler encountered an error.', e);
     process.exit(1);
