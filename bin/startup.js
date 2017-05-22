@@ -43,7 +43,7 @@ function processSpringConfig(springConfig) {
       processError(error);
     }
 
-    if (config['api.entry']) {
+    if (config['nas.api.url']) {
       const status = STATUS.UP;
       fs.writeFileSync('/opt/health.json', JSON.stringify({ status, config: { status } }));
     }

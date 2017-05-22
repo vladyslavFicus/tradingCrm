@@ -134,8 +134,8 @@ function getLimitPeriods() {
 }
 
 function getApiRoot() {
-  return config.api.entry
-    ? config.api.entry.replace(/\/$/, '')
+  return config.nas.api.url
+    ? config.nas.api.url.replace(/\/$/, '')
     : '';
 }
 
