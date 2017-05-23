@@ -3,6 +3,7 @@ import jwtDecode from 'jwt-decode';
 import createReducer from '../../utils/createReducer';
 import createRequestAction from '../../utils/createRequestAction';
 import { sourceActionCreators as operatorSourceActionCreators } from './operator';
+import getFingerprint from '../../utils/fingerPrint';
 
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
@@ -17,24 +18,29 @@ const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 const fetchAuthorities = operatorSourceActionCreators.fetchAuthorities(FETCH_AUTHORITIES);
 
 function signIn(data) {
-  return {
-    [CALL_API]: {
-      endpoint: '/auth/signin',
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-      types: [
-        {
-          type: SIGN_IN.REQUEST,
-          meta: { department: data.department },
+  return async (dispatch) => {
+    return dispatch({
+      [CALL_API]: {
+        endpoint: '/auth/signin',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-        SIGN_IN.SUCCESS,
-        SIGN_IN.FAILURE,
-      ],
-    },
+        body: JSON.stringify({
+          ...data,
+          device: await getFingerprint(),
+        }),
+        types: [
+          {
+            type: SIGN_IN.REQUEST,
+            meta: { department: data.department },
+          },
+          SIGN_IN.SUCCESS,
+          SIGN_IN.FAILURE,
+        ],
+      },
+    });
   };
 }
 
