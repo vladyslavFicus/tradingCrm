@@ -143,6 +143,24 @@
       "COPY_FULL_UUID": {
         "MESSAGE": "Full playerUUID has been copied to clipboard"
       }
+    },
+    "DEVICES": {
+      "FILTER": {
+        "LOGIN_DATE_RANGE": "Login date range",
+        "LABELS": {
+          "TYPE": "Type",
+          "OPERATING_SYSTEM": "Operating system"
+        }
+      },
+      "GRID_VIEW": {
+        "DEVICE_ID": "Device ID",
+        "TYPE": "Type",
+        "OPERATING_SYSTEM": "Operating system",
+        "LAST_IP": "Last IP",
+        "LAST_LOGIN": "Last login",
+        "TOTAL_LOGIN": "Total login"
+      },
+      "TITLE": "Devices"
     }
   },
   "COMMON": {
@@ -180,7 +198,8 @@
     "NOTIFICATIONS": {
       "COPIED": "Copied"
     },
-    "OR": "Or"
+    "OR": "Or",
+    "TO": "To"
   },
   "FILES": {
     "UPLOAD_MODAL": {

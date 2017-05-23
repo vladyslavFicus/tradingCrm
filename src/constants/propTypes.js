@@ -323,5 +323,13 @@ PropTypes.walletLimitEntity = PropTypes.shape({
   startLock: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
 });
+PropTypes.userDeviceEntity = PropTypes.shape({
+  deviceUUID: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  operatingSystem: PropTypes.string.isRequired,
+  lastIp: PropTypes.string.isRequired,
+  lastLogin: PropTypes.string.isRequired,
+  totalLogin: PropTypes.number.isRequired,
+});
 
 export default PropTypes;

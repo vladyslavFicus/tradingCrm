@@ -143,6 +143,24 @@
       "COPY_FULL_UUID": {
         "MESSAGE": "Полный playerUUID скопирован в буфер обмена"
       }
+    },
+    "DEVICES": {
+      "FILTER": {
+        "LOGIN_DATE_RANGE": "Время логина",
+        "LABELS": {
+          "TYPE": "Тип",
+          "OPERATING_SYSTEM": "Операционная система"
+        }
+      },
+      "GRID_VIEW": {
+        "DEVICE_ID": "ID устройства",
+        "TYPE": "Тип",
+        "OPERATING_SYSTEM": "Операционная система",
+        "LAST_IP": "Последний IP",
+        "LAST_LOGIN": "Последний логин",
+        "TOTAL_LOGIN": "Всего логинов"
+      },
+      "TITLE": "Устройства"
     }
   },
   "COMMON": {
@@ -180,7 +198,8 @@
     "NOTIFICATIONS": {
       "COPIED": "Скопировано"
     },
-    "OR": "Или"
+    "OR": "Или",
+    "TO": "По"
   },
   "FILES": {
     "UPLOAD_MODAL": {
