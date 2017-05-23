@@ -1,5 +1,5 @@
 const argv = require('yargs').argv;
-const webpackConfig = require('./webpack');
+const webpackConfig = require('./webpack.config');
 
 const TEST_BUNDLER = './tests/test-bundler.js';
 
@@ -16,7 +16,7 @@ const karmaConfig = {
     pattern: TEST_BUNDLER,
     watched: false,
     served: true,
-    included: true
+    included: true,
   }],
   frameworks: ['mocha'],
   reporters: ['mocha'],
@@ -47,4 +47,4 @@ const karmaConfig = {
   },
 };
 
-module.exports = (cfg) => cfg.set(karmaConfig);
+module.exports = cfg => cfg.set(karmaConfig);

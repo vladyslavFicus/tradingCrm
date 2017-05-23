@@ -11,7 +11,7 @@ ADD ./dist $BUILD_PATH
 ADD ./nginx.conf /etc/nginx/conf.d/default.conf
 
 ADD ./entrypoint.sh /opt/entrypoint.sh
-ADD ./bin/startup.js /opt/startup.js
+ADD ./build/scripts/startup.js /opt/startup.js
 
 RUN chmod +x /opt/entrypoint.sh
 
