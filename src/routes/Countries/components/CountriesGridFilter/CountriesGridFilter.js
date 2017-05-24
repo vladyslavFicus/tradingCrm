@@ -4,6 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import { SelectField } from '../../../../components/ReduxForm/index';
 import { accessTypes, accessTypeLabels } from '../../../../constants/countries';
 import { createValidator } from '../../../../utils/validator';
+import renderLabel from '../../../../utils/renderLabel';
 import { attributeLabels } from './constants';
 
 const validator = createValidator({
@@ -41,10 +42,11 @@ class CountriesGridFilter extends Component {
                     position="vertical"
                   >
                     <option value="">-- {I18n.t('COMMON.ANY')} --</option>
-                    {Object
-                      .keys(accessTypes)
-                      .map(key => <option key={key} value={key}>{accessTypeLabels[key]}</option>)
-                    }
+                    {Object.keys(accessTypes).map(key =>
+                      <option key={key} value={key}>
+                        { renderLabel(key, accessTypeLabels) }
+                      </option>
+                    )}
                   </Field>
                 </div>
               </div>

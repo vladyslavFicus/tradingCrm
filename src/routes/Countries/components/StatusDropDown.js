@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import { accessTypesActions, accessTypesColor, accessTypeLabels } from '../../../constants/countries';
+import renderLabel from '../../../utils/renderLabel';
 
 class StatusDropDown extends Component {
   static propTypes = {
@@ -25,11 +27,7 @@ class StatusDropDown extends Component {
 
     const label = (
       <div className={classNames('font-weight-700', accessTypesColor[status])}>
-        {
-          accessTypeLabels[status]
-            ? accessTypeLabels[status]
-            : status
-        }
+        { renderLabel(status, accessTypeLabels) }
       </div>
     );
 
@@ -47,7 +45,7 @@ class StatusDropDown extends Component {
                 key={item.label}
               >
                 <div className={'font-weight-700'}>
-                  {item.label}
+                  {I18n.t(item.label)}
                 </div>
               </DropdownItem>
             ))

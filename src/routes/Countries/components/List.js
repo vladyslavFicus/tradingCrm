@@ -12,6 +12,7 @@ class List extends Component {
     loadCountries: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.countryAccessEntity),
+    locale: PropTypes.string.isRequired,
   };
 
   state = {
@@ -62,6 +63,7 @@ class List extends Component {
 
           <CountriesGridFilter
             onSubmit={this.handleFiltersChanged}
+            locale={this.props.locale}
           />
 
           <Content>
@@ -72,6 +74,7 @@ class List extends Component {
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
+              locale={this.props.locale}
               lazyLoad
             >
               <GridColumn

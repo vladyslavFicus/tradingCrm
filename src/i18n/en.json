@@ -269,6 +269,16 @@
         "MANUAL": "by Operator",
         "CAMPAIGN": "by Campaign"
       }
+    },
+    "COUNTRIES": {
+      "TYPES": {
+        "ALLOWED": "Allowed",
+        "FORBIDDEN": "Forbidden"
+      },
+      "TYPES_ACTION": {
+        "FORBID": "Forbid",
+        "ALLOW": "Allow"
+      }
     }
   },
   "OPERATOR_PROFILE": {

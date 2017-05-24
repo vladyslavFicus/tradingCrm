@@ -269,6 +269,16 @@
         "MANUAL": "Оператор",
         "CAMPAIGN": "Кампания"
       }
+    },
+    "COUNTRIES": {
+      "TYPES": {
+        "ALLOWED": "Допущен",
+        "FORBIDDEN": "Запрещен"
+      },
+      "TYPES_ACTION": {
+        "FORBID": "Запретить",
+        "ALLOW": "Разрешить"
+      }
     }
   },
   "OPERATOR_PROFILE": {
