@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';

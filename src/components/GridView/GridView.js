@@ -1,6 +1,7 @@
 import { Pagination } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import GridColumn from './GridColumn';
 import shallowEqual from '../../utils/shallowEqual';
 
@@ -19,13 +20,14 @@ class GridView extends Component {
     summaryRow: PropTypes.object,
     rowClassName: PropTypes.func,
     lazyLoad: PropTypes.bool,
+    locale: PropTypes.string,
   };
-
   static defaultProps = {
     tableClassName: 'table table-stripped table-hovered',
     headerClassName: 'thead-default',
     defaultFilters: {},
     summaryRow: null,
+    locale: null,
   };
 
   state = {
@@ -37,7 +39,8 @@ class GridView extends Component {
       return true;
     }
 
-    return !shallowEqual(nextProps.dataSource, this.props.dataSource);
+    return !shallowEqual(nextProps.dataSource, this.props.dataSource)
+      || !shallowEqual(nextProps.locale, this.props.locale);
   }
 
   onFiltersChanged = () => {
@@ -229,8 +232,8 @@ class GridView extends Component {
         <div className="col-md-12 table-responsive">
           <table className={tableClassName}>
             <thead className={headerClassName}>
-              {this.renderHead(this.recognizeHeaders(grids))}
-              {this.renderFilters(this.recognizeFilters(grids))}
+            {this.renderHead(this.recognizeHeaders(grids))}
+            {this.renderFilters(this.recognizeFilters(grids))}
             </thead>
 
             {this.renderBody(grids)}

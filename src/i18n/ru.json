@@ -180,7 +180,9 @@
     "NOTIFICATIONS": {
       "COPIED": "Скопировано"
     },
-    "OR": "Или"
+    "OR": "Или",
+    "OPT_IN": "Opt-In",
+    "NON_OPT_IN": "Non Opt-In"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -262,11 +264,26 @@
       "TYPES": {
         "FIRSTDEPOSIT": "Первый депозит",
         "PLAYERPROFILECOMPLETED": "Профиль заполнен",
-        "MANUAL": "Без депозита"
+        "MANUAL": "Без депозита",
+        "FIRST_DEPOSIT": "",
+        "PLAYER_PROFILE_COMPLETED": ""
       },
       "ASSIGN": {
         "MANUAL": "Оператор",
         "CAMPAIGN": "Кампания"
+      }
+    },
+    "BONUS_CAMPAIGN": {
+      "STATUSES": {
+        "INACTIVE": "Неактивный",
+        "IN_PROGRESS": "Активный",
+        "ACTIVE": "Ожидает",
+        "COMPLETED": "Выполненный"
+      },
+      "EVENT_TYPE": {
+        "FIRST_DEPOSIT": "Первое пополнение",
+        "DEPOSIT": "Пополнение",
+        "PROFILE_COMPLETED": "Профиль заполнен"
       }
     }
   },
@@ -276,7 +293,7 @@
         "SEARCH_BY_LABEL": "Поиск по",
         "SEARCH_BY_PLACEHOLDER": "ID действия, ID оператора, IP",
         "ACTION_TYPE_EMPTY_OPTION": "Все действия",
-        "ACTION_DATE_RANGE": "Action date range"
+        "ACTION_DATE_RANGE": "Временной диапозон действия"
       },
       "TITLE": "Действия",
       "FEED_ITEM": {
@@ -329,5 +346,40 @@
       "INVALID_FILE_EXTENSION": "Некорректное расширение файла",
       "INVALID_FILE_SIZE": "Некорректное размер файла"
     }
+  },
+  "BONUS_CAMPAIGNS": {
+    "GRID_VIEW": {
+      "AUTHOR": "от %{uuid}",
+      "DATE_TIME_AT": "в %{time}",
+      "CAMPAIGN": "Кампания",
+      "FULFILLMENT_TYPE": "Тип условия",
+      "CREATED": "Создан",
+      "START_DATE": "Дата начала",
+      "END_DATE": "Дата окончания",
+      "STATUS": "Статус",
+      "GRANTED_TO": "для %{count} игроков",
+      "GRANTED_TO_1": "для %{count} игрока",
+      "GRANTED": "Выдано"
+    },
+    "TITLE": "Бонусные кампании",
+    "FILTER_FORM": {
+      "SEARCH_BY": "Поиск по",
+      "FULFILLMENT_TYPE": "Тип условия",
+      "STATUS": "Статус",
+      "OPT_IN": "Тип",
+      "CREATION_DATE": "Диапазон дат создания",
+      "ACTIVITY_DATE": "Диапазон дат активности",
+      "CREATION_DATE_FROM": "Начальная дата создания",
+      "CREATION_DATE_TO": "Конечная дата создания",
+      "ACTIVITY_DATE_FROM": "Начальная дата активности",
+      "ACTIVITY_DATE_TO": "Конечная дата активности",
+      "SEARCH_BY_PLACEHOLDER": "Кампания, Оператор"
+    },
+    "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию"
+  },
+  "BONUS_CAMPAIGN_STATUS": {
+    "CHANGE_DATE": "on %{date}",
+    "UNTIL_DATE": "до %{date}",
+    "AUTHOR": "%{uuid}"
   }
 }

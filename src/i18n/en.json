@@ -180,7 +180,9 @@
     "NOTIFICATIONS": {
       "COPIED": "Copied"
     },
-    "OR": "Or"
+    "OR": "Or",
+    "OPT_IN": "Opt-In",
+    "NON_OPT_IN": "Non Opt-in"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -262,11 +264,26 @@
       "TYPES": {
         "FIRSTDEPOSIT": "First deposit",
         "PLAYERPROFILECOMPLETED": "Profile completed",
-        "MANUAL": "No Deposit"
+        "MANUAL": "No Deposit",
+        "FIRST_DEPOSIT": "",
+        "PLAYER_PROFILE_COMPLETED": ""
       },
       "ASSIGN": {
         "MANUAL": "by Operator",
         "CAMPAIGN": "by Campaign"
+      }
+    },
+    "BONUS_CAMPAIGN": {
+      "STATUSES": {
+        "INACTIVE": "Inactive",
+        "IN_PROGRESS": "In progress",
+        "ACTIVE": "Active",
+        "COMPLETED": "Completed"
+      },
+      "EVENT_TYPE": {
+        "FIRST_DEPOSIT": "First deposit",
+        "DEPOSIT": "Deposit",
+        "PROFILE_COMPLETED": "Profile completed"
       }
     }
   },
@@ -329,5 +346,41 @@
       "INVALID_FILE_EXTENSION": "Invalid file extension",
       "INVALID_FILE_SIZE": "Invalid file size"
     }
+  },
+  "BONUS_CAMPAIGNS": {
+    "GRID_VIEW": {
+      "AUTHOR": "by %{uuid}",
+      "DATE_TIME_AT": "at %{time}",
+      "CAMPAIGN": "Campaign",
+      "FULFILLMENT_TYPE": "Fulfillment type",
+      "CREATED": "Created",
+      "START_DATE": "Start date",
+      "END_DATE": "End date",
+      "STATUS": "Status",
+      "GRANTED_TO": "to %{count} players",
+      "GRANTED_TO_0": "to %{count} players",
+      "GRANTED_TO_1": "to %{count} player",
+      "GRANTED": "Granted"
+    },
+    "TITLE": "Bonus campaigns",
+    "FILTER_FORM": {
+      "SEARCH_BY": "Search by",
+      "FULFILLMENT_TYPE": "Fulfilment type",
+      "STATUS": "Status",
+      "OPT_IN": "Type",
+      "CREATION_DATE": "Creation date range",
+      "ACTIVITY_DATE": "Activity date range",
+      "CREATION_DATE_FROM": "Creation date from",
+      "CREATION_DATE_TO": "Creation date to",
+      "ACTIVITY_DATE_FROM": "Activity date from",
+      "ACTIVITY_DATE_TO": "Activity date to",
+      "SEARCH_BY_PLACEHOLDER": "Campaign, Operator"
+    },
+    "BUTTON_CREATE_CAMPAIGN": "+ Add campaign"
+  },
+  "BONUS_CAMPAIGN_STATUS": {
+    "CHANGE_DATE": "on %{date}",
+    "UNTIL_DATE": "until %{date}",
+    "AUTHOR": "by %{uuid}"
   }
 }
