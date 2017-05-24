@@ -11,7 +11,8 @@
       "REVENUE": "Доход",
       "DORMANT": "Бездействующие",
       "OPEN_LOOP": "Open loop",
-      "GAMES": "Игры"
+      "GAMES": "Игры",
+      "COUNTRIES": "Страны"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -268,6 +269,16 @@
         "MANUAL": "Оператор",
         "CAMPAIGN": "Кампания"
       }
+    },
+    "COUNTRIES": {
+      "TYPES": {
+        "ALLOWED": "Допущен",
+        "FORBIDDEN": "Запрещен"
+      },
+      "TYPES_ACTION": {
+        "FORBID": "Запретить",
+        "ALLOW": "Разрешить"
+      }
     }
   },
   "OPERATOR_PROFILE": {
@@ -328,6 +339,20 @@
     "FILE": {
       "INVALID_FILE_EXTENSION": "Некорректное расширение файла",
       "INVALID_FILE_SIZE": "Некорректное размер файла"
+    }
+  },
+  "COUNTRIES": {
+    "TITLE": "Страны",
+    "FILTER": {
+      "LABELS": {
+        "ACCESS": "Доступ"
+      }
+    },
+    "GRID": {
+      "LABEL": {
+        "COUNTRY": "Страна",
+        "ACCESS": "Доступ"
+      }
     }
   }
 }

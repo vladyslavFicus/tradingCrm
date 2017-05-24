@@ -323,5 +323,10 @@ PropTypes.walletLimitEntity = PropTypes.shape({
   startLock: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
 });
+PropTypes.countryAccessEntity = PropTypes.shape({
+  allowed: PropTypes.bool.isRequired,
+  countryCode: PropTypes.string.isRequired,
+  countryName: PropTypes.string.isRequired,
+});
 
 export default PropTypes;

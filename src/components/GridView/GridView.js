@@ -19,6 +19,7 @@ class GridView extends Component {
     summaryRow: PropTypes.object,
     rowClassName: PropTypes.func,
     lazyLoad: PropTypes.bool,
+    locale: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -37,7 +38,8 @@ class GridView extends Component {
       return true;
     }
 
-    return !shallowEqual(nextProps.dataSource, this.props.dataSource);
+    return !shallowEqual(nextProps.dataSource, this.props.dataSource)
+      || (nextProps.locale !== this.props.locale);
   }
 
   onFiltersChanged = () => {
