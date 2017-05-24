@@ -1,30 +1,36 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { I18n } from 'react-redux-i18n';
 import Panel, { Title, Content } from '../../../components/Panel';
 import CountriesGridFilter from './CountriesGridFilter';
 import GridView, { GridColumn } from '../../../components/GridView';
 import StatusDropDown from './StatusDropDown';
 import { accessTypes } from '../../../constants/countries';
+import PropTypes from '../../../constants/propTypes';
 
 class List extends Component {
   static propTypes = {
     loadCountries: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
+    list: PropTypes.pageableState(PropTypes.countryAccessEntity),
   };
 
   state = {
     filters: {},
   };
 
-  /*componentDidMount() {
+  componentDidMount() {
     this.handleRefresh();
-  }*/
+  }
 
   handleRefresh = () => {
-    this.props.loadCountries(this.state.filters);
+    this.props.loadCountries({
+      ...this.state.filters,
+      page: this.state.page,
+    });
   };
 
   handleFiltersChanged = (filters = {}) => {
-    this.setState({ filters }, () => this.handleRefresh());
+    this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
   handlePageChanged = (page) => {
@@ -33,18 +39,9 @@ class List extends Component {
     }
   };
 
-  handleChangeStatus = countryCode => async (action) => {
-    const responseAction = await this.props.changeStatus(action, countryCode);
-    /*if (responseAction && !responseAction.error) {
-      this.handleRefresh();
-    }*/
+  handleChangeStatus = countryCode => (action) => {
+    this.props.changeStatus(action, countryCode);
   };
-
-  renderCountry = () => {
-    return (
-      <div>Country</div>
-    );
-  }
 
   renderStatus = data => (
     <StatusDropDown
@@ -55,15 +52,12 @@ class List extends Component {
 
   render() {
     const { list: { entities } } = this.props;
-    const { filters } = this.state;
-
-    console.log('entities', entities);
 
     return (
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <h3>Countries</h3>
+            <h3>{I18n.t('COUNTRIES.TITLE')}</h3>
           </Title>
 
           <CountriesGridFilter
@@ -81,28 +75,24 @@ class List extends Component {
               lazyLoad
             >
               <GridColumn
-                name="country"
-                header="Country"
+                name="countryName"
+                header={I18n.t('COUNTRIES.GRID.LABEL.COUNTRY')}
                 headerClassName="text-uppercase"
                 className="font-weight-700"
                 headerStyle={{ width: '20%' }}
-                render={this.renderCountry}
               />
               <GridColumn
                 name="access"
-                header="Access"
+                header={I18n.t('COUNTRIES.GRID.LABEL.ACCESS')}
                 headerClassName="text-uppercase"
                 className="text-uppercase"
                 render={this.renderStatus}
               />
             </GridView>
           </Content>
-
-
         </Panel>
       </div>
     );
-
   }
 }
 

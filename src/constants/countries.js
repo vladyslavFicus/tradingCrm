@@ -14,13 +14,13 @@ const accessTypesActions = {
   [accessTypes.ALLOWED]: [
     {
       action: accessTypes.FORBIDDEN,
-      label: 'Forbidden',
+      label: 'Forbid',
     },
   ],
   [accessTypes.FORBIDDEN]: [
     {
       action: accessTypes.ALLOWED,
-      label: 'Allowed',
+      label: 'Allow',
     },
   ],
 };

@@ -11,10 +11,12 @@ const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const ALLOW_COUNTRY = createRequestAction(`${KEY}/allow-country`);
 const FORBID_COUNTRY = createRequestAction(`${KEY}/disallow-country`);
 
-const mapCountries = payload => payload.map(item => ({
-  countryName: countries().getName(item.countryCode),
+const mapCountry = item => ({
   ...item,
-}));
+  countryName: countries().getName(item.countryCode),
+});
+
+const mapCountries = payload => payload.map(item => mapCountry(item));
 
 function fetchEntities(filters) {
   return (dispatch, getState) => {
@@ -40,13 +42,13 @@ function fetchEntities(filters) {
   };
 }
 
-function forbidCountry(countryCode) {
+function denyCountry(countryCode) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `config_manager/countries/${countryCode}/forbid`,
+        endpoint: `config_manager/countries/${countryCode}/deny`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -91,7 +93,7 @@ function allowCountry(countryCode) {
 function changeStatus(action, countryCode) {
   return (dispatch) => {
     if (action === accessTypes.FORBIDDEN) {
-      return dispatch(forbidCountry(countryCode));
+      return dispatch(denyCountry(countryCode));
     } else if (action === accessTypes.ALLOWED) {
       return dispatch(allowCountry(countryCode));
     }
@@ -100,7 +102,7 @@ function changeStatus(action, countryCode) {
   };
 }
 
-function updateCountryStatusReducer(state, action) {
+function updateCountryReducer(state, action) {
   const index = state.entities.content.findIndex(item => item.countryCode === action.payload.countryCode);
 
   if (index === -1) {
@@ -116,7 +118,7 @@ function updateCountryStatusReducer(state, action) {
       ],
     },
   };
-  newState.entities.content[index] = action.payload;
+  newState.entities.content[index] = mapCountry(action.payload);
 
   return newState;
 }
@@ -148,8 +150,8 @@ const actionHandlers = {
     error: action.payload,
     receivedAt: timestamp(),
   }),
-  [ALLOW_COUNTRY.SUCCESS]: updateCountryStatusReducer,
-  [FORBID_COUNTRY.SUCCESS]: updateCountryStatusReducer,
+  [ALLOW_COUNTRY.SUCCESS]: updateCountryReducer,
+  [FORBID_COUNTRY.SUCCESS]: updateCountryReducer,
 };
 const initialState = {
   entities: {
@@ -161,11 +163,7 @@ const initialState = {
     sort: [],
     totalElements: 0,
     totalPages: 0,
-    content: mapCountries([
-      { countryCode: 'pl', allowed: false },
-      { countryCode: 'ua', allowed: true },
-      { countryCode: 'us', allowed: false },
-    ]),
+    content: [],
   },
   profiles: {},
   error: null,

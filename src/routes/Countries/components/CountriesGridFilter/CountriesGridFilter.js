@@ -1,16 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { SelectField } from '../../../components/ReduxForm';
-import { accessTypes, accessTypeLabels } from '../../../constants/countries';
-import { createValidator } from '../../../utils/validator';
-
-const attributeLabels = {
-  access: 'Access',
-};
+import { I18n } from 'react-redux-i18n';
+import { SelectField } from '../../../../components/ReduxForm/index';
+import { accessTypes, accessTypeLabels } from '../../../../constants/countries';
+import { createValidator } from '../../../../utils/validator';
+import { attributeLabels } from './constants';
 
 const validator = createValidator({
   access: ['string', `in:,${Object.keys(accessTypes).join()}`],
-}, attributeLabels, false);
+}, Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}), false);
 
 class CountriesGridFilter extends Component {
   static propTypes = {
@@ -37,12 +35,12 @@ class CountriesGridFilter extends Component {
                 <div className="col-md-4">
                   <Field
                     name="access"
-                    label={attributeLabels.access}
+                    label={I18n.t(attributeLabels.access)}
                     labelClassName="form-label"
                     component={SelectField}
                     position="vertical"
                   >
-                    <option value="">-- Any --</option>
+                    <option value="">-- {I18n.t('COMMON.ANY')} --</option>
                     {Object
                       .keys(accessTypes)
                       .map(key => <option key={key} value={key}>{accessTypeLabels[key]}</option>)
@@ -60,14 +58,14 @@ class CountriesGridFilter extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
                   disabled={submitting}
                   className="btn btn-primary btn-sm margin-inline font-weight-700"
                   type="submit"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>
