@@ -19,7 +19,7 @@ class GridView extends Component {
     summaryRow: PropTypes.object,
     rowClassName: PropTypes.func,
     lazyLoad: PropTypes.bool,
-    locale: PropTypes.string.isRequired,
+    locale: PropTypes.string,
   };
 
   static defaultProps = {
