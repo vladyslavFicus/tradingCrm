@@ -1,10 +1,12 @@
 .bonus-campaign-status {
-  font-weight: 700;
-
   &__status {
+    font-weight: 700;
     text-transform: uppercase;
   }
   &__status-date {
+    font-size: 10px;
+  }
+  &__status-author {
     font-size: 10px;
   }
 }

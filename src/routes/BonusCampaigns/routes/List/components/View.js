@@ -87,12 +87,12 @@ class View extends Component {
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.campaignUUID}`}>
       <div className="font-weight-700">{data.campaignName}</div>
-      <div className="font-size-10 text-uppercase color-default">
+      <div className="font-size-10 text-uppercase">
         <Uuid uuid={data.campaignUUID} uuidPrefix="CO" />
       </div>
       {
         data.authorUUID &&
-        <div className="font-size-10 text-uppercase color-default">
+        <div className="font-size-10 text-uppercase">
           {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.AUTHOR')}
           <Uuid uuid={data.authorUUID} />
         </div>
