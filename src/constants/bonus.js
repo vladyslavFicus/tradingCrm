@@ -11,7 +11,7 @@ const statuses = keyMirror({
 });
 const types = keyMirror({
   FIRST_DEPOSIT: null,
-  PROFILE_COMPLETED: null,
+  PLAYER_PROFILE_COMPLETED: null,
   Manual: null,
 });
 const assign = keyMirror({
@@ -28,8 +28,8 @@ const statusesLabels = {
   [statuses.EXPIRED]: I18n.t('CONSTANTS.BONUS.STATUSES.EXPIRED'),
 };
 const typesLabels = {
-  [types.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS.TYPES.FIRSTDEPOSIT'),
-  [types.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS.TYPES.PLAYERPROFILECOMPLETED'),
+  [types.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS.TYPES.FIRST_DEPOSIT'),
+  [types.PLAYER_PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS.TYPES.PLAYER_PROFILE_COMPLETED'),
   [types.Manual]: I18n.t('CONSTANTS.BONUS.TYPES.MANUAL'),
 };
 const assignLabels = {

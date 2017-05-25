@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import ManageForm from 'routes/BonusCampaigns/components/ManageForm';
 import { statuses } from 'routes/BonusCampaigns/constants';
