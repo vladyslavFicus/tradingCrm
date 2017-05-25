@@ -128,7 +128,7 @@ class View extends Component {
       {
         data.authorUUID &&
         <div className="font-size-10 text-uppercase">
-          {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.AUTHOR')}
+          {I18n.t('COMMON.AUTHOR_BY')}
           <Uuid uuid={data.authorUUID} />
         </div>
       }

@@ -187,7 +187,8 @@
     },
     "OR": "Or",
     "OPT_IN": "Opt-In",
-    "NON_OPT_IN": "Non Opt-in"
+    "NON_OPT_IN": "Non Opt-in",
+    "AUTHOR_BY": "by "
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -298,6 +299,10 @@
         "ACTIVE": "Active",
         "FINISHED": "Finished",
         "CANCELED": "Canceled"
+      },
+      "TARGET_TYPES": {
+        "ALL": "",
+        "TARGET_LIST": ""
       }
     }
   },
@@ -377,7 +382,6 @@
   },
   "BONUS_CAMPAIGNS": {
     "GRID_VIEW": {
-      "AUTHOR": "by ",
       "DATE_TIME_AT": "at %{time}",
       "CAMPAIGN": "Campaign",
       "FULFILLMENT_TYPE": "Fulfillment type",
@@ -431,7 +435,6 @@
   },
   "BONUS_CAMPAIGN_STATUS": {
     "CHANGE_DATE": "on %{date}",
-    "UNTIL_DATE": "until %{date}",
-    "AUTHOR": "by "
+    "UNTIL_DATE": "until %{date}"
   }
 }

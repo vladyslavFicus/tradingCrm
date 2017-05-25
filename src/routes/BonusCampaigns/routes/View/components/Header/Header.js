@@ -3,7 +3,6 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import Amount from '../../../../../../components/Amount';
 import PropTypes from '../../../../../../constants/propTypes';
-import { shortify } from '../../../../../../utils/uuid';
 import Uuid from '../../../../../../components/Uuid';
 import './Header.scss';
 
@@ -89,7 +88,7 @@ class Header extends Component {
             {
               authorUUID &&
               <div className="header-block-small">
-                by {shortify(authorUUID)}
+                {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={authorUUID} />
               </div>
             }
           </div>

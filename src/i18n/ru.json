@@ -186,7 +186,8 @@
     },
     "OR": "Или",
     "OPT_IN": "Opt-In",
-    "NON_OPT_IN": "Non Opt-In"
+    "NON_OPT_IN": "Non Opt-In",
+    "AUTHOR_BY": "от "
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -297,6 +298,10 @@
         "ACTIVE": "Активная",
         "FINISHED": "Завершенная",
         "CANCELED": "Отмененная"
+      },
+      "TARGET_TYPES": {
+        "ALL": "",
+        "TARGET_LIST": ""
       }
     }
   },
@@ -376,7 +381,6 @@
   },
   "BONUS_CAMPAIGNS": {
     "GRID_VIEW": {
-      "AUTHOR": "от ",
       "DATE_TIME_AT": "в %{time}",
       "CAMPAIGN": "Кампания",
       "FULFILLMENT_TYPE": "Тип условия",
@@ -430,6 +434,5 @@
   "BONUS_CAMPAIGN_STATUS": {
     "CHANGE_DATE": "on %{date}",
     "UNTIL_DATE": "до %{date}",
-    "AUTHOR": "от "
   }
 }

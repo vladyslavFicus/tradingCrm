@@ -45,7 +45,7 @@ class BonusCampaignStatus extends Component {
         {
           data.authorUUID &&
           <div className={`${blockName}__status-author`}>
-            {I18n.t('BONUS_CAMPAIGN_STATUS.AUTHOR')}
+            {I18n.t('COMMON.AUTHOR_BY')}
             <Uuid uuid={data.authorUUID} />
           </div>
         }
