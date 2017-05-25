@@ -1,0 +1,91 @@
+@import "../../../../../../styles/mixins/mixins";
+
+.player__account__lastlogin-info {
+  display: block;
+}
+
+.player__account__status {
+  .fa-angle-down {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+    color: #999999;
+    transition: all .2s;
+  }
+
+  .open {
+    .fa-angle-down {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.panel-heading-row {
+  @include flexbox();
+  padding: 25px 25px 0;
+  &_name-and-ids {
+    max-width: 40%;
+    .player__account__name {
+      margin-bottom: 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .player__account__ids {
+      color: #827ca1;
+    }
+  }
+  &_tags {
+    max-width: 40%;
+    margin-top: 4px;
+    .tag-group {
+      transition: 0s;
+      opacity: 0.8;
+      .btn + .btn {
+        margin-left: 0;
+      }
+      .tag-red {
+        background: #fb434a;
+        border-color: #fb434a;
+        &:hover {
+          background: #fb434a;
+          border-color: #fb434a;
+        }
+      }
+      .tag-green {
+        background: #46be8a;
+        border-color: #46be8a;
+        &:hover {
+          background: #46be8a;
+          border-color: #46be8a;
+        }
+      }
+      .tag-grey {
+        background: #6a7a84;
+        border-color: #6a7a84;
+        &:hover {
+          background: #6a7a84;
+          border-color: #6a7a84;
+        }
+      }
+      .btn,
+      .btn:hover {
+        transition: 0s;
+      }
+      &:hover {
+        opacity: 1;
+        .tag-arrow,
+        .btn {
+          opacity: 1;
+          transition: 0s;
+        }
+      }
+      .btn-del:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+  &_add-note {
+    margin-top: 6px;
+    margin-left: auto;
+  }
+}

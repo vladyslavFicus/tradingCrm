@@ -1,7 +1,7 @@
 import { injectReducer } from 'store/reducers';
 import { actionTypes, actionCreators } from './modules/view';
 
-export default (store) => ({
+export default store => ({
   path: 'view/:id',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
