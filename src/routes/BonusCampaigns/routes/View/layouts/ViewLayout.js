@@ -1,12 +1,11 @@
-import React, { Component, PropTypes } from 'react';
-import Tabs from '../../../../../components/Tabs';
-import { bonusCampaignTabs } from '../../../../../config/menu';
+import React, { Component } from 'react';
+import PropTypes from '../../../../../constants/propTypes';
 import Header from '../components/Header';
 import Information from '../components/Information';
 
 class ViewLayout extends Component {
   static propTypes = {
-    data: PropTypes.object.isRequired,
+    data: PropTypes.bonusCampaignEntity.isRequired,
   };
   state = {
     informationShown: true,
@@ -59,9 +58,12 @@ class ViewLayout extends Component {
 
             <div className="hide-details-block">
               <div className="hide-details-block_arrow" />
-              <div className="hide-details-block_text" onClick={this.handleToggleInformationBlock}>
+              <button
+                className="hide-details-block_text btn-transparent"
+                onClick={this.handleToggleInformationBlock}
+              >
                 {informationShown ? 'Hide details' : 'Show details'}
-              </div>
+              </button>
               <div className="hide-details-block_arrow" />
             </div>
 

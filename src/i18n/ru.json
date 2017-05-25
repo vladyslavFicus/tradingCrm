@@ -402,7 +402,30 @@
       "ACTIVITY_DATE_TO": "Конечная дата активности",
       "SEARCH_BY_PLACEHOLDER": "Кампания, Оператор"
     },
-    "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию"
+    "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию",
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "GRANTED": "Выдано",
+          "WAGERED": "Wagered",
+          "CONVERTED": "Converted",
+          "CREATED": "Создано",
+          "TARGET": "Target",
+          "TARGET_TYPE": "Target type",
+          "PLAYERS_SELECTED": "Выбрано игроков",
+          "PLAYERS_OPT_IN": "Players opted-in",
+          "REWARD_PARAMS": "Fulfillment & reward parameters",
+          "FULFILLMENT_TYPE": "Fulfillment type",
+          "RATIO": "Коэффициент",
+          "MULTIPLAYER": "Multiplayer",
+          "LIFE_TIME": "Life time",
+          "CAMPAIGN_START": "Старт компании",
+          "CAMPAIGN_END": "Окончание компании",
+          "PRIZE": "Приз",
+          "CAPPING": "Capping"
+        }
+      }
+    }
   },
   "BONUS_CAMPAIGN_STATUS": {
     "CHANGE_DATE": "on %{date}",

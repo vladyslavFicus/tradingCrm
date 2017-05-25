@@ -1,6 +1,5 @@
 import { injectReducer } from '../../../../store/reducers';
 import { actionCreators } from './modules/index';
-import SettingsRoute from './routes/Settings';
 
 export default store => ({
   path: 'view/:id',
@@ -15,7 +14,7 @@ export default store => ({
         store.dispatch(actionCreators.fetchCampaign(nextState.params.id))
           .then((action) => {
             if (action && !action.error) {
-              cb(null, require('./container/Container').default);
+              cb(null, require('./container/ViewContainer').default);
             } else {
               cb(null, require('routes/NotFound/container/Container').default);
             }
@@ -25,9 +24,4 @@ export default store => ({
       }
     }, 'bonus-campaigns-view');
   },
-
-  childRoutes: [
-    SettingsRoute(store),
-    //FeedRoute(store),
-  ],
 });

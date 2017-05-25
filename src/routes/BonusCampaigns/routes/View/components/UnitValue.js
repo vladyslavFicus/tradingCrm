@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Amount from '../../../../../components/Amount';
+import { amountTypes } from '../../../constants';
 
 class UnitValue extends Component {
   static propTypes = {
@@ -15,7 +16,7 @@ class UnitValue extends Component {
       return null;
     }
 
-    if (type === 'PERCENT') {
+    if (type === amountTypes.PERCENTAGE) {
       return `${value} %`;
     }
 

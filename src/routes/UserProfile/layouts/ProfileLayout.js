@@ -499,9 +499,12 @@ class ProfileLayout extends Component {
 
             <div className="hide-details-block">
               <div className="hide-details-block_arrow" />
-              <div className="hide-details-block_text" onClick={this.handleToggleInformationBlock}>
+              <button
+                className="hide-details-block_text btn-transparent"
+                onClick={this.handleToggleInformationBlock}
+              >
                 {informationShown ? 'Hide details' : 'Show details'}
-              </div>
+              </button>
               <div className="hide-details-block_arrow" />
             </div>
 

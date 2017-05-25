@@ -8,6 +8,10 @@ const statuses = keyMirror({
   FINISHED: null,
   CANCELED: null,
 });
+const amountTypes = keyMirror({
+  ABSOLUTE: null,
+  PERCENTAGE: null,
+});
 const statusesLabels = {
   [statuses.DRAFT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.STATUSES.DRAFT'),
   [statuses.PENDING]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.STATUSES.PENDING'),
@@ -39,4 +43,5 @@ export {
   statusesClassNames,
   eventTypes,
   eventTypesLabels,
+  amountTypes,
 };
