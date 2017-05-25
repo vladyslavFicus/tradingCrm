@@ -427,12 +427,14 @@
           "CAMPAIGN_END": "Окончание компании",
           "PRIZE": "Приз",
           "CAPPING": "Capping"
-        }
+        },
+        "GRANTED_TO": "для %{count} игроков",
+        "GRANTED_TO_1": "для %{count} игрока"
       }
     }
   },
   "BONUS_CAMPAIGN_STATUS": {
     "CHANGE_DATE": "on %{date}",
-    "UNTIL_DATE": "до %{date}",
+    "UNTIL_DATE": "до %{date}"
   }
 }

@@ -429,7 +429,10 @@
           "CAMPAIGN_END": "Campaign end",
           "PRIZE": "Prize",
           "CAPPING": "Capping"
-        }
+        },
+        "GRANTED_TO": "to %{count} Players",
+        "GRANTED_TO_0": "to %{count} Players",
+        "GRANTED_TO_1": "to %{count} Player"
       }
     }
   },

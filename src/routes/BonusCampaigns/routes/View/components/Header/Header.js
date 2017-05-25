@@ -56,7 +56,7 @@ class Header extends Component {
               <Amount amount={grantedSum} currency={currency} />
             </div>
             <div className="header-block-small">
-              to {grantedTotal} Players
+              {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.GRANTED_TO', { count: grantedTotal })}
             </div>
           </div>
           <div className="header-block">
