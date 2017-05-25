@@ -31,7 +31,7 @@ const config = {
       inProject(project.srcDir),
       'node_modules',
     ],
-    extensions: ['*', '.js', '.jsx', '.json'],
+    extensions: ['.js', '.jsx', '.json', '.css', '.scss'],
   },
   externals: project.externals,
   module: {
@@ -183,13 +183,8 @@ config.plugins.push(new HtmlWebpackPlugin({
 // Development Tools
 // ------------------------------------
 if (__DEV__) {
-  config.entry.main.push(
-    `webpack-hot-middleware/client.js?path=${config.output.publicPath}__webpack_hmr`,
-  );
-  config.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-  );
+  config.entry.main.push(`webpack-hot-middleware/client.js?path=${config.output.publicPath}__webpack_hmr`);
+  config.plugins.push(new webpack.HotModuleReplacementPlugin(), new webpack.NamedModulesPlugin());
 }
 
 // Bundle Splitting
@@ -227,7 +222,7 @@ if (__PROD__) {
         if_return: true,
         join_vars: true,
       },
-    }),
+    })
   );
 }
 

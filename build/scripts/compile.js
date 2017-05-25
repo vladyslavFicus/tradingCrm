@@ -33,10 +33,8 @@ const compile = () => Promise.resolve()
   .then(() => runWebpackCompiler(webpackConfig))
   .then((stats) => {
     logger.info(`Copying static assets from ./public to ./${project.outDir}.`);
-    fs.copySync(
-      path.resolve(project.basePath, 'public'),
-      path.resolve(project.basePath, project.outDir),
-    );
+    fs.copySync(path.resolve(project.basePath, 'public'), path.resolve(project.basePath, project.outDir));
+
     return stats;
   })
   .then((stats) => {

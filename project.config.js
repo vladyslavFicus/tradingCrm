@@ -16,7 +16,7 @@ module.exports = {
   /** The base path for all projects assets (relative to the website root) */
   publicPath: NODE_ENV === 'development' ? `http://${ip.address()}:3000/` : '/',
   /** Whether to generate sourcemaps */
-  sourcemaps: true,
+  sourcemaps: false,
   /** A hash map of keys that the compiler should treat as external to the project */
   externals: {},
   /** A hash map of variables and their values to expose globally */
