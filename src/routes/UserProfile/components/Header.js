@@ -15,7 +15,7 @@ import Permissions from '../../../utils/permissions';
 import './Header.scss';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
-import CopyToClipboard from '../../../components/CopyToClipboard';
+import Uuid from '../../../components/Uuid';
 
 class Header extends Component {
   static propTypes = {
@@ -153,13 +153,7 @@ class Header extends Component {
             </div>
             <div className="player__account__ids">
               <span>{username}</span> {' - '}
-              <CopyToClipboard
-                notify
-                text={uuid}
-                notificationMessage={I18n.t('PLAYER_PROFILE.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE')}
-              >
-                <span className="short__uuid">{shortify(uuid, 'PL')}</span>
-              </CopyToClipboard> {' - '}
+              {uuid && <Uuid uuid={uuid} uuidPrefix="PL" />} {' - '}
               <span>{languageCode}</span>
             </div>
           </div>

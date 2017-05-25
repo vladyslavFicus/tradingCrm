@@ -10,9 +10,8 @@ import renderLabel from '../../../../../utils/renderLabel';
 import { eventTypesLabels } from '../../../constants';
 import Amount from '../../../../../components/Amount';
 import BonusCampaignStatus from '../../../components/BonusCampaignStatus';
-import CopyToClipboard from '../../../../../components/CopyToClipboard';
+import Uuid from '../../../../../components/Uuid';
 
-const MODAL_CREATE_CAMPAIGN = 'payment-detail';
 const defaultModalState = {
   name: null,
   params: {},
@@ -89,25 +88,13 @@ class View extends Component {
     <div id={`bonus-campaign-${data.campaignUUID}`}>
       <div className="font-weight-700">{data.campaignName}</div>
       <div className="font-size-10 text-uppercase color-default">
-        <CopyToClipboard
-          notify
-          text={data.campaignUUID}
-          notificationMessage={I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE')}
-        >
-          <span>{shortify(data.campaignUUID, 'CO')}</span>
-        </CopyToClipboard>
+        <Uuid uuid={data.campaignUUID} uuidPrefix="CO" />
       </div>
       {
         data.authorUUID &&
         <div className="font-size-10 text-uppercase color-default">
           {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.AUTHOR')}
-          <CopyToClipboard
-            notify
-            text={data.campaignUUID}
-            notificationMessage={I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE')}
-          >
-            <span>{shortify(data.authorUUID)}</span>
-          </CopyToClipboard>
+          <Uuid uuid={data.authorUUID} />
         </div>
       }
     </div>
