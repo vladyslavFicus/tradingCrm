@@ -5,7 +5,6 @@ import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import { shortify } from '../../../../../utils/uuid';
 import renderLabel from '../../../../../utils/renderLabel';
 import { eventTypesLabels } from '../../../constants';
 import Amount from '../../../../../components/Amount';
@@ -29,7 +28,7 @@ class View extends Component {
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
     locale: PropTypes.string.isRequired,
     fetchEntities: PropTypes.func.isRequired,
-    onChangeCampaignStatus: PropTypes.func.isRequired,
+    exportEntities: PropTypes.func.isRequired,
     fetchTypes: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
   };

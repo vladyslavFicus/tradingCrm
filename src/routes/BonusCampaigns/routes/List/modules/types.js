@@ -36,7 +36,7 @@ const initialState = {
   receivedAt: null,
 };
 const actionHandlers = {
-  [FETCH_TYPES.REQUEST]: (state) => ({
+  [FETCH_TYPES.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,

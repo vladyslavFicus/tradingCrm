@@ -1,11 +1,16 @@
 import { CALL_API } from 'redux-api-middleware';
+import _ from 'lodash';
+import moment from 'moment';
+import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
+import downloadBlob from '../../../../../utils/downloadBlob';
 
 const KEY = 'bonusCampaigns/campaigns';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
+const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
 const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const RESET_CAMPAIGNS = `${KEY}/reset`;
 
@@ -13,7 +18,7 @@ const mergeEntities = (stored, fetched) => {
   const merged = [...stored];
 
   fetched.forEach((item) => {
-    if (merged.findIndex(i => i.paymentId === item.paymentId) === -1) {
+    if (merged.findIndex(i => i.campaignUUID === item.campaignUUID) === -1) {
       merged.push(item);
     }
   });
@@ -45,6 +50,34 @@ function fetchEntities(filters = {}) {
         bailout: !logged,
       },
     });
+  };
+}
+
+function exportEntities(filters = {}) {
+  return async (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    if (!logged) {
+      return dispatch({ type: EXPORT_ENTITIES.FAILED });
+    }
+
+    const queryString = buildQueryString(
+      _.omitBy({ page: 0, ...filters }, val => !val)
+    );
+
+    const response = await fetch(`${getApiRoot()}/promotion/campaigns/csv?${queryString}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'text/csv',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const blobData = await response.blob();
+    downloadBlob(`bonus-campaigns-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+
+    return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
   };
 }
 
@@ -125,11 +158,13 @@ const actionHandlers = {
 };
 const actionTypes = {
   FETCH_ENTITIES,
+  EXPORT_ENTITIES,
   CHANGE_CAMPAIGN_STATE,
   RESET_CAMPAIGNS,
 };
 const actionCreators = {
   fetchEntities,
+  exportEntities,
   changeCampaignState,
   resetCampaigns,
 };

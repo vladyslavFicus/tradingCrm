@@ -11,6 +11,7 @@ const mapStateToProps = ({ bonusCampaigns, i18n: { locale } }) => ({
 
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
+  exportEntities: actionCreators.exportEntities,
   onChangeCampaignStatus: actionCreators.changeCampaignState,
   fetchTypes: actionCreators.fetchTypes,
   resetAll: actionCreators.resetAll,
