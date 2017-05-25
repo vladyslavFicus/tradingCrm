@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import { Link } from 'react-router';
 import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
@@ -85,7 +86,7 @@ class View extends Component {
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.campaignUUID}`}>
-      <div className="font-weight-700">{data.campaignName}</div>
+      <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700 color-black">{data.campaignName}</Link>
       <div className="font-size-10 text-uppercase">
         <Uuid uuid={data.campaignUUID} uuidPrefix="CO" />
       </div>
