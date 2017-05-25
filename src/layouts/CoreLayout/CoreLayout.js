@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import NotificationContainer from 'react-notification-system';
-import { connect } from 'react-redux';
 import PropTypes from '../../constants/propTypes';
 import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../redux/modules/window';
 
 class CoreLayout extends Component {
   static propTypes = {
-    userPanels: PropTypes.shape({
-      items: PropTypes.arrayOf(PropTypes.userPanelItem),
-    }).isRequired,
     children: PropTypes.element.isRequired,
   };
   static childContextTypes = {
@@ -40,7 +36,7 @@ class CoreLayout extends Component {
   }
 
   handleNotify = (params) => {
-    const defaultParams = { position: 'bc' };
+    const defaultParams = { position: 'br' };
     const mergedParams = { ...defaultParams, ...params };
 
     if (this.state.isFrameVersion) {
@@ -52,7 +48,7 @@ class CoreLayout extends Component {
 
   render() {
     const { isFrameVersion } = this.state;
-    const { children, userPanels } = this.props;
+    const { children } = this.props;
 
     return (
       <div style={{ height: '100%' }}>
@@ -70,8 +66,6 @@ class CoreLayout extends Component {
                 bc: {
                   left: 'auto',
                   right: '0px',
-                  marginLeft: '0px',
-                  marginBottom: userPanels.items.length > 0 ? '50px' : '0px',
                 },
               },
             }}
@@ -82,4 +76,4 @@ class CoreLayout extends Component {
   }
 }
 
-export default connect(({ userPanels }) => ({ userPanels }))(CoreLayout);
+export default CoreLayout;

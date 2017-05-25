@@ -98,6 +98,7 @@ class BonusCampaignsFilterForm extends Component {
                     label={I18n.t(attributeLabels.fulfillmentType)}
                     component={SelectField}
                     position="vertical"
+                    labelClassName={null}
                   >
                     <option value="">{I18n.t('COMMON.ANY')}</option>
                     {types.map(item => (
@@ -113,6 +114,7 @@ class BonusCampaignsFilterForm extends Component {
                     label={I18n.t(attributeLabels.state)}
                     component={SelectField}
                     position="vertical"
+                    labelClassName={null}
                   >
                     <option value="">{I18n.t('COMMON.ANY')}</option>
                     {statuses.map(item => (
@@ -128,6 +130,7 @@ class BonusCampaignsFilterForm extends Component {
                     label={I18n.t(attributeLabels.optIn)}
                     component={SelectField}
                     position="vertical"
+                    labelClassName={null}
                   >
                     <option value="">{I18n.t('COMMON.ANY')}</option>
                     <option value="true">{I18n.t('COMMON.OPT_IN')}</option>
@@ -136,7 +139,7 @@ class BonusCampaignsFilterForm extends Component {
                 </div>
                 <div className="col-md-3">
                   <div className="form-group">
-                    <label className="form-label">{I18n.t(attributeLabels.creationDate)}</label>
+                    <label>{I18n.t(attributeLabels.creationDate)}</label>
 
                     <div className="row">
                       <div className="col-md-5">
@@ -158,7 +161,7 @@ class BonusCampaignsFilterForm extends Component {
                 </div>
                 <div className="col-md-3">
                   <div className="form-group">
-                    <label className="form-label">{I18n.t(attributeLabels.activityDate)}</label>
+                    <label>{I18n.t(attributeLabels.activityDate)}</label>
 
                     <div className="row">
                       <div className="col-md-5">

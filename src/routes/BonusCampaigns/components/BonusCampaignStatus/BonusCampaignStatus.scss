@@ -1,6 +1,9 @@
 .bonus-campaign-status {
   font-weight: 700;
 
+  &__status {
+    text-transform: uppercase;
+  }
   &__status-date {
     font-size: 10px;
   }

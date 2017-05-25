@@ -19,8 +19,8 @@ class CopyToClipboard extends Component {
     className: 'copy-clipboard-container',
     notify: false,
     notificationLevel: 'info',
-    notificationTitle: I18n.t('COMMON.NOTIFICATIONS.COPIED'),
-    notificationMessage: 'Full UUID has been copied to clipboard',
+    notificationTitle: I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_UUID.TITLE'),
+    notificationMessage: I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE'),
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,

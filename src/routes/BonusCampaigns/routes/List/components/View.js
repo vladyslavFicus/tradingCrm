@@ -92,7 +92,7 @@ class View extends Component {
         <CopyToClipboard
           notify
           text={data.campaignUUID}
-          notificationMessage={I18n.t('PLAYER_PROFILE.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE')}
+          notificationMessage={I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE')}
         >
           <span>{shortify(data.campaignUUID, 'CO')}</span>
         </CopyToClipboard>
@@ -100,7 +100,14 @@ class View extends Component {
       {
         data.authorUUID &&
         <div className="font-size-10 text-uppercase color-default">
-          {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.AUTHOR', { uuid: shortify(data.authorUUID) })}
+          {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.AUTHOR')}
+          <CopyToClipboard
+            notify
+            text={data.campaignUUID}
+            notificationMessage={I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE')}
+          >
+            <span>{shortify(data.authorUUID)}</span>
+          </CopyToClipboard>
         </div>
       }
     </div>

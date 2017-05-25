@@ -178,7 +178,10 @@
     "ACCOUNT_STATUS": "Статус аккаунта",
     "BALANCE": "Баланс",
     "NOTIFICATIONS": {
-      "COPIED": "Скопировано"
+      "COPY_FULL_UUID": {
+        "TITLE": "Скопировано",
+        "MESSAGE": "Полный UUID был скопирован в буфер обмена"
+      }
     },
     "OR": "Или",
     "OPT_IN": "Opt-In",
@@ -262,11 +265,9 @@
         "EXPIRED": "Истекло"
       },
       "TYPES": {
-        "FIRSTDEPOSIT": "Первый депозит",
-        "PLAYERPROFILECOMPLETED": "Профиль заполнен",
-        "MANUAL": "Без депозита",
-        "FIRST_DEPOSIT": "",
-        "PLAYER_PROFILE_COMPLETED": ""
+        "FIRST_DEPOSIT": "Первый депозит",
+        "PLAYER_PROFILE_COMPLETED": "Профиль заполнен",
+        "MANUAL": "Без депозита"
       },
       "ASSIGN": {
         "MANUAL": "Оператор",
@@ -274,16 +275,17 @@
       }
     },
     "BONUS_CAMPAIGN": {
-      "STATUSES": {
-        "INACTIVE": "Неактивный",
-        "IN_PROGRESS": "Активный",
-        "ACTIVE": "Ожидает",
-        "COMPLETED": "Выполненный"
-      },
       "EVENT_TYPE": {
         "FIRST_DEPOSIT": "Первое пополнение",
         "DEPOSIT": "Пополнение",
         "PROFILE_COMPLETED": "Профиль заполнен"
+      },
+      "STATUSES": {
+        "DRAFT": "Черновик",
+        "PENDING": "Ожидает",
+        "ACTIVE": "Активная",
+        "FINISHED": "Завершенная",
+        "CANCELED": "Отмененная"
       }
     }
   },
@@ -349,7 +351,7 @@
   },
   "BONUS_CAMPAIGNS": {
     "GRID_VIEW": {
-      "AUTHOR": "от %{uuid}",
+      "AUTHOR": "от ",
       "DATE_TIME_AT": "в %{time}",
       "CAMPAIGN": "Кампания",
       "FULFILLMENT_TYPE": "Тип условия",
@@ -380,6 +382,6 @@
   "BONUS_CAMPAIGN_STATUS": {
     "CHANGE_DATE": "on %{date}",
     "UNTIL_DATE": "до %{date}",
-    "AUTHOR": "%{uuid}"
+    "AUTHOR": "от "
   }
 }

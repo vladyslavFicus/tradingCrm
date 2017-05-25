@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import CopyToClipboard from '../../../../components/CopyToClipboard';
 import PropTypes from '../../../../constants/propTypes';
 import renderLabel from '../../../../utils/renderLabel';
+import { shortify } from '../../../../utils/uuid';
 import { statuses, statusesClassNames, statusesLabels } from '../../constants';
 import './BonusCampaignStatus.scss';
 
@@ -21,8 +23,10 @@ class BonusCampaignStatus extends Component {
     const className = statusesClassNames[data.state] || '';
 
     return (
-      <div className={classNames(blockName, className)}>
-        {renderLabel(data.state, statusesLabels)}
+      <div className={blockName}>
+        <div className={classNames(`${blockName}__status`, className)}>
+          {renderLabel(data.state, statusesLabels)}
+        </div>
         {
           data.statusChangedDate &&
           <div className={`${blockName}__status-date`}>
@@ -42,9 +46,14 @@ class BonusCampaignStatus extends Component {
         {
           data.authorUUID &&
           <div className={`${blockName}__status-author`}>
-            {I18n.t('BONUS_CAMPAIGN_STATUS.AUTHOR', {
-              uuid: data.authorUUID,
-            })}
+            {I18n.t('BONUS_CAMPAIGN_STATUS.AUTHOR')}
+            <CopyToClipboard
+              notify
+              text={data.campaignUUID}
+              notificationMessage={I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE')}
+            >
+              <span>{shortify(data.authorUUID)}</span>
+            </CopyToClipboard>
           </div>
         }
       </div>
