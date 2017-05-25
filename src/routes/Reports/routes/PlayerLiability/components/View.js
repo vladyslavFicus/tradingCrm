@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import PermissionContent from '../../../../../components/PermissionContent';
 import Permissions from '../../../../../utils/permissions';
 import permission from '../../../../../config/permissions';

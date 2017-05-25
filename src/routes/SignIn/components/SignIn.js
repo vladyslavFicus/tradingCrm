@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { IndexLink, withRouter } from 'react-router';
 import { SubmissionError } from 'redux-form';
 import { actionTypes as authActionTypes } from '../../../redux/modules/auth';
