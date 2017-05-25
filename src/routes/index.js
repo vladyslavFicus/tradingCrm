@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 import onEnterStack from '../utils/onEnterStack';
 import requireAuth from '../utils/requireAuth';
+import CoreLayout from '../layouts/CoreLayout';
 import NewLayout from '../layouts/NewLayout';
 import BaseLayout from '../layouts/BaseLayout';
 import PermissionLayout from '../layouts/PermissionLayout';
@@ -28,6 +29,7 @@ import GamesRoute from './Games';
 import CountriesRoute from './Countries';
 
 export const createRoutes = store => ({
+  component: CoreLayout,
   childRoutes: [
     {
       component: BaseLayout,

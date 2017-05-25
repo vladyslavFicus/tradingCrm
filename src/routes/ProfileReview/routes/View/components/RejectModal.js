@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator } from 'utils/validator';
@@ -10,7 +10,7 @@ const validator = createValidator({
   reason: 'required|string',
 }, attributeLabels, false);
 
-class RejectModal extends React.Component {
+class RejectModal extends Component {
   render() {
     const {
       show,

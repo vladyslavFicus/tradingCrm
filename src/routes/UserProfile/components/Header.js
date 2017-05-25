@@ -1,20 +1,19 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
 import PlayerStatus from './PlayerStatus';
 import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
 import ProfileTags from '../../../components/ProfileTags';
 import Amount from '../../../components/Amount';
 import PopoverButton from '../../../components/PopoverButton';
-import { shortify } from '../../../utils/uuid';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
 import './Header.scss';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
-import CopyToClipboard from '../../../components/CopyToClipboard';
+import Uuid from '../../../components/Uuid';
 
 class Header extends Component {
   static propTypes = {
@@ -152,13 +151,7 @@ class Header extends Component {
             </div>
             <div className="player__account__ids">
               <span>{username}</span> {' - '}
-              <CopyToClipboard
-                notify
-                text={uuid}
-                notificationMessage={I18n.t('PLAYER_PROFILE.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE')}
-              >
-                <span className="short__uuid">{shortify(uuid, 'PL')}</span>
-              </CopyToClipboard> {' - '}
+              {uuid && <Uuid uuid={uuid} uuidPrefix="PL" />} {' - '}
               <span>{languageCode}</span>
             </div>
           </div>

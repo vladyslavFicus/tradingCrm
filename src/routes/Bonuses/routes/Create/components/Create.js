@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import ManageForm from 'routes/Bonuses/components/ManageForm';
 import { actionTypes as profileActionTypes } from 'routes/Users/modules/view';

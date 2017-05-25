@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import NotificationContainer from 'react-notification-system';
 import ImageViewer from 'react-images';
 import Tabs from '../../../components/Tabs';
 import Modal from '../../../components/Modal';
@@ -112,7 +111,6 @@ class ProfileLayout extends Component {
     onUploadFileClick: PropTypes.func.isRequired,
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
-    onAddNotification: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
   };
 
@@ -137,7 +135,6 @@ class ProfileLayout extends Component {
       onUploadFileClick: this.handleUploadFileClick,
       setFileChangedCallback: this.setFileChangedCallback,
       onDeleteFileClick: this.handleDeleteFileClick,
-      onAddNotification: this.handleAddNotification,
       showImages: this.showImages,
     };
   }
@@ -179,13 +176,6 @@ class ProfileLayout extends Component {
         name,
         params,
       },
-    });
-  };
-
-  handleAddNotification = (params) => {
-    this.notificationNode.addNotification({
-      position: 'bc',
-      ...params,
     });
   };
 
@@ -602,17 +592,6 @@ class ProfileLayout extends Component {
           showImageCount={false}
           {...imageViewerState}
           onClose={this.handleCloseImageViewer}
-        />
-        <NotificationContainer
-          ref={(node) => {
-            this.notificationNode = node;
-          }}
-          style={{
-            Containers: {
-              DefaultStyle: { zIndex: 1 },
-              bc: { left: 'auto', right: '0px', marginLeft: '0px' },
-            },
-          }}
         />
       </div>
     );

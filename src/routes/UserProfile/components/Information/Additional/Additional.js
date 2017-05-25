@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import Switch from '../../../../../components/Forms/Switch/index';
 import { marketingTypes } from './constants';
@@ -14,7 +15,7 @@ class Additional extends Component {
   };
 
   static contextTypes = {
-    onAddNotification: PropTypes.func.isRequired,
+    addNotification: PropTypes.func.isRequired,
   };
 
   handleSwitch = name => async (value) => {
@@ -24,7 +25,7 @@ class Additional extends Component {
           ${value ? I18n.t('COMMON.ACTIONS.ON') : I18n.t('COMMON.ACTIONS.OFF')}
           ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`;
 
-      this.context.onAddNotification({
+      this.context.addNotification({
         level: action.error ? 'error' : 'success',
         title: I18n.t('PLAYER_PROFILE.MARKETING.TITLE'),
         message,

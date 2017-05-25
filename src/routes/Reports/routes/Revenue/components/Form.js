@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import RemoteDateRangePickerWrapper from 'components/Forms/RemoteDateRangePickerWrapper';
 import { SelectField } from 'components/ReduxForm';
