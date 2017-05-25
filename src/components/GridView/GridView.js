@@ -40,7 +40,7 @@ class GridView extends Component {
     }
 
     return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || !shallowEqual(nextProps.locale, this.props.locale);
+      || (nextProps.locale !== this.props.locale);
   }
 
   onFiltersChanged = () => {

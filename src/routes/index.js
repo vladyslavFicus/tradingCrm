@@ -26,6 +26,7 @@ import NotFoundRoute from './NotFound';
 import LogoutRoute from './Logout';
 import ReportsRoute from './Reports';
 import GamesRoute from './Games';
+import CountriesRoute from './Countries';
 
 export const createRoutes = store => ({
   component: CoreLayout,
@@ -51,6 +52,7 @@ export const createRoutes = store => ({
             LogoutRoute(store),
             ReportsRoute(store),
             GamesRoute(store),
+            CountriesRoute(store),
           ],
         }, requireAuth(store)),
       ],

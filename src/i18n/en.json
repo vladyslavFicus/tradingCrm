@@ -11,7 +11,8 @@
       "REVENUE": "Revenue",
       "DORMANT": "Dormant",
       "OPEN_LOOP": "Open loop",
-      "GAMES": "Games"
+      "GAMES": "Games",
+      "COUNTRIES": "Countries"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -275,6 +276,16 @@
         "CAMPAIGN": "by Campaign"
       }
     },
+    "COUNTRIES": {
+      "TYPES": {
+        "ALLOWED": "Allowed",
+        "FORBIDDEN": "Forbidden"
+      },
+      "TYPES_ACTION": {
+        "FORBID": "Forbid",
+        "ALLOW": "Allow"
+      }
+    },
     "BONUS_CAMPAIGN": {
       "EVENT_TYPE": {
         "FIRST_DEPOSIT": "First deposit",
@@ -348,6 +359,20 @@
     "FILE": {
       "INVALID_FILE_EXTENSION": "Invalid file extension",
       "INVALID_FILE_SIZE": "Invalid file size"
+    }
+  },
+  "COUNTRIES": {
+    "TITLE": "Countries",
+    "FILTER": {
+      "LABELS": {
+        "ACCESS": "Access"
+      }
+    },
+    "GRID": {
+      "LABEL": {
+        "COUNTRY": "Country",
+        "ACCESS": "Access"
+      }
     }
   },
   "BONUS_CAMPAIGNS": {
