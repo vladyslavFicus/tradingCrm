@@ -8,7 +8,7 @@ import { createValidator } from '../../../../../../utils/validator';
 import {
   CustomValueField, InputField, SelectField, DateTimeField,
 } from '../../../../../../components/ReduxForm';
-import { eventTypesLabels } from '../../../../constants';
+import { eventTypesLabels, targetTypesLabels } from '../../../../constants';
 import { customValueFieldTypesLabels } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './CreateBonusCampaignModal.scss';
@@ -31,6 +31,7 @@ const attributeLabels = {
   'conversionPrize.type': 'Conversion prize value type',
   wagerWinMultiplier: 'Multiplier',
   eventsTypes: 'Events types',
+  targetType: 'Target type',
   optIn: 'Opt-In',
 };
 const validator = createValidator({
@@ -51,6 +52,7 @@ const validator = createValidator({
   },
   wagerWinMultiplier: 'required|integer|max:999',
   eventsTypes: ['required', 'array', `in:${Object.keys(eventTypesLabels).join()}`],
+  targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
 }, attributeLabels, false);
 
 class CreateBonusCampaignModal extends Component {
@@ -165,6 +167,19 @@ class CreateBonusCampaignModal extends Component {
               type="text"
               component={InputField}
             />
+            <Field
+              name="targetType"
+              label={attributeLabels.targetType}
+              type="select"
+              component={SelectField}
+            >
+              <option value="">--- Chose target type ---</option>
+              {Object.keys(targetTypesLabels).map(key => (
+                <option key={key} value={key}>
+                  { renderLabel(key, targetTypesLabels) }
+                </option>
+              ))}
+            </Field>
             <Field
               name="eventsType"
               label={attributeLabels.eventsTypes}
