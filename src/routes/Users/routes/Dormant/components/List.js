@@ -41,7 +41,7 @@ class List extends Component {
     return <div className="page-content-inner">
       <Panel withBorders>
         <Title>
-          <h3>Dormant users</h3>
+          <span className="font-size-20">Dormant users</span>
         </Title>
 
         <Content>

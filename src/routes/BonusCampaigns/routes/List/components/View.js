@@ -163,19 +163,19 @@ class View extends Component {
           <Title>
             <div className="row">
               <div className="col-md-3">
-                <h3>{I18n.t('BONUS_CAMPAIGNS.TITLE')}</h3>
+                <span className="font-size-20">{I18n.t('BONUS_CAMPAIGNS.TITLE')}</span>
               </div>
               <div className="col-md-3 col-md-offset-6 text-right">
                 <button
                   disabled={exporting || !allowActions}
-                  className="btn btn-default-outline margin-inline"
+                  className="btn btn-default-outline margin-right-10"
                   onClick={this.handleExport}
                 >
                   {I18n.t('COMMON.EXPORT')}
                 </button>
 
                 <button
-                  className="btn btn-primary-outline margin-inline"
+                  className="btn btn-primary-outline"
                 >
                   {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
                 </button>
