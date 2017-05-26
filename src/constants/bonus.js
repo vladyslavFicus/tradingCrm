@@ -18,6 +18,10 @@ const assign = keyMirror({
   manual: null,
   campaign: null,
 });
+const cancellerReason = keyMirror({
+  MANUAL_BY_PLAYER: null,
+  MANUAL_BY_OPERATOR: null,
+});
 
 const statusesLabels = {
   [statuses.INACTIVE]: I18n.t('CONSTANTS.BONUS.STATUSES.INACTIVE'),
@@ -75,4 +79,5 @@ export {
   typesProps,
   assign,
   assignLabels,
+  cancellerReason,
 };
