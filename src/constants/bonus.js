@@ -18,7 +18,7 @@ const assign = keyMirror({
   manual: null,
   campaign: null,
 });
-const cancellerReason = keyMirror({
+const cancellationReason = keyMirror({
   MANUAL_BY_PLAYER: null,
   MANUAL_BY_OPERATOR: null,
 });
@@ -79,5 +79,5 @@ export {
   typesProps,
   assign,
   assignLabels,
-  cancellerReason,
+  cancellationReason,
 };

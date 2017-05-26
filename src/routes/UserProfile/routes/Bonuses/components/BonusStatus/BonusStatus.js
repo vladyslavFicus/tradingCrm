@@ -6,7 +6,7 @@ import {
   statuses,
   statusesLabels,
   statusesProps,
-  cancellerReason,
+  cancellationReason,
 } from '../../../../../../constants/bonus';
 import Uuid from '../../../../../../components/Uuid';
 
@@ -57,7 +57,11 @@ class BonusStatus extends Component {
         {
           bonus.cancellerUUID &&
           <div>
-            by <Uuid uuid={bonus.cancellerUUID} uuidPrefix={cancellerReason.MANUAL_BY_PLAYER ? 'PL' : null} />
+            by{' '}
+            <Uuid
+              uuid={bonus.cancellerUUID}
+              uuidPrefix={(bonus.cancellationReason === cancellationReason.MANUAL_BY_PLAYER ? 'PL' : null)}
+            />
           </div>
         }
         {
