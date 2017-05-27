@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Collapse } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
 import Tabs from '../../../../../components/Tabs';
 import Modal from '../../../../../components/Modal';
 import Information from '../components/Information';
@@ -154,19 +156,25 @@ class OperatorProfileLayout extends Component {
 
             <div className="hide-details-block">
               <div className="hide-details-block_arrow" />
-              <div className="hide-details-block_text" onClick={this.handleToggleInformationBlock}>
-                {informationShown ? 'Hide details' : 'Show details'}
-              </div>
+              <button
+                className="hide-details-block_text btn-transparent"
+                onClick={this.handleToggleInformationBlock}
+              >
+                {informationShown ?
+                  I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
+                  I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
+                }
+              </button>
+
               <div className="hide-details-block_arrow" />
             </div>
 
-            {
-              informationShown &&
+            <Collapse isOpen={informationShown}>
               <Information
                 data={data}
                 ips={ip.list}
               />
-            }
+            </Collapse>
           </div>
           <div className="row">
             <section className="panel profile-user-content">

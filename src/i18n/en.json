@@ -188,7 +188,14 @@
     "OR": "Or",
     "OPT_IN": "Opt-In",
     "NON_OPT_IN": "Non Opt-in",
-    "AUTHOR_BY": "by "
+    "AUTHOR_BY": "by ",
+    "EMPTY": "Empty",
+    "DATE_ON": "on %{date}",
+    "DATE_UNTIL": "until %{date}",
+    "DETAILS_COLLAPSE": {
+      "HIDE": "Hide details",
+      "SHOW": "Show details"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -301,8 +308,8 @@
         "CANCELED": "Canceled"
       },
       "TARGET_TYPES": {
-        "ALL": "",
-        "TARGET_LIST": ""
+        "ALL": "All players",
+        "TARGET_LIST": "Selected players"
       }
     }
   },
@@ -314,10 +321,19 @@
         "ACTION_TYPE_EMPTY_OPTION": "Any action",
         "ACTION_DATE_RANGE": "Action date range"
       },
-      "TITLE": "Feed",
-      "FEED_ITEM": {
-        "HIDE_DETAILS": "Hide details",
-        "SHOW_DETAILS": "Show details"
+      "TITLE": "Feed"
+    },
+    "DETAILS": {
+      "LABEL": {
+        "ADDITIONAL_INFORMATION": "Additional information",
+        "DEPARTMENTS": "Departments",
+        "PERSONAL_INFORMATION": "Personal information",
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "EMAIL": "Email",
+        "COUNTRY": "Country",
+        "PHONE_NUMBER": "Phone number",
+        "REGISTRATION_DATE": "Registration date"
       }
     }
   },
@@ -434,10 +450,9 @@
         "GRANTED_TO_0": "to %{count} Players",
         "GRANTED_TO_1": "to %{count} Player"
       }
+    },
+    "CREATE_MODAL": {
+      "TITLE": "New bonus campaign"
     }
-  },
-  "BONUS_CAMPAIGN_STATUS": {
-    "CHANGE_DATE": "on %{date}",
-    "UNTIL_DATE": "until %{date}"
   }
 }

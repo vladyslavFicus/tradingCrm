@@ -17,7 +17,7 @@ const initialState = {
 class AccountStatus extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
-    status: PropTypes.string,
+    profileStatus: PropTypes.string,
     availableStatuses: PropTypes.array.isRequired,
     onStatusChange: PropTypes.func.isRequired,
   };

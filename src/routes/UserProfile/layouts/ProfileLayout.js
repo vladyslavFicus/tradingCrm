@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ImageViewer from 'react-images';
+import { Collapse } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
 import Tabs from '../../../components/Tabs';
 import Modal from '../../../components/Modal';
 import Header from '../components/Header';
@@ -503,13 +505,15 @@ class ProfileLayout extends Component {
                 className="hide-details-block_text btn-transparent"
                 onClick={this.handleToggleInformationBlock}
               >
-                {informationShown ? 'Hide details' : 'Show details'}
+                {informationShown ?
+                  I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
+                  I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
+                }
               </button>
               <div className="hide-details-block_arrow" />
             </div>
 
-            {
-              informationShown &&
+            <Collapse isOpen={informationShown}>
               <Information
                 data={profileData}
                 ips={ip.list}
@@ -517,7 +521,7 @@ class ProfileLayout extends Component {
                 onEditNoteClick={this.handleEditNoteClick}
                 notes={notes}
               />
-            }
+            </Collapse>
           </div>
 
           <div className="row">

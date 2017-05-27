@@ -187,7 +187,14 @@
     "OR": "Или",
     "OPT_IN": "Opt-In",
     "NON_OPT_IN": "Non Opt-In",
-    "AUTHOR_BY": "от "
+    "AUTHOR_BY": "от ",
+    "EMPTY": "Пусто",
+    "DATE_ON": "от %{date}",
+    "DATE_UNTIL": "до %{date}",
+    "DETAILS_COLLAPSE": {
+      "HIDE": "Скрыть детали",
+      "SHOW": "Показать детали"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -300,8 +307,8 @@
         "CANCELED": "Отмененная"
       },
       "TARGET_TYPES": {
-        "ALL": "",
-        "TARGET_LIST": ""
+        "ALL": "Все игроки",
+        "TARGET_LIST": "Выбранные игроки"
       }
     }
   },
@@ -317,6 +324,19 @@
       "FEED_ITEM": {
         "HIDE_DETAILS": "Скрыть детали",
         "SHOW_DETAILS": "Показать детали"
+      }
+    },
+    "DETAILS": {
+      "LABEL": {
+        "ADDITIONAL_INFORMATION": "Дополнительная информация",
+        "DEPARTMENTS": "Департаменты",
+        "PERSONAL_INFORMATION": "Персональные данные",
+        "FIRST_NAME": "Имя",
+        "LAST_NAME": "Фамилия",
+        "EMAIL": "E-mail",
+        "COUNTRY": "Страна",
+        "PHONE_NUMBER": "Телефон",
+        "REGISTRATION_DATE": "Дата регистрации"
       }
     }
   },
@@ -431,6 +451,9 @@
         "GRANTED_TO": "для %{count} игроков",
         "GRANTED_TO_1": "для %{count} игрока"
       }
+    },
+    "CREATE_MODAL": {
+      "TITLE": "Новая бонус-компания"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

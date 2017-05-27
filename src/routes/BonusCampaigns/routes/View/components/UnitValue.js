@@ -17,7 +17,7 @@ class UnitValue extends Component {
     }
 
     if (type === amountTypes.PERCENTAGE) {
-      return `${value} %`;
+      return <span>{`${value}%`}</span>;
     }
 
     return <Amount amount={value} currency={currency} />;

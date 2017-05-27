@@ -141,14 +141,14 @@ class AvailabilityPopover extends Component {
     const tabListElements = [];
     Object.keys(tabCountries).map((letter, key) => {
       tabListElements.push(
-        <Col key={`${key}-${letter}`}>
+        <Col className="col-xs-12" key={`${key}-${letter}`}>
           <span className="font-weight-700">{letter}</span>
         </Col>
       );
 
       tabCountries[letter].map((country) => {
         tabListElements.push(
-          <Col key={`${key}-${country}`}>
+          <Col className="col-xs-12" key={`${key}-${country}`}>
             <span className="font-weight-700">{country}</span> {'- '}
             <span className="color-default">{this.renderLimit(country)}</span>
           </Col>
@@ -159,6 +159,7 @@ class AvailabilityPopover extends Component {
     if (!tabListElements.length && search) {
       return (
         <Col
+          className="col-xs-12"
           dangerouslySetInnerHTML={{
             __html: I18n.t('PAYMENT.METHODS.AVAILABILITY.NO_RESULT_BY_SEARCH', {
               search: `<span class="font-weight-700">${search}</span>`,

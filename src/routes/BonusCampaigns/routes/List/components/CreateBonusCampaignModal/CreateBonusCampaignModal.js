@@ -4,6 +4,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm, getFormValues } from 'redux-form';
 import moment from 'moment';
 import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../../utils/validator';
 import {
   CustomValueField, InputField, SelectField, DateTimeField,
@@ -73,10 +74,6 @@ class CreateBonusCampaignModal extends Component {
     this.props.onSubmit(data);
   };
 
-  handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DDTHH:mm:00') : '');
-  };
-
   startDateValidator = toAttribute => (current) => {
     const { currentValues } = this.props;
 
@@ -112,7 +109,9 @@ class CreateBonusCampaignModal extends Component {
 
     return (
       <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen={isOpen}>
-        <ModalHeader toggle={onClose}>New bonus campaign</ModalHeader>
+        <ModalHeader toggle={onClose}>
+          {I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.TITLE')}
+        </ModalHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
