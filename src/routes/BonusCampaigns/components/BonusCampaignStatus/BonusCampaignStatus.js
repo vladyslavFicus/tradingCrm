@@ -29,7 +29,7 @@ class BonusCampaignStatus extends Component {
         {
           data.statusChangedDate &&
           <div className={`${blockName}__status-date`}>
-            {I18n.t('BONUS_CAMPAIGN_STATUS.CHANGE_DATE', {
+            {I18n.t('COMMON.DATE_ON', {
               date: moment.utc(data.statusChangedDate).format('DD.MM.YYYY HH:mm'),
             })}
           </div>
@@ -37,7 +37,7 @@ class BonusCampaignStatus extends Component {
         {
           data.state === statuses.PENDING &&
           <div className={`${blockName}__status-date`}>
-            {I18n.t('BONUS_CAMPAIGN_STATUS.UNTIL_DATE', {
+            {I18n.t('COMMON.DATE_UNTIL', {
               date: moment.utc(data.startDate).format('DD.MM.YYYY HH:mm'),
             })}
           </div>
@@ -45,7 +45,7 @@ class BonusCampaignStatus extends Component {
         {
           data.authorUUID &&
           <div className={`${blockName}__status-author`}>
-            {I18n.t('BONUS_CAMPAIGN_STATUS.AUTHOR')}
+            {I18n.t('COMMON.AUTHOR_BY')}
             <Uuid uuid={data.authorUUID} />
           </div>
         }

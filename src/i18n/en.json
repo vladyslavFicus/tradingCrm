@@ -187,7 +187,15 @@
     },
     "OR": "Or",
     "OPT_IN": "Opt-In",
-    "NON_OPT_IN": "Non Opt-in"
+    "NON_OPT_IN": "Non Opt-in",
+    "AUTHOR_BY": "by ",
+    "EMPTY": "Empty",
+    "DATE_ON": "on %{date}",
+    "DATE_UNTIL": "until %{date}",
+    "DETAILS_COLLAPSE": {
+      "HIDE": "Hide details",
+      "SHOW": "Show details"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -298,6 +306,10 @@
         "ACTIVE": "Active",
         "FINISHED": "Finished",
         "CANCELED": "Canceled"
+      },
+      "TARGET_TYPES": {
+        "ALL": "All players",
+        "TARGET_LIST": "Selected players"
       }
     }
   },
@@ -309,10 +321,19 @@
         "ACTION_TYPE_EMPTY_OPTION": "Any action",
         "ACTION_DATE_RANGE": "Action date range"
       },
-      "TITLE": "Feed",
-      "FEED_ITEM": {
-        "HIDE_DETAILS": "Hide details",
-        "SHOW_DETAILS": "Show details"
+      "TITLE": "Feed"
+    },
+    "DETAILS": {
+      "LABEL": {
+        "ADDITIONAL_INFORMATION": "Additional information",
+        "DEPARTMENTS": "Departments",
+        "PERSONAL_INFORMATION": "Personal information",
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "EMAIL": "Email",
+        "COUNTRY": "Country",
+        "PHONE_NUMBER": "Phone number",
+        "REGISTRATION_DATE": "Registration date"
       }
     }
   },
@@ -377,7 +398,6 @@
   },
   "BONUS_CAMPAIGNS": {
     "GRID_VIEW": {
-      "AUTHOR": "by ",
       "DATE_TIME_AT": "at %{time}",
       "CAMPAIGN": "Campaign",
       "FULFILLMENT_TYPE": "Fulfillment type",
@@ -404,11 +424,35 @@
       "ACTIVITY_DATE_TO": "Activity date to",
       "SEARCH_BY_PLACEHOLDER": "Campaign, Operator"
     },
-    "BUTTON_CREATE_CAMPAIGN": "+ Add campaign"
-  },
-  "BONUS_CAMPAIGN_STATUS": {
-    "CHANGE_DATE": "on %{date}",
-    "UNTIL_DATE": "until %{date}",
-    "AUTHOR": "by "
+    "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "GRANTED": "Granted",
+          "WAGERED": "Wagered",
+          "CONVERTED": "Converted",
+          "CREATED": "Created",
+          "TARGET": "Target",
+          "TARGET_TYPE": "Target type",
+          "PLAYERS_SELECTED": "Players selected",
+          "PLAYERS_OPT_IN": "Players opted-in",
+          "REWARD_PARAMS": "Fulfillment & reward parameters",
+          "FULFILLMENT_TYPE": "Fulfillment type",
+          "RATIO": "Ratio",
+          "MULTIPLAYER": "Multiplayer",
+          "LIFE_TIME": "Life time",
+          "CAMPAIGN_START": "Campaign start",
+          "CAMPAIGN_END": "Campaign end",
+          "PRIZE": "Prize",
+          "CAPPING": "Capping"
+        },
+        "GRANTED_TO": "to %{count} Players",
+        "GRANTED_TO_0": "to %{count} Players",
+        "GRANTED_TO_1": "to %{count} Player"
+      }
+    },
+    "CREATE_MODAL": {
+      "TITLE": "New bonus campaign"
+    }
   }
 }

@@ -10,6 +10,7 @@ import downloadBlob from '../../../../../utils/downloadBlob';
 
 const KEY = 'bonusCampaigns/campaigns';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
+const CREATE_CAMPAIGN = createRequestAction(`${KEY}/create-campaign`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
 const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const RESET_CAMPAIGNS = `${KEY}/reset`;
@@ -46,6 +47,31 @@ function fetchEntities(filters = {}) {
           },
           FETCH_ENTITIES.SUCCESS,
           FETCH_ENTITIES.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function createCampaign(data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: 'promotion/campaigns',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ...data, optIn: data.optIn || false }),
+        types: [
+          CREATE_CAMPAIGN.REQUEST,
+          CREATE_CAMPAIGN.SUCCESS,
+          CREATE_CAMPAIGN.FAILURE,
         ],
         bailout: !logged,
       },
@@ -164,6 +190,7 @@ const actionTypes = {
 };
 const actionCreators = {
   fetchEntities,
+  createCampaign,
   exportEntities,
   changeCampaignState,
   resetCampaigns,

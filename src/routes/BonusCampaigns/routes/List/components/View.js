@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { Link } from 'react-router';
+import { SubmissionError } from 'redux-form';
 import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
@@ -11,7 +12,9 @@ import { eventTypesLabels } from '../../../constants';
 import Amount from '../../../../../components/Amount';
 import BonusCampaignStatus from '../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
+import CreateBonusCampaignModal from './CreateBonusCampaignModal';
 
+const MODAL_CREATE_BONUS_CAMPAIGN = 'modal-create-bonus-campaign';
 const defaultModalState = {
   name: null,
   params: {},
@@ -20,6 +23,7 @@ const defaultModalState = {
 class View extends Component {
   static propTypes = {
     campaigns: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     types: PropTypes.shape({
       list: PropTypes.arrayOf(PropTypes.string).isRequired,
       isLoading: PropTypes.bool.isRequired,
@@ -29,9 +33,11 @@ class View extends Component {
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
     locale: PropTypes.string.isRequired,
     fetchEntities: PropTypes.func.isRequired,
+    createCampaign: PropTypes.func.isRequired,
     exportEntities: PropTypes.func.isRequired,
     fetchTypes: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
+    router: PropTypes.object,
   };
 
   state = {
@@ -71,12 +77,41 @@ class View extends Component {
     this.setState({ filters: {}, page: 0 });
   };
 
+  handleOpenCreateModal = () => {
+    this.setState({
+      modal: {
+        name: MODAL_CREATE_BONUS_CAMPAIGN,
+        params: {},
+      },
+    });
+  };
+
   handleCloseModal = (callback) => {
     this.setState({ modal: { ...defaultModalState } }, () => {
       if (typeof callback === 'function') {
         callback();
       }
     });
+  };
+
+  handleSubmitNewBonusCampaign = async (data) => {
+    const action = await this.props.createCampaign(data);
+
+    if (action) {
+      if (!action.error) {
+        this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignId}`);
+      } else if (action.payload.response.fields_errors) {
+        const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
+          ...res,
+          [name]: action.payload.response.fields_errors[name].error,
+        }), {});
+        throw new SubmissionError(errors);
+      } else if (action.payload.response.error) {
+        throw new SubmissionError({ __error: action.payload.response.error });
+      }
+    }
+
+    return action;
   };
 
   handleExport = () => this.props.exportEntities({
@@ -93,7 +128,7 @@ class View extends Component {
       {
         data.authorUUID &&
         <div className="font-size-10 text-uppercase">
-          {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.AUTHOR')}
+          {I18n.t('COMMON.AUTHOR_BY')}
           <Uuid uuid={data.authorUUID} />
         </div>
       }
@@ -153,6 +188,7 @@ class View extends Component {
       locale,
       types: { list },
       statuses,
+      currencies,
     } = this.props;
     const { modal, filters } = this.state;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
@@ -176,6 +212,7 @@ class View extends Component {
 
                 <button
                   className="btn btn-primary-outline margin-inline"
+                  onClick={this.handleOpenCreateModal}
                 >
                   {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
                 </button>
@@ -255,6 +292,16 @@ class View extends Component {
             </GridView>
           </Content>
         </Panel>
+
+        {
+          modal.name === MODAL_CREATE_BONUS_CAMPAIGN &&
+          <CreateBonusCampaignModal
+            onSubmit={this.handleSubmitNewBonusCampaign}
+            currencies={currencies}
+            onClose={this.handleCloseModal}
+            isOpen
+          />
+        }
       </div>
     );
   }

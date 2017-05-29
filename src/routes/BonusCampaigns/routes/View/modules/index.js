@@ -1,7 +1,7 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from 'utils/timestamp';
-import createRequestAction from 'utils/createRequestAction';
+import createReducer from '../../../../../utils/createReducer';
+import timestamp from '../../../../../utils/timestamp';
+import createRequestAction from '../../../../../utils/createRequestAction';
 
 const KEY = 'campaign';
 const CAMPAIGN_UPDATE = createRequestAction(`${KEY}/campaign-update`);
@@ -72,7 +72,7 @@ const actionHandlers = {
     },
     isLoading: true,
   }),
-  [CAMPAIGN_UPDATE.SUCCESS]: (state, action) => ({
+  [CAMPAIGN_UPDATE.SUCCESS]: state => ({
     ...state,
     isLoading: false,
     receivedAt: timestamp(),
@@ -84,7 +84,7 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
 
-  [FETCH_CAMPAIGN.REQUEST]: (state, action) => ({
+  [FETCH_CAMPAIGN.REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
