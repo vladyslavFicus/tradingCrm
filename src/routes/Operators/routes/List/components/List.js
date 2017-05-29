@@ -14,6 +14,7 @@ import {
 } from '../../../../../constants/operators';
 import CreateOperatorModal from '../../../components/CreateOperatorModal';
 
+const MODAL_CREATE_OPERATOR = 'modal-create-operator';
 const modalInitialState = {
   name: null,
   params: {},
@@ -65,7 +66,7 @@ class List extends Component {
   handleOpenCreateModal = () => {
     this.setState({
       modal: {
-        name: 'create-operator',
+        name: MODAL_CREATE_OPERATOR,
         params: {},
       },
     });
@@ -204,7 +205,7 @@ class List extends Component {
         </Panel>
 
         {
-          modal.name === 'create-operator' &&
+          modal.name === MODAL_CREATE_OPERATOR &&
           <CreateOperatorModal
             onSubmit={this.handleSubmitNewOperator}
             departments={departments}

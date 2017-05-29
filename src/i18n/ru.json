@@ -186,7 +186,15 @@
     },
     "OR": "Или",
     "OPT_IN": "Opt-In",
-    "NON_OPT_IN": "Non Opt-In"
+    "NON_OPT_IN": "Non Opt-In",
+    "AUTHOR_BY": "от ",
+    "EMPTY": "Пусто",
+    "DATE_ON": "от %{date}",
+    "DATE_UNTIL": "до %{date}",
+    "DETAILS_COLLAPSE": {
+      "HIDE": "Скрыть детали",
+      "SHOW": "Показать детали"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -297,6 +305,10 @@
         "ACTIVE": "Активная",
         "FINISHED": "Завершенная",
         "CANCELED": "Отмененная"
+      },
+      "TARGET_TYPES": {
+        "ALL": "Все игроки",
+        "TARGET_LIST": "Выбранные игроки"
       }
     }
   },
@@ -312,6 +324,19 @@
       "FEED_ITEM": {
         "HIDE_DETAILS": "Скрыть детали",
         "SHOW_DETAILS": "Показать детали"
+      }
+    },
+    "DETAILS": {
+      "LABEL": {
+        "ADDITIONAL_INFORMATION": "Дополнительная информация",
+        "DEPARTMENTS": "Департаменты",
+        "PERSONAL_INFORMATION": "Персональные данные",
+        "FIRST_NAME": "Имя",
+        "LAST_NAME": "Фамилия",
+        "EMAIL": "E-mail",
+        "COUNTRY": "Страна",
+        "PHONE_NUMBER": "Телефон",
+        "REGISTRATION_DATE": "Дата регистрации"
       }
     }
   },
@@ -376,7 +401,6 @@
   },
   "BONUS_CAMPAIGNS": {
     "GRID_VIEW": {
-      "AUTHOR": "от ",
       "DATE_TIME_AT": "в %{time}",
       "CAMPAIGN": "Кампания",
       "FULFILLMENT_TYPE": "Тип условия",
@@ -402,11 +426,38 @@
       "ACTIVITY_DATE_TO": "Конечная дата активности",
       "SEARCH_BY_PLACEHOLDER": "Кампания, Оператор"
     },
-    "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию"
+    "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию",
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "GRANTED": "Выдано",
+          "WAGERED": "Wagered",
+          "CONVERTED": "Converted",
+          "CREATED": "Создано",
+          "TARGET": "Target",
+          "TARGET_TYPE": "Target type",
+          "PLAYERS_SELECTED": "Выбрано игроков",
+          "PLAYERS_OPT_IN": "Players opted-in",
+          "REWARD_PARAMS": "Fulfillment & reward parameters",
+          "FULFILLMENT_TYPE": "Fulfillment type",
+          "RATIO": "Коэффициент",
+          "MULTIPLAYER": "Multiplayer",
+          "LIFE_TIME": "Life time",
+          "CAMPAIGN_START": "Старт компании",
+          "CAMPAIGN_END": "Окончание компании",
+          "PRIZE": "Приз",
+          "CAPPING": "Capping"
+        },
+        "GRANTED_TO": "для %{count} игроков",
+        "GRANTED_TO_1": "для %{count} игрока"
+      }
+    },
+    "CREATE_MODAL": {
+      "TITLE": "Новая бонус-компания"
+    }
   },
   "BONUS_CAMPAIGN_STATUS": {
     "CHANGE_DATE": "on %{date}",
-    "UNTIL_DATE": "до %{date}",
-    "AUTHOR": "от "
+    "UNTIL_DATE": "до %{date}"
   }
 }
