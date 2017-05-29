@@ -3,6 +3,8 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import UnitValue from '../UnitValue';
+import { eventTypesLabels } from '../../../../constants';
+import renderLabel from '../../../../../../utils/renderLabel';
 import './Information.scss';
 
 const Information = ({ data: {
@@ -51,7 +53,9 @@ const Information = ({ data: {
           <div className="panel-body height-200">
             <div>
               <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.FULFILLMENT_TYPE')}:</strong>{' '}
-              {eventsType.join(', ')}
+              {
+                eventsType.map(item => renderLabel(item, eventTypesLabels)).join(', ')
+              }
             </div>
             <div>
               <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.RATIO')}:</strong> {' '}
