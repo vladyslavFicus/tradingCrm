@@ -89,7 +89,7 @@ class List extends Component {
     return <div className="page-content-inner">
       <Panel withBorders>
         <Title>
-          <h3>Payments</h3>
+          <span className="font-size-20">Payments</span>
         </Title>
 
         <Content>
