@@ -129,7 +129,7 @@ if (overrides) {
 }
 
 if (config.applicationConfig) {
-  config.applicationConfig['nas.api.url'] = process.env.API_ROOT || config.applicationConfig['nas.api.url'];
+  config.applicationConfig['brand.api.url'] = process.env.API_ROOT || config.applicationConfig['brand.api.url'];
 }
 
 export default config;
