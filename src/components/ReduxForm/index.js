@@ -5,6 +5,8 @@ import SingleDateField from './SingleDateField';
 import TextAreaField from './TextAreaField';
 import EditorField from './EditorField';
 import PhoneField from './PhoneField';
+import SearchField from './SearchField';
+import DateTimeField from './DateTimeField';
 
 export {
   CustomValueField,
@@ -14,4 +16,6 @@ export {
   TextAreaField,
   EditorField,
   PhoneField,
+  SearchField,
+  DateTimeField,
 };

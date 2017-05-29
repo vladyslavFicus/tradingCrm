@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactSelect from 'react-select';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';

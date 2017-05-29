@@ -11,7 +11,8 @@
       "REVENUE": "Revenue",
       "DORMANT": "Dormant",
       "OPEN_LOOP": "Open loop",
-      "GAMES": "Games"
+      "GAMES": "Games",
+      "COUNTRIES": "Countries"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -196,10 +197,24 @@
     "ACCOUNT_STATUS": "Account Status",
     "BALANCE": "Balance",
     "NOTIFICATIONS": {
-      "COPIED": "Copied"
+      "COPIED": "Copied",
+      "COPY_FULL_UUID": {
+        "TITLE": "Copied",
+        "MESSAGE": "Full UUID has been copied to clipboard"
+      }
     },
     "OR": "Or",
-    "TO": "To"
+    "TO": "To",
+    "OPT_IN": "Opt-In",
+    "NON_OPT_IN": "Non Opt-in",
+    "AUTHOR_BY": "by ",
+    "EMPTY": "Empty",
+    "DATE_ON": "on %{date}",
+    "DATE_UNTIL": "until %{date}",
+    "DETAILS_COLLAPSE": {
+      "HIDE": "Hide details",
+      "SHOW": "Show details"
+    }
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -279,13 +294,41 @@
         "EXPIRED": "Expired"
       },
       "TYPES": {
-        "FIRSTDEPOSIT": "First deposit",
-        "PLAYERPROFILECOMPLETED": "Profile completed",
+        "FIRST_DEPOSIT": "First deposit",
+        "PLAYER_PROFILE_COMPLETED": "Profile completed",
         "MANUAL": "No Deposit"
       },
       "ASSIGN": {
         "MANUAL": "by Operator",
         "CAMPAIGN": "by Campaign"
+      }
+    },
+    "COUNTRIES": {
+      "TYPES": {
+        "ALLOWED": "Allowed",
+        "FORBIDDEN": "Forbidden"
+      },
+      "TYPES_ACTION": {
+        "FORBID": "Forbid",
+        "ALLOW": "Allow"
+      }
+    },
+    "BONUS_CAMPAIGN": {
+      "EVENT_TYPE": {
+        "FIRST_DEPOSIT": "First deposit",
+        "DEPOSIT": "Deposit",
+        "PROFILE_COMPLETED": "Profile completed"
+      },
+      "STATUSES": {
+        "DRAFT": "Draft",
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "FINISHED": "Finished",
+        "CANCELED": "Canceled"
+      },
+      "TARGET_TYPES": {
+        "ALL": "All players",
+        "TARGET_LIST": "Selected players"
       }
     }
   },
@@ -297,10 +340,19 @@
         "ACTION_TYPE_EMPTY_OPTION": "Any action",
         "ACTION_DATE_RANGE": "Action date range"
       },
-      "TITLE": "Feed",
-      "FEED_ITEM": {
-        "HIDE_DETAILS": "Hide details",
-        "SHOW_DETAILS": "Show details"
+      "TITLE": "Feed"
+    },
+    "DETAILS": {
+      "LABEL": {
+        "ADDITIONAL_INFORMATION": "Additional information",
+        "DEPARTMENTS": "Departments",
+        "PERSONAL_INFORMATION": "Personal information",
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "EMAIL": "Email",
+        "COUNTRY": "Country",
+        "PHONE_NUMBER": "Phone number",
+        "REGISTRATION_DATE": "Registration date"
       }
     }
   },
@@ -347,6 +399,79 @@
     "FILE": {
       "INVALID_FILE_EXTENSION": "Invalid file extension",
       "INVALID_FILE_SIZE": "Invalid file size"
+    }
+  },
+  "COUNTRIES": {
+    "TITLE": "Countries",
+    "FILTER": {
+      "LABELS": {
+        "ACCESS": "Access"
+      }
+    },
+    "GRID": {
+      "LABEL": {
+        "COUNTRY": "Country",
+        "ACCESS": "Access"
+      }
+    }
+  },
+  "BONUS_CAMPAIGNS": {
+    "GRID_VIEW": {
+      "DATE_TIME_AT": "at %{time}",
+      "CAMPAIGN": "Campaign",
+      "FULFILLMENT_TYPE": "Fulfillment type",
+      "CREATED": "Created",
+      "START_DATE": "Start date",
+      "END_DATE": "End date",
+      "STATUS": "Status",
+      "GRANTED_TO": "to %{count} players",
+      "GRANTED_TO_0": "to %{count} players",
+      "GRANTED_TO_1": "to %{count} player",
+      "GRANTED": "Granted"
+    },
+    "TITLE": "Bonus campaigns",
+    "FILTER_FORM": {
+      "SEARCH_BY": "Search by",
+      "FULFILLMENT_TYPE": "Fulfilment type",
+      "STATUS": "Status",
+      "OPT_IN": "Type",
+      "CREATION_DATE": "Creation date range",
+      "ACTIVITY_DATE": "Activity date range",
+      "CREATION_DATE_FROM": "Creation date from",
+      "CREATION_DATE_TO": "Creation date to",
+      "ACTIVITY_DATE_FROM": "Activity date from",
+      "ACTIVITY_DATE_TO": "Activity date to",
+      "SEARCH_BY_PLACEHOLDER": "Campaign, Operator"
+    },
+    "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "GRANTED": "Granted",
+          "WAGERED": "Wagered",
+          "CONVERTED": "Converted",
+          "CREATED": "Created",
+          "TARGET": "Target",
+          "TARGET_TYPE": "Target type",
+          "PLAYERS_SELECTED": "Players selected",
+          "PLAYERS_OPT_IN": "Players opted-in",
+          "REWARD_PARAMS": "Fulfillment & reward parameters",
+          "FULFILLMENT_TYPE": "Fulfillment type",
+          "RATIO": "Ratio",
+          "MULTIPLAYER": "Multiplayer",
+          "LIFE_TIME": "Life time",
+          "CAMPAIGN_START": "Campaign start",
+          "CAMPAIGN_END": "Campaign end",
+          "PRIZE": "Prize",
+          "CAPPING": "Capping"
+        },
+        "GRANTED_TO": "to %{count} Players",
+        "GRANTED_TO_0": "to %{count} Players",
+        "GRANTED_TO_1": "to %{count} Player"
+      }
+    },
+    "CREATE_MODAL": {
+      "TITLE": "New bonus campaign"
     }
   }
 }

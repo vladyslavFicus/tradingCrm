@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
@@ -53,7 +54,7 @@ class View extends Component {
     verifyEmail: PropTypes.func.isRequired,
   };
   static contextTypes = {
-    onAddNotification: PropTypes.func.isRequired,
+    addNotification: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
   };
 
@@ -66,7 +67,7 @@ class View extends Component {
 
     const action = await submitData(id, type, data);
     if (action) {
-      this.context.onAddNotification({
+      this.context.addNotification({
         level: action.error ? 'error' : 'success',
         title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
         message: `Update ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
@@ -82,7 +83,7 @@ class View extends Component {
 
     const action = await updateProfile(params.id, { phoneNumber: data.phoneNumber });
     if (action) {
-      this.context.onAddNotification({
+      this.context.addNotification({
         level: action.error ? 'error' : 'success',
         title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
         message: `${I18n.t('COMMON.ACTIONS.UPDATED')}

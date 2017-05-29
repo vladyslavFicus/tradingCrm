@@ -19,6 +19,14 @@
   top: 3px;
 }
 
+.modal-dialog {
+  height: 0;
+}
+
+.modal-title {
+  float: left;
+}
+
 .modal.modal-size-small .modal-dialog {
   max-width: 300px;
   width: auto;
@@ -39,6 +47,10 @@
   background: #24222f;
 }
 
-.modal-backdrop.in {
+.modal-backdrop.in, .modal-backdrop.show {
   opacity: .3;
+}
+
+.modal.fade.show {
+  opacity: 1;
 }

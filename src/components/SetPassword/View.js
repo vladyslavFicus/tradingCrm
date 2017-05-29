@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter, IndexLink } from 'react-router';
 import { SubmissionError } from 'redux-form';
 import ViewForm from './ViewForm';

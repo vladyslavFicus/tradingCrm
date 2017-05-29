@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import AccountStatusModal from './AccountStatusModal';
@@ -16,7 +17,7 @@ const initialState = {
 class AccountStatus extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
-    status: PropTypes.string,
+    profileStatus: PropTypes.string,
     availableStatuses: PropTypes.array.isRequired,
     onStatusChange: PropTypes.func.isRequired,
   };

@@ -1,0 +1,14 @@
+.bonus__campaign__details {
+  padding: 10px 15px;
+  &-label {
+    color: #999999;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+  &_block {
+    .panel-body {
+      padding: 7px;
+      font-size: 13px;
+    }
+  }
+}

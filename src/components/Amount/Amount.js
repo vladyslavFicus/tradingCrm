@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
-import Currency  from './Currency';
-import config from 'config/index';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import config from '../../config/index';
+import Currency from './Currency';
 
-const formatMoney = amount => {
+const formatMoney = (amount) => {
   const n = amount.toString();
   const p = n.indexOf('.');
   return n.replace(/\d(?=(?:\d{3})+(?:\.|$))/g, ($0, i) => p < 0 || i < p ? ($0 + ' ') : $0);
@@ -27,7 +28,7 @@ class Amount extends Component {
     const { symbolOnLeft } = config.components.Currency.currencies[currency];
 
     const chunks = [
-      <Currency key="currency" code={currency} className={currencyClassName}/>,
+      <Currency key="currency" code={currency} className={currencyClassName} />,
       <span key="amount" className={amountClassName}>
         {formatMoney(parsedAmount)}
       </span>,

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ClipboardContainer from 'react-copy-to-clipboard';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
@@ -6,17 +7,23 @@ import './CopyToClipboard.scss';
 
 class CopyToClipboard extends Component {
   static propTypes = {
+    className: PropTypes.string,
     text: PropTypes.string,
     children: PropTypes.node.isRequired,
+    notificationLevel: PropTypes.oneOf(['info', 'warning', 'success']),
+    notificationTitle: PropTypes.string,
     notificationMessage: PropTypes.string.isRequired,
     notify: PropTypes.bool,
   };
   static defaultProps = {
+    className: 'copy-clipboard-container',
     notify: false,
-    notificationMessage: 'Full UUID has been copied to clipboard',
+    notificationLevel: 'info',
+    notificationTitle: 'Copied',
+    notificationMessage: 'Copied to your clipboard',
   };
   static contextTypes = {
-    onAddNotification: PropTypes.func.isRequired,
+    addNotification: PropTypes.func.isRequired,
   };
 
   state = {
@@ -27,38 +34,40 @@ class CopyToClipboard extends Component {
     this.setState({
       highlight: !this.state.highlight,
     });
-  }
+  };
 
   animate = () => {
     this.toggle();
     setTimeout(this.toggle, 1000);
-  }
+  };
 
   handleCopy = () => {
-    const { onAddNotification } = this.context;
-    const { notificationMessage, notify } = this.props;
+    const { addNotification } = this.context;
+    const {
+      notificationLevel,
+      notificationTitle,
+      notificationMessage,
+      notify,
+    } = this.props;
 
     this.animate();
 
     if (notify) {
-      onAddNotification({
-        level: 'info',
-        title: I18n.t('COMMON.NOTIFICATIONS.COPIED'),
+      addNotification({
+        level: notificationLevel,
+        title: notificationTitle,
         message: notificationMessage,
       });
     }
-  }
+  };
 
   render() {
-    const { children, text } = this.props;
+    const { className, children, text } = this.props;
     const { highlight } = this.state;
 
     return (
-      <span className={classNames('copy-clipboard-container', { highlight })}>
-        <ClipboardContainer
-          text={text}
-          onCopy={this.handleCopy}
-        >
+      <span className={classNames(className, { highlight })}>
+        <ClipboardContainer text={text} onCopy={this.handleCopy}>
           {children}
         </ClipboardContainer>
       </span>
