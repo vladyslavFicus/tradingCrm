@@ -19,11 +19,7 @@ class View extends Component {
     addNotification: PropTypes.func.isRequired,
   };
 
-  handleSubmit = async (inputData) => {
-    const data = {
-      ...inputData,
-      eventsType: [inputData.eventsType],
-    };
+  handleSubmit = async (data) => {
     const action = await this.props.updateCampaign(this.props.params.id, data);
 
     if (action) {
@@ -71,7 +67,7 @@ class View extends Component {
                   conversionPrize: bonusCampaign.conversionPrize,
                   capping: bonusCampaign.capping,
                   optIn: bonusCampaign.optIn,
-                  eventsType: bonusCampaign.eventsType ? bonusCampaign.eventsType[0] : '',
+                  campaignType: bonusCampaign.campaignType,
                 }}
                 onSubmit={this.handleSubmit}
               />

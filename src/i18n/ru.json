@@ -470,10 +470,10 @@
         "CAPPING": "Capping",
         "MULTIPLIER": "Multiplier",
         "BONUS_LIFE_TIME": "Время жизни бонуса",
-        "EVENT_TYPE": "Тип события",
         "CAMPAIGN_RATIO": "Коэффициент",
         "CONVERSION_PRIZE": "Приз",
-        "OPT_IN": "Opt-In"
+        "OPT_IN": "Opt-In",
+        "CAMPAIGN_TYPE": "Тип компании"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",

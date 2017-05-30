@@ -468,10 +468,10 @@
         "CAPPING": "Capping",
         "MULTIPLIER": "Multiplier",
         "BONUS_LIFE_TIME": "Bonus life time",
-        "EVENT_TYPE": "Events types",
         "CAMPAIGN_RATIO": "Ratio",
         "CONVERSION_PRIZE": "Prize",
-        "OPT_IN": "Opt-In"
+        "OPT_IN": "Opt-In",
+        "CAMPAIGN_TYPE": "Campaign type"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",

@@ -8,7 +8,7 @@ import {
 } from '../../../../../../../components/ReduxForm';
 import ReactSwitch from '../../../../../../../components/ReactSwitch';
 import PropTypes from '../../../../../../../constants/propTypes';
-import { eventTypesLabels, targetTypesLabels } from '../../../../../constants';
+import { campaignTypesLabels, targetTypesLabels } from '../../../../../constants';
 import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { customValueFieldTypesLabels } from '../../../../../../../constants/form';
@@ -26,7 +26,7 @@ const validator = createValidator({
   endDate: 'required|nextDate:startDate',
   wagerWinMultiplier: 'required|integer|max:999',
   bonusLifetime: 'required|integer',
-  eventsType: ['required', 'string', `in:${Object.keys(eventTypesLabels).join()}`],
+  campaignType: ['required', 'string', `in:${Object.keys(campaignTypesLabels).join()}`],
   capping: {
     value: 'required|numeric|customTypeValue.value',
     type: ['required', `in:${Object.keys(customValueFieldTypesLabels).join()}`],
@@ -63,7 +63,7 @@ class Form extends Component {
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,
       optIn: PropTypes.bonusCampaignEntity.optIn,
-      eventsType: PropTypes.bonusCampaignEntity.eventsType,
+      campaignType: PropTypes.bonusCampaignEntity.campaignType,
     }),
   };
 
@@ -245,15 +245,15 @@ class Form extends Component {
           <div className="row">
             <div className="col-md-3">
               <Field
-                name="eventsType"
-                label={I18n.t(attributeLabels.eventsType)}
+                name="campaignType"
+                label={I18n.t(attributeLabels.campaignType)}
                 type="select"
                 position="vertical"
                 component={SelectField}
               >
-                {Object.keys(eventTypesLabels).map(key => (
+                {Object.keys(campaignTypesLabels).map(key => (
                   <option key={key} value={key}>
-                    { renderLabel(key, eventTypesLabels) }
+                    { renderLabel(key, campaignTypesLabels) }
                   </option>
                 ))}
               </Field>
