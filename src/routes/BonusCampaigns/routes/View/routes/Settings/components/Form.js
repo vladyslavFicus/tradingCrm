@@ -18,7 +18,7 @@ const COMPAIGN_NAME_MAX_LENGTH = 100;
 const FORM_NAME = 'updateBonusCampaignSettings';
 
 const validator = createValidator({
-  campaignName: ['required', 'string', 'max:100'],
+  campaignName: ['required', 'string', `max:${COMPAIGN_NAME_MAX_LENGTH}`],
   optIn: 'boolean',
   targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
   currency: 'required',
