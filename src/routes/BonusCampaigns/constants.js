@@ -36,12 +36,10 @@ const statusesClassNames = {
 };
 const eventTypes = keyMirror({
   FIRST_DEPOSIT: null,
-  DEPOSIT: null,
   PROFILE_COMPLETED: null,
 });
 const eventTypesLabels = {
   [eventTypes.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.EVENT_TYPE.FIRST_DEPOSIT'),
-  [eventTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.EVENT_TYPE.DEPOSIT'),
   [eventTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.EVENT_TYPE.PROFILE_COMPLETED'),
 };
 

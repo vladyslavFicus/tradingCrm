@@ -36,7 +36,7 @@ const attributeLabels = {
   optIn: 'Opt-In',
 };
 const validator = createValidator({
-  campaignName: 'required',
+  campaignName: 'required|max:100',
   startDate: 'required',
   endDate: 'required|nextDate:startDate',
   currency: 'required',
@@ -220,7 +220,7 @@ class CreateBonusCampaignModal extends Component {
                 </div>
               </div>
             </div>
-          </ModalBody>.
+          </ModalBody>
 
           <ModalFooter>
             <div className="row">

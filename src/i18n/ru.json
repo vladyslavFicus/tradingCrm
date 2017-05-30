@@ -194,7 +194,8 @@
     "DETAILS_COLLAPSE": {
       "HIDE": "Скрыть детали",
       "SHOW": "Показать детали"
-    }
+    },
+    "REVERT_CHANGES": "Отменить изменения"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -450,10 +451,36 @@
         },
         "GRANTED_TO": "для %{count} игроков",
         "GRANTED_TO_1": "для %{count} игрока"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "",
+        "UPDATE_TITLE": "Обновление бонус-компании"
       }
     },
     "CREATE_MODAL": {
       "TITLE": "Новая бонус-компания"
+    },
+    "SETTINGS": {
+      "LABEL": {
+        "CAMPAIGN_NAME": "Название компании (Внутреннее)",
+        "TARGET_TYPE": "Тип",
+        "CURRENCY": "Валюта",
+        "START_DATE": "Начало",
+        "END_DATE": "Конец",
+        "CAPPING": "Capping",
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Время жизни бонуса",
+        "EVENT_TYPE": "Тип события",
+        "CAMPAIGN_RATIO": "Коэффициент",
+        "CONVERSION_PRIZE": "Приз",
+        "OPT_IN": "Opt-In"
+      },
+      "CHOOSE_CURRENCY": "-- Выберите валюту --",
+      "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
+      "TARGET": "Тип",
+      "CAMPAIGN_SETTINGS": "Настройки компании",
+      "FULFILLMENT": "FULFILLMENT",
+      "REWARD": "Вознаграждение"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

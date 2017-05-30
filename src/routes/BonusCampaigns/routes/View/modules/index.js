@@ -91,6 +91,8 @@ const actionHandlers = {
   }),
   [FETCH_CAMPAIGN.SUCCESS]: (state, action) => ({
     ...state,
+    receivedAt: timestamp(),
+    isLoading: false,
     data: {
       ...state.data,
       ...action.payload,
