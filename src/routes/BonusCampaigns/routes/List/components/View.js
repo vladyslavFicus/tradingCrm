@@ -122,12 +122,12 @@ class View extends Component {
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.campaignUUID}`}>
       <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700 color-black">{data.campaignName}</Link>
-      <div className="font-size-10 text-uppercase">
+      <div className="font-size-10">
         <Uuid uuid={data.campaignUUID} uuidPrefix="CO" />
       </div>
       {
         data.authorUUID &&
-        <div className="font-size-10 text-uppercase">
+        <div className="font-size-10">
           {I18n.t('COMMON.AUTHOR_BY')}
           <Uuid uuid={data.authorUUID} />
         </div>

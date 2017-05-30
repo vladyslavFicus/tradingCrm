@@ -19,12 +19,15 @@ class BonusCampaignStatus extends Component {
 
   render() {
     const { data, blockName } = this.props;
-    const className = statusesClassNames[data.state] || '';
+    const status = data.state === statuses.FINISHED && !!data.statusChangedAuthorUUID
+      ? statuses.CANCELED
+      : data.state;
+    const className = statusesClassNames[status] || '';
 
     return (
       <div className={blockName}>
         <div className={classNames(`${blockName}__status`, className)}>
-          {renderLabel(data.state, statusesLabels)}
+          {renderLabel(status, statusesLabels)}
         </div>
         {
           data.statusChangedDate &&
@@ -35,7 +38,7 @@ class BonusCampaignStatus extends Component {
           </div>
         }
         {
-          data.state === statuses.PENDING &&
+          status === statuses.PENDING &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_UNTIL', {
               date: moment.utc(data.startDate).format('DD.MM.YYYY HH:mm'),
@@ -43,10 +46,10 @@ class BonusCampaignStatus extends Component {
           </div>
         }
         {
-          data.authorUUID &&
+          data.statusChangedAuthorUUID &&
           <div className={`${blockName}__status-author`}>
             {I18n.t('COMMON.AUTHOR_BY')}
-            <Uuid uuid={data.authorUUID} />
+            <Uuid uuid={data.statusChangedAuthorUUID} />
           </div>
         }
       </div>
