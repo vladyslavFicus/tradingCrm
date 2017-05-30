@@ -295,7 +295,7 @@
       }
     },
     "BONUS_CAMPAIGN": {
-      "EVENT_TYPE": {
+      "CAMPAIGN_TYPE": {
         "FIRST_DEPOSIT": "First deposit",
         "DEPOSIT": "Deposit",
         "PROFILE_COMPLETED": "Profile completed"

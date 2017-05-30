@@ -294,7 +294,7 @@
       }
     },
     "BONUS_CAMPAIGN": {
-      "EVENT_TYPE": {
+      "CAMPAIGN_TYPE": {
         "FIRST_DEPOSIT": "Первое пополнение",
         "DEPOSIT": "Пополнение",
         "PROFILE_COMPLETED": "Профиль заполнен"
