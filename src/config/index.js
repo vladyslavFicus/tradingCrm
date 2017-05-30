@@ -63,13 +63,13 @@ const config = {
       rejection: [],
     },
     limits: {},
-    logstash: {
-      url: '',
-    },
     locale: {
       languages: [],
       defaultLanguage: 'en',
     },
+  },
+  logstash: {
+    url: '',
   },
   middlewares: {},
   ...environmentConfig,
@@ -134,13 +134,13 @@ function getLimitPeriods() {
 }
 
 function getApiRoot() {
-  return config.nas.api.url
-    ? config.nas.api.url.replace(/\/$/, '')
+  return config.brand.api.url
+    ? config.brand.api.url.replace(/\/$/, '')
     : '';
 }
 
 function getErrorApiUrl() {
-  return config.nas.logstash.url || '';
+  return config.logstash.url || '';
 }
 
 function getBrand() {
