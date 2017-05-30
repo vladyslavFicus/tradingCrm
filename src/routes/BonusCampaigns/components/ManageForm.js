@@ -9,7 +9,7 @@ import { CustomValueField, SelectField, InputField } from '../../../components/R
 import { formErrorSelector } from '../../../utils/redux-form';
 import { createValidator } from '../../../utils/validator';
 import { customValueFieldTypesLabels } from '../../../constants/form';
-import { eventTypesLabels } from '../constants';
+import { campaignTypesLabels } from '../constants';
 
 const FORM_NAME = 'campaignCreation';
 const errorSelector = formErrorSelector(FORM_NAME);
@@ -29,7 +29,7 @@ const attributeLabels = {
   'conversionPrize.value': 'Conversion prize value',
   'conversionPrize.type': 'Conversion prize value type',
   wagerWinMultiplier: 'Multiplier',
-  eventsTypes: 'Events types',
+  campaignType: 'Events types',
   optIn: 'Opt-In',
 };
 const validator = createValidator({
@@ -49,7 +49,7 @@ const validator = createValidator({
     type: ['required', `in:${Object.keys(customValueFieldTypesLabels).join()}`],
   },
   wagerWinMultiplier: 'required|integer|max:999',
-  eventsTypes: ['required', 'array', `in:${Object.keys(eventTypesLabels).join()}`],
+  campaignType: ['required', `in:${Object.keys(campaignTypesLabels).join()}`],
 }, attributeLabels, false);
 
 class ManageForm extends Component {
@@ -202,15 +202,15 @@ class ManageForm extends Component {
           component={InputField}
         />
         <Field
-          name="eventsType"
-          label={attributeLabels.eventsTypes}
+          name="campaignType"
+          label={attributeLabels.campaignType}
           type="select-multiple"
           multiple
           disabled={disabled}
           component={SelectField}
         >
-          {Object.keys(eventTypesLabels).map(key => (
-            <option key={key} value={key}>{eventTypesLabels[key]}</option>
+          {Object.keys(campaignTypesLabels).map(key => (
+            <option key={key} value={key}>{campaignTypesLabels[key]}</option>
           ))}
         </Field>
 

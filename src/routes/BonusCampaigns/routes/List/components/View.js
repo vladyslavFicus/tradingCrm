@@ -8,7 +8,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
-import { eventTypesLabels } from '../../../constants';
+import { campaignTypesLabels } from '../../../constants';
 import Amount from '../../../../../components/Amount';
 import BonusCampaignStatus from '../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
@@ -136,14 +136,12 @@ class View extends Component {
   );
 
   renderFulfillmentType = data => (
-    data.eventsType.map(item => (
-      <div key={item}>
-        <div className="text-uppercase font-weight-700">
-          {renderLabel(item, eventTypesLabels)}
-        </div>
-        <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
+    <div>
+      <div className="text-uppercase font-weight-700">
+        {renderLabel(data.campaignType, campaignTypesLabels)}
       </div>
-    ))
+      <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
+    </div>
   );
 
   renderDate = field => (data) => {

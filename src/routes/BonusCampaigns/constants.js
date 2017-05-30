@@ -34,23 +34,23 @@ const statusesClassNames = {
   [statuses.FINISHED]: 'color-black',
   [statuses.CANCELED]: 'color-danger',
 };
-const eventTypes = keyMirror({
+const campaignTypes = keyMirror({
   FIRST_DEPOSIT: null,
   DEPOSIT: null,
   PROFILE_COMPLETED: null,
 });
-const eventTypesLabels = {
-  [eventTypes.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.EVENT_TYPE.FIRST_DEPOSIT'),
-  [eventTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.EVENT_TYPE.DEPOSIT'),
-  [eventTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.EVENT_TYPE.PROFILE_COMPLETED'),
+const campaignTypesLabels = {
+  [campaignTypes.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.EVENT_TYPE.FIRST_DEPOSIT'),
+  [campaignTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.EVENT_TYPE.DEPOSIT'),
+  [campaignTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.EVENT_TYPE.PROFILE_COMPLETED'),
 };
 
 export {
   statuses,
   statusesLabels,
   statusesClassNames,
-  eventTypes,
-  eventTypesLabels,
+  campaignTypes,
+  campaignTypesLabels,
   amountTypes,
   targetTypes,
   targetTypesLabels,

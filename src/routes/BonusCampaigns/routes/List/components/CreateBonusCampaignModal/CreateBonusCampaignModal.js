@@ -9,7 +9,7 @@ import { createValidator } from '../../../../../../utils/validator';
 import {
   CustomValueField, InputField, SelectField, DateTimeField,
 } from '../../../../../../components/ReduxForm';
-import { eventTypesLabels, targetTypesLabels } from '../../../../constants';
+import { campaignTypesLabels, targetTypesLabels } from '../../../../constants';
 import { customValueFieldTypesLabels } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './CreateBonusCampaignModal.scss';
@@ -31,7 +31,7 @@ const attributeLabels = {
   'conversionPrize.value': 'Conversion prize value',
   'conversionPrize.type': 'Conversion prize value type',
   wagerWinMultiplier: 'Multiplier',
-  eventsTypes: 'Events types',
+  campaignType: 'Campaign type',
   targetType: 'Target type',
   optIn: 'Opt-In',
 };
@@ -52,7 +52,7 @@ const validator = createValidator({
     type: ['required', `in:${Object.keys(customValueFieldTypesLabels).join()}`],
   },
   wagerWinMultiplier: 'required|integer|max:999',
-  eventsTypes: ['required', 'array', `in:${Object.keys(eventTypesLabels).join()}`],
+  campaignType: ['required', `in:${Object.keys(campaignTypesLabels).join()}`],
   targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
 }, attributeLabels, false);
 
@@ -180,15 +180,14 @@ class CreateBonusCampaignModal extends Component {
               ))}
             </Field>
             <Field
-              name="eventsType"
-              label={attributeLabels.eventsTypes}
-              type="select-multiple"
-              multiple
+              name="campaignType"
+              label={attributeLabels.campaignType}
+              type="select"
               component={SelectField}
             >
-              {Object.keys(eventTypesLabels).map(key => (
+              {Object.keys(campaignTypesLabels).map(key => (
                 <option key={key} value={key}>
-                  { renderLabel(key, eventTypesLabels) }
+                  { renderLabel(key, campaignTypesLabels) }
                 </option>
               ))}
             </Field>
