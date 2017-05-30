@@ -14,11 +14,11 @@ import renderLabel from '../../../../../../../utils/renderLabel';
 import { customValueFieldTypesLabels } from '../../../../../../../constants/form';
 import { attributeLabels } from '../constants';
 
-const COMPAIGN_NAME_MAX_LENGTH = 100;
+const CAMPAIGN_NAME_MAX_LENGTH = 100;
 const FORM_NAME = 'updateBonusCampaignSettings';
 
 const validator = createValidator({
-  campaignName: ['required', 'string', `max:${COMPAIGN_NAME_MAX_LENGTH}`],
+  campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
   optIn: 'boolean',
   targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
   currency: 'required',
@@ -154,7 +154,7 @@ class Form extends Component {
               <div className="color-default font-size-10">
                 {
                   currentValues && currentValues.campaignName ?
-                    currentValues.campaignName.length : 0}/{COMPAIGN_NAME_MAX_LENGTH
+                    currentValues.campaignName.length : 0}/{CAMPAIGN_NAME_MAX_LENGTH
                 }
               </div>
             </div>
