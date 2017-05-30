@@ -3,7 +3,7 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import UnitValue from '../UnitValue';
-import { eventTypesLabels } from '../../../../constants';
+import { campaignTypesLabels } from '../../../../constants';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './Information.scss';
 
@@ -18,7 +18,7 @@ const Information = ({ data: {
   capping,
   wagerWinMultiplier,
   campaignRatio,
-  eventsType,
+  campaignType,
 } }) => (
   <div className="bonus__campaign__details row">
     <div className="col-md-3">
@@ -54,7 +54,7 @@ const Information = ({ data: {
             <div>
               <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.FULFILLMENT_TYPE')}:</strong>{' '}
               {
-                eventsType.map(item => renderLabel(item, eventTypesLabels)).join(', ')
+                renderLabel(campaignType, campaignTypesLabels)
               }
             </div>
             <div>

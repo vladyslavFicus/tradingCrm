@@ -100,7 +100,6 @@ class Header extends Component {
   render() {
     const {
       data: {
-        balance,
         registrationDate,
         firstName,
         lastName,
@@ -204,7 +203,7 @@ class Header extends Component {
                 <div className="dropdown-tab">
                   <div className="header-block-title">Balance</div>
                   <div className="header-block-middle">
-                    <Amount {...balance} />
+                    <Amount {...accumulatedBalances.total} />
                   </div>
                   {this.getRealWithBonusBalance()}
                 </div>
