@@ -14,7 +14,9 @@ import { customValueFieldTypesLabels } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './CreateBonusCampaignModal.scss';
 
+const CAMPAIGN_NAME_MAX_LENGTH = 100;
 const FORM_NAME = 'bonusCampaignCreateForm';
+
 const attributeLabels = {
   campaignName: 'Name',
   startDate: 'Start date',
@@ -36,7 +38,7 @@ const attributeLabels = {
   optIn: 'Opt-In',
 };
 const validator = createValidator({
-  campaignName: 'required',
+  campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
   startDate: 'required',
   endDate: 'required|nextDate:startDate',
   currency: 'required',
@@ -219,7 +221,7 @@ class CreateBonusCampaignModal extends Component {
                 </div>
               </div>
             </div>
-          </ModalBody>.
+          </ModalBody>
 
           <ModalFooter>
             <div className="row">

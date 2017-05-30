@@ -195,7 +195,8 @@
     "DETAILS_COLLAPSE": {
       "HIDE": "Hide details",
       "SHOW": "Show details"
-    }
+    },
+    "REVERT_CHANGES": "Revert changes"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -449,10 +450,35 @@
         "GRANTED_TO": "to %{count} Players",
         "GRANTED_TO_0": "to %{count} Players",
         "GRANTED_TO_1": "to %{count} Player"
+      },
+      "NOTIFICATIONS": {
+        "UPDATE_TITLE": "Update bonus campaign"
       }
     },
     "CREATE_MODAL": {
       "TITLE": "New bonus campaign"
+    },
+    "SETTINGS": {
+      "LABEL": {
+        "CAMPAIGN_NAME": "Campaign name (Internal)",
+        "TARGET_TYPE": "Target type",
+        "CURRENCY": "Currency",
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
+        "CAPPING": "Capping",
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Bonus life time",
+        "CAMPAIGN_RATIO": "Ratio",
+        "CONVERSION_PRIZE": "Prize",
+        "OPT_IN": "Opt-In",
+        "CAMPAIGN_TYPE": "Campaign type"
+      },
+      "CHOOSE_CURRENCY": "-- Choose currency --",
+      "CHOOSE_TARGET_TYPE": "-- Choose target type --",
+      "TARGET": "Target",
+      "CAMPAIGN_SETTINGS": "Campaign settings",
+      "FULFILLMENT": "Fulfillment",
+      "REWARD": "Reward"
     }
   }
 }

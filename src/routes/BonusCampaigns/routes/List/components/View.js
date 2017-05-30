@@ -99,7 +99,7 @@ class View extends Component {
 
     if (action) {
       if (!action.error) {
-        this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignId}`);
+        this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
       } else if (action.payload.response.fields_errors) {
         const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
           ...res,
