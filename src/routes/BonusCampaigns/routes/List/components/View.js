@@ -8,7 +8,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
-import { campaignTypes, campaignTypesLabels } from '../../../constants';
+import { campaignTypes, campaignTypesLabels, targetTypes, targetTypesLabels } from '../../../constants';
 import Amount from '../../../../../components/Amount';
 import BonusCampaignStatus from '../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
@@ -135,6 +135,25 @@ class View extends Component {
     </div>
   );
 
+  renderType = data => (
+    <div>
+      <div className="text-uppercase font-weight-700">
+        {renderLabel(data.targetType, targetTypesLabels)}
+      </div>
+      {
+        data.targetType === targetTypes.TARGET_LIST &&
+        <div>
+          <div className="font-size-10">
+            {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TOTAL_OPT_IN_PLAYERS', { count: data.totalOptInPlayers })}
+          </div>
+          <div className="font-size-10">
+            {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TOTAL_SELECTED_PLAYERS', { count: data.totalOptInPlayers })}
+          </div>
+        </div>
+      }
+    </div>
+  );
+
   renderFulfillmentType = data => (
     <div>
       <div className="text-uppercase font-weight-700">
@@ -244,6 +263,13 @@ class View extends Component {
                 header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
                 headerClassName="text-uppercase"
                 render={this.renderCampaign}
+              />
+
+              <GridColumn
+                name="targetType"
+                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TYPE')}
+                headerClassName="text-uppercase"
+                render={this.renderType}
               />
 
               <GridColumn
