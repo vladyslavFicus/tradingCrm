@@ -457,6 +457,9 @@
         "TITLE": "",
         "UPDATE_TITLE": "Обновление бонус-компании",
         "IMPORT_PLAYERS": "Импорт игроков"
+      },
+      "BUTTON": {
+        "IMPORT_PLAYERS": "+ Импорт игроков"
       }
     },
     "CREATE_MODAL": {

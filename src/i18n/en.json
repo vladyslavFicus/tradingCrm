@@ -455,6 +455,9 @@
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
         "IMPORT_PLAYERS": "Import players"
+      },
+      "BUTTON": {
+        "IMPORT_PLAYERS": "+ Import players"
       }
     },
     "CREATE_MODAL": {
