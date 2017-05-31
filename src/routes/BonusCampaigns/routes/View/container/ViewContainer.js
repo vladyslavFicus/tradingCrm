@@ -8,4 +8,5 @@ const mapStateToProps = ({ bonusCampaignView, i18n: { locale } }) => ({
 });
 export default connect(mapStateToProps, {
   ...actionCreators,
+  uploadFile: actionCreators.uploadPlayersFile,
 })(ViewLayout);

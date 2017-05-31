@@ -15,7 +15,12 @@ class ViewLayout extends Component {
     location: PropTypes.object,
     children: PropTypes.node,
     data: PropTypes.bonusCampaignEntity.isRequired,
+    uploadFile: PropTypes.func.isRequired,
   };
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
+  };
+
   state = {
     informationShown: true,
   };
@@ -23,6 +28,20 @@ class ViewLayout extends Component {
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
   };
+
+  handleUploadFile = async (errors, file) => {
+    const { params, uploadFile } = this.props;
+    const action = await uploadFile(params.id, file);
+
+    if (action) {
+      this.context.addNotification({
+        level: action.error ? 'error' : 'success',
+        title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.IMPORT_PLAYERS'),
+        message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    }
+  }
 
   render() {
     const { informationShown } = this.state;
@@ -34,6 +53,7 @@ class ViewLayout extends Component {
           <div className="profile-layout-heading">
             <Header
               data={bonusCampaignData}
+              onUpload={this.handleUploadFile}
             />
 
             <div className="hide-details-block">

@@ -2,10 +2,12 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
+import buildFormData from '../../../../../utils/buildFormData';
 
 const KEY = 'campaign';
 const CAMPAIGN_UPDATE = createRequestAction(`${KEY}/campaign-update`);
 const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
+const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
 
 function fetchCampaign(id) {
   return (dispatch, getState) => {
@@ -57,6 +59,32 @@ function updateCampaign(id, data) {
           CAMPAIGN_UPDATE.SUCCESS,
           CAMPAIGN_UPDATE.FAILURE,
         ],
+      },
+    });
+  };
+}
+
+function uploadPlayersFile(bonusCampaignId, file) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/promotion/campaigns/${bonusCampaignId}/players-list`,
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: buildFormData({ file }),
+        types: [
+          {
+            type: UPLOAD_PLAYERS_FILE.REQUEST,
+            payload: { file },
+          },
+          UPLOAD_PLAYERS_FILE.SUCCESS,
+          UPLOAD_PLAYERS_FILE.FAILURE,
+        ],
+        bailout: !logged,
       },
     });
   };
@@ -118,6 +146,7 @@ const actionTypes = {
 const actionCreators = {
   fetchCampaign,
   updateCampaign,
+  uploadPlayersFile,
 };
 
 export {
