@@ -11,6 +11,8 @@ const mapStateToProps = ({ bonusCampaignView, i18n: { locale } }) => ({
     : [],
 });
 export default connect(mapStateToProps, {
-  ...actionCreators,
+  fetchCampaign: actionCreators.fetchCampaign,
+  updateCampaign: actionCreators.updateCampaign,
+  uploadFile: actionCreators.uploadPlayersFile,
   onChangeCampaignState: actionCreators.changeCampaignState,
 })(ViewLayout);

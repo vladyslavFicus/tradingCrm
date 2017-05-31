@@ -8,7 +8,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
-import { campaignTypesLabels } from '../../../constants';
+import { campaignTypes, campaignTypesLabels } from '../../../constants';
 import Amount from '../../../../../components/Amount';
 import BonusCampaignStatus from '../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
@@ -296,6 +296,9 @@ class View extends Component {
           <CreateBonusCampaignModal
             onSubmit={this.handleSubmitNewBonusCampaign}
             currencies={currencies}
+            initialValues={{
+              campaignType: campaignTypes.FIRST_DEPOSIT,
+            }}
             onClose={this.handleCloseModal}
             isOpen
           />
