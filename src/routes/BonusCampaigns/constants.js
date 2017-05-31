@@ -7,6 +7,10 @@ const actions = keyMirror({
   ACTIVATE: null,
   CANCEL: null,
 });
+const actionLabels = {
+  [actions.ACTIVATE]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.STATUS_ACTIONS_LABELS.ACTIVATE'),
+  [actions.CANCEL]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.STATUS_ACTIONS_LABELS.CANCEL'),
+};
 const statuses = keyMirror({
   DRAFT: null,
   PENDING: null,
@@ -87,6 +91,7 @@ const customValueFieldTypesByCampaignType = {
 
 export {
   actions,
+  actionLabels,
   statuses,
   statusActions,
   statusesReasons,

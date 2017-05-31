@@ -5,17 +5,16 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import PropTypes from '../../../../constants/propTypes';
+import renderLabel from '../../../../utils/renderLabel';
 import { createValidator } from '../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import Uuid from '../../../../components/Uuid';
+import { actionLabels } from '../../constants';
+import { attributeLabels } from './constants';
 import './ChangeStatusModal.scss';
 
 const CUSTOM_REASON = 'custom';
 const FORM_NAME = 'bonusCampaignStatusDropDownModal';
-const attributeLabels = {
-  reason: 'Reason',
-  customReason: '',
-};
 const validator = (data) => {
   const rules = {
     reason: 'string',
@@ -71,7 +70,7 @@ class ChangeStatusModal extends Component {
     <div className="form-group">
       <Field
         name="reason"
-        label={attributeLabels.reason}
+        label={I18n.t(attributeLabels.reason)}
         component={SelectField}
         position="vertical"
         className={'form-control'}
@@ -121,7 +120,7 @@ class ChangeStatusModal extends Component {
               <span className="font-weight-700">
                 {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.ACTION_TEXT', {
                   title: campaign.campaignName,
-                  action: I18n.t(action).toLowerCase(),
+                  action: renderLabel(action, actionLabels).toLowerCase(),
                 })}
               </span>
               {' - '}
