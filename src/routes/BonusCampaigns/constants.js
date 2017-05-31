@@ -1,11 +1,19 @@
 import keyMirror from 'keymirror';
+import config from '../../config';
 import I18n from '../../utils/fake-i18n';
 
+const actions = keyMirror({
+  ACTIVATE: null,
+  CANCEL: null,
+});
 const statuses = keyMirror({
   DRAFT: null,
   PENDING: null,
   ACTIVE: null,
   FINISHED: null,
+  CANCELED: null,
+});
+const statusesReasons = keyMirror({
   CANCELED: null,
 });
 const amountTypes = keyMirror({
@@ -30,9 +38,33 @@ const statusesLabels = {
 const statusesClassNames = {
   [statuses.DRAFT]: 'color-default',
   [statuses.PENDING]: 'color-primary',
-  [statuses.ACTIVE]: 'color-green',
+  [statuses.ACTIVE]: 'color-success',
   [statuses.FINISHED]: 'color-black',
   [statuses.CANCELED]: 'color-danger',
+};
+
+const cancelAction = {
+  action: actions.CANCEL,
+  submitButtonLabel: I18n.t('CONSTANTS.BONUS_CAMPAIGN.STATUS_ACTIONS.CANCEL_CAMPAIGN_BUTTON'),
+  submitButtonClassName: 'btn-danger',
+  className: 'color-danger',
+  label: I18n.t('CONSTANTS.BONUS_CAMPAIGN.STATUS_ACTIONS.CANCEL_CAMPAIGN'),
+  reasons: config.modules.bonusCampaign.cancelReasons,
+  customReason: true,
+};
+
+const statusActions = {
+  [statuses.DRAFT]: [
+    {
+      action: actions.ACTIVATE,
+      submitButtonLabel: I18n.t('CONSTANTS.BONUS_CAMPAIGN.STATUS_ACTIONS.ACTIVATE_CAMPAIGN_BUTTON'),
+      submitButtonClassName: 'btn-success',
+      className: 'color-success',
+      label: I18n.t('CONSTANTS.BONUS_CAMPAIGN.STATUS_ACTIONS.ACTIVATE_CAMPAIGN'),
+    },
+  ],
+  [statuses.PENDING]: [cancelAction],
+  [statuses.ACTIVE]: [cancelAction],
 };
 const campaignTypes = keyMirror({
   FIRST_DEPOSIT: null,
@@ -44,7 +76,10 @@ const campaignTypesLabels = {
 };
 
 export {
+  actions,
   statuses,
+  statusActions,
+  statusesReasons,
   statusesLabels,
   statusesClassNames,
   campaignTypes,

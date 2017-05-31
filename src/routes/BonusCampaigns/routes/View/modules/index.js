@@ -2,10 +2,12 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
+import { actions, statusesReasons } from '../../../constants';
 
 const KEY = 'campaign';
 const CAMPAIGN_UPDATE = createRequestAction(`${KEY}/campaign-update`);
 const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
+const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 
 function fetchCampaign(id) {
   return (dispatch, getState) => {
@@ -28,6 +30,46 @@ function fetchCampaign(id) {
         bailout: !logged,
       },
     });
+  };
+}
+
+function changeCampaignState({ id, action, reason }) {
+  return async (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+    let endpoint = '';
+    const params = { reason };
+
+    if (action === actions.ACTIVATE) {
+      endpoint = `promotion/campaigns/${id}/activate`;
+    } else if (action === actions.CANCEL) {
+      endpoint = `promotion/campaigns/${id}/complete`;
+      params.stateReason = statusesReasons.CANCELED;
+    }
+
+    if (!endpoint) {
+      return null;
+    }
+
+    await dispatch({
+      [CALL_API]: {
+        endpoint,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+        types: [
+          CHANGE_CAMPAIGN_STATE.REQUEST,
+          CHANGE_CAMPAIGN_STATE.SUCCESS,
+          CHANGE_CAMPAIGN_STATE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+
+    return dispatch(fetchCampaign(id));
   };
 }
 
@@ -114,10 +156,12 @@ const initialState = {
 const actionTypes = {
   CAMPAIGN_UPDATE,
   FETCH_CAMPAIGN,
+  CHANGE_CAMPAIGN_STATE,
 };
 const actionCreators = {
   fetchCampaign,
   updateCampaign,
+  changeCampaignState,
 };
 
 export {

@@ -310,6 +310,12 @@
       "TARGET_TYPES": {
         "ALL": "Все игроки",
         "TARGET_LIST": "Выбранные игроки"
+      },
+      "STATUS_ACTIONS": {
+        "ACTIVATE_CAMPAIGN": "Активировать кампанию",
+        "CANCEL_CAMPAIGN": "Отменить кампанию",
+        "ACTIVATE_CAMPAIGN_BUTTON": "Активировать кампанию",
+        "CANCEL_CAMPAIGN_BUTTON": "Отменить кампанию"
       }
     }
   },
@@ -453,7 +459,6 @@
         "GRANTED_TO_1": "для %{count} игрока"
       },
       "NOTIFICATIONS": {
-        "TITLE": "",
         "UPDATE_TITLE": "Обновление бонус-компании"
       }
     },
@@ -481,6 +486,24 @@
       "CAMPAIGN_SETTINGS": "Настройки компании",
       "FULFILLMENT": "FULFILLMENT",
       "REWARD": "Вознаграждение"
+    },
+    "CHANGE_STATUS_MODAL": {
+      "SELECT_REASON_OPTION": "-- Выберите причину --",
+      "CUSTOM_REASON_OPTION": "Другая",
+      "CUSTOM_REASON_PLACEHOLDER": "Причина",
+      "CANCEL_BUTTON": "Отмена",
+      "TITLE": "Смена статуса бонусной кампании",
+      "ACTION_TEXT": "Вы собираетесь %{action} \"%{title}\"",
+      "ENTITY_NAME": "кампания"
+    },
+    "STATUS_DROPDOWN_MODAL": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Причина",
+        "CUSTOM_REASON_LABEL": "Причина"
+      }
+    },
+    "STATUS_DROPDOWN": {
+      "TITLE": "Статус кампании"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

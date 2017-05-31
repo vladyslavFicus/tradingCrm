@@ -5,12 +5,12 @@ import moment from 'moment';
 import Uuid from '../../../../components/Uuid';
 import PropTypes from '../../../../constants/propTypes';
 import renderLabel from '../../../../utils/renderLabel';
-import { statuses, statusesClassNames, statusesLabels } from '../../constants';
+import { statuses, statusesClassNames, statusesLabels, statusesReasons } from '../../constants';
 import './BonusCampaignStatus.scss';
 
 class BonusCampaignStatus extends Component {
   static propTypes = {
-    data: PropTypes.bonusCampaignEntity.isRequired,
+    campaign: PropTypes.bonusCampaignEntity.isRequired,
     blockName: PropTypes.string,
   };
   static defaultProps = {
@@ -18,10 +18,10 @@ class BonusCampaignStatus extends Component {
   };
 
   render() {
-    const { data, blockName } = this.props;
-    const status = data.state === statuses.FINISHED && !!data.statusChangedAuthorUUID
+    const { campaign, blockName } = this.props;
+    const status = campaign.state === statuses.FINISHED && campaign.stateReason === statusesReasons.CANCELED
       ? statuses.CANCELED
-      : data.state;
+      : campaign.state;
     const className = statusesClassNames[status] || '';
 
     return (
@@ -30,10 +30,10 @@ class BonusCampaignStatus extends Component {
           {renderLabel(status, statusesLabels)}
         </div>
         {
-          data.statusChangedDate &&
+          campaign.statusChangedDate &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_ON', {
-              date: moment.utc(data.statusChangedDate).format('DD.MM.YYYY HH:mm'),
+              date: moment.utc(campaign.statusChangedDate).format('DD.MM.YYYY HH:mm'),
             })}
           </div>
         }
@@ -41,15 +41,15 @@ class BonusCampaignStatus extends Component {
           status === statuses.PENDING &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_UNTIL', {
-              date: moment.utc(data.startDate).format('DD.MM.YYYY HH:mm'),
+              date: moment.utc(campaign.startDate).format('DD.MM.YYYY HH:mm'),
             })}
           </div>
         }
         {
-          data.statusChangedAuthorUUID &&
+          campaign.statusChangedAuthorUUID &&
           <div className={`${blockName}__status-author`}>
             {I18n.t('COMMON.AUTHOR_BY')}
-            <Uuid uuid={data.statusChangedAuthorUUID} />
+            <Uuid uuid={campaign.statusChangedAuthorUUID} />
           </div>
         }
       </div>

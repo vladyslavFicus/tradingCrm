@@ -311,6 +311,12 @@
       "TARGET_TYPES": {
         "ALL": "All players",
         "TARGET_LIST": "Selected players"
+      },
+      "STATUS_ACTIONS": {
+        "ACTIVATE_CAMPAIGN": "Activate campaign",
+        "CANCEL_CAMPAIGN": "Cancel campaign",
+        "ACTIVATE_CAMPAIGN_BUTTON": "Activate campaign",
+        "CANCEL_CAMPAIGN_BUTTON": "Confirm campaign cancelation"
       }
     }
   },
@@ -479,6 +485,24 @@
       "CAMPAIGN_SETTINGS": "Campaign settings",
       "FULFILLMENT": "Fulfillment",
       "REWARD": "Reward"
+    },
+    "CHANGE_STATUS_MODAL": {
+      "SELECT_REASON_OPTION": "-- Select reason --",
+      "CUSTOM_REASON_OPTION": "Other",
+      "CUSTOM_REASON_PLACEHOLDER": "Custom reason",
+      "CANCEL_BUTTON": "Cancel",
+      "TITLE": "Change bonus campaign status",
+      "ACTION_TEXT": "You are about to %{action} the %{title}",
+      "ENTITY_NAME": "campaign"
+    },
+    "STATUS_DROPDOWN_MODAL": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Reason",
+        "CUSTOM_REASON_LABEL": "Custom reason"
+      }
+    },
+    "STATUS_DROPDOWN": {
+      "TITLE": "Campaign status"
     }
   }
 }
