@@ -9,8 +9,9 @@ import { createValidator } from '../../../../../../utils/validator';
 import {
   CustomValueField, InputField, SelectField, DateTimeField,
 } from '../../../../../../components/ReduxForm';
-import { campaignTypesLabels, targetTypesLabels } from '../../../../constants';
-import { customValueFieldTypesLabels } from '../../../../../../constants/form';
+import {
+  campaignTypes, campaignTypesLabels, targetTypesLabels, customValueFieldTypesByCampaignType,
+} from '../../../../constants';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './CreateBonusCampaignModal.scss';
 
@@ -37,26 +38,42 @@ const attributeLabels = {
   targetType: 'Target type',
   optIn: 'Opt-In',
 };
-const validator = createValidator({
-  campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
-  startDate: 'required',
-  endDate: 'required|nextDate:startDate',
-  currency: 'required',
-  bonusLifetime: 'required|integer',
-  'campaignRatio.value': 'required|numeric|customTypeValue.value',
-  'campaignRatio.type': ['required', `in:${Object.keys(customValueFieldTypesLabels).join()}`],
-  capping: {
-    value: 'required|numeric|customTypeValue.value',
-    type: ['required', `in:${Object.keys(customValueFieldTypesLabels).join()}`],
+
+const getCustomValueFieldTypes = (campaignType) => {
+  if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
+    return [campaignTypes.FIRST_DEPOSIT, campaignTypes.PROFILE_COMPLETED];
+  }
+
+  return customValueFieldTypesByCampaignType[campaignType];
+};
+
+const validator = (values) => {
+  const customValueFieldTypes = getCustomValueFieldTypes(values.campaignType);
+
+  return createValidator({
+    campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
+    startDate: 'required',
+    endDate: 'required|nextDate:startDate',
+    currency: 'required',
+    bonusLifetime: 'required|integer',
+    'campaignRatio.value': 'required|numeric|customTypeValue.value',
+    'campaignRatio.type': ['required', `in:${customValueFieldTypes.join()}`],
+    capping: {
+      value: 'required|numeric|customTypeValue.value',
+      type: ['required', `in:${customValueFieldTypes.join()}`],
+    },
+    conversionPrize: {
+      value: 'required|numeric|customTypeValue.value',
+      type: ['required', `in:${customValueFieldTypes.join()}`],
+    },
+    wagerWinMultiplier: 'required|integer|max:999',
+    campaignType: ['required', `in:${Object.keys(campaignTypesLabels).join()}`],
+    targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
   },
-  conversionPrize: {
-    value: 'required|numeric|customTypeValue.value',
-    type: ['required', `in:${Object.keys(customValueFieldTypesLabels).join()}`],
-  },
-  wagerWinMultiplier: 'required|integer|max:999',
-  campaignType: ['required', `in:${Object.keys(campaignTypesLabels).join()}`],
-  targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
-}, attributeLabels, false);
+    attributeLabels,
+    false
+  )(values);
+};
 
 class CreateBonusCampaignModal extends Component {
   static propTypes = {
@@ -107,7 +124,14 @@ class CreateBonusCampaignModal extends Component {
       valid,
       onClose,
       isOpen,
+      currentValues,
     } = this.props;
+
+    if (!currentValues) {
+      return null;
+    }
+
+    const customValueFieldTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
     return (
       <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen={isOpen}>
@@ -147,19 +171,19 @@ class CreateBonusCampaignModal extends Component {
             <CustomValueField
               basename={'campaignRatio'}
               label={attributeLabels.campaignRatio}
-              typeValues={customValueFieldTypesLabels}
+              typeValues={customValueFieldTypes}
               errors={errors}
             />
             <CustomValueField
               basename={'capping'}
               label={attributeLabels.capping}
-              typeValues={customValueFieldTypesLabels}
+              typeValues={customValueFieldTypes}
               errors={errors}
             />
             <CustomValueField
               basename={'conversionPrize'}
               label={attributeLabels.conversionPrize}
-              typeValues={customValueFieldTypesLabels}
+              typeValues={customValueFieldTypes}
               errors={errors}
             />
             <Field

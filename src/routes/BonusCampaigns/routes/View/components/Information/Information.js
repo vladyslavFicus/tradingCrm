@@ -3,7 +3,7 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import UnitValue from '../UnitValue';
-import { campaignTypesLabels } from '../../../../constants';
+import { targetTypesLabels, campaignTypesLabels } from '../../../../constants';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './Information.scss';
 
@@ -30,7 +30,7 @@ const Information = ({ data: {
           <div className="panel-body height-200">
             <div>
               <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET_TYPE')}</strong>:{' '}
-              {targetType}
+              { renderLabel(targetType, targetTypesLabels)}
             </div>
             <div>
               <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_SELECTED')}</strong>:{' '}

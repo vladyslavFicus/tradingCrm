@@ -1,5 +1,6 @@
 import keyMirror from 'keymirror';
 import I18n from '../../utils/fake-i18n';
+import { customValueFieldTypes } from '../../constants/form';
 
 const statuses = keyMirror({
   DRAFT: null,
@@ -43,6 +44,15 @@ const campaignTypesLabels = {
   [campaignTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.PROFILE_COMPLETED'),
 };
 
+const customValueFieldTypesByCampaignType = {
+  [campaignTypes.FIRST_DEPOSIT]: [
+    customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE,
+  ],
+  [campaignTypes.PROFILE_COMPLETED]: [
+    customValueFieldTypes.ABSOLUTE,
+  ],
+};
+
 export {
   statuses,
   statusesLabels,
@@ -52,4 +62,5 @@ export {
   amountTypes,
   targetTypes,
   targetTypesLabels,
+  customValueFieldTypesByCampaignType,
 };

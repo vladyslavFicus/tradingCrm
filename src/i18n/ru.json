@@ -170,7 +170,8 @@
       "OFF": "Выкл",
       "UNSUCCESSFULLY": "Неуспешно",
       "SUCCESSFULLY": "Успешно",
-      "UPDATED": "Обновлено"
+      "UPDATED": "Обновлено",
+      "UPLOADED": "Загружено"
     },
     "COUNT": "Количество",
     "CLOSE": "Закрыть",
@@ -454,7 +455,11 @@
       },
       "NOTIFICATIONS": {
         "TITLE": "",
-        "UPDATE_TITLE": "Обновление бонус-компании"
+        "UPDATE_TITLE": "Обновление бонус-компании",
+        "ADD_PLAYERS": "Добавить игроков"
+      },
+      "BUTTON": {
+        "ADD_PLAYERS": "+ Добавить игроков"
       }
     },
     "CREATE_MODAL": {
