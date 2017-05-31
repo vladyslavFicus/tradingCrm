@@ -15,7 +15,12 @@ class ViewLayout extends Component {
     location: PropTypes.object,
     children: PropTypes.node,
     data: PropTypes.bonusCampaignEntity.isRequired,
+    availableStatusActions: PropTypes.arrayOf(PropTypes.object),
+    onChangeCampaignState: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    availableStatusActions: [],
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -45,13 +50,22 @@ class ViewLayout extends Component {
 
   render() {
     const { informationShown } = this.state;
-    const { data: bonusCampaignData, location, params, children } = this.props;
+    const {
+      data: bonusCampaignData,
+      location,
+      params,
+      children,
+      availableStatusActions,
+      onChangeCampaignState,
+    } = this.props;
 
     return (
       <div className="player panel profile-layout">
         <div className="container-fluid">
           <div className="profile-layout-heading">
             <Header
+              onChangeCampaignState={onChangeCampaignState}
+              availableStatusActions={availableStatusActions}
               data={bonusCampaignData}
               onUpload={this.handleUploadFile}
             />

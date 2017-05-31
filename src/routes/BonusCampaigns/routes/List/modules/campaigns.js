@@ -1,6 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
+import { statuses, statusesReasons } from '../../../constants';
 import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
@@ -31,9 +32,22 @@ function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
+    const queryParams = { page: 0, orderByPriority: true, ...filters };
+
+    if (queryParams.state) {
+      if (queryParams.state === statuses.CANCELED) {
+        queryParams.state = statuses.FINISHED;
+        queryParams.stateReason = statusesReasons.CANCELED;
+      }
+    }
+
+    const queryString = buildQueryString(
+      _.omitBy(queryParams, val => !val)
+    );
+
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns?orderByPriority=true&${buildQueryString(filters)}`,
+        endpoint: `promotion/campaigns?${queryString}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -87,11 +101,20 @@ function exportEntities(filters = {}) {
       return dispatch({ type: EXPORT_ENTITIES.FAILED });
     }
 
+    const queryParams = { page: 0, orderByPriority: true, ...filters };
+
+    if (queryParams.state) {
+      if (queryParams.state === statuses.CANCELED) {
+        queryParams.state = statuses.FINISHED;
+        queryParams.stateReason = statusesReasons.CANCELED;
+      }
+    }
+
     const queryString = buildQueryString(
-      _.omitBy({ page: 0, ...filters }, val => !val)
+      _.omitBy(queryParams, val => !val)
     );
 
-    const response = await fetch(`${getApiRoot()}/promotion/campaigns/csv?${queryString}`, {
+    const response = await fetch(`${getApiRoot()}/promotion/campaigns?${queryString}`, {
       method: 'GET',
       headers: {
         Accept: 'text/csv',

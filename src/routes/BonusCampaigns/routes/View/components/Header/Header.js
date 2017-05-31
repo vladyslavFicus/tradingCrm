@@ -5,14 +5,21 @@ import FileUpload from '../../../../../../components/FileUpload';
 import Amount from '../../../../../../components/Amount';
 import PropTypes from '../../../../../../constants/propTypes';
 import Uuid from '../../../../../../components/Uuid';
+import StatusDropDown from '../../../../components/StatusDropDown';
 import { statuses, targetTypes } from '../../../../constants';
 import './Header.scss';
 
 class Header extends Component {
   static propTypes = {
     data: PropTypes.bonusCampaignEntity.isRequired,
+    availableStatusActions: PropTypes.arrayOf(PropTypes.object),
+    onChangeCampaignState: PropTypes.func.isRequired,
     onUpload: PropTypes.func.isRequired,
   };
+  static defaultProps = {
+    availableStatusActions: [],
+  };
+
   render() {
     const {
       data: {
@@ -26,7 +33,11 @@ class Header extends Component {
         state,
         targetType,
       },
+      data,
+      availableStatusActions,
+      onChangeCampaignState,
     } = this.props;
+
     return (
       <div>
         <div className="panel-heading-row">
@@ -54,7 +65,13 @@ class Header extends Component {
         </div>
 
         <div className="row panel-body header-blocks header-blocks-5">
-          <div className="header-block header-block_account" />
+          <div className="header-block header-block_account">
+            <StatusDropDown
+              onChange={onChangeCampaignState}
+              campaign={data}
+              availableStatusActions={availableStatusActions}
+            />
+          </div>
           <div className="header-block">
             <div className="header-block-title">
               {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.GRANTED')}

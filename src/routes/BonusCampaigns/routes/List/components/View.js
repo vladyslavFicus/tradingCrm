@@ -195,7 +195,7 @@ class View extends Component {
 
   renderStatus = data => (
     <BonusCampaignStatus
-      data={data}
+      campaign={data}
     />
   );
 

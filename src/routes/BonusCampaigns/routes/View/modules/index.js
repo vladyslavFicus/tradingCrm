@@ -2,11 +2,13 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
+import { actions, statusesReasons } from '../../../constants';
 import buildFormData from '../../../../../utils/buildFormData';
 
 const KEY = 'campaign';
 const CAMPAIGN_UPDATE = createRequestAction(`${KEY}/campaign-update`);
 const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
+const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
 
 function fetchCampaign(id) {
@@ -30,6 +32,71 @@ function fetchCampaign(id) {
         bailout: !logged,
       },
     });
+  };
+}
+
+function activateCampaign(id) {
+  return async (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    await dispatch({
+      [CALL_API]: {
+        endpoint: `promotion/campaigns/${id}/activate`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          CHANGE_CAMPAIGN_STATE.REQUEST,
+          CHANGE_CAMPAIGN_STATE.SUCCESS,
+          CHANGE_CAMPAIGN_STATE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+
+    return dispatch(fetchCampaign(id));
+  };
+}
+
+function cancelCampaign(id, reason) {
+  return async (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    await dispatch({
+      [CALL_API]: {
+        endpoint: `promotion/campaigns/${id}/complete`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: { reason, stateReason: statusesReasons.CANCELED },
+        types: [
+          CHANGE_CAMPAIGN_STATE.REQUEST,
+          CHANGE_CAMPAIGN_STATE.SUCCESS,
+          CHANGE_CAMPAIGN_STATE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+
+    return dispatch(fetchCampaign(id));
+  };
+}
+
+function changeCampaignState({ id, action, reason }) {
+  return async (dispatch) => {
+    if (action === actions.ACTIVATE) {
+      return dispatch(activateCampaign(id));
+    } else if (action === actions.CANCEL) {
+      return dispatch(cancelCampaign(id, reason));
+    }
+
+    throw new Error(`Unknown status change action "${action}"`);
   };
 }
 
@@ -149,10 +216,12 @@ const initialState = {
 const actionTypes = {
   CAMPAIGN_UPDATE,
   FETCH_CAMPAIGN,
+  CHANGE_CAMPAIGN_STATE,
 };
 const actionCreators = {
   fetchCampaign,
   updateCampaign,
+  changeCampaignState,
   uploadPlayersFile,
 };
 
