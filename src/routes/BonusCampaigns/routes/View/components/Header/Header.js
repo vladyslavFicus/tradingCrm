@@ -45,7 +45,7 @@ class Header extends Component {
             <div className="panel-heading-row_actions">
               <FileUpload
                 label={I18n.t('BONUS_CAMPAIGNS.VIEW.BUTTON.IMPORT_PLAYERS')}
-                allowedTypes={['text/csv']}
+                allowedTypes={['text/csv', 'application/vnd.ms-excel']}
                 onChosen={this.props.onUpload}
                 className="btn btn-info-outline"
               />
