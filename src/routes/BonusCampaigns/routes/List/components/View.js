@@ -143,11 +143,14 @@ class View extends Component {
       {
         data.targetType === targetTypes.TARGET_LIST &&
         <div>
+          {
+            data.optIn &&
+            <div className="font-size-10">
+              {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TOTAL_OPT_IN_PLAYERS', { count: data.totalOptInPlayers })}
+            </div>
+          }
           <div className="font-size-10">
-            {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TOTAL_OPT_IN_PLAYERS', { count: data.totalOptInPlayers })}
-          </div>
-          <div className="font-size-10">
-            {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TOTAL_SELECTED_PLAYERS', { count: data.totalOptInPlayers })}
+            {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TOTAL_SELECTED_PLAYERS', { count: data.totalSelectedPlayers })}
           </div>
         </div>
       }
