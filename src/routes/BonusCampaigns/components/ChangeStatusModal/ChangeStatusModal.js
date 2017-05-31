@@ -10,6 +10,7 @@ import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import Uuid from '../../../../components/Uuid';
 import './ChangeStatusModal.scss';
 
+const CUSTOM_REASON = 'custom';
 const FORM_NAME = 'bonusCampaignStatusDropDownModal';
 const attributeLabels = {
   reason: 'Reason',
@@ -24,7 +25,7 @@ const validator = (data) => {
     rules.reason = `required|string|in:${Object.keys(data.reasons).join()},custom`;
   }
 
-  if (data.reason === 'custom') {
+  if (data.reason === CUSTOM_REASON) {
     rules.customReason = 'required|string|min:3';
   }
 
@@ -132,7 +133,7 @@ class ChangeStatusModal extends Component {
             {reasons && Object.keys(reasons).length > 0 && this.renderReasonsSelect(reasons, customReason)}
 
             {
-              currentValues && currentValues.reason === 'custom' &&
+              currentValues && currentValues.reason === CUSTOM_REASON &&
               <Field
                 name="customReason"
                 placeholder={I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_PLACEHOLDER')}

@@ -35,33 +35,19 @@ function fetchCampaign(id) {
   };
 }
 
-function changeCampaignState({ id, action, reason }) {
+function activateCampaign(id) {
   return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
-    let endpoint = '';
-    const params = { reason };
-
-    if (action === actions.ACTIVATE) {
-      endpoint = `promotion/campaigns/${id}/activate`;
-    } else if (action === actions.CANCEL) {
-      endpoint = `promotion/campaigns/${id}/complete`;
-      params.stateReason = statusesReasons.CANCELED;
-    }
-
-    if (!endpoint) {
-      return null;
-    }
 
     await dispatch({
       [CALL_API]: {
-        endpoint,
+        endpoint: `promotion/campaigns/${id}/activate`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(params),
         types: [
           CHANGE_CAMPAIGN_STATE.REQUEST,
           CHANGE_CAMPAIGN_STATE.SUCCESS,
@@ -72,6 +58,45 @@ function changeCampaignState({ id, action, reason }) {
     });
 
     return dispatch(fetchCampaign(id));
+  };
+}
+
+function cancelCampaign(id, reason) {
+  return async (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    await dispatch({
+      [CALL_API]: {
+        endpoint: `promotion/campaigns/${id}/complete`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: { reason, stateReason: statusesReasons.CANCELED },
+        types: [
+          CHANGE_CAMPAIGN_STATE.REQUEST,
+          CHANGE_CAMPAIGN_STATE.SUCCESS,
+          CHANGE_CAMPAIGN_STATE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+
+    return dispatch(fetchCampaign(id));
+  };
+}
+
+function changeCampaignState({ id, action, reason }) {
+  return async (dispatch) => {
+    if (action === actions.ACTIVATE) {
+      return dispatch(activateCampaign(id));
+    } else if (action === actions.CANCEL) {
+      return dispatch(cancelCampaign(id, reason));
+    }
+
+    throw new Error(`Unknown status change action "${action}"`);
   };
 }
 
