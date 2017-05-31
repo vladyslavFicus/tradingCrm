@@ -8,38 +8,54 @@ import {
 } from '../../../../../../../components/ReduxForm';
 import ReactSwitch from '../../../../../../../components/ReactSwitch';
 import PropTypes from '../../../../../../../constants/propTypes';
-import { campaignTypesLabels, targetTypesLabels } from '../../../../../constants';
+import {
+  campaignTypes, campaignTypesLabels, targetTypesLabels, customValueFieldTypesByCampaignType,
+} from '../../../../../constants';
 import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
-import { customValueFieldTypesLabels } from '../../../../../../../constants/form';
 import { attributeLabels } from '../constants';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 const FORM_NAME = 'updateBonusCampaignSettings';
 
-const validator = createValidator({
-  campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
-  optIn: 'boolean',
-  targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
-  currency: 'required',
-  startDate: 'required',
-  endDate: 'required|nextDate:startDate',
-  wagerWinMultiplier: 'required|integer|max:999',
-  bonusLifetime: 'required|integer',
-  campaignType: ['required', 'string', `in:${Object.keys(campaignTypesLabels).join()}`],
-  capping: {
-    value: 'required|numeric|customTypeValue.value',
-    type: ['required', `in:${Object.keys(customValueFieldTypesLabels).join()}`],
+const getCustomValueFieldTypes = (campaignType) => {
+  if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
+    return [campaignTypes.FIRST_DEPOSIT, campaignTypes.PROFILE_COMPLETED];
+  }
+
+  return customValueFieldTypesByCampaignType[campaignType];
+};
+
+const validator = (values) => {
+  const customValueFieldTypes = getCustomValueFieldTypes(values.campaignType);
+
+  return createValidator({
+    campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
+    optIn: 'boolean',
+    targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
+    currency: 'required',
+    startDate: 'required',
+    endDate: 'required|nextDate:startDate',
+    wagerWinMultiplier: 'required|integer|max:999',
+    bonusLifetime: 'required|integer',
+    campaignType: ['required', 'string', `in:${Object.keys(campaignTypesLabels).join()}`],
+    capping: {
+      value: 'required|numeric|customTypeValue.value',
+      type: ['required', `in:${customValueFieldTypes.join()}`],
+    },
+    campaignRatio: {
+      value: 'required|numeric|customTypeValue.value',
+      type: ['required', `in:${customValueFieldTypes.join()}`],
+    },
+    conversionPrize: {
+      value: 'required|numeric|customTypeValue.value',
+      type: ['required', `in:${customValueFieldTypes.join()}`],
+    },
   },
-  campaignRatio: {
-    value: 'required|numeric|customTypeValue.value',
-    type: ['required', `in:${Object.keys(customValueFieldTypesLabels).join()}`],
-  },
-  conversionPrize: {
-    value: 'required|numeric|customTypeValue.value',
-    type: ['required', `in:${Object.keys(customValueFieldTypesLabels).join()}`],
-  },
-}, Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}), false);
+    Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}),
+    false
+  )(values);
+};
 
 class Form extends Component {
   static propTypes = {
@@ -119,6 +135,12 @@ class Form extends Component {
       currencies,
       currentValues,
     } = this.props;
+
+    if (!currentValues) {
+      return null;
+    }
+
+    const customValueFieldTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
     return (
       <div>
@@ -262,7 +284,7 @@ class Form extends Component {
               <CustomValueFieldVertical
                 basename={'campaignRatio'}
                 label={I18n.t(attributeLabels.campaignRatio)}
-                typeValues={customValueFieldTypesLabels}
+                typeValues={customValueFieldTypes}
                 errors={errors}
               />
             </div>
@@ -302,7 +324,7 @@ class Form extends Component {
               <CustomValueFieldVertical
                 basename={'capping'}
                 label={I18n.t(attributeLabels.capping)}
-                typeValues={customValueFieldTypesLabels}
+                typeValues={customValueFieldTypes}
                 errors={errors}
               />
             </div>
@@ -311,7 +333,7 @@ class Form extends Component {
               <CustomValueFieldVertical
                 basename={'conversionPrize'}
                 label={I18n.t(attributeLabels.conversionPrize)}
-                typeValues={customValueFieldTypesLabels}
+                typeValues={customValueFieldTypes}
                 errors={errors}
               />
             </div>

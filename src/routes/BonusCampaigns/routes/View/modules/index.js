@@ -132,6 +132,13 @@ const actionHandlers = {
     isLoading: false,
     receivedAt: timestamp(),
   }),
+  [UPLOAD_PLAYERS_FILE.SUCCESS]: (state, action) => ({
+    ...state,
+    data: {
+      ...state.data,
+      totalSelectedPlayers: action.payload.playersCount,
+    },
+  }),
 };
 const initialState = {
   data: {},

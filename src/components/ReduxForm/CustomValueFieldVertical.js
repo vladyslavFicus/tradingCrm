@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import classNames from 'classnames';
+import renderLabel from '../../utils/renderLabel';
+import { customValueFieldTypesLabels } from '../../constants/form';
 
 const CustomValueField = (props) => {
   const {
@@ -50,11 +52,11 @@ const CustomValueField = (props) => {
             disabled={disabled}
           >
             <option value="" disabled>-- Choose --</option>
-            {Object.keys(typeValues)
-              .map((key) => <option key={key} value={key}>
-                {typeValues[key]}
-              </option>)
-            }
+            {typeValues.map(key =>
+              <option key={key} value={key}>
+                { renderLabel(key, customValueFieldTypesLabels) }
+              </option>
+            )}
           </Field>
         </div>
       </div>
@@ -77,7 +79,7 @@ CustomValueField.defaultProps = {
 CustomValueField.propTypes = {
   basename: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  typeValues: PropTypes.object.isRequired,
+  typeValues: PropTypes.array.isRequired,
   valueInputClassName: PropTypes.string,
   typeInputClassName: PropTypes.string,
   errors: PropTypes.object,
