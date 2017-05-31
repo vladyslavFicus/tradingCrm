@@ -317,6 +317,10 @@
         "CANCEL_CAMPAIGN": "Отменить кампанию",
         "ACTIVATE_CAMPAIGN_BUTTON": "Активировать кампанию",
         "CANCEL_CAMPAIGN_BUTTON": "Отменить кампанию"
+      },
+      "STATUS_ACTIONS_LABELS": {
+        "ACTIVATE": "активировать",
+        "CANCEL": "отменить"
       }
     }
   },

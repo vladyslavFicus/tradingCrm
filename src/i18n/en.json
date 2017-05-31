@@ -318,6 +318,10 @@
         "CANCEL_CAMPAIGN": "Cancel campaign",
         "ACTIVATE_CAMPAIGN_BUTTON": "Activate campaign",
         "CANCEL_CAMPAIGN_BUTTON": "Confirm campaign cancelation"
+      },
+      "STATUS_ACTIONS_LABELS": {
+        "ACTIVATE": "activate",
+        "CANCEL": "cancel"
       }
     }
   },
