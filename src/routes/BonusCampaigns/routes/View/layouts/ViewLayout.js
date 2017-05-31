@@ -36,7 +36,7 @@ class ViewLayout extends Component {
     if (action) {
       this.context.addNotification({
         level: action.error ? 'error' : 'success',
-        title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.IMPORT_PLAYERS'),
+        title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_PLAYERS'),
         message: `${I18n.t('COMMON.ACTIONS.UPLOADED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
           I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });

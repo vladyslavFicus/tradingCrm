@@ -454,10 +454,10 @@
       },
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
-        "IMPORT_PLAYERS": "Import players"
+        "ADD_PLAYERS": "Add players"
       },
       "BUTTON": {
-        "IMPORT_PLAYERS": "+ Import players"
+        "ADD_PLAYERS": "+ Add players"
       }
     },
     "CREATE_MODAL": {

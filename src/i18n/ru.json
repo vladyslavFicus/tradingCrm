@@ -456,10 +456,10 @@
       "NOTIFICATIONS": {
         "TITLE": "",
         "UPDATE_TITLE": "Обновление бонус-компании",
-        "IMPORT_PLAYERS": "Импорт игроков"
+        "ADD_PLAYERS": "Добавить игроков"
       },
       "BUTTON": {
-        "IMPORT_PLAYERS": "+ Импорт игроков"
+        "ADD_PLAYERS": "+ Добавить игроков"
       }
     },
     "CREATE_MODAL": {
