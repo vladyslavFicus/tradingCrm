@@ -408,9 +408,13 @@
       "END_DATE": "End date",
       "STATUS": "Status",
       "GRANTED_TO": "to %{count} players",
-      "GRANTED_TO_0": "to %{count} players",
       "GRANTED_TO_1": "to %{count} player",
-      "GRANTED": "Granted"
+      "GRANTED": "Granted",
+      "TOTAL_OPT_IN_PLAYERS": "Opt-In to %{count} players",
+      "TOTAL_OPT_IN_PLAYERS_1": "Opt-In to %{count} player",
+      "TOTAL_SELECTED_PLAYERS": "Selected %{count} players",
+      "TOTAL_SELECTED_PLAYERS_1": "Selected %{count} player",
+      "TYPE": "Target type"
     },
     "TITLE": "Bonus campaigns",
     "FILTER_FORM": {
