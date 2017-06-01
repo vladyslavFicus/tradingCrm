@@ -170,7 +170,8 @@
       "OFF": "Turn off",
       "UNSUCCESSFULLY": "Unsuccessfully",
       "SUCCESSFULLY": "Successfully",
-      "UPDATED": "Updated"
+      "UPDATED": "Updated",
+      "UPLOADED": "Uploaded"
     },
     "COUNT": "Count",
     "CLOSE": "Close",
@@ -187,7 +188,17 @@
     },
     "OR": "Or",
     "OPT_IN": "Opt-In",
-    "NON_OPT_IN": "Non Opt-in"
+    "NON_OPT_IN": "Non Opt-in",
+    "AUTHOR_BY": "by ",
+    "EMPTY": "Empty",
+    "DATE_ON": "on %{date}",
+    "DATE_UNTIL": "until %{date}",
+    "DETAILS_COLLAPSE": {
+      "HIDE": "Hide details",
+      "SHOW": "Show details"
+    },
+    "REVERT_CHANGES": "Revert changes",
+    "OPTIONAL": "Optional"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -287,7 +298,7 @@
       }
     },
     "BONUS_CAMPAIGN": {
-      "EVENT_TYPE": {
+      "CAMPAIGN_TYPE": {
         "FIRST_DEPOSIT": "First deposit",
         "DEPOSIT": "Deposit",
         "PROFILE_COMPLETED": "Profile completed"
@@ -298,6 +309,20 @@
         "ACTIVE": "Active",
         "FINISHED": "Finished",
         "CANCELED": "Canceled"
+      },
+      "TARGET_TYPES": {
+        "ALL": "All players",
+        "TARGET_LIST": "Selected players"
+      },
+      "STATUS_ACTIONS": {
+        "ACTIVATE_CAMPAIGN": "Activate campaign",
+        "CANCEL_CAMPAIGN": "Cancel campaign",
+        "ACTIVATE_CAMPAIGN_BUTTON": "Activate campaign",
+        "CANCEL_CAMPAIGN_BUTTON": "Confirm campaign cancelation"
+      },
+      "STATUS_ACTIONS_LABELS": {
+        "ACTIVATE": "activate",
+        "CANCEL": "cancel"
       }
     }
   },
@@ -309,10 +334,33 @@
         "ACTION_TYPE_EMPTY_OPTION": "Any action",
         "ACTION_DATE_RANGE": "Action date range"
       },
-      "TITLE": "Feed",
-      "FEED_ITEM": {
-        "HIDE_DETAILS": "Hide details",
-        "SHOW_DETAILS": "Show details"
+      "TITLE": "Feed"
+    },
+    "DETAILS": {
+      "LABEL": {
+        "ADDITIONAL_INFORMATION": "Additional information",
+        "DEPARTMENTS": "Departments",
+        "PERSONAL_INFORMATION": "Personal information",
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "EMAIL": "Email",
+        "COUNTRY": "Country",
+        "PHONE_NUMBER": "Phone number",
+        "REGISTRATION_DATE": "Registration date"
+      }
+    },
+    "MODALS": {
+      "RESET_PASSWORD": {
+        "TITLE": "Operators password reset - Confirmation",
+        "ACTION_TEXT": "You are about to reset password for %{fullName}",
+        "ACTION_TARGET": "operator account",
+        "CONFIRM_ACTION": "Reset password"
+      },
+      "SEND_INVITATION": {
+        "TITLE": "Send invitation to operator - Confirmation",
+        "ACTION_TEXT": "You are about to reset password for %{fullName}",
+        "ACTION_TARGET": "operator account",
+        "CONFIRM_ACTION": "Send invitation"
       }
     }
   },
@@ -377,7 +425,6 @@
   },
   "BONUS_CAMPAIGNS": {
     "GRID_VIEW": {
-      "AUTHOR": "by ",
       "DATE_TIME_AT": "at %{time}",
       "CAMPAIGN": "Campaign",
       "FULFILLMENT_TYPE": "Fulfillment type",
@@ -386,9 +433,13 @@
       "END_DATE": "End date",
       "STATUS": "Status",
       "GRANTED_TO": "to %{count} players",
-      "GRANTED_TO_0": "to %{count} players",
       "GRANTED_TO_1": "to %{count} player",
-      "GRANTED": "Granted"
+      "GRANTED": "Granted",
+      "TOTAL_OPT_IN_PLAYERS": "Opt-In: %{count} players",
+      "TOTAL_OPT_IN_PLAYERS_1": "Opt-In: %{count} player",
+      "TOTAL_SELECTED_PLAYERS": "Selected: %{count} players",
+      "TOTAL_SELECTED_PLAYERS_1": "Selected: %{count} player",
+      "TYPE": "Target type"
     },
     "TITLE": "Bonus campaigns",
     "FILTER_FORM": {
@@ -404,11 +455,87 @@
       "ACTIVITY_DATE_TO": "Activity date to",
       "SEARCH_BY_PLACEHOLDER": "Campaign, Operator"
     },
-    "BUTTON_CREATE_CAMPAIGN": "+ Add campaign"
-  },
-  "BONUS_CAMPAIGN_STATUS": {
-    "CHANGE_DATE": "on %{date}",
-    "UNTIL_DATE": "until %{date}",
-    "AUTHOR": "by "
+    "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "GRANTED": "Granted",
+          "WAGERED": "Wagered",
+          "CONVERTED": "Converted",
+          "CREATED": "Created",
+          "TARGET": "Target",
+          "TARGET_TYPE": "Target type",
+          "PLAYERS_SELECTED": "Players selected",
+          "PLAYERS_OPT_IN": "Players opted-in",
+          "REWARD_PARAMS": "Fulfillment & reward parameters",
+          "FULFILLMENT_TYPE": "Fulfillment type",
+          "RATIO": "Ratio",
+          "MULTIPLAYER": "Multiplayer",
+          "LIFE_TIME": "Life time",
+          "CAMPAIGN_START": "Campaign start",
+          "CAMPAIGN_END": "Campaign end",
+          "PRIZE": "Prize",
+          "CAPPING": "Capping"
+        },
+        "GRANTED_TO": "to %{count} Players",
+        "GRANTED_TO_0": "to %{count} Players",
+        "GRANTED_TO_1": "to %{count} Player"
+      },
+      "NOTIFICATIONS": {
+        "UPDATE_TITLE": "Update bonus campaign",
+        "ADD_PLAYERS": "Add players"
+      },
+      "BUTTON": {
+        "ADD_PLAYERS": "+ Add players"
+      }
+    },
+    "CREATE_MODAL": {
+      "TITLE": "New bonus campaign"
+    },
+    "SETTINGS": {
+      "LABEL": {
+        "CAMPAIGN_NAME": "Campaign name (Internal)",
+        "TARGET_TYPE": "Target type",
+        "CURRENCY": "Currency",
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
+        "CAPPING": "Capping",
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Bonus life time",
+        "CAMPAIGN_RATIO": "Ratio",
+        "CONVERSION_PRIZE": "Prize",
+        "OPT_IN": "Opt-In",
+        "CAMPAIGN_TYPE": "Campaign type",
+        "MIN_AMOUNT": "Min. amount",
+        "MAX_AMOUNT": "Max. amount",
+        "MIN_AMOUNT_PLACEHOLDER": "Min.",
+        "MAX_AMOUNT_PLACEHOLDER": "Max."
+      },
+      "CHOOSE_CURRENCY": "-- Choose currency --",
+      "CHOOSE_TARGET_TYPE": "-- Choose target type --",
+      "TARGET": "Target",
+      "CAMPAIGN_SETTINGS": "Campaign settings",
+      "FULFILLMENT": "Fulfillment",
+      "REWARD": "Reward",
+      "DEPOSIT_AMOUNT": "Deposit amount"
+    },
+    "CHANGE_STATUS_MODAL": {
+      "SELECT_REASON_OPTION": "-- Select reason --",
+      "CUSTOM_REASON_OPTION": "Other",
+      "CUSTOM_REASON_PLACEHOLDER": "Custom reason",
+      "CANCEL_BUTTON": "Cancel",
+      "TITLE": "Change bonus campaign status",
+      "ACTION_TEXT": "You are about to %{action} the %{title}",
+      "ENTITY_NAME": "campaign"
+    },
+    "STATUS_DROPDOWN_MODAL": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Reason",
+        "CUSTOM_REASON_LABEL": "Custom reason"
+      }
+    },
+    "STATUS_DROPDOWN": {
+      "TITLE": "Campaign status"
+    }
   }
 }

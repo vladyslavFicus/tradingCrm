@@ -63,15 +63,25 @@ const config = {
       rejection: [],
     },
     limits: {},
-    logstash: {
-      url: '',
-    },
     locale: {
       languages: [],
       defaultLanguage: 'en',
     },
   },
+  logstash: {
+    url: '',
+  },
   middlewares: {},
+  modules: {
+    bonusCampaign: {
+      cancelReasons: {
+        CANCEL_REASON_1: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_1',
+        CANCEL_REASON_2: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_2',
+        CANCEL_REASON_3: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_3',
+        CANCEL_REASON_4: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_4',
+      },
+    },
+  },
   ...environmentConfig,
 };
 
@@ -134,13 +144,13 @@ function getLimitPeriods() {
 }
 
 function getApiRoot() {
-  return config.nas.api.url
-    ? config.nas.api.url.replace(/\/$/, '')
+  return config.brand.api.url
+    ? config.brand.api.url.replace(/\/$/, '')
     : '';
 }
 
 function getErrorApiUrl() {
-  return config.nas.logstash.url || '';
+  return config.logstash.url || '';
 }
 
 function getBrand() {

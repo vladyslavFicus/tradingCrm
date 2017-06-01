@@ -79,6 +79,11 @@ const userProfileTabs = [
   { label: 'Notes', url: '/users/:id/notes' },
   { label: 'Feed', url: '/users/:id/feed' },
 ];
+
+const bonusCampaignTabs = [
+  { label: 'Settings', url: '/bonus-campaigns/view/:id/settings' },
+  { label: 'Feed', url: '/bonus-campaigns/view/:id/feed' },
+];
 const operatorProfileTabs = [
   { label: 'Profile', url: '/operators/:id/profile' },
   { label: 'Feed', url: '/operators/:id/feed' },
@@ -89,4 +94,5 @@ export {
   sidebarBottomMenu,
   userProfileTabs,
   operatorProfileTabs,
+  bonusCampaignTabs,
 };

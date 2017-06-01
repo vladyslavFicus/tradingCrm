@@ -273,8 +273,8 @@ class View extends Component {
           onClick={id => this.handleNoteClick(id, data)}
         >
           {data.note
-            ? <i className="fa fa-sticky-note" />
-            : <i className="fa fa-sticky-note-o" />
+            ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> : <i className="note-icon note-with-text" />)
+            : <i className="note-icon note-add-note" />
           }
         </PopoverButton>
         {
@@ -304,7 +304,7 @@ class View extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <h3>Transactions</h3>
+            <span className="font-size-20">Transactions</span>
           </Title>
 
           <TransactionsFilterForm

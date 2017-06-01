@@ -40,13 +40,16 @@ class Report extends Component {
 
     return <Panel withBorders>
       <Title>
-        <div className="pull-right">
-          <button className="btn btn-primary" onClick={this.handleExportClick}>
-            Export as CSV
-          </button>
+        <div className="row">
+          <div className="col-md-3">
+            <span className="font-size-20">Player liability report</span>
+          </div>
+          <div className="col-md-3 col-md-offset-6 text-right">
+            <button className="btn btn-primary" onClick={this.handleExportClick}>
+              Export as CSV
+            </button>
+          </div>
         </div>
-
-        <h3>Player liability report</h3>
       </Title>
 
       <Content>

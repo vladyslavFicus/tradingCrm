@@ -162,7 +162,7 @@
   display: block;
 }
 
-.open > .dropdown-menu {
+.open, .show > .dropdown-menu {
   -webkit-animation-name: dropdown-slide-bottom;
   -o-animation-name: dropdown-slide-bottom;
   animation-name: dropdown-slide-bottom;

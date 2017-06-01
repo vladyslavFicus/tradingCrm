@@ -1,4 +1,5 @@
 import CustomValueField from './CustomValueField';
+import CustomValueFieldVertical from './CustomValueFieldVertical';
 import SelectField from './SelectField';
 import InputField from './InputField';
 import SingleDateField from './SingleDateField';
@@ -10,6 +11,7 @@ import DateTimeField from './DateTimeField';
 
 export {
   CustomValueField,
+  CustomValueFieldVertical,
   SelectField,
   InputField,
   SingleDateField,

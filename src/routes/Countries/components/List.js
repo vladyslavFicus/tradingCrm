@@ -58,7 +58,7 @@ class List extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <h3>{I18n.t('COUNTRIES.TITLE')}</h3>
+            <span className="font-size-20">{I18n.t('COUNTRIES.TITLE')}</span>
           </Title>
 
           <CountriesGridFilter

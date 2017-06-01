@@ -50,7 +50,7 @@ class Files extends Component {
     return (
       <Panel withBorders>
         <Title>
-          <h3>Report files</h3>
+          <span className="font-size-20">Report files</span>
         </Title>
 
         <Content>

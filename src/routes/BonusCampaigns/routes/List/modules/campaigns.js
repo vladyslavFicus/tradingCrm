@@ -1,6 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
+import { statuses, statusesReasons } from '../../../constants';
 import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
@@ -10,6 +11,7 @@ import downloadBlob from '../../../../../utils/downloadBlob';
 
 const KEY = 'bonusCampaigns/campaigns';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
+const CREATE_CAMPAIGN = createRequestAction(`${KEY}/create-campaign`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
 const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const RESET_CAMPAIGNS = `${KEY}/reset`;
@@ -30,9 +32,22 @@ function fetchEntities(filters = {}) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
+    const queryParams = { page: 0, orderByPriority: true, ...filters };
+
+    if (queryParams.state) {
+      if (queryParams.state === statuses.CANCELED) {
+        queryParams.state = statuses.FINISHED;
+        queryParams.stateReason = statusesReasons.CANCELED;
+      }
+    }
+
+    const queryString = buildQueryString(
+      _.omitBy(queryParams, val => !val)
+    );
+
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns?orderByPriority=true&${buildQueryString(filters)}`,
+        endpoint: `promotion/campaigns?${queryString}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -53,6 +68,31 @@ function fetchEntities(filters = {}) {
   };
 }
 
+function createCampaign(data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: 'promotion/campaigns',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ...data, optIn: data.optIn || false }),
+        types: [
+          CREATE_CAMPAIGN.REQUEST,
+          CREATE_CAMPAIGN.SUCCESS,
+          CREATE_CAMPAIGN.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function exportEntities(filters = {}) {
   return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -61,11 +101,20 @@ function exportEntities(filters = {}) {
       return dispatch({ type: EXPORT_ENTITIES.FAILED });
     }
 
+    const queryParams = { page: 0, orderByPriority: true, ...filters };
+
+    if (queryParams.state) {
+      if (queryParams.state === statuses.CANCELED) {
+        queryParams.state = statuses.FINISHED;
+        queryParams.stateReason = statusesReasons.CANCELED;
+      }
+    }
+
     const queryString = buildQueryString(
-      _.omitBy({ page: 0, ...filters }, val => !val)
+      _.omitBy(queryParams, val => !val)
     );
 
-    const response = await fetch(`${getApiRoot()}/promotion/campaigns/csv?${queryString}`, {
+    const response = await fetch(`${getApiRoot()}/promotion/campaigns?${queryString}`, {
       method: 'GET',
       headers: {
         Accept: 'text/csv',
@@ -164,6 +213,7 @@ const actionTypes = {
 };
 const actionCreators = {
   fetchEntities,
+  createCampaign,
   exportEntities,
   changeCampaignState,
   resetCampaigns,

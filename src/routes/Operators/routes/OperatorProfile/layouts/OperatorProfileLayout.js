@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { Collapse } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
 import Tabs from '../../../../../components/Tabs';
 import Modal from '../../../../../components/Modal';
 import Information from '../components/Information';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
+import modalCssModule from '../styles/InfoModal.scss';
 import PropTypes from '../../../../../constants/propTypes';
+import Uuid from '../../../../../components/Uuid';
 
 const INFO_MODAL = 'info-modal';
 const modalInitialState = {
@@ -57,51 +61,94 @@ class OperatorProfileLayout extends Component {
   };
 
   handleResetPasswordClick = async () => {
+    const { data } = this.props;
+
+    this.handleOpenModal(INFO_MODAL, {
+      header: I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.TITLE'),
+      body: (
+        <div className="text-center">
+          <span className="font-weight-700">
+            {I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.ACTION_TEXT', {
+              fullName: [data.firstName, data.lastName].join(' '),
+            })}
+          </span>
+          {' '}
+          <Uuid uuid={data.uuid} />
+          {' - '}
+          <span className="font-weight-700">
+            {I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.ACTION_TARGET')}
+          </span>
+        </div>
+      ),
+      footer: (
+        <div>
+          <div className="col-xs-6 text-left">
+            <button className="btn-default-outline btn btn-secondary" onClick={this.handleCloseModal}>
+              {I18n.t('COMMON.CLOSE')}
+            </button>
+          </div>
+          <div className="col-xs-6">
+            <button className="btn btn-danger" onClick={this.handleResetPasswordSubmit}>
+              {I18n.t('OPERATOR_PROFILE.MODALS.RESET_PASSWORD.CONFIRM_ACTION')}
+            </button>
+          </div>
+        </div>
+      ),
+    });
+  };
+
+  handleResetPasswordSubmit = async () => {
     const { onResetPassword, data } = this.props;
 
     if (data.email) {
-      const action = await onResetPassword({ email: data.email });
+      await onResetPassword({ email: data.email });
 
-      if (action && !action.error) {
-        this.handleOpenModal(INFO_MODAL, {
-          header: 'Reset password',
-          body: (
-            <span>
-              Reset password link was sent to <strong>{data.email}</strong>.
-            </span>
-          ),
-          footer: (
-            <button className="btn btn-default" onClick={this.handleCloseModal}>
-              Close
-            </button>
-          ),
-        });
-      }
+      this.handleCloseModal();
     }
   };
 
   handleSendInvitationClick = async () => {
-    const { onSendInvitation, data, params: { id: operatorUUID } } = this.props;
+    const { data } = this.props;
 
-    if (operatorUUID) {
-      const action = await onSendInvitation(operatorUUID);
-
-      if (action && !action.error) {
-        this.handleOpenModal(INFO_MODAL, {
-          header: 'Send invitation link',
-          body: (
-            <span>
-              Invitation link was sent to <strong>{data.email || operatorUUID}</strong>.
-            </span>
-          ),
-          footer: (
-            <button className="btn btn-default" onClick={this.handleCloseModal}>
-              Close
+    this.handleOpenModal(INFO_MODAL, {
+      header: I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.TITLE'),
+      body: (
+        <div className="text-center">
+          <span className="font-weight-700">
+            {I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.ACTION_TEXT', {
+              fullName: [data.firstName, data.lastName].join(' '),
+            })}
+          </span>
+          {' '}
+          <Uuid uuid={data.uuid} />
+          {' - '}
+          <span className="font-weight-700">
+            {I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.ACTION_TARGET')}
+          </span>
+        </div>
+      ),
+      footer: (
+        <div>
+          <div className="col-xs-6 text-left">
+            <button className="btn-default-outline btn btn-secondary" onClick={this.handleCloseModal}>
+              {I18n.t('COMMON.CLOSE')}
             </button>
-          ),
-        });
-      }
-    }
+          </div>
+          <div className="col-xs-6">
+            <button className="btn btn-danger" onClick={this.handleSendInvitationSubmit}>
+              {I18n.t('OPERATOR_PROFILE.MODALS.SEND_INVITATION.CONFIRM_ACTION')}
+            </button>
+          </div>
+        </div>
+      ),
+    });
+  };
+
+  handleSendInvitationSubmit = async () => {
+    const { data, onSendInvitation } = this.props;
+
+    await onSendInvitation(data.uuid);
+    this.handleCloseModal();
   };
 
   handleOpenModal = (name, params) => {
@@ -154,19 +201,25 @@ class OperatorProfileLayout extends Component {
 
             <div className="hide-details-block">
               <div className="hide-details-block_arrow" />
-              <div className="hide-details-block_text" onClick={this.handleToggleInformationBlock}>
-                {informationShown ? 'Hide details' : 'Show details'}
-              </div>
+              <button
+                className="hide-details-block_text btn-transparent"
+                onClick={this.handleToggleInformationBlock}
+              >
+                {informationShown ?
+                  I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
+                  I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
+                }
+              </button>
+
               <div className="hide-details-block_arrow" />
             </div>
 
-            {
-              informationShown &&
+            <Collapse isOpen={informationShown}>
               <Information
                 data={data}
                 ips={ip.list}
               />
-            }
+            </Collapse>
           </div>
           <div className="row">
             <section className="panel profile-user-content">
@@ -190,6 +243,7 @@ class OperatorProfileLayout extends Component {
           <Modal
             onClose={this.handleCloseModal}
             isOpen
+            cssModule={modalCssModule}
             {...modal.params}
           />
         }

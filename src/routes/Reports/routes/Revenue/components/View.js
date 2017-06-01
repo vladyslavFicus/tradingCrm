@@ -44,7 +44,7 @@ class View extends Component {
     return <div className="page-content-inner">
       <Panel withBorders>
         <Title>
-          <h3>Revenue report</h3>
+          <span className="font-size-20">Revenue report</span>
         </Title>
 
         <PermissionContent permissions={viewReportPermissions}>

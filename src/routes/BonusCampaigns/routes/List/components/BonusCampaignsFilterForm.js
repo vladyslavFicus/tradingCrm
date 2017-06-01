@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator } from '../../../../../utils/validator';
-import { eventTypesLabels, statusesLabels } from '../../../constants';
+import { campaignTypesLabels, statusesLabels } from '../../../constants';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, placeholders } from '../constants';
 import { SelectField, SearchField, DateTimeField } from '../../../../../components/ReduxForm';
@@ -103,7 +103,7 @@ class BonusCampaignsFilterForm extends Component {
                     <option value="">{I18n.t('COMMON.ANY')}</option>
                     {types.map(item => (
                       <option key={item} value={item}>
-                        {renderLabel(item, eventTypesLabels)}
+                        {renderLabel(item, campaignTypesLabels)}
                       </option>
                     ))}
                   </Field>
@@ -146,6 +146,7 @@ class BonusCampaignsFilterForm extends Component {
                         <Field
                           name="creationDateFrom"
                           component={DateTimeField}
+                          position="vertical"
                           isValidDate={this.startDateValidator('creationDateTo')}
                         />
                       </div>
@@ -153,6 +154,7 @@ class BonusCampaignsFilterForm extends Component {
                         <Field
                           name="creationDateTo"
                           component={DateTimeField}
+                          position="vertical"
                           isValidDate={this.endDateValidator('creationDateFrom')}
                         />
                       </div>
@@ -169,6 +171,7 @@ class BonusCampaignsFilterForm extends Component {
                           name="activityDateFrom"
                           placeholder={attributeLabels.startDate}
                           component={DateTimeField}
+                          position="vertical"
                           isValidDate={this.startDateValidator('activityDateTo')}
                         />
                       </div>
@@ -177,6 +180,7 @@ class BonusCampaignsFilterForm extends Component {
                           name="activityDateTo"
                           placeholder={attributeLabels.endDate}
                           component={DateTimeField}
+                          position="vertical"
                           isValidDate={this.endDateValidator('activityDateFrom')}
                         />
                       </div>

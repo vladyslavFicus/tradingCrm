@@ -1,5 +1,5 @@
 module.exports = {
-  'nas.api.url': 'http://api.casino.app',
+  'brand.api.url': 'http://api.casino.app',
   'nas.brand': 'local',
   'nas.locale.defaultLanguage': 'en',
   'nas.locale.languages[0].value': 'en',
