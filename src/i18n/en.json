@@ -197,7 +197,8 @@
       "HIDE": "Hide details",
       "SHOW": "Show details"
     },
-    "REVERT_CHANGES": "Revert changes"
+    "REVERT_CHANGES": "Revert changes",
+    "OPTIONAL": "Optional"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -504,14 +505,19 @@
         "CAMPAIGN_RATIO": "Ratio",
         "CONVERSION_PRIZE": "Prize",
         "OPT_IN": "Opt-In",
-        "CAMPAIGN_TYPE": "Campaign type"
+        "CAMPAIGN_TYPE": "Campaign type",
+        "MIN_AMOUNT": "Min. amount",
+        "MAX_AMOUNT": "Max. amount",
+        "MIN_AMOUNT_PLACEHOLDER": "Min.",
+        "MAX_AMOUNT_PLACEHOLDER": "Max."
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
       "TARGET": "Target",
       "CAMPAIGN_SETTINGS": "Campaign settings",
       "FULFILLMENT": "Fulfillment",
-      "REWARD": "Reward"
+      "REWARD": "Reward",
+      "DEPOSIT_AMOUNT": "Deposit amount"
     },
     "CHANGE_STATUS_MODAL": {
       "SELECT_REASON_OPTION": "-- Select reason --",
