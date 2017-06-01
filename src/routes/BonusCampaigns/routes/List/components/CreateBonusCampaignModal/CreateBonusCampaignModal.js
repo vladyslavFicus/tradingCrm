@@ -112,7 +112,25 @@ class CreateBonusCampaignModal extends Component {
     valid: PropTypes.bool,
     currentValues: PropTypes.object,
     errors: PropTypes.object,
+    change: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    currentValues: {},
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { currentValues, change } = this.props;
+    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
+    if (currentValues && currentValues.campaignType &&
+      currentValues.campaignType !== nextCampaignType &&
+      nextCampaignType === campaignTypes.PROFILE_COMPLETED
+    ) {
+      ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
+        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
+      });
+    }
+  }
 
   handleSubmit = (data) => {
     this.props.onSubmit(data);
@@ -151,10 +169,6 @@ class CreateBonusCampaignModal extends Component {
       isOpen,
       currentValues,
     } = this.props;
-
-    if (!currentValues) {
-      return null;
-    }
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
