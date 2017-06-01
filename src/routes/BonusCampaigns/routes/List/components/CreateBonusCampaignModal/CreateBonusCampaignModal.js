@@ -18,7 +18,7 @@ import {
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
 } from '../../../../constants';
-import { customValueFieldTypes as formCustomValueFieldTypes } from '../../../../../../constants/form';
+import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './CreateBonusCampaignModal.scss';
 
@@ -127,7 +127,7 @@ class CreateBonusCampaignModal extends Component {
       nextCampaignType === campaignTypes.PROFILE_COMPLETED
     ) {
       ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
-        change(`${field}.type`, formCustomValueFieldTypes.ABSOLUTE);
+        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
       });
     }
   }
