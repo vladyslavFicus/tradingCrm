@@ -143,9 +143,14 @@ class UploadingFile extends Component {
             className="cursor-pointer margin-right-5"
             onClick={id => this.handleNoteClick(id, data)}
           >
-            {data.note
-              ? <i className="fa fa-sticky-note" />
-              : <i className="fa fa-sticky-note-o" />
+            {
+              data.note
+              ? (
+                data.note.pinned
+                  ? <i className="note-icon note-pinned-note" />
+                  : <i className="note-icon note-with-text" />
+              )
+              : <i className="note-icon note-add-note" />
             }
           </PopoverButton>
         </td>
