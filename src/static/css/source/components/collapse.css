@@ -55,3 +55,7 @@
 .accordion .collapsed .accordion-indicator .minus {
   display: none;
 }
+
+.collapse.show {
+  display: block;
+}

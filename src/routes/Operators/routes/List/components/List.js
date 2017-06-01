@@ -2,7 +2,8 @@ import { SubmissionError } from 'redux-form';
 import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Panel, { Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
@@ -13,6 +14,7 @@ import {
 } from '../../../../../constants/operators';
 import CreateOperatorModal from '../../../components/CreateOperatorModal';
 
+const MODAL_CREATE_OPERATOR = 'modal-create-operator';
 const modalInitialState = {
   name: null,
   params: {},
@@ -64,7 +66,7 @@ class List extends Component {
   handleOpenCreateModal = () => {
     this.setState({
       modal: {
-        name: 'create-operator',
+        name: MODAL_CREATE_OPERATOR,
         params: {},
       },
     });
@@ -137,10 +139,10 @@ class List extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          { moment(data.registered).format('DD.MM.YYYY') }
+          { moment(data.registrationDate).format('DD.MM.YYYY') }
         </div>
         <div className="font-size-12 color-default">
-          { moment(data.registered).format('HH.mm') }
+          { moment(data.registrationDate).format('HH.mm') }
         </div>
       </div>
     );
@@ -203,7 +205,7 @@ class List extends Component {
         </Panel>
 
         {
-          modal.name === 'create-operator' &&
+          modal.name === MODAL_CREATE_OPERATOR &&
           <CreateOperatorModal
             onSubmit={this.handleSubmitNewOperator}
             departments={departments}
@@ -211,6 +213,7 @@ class List extends Component {
             initialValues={{
               department: departments[0] ? departments[0].value : null,
               role: roles[0] ? roles[0].value : null,
+              sendMail: true,
             }}
             onClose={this.handleModalClose}
             isOpen

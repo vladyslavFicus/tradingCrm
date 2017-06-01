@@ -1,4 +1,5 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import ButtonSelect from 'components/ButtonSelect';
 
 const optionClassNames = {
@@ -7,9 +8,9 @@ const optionClassNames = {
   neutral: 'text-default',
 };
 const valueClassNames = {
-  negative: 'btn-danger',
-  positive: 'btn-success',
-  neutral: 'btn-default',
+  negative: 'tag-red',
+  positive: 'tag-green',
+  neutral: 'tag-grey',
 };
 const tagClassNames = {
   negative: 'danger',
@@ -44,14 +45,14 @@ class ProfileTags extends PureComponent {
 
   renderTags = (tags) => {
     return tags.map(tag => (
-      <div key={tag.id} className="btn-group">
+      <div key={tag.id} className="btn-group tag-group">
         <span className={`tag-arrow tag-arrow-${tagClassNames[tag.priority]}`} />
         <span className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]}`}>
           {tag.value}
         </span>
         <button
           type="button"
-          className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]}`}
+          className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]} btn-del`}
           onClick={(e) => this.props.onDelete(tag)}
         >&times;</button>
       </div>

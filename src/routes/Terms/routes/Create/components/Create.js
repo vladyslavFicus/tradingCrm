@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import ManageForm from 'routes/Terms/components/ManageForm';
 import { actionTypes } from '../modules/create';

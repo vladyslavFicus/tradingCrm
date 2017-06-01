@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import PermissionContent from '../../../../../components/PermissionContent';
@@ -49,7 +50,7 @@ class Files extends Component {
     return (
       <Panel withBorders>
         <Title>
-          <h3>Report files</h3>
+          <span className="font-size-20">Report files</span>
         </Title>
 
         <Content>

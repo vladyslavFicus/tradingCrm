@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import shallowEqual from '../../utils/shallowEqual';
 
 class PermissionContent extends Component {

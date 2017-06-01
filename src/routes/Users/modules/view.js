@@ -5,7 +5,6 @@ import { actionCreators as usersActionCreators } from '../../../redux/modules/us
 
 const KEY = 'user-profile';
 const PROFILE = createRequestAction(`${KEY}/view`);
-const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 
 const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
@@ -107,26 +106,6 @@ function deleteTag(playerUUID, id) {
       },
     })
       .then(() => dispatch(fetchProfile(playerUUID)));
-  };
-}
-
-function getBalance(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `wallet/balance/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [BALANCE.REQUEST, BALANCE.SUCCESS, BALANCE.FAILURE],
-        bailout: !logged,
-      },
-    });
   };
 }
 
@@ -441,7 +420,7 @@ const actionTypes = {
   PROFILE,
   ADD_TAG,
   DELETE_TAG,
-  BALANCE,
+  FETCH_BALANCES,
   CHECK_LOCK,
 };
 
@@ -449,7 +428,6 @@ const actionCreators = {
   fetchProfile,
   addTag,
   deleteTag,
-  getBalance,
   loadFullProfile,
   checkLock,
   lockDeposit,

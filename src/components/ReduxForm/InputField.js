@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 class InputField extends Component {
@@ -14,6 +15,7 @@ class InputField extends Component {
     inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
     inputAddon: PropTypes.element,
+    inputAddonPosition: PropTypes.oneOf(['left', 'right']),
     inputButton: PropTypes.any,
     showInputButton: PropTypes.bool,
     type: PropTypes.string.isRequired,
@@ -37,6 +39,7 @@ class InputField extends Component {
     disabled: false,
     placeholder: null,
     inputAddon: null,
+    inputAddonPosition: 'left',
   };
 
   renderLabel = (props) => {
@@ -109,6 +112,7 @@ class InputField extends Component {
   renderInput = (props) => {
     const {
       inputAddon,
+      inputAddonPosition,
       inputButton,
       showInputButton,
       input,
@@ -133,10 +137,11 @@ class InputField extends Component {
     if (inputAddon) {
       inputField = (
         <div className="input-group">
+          {inputAddonPosition === 'right' && inputField}
           <div className="input-group-addon">
             {inputAddon}
           </div>
-          {inputField}
+          {inputAddonPosition === 'left' && inputField}
         </div>
       );
     }

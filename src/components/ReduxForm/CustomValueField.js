@@ -1,6 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import classNames from 'classnames';
+import renderLabel from '../../utils/renderLabel';
+import { customValueFieldTypesLabels } from '../../constants/form';
 
 const CustomValueField = (props) => {
   const {
@@ -25,49 +28,50 @@ const CustomValueField = (props) => {
     }),
   };
 
-  return <div
-    className={classList.formGroup}>
-    <div className="col-md-3">
-      <label className="form-control-label">
-        {label}
-      </label>
-    </div>
-    <div className="col-md-9">
-      <div className="row">
-        <div className="col-md-9">
-          <Field
-            name={`${basename}.value`}
-            disabled={disabled}
-            placeholder={label}
-            component="input"
-            type="text"
-            className={classList.valueInput}
-          />
-        </div>
-        <div className="col-md-3">
-          <Field
-            name={`${basename}.type`}
-            className={classList.typeInput}
-            component="select"
-            disabled={disabled}
-          >
-            <option value="" disabled>-- Choose --</option>
-            {Object.keys(typeValues)
-              .map((key) => <option key={key} value={key}>
-                {typeValues[key]}
-              </option>)
-            }
-          </Field>
-        </div>
+  return (
+    <div className={classList.formGroup} >
+      <div className="col-md-3">
+        <label className="form-control-label">
+          {label}
+        </label>
       </div>
-      {!!errors[`${basename}.value`] && <div className="form-control-feedback">
-        {errors[`${basename}.value`]}
-      </div>}
-      {!!errors[`${basename}.type`] && <div className="form-control-feedback">
-        {errors[`${basename}.type`]}
-      </div>}
+      <div className="col-md-9">
+        <div className="row">
+          <div className="col-md-9">
+            <Field
+              name={`${basename}.value`}
+              disabled={disabled}
+              placeholder={label}
+              component="input"
+              type="text"
+              className={classList.valueInput}
+            />
+          </div>
+          <div className="col-md-3">
+            <Field
+              name={`${basename}.type`}
+              className={classList.typeInput}
+              component="select"
+              disabled={disabled}
+            >
+              <option value="" disabled>-- Choose --</option>
+              {typeValues.map(key =>
+                <option key={key} value={key}>
+                  {renderLabel(key, customValueFieldTypesLabels)}
+                </option>
+              )}
+            </Field>
+          </div>
+        </div>
+        {!!errors[`${basename}.value`] && <div className="form-control-feedback">
+          {errors[`${basename}.value`]}
+        </div>}
+        {!!errors[`${basename}.type`] && <div className="form-control-feedback">
+          {errors[`${basename}.type`]}
+        </div>}
+      </div>
     </div>
-  </div>;
+  );
 };
 
 CustomValueField.defaultProps = {
@@ -79,10 +83,11 @@ CustomValueField.defaultProps = {
 CustomValueField.propTypes = {
   basename: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  typeValues: PropTypes.object.isRequired,
+  typeValues: PropTypes.array.isRequired,
   valueInputClassName: PropTypes.string,
   typeInputClassName: PropTypes.string,
   errors: PropTypes.object,
+  disabled: PropTypes.bool,
 };
 
 export default CustomValueField;

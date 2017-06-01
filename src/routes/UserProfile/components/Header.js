@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import PlayerStatus from './PlayerStatus';
@@ -7,12 +8,12 @@ import Balances from './Balances';
 import ProfileTags from '../../../components/ProfileTags';
 import Amount from '../../../components/Amount';
 import PopoverButton from '../../../components/PopoverButton';
-import { shortify } from '../../../utils/uuid';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
 import './Header.scss';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
+import Uuid from '../../../components/Uuid';
 
 class Header extends Component {
   static propTypes = {
@@ -99,7 +100,6 @@ class Header extends Component {
   render() {
     const {
       data: {
-        balance,
         registrationDate,
         firstName,
         lastName,
@@ -148,9 +148,11 @@ class Header extends Component {
               {' '}
               {kycCompleted && <i className="fa fa-check text-success" />}
             </div>
-            <span className="player__account__ids">
-              {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
-            </span>
+            <div className="player__account__ids">
+              <span>{username}</span> {' - '}
+              {uuid && <Uuid uuid={uuid} uuidPrefix="PL" />} {' - '}
+              <span>{languageCode}</span>
+            </div>
           </div>
           <div className="panel-heading-row_tags">
             {
@@ -201,7 +203,7 @@ class Header extends Component {
                 <div className="dropdown-tab">
                   <div className="header-block-title">Balance</div>
                   <div className="header-block-middle">
-                    <Amount {...balance} />
+                    <Amount {...accumulatedBalances.total} />
                   </div>
                   {this.getRealWithBonusBalance()}
                 </div>

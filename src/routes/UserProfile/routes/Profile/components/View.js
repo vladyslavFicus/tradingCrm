@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
@@ -29,7 +30,7 @@ class View extends Component {
     updateProfile: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
-    changeStatusByAction: PropTypes.func.isRequired,
+    changeFileStatusByAction: PropTypes.func.isRequired,
     personalData: PropTypes.shape({
       title: PropTypes.string,
       firstName: PropTypes.string,
@@ -52,27 +53,50 @@ class View extends Component {
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
   };
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
+    showImages: PropTypes.func.isRequired,
+  };
 
   state = {
     modal: { ...modalInitialState },
   };
 
-  handleSubmitKYC = type => (data) => {
+  handleSubmitKYC = type => async (data) => {
     const { params: { id }, submitData } = this.props;
 
-    return submitData(id, type, data);
+    const action = await submitData(id, type, data);
+    if (action) {
+      this.context.addNotification({
+        level: action.error ? 'error' : 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE'),
+        message: `Update ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    }
+
+    return action;
   };
 
-  handleSubmitContact = (data) => {
+  handleSubmitContact = async (data) => {
     const { params, updateProfile } = this.props;
 
-    return updateProfile(params.id, { phoneNumber: data.phoneNumber });
+    const action = await updateProfile(params.id, { phoneNumber: data.phoneNumber });
+    if (action) {
+      this.context.addNotification({
+        level: action.error ? 'error' : 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')}
+          ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    }
+    return action;
   };
 
-  handleVerify = type => () => {
+  handleVerify = type => async () => {
     const { verifyData, params, checkLock } = this.props;
 
-    verifyData(params.id, type);
+    await verifyData(params.id, type);
     checkLock(params.id);
   };
 
@@ -126,8 +150,8 @@ class View extends Component {
   };
 
   handleChangeFileStatus = async (uuid, fileAction) => {
-    const { params, changeStatusByAction, fetchProfile } = this.props;
-    const action = await changeStatusByAction(uuid, fileAction);
+    const { params, changeFileStatusByAction, fetchProfile } = this.props;
+    const action = await changeFileStatusByAction(uuid, fileAction);
 
     if (action && !action.error) {
       fetchProfile(params.id);
@@ -154,6 +178,10 @@ class View extends Component {
     return verifyEmail(params.id);
   };
 
+  handlePreviewImageClick = (data) => {
+    this.context.showImages(`${this.props.filesUrl}${data.uuid}`, data.type);
+  };
+
   render() {
     const { modal } = this.state;
     const {
@@ -169,10 +197,10 @@ class View extends Component {
     }
 
     return (
-      <div className="player__account__page_profile tab-content padding-vertical-20">
+      <div className="player__account__page_profile tab-content">
         <div className="row margin-bottom-20">
           <div className="col-md-6">
-            <div className="h3 margin-bottom-0">{I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}</div>
+            <span className="font-size-20">{I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}</span>
           </div>
         </div>
 
@@ -190,6 +218,7 @@ class View extends Component {
                   onUpload={this.handleUploadDocument(kycCategories.KYC_PERSONAL)}
                   onDownload={downloadFile}
                   files={data.personalKycMetaData}
+                  onDocumentClick={this.handlePreviewImageClick}
                 />
               </div>
               <div className="col-md-4">
@@ -217,6 +246,7 @@ class View extends Component {
                   onUpload={this.handleUploadDocument(kycCategories.KYC_ADDRESS)}
                   onDownload={downloadFile}
                   files={data.addressKycMetaData}
+                  onDocumentClick={this.handlePreviewImageClick}
                 />
               </div>
               <div className="col-md-4">

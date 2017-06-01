@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Popover, PopoverContent } from 'reactstrap';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import ReactSwitch from 'react-toggle-switch';
 import classNames from 'classnames';
 import moment from 'moment';
+import ReactSwitch from '../../components/ReactSwitch';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { entities, entitiesPrefixes } from '../../constants/uuid';
@@ -48,7 +48,7 @@ class NotePopover extends Component {
     toggle: PropTypes.func,
   };
   static defaultProps = {
-    defaultTitleLabel: 'Notes',
+    defaultTitleLabel: 'Note',
     placement: 'bottom',
   };
 
@@ -108,7 +108,7 @@ class NotePopover extends Component {
       <span className={wrapperClassName}>
         <ReactSwitch
           on={input.value}
-          className="vertical-align-middle small-switch"
+          className="vertical-align-middle"
           onClick={onClick}
         />
         {' '}
@@ -201,54 +201,56 @@ class NotePopover extends Component {
         toggle={this.handleHide}
         target={target}
       >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="popover-title">
-            {this.renderTitle()}
-          </div>
-          <PopoverContent>
-            <div className="row">
-              <div className="col-md-12">
-                <Field
-                  name="content"
-                  component={this.renderMessageField}
-                />
-              </div>
+        <div className="note-popover-container">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="popover-title">
+              {this.renderTitle()}
             </div>
-
-            <div className="row">
-              <div className="col-md-6">
-                <span className="display-block color-default font-size-10">
-                  {currentValues && currentValues.content ? currentValues.content.length : 0}/{MAX_CONTENT_LENGTH}
-                </span>
-
-                <Field
-                  name="pinned"
-                  wrapperClassName="display-block font-size-12"
-                  label="Pin"
-                  component={this.renderSwitchField}
-                />
+            <PopoverContent>
+              <div className="row">
+                <div className="col-md-12">
+                  <Field
+                    name="content"
+                    component={this.renderMessageField}
+                  />
+                </div>
               </div>
 
-              <div className="col-md-6 text-right">
-                <button
-                  type="reset"
-                  className="btn btn-link btn-sm margin-inline"
-                  onClick={() => this.handleHide(true)}
-                >
-                  Cancel
-                </button>
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="color-default font-size-10">
+                    {currentValues && currentValues.content ? currentValues.content.length : 0}/{MAX_CONTENT_LENGTH}
+                  </div>
 
-                <button
-                  type="submit"
-                  className="btn btn-success btn-sm margin-inline text-uppercase"
-                  disabled={pristine || submitting || invalid}
-                >
-                  {item && item.uuid ? 'Update' : 'Save'}
-                </button>
+                  <Field
+                    name="pinned"
+                    wrapperClassName="display-block font-size-12 margin-top-10"
+                    label="Pin"
+                    component={this.renderSwitchField}
+                  />
+                </div>
+
+                <div className="col-md-6 text-right margin-top-10">
+                  <button
+                    type="reset"
+                    className="btn btn-link btn-sm"
+                    onClick={() => this.handleHide(true)}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="btn btn-success btn-sm text-uppercase"
+                    disabled={pristine || submitting || invalid}
+                  >
+                    {item && item.uuid ? 'Update' : 'Save'}
+                  </button>
+                </div>
               </div>
-            </div>
-          </PopoverContent>
-        </form>
+            </PopoverContent>
+          </form>
+        </div>
       </Popover>
     );
   }

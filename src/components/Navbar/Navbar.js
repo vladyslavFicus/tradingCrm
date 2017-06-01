@@ -5,6 +5,7 @@ import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import NavbarNav from '../NavbarNav';
 import LocaleSwitcher from '../LocaleSwitcher';
+import { getLogo } from '../../config';
 import './Navbar.scss';
 
 class Navbar extends Component {
@@ -51,7 +52,7 @@ class Navbar extends Component {
     return (
       <header className="layout-header">
         <IndexLink className="navbar-brand" href={'/'}>
-          <img className="img-fluid" src="/img/logoNewAge.png" alt="current-lottery-logo" />
+          <img src={getLogo()} alt="current-lottery-logo" />
         </IndexLink>
 
         <div className="left-navigation">

@@ -10,7 +10,9 @@
       "PLAYER_LIABILITY": "Player liability",
       "REVENUE": "Revenue",
       "DORMANT": "Dormant",
-      "OPEN_LOOP": "Open loop"
+      "OPEN_LOOP": "Open loop",
+      "GAMES": "Games",
+      "COUNTRIES": "Countries"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -20,8 +22,9 @@
     "METHODS": {
       "LIMITS": {
         "NOT_LIMITED": "Not limited",
-        "UNAVAILABLE": "Unavailable",
-        "DISABLED": "Disabled"
+        "DISABLED": "Disabled",
+        "NOT_AVAILABLE": "Not available",
+        "UNDEFINED": "Unavailable"
       },
       "AVAILABILITY": {
         "TAB": {
@@ -53,9 +56,466 @@
       "VERIFY_PERSONAL_DATA_DESCRIPTION": "In order to get verified we require at least one valid proof of Identification. The ID or Passport scan need to be sharp with clear picture, readable and not expired or damaged.",
       "VERIFY_ADDRESS_DATA_TITLE": "Address",
       "VERIFY_ADDRESS_DATA_DESCRIPTION": "Proof of address can be any document showing your name and proof of address AND a date of issuing not older than 6 months from moment of providing."
+    },
+    "GAME_ACTIVITY": {
+      "FILTER_FORM": {
+        "KEYWORD_LABEL": "Search by",
+        "PROVIDERS_LABEL": "Providers",
+        "GAMES_LABEL": "Games",
+        "GAME_TYPES_LABEL": "Game types",
+        "BET_TYPES_LABEL": "Bet types",
+        "WIN_TYPES_LABEL": "Win types",
+        "START_DATE_LABEL": "Start date",
+        "END_DATE_LABEL": "End date",
+        "KEYWORD_INPUT_PLACEHOLDER": "Game round ID, Game ID, Provider ID",
+        "ACTIVITY_DATE_RANGE": "Activity date range"
+      },
+      "PENDING_STATUS": "Pending",
+      "TITLE": "Game Activity",
+      "GRID_VIEW": {
+        "GAME_ROUND": "Game round",
+        "GAME": "Game",
+        "BET_DATE": "Bet date",
+        "BET_AMOUNT": "Bet amount",
+        "WIN_DATE": "Win date",
+        "WIN_AMOUNT": "Win amount"
+      }
+    },
+    "MARKETING": {
+      "MAIL": "Snail mail",
+      "NEWS": "News",
+      "SMS": "SMS",
+      "TITLE": "Marketing"
+    },
+    "PAYMENT_ACCOUNT": {
+      "COLUMN": {
+        "PAYMENT_ACCOUNT": "Payment account",
+        "DATE_ADDED": "Date Added",
+        "LAST_PAYMENT": "Last Payment",
+        "WITHDRAWS": "Withdrawals",
+        "DEPOSITS": "Deposits",
+        "FILES": "Files",
+        "NOTE": "Note"
+      },
+      "TITLE": "Payments",
+      "ATTACHED_FILES": "Attached files"
+    },
+    "BONUS": {
+      "MODAL_CREATE": {
+        "TITLE": "Manual bonus",
+        "CHOOSE_CURRENCY": "-- Choose currency --",
+        "LABELS": {
+          "PLAYER_UUID": "Player UUID",
+          "LABEL": "Name",
+          "PRIORITY": "Priority",
+          "CURRENCY": "Currency",
+          "STATE": "State",
+          "GRANTED_AMOUNT": "Granted amount",
+          "AMOUNT_TO_WAGE": "Amount to wage",
+          "CREATED_DATE": "Created date",
+          "EXPIRATION_DATE": "Expiration date",
+          "PRIZE": "Prize",
+          "CAPPING": "Capping",
+          "OPT_IN": "Opt-In",
+          "CONVERTED": "Converted",
+          "WAGERED": "Wagered"
+        }
+      },
+      "CANCEL_BONUS": "Cancel bonus",
+      "PLAYER_NOT_FOUND": "Player not found",
+      "MANUAL_CREATION_FAILURE": "Error",
+      "CREATED_BY_CAMPAIGN": "by Campaign %{uuid}",
+      "CREATED_BY_OPERATOR": "by Operator %{uuid}",
+      "AMOUNT_TO_WAGE_PREPENDED_TEXT": "out of",
+      "TITLE": "Bonus",
+      "MANUAL_BONUS_BUTTON": "+ Manual bonus",
+      "GRID_VIEW": {
+        "BONUS": "Bonus",
+        "AVAILABLE": "Available",
+        "PRIORITY": "Priority",
+        "GRANTED": "Granted",
+        "WAGERED": "Wagered",
+        "TO_WAGER": "To wager",
+        "BONUS_TYPE": "Bonus type",
+        "BONUS_STATUS": "Status"
+      }
+    },
+    "NOTIFICATIONS": {
+      "COPY_FULL_UUID": {
+        "MESSAGE": "Full playerUUID has been copied to clipboard"
+      }
     }
   },
   "COMMON": {
-    "SAVE_CHANGES": "Save changes"
+    "SAVE_CHANGES": "Save changes",
+    "RESET": "Reset",
+    "APPLY": "Apply",
+    "EXPORT": "Export",
+    "FROM": "From",
+    "EMAIL": "E-mail",
+    "PHONE": "Phone",
+    "DEPARTMENT": "Department",
+    "ROLE": "Role",
+    "PLAYER": "Player",
+    "DEPARTMENTS": "Departments",
+    "ANY": "Any",
+    "ROLLBACK": "Rollback",
+    "BUTTONS": {
+      "CANCEL": "Cancel",
+      "CONFIRM": "Confirm",
+      "UPLOAD_FILE": "+ Upload file"
+    },
+    "ACTIONS": {
+      "ON": "Turn on",
+      "OFF": "Turn off",
+      "UNSUCCESSFULLY": "Unsuccessfully",
+      "SUCCESSFULLY": "Successfully",
+      "UPDATED": "Updated",
+      "UPLOADED": "Uploaded"
+    },
+    "COUNT": "Count",
+    "CLOSE": "Close",
+    "CANCEL": "Cancel",
+    "SAVE": "Save",
+    "ACCOUNT_STATUS": "Account Status",
+    "BALANCE": "Balance",
+    "NOTIFICATIONS": {
+      "COPIED": "Copied",
+      "COPY_FULL_UUID": {
+        "TITLE": "Copied",
+        "MESSAGE": "Full UUID has been copied to clipboard"
+      }
+    },
+    "OR": "Or",
+    "OPT_IN": "Opt-In",
+    "NON_OPT_IN": "Non Opt-in",
+    "AUTHOR_BY": "by ",
+    "EMPTY": "Empty",
+    "DATE_ON": "on %{date}",
+    "DATE_UNTIL": "until %{date}",
+    "DETAILS_COLLAPSE": {
+      "HIDE": "Hide details",
+      "SHOW": "Show details"
+    },
+    "REVERT_CHANGES": "Revert changes"
+  },
+  "FILES": {
+    "UPLOAD_MODAL": {
+      "FILE": {
+        "TITLE": "Title",
+        "CATEGORY": "Category",
+        "STATUS": "Status",
+        "TITLE_PLACEHOLDER": "File title (required)",
+        "UPLOADED": "Uploaded",
+        "FAILED": "Failed",
+        "UPLOADING": "Uploading",
+        "CATEGORY_DEFAULT_OPTION": "Choose category"
+      },
+      "TITLE": "File upload",
+      "ACTION_TEXT": "You are about to upload file(s) to %{fullName} - %{shortUUID} - account",
+      "NO_UPLOADED": "There are no uploaded files",
+      "BUTTONS": {
+        "ADD_FILES": "+ Add files"
+      }
+    },
+    "DELETE_MODAL": {
+      "TITLE": "Delete file - Confirmation",
+      "BUTTONS": {
+        "DELETE": "Delete File"
+      },
+      "WARNING_TEXT": "This action can not be undone!",
+      "ACTION_TEXT": "You are about to delete file %{fileName} from %{fullName} - %{shortUUID} - account"
+    },
+    "GRID": {
+      "COLUMN": {
+        "NAME": "File",
+        "DATE_TIME": "Date & Time",
+        "CATEGORY": "Category",
+        "NOTE": "Note",
+        "STATUS": "Status"
+      }
+    }
+  },
+  "CONSTANTS": {
+    "AUDIT": {
+      "TYPES": {
+        "LOG_IN": "Logged in",
+        "LOG_OUT": "Logged out",
+        "PLAYER_PROFILE_VERIFIED_EMAIL": "Personal info - Email verified",
+        "KYC_ADDRESS_REFUSED": "KYC - Address - rejected",
+        "KYC_ADDRESS_VERIFIED": "KYC - Address - verified",
+        "KYC_PERSONAL_REFUSED": "KYC - Identity - rejected",
+        "KYC_PERSONAL_VERIFIED": "KYC - Identity - verified",
+        "PLAYER_PROFILE_REGISTERED": "Registration",
+        "PLAYER_PROFILE_CHANGED": "Personal details change",
+        "PLAYER_PROFILE_SEARCH": "Players' search",
+        "NEW_OPERATOR_ACCOUNT_CREATED": "Operator - New operator created",
+        "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
+        "PLAYER_PROFILE_VIEWED": "Players' profile viewed"
+      }
+    },
+    "OPERATORS": {
+      "DEPARTMENTS": {
+        "CS": "Customer service",
+        "RFP": "Risk Fraud & Payment",
+        "MARKETING": "Marketing"
+      },
+      "ROLES": {
+        "ROLE1": "Executive",
+        "ROLE2": "Team leader",
+        "ROLE3": "Manager",
+        "ROLE4": "Head of department"
+      }
+    },
+    "BONUS": {
+      "STATUSES": {
+        "INACTIVE": "Inactive",
+        "IN_PROGRESS": "In Progress",
+        "WAGERING_COMPLETE": "Wagering complete",
+        "CONSUMED": "Consumed",
+        "CANCELLED": "Cancelled",
+        "EXPIRED": "Expired"
+      },
+      "TYPES": {
+        "FIRST_DEPOSIT": "First deposit",
+        "PLAYER_PROFILE_COMPLETED": "Profile completed",
+        "MANUAL": "No Deposit"
+      },
+      "ASSIGN": {
+        "MANUAL": "by Operator",
+        "CAMPAIGN": "by Campaign"
+      }
+    },
+    "COUNTRIES": {
+      "TYPES": {
+        "ALLOWED": "Allowed",
+        "FORBIDDEN": "Forbidden"
+      },
+      "TYPES_ACTION": {
+        "FORBID": "Forbid",
+        "ALLOW": "Allow"
+      }
+    },
+    "BONUS_CAMPAIGN": {
+      "CAMPAIGN_TYPE": {
+        "FIRST_DEPOSIT": "First deposit",
+        "DEPOSIT": "Deposit",
+        "PROFILE_COMPLETED": "Profile completed"
+      },
+      "STATUSES": {
+        "DRAFT": "Draft",
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "FINISHED": "Finished",
+        "CANCELED": "Canceled"
+      },
+      "TARGET_TYPES": {
+        "ALL": "All players",
+        "TARGET_LIST": "Selected players"
+      },
+      "STATUS_ACTIONS": {
+        "ACTIVATE_CAMPAIGN": "Activate campaign",
+        "CANCEL_CAMPAIGN": "Cancel campaign",
+        "ACTIVATE_CAMPAIGN_BUTTON": "Activate campaign",
+        "CANCEL_CAMPAIGN_BUTTON": "Confirm campaign cancelation"
+      },
+      "STATUS_ACTIONS_LABELS": {
+        "ACTIVATE": "activate",
+        "CANCEL": "cancel"
+      }
+    }
+  },
+  "OPERATOR_PROFILE": {
+    "FEED": {
+      "FILTER_FORM": {
+        "SEARCH_BY_LABEL": "Search by",
+        "SEARCH_BY_PLACEHOLDER": "Action ID, Operator ID, IP",
+        "ACTION_TYPE_EMPTY_OPTION": "Any action",
+        "ACTION_DATE_RANGE": "Action date range"
+      },
+      "TITLE": "Feed"
+    },
+    "DETAILS": {
+      "LABEL": {
+        "ADDITIONAL_INFORMATION": "Additional information",
+        "DEPARTMENTS": "Departments",
+        "PERSONAL_INFORMATION": "Personal information",
+        "FIRST_NAME": "First name",
+        "LAST_NAME": "Last name",
+        "EMAIL": "Email",
+        "COUNTRY": "Country",
+        "PHONE_NUMBER": "Phone number",
+        "REGISTRATION_DATE": "Registration date"
+      }
+    }
+  },
+  "FEED_ITEM": {
+    "LOG_IN": {
+      "UPLOADED_FILE": "Uploaded file",
+      "SESSION_ID": "Session ID",
+      "SESSION_IP": "Session IP",
+      "SESSION_START": "Session start",
+      "DEVICE": "Device"
+    },
+    "KYC": {
+      "REJECT_REASON": "Rejection reason"
+    },
+    "LOG_OUT": {
+      "SESSION_ID": "Session ID",
+      "SESSION_IP": "Session IP",
+      "SESSION_START": "Session start",
+      "SESSION_END": "Session end",
+      "SESSION_DURATION": "Session duration",
+      "DEVICE": "Device"
+    },
+    "PLAYER_PROFILE_SEARCH": {
+      "SEARCH_PARAMETERS": "Search parameters"
+    },
+    "OPERATOR_CREATION": {
+      "OPERATOR_NAME": "Operator's name",
+      "INVITATION_SENT": "Invitation",
+      "INVITATION_SENT_SUCCESS": "Successfully sent",
+      "INVITATION_SENT_FAILURE": "Not sent"
+    }
+  },
+  "LOGGED_FORBIDDEN": {
+    "TITLE": "Access denied",
+    "DESCRIPTION": "This part of the site is accessible only to guests.",
+    "LOGOUT_BUTTON": "Logout"
+  },
+  "GAMES": {
+    "TITLE": "Games",
+    "EXPORT_BUTTON": "Export games",
+    "UPLOAD_FILE_BUTTON": "Import games"
+  },
+  "ERRORS": {
+    "FILE": {
+      "INVALID_FILE_EXTENSION": "Invalid file extension",
+      "INVALID_FILE_SIZE": "Invalid file size"
+    }
+  },
+  "COUNTRIES": {
+    "TITLE": "Countries",
+    "FILTER": {
+      "LABELS": {
+        "ACCESS": "Access"
+      }
+    },
+    "GRID": {
+      "LABEL": {
+        "COUNTRY": "Country",
+        "ACCESS": "Access"
+      }
+    }
+  },
+  "BONUS_CAMPAIGNS": {
+    "GRID_VIEW": {
+      "DATE_TIME_AT": "at %{time}",
+      "CAMPAIGN": "Campaign",
+      "FULFILLMENT_TYPE": "Fulfillment type",
+      "CREATED": "Created",
+      "START_DATE": "Start date",
+      "END_DATE": "End date",
+      "STATUS": "Status",
+      "GRANTED_TO": "to %{count} players",
+      "GRANTED_TO_1": "to %{count} player",
+      "GRANTED": "Granted",
+      "TOTAL_OPT_IN_PLAYERS": "Opt-In: %{count} players",
+      "TOTAL_OPT_IN_PLAYERS_1": "Opt-In: %{count} player",
+      "TOTAL_SELECTED_PLAYERS": "Selected: %{count} players",
+      "TOTAL_SELECTED_PLAYERS_1": "Selected: %{count} player",
+      "TYPE": "Target type"
+    },
+    "TITLE": "Bonus campaigns",
+    "FILTER_FORM": {
+      "SEARCH_BY": "Search by",
+      "FULFILLMENT_TYPE": "Fulfilment type",
+      "STATUS": "Status",
+      "OPT_IN": "Type",
+      "CREATION_DATE": "Creation date range",
+      "ACTIVITY_DATE": "Activity date range",
+      "CREATION_DATE_FROM": "Creation date from",
+      "CREATION_DATE_TO": "Creation date to",
+      "ACTIVITY_DATE_FROM": "Activity date from",
+      "ACTIVITY_DATE_TO": "Activity date to",
+      "SEARCH_BY_PLACEHOLDER": "Campaign, Operator"
+    },
+    "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "GRANTED": "Granted",
+          "WAGERED": "Wagered",
+          "CONVERTED": "Converted",
+          "CREATED": "Created",
+          "TARGET": "Target",
+          "TARGET_TYPE": "Target type",
+          "PLAYERS_SELECTED": "Players selected",
+          "PLAYERS_OPT_IN": "Players opted-in",
+          "REWARD_PARAMS": "Fulfillment & reward parameters",
+          "FULFILLMENT_TYPE": "Fulfillment type",
+          "RATIO": "Ratio",
+          "MULTIPLAYER": "Multiplayer",
+          "LIFE_TIME": "Life time",
+          "CAMPAIGN_START": "Campaign start",
+          "CAMPAIGN_END": "Campaign end",
+          "PRIZE": "Prize",
+          "CAPPING": "Capping"
+        },
+        "GRANTED_TO": "to %{count} Players",
+        "GRANTED_TO_0": "to %{count} Players",
+        "GRANTED_TO_1": "to %{count} Player"
+      },
+      "NOTIFICATIONS": {
+        "UPDATE_TITLE": "Update bonus campaign",
+        "ADD_PLAYERS": "Add players"
+      },
+      "BUTTON": {
+        "ADD_PLAYERS": "+ Add players"
+      }
+    },
+    "CREATE_MODAL": {
+      "TITLE": "New bonus campaign"
+    },
+    "SETTINGS": {
+      "LABEL": {
+        "CAMPAIGN_NAME": "Campaign name (Internal)",
+        "TARGET_TYPE": "Target type",
+        "CURRENCY": "Currency",
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
+        "CAPPING": "Capping",
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Bonus life time",
+        "CAMPAIGN_RATIO": "Ratio",
+        "CONVERSION_PRIZE": "Prize",
+        "OPT_IN": "Opt-In",
+        "CAMPAIGN_TYPE": "Campaign type"
+      },
+      "CHOOSE_CURRENCY": "-- Choose currency --",
+      "CHOOSE_TARGET_TYPE": "-- Choose target type --",
+      "TARGET": "Target",
+      "CAMPAIGN_SETTINGS": "Campaign settings",
+      "FULFILLMENT": "Fulfillment",
+      "REWARD": "Reward"
+    },
+    "CHANGE_STATUS_MODAL": {
+      "SELECT_REASON_OPTION": "-- Select reason --",
+      "CUSTOM_REASON_OPTION": "Other",
+      "CUSTOM_REASON_PLACEHOLDER": "Custom reason",
+      "CANCEL_BUTTON": "Cancel",
+      "TITLE": "Change bonus campaign status",
+      "ACTION_TEXT": "You are about to %{action} the %{title}",
+      "ENTITY_NAME": "campaign"
+    },
+    "STATUS_DROPDOWN_MODAL": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Reason",
+        "CUSTOM_REASON_LABEL": "Custom reason"
+      }
+    },
+    "STATUS_DROPDOWN": {
+      "TITLE": "Campaign status"
+    }
   }
 }

@@ -13,7 +13,6 @@ For example:
 @import './bs3';
 @import '~react-dates/css/variables';
 @import '~react-dates/css/styles';
-@import '~react-toggle-switch/dist/css/switch.min.css';
 @import '~react-datetime/css/react-datetime.css';
 
 .DateInput {
@@ -61,30 +60,6 @@ For example:
 
 .highlighted-row {
   background: #d7d7d8;
-}
-
-.small-switch {
-  width: 29px;
-  height: 15px;
-  left: 2px;
-  background-color: rgba(153, 153, 153, 1);
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.small-switch .switch-toggle {
-  width: 9px;
-  height: 9px;
-  border: none;
-  box-shadow: none;
-  top: 2px;
-  left: 3px;
-}
-
-.small-switch.on .switch-toggle {
-  left: 15px;
 }
 
 .width-20 {

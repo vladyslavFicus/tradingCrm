@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Panel, { Title, Content } from 'components/Panel';
 import GridView, { GridColumn } from 'components/GridView';
 import { TextFilter, DropDownFilter, DateRangeFilter } from 'components/Forms/Filters';
@@ -89,7 +89,7 @@ class List extends Component {
     return <div className="page-content-inner">
       <Panel withBorders>
         <Title>
-          <h3>Payments</h3>
+          <span className="font-size-20">Payments</span>
         </Title>
 
         <Content>

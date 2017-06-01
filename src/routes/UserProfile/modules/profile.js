@@ -6,11 +6,9 @@ import { shortify } from '../../../utils/uuid';
 import buildFormData from '../../../utils/buildFormData';
 import { actions } from '../../../constants/user';
 import { actions as filesActions, categories as filesCategories } from '../../../constants/files';
-import downloadBlob from '../../../utils/downloadBlob';
-import { getApiRoot } from '../../../config';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../redux/modules/files';
-import { actionTypes as userProfileFilesActionTypes } from '../routes/Files/modules/files';
+import { actionTypes as userProfileFilesActionTypes } from './files';
 
 const KEY = 'user-profile/view';
 const PROFILE = createRequestAction(`${KEY}/view`);
@@ -19,13 +17,11 @@ const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
 const REFUSE_DATA = createRequestAction(`${KEY}/refuse-data`);
 const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
-const BALANCE = createRequestAction(`${KEY}/balance`);
 const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
 
 const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
-const DOWNLOAD_FILE = createRequestAction(`${KEY}/download-file`);
 const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 
@@ -103,23 +99,12 @@ const initialState = {
   receivedAt: null,
 };
 
-export const mapBalances = items =>
-  Object
-    .keys(items)
-    .reduce((result, item) => (
-      result.push({
-        amount: Number(parseFloat(items[item].replace(item, '')).toFixed(2)),
-        currency: item,
-      }),
-        result
-    ), []);
-
 const fetchProfile = usersActionCreators.fetchProfile(PROFILE);
 const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
 const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
-const changeStatusByAction = filesSourceActionCreators.changeStatusByAction({
+const changeFileStatusByAction = filesSourceActionCreators.changeStatusByAction({
   [filesActions.VERIFY]: VERIFY_FILE,
   [filesActions.REFUSE]: REFUSE_FILE,
 });
@@ -145,8 +130,7 @@ function updateSubscription(playerUUID, name, value) {
         body: JSON.stringify({ [name]: value }),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -221,26 +205,6 @@ function deleteTag(playerUUID, id) {
   };
 }
 
-function getBalance(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `wallet/balance/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [BALANCE.REQUEST, BALANCE.SUCCESS, BALANCE.FAILURE],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
 function verifyData(playerUUID, type) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -290,7 +254,7 @@ function refuseData(playerUUID, type, data) {
   };
 }
 
-function uploadFile(playerUUID, type, file) {
+function uploadProfileFile(playerUUID, type, file) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -317,38 +281,13 @@ function uploadFile(playerUUID, type, file) {
   };
 }
 
-function downloadFile(data) {
-  return async (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    if (!logged) {
-      return dispatch({ type: DOWNLOAD_FILE.FAILURE, payload: new Error('Unauthorized') });
-    }
-
-    const requestUrl = `${getApiRoot()}/profile/files/download/${data.uuid}`;
-    const response = await fetch(requestUrl, {
-      method: 'GET',
-      headers: {
-        Accept: data.type,
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const blobData = await response.blob();
-    downloadBlob(data.name, blobData);
-
-    return dispatch({ type: DOWNLOAD_FILE.SUCCESS });
-  };
-}
-
 function fetchBalances(uuid) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/wallet/balances/${uuid}`,
+        endpoint: `/profile/profiles/es/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -638,24 +577,20 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_BALANCES.SUCCESS]: (state, action) => {
-    const newState = {
-      ...state,
-      isLoading: false,
-      receivedAt: timestamp(),
-    };
-
-    if (action.payload.balances) {
-      const balances = mapBalances(action.payload.balances);
-
-      if (balances.length > 0) {
-        newState.data.balance = { ...balances[0] };
-        newState.data.currencyCode = newState.data.balance.currency;
-      }
-    }
-
-    return newState;
-  },
+  [FETCH_BALANCES.SUCCESS]: (state, action) => ({
+    ...state,
+    data: {
+      ...state.data,
+      balance: action.payload && action.payload.balance
+        ? action.payload.balance
+        : state.data.balance,
+      currencyCode: action.payload && action.payload.balance
+        ? action.payload.balance.currency
+        : state.data.currencyCode,
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  }),
   [FETCH_BALANCES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
@@ -668,13 +603,11 @@ const actionTypes = {
   PROFILE,
   ADD_TAG,
   DELETE_TAG,
-  BALANCE,
   UPDATE_PROFILE,
   SUBMIT_KYC,
   FETCH_BALANCES,
   VERIFY_DATA,
   REFUSE_DATA,
-  DOWNLOAD_FILE,
   VERIFY_FILE,
   REFUSE_FILE,
   VERIFY_PROFILE_PHONE,
@@ -685,15 +618,13 @@ const actionCreators = {
   submitData,
   verifyData,
   refuseData,
-  uploadFile,
-  downloadFile,
-  changeStatusByAction,
+  uploadProfileFile,
+  changeFileStatusByAction,
   updateProfile,
   updateIdentifier,
   resetPassword,
   activateProfile,
   updateSubscription,
-  getBalance,
   loadFullProfile,
   fetchBalances,
   changeStatus,

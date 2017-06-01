@@ -19,6 +19,7 @@ const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
   onChangePaymentStatus: actionCreators.changePaymentStatus,
   loadPaymentStatuses: actionCreators.fetchPaymentStatuses,
+  resetAll: actionCreators.resetAll,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

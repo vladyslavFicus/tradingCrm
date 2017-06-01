@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Popover, PopoverContent, TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Input,
 } from 'reactstrap';
@@ -98,7 +99,11 @@ class AvailabilityPopover extends Component {
     const { countries } = this.props;
 
     const limitType = activeTab === tabs.DEPOSIT ? 'depositLimit' : 'withdrawLimit';
-    const { disabled, min, max, currencyCode } = countries[country][limitType];
+    const { disabled, available, min, max, currencyCode } = countries[country][limitType];
+
+    if (!available) {
+      return <span className="color-warning">{I18n.t('PAYMENT.METHODS.LIMITS.NOT_AVAILABLE')}</span>;
+    }
 
     if (disabled) {
       return <span className="color-danger">{I18n.t('PAYMENT.METHODS.LIMITS.DISABLED')}</span>;
@@ -126,7 +131,7 @@ class AvailabilityPopover extends Component {
       return <span>max. <Amount amount={max} currency={currencyCode} /></span>;
     }
 
-    return I18n.t('PAYMENT.METHODS.LIMITS.UNAVAILABLE');
+    return I18n.t('PAYMENT.METHODS.LIMITS.UNDEFINED');
   };
 
   renderTabListElements = () => {
@@ -136,14 +141,14 @@ class AvailabilityPopover extends Component {
     const tabListElements = [];
     Object.keys(tabCountries).map((letter, key) => {
       tabListElements.push(
-        <Col key={`${key}-${letter}`}>
+        <Col className="col-xs-12" key={`${key}-${letter}`}>
           <span className="font-weight-700">{letter}</span>
         </Col>
       );
 
       tabCountries[letter].map((country) => {
         tabListElements.push(
-          <Col key={`${key}-${country}`}>
+          <Col className="col-xs-12" key={`${key}-${country}`}>
             <span className="font-weight-700">{country}</span> {'- '}
             <span className="color-default">{this.renderLimit(country)}</span>
           </Col>
@@ -154,6 +159,7 @@ class AvailabilityPopover extends Component {
     if (!tabListElements.length && search) {
       return (
         <Col
+          className="col-xs-12"
           dangerouslySetInnerHTML={{
             __html: I18n.t('PAYMENT.METHODS.AVAILABILITY.NO_RESULT_BY_SEARCH', {
               search: `<span class="font-weight-700">${search}</span>`,
@@ -179,40 +185,42 @@ class AvailabilityPopover extends Component {
         toggle={toggle}
         target={target}
       >
-        <PopoverContent>
-          <Nav tabs>
-            {
-              Object.keys(tabs).map(tab => (
-                <NavItem key={tab}>
-                  <NavLink
-                    className={classNames({ active: activeTab === tab })}
-                    onClick={() => { this.toggleTab(tab); }}
-                  >
-                    {I18n.t(tabsLabels[tab])}
-                  </NavLink>
-                </NavItem>
-              ))
-            }
-          </Nav>
-          <TabContent activeTab={activeTab}>
-            <div className="form-input-icon">
-              <i className="icmn-search" />
-              <Input
-                onChange={this.handleSearch}
-                className="form-control input-sm"
-                value={search}
-                type="text"
-                placeholder={I18n.t('PAYMENT.METHODS.AVAILABILITY.SEARCH_PLACEHOLDER')}
-              />
-            </div>
-            <hr />
-            <TabPane tabId={activeTab}>
-              <Row>
-                {this.renderTabListElements()}
-              </Row>
-            </TabPane>
-          </TabContent>
-        </PopoverContent>
+        <div className="availability-popover-container">
+          <PopoverContent>
+            <Nav tabs>
+              {
+                Object.keys(tabs).map(tab => (
+                  <NavItem key={tab}>
+                    <NavLink
+                      className={classNames({ active: activeTab === tab })}
+                      onClick={() => { this.toggleTab(tab); }}
+                    >
+                      {I18n.t(tabsLabels[tab])}
+                    </NavLink>
+                  </NavItem>
+                ))
+              }
+            </Nav>
+            <TabContent activeTab={activeTab}>
+              <div className="form-input-icon">
+                <i className="icmn-search" />
+                <Input
+                  onChange={this.handleSearch}
+                  className="form-control input-sm"
+                  value={search}
+                  type="text"
+                  placeholder={I18n.t('PAYMENT.METHODS.AVAILABILITY.SEARCH_PLACEHOLDER')}
+                />
+              </div>
+              <hr />
+              <TabPane tabId={activeTab}>
+                <Row>
+                  {this.renderTabListElements()}
+                </Row>
+              </TabPane>
+            </TabContent>
+          </PopoverContent>
+        </div>
       </Popover>
     );
   }
