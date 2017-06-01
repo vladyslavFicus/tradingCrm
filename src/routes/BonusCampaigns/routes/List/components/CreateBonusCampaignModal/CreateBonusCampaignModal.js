@@ -7,11 +7,18 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../../utils/validator';
 import {
-  CustomValueField, InputField, SelectField, DateTimeField,
+  CustomValueField,
+  InputField,
+  SelectField,
+  DateTimeField,
 } from '../../../../../../components/ReduxForm';
 import {
-  campaignTypes, campaignTypesLabels, targetTypesLabels, customValueFieldTypesByCampaignType,
+  campaignTypes,
+  campaignTypesLabels,
+  targetTypesLabels,
+  customValueFieldTypesByCampaignType,
 } from '../../../../constants';
+import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './CreateBonusCampaignModal.scss';
 
@@ -35,44 +42,62 @@ const attributeLabels = {
   'conversionPrize.type': 'Conversion prize value type',
   wagerWinMultiplier: 'Multiplier',
   campaignType: 'Campaign type',
+  minAmount: 'Min amount',
+  maxAmount: 'Max amount',
   targetType: 'Target type',
   optIn: 'Opt-In',
 };
 
 const getCustomValueFieldTypes = (campaignType) => {
   if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
-    return [campaignTypes.FIRST_DEPOSIT, campaignTypes.PROFILE_COMPLETED];
+    return [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE];
   }
 
   return customValueFieldTypesByCampaignType[campaignType];
 };
 
 const validator = (values) => {
-  const customValueFieldTypes = getCustomValueFieldTypes(values.campaignType);
-
-  return createValidator({
+  const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
+  const rules = {
     campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
     startDate: 'required',
     endDate: 'required|nextDate:startDate',
     currency: 'required',
     bonusLifetime: 'required|integer',
     'campaignRatio.value': 'required|numeric|customTypeValue.value',
-    'campaignRatio.type': ['required', `in:${customValueFieldTypes.join()}`],
+    'campaignRatio.type': ['required', `in:${allowedCustomValueTypes.join()}`],
     capping: {
       value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${customValueFieldTypes.join()}`],
+      type: ['required', `in:${allowedCustomValueTypes.join()}`],
     },
     conversionPrize: {
       value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${customValueFieldTypes.join()}`],
+      type: ['required', `in:${allowedCustomValueTypes.join()}`],
     },
     wagerWinMultiplier: 'required|integer|max:999',
     campaignType: ['required', `in:${Object.keys(campaignTypesLabels).join()}`],
     targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
-  },
-    attributeLabels,
-    false
-  )(values);
+    minAmount: 'min:0',
+    maxAmount: 'min:0',
+  };
+
+  if (values.minAmount) {
+    const minAmount = parseFloat(values.minAmount).toFixed(2);
+
+    if (!isNaN(minAmount)) {
+      rules.maxAmount = `min:${minAmount}`;
+    }
+  }
+
+  if (values.minAmount) {
+    const maxAmount = parseFloat(values.maxAmount).toFixed(2);
+
+    if (!isNaN(maxAmount)) {
+      rules.minAmount = `max:${maxAmount}`;
+    }
+  }
+
+  return createValidator(rules, attributeLabels, false)(values);
 };
 
 class CreateBonusCampaignModal extends Component {
@@ -97,20 +122,20 @@ class CreateBonusCampaignModal extends Component {
     const { currentValues } = this.props;
 
     return currentValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
-        currentValues[toAttribute]
-          ? current.isSameOrBefore(moment(currentValues[toAttribute]))
-          : true
-      );
+      currentValues[toAttribute]
+        ? current.isSameOrBefore(moment(currentValues[toAttribute]))
+        : true
+    );
   };
 
   endDateValidator = fromAttribute => (current) => {
     const { currentValues } = this.props;
 
     return currentValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
-        currentValues[fromAttribute]
-          ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
-          : true
-      );
+      currentValues[fromAttribute]
+        ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
+        : true
+    );
   };
 
   render() {
@@ -198,10 +223,10 @@ class CreateBonusCampaignModal extends Component {
               type="select"
               component={SelectField}
             >
-              <option value="">--- Chose target type ---</option>
+              <option value="">--- Choose target type ---</option>
               {Object.keys(targetTypesLabels).map(key => (
                 <option key={key} value={key}>
-                  { renderLabel(key, targetTypesLabels) }
+                  {renderLabel(key, targetTypesLabels)}
                 </option>
               ))}
             </Field>
@@ -213,10 +238,31 @@ class CreateBonusCampaignModal extends Component {
             >
               {Object.keys(campaignTypesLabels).map(key => (
                 <option key={key} value={key}>
-                  { renderLabel(key, campaignTypesLabels) }
+                  {renderLabel(key, campaignTypesLabels)}
                 </option>
               ))}
             </Field>
+            {
+              currentValues && currentValues.campaignType !== campaignTypes.FIRST_DEPOSIT &&
+              <div className="row">
+                <div className="col-md-offset-3 col-md-4">
+                  <Field
+                    name="minAmount"
+                    placeholder={attributeLabels.minAmount}
+                    type="text"
+                    component={InputField}
+                  />
+                </div>
+                <div className="col-md-4">
+                  <Field
+                    name="maxAmount"
+                    placeholder={attributeLabels.maxAmount}
+                    type="text"
+                    component={InputField}
+                  />
+                </div>
+              </div>
+            }
 
             <Field
               name="startDate"

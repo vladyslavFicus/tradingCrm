@@ -74,7 +74,7 @@ function cancelCampaign(id, reason) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: { reason, stateReason: statusesReasons.CANCELED },
+        body: JSON.stringify({ reason, stateReason: statusesReasons.CANCELED }),
         types: [
           CHANGE_CAMPAIGN_STATE.REQUEST,
           CHANGE_CAMPAIGN_STATE.SUCCESS,
