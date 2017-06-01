@@ -9,6 +9,7 @@
 @import url(./forms/checkboxes-radio.css);
 @import url(./forms/form-validation.css);
 @import url(./forms/selectboxes.css);
+@import url(./components/collapse.css);
 @import url(./components/utilities.css);
 @import url(./components/tables.css);
 @import url(./components/tooltips-popovers.css);
