@@ -326,6 +326,9 @@ class Form extends Component {
                 typeValues={allowedCustomValueTypes}
                 errors={errors}
               />
+              <div className="color-default font-size-10">
+                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.RATIO_TOOLTIP')}
+              </div>
             </div>
             {
               currentValues && currentValues.campaignType !== campaignTypes.PROFILE_COMPLETED &&
@@ -398,7 +401,12 @@ class Form extends Component {
             <div className="col-md-3">
               <CustomValueFieldVertical
                 basename={'capping'}
-                label={I18n.t(attributeLabels.capping)}
+                label={
+                  <div>
+                    {I18n.t(attributeLabels.capping)}{' '}
+                    <span className="font-size-10 text-muted">{I18n.t('COMMON.OPTIONAL')}</span>
+                  </div>
+                }
                 typeValues={allowedCustomValueTypes}
                 errors={errors}
               />
@@ -407,7 +415,12 @@ class Form extends Component {
             <div className="col-md-3">
               <CustomValueFieldVertical
                 basename={'conversionPrize'}
-                label={I18n.t(attributeLabels.conversionPrize)}
+                label={
+                  <div>
+                    {I18n.t(attributeLabels.conversionPrize)}{' '}
+                    <span className="font-size-10 text-muted">{I18n.t('COMMON.OPTIONAL')}</span>
+                  </div>
+                }
                 typeValues={allowedCustomValueTypes}
                 errors={errors}
               />
