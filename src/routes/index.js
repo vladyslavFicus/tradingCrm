@@ -53,6 +53,7 @@ export const createRoutes = store => ({
             ReportsRoute(store),
             GamesRoute(store),
             CountriesRoute(store),
+            OperatorProfileRoute(store),
           ],
         }, requireAuth(store)),
       ],
@@ -61,7 +62,6 @@ export const createRoutes = store => ({
       component: PermissionLayout,
       childRoutes: [
         UserProfileRoute(store),
-        OperatorProfileRoute(store),
       ],
     }, requireAuth(store)),
     NotFoundRoute(store),

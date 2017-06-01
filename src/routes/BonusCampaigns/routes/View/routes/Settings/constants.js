@@ -13,10 +13,16 @@ const attributeLabels = {
   campaignRatio: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_RATIO'),
   conversionPrize: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CONVERSION_PRIZE'),
   optIn: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.OPT_IN'),
+  minAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_AMOUNT'),
+  maxAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MAX_AMOUNT'),
+};
+
+const attributePlaceholders = {
+  minAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_AMOUNT_PLACEHOLDER'),
+  maxAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MAX_AMOUNT_PLACEHOLDER'),
 };
 
 export {
   attributeLabels,
+  attributePlaceholders,
 };
-
-export default attributeLabels;

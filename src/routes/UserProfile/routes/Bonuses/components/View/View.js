@@ -219,9 +219,10 @@ class View extends Component {
         onClick={id => this.handleNoteClick(id, data)}
       >
         <i
-          className={classNames('fa', {
-            'fa-sticky-note': !!data.note,
-            'fa-sticky-note-o': !data.note,
+          className={classNames('note-icon', {
+            'note-with-text': data.note && !data.note.pinned,
+            'note-pinned-note': data.note && data.note.pinned,
+            'note-add-note': !data.note,
           })}
         />
       </PopoverButton>

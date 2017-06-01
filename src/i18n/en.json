@@ -197,7 +197,8 @@
       "HIDE": "Hide details",
       "SHOW": "Show details"
     },
-    "REVERT_CHANGES": "Revert changes"
+    "REVERT_CHANGES": "Revert changes",
+    "OPTIONAL": "Optional"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -347,6 +348,20 @@
         "PHONE_NUMBER": "Phone number",
         "REGISTRATION_DATE": "Registration date"
       }
+    },
+    "MODALS": {
+      "RESET_PASSWORD": {
+        "TITLE": "Operators password reset - Confirmation",
+        "ACTION_TEXT": "You are about to reset password for %{fullName}",
+        "ACTION_TARGET": "operator account",
+        "CONFIRM_ACTION": "Reset password"
+      },
+      "SEND_INVITATION": {
+        "TITLE": "Send invitation to operator - Confirmation",
+        "ACTION_TEXT": "You are about to reset password for %{fullName}",
+        "ACTION_TARGET": "operator account",
+        "CONFIRM_ACTION": "Send invitation"
+      }
     }
   },
   "FEED_ITEM": {
@@ -490,14 +505,19 @@
         "CAMPAIGN_RATIO": "Ratio",
         "CONVERSION_PRIZE": "Prize",
         "OPT_IN": "Opt-In",
-        "CAMPAIGN_TYPE": "Campaign type"
+        "CAMPAIGN_TYPE": "Campaign type",
+        "MIN_AMOUNT": "Min. amount",
+        "MAX_AMOUNT": "Max. amount",
+        "MIN_AMOUNT_PLACEHOLDER": "Min.",
+        "MAX_AMOUNT_PLACEHOLDER": "Max."
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
       "TARGET": "Target",
       "CAMPAIGN_SETTINGS": "Campaign settings",
       "FULFILLMENT": "Fulfillment",
-      "REWARD": "Reward"
+      "REWARD": "Reward",
+      "DEPOSIT_AMOUNT": "Deposit amount"
     },
     "CHANGE_STATUS_MODAL": {
       "SELECT_REASON_OPTION": "-- Select reason --",

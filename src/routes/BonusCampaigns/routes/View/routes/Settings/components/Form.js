@@ -9,28 +9,30 @@ import {
 import ReactSwitch from '../../../../../../../components/ReactSwitch';
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
-  campaignTypes, campaignTypesLabels, targetTypesLabels, customValueFieldTypesByCampaignType,
+  campaignTypes,
+  campaignTypesLabels,
+  targetTypesLabels,
+  customValueFieldTypesByCampaignType,
 } from '../../../../../constants';
-import { customValueFieldTypes as formCustomValueFieldTypes } from '../../../../../../../constants/form';
+import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
-import { attributeLabels } from '../constants';
+import { attributeLabels, attributePlaceholders } from '../constants';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 const FORM_NAME = 'updateBonusCampaignSettings';
 
 const getCustomValueFieldTypes = (campaignType) => {
   if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
-    return [campaignTypes.FIRST_DEPOSIT, campaignTypes.PROFILE_COMPLETED];
+    return [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE];
   }
 
   return customValueFieldTypesByCampaignType[campaignType];
 };
 
 const validator = (values) => {
-  const customValueFieldTypes = getCustomValueFieldTypes(values.campaignType);
-
-  return createValidator({
+  const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
+  const rules = {
     campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
     optIn: 'boolean',
     targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
@@ -42,17 +44,38 @@ const validator = (values) => {
     campaignType: ['required', 'string', `in:${Object.keys(campaignTypesLabels).join()}`],
     capping: {
       value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${customValueFieldTypes.join()}`],
+      type: ['required', `in:${allowedCustomValueTypes.join()}`],
     },
     campaignRatio: {
       value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${customValueFieldTypes.join()}`],
+      type: ['required', `in:${allowedCustomValueTypes.join()}`],
     },
     conversionPrize: {
       value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${customValueFieldTypes.join()}`],
+      type: ['required', `in:${allowedCustomValueTypes.join()}`],
     },
-  },
+    minAmount: 'min:0',
+    maxAmount: 'min:0',
+  };
+
+  if (values.minAmount) {
+    const minAmount = parseFloat(values.minAmount).toFixed(2);
+
+    if (!isNaN(minAmount)) {
+      rules.maxAmount = `min:${minAmount}`;
+    }
+  }
+
+  if (values.maxAmount) {
+    const maxAmount = parseFloat(values.maxAmount).toFixed(2);
+
+    if (!isNaN(maxAmount)) {
+      rules.minAmount = `max:${maxAmount}`;
+    }
+  }
+
+  return createValidator(
+    rules,
     Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}),
     false
   )(values);
@@ -97,7 +120,7 @@ class Form extends Component {
       nextCampaignType === campaignTypes.PROFILE_COMPLETED
     ) {
       ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
-        change(`${field}.type`, formCustomValueFieldTypes.ABSOLUTE);
+        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
       });
     }
   }
@@ -106,20 +129,20 @@ class Form extends Component {
     const { currentValues } = this.props;
 
     return currentValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
-        currentValues[toAttribute]
-          ? current.isSameOrBefore(moment(currentValues[toAttribute]))
-          : true
-      );
+      currentValues[toAttribute]
+        ? current.isSameOrBefore(moment(currentValues[toAttribute]))
+        : true
+    );
   };
 
   endDateValidator = fromAttribute => (current) => {
     const { currentValues } = this.props;
 
     return currentValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
-        currentValues[fromAttribute]
-          ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
-          : true
-      );
+      currentValues[fromAttribute]
+        ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
+        : true
+    );
   };
 
   handleRevert = (e) => {
@@ -127,7 +150,7 @@ class Form extends Component {
     e.stopPropagation();
 
     this.props.reset();
-  }
+  };
 
   renderSwitchField = ({ input, wrapperClassName }) => {
     const onClick = () => input.onChange(!input.value);
@@ -155,7 +178,7 @@ class Form extends Component {
       currentValues,
     } = this.props;
 
-    const customValueFieldTypes = getCustomValueFieldTypes(currentValues.campaignType);
+    const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
     return (
       <div>
@@ -190,9 +213,10 @@ class Form extends Component {
               />
               <div className="color-default font-size-10">
                 {
-                  currentValues && currentValues.campaignName ?
-                    currentValues.campaignName.length : 0}/{CAMPAIGN_NAME_MAX_LENGTH
-                }
+                  currentValues && currentValues.campaignName
+                    ? currentValues.campaignName.length
+                    : 0
+                }/{CAMPAIGN_NAME_MAX_LENGTH}
               </div>
             </div>
           </div>
@@ -299,10 +323,46 @@ class Form extends Component {
               <CustomValueFieldVertical
                 basename={'campaignRatio'}
                 label={I18n.t(attributeLabels.campaignRatio)}
-                typeValues={customValueFieldTypes}
+                typeValues={allowedCustomValueTypes}
                 errors={errors}
               />
             </div>
+            {
+              currentValues && currentValues.campaignType !== campaignTypes.PROFILE_COMPLETED &&
+              <div className="form-group col-md-6">
+                <label className="form-control-label">
+                  {I18n.t('BONUS_CAMPAIGNS.SETTINGS.DEPOSIT_AMOUNT')}
+                  {' '}
+                  <span className="font-size-10 text-muted">
+                    {I18n.t('COMMON.OPTIONAL')}
+                  </span>
+                </label>
+
+                <div>
+                  <div className="width-200 display-inline-block margin-inline">
+                    <Field
+                      name="minAmount"
+                      label={''}
+                      placeholder={I18n.t(attributePlaceholders.minAmount)}
+                      type="text"
+                      component={InputField}
+                      position="vertical"
+                    />
+                  </div>
+
+                  <div className="width-200 display-inline-block margin-inline">
+                    <Field
+                      name="maxAmount"
+                      label={''}
+                      placeholder={I18n.t(attributePlaceholders.maxAmount)}
+                      type="text"
+                      component={InputField}
+                      position="vertical"
+                    />
+                  </div>
+                </div>
+              </div>
+            }
           </div>
 
           <hr />
@@ -339,7 +399,7 @@ class Form extends Component {
               <CustomValueFieldVertical
                 basename={'capping'}
                 label={I18n.t(attributeLabels.capping)}
-                typeValues={customValueFieldTypes}
+                typeValues={allowedCustomValueTypes}
                 errors={errors}
               />
             </div>
@@ -348,7 +408,7 @@ class Form extends Component {
               <CustomValueFieldVertical
                 basename={'conversionPrize'}
                 label={I18n.t(attributeLabels.conversionPrize)}
-                typeValues={customValueFieldTypes}
+                typeValues={allowedCustomValueTypes}
                 errors={errors}
               />
             </div>
