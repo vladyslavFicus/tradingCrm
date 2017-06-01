@@ -21,10 +21,6 @@ const statuses = keyMirror({
 const statusesReasons = keyMirror({
   CANCELED: null,
 });
-const amountTypes = keyMirror({
-  ABSOLUTE: null,
-  PERCENTAGE: null,
-});
 const targetTypes = keyMirror({
   ALL: null,
   TARGET_LIST: null,
@@ -99,7 +95,6 @@ export {
   statusesClassNames,
   campaignTypes,
   campaignTypesLabels,
-  amountTypes,
   targetTypes,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,

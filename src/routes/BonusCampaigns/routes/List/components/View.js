@@ -9,6 +9,7 @@ import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
 import { campaignTypes, campaignTypesLabels, targetTypes, targetTypesLabels } from '../../../constants';
+import { customValueFieldTypes } from '../../../../../constants/form';
 import Amount from '../../../../../components/Amount';
 import BonusCampaignStatus from '../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
@@ -327,6 +328,15 @@ class View extends Component {
             currencies={currencies}
             initialValues={{
               campaignType: campaignTypes.FIRST_DEPOSIT,
+              campaignRatio: {
+                type: customValueFieldTypes.ABSOLUTE,
+              },
+              capping: {
+                type: customValueFieldTypes.ABSOLUTE,
+              },
+              conversionPrize: {
+                type: customValueFieldTypes.ABSOLUTE,
+              },
             }}
             onClose={this.handleCloseModal}
             isOpen

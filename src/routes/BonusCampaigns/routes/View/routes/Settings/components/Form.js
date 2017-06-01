@@ -11,6 +11,7 @@ import PropTypes from '../../../../../../../constants/propTypes';
 import {
   campaignTypes, campaignTypesLabels, targetTypesLabels, customValueFieldTypesByCampaignType,
 } from '../../../../../constants';
+import { customValueFieldTypes as formCustomValueFieldTypes } from '../../../../../../../constants/form';
 import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels } from '../constants';
@@ -65,6 +66,7 @@ class Form extends Component {
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     reset: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
     errors: PropTypes.object,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentValues: PropTypes.shape({
@@ -82,6 +84,23 @@ class Form extends Component {
       campaignType: PropTypes.bonusCampaignEntity.campaignType,
     }),
   };
+
+  static defaultProps = {
+    currentValues: {},
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { currentValues, change } = this.props;
+    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
+    if (currentValues && currentValues.campaignType &&
+      currentValues.campaignType !== nextCampaignType &&
+      nextCampaignType === campaignTypes.PROFILE_COMPLETED
+    ) {
+      ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
+        change(`${field}.type`, formCustomValueFieldTypes.ABSOLUTE);
+      });
+    }
+  }
 
   startDateValidator = toAttribute => (current) => {
     const { currentValues } = this.props;
@@ -135,10 +154,6 @@ class Form extends Component {
       currencies,
       currentValues,
     } = this.props;
-
-    if (!currentValues) {
-      return null;
-    }
 
     const customValueFieldTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
