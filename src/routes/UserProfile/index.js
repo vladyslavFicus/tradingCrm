@@ -19,6 +19,7 @@ export default store => ({
     });
   },
 
+  ignoreScrollBehavior: true,
   childRoutes: [
     ProfileRoute(store),
     FeedRoute(store),

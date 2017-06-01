@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactSelect from 'react-select';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
@@ -16,8 +17,8 @@ class ButtonSelect extends Component {
     return <div className={classNames('button-select')}>
       <span className="tag-arrow tag-arrow-default" />
 
-      <div className={classNames('auto-complete', 'ignore-react-onclickoutside margin-left-10', { opened })}>
-        <ReactSelect {...rest} placeholder="" />
+      <div className={classNames('auto-complete', 'ignore-react-onclickoutside', { opened })}>
+        <ReactSelect {...rest} placeholder="" ref={(selectField) => { this.selectField = selectField; }} />
       </div>
 
       <button className={className} onClick={this.focus}>

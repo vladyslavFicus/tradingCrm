@@ -1,10 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DateTime from 'react-datetime';
 import classNames from 'classnames';
 import moment from 'moment';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import { Link } from 'react-router';
 import { statusesLabels, typesLabels, assignLabels } from '../../../../../constants/bonus';
 import { createValidator } from '../../../../../utils/validator';
 
@@ -124,22 +124,10 @@ class BonusGridFilter extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      playerUUID,
     } = this.props;
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row margin-bottom-20">
-          <div className="col-sm-2 col-xs-6">
-            <span className="font-size-20">Bonus</span>
-          </div>
-          <div className="col-sm-10 col-xs-6 text-right">
-            <Link className="btn btn-sm btn-primary-outline" target="_blank" to={`/bonuses/create/${playerUUID}`}>
-              + Manual bonus
-            </Link>
-          </div>
-        </div>
-
         <div className="well">
           <div className="row">
             <div className="col-md-10">

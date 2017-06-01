@@ -9,9 +9,9 @@ const mapStateToProps = ({ usersList: list, ...state }) => ({
 });
 
 const mapActions = {
-  ...actionCreators,
   fetchESEntities: actionCreators.fetchESEntities,
   exportEntities: actionCreators.exportEntities,
+  reset: actionCreators.reset,
 };
 
 export default connect(mapStateToProps, mapActions)(List);

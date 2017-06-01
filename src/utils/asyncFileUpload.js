@@ -1,3 +1,5 @@
+import parseJSON from './parseJson';
+
 export default (url, options) => {
   const xhr = new XMLHttpRequest();
   if (typeof options.onprogress === 'function') {
@@ -16,7 +18,7 @@ export default (url, options) => {
 
           reject(error);
         } else {
-          resolve(JSON.parse(xhr.responseText));
+          resolve(parseJSON(xhr.responseText));
         }
       };
 

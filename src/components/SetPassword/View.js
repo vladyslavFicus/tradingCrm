@@ -1,23 +1,19 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter, IndexLink } from 'react-router';
 import { SubmissionError } from 'redux-form';
 import ViewForm from './ViewForm';
+import LoggedForbidden from "../LoggedForbidden";
 
 class View extends Component {
   static propTypes = {
+    logged: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
     router: PropTypes.shape({
       replace: PropTypes.func.isRequired,
     }).isRequired,
   };
-
-  componentWillMount() {
-    document.body.classList.add('full-height');
-  }
-
-  componentWillUnmount() {
-    document.body.classList.remove('full-height');
-  }
 
   handleSubmit = async (data) => {
     const { location: { query } } = this.props;
@@ -38,7 +34,26 @@ class View extends Component {
     throw new SubmissionError({ _error: 'Something went wrong...' });
   };
 
+  componentWillMount() {
+    document.body.classList.add('full-height');
+  }
+
+  componentWillUnmount() {
+    document.body.classList.remove('full-height');
+  }
+
   render() {
+    const { logged, logout } = this.props;
+
+    if (logged) {
+      return (
+        <LoggedForbidden
+          logged={logged}
+          logout={logout}
+        />
+      );
+    }
+
     return (
       <section className="page-content">
         <div className="page-content-inner" style={{ background: '#0e1836' }}>

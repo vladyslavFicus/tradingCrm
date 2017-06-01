@@ -3,7 +3,8 @@
 // the base configuration will apply your overrides before exporting itself.
 
 const applicationConfig = {
-  'api.entry': 'http://api.casino.app',
+  'brand.api.url': 'http://api.casino.app',
+  'nas.brand': 'local',
   'nas.locale.defaultLanguage': 'en',
   'nas.locale.languages[0].value': 'en',
   'nas.locale.languages[0].label': 'ENG',
@@ -84,7 +85,7 @@ const applicationConfig = {
   'nas.limits.session_duration.periods[5]': '6 HOURS',
   'nas.limits.session_duration.periods[6]': '7 HOURS',
   'nas.limits.session_duration.periods[7]': '8 HOURS',
-  'nas.logstash.url': 'http://hrzn01-dev-elk01.hrzn.dev:12202',
+  'logstash.url': 'http://hrzn01-dev-elk01.hrzn.dev:12202',
 };
 
 export default {

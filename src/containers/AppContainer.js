@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { applyRouterMiddleware, browserHistory, Router } from 'react-router';
 import { useScroll } from 'react-router-scroll';
 import { Provider } from 'react-redux';
@@ -10,16 +11,20 @@ class AppContainer extends Component {
   };
 
   render() {
-    const { routes, store } = this.props;
+    const { routes: containerRoutes, store } = this.props;
 
     return (
       <Provider store={store}>
         <Router
           history={browserHistory}
-          children={routes}
-          render={applyRouterMiddleware(useScroll((prevRouterProps, { location }) => (
-            prevRouterProps && location.pathname !== prevRouterProps.location.pathname
-          )))}
+          children={containerRoutes}
+          render={applyRouterMiddleware(useScroll((prevRouterProps, { routes, location }) => {
+            if (routes.some(route => route.ignoreScrollBehavior)) {
+              return false;
+            }
+
+            return prevRouterProps && location.pathname !== prevRouterProps.location.pathname;
+          }))}
         />
       </Provider>
     );

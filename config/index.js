@@ -129,7 +129,7 @@ if (overrides) {
 }
 
 if (config.applicationConfig) {
-  config.applicationConfig['api.entry'] = process.env.API_ROOT || config.applicationConfig['api.entry'];
+  config.applicationConfig['brand.api.url'] = process.env.API_ROOT || config.applicationConfig['brand.api.url'];
 }
 
 export default config;

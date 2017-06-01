@@ -1,11 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import { reduxForm, Field } from 'redux-form';
 import DateTime from 'react-datetime';
 import classNames from 'classnames';
 import countryList from 'country-list';
 import { createValidator } from '../../../../../utils/validator';
-import { statusesLabels, statuses } from '../../../../../constants/operators';
+import renderLabel from '../../../../../utils/renderLabel';
+import { statusesLabels, statuses, rolesLabels, departmentsLabels } from '../../../../../constants/operators';
 import config from '../../../../../config/index';
 
 const { availableDepartments: departments, availableRoles: roles } = config;
@@ -205,7 +207,7 @@ class OperatorGridFilter extends Component {
                       children={[
                         departments.map(({ label, value }) => (
                           <option key={value} value={value}>
-                            {label}
+                            {renderLabel(label, departmentsLabels)}
                           </option>
                         )),
                       ]}
@@ -222,7 +224,7 @@ class OperatorGridFilter extends Component {
                       children={[
                         roles.map(({ label, value }) => (
                           <option key={value} value={value}>
-                            {label}
+                            {renderLabel(label, rolesLabels)}
                           </option>
                         )),
                       ]}

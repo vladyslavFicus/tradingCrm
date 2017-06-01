@@ -22,6 +22,11 @@ const sidebarTopMenu = [
     ],
   },
   {
+    label: I18n.t('SIDEBAR.TOP_MENU.COUNTRIES'),
+    icon: 'fa fa-globe',
+    url: '/countries',
+  },
+  {
     label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'),
     icon: 'fa fa-gift',
     url: '/bonus-campaigns',
@@ -54,20 +59,30 @@ const sidebarTopMenu = [
       },
     ],
   },
+  {
+    label: I18n.t('SIDEBAR.TOP_MENU.GAMES'),
+    icon: 'fa fa-gamepad',
+    url: '/games',
+  },
 ];
 const sidebarBottomMenu = [
   { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'fa fa-life-ring', url: '#' },
 ];
 const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
-  { label: 'Bonuses', url: '/users/:id/bonuses' },
-  { label: 'Game activity', url: '/users/:id/game-activity' },
   { label: 'Transactions', url: '/users/:id/transactions' },
+  { label: 'Bonuses', url: '/users/:id/bonuses' },
+  { label: 'Activity', url: '/users/:id/game-activity' },
   { label: 'Payments', url: '/users/:id/paymentAccounts' },
   { label: 'Limits', url: '/users/:id/limits' },
   { label: 'Files', url: '/users/:id/files' },
   { label: 'Notes', url: '/users/:id/notes' },
   { label: 'Feed', url: '/users/:id/feed' },
+];
+
+const bonusCampaignTabs = [
+  { label: 'Settings', url: '/bonus-campaigns/view/:id/settings' },
+  { label: 'Feed', url: '/bonus-campaigns/view/:id/feed' },
 ];
 const operatorProfileTabs = [
   { label: 'Profile', url: '/operators/:id/profile' },
@@ -79,4 +94,5 @@ export {
   sidebarBottomMenu,
   userProfileTabs,
   operatorProfileTabs,
+  bonusCampaignTabs,
 };

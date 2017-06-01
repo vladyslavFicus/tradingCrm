@@ -51,18 +51,18 @@
   }
   .dropdown-menu {
     position: absolute;
-    left: -20px;
+    left: -18px;
     min-width: 185px;
     .dropdown-item {
       padding: .8rem 1.5rem;
-      border-bottom: 1px solid lighten(#cccccc, 10%);
+      border-bottom: 1px solid lighten(#ccc, 10%);
       line-height: 1.2;
-      color: #000000;
+      color: #000;
       &:last-child {
         border-bottom: none;
       }
       &:hover {
-        color: #000000;
+        color: #000;
       }
       &:focus {
         outline: none;

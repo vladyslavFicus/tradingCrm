@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import IpList from '../../../../components/Information/IpList';
 import Personal from './Personal';
 import Additional from './Additional';

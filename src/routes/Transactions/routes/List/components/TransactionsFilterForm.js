@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -38,7 +39,10 @@ class TransactionsFilterForm extends Component {
     reset: PropTypes.func,
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    disabled: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
+    onReset: PropTypes.func.isRequired,
     currentValues: PropTypes.shape({
       keyword: PropTypes.string,
       initiatorType: PropTypes.string,
@@ -72,7 +76,7 @@ class TransactionsFilterForm extends Component {
 
   handleReset = () => {
     this.props.reset();
-    this.props.onSubmit();
+    this.props.onReset();
   };
 
   renderQueryField = (props) => {
@@ -124,6 +128,8 @@ class TransactionsFilterForm extends Component {
   render() {
     const {
       submitting,
+      pristine,
+      disabled,
       handleSubmit,
       onSubmit,
     } = this.props;
@@ -267,7 +273,7 @@ class TransactionsFilterForm extends Component {
             <div className="col-md-2">
               <div className="form-group margin-top-25">
                 <button
-                  disabled={submitting}
+                  disabled={submitting || (disabled && pristine)}
                   className="btn btn-default btn-sm margin-inline font-weight-700"
                   onClick={this.handleReset}
                   type="reset"
@@ -275,7 +281,7 @@ class TransactionsFilterForm extends Component {
                   Reset
                 </button>
                 <button
-                  disabled={submitting}
+                  disabled={submitting || (disabled && pristine)}
                   className="btn btn-primary btn-sm margin-inline font-weight-700"
                   type="submit"
                 >

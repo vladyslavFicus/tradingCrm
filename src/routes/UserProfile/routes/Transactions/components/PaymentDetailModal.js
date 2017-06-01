@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -72,8 +73,8 @@ class PaymentDetailModal extends Component {
       modalStaticParams: {
         title: 'Withdrawal rejection',
         actionButtonLabel: 'Reject withdraw transaction',
-        actionDescription: `You are about to reject withdraw transaction ' +
-        '${shortify(payment.paymentId, 'TA')} from`,
+        actionDescription: `You are about to reject withdraw transaction
+          ${shortify(payment.paymentId, 'TA')} from'`,
       },
     });
   };
@@ -89,8 +90,8 @@ class PaymentDetailModal extends Component {
       modalStaticParams: {
         actionButtonLabel: 'Confirm',
         title: 'Deposit chargeback',
-        actionDescription: 'You are about to mark the deposit transaction ' +
-        `${shortify(payment.paymentId, 'TA')} as chargeback in`,
+        actionDescription: `You are about to mark the deposit transaction
+        ${shortify(payment.paymentId, 'TA')} as chargeback in`,
       },
     });
   };

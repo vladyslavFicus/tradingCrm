@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import GridView, { GridColumn } from 'components/GridView';
 import { types } from 'constants/revenue-report';
 import Amount from 'components/Amount';

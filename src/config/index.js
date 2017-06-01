@@ -26,7 +26,30 @@ const config = {
       currencies: {},
     },
   },
+  player: {
+    files: {
+      maxSize: 2,
+      types: [
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // xlsx
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation', // pptp
+        'application/vnd.oasis.opendocument.text', // odt
+        'application/vnd.oasis.opendocument.spreadsheet', // ods
+        'application/msword', // doc
+        'application/vnd.ms-excel', // xls
+        'application/vnd.ms-powerpoint', // ppt
+        'application/pdf', // pdf
+        'image/tiff', // tiff
+        'image/jpeg', // jpg, jpeg
+        'image/png', // png
+        'image/gif', // gif
+        'image/bmp', // bmp
+        'text/plain', // txt
+      ],
+    },
+  },
   nas: {
+    brand: '',
     currencies: {
       base: null,
       supported: [],
@@ -40,15 +63,25 @@ const config = {
       rejection: [],
     },
     limits: {},
-    logstash: {
-      url: '',
-    },
     locale: {
       languages: [],
       defaultLanguage: 'en',
     },
   },
+  logstash: {
+    url: '',
+  },
   middlewares: {},
+  modules: {
+    bonusCampaign: {
+      cancelReasons: {
+        CANCEL_REASON_1: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_1',
+        CANCEL_REASON_2: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_2',
+        CANCEL_REASON_3: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_3',
+        CANCEL_REASON_4: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_4',
+      },
+    },
+  },
   ...environmentConfig,
 };
 
@@ -111,13 +144,17 @@ function getLimitPeriods() {
 }
 
 function getApiRoot() {
-  return config.api.entry
-    ? config.api.entry.replace(/\/$/, '')
+  return config.brand.api.url
+    ? config.brand.api.url.replace(/\/$/, '')
     : '';
 }
 
 function getErrorApiUrl() {
-  return config.nas.logstash.url || '';
+  return config.logstash.url || '';
+}
+
+function getBrand() {
+  return config.nas.brand;
 }
 
 function getAvailableLanguages() {
@@ -128,10 +165,16 @@ function getDomain() {
   return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
 }
 
+function getLogo() {
+  return /vslots/.test(getApiRoot()) ? '/img/vslots-logo.png' : '/img/logoNewAge.png';
+}
+
 export {
   getApiRoot,
+  getBrand,
   getErrorApiUrl,
   getDomain,
+  getLogo,
   getAvailableTags,
   getTransactionRejectReasons,
   getTransactionChargebackReasons,

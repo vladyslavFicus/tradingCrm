@@ -26,9 +26,6 @@ import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncont
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
-const defaultFilters = {
-  status: paymentsStatuses.PENDING,
-};
 const defaultModalState = {
   name: null,
   params: {},
@@ -40,6 +37,7 @@ class View extends Component {
     fetchEntities: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
+    resetAll: PropTypes.func.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons,
   };
   static contextTypes = {
@@ -54,7 +52,7 @@ class View extends Component {
   };
 
   state = {
-    filters: { ...defaultFilters },
+    filters: {},
     page: 0,
     modal: { ...defaultModalState },
   };
@@ -98,6 +96,11 @@ class View extends Component {
     }
 
     this.setState({ filters, page: 0 }, this.handleRefresh);
+  };
+
+  handleFilterReset = () => {
+    this.props.resetAll();
+    this.setState({ filters: {}, page: 0, });
   };
 
   handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
@@ -294,18 +297,21 @@ class View extends Component {
 
   render() {
     const { transactions: { entities } } = this.props;
-    const { modal } = this.state;
+    const { modal, filters } = this.state;
+    const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <h3>Transactions</h3>
+            <span className="font-size-20">Transactions</span>
           </Title>
 
           <TransactionsFilterForm
             onSubmit={this.handleFiltersChanged}
-            initialValues={defaultFilters}
+            onReset={this.handleFilterReset}
+            initialValues={filters}
+            disabled={!allowActions}
           />
 
           <Content>

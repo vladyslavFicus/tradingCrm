@@ -114,7 +114,7 @@ class ContactForm extends Component {
                 className="form-group player-profile__contact-email"
                 label={attributeLabels.email}
                 labelAddon={(
-                  profile.status !== playerStatuses.INACTIVE &&
+                  profile.profileStatus !== playerStatuses.INACTIVE &&
                   <div className="color-success font-size-12 pull-right">
                     <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
                   </div>
@@ -129,7 +129,7 @@ class ContactForm extends Component {
                     {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
                   </button>
                 }
-                showInputButton={profile.status === playerStatuses.INACTIVE}
+                showInputButton={profile.profileStatus === playerStatuses.INACTIVE}
               />
             </div>
           </div>

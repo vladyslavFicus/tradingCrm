@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Panel, { Title, Content } from 'components/Panel';
 import PreviewGrid from './PreviewGrid';
 import Form from './Form';
@@ -43,7 +44,7 @@ class View extends Component {
     return <div className="page-content-inner">
       <Panel withBorders>
         <Title>
-          <h3>Revenue report</h3>
+          <span className="font-size-20">Revenue report</span>
         </Title>
 
         <PermissionContent permissions={viewReportPermissions}>
