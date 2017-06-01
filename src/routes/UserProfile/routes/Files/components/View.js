@@ -4,7 +4,6 @@ import { targetTypes } from '../../../../../constants/note';
 import { targetTypes as fileTargetTypes } from '../../../../../components/Files/constants';
 import FilesFilterForm from './FilesFilterForm';
 import CommonFileGridView from '../../../components/CommonFileGridView';
-import getFileBlobUrl from '../../../../../utils/getFileBlobUrl';
 
 class View extends Component {
   static propTypes = {

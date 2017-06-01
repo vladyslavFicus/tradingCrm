@@ -7,6 +7,7 @@ import { sourceActionCreators as noteSourceActionCreators } from '../../../../..
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../constants/note';
 import { types as paymentTypes } from '../../../../../constants/payment';
+import getFingerprint from '../../../../../utils/fingerPrint';
 
 const KEY = 'user/payments';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-payments`);
@@ -144,8 +145,13 @@ function confiscate(playerUUID, params) {
   };
 }
 
-function addPayment(playerUUID, { type, ...data }) {
-  return (dispatch) => {
+function addPayment(playerUUID, { type, ...inputData }) {
+  return async (dispatch) => {
+    const data = {
+      ...inputData,
+      device: await getFingerprint(),
+    };
+
     if (type === paymentTypes.Deposit) {
       return dispatch(manualDeposit(playerUUID, data));
     } else if (type === paymentTypes.Withdraw) {

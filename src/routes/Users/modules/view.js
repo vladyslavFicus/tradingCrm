@@ -420,7 +420,7 @@ const actionTypes = {
   PROFILE,
   ADD_TAG,
   DELETE_TAG,
-  BALANCE,
+  FETCH_BALANCES,
   CHECK_LOCK,
 };
 

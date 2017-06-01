@@ -104,15 +104,15 @@ class FeedItem extends Component {
                 {
                   opened
                     ? (
-                    <span>
-                        {I18n.t('OPERATOR_PROFILE.FEED.FEED_ITEM.HIDE_DETAILS')}
-                      <i className="fa fa-caret-up" />
+                      <span>
+                        {I18n.t('COMMON.DETAILS_COLLAPSE.HIDE')}
+                        <i className="fa fa-caret-up" />
                       </span>
                   )
                     : (
-                    <span>
-                        {I18n.t('OPERATOR_PROFILE.FEED.FEED_ITEM.SHOW_DETAILS')}
-                      <i className="fa fa-caret-down" />
+                      <span>
+                        {I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
+                        <i className="fa fa-caret-down" />
                       </span>
                   )
                 }

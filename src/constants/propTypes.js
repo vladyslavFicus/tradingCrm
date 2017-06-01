@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { types as limitTypes } from '../constants/limits';
 
 PropTypes.price = PropTypes.shape({
@@ -109,8 +109,8 @@ PropTypes.bonusEntity = PropTypes.shape({
   bonusType: PropTypes.string,
   bonusUUID: PropTypes.string,
   campaignUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  cancellerOperatorUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  cancellerPlayerUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  cancellerUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  cancellerReason: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   capping: PropTypes.price,
   createdDate: PropTypes.string,
   currency: PropTypes.string,
@@ -322,6 +322,39 @@ PropTypes.walletLimitEntity = PropTypes.shape({
   reason: PropTypes.string.isRequired,
   startLock: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+});
+PropTypes.countryAccessEntity = PropTypes.shape({
+  allowed: PropTypes.bool.isRequired,
+  countryCode: PropTypes.string.isRequired,
+  countryName: PropTypes.string.isRequired,
+});
+PropTypes.customValue = PropTypes.shape({
+  type: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+});
+PropTypes.bonusCampaignEntity = PropTypes.shape({
+  authorUUID: PropTypes.string.isRequired,
+  bonusLifetime: PropTypes.number.isRequired,
+  campaignName: PropTypes.string.isRequired,
+  campaignPriority: PropTypes.number.isRequired,
+  campaignRatio: PropTypes.customValue.isRequired,
+  campaignUUID: PropTypes.string.isRequired,
+  capping: PropTypes.customValue.isRequired,
+  conversionPrize: PropTypes.customValue.isRequired,
+  creationDate: PropTypes.string.isRequired,
+  currency: PropTypes.string.isRequired,
+  grantedSum: PropTypes.number.isRequired,
+  grantedTotal: PropTypes.number.isRequired,
+  endDate: PropTypes.string.isRequired,
+  campaignType: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  optIn: PropTypes.bool.isRequired,
+  startDate: PropTypes.string.isRequired,
+  state: PropTypes.string.isRequired,
+  stateReason: PropTypes.string,
+  statusChangedDate: PropTypes.string,
+  targetType: PropTypes.string.isRequired,
+  wagerWinMultiplier: PropTypes.number.isRequired,
 });
 
 export default PropTypes;

@@ -22,6 +22,11 @@ const sidebarTopMenu = [
     ],
   },
   {
+    label: I18n.t('SIDEBAR.TOP_MENU.COUNTRIES'),
+    icon: 'fa fa-globe',
+    url: '/countries',
+  },
+  {
     label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'),
     icon: 'fa fa-gift',
     url: '/bonus-campaigns',
@@ -74,6 +79,11 @@ const userProfileTabs = [
   { label: 'Notes', url: '/users/:id/notes' },
   { label: 'Feed', url: '/users/:id/feed' },
 ];
+
+const bonusCampaignTabs = [
+  { label: 'Settings', url: '/bonus-campaigns/view/:id/settings' },
+  { label: 'Feed', url: '/bonus-campaigns/view/:id/feed' },
+];
 const operatorProfileTabs = [
   { label: 'Profile', url: '/operators/:id/profile' },
   { label: 'Feed', url: '/operators/:id/feed' },
@@ -84,4 +94,5 @@ export {
   sidebarBottomMenu,
   userProfileTabs,
   operatorProfileTabs,
+  bonusCampaignTabs,
 };

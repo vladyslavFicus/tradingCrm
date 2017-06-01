@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import config from 'config/index';
+import React from 'react';
+import PropTypes from 'prop-types';
+import config from '../../config/index';
 
 const Currency = ({ code, ...rest }) => {
   const { symbol } = config.components.Currency.currencies[code];

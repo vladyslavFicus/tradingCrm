@@ -6,8 +6,9 @@ import {
   statuses,
   statusesLabels,
   statusesProps,
+  cancellationReason,
 } from '../../../../../../constants/bonus';
-import { shortify } from '../../../../../../utils/uuid';
+import Uuid from '../../../../../../components/Uuid';
 
 class BonusStatus extends Component {
   static propTypes = {
@@ -51,15 +52,18 @@ class BonusStatus extends Component {
     : null;
 
   renderStatusCancelled = (bonus) => {
-    const cancelledBy = bonus.cancellerPlayerUUID
-      ? shortify(bonus.cancellerPlayerUUID, 'PL')
-      : bonus.cancellerOperatorUUID
-        ? shortify(bonus.cancellerOperatorUUID)
-        : 'Unknown';
-
     return (
       <div className="font-size-10">
-        <div>by {cancelledBy}</div>
+        {
+          bonus.cancellerUUID &&
+          <div>
+            by{' '}
+            <Uuid
+              uuid={bonus.cancellerUUID}
+              uuidPrefix={(bonus.cancellationReason === cancellationReason.MANUAL_BY_PLAYER ? 'PL' : null)}
+            />
+          </div>
+        }
         {
           bonus.endDate &&
           <div>
@@ -75,9 +79,12 @@ class BonusStatus extends Component {
 
     return (
       <div className={className}>
-        {!!label && <div className="color-default text-uppercase margin-bottom-10">
-          {label}
-        </div>}
+        {
+          !!label &&
+          <div className="color-default text-uppercase margin-bottom-10">
+            {label}
+          </div>
+        }
 
         {this.renderStatus()}
       </div>

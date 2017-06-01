@@ -141,13 +141,13 @@ class List extends Component {
           <Title>
             <div className="row">
               <div className="col-md-3">
-                <h3>Players</h3>
+                <span className="font-size-20">Players</span>
               </div>
 
               <div className="col-md-3 col-md-offset-6 text-right">
                 <button
                   disabled={exporting || !allowActions}
-                  className="btn btn-default-outline btn-sm"
+                  className="btn btn-default-outline"
                   onClick={this.handleExport}
                 >
                   Export

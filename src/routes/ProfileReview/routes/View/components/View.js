@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Panel, { Title, Content } from 'components/Panel';
 import ApprovalDropDown from './ApprovalDropDown';
 import classNames from 'classnames';

@@ -11,7 +11,8 @@
       "REVENUE": "Доход",
       "DORMANT": "Бездействующие",
       "OPEN_LOOP": "Open loop",
-      "GAMES": "Игры"
+      "GAMES": "Игры",
+      "COUNTRIES": "Страны"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -169,7 +170,8 @@
       "OFF": "Выкл",
       "UNSUCCESSFULLY": "Неуспешно",
       "SUCCESSFULLY": "Успешно",
-      "UPDATED": "Обновлено"
+      "UPDATED": "Обновлено",
+      "UPLOADED": "Загружено"
     },
     "COUNT": "Количество",
     "CLOSE": "Закрыть",
@@ -178,9 +180,23 @@
     "ACCOUNT_STATUS": "Статус аккаунта",
     "BALANCE": "Баланс",
     "NOTIFICATIONS": {
-      "COPIED": "Скопировано"
+      "COPY_FULL_UUID": {
+        "TITLE": "Скопировано",
+        "MESSAGE": "Полный UUID был скопирован в буфер обмена"
+      }
     },
-    "OR": "Или"
+    "OR": "Или",
+    "OPT_IN": "Opt-In",
+    "NON_OPT_IN": "Non Opt-In",
+    "AUTHOR_BY": "от ",
+    "EMPTY": "Пусто",
+    "DATE_ON": "от %{date}",
+    "DATE_UNTIL": "до %{date}",
+    "DETAILS_COLLAPSE": {
+      "HIDE": "Скрыть детали",
+      "SHOW": "Показать детали"
+    },
+    "REVERT_CHANGES": "Отменить изменения"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -260,13 +276,51 @@
         "EXPIRED": "Истекло"
       },
       "TYPES": {
-        "FIRSTDEPOSIT": "Первый депозит",
-        "PLAYERPROFILECOMPLETED": "Профиль заполнен",
+        "FIRST_DEPOSIT": "Первый депозит",
+        "PLAYER_PROFILE_COMPLETED": "Профиль заполнен",
         "MANUAL": "Без депозита"
       },
       "ASSIGN": {
         "MANUAL": "Оператор",
         "CAMPAIGN": "Кампания"
+      }
+    },
+    "COUNTRIES": {
+      "TYPES": {
+        "ALLOWED": "Допущен",
+        "FORBIDDEN": "Запрещен"
+      },
+      "TYPES_ACTION": {
+        "FORBID": "Запретить",
+        "ALLOW": "Разрешить"
+      }
+    },
+    "BONUS_CAMPAIGN": {
+      "CAMPAIGN_TYPE": {
+        "FIRST_DEPOSIT": "Первое пополнение",
+        "DEPOSIT": "Пополнение",
+        "PROFILE_COMPLETED": "Профиль заполнен"
+      },
+      "STATUSES": {
+        "DRAFT": "Черновик",
+        "PENDING": "Ожидает",
+        "ACTIVE": "Активная",
+        "FINISHED": "Завершенная",
+        "CANCELED": "Отмененная"
+      },
+      "TARGET_TYPES": {
+        "ALL": "Все игроки",
+        "TARGET_LIST": "Выбранные игроки"
+      },
+      "STATUS_ACTIONS": {
+        "ACTIVATE_CAMPAIGN": "Активировать кампанию",
+        "CANCEL_CAMPAIGN": "Отменить кампанию",
+        "ACTIVATE_CAMPAIGN_BUTTON": "Активировать кампанию",
+        "CANCEL_CAMPAIGN_BUTTON": "Отменить кампанию"
+      },
+      "STATUS_ACTIONS_LABELS": {
+        "ACTIVATE": "активировать",
+        "CANCEL": "отменить"
       }
     }
   },
@@ -276,12 +330,25 @@
         "SEARCH_BY_LABEL": "Поиск по",
         "SEARCH_BY_PLACEHOLDER": "ID действия, ID оператора, IP",
         "ACTION_TYPE_EMPTY_OPTION": "Все действия",
-        "ACTION_DATE_RANGE": "Action date range"
+        "ACTION_DATE_RANGE": "Временной диапозон действия"
       },
       "TITLE": "Действия",
       "FEED_ITEM": {
         "HIDE_DETAILS": "Скрыть детали",
         "SHOW_DETAILS": "Показать детали"
+      }
+    },
+    "DETAILS": {
+      "LABEL": {
+        "ADDITIONAL_INFORMATION": "Дополнительная информация",
+        "DEPARTMENTS": "Департаменты",
+        "PERSONAL_INFORMATION": "Персональные данные",
+        "FIRST_NAME": "Имя",
+        "LAST_NAME": "Фамилия",
+        "EMAIL": "E-mail",
+        "COUNTRY": "Страна",
+        "PHONE_NUMBER": "Телефон",
+        "REGISTRATION_DATE": "Дата регистрации"
       }
     }
   },
@@ -329,5 +396,134 @@
       "INVALID_FILE_EXTENSION": "Некорректное расширение файла",
       "INVALID_FILE_SIZE": "Некорректное размер файла"
     }
+  },
+  "COUNTRIES": {
+    "TITLE": "Страны",
+    "FILTER": {
+      "LABELS": {
+        "ACCESS": "Доступ"
+      }
+    },
+    "GRID": {
+      "LABEL": {
+        "COUNTRY": "Страна",
+        "ACCESS": "Доступ"
+      }
+    }
+  },
+  "BONUS_CAMPAIGNS": {
+    "GRID_VIEW": {
+      "DATE_TIME_AT": "в %{time}",
+      "CAMPAIGN": "Кампания",
+      "FULFILLMENT_TYPE": "Тип условия",
+      "CREATED": "Создан",
+      "START_DATE": "Дата начала",
+      "END_DATE": "Дата окончания",
+      "STATUS": "Статус",
+      "GRANTED_TO": "для %{count} игроков",
+      "GRANTED_TO_1": "для %{count} игрока",
+      "GRANTED": "Выдано",
+      "TOTAL_OPT_IN_PLAYERS": "Opted-In: %{count} игроков",
+      "TOTAL_OPT_IN_PLAYERS_1": "Opted-In: %{count} игрок",
+      "TOTAL_OPT_IN_PLAYERS_2": "Opted-In: %{count} игрока",
+      "TOTAL_SELECTED_PLAYERS": "Выбрано: %{count} игроков",
+      "TOTAL_SELECTED_PLAYERS_1": "Выбрано: %{count} игрок",
+      "TOTAL_SELECTED_PLAYERS_2": "Выбрано: %{count} игрока",
+      "TYPE": "Тип"
+    },
+    "TITLE": "Бонусные кампании",
+    "FILTER_FORM": {
+      "SEARCH_BY": "Поиск по",
+      "FULFILLMENT_TYPE": "Тип условия",
+      "STATUS": "Статус",
+      "OPT_IN": "Тип",
+      "CREATION_DATE": "Диапазон дат создания",
+      "ACTIVITY_DATE": "Диапазон дат активности",
+      "CREATION_DATE_FROM": "Начальная дата создания",
+      "CREATION_DATE_TO": "Конечная дата создания",
+      "ACTIVITY_DATE_FROM": "Начальная дата активности",
+      "ACTIVITY_DATE_TO": "Конечная дата активности",
+      "SEARCH_BY_PLACEHOLDER": "Кампания, Оператор"
+    },
+    "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию",
+    "VIEW": {
+      "DETAILS": {
+        "LABEL": {
+          "GRANTED": "Выдано",
+          "WAGERED": "Wagered",
+          "CONVERTED": "Converted",
+          "CREATED": "Создано",
+          "TARGET": "Target",
+          "TARGET_TYPE": "Target type",
+          "PLAYERS_SELECTED": "Выбрано игроков",
+          "PLAYERS_OPT_IN": "Players opted-in",
+          "REWARD_PARAMS": "Fulfillment & reward parameters",
+          "FULFILLMENT_TYPE": "Fulfillment type",
+          "RATIO": "Коэффициент",
+          "MULTIPLAYER": "Multiplayer",
+          "LIFE_TIME": "Life time",
+          "CAMPAIGN_START": "Старт компании",
+          "CAMPAIGN_END": "Окончание компании",
+          "PRIZE": "Приз",
+          "CAPPING": "Capping"
+        },
+        "GRANTED_TO": "для %{count} игроков",
+        "GRANTED_TO_1": "для %{count} игрока"
+      },
+      "NOTIFICATIONS": {
+        "UPDATE_TITLE": "Обновление бонус-компании",
+        "ADD_PLAYERS": "Добавить игроков"
+      },
+      "BUTTON": {
+        "ADD_PLAYERS": "+ Добавить игроков"
+      }
+    },
+    "CREATE_MODAL": {
+      "TITLE": "Новая бонус-компания"
+    },
+    "SETTINGS": {
+      "LABEL": {
+        "CAMPAIGN_NAME": "Название компании (Внутреннее)",
+        "TARGET_TYPE": "Тип",
+        "CURRENCY": "Валюта",
+        "START_DATE": "Начало",
+        "END_DATE": "Конец",
+        "CAPPING": "Capping",
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Время жизни бонуса",
+        "CAMPAIGN_RATIO": "Коэффициент",
+        "CONVERSION_PRIZE": "Приз",
+        "OPT_IN": "Opt-In",
+        "CAMPAIGN_TYPE": "Тип компании"
+      },
+      "CHOOSE_CURRENCY": "-- Выберите валюту --",
+      "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
+      "TARGET": "Тип",
+      "CAMPAIGN_SETTINGS": "Настройки компании",
+      "FULFILLMENT": "FULFILLMENT",
+      "REWARD": "Вознаграждение"
+    },
+    "CHANGE_STATUS_MODAL": {
+      "SELECT_REASON_OPTION": "-- Выберите причину --",
+      "CUSTOM_REASON_OPTION": "Другая",
+      "CUSTOM_REASON_PLACEHOLDER": "Причина",
+      "CANCEL_BUTTON": "Отмена",
+      "TITLE": "Смена статуса бонусной кампании",
+      "ACTION_TEXT": "Вы собираетесь %{action} \"%{title}\"",
+      "ENTITY_NAME": "кампания"
+    },
+    "STATUS_DROPDOWN_MODAL": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Причина",
+        "CUSTOM_REASON_LABEL": "Причина"
+      }
+    },
+    "STATUS_DROPDOWN": {
+      "TITLE": "Статус кампании"
+    }
+  },
+  "BONUS_CAMPAIGN_STATUS": {
+    "CHANGE_DATE": "в %{date}",
+    "UNTIL_DATE": "до %{date}"
   }
 }
