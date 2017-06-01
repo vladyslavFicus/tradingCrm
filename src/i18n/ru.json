@@ -350,6 +350,20 @@
         "PHONE_NUMBER": "Телефон",
         "REGISTRATION_DATE": "Дата регистрации"
       }
+    },
+    "MODALS": {
+      "RESET_PASSWORD": {
+        "TITLE": "Сброс пароля оператора - Подтверждение",
+        "ACTION_TEXT": "Вы собираетесь сбросить пароля для %{fullName}",
+        "ACTION_TARGET": "профиль оператора",
+        "CONFIRM_ACTION": "Сбросить пароль"
+      },
+      "SEND_INVITATION": {
+        "TITLE": "Отправка приглашения - Подтверждение",
+        "ACTION_TEXT": "Вы собираетесь отправить приглашение для %{fullName}",
+        "ACTION_TARGET": "профиль оператора",
+        "CONFIRM_ACTION": "Отправить приглашение"
+      }
     }
   },
   "FEED_ITEM": {

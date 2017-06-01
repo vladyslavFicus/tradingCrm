@@ -347,6 +347,20 @@
         "PHONE_NUMBER": "Phone number",
         "REGISTRATION_DATE": "Registration date"
       }
+    },
+    "MODALS": {
+      "RESET_PASSWORD": {
+        "TITLE": "Operators password reset - Confirmation",
+        "ACTION_TEXT": "You are about to reset password for %{fullName}",
+        "ACTION_TARGET": "operator account",
+        "CONFIRM_ACTION": "Reset password"
+      },
+      "SEND_INVITATION": {
+        "TITLE": "Send invitation to operator - Confirmation",
+        "ACTION_TEXT": "You are about to reset password for %{fullName}",
+        "ACTION_TARGET": "operator account",
+        "CONFIRM_ACTION": "Send invitation"
+      }
     }
   },
   "FEED_ITEM": {

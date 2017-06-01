@@ -116,7 +116,7 @@ class List extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          <Link to={`/operators/${data.uuid}/profile`} target="_blank">
+          <Link to={`/operators/${data.uuid}/profile`}>
             {[data.firstName, data.lastName].join(' ')}
           </Link>
         </div>
