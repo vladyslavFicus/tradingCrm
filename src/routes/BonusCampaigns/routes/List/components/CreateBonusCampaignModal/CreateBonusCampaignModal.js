@@ -37,7 +37,7 @@ const attributeLabels = {
   capping: 'Capping',
   'capping.value': 'Capping value',
   'capping.type': 'Capping value type',
-  conversionPrize: 'Conversion prize',
+  conversionPrize: 'Prize',
   'conversionPrize.value': 'Conversion prize value',
   'conversionPrize.type': 'Conversion prize value type',
   wagerWinMultiplier: 'Multiplier',
@@ -156,7 +156,7 @@ class CreateBonusCampaignModal extends Component {
       return null;
     }
 
-    const customValueFieldTypes = getCustomValueFieldTypes(currentValues.campaignType);
+    const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
     return (
       <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen={isOpen}>
@@ -196,19 +196,19 @@ class CreateBonusCampaignModal extends Component {
             <CustomValueField
               basename={'campaignRatio'}
               label={attributeLabels.campaignRatio}
-              typeValues={customValueFieldTypes}
+              typeValues={allowedCustomValueTypes}
               errors={errors}
             />
             <CustomValueField
               basename={'capping'}
               label={attributeLabels.capping}
-              typeValues={customValueFieldTypes}
+              typeValues={allowedCustomValueTypes}
               errors={errors}
             />
             <CustomValueField
               basename={'conversionPrize'}
               label={attributeLabels.conversionPrize}
-              typeValues={customValueFieldTypes}
+              typeValues={allowedCustomValueTypes}
               errors={errors}
             />
             <Field

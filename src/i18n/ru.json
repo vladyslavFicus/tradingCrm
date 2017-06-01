@@ -196,7 +196,8 @@
       "HIDE": "Скрыть детали",
       "SHOW": "Показать детали"
     },
-    "REVERT_CHANGES": "Отменить изменения"
+    "REVERT_CHANGES": "Отменить изменения",
+    "OPTIONAL": "Необязательное"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -494,14 +495,19 @@
         "CAMPAIGN_RATIO": "Коэффициент",
         "CONVERSION_PRIZE": "Приз",
         "OPT_IN": "Opt-In",
-        "CAMPAIGN_TYPE": "Тип компании"
+        "CAMPAIGN_TYPE": "Тип компании",
+        "MIN_AMOUNT": "Мин. сумма",
+        "MAX_AMOUNT": "Макс. сумма",
+        "MIN_AMOUNT_PLACEHOLDER": "Мин.",
+        "MAX_AMOUNT_PLACEHOLDER": "Макс."
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
       "TARGET": "Тип",
       "CAMPAIGN_SETTINGS": "Настройки компании",
       "FULFILLMENT": "FULFILLMENT",
-      "REWARD": "Вознаграждение"
+      "REWARD": "Вознаграждение",
+      "DEPOSIT_AMOUNT": "Сумма пополнения"
     },
     "CHANGE_STATUS_MODAL": {
       "SELECT_REASON_OPTION": "-- Выберите причину --",
