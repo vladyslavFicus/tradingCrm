@@ -54,7 +54,6 @@ const CustomValueField = (props) => {
               component="select"
               disabled={disabled}
             >
-              <option value="" disabled>-- Choose --</option>
               {typeValues.map(key =>
                 <option key={key} value={key}>
                   {renderLabel(key, customValueFieldTypesLabels)}
