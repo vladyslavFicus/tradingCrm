@@ -171,7 +171,8 @@
       "UNSUCCESSFULLY": "Unsuccessfully",
       "SUCCESSFULLY": "Successfully",
       "UPDATED": "Updated",
-      "UPLOADED": "Uploaded"
+      "UPLOADED": "Uploaded",
+      "ADDED": "Added"
     },
     "COUNT": "Count",
     "CLOSE": "Close",
@@ -483,7 +484,8 @@
       },
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
-        "ADD_PLAYERS": "Add players"
+        "ADD_PLAYERS": "Add players",
+        "ADD_CAMPAIGN": "Add campaign"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Add players"

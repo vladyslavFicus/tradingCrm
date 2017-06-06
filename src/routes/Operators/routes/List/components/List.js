@@ -7,12 +7,12 @@ import PropTypes from 'prop-types';
 import Panel, { Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
-import { shortify } from '../../../../../utils/uuid';
 import {
   statusColorNames as operatorStatusColorNames,
   statusesLabels as operatorStatusesLabels,
 } from '../../../../../constants/operators';
 import CreateOperatorModal from '../../../components/CreateOperatorModal';
+import Uuid from '../../../../../components/Uuid';
 
 const MODAL_CREATE_OPERATOR = 'modal-create-operator';
 const modalInitialState = {
@@ -121,7 +121,7 @@ class List extends Component {
           </Link>
         </div>
         <div className="font-size-12 color-default">
-          {shortify(data.uuid)}
+          <Uuid uuid={data.uuid} />
         </div>
       </div>
     );
