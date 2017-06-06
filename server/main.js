@@ -14,6 +14,11 @@ app.use(compress());
 // ------------------------------------
 if (project.env === 'development') {
   const compiler = webpack(webpackConfig);
+  const appConfig = require('./application.config');
+
+  if (process.env.API_ROOT) {
+    appConfig['brand.api.url'] = process.env.API_ROOT;
+  }
 
   logger.info('Enabling webpack development and HMR middleware');
   app.use(require('webpack-dev-middleware')(compiler, {
@@ -28,6 +33,10 @@ if (project.env === 'development') {
   app.use(require('webpack-hot-middleware')(compiler, {
     path: '/__webpack_hmr',
   }));
+  app.get('/config.js', (req, res) => {
+    res.contentType('application/javascript');
+    res.send(`window.nas = ${JSON.stringify(appConfig)}`);
+  });
 
   // Serve static assets from ~/public since Webpack is unaware of
   // these files. This middleware doesn't need to be enabled outside
@@ -55,7 +64,7 @@ if (project.env === 'development') {
     'only serve the compiled application bundle in ~/dist. Generally you ' +
     'do not need an application server for this and can instead use a web ' +
     'server such as nginx to serve your static files. See the "deployment" ' +
-    'section in the README for more information on deployment strategies.',
+    'section in the README for more information on deployment strategies.'
   );
 
   // Serving ~/dist by default. Ideally these files should be served by

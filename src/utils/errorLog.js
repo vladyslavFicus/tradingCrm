@@ -1,5 +1,5 @@
 import keyMirror from 'keymirror';
-import { getErrorApiUrl, getBrand } from '../config/index';
+import { getErrorApiUrl, getBrand } from '../config';
 
 const errorTypes = keyMirror({
   INTERNAL: null,
@@ -7,8 +7,9 @@ const errorTypes = keyMirror({
 });
 
 const sendError = (params) => {
-  if (DISABLE_LOG) {
+  if (__DEV__) {
     console.warn(params);
+
     return false;
   }
 
