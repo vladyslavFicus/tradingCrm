@@ -1,7 +1,9 @@
+const os = require('os');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsParallelPlugin = require('webpack-uglify-parallel');
 const HappyPack = require('happypack');
 const project = require('../project.config');
 
@@ -46,7 +48,42 @@ const config = {
       __PROD__,
     }, project.globals)),
     new HappyPack({
-      loaders: ['babel-loader?presets[]=es2015&presets[]=babel-preset-react&plugins[]=babel-plugin-transform-class-properties&plugins[]=babel-plugin-syntax-dynamic-import'],
+      loaders: [
+        {
+          loader: 'babel-loader',
+          query: {
+            cacheDirectory: true,
+            plugins: [
+              'babel-plugin-transform-class-properties',
+              'babel-plugin-syntax-dynamic-import',
+              [
+                'babel-plugin-transform-runtime',
+                {
+                  helpers: true,
+                  polyfill: false, // we polyfill needed features in src/normalize.js
+                  regenerator: true,
+                },
+              ],
+              [
+                'babel-plugin-transform-object-rest-spread',
+                {
+                  useBuiltIns: true, // we polyfill Object.assign in src/normalize.js
+                },
+              ],
+            ],
+            presets: [
+              'babel-preset-react',
+              ['babel-preset-env', {
+                targets: {
+                  ie9: true,
+                  uglify: true,
+                  modules: false,
+                },
+              }],
+            ],
+          },
+        }
+      ],
     }),
   ],
 };
@@ -111,25 +148,7 @@ config.module.rules.push({
     fallback: 'style-loader',
     use: [
       {
-        loader: 'css-loader',
-        options: {
-          sourceMap: project.sourcemaps,
-          minimize: {
-            autoprefixer: {
-              add: true,
-              remove: true,
-              browsers: ['last 2 versions'],
-            },
-            discardComments: {
-              removeAll: true,
-            },
-            discardUnused: false,
-            mergeIdents: false,
-            reduceIdents: false,
-            safe: true,
-            sourcemap: project.sourcemaps,
-          },
-        },
+        loader: 'raw-loader',
       },
     ],
   }),
@@ -207,7 +226,8 @@ if (__PROD__) {
       minimize: true,
       debug: false,
     }),
-    new webpack.optimize.UglifyJsPlugin({
+    new UglifyJsParallelPlugin({
+      workers: os.cpus().length,
       sourceMap: !!config.devtool,
       comments: false,
       compress: {
