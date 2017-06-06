@@ -89,6 +89,7 @@ class Form extends Component {
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     reset: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
     errors: PropTypes.object,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentValues: PropTypes.shape({
@@ -106,6 +107,23 @@ class Form extends Component {
       campaignType: PropTypes.bonusCampaignEntity.campaignType,
     }),
   };
+
+  static defaultProps = {
+    currentValues: {},
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { currentValues, change } = this.props;
+    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
+    if (currentValues && currentValues.campaignType &&
+      currentValues.campaignType !== nextCampaignType &&
+      nextCampaignType === campaignTypes.PROFILE_COMPLETED
+    ) {
+      ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
+        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
+      });
+    }
+  }
 
   startDateValidator = toAttribute => (current) => {
     const { currentValues } = this.props;
@@ -159,10 +177,6 @@ class Form extends Component {
       currencies,
       currentValues,
     } = this.props;
-
-    if (!currentValues) {
-      return null;
-    }
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
@@ -312,6 +326,9 @@ class Form extends Component {
                 typeValues={allowedCustomValueTypes}
                 errors={errors}
               />
+              <div className="color-default font-size-10">
+                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.RATIO_TOOLTIP')}
+              </div>
             </div>
             {
               currentValues && currentValues.campaignType !== campaignTypes.PROFILE_COMPLETED &&
@@ -384,7 +401,12 @@ class Form extends Component {
             <div className="col-md-3">
               <CustomValueFieldVertical
                 basename={'capping'}
-                label={I18n.t(attributeLabels.capping)}
+                label={
+                  <div>
+                    {I18n.t(attributeLabels.capping)}{' '}
+                    <span className="font-size-10 text-muted">{I18n.t('COMMON.OPTIONAL')}</span>
+                  </div>
+                }
                 typeValues={allowedCustomValueTypes}
                 errors={errors}
               />
@@ -393,7 +415,12 @@ class Form extends Component {
             <div className="col-md-3">
               <CustomValueFieldVertical
                 basename={'conversionPrize'}
-                label={I18n.t(attributeLabels.conversionPrize)}
+                label={
+                  <div>
+                    {I18n.t(attributeLabels.conversionPrize)}{' '}
+                    <span className="font-size-10 text-muted">{I18n.t('COMMON.OPTIONAL')}</span>
+                  </div>
+                }
                 typeValues={allowedCustomValueTypes}
                 errors={errors}
               />

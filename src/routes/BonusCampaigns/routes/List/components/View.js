@@ -9,6 +9,7 @@ import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
 import { campaignTypes, campaignTypesLabels, targetTypes, targetTypesLabels } from '../../../constants';
+import { customValueFieldTypes } from '../../../../../constants/form';
 import Amount from '../../../../../components/Amount';
 import BonusCampaignStatus from '../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
@@ -38,6 +39,10 @@ class View extends Component {
     fetchTypes: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
     router: PropTypes.object,
+  };
+
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
   };
 
   state = {
@@ -100,6 +105,12 @@ class View extends Component {
     if (action) {
       if (!action.error) {
         this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
+        this.context.addNotification({
+          level: action.error ? 'error' : 'success',
+          title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
+          message: `${I18n.t('COMMON.ACTIONS.ADDED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+            I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        });
       } else if (action.payload.response.fields_errors) {
         const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
           ...res,
@@ -327,6 +338,15 @@ class View extends Component {
             currencies={currencies}
             initialValues={{
               campaignType: campaignTypes.FIRST_DEPOSIT,
+              campaignRatio: {
+                type: customValueFieldTypes.ABSOLUTE,
+              },
+              capping: {
+                type: customValueFieldTypes.ABSOLUTE,
+              },
+              conversionPrize: {
+                type: customValueFieldTypes.ABSOLUTE,
+              },
             }}
             onClose={this.handleCloseModal}
             isOpen

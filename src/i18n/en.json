@@ -171,7 +171,8 @@
       "UNSUCCESSFULLY": "Unsuccessfully",
       "SUCCESSFULLY": "Successfully",
       "UPDATED": "Updated",
-      "UPLOADED": "Uploaded"
+      "UPLOADED": "Uploaded",
+      "ADDED": "Added"
     },
     "COUNT": "Count",
     "CLOSE": "Close",
@@ -483,7 +484,8 @@
       },
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
-        "ADD_PLAYERS": "Add players"
+        "ADD_PLAYERS": "Add players",
+        "ADD_CAMPAIGN": "Add campaign"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Add players"
@@ -509,7 +511,8 @@
         "MIN_AMOUNT": "Min. amount",
         "MAX_AMOUNT": "Max. amount",
         "MIN_AMOUNT_PLACEHOLDER": "Min.",
-        "MAX_AMOUNT_PLACEHOLDER": "Max."
+        "MAX_AMOUNT_PLACEHOLDER": "Max.",
+        "RATIO_TOOLTIP": "Deposit : Granted bonus"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
