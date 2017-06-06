@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import IpList from '../../../../components/Information/IpList';
 import Personal from './Personal';
 import Additional from './Additional';
@@ -40,7 +41,7 @@ class Information extends Component {
           />
         </div>
         <div className="col-md-2">
-          <IpList ips={ips} />
+          <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
         </div>
         <div className="col-md-4">
           <Notes

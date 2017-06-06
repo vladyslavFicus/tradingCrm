@@ -144,6 +144,9 @@
       "COPY_FULL_UUID": {
         "MESSAGE": "Полный playerUUID скопирован в буфер обмена"
       }
+    },
+    "IP_LIST": {
+      "TITLE": "Последние 10 IP"
     }
   },
   "COMMON": {
@@ -197,7 +200,8 @@
       "SHOW": "Показать детали"
     },
     "REVERT_CHANGES": "Отменить изменения",
-    "OPTIONAL": "Необязательное"
+    "OPTIONAL": "Необязательное",
+    "UNAVAILABLE": "Недоступно"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -365,6 +369,9 @@
         "ACTION_TARGET": "профиль оператора",
         "CONFIRM_ACTION": "Отправить приглашение"
       }
+    },
+    "IP_LIST": {
+      "TITLE": "Последние 10 IP"
     }
   },
   "FEED_ITEM": {
@@ -546,5 +553,11 @@
   "BONUS_CAMPAIGN_STATUS": {
     "CHANGE_DATE": "в %{date}",
     "UNTIL_DATE": "до %{date}"
+  },
+  "PROFILE": {
+    "LAST_LOGIN": {
+      "TITLE": "Последний вход",
+      "FROM_COUNTRY": " из %{country}"
+    }
   }
 }

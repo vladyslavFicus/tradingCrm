@@ -36,10 +36,11 @@ PropTypes.pageableState = content => PropTypes.shape({
   error: PropTypes.object,
 });
 PropTypes.ipEntity = PropTypes.shape({
-  agent: PropTypes.string.isRequired,
-  signInDate: PropTypes.string.isRequired,
+  browserAgent: PropTypes.string.isRequired,
+  sessionId: PropTypes.string.isRequired,
+  sessionStart: PropTypes.string.isRequired,
   country: PropTypes.string.isRequired,
-  ipAddress: PropTypes.string.isRequired,
+  ip: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.noteEntity = PropTypes.shape({
@@ -187,6 +188,7 @@ PropTypes.userProfile = PropTypes.shape({
   tokenExpirationDate: PropTypes.string,
   username: PropTypes.string,
   uuid: PropTypes.string,
+  signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
 });
 PropTypes.authorityEntity = PropTypes.shape({
   id: PropTypes.number.isRequired,

@@ -1,41 +1,39 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 
 class ProfileLastLogin extends Component {
   static propTypes = {
     className: PropTypes.string,
-    label: PropTypes.string,
     lastIp: PropTypes.ipEntity,
   };
   static defaultProps = {
     className: 'header-block',
-    label: 'Last login',
   };
 
   render() {
     const {
       className,
-      label,
       lastIp,
     } = this.props;
 
     return (
       <div className={className}>
-        <div className="header-block-title">{label}</div>
+        <div className="header-block-title">{I18n.t('PROFILE.LAST_LOGIN.TITLE')}</div>
         {
           !lastIp
-            ? <div className="header-block-middle">Unavailable</div>
+            ? <div className="header-block-middle">{I18n.t('COMMON.UNAVAILABLE')}</div>
             : (
               <div>
                 <div className="header-block-middle" key="time-ago">
-                  {lastIp.signInDate && moment(lastIp.signInDate).fromNow()}
+                  {lastIp.sessionStart && moment.utc(lastIp.sessionStart).fromNow()}
                 </div>
                 <div className="header-block-small">
-                  {lastIp.signInDate && moment(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}
+                  {lastIp.sessionStart && moment.utc(lastIp.sessionStart).format('DD.MM.YYYY hh:mm')}
                 </div>
                 <div className="header-block-small">
-                  {lastIp.country && ` from ${lastIp.country}`}
+                  {lastIp.country && I18n.t('PROFILE.LAST_LOGIN.FROM_COUNTRY', { country: lastIp.country })}
                 </div>
               </div>
           )

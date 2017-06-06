@@ -1,11 +1,5 @@
 import { combineReducers } from 'redux';
 
-import bonus, {
-  actionCreators as bonusActionCreators,
-  actionTypes as bonusActionTypes,
-  initialState as bonusInitialState,
-} from './bonus';
-
 import notes, {
   actionCreators as notesActionCreators,
   actionTypes as notesActionTypes,
@@ -17,12 +11,6 @@ import profile, {
   actionTypes as profileActionTypes,
   initialState as profileInitialState,
 } from './profile';
-
-import ip, {
-  actionCreators as ipActionCreators,
-  actionTypes as ipActionTypes,
-  initialState as ipInitialState,
-} from './ip';
 
 import accumulatedBalances, {
   actionCreators as accumulatedBalancesActionCreators,
@@ -43,27 +31,21 @@ import uploading, {
 } from './uploading';
 
 const actionCreators = {
-  ...bonusActionCreators,
   ...profileActionCreators,
-  ...ipActionCreators,
   ...accumulatedBalancesActionCreators,
   ...notesActionCreators,
   ...walletLimitsActionCreators,
   ...uploadingActionCreators,
 };
 const actionTypes = {
-  ...bonusActionTypes,
   ...profileActionTypes,
-  ...ipActionTypes,
   ...accumulatedBalancesActionTypes,
   ...notesActionTypes,
   ...walletLimitsActionTypes,
   ...uploadingActionTypes,
 };
 const initialState = {
-  bonus: bonusInitialState,
   view: profileInitialState,
-  ip: ipInitialState,
   accumulatedBalances: accumulatedBalancesInitialState,
   notes: notesInitialState,
   walletLimits: walletLimitsInitialState,
@@ -76,9 +58,7 @@ export {
   initialState,
 };
 export default combineReducers({
-  bonus,
   profile,
-  ip,
   accumulatedBalances,
   notes,
   walletLimits,
