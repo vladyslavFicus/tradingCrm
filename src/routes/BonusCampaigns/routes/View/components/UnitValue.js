@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Amount from '../../../../../components/Amount';
-import { amountTypes } from '../../../constants';
+import { customValueFieldTypes } from '../../../../../constants/form';
 
 class UnitValue extends Component {
   static propTypes = {
@@ -16,7 +16,7 @@ class UnitValue extends Component {
       return null;
     }
 
-    if (type === amountTypes.PERCENTAGE) {
+    if (type === customValueFieldTypes.PERCENTAGE) {
       return <span>{`${value}%`}</span>;
     }
 

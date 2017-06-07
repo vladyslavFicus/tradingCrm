@@ -217,7 +217,7 @@ class List extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <h3>Payment methods</h3>
+            <span className="font-size-20">Payment methods</span>
           </Title>
 
           <MethodGridFilter

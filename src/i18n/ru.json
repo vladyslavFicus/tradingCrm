@@ -188,7 +188,9 @@
       "OFF": "Выкл",
       "UNSUCCESSFULLY": "Неуспешно",
       "SUCCESSFULLY": "Успешно",
-      "UPDATED": "Обновлено"
+      "UPDATED": "Обновлено",
+      "UPLOADED": "Загружено",
+      "ADDED": "Добавлено"
     },
     "COUNT": "Количество",
     "CLOSE": "Закрыть",
@@ -213,7 +215,9 @@
     "DETAILS_COLLAPSE": {
       "HIDE": "Скрыть детали",
       "SHOW": "Показать детали"
-    }
+    },
+    "REVERT_CHANGES": "Отменить изменения",
+    "OPTIONAL": "Необязательное"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -313,7 +317,7 @@
       }
     },
     "BONUS_CAMPAIGN": {
-      "EVENT_TYPE": {
+      "CAMPAIGN_TYPE": {
         "FIRST_DEPOSIT": "Первое пополнение",
         "DEPOSIT": "Пополнение",
         "PROFILE_COMPLETED": "Профиль заполнен"
@@ -328,6 +332,16 @@
       "TARGET_TYPES": {
         "ALL": "Все игроки",
         "TARGET_LIST": "Выбранные игроки"
+      },
+      "STATUS_ACTIONS": {
+        "ACTIVATE_CAMPAIGN": "Активировать кампанию",
+        "CANCEL_CAMPAIGN": "Отменить кампанию",
+        "ACTIVATE_CAMPAIGN_BUTTON": "Активировать кампанию",
+        "CANCEL_CAMPAIGN_BUTTON": "Отменить кампанию"
+      },
+      "STATUS_ACTIONS_LABELS": {
+        "ACTIVATE": "активировать",
+        "CANCEL": "отменить"
       }
     }
   },
@@ -356,6 +370,20 @@
         "COUNTRY": "Страна",
         "PHONE_NUMBER": "Телефон",
         "REGISTRATION_DATE": "Дата регистрации"
+      }
+    },
+    "MODALS": {
+      "RESET_PASSWORD": {
+        "TITLE": "Сброс пароля оператора - Подтверждение",
+        "ACTION_TEXT": "Вы собираетесь сбросить пароля для %{fullName}",
+        "ACTION_TARGET": "профиль оператора",
+        "CONFIRM_ACTION": "Сбросить пароль"
+      },
+      "SEND_INVITATION": {
+        "TITLE": "Отправка приглашения - Подтверждение",
+        "ACTION_TEXT": "Вы собираетесь отправить приглашение для %{fullName}",
+        "ACTION_TARGET": "профиль оператора",
+        "CONFIRM_ACTION": "Отправить приглашение"
       }
     }
   },
@@ -429,7 +457,14 @@
       "STATUS": "Статус",
       "GRANTED_TO": "для %{count} игроков",
       "GRANTED_TO_1": "для %{count} игрока",
-      "GRANTED": "Выдано"
+      "GRANTED": "Выдано",
+      "TOTAL_OPT_IN_PLAYERS": "Opted-In: %{count} игроков",
+      "TOTAL_OPT_IN_PLAYERS_1": "Opted-In: %{count} игрок",
+      "TOTAL_OPT_IN_PLAYERS_2": "Opted-In: %{count} игрока",
+      "TOTAL_SELECTED_PLAYERS": "Выбрано: %{count} игроков",
+      "TOTAL_SELECTED_PLAYERS_1": "Выбрано: %{count} игрок",
+      "TOTAL_SELECTED_PLAYERS_2": "Выбрано: %{count} игрока",
+      "TYPE": "Тип"
     },
     "TITLE": "Бонусные кампании",
     "FILTER_FORM": {
@@ -469,14 +504,68 @@
         },
         "GRANTED_TO": "для %{count} игроков",
         "GRANTED_TO_1": "для %{count} игрока"
+      },
+      "NOTIFICATIONS": {
+        "UPDATE_TITLE": "Обновление бонус-компании",
+        "ADD_PLAYERS": "Добавить игроков",
+        "ADD_CAMPAIGN": "Создание бонус-компании"
+      },
+      "BUTTON": {
+        "ADD_PLAYERS": "+ Добавить игроков"
       }
     },
     "CREATE_MODAL": {
       "TITLE": "Новая бонус-компания"
+    },
+    "SETTINGS": {
+      "LABEL": {
+        "CAMPAIGN_NAME": "Название компании (Внутреннее)",
+        "TARGET_TYPE": "Тип",
+        "CURRENCY": "Валюта",
+        "START_DATE": "Начало",
+        "END_DATE": "Конец",
+        "CAPPING": "Capping",
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Время жизни бонуса",
+        "CAMPAIGN_RATIO": "Коэффициент",
+        "CONVERSION_PRIZE": "Приз",
+        "OPT_IN": "Opt-In",
+        "CAMPAIGN_TYPE": "Тип компании",
+        "MIN_AMOUNT": "Мин. сумма",
+        "MAX_AMOUNT": "Макс. сумма",
+        "MIN_AMOUNT_PLACEHOLDER": "Мин.",
+        "MAX_AMOUNT_PLACEHOLDER": "Макс.",
+        "RATIO_TOOLTIP": "Депозит: предоставленный бонус"
+      },
+      "CHOOSE_CURRENCY": "-- Выберите валюту --",
+      "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
+      "TARGET": "Тип",
+      "CAMPAIGN_SETTINGS": "Настройки компании",
+      "FULFILLMENT": "FULFILLMENT",
+      "REWARD": "Вознаграждение",
+      "DEPOSIT_AMOUNT": "Сумма пополнения"
+    },
+    "CHANGE_STATUS_MODAL": {
+      "SELECT_REASON_OPTION": "-- Выберите причину --",
+      "CUSTOM_REASON_OPTION": "Другая",
+      "CUSTOM_REASON_PLACEHOLDER": "Причина",
+      "CANCEL_BUTTON": "Отмена",
+      "TITLE": "Смена статуса бонусной кампании",
+      "ACTION_TEXT": "Вы собираетесь %{action} \"%{title}\"",
+      "ENTITY_NAME": "кампания"
+    },
+    "STATUS_DROPDOWN_MODAL": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Причина",
+        "CUSTOM_REASON_LABEL": "Причина"
+      }
+    },
+    "STATUS_DROPDOWN": {
+      "TITLE": "Статус кампании"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {
-    "CHANGE_DATE": "on %{date}",
+    "CHANGE_DATE": "в %{date}",
     "UNTIL_DATE": "до %{date}"
   }
 }

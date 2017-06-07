@@ -8,7 +8,8 @@ import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
-import { eventTypesLabels } from '../../../constants';
+import { campaignTypes, campaignTypesLabels, targetTypes, targetTypesLabels } from '../../../constants';
+import { customValueFieldTypes } from '../../../../../constants/form';
 import Amount from '../../../../../components/Amount';
 import BonusCampaignStatus from '../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
@@ -38,6 +39,10 @@ class View extends Component {
     fetchTypes: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
     router: PropTypes.object,
+  };
+
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
   };
 
   state = {
@@ -99,7 +104,13 @@ class View extends Component {
 
     if (action) {
       if (!action.error) {
-        this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignId}`);
+        this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
+        this.context.addNotification({
+          level: action.error ? 'error' : 'success',
+          title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
+          message: `${I18n.t('COMMON.ACTIONS.ADDED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+            I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        });
       } else if (action.payload.response.fields_errors) {
         const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
           ...res,
@@ -122,12 +133,12 @@ class View extends Component {
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.campaignUUID}`}>
       <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700 color-black">{data.campaignName}</Link>
-      <div className="font-size-10 text-uppercase">
+      <div className="font-size-10">
         <Uuid uuid={data.campaignUUID} uuidPrefix="CO" />
       </div>
       {
         data.authorUUID &&
-        <div className="font-size-10 text-uppercase">
+        <div className="font-size-10">
           {I18n.t('COMMON.AUTHOR_BY')}
           <Uuid uuid={data.authorUUID} />
         </div>
@@ -135,15 +146,35 @@ class View extends Component {
     </div>
   );
 
-  renderFulfillmentType = data => (
-    data.eventsType.map(item => (
-      <div key={item}>
-        <div className="text-uppercase font-weight-700">
-          {renderLabel(item, eventTypesLabels)}
-        </div>
-        <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
+  renderType = data => (
+    <div>
+      <div className="text-uppercase font-weight-700">
+        {renderLabel(data.targetType, targetTypesLabels)}
       </div>
-    ))
+      {
+        data.targetType === targetTypes.TARGET_LIST &&
+        <div>
+          {
+            data.optIn &&
+            <div className="font-size-10">
+              {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TOTAL_OPT_IN_PLAYERS', { count: data.totalOptInPlayers })}
+            </div>
+          }
+          <div className="font-size-10">
+            {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TOTAL_SELECTED_PLAYERS', { count: data.totalSelectedPlayers })}
+          </div>
+        </div>
+      }
+    </div>
+  );
+
+  renderFulfillmentType = data => (
+    <div>
+      <div className="text-uppercase font-weight-700">
+        {renderLabel(data.campaignType, campaignTypesLabels)}
+      </div>
+      <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
+    </div>
   );
 
   renderDate = field => (data) => {
@@ -178,7 +209,7 @@ class View extends Component {
 
   renderStatus = data => (
     <BonusCampaignStatus
-      data={data}
+      campaign={data}
     />
   );
 
@@ -199,19 +230,19 @@ class View extends Component {
           <Title>
             <div className="row">
               <div className="col-md-3">
-                <h3>{I18n.t('BONUS_CAMPAIGNS.TITLE')}</h3>
+                <span className="font-size-20">{I18n.t('BONUS_CAMPAIGNS.TITLE')}</span>
               </div>
               <div className="col-md-3 col-md-offset-6 text-right">
                 <button
                   disabled={exporting || !allowActions}
-                  className="btn btn-default-outline margin-inline"
+                  className="btn btn-default-outline margin-right-10"
                   onClick={this.handleExport}
                 >
                   {I18n.t('COMMON.EXPORT')}
                 </button>
 
                 <button
-                  className="btn btn-primary-outline margin-inline"
+                  className="btn btn-primary-outline"
                   onClick={this.handleOpenCreateModal}
                 >
                   {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
@@ -246,6 +277,13 @@ class View extends Component {
                 header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
                 headerClassName="text-uppercase"
                 render={this.renderCampaign}
+              />
+
+              <GridColumn
+                name="targetType"
+                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TYPE')}
+                headerClassName="text-uppercase"
+                render={this.renderType}
               />
 
               <GridColumn
@@ -298,6 +336,18 @@ class View extends Component {
           <CreateBonusCampaignModal
             onSubmit={this.handleSubmitNewBonusCampaign}
             currencies={currencies}
+            initialValues={{
+              campaignType: campaignTypes.FIRST_DEPOSIT,
+              campaignRatio: {
+                type: customValueFieldTypes.ABSOLUTE,
+              },
+              capping: {
+                type: customValueFieldTypes.ABSOLUTE,
+              },
+              conversionPrize: {
+                type: customValueFieldTypes.ABSOLUTE,
+              },
+            }}
             onClose={this.handleCloseModal}
             isOpen
           />

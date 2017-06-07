@@ -4,7 +4,12 @@ import timestamp from '../../../utils/timestamp';
 import createRequestAction from '../../../utils/createRequestAction';
 import config from '../../../config/index';
 import { actionTypes as bonusActionTypes } from './bonus';
-import { actionTypes as profileActionTypes, mapBalances } from './profile';
+import { actionTypes as profileActionTypes } from './profile';
+
+const emptyBalance = {
+  amount: 0,
+  currency: config.nas.currencies.base,
+};
 
 const KEY = 'user/balances';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -83,30 +88,28 @@ const actionHandlers = {
   },
 
   [profileActionTypes.FETCH_BALANCES.SUCCESS]: (state, action) => {
-    if (!action.payload.balances) {
+    if (!action.payload.balance) {
       return state;
     }
 
     const newState = {
       ...state,
+      data: {
+        ...state.data,
+        total: { ...action.payload.balance },
+        bonus: action.payload.bonusBalance || { ...emptyBalance, currency: action.payload.balance.currency },
+      },
       isLoading: false,
       receivedAt: timestamp(),
     };
 
-    const balances = mapBalances(action.payload.balances);
-    newState.data.total = { ...balances[0] };
-
-    ['deposits', 'withdraws', 'bonus', 'real'].forEach((key) => {
-      newState.data[key] = { ...balances[0], amount: newState.data[key].amount };
-    });
+    newState.data.real = {
+      ...newState.data.total,
+      amount: Math.max(newState.data.total.amount - newState.data.bonus.amount, 0),
+    };
 
     return newState;
   },
-};
-
-const emptyBalance = {
-  amount: 0,
-  currency: config.nas.currencies.base,
 };
 
 const initialState = {
