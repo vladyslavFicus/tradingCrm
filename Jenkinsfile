@@ -21,8 +21,8 @@ npm run deploy:prod
     }      
     
     stage('assemble') {         
-        sh "docker build -t registry.app/nas/$service:latest ."
-        sh "docker push registry.app/nas/${service}:latest"
+        sh "docker build -t devregistry.newage.io/hrzn/${service}:latest ."
+        sh "docker push devregistry.newage.io/hrzn/${service}:latest"
     }      
     
     stage('deploy') {        
