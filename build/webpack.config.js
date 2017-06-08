@@ -226,7 +226,7 @@ if (__PROD__) {
       debug: false,
     }),
     new UglifyJsParallelPlugin({
-      workers: os.cpus().length,
+      workers: 1,
       sourceMap: !!config.devtool,
       comments: false,
       compress: {
