@@ -144,6 +144,9 @@
       "COPY_FULL_UUID": {
         "MESSAGE": "Full playerUUID has been copied to clipboard"
       }
+    },
+    "IP_LIST": {
+      "TITLE": "Last 10 ip's"
     }
   },
   "COMMON": {
@@ -199,7 +202,8 @@
       "SHOW": "Show details"
     },
     "REVERT_CHANGES": "Revert changes",
-    "OPTIONAL": "Optional"
+    "OPTIONAL": "Optional",
+    "UNAVAILABLE": "Unavailable"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -363,6 +367,9 @@
         "ACTION_TARGET": "operator account",
         "CONFIRM_ACTION": "Send invitation"
       }
+    },
+    "IP_LIST": {
+      "TITLE": "Last 10 ip's"
     }
   },
   "FEED_ITEM": {
@@ -539,6 +546,12 @@
     },
     "STATUS_DROPDOWN": {
       "TITLE": "Campaign status"
+    }
+  },
+  "PROFILE": {
+    "LAST_LOGIN": {
+      "TITLE": "Last login",
+      "FROM_COUNTRY": " from %{country}"
     }
   }
 }

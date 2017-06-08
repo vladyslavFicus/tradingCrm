@@ -46,9 +46,6 @@ class ProfileLayout extends Component {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-    ip: PropTypes.shape({
-      list: PropTypes.arrayOf(PropTypes.ipEntity).isRequired,
-    }).isRequired,
     notes: PropTypes.pageableState(PropTypes.noteEntity).isRequired,
     lastIp: PropTypes.ipEntity,
     location: PropTypes.object.isRequired,
@@ -70,8 +67,6 @@ class ProfileLayout extends Component {
     updateSubscription: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
     loadFullProfile: PropTypes.func.isRequired,
-    fetchActiveBonus: PropTypes.func.isRequired,
-    fetchIp: PropTypes.func.isRequired,
     fetchAccumulatedBalances: PropTypes.func.isRequired,
     fetchNotes: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
@@ -145,8 +140,6 @@ class ProfileLayout extends Component {
     const {
       profile,
       loadFullProfile,
-      fetchActiveBonus,
-      fetchIp,
       fetchAccumulatedBalances,
       fetchNotes,
       params,
@@ -156,8 +149,6 @@ class ProfileLayout extends Component {
     if (!profile.isLoading) {
       loadFullProfile(params.id)
         .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
-        .then(() => fetchActiveBonus(params.id))
-        .then(() => fetchIp(params.id, { limit: 10 }))
         .then(() => fetchAccumulatedBalances(params.id))
         .then(() => checkLock(params.id));
     }
@@ -461,7 +452,6 @@ class ProfileLayout extends Component {
       profile: { data: profileData },
       children,
       params,
-      ip,
       lastIp,
       location,
       availableTags,
@@ -516,7 +506,7 @@ class ProfileLayout extends Component {
             <Collapse isOpen={informationShown}>
               <Information
                 data={profileData}
-                ips={ip.list}
+                ips={profileData.signInIps}
                 updateSubscription={this.handleUpdateSubscription}
                 onEditNoteClick={this.handleEditNoteClick}
                 notes={notes}
