@@ -74,7 +74,6 @@ const config = {
             presets: [
               'babel-preset-react',
               ['babel-preset-env', {
-                modules: 'commonjs',
                 targets: {
                   ie9: true,
                 },
