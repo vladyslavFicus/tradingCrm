@@ -15,7 +15,7 @@ node('build') {
             sh '''
 export HOME=/home/jenkins
 yarn
-npm run deploy:prod
+yarn build
 '''
         }
     }
