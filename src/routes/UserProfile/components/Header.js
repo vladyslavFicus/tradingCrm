@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
+import PropTypes from '../../../constants/propTypes';
 import PlayerStatus from './PlayerStatus';
 import UserProfileOptions from './UserProfileOptions';
 import Balances from './Balances';
@@ -31,7 +31,7 @@ class Header extends Component {
       suspendEndDate: PropTypes.string,
       profileTags: PropTypes.array,
     }),
-    lastIp: PropTypes.object,
+    lastIp: PropTypes.ipEntity,
     accumulatedBalances: PropTypes.object,
     availableStatuses: PropTypes.array,
     availableTags: PropTypes.array,

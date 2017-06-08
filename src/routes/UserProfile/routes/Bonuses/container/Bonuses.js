@@ -1,13 +1,12 @@
 import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
-import { actionCreators as bonusActionCreators } from '../../../modules/bonus';
 import { actionCreators as profileActionCreators } from '../../../modules/profile';
 import config from '../../../../../config';
 import List from '../components/View';
 
 const mapStateToProps = ({
-  profile: { bonus, profile, accumulatedBalances: { data: accumulatedBalances } },
-  userBonusesList: { list },
+  profile: { profile, accumulatedBalances: { data: accumulatedBalances } },
+  userBonusesList: { list, bonus },
 }) => ({
   list,
   profile,
@@ -16,8 +15,11 @@ const mapStateToProps = ({
   currencies: config.nas.currencies.supported || [],
 });
 const mapActions = {
-  ...bonusActionCreators,
-  ...actionCreators,
+  fetchEntities: actionCreators.fetchEntities,
+  createBonus: actionCreators.createBonus,
+  acceptBonus: actionCreators.acceptBonus,
+  cancelBonus: actionCreators.cancelBonus,
+  fetchActiveBonus: actionCreators.fetchActiveBonus,
   fetchProfile: profileActionCreators.fetchProfile,
 };
 

@@ -2,8 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../utils/createReducer';
 import timestamp from '../../../utils/timestamp';
 import createRequestAction from '../../../utils/createRequestAction';
-import config from '../../../config/index';
-import { actionTypes as bonusActionTypes } from './bonus';
+import config from '../../../config';
 import { actionTypes as profileActionTypes } from './profile';
 
 const emptyBalance = {
@@ -66,27 +65,6 @@ const actionHandlers = {
     error: action.payload,
     receivedAt: timestamp(),
   }),
-  [bonusActionTypes.FETCH_ACTIVE_BONUS.SUCCESS]: (state, action) => {
-    if (!action.payload.content || action.payload.content.length === 0) {
-      return state;
-    }
-
-    const newState = {
-      ...state,
-    };
-
-    newState.data.bonus = action.payload.content[0].balance;
-
-    const total = state.data.total;
-
-    newState.data.real = total && total.amount ? {
-      amount: total.amount - newState.data.bonus.amount,
-      currency: total.currency,
-    } : total;
-
-    return newState;
-  },
-
   [profileActionTypes.FETCH_BALANCES.SUCCESS]: (state, action) => {
     if (!action.payload.balance) {
       return state;

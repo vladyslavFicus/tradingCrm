@@ -1,4 +1,10 @@
 import { combineReducers } from 'redux';
+
+import bonus, {
+  actionCreators as bonusActionCreators,
+  actionTypes as bonusActionTypes,
+  initialState as bonusInitialState,
+} from './bonus';
 import list, {
   actionCreators as listActionCreators,
   actionTypes as listActionTypes,
@@ -7,12 +13,15 @@ import list, {
 
 const actionCreators = {
   ...listActionCreators,
+  ...bonusActionCreators,
 };
 const actionTypes = {
   ...listActionTypes,
+  ...bonusActionTypes,
 };
 const initialState = {
   ...listInitialState,
+  ...bonusInitialState,
 };
 
 export {
@@ -22,4 +31,5 @@ export {
 };
 export default combineReducers({
   list,
+  bonus,
 });

@@ -9,7 +9,6 @@ const mapStateToProps = (state) => {
   const {
     profile: {
       profile,
-      ip,
       accumulatedBalances: { data: accumulatedBalances },
       notes,
       walletLimits,
@@ -18,8 +17,9 @@ const mapStateToProps = (state) => {
     auth,
     i18n: { locale },
   } = state;
-  const lastIp = ip.list.length > 0
-    ? ip.list[0]
+
+  const lastIp = profile.data.signInIps.length > 0
+    ? profile.data.signInIps[0]
     : null;
   let availableStatuses = [];
 
@@ -38,7 +38,6 @@ const mapStateToProps = (state) => {
   return {
     auth,
     profile,
-    ip,
     lastIp,
     notes,
     accumulatedBalances,
@@ -54,11 +53,7 @@ const mapStateToProps = (state) => {
 
 const mapActions = {
   fetchProfile: actionCreators.fetchProfile,
-  fetchIp: actionCreators.fetchIPs,
   fetchAccumulatedBalances: actionCreators.fetchBalances,
-  acceptBonus: actionCreators.acceptBonus,
-  cancelBonus: actionCreators.cancelBonus,
-  fetchActiveBonus: actionCreators.fetchActiveBonus,
   updateSubscription: actionCreators.updateSubscription,
   loadFullProfile: actionCreators.loadFullProfile,
   lockDeposit: actionCreators.lockDeposit,
