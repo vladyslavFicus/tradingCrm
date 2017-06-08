@@ -2,9 +2,7 @@ import _ from 'lodash';
 
 const environmentConfig = {};
 
-if (window) {
-  window.nas = window.nas || {};
-
+if (window && window.nas) {
   const params = Object.keys(window.nas);
   if (params.length > 0) {
     params.map(i => _.set(environmentConfig, i, window.nas[i]));
@@ -12,7 +10,6 @@ if (window) {
 }
 
 const config = {
-  api: {},
   availableDepartments: [],
   availableRoles: [],
   availableTags: [],
@@ -49,6 +46,9 @@ const config = {
     },
   },
   nas: {
+    api: {
+      url: '',
+    },
     brand: '',
     currencies: {
       base: null,
