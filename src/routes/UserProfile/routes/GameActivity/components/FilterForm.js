@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import classNames from 'classnames';
 import moment from 'moment';
-import DateTime from 'react-datetime';
 import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../utils/validator';
 import PropTypes from '../../../../../constants/propTypes';
 import { moneyTypeLabels } from '../../../../../constants/gaming-activity';
-import config from '../../../../../config';
-import { InputField, SelectField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 import { filterFormAttributeLabels } from '../constants';
 
 const FORM_NAME = 'userGameActivityFilter';
 const validate = createValidator({
   keyword: 'string',
-  providers: ['string', `in:${Object.keys(config.providers).join()}`],
+  aggregators: ['string'],
+  providers: ['string'],
   games: ['string'],
   gameTypes: ['string'],
   betTypes: ['string', `in:${Object.keys(moneyTypeLabels).join()}`],
@@ -30,17 +28,14 @@ class FilterForm extends Component {
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
-    games: PropTypes.object.isRequired,
+    aggregators: PropTypes.array.isRequired,
+    providers: PropTypes.array.isRequired,
+    games: PropTypes.array.isRequired,
     gameCategories: PropTypes.object.isRequired,
     currentValues: PropTypes.object,
   };
-
   static defaultProps = {
     currentValues: {},
-  };
-
-  handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DDTHH:mm:00') : '');
   };
 
   startDateValidator = (current) => {
@@ -59,27 +54,12 @@ class FilterForm extends Component {
       : true;
   };
 
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => (
-    <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <DateTime
-        dateFormat="MM/DD/YYYY"
-        timeFormat="HH:mm"
-        onChange={this.handleDateTimeChange(input.onChange)}
-        value={input.value ? moment(input.value) : null}
-        closeOnSelect
-        inputProps={{
-          disabled,
-          placeholder,
-        }}
-        isValidDate={isValidDate}
-      />
-    </div>
-  );
-
   renderTopFilters = () => {
     const {
       games,
       gameCategories,
+      aggregators,
+      providers,
     } = this.props;
 
     return (
@@ -97,6 +77,23 @@ class FilterForm extends Component {
         </div>
         <div className="col-md-2">
           <Field
+            name="aggregators"
+            label={I18n.t(filterFormAttributeLabels.aggregators)}
+            labelClassName="form-label"
+            component={SelectField}
+            position="vertical"
+            showErrorMessage={false}
+          >
+            <option value="">{I18n.t('COMMON.ANY')}</option>
+            {aggregators.map(item => (
+              <option key={item} value={item}>
+                {aggregators[item]}
+              </option>
+            ))}
+          </Field>
+        </div>
+        <div className="col-md-2">
+          <Field
             name="providers"
             label={I18n.t(filterFormAttributeLabels.providers)}
             labelClassName="form-label"
@@ -105,9 +102,9 @@ class FilterForm extends Component {
             showErrorMessage={false}
           >
             <option value="">{I18n.t('COMMON.ANY')}</option>
-            {Object.keys(config.providers).map(item => (
+            {providers.map(item => (
               <option key={item} value={item}>
-                {config.providers[item]}
+                {providers[item]}
               </option>
             ))}
           </Field>
@@ -146,29 +143,29 @@ class FilterForm extends Component {
             ))}
           </Field>
         </div>
-        <div className="col-md-2">
-          <Field
-            name="betTypes"
-            label={I18n.t(filterFormAttributeLabels.betTypes)}
-            labelClassName="form-label"
-            component={SelectField}
-            position="vertical"
-            showErrorMessage={false}
-          >
-            <option value="">{I18n.t('COMMON.ANY')}</option>
-            {Object.keys(moneyTypeLabels).map(item => (
-              <option key={item} value={item}>
-                {moneyTypeLabels[item]}
-              </option>
-            ))}
-          </Field>
-        </div>
       </div>
     );
   };
 
   renderBottomFilters = () => (
     <div className="row">
+      <div className="col-md-2">
+        <Field
+          name="betTypes"
+          label={I18n.t(filterFormAttributeLabels.betTypes)}
+          labelClassName="form-label"
+          component={SelectField}
+          position="vertical"
+          showErrorMessage={false}
+        >
+          <option value="">{I18n.t('COMMON.ANY')}</option>
+          {Object.keys(moneyTypeLabels).map(item => (
+            <option key={item} value={item}>
+              {moneyTypeLabels[item]}
+            </option>
+          ))}
+        </Field>
+      </div>
       <div className="col-md-2">
         <Field
           name="winTypes"
@@ -196,7 +193,8 @@ class FilterForm extends Component {
               <Field
                 name="startDate"
                 placeholder={I18n.t(filterFormAttributeLabels.startDate)}
-                component={this.renderDateField}
+                component={DateTimeField}
+                position="vertical"
                 isValidDate={this.startDateValidator}
               />
             </div>
@@ -204,7 +202,8 @@ class FilterForm extends Component {
               <Field
                 name="endDate"
                 placeholder={I18n.t(filterFormAttributeLabels.endDate)}
-                component={this.renderDateField}
+                component={DateTimeField}
+                position="vertical"
                 isValidDate={this.endDateValidator}
               />
             </div>

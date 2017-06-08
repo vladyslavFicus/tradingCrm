@@ -74,7 +74,7 @@ const config = {
             presets: [
               'babel-preset-react',
               ['babel-preset-env', {
-                modules: false,
+                modules: true,
                 targets: {
                   ie9: true,
                 },

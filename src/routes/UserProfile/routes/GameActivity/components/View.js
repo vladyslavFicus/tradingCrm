@@ -16,6 +16,15 @@ class View extends Component {
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number.isRequired,
     }).isRequired,
+    filters: PropTypes.shape({
+      data: PropTypes.shape({
+        aggregators: PropTypes.arrayOf(PropTypes.string).isRequired,
+        games: PropTypes.arrayOf(PropTypes.string).isRequired,
+        providers: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }).isRequired,
+      isLoading: PropTypes.bool.isRequired,
+      receivedAt: PropTypes.number.isRequired,
+    }).isRequired,
     gameCategories: PropTypes.shape({
       entities: PropTypes.object.isRequired,
       isLoading: PropTypes.bool.isRequired,
@@ -28,7 +37,6 @@ class View extends Component {
     fetchGameActivity: PropTypes.func.isRequired,
     exportGameActivity: PropTypes.func.isRequired,
   };
-
   static defaultProps = {
     isLoading: false,
   };
@@ -172,8 +180,8 @@ class View extends Component {
         entities,
         exporting,
       },
-      games: {
-        entities: games,
+      filters: {
+        data: { games, aggregators, providers },
       },
       gameCategories: {
         entities: gameCategories,
@@ -195,6 +203,8 @@ class View extends Component {
         </div>
 
         <FilterForm
+          providers={providers}
+          aggregators={aggregators}
           games={games}
           gameCategories={gameCategories}
           onSubmit={this.handleFiltersChanged}

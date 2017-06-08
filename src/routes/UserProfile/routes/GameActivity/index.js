@@ -8,6 +8,7 @@ export default store => ({
 
     await Promise.all([
       store.dispatch(actionCreators.fetchGames()),
+      store.dispatch(actionCreators.fetchFilters()),
       store.dispatch(actionCreators.fetchGameCategories()),
     ]);
 

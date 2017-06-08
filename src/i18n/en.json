@@ -68,7 +68,8 @@
         "START_DATE_LABEL": "Start date",
         "END_DATE_LABEL": "End date",
         "KEYWORD_INPUT_PLACEHOLDER": "Game round ID, Game ID, Provider ID",
-        "ACTIVITY_DATE_RANGE": "Activity date range"
+        "ACTIVITY_DATE_RANGE": "Activity date range",
+        "AGGREGATORS_LABEL": "Aggregators"
       },
       "PENDING_STATUS": "Pending",
       "TITLE": "Game Activity",
