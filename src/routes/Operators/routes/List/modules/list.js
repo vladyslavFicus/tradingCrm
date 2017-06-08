@@ -20,7 +20,7 @@ function createOperator(data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, sendMail: !!data.sendMail }),
         types: [
           CREATE_OPERATOR.REQUEST,
           CREATE_OPERATOR.SUCCESS,
