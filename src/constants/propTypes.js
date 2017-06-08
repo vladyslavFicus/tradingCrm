@@ -63,7 +63,6 @@ PropTypes.gamingActivityEntity = PropTypes.shape({
   gameProviderId: PropTypes.string.isRequired,
   gameRoundId: PropTypes.string.isRequired,
   gameSessionId: PropTypes.string.isRequired,
-  gameType: PropTypes.string.isRequired,
   playerUUID: PropTypes.string.isRequired,
   realBetAmount: PropTypes.price,
   realWinAmount: PropTypes.price,

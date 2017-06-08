@@ -5,7 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
-import { shortify } from '../../../../../utils/uuid';
+import Uuid from '../../../../../components/Uuid';
 import FilterForm from './FilterForm';
 
 class View extends Component {
@@ -71,10 +71,17 @@ class View extends Component {
 
   renderGameRound = data => (
     <span className={classNames({ 'text-danger': data.rollback })}>
-      <div className="font-weight-700">{shortify(data.gameRoundId, 'GR')}</div>
-      {data.rollback && <div className="font-size-12 text-uppercase">{I18n.t('COMMON.ROLLBACK')}</div>}
+      <div className="font-weight-700">
+        <Uuid uuid={data.gameRoundId} uuidPrefix="GR" />
+      </div>
+      {
+        data.rollback &&
+        <div className="font-size-12 text-uppercase">
+          {I18n.t('COMMON.ROLLBACK')}
+        </div>
+      }
       <div className="font-size-12 text-uppercase">
-        {shortify(data.gameSessionId, 'GS')}
+        <Uuid uuid={data.gameSessionId} uuidPrefix="GS" />
       </div>
     </span>
   );
