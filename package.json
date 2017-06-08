@@ -12,7 +12,7 @@
     "test:watch": "npm test -- --watch",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "i18n": "i18n-parser --config=./config/i18n.json"
+    "i18n": "i18n-parser --config=./build/i18n.json"
   },
   "author": "nassoft",
   "license": "MIT",

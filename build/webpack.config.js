@@ -74,15 +74,15 @@ const config = {
             presets: [
               'babel-preset-react',
               ['babel-preset-env', {
+                modules: false,
                 targets: {
                   ie9: true,
-                  uglify: true,
-                  modules: false,
                 },
+                uglify: true,
               }],
             ],
           },
-        }
+        },
       ],
     }),
   ],
