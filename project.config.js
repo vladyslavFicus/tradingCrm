@@ -26,6 +26,11 @@ module.exports = {
   verbose: false,
   /** The list of modules to bundle separately from the core application code */
   vendors: [
+    'classnames',
+    'country-list',
+    'filesize',
+    'fingerprintjs2',
+    'lodash',
     'react',
     'react-dom',
     'redux',
