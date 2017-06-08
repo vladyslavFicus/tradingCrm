@@ -8,7 +8,7 @@ const IpList = ({ label, ips }) => (
       <div className="panel-body height-200">
         {
           ips.map(item => (
-            <div key={item.id}>
+            <div key={item.uuid}>
               <i
                 className={`fs-icon fs-${item.country.toLowerCase()}`}
                 style={{ marginRight: 10 }}
