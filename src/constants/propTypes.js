@@ -357,10 +357,10 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   wagerWinMultiplier: PropTypes.number.isRequired,
 });
 PropTypes.userDeviceEntity = PropTypes.shape({
-  deviceUUID: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  hash: PropTypes.string.isRequired,
+  deviceType: PropTypes.string.isRequired,
   operatingSystem: PropTypes.string.isRequired,
-  lastIp: PropTypes.string.isRequired,
+  lastSignInCountryCode: PropTypes.string.isRequired,
   lastLogin: PropTypes.string.isRequired,
   totalLogin: PropTypes.number.isRequired,
 });

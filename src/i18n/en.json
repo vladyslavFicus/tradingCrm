@@ -218,7 +218,8 @@
       "SHOW": "Show details"
     },
     "REVERT_CHANGES": "Revert changes",
-    "OPTIONAL": "Optional"
+    "OPTIONAL": "Optional",
+    "UNKNOWN": "Unknown"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -343,6 +344,14 @@
       "STATUS_ACTIONS_LABELS": {
         "ACTIVATE": "activate",
         "CANCEL": "cancel"
+      }
+    },
+    "DEVICES": {
+      "TYPES": {
+        "MOBILE": "Mobile",
+        "DESKTOP": "Desktop",
+        "TABLET": "Tablet",
+        "UNKNOWN": "Unknown"
       }
     }
   },

@@ -1,9 +1,11 @@
 import keyMirror from 'keymirror';
+import I18n from '../utils/fake-i18n';
 
 const types = keyMirror({
   MOBILE: null,
   DESKTOP: null,
-  NOT_DETECTED: null,
+  UNKNOWN: null,
+  TABLET: null,
 });
 
 const operatingSystems = keyMirror({
@@ -16,9 +18,10 @@ const operatingSystems = keyMirror({
 });
 
 const typesLabels = {
-  [types.MOBILE]: 'Mobile',
-  [types.DESKTOP]: 'Desktop',
-  [types.NOT_DETECTED]: 'Not detected',
+  [types.MOBILE]: I18n.t('CONSTANTS.DEVICES.TYPES.MOBILE'),
+  [types.DESKTOP]: I18n.t('CONSTANTS.DEVICES.TYPES.DESKTOP'),
+  [types.UNKNOWN]: I18n.t('CONSTANTS.DEVICES.TYPES.UNKNOWN'),
+  [types.TABLET]: I18n.t('CONSTANTS.DEVICES.TYPES.TABLET'),
 };
 
 const operatingSystemsLabels = {
@@ -33,7 +36,8 @@ const operatingSystemsLabels = {
 const typesColor = {
   [types.MOBILE]: 'color-info',
   [types.DESKTOP]: 'color-success',
-  [types.NOT_DETECTED]: 'color-warning',
+  [types.UNKNOWN]: 'color-warning',
+  [types.TABLET]: 'color-primary',
 };
 
 export {

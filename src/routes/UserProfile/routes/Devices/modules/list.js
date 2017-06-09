@@ -13,7 +13,7 @@ function fetchEntities(playerUUID, filters = {}) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/profiles/${playerUUID}/devices?${buildQueryString(filters)}`,
+        endpoint: `profile/profiles/es/${playerUUID}/devices?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -44,28 +44,7 @@ const initialState = {
     sort: [],
     totalElements: 0,
     totalPages: 0,
-    content: [{
-      deviceUUID: '454a636d-4893-4f3c-bf23-0f6e78184d74',
-      type: 'MOBILE',
-      operatingSystem: 'Windows 10',
-      lastIp: 'ua',
-      lastLogin: '2017-05-23T12:11:32.408',
-      totalLogin: 1,
-    }, {
-      deviceUUID: '454a636d-4893-4f3c-bf23-0f6e78184d74',
-      type: 'MOBILE',
-      operatingSystem: 'iOS',
-      lastIp: 'pl',
-      lastLogin: '2017-05-23T12:11:32.408',
-      totalLogin: 18,
-    }, {
-      deviceUUID: '454a636d-4893-4f3c-bf23-0f6e78184d74',
-      type: 'DESKTOP',
-      operatingSystem: 'Android 7.0.1',
-      lastIp: 'pl',
-      lastLogin: '2017-05-23T12:11:32.408',
-      totalLogin: 4,
-    }],
+    content: [],
   },
   error: null,
   filters: {},

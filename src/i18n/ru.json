@@ -217,7 +217,8 @@
       "SHOW": "Показать детали"
     },
     "REVERT_CHANGES": "Отменить изменения",
-    "OPTIONAL": "Необязательное"
+    "OPTIONAL": "Необязательное",
+    "UNKNOWN": "Неизвестно"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -342,6 +343,14 @@
       "STATUS_ACTIONS_LABELS": {
         "ACTIVATE": "активировать",
         "CANCEL": "отменить"
+      }
+    },
+    "DEVICES": {
+      "TYPES": {
+        "MOBILE": "Мобильное устройство",
+        "DESKTOP": "Настольный",
+        "TABLET": "Планшет",
+        "UNKNOWN": "Неизвестно"
       }
     }
   },

@@ -7,6 +7,7 @@ import { typesLabels, typesColor, types } from '../../../../../constants/devices
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import DevicesFilterForm from './FilterForm';
+import renderLabel from '../../../../../utils/renderLabel';
 
 class View extends Component {
   static propTypes = {
@@ -19,6 +20,10 @@ class View extends Component {
   state = {
     filters: {},
   };
+
+  componentDidMount() {
+    this.handleRefresh();
+  }
 
   handleRefresh = () => {
     this.props.fetchEntities(this.props.params.id, this.state.filters);
@@ -36,7 +41,7 @@ class View extends Component {
 
   renderDeviceId = data => (
     <span>
-      <div className="font-weight-700">{shortify(data.deviceUUID, 'DV')}</div>
+      <div className="font-weight-700">{shortify(data.hash, 'DV')}</div>
       <span className="font-size-10 text-uppercase color-default">
           by {shortify(this.props.params.id, 'PL')}
       </span>
@@ -45,16 +50,16 @@ class View extends Component {
 
   renderType = (data) => {
     return (
-      <div className={typesColor[data.type]}>
+      <div className={typesColor[data.deviceType]}>
         <i
           className={classNames('fa font-size-20 padding-right-10', {
-            'fa-mobile': data.type === types.MOBILE,
-            'fa-desktop': data.type === types.DESKTOP,
-            'fa-default': data.type === types.NOT_DETECTED,
+            'fa-mobile': data.deviceType === types.MOBILE,
+            'fa-desktop': data.deviceType === types.DESKTOP,
+            'fa-default': data.deviceType === types.UNKNOWN,
           })}
           aria-hidden="true"
         />
-        {typesLabels[data.type]}
+        {renderLabel(data.deviceType, typesLabels)}
       </div>
     );
   }
@@ -66,15 +71,19 @@ class View extends Component {
   );
 
   renderLastIp = (data) => {
-    if (!data.lastIp) {
-      return data.lastIp;
+    if (!data.lastSignInCountryCode) {
+      return data.lastSignInCountryCode;
     }
 
-    return <i className={`fs-icon fs-${data.lastIp.toLowerCase()}`} />;
+    if (data.lastSignInCountryCode === 'unknown') {
+      return <div className="font-weight-700"> {I18n.t('COMMON.UNKNOWN')} </div>;
+    }
+
+    return <i className={`fs-icon fs-${data.lastSignInCountryCode.toLowerCase()}`} />;
   }
 
   renderLastLogin = (data) => {
-    const dateTime = moment(data.lastLogin);
+    const dateTime = moment(data.lastSignInDate);
 
     return (
       <div>
@@ -127,7 +136,7 @@ class View extends Component {
           />
 
           <GridColumn
-            name="type"
+            name="deviceType"
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.TYPE')}
             headerClassName="text-uppercase"
             className="text-uppercase"
@@ -143,21 +152,21 @@ class View extends Component {
           />
 
           <GridColumn
-            name="lastIp"
+            name="lastSignInCountryCode"
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.LAST_IP')}
             headerClassName={'text-uppercase'}
             render={this.renderLastIp}
           />
 
           <GridColumn
-            name="lastLogin"
+            name="lastSignInDate"
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.LAST_LOGIN')}
             headerClassName={'text-uppercase'}
             render={this.renderLastLogin}
           />
 
           <GridColumn
-            name="totalLogin"
+            name="totalSignIn"
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.TOTAL_LOGIN')}
             headerClassName={'text-uppercase'}
             className="font-weight-700"
