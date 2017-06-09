@@ -31,6 +31,32 @@ Validator.register('greaterThan', function (inputValue, requirement, attribute) 
   return lessValue === 0 || value > lessValue;
 }, 'The :attribute must be greater');
 
+Validator.register('lessOrSame', function (inputValue, requirement, attribute) {
+  const value = Number(inputValue);
+
+  if (isNaN(value)) {
+    this.validator.errors.add(attribute, 'Value must be a number');
+
+    return false;
+  }
+  const greaterValue = Number(this.validator.input[requirement]);
+
+  return greaterValue === 0 || value <= greaterValue;
+}, 'The :attribute must be less');
+
+Validator.register('greaterOrSame', function (inputValue, requirement, attribute) {
+  const value = Number(inputValue);
+
+  if (isNaN(value)) {
+    this.validator.errors.add(attribute, 'Value must be a number');
+
+    return false;
+  }
+  const lessValue = Number(this.validator.input[requirement]);
+
+  return lessValue === 0 || value >= lessValue;
+}, 'The :attribute must be greater');
+
 Validator.register('customTypeValue.value', function (value, requirement, attribute) {
   const attributeBaseName = attribute.replace(/\.value/, '');
 
@@ -67,7 +93,7 @@ Validator.register('customTypeValue.value', function (value, requirement, attrib
   return true;
 }, 'The :attribute must be a valid CustomType');
 
-const getFirstErrors = (errors) => Object.keys(errors).reduce((result, current) => ({
+const getFirstErrors = errors => Object.keys(errors).reduce((result, current) => ({
   ...result,
   [current]: errors[current][0],
 }), {});

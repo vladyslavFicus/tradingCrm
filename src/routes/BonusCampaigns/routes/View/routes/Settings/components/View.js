@@ -68,6 +68,8 @@ class View extends Component {
                   capping: bonusCampaign.capping,
                   optIn: bonusCampaign.optIn,
                   campaignType: bonusCampaign.campaignType,
+                  minAmount: bonusCampaign.minAmount,
+                  maxAmount: bonusCampaign.maxAmount,
                 }}
                 onSubmit={this.handleSubmit}
               />

@@ -85,15 +85,15 @@ const validator = (values) => {
     const minAmount = parseFloat(values.minAmount).toFixed(2);
 
     if (!isNaN(minAmount)) {
-      rules.maxAmount = `min:${minAmount}`;
+      rules.maxAmount = 'greaterOrSame:minAmount';
     }
   }
 
-  if (values.minAmount) {
+  if (values.maxAmount) {
     const maxAmount = parseFloat(values.maxAmount).toFixed(2);
 
     if (!isNaN(maxAmount)) {
-      rules.minAmount = `max:${maxAmount}`;
+      rules.minAmount = 'lessOrSame:maxAmount';
     }
   }
 
@@ -257,7 +257,7 @@ class CreateBonusCampaignModal extends Component {
               ))}
             </Field>
             {
-              currentValues && currentValues.campaignType !== campaignTypes.FIRST_DEPOSIT &&
+              currentValues && currentValues.campaignType !== campaignTypes.PROFILE_COMPLETED &&
               <div className="row">
                 <div className="col-md-offset-3 col-md-4">
                   <Field
@@ -340,5 +340,5 @@ export default connect(state => ({
   reduxForm({
     form: FORM_NAME,
     validate: validator,
-  })(CreateBonusCampaignModal)
+  })(CreateBonusCampaignModal),
 );

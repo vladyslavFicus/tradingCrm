@@ -62,7 +62,7 @@ const validator = (values) => {
     const minAmount = parseFloat(values.minAmount).toFixed(2);
 
     if (!isNaN(minAmount)) {
-      rules.maxAmount = `min:${minAmount}`;
+      rules.maxAmount = 'greaterOrSame:minAmount';
     }
   }
 
@@ -70,7 +70,7 @@ const validator = (values) => {
     const maxAmount = parseFloat(values.maxAmount).toFixed(2);
 
     if (!isNaN(maxAmount)) {
-      rules.minAmount = `max:${maxAmount}`;
+      rules.minAmount = 'lessOrSame:maxAmount';
     }
   }
 
