@@ -63,7 +63,6 @@ class PersonalForm extends Component {
             <Field
               name="title"
               label={attributeLabels.title}
-              type="text"
               wrapperClassName="col-lg-2"
               component={SelectField}
             >

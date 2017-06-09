@@ -10,6 +10,7 @@ import GridView, { GridColumn } from '../../../../../../components/GridView';
 import { statuses } from '../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../constants/note';
 import PopoverButton from '../../../../../../components/PopoverButton';
+import Uuid from '../../../../../../components/Uuid';
 import BonusGridFilter from '../BonusGridFilter';
 import ViewModal from '../ViewModal';
 import BonusType from '../BonusType';
@@ -152,23 +153,22 @@ class View extends Component {
 
   renderMainInfo = data => (
     <div>
-      <div
-        className="font-weight-600 cursor-pointer"
-        onClick={() => this.handleRowClick(data)}
-      >
+      <div className="font-weight-600 cursor-pointer" onClick={() => this.handleRowClick(data)}>
         {data.label}
       </div>
       <div className="text-muted font-size-10">{shortify(data.bonusUUID)}</div>
       {
         !!data.campaignUUID &&
         <div className="text-muted font-size-10">
-          {I18n.t('PLAYER_PROFILE.BONUS.CREATED_BY_CAMPAIGN', { uuid: shortify(data.campaignUUID, 'CO') })}
+          {I18n.t('PLAYER_PROFILE.BONUS.CREATED_BY_CAMPAIGN')}
+          <Uuid uuid={data.campaignUUID} uuidPrefix="CO" />
         </div>
       }
       {
         !data.campaignUUID && !!data.operatorUUID &&
         <div className="text-muted font-size-10">
-          {I18n.t('PLAYER_PROFILE.BONUS.CREATED_BY_OPERATOR', { uuid: shortify(data.operatorUUID, 'OP') })}
+          {I18n.t('PLAYER_PROFILE.BONUS.CREATED_BY_OPERATOR')}
+          <Uuid uuid={data.operatorUUID} uuidPrefix={data.operatorUUID.indexOf('OPERATOR') > -1 ? '' : 'OP'} />
         </div>
       }
     </div>

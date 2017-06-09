@@ -7,6 +7,7 @@ import moment from 'moment';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import { statusesLabels, typesLabels, assignLabels } from '../../../../../constants/bonus';
 import { createValidator } from '../../../../../utils/validator';
+import renderLabel from '../../../../../utils/renderLabel';
 
 const FORM_NAME = 'userBonusesFilter';
 const attributeLabels = {
@@ -151,7 +152,7 @@ class BonusGridFilter extends Component {
                   >
                     {Object.keys(assignLabels).map(assign => (
                       <option key={assign} value={assign}>
-                        {assignLabels[assign]}
+                        {renderLabel(assign, assignLabels)}
                       </option>
                     ))}
                   </Field>
@@ -166,7 +167,7 @@ class BonusGridFilter extends Component {
                   >
                     {Object.keys(typesLabels).map(type => (
                       <option key={type} value={type}>
-                        {typesLabels[type]}
+                        {renderLabel(type, typesLabels)}
                       </option>
                     ))}
                   </Field>
@@ -181,7 +182,7 @@ class BonusGridFilter extends Component {
                   >
                     {Object.keys(statusesLabels).map(status => (
                       <option key={status} value={status}>
-                        {statusesLabels[status]}
+                        {renderLabel(status, statusesLabels)}
                       </option>
                     ))}
                   </Field>

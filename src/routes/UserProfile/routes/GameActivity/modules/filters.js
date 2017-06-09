@@ -7,13 +7,13 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 const KEY = 'user/game-activity/filters';
 const FETCH_FILTERS = createRequestAction(`${KEY}/fetch-filters`);
 
-function fetchFilters() {
+function fetchFilters(playerUUID) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/game_info/public/games?${buildQueryString({ size: 9999 })}`,
+        endpoint: `/gaming_activity/gaming/activity/${playerUUID}/filters`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -45,6 +45,7 @@ const actionHandlers = {
   }),
   [FETCH_FILTERS.SUCCESS]: (state, action) => ({
     ...state,
+    data: action.payload,
     isLoading: false,
     receivedAt: timestamp(),
   }),

@@ -183,6 +183,7 @@ class View extends Component {
       filters: {
         data: { games, aggregators, providers },
       },
+      games: { entities: gamesList },
       gameCategories: {
         entities: gameCategories,
       },
@@ -206,6 +207,7 @@ class View extends Component {
           providers={providers}
           aggregators={aggregators}
           games={games}
+          gamesList={gamesList}
           gameCategories={gameCategories}
           onSubmit={this.handleFiltersChanged}
         />

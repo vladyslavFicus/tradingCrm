@@ -59,6 +59,7 @@ class FilterForm extends Component {
       games,
       gameCategories,
       aggregators,
+      gamesList,
       providers,
     } = this.props;
 
@@ -87,7 +88,7 @@ class FilterForm extends Component {
             <option value="">{I18n.t('COMMON.ANY')}</option>
             {aggregators.map(item => (
               <option key={item} value={item}>
-                {aggregators[item]}
+                {item}
               </option>
             ))}
           </Field>
@@ -104,7 +105,7 @@ class FilterForm extends Component {
             <option value="">{I18n.t('COMMON.ANY')}</option>
             {providers.map(item => (
               <option key={item} value={item}>
-                {providers[item]}
+                {providers}
               </option>
             ))}
           </Field>
@@ -119,9 +120,9 @@ class FilterForm extends Component {
             showErrorMessage={false}
           >
             <option value="">{I18n.t('COMMON.ANY')}</option>
-            {Object.keys(games).map(item => (
+            {games.map(item => (
               <option key={item} value={item}>
-                {games[item]}
+                {gamesList[item]}
               </option>
             ))}
           </Field>
