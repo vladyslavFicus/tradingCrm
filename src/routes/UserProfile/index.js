@@ -2,6 +2,7 @@ import ProfileRoute from './routes/Profile';
 import FeedRoute from './routes/Feed';
 import GameActivityRoute from './routes/GameActivity';
 import FilesRoute from './routes/Files';
+import DevicesRoute from './routes/Devices';
 import UserPaymentsRoute from './routes/Transactions';
 import UserBonusesRoute from './routes/Bonuses';
 import LimitsRoute from './routes/Limits';
@@ -25,6 +26,7 @@ export default store => ({
     FeedRoute(store),
     GameActivityRoute(store),
     FilesRoute(store),
+    DevicesRoute(store),
     UserPaymentsRoute(store),
     UserBonusesRoute(store),
     PaymentAccountsRoute(store),

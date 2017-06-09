@@ -148,6 +148,24 @@
     },
     "IP_LIST": {
       "TITLE": "Last 10 ip's"
+    },
+    "DEVICES": {
+      "FILTER": {
+        "LOGIN_DATE_RANGE": "Login date range",
+        "LABELS": {
+          "TYPE": "Type",
+          "OPERATING_SYSTEM": "Operating system"
+        }
+      },
+      "GRID_VIEW": {
+        "DEVICE_ID": "Device ID",
+        "TYPE": "Type",
+        "OPERATING_SYSTEM": "Operating system",
+        "LAST_IP": "Last IP",
+        "LAST_LOGIN": "Last login",
+        "TOTAL_LOGIN": "Total login"
+      },
+      "TITLE": "Devices"
     }
   },
   "COMMON": {
@@ -192,6 +210,7 @@
       }
     },
     "OR": "Or",
+    "TO": "To",
     "OPT_IN": "Opt-In",
     "NON_OPT_IN": "Non Opt-in",
     "AUTHOR_BY": "by ",
@@ -204,7 +223,8 @@
     },
     "REVERT_CHANGES": "Revert changes",
     "OPTIONAL": "Optional",
-    "UNAVAILABLE": "Unavailable"
+    "UNAVAILABLE": "Unavailable",
+    "UNKNOWN": "Unknown"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -335,6 +355,14 @@
       "REAL_MONEY": "Real money",
       "BONUS_MONEY": "Bonus money",
       "REAL_AND_BONUS_MONEY": "Real + Bonus money"
+    },
+    "DEVICES": {
+      "TYPES": {
+        "MOBILE": "Mobile",
+        "DESKTOP": "Desktop",
+        "TABLET": "Tablet",
+        "UNKNOWN": "Unknown"
+      }
     }
   },
   "OPERATOR_PROFILE": {
