@@ -4,6 +4,7 @@ import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../utils/validator';
+import renderLabel from '../../../../../utils/renderLabel';
 import PropTypes from '../../../../../constants/propTypes';
 import { moneyTypeLabels } from '../../../../../constants/gaming-activity';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
@@ -162,7 +163,7 @@ class FilterForm extends Component {
           <option value="">{I18n.t('COMMON.ANY')}</option>
           {Object.keys(moneyTypeLabels).map(item => (
             <option key={item} value={item}>
-              {moneyTypeLabels[item]}
+              {renderLabel(item, moneyTypeLabels)}
             </option>
           ))}
         </Field>
@@ -179,7 +180,7 @@ class FilterForm extends Component {
           <option value="">{I18n.t('COMMON.ANY')}</option>
           {Object.keys(moneyTypeLabels).map(item => (
             <option key={item} value={item}>
-              {moneyTypeLabels[item]}
+              {renderLabel(item, moneyTypeLabels)}
             </option>
           ))}
         </Field>

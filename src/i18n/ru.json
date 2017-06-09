@@ -329,6 +329,11 @@
         "ACTIVATE": "активировать",
         "CANCEL": "отменить"
       }
+    },
+    "GAMING_ACTIVITY": {
+      "REAL_MONEY": "Реальные деньги",
+      "BONUS_MONEY": "Бонусные деньги",
+      "REAL_AND_BONUS_MONEY": "Реальные + бонусные деньги"
     }
   },
   "OPERATOR_PROFILE": {

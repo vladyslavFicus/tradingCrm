@@ -330,6 +330,11 @@
         "ACTIVATE": "activate",
         "CANCEL": "cancel"
       }
+    },
+    "GAMING_ACTIVITY": {
+      "REAL_MONEY": "Real money",
+      "BONUS_MONEY": "Bonus money",
+      "REAL_AND_BONUS_MONEY": "Real + Bonus money"
     }
   },
   "OPERATOR_PROFILE": {
