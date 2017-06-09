@@ -278,7 +278,7 @@
       "STATUSES": {
         "INACTIVE": "Inactive",
         "IN_PROGRESS": "In Progress",
-        "WAGERING_COMPLETE": "Wagering complete",
+        "WAGERING_COMPLETE": "Converted",
         "CONSUMED": "Consumed",
         "CANCELLED": "Cancelled",
         "EXPIRED": "Expired"

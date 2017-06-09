@@ -69,7 +69,7 @@
         "END_DATE_LABEL": "Конечная дата",
         "KEYWORD_INPUT_PLACEHOLDER": "ID Раунда, ID Игры, ID Провайдера",
         "ACTIVITY_DATE_RANGE": "Временной диапазон",
-        "AGGREGATORS_LABEL": ""
+        "AGGREGATORS_LABEL": "Агрегатор"
       },
       "PENDING_STATUS": "Ожидает",
       "TITLE": "Игровая активность",
