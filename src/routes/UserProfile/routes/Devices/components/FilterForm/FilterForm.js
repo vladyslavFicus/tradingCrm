@@ -10,6 +10,7 @@ import PropTypes from '../../../../../../constants/propTypes';
 import { typesLabels, operatingSystemsLabels } from '../../../../../../constants/devices';
 import { SelectField } from '../../../../../../components/ReduxForm';
 import { attributeLabels } from './constants';
+import renderLabel from '../../../../../../utils/renderLabel';
 
 const FORM_NAME = 'userDevicesFilter';
 const validate = createValidator({
@@ -33,7 +34,7 @@ class FilterForm extends Component {
   };
 
   handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DD') : '');
+    callback(value ? value.format('YYYY-MM-DDTHH:mm:00') : '');
   };
 
   handleReset = () => {
@@ -61,7 +62,7 @@ class FilterForm extends Component {
     <div className={classNames('form-group', { 'has-danger': touched && error })}>
       <DateTime
         dateFormat="MM/DD/YYYY"
-        timeFormat={false}
+        timeFormat="HH:mm"
         onChange={this.handleDateTimeChange(input.onChange)}
         value={input.value ? moment(input.value) : null}
         closeOnSelect
@@ -88,7 +89,7 @@ class FilterForm extends Component {
             <div className="col-md-10">
               <div className="col-md-3">
                 <Field
-                  name="type"
+                  name="deviceType"
                   label={I18n.t(attributeLabels.type)}
                   labelClassName="form-label"
                   component={SelectField}
@@ -97,7 +98,7 @@ class FilterForm extends Component {
                   <option value="">{I18n.t('COMMON.ANY')}</option>
                   {Object.keys(typesLabels).map(type => (
                     <option key={type} value={type}>
-                      {typesLabels[type]}
+                      { renderLabel(type, typesLabels) }
                     </option>
                   ))}
                 </Field>
@@ -126,7 +127,7 @@ class FilterForm extends Component {
                   <div className="row">
                     <div className="col-md-5">
                       <Field
-                        name="dateFrom"
+                        name="signInDateFrom"
                         placeholder={I18n.t(attributeLabels.dateFrom)}
                         component={this.renderDateField}
                         isValidDate={this.startDateValidator}
@@ -134,7 +135,7 @@ class FilterForm extends Component {
                     </div>
                     <div className="col-md-5">
                       <Field
-                        name="dateTo"
+                        name="signInDateTo"
                         placeholder={I18n.t(attributeLabels.dateTo)}
                         component={this.renderDateField}
                         isValidDate={this.endDateValidator}

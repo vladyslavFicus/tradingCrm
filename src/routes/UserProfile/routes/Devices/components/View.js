@@ -8,6 +8,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import DevicesFilterForm from './FilterForm';
 import renderLabel from '../../../../../utils/renderLabel';
+import Uuid from '../../../../../components/Uuid';
 
 class View extends Component {
   static propTypes = {
@@ -43,7 +44,7 @@ class View extends Component {
     <span>
       <div className="font-weight-700">{shortify(data.hash, 'DV')}</div>
       <span className="font-size-10 text-uppercase color-default">
-          by {shortify(this.props.params.id, 'PL')}
+          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={this.props.params.id} uuidPrefix="PL" />
       </span>
     </span>
   );
