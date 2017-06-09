@@ -124,7 +124,7 @@ class ChangeStatusModal extends Component {
                 })}
               </span>
               {' - '}
-              <Uuid uuid={campaign.campaignUUID} uuidPrefix="CO" />
+              <Uuid uuid={campaign.campaignUUID} uuidPrefix="CA" />
               {' - '}
               <span className="font-weight-700">{I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.ENTITY_NAME')}</span>
             </div>

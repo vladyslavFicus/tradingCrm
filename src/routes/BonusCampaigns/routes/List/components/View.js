@@ -134,7 +134,7 @@ class View extends Component {
     <div id={`bonus-campaign-${data.campaignUUID}`}>
       <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700 color-black">{data.campaignName}</Link>
       <div className="font-size-10">
-        <Uuid uuid={data.campaignUUID} uuidPrefix="CO" />
+        <Uuid uuid={data.campaignUUID} uuidPrefix="CA" />
       </div>
       {
         data.authorUUID &&

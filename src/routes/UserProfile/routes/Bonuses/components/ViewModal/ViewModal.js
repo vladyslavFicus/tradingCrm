@@ -107,7 +107,7 @@ class ViewModal extends Component {
     {
       !!data.campaignUUID &&
       <div className="little-grey-text font-size-11">
-        by Campaign {shortify(data.campaignUUID, 'CO')}
+        by Campaign {shortify(data.campaignUUID, 'CA')}
       </div>
     }
     {

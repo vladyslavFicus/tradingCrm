@@ -68,7 +68,8 @@
         "START_DATE_LABEL": "Start date",
         "END_DATE_LABEL": "End date",
         "KEYWORD_INPUT_PLACEHOLDER": "Game round ID, Game ID, Provider ID",
-        "ACTIVITY_DATE_RANGE": "Activity date range"
+        "ACTIVITY_DATE_RANGE": "Activity date range",
+        "AGGREGATORS_LABEL": "Aggregators"
       },
       "PENDING_STATUS": "Pending",
       "TITLE": "Game Activity",
@@ -124,8 +125,8 @@
       "CANCEL_BONUS": "Cancel bonus",
       "PLAYER_NOT_FOUND": "Player not found",
       "MANUAL_CREATION_FAILURE": "Error",
-      "CREATED_BY_CAMPAIGN": "by Campaign %{uuid}",
-      "CREATED_BY_OPERATOR": "by Operator %{uuid}",
+      "CREATED_BY_CAMPAIGN": "by Campaign ",
+      "CREATED_BY_OPERATOR": "by Operator ",
       "AMOUNT_TO_WAGE_PREPENDED_TEXT": "out of",
       "TITLE": "Bonus",
       "MANUAL_BONUS_BUTTON": "+ Manual bonus",
@@ -297,7 +298,7 @@
       "STATUSES": {
         "INACTIVE": "Inactive",
         "IN_PROGRESS": "In Progress",
-        "WAGERING_COMPLETE": "Wagering complete",
+        "WAGERING_COMPLETE": "Converted",
         "CONSUMED": "Consumed",
         "CANCELLED": "Cancelled",
         "EXPIRED": "Expired"
@@ -349,6 +350,11 @@
         "ACTIVATE": "activate",
         "CANCEL": "cancel"
       }
+    },
+    "GAMING_ACTIVITY": {
+      "REAL_MONEY": "Real money",
+      "BONUS_MONEY": "Bonus money",
+      "REAL_AND_BONUS_MONEY": "Real + Bonus money"
     },
     "DEVICES": {
       "TYPES": {
