@@ -161,7 +161,7 @@ class View extends Component {
         !!data.campaignUUID &&
         <div className="text-muted font-size-10">
           {I18n.t('PLAYER_PROFILE.BONUS.CREATED_BY_CAMPAIGN')}
-          <Uuid uuid={data.campaignUUID} uuidPrefix="CO" />
+          <Uuid uuid={data.campaignUUID} uuidPrefix="CA" />
         </div>
       }
       {
