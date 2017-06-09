@@ -48,11 +48,11 @@ const config = {
       __PROD__,
     }, project.globals)),
     new HappyPack({
+      threads: 2,
       loaders: [
         {
           loader: 'babel-loader',
           query: {
-            cacheDirectory: true,
             plugins: [
               'babel-plugin-transform-class-properties',
               'babel-plugin-syntax-dynamic-import',
@@ -130,7 +130,7 @@ config.module.rules.push({
         },
       },
       {
-        loader: 'sass-loader',
+        loader: 'fast-sass-loader',
         options: {
           sourceMap: project.sourcemaps,
           includePaths: [
@@ -226,7 +226,7 @@ if (__PROD__) {
       debug: false,
     }),
     new UglifyJsParallelPlugin({
-      workers: 1,
+      workers: os.cpus().length > 2 ? 2 : 1,
       sourceMap: !!config.devtool,
       comments: false,
       compress: {
