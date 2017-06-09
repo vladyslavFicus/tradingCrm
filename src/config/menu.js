@@ -76,6 +76,7 @@ const userProfileTabs = [
   { label: 'Payments', url: '/users/:id/paymentAccounts' },
   { label: 'Limits', url: '/users/:id/limits' },
   { label: 'Files', url: '/users/:id/files' },
+  { label: 'Devices', url: '/users/:id/devices' },
   { label: 'Notes', url: '/users/:id/notes' },
   { label: 'Feed', url: '/users/:id/feed' },
 ];

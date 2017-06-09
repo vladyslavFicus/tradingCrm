@@ -147,6 +147,24 @@
     },
     "IP_LIST": {
       "TITLE": "Последние 10 IP"
+    },
+    "DEVICES": {
+      "FILTER": {
+        "LOGIN_DATE_RANGE": "Время логина",
+        "LABELS": {
+          "TYPE": "Тип",
+          "OPERATING_SYSTEM": "Операционная система"
+        }
+      },
+      "GRID_VIEW": {
+        "DEVICE_ID": "ID устройства",
+        "TYPE": "Тип",
+        "OPERATING_SYSTEM": "Операционная система",
+        "LAST_IP": "Последний IP",
+        "LAST_LOGIN": "Последний логин",
+        "TOTAL_LOGIN": "Всего логинов"
+      },
+      "TITLE": "Устройства"
     }
   },
   "COMMON": {
@@ -190,6 +208,7 @@
       }
     },
     "OR": "Или",
+    "TO": "По",
     "OPT_IN": "Opt-In",
     "NON_OPT_IN": "Non Opt-In",
     "AUTHOR_BY": "от ",
@@ -202,7 +221,8 @@
     },
     "REVERT_CHANGES": "Отменить изменения",
     "OPTIONAL": "Необязательное",
-    "UNAVAILABLE": "Недоступно"
+    "UNAVAILABLE": "Недоступно",
+    "UNKNOWN": "Неизвестно"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -327,6 +347,14 @@
       "STATUS_ACTIONS_LABELS": {
         "ACTIVATE": "активировать",
         "CANCEL": "отменить"
+      }
+    },
+    "DEVICES": {
+      "TYPES": {
+        "MOBILE": "Мобильное устройство",
+        "DESKTOP": "Настольный",
+        "TABLET": "Планшет",
+        "UNKNOWN": "Неизвестно"
       }
     }
   },
