@@ -118,7 +118,7 @@ class ViewModal extends Component {
     }
   </span>;
 
-  renderAvailablePeriod = data => data.createdDate ? <div>
+  renderAvailablePeriod = (data) => data.createdDate ? <div>
     <div className="font-weight-600">
       {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
     </div>

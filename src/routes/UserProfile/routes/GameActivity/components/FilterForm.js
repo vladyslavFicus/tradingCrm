@@ -32,6 +32,7 @@ class FilterForm extends Component {
     aggregators: PropTypes.array.isRequired,
     providers: PropTypes.array.isRequired,
     games: PropTypes.array.isRequired,
+    gamesList: PropTypes.array.isRequired,
     gameCategories: PropTypes.object.isRequired,
     currentValues: PropTypes.object,
   };
