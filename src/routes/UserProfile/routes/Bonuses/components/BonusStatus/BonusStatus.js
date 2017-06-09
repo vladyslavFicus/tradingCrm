@@ -9,6 +9,7 @@ import {
   cancellationReason,
 } from '../../../../../../constants/bonus';
 import Uuid from '../../../../../../components/Uuid';
+import Amount from '../../../../../../components/Amount/Amount';
 
 class BonusStatus extends Component {
   static propTypes = {
@@ -37,12 +38,14 @@ class BonusStatus extends Component {
       content = this.renderStatusActive(bonus);
     } else if (bonus.state === statuses.CANCELLED) {
       content = this.renderStatusCancelled(bonus);
+    } else if (bonus.state === statuses.WAGERING_COMPLETE) {
+      content = this.renderStatusWagered(bonus);
     }
 
     return (
       <div>
         <div {...props}>{label}</div>
-        <div className="font-size-10">{content}</div>
+        {!!content && <div className="font-size-10">{content}</div>}
       </div>
     );
   };
@@ -51,10 +54,9 @@ class BonusStatus extends Component {
     ? <span>Until {moment(bonus.expirationDate).format('DD.MM.YYYY')}</span>
     : null;
 
-  renderStatusCancelled = (bonus) => {
-    return (
-      <div className="font-size-10">
-        {
+  renderStatusCancelled = bonus => (
+    <div className="font-size-10">
+      {
           bonus.cancellerUUID &&
           <div>
             by{' '}
@@ -64,15 +66,31 @@ class BonusStatus extends Component {
             />
           </div>
         }
-        {
+      {
           bonus.endDate &&
           <div>
             on {moment(bonus.endDate).format('DD.MM.YYYY')}
           </div>
         }
-      </div>
+    </div>
     );
-  };
+
+  renderStatusWagered = bonus => (
+    <div className="font-size-10">
+      {
+          bonus.endDate &&
+          <div>
+            on {moment(bonus.endDate).format('DD.MM.YYYY')}
+          </div>
+        }
+      {
+          !!bonus.wagered &&
+          <div>
+            to <Amount {...bonus.wagered} />
+          </div>
+        }
+    </div>
+    );
 
   render() {
     const { className, label } = this.props;
