@@ -8,7 +8,7 @@ import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../../utils/validator';
 import PropTypes from '../../../../../../constants/propTypes';
 import { typesLabels, operatingSystemsLabels } from '../../../../../../constants/devices';
-import { SelectField } from '../../../../../../components/ReduxForm';
+import { SelectField, DateTimeField } from '../../../../../../components/ReduxForm';
 import { attributeLabels } from './constants';
 import renderLabel from '../../../../../../utils/renderLabel';
 
@@ -42,19 +42,19 @@ class FilterForm extends Component {
     this.props.onSubmit();
   };
 
-  startDateValidator = (current) => {
+  startDateValidator = toAttribute => (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.uploadDateTo
-      ? current.isSameOrBefore(moment(currentValues.uploadDateTo))
+    return currentValues && currentValues[toAttribute]
+      ? current.isSameOrBefore(moment(currentValues[toAttribute]))
       : true;
   };
 
-  endDateValidator = (current) => {
+  endDateValidator = fromAttribute => (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.uploadDateFrom
-      ? current.isSameOrAfter(moment(currentValues.uploadDateFrom))
+    return currentValues && currentValues[fromAttribute]
+      ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
       : true;
   };
 
@@ -128,17 +128,19 @@ class FilterForm extends Component {
                     <div className="col-md-5">
                       <Field
                         name="signInDateFrom"
+                        component={DateTimeField}
                         placeholder={I18n.t(attributeLabels.dateFrom)}
-                        component={this.renderDateField}
-                        isValidDate={this.startDateValidator}
+                        position="vertical"
+                        isValidDate={this.startDateValidator('signInDateTo')}
                       />
                     </div>
                     <div className="col-md-5">
                       <Field
                         name="signInDateTo"
+                        position="vertical"
                         placeholder={I18n.t(attributeLabels.dateTo)}
-                        component={this.renderDateField}
-                        isValidDate={this.endDateValidator}
+                        component={DateTimeField}
+                        isValidDate={this.endDateValidator('signInDateFrom')}
                       />
                     </div>
                   </div>

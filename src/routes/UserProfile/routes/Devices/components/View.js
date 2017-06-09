@@ -65,12 +65,6 @@ class View extends Component {
     );
   }
 
-  renderOperatingSystem = data => (
-    <div>
-      {data.operatingSystem}
-    </div>
-  );
-
   renderLastIp = (data) => {
     if (!data.lastSignInCountryCode) {
       return data.lastSignInCountryCode;
@@ -149,7 +143,6 @@ class View extends Component {
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.OPERATING_SYSTEM')}
             headerClassName={'text-uppercase'}
             className="font-weight-700"
-            render={this.renderOperatingSystem}
           />
 
           <GridColumn
