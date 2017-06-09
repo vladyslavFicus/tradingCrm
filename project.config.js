@@ -19,11 +19,7 @@ module.exports = {
   /** Whether to generate sourcemaps */
   sourcemaps: null,
   /** A hash map of keys that the compiler should treat as external to the project */
-  externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM',
-    lodash: 'Lodash',
-  },
+  externals: {},
   /** A hash map of variables and their values to expose globally */
   globals: {},
   /** Whether to enable verbose logging */
