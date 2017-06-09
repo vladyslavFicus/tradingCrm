@@ -145,6 +145,9 @@
         "MESSAGE": "Full playerUUID has been copied to clipboard"
       }
     },
+    "IP_LIST": {
+      "TITLE": "Last 10 ip's"
+    },
     "DEVICES": {
       "FILTER": {
         "LOGIN_DATE_RANGE": "Login date range",
@@ -219,6 +222,7 @@
     },
     "REVERT_CHANGES": "Revert changes",
     "OPTIONAL": "Optional",
+    "UNAVAILABLE": "Unavailable",
     "UNKNOWN": "Unknown"
   },
   "FILES": {
@@ -391,6 +395,9 @@
         "ACTION_TARGET": "operator account",
         "CONFIRM_ACTION": "Send invitation"
       }
+    },
+    "IP_LIST": {
+      "TITLE": "Last 10 ip's"
     }
   },
   "FEED_ITEM": {
@@ -567,6 +574,12 @@
     },
     "STATUS_DROPDOWN": {
       "TITLE": "Campaign status"
+    }
+  },
+  "PROFILE": {
+    "LAST_LOGIN": {
+      "TITLE": "Last login",
+      "FROM_COUNTRY": " from %{country}"
     }
   }
 }

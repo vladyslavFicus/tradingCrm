@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
 import {
@@ -117,7 +118,7 @@ class View extends Component {
       .then(this.handleCloseModal);
   };
 
-  handleAddPayment = async(inputParams) => {
+  handleAddPayment = async (inputParams) => {
     const {
       addPayment,
       params: { id: playerUUID },
@@ -257,7 +258,24 @@ class View extends Component {
       return data.country;
     }
 
-    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} />;
+    const id = `payment-ip-${data.paymentId}`;
+
+
+    return (
+      <span>
+        <i id={id} className={`fs-icon fs-${data.country.toLowerCase()}`} />
+        <UncontrolledTooltip
+          placement="bottom"
+          target={id}
+          delay={{
+            show: 350,
+            hide: 250,
+          }}
+        >
+          {data.clientIp ? data.clientIp : I18n.t('COMMON.UNAVAILABLE')}
+        </UncontrolledTooltip>
+      </span>
+    );
   };
 
   renderMethod = data => (
@@ -279,7 +297,6 @@ class View extends Component {
         <i
           id={id}
           className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
-          aria-hidden="true"
         />
         <UncontrolledTooltip
           placement="bottom"
@@ -324,7 +341,8 @@ class View extends Component {
           onClick={id => this.handleNoteClick(id, data)}
         >
           {data.note
-            ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> : <i className="note-icon note-with-text" />)
+            ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
+              <i className="note-icon note-with-text" />)
             : <i className="note-icon note-add-note" />
           }
         </PopoverButton>
@@ -417,6 +435,7 @@ class View extends Component {
             name="country"
             header="Ip"
             headerClassName="text-uppercase text-center"
+            className="text-uppercase text-center"
             render={this.renderIP}
           />
           <GridColumn

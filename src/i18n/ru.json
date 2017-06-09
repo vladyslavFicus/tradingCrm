@@ -145,6 +145,9 @@
         "MESSAGE": "Полный playerUUID скопирован в буфер обмена"
       }
     },
+    "IP_LIST": {
+      "TITLE": "Последние 10 IP"
+    },
     "DEVICES": {
       "FILTER": {
         "LOGIN_DATE_RANGE": "Время логина",
@@ -218,6 +221,7 @@
     },
     "REVERT_CHANGES": "Отменить изменения",
     "OPTIONAL": "Необязательное",
+    "UNAVAILABLE": "Недоступно",
     "UNKNOWN": "Неизвестно"
   },
   "FILES": {
@@ -394,6 +398,9 @@
         "ACTION_TARGET": "профиль оператора",
         "CONFIRM_ACTION": "Отправить приглашение"
       }
+    },
+    "IP_LIST": {
+      "TITLE": "Последние 10 IP"
     }
   },
   "FEED_ITEM": {
@@ -576,5 +583,11 @@
   "BONUS_CAMPAIGN_STATUS": {
     "CHANGE_DATE": "в %{date}",
     "UNTIL_DATE": "до %{date}"
+  },
+  "PROFILE": {
+    "LAST_LOGIN": {
+      "TITLE": "Последний вход",
+      "FROM_COUNTRY": " из %{country}"
+    }
   }
 }

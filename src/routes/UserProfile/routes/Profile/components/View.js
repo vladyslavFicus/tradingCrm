@@ -52,6 +52,7 @@ class View extends Component {
     checkLock: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
+    filesUrl: PropTypes.string.isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -222,13 +223,16 @@ class View extends Component {
                 />
               </div>
               <div className="col-md-4">
-                <VerifyData
-                  title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
-                  description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_DESCRIPTION')}
-                  onVerify={this.handleVerify(kycCategories.KYC_PERSONAL)}
-                  onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
-                  status={data.personalStatus}
-                />
+                {
+                  data.personalStatus &&
+                  <VerifyData
+                    title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
+                    description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_DESCRIPTION')}
+                    onVerify={this.handleVerify(kycCategories.KYC_PERSONAL)}
+                    onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
+                    status={data.personalStatus}
+                  />
+                }
               </div>
             </div>
           </div>
@@ -250,13 +254,16 @@ class View extends Component {
                 />
               </div>
               <div className="col-md-4">
-                <VerifyData
-                  title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
-                  description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_DESCRIPTION')}
-                  onVerify={this.handleVerify(kycCategories.KYC_ADDRESS)}
-                  onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
-                  status={data.addressStatus}
-                />
+                {
+                  data.addressStatus &&
+                  <VerifyData
+                    title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
+                    description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_DESCRIPTION')}
+                    onVerify={this.handleVerify(kycCategories.KYC_ADDRESS)}
+                    onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
+                    status={data.addressStatus}
+                  />
+                }
               </div>
             </div>
           </div>

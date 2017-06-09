@@ -1,13 +1,12 @@
 import React from 'react';
+import { I18n } from 'react-redux-i18n';
 import Personal from './Personal';
 import Departments from './Departments';
 import IpList from '../../../../../../components/Information/IpList';
 import PropTypes from '../../../../../../constants/propTypes';
 
 const Information = ({ data, ips }) => (
-  <div
-    className="player__account__details row"
-  >
+  <div className="player__account__details row">
     <div className="col-md-4">
       <Personal data={data} />
     </div>
@@ -15,7 +14,7 @@ const Information = ({ data, ips }) => (
       <Departments authorities={data.authorities} />
     </div>
     <div className="col-md-2">
-      <IpList ips={ips} />
+      <IpList label={I18n.t('OPERATOR_PROFILE.IP_LIST.TITLE')} ips={ips} />
     </div>
   </div>
 );

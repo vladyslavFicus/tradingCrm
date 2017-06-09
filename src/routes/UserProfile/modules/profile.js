@@ -9,9 +9,10 @@ import { actions as filesActions, categories as filesCategories } from '../../..
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../redux/modules/files';
 import { actionTypes as userProfileFilesActionTypes } from './files';
+import config from '../../../config';
 
 const KEY = 'user-profile/view';
-const PROFILE = createRequestAction(`${KEY}/view`);
+const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
 const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
@@ -76,7 +77,9 @@ const initialState = {
     kycStatusReason: null,
     kycCompleted: false,
     completed: false,
-    balance: { amount: 0, currency: 'EUR' },
+    balance: { amount: 0, currency: config.nas.currencies.base },
+    realBalance: { amount: 0, currency: config.nas.currencies.base },
+    bonusBalance: { amount: 0, currency: config.nas.currencies.base },
     addressStatus: {
       value: null,
       editDate: null,
@@ -93,13 +96,14 @@ const initialState = {
     },
     personalKycMetaData: [],
     addressKycMetaData: [],
+    signInIps: [],
   },
   error: null,
   isLoading: false,
   receivedAt: null,
 };
 
-const fetchProfile = usersActionCreators.fetchProfile(PROFILE);
+const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
 const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
 const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
@@ -538,14 +542,14 @@ function successDeleteFileReducer(state, action) {
 }
 
 const actionHandlers = {
-  [PROFILE.REQUEST]: state => ({
+  [FETCH_PROFILE.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [FETCH_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
-  [PROFILE.FAILURE]: (state, action) => ({
+  [FETCH_PROFILE.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
@@ -587,6 +591,15 @@ const actionHandlers = {
       currencyCode: action.payload && action.payload.balance
         ? action.payload.balance.currency
         : state.data.currencyCode,
+      signInIps: Object.values(action.payload.signInIps).sort((a, b) => {
+        if (a.sessionStart > b.sessionStart) {
+          return -1;
+        } else if (b.sessionStart > a.sessionStart) {
+          return 1;
+        }
+
+        return 0;
+      }),
     },
     isLoading: false,
     receivedAt: timestamp(),
@@ -600,7 +613,7 @@ const actionHandlers = {
 };
 
 const actionTypes = {
-  PROFILE,
+  PROFILE: FETCH_PROFILE,
   ADD_TAG,
   DELETE_TAG,
   UPDATE_PROFILE,

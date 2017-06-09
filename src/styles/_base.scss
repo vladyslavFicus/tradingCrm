@@ -150,12 +150,12 @@ small {
 }
 
 .note-with-text {
-  background: url("../static/img/notes/note-with-text.png") no-repeat;
+  background: url("../../public/img/notes/note-with-text.png") no-repeat;
   cursor: pointer;
 }
 
 .note-add-note {
-  background: url("../static/img/notes/note-add-note.png") no-repeat;
+  background: url("../../public/img/notes/note-add-note.png") no-repeat;
   cursor: pointer;
   opacity: .5;
   -webkit-transition: opacity .5s ease;
@@ -169,7 +169,7 @@ small {
 }
 
 .note-pinned-note {
-  background: url("../static/img/notes/note-pinned-note.png") no-repeat;
+  background: url("../../public/img/notes/note-pinned-note.png") no-repeat;
   cursor: pointer;
 }
 
@@ -194,5 +194,9 @@ small {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.tooltip.show {
+  opacity: 0.9;
 }
 

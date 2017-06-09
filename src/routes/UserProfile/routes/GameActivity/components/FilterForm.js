@@ -239,6 +239,7 @@ class FilterForm extends Component {
               <div className="form-group margin-top-25">
                 <button
                   disabled={submitting}
+                  type="reset"
                   className="btn btn-default btn-sm margin-inline font-weight-700"
                   onClick={reset}
                 >
