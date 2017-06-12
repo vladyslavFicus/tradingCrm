@@ -29,7 +29,7 @@ const CustomValueField = (props) => {
   };
 
   return (
-    <div className={classList.formGroup} >
+    <div className={classList.formGroup}>
       <div className="col-md-3">
         <label className="form-control-label">
           {label}
@@ -54,11 +54,11 @@ const CustomValueField = (props) => {
               component="select"
               disabled={disabled}
             >
-              {typeValues.map(key =>
+              {typeValues.map(key => (
                 <option key={key} value={key}>
                   {renderLabel(key, customValueFieldTypesLabels)}
                 </option>
-              )}
+              ))}
             </Field>
           </div>
         </div>
@@ -78,7 +78,6 @@ CustomValueField.defaultProps = {
   typeInputClassName: '',
   errors: {},
 };
-
 CustomValueField.propTypes = {
   basename: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
 import Form from './Form';
+import { statuses } from '../../../../../constants';
 import PropTypes from '../../../../../../../constants/propTypes';
 
 class View extends Component {
@@ -55,8 +56,10 @@ class View extends Component {
               <Form
                 locale={locale}
                 currencies={currencies}
+                disabled={bonusCampaign.state !== statuses.DRAFT}
                 initialValues={{
                   campaignName: bonusCampaign.campaignName,
+                  campaignPriority: bonusCampaign.campaignPriority,
                   targetType: bonusCampaign.targetType,
                   currency: bonusCampaign.currency,
                   startDate: bonusCampaign.startDate,
@@ -80,4 +83,5 @@ class View extends Component {
     );
   }
 }
+
 export default View;
