@@ -46,6 +46,9 @@ const compile = () => Promise.resolve()
     }
     logger.success(`Compiler finished successfully! See ./${project.outDir}.`);
   })
-  .catch(err => logger.error('Compiler encountered errors.', err));
+  .catch(err => {
+    logger.error('Compiler encountered errors.', err);
+    process.exit(1);
+  });
 
 compile();
