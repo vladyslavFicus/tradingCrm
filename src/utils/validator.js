@@ -16,7 +16,18 @@ Validator.register('lessThan', function (inputValue, requirement, attribute) {
   }
   const greaterValue = Number(_.get(this.validator.input, requirement));
 
-  return greaterValue === 0 || value < greaterValue;
+  if (greaterValue !== 0 && value >= greaterValue) {
+    const targetAttributeLabel = this.validator.messages._getAttributeName(requirement);
+    const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
+
+    this.validator.errors.add(attribute,
+      `The "${currentAttributeLabel}" must be less than "${targetAttributeLabel}"`
+    );
+
+    return false;
+  }
+
+  return true;
 }, 'The :attribute must be less');
 
 Validator.register('greaterThan', function (inputValue, requirement, attribute) {
@@ -29,7 +40,18 @@ Validator.register('greaterThan', function (inputValue, requirement, attribute) 
   }
   const lessValue = Number(_.get(this.validator.input, requirement));
 
-  return lessValue === 0 || value > lessValue;
+  if (lessValue !== 0 && value <= lessValue) {
+    const targetAttributeLabel = this.validator.messages._getAttributeName(requirement);
+    const currentAttributeLabel = this.validator.messages._getAttributeName(attribute);
+
+    this.validator.errors.add(attribute,
+      `The "${currentAttributeLabel}" must be greater than "${targetAttributeLabel}"`
+    );
+
+    return false;
+  }
+
+  return true;
 }, 'The :attribute must be greater');
 
 Validator.register('lessOrSame', function (inputValue, requirement, attribute) {
