@@ -5,15 +5,23 @@ import list, {
   actionTypes as listActionTypes,
   initialState as listInitialState,
 } from './list';
+import filters, {
+  initialState as filtersInitialState,
+  actionTypes as filtersActionTypes,
+  actionCreators as filtersActionCreators,
+} from './filters';
 
 const actionCreators = {
   ...listActionCreators,
+  ...filtersActionCreators,
 };
 const actionTypes = {
   ...listActionTypes,
+  ...filtersActionTypes,
 };
 const initialState = {
   list: listInitialState,
+  filters: filtersInitialState,
 };
 
 export {
@@ -24,4 +32,5 @@ export {
 
 export default combineReducers({
   list,
+  filters,
 });

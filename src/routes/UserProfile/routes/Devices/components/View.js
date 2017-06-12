@@ -16,6 +16,14 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+    filters: PropTypes.shape({
+      data: PropTypes.shape({
+        deviceType: PropTypes.arrayOf(PropTypes.string).isRequired,
+        operatingSystem: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }).isRequired,
+      isLoading: PropTypes.bool.isRequired,
+      receivedAt: PropTypes.number.isRequired,
+    }).isRequired,
     list: PropTypes.pageableState(PropTypes.userDeviceEntity).isRequired,
   };
   state = {
@@ -97,6 +105,9 @@ class View extends Component {
       list: {
         entities,
       },
+      filters: {
+        data: { deviceType, operatingSystem },
+      },
     } = this.props;
     const { filters } = this.state;
 
@@ -111,6 +122,8 @@ class View extends Component {
         </div>
 
         <DevicesFilterForm
+          deviceType={deviceType}
+          operatingSystem={operatingSystem}
           onSubmit={this.handleFiltersChanged}
           initialValues={filters}
         />
