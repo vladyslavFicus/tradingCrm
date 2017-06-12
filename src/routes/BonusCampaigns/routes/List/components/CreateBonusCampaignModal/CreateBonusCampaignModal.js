@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, reduxForm, getFormValues } from 'redux-form';
+import { Field, reduxForm, getFormValues, getFormSyncErrors, getFormMeta } from 'redux-form';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
@@ -27,10 +27,11 @@ const FORM_NAME = 'bonusCampaignCreateForm';
 
 const attributeLabels = {
   campaignName: 'Name',
+  priority: 'Priority',
   startDate: 'Start date',
   endDate: 'End date',
   currency: 'Currency',
-  bonusLifetime: 'Bonus life time',
+  bonusLifetime: 'Lifetime',
   campaignRatio: 'Ratio',
   'campaignRatio.value': 'Ratio value',
   'campaignRatio.type': 'Ratio value type',
@@ -60,19 +61,22 @@ const validator = (values) => {
   const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
   const rules = {
     campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
+    campaignPriority: 'integer',
     startDate: 'required',
     endDate: 'required|nextDate:startDate',
     currency: 'required',
     bonusLifetime: 'required|integer',
-    'campaignRatio.value': 'required|numeric|customTypeValue.value',
-    'campaignRatio.type': ['required', `in:${allowedCustomValueTypes.join()}`],
-    capping: {
+    campaignRatio: {
       value: 'required|numeric|customTypeValue.value',
       type: ['required', `in:${allowedCustomValueTypes.join()}`],
     },
+    capping: {
+      value: ['numeric', 'customTypeValue.value'],
+      type: [`in:${allowedCustomValueTypes.join()}`],
+    },
     conversionPrize: {
-      value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${allowedCustomValueTypes.join()}`],
+      value: ['numeric', 'customTypeValue.value'],
+      type: [`in:${allowedCustomValueTypes.join()}`],
     },
     wagerWinMultiplier: 'required|integer|max:999',
     campaignType: ['required', `in:${Object.keys(campaignTypesLabels).join()}`],
@@ -97,6 +101,22 @@ const validator = (values) => {
     }
   }
 
+  if (values.conversionPrize && values.conversionPrize.value) {
+    const value = parseFloat(values.conversionPrize.value).toFixed(2);
+
+    if (!isNaN(value)) {
+      rules.capping.value.push('greaterThan:conversionPrize.value');
+    }
+  }
+
+  if (values.capping && values.capping.value) {
+    const value = parseFloat(values.capping.value).toFixed(2);
+
+    if (!isNaN(value)) {
+      rules.conversionPrize.value.push('lessThan:capping.value');
+    }
+  }
+
   return createValidator(rules, attributeLabels, false)(values);
 };
 
@@ -112,28 +132,11 @@ class CreateBonusCampaignModal extends Component {
     valid: PropTypes.bool,
     currentValues: PropTypes.object,
     errors: PropTypes.object,
+    meta: PropTypes.object,
     change: PropTypes.func.isRequired,
   };
-
   static defaultProps = {
     currentValues: {},
-  };
-
-  componentWillReceiveProps(nextProps) {
-    const { currentValues, change } = this.props;
-    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
-    if (currentValues && currentValues.campaignType &&
-      currentValues.campaignType !== nextCampaignType &&
-      nextCampaignType === campaignTypes.PROFILE_COMPLETED
-    ) {
-      ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
-        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
-      });
-    }
-  }
-
-  handleSubmit = (data) => {
-    this.props.onSubmit(data);
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -156,20 +159,43 @@ class CreateBonusCampaignModal extends Component {
     );
   };
 
+  getCustomValueFieldErrors = (name) => {
+    const { errors, meta } = this.props;
+
+    if (meta && meta[name]) {
+      if ((meta[name].value && meta[name].value.touched) || (meta[name].type && meta[name].type.touched)) {
+        return errors;
+      }
+    }
+
+    return {};
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { currentValues, change } = this.props;
+    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
+    if (currentValues && currentValues.campaignType &&
+      currentValues.campaignType !== nextCampaignType &&
+      nextCampaignType === campaignTypes.PROFILE_COMPLETED
+    ) {
+      ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
+        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
+      });
+    }
+  }
+
   render() {
     const {
       handleSubmit,
       onSubmit,
       pristine,
       submitting,
-      errors,
       currencies,
       valid,
       onClose,
       isOpen,
       currentValues,
     } = this.props;
-
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
     return (
@@ -183,6 +209,12 @@ class CreateBonusCampaignModal extends Component {
             <Field
               name="campaignName"
               label={attributeLabels.campaignName}
+              type="text"
+              component={InputField}
+            />
+            <Field
+              name="priority"
+              label={attributeLabels.priority}
               type="text"
               component={InputField}
             />
@@ -211,19 +243,19 @@ class CreateBonusCampaignModal extends Component {
               basename={'campaignRatio'}
               label={attributeLabels.campaignRatio}
               typeValues={allowedCustomValueTypes}
-              errors={errors}
-            />
-            <CustomValueField
-              basename={'capping'}
-              label={attributeLabels.capping}
-              typeValues={allowedCustomValueTypes}
-              errors={errors}
+              errors={this.getCustomValueFieldErrors('campaignRatio')}
             />
             <CustomValueField
               basename={'conversionPrize'}
               label={attributeLabels.conversionPrize}
               typeValues={allowedCustomValueTypes}
-              errors={errors}
+              errors={this.getCustomValueFieldErrors('conversionPrize')}
+            />
+            <CustomValueField
+              basename={'capping'}
+              label={attributeLabels.capping}
+              typeValues={allowedCustomValueTypes}
+              errors={this.getCustomValueFieldErrors('capping')}
             />
             <Field
               name="wagerWinMultiplier"
@@ -336,6 +368,8 @@ class CreateBonusCampaignModal extends Component {
 
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
+  errors: getFormSyncErrors(FORM_NAME)(state),
+  meta: getFormMeta(FORM_NAME)(state),
 }))(
   reduxForm({
     form: FORM_NAME,
