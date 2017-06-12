@@ -47,7 +47,7 @@ class Header extends Component {
             </div>
             <div className="bonus__campaign__uuid">
               <span className="short__uuid">
-                <Uuid uuid={campaignUUID} uuidPrefix="CO" />
+                <Uuid uuid={campaignUUID} uuidPrefix="CA" />
               </span>
             </div>
           </div>

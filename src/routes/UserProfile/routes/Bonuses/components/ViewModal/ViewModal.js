@@ -107,7 +107,7 @@ class ViewModal extends Component {
     {
       !!data.campaignUUID &&
       <div className="little-grey-text font-size-11">
-        by Campaign {shortify(data.campaignUUID, 'CO')}
+        by Campaign {shortify(data.campaignUUID, 'CA')}
       </div>
     }
     {
@@ -118,7 +118,7 @@ class ViewModal extends Component {
     }
   </span>;
 
-  renderAvailablePeriod = data => data.createdDate ? <div>
+  renderAvailablePeriod = (data) => data.createdDate ? <div>
     <div className="font-weight-600">
       {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
     </div>

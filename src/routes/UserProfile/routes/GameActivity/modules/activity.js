@@ -13,7 +13,7 @@ const KEY = 'user/game-activity/activity';
 const FETCH_ACTIVITY = createRequestAction(`${KEY}/fetch-activity`);
 const EXPORT_ACTIVITY = createRequestAction(`${KEY}/export-activity`);
 
-const arrayedFilters = ['providers', 'games', 'gameTypes', 'betTypes', 'winTypes'];
+const arrayedFilters = ['aggregators', 'providers', 'games', 'gameTypes', 'betTypes', 'winTypes'];
 const mapListArrayValues = (values, fields) => {
   const mapped = { ...values };
 

@@ -43,7 +43,7 @@ class View extends Component {
   }
 
   render() {
-    const { logged, logout } = this.props;
+    const { logged, logout, title } = this.props;
 
     if (logged) {
       return (
@@ -71,7 +71,7 @@ class View extends Component {
           </div>
           <div className="single-page-block">
             <div className="single-page-block-inner effect-3d-element" ref="innerBlock">
-              <h2>Password reset</h2>
+              <h2>{title}</h2>
               <div className="single-page-block-form margin-top-25">
                 <ViewForm
                   onSubmit={this.handleSubmit}
