@@ -50,9 +50,9 @@ class View extends Component {
 
   renderDeviceId = data => (
     <span>
-      <div className="font-weight-700">{shortify(data.hash, 'DV')}</div>
+      <div className="font-weight-700"><Uuid uuid={data.hash} uuidPrefix="DV" length={8} /></div>
       <span className="font-size-10 text-uppercase color-default">
-          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={this.props.params.id} uuidPrefix="PL" />
+        {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={this.props.params.id} uuidPrefix="PL" />
       </span>
     </span>
   );
