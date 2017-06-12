@@ -46,7 +46,7 @@ class ViewLayout extends Component {
           I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
     }
-  }
+  };
 
   render() {
     const { informationShown } = this.state;

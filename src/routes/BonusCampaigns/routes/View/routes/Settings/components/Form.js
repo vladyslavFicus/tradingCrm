@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, reduxForm, getFormValues } from 'redux-form';
+import { Field, reduxForm, getFormValues, getFormSyncErrors, getFormMeta } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
@@ -34,6 +34,7 @@ const validator = (values) => {
   const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
   const rules = {
     campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
+    campaignPriority: 'integer',
     optIn: 'boolean',
     targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
     currency: 'required',
@@ -42,17 +43,17 @@ const validator = (values) => {
     wagerWinMultiplier: 'required|integer|max:999',
     bonusLifetime: 'required|integer',
     campaignType: ['required', 'string', `in:${Object.keys(campaignTypesLabels).join()}`],
-    capping: {
-      value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${allowedCustomValueTypes.join()}`],
-    },
     campaignRatio: {
       value: 'required|numeric|customTypeValue.value',
       type: ['required', `in:${allowedCustomValueTypes.join()}`],
     },
+    capping: {
+      value: ['numeric', 'customTypeValue.value'],
+      type: [`in:${allowedCustomValueTypes.join()}`],
+    },
     conversionPrize: {
-      value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${allowedCustomValueTypes.join()}`],
+      value: ['numeric', 'customTypeValue.value'],
+      type: [`in:${allowedCustomValueTypes.join()}`],
     },
     minAmount: 'min:0',
     maxAmount: 'min:0',
@@ -74,6 +75,22 @@ const validator = (values) => {
     }
   }
 
+  if (values.conversionPrize && values.conversionPrize.value) {
+    const value = parseFloat(values.conversionPrize.value).toFixed(2);
+
+    if (!isNaN(value)) {
+      rules.capping.value.push('greaterThan:conversionPrize.value');
+    }
+  }
+
+  if (values.capping && values.capping.value) {
+    const value = parseFloat(values.capping.value).toFixed(2);
+
+    if (!isNaN(value)) {
+      rules.conversionPrize.value.push('lessThan:capping.value');
+    }
+  }
+
   return createValidator(
     rules,
     Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}),
@@ -91,9 +108,11 @@ class Form extends Component {
     reset: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     errors: PropTypes.object,
+    meta: PropTypes.object,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentValues: PropTypes.shape({
       campaignName: PropTypes.bonusCampaignEntity.campaignName,
+      campaignPriority: PropTypes.bonusCampaignEntity.campaignPriority,
       targetType: PropTypes.bonusCampaignEntity.targetType,
       currency: PropTypes.bonusCampaignEntity.currency,
       startDate: PropTypes.bonusCampaignEntity.startDate,
@@ -106,10 +125,11 @@ class Form extends Component {
       optIn: PropTypes.bonusCampaignEntity.optIn,
       campaignType: PropTypes.bonusCampaignEntity.campaignType,
     }),
+    disabled: PropTypes.bool,
   };
-
   static defaultProps = {
     currentValues: {},
+    disabled: false,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -152,6 +172,18 @@ class Form extends Component {
     this.props.reset();
   };
 
+  getCustomValueFieldErrors = (name) => {
+    const { errors, meta } = this.props;
+
+    if (meta && meta[name]) {
+      if ((meta[name].value && meta[name].value.touched) || (meta[name].type && meta[name].type.touched)) {
+        return errors;
+      }
+    }
+
+    return {};
+  };
+
   renderSwitchField = ({ input, wrapperClassName }) => {
     const onClick = () => input.onChange(!input.value);
 
@@ -176,6 +208,7 @@ class Form extends Component {
       errors,
       currencies,
       currentValues,
+      disabled,
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
@@ -187,7 +220,7 @@ class Form extends Component {
             <h5 className="pull-left">
               {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
             </h5>
-            { !(pristine || submitting || !valid) &&
+            { !(disabled || pristine || submitting || !valid) &&
             <div className="pull-right">
               <button
                 onClick={this.handleRevert}
@@ -210,6 +243,7 @@ class Form extends Component {
                 type="text"
                 component={InputField}
                 position="vertical"
+                disabled={disabled}
               />
               <div className="color-default font-size-10">
                 {
@@ -218,6 +252,16 @@ class Form extends Component {
                     : 0
                 }/{CAMPAIGN_NAME_MAX_LENGTH}
               </div>
+            </div>
+            <div className="col-md-2">
+              <Field
+                name="campaignPriority"
+                label={I18n.t(attributeLabels.campaignPriority)}
+                type="text"
+                component={InputField}
+                position="vertical"
+                disabled={disabled}
+              />
             </div>
           </div>
           <hr />
@@ -239,7 +283,7 @@ class Form extends Component {
                 <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_TARGET_TYPE')}</option>
                 {Object.keys(targetTypesLabels).map(key => (
                   <option key={key} value={key}>
-                    { renderLabel(key, targetTypesLabels) }
+                    {renderLabel(key, targetTypesLabels)}
                   </option>
                 ))}
               </Field>
@@ -255,6 +299,7 @@ class Form extends Component {
                   className="form-control"
                   wrapperClassName="display-block font-size-12 margin-top-10"
                   component={this.renderSwitchField}
+                  disabled={disabled}
                 />
               </div>
             </div>
@@ -266,6 +311,7 @@ class Form extends Component {
                 type="select"
                 component={SelectField}
                 position="vertical"
+                disabled={disabled}
               >
                 <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
                 {currencies.map(item => (
@@ -283,6 +329,7 @@ class Form extends Component {
                 position="vertical"
                 component={DateTimeField}
                 isValidDate={this.startDateValidator('endDate')}
+                disabled={disabled}
               />
             </div>
 
@@ -293,6 +340,7 @@ class Form extends Component {
                 position="vertical"
                 component={DateTimeField}
                 isValidDate={this.endDateValidator('startDate')}
+                disabled={disabled}
               />
             </div>
           </div>
@@ -311,10 +359,11 @@ class Form extends Component {
                 type="select"
                 position="vertical"
                 component={SelectField}
+                disabled={disabled}
               >
                 {Object.keys(campaignTypesLabels).map(key => (
                   <option key={key} value={key}>
-                    { renderLabel(key, campaignTypesLabels) }
+                    {renderLabel(key, campaignTypesLabels)}
                   </option>
                 ))}
               </Field>
@@ -324,7 +373,8 @@ class Form extends Component {
                 basename={'campaignRatio'}
                 label={I18n.t(attributeLabels.campaignRatio)}
                 typeValues={allowedCustomValueTypes}
-                errors={errors}
+                errors={this.getCustomValueFieldErrors('campaignRatio')}
+                disabled={disabled}
               />
               <div className="color-default font-size-10">
                 {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.RATIO_TOOLTIP')}
@@ -350,6 +400,7 @@ class Form extends Component {
                       type="text"
                       component={InputField}
                       position="vertical"
+                      disabled={disabled}
                     />
                   </div>
 
@@ -361,6 +412,7 @@ class Form extends Component {
                       type="text"
                       component={InputField}
                       position="vertical"
+                      disabled={disabled}
                     />
                   </div>
                 </div>
@@ -383,6 +435,7 @@ class Form extends Component {
                 label={I18n.t(attributeLabels.wagerWinMultiplier)}
                 type="text"
                 component={InputField}
+                disabled={disabled}
               />
             </div>
 
@@ -395,6 +448,7 @@ class Form extends Component {
                 component={InputField}
                 inputAddon={<span>days</span>}
                 inputAddonPosition="right"
+                disabled={disabled}
               />
             </div>
 
@@ -408,7 +462,8 @@ class Form extends Component {
                   </div>
                 }
                 typeValues={allowedCustomValueTypes}
-                errors={errors}
+                errors={this.getCustomValueFieldErrors('capping')}
+                disabled={disabled}
               />
             </div>
 
@@ -422,7 +477,8 @@ class Form extends Component {
                   </div>
                 }
                 typeValues={allowedCustomValueTypes}
-                errors={errors}
+                errors={this.getCustomValueFieldErrors('conversionPrize')}
+                disabled={disabled}
               />
             </div>
           </div>
@@ -439,5 +495,7 @@ const SettingsForm = reduxForm({
 
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
+  errors: getFormSyncErrors(FORM_NAME)(state),
+  meta: getFormMeta(FORM_NAME)(state),
 }))(SettingsForm);
 

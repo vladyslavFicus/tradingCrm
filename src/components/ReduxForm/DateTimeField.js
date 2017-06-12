@@ -37,7 +37,11 @@ class DateTimeField extends Component {
   };
 
   handleChange = (value) => {
-    this.props.input.onChange(value ? value.format(`YYYY-MM-DD${this.props.timeFormat ? 'THH:mm:00' : ''}`) : '');
+    this.props.input.onChange(
+      value && value.format
+        ? value.format(`YYYY-MM-DD${this.props.timeFormat ? 'THH:mm:00' : ''}`)
+        : ''
+    );
   };
 
   renderInput = () => {

@@ -481,7 +481,8 @@
       "TOTAL_OPT_IN_PLAYERS_1": "Opt-In: %{count} player",
       "TOTAL_SELECTED_PLAYERS": "Selected: %{count} players",
       "TOTAL_SELECTED_PLAYERS_1": "Selected: %{count} player",
-      "TYPE": "Target type"
+      "TYPE": "Target type",
+      "PRIORITY": "Priority: %{priority}"
     },
     "TITLE": "Bonus campaigns",
     "FILTER_FORM": {
@@ -517,7 +518,8 @@
           "CAMPAIGN_START": "Campaign start",
           "CAMPAIGN_END": "Campaign end",
           "PRIZE": "Prize",
-          "CAPPING": "Capping"
+          "CAPPING": "Capping",
+          "PRIORITY": "Priority: %{priority}"
         },
         "GRANTED_TO": "to %{count} Players",
         "GRANTED_TO_0": "to %{count} Players",
@@ -544,7 +546,7 @@
         "END_DATE": "End date",
         "CAPPING": "Capping",
         "MULTIPLIER": "Multiplier",
-        "BONUS_LIFE_TIME": "Bonus life time",
+        "BONUS_LIFE_TIME": "Lifetime",
         "CAMPAIGN_RATIO": "Ratio",
         "CONVERSION_PRIZE": "Prize",
         "OPT_IN": "Opt-In",
@@ -553,7 +555,8 @@
         "MAX_AMOUNT": "Max. amount",
         "MIN_AMOUNT_PLACEHOLDER": "Min.",
         "MAX_AMOUNT_PLACEHOLDER": "Max.",
-        "RATIO_TOOLTIP": "Deposit : Granted bonus"
+        "RATIO_TOOLTIP": "Deposit : Granted bonus",
+        "PRIORITY": "Priority"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",

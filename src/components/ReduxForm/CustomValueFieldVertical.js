@@ -29,7 +29,7 @@ const CustomValueField = (props) => {
   };
 
   return (
-    <div className={classList.formGroup} >
+    <div className={classList.formGroup}>
       <label className="form-control-label">
         {label}
       </label>
@@ -74,10 +74,9 @@ CustomValueField.defaultProps = {
   typeInputClassName: '',
   errors: {},
 };
-
 CustomValueField.propTypes = {
   basename: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   typeValues: PropTypes.array.isRequired,
   valueInputClassName: PropTypes.string,
   typeInputClassName: PropTypes.string,
