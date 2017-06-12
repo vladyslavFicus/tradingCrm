@@ -8,7 +8,7 @@ const IpList = ({ label, ips }) => (
       <div className="panel-body height-200">
         {
           ips.map(item => (
-            <div key={item.uuid}>
+            <div key={item.ip}>
               <i
                 className={`fs-icon fs-${item.country.toLowerCase()}`}
                 style={{ marginRight: 10 }}
@@ -24,6 +24,9 @@ const IpList = ({ label, ips }) => (
 IpList.propTypes = {
   label: PropTypes.string.isRequired,
   ips: PropTypes.arrayOf(PropTypes.ipEntity),
+};
+IpList.defaultProps = {
+  ips: [],
 };
 
 export default IpList;
