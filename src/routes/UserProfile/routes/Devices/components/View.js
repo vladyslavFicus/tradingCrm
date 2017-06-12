@@ -16,6 +16,14 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+    filters: PropTypes.shape({
+      data: PropTypes.shape({
+        deviceType: PropTypes.arrayOf(PropTypes.string).isRequired,
+        operatingSystem: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }).isRequired,
+      isLoading: PropTypes.bool.isRequired,
+      receivedAt: PropTypes.number.isRequired,
+    }).isRequired,
     list: PropTypes.pageableState(PropTypes.userDeviceEntity).isRequired,
   };
   state = {
@@ -42,9 +50,9 @@ class View extends Component {
 
   renderDeviceId = data => (
     <span>
-      <div className="font-weight-700">{shortify(data.hash, 'DV')}</div>
+      <div className="font-weight-700"><Uuid uuid={data.hash} uuidPrefix="DV" length={8} /></div>
       <span className="font-size-10 text-uppercase color-default">
-          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={this.props.params.id} uuidPrefix="PL" />
+        {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={this.props.params.id} uuidPrefix="PL" />
       </span>
     </span>
   );
@@ -97,6 +105,9 @@ class View extends Component {
       list: {
         entities,
       },
+      filters: {
+        data: { deviceType, operatingSystem },
+      },
     } = this.props;
     const { filters } = this.state;
 
@@ -111,6 +122,8 @@ class View extends Component {
         </div>
 
         <DevicesFilterForm
+          deviceType={deviceType}
+          operatingSystem={operatingSystem}
           onSubmit={this.handleFiltersChanged}
           initialValues={filters}
         />

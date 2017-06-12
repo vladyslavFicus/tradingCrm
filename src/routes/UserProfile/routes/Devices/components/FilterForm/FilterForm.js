@@ -7,7 +7,7 @@ import DateTime from 'react-datetime';
 import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../../utils/validator';
 import PropTypes from '../../../../../../constants/propTypes';
-import { typesLabels, operatingSystemsLabels } from '../../../../../../constants/devices';
+import { typesLabels } from '../../../../../../constants/devices';
 import { SelectField, DateTimeField } from '../../../../../../components/ReduxForm';
 import { attributeLabels } from './constants';
 import renderLabel from '../../../../../../utils/renderLabel';
@@ -22,11 +22,13 @@ const validate = createValidator({
 
 class FilterForm extends Component {
   static propTypes = {
-    submitting: PropTypes.bool,
-    handleSubmit: PropTypes.func,
+    submitting: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func,
+    reset: PropTypes.func.isRequired,
     currentValues: PropTypes.object,
+    deviceType: PropTypes.array.isRequired,
+    operatingSystem: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
@@ -80,6 +82,8 @@ class FilterForm extends Component {
       submitting,
       handleSubmit,
       onSubmit,
+      operatingSystem,
+      deviceType,
     } = this.props;
 
     return (
@@ -96,9 +100,9 @@ class FilterForm extends Component {
                   position="vertical"
                 >
                   <option value="">{I18n.t('COMMON.ANY')}</option>
-                  {Object.keys(typesLabels).map(type => (
-                    <option key={type} value={type}>
-                      { renderLabel(type, typesLabels) }
+                  {deviceType.map(item => (
+                    <option key={item} value={item}>
+                      {renderLabel(item, typesLabels)}
                     </option>
                   ))}
                 </Field>
@@ -112,10 +116,8 @@ class FilterForm extends Component {
                   position="vertical"
                 >
                   <option value="">{I18n.t('COMMON.ANY')}</option>
-                  {Object.keys(operatingSystemsLabels).map(system => (
-                    <option key={system} value={system}>
-                      {operatingSystemsLabels[system]}
-                    </option>
+                  {operatingSystem.map(item => (
+                    <option key={item} value={item}>{item}</option>
                   ))}
                 </Field>
               </div>
@@ -179,5 +181,5 @@ export default connect(state => ({
   reduxForm({
     form: FORM_NAME,
     validate,
-  })(FilterForm)
+  })(FilterForm),
 );
