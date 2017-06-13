@@ -30,14 +30,6 @@ module.exports = {
         periods: ['1 HOURS', '2 HOURS', '3 HOURS', '4 HOURS', '5 HOURS', '6 HOURS', '7 HOURS', '8 HOURS'],
       },
     },
-    email: {
-      sendgrid: {
-        api_key: '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',
-        from: 'support@newagesol.com',
-      },
-    },
-    ip: { db: { path: 'classpath:GeoLite2-Country.mmdb' } },
-    fx_rate: { cron: '0 0 17 * * *' },
     currencies: { base: 'EUR', supported: ['EUR', 'USD', 'SEK', 'NOK', 'RUB'] },
     validation: { password: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
     departments: ['PLAYER', 'CS', 'RFP', 'MARKETING'],
