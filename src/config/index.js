@@ -75,9 +75,9 @@ const config = {
   ...environmentConfig,
 };
 
-if (config.nas.validation) {
-  if (config.nas.validation.password) {
-    config.nas.validation.password = new RegExp(config.nas.validation.password, 'g');
+if (config.nas.validation && config.nas.brand) {
+  if (config.nas.brand.password.pattern) {
+    config.nas.validation.password = new RegExp(config.nas.brand.password.pattern, 'g');
   }
 }
 
