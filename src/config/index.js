@@ -1,14 +1,4 @@
-import _ from 'lodash';
-
-const environmentConfig = {};
-
-if (window && window.nas) {
-  const params = Object.keys(window.nas);
-  if (params.length > 0) {
-    params.map(i => _.set(environmentConfig, i, window.nas[i]));
-  }
-}
-
+const environmentConfig = window.nas || {};
 const config = {
   availableDepartments: [],
   availableRoles: [],

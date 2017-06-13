@@ -12,6 +12,7 @@ ADD ./nginx.conf /etc/nginx/conf.d/default.conf
 
 ADD ./entrypoint.sh /opt/entrypoint.sh
 ADD ./build/scripts/docker-run.js /opt/docker-run.js
+ADD ./build/scripts/fetch-zookeeper-config.js /opt/fetch-zookeeper-config.js
 
 RUN chmod +x /opt/entrypoint.sh
 
