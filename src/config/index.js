@@ -1,14 +1,4 @@
-import _ from 'lodash';
-
-const environmentConfig = {};
-
-if (window && window.nas) {
-  const params = Object.keys(window.nas);
-  if (params.length > 0) {
-    params.map(i => _.set(environmentConfig, i, window.nas[i]));
-  }
-}
-
+const environmentConfig = window.nas || {};
 const config = {
   availableDepartments: [],
   availableRoles: [],
@@ -85,9 +75,9 @@ const config = {
   ...environmentConfig,
 };
 
-if (config.nas.validation) {
-  if (config.nas.validation.password) {
-    config.nas.validation.password = new RegExp(config.nas.validation.password, 'g');
+if (config.nas.validation && config.nas.brand) {
+  if (config.nas.brand.password.pattern) {
+    config.nas.validation.password = new RegExp(config.nas.brand.password.pattern, 'g');
   }
 }
 

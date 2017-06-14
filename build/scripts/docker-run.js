@@ -1,6 +1,8 @@
 const process = require('process');
 const fs = require('fs');
 const fetch = require('isomorphic-fetch');
+const _ = require('lodash');
+const fetchZookeeperConfig = require('./fetch-zookeeper-config');
 
 /**
  * ==================
@@ -84,8 +86,19 @@ function processError(error) {
   });
 }
 
-function processSpringConfig(springConfig) {
-  return assignValues(springConfig.propertySources.reduce((res, item) => Object.assign(res, item.source), {}));
+function processSpringConfig(pureSpringConfig) {
+  const springConfig = assignValues(
+    pureSpringConfig.propertySources.reduce((res, item) => _.merge({}, res, item.source), {})
+  );
+  const formattedSpringConfig = {};
+  Object.keys(springConfig).map(i => _.set(formattedSpringConfig, i, springConfig[i]));
+
+  return fetchZookeeperConfig({
+    path: `/website/lib/etc/application-${NAS_ENV}.yml`,
+    allowedKeys: ['nas.brand.password.pattern'],
+  }).then(function (config) {
+    return _.merge({}, formattedSpringConfig, config);
+  });
 }
 
 function fetchConfigByURL(url, timeout = 5, attempts = 10) {
@@ -122,7 +135,7 @@ function fetchConfigHealth(url) {
 
 function saveConfig(config) {
   return new Promise((resolve, reject) => {
-    fs.writeFile('/opt/build/config.js', `window.nas=${JSON.stringify(config)};`, (error) => {
+    fs.writeFile('/opt/build/config.js', `window.nas = ${JSON.stringify(config)};`, (error) => {
       if (error) {
         return reject(error);
       }
@@ -140,7 +153,7 @@ if (!BUILD_ENV) {
   throw new Error('"BUILD_ENV" is required environment variable');
 }
 
-fetchConfigByURL(`${CONFIG_SERVICE_ROOT}/backoffice/${BUILD_ENV}`)
+fetchConfigByURL(`${CONFIG_SERVICE_ROOT}/backoffice/${NAS_ENV}`)
   .then(processSpringConfig, processError)
   .then(config => saveConfig(config).then(() => {
     const health = Object.assign({}, defaultHealth);
