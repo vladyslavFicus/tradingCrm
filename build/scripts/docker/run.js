@@ -158,11 +158,12 @@ fetchConfigByURL(`${CONFIG_SERVICE_ROOT}/${APP_NAME}/${BUILD_ENV}`)
   .then(processSpringConfig, processError)
   .then(config => saveConfig(config).then(() => {
     const health = Object.assign({}, defaultHealth);
+    const apiUrl = _.get(config, REQUIRED_CONFIG_PARAM);
 
-    if (config[REQUIRED_CONFIG_PARAM]) {
+    if (apiUrl) {
       health.config.status = STATUS.UP;
 
-      return fetchConfigHealth(`${config[REQUIRED_CONFIG_PARAM]}/config/health`)
+      return fetchConfigHealth(`${apiUrl}/config/health`)
         .then((response) => {
           if (response.status === STATUS.UP) {
             health.api.status = STATUS.UP;
