@@ -9,7 +9,7 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  *  Vars
  * ==================
  */
-const { CONFIG_SERVICE_ROOT, BUILD_ENV } = process.env;
+const { CONFIG_SERVICE_ROOT, NAS_ENV } = process.env;
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'brand.api.url';
 const CONFIG_VARIABLE_LINK_REGEX = /\${(([\w]+.)+)}/;
@@ -150,8 +150,8 @@ if (!CONFIG_SERVICE_ROOT) {
   throw new Error('"CONFIG_SERVICE_ROOT" is required environment variable');
 }
 
-if (!BUILD_ENV) {
-  throw new Error('"BUILD_ENV" is required environment variable');
+if (!NAS_ENV) {
+  throw new Error('"NAS_ENV" is required environment variable');
 }
 
 fetchConfigByURL(`${CONFIG_SERVICE_ROOT}/${APP_NAME}/${NAS_ENV}`)
