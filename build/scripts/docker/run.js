@@ -9,7 +9,7 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  *  Vars
  * ==================
  */
-const { CONFIG_SERVICE_ROOT, NAS_ENV } = process.env;
+const { CONFIG_SERVICE_ROOT, BUILD_ENV } = process.env;
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'brand.api.url';
 const CONFIG_VARIABLE_LINK_REGEX = /\${(([\w]+.)+)}/;
@@ -95,7 +95,7 @@ function processSpringConfig(pureSpringConfig) {
   Object.keys(springConfig).map(i => _.set(formattedSpringConfig, i, springConfig[i]));
 
   return fetchZookeeperConfig({
-    path: `/${APP_NAME}/lib/etc/application-${NAS_ENV}.yml`,
+    path: `/${APP_NAME}/lib/etc/application-${BUILD_ENV}.yml`,
     allowedKeys: ['nas.brand.password.pattern'],
   }).then(function (config) {
     return _.merge({}, formattedSpringConfig, config);
@@ -150,11 +150,11 @@ if (!CONFIG_SERVICE_ROOT) {
   throw new Error('"CONFIG_SERVICE_ROOT" is required environment variable');
 }
 
-if (!NAS_ENV) {
-  throw new Error('"NAS_ENV" is required environment variable');
+if (!BUILD_ENV) {
+  throw new Error('"BUILD_ENV" is required environment variable');
 }
 
-fetchConfigByURL(`${CONFIG_SERVICE_ROOT}/${APP_NAME}/${NAS_ENV}`)
+fetchConfigByURL(`${CONFIG_SERVICE_ROOT}/${APP_NAME}/${BUILD_ENV}`)
   .then(processSpringConfig, processError)
   .then(config => saveConfig(config).then(() => {
     const health = Object.assign({}, defaultHealth);
