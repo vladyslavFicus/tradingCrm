@@ -135,6 +135,10 @@ class GridView extends Component {
         loadMore={() => this.handlePageChange(activePage + 1)}
         element="tbody"
         hasMore={totalPages > activePage}
+        loader={<tr className="infinite-preloader">
+          <td colSpan={6}>
+            <img src="/img/infinite_preloader.svg" alt="preloader" />
+          </td></tr>}
       >
         {rows}
       </InfiniteScroll>
