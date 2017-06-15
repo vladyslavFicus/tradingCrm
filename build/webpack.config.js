@@ -42,7 +42,6 @@ const config = {
       inProject('node_modules/react/dist/react.min'),
       inProject('node_modules/react-dom/dist/react-dom.min'),
       inProject('node_modules/redux/dist/redux.min'),
-      inProject('node_modules/lodash/'),
     ],
     rules: [],
   },
