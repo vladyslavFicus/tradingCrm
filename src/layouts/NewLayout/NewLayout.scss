@@ -1,14 +1,9 @@
-$nav-height: 48px;
-
-//colors
 $orange: #ff6600;
 $green: #009900;
 $purple: #6600ff;
 $blue: #0066ff;
 $pink: #cc00ff;
 $grey: #cccccc;
-
-
 
 .footer {
   position: fixed;
@@ -167,26 +162,21 @@ $grey: #cccccc;
   -webkit-box-shadow: none;
   box-shadow: none;
   transition: none;
-}
-
-.border-orange {
-  border-color: $orange;
-}
-
-.border-green {
-  border-color: $green;
-}
-
-.border-purple {
-  border-color: $purple;
-}
-
-.border-blue {
-  border-color: $blue;
-}
-
-.border-pink {
-  border-color: $pink;
+  &-orange {
+    border-color: $orange;
+  }
+  &-green {
+    border-color: $green;
+  }
+  &-blue {
+    border-color: $blue;
+  }
+  &-purple {
+    border-color: $purple;
+  }
+  &-pink {
+    border-color: $pink;
+  }
 }
 
 .section-container {
@@ -195,4 +185,61 @@ $grey: #cccccc;
   width: 100%;
   margin-top: 48px;
   padding: 40px 40px 40px 100px;
+}
+
+.floating-buttons {
+  position: fixed;
+  right: 5px;
+  bottom: 63px;
+  &__circle {
+    height: 30px;
+    width: 30px;
+    background-color: #ccc;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    transition: background .1s ease-in;
+    animation-duration: .75s;
+    animation-fill-mode: both;
+    &:last-child {
+      margin-top: 10px;
+    }
+    &:hover {
+      background-color: #333;
+    }
+  }
+  .fa {
+    position: relative;
+    top: 4px;
+    color: #fff;
+    font-size: 16px;
+  }
+}
+
+@keyframes rollIn {
+  from {
+    transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+.rollIn {
+  animation-name: rollIn;
+}
+
+@keyframes rollOut {
+  from {
+    transform: none;
+  }
+
+  to {
+    transform: translate3d(150%, 0, 0) rotate3d(0, 0, 1, 120deg);
+  }
+}
+
+.rollOut {
+  animation-name: rollOut;
 }

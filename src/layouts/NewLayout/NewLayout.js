@@ -208,6 +208,15 @@ class NewLayout extends Component {
           onClose={this.handleCloseTabs}
         />
 
+        <div className="floating-buttons">
+          <div className="floating-buttons__circle rollIn">
+            <i className="fa fa-caret-up" />
+          </div>
+          <div className="floating-buttons__circle rollIn">
+            <i className="fa fa-question" />
+          </div>
+        </div>
+
         {
           popover.name === NOTE_POPOVER &&
           <NotePopover
