@@ -181,9 +181,7 @@ $grey: #cccccc;
 
 .section-container {
   position: relative;
-  height: 100%;
-  width: 100%;
-  margin-top: 48px;
+  top: 48px;
   padding: 40px 40px 40px 100px;
 }
 
@@ -198,7 +196,7 @@ $grey: #cccccc;
     border-radius: 50%;
     text-align: center;
     cursor: pointer;
-    transition: background .1s ease-in;
+    transition: background .2s ease-in;
     animation-duration: .75s;
     animation-fill-mode: both;
     &:last-child {
