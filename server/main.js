@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const webpack = require('webpack');
+const _ = require('lodash');
 const logger = require('../build/lib/logger');
 const webpackConfig = require('../build/webpack.config');
 const project = require('../project.config');
@@ -17,7 +18,7 @@ if (project.env === 'development') {
   const appConfig = require('./application.config');
 
   if (process.env.API_ROOT) {
-    appConfig['brand.api.url'] = process.env.API_ROOT;
+    _.set(appConfig, 'brand.api.url', process.env.API_ROOT);
   }
 
   logger.info('Enabling webpack development and HMR middleware');

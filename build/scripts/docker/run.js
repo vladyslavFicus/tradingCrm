@@ -74,7 +74,7 @@ const assignValues = (o) => {
     }, o);
 };
 const saveHealth = health => new Promise((resolve) => {
-  fs.writeFile('/opt/health.json', JSON.stringify(health), () => {
+  fs.writeFile('/opt/health.json', JSON.stringify(health), 'utf8', () => {
     resolve();
   });
 });
@@ -136,7 +136,7 @@ function fetchConfigHealth(url) {
 
 function saveConfig(config) {
   return new Promise((resolve, reject) => {
-    fs.writeFile('/opt/build/config.js', `window.nas = ${JSON.stringify(config)};`, (error) => {
+    fs.writeFile('/opt/build/config.js', `window.nas = ${JSON.stringify(config)};`, 'utf8', (error) => {
       if (error) {
         return reject(error);
       }
