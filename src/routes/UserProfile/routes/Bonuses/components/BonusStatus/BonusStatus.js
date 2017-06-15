@@ -84,9 +84,9 @@ class BonusStatus extends Component {
           </div>
         }
       {
-          !!bonus.wagered &&
+          !!bonus.convertedAmount &&
           <div>
-            to <Amount {...bonus.wagered} />
+            to <Amount {...bonus.convertedAmount} />
           </div>
         }
     </div>
