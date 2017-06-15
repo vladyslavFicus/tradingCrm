@@ -74,7 +74,7 @@ const assignValues = (o) => {
     }, o);
 };
 const saveHealth = health => new Promise((resolve) => {
-  fs.writeFile('/opt/health.json', JSON.stringify(health), 'utf8', () => {
+  fs.writeFile('/opt/health.json', JSON.stringify(health), { encoding: 'utf8' }, () => {
     resolve();
   });
 });
@@ -136,7 +136,7 @@ function fetchConfigHealth(url) {
 
 function saveConfig(config) {
   return new Promise((resolve, reject) => {
-    fs.writeFile('/opt/build/config.js', `window.nas = ${JSON.stringify(config)};`, 'utf8', (error) => {
+    fs.writeFile('/opt/build/config.js', `window.nas = ${JSON.stringify(config)};`, { encoding: 'utf8' }, (error) => {
       if (error) {
         return reject(error);
       }
@@ -157,6 +157,7 @@ if (!BUILD_ENV) {
 fetchConfigByURL(`${CONFIG_SERVICE_ROOT}/${APP_NAME}/${BUILD_ENV}`)
   .then(processSpringConfig, processError)
   .then(config => saveConfig(config).then(() => {
+    console.log(config.components.Currency.currencies);
     const health = Object.assign({}, defaultHealth);
     const apiUrl = _.get(config, REQUIRED_CONFIG_PARAM);
 

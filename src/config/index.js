@@ -1,5 +1,6 @@
-const environmentConfig = window.nas || {};
-const config = {
+import _ from 'lodash';
+
+const config = _.merge({
   availableDepartments: [],
   availableRoles: [],
   availableTags: [],
@@ -72,8 +73,7 @@ const config = {
       },
     },
   },
-  ...environmentConfig,
-};
+}, (window.nas || {}));
 
 if (config.nas.validation && config.nas.brand) {
   if (config.nas.brand.password.pattern) {
@@ -144,7 +144,7 @@ function getErrorApiUrl() {
 }
 
 function getBrand() {
-  return config.nas.brand;
+  return config.brand.name;
 }
 
 function getAvailableLanguages() {
