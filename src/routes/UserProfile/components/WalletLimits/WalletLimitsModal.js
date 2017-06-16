@@ -16,15 +16,19 @@ const validator = createValidator({ reasons: 'required|string' }, attributeLabel
 class WalletLimitsModal extends Component {
   static propTypes = {
     profile: PropTypes.userProfile.isRequired,
-    action: PropTypes.oneOf(Object.keys(actions)),
-    type: PropTypes.oneOf(Object.keys(types)),
+    action: PropTypes.oneOf(Object.keys(actions)).isRequired,
+    type: PropTypes.oneOf(Object.keys(types)).isRequired,
     isOpen: PropTypes.bool,
     show: PropTypes.bool,
     reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
-    title: PropTypes.string,
+    title: PropTypes.string.isRequired,
     onHide: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
+  };
+  static defaultProps = {
+    isOpen: false,
+    show: false,
   };
 
   renderReasonsSelect = reasons => (

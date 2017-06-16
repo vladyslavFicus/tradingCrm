@@ -25,7 +25,7 @@ const validator = createValidator({
 
 class NotePopover extends Component {
   static propTypes = {
-    item: PropTypes.noteEntity,
+    item: PropTypes.noteEntity.isRequired,
     target: PropTypes.string.isRequired,
     placement: PropTypes.string,
     isOpen: PropTypes.bool,
@@ -51,6 +51,7 @@ class NotePopover extends Component {
   static defaultProps = {
     defaultTitleLabel: 'Note',
     placement: 'bottom',
+    isOpen: false,
   };
 
   handleHide = (ignoreChanges = false) => {
