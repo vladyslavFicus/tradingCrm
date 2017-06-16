@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator } from '../../../../../utils/validator';
-import { campaignTypesLabels, statusesLabels } from '../../../constants';
+import { campaignTypesLabels, statusesLabels } from '../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, placeholders } from '../constants';
 import { SelectField, SearchField, DateTimeField } from '../../../../../components/ReduxForm';

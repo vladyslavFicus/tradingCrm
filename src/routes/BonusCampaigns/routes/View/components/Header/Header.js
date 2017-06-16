@@ -6,7 +6,7 @@ import Amount from '../../../../../../components/Amount';
 import PropTypes from '../../../../../../constants/propTypes';
 import Uuid from '../../../../../../components/Uuid';
 import StatusDropDown from '../../../../components/StatusDropDown';
-import { statuses, targetTypes } from '../../../../constants';
+import { statuses, targetTypes } from '../../../../../../constants/bonus-campaigns';
 import './Header.scss';
 
 class Header extends Component {

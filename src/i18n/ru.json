@@ -166,6 +166,12 @@
         "TOTAL_LOGIN": "Всего логинов"
       },
       "TITLE": "Устройства"
+    },
+    "BONUS_CAMPAIGNS": {
+      "TITLE": "Бонусные кампании",
+      "GRID_VIEW": {
+        "CAMPAIGN": "Кампания"
+      }
     }
   },
   "COMMON": {

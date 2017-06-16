@@ -166,6 +166,12 @@
         "TOTAL_LOGIN": "Total login"
       },
       "TITLE": "Devices"
+    },
+    "BONUS_CAMPAIGNS": {
+      "TITLE": "Bonus campaigns",
+      "GRID_VIEW": {
+        "CAMPAIGN": "Campaign"
+      }
     }
   },
   "COMMON": {

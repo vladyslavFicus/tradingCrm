@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
 import Form from './Form';
-import { statuses } from '../../../../../constants';
+import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../../../../constants/propTypes';
 
 class View extends Component {

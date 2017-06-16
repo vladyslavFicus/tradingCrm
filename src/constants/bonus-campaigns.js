@@ -1,7 +1,7 @@
 import keyMirror from 'keymirror';
-import config from '../../config';
-import I18n from '../../utils/fake-i18n';
-import { customValueFieldTypes } from '../../constants/form';
+import config from '../config';
+import I18n from '../utils/fake-i18n';
+import { customValueFieldTypes } from '../constants/form';
 
 const actions = keyMirror({
   ACTIVATE: null,

@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
-import { statuses, statusesReasons } from '../../../constants';
+import { statuses, statusesReasons } from '../../../../../constants/bonus-campaigns';
 import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';

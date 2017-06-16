@@ -38,7 +38,6 @@ createStore(initialState, (store) => {
         ReactDOM.render(<RedBox error={error} />, MOUNT_NODE);
       };
 
-      // Wrap render in try/catch
       render = () => {
         try {
           renderApp();

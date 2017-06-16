@@ -17,7 +17,7 @@ import {
   campaignTypesLabels,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
-} from '../../../../constants';
+} from '../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './CreateBonusCampaignModal.scss';

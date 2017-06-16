@@ -8,10 +8,10 @@ import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
-import { campaignTypes, campaignTypesLabels, targetTypes, targetTypesLabels } from '../../../constants';
+import { campaignTypes, campaignTypesLabels, targetTypes, targetTypesLabels } from '../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../constants/form';
 import Amount from '../../../../../components/Amount';
-import BonusCampaignStatus from '../../../components/BonusCampaignStatus';
+import BonusCampaignStatus from '../../../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
 import CreateBonusCampaignModal from './CreateBonusCampaignModal';
 

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import UnitValue from '../UnitValue';
-import { targetTypesLabels, campaignTypesLabels } from '../../../../constants';
+import { targetTypesLabels, campaignTypesLabels } from '../../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './Information.scss';
 
