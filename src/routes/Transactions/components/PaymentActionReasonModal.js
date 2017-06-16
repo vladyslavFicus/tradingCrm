@@ -11,8 +11,8 @@ import {
 import classNames from 'classnames';
 import { targetTypes } from '../../../constants/note';
 import PopoverButton from '../../../components/PopoverButton';
-import { shortify } from '../../../utils/uuid';
 import './PaymentDetailModal.scss';
+import Uuid from '../../../components/Uuid';
 
 class PaymentActionReasonModal extends Component {
   static propTypes = {
@@ -109,7 +109,9 @@ class PaymentActionReasonModal extends Component {
                 {modalStaticParams.actionDescription}
               </div>
               <div className="font-weight-400">
-                <span className="font-weight-700">{firstName} {lastName} </span>{shortify(playerUUID, 'PL')}
+                <span className="font-weight-700">{firstName} {lastName}</span>
+                {' '}
+                <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
               </div>
             </div>
           </div>
@@ -143,7 +145,8 @@ class PaymentActionReasonModal extends Component {
                 onClick={id => this.handleNoteClick(id, payment)}
               >
                 {note
-                  ? (note.pinned ? <i className="note-icon note-pinned-note" /> : <i className="note-icon note-with-text" />)
+                  ? (note.pinned ? <i className="note-icon note-pinned-note" /> :
+                    <i className="note-icon note-with-text" />)
                   : <i className="note-icon note-add-note" />
                 }
               </PopoverButton>

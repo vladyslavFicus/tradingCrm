@@ -3,10 +3,10 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from '../../../../constants/propTypes';
 import { createValidator } from '../../../../utils/validator';
-import { shortify } from '../../../../utils/uuid';
 import { types, actions } from '../../../../constants/wallet';
 import { SelectField } from '../../../../components/ReduxForm/UserProfile';
 import './WalletLimitsModal.scss';
+import Uuid from '../../../../components/Uuid';
 
 const attributeLabels = {
   reason: 'Reason',
@@ -76,7 +76,10 @@ class WalletLimitsModal extends Component {
                 for {profile.fullName}
               </strong>
               {' - '}
-              {shortify(profile.uuid, 'PL')} <strong>account</strong>
+              <Uuid
+                uuid={profile.uuid}
+                uuidPrefix={profile.uuid.indexOf('PLAYER') === -1 ? 'PL' : null}
+              /> <strong>account</strong>
             </div>
 
             {reasons && this.renderReasonsSelect(reasons)}

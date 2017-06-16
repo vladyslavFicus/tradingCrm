@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import { shortify } from '../../utils/uuid';
 import './UsersPanelItem.scss';
+import Uuid from '../Uuid';
 
 class UsersPanelItem extends Component {
   static propTypes = {
@@ -41,7 +42,7 @@ class UsersPanelItem extends Component {
         <div className="users-panel-footer-row_item-block">
           <div className="users-panel-footer-row_item-block-info">
             <div className="player-name">{fullName}</div>
-            <div className="player-info">{login} - {shortify(uuid, 'PL')}</div>
+            <div className="player-info">{login} - {shortify(uuid, uuid.indexOf('PLAYER') === -1 ? 'PL' : '')}</div>
           </div>
 
           <button className="btn-transparent color-black" onClick={this.handleRemoveClick}>

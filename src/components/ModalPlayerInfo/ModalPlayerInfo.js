@@ -4,7 +4,7 @@ import moment from 'moment';
 import Amount from '../Amount';
 import { statusColorNames } from '../../constants/user';
 import PropTypes from '../../constants/propTypes';
-import { shortify } from '../../utils/uuid';
+import Uuid from '../Uuid';
 
 class ModalPlayerInfo extends Component {
   static propTypes = {
@@ -23,7 +23,14 @@ class ModalPlayerInfo extends Component {
       </span>
       {' '}
       {!!profile.birthDate && <div>({moment().diff(profile.birthDate, 'years')})</div>}
-      <span className="little-grey-text font-size-11">{profile.username} - {shortify(profile.uuid, 'PL')}</span>
+      <span className="little-grey-text font-size-11">
+        {profile.username}
+        {' - '}
+        <Uuid
+          uuid={profile.uuid}
+          uuidPrefix={profile.uuid.indexOf('PLAYER') === -1 ? 'PL' : null}
+        />
+      </span>
     </div>
   );
 
