@@ -7,19 +7,21 @@ import { targetTypesLabels, campaignTypesLabels } from '../../../../../../consta
 import renderLabel from '../../../../../../utils/renderLabel';
 import './Information.scss';
 
-const Information = ({ data: {
-  targetType,
-  totalSelectedPlayers,
-  totalOptInPlayers,
-  startDate,
-  endDate,
-  conversionPrize,
-  currency,
-  capping,
-  wagerWinMultiplier,
-  campaignRatio,
-  campaignType,
-} }) => (
+const Information = ({
+                       data: {
+                         targetType,
+                         totalSelectedPlayers,
+                         totalOptInPlayers,
+                         startDate,
+                         endDate,
+                         conversionPrize,
+                         currency,
+                         capping,
+                         wagerWinMultiplier,
+                         campaignRatio,
+                         campaignType,
+                       }
+                     }) => (
   <div className="bonus__campaign__details row">
     <div className="col-md-3">
       <div className="bonus__campaign__details_block">
@@ -30,7 +32,7 @@ const Information = ({ data: {
           <div className="panel-body height-200">
             <div>
               <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET_TYPE')}</strong>:{' '}
-              { renderLabel(targetType, targetTypesLabels)}
+              {renderLabel(targetType, targetTypesLabels)}
             </div>
             <div>
               <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_SELECTED')}</strong>:{' '}
@@ -67,7 +69,7 @@ const Information = ({ data: {
             </div>
             <div>
               <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.LIFE_TIME')}:</strong>{' '}
-              { moment().isSameOrAfter(endDate) ? 0 : moment(endDate).fromNow() }
+              {moment().isSameOrAfter(endDate) ? 0 : moment(endDate).fromNow()}
             </div>
             <div>
               <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CAMPAIGN_START')}:</strong>{' '}
@@ -77,14 +79,20 @@ const Information = ({ data: {
               <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CAMPAIGN_END')}:</strong>{' '}
               {moment(endDate).format('DD.MM.YYYY HH:mm')}
             </div>
-            <div>
-              <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PRIZE')}:</strong>{' '}
-              <UnitValue {...conversionPrize} currency={currency} />
-            </div>
-            <div>
-              <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CAPPING')}:</strong>{' '}
-              <UnitValue {...capping} currency={currency} />
-            </div>
+            {
+              conversionPrize &&
+              <div>
+                <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PRIZE')}:</strong>{' '}
+                <UnitValue {...conversionPrize} currency={currency} />
+              </div>
+            }
+            {
+              capping &&
+              <div>
+                <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CAPPING')}:</strong>{' '}
+                <UnitValue {...capping} currency={currency} />
+              </div>
+            }
           </div>
         </div>
       </div>

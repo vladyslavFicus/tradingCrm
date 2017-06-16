@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import GridView, { GridColumn } from '../../../../../../components/GridView';
 import Uuid from '../../../../../../components/Uuid';
-import BonusCampaignStatus from '../../../../../../components/BonusCampaignStatus';
 import renderLabel from '../../../../../../utils/renderLabel';
 import { campaignTypesLabels } from '../../../../../../constants/bonus-campaigns';
+import IframeLink from '../../../../../../components/IframeLink';
 
 class View extends Component {
   static propTypes = {
@@ -31,7 +31,8 @@ class View extends Component {
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.campaignUUID}`}>
-      <div className="font-weight-700 color-black">{data.name}</div>
+      <IframeLink className="font-weight-700 color-black"
+                  to={`/bonus-campaigns/view/${data.id}/settings`}>{data.name}</IframeLink>
       <div className="font-size-10">
         <Uuid uuid={data.uuid} uuidPrefix="CA" />
       </div>
@@ -45,12 +46,6 @@ class View extends Component {
       </div>
       <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
     </div>
-  );
-
-  renderStatus = data => (
-    <BonusCampaignStatus
-      campaign={data}
-    />
   );
 
   render() {
@@ -83,13 +78,6 @@ class View extends Component {
             header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
             headerClassName="text-uppercase"
             render={this.renderFulfillmentType}
-          />
-
-          <GridColumn
-            name="status"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.STATUS')}
-            headerClassName="text-uppercase"
-            render={this.renderStatus}
           />
         </GridView>
       </div>

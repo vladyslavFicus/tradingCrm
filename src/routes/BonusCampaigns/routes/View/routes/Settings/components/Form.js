@@ -205,7 +205,6 @@ class Form extends Component {
       pristine,
       submitting,
       valid,
-      errors,
       currencies,
       currentValues,
       disabled,
@@ -220,7 +219,7 @@ class Form extends Component {
             <h5 className="pull-left">
               {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
             </h5>
-            { !(disabled || pristine || submitting || !valid) &&
+            {!(disabled || pristine || submitting || !valid) &&
             <div className="pull-right">
               <button
                 onClick={this.handleRevert}

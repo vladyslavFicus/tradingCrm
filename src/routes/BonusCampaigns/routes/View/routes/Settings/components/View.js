@@ -4,6 +4,7 @@ import { SubmissionError } from 'redux-form';
 import Form from './Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../../../../constants/propTypes';
+import { customValueFieldTypes } from '../../../../../../../constants/form';
 
 class View extends Component {
   static propTypes = {
@@ -67,8 +68,14 @@ class View extends Component {
                   wagerWinMultiplier: bonusCampaign.wagerWinMultiplier,
                   bonusLifetime: bonusCampaign.bonusLifetime,
                   campaignRatio: bonusCampaign.campaignRatio,
-                  conversionPrize: bonusCampaign.conversionPrize,
-                  capping: bonusCampaign.capping,
+                  conversionPrize: bonusCampaign.conversionPrize || {
+                    value: null,
+                    type: customValueFieldTypes.ABSOLUTE
+                  },
+                  capping: bonusCampaign.capping || {
+                    value: null,
+                    type: customValueFieldTypes.ABSOLUTE
+                  },
                   optIn: bonusCampaign.optIn,
                   campaignType: bonusCampaign.campaignType,
                   minAmount: bonusCampaign.minAmount,

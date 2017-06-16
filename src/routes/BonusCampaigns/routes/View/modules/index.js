@@ -108,6 +108,14 @@ function updateCampaign(id, data) {
       return { type: false };
     }
 
+    const endpointParams = { ...data };
+    if (endpointParams.conversionPrize && endpointParams.conversionPrize.value === undefined) {
+      endpointParams.conversionPrize = null;
+    }
+    if (endpointParams.capping && endpointParams.capping.value === undefined) {
+      endpointParams.capping = null;
+    }
+
     return dispatch({
       [CALL_API]: {
         endpoint: `promotion/campaigns/${id}`,
@@ -117,7 +125,7 @@ function updateCampaign(id, data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(endpointParams),
         types: [
           {
             type: CAMPAIGN_UPDATE.REQUEST,
