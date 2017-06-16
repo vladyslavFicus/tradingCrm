@@ -451,6 +451,7 @@ function successUpdateProfileReducer(state, action) {
     receivedAt: timestamp(),
   };
 }
+
 function successUpdateFileStatusReducer(state, action) {
   let field;
   if (action.payload.category === filesCategories.KYC_PERSONAL) {
@@ -591,7 +592,7 @@ const actionHandlers = {
       currencyCode: action.payload && action.payload.balance
         ? action.payload.balance.currency
         : state.data.currencyCode,
-      signInIps: Object.values(action.payload.signInIps).sort((a, b) => {
+      signInIps: action.payload.signInIps ? Object.values(action.payload.signInIps).sort((a, b) => {
         if (a.sessionStart > b.sessionStart) {
           return -1;
         } else if (b.sessionStart > a.sessionStart) {
@@ -599,7 +600,7 @@ const actionHandlers = {
         }
 
         return 0;
-      }),
+      }) : state.data.signInIps,
     },
     isLoading: false,
     receivedAt: timestamp(),
