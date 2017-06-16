@@ -21,11 +21,11 @@ const sidebarTopMenu = [
       { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'), url: '/paymentMethods' },
     ],
   },
-  {
-    label: I18n.t('SIDEBAR.TOP_MENU.COUNTRIES'),
-    icon: 'fa fa-globe',
-    url: '/countries',
-  },
+  // {
+  //   label: I18n.t('SIDEBAR.TOP_MENU.COUNTRIES'),
+  //   icon: 'fa fa-globe',
+  //   url: '/countries',
+  // },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'),
     icon: 'fa fa-gift',
