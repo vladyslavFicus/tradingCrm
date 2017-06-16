@@ -595,5 +595,19 @@
       "TITLE": "Последний вход",
       "FROM_COUNTRY": " из %{country}"
     }
+  },
+  "error": {
+    "validation": {
+      "invalid": {
+        "payment": {
+          "operation": "Невалидная платежная операция"
+        }
+      }
+    },
+    "payment": {
+      "method": {
+        "inactive": "Платежный метод неактивен"
+      }
+    }
   }
 }

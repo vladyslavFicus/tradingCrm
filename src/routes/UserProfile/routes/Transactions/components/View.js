@@ -35,23 +35,23 @@ const defaultModalState = {
 
 class View extends Component {
   static propTypes = {
-    isLoading: PropTypes.bool,
+    isLoading: PropTypes.bool.isRequired,
     fetchEntities: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    loadPaymentMethods: PropTypes.func.isRequired,
+    loadPaymentAccounts: PropTypes.func.isRequired,
     addPayment: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
-    entities: PropTypes.object,
-    currencyCode: PropTypes.string,
+    entities: PropTypes.object.isRequired,
+    currencyCode: PropTypes.string.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
-    }),
-    newPaymentNote: PropTypes.noteEntity,
-    profile: PropTypes.object,
-    accumulatedBalances: PropTypes.object,
-    paymentActionReasons: PropTypes.paymentActionReasons,
+    }).isRequired,
+    newPaymentNote: PropTypes.noteEntity.isRequired,
+    profile: PropTypes.object.isRequired,
+    accumulatedBalances: PropTypes.object.isRequired,
+    paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -97,7 +97,7 @@ class View extends Component {
     this.props.params.id, {
       ...this.state.filters,
       page: this.state.page,
-    }
+    },
   );
 
   handleFilterSubmit = (data = {}) => {
@@ -226,7 +226,7 @@ class View extends Component {
         <div {...props}> {label} </div>
         <span className="font-size-10 text-uppercase color-default">
           {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={`${SystemRef}-${index}`} children={SystemRef} />
+            <div key={`${SystemRef}-${index}`}> {SystemRef} </div>
           ))}
         </span>
       </div>
@@ -369,7 +369,7 @@ class View extends Component {
     const {
       entities,
       currencyCode,
-      loadPaymentMethods,
+      loadPaymentAccounts,
       manageNote,
       profile: { fullName, shortUUID },
       params: { id: playerUUID },
@@ -497,7 +497,7 @@ class View extends Component {
               shortUUID,
             }}
             onClose={this.handleCloseModal}
-            onLoadPaymentMethods={() => loadPaymentMethods(playerUUID)}
+            onLoadPaymentAccounts={() => loadPaymentAccounts(playerUUID)}
             onSubmit={this.handleAddPayment}
             onManageNote={manageNote}
           />

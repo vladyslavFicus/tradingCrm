@@ -11,7 +11,7 @@ class List extends Component {
   static propTypes = {
     loadCountries: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
-    list: PropTypes.pageableState(PropTypes.countryAccessEntity),
+    list: PropTypes.pageableState(PropTypes.countryAccessEntity).isRequired,
     locale: PropTypes.string.isRequired,
   };
 
@@ -82,7 +82,7 @@ class List extends Component {
                 header={I18n.t('COUNTRIES.GRID.LABEL.COUNTRY')}
                 headerClassName="text-uppercase"
                 className="font-weight-700"
-                headerStyle={{ width: '20%' }}
+                headerStyle={{ width: '350px' }}
               />
               <GridColumn
                 name="access"
