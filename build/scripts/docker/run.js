@@ -1,6 +1,7 @@
 const process = require('process');
 const fs = require('fs');
 const fetch = require('isomorphic-fetch');
+const ymlReader = require('yamljs');
 const _ = require('lodash');
 const fetchZookeeperConfig = require('./fetch-zookeeper-config');
 
@@ -93,12 +94,13 @@ function processSpringConfig(pureSpringConfig) {
   );
   const formattedSpringConfig = {};
   Object.keys(springConfig).map(i => _.set(formattedSpringConfig, i, springConfig[i]));
+  const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${BUILD_ENV}.yml`);
 
   return fetchZookeeperConfig({
-    path: `/${APP_NAME}/lib/etc/application-${BUILD_ENV}.yml`,
+    environmentConfig,
     allowedKeys: ['nas.brand.password.pattern'],
   }).then(function (config) {
-    return _.merge({}, formattedSpringConfig, config);
+    return _.merge({}, formattedSpringConfig, config, environmentConfig);
   });
 }
 
@@ -157,7 +159,6 @@ if (!BUILD_ENV) {
 fetchConfigByURL(`${CONFIG_SERVICE_ROOT}/${APP_NAME}/${BUILD_ENV}`)
   .then(processSpringConfig, processError)
   .then(config => saveConfig(config).then(() => {
-    console.log(config.components.Currency.currencies);
     const health = Object.assign({}, defaultHealth);
     const apiUrl = _.get(config, REQUIRED_CONFIG_PARAM);
 
