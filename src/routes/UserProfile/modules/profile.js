@@ -445,7 +445,7 @@ function successUpdateProfileReducer(state, action) {
       ...state.data,
       ...action.payload,
       fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
-      shortUUID: shortify(action.payload.uuid, 'PL'),
+      shortUUID: shortify(action.payload.uuid, action.payload.uuid.indexOf('PLAYER') === -1 ? 'PL' : ''),
     },
     isLoading: false,
     receivedAt: timestamp(),

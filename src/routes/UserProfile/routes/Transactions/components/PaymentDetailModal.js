@@ -20,6 +20,7 @@ import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncont
 import PermissionContent from '../../../../../components/PermissionContent';
 import Permissions from '../../../../../utils/permissions';
 import permission from '../../../../../config/permissions';
+import Uuid from '../../../../../components/Uuid';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
 const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
@@ -142,7 +143,7 @@ class PaymentDetailModal extends Component {
         {
           actions &&
           <div className="payment-details-actions">
-            { actions }
+            {actions}
           </div>
         }
       </ModalFooter>
@@ -201,7 +202,12 @@ class PaymentDetailModal extends Component {
                   </span>
                 </div>
                 <span className="font-size-10 text-uppercase color-default">
-                  {[username, shortify(uuid, 'PL'), languageCode].join(' - ')}
+                  {`${username} - `}
+                  <Uuid
+                    uuid={uuid}
+                    uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : null}
+                  />
+                  {` - ${languageCode}`}
                 </span>
               </div>
             </div>
@@ -241,7 +247,7 @@ class PaymentDetailModal extends Component {
               <div className="font-size-14">
                 <div className="font-weight-700">{shortify(paymentId, 'TA')}</div>
                 <span className="font-size-10 text-uppercase color-default">
-                by {shortify(playerUUID, 'PL')}
+                  by <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
                 </span>
               </div>
             </div>
@@ -314,7 +320,7 @@ class PaymentDetailModal extends Component {
               </div>
               <div>
                 <div className="font-weight-700">
-                  { paymentsMethodsLabels[paymentMethod] || paymentMethod }
+                  {paymentsMethodsLabels[paymentMethod] || paymentMethod}
                 </div>
                 <span className="font-size-10">
                   {shortify(paymentAccount, null, 2)}
@@ -330,7 +336,8 @@ class PaymentDetailModal extends Component {
                 onClick={id => this.handleNoteClick(id, this.props.payment)}
               >
                 {note
-                  ? (note.pinned ? <i className="note-icon note-pinned-note" /> : <i className="note-icon note-with-text" />)
+                  ? (note.pinned ? <i className="note-icon note-pinned-note" /> :
+                    <i className="note-icon note-with-text" />)
                   : <i className="note-icon note-add-note" />
                 }
               </PopoverButton>
@@ -338,7 +345,7 @@ class PaymentDetailModal extends Component {
           </div>
         </ModalBody>
 
-        { this.renderFooter() }
+        {this.renderFooter()}
       </Modal>
     );
   }

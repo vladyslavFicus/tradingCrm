@@ -12,7 +12,7 @@ import classNames from 'classnames';
 import { targetTypes } from '../../../../../constants/note';
 import PopoverButton from '../../../../../components/PopoverButton';
 import './PaymentDetailModal.scss';
-import { shortify } from '../../../../../utils/uuid';
+import Uuid from '../../../../../components/Uuid';
 
 class PaymentActionReasonModal extends Component {
   static propTypes = {
@@ -107,7 +107,8 @@ class PaymentActionReasonModal extends Component {
                 {modalStaticParams.actionDescription}
               </div>
               <div className="font-weight-400">
-                <span className="font-weight-700">{firstName} {lastName} </span>{shortify(playerUUID, 'PL')}
+                <span className="font-weight-700">{firstName} {lastName} </span>
+                <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}/>
               </div>
             </div>
           </div>

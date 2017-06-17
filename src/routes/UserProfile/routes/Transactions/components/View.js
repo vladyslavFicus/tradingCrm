@@ -24,6 +24,7 @@ import PaymentActionReasonModal from './PaymentActionReasonModal';
 import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 import PropTypes from '../../../../../constants/propTypes';
+import Uuid from '../../../../../components/Uuid';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -212,7 +213,7 @@ class View extends Component {
     <span>
       <div className="font-weight-700">{shortify(data.paymentId, 'TA')}</div>
       <span className="font-size-10 text-uppercase color-default">
-          by {shortify(data.playerUUID, 'PL')}
+        by <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
       </span>
     </span>
   );
@@ -281,10 +282,10 @@ class View extends Component {
   renderMethod = data => (
     <div>
       <div className="font-weight-700">
-        {methodsLabels[data.paymentMethod] || data.paymentMethod }
+        {methodsLabels[data.paymentMethod] || data.paymentMethod}
       </div>
       <span className="font-size-10">
-        { shortify(data.paymentAccount, null, 2) }
+        {shortify(data.paymentAccount, null, 2)}
       </span>
     </div>
   );
