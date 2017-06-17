@@ -14,6 +14,7 @@ import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
 import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
 import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
 import './FeedItem.scss';
+import Uuid from '../Uuid';
 
 class FeedItem extends Component {
   static propTypes = {
@@ -88,7 +89,17 @@ class FeedItem extends Component {
             </span>
             {
               !!data.authorUuid &&
-              ` - ${shortify(data.authorUuid, data.authorUuid.indexOf('OPERATOR') === -1 ? 'PL' : '')}`
+              <span>
+                {' - '}
+                <Uuid
+                  uuid={data.authorUuid}
+                  uuidPrefix={
+                    data.authorUuid.indexOf('OPERATOR') === -1
+                      ? data.authorUuid.indexOf('PLAYER') === -1 ? 'PL' : null
+                      : null
+                  }
+                />
+              </span>
             }
           </div>
           <div className="feed-item_info-date">
@@ -108,13 +119,13 @@ class FeedItem extends Component {
                         {I18n.t('COMMON.DETAILS_COLLAPSE.HIDE')}
                         <i className="fa fa-caret-up" />
                       </span>
-                  )
+                    )
                     : (
                       <span>
                         {I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
                         <i className="fa fa-caret-down" />
                       </span>
-                  )
+                    )
                 }
               </button>
             }
