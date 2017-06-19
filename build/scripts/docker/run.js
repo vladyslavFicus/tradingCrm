@@ -100,7 +100,7 @@ function processSpringConfig(pureSpringConfig) {
     environmentConfig,
     allowedKeys: ['nas.brand.password.pattern'],
   }).then(function (config) {
-    return _.merge({}, formattedSpringConfig, config, environmentConfig);
+    return _.merge({}, formattedSpringConfig, config, { nas: environmentConfig.nas });
   });
 }
 
