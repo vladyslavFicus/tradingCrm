@@ -24,6 +24,7 @@ class Header extends Component {
     const {
       data: {
         campaignName,
+        campaignPriority,
         authorUUID,
         campaignUUID,
         creationDate,
@@ -48,6 +49,8 @@ class Header extends Component {
             <div className="bonus__campaign__uuid">
               <span className="short__uuid">
                 <Uuid uuid={campaignUUID} uuidPrefix="CA" />
+                {' - '}
+                {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PRIORITY', { priority: campaignPriority })}
               </span>
             </div>
           </div>

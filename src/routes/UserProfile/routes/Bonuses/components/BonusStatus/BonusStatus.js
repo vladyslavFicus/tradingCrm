@@ -9,6 +9,7 @@ import {
   cancellationReason,
 } from '../../../../../../constants/bonus';
 import Uuid from '../../../../../../components/Uuid';
+import Amount from '../../../../../../components/Amount/Amount';
 
 class BonusStatus extends Component {
   static propTypes = {
@@ -37,12 +38,14 @@ class BonusStatus extends Component {
       content = this.renderStatusActive(bonus);
     } else if (bonus.state === statuses.CANCELLED) {
       content = this.renderStatusCancelled(bonus);
+    } else if (bonus.state === statuses.WAGERING_COMPLETE) {
+      content = this.renderStatusWagered(bonus);
     }
 
     return (
       <div>
         <div {...props}>{label}</div>
-        <div className="font-size-10">{content}</div>
+        {!!content && <div className="font-size-10">{content}</div>}
       </div>
     );
   };
@@ -51,28 +54,47 @@ class BonusStatus extends Component {
     ? <span>Until {moment(bonus.expirationDate).format('DD.MM.YYYY')}</span>
     : null;
 
-  renderStatusCancelled = (bonus) => {
-    return (
-      <div className="font-size-10">
-        {
-          bonus.cancellerUUID &&
-          <div>
-            by{' '}
-            <Uuid
-              uuid={bonus.cancellerUUID}
-              uuidPrefix={(bonus.cancellationReason === cancellationReason.MANUAL_BY_PLAYER ? 'PL' : null)}
-            />
-          </div>
-        }
-        {
-          bonus.endDate &&
-          <div>
-            on {moment(bonus.endDate).format('DD.MM.YYYY')}
-          </div>
-        }
-      </div>
-    );
-  };
+  renderStatusCancelled = bonus => (
+    <div className="font-size-10">
+      {
+        bonus.cancellerUUID &&
+        <div>
+          by{' '}
+          <Uuid
+            uuid={bonus.cancellerUUID}
+            uuidPrefix={(
+              bonus.cancellationReason === cancellationReason.MANUAL_BY_PLAYER
+                ? bonus.cancellerUUID.indexOf('PLAYER') === -1 ? 'PL' : null
+                : null
+            )}
+          />
+        </div>
+      }
+      {
+        bonus.endDate &&
+        <div>
+          on {moment(bonus.endDate).format('DD.MM.YYYY')}
+        </div>
+      }
+    </div>
+  );
+
+  renderStatusWagered = bonus => (
+    <div className="font-size-10">
+      {
+        bonus.endDate &&
+        <div>
+          on {moment(bonus.endDate).format('DD.MM.YYYY')}
+        </div>
+      }
+      {
+        !!bonus.convertedAmount &&
+        <div>
+          to <Amount {...bonus.convertedAmount} />
+        </div>
+      }
+    </div>
+  );
 
   render() {
     const { className, label } = this.props;

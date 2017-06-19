@@ -127,6 +127,7 @@ PropTypes.bonusEntity = PropTypes.shape({
   startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   state: PropTypes.string,
   wagered: PropTypes.price,
+  convertedAmount: PropTypes.price,
 });
 PropTypes.fileEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,

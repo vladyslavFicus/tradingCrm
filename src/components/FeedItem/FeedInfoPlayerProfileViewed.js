@@ -1,7 +1,7 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
-import { shortify } from '../../utils/uuid';
+import Uuid from '../Uuid';
 
 const FeedInfoPlayerProfileViewed = ({ data }) => (
   <div className="feed-item_info-details">
@@ -10,7 +10,11 @@ const FeedInfoPlayerProfileViewed = ({ data }) => (
       <span className="feed-item_info-details_value">
         {data.details.firstName} {data.details.lastName}
       </span>
-      {` - ${shortify(data.details.playerUUID, 'PL')}`}
+      {' - '}
+      <Uuid
+        uuid={data.details.playerUUID}
+        uuidPrefix={data.details.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+      />
     </div>
   </div>
 );

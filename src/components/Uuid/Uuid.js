@@ -43,7 +43,7 @@ class Uuid extends Component {
 
     const id = elements.slice(0, size).join('-');
     return prefix ? [prefix, id].join('-') : id;
-  }
+  };
 
   render() {
     const {

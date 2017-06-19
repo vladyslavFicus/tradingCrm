@@ -136,6 +136,9 @@ class View extends Component {
       <div className="font-size-10">
         <Uuid uuid={data.campaignUUID} uuidPrefix="CA" />
       </div>
+      <div className="font-size-10">
+        {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.PRIORITY', { priority: data.campaignPriority })}
+      </div>
       {
         data.authorUUID &&
         <div className="font-size-10">

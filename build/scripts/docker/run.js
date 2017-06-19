@@ -1,6 +1,8 @@
 const process = require('process');
 const fs = require('fs');
 const fetch = require('isomorphic-fetch');
+const _ = require('lodash');
+const fetchZookeeperConfig = require('./fetch-zookeeper-config');
 
 /**
  * ==================
@@ -8,6 +10,7 @@ const fetch = require('isomorphic-fetch');
  * ==================
  */
 const { CONFIG_SERVICE_ROOT, BUILD_ENV } = process.env;
+const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'brand.api.url';
 const CONFIG_VARIABLE_LINK_REGEX = /\${(([\w]+.)+)}/;
 const consolePrefix = '[startup.js]: ';
@@ -71,7 +74,7 @@ const assignValues = (o) => {
     }, o);
 };
 const saveHealth = health => new Promise((resolve) => {
-  fs.writeFile('/opt/health.json', JSON.stringify(health), () => {
+  fs.writeFile('/opt/health.json', JSON.stringify(health), { encoding: 'utf8' }, () => {
     resolve();
   });
 });
@@ -84,8 +87,19 @@ function processError(error) {
   });
 }
 
-function processSpringConfig(springConfig) {
-  return assignValues(springConfig.propertySources.reduce((res, item) => Object.assign(res, item.source), {}));
+function processSpringConfig(pureSpringConfig) {
+  const springConfig = assignValues(
+    pureSpringConfig.propertySources.reduce((res, item) => _.merge({}, res, item.source), {})
+  );
+  const formattedSpringConfig = {};
+  Object.keys(springConfig).map(i => _.set(formattedSpringConfig, i, springConfig[i]));
+
+  return fetchZookeeperConfig({
+    path: `/${APP_NAME}/lib/etc/application-${BUILD_ENV}.yml`,
+    allowedKeys: ['nas.brand.password.pattern'],
+  }).then(function (config) {
+    return _.merge({}, formattedSpringConfig, config);
+  });
 }
 
 function fetchConfigByURL(url, timeout = 5, attempts = 10) {
@@ -122,7 +136,7 @@ function fetchConfigHealth(url) {
 
 function saveConfig(config) {
   return new Promise((resolve, reject) => {
-    fs.writeFile('/opt/build/config.js', `window.nas=${JSON.stringify(config)};`, (error) => {
+    fs.writeFile('/opt/build/config.js', `window.nas = ${JSON.stringify(config)};`, { encoding: 'utf8' }, (error) => {
       if (error) {
         return reject(error);
       }
@@ -140,15 +154,17 @@ if (!BUILD_ENV) {
   throw new Error('"BUILD_ENV" is required environment variable');
 }
 
-fetchConfigByURL(`${CONFIG_SERVICE_ROOT}/backoffice/${BUILD_ENV}`)
+fetchConfigByURL(`${CONFIG_SERVICE_ROOT}/${APP_NAME}/${BUILD_ENV}`)
   .then(processSpringConfig, processError)
   .then(config => saveConfig(config).then(() => {
+    console.log(config.components.Currency.currencies);
     const health = Object.assign({}, defaultHealth);
+    const apiUrl = _.get(config, REQUIRED_CONFIG_PARAM);
 
-    if (config[REQUIRED_CONFIG_PARAM]) {
+    if (apiUrl) {
       health.config.status = STATUS.UP;
 
-      return fetchConfigHealth(`${config[REQUIRED_CONFIG_PARAM]}/config/health`)
+      return fetchConfigHealth(`${apiUrl}/config/health`)
         .then((response) => {
           if (response.status === STATUS.UP) {
             health.api.status = STATUS.UP;

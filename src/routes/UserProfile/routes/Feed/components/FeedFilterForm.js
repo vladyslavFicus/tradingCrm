@@ -8,6 +8,7 @@ import { createValidator } from '../../../../../utils/validator';
 import PropTypes from '../../../../../constants/propTypes';
 import { typesLabels } from '../../../../../constants/audit';
 import { InputField, SelectField } from '../../../../../components/ReduxForm';
+import renderLabel from '../../../../../utils/renderLabel';
 
 const FORM_NAME = 'userFeedFilter';
 const attributeLabels = {
@@ -113,7 +114,7 @@ class FeedFilterForm extends Component {
                   <option value="">All actions</option>
                   {availableTypes.map(type => (
                     <option key={type} value={type}>
-                      {typesLabels[type] || type}
+                      {renderLabel(type, typesLabels)}
                     </option>
                   ))}
                 </Field>

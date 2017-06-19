@@ -150,7 +150,7 @@ class Header extends Component {
             </div>
             <div className="player__account__ids">
               <span>{username}</span> {' - '}
-              {uuid && <Uuid uuid={uuid} uuidPrefix="PL" />} {' - '}
+              {!!uuid && <Uuid uuid={uuid} uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : null} />} {' - '}
               <span>{languageCode}</span>
             </div>
           </div>

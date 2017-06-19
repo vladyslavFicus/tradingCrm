@@ -20,7 +20,7 @@ const GridPlayerInfo = props => (
 
         <div className="font-size-11 color-default line-height-1">
           <span>{props.profile.username}</span> {' - '}
-          <span>{<Uuid uuid={props.profile.uuid} uuidPrefix="PL" />}</span>
+          <Uuid uuid={props.profile.uuid} uuidPrefix={props.profile.uuid.indexOf('PLAYER') === -1 ? 'PL' : ''} />
           <div>{props.profile.languageCode}</div>
         </div>
       </div>

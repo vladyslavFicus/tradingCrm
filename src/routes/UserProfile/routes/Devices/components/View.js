@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import moment from 'moment';
-import { shortify } from '../../../../../utils/uuid';
 import { typesLabels, typesColor, types } from '../../../../../constants/devices';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';

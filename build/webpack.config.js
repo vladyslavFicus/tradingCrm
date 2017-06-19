@@ -38,6 +38,11 @@ const config = {
   },
   externals: project.externals,
   module: {
+    noParse: [
+      inProject('node_modules/react/dist/react.min'),
+      inProject('node_modules/react-dom/dist/react-dom.min'),
+      inProject('node_modules/redux/dist/redux.min'),
+    ],
     rules: [],
   },
   plugins: [
@@ -48,7 +53,7 @@ const config = {
       __PROD__,
     }, project.globals)),
     new HappyPack({
-      threads: 2,
+      threads: 4,
       loaders: [
         {
           loader: 'babel-loader',
@@ -140,6 +145,10 @@ config.module.rules.push({
       },
     ],
   }),
+  include: [
+    inProject('src'),
+  ],
+  exclude: /node_modules/,
 });
 config.module.rules.push({
   test: /\.css$/,

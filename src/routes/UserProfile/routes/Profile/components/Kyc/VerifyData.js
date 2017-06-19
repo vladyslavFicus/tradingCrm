@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import PropTypes from '../../../../../../constants/propTypes';
 import { statuses as kysStatuses } from '../../../../../../constants/kyc';
-import { shortify } from '../../../../../../utils/uuid';
+import Uuid from '../../../../../../components/Uuid';
 
 class VerifyData extends Component {
   static propTypes = {
@@ -57,7 +57,7 @@ class VerifyData extends Component {
                   <i className="fa fa-exclamation-triangle" /> {title} verification rejected
                 </div>
                 <div className="font-size-11 color-default font-weight-500">
-                  by {shortify(status.author)} on {moment(status.editDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
+                  by <Uuid uuid={status.author} /> on {moment(status.editDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
                 </div>
               </div>
             </div>
@@ -90,7 +90,7 @@ class VerifyData extends Component {
                   <i className="fa fa-check-circle-o" /> {title} verified
                 </div>
                 <div className="font-size-11 color-default font-weight-500">
-                  by {shortify(status.author)} on {moment(status.editDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
+                  by <Uuid uuid={status.author} /> on {moment(status.editDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
                 </div>
               </div>
             </div>

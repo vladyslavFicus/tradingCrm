@@ -486,7 +486,8 @@
       "TOTAL_SELECTED_PLAYERS": "Выбрано: %{count} игроков",
       "TOTAL_SELECTED_PLAYERS_1": "Выбрано: %{count} игрок",
       "TOTAL_SELECTED_PLAYERS_2": "Выбрано: %{count} игрока",
-      "TYPE": "Тип"
+      "TYPE": "Тип",
+      "PRIORITY": "Приоритет: %{priority}"
     },
     "TITLE": "Бонусные кампании",
     "FILTER_FORM": {
@@ -522,7 +523,8 @@
           "CAMPAIGN_START": "Старт компании",
           "CAMPAIGN_END": "Окончание компании",
           "PRIZE": "Приз",
-          "CAPPING": "Capping"
+          "CAPPING": "Capping",
+          "PRIORITY": "Приоритет: %{priority}"
         },
         "GRANTED_TO": "для %{count} игроков",
         "GRANTED_TO_1": "для %{count} игрока"
@@ -548,7 +550,7 @@
         "END_DATE": "Конец",
         "CAPPING": "Capping",
         "MULTIPLIER": "Multiplier",
-        "BONUS_LIFE_TIME": "Время жизни бонуса",
+        "BONUS_LIFE_TIME": "Время жизни",
         "CAMPAIGN_RATIO": "Коэффициент",
         "CONVERSION_PRIZE": "Приз",
         "OPT_IN": "Opt-In",
@@ -557,7 +559,8 @@
         "MAX_AMOUNT": "Макс. сумма",
         "MIN_AMOUNT_PLACEHOLDER": "Мин.",
         "MAX_AMOUNT_PLACEHOLDER": "Макс.",
-        "RATIO_TOOLTIP": "Депозит: предоставленный бонус"
+        "RATIO_TOOLTIP": "Депозит: предоставленный бонус",
+        "PRIORITY": "Приоритет"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
