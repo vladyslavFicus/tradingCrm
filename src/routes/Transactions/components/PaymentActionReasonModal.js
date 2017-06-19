@@ -20,8 +20,8 @@ class PaymentActionReasonModal extends Component {
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    profile: PropTypes.userProfile,
-    payment: PropTypes.paymentEntity,
+    profile: PropTypes.userProfile.isRequired,
+    payment: PropTypes.paymentEntity.isRequired,
     reasons: PropTypes.arrayOf(PropTypes.string),
     action: PropTypes.string.isRequired,
     modalStaticParams: PropTypes.paymentReasonModalStaticParams,
@@ -29,6 +29,8 @@ class PaymentActionReasonModal extends Component {
   static defaultProps = {
     className: '',
     isOpen: false,
+    reasons: [],
+    modalStaticParams: {},
   };
   static contextTypes = {
     notes: PropTypes.shape({

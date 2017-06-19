@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import { shortify } from '../../utils/uuid';
 import './UsersPanelItem.scss';
-import Uuid from '../Uuid';
 
 class UsersPanelItem extends Component {
   static propTypes = {
