@@ -301,8 +301,6 @@ class View extends Component {
     const { modal, filters } = this.state;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
-    console.log('paymentActionReasons', this.props.paymentActionReasons);
-
     return (
       <div className="page-content-inner">
         <Panel withBorders>
