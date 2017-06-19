@@ -590,5 +590,19 @@
       "TITLE": "Last login",
       "FROM_COUNTRY": " from %{country}"
     }
+  },
+  "error": {
+    "validation": {
+      "invalid": {
+        "payment": {
+          "operation": "Invalid payment operation"
+        }
+      }
+    },
+    "payment": {
+      "method": {
+        "inactive": "Payment method inactive"
+      }
+    }
   }
 }
