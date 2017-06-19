@@ -87,11 +87,11 @@ module.exports = {
   "components": {
     "Currency": {
       "currencies": {
-        "EUR": { "symbol": "â‚¬", "symbolOnLeft": true },
+        "EUR": { "symbol": "€", "symbolOnLeft": true },
         "USD": { "symbol": "$", "symbolOnLeft": true },
-        "RUB": { "symbol": "â‚½", "symbolOnLeft": true },
-        "UAH": { "symbol": "â‚´", "symbolOnLeft": true },
-        "GBP": { "symbol": "Â£", "symbolOnLeft": true },
+        "RUB": { "symbol": "₽", "symbolOnLeft": true },
+        "UAH": { "symbol": "₴", "symbolOnLeft": true },
+        "GBP": { "symbol": "£", "symbolOnLeft": true },
         "SEK": { "symbol": "kr", "symbolOnLeft": false },
         "NOK": { "symbol": "kr", "symbolOnLeft": false }
       }

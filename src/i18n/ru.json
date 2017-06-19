@@ -310,7 +310,7 @@
       },
       "TYPES": {
         "FIRST_DEPOSIT": "Первый депозит",
-        "PLAYER_PROFILE_COMPLETED": "Профиль заполнен",
+        "PROFILE_COMPLETED": "Профиль заполнен",
         "MANUAL": "Без депозита"
       },
       "ASSIGN": {

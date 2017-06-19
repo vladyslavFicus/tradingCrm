@@ -311,7 +311,7 @@
       },
       "TYPES": {
         "FIRST_DEPOSIT": "First deposit",
-        "PLAYER_PROFILE_COMPLETED": "Profile completed",
+        "PROFILE_COMPLETED": "Profile completed",
         "MANUAL": "No Deposit"
       },
       "ASSIGN": {
