@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
-import { shortify } from '../../../../utils/uuid';
 import { shortifyInMiddle } from '../../../../utils/stringFormat';
 import { categoriesLabels } from '../../../../constants/files';
 import { targetTypes } from '../../../../constants/note';
 import GridView, { GridColumn } from '../../../../components/GridView';
 import FileStatusDropDown from '../../../../components/FileStatusDropDown';
 import PopoverButton from '../../../../components/PopoverButton';
+import Uuid from '../../../../components/Uuid';
 
 class CommonFileGridView extends Component {
   static propTypes = {
@@ -58,10 +58,15 @@ class CommonFileGridView extends Component {
           {data.name}
         </div>
         <div title={data.realName} className="font-size-12">
-          {data.name === data.realName ? null : `${shortifyInMiddle(data.realName, 40)} - `}{shortify(data.uuid)}
+          {data.name === data.realName ? null : `${shortifyInMiddle(data.realName, 40)} - `}
+          <Uuid uuid={data.uuid} />
         </div>
         <div className="font-size-12">
-          by {shortify(data.author, data.author.indexOf('OPERATOR') === -1 ? 'PL' : '')}
+          by <Uuid uuid={data.author} uuidPrefix={
+          data.author.indexOf('OPERATOR') === -1
+            ? data.author.indexOf('PLAYER') === -1 ? 'PL' : null
+            : null
+        } />
         </div>
       </div>
     );

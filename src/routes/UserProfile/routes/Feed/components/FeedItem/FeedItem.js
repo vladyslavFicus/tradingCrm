@@ -10,6 +10,7 @@ import FeedInfoLogin from './FeedInfoLogin';
 import FeedInfoLogout from './FeedInfoLogout';
 import FeedInfoProfileChanged from './FeedInfoProfileChanged';
 import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
+import Uuid from '../../../../../../components/Uuid';
 
 class FeedItem extends Component {
   static propTypes = {
@@ -73,7 +74,16 @@ class FeedItem extends Component {
           <div className="feed-item_info-name">
             <span className={classNames('audit-name', color)}>
               {data.authorFullName}
-            </span> - {shortify(data.authorUuid, data.authorUuid === data.targetUuid ? 'PL' : null)}
+            </span>
+            {' - '}
+            <Uuid
+              uuid={data.authorUUID}
+              uuidPrefix={
+                data.authorUUID.indexOf('PLAYER') === -1
+                  ? 'PL'
+                  : data.authorUuid === data.targetUuid ? 'PL' : null
+              }
+            />
           </div>
           <div className="feed-item_info-date">
             {data.creationDate ? moment(data.creationDate).format('DD.MM.YYYY HH:mm:ss') : null}

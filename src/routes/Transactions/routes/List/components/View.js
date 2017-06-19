@@ -23,6 +23,7 @@ import PopoverButton from '../../../../../components/PopoverButton';
 import Amount from '../../../../../components/Amount';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
+import Uuid from '../../../../../components/Uuid';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -158,9 +159,9 @@ class View extends Component {
 
   renderTransactionId = data => (
     <span id={`payment-${data.paymentId}`}>
-      <div className="font-weight-700">{shortify(data.paymentId, 'TA')}</div>
+      <div className="font-weight-700"><Uuid uuid={data.paymentId} uuidPrefix="TA" /></div>
       <span className="font-size-10 text-uppercase color-default">
-          by {shortify(data.playerUUID, 'PL')}
+        by <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
       </span>
     </span>
   );
@@ -273,7 +274,8 @@ class View extends Component {
           onClick={id => this.handleNoteClick(id, data)}
         >
           {data.note
-            ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> : <i className="note-icon note-with-text" />)
+            ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
+              <i className="note-icon note-with-text" />)
             : <i className="note-icon note-add-note" />
           }
         </PopoverButton>

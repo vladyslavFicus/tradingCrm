@@ -7,9 +7,10 @@ import moment from 'moment';
 import ReactSwitch from '../../components/ReactSwitch';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
-import { entities, entitiesPrefixes } from '../../constants/uuid';
+import { entitiesPrefixes } from '../../constants/uuid';
 import { shortify } from '../../utils/uuid';
 import NotePopoverStyle from './NotePopover.scss';
+import Uuid from '../Uuid';
 
 const MAX_CONTENT_LENGTH = 500;
 const FORM_NAME = 'notePopoverForm';
@@ -24,7 +25,7 @@ const validator = createValidator({
 
 class NotePopover extends Component {
   static propTypes = {
-    item: PropTypes.noteEntity,
+    item: PropTypes.noteEntity.isRequired,
     target: PropTypes.string.isRequired,
     placement: PropTypes.string,
     isOpen: PropTypes.bool,
@@ -50,19 +51,20 @@ class NotePopover extends Component {
   static defaultProps = {
     defaultTitleLabel: 'Note',
     placement: 'bottom',
+    isOpen: false,
   };
 
   handleHide = (ignoreChanges = false) => {
     const { isOpen, toggle, currentValues, item } = this.props;
     const shouldClose = isOpen && (
-        ignoreChanges || (
-          !item
-          || (
-            currentValues && currentValues.content === item.content
-            && currentValues && currentValues.pinned === item.pinned
-          )
+      ignoreChanges || (
+        !item
+        || (
+          currentValues && currentValues.content === item.content
+          && currentValues && currentValues.pinned === item.pinned
         )
-      );
+      )
+    );
 
     if (shouldClose) {
       toggle();
@@ -151,7 +153,7 @@ class NotePopover extends Component {
             </div>
           }
           <div className="color-secondary font-size-14 font-weight-700">
-            by {shortify(item.lastEditorUUID, entitiesPrefixes[entities.operator])}
+            by <Uuid uuid={item.lastEditorUUID} />
           </div>
           {
             item.lastEditionDate &&
