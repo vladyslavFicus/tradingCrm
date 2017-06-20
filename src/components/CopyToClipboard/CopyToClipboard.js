@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ClipboardContainer from 'react-copy-to-clipboard';
 import classNames from 'classnames';
-import { I18n } from 'react-redux-i18n';
 import './CopyToClipboard.scss';
 
 class CopyToClipboard extends Component {
   static propTypes = {
     className: PropTypes.string,
-    text: PropTypes.string,
+    text: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     notificationLevel: PropTypes.oneOf(['info', 'warning', 'success']),
     notificationTitle: PropTypes.string,
@@ -61,12 +60,16 @@ class CopyToClipboard extends Component {
     }
   };
 
+  handleClick = (e) => {
+    e.stopPropagation();
+  }
+
   render() {
     const { className, children, text } = this.props;
     const { highlight } = this.state;
 
     return (
-      <span className={classNames(className, { highlight })}>
+      <span onClick={this.handleClick} className={classNames(className, { highlight })}>
         <ClipboardContainer text={text} onCopy={this.handleCopy}>
           {children}
         </ClipboardContainer>

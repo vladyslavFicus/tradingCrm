@@ -321,8 +321,14 @@ class View extends Component {
           <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
             {statusesLabels[data.status] || data.status}
           </div>
+          {
+            data.creatorUUID &&
+            <div className="font-size-10 color-default">
+              by <Uuid uuid={data.creatorUUID} length={20} />
+            </div>
+          }
           <span className="font-size-10 color-default">
-            {moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
+            on {moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
           </span>
         </div>
       }
