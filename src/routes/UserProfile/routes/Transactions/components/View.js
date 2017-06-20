@@ -36,7 +36,7 @@ const defaultModalState = {
 
 class View extends Component {
   static propTypes = {
-    isLoading: PropTypes.bool,
+    isLoading: PropTypes.bool.isRequired,
     fetchEntities: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
@@ -98,7 +98,7 @@ class View extends Component {
     this.props.params.id, {
       ...this.state.filters,
       page: this.state.page,
-    }
+    },
   );
 
   handleFilterSubmit = (data = {}) => {
@@ -209,14 +209,35 @@ class View extends Component {
     });
   };
 
-  renderTransactionId = data => (
-    <span>
-      <div className="font-weight-700">{shortify(data.paymentId, 'TA')}</div>
-      <span className="font-size-10 text-uppercase color-default">
-        by <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
-      </span>
-    </span>
-  );
+  renderTransactionId = (data) => {
+    const showPaymentDetails =
+      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
+      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
+
+    const paymentId = shortify(data.paymentId, 'TA');
+    const paymentLink = showPaymentDetails ?
+      (
+        <span
+          className="cursor-pointer"
+          onClick={() => this.handleOpenDetailModal({
+            payment: data,
+            profile: this.props.profile,
+            accumulatedBalances: this.props.accumulatedBalances,
+          })}
+        >
+          {paymentId}
+        </span>
+      ) : paymentId;
+
+    return (
+      <div id={`payment-${data.paymentId}`}>
+        <div className="font-weight-700">{paymentLink}</div>
+        <span className="font-size-10 text-uppercase color-default">
+          by <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+        </span>
+      </div>
+    );
+  }
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -227,7 +248,7 @@ class View extends Component {
         <div {...props}> {label} </div>
         <span className="font-size-10 text-uppercase color-default">
           {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={`${SystemRef}-${index}`} children={SystemRef} />
+            <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
           ))}
         </span>
       </div>
@@ -336,38 +357,18 @@ class View extends Component {
   );
 
   renderActions = (data) => {
-    const showPaymentDetails =
-      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
-      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
-
     return (
-      <div>
-        <PopoverButton
-          id={`bonus-item-note-button-${data.paymentId}`}
-          className="cursor-pointer margin-right-5"
-          onClick={id => this.handleNoteClick(id, data)}
-        >
-          {data.note
-            ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
-              <i className="note-icon note-with-text" />)
-            : <i className="note-icon note-add-note" />
-          }
-        </PopoverButton>
-        {
-          showPaymentDetails &&
-          <button
-            className="btn-transparent"
-            onClick={() => this.handleOpenDetailModal({
-              payment: data,
-              profile: this.props.profile,
-              accumulatedBalances: this.props.accumulatedBalances,
-            })}
-            title={'View payment'}
-          >
-            <i className="fa fa-search" />
-          </button>
+      <PopoverButton
+        id={`bonus-item-note-button-${data.paymentId}`}
+        className="cursor-pointer margin-right-5"
+        onClick={id => this.handleNoteClick(id, data)}
+      >
+        {data.note
+          ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
+          <i className="note-icon note-with-text" />)
+        : <i className="note-icon note-add-note" />
         }
-      </div>
+      </PopoverButton>
     );
   };
 

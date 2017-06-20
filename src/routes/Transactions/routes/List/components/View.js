@@ -39,7 +39,7 @@ class View extends Component {
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
-    paymentActionReasons: PropTypes.paymentActionReasons,
+    paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -73,7 +73,7 @@ class View extends Component {
       this.context.notes.onAddNoteClick(
         target,
         { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT },
-        { placement: 'left' }
+        { placement: 'left' },
       );
     }
   };
@@ -101,7 +101,7 @@ class View extends Component {
 
   handleFilterReset = () => {
     this.props.resetAll();
-    this.setState({ filters: {}, page: 0, });
+    this.setState({ filters: {}, page: 0 });
   };
 
   handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
@@ -157,14 +157,35 @@ class View extends Component {
     });
   };
 
-  renderTransactionId = data => (
-    <span id={`payment-${data.paymentId}`}>
-      <div className="font-weight-700"><Uuid uuid={data.paymentId} uuidPrefix="TA" /></div>
-      <span className="font-size-10 text-uppercase color-default">
-        by <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
-      </span>
-    </span>
-  );
+  renderTransactionId = (data) => {
+    const showPaymentDetails =
+      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
+      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
+
+    const paymentId = shortify(data.paymentId, 'TA');
+    const paymentLink = showPaymentDetails ?
+      (
+        <span
+          className="cursor-pointer"
+          onClick={() => this.handleOpenDetailModal({
+            payment: data,
+            profile: data.profile,
+            accumulatedBalances: data.profile.accumulatedBalances,
+          })}
+        >
+          {paymentId}
+        </span>
+      ) : paymentId;
+
+    return (
+      <div id={`payment-${data.paymentId}`}>
+        <div className="font-weight-700">{paymentLink}</div>
+        <span className="font-size-10 text-uppercase color-default">
+          by <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+        </span>
+      </div>
+    );
+  }
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -175,7 +196,7 @@ class View extends Component {
         <div {...props}>{label}</div>
         <span className="font-size-10 text-uppercase color-default">
           {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={`${SystemRef}-${index}`} children={SystemRef} />
+            <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
           ))}
         </span>
       </div>
@@ -261,41 +282,19 @@ class View extends Component {
     />
   );
 
-  renderActions = (data) => {
-    const showPaymentDetails =
-      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
-      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
-
-    return (
-      <div>
-        <PopoverButton
-          id={`transaction-item-note-button-${data.paymentId}`}
-          className="cursor-pointer margin-right-5"
-          onClick={id => this.handleNoteClick(id, data)}
-        >
-          {data.note
-            ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
-              <i className="note-icon note-with-text" />)
-            : <i className="note-icon note-add-note" />
-          }
-        </PopoverButton>
-        {
-          showPaymentDetails &&
-          <button
-            className="btn-transparent"
-            onClick={() => this.handleOpenDetailModal({
-              payment: data,
-              profile: data.profile,
-              accumulatedBalances: data.profile.accumulatedBalances,
-            })}
-            title={'View payment'}
-          >
-            <i className="fa fa-search" />
-          </button>
-        }
-      </div>
-    );
-  };
+  renderActions = data => (
+    <PopoverButton
+      id={`transaction-item-note-button-${data.paymentId}`}
+      className="cursor-pointer margin-right-5"
+      onClick={id => this.handleNoteClick(id, data)}
+    >
+      {data.note
+        ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
+          <i className="note-icon note-with-text" />)
+        : <i className="note-icon note-add-note" />
+      }
+    </PopoverButton>
+  );
 
   render() {
     const { transactions: { entities } } = this.props;
@@ -328,16 +327,16 @@ class View extends Component {
               lazyLoad
             >
               <GridColumn
-                name="profile"
-                header="Player"
-                headerClassName="text-uppercase"
-                render={GridPlayerInfo}
-              />
-              <GridColumn
                 name="paymentId"
                 header="Transaction"
                 headerClassName="text-uppercase"
                 render={this.renderTransactionId}
+              />
+              <GridColumn
+                name="profile"
+                header="Player"
+                headerClassName="text-uppercase"
+                render={GridPlayerInfo}
               />
               <GridColumn
                 name="paymentType"

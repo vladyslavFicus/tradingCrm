@@ -22,7 +22,7 @@ const mapActions = {
   fetchEntities: viewActionCreators.fetchEntities,
   onChangePaymentStatus: viewActionCreators.changePaymentStatus,
   loadPaymentStatuses: viewActionCreators.fetchPaymentStatuses,
-  loadPaymentMethods: viewActionCreators.fetchPaymentAccounts,
+  loadPaymentAccounts: viewActionCreators.fetchPaymentAccounts,
   addPayment: viewActionCreators.addPayment,
   manageNote: viewActionCreators.manageNote,
   resetNote: viewActionCreators.resetNote,
