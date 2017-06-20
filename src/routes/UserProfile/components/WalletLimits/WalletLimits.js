@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import moment from 'moment';
 import PropTypes from '../../../../constants/propTypes';
 import { types, actions, reasons } from '../../../../constants/wallet';
-import { shortify } from '../../../../utils/uuid';
 import WalletLimitsModal from './WalletLimitsModal';
+import Uuid from '../../../../components/Uuid';
 import './WalletLimits.scss';
 
 const initialState = {
@@ -102,9 +102,9 @@ class WalletLimits extends Component {
         {limit.type} - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
       </div>
       {
-        limit.authorUuid &&
+        limit.authorUUID &&
         <div className="header-block_wallet-limits-tab_log">
-          by {shortify(limit.authorUuid)}
+          by <Uuid uuid={limit.authorUUID} />
         </div>
       }
       <div className="header-block_wallet-limits-tab_log">Reason - {limit.reason}</div>
