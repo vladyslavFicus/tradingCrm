@@ -70,11 +70,11 @@ class View extends Component {
                   campaignRatio: bonusCampaign.campaignRatio,
                   conversionPrize: bonusCampaign.conversionPrize || {
                     value: null,
-                    type: customValueFieldTypes.ABSOLUTE
+                    type: customValueFieldTypes.ABSOLUTE,
                   },
                   capping: bonusCampaign.capping || {
                     value: null,
-                    type: customValueFieldTypes.ABSOLUTE
+                    type: customValueFieldTypes.ABSOLUTE,
                   },
                   optIn: bonusCampaign.optIn,
                   campaignType: bonusCampaign.campaignType,

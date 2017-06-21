@@ -28,7 +28,7 @@ function navigateTo(to) {
   return {
     type: NAVIGATE_TO,
     payload: to,
-  }
+  };
 }
 
 const actionTypes = {

@@ -111,7 +111,7 @@ class Header extends Component {
             </div>
             <div className="header-block-small">
               {I18n.t('COMMON.DATE_ON', {
-                date: moment.utc(creationDate).format('DD.MM.YYYY'),
+                date: moment.utc(creationDate).local().format('DD.MM.YYYY'),
               })}
             </div>
             {

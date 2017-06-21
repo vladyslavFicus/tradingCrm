@@ -41,7 +41,7 @@ const CustomValueField = (props) => {
             <Field
               name={`${basename}.value`}
               disabled={disabled}
-              placeholder={label}
+              placeholder={typeof label === 'string' ? label : null}
               component="input"
               type="text"
               className={classList.valueInput}
