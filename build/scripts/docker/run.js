@@ -90,7 +90,7 @@ function processError(error) {
 
 function processSpringConfig(pureSpringConfig) {
   const springConfig = assignValues(
-    pureSpringConfig.propertySources.reduce((res, item) => _.merge({}, res, item.source), {})
+    pureSpringConfig.propertySources.reduce((res, item) => _.merge({}, res, item.source), {}),
   );
   const formattedSpringConfig = {};
   Object.keys(springConfig).map(i => _.set(formattedSpringConfig, i, springConfig[i]));
@@ -99,9 +99,7 @@ function processSpringConfig(pureSpringConfig) {
   return fetchZookeeperConfig({
     environmentConfig,
     allowedKeys: ['nas.brand.password.pattern'],
-  }).then(function (config) {
-    return _.merge({}, formattedSpringConfig, config, { nas: environmentConfig.nas });
-  });
+  }).then(config => _.merge({}, formattedSpringConfig, config, { nas: environmentConfig.nas }));
 }
 
 function fetchConfigByURL(url, timeout = 5, attempts = 10) {

@@ -119,7 +119,8 @@
           "CAPPING": "CAPPING",
           "OPT_IN": "Opt-In",
           "CONVERTED": "Converted",
-          "WAGERED": "Wagered"
+          "WAGERED": "Wagered",
+          "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
         }
       },
       "CANCEL_BONUS": "Отменить бонус",
@@ -323,6 +324,10 @@
       "ASSIGN": {
         "MANUAL": "Оператор",
         "CAMPAIGN": "Кампания"
+      },
+      "MONEY_TYPE_USAGE": {
+        "REAL_MONEY": "Реальные деньги",
+        "BONUS_MONEY": "Бонусные деньги"
       }
     },
     "COUNTRIES": {
@@ -361,6 +366,10 @@
       "STATUS_ACTIONS_LABELS": {
         "ACTIVATE": "активировать",
         "CANCEL": "отменить"
+      },
+      "MONEY_TYPE_USAGE": {
+        "REAL_MONEY": "Реальные деньги",
+        "BONUS_MONEY": "Бонусные деньги"
       }
     },
     "GAMING_ACTIVITY": {
@@ -537,7 +546,7 @@
           "CAMPAIGN_END": "Окончание компании",
           "PRIZE": "Приз",
           "CAPPING": "Capping",
-          "PRIORITY": "Приоритет: %{priority}"
+          "MONEY_TYPE_PRIORITY": "Приоритет использования денег: %{priority}"
         },
         "GRANTED_TO": "для %{count} игроков",
         "GRANTED_TO_1": "для %{count} игрока"
@@ -573,7 +582,8 @@
         "MIN_AMOUNT_PLACEHOLDER": "Мин.",
         "MAX_AMOUNT_PLACEHOLDER": "Макс.",
         "RATIO_TOOLTIP": "Депозит: предоставленный бонус",
-        "PRIORITY": "Приоритет"
+        "PRIORITY": "Приоритет",
+        "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",

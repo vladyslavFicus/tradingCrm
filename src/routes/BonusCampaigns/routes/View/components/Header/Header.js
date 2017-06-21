@@ -6,7 +6,8 @@ import Amount from '../../../../../../components/Amount';
 import PropTypes from '../../../../../../constants/propTypes';
 import Uuid from '../../../../../../components/Uuid';
 import StatusDropDown from '../../../../components/StatusDropDown';
-import { statuses, targetTypes } from '../../../../../../constants/bonus-campaigns';
+import { statuses, targetTypes, moneyTypeUsageLabels } from '../../../../../../constants/bonus-campaigns';
+import renderLabel from '../../../../../../utils/renderLabel';
 import './Header.scss';
 
 class Header extends Component {
@@ -24,7 +25,7 @@ class Header extends Component {
     const {
       data: {
         campaignName,
-        campaignPriority,
+        moneyTypePriority,
         authorUUID,
         campaignUUID,
         creationDate,
@@ -50,7 +51,9 @@ class Header extends Component {
               <span className="short__uuid">
                 <Uuid uuid={campaignUUID} uuidPrefix="CA" />
                 {' - '}
-                {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PRIORITY', { priority: campaignPriority })}
+                {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.MONEY_TYPE_PRIORITY', {
+                  priority: renderLabel(moneyTypePriority, moneyTypeUsageLabels),
+                })}
               </span>
             </div>
           </div>

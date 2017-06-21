@@ -17,6 +17,7 @@ import {
   campaignTypesLabels,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
+  moneyTypeUsageLabels,
 } from '../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
@@ -31,6 +32,7 @@ const attributeLabels = {
   startDate: 'Start date',
   endDate: 'End date',
   currency: 'Currency',
+  moneyTypePriority: 'Money type priority',
   bonusLifetime: 'Lifetime',
   campaignRatio: 'Ratio',
   'campaignRatio.value': 'Ratio',
@@ -235,6 +237,19 @@ class CreateBonusCampaignModal extends Component {
               {currencies.map(item => (
                 <option key={item} value={item}>
                   {item}
+                </option>
+              ))}
+            </Field>
+
+            <Field
+              name="moneyTypePriority"
+              label={attributeLabels.moneyTypePriority}
+              type="select"
+              component={SelectField}
+            >
+              {Object.keys(moneyTypeUsageLabels).map(key => (
+                <option key={key} value={key}>
+                  {renderLabel(key, moneyTypeUsageLabels)}
                 </option>
               ))}
             </Field>

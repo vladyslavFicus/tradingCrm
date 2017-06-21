@@ -22,6 +22,10 @@ const cancellationReason = keyMirror({
   MANUAL_BY_PLAYER: null,
   MANUAL_BY_OPERATOR: null,
 });
+const moneyTypeUsage = keyMirror({
+  REAL_MONEY_FIRST: null,
+  BONUS_MONEY_FIRST: null,
+});
 
 const statusesLabels = {
   [statuses.INACTIVE]: I18n.t('CONSTANTS.BONUS.STATUSES.INACTIVE'),
@@ -39,6 +43,10 @@ const typesLabels = {
 const assignLabels = {
   [assign.manual]: I18n.t('CONSTANTS.BONUS.ASSIGN.MANUAL'),
   [assign.campaign]: I18n.t('CONSTANTS.BONUS.ASSIGN.CAMPAIGN'),
+};
+const moneyTypeUsageLabels = {
+  [moneyTypeUsage.REAL_MONEY_FIRST]: I18n.t('CONSTANTS.BONUS.MONEY_TYPE_USAGE.REAL_MONEY'),
+  [moneyTypeUsage.BONUS_MONEY_FIRST]: I18n.t('CONSTANTS.BONUS.MONEY_TYPE_USAGE.BONUS_MONEY'),
 };
 
 const statusesProps = {
@@ -80,4 +88,6 @@ export {
   assign,
   assignLabels,
   cancellationReason,
+  moneyTypeUsage,
+  moneyTypeUsageLabels,
 };

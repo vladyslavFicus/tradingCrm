@@ -43,6 +43,14 @@ const statusesClassNames = {
   [statuses.FINISHED]: 'color-black',
   [statuses.CANCELED]: 'color-danger',
 };
+const moneyTypeUsage = keyMirror({
+  REAL_MONEY_FIRST: null,
+  BONUS_MONEY_FIRST: null,
+});
+const moneyTypeUsageLabels = {
+  [moneyTypeUsage.REAL_MONEY_FIRST]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.MONEY_TYPE_USAGE.REAL_MONEY'),
+  [moneyTypeUsage.BONUS_MONEY_FIRST]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.MONEY_TYPE_USAGE.BONUS_MONEY'),
+};
 
 const cancelAction = {
   action: actions.CANCEL,
@@ -97,4 +105,6 @@ export {
   targetTypes,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
+  moneyTypeUsage,
+  moneyTypeUsageLabels,
 };

@@ -119,7 +119,8 @@
           "CAPPING": "Capping",
           "OPT_IN": "Opt-In",
           "CONVERTED": "Converted",
-          "WAGERED": "Wagered"
+          "WAGERED": "Wagered",
+          "MONEY_TYPE_PRIORITY": "Money type priority"
         }
       },
       "CANCEL_BONUS": "Cancel bonus",
@@ -324,6 +325,10 @@
       "ASSIGN": {
         "MANUAL": "by Operator",
         "CAMPAIGN": "by Campaign"
+      },
+      "MONEY_TYPE_USAGE": {
+        "REAL_MONEY": "Real money",
+        "BONUS_MONEY": "Bonus money"
       }
     },
     "COUNTRIES": {
@@ -362,6 +367,10 @@
       "STATUS_ACTIONS_LABELS": {
         "ACTIVATE": "activate",
         "CANCEL": "cancel"
+      },
+      "MONEY_TYPE_USAGE": {
+        "REAL_MONEY": "Real money",
+        "BONUS_MONEY": "Bonus money"
       }
     },
     "GAMING_ACTIVITY": {
@@ -532,7 +541,7 @@
           "CAMPAIGN_END": "Campaign end",
           "PRIZE": "Prize",
           "CAPPING": "Capping",
-          "PRIORITY": "Priority: %{priority}"
+          "MONEY_TYPE_PRIORITY": "Money type priority: %{priority}"
         },
         "GRANTED_TO": "to %{count} Players",
         "GRANTED_TO_0": "to %{count} Players",
@@ -569,7 +578,8 @@
         "MIN_AMOUNT_PLACEHOLDER": "Min.",
         "MAX_AMOUNT_PLACEHOLDER": "Max.",
         "RATIO_TOOLTIP": "Deposit : Granted bonus",
-        "PRIORITY": "Priority"
+        "PRIORITY": "Priority",
+        "MONEY_TYPE_PRIORITY": "Money type priority"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
