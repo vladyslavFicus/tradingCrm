@@ -345,11 +345,13 @@ class View extends Component {
           {
             data.creatorUUID &&
             <div className="font-size-10 color-default">
-              by <Uuid uuid={data.creatorUUID} length={20} />
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} length={20} />
             </div>
           }
           <span className="font-size-10 color-default">
-            on {moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
+            {I18n.t('COMMON.DATE_ON', {
+              date: moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
+            })}
           </span>
         </div>
       }

@@ -4,11 +4,11 @@ import { Popover, PopoverContent } from 'reactstrap';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import classNames from 'classnames';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import ReactSwitch from '../../components/ReactSwitch';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { entitiesPrefixes } from '../../constants/uuid';
-import { shortify } from '../../utils/uuid';
 import NotePopoverStyle from './NotePopover.scss';
 import Uuid from '../Uuid';
 
@@ -83,7 +83,7 @@ class NotePopover extends Component {
           if (typeof this.props.onSubmitFailure === 'function') {
             this.props.onSubmitFailure();
           }
-        }
+        },
       );
   };
 
@@ -99,7 +99,7 @@ class NotePopover extends Component {
           if (typeof this.props.onSubmitFailure === 'function') {
             this.props.onDeleteFailure();
           }
-        }
+        },
       );
   };
 
@@ -161,8 +161,8 @@ class NotePopover extends Component {
               {
                 item.lastEditionDate
                   ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
-                  : 'Unknown time'
-              } to {this.renderItemId(item)}
+                  : I18n.t('COMMON.UNKNOWN_TIME')
+              } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
             </div>
           }
         </div>
@@ -179,7 +179,7 @@ class NotePopover extends Component {
     );
   };
 
-  renderItemId = item => shortify(item.targetUUID, entitiesPrefixes[item.targetType]);
+  renderItemId = item => <Uuid uuid={item.targetUUID} uuidPrefix={entitiesPrefixes[item.targetType]} />;
 
   render() {
     const {

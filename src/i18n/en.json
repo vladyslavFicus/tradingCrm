@@ -166,6 +166,9 @@
         "TOTAL_LOGIN": "Total login"
       },
       "TITLE": "Devices"
+    },
+    "PINED_NOTES": {
+      "TITLE": "Pined note's"
     }
   },
   "COMMON": {
@@ -224,7 +227,8 @@
     "REVERT_CHANGES": "Revert changes",
     "OPTIONAL": "Optional",
     "UNAVAILABLE": "Unavailable",
-    "UNKNOWN": "Unknown"
+    "UNKNOWN": "Unknown",
+    "UNKNOWN_TIME": "Unknown time"
   },
   "FILES": {
     "UPLOAD_MODAL": {

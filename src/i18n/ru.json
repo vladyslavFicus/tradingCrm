@@ -166,6 +166,9 @@
         "TOTAL_LOGIN": "Всего логинов"
       },
       "TITLE": "Устройства"
+    },
+    "PINED_NOTES": {
+      "TITLE": "Прикрепленные заметки"
     }
   },
   "COMMON": {
@@ -223,7 +226,8 @@
     "REVERT_CHANGES": "Отменить изменения",
     "OPTIONAL": "Необязательное",
     "UNAVAILABLE": "Недоступно",
-    "UNKNOWN": "Неизвестно"
+    "UNKNOWN": "Неизвестно",
+    "UNKNOWN_TIME": "Неизвестное время"
   },
   "FILES": {
     "UPLOAD_MODAL": {
