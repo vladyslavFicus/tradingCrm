@@ -97,10 +97,10 @@ class View extends Component {
               {
                 data.lastEditionDate
                   ? moment(data.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
-                  : 'Unknown time'
+                  : I18n.t('COMMON.UNKNOWN_TIME')
               }
               {I18n.t('COMMON.TO')}
-              {<Uuid uuid={data.targetUUID} uuidPrefix={entitiesPrefixes[data.targetType]} />}
+              <Uuid uuid={data.targetUUID} uuidPrefix={entitiesPrefixes[data.targetType]} />
             </span>
           </div>
           <div className="note panel margin-top-5">

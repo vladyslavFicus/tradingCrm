@@ -40,7 +40,7 @@ class View extends Component {
     fetchEntities: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    loadPaymentMethods: PropTypes.func.isRequired,
+    loadPaymentAccounts: PropTypes.func.isRequired,
     addPayment: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
@@ -379,7 +379,7 @@ class View extends Component {
     const {
       entities,
       currencyCode,
-      loadPaymentMethods,
+      loadPaymentAccounts,
       manageNote,
       profile: { fullName, shortUUID },
       params: { id: playerUUID },
@@ -507,7 +507,7 @@ class View extends Component {
               shortUUID,
             }}
             onClose={this.handleCloseModal}
-            onLoadPaymentMethods={() => loadPaymentMethods(playerUUID)}
+            onLoadPaymentAccounts={() => loadPaymentAccounts(playerUUID)}
             onSubmit={this.handleAddPayment}
             onManageNote={manageNote}
           />
