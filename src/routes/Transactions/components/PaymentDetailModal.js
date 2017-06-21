@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import moment from 'moment';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../constants/propTypes';
 import {
   methodsLabels as paymentsMethodsLabels,
@@ -163,6 +164,7 @@ class PaymentDetailModal extends Component {
         paymentAccount,
         status,
         paymentId,
+        creatorUUID,
         amount,
         playerUUID,
         creationTime,
@@ -298,6 +300,12 @@ class PaymentDetailModal extends Component {
                 <div className={classNames(paymentsStatusesColor[status], 'font-weight-700', 'text-uppercase')}>
                   {paymentsStatusesLabels[status] || status}
                 </div>
+                {
+                  creatorUUID &&
+                  <div className="font-size-10 color-default">
+                    {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={creatorUUID} length={20} />
+                  </div>
+                }
                 <span className="font-size-10 color-default">
                   {moment(creationTime).format('DD.MM.YYYY - HH:mm')}
                 </span>

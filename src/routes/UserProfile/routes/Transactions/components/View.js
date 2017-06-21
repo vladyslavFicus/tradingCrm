@@ -40,7 +40,7 @@ class View extends Component {
     fetchEntities: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    loadPaymentMethods: PropTypes.func.isRequired,
+    loadPaymentAccounts: PropTypes.func.isRequired,
     addPayment: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
@@ -345,11 +345,13 @@ class View extends Component {
           {
             data.creatorUUID &&
             <div className="font-size-10 color-default">
-              by <Uuid uuid={data.creatorUUID} length={20} />
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} length={20} />
             </div>
           }
           <span className="font-size-10 color-default">
-            on {moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
+            {I18n.t('COMMON.DATE_ON', {
+              date: moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
+            })}
           </span>
         </div>
       }
@@ -377,7 +379,7 @@ class View extends Component {
     const {
       entities,
       currencyCode,
-      loadPaymentMethods,
+      loadPaymentAccounts,
       manageNote,
       profile: { fullName, shortUUID },
       params: { id: playerUUID },
@@ -505,7 +507,7 @@ class View extends Component {
               shortUUID,
             }}
             onClose={this.handleCloseModal}
-            onLoadPaymentMethods={() => loadPaymentMethods(playerUUID)}
+            onLoadPaymentAccounts={() => loadPaymentAccounts(playerUUID)}
             onSubmit={this.handleAddPayment}
             onManageNote={manageNote}
           />

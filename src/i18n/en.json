@@ -167,6 +167,9 @@
       },
       "TITLE": "Devices"
     },
+    "PINED_NOTES": {
+      "TITLE": "Pined note's"
+    },
     "BONUS_CAMPAIGNS": {
       "TITLE": "Eligible campaigns",
       "GRID_VIEW": {
@@ -233,7 +236,8 @@
     "REVERT_CHANGES": "Revert changes",
     "OPTIONAL": "Optional",
     "UNAVAILABLE": "Unavailable",
-    "UNKNOWN": "Unknown"
+    "UNKNOWN": "Unknown",
+    "UNKNOWN_TIME": "Unknown time"
   },
   "FILES": {
     "UPLOAD_MODAL": {

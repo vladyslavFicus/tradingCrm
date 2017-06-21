@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 import { attributeLabels } from '../../constants/user';
 import { types } from '../../constants/audit';
-import { shortify } from '../../utils/uuid';
+import Uuid from '../../components/Uuid';
 
 const formatters = {
   uploadedFileList: [() => null],
@@ -27,7 +27,7 @@ const FeedInfoKyc = ({ data }) => (
         attribute,
         Array.isArray(data.details[attribute])
           ? data.details[attribute]
-          : data.details[attribute].toString()
+          : data.details[attribute].toString(),
       );
 
       return value === null ? null : (
@@ -45,10 +45,9 @@ const FeedInfoKyc = ({ data }) => (
         {data.details.uploadedFileList.map((file, index) => (
           <div key={file.uuid}>
             {index + 1}.
-            {' '}
-            {I18n.t('FEED_ITEM.LOG_IN.UPLOADED_FILE')}
-            {' - '}<span className="feed-item_info-details_value">{file.name}</span>
-            ` - ${shortify(file.uuid)}`
+            {' '} {I18n.t('FEED_ITEM.LOG_IN.UPLOADED_FILE')}
+            {' - '}<span className="feed-item_info-details_value">{file.name}</span>{' - '}
+            <Uuid uuid={file.uuid} />
           </div>
         ))}
       </div>
