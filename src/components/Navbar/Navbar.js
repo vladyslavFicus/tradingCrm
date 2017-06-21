@@ -50,60 +50,54 @@ class Navbar extends Component {
     const { showSearch, onLocaleChange, languages } = this.props;
 
     return (
-      <header className="layout-header">
+      <header className="header">
         <IndexLink className="navbar-brand" href={'/'}>
           <img src={getLogo()} alt="current-lottery-logo" />
         </IndexLink>
+        <DepartmentsDropDown
+          onChange={changeDepartment}
+          current={user.authorities.find(authority => authority.department === user.department)}
+          authorities={user.authorities.filter(authority => authority.department !== user.department)}
+        />
 
-        <div className="left-navigation">
-          <div className="department">
-            <DepartmentsDropDown
-              onChange={changeDepartment}
-              current={user.authorities.find(authority => authority.department === user.department)}
-              authorities={user.authorities.filter(authority => authority.department !== user.department)}
+        {
+          showSearch &&
+          <form className="form-inline">
+            <i className="fa fa-search" />
+            <input
+              className="form-control" type="text" placeholder="Type to search"
+              onClick={this.handleSearchFieldClick}
             />
-          </div>
 
-          {
-            showSearch &&
-            <form className="form-inline">
-              <i className="fa fa-search" />
-              <input
-                className="form-control" type="text" placeholder="Type to search"
-                onClick={this.handleSearchFieldClick}
-              />
-
-              <div className={classNames('search-overlay', { open: searchFieldActive })}>
-                <div className="search-overlay__content">
-                  <button
-                    type="button" className={classNames('overlay-close', { closed: searchOverlayActive })}
-                    onClick={this.handleOverlayClick}
-                  >&#10005;</button>
-                  <div className="form-inline">
-                    <input
-                      className="form-control" type="text" placeholder="Search..." autoFocus ref={(node) => {
-                      this.searchInput = node;
-                    }}
-                    />
-                  </div>
+            <div className={classNames('search-overlay', { open: searchFieldActive })}>
+              <div className="search-overlay__content">
+                <button
+                  type="button" className={classNames('overlay-close', { closed: searchOverlayActive })}
+                  onClick={this.handleOverlayClick}
+                >&#10005;</button>
+                <div className="form-inline">
+                  <input
+                    className="form-control" type="text" placeholder="Search..." autoFocus ref={(node) => {
+                    this.searchInput = node;
+                  }}
+                  />
                 </div>
               </div>
-            </form>
-          }
-        </div>
+            </div>
+          </form>
+        }
 
-        <div className="margin-right-20">
+        <div className="header__right-nav">
           <LocaleSwitcher
             languages={languages}
             currentLocale={locale}
             changeLocale={onLocaleChange}
           />
-        </div>
 
-        <div className="right-navigation">
           <NavbarNav
             label={<i className="fa fa-user" />}
             items={[
+              { label: 'My profile' },
               { label: 'Logout', onClick: () => this.props.router.replace('/logout') },
             ]}
           />

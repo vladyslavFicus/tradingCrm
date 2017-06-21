@@ -200,6 +200,57 @@ class NewLayout extends Component {
           {children}
         </div>
 
+        <aside className="my-profile slideInRight">
+          <header className="my-profile__header">
+            My profile
+          </header>
+          <div className="my-profile__sections">
+            <section className="my-profile__personal-details">
+              <h1 className="my-profile__heading">Personal details</h1>
+              <form>
+                <div className="form-group">
+                  <label>Phone</label>
+                  <input type="text" className="form-control" placeholder="12345"/>
+                </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input type="text" className="form-control" placeholder="12345"/>
+                </div>
+                <div className="form-group">
+                  <label>Language</label>
+                  <select name="language" className="form-control">
+                    <option value="English" />
+                    <option value="Russian" />
+                  </select>
+                </div>
+                <div className="text-right">
+                  <button className="btn btn-primary btn-sm" type="submit">Save changes</button>
+                </div>
+              </form>
+            </section>
+            <section>
+              <h1 className="my-profile__heading">Change password</h1>
+              <form>
+                <div className="form-group">
+                  <label>Old password</label>
+                  <input type="password" className="form-control" />
+                </div>
+                <div className="form-group">
+                  <label>New password</label>
+                  <input type="password" className="form-control" />
+                </div>
+                <div className="form-group">
+                  <label>Repeat new password</label>
+                  <input type="password" className="form-control" />
+                </div>
+                <div className="text-right">
+                  <button className="btn btn-primary btn-sm" type="submit">Save new password</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </aside>
+
         <UsersPanel
           active={activeUserPanel}
           items={userPanels}
