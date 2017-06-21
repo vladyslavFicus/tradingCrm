@@ -200,7 +200,7 @@ class NewLayout extends Component {
           {children}
         </div>
 
-        <aside className="my-profile slideInRight">
+        <aside className="my-profile">
           <header className="my-profile__header">
             My profile
           </header>

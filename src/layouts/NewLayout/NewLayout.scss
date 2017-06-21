@@ -212,6 +212,7 @@ $grey: #cccccc;
   overflow-y: auto;
   animation-duration: .5s;
   animation-fill-mode: both;
+  transform: translate3d(110%, 0, 0);
   &__header {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -249,7 +250,7 @@ $grey: #cccccc;
 
 @keyframes slideInRight {
   from {
-    transform: translate3d(100%, 0, 0);
+    transform: translate3d(110%, 0, 0);
     visibility: visible;
   }
 
@@ -269,7 +270,7 @@ $grey: #cccccc;
 
   to {
     visibility: hidden;
-    transform: translate3d(100%, 0, 0);
+    transform: translate3d(110%, 0, 0);
   }
 }
 
