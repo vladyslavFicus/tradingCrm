@@ -1,11 +1,10 @@
 /* eslint-disable */
-const ymlReader = require('yamljs');
 const zookeeper = require('node-zookeeper-client');
 const _ = require('lodash');
 
 module.exports = function (params) {
   return new Promise(function (resolve, reject) {
-    const environmentConfig = ymlReader.load(params.path);
+    const environmentConfig = params.environmentConfig;
 
     if (environmentConfig.zookeeper.url && environmentConfig.brand.name) {
       const configPath = `/system/${environmentConfig.brand.name}/nas/brand`;

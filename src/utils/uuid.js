@@ -1,20 +1,21 @@
-export function shortify(uuid, prefix, size = 1) {
+export function shortify(uuid, prefix = null, size = 2) {
   if (!uuid) {
     return uuid;
   }
 
   const elements = uuid.split('-');
-
-  if (!prefix) {
-    const sourcePrefix = elements[0];
-
-    if (sourcePrefix.toUpperCase() === sourcePrefix) {
-      elements[0] = sourcePrefix.slice(0, size + 1);
-
-      return elements.slice(0, 2).join('-');
-    }
+  if (elements.length < 2) {
+    return uuid;
   }
 
-  const id = elements.slice(0, size).join('-');
-  return prefix ? [prefix, id].join('-') : id;
+  const sourcePrefix = prefix || elements[0];
+  if (elements.length >= size) {
+    const additionalPartsSize = size - 1;
+    const startOffset = elements.length - additionalPartsSize;
+    const endOffset = startOffset + additionalPartsSize;
+
+    return `${sourcePrefix}-${elements.slice(startOffset, endOffset).join('-')}`;
+  }
+
+  return `${sourcePrefix}-${elements.slice(elements.length - 1, elements.length)}`;
 }

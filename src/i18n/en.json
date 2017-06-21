@@ -168,9 +168,12 @@
       "TITLE": "Devices"
     },
     "BONUS_CAMPAIGNS": {
-      "TITLE": "Bonus campaigns",
+      "TITLE": "Eligible campaigns",
       "GRID_VIEW": {
-        "CAMPAIGN": "Campaign"
+        "CAMPAIGN": "Campaign",
+        "DATE_TO": "to %{time}",
+        "AVAILABLE": "Available",
+        "FULFILLMENT_TYPE": "Fulfilment type"
       }
     }
   },
@@ -595,6 +598,20 @@
     "LAST_LOGIN": {
       "TITLE": "Last login",
       "FROM_COUNTRY": " from %{country}"
+    }
+  },
+  "error": {
+    "validation": {
+      "invalid": {
+        "payment": {
+          "operation": "Invalid payment operation"
+        }
+      }
+    },
+    "payment": {
+      "method": {
+        "inactive": "Payment method inactive"
+      }
     }
   }
 }

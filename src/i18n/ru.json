@@ -170,7 +170,10 @@
     "BONUS_CAMPAIGNS": {
       "TITLE": "Бонусные кампании",
       "GRID_VIEW": {
-        "CAMPAIGN": "Кампания"
+        "CAMPAIGN": "Кампания",
+        "DATE_TO": "в %{time}",
+        "AVAILABLE": "Доступен",
+        "FULFILLMENT_TYPE": "Тип условия"
       }
     }
   },
@@ -522,7 +525,7 @@
           "PLAYERS_SELECTED": "Выбрано игроков",
           "PLAYERS_OPT_IN": "Players opted-in",
           "REWARD_PARAMS": "Fulfillment & reward parameters",
-          "FULFILLMENT_TYPE": "Fulfillment type",
+          "FULFILLMENT_TYPE": "Тип условия",
           "RATIO": "Коэффициент",
           "MULTIPLAYER": "Multiplayer",
           "LIFE_TIME": "Life time",
@@ -603,6 +606,20 @@
     "LAST_LOGIN": {
       "TITLE": "Последний вход",
       "FROM_COUNTRY": " из %{country}"
+    }
+  },
+  "error": {
+    "validation": {
+      "invalid": {
+        "payment": {
+          "operation": "Невалидная платежная операция"
+        }
+      }
+    },
+    "payment": {
+      "method": {
+        "inactive": "Платежный метод неактивен"
+      }
     }
   }
 }

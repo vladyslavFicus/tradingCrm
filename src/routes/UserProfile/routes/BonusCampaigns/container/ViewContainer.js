@@ -5,7 +5,7 @@ import List from '../components/View';
 const mapStateToProps = ({
   userBonusCampaignsList: { list },
 }) => ({
-  list
+  list,
 });
 const mapActions = {
   fetchAvailableCampaignList: actionCreators.fetchAvailableCampaignList,

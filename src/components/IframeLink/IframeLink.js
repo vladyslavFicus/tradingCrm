@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import PropTypes from '../../constants/propTypes';
 import { actionCreators as windowActionCreators } from '../../redux/modules/window';
 
 class IframeLink extends Component {
+  static propTypes = {
+    to: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
+  };
   state = { isFrameVersion: window && window.parent !== window && window.parent.postMessage };
 
   handleClick = (e) => {
