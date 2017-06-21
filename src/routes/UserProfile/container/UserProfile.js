@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
 import { actionCreators as filesActionCreators } from '../modules/files';
 import ProfileLayout from '../layouts/ProfileLayout';
-import config, { getAvailableTags } from '../../../config/index';
+import config, { getAvailableTags } from '../../../config';
 import { statusActions } from '../../../constants/user';
 
 const mapStateToProps = (state) => {
@@ -56,10 +56,6 @@ const mapActions = {
   fetchAccumulatedBalances: actionCreators.fetchBalances,
   updateSubscription: actionCreators.updateSubscription,
   loadFullProfile: actionCreators.loadFullProfile,
-  lockDeposit: actionCreators.lockDeposit,
-  lockWithdraw: actionCreators.lockWithdraw,
-  unlockDeposit: actionCreators.unlockDeposit,
-  unlockWithdraw: actionCreators.unlockWithdraw,
   addTag: actionCreators.addTag,
   deleteTag: actionCreators.deleteTag,
   changeStatus: actionCreators.changeStatus,

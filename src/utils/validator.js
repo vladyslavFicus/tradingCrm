@@ -82,8 +82,11 @@ Validator.register('greaterOrSame', function (inputValue, requirement, attribute
 
 Validator.register('customTypeValue.value', function (inputValue, requirement, attribute) {
   const attributeBaseName = attribute.replace(/\.value/, '');
+  if (typeof this.validator.input[attributeBaseName]) {
+    if (this.validator.input[attributeBaseName] === null) {
+      return true;
+    }
 
-  if (typeof this.validator.input[attributeBaseName] !== 'undefined') {
     const customTypeValueField = this.validator.input[attributeBaseName];
 
     if (!customTypeValueField.type) {

@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
-import { statuses, statusesReasons } from '../../../constants';
+import { statuses, statusesReasons } from '../../../../../constants/bonus-campaigns';
 import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
@@ -72,6 +72,14 @@ function createCampaign(data) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
+    const endpointParams = { ...data, optIn: data.optIn || false };
+    if (endpointParams.conversionPrize && endpointParams.conversionPrize.value === undefined) {
+      endpointParams.conversionPrize = null;
+    }
+    if (endpointParams.capping && endpointParams.capping.value === undefined) {
+      endpointParams.capping = null;
+    }
+
     return dispatch({
       [CALL_API]: {
         endpoint: 'promotion/campaigns',
@@ -81,7 +89,7 @@ function createCampaign(data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...data, optIn: data.optIn || false }),
+        body: JSON.stringify(endpointParams),
         types: [
           CREATE_CAMPAIGN.REQUEST,
           CREATE_CAMPAIGN.SUCCESS,

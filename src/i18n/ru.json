@@ -119,7 +119,8 @@
           "CAPPING": "CAPPING",
           "OPT_IN": "Opt-In",
           "CONVERTED": "Converted",
-          "WAGERED": "Wagered"
+          "WAGERED": "Wagered",
+          "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
         }
       },
       "CANCEL_BONUS": "Отменить бонус",
@@ -169,6 +170,15 @@
     },
     "PINED_NOTES": {
       "TITLE": "Прикрепленные заметки"
+    },
+    "BONUS_CAMPAIGNS": {
+      "TITLE": "Бонусные кампании",
+      "GRID_VIEW": {
+        "CAMPAIGN": "Кампания",
+        "DATE_TO": "в %{time}",
+        "AVAILABLE": "Доступен",
+        "FULFILLMENT_TYPE": "Тип условия"
+      }
     }
   },
   "COMMON": {
@@ -308,12 +318,16 @@
       },
       "TYPES": {
         "FIRST_DEPOSIT": "Первый депозит",
-        "PLAYER_PROFILE_COMPLETED": "Профиль заполнен",
+        "PROFILE_COMPLETED": "Профиль заполнен",
         "MANUAL": "Без депозита"
       },
       "ASSIGN": {
         "MANUAL": "Оператор",
         "CAMPAIGN": "Кампания"
+      },
+      "MONEY_TYPE_USAGE": {
+        "REAL_MONEY": "Реальные деньги",
+        "BONUS_MONEY": "Бонусные деньги"
       }
     },
     "COUNTRIES": {
@@ -352,6 +366,10 @@
       "STATUS_ACTIONS_LABELS": {
         "ACTIVATE": "активировать",
         "CANCEL": "отменить"
+      },
+      "MONEY_TYPE_USAGE": {
+        "REAL_MONEY": "Реальные деньги",
+        "BONUS_MONEY": "Бонусные деньги"
       }
     },
     "GAMING_ACTIVITY": {
@@ -520,7 +538,7 @@
           "PLAYERS_SELECTED": "Выбрано игроков",
           "PLAYERS_OPT_IN": "Players opted-in",
           "REWARD_PARAMS": "Fulfillment & reward parameters",
-          "FULFILLMENT_TYPE": "Fulfillment type",
+          "FULFILLMENT_TYPE": "Тип условия",
           "RATIO": "Коэффициент",
           "MULTIPLAYER": "Multiplayer",
           "LIFE_TIME": "Life time",
@@ -528,7 +546,7 @@
           "CAMPAIGN_END": "Окончание компании",
           "PRIZE": "Приз",
           "CAPPING": "Capping",
-          "PRIORITY": "Приоритет: %{priority}"
+          "MONEY_TYPE_PRIORITY": "Приоритет использования денег: %{priority}"
         },
         "GRANTED_TO": "для %{count} игроков",
         "GRANTED_TO_1": "для %{count} игрока"
@@ -564,7 +582,8 @@
         "MIN_AMOUNT_PLACEHOLDER": "Мин.",
         "MAX_AMOUNT_PLACEHOLDER": "Макс.",
         "RATIO_TOOLTIP": "Депозит: предоставленный бонус",
-        "PRIORITY": "Приоритет"
+        "PRIORITY": "Приоритет",
+        "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",

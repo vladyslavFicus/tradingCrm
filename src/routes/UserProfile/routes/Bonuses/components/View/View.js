@@ -124,7 +124,11 @@ class View extends Component {
   };
 
   handleModalClose = (callback) => {
-    this.setState({ modal: { ...modalInitialState } }, callback);
+    this.setState({ modal: { ...modalInitialState } }, () => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
   };
 
   handleCancelBonus = (id) => {

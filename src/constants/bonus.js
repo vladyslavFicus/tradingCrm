@@ -11,7 +11,7 @@ const statuses = keyMirror({
 });
 const types = keyMirror({
   FIRST_DEPOSIT: null,
-  PLAYER_PROFILE_COMPLETED: null,
+  PROFILE_COMPLETED: null,
   Manual: null,
 });
 const assign = keyMirror({
@@ -21,6 +21,10 @@ const assign = keyMirror({
 const cancellationReason = keyMirror({
   MANUAL_BY_PLAYER: null,
   MANUAL_BY_OPERATOR: null,
+});
+const moneyTypeUsage = keyMirror({
+  REAL_MONEY_FIRST: null,
+  BONUS_MONEY_FIRST: null,
 });
 
 const statusesLabels = {
@@ -33,12 +37,16 @@ const statusesLabels = {
 };
 const typesLabels = {
   [types.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS.TYPES.FIRST_DEPOSIT'),
-  [types.PLAYER_PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS.TYPES.PLAYER_PROFILE_COMPLETED'),
+  [types.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS.TYPES.PROFILE_COMPLETED'),
   [types.Manual]: I18n.t('CONSTANTS.BONUS.TYPES.MANUAL'),
 };
 const assignLabels = {
   [assign.manual]: I18n.t('CONSTANTS.BONUS.ASSIGN.MANUAL'),
   [assign.campaign]: I18n.t('CONSTANTS.BONUS.ASSIGN.CAMPAIGN'),
+};
+const moneyTypeUsageLabels = {
+  [moneyTypeUsage.REAL_MONEY_FIRST]: I18n.t('CONSTANTS.BONUS.MONEY_TYPE_USAGE.REAL_MONEY'),
+  [moneyTypeUsage.BONUS_MONEY_FIRST]: I18n.t('CONSTANTS.BONUS.MONEY_TYPE_USAGE.BONUS_MONEY'),
 };
 
 const statusesProps = {
@@ -80,4 +88,6 @@ export {
   assign,
   assignLabels,
   cancellationReason,
+  moneyTypeUsage,
+  moneyTypeUsageLabels,
 };

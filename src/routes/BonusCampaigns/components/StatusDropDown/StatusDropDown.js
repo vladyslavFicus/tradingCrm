@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../constants/propTypes';
 import ChangeStatusModal from '../ChangeStatusModal';
-import { statuses } from '../../constants';
-import BonusCampaignStatus from '../BonusCampaignStatus';
+import { statuses } from '../../../../constants/bonus-campaigns';
+import BonusCampaignStatus from '../../../../components/BonusCampaignStatus';
 
 const initialState = {
   dropDownOpen: false,
