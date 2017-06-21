@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Button } from 'reactstrap';
-import { shortify } from '../../../../../utils/uuid';
+import { I18n } from 'react-redux-i18n';
+import Uuid from '../../../../../components/Uuid';
 import { statusColorNames, statuses } from '../../../../../constants/operators';
 import AccountStatus from './AccountStatus';
 import PropTypes from '../../../../../constants/propTypes';
@@ -15,8 +16,8 @@ const sendInvitationRequiredPermissions = new Permissions([permission.OPERATORS.
 
 class Header extends Component {
   static propTypes = {
-    data: PropTypes.object,
-    lastIp: PropTypes.ipEntity,
+    data: PropTypes.object.isRequired,
+    lastIp: PropTypes.ipEntity.isRequired,
     availableStatuses: PropTypes.arrayOf(PropTypes.shape({
       action: PropTypes.string,
       label: PropTypes.string,
@@ -58,7 +59,7 @@ class Header extends Component {
           <div className="panel-heading-row_name-and-ids">
             <div className="operator-profile-info-name">{`${firstName} ${lastName}`}</div>
             <span className="operator-profile-info-id">
-              { shortify(uuid) } { country && ` - ${country}` }
+              <Uuid uuid={uuid} /> { country && ` - ${country}` }
             </span>
           </div>
           <div className="operator-profile-actions">
@@ -105,7 +106,7 @@ class Header extends Component {
                       {
                         statusChangeAuthor &&
                         <div className="header-block-small">
-                          by { shortify(statusChangeAuthor, 'OP') }
+                          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix={'OP'} />
                         </div>
                       }
                       {

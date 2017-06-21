@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import { entities, entitiesPrefixes } from '../../../../constants/uuid';
-import { shortify } from '../../../../utils/uuid';
 import PopoverButton from '../../../../components/PopoverButton';
+import Uuid from '../../../../components/Uuid';
 
 class Notes extends Component {
   static propTypes = {
@@ -35,15 +36,15 @@ class Notes extends Component {
               <b>{`${item.author} - `}</b>
             }
             <span>
-              {shortify(item.lastEditorUUID, entitiesPrefixes[entities.operator])}
+              <Uuid uuid={item.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
             </span>
           </div>
           <small className="font-size-11">
             {
               item.lastEditionDate
                 ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
-                : 'Unknown time'
-            } to {this.renderItemId(item)}
+                : I18n.t('COMMON.UNKNOWN_TIME')
+            } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
           </small>
           <div className="font-size-13 font-italic margin-top-5">
             {item.content}
@@ -53,16 +54,16 @@ class Notes extends Component {
     );
   };
 
-  renderItemId = (item) => {
-    return shortify(item.targetUUID, entitiesPrefixes[item.targetType]);
-  };
+  renderItemId = item => <Uuid uuid={item.targetUUID} uuidPrefix={entitiesPrefixes[item.targetType]} />;
 
   render() {
     const { notes: { entities: notesEntities } } = this.props;
 
     return (
       <div className="player__account__details_notes">
-        <span className="player__account__details-label">Pined note's</span>
+        <span className="player__account__details-label">
+          {I18n.t('PLAYER_PROFILE.PINED_NOTES.TITLE')}
+        </span>
         <div className="panel">
           <div className="notes panel-body height-200">
             {notesEntities.content.map(this.renderItem)}
