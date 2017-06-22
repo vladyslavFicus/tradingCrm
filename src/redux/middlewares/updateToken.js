@@ -11,7 +11,9 @@ const state = {
   logoutTimeout: null,
 };
 
-function startTimeout(store, delay) {
+function startTimeout(store, expirationTime) {
+  const delay = (expirationTime - (timestamp() + 1)) * 1000;
+
   if (state.logoutTimeout) {
     clearTimeout(state.logoutTimeout);
     state.logoutTimeout = null;
@@ -29,7 +31,7 @@ function startTimeout(store, delay) {
 
         browserHistory.push('/logout');
       } else {
-        startTimeout(store, (tokenData.exp - (timestamp() + 1)) * 1000);
+        startTimeout(store, tokenData.exp);
       }
     }
   }, delay);
@@ -60,12 +62,12 @@ export default function ({ expireThreshold = 60 }) {
           if (refreshTokenAction && !refreshTokenAction.error) {
             const refreshedTokenData = jwtDecode(refreshTokenAction.payload.jwtToken);
 
-            startTimeout(store, (refreshedTokenData.exp - (timestamp() + 1)) * 1000);
+            startTimeout(store, refreshedTokenData.exp);
           }
 
           return responseAction;
         } else if (state.logoutTimeout === null) {
-          startTimeout(store, (tokenData.exp - (timestamp() + 1)) * 1000);
+          startTimeout(store, tokenData.exp);
         }
       }
     }
