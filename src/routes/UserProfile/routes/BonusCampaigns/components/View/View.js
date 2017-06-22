@@ -95,6 +95,12 @@ class View extends Component {
           />
 
           <GridColumn
+            name="campaignPriority"
+            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.PRIORITY')}
+            headerClassName="text-uppercase"
+          />
+
+          <GridColumn
             name="fulfillmentType"
             header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
             headerClassName="text-uppercase"

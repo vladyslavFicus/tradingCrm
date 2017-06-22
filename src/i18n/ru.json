@@ -177,7 +177,8 @@
         "CAMPAIGN": "Кампания",
         "DATE_TO": "в %{time}",
         "AVAILABLE": "Доступен",
-        "FULFILLMENT_TYPE": "Тип условия"
+        "FULFILLMENT_TYPE": "Тип условия",
+        "PRIORITY": "Приоритет"
       }
     }
   },

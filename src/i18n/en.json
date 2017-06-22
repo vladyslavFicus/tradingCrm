@@ -177,7 +177,8 @@
         "CAMPAIGN": "Campaign",
         "DATE_TO": "to %{time}",
         "AVAILABLE": "Available",
-        "FULFILLMENT_TYPE": "Fulfilment type"
+        "FULFILLMENT_TYPE": "Fulfilment type",
+        "PRIORITY": "Priority"
       }
     }
   },
