@@ -8,22 +8,33 @@ import timestamp from '../../utils/timestamp';
 
 const state = {
   pending: false,
-  logoutTimer: null,
+  logoutTimeout: null,
 };
 
-function logout(store) {
-  const { auth: { logged, token } } = store.getState();
-
-  if (logged && token) {
-    const tokenData = jwtDecode(token);
-
-    if (tokenData.exp - timestamp() <= 0) {
-      clearTimeout(state.logoutTimer);
-      state.logoutTimer = null;
-
-      browserHistory.push('/logout');
-    }
+function startTimeout(store, delay) {
+  if (state.logoutTimeout) {
+    clearTimeout(state.logoutTimeout);
+    state.logoutTimeout = null;
   }
+
+  state.logoutTimeout = setTimeout(() => {
+    const { auth: { logged, token } } = store.getState();
+
+    if (logged && token) {
+      const tokenData = jwtDecode(token);
+
+      if (tokenData.exp - timestamp() <= 0) {
+        clearTimeout(state.logoutTimeout);
+        state.logoutTimeout = null;
+
+        browserHistory.push('/logout');
+      } else {
+        startTimeout(store, (tokenData.exp - (timestamp() + 1)) * 1000);
+      }
+    }
+  }, delay);
+
+  console.info(`Will logout in ${delay} ms`);
 }
 
 export default function ({ expireThreshold = 60 }) {
@@ -48,18 +59,13 @@ export default function ({ expireThreshold = 60 }) {
 
           if (refreshTokenAction && !refreshTokenAction.error) {
             const refreshedTokenData = jwtDecode(refreshTokenAction.payload.jwtToken);
-            clearTimeout(state.logoutTimer);
-            state.logoutTimer = setTimeout(() => {
-              logout(store);
-            }, (refreshedTokenData.exp - (timestamp() + 1)) * 1000);
+
+            startTimeout(store, (refreshedTokenData.exp - (timestamp() + 1)) * 1000);
           }
 
           return responseAction;
-        } else if (state.logoutTimer === null) {
-          console.log(tokenData.exp - time);
-          state.logoutTimer = setTimeout(() => {
-            logout(store);
-          }, (tokenData.exp - (timestamp() + 1)) * 1000);
+        } else if (state.logoutTimeout === null) {
+          startTimeout(store, (tokenData.exp - (timestamp() + 1)) * 1000);
         }
       }
     }
