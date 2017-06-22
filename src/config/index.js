@@ -48,7 +48,8 @@ const config = _.merge({
     validation: {
       password: null,
     },
-    departments: [],
+    departments: ['PLAYER', 'CS', 'RFP', 'MARKETING'],
+    roles: ['ROLE4', 'ROLE3', 'ROLE2', 'ROLE1'],
     tags: {
       priorities: {
         neutral: {
@@ -116,7 +117,7 @@ if (config.nas.roles) {
   }));
 }
 
-if (config.nas.tags) {
+if (config.nas.tags && config.nas.tags.priorities) {
   config.nas.tags = Object
     .keys(config.nas.tags.priorities)
     .reduce((result, priority) => {
