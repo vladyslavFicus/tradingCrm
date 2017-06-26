@@ -25,7 +25,10 @@ class Amount extends Component {
       return null;
     }
 
-    const { symbolOnLeft } = config.components.Currency.currencies[currency];
+    let symbolOnLeft = currency;
+    if (config.components.Currency.currencies[currency]) {
+      symbolOnLeft = config.components.Currency.currencies[currency];
+    }
 
     const chunks = [
       <Currency key="currency" code={currency} className={currencyClassName} />,
