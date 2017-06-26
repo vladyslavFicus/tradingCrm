@@ -12,7 +12,7 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  */
 const { BUILD_ENV } = process.env;
 const APP_NAME = 'backoffice';
-const REQUIRED_CONFIG_PARAM = 'brand.api.url';
+const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
 const parseJson = (data, defaultValue = null) => {
   try {
@@ -54,10 +54,8 @@ function processError(error) {
 function processConfig() {
   const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${BUILD_ENV}.yml`);
 
-  return fetchZookeeperConfig({
-    environmentConfig,
-    allowedKeys: ['nas.brand.password.pattern'],
-  }).then(config => _.merge({}, config, { nas: environmentConfig.nas }));
+  return fetchZookeeperConfig({ environmentConfig })
+    .then(config => _.merge({}, config, { nas: environmentConfig.nas }, { nas: { brand: environmentConfig.brand } }));
 }
 
 function fetchConfigHealth(url) {
@@ -73,7 +71,7 @@ function saveConfig(config) {
         return reject(error);
       }
 
-      resolve();
+      return resolve();
     });
   });
 }
