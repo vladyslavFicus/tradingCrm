@@ -5,10 +5,10 @@ import config from '../../config/index';
 const Currency = ({ code, ...rest }) => {
   let symbol = code;
   if (config.components.Currency.currencies[code]) {
-    symbol = config.components.Currency.currencies[code];
+    symbol = config.components.Currency.currencies[code].symbol;
   }
 
-  return symbol ? <span {...rest}>{symbol}</span> : null;
+  return <span {...rest}>{symbol}</span>;
 };
 
 Currency.propTypes = {
