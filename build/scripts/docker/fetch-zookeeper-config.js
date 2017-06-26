@@ -2,8 +2,16 @@
 const zookeeper = require('node-zookeeper-client');
 const _ = require('lodash');
 
-const getChildren = (client, configPath) => new Promise((resolve) => {
-  client.getChildren(configPath, (error, children) => resolve(children));
+const getChildren = (client, configPath) => new Promise((resolve, reject) => {
+  client.getChildren(configPath, (error, children) => {
+    if (error) {
+      reject(error.stack);
+
+      return;
+    }
+
+    return resolve(children);
+  });
 });
 
 module.exports = function (params) {
