@@ -16,11 +16,9 @@ import OperatorProfileRoute from './Operators/routes/OperatorProfile';
 import DashboardRoute from './Dashboard';
 import UsersRoute from './Users';
 import OperatorsRoute from './Operators';
-import ProfileReviewRoute from './ProfileReview';
 import TransactionsRoute from './Transactions';
 import PaymentMethodsRoute from './PaymentMethods';
 import BonusCampaignsRoute from './BonusCampaigns';
-import BonusesRoute from './Bonuses';
 import TermsRoute from './Terms';
 import NotFoundRoute from './NotFound';
 import LogoutRoute from './Logout';
@@ -28,7 +26,7 @@ import ReportsRoute from './Reports';
 import GamesRoute from './Games';
 import CountriesRoute from './Countries';
 
-export const createRoutes = store => ({
+export default store => ({
   component: CoreLayout,
   childRoutes: [
     {
@@ -43,11 +41,9 @@ export const createRoutes = store => ({
             DashboardRoute(store),
             UsersRoute(store),
             OperatorsRoute(store),
-            ProfileReviewRoute(store),
             TransactionsRoute(store),
             PaymentMethodsRoute(store),
             BonusCampaignsRoute(store),
-            BonusesRoute(store),
             TermsRoute(store),
             LogoutRoute(store),
             ReportsRoute(store),
@@ -67,5 +63,3 @@ export const createRoutes = store => ({
     NotFoundRoute(store),
   ],
 });
-
-export default createRoutes;
