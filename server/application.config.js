@@ -1,4 +1,5 @@
 module.exports = {
+  logstash: { url: 'http://hrzn01-dev-elk.nas.local:12202' },
   nas: {
     fx_rate: { cron: '0 0 17 * * *' },
     currencies: { base: 'EUR', supported: ['EUR', 'USD', 'SEK', 'NOK', 'RUB'] },
