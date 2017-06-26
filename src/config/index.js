@@ -171,7 +171,7 @@ function getBrand() {
 }
 
 function getAvailableLanguages() {
-  return config.nas.locale.languages || [];
+  return config.nas.brand.locale.languages || [];
 }
 
 function getDomain() {
