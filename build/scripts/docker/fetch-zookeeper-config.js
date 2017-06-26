@@ -5,9 +5,7 @@ const _ = require('lodash');
 const getChildren = (client, configPath) => new Promise((resolve, reject) => {
   client.getChildren(configPath, (error, children) => {
     if (error) {
-      reject(error.stack);
-
-      return;
+      return reject(error.stack);
     }
 
     return resolve(children);
