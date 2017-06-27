@@ -30,7 +30,6 @@ function updateProfile(uuid, data) {
         },
         body: JSON.stringify({
           country: operatorProfile.country,
-          email: operatorProfile.email,
           firstName: operatorProfile.firstName,
           lastName: operatorProfile.lastName,
           phoneNumber: operatorProfile.phoneNumber,
@@ -84,10 +83,7 @@ const actionHandlers = {
   }),
   [PROFILE.SUCCESS]: (state, action) => ({
     ...state,
-    data: {
-      ...state.data,
-      ...action.payload,
-    },
+    data: action.payload,
     isLoading: false,
     receivedAt: timestamp(),
   }),

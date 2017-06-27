@@ -1,16 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import config from '../../config/index';
+import { currencySettings as currencies } from './constants';
 
 const Currency = ({ code, ...rest }) => {
-  const { symbol } = config.components.Currency.currencies[code];
+  let symbol = code;
+  if (currencies[code]) {
+    symbol = currencies[code].symbol;
+  }
 
-  return symbol ? <span {...rest}>{symbol}</span> : null;
+  return <span {...rest}>{symbol}</span>;
 };
 
 Currency.propTypes = {
   code: PropTypes.string.isRequired,
-  className: PropTypes.string,
 };
 
 export default Currency;

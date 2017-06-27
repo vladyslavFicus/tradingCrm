@@ -43,6 +43,13 @@ PropTypes.ipEntity = PropTypes.shape({
   ip: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+PropTypes.operatorIpEntity = PropTypes.shape({
+  agent: PropTypes.string.isRequired,
+  signInDate: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
+  ipAddress: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+});
 PropTypes.noteEntity = PropTypes.shape({
   content: PropTypes.string.isRequired,
   creationDate: PropTypes.string,

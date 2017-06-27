@@ -10,7 +10,7 @@ import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
 import config from '../../../../../config/index';
 
-const tags = config.nas.tags.reduce((result, item) => ({
+const tags = config.nas.brand.tags.reduce((result, item) => ({
   ...result,
   [item.value]: item.label,
 }), {});

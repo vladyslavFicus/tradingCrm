@@ -32,9 +32,9 @@ class OperatorProfileLayout extends Component {
     onSendInvitation: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
     ip: PropTypes.shape({
-      list: PropTypes.arrayOf(PropTypes.ipEntity).isRequired,
+      list: PropTypes.arrayOf(PropTypes.operatorIpEntity).isRequired,
     }).isRequired,
-    lastIp: PropTypes.ipEntity,
+    lastIp: PropTypes.operatorIpEntity,
   };
 
   state = {

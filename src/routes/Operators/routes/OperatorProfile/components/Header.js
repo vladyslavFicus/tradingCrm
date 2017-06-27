@@ -17,7 +17,7 @@ const sendInvitationRequiredPermissions = new Permissions([permission.OPERATORS.
 class Header extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    lastIp: PropTypes.ipEntity.isRequired,
+    lastIp: PropTypes.operatorIpEntity,
     availableStatuses: PropTypes.arrayOf(PropTypes.shape({
       action: PropTypes.string,
       label: PropTypes.string,
@@ -27,6 +27,9 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onSendInvitationClick: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    lastIp: null,
   };
 
   handleStatusChange = (data) => {
@@ -59,7 +62,7 @@ class Header extends Component {
           <div className="panel-heading-row_name-and-ids">
             <div className="operator-profile-info-name">{`${firstName} ${lastName}`}</div>
             <span className="operator-profile-info-id">
-              <Uuid uuid={uuid} /> { country && ` - ${country}` }
+              {!!uuid && <Uuid uuid={uuid} />} {country && ` - ${country}`}
             </span>
           </div>
           <div className="operator-profile-actions">
@@ -92,7 +95,8 @@ class Header extends Component {
               onStatusChange={this.handleStatusChange}
               label={
                 <div className="dropdown-tab">
-                  <div className="header-block-title">Account Status</div><i className="fa fa-angle-down" />
+                  <div className="header-block-title">Account Status</div>
+                  <i className="fa fa-angle-down" />
                   <div className={`header-block-middle ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
                   {
                     operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
@@ -112,7 +116,7 @@ class Header extends Component {
                       {
                         statusChangeDate &&
                         <div className="header-block-small">
-                          on { moment(statusChangeDate).format('DD.MM.YYYY') }
+                          on {moment(statusChangeDate).format('DD.MM.YYYY')}
                         </div>
                       }
                     </div>
@@ -128,10 +132,10 @@ class Header extends Component {
               registrationDate &&
               <div>
                 <div className="header-block-middle">
-                  { moment(registrationDate).fromNow() }
+                  {moment(registrationDate).fromNow()}
                 </div>
                 <div className="header-block-small">
-                  on { moment(registrationDate).format('DD.MM.YYYY HH:mm') }
+                  on {moment(registrationDate).format('DD.MM.YYYY HH:mm')}
                 </div>
               </div>
             }
