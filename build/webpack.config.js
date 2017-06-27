@@ -96,7 +96,11 @@ const config = {
 // ------------------------------------
 config.module.rules.push({
   test: /\.(js|jsx)$/,
-  exclude: /node_modules/,
+  exclude: (absPath) => {
+    const relativePathToBase = path.relative(project.basePath, absPath);
+
+    return /node_modules/.test(relativePathToBase);
+  },
   use: 'happypack/loader',
 });
 
@@ -210,13 +214,8 @@ config.plugins.push(new HtmlWebpackPlugin({
 // Development Tools
 // ------------------------------------
 if (__DEV__) {
-  config.entry.main.push(
-    `webpack-hot-middleware/client.js?path=${config.output.publicPath}__webpack_hmr`
-  );
-  config.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
-  );
+  config.entry.main.push(`webpack-hot-middleware/client.js?path=${config.output.publicPath}__webpack_hmr`);
+  config.plugins.push(new webpack.HotModuleReplacementPlugin(), new webpack.NamedModulesPlugin());
 }
 
 // Bundle Splitting
