@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import config from '../../config/index';
 import Currency from './Currency';
+import { currencySettings as currencies } from './constants';
 
 const formatMoney = (amount) => {
   const n = amount.toString();
@@ -16,9 +16,9 @@ const Amount = ({ tag, className, amount, currency, amountClassName, currencyCla
     return null;
   }
 
-  let symbolOnLeft = currency;
-  if (config.components.Currency.currencies[currency]) {
-    symbolOnLeft = config.components.Currency.currencies[currency];
+  let symbolOnLeft = true;
+  if (currencies[currency]) {
+    symbolOnLeft = currencies[currency].symbolOnLeft;
   }
 
   const chunks = [
