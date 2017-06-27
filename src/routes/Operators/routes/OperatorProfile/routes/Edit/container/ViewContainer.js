@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
-import config from '../../../../../../../config/index';
+import config from '../../../../../../../config';
 import { actionCreators } from '../../../modules';
 
 const mapStateToProps = ({ operatorProfile: { view, authorities } }) => ({

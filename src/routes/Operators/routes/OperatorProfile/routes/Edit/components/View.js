@@ -89,7 +89,7 @@ class View extends Component {
                         <div className="font-weight-700">
                           <div className="row">
                             <div className="pull-left">
-                              { renderLabel(authority.department, departmentsLabels) }
+                              {renderLabel(authority.department, departmentsLabels)}
                               {' - '}
                               { renderLabel(authority.role, rolesLabels) }
                             </div>
@@ -97,7 +97,6 @@ class View extends Component {
                               <i
                                 onClick={() => this.handleDeleteAuthority(authority.department, authority.role)}
                                 className="fa fa-trash color-danger"
-                                aria-hidden="true"
                               />
                             </div>
                           </div>

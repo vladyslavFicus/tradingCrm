@@ -136,7 +136,7 @@ class ProfileLayout extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       profile,
       loadFullProfile,
