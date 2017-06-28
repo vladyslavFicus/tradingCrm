@@ -150,17 +150,18 @@ small {
 }
 
 .note-with-text {
-  background: url("../../public/img/notes/note-with-text.png") no-repeat;
+  background-image: url("../../public/img/notes/note-with-text.png");
+  background-repeat: no-repeat;
   cursor: pointer;
 }
 
 .note-add-note {
-  background: url("../../public/img/notes/note-add-note.png") no-repeat;
+  background-image: url("../../public/img/notes/note-add-note.png");
+  background-repeat: no-repeat;
   cursor: pointer;
   opacity: .5;
   -webkit-transition: opacity .5s ease;
   -moz-transition: opacity .5s ease;
-  -ms-transition: opacity .5s ease;
   -o-transition: opacity .5s ease;
   transition: opacity .5s ease;
   &:hover {
@@ -169,7 +170,8 @@ small {
 }
 
 .note-pinned-note {
-  background: url("../../public/img/notes/note-pinned-note.png") no-repeat;
+  background-image: url("../../public/img/notes/note-pinned-note.png");
+  background-repeat: no-repeat;
   cursor: pointer;
 }
 
@@ -205,4 +207,15 @@ small {
   img {
     width: 32px;
   }
+}
+
+.transaction-failed-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 2px;
+  left: 6px;
+  background-image: url("../../public/img/transaction-failed-icon.png");
+  background-repeat: no-repeat;
 }

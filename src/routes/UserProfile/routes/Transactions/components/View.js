@@ -341,6 +341,10 @@ class View extends Component {
         <div>
           <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
             {statusesLabels[data.status] || data.status}
+            {
+              data.status === paymentsStatuses.FAILED &&
+              <i className="transaction-failed-icon" />
+            }
           </div>
           {
             data.creatorUUID &&
