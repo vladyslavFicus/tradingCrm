@@ -2,28 +2,53 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
-import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { InputField, SingleDateField, SelectField } from '../../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../../utils/validator';
+import renderLabel from '../../../../../../utils/renderLabel';
+import { moneyTypeUsageLabels } from '../../../../../../constants/bonus';
 import { attributeLabels } from './constants';
 import './CreateModal.scss';
 
 const FORM_NAME = 'bonusManage';
-const validator = createValidator({
-  playerUUID: 'required|string',
-  label: 'required|string',
-  priority: 'required|numeric|min:0',
-  grantedAmount: 'required|numeric|min:0',
-  amountToWage: 'required|numeric|min:0',
-  expirationDate: 'required',
-  prize: 'required_if:capping|numeric|min:0',
-  capping: 'numeric|required_if:prize|min:0',
-  optIn: 'boolean',
-  converted: 'required',
-  wagered: 'required',
-  currency: 'required',
-}, Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}), false);
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
+const validator = (values) => {
+  const rules = {
+    playerUUID: 'required|string',
+    label: 'required|string',
+    priority: 'required|numeric|min:0',
+    grantedAmount: 'required|numeric|min:0',
+    amountToWage: 'required|numeric|min:0',
+    expirationDate: 'required',
+    prize: ['numeric', 'min:0'],
+    capping: ['numeric', 'min:0'],
+    optIn: 'boolean',
+    converted: 'required',
+    wagered: 'required',
+    currency: 'required',
+  };
+
+  if (values.prize && values.prize.value) {
+    const value = parseFloat(values.prize.value).toFixed(2);
+
+    if (!isNaN(value)) {
+      rules.capping.value.push('greaterThan:prize');
+    }
+  }
+
+  if (values.capping && values.capping.value) {
+    const value = parseFloat(values.capping.value).toFixed(2);
+
+    if (!isNaN(value)) {
+      rules.prize.value.push('lessThan:capping');
+    }
+  }
+
+  return createValidator(rules, validatorAttributeLabels, false)(values);
+};
 
 class CreateModal extends Component {
   static propTypes = {
@@ -94,6 +119,21 @@ class CreateModal extends Component {
                   component={SingleDateField}
                   position="vertical"
                 />
+
+                <div className="form-group">
+                  <div className="col-md-9">
+                    <div className="checkbox">
+                      <label>
+                        <Field
+                          name="optIn"
+                          type="checkbox"
+                          component="input"
+                          disabled={disabled}
+                        /> {I18n.t(attributeLabels.optIn)}
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="col-md-6">
                 <Field
@@ -123,20 +163,19 @@ class CreateModal extends Component {
                   position="vertical"
                 />
 
-                <div className={classNames('form-group row')}>
-                  <div className="col-md-9 col-md-offset-3">
-                    <div className="checkbox">
-                      <label>
-                        <Field
-                          name="optIn"
-                          type="checkbox"
-                          component="input"
-                          disabled={disabled}
-                        /> {I18n.t(attributeLabels.optIn)}
-                      </label>
-                    </div>
-                  </div>
-                </div>
+                <Field
+                  name="moneyTypePriority"
+                  label={I18n.t(attributeLabels.moneyTypePriority)}
+                  type="select"
+                  component={SelectField}
+                  position="vertical"
+                >
+                  {Object.keys(moneyTypeUsageLabels).map(key => (
+                    <option key={key} value={key}>
+                      {renderLabel(key, moneyTypeUsageLabels)}
+                    </option>
+                  ))}
+                </Field>
               </div>
             </div>
           </ModalBody>

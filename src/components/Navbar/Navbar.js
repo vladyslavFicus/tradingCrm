@@ -15,7 +15,7 @@ class Navbar extends Component {
       replace: PropTypes.func.isRequired,
     }).isRequired,
     onLocaleChange: PropTypes.func.isRequired,
-    languages: PropTypes.arrayOf(PropTypes.dropDownOption).isRequired,
+    languages: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
     showSearch: true,

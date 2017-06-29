@@ -1,8 +1,8 @@
 import { injectReducer } from '../../../../store/reducers';
-import { actionCreators } from './modules/index';
+import { actionCreators } from './modules';
 import SettingsRoute from './routes/Settings';
 import FeedRoute from './routes/Feed';
-import { statuses } from '../../constants';
+import { statuses } from '../../../../constants/bonus-campaigns';
 
 export default store => ({
   path: 'view/:id',

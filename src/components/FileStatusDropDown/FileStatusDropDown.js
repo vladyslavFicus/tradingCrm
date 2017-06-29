@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
-import { shortify } from '../../utils/uuid';
+import { I18n } from 'react-redux-i18n';
+import Uuid from '../../components/Uuid';
 import { statuses, statusActions, statusesColorNames, statusesLabels, actionsColorNames } from '../../constants/files';
 import './FileStatusDropDown.scss';
 
@@ -39,7 +40,7 @@ class FileStatusDropDown extends Component {
         {
           status.value !== statuses.UNDER_REVIEW &&
           <div className="font-size-10 color-default">
-            by {shortify(status.author)}
+            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={status.author} />
           </div>
         }
       </div>

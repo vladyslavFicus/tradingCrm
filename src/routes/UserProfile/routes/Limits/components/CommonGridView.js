@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import humanizeDuration from 'humanize-duration';
 import classNames from 'classnames';
 import moment from 'moment';
-import { shortify } from '../../../../../utils/uuid';
+import { I18n } from 'react-redux-i18n';
+import Uuid from '../../../../../components/Uuid';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
   typesLabels, types, statuses, statusesColor, statusesLabels, amountTypes,
@@ -123,65 +124,66 @@ class CommonGridView extends Component {
     );
   };
 
-  renderStatus = (data) => {
-    return (
-      <div>
-        <div className={classNames(statusesColor[data.status], 'text-uppercase font-weight-700')}>
-          {statusesLabels[data.status] || data.status}
+  renderStatus = data => (
+    <div>
+      <div className={classNames(statusesColor[data.status], 'text-uppercase font-weight-700')}>
+        {statusesLabels[data.status] || data.status}
+      </div>
+      {
+        (data.status === statuses.IN_PROGRESS || data.status === statuses.ACTIVE) &&
+        <div className="font-size-10 color-default">
+          since {moment(data.startDate).format('DD.MM.YYYY HH:mm')}
         </div>
-        {
-          (data.status === statuses.IN_PROGRESS || data.status === statuses.ACTIVE) &&
-          <div className="font-size-10 color-default">
-            since {moment(data.startDate).format('DD.MM.YYYY HH:mm')}
-          </div>
-        }
-        {
-          data.status === statuses.PENDING &&
-          <div>
-            {
-              data.statusAuthor &&
-              <div className="font-size-10 color-default">
-                {shortify(data.statusAuthor, 'OP')}
-              </div>
-            }
-            {
-              data.startDate &&
-              <div className="font-size-10 color-default">
-                activates on {moment(data.startDate).format('DD.MM.YYYY HH:mm')}
-              </div>
-            }
-          </div>
-        }
-        {
-          (data.status === statuses.COOLOFF || data.status === statuses.CANCELED) &&
-          <div>
-            {
-              data.statusAuthor &&
-              <div className="font-size-10 color-default">
-                {shortify(data.statusAuthor, 'OP')}
-              </div>
-            }
-            {
-              data.expirationDate &&
-              <div className="font-size-10 color-default">
-                {data.status === statuses.COOLOFF ? 'until' : 'on'} {' '}
-                {moment(data.expirationDate).format('DD.MM.YYYY HH:mm')}
-              </div>
-            }
-          </div>
-        }
-      </div>
-    );
-  };
+      }
+      {
+        data.status === statuses.PENDING &&
+        <div>
+          {
+            data.statusAuthor &&
+            <div className="font-size-10 color-default">
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.statusAuthor} uuidPrefix="OP" />
+            </div>
+          }
+          {
+            data.startDate &&
+            <div className="font-size-10 color-default">
+              activates on {moment(data.startDate).format('DD.MM.YYYY HH:mm')}
+            </div>
+          }
+        </div>
+      }
+      {
+        (data.status === statuses.COOLOFF || data.status === statuses.CANCELED) &&
+        <div>
+          {
+            data.statusAuthor &&
+            <div className="font-size-10 color-default">
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.statusAuthor} uuidPrefix="OP" />
+            </div>
+          }
+          {
+            data.expirationDate &&
+            <div className="font-size-10 color-default">
+              {data.status === statuses.COOLOFF ? 'until' : 'on'} {' '}
+              {moment(data.expirationDate).format('DD.MM.YYYY HH:mm')}
+            </div>
+          }
+        </div>
+      }
+    </div>
+  );
 
-  renderType = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700">{typesLabels[data.type]}</div>
-        <div className="text-muted font-size-10">{shortify(data.author)}</div>
-      </div>
-    );
-  };
+  renderType = data => (
+    <div>
+      <div className="font-weight-700">{typesLabels[data.type]}</div>
+      {
+        data.author &&
+        <div className="text-muted font-size-10">
+          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.author} />
+        </div>
+      }
+    </div>
+  );
 
   renderCreationDate = (data) => {
     return (

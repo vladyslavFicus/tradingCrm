@@ -70,7 +70,7 @@ class BonusGridFilter extends Component {
           {...input}
           className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
         >
-          <option>{emptyOptionLabel}</option>
+          <option value="">{emptyOptionLabel}</option>
           {children}
         </select>
       </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import TransactionsFilterForm from './TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
@@ -274,8 +275,16 @@ class View extends Component {
           <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
             {statusesLabels[data.status] || data.status}
           </div>
-          <span className="font-size-10 color-default">
-            {moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
+          {
+            data.creatorUUID &&
+            <div className="font-size-10 color-default">
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} length={20} />
+            </div>
+          }
+          <span className="font-size-10 color-default text-lowercase">
+            {I18n.t('COMMON.DATE_ON', {
+              date: moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
+            })}
           </span>
         </div>
       }
