@@ -85,7 +85,7 @@ const config = _.merge({
   logstash: {
     url: '',
   },
-  middlewares: {},
+  middlewares: { unauthorized: [401], persist: { whitelist: ['auth', 'userPanels'], keyPrefix: 'nas:' } },
   modules: {
     bonusCampaign: {
       cancelReasons: {
