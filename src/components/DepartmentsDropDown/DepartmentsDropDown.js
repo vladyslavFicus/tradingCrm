@@ -35,7 +35,7 @@ class DepartmentsDropDown extends Component {
     }
 
     const currentDepartmentNode = (
-      <div>
+      <div className="department__current">
         {this.renderLabel(current.department, departmentsLabels)}
         {' '}
         <div className="role">

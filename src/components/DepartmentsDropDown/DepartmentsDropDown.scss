@@ -16,6 +16,12 @@
   &::after {
     right: 0;
   }
+  &__current {
+    font-weight: 600;
+  }
+  .dropdown-item div {
+    font-weight: 600;
+  }
   .role {
     padding-top: 3px;
     font-size: 12px;
@@ -31,8 +37,5 @@
   }
   .arrow-up {
     transform: rotate(180deg);
-  }
-  .dropdown-menu {
-    min-width: 185px;
   }
 }

@@ -18,6 +18,7 @@
     }
   }
   .dropdown-menu {
+    min-width: 100%;
     position: absolute;
     top: 100%;
     margin-top: 0;
@@ -32,8 +33,9 @@
     padding: 10px 21px;
     border-bottom: 1px solid #e6e6e6;
     line-height: 1.2;
-    color: #000;
+    color: #666;
      &:hover {
+       background-color: #f9f9f9;
        color: #000;
      }
   }
@@ -45,7 +47,8 @@
     border: none;
     border-color: transparent !important;
     text-align: left;
-    &:focus {
+    &:focus,
+    &:hover {
       color: #fff;
     }
     &:hover {
@@ -73,9 +76,6 @@
     .dropdown-menu {
       right: 0;
       left: auto;
-    }
-    .dropdown-item:hover {
-      color: #ccc;
     }
   }
   .form-inline {
