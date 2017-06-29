@@ -60,9 +60,12 @@ $pink: #cc00ff;
   }
   &__close {
     position: absolute;
-    right: 4px;
+    right: 3px;
     bottom: 8px;
     font-size: 17px;
+    &:hover {
+      color: #666;
+    }
   }
   &.view {
     border-top-left-radius: 0;
