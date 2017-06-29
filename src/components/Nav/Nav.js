@@ -8,7 +8,7 @@ class Nav extends Component {
     items: PropTypes.arrayOf(PropTypes.navItem).isRequired,
   };
   static defaultProps = {
-    className: 'navbar-nav',
+    className: 'nav',
   };
 
   render() {
