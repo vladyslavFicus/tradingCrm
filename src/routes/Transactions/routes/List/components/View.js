@@ -186,7 +186,7 @@ class View extends Component {
         </span>
       </div>
     );
-  }
+  };
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -251,7 +251,6 @@ class View extends Component {
         <i
           id={id}
           className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
-          aria-hidden="true"
         />
         <UncontrolledTooltip
           placement="bottom"
@@ -278,7 +277,7 @@ class View extends Component {
           {
             data.creatorUUID &&
             <div className="font-size-10 color-default">
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} length={20} />
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} />
             </div>
           }
           <span className="font-size-10 color-default text-lowercase">
@@ -299,7 +298,7 @@ class View extends Component {
     >
       {data.note
         ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
-          <i className="note-icon note-with-text" />)
+        <i className="note-icon note-with-text" />)
         : <i className="note-icon note-add-note" />
       }
     </PopoverButton>

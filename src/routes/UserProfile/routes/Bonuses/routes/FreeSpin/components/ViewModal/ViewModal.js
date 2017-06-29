@@ -6,8 +6,6 @@ import moment from 'moment';
 import './ViewModal.scss';
 import { shortify } from '../../../../../../../../utils/uuid';
 import Amount from '../../../../../../../../components/Amount';
-import BonusType from '../BonusType';
-import BonusStatus from '../BonusStatus';
 import ModalPlayerInfo from '../../../../../../../../components/ModalPlayerInfo';
 
 class ViewModal extends Component {

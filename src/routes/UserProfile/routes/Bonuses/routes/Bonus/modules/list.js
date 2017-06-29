@@ -20,7 +20,8 @@ const mapEntities = async (dispatch, pageable) => {
     return pageable;
   }
 
-  pageable.content = pageable.content.map(item => ({
+  const newPageable = { ...pageable };
+  newPageable.content = newPageable.content.map(item => ({
     ...item,
     wagered: item.wagered === null
       ? { amount: 0, currency: item.currency }
@@ -30,7 +31,7 @@ const mapEntities = async (dispatch, pageable) => {
         item.amountToWage && !isNaN(item.amountToWage.amount) &&
         item.wagered && !isNaN(item.wagered.amount)
           ? item.amountToWage.amount - item.wagered.amount : 0,
-        0
+        0,
       ),
       currency: item.currency,
     },
@@ -38,18 +39,18 @@ const mapEntities = async (dispatch, pageable) => {
 
   const action = await dispatch(fetchNotes(targetTypes.BONUS, uuids));
   if (!action || action.error) {
-    return pageable;
+    return newPageable;
   }
 
   return new Promise((resolve) => {
-    pageable.content = pageable.content.map(item => ({
+    newPageable.content = pageable.content.map(item => ({
       ...item,
       note: action.payload[item.bonusUUID] && action.payload[item.bonusUUID].length
         ? action.payload[item.bonusUUID][0]
         : null,
     }));
 
-    return resolve(pageable);
+    return resolve(newPageable);
   });
 };
 
@@ -61,12 +62,11 @@ function fetchEntities(filters = {}) {
       throw new Error('playerUUID not defined');
     }
 
-    const playerUUID = filters.playerUUID;
-    delete filters.playerUUID;
+    const queryString = buildQueryString({ ...filters, playerUUID: undefined });
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus/bonuses/${playerUUID}?${buildQueryString(filters)}`,
+        endpoint: `bonus/bonuses/${filters.playerUUID}?${queryString}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -82,6 +82,7 @@ function fetchEntities(filters = {}) {
             type: FETCH_ENTITIES.SUCCESS,
             payload: (action, state, res) => {
               const contentType = res.headers.get('Content-Type');
+
               if (contentType && ~contentType.indexOf('json')) {
                 return res.json().then(json => mapEntities(dispatch, json));
               }
@@ -155,9 +156,9 @@ const initialState = {
     totalPages: null,
     content: [],
   },
+  error: null,
   filters: {},
   isLoading: false,
-  isFailed: false,
   receivedAt: null,
 };
 const actionTypes = {

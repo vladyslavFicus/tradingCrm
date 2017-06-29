@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../constants/propTypes';
+import PropTypes from '../../../../../../constants/propTypes';
 
 class ProfileLastLogin extends Component {
   static propTypes = {
     className: PropTypes.string,
-    lastIp: PropTypes.ipEntity,
+    lastIp: PropTypes.operatorIpEntity,
   };
   static defaultProps = {
     className: 'header-block',
@@ -28,10 +28,10 @@ class ProfileLastLogin extends Component {
             : (
               <div>
                 <div className="header-block-middle" key="time-ago">
-                  {lastIp.sessionStart && moment.utc(lastIp.sessionStart).fromNow()}
+                  {lastIp.signInDate && moment.utc(lastIp.signInDate).fromNow()}
                 </div>
                 <div className="header-block-small">
-                  {lastIp.sessionStart && moment.utc(lastIp.sessionStart).format('DD.MM.YYYY hh:mm')}
+                  {lastIp.signInDate && moment.utc(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}
                 </div>
                 <div className="header-block-small">
                   {lastIp.country && I18n.t('PROFILE.LAST_LOGIN.FROM_COUNTRY', { country: lastIp.country })}

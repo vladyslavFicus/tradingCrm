@@ -365,6 +365,21 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   targetType: PropTypes.string.isRequired,
   wagerWinMultiplier: PropTypes.number.isRequired,
 });
+PropTypes.freeSpinEntity = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  aggregatorId: PropTypes.string.isRequired,
+  gameId: PropTypes.string.isRequired,
+  freeSpinsAmount: PropTypes.number.isRequired,
+  linesPerSpin: PropTypes.number.isRequired,
+  betPerLine: PropTypes.number.isRequired,
+  prize: PropTypes.customValue,
+  capping: PropTypes.customValue,
+  multiplier: PropTypes.number.isRequired,
+  bonusLifeTime: PropTypes.number.isRequired,
+  startDate: PropTypes.string.isRequired,
+  endDate: PropTypes.string.isRequired,
+});
 PropTypes.userDeviceEntity = PropTypes.shape({
   hash: PropTypes.string.isRequired,
   deviceType: PropTypes.string.isRequired,

@@ -8,12 +8,14 @@ import renderLabel from '../../../../../../../../utils/renderLabel';
 import { campaignTypesLabels, targetTypesLabels } from '../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../components/IframeLink';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
+import Amount from "../../../../../../../../components/Amount/Amount";
 
 class View extends Component {
   static propTypes = {
     list: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.bonusCampaignEntity),
+      entities: PropTypes.arrayOf(PropTypes.freeSpinEntity),
     }).isRequired,
+    currency: PropTypes.string.isRequired,
     fetchFreeSpins: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
@@ -24,29 +26,27 @@ class View extends Component {
     this.props.fetchFreeSpins(this.props.params.id);
   }
 
-  renderCampaign = data => (
-    <div id={`bonus-campaign-${data.campaignUUID}`}>
-      <IframeLink
-        className="font-weight-700 color-black"
-        to={`/bonus-campaigns/view/${data.id}/settings`}
-      >
-        {data.campaignName}
-      </IframeLink>
-      <div className="font-size-10">
-        {renderLabel(data.targetType, targetTypesLabels)}
-      </div>
-      <div className="font-size-10">
-        <Uuid uuid={data.campaignUUID} uuidPrefix="CA" />
-      </div>
-    </div>
-  );
+  handlePageChanged = (page) => {
+    this.setState({ page: page - 1 }, () => this.handleRefresh());
+  };
 
-  renderFulfillmentType = data => (
+  handleRefresh = () => this.props.fetchFreeSpins({
+    ...this.state.filters,
+    page: this.state.page,
+    playerUUID: this.props.params.id,
+  });
+
+  renderFreeSpin = data => (
     <div>
-      <div className="text-uppercase font-weight-700">
-        {renderLabel(data.campaignType, campaignTypesLabels)}
+      <div className="font-weight-700">
+        {data.name}
       </div>
-      <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
+      <div className="font-size-10">
+        <Uuid uuid={data.uuid} />
+      </div>
+      <div className="font-size-10">
+        <Uuid uuid={data.authorUuid} />
+      </div>
     </div>
   );
 
@@ -56,12 +56,32 @@ class View extends Component {
         {moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm')}
       </div>
       <div className="font-size-10">
-        {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.DATE_TO', {
+        {I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.DATE_TO', {
           time: moment.utc(data.endDate).local().format('DD.MM.YYYY HH:mm'),
         })}
       </div>
     </div>
   );
+
+  renderGranted = data => {
+    const { currency } = this.props;
+
+    return (
+      <div>
+        <div className="font-weight-700">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.FREE_SPIN_COUNT', { count: data.freeSpinsAmount })}
+        </div>
+        <div className="font-size-10">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.SPIN_VALUE')}:&nbsp;
+          <Amount currency={currency} amount={data.spinValue} />
+        </div>
+        <div className="font-size-10">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.TOTAL_VALUE')}:&nbsp;
+          <Amount currency={currency} amount={data.totalValue} />
+        </div>
+      </div>
+    );
+  };
 
   render() {
     const { list: { entities } } = this.props;
@@ -77,35 +97,28 @@ class View extends Component {
         <GridView
           tableClassName="table table-hovered data-grid-layout"
           headerClassName=""
-          dataSource={entities}
-          activePage={0}
-          totalPages={0}
+          dataSource={entities.content}
+          onPageChange={this.handlePageChanged}
+          activePage={entities.number + 1}
+          totalPages={entities.totalPages}
         >
           <GridColumn
-            name="campaign"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
+            name="freeSpin"
+            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.FREE_SPIN')}
             headerClassName="text-uppercase"
-            render={this.renderCampaign}
+            render={this.renderFreeSpin}
           />
-
           <GridColumn
-            name="available"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.AVAILABLE')}
+            name="availability"
+            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.AVAILABILITY')}
             headerClassName="text-uppercase"
             render={this.renderAvailable}
           />
-
           <GridColumn
-            name="campaignPriority"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.PRIORITY')}
+            name="availability"
+            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GRANTED')}
             headerClassName="text-uppercase"
-          />
-
-          <GridColumn
-            name="fulfillmentType"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
-            headerClassName="text-uppercase"
-            render={this.renderFulfillmentType}
+            render={this.renderAvailable}
           />
         </GridView>
       </div>
