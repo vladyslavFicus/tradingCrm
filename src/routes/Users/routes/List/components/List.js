@@ -124,9 +124,12 @@ class List extends Component {
       <div className={classNames(userStatusColorNames[data.profileStatus], 'text-uppercase font-weight-700')}>
         {userStatusesLabels[data.profileStatus] || data.profileStatus}
       </div>
-      <div className="font-size-11 color-default">
-        Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
-      </div>
+      {
+        data.profileStatusDate &&
+        <div className="font-size-11 color-default">
+          Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
+        </div>
+      }
     </div>
   );
 
