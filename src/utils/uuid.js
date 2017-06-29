@@ -8,7 +8,7 @@ export function shortify(uuid, prefix = null, size = 2) {
     return uuid;
   }
 
-  const sourcePrefix = prefix || elements[0];
+  const sourcePrefix = prefix || (elements[0].length > 2 ? elements[0].slice(0, 2) : elements[0]);
   if (elements.length >= size) {
     const additionalPartsSize = size - 1;
     const startOffset = elements.length - additionalPartsSize;
