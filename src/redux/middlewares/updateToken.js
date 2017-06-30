@@ -4,6 +4,7 @@ import { browserHistory } from 'react-router';
 import {
   actionCreators as authActionCreators,
 } from '../../redux/modules/auth';
+import { actionCreators as windowActionCreators } from '../modules/window';
 import timestamp from '../../utils/timestamp';
 
 const state = {
@@ -29,7 +30,11 @@ function startTimeout(store, expirationTime) {
         clearTimeout(state.logoutTimeout);
         state.logoutTimeout = null;
 
-        browserHistory.push('/logout');
+        if (window && window.parent !== window) {
+          window.parent.postMessage(JSON.stringify(windowActionCreators.logout()), window.location.origin);
+        } else {
+          browserHistory.push('/logout');
+        }
       } else {
         startTimeout(store, tokenData.exp);
       }
