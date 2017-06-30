@@ -43,7 +43,7 @@ const mapEntities = async (dispatch, pageable) => {
   }
 
   return new Promise((resolve) => {
-    newPageable.content = pageable.content.map(item => ({
+    newPageable.content = newPageable.content.map(item => ({
       ...item,
       note: action.payload[item.bonusUUID] && action.payload[item.bonusUUID].length
         ? action.payload[item.bonusUUID][0]
@@ -62,11 +62,12 @@ function fetchEntities(filters = {}) {
       throw new Error('playerUUID not defined');
     }
 
-    const queryString = buildQueryString({ ...filters, playerUUID: undefined });
+    const queryParams = { ...filters };
+    delete queryParams.playerUUID;
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus/bonuses/${filters.playerUUID}?${queryString}`,
+        endpoint: `bonus/bonuses/${filters.playerUUID}?${buildQueryString(queryParams)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -133,6 +134,12 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       ...action.payload,
+      content: action.payload.number === 0
+        ? action.payload.content
+        : [
+          ...state.entities.content,
+          ...action.payload.content,
+        ],
     },
     isLoading: false,
     receivedAt: timestamp(),

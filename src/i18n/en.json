@@ -180,6 +180,23 @@
         "FULFILLMENT_TYPE": "Fulfilment type",
         "PRIORITY": "Priority"
       }
+    },
+    "FREE_SPIN": {
+      "MODAL_CREATE": {
+        "TITLE": "Manual Free spin"
+      }
+    },
+    "FREE_SPINS": {
+      "GRID_VIEW": {
+        "DATE_TO": "to %{time}",
+        "FREE_SPIN_COUNT": "%{count} spins",
+        "SPIN_VALUE": "Spin value",
+        "TOTAL_VALUE": "Total value",
+        "FREE_SPIN": "Free spin",
+        "AVAILABILITY": "Availability",
+        "GRANTED": "Granted",
+        "STATUS": "Status"
+      }
     }
   },
   "COMMON": {
@@ -385,6 +402,19 @@
         "DESKTOP": "Desktop",
         "TABLET": "Tablet",
         "UNKNOWN": "Unknown"
+      }
+    },
+    "FREE_SPIN": {
+      "STATUS_ACTIONS_LABELS": {
+        "ACTIVATE": "Activate",
+        "CANCEL": "Cancel"
+      },
+      "STATUSES": {
+        "DRAFT": "Draft",
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "FINISHED": "Finished",
+        "CANCELED": "Canceled"
       }
     }
   },

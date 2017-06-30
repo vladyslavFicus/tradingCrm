@@ -4,16 +4,15 @@ import moment from 'moment';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import Uuid from '../../../../../../../../components/Uuid';
-import renderLabel from '../../../../../../../../utils/renderLabel';
-import { campaignTypesLabels, targetTypesLabels } from '../../../../../../../../constants/bonus-campaigns';
-import IframeLink from '../../../../../../../../components/IframeLink';
+import { targetTypes } from '../../../../../../../../constants/note';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
-import Amount from "../../../../../../../../components/Amount/Amount";
+import Amount from '../../../../../../../../components/Amount';
+import FreeSpinStatus from "../../../../../../../../components/FreeSpinStatus/FreeSpinStatus";
 
 class View extends Component {
   static propTypes = {
     list: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.freeSpinEntity),
+      entities: PropTypes.pageable(PropTypes.freeSpinEntity),
     }).isRequired,
     currency: PropTypes.string.isRequired,
     fetchFreeSpins: PropTypes.func.isRequired,
@@ -21,13 +20,39 @@ class View extends Component {
       id: PropTypes.string,
     }).isRequired,
   };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
+  };
 
-  componentDidMount() {
-    this.props.fetchFreeSpins(this.props.params.id);
+  state = {
+    filters: {},
+    page: 0,
+  };
+
+  componentWillMount() {
+    this.handleRefresh();
   }
 
-  handlePageChanged = (page) => {
-    this.setState({ page: page - 1 }, () => this.handleRefresh());
+  componentDidMount() {
+    this.context.setNoteChangedCallback(this.handleRefresh);
+  }
+
+  componentWillUnmount() {
+    this.context.setNoteChangedCallback(null);
+  }
+
+  getNotePopoverParams = () => ({
+    placement: 'left',
+  });
+
+  handleNoteClick = (target, data) => {
+    if (data.note) {
+      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
+    } else {
+      this.context.onAddNoteClick(data.bonusUUID, targetTypes.BONUS)(target, this.getNotePopoverParams());
+    }
   };
 
   handleRefresh = () => this.props.fetchFreeSpins({
@@ -63,7 +88,7 @@ class View extends Component {
     </div>
   );
 
-  renderGranted = data => {
+  renderGranted = (data) => {
     const { currency } = this.props;
 
     return (
@@ -82,6 +107,12 @@ class View extends Component {
       </div>
     );
   };
+
+  renderStatus = data => (
+    <FreeSpinStatus
+      campaign={data}
+    />
+  );
 
   render() {
     const { list: { entities } } = this.props;
@@ -115,10 +146,16 @@ class View extends Component {
             render={this.renderAvailable}
           />
           <GridColumn
-            name="availability"
+            name="granted"
             header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GRANTED')}
             headerClassName="text-uppercase"
-            render={this.renderAvailable}
+            render={this.renderGranted}
+          />
+          <GridColumn
+            name="status"
+            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.STATUS')}
+            headerClassName="text-uppercase"
+            render={this.renderStatus}
           />
         </GridView>
       </div>

@@ -14,7 +14,24 @@ const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
 const RESET = `${KEY}/reset`;
 
+function mapProfile(item) {
+  return {
+    ...item,
+    age: moment().diff(item.birthDate, 'years'),
+    signInIps: item.signInIps ? Object.values(item.signInIps).sort((a, b) => {
+      if (a.sessionStart > b.sessionStart) {
+        return -1;
+      } else if (b.sessionStart > a.sessionStart) {
+        return 1;
+      }
+
+      return 0;
+    }) : item.signInIps,
+  };
+}
+
 const fetchESEntities = usersActionCreators.fetchESEntities(FETCH_ENTITIES);
+
 function reset() {
   return {
     type: RESET,
@@ -82,10 +99,10 @@ const actionHandlers = {
       ...state.entities,
       ...action.payload,
       content: action.payload.number === 0
-        ? action.payload.content.map(i => ({ ...i, age: moment().diff(i.birthDate, 'years') }))
+        ? action.payload.content.map(mapProfile)
         : [
           ...state.entities.content,
-          ...action.payload.content.map(i => ({ ...i, age: moment().diff(i.birthDate, 'years') })),
+          ...action.payload.content.map(mapProfile),
         ],
     },
     isLoading: false,

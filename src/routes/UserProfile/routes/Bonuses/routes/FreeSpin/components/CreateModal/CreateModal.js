@@ -10,7 +10,7 @@ import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { attributeLabels } from './constants';
 import './CreateModal.scss';
 
-const FORM_NAME = 'bonusManage';
+const FORM_NAME = 'freeSpinManage';
 const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
   ...res,
   [name]: I18n.t(attributeLabels[name]),
@@ -80,7 +80,7 @@ class CreateModal extends Component {
       <Modal className="create-bonus-modal" toggle={onClose} isOpen={isOpen}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader>
-            {I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.TITLE')}
+            {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TITLE')}
           </ModalHeader>
           <ModalBody>
             <div className="row">

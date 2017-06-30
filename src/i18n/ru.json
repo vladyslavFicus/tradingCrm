@@ -180,6 +180,23 @@
         "FULFILLMENT_TYPE": "Тип условия",
         "PRIORITY": "Приоритет"
       }
+    },
+    "FREE_SPIN": {
+      "MODAL_CREATE": {
+        "TITLE": ""
+      }
+    },
+    "FREE_SPINS": {
+      "GRID_VIEW": {
+        "DATE_TO": "",
+        "FREE_SPIN_COUNT": "",
+        "SPIN_VALUE": "",
+        "TOTAL_VALUE": "",
+        "FREE_SPIN": "",
+        "AVAILABILITY": "",
+        "GRANTED": "",
+        "STATUS": ""
+      }
     }
   },
   "COMMON": {
@@ -384,6 +401,25 @@
         "DESKTOP": "Настольный",
         "TABLET": "Планшет",
         "UNKNOWN": "Неизвестно"
+      }
+    },
+    "FREE_SPIN": {
+      "STATUS_ACTIONS_LABELS": {
+        "ACTIVATE": "",
+        "CANCEL": ""
+      },
+      "STATUSES": {
+        "DRAFT": "",
+        "PENDING": "",
+        "ACTIVE": "",
+        "FINISHED": "",
+        "CANCELED": ""
+      },
+      "STATUS_ACTIONS": {
+        "CANCEL_CAMPAIGN_BUTTON": "",
+        "CANCEL_CAMPAIGN": "",
+        "ACTIVATE_CAMPAIGN_BUTTON": "",
+        "ACTIVATE_CAMPAIGN": ""
       }
     }
   },

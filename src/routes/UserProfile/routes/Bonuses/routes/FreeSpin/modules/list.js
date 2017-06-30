@@ -50,11 +50,12 @@ function fetchFreeSpins(filters) {
       throw new Error('playerUUID not defined');
     }
 
-    const queryString = buildQueryString({ ...filters, playerUUID: undefined });
+    const queryParams = { ...filters };
+    delete queryParams.playerUUID;
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus/bonuses/${filters.playerUUID}?${queryString}`,
+        endpoint: `free_spin/free-spins/${filters.playerUUID}?${buildQueryString(queryParams)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -95,6 +96,12 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       ...action.payload,
+      content: action.payload.number === 0
+        ? action.payload.content
+        : [
+          ...state.entities.content,
+          ...action.payload.content,
+        ],
     },
     isLoading: false,
     receivedAt: timestamp(),

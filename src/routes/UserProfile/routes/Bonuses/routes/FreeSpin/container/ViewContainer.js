@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 
   return {
     list,
-    currency: profile.data.currencyCode || config.nas.currencies.base,
+    currency: profile.data.currencyCode || config.nas.brand.currencies.base,
   };
 };
 const mapActions = {
