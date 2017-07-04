@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from '../../../utils/validator';
+import classNames from 'classnames';
 import { departmentsLabels } from '../../../constants/operators';
 import { SelectField, InputField } from '../../../components/ReduxForm/UserProfile';
 import { renderLabel } from '../../../routes/Operators/utils';
@@ -46,40 +47,30 @@ class SignInForm extends Component {
         {error && <div className="alert alert-warning">
           {error}
         </div>}
-        <Field
-          name="login"
-          type="text"
-          component={InputField}
-          placeholder={attributeLabels.login}
-        />
-        <Field
-          name="password"
-          type="password"
-          component={InputField}
-          placeholder={attributeLabels.password}
-        />
-        <Field
-          name="department"
-          placeholder={attributeLabels.department}
-          type="text"
-          component={SelectField}
-        >
-          <option value="">-- Choose department --</option>
-          {
-            departments.map(({ label, value }) => (
-              <option key={value} value={value}>
-                { renderLabel(label, departmentsLabels) }
-              </option>
-            ))
-          }
-        </Field>
-        <div className="form-actions">
+        <div className="sign-in__form_input">
+          <Field
+            name="login"
+            type="text"
+            label="Email"
+            component={InputField}
+            placeholder={attributeLabels.login}
+          />
+
+        </div>
+        <div className="sign-in__form_input">
+          <Field
+            name="password"
+            type="password"
+            component={InputField}
+            placeholder={attributeLabels.password}
+          />
+        </div>
+        <div className="sign-in__form_submit">
           <button
-            type="submit"
-            className="btn btn-primary width-150"
+            className="btn btn-primary sign-in_btn"
             disabled={pristine || submitting}
           >
-            SIGN IN
+            Login
           </button>
         </div>
       </form>
