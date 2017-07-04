@@ -73,7 +73,7 @@ function changeDepartment(department) {
     return dispatch({
       [CALL_API]: {
         method: 'POST',
-        endpoint: `/auth/signin/${department}`,
+        endpoint: `/auth/signin/${getBrand()}/${department}`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',

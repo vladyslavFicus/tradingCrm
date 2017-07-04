@@ -38,7 +38,7 @@ const config = _.merge({
   },
   nas: {
     brand: {
-      name: 'nas-local',
+      name: 'hrzn_dev2',
       api: {
         url: '',
       },
