@@ -38,7 +38,7 @@ const config = _.merge({
   },
   nas: {
     brand: {
-      name: '',
+      name: 'nas-local',
       api: {
         url: '',
       },
@@ -85,7 +85,7 @@ const config = _.merge({
   logstash: {
     url: '',
   },
-  middlewares: {},
+  middlewares: { unauthorized: [401], persist: { whitelist: ['auth', 'userPanels'], keyPrefix: 'nas:' } },
   modules: {
     bonusCampaign: {
       cancelReasons: {
