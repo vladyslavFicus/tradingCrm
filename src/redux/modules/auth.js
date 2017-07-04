@@ -19,31 +19,29 @@ const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 const fetchAuthorities = operatorSourceActionCreators.fetchAuthorities(FETCH_AUTHORITIES);
 
 function signIn(data) {
-  return async (dispatch) => {
-    return dispatch({
-      [CALL_API]: {
-        endpoint: '/auth/signin',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          device: await getFingerprint(),
-          brandId: getBrand(),
-        }),
-        types: [
-          {
-            type: SIGN_IN.REQUEST,
-            meta: { department: data.department },
-          },
-          SIGN_IN.SUCCESS,
-          SIGN_IN.FAILURE,
-        ],
+  return async dispatch => dispatch({
+    [CALL_API]: {
+      endpoint: '/auth/signin',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-    });
-  };
+      body: JSON.stringify({
+        ...data,
+        device: await getFingerprint(),
+        brandId: getBrand(),
+      }),
+      types: [
+        {
+          type: SIGN_IN.REQUEST,
+          meta: { department: data.department },
+        },
+        SIGN_IN.SUCCESS,
+        SIGN_IN.FAILURE,
+      ],
+    },
+  });
 }
 
 function refreshToken() {

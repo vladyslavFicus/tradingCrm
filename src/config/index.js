@@ -38,7 +38,7 @@ const config = _.merge({
   },
   nas: {
     brand: {
-      name: 'nas-local',
+      name: 'hrzn_dev2',
       api: {
         url: '',
       },
@@ -174,10 +174,6 @@ function getAvailableLanguages() {
   return config.nas.brand.locale.languages || [];
 }
 
-function getDomain() {
-  return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
-}
-
 function getLogo() {
   return /vslots/.test(getApiRoot()) ? '/img/vslots-logo.png' : '/img/logoNewAge.png';
 }
@@ -186,7 +182,6 @@ export {
   getApiRoot,
   getBrand,
   getErrorApiUrl,
-  getDomain,
   getLogo,
   getAvailableTags,
   getTransactionRejectReasons,

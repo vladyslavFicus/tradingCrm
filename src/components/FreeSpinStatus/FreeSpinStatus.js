@@ -10,7 +10,7 @@ import './FreeSpinStatus.scss';
 
 class FreeSpinStatus extends Component {
   static propTypes = {
-    campaign: PropTypes.freeSpinEntity.isRequired,
+    data: PropTypes.freeSpinEntity.isRequired,
     blockName: PropTypes.string,
   };
   static defaultProps = {
@@ -18,10 +18,10 @@ class FreeSpinStatus extends Component {
   };
 
   render() {
-    const { campaign, blockName } = this.props;
-    const status = campaign.state === statuses.FINISHED && campaign.stateReason === statusesReasons.CANCELED
+    const { data, blockName } = this.props;
+    const status = data.state === statuses.FINISHED && data.stateReason === statusesReasons.CANCELED
       ? statuses.CANCELED
-      : campaign.state;
+      : data.state;
     const className = statusesClassNames[status] || '';
 
     return (
@@ -30,10 +30,10 @@ class FreeSpinStatus extends Component {
           {renderLabel(status, statusesLabels)}
         </div>
         {
-          campaign.statusChangedDate &&
+          data.statusChangedDate &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_ON', {
-              date: moment.utc(campaign.statusChangedDate).format('DD.MM.YYYY HH:mm'),
+              date: moment.utc(data.statusChangedDate).format('DD.MM.YYYY HH:mm'),
             })}
           </div>
         }
@@ -41,15 +41,15 @@ class FreeSpinStatus extends Component {
           status === statuses.PENDING &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_UNTIL', {
-              date: moment.utc(campaign.startDate).format('DD.MM.YYYY HH:mm'),
+              date: moment.utc(data.startDate).format('DD.MM.YYYY HH:mm'),
             })}
           </div>
         }
         {
-          campaign.statusChangedAuthorUUID &&
+          data.statusChangedAuthorUUID &&
           <div className={`${blockName}__status-author`}>
             {I18n.t('COMMON.AUTHOR_BY')}
-            <Uuid uuid={campaign.statusChangedAuthorUUID} />
+            <Uuid uuid={data.statusChangedAuthorUUID} />
           </div>
         }
       </div>

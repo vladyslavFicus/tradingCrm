@@ -46,6 +46,7 @@ const mapEntities = async (dispatch, pageable) => {
 function fetchFreeSpins(filters) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
+
     if (!filters.playerUUID) {
       throw new Error('playerUUID not defined');
     }

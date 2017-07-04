@@ -7,7 +7,8 @@ import Uuid from '../../../../../../../../components/Uuid';
 import { targetTypes } from '../../../../../../../../constants/note';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
 import Amount from '../../../../../../../../components/Amount';
-import FreeSpinStatus from "../../../../../../../../components/FreeSpinStatus/FreeSpinStatus";
+import FreeSpinStatus from '../../../../../../../../components/FreeSpinStatus';
+import NoteButton from '../../../../../../../../components/NoteButton';
 
 class View extends Component {
   static propTypes = {
@@ -109,9 +110,11 @@ class View extends Component {
   };
 
   renderStatus = data => (
-    <FreeSpinStatus
-      campaign={data}
-    />
+    <FreeSpinStatus campaign={data} />
+  );
+
+  renderNote = data => (
+    <NoteButton id={`profile-bonus-free-spin-${data.uuid}`} note={data.note} onClick={this.handleNoteClick} />
   );
 
   render() {
@@ -156,6 +159,11 @@ class View extends Component {
             header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.STATUS')}
             headerClassName="text-uppercase"
             render={this.renderStatus}
+          />
+          <GridColumn
+            name="note"
+            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.NOTE')}
+            render={this.renderNote}
           />
         </GridView>
       </div>
