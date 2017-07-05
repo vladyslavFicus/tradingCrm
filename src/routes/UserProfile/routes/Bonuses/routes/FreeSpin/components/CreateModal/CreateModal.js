@@ -10,46 +10,6 @@ import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { attributeLabels } from './constants';
 import './CreateModal.scss';
 
-const FORM_NAME = 'freeSpinManage';
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
-const validator = (values) => {
-  const rules = {
-    playerUUID: 'required|string',
-    label: 'required|string',
-    priority: 'required|numeric|min:0',
-    grantedAmount: 'required|numeric|min:0',
-    amountToWage: 'required|numeric|min:0',
-    expirationDate: 'required',
-    prize: ['numeric', 'min:0'],
-    capping: ['numeric', 'min:0'],
-    optIn: 'boolean',
-    converted: 'required',
-    wagered: 'required',
-    currency: 'required',
-  };
-
-  if (values.prize && values.prize.value) {
-    const value = parseFloat(values.prize.value).toFixed(2);
-
-    if (!isNaN(value)) {
-      rules.capping.value.push('greaterThan:prize');
-    }
-  }
-
-  if (values.capping && values.capping.value) {
-    const value = parseFloat(values.capping.value).toFixed(2);
-
-    if (!isNaN(value)) {
-      rules.prize.value.push('lessThan:capping');
-    }
-  }
-
-  return createValidator(rules, validatorAttributeLabels, false)(values);
-};
-
 class CreateModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool,
@@ -208,7 +168,45 @@ class CreateModal extends Component {
   }
 }
 
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
+const FORM_NAME = 'freeSpinManage';
 export default reduxForm({
   form: FORM_NAME,
-  validate: validator,
+  validate: (values) => {
+    const rules = {
+      name: 'required|string',
+      startDate: 'required|string',
+      endDate: 'required|string',
+      providerId: 'required',
+      gameId: 'required',
+      freeSpinsAmount: 'required',
+      linesPerSpin: 'required',
+      betPerLine: 'required',
+      prize: ['required'],
+      capping: ['required'],
+      multiplier: 'required',
+      bonusLifeTime: 'required',
+    };
+
+    if (values.prize) {
+      const value = parseFloat(values.prize).toFixed(2);
+
+      if (!isNaN(value)) {
+        rules.capping.push('greaterThan:prize');
+      }
+    }
+
+    if (values.capping) {
+      const value = parseFloat(values.capping).toFixed(2);
+
+      if (!isNaN(value)) {
+        rules.prize.push('lessThan:capping');
+      }
+    }
+
+    return createValidator(rules, validatorAttributeLabels, false)(values);
+  },
 })(CreateModal);

@@ -5,12 +5,12 @@ import moment from 'moment';
 import Uuid from '../Uuid';
 import PropTypes from '../../constants/propTypes';
 import renderLabel from '../../utils/renderLabel';
-import { statuses, statusesClassNames, statusesLabels, statusesReasons } from '../../constants/free-spin';
+import { statuses, statusesClassNames, statusesLabels } from '../../constants/free-spin';
 import './FreeSpinStatus.scss';
 
 class FreeSpinStatus extends Component {
   static propTypes = {
-    data: PropTypes.freeSpinEntity.isRequired,
+    freeSpin: PropTypes.freeSpinEntity.isRequired,
     blockName: PropTypes.string,
   };
   static defaultProps = {
@@ -18,22 +18,19 @@ class FreeSpinStatus extends Component {
   };
 
   render() {
-    const { data, blockName } = this.props;
-    const status = data.state === statuses.FINISHED && data.stateReason === statusesReasons.CANCELED
-      ? statuses.CANCELED
-      : data.state;
+    const { freeSpin, blockName } = this.props;
     const className = statusesClassNames[status] || '';
 
     return (
       <div className={blockName}>
         <div className={classNames(`${blockName}__status`, className)}>
-          {renderLabel(status, statusesLabels)}
+          {renderLabel(freeSpin.status, statusesLabels)}
         </div>
         {
-          data.statusChangedDate &&
+          freeSpin.statusChangedDate &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_ON', {
-              date: moment.utc(data.statusChangedDate).format('DD.MM.YYYY HH:mm'),
+              date: moment.utc(freeSpin.statusChangedDate).format('DD.MM.YYYY HH:mm'),
             })}
           </div>
         }
@@ -46,10 +43,10 @@ class FreeSpinStatus extends Component {
           </div>
         }
         {
-          data.statusChangedAuthorUUID &&
+          freeSpin.statusChangedAuthorUUID &&
           <div className={`${blockName}__status-author`}>
             {I18n.t('COMMON.AUTHOR_BY')}
-            <Uuid uuid={data.statusChangedAuthorUUID} />
+            <Uuid uuid={freeSpin.statusChangedAuthorUUID} />
           </div>
         }
       </div>

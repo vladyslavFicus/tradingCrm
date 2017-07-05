@@ -14,46 +14,53 @@ class ViewModal extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
     accumulatedBalances: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
+    actions: PropTypes.arrayOf(PropTypes.shape({
+      children: PropTypes.any.isRequired,
+      onClick: PropTypes.func.isRequired,
+      className: PropTypes.string.isRequired,
+    })).isRequired,
     item: PropTypes.bonusEntity.isRequired,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
   };
 
-  renderBonusStats = data => <div className="row well player-header-blocks">
-    <div className="col-md-3 grey-back-tab">
-      <div className="color-default text-uppercase font-size-11">
-        Granted
+  renderBonusStats = data => (
+    <div className="row well player-header-blocks">
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
+          Granted
+        </div>
+
+        {this.renderGrantedAmount(data)}
       </div>
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
+          Wagered
+        </div>
 
-      {this.renderGrantedAmount(data)}
-    </div>
-    <div className="col-md-3 grey-back-tab">
-      <div className="color-default text-uppercase font-size-11">
-        Wagered
+        {this.renderWageredAmount(data)}
       </div>
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
+          To wager
+        </div>
 
-      {this.renderWageredAmount(data)}
-    </div>
-    <div className="col-md-3 grey-back-tab">
-      <div className="color-default text-uppercase font-size-11">
-        To wager
+        {this.renderToWagerAmount(data)}
       </div>
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
+          Total to wager
+        </div>
 
-      {this.renderToWagerAmount(data)}
-    </div>
-    <div className="col-md-3 grey-back-tab">
-      <div className="color-default text-uppercase font-size-11">
-        Total to wager
+        {this.renderTotalToWagerAmount(data)}
       </div>
-
-      {this.renderTotalToWagerAmount(data)}
     </div>
-  </div>;
+  );
 
-  renderGrantedAmount = data => <Amount
-    className="font-weight-600 font-size-20 color-primary" {...data.grantedAmount}
-  />;
+  renderGrantedAmount = data => (<Amount
+    className="font-weight-600 font-size-20 color-primary"
+    {...data.grantedAmount}
+  />);
 
   renderWageredAmount = data => <Amount className="font-weight-600 font-size-20 color-primary" {...data.wagered} />;
 
@@ -63,7 +70,7 @@ class ViewModal extends Component {
         data.amountToWage && !isNaN(data.amountToWage.amount) &&
         data.wagered && !isNaN(data.wagered.amount)
           ? data.amountToWage.amount - data.wagered.amount : 0,
-        0
+        0,
       ),
       currency: data.currency,
     };
@@ -75,33 +82,35 @@ class ViewModal extends Component {
     <Amount className="font-weight-600 font-size-20 color-primary" {...data.amountToWage} />
   );
 
-  renderBonus = item => <div className="row margin-vertical-20">
-    <div className="col-md-3">
-      <div className="color-default text-uppercase font-size-11">
-        Bonus
+  renderBonus = item => (
+    <div className="row margin-vertical-20">
+      <div className="col-md-3">
+        <div className="color-default text-uppercase font-size-11">
+          Bonus
+        </div>
+
+        {this.renderMainInfo(item)}
       </div>
+      <div className="col-md-3">
+        <div className="color-default text-uppercase font-size-11">
+          Available
+        </div>
 
-      {this.renderMainInfo(item)}
-    </div>
-    <div className="col-md-3">
-      <div className="color-default text-uppercase font-size-11">
-        Available
+        {this.renderAvailablePeriod(item)}
       </div>
+      <div className="col-md-2">
+        <div className="color-default text-uppercase font-size-11">
+          Priority
+        </div>
 
-      {this.renderAvailablePeriod(item)}
-    </div>
-    <div className="col-md-2">
-      <div className="color-default text-uppercase font-size-11">
-        Priority
+        {this.renderPriority(item)}
       </div>
-
-      {this.renderPriority(item)}
+      <BonusType className="col-md-2" bonus={item} label="Bonus type" />
+      <BonusStatus className="col-md-2" bonus={item} label="Status" />
     </div>
-    <BonusType className="col-md-2" bonus={item} label="Bonus type" />
-    <BonusStatus className="col-md-2" bonus={item} label="Status" />
-  </div>;
+  );
 
-  renderMainInfo = data => <span>
+  renderMainInfo = data => (<span>
     <div className="font-weight-600">{data.label}</div>
     <div className="little-grey-text font-size-11">{shortify(data.bonusUUID)}</div>
     {
@@ -116,9 +125,9 @@ class ViewModal extends Component {
         by Manual Bonus {shortify(data.operatorUUID, 'OP')}
       </div>
     }
-  </span>;
+  </span>);
 
-  renderAvailablePeriod = (data) => data.createdDate ? <div>
+  renderAvailablePeriod = data => data.createdDate ? <div>
     <div className="font-weight-600">
       {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
     </div>

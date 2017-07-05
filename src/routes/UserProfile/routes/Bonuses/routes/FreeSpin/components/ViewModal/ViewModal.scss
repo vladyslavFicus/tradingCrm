@@ -1,6 +1,6 @@
 $grey-small-color: #666;
 
-.view-bonus-modal {
+.view-free-spin-modal {
   &.modal-dialog {
     width: 750px;
   }
@@ -38,11 +38,7 @@ $grey-small-color: #666;
   }
 
   .equal,
-  .player-header-blocks{
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
+  .player-header-blocks {
     display: flex;
   }
 

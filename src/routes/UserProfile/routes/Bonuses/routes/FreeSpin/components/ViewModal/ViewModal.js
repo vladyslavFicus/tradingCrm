@@ -1,156 +1,167 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classNames from 'classnames';
-import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../../../../../../constants/propTypes';
+import { targetTypes } from '../../../../../../../../constants/note';
+import FreeSpinMainInfo from '../FreeSpinMainInfo';
+import FreeSpinGameInfo from '../FreeSpinGameInfo';
+import FreeSpinAvailablePeriod from '../FreeSpinAvailablePeriod';
+import FreeSpinSettings from '../FreeSpinSettings';
+import FreeSpinStatus from '../../../../../../../../components/FreeSpinStatus';
+import NoteButton from '../../../../../../../../components/NoteButton';
 import './ViewModal.scss';
-import { shortify } from '../../../../../../../../utils/uuid';
 import Amount from '../../../../../../../../components/Amount';
-import ModalPlayerInfo from '../../../../../../../../components/ModalPlayerInfo';
+import BonusSettings from '../BonusSettings';
 
 class ViewModal extends Component {
   static propTypes = {
-    profile: PropTypes.object.isRequired,
-    accumulatedBalances: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
-    item: PropTypes.bonusEntity.isRequired,
+    actions: PropTypes.arrayOf(PropTypes.shape({
+      children: PropTypes.any.isRequired,
+      onClick: PropTypes.func.isRequired,
+      className: PropTypes.string.isRequired,
+    })).isRequired,
+    item: PropTypes.freeSpinEntity.isRequired,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
   };
-
-  renderBonusStats = data => <div className="row well player-header-blocks">
-    <div className="col-md-3 grey-back-tab">
-      <div className="color-default text-uppercase font-size-11">
-        Granted
-      </div>
-
-      {this.renderGrantedAmount(data)}
-    </div>
-    <div className="col-md-3 grey-back-tab">
-      <div className="color-default text-uppercase font-size-11">
-        Wagered
-      </div>
-
-      {this.renderWageredAmount(data)}
-    </div>
-    <div className="col-md-3 grey-back-tab">
-      <div className="color-default text-uppercase font-size-11">
-        To wager
-      </div>
-
-      {this.renderToWagerAmount(data)}
-    </div>
-    <div className="col-md-3 grey-back-tab">
-      <div className="color-default text-uppercase font-size-11">
-        Total to wager
-      </div>
-
-      {this.renderTotalToWagerAmount(data)}
-    </div>
-  </div>;
-
-  renderGrantedAmount = data => <Amount
-    className="font-weight-600 font-size-20 color-primary" {...data.grantedAmount}
-  />;
-
-  renderWageredAmount = data => <Amount className="font-weight-600 font-size-20 color-primary" {...data.wagered} />;
-
-  renderToWagerAmount = (data) => {
-    const toWagerAmount = {
-      amount: Math.max(
-        data.amountToWage && !isNaN(data.amountToWage.amount) &&
-        data.wagered && !isNaN(data.wagered.amount)
-          ? data.amountToWage.amount - data.wagered.amount : 0,
-        0
-      ),
-      currency: data.currency,
-    };
-
-    return <Amount className="font-weight-600 font-size-20 color-primary" {...toWagerAmount} />;
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
   };
 
-  renderTotalToWagerAmount = data => (
-    <Amount className="font-weight-600 font-size-20 color-primary" {...data.amountToWage} />
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.onEditNoteClick(target, note, { placement: 'top' });
+    } else {
+      this.context.onAddNoteClick(data.uuid, targetTypes.FREE_SPIN)(target, { placement: 'top' });
+    }
+  };
+
+  renderMain = item => (
+    <div className="row player-header-blocks margin-bottom-20">
+      <div className="col-md-6">
+        <div className="color-default text-uppercase font-size-11">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.FREE_SPIN')}
+        </div>
+
+        <FreeSpinMainInfo freeSpin={item} />
+      </div>
+      <div className="col-md-3">
+        <div className="color-default text-uppercase font-size-11">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.PROVIDER_AND_GAME')}
+        </div>
+
+        <FreeSpinGameInfo freeSpin={item} />
+      </div>
+      <div className="col-md-3">
+        <div className="color-default text-uppercase font-size-11">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATUS')}
+        </div>
+
+        <FreeSpinStatus freeSpin={item} />
+      </div>
+    </div>
   );
 
-  renderBonus = item => <div className="row margin-vertical-20">
-    <div className="col-md-3">
-      <div className="color-default text-uppercase font-size-11">
-        Bonus
-      </div>
+  renderAdditional = item => (
+    <div className="row player-header-blocks margin-bottom-20">
+      <div className="col-md-4">
+        <div className="color-default text-uppercase font-size-11">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.AVAILABLE')}
+        </div>
 
-      {this.renderMainInfo(item)}
+        <FreeSpinAvailablePeriod freeSpin={item} />
+      </div>
+      <div className="col-md-4">
+        <div className="color-default text-uppercase font-size-11">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.SPIN_SETTINGS')}
+        </div>
+
+        <FreeSpinSettings freeSpin={item} />
+      </div>
+      <div className="col-md-4">
+        <div className="color-default text-uppercase font-size-11">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.BONUS_SETTINGS')}
+        </div>
+
+        <BonusSettings freeSpin={item} />
+      </div>
     </div>
-    <div className="col-md-3">
-      <div className="color-default text-uppercase font-size-11">
-        Available
-      </div>
+  );
 
-      {this.renderAvailablePeriod(item)}
+  renderStatistics = data => (
+    <div className="row well player-header-blocks">
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_GRANTED_TITLE')}
+        </div>
+
+        <span className="font-weight-600 font-size-20 color-primary">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_GRANTED_COUNT', { count: data.freeSpinsAmount })}
+        </span>
+      </div>
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_TOTAL_VALUE_TITLE')}
+        </div>
+
+        <Amount className="font-weight-600 font-size-20 color-primary" {...data.totalValue} />
+      </div>
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_PLAYED_TITLE')}
+        </div>
+
+        <span className="font-weight-600 font-size-20 color-primary">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_PLAYED_COUNT', { count: data.freeSpinsAmount })}
+        </span>
+      </div>
+      <div className="col-md-3 grey-back-tab">
+        <div className="color-default text-uppercase font-size-11">
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_WINNINGS_TITLE')}
+        </div>
+
+        <Amount className="font-weight-600 font-size-20 color-primary" {...data.totalValue} />
+      </div>
     </div>
-    <div className="col-md-2">
-      <div className="color-default text-uppercase font-size-11">
-        Priority
-      </div>
+  );
 
-      {this.renderPriority(item)}
+  renderNote = data => (
+    <div className="row margin-top-20">
+      <div className="col-md-12 text-center">
+        <NoteButton
+          id="free-spin-detail-modal-note"
+          note={data.note}
+          onClick={this.handleNoteClick}
+          targetEntity={data}
+        />
+      </div>
     </div>
-    <BonusType className="col-md-2" bonus={item} label="Bonus type" />
-    <BonusStatus className="col-md-2" bonus={item} label="Status" />
-  </div>;
-
-  renderMainInfo = data => <span>
-    <div className="font-weight-600">{data.label}</div>
-    <div className="little-grey-text font-size-11">{shortify(data.bonusUUID)}</div>
-    {
-      !!data.campaignUUID &&
-      <div className="little-grey-text font-size-11">
-        by Campaign {shortify(data.campaignUUID, 'CA')}
-      </div>
-    }
-    {
-      !data.campaignUUID && !!data.operatorUUID &&
-      <div className="ittle-grey-text font-size-11">
-        by Manual Bonus {shortify(data.operatorUUID, 'OP')}
-      </div>
-    }
-  </span>;
-
-  renderAvailablePeriod = (data) => data.createdDate ? <div>
-    <div className="font-weight-600">
-      {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-    </div>
-    {
-      !!data.expirationDate &&
-      <div className="little-grey-text font-size-11">
-        {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
-      </div>
-    }
-  </div> : <span>&mdash</span>;
-
-  renderPriority = data => <span>{data.priority}</span>;
+  );
 
   render() {
-    const { item, profile, actions, accumulatedBalances, onClose, ...rest } = this.props;
+    const { item, actions, onClose, ...rest } = this.props;
 
     return (
-      <Modal className="view-bonus-modal" toggle={onClose} {...rest}>
-        <ModalHeader toggle={onClose}>Bonus details</ModalHeader>
+      <Modal className="view-free-spin-modal" toggle={onClose} {...rest}>
+        <ModalHeader toggle={onClose}>
+          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.TITLE')}
+        </ModalHeader>
         <ModalBody>
-          <ModalPlayerInfo
-            profile={profile.data}
-            balances={accumulatedBalances}
-          />
+          {this.renderMain(item)}
           <hr />
-          {this.renderBonus(item)}
-          {this.renderBonusStats(item)}
+          {this.renderAdditional(item)}
+          {this.renderStatistics(item)}
+          {this.renderNote(item)}
         </ModalBody>
         <ModalFooter>
           {
-            actions.length === 2 &&
+            actions.length <= 2 &&
             <div className="row">
               {actions.map((action, index) => (
-                <div key={index} className={classNames('col-md-6', { 'text-right': index !== 0 })}>
+                <div key={action.children} className={classNames('col-md-6', { 'text-right': index !== 0 })}>
                   <button {...action} />
                 </div>
               ))}

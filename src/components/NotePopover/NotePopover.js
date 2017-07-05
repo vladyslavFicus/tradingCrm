@@ -25,7 +25,7 @@ const validator = createValidator({
 
 class NotePopover extends Component {
   static propTypes = {
-    item: PropTypes.noteEntity.isRequired,
+    item: PropTypes.noteEntity,
     target: PropTypes.string.isRequired,
     placement: PropTypes.string,
     isOpen: PropTypes.bool,

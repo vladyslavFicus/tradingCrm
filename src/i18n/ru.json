@@ -181,21 +181,53 @@
         "PRIORITY": "Приоритет"
       }
     },
-    "FREE_SPIN": {
-      "MODAL_CREATE": {
-        "TITLE": ""
-      }
-    },
     "FREE_SPINS": {
+      "BONUS_SETTINGS": {
+        "MULTIPLIER": "",
+        "PRIZE": "",
+        "CAPPING": "",
+        "LIFE_TIME": "",
+        "LIFE_TIME_DAYS": ""
+      },
+      "FREE_SPIN_AVAILABLE_PERIOD": {
+        "DATE_TO": ""
+      },
+      "FREE_SPIN_SETTINGS": {
+        "LINES": "",
+        "BET_PER_LINE": "",
+        "SPIN_VALUE": ""
+      },
+      "CANCEL_FREE_SPIN": "",
       "GRID_VIEW": {
-        "DATE_TO": "",
         "FREE_SPIN_COUNT": "",
         "SPIN_VALUE": "",
         "TOTAL_VALUE": "",
         "FREE_SPIN": "",
         "AVAILABILITY": "",
         "GRANTED": "",
-        "STATUS": ""
+        "STATUS": "",
+        "NOTE": ""
+      },
+      "VIEW_MODAL": {
+        "FREE_SPIN": "",
+        "PROVIDER_AND_GAME": "",
+        "STATUS": "",
+        "AVAILABLE": "",
+        "SPIN_SETTINGS": "",
+        "BONUS_SETTINGS": "",
+        "STATISTICS_GRANTED_TITLE": "",
+        "STATISTICS_GRANTED_COUNT": "",
+        "STATISTICS_TOTAL_VALUE_TITLE": "",
+        "STATISTICS_PLAYED_TITLE": "",
+        "STATISTICS_PLAYED_COUNT": "",
+        "STATISTICS_WINNINGS_TITLE": "",
+        "TITLE": ""
+      },
+      "EXPORT_BUTTON": ""
+    },
+    "FREE_SPIN": {
+      "MODAL_CREATE": {
+        "TITLE": ""
       }
     }
   },
@@ -404,22 +436,34 @@
       }
     },
     "FREE_SPIN": {
-      "STATUS_ACTIONS_LABELS": {
-        "ACTIVATE": "",
-        "CANCEL": ""
-      },
       "STATUSES": {
-        "DRAFT": "",
-        "PENDING": "",
+        "CANCELED": "",
+        "FORFEITED": "",
         "ACTIVE": "",
-        "FINISHED": "",
-        "CANCELED": ""
-      },
-      "STATUS_ACTIONS": {
-        "CANCEL_CAMPAIGN_BUTTON": "",
-        "CANCEL_CAMPAIGN": "",
-        "ACTIVATE_CAMPAIGN_BUTTON": "",
-        "ACTIVATE_CAMPAIGN": ""
+        "SCHEDULED": "",
+        "PENDING": "",
+        "FAILED": "",
+        "PLAYED": ""
+      }
+    },
+    "FREE_SPINS": {
+      "FILTER_FORM": {
+        "ATTRIBUTES_LABELS": {
+          "SEARCH_BY": "",
+          "ASSIGNED": "",
+          "PROVIDER": "",
+          "GAME": "",
+          "START_DATE": "",
+          "END_DATE": "",
+          "AVAILABILITY_DATE_RANGE": ""
+        },
+        "ATTRIBUTES_PLACEHOLDERS": {
+          "SEARCH_BY": ""
+        },
+        "AUTHOR_TYPES": {
+          "CAMPAIGN": "",
+          "OPERATOR": ""
+        }
       }
     }
   },
@@ -672,5 +716,8 @@
         "inactive": "Платежный метод неактивен"
       }
     }
+  },
+  "NOTE_BUTTON": {
+    "DEFAULT_MESSAGE": ""
   }
 }

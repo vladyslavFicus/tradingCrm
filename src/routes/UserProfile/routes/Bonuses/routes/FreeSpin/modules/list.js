@@ -1,13 +1,19 @@
 import { CALL_API } from 'redux-api-middleware';
+import _ from 'lodash';
+import moment from 'moment';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../../../constants/note';
+import { getApiRoot } from '../../../../../../../config';
+import downloadBlob from '../../../../../../../utils/downloadBlob';
 
 const KEY = 'user/bonus-free-spin/list';
-const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
+const RESET_LIST = `${KEY}/reset`;
+const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
+const EXPORT_ENTITIES = createRequestAction(`${KEY}/expport-entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
 const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
@@ -22,8 +28,11 @@ const mapEntities = async (dispatch, pageable) => {
 
   newPageable.content = newPageable.content.map(item => ({
     ...item,
-    spinValue: item.betPerLine * item.linesPerSpin,
-    totalValue: item.betPerLine * item.linesPerSpin * item.freeSpinsAmount,
+    spinValue: { amount: item.betPerLine * item.linesPerSpin, currency: item.currencyCode },
+    totalValue: { amount: item.betPerLine * item.linesPerSpin * item.freeSpinsAmount, currency: item.currencyCode },
+    betPerLine: { amount: item.betPerLine, currency: item.currencyCode },
+    prize: item.prize ? { amount: item.prize, currency: item.currencyCode } : null,
+    capping: item.capping ? { amount: item.capping, currency: item.currencyCode } : null,
   }));
 
   const action = await dispatch(fetchNotes(targetTypes.FREE_SPIN, uuids));
@@ -86,6 +95,59 @@ function fetchFreeSpins(filters) {
   };
 }
 
+function exportFreeSpins(filters = {}) {
+  return async (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    if (!logged) {
+      return dispatch({ type: EXPORT_ENTITIES.FAILED });
+    }
+
+    const queryParams = { ...filters, page: undefined, playerUUID: undefined };
+
+    const queryString = buildQueryString(
+      _.omitBy(queryParams, val => !val),
+    );
+
+    const response = await fetch(`${getApiRoot()}/free_spin/free-spins/${filters.playerUUID}?${queryString}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'text/csv',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const blobData = await response.blob();
+    downloadBlob(`player-free-spins-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+
+    return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+  };
+}
+
+function resetList() {
+  return {
+    type: RESET_LIST,
+  };
+}
+
+const initialState = {
+  entities: {
+    first: false,
+    last: false,
+    number: 0,
+    numberOfElements: 0,
+    size: 0,
+    sort: null,
+    totalElements: 0,
+    totalPages: 0,
+    content: [],
+  },
+  error: null,
+  filters: {},
+  isLoading: false,
+  receivedAt: null,
+};
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: state => ({
     ...state,
@@ -113,31 +175,19 @@ const actionHandlers = {
     error: action.payload,
     receivedAt: timestamp(),
   }),
-};
-const initialState = {
-  entities: {
-    first: null,
-    last: null,
-    number: null,
-    numberOfElements: null,
-    size: null,
-    sort: null,
-    totalElements: null,
-    totalPages: null,
-    content: [],
-  },
-  error: null,
-  filters: {},
-  isLoading: false,
-  receivedAt: null,
+  [RESET_LIST]: () => ({ ...initialState }),
 };
 const actionTypes = {
+  RESET_LIST,
   FETCH_ENTITIES,
   FETCH_NOTES,
+  EXPORT_ENTITIES,
 };
 const actionCreators = {
+  resetList,
   fetchFreeSpins,
   fetchNotes,
+  exportFreeSpins,
 };
 
 export {

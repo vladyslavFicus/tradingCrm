@@ -17,7 +17,7 @@ export default store => ({
       injectReducer(store, { key: 'profile', reducer: require('./modules').default });
 
       cb(null, require('./container/UserProfile').default);
-    });
+    }, 'player-profile');
   },
 
   ignoreScrollBehavior: true,

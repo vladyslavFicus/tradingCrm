@@ -7,7 +7,9 @@ class PermissionLayout extends Component {
     children: PropTypes.element.isRequired,
     permissions: PropTypes.array,
   };
-
+  static defaultProps = {
+    permissions: [],
+  };
   static childContextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string),
   };
@@ -20,9 +22,7 @@ class PermissionLayout extends Component {
 
   render() {
     return (
-      <div>
-        {this.props.children}
-      </div>
+      <div>{this.props.children}</div>
     );
   }
 }
@@ -31,4 +31,4 @@ const mapStateToProps = state => ({
   permissions: state.permissions.data,
 });
 
-export default connect(mapStateToProps, {})(PermissionLayout);
+export default connect(mapStateToProps)(PermissionLayout);

@@ -181,21 +181,53 @@
         "PRIORITY": "Priority"
       }
     },
-    "FREE_SPIN": {
-      "MODAL_CREATE": {
-        "TITLE": "Manual Free spin"
-      }
-    },
     "FREE_SPINS": {
+      "BONUS_SETTINGS": {
+        "MULTIPLIER": "Multiplier",
+        "PRIZE": "Prize",
+        "CAPPING": "Capping",
+        "LIFE_TIME": "Lifetime",
+        "LIFE_TIME_DAYS": "%{count} days"
+      },
+      "FREE_SPIN_AVAILABLE_PERIOD": {
+        "DATE_TO": "to %{time}"
+      },
+      "FREE_SPIN_SETTINGS": {
+        "LINES": "Line",
+        "BET_PER_LINE": "Bet per line",
+        "SPIN_VALUE": "Spin value"
+      },
+      "CANCEL_FREE_SPIN": "Cancel free spin",
       "GRID_VIEW": {
-        "DATE_TO": "to %{time}",
         "FREE_SPIN_COUNT": "%{count} spins",
         "SPIN_VALUE": "Spin value",
         "TOTAL_VALUE": "Total value",
         "FREE_SPIN": "Free spin",
         "AVAILABILITY": "Availability",
         "GRANTED": "Granted",
-        "STATUS": "Status"
+        "STATUS": "Status",
+        "NOTE": "Note"
+      },
+      "VIEW_MODAL": {
+        "FREE_SPIN": "Free spin",
+        "PROVIDER_AND_GAME": "Provider & game",
+        "STATUS": "Status",
+        "AVAILABLE": "Available",
+        "SPIN_SETTINGS": "Spin settings",
+        "BONUS_SETTINGS": "Bonus settings",
+        "STATISTICS_GRANTED_TITLE": "GRANTED",
+        "STATISTICS_GRANTED_COUNT": "%{count} spins",
+        "STATISTICS_TOTAL_VALUE_TITLE": "Total value",
+        "STATISTICS_PLAYED_TITLE": "Played",
+        "STATISTICS_PLAYED_COUNT": "%{count} spins",
+        "STATISTICS_WINNINGS_TITLE": "Winnings",
+        "TITLE": "Free spin details"
+      },
+      "EXPORT_BUTTON": ""
+    },
+    "FREE_SPIN": {
+      "MODAL_CREATE": {
+        "TITLE": "Create free spin"
       }
     }
   },
@@ -405,16 +437,34 @@
       }
     },
     "FREE_SPIN": {
-      "STATUS_ACTIONS_LABELS": {
-        "ACTIVATE": "Activate",
-        "CANCEL": "Cancel"
-      },
       "STATUSES": {
-        "DRAFT": "Draft",
-        "PENDING": "Pending",
+        "CANCELED": "Canceled",
+        "FORFEITED": "Forfeited",
         "ACTIVE": "Active",
-        "FINISHED": "Finished",
-        "CANCELED": "Canceled"
+        "SCHEDULED": "Scheduled",
+        "PENDING": "Pending",
+        "FAILED": "Failed",
+        "PLAYED": "Played"
+      }
+    },
+    "FREE_SPINS": {
+      "FILTER_FORM": {
+        "ATTRIBUTES_LABELS": {
+          "SEARCH_BY": "Search by",
+          "ASSIGNED": "Assigned",
+          "PROVIDER": "Provider",
+          "GAME": "Game",
+          "START_DATE": "Start date",
+          "END_DATE": "End date",
+          "AVAILABILITY_DATE_RANGE": ""
+        },
+        "ATTRIBUTES_PLACEHOLDERS": {
+          "SEARCH_BY": ""
+        },
+        "AUTHOR_TYPES": {
+          "CAMPAIGN": "",
+          "OPERATOR": ""
+        }
       }
     }
   },
@@ -658,5 +708,8 @@
         "inactive": "Payment method inactive"
       }
     }
+  },
+  "NOTE_BUTTON": {
+    "DEFAULT_MESSAGE": ""
   }
 }

@@ -8,6 +8,7 @@ const statuses = keyMirror({
   SCHEDULED: null,
   PENDING: null,
   FAILED: null,
+  PLAYED: null,
 });
 const statusesReasons = keyMirror({
   CANCELED: null,
@@ -19,6 +20,7 @@ const statusesLabels = {
   [statuses.SCHEDULED]: I18n.t('CONSTANTS.FREE_SPIN.STATUSES.SCHEDULED'),
   [statuses.PENDING]: I18n.t('CONSTANTS.FREE_SPIN.STATUSES.PENDING'),
   [statuses.FAILED]: I18n.t('CONSTANTS.FREE_SPIN.STATUSES.FAILED'),
+  [statuses.PLAYED]: I18n.t('CONSTANTS.FREE_SPIN.STATUSES.PLAYED'),
 };
 const statusesClassNames = {
   [statuses.CANCELED]: 'color-danger',
@@ -27,6 +29,7 @@ const statusesClassNames = {
   [statuses.SCHEDULED]: 'color-default',
   [statuses.PENDING]: 'color-default',
   [statuses.FAILED]: 'color-danger',
+  [statuses.PLAYED]: 'color-danger',
 };
 
 export {

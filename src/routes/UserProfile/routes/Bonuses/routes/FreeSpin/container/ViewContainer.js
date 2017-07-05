@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
-import config from '../../../../../../../config';
-import List from '../components/View';
+import FreeSpinsView from '../components/FreeSpinsView';
 
 const mapStateToProps = (state) => {
   const {
-    userBonusFreeSpinsList: { list },
-    profile: { profile },
+    userBonusFreeSpinsList: { list, filters },
   } = state;
 
   return {
+    filters,
     list,
-    currency: profile.data.currencyCode || config.nas.brand.currencies.base,
   };
 };
 const mapActions = {
   fetchFreeSpins: actionCreators.fetchFreeSpins,
+  exportFreeSpins: actionCreators.exportFreeSpins,
+  resetAll: actionCreators.resetAll,
 };
 
-export default connect(mapStateToProps, mapActions)(List);
+export default connect(mapStateToProps, mapActions)(FreeSpinsView);

@@ -185,6 +185,7 @@ class ProfileLayout extends Component {
       popover: {
         name: NOTE_POPOVER,
         params: {
+          placement: 'left bottom',
           ...params,
           target,
           initialValues: {
@@ -193,7 +194,6 @@ class ProfileLayout extends Component {
             pinned: false,
             playerUUID: this.props.params.id,
           },
-          placement: 'left bottom',
         },
       },
     });

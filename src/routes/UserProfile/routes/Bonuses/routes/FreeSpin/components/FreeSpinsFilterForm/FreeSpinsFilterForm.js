@@ -2,25 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import { initiators, initiatorsLabels } from '../../../../../../../../constants/transaction';
 import { createValidator } from '../../../../../../../../utils/validator';
-import { types, statuses, methods, typesLabels, statusesLabels, methodsLabels } from '../../../../../../../../constants/payment';
-import { InputField, SelectField } from '../../../../../../../../components/ReduxForm';
-
-const FORM_NAME = 'freeSpinsFilter';
-const validator = createValidator({
-  keyword: 'string',
-  initiatorType: ['string', `in:${Object.keys(initiators).join()}`],
-  type: ['string', `in:${Object.keys(types).join()}`],
-  statuses: ['string', `in:${Object.keys(statuses).join()}`],
-  paymentMethod: ['string', `in:${Object.keys(methods).join()}`],
-  startDate: 'string',
-  endDate: 'string',
-  amountLowerBound: 'numeric',
-  amountUpperBound: 'numeric',
-}, attributeLabels, false);
+import { attributeLabels, attributePlaceholders, authorTypesLabels } from './constants';
+import { InputField, SelectField, SearchField, DateTimeField } from '../../../../../../../../components/ReduxForm';
+import renderLabel from '../../../../../../../../utils/renderLabel';
 
 class FreeSpinsFilterForm extends Component {
   static propTypes = {
@@ -32,33 +19,30 @@ class FreeSpinsFilterForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
     currentValues: PropTypes.shape({
-      keyword: PropTypes.string,
-      initiatorType: PropTypes.string,
-      type: PropTypes.string,
-      statuses: PropTypes.string,
-      paymentMethod: PropTypes.string,
+      searchBy: PropTypes.string,
+      assign: PropTypes.string,
+      providerId: PropTypes.string,
+      gameId: PropTypes.string,
       startDate: PropTypes.string,
       endDate: PropTypes.string,
     }),
+    games: PropTypes.arrayOf(PropTypes.string).isRequired,
+    providers: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
-  handleDateTimeChange = callback => (value) => {
-    callback(value && moment(value).isValid() ? value.format('YYYY-MM-DD') : '');
-  };
-
-  startDateValidator = (current) => {
+  startDateValidator = toAttribute => (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.endDate
-      ? current.isSameOrBefore(moment(currentValues.endDate))
+    return currentValues && currentValues[toAttribute]
+      ? current.isSameOrBefore(moment(currentValues[toAttribute]))
       : true;
   };
 
-  endDateValidator = (current) => {
+  endDateValidator = fromAttribute => (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.startDate
-      ? current.isSameOrAfter(moment(currentValues.startDate))
+    return currentValues && currentValues[fromAttribute]
+      ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
       : true;
   };
 
@@ -74,6 +58,8 @@ class FreeSpinsFilterForm extends Component {
       disabled,
       handleSubmit,
       onSubmit,
+      providers,
+      games,
     } = this.props;
 
     return (
@@ -82,128 +68,83 @@ class FreeSpinsFilterForm extends Component {
           <div className="row">
             <div className="col-md-10">
               <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-2">
                   <Field
-                    name="keyword"
-                    type="text"
-                    label={'Search by'}
-                    placeholder={attributeLabels.keyword}
-                    component={this.renderQueryField}
+                    name="searchBy"
+                    label={I18n.t(attributeLabels.searchBy)}
+                    placeholder={I18n.t(attributePlaceholders.searchBy)}
+                    component={SearchField}
                   />
                 </div>
                 <div className="col-md-2">
                   <Field
-                    name="initiatorType"
-                    label={attributeLabels.initiatorType}
+                    name="assigned"
+                    label={I18n.t(attributeLabels.assigned)}
                     labelClassName="form-label"
                     position="vertical"
                     component={SelectField}
                   >
-                    <option value="">Anyone</option>
-                    {Object.keys(initiatorsLabels).map(assign => (
-                      <option key={assign} value={assign}>
-                        {initiatorsLabels[assign]}
+                    <option value="">{I18n.t('COMMON.ANY')}</option>
+                    {Object.keys(authorTypesLabels).map(item => (
+                      <option key={item} value={item}>
+                        {renderLabel(item, authorTypesLabels)}
                       </option>
                     ))}
                   </Field>
                 </div>
                 <div className="col-md-2">
                   <Field
-                    name="type"
-                    label={attributeLabels.type}
+                    name="providerId"
+                    label={I18n.t(attributeLabels.providerId)}
                     labelClassName="form-label"
                     position="vertical"
                     component={SelectField}
                   >
-                    <option value="">Any type</option>
-                    {Object.keys(typesLabels).map(type => (
-                      <option key={type} value={type}>
-                        {typesLabels[type]}
+                    <option value="">{I18n.t('COMMON.ANY')}</option>
+                    {providers.map(item => (
+                      <option key={item} value={item}>
+                        {item}
                       </option>
                     ))}
                   </Field>
                 </div>
                 <div className="col-md-2">
                   <Field
-                    name="statuses"
-                    label={attributeLabels.statuses}
+                    name="gameId"
+                    label={I18n.t(attributeLabels.gameId)}
                     labelClassName="form-label"
                     position="vertical"
                     component={SelectField}
                   >
-                    <option value="">Any status</option>
-                    {Object.keys(statusesLabels).map(status => (
-                      <option key={status} value={status}>
-                        {statusesLabels[status]}
+                    <option value="">{I18n.t('COMMON.ANY')}</option>
+                    {games.map(item => (
+                      <option key={item} value={item}>
+                        {item}
                       </option>
                     ))}
                   </Field>
                 </div>
-                <div className="col-md-2">
-                  <Field
-                    name="paymentMethod"
-                    label={attributeLabels.paymentMethod}
-                    labelClassName="form-label"
-                    position="vertical"
-                    component={SelectField}
-                  >
-                    <option value="">Any method</option>
-                    {Object.keys(methodsLabels).map(method => (
-                      <option key={method} value={method}>
-                        {methodsLabels[method]}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <div className="form-group">
-                    <div className="row">
-                      <div className="col-md-5">
-                        <Field
-                          name="amountLowerBound"
-                          type="text"
-                          label={attributeLabels.amountLowerBound}
-                          labelClassName="form-label"
-                          position="vertical"
-                          placeholder="0.00"
-                          component={InputField}
-                        />
-                      </div>
-                      <div className="col-md-5">
-                        <Field
-                          name="amountUpperBound"
-                          type="text"
-                          label={attributeLabels.amountUpperBound}
-                          labelClassName="form-label"
-                          position="vertical"
-                          placeholder="0.00"
-                          component={InputField}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label className="form-label">Creation date range</label>
+                    <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
 
                     <div className="row">
-                      <div className="col-md-5">
+                      <div className="col-md-6">
                         <Field
                           name="startDate"
-                          placeholder={attributeLabels.startDate}
-                          component={this.renderDateField}
-                          isValidDate={this.startDateValidator}
+                          placeholder={I18n.t(attributeLabels.startDate)}
+                          component={DateTimeField}
+                          position="vertical"
+                          isValidDate={this.startDateValidator('startDate')}
                         />
                       </div>
-                      <div className="col-md-5">
+                      <div className="col-md-6">
                         <Field
                           name="endDate"
-                          placeholder={attributeLabels.endDate}
-                          component={this.renderDateField}
-                          isValidDate={this.endDateValidator}
+                          placeholder={I18n.t(attributeLabels.endDate)}
+                          component={DateTimeField}
+                          position="vertical"
+                          isValidDate={this.endDateValidator('endDate')}
                         />
                       </div>
                     </div>
@@ -212,7 +153,7 @@ class FreeSpinsFilterForm extends Component {
               </div>
             </div>
 
-            <div className="col-md-2">
+            <div className="col-md-2 text-right">
               <div className="form-group margin-top-25">
                 <button
                   disabled={submitting || (disabled && pristine)}
@@ -220,14 +161,14 @@ class FreeSpinsFilterForm extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
                   disabled={submitting || (disabled && pristine)}
                   className="btn btn-primary btn-sm margin-inline font-weight-700"
                   type="submit"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>
@@ -238,9 +179,20 @@ class FreeSpinsFilterForm extends Component {
   }
 }
 
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
+const FORM_NAME = 'freeSpinsFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
-  validate: validator,
+  validate: createValidator({
+    searchBy: 'string',
+    aggregatorId: 'string',
+    gameId: 'string',
+    startDate: 'string',
+    endDate: 'string',
+  }, validatorAttributeLabels, false),
 })(FreeSpinsFilterForm);
 
 export default connect(state => ({
