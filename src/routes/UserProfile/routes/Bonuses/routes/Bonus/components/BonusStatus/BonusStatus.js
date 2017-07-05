@@ -103,7 +103,7 @@ class BonusStatus extends Component {
       <div className={className}>
         {
           !!label &&
-          <div className="color-default text-uppercase margin-bottom-10">
+          <div className="color-default text-uppercase">
             {label}
           </div>
         }
