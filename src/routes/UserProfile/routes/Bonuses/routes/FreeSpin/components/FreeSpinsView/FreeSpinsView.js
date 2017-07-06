@@ -56,6 +56,7 @@ class FreeSpinsView extends Component {
 
   componentDidMount() {
     this.context.setNoteChangedCallback(this.handleRefresh);
+    this.handleRefresh();
     this.props.fetchGames();
   }
 
@@ -113,7 +114,12 @@ class FreeSpinsView extends Component {
   };
 
   handleCreateButtonClick = () => {
-    this.handleModalOpen(MODAL_CREATE);
+    this.handleModalOpen(MODAL_CREATE, {
+      initialValues: {
+        currencyCode: this.props.currency,
+        playerUUID: this.props.params.id,
+      },
+    });
   };
 
   handleSubmitNewFreeSpin = async (data) => {

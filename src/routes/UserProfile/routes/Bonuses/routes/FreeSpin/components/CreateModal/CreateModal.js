@@ -15,6 +15,7 @@ class CreateModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool,
     handleSubmit: PropTypes.func,
+    change: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -44,7 +45,13 @@ class CreateModal extends Component {
     invalid: false,
     disabled: false,
     handleSubmit: null,
+    change: null,
     currentValues: {},
+  };
+
+  state = {
+    currentLines: [],
+    currentGames: [],
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -63,6 +70,27 @@ class CreateModal extends Component {
       : true;
   };
 
+  handleChangeProvider = (e) => {
+    this.props.change('providerId', e);
+    this.props.change('gameId', null);
+    this.props.change('linesPerSpin', null);
+    this.setState({
+      currentLines: [],
+      currentGames: this.props.games.filter(i => i.gameProviderId === e.target.value),
+    });
+  };
+
+  handleChangeGame = (e) => {
+    const game = this.state.currentGames.find(i => i.gameId === e.target.value);
+
+    if (game) {
+      this.props.change('aggregatorId', game.aggregatorId);
+      this.props.change('gameId', game.gameId);
+      this.props.change('linesPerSpin', null);
+      this.setState({ currentLines: game.lines });
+    }
+  };
+
   render() {
     const {
       onSubmit,
@@ -75,13 +103,9 @@ class CreateModal extends Component {
       invalid,
       currency,
       providers,
-      games,
       currentValues,
     } = this.props;
-    const currentGames = currentValues && currentValues.providerId
-      ? games.filter(item => item.gameProviderId === currentValues.providerId)
-      : [];
-    console.log(currentValues, currentGames, games);
+    const { currentLines, currentGames } = this.state;
 
     return (
       <Modal className="create-bonus-modal" toggle={onClose} isOpen={isOpen}>
@@ -140,6 +164,7 @@ class CreateModal extends Component {
                   position="vertical"
                   component={SelectField}
                   showErrorMessage={false}
+                  onChange={this.handleChangeProvider}
                 >
                   <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_PROVIDER')}</option>
                   {providers.map(item => (
@@ -158,11 +183,12 @@ class CreateModal extends Component {
                   component={SelectField}
                   showErrorMessage={false}
                   disabled={!currentValues || !currentValues.providerId}
+                  onChange={this.handleChangeGame}
                 >
                   <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
                   {currentGames.map(item => (
                     <option key={item.gameId} value={item.gameId}>
-                      {item.fullGameName}
+                      {`${item.fullGameName} (${item.gameId})`}
                     </option>
                   ))}
                 </Field>
@@ -192,7 +218,7 @@ class CreateModal extends Component {
                   disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
                 >
                   <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}</option>
-                  {[].map(item => (
+                  {currentLines.map(item => (
                     <option key={item} value={item}>
                       {item}
                     </option>
@@ -202,10 +228,12 @@ class CreateModal extends Component {
               <div className="col-md-4">
                 <Field
                   name="betPerLine"
+                  type="text"
                   label={I18n.t(attributeLabels.betPerLine)}
                   labelClassName="form-label"
                   position="vertical"
                   component={InputField}
+                  placeholder={'0.00'}
                   showErrorMessage={false}
                   disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
                   inputAddon={<Currency code={currency} />}
@@ -222,7 +250,7 @@ class CreateModal extends Component {
                   disabled={disabled}
                   component={InputField}
                   position="vertical"
-                  placeholder={''}
+                  placeholder={'0.00'}
                   inputAddon={<Currency code={currency} />}
                   showErrorMessage={false}
                 />
@@ -236,7 +264,7 @@ class CreateModal extends Component {
                   disabled={disabled}
                   component={InputField}
                   position="vertical"
-                  placeholder={''}
+                  placeholder={'0.00'}
                   inputAddon={<Currency code={currency} />}
                   showErrorMessage={false}
                 />
@@ -315,8 +343,8 @@ const CreateModalReduxForm = reduxForm({
       freeSpinsAmount: ['required', 'integer'],
       linesPerSpin: ['required', 'integer'],
       betPerLine: ['required', 'integer'],
-      prize: ['required', 'numeric'],
-      capping: ['required', 'numeric'],
+      prize: ['numeric'],
+      capping: ['numeric'],
       multiplier: 'required|numeric',
       bonusLifeTime: 'required|numeric',
     };

@@ -3,6 +3,7 @@ import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import timestamp from '../../../../../../../utils/timestamp';
+import parseNumbersRange from '../../../../../../../utils/parseNumbersRange';
 
 const KEY = 'user/bonus-free-spin/games';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
@@ -45,7 +46,7 @@ const actionHandlers = {
 
     const newState = {
       ...state,
-      games: content,
+      games: content.map(i => ({ ...i, lines: parseNumbersRange(i.lines) })),
       isLoading: false,
       receivedAt: timestamp(),
     };

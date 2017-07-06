@@ -7,6 +7,7 @@ class SelectField extends Component {
     input: PropTypes.shape({
       name: PropTypes.string,
       value: PropTypes.any,
+      onChange: PropTypes.func,
     }).isRequired,
     label: PropTypes.string.isRequired,
     labelClassName: PropTypes.string,
@@ -36,6 +37,7 @@ class SelectField extends Component {
     inputButton: null,
     inputClassName: 'form-control',
     showInputButton: false,
+    onChange: null,
   };
 
   renderInput = (props) => {

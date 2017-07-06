@@ -223,11 +223,30 @@
         "STATISTICS_WINNINGS_TITLE": "",
         "TITLE": ""
       },
-      "EXPORT_BUTTON": ""
+      "EXPORT_BUTTON": "",
+      "MANUAL_FREE_SPIN_BUTTON": ""
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
-        "TITLE": ""
+        "TITLE": "",
+        "CHOOSE_PROVIDER": "",
+        "CHOOSE_GAME": "",
+        "CHOOSE_LINES_PER_SPIN": "",
+        "ATTRIBUTES_LABELS": {
+          "NAME": "",
+          "START_DATE": "",
+          "END_DATE": "",
+          "AVAILABILITY_DATE_RANGE": "",
+          "PROVIDER": "",
+          "GAME": "",
+          "FREE_SPINS_AMOUNT": "",
+          "LINES_PER_SPIN": "",
+          "BET_PER_LINE": "",
+          "PRIZE": "",
+          "CAPPING": "",
+          "MULTIPLIER": "",
+          "BONUS_LIFE_TIME": ""
+        }
       }
     }
   },
@@ -378,6 +397,11 @@
       "MONEY_TYPE_USAGE": {
         "REAL_MONEY": "Реальные деньги",
         "BONUS_MONEY": "Бонусные деньги"
+      },
+      "ROUTES": {
+        "BONUS": "",
+        "ELIGIBLE_CAMPAIGNS": "",
+        "FREE_SPINS": ""
       }
     },
     "COUNTRIES": {
