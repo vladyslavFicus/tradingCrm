@@ -6,7 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator } from '../../../../../../../../utils/validator';
 import { attributeLabels, attributePlaceholders, authorTypesLabels } from './constants';
-import { InputField, SelectField, SearchField, DateTimeField } from '../../../../../../../../components/ReduxForm';
+import { SelectField, SearchField, DateTimeField } from '../../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 
 class FreeSpinsFilterForm extends Component {
