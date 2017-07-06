@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Collapse } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
+import Information from '../components/Information/Information';
 import Tabs from '../../../../../components/Tabs';
 import Modal from '../../../../../components/Modal';
-import Information from '../components/Information';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import modalCssModule from '../styles/InfoModal.scss';

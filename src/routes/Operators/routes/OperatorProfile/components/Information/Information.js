@@ -2,8 +2,9 @@ import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import Personal from './Personal';
 import Departments from './Departments';
-import IpList from './IpList';
+import IpList from './IpList/IpList';
 import PropTypes from '../../../../../../constants/propTypes';
+import './Information.scss';
 
 const Information = ({ data, ips }) => (
   <div className="player__account__details row">
