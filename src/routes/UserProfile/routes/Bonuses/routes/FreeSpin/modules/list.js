@@ -13,7 +13,8 @@ import downloadBlob from '../../../../../../../utils/downloadBlob';
 const KEY = 'user/bonus-free-spin/list';
 const RESET_LIST = `${KEY}/reset`;
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
-const EXPORT_ENTITIES = createRequestAction(`${KEY}/expport-entities`);
+const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
+const CREATE_FREE_SPIN = createRequestAction(`${KEY}/create-entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 
 const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
@@ -125,6 +126,31 @@ function exportFreeSpins(filters = {}) {
   };
 }
 
+function createFreeSpin(data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: 'free_spin/free-spins',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          CREATE_FREE_SPIN.REQUEST,
+          CREATE_FREE_SPIN.SUCCESS,
+          CREATE_FREE_SPIN.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function resetList() {
   return {
     type: RESET_LIST,
@@ -182,12 +208,14 @@ const actionTypes = {
   FETCH_ENTITIES,
   FETCH_NOTES,
   EXPORT_ENTITIES,
+  CREATE_FREE_SPIN,
 };
 const actionCreators = {
   resetList,
   fetchFreeSpins,
   fetchNotes,
   exportFreeSpins,
+  createFreeSpin,
 };
 
 export {

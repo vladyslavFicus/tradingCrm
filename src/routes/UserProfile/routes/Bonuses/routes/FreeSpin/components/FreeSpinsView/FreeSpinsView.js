@@ -33,7 +33,11 @@ class FreeSpinsView extends Component {
     }).isRequired,
     fetchFreeSpins: PropTypes.func.isRequired,
     exportFreeSpins: PropTypes.func.isRequired,
+    createFreeSpin: PropTypes.func.isRequired,
+    fetchGames: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
+    providers: PropTypes.arrayOf(PropTypes.string).isRequired,
+    games: PropTypes.arrayOf(PropTypes.gameEntity).isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
@@ -52,6 +56,7 @@ class FreeSpinsView extends Component {
 
   componentDidMount() {
     this.context.setNoteChangedCallback(this.handleRefresh);
+    this.props.fetchGames();
   }
 
   componentWillUnmount() {
@@ -108,7 +113,15 @@ class FreeSpinsView extends Component {
   };
 
   handleCreateButtonClick = () => {
-    this.handleModalOpen(MODAL_CREATE, {});
+    this.handleModalOpen(MODAL_CREATE);
+  };
+
+  handleSubmitNewFreeSpin = async (data) => {
+    const action = await this.props.createFreeSpin(data);
+
+    if (action && !action.error) {
+      this.handleModalClose(this.handleRefresh);
+    }
   };
 
   handleModalOpen = (name, params) => {
@@ -172,7 +185,13 @@ class FreeSpinsView extends Component {
 
   render() {
     const { modal, filters } = this.state;
-    const { list: { entities, exporting }, filters: { data: { games, providers } }, currency } = this.props;
+    const {
+      list: { entities, exporting },
+      filters: { data: { games: gamesFilterValues, providers: providersFilterValues } },
+      providers,
+      games,
+      currency,
+    } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
@@ -199,8 +218,8 @@ class FreeSpinsView extends Component {
         </div>
 
         <FreeSpinsFilterForm
-          providers={providers}
-          games={games}
+          providers={providersFilterValues}
+          games={gamesFilterValues}
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           initialValues={filters}
@@ -251,9 +270,11 @@ class FreeSpinsView extends Component {
           <CreateModal
             isOpen
             {...modal.params}
-            onSubmit={this.handleFiltersChanged}
+            onSubmit={this.handleSubmitNewFreeSpin}
             onClose={this.handleModalClose}
             currency={currency}
+            games={games}
+            providers={providers}
           />
         }
         {

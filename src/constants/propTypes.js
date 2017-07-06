@@ -391,6 +391,18 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   totalValue: PropTypes.price.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+PropTypes.gameEntity = PropTypes.shape({
+  aggregatorId: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  fullGameName: PropTypes.string.isRequired,
+  gameId: PropTypes.string.isRequired,
+  gameInfoType: PropTypes.string.isRequired,
+  gameProviderId: PropTypes.string.isRequired,
+  gameType: PropTypes.string.isRequired,
+  lines: PropTypes.any,
+  startGameUrl: PropTypes.string.isRequired,
+  stopGameUrl: PropTypes.string.isRequired,
+});
 PropTypes.userDeviceEntity = PropTypes.shape({
   hash: PropTypes.string.isRequired,
   deviceType: PropTypes.string.isRequired,

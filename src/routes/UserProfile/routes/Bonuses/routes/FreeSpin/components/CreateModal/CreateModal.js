@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import { connect } from 'react-redux';
+import PropTypes from '../../../../../../../../constants/propTypes';
 import { InputField, DateTimeField, SelectField } from '../../../../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../../../../utils/validator';
 import { attributeLabels } from './constants';
@@ -14,8 +15,6 @@ class CreateModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool,
     handleSubmit: PropTypes.func,
-    change: PropTypes.func,
-    reset: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -23,6 +22,20 @@ class CreateModal extends Component {
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
+    currentValues: PropTypes.shape({
+      name: PropTypes.string,
+      startDate: PropTypes.string,
+      endDate: PropTypes.string,
+      prize: PropTypes.string,
+      capping: PropTypes.string,
+      betPerLine: PropTypes.string,
+      linesPerSpin: PropTypes.string,
+      freeSpinsAmount: PropTypes.string,
+      bonusLifeTime: PropTypes.string,
+      multiplier: PropTypes.string,
+    }).isRequired,
+    providers: PropTypes.arrayOf(PropTypes.string).isRequired,
+    games: PropTypes.arrayOf(PropTypes.gameEntity).isRequired,
   };
   static defaultProps = {
     isOpen: false,
@@ -31,8 +44,7 @@ class CreateModal extends Component {
     invalid: false,
     disabled: false,
     handleSubmit: null,
-    change: null,
-    reset: null,
+    currentValues: {},
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -62,7 +74,14 @@ class CreateModal extends Component {
       disabled,
       invalid,
       currency,
+      providers,
+      games,
+      currentValues,
     } = this.props;
+    const currentGames = currentValues && currentValues.providerId
+      ? games.filter(item => item.gameProviderId === currentValues.providerId)
+      : [];
+    console.log(currentValues, currentGames, games);
 
     return (
       <Modal className="create-bonus-modal" toggle={onClose} isOpen={isOpen}>
@@ -123,7 +142,7 @@ class CreateModal extends Component {
                   showErrorMessage={false}
                 >
                   <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_PROVIDER')}</option>
-                  {[].map(item => (
+                  {providers.map(item => (
                     <option key={item} value={item}>
                       {item}
                     </option>
@@ -138,11 +157,12 @@ class CreateModal extends Component {
                   position="vertical"
                   component={SelectField}
                   showErrorMessage={false}
+                  disabled={!currentValues || !currentValues.providerId}
                 >
                   <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
-                  {[].map(item => (
-                    <option key={item} value={item}>
-                      {item}
+                  {currentGames.map(item => (
+                    <option key={item.gameId} value={item.gameId}>
+                      {item.fullGameName}
                     </option>
                   ))}
                 </Field>
@@ -157,6 +177,38 @@ class CreateModal extends Component {
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-4">
+                <Field
+                  name="linesPerSpin"
+                  label={I18n.t(attributeLabels.linesPerSpin)}
+                  labelClassName="form-label"
+                  position="vertical"
+                  component={SelectField}
+                  showErrorMessage={false}
+                  disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
+                >
+                  <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}</option>
+                  {[].map(item => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+              <div className="col-md-4">
+                <Field
+                  name="betPerLine"
+                  label={I18n.t(attributeLabels.betPerLine)}
+                  labelClassName="form-label"
+                  position="vertical"
+                  component={InputField}
+                  showErrorMessage={false}
+                  disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
+                  inputAddon={<Currency code={currency} />}
                 />
               </div>
             </div>
@@ -251,7 +303,7 @@ const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name)
   [name]: I18n.t(attributeLabels[name]),
 }), {});
 const FORM_NAME = 'freeSpinManage';
-export default reduxForm({
+const CreateModalReduxForm = reduxForm({
   form: FORM_NAME,
   validate: (values) => {
     const rules = {
@@ -288,3 +340,7 @@ export default reduxForm({
     return createValidator(rules, validatorAttributeLabels, false)(values);
   },
 })(CreateModal);
+
+export default connect(state => ({
+  currentValues: getFormValues(FORM_NAME)(state),
+}))(CreateModalReduxForm);

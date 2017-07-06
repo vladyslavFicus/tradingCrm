@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
 
+import games, {
+  initialState as gamesInitialState,
+  actionTypes as gamesActionTypes,
+  actionCreators as gamesActionCreators,
+} from './games';
 import list, {
   actionCreators as listActionCreators,
   actionTypes as listActionTypes,
@@ -12,6 +17,7 @@ import filters, {
 } from './filters';
 
 const actionCreators = {
+  ...gamesActionCreators,
   ...filtersActionCreators,
   ...listActionCreators,
   resetAll: () => (dispatch) => {
@@ -19,10 +25,12 @@ const actionCreators = {
   },
 };
 const actionTypes = {
+  ...gamesActionTypes,
   ...filtersActionTypes,
   ...listActionTypes,
 };
 const initialState = {
+  ...gamesInitialState,
   ...filtersInitialState,
   ...listInitialState,
 };
@@ -33,6 +41,7 @@ export {
   initialState,
 };
 export default combineReducers({
+  games,
   filters,
   list,
 });
