@@ -40,7 +40,7 @@ class BonusStatus extends Component {
 
     return (
       <div className={className}>
-        {!!label && <div className="color-default text-uppercase margin-bottom-10">
+        {!!label && <div className="color-default text-uppercase">
           {label}
         </div>}
 

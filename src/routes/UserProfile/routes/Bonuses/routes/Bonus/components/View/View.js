@@ -240,10 +240,10 @@ class View extends Component {
     return (
       <div className="tab-pane fade in active profile-tab-container">
         <div className="row margin-bottom-20">
-          <div className="col-md-6 col-xs-6">
+          <div className="col-xs-8">
             <BonusHeaderNavigation />
           </div>
-          <div className="col-md-6 col-xs-6 text-right">
+          <div className="col-xs-4 text-right">
             <button className="btn btn-sm btn-primary-outline" onClick={this.handleCreateManualBonusClick}>
               {I18n.t('PLAYER_PROFILE.BONUS.MANUAL_BONUS_BUTTON')}
             </button>

@@ -9,6 +9,8 @@ import Amount from '../../../../../../../../components/Amount';
 import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
 import ModalPlayerInfo from '../../../../../../../../components/ModalPlayerInfo';
+import NoteButton from '../../../../../../../../components/NoteButton';
+import { targetTypes } from '../../../../../../../../constants/note';
 
 class ViewModal extends Component {
   static propTypes = {
@@ -22,6 +24,19 @@ class ViewModal extends Component {
     item: PropTypes.bonusEntity.isRequired,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
+  };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    setNoteChangedCallback: PropTypes.func.isRequired,
+  };
+
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.onEditNoteClick(target, note, { placement: 'top' });
+    } else {
+      this.context.onAddNoteClick(data.bonusUUID, targetTypes.BONUS)(target, { placement: 'top' });
+    }
   };
 
   renderBonusStats = data => (
@@ -141,6 +156,20 @@ class ViewModal extends Component {
 
   renderPriority = data => <span>{data.priority}</span>;
 
+  renderNote = data => (
+    <div className="row margin-top-20">
+      <div className="col-md-12 text-center">
+        <NoteButton
+          id="free-spin-detail-modal-note"
+          note={data.note}
+          onClick={this.handleNoteClick}
+          targetEntity={data}
+          preview
+        />
+      </div>
+    </div>
+  );
+
   render() {
     const { item, profile, actions, accumulatedBalances, onClose, ...rest } = this.props;
 
@@ -155,6 +184,7 @@ class ViewModal extends Component {
           <hr />
           {this.renderBonus(item)}
           {this.renderBonusStats(item)}
+          {this.renderNote(item)}
         </ModalBody>
         <ModalFooter>
           {
