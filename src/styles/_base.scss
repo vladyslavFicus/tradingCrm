@@ -206,3 +206,14 @@ small {
     width: 32px;
   }
 }
+
+.icon-status-blocked {
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  position: absolute;
+  right: 35px;
+  bottom: 8px;
+  background-image: url("../../public/img/status-blocked-icon.png");
+  background-repeat: no-repeat;
+}

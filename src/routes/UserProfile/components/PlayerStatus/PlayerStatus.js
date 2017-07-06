@@ -117,6 +117,10 @@ class PlayerStatus extends Component {
             Until {moment(endDate).format('L')}
           </div>
         }
+        {
+          status === statuses.BLOCKED &&
+          <span className="icon-status-blocked" />
+        }
       </div>
     );
 
