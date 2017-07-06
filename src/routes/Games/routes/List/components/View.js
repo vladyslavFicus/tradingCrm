@@ -20,6 +20,7 @@ class View extends Component {
     uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     clearAll: PropTypes.func.isRequired,
+    resetGames: PropTypes.func.isRequired,
   };
 
   componentWillUnmount() {
@@ -43,7 +44,7 @@ class View extends Component {
   };
 
   render() {
-    const { files: { upload, download } } = this.props;
+    const { files: { upload, download }, resetGames } = this.props;
     const error = upload.error || download.error;
     const disabled = upload.uploading || download.loading;
 
@@ -63,6 +64,10 @@ class View extends Component {
                 </div>
               }
               <div className="col-md-12">
+                <button disabled={disabled} className="btn btn-default-outline" onClick={resetGames}>
+                  {I18n.t('GAMES.RESET_BUTTON')}
+                </button>
+                {` ${I18n.t('COMMON.OR')} `}
                 <button disabled={disabled} className="btn btn-default-outline" onClick={this.handleDownloadClick}>
                   {I18n.t('GAMES.EXPORT_BUTTON')}
                 </button>

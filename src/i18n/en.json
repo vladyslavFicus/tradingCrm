@@ -466,7 +466,8 @@
   "GAMES": {
     "TITLE": "Games",
     "EXPORT_BUTTON": "Export games",
-    "UPLOAD_FILE_BUTTON": "Import games"
+    "UPLOAD_FILE_BUTTON": "Import games",
+    "RESET_BUTTON": "Reset games"
   },
   "ERRORS": {
     "FILE": {
