@@ -140,41 +140,37 @@ class NotePopover extends Component {
     }
 
     return (
-      <div className="row">
-        <div className="col-md-10">
-          {
-            item.lastEditionDate && item.creationDate &&
-            <div className="color-secondary font-size-10">
-              {
-                item.lastEditionDate === item.creationDate
-                  ? 'Created'
-                  : 'Last changed'
-              }
-            </div>
-          }
-          <div className="color-secondary font-size-14 font-weight-700">
-            by <Uuid uuid={item.lastEditorUUID} />
+      <div className="popover-title__container">
+        {
+          item.lastEditionDate && item.creationDate &&
+          <div className="popover-title__label">
+            {
+              item.lastEditionDate === item.creationDate
+                ? 'Created'
+                : 'Last changed'
+            }
           </div>
-          {
-            item.lastEditionDate &&
-            <div className="font-size-10 color-secondary">
-              {
-                item.lastEditionDate
-                  ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
-                  : I18n.t('COMMON.UNKNOWN_TIME')
-              } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
-            </div>
-          }
+        }
+        <div className="popover-title__author">
+          by <span className="font-weight-700"><Uuid uuid={item.lastEditorUUID} /></span>
         </div>
-        <div className="col-md-2 text-right">
-          <button
-            type="reset"
-            onClick={() => this.handleDelete(item)}
-            className="btn-transparent font-size-12 color-danger text-right"
-          >
-            <i className="fa fa-trash" />
-          </button>
-        </div>
+        {
+          item.lastEditionDate &&
+          <div className="popover-title__date">
+            {
+              item.lastEditionDate
+                ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
+                : I18n.t('COMMON.UNKNOWN_TIME')
+            } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
+            <button
+              type="reset"
+              onClick={() => this.handleDelete(item)}
+              className="btn-transparent color-danger popover-title__trash-btn"
+            >
+              <i className="fa fa-trash" />
+            </button>
+          </div>
+        }
       </div>
     );
   };
@@ -220,13 +216,15 @@ class NotePopover extends Component {
 
               <div className="row">
                 <div className="col-md-6">
-                  <div className="color-default font-size-10">
-                    {currentValues && currentValues.content ? currentValues.content.length : 0}/{MAX_CONTENT_LENGTH}
+                  <div className="font-size-11">
+                    <span className="font-weight-700">
+                      {currentValues && currentValues.content ? currentValues.content.length : 0}
+                    </span>/{MAX_CONTENT_LENGTH}
                   </div>
 
                   <Field
                     name="pinned"
-                    wrapperClassName="display-block font-size-12 margin-top-10"
+                    wrapperClassName="display-block font-size-12 margin-top-5"
                     label="Pin"
                     component={this.renderSwitchField}
                   />
@@ -235,7 +233,7 @@ class NotePopover extends Component {
                 <div className="col-md-6 text-right margin-top-10">
                   <button
                     type="reset"
-                    className="btn btn-link btn-sm"
+                    className="btn btn-default-outline btn-sm margin-right-10"
                     onClick={() => this.handleHide(true)}
                   >
                     Cancel
@@ -243,7 +241,7 @@ class NotePopover extends Component {
 
                   <button
                     type="submit"
-                    className="btn btn-success btn-sm text-uppercase"
+                    className="btn btn-primary btn-sm text-uppercase font-weight-700"
                     disabled={pristine || submitting || invalid}
                   >
                     {item && item.uuid ? 'Update' : 'Save'}

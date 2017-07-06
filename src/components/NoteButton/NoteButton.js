@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
+import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import PopoverButton from '../PopoverButton';
+import './NoteButton.scss';
 
 class NoteButton extends Component {
   static propTypes = {
@@ -15,7 +17,7 @@ class NoteButton extends Component {
     onClick: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    className: 'cursor-pointer margin-right-5',
+    className: 'cursor-pointer',
     message: null,
     note: null,
     targetEntity: null,
@@ -28,7 +30,8 @@ class NoteButton extends Component {
   };
 
   render() {
-    const { note, withMessage, message, preview, targetEntity, ...rest } = this.props;
+    const { note, withMessage, message, preview, targetEntity, className, ...rest } = this.props;
+    const compiledClassName = classNames(className, { 'note-preview': preview && !!note });
     let iconNode = <i className="note-icon note-add-note" />;
     let msg = null;
 
@@ -43,8 +46,8 @@ class NoteButton extends Component {
     }
 
     return (
-      <PopoverButton {...rest} onClick={this.handleClick}>
-        {iconNode} {preview && msg}
+      <PopoverButton {...rest} onClick={this.handleClick} className={compiledClassName}>
+        {iconNode} {preview && note && note.content} {preview && !note && msg}
       </PopoverButton>
     );
   }
