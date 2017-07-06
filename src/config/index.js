@@ -46,10 +46,6 @@ const config = _.merge({
       tags: {},
       roles: [],
     },
-    currencies: {
-      base: null,
-      supported: [],
-    },
     validation: {
       password: null,
     },

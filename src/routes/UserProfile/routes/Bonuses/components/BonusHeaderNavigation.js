@@ -1,12 +1,23 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
+import { routes } from '../constants';
 
 const BonusHeaderNavigation = ({ params: { id } }) => (
   <div className="bonus-header-navigation">
-    <Link className="font-size-20 btn btn-link" to={`/users/${id}/bonuses/bonus`} activeClassName="color-black">Bonuses</Link> /
-    <Link className="font-size-20 btn btn-link" to={`/users/${id}/bonuses/campaigns`}>Eligible campaigns</Link> /
-    <Link className="font-size-20 btn btn-link" to={`/users/${id}/bonuses/free-spins`}>Free spins</Link>
+    {Object.keys(routes).map((url, index) => (
+      <span key={url}>
+        {index > 0 && ' / '}
+        <Link
+          className="font-size-20 btn btn-link"
+          to={url.replace(/:id/, id)}
+          activeClassName="color-black"
+        >
+          {I18n.t(routes[url])}
+        </Link>
+      </span>
+    ))}
   </div>
 );
 BonusHeaderNavigation.propTypes = {

@@ -11,6 +11,7 @@ import FreeSpinStatus from '../../../../../../../../components/FreeSpinStatus';
 import NoteButton from '../../../../../../../../components/NoteButton';
 import FreeSpinAvailablePeriod from '../FreeSpinAvailablePeriod';
 import FreeSpinsFilterForm from '../FreeSpinsFilterForm';
+import CreateModal from '../CreateModal';
 import ViewModal from '../ViewModal';
 
 const modalInitialState = { name: null, params: {} };
@@ -32,6 +33,7 @@ class FreeSpinsView extends Component {
     }).isRequired,
     fetchFreeSpins: PropTypes.func.isRequired,
     exportFreeSpins: PropTypes.func.isRequired,
+    currency: PropTypes.string.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
@@ -105,6 +107,10 @@ class FreeSpinsView extends Component {
 
   };
 
+  handleCreateButtonClick = () => {
+    this.handleModalOpen(MODAL_CREATE, {});
+  };
+
   handleModalOpen = (name, params) => {
     this.setState({
       modal: {
@@ -122,7 +128,7 @@ class FreeSpinsView extends Component {
     });
   };
 
-  handleExport = () => this.props.exportFreeSpins({
+  handleExportButtonClick = () => this.props.exportFreeSpins({
     ...this.state.filters,
     page: this.state.page,
   });
@@ -166,7 +172,7 @@ class FreeSpinsView extends Component {
 
   render() {
     const { modal, filters } = this.state;
-    const { list: { entities, exporting }, filters: { data: { games, providers } } } = this.props;
+    const { list: { entities, exporting }, filters: { data: { games, providers } }, currency } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
@@ -179,13 +185,13 @@ class FreeSpinsView extends Component {
             <button
               disabled={exporting || !allowActions}
               className="btn btn-default-outline margin-inline"
-              onClick={this.handleExport}
+              onClick={this.handleExportButtonClick}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
             </button>
             <button
               className="btn btn-primary-outline margin-inline"
-              onClick={this.handleExport}
+              onClick={this.handleCreateButtonClick}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
             </button>
@@ -240,6 +246,16 @@ class FreeSpinsView extends Component {
           />
         </GridView>
 
+        {
+          modal.name === MODAL_CREATE &&
+          <CreateModal
+            isOpen
+            {...modal.params}
+            onSubmit={this.handleFiltersChanged}
+            onClose={this.handleModalClose}
+            currency={currency}
+          />
+        }
         {
           modal.name === MODAL_VIEW &&
           <ViewModal
