@@ -1,6 +1,23 @@
 /*
  * BADGES & LABELS
  */
+.badge {
+  display: inline-block;
+  position: absolute;
+  right: 6px;
+  top: 17px;
+  min-width: 5px;
+  padding: 3px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #920101;
+  border-radius: 10px;
+}
 .label {
   font-weight: normal;
   background: #ffffff;

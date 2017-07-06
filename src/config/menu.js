@@ -74,7 +74,7 @@ const userProfileTabs = [
   { label: 'Bonuses', url: '/users/:id/bonuses' },
   { label: 'Eligible campaigns', url: '/users/:id/bonus-campaigns' },
   { label: 'Activity', url: '/users/:id/game-activity' },
-  { label: 'Payments', url: '/users/:id/paymentAccounts' },
+  { label: 'Payment acc.', url: '/users/:id/paymentAccounts' },
   { label: 'Limits', url: '/users/:id/limits' },
   { label: 'Files', url: '/users/:id/files' },
   { label: 'Devices', url: '/users/:id/devices' },

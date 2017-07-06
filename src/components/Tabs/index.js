@@ -9,6 +9,7 @@ const Tabs = ({ location, items, params }) => <ul className="nav nav-tabs">
       className={'nav-link'}
       to={item.url.replace(/:id/, params.id)}
     >{item.label}</Link>
+    <div className="badge">3</div>
   </li>)}
 </ul>;
 
