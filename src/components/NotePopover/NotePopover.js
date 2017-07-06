@@ -152,7 +152,7 @@ class NotePopover extends Component {
           </div>
         }
         <div className="popover-title__author">
-          by <b><Uuid uuid={item.lastEditorUUID} /></b>
+          by <span className="font-weight-700"><Uuid uuid={item.lastEditorUUID} /></span>
         </div>
         {
           item.lastEditionDate &&
@@ -217,9 +217,9 @@ class NotePopover extends Component {
               <div className="row">
                 <div className="col-md-6">
                   <div className="font-size-11">
-                    <b>
+                    <span className="font-weight-700">
                       {currentValues && currentValues.content ? currentValues.content.length : 0}
-                    </b>/{MAX_CONTENT_LENGTH}
+                    </span>/{MAX_CONTENT_LENGTH}
                   </div>
 
                   <Field
