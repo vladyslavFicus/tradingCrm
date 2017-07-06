@@ -82,8 +82,11 @@ Validator.register('greaterOrSame', function (inputValue, requirement, attribute
 
 Validator.register('customTypeValue.value', function (inputValue, requirement, attribute) {
   const attributeBaseName = attribute.replace(/\.value/, '');
+  if (typeof this.validator.input[attributeBaseName]) {
+    if (this.validator.input[attributeBaseName] === null) {
+      return true;
+    }
 
-  if (typeof this.validator.input[attributeBaseName] !== 'undefined') {
     const customTypeValueField = this.validator.input[attributeBaseName];
 
     if (!customTypeValueField.type) {
@@ -97,18 +100,10 @@ Validator.register('customTypeValue.value', function (inputValue, requirement, a
         return false;
       }
 
-      if (customTypeValueField.type === customValueFieldTypes.PERCENTAGE) {
-        if (value < 0 || value > 100) {
-          this.validator.errors.add(attribute, 'Value must be between 0 and 100');
+      if (value < 0) {
+        this.validator.errors.add(attribute, 'Value must be greater than 0');
 
-          return false;
-        }
-      } else if (customTypeValueField.type === customValueFieldTypes.ABSOLUTE) {
-        if (value < 0) {
-          this.validator.errors.add(attribute, 'Value must be greater than 0');
-
-          return false;
-        }
+        return false;
       }
     }
 

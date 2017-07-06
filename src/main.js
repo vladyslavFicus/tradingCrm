@@ -4,7 +4,7 @@ import moment from 'moment';
 import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
 import { sendError, errorTypes } from './utils/errorLog';
-import { actionTypes as windowActionTypes } from './redux/modules/window';
+import createWindowMessageService from './services/window-message';
 
 moment.updateLocale('en', {
   longDateFormat: {
@@ -30,7 +30,6 @@ createStore(initialState, (store) => {
 
   if (__DEV__) {
     if (module.hot) {
-      // Development render functions
       const renderApp = render;
       const renderError = (error) => {
         const RedBox = require('redbox-react').default;
@@ -38,7 +37,6 @@ createStore(initialState, (store) => {
         ReactDOM.render(<RedBox error={error} />, MOUNT_NODE);
       };
 
-      // Wrap render in try/catch
       render = () => {
         try {
           renderApp();
@@ -56,19 +54,7 @@ createStore(initialState, (store) => {
     }
   }
 
-  if (window && window.parent === window) {
-    window.addEventListener('message', ({ data, origin }) => {
-      if (origin === window.location.origin) {
-        if (typeof data === 'string') {
-          const message = JSON.parse(data);
-
-          if (message.action && Object.values(windowActionTypes).indexOf(message.action.type) > -1) {
-            store.dispatch(message.action);
-          }
-        }
-      }
-    });
-  }
+  createWindowMessageService(store);
 
   render();
 });

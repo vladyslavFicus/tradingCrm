@@ -43,6 +43,13 @@ PropTypes.ipEntity = PropTypes.shape({
   ip: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
+PropTypes.operatorIpEntity = PropTypes.shape({
+  agent: PropTypes.string.isRequired,
+  signInDate: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
+  ipAddress: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
+});
 PropTypes.noteEntity = PropTypes.shape({
   content: PropTypes.string.isRequired,
   creationDate: PropTypes.string,
@@ -127,6 +134,7 @@ PropTypes.bonusEntity = PropTypes.shape({
   startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   state: PropTypes.string,
   wagered: PropTypes.price,
+  convertedAmount: PropTypes.price,
 });
 PropTypes.fileEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
@@ -340,8 +348,8 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   campaignPriority: PropTypes.number.isRequired,
   campaignRatio: PropTypes.customValue.isRequired,
   campaignUUID: PropTypes.string.isRequired,
-  capping: PropTypes.customValue.isRequired,
-  conversionPrize: PropTypes.customValue.isRequired,
+  capping: PropTypes.customValue,
+  conversionPrize: PropTypes.customValue,
   creationDate: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
   grantedSum: PropTypes.number.isRequired,

@@ -57,40 +57,44 @@ class BonusStatus extends Component {
   renderStatusCancelled = bonus => (
     <div className="font-size-10">
       {
-          bonus.cancellerUUID &&
-          <div>
-            by{' '}
-            <Uuid
-              uuid={bonus.cancellerUUID}
-              uuidPrefix={(bonus.cancellationReason === cancellationReason.MANUAL_BY_PLAYER ? 'PL' : null)}
-            />
-          </div>
-        }
+        bonus.cancellerUUID &&
+        <div>
+          by{' '}
+          <Uuid
+            uuid={bonus.cancellerUUID}
+            uuidPrefix={(
+              bonus.cancellationReason === cancellationReason.MANUAL_BY_PLAYER
+                ? bonus.cancellerUUID.indexOf('PLAYER') === -1 ? 'PL' : null
+                : null
+            )}
+          />
+        </div>
+      }
       {
-          bonus.endDate &&
-          <div>
-            on {moment(bonus.endDate).format('DD.MM.YYYY')}
-          </div>
-        }
+        bonus.endDate &&
+        <div>
+          on {moment(bonus.endDate).format('DD.MM.YYYY')}
+        </div>
+      }
     </div>
-    );
+  );
 
   renderStatusWagered = bonus => (
     <div className="font-size-10">
       {
-          bonus.endDate &&
-          <div>
-            on {moment(bonus.endDate).format('DD.MM.YYYY')}
-          </div>
-        }
+        bonus.endDate &&
+        <div>
+          on {moment(bonus.endDate).format('DD.MM.YYYY')}
+        </div>
+      }
       {
-          !!bonus.wagered &&
-          <div>
-            to <Amount {...bonus.wagered} />
-          </div>
-        }
+        !!bonus.convertedAmount &&
+        <div>
+          to <Amount {...bonus.convertedAmount} />
+        </div>
+      }
     </div>
-    );
+  );
 
   render() {
     const { className, label } = this.props;

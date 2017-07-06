@@ -9,7 +9,7 @@ import renderLabel from '../../../../utils/renderLabel';
 import { createValidator } from '../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import Uuid from '../../../../components/Uuid';
-import { actionLabels } from '../../constants';
+import { actionLabels } from '../../../../constants/bonus-campaigns';
 import { attributeLabels } from './constants';
 import './ChangeStatusModal.scss';
 

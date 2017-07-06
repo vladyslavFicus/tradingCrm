@@ -2,7 +2,7 @@ import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import Personal from './Personal';
 import Departments from './Departments';
-import IpList from '../../../../../../components/Information/IpList';
+import IpList from './IpList';
 import PropTypes from '../../../../../../constants/propTypes';
 
 const Information = ({ data, ips }) => (

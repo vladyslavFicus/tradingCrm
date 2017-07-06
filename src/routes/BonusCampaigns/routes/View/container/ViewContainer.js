@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import ViewLayout from '../layouts/ViewLayout';
 import { actionCreators } from '../modules';
-import { statusActions } from '../../../constants';
+import { statusActions } from '../../../../../constants/bonus-campaigns';
 
 const mapStateToProps = ({ bonusCampaignView, i18n: { locale } }) => ({
   ...bonusCampaignView,

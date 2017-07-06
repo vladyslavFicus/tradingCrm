@@ -4,12 +4,13 @@ import { Popover, PopoverContent } from 'reactstrap';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import classNames from 'classnames';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import ReactSwitch from '../../components/ReactSwitch';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
-import { entities, entitiesPrefixes } from '../../constants/uuid';
-import { shortify } from '../../utils/uuid';
+import { entitiesPrefixes } from '../../constants/uuid';
 import NotePopoverStyle from './NotePopover.scss';
+import Uuid from '../Uuid';
 
 const MAX_CONTENT_LENGTH = 500;
 const FORM_NAME = 'notePopoverForm';
@@ -24,7 +25,7 @@ const validator = createValidator({
 
 class NotePopover extends Component {
   static propTypes = {
-    item: PropTypes.noteEntity,
+    item: PropTypes.noteEntity.isRequired,
     target: PropTypes.string.isRequired,
     placement: PropTypes.string,
     isOpen: PropTypes.bool,
@@ -50,19 +51,20 @@ class NotePopover extends Component {
   static defaultProps = {
     defaultTitleLabel: 'Note',
     placement: 'bottom',
+    isOpen: false,
   };
 
   handleHide = (ignoreChanges = false) => {
     const { isOpen, toggle, currentValues, item } = this.props;
     const shouldClose = isOpen && (
-        ignoreChanges || (
-          !item
-          || (
-            currentValues && currentValues.content === item.content
-            && currentValues && currentValues.pinned === item.pinned
-          )
+      ignoreChanges || (
+        !item
+        || (
+          currentValues && currentValues.content === item.content
+          && currentValues && currentValues.pinned === item.pinned
         )
-      );
+      )
+    );
 
     if (shouldClose) {
       toggle();
@@ -81,7 +83,7 @@ class NotePopover extends Component {
           if (typeof this.props.onSubmitFailure === 'function') {
             this.props.onSubmitFailure();
           }
-        }
+        },
       );
   };
 
@@ -97,7 +99,7 @@ class NotePopover extends Component {
           if (typeof this.props.onSubmitFailure === 'function') {
             this.props.onDeleteFailure();
           }
-        }
+        },
       );
   };
 
@@ -151,7 +153,7 @@ class NotePopover extends Component {
             </div>
           }
           <div className="color-secondary font-size-14 font-weight-700">
-            by {shortify(item.lastEditorUUID, entitiesPrefixes[entities.operator])}
+            by <Uuid uuid={item.lastEditorUUID} />
           </div>
           {
             item.lastEditionDate &&
@@ -159,8 +161,8 @@ class NotePopover extends Component {
               {
                 item.lastEditionDate
                   ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
-                  : 'Unknown time'
-              } to {this.renderItemId(item)}
+                  : I18n.t('COMMON.UNKNOWN_TIME')
+              } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
             </div>
           }
         </div>
@@ -177,7 +179,7 @@ class NotePopover extends Component {
     );
   };
 
-  renderItemId = item => shortify(item.targetUUID, entitiesPrefixes[item.targetType]);
+  renderItemId = item => <Uuid uuid={item.targetUUID} uuidPrefix={entitiesPrefixes[item.targetType]} />;
 
   render() {
     const {

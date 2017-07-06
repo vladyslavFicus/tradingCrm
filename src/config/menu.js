@@ -21,11 +21,11 @@ const sidebarTopMenu = [
       { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'), url: '/paymentMethods' },
     ],
   },
-  {
-    label: I18n.t('SIDEBAR.TOP_MENU.COUNTRIES'),
-    icon: 'fa fa-globe',
-    url: '/countries',
-  },
+  // {
+  //   label: I18n.t('SIDEBAR.TOP_MENU.COUNTRIES'),
+  //   icon: 'fa fa-globe',
+  //   url: '/countries',
+  // },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'),
     icon: 'fa fa-gift',
@@ -72,6 +72,7 @@ const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
   { label: 'Transactions', url: '/users/:id/transactions' },
   { label: 'Bonuses', url: '/users/:id/bonuses' },
+  { label: 'Eligible campaigns', url: '/users/:id/bonus-campaigns' },
   { label: 'Activity', url: '/users/:id/game-activity' },
   { label: 'Payments', url: '/users/:id/paymentAccounts' },
   { label: 'Limits', url: '/users/:id/limits' },

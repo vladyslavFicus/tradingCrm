@@ -12,12 +12,10 @@ const attributeLabels = {
   phoneNumber: 'Phone',
   email: 'Email',
 };
-
 const countries = countryList().getData().reduce((result, item) => ({
   ...result,
   [item.code]: item.name,
 }), {});
-
 const validator = createValidator({
   firstName: ['required', 'string'],
   lastName: ['required', 'string'],
@@ -49,7 +47,7 @@ class Form extends Component {
         <form className="form-horizontal" role="form" onSubmit={handleSubmit(onSubmit)}>
           <div className="row">
             <h5 className="pull-left">Personal information</h5>
-            { !(pristine || submitting || !valid) &&
+            {!(pristine || submitting || !valid) &&
             <button className="btn btn-sm btn-primary pull-right" type="submit">
               Save changes
             </button>
@@ -76,6 +74,7 @@ class Form extends Component {
               name="email"
               label={attributeLabels.email}
               type="text"
+              disabled
               component={InputField}
               wrapperClassName="col-lg-4"
               showErrorMessage
@@ -101,6 +100,7 @@ class Form extends Component {
               wrapperClassName="col-lg-4"
               component={SelectField}
             >
+              <option value="">-- Select country --</option>
               {Object
                 .keys(countries)
                 .map(key => <option key={key} value={key}>{countries[key]}</option>)
@@ -116,4 +116,5 @@ class Form extends Component {
 export default reduxForm({
   form: 'updateOperatorProfilePersonal',
   validate: validator,
+  enableReinitialize: true,
 })(Form);

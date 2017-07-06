@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../utils/validator';
 import { SelectField, InputField } from '../../../../../components/ReduxForm';
 import { shortify } from '../../../../../utils/uuid';
@@ -20,7 +21,7 @@ const FORM_NAME = 'createPaymentForm';
 const attributeLabels = {
   type: 'Payment Type',
   amount: 'Amount',
-  paymentMethod: 'Payment method',
+  paymentAccount: 'Payment account',
 };
 
 const validate = (values) => {
@@ -30,13 +31,13 @@ const validate = (values) => {
   };
 
   if (values.type === paymentTypes.Withdraw) {
-    rules.paymentMethod = 'required|string';
+    rules.paymentAccount = 'required|string';
   }
 
   return createValidator(
     rules,
     attributeLabels,
-    false
+    false,
   )(values);
 };
 
@@ -50,7 +51,7 @@ class PaymentAddModal extends Component {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    onLoadPaymentMethods: PropTypes.func.isRequired,
+    onLoadPaymentAccounts: PropTypes.func.isRequired,
     onManageNote: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
@@ -69,23 +70,23 @@ class PaymentAddModal extends Component {
   };
 
   state = {
-    availablePaymentMethods: [],
+    availablePaymentAccounts: [],
   };
 
   async componentDidMount() {
-    const { onLoadPaymentMethods, playerInfo: { currencyCode } } = this.props;
+    const { onLoadPaymentAccounts, playerInfo: { currencyCode } } = this.props;
 
-    const action = await onLoadPaymentMethods();
+    const action = await onLoadPaymentAccounts();
     if (action && !action.error) {
-      const availablePaymentMethods = action.payload.map(method => ({
-        paymentMethod: method.paymentMethod,
-        currency: method.lastPayment && method.lastPayment.currency ?
-          method.lastPayment.currency : currencyCode,
-        paymentAccountId: method.uuid,
-        label: `${method.paymentMethod} - ${shortify(method.details)}`,
+      const availablePaymentAccounts = action.payload.map(account => ({
+        paymentAccount: account.paymentAccount,
+        currency: account.lastPayment && account.lastPayment.currency ?
+          account.lastPayment.currency : currencyCode,
+        paymentAccountId: account.uuid,
+        label: `${account.paymentAccount} - ${shortify(account.details)}`,
       }));
       this.setState({
-        availablePaymentMethods,
+        availablePaymentAccounts,
       });
     }
   }
@@ -121,30 +122,30 @@ class PaymentAddModal extends Component {
     });
   };
 
-  renderPaymentMethodField = () => {
+  renderPaymentAccountField = () => {
     const { currentValues } = this.props;
-    const { availablePaymentMethods } = this.state;
+    const { availablePaymentAccounts } = this.state;
 
     if (currentValues && currentValues.type && currentValues.type !== paymentTypes.Withdraw) {
       return null;
     }
 
-    const emptyOptionLabel = availablePaymentMethods.length === 0 ?
-      'No payment methods' : 'Choose payment method';
+    const emptyOptionLabel = availablePaymentAccounts.length === 0 ?
+      'No payment accounts' : 'Choose payment account';
 
     return (
       <div className="col-md-5">
         <Field
-          name="paymentMethod"
-          label={attributeLabels.paymentMethod}
+          name="paymentAccount"
+          label={attributeLabels.paymentAccount}
           type="text"
           component={SelectField}
           position="vertical"
           showErrorMessage={false}
         >
           <option value="">{emptyOptionLabel}</option>
-          {availablePaymentMethods.map(item => (
-            <option key={item.paymentAccountId} value={item.paymentMethod}>
+          {availablePaymentAccounts.map(item => (
+            <option key={item.paymentAccountId} value={item.paymentAccount}>
               {item.label}
             </option>
           ))}
@@ -193,7 +194,7 @@ class PaymentAddModal extends Component {
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
             {error && <div className="alert alert-warning">
-              {error}
+              {I18n.t(error)}
             </div>}
             <div className="row">
               <div className="col-md-4">
@@ -227,7 +228,7 @@ class PaymentAddModal extends Component {
                 />
               </div>
 
-              {this.renderPaymentMethodField()}
+              {this.renderPaymentAccountField()}
             </div>
             <div className="row">
               { this.renderInfoBlock() }
@@ -283,5 +284,5 @@ export default connect(state => ({
       type: paymentTypes.Deposit,
     },
     validate,
-  })(PaymentAddModal)
+  })(PaymentAddModal),
 );

@@ -24,6 +24,7 @@ import PaymentActionReasonModal from './PaymentActionReasonModal';
 import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 import PropTypes from '../../../../../constants/propTypes';
+import Uuid from '../../../../../components/Uuid';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -35,11 +36,11 @@ const defaultModalState = {
 
 class View extends Component {
   static propTypes = {
-    isLoading: PropTypes.bool,
+    isLoading: PropTypes.bool.isRequired,
     fetchEntities: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    loadPaymentMethods: PropTypes.func.isRequired,
+    loadPaymentAccounts: PropTypes.func.isRequired,
     addPayment: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
@@ -97,7 +98,7 @@ class View extends Component {
     this.props.params.id, {
       ...this.state.filters,
       page: this.state.page,
-    }
+    },
   );
 
   handleFilterSubmit = (data = {}) => {
@@ -208,14 +209,35 @@ class View extends Component {
     });
   };
 
-  renderTransactionId = data => (
-    <span>
-      <div className="font-weight-700">{shortify(data.paymentId, 'TA')}</div>
-      <span className="font-size-10 text-uppercase color-default">
-          by {shortify(data.playerUUID, 'PL')}
-      </span>
-    </span>
-  );
+  renderTransactionId = (data) => {
+    const showPaymentDetails =
+      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
+      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
+
+    const paymentId = shortify(data.paymentId, 'TA');
+    const paymentLink = showPaymentDetails ?
+      (
+        <span
+          className="cursor-pointer"
+          onClick={() => this.handleOpenDetailModal({
+            payment: data,
+            profile: this.props.profile,
+            accumulatedBalances: this.props.accumulatedBalances,
+          })}
+        >
+          {paymentId}
+        </span>
+      ) : paymentId;
+
+    return (
+      <div id={`payment-${data.paymentId}`}>
+        <div className="font-weight-700">{paymentLink}</div>
+        <span className="font-size-10 text-uppercase color-default">
+          by <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+        </span>
+      </div>
+    );
+  }
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -226,7 +248,7 @@ class View extends Component {
         <div {...props}> {label} </div>
         <span className="font-size-10 text-uppercase color-default">
           {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={`${SystemRef}-${index}`} children={SystemRef} />
+            <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
           ))}
         </span>
       </div>
@@ -281,10 +303,10 @@ class View extends Component {
   renderMethod = data => (
     <div>
       <div className="font-weight-700">
-        {methodsLabels[data.paymentMethod] || data.paymentMethod }
+        {methodsLabels[data.paymentMethod] || data.paymentMethod}
       </div>
       <span className="font-size-10">
-        { shortify(data.paymentAccount, null, 2) }
+        {shortify(data.paymentAccount, null, 2)}
       </span>
     </div>
   );
@@ -320,8 +342,16 @@ class View extends Component {
           <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
             {statusesLabels[data.status] || data.status}
           </div>
+          {
+            data.creatorUUID &&
+            <div className="font-size-10 color-default">
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} length={20} />
+            </div>
+          }
           <span className="font-size-10 color-default">
-            {moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
+            {I18n.t('COMMON.DATE_ON', {
+              date: moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
+            })}
           </span>
         </div>
       }
@@ -329,38 +359,18 @@ class View extends Component {
   );
 
   renderActions = (data) => {
-    const showPaymentDetails =
-      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
-      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
-
     return (
-      <div>
-        <PopoverButton
-          id={`bonus-item-note-button-${data.paymentId}`}
-          className="cursor-pointer margin-right-5"
-          onClick={id => this.handleNoteClick(id, data)}
-        >
-          {data.note
-            ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
-              <i className="note-icon note-with-text" />)
-            : <i className="note-icon note-add-note" />
-          }
-        </PopoverButton>
-        {
-          showPaymentDetails &&
-          <button
-            className="btn-transparent"
-            onClick={() => this.handleOpenDetailModal({
-              payment: data,
-              profile: this.props.profile,
-              accumulatedBalances: this.props.accumulatedBalances,
-            })}
-            title={'View payment'}
-          >
-            <i className="fa fa-search" />
-          </button>
+      <PopoverButton
+        id={`bonus-item-note-button-${data.paymentId}`}
+        className="cursor-pointer margin-right-5"
+        onClick={id => this.handleNoteClick(id, data)}
+      >
+        {data.note
+          ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
+          <i className="note-icon note-with-text" />)
+        : <i className="note-icon note-add-note" />
         }
-      </div>
+      </PopoverButton>
     );
   };
 
@@ -369,7 +379,7 @@ class View extends Component {
     const {
       entities,
       currencyCode,
-      loadPaymentMethods,
+      loadPaymentAccounts,
       manageNote,
       profile: { fullName, shortUUID },
       params: { id: playerUUID },
@@ -497,7 +507,7 @@ class View extends Component {
               shortUUID,
             }}
             onClose={this.handleCloseModal}
-            onLoadPaymentMethods={() => loadPaymentMethods(playerUUID)}
+            onLoadPaymentAccounts={() => loadPaymentAccounts(playerUUID)}
             onSubmit={this.handleAddPayment}
             onManageNote={manageNote}
           />

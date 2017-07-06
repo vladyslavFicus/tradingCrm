@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import {
   typesLabels,
   typesProps,
 } from '../../../../../../constants/bonus';
+import renderLabel from '../../../../../../utils/renderLabel';
 
 class BonusStatus extends Component {
   static propTypes = {
@@ -23,14 +23,11 @@ class BonusStatus extends Component {
       return bonus.bonusType;
     }
 
-    const label = typesLabels[bonus.bonusType]
-      ? I18n.t(typesLabels[bonus.bonusType])
-      : bonus.bonusType;
     const props = typesProps[bonus.bonusType] || {};
 
     return (
       <div>
-        <div {...props}>{label}</div>
+        <div {...props}>{renderLabel(bonus.bonusType, typesLabels)}</div>
         <div className="font-size-10">
           {bonus.optIn ? 'Opt-in' : 'Non Opt-in'}
         </div>

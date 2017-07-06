@@ -23,7 +23,7 @@ class NewLayout extends Component {
   static propTypes = {
     children: PropTypes.any,
     locale: PropTypes.string.isRequired,
-    languages: PropTypes.arrayOf(PropTypes.dropDownOption).isRequired,
+    languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     onLocaleChange: PropTypes.func.isRequired,
     user: PropTypes.shape({
       token: PropTypes.string,

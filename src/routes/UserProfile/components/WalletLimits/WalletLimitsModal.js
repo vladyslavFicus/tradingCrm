@@ -3,10 +3,10 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import PropTypes from '../../../../constants/propTypes';
 import { createValidator } from '../../../../utils/validator';
-import { shortify } from '../../../../utils/uuid';
 import { types, actions } from '../../../../constants/wallet';
 import { SelectField } from '../../../../components/ReduxForm/UserProfile';
 import './WalletLimitsModal.scss';
+import Uuid from '../../../../components/Uuid';
 
 const attributeLabels = {
   reason: 'Reason',
@@ -16,15 +16,19 @@ const validator = createValidator({ reasons: 'required|string' }, attributeLabel
 class WalletLimitsModal extends Component {
   static propTypes = {
     profile: PropTypes.userProfile.isRequired,
-    action: PropTypes.oneOf(Object.keys(actions)),
-    type: PropTypes.oneOf(Object.keys(types)),
+    action: PropTypes.oneOf(Object.keys(actions)).isRequired,
+    type: PropTypes.oneOf(Object.keys(types)).isRequired,
     isOpen: PropTypes.bool,
     show: PropTypes.bool,
     reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
-    title: PropTypes.string,
+    title: PropTypes.string.isRequired,
     onHide: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
+  };
+  static defaultProps = {
+    isOpen: false,
+    show: false,
   };
 
   renderReasonsSelect = reasons => (
@@ -76,7 +80,10 @@ class WalletLimitsModal extends Component {
                 for {profile.fullName}
               </strong>
               {' - '}
-              {shortify(profile.uuid, 'PL')} <strong>account</strong>
+              <Uuid
+                uuid={profile.uuid}
+                uuidPrefix={profile.uuid.indexOf('PLAYER') === -1 ? 'PL' : null}
+              /> <strong>account</strong>
             </div>
 
             {reasons && this.renderReasonsSelect(reasons)}

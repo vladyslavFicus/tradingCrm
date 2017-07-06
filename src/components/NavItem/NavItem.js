@@ -33,8 +33,8 @@ class NavItem extends Component {
       items,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
-    const className = classNames('nav-item dropdown', { active: this.state.opened });
     const withSubmenu = items && items.length > 0;
+    const className = classNames('nav-item', { active: this.state.opened, dropdown: withSubmenu });
     let subMenu = [];
 
     if (!label || (!url && !withSubmenu)) {
@@ -59,7 +59,7 @@ class NavItem extends Component {
       <li className={className} onClick={this.handleDropDownClick}>
         <Link className="nav-link" to={url}>
           {!!icon && <i className={icon} />}
-          <span className="link-text">
+          <span className="nav-link__label">
             {I18n.t(label)}
             {withSubmenu && <i className="fa fa-angle-down" />}
           </span>

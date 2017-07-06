@@ -35,14 +35,13 @@ class Sidebar extends Component {
           renderTrackHorizontal={this.renderTrackHorizontal}
           renderThumbHorizontal={this.renderThumbHorizontal}
           renderThumbVertical={this.renderThumbVertical}
-          style={{ height: 'calc(100% - 100px)' }}
+          style={{ height: 'calc(100% - 85px)' }}
         >
           <Nav
             items={this.props.topMenu}
           />
         </Scrollbars>
         <Nav
-          className="navbar-nav support-tab"
           items={this.props.bottomMenu}
         />
       </aside>

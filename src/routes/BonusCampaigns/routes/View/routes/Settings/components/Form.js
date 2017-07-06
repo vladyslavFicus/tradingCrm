@@ -13,7 +13,8 @@ import {
   campaignTypesLabels,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
-} from '../../../../../constants';
+  moneyTypeUsageLabels,
+} from '../../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
@@ -145,6 +146,18 @@ class Form extends Component {
     }
   }
 
+  getCustomValueFieldErrors = (name) => {
+    const { errors, meta } = this.props;
+
+    if (meta && meta[name]) {
+      if ((meta[name].value && meta[name].value.touched) || (meta[name].type && meta[name].type.touched)) {
+        return errors;
+      }
+    }
+
+    return {};
+  };
+
   startDateValidator = toAttribute => (current) => {
     const { currentValues } = this.props;
 
@@ -172,18 +185,6 @@ class Form extends Component {
     this.props.reset();
   };
 
-  getCustomValueFieldErrors = (name) => {
-    const { errors, meta } = this.props;
-
-    if (meta && meta[name]) {
-      if ((meta[name].value && meta[name].value.touched) || (meta[name].type && meta[name].type.touched)) {
-        return errors;
-      }
-    }
-
-    return {};
-  };
-
   renderSwitchField = ({ input, wrapperClassName }) => {
     const onClick = () => input.onChange(!input.value);
 
@@ -205,7 +206,6 @@ class Form extends Component {
       pristine,
       submitting,
       valid,
-      errors,
       currencies,
       currentValues,
       disabled,
@@ -220,7 +220,7 @@ class Form extends Component {
             <h5 className="pull-left">
               {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
             </h5>
-            { !(disabled || pristine || submitting || !valid) &&
+            {!(disabled || pristine || submitting || !valid) &&
             <div className="pull-right">
               <button
                 onClick={this.handleRevert}
@@ -262,6 +262,22 @@ class Form extends Component {
                 position="vertical"
                 disabled={disabled}
               />
+            </div>
+            <div className="col-md-2">
+              <Field
+                name="moneyTypePriority"
+                label={I18n.t(attributeLabels.moneyTypePriority)}
+                type="text"
+                component={SelectField}
+                position="vertical"
+                disabled={disabled}
+              >
+                {Object.keys(moneyTypeUsageLabels).map(key => (
+                  <option key={key} value={key}>
+                    {renderLabel(key, moneyTypeUsageLabels)}
+                  </option>
+                ))}
+              </Field>
             </div>
           </div>
           <hr />

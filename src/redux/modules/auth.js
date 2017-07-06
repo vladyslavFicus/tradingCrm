@@ -4,6 +4,7 @@ import createReducer from '../../utils/createReducer';
 import createRequestAction from '../../utils/createRequestAction';
 import { sourceActionCreators as operatorSourceActionCreators } from './operator';
 import getFingerprint from '../../utils/fingerPrint';
+import { getBrand } from '../../config';
 
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
@@ -30,6 +31,7 @@ function signIn(data) {
         body: JSON.stringify({
           ...data,
           device: await getFingerprint(),
+          brandId: getBrand(),
         }),
         types: [
           {
@@ -71,7 +73,7 @@ function changeDepartment(department) {
     return dispatch({
       [CALL_API]: {
         method: 'POST',
-        endpoint: `/auth/signin/${department}`,
+        endpoint: `/auth/signin/${getBrand()}/${department}`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',

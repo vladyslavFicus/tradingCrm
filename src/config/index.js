@@ -1,5 +1,6 @@
-const environmentConfig = window.nas || {};
-const config = {
+import _ from 'lodash';
+
+const config = _.merge({
   availableDepartments: [],
   availableRoles: [],
   availableTags: [],
@@ -36,10 +37,15 @@ const config = {
     },
   },
   nas: {
-    api: {
-      url: '',
+    brand: {
+      name: 'hrzn_dev2',
+      api: {
+        url: '',
+      },
+      departments: [],
+      tags: {},
+      roles: [],
     },
-    brand: '',
     currencies: {
       base: null,
       supported: [],
@@ -47,8 +53,26 @@ const config = {
     validation: {
       password: null,
     },
-    departments: [],
-    tags: {},
+    tags: {
+      priorities: {
+        neutral: {
+          tag1: { departments: ['CS', 'RFP', 'MARKETING'] },
+          tag2: { departments: ['CS'] },
+          tag4: { departments: ['CS'] },
+        },
+        positive: {
+          tag1: { departments: ['CS'] },
+          tag2: { departments: ['RFP'] },
+          tag3: { departments: ['CS', 'MARKETING'] },
+        },
+        negative: {
+          tag1: { departments: ['CS'] },
+          tag2: { departments: ['CS', 'RFP'] },
+          tag3: { departments: ['RFP', 'MARKETING'] },
+          tag4: { departments: ['CS', 'RFP', 'MARKETING'] },
+        },
+      },
+    },
     reasons: {
       rejection: [],
     },
@@ -61,7 +85,7 @@ const config = {
   logstash: {
     url: '',
   },
-  middlewares: {},
+  middlewares: { unauthorized: [401], persist: { whitelist: ['auth', 'userPanels'], keyPrefix: 'nas:' } },
   modules: {
     bonusCampaign: {
       cancelReasons: {
@@ -72,8 +96,7 @@ const config = {
       },
     },
   },
-  ...environmentConfig,
-};
+}, (window.nas || {}));
 
 if (config.nas.validation && config.nas.brand) {
   if (config.nas.brand.password.pattern) {
@@ -81,8 +104,8 @@ if (config.nas.validation && config.nas.brand) {
   }
 }
 
-if (config.nas.departments) {
-  config.availableDepartments = config.nas.departments;
+if (config.nas.brand.departments) {
+  config.availableDepartments = config.nas.brand.departments;
   config.availableDepartments.splice(config.availableDepartments.indexOf('PLAYER'), 1);
   config.availableDepartments = config.availableDepartments.map(item => ({
     value: item,
@@ -90,20 +113,20 @@ if (config.nas.departments) {
   }));
 }
 
-if (config.nas.roles) {
-  config.availableRoles = config.nas.roles.map(item => ({
+if (config.nas.brand.roles) {
+  config.availableRoles = config.nas.brand.roles.map(item => ({
     value: item,
     label: item,
   }));
 }
 
-if (config.nas.tags) {
-  config.nas.tags = Object
-    .keys(config.nas.tags.priorities)
+if (config.nas.brand.tags && config.nas.brand.tags.priorities) {
+  config.nas.brand.tags = Object
+    .keys(config.nas.brand.tags.priorities)
     .reduce((result, priority) => {
-      Object.keys(config.nas.tags.priorities[priority])
+      Object.keys(config.nas.brand.tags.priorities[priority])
         .forEach((tag) => {
-          config.nas.tags.priorities[priority][tag].departments.forEach((department) => {
+          config.nas.brand.tags.priorities[priority][tag].departments.forEach((department) => {
             result.push({
               label: tag,
               value: tag,
@@ -118,7 +141,7 @@ if (config.nas.tags) {
 }
 
 function getAvailableTags(department) {
-  return config.nas.tags.filter(item => item.department === department);
+  return config.nas.brand.tags.filter(item => item.department === department);
 }
 
 function getTransactionRejectReasons() {
@@ -134,8 +157,8 @@ function getLimitPeriods() {
 }
 
 function getApiRoot() {
-  return config.brand.api.url
-    ? config.brand.api.url.replace(/\/$/, '')
+  return config.nas.brand.api.url
+    ? config.nas.brand.api.url.replace(/\/$/, '')
     : '';
 }
 
@@ -144,11 +167,11 @@ function getErrorApiUrl() {
 }
 
 function getBrand() {
-  return config.nas.brand;
+  return config.nas.brand.name;
 }
 
 function getAvailableLanguages() {
-  return config.nas.locale.languages || [];
+  return config.nas.brand.locale.languages || [];
 }
 
 function getDomain() {

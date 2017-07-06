@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import CopyToClipboard from '../CopyToClipboard';
+import { shortify } from '../../utils/uuid';
 
 class Uuid extends Component {
   static propTypes = {
@@ -16,33 +17,12 @@ class Uuid extends Component {
   };
   static defaultProps = {
     uuidPrefix: null,
-    uuidPartsCount: 1,
+    uuidPartsCount: 2,
     notificationLevel: 'info',
     notificationTitle: I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_UUID.TITLE'),
     notificationMessage: I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE'),
     notify: true,
     length: null,
-  };
-
-  renderUuid = (uuid, prefix, size) => {
-    if (!uuid) {
-      return uuid;
-    }
-
-    const elements = uuid.split('-');
-
-    if (!prefix) {
-      const sourcePrefix = elements[0];
-
-      if (sourcePrefix.toUpperCase() === sourcePrefix) {
-        elements[0] = sourcePrefix.slice(0, size + 1);
-
-        return elements.slice(0, 2).join('-');
-      }
-    }
-
-    const id = elements.slice(0, size).join('-');
-    return prefix ? [prefix, id].join('-') : id;
   };
 
   render() {
@@ -70,7 +50,7 @@ class Uuid extends Component {
         notificationTitle={notificationTitle}
         notificationMessage={notificationMessage}
       >
-        <span>{this.renderUuid(uuid, uuidPrefix, uuidPartsCount)}</span>
+        <span>{shortify(uuid, uuidPrefix, uuidPartsCount)}</span>
       </CopyToClipboard>
     );
   }
