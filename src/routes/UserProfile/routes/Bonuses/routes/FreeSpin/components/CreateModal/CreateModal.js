@@ -9,7 +9,7 @@ import { InputField, DateTimeField, SelectField } from '../../../../../../../../
 import { createValidator } from '../../../../../../../../utils/validator';
 import { attributeLabels } from './constants';
 import './CreateModal.scss';
-import { Currency } from '../../../../../../../../components/Amount';
+import Amount, { Currency } from '../../../../../../../../components/Amount';
 
 class CreateModal extends Component {
   static propTypes = {
@@ -106,6 +106,21 @@ class CreateModal extends Component {
       currentValues,
     } = this.props;
     const { currentLines, currentGames } = this.state;
+    const betPerLine = currentValues && currentValues.betPerLine
+      ? parseFloat(currentValues.betPerLine) : 0;
+    const linesPerSpin = currentValues && currentValues.linesPerSpin
+      ? parseFloat(currentValues.linesPerSpin) : 0;
+    const freeSpinsAmount = currentValues && currentValues.freeSpinsAmount
+      ? parseInt(currentValues.freeSpinsAmount, 10) : 0;
+    const spinValue = { amount: 0, currency };
+    const totalValue = { amount: 0, currency };
+
+    if (!isNaN(betPerLine) && !isNaN(linesPerSpin)) {
+      spinValue.amount = betPerLine * linesPerSpin;
+    }
+    if (!isNaN(betPerLine) && !isNaN(linesPerSpin) && !isNaN(freeSpinsAmount)) {
+      totalValue.amount = betPerLine * linesPerSpin * freeSpinsAmount;
+    }
 
     return (
       <Modal className="create-bonus-modal" toggle={onClose} isOpen={isOpen}>
@@ -139,7 +154,7 @@ class CreateModal extends Component {
                         placeholder={I18n.t(attributeLabels.startDate)}
                         component={DateTimeField}
                         position="vertical"
-                        isValidDate={this.startDateValidator('startDate')}
+                        isValidDate={this.startDateValidator('endDate')}
                       />
                     </div>
                     <div className="col-md-6">
@@ -148,7 +163,7 @@ class CreateModal extends Component {
                         placeholder={I18n.t(attributeLabels.endDate)}
                         component={DateTimeField}
                         position="vertical"
-                        isValidDate={this.endDateValidator('endDate')}
+                        isValidDate={this.endDateValidator('startDate')}
                       />
                     </div>
                   </div>
@@ -238,6 +253,16 @@ class CreateModal extends Component {
                   disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
                   inputAddon={<Currency code={currency} />}
                 />
+              </div>
+              <div className="col-md-4">
+                <div className="margin-top-30">
+                  <div className="font-size-12 text-muted">
+                    {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.FREE_SPIN_VALUE')} = <Amount {...spinValue} />
+                  </div>
+                  <div className="font-size-12 text-muted">
+                    {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TOTAL_VALUE')} = <Amount {...totalValue} />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="row">
@@ -342,7 +367,7 @@ const CreateModalReduxForm = reduxForm({
       gameId: 'required',
       freeSpinsAmount: ['required', 'integer'],
       linesPerSpin: ['required', 'integer'],
-      betPerLine: ['required', 'integer'],
+      betPerLine: ['required', 'numeric'],
       prize: ['numeric'],
       capping: ['numeric'],
       multiplier: 'required|numeric',

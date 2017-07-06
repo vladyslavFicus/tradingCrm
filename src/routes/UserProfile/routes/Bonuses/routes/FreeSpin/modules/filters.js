@@ -12,7 +12,7 @@ function fetchFilters(playerUUID) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/gaming_activity/gaming/activity/${playerUUID}/filters`,
+        endpoint: `/free_spin/free-spins/${playerUUID}/filters`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

@@ -1,4 +1,3 @@
-import keyMirror from 'keymirror';
 import I18n from '../../../../../../../../utils/fake-i18n';
 
 const attributeLabels = {
@@ -13,18 +12,8 @@ const attributeLabels = {
 const attributePlaceholders = {
   searchBy: I18n.t('CONSTANTS.FREE_SPINS.FILTER_FORM.ATTRIBUTES_PLACEHOLDERS.SEARCH_BY'),
 };
-const authorTypes = keyMirror({
-  CAMPAIGN: null,
-  OPERATOR: null,
-});
-const authorTypesLabels = {
-  [authorTypes.CAMPAIGN]: I18n.t('CONSTANTS.FREE_SPINS.FILTER_FORM.AUTHOR_TYPES.CAMPAIGN'),
-  [authorTypes.OPERATOR]: I18n.t('CONSTANTS.FREE_SPINS.FILTER_FORM.AUTHOR_TYPES.OPERATOR'),
-};
 
 export {
   attributeLabels,
   attributePlaceholders,
-  authorTypes,
-  authorTypesLabels,
 };

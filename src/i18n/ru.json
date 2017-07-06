@@ -183,70 +183,72 @@
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
-        "MULTIPLIER": "",
-        "PRIZE": "",
-        "CAPPING": "",
-        "LIFE_TIME": "",
-        "LIFE_TIME_DAYS": ""
+        "MULTIPLIER": "Множитель",
+        "PRIZE": "Prize",
+        "CAPPING": "Capping",
+        "LIFE_TIME": "Время жизни",
+        "LIFE_TIME_DAYS": "%{days} дней"
       },
       "FREE_SPIN_AVAILABLE_PERIOD": {
-        "DATE_TO": ""
+        "DATE_TO": "до %{date}"
       },
       "FREE_SPIN_SETTINGS": {
-        "LINES": "",
-        "BET_PER_LINE": "",
-        "SPIN_VALUE": ""
+        "LINES": "Линии",
+        "BET_PER_LINE": "Цена линии",
+        "SPIN_VALUE": "Стоимость spin"
       },
-      "CANCEL_FREE_SPIN": "",
+      "CANCEL_FREE_SPIN": "Отменить free spin",
       "GRID_VIEW": {
-        "FREE_SPIN_COUNT": "",
-        "SPIN_VALUE": "",
-        "TOTAL_VALUE": "",
-        "FREE_SPIN": "",
-        "AVAILABILITY": "",
-        "GRANTED": "",
-        "STATUS": "",
-        "NOTE": ""
+        "FREE_SPIN_COUNT": "%{count} spins",
+        "SPIN_VALUE": "Стомость spin",
+        "TOTAL_VALUE": "Сумма spins",
+        "FREE_SPIN": "Free spin",
+        "AVAILABILITY": "Доступность",
+        "GRANTED": "Выдано",
+        "STATUS": "Статус",
+        "NOTE": "Заметка"
       },
       "VIEW_MODAL": {
-        "FREE_SPIN": "",
-        "PROVIDER_AND_GAME": "",
-        "STATUS": "",
-        "AVAILABLE": "",
-        "SPIN_SETTINGS": "",
-        "BONUS_SETTINGS": "",
-        "STATISTICS_GRANTED_TITLE": "",
-        "STATISTICS_GRANTED_COUNT": "",
-        "STATISTICS_TOTAL_VALUE_TITLE": "",
-        "STATISTICS_PLAYED_TITLE": "",
-        "STATISTICS_PLAYED_COUNT": "",
-        "STATISTICS_WINNINGS_TITLE": "",
-        "TITLE": ""
+        "FREE_SPIN": "Free spin",
+        "PROVIDER_AND_GAME": "Провайдер и игра",
+        "STATUS": "Статус",
+        "AVAILABLE": "Доступен",
+        "SPIN_SETTINGS": "Настройки spin",
+        "BONUS_SETTINGS": "Настройки бонуса",
+        "STATISTICS_GRANTED_TITLE": "Выдано",
+        "STATISTICS_GRANTED_COUNT": "%{count} spins",
+        "STATISTICS_TOTAL_VALUE_TITLE": "Сумма",
+        "STATISTICS_PLAYED_TITLE": "Сыграно",
+        "STATISTICS_PLAYED_COUNT": "%{count} spins",
+        "STATISTICS_WINNINGS_TITLE": "Выиграно",
+        "TITLE": "Информация о Free spin"
       },
-      "EXPORT_BUTTON": "",
-      "MANUAL_FREE_SPIN_BUTTON": ""
+      "EXPORT_BUTTON": "Экспорт",
+      "MANUAL_FREE_SPIN_BUTTON": "+ Добавить free spin"
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
-        "TITLE": "",
-        "CHOOSE_PROVIDER": "",
-        "CHOOSE_GAME": "",
-        "CHOOSE_LINES_PER_SPIN": "",
+        "TITLE": "Добавление free spin",
+        "CHOOSE_PROVIDER": "-- Выберите --",
+        "CHOOSE_GAME": "-- Выберите --",
+        "CHOOSE_LINES_PER_SPIN": "-- Выберите --",
         "ATTRIBUTES_LABELS": {
-          "NAME": "",
-          "START_DATE": "",
-          "END_DATE": "",
-          "AVAILABILITY_DATE_RANGE": "",
-          "PROVIDER": "",
-          "GAME": "",
-          "FREE_SPINS_AMOUNT": "",
-          "LINES_PER_SPIN": "",
-          "BET_PER_LINE": "",
-          "PRIZE": "",
-          "CAPPING": "",
-          "MULTIPLIER": "",
-          "BONUS_LIFE_TIME": ""
-        }
+          "NAME": "Название",
+          "START_DATE": "Дата начала",
+          "END_DATE": "Дата окончания",
+          "AVAILABILITY_DATE_RANGE": "Время жизни free spin",
+          "PROVIDER": "Провайдер",
+          "GAME": "Игра",
+          "FREE_SPINS_AMOUNT": "Кол-во free spins",
+          "LINES_PER_SPIN": "Линий в spin",
+          "BET_PER_LINE": "Ставка за линию",
+          "PRIZE": "Prize",
+          "CAPPING": "Capping",
+          "MULTIPLIER": "Множитель",
+          "BONUS_LIFE_TIME": "Время жизни бонуса"
+        },
+        "FREE_SPIN_VALUE": "Стоимость spin",
+        "TOTAL_VALUE": "Сумма spin"
       }
     }
   },
@@ -399,9 +401,9 @@
         "BONUS_MONEY": "Бонусные деньги"
       },
       "ROUTES": {
-        "BONUS": "",
-        "ELIGIBLE_CAMPAIGNS": "",
-        "FREE_SPINS": ""
+        "BONUS": "Бонусы",
+        "ELIGIBLE_CAMPAIGNS": "Кампании",
+        "FREE_SPINS": "Free Spins"
       }
     },
     "COUNTRIES": {
@@ -461,32 +463,32 @@
     },
     "FREE_SPIN": {
       "STATUSES": {
-        "CANCELED": "",
-        "FORFEITED": "",
-        "ACTIVE": "",
-        "SCHEDULED": "",
-        "PENDING": "",
-        "FAILED": "",
-        "PLAYED": ""
+        "CANCELED": "Отменен",
+        "FORFEITED": "Утраченный",
+        "ACTIVE": "Активный",
+        "SCHEDULED": "Запланированный",
+        "PENDING": "Ожидающий",
+        "FAILED": "Неудачный",
+        "PLAYED": "Сыгранный"
       }
     },
     "FREE_SPINS": {
       "FILTER_FORM": {
         "ATTRIBUTES_LABELS": {
-          "SEARCH_BY": "",
-          "ASSIGNED": "",
-          "PROVIDER": "",
-          "GAME": "",
-          "START_DATE": "",
-          "END_DATE": "",
-          "AVAILABILITY_DATE_RANGE": ""
+          "SEARCH_BY": "Поиск по",
+          "ASSIGNED": "Выданный",
+          "PROVIDER": "Провайдер",
+          "GAME": "Игра",
+          "START_DATE": "Дата начала",
+          "END_DATE": "Дата окончания",
+          "AVAILABILITY_DATE_RANGE": "Диапозон доступности"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
-          "SEARCH_BY": ""
+          "SEARCH_BY": "Название, ID"
         },
         "AUTHOR_TYPES": {
-          "CAMPAIGN": "",
-          "OPERATOR": ""
+          "CAMPAIGN": "Кампания",
+          "OPERATOR": "Оператор"
         }
       }
     }
@@ -743,6 +745,6 @@
     }
   },
   "NOTE_BUTTON": {
-    "DEFAULT_MESSAGE": ""
+    "DEFAULT_MESSAGE": "Добавить "
   }
 }

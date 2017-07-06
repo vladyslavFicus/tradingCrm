@@ -223,30 +223,32 @@
         "STATISTICS_WINNINGS_TITLE": "Winnings",
         "TITLE": "Free spin details"
       },
-      "EXPORT_BUTTON": "",
-      "MANUAL_FREE_SPIN_BUTTON": ""
+      "EXPORT_BUTTON": "Export",
+      "MANUAL_FREE_SPIN_BUTTON": "+ Manual free spin"
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
         "TITLE": "Create free spin",
-        "CHOOSE_PROVIDER": "",
-        "CHOOSE_GAME": "",
-        "CHOOSE_LINES_PER_SPIN": "",
+        "CHOOSE_PROVIDER": "-- Choose --",
+        "CHOOSE_GAME": "-- Choose --",
+        "CHOOSE_LINES_PER_SPIN": "-- Choose --",
         "ATTRIBUTES_LABELS": {
-          "NAME": "",
-          "START_DATE": "",
-          "END_DATE": "",
-          "AVAILABILITY_DATE_RANGE": "",
-          "PROVIDER": "",
-          "GAME": "",
-          "FREE_SPINS_AMOUNT": "",
-          "LINES_PER_SPIN": "",
-          "BET_PER_LINE": "",
-          "PRIZE": "",
-          "CAPPING": "",
-          "MULTIPLIER": "",
-          "BONUS_LIFE_TIME": ""
-        }
+          "NAME": "Name",
+          "START_DATE": "Start date",
+          "END_DATE": "End date",
+          "AVAILABILITY_DATE_RANGE": "Free spin life time",
+          "PROVIDER": "Provider",
+          "GAME": "Game",
+          "FREE_SPINS_AMOUNT": "Free spins amount",
+          "LINES_PER_SPIN": "Lines per spin",
+          "BET_PER_LINE": "Bet per line",
+          "PRIZE": "Prize",
+          "CAPPING": "Capping",
+          "MULTIPLIER": "Multiplier",
+          "BONUS_LIFE_TIME": "Bonus life time"
+        },
+        "FREE_SPIN_VALUE": "Free spin value",
+        "TOTAL_VALUE": "Total value"
       }
     }
   },
@@ -400,9 +402,9 @@
         "BONUS_MONEY": "Bonus money"
       },
       "ROUTES": {
-        "BONUS": "",
-        "ELIGIBLE_CAMPAIGNS": "",
-        "FREE_SPINS": ""
+        "BONUS": "Bonus",
+        "ELIGIBLE_CAMPAIGNS": "Eligible campaigns",
+        "FREE_SPINS": "Free spins"
       }
     },
     "COUNTRIES": {
@@ -480,14 +482,14 @@
           "GAME": "Game",
           "START_DATE": "Start date",
           "END_DATE": "End date",
-          "AVAILABILITY_DATE_RANGE": ""
+          "AVAILABILITY_DATE_RANGE": "Availability date range"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
-          "SEARCH_BY": ""
+          "SEARCH_BY": "Free spin ID, name"
         },
         "AUTHOR_TYPES": {
-          "CAMPAIGN": "",
-          "OPERATOR": ""
+          "CAMPAIGN": "Campaign",
+          "OPERATOR": "Operator"
         }
       }
     }
@@ -735,6 +737,6 @@
     }
   },
   "NOTE_BUTTON": {
-    "DEFAULT_MESSAGE": ""
+    "DEFAULT_MESSAGE": "Add note"
   }
 }

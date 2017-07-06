@@ -5,9 +5,8 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator } from '../../../../../../../../utils/validator';
-import { attributeLabels, attributePlaceholders, authorTypesLabels } from './constants';
+import { attributeLabels, attributePlaceholders } from './constants';
 import { SelectField, SearchField, DateTimeField } from '../../../../../../../../components/ReduxForm';
-import renderLabel from '../../../../../../../../utils/renderLabel';
 
 class FreeSpinsFilterForm extends Component {
   static propTypes = {
@@ -78,22 +77,6 @@ class FreeSpinsFilterForm extends Component {
                 </div>
                 <div className="col-md-2">
                   <Field
-                    name="assigned"
-                    label={I18n.t(attributeLabels.assigned)}
-                    labelClassName="form-label"
-                    position="vertical"
-                    component={SelectField}
-                  >
-                    <option value="">{I18n.t('COMMON.ANY')}</option>
-                    {Object.keys(authorTypesLabels).map(item => (
-                      <option key={item} value={item}>
-                        {renderLabel(item, authorTypesLabels)}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-2">
-                  <Field
                     name="providerId"
                     label={I18n.t(attributeLabels.providerId)}
                     labelClassName="form-label"
@@ -135,7 +118,7 @@ class FreeSpinsFilterForm extends Component {
                           placeholder={I18n.t(attributeLabels.startDate)}
                           component={DateTimeField}
                           position="vertical"
-                          isValidDate={this.startDateValidator('startDate')}
+                          isValidDate={this.startDateValidator('endDate')}
                         />
                       </div>
                       <div className="col-md-6">
@@ -144,7 +127,7 @@ class FreeSpinsFilterForm extends Component {
                           placeholder={I18n.t(attributeLabels.endDate)}
                           component={DateTimeField}
                           position="vertical"
-                          isValidDate={this.endDateValidator('endDate')}
+                          isValidDate={this.endDateValidator('startDate')}
                         />
                       </div>
                     </div>

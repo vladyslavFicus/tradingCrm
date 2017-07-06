@@ -38,7 +38,7 @@ const actionHandlers = {
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
-    entities: action.payload,
+    entities: action.payload.content,
     isLoading: false,
     receivedAt: timestamp(),
   }),

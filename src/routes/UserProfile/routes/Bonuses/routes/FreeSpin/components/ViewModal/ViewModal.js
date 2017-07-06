@@ -4,15 +4,11 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import { targetTypes } from '../../../../../../../../constants/note';
-import FreeSpinMainInfo from '../FreeSpinMainInfo';
-import FreeSpinGameInfo from '../FreeSpinGameInfo';
-import FreeSpinAvailablePeriod from '../FreeSpinAvailablePeriod';
-import FreeSpinSettings from '../FreeSpinSettings';
-import FreeSpinStatus from '../../../../../../../../components/FreeSpinStatus';
+import ViewModalMain from '../ViewModalMain';
+import ViewModalAdditional from '../ViewModalAdditional';
+import ViewModalStatistics from '../ViewModalStatistics';
 import NoteButton from '../../../../../../../../components/NoteButton';
 import './ViewModal.scss';
-import Amount from '../../../../../../../../components/Amount';
-import BonusSettings from '../BonusSettings';
 
 class ViewModal extends Component {
   static propTypes = {
@@ -24,6 +20,9 @@ class ViewModal extends Component {
     item: PropTypes.freeSpinEntity.isRequired,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    isOpen: false,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -39,95 +38,6 @@ class ViewModal extends Component {
     }
   };
 
-  renderMain = item => (
-    <div className="row player-header-blocks margin-bottom-20">
-      <div className="col-md-6">
-        <div className="color-default text-uppercase font-size-11">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.FREE_SPIN')}
-        </div>
-
-        <FreeSpinMainInfo freeSpin={item} />
-      </div>
-      <div className="col-md-3">
-        <div className="color-default text-uppercase font-size-11">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.PROVIDER_AND_GAME')}
-        </div>
-
-        <FreeSpinGameInfo freeSpin={item} />
-      </div>
-      <div className="col-md-3">
-        <div className="color-default text-uppercase font-size-11">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATUS')}
-        </div>
-
-        <FreeSpinStatus freeSpin={item} />
-      </div>
-    </div>
-  );
-
-  renderAdditional = item => (
-    <div className="row player-header-blocks margin-bottom-20">
-      <div className="col-md-4">
-        <div className="color-default text-uppercase font-size-11">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.AVAILABLE')}
-        </div>
-
-        <FreeSpinAvailablePeriod freeSpin={item} />
-      </div>
-      <div className="col-md-4">
-        <div className="color-default text-uppercase font-size-11">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.SPIN_SETTINGS')}
-        </div>
-
-        <FreeSpinSettings freeSpin={item} />
-      </div>
-      <div className="col-md-4">
-        <div className="color-default text-uppercase font-size-11">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.BONUS_SETTINGS')}
-        </div>
-
-        <BonusSettings freeSpin={item} />
-      </div>
-    </div>
-  );
-
-  renderStatistics = data => (
-    <div className="row well player-header-blocks">
-      <div className="col-md-3 grey-back-tab">
-        <div className="color-default text-uppercase font-size-11">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_GRANTED_TITLE')}
-        </div>
-
-        <span className="font-weight-600 font-size-20 color-primary">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_GRANTED_COUNT', { count: data.freeSpinsAmount })}
-        </span>
-      </div>
-      <div className="col-md-3 grey-back-tab">
-        <div className="color-default text-uppercase font-size-11">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_TOTAL_VALUE_TITLE')}
-        </div>
-
-        <Amount className="font-weight-600 font-size-20 color-primary" {...data.totalValue} />
-      </div>
-      <div className="col-md-3 grey-back-tab">
-        <div className="color-default text-uppercase font-size-11">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_PLAYED_TITLE')}
-        </div>
-
-        <span className="font-weight-600 font-size-20 color-primary">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_PLAYED_COUNT', { count: data.freeSpinsAmount })}
-        </span>
-      </div>
-      <div className="col-md-3 grey-back-tab">
-        <div className="color-default text-uppercase font-size-11">
-          {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_WINNINGS_TITLE')}
-        </div>
-
-        <Amount className="font-weight-600 font-size-20 color-primary" {...data.totalValue} />
-      </div>
-    </div>
-  );
-
   renderNote = data => (
     <div className="row margin-top-20">
       <div className="col-md-12 text-center">
@@ -136,6 +46,7 @@ class ViewModal extends Component {
           note={data.note}
           onClick={this.handleNoteClick}
           targetEntity={data}
+          preview
         />
       </div>
     </div>
@@ -150,10 +61,10 @@ class ViewModal extends Component {
           {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.TITLE')}
         </ModalHeader>
         <ModalBody>
-          {this.renderMain(item)}
+          <ViewModalMain freeSpin={item} />
           <hr />
-          {this.renderAdditional(item)}
-          {this.renderStatistics(item)}
+          <ViewModalAdditional freeSpin={item} />
+          <ViewModalStatistics freeSpin={item} />
           {this.renderNote(item)}
         </ModalBody>
         <ModalFooter>

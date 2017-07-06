@@ -28,6 +28,8 @@ const mapEntities = async (dispatch, pageable) => {
   const newPageable = { ...pageable };
 
   newPageable.content = newPageable.content.map(item => ({
+    playedCount: 0,
+    winning: { amount: 0, currency: item.currencyCode },
     ...item,
     spinValue: { amount: item.betPerLine * item.linesPerSpin, currency: item.currencyCode },
     totalValue: { amount: item.betPerLine * item.linesPerSpin * item.freeSpinsAmount, currency: item.currencyCode },

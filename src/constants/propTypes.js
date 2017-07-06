@@ -386,10 +386,12 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   startDate: PropTypes.string.isRequired,
   spinValue: PropTypes.price.isRequired,
   status: PropTypes.string.isRequired,
-  statusChangedAuthorUUID: PropTypes.string.isRequired,
+  statusChangedAuthorUUID: PropTypes.string,
   statusChangedDate: PropTypes.any,
   totalValue: PropTypes.price.isRequired,
   uuid: PropTypes.string.isRequired,
+  playedCount: PropTypes.number.isRequired,
+  winning: PropTypes.price.isRequired,
 });
 PropTypes.gameEntity = PropTypes.shape({
   aggregatorId: PropTypes.string.isRequired,
