@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import fileSize from 'filesize';
 import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import PopoverButton from '../../../components/PopoverButton';
+import NoteButton from '../../../components/NoteButton';
 import { targetTypes as noteTargetTypes } from '../../../constants/note';
 import { categoriesLabels } from '../../../constants/files';
 import PropTypes from '../../../constants/propTypes';
@@ -51,9 +51,9 @@ class UploadingFile extends Component {
     });
   };
 
-  handleNoteClick = (target, data) => {
-    if (data.note) {
-      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
     } else {
       this.context.onAddNoteClick(data.uuid, noteTargetTypes.FILE)(target, this.getNotePopoverParams());
     }
@@ -138,21 +138,12 @@ class UploadingFile extends Component {
           {this.renderStatus(data)}
         </td>
         <td className={`${blockName}__row-note`}>
-          <PopoverButton
+          <NoteButton
             id={`uploading-file-item-note-button-${data.fileId}`}
-            className="cursor-pointer margin-right-5"
-            onClick={id => this.handleNoteClick(id, data)}
-          >
-            {
-              data.note
-              ? (
-                data.note.pinned
-                  ? <i className="note-icon note-pinned-note" />
-                  : <i className="note-icon note-with-text" />
-              )
-              : <i className="note-icon note-add-note" />
-            }
-          </PopoverButton>
+            note={data.note}
+            onClick={this.handleNoteClick}
+            targetEntity={data}
+          />
         </td>
       </tr>
     );

@@ -34,6 +34,7 @@ function updateProfile(uuid, data) {
           lastName: operatorProfile.lastName,
           phoneNumber: operatorProfile.phoneNumber,
           ...data,
+          email: undefined,
         }),
         types: [
           UPDATE_PROFILE.REQUEST,

@@ -99,7 +99,6 @@ const actionHandlers = {
     entities: {
       ...state.entities,
       ...action.payload,
-      ...action.payload,
       content: action.payload.number === 0
         ? mapAuditEntities(action.payload.content)
         : [

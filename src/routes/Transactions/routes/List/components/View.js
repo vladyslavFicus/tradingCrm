@@ -20,7 +20,7 @@ import PaymentDetailModal from '../../../components/PaymentDetailModal';
 import PaymentActionReasonModal from '../../../components/PaymentActionReasonModal';
 import StatusHistory from '../../../../../components/TransactionStatusHistory';
 import { targetTypes } from '../../../../../constants/note';
-import PopoverButton from '../../../../../components/PopoverButton';
+import NoteButton from '../../../../../components/NoteButton';
 import Amount from '../../../../../components/Amount';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
@@ -67,14 +67,13 @@ class View extends Component {
     this.context.notes.setNoteChangedCallback(null);
   }
 
-  handleNoteClick = (target, data) => {
+  handleNoteClick = (target, note, data) => {
     if (data.note) {
-      this.context.notes.onEditNoteClick(target, data.note, { placement: 'left' });
+      this.context.notes.onEditNoteClick(target, data.note);
     } else {
       this.context.notes.onAddNoteClick(
         target,
-        { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT },
-        { placement: 'left' },
+        { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT }
       );
     }
   };
@@ -186,7 +185,7 @@ class View extends Component {
         </span>
       </div>
     );
-  }
+  };
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -251,7 +250,6 @@ class View extends Component {
         <i
           id={id}
           className={`fa font-size-20 ${data.mobile ? 'fa-mobile' : 'fa-desktop'}`}
-          aria-hidden="true"
         />
         <UncontrolledTooltip
           placement="bottom"
@@ -278,7 +276,7 @@ class View extends Component {
           {
             data.creatorUUID &&
             <div className="font-size-10 color-default">
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} length={20} />
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} />
             </div>
           }
           <span className="font-size-10 color-default text-lowercase">
@@ -292,17 +290,12 @@ class View extends Component {
   );
 
   renderActions = data => (
-    <PopoverButton
+    <NoteButton
       id={`transaction-item-note-button-${data.paymentId}`}
-      className="cursor-pointer margin-right-5"
-      onClick={id => this.handleNoteClick(id, data)}
-    >
-      {data.note
-        ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
-          <i className="note-icon note-with-text" />)
-        : <i className="note-icon note-add-note" />
-      }
-    </PopoverButton>
+      note={data.note}
+      onClick={this.handleNoteClick}
+      targetEntity={data}
+    />
   );
 
   render() {

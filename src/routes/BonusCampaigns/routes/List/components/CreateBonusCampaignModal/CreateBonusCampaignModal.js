@@ -233,7 +233,7 @@ class CreateBonusCampaignModal extends Component {
               type="select"
               component={SelectField}
             >
-              <option value="">--- Chose currency ---</option>
+              <option value="">--- Choose currency ---</option>
               {currencies.map(item => (
                 <option key={item} value={item}>
                   {item}

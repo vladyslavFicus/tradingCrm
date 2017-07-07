@@ -13,7 +13,7 @@ import {
 import { statusColorNames } from '../../../../../constants/user';
 import { targetTypes } from '../../../../../constants/note';
 import Amount from '../../../../../components/Amount';
-import PopoverButton from '../../../../../components/PopoverButton';
+import NoteButton from '../../../../../components/NoteButton';
 import { shortify } from '../../../../../utils/uuid';
 import './PaymentDetailModal.scss';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
@@ -49,9 +49,9 @@ class PaymentDetailModal extends Component {
     setNoteChangedCallback: PropTypes.func.isRequired,
   };
 
-  handleNoteClick = (target, data) => {
-    if (data.note) {
-      this.context.notes.onEditNoteClick(target, data.note, { placement: 'top' });
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.onEditNoteClick(target, note, { placement: 'top' });
     } else {
       this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'top' });
     }
@@ -330,17 +330,12 @@ class PaymentDetailModal extends Component {
           </div>
           <div className="row">
             <div className="col-md-12 text-center">
-              <PopoverButton
+              <NoteButton
                 id="payment-detail-modal-note"
-                className="cursor-pointer margin-right-5"
-                onClick={id => this.handleNoteClick(id, this.props.payment)}
-              >
-                {note
-                  ? (note.pinned ? <i className="note-icon note-pinned-note" /> :
-                    <i className="note-icon note-with-text" />)
-                  : <i className="note-icon note-add-note" />
-                }
-              </PopoverButton>
+                note={note}
+                onClick={this.handleNoteClick}
+                targetEntity={this.props.payment}
+              />
             </div>
           </div>
         </ModalBody>

@@ -9,7 +9,7 @@ import {
   typesLabels, types, statuses, statusesColor, statusesLabels, amountTypes,
 } from '../../../../../constants/limits';
 import Amount from '../../../../../components/Amount';
-import PopoverButton from '../../../../../components/PopoverButton';
+import NoteButton from '../../../../../components/NoteButton';
 import PropTypes from '../../../../../constants/propTypes';
 
 const humanizeDurationConfig = {
@@ -66,63 +66,53 @@ class CommonGridView extends Component {
     );
   };
 
-  renderNotes = (data) => {
-    return (
-      <div>
-        <PopoverButton
-          id={`limit-item-note-button-${data.uuid}`}
-          className="cursor-pointer margin-right-5"
-          onClick={id => this.props.onNoteClick(id, data)}
-        >
-          {data.note
-            ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> : <i className="note-icon note-with-text" />)
-            : <i className="note-icon note-add-note" />
-          }
-        </PopoverButton>
-      </div>
-    );
-  };
+  renderNotes = data => (
+    <NoteButton
+      id={`limit-item-note-button-${data.uuid}`}
+      note={data.note}
+      onClick={this.props.onNoteClick}
+      targetEntity={data}
+    />
+  );
 
-  renderLimit = (data) => {
-    return (
-      <div>
-        {
-          data.value.type === amountTypes.MONEY &&
-          <div>
-            <div className="font-weight-700">
-              <Amount {...data.value.limit} />
-            </div>
-            {
-              data.value.used &&
-              <div className="font-size-10 color-default">
-                used <Amount {...data.value.used} />
-              </div>
-            }
-            {
-              data.value.left &&
-              <div className="font-size-10 color-default">
-                left <Amount {...data.value.left} />
-              </div>
-            }
+  renderLimit = data => (
+    <div>
+      {
+        data.value.type === amountTypes.MONEY &&
+        <div>
+          <div className="font-weight-700">
+            <Amount {...data.value.limit} />
           </div>
-        }
-        {
-          data.value.type === amountTypes.TIME &&
-          <div>
-            <div className="font-weight-700">
-              {humanizeDuration(data.value.limit * 1000, humanizeDurationConfig)}
-            </div>
+          {
+            data.value.used &&
             <div className="font-size-10 color-default">
-              used {humanizeDuration(data.value.used * 1000, humanizeDurationConfig)}
+              used <Amount {...data.value.used} />
             </div>
+          }
+          {
+            data.value.left &&
             <div className="font-size-10 color-default">
-              left {humanizeDuration(data.value.left * 1000, humanizeDurationConfig)}
+              left <Amount {...data.value.left} />
             </div>
+          }
+        </div>
+      }
+      {
+        data.value.type === amountTypes.TIME &&
+        <div>
+          <div className="font-weight-700">
+            {humanizeDuration(data.value.limit * 1000, humanizeDurationConfig)}
           </div>
-        }
-      </div>
-    );
-  };
+          <div className="font-size-10 color-default">
+            used {humanizeDuration(data.value.used * 1000, humanizeDurationConfig)}
+          </div>
+          <div className="font-size-10 color-default">
+            left {humanizeDuration(data.value.left * 1000, humanizeDurationConfig)}
+          </div>
+        </div>
+      }
+    </div>
+  );
 
   renderStatus = data => (
     <div>
@@ -185,29 +175,25 @@ class CommonGridView extends Component {
     </div>
   );
 
-  renderCreationDate = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700">
-          {moment(data.creationDate).format('DD.MM.YYYY')}
-        </div>
-        <span className="font-size-10 color-default">
-          {moment(data.creationDate).format('HH:mm')}
-        </span>
-      </div>
-    );
-  };
-
-  renderPeriod = (data) => {
-    return (
+  renderCreationDate = data => (
+    <div>
       <div className="font-weight-700">
-        {
-          data.type !== types.SESSION_DURATION ?
-            moment().add(data.period, 'seconds').fromNow(true) : ' - '
-        }
+        {moment(data.creationDate).format('DD.MM.YYYY')}
       </div>
-    );
-  };
+      <span className="font-size-10 color-default">
+        {moment(data.creationDate).format('HH:mm')}
+      </span>
+    </div>
+  );
+
+  renderPeriod = data => (
+    <div className="font-weight-700">
+      {
+        data.type !== types.SESSION_DURATION ?
+          moment().add(data.period, 'seconds').fromNow(true) : ' - '
+      }
+    </div>
+  );
 
   render() {
     const { dataSource, insideModal } = this.props;

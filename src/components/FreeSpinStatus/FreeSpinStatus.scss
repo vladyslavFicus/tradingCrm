@@ -1,0 +1,15 @@
+.free-spin-status {
+  &__status {
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  &__status-date {
+    font-size: 10px;
+  }
+  &__status-author {
+    font-size: 10px;
+  }
+  &__status-additional {
+    font-size: 10px;
+  }
+}

@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import classNames from 'classnames';
 import { targetTypes } from '../../../../../constants/note';
-import PopoverButton from '../../../../../components/PopoverButton';
+import NoteButton from '../../../../../components/NoteButton';
 import './PaymentDetailModal.scss';
 import Uuid from '../../../../../components/Uuid';
 
@@ -43,15 +43,11 @@ class PaymentActionReasonModal extends Component {
     reason: 'Reason 1',
   };
 
-  getNotePopoverParams = () => ({
-    placement: 'top',
-  });
-
-  handleNoteClick = (target, data) => {
-    if (data.note) {
-      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.onEditNoteClick(target, note);
     } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, this.getNotePopoverParams());
+      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target);
     }
   };
 
@@ -108,7 +104,7 @@ class PaymentActionReasonModal extends Component {
               </div>
               <div className="font-weight-400">
                 <span className="font-weight-700">{firstName} {lastName} </span>
-                <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}/>
+                <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
               </div>
             </div>
           </div>
@@ -134,16 +130,12 @@ class PaymentActionReasonModal extends Component {
 
           <div className="row">
             <div className="col-md-12 text-center">
-              <PopoverButton
+              <NoteButton
                 id="payment-reject-modal-note"
-                className="cursor-pointer margin-right-5"
-                onClick={id => this.handleNoteClick(id, this.props.payment)}
-              >
-                {note
-                  ? (note.pinned ? <i className="note-icon note-pinned-note" /> : <i className="note-icon note-with-text" />)
-                  : <i className="note-icon note-add-note" />
-                }
-              </PopoverButton>
+                note={note}
+                onClick={this.handleNoteClick}
+                targetEntity={this.props.payment}
+              />
             </div>
           </div>
 
