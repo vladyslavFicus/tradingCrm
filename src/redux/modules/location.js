@@ -1,4 +1,4 @@
-import { parsePath } from 'history/PathUtils';
+import { parsePath } from 'history/lib/PathUtils';
 import createReducer from '../../utils/createReducer';
 
 const KEY = 'location';
