@@ -123,7 +123,7 @@ class CreateModal extends Component {
     }
 
     return (
-      <Modal className="create-bonus-modal" toggle={onClose} isOpen={isOpen}>
+      <Modal className="create-free-spin-modal" toggle={onClose} isOpen={isOpen}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TITLE')}
