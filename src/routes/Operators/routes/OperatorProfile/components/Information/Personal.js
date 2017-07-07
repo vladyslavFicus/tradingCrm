@@ -3,7 +3,6 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PersonalInformationItem from '../../../../../../components/Information/PersonalInformationItem';
 import PropTypes from '../../../../../../constants/propTypes';
-import './Information.scss';
 
 const Personal = ({ data: {
   country,

@@ -98,7 +98,7 @@
         "FILES": "Files",
         "NOTE": "Note"
       },
-      "TITLE": "Payments",
+      "TITLE": "Payment accounts",
       "ATTACHED_FILES": "Attached files"
     },
     "BONUS": {
@@ -291,6 +291,9 @@
       "COPY_FULL_UUID": {
         "TITLE": "Copied",
         "MESSAGE": "Full UUID has been copied to clipboard"
+      },
+      "COPY_FULL_IP": {
+        "MESSAGE": "IP adress has been copied to clipboard"
       }
     },
     "OR": "Or",

@@ -16,7 +16,7 @@ const Departments = ({ authorities }) => (
         </small>
         {
           !!authorities.length &&
-          <div className="row player__account__details_additional-departments">
+          <div className="player__account__details_additional-departments">
             {
               authorities.map(authority =>
                 <span key={authority.id} className="label label-black">
