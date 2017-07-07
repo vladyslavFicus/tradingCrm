@@ -17,6 +17,7 @@ import ViewModal from '../ViewModal';
 import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
 import CreateModal from '../CreateModal/CreateModal';
+import shallowEqual from '../../../../../../../../utils/shallowEqual';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -53,6 +54,18 @@ class View extends Component {
 
   componentDidMount() {
     this.context.setNoteChangedCallback(this.handleRefresh);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { modal: { name, params } } = this.state;
+
+    if (name === MODAL_VIEW && params.item && params.item.bonusUUID) {
+      const nextItem = nextProps.list.entities.content.find(i => i.bonusUUID === params.item.bonusUUID);
+
+      if (nextItem && !shallowEqual(nextItem, params.item)) {
+        this.setState({ modal: { ...this.state.modal, params: { ...this.state.modal.params, item: nextItem } } });
+      }
+    }
   }
 
   componentWillUnmount() {
