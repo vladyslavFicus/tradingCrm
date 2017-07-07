@@ -37,7 +37,6 @@ class SelectField extends Component {
     inputButton: null,
     inputClassName: 'form-control',
     showInputButton: false,
-    onChange: null,
   };
 
   renderInput = (props) => {

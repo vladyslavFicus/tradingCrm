@@ -24,12 +24,12 @@ const statusesLabels = {
 };
 const statusesClassNames = {
   [statuses.CANCELED]: 'color-danger',
-  [statuses.FORFEITED]: 'color-black',
+  [statuses.FORFEITED]: 'color-info',
   [statuses.ACTIVE]: 'color-success',
-  [statuses.SCHEDULED]: 'color-default',
+  [statuses.SCHEDULED]: 'color-black',
   [statuses.PENDING]: 'color-default',
   [statuses.FAILED]: 'color-danger',
-  [statuses.PLAYED]: 'color-danger',
+  [statuses.PLAYED]: 'color-orange',
 };
 
 export {

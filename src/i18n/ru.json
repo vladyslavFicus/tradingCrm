@@ -312,7 +312,8 @@
     "OPTIONAL": "Необязательное",
     "UNAVAILABLE": "Недоступно",
     "UNKNOWN": "Неизвестно",
-    "UNKNOWN_TIME": "Неизвестное время"
+    "UNKNOWN_TIME": "Неизвестное время",
+    "TOTAL_WIN": "Общий выигрыш"
   },
   "FILES": {
     "UPLOAD_MODAL": {

@@ -25,6 +25,7 @@ const mapActions = {
   resetAll: actionCreators.resetAll,
   manageNote: actionCreators.manageNote,
   resetNote: actionCreators.resetNote,
+  fetchFilters: actionCreators.fetchFilters,
 };
 
 export default connect(mapStateToProps, mapActions)(FreeSpinsView);

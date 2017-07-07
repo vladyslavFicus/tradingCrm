@@ -40,6 +40,7 @@ class FreeSpinsView extends Component {
     fetchGames: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
+    fetchFilters: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
     providers: PropTypes.arrayOf(PropTypes.string).isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity).isRequired,
@@ -91,11 +92,13 @@ class FreeSpinsView extends Component {
     }
   };
 
-  handleRefresh = () => this.props.fetchFreeSpins({
-    ...this.state.filters,
-    page: this.state.page,
-    playerUUID: this.props.params.id,
-  });
+  handleRefresh = () => {
+    this.props.fetchFreeSpins({
+      ...this.state.filters,
+      page: this.state.page,
+      playerUUID: this.props.params.id,
+    });
+  };
 
   handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, this.handleRefresh);
@@ -128,10 +131,6 @@ class FreeSpinsView extends Component {
     });
   };
 
-  handleCancelClick = () => {
-
-  };
-
   handleCreateButtonClick = () => {
     this.handleModalOpen(MODAL_CREATE, {
       initialValues: {
@@ -146,6 +145,7 @@ class FreeSpinsView extends Component {
       createFreeSpin,
       resetNote,
       list: { newEntityNote: unsavedNote },
+      fetchFilters,
     } = this.props;
     const action = await createFreeSpin(data);
 
@@ -160,6 +160,7 @@ class FreeSpinsView extends Component {
       }
 
       resetNote();
+      fetchFilters();
       this.handleModalClose(this.handleRefresh);
     }
 

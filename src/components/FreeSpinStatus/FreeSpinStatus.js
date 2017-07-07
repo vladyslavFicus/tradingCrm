@@ -7,6 +7,7 @@ import PropTypes from '../../constants/propTypes';
 import renderLabel from '../../utils/renderLabel';
 import { statuses, statusesClassNames, statusesLabels } from '../../constants/free-spin';
 import './FreeSpinStatus.scss';
+import Amount from "../Amount/Amount";
 
 class FreeSpinStatus extends Component {
   static propTypes = {
@@ -19,7 +20,7 @@ class FreeSpinStatus extends Component {
 
   render() {
     const { freeSpin, blockName } = this.props;
-    const className = statusesClassNames[status] || '';
+    const className = statusesClassNames[freeSpin.freeSpinStatus] || '';
 
     return (
       <div className={blockName}>
@@ -35,10 +36,10 @@ class FreeSpinStatus extends Component {
           </div>
         }
         {
-          status === statuses.PENDING &&
+          freeSpin.freeSpinStatus === statuses.PENDING &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_UNTIL', {
-              date: moment.utc(data.startDate).format('DD.MM.YYYY HH:mm'),
+              date: moment.utc(freeSpin.startDate).format('DD.MM.YYYY HH:mm'),
             })}
           </div>
         }
@@ -47,6 +48,12 @@ class FreeSpinStatus extends Component {
           <div className={`${blockName}__status-author`}>
             {I18n.t('COMMON.AUTHOR_BY')}
             <Uuid uuid={freeSpin.statusChangedAuthorUUID} />
+          </div>
+        }
+        {
+          freeSpin.freeSpinStatus === statuses.PLAYED && freeSpin.winning &&
+          <div className={`${blockName}__status-additional`}>
+            {I18n.t('COMMON.TOTAL_WIN')}: <Amount {...freeSpin.winning} />
           </div>
         }
       </div>

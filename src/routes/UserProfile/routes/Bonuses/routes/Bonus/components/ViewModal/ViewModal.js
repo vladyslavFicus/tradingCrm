@@ -72,10 +72,12 @@ class ViewModal extends Component {
     </div>
   );
 
-  renderGrantedAmount = data => (<Amount
-    className="font-weight-600 font-size-20 color-primary"
-    {...data.grantedAmount}
-  />);
+  renderGrantedAmount = data => (
+    <Amount
+      className="font-weight-600 font-size-20 color-primary"
+      {...data.grantedAmount}
+    />
+  );
 
   renderWageredAmount = data => <Amount className="font-weight-600 font-size-20 color-primary" {...data.wagered} />;
 
@@ -125,34 +127,40 @@ class ViewModal extends Component {
     </div>
   );
 
-  renderMainInfo = data => (<span>
-    <div className="font-weight-600">{data.label}</div>
-    <div className="little-grey-text font-size-11">{shortify(data.bonusUUID)}</div>
-    {
-      !!data.campaignUUID &&
-      <div className="little-grey-text font-size-11">
-        by Campaign {shortify(data.campaignUUID, 'CA')}
-      </div>
-    }
-    {
-      !data.campaignUUID && !!data.operatorUUID &&
-      <div className="ittle-grey-text font-size-11">
-        by Manual Bonus {shortify(data.operatorUUID, 'OP')}
-      </div>
-    }
-  </span>);
+  renderMainInfo = data => (
+    <span>
+      <div className="font-weight-600">{data.label}</div>
+      <div className="little-grey-text font-size-11">{shortify(data.bonusUUID)}</div>
+      {
+        !!data.campaignUUID &&
+        <div className="little-grey-text font-size-11">
+          by Campaign {shortify(data.campaignUUID, 'CA')}
+        </div>
+      }
+      {
+        !data.campaignUUID && !!data.operatorUUID &&
+        <div className="ittle-grey-text font-size-11">
+          by Manual Bonus {shortify(data.operatorUUID, 'OP')}
+        </div>
+      }
+    </span>
+  );
 
-  renderAvailablePeriod = data => data.createdDate ? <div>
-    <div className="font-weight-600">
-      {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-    </div>
-    {
-      !!data.expirationDate &&
-      <div className="little-grey-text font-size-11">
-        {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+  renderAvailablePeriod = data => (
+    data.createdDate
+      ? <div>
+        <div className="font-weight-600">
+          {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
+        </div>
+        {
+            !!data.expirationDate &&
+            <div className="little-grey-text font-size-11">
+              {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+            </div>
+          }
       </div>
-    }
-  </div> : <span>&mdash</span>;
+      : <span>&mdash</span>
+  );
 
   renderPriority = data => <span>{data.priority}</span>;
 

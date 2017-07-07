@@ -312,7 +312,8 @@
     "OPTIONAL": "Optional",
     "UNAVAILABLE": "Unavailable",
     "UNKNOWN": "Unknown",
-    "UNKNOWN_TIME": "Unknown time"
+    "UNKNOWN_TIME": "Unknown time",
+    "TOTAL_WIN": "Total win"
   },
   "FILES": {
     "UPLOAD_MODAL": {
