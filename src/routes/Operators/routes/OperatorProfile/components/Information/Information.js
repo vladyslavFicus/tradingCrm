@@ -11,7 +11,7 @@ const Information = ({ data, ips }) => (
     <div className="col-md-4">
       <Personal data={data} />
     </div>
-    <div className="col-md-3">q
+    <div className="col-md-3">
       <Departments authorities={data.authorities} />
     </div>
     <div className="col-md-2">
