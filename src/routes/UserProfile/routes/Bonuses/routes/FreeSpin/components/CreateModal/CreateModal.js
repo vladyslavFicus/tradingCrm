@@ -8,8 +8,10 @@ import PropTypes from '../../../../../../../../constants/propTypes';
 import { InputField, DateTimeField, SelectField } from '../../../../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../../../../utils/validator';
 import { attributeLabels } from './constants';
-import './CreateModal.scss';
 import Amount, { Currency } from '../../../../../../../../components/Amount';
+import NoteButton from '../../../../../../../../components/NoteButton';
+import { targetTypes } from '../../../../../../../../constants/note';
+import './CreateModal.scss';
 
 class CreateModal extends Component {
   static propTypes = {
@@ -37,6 +39,8 @@ class CreateModal extends Component {
     }).isRequired,
     providers: PropTypes.arrayOf(PropTypes.string).isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity).isRequired,
+    onManageNote: PropTypes.func.isRequired,
+    note: PropTypes.noteEntity,
   };
   static defaultProps = {
     isOpen: false,
@@ -48,11 +52,22 @@ class CreateModal extends Component {
     change: null,
     currentValues: {},
   };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    hidePopover: PropTypes.func.isRequired,
+  };
 
   state = {
     currentLines: [],
     currentGames: [],
   };
+
+  getNotePopoverParams = () => ({
+    placement: 'bottom',
+    onSubmit: this.handleSubmitNote,
+    onDelete: this.handleDeleteNote,
+  });
 
   startDateValidator = toAttribute => (current) => {
     const { currentValues } = this.props;
@@ -91,6 +106,31 @@ class CreateModal extends Component {
     }
   };
 
+  handleNoteClick = (target) => {
+    const { note } = this.props;
+    if (note) {
+      this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
+    } else {
+      this.context.onAddNoteClick(null, targetTypes.FREE_SPIN)(target, this.getNotePopoverParams());
+    }
+  };
+
+  handleSubmitNote = (data) => {
+    return new Promise((resolve) => {
+      this.props.onManageNote(data);
+      this.context.hidePopover();
+      resolve();
+    });
+  };
+
+  handleDeleteNote = () => {
+    return new Promise((resolve) => {
+      this.props.onManageNote(null);
+      this.context.hidePopover();
+      resolve();
+    });
+  };
+
   render() {
     const {
       onSubmit,
@@ -104,6 +144,7 @@ class CreateModal extends Component {
       currency,
       providers,
       currentValues,
+      note,
     } = this.props;
     const { currentLines, currentGames } = this.state;
     const betPerLine = currentValues && currentValues.betPerLine
@@ -125,7 +166,7 @@ class CreateModal extends Component {
     return (
       <Modal className="create-free-spin-modal" toggle={onClose} isOpen={isOpen}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>
+          <ModalHeader toggle={onClose}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TITLE')}
           </ModalHeader>
           <ModalBody>
@@ -318,6 +359,16 @@ class CreateModal extends Component {
                   position="vertical"
                   placeholder={''}
                   showErrorMessage={false}
+                />
+              </div>
+            </div>
+            <div className="row margin-top-20">
+              <div className="col-md-12 text-center">
+                <NoteButton
+                  id="free-spin-create-modal-note"
+                  note={note}
+                  onClick={this.handleNoteClick}
+                  preview
                 />
               </div>
             </div>

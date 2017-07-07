@@ -23,6 +23,8 @@ const mapActions = {
   createFreeSpin: actionCreators.createFreeSpin,
   fetchGames: actionCreators.fetchGames,
   resetAll: actionCreators.resetAll,
+  manageNote: actionCreators.manageNote,
+  resetNote: actionCreators.resetNote,
 };
 
 export default connect(mapStateToProps, mapActions)(FreeSpinsView);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
+import { SubmissionError } from 'redux-form';
 import FreeSpinMainInfo from '../FreeSpinMainInfo';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
@@ -13,6 +14,7 @@ import FreeSpinAvailablePeriod from '../FreeSpinAvailablePeriod';
 import FreeSpinsFilterForm from '../FreeSpinsFilterForm';
 import CreateModal from '../CreateModal';
 import ViewModal from '../ViewModal';
+import shallowEqual from '../../../../../../../../utils/shallowEqual';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -22,6 +24,7 @@ class FreeSpinsView extends Component {
   static propTypes = {
     list: PropTypes.shape({
       entities: PropTypes.pageable(PropTypes.freeSpinEntity),
+      newEntityNote: PropTypes.noteEntity,
     }).isRequired,
     filters: PropTypes.shape({
       data: PropTypes.shape({
@@ -35,6 +38,8 @@ class FreeSpinsView extends Component {
     exportFreeSpins: PropTypes.func.isRequired,
     createFreeSpin: PropTypes.func.isRequired,
     fetchGames: PropTypes.func.isRequired,
+    manageNote: PropTypes.func.isRequired,
+    resetNote: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
     providers: PropTypes.arrayOf(PropTypes.string).isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity).isRequired,
@@ -46,6 +51,8 @@ class FreeSpinsView extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
+    refreshPinnedNotes: PropTypes.func.isRequired,
+    onAddNote: PropTypes.func.isRequired,
   };
 
   state = {
@@ -58,6 +65,18 @@ class FreeSpinsView extends Component {
     this.context.setNoteChangedCallback(this.handleRefresh);
     this.handleRefresh();
     this.props.fetchGames();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { modal: { name, params } } = this.state;
+
+    if (name === MODAL_VIEW && params.item && params.item.uuid) {
+      const nextItem = nextProps.list.entities.content.find(i => i.uuid === params.item.uuid);
+
+      if (nextItem && !shallowEqual(nextItem, params.item)) {
+        this.setState({ modal: { ...this.state.modal, params: { ...this.state.modal.params, item: nextItem } } });
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -123,11 +142,28 @@ class FreeSpinsView extends Component {
   };
 
   handleSubmitNewFreeSpin = async (data) => {
-    const action = await this.props.createFreeSpin(data);
+    const {
+      createFreeSpin,
+      resetNote,
+      list: { newEntityNote: unsavedNote },
+    } = this.props;
+    const action = await createFreeSpin(data);
 
-    if (action && !action.error) {
+    if (action && action.error) {
+      throw new SubmissionError({ _error: action.payload.response.error });
+    } else {
+      if (unsavedNote) {
+        await this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.uuid });
+        if (unsavedNote.pinned) {
+          this.context.refreshPinnedNotes();
+        }
+      }
+
+      resetNote();
       this.handleModalClose(this.handleRefresh);
     }
+
+    return action;
   };
 
   handleModalOpen = (name, params) => {
@@ -192,11 +228,12 @@ class FreeSpinsView extends Component {
   render() {
     const { modal, filters } = this.state;
     const {
-      list: { entities, exporting },
+      list: { entities, exporting, newEntityNote },
       filters: { data: { games: gamesFilterValues, providers: providersFilterValues } },
       providers,
       games,
       currency,
+      manageNote,
     } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
@@ -281,6 +318,8 @@ class FreeSpinsView extends Component {
             currency={currency}
             games={games}
             providers={providers}
+            note={newEntityNote}
+            onManageNote={manageNote}
           />
         }
         {

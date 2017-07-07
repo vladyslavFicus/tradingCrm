@@ -16,6 +16,8 @@ const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
 const CREATE_FREE_SPIN = createRequestAction(`${KEY}/create-entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
+const MANAGE_NOTE = `${KEY}/manage-note`;
+const RESET_NOTE = `${KEY}/reset-note`;
 
 const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapEntities = async (dispatch, pageable) => {
@@ -153,6 +155,29 @@ function createFreeSpin(data) {
   };
 }
 
+function manageNote(data) {
+  return (dispatch, getState) => {
+    const { auth: { uuid, fullName } } = getState();
+
+    return dispatch({
+      type: MANAGE_NOTE,
+      payload: data !== null ? {
+        ...data,
+        author: fullName,
+        creatorUUID: uuid,
+        lastEditorUUID: uuid,
+        lastEditionDate: moment().format('YYYY-MM-DDTHH:mm:ss'),
+      } : data,
+    });
+  };
+}
+
+function resetNote() {
+  return {
+    type: RESET_NOTE,
+  };
+}
+
 function resetList() {
   return {
     type: RESET_LIST,
@@ -175,6 +200,7 @@ const initialState = {
   filters: {},
   isLoading: false,
   receivedAt: null,
+  newEntityNote: null,
 };
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: state => ({
@@ -203,6 +229,14 @@ const actionHandlers = {
     error: action.payload,
     receivedAt: timestamp(),
   }),
+  [MANAGE_NOTE]: (state, action) => ({
+    ...state,
+    newEntityNote: action.payload,
+  }),
+  [RESET_NOTE]: state => ({
+    ...state,
+    newEntityNote: null,
+  }),
   [RESET_LIST]: () => ({ ...initialState }),
 };
 const actionTypes = {
@@ -211,6 +245,8 @@ const actionTypes = {
   FETCH_NOTES,
   EXPORT_ENTITIES,
   CREATE_FREE_SPIN,
+  MANAGE_NOTE,
+  RESET_NOTE,
 };
 const actionCreators = {
   resetList,
@@ -218,6 +254,8 @@ const actionCreators = {
   fetchNotes,
   exportFreeSpins,
   createFreeSpin,
+  manageNote,
+  resetNote,
 };
 
 export {

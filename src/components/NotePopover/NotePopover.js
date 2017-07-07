@@ -161,7 +161,7 @@ class NotePopover extends Component {
               item.lastEditionDate
                 ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
                 : I18n.t('COMMON.UNKNOWN_TIME')
-            } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
+            } {I18n.t('COMMON.TO')} {!!item.targetUUID && this.renderItemId(item)}
             <button
               type="reset"
               onClick={() => this.handleDelete(item)}
