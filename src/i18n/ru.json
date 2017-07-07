@@ -180,6 +180,76 @@
         "FULFILLMENT_TYPE": "Тип условия",
         "PRIORITY": "Приоритет"
       }
+    },
+    "FREE_SPINS": {
+      "BONUS_SETTINGS": {
+        "MULTIPLIER": "Множитель",
+        "PRIZE": "Prize",
+        "CAPPING": "Capping",
+        "LIFE_TIME": "Время жизни",
+        "LIFE_TIME_DAYS": "%{days} дней"
+      },
+      "FREE_SPIN_AVAILABLE_PERIOD": {
+        "DATE_TO": "до %{date}"
+      },
+      "FREE_SPIN_SETTINGS": {
+        "LINES": "Линии",
+        "BET_PER_LINE": "Цена линии",
+        "SPIN_VALUE": "Стоимость spin"
+      },
+      "CANCEL_FREE_SPIN": "Отменить free spin",
+      "GRID_VIEW": {
+        "FREE_SPIN_COUNT": "%{count} spins",
+        "SPIN_VALUE": "Стомость spin",
+        "TOTAL_VALUE": "Сумма spins",
+        "FREE_SPIN": "Free spin",
+        "AVAILABILITY": "Доступность",
+        "GRANTED": "Выдано",
+        "STATUS": "Статус",
+        "NOTE": "Заметка"
+      },
+      "VIEW_MODAL": {
+        "FREE_SPIN": "Free spin",
+        "PROVIDER_AND_GAME": "Провайдер и игра",
+        "STATUS": "Статус",
+        "AVAILABLE": "Доступен",
+        "SPIN_SETTINGS": "Настройки spin",
+        "BONUS_SETTINGS": "Настройки бонуса",
+        "STATISTICS_GRANTED_TITLE": "Выдано",
+        "STATISTICS_GRANTED_COUNT": "%{count} spins",
+        "STATISTICS_TOTAL_VALUE_TITLE": "Сумма",
+        "STATISTICS_PLAYED_TITLE": "Сыграно",
+        "STATISTICS_PLAYED_COUNT": "%{count} spins",
+        "STATISTICS_WINNINGS_TITLE": "Выиграно",
+        "TITLE": "Информация о Free spin"
+      },
+      "EXPORT_BUTTON": "Экспорт",
+      "MANUAL_FREE_SPIN_BUTTON": "+ Добавить free spin"
+    },
+    "FREE_SPIN": {
+      "MODAL_CREATE": {
+        "TITLE": "Добавление free spin",
+        "CHOOSE_PROVIDER": "-- Выберите --",
+        "CHOOSE_GAME": "-- Выберите --",
+        "CHOOSE_LINES_PER_SPIN": "-- Выберите --",
+        "ATTRIBUTES_LABELS": {
+          "NAME": "Название",
+          "START_DATE": "Дата начала",
+          "END_DATE": "Дата окончания",
+          "AVAILABILITY_DATE_RANGE": "Время жизни free spin",
+          "PROVIDER": "Провайдер",
+          "GAME": "Игра",
+          "FREE_SPINS_AMOUNT": "Кол-во free spins",
+          "LINES_PER_SPIN": "Линий в spin",
+          "BET_PER_LINE": "Ставка за линию",
+          "PRIZE": "Prize",
+          "CAPPING": "Capping",
+          "MULTIPLIER": "Множитель",
+          "BONUS_LIFE_TIME": "Время жизни бонуса"
+        },
+        "FREE_SPIN_VALUE": "Стоимость spin",
+        "TOTAL_VALUE": "Сумма spin"
+      }
     }
   },
   "COMMON": {
@@ -242,7 +312,8 @@
     "OPTIONAL": "Необязательное",
     "UNAVAILABLE": "Недоступно",
     "UNKNOWN": "Неизвестно",
-    "UNKNOWN_TIME": "Неизвестное время"
+    "UNKNOWN_TIME": "Неизвестное время",
+    "TOTAL_WIN": "Общий выигрыш"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -333,6 +404,11 @@
       "MONEY_TYPE_USAGE": {
         "REAL_MONEY": "Реальные деньги",
         "BONUS_MONEY": "Бонусные деньги"
+      },
+      "ROUTES": {
+        "BONUS": "Бонусы",
+        "ELIGIBLE_CAMPAIGNS": "Кампании",
+        "FREE_SPINS": "Free Spins"
       }
     },
     "COUNTRIES": {
@@ -388,6 +464,37 @@
         "DESKTOP": "Настольный",
         "TABLET": "Планшет",
         "UNKNOWN": "Неизвестно"
+      }
+    },
+    "FREE_SPIN": {
+      "STATUSES": {
+        "CANCELED": "Отменен",
+        "FORFEITED": "Утраченный",
+        "ACTIVE": "Активный",
+        "SCHEDULED": "Запланированный",
+        "PENDING": "Ожидающий",
+        "FAILED": "Неудачный",
+        "PLAYED": "Сыгранный"
+      }
+    },
+    "FREE_SPINS": {
+      "FILTER_FORM": {
+        "ATTRIBUTES_LABELS": {
+          "SEARCH_BY": "Поиск по",
+          "ASSIGNED": "Выданный",
+          "PROVIDER": "Провайдер",
+          "GAME": "Игра",
+          "START_DATE": "Дата начала",
+          "END_DATE": "Дата окончания",
+          "AVAILABILITY_DATE_RANGE": "Диапозон доступности"
+        },
+        "ATTRIBUTES_PLACEHOLDERS": {
+          "SEARCH_BY": "Название, ID"
+        },
+        "AUTHOR_TYPES": {
+          "CAMPAIGN": "Кампания",
+          "OPERATOR": "Оператор"
+        }
       }
     }
   },
@@ -641,5 +748,8 @@
         "inactive": "Платежный метод неактивен"
       }
     }
+  },
+  "NOTE_BUTTON": {
+    "DEFAULT_MESSAGE": "Добавить "
   }
 }

@@ -347,10 +347,10 @@ const actionHandlers = {
           languageCode: profile.languageCode,
           suspendEndDate: profile.suspendEndDate,
           age: moment().diff(profile.birthDate, 'years'),
-          balance: { amount: 0, currency: config.nas.currencies.base },
+          balance: { amount: 0, currency: config.nas.brand.currencies.base },
           accumulatedBalances: {
-            real: { amount: 0, currency: config.nas.currencies.base },
-            bonus: { amount: 0, currency: config.nas.currencies.base },
+            real: { amount: 0, currency: config.nas.brand.currencies.base },
+            bonus: { amount: 0, currency: config.nas.brand.currencies.base },
           },
         },
       }), { ...state.profiles }),

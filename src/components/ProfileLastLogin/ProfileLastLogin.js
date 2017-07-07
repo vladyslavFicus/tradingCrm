@@ -6,7 +6,7 @@ import PropTypes from '../../constants/propTypes';
 class ProfileLastLogin extends Component {
   static propTypes = {
     className: PropTypes.string,
-    lastIp: PropTypes.operatorIpEntity,
+    lastIp: PropTypes.ipEntity,
   };
   static defaultProps = {
     className: 'header-block',

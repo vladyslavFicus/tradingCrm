@@ -7,7 +7,7 @@ import { createValidator } from '../../../../../utils/validator';
 import { SelectField, InputField } from '../../../../../components/ReduxForm';
 import { shortify } from '../../../../../utils/uuid';
 import Amount from '../../../../../components/Amount';
-import PopoverButton from '../../../../../components/PopoverButton';
+import NoteButton from '../../../../../components/NoteButton';
 import {
   types as paymentTypes,
   manualTypesLabels as paymentTypesLabels,
@@ -234,16 +234,11 @@ class PaymentAddModal extends Component {
               { this.renderInfoBlock() }
             </div>
             <div className="row text-center">
-              <PopoverButton
+              <NoteButton
                 id="add-transaction-item-note-button"
-                className="cursor-pointer"
-                onClick={id => this.handleNoteClick(id)}
-              >
-                {note
-                  ? (note.pinned ? <i className="note-icon note-pinned-note" /> : <i className="note-icon note-with-text" />)
-                  : <i className="note-icon note-add-note" />
-                }
-              </PopoverButton>
+                note={note}
+                onClick={this.handleNoteClick}
+              />
             </div>
           </ModalBody>
           <ModalFooter>
