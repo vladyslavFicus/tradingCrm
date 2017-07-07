@@ -2,7 +2,7 @@ import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import Personal from './Personal';
 import Departments from './Departments';
-import IpList from './IpList/IpList';
+import IpList from './IpList';
 import PropTypes from '../../../../../../constants/propTypes';
 import './Information.scss';
 
@@ -11,7 +11,7 @@ const Information = ({ data, ips }) => (
     <div className="col-md-4">
       <Personal data={data} />
     </div>
-    <div className="col-md-3">
+    <div className="col-md-3">q
       <Departments authorities={data.authorities} />
     </div>
     <div className="col-md-2">

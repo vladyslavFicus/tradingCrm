@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Collapse } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
-import Information from '../components/Information/Information';
+import Information from '../components/Information';
 import Tabs from '../../../../../components/Tabs';
 import Modal from '../../../../../components/Modal';
 import { operatorProfileTabs } from '../../../../../config/menu';
