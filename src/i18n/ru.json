@@ -217,9 +217,13 @@
     "ACCOUNT_STATUS": "Статус аккаунта",
     "BALANCE": "Баланс",
     "NOTIFICATIONS": {
+      "COPIED": "Скопировано",
       "COPY_FULL_UUID": {
         "TITLE": "Скопировано",
         "MESSAGE": "Полный UUID был скопирован в буфер обмена"
+      },
+      "COPY_FULL_IP": {
+        "MESSAGE": "IP адресс был скопирован в буфер обмена"
       }
     },
     "OR": "Или",
