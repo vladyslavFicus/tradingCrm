@@ -22,29 +22,33 @@ class CancelModal extends Component {
     isOpen: PropTypes.bool,
     action: PropTypes.string,
     reasons: PropTypes.object,
-    onHide: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     customReason: PropTypes.bool,
-    submitButtonLabel: PropTypes.string,
-    submitButtonClassName: PropTypes.string,
     currentValues: PropTypes.shape({
       reason: PropTypes.string,
       customReason: PropTypes.string,
     }).isRequired,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    disabled: PropTypes.bool,
   };
   static defaultProps = {
     isOpen: false,
     handleSubmit: null,
     action: null,
     reasons: {},
-    submitButtonLabel: 'Submit',
-    submitButtonClassName: '',
-    customReason: false,
+    customReason: true,
     currentValues: {
       reason: '',
       customReason: '',
     },
+    pristine: false,
+    submitting: false,
+    invalid: false,
+    disabled: false,
   };
 
   handleSubmit = ({ reason, customReason }) => {
@@ -67,7 +71,7 @@ class CancelModal extends Component {
         </option>
         {Object.keys(reasons).map(key => (
           <option key={key} value={key}>
-            {I18n.t(reasons[key])}
+            {renderLabel(key, reasons)}
           </option>
         ))}
         {
@@ -82,23 +86,24 @@ class CancelModal extends Component {
 
   render() {
     const {
+      isOpen,
       action,
-      submitButtonLabel,
-      submitButtonClassName,
       reasons,
-      onHide,
+      onClose,
       onSubmit,
       handleSubmit,
       customReason,
       currentValues,
       item,
-      ...rest
+      submitting,
+      pristine,
+      invalid,
     } = this.props;
 
     return (
-      <Modal {...rest} className="free-spin-cancel-modal" toggle={onHide}>
+      <Modal className="free-spin-cancel-modal" isOpen={isOpen} toggle={onClose}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader toggle={onHide}>
+          <ModalHeader toggle={onClose}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.TITLE')}
           </ModalHeader>
           <ModalBody>
@@ -123,6 +128,7 @@ class CancelModal extends Component {
                 label={''}
                 position="vertical"
                 component={TextAreaField}
+                rows={3}
               />
             }
           </ModalBody>
@@ -130,13 +136,17 @@ class CancelModal extends Component {
           <ModalFooter>
             <div className="row">
               <div className="col-md-6">
-                <button className="btn btn-default-outline text-uppercase" onClick={onHide}>
-                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CANCEL_BUTTON')}
+                <button className="btn btn-default-outline text-uppercase" onClick={onClose}>
+                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CLOSE_BUTTON')}
                 </button>
               </div>
               <div className="col-md-6 text-right">
-                <button className={classNames(submitButtonClassName, 'btn text-uppercase')} type="submit">
-                  {I18n.t(submitButtonLabel)}
+                <button
+                  className="btn text-uppercase btn-danger"
+                  type="submit"
+                  disabled={pristine || submitting || invalid}
+                >
+                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CANCEL_BUTTON')}
                 </button>
               </div>
             </div>
@@ -147,6 +157,10 @@ class CancelModal extends Component {
   }
 }
 
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
 }))(
@@ -165,7 +179,7 @@ export default connect(state => ({
         rules.customReason = 'required|string|min:3';
       }
 
-      return createValidator(rules, attributeLabels, false)(data);
+      return createValidator(rules, validatorAttributeLabels, false)(data);
     }
     ,
   })(CancelModal),
