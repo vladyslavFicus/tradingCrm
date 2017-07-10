@@ -4,7 +4,6 @@ module.exports = {
     brand: {
       password: { pattern: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
       fx_rate: { cron: '0 0 17 * * *' },
-      currencies: { base: 'EUR', supported: ['EUR', 'USD', 'SEK', 'NOK', 'RUB'] },
       validation: { password: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
       reasons: {
         rejection: ['reason_1', 'reason_2', 'reason_3', 'reason_4'],
@@ -50,6 +49,7 @@ module.exports = {
         countries: ['AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ'],
       },
     },
+    currencies: { base: 'EUR', supported: ['EUR', 'USD', 'SEK', 'NOK', 'RUB'] },
   },
   components: {
     Currency: {

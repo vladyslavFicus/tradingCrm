@@ -18,6 +18,7 @@ import shallowEqual from '../../../../../../../../utils/shallowEqual';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
+const MODAL_CANCEL = 'cancel-modal';
 const MODAL_VIEW = 'view-modal';
 
 class FreeSpinsView extends Component {
@@ -117,18 +118,22 @@ class FreeSpinsView extends Component {
       },
     ];
 
-    if (data.status === statuses.ACTIVE) {
-      actions.push({
-        children: I18n.t('PLAYER_PROFILE.FREE_SPINS.CANCEL_FREE_SPIN'),
-        onClick: this.handleCancelClick,
-        className: 'btn btn-default-outline text-uppercase',
-      });
-    }
+    //if (data.status === statuses.ACTIVE) {
+    actions.push({
+      children: I18n.t('PLAYER_PROFILE.FREE_SPINS.CANCEL_FREE_SPIN'),
+      onClick: this.handleCancelClick,
+      className: 'btn btn-default-outline text-uppercase',
+    });
+    //}
 
     this.handleModalOpen(MODAL_VIEW, {
       item: data,
       actions,
     });
+  };
+
+  handleCancelClick = () => {
+    this.handleModalOpen(MODAL_CANCEL);
   };
 
   handleCreateButtonClick = () => {
