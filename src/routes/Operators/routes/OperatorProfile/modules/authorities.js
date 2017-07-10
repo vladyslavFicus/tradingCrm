@@ -2,6 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import createReducer from '../../../../../utils/createReducer';
+import { getBrand } from '../../../../../config';
 
 const KEY = 'operator/authorities';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -45,7 +46,7 @@ function addAuthority(operatorUUID, data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, brandId: getBrand() }),
         types: [
           ADD_ENTITIES.REQUEST,
           ADD_ENTITIES.SUCCESS,
@@ -74,6 +75,7 @@ function deleteAuthority(operatorUUID, department, role) {
         body: JSON.stringify({
           department,
           role,
+          brandId: getBrand(),
         }),
         types: [
           DELETE_ENTITIES.REQUEST,

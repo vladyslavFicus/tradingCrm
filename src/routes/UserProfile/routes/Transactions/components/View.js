@@ -17,7 +17,7 @@ import {
 import { shortify } from '../../../../../utils/uuid';
 import StatusHistory from '../../../../../components/TransactionStatusHistory';
 import { targetTypes } from '../../../../../constants/note';
-import PopoverButton from '../../../../../components/PopoverButton';
+import NoteButton from '../../../../../components/NoteButton';
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from './PaymentDetailModal';
 import PaymentActionReasonModal from './PaymentActionReasonModal';
@@ -237,7 +237,7 @@ class View extends Component {
         </span>
       </div>
     );
-  }
+  };
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -345,7 +345,7 @@ class View extends Component {
           {
             data.creatorUUID &&
             <div className="font-size-10 color-default">
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} length={20} />
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} />
             </div>
           }
           <span className="font-size-10 color-default">
@@ -360,17 +360,12 @@ class View extends Component {
 
   renderActions = (data) => {
     return (
-      <PopoverButton
+      <NoteButton
         id={`bonus-item-note-button-${data.paymentId}`}
-        className="cursor-pointer margin-right-5"
-        onClick={id => this.handleNoteClick(id, data)}
-      >
-        {data.note
-          ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
-          <i className="note-icon note-with-text" />)
-        : <i className="note-icon note-add-note" />
-        }
-      </PopoverButton>
+        note={data.note}
+        onClick={this.handleNoteClick}
+        targetEntity={data}
+      />
     );
   };
 

@@ -38,17 +38,13 @@ const config = _.merge({
   },
   nas: {
     brand: {
-      name: '',
+      name: 'hrzn_dev2',
       api: {
         url: '',
       },
       departments: [],
       tags: {},
       roles: [],
-    },
-    currencies: {
-      base: null,
-      supported: [],
     },
     validation: {
       password: null,
@@ -76,7 +72,15 @@ const config = _.merge({
     reasons: {
       rejection: [],
     },
-    limits: {},
+    limits: {
+      deposit: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      wager: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      loss: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      session_duration: {
+        cooloff: '8 HOURS',
+        periods: ['1 HOURS', '2 HOURS', '3 HOURS', '4 HOURS', '5 HOURS', '6 HOURS', '7 HOURS', '8 HOURS'],
+      },
+    },
     locale: {
       languages: [],
       defaultLanguage: 'en',
@@ -85,7 +89,7 @@ const config = _.merge({
   logstash: {
     url: '',
   },
-  middlewares: {},
+  middlewares: { unauthorized: [401], persist: { whitelist: ['auth', 'userPanels'], keyPrefix: 'nas:' } },
   modules: {
     bonusCampaign: {
       cancelReasons: {
@@ -153,7 +157,7 @@ function getTransactionChargebackReasons() {
 }
 
 function getLimitPeriods() {
-  return config.nas.limits || [];
+  return config.nas.brand.limits || [];
 }
 
 function getApiRoot() {
@@ -174,10 +178,6 @@ function getAvailableLanguages() {
   return config.nas.brand.locale.languages || [];
 }
 
-function getDomain() {
-  return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
-}
-
 function getLogo() {
   return /vslots/.test(getApiRoot()) ? '/img/vslots-logo.png' : '/img/logoNewAge.png';
 }
@@ -186,7 +186,6 @@ export {
   getApiRoot,
   getBrand,
   getErrorApiUrl,
-  getDomain,
   getLogo,
   getAvailableTags,
   getTransactionRejectReasons,

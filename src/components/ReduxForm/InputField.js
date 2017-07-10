@@ -40,6 +40,7 @@ class InputField extends Component {
     placeholder: null,
     inputAddon: null,
     inputAddonPosition: 'left',
+    inputButton: null,
   };
 
   renderLabel = (props) => {
@@ -130,7 +131,7 @@ class InputField extends Component {
         disabled={disabled}
         type={type}
         className={classNames(inputClassName, { 'has-danger': touched && error })}
-        placeholder={placeholder || label}
+        placeholder={placeholder !== null ? placeholder : label}
       />
     );
 

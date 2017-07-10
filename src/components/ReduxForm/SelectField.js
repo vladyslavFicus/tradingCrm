@@ -7,6 +7,7 @@ class SelectField extends Component {
     input: PropTypes.shape({
       name: PropTypes.string,
       value: PropTypes.any,
+      onChange: PropTypes.func,
     }).isRequired,
     label: PropTypes.string.isRequired,
     labelClassName: PropTypes.string,
@@ -19,6 +20,11 @@ class SelectField extends Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
     }).isRequired,
+    inputClassName: PropTypes.string,
+    inputAddon: PropTypes.element,
+    inputAddonPosition: PropTypes.oneOf(['left', 'right']),
+    inputButton: PropTypes.any,
+    showInputButton: PropTypes.bool,
   };
   static defaultProps = {
     labelClassName: 'form-control-label',
@@ -26,16 +32,68 @@ class SelectField extends Component {
     showErrorMessage: true,
     disabled: false,
     multiple: false,
+    inputAddon: null,
+    inputAddonPosition: 'left',
+    inputButton: null,
+    inputClassName: 'form-control',
+    showInputButton: false,
+  };
+
+  renderInput = (props) => {
+    const {
+      inputAddon,
+      inputAddonPosition,
+      inputButton,
+      showInputButton,
+      input,
+      disabled,
+      inputClassName,
+      meta: { touched, error },
+      children,
+      multiple,
+    } = props;
+
+    let inputField = (
+      <select
+        {...input}
+        disabled={disabled}
+        multiple={multiple}
+        className={classNames(inputClassName, { 'has-danger': touched && error })}
+      >
+        {children}
+      </select>
+    );
+
+    if (inputAddon) {
+      inputField = (
+        <div className="input-group">
+          {inputAddonPosition === 'right' && inputField}
+          <div className="input-group-addon">
+            {inputAddon}
+          </div>
+          {inputAddonPosition === 'left' && inputField}
+        </div>
+      );
+    }
+
+    if (inputButton) {
+      inputField = (
+        <div className="form-control-with-button">
+          {inputField}
+          <div className="form-control-button">
+            {showInputButton && inputButton}
+          </div>
+        </div>
+      );
+    }
+
+    return inputField;
   };
 
   renderVertical = (props) => {
     const {
-      input,
       label,
       labelClassName,
-      children,
-      multiple,
-      disabled,
       meta: { touched, error },
       showErrorMessage,
     } = props;
@@ -43,14 +101,7 @@ class SelectField extends Component {
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label className={labelClassName}>{label}</label>
-        <select
-          {...input}
-          multiple={multiple}
-          disabled={disabled}
-          className={classNames('form-control', { 'has-danger': touched && error })}
-        >
-          {children}
-        </select>
+        {this.renderInput(props)}
         {
           showErrorMessage && touched && error &&
           <div className="form-control-feedback">
@@ -63,12 +114,8 @@ class SelectField extends Component {
 
   renderHorizontal = (props) => {
     const {
-      input,
       label,
       labelClassName,
-      children,
-      multiple,
-      disabled,
       meta: { touched, error },
       showErrorMessage,
     } = props;
@@ -81,14 +128,7 @@ class SelectField extends Component {
           </label>
         </div>
         <div className="col-md-9">
-          <select
-            {...input}
-            multiple={multiple}
-            disabled={disabled}
-            className={classNames('form-control', { 'has-danger': touched && error })}
-          >
-            {children}
-          </select>
+          {this.renderInput(props)}
           {
             showErrorMessage && touched && error &&
             <div className="form-control-feedback">

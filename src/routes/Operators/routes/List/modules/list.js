@@ -2,6 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../utils/buildQueryString';
+import { getBrand } from '../../../../../config';
 
 const KEY = 'operators';
 const CREATE_OPERATOR = createRequestAction(`${KEY}/create-operator`);
@@ -20,7 +21,11 @@ function createOperator(data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...data, sendMail: !!data.sendMail }),
+        body: JSON.stringify({
+          ...data,
+          sendMail: !!data.sendMail,
+          brandId: getBrand(),
+        }),
         types: [
           CREATE_OPERATOR.REQUEST,
           CREATE_OPERATOR.SUCCESS,

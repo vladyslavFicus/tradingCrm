@@ -4,6 +4,7 @@ import createReducer from '../../utils/createReducer';
 import createRequestAction from '../../utils/createRequestAction';
 import { sourceActionCreators as operatorSourceActionCreators } from './operator';
 import getFingerprint from '../../utils/fingerPrint';
+import { getBrand } from '../../config';
 
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
@@ -18,30 +19,29 @@ const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 const fetchAuthorities = operatorSourceActionCreators.fetchAuthorities(FETCH_AUTHORITIES);
 
 function signIn(data) {
-  return async (dispatch) => {
-    return dispatch({
-      [CALL_API]: {
-        endpoint: '/auth/signin',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          device: await getFingerprint(),
-        }),
-        types: [
-          {
-            type: SIGN_IN.REQUEST,
-            meta: { department: data.department },
-          },
-          SIGN_IN.SUCCESS,
-          SIGN_IN.FAILURE,
-        ],
+  return async dispatch => dispatch({
+    [CALL_API]: {
+      endpoint: '/auth/signin',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-    });
-  };
+      body: JSON.stringify({
+        ...data,
+        device: await getFingerprint(),
+        brandId: getBrand(),
+      }),
+      types: [
+        {
+          type: SIGN_IN.REQUEST,
+          meta: { department: data.department },
+        },
+        SIGN_IN.SUCCESS,
+        SIGN_IN.FAILURE,
+      ],
+    },
+  });
 }
 
 function refreshToken() {
@@ -71,7 +71,7 @@ function changeDepartment(department) {
     return dispatch({
       [CALL_API]: {
         method: 'POST',
-        endpoint: `/auth/signin/${department}`,
+        endpoint: `/auth/signin/${getBrand()}/${department}`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
