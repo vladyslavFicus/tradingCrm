@@ -72,7 +72,15 @@ const config = _.merge({
     reasons: {
       rejection: [],
     },
-    limits: {},
+    limits: {
+      deposit: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      wager: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      loss: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      session_duration: {
+        cooloff: '8 HOURS',
+        periods: ['1 HOURS', '2 HOURS', '3 HOURS', '4 HOURS', '5 HOURS', '6 HOURS', '7 HOURS', '8 HOURS'],
+      },
+    },
     locale: {
       languages: [],
       defaultLanguage: 'en',

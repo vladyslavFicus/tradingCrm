@@ -71,7 +71,7 @@ const sidebarBottomMenu = [
 const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
   { label: 'Transactions', url: '/users/:id/transactions' },
-  { label: 'Bonuses', url: '/users/:id/bonuses' },
+  { label: 'Bonuses', url: '/users/:id/bonuses/bonus' },
   { label: 'Activity', url: '/users/:id/game-activity' },
   { label: 'Payment acc.', url: '/users/:id/paymentAccounts' },
   { label: 'Limits', url: '/users/:id/limits' },

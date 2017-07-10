@@ -55,7 +55,13 @@ function processConfig() {
   const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${BUILD_ENV}.yml`);
 
   return fetchZookeeperConfig({ environmentConfig })
-    .then(config => _.merge({}, config, { nas: environmentConfig.nas }, { nas: { brand: environmentConfig.brand } }));
+    .then(config => _.merge(
+      {},
+      config,
+      { nas: environmentConfig.nas },
+      { nas: { brand: environmentConfig.brand } },
+      { logstash: environmentConfig.logstash }
+    ));
 }
 
 function fetchConfigHealth(url) {
