@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
     list,
     games,
     providers,
-    currency: profile.data.currencyCode || config.nas.brand.currencies.base,
+    currency: profile.data.currencyCode || config.nas.currencies.base,
   };
 };
 const mapActions = {

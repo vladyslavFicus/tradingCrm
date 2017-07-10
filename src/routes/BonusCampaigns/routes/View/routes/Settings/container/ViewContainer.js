@@ -5,7 +5,7 @@ import { actionCreators } from '../../../modules';
 
 const mapStateToProps = ({ bonusCampaignView: { data }, i18n: { locale } }) => ({
   bonusCampaign: data,
-  currencies: config.nas.brand.currencies.supported || [],
+  currencies: config.nas.currencies.supported || [],
   locale,
 });
 

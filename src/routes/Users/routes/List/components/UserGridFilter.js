@@ -14,7 +14,7 @@ const tags = config.nas.brand.tags.reduce((result, item) => ({
   ...result,
   [item.value]: item.label,
 }), {});
-const currencies = config.nas.brand.currencies.supported || [];
+const currencies = config.nas.currencies.supported || [];
 const countries = countryList().getData().reduce((result, item) => ({
   ...result,
   [item.code]: item.name,
