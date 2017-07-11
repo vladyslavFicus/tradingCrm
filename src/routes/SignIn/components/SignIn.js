@@ -7,6 +7,8 @@ import { actionTypes as authActionTypes } from '../../../redux/modules/auth';
 import SignInForm from './SignInForm';
 import './SignInBase.scss';
 import './SignIn.scss';
+import SignInBrands from './SignInBrands';
+import SignInDepartments from './SignInDepartments';
 
 class SignIn extends Component {
   static propTypes = {
@@ -30,11 +32,11 @@ class SignIn extends Component {
   };
 
   componentWillMount() {
-    document.body.classList.add('full-height');
+    document.body.classList.add('sign-in-page');
   }
 
   componentWillUnmount() {
-    document.body.classList.remove('full-height');
+    document.body.classList.remove('sign-in-page');
   }
 
   toggleStep2 = () => {
@@ -50,10 +52,10 @@ class SignIn extends Component {
       step: 1,
     });
 
-    //clear timeout when componentWillUnmount
+    // clear timeout when componentWillUnmount
     setTimeout(this.toggleStep2, 350);
-    setTimeout(this.toggleStep3, 351);
-  }
+    setTimeout(this.toggleStep3, 350);
+  };
 
   toggleStep5 = () => {
     this.setState({ step: 5 });
@@ -76,30 +78,18 @@ class SignIn extends Component {
     setTimeout(this.toggleStep5, 500);
     setTimeout(this.toggleStep6, 550);
     setTimeout(this.toggleStep7, 600);
-  }
+  };
 
   handleSubmit = async (data) => {
     this.goToBrandStep();
+  };
 
+  handleSelectBrand = (brand) => {
+    console.log(`Selected brand: ${brand}`);
+  };
 
-    // const { location, router, signIn } = this.props;
-    // const action = await signIn(data);
-    //
-    // if (action) {
-    //   if (action.type === authActionTypes.SIGN_IN.SUCCESS) {
-    //     let nextUrl = '/';
-    //
-    //     if (location.query && location.query.returnUrl && !/sign\-in/.test(location.query.returnUrl)) {
-    //       nextUrl = location.query.returnUrl;
-    //     }
-    //
-    //     router.replace(nextUrl);
-    //   } else if (action.error) {
-    //     const error = action.payload.response.error ?
-    //       action.payload.response.error : action.payload.message;
-    //     throw new SubmissionError({ _error: error });
-    //   }
-    // }
+  handleSelectDepartment = (department) => {
+    console.log(`Selected department: ${department}`);
   };
 
   render() {
@@ -122,89 +112,20 @@ class SignIn extends Component {
               'position-absolute': step > 1, // step 2
             })}
             >
-              <SignInForm
-                //departments={departments}
-                onSubmit={this.handleSubmit}
-              />
+              <SignInForm onSubmit={this.handleSubmit} />
             </div>
 
-            <div
-              className={classNames('sign-in__multibrand', {
-                fadeInUp: step > 2, // step 3
-              })}
-            >
-              <div
-                className={classNames('sign-in__multibrand_heading', {
-                  'fadeOut-text': step > 6,
-                })}
-              >
-                Good morning, <span className="heading-name">Helen</span>!
-              </div>
-              <div
-                className={classNames('sign-in__multibrand_call-to-action', {
-                  'fadeOut-text': step > 6,
-                })}
-              >
-                Please, choose the brand
-              </div>
-              <div
-                className={classNames('sign-in__multibrand_choice', {
-                  chosen: step > 6,
-                })}
-              >
-                {/* use map for brands */}
-                <div
-                  className={classNames('choice-item', {
-                    fadeOut: this.state.brandName !== 'firstBrand' && step > 3,
-                    'remove-block': this.state.brandName !== 'firstBrand' && step > 4,
-                    'position-absolute': this.state.brandName !== 'firstBrand' && step > 4,
-                    'chosen-brand': this.state.brandName === 'firstBrand' && step > 6,
-                  })}
-                  onClick={this.chooseBrand('firstBrand')}
-                >
-                  <div>
-                    <img src="/img/vslot-brand-logo.png" alt="logotype" />
-                  </div>
-                  <div className="choice-item_label">
-                    vslots
-                  </div>
-                </div>
+            <SignInBrands
+              username={'Helen'}
+              brands={['hrzn_dev2', 'vslots_prod', 'hrzn_stage']}
+              onSelect={this.handleSelectBrand}
+            />
 
-                <div
-                  className={classNames('choice-item', {
-                    fadeOut: this.state.brandName !== 'secondBrand' && step > 3,
-                    'remove-block': this.state.brandName !== 'secondBrand' && step > 4,
-                    'position-absolute': this.state.brandName !== 'secondBrand' && step > 4,
-                    'chosen-brand': this.state.brandName === 'secondBrand' && step > 6,
-                  })}
-                  onClick={this.chooseBrand('secondBrand')}
-                >
-                  <div>
-                    <img src="/img/loki-brand-logo.png" alt="logotype" />
-                  </div>
-                  <div className="choice-item_label">
-                    loki casino
-                  </div>
-                </div>
-
-                <div
-                  className={classNames('choice-item', {
-                    fadeOut: this.state.brandName !== 'thirdBrand' && step > 3,
-                    'remove-block': this.state.brandName !== 'thirdBrand' && step > 4,
-                    'position-absolute': this.state.brandName !== 'thirdBrand' && step > 4,
-                    'chosen-brand': this.state.brandName === 'thirdBrand' && step > 6,
-                  })}
-                  onClick={this.chooseBrand('thirdBrand')}
-                >
-                  <div>
-                    <img src="/img/nascasino-brand-logo.png" alt="logotype" />
-                  </div>
-                  <div className="choice-item_label">
-                    nascasino
-                  </div>
-                </div>
-              </div>
-            </div>
+            <SignInDepartments
+              username={'Helen'}
+              brands={['hrzn_dev2', 'vslots_prod', 'hrzn_stage']}
+              onSelect={this.handleSelectBrand}
+            />
 
             <div
               className={classNames('sign-in__department', {
@@ -219,17 +140,17 @@ class SignIn extends Component {
               </div>
               <div
                 className={classNames('sign-in__multibrand_call-to-action', {
-                  //'fadeOut-text': step > 6,
+                  // 'fadeOut-text': step > 6,
                 })}
               >
-                And now, choose  the department
+                And now, choose the department
               </div>
               <div className="sign-in__department_block">
                 <div
                   className="department-item"
                 >
                   <div>
-                    <img src="assets/img/cs-dep-icon.svg" alt="department" />
+                    <img src="/img/cs-dep-icon.svg" alt="department" />
                   </div>
                   <div className="department-item_details">
                     <div className="department-name">
@@ -244,7 +165,7 @@ class SignIn extends Component {
                   className="department-item"
                 >
                   <div>
-                    <img src="assets/img/rfp-dep-logo.svg" alt="department" />
+                    <img src="/img/rfp-dep-logo.svg" alt="department" />
                   </div>
                   <div className="department-item_details">
                     <div className="department-name">
@@ -259,7 +180,7 @@ class SignIn extends Component {
                   className="department-item"
                 >
                   <div>
-                    <img src="assets/img/casino-crm-dep-logo.svg" alt="department" />
+                    <img src="/img/casino-crm-dep-logo.svg" alt="department" />
                   </div>
                   <div className="department-item_details">
                     <div className="department-name">
@@ -276,47 +197,11 @@ class SignIn extends Component {
         </div>
 
         <div className="sign-in__copyright">
-          Copyright  © 2017 by Newage
+          Copyright © 2017 by Newage
         </div>
       </div>
     );
   }
-
-  // render() {
-  //   const { departments } = this.props;
-  //
-  //   return (
-  //     <section className="page-content">
-  //       <div className="page-content-inner" style={{ background: '#0e1836' }}>
-  //         <div className="single-page-block-header">
-  //           <div className="row">
-  //             <div className="col-lg-4">
-  //               <div className="logo">
-  //                 <IndexLink to="/" className="logo" style={{ fontSize: `${32}px` }}>
-  //                   <span style={{ color: '#e7edff' }}>NEW</span>
-  //                   <span style={{ color: 'rgb(26, 122, 175)' }}>AGE</span>
-  //                 </IndexLink>
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </div>
-  //         <div className="single-page-block">
-  //           <div className="single-page-block-inner effect-3d-element" ref="innerBlock">
-  //             <h2>Sign in</h2>
-  //             <div className="single-page-block-form">
-  //               <br />
-  //               <SignInForm
-  //                 departments={departments}
-  //                 onSubmit={this.handleSubmit}
-  //               />
-  //             </div>
-  //           </div>
-  //         </div>
-  //         <div className="single-page-block-footer text-center" />
-  //       </div>
-  //     </section>
-  //   );
-  // }
 }
 
 export default SignIn;
