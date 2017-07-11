@@ -4,6 +4,7 @@ import createReducer from '../../utils/createReducer';
 import createRequestAction from '../../utils/createRequestAction';
 import { sourceActionCreators as operatorSourceActionCreators } from './operator';
 import getFingerprint from '../../utils/fingerPrint';
+import timestamp from '../../utils/timestamp';
 import { getBrand } from '../../config';
 
 const KEY = 'auth';
@@ -87,7 +88,7 @@ function changeDepartment(department) {
 
 function validateToken() {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, lastTokenValidation } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -99,7 +100,7 @@ function validateToken() {
           Authorization: `Bearer ${token}`,
         },
         types: [VALIDATE_TOKEN.REQUEST, VALIDATE_TOKEN.SUCCESS, VALIDATE_TOKEN.FAILURE],
-        bailout: !logged,
+        bailout: !logged || (timestamp() - lastTokenValidation) < 1,
       },
     });
   };
@@ -165,6 +166,7 @@ const initialState = {
   uuid: null,
   username: null,
   fullName: null,
+  lastTokenValidation: null,
   data: {},
 };
 const actionHandlers = {
@@ -183,6 +185,7 @@ const actionHandlers = {
     ...state,
     token: action.payload.jwtToken,
   }),
+  [VALIDATE_TOKEN.SUCCESS]: (state) => ({ ...state, lastTokenValidation: timestamp() }),
   [LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
 const actionTypes = {

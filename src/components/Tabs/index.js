@@ -1,20 +1,21 @@
 import React from 'react';
-import classNames from 'classnames';
 import { Link } from 'react-router';
 
-const Tabs = ({ items, params }) => (
+const Tabs = ({ items, params, location: { pathname } }) => (
   <ul className="nav nav-tabs">
-    {items.map(item => (
-      <li key={item.url} className={classNames('nav-item')}>
-        <Link
-          activeClassName={'active'}
-          className={'nav-link'}
-          to={item.url.replace(/:id/, params.id)}
-        >
-          {item.label}
-        </Link>
-      </li>
-    ))}
+    {items.map((item) => {
+      const url = item.url.replace(/:id/, params.id);
+
+      return (
+        <li key={url} className="nav-item">
+          {
+            pathname.indexOf(url) === -1
+              ? <Link className="nav-link" to={item.url.replace(/:id/, params.id)}>{item.label}</Link>
+              : <span className="nav-link active">{item.label}</span>
+          }
+        </li>
+      );
+    })}
   </ul>
 );
 

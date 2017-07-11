@@ -5,7 +5,7 @@ export function shortify(uuid, manualPrefix = null, size = 2) {
 
   const elements = uuid.split('-');
   if (elements.length < 2) {
-    return uuid;
+    return manualPrefix ? `${manualPrefix}-${uuid}` : uuid;
   }
 
   let sourcePrefix = manualPrefix;

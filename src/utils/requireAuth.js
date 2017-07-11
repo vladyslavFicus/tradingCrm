@@ -5,9 +5,8 @@ const resolveAuthStatus = store => (resolve) => {
   store.dispatch(authActionCreators.validateToken())
     .then(
       (action) => {
-        const unauthorized = !action
-          || (action.error && action.payload.status === 401)
-          || (!action.payload.valid && action.payload.jwtError !== 'JWT_TOKEN_EXPIRED');
+        const unauthorized = (action && action.error && action.payload.status === 401)
+          || (action && !action.payload.valid && action.payload.jwtError !== 'JWT_TOKEN_EXPIRED');
         resolve(unauthorized);
       },
       () => resolve(true),

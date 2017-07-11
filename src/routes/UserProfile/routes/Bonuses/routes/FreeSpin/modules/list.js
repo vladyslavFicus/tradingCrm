@@ -15,6 +15,7 @@ const RESET_LIST = `${KEY}/reset`;
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
 const CREATE_FREE_SPIN = createRequestAction(`${KEY}/create-entities`);
+const CANCEL_FREE_SPIN = createRequestAction(`${KEY}/cancel-entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
 const MANAGE_NOTE = `${KEY}/manage-note`;
 const RESET_NOTE = `${KEY}/reset-note`;
@@ -154,6 +155,31 @@ function createFreeSpin(data) {
   };
 }
 
+function cancelFreeSpin(playerUUID, uuid, reason) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `free_spin/free-spins/${playerUUID}/${uuid}/cancel`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ reason }),
+        types: [
+          CANCEL_FREE_SPIN.REQUEST,
+          CANCEL_FREE_SPIN.SUCCESS,
+          CANCEL_FREE_SPIN.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function manageNote(data) {
   return (dispatch, getState) => {
     const { auth: { uuid, fullName } } = getState();
@@ -246,6 +272,7 @@ const actionTypes = {
   CREATE_FREE_SPIN,
   MANAGE_NOTE,
   RESET_NOTE,
+  CANCEL_FREE_SPIN,
 };
 const actionCreators = {
   resetList,
@@ -255,6 +282,7 @@ const actionCreators = {
   createFreeSpin,
   manageNote,
   resetNote,
+  cancelFreeSpin,
 };
 
 export {

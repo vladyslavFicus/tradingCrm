@@ -1,6 +1,12 @@
 import keyMirror from 'keymirror';
 import I18n from '../utils/fake-i18n';
 
+const actions = keyMirror({
+  CANCEL: null,
+});
+const actionLabels = {
+  [actions.CANCEL]: I18n.t('CONSTANTS.FREE_SPIN.STATUS_ACTIONS_LABELS.CANCEL'),
+};
 const statuses = keyMirror({
   CANCELED: null,
   FORFEITED: null,
@@ -33,6 +39,8 @@ const statusesClassNames = {
 };
 
 export {
+  actions,
+  actionLabels,
   statuses,
   statusesReasons,
   statusesLabels,
