@@ -34,17 +34,16 @@ class UsersPanelItem extends Component {
       color,
       onClick,
     } = this.props;
-    const blockClassName = classNames('users-panel-footer-row_item cursor-pointer', `tab-${color}`, { view: active });
+    const blockClassName = classNames('users-panel-footer__tab', `tab-${color}`, { view: active });
 
     return (
       <div className={blockClassName} onClick={onClick}>
-        <div className="users-panel-footer-row_item-block">
-          <div className="users-panel-footer-row_item-block-info">
-            <div className="player-name">{fullName}</div>
-            <div className="player-info">{login} - {shortify(uuid, uuid.indexOf('PLAYER') === -1 ? 'PL' : '')}</div>
+        <div className="users-panel-footer__tab__block">
+          <div className="users-panel-footer__tab__name">{fullName}</div>
+          <div className="users-panel-footer__tab__info">
+            {login} - {shortify(uuid, uuid.indexOf('PLAYER') === -1 ? 'PL' : '')}
           </div>
-
-          <button className="btn-transparent color-black" onClick={this.handleRemoveClick}>
+          <button className="btn-transparent users-panel-footer__tab__close" onClick={this.handleRemoveClick}>
             <i className="fa fa-times-circle" />
           </button>
         </div>
