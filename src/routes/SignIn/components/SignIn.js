@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { IndexLink, withRouter } from 'react-router';
 import { SubmissionError } from 'redux-form';
 import classNames from 'classnames';
-import { actionTypes as authActionTypes } from '../../../redux/modules/auth';
 import SignInForm from './SignInForm';
 import './SignInBase.scss';
 import './SignIn.scss';
 import SignInBrands from './SignInBrands';
 import SignInDepartments from './SignInDepartments';
+import Preloader from './Preloader';
+import PropTypes from '../propTypes';
 
 class SignIn extends Component {
   static propTypes = {
@@ -21,10 +21,16 @@ class SignIn extends Component {
       }),
     }).isRequired,
     signIn: PropTypes.func.isRequired,
-    departments: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })),
+    selectBrand: PropTypes.func.isRequired,
+    selectDepartment: PropTypes.func.isRequired,
+    brand: PropTypes.brand,
+    department: PropTypes.department,
+    brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
+    departments: PropTypes.arrayOf(PropTypes.department).isRequired,
+  };
+  static defaultProps = {
+    brand: null,
+    department: null,
   };
 
   state = {
@@ -33,74 +39,57 @@ class SignIn extends Component {
 
   componentWillMount() {
     document.body.classList.add('sign-in-page');
+
+    setTimeout(() => {
+      this.setState({ step: 1 });
+    }, 1000);
   }
 
   componentWillUnmount() {
     document.body.classList.remove('sign-in-page');
   }
 
-  toggleStep2 = () => {
-    this.setState({ step: 2 });
-  };
+  componentWillReceiveProps(nextProps) {
+    const { brand, brands } = this.props;
 
-  toggleStep3 = () => {
-    this.setState({ step: 3 });
-  };
+    if (brands.length !== nextProps.brands.length) {
+      this.setState({ step: 2 }, () => {
+        setTimeout(() => {
+          this.setState({ step: 3 });
+        }, 500);
+      });
+    }
 
-  goToBrandStep = () => {
-    this.setState({
-      step: 1,
-    });
+    if (brand !== nextProps.brand) {
+      this.setState({ step: 4 });
+    }
+  }
 
-    // clear timeout when componentWillUnmount
-    setTimeout(this.toggleStep2, 350);
-    setTimeout(this.toggleStep3, 350);
-  };
-
-  toggleStep5 = () => {
-    this.setState({ step: 5 });
-  };
-
-  toggleStep6 = () => {
-    this.setState({ step: 6 });
-  };
-
-  toggleStep7 = () => {
-    this.setState({ step: 7 });
-  };
-
-  chooseBrand = brandName => () => {
-    this.setState({
-      step: 4,
-      brandName,
-    });
-
-    setTimeout(this.toggleStep5, 500);
-    setTimeout(this.toggleStep6, 550);
-    setTimeout(this.toggleStep7, 600);
-  };
-
-  handleSubmit = async (data) => {
-    this.goToBrandStep();
+  handleSubmit = (data) => {
+    this.props.signIn(data);
   };
 
   handleSelectBrand = (brand) => {
-    console.log(`Selected brand: ${brand}`);
+    this.props.selectBrand(brand);
   };
 
   handleSelectDepartment = (department) => {
-    console.log(`Selected department: ${department}`);
+    this.props.selectDepartment(department);
   };
 
   render() {
     const { step } = this.state;
+    const {
+      brand,
+      brands,
+      department,
+      departments,
+      data: { login },
+    } = this.props;
 
     return (
       <div>
-        <div id="preloader fade">
-          <div className="loader" />
-        </div>
-
+        <Preloader show={step === 0} />
         <div className="wrapper">
           <div className="sign-in">
             <div className="sign-in__logo">
@@ -108,97 +97,35 @@ class SignIn extends Component {
             </div>
 
             <div className={classNames('sign-in__form', {
-              fadeOutLeft: step > 0, // step 1
-              'position-absolute': step > 1, // step 2
+              fadeInUp: step > 0, // step 1
+              fadeOutLeft: step > 1, // step 2
+              'position-absolute': step > 2, // step 3
             })}
             >
               <SignInForm onSubmit={this.handleSubmit} />
             </div>
 
             <SignInBrands
-              username={'Helen'}
-              brands={['hrzn_dev2', 'vslots_prod', 'hrzn_stage']}
+              className={classNames('sign-in__multibrand', {
+                fadeInUp: step > 2,
+              })}
+              username={login}
+              brands={brands}
               onSelect={this.handleSelectBrand}
             />
 
             <SignInDepartments
-              username={'Helen'}
-              brands={['hrzn_dev2', 'vslots_prod', 'hrzn_stage']}
-              onSelect={this.handleSelectBrand}
-            />
-
-            <div
               className={classNames('sign-in__department', {
-                fadeInUp: step > 5,
-                fadeOutDown: step < 6,
+                fadeInUp: step === 4,
               })}
-            >
-              <div
-                className="sign-in__department_return"
-              >
-                All <span className="return-label">brands</span>
-              </div>
-              <div
-                className={classNames('sign-in__multibrand_call-to-action', {
-                  // 'fadeOut-text': step > 6,
-                })}
-              >
-                And now, choose the department
-              </div>
-              <div className="sign-in__department_block">
-                <div
-                  className="department-item"
-                >
-                  <div>
-                    <img src="/img/cs-dep-icon.svg" alt="department" />
-                  </div>
-                  <div className="department-item_details">
-                    <div className="department-name">
-                      Customer service
-                    </div>
-                    <div className="departmnet-role">
-                      Head of department
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="department-item"
-                >
-                  <div>
-                    <img src="/img/rfp-dep-logo.svg" alt="department" />
-                  </div>
-                  <div className="department-item_details">
-                    <div className="department-name">
-                      Risk Fraud & Payments
-                    </div>
-                    <div className="departmnet-role">
-                      Team Leader
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="department-item"
-                >
-                  <div>
-                    <img src="/img/casino-crm-dep-logo.svg" alt="department" />
-                  </div>
-                  <div className="department-item_details">
-                    <div className="department-name">
-                      Casino & CRM
-                    </div>
-                    <div className="departmnet-role">
-                      Team Leader
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              departments={departments}
+              onSelect={this.handleSelectDepartment}
+              onBackClick={() => this.handleSelectBrand(null)}
+            />
           </div>
         </div>
 
-        <div className="sign-in__copyright">
-          Copyright © 2017 by Newage
-        </div>
+        <div className="sign-in__copyright">Copyright © 2017 by Newage</div>
       </div>
     );
   }

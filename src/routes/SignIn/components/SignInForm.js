@@ -22,10 +22,16 @@ const validator = createValidator({
 class SignInForm extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func,
-    onSubmit: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,
-    departments: PropTypes.arrayOf(PropTypes.dropDownOption),
+    error: PropTypes.string,
+  };
+  static defaultProps = {
+    handleSubmit: null,
+    submitting: false,
+    pristine: false,
+    error: null,
   };
 
   render() {
@@ -35,7 +41,6 @@ class SignInForm extends Component {
       submitting,
       onSubmit,
       error,
-      departments,
     } = this.props;
 
     return (
@@ -44,9 +49,12 @@ class SignInForm extends Component {
         className="form-horizontal"
         onSubmit={handleSubmit(onSubmit)}
       >
-        {error && <div className="alert alert-warning">
-          {error}
-        </div>}
+        {
+          error &&
+          <div className="alert alert-warning">
+            {error}
+          </div>
+        }
         <div className="sign-in__form_input">
           <Field
             name="login"
@@ -66,10 +74,7 @@ class SignInForm extends Component {
           />
         </div>
         <div className="sign-in__form_submit">
-          <button
-            className="btn btn-primary sign-in_btn"
-            disabled={pristine || submitting}
-          >
+          <button className="btn btn-primary sign-in_btn" disabled={pristine || submitting}>
             Login
           </button>
         </div>

@@ -9,7 +9,7 @@ body.sign-in-page {
   font-family: 'Open Sans', sans-serif;
 }
 
-#preloader {
+.preloader {
   -webkit-transition: opacity 0.25s linear;
   -o-transition: opacity 0.25s linear;
   transition: opacity 0.25s linear;
@@ -22,11 +22,11 @@ body.sign-in-page {
   z-index: 9999;
 }
 
-#preloader.fade {
+.preloader.fade {
   opacity: 0;
 }
 
-#preloader .loader {
+.preloader .loader {
   height: 124px;
   width: 124px;
   position: absolute;

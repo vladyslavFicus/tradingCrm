@@ -1,13 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import SignInBrandItem from './SignInBrandItem';
-import { brandsConfig } from '../constants';
+import PropTypes from '../propTypes';
 
 const SignInBrands = (props) => {
-  const { username, brands, onSelect } = props;
+  const {
+    activeBrand,
+    username,
+    brands,
+    onSelect,
+    className,
+  } = props;
 
   return (
-    <div className="sign-in__multibrand">
+    <div className={className}>
       <div className="sign-in__multibrand_heading">
         Good morning, <span className="heading-name">{username}</span>!
       </div>
@@ -15,25 +20,30 @@ const SignInBrands = (props) => {
         Please, choose the brand
       </div>
       <div className="sign-in__multibrand_choice">
-        {brands.map((brand) => {
-          const brandConfig = brandsConfig[brand];
+        {brands.map(brand => {
+          const isActive = activeBrand && activeBrand.id === brand.id;
 
-          return brandConfig ? (
+          return (
             <SignInBrandItem
-              image={brandConfig.image}
-              name={brandConfig.name}
+              className={}
+              key={brand.id}
+              {...brand}
               onClick={() => onSelect(brand)}
             />
-          ) : null;
+          );
         })}
       </div>
     </div>
   );
 };
 SignInBrands.propTypes = {
+  className: PropTypes.string,
   username: PropTypes.string.isRequired,
-  brands: PropTypes.arrayOf(PropTypes.string).isRequired,
+  brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
   onSelect: PropTypes.func.isRequired,
+};
+SignInBrands.defaultProps = {
+  className: 'sign-in__multibrand',
 };
 
 export default SignInBrands;
