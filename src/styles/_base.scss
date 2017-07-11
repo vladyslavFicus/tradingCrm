@@ -160,7 +160,6 @@ small {
   opacity: .5;
   -webkit-transition: opacity .5s ease;
   -moz-transition: opacity .5s ease;
-  -ms-transition: opacity .5s ease;
   -o-transition: opacity .5s ease;
   transition: opacity .5s ease;
   &:hover {
@@ -209,4 +208,14 @@ small {
 
 .nav-item {
   position: relative;
+}
+
+.transaction-failed-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 2px;
+  left: 6px;
+  background: url("../../public/img/transaction-failed-icon.png") no-repeat;
 }

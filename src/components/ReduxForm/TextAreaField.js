@@ -10,6 +10,7 @@ class TextAreaField extends Component {
       value: PropTypes.any,
     }).isRequired,
     label: PropTypes.string,
+    rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     labelAddon: PropTypes.any,
     labelClassName: PropTypes.string,
     inputClassName: PropTypes.string,
@@ -39,6 +40,7 @@ class TextAreaField extends Component {
     placeholder: null,
     inputAddon: null,
     inputAddonPosition: 'left',
+    rows: null,
   };
 
   renderLabel = (props) => {
@@ -121,6 +123,7 @@ class TextAreaField extends Component {
       meta: { touched, error },
       placeholder,
       label,
+      rows,
     } = props;
 
     let inputField = (
@@ -130,6 +133,7 @@ class TextAreaField extends Component {
         type={type}
         className={classNames(inputClassName, { 'has-danger': touched && error })}
         placeholder={placeholder || label}
+        rows={rows}
       />
     );
 

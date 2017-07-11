@@ -224,7 +224,10 @@
         "TITLE": "Free spin details"
       },
       "EXPORT_BUTTON": "Export",
-      "MANUAL_FREE_SPIN_BUTTON": "+ Manual free spin"
+      "MANUAL_FREE_SPIN_BUTTON": "+ Manual free spin",
+      "NOTIFICATIONS": {
+        "CANCEL_FREE_SPIN_ERROR": "Failed to cancel free spins"
+      }
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
@@ -249,6 +252,20 @@
         },
         "FREE_SPIN_VALUE": "Free spin value",
         "TOTAL_VALUE": "Total value"
+      },
+      "MODAL_CANCEL": {
+        "SELECT_REASON_OPTION": "-- Select reason --",
+        "CUSTOM_REASON_OPTION": "Other",
+        "TITLE": "Free spins cancelation",
+        "ACTION_TEXT": "You are about to %{action} the \"%{title}\"",
+        "ENTITY_NAME": "free spins",
+        "CUSTOM_REASON_PLACEHOLDER": "Reason",
+        "CANCEL_BUTTON": "Cancel the free spins",
+        "CONSTANTS": {
+          "REASON_LABEL": "Reason",
+          "CUSTOM_REASON_LABEL": "Custom reason"
+        },
+        "CLOSE_BUTTON": "Close"
       }
     }
   },
@@ -313,7 +330,8 @@
     "UNAVAILABLE": "Unavailable",
     "UNKNOWN": "Unknown",
     "UNKNOWN_TIME": "Unknown time",
-    "TOTAL_WIN": "Total win"
+    "TOTAL_WIN": "Total win",
+    "ERROR": "Error"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -475,6 +493,9 @@
         "PENDING": "Pending",
         "FAILED": "Failed",
         "PLAYED": "Played"
+      },
+      "STATUS_ACTIONS_LABELS": {
+        "CANCEL": "Cancel free spins"
       }
     },
     "FREE_SPINS": {

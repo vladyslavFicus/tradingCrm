@@ -4,6 +4,7 @@ import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import GridView, { GridColumn } from '../../../../../components/GridView';
+import FailedStatusIcon from '../../../../../components/FailedStatusIcon';
 import Amount from '../../../../../components/Amount';
 import {
   types as paymentTypes,
@@ -341,6 +342,12 @@ class View extends Component {
         <div>
           <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
             {statusesLabels[data.status] || data.status}
+            {
+              data.status === paymentsStatuses.FAILED && !!data.reason &&
+              <FailedStatusIcon id={`player-transaction-failure-reason-${data.paymentId}`}>
+                {data.reason}
+              </FailedStatusIcon>
+            }
           </div>
           {
             data.creatorUUID &&
@@ -358,16 +365,14 @@ class View extends Component {
     />
   );
 
-  renderActions = (data) => {
-    return (
-      <NoteButton
-        id={`bonus-item-note-button-${data.paymentId}`}
-        note={data.note}
-        onClick={this.handleNoteClick}
-        targetEntity={data}
-      />
-    );
-  };
+  renderActions = data => (
+    <NoteButton
+      id={`bonus-item-note-button-${data.paymentId}`}
+      note={data.note}
+      onClick={this.handleNoteClick}
+      targetEntity={data}
+    />
+  );
 
   render() {
     const { modal } = this.state;
