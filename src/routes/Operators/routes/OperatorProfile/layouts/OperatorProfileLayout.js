@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Collapse } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
+import Information from '../components/Information';
 import Tabs from '../../../../../components/Tabs';
 import Modal from '../../../../../components/Modal';
-import Information from '../components/Information';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import modalCssModule from '../styles/InfoModal.scss';
@@ -183,59 +183,50 @@ class OperatorProfileLayout extends Component {
     } = this.state;
 
     return (
-      <div className="player container panel profile-layout">
-        <div className="container-fluid">
-          <div className="profile-layout-heading">
-            <div className="row">
-              <div className="col-md-12">
-                <Header
-                  data={data}
-                  lastIp={lastIp}
-                  availableStatuses={availableStatuses}
-                  onResetPasswordClick={this.handleResetPasswordClick}
-                  onSendInvitationClick={this.handleSendInvitationClick}
-                  onStatusChange={changeStatus}
-                />
-              </div>
-            </div>
+      <div className="panel profile-layout operators-profile-layout">
+        <div className="profile-layout-heading">
+          <Header
+            data={data}
+            lastIp={lastIp}
+            availableStatuses={availableStatuses}
+            onResetPasswordClick={this.handleResetPasswordClick}
+            onSendInvitationClick={this.handleSendInvitationClick}
+            onStatusChange={changeStatus}
+          />
+          <div className="hide-details-block">
+            <div className="hide-details-block_arrow" />
+            <button
+              className="hide-details-block_text btn-transparent"
+              onClick={this.handleToggleInformationBlock}
+            >
+              {informationShown ?
+                I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
+                I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
+              }
+            </button>
 
-            <div className="hide-details-block">
-              <div className="hide-details-block_arrow" />
-              <button
-                className="hide-details-block_text btn-transparent"
-                onClick={this.handleToggleInformationBlock}
-              >
-                {informationShown ?
-                  I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
-                  I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
-                }
-              </button>
-
-              <div className="hide-details-block_arrow" />
-            </div>
-
-            <Collapse isOpen={informationShown}>
-              <Information
-                data={data}
-                ips={ip.list}
-              />
-            </Collapse>
+            <div className="hide-details-block_arrow" />
           </div>
-          <div className="row">
-            <section className="panel profile-user-content">
-              <div className="panel-body">
-                <div className="nav-tabs-horizontal">
-                  <Tabs
-                    items={operatorProfileTabs}
-                    location={location}
-                    params={params}
-                  />
-                  <div className="tab-content padding-vertical-20">
-                    {children}
-                  </div>
-                </div>
+
+          <Collapse isOpen={informationShown}>
+            <Information
+              data={data}
+              ips={ip.list}
+            />
+          </Collapse>
+        </div>
+        <div className="panel profile-user-content">
+          <div className="panel-body">
+            <div className="nav-tabs-horizontal">
+              <Tabs
+                items={operatorProfileTabs}
+                location={location}
+                params={params}
+              />
+              <div className="tab-content padding-vertical-20">
+                {children}
               </div>
-            </section>
+            </div>
           </div>
         </div>
         {

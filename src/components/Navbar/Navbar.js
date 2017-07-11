@@ -76,7 +76,8 @@ class Navbar extends Component {
               <div className={classNames('search-overlay', { open: searchFieldActive })}>
                 <div className="search-overlay__content">
                   <button
-                    type="button" className={classNames('overlay-close', { closed: searchOverlayActive })}
+                    type="button"
+                    className={classNames('overlay-close', { closed: searchOverlayActive })}
                     onClick={this.handleOverlayClick}
                   >&#10005;</button>
                   <div className="form-inline">

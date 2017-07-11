@@ -1,12 +1,13 @@
-import { injectReducer } from 'store/reducers';
+import getChildRoutes from './routes';
 
-export default (store) => ({
+export default store => ({
   path: ':id/bonuses',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      injectReducer(store, { key: 'userBonusesList', reducer: require('./modules').default });
+  onEnter: (nextState, replace, cb) => {
+    if (nextState.location && /bonuses$/.test(nextState.location.pathname)) {
+      replace(`/users/${nextState.params.id}/bonuses/bonus`);
+    }
 
-      cb(null, require('./container/Bonuses').default);
-    }, 'user-bonuses-list');
+    cb();
   },
+  childRoutes: getChildRoutes(store),
 });

@@ -1,6 +1,19 @@
 import { actionCreators as authActionCreators } from '../redux/modules/auth';
 import { actionCreators as windowActionCreators } from '../redux/modules/window';
 
+const resolveAuthStatus = store => (resolve) => {
+  store.dispatch(authActionCreators.validateToken())
+    .then(
+      (action) => {
+        const unauthorized = !action
+          || (action.error && action.payload.status === 401)
+          || (!action.payload.valid && action.payload.jwtError !== 'JWT_TOKEN_EXPIRED');
+        resolve(unauthorized);
+      },
+      () => resolve(true),
+    );
+};
+
 export default (store, basePath = '') => (nextState, replace, callback) => {
   const { auth } = store.getState();
 
@@ -29,20 +42,7 @@ export default (store, basePath = '') => (nextState, replace, callback) => {
     return callback();
   }
 
-  const resolveAuthStatus = (resolve) => {
-    store.dispatch(authActionCreators.validateToken())
-      .then(
-        (action) => {
-          const unauthorized = !action
-            || (action.error && action.payload.status === 401)
-            || (!action.payload.valid && action.payload.jwtError !== 'JWT_TOKEN_EXPIRED');
-          resolve(unauthorized);
-        },
-        () => resolve(true)
-      );
-  };
-
-  (new Promise(resolveAuthStatus))
+  return (new Promise(resolveAuthStatus(store)))
     .then((unauthorized) => {
       if (unauthorized) {
         if (window && window.parent !== window) {

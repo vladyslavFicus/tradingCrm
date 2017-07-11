@@ -1,7 +1,7 @@
 .player__account__details {
   padding: 10px 15px;
   &-label {
-    color: #999999;
+    color: #999;
     font-size: 12px;
     text-transform: uppercase;
   }
@@ -18,12 +18,12 @@
       overflow-x: hidden;
     }
     &-label {
-      color: #999999;
+      color: #999;
       text-transform: uppercase;
       font-size: 11px;
     }
     &-departments {
-      padding: 5px 14px;
+      padding-top: 5px;
     }
   }
   &_networking {

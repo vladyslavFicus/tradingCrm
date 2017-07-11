@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import classNames from 'classnames';
 import { targetTypes } from '../../../constants/note';
-import PopoverButton from '../../../components/PopoverButton';
+import NoteButton from '../../../components/NoteButton';
 import './PaymentDetailModal.scss';
 import Uuid from '../../../components/Uuid';
 
@@ -46,9 +46,9 @@ class PaymentActionReasonModal extends Component {
     reason: 'Reason 1',
   };
 
-  handleNoteClick = (target, data) => {
-    if (data.note) {
-      this.context.notes.onEditNoteClick(target, data.note, { placement: 'top' });
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.notes.onEditNoteClick(target, note, { placement: 'top' });
     } else {
       this.context.notes.onAddNoteClick(target, {
         playerUUID: data.playerUUID,
@@ -141,17 +141,12 @@ class PaymentActionReasonModal extends Component {
 
           <div className="row">
             <div className="col-md-12 text-center">
-              <PopoverButton
+              <NoteButton
                 id="payment-reject-modal-note"
-                className="cursor-pointer margin-right-5"
-                onClick={id => this.handleNoteClick(id, payment)}
-              >
-                {note
-                  ? (note.pinned ? <i className="note-icon note-pinned-note" /> :
-                    <i className="note-icon note-with-text" />)
-                  : <i className="note-icon note-add-note" />
-                }
-              </PopoverButton>
+                note={note}
+                onClick={this.handleNoteClick}
+                targetEntity={payment}
+              />
             </div>
           </div>
 
