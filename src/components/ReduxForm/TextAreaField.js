@@ -10,7 +10,7 @@ class TextAreaField extends Component {
       value: PropTypes.any,
     }).isRequired,
     label: PropTypes.string,
-    rows: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+    rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     labelAddon: PropTypes.any,
     labelClassName: PropTypes.string,
     inputClassName: PropTypes.string,

@@ -26,7 +26,7 @@ const ViewModalMain = ({ freeSpin }) => (
         {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATUS')}
       </div>
 
-      <FreeSpinStatus freeSpin={freeSpin} />
+      <FreeSpinStatus id={`free-spin-status-${freeSpin.uuid}-view-modal`} freeSpin={freeSpin} />
     </div>
   </div>
 );

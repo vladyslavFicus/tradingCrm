@@ -183,8 +183,8 @@ class FreeSpinsView extends Component {
   };
 
   handleCancelFreeSpin = async ({ uuid, reason }) => {
-    const { cancelFreeSpin } = this.props;
-    const action = await cancelFreeSpin(uuid, reason);
+    const { cancelFreeSpin, params } = this.props;
+    const action = await cancelFreeSpin(params.id, uuid, reason);
 
     if (action) {
       if (action.error) {
@@ -250,7 +250,7 @@ class FreeSpinsView extends Component {
   );
 
   renderStatus = data => (
-    <FreeSpinStatus freeSpin={data} />
+    <FreeSpinStatus id={`free-spin-status-${data.uuid}-grid`} freeSpin={data} />
   );
 
   renderNote = data => (

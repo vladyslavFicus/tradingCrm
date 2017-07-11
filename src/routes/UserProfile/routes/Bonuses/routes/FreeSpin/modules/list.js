@@ -155,13 +155,13 @@ function createFreeSpin(data) {
   };
 }
 
-function cancelFreeSpin(uuid, reason) {
+function cancelFreeSpin(playerUUID, uuid, reason) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin/free-spins/${uuid}/cancel`,
+        endpoint: `free_spin/free-spins/${playerUUID}/${uuid}/cancel`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',

@@ -7,10 +7,12 @@ import PropTypes from '../../constants/propTypes';
 import renderLabel from '../../utils/renderLabel';
 import { statuses, statusesClassNames, statusesLabels } from '../../constants/free-spin';
 import './FreeSpinStatus.scss';
-import Amount from "../Amount/Amount";
+import Amount from '../Amount';
+import FailedStatusIcon from '../FailedStatusIcon';
 
 class FreeSpinStatus extends Component {
   static propTypes = {
+    id: PropTypes.string.isRequired,
     freeSpin: PropTypes.freeSpinEntity.isRequired,
     blockName: PropTypes.string,
   };
@@ -19,13 +21,19 @@ class FreeSpinStatus extends Component {
   };
 
   render() {
-    const { freeSpin, blockName } = this.props;
-    const className = statusesClassNames[freeSpin.freeSpinStatus] || '';
+    const { id, freeSpin, blockName } = this.props;
+    const className = statusesClassNames[freeSpin.status] || '';
 
     return (
       <div className={blockName}>
         <div className={classNames(`${blockName}__status`, className)}>
           {renderLabel(freeSpin.status, statusesLabels)}
+          {
+            freeSpin.reason &&
+            <FailedStatusIcon id={`${id}-status`}>
+              {freeSpin.reason}
+            </FailedStatusIcon>
+          }
         </div>
         {
           freeSpin.statusChangedDate &&
