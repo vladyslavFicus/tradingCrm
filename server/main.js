@@ -20,6 +20,9 @@ if (project.env === 'development') {
   if (process.env.API_ROOT) {
     _.set(appConfig, 'nas.brand.api.url', process.env.API_ROOT);
   }
+  if (process.env.BRAND_ID) {
+    _.set(appConfig, 'nas.brand.name', process.env.BRAND_ID);
+  }
 
   logger.info('Enabling webpack development and HMR middleware');
   app.use(require('webpack-dev-middleware')(compiler, {
