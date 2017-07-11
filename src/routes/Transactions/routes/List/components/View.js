@@ -5,6 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import TransactionsFilterForm from './TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
+import FailedStatusIcon from '../../../../../components/FailedStatusIcon';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
   types as paymentTypes,
@@ -272,6 +273,12 @@ class View extends Component {
         <div>
           <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
             {statusesLabels[data.status] || data.status}
+            {
+              data.status === paymentsStatuses.FAILED && !!data.reason &&
+              <FailedStatusIcon id={`transaction-failure-reason-${data.paymentId}`}>
+                {data.reason}
+              </FailedStatusIcon>
+            }
           </div>
           {
             data.creatorUUID &&
