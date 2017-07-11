@@ -38,7 +38,7 @@ const config = _.merge({
   },
   nas: {
     brand: {
-      name: 'hrzn_dev2',
+      name: '',
       api: {
         url: '',
       },
