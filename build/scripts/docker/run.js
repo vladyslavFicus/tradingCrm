@@ -60,7 +60,7 @@ function processConfig() {
       config,
       { nas: environmentConfig.nas },
       { nas: { brand: environmentConfig.brand } },
-      { logstash: environmentConfig.logstash }
+      { logstash: environmentConfig.logstash },
     ));
 }
 
@@ -94,9 +94,9 @@ processConfig()
     if (apiUrl) {
       health.config.status = STATUS.UP;
 
-      return fetchConfigHealth(`${apiUrl}/config/health`)
+      return fetchConfigHealth(`${apiUrl}/health`)
         .then((response) => {
-          if (response.status === STATUS.UP) {
+          if (response.version) {
             health.api.status = STATUS.UP;
           }
 
