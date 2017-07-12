@@ -77,11 +77,25 @@ class View extends Component {
     });
   };
 
+  renderGameRoundType = (data) => {
+    if (data.gameRoundType === 'GIFT_SPIN') {
+      return (
+        <div className="font-size-12 color-primary font-weight-700">
+          GIFT SPIN
+        </div>
+      );
+    }
+
+
+    return null;
+  };
+
   renderGameRound = data => (
     <span className={classNames({ 'text-danger': data.rollback })}>
       <div className="font-weight-700">
         <Uuid uuid={data.gameRoundId} uuidPrefix="GR" />
       </div>
+      {this.renderGameRoundType(data)}
       {
         data.rollback &&
         <div className="font-size-12 text-uppercase">
