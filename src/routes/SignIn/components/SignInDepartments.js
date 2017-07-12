@@ -1,9 +1,13 @@
 import React from 'react';
 import SignInDepartmentItem from './SignInDepartmentItem';
 import PropTypes from '../propTypes';
+import Greeting from '../../../components/Greeting';
 
-const SignInDepartments = ({ className, departments, onSelect, onBackClick }) => (
+const SignInDepartments = ({ className, departments, onSelect, onBackClick, username }) => (
   <div className={className}>
+    <div className="sign-in__multibrand_heading">
+      {username && <Greeting username={username} />}
+    </div>
     <div className="sign-in__department_return" onClick={onBackClick}>
       All <span className="return-label">brands</span>
     </div>

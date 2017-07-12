@@ -21,6 +21,7 @@ const validator = createValidator({
 
 class SignInForm extends Component {
   static propTypes = {
+    className: PropTypes.string,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
@@ -28,6 +29,7 @@ class SignInForm extends Component {
     error: PropTypes.string,
   };
   static defaultProps = {
+    className: 'sign-in__form',
     handleSubmit: null,
     submitting: false,
     pristine: false,
@@ -36,6 +38,7 @@ class SignInForm extends Component {
 
   render() {
     const {
+      className,
       handleSubmit,
       pristine,
       submitting,
@@ -44,41 +47,43 @@ class SignInForm extends Component {
     } = this.props;
 
     return (
-      <form
-        name="form-validation"
-        className="form-horizontal"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        {
-          error &&
-          <div className="alert alert-warning">
-            {error}
-          </div>
-        }
-        <div className="sign-in__form_input">
-          <Field
-            name="login"
-            type="text"
-            label="Email"
-            component={InputField}
-            placeholder={attributeLabels.login}
-          />
+      <div className={className}>
+        <form
+          name="form-validation"
+          className="form-horizontal"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {
+            error &&
+            <div className="alert alert-warning">
+              {error}
+            </div>
+          }
+          <div className="sign-in__form_input">
+            <Field
+              name="login"
+              type="text"
+              label="Email"
+              component={InputField}
+              placeholder={attributeLabels.login}
+            />
 
-        </div>
-        <div className="sign-in__form_input">
-          <Field
-            name="password"
-            type="password"
-            component={InputField}
-            placeholder={attributeLabels.password}
-          />
-        </div>
-        <div className="sign-in__form_submit">
-          <button className="btn btn-primary sign-in_btn" disabled={pristine || submitting}>
-            Login
-          </button>
-        </div>
-      </form>
+          </div>
+          <div className="sign-in__form_input">
+            <Field
+              name="password"
+              type="password"
+              component={InputField}
+              placeholder={attributeLabels.password}
+            />
+          </div>
+          <div className="sign-in__form_submit">
+            <button className="btn btn-primary sign-in_btn" disabled={pristine || submitting}>
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }

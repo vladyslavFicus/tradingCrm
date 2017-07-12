@@ -6,14 +6,13 @@ import { brandsConfig, departmentsConfig } from '../constants';
 
 function mapBrands(brands) {
   return brands
-    .map(brand => ({ id: brand, ...brandsConfig[brand.split('_')[0]] }))
+    .map((brand, index) => ({ id: `${brand}_${index}`, brand, ...brandsConfig[brand.split('_')[0]] }))
     .filter(brand => !!brand);
 }
 
 const KEY = 'sign-in';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
 const SELECT_BRAND = `${KEY}/select-brand`;
-const SELECT_DEPARTMENT = `${KEY}/select-department`;
 
 function signIn(data) {
   return async dispatch => dispatch({
@@ -44,13 +43,6 @@ function selectBrand(brand) {
   };
 }
 
-function selectDepartment(department) {
-  return {
-    type: SELECT_BRAND,
-    payload: department,
-  };
-}
-
 const initialState = {
   brand: null,
   brands: [],
@@ -65,32 +57,46 @@ const initialState = {
   },
 };
 const actionHandlers = {
-  [SIGN_IN.SUCCESS]: (state, action) => ({
-    ...state,
-    brands: mapBrands(Object.keys(action.payload.departmentsByBrand)),
-    data: { ...state.data, ...action.payload },
-  }),
+  [SIGN_IN.SUCCESS]: (state, action) => {
+    const newState = {
+      ...state,
+      //brands: mapBrands(new Array(3).fill(Object.keys(action.payload.departmentsByBrand)[0])),
+      brands: mapBrands(Object.keys(action.payload.departmentsByBrand)),
+      data: { ...state.data, ...action.payload },
+    };
+
+    if (newState.brands.length === 1) {
+      newState.brand = newState.brands[0];
+      newState.departments = action.payload && action.payload.departmentsByBrand
+        ? action.payload.departmentsByBrand[newState.brand.brand].map(department => ({
+          id: department,
+          role: 'ROLE4',
+          ...departmentsConfig[department],
+        }))
+        : [];
+    }
+
+    return newState;
+  },
   [SELECT_BRAND]: (state, action) => ({
     ...state,
     brand: action.payload,
     departments: action.payload && action.payload.id
-      ? state.data.departmentsByBrand[action.payload.id].map(department => departmentsConfig[department])
+      ? state.data.departmentsByBrand[action.payload.brand].map(department => ({
+        id: department,
+        role: 'ROLE4',
+        ...departmentsConfig[department],
+      }))
       : [],
-  }),
-  [SELECT_DEPARTMENT]: (state, action) => ({
-    ...state,
-    department: action.payload,
   }),
 };
 const actionTypes = {
   SIGN_IN,
   SELECT_BRAND,
-  SELECT_DEPARTMENT,
 };
 const actionCreators = {
   signIn,
   selectBrand,
-  selectDepartment,
 };
 
 export {

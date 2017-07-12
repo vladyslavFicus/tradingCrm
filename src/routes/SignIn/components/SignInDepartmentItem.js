@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 
 const SignInDepartmentItem = ({ name, role, image, onClick }) => (
   <div className="department-item" onClick={onClick}>
     <div>
-      <img src={image} alt={`${name} / ${role}`} />
+      <img src={image} alt={`${I18n.t(name)} / ${I18n.t(role)}`} />
     </div>
     <div className="department-item_details">
       <div className="department-name">
-        {name}
+        {I18n.t(name)}
       </div>
       <div className="department-role">
-        {role}
+        {I18n.t(role)}
       </div>
     </div>
   </div>

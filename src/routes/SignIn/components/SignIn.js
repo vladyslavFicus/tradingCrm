@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { IndexLink, withRouter } from 'react-router';
 import { SubmissionError } from 'redux-form';
 import classNames from 'classnames';
 import SignInForm from './SignInForm';
@@ -22,7 +21,6 @@ class SignIn extends Component {
     }).isRequired,
     signIn: PropTypes.func.isRequired,
     selectBrand: PropTypes.func.isRequired,
-    selectDepartment: PropTypes.func.isRequired,
     brand: PropTypes.brand,
     department: PropTypes.department,
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
@@ -51,17 +49,30 @@ class SignIn extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { brand, brands } = this.props;
+    const nextState = {};
+    let nextStateCallback;
 
     if (brands.length !== nextProps.brands.length) {
-      this.setState({ step: 2 }, () => {
+      nextState.step = 2;
+      nextStateCallback = () => {
         setTimeout(() => {
           this.setState({ step: 3 });
         }, 500);
-      });
+      };
     }
 
     if (brand !== nextProps.brand) {
-      this.setState({ step: 4 });
+      if (nextProps.brand) {
+        nextState.step = 4;
+        nextStateCallback = undefined;
+      } else {
+        nextState.step = 3;
+        nextStateCallback = undefined;
+      }
+    }
+
+    if (Object.keys(nextState).length > 0) {
+      this.setState(nextState, nextStateCallback);
     }
   }
 
@@ -73,8 +84,25 @@ class SignIn extends Component {
     this.props.selectBrand(brand);
   };
 
-  handleSelectDepartment = (department) => {
-    this.props.selectDepartment(department);
+  handleSelectDepartment = async (department) => {
+    const { location, router, changeDepartment, brand, data: { token } } = this.props;
+    const action = await changeDepartment(department.id, brand.brand, token);
+
+    if (action) {
+      if (!action.error) {
+        let nextUrl = '/';
+
+        if (location.query && location.query.returnUrl && !/sign\-in/.test(location.query.returnUrl)) {
+          nextUrl = location.query.returnUrl;
+        }
+
+        router.replace(nextUrl);
+      } else {
+        const error = action.payload.response.error ?
+          action.payload.response.error : action.payload.message;
+        throw new SubmissionError({ _error: error });
+      }
+    }
   };
 
   render() {
@@ -82,13 +110,12 @@ class SignIn extends Component {
     const {
       brand,
       brands,
-      department,
       departments,
       data: { login },
     } = this.props;
 
     return (
-      <div>
+      <div style={{ height: '100%' }}>
         <Preloader show={step === 0} />
         <div className="wrapper">
           <div className="sign-in">
@@ -96,16 +123,17 @@ class SignIn extends Component {
               <img src="/img/horizon-logo.svg" alt="logo" />
             </div>
 
-            <div className={classNames('sign-in__form', {
-              fadeInUp: step > 0, // step 1
-              fadeOutLeft: step > 1, // step 2
-              'position-absolute': step > 2, // step 3
-            })}
-            >
-              <SignInForm onSubmit={this.handleSubmit} />
-            </div>
+            <SignInForm
+              className={classNames('sign-in__form', {
+                fadeInUp: step > 0, // step 1
+                fadeOutLeft: step > 1, // step 2
+                'position-absolute': step > 2, // step 3
+              })}
+              onSubmit={this.handleSubmit}
+            />
 
             <SignInBrands
+              activeBrand={brand}
               className={classNames('sign-in__multibrand', {
                 fadeInUp: step > 2,
               })}
@@ -116,8 +144,10 @@ class SignIn extends Component {
 
             <SignInDepartments
               className={classNames('sign-in__department', {
+                fadeOutDown: step < 4,
                 fadeInUp: step === 4,
               })}
+              username={login}
               departments={departments}
               onSelect={this.handleSelectDepartment}
               onBackClick={() => this.handleSelectBrand(null)}

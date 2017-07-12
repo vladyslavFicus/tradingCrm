@@ -331,7 +331,11 @@
     "UNKNOWN": "Неизвестно",
     "UNKNOWN_TIME": "Неизвестное время",
     "TOTAL_WIN": "Общий выигрыш",
-    "ERROR": "Ошибка"
+    "ERROR": "Ошибка",
+    "GOOD_MORNING": "",
+    "GOOD_AFTERNOON": "",
+    "GOOD_EVENING": "",
+    "GOOD_NIGHT": ""
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -516,6 +520,13 @@
           "CAMPAIGN": "Кампания",
           "OPERATOR": "Оператор"
         }
+      }
+    },
+    "SIGN_IN": {
+      "DEPARTMENTS": {
+        "CS": "",
+        "RFP": "",
+        "MARKETING": ""
       }
     }
   },
