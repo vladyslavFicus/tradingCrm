@@ -60,8 +60,8 @@ const actionHandlers = {
   [SIGN_IN.SUCCESS]: (state, action) => {
     const newState = {
       ...state,
-      //brands: mapBrands(new Array(3).fill(Object.keys(action.payload.departmentsByBrand)[0])),
-      brands: mapBrands(Object.keys(action.payload.departmentsByBrand)),
+      brands: mapBrands(new Array(3).fill(Object.keys(action.payload.departmentsByBrand)[0])),
+      // brands: mapBrands(Object.keys(action.payload.departmentsByBrand)),
       data: { ...state.data, ...action.payload },
     };
 

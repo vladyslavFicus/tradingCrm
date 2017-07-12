@@ -36,15 +36,9 @@ class SignIn extends Component {
   };
 
   componentWillMount() {
-    document.body.classList.add('sign-in-page');
-
     setTimeout(() => {
       this.setState({ step: 1 });
     }, 1000);
-  }
-
-  componentWillUnmount() {
-    document.body.classList.remove('sign-in-page');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -143,6 +137,7 @@ class SignIn extends Component {
             />
 
             <SignInDepartments
+              canGoBack={brands.length > 1}
               className={classNames('sign-in__department', {
                 fadeOutDown: step < 4,
                 fadeInUp: step === 4,

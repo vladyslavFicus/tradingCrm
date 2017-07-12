@@ -1,0 +1,12 @@
+@import "../../styles/mixins/mixins";
+
+html,
+body {
+  height: 100%;
+}
+
+body.black-layout {
+  background-color: #000;
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+}
