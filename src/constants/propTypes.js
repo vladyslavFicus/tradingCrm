@@ -76,6 +76,7 @@ PropTypes.gamingActivityEntity = PropTypes.shape({
   totalBetAmount: PropTypes.price,
   totalWinAmount: PropTypes.price,
   winDate: PropTypes.string,
+  gameRoundType: PropTypes.string,
 });
 PropTypes.limitEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
