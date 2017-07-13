@@ -248,7 +248,8 @@
           "PRIZE": "Prize",
           "CAPPING": "Capping",
           "MULTIPLIER": "Множитель",
-          "BONUS_LIFE_TIME": "Время жизни бонуса"
+          "BONUS_LIFE_TIME": "Время жизни бонуса",
+          "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
         "TOTAL_VALUE": "Сумма spin"

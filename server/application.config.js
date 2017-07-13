@@ -14,7 +14,7 @@ module.exports = {
         defaultLanguage: 'en',
         languages: ['en', 'ru'],
       },
-      departments: ['PLAYER', 'CS', 'RFP', 'MARKETING'],
+      departments: ['PLAYER', 'CS', 'RFP', 'MARKETING', 'ADMINISTRATION'],
       roles: ['ROLE4', 'ROLE3', 'ROLE2', 'ROLE1'],
       tags: {
         priorities: {

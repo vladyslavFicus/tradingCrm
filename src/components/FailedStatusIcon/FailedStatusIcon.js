@@ -16,7 +16,7 @@ const FailedStatusIcon = ({ id, children, showTimeout, hideTimeout, iconClassNam
 );
 FailedStatusIcon.propTypes = {
   id: PropTypes.string.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   showTimeout: PropTypes.number,
   hideTimeout: PropTypes.number,
   iconClassName: PropTypes.string,
