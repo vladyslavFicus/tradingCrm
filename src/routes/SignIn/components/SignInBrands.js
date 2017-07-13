@@ -6,7 +6,9 @@ import Greeting from '../../../components/Greeting';
 
 class SignInBrands extends Component {
   state = {
+    activeBrand: null,
     step: 0,
+    reverseStep: false,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -14,27 +16,40 @@ class SignInBrands extends Component {
 
     if (activeBrand !== nextProps.activeBrand) {
       if (nextProps.activeBrand) {
-        this.setState({ step: 1 }, () => {
+        this.setState({ step: 1, activeBrand: nextProps.activeBrand }, () => {
           setTimeout(() => {
             this.setState({ step: 2 }, () => {
               setTimeout(() => {
                 this.setState({ step: 3 }, () => {
                   setTimeout(() => {
-                    this.setState({ step: 4 });
+                    this.setState({ step: 4, reverseStep: true });
                   }, 600);
                 });
               }, 100);
             });
-          }, 500);
+          }, 100);
+        });
+      } else {
+        this.setState({ step: 3 }, () => {
+          setTimeout(() => {
+            this.setState({ step: 2 }, () => {
+              setTimeout(() => {
+                this.setState({ step: 1 }, () => {
+                  setTimeout(() => {
+                    this.setState({ step: 0, activeBrand: null, reverseStep: false });
+                  }, 300);
+                });
+              }, 200);
+            });
+          }, 100);
         });
       }
     }
   }
 
   render() {
-    const { step } = this.state;
+    const { step, reverseStep, activeBrand } = this.state;
     const {
-      activeBrand,
       username,
       brands,
       onSelect,
@@ -62,9 +77,10 @@ class SignInBrands extends Component {
             const isActive = activeBrand && activeBrand.id === brand.id;
             const itemClassName = classNames('choice-item', {
               'chosen-brand': step > 2 && isActive,
+              'returned-block': step === 0 && !isActive,
               fadeOut: step > 0 && !isActive,
-              'returned-block': step > 1 && !isActive,
-              'position-absolute': step > 3 && !isActive,
+              'remove-block': (!reverseStep && step > 1 && !isActive) || (step > 2 && reverseStep && !isActive),
+              'position-absolute': !reverseStep && step > 3 && !isActive && reverseStep,
             });
 
             return (

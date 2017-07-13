@@ -7,6 +7,7 @@ const brands = keyMirror({
   loki: null,
 });
 const departments = keyMirror({
+  ADMINISTRATION: null,
   CS: null,
   RFP: null,
   MARKETING: null,
@@ -45,12 +46,16 @@ const departmentsConfig = {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.MARKETING'),
     image: '/img/casino-crm-dep-logo.svg',
   },
+  [departments.ADMINISTRATION]: {
+    name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.ADMINISTRATION'),
+    image: '/img/casino-crm-dep-logo.svg',
+  },
 };
 const rolesConfig = {
-  [roles.ROLE1]: { name: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE1') },
-  [roles.ROLE2]: { name: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE2') },
-  [roles.ROLE3]: { name: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE3') },
-  [roles.ROLE4]: { name: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE4') },
+  [roles.ROLE1]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE1'),
+  [roles.ROLE2]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE2'),
+  [roles.ROLE3]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE3'),
+  [roles.ROLE4]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE4'),
 };
 
 export { brands, departments, roles, brandsConfig, departmentsConfig, rolesConfig };

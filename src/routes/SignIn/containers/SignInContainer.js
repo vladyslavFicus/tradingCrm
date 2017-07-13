@@ -6,7 +6,10 @@ import SignIn from '../components/SignIn';
 const mapActionCreators = {
   signIn: signInActionCreators.signIn,
   selectBrand: signInActionCreators.selectBrand,
+  reset: signInActionCreators.reset,
   changeDepartment: authActionCreators.changeDepartment,
+  fetchProfile: authActionCreators.fetchProfile,
+  fetchAuthorities: authActionCreators.fetchAuthorities,
 };
 const mapStateToProps = ({ signIn }) => ({ ...signIn });
 

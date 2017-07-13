@@ -2,7 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import getFingerprint from '../../../utils/fingerPrint';
-import { brandsConfig, departmentsConfig } from '../constants';
+import { brandsConfig, departmentsConfig, rolesConfig } from '../constants';
 
 function mapBrands(brands) {
   return brands
@@ -13,6 +13,7 @@ function mapBrands(brands) {
 const KEY = 'sign-in';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
 const SELECT_BRAND = `${KEY}/select-brand`;
+const RESET_SIGN_IN = `${KEY}/reset`;
 
 function signIn(data) {
   return async dispatch => dispatch({
@@ -43,10 +44,14 @@ function selectBrand(brand) {
   };
 }
 
+function reset() {
+  return { type: RESET_SIGN_IN };
+}
+
 const initialState = {
   brand: null,
   brands: [],
-  department: null,
+  fullName: null,
   departments: [],
   data: {
     token: null,
@@ -58,19 +63,27 @@ const initialState = {
 };
 const actionHandlers = {
   [SIGN_IN.SUCCESS]: (state, action) => {
+    const { departmentsByBrand, firstName, lastName } = action.payload;
+
+    const brands = Object.keys(departmentsByBrand);
     const newState = {
       ...state,
-      brands: mapBrands(new Array(3).fill(Object.keys(action.payload.departmentsByBrand)[0])),
-      // brands: mapBrands(Object.keys(action.payload.departmentsByBrand)),
+      brands: mapBrands(brands),
+      fullName: `${firstName} ${lastName}`,
       data: { ...state.data, ...action.payload },
     };
+    if (brands.length === 1) {
+      const departments = Object.keys(departmentsByBrand[brands[0]]);
 
-    if (newState.brands.length === 1) {
+      if (departments.length === 1) {
+        return state;
+      }
+
       newState.brand = newState.brands[0];
-      newState.departments = action.payload && action.payload.departmentsByBrand
-        ? action.payload.departmentsByBrand[newState.brand.brand].map(department => ({
+      newState.departments = departmentsByBrand
+        ? Object.keys(departmentsByBrand[newState.brand.brand]).map(department => ({
           id: department,
-          role: 'ROLE4',
+          role: rolesConfig[departmentsByBrand[newState.brand.brand][department]],
           ...departmentsConfig[department],
         }))
         : [];
@@ -78,25 +91,39 @@ const actionHandlers = {
 
     return newState;
   },
-  [SELECT_BRAND]: (state, action) => ({
-    ...state,
-    brand: action.payload,
-    departments: action.payload && action.payload.id
-      ? state.data.departmentsByBrand[action.payload.brand].map(department => ({
+  [SELECT_BRAND]: (state, action) => {
+    if (!action.payload) {
+      return {
+        ...state,
+        brand: null,
+        departments: [],
+      };
+    }
+
+    const { departmentsByBrand } = state.data;
+    const { brand } = action.payload;
+
+    return {
+      ...state,
+      brand: action.payload,
+      departments: Object.keys(departmentsByBrand[brand]).map(department => ({
         id: department,
-        role: 'ROLE4',
+        role: rolesConfig[departmentsByBrand[brand][department]],
         ...departmentsConfig[department],
-      }))
-      : [],
-  }),
+      })),
+    };
+  },
+  [RESET_SIGN_IN]: () => ({ ...initialState }),
 };
 const actionTypes = {
   SIGN_IN,
   SELECT_BRAND,
+  RESET_SIGN_IN,
 };
 const actionCreators = {
   signIn,
   selectBrand,
+  reset,
 };
 
 export {
