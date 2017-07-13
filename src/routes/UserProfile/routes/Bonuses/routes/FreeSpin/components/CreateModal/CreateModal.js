@@ -11,6 +11,8 @@ import { attributeLabels } from './constants';
 import Amount, { Currency } from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
 import { targetTypes } from '../../../../../../../../constants/note';
+import renderLabel from '../../../../../../../../utils/renderLabel';
+import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import './CreateModal.scss';
 
 class CreateModal extends Component {
@@ -360,6 +362,23 @@ class CreateModal extends Component {
                   placeholder={''}
                   showErrorMessage={false}
                 />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-4">
+                <Field
+                  name="moneyTypePriority"
+                  label={I18n.t(attributeLabels.moneyTypePriority)}
+                  type="select"
+                  component={SelectField}
+                  position="vertical"
+                >
+                  {Object.keys(moneyTypeUsageLabels).map(key => (
+                    <option key={key} value={key}>
+                      {renderLabel(key, moneyTypeUsageLabels)}
+                    </option>
+                  ))}
+                </Field>
               </div>
             </div>
             <div className="row margin-top-20">

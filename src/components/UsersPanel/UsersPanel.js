@@ -12,6 +12,9 @@ class UsersPanel extends Component {
     onClose: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
   };
+  static defaultProps = {
+    active: null,
+  };
 
   componentWillMount() {
     if (this.props.active && this.props.items.length > 0) {
