@@ -69,8 +69,8 @@ class View extends Component {
   }
 
   handleNoteClick = (target, note, data) => {
-    if (data.note) {
-      this.context.notes.onEditNoteClick(target, data.note);
+    if (note) {
+      this.context.notes.onEditNoteClick(target, note);
     } else {
       this.context.notes.onAddNoteClick(
         target,

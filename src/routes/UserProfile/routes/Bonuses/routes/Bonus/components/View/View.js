@@ -4,8 +4,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { shortify } from '../../../../../../../../utils/uuid';
 import Amount from '../../../../../../../../components/Amount';
+import NoteButton from '../../../../../../../../components/NoteButton';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import { statuses } from '../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../constants/note';
@@ -76,7 +76,7 @@ class View extends Component {
     placement: 'left',
   });
 
-  handleNoteClick = (target, data) => {
+  handleNoteClick = (target, note, data) => {
     if (data.note) {
       this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
     } else {
@@ -233,21 +233,12 @@ class View extends Component {
   );
 
   renderActions = data => (
-    <div>
-      <PopoverButton
-        id={`bonus-item-note-button-${data.bonusUUID}`}
-        className="cursor-pointer"
-        onClick={id => this.handleNoteClick(id, data)}
-      >
-        <i
-          className={classNames('note-icon', {
-            'note-with-text': data.note && !data.note.pinned,
-            'note-pinned-note': data.note && data.note.pinned,
-            'note-add-note': !data.note,
-          })}
-        />
-      </PopoverButton>
-    </div>
+    <NoteButton
+      id={`bonus-item-note-button-${data.bonusUUID}`}
+      note={data.note}
+      onClick={this.handleNoteClick}
+      targetEntity={data}
+    />
   );
 
   render() {
