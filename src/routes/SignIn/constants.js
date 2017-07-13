@@ -48,7 +48,7 @@ const departmentsConfig = {
   },
   [departments.ADMINISTRATION]: {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.ADMINISTRATION'),
-    image: '/img/casino-crm-dep-logo.svg',
+    image: '/img/administration_dep_logo.svg',
   },
 };
 const rolesConfig = {

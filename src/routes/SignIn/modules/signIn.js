@@ -49,6 +49,7 @@ function reset() {
 }
 
 const initialState = {
+  logged: false,
   brand: null,
   brands: [],
   fullName: null,
@@ -56,6 +57,8 @@ const initialState = {
   data: {
     token: null,
     login: null,
+    firstName: null,
+    lastName: null,
     uuid: null,
     permissions: null,
     departmentsByBrand: null,
@@ -68,11 +71,13 @@ const actionHandlers = {
     const brands = Object.keys(departmentsByBrand);
     const newState = {
       ...state,
-      brands: mapBrands(brands),
+      brands: mapBrands(new Array(3).fill(brands[0])),
+      // brands: mapBrands(brands),
       fullName: `${firstName} ${lastName}`,
       data: { ...state.data, ...action.payload },
+      logged: true,
     };
-    if (brands.length === 1) {
+    /*if (brands.length === 1) {
       const departments = Object.keys(departmentsByBrand[brands[0]]);
 
       if (departments.length === 1) {
@@ -87,7 +92,7 @@ const actionHandlers = {
           ...departmentsConfig[department],
         }))
         : [];
-    }
+    }*/
 
     return newState;
   },

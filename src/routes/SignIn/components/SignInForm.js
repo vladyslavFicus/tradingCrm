@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { createValidator } from '../../../utils/validator';
 import classNames from 'classnames';
-import { departmentsLabels } from '../../../constants/operators';
-import { SelectField, InputField } from '../../../components/ReduxForm/UserProfile';
-import { renderLabel } from '../../../routes/Operators/utils';
+import { createValidator } from '../../../utils/validator';
+import { InputField } from '../../../components/ReduxForm/UserProfile';
 import PropTypes from '../../../constants/propTypes';
 
 const attributeLabels = {
@@ -21,7 +19,7 @@ const validator = createValidator({
 
 class SignInForm extends Component {
   static propTypes = {
-    className: PropTypes.string,
+    logged: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
@@ -29,22 +27,52 @@ class SignInForm extends Component {
     error: PropTypes.string,
   };
   static defaultProps = {
-    className: 'sign-in__form',
     handleSubmit: null,
     submitting: false,
     pristine: false,
     error: null,
   };
 
+  state = {
+    step: 0,
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { logged } = this.props;
+
+    if (logged !== nextProps.logged) {
+      this.setState({ step: 1 }, () => {
+        this.timeouts.push(
+          setTimeout(() => {
+            this.setState({ step: 2 });
+          }, 350)
+        );
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.timeouts.length > 0) {
+      this.timeouts.forEach(clearTimeout);
+    }
+  }
+
+  timeouts = [];
+
   render() {
+    const { step } = this.state;
     const {
-      className,
       handleSubmit,
       pristine,
       submitting,
       onSubmit,
       error,
     } = this.props;
+    const className = classNames('sign-in__form', {
+      fadeInUp: step === 0,
+      fadeOutLeft: step > 0,
+      'position-absolute': step > 1,
+    });
 
     return (
       <div className={className}>

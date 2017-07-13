@@ -1,23 +1,35 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import SignInDepartmentItem from './SignInDepartmentItem';
 import PropTypes from '../propTypes';
 import Greeting from '../../../components/Greeting';
-import shallowEqual from '../../../utils/shallowEqual';
 
 class SignInDepartments extends Component {
-  state = { departments: [] };
+  state = { step: 0, departments: [] };
 
   componentWillReceiveProps(nextProps) {
-    const { departments } = this.props;
+    const { logged } = this.props;
 
-    if (!shallowEqual(departments, nextProps.departments)) {
-      this.setState({ departments: nextProps.departments });
+    if (logged !== nextProps.logged) {
+      if (nextProps.logged) {
+        setTimeout(() => {
+          this.setState({ step: 1, departments: nextProps.departments });
+        }, 250);
+      } else {
+        setTimeout(() => {
+          this.setState({ step: 0, departments: nextProps.departments });
+        }, 370);
+      }
     }
   }
 
   render() {
-    const { departments } = this.state;
-    const { className, onSelect, onBackClick, canGoBack, username } = this.props;
+    const { step, departments } = this.state;
+    const { onSelect, onBackClick, canGoBack, username } = this.props;
+    const className = classNames('sign-in__department', {
+      fadeOutDown: step === 0,
+      fadeInUp: step > 0,
+    });
 
     return (
       <div className={className}>
@@ -44,7 +56,7 @@ class SignInDepartments extends Component {
 }
 
 SignInDepartments.propTypes = {
-  className: PropTypes.string,
+  logged: PropTypes.bool.isRequired,
   departments: PropTypes.arrayOf(PropTypes.department).isRequired,
   onSelect: PropTypes.func.isRequired,
   onBackClick: PropTypes.func.isRequired,
@@ -52,7 +64,6 @@ SignInDepartments.propTypes = {
   username: PropTypes.string,
 };
 SignInDepartments.defaultProps = {
-  className: 'sign-in__department',
   canGoBack: false,
   username: null,
 };

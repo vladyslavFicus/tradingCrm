@@ -6,46 +6,56 @@ import Greeting from '../../../components/Greeting';
 
 class SignInBrands extends Component {
   state = {
-    activeBrand: null,
     step: 0,
+    activeBrand: null,
     reverseStep: false,
   };
 
   componentWillReceiveProps(nextProps) {
-    const { activeBrand } = this.props;
+    const { activeBrand, logged } = this.props;
+
+    if (logged !== nextProps.logged) {
+      if (nextProps.logged) {
+        setTimeout(() => {
+          this.setState({ step: 1 });
+        }, 351);
+      }
+    }
 
     if (activeBrand !== nextProps.activeBrand) {
       if (nextProps.activeBrand) {
-        this.setState({ step: 1, activeBrand: nextProps.activeBrand }, () => {
+        this.setState({ step: 2, activeBrand: nextProps.activeBrand, reverseStep: false }, () => {
           setTimeout(() => {
-            this.setState({ step: 2 }, () => {
+            this.setState({ step: 3, reverseStep: false }, () => {
               setTimeout(() => {
-                this.setState({ step: 3 }, () => {
+                this.setState({ step: 4, reverseStep: false }, () => {
                   setTimeout(() => {
-                    this.setState({ step: 4, reverseStep: true });
+                    this.setState({ step: 5, reverseStep: false });
                   }, 600);
-                });
-              }, 100);
-            });
-          }, 100);
-        });
-      } else {
-        this.setState({ step: 3 }, () => {
-          setTimeout(() => {
-            this.setState({ step: 2 }, () => {
-              setTimeout(() => {
-                this.setState({ step: 1 }, () => {
-                  setTimeout(() => {
-                    this.setState({ step: 0, activeBrand: null, reverseStep: false });
-                  }, 300);
                 });
               }, 200);
             });
           }, 100);
         });
+      } else {
+        this.setState({ step: 4, reverseStep: true }, () => {
+          setTimeout(() => {
+            this.setState({ step: 3, reverseStep: true }, () => {
+              setTimeout(() => {
+                this.setState({ step: 2, reverseStep: true }, () => {
+                  setTimeout(() => {
+                    this.setState({ step: 1, reverseStep: true, activeBrand: null });
+                  }, 200);
+                });
+              }, 200);
+            });
+          }, 200);
+        });
       }
     }
   }
+
+  timeouts = [];
 
   render() {
     const { step, reverseStep, activeBrand } = this.state;
@@ -53,12 +63,20 @@ class SignInBrands extends Component {
       username,
       brands,
       onSelect,
-      className,
     } = this.props;
-    const headingClassName = classNames('sign-in__multibrand_heading', { 'fadeOut-text': step > 2 });
-    const callToActionClassName = classNames('sign-in__multibrand_call-to-action', { 'fadeOut-text': step > 2 });
+    const className = classNames('sign-in__multibrand', {
+      fadeInUp: step > 0,
+    });
+    const headingClassName = classNames('sign-in__multibrand_heading', {
+      'fadeOut-text': (!reverseStep && step > 3) || (reverseStep && step > 1),
+      fadeIn: step < 2 && reverseStep,
+    });
+    const callToActionClassName = classNames('sign-in__multibrand_call-to-action', {
+      'fadeOut-text': (!reverseStep && step > 3) || (reverseStep && step > 1),
+      fadeIn: step < 2 && reverseStep,
+    });
     const brandsListClassName = classNames('sign-in__multibrand_choice', {
-      chosen: step > 2,
+      chosen: (!reverseStep && step > 3) || (reverseStep && step > 2),
     });
 
     return (
@@ -76,11 +94,12 @@ class SignInBrands extends Component {
           {brands.map((brand) => {
             const isActive = activeBrand && activeBrand.id === brand.id;
             const itemClassName = classNames('choice-item', {
-              'chosen-brand': step > 2 && isActive,
-              'returned-block': step === 0 && !isActive,
-              fadeOut: step > 0 && !isActive,
-              'remove-block': (!reverseStep && step > 1 && !isActive) || (step > 2 && reverseStep && !isActive),
-              'position-absolute': !reverseStep && step > 3 && !isActive && reverseStep,
+              fadeIn: (!reverseStep && step === 1 && !isActive),
+              fadeOut: (!reverseStep && step > 1 && !isActive) || (reverseStep && step > 1 && !isActive),
+              'returned-block': (reverseStep && step < 3 && isActive),
+              'remove-block': (!reverseStep && step > 1 && !isActive) || (reverseStep && step > 3 && !isActive),
+              'chosen-brand': (!reverseStep && step > 3 && isActive) || (reverseStep && step > 2 && isActive),
+              'position-absolute': (!reverseStep && step > 4 && !isActive) || (reverseStep && step > 4 && !isActive),
             });
 
             return (
@@ -100,14 +119,13 @@ class SignInBrands extends Component {
 
 SignInBrands.propTypes = {
   activeBrand: PropTypes.brand,
-  className: PropTypes.string,
+  logged: PropTypes.bool.isRequired,
   username: PropTypes.string,
   brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
   onSelect: PropTypes.func.isRequired,
 };
 SignInBrands.defaultProps = {
   activeBrand: null,
-  className: 'sign-in__multibrand',
   username: null,
 };
 
