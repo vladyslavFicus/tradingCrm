@@ -173,7 +173,9 @@ class View extends Component {
       <div className="font-weight-600 cursor-pointer" onClick={() => this.handleRowClick(data)}>
         {data.label}
       </div>
-      <div className="text-muted font-size-10">{shortify(data.bonusUUID)}</div>
+      <div className="text-muted font-size-10">
+        <Uuid uuid={data.bonusUUID} />
+      </div>
       {
         !!data.campaignUUID &&
         <div className="text-muted font-size-10">
@@ -191,19 +193,21 @@ class View extends Component {
     </div>
   );
 
-  renderAvailablePeriod = data => data.createdDate ? (
-    <div>
-      <div className="font-weight-600">
-        {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-      </div>
-      {
-        !!data.expirationDate &&
-        <div className="font-size-10">
-          {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+  renderAvailablePeriod = data => (
+    data.createdDate ? (
+      <div>
+        <div className="font-weight-600">
+          {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
         </div>
-      }
-    </div>
-  ) : <span>&mdash</span>;
+        {
+          !!data.expirationDate &&
+          <div className="font-size-10">
+            {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+          </div>
+        }
+      </div>
+    ) : <span>&mdash;</span>
+  );
 
   renderGrantedAmount = data => <Amount tag="div" className="font-weight-600" {...data.grantedAmount} />;
 
