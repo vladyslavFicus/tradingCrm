@@ -55,8 +55,6 @@ class SignInBrands extends Component {
     }
   }
 
-  timeouts = [];
-
   render() {
     const { step, reverseStep, activeBrand } = this.state;
     const {

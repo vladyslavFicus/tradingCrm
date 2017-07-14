@@ -157,7 +157,7 @@ class SignIn extends Component {
           </div>
         </div>
 
-        <div className="sign-in__copyright">Copyright © 2017 by Newage</div>
+        <div className="sign-in__copyright">Copyright © {(new Date()).getFullYear()} by Newage</div>
       </div>
     );
   }
