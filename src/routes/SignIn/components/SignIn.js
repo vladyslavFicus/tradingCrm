@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
-import classNames from 'classnames';
 import SignInForm from './SignInForm';
 import './SignIn.scss';
 import SignInBrands from './SignInBrands';
@@ -148,6 +147,7 @@ class SignIn extends Component {
 
             <SignInDepartments
               logged={logged && !!brand}
+              brand={brand}
               canGoBack={brands.length > 1}
               username={fullName}
               departments={departments}

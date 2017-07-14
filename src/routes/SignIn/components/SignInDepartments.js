@@ -25,10 +25,11 @@ class SignInDepartments extends Component {
 
   render() {
     const { step, departments } = this.state;
-    const { onSelect, onBackClick, canGoBack, username } = this.props;
+    const { onSelect, onBackClick, canGoBack, username, brand } = this.props;
     const className = classNames('sign-in__department', {
       fadeOutDown: step === 0,
       fadeInUp: step > 0,
+      'sign-in__single-brand': !canGoBack,
     });
 
     return (
@@ -42,8 +43,19 @@ class SignInDepartments extends Component {
               </div>
             )
         }
+        {
+          !canGoBack && brand &&
+          <div className="sign-in__single-brand_brand">
+            <div>
+              <img src={brand.image} alt={brand.name} />
+            </div>
+            <div className="sign-in__single-brand_label">
+              {brand.name}
+            </div>
+          </div>
+        }
         <div className="sign-in__multibrand_call-to-action">
-          And now, choose the department
+          {canGoBack ? 'And now, choose the department' : 'Please, choose  the department'}
         </div>
         <div className="sign-in__department_block">
           {departments.map(department => (
@@ -62,10 +74,12 @@ SignInDepartments.propTypes = {
   onBackClick: PropTypes.func.isRequired,
   canGoBack: PropTypes.bool,
   username: PropTypes.string,
+  brand: PropTypes.brand,
 };
 SignInDepartments.defaultProps = {
   canGoBack: false,
   username: null,
+  brand: null,
 };
 
 export default SignInDepartments;

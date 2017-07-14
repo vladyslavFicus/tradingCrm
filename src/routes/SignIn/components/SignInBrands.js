@@ -15,7 +15,7 @@ class SignInBrands extends Component {
     const { activeBrand, logged } = this.props;
 
     if (logged !== nextProps.logged) {
-      if (nextProps.logged) {
+      if (nextProps.logged && !nextProps.activeBrand) {
         setTimeout(() => {
           this.setState({ step: 1 });
         }, 351);
@@ -66,16 +66,20 @@ class SignInBrands extends Component {
       fadeInUp: step > 0,
     });
     const headingClassName = classNames('sign-in__multibrand_heading', {
-      'fadeOut-text': (!reverseStep && step > 3) || (reverseStep && step > 1),
+      'fadeOut-text': (!reverseStep && step > 3) || (reverseStep && step > 1) || brands.length === 1,
       fadeIn: step < 2 && reverseStep,
     });
     const callToActionClassName = classNames('sign-in__multibrand_call-to-action', {
-      'fadeOut-text': (!reverseStep && step > 3) || (reverseStep && step > 1),
+      'fadeOut-text': (!reverseStep && step > 3) || (reverseStep && step > 1) || brands.length === 1,
       fadeIn: step < 2 && reverseStep,
     });
     const brandsListClassName = classNames('sign-in__multibrand_choice', {
-      chosen: (!reverseStep && step > 3) || (reverseStep && step > 2),
+      chosen: (!reverseStep && step > 3) || (reverseStep && step > 2) || brands.length === 1,
     });
+
+    if (brands.length === 1) {
+      return null;
+    }
 
     return (
       <div className={className}>
