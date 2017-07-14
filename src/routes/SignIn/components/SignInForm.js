@@ -101,6 +101,7 @@ class SignInForm extends Component {
             <Field
               name="password"
               type="password"
+              label="Password"
               component={InputField}
               placeholder={attributeLabels.password}
             />
