@@ -333,10 +333,10 @@
     "UNKNOWN_TIME": "Неизвестное время",
     "TOTAL_WIN": "Общий выигрыш",
     "ERROR": "Ошибка",
-    "GOOD_MORNING": "",
-    "GOOD_AFTERNOON": "",
-    "GOOD_EVENING": "",
-    "GOOD_NIGHT": ""
+    "GOOD_MORNING": "Доброе утро",
+    "GOOD_AFTERNOON": "Добрый день",
+    "GOOD_EVENING": "Добрый вечер",
+    "GOOD_NIGHT": "Доброй ночи"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -525,9 +525,10 @@
     },
     "SIGN_IN": {
       "DEPARTMENTS": {
-        "CS": "",
-        "RFP": "",
-        "MARKETING": ""
+        "CS": "Обслуживание клиентов",
+        "RFP": "Risk Fraud & Payment",
+        "MARKETING": "Маркетинг",
+        "ADMINISTRATION": "Администрация"
       }
     }
   },
