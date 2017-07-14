@@ -17,7 +17,11 @@ class SignInDepartments extends Component {
         }, 250);
       } else {
         setTimeout(() => {
-          this.setState({ step: 0, departments: nextProps.departments });
+          this.setState({ step: 0 }, () => {
+            setTimeout(() => {
+              this.setState({ departments: nextProps.departments });
+            }, 200);
+          });
         }, 370);
       }
     }

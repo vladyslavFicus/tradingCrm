@@ -62,6 +62,11 @@ class SignInBrands extends Component {
       brands,
       onSelect,
     } = this.props;
+
+    if (brands.length === 1) {
+      return null;
+    }
+
     const className = classNames('sign-in__multibrand', {
       fadeInUp: step > 0,
     });
@@ -76,10 +81,6 @@ class SignInBrands extends Component {
     const brandsListClassName = classNames('sign-in__multibrand_choice', {
       chosen: (!reverseStep && step > 3) || (reverseStep && step > 2) || brands.length === 1,
     });
-
-    if (brands.length === 1) {
-      return null;
-    }
 
     return (
       <div className={className}>
@@ -99,7 +100,7 @@ class SignInBrands extends Component {
               fadeIn: (!reverseStep && step === 1 && !isActive),
               fadeOut: (!reverseStep && step > 1 && !isActive) || (reverseStep && step > 1 && !isActive),
               'returned-block': (reverseStep && step < 3 && isActive),
-              'remove-block': (!reverseStep && step > 1 && !isActive) || (reverseStep && step > 3 && !isActive),
+              'remove-block': (!reverseStep && step > 3 && !isActive) || (reverseStep && step > 3 && !isActive),
               'chosen-brand': (!reverseStep && step > 3 && isActive) || (reverseStep && step > 2 && isActive),
               'position-absolute': (!reverseStep && step > 4 && !isActive) || (reverseStep && step > 4 && !isActive),
             });

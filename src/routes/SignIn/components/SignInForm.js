@@ -106,7 +106,7 @@ class SignInForm extends Component {
             />
           </div>
           <div className="sign-in__form_submit">
-            <button className="btn btn-primary sign-in_btn" disabled={pristine || submitting}>
+            <button className="btn btn-primary sign-in_btn" disabled={submitting}>
               Login
             </button>
           </div>
