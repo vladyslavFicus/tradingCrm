@@ -65,7 +65,7 @@ function fetchFreeSpins(filters) {
       throw new Error('playerUUID not defined');
     }
 
-    const queryParams = { ...filters };
+    const queryParams = { ...filters, sort: 'startDate,desc' };
     delete queryParams.playerUUID;
 
     return dispatch({
@@ -108,7 +108,12 @@ function exportFreeSpins(filters = {}) {
       return dispatch({ type: EXPORT_ENTITIES.FAILED });
     }
 
-    const queryParams = { ...filters, page: undefined, playerUUID: undefined };
+    const queryParams = {
+      ...filters,
+      page: undefined,
+      playerUUID: undefined,
+      sort: 'startDate,desc',
+    };
 
     const queryString = buildQueryString(
       _.omitBy(queryParams, val => !val),

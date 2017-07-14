@@ -81,9 +81,9 @@ class View extends Component {
     this.context.setNoteChangedCallback(null);
   }
 
-  handleNoteClick = (target, data) => {
-    if (data.note) {
-      this.context.onEditNoteClick(target, data.note, { placement: 'left' });
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.onEditNoteClick(target, note, { placement: 'left' });
     } else {
       this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'left' });
     }

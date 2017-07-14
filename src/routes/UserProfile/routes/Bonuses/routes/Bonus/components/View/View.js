@@ -4,8 +4,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { shortify } from '../../../../../../../../utils/uuid';
 import Amount from '../../../../../../../../components/Amount';
+import NoteButton from '../../../../../../../../components/NoteButton';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import { statuses } from '../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../constants/note';
@@ -76,7 +76,7 @@ class View extends Component {
     placement: 'left',
   });
 
-  handleNoteClick = (target, data) => {
+  handleNoteClick = (target, note, data) => {
     if (data.note) {
       this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
     } else {
@@ -173,7 +173,9 @@ class View extends Component {
       <div className="font-weight-600 cursor-pointer" onClick={() => this.handleRowClick(data)}>
         {data.label}
       </div>
-      <div className="text-muted font-size-10">{shortify(data.bonusUUID)}</div>
+      <div className="text-muted font-size-10">
+        <Uuid uuid={data.bonusUUID} />
+      </div>
       {
         !!data.campaignUUID &&
         <div className="text-muted font-size-10">
@@ -191,19 +193,21 @@ class View extends Component {
     </div>
   );
 
-  renderAvailablePeriod = data => data.createdDate ? (
-    <div>
-      <div className="font-weight-600">
-        {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-      </div>
-      {
-        !!data.expirationDate &&
-        <div className="font-size-10">
-          {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+  renderAvailablePeriod = data => (
+    data.createdDate ? (
+      <div>
+        <div className="font-weight-600">
+          {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
         </div>
-      }
-    </div>
-  ) : <span>&mdash</span>;
+        {
+          !!data.expirationDate &&
+          <div className="font-size-10">
+            {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+          </div>
+        }
+      </div>
+    ) : <span>&mdash;</span>
+  );
 
   renderGrantedAmount = data => <Amount tag="div" className="font-weight-600" {...data.grantedAmount} />;
 
@@ -229,21 +233,12 @@ class View extends Component {
   );
 
   renderActions = data => (
-    <div>
-      <PopoverButton
-        id={`bonus-item-note-button-${data.bonusUUID}`}
-        className="cursor-pointer"
-        onClick={id => this.handleNoteClick(id, data)}
-      >
-        <i
-          className={classNames('note-icon', {
-            'note-with-text': data.note && !data.note.pinned,
-            'note-pinned-note': data.note && data.note.pinned,
-            'note-add-note': !data.note,
-          })}
-        />
-      </PopoverButton>
-    </div>
+    <NoteButton
+      id={`bonus-item-note-button-${data.bonusUUID}`}
+      note={data.note}
+      onClick={this.handleNoteClick}
+      targetEntity={data}
+    />
   );
 
   render() {

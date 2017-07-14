@@ -165,7 +165,7 @@ function getTransactionChargebackReasons() {
 }
 
 function getLimitPeriods() {
-  return config.nas.brand.limits || [];
+  return config.nas.limits || [];
 }
 
 function getApiRoot() {

@@ -52,9 +52,9 @@ class CancelModal extends Component {
   };
 
   handleSubmit = ({ reason, customReason }) => {
-    const { onSubmit, action } = this.props;
+    const { item, onSubmit } = this.props;
 
-    return onSubmit({ reason: customReason || reason, action });
+    return onSubmit({ uuid: item.uuid, reason: customReason || reason });
   };
 
   renderReasonsSelect = (reasons, customReason = false) => (
@@ -90,7 +90,6 @@ class CancelModal extends Component {
       action,
       reasons,
       onClose,
-      onSubmit,
       handleSubmit,
       customReason,
       currentValues,
@@ -102,7 +101,7 @@ class CancelModal extends Component {
 
     return (
       <Modal className="free-spin-cancel-modal" isOpen={isOpen} toggle={onClose}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalHeader toggle={onClose}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.TITLE')}
           </ModalHeader>

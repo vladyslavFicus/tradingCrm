@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { IndexLink, withRouter } from 'react-router';
 import { SubmissionError } from 'redux-form';
-import { actionTypes as authActionTypes } from '../../../redux/modules/auth';
 import SignInForm from './SignInForm';
+import './SignIn.scss';
+import SignInBrands from './SignInBrands';
+import SignInDepartments from './SignInDepartments';
+import Preloader from './Preloader';
+import PropTypes from '../propTypes';
 
 class SignIn extends Component {
   static propTypes = {
@@ -16,34 +18,83 @@ class SignIn extends Component {
       }),
     }).isRequired,
     signIn: PropTypes.func.isRequired,
-    departments: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })),
+    selectBrand: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+    changeDepartment: PropTypes.func.isRequired,
+    fetchProfile: PropTypes.func.isRequired,
+    fetchAuthorities: PropTypes.func.isRequired,
+    brand: PropTypes.brand,
+    logged: PropTypes.bool.isRequired,
+    fullName: PropTypes.string,
+    brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
+    departments: PropTypes.arrayOf(PropTypes.department).isRequired,
+  };
+  static defaultProps = {
+    brand: null,
+    fullName: null,
+  };
+
+  state = {
+    loading: true,
   };
 
   componentWillMount() {
-    document.body.classList.add('full-height');
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 1000);
   }
 
   componentWillUnmount() {
-    document.body.classList.remove('full-height');
+    this.props.reset();
   }
 
   handleSubmit = async (data) => {
-    const { location, router, signIn } = this.props;
+    const { signIn } = this.props;
     const action = await signIn(data);
 
     if (action) {
-      if (action.type === authActionTypes.SIGN_IN.SUCCESS) {
-        let nextUrl = '/';
+      if (!action.error) {
+        const { departmentsByBrand, token, uuid } = action.payload;
+        const brands = Object.keys(departmentsByBrand);
 
-        if (location.query && location.query.returnUrl && !/sign\-in/.test(location.query.returnUrl)) {
-          nextUrl = location.query.returnUrl;
+
+        if (brands.length === 1) {
+          const departments = Object.keys(departmentsByBrand[brands[0]]);
+
+          if (departments.length === 1) {
+            return this.handleSelectDepartment(brands[0], departments[0], token, uuid);
+          }
         }
+      } else {
+        const error = action.payload.response.error ?
+          action.payload.response.error : action.payload.message;
+        throw new SubmissionError({ _error: error });
+      }
+    }
 
-        router.replace(nextUrl);
-      } else if (action.error) {
+    return action;
+  };
+
+  handleSelectDepartment = async (brand, department, requestToken = null, requestUuid = null) => {
+    const {
+      changeDepartment,
+      data: { token: dataToken, uuid: dataUuid },
+      fetchAuthorities,
+      fetchProfile,
+    } = this.props;
+    const token = requestToken || dataToken;
+    const uuid = requestUuid || dataUuid;
+    const action = await changeDepartment(department, brand, token);
+
+    if (action) {
+      if (!action.error) {
+        await Promise.all([
+          fetchProfile(uuid, action.payload.token),
+          fetchAuthorities(uuid, action.payload.token),
+        ]);
+
+        this.redirectToNextPage();
+      } else {
         const error = action.payload.response.error ?
           action.payload.response.error : action.payload.message;
         throw new SubmissionError({ _error: error });
@@ -51,39 +102,63 @@ class SignIn extends Component {
     }
   };
 
+  redirectToNextPage = () => {
+    const { location, router } = this.props;
+    let nextUrl = '/';
+
+    if (location.query && location.query.returnUrl && !/sign\-in/.test(location.query.returnUrl)) {
+      nextUrl = location.query.returnUrl;
+    }
+
+    router.replace(nextUrl);
+  };
+
   render() {
-    const { departments } = this.props;
+    const { loading } = this.state;
+    const {
+      logged,
+      brand,
+      brands,
+      departments,
+      fullName,
+    } = this.props;
 
     return (
-      <section className="page-content">
-        <div className="page-content-inner" style={{ background: '#0e1836' }}>
-          <div className="single-page-block-header">
-            <div className="row">
-              <div className="col-lg-4">
-                <div className="logo">
-                  <IndexLink to="/" className="logo" style={{ fontSize: `${32}px` }}>
-                    <span style={{ color: '#e7edff' }}>NEW</span>
-                    <span style={{ color: 'rgb(26, 122, 175)' }}>AGE</span>
-                  </IndexLink>
-                </div>
-              </div>
+      <div className="sign-in-page" style={{ height: '100%' }}>
+        <Preloader show={loading} />
+        <div className="wrapper">
+          <div className="sign-in">
+            <div className="sign-in__logo">
+              <img src="/img/horizon-logo.svg" alt="logo" />
             </div>
+
+            <SignInForm
+              logged={logged}
+              onSubmit={this.handleSubmit}
+            />
+
+            <SignInBrands
+              logged={logged}
+              activeBrand={brand}
+              username={fullName}
+              brands={brands}
+              onSelect={this.props.selectBrand}
+            />
+
+            <SignInDepartments
+              logged={logged && !!brand}
+              brand={brand}
+              canGoBack={brands.length > 1}
+              username={fullName}
+              departments={departments}
+              onSelect={({ id }) => this.handleSelectDepartment(brand.brand, id)}
+              onBackClick={() => this.props.selectBrand(null)}
+            />
           </div>
-          <div className="single-page-block">
-            <div className="single-page-block-inner effect-3d-element" ref="innerBlock">
-              <h2>Sign in</h2>
-              <div className="single-page-block-form">
-                <br />
-                <SignInForm
-                  departments={departments}
-                  onSubmit={this.handleSubmit}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="single-page-block-footer text-center" />
         </div>
-      </section>
+
+        <div className="sign-in__copyright">Copyright © {(new Date()).getFullYear()} by Newage</div>
+      </div>
     );
   }
 }

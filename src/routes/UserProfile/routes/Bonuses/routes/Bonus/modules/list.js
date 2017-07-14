@@ -62,7 +62,7 @@ function fetchEntities(filters = {}) {
       throw new Error('playerUUID not defined');
     }
 
-    const queryParams = { ...filters };
+    const queryParams = { ...filters, sortColumn: 'createdDate', sortDirection: 'DESC' };
     delete queryParams.playerUUID;
 
     return dispatch({

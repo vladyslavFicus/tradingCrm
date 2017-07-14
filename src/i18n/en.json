@@ -332,7 +332,11 @@
     "UNKNOWN": "Unknown",
     "UNKNOWN_TIME": "Unknown time",
     "TOTAL_WIN": "Total win",
-    "ERROR": "Error"
+    "ERROR": "Error",
+    "GOOD_MORNING": "Good morning",
+    "GOOD_AFTERNOON": "Good afternoon",
+    "GOOD_EVENING": "Good evening",
+    "GOOD_NIGHT": "Good night"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -517,6 +521,14 @@
           "CAMPAIGN": "Campaign",
           "OPERATOR": "Operator"
         }
+      }
+    },
+    "SIGN_IN": {
+      "DEPARTMENTS": {
+        "CS": "Customer service",
+        "RFP": "Risk Fraud & Payment",
+        "MARKETING": "Marketing",
+        "ADMINISTRATION": "Administration"
       }
     }
   },
