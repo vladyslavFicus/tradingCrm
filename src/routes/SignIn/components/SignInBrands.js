@@ -12,45 +12,47 @@ class SignInBrands extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { activeBrand, logged } = this.props;
+    const { activeBrand, logged, brands } = this.props;
 
-    if (logged !== nextProps.logged) {
-      if (nextProps.logged && !nextProps.activeBrand) {
-        setTimeout(() => {
-          this.setState({ step: 1 });
-        }, 351);
+    if (brands.length > 1) {
+      if (logged !== nextProps.logged) {
+        if (nextProps.logged && !nextProps.activeBrand) {
+          setTimeout(() => {
+            this.setState({ step: 1 });
+          }, 351);
+        }
       }
-    }
 
-    if (activeBrand !== nextProps.activeBrand) {
-      if (nextProps.activeBrand) {
-        this.setState({ step: 2, activeBrand: nextProps.activeBrand, reverseStep: false }, () => {
-          setTimeout(() => {
-            this.setState({ step: 3, reverseStep: false }, () => {
-              setTimeout(() => {
-                this.setState({ step: 4, reverseStep: false }, () => {
-                  setTimeout(() => {
-                    this.setState({ step: 5, reverseStep: false });
-                  }, 600);
-                });
-              }, 200);
-            });
-          }, 100);
-        });
-      } else {
-        this.setState({ step: 4, reverseStep: true }, () => {
-          setTimeout(() => {
-            this.setState({ step: 3, reverseStep: true }, () => {
-              setTimeout(() => {
-                this.setState({ step: 2, reverseStep: true }, () => {
-                  setTimeout(() => {
-                    this.setState({ step: 1, reverseStep: true, activeBrand: null });
-                  }, 200);
-                });
-              }, 200);
-            });
-          }, 200);
-        });
+      if (activeBrand !== nextProps.activeBrand) {
+        if (nextProps.activeBrand) {
+          this.setState({ step: 2, activeBrand: nextProps.activeBrand, reverseStep: false }, () => {
+            setTimeout(() => {
+              this.setState({ step: 3, reverseStep: false }, () => {
+                setTimeout(() => {
+                  this.setState({ step: 4, reverseStep: false }, () => {
+                    setTimeout(() => {
+                      this.setState({ step: 5, reverseStep: false });
+                    }, 600);
+                  });
+                }, 200);
+              });
+            }, 100);
+          });
+        } else {
+          this.setState({ step: 4, reverseStep: true }, () => {
+            setTimeout(() => {
+              this.setState({ step: 3, reverseStep: true }, () => {
+                setTimeout(() => {
+                  this.setState({ step: 2, reverseStep: true }, () => {
+                    setTimeout(() => {
+                      this.setState({ step: 1, reverseStep: true, activeBrand: null });
+                    }, 200);
+                  });
+                }, 200);
+              });
+            }, 200);
+          });
+        }
       }
     }
   }
@@ -62,10 +64,6 @@ class SignInBrands extends Component {
       brands,
       onSelect,
     } = this.props;
-
-    if (brands.length === 1) {
-      return null;
-    }
 
     const className = classNames('sign-in__multibrand', {
       fadeInUp: step > 0,

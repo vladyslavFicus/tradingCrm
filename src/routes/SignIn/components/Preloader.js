@@ -13,7 +13,7 @@ class Preloader extends React.Component {
       if (nextProps.show) {
         this.setState({ display: 'block' });
       } else {
-        setTimeout(() => this.setState({ display: 'none' }), 100);
+        setTimeout(() => this.setState({ display: 'none' }), 200);
       }
     }
   }

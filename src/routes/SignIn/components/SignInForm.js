@@ -53,7 +53,7 @@ class SignInForm extends Component {
 
   componentWillUnmount() {
     if (this.timeouts.length > 0) {
-      this.timeouts.forEach(clearTimeout);
+      this.timeouts.map(clearTimeout);
     }
   }
 
@@ -63,7 +63,6 @@ class SignInForm extends Component {
     const { step } = this.state;
     const {
       handleSubmit,
-      pristine,
       submitting,
       onSubmit,
       error,
