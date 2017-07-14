@@ -284,13 +284,13 @@ class FreeSpinsView extends Component {
           <div className="col-md-6 text-right">
             <button
               disabled={exporting || !allowActions}
-              className="btn btn-default-outline margin-inline"
+              className="btn btn-default-outline margin-inline btn-sm"
               onClick={this.handleExportButtonClick}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
             </button>
             <button
-              className="btn btn-primary-outline margin-inline"
+              className="btn btn-primary-outline margin-inline btn-sm"
               onClick={this.handleCreateButtonClick}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}

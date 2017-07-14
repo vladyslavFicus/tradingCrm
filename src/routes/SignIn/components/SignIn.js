@@ -36,12 +36,21 @@ class SignIn extends Component {
 
   state = {
     loading: true,
+    logged: false,
   };
 
   componentWillMount() {
     setTimeout(() => {
       this.setState({ loading: false });
-    }, 1000);
+    }, 300);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { logged } = this.props;
+
+    if (logged !== nextProps.logged) {
+      this.setState({ logged: nextProps.logged });
+    }
   }
 
   componentWillUnmount() {
@@ -54,17 +63,19 @@ class SignIn extends Component {
 
     if (action) {
       if (!action.error) {
-        const { departmentsByBrand, token, uuid } = action.payload;
-        const brands = Object.keys(departmentsByBrand);
+        this.setState({ logged: true }, () => {
+          const { departmentsByBrand, token, uuid } = action.payload;
+          const brands = Object.keys(departmentsByBrand);
 
 
-        if (brands.length === 1) {
-          const departments = Object.keys(departmentsByBrand[brands[0]]);
+          if (brands.length === 1) {
+            const departments = Object.keys(departmentsByBrand[brands[0]]);
 
-          if (departments.length === 1) {
-            return this.handleSelectDepartment(brands[0], departments[0], token, uuid);
+            if (departments.length === 1) {
+              this.handleSelectDepartment(brands[0], departments[0], token, uuid);
+            }
           }
-        }
+        });
       } else {
         const error = action.payload.response.error ?
           action.payload.response.error : action.payload.message;
@@ -84,22 +95,26 @@ class SignIn extends Component {
     } = this.props;
     const token = requestToken || dataToken;
     const uuid = requestUuid || dataUuid;
-    const action = await changeDepartment(department, brand, token);
 
-    if (action) {
-      if (!action.error) {
-        await Promise.all([
-          fetchProfile(uuid, action.payload.token),
-          fetchAuthorities(uuid, action.payload.token),
-        ]);
+    this.setState({ loading: true }, async () => {
+      const action = await changeDepartment(department, brand, token);
 
-        this.redirectToNextPage();
-      } else {
-        const error = action.payload.response.error ?
-          action.payload.response.error : action.payload.message;
-        throw new SubmissionError({ _error: error });
+      if (action) {
+        if (!action.error) {
+          await Promise.all([
+            fetchProfile(uuid, action.payload.token),
+            fetchAuthorities(uuid, action.payload.token),
+          ]);
+
+          this.redirectToNextPage();
+        } else {
+          const error = action.payload.response.error ?
+            action.payload.response.error : action.payload.message;
+          throw new SubmissionError({ _error: error });
+        }
       }
-    }
+    });
+
   };
 
   redirectToNextPage = () => {
@@ -114,9 +129,8 @@ class SignIn extends Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, logged } = this.state;
     const {
-      logged,
       brand,
       brands,
       departments,
