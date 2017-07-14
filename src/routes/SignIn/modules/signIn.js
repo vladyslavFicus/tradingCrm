@@ -71,13 +71,12 @@ const actionHandlers = {
     const brands = Object.keys(departmentsByBrand);
     const newState = {
       ...state,
-      brands: mapBrands(new Array(3).fill(brands[0])),
-      // brands: mapBrands(brands),
+      brands: mapBrands(brands),
       fullName: `${firstName} ${lastName}`,
       data: { ...state.data, ...action.payload },
       logged: true,
     };
-    /*if (brands.length === 1) {
+    if (brands.length === 1) {
       const departments = Object.keys(departmentsByBrand[brands[0]]);
 
       if (departments.length === 1) {
@@ -92,7 +91,7 @@ const actionHandlers = {
           ...departmentsConfig[department],
         }))
         : [];
-    }*/
+    }
 
     return newState;
   },

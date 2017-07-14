@@ -53,7 +53,7 @@ class SignIn extends Component {
     const { signIn } = this.props;
     const action = await signIn(data);
 
-    /*if (action) {
+    if (action) {
       if (!action.error) {
         const { departmentsByBrand, token, uuid } = action.payload;
         const brands = Object.keys(departmentsByBrand);
@@ -71,7 +71,7 @@ class SignIn extends Component {
           action.payload.response.error : action.payload.message;
         throw new SubmissionError({ _error: error });
       }
-    }*/
+    }
 
     return action;
   };
