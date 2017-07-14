@@ -1,6 +1,11 @@
 @import "../../../styles/mixins/mixins";
 
+.user-profile-layout {
+  background: #fff;
+}
+
 .profile-tab-container {
+  background: #fff;
   .well {
     margin: 0 -25px;
     border: none;
