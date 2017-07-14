@@ -65,21 +65,21 @@ function refreshToken() {
   };
 }
 
-function changeDepartment(department) {
+function changeDepartment(department, brandId = getBrand(), token = null) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token: currentToken, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
         method: 'POST',
-        endpoint: `/auth/signin/${getBrand()}/${department}`,
+        endpoint: `/auth/signin/${brandId}/${department}`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token || currentToken}`,
         },
         types: [CHANGE_AUTHORITY.REQUEST, CHANGE_AUTHORITY.SUCCESS, CHANGE_AUTHORITY.FAILURE],
-        bailout: !logged,
+        bailout: !logged && !token,
       },
     });
   };

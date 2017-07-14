@@ -4,6 +4,7 @@ import requireAuth from '../utils/requireAuth';
 import CoreLayout from '../layouts/CoreLayout';
 import NewLayout from '../layouts/NewLayout';
 import BaseLayout from '../layouts/BaseLayout';
+import BlackLayout from '../layouts/BlackLayout';
 import PermissionLayout from '../layouts/PermissionLayout';
 /**
  * Routes
@@ -30,9 +31,14 @@ export default store => ({
   component: CoreLayout,
   childRoutes: [
     {
-      component: BaseLayout,
+      component: BlackLayout,
       childRoutes: [
         SignInRoute(store),
+      ],
+    },
+    {
+      component: BaseLayout,
+      childRoutes: [
         SetPasswordRoute(store),
         ResetPasswordRoute(store),
         onEnterStack({
