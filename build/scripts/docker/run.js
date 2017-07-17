@@ -64,12 +64,6 @@ function processConfig() {
     ));
 }
 
-function fetchConfigHealth(url) {
-  return fetch(url)
-    .then(response => response.text(), processError)
-    .then(response => parseJson(response), processError);
-}
-
 function saveConfig(config) {
   return new Promise((resolve, reject) => {
     fs.writeFile('/opt/build/config.js', `window.nas = ${JSON.stringify(config)};`, { encoding: 'utf8' }, (error) => {
