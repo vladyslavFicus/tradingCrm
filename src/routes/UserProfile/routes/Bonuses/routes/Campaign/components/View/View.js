@@ -8,21 +8,41 @@ import renderLabel from '../../../../../../../../utils/renderLabel';
 import { campaignTypesLabels, targetTypesLabels } from '../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../components/IframeLink';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
+import CampaignsFilterForm from '../CampaignsFilterForm';
 
 class View extends Component {
   static propTypes = {
-    list: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.bonusCampaignEntity),
-    }).isRequired,
+    list: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
     fetchAvailableCampaignList: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
   };
 
+  state = {
+    filters: {},
+    page: 0,
+  };
+
   componentDidMount() {
     this.props.fetchAvailableCampaignList(this.props.params.id);
   }
+
+  handleRefresh = () => {
+    this.props.fetchAvailableCampaignList({
+      ...this.state.filters,
+      page: this.state.page,
+      playerUUID: this.props.params.id,
+    });
+  };
+
+  handleFiltersChanged = (filters = {}) => {
+    this.setState({ filters, page: 0 }, this.handleRefresh);
+  };
+
+  handleFilterReset = () => {
+    this.setState({ filters: {}, page: 0 }, this.handleRefresh);
+  };
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.campaignUUID}`}>
@@ -64,7 +84,9 @@ class View extends Component {
   );
 
   render() {
+    const { filters } = this.state;
     const { list: { entities } } = this.props;
+    const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <div className="tab-pane fade in active profile-tab-container">
@@ -74,12 +96,20 @@ class View extends Component {
           </div>
         </div>
 
+        <CampaignsFilterForm
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          initialValues={filters}
+          disabled={!allowActions}
+        />
+
         <GridView
           tableClassName="table table-hovered data-grid-layout"
           headerClassName=""
-          dataSource={entities}
-          activePage={0}
-          totalPages={0}
+          dataSource={entities.content}
+          onPageChange={this.handlePageChanged}
+          activePage={entities.number + 1}
+          totalPages={entities.totalPages}
         >
           <GridColumn
             name="campaign"

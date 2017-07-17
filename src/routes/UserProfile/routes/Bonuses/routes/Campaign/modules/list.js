@@ -38,7 +38,16 @@ const actionHandlers = {
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
-    entities: action.payload.content,
+    entities: {
+      ...state.entities,
+      ...action.payload,
+      content: action.payload.number === 0
+        ? action.payload.content
+        : [
+          ...state.entities.content,
+          ...action.payload.content,
+        ],
+    },
     isLoading: false,
     receivedAt: timestamp(),
   }),
@@ -50,7 +59,17 @@ const actionHandlers = {
   }),
 };
 const initialState = {
-  entities: [],
+  entities: {
+    first: false,
+    last: false,
+    number: 0,
+    numberOfElements: 0,
+    size: 0,
+    sort: null,
+    totalElements: 0,
+    totalPages: 0,
+    content: [],
+  },
   error: null,
   isLoading: false,
   receivedAt: null,

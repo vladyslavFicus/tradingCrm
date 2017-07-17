@@ -110,11 +110,11 @@ class FreeSpinsView extends Component {
   };
 
   handleFilterReset = () => {
-    this.setState({ filters: {}, page: 0 });
+    this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
 
   handleRowClick = (item) => {
-    const actions = [
+    const modalActions = [
       {
         children: I18n.t('COMMON.CLOSE'),
         onClick: this.handleModalClose,
@@ -123,7 +123,7 @@ class FreeSpinsView extends Component {
     ];
 
     if (item.status !== statuses.CANCELED) {
-      actions.push({
+      modalActions.push({
         children: I18n.t('PLAYER_PROFILE.FREE_SPINS.CANCEL_FREE_SPIN'),
         onClick: this.handleCancelClick(item),
         className: 'btn btn-danger text-uppercase',
@@ -132,7 +132,7 @@ class FreeSpinsView extends Component {
 
     this.handleModalOpen(MODAL_VIEW, {
       item,
-      actions,
+      actions: modalActions,
     });
   };
 
