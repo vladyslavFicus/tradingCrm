@@ -200,7 +200,7 @@ class UserGridFilter extends Component {
                         type="text"
                         placeholder="20"
                         component="input"
-                        className="form-control"
+                        className="form-control range-input"
                       />
                       <span className="range-input_separator">-</span>
                       <Field
@@ -208,6 +208,7 @@ class UserGridFilter extends Component {
                         type="text"
                         placeholder="30"
                         component="input"
+                        className="form-control range-input"
                       />
                     </div>
                   </div>
