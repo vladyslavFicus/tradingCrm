@@ -434,13 +434,14 @@ function changeStatus({ action, ...data }) {
 }
 
 function successUpdateProfileReducer(state, action) {
+  console.log(action.payload);
   return {
     ...state,
     data: {
       ...state.data,
       ...action.payload,
       fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
-      shortUUID: shortify(action.payload.uuid, action.payload.uuid.indexOf('PLAYER') === -1 ? 'PL' : ''),
+      shortUUID: shortify(action.payload.playerUUID, action.payload.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : ''),
       balance: action.payload && action.payload.balance
         ? action.payload.balance
         : state.data.balance,
@@ -590,7 +591,7 @@ const actionHandlers = {
 };
 
 const actionTypes = {
-  PROFILE: FETCH_PROFILE,
+  FETCH_PROFILE,
   ADD_TAG,
   DELETE_TAG,
   UPDATE_PROFILE,
@@ -615,7 +616,6 @@ const actionCreators = {
   resetPassword,
   activateProfile,
   updateSubscription,
-  loadFullProfile,
   fetchBalances,
   changeStatus,
   addTag,

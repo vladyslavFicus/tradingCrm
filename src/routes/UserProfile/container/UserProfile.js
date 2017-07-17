@@ -53,9 +53,7 @@ const mapStateToProps = (state) => {
 
 const mapActions = {
   fetchProfile: actionCreators.fetchProfile,
-  fetchAccumulatedBalances: actionCreators.fetchBalances,
   updateSubscription: actionCreators.updateSubscription,
-  loadFullProfile: actionCreators.loadFullProfile,
   addTag: actionCreators.addTag,
   deleteTag: actionCreators.deleteTag,
   changeStatus: actionCreators.changeStatus,
