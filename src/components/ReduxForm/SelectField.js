@@ -27,7 +27,6 @@ class SelectField extends Component {
     showInputButton: PropTypes.bool,
   };
   static defaultProps = {
-    labelClassName: 'form-control-label',
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,
@@ -35,7 +34,7 @@ class SelectField extends Component {
     inputAddon: null,
     inputAddonPosition: 'left',
     inputButton: null,
-    inputClassName: 'form-control',
+    inputClassName: 'form-control select-block',
     showInputButton: false,
   };
 

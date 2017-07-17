@@ -106,17 +106,15 @@ class UserGridFilter extends Component {
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label>{label}</label>
-        <div className="form-input-icon">
-          <i className="icmn-search" />
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder}
-            title={placeholder}
-          />
-        </div>
+        <i className="icmn-search icon-in-input" />
+        <input
+          {...input}
+          disabled={disabled}
+          type={type}
+          className={classNames('form-control has-icon', inputClassName, { 'has-danger': touched && error })}
+          placeholder={placeholder}
+          title={placeholder}
+        />
       </div>
     );
   };
@@ -159,9 +157,9 @@ class UserGridFilter extends Component {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="well">
             <div className="row">
-              <div className="col-md-12">
+              <div className="col-xs-12">
                 <div className="row">
-                  <div className="col-md-3">
+                  <div className="col-xl-3">
                     <Field
                       name="searchValue"
                       type="text"
@@ -170,7 +168,7 @@ class UserGridFilter extends Component {
                       component={this.renderQueryField}
                     />
                   </div>
-                  <div className="col-md-2">
+                  <div className="col-xl-2">
                     <Field
                       name="countries"
                       label={filterLabels.country}
@@ -184,7 +182,7 @@ class UserGridFilter extends Component {
                       }
                     </Field>
                   </div>
-                  <div className="col-md-1">
+                  <div className="col-xl-1">
                     <Field
                       name="city"
                       type="text"
@@ -194,33 +192,26 @@ class UserGridFilter extends Component {
                       position="vertical"
                     />
                   </div>
-                  <div className="col-md-2">
+                  <div className="col-xl-2">
                     <div className="form-group">
-                      <label className="form-label">Age</label>
-                      <div className="row">
-                        <div className="col-md-5">
-                          <Field
-                            name="ageFrom"
-                            type="text"
-                            placeholder="20"
-                            component={InputField}
-                            position="vertical"
-                          />
-                        </div>
-                        <div className="col-md-1 dash-after-input" />
-                        <div className="col-md-5">
-                          <Field
-                            name="ageTo"
-                            type="text"
-                            placeholder="30"
-                            component={InputField}
-                            position="vertical"
-                          />
-                        </div>
-                      </div>
+                      <label>Age</label>
+                      <Field
+                        name="ageFrom"
+                        type="text"
+                        placeholder="20"
+                        component="input"
+                        className="form-control"
+                      />
+                      <span className="range-input_separator">-</span>
+                      <Field
+                        name="ageTo"
+                        type="text"
+                        placeholder="30"
+                        component="input"
+                      />
                     </div>
                   </div>
-                  <div className="col-md-2">
+                  <div className="col-xl-2">
                     <div className="form-group">
                       <label className="form-label">Balance</label>
                       <div className="row">
@@ -246,7 +237,7 @@ class UserGridFilter extends Component {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-2">
+                  <div className="col-xl-2">
                     <Field
                       name="currencies"
                       label={filterLabels.currencies}

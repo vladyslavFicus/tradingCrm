@@ -7,11 +7,12 @@ html {
 }
 
 body {
+  height: 100%;
+  position: relative;
   font-family: "Open Sans", sans;
-  background: #f2f2f2;
-  color: #514d6a;
+  background-color: #f2f2f2;
   overflow-x: hidden;
-  min-height: 100%;
+  color: #514d6a;
 }
 
 a {
@@ -27,14 +28,6 @@ a:hover, a:focus {
   -webkit-transition: all 0.05s ease-in-out;
   -o-transition: all 0.05s ease-in-out;
   transition: all 0.05s ease-in-out;
-}
-
-.pull-right {
-  float: right;
-}
-
-.pull-left {
-  float: left;
 }
 
 .modal-open nav.top-menu {
