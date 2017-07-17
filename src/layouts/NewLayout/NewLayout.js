@@ -228,13 +228,14 @@ class NewLayout extends Component {
         />
 
         <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
-          <div
+          <button
             className={
               classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: showScrollToTop === false })
             }
+            onClick={this.handleScrollToTop}
           >
-            <i className="fa fa-caret-up" onClick={this.handleScrollToTop} />
-          </div>
+            <i className="fa fa-caret-up" />
+          </button>
         </div>
 
         {
