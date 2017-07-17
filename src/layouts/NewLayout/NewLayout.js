@@ -227,7 +227,7 @@ class NewLayout extends Component {
           onClose={this.handleCloseTabs}
         />
 
-        <div className={classNames('floating-buttons', { 'bottom-20': userPanels.length > 0 })}>
+        <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
           <div
             className={classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: !showScrollToTop })}
           >

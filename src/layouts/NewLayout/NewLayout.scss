@@ -7,7 +7,7 @@
 .floating-buttons {
   position: fixed;
   right: 5px;
-  bottom: 63px;
+  bottom: 20px;
   &__circle {
     height: 30px;
     width: 30px;
@@ -30,6 +30,9 @@
     top: 4px;
     color: #fff;
     font-size: 16px;
+  }
+  &.bottom-60 {
+    bottom: 63px;
   }
 }
 
