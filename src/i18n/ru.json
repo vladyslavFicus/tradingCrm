@@ -224,7 +224,10 @@
         "TITLE": "Информация о Free spin"
       },
       "EXPORT_BUTTON": "Экспорт",
-      "MANUAL_FREE_SPIN_BUTTON": "+ Добавить free spin"
+      "MANUAL_FREE_SPIN_BUTTON": "+ Добавить free spin",
+      "NOTIFICATIONS": {
+        "CANCEL_FREE_SPIN_ERROR": "Не удалось отменить free spins"
+      }
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
@@ -245,10 +248,25 @@
           "PRIZE": "Prize",
           "CAPPING": "Capping",
           "MULTIPLIER": "Множитель",
-          "BONUS_LIFE_TIME": "Время жизни бонуса"
+          "BONUS_LIFE_TIME": "Время жизни бонуса",
+          "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
         "TOTAL_VALUE": "Сумма spin"
+      },
+      "MODAL_CANCEL": {
+        "SELECT_REASON_OPTION": "-- Выберите причину --",
+        "CUSTOM_REASON_OPTION": "Другая причина",
+        "TITLE": "Отмена Free spins",
+        "ACTION_TEXT": "Вы собираетесь отменить \"%{title}\"",
+        "ENTITY_NAME": "free spins",
+        "CUSTOM_REASON_PLACEHOLDER": "Причина",
+        "CANCEL_BUTTON": "Отменить free spins",
+        "CONSTANTS": {
+          "REASON_LABEL": "Причина",
+          "CUSTOM_REASON_LABEL": "Другая причина"
+        },
+        "CLOSE_BUTTON": "Закрыть"
       }
     }
   },
@@ -313,7 +331,12 @@
     "UNAVAILABLE": "Недоступно",
     "UNKNOWN": "Неизвестно",
     "UNKNOWN_TIME": "Неизвестное время",
-    "TOTAL_WIN": "Общий выигрыш"
+    "TOTAL_WIN": "Общий выигрыш",
+    "ERROR": "Ошибка",
+    "GOOD_MORNING": "Доброе утро",
+    "GOOD_AFTERNOON": "Добрый день",
+    "GOOD_EVENING": "Добрый вечер",
+    "GOOD_NIGHT": "Доброй ночи"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -475,6 +498,9 @@
         "PENDING": "Ожидающий",
         "FAILED": "Неудачный",
         "PLAYED": "Сыгранный"
+      },
+      "STATUS_ACTIONS_LABELS": {
+        "CANCEL": "Отмена"
       }
     },
     "FREE_SPINS": {
@@ -495,6 +521,14 @@
           "CAMPAIGN": "Кампания",
           "OPERATOR": "Оператор"
         }
+      }
+    },
+    "SIGN_IN": {
+      "DEPARTMENTS": {
+        "CS": "Обслуживание клиентов",
+        "RFP": "Risk Fraud & Payment",
+        "MARKETING": "Маркетинг",
+        "ADMINISTRATION": "Администрация"
       }
     }
   },

@@ -76,6 +76,7 @@ PropTypes.gamingActivityEntity = PropTypes.shape({
   totalBetAmount: PropTypes.price,
   totalWinAmount: PropTypes.price,
   winDate: PropTypes.string,
+  gameRoundType: PropTypes.string,
 });
 PropTypes.limitEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
@@ -134,7 +135,7 @@ PropTypes.bonusEntity = PropTypes.shape({
   startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   state: PropTypes.string,
   wagered: PropTypes.price,
-  convertedAmount: PropTypes.price,
+  convertedAmount: PropTypes.number,
 });
 PropTypes.fileEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,

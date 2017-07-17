@@ -77,9 +77,9 @@ const initialState = {
     kycStatusReason: null,
     kycCompleted: false,
     completed: false,
-    balance: { amount: 0, currency: config.nas.brand.currencies.base },
-    realBalance: { amount: 0, currency: config.nas.brand.currencies.base },
-    bonusBalance: { amount: 0, currency: config.nas.brand.currencies.base },
+    balance: { amount: 0, currency: config.nas.currencies.base },
+    realBalance: { amount: 0, currency: config.nas.currencies.base },
+    bonusBalance: { amount: 0, currency: config.nas.currencies.base },
     addressStatus: {
       value: null,
       editDate: null,

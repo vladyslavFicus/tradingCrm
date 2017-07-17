@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import classNames from 'classnames';
 import { createValidator } from '../../../utils/validator';
-import { departmentsLabels } from '../../../constants/operators';
-import { SelectField, InputField } from '../../../components/ReduxForm/UserProfile';
-import { renderLabel } from '../../../routes/Operators/utils';
+import { InputField } from '../../../components/ReduxForm/UserProfile';
 import PropTypes from '../../../constants/propTypes';
 
 const attributeLabels = {
@@ -20,69 +19,99 @@ const validator = createValidator({
 
 class SignInForm extends Component {
   static propTypes = {
+    logged: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func,
-    onSubmit: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
     pristine: PropTypes.bool,
-    departments: PropTypes.arrayOf(PropTypes.dropDownOption),
+    error: PropTypes.string,
+  };
+  static defaultProps = {
+    handleSubmit: null,
+    submitting: false,
+    pristine: false,
+    error: null,
   };
 
+  state = {
+    step: 0,
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { logged } = this.props;
+
+    if (logged !== nextProps.logged) {
+      this.setState({ step: 1 }, () => {
+        this.timeouts.push(
+          setTimeout(() => {
+            this.setState({ step: 2 });
+          }, 350)
+        );
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.timeouts.length > 0) {
+      this.timeouts.map(clearTimeout);
+    }
+  }
+
+  timeouts = [];
+
   render() {
+    const { step } = this.state;
     const {
       handleSubmit,
-      pristine,
       submitting,
       onSubmit,
       error,
-      departments,
     } = this.props;
+    const className = classNames('sign-in__form', {
+      fadeInUp: step === 0,
+      fadeOutLeft: step > 0,
+      'position-absolute': step > 1,
+    });
 
     return (
-      <form
-        name="form-validation"
-        className="form-horizontal"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        {error && <div className="alert alert-warning">
-          {error}
-        </div>}
-        <Field
-          name="login"
-          type="text"
-          component={InputField}
-          placeholder={attributeLabels.login}
-        />
-        <Field
-          name="password"
-          type="password"
-          component={InputField}
-          placeholder={attributeLabels.password}
-        />
-        <Field
-          name="department"
-          placeholder={attributeLabels.department}
-          type="text"
-          component={SelectField}
+      <div className={className}>
+        <form
+          name="form-validation"
+          className="form-horizontal"
+          onSubmit={handleSubmit(onSubmit)}
         >
-          <option value="">-- Choose department --</option>
           {
-            departments.map(({ label, value }) => (
-              <option key={value} value={value}>
-                { renderLabel(label, departmentsLabels) }
-              </option>
-            ))
+            error &&
+            <div className="alert alert-warning">
+              {error}
+            </div>
           }
-        </Field>
-        <div className="form-actions">
-          <button
-            type="submit"
-            className="btn btn-primary width-150"
-            disabled={pristine || submitting}
-          >
-            SIGN IN
-          </button>
-        </div>
-      </form>
+          <div className="sign-in__form_input">
+            <Field
+              name="login"
+              type="text"
+              label="Email"
+              component={InputField}
+              placeholder={attributeLabels.login}
+            />
+
+          </div>
+          <div className="sign-in__form_input">
+            <Field
+              name="password"
+              type="password"
+              label="Password"
+              component={InputField}
+              placeholder={attributeLabels.password}
+            />
+          </div>
+          <div className="sign-in__form_submit">
+            <button className="btn btn-primary sign-in_btn" disabled={submitting}>
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }

@@ -5,7 +5,7 @@ import FreeSpinMainInfo from '../FreeSpinMainInfo';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import { targetTypes } from '../../../../../../../../constants/note';
-import { statuses } from '../../../../../../../../constants/free-spin';
+import { statuses, actions } from '../../../../../../../../constants/free-spin';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
 import Amount from '../../../../../../../../components/Amount';
 import FreeSpinStatus from '../../../../../../../../components/FreeSpinStatus';
@@ -13,11 +13,13 @@ import NoteButton from '../../../../../../../../components/NoteButton';
 import FreeSpinAvailablePeriod from '../FreeSpinAvailablePeriod';
 import FreeSpinsFilterForm from '../FreeSpinsFilterForm';
 import CreateModal from '../CreateModal';
+import CancelModal from '../CancelModal';
 import ViewModal from '../ViewModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
+const MODAL_CANCEL = 'cancel-modal';
 const MODAL_VIEW = 'view-modal';
 
 class FreeSpinsView extends Component {
@@ -41,8 +43,10 @@ class FreeSpinsView extends Component {
     manageNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
     fetchFilters: PropTypes.func.isRequired,
+    cancelFreeSpin: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
     providers: PropTypes.arrayOf(PropTypes.string).isRequired,
+    cancelReasons: PropTypes.object.isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity).isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
@@ -54,6 +58,7 @@ class FreeSpinsView extends Component {
     setNoteChangedCallback: PropTypes.func.isRequired,
     refreshPinnedNotes: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
+    addNotification: PropTypes.func.isRequired,
   };
 
   state = {
@@ -108,7 +113,7 @@ class FreeSpinsView extends Component {
     this.setState({ filters: {}, page: 0 });
   };
 
-  handleRowClick = (data) => {
+  handleRowClick = (item) => {
     const actions = [
       {
         children: I18n.t('COMMON.CLOSE'),
@@ -117,17 +122,27 @@ class FreeSpinsView extends Component {
       },
     ];
 
-    if (data.status === statuses.ACTIVE) {
+    if (item.status !== statuses.CANCELED) {
       actions.push({
         children: I18n.t('PLAYER_PROFILE.FREE_SPINS.CANCEL_FREE_SPIN'),
-        onClick: this.handleCancelClick,
-        className: 'btn btn-default-outline text-uppercase',
+        onClick: this.handleCancelClick(item),
+        className: 'btn btn-danger text-uppercase',
       });
     }
 
     this.handleModalOpen(MODAL_VIEW, {
-      item: data,
+      item,
       actions,
+    });
+  };
+
+  handleCancelClick = item => () => {
+    this.handleModalOpen(MODAL_CANCEL, {
+      item,
+      action: actions.CANCEL,
+      initialValues: {
+        uuid: item.uuid,
+      },
     });
   };
 
@@ -163,6 +178,27 @@ class FreeSpinsView extends Component {
       fetchFilters();
       this.handleModalClose(this.handleRefresh);
     }
+
+    return action;
+  };
+
+  handleCancelFreeSpin = async ({ uuid, reason }) => {
+    const { cancelFreeSpin, params } = this.props;
+    const action = await cancelFreeSpin(params.id, uuid, reason);
+
+    if (action) {
+      if (action.error) {
+        this.context.addNotification({
+          title: I18n.t('COMMON.ERROR'),
+          message: I18n.t('PLAYER_PROFILE.FREE_SPINS.NOTIFICATIONS.CANCEL_FREE_SPIN_ERROR'),
+          level: 'error',
+        });
+      } else {
+        this.handleRefresh();
+      }
+    }
+
+    this.handleModalClose(this.handleRefresh);
 
     return action;
   };
@@ -214,7 +250,7 @@ class FreeSpinsView extends Component {
   );
 
   renderStatus = data => (
-    <FreeSpinStatus freeSpin={data} />
+    <FreeSpinStatus id={`free-spin-status-${data.uuid}-grid`} freeSpin={data} />
   );
 
   renderNote = data => (
@@ -235,6 +271,7 @@ class FreeSpinsView extends Component {
       games,
       currency,
       manageNote,
+      cancelReasons,
     } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
@@ -247,13 +284,13 @@ class FreeSpinsView extends Component {
           <div className="col-md-6 text-right">
             <button
               disabled={exporting || !allowActions}
-              className="btn btn-default-outline margin-inline"
+              className="btn btn-default-outline margin-inline btn-sm"
               onClick={this.handleExportButtonClick}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
             </button>
             <button
-              className="btn btn-primary-outline margin-inline"
+              className="btn btn-primary-outline margin-inline btn-sm"
               onClick={this.handleCreateButtonClick}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
@@ -321,6 +358,16 @@ class FreeSpinsView extends Component {
             providers={providers}
             note={newEntityNote}
             onManageNote={manageNote}
+          />
+        }
+        {
+          modal.name === MODAL_CANCEL &&
+          <CancelModal
+            isOpen
+            {...modal.params}
+            onSubmit={this.handleCancelFreeSpin}
+            onClose={this.handleModalClose}
+            reasons={cancelReasons}
           />
         }
         {

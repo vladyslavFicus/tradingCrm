@@ -4,6 +4,7 @@ import createReducer from '../../utils/createReducer';
 import createRequestAction from '../../utils/createRequestAction';
 import { sourceActionCreators as operatorSourceActionCreators } from './operator';
 import getFingerprint from '../../utils/fingerPrint';
+import timestamp from '../../utils/timestamp';
 import { getBrand } from '../../config';
 
 const KEY = 'auth';
@@ -64,21 +65,21 @@ function refreshToken() {
   };
 }
 
-function changeDepartment(department) {
+function changeDepartment(department, brandId = getBrand(), token = null) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token: currentToken, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
         method: 'POST',
-        endpoint: `/auth/signin/${getBrand()}/${department}`,
+        endpoint: `/auth/signin/${brandId}/${department}`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token || currentToken}`,
         },
         types: [CHANGE_AUTHORITY.REQUEST, CHANGE_AUTHORITY.SUCCESS, CHANGE_AUTHORITY.FAILURE],
-        bailout: !logged,
+        bailout: !logged && !token,
       },
     });
   };
@@ -87,7 +88,7 @@ function changeDepartment(department) {
 
 function validateToken() {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, lastTokenValidation } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -99,7 +100,7 @@ function validateToken() {
           Authorization: `Bearer ${token}`,
         },
         types: [VALIDATE_TOKEN.REQUEST, VALIDATE_TOKEN.SUCCESS, VALIDATE_TOKEN.FAILURE],
-        bailout: !logged,
+        bailout: !logged || (timestamp() - lastTokenValidation) < 1,
       },
     });
   };
@@ -165,6 +166,7 @@ const initialState = {
   uuid: null,
   username: null,
   fullName: null,
+  lastTokenValidation: null,
   data: {},
 };
 const actionHandlers = {
@@ -183,6 +185,7 @@ const actionHandlers = {
     ...state,
     token: action.payload.jwtToken,
   }),
+  [VALIDATE_TOKEN.SUCCESS]: (state) => ({ ...state, lastTokenValidation: timestamp() }),
   [LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
 const actionTypes = {

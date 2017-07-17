@@ -38,7 +38,7 @@ const config = _.merge({
   },
   nas: {
     brand: {
-      name: 'hrzn_dev2',
+      name: '',
       api: {
         url: '',
       },
@@ -72,7 +72,15 @@ const config = _.merge({
     reasons: {
       rejection: [],
     },
-    limits: {},
+    limits: {
+      deposit: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      wager: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      loss: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      session_duration: {
+        cooloff: '8 HOURS',
+        periods: ['1 HOURS', '2 HOURS', '3 HOURS', '4 HOURS', '5 HOURS', '6 HOURS', '7 HOURS', '8 HOURS'],
+      },
+    },
     locale: {
       languages: [],
       defaultLanguage: 'en',
@@ -89,6 +97,14 @@ const config = _.merge({
         CANCEL_REASON_2: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_2',
         CANCEL_REASON_3: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_3',
         CANCEL_REASON_4: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_4',
+      },
+    },
+    freeSpin: {
+      cancelReasons: {
+        CANCEL_REASON_1: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_1',
+        CANCEL_REASON_2: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_2',
+        CANCEL_REASON_3: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_3',
+        CANCEL_REASON_4: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_4',
       },
     },
   },
@@ -149,7 +165,7 @@ function getTransactionChargebackReasons() {
 }
 
 function getLimitPeriods() {
-  return config.nas.brand.limits || [];
+  return config.nas.limits || [];
 }
 
 function getApiRoot() {

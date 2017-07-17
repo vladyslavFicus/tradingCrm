@@ -2,9 +2,9 @@ module.exports = {
   logstash: { url: 'http://hrzn01-dev-elk.nas.local:12202' },
   nas: {
     brand: {
+      name: 'hrzn_dev2',
       password: { pattern: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
       fx_rate: { cron: '0 0 17 * * *' },
-      currencies: { base: 'EUR', supported: ['EUR', 'USD', 'SEK', 'NOK', 'RUB'] },
       validation: { password: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
       reasons: {
         rejection: ['reason_1', 'reason_2', 'reason_3', 'reason_4'],
@@ -14,16 +14,7 @@ module.exports = {
         defaultLanguage: 'en',
         languages: ['en', 'ru'],
       },
-      limits: {
-        deposit: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
-        wager: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
-        loss: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
-        session_duration: {
-          cooloff: '8 HOURS',
-          periods: ['1 HOURS', '2 HOURS', '3 HOURS', '4 HOURS', '5 HOURS', '6 HOURS', '7 HOURS', '8 HOURS'],
-        },
-      },
-      departments: ['PLAYER', 'CS', 'RFP', 'MARKETING'],
+      departments: ['PLAYER', 'CS', 'RFP', 'MARKETING', 'ADMINISTRATION'],
       roles: ['ROLE4', 'ROLE3', 'ROLE2', 'ROLE1'],
       tags: {
         priorities: {
@@ -50,6 +41,7 @@ module.exports = {
         countries: ['AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ'],
       },
     },
+    currencies: { base: 'EUR', supported: ['EUR', 'USD', 'SEK', 'NOK', 'RUB'] },
   },
   components: {
     Currency: {

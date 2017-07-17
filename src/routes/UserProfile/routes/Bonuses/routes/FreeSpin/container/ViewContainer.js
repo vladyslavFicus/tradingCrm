@@ -14,7 +14,8 @@ const mapStateToProps = (state) => {
     list,
     games,
     providers,
-    currency: profile.data.currencyCode || config.nas.brand.currencies.base,
+    currency: profile.data.currencyCode || config.nas.currencies.base,
+    cancelReasons: config.modules.freeSpin.cancelReasons,
   };
 };
 const mapActions = {
@@ -26,6 +27,7 @@ const mapActions = {
   manageNote: actionCreators.manageNote,
   resetNote: actionCreators.resetNote,
   fetchFilters: actionCreators.fetchFilters,
+  cancelFreeSpin: actionCreators.cancelFreeSpin,
 };
 
 export default connect(mapStateToProps, mapActions)(FreeSpinsView);

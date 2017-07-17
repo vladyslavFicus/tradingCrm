@@ -90,7 +90,7 @@ class BonusStatus extends Component {
       {
         !!bonus.convertedAmount &&
         <div>
-          to <Amount {...bonus.convertedAmount} />
+          to <Amount amount={bonus.convertedAmount} currency={bonus.currency} />
         </div>
       }
     </div>
