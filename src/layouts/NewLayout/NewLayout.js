@@ -99,7 +99,7 @@ class NewLayout extends Component {
   }
 
   state = {
-    showScrollToTop: false,
+    showScrollToTop: null,
     noteChangedCallback: null,
     popover: { ...popoverInitialState },
   };
@@ -117,9 +117,9 @@ class NewLayout extends Component {
   };
 
   handleScrollWindow = () => {
-    if ((document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)) {
+    if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100)) {
       this.setState({ showScrollToTop: true });
-    } else {
+    } else if (this.state.showScrollToTop) {
       this.setState({ showScrollToTop: false });
     }
   };
@@ -229,7 +229,9 @@ class NewLayout extends Component {
 
         <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
           <div
-            className={classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: !showScrollToTop })}
+            className={
+              classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: showScrollToTop === false })
+            }
           >
             <i className="fa fa-caret-up" onClick={this.handleScrollToTop} />
           </div>
