@@ -5,7 +5,6 @@ import FilesRoute from './routes/Files';
 import DevicesRoute from './routes/Devices';
 import UserPaymentsRoute from './routes/Transactions';
 import UserBonusesRoute from './routes/Bonuses';
-import BonusCampaignsRoute from './routes/BonusCampaigns';
 import LimitsRoute from './routes/Limits';
 import PaymentAccountsRoute from './routes/PaymentAccounts';
 import NotesRoute from './routes/Notes';
@@ -18,7 +17,7 @@ export default store => ({
       injectReducer(store, { key: 'profile', reducer: require('./modules').default });
 
       cb(null, require('./container/UserProfile').default);
-    });
+    }, 'player-profile');
   },
 
   ignoreScrollBehavior: true,
@@ -30,7 +29,6 @@ export default store => ({
     DevicesRoute(store),
     UserPaymentsRoute(store),
     UserBonusesRoute(store),
-    BonusCampaignsRoute(store),
     PaymentAccountsRoute(store),
     LimitsRoute(store),
     NotesRoute(store),

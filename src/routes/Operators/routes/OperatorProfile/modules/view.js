@@ -34,6 +34,7 @@ function updateProfile(uuid, data) {
           lastName: operatorProfile.lastName,
           phoneNumber: operatorProfile.phoneNumber,
           ...data,
+          email: undefined,
         }),
         types: [
           UPDATE_PROFILE.REQUEST,
@@ -75,24 +76,27 @@ function changeStatus(data) {
   };
 }
 
+const successFetchProfileReducer = (state, action) => ({
+  ...state,
+  data: action.payload,
+  isLoading: false,
+  receivedAt: timestamp(),
+});
+
 const actionHandlers = {
   [PROFILE.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [PROFILE.SUCCESS]: (state, action) => ({
-    ...state,
-    data: action.payload,
-    isLoading: false,
-    receivedAt: timestamp(),
-  }),
+  [PROFILE.SUCCESS]: successFetchProfileReducer,
   [PROFILE.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
   }),
+  [UPDATE_PROFILE.SUCCESS]: successFetchProfileReducer,
 };
 
 const initialState = {

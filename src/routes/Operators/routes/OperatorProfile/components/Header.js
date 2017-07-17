@@ -5,9 +5,9 @@ import { I18n } from 'react-redux-i18n';
 import Uuid from '../../../../../components/Uuid';
 import { statusColorNames, statuses } from '../../../../../constants/operators';
 import AccountStatus from './AccountStatus';
+import ProfileLastLogin from './ProfileLastLogin';
 import PropTypes from '../../../../../constants/propTypes';
 import PermissionContent from '../../../../../components/PermissionContent';
-import ProfileLastLogin from '../../../../../components/ProfileLastLogin';
 import Permissions from '../../../../../utils/permissions';
 import permission from '../../../../../config/permissions';
 import './Header.scss';
@@ -96,7 +96,7 @@ class Header extends Component {
               label={
                 <div className="dropdown-tab">
                   <div className="header-block-title">Account Status</div>
-                  <i className="fa fa-angle-down" />
+                  {availableStatuses.length > 0 && <i className="fa fa-angle-down" />}
                   <div className={`header-block-middle ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
                   {
                     operatorStatus === statuses.ACTIVE && !!statusChangeDate &&

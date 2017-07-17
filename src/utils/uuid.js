@@ -1,14 +1,18 @@
-export function shortify(uuid, prefix = null, size = 2) {
+export function shortify(uuid, manualPrefix = null, size = 2) {
   if (!uuid) {
     return uuid;
   }
 
   const elements = uuid.split('-');
   if (elements.length < 2) {
-    return uuid;
+    return manualPrefix ? `${manualPrefix}-${uuid}` : uuid;
   }
 
-  const sourcePrefix = prefix || (elements[0].length > 2 ? elements[0].slice(0, 2) : elements[0]);
+  let sourcePrefix = manualPrefix;
+  if (!sourcePrefix) {
+    sourcePrefix = elements[0] ? elements[0].substr(0, 2) : '';
+  }
+
   if (elements.length >= size) {
     const additionalPartsSize = size - 1;
     const startOffset = elements.length - additionalPartsSize;

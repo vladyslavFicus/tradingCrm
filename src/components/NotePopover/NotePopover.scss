@@ -2,10 +2,33 @@
   max-width: 400px !important;
   width: 400px !important;
   background-color: #FFFDE6;
+  border-color: #797979;
 
   .popover-title {
     background: #FFFDE6;
     border: none;
+    &__container {
+      margin-bottom: 5px;
+      color: #666;
+    }
+    &__label {
+      font-size: 11px;
+    }
+    &__author {
+      font-size: 13px;
+      line-height: normal;
+    }
+    &__date {
+      position: relative;
+      font-size: 11px;
+    }
+    &__trash-btn {
+      position: absolute;
+      right: 0;
+      bottom: 1px;
+      padding: 0;
+      font-size: 14px;
+    }
   }
 
   .popover-content {

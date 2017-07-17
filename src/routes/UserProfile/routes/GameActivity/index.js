@@ -1,5 +1,5 @@
 import { injectReducer } from '../../../../store/reducers';
-import { actionCreators } from './modules/index';
+import { actionCreators } from './modules';
 
 export default store => ({
   path: ':id/game-activity',

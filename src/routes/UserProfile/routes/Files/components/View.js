@@ -45,9 +45,9 @@ class View extends Component {
     placement: 'left',
   });
 
-  handleNoteClick = (target, data) => {
-    if (data.note) {
-      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
     } else {
       this.context.onAddNoteClick(data.uuid, targetTypes.FILE)(target, this.getNotePopoverParams());
     }

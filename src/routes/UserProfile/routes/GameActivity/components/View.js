@@ -77,6 +77,25 @@ class View extends Component {
     });
   };
 
+  renderGameRoundType = (data) => {
+    if (data.gameRoundType === 'FREE_SPIN') {
+      return (
+        <div className="font-size-12 color-success font-weight-700">
+          FREE SPIN
+        </div>
+      );
+    } else if (data.gameRoundType === 'BONUS_ROUND') {
+      return (
+        <div className="font-size-12 color-primary font-weight-700">
+          BONUS ROUND
+        </div>
+      );
+    }
+
+
+    return null;
+  };
+
   renderGameRound = data => (
     <span className={classNames({ 'text-danger': data.rollback })}>
       <div className="font-weight-700">
@@ -174,6 +193,13 @@ class View extends Component {
     );
   };
 
+  renderBetAmount = data => (
+    <div>
+      {this.renderAmount('totalBetAmount', 'realBetAmount', 'bonusBetAmount')(data)}
+      {this.renderGameRoundType(data)}
+    </div>
+  );
+
   render() {
     const {
       activity: {
@@ -239,7 +265,7 @@ class View extends Component {
           <GridColumn
             name="betAmount"
             header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BET_AMOUNT')}
-            render={this.renderAmount('totalBetAmount', 'realBetAmount', 'bonusBetAmount')}
+            render={this.renderBetAmount}
           />
           <GridColumn
             name="winDate"

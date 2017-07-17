@@ -4,6 +4,7 @@ import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import GridView, { GridColumn } from '../../../../../components/GridView';
+import FailedStatusIcon from '../../../../../components/FailedStatusIcon';
 import Amount from '../../../../../components/Amount';
 import {
   types as paymentTypes,
@@ -17,7 +18,7 @@ import {
 import { shortify } from '../../../../../utils/uuid';
 import StatusHistory from '../../../../../components/TransactionStatusHistory';
 import { targetTypes } from '../../../../../constants/note';
-import PopoverButton from '../../../../../components/PopoverButton';
+import NoteButton from '../../../../../components/NoteButton';
 import TransactionGridFilter from './TransactionGridFilter';
 import PaymentDetailModal from './PaymentDetailModal';
 import PaymentActionReasonModal from './PaymentActionReasonModal';
@@ -80,9 +81,9 @@ class View extends Component {
     this.context.setNoteChangedCallback(null);
   }
 
-  handleNoteClick = (target, data) => {
-    if (data.note) {
-      this.context.onEditNoteClick(target, data.note, { placement: 'left' });
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.onEditNoteClick(target, note, { placement: 'left' });
     } else {
       this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'left' });
     }
@@ -237,7 +238,7 @@ class View extends Component {
         </span>
       </div>
     );
-  }
+  };
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -341,11 +342,17 @@ class View extends Component {
         <div>
           <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
             {statusesLabels[data.status] || data.status}
+            {
+              data.status === paymentsStatuses.FAILED && !!data.reason &&
+              <FailedStatusIcon id={`player-transaction-failure-reason-${data.paymentId}`}>
+                {data.reason}
+              </FailedStatusIcon>
+            }
           </div>
           {
             data.creatorUUID &&
             <div className="font-size-10 color-default">
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} length={20} />
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} />
             </div>
           }
           <span className="font-size-10 color-default">
@@ -358,21 +365,14 @@ class View extends Component {
     />
   );
 
-  renderActions = (data) => {
-    return (
-      <PopoverButton
-        id={`bonus-item-note-button-${data.paymentId}`}
-        className="cursor-pointer margin-right-5"
-        onClick={id => this.handleNoteClick(id, data)}
-      >
-        {data.note
-          ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> :
-          <i className="note-icon note-with-text" />)
-        : <i className="note-icon note-add-note" />
-        }
-      </PopoverButton>
-    );
-  };
+  renderActions = data => (
+    <NoteButton
+      id={`bonus-item-note-button-${data.paymentId}`}
+      note={data.note}
+      onClick={this.handleNoteClick}
+      targetEntity={data}
+    />
+  );
 
   render() {
     const { modal } = this.state;

@@ -98,7 +98,7 @@
         "FILES": "Files",
         "NOTE": "Note"
       },
-      "TITLE": "Payments",
+      "TITLE": "Payment accounts",
       "ATTACHED_FILES": "Attached files"
     },
     "BONUS": {
@@ -180,6 +180,94 @@
         "FULFILLMENT_TYPE": "Fulfilment type",
         "PRIORITY": "Priority"
       }
+    },
+    "FREE_SPINS": {
+      "BONUS_SETTINGS": {
+        "MULTIPLIER": "Multiplier",
+        "PRIZE": "Prize",
+        "CAPPING": "Capping",
+        "LIFE_TIME": "Lifetime",
+        "LIFE_TIME_DAYS": "%{count} days"
+      },
+      "FREE_SPIN_AVAILABLE_PERIOD": {
+        "DATE_TO": "to %{time}"
+      },
+      "FREE_SPIN_SETTINGS": {
+        "LINES": "Line",
+        "BET_PER_LINE": "Bet per line",
+        "SPIN_VALUE": "Spin value"
+      },
+      "CANCEL_FREE_SPIN": "Cancel free spin",
+      "GRID_VIEW": {
+        "FREE_SPIN_COUNT": "%{count} spins",
+        "SPIN_VALUE": "Spin value",
+        "TOTAL_VALUE": "Total value",
+        "FREE_SPIN": "Free spin",
+        "AVAILABILITY": "Availability",
+        "GRANTED": "Granted",
+        "STATUS": "Status",
+        "NOTE": "Note"
+      },
+      "VIEW_MODAL": {
+        "FREE_SPIN": "Free spin",
+        "PROVIDER_AND_GAME": "Provider & game",
+        "STATUS": "Status",
+        "AVAILABLE": "Available",
+        "SPIN_SETTINGS": "Spin settings",
+        "BONUS_SETTINGS": "Bonus settings",
+        "STATISTICS_GRANTED_TITLE": "GRANTED",
+        "STATISTICS_GRANTED_COUNT": "%{count} spins",
+        "STATISTICS_TOTAL_VALUE_TITLE": "Total value",
+        "STATISTICS_PLAYED_TITLE": "Played",
+        "STATISTICS_PLAYED_COUNT": "%{count} spins",
+        "STATISTICS_WINNINGS_TITLE": "Winnings",
+        "TITLE": "Free spin details"
+      },
+      "EXPORT_BUTTON": "Export",
+      "MANUAL_FREE_SPIN_BUTTON": "+ Manual free spin",
+      "NOTIFICATIONS": {
+        "CANCEL_FREE_SPIN_ERROR": "Failed to cancel free spins"
+      }
+    },
+    "FREE_SPIN": {
+      "MODAL_CREATE": {
+        "TITLE": "Create free spin",
+        "CHOOSE_PROVIDER": "-- Choose --",
+        "CHOOSE_GAME": "-- Choose --",
+        "CHOOSE_LINES_PER_SPIN": "-- Choose --",
+        "ATTRIBUTES_LABELS": {
+          "NAME": "Name",
+          "START_DATE": "Start date",
+          "END_DATE": "End date",
+          "AVAILABILITY_DATE_RANGE": "Free spin life time",
+          "PROVIDER": "Provider",
+          "GAME": "Game",
+          "FREE_SPINS_AMOUNT": "Free spins amount",
+          "LINES_PER_SPIN": "Lines per spin",
+          "BET_PER_LINE": "Bet per line",
+          "PRIZE": "Prize",
+          "CAPPING": "Capping",
+          "MULTIPLIER": "Multiplier",
+          "BONUS_LIFE_TIME": "Bonus life time",
+          "MONEY_TYPE_PRIORITY": "Money type usage"
+        },
+        "FREE_SPIN_VALUE": "Free spin value",
+        "TOTAL_VALUE": "Total value"
+      },
+      "MODAL_CANCEL": {
+        "SELECT_REASON_OPTION": "-- Select reason --",
+        "CUSTOM_REASON_OPTION": "Other",
+        "TITLE": "Free spins cancelation",
+        "ACTION_TEXT": "You are about to %{action} the \"%{title}\"",
+        "ENTITY_NAME": "free spins",
+        "CUSTOM_REASON_PLACEHOLDER": "Reason",
+        "CANCEL_BUTTON": "Cancel the free spins",
+        "CONSTANTS": {
+          "REASON_LABEL": "Reason",
+          "CUSTOM_REASON_LABEL": "Custom reason"
+        },
+        "CLOSE_BUTTON": "Close"
+      }
     }
   },
   "COMMON": {
@@ -221,6 +309,9 @@
       "COPY_FULL_UUID": {
         "TITLE": "Copied",
         "MESSAGE": "Full UUID has been copied to clipboard"
+      },
+      "COPY_FULL_IP": {
+        "MESSAGE": "IP adress has been copied to clipboard"
       }
     },
     "OR": "Or",
@@ -239,7 +330,13 @@
     "OPTIONAL": "Optional",
     "UNAVAILABLE": "Unavailable",
     "UNKNOWN": "Unknown",
-    "UNKNOWN_TIME": "Unknown time"
+    "UNKNOWN_TIME": "Unknown time",
+    "TOTAL_WIN": "Total win",
+    "ERROR": "Error",
+    "GOOD_MORNING": "Good morning",
+    "GOOD_AFTERNOON": "Good afternoon",
+    "GOOD_EVENING": "Good evening",
+    "GOOD_NIGHT": "Good night"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -330,6 +427,11 @@
       "MONEY_TYPE_USAGE": {
         "REAL_MONEY": "Real money",
         "BONUS_MONEY": "Bonus money"
+      },
+      "ROUTES": {
+        "BONUS": "Bonus",
+        "ELIGIBLE_CAMPAIGNS": "Eligible campaigns",
+        "FREE_SPINS": "Free spins"
       }
     },
     "COUNTRIES": {
@@ -385,6 +487,48 @@
         "DESKTOP": "Desktop",
         "TABLET": "Tablet",
         "UNKNOWN": "Unknown"
+      }
+    },
+    "FREE_SPIN": {
+      "STATUSES": {
+        "CANCELED": "Canceled",
+        "FORFEITED": "Forfeited",
+        "ACTIVE": "Active",
+        "SCHEDULED": "Scheduled",
+        "PENDING": "Pending",
+        "FAILED": "Failed",
+        "PLAYED": "Played"
+      },
+      "STATUS_ACTIONS_LABELS": {
+        "CANCEL": "Cancel free spins"
+      }
+    },
+    "FREE_SPINS": {
+      "FILTER_FORM": {
+        "ATTRIBUTES_LABELS": {
+          "SEARCH_BY": "Search by",
+          "ASSIGNED": "Assigned",
+          "PROVIDER": "Provider",
+          "GAME": "Game",
+          "START_DATE": "Start date",
+          "END_DATE": "End date",
+          "AVAILABILITY_DATE_RANGE": "Availability date range"
+        },
+        "ATTRIBUTES_PLACEHOLDERS": {
+          "SEARCH_BY": "Free spin ID, name"
+        },
+        "AUTHOR_TYPES": {
+          "CAMPAIGN": "Campaign",
+          "OPERATOR": "Operator"
+        }
+      }
+    },
+    "SIGN_IN": {
+      "DEPARTMENTS": {
+        "CS": "Customer service",
+        "RFP": "Risk Fraud & Payment",
+        "MARKETING": "Marketing",
+        "ADMINISTRATION": "Administration"
       }
     }
   },
@@ -466,7 +610,8 @@
   "GAMES": {
     "TITLE": "Games",
     "EXPORT_BUTTON": "Export games",
-    "UPLOAD_FILE_BUTTON": "Import games"
+    "UPLOAD_FILE_BUTTON": "Import games",
+    "RESET_BUTTON": "Reset games"
   },
   "ERRORS": {
     "FILE": {
@@ -628,5 +773,8 @@
         "inactive": "Payment method inactive"
       }
     }
+  },
+  "NOTE_BUTTON": {
+    "DEFAULT_MESSAGE": "Add note"
   }
 }

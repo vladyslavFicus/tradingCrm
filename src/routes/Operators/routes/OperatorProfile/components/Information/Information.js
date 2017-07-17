@@ -4,6 +4,7 @@ import Personal from './Personal';
 import Departments from './Departments';
 import IpList from './IpList';
 import PropTypes from '../../../../../../constants/propTypes';
+import './Information.scss';
 
 const Information = ({ data, ips }) => (
   <div className="player__account__details row">
