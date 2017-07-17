@@ -93,18 +93,8 @@ processConfig()
 
     if (apiUrl) {
       health.config.status = STATUS.UP;
+      health.status = STATUS.UP;
 
-      return fetchConfigHealth(`${apiUrl}/health`)
-        .then((response) => {
-          if (response.version) {
-            health.api.status = STATUS.UP;
-          }
-
-          if (health.config.status === STATUS.UP && health.api.status === STATUS.UP) {
-            health.status = STATUS.UP;
-          }
-
-          return saveHealth(health);
-        }, processError);
+      return saveHealth(health);
     }
   }), processError);
