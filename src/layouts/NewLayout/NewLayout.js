@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getAvailableLanguages } from '../../config/index';
+import classNames from 'classnames';
+import { getAvailableLanguages } from '../../config';
 import PropTypes from '../../constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
@@ -98,13 +99,33 @@ class NewLayout extends Component {
   }
 
   state = {
-    hasTabs: false,
+    showScrollToTop: false,
     noteChangedCallback: null,
     popover: { ...popoverInitialState },
   };
 
+  componentWillMount() {
+    window.addEventListener('scroll', this.handleScrollWindow);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScrollWindow);
+  }
+
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
+  };
+
+  handleScrollWindow = () => {
+    if ((document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)) {
+      this.setState({ showScrollToTop: true });
+    } else {
+      this.setState({ showScrollToTop: false });
+    }
+  };
+
+  handleScrollToTop = () => {
+    window.scrollTo(0, 0);
   };
 
   handleAddNoteClick = (target, item, params = {}) => {
@@ -173,7 +194,7 @@ class NewLayout extends Component {
   };
 
   render() {
-    const { popover } = this.state;
+    const { popover, showScrollToTop } = this.state;
     const {
       children,
       router,
@@ -206,12 +227,11 @@ class NewLayout extends Component {
           onClose={this.handleCloseTabs}
         />
 
-        <div className="floating-buttons">
-          <div className="floating-buttons__circle rollIn">
-            <i className="fa fa-caret-up" />
-          </div>
-          <div className="floating-buttons__circle rollIn">
-            <i className="fa fa-question" />
+        <div className={classNames('floating-buttons', { 'bottom-20': userPanels.length > 0 })}>
+          <div
+            className={classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: !showScrollToTop })}
+          >
+            <i className="fa fa-caret-up" onClick={this.handleScrollToTop} />
           </div>
         </div>
 
