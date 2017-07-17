@@ -84,7 +84,7 @@ class AccountStatus extends Component {
     const { dropDownOpen, modal } = this.state;
     const { label, availableStatuses, profileStatus } = this.props;
     const dropdownClassName = classNames('player__account__status dropdown-highlight padding-0', {
-      'cursor-pointer': profileStatus !== statuses.SUSPENDED,
+      'cursor-pointer': profileStatus !== statuses.SUSPENDED && availableStatuses.length > 0,
       'dropdown-open': dropDownOpen,
     });
     return (

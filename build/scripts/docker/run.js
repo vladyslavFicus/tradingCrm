@@ -55,13 +55,13 @@ function processConfig() {
   const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${BUILD_ENV}.yml`);
 
   return fetchZookeeperConfig({ environmentConfig })
-    .then(config => _.merge({}, config, { nas: environmentConfig.nas }, { nas: { brand: environmentConfig.brand } }));
-}
-
-function fetchConfigHealth(url) {
-  return fetch(url)
-    .then(response => response.text(), processError)
-    .then(response => parseJson(response), processError);
+    .then(config => _.merge(
+      {},
+      config,
+      { nas: environmentConfig.nas },
+      { nas: { brand: environmentConfig.brand } },
+      { logstash: environmentConfig.logstash },
+    ));
 }
 
 function saveConfig(config) {
@@ -87,18 +87,8 @@ processConfig()
 
     if (apiUrl) {
       health.config.status = STATUS.UP;
+      health.status = STATUS.UP;
 
-      return fetchConfigHealth(`${apiUrl}/config/health`)
-        .then((response) => {
-          if (response.status === STATUS.UP) {
-            health.api.status = STATUS.UP;
-          }
-
-          if (health.config.status === STATUS.UP && health.api.status === STATUS.UP) {
-            health.status = STATUS.UP;
-          }
-
-          return saveHealth(health);
-        }, processError);
+      return saveHealth(health);
     }
   }), processError);

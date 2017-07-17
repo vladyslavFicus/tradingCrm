@@ -196,9 +196,7 @@ class NewLayout extends Component {
 
         <Sidebar topMenu={sidebarTopMenu} bottomMenu={sidebarBottomMenu} />
 
-        <div className="section-container">
-          {children}
-        </div>
+        <div className="section-container">{children}</div>
 
         <aside className="my-profile">
           <header className="my-profile__header">

@@ -12,6 +12,9 @@ class UsersPanel extends Component {
     onClose: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
   };
+  static defaultProps = {
+    active: null,
+  };
 
   componentWillMount() {
     if (this.props.active && this.props.items.length > 0) {
@@ -68,19 +71,17 @@ class UsersPanel extends Component {
           })}
         </div>
         <footer className={footerClassName}>
-          <div className="users-panel-footer-row">
-            {items.map((item, index) => (
-              <UsersPanelItem
-                active={active && active.uuid === item.uuid}
-                key={item.uuid}
-                {...item}
-                onClick={() => onItemClick(index)}
-                onRemoveClick={() => onRemove(index)}
-              />
-            ))}
-          </div>
+          {items.map((item, index) => (
+            <UsersPanelItem
+              active={active && active.uuid === item.uuid}
+              key={item.uuid}
+              {...item}
+              onClick={() => onItemClick(index)}
+              onRemoveClick={() => onRemove(index)}
+            />
+          ))}
 
-          <button className="users-panel-footer-menu btn-transparent" onClick={onClose}>
+          <button className="btn-transparent users-panel-footer__close" onClick={onClose}>
             &times;
           </button>
         </footer>

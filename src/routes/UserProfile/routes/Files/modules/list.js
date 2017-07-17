@@ -85,7 +85,7 @@ function updateFileStatusReducer(state, action) {
       ],
     },
   };
-  newState.entities.content[index] = action.payload;
+  newState.entities.content[index] = { ...newState.entities.content[index], ...action.payload };
 
   return newState;
 }

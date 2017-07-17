@@ -42,7 +42,7 @@ function fetchEntities(filters = {}) {
     }
 
     const queryString = buildQueryString(
-      _.omitBy(queryParams, val => !val)
+      _.omitBy(queryParams, val => !val),
     );
 
     return dispatch({
@@ -109,7 +109,7 @@ function exportEntities(filters = {}) {
       return dispatch({ type: EXPORT_ENTITIES.FAILED });
     }
 
-    const queryParams = { page: 0, orderByPriority: true, ...filters };
+    const queryParams = { orderByPriority: true, ...filters, page: undefined };
 
     if (queryParams.state) {
       if (queryParams.state === statuses.CANCELED) {
@@ -119,7 +119,7 @@ function exportEntities(filters = {}) {
     }
 
     const queryString = buildQueryString(
-      _.omitBy(queryParams, val => !val)
+      _.omitBy(queryParams, val => !val),
     );
 
     const response = await fetch(`${getApiRoot()}/promotion/campaigns?${queryString}`, {

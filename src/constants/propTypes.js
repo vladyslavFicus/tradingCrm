@@ -76,6 +76,7 @@ PropTypes.gamingActivityEntity = PropTypes.shape({
   totalBetAmount: PropTypes.price,
   totalWinAmount: PropTypes.price,
   winDate: PropTypes.string,
+  gameRoundType: PropTypes.string,
 });
 PropTypes.limitEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
@@ -134,7 +135,7 @@ PropTypes.bonusEntity = PropTypes.shape({
   startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   state: PropTypes.string,
   wagered: PropTypes.price,
-  convertedAmount: PropTypes.price,
+  convertedAmount: PropTypes.number,
 });
 PropTypes.fileEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
@@ -364,6 +365,46 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   statusChangedDate: PropTypes.string,
   targetType: PropTypes.string.isRequired,
   wagerWinMultiplier: PropTypes.number.isRequired,
+});
+PropTypes.freeSpinEntity = PropTypes.shape({
+  aggregatorId: PropTypes.string.isRequired,
+  authorUUID: PropTypes.string.isRequired,
+  betPerLine: PropTypes.price.isRequired,
+  bonusLifeTime: PropTypes.number.isRequired,
+  capping: PropTypes.price,
+  currencyCode: PropTypes.string.isRequired,
+  endDate: PropTypes.string.isRequired,
+  error: PropTypes.any,
+  freeSpinStatus: PropTypes.string.isRequired,
+  freeSpinsAmount: PropTypes.number.isRequired,
+  gameId: PropTypes.string.isRequired,
+  linesPerSpin: PropTypes.number.isRequired,
+  multiplier: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  playerUUID: PropTypes.string.isRequired,
+  prize: PropTypes.price,
+  reason: PropTypes.any,
+  startDate: PropTypes.string.isRequired,
+  spinValue: PropTypes.price.isRequired,
+  status: PropTypes.string.isRequired,
+  statusChangedAuthorUUID: PropTypes.string,
+  statusChangedDate: PropTypes.any,
+  totalValue: PropTypes.price.isRequired,
+  uuid: PropTypes.string.isRequired,
+  playedCount: PropTypes.number.isRequired,
+  winning: PropTypes.price.isRequired,
+});
+PropTypes.gameEntity = PropTypes.shape({
+  aggregatorId: PropTypes.string.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  fullGameName: PropTypes.string.isRequired,
+  gameId: PropTypes.string.isRequired,
+  gameInfoType: PropTypes.string.isRequired,
+  gameProviderId: PropTypes.string.isRequired,
+  gameType: PropTypes.string.isRequired,
+  lines: PropTypes.any,
+  startGameUrl: PropTypes.string.isRequired,
+  stopGameUrl: PropTypes.string.isRequired,
 });
 PropTypes.userDeviceEntity = PropTypes.shape({
   hash: PropTypes.string.isRequired,

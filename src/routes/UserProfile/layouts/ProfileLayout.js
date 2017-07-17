@@ -154,6 +154,14 @@ class ProfileLayout extends Component {
     }
   }
 
+  componentWillMount() {
+    document.body.classList.add('user-profile-layout');
+  }
+
+  componentWillUnmount() {
+    document.body.classList.remove('user-profile-layout');
+  }
+
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
   };
@@ -185,6 +193,7 @@ class ProfileLayout extends Component {
       popover: {
         name: NOTE_POPOVER,
         params: {
+          placement: 'left bottom',
           ...params,
           target,
           initialValues: {
@@ -193,7 +202,6 @@ class ProfileLayout extends Component {
             pinned: false,
             playerUUID: this.props.params.id,
           },
-          placement: 'left bottom',
         },
       },
     });
@@ -468,68 +476,63 @@ class ProfileLayout extends Component {
 
     return (
       <div className="player panel profile-layout">
-        <div className="container-fluid">
-          <div className="profile-layout-heading">
-            <Header
-              data={profileData}
-              lastIp={lastIp}
-              accumulatedBalances={accumulatedBalances}
-              availableStatuses={availableStatuses}
-              onStatusChange={changeStatus}
-              availableTags={availableTags}
-              walletLimits={{
-                state: walletLimits,
-                actions: { onChange: this.handleChangeWalletLimitState },
-              }}
-              addTag={this.handleAddTag}
-              deleteTag={this.handleDeleteTag}
-              onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
-              onResetPasswordClick={this.handleResetPasswordClick}
-              onProfileActivateClick={this.handleProfileActivateClick}
-              onWalletLimitChange={this.handleChangeWalletLimitState}
-            />
+        <div className="profile-layout-heading">
+          <Header
+            data={profileData}
+            lastIp={lastIp}
+            accumulatedBalances={accumulatedBalances}
+            availableStatuses={availableStatuses}
+            onStatusChange={changeStatus}
+            availableTags={availableTags}
+            walletLimits={{
+              state: walletLimits,
+              actions: { onChange: this.handleChangeWalletLimitState },
+            }}
+            addTag={this.handleAddTag}
+            deleteTag={this.handleDeleteTag}
+            onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
+            onResetPasswordClick={this.handleResetPasswordClick}
+            onProfileActivateClick={this.handleProfileActivateClick}
+            onWalletLimitChange={this.handleChangeWalletLimitState}
+          />
 
-            <div className="hide-details-block">
-              <div className="hide-details-block_arrow" />
-              <button
-                className="hide-details-block_text btn-transparent"
-                onClick={this.handleToggleInformationBlock}
-              >
-                {informationShown ?
-                  I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
-                  I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
-                }
-              </button>
-              <div className="hide-details-block_arrow" />
-            </div>
-
-            <Collapse isOpen={informationShown}>
-              <Information
-                data={profileData}
-                ips={profileData.signInIps}
-                updateSubscription={this.handleUpdateSubscription}
-                onEditNoteClick={this.handleEditNoteClick}
-                notes={notes}
-              />
-            </Collapse>
+          <div className="hide-details-block">
+            <div className="hide-details-block_arrow" />
+            <button
+              className="hide-details-block_text btn-transparent"
+              onClick={this.handleToggleInformationBlock}
+            >
+              {informationShown ?
+                I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
+                I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
+              }
+            </button>
+            <div className="hide-details-block_arrow" />
           </div>
 
-          <div className="row">
-            <section className="panel profile-user-content">
-              <div className="panel-body">
-                <div className="nav-tabs-horizontal">
-                  <Tabs
-                    items={userProfileTabs}
-                    location={location}
-                    params={params}
-                  />
+          <Collapse isOpen={informationShown}>
+            <Information
+              data={profileData}
+              ips={profileData.signInIps}
+              updateSubscription={this.handleUpdateSubscription}
+              onEditNoteClick={this.handleEditNoteClick}
+              notes={notes}
+            />
+          </Collapse>
+        </div>
+        <div className="panel profile-user-content">
+          <div className="panel-body">
+            <div className="nav-tabs-horizontal">
+              <Tabs
+                items={userProfileTabs}
+                location={location}
+                params={params}
+              />
 
-                  <div className="tab-content padding-vertical-20">
-                    {children}
-                  </div>
-                </div>
+              <div className="tab-content padding-vertical-20">
+                {children}
               </div>
-            </section>
+            </div>
           </div>
         </div>
         {

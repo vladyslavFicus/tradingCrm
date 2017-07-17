@@ -43,22 +43,33 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
-    ...state,
-    data: {
-      ...state.data,
-      deposits: Object.keys(action.payload.walletCurrencyDeposits).length !== 0 ? {
-        amount: action.payload.walletCurrencyDeposits[Object.keys(action.payload.walletCurrencyDeposits)[0]],
-        currency: Object.keys(action.payload.walletCurrencyDeposits)[0],
-      } : state.data.deposits,
-      withdraws: Object.keys(action.payload.walletCurrencyWithdraws).length !== 0 ? {
-        amount: action.payload.walletCurrencyWithdraws[Object.keys(action.payload.walletCurrencyWithdraws)[0]],
-        currency: Object.keys(action.payload.walletCurrencyWithdraws)[0],
-      } : state.data.withdraws,
-    },
-    isLoading: false,
-    receivedAt: timestamp(),
-  }),
+  [FETCH_ENTITIES.SUCCESS]: (state, action) => {
+    const { walletCurrencyDeposits, walletCurrencyWithdraws } = action.payload;
+    let currency = emptyBalance.currency;
+
+    if (Object.keys(walletCurrencyDeposits).length > 0) {
+      currency = Object.keys(walletCurrencyDeposits)[0];
+    } else if (Object.keys(walletCurrencyWithdraws).length > 0) {
+      currency = Object.keys(walletCurrencyWithdraws)[0];
+    }
+
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        deposits: Object.keys(walletCurrencyDeposits).length !== 0 ? {
+          amount: walletCurrencyDeposits[Object.keys(walletCurrencyDeposits)[0]],
+          currency,
+        } : state.data.deposits,
+        withdraws: Object.keys(walletCurrencyWithdraws).length !== 0 ? {
+          amount: walletCurrencyWithdraws[Object.keys(walletCurrencyWithdraws)[0]],
+          currency,
+        } : state.data.withdraws,
+      },
+      isLoading: false,
+      receivedAt: timestamp(),
+    };
+  },
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,

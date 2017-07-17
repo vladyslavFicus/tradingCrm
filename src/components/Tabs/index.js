@@ -1,16 +1,23 @@
 import React from 'react';
-import classNames from 'classnames';
 import { Link } from 'react-router';
 
-const Tabs = ({ location, items, params }) => <ul className="nav nav-tabs">
-  {items.map((item, key) => <li key={key} className={classNames('nav-item')}>
-    <Link
-      activeClassName={'active'}
-      className={'nav-link'}
-      to={item.url.replace(/:id/, params.id)}
-    >{item.label}</Link>
-  </li>)}
-</ul>;
+const Tabs = ({ items, params, location: { pathname } }) => (
+  <ul className="nav nav-tabs">
+    {items.map((item) => {
+      const url = item.url.replace(/:id/, params.id);
+
+      return (
+        <li key={url} className="nav-item">
+          {
+            pathname.indexOf(url) === -1
+              ? <Link className="nav-link" to={item.url.replace(/:id/, params.id)}>{item.label}</Link>
+              : <span className="nav-link active">{item.label}</span>
+          }
+        </li>
+      );
+    })}
+  </ul>
+);
 
 Tabs.propTypes = {
   location: React.PropTypes.shape({
@@ -20,6 +27,9 @@ Tabs.propTypes = {
     label: React.PropTypes.string.isRequired,
     url: React.PropTypes.string.isRequired,
   })),
+};
+Tabs.defaultProps = {
+  items: [],
 };
 
 export default Tabs;

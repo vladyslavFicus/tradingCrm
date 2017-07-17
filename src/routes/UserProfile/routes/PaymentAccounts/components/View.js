@@ -6,7 +6,7 @@ import { targetTypes as noteTargetTypes } from '../../../../../constants/note';
 import PropTypes from '../../../../../constants/propTypes';
 import { GridColumn } from '../../../../../components/GridView';
 import { shortify } from '../../../../../utils/uuid';
-import PopoverButton from '../../../../../components/PopoverButton';
+import NoteButton from '../../../../../components/NoteButton';
 import CollapseGridView from '../../../../../components/GridView/CollapseGridView';
 import CommonFileGridView from '../../../components/CommonFileGridView';
 import { targetTypes as fileTargetTypes } from '../../../../../components/Files/constants';
@@ -58,9 +58,9 @@ class View extends Component {
     this.props.fetchFilesAndNotes(this.props.params.id, targetUUIDs);
   };
 
-  handleNoteClick = (target, data) => {
-    if (data.note) {
-      this.context.onEditNoteClick(target, data.note, { placement: 'left' });
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.onEditNoteClick(target, note, { placement: 'left' });
     } else {
       this.context.onAddNoteClick(data.uuid, noteTargetTypes.PAYMENT_ACCOUNT)(target, { placement: 'left' });
     }
@@ -162,18 +162,12 @@ class View extends Component {
 
   renderNotes = (data) => {
     return (
-      <div>
-        <PopoverButton
-          id={`payment-account-item-note-button-${data.uuid}`}
-          className="cursor-pointer margin-right-5"
-          onClick={id => this.handleNoteClick(id, data)}
-        >
-          {data.note
-            ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> : <i className="note-icon note-with-text" />)
-            : <i className="note-icon note-add-note" />
-          }
-        </PopoverButton>
-      </div>
+      <NoteButton
+        id={`payment-account-item-note-button-${data.uuid}`}
+        note={data.note}
+        onClick={this.handleNoteClick}
+        targetEntity={data}
+      />
     );
   };
 

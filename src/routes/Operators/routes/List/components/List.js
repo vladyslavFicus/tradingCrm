@@ -121,7 +121,7 @@ class List extends Component {
           </Link>
         </div>
         <div className="font-size-12 color-default">
-          <Uuid uuid={data.uuid} uuidPrefix="OP" />
+          <Uuid uuid={data.uuid} />
         </div>
       </div>
     );

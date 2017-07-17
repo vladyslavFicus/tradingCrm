@@ -8,7 +8,7 @@ import { categoriesLabels } from '../../../../constants/files';
 import { targetTypes } from '../../../../constants/note';
 import GridView, { GridColumn } from '../../../../components/GridView';
 import FileStatusDropDown from '../../../../components/FileStatusDropDown';
-import PopoverButton from '../../../../components/PopoverButton';
+import NoteButton from '../../../../components/NoteButton';
 import Uuid from '../../../../components/Uuid';
 
 class CommonFileGridView extends Component {
@@ -30,30 +30,28 @@ class CommonFileGridView extends Component {
     onEditNoteClick: PropTypes.func.isRequired,
   };
 
-  getNotePopoverParams = () => ({
-    placement: 'left',
-  });
-
-  handleNoteClick = (target, data) => {
-    if (data.note) {
-      this.context.onEditNoteClick(target, data.note, this.getNotePopoverParams());
+  handleNoteClick = (target, note, data) => {
+    if (note) {
+      this.context.onEditNoteClick(target, note, { placement: 'left' });
     } else {
-      this.context.onAddNoteClick(data.uuid, targetTypes.FILE)(target, this.getNotePopoverParams());
+      this.context.onAddNoteClick(data.uuid, targetTypes.FILE)(target, { placement: 'left' });
     }
   };
 
   renderFileName = (data) => {
     const isClickable = /image/.test(data.type) && this.props.onPreviewImageClick;
+    const onClick = isClickable
+      ? () => this.props.onPreviewImageClick(data)
+      : null;
+    const uuidPrefix = data.author.indexOf('OPERATOR') === -1
+      ? data.author.indexOf('PLAYER') === -1 ? 'PL' : null
+      : null;
 
     return (
       <div>
         <div
           className={classNames('font-weight-700', { 'cursor-pointer': isClickable })}
-          onClick={
-            isClickable
-              ? () => this.props.onPreviewImageClick(data)
-              : null
-          }
+          onClick={onClick}
         >
           {data.name}
         </div>
@@ -62,11 +60,11 @@ class CommonFileGridView extends Component {
           <Uuid uuid={data.uuid} />
         </div>
         <div className="font-size-12">
-          by <Uuid uuid={data.author} uuidPrefix={
-          data.author.indexOf('OPERATOR') === -1
-            ? data.author.indexOf('PLAYER') === -1 ? 'PL' : null
-            : null
-        } />
+          {'by '}
+          <Uuid
+            uuid={data.author}
+            uuidPrefix={uuidPrefix}
+          />
         </div>
       </div>
     );
@@ -109,16 +107,12 @@ class CommonFileGridView extends Component {
   );
 
   renderNote = data => (
-    <PopoverButton
+    <NoteButton
       id={`file-item-note-button-${data.fileId}`}
-      className="cursor-pointer margin-right-5"
-      onClick={id => this.handleNoteClick(id, data)}
-    >
-      {data.note
-        ? (data.note.pinned ? <i className="note-icon note-pinned-note" /> : <i className="note-icon note-with-text" />)
-        : <i className="note-icon note-add-note" />
-      }
-    </PopoverButton>
+      note={data.note}
+      targetEntity={data}
+      onClick={this.handleNoteClick}
+    />
   );
 
   render() {

@@ -46,10 +46,6 @@ const config = _.merge({
       tags: {},
       roles: [],
     },
-    currencies: {
-      base: null,
-      supported: [],
-    },
     validation: {
       password: null,
     },
@@ -76,7 +72,15 @@ const config = _.merge({
     reasons: {
       rejection: [],
     },
-    limits: {},
+    limits: {
+      deposit: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      wager: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      loss: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
+      session_duration: {
+        cooloff: '8 HOURS',
+        periods: ['1 HOURS', '2 HOURS', '3 HOURS', '4 HOURS', '5 HOURS', '6 HOURS', '7 HOURS', '8 HOURS'],
+      },
+    },
     locale: {
       languages: [],
       defaultLanguage: 'en',
@@ -85,7 +89,7 @@ const config = _.merge({
   logstash: {
     url: '',
   },
-  middlewares: {},
+  middlewares: { unauthorized: [401], persist: { whitelist: ['auth', 'userPanels'], keyPrefix: 'nas:' } },
   modules: {
     bonusCampaign: {
       cancelReasons: {
@@ -93,6 +97,14 @@ const config = _.merge({
         CANCEL_REASON_2: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_2',
         CANCEL_REASON_3: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_3',
         CANCEL_REASON_4: 'CONSTANTS.BONUS_CAMPAIGNS.CANCELLATION_REASONS.CANCEL_REASON_4',
+      },
+    },
+    freeSpin: {
+      cancelReasons: {
+        CANCEL_REASON_1: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_1',
+        CANCEL_REASON_2: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_2',
+        CANCEL_REASON_3: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_3',
+        CANCEL_REASON_4: 'CONSTANTS.FREE_SPINS.CANCELLATION_REASONS.CANCEL_REASON_4',
       },
     },
   },
@@ -174,10 +186,6 @@ function getAvailableLanguages() {
   return config.nas.brand.locale.languages || [];
 }
 
-function getDomain() {
-  return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
-}
-
 function getLogo() {
   return /vslots/.test(getApiRoot()) ? '/img/vslots-logo.png' : '/img/logoNewAge.png';
 }
@@ -186,7 +194,6 @@ export {
   getApiRoot,
   getBrand,
   getErrorApiUrl,
-  getDomain,
   getLogo,
   getAvailableTags,
   getTransactionRejectReasons,
