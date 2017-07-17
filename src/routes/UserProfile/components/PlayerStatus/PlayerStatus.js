@@ -119,7 +119,7 @@ class PlayerStatus extends Component {
         }
         {
           status === statuses.BLOCKED &&
-          <span className="icon-status-blocked" />
+          <span className="failure-reason-icon" />
         }
       </div>
     );

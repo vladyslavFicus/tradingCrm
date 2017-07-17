@@ -217,16 +217,18 @@ small {
   position: relative;
   top: 2px;
   left: 6px;
-  background: url("../../public/img/transaction-failed-icon.png") no-repeat;
+  background-image: url("../../public/img/transaction-failed-icon.png");
+  background-repeat: no-repeat;
 }
 
-.icon-status-blocked {
+.failure-reason-icon {
   display: inline-block;
-  height: 24px;
   width: 24px;
+  height: 24px;
   position: absolute;
   right: 35px;
   bottom: 8px;
   background-image: url("../../public/img/status-blocked-icon.png");
   background-repeat: no-repeat;
+  cursor: pointer;
 }
