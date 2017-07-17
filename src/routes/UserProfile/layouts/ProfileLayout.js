@@ -66,7 +66,6 @@ class ProfileLayout extends Component {
     fetchProfile: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
-    loadFullProfile: PropTypes.func.isRequired,
     fetchAccumulatedBalances: PropTypes.func.isRequired,
     fetchNotes: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
@@ -136,10 +135,14 @@ class ProfileLayout extends Component {
     };
   }
 
+  componentWillMount() {
+    document.body.classList.add('user-profile-layout');
+  }
+
   componentDidMount() {
     const {
       profile,
-      loadFullProfile,
+      fetchProfile,
       fetchAccumulatedBalances,
       fetchNotes,
       params,
@@ -147,15 +150,11 @@ class ProfileLayout extends Component {
     } = this.props;
 
     if (!profile.isLoading) {
-      loadFullProfile(params.id)
+      fetchProfile(params.id)
         .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
         .then(() => fetchAccumulatedBalances(params.id))
         .then(() => checkLock(params.id));
     }
-  }
-
-  componentWillMount() {
-    document.body.classList.add('user-profile-layout');
   }
 
   componentWillUnmount() {

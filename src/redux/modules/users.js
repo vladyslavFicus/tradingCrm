@@ -17,7 +17,7 @@ function fetchProfile(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/profiles/${uuid}`,
+        endpoint: `profile/profiles/es/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

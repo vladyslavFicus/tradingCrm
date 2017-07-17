@@ -433,11 +433,6 @@ function changeStatus({ action, ...data }) {
   };
 }
 
-function loadFullProfile(uuid) {
-  return dispatch => dispatch(fetchProfile(uuid))
-    .then(() => dispatch(fetchBalances(uuid)));
-}
-
 function successUpdateProfileReducer(state, action) {
   return {
     ...state,
@@ -446,6 +441,21 @@ function successUpdateProfileReducer(state, action) {
       ...action.payload,
       fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
       shortUUID: shortify(action.payload.uuid, action.payload.uuid.indexOf('PLAYER') === -1 ? 'PL' : ''),
+      balance: action.payload && action.payload.balance
+        ? action.payload.balance
+        : state.data.balance,
+      currencyCode: action.payload && action.payload.balance
+        ? action.payload.balance.currency
+        : state.data.currencyCode,
+      signInIps: action.payload.signInIps ? Object.values(action.payload.signInIps).sort((a, b) => {
+        if (a.sessionStart > b.sessionStart) {
+          return -1;
+        } else if (b.sessionStart > a.sessionStart) {
+          return 1;
+        }
+
+        return 0;
+      }) : state.data.signInIps,
     },
     isLoading: false,
     receivedAt: timestamp(),
@@ -577,40 +587,6 @@ const actionHandlers = {
   [userProfileFilesActionTypes.REFUSE_FILE.SUCCESS]: successUpdateFileStatusReducer,
   [userProfileFilesActionTypes.DELETE_FILE.SUCCESS]: successDeleteFileReducer,
   [userProfileFilesActionTypes.SAVE_FILES.SUCCESS]: successUploadFilesReducer,
-  [FETCH_BALANCES.REQUEST]: state => ({
-    ...state,
-    isLoading: true,
-    error: null,
-  }),
-  [FETCH_BALANCES.SUCCESS]: (state, action) => ({
-    ...state,
-    data: {
-      ...state.data,
-      balance: action.payload && action.payload.balance
-        ? action.payload.balance
-        : state.data.balance,
-      currencyCode: action.payload && action.payload.balance
-        ? action.payload.balance.currency
-        : state.data.currencyCode,
-      signInIps: action.payload.signInIps ? Object.values(action.payload.signInIps).sort((a, b) => {
-        if (a.sessionStart > b.sessionStart) {
-          return -1;
-        } else if (b.sessionStart > a.sessionStart) {
-          return 1;
-        }
-
-        return 0;
-      }) : state.data.signInIps,
-    },
-    isLoading: false,
-    receivedAt: timestamp(),
-  }),
-  [FETCH_BALANCES.FAILURE]: (state, action) => ({
-    ...state,
-    isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
-  }),
 };
 
 const actionTypes = {
