@@ -106,10 +106,8 @@ class UserGridFilter extends Component {
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label>{label}</label>
-        <div className="form-inline input-group">
-          <div className="input-group-addon">
-            <i className="icmn-search" />
-          </div>
+        <div className="input-with-icon input-with-icon__left">
+          <i className="nas nas-search_icon left-icon" />
           <input
             {...input}
             disabled={disabled}

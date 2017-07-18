@@ -6,7 +6,6 @@
   @include flexbox();
   -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
-  justify-content: space-between;
   &_big {
     @include flex(0.1 0 350px);
     padding: 0 .5rem;
@@ -19,32 +18,20 @@
     @include flex(0.1 0 150px);
     padding: 0 .5rem;
   }
-  .form-group {
-    position: relative;
-  }
-  label {
-    margin-bottom: 0;
-    font-weight: 600;
-    color: #4a4a4a;
-  }
-  .input-group-addon {
-    padding-right: 0;
-    background-color: #fff;
-  }
-  .form-control {
-    height: 39px;
-    padding: 3px 10px 5px;
-    border-radius: 3px;
-    background-color: #fff;
-    border: 1px solid #cfcfcf;
-    font-size: 15px;
-  }
-  .form-control:focus {
-    font-weight: 600;
-  }
-  .input-group > .input-group-addon + .form-control {
-    border-left: 0;
-  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   .form-group__with-select {
@@ -103,5 +90,48 @@
     .btn-primary {
       margin-left: 15px;
     }
+  }
+}
+
+.form-group {
+  position: relative;
+}
+
+label {
+  margin-bottom: 0;
+  font-weight: 600;
+  color: #4a4a4a;
+}
+
+.form-control {
+  height: 39px;
+  padding: 3px 10px 5px;
+  border-radius: 3px;
+  background-color: #fff;
+  border: 1px solid #cfcfcf;
+  font-size: 15px;
+  &:focus {
+    box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
+    border: 1px solid #4990e2;
+    font-weight: 600;
+  }
+}
+
+
+.input-with-icon {
+  @include flexbox();
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  align-items: center;
+  position: relative;
+  &__left .form-control {
+    padding-left: 28px;
+  }
+  &__right .form-control {
+    padding-right: 28px;
+  }
+  .left-icon {
+    position: absolute;
+    left: 8px;
   }
 }

@@ -18,6 +18,7 @@
 .nas {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'NAS-Font' !important;
+  font-size: 16px;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -28,6 +29,10 @@
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.nas:before {
+  color: #cfcfcf;
 }
 
 .nas-add_filter_icon:before {
