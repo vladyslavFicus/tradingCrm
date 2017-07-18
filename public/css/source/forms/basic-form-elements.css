@@ -1,39 +1,9 @@
-.form-group {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-flow: row wrap;
-  flex-flow: row wrap;
-  position: relative;
-}
-
-label {
-  -webkit-flex: 1 0 100%;
-  -ms-flex: 1 0 100%;
-  flex: 1 0 100%;
-  margin-bottom: 0;
-  font-weight: 600;
-  color: #4a4a4a;
-}
-
 .form-group i {
   font-size: 16px;
 }
 
 .form-group i:before {
   color: #cfcfcf;
-}
-
-.form-control {
-  -webkit-flex: 1 0 auto;
-  -ms-flex: 1 0 auto;
-  flex: 1 0 auto;
-  height: 39px;
-  padding: 3px 10px 5px;
-  border-radius: 3px;
-  background-color: #fff;
-  border: 1px solid #cfcfcf;
-  font-size: 15px;
 }
 
 .form-control::-webkit-input-placeholder {
@@ -56,12 +26,6 @@ label {
   font-weight: 300;
 }
 
-.form-control:focus {
-  box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
-  border: 1px solid #4990e2;
-  font-weight: 600;
-}
-
 .form-control.has-danger {
   border: 1px solid #d0011b;
 }
@@ -69,10 +33,6 @@ label {
 .form-control.is-disabled {
   background-color: #f6f6f6;
   border-color: #cfcfcf;
-}
-
-.form-control.has-icon {
-  padding-left: 28px;
 }
 
 .form-control.has-case-sensitive {
@@ -91,12 +51,6 @@ label {
 .has-danger .form-control-feedback .nas.nas-field_alert_icon {
   position: relative;
   top: 1px;
-}
-
-.icon-in-input {
-  position: absolute;
-  top: 32px;
-  left: 8px;
 }
 
 /*RANGE INPUTS*/
