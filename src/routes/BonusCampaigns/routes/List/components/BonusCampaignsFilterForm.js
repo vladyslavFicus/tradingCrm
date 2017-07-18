@@ -8,7 +8,7 @@ import { createValidator } from '../../../../../utils/validator';
 import { campaignTypesLabels, statusesLabels } from '../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, placeholders } from '../constants';
-import { SelectField, SearchField, DateTimeField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 
 const FORM_NAME = 'bonusCampaignsFilter';
 const validator = createValidator({
@@ -80,123 +80,112 @@ class BonusCampaignsFilterForm extends Component {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="well">
-          <div className="row">
-            <div className="col-md-12">
-              <div className="row">
-                <div className="col-md-2">
+          <div className="filter-row">
+            <div className="filter-row__big">
+              <Field
+                name="searchBy"
+                type="text"
+                label={I18n.t(attributeLabels.searchBy)}
+                placeholder={I18n.t(placeholders.searchBy)}
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+              />
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="fulfillmentType"
+                label={I18n.t(attributeLabels.fulfillmentType)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {types.map(item => (
+                  <option key={item} value={item}>
+                    {renderLabel(item, campaignTypesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="state"
+                label={I18n.t(attributeLabels.state)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {statuses.map(item => (
+                  <option key={item} value={item}>
+                    {renderLabel(item, statusesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="optIn"
+                label={I18n.t(attributeLabels.optIn)}
+                component={SelectField}
+                position="vertical"
+                labelClassName={null}
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                <option value="true">{I18n.t('COMMON.OPT_IN')}</option>
+                <option value="false">{I18n.t('COMMON.NON_OPT_IN')}</option>
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>{I18n.t(attributeLabels.creationDate)}</label>
+                <div className="range-group">
                   <Field
-                    name="searchBy"
-                    type="text"
-                    label={I18n.t(attributeLabels.searchBy)}
-                    placeholder={I18n.t(placeholders.searchBy)}
-                    component={SearchField}
+                    name="creationDateFrom"
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator('creationDateTo')}
+                    position="vertical"
+                    className={null}
                   />
-                </div>
-                <div className="col-md-2">
+                  <span className="range-group__separator">-</span>
                   <Field
-                    name="fulfillmentType"
-                    label={I18n.t(attributeLabels.fulfillmentType)}
-                    component={SelectField}
+                    name="creationDateTo"
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator('creationDateFrom')}
                     position="vertical"
-                    labelClassName={null}
-                  >
-                    <option value="">{I18n.t('COMMON.ANY')}</option>
-                    {types.map(item => (
-                      <option key={item} value={item}>
-                        {renderLabel(item, campaignTypesLabels)}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-1">
-                  <Field
-                    name="state"
-                    label={I18n.t(attributeLabels.state)}
-                    component={SelectField}
-                    position="vertical"
-                    labelClassName={null}
-                  >
-                    <option value="">{I18n.t('COMMON.ANY')}</option>
-                    {statuses.map(item => (
-                      <option key={item} value={item}>
-                        {renderLabel(item, statusesLabels)}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-1">
-                  <Field
-                    name="optIn"
-                    label={I18n.t(attributeLabels.optIn)}
-                    component={SelectField}
-                    position="vertical"
-                    labelClassName={null}
-                  >
-                    <option value="">{I18n.t('COMMON.ANY')}</option>
-                    <option value="true">{I18n.t('COMMON.OPT_IN')}</option>
-                    <option value="false">{I18n.t('COMMON.NON_OPT_IN')}</option>
-                  </Field>
-                </div>
-                <div className="col-md-3">
-                  <div className="form-group">
-                    <label>{I18n.t(attributeLabels.creationDate)}</label>
-
-                    <div className="row">
-                      <div className="col-md-5">
-                        <Field
-                          name="creationDateFrom"
-                          component={DateTimeField}
-                          position="vertical"
-                          isValidDate={this.startDateValidator('creationDateTo')}
-                        />
-                      </div>
-                      <div className="col-md-5">
-                        <Field
-                          name="creationDateTo"
-                          component={DateTimeField}
-                          position="vertical"
-                          isValidDate={this.endDateValidator('creationDateFrom')}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-3">
-                  <div className="form-group">
-                    <label>{I18n.t(attributeLabels.activityDate)}</label>
-
-                    <div className="row">
-                      <div className="col-md-5">
-                        <Field
-                          name="activityDateFrom"
-                          placeholder={attributeLabels.startDate}
-                          component={DateTimeField}
-                          position="vertical"
-                          isValidDate={this.startDateValidator('activityDateTo')}
-                        />
-                      </div>
-                      <div className="col-md-5">
-                        <Field
-                          name="activityDateTo"
-                          placeholder={attributeLabels.endDate}
-                          component={DateTimeField}
-                          position="vertical"
-                          isValidDate={this.endDateValidator('activityDateFrom')}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    className={null}
+                  />
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="row">
-            <div className="col-md-offset-9 col-md-3 text-right">
+            <div className="filter-row__big">
               <div className="form-group">
+                <label>{I18n.t(attributeLabels.activityDate)}</label>
+                <div className="range-group">
+                  <Field
+                    name="activityDateFrom"
+                    placeholder={attributeLabels.startDate}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator('activityDateTo')}
+                    position="vertical"
+                    className={null}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="activityDateTo"
+                    placeholder={attributeLabels.endDate}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator('activityDateFrom')}
+                    position="vertical"
+                    className={null}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  className="btn btn-default btn-sm"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -204,7 +193,7 @@ class BonusCampaignsFilterForm extends Component {
                 </button>
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  className="btn btn-primary btn-sm"
                   type="submit"
                 >
                   {I18n.t('COMMON.APPLY')}
