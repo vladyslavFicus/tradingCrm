@@ -84,7 +84,7 @@ class Select extends Component {
       'is-opened': opened,
       'with-option': !!selectedOption,
     });
-    const selectBlockClassName = classNames('select-block', {
+    const selectBlockClassName = classNames('select-block__content', {
       'with-search-bar': showSearchBar,
     });
 
