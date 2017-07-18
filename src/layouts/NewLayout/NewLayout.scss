@@ -10,9 +10,12 @@
   bottom: 20px;
   z-index: 16;
   &__circle {
+    display: block;
     height: 30px;
     width: 30px;
+    padding: 0;
     background-color: #ccc;
+    border: none;
     border-radius: 50%;
     text-align: center;
     cursor: pointer;
@@ -20,16 +23,18 @@
     animation-duration: .75s;
     animation-fill-mode: both;
     opacity: 0;
+    outline: none;
     &:nth-child(n+2) {
       margin-top: 10px;
+    }
+    &:focus {
+      outline: none;
     }
     &:hover {
       background-color: #333;
     }
   }
   .fa {
-    position: relative;
-    top: 4px;
     color: #fff;
     font-size: 16px;
   }
