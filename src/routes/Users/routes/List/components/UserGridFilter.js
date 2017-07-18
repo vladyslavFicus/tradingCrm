@@ -107,7 +107,7 @@ class UserGridFilter extends Component {
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label>{label}</label>
         <div className="input-with-icon input-with-icon__left">
-          <i className="nas nas-search_icon left-icon" />
+          <i className="nas nas-search_icon input-left-icon" />
           <input
             {...input}
             disabled={disabled}
@@ -193,21 +193,23 @@ class UserGridFilter extends Component {
               <div className="filter-row_middle">
                 <div className="form-group">
                   <label>Age</label>
-                  <Field
-                    name="ageFrom"
-                    type="text"
-                    placeholder="20"
-                    component="input"
-                    className="form-control range-input"
-                  />
-                  <span className="range-input_separator">-</span>
-                  <Field
-                    name="ageTo"
-                    type="text"
-                    placeholder="30"
-                    component="input"
-                    className="form-control range-input"
-                  />
+                  <div className="range-group">
+                    <Field
+                      name="ageFrom"
+                      type="text"
+                      placeholder="20"
+                      component="input"
+                      className="form-control range-group__input"
+                    />
+                    <span className="range-input_separator">-</span>
+                    <Field
+                      name="ageTo"
+                      type="text"
+                      placeholder="30"
+                      component="input"
+                      className="form-control range-group__input"
+                    />
+                  </div>
                 </div>
               </div>
               <div className="filter-row_middle">

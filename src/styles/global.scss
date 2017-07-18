@@ -115,8 +115,29 @@ label {
     border: 1px solid #4990e2;
     font-weight: 600;
   }
+  &::-webkit-input-placeholder {
+    color: #cfcfcf;
+    font-weight: 300;
+  }
+  &::-moz-placeholder {
+    color: #cfcfcf;
+    font-weight: 300;
+  }
+  &:-moz-placeholder {
+    color: #cfcfcf;
+    font-weight: 300;
+  }
+  &:-ms-input-placeholder {
+    color: #cfcfcf;
+    font-weight: 300;
+  }
 }
 
+.range-group {
+  @include flexbox();
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+}
 
 .input-with-icon {
   @include flexbox();
@@ -130,8 +151,115 @@ label {
   &__right .form-control {
     padding-right: 28px;
   }
-  .left-icon {
+  .input-left-icon {
     position: absolute;
     left: 8px;
+  }
+  .input-right-icon {
+    position: absolute;
+    right: 8px;
+  }
+}
+
+.select {
+  &-block {
+    position: relative;
+    padding-top: 6px;
+    user-select: none;
+    color: #9b9b9b;
+    cursor: pointer;
+    &.is-opened {
+      .select-icon {
+        -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+      .select-block__options {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+    &.with-option {
+      font-weight: 600;
+      color: #4a4a4a;
+      .select-icon:before {
+        color: #9b9b9b;
+      }
+    }
+    &__options {
+      -webkit-flex: 1 0 100%;
+      -ms-flex: 1 0 100%;
+      flex: 1 0 100%;
+      width: 100%;
+      max-height: 250px;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      padding: 10px 5px 2px;
+      border: solid 1px #9b9b9b;
+      border-radius: 3px;
+      opacity: 0;
+      visibility: hidden;
+      background-color: #ffffff;
+      box-shadow: 0 2px 23px 0 #ededed;
+      overflow-y: auto;
+      -webkit-transition: all .25s ease;
+      -moz-transition: all .25s ease;
+      -o-transition: all .25s ease;
+      transition: all .25s ease;
+      z-index: 1;
+      &__item {
+        margin-bottom: 1px;
+        padding: 4px 5px 5px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 600;
+        color: #4a4a4a;
+        &.is-selected {
+          padding: 4px 7px 5px;
+          color: #fff;
+          border: none;
+          border-radius: 3px;
+          background-image: linear-gradient(to left, #24bdee, #4a90e2);
+        }
+        &.is-selected:hover {
+          border: none;
+          border-radius: 3px;
+          color: #fff;
+        }
+      }
+      &__item:hover {
+        border-radius: 5px;
+        border-color: #e1e1e1;
+        color: #000;
+      }
+      &.with-search-bar {
+        padding: 0;
+      }
+    }
+  }
+  &-icon {
+    position: absolute;
+    top: 11px;
+    right: 10px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  &-search-bar {
+    padding: 10px 5px;
+    background-color: #eee;
+    .form-control {
+      height: 29px;
+      font-size: 13px;
+    }
+    .input-left-icon {
+      left: 12px;
+      font-size: 13px;
+    }
+    .input-right-icon {
+      right: 12px;
+      font-size: 13px;
+    }
   }
 }

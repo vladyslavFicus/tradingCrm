@@ -41,3 +41,16 @@
 .line-height-1 {
    line-height: 1;
  }
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select:focus::-ms-value {
+  background: transparent;
+}
+
+select::-ms-expand {
+  display: none;
+}

@@ -58,14 +58,14 @@ class Select extends Component {
 
   renderSearchBar = () => (
     <div className="select-search-bar input-with-icon input-with-icon__left input-with-icon__right">
-      <i className="nas nas-search_icon left-icon" />
+      <i className="nas nas-search_icon input-left-icon" />
       <input
         type="text"
         name="searchValue"
-        className="form-control has-icon"
+        className="form-control"
         placeholder="Search"
       />
-      <i className="nas nas-clear_icon right-icon" />
+      <i className="nas nas-clear_icon input-right-icon" />
     </div>
   );
 
@@ -80,20 +80,20 @@ class Select extends Component {
       'is-opened': opened,
       'with-option': !!selectedOption,
     });
-    const selectBlockClassName = classNames('select-block_menu', {
+    const selectBlockClassName = classNames('select-block__options', {
       'with-search-bar': showSearchBar,
     });
 
     return (
       <div className={className} onClick={this.handleInputClick}>
-        <i className="nas nas-dropdown_arrow_icon" />
+        <i className="nas nas-dropdown_arrow_icon select-icon" />
         {selectedOption ? selectedOption.props.children : placeholder}
 
         <div className={selectBlockClassName}>
           {showSearchBar && this.renderSearchBar()}
           {options.map((option) => {
             const { key, props: { value, children } } = option;
-            const optionClassName = classNames('select-block_menu-item', {
+            const optionClassName = classNames('select-block__options__item', {
               'is-selected': selectedValue === value,
             });
 
