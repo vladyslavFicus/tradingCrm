@@ -121,24 +121,22 @@ class UserGridFilter extends Component {
 
   renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
     return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <div className="input-group">
-          <DateTime
-            dateFormat="MM/DD/YYYY"
-            timeFormat="HH:mm"
-            onChange={this.handleDateTimeChange(input.onChange)}
-            value={input.value ? moment(input.value) : null}
-            closeOnSelect
-            inputProps={{
-              disabled,
-              placeholder,
-            }}
-            isValidDate={isValidDate}
-          />
-          <span className="input-group-addon">
-            <i className="fa fa-calendar" />
-          </span>
-        </div>
+      <div className={classNames('input-group', { 'has-danger': touched && error })}>
+        <DateTime
+          dateFormat="MM/DD/YYYY"
+          timeFormat="HH:mm"
+          onChange={this.handleDateTimeChange(input.onChange)}
+          value={input.value ? moment(input.value) : null}
+          closeOnSelect
+          inputProps={{
+            disabled,
+            placeholder,
+          }}
+          isValidDate={isValidDate}
+        />
+        <span className="input-group-addon">
+          <i className="fa fa-calendar" />
+        </span>
       </div>
     );
   };
@@ -214,28 +212,22 @@ class UserGridFilter extends Component {
                   </div>
                   <div className="col-xl-2">
                     <div className="form-group">
-                      <label className="form-label">Balance</label>
-                      <div className="row">
-                        <div className="col-md-5">
-                          <Field
-                            name="balanceFrom"
-                            type="text"
-                            placeholder="100"
-                            component={InputField}
-                            position="vertical"
-                          />
-                        </div>
-                        <div className="col-md-1 dash-after-input" />
-                        <div className="col-md-5">
-                          <Field
-                            name="balanceTo"
-                            type="text"
-                            placeholder="150"
-                            component={InputField}
-                            position="vertical"
-                          />
-                        </div>
-                      </div>
+                      <label>Balance</label>
+                      <Field
+                        name="balanceFrom"
+                        type="text"
+                        placeholder="100"
+                        component="input"
+                        className="form-control range-input"
+                      />
+                      <span className="range-input_separator">-</span>
+                      <Field
+                        name="balanceTo"
+                        type="text"
+                        placeholder="150"
+                        component="input"
+                        className="form-control range-input"
+                      />
                     </div>
                   </div>
                   <div className="col-xl-2">
@@ -253,9 +245,7 @@ class UserGridFilter extends Component {
                       ))}
                     </Field>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-2">
+                  <div className="col-xl-2">
                     <Field
                       name="affiliateId"
                       type="text"
@@ -265,7 +255,7 @@ class UserGridFilter extends Component {
                       position="vertical"
                     />
                   </div>
-                  <div className="col-md-1">
+                  <div className="col-xl-1">
                     <Field
                       name="statuses"
                       label={filterLabels.status}
@@ -280,7 +270,7 @@ class UserGridFilter extends Component {
                       ))}
                     </Field>
                   </div>
-                  <div className="col-md-1">
+                  <div className="col-xl-1">
                     <Field
                       name="tags"
                       label={filterLabels.tags}
@@ -295,7 +285,7 @@ class UserGridFilter extends Component {
                       ))}
                     </Field>
                   </div>
-                  <div className="col-md-1">
+                  <div className="col-xl-1">
                     <Field
                       name="segments"
                       label={filterLabels.segments}
@@ -305,25 +295,19 @@ class UserGridFilter extends Component {
                       <option value="">Any</option>
                     </Field>
                   </div>
-                  <div className="col-md-5">
-                    <div className="form-group">
-                      <label className="form-label">Registration date range</label>
-                      <div className="row">
-                        <div className="col-md-5">
-                          <Field
-                            name="registrationDateFrom"
-                            component={this.renderDateField}
-                            isValidDate={this.startDateValidator('registrationDateTo')}
-                          />
-                        </div>
-                        <div className="col-md-5">
-                          <Field
-                            name="registrationDateTo"
-                            component={this.renderDateField}
-                            isValidDate={this.endDateValidator('registrationDateFrom')}
-                          />
-                        </div>
-                      </div>
+                  <div className="col-xl-4">
+                    <div className="form-group form-inline">
+                      <label>Registration date range</label>
+                      <Field
+                        name="registrationDateFrom"
+                        component={this.renderDateField}
+                        isValidDate={this.startDateValidator('registrationDateTo')}
+                      />
+                      <Field
+                        name="registrationDateTo"
+                        component={this.renderDateField}
+                        isValidDate={this.endDateValidator('registrationDateFrom')}
+                      />
                     </div>
                   </div>
                   <div className="col-md-2">
