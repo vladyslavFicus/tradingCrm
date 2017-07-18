@@ -1,11 +1,3 @@
-.form-group i {
-  font-size: 16px;
-}
-
-.form-group i:before {
-  color: #cfcfcf;
-}
-
 .form-control::-webkit-input-placeholder {
   color: #cfcfcf;
   font-weight: 300;
