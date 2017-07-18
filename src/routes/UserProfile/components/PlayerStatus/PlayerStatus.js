@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import PlayerStatusModal from './PlayerStatusModal';
 import { statuses, suspendPeriods, statusColorNames } from '../../../../constants/user';
+import './PlayerStatus.scss';
 
 const initialState = {
   dropDownOpen: false,
@@ -119,7 +120,7 @@ class PlayerStatus extends Component {
         }
         {
           status === statuses.BLOCKED &&
-          <span className="failure-reason-icon" />
+          <span className="failure-reason-icon account-status__failure-reason" />
         }
       </div>
     );
