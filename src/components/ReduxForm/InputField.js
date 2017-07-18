@@ -25,6 +25,8 @@ class InputField extends Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
     }).isRequired,
+    iconLeftClassName: PropTypes.string,
+    iconRightClassName: PropTypes.string,
   };
   static defaultProps = {
     className: 'form-group',
@@ -39,6 +41,8 @@ class InputField extends Component {
     inputAddon: null,
     inputAddonPosition: 'left',
     inputButton: null,
+    iconLeftClassName: '',
+    iconRightClassName: '',
   };
 
   renderLabel = (props) => {
@@ -121,6 +125,8 @@ class InputField extends Component {
       meta: { touched, error },
       placeholder,
       label,
+      iconLeftClassName,
+      iconRightClassName,
     } = props;
 
     let inputField = (
@@ -132,6 +138,21 @@ class InputField extends Component {
         placeholder={placeholder !== null ? placeholder : label}
       />
     );
+
+    if (iconLeftClassName || iconRightClassName) {
+      inputField = (
+        <div
+          className={classNames('input-with-icon', {
+            'input-with-icon__left': !!iconLeftClassName,
+            'input-with-icon__right': !!iconRightClassName,
+          })}
+        >
+          {!!iconLeftClassName && <i className={classNames('input-left-icon', iconLeftClassName)} />}
+          {inputField}
+          {!!iconRightClassName && <i className={classNames('input-right-icon', iconRightClassName)} />}
+        </div>
+      );
+    }
 
     if (inputAddon) {
       inputField = (

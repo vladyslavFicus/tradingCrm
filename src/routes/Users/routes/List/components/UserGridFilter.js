@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import DateTime from 'react-datetime';
 import countryList from 'country-list';
 import { reduxForm, Field } from 'redux-form';
-import classNames from 'classnames';
-import { InputField, SelectField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
 import config from '../../../../../config/index';
@@ -77,10 +75,6 @@ class UserGridFilter extends Component {
     },
   };
 
-  handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DDTHH:mm:00') : '');
-  };
-
   startDateValidator = toAttribute => (current) => {
     const { filterValues } = this.props;
 
@@ -102,47 +96,6 @@ class UserGridFilter extends Component {
     this.props.onReset();
   };
 
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <div className="input-with-icon input-with-icon__left">
-          <i className="nas nas-search_icon input-left-icon" />
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder}
-            title={placeholder}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
-    return (
-      <div className={classNames('input-group', { 'has-danger': touched && error })}>
-        <DateTime
-          dateFormat="MM/DD/YYYY"
-          timeFormat="HH:mm"
-          onChange={this.handleDateTimeChange(input.onChange)}
-          value={input.value ? moment(input.value) : null}
-          closeOnSelect
-          inputProps={{
-            disabled,
-            placeholder,
-          }}
-          isValidDate={isValidDate}
-        />
-        <span className="input-group-addon">
-          <i className="fa fa-calendar" />
-        </span>
-      </div>
-    );
-  };
-
   render() {
     const {
       submitting,
@@ -157,16 +110,18 @@ class UserGridFilter extends Component {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="well">
             <div className="filter-row">
-              <div className="filter-row_big">
+              <div className="filter-row__big">
                 <Field
                   name="searchValue"
                   type="text"
                   label={filterLabels.searchValue}
                   placeholder="Name, username, phone, email..."
-                  component={this.renderQueryField}
+                  component={InputField}
+                  position="vertical"
+                  iconLeftClassName="nas nas-search_icon"
                 />
               </div>
-              <div className="filter-row_middle">
+              <div className="filter-row__medium">
                 <Field
                   name="countries"
                   label={filterLabels.country}
@@ -180,7 +135,7 @@ class UserGridFilter extends Component {
                   }
                 </Field>
               </div>
-              <div className="filter-row_small">
+              <div className="filter-row__small">
                 <Field
                   name="city"
                   type="text"
@@ -190,7 +145,7 @@ class UserGridFilter extends Component {
                   position="vertical"
                 />
               </div>
-              <div className="filter-row_middle">
+              <div className="filter-row__small">
                 <div className="form-group">
                   <label>Age</label>
                   <div className="range-group">
@@ -199,40 +154,42 @@ class UserGridFilter extends Component {
                       type="text"
                       placeholder="20"
                       component="input"
-                      className="form-control range-group__input"
+                      className="form-control"
                     />
-                    <span className="range-input_separator">-</span>
+                    <span className="range-group__separator">-</span>
                     <Field
                       name="ageTo"
                       type="text"
                       placeholder="30"
                       component="input"
-                      className="form-control range-group__input"
+                      className="form-control"
                     />
                   </div>
                 </div>
               </div>
-              <div className="filter-row_middle">
+              <div className="filter-row__small">
                 <div className="form-group">
                   <label>Balance</label>
-                  <Field
-                    name="balanceFrom"
-                    type="text"
-                    placeholder="100"
-                    component="input"
-                    className="form-control range-input"
-                  />
-                  <span className="range-input_separator">-</span>
-                  <Field
-                    name="balanceTo"
-                    type="text"
-                    placeholder="150"
-                    component="input"
-                    className="form-control range-input"
-                  />
+                  <div className="range-group">
+                    <Field
+                      name="balanceFrom"
+                      type="text"
+                      placeholder="100"
+                      component="input"
+                      className="form-control"
+                    />
+                    <span className="range-group__separator">-</span>
+                    <Field
+                      name="balanceTo"
+                      type="text"
+                      placeholder="150"
+                      component="input"
+                      className="form-control"
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="filter-row_middle">
+              <div className="filter-row__small">
                 <Field
                   name="currencies"
                   label={filterLabels.currencies}
@@ -247,7 +204,7 @@ class UserGridFilter extends Component {
                   ))}
                 </Field>
               </div>
-              <div className="filter-row_middle">
+              <div className="filter-row__medium">
                 <Field
                   name="affiliateId"
                   type="text"
@@ -257,7 +214,7 @@ class UserGridFilter extends Component {
                   position="vertical"
                 />
               </div>
-              <div className="filter-row_small">
+              <div className="filter-row__small">
                 <Field
                   name="statuses"
                   label={filterLabels.status}
@@ -272,7 +229,7 @@ class UserGridFilter extends Component {
                   ))}
                 </Field>
               </div>
-              <div className="filter-row_small">
+              <div className="filter-row__small">
                 <Field
                   name="tags"
                   label={filterLabels.tags}
@@ -287,7 +244,7 @@ class UserGridFilter extends Component {
                   ))}
                 </Field>
               </div>
-              <div className="filter-row_small">
+              <div className="filter-row__small">
                 <Field
                   name="segments"
                   label={filterLabels.segments}
@@ -297,26 +254,33 @@ class UserGridFilter extends Component {
                   <option value="">Any</option>
                 </Field>
               </div>
-              <div className="filter-row_big">
-                <div className="form-group form-inline">
+              <div className="filter-row__big">
+                <div className="form-group">
                   <label>Registration date range</label>
-                  <Field
-                    name="registrationDateFrom"
-                    component={this.renderDateField}
-                    isValidDate={this.startDateValidator('registrationDateTo')}
-                  />
-                  <Field
-                    name="registrationDateTo"
-                    component={this.renderDateField}
-                    isValidDate={this.endDateValidator('registrationDateFrom')}
-                  />
+                  <div className="range-group">
+                    <Field
+                      name="registrationDateFrom"
+                      component={DateTimeField}
+                      isValidDate={this.startDateValidator('registrationDateTo')}
+                      position="vertical"
+                      className={null}
+                    />
+                    <span className="range-group__separator">-</span>
+                    <Field
+                      name="registrationDateTo"
+                      component={DateTimeField}
+                      isValidDate={this.endDateValidator('registrationDateFrom')}
+                      position="vertical"
+                      className={null}
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="filter-row_middle">
-                <div className="form-group">
+              <div className="filter-row__button-block">
+                <div className="button-block-container">
                   <button
                     disabled={submitting || (disabled && pristine)}
-                    className="btn btn-default btn-sm margin-inline font-weight-700"
+                    className="btn btn-default btn-sm"
                     onClick={this.handleReset}
                     type="reset"
                   >
@@ -324,7 +288,7 @@ class UserGridFilter extends Component {
                   </button>
                   <button
                     disabled={submitting || (disabled && pristine)}
-                    className="btn btn-primary btn-sm margin-inline font-weight-700"
+                    className="btn btn-primary btn-sm"
                     type="submit"
                   >
                     Apply

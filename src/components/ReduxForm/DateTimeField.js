@@ -25,6 +25,8 @@ class DateTimeField extends Component {
     timeFormat: PropTypes.string,
     inputAddon: PropTypes.bool,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
+    iconLeftClassName: PropTypes.string,
+    iconRightClassName: PropTypes.string,
   };
   static defaultProps = {
     label: null,
@@ -33,7 +35,8 @@ class DateTimeField extends Component {
     dateFormat: 'MM/DD/YYYY',
     timeFormat: 'HH:mm',
     position: 'horizontal',
-    inputAddon: true,
+    iconLeftClassName: '',
+    iconRightClassName: 'nas nas-calendar_icon',
   };
 
   handleChange = (value) => {
@@ -46,16 +49,17 @@ class DateTimeField extends Component {
 
   renderInput = () => {
     const {
-      inputAddon,
       input,
       disabled,
       placeholder,
       isValidDate,
       dateFormat,
       timeFormat,
+      iconLeftClassName,
+      iconRightClassName,
     } = this.props;
 
-    const inputField = (
+    let inputField = (
       <DateTime
         dateFormat={dateFormat}
         timeFormat={timeFormat}
@@ -70,19 +74,23 @@ class DateTimeField extends Component {
       />
     );
 
-    if (inputAddon) {
-      return (
-        <div className="input-group">
+    if (iconLeftClassName || iconRightClassName) {
+      inputField = (
+        <div
+          className={classNames('input-with-icon', {
+            'input-with-icon__left': !!iconLeftClassName,
+            'input-with-icon__right': !!iconRightClassName,
+          })}
+        >
+          {!!iconLeftClassName && <i className={classNames('input-left-icon', iconLeftClassName)} />}
           {inputField}
-          <span className="input-group-addon">
-            <i className="fa fa-calendar" />
-          </span>
+          {!!iconRightClassName && <i className={classNames('input-right-icon', iconRightClassName)} />}
         </div>
       );
     }
 
-    return <div className="input-group">{inputField}</div>;
-  }
+    return inputField;
+  };
 
   renderLabel = (props) => {
     const {
