@@ -17,7 +17,7 @@ const countries = countryList().getData().reduce((result, item) => ({
   [item.code]: item.name,
 }), {});
 const validator = createValidator({
-  country: [`in:,${Object.keys(countries).join()}`],
+  country: ['required', `in:,${Object.keys(countries).join()}`],
   city: ['string', 'min:3'],
   postCode: ['string', 'min:3'],
   address: ['string'],
@@ -29,7 +29,11 @@ class AddressForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool,
+  };
+  static defaultProps = {
+    handleSubmit: null,
+    pristine: false,
+    submitting: false,
   };
 
   render() {
@@ -38,7 +42,6 @@ class AddressForm extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      valid,
     } = this.props;
 
     return (
@@ -51,7 +54,7 @@ class AddressForm extends Component {
 
             <div className="col-md-6 text-right">
               {
-                !(pristine || submitting || !valid) &&
+                !(pristine || submitting) &&
                 <button className="btn btn-sm btn-primary" type="submit">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
