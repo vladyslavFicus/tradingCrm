@@ -29,7 +29,11 @@ class PersonalForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool,
+  };
+  static defaultProps = {
+    handleSubmit: null,
+    pristine: false,
+    submitting: false,
   };
 
   render() {
@@ -38,7 +42,6 @@ class PersonalForm extends Component {
       onSubmit,
       pristine,
       submitting,
-      valid,
     } = this.props;
 
     return (
@@ -51,7 +54,7 @@ class PersonalForm extends Component {
 
             <div className="col-md-6 text-right">
               {
-                !(pristine || submitting || !valid) &&
+                !(pristine || submitting) &&
                 <button className="btn btn-sm btn-primary" type="submit">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>

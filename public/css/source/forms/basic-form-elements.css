@@ -218,7 +218,7 @@
   transform: rotate(180deg);
 }
 
-.select-block.is-opened + .select-block_menu {
+.select-block.is-opened .select-block_menu {
   opacity: 1;
   visibility: visible;
 }
