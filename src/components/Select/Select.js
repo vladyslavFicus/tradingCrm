@@ -57,15 +57,15 @@ class Select extends Component {
   };
 
   renderSearchBar = () => (
-    <div className="select-search-bar">
-      <i className="nas nas-search_icon icon-in-input" />
+    <div className="select-search-bar input-with-icon input-with-icon__left input-with-icon__right">
+      <i className="nas nas-search_icon left-icon" />
       <input
         type="text"
         name="searchValue"
         className="form-control has-icon"
         placeholder="Search"
       />
-      <i className="nas nas-clear_icon icon-in-input" />
+      <i className="nas nas-clear_icon right-icon" />
     </div>
   );
 
