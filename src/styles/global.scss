@@ -174,7 +174,7 @@ label {
         -ms-transform: rotate(180deg);
         transform: rotate(180deg);
       }
-      .select-block__options {
+      .select-block__content {
         opacity: 1;
         visibility: visible;
       }
@@ -186,31 +186,34 @@ label {
         color: #9b9b9b;
       }
     }
-    &__options {
-      -webkit-flex: 1 0 100%;
-      -ms-flex: 1 0 100%;
-      flex: 1 0 100%;
+    &__content {
       width: 100%;
-      max-height: 250px;
       position: absolute;
       top: 100%;
       left: 0;
-      padding: 10px 5px 2px;
-      border: solid 1px #9b9b9b;
-      border-radius: 3px;
+      border-top: 1px solid #cfcfcf;
+      border-right: 1px solid #9b9b9b;
+      border-bottom: 1px solid #9b9b9b;
+      border-left: 1px solid #9b9b9b;
+      border-bottom-right-radius: 3px;
+      border-bottom-left-radius: 3px;
       opacity: 0;
       visibility: hidden;
-      background-color: #ffffff;
+      background-color: #fff;
       box-shadow: 0 2px 23px 0 #ededed;
-      overflow-y: auto;
       -webkit-transition: all .25s ease;
       -moz-transition: all .25s ease;
       -o-transition: all .25s ease;
       transition: all .25s ease;
       z-index: 1;
-      &__item {
+    }
+    &__options {
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 5px 8px 2px;
+      &-item {
         margin-bottom: 1px;
-        padding: 4px 5px 5px;
+        padding: 3px 5px;
         border: 1px solid transparent;
         cursor: pointer;
         font-size: 15px;
@@ -229,13 +232,10 @@ label {
           color: #fff;
         }
       }
-      &__item:hover {
+      &-item:hover {
         border-radius: 5px;
         border-color: #e1e1e1;
         color: #000;
-      }
-      &.with-search-bar {
-        padding: 0;
       }
     }
   }
