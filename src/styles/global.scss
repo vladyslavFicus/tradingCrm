@@ -19,16 +19,34 @@
     @include flex(0.1 0 150px);
     padding: 0 .5rem;
   }
-  .input-group {
-    @include flexbox();
-    -webkit-flex-flow: row wrap;
-    flex-flow: row wrap;
-    label,
-    input,
-    .form-input-icon {
-      @include flex(0 0 100%);
-    }
+  .form-group {
+    position: relative;
   }
+  label {
+    margin-bottom: 0;
+    font-weight: 600;
+    color: #4a4a4a;
+  }
+  .input-group-addon {
+    padding-right: 0;
+    background-color: #fff;
+  }
+  .form-control {
+    height: 39px;
+    padding: 3px 10px 5px;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 1px solid #cfcfcf;
+    font-size: 15px;
+  }
+  .form-control:focus {
+    font-weight: 600;
+  }
+  .input-group > .input-group-addon + .form-control {
+    border-left: 0;
+  }
+
+
   .form-group__with-select {
     @include flexbox();
     -webkit-flex-flow: row wrap;

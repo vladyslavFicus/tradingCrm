@@ -106,15 +106,19 @@ class UserGridFilter extends Component {
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
         <label>{label}</label>
-        <i className="icmn-search icon-in-input" />
-        <input
-          {...input}
-          disabled={disabled}
-          type={type}
-          className={classNames('form-control has-icon', inputClassName, { 'has-danger': touched && error })}
-          placeholder={placeholder}
-          title={placeholder}
-        />
+        <div className="form-inline input-group">
+          <div className="input-group-addon">
+            <i className="icmn-search" />
+          </div>
+          <input
+            {...input}
+            disabled={disabled}
+            type={type}
+            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
+            placeholder={placeholder}
+            title={placeholder}
+          />
+        </div>
       </div>
     );
   };
@@ -154,181 +158,177 @@ class UserGridFilter extends Component {
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="well">
-            <div className="row">
-              <div className="col-xs-12">
-                <div className="row">
-                  <div className="col-xl-3">
-                    <Field
-                      name="searchValue"
-                      type="text"
-                      label={filterLabels.searchValue}
-                      placeholder="Name, username, phone, email..."
-                      component={this.renderQueryField}
-                    />
-                  </div>
-                  <div className="col-xl-2">
-                    <Field
-                      name="countries"
-                      label={filterLabels.country}
-                      component={SelectField}
-                      position="vertical"
-                    >
-                      <option value="">Any</option>
-                      {Object
-                        .keys(countries)
-                        .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                      }
-                    </Field>
-                  </div>
-                  <div className="col-xl-1">
-                    <Field
-                      name="city"
-                      type="text"
-                      label="City"
-                      placeholder={filterLabels.city}
-                      component={InputField}
-                      position="vertical"
-                    />
-                  </div>
-                  <div className="col-xl-2">
-                    <div className="form-group">
-                      <label>Age</label>
-                      <Field
-                        name="ageFrom"
-                        type="text"
-                        placeholder="20"
-                        component="input"
-                        className="form-control range-input"
-                      />
-                      <span className="range-input_separator">-</span>
-                      <Field
-                        name="ageTo"
-                        type="text"
-                        placeholder="30"
-                        component="input"
-                        className="form-control range-input"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-xl-2">
-                    <div className="form-group">
-                      <label>Balance</label>
-                      <Field
-                        name="balanceFrom"
-                        type="text"
-                        placeholder="100"
-                        component="input"
-                        className="form-control range-input"
-                      />
-                      <span className="range-input_separator">-</span>
-                      <Field
-                        name="balanceTo"
-                        type="text"
-                        placeholder="150"
-                        component="input"
-                        className="form-control range-input"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-xl-2">
-                    <Field
-                      name="currencies"
-                      label={filterLabels.currencies}
-                      component={SelectField}
-                      position="vertical"
-                    >
-                      <option value="">Any</option>
-                      {currencies.map(currency => (
-                        <option key={currency} value={currency}>
-                          {currency}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                  <div className="col-xl-2">
-                    <Field
-                      name="affiliateId"
-                      type="text"
-                      label="Affiliate"
-                      placeholder={filterLabels.affiliateId}
-                      component={InputField}
-                      position="vertical"
-                    />
-                  </div>
-                  <div className="col-xl-1">
-                    <Field
-                      name="statuses"
-                      label={filterLabels.status}
-                      component={SelectField}
-                      position="vertical"
-                    >
-                      <option value="">Any</option>
-                      {Object.keys(statusesLabels).map(status => (
-                        <option key={status} value={status}>
-                          {statusesLabels[status]}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                  <div className="col-xl-1">
-                    <Field
-                      name="tags"
-                      label={filterLabels.tags}
-                      component={SelectField}
-                      position="vertical"
-                    >
-                      <option value="">Any</option>
-                      {Object.keys(tags).map(item => (
-                        <option key={tags[item]} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </Field>
-                  </div>
-                  <div className="col-xl-1">
-                    <Field
-                      name="segments"
-                      label={filterLabels.segments}
-                      component={SelectField}
-                      position="vertical"
-                    >
-                      <option value="">Any</option>
-                    </Field>
-                  </div>
-                  <div className="col-xl-4">
-                    <div className="form-group form-inline">
-                      <label>Registration date range</label>
-                      <Field
-                        name="registrationDateFrom"
-                        component={this.renderDateField}
-                        isValidDate={this.startDateValidator('registrationDateTo')}
-                      />
-                      <Field
-                        name="registrationDateTo"
-                        component={this.renderDateField}
-                        isValidDate={this.endDateValidator('registrationDateFrom')}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-2">
-                    <div className="form-group">
-                      <button
-                        disabled={submitting || (disabled && pristine)}
-                        className="btn btn-default btn-sm margin-inline font-weight-700"
-                        onClick={this.handleReset}
-                        type="reset"
-                      >
-                        Reset
-                      </button>
-                      <button
-                        disabled={submitting || (disabled && pristine)}
-                        className="btn btn-primary btn-sm margin-inline font-weight-700"
-                        type="submit"
-                      >
-                        Apply
-                      </button>
-                    </div>
-                  </div>
+            <div className="filter-row">
+              <div className="filter-row_big">
+                <Field
+                  name="searchValue"
+                  type="text"
+                  label={filterLabels.searchValue}
+                  placeholder="Name, username, phone, email..."
+                  component={this.renderQueryField}
+                />
+              </div>
+              <div className="filter-row_middle">
+                <Field
+                  name="countries"
+                  label={filterLabels.country}
+                  component={SelectField}
+                  position="vertical"
+                >
+                  <option value="">Any</option>
+                  {Object
+                    .keys(countries)
+                    .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                  }
+                </Field>
+              </div>
+              <div className="filter-row_small">
+                <Field
+                  name="city"
+                  type="text"
+                  label="City"
+                  placeholder={filterLabels.city}
+                  component={InputField}
+                  position="vertical"
+                />
+              </div>
+              <div className="filter-row_middle">
+                <div className="form-group">
+                  <label>Age</label>
+                  <Field
+                    name="ageFrom"
+                    type="text"
+                    placeholder="20"
+                    component="input"
+                    className="form-control range-input"
+                  />
+                  <span className="range-input_separator">-</span>
+                  <Field
+                    name="ageTo"
+                    type="text"
+                    placeholder="30"
+                    component="input"
+                    className="form-control range-input"
+                  />
+                </div>
+              </div>
+              <div className="filter-row_middle">
+                <div className="form-group">
+                  <label>Balance</label>
+                  <Field
+                    name="balanceFrom"
+                    type="text"
+                    placeholder="100"
+                    component="input"
+                    className="form-control range-input"
+                  />
+                  <span className="range-input_separator">-</span>
+                  <Field
+                    name="balanceTo"
+                    type="text"
+                    placeholder="150"
+                    component="input"
+                    className="form-control range-input"
+                  />
+                </div>
+              </div>
+              <div className="filter-row_middle">
+                <Field
+                  name="currencies"
+                  label={filterLabels.currencies}
+                  component={SelectField}
+                  position="vertical"
+                >
+                  <option value="">Any</option>
+                  {currencies.map(currency => (
+                    <option key={currency} value={currency}>
+                      {currency}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+              <div className="filter-row_middle">
+                <Field
+                  name="affiliateId"
+                  type="text"
+                  label="Affiliate"
+                  placeholder={filterLabels.affiliateId}
+                  component={InputField}
+                  position="vertical"
+                />
+              </div>
+              <div className="filter-row_small">
+                <Field
+                  name="statuses"
+                  label={filterLabels.status}
+                  component={SelectField}
+                  position="vertical"
+                >
+                  <option value="">Any</option>
+                  {Object.keys(statusesLabels).map(status => (
+                    <option key={status} value={status}>
+                      {statusesLabels[status]}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+              <div className="filter-row_small">
+                <Field
+                  name="tags"
+                  label={filterLabels.tags}
+                  component={SelectField}
+                  position="vertical"
+                >
+                  <option value="">Any</option>
+                  {Object.keys(tags).map(item => (
+                    <option key={tags[item]} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+              <div className="filter-row_small">
+                <Field
+                  name="segments"
+                  label={filterLabels.segments}
+                  component={SelectField}
+                  position="vertical"
+                >
+                  <option value="">Any</option>
+                </Field>
+              </div>
+              <div className="filter-row_big">
+                <div className="form-group form-inline">
+                  <label>Registration date range</label>
+                  <Field
+                    name="registrationDateFrom"
+                    component={this.renderDateField}
+                    isValidDate={this.startDateValidator('registrationDateTo')}
+                  />
+                  <Field
+                    name="registrationDateTo"
+                    component={this.renderDateField}
+                    isValidDate={this.endDateValidator('registrationDateFrom')}
+                  />
+                </div>
+              </div>
+              <div className="filter-row_middle">
+                <div className="form-group">
+                  <button
+                    disabled={submitting || (disabled && pristine)}
+                    className="btn btn-default btn-sm margin-inline font-weight-700"
+                    onClick={this.handleReset}
+                    type="reset"
+                  >
+                    Reset
+                  </button>
+                  <button
+                    disabled={submitting || (disabled && pristine)}
+                    className="btn btn-primary btn-sm margin-inline font-weight-700"
+                    type="submit"
+                  >
+                    Apply
+                  </button>
                 </div>
               </div>
             </div>
