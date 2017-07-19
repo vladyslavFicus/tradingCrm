@@ -224,13 +224,13 @@ class View extends Component {
               </div>
               <div className="col-md-4">
                 {
-                  data.personalStatus &&
+                  data.kycPersonalStatus &&
                   <VerifyData
                     title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
                     description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_DESCRIPTION')}
                     onVerify={this.handleVerify(kycCategories.KYC_PERSONAL)}
                     onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
-                    status={data.personalStatus}
+                    status={data.kycPersonalStatus}
                   />
                 }
               </div>
@@ -255,13 +255,13 @@ class View extends Component {
               </div>
               <div className="col-md-4">
                 {
-                  data.addressStatus &&
+                  data.kycAddressStatus &&
                   <VerifyData
                     title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
                     description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_DESCRIPTION')}
                     onVerify={this.handleVerify(kycCategories.KYC_ADDRESS)}
                     onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
-                    status={data.addressStatus}
+                    status={data.kycAddressStatus}
                   />
                 }
               </div>

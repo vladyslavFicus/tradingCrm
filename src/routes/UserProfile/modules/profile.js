@@ -73,26 +73,22 @@ const initialState = {
     birthDate: null,
     registrationDate: null,
     profileTags: [],
-    kycStatus: null,
-    kycStatusReason: null,
     kycCompleted: false,
     completed: false,
     balance: { amount: 0, currency: config.nas.currencies.base },
     realBalance: { amount: 0, currency: config.nas.currencies.base },
     bonusBalance: { amount: 0, currency: config.nas.currencies.base },
-    addressStatus: {
-      value: null,
-      editDate: null,
-      author: null,
+    kycAddressStatus: {
+      status: null,
+      statusDate: null,
+      authorUUID: null,
       reason: null,
-      comment: null,
     },
-    personalStatus: {
-      value: null,
-      editDate: null,
-      author: null,
+    kycPersonalStatus: {
+      status: null,
+      statusDate: null,
+      authorUUID: null,
       reason: null,
-      comment: null,
     },
     personalKycMetaData: [],
     addressKycMetaData: [],
@@ -441,7 +437,7 @@ function successUpdateProfileReducer(state, action) {
       ...state.data,
       ...action.payload,
       fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
-      shortUUID: shortify(action.payload.playerUUID, action.payload.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : ''),
+      //shortUUID: shortify(action.payload.playerUUID, action.payload.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : ''),
       balance: action.payload && action.payload.balance
         ? action.payload.balance
         : state.data.balance,

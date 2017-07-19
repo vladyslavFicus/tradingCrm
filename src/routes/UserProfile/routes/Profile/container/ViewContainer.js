@@ -26,8 +26,8 @@ const mapStateToProps = ({ profile: { profile }, i18n: { locale } }) => ({
     phoneNumber: profile.data.phoneNumber,
   },
   canRefuseAll: (
-    (profile.data.personalStatus && profile.data.personalStatus.value === kycStatuses.VERIFIED) ||
-    (profile.data.addressStatus && profile.data.addressStatus.value === kycStatuses.VERIFIED)
+    (profile.data.kycPersonalStatus && profile.data.kycPersonalStatus.status === kycStatuses.VERIFIED) ||
+    (profile.data.kycAddressStatus && profile.data.kycAddressStatus.status === kycStatuses.VERIFIED)
   ),
   canVerifyAll: !profile.data.kycCompleted,
   locale,

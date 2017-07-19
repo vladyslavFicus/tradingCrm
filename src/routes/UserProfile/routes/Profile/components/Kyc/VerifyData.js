@@ -8,7 +8,7 @@ class VerifyData extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    status: PropTypes.status.isRequired,
+    status: PropTypes.kycStatus.isRequired,
     onVerify: PropTypes.func.isRequired,
     onRefuse: PropTypes.func.isRequired,
   };
@@ -16,7 +16,11 @@ class VerifyData extends Component {
   render() {
     const { title, description, status, onVerify, onRefuse } = this.props;
 
-    if (status.author === 'signUp' && status.value === kysStatuses.REFUSED) {
+    if (!status) {
+      return null;
+    }
+
+    if (status.authorUUID === 'signUp' && status.status === kysStatuses.REFUSED) {
       return (
         <div>
           <div className="font-size-18 font-weight-700 color-warning">
@@ -49,7 +53,7 @@ class VerifyData extends Component {
     return (
       <div>
         {
-          status.value !== kysStatuses.VERIFIED &&
+          status.status !== kysStatuses.VERIFIED &&
           <div>
             <div className="row margin-bottom-10">
               <div className="col-md-12">
@@ -57,7 +61,9 @@ class VerifyData extends Component {
                   <i className="fa fa-exclamation-triangle" /> {title} verification rejected
                 </div>
                 <div className="font-size-11 color-default font-weight-500">
-                  by <Uuid uuid={status.author} /> on {moment(status.editDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
+                  by <Uuid uuid={status.authorUUID} />
+                  {' on '}
+                  {moment(status.statusDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
                 </div>
               </div>
             </div>
@@ -82,7 +88,7 @@ class VerifyData extends Component {
         }
 
         {
-          status.value === kysStatuses.VERIFIED &&
+          status.status === kysStatuses.VERIFIED &&
           <div>
             <div className="row margin-bottom-10">
               <div className="col-md-12">
@@ -90,7 +96,9 @@ class VerifyData extends Component {
                   <i className="fa fa-check-circle-o" /> {title} verified
                 </div>
                 <div className="font-size-11 color-default font-weight-500">
-                  by <Uuid uuid={status.author} /> on {moment(status.editDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
+                  by <Uuid uuid={status.authorUUID} />
+                  {' on '}
+                  {moment(status.statusDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
                 </div>
               </div>
             </div>

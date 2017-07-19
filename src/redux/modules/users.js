@@ -6,9 +6,10 @@ import buildQueryString from '../../utils/buildQueryString';
 const mapProfile = payload => ({
   ...payload,
   age: moment().diff(payload.birthDate, 'years'),
-  kycDate: payload.personalStatus.editDate > payload.addressStatus.editDate
-    ? payload.personalStatus.editDate
-    : payload.addressStatus.editDate,
+  kycDate: payload.kycPersonalStatus && payload.kycAddressStatus
+    ? (payload.kycPersonalStatus.statusDate > payload.kycAddressStatus.statusDate
+      ? payload.kycPersonalStatus.editDate
+      : payload.kycAddressStatus.statusDate) : null,
 });
 
 function fetchProfile(type) {

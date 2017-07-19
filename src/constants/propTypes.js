@@ -12,6 +12,12 @@ PropTypes.status = PropTypes.shape({
   reason: PropTypes.string,
   value: PropTypes.string,
 });
+PropTypes.kycStatus = PropTypes.shape({
+  authorUUID: PropTypes.string,
+  statusDate: PropTypes.string,
+  reason: PropTypes.string,
+  status: PropTypes.string,
+});
 PropTypes.pageable = content => PropTypes.shape({
   first: PropTypes.bool.isRequired,
   last: PropTypes.bool.isRequired,
@@ -159,7 +165,7 @@ PropTypes.userProfile = PropTypes.shape({
   acceptedTermsId: PropTypes.number,
   address: PropTypes.string,
   addressKycMetaData: PropTypes.arrayOf(PropTypes.fileEntity),
-  addressStatus: PropTypes.status,
+  kycAddressStatus: PropTypes.kycStatus,
   affiliateId: PropTypes.string,
   birthDate: PropTypes.string,
   btag: PropTypes.string,
@@ -172,15 +178,13 @@ PropTypes.userProfile = PropTypes.shape({
   id: PropTypes.number,
   identifier: PropTypes.any,
   kycCompleted: PropTypes.bool,
-  kycStatus: PropTypes.string,
-  kycStatusReason: PropTypes.string,
   languageCode: PropTypes.string,
   lastName: PropTypes.string,
   marketingMail: PropTypes.bool,
   marketingNews: PropTypes.bool,
   marketingSMS: PropTypes.bool,
   personalKycMetaData: PropTypes.arrayOf(PropTypes.fileEntity),
-  personalStatus: PropTypes.status,
+  kycPersonalStatus: PropTypes.kycStatus,
   phoneNumber: PropTypes.string,
   phoneNumberVerified: PropTypes.bool,
   postCode: PropTypes.string,
