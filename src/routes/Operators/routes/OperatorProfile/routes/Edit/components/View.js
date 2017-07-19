@@ -88,7 +88,7 @@ class View extends Component {
                     <strong className="margin-left-20">
                       <i
                         onClick={() => this.handleDeleteAuthority(authority.department, authority.role)}
-                        className="fa fa-trash color-danger"
+                        className="fa fa-trash cursor-pointer color-danger"
                       />
                     </strong>
                   </div>
