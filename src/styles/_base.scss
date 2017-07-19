@@ -47,17 +47,6 @@ For example:
   position: relative;
 }
 
-.btn-transparent {
-  background: Transparent no-repeat;
-  border: none;
-  cursor: pointer;
-  overflow: hidden;
-  outline: none;
-  &:focus {
-    outline: none;
-  }
-}
-
 .highlighted-row {
   background: #d7d7d8;
 }

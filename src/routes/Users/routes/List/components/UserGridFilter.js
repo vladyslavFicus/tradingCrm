@@ -279,7 +279,7 @@ class UserGridFilter extends Component {
               <div className="button-block-container">
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-default btn-sm"
+                  className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -287,7 +287,7 @@ class UserGridFilter extends Component {
                 </button>
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-primary"
                   type="submit"
                 >
                   Apply

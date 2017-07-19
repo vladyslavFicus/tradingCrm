@@ -122,7 +122,7 @@ class FeedFilterForm extends Component {
               <div className="button-block-container">
                 <button
                   disabled={submitting}
-                  className="btn btn-default btn-sm"
+                  className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -130,7 +130,7 @@ class FeedFilterForm extends Component {
                 </button>
                 <button
                   disabled={submitting}
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-primary"
                   type="submit"
                 >
                   Apply

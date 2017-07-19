@@ -185,7 +185,7 @@ class BonusCampaignsFilterForm extends Component {
               <div className="button-block-container">
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-default btn-sm"
+                  className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -193,7 +193,7 @@ class BonusCampaignsFilterForm extends Component {
                 </button>
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-primary btn-sm"
+                  className="btn btn-primary"
                   type="submit"
                 >
                   {I18n.t('COMMON.APPLY')}

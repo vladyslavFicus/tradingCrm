@@ -129,14 +129,14 @@ class DepartmentsForm extends Component {
                   <div className="button-block-container">
                     <button
                       disabled={submitting || !valid}
-                      className="btn btn-primary btn-sm"
+                      className="btn btn-primary"
                       type="submit"
                     >
                       Save
                     </button>
                     <button
                       onClick={this.toggleShow}
-                      className="btn btn-default btn-sm"
+                      className="btn btn-default"
                       type="reset"
                     >
                       Cancel
