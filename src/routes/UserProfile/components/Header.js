@@ -14,6 +14,7 @@ import './Header.scss';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
+import classNames from 'classnames'
 
 class Header extends Component {
   static propTypes = {
@@ -122,6 +123,8 @@ class Header extends Component {
       onWalletLimitChange,
       walletLimits,
       lastIp,
+      onRefreshClick,
+      isLoadingProfile,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const selectedTags = profileTags
@@ -168,12 +171,14 @@ class Header extends Component {
           <div className="panel-heading-row_add-note">
             <PopoverButton
               id="header-add-note-button"
-              className="btn btn-default-outline"
+              className="btn btn-default-outline margin-inline"
               onClick={onAddNoteClick}
             >
               Add note
             </PopoverButton>
-            {' '}
+            <button className="btn btn-default-outline margin-inline" onClick={onRefreshClick}>
+              <i className={classNames('fa fa-refresh', {'fa-spin': isLoadingProfile})} />
+            </button>
             <UserProfileOptions
               items={[
                 { label: 'Reset password', onClick: onResetPasswordClick },

@@ -24,11 +24,16 @@ class View extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
+    cashChildrenComponent: PropTypes.func.isRequired,
   };
   state = {
     filters: {},
     page: 0,
   };
+
+  componentWillMount() {
+    this.context.cashChildrenComponent(this);
+  }
 
   componentDidMount() {
     this.context.setNoteChangedCallback(this.handleRefresh);

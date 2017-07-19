@@ -15,6 +15,11 @@ class View extends Component {
     exportFeed: PropTypes.func.isRequired,
     params: PropTypes.object,
   };
+
+  static contextTypes = {
+    cashChildrenComponent: PropTypes.func.isRequired,
+  };
+
   static defaultProps = {
     isLoading: false,
   };
@@ -26,6 +31,7 @@ class View extends Component {
 
   componentWillMount() {
     this.handleFiltersChanged();
+    this.context.cashChildrenComponent(this);
   }
 
   handleRefresh = () => {

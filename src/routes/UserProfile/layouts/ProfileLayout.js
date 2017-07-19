@@ -109,6 +109,7 @@ class ProfileLayout extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
+    cashChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -133,10 +134,19 @@ class ProfileLayout extends Component {
       setFileChangedCallback: this.setFileChangedCallback,
       onDeleteFileClick: this.handleDeleteFileClick,
       showImages: this.showImages,
+      cashChildrenComponent: this.cashChildrenComponent,
     };
   }
 
+  cashChildrenComponent = (component) => {
+    this.children = component;
+  }
+
   componentDidMount() {
+    this.handleLoadProfile();
+  }
+
+  handleLoadProfile(needForceUpdate = false) {
     const {
       profile,
       loadFullProfile,
@@ -150,7 +160,11 @@ class ProfileLayout extends Component {
       loadFullProfile(params.id)
         .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
         .then(() => fetchAccumulatedBalances(params.id))
-        .then(() => checkLock(params.id));
+        .then(() => {
+          needForceUpdate && typeof this.children.handleRefresh === 'function' && this.children.handleRefresh() ;
+
+          return checkLock(params.id)
+        });
     }
   }
 
@@ -472,6 +486,7 @@ class ProfileLayout extends Component {
       uploadModalInitialValues,
       manageNote,
       config,
+      profile,
     } = this.props;
 
     return (
@@ -488,12 +503,14 @@ class ProfileLayout extends Component {
               state: walletLimits,
               actions: { onChange: this.handleChangeWalletLimitState },
             }}
+            isLoadingProfile={profile.isLoading}
             addTag={this.handleAddTag}
             deleteTag={this.handleDeleteTag}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
             onWalletLimitChange={this.handleChangeWalletLimitState}
+            onRefreshClick={e => this.handleLoadProfile(true)}
           />
 
           <div className="hide-details-block">

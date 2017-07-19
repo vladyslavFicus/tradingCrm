@@ -25,9 +25,18 @@ class View extends Component {
     }).isRequired,
     list: PropTypes.pageableState(PropTypes.userDeviceEntity).isRequired,
   };
+
+  static contextTypes = {
+    cashChildrenComponent: PropTypes.func.isRequired,
+  };
+
   state = {
     filters: {},
   };
+
+  componentWillMount() {
+    this.context.cashChildrenComponent(this);
+  }
 
   componentDidMount() {
     this.handleRefresh();

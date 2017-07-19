@@ -37,6 +37,9 @@ class View extends Component {
     fetchGameActivity: PropTypes.func.isRequired,
     exportGameActivity: PropTypes.func.isRequired,
   };
+  static contextTypes = {
+    cashChildrenComponent: PropTypes.func.isRequired,
+  };
   static defaultProps = {
     isLoading: false,
   };
@@ -48,6 +51,7 @@ class View extends Component {
 
   componentWillMount() {
     this.handleFiltersChanged();
+    this.context.cashChildrenComponent(this);
   }
 
   handleRefresh = () => {

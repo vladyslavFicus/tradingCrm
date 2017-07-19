@@ -28,11 +28,16 @@ class View extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
+    cashChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
     modal: { ...modalInitialState },
   };
+
+  componentWillMount() {
+    this.context.cashChildrenComponent(this);
+  }
 
   componentDidMount() {
     this.handleRefresh();

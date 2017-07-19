@@ -22,7 +22,12 @@ class View extends Component {
 
   componentDidMount() {
     this.props.fetchAvailableCampaignList(this.props.params.id);
+    this.context.cashChildrenComponent(this);
   }
+
+  handleRefresh = () => {
+    this.props.fetchAvailableCampaignList(this.props.params.id);
+  };
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.campaignUUID}`}>
