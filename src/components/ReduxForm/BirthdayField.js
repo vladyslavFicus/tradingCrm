@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import DatePicker from 'components/Forms/DatePicker';
+import DatePicker from '../Forms/DatePicker';
 
 const AGE_YEARS_CONSTRAINT = 18;
 
@@ -18,15 +18,14 @@ class BirthdayField extends Component {
   };
 
   render() {
-    const { input, label, disabled, wrapperClassName } = this.props;
+    const { input, label, disabled } = this.props;
 
     return (
-      <div className={wrapperClassName}>
+      <div className="form-group">
         <label>{label}</label>
-        <div className="input-group">
-          <span className="input-group-addon">
-            <i className="fa fa-calendar"/>
-          </span>
+        <div className="input-with-icon input-with-icon__left">
+          <i className="input-left-icon nas nas-calendar_icon" />
+
           <DatePicker
             dateFormat="MM/DD/YYYY"
             timeFormat={false}

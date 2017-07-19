@@ -94,6 +94,10 @@ label {
     color: #cfcfcf;
     font-weight: 300;
   }
+  &:disabled {
+    background-color: #f6f6f6;
+    border: 1px solid #cfcfcf;
+  }
 }
 
 .range-group {
@@ -116,10 +120,10 @@ label {
   align-items: center;
   position: relative;
   &__left .form-control {
-    padding-left: 28px;
+    padding-left: 30px;
   }
   &__right .form-control {
-    padding-right: 28px;
+    padding-right: 30px;
   }
   .input-left-icon {
     position: absolute;
@@ -128,6 +132,16 @@ label {
   .input-right-icon {
     position: absolute;
     right: 8px;
+  }
+}
+
+.input-with-button {
+  @include flexbox();
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  align-items: center;
+  .btn {
+    margin-left: 15px;
   }
 }
 
@@ -232,4 +246,15 @@ label {
       font-size: 13px;
     }
   }
+}
+
+.rdt {
+  position: initial;
+  width: 100%;
+}
+
+.verification-label {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

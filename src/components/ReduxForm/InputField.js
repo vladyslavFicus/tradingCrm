@@ -168,11 +168,9 @@ class InputField extends Component {
 
     if (inputButton) {
       inputField = (
-        <div className="form-control-with-button">
+        <div className="input-with-button">
           {inputField}
-          <div className="form-control-button">
-            {showInputButton && inputButton}
-          </div>
+          {showInputButton && inputButton}
         </div>
       );
     }

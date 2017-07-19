@@ -529,7 +529,7 @@ class ProfileLayout extends Component {
                 params={params}
               />
 
-              <div className="tab-content padding-vertical-20">
+              <div className="padding-vertical-20">
                 {children}
               </div>
             </div>

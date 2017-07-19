@@ -36,28 +36,15 @@ i.green {
 
 /** Account details **/
 /** ************** **/
-
-.player__account__page-list {
-}
-
-.player__account__page_kyc {
-}
-
 .player__account__page_kyc-label {
   font-size: 18px;
   margin-bottom: 0;
   font-weight: bold;
 }
 
-.player__account__page_kyc-date {
-}
-
 .player__account__page__kyc-document-label {
   color: #827ca1;
   font-weight: bold;
-}
-
-.player__account__page__kyc-document-add {
 }
 
 .player__account__page_transactions-label {

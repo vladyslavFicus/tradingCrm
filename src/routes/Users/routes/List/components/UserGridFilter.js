@@ -106,199 +106,197 @@ class UserGridFilter extends Component {
     } = this.props;
 
     return (
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="well">
-            <div className="filter-row">
-              <div className="filter-row__big">
-                <Field
-                  name="searchValue"
-                  type="text"
-                  label={filterLabels.searchValue}
-                  placeholder="Name, username, phone, email..."
-                  component={InputField}
-                  position="vertical"
-                  iconLeftClassName="nas nas-search_icon"
-                />
-              </div>
-              <div className="filter-row__medium">
-                <Field
-                  name="countries"
-                  label={filterLabels.country}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">Any</option>
-                  {Object
-                    .keys(countries)
-                    .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                  }
-                </Field>
-              </div>
-              <div className="filter-row__small">
-                <Field
-                  name="city"
-                  type="text"
-                  label="City"
-                  placeholder={filterLabels.city}
-                  component={InputField}
-                  position="vertical"
-                />
-              </div>
-              <div className="filter-row__small">
-                <div className="form-group">
-                  <label>Age</label>
-                  <div className="range-group">
-                    <Field
-                      name="ageFrom"
-                      type="text"
-                      placeholder="20"
-                      component="input"
-                      className="form-control"
-                    />
-                    <span className="range-group__separator">-</span>
-                    <Field
-                      name="ageTo"
-                      type="text"
-                      placeholder="30"
-                      component="input"
-                      className="form-control"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="filter-row__small">
-                <div className="form-group">
-                  <label>Balance</label>
-                  <div className="range-group">
-                    <Field
-                      name="balanceFrom"
-                      type="text"
-                      placeholder="100"
-                      component="input"
-                      className="form-control"
-                    />
-                    <span className="range-group__separator">-</span>
-                    <Field
-                      name="balanceTo"
-                      type="text"
-                      placeholder="150"
-                      component="input"
-                      className="form-control"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="filter-row__small">
-                <Field
-                  name="currencies"
-                  label={filterLabels.currencies}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">Any</option>
-                  {currencies.map(currency => (
-                    <option key={currency} value={currency}>
-                      {currency}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="filter-row__medium">
-                <Field
-                  name="affiliateId"
-                  type="text"
-                  label="Affiliate"
-                  placeholder={filterLabels.affiliateId}
-                  component={InputField}
-                  position="vertical"
-                />
-              </div>
-              <div className="filter-row__small">
-                <Field
-                  name="statuses"
-                  label={filterLabels.status}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">Any</option>
-                  {Object.keys(statusesLabels).map(status => (
-                    <option key={status} value={status}>
-                      {statusesLabels[status]}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="filter-row__small">
-                <Field
-                  name="tags"
-                  label={filterLabels.tags}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">Any</option>
-                  {Object.keys(tags).map(item => (
-                    <option key={tags[item]} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="filter-row__small">
-                <Field
-                  name="segments"
-                  label={filterLabels.segments}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">Any</option>
-                </Field>
-              </div>
-              <div className="filter-row__big">
-                <div className="form-group">
-                  <label>Registration date range</label>
-                  <div className="range-group">
-                    <Field
-                      name="registrationDateFrom"
-                      component={DateTimeField}
-                      isValidDate={this.startDateValidator('registrationDateTo')}
-                      position="vertical"
-                      className={null}
-                    />
-                    <span className="range-group__separator">-</span>
-                    <Field
-                      name="registrationDateTo"
-                      component={DateTimeField}
-                      isValidDate={this.endDateValidator('registrationDateFrom')}
-                      position="vertical"
-                      className={null}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="filter-row__button-block">
-                <div className="button-block-container">
-                  <button
-                    disabled={submitting || (disabled && pristine)}
-                    className="btn btn-default btn-sm"
-                    onClick={this.handleReset}
-                    type="reset"
-                  >
-                    Reset
-                  </button>
-                  <button
-                    disabled={submitting || (disabled && pristine)}
-                    className="btn btn-primary btn-sm"
-                    type="submit"
-                  >
-                    Apply
-                  </button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="well">
+          <div className="filter-row">
+            <div className="filter-row__big">
+              <Field
+                name="searchValue"
+                type="text"
+                label={filterLabels.searchValue}
+                placeholder="Name, username, phone, email..."
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+              />
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="countries"
+                label={filterLabels.country}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+                {Object
+                  .keys(countries)
+                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                }
+              </Field>
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="city"
+                type="text"
+                label="City"
+                placeholder={filterLabels.city}
+                component={InputField}
+                position="vertical"
+              />
+            </div>
+            <div className="filter-row__small">
+              <div className="form-group">
+                <label>Age</label>
+                <div className="range-group">
+                  <Field
+                    name="ageFrom"
+                    type="text"
+                    placeholder="20"
+                    component="input"
+                    className="form-control"
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="ageTo"
+                    type="text"
+                    placeholder="30"
+                    component="input"
+                    className="form-control"
+                  />
                 </div>
               </div>
             </div>
+            <div className="filter-row__small">
+              <div className="form-group">
+                <label>Balance</label>
+                <div className="range-group">
+                  <Field
+                    name="balanceFrom"
+                    type="text"
+                    placeholder="100"
+                    component="input"
+                    className="form-control"
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="balanceTo"
+                    type="text"
+                    placeholder="150"
+                    component="input"
+                    className="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="currencies"
+                label={filterLabels.currencies}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+                {currencies.map(currency => (
+                  <option key={currency} value={currency}>
+                    {currency}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="affiliateId"
+                type="text"
+                label="Affiliate"
+                placeholder={filterLabels.affiliateId}
+                component={InputField}
+                position="vertical"
+              />
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="statuses"
+                label={filterLabels.status}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+                {Object.keys(statusesLabels).map(status => (
+                  <option key={status} value={status}>
+                    {statusesLabels[status]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="tags"
+                label={filterLabels.tags}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+                {Object.keys(tags).map(item => (
+                  <option key={tags[item]} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="segments"
+                label={filterLabels.segments}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>Registration date range</label>
+                <div className="range-group">
+                  <Field
+                    name="registrationDateFrom"
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator('registrationDateTo')}
+                    position="vertical"
+                    className={null}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="registrationDateTo"
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator('registrationDateFrom')}
+                    position="vertical"
+                    className={null}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
+                <button
+                  disabled={submitting || (disabled && pristine)}
+                  className="btn btn-default btn-sm"
+                  onClick={this.handleReset}
+                  type="reset"
+                >
+                  Reset
+                </button>
+                <button
+                  disabled={submitting || (disabled && pristine)}
+                  className="btn btn-primary btn-sm"
+                  type="submit"
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     );
   }
 }

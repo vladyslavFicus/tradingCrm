@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import PropTypes from '../../../../constants/propTypes';
 import { createValidator } from '../../../../utils/validator';
 import { types, actions } from '../../../../constants/wallet';
-import { SelectField } from '../../../../components/ReduxForm/UserProfile';
+import { SelectField } from '../../../../components/ReduxForm';
 import './WalletLimitsModal.scss';
 import Uuid from '../../../../components/Uuid';
 

@@ -111,7 +111,7 @@ class View extends Component {
     const { filters } = this.state;
 
     return (
-      <div className={'tab-pane fade in active profile-tab-container'}>
+      <div className={'profile-tab-container'}>
         <div className="row margin-bottom-20">
           <div className="col-sm-3 col-xs-6">
             <span className="font-size-20">

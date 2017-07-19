@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { SelectField } from '../../../../../../../components/ReduxForm/UserProfile';
+import { SelectField } from '../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../../utils/validator';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';

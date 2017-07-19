@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from '../../../../utils/validator';
-import { TextAreaField, SelectField } from '../../../../components/ReduxForm/UserProfile';
+import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import { actions, suspendPeriods } from '../../../../constants/user';
 
 const attributeLabels = {

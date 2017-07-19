@@ -8,6 +8,7 @@ import PhoneField from './PhoneField';
 import SearchField from './SearchField';
 import DateTimeField from './DateTimeField';
 import NasSelectField from './NasSelectField';
+import BirthdayField from './BirthdayField';
 
 export {
   CustomValueField,
@@ -20,4 +21,5 @@ export {
   SearchField,
   DateTimeField,
   NasSelectField,
+  BirthdayField,
 };

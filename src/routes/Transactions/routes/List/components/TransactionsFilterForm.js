@@ -167,7 +167,6 @@ class TransactionsFilterForm extends Component {
                   name="amountLowerBound"
                   type="text"
                   label={attributeLabels.amountLowerBound}
-                  labelClassName="form-label"
                   position="vertical"
                   placeholder="0.00"
                   component={InputField}
@@ -177,7 +176,6 @@ class TransactionsFilterForm extends Component {
                   name="amountUpperBound"
                   type="text"
                   label={attributeLabels.amountUpperBound}
-                  labelClassName="form-label"
                   position="vertical"
                   placeholder="0.00"
                   component={InputField}
