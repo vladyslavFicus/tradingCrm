@@ -139,7 +139,7 @@ class ViewModal extends Component {
       }
       {
         !data.campaignUUID && !!data.operatorUUID &&
-        <div className="ittle-grey-text font-size-11">
+        <div className="little-grey-text font-size-11">
           by Manual Bonus {shortify(data.operatorUUID, 'OP')}
         </div>
       }
@@ -148,18 +148,19 @@ class ViewModal extends Component {
 
   renderAvailablePeriod = data => (
     data.createdDate
-      ? <div>
-        <div className="font-weight-600">
-          {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-        </div>
-        {
+      ? (
+        <div>
+          <div className="font-weight-600">
+            {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
+          </div>
+          {
             !!data.expirationDate &&
             <div className="little-grey-text font-size-11">
               {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
             </div>
           }
-      </div>
-      : <span>&mdash</span>
+        </div>
+      ) : <span>&mdash</span>
   );
 
   renderPriority = data => <span>{data.priority}</span>;

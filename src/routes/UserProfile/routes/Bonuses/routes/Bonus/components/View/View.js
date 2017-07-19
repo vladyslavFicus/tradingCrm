@@ -9,7 +9,6 @@ import NoteButton from '../../../../../../../../components/NoteButton';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import { statuses } from '../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../constants/note';
-import PopoverButton from '../../../../../../../../components/PopoverButton';
 import Uuid from '../../../../../../../../components/Uuid';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
 import BonusGridFilter from '../BonusGridFilter';
@@ -337,7 +336,11 @@ class View extends Component {
           modal.name === MODAL_CREATE &&
           <CreateModal
             isOpen
-            initialValues={{ playerUUID: profile.data.uuid, state: 'INACTIVE', currency: profile.data.currencyCode }}
+            initialValues={{
+              playerUUID: profile.data.playerUUID,
+              state: 'INACTIVE',
+              currency: profile.data.currencyCode,
+            }}
             onSubmit={this.handleSubmitManualBonus}
             onClose={this.handleModalClose}
           />

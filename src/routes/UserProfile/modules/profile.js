@@ -41,9 +41,9 @@ const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
 const initialState = {
   data: {
     id: null,
+    playerUUID: null,
     acceptedTermsId: null,
     username: null,
-    uuid: null,
     firstName: null,
     lastName: null,
     email: null,

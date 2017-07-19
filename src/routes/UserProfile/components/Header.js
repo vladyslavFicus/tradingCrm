@@ -108,7 +108,7 @@ class Header extends Component {
         profileStatus,
         suspendEndDate,
         profileTags,
-        uuid,
+        playerUUID: uuid,
         kycCompleted,
         profileStatusReason,
       },
