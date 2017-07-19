@@ -145,6 +145,45 @@ label {
   }
 }
 
+.control {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 18px;
+  &-group {
+    padding: 10px;
+    margin-bottom: 30px;
+  }
+  input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+  }
+  &__indicator {
+    position: absolute;
+    top: 1px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    color: #e6e6e6;
+    &.is-checked {
+      color: #4990e2;
+    }
+    &.is-checked .nas-check_box:before {
+      content: "\e905";
+      color: #4990e2;
+    }
+  }
+  &--checkbox:hover .nas-check_box:before {
+    content: "\e905";
+  }
+  &--radio:hover .nas-radio_button:before {
+    content: "\e90c";
+  }
+}
+
 .select {
   &-block {
     position: relative;
@@ -191,10 +230,13 @@ label {
       transition: all .25s ease;
       z-index: 1;
     }
-    &__options {
+    &__container {
       max-height: 200px;
+      overflow-x: hidden;
       overflow-y: auto;
       padding: 5px 8px 2px;
+    }
+    &__options {
       &-item {
         margin-bottom: 1px;
         padding: 3px 5px;
@@ -219,6 +261,28 @@ label {
       &-item:hover {
         border-radius: 5px;
         border-color: #e1e1e1;
+        color: #000;
+      }
+    }
+    &__heading {
+      margin-top: 6px;
+      margin-bottom: 8px;
+      font-size: 11px;
+      color: #9b9b9b;
+      text-transform: uppercase;
+    }
+    &__selected-options {
+      position: relative;
+    }
+    &_menu-checkbox {
+      margin-bottom: 14px;
+      padding-left: 22px;
+      line-height: 16px;
+      font-size: 15px;
+      &.is-selected {
+        color: #4990e2;
+      }
+      &:hover {
         color: #000;
       }
     }
@@ -248,6 +312,27 @@ label {
   }
 }
 
+.clear-selected-options {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  font-size: 11px;
+  color: #d0011b;
+  text-transform: uppercase;
+  &:focus {
+    outline: none;
+  }
+  .nas-clear_icon {
+    font-size: 11px;
+  }
+  .nas-clear_icon:before {
+    color: #d0011b;
+  }
+}
+
 .rdt {
   position: initial;
   width: 100%;
@@ -272,4 +357,10 @@ label {
       color: #d0011b;
     }
   }
+}
+
+.personal-form-heading {
+  font-size: 18px;
+  font-weight: normal;
+  color: #333;
 }

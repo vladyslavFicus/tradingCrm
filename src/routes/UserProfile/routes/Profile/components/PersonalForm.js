@@ -4,7 +4,6 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import { InputField, SelectField, BirthdayField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
-import './PersonalForm.scss';
 
 const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
 const titles = ['Mr.', 'Ms.', 'Mrs.'];

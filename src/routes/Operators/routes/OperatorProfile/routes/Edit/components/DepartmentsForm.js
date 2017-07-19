@@ -87,70 +87,64 @@ class DepartmentsForm extends Component {
 
         {
           this.state.show &&
-            <div className="row">
-              <div className="col-lg-10">
-                <form
-                  onSubmit={handleSubmit(this.handleSubmitAndHide)}
-                >
-                  <div className="row">
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <Field
-                          name="department"
-                          label={attributeLabels.department}
-                          type="text"
-                          component={SelectField}
-                        >
-                          <option value="">Select</option>
-                          {
-                            availableDepartments.map(({ label, value }) => (
-                              <option key={value} value={value}>
-                                { renderLabel(label, departmentsLabels) }
-                              </option>
-                            ))
-                          }
-                        </Field>
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <Field
-                          name="role"
-                          label={attributeLabels.role}
-                          type="text"
-                          component={SelectField}
-                        >
-                          <option value="">Select</option>
-                          {
-                            roles.map(({ label, value }) => (
-                              <option key={value} value={value}>
-                                { renderLabel(label, rolesLabels) }
-                              </option>
-                            ))
-                          }
-                        </Field>
-                      </div>
-                    </div>
-                    <div className="col-md-4 padding-top-30">
-                      <button
-                        className="btn btn-sm btn-primary margin-right-10"
-                        type="submit"
-                        disabled={submitting || !valid}
-                      >
-                        Save
-                      </button>
-                      <button
-                        onClick={this.toggleShow}
-                        className="btn btn-sm"
-                        type="reset"
-                      >
-                        Cancel
-                      </button>
-                    </div>
+            <form onSubmit={handleSubmit(this.handleSubmitAndHide)}>
+              <div className="filter-row">
+                <div className="filter-row__medium">
+                  <Field
+                    name="department"
+                    label={attributeLabels.department}
+                    type="text"
+                    component={SelectField}
+                    position="vertical"
+                  >
+                    <option value="">Select</option>
+                    {
+                      availableDepartments.map(({ label, value }) => (
+                        <option key={value} value={value}>
+                          { renderLabel(label, departmentsLabels) }
+                        </option>
+                      ))
+                    }
+                  </Field>
+                </div>
+                <div className="filter-row__medium">
+                  <Field
+                    name="role"
+                    label={attributeLabels.role}
+                    type="text"
+                    component={SelectField}
+                    position="vertical"
+                  >
+                    <option value="">Select</option>
+                    {
+                      roles.map(({ label, value }) => (
+                        <option key={value} value={value}>
+                          { renderLabel(label, rolesLabels) }
+                        </option>
+                      ))
+                    }
+                  </Field>
+                </div>
+                <div className="filter-row__button-block">
+                  <div className="button-block-container">
+                    <button
+                      disabled={submitting || !valid}
+                      className="btn btn-primary btn-sm"
+                      type="submit"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={this.toggleShow}
+                      className="btn btn-default btn-sm"
+                      type="reset"
+                    >
+                      Cancel
+                    </button>
                   </div>
-                </form>
+                </div>
               </div>
-            </div>
+            </form>
         }
       </div>
     );

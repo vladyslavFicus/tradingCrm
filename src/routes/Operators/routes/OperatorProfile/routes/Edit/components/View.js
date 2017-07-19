@@ -55,69 +55,55 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="player__account__page_profile tab-content padding-vertical-20">
-        <div className="tab-pane active" role="tabpanel">
+      <div>
+        <div className="panel">
+          <div className="panel-body">
+            {
+              !!profileLoaded &&
+              <Form
+                initialValues={{
+                  firstName: profile.firstName,
+                  lastName: profile.lastName,
+                  country: profile.country,
+                  email: profile.email,
+                  phoneNumber: profile.phoneNumber,
+                }}
+                onSubmit={this.handleSubmit}
+              />
+            }
+          </div>
+        </div>
+        <PermissionContent permissions={manageDepartmentsPermissions}>
           <div className="panel">
-            <div className="panel-body row">
-              <div className="col-md-12">
-                {
-                  !!profileLoaded &&
-                  <Form
-                    initialValues={{
-                      firstName: profile.firstName,
-                      lastName: profile.lastName,
-                      country: profile.country,
-                      email: profile.email,
-                      phoneNumber: profile.phoneNumber,
-                    }}
-                    onSubmit={this.handleSubmit}
-                  />
-                }
-              </div>
+            <div className="panel-body">
+              <div className="personal-form-heading margin-bottom-20">Departments</div>
+              {
+                authorities.map((authority, key) => (
+                  <div key={key} className="margin-bottom-20">
+                    <strong>
+                      {renderLabel(authority.department, departmentsLabels)}
+                      {' - '}
+                      { renderLabel(authority.role, rolesLabels) }
+                    </strong>
+                    <strong className="margin-left-20">
+                      <i
+                        onClick={() => this.handleDeleteAuthority(authority.department, authority.role)}
+                        className="fa fa-trash color-danger"
+                      />
+                    </strong>
+                  </div>
+                ))
+              }
+              <DepartmentsForm
+                onFetch={this.handleFetchAuthority}
+                onSubmit={this.handleAddAuthority}
+                authorities={authorities}
+                departments={departments}
+                roles={roles}
+              />
             </div>
           </div>
-          <PermissionContent permissions={manageDepartmentsPermissions}>
-            <div className="panel">
-              <div className="panel-body row">
-                <div className="col-md-12">
-                  <div className="row">
-                    <h5 className="pull-left">Departments</h5>
-                  </div>
-                  {
-                    authorities.map((authority, key) => (
-                      <div key={key} className="form-group col-md-12">
-                        <div className="font-weight-700">
-                          <div className="row">
-                            <div className="pull-left">
-                              {renderLabel(authority.department, departmentsLabels)}
-                              {' - '}
-                              { renderLabel(authority.role, rolesLabels) }
-                            </div>
-                            <div className="pull-left margin-left-20">
-                              <i
-                                onClick={() => this.handleDeleteAuthority(authority.department, authority.role)}
-                                className="fa fa-trash color-danger"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))
-                  }
-                  <div className="col-md-12">
-                    <DepartmentsForm
-                      onFetch={this.handleFetchAuthority}
-                      onSubmit={this.handleAddAuthority}
-                      authorities={authorities}
-                      departments={departments}
-                      roles={roles}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </PermissionContent>
-        </div>
+        </PermissionContent>
       </div>
     );
   }

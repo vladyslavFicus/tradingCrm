@@ -191,12 +191,12 @@ class Select extends Component {
   };
 
   renderSelectedOptions = options => (
-    <div className="with-multiselect_checked-block">
-      <div className="select-block_menu-heading">
+    <div className="select-block__selected-options">
+      <div className="select-block__heading">
         selected options
       </div>
-      <button className="clear-selected" onClick={this.handleResetSelectedOptions}>
-        <i className="nas nas-clear_icon icon-in-input" /> Clear
+      <button className="clear-selected-options" onClick={this.handleResetSelectedOptions}>
+        <i className="nas nas-clear_icon" /> Clear
       </button>
       {options.map(option => (
         <label key={option.key} className="control control--checkbox select-block_menu-checkbox is-selected">
@@ -278,14 +278,16 @@ class Select extends Component {
               onChange={this.handleSearch}
             />
           }
-          {multiple && this.renderSelectedOptions(selectedOptions)}
-          {
-            !!query && options.length === 0 &&
-            <span className="text-muted font-size-10 margin-10">
-              Options by query {`"${query}"`} not found...
-            </span>
-          }
-          {this.renderOptions(options, selectedOptions, toSelectOptions, multiple)}
+          <div className="select-block__container">
+            {multiple && selectedOptions.length > 0 && this.renderSelectedOptions(selectedOptions)}
+            {
+              !!query && options.length === 0 &&
+              <span className="text-muted font-size-10 margin-10">
+                Options by query {`"${query}"`} not found...
+              </span>
+            }
+            {this.renderOptions(options, selectedOptions, toSelectOptions, multiple)}
+          </div>
         </div>
       </div>
     );

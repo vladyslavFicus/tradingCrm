@@ -68,11 +68,11 @@ class SelectMultipleOptions extends React.Component {
 
     return (
       <div className={className}>
-        <div className="select-block_menu-heading">
+        <div className="select-block__heading">
           available options
         </div>
         {options.map((option) => {
-          const isActive = selectedOptions.indexOf(option);
+          const isActive = selectedOptions.indexOf(option) > -1;
           const optionProps = {
             key: option.key,
             className: classNames(optionClassName, {
