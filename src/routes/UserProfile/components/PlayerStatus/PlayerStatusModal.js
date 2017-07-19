@@ -40,38 +40,36 @@ class PlayerStatusModal extends Component {
   };
 
   renderReasonsSelect = reasons => (
-    <div className="form-group">
-      <Field
-        name="reason"
-        label={attributeLabels.reason}
-        component={SelectField}
-        className={'form-control'}
-      >
-        <option value="">-- Select reason --</option>
-        {reasons.map(item => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </Field>
-    </div>
+    <Field
+      name="reason"
+      label={attributeLabels.reason}
+      component={SelectField}
+      className={'form-control'}
+      position="vertical"
+    >
+      <option value="">-- Select reason --</option>
+      {reasons.map(item => (
+        <option key={item} value={item}>
+          {item}
+        </option>
+      ))}
+    </Field>
   );
 
   renderPeriodSelect = () => (
-    <div className="form-group">
-      <Field
-        name="period"
-        label={attributeLabels.period}
-        component={SelectField}
-        className={'form-control'}
-      >
-        <option value="">-- Select period --</option>
-        <option value={suspendPeriods.DAY}>Day</option>
-        <option value={suspendPeriods.WEEK}>Week</option>
-        <option value={suspendPeriods.MONTH}>Month</option>
-        <option value={suspendPeriods.PERMANENT}>Permanent</option>
-      </Field>
-    </div>
+    <Field
+      name="period"
+      label={attributeLabels.period}
+      component={SelectField}
+      className={'form-control'}
+      position="vertical"
+    >
+      <option value="">-- Select period --</option>
+      <option value={suspendPeriods.DAY}>Day</option>
+      <option value={suspendPeriods.WEEK}>Week</option>
+      <option value={suspendPeriods.MONTH}>Month</option>
+      <option value={suspendPeriods.PERMANENT}>Permanent</option>
+    </Field>
   );
 
   render() {
@@ -99,15 +97,13 @@ class PlayerStatusModal extends Component {
             {action === actions.SUSPEND && this.renderPeriodSelect()}
             {reasons && this.renderReasonsSelect(reasons)}
 
-            <div className="form-group">
-              <Field
-                name="comment"
-                placeholder="Comment..."
-                label={attributeLabels.comment}
-                component={TextAreaField}
-                className={'form-control'}
-              />
-            </div>
+            <Field
+              name="comment"
+              placeholder="Comment..."
+              label={attributeLabels.comment}
+              component={TextAreaField}
+              position="vertical"
+            />
           </ModalBody>
 
           <ModalFooter>

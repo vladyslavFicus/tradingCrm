@@ -32,21 +32,20 @@ class WalletLimitsModal extends Component {
   };
 
   renderReasonsSelect = reasons => (
-    <div className="form-group">
-      <Field
-        name="reason"
-        label={null}
-        component={SelectField}
-        className={'form-control'}
-      >
-        <option value="">Choose a reason</option>
-        {reasons.map(item => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </Field>
-    </div>
+    <Field
+      name="reason"
+      label={null}
+      component={SelectField}
+      className={'form-control'}
+      position="vertical"
+    >
+      <option value="">Choose a reason</option>
+      {reasons.map(item => (
+        <option key={item} value={item}>
+          {item}
+        </option>
+      ))}
+    </Field>
   );
 
   render() {

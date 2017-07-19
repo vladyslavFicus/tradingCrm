@@ -83,6 +83,7 @@ class InputField extends Component {
           {
             showErrorMessage && touched && error &&
             <div className="form-control-feedback">
+              <i className="nas nas-field_alert_icon" />
               {error}
             </div>
           }

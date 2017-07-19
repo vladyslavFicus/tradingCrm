@@ -92,6 +92,7 @@ class SignInForm extends Component {
               type="text"
               label="Email"
               component={InputField}
+              position="vertical"
               placeholder={attributeLabels.login}
             />
 
@@ -102,6 +103,7 @@ class SignInForm extends Component {
               type="password"
               label="Password"
               component={InputField}
+              position="vertical"
               placeholder={attributeLabels.password}
             />
           </div>

@@ -48,21 +48,20 @@ class AccountStatusModal extends Component {
           }
           <ModalBody>
             {
-              <div className="form-group">
-                <Field
-                  name="reason"
-                  label={attributeLabels.reason}
-                  component={SelectField}
-                  className={'form-control'}
-                >
-                  <option>-- Select reason --</option>
-                  {reasons.map(item => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-              </div>
+              <Field
+                name="reason"
+                label={attributeLabels.reason}
+                component={SelectField}
+                className={'form-control'}
+                position="vertical"
+              >
+                <option>-- Select reason --</option>
+                {reasons.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
             }
           </ModalBody>
 
