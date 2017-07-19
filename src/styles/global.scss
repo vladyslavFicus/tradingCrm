@@ -258,3 +258,19 @@ label {
   top: 0;
   right: 0;
 }
+
+.has-danger .form-control-feedback {
+  position: absolute;
+  top: 101%;
+  left: 0;
+  font-size: 12px;
+
+  .nas-field_alert_icon {
+    position: relative;
+    top: 2px;
+    padding-right: 5px;
+    &:before {
+      color: #d0011b;
+    }
+  }
+}

@@ -88,7 +88,7 @@ class ContactForm extends Component {
             <div className="col-xl-6">
               <Field
                 name="phoneNumber"
-                className="form-group"
+                className="form-group player-profile__contact-input"
                 label={attributeLabels.phoneNumber}
                 labelAddon={(
                   !isPhoneNumberDirty && profile.phoneNumberVerified &&
@@ -111,7 +111,7 @@ class ContactForm extends Component {
             <div className="col-xl-6">
               <Field
                 name="email"
-                className="form-group"
+                className="form-group player-profile__contact-input"
                 label={attributeLabels.email}
                 labelAddon={(
                   profile.profileStatus !== playerStatuses.INACTIVE &&

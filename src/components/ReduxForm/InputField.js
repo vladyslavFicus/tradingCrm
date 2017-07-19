@@ -60,7 +60,7 @@ class InputField extends Component {
     const labelNode = (
       !labelAddon
         ? <label className={labelClassName}>{label}</label>
-        : <div className={labelClassName}>{label} {labelAddon}</div>
+        : <label className={labelClassName}>{label} {labelAddon}</label>
     );
 
     return position === 'vertical'
@@ -105,6 +105,7 @@ class InputField extends Component {
         {
           showErrorMessage && touched && error &&
           <div className="form-control-feedback">
+            <i className="nas nas-field_alert_icon" />
             {error}
           </div>
         }
@@ -168,7 +169,7 @@ class InputField extends Component {
 
     if (inputButton) {
       inputField = (
-        <div className="input-with-button">
+        <div className="form-control-with-button">
           {inputField}
           {showInputButton && inputButton}
         </div>

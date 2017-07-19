@@ -1,37 +1,11 @@
 
 
-
-
-.form-control.has-danger {
-  border: 1px solid #d0011b;
-}
-
-.form-control.is-disabled {
-  background-color: #f6f6f6;
-  border-color: #cfcfcf;
-}
-
 .form-control.has-case-sensitive {
   padding-right: 30px;
 }
 
-/*ERROR MASSAGE*/
-.has-danger .form-control-feedback {
-  position: absolute;
-  top: 100%;
-  margin-top: 0;
-  font-size: 12px;
-  color: #d0011b;
-}
-
-.has-danger .form-control-feedback .nas.nas-field_alert_icon {
-  position: relative;
-  top: 1px;
-}
 
 /*RANGE INPUTS*/
-
-
 .range-icon {
   position: absolute;
   top: 12px;
