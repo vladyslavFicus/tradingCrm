@@ -4,7 +4,7 @@ import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
 import PlayerStatusModal from './PlayerStatusModal';
-import { statuses, suspendPeriods, statusColorNames } from '../../../../constants/user';
+import { statuses, statusColorNames, statusesLabels, durationUnits } from '../../../../constants/user';
 
 const initialState = {
   dropDownOpen: false,
@@ -22,6 +22,12 @@ class PlayerStatus extends Component {
     availableStatuses: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    reason: null,
+    endDate: null,
+    status: null,
+  }
 
   state = { ...initialState };
 
@@ -56,17 +62,15 @@ class PlayerStatus extends Component {
     });
   };
 
-  handleSubmit = ({ period, ...data }) => {
+  handleSubmit = ({ period, reasons, ...data }) => {
     this.handleModalHide(null, () => {
-      const statusData = { ...data };
-      if (period) {
-        if (period === suspendPeriods.DAY) {
-          statusData.suspendEndDate = moment().add(1, 'days').format('YYYY-MM-DDTHH:mm:ss');
-        } else if (period === suspendPeriods.WEEK) {
-          statusData.suspendEndDate = moment().add(7, 'days').format('YYYY-MM-DDTHH:mm:ss');
-        } else if (period === suspendPeriods.MONTH) {
-          statusData.suspendEndDate = moment().add(1, 'months').format('YYYY-MM-DDTHH:mm:ss');
-        }
+      let statusData = { ...data };
+
+      if (period === durationUnits.PERMANENT) {
+        statusData.permanent = true;
+      } else {
+        const [durationAmount, durationUnit] = period.split(' ');
+        statusData = { ...statusData, durationAmount, durationUnit };
       }
 
       return this.props.onChange(statusData);
@@ -85,7 +89,7 @@ class PlayerStatus extends Component {
               {...rest}
               onClick={() => this.handleStatusClick({ statusLabel, reasons, ...rest })}
             >
-              {statusLabel}
+              <span className="text-uppercase">{statusLabel}</span>
             </DropdownItem>
           ))
         }
@@ -104,7 +108,9 @@ class PlayerStatus extends Component {
     const label = (
       <div className="dropdown-tab">
         <div className="header-block-title">Account Status</div>
-        <div className={`header-block-middle ${statusColorNames[status]}`}>{status}</div>
+        <div className={`header-block-middle text-uppercase ${statusColorNames[status]}`}>
+          {statusesLabels[status]}
+        </div>
         {
           !!reason &&
           <div className="header-block-small">
@@ -126,11 +132,7 @@ class PlayerStatus extends Component {
 
     return (
       <div className={dropDownClassName}>
-        {
-          availableStatuses.length === 0
-            ? label
-            : this.renderDropDown(label, availableStatuses, dropDownOpen, modal)
-        }
+        {this.renderDropDown(label, availableStatuses, dropDownOpen, modal)}
 
         {
           availableStatuses.length > 0 && modal.show &&

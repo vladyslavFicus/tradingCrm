@@ -4,13 +4,20 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from '../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../components/ReduxForm/UserProfile';
-import { actions, suspendPeriods } from '../../../../constants/user';
+import { actions, durationUnits, selfExcludedDurationUnits } from '../../../../constants/user';
 
 const attributeLabels = {
   period: 'Period',
   reason: 'Reason',
   comment: 'Comment',
 };
+const availablePeriods = [
+  { durationAmount: 6, durationUnit: selfExcludedDurationUnits.MONTHS, label: '6 month' },
+  { durationAmount: 1, durationUnit: selfExcludedDurationUnits.YEARS, label: '1 year' },
+];
+const periodValidation =
+  `${availablePeriods.map(period => `${period.durationAmount} ` +
+  `${period.durationUnit}`).join()},${durationUnits.PERMANENT}`;
 const validator = (data) => {
   const rules = {
     comment: 'string',
@@ -20,8 +27,8 @@ const validator = (data) => {
     rules.reason = `required|string|in:${data.reasons.join()}`;
   }
 
-  if (data.action === actions.SUSPEND) {
-    rules.period = `required|in:${Object.keys(suspendPeriods).join()}`;
+  if (data.action === actions.SUSPEND || data.action === actions.PROLONG) {
+    rules.period = `required|in:${periodValidation}`;
   }
 
   return createValidator(rules, attributeLabels, false)(data);
@@ -31,12 +38,18 @@ class PlayerStatusModal extends Component {
   static propTypes = {
     isOpen: PropTypes.bool,
     show: PropTypes.bool,
-    action: PropTypes.string,
+    action: PropTypes.string.isRequired,
     reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string,
     onHide: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func,
+    handleSubmit: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    isOpen: false,
+    show: false,
+    title: '',
   };
 
   renderReasonsSelect = reasons => (
@@ -66,10 +79,12 @@ class PlayerStatusModal extends Component {
         className={'form-control'}
       >
         <option value="">-- Select period --</option>
-        <option value={suspendPeriods.DAY}>Day</option>
-        <option value={suspendPeriods.WEEK}>Week</option>
-        <option value={suspendPeriods.MONTH}>Month</option>
-        <option value={suspendPeriods.PERMANENT}>Permanent</option>
+        {
+          availablePeriods.map(period => (
+            <option value={`${period.durationAmount} ${period.durationUnit}`}>{period.label}</option>
+          ))
+        }
+        <option value={durationUnits.PERMANENT}>Permanent</option>
       </Field>
     </div>
   );
@@ -96,7 +111,7 @@ class PlayerStatusModal extends Component {
             </ModalHeader>
           }
           <ModalBody>
-            {action === actions.SUSPEND && this.renderPeriodSelect()}
+            {(action === actions.SUSPEND || action === actions.PROLONG) && this.renderPeriodSelect()}
             {reasons && this.renderReasonsSelect(reasons)}
 
             <div className="form-group">

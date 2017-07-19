@@ -136,6 +136,10 @@ class ProfileLayout extends Component {
     };
   }
 
+  componentWillMount() {
+    document.body.classList.add('user-profile-layout');
+  }
+
   componentDidMount() {
     const {
       profile,
@@ -152,10 +156,6 @@ class ProfileLayout extends Component {
         .then(() => fetchAccumulatedBalances(params.id))
         .then(() => checkLock(params.id));
     }
-  }
-
-  componentWillMount() {
-    document.body.classList.add('user-profile-layout');
   }
 
   componentWillUnmount() {
