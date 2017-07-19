@@ -38,7 +38,7 @@ class View extends Component {
     exportGameActivity: PropTypes.func.isRequired,
   };
   static contextTypes = {
-    cashChildrenComponent: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
   static defaultProps = {
     isLoading: false,
@@ -51,7 +51,7 @@ class View extends Component {
 
   componentWillMount() {
     this.handleFiltersChanged();
-    this.context.cashChildrenComponent(this);
+    this.context.cacheChildrenComponent(this);
   }
 
   handleRefresh = () => {

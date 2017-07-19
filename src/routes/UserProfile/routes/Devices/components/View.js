@@ -27,7 +27,7 @@ class View extends Component {
   };
 
   static contextTypes = {
-    cashChildrenComponent: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -35,7 +35,7 @@ class View extends Component {
   };
 
   componentWillMount() {
-    this.context.cashChildrenComponent(this);
+    this.context.cacheChildrenComponent(this);
   }
 
   componentDidMount() {

@@ -20,9 +20,13 @@ class View extends Component {
     }).isRequired,
   };
 
+  static contextTypes = {
+    cacheChildrenComponent: PropTypes.func.isRequired,
+  };
+
   componentDidMount() {
     this.props.fetchAvailableCampaignList(this.props.params.id);
-    this.context.cashChildrenComponent(this);
+    this.context.cacheChildrenComponent(this);
   }
 
   handleRefresh = () => {

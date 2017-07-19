@@ -17,7 +17,7 @@ class View extends Component {
   };
 
   static contextTypes = {
-    cashChildrenComponent: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -31,7 +31,7 @@ class View extends Component {
 
   componentWillMount() {
     this.handleFiltersChanged();
-    this.context.cashChildrenComponent(this);
+    this.context.cacheChildrenComponent(this);
   }
 
   handleRefresh = () => {

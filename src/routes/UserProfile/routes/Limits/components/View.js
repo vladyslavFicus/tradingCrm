@@ -28,7 +28,7 @@ class View extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    cashChildrenComponent: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -36,7 +36,7 @@ class View extends Component {
   };
 
   componentWillMount() {
-    this.context.cashChildrenComponent(this);
+    this.context.cacheChildrenComponent(this);
   }
 
   componentDidMount() {

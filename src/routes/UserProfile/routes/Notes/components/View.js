@@ -35,7 +35,7 @@ class View extends Component {
   };
 
   componentWillMount() {
-    this.context.cashChildrenComponent(this);
+    this.context.cacheChildrenComponent(this);
   }
 
   componentDidMount() {

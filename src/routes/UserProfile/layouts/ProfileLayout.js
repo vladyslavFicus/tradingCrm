@@ -109,7 +109,7 @@ class ProfileLayout extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
-    cashChildrenComponent: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -134,11 +134,11 @@ class ProfileLayout extends Component {
       setFileChangedCallback: this.setFileChangedCallback,
       onDeleteFileClick: this.handleDeleteFileClick,
       showImages: this.showImages,
-      cashChildrenComponent: this.cashChildrenComponent,
+      cacheChildrenComponent: this.cacheChildrenComponent,
     };
   }
 
-  cashChildrenComponent = (component) => {
+  cacheChildrenComponent = (component) => {
     this.children = component;
   }
 
@@ -160,11 +160,10 @@ class ProfileLayout extends Component {
       loadFullProfile(params.id)
         .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
         .then(() => fetchAccumulatedBalances(params.id))
+        .then(() => checkLock(params.id))
         .then(() => {
-          needForceUpdate && typeof this.children.handleRefresh === 'function' && this.children.handleRefresh() ;
-
-          return checkLock(params.id)
-        });
+          needForceUpdate && typeof this.children.handleRefresh === 'function' && this.children.handleRefresh();
+        })
     }
   }
 

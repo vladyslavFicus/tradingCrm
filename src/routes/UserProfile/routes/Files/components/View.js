@@ -24,7 +24,7 @@ class View extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
-    cashChildrenComponent: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
   state = {
     filters: {},
@@ -32,7 +32,7 @@ class View extends Component {
   };
 
   componentWillMount() {
-    this.context.cashChildrenComponent(this);
+    this.context.cacheChildrenComponent(this);
   }
 
   componentDidMount() {

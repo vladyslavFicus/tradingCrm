@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../constants/propTypes';
 import PlayerStatus from './PlayerStatus';
@@ -14,7 +15,6 @@ import './Header.scss';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
-import classNames from 'classnames'
 
 class Header extends Component {
   static propTypes = {
