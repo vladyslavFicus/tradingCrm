@@ -46,13 +46,13 @@ class AddressForm extends Component {
 
     return (
       <div>
-        <form className="form-horizontal" role="form" onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
-            <div className="col-md-6">
-              <h5>{I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}</h5>
+        <form role="form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="row margin-bottom-20">
+            <div className="col-xl-6">
+              <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}</span>
             </div>
 
-            <div className="col-md-6 text-right">
+            <div className="col-xl-6 text-right">
               {
                 !(pristine || submitting) &&
                 <button className="btn btn-sm btn-primary" type="submit">
@@ -61,54 +61,49 @@ class AddressForm extends Component {
               }
             </div>
           </div>
-          <div className="row">
-            <div className="player__account__page__kyc-form">
-              <div className="col-md-4">
-                <Field
-                  name="country"
-                  label={attributeLabels.country}
-                  component={NasSelectField}
-                  position="vertical"
-                >
-                  {Object
-                    .keys(countries)
-                    .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                  }
-                </Field>
-              </div>
-
-              <div className="col-md-4">
-                <Field
-                  name="city"
-                  label={attributeLabels.city}
-                  type="text"
-                  component={InputField}
-                  position="vertical"
-                  showErrorMessage
-                />
-              </div>
-
-              <div className="col-md-4">
-                <Field
-                  name="postCode"
-                  label={attributeLabels.postCode}
-                  type="text"
-                  component={InputField}
-                  position="vertical"
-                  showErrorMessage
-                />
-              </div>
-
-              <div className="col-md-12">
-                <Field
-                  name="address"
-                  label={attributeLabels.address}
-                  type="text"
-                  component={TextAreaField}
-                  position="vertical"
-                  showErrorMessage
-                />
-              </div>
+          <div className="filter-row">
+            <div className="filter-row__medium">
+              <Field
+                name="country"
+                label={attributeLabels.country}
+                component={NasSelectField}
+                position="vertical"
+              >
+                {Object
+                  .keys(countries)
+                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                }
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="city"
+                label={attributeLabels.city}
+                type="text"
+                component={InputField}
+                position="vertical"
+                showErrorMessage
+              />
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="postCode"
+                label={attributeLabels.postCode}
+                type="text"
+                component={InputField}
+                position="vertical"
+                showErrorMessage
+              />
+            </div>
+            <div className="filter-row__big">
+              <Field
+                name="address"
+                label={attributeLabels.address}
+                type="text"
+                component={TextAreaField}
+                position="vertical"
+                showErrorMessage
+              />
             </div>
           </div>
         </form>

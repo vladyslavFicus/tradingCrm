@@ -34,7 +34,7 @@ class SelectField extends Component {
     inputAddon: null,
     inputAddonPosition: 'left',
     inputButton: null,
-    inputClassName: 'form-control select-block',
+    inputClassName: 'form-control',
     showInputButton: false,
   };
 

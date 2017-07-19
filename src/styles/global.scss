@@ -6,88 +6,51 @@
   @include flexbox();
   -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
-  &_big {
-    @include flex(0.1 0 350px);
-    padding: 0 .5rem;
-  }
-  &_middle {
-    @include flex(0.1 0 250px);
-    padding: 0 .5rem;
-  }
-  &_small {
-    @include flex(0.1 0 150px);
-    padding: 0 .5rem;
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  .form-group__with-select {
-    @include flexbox();
-    -webkit-flex-flow: row wrap;
-    flex-flow: row wrap;
-    label,
-    select {
-      @include flex(0 0 100%);
+  justify-content: space-between;
+  margin-right: -1rem;
+  margin-left: -1rem;
+  &__big {
+    @include flex(1 0 350px);
+    min-width: 1px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    .range-group .form-control {
+      max-width: 200px;
     }
   }
-  .two-inputs {
-    @include flexbox();
-    -webkit-flex-flow: row wrap;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    .form-label {
-      @include flex(0 0 100%);
-    }
-    .form-control {
-      @include flex(0 0 44%);
+  &__medium {
+    @include flex(0.75 0 250px);
+    min-width: 1px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+  &__small {
+    @include flex(0.25 0 150px);
+    min-width: 1px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    .range-group .form-control {
+      max-width: 54px;
     }
   }
-  .two-inputs__with-date {
-    .input-group {
-      display: table;
-    }
-    .form-group {
-      @include flex(0 0 48%);
-      margin-bottom: 0;
-    }
-  }
-  .dash {
+  &__button-block {
+    @include flex(1 0 auto);
+    min-width: 1px;
     align-self: center;
-  }
-  .dash:after {
-    content: '\2013';
-    position: relative;
-    bottom: 2px;
-  }
-  .button-block {
+    margin-top: 6px;
     margin-left: auto;
-    margin-top: 4px;
-    align-self: center;
-    .form-group {
+    padding: 0 1rem;
+    .button-block-container {
       @include flexbox();
       -webkit-flex-flow: row nowrap;
       flex-flow: row nowrap;
       justify-content: flex-end;
-      margin-bottom: 0;
     }
     .btn {
       font-weight: 700;
       padding: 6px 16px;
     }
-    .btn-primary {
+    .btn:nth-child(n+2) {
       margin-left: 15px;
     }
   }
@@ -112,7 +75,7 @@ label {
   font-size: 15px;
   &:focus {
     box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
-    border: 1px solid #4990e2;
+    border-color: #4990e2;
     font-weight: 600;
   }
   &::-webkit-input-placeholder {
@@ -131,12 +94,23 @@ label {
     color: #cfcfcf;
     font-weight: 300;
   }
+  &:disabled {
+    background-color: #f6f6f6;
+    border: 1px solid #cfcfcf;
+  }
 }
 
 .range-group {
   @include flexbox();
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
+  &__separator {
+    align-self: center;
+    min-width: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: #9b9b9b;
+  }
 }
 
 .input-with-icon {
@@ -146,10 +120,10 @@ label {
   align-items: center;
   position: relative;
   &__left .form-control {
-    padding-left: 28px;
+    padding-left: 30px;
   }
   &__right .form-control {
-    padding-right: 28px;
+    padding-right: 30px;
   }
   .input-left-icon {
     position: absolute;
@@ -158,6 +132,16 @@ label {
   .input-right-icon {
     position: absolute;
     right: 8px;
+  }
+}
+
+.input-with-button {
+  @include flexbox();
+  -webkit-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  align-items: center;
+  .btn {
+    margin-left: 15px;
   }
 }
 
@@ -260,6 +244,33 @@ label {
     .input-right-icon {
       right: 12px;
       font-size: 13px;
+    }
+  }
+}
+
+.rdt {
+  position: initial;
+  width: 100%;
+}
+
+.verification-label {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.has-danger .form-control-feedback {
+  position: absolute;
+  top: 101%;
+  left: 0;
+  font-size: 12px;
+
+  .nas-field_alert_icon {
+    position: relative;
+    top: 2px;
+    padding-right: 5px;
+    &:before {
+      color: #d0011b;
     }
   }
 }

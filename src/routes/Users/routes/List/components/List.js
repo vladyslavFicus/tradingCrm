@@ -143,11 +143,11 @@ class List extends Component {
         <Panel withBorders>
           <Title>
             <div className="row">
-              <div className="col-md-3">
+              <div className="col-xl-3">
                 <span className="font-size-20">Players</span>
               </div>
 
-              <div className="col-md-3 col-md-offset-6 text-right">
+              <div className="col-xl-3 col-xl-offset-6 text-right">
                 <button
                   disabled={exporting || !allowActions}
                   className="btn btn-default-outline"

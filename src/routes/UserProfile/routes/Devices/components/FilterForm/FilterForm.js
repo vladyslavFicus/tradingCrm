@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import classNames from 'classnames';
 import moment from 'moment';
-import DateTime from 'react-datetime';
 import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../../utils/validator';
 import PropTypes from '../../../../../../constants/propTypes';
@@ -35,10 +33,6 @@ class FilterForm extends Component {
     currentValues: {},
   };
 
-  handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DDTHH:mm:00') : '');
-  };
-
   handleReset = () => {
     this.props.reset();
     this.props.onSubmit();
@@ -60,23 +54,6 @@ class FilterForm extends Component {
       : true;
   };
 
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => (
-    <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <DateTime
-        dateFormat="MM/DD/YYYY"
-        timeFormat="HH:mm"
-        onChange={this.handleDateTimeChange(input.onChange)}
-        value={input.value ? moment(input.value) : null}
-        closeOnSelect
-        inputProps={{
-          disabled,
-          placeholder,
-        }}
-        isValidDate={isValidDate}
-      />
-    </div>
-  );
-
   render() {
     const {
       submitting,
@@ -87,73 +64,66 @@ class FilterForm extends Component {
     } = this.props;
 
     return (
-      <div className="well">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
-            <div className="col-md-10">
-              <div className="col-md-3">
-                <Field
-                  name="deviceType"
-                  label={I18n.t(attributeLabels.type)}
-                  labelClassName="form-label"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('COMMON.ANY')}</option>
-                  {deviceType.map(item => (
-                    <option key={item} value={item}>
-                      {renderLabel(item, typesLabels)}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="col-md-3">
-                <Field
-                  name="operatingSystem"
-                  label={I18n.t(attributeLabels.operatingSystem)}
-                  labelClassName="form-label"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('COMMON.ANY')}</option>
-                  {operatingSystem.map(item => (
-                    <option key={item} value={item}>{item}</option>
-                  ))}
-                </Field>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label className="form-label">
-                    {I18n.t('PLAYER_PROFILE.DEVICES.FILTER.LOGIN_DATE_RANGE')}
-                  </label>
-                  <div className="row">
-                    <div className="col-md-5">
-                      <Field
-                        name="signInDateFrom"
-                        component={DateTimeField}
-                        placeholder={I18n.t(attributeLabels.dateFrom)}
-                        position="vertical"
-                        isValidDate={this.startDateValidator('signInDateTo')}
-                      />
-                    </div>
-                    <div className="col-md-5">
-                      <Field
-                        name="signInDateTo"
-                        position="vertical"
-                        placeholder={I18n.t(attributeLabels.dateTo)}
-                        component={DateTimeField}
-                        isValidDate={this.endDateValidator('signInDateFrom')}
-                      />
-                    </div>
-                  </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="well">
+          <div className="filter-row">
+            <div className="filter-row__medium">
+              <Field
+                name="deviceType"
+                label={I18n.t(attributeLabels.type)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {deviceType.map(item => (
+                  <option key={item} value={item}>
+                    {renderLabel(item, typesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="operatingSystem"
+                label={I18n.t(attributeLabels.operatingSystem)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {operatingSystem.map(item => (
+                  <option key={item} value={item}>{item}</option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>{I18n.t('PLAYER_PROFILE.DEVICES.FILTER.LOGIN_DATE_RANGE')}</label>
+                <div className="range-group">
+                  <Field
+                    name="signInDateFrom"
+                    placeholder={I18n.t(attributeLabels.dateFrom)}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator('signInDateTo')}
+                    position="vertical"
+                    className={null}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="signInDateTo"
+                    placeholder={I18n.t(attributeLabels.dateTo)}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator('signInDateFrom')}
+                    position="vertical"
+                    className={null}
+                  />
                 </div>
               </div>
             </div>
-            <div className="col-md-2">
-              <div className="form-group margin-top-25">
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  className="btn btn-default btn-sm"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -161,7 +131,7 @@ class FilterForm extends Component {
                 </button>
                 <button
                   disabled={submitting}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  className="btn btn-primary btn-sm"
                   type="submit"
                 >
                   {I18n.t('COMMON.APPLY')}
@@ -169,8 +139,8 @@ class FilterForm extends Component {
               </div>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     );
   }
 }

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import DateTime from 'react-datetime';
-import classNames from 'classnames';
 import moment from 'moment';
 import { reduxForm, Field, getFormValues } from 'redux-form';
+import { InputField, SelectField, DateTimeField } from '../../../../../../../components/ReduxForm';
 import { statusesLabels, typesLabels, assignLabels } from '../../../../../../../constants/bonus';
 import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
@@ -37,10 +36,6 @@ class BonusGridFilter extends Component {
     currentValues: PropTypes.object,
   };
 
-  handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DD') : '');
-  };
-
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
@@ -62,64 +57,6 @@ class BonusGridFilter extends Component {
     this.props.onSubmit();
   };
 
-  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <select
-          {...input}
-          className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
-        >
-          <option value="">{emptyOptionLabel}</option>
-          {children}
-        </select>
-      </div>
-    );
-  };
-
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <div className="form-input-icon">
-          <i className="icmn-search" />
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder}
-            title={placeholder}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <div className="input-group">
-          <DateTime
-            dateFormat="MM/DD/YYYY"
-            timeFormat={false}
-            onChange={this.handleDateTimeChange(input.onChange)}
-            value={input.value ? moment(input.value) : null}
-            closeOnSelect
-            inputProps={{
-              disabled,
-              placeholder,
-            }}
-            isValidDate={isValidDate}
-          />
-          <span className="input-group-addon">
-            <i className="fa fa-calendar" />
-          </span>
-        </div>
-      </div>
-    );
-  };
-
   render() {
     const {
       submitting,
@@ -130,102 +67,100 @@ class BonusGridFilter extends Component {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="well">
-          <div className="row">
-            <div className="col-md-10">
-              <div className="row">
-                <div className="col-md-5">
+          <div className="filter-row">
+            <div className="filter-row__big">
+              <Field
+                name="keyword"
+                type="text"
+                label={'Search by'}
+                placeholder={attributeLabels.keyword}
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+              />
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="assigned"
+                label={attributeLabels.assigned}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Anyone</option>
+                {Object.keys(assignLabels).map(assign => (
+                  <option key={assign} value={assign}>
+                    {renderLabel(assign, assignLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="type"
+                label={attributeLabels.type}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any type</option>
+                {Object.keys(typesLabels).map(type => (
+                  <option key={type} value={type}>
+                    {renderLabel(type, typesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="states"
+                label={attributeLabels.states}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any status</option>
+                {Object.keys(statusesLabels).map(status => (
+                  <option key={status} value={status}>
+                    {renderLabel(status, statusesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>Availability date range</label>
+                <div className="range-group">
                   <Field
-                    name="keyword"
-                    type="text"
-                    label={'Search by'}
-                    placeholder={attributeLabels.keyword}
-                    component={this.renderQueryField}
+                    name="startDate"
+                    placeholder={attributeLabels.startDate}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator}
+                    position="vertical"
+                    className={null}
                   />
-                </div>
-
-                <div className="col-md-2">
+                  <span className="range-group__separator">-</span>
                   <Field
-                    name="assigned"
-                    label={attributeLabels.assigned}
-                    emptyOptionLabel="Anyone"
-                    component={this.renderSelectField}
-                  >
-                    {Object.keys(assignLabels).map(assign => (
-                      <option key={assign} value={assign}>
-                        {renderLabel(assign, assignLabels)}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-
-                <div className="col-md-2">
-                  <Field
-                    name="type"
-                    label={attributeLabels.type}
-                    emptyOptionLabel="Any type"
-                    component={this.renderSelectField}
-                  >
-                    {Object.keys(typesLabels).map(type => (
-                      <option key={type} value={type}>
-                        {renderLabel(type, typesLabels)}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-
-                <div className="col-md-2">
-                  <Field
-                    name="states"
-                    label={attributeLabels.states}
-                    emptyOptionLabel="Any status"
-                    component={this.renderSelectField}
-                  >
-                    {Object.keys(statusesLabels).map(status => (
-                      <option key={status} value={status}>
-                        {renderLabel(status, statusesLabels)}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label className="form-label">Availability date range</label>
-                    <div className="row">
-                      <div className="col-md-5">
-                        <Field
-                          name="startDate"
-                          placeholder={attributeLabels.startDate}
-                          component={this.renderDateField}
-                          isValidDate={this.startDateValidator}
-                        />
-                      </div>
-                      <div className="col-md-5">
-                        <Field
-                          name="endDate"
-                          placeholder={attributeLabels.endDate}
-                          component={this.renderDateField}
-                          isValidDate={this.endDateValidator}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    name="endDate"
+                    placeholder={attributeLabels.endDate}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator}
+                    position="vertical"
+                    className={null}
+                  />
                 </div>
               </div>
             </div>
-            <div className="col-md-2">
-              <div className="form-group margin-top-25">
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  className="btn btn-default btn-sm"
                   onClick={this.handleReset}
                   type="reset"
                 >
                   Reset
                 </button>
                 <button
-                  disabled={submitting} className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  disabled={submitting}
+                  className="btn btn-primary btn-sm"
                   type="submit"
                 >
                   Apply

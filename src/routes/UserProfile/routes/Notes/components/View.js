@@ -129,7 +129,7 @@ class View extends Component {
         </div>
       </div>
     </div>
-  )
+  );
 
   render() {
     const {
@@ -142,7 +142,13 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="tab-pane fade in active profile-tab-container">
+      <div className="profile-tab-container">
+        <div className="row margin-bottom-20">
+          <div className="col-md-3">
+            <span className="font-size-20">Notes</span>
+          </div>
+        </div>
+
         <NotesGridFilter
           onSubmit={this.handleFiltersChanged}
           availableTypes={availableTypes}

@@ -12,7 +12,6 @@ class TextAreaField extends Component {
     label: PropTypes.string,
     rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     labelAddon: PropTypes.any,
-    labelClassName: PropTypes.string,
     inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
     inputAddon: PropTypes.element,
@@ -31,7 +30,6 @@ class TextAreaField extends Component {
     className: 'form-group',
     label: null,
     labelAddon: null,
-    labelClassName: 'form-control-label',
     inputClassName: 'form-control',
     showInputButton: false,
     position: 'horizontal',
@@ -46,7 +44,6 @@ class TextAreaField extends Component {
   renderLabel = (props) => {
     const {
       label,
-      labelClassName,
       labelAddon,
       position,
     } = props;
@@ -57,8 +54,8 @@ class TextAreaField extends Component {
 
     const labelNode = (
       !labelAddon
-        ? <label className={labelClassName}>{label}</label>
-        : <div className={labelClassName}>{label} {labelAddon}</div>
+        ? <label>{label}</label>
+        : <div>{label} {labelAddon}</div>
     );
 
     return position === 'vertical'

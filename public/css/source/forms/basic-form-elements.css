@@ -1,44 +1,11 @@
 
 
-
-
-.form-control.has-danger {
-  border: 1px solid #d0011b;
-}
-
-.form-control.is-disabled {
-  background-color: #f6f6f6;
-  border-color: #cfcfcf;
-}
-
 .form-control.has-case-sensitive {
   padding-right: 30px;
 }
 
-/*ERROR MASSAGE*/
-.has-danger .form-control-feedback {
-  position: absolute;
-  top: 100%;
-  margin-top: 0;
-  font-size: 12px;
-  color: #d0011b;
-}
-
-.has-danger .form-control-feedback .nas.nas-field_alert_icon {
-  position: relative;
-  top: 1px;
-}
 
 /*RANGE INPUTS*/
-.range-block {
-  position: relative;
-}
-
-.range-input_separator {
-  padding: 6px 10px 0;
-  color: #9b9b9b;
-}
-
 .range-icon {
   position: absolute;
   top: 12px;
@@ -164,26 +131,6 @@
 .with-multiselect_checked-block .nas-clear_icon.icon-in-input:before {
   color: #d0011b;
 }
-
-/*.select-search-bar .nas-search_icon.icon-in-input {*/
-  /*top: 18px;*/
-  /*left: 12px;*/
-/*}*/
-
-/*.select-search-bar .nas-clear_icon.icon-in-input {*/
-  /*top: 20px;*/
-  /*right: 12px;*/
-  /*left: auto;*/
-  /*font-size: 11px;*/
-/*}*/
-
-/*.select-search-bar .has-icon {*/
-  /*width: 100%;*/
-  /*height: 29px;*/
-  /*padding-top: 12px;*/
-  /*padding-right: 28px;*/
-  /*font-size: 13px;*/
-/*}*/
 
 .advanced-filter {
   padding: 0;

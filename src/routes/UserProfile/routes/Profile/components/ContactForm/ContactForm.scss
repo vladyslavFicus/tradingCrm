@@ -1,12 +1,4 @@
-.player-profile {
-  &__contact-phone {
-    .form-control-label {
-      width: 250px;
-    }
-  }
-  &__contact-email {
-    .form-control-label {
-      width: 250px;
-    }
-  }
+.player-profile__contact-input label {
+  position: relative;
+  width: 250px;
 }

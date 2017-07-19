@@ -40,48 +40,43 @@ class MethodsGridFilter extends Component {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="well">
-          <div className="row">
-            <div className="col-md-10">
-              <div className="row">
-                <div className="col-md-4">
-                  <Field
-                    name="countryCode"
-                    label={attributeLabels.country}
-                    labelClassName="form-label"
-                    component={SelectField}
-                    position="vertical"
-                  >
-                    <option value="">- General -</option>
-                    {Object
-                      .keys(countries)
-                      .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                    }
-                  </Field>
-                </div>
-                <div className="col-md-4">
-                  <Field
-                    name="status"
-                    label={attributeLabels.status}
-                    labelClassName="form-label"
-                    component={SelectField}
-                    position="vertical"
-                  >
-                    <option value="">All statuses</option>
-                    {Object.keys(methodsStatusesLabels).map(status => (
-                      <option key={status} value={status}>
-                        {methodsStatusesLabels[status]}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-              </div>
+          <div className="filter-row">
+            <div className="filter-row__small">
+              <Field
+                name="countryCode"
+                label={attributeLabels.country}
+                labelClassName="form-label"
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">- General -</option>
+                {Object
+                  .keys(countries)
+                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                }
+              </Field>
             </div>
-
-            <div className="col-md-2">
-              <div className="form-group margin-top-25">
+            <div className="filter-row__small">
+              <Field
+                name="status"
+                label={attributeLabels.status}
+                labelClassName="form-label"
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">All statuses</option>
+                {Object.keys(methodsStatusesLabels).map(status => (
+                  <option key={status} value={status}>
+                    {methodsStatusesLabels[status]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  className="btn btn-default btn-sm"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -89,7 +84,7 @@ class MethodsGridFilter extends Component {
                 </button>
                 <button
                   disabled={submitting}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  className="btn btn-primary btn-sm"
                   type="submit"
                 >
                   Apply
