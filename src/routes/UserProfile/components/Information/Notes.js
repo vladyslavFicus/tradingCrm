@@ -21,38 +21,36 @@ class Notes extends Component {
     notes: { entities: { content: [] }, isLoading: false },
   };
 
-  renderItem = (item) => {
-    return (
-      <PopoverButton
-        className="display-block note panel"
-        key={item.uuid}
-        id={`profile-pinned-note-${item.uuid}`}
-        onClick={id => this.props.onEditNoteClick(id, item, { placement: 'left' })}
-      >
-        <div className="note-content">
-          <div className="font-size-13 line-height-1">
-            {
-              item.author &&
+  renderItem = item => (
+    <PopoverButton
+      className="display-block note panel"
+      key={item.uuid}
+      id={`profile-pinned-note-${item.uuid}`}
+      onClick={id => this.props.onEditNoteClick(id, item, { placement: 'left' })}
+    >
+      <div className="note-content">
+        <div className="font-size-13 line-height-1">
+          {
+            item.author &&
               <b>{`${item.author} - `}</b>
-            }
-            <span>
-              <Uuid uuid={item.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
-            </span>
-          </div>
-          <small className="font-size-11">
-            {
-              item.lastEditionDate
-                ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
-                : I18n.t('COMMON.UNKNOWN_TIME')
-            } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
-          </small>
-          <div className="font-size-13 font-italic margin-top-5">
-            {item.content}
-          </div>
+          }
+          <span>
+            <Uuid uuid={item.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
+          </span>
         </div>
-      </PopoverButton>
-    );
-  };
+        <small className="font-size-11">
+          {
+            item.lastEditionDate
+              ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
+              : I18n.t('COMMON.UNKNOWN_TIME')
+          } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
+        </small>
+        <div className="font-size-13 font-italic margin-top-5">
+          {item.content}
+        </div>
+      </div>
+    </PopoverButton>
+  );
 
   renderItemId = item => <Uuid uuid={item.targetUUID} uuidPrefix={entitiesPrefixes[item.targetType]} />;
 

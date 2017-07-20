@@ -119,15 +119,15 @@ const actionHandlers = {
 
     return {
       ...state,
-      items: state.items.map(item => {
+      items: state.items.map((item) => {
         if (item.uuid === uuid && item.fullName !== newFullName) {
           item.fullName = newFullName;
         }
 
         return item;
-      })
+      }),
     };
-  }
+  },
 };
 const actionTypes = {
   ADD,

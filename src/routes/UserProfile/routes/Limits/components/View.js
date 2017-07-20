@@ -46,11 +46,10 @@ class View extends Component {
 
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
+    this.context.cacheChildrenComponent(null);
   }
 
-  handleRefresh = () => {
-    return this.props.fetchEntities(this.props.params.id);
-  };
+  handleRefresh = () => this.props.fetchEntities(this.props.params.id);
 
   handleCancelLimit = async (type, limitId) => {
     const { params: { id }, cancelLimit, fetchEntities } = this.props;

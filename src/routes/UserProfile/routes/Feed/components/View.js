@@ -34,6 +34,10 @@ class View extends Component {
     this.context.cacheChildrenComponent(this);
   }
 
+  componentWillUnmount() {
+    this.context.cacheChildrenComponent(null);
+  }
+
   handleRefresh = () => {
     this.props.fetchFeed(this.props.params.id, {
       ...this.state.filters,

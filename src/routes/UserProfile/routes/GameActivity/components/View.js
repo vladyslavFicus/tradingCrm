@@ -54,6 +54,10 @@ class View extends Component {
     this.context.cacheChildrenComponent(this);
   }
 
+  componentWillUnmount() {
+    this.context.cacheChildrenComponent(null);
+  }
+
   handleRefresh = () => {
     this.props.fetchGameActivity(this.props.params.id, {
       ...this.state.filters,

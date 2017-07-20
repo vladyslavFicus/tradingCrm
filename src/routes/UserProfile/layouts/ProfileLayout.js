@@ -163,7 +163,7 @@ class ProfileLayout extends Component {
         .then(() => checkLock(params.id))
         .then(() => {
           needForceUpdate && typeof this.children.handleRefresh === 'function' && this.children.handleRefresh();
-        })
+        });
     }
   }
 

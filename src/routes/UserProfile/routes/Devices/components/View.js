@@ -65,21 +65,19 @@ class View extends Component {
     </span>
   );
 
-  renderType = (data) => {
-    return (
-      <div className={typesColor[data.deviceType]}>
-        <i
-          className={classNames('fa font-size-20 padding-right-10', {
-            'fa-mobile': data.deviceType === types.MOBILE,
-            'fa-desktop': data.deviceType === types.DESKTOP,
-            'fa-default': data.deviceType === types.UNKNOWN,
-          })}
-          aria-hidden="true"
-        />
-        {renderLabel(data.deviceType, typesLabels)}
-      </div>
-    );
-  }
+  renderType = data => (
+    <div className={typesColor[data.deviceType]}>
+      <i
+        className={classNames('fa font-size-20 padding-right-10', {
+          'fa-mobile': data.deviceType === types.MOBILE,
+          'fa-desktop': data.deviceType === types.DESKTOP,
+          'fa-default': data.deviceType === types.UNKNOWN,
+        })}
+        aria-hidden="true"
+      />
+      {renderLabel(data.deviceType, typesLabels)}
+    </div>
+  )
 
   renderLastIp = (data) => {
     if (!data.lastSignInCountryCode) {

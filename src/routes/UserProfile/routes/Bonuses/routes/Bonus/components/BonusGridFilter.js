@@ -62,63 +62,57 @@ class BonusGridFilter extends Component {
     this.props.onSubmit();
   };
 
-  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <select
+  renderSelectField = ({ input, children, label, meta: { touched, error }, emptyOptionLabel }) => (
+    <div className={classNames('form-group', { 'has-danger': touched && error })}>
+      <label>{label}</label>
+      <select
+        {...input}
+        className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
+      >
+        <option value="">{emptyOptionLabel}</option>
+        {children}
+      </select>
+    </div>
+  );
+
+  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => (
+    <div className={classNames('form-group', { 'has-danger': touched && error })}>
+      <label>{label}</label>
+      <div className="form-input-icon">
+        <i className="icmn-search" />
+        <input
           {...input}
-          className={classNames('form-control form-control-sm', { 'has-danger': touched && error })}
-        >
-          <option value="">{emptyOptionLabel}</option>
-          {children}
-        </select>
+          disabled={disabled}
+          type={type}
+          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
+          placeholder={placeholder}
+          title={placeholder}
+        />
       </div>
-    );
-  };
+    </div>
+  );
 
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <div className="form-input-icon">
-          <i className="icmn-search" />
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder}
-            title={placeholder}
-          />
-        </div>
+  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => (
+    <div className={classNames('form-group', { 'has-danger': touched && error })}>
+      <div className="input-group">
+        <DateTime
+          dateFormat="MM/DD/YYYY"
+          timeFormat={false}
+          onChange={this.handleDateTimeChange(input.onChange)}
+          value={input.value ? moment(input.value) : null}
+          closeOnSelect
+          inputProps={{
+            disabled,
+            placeholder,
+          }}
+          isValidDate={isValidDate}
+        />
+        <span className="input-group-addon">
+          <i className="fa fa-calendar" />
+        </span>
       </div>
-    );
-  };
-
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <div className="input-group">
-          <DateTime
-            dateFormat="MM/DD/YYYY"
-            timeFormat={false}
-            onChange={this.handleDateTimeChange(input.onChange)}
-            value={input.value ? moment(input.value) : null}
-            closeOnSelect
-            inputProps={{
-              disabled,
-              placeholder,
-            }}
-            isValidDate={isValidDate}
-          />
-          <span className="input-group-addon">
-            <i className="fa fa-calendar" />
-          </span>
-        </div>
-      </div>
-    );
-  };
+    </div>
+  );
 
   render() {
     const {
@@ -225,7 +219,8 @@ class BonusGridFilter extends Component {
                   Reset
                 </button>
                 <button
-                  disabled={submitting} className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  disabled={submitting}
+                  className="btn btn-primary btn-sm margin-inline font-weight-700"
                   type="submit"
                 >
                   Apply
@@ -244,8 +239,6 @@ const FilterForm = reduxForm({
   validate: validator,
 })(BonusGridFilter);
 
-export default connect((state) => {
-  return {
-    currentValues: getFormValues(FORM_NAME)(state),
-  };
-})(FilterForm);
+export default connect(state => ({
+  currentValues: getFormValues(FORM_NAME)(state),
+}))(FilterForm);
