@@ -96,6 +96,7 @@ class ProfileLayout extends Component {
     uploading: PropTypes.object.isRequired,
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
@@ -142,6 +143,10 @@ class ProfileLayout extends Component {
     this.children = component;
   };
 
+  componentWillMount() {
+    document.body.classList.add('user-profile-layout');
+  }
+
   componentDidMount() {
     this.handleLoadProfile();
   }
@@ -170,10 +175,6 @@ class ProfileLayout extends Component {
         });
     }
   };
-
-  componentWillMount() {
-    document.body.classList.add('user-profile-layout');
-  }
 
   componentWillUnmount() {
     document.body.classList.remove('user-profile-layout');
@@ -222,7 +223,7 @@ class ProfileLayout extends Component {
         },
       },
     });
-  }
+  };
 
   handleUploadFileClick = (params) => {
     this.setState({
@@ -490,12 +491,14 @@ class ProfileLayout extends Component {
       manageNote,
       config,
       profile,
+      locale,
     } = this.props;
 
     return (
       <div className="player panel profile-layout">
         <div className="profile-layout-heading">
           <Header
+            locale={locale}
             data={profileData}
             lastIp={lastIp}
             accumulatedBalances={accumulatedBalances}
