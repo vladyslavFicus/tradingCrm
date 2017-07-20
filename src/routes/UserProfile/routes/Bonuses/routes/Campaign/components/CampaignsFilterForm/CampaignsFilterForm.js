@@ -104,20 +104,20 @@ class CampaignsFilterForm extends Component {
                     <div className="row">
                       <div className="col-md-6">
                         <Field
-                          name="startDate"
-                          placeholder={I18n.t(attributeLabels.startDate)}
+                          name="activityDateFrom"
+                          placeholder={I18n.t(attributeLabels.activityDateFrom)}
                           component={DateTimeField}
                           position="vertical"
-                          isValidDate={this.startDateValidator('endDate')}
+                          isValidDate={this.startDateValidator('activityDateTo')}
                         />
                       </div>
                       <div className="col-md-6">
                         <Field
-                          name="endDate"
-                          placeholder={I18n.t(attributeLabels.endDate)}
+                          name="activityDateTo"
+                          placeholder={I18n.t(attributeLabels.activityDateTo)}
                           component={DateTimeField}
                           position="vertical"
-                          isValidDate={this.endDateValidator('startDate')}
+                          isValidDate={this.endDateValidator('activityDateFrom')}
                         />
                       </div>
                     </div>
@@ -161,10 +161,9 @@ const FilterForm = reduxForm({
   form: FORM_NAME,
   validate: createValidator({
     searchBy: 'string',
-    aggregatorId: 'string',
-    gameId: 'string',
-    startDate: 'string',
-    endDate: 'string',
+    bonusType: 'string',
+    activityDateFrom: 'string',
+    activityDateTo: 'string',
   }, validatorAttributeLabels, false),
 })(CampaignsFilterForm);
 

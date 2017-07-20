@@ -34,7 +34,7 @@ const getCustomValueFieldTypes = (campaignType) => {
 const validator = (values) => {
   const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
   const rules = {
-    campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
+    name: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
     campaignPriority: 'integer',
     optIn: 'boolean',
     targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
@@ -112,7 +112,7 @@ class Form extends Component {
     meta: PropTypes.object,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentValues: PropTypes.shape({
-      campaignName: PropTypes.bonusCampaignEntity.campaignName,
+      name: PropTypes.bonusCampaignEntity.name,
       campaignPriority: PropTypes.bonusCampaignEntity.campaignPriority,
       targetType: PropTypes.bonusCampaignEntity.targetType,
       currency: PropTypes.bonusCampaignEntity.currency,
@@ -238,8 +238,8 @@ class Form extends Component {
           <div className="row">
             <div className="col-md-6">
               <Field
-                name="campaignName"
-                label={I18n.t(attributeLabels.campaignName)}
+                name="name"
+                label={I18n.t(attributeLabels.name)}
                 type="text"
                 component={InputField}
                 position="vertical"
@@ -247,8 +247,8 @@ class Form extends Component {
               />
               <div className="color-default font-size-10">
                 {
-                  currentValues && currentValues.campaignName
-                    ? currentValues.campaignName.length
+                  currentValues && currentValues.name
+                    ? currentValues.name.length
                     : 0
                 }/{CAMPAIGN_NAME_MAX_LENGTH}
               </div>

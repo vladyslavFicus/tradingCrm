@@ -136,10 +136,10 @@ class View extends Component {
   });
 
   renderCampaign = data => (
-    <div id={`bonus-campaign-${data.campaignUUID}`}>
-      <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700 color-black">{data.campaignName}</Link>
+    <div id={`bonus-campaign-${data.uuid}`}>
+      <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700 color-black">{data.name}</Link>
       <div className="font-size-10">
-        <Uuid uuid={data.campaignUUID} uuidPrefix="CA" />
+        <Uuid uuid={data.uuid} uuidPrefix="CA" />
       </div>
       <div className="font-size-10">
         {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.PRIORITY', { priority: data.campaignPriority })}
