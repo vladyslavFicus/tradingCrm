@@ -1,6 +1,5 @@
 @import "../../../../../styles/tools/mixins";
 
-
 .panel-heading-row {
   @include flexbox();
   align-items: center;
@@ -20,19 +19,9 @@
   }
 }
 
-.operator-profile-header {
+.operator-profile-header .header-block_account {
   .fa-angle-down {
-    position: absolute;
-    bottom: 12px;
-    right: 10px;
-    color: #999;
-    transition: all .2s;
-  }
-
-  .open {
-    .fa-angle-down {
-      transform: rotate(180deg);
-    }
+    top: 15px;
   }
 }
 

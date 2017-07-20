@@ -5,6 +5,9 @@
   line-height: 1.7;
   font-size: 14px;
   font-weight: 600;
+  color: #827ca1;
+  background-color: #fff;
+  border-color: #dfe4ed;
   &:focus {
     outline: none;
   }
@@ -21,6 +24,7 @@
     border: none;
     border-radius: 3px;
     background-image: linear-gradient(to left, #24bdee, #4a90e2);
+    color: #fff;
     &:hover {
       background-image: linear-gradient(to left, #1DB8ED, #297BDC);
     }
@@ -68,6 +72,7 @@
     color: #9b9b9b;
     &:hover {
       background-color: #F4F4F4;
+      color: #9b9b9b;
     }
   }
   &-success-outline {
@@ -119,10 +124,22 @@
       box-shadow: none;
     }
   }
+  &.active {
+    background: #d9dfe9;
+    border-color: #d9dfe9;
+    &:focus {
+      outline: none;
+    }
+  }
+  &-group .btn:focus {
+    outline: none;
+  }
 }
 
 button.btn:disabled,
-button.btn[disabled] {
+button.btn[disabled],
+button.btn:disabled:hover,
+button.btn[disabled]:hover {
   background: #D3D3D3;
   color: #fff;
 }
