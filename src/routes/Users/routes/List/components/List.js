@@ -16,12 +16,11 @@ class List extends Component {
   static propTypes = {
     isLoading: PropTypes.bool,
     fetchESEntities: PropTypes.func.isRequired,
-    list: PropTypes.object,
-    filterValues: PropTypes.object,
-    reset: PropTypes.func,
+    list: PropTypes.pageableState(PropTypes.userProfile).isRequired,
+    reset: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
-    }),
+    }).isRequired,
     exportEntities: PropTypes.func.isRequired,
   };
   static contextTypes = {
@@ -34,7 +33,7 @@ class List extends Component {
   };
 
   handlePageChanged = (page) => {
-    if (!this.props.isLoading) {
+    if (!this.props.list.isLoading) {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
@@ -53,9 +52,6 @@ class List extends Component {
   handleFilterSubmit = (data) => {
     const filters = { ...data };
 
-    if (filters.countries) {
-      filters.countries = [filters.countries];
-    }
     if (filters.tags) {
       filters.tags = [filters.tags];
     }
@@ -96,9 +92,9 @@ class List extends Component {
 
   renderRegistered = data => (
     <div>
-      <div className="font-weight-700">{ moment(data.registrationDate).format('DD.MM.YYYY') }</div>
+      <div className="font-weight-700">{moment(data.registrationDate).format('DD.MM.YYYY')}</div>
       <div className="font-size-11 color-default">
-        { moment(data.registrationDate).format('HH:mm:ss') }
+        {moment(data.registrationDate).format('HH:mm:ss')}
       </div>
     </div>
   );
@@ -112,7 +108,7 @@ class List extends Component {
         {
           data.lastDeposit && data.lastDeposit.transactionDate &&
           <div className="font-size-11 color-default">
-            Last deposit { moment(data.lastDeposit.transactionDate).format('DD.MM.YYYY') }
+            Last deposit {moment(data.lastDeposit.transactionDate).format('DD.MM.YYYY')}
           </div>
         }
       </div>
@@ -134,9 +130,11 @@ class List extends Component {
   );
 
   render() {
-    const { list: { entities, exporting }, filterValues } = this.props;
+    const { list: { entities, exporting } } = this.props;
     const { filters } = this.state;
-    const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
+    const allowActions = Object
+      .keys(filters)
+      .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
 
     return (
       <div className="page-content-inner">
@@ -164,7 +162,6 @@ class List extends Component {
             onReset={this.handleFilterReset}
             initialValues={filters}
             disabled={!allowActions}
-            filterValues={filterValues}
           />
 
           <Content>

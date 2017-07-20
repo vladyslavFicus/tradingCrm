@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import shallowEqual from '../../utils/shallowEqual';
+import deleteFromArray from '../../utils/deleteFromArray';
 
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string.isRequired,
@@ -11,35 +11,26 @@ const OptionPropType = PropTypes.shape({
 
 class SelectMultipleOptions extends React.Component {
   static propTypes = {
+    headerText: PropTypes.string.isRequired,
     className: PropTypes.string,
     optionClassName: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     options: PropTypes.arrayOf(OptionPropType),
     selectedOptions: PropTypes.arrayOf(OptionPropType),
+    headerButtonClassName: PropTypes.string,
+    headerButtonIconClassName: PropTypes.string,
+    headerButtonText: PropTypes.string,
+    headerButtonOnClick: PropTypes.func,
   };
   static defaultProps = {
+    headerButtonClassName: null,
+    headerButtonIconClassName: null,
+    headerButtonText: null,
+    headerButtonOnClick: null,
     className: 'select-block__options',
     optionClassName: 'control control--checkbox select-block_menu-checkbox',
     options: [],
     selectedOptions: [],
-  };
-
-  constructor() {
-    super();
-
-    this.activeOptionRef = null;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (shallowEqual(this.props.selectedOptions, nextProps.selectedOptions)) {
-      if (nextProps.selectedOptions) {
-        this.activeOptionRef = null;
-      }
-    }
-  }
-
-  bindActiveOptionRef = (node) => {
-    this.activeOptionRef = node;
   };
 
   handleAddOption = (option) => {
@@ -47,30 +38,47 @@ class SelectMultipleOptions extends React.Component {
   };
 
   handleDeleteOption = (option) => {
-    const index = this.props.selectedOptions.indexOf(option);
+    const newSelectedOptions = deleteFromArray(this.props.selectedOptions, option);
 
-    if (index > -1) {
-      const newSelectedOptions = [...this.props.selectedOptions];
-      newSelectedOptions.splice(index, 1);
+    if (newSelectedOptions.length !== this.props.selectedOptions.length) {
       this.props.onChange(newSelectedOptions);
     }
   };
 
   handleChange = (e, option) => {
-    const { value } = e.target;
-
-
-    return value ? this.handleAddOption(option) : this.handleDeleteOption(option);
+    return e.target.checked
+      ? this.handleAddOption(option)
+      : this.handleDeleteOption(option);
   };
 
   render() {
-    const { options, selectedOptions, className, optionClassName } = this.props;
+    const {
+      options,
+      selectedOptions,
+      className,
+      optionClassName,
+      headerText,
+      headerButtonClassName,
+      headerButtonIconClassName,
+      headerButtonText,
+      headerButtonOnClick,
+    } = this.props;
+
+    if (options.length === 0) {
+      return null;
+    }
 
     return (
       <div className={className}>
         <div className="select-block__heading">
-          available options
+          {headerText}
         </div>
+        {
+          headerButtonClassName && headerButtonOnClick && headerButtonIconClassName && headerButtonText &&
+          <button type="button" className={headerButtonClassName} onClick={headerButtonOnClick}>
+            <i className={headerButtonIconClassName} /> {headerButtonText}
+          </button>
+        }
         {options.map((option) => {
           const isActive = selectedOptions.indexOf(option) > -1;
           const optionProps = {

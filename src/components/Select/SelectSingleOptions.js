@@ -45,6 +45,10 @@ class SelectSingleOptions extends React.Component {
   render() {
     const { options, selectedOption, className, optionClassName, onChange } = this.props;
 
+    if (options.length === 0) {
+      return null;
+    }
+
     return (
       <div className={className}>
         {options.map((option) => {
