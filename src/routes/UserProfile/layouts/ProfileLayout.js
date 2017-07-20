@@ -146,7 +146,7 @@ class ProfileLayout extends Component {
     this.handleLoadProfile();
   }
 
-  handleLoadProfile(needForceUpdate = false) {
+  handleLoadProfile = (needForceUpdate = false) => {
     const {
       profile,
       loadFullProfile,
