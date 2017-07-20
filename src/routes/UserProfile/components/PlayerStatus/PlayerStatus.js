@@ -28,7 +28,7 @@ class PlayerStatus extends Component {
     reason: null,
     endDate: null,
     status: null,
-  }
+  };
 
   state = { ...initialState };
 

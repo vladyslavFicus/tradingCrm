@@ -30,7 +30,7 @@ class View extends Component {
       id: PropTypes.number.isRequired,
       optIn: PropTypes.bool.isRequired,
       optedIn: PropTypes.bool.isRequired,
-      optedInDate: PropTypes.string.isRequired,
+      optInDate: PropTypes.string.isRequired,
       startDate: PropTypes.string.isRequired,
       state: PropTypes.string.isRequired,
       stateReason: PropTypes.string,
@@ -118,9 +118,9 @@ class View extends Component {
         }
       </div>
       {
-        data.optedInDate &&
+        data.optInDate &&
         <div className="font-size-10">
-          {I18n.t('COMMON.DATE_ON', { date: data.optedInDate })}
+          {I18n.t('COMMON.DATE_ON', { date: data.optInDate })}
         </div>
       }
     </div>
