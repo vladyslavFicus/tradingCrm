@@ -14,13 +14,6 @@ const { BUILD_ENV } = process.env;
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
-const parseJson = (data, defaultValue = null) => {
-  try {
-    return JSON.parse(data);
-  } catch (e) {
-    return defaultValue;
-  }
-};
 const STATUS = {
   UP: 'UP',
   DOWN: 'DOWN',
@@ -28,7 +21,6 @@ const STATUS = {
 const defaultHealth = {
   status: STATUS.DOWN,
   config: { status: STATUS.DOWN },
-  api: { status: STATUS.DOWN },
 };
 
 /**
