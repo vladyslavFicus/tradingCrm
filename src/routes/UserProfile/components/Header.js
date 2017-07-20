@@ -58,6 +58,7 @@ class Header extends Component {
         receivedAt: PropTypes.number,
       }).isRequired,
     }),
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
@@ -122,6 +123,7 @@ class Header extends Component {
       onWalletLimitChange,
       walletLimits,
       lastIp,
+      locale,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const selectedTags = profileTags
@@ -187,47 +189,46 @@ class Header extends Component {
           </div>
         </div>
 
-        <div className="panel-heading">
+        <div className=" panel-heading">
           <div className="row">
-            <div className="header-block header-block_account">
-              <PlayerStatus
-                status={profileStatus}
-                reason={profileStatusReason}
-                endDate={suspendEndDate}
-                onChange={this.handleStatusChange}
-                availableStatuses={availableStatuses}
-              />
-            </div>
-            <div className="header-block header-block_balance">
-              <Balances
-                label={
-                  <div className="dropdown-tab">
-                    <div className="header-block-title">Balance</div>
-                    <div className="header-block-middle">
-                      <Amount {...accumulatedBalances.total} />
-                    </div>
-                    {this.getRealWithBonusBalance()}
+          <div className="header-block header-block_account">
+            <PlayerStatus
+              locale={locale}status={profileStatus}
+              reason={profileStatusReason}
+              endDate={suspendEndDate}
+              onChange={this.handleStatusChange}
+              availableStatuses={availableStatuses}
+            />
+          </div>
+          <div className="header-block header-block_balance">
+            <Balances
+              label={
+                <div className="dropdown-tab">
+                  <div className="header-block-title">Balance</div>
+                  <div className="header-block-middle">
+                    <Amount {...accumulatedBalances.total} />
                   </div>
-                }
-                accumulatedBalances={accumulatedBalances}
-              />
+                  {this.getRealWithBonusBalance()}
+                </div>
+              }
+              accumulatedBalances={accumulatedBalances}
+            />
+          </div>
+          <div className="header-block header-block_wallet-limits">
+            <WalletLimits
+              profile={profile}
+              limits={walletLimits.state}
+              onChange={onWalletLimitChange}
+            />
+          </div>
+          <ProfileLastLogin lastIp={lastIp} />
+          <div className="header-block">
+            <div className="header-block-title">Registered</div>
+            <div className="header-block-middle">
+              {moment(registrationDate).fromNow()}
             </div>
-            <div className="header-block header-block_wallet-limits">
-              <WalletLimits
-                profile={profile}
-                limits={walletLimits.state}
-                onChange={onWalletLimitChange}
-              />
-            </div>
-            <ProfileLastLogin lastIp={lastIp} />
-            <div className="header-block">
-              <div className="header-block-title">Registered</div>
-              <div className="header-block-middle">
-                {moment(registrationDate).fromNow()}
-              </div>
-              <div className="header-block-small">
-                on {moment(registrationDate).format('DD.MM.YYYY')}
-              </div>
+            <div className="header-block-small">
+              on {moment(registrationDate).format('DD.MM.YYYY')}</div>
             </div>
           </div>
         </div>
