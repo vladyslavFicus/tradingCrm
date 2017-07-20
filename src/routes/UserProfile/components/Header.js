@@ -58,6 +58,7 @@ class Header extends Component {
         receivedAt: PropTypes.number,
       }).isRequired,
     }),
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
@@ -122,6 +123,7 @@ class Header extends Component {
       onWalletLimitChange,
       walletLimits,
       lastIp,
+      locale,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const selectedTags = profileTags
@@ -190,6 +192,7 @@ class Header extends Component {
         <div className="row panel-body header-blocks header-blocks-5">
           <div className="header-block header-block_account">
             <PlayerStatus
+              locale={locale}
               status={profileStatus}
               reason={profileStatusReason}
               endDate={suspendEndDate}

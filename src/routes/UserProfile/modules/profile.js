@@ -27,6 +27,7 @@ const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
+const PROLONG_PROFILE = createRequestAction(`${KEY}/prolong-profile`);
 const BLOCK_PROFILE = createRequestAction(`${KEY}/block-profile`);
 const UNBLOCK_PROFILE = createRequestAction(`${KEY}/unblock-profile`);
 
@@ -331,6 +332,28 @@ function suspendProfile({ playerUUID, ...data }) {
   };
 }
 
+function prolongProfile({ playerUUID, ...data }) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/profiles/${playerUUID}/suspend/prolong`,
+        method: 'PUT',
+        types: [PROLONG_PROFILE.REQUEST, PROLONG_PROFILE.SUCCESS, PROLONG_PROFILE.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        bailout: !logged,
+      },
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
+  };
+}
+
 function blockProfile({ playerUUID, ...data }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -423,6 +446,8 @@ function changeStatus({ action, ...data }) {
       return dispatch(blockProfile(data));
     } else if (action === actions.UNBLOCK) {
       return dispatch(unblockProfile(data));
+    } else if (action === actions.PROLONG) {
+      return dispatch(prolongProfile(data));
     } else if (action === actions.SUSPEND) {
       return dispatch(suspendProfile(data));
     } else if (action === actions.RESUME) {
