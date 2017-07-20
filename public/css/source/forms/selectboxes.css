@@ -4,7 +4,6 @@
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none;
 }
 
 select.form-control {
@@ -18,4 +17,12 @@ select.form-control[multiple] {
 select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #55595c;
+}
+
+select:focus::-ms-value {
+  background: transparent;
+}
+
+select::-ms-expand {
+  display: none;
 }

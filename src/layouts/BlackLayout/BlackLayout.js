@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../../styles/style.scss';
 import './BlackLayout.scss';
 
 class BlackLayout extends Component {

@@ -38,19 +38,6 @@ small {
   color: #333;
 }
 
-select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-select:focus::-ms-value {
-  background: transparent;
-}
-
-select::-ms-expand {
-  display: none;
-}
-
 .payment-account-attached {
   background-color: rgba(242, 242, 242, 1) !important;
 }
@@ -70,4 +57,18 @@ select::-ms-expand {
 .table thead th,
 .table td {
   border: none;
+}
+
+.player-header-blocks > div {
+  border-right: 1px solid #dfe4ed;
+  min-height: 70px;
+}
+
+.player-header-blocks > div:last-child {
+  border-right: none;
+}
+
+.dropdown-inline.dropdown.open .dropdown-menu span.amount {
+  font-weight: bold;
+  color: #514d6a;
 }

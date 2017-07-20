@@ -1,0 +1,18 @@
+.tag-arrow {
+  height: 21px;
+  border: 0.77em solid transparent;
+  border-right: 10px solid #6a7a84;
+  float: left;
+}
+
+.tag-arrow-danger {
+  border-right-color: #fb434a;
+}
+
+.tag-arrow-success {
+  border-right-color: #46be8a;
+}
+
+.tag-arrow-default {
+  border-right-color: #6a7a84;
+}
