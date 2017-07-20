@@ -122,7 +122,7 @@ class FreeSpinsView extends Component {
       },
     ];
 
-    if (item.status !== statuses.CANCELED) {
+    if ([statuses.CANCELED, statuses.PLAYED, statuses.FAILED].indexOf(item.status) === -1) {
       modalActions.push({
         children: I18n.t('PLAYER_PROFILE.FREE_SPINS.CANCEL_FREE_SPIN'),
         onClick: this.handleCancelClick(item),

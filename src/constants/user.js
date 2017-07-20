@@ -73,6 +73,7 @@ const actions = keyMirror({
   UNBLOCK: null,
   SUSPEND: null,
   RESUME: null,
+  PROLONG: null,
 });
 const reasons = [
   'REASON_ONE',
@@ -84,12 +85,13 @@ const statusesLabels = {
   [statuses.INACTIVE]: 'Inactive',
   [statuses.ACTIVE]: 'Active',
   [statuses.BLOCKED]: 'Blocked',
-  [statuses.SUSPENDED]: 'Suspended',
+  [statuses.SUSPENDED]: 'Self Excluded',
 };
-const suspendPeriods = keyMirror({
-  DAY: null,
-  WEEK: null,
-  MONTH: null,
+const durationUnits = keyMirror({
+  DAYS: null,
+  WEEKS: null,
+  MONTHS: null,
+  YEARS: null,
   PERMANENT: null,
 });
 const statusActions = {
@@ -117,6 +119,13 @@ const statusActions = {
       ],
     },
   ],
+  [statuses.SUSPENDED]: [
+    {
+      action: actions.PROLONG,
+      label: 'Prolong',
+      reasons,
+    },
+  ],
 };
 const statusColorNames = {
   [statuses.ACTIVE]: 'color-success',
@@ -129,9 +138,9 @@ export {
   attributeLabels,
   statuses,
   statusesLabels,
+  durationUnits,
   actions,
   statusActions,
-  suspendPeriods,
   statusColorNames,
   filterLabels,
 };

@@ -96,6 +96,7 @@ class ProfileLayout extends Component {
     uploading: PropTypes.object.isRequired,
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
@@ -136,6 +137,10 @@ class ProfileLayout extends Component {
     };
   }
 
+  componentWillMount() {
+    document.body.classList.add('user-profile-layout');
+  }
+
   componentDidMount() {
     const {
       profile,
@@ -152,10 +157,6 @@ class ProfileLayout extends Component {
         .then(() => fetchAccumulatedBalances(params.id))
         .then(() => checkLock(params.id));
     }
-  }
-
-  componentWillMount() {
-    document.body.classList.add('user-profile-layout');
   }
 
   componentWillUnmount() {
@@ -472,12 +473,14 @@ class ProfileLayout extends Component {
       uploadModalInitialValues,
       manageNote,
       config,
+      locale,
     } = this.props;
 
     return (
       <div className="player panel profile-layout">
         <div className="profile-layout-heading">
           <Header
+            locale={locale}
             data={profileData}
             lastIp={lastIp}
             accumulatedBalances={accumulatedBalances}
