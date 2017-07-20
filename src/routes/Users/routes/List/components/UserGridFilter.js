@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import countryList from 'country-list';
-import { reduxForm, Field } from 'redux-form';
+import { connect } from 'react-redux';
+import { reduxForm, Field, getFormValues } from 'redux-form';
 import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
@@ -17,25 +18,10 @@ const countries = countryList().getData().reduce((result, item) => ({
   ...result,
   [item.code]: item.name,
 }), {});
-const validator = createValidator({
-  keyword: 'string',
-  country: `in:,${Object.keys(countries).join()}`,
-  currencies: `in:,${currencies.join()}`,
-  ageFrom: 'integer',
-  ageTo: 'integer',
-  affiliateId: 'string',
-  status: 'string',
-  tags: `in:,${Object.keys(tags).join()}`,
-  segments: 'string',
-  registrationDateFrom: 'string',
-  registrationDateTo: 'string',
-  balanceFrom: 'integer',
-  balanceTo: 'integer',
-}, filterLabels, false);
 
 class UserGridFilter extends Component {
   static propTypes = {
-    filterValues: PropTypes.shape({
+    currentValues: PropTypes.shape({
       keyword: PropTypes.string,
       country: PropTypes.string,
       currency: PropTypes.string,
@@ -56,11 +42,12 @@ class UserGridFilter extends Component {
     reset: PropTypes.func,
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
   };
   static defaultProps = {
-    filterValues: {
+    currentValues: {
       keyword: '',
-      country: '',
+      countries: [],
       currency: '',
       ageFrom: '',
       ageTo: '',
@@ -73,21 +60,26 @@ class UserGridFilter extends Component {
       balanceFrom: '',
       balanceTo: '',
     },
+    submitting: false,
+    pristine: false,
+    handleSubmit: null,
+    reset: null,
+    disabled: false,
   };
 
   startDateValidator = toAttribute => (current) => {
-    const { filterValues } = this.props;
+    const { currentValues } = this.props;
 
-    return filterValues[toAttribute]
-      ? current.isSameOrBefore(moment(filterValues[toAttribute]))
+    return currentValues && currentValues[toAttribute]
+      ? current.isSameOrBefore(moment(currentValues[toAttribute]))
       : true;
   };
 
   endDateValidator = fromAttribute => (current) => {
-    const { filterValues } = this.props;
+    const { currentValues } = this.props;
 
-    return filterValues[fromAttribute]
-      ? current.isSameOrAfter(moment(filterValues[fromAttribute]))
+    return currentValues && currentValues[fromAttribute]
+      ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
       : true;
   };
 
@@ -301,7 +293,26 @@ class UserGridFilter extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'userListGridFilter',
-  validate: validator,
+const FORM_NAME = 'userListGridFilter';
+const FilterForm = reduxForm({
+  form: FORM_NAME,
+  validate: createValidator({
+    keyword: 'string',
+    country: `in:,${Object.keys(countries).join()}`,
+    currencies: `in:,${currencies.join()}`,
+    ageFrom: 'integer',
+    ageTo: 'integer',
+    affiliateId: 'string',
+    status: 'string',
+    tags: `in:,${Object.keys(tags).join()}`,
+    segments: 'string',
+    registrationDateFrom: 'string',
+    registrationDateTo: 'string',
+    balanceFrom: 'integer',
+    balanceTo: 'integer',
+  }, filterLabels, false),
 })(UserGridFilter);
+
+export default connect(state => ({
+  currentValues: getFormValues(FORM_NAME)(state),
+}))(FilterForm);

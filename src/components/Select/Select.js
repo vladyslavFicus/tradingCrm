@@ -6,6 +6,7 @@ import shallowEqual from '../../utils/shallowEqual';
 import SelectSearchBox from './SelectSearchBox';
 import SelectSingleOptions from './SelectSingleOptions';
 import SelectMultipleOptions from './SelectMultipleOptions';
+import deleteFromArray from '../../utils/deleteFromArray';
 
 class Select extends Component {
   static propTypes = {
@@ -39,6 +40,7 @@ class Select extends Component {
       query: '',
       originalOptions,
       options: this.filterSelectedOptions(originalOptions, selectedOptions, props.multiple),
+      originalSelectedOptions: selectedOptions,
       selectedOptions,
       toSelectOptions: [],
     };
@@ -60,10 +62,13 @@ class Select extends Component {
     }
 
     if (!shallowEqual(value, nextProps.value)) {
+      const originalSelectedOptions = nextProps.multiple
+        ? originalOptions.filter(option => nextProps.value.indexOf(option.value) > -1)
+        : [originalOptions.find(option => option.value === nextProps.value)];
       this.setState({
-        selectedOptions: nextProps.multiple
-          ? originalOptions.filter(option => nextProps.value.indexOf(option.value) > -1)
-          : [originalOptions.find(option => option.value === nextProps.value)],
+        options: this.filterSelectedOptions(originalOptions, originalSelectedOptions, nextProps.multiple),
+        originalSelectedOptions,
+        selectedOptions: this.filterOptionsByQuery(query, originalSelectedOptions),
       });
     }
   }
@@ -74,7 +79,7 @@ class Select extends Component {
 
   handleShowSearch = () => this.props.children.length > 5;
 
-  handleInputClick = (e) => {
+  handleInputClick = () => {
     this.handleOpen();
   };
 
@@ -91,17 +96,22 @@ class Select extends Component {
   };
 
   handleResetSelectedOptions = () => {
-    this.setState({ toSelectOptions: [] });
+    this.setState({ toSelectOptions: [], selectedOptions: [], originalSelectedOptions: [] });
   };
 
-  handleDeleteSelectedOption = (option) => {
-    const index = this.state.selectedOptions.indexOf(option);
+  handleDeleteSelectedOption = (options) => {
+    const { query, originalSelectedOptions, originalOptions } = this.state;
+    const { multiple } = this.props;
+    const deletedOptions = originalSelectedOptions.filter(option => options.indexOf(option) === -1);
+    const newOriginalSelectedOptions = deletedOptions
+      .reduce((res, option) => deleteFromArray(res, option), originalSelectedOptions);
 
-    if (index) {
-      const newSelectedOptions = [...this.state.selectedOptions];
-      newSelectedOptions.splice(index, 1);
-
-      this.setState({ selectedOptions: newSelectedOptions });
+    if (originalSelectedOptions.length !== newOriginalSelectedOptions.length) {
+      this.setState({
+        options: this.filterSelectedOptions(originalOptions, originalSelectedOptions, multiple),
+        originalSelectedOptions: newOriginalSelectedOptions,
+        selectedOptions: this.filterOptionsByQuery(query, newOriginalSelectedOptions),
+      });
     }
   };
 
@@ -114,20 +124,24 @@ class Select extends Component {
   };
 
   handleClose = () => {
-    const { toSelectOptions, selectedOptions, originalOptions } = this.state;
-    const { multiple } = this.props;
-
+    const { toSelectOptions, originalOptions, originalSelectedOptions } = this.state;
+    const { multiple, value } = this.props;
+    const previousValue = multiple ? value : [value];
+    const newValue = [...originalSelectedOptions, ...toSelectOptions].map(option => option.value);
 
     this.setState({ opened: false }, () => {
       setTimeout(() => {
-        this.setState({ query: '', options: originalOptions, toSelectOptions: [] }, () => {
-          if (toSelectOptions.length > 0) {
+        this.setState({
+          query: '',
+          options: originalOptions,
+          toSelectOptions: [],
+          selectedOptions: originalSelectedOptions,
+        }, () => {
+          if (!shallowEqual(previousValue, newValue)) {
             if (multiple) {
-              const values = [...selectedOptions, ...toSelectOptions].map(option => option.value);
-
-              this.props.onChange(multiple ? values : values[0]);
+              this.props.onChange(newValue);
             } else {
-              this.props.onChange(toSelectOptions[0].value);
+              this.props.onChange(newValue[0].value);
             }
           }
         });
@@ -140,11 +154,13 @@ class Select extends Component {
       this.setState({
         query: '',
         options: this.state.originalOptions,
+        selectedOptions: this.state.originalSelectedOptions,
       });
     } else {
       this.setState({
         query: e.target.value,
         options: this.filterOptionsByQuery(e.target.value, this.state.originalOptions),
+        selectedOptions: this.filterOptionsByQuery(e.target.value, this.state.originalSelectedOptions),
       });
     }
   };
@@ -190,32 +206,26 @@ class Select extends Component {
     return options.filter(option => option.label.toLowerCase().indexOf(lowerCasedQuery) > -1);
   };
 
-  renderSelectedOptions = options => (
-    <div className="select-block__selected-options">
-      <div className="select-block__heading">
-        selected options
-      </div>
-      <button className="clear-selected-options" onClick={this.handleResetSelectedOptions}>
-        <i className="nas nas-clear_icon" /> Clear
-      </button>
-      {options.map(option => (
-        <label key={option.key} className="control control--checkbox select-block_menu-checkbox is-selected">
-          {option.label}
-          <input type="checkbox" checked onChange={e => this.handleDeleteSelectedOption(option)} />
-          <div className="control__indicator is-checked">
-            <i className="nas nas-check_box" />
-          </div>
-        </label>
-      ))}
-    </div>
+  renderSelectedOptions = (options, selectedOptions) => (
+    <SelectMultipleOptions
+      className="select-block__selected-options"
+      headerText="selected options"
+      headerButtonClassName="clear-selected-options"
+      headerButtonIconClassName="nas nas-clear_icon"
+      headerButtonText="Clear"
+      headerButtonOnClick={this.handleResetSelectedOptions}
+      options={options}
+      selectedOptions={selectedOptions}
+      onChange={this.handleDeleteSelectedOption}
+    />
   );
 
   renderLabel = () => {
-    const { selectedOptions, toSelectOptions } = this.state;
+    const { originalSelectedOptions, toSelectOptions } = this.state;
     const { multiple, placeholder } = this.props;
 
     if (multiple) {
-      const mergedOptions = [...selectedOptions, ...toSelectOptions];
+      const mergedOptions = [...originalSelectedOptions, ...toSelectOptions];
 
       if (mergedOptions.length) {
         return mergedOptions.length === 1
@@ -224,34 +234,33 @@ class Select extends Component {
       }
     } else if (toSelectOptions.length) {
       return toSelectOptions[0].label;
-    } else if (selectedOptions.length) {
-      return selectedOptions[0].label;
+    } else if (originalSelectedOptions.length) {
+      return originalSelectedOptions[0].label;
     }
 
     return placeholder;
   };
 
-  renderOptions = (options, selectedOptions, toSelectOptions, multiple) => {
-    return multiple
-      ? (
-        <SelectMultipleOptions
-          options={options}
-          selectedOptions={toSelectOptions}
-          onChange={this.handleSelectMultipleOptions}
-        />
-      )
-      : (
-        <SelectSingleOptions
-          options={options}
-          selectedOption={selectedOptions[0]}
-          onChange={this.handleSelectSingleOption}
-          ref={this.bindOptionsRef}
-        />
-      );
-  };
+  renderOptions = (options, selectedOptions, toSelectOptions, multiple) => (multiple
+    ? (
+      <SelectMultipleOptions
+        headerText="available options"
+        options={options}
+        selectedOptions={toSelectOptions}
+        onChange={this.handleSelectMultipleOptions}
+      />
+    )
+    : (
+      <SelectSingleOptions
+        options={options}
+        selectedOption={selectedOptions[0]}
+        onChange={this.handleSelectSingleOption}
+        ref={this.bindOptionsRef}
+      />
+    ));
 
   render() {
-    const { query, opened, options, selectedOptions, toSelectOptions } = this.state;
+    const { query, opened, options, selectedOptions, originalSelectedOptions, toSelectOptions } = this.state;
     const { multiple, searchPlaceholder } = this.props;
 
     const showSearchBar = this.hasSearchBar();
@@ -279,14 +288,14 @@ class Select extends Component {
             />
           }
           <div className="select-block__container">
-            {multiple && selectedOptions.length > 0 && this.renderSelectedOptions(selectedOptions)}
+            {multiple && this.renderSelectedOptions(originalSelectedOptions, selectedOptions)}
             {
               !!query && options.length === 0 &&
               <span className="text-muted font-size-10 margin-10">
                 Options by query {`"${query}"`} not found...
               </span>
             }
-            {this.renderOptions(options, selectedOptions, toSelectOptions, multiple)}
+            {this.renderOptions(options, originalSelectedOptions, toSelectOptions, multiple)}
           </div>
         </div>
       </div>
