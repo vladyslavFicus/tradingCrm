@@ -19,20 +19,20 @@ module.exports = {
       tags: {
         priorities: {
           neutral: {
-            tag1: { departments: ['CS', 'RFP', 'MARKETING'] },
-            tag2: { departments: ['CS'] },
-            tag4: { departments: ['CS'] },
+            tag1: { departments: ['CS', 'RFP', 'MARKETING', 'ADMINISTRATION'] },
+            tag2: { departments: ['CS', 'ADMINISTRATION'] },
+            tag4: { departments: ['CS', 'ADMINISTRATION'] },
           },
           positive: {
-            tag1: { departments: ['CS'] },
-            tag2: { departments: ['RFP'] },
-            tag3: { departments: ['CS', 'MARKETING'] },
+            tag1: { departments: ['CS', 'ADMINISTRATION'] },
+            tag2: { departments: ['RFP', 'ADMINISTRATION'] },
+            tag3: { departments: ['CS', 'MARKETING', 'ADMINISTRATION'] },
           },
           negative: {
-            tag1: { departments: ['CS'] },
-            tag2: { departments: ['CS', 'RFP'] },
-            tag3: { departments: ['RFP', 'MARKETING'] },
-            tag4: { departments: ['CS', 'RFP', 'MARKETING'] },
+            tag1: { departments: ['CS', 'ADMINISTRATION'] },
+            tag2: { departments: ['CS', 'RFP', 'ADMINISTRATION'] },
+            tag3: { departments: ['RFP', 'MARKETING', 'ADMINISTRATION'] },
+            tag4: { departments: ['CS', 'RFP', 'MARKETING', 'ADMINISTRATION'] },
           },
         },
       },
