@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
 import './ViewModal.scss';
+import PropTypes from '../../../../../../../../constants/propTypes';
 import { shortify } from '../../../../../../../../utils/uuid';
 import Amount from '../../../../../../../../components/Amount';
 import BonusType from '../BonusType';
@@ -15,7 +15,11 @@ import { targetTypes } from '../../../../../../../../constants/note';
 class ViewModal extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
-    accumulatedBalances: PropTypes.object.isRequired,
+    accumulatedBalances: PropTypes.shape({
+      total: PropTypes.price.isRequired,
+      bonus: PropTypes.price.isRequired,
+      real: PropTypes.price.isRequired,
+    }).isRequired,
     actions: PropTypes.arrayOf(PropTypes.shape({
       children: PropTypes.any.isRequired,
       onClick: PropTypes.func.isRequired,
@@ -24,6 +28,9 @@ class ViewModal extends Component {
     item: PropTypes.bonusEntity.isRequired,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    isOpen: false,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,

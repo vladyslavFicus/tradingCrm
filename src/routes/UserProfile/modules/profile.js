@@ -74,22 +74,11 @@ const initialState = {
     registrationDate: null,
     profileTags: [],
     kycCompleted: false,
-    completed: false,
     balance: { amount: 0, currency: config.nas.currencies.base },
     realBalance: { amount: 0, currency: config.nas.currencies.base },
     bonusBalance: { amount: 0, currency: config.nas.currencies.base },
-    kycAddressStatus: {
-      status: null,
-      statusDate: null,
-      authorUUID: null,
-      reason: null,
-    },
-    kycPersonalStatus: {
-      status: null,
-      statusDate: null,
-      authorUUID: null,
-      reason: null,
-    },
+    kycAddressStatus: null,
+    kycPersonalStatus: null,
     personalKycMetaData: [],
     addressKycMetaData: [],
     signInIps: [],
@@ -430,7 +419,6 @@ function changeStatus({ action, ...data }) {
 }
 
 function successUpdateProfileReducer(state, action) {
-  console.log(action.payload);
   return {
     ...state,
     data: {
