@@ -1,41 +1,79 @@
-import React, { Component } from 'react';
-import Scrollbars from 'react-custom-scrollbars';
-import Nav from '../Nav';
-import PropTypes from '../../constants/propTypes';
-import './Sidebar.scss';
+import React, { Component } from 'react'
+import Scrollbars from 'react-custom-scrollbars'
+import classNames from 'classnames'
+import Nav from '../Nav'
+import PropTypes from '../../constants/propTypes'
+import './Sidebar.scss'
 
 class Sidebar extends Component {
   static propTypes = {
     topMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     bottomMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
-  };
+  }
+
+  state = {
+    isHover: false,
+    isOpen: false,
+  }
+
+  openTimeout = null
 
   renderTrackHorizontal = (props) => {
     return (
-      <div {...props} className="track-vertical" style={{ display: 'none' }} />
-    );
-  };
+      <div {...props} className="track-vertical" style={{display: 'none'}}/>
+    )
+  }
 
   renderThumbHorizontal = (props) => {
     return (
-      <div {...props} className="thumb-vertical" style={{ display: 'none' }} />
-    );
-  };
+      <div {...props} className="thumb-vertical" style={{display: 'none'}}/>
+    )
+  }
 
   renderThumbVertical = (style, ...props) => {
     return (
-      <div className="scroll-bar" {...props} style={{ ...style, backgroundColor: 'rgba(223,228,237,0.25)' }} />
-    );
-  };
+      <div className="scroll-bar" {...props} style={{...style, backgroundColor: 'rgba(223,228,237,0.25)'}}/>
+    )
+  }
 
-  render() {
+  handleSidebarMouseEnter = () => {
+    this.setState({
+      isHover: true
+    }, () => {
+      this.openTimeout = setTimeout(() => {
+        if (this.state.isHover) {
+          this.setState({
+            isOpen: true
+          })
+        }
+      }, 1000)
+    })
+  }
+
+  handleSidebarMouseLeave = () => {
+    this.setState({
+      isHover: false,
+      isOpen: false,
+    })
+
+    if (!this.openTimeout) {
+      clearTimeout(this.openTimeout)
+      this.openTimeout = null
+    }
+  }
+
+  render () {
     return (
-      <aside className="sidebar">
+      <aside
+        className={classNames('sidebar', {'open': this.state.isOpen})}
+        onMouseEnter={this.handleSidebarMouseEnter}
+        onMouseLeave={this.handleSidebarMouseLeave}
+      >
         <Scrollbars
           renderTrackHorizontal={this.renderTrackHorizontal}
           renderThumbHorizontal={this.renderThumbHorizontal}
           renderThumbVertical={this.renderThumbVertical}
-          style={{ height: 'calc(100% - 85px)' }}
+          style={{height: 'calc(100% - 85px)'}}
         >
           <Nav
             items={this.props.topMenu}
@@ -45,8 +83,8 @@ class Sidebar extends Component {
           items={this.props.bottomMenu}
         />
       </aside>
-    );
+    )
   }
 }
 
-export default Sidebar;
+export default Sidebar
