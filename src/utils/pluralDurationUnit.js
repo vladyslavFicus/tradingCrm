@@ -2,12 +2,12 @@ import { durationUnits } from '../constants/user';
 
 const durationUnitsList = {
   ru: {
-    [durationUnits.YEARS]: 'год_года_лет',
-    [durationUnits.MONTHS]: 'месяц_месяца_месяцев',
+    [durationUnits.YEARS]: 'год|года|лет',
+    [durationUnits.MONTHS]: 'месяц|месяца|месяцев',
   },
   en: {
-    [durationUnits.YEARS]: 'year_years_years',
-    [durationUnits.MONTHS]: 'month_months_months',
+    [durationUnits.YEARS]: 'year|years|years',
+    [durationUnits.MONTHS]: 'month|months|months',
   },
 };
 
@@ -23,7 +23,7 @@ export default (amount, unit, locale = 'en') => {
     return defaultResult;
   }
 
-  const forms = words.split('_');
+  const forms = words.split('|');
   if (forms.length !== 3) {
     return defaultResult;
   }
