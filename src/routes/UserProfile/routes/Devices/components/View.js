@@ -77,7 +77,7 @@ class View extends Component {
       />
       {renderLabel(data.deviceType, typesLabels)}
     </div>
-  )
+  );
 
   renderLastIp = (data) => {
     if (!data.lastSignInCountryCode) {
@@ -89,7 +89,7 @@ class View extends Component {
     }
 
     return <i className={`fs-icon fs-${data.lastSignInCountryCode.toLowerCase()}`} />;
-  }
+  };
 
   renderLastLogin = (data) => {
     const dateTime = moment(data.lastSignInDate);

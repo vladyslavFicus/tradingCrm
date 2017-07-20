@@ -96,7 +96,7 @@ class ProfileLayout extends Component {
     uploading: PropTypes.object.isRequired,
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
-  }
+  };
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
     onEditNote: PropTypes.func.isRequired,
@@ -110,7 +110,7 @@ class ProfileLayout extends Component {
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
-  }
+  };
 
   state = {
     popover: { ...popoverInitialState },
@@ -119,7 +119,7 @@ class ProfileLayout extends Component {
     noteChangedCallback: null,
     fileChangedCallback: null,
     informationShown: true,
-  }
+  };
 
   getChildContext() {
     return {
@@ -140,7 +140,7 @@ class ProfileLayout extends Component {
 
   cacheChildrenComponent = (component) => {
     this.children = component;
-  }
+  };
 
   componentDidMount() {
     this.handleLoadProfile();
@@ -169,7 +169,7 @@ class ProfileLayout extends Component {
           }
         });
     }
-  }
+  };
 
   componentWillMount() {
     document.body.classList.add('user-profile-layout');
@@ -181,11 +181,11 @@ class ProfileLayout extends Component {
 
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
-  }
+  };
 
   setFileChangedCallback = (cb) => {
     this.setState({ fileChangedCallback: cb });
-  }
+  };
 
   handleOpenModal = (name, params) => {
     this.setState({
@@ -234,12 +234,12 @@ class ProfileLayout extends Component {
         },
       },
     });
-  }
+  };
 
   handleCloseUploadModal = () => {
     this.handleCloseModal();
     this.handleResetUploading();
-  }
+  };
 
   handleResetUploading = () => {
     Object
@@ -249,7 +249,7 @@ class ProfileLayout extends Component {
       });
 
     this.props.resetUploading();
-  }
+  };
 
   handleSubmitUploadModal = async (data) => {
     const { fileChangedCallback } = this.state;
@@ -299,7 +299,7 @@ class ProfileLayout extends Component {
         },
       },
     });
-  }
+  };
 
   handleDelete = async (data) => {
     const { deleteFile } = this.props;
@@ -312,7 +312,7 @@ class ProfileLayout extends Component {
       }
       this.handleCloseModal();
     }
-  }
+  };
 
   handleEditNoteClick = (target, item, params = {}) => {
     this.setState({
@@ -342,11 +342,11 @@ class ProfileLayout extends Component {
 
         return resolve();
       }));
-  }
+  };
 
   handleRefreshPinnedNotes = () => {
     this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
-  }
+  };
 
   handleSubmitNote = (data) => {
     const { noteChangedCallback } = this.state;
@@ -364,11 +364,11 @@ class ProfileLayout extends Component {
         noteChangedCallback();
       }
     });
-  }
+  };
 
   handlePopoverHide = () => {
     this.setState({ popover: { ...popoverInitialState } });
-  }
+  };
 
   handleResetPasswordClick = async () => {
     const { resetPassword, profile: { data } } = this.props;
@@ -392,7 +392,7 @@ class ProfileLayout extends Component {
         });
       }
     }
-  }
+  };
 
   handleProfileActivateClick = async () => {
     const { activateProfile, profile: { data: { uuid, email } } } = this.props;
@@ -416,19 +416,19 @@ class ProfileLayout extends Component {
         });
       }
     }
-  }
+  };
 
   handleAddTag = (tag, priority) => {
     this.props.addTag(this.props.params.id, tag, priority);
-  }
+  };
 
   handleDeleteTag = (id) => {
     this.props.deleteTag(this.props.params.id, id);
-  }
+  };
 
   handleChangeWalletLimitState = (data) => {
     this.props.walletLimitAction({ ...data, playerUUID: this.props.params.id });
-  }
+  };
 
   handleUpdateSubscription = async (name, value) => {
     const { params: { id: playerUUID }, updateSubscription, fetchProfile } = this.props;
@@ -439,7 +439,7 @@ class ProfileLayout extends Component {
     }
 
     return action;
-  }
+  };
 
   showImages = async (url, type, options = {}) => {
     const images = [{
@@ -461,7 +461,7 @@ class ProfileLayout extends Component {
         onClose: () => this.handleCloseImageViewer(() => window.URL.revokeObjectURL(images[0])),
       },
     });
-  }
+  };
 
   handleCloseImageViewer = (cb) => {
     this.setState({ imageViewer: { ...imageViewerInitialState } }, () => {
@@ -469,7 +469,7 @@ class ProfileLayout extends Component {
         cb();
       }
     });
-  }
+  };
 
   render() {
     const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
@@ -513,7 +513,7 @@ class ProfileLayout extends Component {
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
             onWalletLimitChange={this.handleChangeWalletLimitState}
-            onRefreshClick={e => this.handleLoadProfile(true)}
+            onRefreshClick={() => this.handleLoadProfile(true)}
           />
 
           <div className="hide-details-block">
