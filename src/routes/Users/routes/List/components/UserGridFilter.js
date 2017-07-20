@@ -106,8 +106,8 @@ class UserGridFilter extends Component {
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="well">
+      <div className="well">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="filter-row">
             <div className="filter-row__big">
               <Field
@@ -295,8 +295,8 @@ class UserGridFilter extends Component {
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 }

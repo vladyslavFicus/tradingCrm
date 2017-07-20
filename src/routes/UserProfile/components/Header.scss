@@ -1,24 +1,5 @@
-@import "../../../styles/mixins/mixins";
+@import "../../../styles/tools/mixins";
 
-.player__account__lastlogin-info {
-  display: block;
-}
-
-.player__account__status {
-  .fa-angle-down {
-    position: absolute;
-    top: 20px;
-    right: 10px;
-    color: #999999;
-    transition: all .2s;
-  }
-
-  .open {
-    .fa-angle-down {
-      transform: rotate(180deg);
-    }
-  }
-}
 
 .panel-heading-row {
   @include flexbox();

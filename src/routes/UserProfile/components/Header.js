@@ -187,45 +187,47 @@ class Header extends Component {
           </div>
         </div>
 
-        <div className="row panel-body header-blocks header-blocks-5">
-          <div className="header-block header-block_account">
-            <PlayerStatus
-              status={profileStatus}
-              reason={profileStatusReason}
-              endDate={suspendEndDate}
-              onChange={this.handleStatusChange}
-              availableStatuses={availableStatuses}
-            />
-          </div>
-          <div className="header-block header-block_balance">
-            <Balances
-              label={
-                <div className="dropdown-tab">
-                  <div className="header-block-title">Balance</div>
-                  <div className="header-block-middle">
-                    <Amount {...accumulatedBalances.total} />
-                  </div>
-                  {this.getRealWithBonusBalance()}
-                </div>
-              }
-              accumulatedBalances={accumulatedBalances}
-            />
-          </div>
-          <div className="header-block header-block_wallet-limits">
-            <WalletLimits
-              profile={profile}
-              limits={walletLimits.state}
-              onChange={onWalletLimitChange}
-            />
-          </div>
-          <ProfileLastLogin lastIp={lastIp} />
-          <div className="header-block">
-            <div className="header-block-title">Registered</div>
-            <div className="header-block-middle">
-              {moment(registrationDate).fromNow()}
+        <div className="panel-heading">
+          <div className="row">
+            <div className="header-block header-block_account">
+              <PlayerStatus
+                status={profileStatus}
+                reason={profileStatusReason}
+                endDate={suspendEndDate}
+                onChange={this.handleStatusChange}
+                availableStatuses={availableStatuses}
+              />
             </div>
-            <div className="header-block-small">
-              on {moment(registrationDate).format('DD.MM.YYYY')}
+            <div className="header-block header-block_balance">
+              <Balances
+                label={
+                  <div className="dropdown-tab">
+                    <div className="header-block-title">Balance</div>
+                    <div className="header-block-middle">
+                      <Amount {...accumulatedBalances.total} />
+                    </div>
+                    {this.getRealWithBonusBalance()}
+                  </div>
+                }
+                accumulatedBalances={accumulatedBalances}
+              />
+            </div>
+            <div className="header-block header-block_wallet-limits">
+              <WalletLimits
+                profile={profile}
+                limits={walletLimits.state}
+                onChange={onWalletLimitChange}
+              />
+            </div>
+            <ProfileLastLogin lastIp={lastIp} />
+            <div className="header-block">
+              <div className="header-block-title">Registered</div>
+              <div className="header-block-middle">
+                {moment(registrationDate).fromNow()}
+              </div>
+              <div className="header-block-small">
+                on {moment(registrationDate).format('DD.MM.YYYY')}
+              </div>
             </div>
           </div>
         </div>

@@ -13,23 +13,9 @@
     font-size: 13px;
     font-weight: 300;
   }
-  &-case-sensitive {
-    position: absolute;
-    top: 22px;
-    right: 5px;
-    padding: 0;
-    background: transparent;
-    border: none;
-    font-size: 22px;
-    &.is-active {
-      color: #4990e2;
-    }
-    &.is-inactive {
-      color: #cfcfcf;
-    }
-    &:active {
-      box-shadow: none;
-    }
+  &-xs {
+    padding: 1px 5px;
+    font-size: 10px;
   }
   &-primary {
     border: none;
@@ -39,6 +25,15 @@
       background-image: linear-gradient(to left, #1DB8ED, #297BDC);
     }
   }
+  &-primary-outline {
+    border-color: #4990e2;
+    color: #4990e2;
+    &:hover {
+      border-color: #4990e2;
+      background-color: #F4F4F4;
+      color: #4990e2;
+    }
+  }
   &-danger {
     border: none;
     border-radius: 3px;
@@ -46,6 +41,15 @@
     color: #fff;
     &:hover {
       background-image: linear-gradient(to left, #F78717, #F55000);
+    }
+  }
+  &-danger-outline {
+    border-color: #d0011b;
+    color: #d0011b;
+    &:hover {
+      background-color: #F4F4F4;
+      border-color: #d0011b;
+      color: #d0011b;
     }
   }
   &-default {
@@ -66,17 +70,22 @@
       background-color: #F4F4F4;
     }
   }
-  &-primary-outline {
-    border-color: #4990e2;
-    color: #4990e2;
-  }
-  &-danger-outline {
-    border-color: #d0011b;
-    color: #d0011b;
+  &-success-outline {
+    background-color: #fff;
+    border: solid 1px #46be8a;
+    color: #46be8a;
     &:hover {
       background-color: #F4F4F4;
-      border-color: #d0011b;
-      color: #d0011b;
+      color: #46be8a;
+    }
+  }
+  &-transparent {
+    background: transparent;
+    border: none;
+    overflow: hidden;
+    outline: none;
+    &:focus {
+      outline: none;
     }
   }
   &-icon {
@@ -92,13 +101,22 @@
     border: none;
     font-size: 12px;
   }
-  &-transparent {
+  &-case-sensitive {
+    position: absolute;
+    top: 22px;
+    right: 5px;
+    padding: 0;
     background: transparent;
     border: none;
-    overflow: hidden;
-    outline: none;
-    &:focus {
-      outline: none;
+    font-size: 22px;
+    &.is-active {
+      color: #4990e2;
+    }
+    &.is-inactive {
+      color: #cfcfcf;
+    }
+    &:active {
+      box-shadow: none;
     }
   }
 }
@@ -114,21 +132,4 @@ button.btn.btn-default-outline[disabled] {
   background: #fff;
   color: #CDCDCD;
   border-color: #CDCDCD;
-}
-
-/*OLD*/
-.btn.btn-xs {
-  padding: 1px 5px;
-  font-size: 10px;
-}
-
-.btn.btn-link {
-  color: #827ca1;
-  border-color: transparent !important;
-  background: none !important;
-  text-decoration: none;
-}
-
-.btn.btn-link:hover, .btn.btn-link:active, .btn.btn-link:focus, .btn.btn-link.active {
-  color: #0088ff;
 }

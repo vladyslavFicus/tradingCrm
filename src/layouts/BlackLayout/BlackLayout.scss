@@ -1,14 +1,4 @@
-@import "../../styles/mixins/mixins";
-
-body.black-layout {
+.black-layout {
   color: #333;
   background-color: #000;
-
-
-  /************************************************/
-  /*ICONS*/
-
-  .nas.nas-radio_button_checked:before {
-    color: #4990e2;
-  }
 }
