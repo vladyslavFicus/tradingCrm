@@ -23,8 +23,7 @@
     }
   }
   &-pinned-note {
-    background-image: url("../../../public/img/notes/note-pinned-note.png");
-    background:  no-repeat;
+    background: url("../../../public/img/notes/note-pinned-note.png") no-repeat;
     cursor: pointer;
   }
 }
