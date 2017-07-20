@@ -96,7 +96,7 @@ class ProfileLayout extends Component {
     uploading: PropTypes.object.isRequired,
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
-  };
+  }
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
     onEditNote: PropTypes.func.isRequired,
@@ -110,7 +110,7 @@ class ProfileLayout extends Component {
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
-  };
+  }
 
   state = {
     popover: { ...popoverInitialState },
@@ -119,7 +119,7 @@ class ProfileLayout extends Component {
     noteChangedCallback: null,
     fileChangedCallback: null,
     informationShown: true,
-  };
+  }
 
   getChildContext() {
     return {
@@ -162,7 +162,11 @@ class ProfileLayout extends Component {
         .then(() => fetchAccumulatedBalances(params.id))
         .then(() => checkLock(params.id))
         .then(() => {
-          needForceUpdate && typeof this.children.handleRefresh === 'function' && this.children.handleRefresh();
+          if (needForceUpdate &&
+            this.children &&
+            typeof this.children.handleRefresh === 'function') {
+            this.children.handleRefresh();
+          }
         });
     }
   }
@@ -177,11 +181,11 @@ class ProfileLayout extends Component {
 
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
-  };
+  }
 
   setFileChangedCallback = (cb) => {
     this.setState({ fileChangedCallback: cb });
-  };
+  }
 
   handleOpenModal = (name, params) => {
     this.setState({
@@ -191,15 +195,15 @@ class ProfileLayout extends Component {
         params,
       },
     });
-  };
+  }
 
   handleCloseModal = () => {
     this.setState({ modal: { ...modalInitialState } });
-  };
+  }
 
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
-  };
+  }
 
   handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
     this.setState({
@@ -218,7 +222,7 @@ class ProfileLayout extends Component {
         },
       },
     });
-  };
+  }
 
   handleUploadFileClick = (params) => {
     this.setState({
@@ -230,12 +234,12 @@ class ProfileLayout extends Component {
         },
       },
     });
-  };
+  }
 
   handleCloseUploadModal = () => {
     this.handleCloseModal();
     this.handleResetUploading();
-  };
+  }
 
   handleResetUploading = () => {
     Object
@@ -245,7 +249,7 @@ class ProfileLayout extends Component {
       });
 
     this.props.resetUploading();
-  };
+  }
 
   handleSubmitUploadModal = async (data) => {
     const { fileChangedCallback } = this.state;
@@ -276,12 +280,12 @@ class ProfileLayout extends Component {
     if (typeof fileChangedCallback === 'function') {
       fileChangedCallback();
     }
-  };
+  }
 
   handleUploadingFileDelete = async (file) => {
     await this.props.deleteFile(this.props.params.id, file.fileUUID);
     this.props.cancelFile(file);
-  };
+  }
 
   handleDeleteFileClick = (e, data) => {
     e.preventDefault();
@@ -295,7 +299,7 @@ class ProfileLayout extends Component {
         },
       },
     });
-  };
+  }
 
   handleDelete = async (data) => {
     const { deleteFile } = this.props;
@@ -308,7 +312,7 @@ class ProfileLayout extends Component {
       }
       this.handleCloseModal();
     }
-  };
+  }
 
   handleEditNoteClick = (target, item, params = {}) => {
     this.setState({
@@ -322,7 +326,7 @@ class ProfileLayout extends Component {
         },
       },
     });
-  };
+  }
 
   handleDeleteNoteClick = (item) => {
     const { noteChangedCallback } = this.state;
@@ -338,11 +342,11 @@ class ProfileLayout extends Component {
 
         return resolve();
       }));
-  };
+  }
 
   handleRefreshPinnedNotes = () => {
     this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
-  };
+  }
 
   handleSubmitNote = (data) => {
     const { noteChangedCallback } = this.state;
@@ -360,11 +364,11 @@ class ProfileLayout extends Component {
         noteChangedCallback();
       }
     });
-  };
+  }
 
   handlePopoverHide = () => {
     this.setState({ popover: { ...popoverInitialState } });
-  };
+  }
 
   handleResetPasswordClick = async () => {
     const { resetPassword, profile: { data } } = this.props;
@@ -388,7 +392,7 @@ class ProfileLayout extends Component {
         });
       }
     }
-  };
+  }
 
   handleProfileActivateClick = async () => {
     const { activateProfile, profile: { data: { uuid, email } } } = this.props;
@@ -412,19 +416,19 @@ class ProfileLayout extends Component {
         });
       }
     }
-  };
+  }
 
   handleAddTag = (tag, priority) => {
     this.props.addTag(this.props.params.id, tag, priority);
-  };
+  }
 
   handleDeleteTag = (id) => {
     this.props.deleteTag(this.props.params.id, id);
-  };
+  }
 
   handleChangeWalletLimitState = (data) => {
     this.props.walletLimitAction({ ...data, playerUUID: this.props.params.id });
-  };
+  }
 
   handleUpdateSubscription = async (name, value) => {
     const { params: { id: playerUUID }, updateSubscription, fetchProfile } = this.props;
@@ -435,7 +439,7 @@ class ProfileLayout extends Component {
     }
 
     return action;
-  };
+  }
 
   showImages = async (url, type, options = {}) => {
     const images = [{
@@ -457,7 +461,7 @@ class ProfileLayout extends Component {
         onClose: () => this.handleCloseImageViewer(() => window.URL.revokeObjectURL(images[0])),
       },
     });
-  };
+  }
 
   handleCloseImageViewer = (cb) => {
     this.setState({ imageViewer: { ...imageViewerInitialState } }, () => {
@@ -465,7 +469,7 @@ class ProfileLayout extends Component {
         cb();
       }
     });
-  };
+  }
 
   render() {
     const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
@@ -518,9 +522,7 @@ class ProfileLayout extends Component {
               className="hide-details-block_text btn-transparent"
               onClick={this.handleToggleInformationBlock}
             >
-              {informationShown ?
-                I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
-                I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
+              {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
               }
             </button>
             <div className="hide-details-block_arrow" />

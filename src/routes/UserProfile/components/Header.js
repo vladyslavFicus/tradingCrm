@@ -32,6 +32,8 @@ class Header extends Component {
       suspendEndDate: PropTypes.string,
       profileTags: PropTypes.array,
     }),
+    onRefreshClick: PropTypes.func.isRequired,
+    isLoadingProfile: PropTypes.bool.isRequired,
     lastIp: PropTypes.ipEntity,
     accumulatedBalances: PropTypes.object,
     availableStatuses: PropTypes.array,
@@ -177,7 +179,7 @@ class Header extends Component {
               Add note
             </PopoverButton>
             <button className="btn btn-default-outline margin-inline" onClick={onRefreshClick}>
-              <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
+              <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile }) } />
             </button>
             <UserProfileOptions
               items={[
