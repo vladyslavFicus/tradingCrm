@@ -91,11 +91,8 @@ const durationUnits = keyMirror({
   DAYS: null,
   WEEKS: null,
   MONTHS: null,
-  PERMANENT: null,
-});
-const selfExcludedDurationUnits = keyMirror({
-  MONTHS: null,
   YEARS: null,
+  PERMANENT: null,
 });
 const statusActions = {
   [statuses.ACTIVE]: [
@@ -142,7 +139,6 @@ export {
   statuses,
   statusesLabels,
   durationUnits,
-  selfExcludedDurationUnits,
   actions,
   statusActions,
   statusColorNames,

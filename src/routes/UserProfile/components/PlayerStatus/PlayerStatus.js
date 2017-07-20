@@ -21,6 +21,7 @@ class PlayerStatus extends Component {
     endDate: PropTypes.string,
     availableStatuses: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -98,8 +99,14 @@ class PlayerStatus extends Component {
   );
 
   render() {
+    const {
+      availableStatuses,
+      status,
+      reason,
+      endDate,
+      locale,
+    } = this.props;
     const { dropDownOpen, modal } = this.state;
-    const { availableStatuses, status, reason, endDate } = this.props;
     const dropDownClassName = classNames('dropdown-highlight', {
       'cursor-pointer': status !== statuses.SUSPENDED && status !== statuses.INACTIVE,
       'no-dropdown': status !== statuses.ACTIVE,
@@ -137,6 +144,7 @@ class PlayerStatus extends Component {
         {
           availableStatuses.length > 0 && modal.show &&
           <PlayerStatusModal
+            locale={locale}
             title={'Change account status'}
             show
             {...modal.params}

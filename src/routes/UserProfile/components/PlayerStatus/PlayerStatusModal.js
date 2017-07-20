@@ -4,7 +4,8 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from '../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../components/ReduxForm/UserProfile';
-import { actions, durationUnits, selfExcludedDurationUnits } from '../../../../constants/user';
+import { actions, durationUnits } from '../../../../constants/user';
+import pluralDurationUnit from '../../../../utils/pluralDurationUnit';
 
 const attributeLabels = {
   period: 'Period',
@@ -12,9 +13,10 @@ const attributeLabels = {
   comment: 'Comment',
 };
 const availablePeriods = [
-  { durationAmount: 6, durationUnit: selfExcludedDurationUnits.MONTHS, label: '6 month' },
-  { durationAmount: 1, durationUnit: selfExcludedDurationUnits.YEARS, label: '1 year' },
+  { durationAmount: 6, durationUnit: durationUnits.MONTHS },
+  { durationAmount: 1, durationUnit: durationUnits.YEARS },
 ];
+
 const periodValidation =
   `${availablePeriods.map(period => `${period.durationAmount} ` +
   `${period.durationUnit}`).join()},${durationUnits.PERMANENT}`;
@@ -44,6 +46,7 @@ class PlayerStatusModal extends Component {
     onHide: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -81,7 +84,9 @@ class PlayerStatusModal extends Component {
         <option value="">-- Select period --</option>
         {
           availablePeriods.map(period => (
-            <option value={`${period.durationAmount} ${period.durationUnit}`}>{period.label}</option>
+            <option value={`${period.durationAmount} ${period.durationUnit}`}>
+              {pluralDurationUnit(period.durationAmount, period.durationUnit, this.props.locale)}
+            </option>
           ))
         }
         <option value={durationUnits.PERMANENT}>Permanent</option>
