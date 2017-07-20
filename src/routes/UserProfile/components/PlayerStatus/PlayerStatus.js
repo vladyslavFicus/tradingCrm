@@ -69,7 +69,7 @@ class PlayerStatus extends Component {
 
       if (period === durationUnits.PERMANENT) {
         statusData.permanent = true;
-      } else {
+      } else if (period) {
         const [durationAmount, durationUnit] = period.split(' ');
         statusData = { ...statusData, durationAmount, durationUnit };
       }
@@ -84,7 +84,7 @@ class PlayerStatus extends Component {
 
       <DropdownMenu>
         {
-          availableStatuses.map(({ label: statusLabel, reasons, ...rest }) => (
+          availableStatuses.map(({ label: statusLabel, reasons, permission, ...rest }) => (
             <DropdownItem
               key={rest.action}
               {...rest}
