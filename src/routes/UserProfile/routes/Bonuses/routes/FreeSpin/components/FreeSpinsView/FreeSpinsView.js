@@ -59,6 +59,7 @@ class FreeSpinsView extends Component {
     refreshPinnedNotes: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -66,6 +67,10 @@ class FreeSpinsView extends Component {
     filters: {},
     page: 0,
   };
+
+  componentWillMount() {
+    this.context.cacheChildrenComponent(this);
+  }
 
   componentDidMount() {
     this.context.setNoteChangedCallback(this.handleRefresh);
@@ -87,6 +92,7 @@ class FreeSpinsView extends Component {
 
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
+    this.context.cacheChildrenComponent(null);
   }
 
   handleNoteClick = (target, note, data) => {
