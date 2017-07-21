@@ -11,7 +11,7 @@ export default () => next => (action) => {
       window.parent.postMessage(JSON.stringify({
         type: windowActionTypes.UPDATE_USER_TAB,
         payload: { uuid, firstName, lastName },
-      }), window.origin);
+      }), window.location.origin);
     }
   }
 
