@@ -67,6 +67,7 @@ class AddressForm extends Component {
                 name="country"
                 label={attributeLabels.country}
                 type="text"
+                position="vertical"
                 wrapperClassName="col-lg-4"
                 component={SelectField}
               >
