@@ -30,9 +30,9 @@ class BonusGridFilter extends Component {
   static propTypes = {
     playerUUID: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func,
-    handleSubmit: PropTypes.func,
-    submitting: PropTypes.bool,
+    reset: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
     currentValues: PropTypes.object,
   };
 
@@ -179,8 +179,6 @@ const FilterForm = reduxForm({
   validate: validator,
 })(BonusGridFilter);
 
-export default connect((state) => {
-  return {
-    currentValues: getFormValues(FORM_NAME)(state),
-  };
-})(FilterForm);
+export default connect(state => ({
+  currentValues: getFormValues(FORM_NAME)(state),
+}))(FilterForm);

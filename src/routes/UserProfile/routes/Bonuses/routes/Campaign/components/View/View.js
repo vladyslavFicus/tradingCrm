@@ -8,40 +8,93 @@ import renderLabel from '../../../../../../../../utils/renderLabel';
 import { campaignTypesLabels, targetTypesLabels } from '../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../components/IframeLink';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
+import CampaignsFilterForm from '../CampaignsFilterForm';
 
 class View extends Component {
   static propTypes = {
-    list: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.bonusCampaignEntity),
-    }).isRequired,
+    list: PropTypes.pageableState(PropTypes.shape({
+      authorUUID: PropTypes.string.isRequired,
+      bonusLifetime: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      campaignPriority: PropTypes.number.isRequired,
+      campaignRatio: PropTypes.customValue.isRequired,
+      uuid: PropTypes.string.isRequired,
+      capping: PropTypes.customValue,
+      conversionPrize: PropTypes.customValue,
+      creationDate: PropTypes.string.isRequired,
+      currency: PropTypes.string.isRequired,
+      grantedSum: PropTypes.number.isRequired,
+      grantedTotal: PropTypes.number.isRequired,
+      endDate: PropTypes.string.isRequired,
+      campaignType: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+      optIn: PropTypes.bool.isRequired,
+      optedIn: PropTypes.bool.isRequired,
+      optInDate: PropTypes.string.isRequired,
+      startDate: PropTypes.string.isRequired,
+      state: PropTypes.string.isRequired,
+      stateReason: PropTypes.string,
+      statusChangedDate: PropTypes.string,
+      targetType: PropTypes.string.isRequired,
+      wagerWinMultiplier: PropTypes.number.isRequired,
+    })).isRequired,
     fetchAvailableCampaignList: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
   };
+  static contextTypes = {
+    cacheChildrenComponent: PropTypes.func.isRequired,
+  };
+
+  state = {
+    filters: {},
+    page: 0,
+  };
 
   componentDidMount() {
-    this.props.fetchAvailableCampaignList(this.props.params.id);
+    this.handleRefresh();
+    this.context.cacheChildrenComponent(this);
   }
 
+  componentWillUnmount() {
+    this.context.cacheChildrenComponent(null);
+  }
+
+  handleRefresh = () => {
+    this.props.fetchAvailableCampaignList({
+      ...this.state.filters,
+      page: this.state.page,
+      playerUUID: this.props.params.id,
+    });
+  };
+
+  handleFiltersChanged = (filters = {}) => {
+    this.setState({ filters, page: 0 }, this.handleRefresh);
+  };
+
+  handleFilterReset = () => {
+    this.setState({ filters: {}, page: 0 }, this.handleRefresh);
+  };
+
   renderCampaign = data => (
-    <div id={`bonus-campaign-${data.campaignUUID}`}>
+    <div id={`bonus-campaign-${data.uuid}`}>
       <IframeLink
         className="font-weight-700 color-black"
         to={`/bonus-campaigns/view/${data.id}/settings`}
       >
-        {data.campaignName}
+        {data.name}
       </IframeLink>
       <div className="font-size-10">
         {renderLabel(data.targetType, targetTypesLabels)}
       </div>
       <div className="font-size-10">
-        <Uuid uuid={data.campaignUUID} uuidPrefix="CA" />
+        <Uuid uuid={data.uuid} uuidPrefix="CA" />
       </div>
     </div>
   );
 
-  renderFulfillmentType = data => (
+  renderBonusType = data => (
     <div>
       <div className="text-uppercase font-weight-700">
         {renderLabel(data.campaignType, campaignTypesLabels)}
@@ -63,8 +116,28 @@ class View extends Component {
     </div>
   );
 
+  renderOptInStatus = data => (
+    <div>
+      <div className="text-uppercase font-weight-700">
+        {
+          data.optedIn
+            ? <span className="text-success">{I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPTED_IN')}</span>
+            : I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOT_OPTED_IN')
+        }
+      </div>
+      {
+        data.optInDate &&
+        <div className="font-size-10">
+          {I18n.t('COMMON.DATE_ON', { date: data.optInDate })}
+        </div>
+      }
+    </div>
+  );
+
   render() {
+    const { filters } = this.state;
     const { list: { entities } } = this.props;
+    const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <div className="profile-tab-container">
@@ -74,12 +147,19 @@ class View extends Component {
           </div>
         </div>
 
+        <CampaignsFilterForm
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          disabled={!allowActions}
+        />
+
         <GridView
           tableClassName="table table-hovered data-grid-layout"
           headerClassName=""
-          dataSource={entities}
-          activePage={0}
-          totalPages={0}
+          dataSource={entities.content}
+          onPageChange={this.handlePageChanged}
+          activePage={entities.number + 1}
+          totalPages={entities.totalPages}
         >
           <GridColumn
             name="campaign"
@@ -96,16 +176,17 @@ class View extends Component {
           />
 
           <GridColumn
-            name="campaignPriority"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.PRIORITY')}
+            name="bonusType"
+            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.BONUS_TYPE')}
             headerClassName="text-uppercase"
+            render={this.renderBonusType}
           />
 
           <GridColumn
-            name="fulfillmentType"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
+            name="optInStatus"
+            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.OPT_IN_STATUS')}
             headerClassName="text-uppercase"
-            render={this.renderFulfillmentType}
+            render={this.renderOptInStatus}
           />
         </GridView>
       </div>

@@ -24,10 +24,10 @@ class Header extends Component {
   render() {
     const {
       data: {
-        campaignName,
+        name,
         moneyTypePriority,
         authorUUID,
-        campaignUUID,
+        uuid,
         creationDate,
         grantedSum,
         grantedTotal,
@@ -45,11 +45,11 @@ class Header extends Component {
         <div className="panel-heading-row">
           <div className="panel-heading-row_campaign-info">
             <div className="bonus__campaign__name">
-              {campaignName}
+              {name}
             </div>
             <div className="bonus__campaign__uuid">
               <span className="short__uuid">
-                <Uuid uuid={campaignUUID} uuidPrefix="CA" />
+                <Uuid uuid={uuid} uuidPrefix="CA" />
                 {' - '}
                 {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.MONEY_TYPE_PRIORITY', {
                   priority: renderLabel(moneyTypePriority, moneyTypeUsageLabels),

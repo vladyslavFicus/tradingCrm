@@ -50,9 +50,9 @@ class BonusStatus extends Component {
     );
   };
 
-  renderStatusActive = bonus => bonus.expirationDate
+  renderStatusActive = bonus => (bonus.expirationDate
     ? <span>Until {moment(bonus.expirationDate).format('DD.MM.YYYY')}</span>
-    : null;
+    : null);
 
   renderStatusCancelled = bonus => (
     <div className="font-size-10">

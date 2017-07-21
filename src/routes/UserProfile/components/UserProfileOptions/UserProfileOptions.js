@@ -33,14 +33,14 @@ class UserProfileOptions extends Component {
 
     return (
       <Dropdown isOpen={isOpened} toggle={this.handleToggleDropDownState}>
-        <button className="btn btn-default-outline" onClick={this.handleToggleDropDownState}>
+        <button className="btn btn-default-outline margin-inline" onClick={this.handleToggleDropDownState}>
           {label}
         </button>
 
         <DropdownMenu right>
-          {visibleItems.map((item, index) => (
+          {visibleItems.map(item => (
             <DropdownItem
-              key={index}
+              key={item.label}
               onClick={item.onClick}
             >{item.label}</DropdownItem>
           ))}
