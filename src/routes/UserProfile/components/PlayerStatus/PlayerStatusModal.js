@@ -84,7 +84,10 @@ class PlayerStatusModal extends Component {
         <option value="">-- Select period --</option>
         {
           availablePeriods.map(period => (
-            <option value={`${period.durationAmount} ${period.durationUnit}`}>
+            <option
+              value={`${period.durationAmount} ${period.durationUnit}`}
+              key={`${period.durationAmount}-${period.durationUnit}`}
+            >
               {pluralDurationUnit(period.durationAmount, period.durationUnit, this.props.locale)}
             </option>
           ))
