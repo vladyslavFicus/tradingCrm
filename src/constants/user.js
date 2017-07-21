@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import permissions from '../config/permissions';
 
 const attributeLabels = {
   acceptedTermsId: 'Accepted terms ID',
@@ -67,6 +68,7 @@ const statuses = keyMirror({
   ACTIVE: null,
   BLOCKED: null,
   SUSPENDED: null,
+  COOLOFF: null,
 });
 const actions = keyMirror({
   BLOCK: null,
@@ -86,6 +88,7 @@ const statusesLabels = {
   [statuses.ACTIVE]: 'Active',
   [statuses.BLOCKED]: 'Blocked',
   [statuses.SUSPENDED]: 'Self Excluded',
+  [statuses.COOLOFF]: 'Cool off',
 };
 const durationUnits = keyMirror({
   DAYS: null,
@@ -100,11 +103,13 @@ const statusActions = {
       action: actions.BLOCK,
       label: 'Block',
       reasons,
+      permission: permissions.USER_PROFILE.BLOCK,
     },
     {
       action: actions.SUSPEND,
-      label: 'Suspend',
+      label: 'Self Exclusion',
       reasons,
+      permission: permissions.USER_PROFILE.SUSPEND,
     },
   ],
   [statuses.BLOCKED]: [
@@ -117,6 +122,7 @@ const statusActions = {
         'UNBLOCK_REASON_THREE',
         'UNBLOCK_REASON_FOUR',
       ],
+      permission: permissions.USER_PROFILE.UNBLOCK,
     },
   ],
   [statuses.SUSPENDED]: [
@@ -124,6 +130,21 @@ const statusActions = {
       action: actions.PROLONG,
       label: 'Prolong',
       reasons,
+      permission: permissions.USER_PROFILE.PROLONG,
+    },
+    {
+      action: actions.RESUME,
+      label: 'Resume',
+      reasons,
+      permission: permissions.USER_PROFILE.RESUME,
+    },
+  ],
+  [statuses.COOLOFF]: [
+    {
+      action: actions.RESUME,
+      label: 'Resume',
+      reasons,
+      permission: permissions.USER_PROFILE.RESUME,
     },
   ],
 };
@@ -132,6 +153,7 @@ const statusColorNames = {
   [statuses.INACTIVE]: 'color-warning',
   [statuses.BLOCKED]: 'color-danger',
   [statuses.SUSPENDED]: 'color-secondary',
+  [statuses.COOLOFF]: 'color-info',
 };
 
 export {
