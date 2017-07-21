@@ -38,9 +38,9 @@ class UserProfileOptions extends Component {
         </button>
 
         <DropdownMenu right>
-          {visibleItems.map((item, index) => (
+          {visibleItems.map(item => (
             <DropdownItem
-              key={index}
+              key={item.label}
               onClick={item.onClick}
             >{item.label}</DropdownItem>
           ))}

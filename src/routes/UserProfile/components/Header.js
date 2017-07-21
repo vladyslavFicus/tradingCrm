@@ -181,7 +181,7 @@ class Header extends Component {
               Add note
             </PopoverButton>
             <button className="btn btn-default-outline margin-inline" onClick={onRefreshClick}>
-              <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile }) } />
+              <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
             </button>
             <UserProfileOptions
               items={[

@@ -31,9 +31,9 @@ class BonusGridFilter extends Component {
   static propTypes = {
     playerUUID: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func,
-    handleSubmit: PropTypes.func,
-    submitting: PropTypes.bool,
+    reset: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
     currentValues: PropTypes.object,
   };
 

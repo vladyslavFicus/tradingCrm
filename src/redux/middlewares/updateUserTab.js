@@ -2,7 +2,7 @@ import { actionTypes as profileActionTypes } from '../../routes/UserProfile/modu
 import { actionTypes as windowActionTypes } from '../modules/window';
 
 
-export default store => next => (action) => {
+export default () => next => (action) => {
   if (action) {
     if ((action.type === profileActionTypes.PROFILE.SUCCESS || action.type === profileActionTypes.SUBMIT_KYC.SUCCESS) &&
       window && window.parent !== window && window.parent.postMessage) {
