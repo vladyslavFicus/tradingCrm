@@ -52,6 +52,9 @@ class List extends Component {
   handleFilterSubmit = (data) => {
     const filters = { ...data };
 
+    if (filters.countries) {
+      filters.countries = [filters.countries];
+    }
     if (filters.tags) {
       filters.tags = [filters.tags];
     }

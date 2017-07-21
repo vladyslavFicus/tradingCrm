@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import countryList from 'country-list';
 import { I18n } from 'react-redux-i18n';
-import { InputField, NasSelectField, TextAreaField } from '../../../../../components/ReduxForm';
+import { InputField, TextAreaField, SelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 
 const attributeLabels = {
@@ -66,9 +66,11 @@ class AddressForm extends Component {
               <Field
                 name="country"
                 label={attributeLabels.country}
-                component={NasSelectField}
-                position="vertical"
+                type="text"
+                wrapperClassName="col-lg-4"
+                component={SelectField}
               >
+                <option value="">-- Select --</option>
                 {Object
                   .keys(countries)
                   .map(key => <option key={key} value={key}>{countries[key]}</option>)
