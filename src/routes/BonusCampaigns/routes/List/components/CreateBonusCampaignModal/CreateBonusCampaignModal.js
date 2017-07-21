@@ -27,7 +27,7 @@ const CAMPAIGN_NAME_MAX_LENGTH = 100;
 const FORM_NAME = 'bonusCampaignCreateForm';
 
 const attributeLabels = {
-  campaignName: 'Name',
+  name: 'Name',
   priority: 'Priority',
   startDate: 'Start date',
   endDate: 'End date',
@@ -62,7 +62,7 @@ const getCustomValueFieldTypes = (campaignType) => {
 const validator = (values) => {
   const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
   const rules = {
-    campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
+    name: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
     campaignPriority: 'integer',
     startDate: 'required',
     endDate: 'required|nextDate:startDate',
@@ -209,8 +209,8 @@ class CreateBonusCampaignModal extends Component {
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
             <Field
-              name="campaignName"
-              label={attributeLabels.campaignName}
+              name="name"
+              label={attributeLabels.name}
               type="text"
               component={InputField}
             />

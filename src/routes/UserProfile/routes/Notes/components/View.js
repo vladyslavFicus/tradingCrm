@@ -25,6 +25,7 @@ class View extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -33,6 +34,10 @@ class View extends Component {
     size: 10,
   };
 
+  componentWillMount() {
+    this.context.cacheChildrenComponent(this);
+  }
+
   componentDidMount() {
     this.handleRefresh();
     this.context.setNoteChangedCallback(this.handleNoteChanged);
@@ -40,6 +45,7 @@ class View extends Component {
 
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
+    this.context.cacheChildrenComponent(null);
   }
 
   handleNoteChanged = () => {
@@ -107,7 +113,7 @@ class View extends Component {
             <div className="note-content padding-10">
               <div className="row">
                 <div className="col-md-11">
-                  { data.content }
+                  {data.content}
                   {
                     data.pinned &&
                     <div className="padding-top-10">

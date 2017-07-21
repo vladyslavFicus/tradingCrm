@@ -33,10 +33,15 @@ class View extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
   state = {
     openUUID: null,
   };
+
+  componentWillMount() {
+    this.context.cacheChildrenComponent(this);
+  }
 
   componentDidMount() {
     this.context.setNoteChangedCallback(this.handleRefresh);
@@ -47,11 +52,10 @@ class View extends Component {
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
     this.context.setFileChangedCallback(null);
+    this.context.cacheChildrenComponent(null);
   }
 
-  handleRefresh = () => {
-    return this.props.fetchEntities(this.props.params.id);
-  };
+  handleRefresh = () => this.props.fetchEntities(this.props.params.id);
 
   handleRefreshFiles = () => {
     const targetUUIDs = Object.keys(this.props.paymentAccounts);
@@ -100,27 +104,23 @@ class View extends Component {
     this.context.showImages(`${this.props.filesUrl}${data.uuid}`, data.type);
   };
 
-  renderPaymentAccount = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700 text-uppercase">{data.paymentMethod}</div>
-        <div className="text-muted font-size-10">{shortify(data.details)}</div>
-      </div>
-    );
-  };
+  renderPaymentAccount = data => (
+    <div>
+      <div className="font-weight-700 text-uppercase">{data.paymentMethod}</div>
+      <div className="text-muted font-size-10">{shortify(data.details)}</div>
+    </div>
+  );
 
-  renderAddDate = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700">
-          {moment(data.creationDate).format('DD.MM.YYYY')}
-        </div>
-        <span className="font-size-10 color-default">
-          {moment(data.creationDate).format('HH:mm:ss')}
-        </span>
+  renderAddDate = data => (
+    <div>
+      <div className="font-weight-700">
+        {moment(data.creationDate).format('DD.MM.YYYY')}
       </div>
-    );
-  };
+      <span className="font-size-10 color-default">
+        {moment(data.creationDate).format('HH:mm:ss')}
+      </span>
+    </div>
+  );
 
   renderLastPaymentDate = (data) => {
     if (!data.lastActivityDate) {
@@ -160,16 +160,14 @@ class View extends Component {
     );
   };
 
-  renderNotes = (data) => {
-    return (
-      <NoteButton
-        id={`payment-account-item-note-button-${data.uuid}`}
-        note={data.note}
-        onClick={this.handleNoteClick}
-        targetEntity={data}
-      />
-    );
-  };
+  renderNotes = data => (
+    <NoteButton
+      id={`payment-account-item-note-button-${data.uuid}`}
+      note={data.note}
+      onClick={this.handleNoteClick}
+      targetEntity={data}
+    />
+  );
 
   renderFiles = (data) => {
     const filesCount = _.size(data.files);
@@ -197,38 +195,36 @@ class View extends Component {
     );
   };
 
-  renderCollapseBlock = (data) => {
-    return (
-      <div>
-        <div className="row margin-bottom-10">
-          <div className="col-sm-4 col-xs-6">
-            <span className="font-size-16">
-              {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.ATTACHED_FILES')}
-            </span>
-          </div>
-          <div className="col-sm-8 col-xs-6 text-right">
-            <button
-              className="btn btn-sm btn-primary-outline"
-              onClick={() => this.handleUploadFileClick(data)}
-            >
-              {I18n.t('COMMON.BUTTONS.UPLOAD_FILE')}
-            </button>
-          </div>
+  renderCollapseBlock = data => (
+    <div>
+      <div className="row margin-bottom-10">
+        <div className="col-sm-4 col-xs-6">
+          <span className="font-size-16">
+            {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.ATTACHED_FILES')}
+          </span>
         </div>
-
-        <CommonFileGridView
-          dataSource={_.values(data.files)}
-          tableClassName="table table-hovered data-grid-layout payment-account-attached"
-          headerClassName="text-uppercase"
-          totalPages={1}
-          onStatusActionClick={this.handleStatusActionClick}
-          onDownloadFileClick={this.handleDownloadFileClick}
-          onDeleteFileClick={this.handleDeleteFileClick}
-          onPreviewImageClick={this.handlePreviewImageClick}
-        />
+        <div className="col-sm-8 col-xs-6 text-right">
+          <button
+            className="btn btn-sm btn-primary-outline"
+            onClick={() => this.handleUploadFileClick(data)}
+          >
+            {I18n.t('COMMON.BUTTONS.UPLOAD_FILE')}
+          </button>
+        </div>
       </div>
-    );
-  };
+
+      <CommonFileGridView
+        dataSource={_.values(data.files)}
+        tableClassName="table table-hovered data-grid-layout payment-account-attached"
+        headerClassName="text-uppercase"
+        totalPages={1}
+        onStatusActionClick={this.handleStatusActionClick}
+        onDownloadFileClick={this.handleDownloadFileClick}
+        onDeleteFileClick={this.handleDeleteFileClick}
+        onPreviewImageClick={this.handlePreviewImageClick}
+      />
+    </div>
+  );
 
   render() {
     const { paymentAccounts } = this.props;

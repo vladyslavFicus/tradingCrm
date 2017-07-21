@@ -177,9 +177,12 @@
         "CAMPAIGN": "Кампания",
         "DATE_TO": "в %{time}",
         "AVAILABLE": "Доступен",
-        "FULFILLMENT_TYPE": "Тип условия",
-        "PRIORITY": "Приоритет"
-      }
+        "PRIORITY": "Приоритет",
+        "BONUS_TYPE": "Тип бонуса",
+        "OPT_IN_STATUS": "Opt-in статус"
+      },
+      "OPTED_IN": "Opted-in",
+      "NOT_OPTED_IN": "Not opted-in"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -529,6 +532,20 @@
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Маркетинг",
         "ADMINISTRATION": "Администрация"
+      }
+    },
+    "BONUS_CAMPAIGNS": {
+      "FILTER_FORM": {
+        "ATTRIBUTES_LABELS": {
+          "SEARCH_BY": "Поиск по",
+          "BONUS_TYPE": "Тип бонуса",
+          "AVAILABILITY_DATE_RANGE": "Диапозон работы кампании",
+          "START_DATE": "Дата начала",
+          "END_DATE": "Дата окончания"
+        },
+        "ATTRIBUTES_PLACEHOLDERS": {
+          "SEARCH_BY": "Название кампании"
+        }
       }
     }
   },

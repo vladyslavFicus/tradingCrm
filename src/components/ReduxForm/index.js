@@ -7,7 +7,6 @@ import TextAreaField from './TextAreaField';
 import PhoneField from './PhoneField';
 import SearchField from './SearchField';
 import DateTimeField from './DateTimeField';
-import NasSelectField from './NasSelectField';
 import BirthdayField from './BirthdayField';
 
 export {
@@ -20,6 +19,5 @@ export {
   PhoneField,
   SearchField,
   DateTimeField,
-  NasSelectField,
   BirthdayField,
 };
