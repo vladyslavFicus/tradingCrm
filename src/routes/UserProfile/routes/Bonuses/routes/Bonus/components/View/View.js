@@ -245,7 +245,7 @@ class View extends Component {
   );
 
   render() {
-    const { modal, filters } = this.state;
+    const { modal } = this.state;
     const { list: { entities }, profile, accumulatedBalances } = this.props;
 
     return (
@@ -263,7 +263,6 @@ class View extends Component {
 
         <BonusGridFilter
           onSubmit={this.handleSubmit}
-          initialValues={filters}
         />
 
         <GridView

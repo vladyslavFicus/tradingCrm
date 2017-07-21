@@ -57,6 +57,10 @@ class View extends Component {
     this.context.cacheChildrenComponent(this);
   }
 
+  componentWillUnmount() {
+    this.context.cacheChildrenComponent(null);
+  }
+
   handleRefresh = () => {
     this.props.fetchAvailableCampaignList({
       ...this.state.filters,
@@ -72,10 +76,6 @@ class View extends Component {
   handleFilterReset = () => {
     this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
-
-  componentWillUnmount() {
-    this.context.cacheChildrenComponent(null);
-  }
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>
@@ -150,7 +150,6 @@ class View extends Component {
         <CampaignsFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          initialValues={filters}
           disabled={!allowActions}
         />
 

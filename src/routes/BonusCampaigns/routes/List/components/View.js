@@ -262,7 +262,6 @@ class View extends Component {
           <BonusCampaignsFilterForm
             onSubmit={this.handleFiltersChanged}
             onReset={this.handleFilterReset}
-            initialValues={filters}
             disabled={!allowActions}
             types={list}
             statuses={statuses}

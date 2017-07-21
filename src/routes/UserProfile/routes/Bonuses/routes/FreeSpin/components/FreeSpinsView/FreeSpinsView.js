@@ -303,7 +303,6 @@ class FreeSpinsView extends Component {
           games={gamesFilterValues}
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          initialValues={filters}
           disabled={!allowActions}
         />
 
