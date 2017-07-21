@@ -68,48 +68,44 @@ class NotesGridFilter extends Component {
     this.props.onSubmit();
   };
 
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <div className="form-input-icon">
-          <i className="icmn-search" />
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder}
-            title={placeholder}
-          />
-        </div>
+  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => (
+    <div className={classNames('form-group', { 'has-danger': touched && error })}>
+      <label>{label}</label>
+      <div className="form-input-icon">
+        <i className="icmn-search" />
+        <input
+          {...input}
+          disabled={disabled}
+          type={type}
+          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
+          placeholder={placeholder}
+          title={placeholder}
+        />
       </div>
-    );
-  };
+    </div>
+  );
 
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => {
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <div className="input-group">
-          <DateTime
-            dateFormat="MM/DD/YYYY"
-            timeFormat={false}
-            onChange={this.handleDateTimeChange(input.onChange)}
-            value={input.value ? moment(input.value) : null}
-            closeOnSelect
-            inputProps={{
-              disabled,
-              placeholder,
-            }}
-            isValidDate={isValidDate}
-          />
-          <span className="input-group-addon">
-            <i className="fa fa-calendar" />
-          </span>
-        </div>
+  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => (
+    <div className={classNames('form-group', { 'has-danger': touched && error })}>
+      <div className="input-group">
+        <DateTime
+          dateFormat="MM/DD/YYYY"
+          timeFormat={false}
+          onChange={this.handleDateTimeChange(input.onChange)}
+          value={input.value ? moment(input.value) : null}
+          closeOnSelect
+          inputProps={{
+            disabled,
+            placeholder,
+          }}
+          isValidDate={isValidDate}
+        />
+        <span className="input-group-addon">
+          <i className="fa fa-calendar" />
+        </span>
       </div>
-    );
-  };
+    </div>
+  );
 
   render() {
     const {
@@ -216,5 +212,5 @@ export default connect(state => ({
   reduxForm({
     form: FORM_NAME,
     validate,
-  })(NotesGridFilter)
+  })(NotesGridFilter),
 );

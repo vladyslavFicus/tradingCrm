@@ -3,6 +3,7 @@ const LOGOUT = `${KEY}/logout-message`;
 const CHANGE_LOCALE = `${KEY}/change-locale-message`;
 const NOTIFICATION = `${KEY}/notification-message`;
 const NAVIGATE_TO = `${KEY}/navigate-to`;
+const UPDATE_USER_TAB = `${KEY}/update-user-tab`;
 
 function changeLocale(locale) {
   return {
@@ -31,17 +32,26 @@ function navigateTo(to) {
   };
 }
 
+function updateUserTab(userDetail) {
+  return {
+    type: UPDATE_USER_TAB,
+    payload: userDetail,
+  };
+}
+
 const actionTypes = {
   NOTIFICATION,
   CHANGE_LOCALE,
   LOGOUT,
   NAVIGATE_TO,
+  UPDATE_USER_TAB,
 };
 const actionCreators = {
   changeLocale,
   logout,
   notify,
   navigateTo,
+  updateUserTab,
 };
 
 export {

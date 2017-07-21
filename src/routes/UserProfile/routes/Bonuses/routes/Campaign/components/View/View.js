@@ -20,9 +20,22 @@ class View extends Component {
     }).isRequired,
   };
 
+  static contextTypes = {
+    cacheChildrenComponent: PropTypes.func.isRequired,
+  };
+
   componentDidMount() {
     this.props.fetchAvailableCampaignList(this.props.params.id);
+    this.context.cacheChildrenComponent(this);
   }
+
+  componentWillUnmount() {
+    this.context.cacheChildrenComponent(null);
+  }
+
+  handleRefresh = () => {
+    this.props.fetchAvailableCampaignList(this.props.params.id);
+  };
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.campaignUUID}`}>

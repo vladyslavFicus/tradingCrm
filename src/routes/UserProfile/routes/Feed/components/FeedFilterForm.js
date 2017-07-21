@@ -175,5 +175,5 @@ export default connect(state => ({
   reduxForm({
     form: FORM_NAME,
     validate,
-  })(FeedFilterForm)
+  })(FeedFilterForm),
 );

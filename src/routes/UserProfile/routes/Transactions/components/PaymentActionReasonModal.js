@@ -122,9 +122,9 @@ class PaymentActionReasonModal extends Component {
               && <div>
                 <Input type="textarea" onChange={this.changeReason} value={this.state.reason} />
                 <div className="color-default text-uppercase font-size-11">
-                  {this.state.reason.length}/500
-                </div>
-              </div>}
+                    {this.state.reason.length}/500
+                  </div>
+                </div>}
             </div>
           </div>
 
