@@ -1,10 +1,10 @@
 import getChildRoutes from './routes';
 
 export default store => ({
-  path: ':id/bonuses',
+  path: ':id/awards',
   onEnter: (nextState, replace, cb) => {
-    if (nextState.location && /bonuses$/.test(nextState.location.pathname)) {
-      replace(`/users/${nextState.params.id}/bonuses/bonus`);
+    if (nextState.location && /awards$/.test(nextState.location.pathname)) {
+      replace(`/users/${nextState.params.id}/awards/bonus`);
     }
 
     cb();

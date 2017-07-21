@@ -70,6 +70,7 @@ class AddressForm extends Component {
                 position="vertical"
                 wrapperClassName="col-lg-4"
                 component={SelectField}
+                position="vertical"
               >
                 <option value="">-- Select --</option>
                 {Object
