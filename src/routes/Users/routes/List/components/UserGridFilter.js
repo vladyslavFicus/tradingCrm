@@ -116,10 +116,10 @@ class UserGridFilter extends Component {
               <Field
                 name="countries"
                 label={filterLabels.country}
-                component={SelectField}
+                component={NasSelectField}
                 position="vertical"
+                multiple
               >
-                <option value="">Any</option>
                 {Object
                   .keys(countries)
                   .map(key => <option key={key} value={key}>{countries[key]}</option>)

@@ -118,7 +118,9 @@ class Select extends Component {
   handleOpen = () => {
     if (!this.state.opened) {
       this.setState({ opened: true }, () => {
-        console.log(this.optionsRef);
+        if (this.optionsRef) {
+          this.optionsRef.scrollTop = 0;
+        }
       });
     }
   };
@@ -248,6 +250,7 @@ class Select extends Component {
         options={options}
         selectedOptions={toSelectOptions}
         onChange={this.handleSelectMultipleOptions}
+        ref={this.bindOptionsRef}
       />
     )
     : (
