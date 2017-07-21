@@ -23,9 +23,6 @@
       font-size: 11px;
     }
   }
-  .font-size-13 {
-    color: #666666;
-  }
   &_networking {
     .panel-body {
       overflow-x: hidden;
@@ -42,6 +39,16 @@
     .note-content {
       padding: 7px;
       background: #fff7d3;
+    }
+    .note-content__author {
+      font-size: 13px;
+      line-height: 1;
+      color: #666;
+    }
+    .note-content__content {
+      margin-top: 5px;
+      font-size: 13px;
+      font-style: italic;
     }
   }
 }

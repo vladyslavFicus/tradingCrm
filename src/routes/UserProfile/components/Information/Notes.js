@@ -29,7 +29,7 @@ class Notes extends Component {
       onClick={id => this.props.onEditNoteClick(id, item, { placement: 'left' })}
     >
       <div className="note-content">
-        <div className="font-size-13 line-height-1">
+        <div className="note-content__author">
           {
             item.author &&
               <b>{`${item.author} - `}</b>
@@ -38,14 +38,14 @@ class Notes extends Component {
             <Uuid uuid={item.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
           </span>
         </div>
-        <small className="font-size-11">
+        <small>
           {
             item.lastEditionDate
               ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
               : I18n.t('COMMON.UNKNOWN_TIME')
           } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
         </small>
-        <div className="font-size-13 font-italic margin-top-5">
+        <div className="note-content__content">
           {item.content}
         </div>
       </div>

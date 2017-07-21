@@ -11,7 +11,6 @@ import Amount from '../../../components/Amount';
 import PopoverButton from '../../../components/PopoverButton';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
-import './Header.scss';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
@@ -149,19 +148,19 @@ class Header extends Component {
     return (
       <div>
         <div className="panel-heading-row">
-          <div className="panel-heading-row_name-and-ids">
-            <div className="player__account__name">
+          <div className="panel-heading-row__info">
+            <div className="panel-heading-row__info-title">
               {[firstName, lastName, this.getUserAge()].join(' ')}
               {' '}
               {kycCompleted && <i className="fa fa-check text-success" />}
             </div>
-            <div className="player__account__ids">
+            <div className="panel-heading-row__info-ids">
               <span>{username}</span> {' - '}
               {!!uuid && <Uuid uuid={uuid} uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : null} />} {' - '}
               <span>{languageCode}</span>
             </div>
           </div>
-          <div className="panel-heading-row_tags">
+          <div className="panel-heading-row__tags">
             {
               profileTags &&
               <ProfileTags
@@ -172,15 +171,15 @@ class Header extends Component {
               />
             }
           </div>
-          <div className="panel-heading-row_add-note">
+          <div className="panel-heading-row__actions">
             <PopoverButton
               id="header-add-note-button"
-              className="btn btn-default-outline margin-inline"
+              className="btn btn-default-outline"
               onClick={onAddNoteClick}
             >
               Add note
             </PopoverButton>
-            <button className="btn btn-default-outline margin-inline" onClick={onRefreshClick}>
+            <button className="btn btn-default-outline m-x-1" onClick={onRefreshClick}>
               <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
             </button>
             <UserProfileOptions
@@ -196,11 +195,11 @@ class Header extends Component {
           </div>
         </div>
 
-        <div className="row panel-body header-blocks header-blocks-5">
+        <div className=" panel-heading">
+          <div className="row">
           <div className="header-block header-block_account">
             <PlayerStatus
-              locale={locale}
-              status={profileStatus}
+              locale={locale}status={profileStatus}
               reason={profileStatusReason}
               endDate={suspendEndDate}
               onChange={this.handleStatusChange}
@@ -235,7 +234,7 @@ class Header extends Component {
               {moment(registrationDate).fromNow()}
             </div>
             <div className="header-block-small">
-              on {moment(registrationDate).format('DD.MM.YYYY')}
+              on {moment(registrationDate).format('DD.MM.YYYY')}</div>
             </div>
           </div>
         </div>

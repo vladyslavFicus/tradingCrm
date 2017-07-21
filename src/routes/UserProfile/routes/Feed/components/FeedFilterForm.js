@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import classNames from 'classnames';
 import moment from 'moment';
-import DateTime from 'react-datetime';
 import { createValidator } from '../../../../../utils/validator';
 import PropTypes from '../../../../../constants/propTypes';
 import { typesLabels } from '../../../../../constants/audit';
-import { InputField, SelectField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 import renderLabel from '../../../../../utils/renderLabel';
 
 const FORM_NAME = 'userFeedFilter';
@@ -37,10 +35,6 @@ class FeedFilterForm extends Component {
     currentValues: {},
   };
 
-  handleDateTimeChange = callback => (value) => {
-    callback(value && moment.isMoment(value) ? value.format('YYYY-MM-DDTHH:mm:00') : '');
-  };
-
   handleReset = () => {
     this.props.reset();
     this.props.onSubmit();
@@ -62,23 +56,6 @@ class FeedFilterForm extends Component {
       : true;
   };
 
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => (
-    <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <DateTime
-        dateFormat="MM/DD/YYYY"
-        timeFormat="HH:mm"
-        onChange={this.handleDateTimeChange(input.onChange)}
-        value={input.value ? moment(input.value) : null}
-        closeOnSelect
-        inputProps={{
-          disabled,
-          placeholder,
-        }}
-        isValidDate={isValidDate}
-      />
-    </div>
-  );
-
   render() {
     const {
       submitting,
@@ -90,64 +67,62 @@ class FeedFilterForm extends Component {
     return (
       <div className="well">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
-            <div className="col-md-10">
-              <div className="col-md-3">
-                <Field
-                  name="searchBy"
-                  type="text"
-                  label={attributeLabels.searchBy}
-                  labelClassName="form-label"
-                  placeholder={'Action ID, Operator ID, IP'}
-                  component={InputField}
-                  position="vertical"
-                />
-              </div>
-              <div className="col-md-3">
-                <Field
-                  name="actionType"
-                  label={attributeLabels.actionType}
-                  labelClassName="form-label"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">All actions</option>
-                  {availableTypes.map(type => (
-                    <option key={type} value={type}>
-                      {renderLabel(type, typesLabels)}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label className="form-label">Action date range</label>
-                  <div className="row">
-                    <div className="col-md-5">
-                      <Field
-                        name="creationDateFrom"
-                        placeholder={attributeLabels.startDate}
-                        component={this.renderDateField}
-                        isValidDate={this.startDateValidator}
-                      />
-                    </div>
-                    <div className="col-md-5">
-                      <Field
-                        name="creationDateTo"
-                        placeholder={attributeLabels.endDate}
-                        component={this.renderDateField}
-                        isValidDate={this.endDateValidator}
-                      />
-                    </div>
-                  </div>
+          <div className="filter-row">
+            <div className="filter-row__medium">
+              <Field
+                name="searchBy"
+                type="text"
+                label={attributeLabels.searchBy}
+                placeholder={'Action ID, Operator ID, IP'}
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+              />
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="actionType"
+                label={attributeLabels.actionType}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">All actions</option>
+                {availableTypes.map(type => (
+                  <option key={type} value={type}>
+                    {renderLabel(type, typesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>Action date range</label>
+                <div className="range-group">
+                  <Field
+                    name="creationDateFrom"
+                    placeholder={attributeLabels.startDate}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator}
+                    position="vertical"
+                    className={null}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="creationDateTo"
+                    placeholder={attributeLabels.endDate}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator}
+                    position="vertical"
+                    className={null}
+                  />
                 </div>
               </div>
             </div>
-            <div className="col-md-2">
-              <div className="form-group margin-top-25">
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -155,7 +130,7 @@ class FeedFilterForm extends Component {
                 </button>
                 <button
                   disabled={submitting}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  className="btn btn-primary"
                   type="submit"
                 >
                   Apply

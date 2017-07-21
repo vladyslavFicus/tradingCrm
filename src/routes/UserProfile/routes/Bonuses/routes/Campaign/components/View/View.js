@@ -140,7 +140,7 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <div className="tab-pane fade in active profile-tab-container">
+      <div className="profile-tab-container">
         <div className="row margin-bottom-20">
           <div className="col-md-6 col-xs-6">
             <BonusHeaderNavigation />

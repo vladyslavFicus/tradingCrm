@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import moment from 'moment';
-import DateTime from 'react-datetime';
 import { createValidator } from '../../../../../utils/validator';
-import { SelectField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 import { targetTypesLabels } from '../../../../../constants/note';
 
 const FORM_NAME = 'userNotesFilter';
@@ -43,10 +41,6 @@ class NotesGridFilter extends Component {
     currentValues: {},
   };
 
-  handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DD') : '');
-  };
-
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
@@ -68,45 +62,6 @@ class NotesGridFilter extends Component {
     this.props.onSubmit();
   };
 
-  renderQueryField = ({ input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName }) => (
-    <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <label>{label}</label>
-      <div className="form-input-icon">
-        <i className="icmn-search" />
-        <input
-          {...input}
-          disabled={disabled}
-          type={type}
-          className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-          placeholder={placeholder}
-          title={placeholder}
-        />
-      </div>
-    </div>
-  );
-
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => (
-    <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <div className="input-group">
-        <DateTime
-          dateFormat="MM/DD/YYYY"
-          timeFormat={false}
-          onChange={this.handleDateTimeChange(input.onChange)}
-          value={input.value ? moment(input.value) : null}
-          closeOnSelect
-          inputProps={{
-            disabled,
-            placeholder,
-          }}
-          isValidDate={isValidDate}
-        />
-        <span className="input-group-addon">
-          <i className="fa fa-calendar" />
-        </span>
-      </div>
-    </div>
-  );
-
   render() {
     const {
       submitting,
@@ -116,75 +71,64 @@ class NotesGridFilter extends Component {
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row margin-bottom-20">
-          <div className="col-md-3">
-            <span className="font-size-20">Notes</span>
-          </div>
-        </div>
-
-        <div className="well">
-          <div className="row">
-            <div className="col-md-10">
-              <div className="row">
-                <div className="col-md-3">
+      <div className="well">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="filter-row">
+            <div className="filter-row__medium">
+              <Field
+                name="searchValue"
+                type="text"
+                label={'Search by'}
+                placeholder={attributeLabels.searchValue}
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+              />
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="targetType"
+                label={attributeLabels.targetType}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">All types</option>
+                {availableTypes.map(type => (
+                  <option key={type} value={type}>
+                    {targetTypesLabels[type] || type}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>Creation date range</label>
+                <div className="range-group">
                   <Field
-                    name="searchValue"
-                    type="text"
-                    label={'Search by'}
-                    placeholder={attributeLabels.searchValue}
-                    component={this.renderQueryField}
-                  />
-                </div>
-
-                <div className="col-md-3">
-                  <Field
-                    name="targetType"
-                    label={attributeLabels.targetType}
-                    labelClassName="form-label"
-                    component={SelectField}
+                    name="from"
+                    placeholder={attributeLabels.startDate}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator}
                     position="vertical"
-                  >
-                    <option value="">All types</option>
-                    {availableTypes.map(type => (
-                      <option key={type} value={type}>
-                        {targetTypesLabels[type] || type}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label className="form-label">Creation date range</label>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <Field
-                          name="from"
-                          placeholder={attributeLabels.startDate}
-                          component={this.renderDateField}
-                          isValidDate={this.startDateValidator}
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <Field
-                          name="to"
-                          placeholder={attributeLabels.endDate}
-                          component={this.renderDateField}
-                          isValidDate={this.endDateValidator}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    className={null}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="to"
+                    placeholder={attributeLabels.endDate}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator}
+                    position="vertical"
+                    className={null}
+                  />
                 </div>
               </div>
             </div>
-
-            <div className="col-md-2">
-              <div className="form-group margin-top-25">
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -192,7 +136,7 @@ class NotesGridFilter extends Component {
                 </button>
                 <button
                   disabled={submitting}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  className="btn btn-primary"
                   type="submit"
                 >
                   Apply
@@ -200,8 +144,8 @@ class NotesGridFilter extends Component {
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 }

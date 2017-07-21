@@ -115,6 +115,7 @@ class PlayerStatus extends Component {
     const label = (
       <div className="dropdown-tab">
         <div className="header-block-title">Account Status</div>
+        {availableStatuses.length > 0 && <i className="fa fa-angle-down" />}
         <div className={classNames(statusColorNames[status], 'header-block-middle text-uppercase')}>
           {statusesLabels[status]}
         </div>

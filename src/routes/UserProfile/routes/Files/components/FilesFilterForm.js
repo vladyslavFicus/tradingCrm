@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import classNames from 'classnames';
 import moment from 'moment';
-import DateTime from 'react-datetime';
 import { createValidator } from '../../../../../utils/validator';
 import PropTypes from '../../../../../constants/propTypes';
 import { categoriesLabels } from '../../../../../constants/files';
-import { InputField, SelectField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 
 const FORM_NAME = 'userFilesFilter';
 const attributeLabels = {
@@ -36,10 +34,6 @@ class FilesFilterForm extends Component {
     currentValues: {},
   };
 
-  handleDateTimeChange = callback => (value) => {
-    callback(value ? value.format('YYYY-MM-DD') : '');
-  };
-
   handleReset = () => {
     this.props.reset();
     this.props.onSubmit();
@@ -61,23 +55,6 @@ class FilesFilterForm extends Component {
       : true;
   };
 
-  renderDateField = ({ input, placeholder, disabled, meta: { touched, error }, isValidDate }) => (
-    <div className={classNames('form-group', { 'has-danger': touched && error })}>
-      <DateTime
-        dateFormat="MM/DD/YYYY"
-        timeFormat={false}
-        onChange={this.handleDateTimeChange(input.onChange)}
-        value={input.value ? moment(input.value) : null}
-        closeOnSelect
-        inputProps={{
-          disabled,
-          placeholder,
-        }}
-        isValidDate={isValidDate}
-      />
-    </div>
-  );
-
   render() {
     const {
       submitting,
@@ -88,64 +65,62 @@ class FilesFilterForm extends Component {
     return (
       <div className="well">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
-            <div className="col-md-10">
-              <div className="col-md-3">
-                <Field
-                  name="searchBy"
-                  type="text"
-                  label={attributeLabels.keyword}
-                  labelClassName="form-label"
-                  placeholder={'File name, File ID'}
-                  component={InputField}
-                  position="vertical"
-                />
-              </div>
-              <div className="col-md-2">
-                <Field
-                  name="fileCategory"
-                  label={attributeLabels.fileCategory}
-                  labelClassName="form-label"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">Any</option>
-                  {Object.keys(categoriesLabels).map(category => (
-                    <option key={category} value={category}>
-                      {categoriesLabels[category]}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label className="form-label">Date range</label>
-                  <div className="row">
-                    <div className="col-md-5">
-                      <Field
-                        name="uploadDateFrom"
-                        placeholder={attributeLabels.startDate}
-                        component={this.renderDateField}
-                        isValidDate={this.startDateValidator}
-                      />
-                    </div>
-                    <div className="col-md-5">
-                      <Field
-                        name="uploadDateTo"
-                        placeholder={attributeLabels.endDate}
-                        component={this.renderDateField}
-                        isValidDate={this.endDateValidator}
-                      />
-                    </div>
-                  </div>
+          <div className="filter-row">
+            <div className="filter-row__big">
+              <Field
+                name="searchBy"
+                type="text"
+                label={attributeLabels.keyword}
+                placeholder={'File name, File ID'}
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+              />
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="fileCategory"
+                label={attributeLabels.fileCategory}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+                {Object.keys(categoriesLabels).map(category => (
+                  <option key={category} value={category}>
+                    {categoriesLabels[category]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>Date range</label>
+                <div className="range-group">
+                  <Field
+                    name="uploadDateFrom"
+                    placeholder={attributeLabels.startDate}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator}
+                    position="vertical"
+                    className={null}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="uploadDateTo"
+                    placeholder={attributeLabels.endDate}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator}
+                    position="vertical"
+                    className={null}
+                  />
                 </div>
               </div>
             </div>
-            <div className="col-md-2">
-              <div className="form-group margin-top-25">
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -153,7 +128,7 @@ class FilesFilterForm extends Component {
                 </button>
                 <button
                   disabled={submitting}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  className="btn btn-primary"
                   type="submit"
                 >
                   Apply

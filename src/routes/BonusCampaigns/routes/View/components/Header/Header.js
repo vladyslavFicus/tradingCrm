@@ -70,59 +70,61 @@ class Header extends Component {
           }
         </div>
 
-        <div className="row panel-body header-blocks header-blocks-5">
-          <div className="header-block header-block_account">
-            <StatusDropDown
-              onChange={onChangeCampaignState}
-              campaign={data}
-              availableStatusActions={availableStatusActions}
-            />
-          </div>
-          <div className="header-block">
-            <div className="header-block-title">
-              {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.GRANTED')}
+        <div className="panel-heading">
+          <div className="row">
+            <div className="header-block header-block_account">
+              <StatusDropDown
+                onChange={onChangeCampaignState}
+                campaign={data}
+                availableStatusActions={availableStatusActions}
+              />
             </div>
-            <div className="header-block-middle">
-              <Amount amount={grantedSum} currency={currency} />
-            </div>
-            <div className="header-block-small">
-              {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.GRANTED_TO', { count: grantedTotal })}
-            </div>
-          </div>
-          <div className="header-block">
-            <div className="header-block-title">
-              {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.WAGERED')}
-            </div>
-            <div className="header-block-middle">
-              {I18n.t('COMMON.EMPTY')}
-            </div>
-          </div>
-          <div className="header-block">
-            <div className="header-block-title">
-              {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CONVERTED')}
-            </div>
-            <div className="header-block-middle">
-              {I18n.t('COMMON.EMPTY')}
-            </div>
-          </div>
-          <div className="header-block">
-            <div className="header-block-title">
-              {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CREATED')}
-            </div>
-            <div className="header-block-middle">
-              {moment.utc(creationDate).fromNow()}
-            </div>
-            <div className="header-block-small">
-              {I18n.t('COMMON.DATE_ON', {
-                date: moment.utc(creationDate).local().format('DD.MM.YYYY'),
-              })}
-            </div>
-            {
-              authorUUID &&
-              <div className="header-block-small">
-                {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={authorUUID} />
+            <div className="header-block">
+              <div className="header-block-title">
+                {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.GRANTED')}
               </div>
-            }
+              <div className="header-block-middle">
+                <Amount amount={grantedSum} currency={currency} />
+              </div>
+              <div className="header-block-small">
+                {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.GRANTED_TO', { count: grantedTotal })}
+              </div>
+            </div>
+            <div className="header-block">
+              <div className="header-block-title">
+                {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.WAGERED')}
+              </div>
+              <div className="header-block-middle">
+                {I18n.t('COMMON.EMPTY')}
+              </div>
+            </div>
+            <div className="header-block">
+              <div className="header-block-title">
+                {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CONVERTED')}
+              </div>
+              <div className="header-block-middle">
+                {I18n.t('COMMON.EMPTY')}
+              </div>
+            </div>
+            <div className="header-block">
+              <div className="header-block-title">
+                {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CREATED')}
+              </div>
+              <div className="header-block-middle">
+                {moment.utc(creationDate).fromNow()}
+              </div>
+              <div className="header-block-small">
+                {I18n.t('COMMON.DATE_ON', {
+                  date: moment.utc(creationDate).local().format('DD.MM.YYYY'),
+                })}
+              </div>
+              {
+                authorUUID &&
+                <div className="header-block-small">
+                  {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={authorUUID} />
+                </div>
+              }
+            </div>
           </div>
         </div>
       </div>

@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 import moment from 'moment';
-import DateTime from 'react-datetime';
 import { initiators, initiatorsLabels } from '../../../../../constants/transaction';
 import { createValidator } from '../../../../../utils/validator';
 import { types, statuses, methods, typesLabels, statusesLabels, methodsLabels } from '../../../../../constants/payment';
-import { InputField, SelectField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 
 const FORM_NAME = 'transactionsFilter';
 const attributeLabels = {
@@ -54,10 +52,6 @@ class TransactionsFilterForm extends Component {
     }),
   };
 
-  handleDateTimeChange = callback => (value) => {
-    callback(value && moment(value).isValid() ? value.format('YYYY-MM-DD') : '');
-  };
-
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
@@ -79,52 +73,6 @@ class TransactionsFilterForm extends Component {
     this.props.onReset();
   };
 
-  renderQueryField = (props) => {
-    const { input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName } = props;
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <div className="form-input-icon">
-          <i className="icmn-search" />
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder}
-            title={placeholder}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  renderDateField = (props) => {
-    const { input, placeholder, disabled, meta: { touched, error }, isValidDate } = props;
-
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <div className="input-group">
-          <DateTime
-            dateFormat="MM/DD/YYYY"
-            timeFormat={false}
-            onChange={this.handleDateTimeChange(input.onChange)}
-            value={input.value ? moment(input.value) : null}
-            closeOnSelect
-            inputProps={{
-              disabled,
-              placeholder,
-            }}
-            isValidDate={isValidDate}
-          />
-          <span className="input-group-addon">
-            <i className="fa fa-calendar" />
-          </span>
-        </div>
-      </div>
-    );
-  };
-
   render() {
     const {
       submitting,
@@ -135,146 +83,134 @@ class TransactionsFilterForm extends Component {
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="well">
-          <div className="row">
-            <div className="col-md-10">
-              <div className="row">
-                <div className="col-md-4">
-                  <Field
-                    name="keyword"
-                    type="text"
-                    label={'Search by'}
-                    placeholder={attributeLabels.keyword}
-                    component={this.renderQueryField}
-                  />
-                </div>
-                <div className="col-md-2">
-                  <Field
-                    name="initiatorType"
-                    label={attributeLabels.initiatorType}
-                    labelClassName="form-label"
-                    position="vertical"
-                    component={SelectField}
-                  >
-                    <option value="">Anyone</option>
-                    {Object.keys(initiatorsLabels).map(assign => (
-                      <option key={assign} value={assign}>
-                        {initiatorsLabels[assign]}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-2">
-                  <Field
-                    name="type"
-                    label={attributeLabels.type}
-                    labelClassName="form-label"
-                    position="vertical"
-                    component={SelectField}
-                  >
-                    <option value="">Any type</option>
-                    {Object.keys(typesLabels).map(type => (
-                      <option key={type} value={type}>
-                        {typesLabels[type]}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-2">
-                  <Field
-                    name="statuses"
-                    label={attributeLabels.statuses}
-                    labelClassName="form-label"
-                    position="vertical"
-                    component={SelectField}
-                  >
-                    <option value="">Any status</option>
-                    {Object.keys(statusesLabels).map(status => (
-                      <option key={status} value={status}>
-                        {statusesLabels[status]}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-2">
-                  <Field
-                    name="paymentMethod"
-                    label={attributeLabels.paymentMethod}
-                    labelClassName="form-label"
-                    position="vertical"
-                    component={SelectField}
-                  >
-                    <option value="">Any method</option>
-                    {Object.keys(methodsLabels).map(method => (
-                      <option key={method} value={method}>
-                        {methodsLabels[method]}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
+      <div className="well">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="filter-row">
+            <div className="filter-row__big">
+              <Field
+                name="keyword"
+                type="text"
+                label={'Search by'}
+                placeholder={attributeLabels.keyword}
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+              />
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="initiatorType"
+                label={attributeLabels.initiatorType}
+                labelClassName="form-label"
+                position="vertical"
+                component={SelectField}
+              >
+                <option value="">Anyone</option>
+                {Object.keys(initiatorsLabels).map(assign => (
+                  <option key={assign} value={assign}>
+                    {initiatorsLabels[assign]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="type"
+                label={attributeLabels.type}
+                labelClassName="form-label"
+                position="vertical"
+                component={SelectField}
+              >
+                <option value="">Any type</option>
+                {Object.keys(typesLabels).map(type => (
+                  <option key={type} value={type}>
+                    {typesLabels[type]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="statuses"
+                label={attributeLabels.statuses}
+                labelClassName="form-label"
+                position="vertical"
+                component={SelectField}
+              >
+                <option value="">Any status</option>
+                {Object.keys(statusesLabels).map(status => (
+                  <option key={status} value={status}>
+                    {statusesLabels[status]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="paymentMethod"
+                label={attributeLabels.paymentMethod}
+                labelClassName="form-label"
+                position="vertical"
+                component={SelectField}
+              >
+                <option value="">Any method</option>
+                {Object.keys(methodsLabels).map(method => (
+                  <option key={method} value={method}>
+                    {methodsLabels[method]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <div className="range-group">
+                <Field
+                  name="amountLowerBound"
+                  type="text"
+                  label={attributeLabels.amountLowerBound}
+                  position="vertical"
+                  placeholder="0.00"
+                  component={InputField}
+                />
+                <span className="range-group__separator">-</span>
+                <Field
+                  name="amountUpperBound"
+                  type="text"
+                  label={attributeLabels.amountUpperBound}
+                  position="vertical"
+                  placeholder="0.00"
+                  component={InputField}
+                />
               </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <div className="row">
-                      <div className="col-md-5">
-                        <Field
-                          name="amountLowerBound"
-                          type="text"
-                          label={attributeLabels.amountLowerBound}
-                          labelClassName="form-label"
-                          position="vertical"
-                          placeholder="0.00"
-                          component={InputField}
-                        />
-                      </div>
-                      <div className="col-md-5">
-                        <Field
-                          name="amountUpperBound"
-                          type="text"
-                          label={attributeLabels.amountUpperBound}
-                          labelClassName="form-label"
-                          position="vertical"
-                          placeholder="0.00"
-                          component={InputField}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label className="form-label">Creation date range</label>
-
-                    <div className="row">
-                      <div className="col-md-5">
-                        <Field
-                          name="startDate"
-                          placeholder={attributeLabels.startDate}
-                          component={this.renderDateField}
-                          isValidDate={this.startDateValidator}
-                        />
-                      </div>
-                      <div className="col-md-5">
-                        <Field
-                          name="endDate"
-                          placeholder={attributeLabels.endDate}
-                          component={this.renderDateField}
-                          isValidDate={this.endDateValidator}
-                        />
-                      </div>
-                    </div>
-                  </div>
+            </div>
+            <div className="filter-row__medium">
+              <div className="form-group">
+                <label>Creation date range</label>
+                <div className="range-group">
+                  <Field
+                    name="startDate"
+                    placeholder={attributeLabels.startDate}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator}
+                    position="vertical"
+                    className={null}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="endDate"
+                    placeholder={attributeLabels.endDate}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator}
+                    position="vertical"
+                    className={null}
+                  />
                 </div>
               </div>
             </div>
-
-            <div className="col-md-2">
-              <div className="form-group margin-top-25">
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -282,7 +218,7 @@ class TransactionsFilterForm extends Component {
                 </button>
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  className="btn btn-primary"
                   type="submit"
                 >
                   Apply
@@ -290,8 +226,8 @@ class TransactionsFilterForm extends Component {
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 }

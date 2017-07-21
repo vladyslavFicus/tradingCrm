@@ -28,7 +28,6 @@ class FilterForm extends Component {
     submitting: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired,
     aggregators: PropTypes.array.isRequired,
     providers: PropTypes.array.isRequired,
     games: PropTypes.array.isRequired,
@@ -56,200 +55,160 @@ class FilterForm extends Component {
       : true;
   };
 
-  renderTopFilters = () => {
+  render() {
     const {
       games,
       gameCategories,
       aggregators,
       gamesList,
       providers,
-    } = this.props;
-
-    return (
-      <div className="row">
-        <div className="col-md-3">
-          <Field
-            name="keyword"
-            type="text"
-            label={I18n.t(filterFormAttributeLabels.keyword)}
-            labelClassName="form-label"
-            placeholder={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.KEYWORD_INPUT_PLACEHOLDER')}
-            component={InputField}
-            position="vertical"
-          />
-        </div>
-        <div className="col-md-2">
-          <Field
-            name="aggregators"
-            label={I18n.t(filterFormAttributeLabels.aggregators)}
-            labelClassName="form-label"
-            component={SelectField}
-            position="vertical"
-            showErrorMessage={false}
-          >
-            <option value="">{I18n.t('COMMON.ANY')}</option>
-            {aggregators.map(item => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </Field>
-        </div>
-        <div className="col-md-2">
-          <Field
-            name="providers"
-            label={I18n.t(filterFormAttributeLabels.providers)}
-            labelClassName="form-label"
-            component={SelectField}
-            position="vertical"
-            showErrorMessage={false}
-          >
-            <option value="">{I18n.t('COMMON.ANY')}</option>
-            {providers.map(item => (
-              <option key={item} value={item}>
-                {providers}
-              </option>
-            ))}
-          </Field>
-        </div>
-        <div className="col-md-2">
-          <Field
-            name="games"
-            label={I18n.t(filterFormAttributeLabels.games)}
-            labelClassName="form-label"
-            component={SelectField}
-            position="vertical"
-            showErrorMessage={false}
-          >
-            <option value="">{I18n.t('COMMON.ANY')}</option>
-            {games.map(item => (
-              <option key={item} value={item}>
-                {gamesList[item]}
-              </option>
-            ))}
-          </Field>
-        </div>
-        <div className="col-md-2">
-          <Field
-            name="gameTypes"
-            label={I18n.t(filterFormAttributeLabels.gameTypes)}
-            labelClassName="form-label"
-            component={SelectField}
-            position="vertical"
-            showErrorMessage={false}
-          >
-            <option value="">{I18n.t('COMMON.ANY')}</option>
-            {Object.keys(gameCategories).map(item => (
-              <option key={item} value={item}>
-                {gameCategories[item]}
-              </option>
-            ))}
-          </Field>
-        </div>
-      </div>
-    );
-  };
-
-  renderBottomFilters = () => (
-    <div className="row">
-      <div className="col-md-2">
-        <Field
-          name="betTypes"
-          label={I18n.t(filterFormAttributeLabels.betTypes)}
-          labelClassName="form-label"
-          component={SelectField}
-          position="vertical"
-          showErrorMessage={false}
-        >
-          <option value="">{I18n.t('COMMON.ANY')}</option>
-          {Object.keys(moneyTypeLabels).map(item => (
-            <option key={item} value={item}>
-              {renderLabel(item, moneyTypeLabels)}
-            </option>
-          ))}
-        </Field>
-      </div>
-      <div className="col-md-2">
-        <Field
-          name="winTypes"
-          label={I18n.t(filterFormAttributeLabels.winTypes)}
-          labelClassName="form-label"
-          component={SelectField}
-          position="vertical"
-          showErrorMessage={false}
-        >
-          <option value="">{I18n.t('COMMON.ANY')}</option>
-          {Object.keys(moneyTypeLabels).map(item => (
-            <option key={item} value={item}>
-              {renderLabel(item, moneyTypeLabels)}
-            </option>
-          ))}
-        </Field>
-      </div>
-      <div className="col-md-6">
-        <div className="form-group">
-          <label className="form-label">
-            {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.ACTIVITY_DATE_RANGE')}
-          </label>
-          <div className="row">
-            <div className="col-md-5">
-              <Field
-                name="startDate"
-                placeholder={I18n.t(filterFormAttributeLabels.startDate)}
-                component={DateTimeField}
-                position="vertical"
-                isValidDate={this.startDateValidator}
-              />
-            </div>
-            <div className="col-md-5">
-              <Field
-                name="endDate"
-                placeholder={I18n.t(filterFormAttributeLabels.endDate)}
-                component={DateTimeField}
-                position="vertical"
-                isValidDate={this.endDateValidator}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  render() {
-    const {
       submitting,
       handleSubmit,
       onSubmit,
-      reset,
     } = this.props;
 
     return (
       <div className="well">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
-            <div className="col-md-12">
-              {this.renderTopFilters()}
+          <div className="filter-row">
+            <div className="filter-row__big">
+              <Field
+                name="keyword"
+                type="text"
+                label={I18n.t(filterFormAttributeLabels.keyword)}
+                placeholder={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.KEYWORD_INPUT_PLACEHOLDER')}
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+              />
             </div>
-          </div>
-
-          <div className="row">
-            <div className="col-md-10">
-              {this.renderBottomFilters()}
+            <div className="filter-row__medium">
+              <Field
+                name="aggregators"
+                label={I18n.t(filterFormAttributeLabels.aggregators)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+                {aggregators.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
             </div>
-            <div className="col-md-2">
-              <div className="form-group margin-top-25">
+            <div className="filter-row__medium">
+              <Field
+                name="providers"
+                label={I18n.t(filterFormAttributeLabels.providers)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {providers.map(item => (
+                  <option key={item} value={item}>
+                    {providers}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="games"
+                label={I18n.t(filterFormAttributeLabels.games)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {games.map(item => (
+                  <option key={item} value={item}>
+                    {gamesList[item]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="gameTypes"
+                label={I18n.t(filterFormAttributeLabels.gameTypes)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {Object.keys(gameCategories).map(item => (
+                  <option key={item} value={item}>
+                    {gameCategories[item]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="betTypes"
+                label={I18n.t(filterFormAttributeLabels.betTypes)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {Object.keys(moneyTypeLabels).map(item => (
+                  <option key={item} value={item}>
+                    {renderLabel(item, moneyTypeLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="winTypes"
+                label={I18n.t(filterFormAttributeLabels.winTypes)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {Object.keys(moneyTypeLabels).map(item => (
+                  <option key={item} value={item}>
+                    {renderLabel(item, moneyTypeLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>{I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.ACTIVITY_DATE_RANGE')}</label>
+                <div className="range-group">
+                  <Field
+                    name="startDate"
+                    placeholder={I18n.t(filterFormAttributeLabels.startDate)}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator}
+                    position="vertical"
+                    className={null}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="endDate"
+                    placeholder={I18n.t(filterFormAttributeLabels.endDate)}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator}
+                    position="vertical"
+                    className={null}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting}
+                  className="btn btn-default"
+                  onClick={this.handleReset}
                   type="reset"
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
-                  onClick={reset}
                 >
                   {I18n.t('COMMON.RESET')}
                 </button>
                 <button
                   disabled={submitting}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  className="btn btn-primary"
                   type="submit"
                 >
                   {I18n.t('COMMON.APPLY')}

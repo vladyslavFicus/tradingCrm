@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from '../../../../utils/validator';
-import { TextAreaField, SelectField } from '../../../../components/ReduxForm/UserProfile';
+import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import { actions, durationUnits } from '../../../../constants/user';
 import pluralDurationUnit from '../../../../utils/pluralDurationUnit';
 
@@ -56,45 +56,43 @@ class PlayerStatusModal extends Component {
   };
 
   renderReasonsSelect = reasons => (
-    <div className="form-group">
-      <Field
-        name="reason"
-        label={attributeLabels.reason}
-        component={SelectField}
-        className={'form-control'}
-      >
-        <option value="">-- Select reason --</option>
-        {reasons.map(item => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </Field>
-    </div>
+    <Field
+      name="reason"
+      label={attributeLabels.reason}
+      component={SelectField}
+      className={'form-control'}
+      position="vertical"
+    >
+      <option value="">-- Select reason --</option>
+      {reasons.map(item => (
+        <option key={item} value={item}>
+          {item}
+        </option>
+      ))}
+    </Field>
   );
 
   renderPeriodSelect = () => (
-    <div className="form-group">
-      <Field
+    <Field
         name="period"
         label={attributeLabels.period}
         component={SelectField}
         className={'form-control'}
-      >
+      position="vertical">
         <option value="">-- Select period --</option>
         {
-          availablePeriods.map(period => (
-            <option
+          availablePeriods.map(period =>(
+        <option
               value={`${period.durationAmount} ${period.durationUnit}`}
               key={`${period.durationAmount}-${period.durationUnit}`}
             >
               {pluralDurationUnit(period.durationAmount, period.durationUnit, this.props.locale)}
-            </option>
+        </option >
           ))
         }
         <option value={durationUnits.PERMANENT}>Permanent</option>
       </Field>
-    </div>
+
   );
 
   render() {
@@ -122,15 +120,13 @@ class PlayerStatusModal extends Component {
             {(action === actions.SUSPEND || action === actions.PROLONG) && this.renderPeriodSelect()}
             {reasons && this.renderReasonsSelect(reasons)}
 
-            <div className="form-group">
-              <Field
-                name="comment"
-                placeholder="Comment..."
-                label={attributeLabels.comment}
-                component={TextAreaField}
-                className={'form-control'}
-              />
-            </div>
+            <Field
+              name="comment"
+              placeholder="Comment..."
+              label={attributeLabels.comment}
+              component={TextAreaField}
+              position="vertical"
+            />
           </ModalBody>
 
           <ModalFooter>

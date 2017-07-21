@@ -1,29 +1,13 @@
 .button-select {
-  display: inline-block;
-  position: relative;
-  vertical-align: middle;
-
   .btn-default {
-    border-left: 0;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    float: left;
+    padding-top: 2px;
+    padding-bottom: 2px;
     background: #6a7a84;
     border-color: #6a7a84;
   }
 
-  & > button {
-    position: relative;
-    z-index: 3;
-  }
-
   & > .auto-complete {
-    position: relative;
-    top: 0;
     display: none;
-    height: 21px;
-    z-index: 2;
-
     &.opened {
       display: block;
       float: left;
@@ -32,7 +16,7 @@
 
   .Select {
     position: relative;
-    height: 22px;
+    height: 21px;
     .Select-menu-outer {
       position: absolute;
       min-width: 150px;
@@ -68,9 +52,6 @@
 
   .btn-delete {
     display: none;
-    float: left;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
   }
 
   .opened + .btn-default {
