@@ -227,7 +227,6 @@ const initialState = {
     content: [],
   },
   error: null,
-  filters: {},
   isLoading: false,
   receivedAt: null,
   newEntityNote: null,

@@ -1,5 +1,3 @@
-$grey-small-color: #666;
-
 .view-free-spin-modal {
   &.modal-dialog {
     width: 750px;
@@ -47,15 +45,7 @@ $grey-small-color: #666;
     flex: 1;
   }
 
-  .line-height-1 {
-    line-height: 1.0;
-  }
-
   .little-grey-text {
-    color: $grey-small-color;
-  }
-
-  .font-size-11 {
-    font-size: 11px;
+    color: #666;
   }
 }

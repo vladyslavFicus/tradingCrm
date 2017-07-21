@@ -96,6 +96,7 @@ class ProfileLayout extends Component {
     uploading: PropTypes.object.isRequired,
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
@@ -109,6 +110,7 @@ class ProfileLayout extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -133,10 +135,23 @@ class ProfileLayout extends Component {
       setFileChangedCallback: this.setFileChangedCallback,
       onDeleteFileClick: this.handleDeleteFileClick,
       showImages: this.showImages,
+      cacheChildrenComponent: this.cacheChildrenComponent,
     };
   }
 
+  cacheChildrenComponent = (component) => {
+    this.children = component;
+  };
+
+  componentWillMount() {
+    document.body.classList.add('user-profile-layout');
+  }
+
   componentDidMount() {
+    this.handleLoadProfile();
+  }
+
+  handleLoadProfile = (needForceUpdate = false) => {
     const {
       profile,
       loadFullProfile,
@@ -150,13 +165,16 @@ class ProfileLayout extends Component {
       loadFullProfile(params.id)
         .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
         .then(() => fetchAccumulatedBalances(params.id))
-        .then(() => checkLock(params.id));
+        .then(() => checkLock(params.id))
+        .then(() => {
+          if (needForceUpdate &&
+            this.children &&
+            typeof this.children.handleRefresh === 'function') {
+            this.children.handleRefresh();
+          }
+        });
     }
-  }
-
-  componentWillMount() {
-    document.body.classList.add('user-profile-layout');
-  }
+  };
 
   componentWillUnmount() {
     document.body.classList.remove('user-profile-layout');
@@ -178,15 +196,15 @@ class ProfileLayout extends Component {
         params,
       },
     });
-  };
+  }
 
   handleCloseModal = () => {
     this.setState({ modal: { ...modalInitialState } });
-  };
+  }
 
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
-  };
+  }
 
   handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
     this.setState({
@@ -263,12 +281,12 @@ class ProfileLayout extends Component {
     if (typeof fileChangedCallback === 'function') {
       fileChangedCallback();
     }
-  };
+  }
 
   handleUploadingFileDelete = async (file) => {
     await this.props.deleteFile(this.props.params.id, file.fileUUID);
     this.props.cancelFile(file);
-  };
+  }
 
   handleDeleteFileClick = (e, data) => {
     e.preventDefault();
@@ -309,7 +327,7 @@ class ProfileLayout extends Component {
         },
       },
     });
-  };
+  }
 
   handleDeleteNoteClick = (item) => {
     const { noteChangedCallback } = this.state;
@@ -472,12 +490,15 @@ class ProfileLayout extends Component {
       uploadModalInitialValues,
       manageNote,
       config,
+      profile,
+      locale,
     } = this.props;
 
     return (
       <div className="player panel profile-layout">
         <div className="profile-layout-heading">
           <Header
+            locale={locale}
             data={profileData}
             lastIp={lastIp}
             accumulatedBalances={accumulatedBalances}
@@ -488,12 +509,14 @@ class ProfileLayout extends Component {
               state: walletLimits,
               actions: { onChange: this.handleChangeWalletLimitState },
             }}
+            isLoadingProfile={profile.isLoading}
             addTag={this.handleAddTag}
             deleteTag={this.handleDeleteTag}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
             onWalletLimitChange={this.handleChangeWalletLimitState}
+            onRefreshClick={() => this.handleLoadProfile(true)}
           />
 
           <div className="hide-details-block">
@@ -502,9 +525,7 @@ class ProfileLayout extends Component {
               className="hide-details-block_text btn-transparent"
               onClick={this.handleToggleInformationBlock}
             >
-              {informationShown ?
-                I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
-                I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
+              {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
               }
             </button>
             <div className="hide-details-block_arrow" />
@@ -529,7 +550,7 @@ class ProfileLayout extends Component {
                 params={params}
               />
 
-              <div className="tab-content padding-vertical-20">
+              <div className="padding-vertical-20">
                 {children}
               </div>
             </div>

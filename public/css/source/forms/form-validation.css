@@ -1,9 +1,6 @@
 /*
  * FORM VALIDATION
  */
-.form-group {
-  position: relative;
-}
 
 .form-control-error {
   background: #fb434a;

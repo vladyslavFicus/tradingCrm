@@ -106,21 +106,17 @@ class PaymentAddModal extends Component {
     }
   };
 
-  handleSubmitNote = (data) => {
-    return new Promise((resolve) => {
-      this.props.onManageNote(data);
-      this.context.hidePopover();
-      resolve();
-    });
-  };
+  handleSubmitNote = data => new Promise((resolve) => {
+    this.props.onManageNote(data);
+    this.context.hidePopover();
+    resolve();
+  });
 
-  handleDeleteNote = () => {
-    return new Promise((resolve) => {
-      this.props.onManageNote(null);
-      this.context.hidePopover();
-      resolve();
-    });
-  };
+  handleDeleteNote = () => new Promise((resolve) => {
+    this.props.onManageNote(null);
+    this.context.hidePopover();
+    resolve();
+  });
 
   renderPaymentAccountField = () => {
     const { currentValues } = this.props;

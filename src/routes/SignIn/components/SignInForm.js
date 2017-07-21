@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import classNames from 'classnames';
 import { createValidator } from '../../../utils/validator';
-import { InputField } from '../../../components/ReduxForm/UserProfile';
+import { InputField } from '../../../components/ReduxForm';
 import PropTypes from '../../../constants/propTypes';
 
 const attributeLabels = {
@@ -92,6 +92,7 @@ class SignInForm extends Component {
               type="text"
               label="Email"
               component={InputField}
+              position="vertical"
               placeholder={attributeLabels.login}
             />
 
@@ -102,6 +103,7 @@ class SignInForm extends Component {
               type="password"
               label="Password"
               component={InputField}
+              position="vertical"
               placeholder={attributeLabels.password}
             />
           </div>

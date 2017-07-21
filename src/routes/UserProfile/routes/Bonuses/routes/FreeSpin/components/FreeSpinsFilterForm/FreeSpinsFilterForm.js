@@ -6,7 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator } from '../../../../../../../../utils/validator';
 import { attributeLabels, attributePlaceholders } from './constants';
-import { SelectField, SearchField, DateTimeField } from '../../../../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
 
 class FreeSpinsFilterForm extends Component {
   static propTypes = {
@@ -62,85 +62,79 @@ class FreeSpinsFilterForm extends Component {
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="well">
-          <div className="row">
-            <div className="col-md-10">
-              <div className="row">
-                <div className="col-md-2">
+      <div className="well">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="filter-row">
+            <div className="filter-row__big">
+              <Field
+                name="searchBy"
+                type="text"
+                label={I18n.t(attributeLabels.searchBy)}
+                placeholder={I18n.t(attributePlaceholders.searchBy)}
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+              />
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="providerId"
+                label={I18n.t(attributeLabels.providerId)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {providers.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="gameId"
+                label={I18n.t(attributeLabels.gameId)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {games.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
+                <div className="range-group">
                   <Field
-                    name="searchBy"
-                    label={I18n.t(attributeLabels.searchBy)}
-                    placeholder={I18n.t(attributePlaceholders.searchBy)}
-                    component={SearchField}
+                    name="startDate"
+                    placeholder={I18n.t(attributeLabels.startDate)}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator('endDate')}
+                    position="vertical"
+                    className={null}
                   />
-                </div>
-                <div className="col-md-2">
+                  <span className="range-group__separator">-</span>
                   <Field
-                    name="providerId"
-                    label={I18n.t(attributeLabels.providerId)}
-                    labelClassName="form-label"
+                    name="endDate"
+                    placeholder={I18n.t(attributeLabels.endDate)}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator('startDate')}
                     position="vertical"
-                    component={SelectField}
-                  >
-                    <option value="">{I18n.t('COMMON.ANY')}</option>
-                    {providers.map(item => (
-                      <option key={item} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-2">
-                  <Field
-                    name="gameId"
-                    label={I18n.t(attributeLabels.gameId)}
-                    labelClassName="form-label"
-                    position="vertical"
-                    component={SelectField}
-                  >
-                    <option value="">{I18n.t('COMMON.ANY')}</option>
-                    {games.map(item => (
-                      <option key={item} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
-
-                    <div className="row">
-                      <div className="col-md-6">
-                        <Field
-                          name="startDate"
-                          placeholder={I18n.t(attributeLabels.startDate)}
-                          component={DateTimeField}
-                          position="vertical"
-                          isValidDate={this.startDateValidator('endDate')}
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <Field
-                          name="endDate"
-                          placeholder={I18n.t(attributeLabels.endDate)}
-                          component={DateTimeField}
-                          position="vertical"
-                          isValidDate={this.endDateValidator('startDate')}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    className={null}
+                  />
                 </div>
               </div>
             </div>
-
-            <div className="col-md-2 text-right">
-              <div className="form-group margin-top-25">
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -148,7 +142,7 @@ class FreeSpinsFilterForm extends Component {
                 </button>
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  className="btn btn-primary"
                   type="submit"
                 >
                   {I18n.t('COMMON.APPLY')}
@@ -156,8 +150,8 @@ class FreeSpinsFilterForm extends Component {
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 }

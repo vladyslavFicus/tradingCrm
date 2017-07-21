@@ -345,10 +345,10 @@ PropTypes.customValue = PropTypes.shape({
 PropTypes.bonusCampaignEntity = PropTypes.shape({
   authorUUID: PropTypes.string.isRequired,
   bonusLifetime: PropTypes.number.isRequired,
-  campaignName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   campaignPriority: PropTypes.number.isRequired,
   campaignRatio: PropTypes.customValue.isRequired,
-  campaignUUID: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
   capping: PropTypes.customValue,
   conversionPrize: PropTypes.customValue,
   creationDate: PropTypes.string.isRequired,
@@ -407,12 +407,13 @@ PropTypes.gameEntity = PropTypes.shape({
   stopGameUrl: PropTypes.string.isRequired,
 });
 PropTypes.userDeviceEntity = PropTypes.shape({
-  hash: PropTypes.string.isRequired,
   deviceType: PropTypes.string.isRequired,
-  operatingSystem: PropTypes.string.isRequired,
+  hash: PropTypes.string.isRequired,
   lastSignInCountryCode: PropTypes.string.isRequired,
-  lastLogin: PropTypes.string.isRequired,
-  totalLogin: PropTypes.number.isRequired,
+  lastSignInDate: PropTypes.string.isRequired,
+  lastSignInIP: PropTypes.string.isRequired,
+  operatingSystem: PropTypes.string.isRequired,
+  totalSignIn: PropTypes.number.isRequired,
 });
 
 export default PropTypes;
