@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import { renderLabel } from '../../../../utils';
-import { departmentsLabels, rolesLabels } from '../../../../../../constants/operators';
+import { renderLabel } from '../../../../../utils';
+import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
+import './Departments.scss';
 
 const Departments = ({ authorities }) => (
   <div className="player__account__details_additional">

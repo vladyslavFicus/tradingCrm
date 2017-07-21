@@ -8,7 +8,7 @@ import { createValidator } from '../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { campaignTypesLabels } from '../../../../../../../../constants/bonus-campaigns';
 import { attributeLabels, attributePlaceholders } from './constants';
-import { SelectField, SearchField, DateTimeField } from '../../../../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
 
 class CampaignsFilterForm extends Component {
   static propTypes = {
@@ -68,69 +68,64 @@ class CampaignsFilterForm extends Component {
     } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="well">
-          <div className="row">
-            <div className="col-md-10">
-              <div className="row">
-                <div className="col-md-3">
+      <div className="well">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="filter-row">
+            <div className="filter-row__big">
+              <Field
+                name="searchBy"
+                type="text"
+                label={I18n.t(attributeLabels.searchBy)}
+                placeholder={I18n.t(attributePlaceholders.searchBy)}
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+              />
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="bonusType"
+                label={I18n.t(attributeLabels.bonusType)}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
+                {Object.keys(campaignTypesLabels).map(item => (
+                  <option key={item} value={item}>
+                    {renderLabel(item, campaignTypesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
+                <div className="range-group">
                   <Field
-                    name="searchBy"
-                    label={I18n.t(attributeLabels.searchBy)}
-                    placeholder={I18n.t(attributePlaceholders.searchBy)}
-                    component={SearchField}
-                  />
-                </div>
-                <div className="col-md-2">
-                  <Field
-                    name="bonusType"
-                    label={I18n.t(attributeLabels.bonusType)}
-                    labelClassName="form-label"
+                    name="activityDateFrom"
+                    placeholder={I18n.t(attributeLabels.activityDateFrom)}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator('activityDateTo')}
                     position="vertical"
-                    component={SelectField}
-                  >
-                    <option value="">{I18n.t('COMMON.ANY')}</option>
-                    {Object.keys(campaignTypesLabels).map(item => (
-                      <option key={item} value={item}>
-                        {renderLabel(item, campaignTypesLabels)}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
-
-                    <div className="row">
-                      <div className="col-md-6">
-                        <Field
-                          name="activityDateFrom"
-                          placeholder={I18n.t(attributeLabels.activityDateFrom)}
-                          component={DateTimeField}
-                          position="vertical"
-                          isValidDate={this.startDateValidator('activityDateTo')}
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <Field
-                          name="activityDateTo"
-                          placeholder={I18n.t(attributeLabels.activityDateTo)}
-                          component={DateTimeField}
-                          position="vertical"
-                          isValidDate={this.endDateValidator('activityDateFrom')}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    className={null}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="activityDateTo"
+                    placeholder={I18n.t(attributeLabels.activityDateTo)}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator('activityDateFrom')}
+                    position="vertical"
+                    className={null}
+                  />
                 </div>
               </div>
             </div>
-
-            <div className="col-md-2 text-right">
-              <div className="form-group margin-top-25">
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-default btn-sm margin-inline font-weight-700"
+                  className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
                 >
@@ -138,7 +133,7 @@ class CampaignsFilterForm extends Component {
                 </button>
                 <button
                   disabled={submitting || (disabled && pristine)}
-                  className="btn btn-primary btn-sm margin-inline font-weight-700"
+                  className="btn btn-primary"
                   type="submit"
                 >
                   {I18n.t('COMMON.APPLY')}
@@ -146,8 +141,8 @@ class CampaignsFilterForm extends Component {
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     );
   }
 }
