@@ -15,7 +15,7 @@ class FreeSpinGameInfo extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          {freeSpin.aggregatorId}
+          {freeSpin.providerId}
         </div>
         <div className="font-size-10">
           {freeSpin.gameId}

@@ -383,6 +383,7 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   name: PropTypes.string.isRequired,
   playerUUID: PropTypes.string.isRequired,
   prize: PropTypes.price,
+  providerId: PropTypes.string,
   reason: PropTypes.any,
   startDate: PropTypes.string.isRequired,
   spinValue: PropTypes.price.isRequired,
