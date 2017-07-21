@@ -59,6 +59,7 @@ class FreeSpinsView extends Component {
     refreshPinnedNotes: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -66,6 +67,10 @@ class FreeSpinsView extends Component {
     filters: {},
     page: 0,
   };
+
+  componentWillMount() {
+    this.context.cacheChildrenComponent(this);
+  }
 
   componentDidMount() {
     this.context.setNoteChangedCallback(this.handleRefresh);
@@ -87,6 +92,7 @@ class FreeSpinsView extends Component {
 
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
+    this.context.cacheChildrenComponent(null);
   }
 
   handleNoteClick = (target, note, data) => {
@@ -110,11 +116,11 @@ class FreeSpinsView extends Component {
   };
 
   handleFilterReset = () => {
-    this.setState({ filters: {}, page: 0 });
+    this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
 
   handleRowClick = (item) => {
-    const actions = [
+    const modalActions = [
       {
         children: I18n.t('COMMON.CLOSE'),
         onClick: this.handleModalClose,
@@ -123,7 +129,7 @@ class FreeSpinsView extends Component {
     ];
 
     if ([statuses.CANCELED, statuses.PLAYED, statuses.FAILED].indexOf(item.status) === -1) {
-      actions.push({
+      modalActions.push({
         children: I18n.t('PLAYER_PROFILE.FREE_SPINS.CANCEL_FREE_SPIN'),
         onClick: this.handleCancelClick(item),
         className: 'btn btn-danger text-uppercase',
@@ -132,7 +138,7 @@ class FreeSpinsView extends Component {
 
     this.handleModalOpen(MODAL_VIEW, {
       item,
-      actions,
+      actions: modalActions,
     });
   };
 
@@ -303,7 +309,6 @@ class FreeSpinsView extends Component {
           games={gamesFilterValues}
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
-          initialValues={filters}
           disabled={!allowActions}
         />
 

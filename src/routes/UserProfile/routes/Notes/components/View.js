@@ -25,7 +25,7 @@ class View extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    cashChildrenComponent: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -113,7 +113,7 @@ class View extends Component {
             <div className="note-content padding-10">
               <div className="row">
                 <div className="col-md-11">
-                  { data.content }
+                  {data.content}
                   {
                     data.pinned &&
                     <div className="padding-top-10">
@@ -135,7 +135,7 @@ class View extends Component {
         </div>
       </div>
     </div>
-  )
+  );
 
   render() {
     const {

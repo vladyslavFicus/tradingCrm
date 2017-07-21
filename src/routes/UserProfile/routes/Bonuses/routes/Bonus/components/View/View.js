@@ -180,10 +180,10 @@ class View extends Component {
         <Uuid uuid={data.bonusUUID} />
       </div>
       {
-        !!data.campaignUUID &&
+        !!data.uuid &&
         <div className="text-muted font-size-10">
           {I18n.t('PLAYER_PROFILE.BONUS.CREATED_BY_CAMPAIGN')}
-          <Uuid uuid={data.campaignUUID} uuidPrefix="CA" />
+          <Uuid uuid={data.uuid} uuidPrefix="CA" />
         </div>
       }
       {
@@ -245,7 +245,7 @@ class View extends Component {
   );
 
   render() {
-    const { modal, filters } = this.state;
+    const { modal } = this.state;
     const { list: { entities }, profile, accumulatedBalances } = this.props;
 
     return (
@@ -263,7 +263,6 @@ class View extends Component {
 
         <BonusGridFilter
           onSubmit={this.handleSubmit}
-          initialValues={filters}
         />
 
         <GridView
