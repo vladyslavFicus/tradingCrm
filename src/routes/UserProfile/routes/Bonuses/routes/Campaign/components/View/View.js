@@ -43,6 +43,9 @@ class View extends Component {
       id: PropTypes.string,
     }).isRequired,
   };
+  static contextTypes = {
+    cacheChildrenComponent: PropTypes.func.isRequired,
+  };
 
   state = {
     filters: {},
@@ -51,6 +54,7 @@ class View extends Component {
 
   componentDidMount() {
     this.handleRefresh();
+    this.context.cacheChildrenComponent(this);
   }
 
   handleRefresh = () => {
@@ -68,6 +72,10 @@ class View extends Component {
   handleFilterReset = () => {
     this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
+
+  componentWillUnmount() {
+    this.context.cacheChildrenComponent(null);
+  }
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>

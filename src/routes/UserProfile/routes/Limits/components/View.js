@@ -28,11 +28,16 @@ class View extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
     modal: { ...modalInitialState },
   };
+
+  componentWillMount() {
+    this.context.cacheChildrenComponent(this);
+  }
 
   componentDidMount() {
     this.handleRefresh();
@@ -41,11 +46,10 @@ class View extends Component {
 
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
+    this.context.cacheChildrenComponent(null);
   }
 
-  handleRefresh = () => {
-    return this.props.fetchEntities(this.props.params.id);
-  };
+  handleRefresh = () => this.props.fetchEntities(this.props.params.id);
 
   handleCancelLimit = async (type, limitId) => {
     const { params: { id }, cancelLimit, fetchEntities } = this.props;

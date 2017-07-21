@@ -25,9 +25,18 @@ class View extends Component {
     }).isRequired,
     list: PropTypes.pageableState(PropTypes.userDeviceEntity).isRequired,
   };
+
+  static contextTypes = {
+    cacheChildrenComponent: PropTypes.func.isRequired,
+  };
+
   state = {
     filters: {},
   };
+
+  componentWillMount() {
+    this.context.cacheChildrenComponent(this);
+  }
 
   componentDidMount() {
     this.handleRefresh();
@@ -56,21 +65,19 @@ class View extends Component {
     </span>
   );
 
-  renderType = (data) => {
-    return (
-      <div className={typesColor[data.deviceType]}>
-        <i
-          className={classNames('fa font-size-20 padding-right-10', {
-            'fa-mobile': data.deviceType === types.MOBILE,
-            'fa-desktop': data.deviceType === types.DESKTOP,
-            'fa-default': data.deviceType === types.UNKNOWN,
-          })}
-          aria-hidden="true"
-        />
-        {renderLabel(data.deviceType, typesLabels)}
-      </div>
-    );
-  }
+  renderType = data => (
+    <div className={typesColor[data.deviceType]}>
+      <i
+        className={classNames('fa font-size-20 padding-right-10', {
+          'fa-mobile': data.deviceType === types.MOBILE,
+          'fa-desktop': data.deviceType === types.DESKTOP,
+          'fa-default': data.deviceType === types.UNKNOWN,
+        })}
+        aria-hidden="true"
+      />
+      {renderLabel(data.deviceType, typesLabels)}
+    </div>
+  );
 
   renderLastIp = (data) => {
     if (!data.lastSignInCountryCode) {
@@ -82,7 +89,7 @@ class View extends Component {
     }
 
     return <i className={`fs-icon fs-${data.lastSignInCountryCode.toLowerCase()}`} />;
-  }
+  };
 
   renderLastLogin = (data) => {
     const dateTime = moment(data.lastSignInDate);

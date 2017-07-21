@@ -1,5 +1,6 @@
 import { actionTypes as locationActionTypes } from './location';
 import createReducer from '../../utils/createReducer';
+import { actionTypes as windowActionTypes } from '../modules/window';
 
 const KEY = 'user-panels';
 const ADD = `${KEY}/add`;
@@ -112,6 +113,21 @@ const actionHandlers = {
   },
   [RESET]: () => ({ ...initialState }),
   [locationActionTypes.LOCATION_CHANGE]: state => ({ ...state, activeIndex: null }),
+  [windowActionTypes.UPDATE_USER_TAB]: (state, action) => {
+    const { uuid, firstName, lastName } = action.payload;
+    const newFullName = `${firstName} ${lastName}`;
+
+    return {
+      ...state,
+      items: state.items.map((item) => {
+        if (item.uuid === uuid && item.fullName !== newFullName) {
+          item.fullName = newFullName;
+        }
+
+        return item;
+      }),
+    };
+  },
 };
 const actionTypes = {
   ADD,

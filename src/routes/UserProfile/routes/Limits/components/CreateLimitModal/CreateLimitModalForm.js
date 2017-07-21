@@ -34,7 +34,7 @@ const validator = (values, props) => {
   return createValidator(
     rules,
     attributeLabels,
-    false
+    false,
   )(values);
 };
 
@@ -61,7 +61,7 @@ class CreateLimitModal extends Component {
     }
 
     const options = limitPeriods[type].map(period =>
-      <option key={period} value={period}>{period}</option>
+      <option key={period} value={period}>{period}</option>,
     );
 
     return (

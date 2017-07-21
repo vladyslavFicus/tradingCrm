@@ -24,11 +24,16 @@ class View extends Component {
     setFileChangedCallback: PropTypes.func.isRequired,
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
   state = {
     filters: {},
     page: 0,
   };
+
+  componentWillMount() {
+    this.context.cacheChildrenComponent(this);
+  }
 
   componentDidMount() {
     this.context.setNoteChangedCallback(this.handleRefresh);
@@ -39,6 +44,7 @@ class View extends Component {
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
     this.context.setFileChangedCallback(null);
+    this.context.cacheChildrenComponent(null);
   }
 
   getNotePopoverParams = () => ({
