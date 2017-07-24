@@ -4,9 +4,8 @@ import createRequestAction from '../../../utils/createRequestAction';
 import timestamp from '../../../utils/timestamp';
 import { shortify } from '../../../utils/uuid';
 import { actions } from '../../../constants/user';
-import { actions as filesActions } from '../../../constants/files';
+import { statuses } from '../../../constants/kyc';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
-import { sourceActionCreators as filesSourceActionCreators } from '../../../redux/modules/files';
 import config from '../../../config';
 
 const KEY = 'user-profile/view';
@@ -403,11 +402,15 @@ function changeStatus({ action, ...data }) {
 }
 
 function successUpdateProfileReducer(state, action) {
+  const { kycPersonalStatus, kycAddressStatus } = action.payload;
+
   return {
     ...state,
     data: {
       ...state.data,
       ...action.payload,
+      kycCompleted: kycPersonalStatus && kycPersonalStatus.status === statuses.VERIFIED
+      && kycAddressStatus && kycAddressStatus.status === statuses.VERIFIED,
       fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
       shortUUID: shortify(action.payload.playerUUID, action.payload.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : ''),
       balance: action.payload && action.payload.balance
