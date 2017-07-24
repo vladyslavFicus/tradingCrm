@@ -101,6 +101,21 @@ class NewLayout extends Component {
     hasTabs: false,
     noteChangedCallback: null,
     popover: { ...popoverInitialState },
+    sidebarTopMenu: sidebarTopMenu.map(menuItem => {
+      const { items } = menuItem;
+
+      if (items) {
+        const currentMenu = items.find(subMenuItem => subMenuItem.url === this.props.location.pathname);
+
+        if (currentMenu) {
+          menuItem.isOpen = true;
+        }
+      } else {
+        menuItem.isOpen = false;
+      }
+
+      return menuItem;
+    }),
   };
 
   setNoteChangedCallback = (cb) => {
@@ -172,6 +187,29 @@ class NewLayout extends Component {
     this.props.resetPanels();
   };
 
+  handleOpenTap = (index) => {
+    this.setState({
+      sidebarTopMenu: this.state.sidebarTopMenu.map((menuItem, menuItemIndex) => {
+        const { items } = menuItem;
+        let currentMenu;
+
+        if (items) {
+          currentMenu = items.find(subMenuItem => subMenuItem.url === this.props.location.pathname);
+        }
+
+        if (menuItemIndex !== index && !currentMenu) {
+          menuItem.isOpen = false;
+        }
+
+        if (menuItemIndex === index && !currentMenu) {
+          menuItem.isOpen = !menuItem.isOpen;
+        }
+
+        return menuItem;
+      }),
+    });
+  };
+
   render() {
     const { popover } = this.state;
     const {
@@ -194,7 +232,11 @@ class NewLayout extends Component {
           onLocaleChange={onLocaleChange}
         />
 
-        <Sidebar topMenu={sidebarTopMenu} bottomMenu={sidebarBottomMenu} />
+        <Sidebar
+          topMenu={this.state.sidebarTopMenu}
+          bottomMenu={sidebarBottomMenu}
+          handleOpenTap={this.handleOpenTap}
+        />
 
         <div className="section-container">{children}</div>
 

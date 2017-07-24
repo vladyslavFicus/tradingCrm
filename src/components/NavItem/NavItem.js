@@ -21,20 +21,19 @@ class NavItem extends Component {
     opened: false,
   };
 
-  handleDropDownClick = () => {
-    this.setState({ opened: !this.state.opened });
-  };
-
   render() {
     const {
       label,
       icon,
       url,
       items,
+      isOpen,
+      handleOpenTap,
+      index,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const withSubmenu = items && items.length > 0;
-    const className = classNames('nav-item', { active: this.state.opened, dropdown: withSubmenu });
+    const className = classNames('nav-item', { active: isOpen, dropdown: withSubmenu });
     let subMenu = [];
 
     if (!label || (!url && !withSubmenu)) {
@@ -56,7 +55,7 @@ class NavItem extends Component {
     }
 
     return (
-      <li className={className} onClick={this.handleDropDownClick}>
+      <li className={className} onClick={() => handleOpenTap(index)}>
         <Link className="nav-link" to={url}>
           {!!icon && <i className={icon} />}
           <span className="nav-link__label">

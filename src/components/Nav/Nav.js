@@ -15,6 +15,7 @@ class Nav extends Component {
     const {
       items,
       className,
+      handleOpenTap,
     } = this.props;
 
     return (
@@ -22,10 +23,13 @@ class Nav extends Component {
         {items.map((item, index) => (
           <NavItem
             key={index}
+            index={index}
             label={item.label}
+            isOpen={item.isOpen}
             icon={item.icon}
             url={item.url}
             items={item.items}
+            handleOpenTap={handleOpenTap}
           />
         ))}
       </ul>
