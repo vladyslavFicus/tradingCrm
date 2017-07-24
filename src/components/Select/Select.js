@@ -77,6 +77,10 @@ class Select extends Component {
     this.optionsRef = node;
   };
 
+  bindContainerRef = (node) => {
+    this.optionsContainerRef = node;
+  };
+
   handleShowSearch = () => this.props.children.length > 5;
 
   handleInputClick = () => {
@@ -118,8 +122,10 @@ class Select extends Component {
   handleOpen = () => {
     if (!this.state.opened) {
       this.setState({ opened: true }, () => {
-        if (this.optionsRef) {
-          this.optionsRef.scrollTop = 0;
+        const { multiple } = this.props;
+
+        if (multiple) {
+          this.optionsContainerRef.scrollTop = 0;
         }
       });
     }
@@ -250,7 +256,6 @@ class Select extends Component {
         options={options}
         selectedOptions={toSelectOptions}
         onChange={this.handleSelectMultipleOptions}
-        ref={this.bindOptionsRef}
       />
     )
     : (
@@ -290,7 +295,7 @@ class Select extends Component {
               onChange={this.handleSearch}
             />
           }
-          <div className="select-block__container">
+          <div className="select-block__container" ref={this.bindContainerRef}>
             {multiple && this.renderSelectedOptions(originalSelectedOptions, selectedOptions)}
             {
               !!query && options.length === 0 &&

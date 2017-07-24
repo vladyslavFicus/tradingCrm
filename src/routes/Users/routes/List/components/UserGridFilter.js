@@ -4,7 +4,7 @@ import moment from 'moment';
 import countryList from 'country-list';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
-import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
 import config from '../../../../../config/index';

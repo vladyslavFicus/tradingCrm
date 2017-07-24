@@ -138,6 +138,7 @@ class List extends Component {
     const allowActions = Object
       .keys(filters)
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
+    console.log(filters);
 
     return (
       <div className="page-content-inner">
@@ -163,7 +164,6 @@ class List extends Component {
           <UserGridFilter
             onSubmit={this.handleFilterSubmit}
             onReset={this.handleFilterReset}
-            initialValues={filters}
             disabled={!allowActions}
           />
 
