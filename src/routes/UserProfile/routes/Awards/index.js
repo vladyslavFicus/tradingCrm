@@ -1,0 +1,13 @@
+import getChildRoutes from './routes';
+
+export default store => ({
+  path: ':id/awards',
+  onEnter: (nextState, replace, cb) => {
+    if (nextState.location && /awards$/.test(nextState.location.pathname)) {
+      replace(`/users/${nextState.params.id}/awards/bonus`);
+    }
+
+    cb();
+  },
+  childRoutes: getChildRoutes(store),
+});

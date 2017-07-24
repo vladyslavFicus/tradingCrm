@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import { EditorField } from 'components/ReduxForm';
-import { createValidator } from 'utils/validator';
+import { TextAreaField } from '../../../components/ReduxForm';
+import { createValidator } from '../../../utils/validator';
 
 const attributeLabels = {
   content: 'Content',
@@ -13,50 +13,65 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 class ManageForm extends Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    reset: PropTypes.func,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+  };
+  static defaultProps = {
+    handleSubmit: null,
+    reset: null,
+    pristine: false,
+    submitting: false,
+    disabled: false,
+  };
 
-    this.handleResetForm = this.handleResetForm.bind(this);
-  }
-
-  handleResetForm() {
+  handleResetForm = () => {
     this.props.reset();
-  }
+  };
 
   render() {
     const { handleSubmit, pristine, submitting, onSubmit, disabled } = this.props;
 
-    return <form onSubmit={handleSubmit(onSubmit)}>
-      <Field
-        name="content"
-        label={attributeLabels.content}
-        disabled={disabled}
-        component={EditorField}
-      />
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="content"
+          label={attributeLabels.content}
+          disabled={disabled}
+          component={TextAreaField}
+        />
 
-      {!disabled && <div className="form-actions">
-        <div className="form-group row">
-          <div className="col-md-9 col-md-offset-3">
-            <button
-              type="submit"
-              disabled={submitting}
-              className="btn width-150 btn-primary"
-            >
-              Submit
-            </button>
+        {
+          !disabled &&
+          <div className="form-actions">
+            <div className="form-group row">
+              <div className="col-md-9 col-md-offset-3">
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="btn width-150 btn-primary"
+                >
+                  Submit
+                </button>
 
-            <button
-              type="button"
-              disabled={pristine || submitting}
-              onClick={this.handleResetForm}
-              className="btn btn-default"
-            >
-              Cancel
-            </button>
+                <button
+                  type="button"
+                  disabled={pristine || submitting}
+                  onClick={this.handleResetForm}
+                  className="btn btn-default"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>}
-    </form>;
+        }
+      </form>
+    );
   }
 }
 

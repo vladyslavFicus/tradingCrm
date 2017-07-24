@@ -11,7 +11,6 @@ class InputField extends Component {
     }).isRequired,
     label: PropTypes.string,
     labelAddon: PropTypes.any,
-    labelClassName: PropTypes.string,
     inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
     inputAddon: PropTypes.element,
@@ -26,12 +25,13 @@ class InputField extends Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
     }).isRequired,
+    iconLeftClassName: PropTypes.string,
+    iconRightClassName: PropTypes.string,
   };
   static defaultProps = {
     className: 'form-group',
     label: null,
     labelAddon: null,
-    labelClassName: 'form-control-label',
     inputClassName: 'form-control',
     showInputButton: false,
     position: 'horizontal',
@@ -41,6 +41,8 @@ class InputField extends Component {
     inputAddon: null,
     inputAddonPosition: 'left',
     inputButton: null,
+    iconLeftClassName: '',
+    iconRightClassName: '',
   };
 
   renderLabel = (props) => {
@@ -58,7 +60,7 @@ class InputField extends Component {
     const labelNode = (
       !labelAddon
         ? <label className={labelClassName}>{label}</label>
-        : <div className={labelClassName}>{label} {labelAddon}</div>
+        : <label className={labelClassName}>{label} {labelAddon}</label>
     );
 
     return position === 'vertical'
@@ -81,6 +83,7 @@ class InputField extends Component {
           {
             showErrorMessage && touched && error &&
             <div className="form-control-feedback">
+              <i className="nas nas-field_alert_icon" />
               {error}
             </div>
           }
@@ -103,6 +106,7 @@ class InputField extends Component {
         {
           showErrorMessage && touched && error &&
           <div className="form-control-feedback">
+            <i className="nas nas-field_alert_icon" />
             {error}
           </div>
         }
@@ -123,6 +127,8 @@ class InputField extends Component {
       meta: { touched, error },
       placeholder,
       label,
+      iconLeftClassName,
+      iconRightClassName,
     } = props;
 
     let inputField = (
@@ -134,6 +140,21 @@ class InputField extends Component {
         placeholder={placeholder !== null ? placeholder : label}
       />
     );
+
+    if (iconLeftClassName || iconRightClassName) {
+      inputField = (
+        <div
+          className={classNames('input-with-icon', {
+            'input-with-icon__left': !!iconLeftClassName,
+            'input-with-icon__right': !!iconRightClassName,
+          })}
+        >
+          {!!iconLeftClassName && <i className={classNames('input-left-icon', iconLeftClassName)} />}
+          {inputField}
+          {!!iconRightClassName && <i className={classNames('input-right-icon', iconRightClassName)} />}
+        </div>
+      );
+    }
 
     if (inputAddon) {
       inputField = (
@@ -151,9 +172,7 @@ class InputField extends Component {
       inputField = (
         <div className="form-control-with-button">
           {inputField}
-          <div className="form-control-button">
-            {showInputButton && inputButton}
-          </div>
+          {showInputButton && inputButton}
         </div>
       );
     }

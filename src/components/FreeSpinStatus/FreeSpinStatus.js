@@ -29,9 +29,9 @@ class FreeSpinStatus extends Component {
         <div className={classNames(`${blockName}__status`, className)}>
           {renderLabel(freeSpin.status, statusesLabels)}
           {
-            freeSpin.reason &&
+            (freeSpin.reason || freeSpin.error) &&
             <FailedStatusIcon id={`${id}-status`}>
-              {freeSpin.reason}
+              {freeSpin.error || freeSpin.reason}
             </FailedStatusIcon>
           }
         </div>

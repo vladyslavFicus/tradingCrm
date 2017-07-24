@@ -145,5 +145,5 @@ export default connect(state => ({ selectedValues: getFormValues(FORM_NAME)(stat
   reduxForm({
     form: FORM_NAME,
     validate: validator,
-  })(RefuseModal)
+  })(RefuseModal),
 );
