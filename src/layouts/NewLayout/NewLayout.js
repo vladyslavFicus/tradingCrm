@@ -129,10 +129,11 @@ class NewLayout extends Component {
 
   handleScrollToTop = () => {
     const { activePanelIndex } = this.props;
-    const iframe = document.querySelector('iframe.user-panel-content-frame');
+    const iframes = document.querySelectorAll('iframe.user-panel-content-frame');
+    const currentIframe = iframes[activePanelIndex];
 
-    if (activePanelIndex !== null && iframe) {
-      iframe.contentWindow.postMessage(JSON.stringify(windowActionCreators.scrollToTop()), window.location.origin);
+    if (activePanelIndex !== null && currentIframe) {
+      currentIframe.contentWindow.postMessage(JSON.stringify(windowActionCreators.scrollToTop()), window.location.origin);
     } else {
       window.scrollTo(0, 0);
     }

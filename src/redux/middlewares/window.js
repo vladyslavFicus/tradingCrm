@@ -1,12 +1,13 @@
+import { browserHistory } from 'react-router';
 import { actionTypes as profileActionTypes } from '../../routes/UserProfile/modules/profile';
-import { actionCreators as windowActionCreators } from '../modules/window';
-import { actionTypes as userPanelsActionTypess } from '../modules/user-panels';
+import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../modules/window';
+import { actionTypes as userPanelsActionTypes } from '../modules/user-panels';
 import { actionCreators as appActionCreators } from '../modules/app';
 
 const config = {
   [profileActionTypes.PROFILE.SUCCESS]: windowActionCreators.updateUserTab,
   [profileActionTypes.SUBMIT_KYC.SUCCESS]: windowActionCreators.updateUserTab,
-  [userPanelsActionTypess.SET_ACTIVE]: appActionCreators.setIsShowScrollTop,
+  [userPanelsActionTypes.SET_ACTIVE]: appActionCreators.setIsShowScrollTop,
 };
 
 const allowedActions = Object.keys(config);
@@ -27,13 +28,17 @@ export default () => next => (action) => {
       };
     }
 
-    if (action.type === userPanelsActionTypess.SET_ACTIVE && action.payload) {
+    if (action.type === userPanelsActionTypes.SET_ACTIVE && action.payload) {
       data = true;
-    } else if (action.type === userPanelsActionTypess.SET_ACTIVE && !action.payload) {
+    } else if (action.type === userPanelsActionTypes.SET_ACTIVE && !action.payload) {
       data = false;
     }
 
     window.parent.postMessage(JSON.stringify(actionFunction(data)), window.location.origin);
+  }
+
+  if (action.type === windowActionTypes.NAVIGATE_TO) {
+    browserHistory.push(action.payload);
   }
 
   return next(action);
