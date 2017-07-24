@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
 import './ViewModal.scss';
+import PropTypes from '../../../../../../../../constants/propTypes';
 import { shortify } from '../../../../../../../../utils/uuid';
 import Amount from '../../../../../../../../components/Amount';
 import BonusType from '../BonusType';
@@ -15,7 +15,11 @@ import { targetTypes } from '../../../../../../../../constants/note';
 class ViewModal extends Component {
   static propTypes = {
     profile: PropTypes.object.isRequired,
-    accumulatedBalances: PropTypes.object.isRequired,
+    accumulatedBalances: PropTypes.shape({
+      total: PropTypes.price.isRequired,
+      bonus: PropTypes.price.isRequired,
+      real: PropTypes.price.isRequired,
+    }).isRequired,
     actions: PropTypes.arrayOf(PropTypes.shape({
       children: PropTypes.any.isRequired,
       onClick: PropTypes.func.isRequired,
@@ -24,6 +28,9 @@ class ViewModal extends Component {
     item: PropTypes.bonusEntity.isRequired,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    isOpen: false,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -139,7 +146,7 @@ class ViewModal extends Component {
       }
       {
         !data.campaignUUID && !!data.operatorUUID &&
-        <div className="ittle-grey-text font-size-11">
+        <div className="little-grey-text font-size-11">
           by Manual Bonus {shortify(data.operatorUUID, 'OP')}
         </div>
       }
@@ -148,18 +155,19 @@ class ViewModal extends Component {
 
   renderAvailablePeriod = data => (
     data.createdDate
-      ? <div>
-        <div className="font-weight-600">
-          {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-        </div>
-        {
+      ? (
+        <div>
+          <div className="font-weight-600">
+            {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
+          </div>
+          {
           !!data.expirationDate &&
             <div className="little-grey-text font-size-11">
               {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
             </div>
         }
-      </div>
-      : <span>&mdash</span>
+        </div>
+      ) : <span>&mdash</span>
   );
 
   renderPriority = data => <span>{data.priority}</span>;

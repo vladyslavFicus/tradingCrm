@@ -23,7 +23,6 @@ import StatusHistory from '../../../../../components/TransactionStatusHistory';
 import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
 import Amount from '../../../../../components/Amount';
-import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 import Uuid from '../../../../../components/Uuid';
 
@@ -74,7 +73,7 @@ class View extends Component {
     } else {
       this.context.notes.onAddNoteClick(
         target,
-        { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT }
+        { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT },
       );
     }
   };
@@ -133,7 +132,6 @@ class View extends Component {
   };
 
   handleOpenDetailModal = async (params) => {
-    await this.props.fetchBalances(params.payment.playerUUID);
     const action = await this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId);
 
     this.setState({
@@ -166,16 +164,12 @@ class View extends Component {
     const paymentId = shortify(data.paymentId, 'TA');
     const paymentLink = showPaymentDetails ?
       (
-        <span
-          className="cursor-pointer"
-          onClick={() => this.handleOpenDetailModal({
-            payment: data,
-            profile: data.profile,
-            accumulatedBalances: data.profile.accumulatedBalances,
-          })}
+        <button
+          className="btn-transparent-text"
+          onClick={() => this.handleOpenDetailModal({ payment: data })}
         >
           {paymentId}
-        </span>
+        </button>
       ) : paymentId;
 
     return (
@@ -187,6 +181,10 @@ class View extends Component {
       </div>
     );
   };
+
+  renderPlayer = data => (
+    <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+  );
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -345,7 +343,7 @@ class View extends Component {
                 name="profile"
                 header="Player"
                 headerClassName="text-uppercase"
-                render={GridPlayerInfo}
+                render={this.renderPlayer}
               />
               <GridColumn
                 name="paymentType"

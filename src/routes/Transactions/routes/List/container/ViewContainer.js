@@ -13,9 +13,6 @@ const mapStateToProps = ({ transactions }) => ({
 });
 
 const mapActions = {
-  fetchBalance: actionCreators.fetchBalance,
-  fetchBalances: actionCreators.fetchBalances,
-  fetchBonus: actionCreators.fetchBonus,
   fetchEntities: actionCreators.fetchEntities,
   onChangePaymentStatus: actionCreators.changePaymentStatus,
   loadPaymentStatuses: actionCreators.fetchPaymentStatuses,
