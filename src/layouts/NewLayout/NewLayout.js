@@ -8,6 +8,8 @@ import { actionCreators as authActionCreators } from '../../redux/modules/auth';
 import { actionCreators as languageActionCreators } from '../../redux/modules/language';
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
 import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
+import { actionCreators as appActionCreators } from '../../redux/modules/app';
+import { actionCreators as windowActionCreators } from '../../redux/modules/window';
 import NotePopover from '../../components/NotePopover';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
@@ -99,7 +101,6 @@ class NewLayout extends Component {
   }
 
   state = {
-    showScrollToTop: null,
     noteChangedCallback: null,
     popover: { ...popoverInitialState },
   };
@@ -117,15 +118,24 @@ class NewLayout extends Component {
   };
 
   handleScrollWindow = () => {
-    if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100)) {
-      this.setState({ showScrollToTop: true });
-    } else if (this.state.showScrollToTop) {
-      this.setState({ showScrollToTop: false });
+    const { app: { showScrollToTop } } = this.props;
+
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      this.props.setIsShowScrollTop(true);
+    } else if (showScrollToTop) {
+      this.props.setIsShowScrollTop(false);
     }
   };
 
   handleScrollToTop = () => {
-    window.scrollTo(0, 0);
+    const { activePanelIndex } = this.props;
+    const iframe = document.querySelector('iframe.user-panel-content-frame');
+
+    if (activePanelIndex !== null && iframe) {
+      iframe.contentWindow.postMessage(JSON.stringify(windowActionCreators.scrollToTop()), window.location.origin);
+    } else {
+      window.scrollTo(0, 0);
+    }
   };
 
   handleAddNoteClick = (target, item, params = {}) => {
@@ -194,7 +204,6 @@ class NewLayout extends Component {
   };
 
   render() {
-    const { popover, showScrollToTop } = this.state;
     const {
       children,
       router,
@@ -204,7 +213,9 @@ class NewLayout extends Component {
       setActivePanel,
       onLocaleChange,
       languages,
+      app: { showScrollToTop },
     } = this.props;
+    const { popover } = this.state;
 
     return (
       <div>
@@ -258,8 +269,10 @@ const mapStateToProps = state => ({
   permissions: state.permissions.data,
   activeUserPanel: state.userPanels.items[state.userPanels.activeIndex] || null,
   userPanels: state.userPanels.items,
+  activePanelIndex: state.userPanels.activeIndex,
   locale: state.i18n.locale,
   languages: getAvailableLanguages(),
+  app: state.app,
 });
 
 export default connect(mapStateToProps, {
@@ -272,4 +285,5 @@ export default connect(mapStateToProps, {
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
+  setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
 })(NewLayout);

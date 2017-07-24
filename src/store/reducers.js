@@ -6,6 +6,7 @@ import auth from '../redux/modules/auth';
 import permissions from '../redux/modules/permissions';
 import userPanels from '../redux/modules/user-panels';
 import language from '../redux/modules/language';
+import app from '../redux/modules/app';
 
 export const makeRootReducer = asyncReducers => combineReducers({
   location,
@@ -13,6 +14,7 @@ export const makeRootReducer = asyncReducers => combineReducers({
   permissions,
   userPanels,
   language,
+  app,
   form: formReducer,
   i18n: i18nReducer,
   ...asyncReducers,

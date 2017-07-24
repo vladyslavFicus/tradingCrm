@@ -11,9 +11,10 @@ import { targetTypes } from '../../../constants/note';
 import Information from '../components/Information';
 import PropTypes from '../../../constants/propTypes';
 import getFileBlobUrl from '../../../utils/getFileBlobUrl';
+import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../../redux/modules/window';
 import {
   UploadModal as UploadFileModal,
-  DeleteModal as DeleteFileModal,
+  DeleteModal as DeleteFileModal
 } from '../../../components/Files';
 import './ProfileLayout.scss';
 
@@ -145,11 +146,32 @@ class ProfileLayout extends Component {
 
   componentWillMount() {
     document.body.classList.add('user-profile-layout');
+    window.addEventListener('scroll', this.handleScrollWindow);
   }
 
   componentDidMount() {
     this.handleLoadProfile();
+
+    window.addEventListener('message', ({ data, origin }) => {
+      const action = JSON.parse(data);
+
+      if (origin === window.location.origin) {
+        if (typeof action === 'object' && action.type === windowActionTypes.SCROLL_TO_TOP) {
+          window.scrollTo(0, 0);
+        }
+      }
+    });
   }
+
+  handleScrollWindow = () => {
+    if (window && window.parent !== window && window.parent.postMessage) {
+      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(true)), window.location.origin);
+      } else if (document.body.scrollTop < 100 || document.documentElement.scrollTop < 100) {
+        window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(false)), window.location.origin);
+      }
+    }
+  };
 
   handleLoadProfile = (needForceUpdate = false) => {
     const {
@@ -178,6 +200,7 @@ class ProfileLayout extends Component {
 
   componentWillUnmount() {
     document.body.classList.remove('user-profile-layout');
+    window.removeEventListener('scroll', this.handleScrollWindow);
   }
 
   setNoteChangedCallback = (cb) => {
