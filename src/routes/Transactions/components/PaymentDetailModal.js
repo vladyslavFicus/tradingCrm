@@ -9,7 +9,7 @@ import {
   statusesLabels as paymentsStatusesLabels,
   statusesColor as paymentsStatusesColor,
   types as paymentsTypes,
-  paymentActions,
+  paymentActions
 } from '../../../constants/payment';
 import { statusColorNames } from '../../../constants/user';
 import { targetTypes } from '../../../constants/note';
@@ -38,11 +38,13 @@ class PaymentDetailModal extends Component {
       bonus: PropTypes.price.isRequired,
     }),
     profile: PropTypes.userProfile,
-    payment: PropTypes.paymentEntity,
+    payment: PropTypes.paymentEntity.isRequired,
   };
   static defaultProps = {
     className: '',
     isOpen: false,
+    accumulatedBalances: {},
+    profile: null,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -80,8 +82,7 @@ class PaymentDetailModal extends Component {
       modalStaticParams: {
         title: 'Withdrawal rejection',
         actionButtonLabel: 'Reject withdraw transaction',
-        actionDescription: `You are about to reject withdraw transaction ' +
-        '${shortify(payment.paymentId, 'TA')} from`,
+        actionDescription: `You are about to reject withdraw transaction ${shortify(payment.paymentId, 'TA')} from`,
       },
     });
   };
@@ -97,8 +98,7 @@ class PaymentDetailModal extends Component {
       modalStaticParams: {
         actionButtonLabel: 'Confirm',
         title: 'Deposit chargeback',
-        actionDescription: 'You are about to mark the deposit transaction ' +
-        `${shortify(payment.paymentId, 'TA')} as chargeback in`,
+        actionDescription: `You are about to mark the deposit transaction ${shortify(payment.paymentId, 'TA')} as chargeback in`,
       },
     });
   };
@@ -156,6 +156,63 @@ class PaymentDetailModal extends Component {
     );
   };
 
+  renderPlayerInfo = () => {
+    const { profile } = this.props;
+
+    if (!profile) {
+      return null;
+    }
+
+    return (
+      <div className="row payment-detail-player">
+        <div className="col-md-4 payment-detail-player-block">
+          <div className="color-default text-uppercase font-size-11">
+            Player
+          </div>
+          <div className="font-size-14">
+            <div className="font-weight-700">
+              {profile.firstName} {profile.lastName}
+              <span className="font-weight-400">
+                {profile.birthDate ? `(${moment().diff(profile.birthDate, 'years')})` : null}
+              </span>
+            </div>
+            <span className="font-size-10 text-uppercase color-default">
+              {`${profile.username} - `}
+              <Uuid uuid={profile.playerUUID} uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+              {` - ${profile.languageCode}`}
+            </span>
+          </div>
+        </div>
+        <div className="col-md-4 payment-detail-player-block">
+          <div className="color-default text-uppercase font-size-11">
+            Account Status
+          </div>
+          <div className="font-size-14">
+            <div className="font-weight-700">
+              <div className={` ${statusColorNames[profile.profileStatus]}`}>{profile.profileStatus}</div>
+              {!!profile.suspendEndDate && <span className="font-size-10 text-uppercase color-default">
+                    Until {moment(profile.suspendEndDate).format('L')}
+              </span>}
+            </div>
+          </div>
+        </div>
+        <div className="col-md-4 payment-detail-player-block">
+          <div className="color-default text-uppercase font-size-11">
+            Balance
+          </div>
+          <div className="font-size-14">
+            <div className="font-weight-700">
+              <Amount {...profile.balance} />
+            </div>
+            <span className="font-size-10 text-uppercase color-default">
+                  RM <Amount {...profile.real} /> + BM <Amount {...profile.bonus} />
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const {
       payment: {
@@ -173,18 +230,6 @@ class PaymentDetailModal extends Component {
         note,
         userAgent,
       },
-      profile: {
-        firstName,
-        lastName,
-        birthDate,
-        username,
-        languageCode,
-        uuid,
-        profileStatus,
-        suspendEndDate,
-        balance,
-      },
-      accumulatedBalances: { real, bonus },
       isOpen,
       onClose,
       className,
@@ -196,52 +241,7 @@ class PaymentDetailModal extends Component {
         <ModalHeader toggle={onClose}>Payment details</ModalHeader>
 
         <ModalBody>
-          <div className="row payment-detail-player">
-            <div className="col-md-4 payment-detail-player-block">
-              <div className="color-default text-uppercase font-size-11">
-                Player
-              </div>
-              <div className="font-size-14">
-                <div className="font-weight-700">
-                  {firstName} {lastName}
-                  <span className="font-weight-400">
-                    {birthDate ? `(${moment().diff(birthDate, 'years')})` : null}
-                  </span>
-                </div>
-                <span className="font-size-10 text-uppercase color-default">
-                  {`${username} - `}
-                  <Uuid uuid={uuid} uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : null} />
-                  {` - ${languageCode}`}
-                </span>
-              </div>
-            </div>
-            <div className="col-md-4 payment-detail-player-block">
-              <div className="color-default text-uppercase font-size-11">
-                Account Status
-              </div>
-              <div className="font-size-14">
-                <div className="font-weight-700">
-                  <div className={` ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
-                  {!!suspendEndDate && <span className="font-size-10 text-uppercase color-default">
-                    Until {moment(suspendEndDate).format('L')}
-                  </span>}
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 payment-detail-player-block">
-              <div className="color-default text-uppercase font-size-11">
-                Balance
-              </div>
-              <div className="font-size-14">
-                <div className="font-weight-700">
-                  <Amount {...balance} />
-                </div>
-                <span className="font-size-10 text-uppercase color-default">
-                  RM <Amount {...real} /> + BM <Amount {...bonus} />
-                </span>
-              </div>
-            </div>
-          </div>
+          {this.renderPlayerInfo}
 
           <div className="row payment-detail-blocks">
             <div className="col-md-3 payment-detail-block">

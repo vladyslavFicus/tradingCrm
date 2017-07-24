@@ -67,9 +67,9 @@ class Header extends Component {
   };
 
   getUserAge = () => {
-    const { data: { birthDate } } = this.props;
+    const { data: { age } } = this.props;
 
-    return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
+    return age || null;
   };
 
   getRealWithBonusBalance = () => {
@@ -111,7 +111,7 @@ class Header extends Component {
         profileStatus,
         suspendEndDate,
         profileTags,
-        uuid,
+        playerUUID: uuid,
         kycCompleted,
         profileStatusReason,
       },

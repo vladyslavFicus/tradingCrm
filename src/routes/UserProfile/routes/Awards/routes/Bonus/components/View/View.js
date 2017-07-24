@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import { statuses } from '../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../constants/note';
-import PopoverButton from '../../../../../../../../components/PopoverButton';
 import Uuid from '../../../../../../../../components/Uuid';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
 import BonusGridFilter from '../BonusGridFilter';
@@ -25,16 +24,19 @@ const MODAL_VIEW = 'view-modal';
 
 class View extends Component {
   static propTypes = {
-    list: PropTypes.object,
-    profile: PropTypes.object,
-    accumulatedBalances: PropTypes.object,
+    list: PropTypes.pageableState(PropTypes.bonusEntity),
+    profile: PropTypes.userProfile.isRequired,
+    accumulatedBalances: PropTypes.shape({
+      total: PropTypes.price.isRequired,
+      bonus: PropTypes.price.isRequired,
+      real: PropTypes.price.isRequired,
+    }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
     createBonus: PropTypes.func.isRequired,
-    fetchProfile: PropTypes.func.isRequired,
     cancelBonus: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
-    }),
+    }).isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -339,7 +341,11 @@ class View extends Component {
           modal.name === MODAL_CREATE &&
           <CreateModal
             isOpen
-            initialValues={{ playerUUID: profile.data.uuid, state: 'INACTIVE', currency: profile.data.currencyCode }}
+            initialValues={{
+              playerUUID: profile.data.playerUUID,
+              state: 'INACTIVE',
+              currency: profile.data.currencyCode,
+            }}
             onSubmit={this.handleSubmitManualBonus}
             onClose={this.handleModalClose}
           />
