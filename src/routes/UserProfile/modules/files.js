@@ -67,7 +67,7 @@ function uploadProfileFile(playerUUID, type, file) {
         bailout: !logged,
       },
     })
-      .then(() => dispatch(fetchFiles(playerUUID, { category: type, size: 999, })));
+      .then(() => dispatch(fetchFiles(playerUUID, { category: type, size: 999 })));
   };
 }
 
@@ -116,7 +116,8 @@ function deleteFile(playerUUID, fileUUID) {
         ],
         bailout: !logged,
       },
-    });
+    })
+      .then(() => dispatch(fetchFiles(playerUUID, { size: 999 })));
   };
 }
 
