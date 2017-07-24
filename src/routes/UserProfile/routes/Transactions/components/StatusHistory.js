@@ -33,30 +33,28 @@ class StatusHistory extends Component {
     });
   };
 
-  renderDropDown = (label, statusHistory, dropDownOpen) => {
-    return (
-      <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-        <span onClick={this.toggle}>{label}</span>
-        <DropdownMenu>
-          {
-            statusHistory.map(status => (
-              <DropdownItem className="text-uppercase" key={status.reference}>
-                <div className={classNames(statusesColor[status.paymentStatus], 'font-weight-700')}>
-                  {status.paymentStatus}
-                </div>
-                <div className="font-size-10 color-default">
-                  {moment(status.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
-                </div>
-                <div className="font-size-10 color-default">
-                  {status.initiatorType}
-                </div>
-              </DropdownItem>
-            ))
-          }
-        </DropdownMenu>
-      </Dropdown>
-    );
-  };
+  renderDropDown = (label, statusHistory, dropDownOpen) => (
+    <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
+      <span onClick={this.toggle}>{label}</span>
+      <DropdownMenu>
+        {
+          statusHistory.map(status => (
+            <DropdownItem className="text-uppercase" key={status.reference}>
+              <div className={classNames(statusesColor[status.paymentStatus], 'font-weight-700')}>
+                {status.paymentStatus}
+              </div>
+              <div className="font-size-10 color-default">
+                {moment(status.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
+              </div>
+              <div className="font-size-10 color-default">
+                {status.initiatorType}
+              </div>
+            </DropdownItem>
+          ))
+        }
+      </DropdownMenu>
+    </Dropdown>
+  );
 
   render() {
     const { dropDownOpen, statusHistory } = this.state;

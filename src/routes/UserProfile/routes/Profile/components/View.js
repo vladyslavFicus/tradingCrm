@@ -198,17 +198,17 @@ class View extends Component {
     }
 
     return (
-      <div className="player__account__page_profile tab-content">
+      <div>
         <div className="row margin-bottom-20">
-          <div className="col-md-6">
+          <div className="col-xl-6">
             <span className="font-size-20">{I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}</span>
           </div>
         </div>
 
-        <div className="tab-pane active">
+        <div>
           <div className="panel">
             <div className="panel-body row">
-              <div className="col-md-8 profile-bordered-block">
+              <div className="col-xl-8 profile-bordered-block">
                 <PersonalForm
                   initialValues={personalData}
                   onSubmit={this.handleSubmitKYC(kycTypes.personal)}
@@ -222,7 +222,7 @@ class View extends Component {
                   onDocumentClick={this.handlePreviewImageClick}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-xl-4">
                 {
                   data.kycPersonalStatus &&
                   <VerifyData
@@ -239,7 +239,7 @@ class View extends Component {
 
           <div className="panel">
             <div className="panel-body row">
-              <div className="col-md-8 profile-bordered-block">
+              <div className="col-xl-8 profile-bordered-block">
                 <AddressForm
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
@@ -253,7 +253,7 @@ class View extends Component {
                   onDocumentClick={this.handlePreviewImageClick}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-xl-4">
                 {
                   data.kycAddressStatus &&
                   <VerifyData

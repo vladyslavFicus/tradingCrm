@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import countryList from 'country-list';
-import { InputField, SelectField } from '../../../../../../../components/ReduxForm/UserProfile';
+import { InputField, SelectField } from '../../../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../../../utils/validator';
 
 const attributeLabels = {
@@ -20,17 +20,21 @@ const validator = createValidator({
   firstName: ['required', 'string'],
   lastName: ['required', 'string'],
   email: ['required', 'email'],
-  country: [`in:,${Object.keys(countries).join()}`],
+  country: ['required', `in:,${Object.keys(countries).join()}`],
   phoneNumber: 'string',
 }, attributeLabels, false);
 
 class Form extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func,
-    onSubmit: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool,
+  };
+  static defaultProps = {
+    handleSubmit: null,
+    pristine: false,
+    submitting: false,
   };
 
   render() {
@@ -39,66 +43,75 @@ class Form extends Component {
       onSubmit,
       pristine,
       submitting,
-      valid,
     } = this.props;
 
     return (
-      <div>
-        <form className="form-horizontal" role="form" onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
-            <h5 className="pull-left">Personal information</h5>
-            {!(pristine || submitting || !valid) &&
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="row margin-bottom-20">
+          <div className="col-xl-6">
+            <span className="personal-form-heading">Personal information</span>
+          </div>
+          {!(pristine || submitting) &&
+          <div className="col-xl-6 text-right">
             <button className="btn btn-sm btn-primary pull-right" type="submit">
               Save changes
             </button>
-            }
           </div>
-          <div className="row">
+          }
+        </div>
+        <div className="row">
+          <div className="col-xl-4">
             <Field
               name="firstName"
               label={attributeLabels.firstName}
               type="text"
               component={InputField}
-              wrapperClassName="col-lg-4"
               showErrorMessage
+              position="vertical"
             />
+          </div>
+          <div className="col-xl-4">
             <Field
               name="lastName"
               label={attributeLabels.lastName}
               type="text"
               component={InputField}
-              wrapperClassName="col-lg-4"
               showErrorMessage
+              position="vertical"
             />
+          </div>
+          <div className="col-xl-4">
             <Field
               name="email"
               label={attributeLabels.email}
               type="text"
               disabled
               component={InputField}
-              wrapperClassName="col-lg-4"
               showErrorMessage
+              position="vertical"
             />
           </div>
-          <hr />
-          <div className="row">
-            <h5 className="pull-left">Contacts</h5>
-          </div>
-          <div className="row">
+        </div>
+        <hr />
+        <div className="personal-form-heading margin-bottom-20">Contacts</div>
+        <div className="row">
+          <div className="col-xl-4">
             <Field
               name="phoneNumber"
               label={attributeLabels.phoneNumber}
               type="text"
               component={InputField}
-              wrapperClassName="col-lg-4"
               showErrorMessage
+              position="vertical"
             />
+          </div>
+          <div className="col-xl-4">
             <Field
               name="country"
               label={attributeLabels.country}
               type="text"
-              wrapperClassName="col-lg-4"
               component={SelectField}
+              position="vertical"
             >
               <option value="">-- Select country --</option>
               {Object
@@ -107,8 +120,8 @@ class Form extends Component {
               }
             </Field>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     );
   }
 }

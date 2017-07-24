@@ -14,13 +14,6 @@ const { BUILD_ENV } = process.env;
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
-const parseJson = (data, defaultValue = null) => {
-  try {
-    return JSON.parse(data);
-  } catch (e) {
-    return defaultValue;
-  }
-};
 const STATUS = {
   UP: 'UP',
   DOWN: 'DOWN',
@@ -28,7 +21,6 @@ const STATUS = {
 const defaultHealth = {
   status: STATUS.DOWN,
   config: { status: STATUS.DOWN },
-  api: { status: STATUS.DOWN },
 };
 
 /**
@@ -64,12 +56,6 @@ function processConfig() {
     ));
 }
 
-function fetchConfigHealth(url) {
-  return fetch(url)
-    .then(response => response.text(), processError)
-    .then(response => parseJson(response), processError);
-}
-
 function saveConfig(config) {
   return new Promise((resolve, reject) => {
     fs.writeFile('/opt/build/config.js', `window.nas = ${JSON.stringify(config)};`, { encoding: 'utf8' }, (error) => {
@@ -93,18 +79,8 @@ processConfig()
 
     if (apiUrl) {
       health.config.status = STATUS.UP;
+      health.status = STATUS.UP;
 
-      return fetchConfigHealth(`${apiUrl}/health`)
-        .then((response) => {
-          if (response.version) {
-            health.api.status = STATUS.UP;
-          }
-
-          if (health.config.status === STATUS.UP && health.api.status === STATUS.UP) {
-            health.status = STATUS.UP;
-          }
-
-          return saveHealth(health);
-        }, processError);
+      return saveHealth(health);
     }
   }), processError);

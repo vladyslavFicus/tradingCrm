@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import permissions from '../config/permissions';
 
 const attributeLabels = {
   acceptedTermsId: 'Accepted terms ID',
@@ -65,12 +66,14 @@ const statuses = keyMirror({
   ACTIVE: null,
   BLOCKED: null,
   SUSPENDED: null,
+  COOLOFF: null,
 });
 const actions = keyMirror({
   BLOCK: null,
   UNBLOCK: null,
   SUSPEND: null,
   RESUME: null,
+  PROLONG: null,
 });
 const reasons = [
   'REASON_ONE',
@@ -82,12 +85,14 @@ const statusesLabels = {
   [statuses.INACTIVE]: 'Inactive',
   [statuses.ACTIVE]: 'Active',
   [statuses.BLOCKED]: 'Blocked',
-  [statuses.SUSPENDED]: 'Suspended',
+  [statuses.SUSPENDED]: 'Self Excluded',
+  [statuses.COOLOFF]: 'Cool off',
 };
-const suspendPeriods = keyMirror({
-  DAY: null,
-  WEEK: null,
-  MONTH: null,
+const durationUnits = keyMirror({
+  DAYS: null,
+  WEEKS: null,
+  MONTHS: null,
+  YEARS: null,
   PERMANENT: null,
 });
 const statusActions = {
@@ -96,11 +101,13 @@ const statusActions = {
       action: actions.BLOCK,
       label: 'Block',
       reasons,
+      permission: permissions.USER_PROFILE.BLOCK,
     },
     {
       action: actions.SUSPEND,
-      label: 'Suspend',
+      label: 'Self Exclusion',
       reasons,
+      permission: permissions.USER_PROFILE.SUSPEND,
     },
   ],
   [statuses.BLOCKED]: [
@@ -113,6 +120,29 @@ const statusActions = {
         'UNBLOCK_REASON_THREE',
         'UNBLOCK_REASON_FOUR',
       ],
+      permission: permissions.USER_PROFILE.UNBLOCK,
+    },
+  ],
+  [statuses.SUSPENDED]: [
+    {
+      action: actions.PROLONG,
+      label: 'Prolong',
+      reasons,
+      permission: permissions.USER_PROFILE.PROLONG,
+    },
+    {
+      action: actions.RESUME,
+      label: 'Resume',
+      reasons,
+      permission: permissions.USER_PROFILE.RESUME,
+    },
+  ],
+  [statuses.COOLOFF]: [
+    {
+      action: actions.RESUME,
+      label: 'Resume',
+      reasons,
+      permission: permissions.USER_PROFILE.RESUME,
     },
   ],
 };
@@ -121,15 +151,16 @@ const statusColorNames = {
   [statuses.INACTIVE]: 'color-warning',
   [statuses.BLOCKED]: 'color-danger',
   [statuses.SUSPENDED]: 'color-secondary',
+  [statuses.COOLOFF]: 'color-info',
 };
 
 export {
   attributeLabels,
   statuses,
   statusesLabels,
+  durationUnits,
   actions,
   statusActions,
-  suspendPeriods,
   statusColorNames,
   filterLabels,
 };

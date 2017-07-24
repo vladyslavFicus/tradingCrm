@@ -45,67 +45,61 @@ const VerifyData = (props) => {
     <div>
       {
         status.status !== kysStatuses.VERIFIED &&
-        <div>
-          <div className="row margin-bottom-10">
-            <div className="col-md-12">
+          <div>
+            <div className=" margin-bottom-10">
               <div className="font-size-18 font-weight-700 color-danger">
                 <i className="fa fa-exclamation-triangle" /> {title} verification rejected
               </div>
-              <div className="font-size-11 color-default font-weight-500">
-                by <Uuid uuid={status.authorUUID} />
-                {' on '}
-                {moment(status.statusDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
+              <div className="font-size-11 color-default ">
+                  by <Uuid uuid={status.authorUUID} />
+                {' on '}{moment(status.statusDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
               </div>
             </div>
-          </div>
 
-          <div className="padding-bottom-20">
-            <div className="font-weight-700">Reason:</div>
-            <div className="font-italic font-size-12">{status.reason}</div>
-          </div>
 
-          <div className="row margin-top-50">
-            <div className="col-md-12 text-right">
+            <div className="padding-bottom-20">
+              <div className="font-weight-700">Reason:</div>
+              <div className="font-italic font-size-12">{status.reason}</div>
+            </div>
+
+            <div className=" margin-top-50 text-right">
               <button
                 onClick={onVerify}
                 type="button"
-                className="btn btn-success-outline margin-inline"
+                className="btn btn-success-outline "
               >
-                Verify {title.toLowerCase()}
+                  Verify {title.toLowerCase()}
               </button>
             </div>
           </div>
-        </div>
+
       }
 
       {
         status.status === kysStatuses.VERIFIED &&
-        <div>
-          <div className="row margin-bottom-10">
-            <div className="col-md-12">
+          <div>
+            <div className=" margin-bottom-10">
               <div className="font-size-18 font-weight-700 color-success">
                 <i className="fa fa-check-circle-o" /> {title} verified
               </div>
-              <div className="font-size-11 color-default font-weight-500">
-                by <Uuid uuid={status.authorUUID} />
-                {' on '}
-                {moment(status.statusDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
+              <div className="font-size-11 color-default ">
+                  by <Uuid uuid={status.authorUUID} />
+                {' on '}{moment(status.statusDate).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
               </div>
             </div>
-          </div>
 
-          <div className="row margin-top-50">
-            <div className="col-md-12 text-right">
+
+            <div className=" margin-top-50 text-right">
               <button
                 onClick={onRefuse}
                 type="button"
-                className="btn btn-danger-outline margin-inline"
+                className="btn btn-danger-outline "
               >
-                Revoke
+                  Revoke
               </button>
+
             </div>
           </div>
-        </div>
       }
     </div>
   );
@@ -115,7 +109,6 @@ VerifyData.propTypes = {
   description: PropTypes.string.isRequired,
   status: PropTypes.kycStatus.isRequired,
   onVerify: PropTypes.func.isRequired,
-  onRefuse: PropTypes.func.isRequired,
-};
+  onRefuse: PropTypes.func.isRequired };
 
 export default VerifyData;

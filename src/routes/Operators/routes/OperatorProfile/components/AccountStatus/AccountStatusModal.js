@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from '../../../../../../utils/validator';
-import { SelectField } from '../../../../../../components/ReduxForm/UserProfile';
+import { SelectField } from '../../../../../../components/ReduxForm';
 import { reasons as operatorChangeStatusReasons } from '../../../../../../constants/operators';
 
 const attributeLabels = {
@@ -48,21 +48,20 @@ class AccountStatusModal extends Component {
           }
           <ModalBody>
             {
-              <div className="form-group">
-                <Field
-                  name="reason"
-                  label={attributeLabels.reason}
-                  component={SelectField}
-                  className={'form-control'}
-                >
-                  <option>-- Select reason --</option>
-                  {reasons.map(item => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-              </div>
+              <Field
+                name="reason"
+                label={attributeLabels.reason}
+                component={SelectField}
+                className={'form-control'}
+                position="vertical"
+              >
+                <option>-- Select reason --</option>
+                {reasons.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
             }
           </ModalBody>
 

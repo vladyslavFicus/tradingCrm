@@ -1,6 +1,5 @@
 import React from 'react';
-import '../../styles/core.scss';
-import '../../styles/global.scss';
+import '../../styles/style.scss';
 import './BaseLayout.scss';
 
 export const BaseLayout = ({ children }) => (

@@ -47,12 +47,12 @@ class ProfileTags extends PureComponent {
     return tags.map(tag => (
       <div key={tag.id} className="btn-group tag-group">
         <span className={`tag-arrow tag-arrow-${tagClassNames[tag.priority]}`} />
-        <span className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]}`}>
+        <span className={`btn btn-xs ${valueClassNames[tag.priority]}`}>
           {tag.value}
         </span>
         <button
           type="button"
-          className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]} btn-del`}
+          className={`btn btn-xs ${valueClassNames[tag.priority]} btn-del`}
           onClick={(e) => this.props.onDelete(tag)}
         >&times;</button>
       </div>
@@ -74,7 +74,7 @@ class ProfileTags extends PureComponent {
 
       {options.length > 0 && <ButtonSelect
         opened={showAutoComplete}
-        className="btn btn-xs btn-default font-size-14"
+        className="btn btn-xs btn-default"
         onChange={this.handleSelect}
         onCloseClick={this.handleOutsideClick}
         optionRenderer={this.renderOption}

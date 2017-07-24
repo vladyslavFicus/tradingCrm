@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import countryList from 'country-list';
 import { I18n } from 'react-redux-i18n';
-import { InputField, SelectField, TextAreaField } from '../../../../../components/ReduxForm/UserProfile';
+import { InputField, TextAreaField, SelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 
 const attributeLabels = {
@@ -17,7 +17,7 @@ const countries = countryList().getData().reduce((result, item) => ({
   [item.code]: item.name,
 }), {});
 const validator = createValidator({
-  country: [`in:,${Object.keys(countries).join()}`],
+  country: ['required', `in:,${Object.keys(countries).join()}`],
   city: ['string', 'min:3'],
   postCode: ['string', 'min:3'],
   address: ['string'],
@@ -29,7 +29,11 @@ class AddressForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool,
+  };
+  static defaultProps = {
+    handleSubmit: null,
+    pristine: false,
+    submitting: false,
   };
 
   render() {
@@ -38,32 +42,32 @@ class AddressForm extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      valid,
     } = this.props;
 
     return (
       <div>
-        <form className="form-horizontal" role="form" onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
-            <div className="col-md-6">
-              <h5>{I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}</h5>
+        <form role="form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="row margin-bottom-20">
+            <div className="col-xl-6">
+              <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}</span>
             </div>
 
-            <div className="col-md-6 text-right">
+            <div className="col-xl-6 text-right">
               {
-                !(pristine || submitting || !valid) &&
+                !(pristine || submitting) &&
                 <button className="btn btn-sm btn-primary" type="submit">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
               }
             </div>
           </div>
-          <div className="row">
-            <div className="player__account__page__kyc-form">
+          <div className="filter-row">
+            <div className="filter-row__medium">
               <Field
                 name="country"
                 label={attributeLabels.country}
                 type="text"
+                position="vertical"
                 wrapperClassName="col-lg-4"
                 component={SelectField}
               >
@@ -73,31 +77,34 @@ class AddressForm extends Component {
                   .map(key => <option key={key} value={key}>{countries[key]}</option>)
                 }
               </Field>
-
+            </div>
+            <div className="filter-row__medium">
               <Field
                 name="city"
                 label={attributeLabels.city}
                 type="text"
                 component={InputField}
-                wrapperClassName="col-lg-4"
+                position="vertical"
                 showErrorMessage
               />
-
+            </div>
+            <div className="filter-row__medium">
               <Field
                 name="postCode"
                 label={attributeLabels.postCode}
                 type="text"
                 component={InputField}
-                wrapperClassName="col-lg-4"
+                position="vertical"
                 showErrorMessage
               />
-
+            </div>
+            <div className="filter-row__big">
               <Field
                 name="address"
                 label={attributeLabels.address}
                 type="text"
                 component={TextAreaField}
-                wrapperClassName="col-lg-12"
+                position="vertical"
                 showErrorMessage
               />
             </div>
