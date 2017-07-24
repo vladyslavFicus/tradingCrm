@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import shallowEqual from '../../utils/shallowEqual';
 
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string.isRequired,
@@ -24,26 +23,8 @@ class SelectSingleOptions extends React.Component {
     selectedOption: undefined,
   };
 
-  constructor() {
-    super();
-
-    this.activeOptionRef = null;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (shallowEqual(this.props.selectedOption, nextProps.selectedOption)) {
-      if (nextProps.selectedOption) {
-        this.activeOptionRef = null;
-      }
-    }
-  }
-
-  bindActiveOptionRef = (node) => {
-    this.activeOptionRef = node;
-  };
-
   render() {
-    const { options, selectedOption, className, optionClassName, onChange } = this.props;
+    const { options, selectedOption, className, optionClassName, onChange, bindActiveOption } = this.props;
 
     if (options.length === 0) {
       return null;
@@ -61,7 +42,7 @@ class SelectSingleOptions extends React.Component {
           };
 
           if (isActive) {
-            optionProps.ref = this.bindActiveOptionRef;
+            optionProps.ref = bindActiveOption;
           } else {
             optionProps.onClick = () => onChange(option);
           }

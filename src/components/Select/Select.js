@@ -44,7 +44,9 @@ class Select extends Component {
       selectedOptions,
       toSelectOptions: [],
     };
-    this.optionsRef = null;
+    this.activeOptionRef = null;
+    this.optionsContainerRef = null;
+    this.searchBarRef = null;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -61,6 +63,8 @@ class Select extends Component {
       });
     }
 
+    console.log(value, nextProps.value);
+
     if (!shallowEqual(value, nextProps.value)) {
       const originalSelectedOptions = nextProps.multiple
         ? originalOptions.filter(option => nextProps.value.indexOf(option.value) > -1)
@@ -73,13 +77,15 @@ class Select extends Component {
     }
   }
 
-  bindOptionsRef = (node) => {
-    this.optionsRef = node;
+  bindRef = name => (node) => {
+    this[name] = node;
   };
 
-  bindContainerRef = (node) => {
-    this.optionsContainerRef = node;
-  };
+  bindSearchBarRef = this.bindRef('searchBarRef');
+
+  bindActiveOptionRef = this.bindRef('activeOptionRef');
+
+  bindContainerRef = this.bindRef('optionsContainerRef');
 
   handleShowSearch = () => this.props.children.length > 5;
 
@@ -88,7 +94,9 @@ class Select extends Component {
   };
 
   handleClickOutside = () => {
-    this.handleClose();
+    if (this.state.opened) {
+      this.handleClose();
+    }
   };
 
   handleSelectSingleOption = (option) => {
@@ -122,10 +130,20 @@ class Select extends Component {
   handleOpen = () => {
     if (!this.state.opened) {
       this.setState({ opened: true }, () => {
-        const { multiple } = this.props;
+        if (this.optionsContainerRef) {
+          const { multiple } = this.props;
 
-        if (multiple) {
-          this.optionsContainerRef.scrollTop = 0;
+          if (multiple) {
+            this.optionsContainerRef.scrollTop = 0;
+          } else if (this.activeOptionRef) {
+            let offset = this.activeOptionRef.offsetTop - (this.activeOptionRef.offsetHeight + 25);
+
+            if (this.searchBarRef) {
+              offset -= this.searchBarRef.offsetHeight;
+            }
+
+            this.optionsContainerRef.scrollTop = Math.max(offset, 0);
+          }
         }
       });
     }
@@ -133,9 +151,13 @@ class Select extends Component {
 
   handleClose = () => {
     const { toSelectOptions, originalOptions, originalSelectedOptions } = this.state;
+
     const { multiple, value } = this.props;
     const previousValue = multiple ? value : [value];
-    const newValue = [...originalSelectedOptions, ...toSelectOptions].map(option => option.value);
+    let newValue = multiple
+      ? [...originalSelectedOptions, ...toSelectOptions]
+      : [...toSelectOptions];
+    newValue = newValue.map(option => option.value);
 
     this.setState({ opened: false }, () => {
       setTimeout(() => {
@@ -148,8 +170,8 @@ class Select extends Component {
           if (!shallowEqual(previousValue, newValue)) {
             if (multiple) {
               this.props.onChange(newValue);
-            } else {
-              this.props.onChange(newValue[0].value);
+            } else if (newValue.length > 0) {
+              this.props.onChange(newValue[0]);
             }
           }
         });
@@ -263,7 +285,7 @@ class Select extends Component {
         options={options}
         selectedOption={selectedOptions[0]}
         onChange={this.handleSelectSingleOption}
-        ref={this.bindOptionsRef}
+        bindActiveOption={this.bindActiveOptionRef}
       />
     ));
 
@@ -293,6 +315,7 @@ class Select extends Component {
               query={query}
               placeholder={searchPlaceholder}
               onChange={this.handleSearch}
+              ref={this.bindSearchBarRef}
             />
           }
           <div className="select-block__container" ref={this.bindContainerRef}>

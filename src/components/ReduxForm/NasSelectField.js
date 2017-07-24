@@ -11,6 +11,7 @@ class NasSelectField extends Component {
       onChange: PropTypes.func,
     }).isRequired,
     label: PropTypes.string.isRequired,
+    labelClassName: PropTypes.string,
     children: PropTypes.node.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
@@ -28,6 +29,7 @@ class NasSelectField extends Component {
   };
   static defaultProps = {
     position: 'horizontal',
+    labelClassName: 'form-label',
     showErrorMessage: true,
     disabled: false,
     multiple: false,
