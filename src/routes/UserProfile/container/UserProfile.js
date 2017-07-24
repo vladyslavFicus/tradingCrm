@@ -74,6 +74,7 @@ const mapActions = {
   cancelFile: actionCreators.cancelFile,
   resetUploading: actionCreators.resetUploading,
   manageNote: actionCreators.manageNote,
+  fetchFiles: filesActionCreators.fetchFiles,
   saveFiles: filesActionCreators.saveFiles,
   deleteFile: filesActionCreators.deleteFile,
   downloadFile: filesActionCreators.downloadFile,

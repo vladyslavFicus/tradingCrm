@@ -41,7 +41,7 @@ class ProfileLayout extends Component {
       data: PropTypes.userProfile,
       error: PropTypes.any,
       isLoading: PropTypes.bool.isRequired,
-    }),
+    }).isRequired,
     children: PropTypes.any.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -92,9 +92,14 @@ class ProfileLayout extends Component {
     cancelFile: PropTypes.func.isRequired,
     resetUploading: PropTypes.func.isRequired,
     uploading: PropTypes.object.isRequired,
+    fetchFiles: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+  };
+  static defaultProps = {
+    availableStatuses: [],
+    lastIp: null,
   };
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
@@ -137,10 +142,6 @@ class ProfileLayout extends Component {
     };
   }
 
-  cacheChildrenComponent = (component) => {
-    this.children = component;
-  };
-
   componentWillMount() {
     document.body.classList.add('user-profile-layout');
   }
@@ -152,29 +153,6 @@ class ProfileLayout extends Component {
   componentDidMount() {
     this.handleLoadProfile();
   }
-
-  handleLoadProfile = (needForceUpdate = false) => {
-    const {
-      profile,
-      fetchProfile,
-      fetchNotes,
-      params,
-      checkLock,
-    } = this.props;
-
-    if (!profile.isLoading) {
-      fetchProfile(params.id)
-        .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
-        .then(() => checkLock(params.id))
-        .then(() => {
-          if (needForceUpdate &&
-            this.children &&
-            typeof this.children.handleRefresh === 'function') {
-            this.children.handleRefresh();
-          }
-        });
-    }
-  };
 
   componentWillUnmount() {
     document.body.classList.remove('user-profile-layout');
@@ -188,6 +166,35 @@ class ProfileLayout extends Component {
     this.setState({ fileChangedCallback: cb });
   };
 
+  cacheChildrenComponent = (component) => {
+    this.children = component;
+  };
+
+  handleLoadProfile = (needForceUpdate = false) => {
+    const {
+      profile,
+      fetchProfile,
+      fetchNotes,
+      params,
+      checkLock,
+      fetchFiles,
+    } = this.props;
+
+    if (!profile.isLoading) {
+      fetchProfile(params.id)
+        .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
+        .then(() => fetchFiles(params.id))
+        .then(() => checkLock(params.id, { size: 999 }))
+        .then(() => {
+          if (needForceUpdate &&
+            this.children &&
+            typeof this.children.handleRefresh === 'function') {
+            this.children.handleRefresh();
+          }
+        });
+    }
+  };
+
   handleOpenModal = (name, params) => {
     this.setState({
       modal: {
@@ -196,15 +203,15 @@ class ProfileLayout extends Component {
         params,
       },
     });
-  }
+  };
 
   handleCloseModal = () => {
     this.setState({ modal: { ...modalInitialState } });
-  }
+  };
 
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
-  }
+  };
 
   handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
     this.setState({
@@ -281,12 +288,12 @@ class ProfileLayout extends Component {
     if (typeof fileChangedCallback === 'function') {
       fileChangedCallback();
     }
-  }
+  };
 
   handleUploadingFileDelete = async (file) => {
     await this.props.deleteFile(this.props.params.id, file.fileUUID);
     this.props.cancelFile(file);
-  }
+  };
 
   handleDeleteFileClick = (e, data) => {
     e.preventDefault();
@@ -327,7 +334,7 @@ class ProfileLayout extends Component {
         },
       },
     });
-  }
+  };
 
   handleDeleteNoteClick = (item) => {
     const { noteChangedCallback } = this.state;

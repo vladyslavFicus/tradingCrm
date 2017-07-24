@@ -5,7 +5,7 @@ import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { statuses as kycStatuses } from '../../../../../constants/kyc';
 import { getApiRoot } from '../../../../../config';
 
-const mapStateToProps = ({ profile: { profile }, i18n: { locale } }) => ({
+const mapStateToProps = ({ profile: { profile, files }, i18n: { locale } }) => ({
   profile,
   personalData: {
     title: profile.data.title,
@@ -29,6 +29,7 @@ const mapStateToProps = ({ profile: { profile }, i18n: { locale } }) => ({
     (profile.data.kycPersonalStatus && profile.data.kycPersonalStatus.status === kycStatuses.VERIFIED) ||
     (profile.data.kycAddressStatus && profile.data.kycAddressStatus.status === kycStatuses.VERIFIED)
   ),
+  files,
   canVerifyAll: !profile.data.kycCompleted,
   locale,
   filesUrl: `${getApiRoot()}/profile/files/download/`,

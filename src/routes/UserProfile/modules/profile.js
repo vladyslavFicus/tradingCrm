@@ -3,12 +3,10 @@ import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import timestamp from '../../../utils/timestamp';
 import { shortify } from '../../../utils/uuid';
-import buildFormData from '../../../utils/buildFormData';
 import { actions } from '../../../constants/user';
-import { actions as filesActions, categories as filesCategories } from '../../../constants/files';
+import { actions as filesActions } from '../../../constants/files';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../redux/modules/files';
-import { actionTypes as userProfileFilesActionTypes } from './files';
 import config from '../../../config';
 
 const KEY = 'user-profile/view';
@@ -18,13 +16,8 @@ const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
 const REFUSE_DATA = createRequestAction(`${KEY}/refuse-data`);
 const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
-const FETCH_BALANCES = createRequestAction(`${KEY}/fetch-balances`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
-
-const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
-const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
-const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
 const PROLONG_PROFILE = createRequestAction(`${KEY}/prolong-profile`);
@@ -81,8 +74,6 @@ const initialState = {
     bonusBalance: { amount: 0, currency: config.nas.currencies.base },
     kycAddressStatus: null,
     kycPersonalStatus: null,
-    personalKycMetaData: [],
-    addressKycMetaData: [],
     signInIps: [],
   },
   error: null,
@@ -95,10 +86,6 @@ const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
 const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
-const changeFileStatusByAction = filesSourceActionCreators.changeStatusByAction({
-  [filesActions.VERIFY]: VERIFY_FILE,
-  [filesActions.REFUSE]: REFUSE_FILE,
-});
 
 function updateSubscription(playerUUID, name, value) {
   return (dispatch, getState) => {
@@ -238,57 +225,6 @@ function refuseData(playerUUID, type, data) {
           REFUSE_DATA.REQUEST,
           REFUSE_DATA.SUCCESS,
           REFUSE_DATA.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function uploadProfileFile(playerUUID, type, file) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/kyc/${playerUUID}/${type}/upload`,
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: buildFormData({ file }),
-        types: [
-          {
-            type: UPLOAD_FILE.REQUEST,
-            payload: { file },
-          },
-          UPLOAD_FILE.SUCCESS,
-          UPLOAD_FILE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function fetchBalances(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/profiles/es/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          FETCH_BALANCES.REQUEST,
-          FETCH_BALANCES.SUCCESS,
-          FETCH_BALANCES.FAILURE,
         ],
         bailout: !logged,
       },
@@ -495,96 +431,6 @@ function successUpdateProfileReducer(state, action) {
   };
 }
 
-function successUpdateFileStatusReducer(state, action) {
-  let field;
-  if (action.payload.category === filesCategories.KYC_PERSONAL) {
-    field = 'personalKycMetaData';
-  } else if (action.payload.category === filesCategories.KYC_ADDRESS) {
-    field = 'addressKycMetaData';
-  }
-
-  if (!field) {
-    return state;
-  }
-
-  const index = state.data[field].findIndex(file => file.uuid === action.payload.uuid);
-
-  if (index === -1) {
-    return state;
-  }
-
-  const newState = {
-    ...state,
-    data: {
-      ...state.data,
-      [field]: [
-        ...state.data[field],
-      ],
-    },
-  };
-  newState.data[field][index] = action.payload;
-
-  return newState;
-}
-
-function successUploadFilesReducer(state, action) {
-  const profileFiles = action.payload
-    .filter(i => [filesCategories.KYC_PERSONAL, filesCategories.KYC_ADDRESS].indexOf(i.category) > -1);
-
-  if (!profileFiles.length) {
-    return state;
-  }
-
-  const newState = {
-    ...state,
-  };
-
-  profileFiles.forEach((file) => {
-    if (file.category === filesCategories.KYC_PERSONAL) {
-      newState.data.personalKycMetaData = [
-        ...newState.data.personalKycMetaData,
-        file,
-      ];
-    } else if (file.category === filesCategories.KYC_PERSONAL) {
-      newState.data.personalKycMetaData = [
-        ...newState.data.personalKycMetaData,
-        file,
-      ];
-    }
-  });
-
-  return newState;
-}
-
-function successDeleteFileReducer(state, action) {
-  if (!action.meta && !action.meta.uuid) {
-    return state;
-  }
-
-  const fields = ['personalKycMetaData', 'addressKycMetaData'];
-  let index;
-  for (const field of fields) {
-    index = state.data[field].findIndex(file => file.uuid === action.meta.uuid);
-
-    if (index !== -1) {
-      const newState = {
-        ...state,
-        data: {
-          ...state.data,
-          [field]: [
-            ...state.data[field],
-          ],
-        },
-      };
-      newState.data[field].splice(index, 1);
-
-      return newState;
-    }
-  }
-
-  return state;
-}
-
 const actionHandlers = {
   [FETCH_PROFILE.REQUEST]: state => ({
     ...state,
@@ -614,12 +460,6 @@ const actionHandlers = {
   [UPDATE_IDENTIFIER.SUCCESS]: successUpdateProfileReducer,
   [VERIFY_DATA.SUCCESS]: successUpdateProfileReducer,
   [REFUSE_DATA.SUCCESS]: successUpdateProfileReducer,
-  [VERIFY_FILE.SUCCESS]: successUpdateFileStatusReducer,
-  [REFUSE_FILE.SUCCESS]: successUpdateFileStatusReducer,
-  [userProfileFilesActionTypes.VERIFY_FILE.SUCCESS]: successUpdateFileStatusReducer,
-  [userProfileFilesActionTypes.REFUSE_FILE.SUCCESS]: successUpdateFileStatusReducer,
-  [userProfileFilesActionTypes.DELETE_FILE.SUCCESS]: successDeleteFileReducer,
-  [userProfileFilesActionTypes.SAVE_FILES.SUCCESS]: successUploadFilesReducer,
 };
 
 const actionTypes = {
@@ -628,11 +468,8 @@ const actionTypes = {
   DELETE_TAG,
   UPDATE_PROFILE,
   SUBMIT_KYC,
-  FETCH_BALANCES,
   VERIFY_DATA,
   REFUSE_DATA,
-  VERIFY_FILE,
-  REFUSE_FILE,
   VERIFY_PROFILE_PHONE,
   VERIFY_PROFILE_EMAIL,
 };
@@ -641,14 +478,11 @@ const actionCreators = {
   submitData,
   verifyData,
   refuseData,
-  uploadProfileFile,
-  changeFileStatusByAction,
   updateProfile,
   updateIdentifier,
   resetPassword,
   activateProfile,
   updateSubscription,
-  fetchBalances,
   changeStatus,
   addTag,
   deleteTag,

@@ -6,6 +6,12 @@ import notes, {
   initialState as notesInitialState,
 } from './notes';
 
+import files, {
+  actionCreators as filesActionCreators,
+  actionTypes as filesActionTypes,
+  initialState as filesInitialState,
+} from './files';
+
 import profile, {
   actionCreators as profileActionCreators,
   actionTypes as profileActionTypes,
@@ -36,6 +42,7 @@ const actionCreators = {
   ...notesActionCreators,
   ...walletLimitsActionCreators,
   ...uploadingActionCreators,
+  ...filesActionCreators,
 };
 const actionTypes = {
   ...profileActionTypes,
@@ -43,9 +50,11 @@ const actionTypes = {
   ...notesActionTypes,
   ...walletLimitsActionTypes,
   ...uploadingActionTypes,
+  ...filesActionTypes,
 };
 const initialState = {
-  view: profileInitialState,
+  files: filesInitialState,
+  profile: profileInitialState,
   accumulatedBalances: accumulatedBalancesInitialState,
   notes: notesInitialState,
   walletLimits: walletLimitsInitialState,
@@ -58,6 +67,7 @@ export {
   initialState,
 };
 export default combineReducers({
+  files,
   profile,
   accumulatedBalances,
   notes,
