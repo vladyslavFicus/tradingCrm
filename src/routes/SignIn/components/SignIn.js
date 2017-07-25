@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import SignInForm from './SignInForm';
-import './SignIn.scss';
 import SignInBrands from './SignInBrands';
 import SignInDepartments from './SignInDepartments';
 import Preloader from './Preloader';
@@ -178,4 +177,3 @@ class SignIn extends Component {
 }
 
 export default SignIn;
-

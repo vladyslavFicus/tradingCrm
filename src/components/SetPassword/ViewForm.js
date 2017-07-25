@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import FormField from './FormField';
-import { createValidator } from 'utils/validator';
-import config from 'config/index';
+import { createValidator } from '../../utils/validator';
+import config from '../../config';
+import { InputField } from '../../components/ReduxForm';
 
 const formName = 'resetPasswordForm';
 const attributeLabels = {
@@ -45,39 +45,52 @@ class ViewForm extends Component {
     } = this.props;
 
     return (
-      <form
-        name="form-validation"
-        className="form-horizontal"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        {error && <div className="alert alert-warning">
-          {error}
-        </div>}
-        <Field
-          name="password"
-          label={attributeLabels.password}
-          type="password"
-          disabled={disabled}
-          component={FormField}
-        />
-        <Field
-          name="repeatPassword"
-          label={attributeLabels.repeatPassword}
-          type="password"
-          disabled={disabled}
-          component={FormField}
-        />
-
-        <div className="form-actions">
-          <button
-            type="submit"
-            className="btn btn-primary width-150 text-uppercase"
-            disabled={pristine || submitting || disabled || !valid}
-          >
-            Submit
-          </button>
-        </div>
-      </form>
+      <div className="sign-in__form fadeInUp">
+        <form
+          name="form-validation"
+          className="form-horizontal"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {
+            error &&
+            <div className="alert alert-warning">
+              {error}
+            </div>
+          }
+          <h2>Set your password</h2>
+          <div className="sign-in__form_input">
+            <Field
+              name="password"
+              label="Password"
+              type="password"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+              placeholder={attributeLabels.password}
+            />
+          </div>
+          <div className="sign-in__form_input">
+            <Field
+              name="repeatPassword"
+              label="Repeat password"
+              type="password"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+              placeholder={attributeLabels.repeatPassword}
+            />
+          </div>
+          <div className="sign-in__form_submit">
+            <button
+              type="submit"
+              className="btn btn-primary sign-in_btn"
+              disabled={pristine || submitting || disabled || !valid}
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
     );
   }
 }
