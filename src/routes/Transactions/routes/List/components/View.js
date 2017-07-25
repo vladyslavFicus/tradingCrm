@@ -25,6 +25,7 @@ import NoteButton from '../../../../../components/NoteButton';
 import Amount from '../../../../../components/Amount';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 import Uuid from '../../../../../components/Uuid';
+import GridPlayerInfo from '../../../../../components/GridPlayerInfo/GridPlayerInfo';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -183,7 +184,9 @@ class View extends Component {
   };
 
   renderPlayer = data => (
-    <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+    data.playerProfile
+      ? <GridPlayerInfo profile={data.playerProfile} />
+      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
   );
 
   renderType = (data) => {

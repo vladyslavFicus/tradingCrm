@@ -7,7 +7,6 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../constants/note';
-import config from '../../../../../config';
 
 const KEY = 'transactions/transactions';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -31,6 +30,19 @@ const mergeEntities = (stored, fetched) => {
   return merged;
 };
 
+const mapTransactions = transactions => transactions.map(({ player, ...transaction }) => ({
+  ...transaction,
+  playerProfile: player ? {
+    age: moment().diff(player.birthDate, 'years'),
+    uuid: player.playerUUID,
+    firstName: player.firstName,
+    lastName: player.lastName,
+    username: player.username,
+    kycCompleted: false,
+    languageCode: null,
+  } : null,
+}));
+
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapNotesToTransactions = (transactions, notes) => {
   if (!notes || Object.keys(notes).length === 0) {
@@ -40,17 +52,6 @@ const mapNotesToTransactions = (transactions, notes) => {
   return transactions.map(t => ({
     ...t,
     note: notes[t.paymentId] ? notes[t.paymentId][0] : null,
-  }));
-};
-
-const mapProfilesToTransactions = (transactions, profiles) => {
-  if (!profiles || Object.keys(profiles).length === 0) {
-    return transactions;
-  }
-
-  return transactions.map(t => ({
-    ...t,
-    profile: profiles[t.playerUUID] ? profiles[t.playerUUID] : null,
   }));
 };
 
@@ -79,7 +80,7 @@ function fetchEntities(filters = {}, fetchNotes = fetchNotesFn) {
       },
     });
 
-    if (action && action.type === FETCH_ENTITIES.SUCCESS && action.payload.content.length) {
+    if (action && !action.error && action.payload.content.length) {
       await dispatch(fetchNotes(targetTypes.PAYMENT, action.payload.content.map(item => item.paymentId)));
     }
 
@@ -123,8 +124,8 @@ const actionHandlers = {
       ...state.entities,
       ...action.payload,
       content: action.payload.number === 0
-        ? action.payload.content
-        : mergeEntities(state.entities.content, action.payload.content),
+        ? mapTransactions(action.payload.content)
+        : mergeEntities(state.entities.content, mapTransactions(action.payload.content)),
     },
     isLoading: false,
     receivedAt: timestamp(),
