@@ -9,6 +9,7 @@ import { createValidator } from '../../../utils/validator';
 import UploadingFile from '../UploadingFile';
 import { targetTypes } from '../constants';
 import './UploadModal.scss';
+import { shortify } from '../../../utils/uuid';
 
 const FORM_NAME = 'userUploadModal';
 const attributeLabels = {
@@ -140,7 +141,7 @@ class UploadModal extends Component {
               dangerouslySetInnerHTML={{
                 __html: I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT', {
                   fullName: profile.fullName,
-                  shortUUID: `<span class="font-weight-100">${profile.shortUUID}</span>`,
+                  shortUUID: `<span class="font-weight-100">${shortify(profile.playerUUID)}</span>`,
                 }),
               }}
             />

@@ -384,8 +384,7 @@ class View extends Component {
       currencyCode,
       loadPaymentAccounts,
       manageNote,
-      profile: { fullName, shortUUID },
-      params: { id: playerUUID },
+      profile: { fullName, playerUUID },
       newPaymentNote,
     } = this.props;
 
@@ -507,7 +506,7 @@ class View extends Component {
             playerInfo={{
               currencyCode,
               fullName,
-              shortUUID,
+              playerUUID,
             }}
             onClose={this.handleCloseModal}
             onLoadPaymentAccounts={() => loadPaymentAccounts(playerUUID)}

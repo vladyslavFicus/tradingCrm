@@ -32,7 +32,7 @@ const attributeLabels = {
   profileStatus: 'Status',
   profileStatusComment: 'Status comment',
   profileStatusReason: 'Status reason',
-  profileTags: 'Profile tags',
+  tags: 'Profile tags',
   registrationDate: 'Registration date',
   registrationIP: 'Registration IP',
   suspendEndDate: 'Suspend end date',
@@ -40,7 +40,7 @@ const attributeLabels = {
   token: 'Token',
   tokenExpirationDate: 'Token expiration date',
   username: 'Username',
-  uuid: 'ID',
+  playerUUID: 'ID',
 };
 const filterLabels = {
   searchValue: 'Search by',
