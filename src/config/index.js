@@ -49,26 +49,6 @@ const config = _.merge({
     validation: {
       password: null,
     },
-    tags: {
-      priorities: {
-        neutral: {
-          tag1: { departments: ['CS', 'RFP', 'MARKETING'] },
-          tag2: { departments: ['CS'] },
-          tag4: { departments: ['CS'] },
-        },
-        positive: {
-          tag1: { departments: ['CS'] },
-          tag2: { departments: ['RFP'] },
-          tag3: { departments: ['CS', 'MARKETING'] },
-        },
-        negative: {
-          tag1: { departments: ['CS'] },
-          tag2: { departments: ['CS', 'RFP'] },
-          tag3: { departments: ['RFP', 'MARKETING'] },
-          tag4: { departments: ['CS', 'RFP', 'MARKETING'] },
-        },
-      },
-    },
     reasons: {
       rejection: [],
     },

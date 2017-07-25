@@ -37,9 +37,9 @@ const mapTransactions = transactions => transactions.map(({ player, ...transacti
     uuid: player.playerUUID,
     firstName: player.firstName,
     lastName: player.lastName,
-    username: player.username,
+    username: player.login,
     kycCompleted: false,
-    languageCode: null,
+    languageCode: player.languageCode,
   } : null,
 }));
 
