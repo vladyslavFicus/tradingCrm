@@ -68,7 +68,7 @@ class PersonalForm extends Component {
               component={SelectField}
               position="vertical"
             >
-              <option value="">None</option>
+              <option value="">-- Select --</option>
               {titles.map(item => (
                 <option key={item} value={item}>
                   {item}

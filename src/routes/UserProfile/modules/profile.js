@@ -132,7 +132,8 @@ function submitData(playerUUID, type, data) {
         ],
         bailout: !logged,
       },
-    });
+    })
+      .then(() => dispatch(fetchProfile(playerUUID)));
   };
 }
 
@@ -402,7 +403,7 @@ function changeStatus({ action, ...data }) {
 }
 
 function successUpdateProfileReducer(state, action) {
-  const { kycPersonalStatus, kycAddressStatus } = action.payload;
+  const { kycPersonalStatus, kycAddressStatus, playerUUID } = action.payload;
 
   return {
     ...state,
@@ -412,7 +413,7 @@ function successUpdateProfileReducer(state, action) {
       kycCompleted: kycPersonalStatus && kycPersonalStatus.status === statuses.VERIFIED
       && kycAddressStatus && kycAddressStatus.status === statuses.VERIFIED,
       fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
-      shortUUID: shortify(action.payload.playerUUID, action.payload.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : ''),
+      shortUUID: shortify(playerUUID, playerUUID.indexOf('PLAYER') === -1 ? 'PL' : ''),
       balance: action.payload && action.payload.balance
         ? action.payload.balance
         : state.data.balance,
@@ -453,7 +454,6 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [SUBMIT_KYC.SUCCESS]: successUpdateProfileReducer,
   [SUBMIT_KYC.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
