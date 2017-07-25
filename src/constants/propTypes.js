@@ -421,5 +421,24 @@ PropTypes.userDeviceEntity = PropTypes.shape({
   operatingSystem: PropTypes.string.isRequired,
   totalSignIn: PropTypes.number.isRequired,
 });
+PropTypes.kycRequestStatusEntity = PropTypes.shape({
+  author: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  statusDate: PropTypes.string.isRequired,
+});
+PropTypes.kycRequestEntity = PropTypes.shape({
+  birthDate: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  languageCode: PropTypes.string.isRequired,
+  kycAddressStatus: PropTypes.kycRequestStatusEntity.isRequired,
+  kycPersonalStatus: PropTypes.kycRequestStatusEntity.isRequired,
+  kycRequest: {
+    requestDate: PropTypes.string.isRequired,
+    authorUUID: PropTypes.string.isRequired,
+  },
+  playerUUID: PropTypes.string.isRequired,
+});
 
 export default PropTypes;
