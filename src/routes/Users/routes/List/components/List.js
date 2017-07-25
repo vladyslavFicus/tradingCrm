@@ -138,7 +138,6 @@ class List extends Component {
     const allowActions = Object
       .keys(filters)
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
-    console.log(filters);
 
     return (
       <div className="page-content-inner">

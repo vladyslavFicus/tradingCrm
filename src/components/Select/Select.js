@@ -63,8 +63,6 @@ class Select extends Component {
       });
     }
 
-    console.log(value, nextProps.value);
-
     if (!shallowEqual(value, nextProps.value)) {
       const originalSelectedOptions = nextProps.multiple
         ? originalOptions.filter(option => nextProps.value.indexOf(option.value) > -1)
@@ -90,7 +88,11 @@ class Select extends Component {
   handleShowSearch = () => this.props.children.length > 5;
 
   handleInputClick = () => {
-    this.handleOpen();
+    if (!this.state.opened) {
+      this.handleOpen();
+    } else {
+      this.handleClose();
+    }
   };
 
   handleClickOutside = () => {
@@ -252,23 +254,29 @@ class Select extends Component {
 
   renderLabel = () => {
     const { originalSelectedOptions, toSelectOptions } = this.state;
-    const { multiple, placeholder } = this.props;
+    const { multiple, placeholder: inputPlaceholder } = this.props;
+    let placeholder = inputPlaceholder;
 
     if (multiple) {
       const mergedOptions = [...originalSelectedOptions, ...toSelectOptions];
 
       if (mergedOptions.length) {
-        return mergedOptions.length === 1
+        placeholder = mergedOptions.length === 1
           ? mergedOptions[0].label
           : `${mergedOptions.length} options selected`;
       }
     } else if (toSelectOptions.length) {
-      return toSelectOptions[0].label;
+      placeholder = toSelectOptions[0].label;
     } else if (originalSelectedOptions.length) {
-      return originalSelectedOptions[0].label;
+      placeholder = originalSelectedOptions[0].label;
     }
 
-    return placeholder;
+    return (
+      <div className="form-control select-block__label" onClick={this.handleInputClick}>
+        <i className="nas nas-dropdown_arrow_icon select-icon" />
+        {placeholder}
+      </div>
+    );
   };
 
   renderOptions = (options, selectedOptions, toSelectOptions, multiple) => (multiple
@@ -294,7 +302,7 @@ class Select extends Component {
     const { multiple, searchPlaceholder } = this.props;
 
     const showSearchBar = this.hasSearchBar();
-    const className = classNames('form-control select-block', {
+    const className = classNames('select-block', {
       'is-opened': opened,
       'with-option': !!selectedOptions.length > 0,
     });
@@ -304,8 +312,7 @@ class Select extends Component {
     });
 
     return (
-      <div className={className} onClick={this.handleInputClick}>
-        <i className="nas nas-dropdown_arrow_icon select-icon" />
+      <div className={className}>
         {this.renderLabel()}
 
         <div className={selectBlockClassName}>
