@@ -93,13 +93,19 @@ class ProfileTags extends PureComponent {
 
 ProfileTags.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
-
+    label: PropTypes.string,
+    priority: PropTypes.string,
+  })),
+  value: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    priority: PropTypes.string,
   })),
   onAdd: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 ProfileTags.defaultProps = {
   options: [],
+  value: [],
 };
 
 export default ProfileTags;
