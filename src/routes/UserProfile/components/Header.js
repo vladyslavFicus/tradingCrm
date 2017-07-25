@@ -14,29 +14,31 @@ import Permissions from '../../../utils/permissions';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
+import Placeholder from '../../../components/Placeholder/Placeholder';
+import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
 
 class Header extends Component {
   static propTypes = {
-    data: PropTypes.shape({
-      balance: PropTypes.object,
-      registrationDate: PropTypes.string,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      username: PropTypes.string,
-      uuid: PropTypes.string,
-      languageCode: PropTypes.string,
-      btag: PropTypes.string,
-      affiliateId: PropTypes.string,
-      profileStatus: PropTypes.string,
-      suspendEndDate: PropTypes.string,
-      profileTags: PropTypes.array,
-    }),
+    playerProfile: PropTypes.userProfile.isRequired,
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
     lastIp: PropTypes.ipEntity,
-    accumulatedBalances: PropTypes.object,
+    accumulatedBalances: PropTypes.shape({
+      real: PropTypes.price,
+      bonus: PropTypes.price,
+      total: PropTypes.price,
+    }).isRequired,
     availableStatuses: PropTypes.array,
-    availableTags: PropTypes.array,
+    availableTags: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      priority: PropTypes.string.isRequired,
+    })),
+    currentTags: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })),
     addTag: PropTypes.func.isRequired,
     deleteTag: PropTypes.func.isRequired,
     onAddNoteClick: PropTypes.func.isRequired,
@@ -59,17 +61,19 @@ class Header extends Component {
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,
       }).isRequired,
-    }),
+    }).isRequired,
     locale: PropTypes.string.isRequired,
+    loaded: PropTypes.bool,
+  };
+  static defaultProps = {
+    lastIp: null,
+    availableTags: [],
+    currentTags: [],
+    availableStatuses: [],
+    loaded: false,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
-  };
-
-  getUserAge = () => {
-    const { data: { age } } = this.props;
-
-    return age || null;
   };
 
   getRealWithBonusBalance = () => {
@@ -91,10 +95,10 @@ class Header extends Component {
   };
 
   handleStatusChange = (data) => {
-    const { data: profileData, onStatusChange } = this.props;
+    const { playerProfile, onStatusChange } = this.props;
 
-    if (profileData && profileData.uuid) {
-      onStatusChange({ ...data, playerUUID: profileData.uuid });
+    if (playerProfile && playerProfile.playerUUID) {
+      onStatusChange({ ...data, playerUUID: playerProfile.playerUUID });
     } else {
       throw new SubmissionError({ _error: 'User uuid not found.' });
     }
@@ -102,23 +106,9 @@ class Header extends Component {
 
   render() {
     const {
-      data: {
-        registrationDate,
-        firstName,
-        lastName,
-        username,
-        languageCode,
-        profileStatus,
-        suspendEndDate,
-        profileTags,
-        playerUUID: uuid,
-        kycCompleted,
-        profileStatusReason,
-      },
-      data: profile,
+      playerProfile,
       availableStatuses,
       accumulatedBalances,
-      availableTags,
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
@@ -128,48 +118,44 @@ class Header extends Component {
       onRefreshClick,
       isLoadingProfile,
       locale,
+      availableTags,
+      currentTags,
+      loaded,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
-    const selectedTags = profileTags
-      ? profileTags.map(option => `${option.tagPriority}/${option.tag}`)
-      : [];
-    const availableOptions = selectedTags && availableTags
-      ? availableTags.filter(option => selectedTags.indexOf(`${option.priority}/${option.value}`) === -1)
-      : [];
-    const valueOptions = profileTags
-      ? profileTags.map(option => ({
-        id: option.id,
-        label: option.tag,
-        value: option.tag,
-        priority: option.tagPriority,
-      }))
-      : [];
 
     return (
       <div>
         <div className="panel-heading-row">
-          <div className="panel-heading-row__info">
-            <div className="panel-heading-row__info-title">
-              {[firstName, lastName, `(${this.getUserAge()})`].join(' ')}
-              {' '}
-              {kycCompleted && <i className="fa fa-check text-success" />}
+          <HeaderPlayerPlaceholder ready={loaded}>
+            <div className="panel-heading-row__info">
+              <div className="panel-heading-row__info-title">
+                {[playerProfile.fullName, `(${playerProfile.age})`].join(' ')}
+                {' '}
+                {playerProfile.kycCompleted && <i className="fa fa-check text-success" />}
+              </div>
+              <div className="panel-heading-row__info-ids">
+                {playerProfile.username}
+                {' - '}
+                {
+                  !!playerProfile.playerUUID &&
+                  <Uuid
+                    uuid={playerProfile.playerUUID}
+                    uuidPrefix={playerProfile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+                  />
+                }
+                {' - '}
+                {playerProfile.languageCode}
+              </div>
             </div>
-            <div className="panel-heading-row__info-ids">
-              <span>{username}</span> {' - '}
-              {!!uuid && <Uuid uuid={uuid} uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : null} />} {' - '}
-              <span>{languageCode}</span>
-            </div>
-          </div>
+          </HeaderPlayerPlaceholder>
           <div className="panel-heading-row__tags">
-            {
-              profileTags &&
-              <ProfileTags
-                onAdd={this.handleTagAdd}
-                options={availableOptions}
-                value={valueOptions}
-                onDelete={this.handleTagDelete}
-              />
-            }
+            <ProfileTags
+              onAdd={this.handleTagAdd}
+              onDelete={this.handleTagDelete}
+              options={availableTags}
+              value={currentTags}
+            />
           </div>
           <div className="panel-heading-row__actions">
             <PopoverButton
@@ -199,9 +185,10 @@ class Header extends Component {
           <div className="row">
             <div className="header-block header-block_account">
               <PlayerStatus
-                locale={locale} status={profileStatus}
-                reason={profileStatusReason}
-                endDate={suspendEndDate}
+                locale={locale}
+                status={playerProfile.profileStatus}
+                reason={playerProfile.profileStatusReason}
+                endDate={playerProfile.suspendEndDate}
                 onChange={this.handleStatusChange}
                 availableStatuses={availableStatuses}
               />
@@ -222,7 +209,7 @@ class Header extends Component {
             </div>
             <div className="header-block header-block_wallet-limits">
               <WalletLimits
-                profile={profile}
+                profile={playerProfile}
                 limits={walletLimits.state}
                 onChange={onWalletLimitChange}
               />
@@ -231,10 +218,10 @@ class Header extends Component {
             <div className="header-block">
               <div className="header-block-title">Registered</div>
               <div className="header-block-middle">
-                {moment(registrationDate).fromNow()}
+                {moment(playerProfile.registrationDate).fromNow()}
               </div>
               <div className="header-block-small">
-                on {moment(registrationDate).format('DD.MM.YYYY')}</div>
+                on {moment(playerProfile.registrationDate).format('DD.MM.YYYY')}</div>
             </div>
           </div>
         </div>
