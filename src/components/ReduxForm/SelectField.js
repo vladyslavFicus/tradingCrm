@@ -27,7 +27,6 @@ class SelectField extends Component {
     showInputButton: PropTypes.bool,
   };
   static defaultProps = {
-    labelClassName: 'form-control-label',
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,
@@ -105,6 +104,7 @@ class SelectField extends Component {
         {
           showErrorMessage && touched && error &&
           <div className="form-control-feedback">
+            <i className="nas nas-field_alert_icon" />
             {error}
           </div>
         }
@@ -132,6 +132,7 @@ class SelectField extends Component {
           {
             showErrorMessage && touched && error &&
             <div className="form-control-feedback">
+              <i className="nas nas-field_alert_icon" />
               {error}
             </div>
           }

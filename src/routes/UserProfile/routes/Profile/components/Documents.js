@@ -19,6 +19,9 @@ class Documents extends Component {
   static defaultProps = {
     onDocumentClick: null,
   };
+  static contextTypes = {
+    onDeleteFileClick: PropTypes.func.isRequired,
+  };
 
   handleStatusChange = uuid => (action) => {
     this.props.onChangeStatus(uuid, action);
@@ -28,6 +31,10 @@ class Documents extends Component {
     e.preventDefault();
 
     this.props.onDownload(data);
+  };
+
+  handleDeleteFileClick = (e, data) => {
+    this.context.onDeleteFileClick(e, data);
   };
 
   renderFile = (data) => {
@@ -52,6 +59,9 @@ class Documents extends Component {
           {' '}
           <button className="btn-transparent" onClick={e => this.handleDownloadFile(e, data)}>
             <i className="fa fa-download" />
+          </button>
+          <button className="btn-transparent color-danger" onClick={e => this.handleDeleteFileClick(e, data)}>
+            <i className="fa fa-trash" />
           </button>
         </div>
         <span className="font-size-10 color-default">
@@ -83,31 +93,28 @@ class Documents extends Component {
     const { files } = this.props;
 
     return (
-      <div className="player__account__page__kyc-document--list">
+      <div>
         {
           files.length > 0 &&
           <GridView
-            tableClassName="table table-hovered documents-table"
-            headerClassName=""
+            tableClassName="table"
+            headerClassName="text-uppercase"
             dataSource={files}
             totalPages={0}
           >
             <GridColumn
               name="realName"
               header="File"
-              headerClassName="text-uppercase"
               render={this.renderFile}
             />
             <GridColumn
               name="uploadDate"
               header="Date & Time"
-              headerClassName="text-uppercase"
               render={this.renderDateTime}
             />
             <GridColumn
               name="status"
               header="Status"
-              headerClassName="text-uppercase"
               render={this.renderStatus}
             />
           </GridView>
@@ -117,7 +124,7 @@ class Documents extends Component {
           <FileUpload
             label="+ Add document"
             onChosen={this.props.onUpload}
-            className="player__account__page__kyc-document-add btn btn-default-outline"
+            className="btn btn-default-outline"
           />
         </div>
       </div>

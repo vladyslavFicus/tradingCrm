@@ -15,6 +15,11 @@ export default {
   },
   USER_PROFILE: {
     SEND_ACTIVATION_LINK: 'profile;POST;/profiles/{playerUUID}/send-activation-link',
+    SUSPEND: 'profile;PUT;/profiles/{playerUUID}/suspend',
+    BLOCK: 'profile;PUT;/profiles/{playerUUID}/block',
+    UNBLOCK: 'profile;PUT;/profiles/{playerUUID}/unblock',
+    PROLONG: 'profile;PUT;/profiles/{playerUUID}/suspend/prolong',
+    RESUME: 'profile;PUT;/profiles/{playerUUID}/resume',
   },
   PAYMENTS: {
     APPROVE_WITHDRAW: 'payment;POST;/payments/{playerUUID}/{paymentId}/approve',

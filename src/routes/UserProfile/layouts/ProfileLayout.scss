@@ -1,31 +1,15 @@
-@import "../../../styles/mixins/mixins";
-
 .user-profile-layout {
-  background: #fff;
+  background-color: #fff;
 }
 
 .profile-tab-container {
-  background: #fff;
+  background-color: #fff;
   .well {
-    margin: 0 -25px;
-    border: none;
-    padding: 25px;
-  }
-  .well label {
+    margin-right: -25px;
     margin-bottom: 0;
-    padding-left: 2px;
-  }
-  .btn-sm {
-    padding: 2px 15px;
-  }
-
-  .well .btn-default {
-    margin-left: 15px;
-  }
-
-  .well .btn-sm:last-child {
-    margin: 0;
-    float: right;
+    margin-left: -25px;
+    padding: 25px;
+    border: none;
   }
 }
 

@@ -199,7 +199,7 @@ class CommonGridView extends Component {
     const { dataSource, insideModal } = this.props;
 
     return (
-      <div className="tab-pane fade in active profile-tab-container">
+      <div className="profile-tab-container">
         <GridView
           tableClassName="table table-hovered data-grid-layout"
           headerClassName=""

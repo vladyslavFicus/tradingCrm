@@ -4,6 +4,7 @@ import { actionCreators as filesActionCreators } from '../modules/files';
 import ProfileLayout from '../layouts/ProfileLayout';
 import config, { getAvailableTags } from '../../../config';
 import { statusActions } from '../../../constants/user';
+import Permissions from '../../../utils/permissions';
 
 const mapStateToProps = (state) => {
   const {
@@ -16,6 +17,7 @@ const mapStateToProps = (state) => {
     },
     auth,
     i18n: { locale },
+    permissions: { data: currentPermissions },
   } = state;
 
   const lastIp = profile.data.signInIps.length > 0
@@ -26,6 +28,9 @@ const mapStateToProps = (state) => {
   if (profile && profile.data && statusActions[profile.data.profileStatus]) {
     availableStatuses = statusActions[profile.data.profileStatus];
   }
+
+  availableStatuses = availableStatuses
+    .filter(action => (new Permissions([action.permission])).check(currentPermissions));
 
   const uploadModalInitialValues = {};
   const uploadingFilesUUIDs = Object.keys(uploading);
@@ -53,9 +58,7 @@ const mapStateToProps = (state) => {
 
 const mapActions = {
   fetchProfile: actionCreators.fetchProfile,
-  fetchAccumulatedBalances: actionCreators.fetchBalances,
   updateSubscription: actionCreators.updateSubscription,
-  loadFullProfile: actionCreators.loadFullProfile,
   addTag: actionCreators.addTag,
   deleteTag: actionCreators.deleteTag,
   changeStatus: actionCreators.changeStatus,
@@ -71,6 +74,7 @@ const mapActions = {
   cancelFile: actionCreators.cancelFile,
   resetUploading: actionCreators.resetUploading,
   manageNote: actionCreators.manageNote,
+  fetchFiles: filesActionCreators.fetchFiles,
   saveFiles: filesActionCreators.saveFiles,
   deleteFile: filesActionCreators.deleteFile,
   downloadFile: filesActionCreators.downloadFile,

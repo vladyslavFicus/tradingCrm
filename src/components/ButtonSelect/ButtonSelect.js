@@ -14,7 +14,7 @@ class ButtonSelect extends Component {
   render() {
     const { opened, onCloseClick, label, className, ...rest } = this.props;
 
-    return <div className={classNames('button-select')}>
+    return <div className="btn-group tag-group button-select">
       <span className="tag-arrow tag-arrow-default" />
 
       <div className={classNames('auto-complete', 'ignore-react-onclickoutside', { opened })}>
@@ -27,7 +27,7 @@ class ButtonSelect extends Component {
 
       <button
         type="button"
-        className={`btn btn-xs btn-secondary btn-delete`}
+        className="btn btn-xs btn-default btn-delete"
         onClick={onCloseClick}
       >&times;</button>
     </div>;
