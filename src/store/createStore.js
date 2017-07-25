@@ -26,8 +26,11 @@ export default (initialState = {}, onComplete) => {
     unauthorized(config.middlewares.unauthorized),
     authMiddleware,
     apiErrors,
-    window,
   ];
+
+  if (window && window.parent !== window && window.parent.postMessage) {
+    middleware.push(require('../redux/middlewares/updateUserTab').default);
+  }
 
   // ======================================================
   // Store Enhancers

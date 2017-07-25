@@ -16,6 +16,7 @@ import CreateModal from '../CreateModal';
 import CancelModal from '../CancelModal';
 import ViewModal from '../ViewModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
+import FreeSpinGameInfo from '../FreeSpinGameInfo';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -235,6 +236,10 @@ class FreeSpinsView extends Component {
     <FreeSpinMainInfo freeSpin={data} onClick={this.handleRowClick} />
   );
 
+  renderGame = data => (
+    <FreeSpinGameInfo freeSpin={data} />
+  );
+
   renderAvailable = data => (
     <FreeSpinAvailablePeriod freeSpin={data} />
   );
@@ -327,6 +332,12 @@ class FreeSpinsView extends Component {
             render={this.renderFreeSpin}
           />
           <GridColumn
+            name="game"
+            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GAME')}
+            headerClassName="text-uppercase"
+            render={this.renderGame}
+          />
+          <GridColumn
             name="availability"
             header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.AVAILABILITY')}
             headerClassName="text-uppercase"
@@ -347,6 +358,7 @@ class FreeSpinsView extends Component {
           <GridColumn
             name="note"
             header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.NOTE')}
+            headerClassName="text-uppercase"
             render={this.renderNote}
           />
         </GridView>

@@ -188,7 +188,6 @@ label {
 .select {
   &-block {
     position: relative;
-    padding-top: 6px;
     user-select: none;
     color: #9b9b9b;
     cursor: pointer;
@@ -210,15 +209,16 @@ label {
         color: #9b9b9b;
       }
     }
+    &__label {
+      padding-top: 6px;
+    }
     &__content {
       width: 100%;
       position: absolute;
       top: 100%;
       left: 0;
-      border-top: 1px solid #cfcfcf;
-      border-right: 1px solid #9b9b9b;
-      border-bottom: 1px solid #9b9b9b;
-      border-left: 1px solid #9b9b9b;
+      border: 1px solid #9b9b9b;
+      border-top-color: #cfcfcf;
       border-bottom-right-radius: 3px;
       border-bottom-left-radius: 3px;
       opacity: 0;

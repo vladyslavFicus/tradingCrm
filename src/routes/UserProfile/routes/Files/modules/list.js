@@ -1,8 +1,6 @@
-import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
-import buildQueryString from '../../../../../utils/buildQueryString';
 import { targetTypes } from '../../../../../constants/note';
 import { actions as filesActions } from '../../../../../constants/files';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
@@ -30,32 +28,7 @@ const mapNotesToFiles = (items, notes) => {
   }));
 };
 
-function fetchFiles(playerUUID, filters = { page: 0 }) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/files/${playerUUID}?${buildQueryString(filters)}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          {
-            type: FETCH_FILES.REQUEST,
-            meta: { filters },
-          },
-          FETCH_FILES.SUCCESS,
-          FETCH_FILES.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
+const fetchFiles = filesSourceActionCreators.fetchFiles(FETCH_FILES);
 
 function fetchFilesAndNotes(playerUUID, filters, fetchFilesFn = fetchFiles, fetchNotesFn = fetchNotes) {
   return async (dispatch) => {

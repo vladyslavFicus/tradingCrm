@@ -209,7 +209,8 @@
         "AVAILABILITY": "Availability",
         "GRANTED": "Granted",
         "STATUS": "Status",
-        "NOTE": "Note"
+        "NOTE": "Note",
+        "GAME": "Provider & game"
       },
       "VIEW_MODAL": {
         "FREE_SPIN": "Free spin",
@@ -432,7 +433,7 @@
         "BONUS_MONEY": "Bonus money"
       },
       "ROUTES": {
-        "BONUS": "Bonus",
+        "BONUSES": "Bonuses",
         "ELIGIBLE_CAMPAIGNS": "Eligible campaigns",
         "FREE_SPINS": "Free spins"
       }

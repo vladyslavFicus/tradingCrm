@@ -19,6 +19,9 @@ class Documents extends Component {
   static defaultProps = {
     onDocumentClick: null,
   };
+  static contextTypes = {
+    onDeleteFileClick: PropTypes.func.isRequired,
+  };
 
   handleStatusChange = uuid => (action) => {
     this.props.onChangeStatus(uuid, action);

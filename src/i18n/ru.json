@@ -209,7 +209,8 @@
         "AVAILABILITY": "Доступность",
         "GRANTED": "Выдано",
         "STATUS": "Статус",
-        "NOTE": "Заметка"
+        "NOTE": "Заметка",
+        "GAME": "Провайдер и игра"
       },
       "VIEW_MODAL": {
         "FREE_SPIN": "Free spin",
@@ -432,7 +433,7 @@
         "BONUS_MONEY": "Бонусные деньги"
       },
       "ROUTES": {
-        "BONUS": "Бонусы",
+        "BONUSES": "Бонусы",
         "ELIGIBLE_CAMPAIGNS": "Кампании",
         "FREE_SPINS": "Free Spins"
       }

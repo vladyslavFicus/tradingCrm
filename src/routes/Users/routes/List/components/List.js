@@ -163,7 +163,6 @@ class List extends Component {
           <UserGridFilter
             onSubmit={this.handleFilterSubmit}
             onReset={this.handleFilterReset}
-            initialValues={filters}
             disabled={!allowActions}
           />
 

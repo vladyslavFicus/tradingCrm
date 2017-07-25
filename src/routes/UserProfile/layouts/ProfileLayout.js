@@ -14,7 +14,7 @@ import getFileBlobUrl from '../../../utils/getFileBlobUrl';
 import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../../redux/modules/window';
 import {
   UploadModal as UploadFileModal,
-  DeleteModal as DeleteFileModal
+  DeleteModal as DeleteFileModal,
 } from '../../../components/Files';
 import './ProfileLayout.scss';
 
@@ -42,7 +42,7 @@ class ProfileLayout extends Component {
       data: PropTypes.userProfile,
       error: PropTypes.any,
       isLoading: PropTypes.bool.isRequired,
-    }),
+    }).isRequired,
     children: PropTypes.any.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -67,8 +67,6 @@ class ProfileLayout extends Component {
     fetchProfile: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
     changeStatus: PropTypes.func.isRequired,
-    loadFullProfile: PropTypes.func.isRequired,
-    fetchAccumulatedBalances: PropTypes.func.isRequired,
     fetchNotes: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
@@ -95,9 +93,14 @@ class ProfileLayout extends Component {
     cancelFile: PropTypes.func.isRequired,
     resetUploading: PropTypes.func.isRequired,
     uploading: PropTypes.object.isRequired,
+    fetchFiles: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+  };
+  static defaultProps = {
+    availableStatuses: [],
+    lastIp: null,
   };
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
@@ -173,31 +176,6 @@ class ProfileLayout extends Component {
     }
   };
 
-  handleLoadProfile = (needForceUpdate = false) => {
-    const {
-      profile,
-      loadFullProfile,
-      fetchAccumulatedBalances,
-      fetchNotes,
-      params,
-      checkLock,
-    } = this.props;
-
-    if (!profile.isLoading) {
-      loadFullProfile(params.id)
-        .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
-        .then(() => fetchAccumulatedBalances(params.id))
-        .then(() => checkLock(params.id))
-        .then(() => {
-          if (needForceUpdate &&
-            this.children &&
-            typeof this.children.handleRefresh === 'function') {
-            this.children.handleRefresh();
-          }
-        });
-    }
-  };
-
   componentWillUnmount() {
     document.body.classList.remove('user-profile-layout');
     window.removeEventListener('scroll', this.handleScrollWindow);
@@ -211,6 +189,35 @@ class ProfileLayout extends Component {
     this.setState({ fileChangedCallback: cb });
   };
 
+  cacheChildrenComponent = (component) => {
+    this.children = component;
+  };
+
+  handleLoadProfile = (needForceUpdate = false) => {
+    const {
+      profile,
+      fetchProfile,
+      fetchNotes,
+      params,
+      checkLock,
+      fetchFiles,
+    } = this.props;
+
+    if (!profile.isLoading) {
+      fetchProfile(params.id)
+        .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
+        .then(() => fetchFiles(params.id))
+        .then(() => checkLock(params.id, { size: 999 }))
+        .then(() => {
+          if (needForceUpdate &&
+            this.children &&
+            typeof this.children.handleRefresh === 'function') {
+            this.children.handleRefresh();
+          }
+        });
+    }
+  };
+
   handleOpenModal = (name, params) => {
     this.setState({
       modal: {
@@ -219,15 +226,15 @@ class ProfileLayout extends Component {
         params,
       },
     });
-  }
+  };
 
   handleCloseModal = () => {
     this.setState({ modal: { ...modalInitialState } });
-  }
+  };
 
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
-  }
+  };
 
   handleAddNoteClick = (targetUUID, targetType) => (target, params = {}) => {
     this.setState({
@@ -304,12 +311,12 @@ class ProfileLayout extends Component {
     if (typeof fileChangedCallback === 'function') {
       fileChangedCallback();
     }
-  }
+  };
 
   handleUploadingFileDelete = async (file) => {
     await this.props.deleteFile(this.props.params.id, file.fileUUID);
     this.props.cancelFile(file);
-  }
+  };
 
   handleDeleteFileClick = (e, data) => {
     e.preventDefault();
@@ -350,7 +357,7 @@ class ProfileLayout extends Component {
         },
       },
     });
-  }
+  };
 
   handleDeleteNoteClick = (item) => {
     const { noteChangedCallback } = this.state;

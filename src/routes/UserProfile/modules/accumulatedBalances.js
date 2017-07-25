@@ -76,7 +76,7 @@ const actionHandlers = {
     error: action.payload,
     receivedAt: timestamp(),
   }),
-  [profileActionTypes.FETCH_BALANCES.SUCCESS]: (state, action) => {
+  [profileActionTypes.FETCH_PROFILE.SUCCESS]: (state, action) => {
     if (!action.payload.balance) {
       return state;
     }
