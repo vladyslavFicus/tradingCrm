@@ -402,7 +402,7 @@ function changeStatus({ action, ...data }) {
   };
 }
 
-function successUpdateProfileReducer(state, action) {
+function successFetchProfileReducer(state, action) {
   const { kycPersonalStatus, kycAddressStatus, playerUUID } = action.payload;
 
   return {
@@ -435,13 +435,31 @@ function successUpdateProfileReducer(state, action) {
   };
 }
 
+function successUpdateProfileReducer(state, action) {
+  const { personalStatus, addressStatus } = action.payload;
+
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      ...action.payload,
+      kycCompleted: personalStatus && personalStatus.value === statuses.VERIFIED
+      && addressStatus && addressStatus.value === statuses.VERIFIED,
+      fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
+      shortUUID: shortify(action.payload.uuid, action.payload.uuid.indexOf('PLAYER') === -1 ? 'PL' : ''),
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  };
+}
+
 const actionHandlers = {
   [FETCH_PROFILE.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [FETCH_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [FETCH_PROFILE.SUCCESS]: successFetchProfileReducer,
   [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [FETCH_PROFILE.FAILURE]: (state, action) => ({
     ...state,

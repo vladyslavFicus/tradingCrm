@@ -67,7 +67,6 @@ class SignIn extends Component {
           const { departmentsByBrand, token, uuid } = action.payload;
           const brands = Object.keys(departmentsByBrand);
 
-
           if (brands.length === 1) {
             const departments = Object.keys(departmentsByBrand[brands[0]]);
 
@@ -106,15 +105,16 @@ class SignIn extends Component {
             fetchAuthorities(uuid, action.payload.token),
           ]);
 
-          this.redirectToNextPage();
-        } else {
-          const error = action.payload.response.error ?
-            action.payload.response.error : action.payload.message;
-          throw new SubmissionError({ _error: error });
+          return this.redirectToNextPage();
         }
-      }
-    });
 
+        const error = action.payload.response.error ?
+          action.payload.response.error : action.payload.message;
+        throw new SubmissionError({ _error: error });
+      }
+
+      this.setState({ loading: false });
+    });
   };
 
   redirectToNextPage = () => {
