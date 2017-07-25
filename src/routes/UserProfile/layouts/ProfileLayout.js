@@ -484,7 +484,7 @@ class ProfileLayout extends Component {
   render() {
     const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
     const {
-      profile: { data: playerProfile, receivedAt, isLoading },
+      profile: { data: playerProfile, receivedAt, isLoading, error },
       children,
       params,
       lastIp,
@@ -527,7 +527,7 @@ class ProfileLayout extends Component {
             onProfileActivateClick={this.handleProfileActivateClick}
             onWalletLimitChange={this.handleChangeWalletLimitState}
             onRefreshClick={() => this.handleLoadProfile(true)}
-            loaded={!!receivedAt && !isLoading}
+            loaded={!!receivedAt && !error}
           />
 
           <div className="hide-details-block">
