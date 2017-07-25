@@ -122,6 +122,23 @@ function createBonus(data) {
   };
 }
 
+const initialState = {
+  entities: {
+    first: false,
+    last: false,
+    number: 0,
+    numberOfElements: 0,
+    size: 0,
+    sort: null,
+    totalElements: 0,
+    totalPages: 0,
+    content: [],
+  },
+  error: null,
+  filters: {},
+  isLoading: false,
+  receivedAt: null,
+};
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
@@ -150,23 +167,6 @@ const actionHandlers = {
     error: action.payload,
     receivedAt: timestamp(),
   }),
-};
-const initialState = {
-  entities: {
-    first: null,
-    last: null,
-    number: null,
-    numberOfElements: null,
-    size: null,
-    sort: null,
-    totalElements: null,
-    totalPages: null,
-    content: [],
-  },
-  error: null,
-  filters: {},
-  isLoading: false,
-  receivedAt: null,
 };
 const actionTypes = {
   FETCH_ENTITIES,

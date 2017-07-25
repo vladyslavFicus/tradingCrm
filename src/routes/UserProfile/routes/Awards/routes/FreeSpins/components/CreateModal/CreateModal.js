@@ -168,7 +168,7 @@ class CreateModal extends Component {
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TITLE')}
           </ModalHeader>
           <ModalBody>
-            <div className="row">
+            <div className="row margin-bottom-20">
               <div className="col-md-10">
                 <Field
                   name="name"
@@ -181,7 +181,7 @@ class CreateModal extends Component {
                 />
               </div>
             </div>
-            <div className="row">
+            <div className="row margin-bottom-20">
               <div className="col-md-10">
                 <div className="form-group">
                   <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
@@ -209,7 +209,7 @@ class CreateModal extends Component {
                 </div>
               </div>
             </div>
-            <div className="row">
+            <div className="row margin-bottom-20">
               <div className="col-md-4">
                 <Field
                   name="providerId"
@@ -260,7 +260,7 @@ class CreateModal extends Component {
                 />
               </div>
             </div>
-            <div className="row">
+            <div className="row margin-bottom-20">
               <div className="col-md-4">
                 <Field
                   name="linesPerSpin"
@@ -288,7 +288,7 @@ class CreateModal extends Component {
                   position="vertical"
                   component={InputField}
                   placeholder={'0.00'}
-                  showErrorMessage={false}
+                  showErrorMessage
                   disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
                   inputAddon={<Currency code={currency} />}
                 />
@@ -433,7 +433,7 @@ const CreateModalReduxForm = reduxForm({
       gameId: 'required',
       freeSpinsAmount: ['required', 'integer'],
       linesPerSpin: ['required', 'integer'],
-      betPerLine: ['required', 'numeric'],
+      betPerLine: ['required', 'numeric', 'max:1000'],
       prize: ['numeric'],
       capping: ['numeric'],
       multiplier: 'required|numeric',

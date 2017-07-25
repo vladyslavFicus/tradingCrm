@@ -382,6 +382,7 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   freeSpinStatus: PropTypes.string.isRequired,
   freeSpinsAmount: PropTypes.number.isRequired,
   gameId: PropTypes.string.isRequired,
+  gameName: PropTypes.string,
   linesPerSpin: PropTypes.number.isRequired,
   multiplier: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
