@@ -5,7 +5,7 @@ import { actionTypes as userPanelsActionTypes } from '../modules/user-panels';
 import { actionCreators as appActionCreators } from '../modules/app';
 
 const config = {
-  [profileActionTypes.PROFILE.SUCCESS]: windowActionCreators.updateUserTab,
+  [profileActionTypes.FETCH_PROFILE.SUCCESS]: windowActionCreators.updateUserTab,
   [profileActionTypes.SUBMIT_KYC.SUCCESS]: windowActionCreators.updateUserTab,
   [userPanelsActionTypes.SET_ACTIVE]: appActionCreators.setIsShowScrollTop,
 };
