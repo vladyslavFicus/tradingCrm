@@ -177,11 +177,15 @@ class ProfileLayout extends Component {
     });
   }
 
+  isShowScrollTop() {
+    return document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
+  }
+
   handleScrollWindow = () => {
     if (window && window.parent !== window && window.parent.postMessage) {
-      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+      if (this.isShowScrollTop()) {
         window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(true)), window.location.origin);
-      } else if (document.body.scrollTop < 100 || document.documentElement.scrollTop < 100) {
+      } else if (!this.isShowScrollTop()) {
         window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(false)), window.location.origin);
       }
     }
