@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
+import classNames from 'classnames';
 import { createValidator } from '../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import { actions, durationUnits } from '../../../../constants/user';
@@ -47,6 +48,7 @@ class PlayerStatusModal extends Component {
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    classNames: PropTypes.string,
   };
 
   static defaultProps = {
@@ -60,7 +62,6 @@ class PlayerStatusModal extends Component {
       name="reason"
       label={attributeLabels.reason}
       component={SelectField}
-      className={'form-control'}
       position="vertical"
     >
       <option value="">-- Select reason --</option>
@@ -74,24 +75,24 @@ class PlayerStatusModal extends Component {
 
   renderPeriodSelect = () => (
     <Field
-        name="period"
-        label={attributeLabels.period}
-        component={SelectField}
-        className={'form-control'}
-      position="vertical">
-        <option value="">-- Select period --</option>
-        {
-          availablePeriods.map(period =>(
-        <option
-              value={`${period.durationAmount} ${period.durationUnit}`}
-              key={`${period.durationAmount}-${period.durationUnit}`}
-            >
-              {pluralDurationUnit(period.durationAmount, period.durationUnit, this.props.locale)}
-        </option >
-          ))
-        }
-        <option value={durationUnits.PERMANENT}>Permanent</option>
-      </Field>
+      name="period"
+      label={attributeLabels.period}
+      component={SelectField}
+      position="vertical"
+    >
+      <option value="">-- Select period --</option>
+      {
+        availablePeriods.map(period => (
+          <option
+            value={`${period.durationAmount} ${period.durationUnit}`}
+            key={`${period.durationAmount}-${period.durationUnit}`}
+          >
+            {pluralDurationUnit(period.durationAmount, period.durationUnit, this.props.locale)}
+          </option >
+        ))
+      }
+      <option value={durationUnits.PERMANENT}>Permanent</option>
+    </Field>
 
   );
 
@@ -104,11 +105,14 @@ class PlayerStatusModal extends Component {
       onHide,
       onSubmit,
       handleSubmit,
+      className,
       ...rest
     } = this.props;
 
+    const modalClassName = classNames(className, 'modal-danger');
+
     return (
-      <Modal {...rest} isOpen={show} toggle={onHide}>
+      <Modal {...rest} isOpen={show} toggle={onHide} className={modalClassName}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {
             !!title &&
@@ -130,15 +134,18 @@ class PlayerStatusModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              color="success"
-              type="submit"
-            >{action}</Button>
-            {' '}
-            <Button
-              color="secondary"
+            <button
+              className="btn btn-default-outline pull-left"
               onClick={onHide}
-            >Cancel</Button>
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="btn btn-danger"
+            >
+              {action}
+            </button>
           </ModalFooter>
         </form>
       </Modal>

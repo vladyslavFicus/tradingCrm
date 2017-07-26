@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import './CancelLimitModal.scss';
 import CommonGridView from '../CommonGridView';
 import PropTypes from '../../../../../../constants/propTypes';
 
@@ -31,7 +30,7 @@ class CancelLimitModal extends Component {
     } = this.props;
 
     return (
-      <Modal className="cancel-limit-modal" toggle={onClose} isOpen={isOpen}>
+      <Modal toggle={onClose} isOpen={isOpen}>
         <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
         <ModalBody>
           <div className="row text-center font-weight-700 margin-bottom-15">
@@ -45,13 +44,13 @@ class CancelLimitModal extends Component {
 
         <ModalFooter>
           <div className="row">
-            <div className="col-sm-6 text-muted font-size-12">
+            <div className="col-sm-5 text-muted font-size-12">
               <b>Note</b>: {noteText}
             </div>
-            <div className="col-sm-6 text-right">
+            <div className="col-sm-7 text-right">
               <button
                 type="reset"
-                className="btn btn-default-outline text-uppercase"
+                className="btn btn-default-outline"
                 onClick={onClose}
               >
                 {cancelButtonLabel}
@@ -59,7 +58,7 @@ class CancelLimitModal extends Component {
 
               <button
                 type="submit"
-                className="btn btn-primary text-uppercase"
+                className="btn btn-primary"
                 onClick={() => onSubmit(data.type, data.uuid)}
               >
                 {submitButtonLabel}

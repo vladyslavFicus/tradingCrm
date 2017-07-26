@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getFormValues, Field, reduxForm } from 'redux-form';
+import classNames from 'classnames';
+import { TextAreaField } from '../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../utils/validator';
 import { categories as kycCategories } from '../../../../../../constants/kyc';
@@ -75,8 +77,8 @@ class RefuseModal extends Component {
               <label>{attributeLabels[`${type}_reason`]}</label>
               <Field
                 name={`${type}_reason`}
-                component="textarea"
-                className="form-control"
+                component={TextAreaField}
+                position="vertical"
                 rows="3"
               />
             </div>
@@ -95,10 +97,13 @@ class RefuseModal extends Component {
       submitting,
       invalid,
       onClose,
+      className,
     } = this.props;
 
+    const modalClassName = classNames(className, 'modal-danger');
+
     return (
-      <Modal isOpen toggle={onClose}>
+      <Modal isOpen toggle={onClose} className={modalClassName}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader toggle={onClose}>KYC Request rejection</ModalHeader>
           <ModalBody>
@@ -122,7 +127,7 @@ class RefuseModal extends Component {
           <ModalFooter>
             <button
               onClick={onClose}
-              className="btn btn-default-outline"
+              className="btn btn-default-outline pull-left"
             >
               Cancel
             </button>

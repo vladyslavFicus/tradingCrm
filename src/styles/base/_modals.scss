@@ -1,0 +1,68 @@
+.modal {
+  &-content {
+    border: none;
+    border-radius: 0;
+  }
+  &.fade .modal-dialog {
+    transform: translateY(10%);
+  }
+  &.fade.show {
+    opacity: 1;
+  }
+  &-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: none;
+    background-color: #dff2ff;
+    .close {
+      height: 29px;
+      line-height: 29px;
+      margin-top: 0;
+      font-size: 45px;
+      font-weight: 300;
+    }
+    .close:focus {
+      outline: none;
+    }
+  }
+  &-title {
+    float: left;
+    font-size: 18px;
+    color: #333;
+    &:first-letter {
+      text-transform: uppercase;
+    }
+  }
+  &-body {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  &-footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    .btn {
+      text-transform: uppercase;
+    }
+  }
+  &-backdrop {
+    background-color: #24222f;
+    &.in,
+    &.show {
+      opacity: .3;
+    }
+  }
+  &-danger {
+    .modal-header {
+      background-color: #fc6;
+    }
+  }
+  .create-bonus-campaign-modal {
+    width: 900px;
+  }
+  .create-bonus-modal {
+    width: 750px;
+  }
+  .create-operator-modal {
+    width: 655px;
+  }
+}

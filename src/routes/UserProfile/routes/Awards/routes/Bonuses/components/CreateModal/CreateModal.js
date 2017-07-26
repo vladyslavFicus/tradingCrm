@@ -8,7 +8,6 @@ import { createValidator } from '../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { attributeLabels } from './constants';
-import './CreateModal.scss';
 
 const FORM_NAME = 'bonusManage';
 const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
@@ -180,27 +179,21 @@ class CreateModal extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <div className="row">
-              <div className="col-md-6">
-                <button
-                  className="btn btn-default-outline"
-                  disabled={submitting}
-                  type="reset"
-                  onClick={onClose}
-                >
-                  {I18n.t('COMMON.CANCEL')}
-                </button>
-              </div>
-              <div className="col-md-6 text-right">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={pristine || submitting || invalid}
-                >
-                  {I18n.t('COMMON.SAVE')}
-                </button>
-              </div>
-            </div>
+            <button
+              className="btn btn-default-outline pull-left"
+              disabled={submitting}
+              type="reset"
+              onClick={onClose}
+            >
+              {I18n.t('COMMON.CANCEL')}
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={pristine || submitting || invalid}
+            >
+              {I18n.t('COMMON.SAVE')}
+            </button>
           </ModalFooter>
         </form>
       </Modal>

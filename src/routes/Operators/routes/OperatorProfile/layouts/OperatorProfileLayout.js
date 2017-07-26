@@ -6,7 +6,6 @@ import Tabs from '../../../../../components/Tabs';
 import Modal from '../../../../../components/Modal';
 import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
-import modalCssModule from '../styles/InfoModal.scss';
 import PropTypes from '../../../../../constants/propTypes';
 import Uuid from '../../../../../components/Uuid';
 import './OperatorProfileLayout.scss';
@@ -129,7 +128,7 @@ class OperatorProfileLayout extends Component {
         </div>
       ),
       footer: (
-        <div>
+        <div className="row">
           <div className="col-xs-6 text-left">
             <button className="btn-default-outline btn btn-secondary" onClick={this.handleCloseModal}>
               {I18n.t('COMMON.CLOSE')}
@@ -234,8 +233,8 @@ class OperatorProfileLayout extends Component {
           modal.name === INFO_MODAL &&
           <Modal
             onClose={this.handleCloseModal}
+            className="modal-danger"
             isOpen
-            cssModule={modalCssModule}
             {...modal.params}
           />
         }

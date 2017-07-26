@@ -10,18 +10,17 @@ import {
   CustomValueField,
   InputField,
   SelectField,
-  DateTimeField,
+  DateTimeField
 } from '../../../../../../components/ReduxForm';
 import {
   campaignTypes,
   campaignTypesLabels,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
-  moneyTypeUsageLabels,
+  moneyTypeUsageLabels
 } from '../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
-import './CreateBonusCampaignModal.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 const FORM_NAME = 'bonusCampaignCreateForm';
@@ -355,25 +354,20 @@ class CreateBonusCampaignModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <div className="row">
-              <div className="col-md-12 text-right">
-                <button
-                  type="reset"
-                  className="btn btn-default-outline text-uppercase"
-                  onClick={onClose}
-                >
-                  Cancel
-                </button>
-
-                <button
-                  type="submit"
-                  disabled={pristine || submitting || !valid}
-                  className="btn btn-primary text-uppercase"
-                >
-                  Create & open
-                </button>
-              </div>
-            </div>
+            <button
+              type="reset"
+              className="btn btn-default-outline pull-left"
+              onClick={onClose}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={pristine || submitting || !valid}
+              className="btn btn-primary"
+            >
+              Create & open
+            </button>
           </ModalFooter>
         </form>
       </Modal>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from '../../../../../../utils/validator';
 import { SelectField } from '../../../../../../components/ReduxForm';
@@ -52,7 +52,6 @@ class AccountStatusModal extends Component {
                 name="reason"
                 label={attributeLabels.reason}
                 component={SelectField}
-                className={'form-control'}
                 position="vertical"
               >
                 <option>-- Select reason --</option>
@@ -66,14 +65,12 @@ class AccountStatusModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <Button
-              color="success"
-              type="submit"
-            >{action}</Button>
-            <Button
-              color="secondary"
-              onClick={onHide}
-            >Cancel</Button>
+            <button className="btn btn-default-outline pull-left" onClick={onHide}>
+              Cancel
+            </button>
+            <button className="btn btn-danger" type="submit">
+              {action}
+            </button>
           </ModalFooter>
         </form>
       </Modal>

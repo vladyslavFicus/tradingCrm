@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
+import classNames from 'classnames';
 import PropTypes from '../../../../constants/propTypes';
 import { createValidator } from '../../../../utils/validator';
 import { types, actions } from '../../../../constants/wallet';
 import { SelectField } from '../../../../components/ReduxForm';
-import './WalletLimitsModal.scss';
 import Uuid from '../../../../components/Uuid';
 
 const attributeLabels = {
@@ -36,7 +36,6 @@ class WalletLimitsModal extends Component {
       name="reason"
       label={null}
       component={SelectField}
-      className={'form-control'}
       position="vertical"
     >
       <option value="">Choose a reason</option>
@@ -59,11 +58,14 @@ class WalletLimitsModal extends Component {
       handleSubmit,
       profile,
       type,
+      className,
       ...rest
     } = this.props;
 
+    const modalClassName = classNames(className, 'modal-danger');
+
     return (
-      <Modal {...rest} isOpen={show} toggle={onHide} className="wallet-limits-modal">
+      <Modal {...rest} isOpen={show} toggle={onHide} className={modalClassName}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {
             !!title &&
@@ -72,7 +74,7 @@ class WalletLimitsModal extends Component {
             </ModalHeader>
           }
           <ModalBody>
-            <div className="text-center margin-bottom-50">
+            <div className="text-center margin-bottom-20">
               <strong>
                 You are about to {action.toLowerCase()} {type === types.DEPOSIT ? 'deposits' : 'withdrawals'}
                 {' '}
@@ -89,18 +91,18 @@ class WalletLimitsModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <div className="row">
-              <div className="col-md-6">
-                <button className="btn btn-default-outline text-uppercase" onClick={onHide}>
-                  Cancel
-                </button>
-              </div>
-              <div className="col-md-6 text-right">
-                <button className="btn btn-danger text-uppercase" type="submit">
-                  {action} {type}
-                </button>
-              </div>
-            </div>
+            <button
+              className="btn btn-default-outline pull-left"
+              onClick={onHide}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-danger"
+              type="submit"
+            >
+              {action} {type}
+            </button>
           </ModalFooter>
         </form>
       </Modal>
