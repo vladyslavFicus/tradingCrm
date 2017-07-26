@@ -809,7 +809,16 @@
       "DATE_RANGE": "Request date range",
       "DATE_FROM": "From",
       "DATE_STATUS": "Verification status",
-      "DATE_TO": "To"
+      "DATE_TO": "To",
+      "STATUS": {
+        "FULLY_VERIFIED": "Fully Verified",
+        "IDENTITY_VERIFIED": "Identity - Verified",
+        "IDENTITY_PENDING": "Identity - Pending",
+        "IDENTITY_DOCUMENT_SENT": "Identity - Documents sent",
+        "ADDRESS_VERIFIED": "Address - Verified",
+        "ADDRESS_PENDING": "Address - Pending",
+        "ADDRESS_DOCUMENT_SENT": "Address - Documents Sent"
+      }
     },
     "REQUEST_TYPE": {
       "MANUAL": "Manually",

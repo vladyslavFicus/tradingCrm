@@ -14,7 +14,7 @@ function fetchEntities(filters = {}) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `hz/hz/hz?${buildQueryString(filters)}`,
+        endpoint: `profile/kyc/requests?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

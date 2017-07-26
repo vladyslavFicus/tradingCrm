@@ -12,6 +12,11 @@ const statuses = keyMirror({
   REFUSED: null,
   DOCUMENTS_SENT: null,
 });
+const statusTypes = keyMirror({
+  IDENTITY: null,
+  ADDRESS: null,
+  FULLY_VERIFIED: null,
+});
 const requestTypes = keyMirror({
   MANUAL: null,
   AUTO: null,
@@ -48,4 +53,5 @@ export {
   requestTypesLabels,
   statusesColor,
   filterLabels,
+  statusTypes,
 };

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import _ from 'lodash';
 import UserGridFilter from './KycGridFilter';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
@@ -14,6 +15,7 @@ import {
   statusesLabels as kysStatusLabels,
   requestTypes as kysRequestTypes,
   requestTypesLabels as kysRequestTypesLabels,
+  statusTypes as kysStatusTypes,
 } from '../../../../../constants/kyc';
 
 class List extends Component {
@@ -47,7 +49,37 @@ class List extends Component {
   });
 
   handleFilterSubmit = (data) => {
-    const filters = { ...data };
+    let filters = { ...data };
+
+    if (filters.statuses) {
+      const statuses = [...filters.statuses];
+      delete filters.statuses;
+
+      const customStatusFilters = {};
+      if (statuses.indexOf(kysStatusTypes.FULLY_VERIFIED) > -1) {
+        filters.fullyVerified = true;
+        _.pull(statuses, kysStatusTypes.FULLY_VERIFIED);
+      }
+
+      statuses.map((status) => {
+        const parts = status.split('.');
+        const statusKey = parts[0];
+        const statusValue = parts[1];
+        if (customStatusFilters[statusKey]) {
+          customStatusFilters[statusKey].push(statusValue);
+        } else {
+          customStatusFilters[statusKey] = [statusValue];
+        }
+      });
+
+      const formatStatusFilters = Object.keys(customStatusFilters).reduce((result, current) => ({
+        ...result,
+        [current]: customStatusFilters[current].join(','),
+      }), {});
+
+      filters = { ...filters, ...formatStatusFilters };
+    }
+
 
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };

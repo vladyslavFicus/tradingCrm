@@ -818,7 +818,16 @@
       "DATE_RANGE": "Период времени запроса",
       "DATE_FROM": "С",
       "DATE_STATUS": "Статус проверки",
-      "DATE_TO": "По"
+      "DATE_TO": "По",
+      "STATUS": {
+        "FULLY_VERIFIED": "Полностью подтвержден",
+        "IDENTITY_VERIFIED": "Личность - подтверждена",
+        "IDENTITY_PENDING": "Личность - ожидает",
+        "IDENTITY_DOCUMENT_SENT": "Личность - документы высланы",
+        "ADDRESS_VERIFIED": "Адрес - подтвержден",
+        "ADDRESS_PENDING": "Адрес - ожидает",
+        "ADDRESS_DOCUMENT_SENT": "Адрес - документы высланы"
+      }
     },
     "REQUEST_TYPE": {
       "MANUAL": "Вручную",
