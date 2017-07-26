@@ -176,8 +176,16 @@ class View extends Component {
     return (
       <div id={`payment-${data.paymentId}`}>
         <div className="font-weight-700">{paymentLink}</div>
-        <span className="font-size-10 text-uppercase color-default">
-          by <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+        <span className="font-size-10 color-default">
+          {'by '}
+          <Uuid
+            uuid={data.creatorUUID}
+            uuidPrefix={
+              data.creatorUUID.indexOf('OPERATOR') === -1
+                ? data.creatorUUID.indexOf('PLAYER') === -1 ? 'PL' : null
+                : null
+            }
+          />
         </span>
       </div>
     );

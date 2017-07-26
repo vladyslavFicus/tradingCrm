@@ -33,13 +33,13 @@ const mergeEntities = (stored, fetched) => {
 const mapTransactions = transactions => transactions.map(({ player, ...transaction }) => ({
   ...transaction,
   playerProfile: player ? {
-    age: moment().diff(player.birthDate, 'years'),
+    age: player.birthDate ? moment().diff(player.birthDate, 'years') : null,
     uuid: player.playerUUID,
-    firstName: player.firstName,
-    lastName: player.lastName,
-    username: player.login,
+    firstName: player.firstName || null,
+    lastName: player.lastName || null,
+    username: player.login || null,
     kycCompleted: false,
-    languageCode: player.languageCode,
+    languageCode: player.languageCode || null,
   } : null,
 }));
 
