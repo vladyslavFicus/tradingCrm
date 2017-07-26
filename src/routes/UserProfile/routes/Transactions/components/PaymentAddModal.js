@@ -152,7 +152,7 @@ class PaymentAddModal extends Component {
 
   renderInfoBlock = () => {
     const {
-      playerInfo: { shortUUID, fullName, currencyCode },
+      playerInfo: { playerUUID, fullName, currencyCode },
       currentValues,
       valid,
     } = this.props;
@@ -165,7 +165,7 @@ class PaymentAddModal extends Component {
       <div className="center-block text-center width-400 font-weight-700">
         {`You are about to ${paymentTypesLabels[currentValues.type]}`} {' '}
         <Amount currency={currencyCode} amount={currentValues.amount} /> {' '}
-        {`from ${fullName} ${shortUUID} account`}
+        {`from ${fullName} ${shortify(playerUUID)} account`}
       </div>
     );
   };
@@ -202,6 +202,7 @@ class PaymentAddModal extends Component {
                   component={SelectField}
                   position="vertical"
                 >
+                  <option value="">--- Select ---</option>
                   {Object.keys(paymentTypes).map(type => (
                     <option key={type} value={type}>
                       {paymentTypesLabels[type]}
@@ -227,7 +228,7 @@ class PaymentAddModal extends Component {
               {this.renderPaymentAccountField()}
             </div>
             <div className="row">
-              { this.renderInfoBlock() }
+              {this.renderInfoBlock()}
             </div>
             <div className="row text-center">
               <NoteButton

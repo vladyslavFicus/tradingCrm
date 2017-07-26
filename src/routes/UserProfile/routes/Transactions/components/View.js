@@ -45,15 +45,23 @@ class View extends Component {
     addPayment: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
-    entities: PropTypes.object,
-    currencyCode: PropTypes.string,
+    entities: PropTypes.pageable(PropTypes.paymentEntity).isRequired,
+    currencyCode: PropTypes.string.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
-    }),
+    }).isRequired,
     newPaymentNote: PropTypes.noteEntity,
-    profile: PropTypes.object,
-    accumulatedBalances: PropTypes.object,
+    profile: PropTypes.userProfile.isRequired,
+    accumulatedBalances: PropTypes.shape({
+      total: PropTypes.price.isRequired,
+      bonus: PropTypes.price.isRequired,
+      real: PropTypes.price.isRequired,
+    }).isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons,
+  };
+  static defaultProps = {
+    newPaymentNote: null,
+    paymentActionReasons: [],
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -225,8 +233,6 @@ class View extends Component {
           className="cursor-pointer"
           onClick={() => this.handleOpenDetailModal({
             payment: data,
-            profile: this.props.profile,
-            accumulatedBalances: this.props.accumulatedBalances,
           })}
         >
           {paymentId}
@@ -384,8 +390,8 @@ class View extends Component {
       currencyCode,
       loadPaymentAccounts,
       manageNote,
-      profile: { fullName, shortUUID },
-      params: { id: playerUUID },
+      profile: playerProfile,
+      accumulatedBalances,
       newPaymentNote,
     } = this.props;
 
@@ -483,6 +489,8 @@ class View extends Component {
           <PaymentDetailModal
             {...modal.params}
             isOpen
+            playerProfile={playerProfile}
+            accumulatedBalances={accumulatedBalances}
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
             onAskReason={this.handleAskReason}
@@ -504,13 +512,9 @@ class View extends Component {
           <PaymentAddModal
             {...modal.params}
             note={newPaymentNote}
-            playerInfo={{
-              currencyCode,
-              fullName,
-              shortUUID,
-            }}
+            playerProfile={playerProfile}
             onClose={this.handleCloseModal}
-            onLoadPaymentAccounts={() => loadPaymentAccounts(playerUUID)}
+            onLoadPaymentAccounts={() => loadPaymentAccounts(playerProfile.playerUUID)}
             onSubmit={this.handleAddPayment}
             onManageNote={manageNote}
           />

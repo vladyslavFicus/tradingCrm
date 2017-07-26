@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import moment from 'moment';
 import classNames from 'classnames';
+import PropTypes from '../../../../../constants/propTypes';
 import {
   methodsLabels as paymentsMethodsLabels,
   statusesLabels as paymentsStatusesLabels,
@@ -10,7 +10,6 @@ import {
   types as paymentsTypes,
   paymentActions,
 } from '../../../../../constants/payment';
-import { statusColorNames } from '../../../../../constants/user';
 import { targetTypes } from '../../../../../constants/note';
 import Amount from '../../../../../components/Amount';
 import NoteButton from '../../../../../components/NoteButton';
@@ -21,6 +20,7 @@ import PermissionContent from '../../../../../components/PermissionContent';
 import Permissions from '../../../../../utils/permissions';
 import permission from '../../../../../config/permissions';
 import Uuid from '../../../../../components/Uuid';
+import ModalPlayerInfo from '../../../../../components/ModalPlayerInfo';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
 const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
@@ -33,11 +33,12 @@ class PaymentDetailModal extends Component {
     onChangePaymentStatus: PropTypes.func.isRequired,
     onAskReason: PropTypes.func.isRequired,
     accumulatedBalances: PropTypes.shape({
-      real: PropTypes.price.isRequired,
+      total: PropTypes.price.isRequired,
       bonus: PropTypes.price.isRequired,
-    }),
-    profile: PropTypes.userProfile,
-    payment: PropTypes.paymentEntity,
+      real: PropTypes.price.isRequired,
+    }).isRequired,
+    playerProfile: PropTypes.userProfile.isRequired,
+    payment: PropTypes.paymentEntity.isRequired,
   };
   static defaultProps = {
     className: '',
@@ -64,11 +65,11 @@ class PaymentDetailModal extends Component {
   };
 
   handleRejectClick = () => {
-    const { payment, profile, accumulatedBalances, onAskReason } = this.props;
+    const { payment, playerProfile, accumulatedBalances, onAskReason } = this.props;
 
     return onAskReason({
       payment,
-      profile,
+      playerProfile,
       accumulatedBalances,
       action: paymentActions.REJECT,
       modalStaticParams: {
@@ -81,11 +82,11 @@ class PaymentDetailModal extends Component {
   };
 
   handleChargebackClick = () => {
-    const { payment, profile, accumulatedBalances, onAskReason } = this.props;
+    const { payment, playerProfile, accumulatedBalances, onAskReason } = this.props;
 
     return onAskReason({
       payment,
-      profile,
+      playerProfile,
       accumulatedBalances,
       action: paymentActions.CHARGEBACK,
       modalStaticParams: {
@@ -166,18 +167,8 @@ class PaymentDetailModal extends Component {
         note,
         userAgent,
       },
-      profile: {
-        firstName,
-        lastName,
-        birthDate,
-        username,
-        languageCode,
-        uuid,
-        profileStatus,
-        suspendEndDate,
-        balance,
-      },
-      accumulatedBalances: { real, bonus },
+      playerProfile,
+      accumulatedBalances,
       isOpen,
       onClose,
       className,
@@ -189,55 +180,7 @@ class PaymentDetailModal extends Component {
         <ModalHeader toggle={onClose}>Payment details</ModalHeader>
 
         <ModalBody>
-          <div className="row payment-detail-player">
-            <div className="col-md-4 payment-detail-player-block">
-              <div className="color-default text-uppercase font-size-11">
-                Player
-              </div>
-              <div className="font-size-14">
-                <div className="font-weight-700">
-                  {firstName} {lastName}
-                  <span className="font-weight-400">
-                    {birthDate ? `(${moment().diff(birthDate, 'years')})` : null}
-                  </span>
-                </div>
-                <span className="font-size-10 text-uppercase color-default">
-                  {`${username} - `}
-                  <Uuid
-                    uuid={uuid}
-                    uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : null}
-                  />
-                  {` - ${languageCode}`}
-                </span>
-              </div>
-            </div>
-            <div className="col-md-4 payment-detail-player-block">
-              <div className="color-default text-uppercase font-size-11">
-                Account Status
-              </div>
-              <div className="font-size-14">
-                <div className="font-weight-700">
-                  <div className={` ${statusColorNames[profileStatus]}`}>{profileStatus}</div>
-                  {!!suspendEndDate && <span className="font-size-10 text-uppercase color-default">
-                    Until {moment(suspendEndDate).format('L')}
-                  </span>}
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 payment-detail-player-block">
-              <div className="color-default text-uppercase font-size-11">
-                Balance
-              </div>
-              <div className="font-size-14">
-                <div className="font-weight-700">
-                  <Amount {...balance} />
-                </div>
-                <span className="font-size-10 text-uppercase color-default">
-                  RM <Amount {...real} /> + BM <Amount {...bonus} />
-                </span>
-              </div>
-            </div>
-          </div>
+          <ModalPlayerInfo profile={playerProfile} balances={accumulatedBalances} />
 
           <div className="row payment-detail-blocks">
             <div className="col-md-3 payment-detail-block">
