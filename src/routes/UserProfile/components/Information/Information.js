@@ -5,7 +5,6 @@ import IpList from '../../../../components/Information/IpList';
 import Personal from './Personal';
 import Additional from './Additional';
 import Notes from './Notes';
-import './Information.scss';
 
 class Information extends Component {
   static propTypes = {
@@ -26,7 +25,7 @@ class Information extends Component {
     } = this.props;
 
     return (
-      <div className="player__account__details">
+      <div className="account-details">
         <div className="row">
           <div className="col-md-4">
             <Personal data={data} />

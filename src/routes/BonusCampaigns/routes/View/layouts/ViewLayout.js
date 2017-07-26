@@ -70,7 +70,7 @@ class ViewLayout extends Component {
           />
 
           <div className="hide-details-block">
-            <div className="hide-details-block_arrow" />
+            <div className="hide-details-block_divider" />
             <button
               className="hide-details-block_text btn-transparent"
               onClick={this.handleToggleInformationBlock}
@@ -80,7 +80,7 @@ class ViewLayout extends Component {
                 I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
               }
             </button>
-            <div className="hide-details-block_arrow" />
+            <div className="hide-details-block_divider" />
           </div>
 
           <Collapse isOpen={informationShown}>
@@ -98,7 +98,7 @@ class ViewLayout extends Component {
                 location={location}
                 params={params}
               />
-              <div className="tab-content padding-vertical-20">
+              <div className="padding-vertical-20">
                 {children}
               </div>
             </div>

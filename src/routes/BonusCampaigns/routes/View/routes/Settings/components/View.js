@@ -50,9 +50,9 @@ class View extends Component {
     const { bonusCampaign, currencies, locale } = this.props;
 
     return (
-      <div className="player__account__page_profile tab-content padding-vertical-20">
-        <div className="tab-pane active" role="tabpanel">
-          <div className="panel-body row">
+      <div className="padding-vertical-20">
+        <div className="panel-body">
+          <div className="row">
             <div className="col-md-10">
               <Form
                 locale={locale}
