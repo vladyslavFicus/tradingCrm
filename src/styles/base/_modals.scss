@@ -3,8 +3,16 @@
     border: none;
     border-radius: 0;
   }
-  &.fade .modal-dialog {
-    transform: translateY(10%);
+  &.fade {
+    .modal-dialog {
+      transform: translateY(10%);
+    }
+    .create-free-spin-modal {
+      transform: translateY(0);
+    }
+    .create-bonus-modal {
+      transform: translateY(0);
+    }
   }
   &.fade.show {
     opacity: 1;
@@ -54,6 +62,32 @@
   &-danger {
     .modal-header {
       background-color: #fc6;
+    }
+  }
+  .upload-modal {
+    width: 735px;
+    .uploading-files {
+      width: 100%;
+      tr > th, tr > td {
+        vertical-align: top;
+        padding: 5px;
+      }
+
+      &__header-number {
+        width: 50px;
+      }
+      &__header-name {
+        width: 270px;
+      }
+      &__header-category {
+        width: 185px;
+      }
+      &__header-status {
+        width: 190px;
+      }
+      &__header-note {
+        width: 35px;
+      }
     }
   }
   .create-bonus-campaign-modal {
