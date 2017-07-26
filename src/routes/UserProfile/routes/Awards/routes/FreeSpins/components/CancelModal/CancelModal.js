@@ -64,7 +64,6 @@ class CancelModal extends Component {
         label={I18n.t(attributeLabels.reason)}
         component={SelectField}
         position="vertical"
-        className={'form-control'}
       >
         <option value="">
           {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.SELECT_REASON_OPTION')}
@@ -133,22 +132,19 @@ class CancelModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <div className="row">
-              <div className="col-md-6">
-                <button className="btn btn-default-outline text-uppercase" onClick={onClose}>
-                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CLOSE_BUTTON')}
-                </button>
-              </div>
-              <div className="col-md-6 text-right">
-                <button
-                  className="btn text-uppercase btn-danger"
-                  type="submit"
-                  disabled={pristine || submitting || invalid}
-                >
-                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CANCEL_BUTTON')}
-                </button>
-              </div>
-            </div>
+            <button
+              className="btn btn-default-outline pull-left"
+              onClick={onClose}
+            >
+              {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CLOSE_BUTTON')}
+            </button>
+            <button
+              className="btn btn-danger"
+              type="submit"
+              disabled={pristine || submitting || invalid}
+            >
+              {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CANCEL_BUTTON')}
+            </button>
           </ModalFooter>
         </form>
       </Modal>

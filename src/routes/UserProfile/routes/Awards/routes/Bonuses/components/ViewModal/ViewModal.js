@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
-import './ViewModal.scss';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import { shortify } from '../../../../../../../../utils/uuid';
 import Amount from '../../../../../../../../components/Amount';
@@ -47,7 +46,7 @@ class ViewModal extends Component {
   };
 
   renderBonusStats = data => (
-    <div className="row well player-header-blocks">
+    <div className="row well">
       <div className="col-md-3 grey-back-tab">
         <div className="color-default text-uppercase font-size-11">
           Granted

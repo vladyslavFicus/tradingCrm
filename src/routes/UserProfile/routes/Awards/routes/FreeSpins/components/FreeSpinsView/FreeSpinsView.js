@@ -125,7 +125,7 @@ class FreeSpinsView extends Component {
       {
         children: I18n.t('COMMON.CLOSE'),
         onClick: this.handleModalClose,
-        className: 'btn btn-default-outline text-uppercase',
+        className: 'btn btn-default-outline',
       },
     ];
 
@@ -133,7 +133,7 @@ class FreeSpinsView extends Component {
       modalActions.push({
         children: I18n.t('PLAYER_PROFILE.FREE_SPINS.CANCEL_FREE_SPIN'),
         onClick: this.handleCancelClick(item),
-        className: 'btn btn-danger text-uppercase',
+        className: 'btn btn-danger',
       });
     }
 
@@ -295,13 +295,13 @@ class FreeSpinsView extends Component {
           <div className="col-md-6 text-right">
             <button
               disabled={exporting || !allowActions}
-              className="btn btn-default-outline margin-inline btn-sm"
+              className="btn btn-default-outline btn-sm"
               onClick={this.handleExportButtonClick}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
             </button>
             <button
-              className="btn btn-primary-outline margin-inline btn-sm"
+              className="btn btn-primary-outline margin-left-15 btn-sm"
               onClick={this.handleCreateButtonClick}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}

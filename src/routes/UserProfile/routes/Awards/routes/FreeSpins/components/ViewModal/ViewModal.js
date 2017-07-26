@@ -8,7 +8,6 @@ import ViewModalMain from '../ViewModalMain';
 import ViewModalAdditional from '../ViewModalAdditional';
 import ViewModalStatistics from '../ViewModalStatistics';
 import NoteButton from '../../../../../../../../components/NoteButton';
-import './ViewModal.scss';
 
 class ViewModal extends Component {
   static propTypes = {

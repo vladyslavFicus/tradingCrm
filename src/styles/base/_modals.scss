@@ -65,4 +65,30 @@
   .create-operator-modal {
     width: 655px;
   }
+  .view-free-spin-modal {
+    width: 750px;
+    .modal-header {
+      background-color: #fc6;
+    }
+  }
+  .create-free-spin-modal {
+    width: 605px;
+  }
+  .view-bonus-modal {
+    width: 750px;
+  }
+  &-info-header-block {
+    min-height: 70px;
+    border-right: 1px solid #dfe4ed;
+    &:last-child {
+      border-right: none;
+    }
+  }
+  .grey-back-tab {
+    padding: 0 2rem;
+    border-right: 1px solid #dfe4ed;
+    &:last-child {
+      border-right: none;
+    }
+  }
 }

@@ -61,22 +61,22 @@ class ModalPlayerInfo extends Component {
     const { profile, balances } = this.props;
 
     return (
-      <div className="row player-header-blocks margin-bottom-10 equal">
-        <div className="col-sm-4 equal-in">
+      <div className="row margin-bottom-10">
+        <div className="col-sm-4 modal-info-header-block">
           <div className="color-default text-uppercase font-size-11">
             {I18n.t('COMMON.PLAYER')}
           </div>
 
           {this.renderPlayerInfo(profile)}
         </div>
-        <div className="col-sm-4 equal-in">
+        <div className="col-sm-4 modal-info-header-block">
           <div className="color-default text-uppercase font-size-11">
             {I18n.t('COMMON.ACCOUNT_STATUS')}
           </div>
 
           {this.renderPlayerStatus(profile)}
         </div>
-        <div className="col-sm-4 equal-in">
+        <div className="col-sm-4 modal-info-header-block">
           <div className="color-default text-uppercase font-size-11">
             {I18n.t('COMMON.BALANCE')}
           </div>

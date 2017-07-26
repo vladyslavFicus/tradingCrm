@@ -4,7 +4,7 @@ import PropTypes from '../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../components/Amount';
 
 const ViewModalStatistics = ({ freeSpin }) => (
-  <div className="row well player-header-blocks">
+  <div className="row well">
     <div className="col-md-3 grey-back-tab">
       <div className="color-default text-uppercase font-size-11">
         {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.STATISTICS_GRANTED_TITLE')}
