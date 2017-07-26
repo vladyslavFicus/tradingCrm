@@ -7,6 +7,7 @@ import { InputField } from '../../components/ReduxForm';
 
 const formName = 'resetPasswordForm';
 const attributeLabels = {
+  title: 'Set your password',
   password: 'Password',
   repeatPassword: 'Repeat password',
 };
@@ -57,7 +58,7 @@ class ViewForm extends Component {
               {error}
             </div>
           }
-          <h2>Set your password</h2>
+          <h2>{attributeLabels.title}</h2>
           <div className="form-page__form_input">
             <Field
               name="password"
