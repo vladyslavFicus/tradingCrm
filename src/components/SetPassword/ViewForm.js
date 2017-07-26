@@ -62,7 +62,7 @@ class ViewForm extends Component {
           <div className="form-page__form_input">
             <Field
               name="password"
-              label="Password"
+              label={attributeLabels.password}
               type="password"
               disabled={disabled}
               component={InputField}
@@ -73,7 +73,7 @@ class ViewForm extends Component {
           <div className="form-page__form_input">
             <Field
               name="repeatPassword"
-              label="Repeat password"
+              label={attributeLabels.repeatPassword}
               type="password"
               disabled={disabled}
               component={InputField}
