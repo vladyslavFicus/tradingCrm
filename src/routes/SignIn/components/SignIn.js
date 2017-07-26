@@ -137,11 +137,11 @@ class SignIn extends Component {
     } = this.props;
 
     return (
-      <div className="sign-in-page" style={{ height: '100%' }}>
+      <div className="form-page-container" style={{ height: '100%' }}>
         <Preloader show={loading} />
         <div className="wrapper">
-          <div className="sign-in">
-            <div className="sign-in__logo">
+          <div className="form-page">
+            <div className="form-page__logo">
               <img src="/img/horizon-logo.svg" alt="logo" />
             </div>
 
@@ -170,7 +170,7 @@ class SignIn extends Component {
           </div>
         </div>
 
-        <div className="sign-in__copyright">Copyright © {(new Date()).getFullYear()} by Newage</div>
+        <div className="form-page__copyright">Copyright © {(new Date()).getFullYear()} by Newage</div>
       </div>
     );
   }

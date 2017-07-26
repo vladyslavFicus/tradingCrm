@@ -45,7 +45,7 @@ class ViewForm extends Component {
     } = this.props;
 
     return (
-      <div className="sign-in__form fadeInUp">
+      <div className="form-page__form fadeInUp">
         <form
           name="form-validation"
           className="form-horizontal"
@@ -58,7 +58,7 @@ class ViewForm extends Component {
             </div>
           }
           <h2>Set your password</h2>
-          <div className="sign-in__form_input">
+          <div className="form-page__form_input">
             <Field
               name="password"
               label="Password"
@@ -69,7 +69,7 @@ class ViewForm extends Component {
               placeholder={attributeLabels.password}
             />
           </div>
-          <div className="sign-in__form_input">
+          <div className="form-page__form_input">
             <Field
               name="repeatPassword"
               label="Repeat password"
@@ -80,10 +80,10 @@ class ViewForm extends Component {
               placeholder={attributeLabels.repeatPassword}
             />
           </div>
-          <div className="sign-in__form_submit">
+          <div className="form-page__form_submit">
             <button
               type="submit"
-              className="btn btn-primary sign-in_btn"
+              className="btn btn-primary form-page_btn"
               disabled={pristine || submitting || disabled || !valid}
             >
               Submit
