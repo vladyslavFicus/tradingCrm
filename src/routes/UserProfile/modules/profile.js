@@ -2,7 +2,6 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import timestamp from '../../../utils/timestamp';
-import { shortify } from '../../../utils/uuid';
 import { actions } from '../../../constants/user';
 import { statuses } from '../../../constants/kyc';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
@@ -38,6 +37,7 @@ const initialState = {
     playerUUID: null,
     acceptedTermsId: null,
     username: null,
+    fullName: null,
     firstName: null,
     lastName: null,
     email: null,
@@ -62,11 +62,10 @@ const initialState = {
     tokenExpirationDate: null,
     profileStatus: null,
     profileStatusReason: null,
-    profileStatusComment: null,
     suspendEndDate: null,
     birthDate: null,
     registrationDate: null,
-    profileTags: [],
+    tags: [],
     kycCompleted: false,
     balance: { amount: 0, currency: config.nas.currencies.base },
     realBalance: { amount: 0, currency: config.nas.currencies.base },
@@ -95,9 +94,9 @@ function updateSubscription(playerUUID, name, value) {
         endpoint: `profile/profiles/${playerUUID}/subscription`,
         method: 'PUT',
         types: [
-          UPDATE_SUBSCRIPTION.REQUEST,
+          { type: UPDATE_SUBSCRIPTION.REQUEST, payload: { name, value } },
           UPDATE_SUBSCRIPTION.SUCCESS,
-          UPDATE_SUBSCRIPTION.FAILURE,
+          { type: UPDATE_SUBSCRIPTION.FAILURE, payload: { name, value } },
         ],
         headers: {
           Accept: 'application/json',
@@ -132,8 +131,7 @@ function submitData(playerUUID, type, data) {
         ],
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -157,8 +155,7 @@ function addTag(playerUUID, tag, priority) {
         }),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -178,8 +175,7 @@ function deleteTag(playerUUID, id) {
         types: [DELETE_TAG.REQUEST, DELETE_TAG.SUCCESS, DELETE_TAG.FAILURE],
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -358,8 +354,7 @@ function verifyPhone(playerUUID) {
         },
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -379,8 +374,7 @@ function verifyEmail(playerUUID) {
         },
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -402,51 +396,71 @@ function changeStatus({ action, ...data }) {
   };
 }
 
-function successFetchProfileReducer(state, action) {
-  const { kycPersonalStatus, kycAddressStatus, playerUUID } = action.payload;
-
-  return {
-    ...state,
-    data: {
-      ...state.data,
-      ...action.payload,
-      kycCompleted: kycPersonalStatus && kycPersonalStatus.status === statuses.VERIFIED
-      && kycAddressStatus && kycAddressStatus.status === statuses.VERIFIED,
-      fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
-      shortUUID: shortify(playerUUID, playerUUID.indexOf('PLAYER') === -1 ? 'PL' : ''),
-      balance: action.payload && action.payload.balance
-        ? action.payload.balance
-        : state.data.balance,
-      currencyCode: action.payload && action.payload.balance
-        ? action.payload.balance.currency
-        : state.data.currencyCode,
-      signInIps: action.payload.signInIps ? Object.values(action.payload.signInIps).sort((a, b) => {
-        if (a.sessionStart > b.sessionStart) {
-          return -1;
-        } else if (b.sessionStart > a.sessionStart) {
-          return 1;
-        }
-
-        return 0;
-      }) : state.data.signInIps,
-    },
-    isLoading: false,
-    receivedAt: timestamp(),
-  };
-}
-
 function successUpdateProfileReducer(state, action) {
-  const { personalStatus, addressStatus } = action.payload;
+  const {
+    personalStatus: kycPersonalStatus,
+    addressStatus: kycAddressStatus,
+    firstName,
+    lastName,
+    birthDate,
+    acceptedTermsId,
+    gender,
+    identifier,
+    postCode,
+    phoneNumber,
+    phoneNumberVerified,
+    suspendEndDate,
+    title,
+    country,
+    city,
+    address,
+    email,
+    profileStatus,
+    profileStatusComment: profileStatusReason,
+    username,
+    profileTags,
+  } = action.payload;
 
   return {
     ...state,
     data: {
       ...state.data,
-      ...action.payload,
-      kycCompleted: personalStatus && personalStatus.value === statuses.VERIFIED
-      && addressStatus && addressStatus.value === statuses.VERIFIED,
-      fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
-      shortUUID: shortify(action.payload.uuid, action.payload.uuid.indexOf('PLAYER') === -1 ? 'PL' : ''),
+      kycCompleted: kycPersonalStatus && kycPersonalStatus.value === statuses.VERIFIED
+      && kycAddressStatus && kycAddressStatus.value === statuses.VERIFIED,
+      fullName: [firstName, lastName].join(' ').trim(),
+      kycPersonalStatus: {
+        status: kycPersonalStatus.value,
+        statusDate: kycPersonalStatus.editDate,
+        authorUUID: kycPersonalStatus.author,
+        reason: kycPersonalStatus.reason,
+      },
+      kycAddressStatus: {
+        status: kycAddressStatus.value,
+        statusDate: kycAddressStatus.editDate,
+        authorUUID: kycAddressStatus.author,
+        reason: kycAddressStatus.reason,
+      },
+      firstName,
+      lastName,
+      birthDate,
+      acceptedTermsId,
+      email,
+      gender,
+      identifier,
+      postCode,
+      phoneNumber,
+      phoneNumberVerified,
+      suspendEndDate,
+      title,
+      profileStatus,
+      profileStatusReason,
+      username,
+      country,
+      city,
+      address,
+      tags: profileTags.length > 0
+        ? profileTags.map(tag => ({ id: tag.id, tag: tag.tag, priority: tag.tagPriority }))
+        : [],
     },
     isLoading: false,
     receivedAt: timestamp(),
@@ -454,24 +468,105 @@ function successUpdateProfileReducer(state, action) {
 }
 
 const actionHandlers = {
+  [UPDATE_SUBSCRIPTION.REQUEST]: (state, action) => {
+    const { name, value } = action.payload;
+
+    if (state.data[name] === value) {
+      return state;
+    }
+
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        [name]: value,
+      },
+    };
+  },
+  [UPDATE_SUBSCRIPTION.FAILURE]: (state, action) => {
+    const { name, value } = action.payload;
+
+    if (state.data[name] !== value) {
+      return state;
+    }
+
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        [name]: !value,
+      },
+    };
+  },
+  [VERIFY_PROFILE_PHONE.SUCCESS]: state => ({
+    ...state,
+    data: {
+      ...state.data,
+      phoneNumberVerified: true,
+    },
+  }),
+  [VERIFY_PROFILE_EMAIL.SUCCESS]: successUpdateProfileReducer,
+  [ADD_TAG.SUCCESS]: (state, action) => {
+    const { profileTags } = action.payload;
+
+    if (!profileTags || !Array.isArray(profileTags)) {
+      return state;
+    }
+
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        tags: profileTags.length > 0
+          ? profileTags.map(tag => ({ id: tag.id, tag: tag.tag, priority: tag.tagPriority }))
+          : [],
+      },
+    };
+  },
+  [DELETE_TAG.SUCCESS]: (state, action) => {
+    const { profileTags } = action.payload;
+
+    if (!profileTags || !Array.isArray(profileTags)) {
+      return state;
+    }
+
+    return {
+      ...state,
+      data: {
+        ...state.data,
+        tags: profileTags.length > 0
+          ? profileTags.map(tag => ({ id: tag.id, tag: tag.tag, priority: tag.tagPriority }))
+          : [],
+      },
+    };
+  },
   [FETCH_PROFILE.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [FETCH_PROFILE.SUCCESS]: successFetchProfileReducer,
-  [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [FETCH_PROFILE.SUCCESS]: (state, action) => ({
+    ...state,
+    data: {
+      ...state.data,
+      ...action.payload,
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  }),
   [FETCH_PROFILE.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
   }),
+  [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [SUBMIT_KYC.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
+  [SUBMIT_KYC.SUCCESS]: successUpdateProfileReducer,
   [SUBMIT_KYC.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,

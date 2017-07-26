@@ -59,7 +59,16 @@ class ProfileLayout extends Component {
     auth: PropTypes.shape({
       token: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
     }).isRequired,
-    availableTags: PropTypes.array.isRequired,
+    availableTags: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      priority: PropTypes.string.isRequired,
+    })),
+    currentTags: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })),
     addTag: PropTypes.func.isRequired,
     deleteTag: PropTypes.func.isRequired,
     availableStatuses: PropTypes.arrayOf(PropTypes.object),
@@ -99,6 +108,8 @@ class ProfileLayout extends Component {
     locale: PropTypes.string.isRequired,
   };
   static defaultProps = {
+    availableTags: [],
+    currentTags: [],
     availableStatuses: [],
     lastIp: null,
   };
@@ -426,17 +437,17 @@ class ProfileLayout extends Component {
   };
 
   handleProfileActivateClick = async () => {
-    const { activateProfile, profile: { data: { uuid, email } } } = this.props;
+    const { activateProfile, profile: { data: { playerUUID, email } } } = this.props;
 
-    if (uuid) {
-      const action = await activateProfile(uuid);
+    if (playerUUID) {
+      const action = await activateProfile(playerUUID);
 
       if (action && !action.error) {
         this.handleOpenModal(MODAL_INFO, {
           header: 'Send user activation link',
           body: (
             <span>
-              Activation link has been sent to <strong>{email || uuid}</strong>.
+              Activation link has been sent to <strong>{email || playerUUID}</strong>.
             </span>
           ),
           footer: (
@@ -462,14 +473,9 @@ class ProfileLayout extends Component {
   };
 
   handleUpdateSubscription = async (name, value) => {
-    const { params: { id: playerUUID }, updateSubscription, fetchProfile } = this.props;
-    const action = await updateSubscription(playerUUID, name, value);
+    const { params: { id: playerUUID }, updateSubscription } = this.props;
 
-    if (action && !action.error) {
-      await fetchProfile(playerUUID);
-    }
-
-    return action;
+    return updateSubscription(playerUUID, name, value);
   };
 
   showImages = async (url, type, options = {}) => {
@@ -505,12 +511,13 @@ class ProfileLayout extends Component {
   render() {
     const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
     const {
-      profile: { data: profileData },
+      profile: { data: playerProfile, receivedAt, isLoading, error },
       children,
       params,
       lastIp,
       location,
       availableTags,
+      currentTags,
       availableStatuses,
       accumulatedBalances,
       changeStatus,
@@ -520,7 +527,6 @@ class ProfileLayout extends Component {
       uploadModalInitialValues,
       manageNote,
       config,
-      profile,
       locale,
     } = this.props;
 
@@ -528,18 +534,19 @@ class ProfileLayout extends Component {
       <div className="player panel profile-layout">
         <div className="profile-layout-heading">
           <Header
+            playerProfile={playerProfile}
             locale={locale}
-            data={profileData}
             lastIp={lastIp}
             accumulatedBalances={accumulatedBalances}
             availableStatuses={availableStatuses}
             onStatusChange={changeStatus}
             availableTags={availableTags}
+            currentTags={currentTags}
             walletLimits={{
               state: walletLimits,
               actions: { onChange: this.handleChangeWalletLimitState },
             }}
-            isLoadingProfile={profile.isLoading}
+            isLoadingProfile={isLoading}
             addTag={this.handleAddTag}
             deleteTag={this.handleDeleteTag}
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
@@ -547,6 +554,7 @@ class ProfileLayout extends Component {
             onProfileActivateClick={this.handleProfileActivateClick}
             onWalletLimitChange={this.handleChangeWalletLimitState}
             onRefreshClick={() => this.handleLoadProfile(true)}
+            loaded={!!receivedAt && !error}
           />
 
           <div className="hide-details-block">
@@ -555,16 +563,15 @@ class ProfileLayout extends Component {
               className="hide-details-block_text btn-transparent"
               onClick={this.handleToggleInformationBlock}
             >
-              {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
-              }
+              {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
             </button>
             <div className="hide-details-block_arrow" />
           </div>
 
           <Collapse isOpen={informationShown}>
             <Information
-              data={profileData}
-              ips={profileData.signInIps}
+              data={playerProfile}
+              ips={playerProfile.signInIps}
               updateSubscription={this.handleUpdateSubscription}
               onEditNoteClick={this.handleEditNoteClick}
               notes={notes}
@@ -617,7 +624,7 @@ class ProfileLayout extends Component {
           <DeleteFileModal
             {...modal.params}
             isOpen
-            profile={profileData}
+            playerProfile={playerProfile}
             onClose={this.handleCloseModal}
           />
         }
