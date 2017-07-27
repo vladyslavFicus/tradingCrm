@@ -120,7 +120,7 @@ class WalletLimits extends Component {
   render() {
     const { dropDownOpen, modal } = this.state;
     const { limits: { entities, deposit, withdraw }, profile } = this.props;
-    const className = classNames('balances-block dropdown-highlight cursor-pointer', {
+    const className = classNames('dropdown-highlight cursor-pointer', {
       'dropdown-open': dropDownOpen,
     });
 
