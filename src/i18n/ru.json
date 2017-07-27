@@ -64,7 +64,8 @@
         "BUTTON": "Послать KYC запрос",
         "TITLE": "Послать KYC запрос",
         "CONSTANTS": {
-          "REASON_LABEL": "Причина"
+          "REASON_LABEL": "Причина",
+          "CHOOSE_REASON": "-- Выберите причину --"
         }
       }
     },

@@ -64,7 +64,8 @@
         "BUTTON": "Send KYC Request",
         "TITLE": "Send KYC request",
         "CONSTANTS": {
-          "REASON_LABEL": "Reason"
+          "REASON_LABEL": "Reason",
+          "CHOOSE_REASON": "-- Choose the reason --"
         }
       }
     },

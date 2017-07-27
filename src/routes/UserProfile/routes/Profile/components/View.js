@@ -161,11 +161,9 @@ class View extends Component {
     });
   };
 
-  handleOpenRequestKycVerificationModal = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
+  handleOpenRequestKycVerificationModal = () => {
     const { profile: { data: { playerUUID, fullName } } } = this.props;
+
     this.handleOpenModal(REQUEST_KYC_VERIFICATION_MODAL, {
       playerUUID,
       fullName,
@@ -248,6 +246,7 @@ class View extends Component {
           </div>
           <div className="col-sm-6 col-xs-6 text-right">
             <button
+              type="button"
               className="btn btn-sm btn-primary-outline"
               onClick={this.handleOpenRequestKycVerificationModal}
             >

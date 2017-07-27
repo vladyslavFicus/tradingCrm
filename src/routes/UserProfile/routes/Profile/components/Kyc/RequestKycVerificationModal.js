@@ -22,7 +22,7 @@ class RequestKycVerificationModal extends Component {
     title: PropTypes.string,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     pristine: PropTypes.bool,
@@ -40,6 +40,7 @@ class RequestKycVerificationModal extends Component {
     submitting: false,
     invalid: false,
     note: null,
+    handleSubmit: null,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -53,17 +54,15 @@ class RequestKycVerificationModal extends Component {
     onDelete: this.handleDeleteNote,
   });
 
-  handleSubmitNote = data => new Promise((resolve) => {
+  handleSubmitNote = (data) => {
     this.props.onManageNote(data);
     this.context.hidePopover();
-    return resolve();
-  });
+  };
 
-  handleDeleteNote = () => new Promise((resolve) => {
+  handleDeleteNote = () => {
     this.props.onManageNote(null);
     this.context.hidePopover();
-    return resolve();
-  });
+  };
 
   handleNoteClick = (target) => {
     const { note } = this.props;
@@ -113,7 +112,7 @@ class RequestKycVerificationModal extends Component {
               className={'form-control'}
               position="vertical"
             >
-              <option>-- Choose the reason --</option>
+              <option>{I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.CONSTANTS.CHOOSE_REASON')}</option>
               {verifyRequestReasons.map(item => (
                 <option key={item} value={item}>
                   {item}
