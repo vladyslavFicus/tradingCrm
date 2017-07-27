@@ -4,29 +4,10 @@ import moment from 'moment';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../utils/validator';
-import fakeI18n from '../../../../../utils/fake-i18n';
-import { filterLabels, statuses as kycStatuses, statusTypes as kysStatusTypes } from '../../../../../constants/kyc';
+import { filterLabels } from '../../../../../constants/kyc';
+import { multiselectStatuses } from '../constants';
 import { DateTimeField, NasSelectField } from '../../../../../components/ReduxForm';
 
-const statusTypesKeys = {
-  [kysStatusTypes.ADDRESS]: 'addressStatus',
-  [kysStatusTypes.IDENTITY]: 'identityStatus',
-};
-const multiselectStatuses = {
-  [kysStatusTypes.FULLY_VERIFIED]: fakeI18n.t('KYC_REQUESTS.FILTER.STATUS.FULLY_VERIFIED'),
-  [`${statusTypesKeys[kysStatusTypes.IDENTITY]}.${kycStatuses.VERIFIED}`]:
-    fakeI18n.t('KYC_REQUESTS.FILTER.STATUS.IDENTITY_VERIFIED'),
-  [`${statusTypesKeys[kysStatusTypes.IDENTITY]}.${kycStatuses.PENDING}`]:
-    fakeI18n.t('KYC_REQUESTS.FILTER.STATUS.IDENTITY_PENDING'),
-  [`${statusTypesKeys[kysStatusTypes.IDENTITY]}.${kycStatuses.DOCUMENTS_SENT}`]:
-    fakeI18n.t('KYC_REQUESTS.FILTER.STATUS.IDENTITY_DOCUMENT_SENT'),
-  [`${statusTypesKeys[kysStatusTypes.ADDRESS]}.${kycStatuses.VERIFIED}`]:
-    fakeI18n.t('KYC_REQUESTS.FILTER.STATUS.ADDRESS_VERIFIED'),
-  [`${statusTypesKeys[kysStatusTypes.ADDRESS]}.${kycStatuses.PENDING}`]:
-    fakeI18n.t('KYC_REQUESTS.FILTER.STATUS.ADDRESS_PENDING'),
-  [`${statusTypesKeys[kysStatusTypes.ADDRESS]}.${kycStatuses.DOCUMENTS_SENT}`]:
-    fakeI18n.t('KYC_REQUESTS.FILTER.STATUS.ADDRESS_DOCUMENT_SENT'),
-};
 const validator = createValidator({
   from: 'string',
   to: 'string',
@@ -88,7 +69,7 @@ class KycGridFilter extends Component {
       <div className="well">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="filter-row">
-            <div className="filter-row__big">
+            <div className="filter-row__medium">
               <div className="form-group">
                 <label>{I18n.t('KYC_REQUESTS.FILTER.DATE_RANGE')}</label>
                 <div className="range-group">

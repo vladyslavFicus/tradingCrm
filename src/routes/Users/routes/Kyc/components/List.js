@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import _ from 'lodash';
-import UserGridFilter from './KycGridFilter';
+import KycGridFilter from './KycGridFilter';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Panel, { Title, Content } from '../../../../../components/Panel';
@@ -15,8 +15,9 @@ import {
   statusesLabels as kysStatusLabels,
   requestTypes as kysRequestTypes,
   requestTypesLabels as kysRequestTypesLabels,
-  statusTypes as kysStatusTypes,
+  statusTypes as kysStatusTypes
 } from '../../../../../constants/kyc';
+import { statusTypesKeys } from '../constants';
 
 class List extends Component {
   static propTypes = {
@@ -34,7 +35,12 @@ class List extends Component {
   };
 
   state = {
-    filters: {},
+    filters: {
+      statuses: [
+        `${statusTypesKeys[kysStatusTypes.ADDRESS]}.${kycStatuses.DOCUMENTS_SENT}`,
+        `${statusTypesKeys[kysStatusTypes.IDENTITY]}.${kycStatuses.DOCUMENTS_SENT}`,
+      ],
+    },
     page: 0,
   };
 
@@ -77,7 +83,6 @@ class List extends Component {
 
       filters = { ...filters, ...formatStatusFilters };
     }
-
 
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
@@ -178,7 +183,7 @@ class List extends Component {
               </div>
             </div>
           </Title>
-          <UserGridFilter
+          <KycGridFilter
             onSubmit={this.handleFilterSubmit}
             onReset={this.handleFilterReset}
             initialValues={filters}
