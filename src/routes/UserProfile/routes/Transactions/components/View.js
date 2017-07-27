@@ -13,7 +13,7 @@ import {
   typesLabels,
   typesProps,
   statusesColor,
-  statuses as paymentsStatuses,
+  statuses as paymentsStatuses
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
 import StatusHistory from '../../../../../components/TransactionStatusHistory';
