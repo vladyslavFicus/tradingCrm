@@ -109,6 +109,15 @@ const methodStatusesColor = {
   [methodStatuses.INACTIVE]: 'color-default',
 };
 
+const initiators = keyMirror({
+  PLAYER: null,
+  OPERATOR: null,
+});
+const initiatorsLabels = {
+  [initiators.PLAYER]: 'Player',
+  [initiators.OPERATOR]: 'Operator',
+};
+
 export {
   statuses,
   statusesLabels,
@@ -124,4 +133,6 @@ export {
   methodStatusesColor,
   methodStatusActions,
   paymentActions,
+  initiators,
+  initiatorsLabels,
 };

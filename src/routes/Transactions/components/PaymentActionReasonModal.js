@@ -20,7 +20,7 @@ class PaymentActionReasonModal extends Component {
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    profile: PropTypes.userProfile,
+    playerProfile: PropTypes.userProfile.isRequired,
     payment: PropTypes.paymentEntity.isRequired,
     reasons: PropTypes.arrayOf(PropTypes.string),
     action: PropTypes.string.isRequired,
@@ -30,8 +30,7 @@ class PaymentActionReasonModal extends Component {
     className: '',
     isOpen: false,
     reasons: [],
-    modalStaticParams: {},
-    profile: null,
+    modalStaticParams: null,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -83,11 +82,14 @@ class PaymentActionReasonModal extends Component {
     const {
       payment: {
         paymentId,
-        playerUUID,
         note,
       },
       payment,
-      profile,
+      playerProfile: {
+        playerUUID,
+        firstName,
+        lastName,
+      },
       isOpen,
       onClose,
       onChangePaymentStatus,
@@ -109,7 +111,7 @@ class PaymentActionReasonModal extends Component {
                 {modalStaticParams.actionDescription}
               </div>
               <div className="font-weight-400">
-                {!!profile && <span className="font-weight-700">{profile.firstName} {profile.lastName} </span>}
+                <span className="font-weight-700">{firstName} {lastName} </span>
                 <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
               </div>
             </div>
@@ -121,19 +123,17 @@ class PaymentActionReasonModal extends Component {
                 Reason
               </div>
               <Input type="select" onChange={this.selectReason} value={this.state.selectedReason}>
-                {reasons.map((reason, i) => <option key={i}>{reason}</option>)}
+                {reasons.map(reason => <option key={reason}>{reason}</option>)}
                 <option>Other</option>
               </Input>
               {
-                this.state.isOtherReason
-                && (
-                  <div>
-                    <Input type="textarea" onChange={this.changeReason} value={this.state.reason} />
-                    <div className="color-default text-uppercase font-size-11">
-                      {this.state.reason.length}/500
-                    </div>
+                this.state.isOtherReason &&
+                <div>
+                  <Input type="textarea" onChange={this.changeReason} value={this.state.reason} />
+                  <div className="color-default text-uppercase font-size-11">
+                    {this.state.reason.length}/500
                   </div>
-                )
+                </div>
               }
             </div>
           </div>

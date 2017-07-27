@@ -242,7 +242,7 @@ class PaymentDetailModal extends Component {
                 {
                   creatorUUID &&
                   <div className="font-size-10 color-default">
-                    {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={creatorUUID} length={20} />
+                    {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={creatorUUID} />
                   </div>
                 }
                 <span className="font-size-10 color-default">

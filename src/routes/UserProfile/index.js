@@ -9,15 +9,27 @@ import LimitsRoute from './routes/Limits';
 import PaymentAccountsRoute from './routes/PaymentAccounts';
 import NotesRoute from './routes/Notes';
 import { injectReducer } from '../../store/reducers';
+import { actionCreators } from './modules';
 
 export default store => ({
-  path: 'users',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      injectReducer(store, { key: 'profile', reducer: require('./modules').default });
+  path: 'users/:id',
+  getComponent: (nextState, cb) => {
+    import(/* webpackChunkName: "profileReducer" */ './modules')
+      .then((module) => {
+        injectReducer(store, { key: 'profile', reducer: module.default });
 
-      cb(null, require('./container/UserProfile').default);
-    }, 'player-profile');
+        return store.dispatch(actionCreators.fetchProfile(nextState.params.id));
+      })
+      .then((action) => {
+        if (action && !action.error) {
+          return import(/* webpackChunkName: "playerProfileRoute" */ './container/UserProfile');
+        } else {
+          return import(/* webpackChunkName: "notFoundRoute" */ '../NotFound/container/Container');
+        }
+      })
+      .then((component) => {
+        cb(null, component.default);
+      });
   },
 
   ignoreScrollBehavior: true,

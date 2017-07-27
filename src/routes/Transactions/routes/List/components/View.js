@@ -5,15 +5,12 @@ import { I18n } from 'react-redux-i18n';
 import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
-import FailedStatusIcon from '../../../../../components/FailedStatusIcon';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
   types as paymentTypes,
-  statusesLabels,
   methodsLabels,
   typesLabels,
   typesProps,
-  statusesColor,
   statuses as paymentsStatuses,
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
@@ -193,7 +190,8 @@ class View extends Component {
       <div id={`payment-${data.paymentId}`}>
         <div className="font-weight-700">{paymentLink}</div>
         <span className="font-size-10 color-default">
-          {'by '}
+          {I18n.t('COMMON.AUTHOR_BY')}
+          {' '}
           <Uuid
             uuid={data.creatorUUID}
             uuidPrefix={
@@ -293,31 +291,8 @@ class View extends Component {
 
   renderStatus = data => (
     <StatusHistory
-      onLoad={() => this.props.loadPaymentStatuses(data.playerUUID, data.paymentId)}
-      label={
-        <div>
-          <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
-            {statusesLabels[data.status] || data.status}
-            {
-              data.status === paymentsStatuses.FAILED && !!data.reason &&
-              <FailedStatusIcon id={`transaction-failure-reason-${data.paymentId}`}>
-                {data.reason}
-              </FailedStatusIcon>
-            }
-          </div>
-          {
-            data.creatorUUID &&
-            <div className="font-size-10 color-default">
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} />
-            </div>
-          }
-          <span className="font-size-10 color-default text-lowercase">
-            {I18n.t('COMMON.DATE_ON', {
-              date: moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
-            })}
-          </span>
-        </div>
-      }
+      onLoadStatusHistory={() => this.props.loadPaymentStatuses(data.playerUUID, data.paymentId)}
+      transaction={data}
     />
   );
 

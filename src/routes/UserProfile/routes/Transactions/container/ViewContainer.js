@@ -16,12 +16,14 @@ const mapStateToProps = ({ userTransactions, profile: { profile } }) => ({
 
 const mapActions = {
   fetchEntities: viewActionCreators.fetchEntities,
+  fetchFilters: viewActionCreators.fetchFilters,
   onChangePaymentStatus: viewActionCreators.changePaymentStatus,
   loadPaymentStatuses: viewActionCreators.fetchPaymentStatuses,
   loadPaymentAccounts: viewActionCreators.fetchPaymentAccounts,
   addPayment: viewActionCreators.addPayment,
   manageNote: viewActionCreators.manageNote,
   resetNote: viewActionCreators.resetNote,
+  resetAll: viewActionCreators.resetAll,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

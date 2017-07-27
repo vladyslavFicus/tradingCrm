@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../../../../constants/propTypes';
-import { initiatorsLabels } from '../../../../../../constants/transaction';
+import { initiatorsLabels } from '../../../../../../constants/payment';
 import { createValidator } from '../../../../../../utils/validator';
 import {
   types,
@@ -34,7 +34,7 @@ class TransactionsFilterForm extends Component {
       startDate: PropTypes.string,
       endDate: PropTypes.string,
     }),
-    paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
+    paymentMethods: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
     reset: null,
@@ -148,8 +148,8 @@ class TransactionsFilterForm extends Component {
                 component={NasSelectField}
               >
                 {paymentMethods.map(method => (
-                  <option key={method.uuid} value={method.methodName}>
-                    {renderLabel(method.methodName, methodsLabels)}
+                  <option key={method} value={method}>
+                    {renderLabel(method, methodsLabels)}
                   </option>
                 ))}
               </Field>
@@ -225,6 +225,10 @@ class TransactionsFilterForm extends Component {
   }
 }
 
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
 const FORM_NAME = 'playerTransactionsFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
@@ -233,12 +237,12 @@ const FilterForm = reduxForm({
     initiatorType: ['string'],
     type: ['string', `in:${Object.keys(types).join()}`],
     statuses: ['array'],
-    paymentMethod: ['array'],
+    paymentMethod: 'string',
     startDate: 'string',
     endDate: 'string',
     amountLowerBound: 'numeric',
     amountUpperBound: 'numeric',
-  }, attributeLabels, false),
+  }, validatorAttributeLabels, false),
 })(TransactionsFilterForm);
 
 export default connect(state => ({

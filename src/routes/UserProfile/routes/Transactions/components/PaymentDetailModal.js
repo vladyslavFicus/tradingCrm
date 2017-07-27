@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import moment from 'moment';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import {
   methodsLabels as paymentsMethodsLabels,
@@ -32,17 +33,13 @@ class PaymentDetailModal extends Component {
     onClose: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     onAskReason: PropTypes.func.isRequired,
-    accumulatedBalances: PropTypes.shape({
-      total: PropTypes.price.isRequired,
-      bonus: PropTypes.price.isRequired,
-      real: PropTypes.price.isRequired,
-    }).isRequired,
-    playerProfile: PropTypes.userProfile.isRequired,
     payment: PropTypes.paymentEntity.isRequired,
+    playerProfile: PropTypes.userProfile.isRequired,
   };
   static defaultProps = {
     className: '',
     isOpen: false,
+    profile: null,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -65,35 +62,31 @@ class PaymentDetailModal extends Component {
   };
 
   handleRejectClick = () => {
-    const { payment, playerProfile, accumulatedBalances, onAskReason } = this.props;
+    const { payment, playerProfile, onAskReason } = this.props;
 
     return onAskReason({
       payment,
       playerProfile,
-      accumulatedBalances,
       action: paymentActions.REJECT,
       modalStaticParams: {
         title: 'Withdrawal rejection',
         actionButtonLabel: 'Reject withdraw transaction',
-        actionDescription: `You are about to reject withdraw transaction
-          ${shortify(payment.paymentId, 'TA')} from'`,
+        actionDescription: `You are about to reject withdraw transaction ${shortify(payment.paymentId, 'TA')} from`,
       },
     });
   };
 
   handleChargebackClick = () => {
-    const { payment, playerProfile, accumulatedBalances, onAskReason } = this.props;
+    const { payment, playerProfile, onAskReason } = this.props;
 
     return onAskReason({
       payment,
       playerProfile,
-      accumulatedBalances,
       action: paymentActions.CHARGEBACK,
       modalStaticParams: {
         actionButtonLabel: 'Confirm',
         title: 'Deposit chargeback',
-        actionDescription: `You are about to mark the deposit transaction
-        ${shortify(payment.paymentId, 'TA')} as chargeback in`,
+        actionDescription: `You are about to mark the deposit transaction ${shortify(payment.paymentId, 'TA')} as chargeback in`,
       },
     });
   };
@@ -159,6 +152,7 @@ class PaymentDetailModal extends Component {
         paymentAccount,
         status,
         paymentId,
+        creatorUUID,
         amount,
         playerUUID,
         creationTime,
@@ -191,7 +185,7 @@ class PaymentDetailModal extends Component {
                   <Uuid uuid={paymentId} uuidPrefix="TA" />
                 </div>
                 <span className="font-size-10 text-uppercase color-default">
-                  by <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+                by <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
                 </span>
               </div>
             </div>
@@ -240,6 +234,12 @@ class PaymentDetailModal extends Component {
                 <div className={classNames(paymentsStatusesColor[status], 'font-weight-700', 'text-uppercase')}>
                   {paymentsStatusesLabels[status] || status}
                 </div>
+                {
+                  creatorUUID &&
+                  <div className="font-size-10 color-default">
+                    {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={creatorUUID} />
+                  </div>
+                }
                 <span className="font-size-10 color-default">
                   {moment(creationTime).format('DD.MM.YYYY - HH:mm')}
                 </span>
@@ -264,7 +264,7 @@ class PaymentDetailModal extends Component {
               </div>
               <div>
                 <div className="font-weight-700">
-                  {paymentsMethodsLabels[paymentMethod] || paymentMethod}
+                  {paymentsMethodsLabels[paymentMethod] || 'Manual'}
                 </div>
                 <span className="font-size-10">
                   {shortify(paymentAccount, null, 2)}

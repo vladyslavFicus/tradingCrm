@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../../constants/propTypes';
-import { initiatorsLabels } from '../../../../constants/transaction';
+import { initiatorsLabels } from '../../../../constants/payment';
 import { createValidator } from '../../../../utils/validator';
 import {
   types,

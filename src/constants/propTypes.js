@@ -304,7 +304,7 @@ PropTypes.userPaymentAccountEntity = PropTypes.shape({
   creationDate: PropTypes.string.isRequired,
   details: PropTypes.string.isRequired,
   lastActivityDate: PropTypes.string.isRequired,
-  lastPayment: PropTypes.paymentEntity.isRequired,
+  lastPayment: PropTypes.paymentEntity,
   paymentMethod: PropTypes.string.isRequired,
   playerUUID: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,

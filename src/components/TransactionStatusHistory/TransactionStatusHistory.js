@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import moment from 'moment';
 import { Dropdown, DropdownMenu } from 'reactstrap';
-import { statusesColor } from '../../constants/transaction';
+import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../constants/propTypes';
+import { statusesColor, statusesLabels, statuses, initiators } from '../../constants/payment';
+import Uuid from '../Uuid';
+import FailedStatusIcon from '../FailedStatusIcon';
 
 class StatusHistory extends Component {
   static propTypes = {
-    label: PropTypes.any.isRequired,
-    onLoad: PropTypes.func.isRequired,
+    transaction: PropTypes.paymentEntity.isRequired,
+    onLoadStatusHistory: PropTypes.func.isRequired,
   };
 
   state = {
@@ -21,7 +24,7 @@ class StatusHistory extends Component {
       dropDownOpen: !this.state.dropDownOpen,
     }, async () => {
       if (this.state.dropDownOpen) {
-        const action = await this.props.onLoad();
+        const action = await this.props.onLoadStatusHistory();
 
         if (action && !action.error) {
           this.setState({
@@ -34,7 +37,7 @@ class StatusHistory extends Component {
 
   renderDropDown = (label, statusHistory, dropDownOpen) => (
     <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-      <span onClick={this.toggle}>{label}</span>
+      <button className="btn-transparent-text text-left" onClick={this.toggle}>{label}</button>
       <DropdownMenu>
         {
           statusHistory.map(status => (
@@ -57,7 +60,48 @@ class StatusHistory extends Component {
 
   render() {
     const { dropDownOpen, statusHistory } = this.state;
-    const { label } = this.props;
+    const { transaction } = this.props;
+    const status = transaction.paymentFlowStatuses
+      .find(flowStatus => flowStatus.paymentStatus.toUpperCase() === transaction.status);
+    let authorUUID = null;
+
+    if (status) {
+      if (status.initialorType === initiators.OPERATOR) {
+        authorUUID = { uuid: status.initiatorId };
+      } else if (status.initialorType === initiators.PLAYER) {
+        authorUUID = {
+          uuid: status.initiatorId,
+          uuidPrefix: status.initiatorId.indexOf('PLAYER') === -1 ? 'PL' : null,
+        };
+      }
+    }
+
+    const label = (
+      <div>
+        <div className={classNames(statusesColor[transaction.status], 'font-weight-700')}>
+          {statusesLabels[transaction.status] || transaction.status}
+          {
+            transaction.status === statuses.FAILED && !!transaction.reason &&
+            <FailedStatusIcon id={`transaction-failure-reason-${transaction.paymentId}`}>
+              {transaction.reason}
+            </FailedStatusIcon>
+          }
+        </div>
+        {
+          authorUUID &&
+          <div className="font-size-10 color-default">
+            {I18n.t('COMMON.AUTHOR_BY')}
+            {' '}
+            <Uuid {...authorUUID} />
+          </div>
+        }
+        <span className="font-size-10 color-default text-lowercase">
+          {I18n.t('COMMON.DATE_ON', {
+            date: moment(transaction.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
+          })}
+        </span>
+      </div>
+    );
 
     return (
       !statusHistory

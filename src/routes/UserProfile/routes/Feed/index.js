@@ -2,7 +2,7 @@ import { injectReducer } from '../../../../store/reducers';
 import { actionCreators as feedTypesActionCreators } from './modules/feedTypes';
 
 export default store => ({
-  path: ':id/feed',
+  path: 'feed',
   onEnter: async (nextState, replace, callback) => {
     injectReducer(store, { key: 'userFeed', reducer: require('./modules').default });
 

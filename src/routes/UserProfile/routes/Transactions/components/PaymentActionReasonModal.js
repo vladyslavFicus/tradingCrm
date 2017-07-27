@@ -5,7 +5,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input
+  Input,
 } from 'reactstrap';
 import classNames from 'classnames';
 import PropTypes from '../../../../../constants/propTypes';
@@ -79,6 +79,7 @@ class PaymentActionReasonModal extends Component {
         paymentId,
         note,
       },
+      payment,
       playerProfile: {
         playerUUID,
         firstName,
@@ -120,13 +121,15 @@ class PaymentActionReasonModal extends Component {
                 {reasons.map(reason => <option key={reason}>{reason}</option>)}
                 <option>Other</option>
               </Input>
-              {this.state.isOtherReason
-              && <div>
-                <Input type="textarea" onChange={this.changeReason} value={this.state.reason} />
-                <div className="color-default text-uppercase font-size-11">
-                  {this.state.reason.length}/500
+              {
+                this.state.isOtherReason &&
+                <div>
+                  <Input type="textarea" onChange={this.changeReason} value={this.state.reason} />
+                  <div className="color-default text-uppercase font-size-11">
+                    {this.state.reason.length}/500
+                  </div>
                 </div>
-              </div>}
+              }
             </div>
           </div>
 
@@ -136,7 +139,7 @@ class PaymentActionReasonModal extends Component {
                 id="payment-reject-modal-note"
                 note={note}
                 onClick={this.handleNoteClick}
-                targetEntity={this.props.payment}
+                targetEntity={payment}
               />
             </div>
           </div>
