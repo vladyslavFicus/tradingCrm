@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
-import createRequestAction from 'utils/createRequestAction';
+import timestamp from '../../../utils/timestamp';
+import buildQueryString from '../../../utils/buildQueryString';
+import createRequestAction from '../../../utils/createRequestAction';
 
 const KEY = 'user-bonus';
 const FETCH_ACTIVE_BONUS = createRequestAction(`${KEY}/fetch-active-bonus`);
@@ -77,7 +77,7 @@ function cancelBonus(id, playerUUID) {
 }
 
 const actionHandlers = {
-  [FETCH_ACTIVE_BONUS.REQUEST]: (state, action) => ({
+  [FETCH_ACTIVE_BONUS.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
