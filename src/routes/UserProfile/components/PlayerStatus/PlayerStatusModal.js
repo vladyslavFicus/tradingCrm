@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import { actions, durationUnits } from '../../../../constants/user';
@@ -89,7 +90,6 @@ class PlayerStatusModal extends Component {
       }
       <option value={durationUnits.PERMANENT}>Permanent</option>
     </Field>
-
   );
 
   render() {
@@ -130,7 +130,7 @@ class PlayerStatusModal extends Component {
               className="btn btn-default-outline pull-left"
               onClick={onHide}
             >
-              Cancel
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
             <button
               type="submit"

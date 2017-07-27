@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getFormValues, Field, reduxForm } from 'redux-form';
-import classNames from 'classnames';
 import { TextAreaField } from '../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../utils/validator';
@@ -48,10 +47,13 @@ class RefuseModal extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
-    isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     className: PropTypes.string,
     selectedValues: PropTypes.object,
+  };
+  static defaultProps = {
+    handleSubmit: null,
+    className: 'modal-danger',
   };
 
   renderRejectByType = (type) => {
@@ -100,10 +102,8 @@ class RefuseModal extends Component {
       className,
     } = this.props;
 
-    const modalClassName = classNames(className, 'modal-danger');
-
     return (
-      <Modal isOpen toggle={onClose} className={modalClassName}>
+      <Modal isOpen toggle={onClose} className={className}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader toggle={onClose}>KYC Request rejection</ModalHeader>
           <ModalBody>

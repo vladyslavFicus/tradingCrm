@@ -402,7 +402,7 @@ class ProfileLayout extends Component {
           ),
           footer: (
             <button className="btn btn-default-outline pull-left" onClick={this.handleCloseModal}>
-              Cancel
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           ),
         });
@@ -426,7 +426,7 @@ class ProfileLayout extends Component {
           ),
           footer: (
             <button className="btn btn-default-outline pull-left" onClick={this.handleCloseModal}>
-              Cancel
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           ),
         });
