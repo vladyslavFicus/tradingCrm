@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { getAvailableLanguages } from '../../config/index';
 import PropTypes from '../../constants/propTypes';
@@ -11,6 +12,8 @@ import NotePopover from '../../components/NotePopover';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
+import MyProfileSidebar from '../../components/MyProfileSidebar';
+import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
 import './NewLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -101,6 +104,13 @@ class NewLayout extends Component {
     hasTabs: false,
     noteChangedCallback: null,
     popover: { ...popoverInitialState },
+    isOpenProfile: null,
+  };
+
+  toggleProfile = (isOpen) => {
+    const isOpenProfile = isOpen !== undefined ? isOpen : !this.state.isOpenProfile;
+
+    this.setState({ isOpenProfile });
   };
 
   setNoteChangedCallback = (cb) => {
@@ -172,8 +182,22 @@ class NewLayout extends Component {
     this.props.resetPanels();
   };
 
+  onProfileSubmit = async ({ language, ...userData }) => {
+    this.props.onLocaleChange(language);
+    const action = await this.props.updateUserProfile(this.props.user.uuid, userData);
+
+    if (action) {
+      if (action.error && action.payload.response.fields_errors) {
+        const errors = parserErrorsFromServer(action.payload.response.fields_errors);
+        throw new SubmissionError(errors);
+      } else if (action.payload.response && action.payload.response.error) {
+        throw new SubmissionError({ __error: action.payload.response.error });
+      }
+    }
+  };
+
   render() {
-    const { popover } = this.state;
+    const { popover, isOpenProfile } = this.state;
     const {
       children,
       router,
@@ -183,6 +207,8 @@ class NewLayout extends Component {
       setActivePanel,
       onLocaleChange,
       languages,
+      locale,
+      user,
     } = this.props;
 
     return (
@@ -192,62 +218,23 @@ class NewLayout extends Component {
           showSearch={false}
           languages={languages}
           onLocaleChange={onLocaleChange}
+          toggleProfile={this.toggleProfile}
         />
 
         <Sidebar topMenu={sidebarTopMenu} bottomMenu={sidebarBottomMenu} />
 
         <div className="section-container">{children}</div>
 
-        <aside className="my-profile">
-          <header className="my-profile__header">
-            My profile
-          </header>
-          <div className="my-profile__sections">
-            <section className="my-profile__personal-details">
-              <h1 className="my-profile__heading">Personal details</h1>
-              <form>
-                <div className="form-group">
-                  <label>Phone</label>
-                  <input type="text" className="form-control" placeholder="12345"/>
-                </div>
-                <div className="form-group">
-                  <label>Email</label>
-                  <input type="text" className="form-control" placeholder="12345"/>
-                </div>
-                <div className="form-group">
-                  <label>Language</label>
-                  <select name="language" className="form-control">
-                    <option value="English" />
-                    <option value="Russian" />
-                  </select>
-                </div>
-                <div className="text-right">
-                  <button className="btn btn-primary btn-sm" type="submit">Save changes</button>
-                </div>
-              </form>
-            </section>
-            <section>
-              <h1 className="my-profile__heading">Change password</h1>
-              <form>
-                <div className="form-group">
-                  <label>Old password</label>
-                  <input type="password" className="form-control" />
-                </div>
-                <div className="form-group">
-                  <label>New password</label>
-                  <input type="password" className="form-control" />
-                </div>
-                <div className="form-group">
-                  <label>Repeat new password</label>
-                  <input type="password" className="form-control" />
-                </div>
-                <div className="text-right">
-                  <button className="btn btn-primary btn-sm" type="submit">Save new password</button>
-                </div>
-              </form>
-            </section>
-          </div>
-        </aside>
+        <MyProfileSidebar
+          isOpen={isOpenProfile}
+          languages={languages}
+          onSubmit={this.onProfileSubmit}
+          initialValues={{
+            language: locale,
+            ...user.data,
+          }}
+          toggleProfile={this.toggleProfile}
+        />
 
         <UsersPanel
           active={activeUserPanel}
@@ -291,4 +278,5 @@ export default connect(mapStateToProps, {
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
+  updateUserProfile: authActionCreators.updateProfile,
 })(NewLayout);

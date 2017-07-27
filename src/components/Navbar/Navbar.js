@@ -4,7 +4,6 @@ import { IndexLink } from 'react-router';
 import PropTypes from '../../constants/propTypes';
 import DepartmentsDropDown from '../DepartmentsDropDown';
 import NavbarNav from '../NavbarNav';
-import LocaleSwitcher from '../LocaleSwitcher';
 import { getLogo } from '../../config';
 import './Navbar.scss';
 
@@ -96,16 +95,10 @@ class Navbar extends Component {
         }
 
         <div className="header__right-nav">
-          <LocaleSwitcher
-            languages={languages}
-            currentLocale={locale}
-            changeLocale={onLocaleChange}
-          />
-
           <NavbarNav
             label={<i className="fa fa-user" />}
             items={[
-              { label: 'My profile' },
+              { label: 'My profile', onClick: () => this.props.toggleProfile() },
               { label: 'Logout', onClick: () => this.props.router.replace('/logout') },
             ]}
           />
