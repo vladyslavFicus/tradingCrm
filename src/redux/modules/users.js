@@ -2,14 +2,40 @@ import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
 import buildQueryString from '../../utils/buildQueryString';
+import { statuses as kycStatuses } from '../../constants/kyc';
 
-const mapProfile = payload => ({
-  ...payload,
-  age: moment().diff(payload.birthDate, 'years'),
-  kycDate: payload.personalStatus.editDate > payload.addressStatus.editDate
-    ? payload.personalStatus.editDate
-    : payload.addressStatus.editDate,
-});
+const fetchProfileMapResponse = (response) => {
+  const { birthDate, kycPersonalStatus, kycAddressStatus, balance, signInIps } = response;
+  const kycCompleted = kycPersonalStatus && kycAddressStatus
+    && kycPersonalStatus.status === kycStatuses.VERIFIED && kycAddressStatus.status === kycStatuses.VERIFIED;
+  let kycDate = null;
+
+  if (kycPersonalStatus && kycAddressStatus) {
+    kycDate = kycPersonalStatus.statusDate > kycAddressStatus.statusDate
+      ? kycPersonalStatus.statusDate
+      : kycAddressStatus.statusDate;
+  }
+
+  return {
+    ...response,
+    fullName: [response.firstName, response.lastName].join(' '),
+    age: moment().diff(birthDate, 'years'),
+    birthDate: moment(birthDate).format('YYYY-MM-DD'),
+    kycDate,
+    kycCompleted,
+    currencyCode: balance && balance.currency ? balance.currency : null,
+    signInIps: signInIps ?
+      Object.values(signInIps).sort((a, b) => {
+        if (a.sessionStart > b.sessionStart) {
+          return -1;
+        } else if (b.sessionStart > a.sessionStart) {
+          return 1;
+        }
+
+        return 0;
+      }) : [],
+  };
+};
 
 function fetchProfile(type) {
   return uuid => (dispatch, getState) => {
@@ -17,7 +43,7 @@ function fetchProfile(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/profiles/${uuid}`,
+        endpoint: `profile/profiles/es/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -31,7 +57,7 @@ function fetchProfile(type) {
             payload: (action, state, res) => {
               const contentType = res.headers.get('Content-Type');
               if (contentType && ~contentType.indexOf('json')) {
-                return res.json().then(json => mapProfile(json));
+                return res.json().then(json => fetchProfileMapResponse(json));
               }
             },
           },

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   Button,
   Modal,
@@ -9,6 +8,7 @@ import {
   Input,
 } from 'reactstrap';
 import classNames from 'classnames';
+import PropTypes from '../../../constants/propTypes';
 import { targetTypes } from '../../../constants/note';
 import NoteButton from '../../../components/NoteButton';
 import './PaymentDetailModal.scss';
@@ -20,7 +20,7 @@ class PaymentActionReasonModal extends Component {
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
-    profile: PropTypes.userProfile.isRequired,
+    profile: PropTypes.userProfile,
     payment: PropTypes.paymentEntity.isRequired,
     reasons: PropTypes.arrayOf(PropTypes.string),
     action: PropTypes.string.isRequired,
@@ -31,6 +31,7 @@ class PaymentActionReasonModal extends Component {
     isOpen: false,
     reasons: [],
     modalStaticParams: {},
+    profile: null,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -86,10 +87,7 @@ class PaymentActionReasonModal extends Component {
         note,
       },
       payment,
-      profile: {
-        firstName,
-        lastName,
-      },
+      profile,
       isOpen,
       onClose,
       onChangePaymentStatus,
@@ -111,8 +109,7 @@ class PaymentActionReasonModal extends Component {
                 {modalStaticParams.actionDescription}
               </div>
               <div className="font-weight-400">
-                <span className="font-weight-700">{firstName} {lastName}</span>
-                {' '}
+                {!!profile && <span className="font-weight-700">{profile.firstName} {profile.lastName} </span>}
                 <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
               </div>
             </div>
@@ -129,12 +126,14 @@ class PaymentActionReasonModal extends Component {
               </Input>
               {
                 this.state.isOtherReason
-                && <div>
-                  <Input type="textarea" onChange={this.changeReason} value={this.state.reason} />
-                  <div className="color-default text-uppercase font-size-11">
-                    {this.state.reason.length}/500
+                && (
+                  <div>
+                    <Input type="textarea" onChange={this.changeReason} value={this.state.reason} />
+                    <div className="color-default text-uppercase font-size-11">
+                      {this.state.reason.length}/500
+                    </div>
                   </div>
-                </div>
+                )
               }
             </div>
           </div>

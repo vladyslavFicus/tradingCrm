@@ -1,5 +1,33 @@
 import { CALL_API } from 'redux-api-middleware';
 import { actions as filesActions } from '../../constants/files';
+import buildQueryString from '../../utils/buildQueryString';
+
+function fetchFiles(type) {
+  return (playerUUID, filters = { page: 0 }) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/files/${playerUUID}?${buildQueryString(filters)}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          {
+            type: type.REQUEST,
+            meta: { filters },
+          },
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
 
 function verifyFile(type) {
   return uuid => (dispatch, getState) => {
@@ -65,6 +93,7 @@ function changeStatusByAction(types) {
 }
 
 const sourceActionCreators = {
+  fetchFiles,
   verifyFile,
   refuseFile,
   changeStatusByAction,

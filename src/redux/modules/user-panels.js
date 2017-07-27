@@ -1,6 +1,7 @@
 import { actionTypes as locationActionTypes } from './location';
 import createReducer from '../../utils/createReducer';
 import { actionTypes as windowActionTypes } from '../modules/window';
+import { actionTypes as authActionTypes } from './auth';
 
 const KEY = 'user-panels';
 const ADD = `${KEY}/add`;
@@ -128,6 +129,7 @@ const actionHandlers = {
       }),
     };
   },
+  [authActionTypes.LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
 const actionTypes = {
   ADD,

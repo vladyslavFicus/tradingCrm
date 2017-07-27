@@ -12,7 +12,9 @@
       "DORMANT": "Бездействующие",
       "OPEN_LOOP": "Open loop",
       "GAMES": "Игры",
-      "COUNTRIES": "Страны"
+      "COUNTRIES": "Страны",
+      "PLAYERS_SEARCH": "Поиск игроков",
+      "PLAYERS_KYC_REQUEST": "KYC запросы"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -209,7 +211,8 @@
         "AVAILABILITY": "Доступность",
         "GRANTED": "Выдано",
         "STATUS": "Статус",
-        "NOTE": "Заметка"
+        "NOTE": "Заметка",
+        "GAME": "Провайдер и игра"
       },
       "VIEW_MODAL": {
         "FREE_SPIN": "Free spin",
@@ -339,7 +342,8 @@
     "GOOD_MORNING": "Доброе утро",
     "GOOD_AFTERNOON": "Добрый день",
     "GOOD_EVENING": "Добрый вечер",
-    "GOOD_NIGHT": "Доброй ночи"
+    "GOOD_NIGHT": "Доброй ночи",
+    "SINCE": "с %{date}"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -432,7 +436,7 @@
         "BONUS_MONEY": "Бонусные деньги"
       },
       "ROUTES": {
-        "BONUS": "Бонусы",
+        "BONUSES": "Бонусы",
         "ELIGIBLE_CAMPAIGNS": "Кампании",
         "FREE_SPINS": "Free Spins"
       }
@@ -802,5 +806,38 @@
   },
   "NOTE_BUTTON": {
     "DEFAULT_MESSAGE": "Добавить "
+  },
+  "KYC_REQUESTS": {
+    "GRID_VIEW": {
+      "INITIATED": "Инициирован",
+      "IDENTITY_STATUS": "Статус идентификации",
+      "ADDRESS_STATUS": "Статус адреса"
+    },
+    "TITLE": "KYC Запросы",
+    "FILTER": {
+      "DATE_RANGE": "Период времени запроса",
+      "DATE_FROM": "С",
+      "DATE_STATUS": "Статус проверки",
+      "DATE_TO": "По",
+      "STATUS": {
+        "FULLY_VERIFIED": "Полностью подтвержден",
+        "IDENTITY_VERIFIED": "Личность - подтверждена",
+        "IDENTITY_PENDING": "Личность - ожидает",
+        "IDENTITY_DOCUMENT_SENT": "Личность - документы высланы",
+        "ADDRESS_VERIFIED": "Адрес - подтвержден",
+        "ADDRESS_PENDING": "Адрес - ожидает",
+        "ADDRESS_DOCUMENT_SENT": "Адрес - документы высланы"
+      }
+    },
+    "REQUEST_TYPE": {
+      "MANUAL": "Вручную",
+      "AUTO": "Автоматически"
+    },
+    "STATUS": {
+      "PENDING": "Ожидает",
+      "VERIFIED": "Подтвержден",
+      "REFUSED": "Отклонен",
+      "DOCUMENTS_SENT": "Документы высланы"
+    }
   }
 }

@@ -19,8 +19,8 @@ class Personal extends Component {
         email,
         country,
         address,
-        addressStatus,
-        personalStatus,
+        kycAddressStatus,
+        kycPersonalStatus,
         profileStatus,
         phoneNumberVerified,
         city,
@@ -30,19 +30,19 @@ class Personal extends Component {
     } = this.props;
 
     return (
-      <div className="player__account__details_personal">
-        <span className="player__account__details-label">Personal information</span>
+      <div className="account-details__personal-info">
+        <span className="account-details__label">Personal information</span>
         <div className="panel">
-          <div className="panel-body height-200">
+          <div className="panel-body">
             <PersonalInformationItem
               label="Date of birth"
               value={moment(birthDate).format('DD.MM.YYYY')}
-              verified={personalStatus.value === kycStatuses.VERIFIED}
+              verified={kycPersonalStatus && kycPersonalStatus.status === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem
               label="Gender"
               value={gender}
-              verified={personalStatus.value === kycStatuses.VERIFIED}
+              verified={kycPersonalStatus && kycPersonalStatus.status === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem
               label="Phone"
@@ -57,17 +57,17 @@ class Personal extends Component {
             <PersonalInformationItem
               label="Full address"
               value={address}
-              verified={addressStatus.value === kycStatuses.VERIFIED}
+              verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem
               label="Country"
               value={country}
-              verified={addressStatus.value === kycStatuses.VERIFIED}
+              verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem
               label="City"
               value={city}
-              verified={addressStatus.value === kycStatuses.VERIFIED}
+              verified={kycAddressStatus && kycAddressStatus.status === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem
               label="Source"

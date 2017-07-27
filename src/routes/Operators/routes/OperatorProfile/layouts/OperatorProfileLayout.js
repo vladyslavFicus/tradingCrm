@@ -195,7 +195,7 @@ class OperatorProfileLayout extends Component {
             onStatusChange={changeStatus}
           />
           <div className="hide-details-block">
-            <div className="hide-details-block_arrow" />
+            <div className="hide-details-block_divider" />
             <button
               className="hide-details-block_text btn-transparent"
               onClick={this.handleToggleInformationBlock}
@@ -206,7 +206,7 @@ class OperatorProfileLayout extends Component {
               }
             </button>
 
-            <div className="hide-details-block_arrow" />
+            <div className="hide-details-block_divider" />
           </div>
 
           <Collapse isOpen={informationShown}>

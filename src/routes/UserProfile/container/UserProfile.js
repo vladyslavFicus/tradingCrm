@@ -39,6 +39,13 @@ const mapStateToProps = (state) => {
       uploadModalInitialValues[uuid] = { name: '', category: '' };
     });
   }
+  const selectedTags = profile.data.tags
+    ? profile.data.tags.map(option => `${option.priority}/${option.tag}`)
+    : [];
+  const availableTagsByDepartment = getAvailableTags(auth.department);
+  const availableTags = selectedTags && availableTagsByDepartment
+    ? availableTagsByDepartment.filter(option => selectedTags.indexOf(`${option.priority}/${option.value}`) === -1)
+    : [];
 
   return {
     auth,
@@ -46,7 +53,14 @@ const mapStateToProps = (state) => {
     lastIp,
     notes,
     accumulatedBalances,
-    availableTags: getAvailableTags(auth.department),
+    availableTags,
+    currentTags: profile.data.tags
+      ? profile.data.tags.map(option => ({
+        id: option.id,
+        label: option.tag,
+        value: option.tag,
+        priority: option.priority,
+      })) : [],
     availableStatuses,
     walletLimits,
     uploading,
@@ -58,9 +72,7 @@ const mapStateToProps = (state) => {
 
 const mapActions = {
   fetchProfile: actionCreators.fetchProfile,
-  fetchAccumulatedBalances: actionCreators.fetchBalances,
   updateSubscription: actionCreators.updateSubscription,
-  loadFullProfile: actionCreators.loadFullProfile,
   addTag: actionCreators.addTag,
   deleteTag: actionCreators.deleteTag,
   changeStatus: actionCreators.changeStatus,
@@ -76,6 +88,7 @@ const mapActions = {
   cancelFile: actionCreators.cancelFile,
   resetUploading: actionCreators.resetUploading,
   manageNote: actionCreators.manageNote,
+  fetchFiles: filesActionCreators.fetchFiles,
   saveFiles: filesActionCreators.saveFiles,
   deleteFile: filesActionCreators.deleteFile,
   downloadFile: filesActionCreators.downloadFile,

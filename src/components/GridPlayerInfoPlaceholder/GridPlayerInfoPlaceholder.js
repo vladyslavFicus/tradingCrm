@@ -2,7 +2,6 @@ import React from 'react';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import PropTypes from '../../constants/propTypes';
 import Placeholder from '../Placeholder';
-import './GridPlayerInfoPlaceholder.scss';
 
 const GridPlayerInfoPlaceholder = ({ children, ...rest }) => (
   <Placeholder

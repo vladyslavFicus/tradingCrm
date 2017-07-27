@@ -34,13 +34,13 @@ export default store => ({
       component: BlackLayout,
       childRoutes: [
         SignInRoute(store),
+        SetPasswordRoute(store),
+        ResetPasswordRoute(store),
       ],
     },
     {
       component: BaseLayout,
       childRoutes: [
-        SetPasswordRoute(store),
-        ResetPasswordRoute(store),
         onEnterStack({
           component: NewLayout,
           childRoutes: [
