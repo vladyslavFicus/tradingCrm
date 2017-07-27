@@ -357,14 +357,14 @@ class CreateBonusCampaignModal extends Component {
               className="btn btn-default-outline pull-left"
               onClick={onClose}
             >
-              {I18n.t('COMMON.CANCEL')}
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
             <button
               type="submit"
               disabled={pristine || submitting || !valid}
               className="btn btn-primary"
             >
-              Create & open
+              {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
             </button>
           </ModalFooter>
         </form>

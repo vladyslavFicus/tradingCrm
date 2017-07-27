@@ -81,10 +81,10 @@ class OperatorProfileLayout extends Component {
         </div>
       ),
       footer: (
-        <div>
+        <div className="row">
           <div className="col-xs-6 text-left">
             <button className="btn-default-outline btn btn-secondary" onClick={this.handleCloseModal}>
-              {I18n.t('COMMON.CLOSE')}
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           </div>
           <div className="col-xs-6">
@@ -131,7 +131,7 @@ class OperatorProfileLayout extends Component {
         <div className="row">
           <div className="col-xs-6 text-left">
             <button className="btn-default-outline btn btn-secondary" onClick={this.handleCloseModal}>
-              {I18n.t('COMMON.CLOSE')}
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           </div>
           <div className="col-xs-6">

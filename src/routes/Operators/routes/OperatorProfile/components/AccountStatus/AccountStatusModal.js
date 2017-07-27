@@ -43,7 +43,7 @@ const AccountStatusModal = ({ action, reasons, title, onHide, onSubmit, handleSu
 
       <ModalFooter>
         <button className="btn btn-default-outline pull-left" onClick={onHide}>
-          {I18n.t('COMMON.CANCEL')}
+          {I18n.t('COMMON.BUTTONS.CANCEL')}
         </button>
         <button className="btn btn-danger" type="submit">
           {action}

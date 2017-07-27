@@ -291,7 +291,8 @@
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить",
-      "UPLOAD_FILE": "+ Загрузить файл"
+      "UPLOAD_FILE": "+ Загрузить файл",
+      "CREATE_AND_OPEN": "Создать и открыть"
     },
     "ACTIONS": {
       "ON": "Вкл",

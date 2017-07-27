@@ -291,7 +291,8 @@
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm",
-      "UPLOAD_FILE": "+ Upload file"
+      "UPLOAD_FILE": "+ Upload file",
+      "CREATE_AND_OPEN": "Create & open"
     },
     "ACTIONS": {
       "ON": "Turn on",
