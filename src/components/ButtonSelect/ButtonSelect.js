@@ -11,33 +11,54 @@ class ButtonSelect extends Component {
     this.props.onClick();
   };
 
+  bindSelectRef = (selectField) => {
+    this.selectField = selectField;
+  };
+
   render() {
-    const { opened, onCloseClick, label, className, ...rest } = this.props;
+    const { opened, onCloseClick, label, className, placeholder, ...rest } = this.props;
 
-    return <div className={classNames('button-select')}>
-      <span className="tag-arrow tag-arrow-default" />
+    return (
+      <div className="btn-group tag-group button-select">
+        <span className="tag-arrow tag-arrow-default" />
 
-      <div className={classNames('auto-complete', 'ignore-react-onclickoutside', { opened })}>
-        <ReactSelect {...rest} placeholder="" ref={(selectField) => { this.selectField = selectField; }} />
+        <div className={classNames('auto-complete', 'ignore-react-onclickoutside', { opened })}>
+          <ReactSelect
+            {...rest}
+            placeholder={placeholder}
+            ref={this.bindSelectRef}
+          />
+        </div>
+
+        <button className={className} onClick={this.focus}>
+          {label}
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-xs btn-default btn-delete"
+          onClick={onCloseClick}
+        >
+          &times;
+        </button>
       </div>
-
-      <button className={className} onClick={this.focus}>
-        {label}
-      </button>
-
-      <button
-        type="button"
-        className={`btn btn-xs btn-secondary btn-delete`}
-        onClick={onCloseClick}
-      >&times;</button>
-    </div>;
+    );
   }
 }
 
 ButtonSelect.propTypes = {
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+  placeholder: PropTypes.string,
+  className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  className: PropTypes.any,
-  label: PropTypes.any,
+  onClick: PropTypes.func.isRequired,
+  opened: PropTypes.bool,
+  onCloseClick: PropTypes.func.isRequired,
+};
+ButtonSelect.defaultProps = {
+  className: '',
+  placeholder: '',
+  opened: false,
 };
 
 export default onClickOutside(ButtonSelect);

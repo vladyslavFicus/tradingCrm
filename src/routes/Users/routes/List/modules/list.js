@@ -8,6 +8,7 @@ import { getApiRoot } from '../../../../../config/index';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
 import shallowEqual from '../../../../../utils/shallowEqual';
+import { statuses } from '../../../../../constants/kyc';
 
 const KEY = 'users';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -17,6 +18,8 @@ const RESET = `${KEY}/reset`;
 function mapProfile(item) {
   return {
     ...item,
+    kycCompleted: item.kycPersonalStatus && item.kycPersonalStatus.status === statuses.VERIFIED
+    && item.kycAddressStatus && item.kycAddressStatus.status === statuses.VERIFIED,
     age: moment().diff(item.birthDate, 'years'),
     signInIps: item.signInIps ? Object.values(item.signInIps).sort((a, b) => {
       if (a.sessionStart > b.sessionStart) {
@@ -69,14 +72,14 @@ function exportEntities(filters = {}) {
 
 const initialState = {
   entities: {
-    first: null,
-    last: null,
-    number: null,
-    numberOfElements: null,
-    size: null,
+    first: false,
+    last: false,
+    number: 0,
+    numberOfElements: 0,
+    size: 0,
     sort: null,
-    totalElements: null,
-    totalPages: null,
+    totalElements: 0,
+    totalPages: 0,
     content: [],
   },
   filters: {},

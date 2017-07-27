@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import AccountStatusModal from './AccountStatusModal';
 import { statuses } from '../../../../../../constants/user';
-import './AccountStatus.scss';
 
 const initialState = {
   dropDownOpen: false,
@@ -83,7 +82,7 @@ class AccountStatus extends Component {
   render() {
     const { dropDownOpen, modal } = this.state;
     const { label, availableStatuses, profileStatus } = this.props;
-    const dropdownClassName = classNames('player__account__status dropdown-highlight padding-0', {
+    const dropdownClassName = classNames('dropdown-highlight', {
       'cursor-pointer': profileStatus !== statuses.SUSPENDED && availableStatuses.length > 0,
       'dropdown-open': dropDownOpen,
     });

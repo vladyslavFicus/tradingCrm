@@ -12,34 +12,42 @@ const state = {
   logoutTimeout: null,
 };
 
+const logout = () => {
+  if (window && window.parent !== window) {
+    window.parent.postMessage(JSON.stringify(windowActionCreators.logout()), window.location.origin);
+  } else {
+    browserHistory.push('/logout');
+  }
+};
+
 function startTimeout(store, expirationTime) {
   const delay = (expirationTime - (timestamp() + 1)) * 1000;
 
-  if (state.logoutTimeout) {
-    clearTimeout(state.logoutTimeout);
-    state.logoutTimeout = null;
-  }
-
-  state.logoutTimeout = setTimeout(() => {
-    const { auth: { logged, token } } = store.getState();
-
-    if (logged && token) {
-      const tokenData = jwtDecode(token);
-
-      if (tokenData.exp - timestamp() <= 0) {
-        clearTimeout(state.logoutTimeout);
-        state.logoutTimeout = null;
-
-        if (window && window.parent !== window) {
-          window.parent.postMessage(JSON.stringify(windowActionCreators.logout()), window.location.origin);
-        } else {
-          browserHistory.push('/logout');
-        }
-      } else {
-        startTimeout(store, tokenData.exp);
-      }
+  if (delay <= 0) {
+    logout();
+  } else {
+    if (state.logoutTimeout) {
+      clearTimeout(state.logoutTimeout);
+      state.logoutTimeout = null;
     }
-  }, delay);
+
+    state.logoutTimeout = setTimeout(() => {
+      const { auth: { logged, token } } = store.getState();
+
+      if (logged && token) {
+        const tokenData = jwtDecode(token);
+
+        if (tokenData.exp - timestamp() <= 0) {
+          clearTimeout(state.logoutTimeout);
+          state.logoutTimeout = null;
+
+          logout();
+        } else {
+          startTimeout(store, tokenData.exp);
+        }
+      }
+    }, delay);
+  }
 
   console.info(`Will logout in ${delay} ms`);
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import classNames from 'classnames';
 import { createValidator } from '../../../utils/validator';
-import { InputField } from '../../../components/ReduxForm/UserProfile';
+import { InputField } from '../../../components/ReduxForm';
 import PropTypes from '../../../constants/propTypes';
 
 const attributeLabels = {
@@ -67,7 +67,7 @@ class SignInForm extends Component {
       onSubmit,
       error,
     } = this.props;
-    const className = classNames('sign-in__form', {
+    const className = classNames('form-page__form', {
       fadeInUp: step === 0,
       fadeOutLeft: step > 0,
       'position-absolute': step > 1,
@@ -86,27 +86,29 @@ class SignInForm extends Component {
               {error}
             </div>
           }
-          <div className="sign-in__form_input">
+          <div className="form-page__form_input">
             <Field
               name="login"
               type="text"
               label="Email"
               component={InputField}
+              position="vertical"
               placeholder={attributeLabels.login}
             />
 
           </div>
-          <div className="sign-in__form_input">
+          <div className="form-page__form_input">
             <Field
               name="password"
               type="password"
               label="Password"
               component={InputField}
+              position="vertical"
               placeholder={attributeLabels.password}
             />
           </div>
-          <div className="sign-in__form_submit">
-            <button className="btn btn-primary sign-in_btn" disabled={submitting}>
+          <div className="form-page__form_submit">
+            <button className="btn btn-primary form-page_btn" disabled={submitting}>
               Login
             </button>
           </div>

@@ -61,53 +61,48 @@ class ViewLayout extends Component {
 
     return (
       <div className="player panel profile-layout">
-        <div className="container-fluid">
-          <div className="profile-layout-heading">
-            <Header
-              onChangeCampaignState={onChangeCampaignState}
-              availableStatusActions={availableStatusActions}
+        <div className="profile-layout-heading">
+          <Header
+            onChangeCampaignState={onChangeCampaignState}
+            availableStatusActions={availableStatusActions}
+            data={bonusCampaignData}
+            onUpload={this.handleUploadFile}
+          />
+
+          <div className="hide-details-block">
+            <div className="hide-details-block_divider" />
+            <button
+              className="hide-details-block_text btn-transparent"
+              onClick={this.handleToggleInformationBlock}
+            >
+              {informationShown ?
+                I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
+                I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
+              }
+            </button>
+            <div className="hide-details-block_divider" />
+          </div>
+
+          <Collapse isOpen={informationShown}>
+            <Information
               data={bonusCampaignData}
-              onUpload={this.handleUploadFile}
             />
+          </Collapse>
+        </div>
 
-            <div className="hide-details-block">
-              <div className="hide-details-block_arrow" />
-              <button
-                className="hide-details-block_text btn-transparent"
-                onClick={this.handleToggleInformationBlock}
-              >
-                {informationShown ?
-                  I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') :
-                  I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')
-                }
-              </button>
-              <div className="hide-details-block_arrow" />
-            </div>
-
-            <Collapse isOpen={informationShown}>
-              <Information
-                data={bonusCampaignData}
+        <div className="panel profile-user-content">
+          <div className="panel-body">
+            <div className="nav-tabs-horizontal">
+              <Tabs
+                items={bonusCampaignTabs}
+                location={location}
+                params={params}
               />
-            </Collapse>
-          </div>
-
-          <div className="row">
-            <section className="panel profile-user-content">
-              <div className="panel-body">
-                <div className="nav-tabs-horizontal">
-                  <Tabs
-                    items={bonusCampaignTabs}
-                    location={location}
-                    params={params}
-                  />
-                  <div className="tab-content padding-vertical-20">
-                    {children}
-                  </div>
-                </div>
+              <div className="padding-vertical-20">
+                {children}
               </div>
-            </section>
+            </div>
           </div>
-
         </div>
       </div>
 

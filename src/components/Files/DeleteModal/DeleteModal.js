@@ -3,18 +3,19 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../constants/propTypes';
 import './DeleteModal.scss';
+import { shortify } from '../../../utils/uuid';
 
 class DeleteModal extends Component {
   static propTypes = {
     file: PropTypes.fileEntity.isRequired,
-    profile: PropTypes.object.isRequired,
+    playerProfile: PropTypes.object.isRequired,
     onSuccess: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   };
 
   render() {
     const {
-      profile,
+      playerProfile,
       file,
       onSuccess,
       onClose,
@@ -30,8 +31,8 @@ class DeleteModal extends Component {
             dangerouslySetInnerHTML={{
               __html: I18n.t('FILES.DELETE_MODAL.ACTION_TEXT', {
                 fileName: file.name,
-                fullName: profile.fullName,
-                shortUUID: `<span class="font-weight-100">${profile.shortUUID}</span>`,
+                fullName: playerProfile.fullName,
+                shortUUID: `<span class="font-weight-100">${shortify(playerProfile.playerUUID)}</span>`,
               }),
             }}
           />

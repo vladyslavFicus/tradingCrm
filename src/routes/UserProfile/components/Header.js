@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../constants/propTypes';
 import PlayerStatus from './PlayerStatus';
@@ -10,31 +11,34 @@ import Amount from '../../../components/Amount';
 import PopoverButton from '../../../components/PopoverButton';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
-import './Header.scss';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
+import Placeholder from '../../../components/Placeholder/Placeholder';
+import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
 
 class Header extends Component {
   static propTypes = {
-    data: PropTypes.shape({
-      balance: PropTypes.object,
-      registrationDate: PropTypes.string,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      username: PropTypes.string,
-      uuid: PropTypes.string,
-      languageCode: PropTypes.string,
-      btag: PropTypes.string,
-      affiliateId: PropTypes.string,
-      profileStatus: PropTypes.string,
-      suspendEndDate: PropTypes.string,
-      profileTags: PropTypes.array,
-    }),
+    playerProfile: PropTypes.userProfile.isRequired,
+    onRefreshClick: PropTypes.func.isRequired,
+    isLoadingProfile: PropTypes.bool.isRequired,
     lastIp: PropTypes.ipEntity,
-    accumulatedBalances: PropTypes.object,
+    accumulatedBalances: PropTypes.shape({
+      real: PropTypes.price,
+      bonus: PropTypes.price,
+      total: PropTypes.price,
+    }).isRequired,
     availableStatuses: PropTypes.array,
-    availableTags: PropTypes.array,
+    availableTags: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      priority: PropTypes.string.isRequired,
+    })),
+    currentTags: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })),
     addTag: PropTypes.func.isRequired,
     deleteTag: PropTypes.func.isRequired,
     onAddNoteClick: PropTypes.func.isRequired,
@@ -57,16 +61,19 @@ class Header extends Component {
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,
       }).isRequired,
-    }),
+    }).isRequired,
+    locale: PropTypes.string.isRequired,
+    loaded: PropTypes.bool,
+  };
+  static defaultProps = {
+    lastIp: null,
+    availableTags: [],
+    currentTags: [],
+    availableStatuses: [],
+    loaded: false,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
-  };
-
-  getUserAge = () => {
-    const { data: { birthDate } } = this.props;
-
-    return birthDate ? `(${moment().diff(birthDate, 'years')})` : null;
   };
 
   getRealWithBonusBalance = () => {
@@ -88,10 +95,10 @@ class Header extends Component {
   };
 
   handleStatusChange = (data) => {
-    const { data: profileData, onStatusChange } = this.props;
+    const { playerProfile, onStatusChange } = this.props;
 
-    if (profileData && profileData.uuid) {
-      onStatusChange({ ...data, playerUUID: profileData.uuid });
+    if (playerProfile && playerProfile.playerUUID) {
+      onStatusChange({ ...data, playerUUID: playerProfile.playerUUID });
     } else {
       throw new SubmissionError({ _error: 'User uuid not found.' });
     }
@@ -99,73 +106,58 @@ class Header extends Component {
 
   render() {
     const {
-      data: {
-        registrationDate,
-        firstName,
-        lastName,
-        username,
-        languageCode,
-        profileStatus,
-        suspendEndDate,
-        profileTags,
-        uuid,
-        kycCompleted,
-        profileStatusReason,
-      },
-      data: profile,
+      playerProfile,
       availableStatuses,
       accumulatedBalances,
-      availableTags,
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
       onWalletLimitChange,
       walletLimits,
       lastIp,
+      onRefreshClick,
+      isLoadingProfile,
+      locale,
+      availableTags,
+      currentTags,
+      loaded,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
-    const selectedTags = profileTags
-      ? profileTags.map(option => `${option.tagPriority}/${option.tag}`)
-      : [];
-    const availableOptions = selectedTags && availableTags
-      ? availableTags.filter(option => selectedTags.indexOf(`${option.priority}/${option.value}`) === -1)
-      : [];
-    const valueOptions = profileTags
-      ? profileTags.map(option => ({
-        id: option.id,
-        label: option.tag,
-        value: option.tag,
-        priority: option.tagPriority,
-      }))
-      : [];
 
     return (
       <div>
         <div className="panel-heading-row">
-          <div className="panel-heading-row_name-and-ids">
-            <div className="player__account__name">
-              {[firstName, lastName, this.getUserAge()].join(' ')}
-              {' '}
-              {kycCompleted && <i className="fa fa-check text-success" />}
+          <HeaderPlayerPlaceholder ready={loaded}>
+            <div className="panel-heading-row__info">
+              <div className="panel-heading-row__info-title">
+                {[playerProfile.fullName, `(${playerProfile.age})`].join(' ')}
+                {' '}
+                {playerProfile.kycCompleted && <i className="fa fa-check text-success" />}
+              </div>
+              <div className="panel-heading-row__info-ids">
+                {playerProfile.username}
+                {' - '}
+                {
+                  !!playerProfile.playerUUID &&
+                  <Uuid
+                    uuid={playerProfile.playerUUID}
+                    uuidPrefix={playerProfile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+                  />
+                }
+                {' - '}
+                {playerProfile.languageCode}
+              </div>
             </div>
-            <div className="player__account__ids">
-              <span>{username}</span> {' - '}
-              {!!uuid && <Uuid uuid={uuid} uuidPrefix={uuid.indexOf('PLAYER') === -1 ? 'PL' : null} />} {' - '}
-              <span>{languageCode}</span>
-            </div>
+          </HeaderPlayerPlaceholder>
+          <div className="panel-heading-row__tags">
+            <ProfileTags
+              onAdd={this.handleTagAdd}
+              onDelete={this.handleTagDelete}
+              options={availableTags}
+              value={currentTags}
+            />
           </div>
-          <div className="panel-heading-row_tags">
-            {
-              profileTags &&
-              <ProfileTags
-                onAdd={this.handleTagAdd}
-                options={availableOptions}
-                value={valueOptions}
-                onDelete={this.handleTagDelete}
-              />
-            }
-          </div>
-          <div className="panel-heading-row_add-note">
+          <div className="panel-heading-row__actions">
             <PopoverButton
               id="header-add-note-button"
               className="btn btn-default-outline"
@@ -173,7 +165,9 @@ class Header extends Component {
             >
               Add note
             </PopoverButton>
-            {' '}
+            <button className="btn btn-default-outline m-x-1" onClick={onRefreshClick}>
+              <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
+            </button>
             <UserProfileOptions
               items={[
                 { label: 'Reset password', onClick: onResetPasswordClick },
@@ -187,45 +181,47 @@ class Header extends Component {
           </div>
         </div>
 
-        <div className="row panel-body header-blocks header-blocks-5">
-          <div className="header-block header-block_account">
-            <PlayerStatus
-              status={profileStatus}
-              reason={profileStatusReason}
-              endDate={suspendEndDate}
-              onChange={this.handleStatusChange}
-              availableStatuses={availableStatuses}
-            />
-          </div>
-          <div className="header-block header-block_balance">
-            <Balances
-              label={
-                <div className="dropdown-tab">
-                  <div className="header-block-title">Balance</div>
-                  <div className="header-block-middle">
-                    <Amount {...accumulatedBalances.total} />
-                  </div>
-                  {this.getRealWithBonusBalance()}
-                </div>
-              }
-              accumulatedBalances={accumulatedBalances}
-            />
-          </div>
-          <div className="header-block header-block_wallet-limits">
-            <WalletLimits
-              profile={profile}
-              limits={walletLimits.state}
-              onChange={onWalletLimitChange}
-            />
-          </div>
-          <ProfileLastLogin lastIp={lastIp} />
-          <div className="header-block">
-            <div className="header-block-title">Registered</div>
-            <div className="header-block-middle">
-              {moment(registrationDate).fromNow()}
+        <div className=" panel-heading">
+          <div className="row">
+            <div className="header-block header-block_account">
+              <PlayerStatus
+                locale={locale}
+                status={playerProfile.profileStatus}
+                reason={playerProfile.profileStatusReason}
+                endDate={playerProfile.suspendEndDate}
+                onChange={this.handleStatusChange}
+                availableStatuses={availableStatuses}
+              />
             </div>
-            <div className="header-block-small">
-              on {moment(registrationDate).format('DD.MM.YYYY')}
+            <div className="header-block header-block_balance">
+              <Balances
+                label={
+                  <div className="dropdown-tab">
+                    <div className="header-block-title">Balance</div>
+                    <div className="header-block-middle">
+                      <Amount {...accumulatedBalances.total} />
+                    </div>
+                    {this.getRealWithBonusBalance()}
+                  </div>
+                }
+                accumulatedBalances={accumulatedBalances}
+              />
+            </div>
+            <div className="header-block header-block_wallet-limits">
+              <WalletLimits
+                profile={playerProfile}
+                limits={walletLimits.state}
+                onChange={onWalletLimitChange}
+              />
+            </div>
+            <ProfileLastLogin lastIp={lastIp} />
+            <div className="header-block">
+              <div className="header-block-title">Registered</div>
+              <div className="header-block-middle">
+                {moment(playerProfile.registrationDate).fromNow()}
+              </div>
+              <div className="header-block-small">
+                on {moment(playerProfile.registrationDate).format('DD.MM.YYYY')}</div>
             </div>
           </div>
         </div>

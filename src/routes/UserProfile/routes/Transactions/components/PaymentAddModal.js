@@ -46,8 +46,8 @@ class PaymentAddModal extends Component {
     playerInfo: PropTypes.shape({
       currencyCode: PropTypes.string,
       fullName: PropTypes.string,
-      shortUUID: PropTypes.string,
-    }),
+      playerUUID: PropTypes.string,
+    }).isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -62,7 +62,14 @@ class PaymentAddModal extends Component {
     note: PropTypes.noteEntity,
     error: PropTypes.string,
   };
-
+  static defaultProps = {
+    submitting: false,
+    pristine: false,
+    valid: false,
+    currentValues: {},
+    note: null,
+    error: '',
+  };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
@@ -106,21 +113,17 @@ class PaymentAddModal extends Component {
     }
   };
 
-  handleSubmitNote = (data) => {
-    return new Promise((resolve) => {
-      this.props.onManageNote(data);
-      this.context.hidePopover();
-      resolve();
-    });
-  };
+  handleSubmitNote = data => new Promise((resolve) => {
+    this.props.onManageNote(data);
+    this.context.hidePopover();
+    resolve();
+  });
 
-  handleDeleteNote = () => {
-    return new Promise((resolve) => {
-      this.props.onManageNote(null);
-      this.context.hidePopover();
-      resolve();
-    });
-  };
+  handleDeleteNote = () => new Promise((resolve) => {
+    this.props.onManageNote(null);
+    this.context.hidePopover();
+    resolve();
+  });
 
   renderPaymentAccountField = () => {
     const { currentValues } = this.props;
@@ -156,7 +159,7 @@ class PaymentAddModal extends Component {
 
   renderInfoBlock = () => {
     const {
-      playerInfo: { shortUUID, fullName, currencyCode },
+      playerInfo: { playerUUID, fullName, currencyCode },
       currentValues,
       valid,
     } = this.props;
@@ -169,7 +172,7 @@ class PaymentAddModal extends Component {
       <div className="center-block text-center width-400 font-weight-700">
         {`You are about to ${paymentTypesLabels[currentValues.type]}`} {' '}
         <Amount currency={currencyCode} amount={currentValues.amount} /> {' '}
-        {`from ${fullName} ${shortUUID} account`}
+        {`from ${fullName} ${shortify(playerUUID)} account`}
       </div>
     );
   };
@@ -231,7 +234,7 @@ class PaymentAddModal extends Component {
               {this.renderPaymentAccountField()}
             </div>
             <div className="row">
-              { this.renderInfoBlock() }
+              {this.renderInfoBlock()}
             </div>
             <div className="row text-center">
               <NoteButton

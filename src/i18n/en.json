@@ -177,9 +177,12 @@
         "CAMPAIGN": "Campaign",
         "DATE_TO": "to %{time}",
         "AVAILABLE": "Available",
-        "FULFILLMENT_TYPE": "Fulfilment type",
-        "PRIORITY": "Priority"
-      }
+        "PRIORITY": "Priority",
+        "BONUS_TYPE": "Bonus type",
+        "OPT_IN_STATUS": "Opt-in status"
+      },
+      "OPTED_IN": "Opted-in",
+      "NOT_OPTED_IN": "Not opted-in"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -206,7 +209,8 @@
         "AVAILABILITY": "Availability",
         "GRANTED": "Granted",
         "STATUS": "Status",
-        "NOTE": "Note"
+        "NOTE": "Note",
+        "GAME": "Provider & game"
       },
       "VIEW_MODAL": {
         "FREE_SPIN": "Free spin",
@@ -429,7 +433,7 @@
         "BONUS_MONEY": "Bonus money"
       },
       "ROUTES": {
-        "BONUS": "Bonus",
+        "BONUSES": "Bonuses",
         "ELIGIBLE_CAMPAIGNS": "Eligible campaigns",
         "FREE_SPINS": "Free spins"
       }
@@ -529,6 +533,20 @@
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Marketing",
         "ADMINISTRATION": "Administration"
+      }
+    },
+    "BONUS_CAMPAIGNS": {
+      "FILTER_FORM": {
+        "ATTRIBUTES_LABELS": {
+          "SEARCH_BY": "Search by",
+          "BONUS_TYPE": "Bonus type",
+          "AVAILABILITY_DATE_RANGE": "Availability date range",
+          "START_DATE": "Start date",
+          "END_DATE": "End date"
+        },
+        "ATTRIBUTES_PLACEHOLDERS": {
+          "SEARCH_BY": "Campaign name"
+        }
       }
     }
   },

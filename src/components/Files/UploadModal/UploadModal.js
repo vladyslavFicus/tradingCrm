@@ -9,6 +9,7 @@ import { createValidator } from '../../../utils/validator';
 import UploadingFile from '../UploadingFile';
 import { targetTypes } from '../constants';
 import './UploadModal.scss';
+import { shortify } from '../../../utils/uuid';
 
 const FORM_NAME = 'userUploadModal';
 const attributeLabels = {
@@ -83,25 +84,25 @@ class UploadModal extends Component {
   renderFilesTable = () => (
     <table className="uploading-files">
       <thead>
-      <tr>
-        <th className="uploading-files__header-number" />
-        <th className="uploading-files__header-name">
-          {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
-        </th>
-        {
-          this.props.targetType === targetTypes.FILES &&
-          <th className="uploading-files__header-category">
-            {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
+        <tr>
+          <th className="uploading-files__header-number" />
+          <th className="uploading-files__header-name">
+            {I18n.t('FILES.UPLOAD_MODAL.FILE.TITLE')}
           </th>
-        }
-        <th className="uploading-files__header-status">
-          {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}
-        </th>
-        <th className="uploading-files__header-note" />
-      </tr>
+          {
+            this.props.targetType === targetTypes.FILES &&
+            <th className="uploading-files__header-category">
+              {I18n.t('FILES.UPLOAD_MODAL.FILE.CATEGORY')}
+            </th>
+          }
+          <th className="uploading-files__header-status">
+            {I18n.t('FILES.UPLOAD_MODAL.FILE.STATUS')}
+          </th>
+          <th className="uploading-files__header-note" />
+        </tr>
       </thead>
       <tbody>
-      {this.props.uploading.map(this.renderFile)}
+        {this.props.uploading.map(this.renderFile)}
       </tbody>
     </table>
   );
@@ -140,7 +141,7 @@ class UploadModal extends Component {
               dangerouslySetInnerHTML={{
                 __html: I18n.t('FILES.UPLOAD_MODAL.ACTION_TEXT', {
                   fullName: profile.fullName,
-                  shortUUID: `<span class="font-weight-100">${profile.shortUUID}</span>`,
+                  shortUUID: `<span class="font-weight-100">${shortify(profile.playerUUID)}</span>`,
                 }),
               }}
             />
@@ -190,4 +191,5 @@ class UploadModal extends Component {
 export default reduxForm({
   form: FORM_NAME,
   validate,
+  enableReinitialize: true,
 })(UploadModal);

@@ -61,6 +61,7 @@ class View extends Component {
     refreshPinnedNotes: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
+    cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
   state = {
@@ -71,6 +72,7 @@ class View extends Component {
 
   componentWillMount() {
     this.handleRefresh();
+    this.context.cacheChildrenComponent(this);
   }
 
   componentDidMount() {
@@ -79,6 +81,7 @@ class View extends Component {
 
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
+    this.context.cacheChildrenComponent(null);
   }
 
   handleNoteClick = (target, note, data) => {
@@ -381,13 +384,12 @@ class View extends Component {
       currencyCode,
       loadPaymentAccounts,
       manageNote,
-      profile: { fullName, shortUUID },
-      params: { id: playerUUID },
+      profile: { fullName, playerUUID },
       newPaymentNote,
     } = this.props;
 
     return (
-      <div className="tab-pane fade in active profile-tab-container">
+      <div className="profile-tab-container">
         <div className="row margin-bottom-20">
           <div className="col-sm-3 col-xs-6">
             <span className="font-size-20">Transactions</span>
@@ -504,7 +506,7 @@ class View extends Component {
             playerInfo={{
               currencyCode,
               fullName,
-              shortUUID,
+              playerUUID,
             }}
             onClose={this.handleCloseModal}
             onLoadPaymentAccounts={() => loadPaymentAccounts(playerUUID)}

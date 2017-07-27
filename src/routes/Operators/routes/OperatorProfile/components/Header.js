@@ -10,7 +10,6 @@ import PropTypes from '../../../../../constants/propTypes';
 import PermissionContent from '../../../../../components/PermissionContent';
 import Permissions from '../../../../../utils/permissions';
 import permission from '../../../../../config/permissions';
-import './Header.scss';
 
 const sendInvitationRequiredPermissions = new Permissions([permission.OPERATORS.OPERATOR_SEND_INVITATION]);
 
@@ -57,15 +56,15 @@ class Header extends Component {
     } = this.props;
 
     return (
-      <div className="operator-profile-header">
+      <div>
         <div className="panel-heading-row">
-          <div className="panel-heading-row_name-and-ids">
-            <div className="operator-profile-info-name">{`${firstName} ${lastName}`}</div>
-            <span className="operator-profile-info-id">
+          <div className="panel-heading-row__info">
+            <div className="panel-heading-row__info-title">{`${firstName} ${lastName}`}</div>
+            <span className="panel-heading-row__info-ids">
               {!!uuid && <Uuid uuid={uuid} />} {country && ` - ${country}`}
             </span>
           </div>
-          <div className="operator-profile-actions">
+          <div className="panel-heading-row__actions">
             {
               operatorStatus === statuses.INACTIVE &&
               <PermissionContent permissions={sendInvitationRequiredPermissions}>
@@ -88,59 +87,61 @@ class Header extends Component {
             }
           </div>
         </div>
-        <div className="row panel-heading header-blocks">
-          <div className="header-block header-block_account col-xs-3 padding-0">
-            <AccountStatus
-              profileStatus={operatorStatus}
-              onStatusChange={this.handleStatusChange}
-              label={
-                <div className="dropdown-tab">
-                  <div className="header-block-title">Account Status</div>
-                  {availableStatuses.length > 0 && <i className="fa fa-angle-down" />}
-                  <div className={`header-block-middle ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
-                  {
-                    operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
-                    <div className="header-block-small">
-                      Since {moment(statusChangeDate).format('DD.MM.YYYY')}
-                    </div>
-                  }
-                  {
-                    operatorStatus === statuses.CLOSED &&
-                    <div>
-                      {
-                        statusChangeAuthor &&
-                        <div className="header-block-small">
-                          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix={'OP'} />
-                        </div>
-                      }
-                      {
-                        statusChangeDate &&
-                        <div className="header-block-small">
-                          on {moment(statusChangeDate).format('DD.MM.YYYY')}
-                        </div>
-                      }
-                    </div>
-                  }
+        <div className="panel-heading">
+          <div className="row">
+            <div className="header-block header-block_account">
+              <AccountStatus
+                profileStatus={operatorStatus}
+                onStatusChange={this.handleStatusChange}
+                label={
+                  <div className="dropdown-tab">
+                    <div className="header-block-title">Account Status</div>
+                    {availableStatuses.length > 0 && <i className="fa fa-angle-down" />}
+                    <div className={`header-block-middle ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
+                    {
+                      operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
+                      <div className="header-block-small">
+                        Since {moment(statusChangeDate).format('DD.MM.YYYY')}
+                      </div>
+                    }
+                    {
+                      operatorStatus === statuses.CLOSED &&
+                      <div>
+                        {
+                          statusChangeAuthor &&
+                          <div className="header-block-small">
+                            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix={'OP'} />
+                          </div>
+                        }
+                        {
+                          statusChangeDate &&
+                          <div className="header-block-small">
+                            on {moment(statusChangeDate).format('DD.MM.YYYY')}
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+                availableStatuses={availableStatuses}
+              />
+            </div>
+            <div className="header-block">
+              <div className="header-block-title">Registered</div>
+              {
+                registrationDate &&
+                <div>
+                  <div className="header-block-middle">
+                    {moment(registrationDate).fromNow()}
+                  </div>
+                  <div className="header-block-small">
+                    on {moment(registrationDate).format('DD.MM.YYYY HH:mm')}
+                  </div>
                 </div>
               }
-              availableStatuses={availableStatuses}
-            />
+            </div>
+            <ProfileLastLogin className="header-block" lastIp={lastIp} />
           </div>
-          <div className="header-block col-xs-3">
-            <div className="header-block-title">Registered</div>
-            {
-              registrationDate &&
-              <div>
-                <div className="header-block-middle">
-                  {moment(registrationDate).fromNow()}
-                </div>
-                <div className="header-block-small">
-                  on {moment(registrationDate).format('DD.MM.YYYY HH:mm')}
-                </div>
-              </div>
-            }
-          </div>
-          <ProfileLastLogin className="header-block col-xs-6" lastIp={lastIp} />
         </div>
       </div>
     );

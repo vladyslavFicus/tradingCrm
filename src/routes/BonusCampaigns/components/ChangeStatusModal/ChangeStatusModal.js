@@ -119,12 +119,12 @@ class ChangeStatusModal extends Component {
             <div className="text-center margin-vertical-20">
               <span className="font-weight-700">
                 {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.ACTION_TEXT', {
-                  title: campaign.campaignName,
+                  title: campaign.name,
                   action: renderLabel(action, actionLabels).toLowerCase(),
                 })}
               </span>
               {' - '}
-              <Uuid uuid={campaign.campaignUUID} uuidPrefix="CA" />
+              <Uuid uuid={campaign.uuid} uuidPrefix="CA" />
               {' - '}
               <span className="font-weight-700">{I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.ENTITY_NAME')}</span>
             </div>

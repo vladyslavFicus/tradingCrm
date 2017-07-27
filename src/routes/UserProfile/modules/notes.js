@@ -3,7 +3,7 @@ import createReducer from '../../../utils/createReducer';
 import timestamp from '../../../utils/timestamp';
 import createRequestAction from '../../../utils/createRequestAction';
 
-const KEY = 'user/notes';
+const KEY = 'user/profile/notes';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-notes`);
 const ADD_NOTE = createRequestAction(`${KEY}/add-note`);
 const EDIT_NOTE = createRequestAction(`${KEY}/edit-note`);
