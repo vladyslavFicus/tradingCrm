@@ -5,7 +5,6 @@ import IpList from '../../../../components/Information/IpList';
 import Personal from './Personal';
 import Additional from './Additional';
 import Notes from './Notes';
-import './Information.scss';
 
 class Information extends Component {
   static propTypes = {
@@ -26,28 +25,30 @@ class Information extends Component {
     } = this.props;
 
     return (
-      <div className="player__account__details row">
-        <div className="col-md-4">
-          <Personal data={data} />
-        </div>
-        <div className="col-md-2">
-          <Additional
-            initialValues={{
-              marketingMail: data.marketingMail,
-              marketingNews: data.marketingNews,
-              marketingSMS: data.marketingSMS,
-            }}
-            updateSubscription={updateSubscription}
-          />
-        </div>
-        <div className="col-md-2">
-          <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
-        </div>
-        <div className="col-md-4">
-          <Notes
-            notes={notes}
-            onEditNoteClick={onEditNoteClick}
-          />
+      <div className="account-details">
+        <div className="row">
+          <div className="col-md-4">
+            <Personal data={data} />
+          </div>
+          <div className="col-md-2">
+            <Additional
+              initialValues={{
+                marketingMail: data.marketingMail,
+                marketingNews: data.marketingNews,
+                marketingSMS: data.marketingSMS,
+              }}
+              updateSubscription={updateSubscription}
+            />
+          </div>
+          <div className="col-md-2">
+            <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
+          </div>
+          <div className="col-md-4">
+            <Notes
+              notes={notes}
+              onEditNoteClick={onEditNoteClick}
+            />
+          </div>
         </div>
       </div>
     );

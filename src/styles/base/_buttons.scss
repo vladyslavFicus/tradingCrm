@@ -1,8 +1,9 @@
 .btn {
-  padding: 7px 16px 8px;
+  height: 39px;
+  line-height: 39px;
+  padding: 0 16px;
   -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
-  line-height: 1.7;
   font-size: 14px;
   font-weight: 600;
   color: #827ca1;
@@ -12,12 +13,15 @@
     outline: none;
   }
   &-sm {
-    padding: 3px 20px 2px;
+    height: 29px;
+    line-height: 29px;
     font-size: 13px;
     font-weight: 300;
   }
   &-xs {
-    padding: 1px 5px;
+    height: auto;
+    line-height: inherit;
+    padding: 3px 5px;
     font-size: 10px;
   }
   &-primary {
@@ -84,7 +88,8 @@
       color: #46be8a;
     }
   }
-  &-transparent {
+  &-transparent,
+  &-transparent-text {
     background: transparent;
     border: none;
     overflow: hidden;
@@ -92,9 +97,9 @@
     &:focus {
       outline: none;
     }
-    &-text {
-      padding: 0;
-    }
+  }
+  &-transparent-text {
+    padding: 0;
   }
   &-icon {
     padding: 4px 10px 0;

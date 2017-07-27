@@ -12,12 +12,12 @@ const Personal = ({ data: {
   phoneNumber,
   registrationDate,
 } }) => (
-  <div className="player__account__details_personal">
-    <span className="player__account__details-label">
+  <div className="account-details__personal-info">
+    <span className="account-details__label">
       {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.PERSONAL_INFORMATION')}
     </span>
     <div className="panel">
-      <div className="panel-body height-200">
+      <div className="panel-body">
         <PersonalInformationItem
           label={I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.FIRST_NAME')}
           value={firstName}

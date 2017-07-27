@@ -56,7 +56,7 @@ class Header extends Component {
     } = this.props;
 
     return (
-      <div className="operator-profile-header">
+      <div>
         <div className="panel-heading-row">
           <div className="panel-heading-row__info">
             <div className="panel-heading-row__info-title">{`${firstName} ${lastName}`}</div>

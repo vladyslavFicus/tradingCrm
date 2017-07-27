@@ -259,7 +259,7 @@ class View extends Component {
         <div>
           <div className="panel">
             <div className="panel-body row">
-              <div className="col-xl-8 profile-bordered-block">
+              <div className="col-md-8 profile-bordered-block">
                 <PersonalForm
                   initialValues={personalData}
                   onSubmit={this.handleSubmitKYC(kycTypes.personal)}
@@ -273,7 +273,7 @@ class View extends Component {
                   onDocumentClick={this.handlePreviewImageClick}
                 />
               </div>
-              <div className="col-xl-4">
+              <div className="col-md-4">
                 {
                   data.kycPersonalStatus &&
                   <VerifyData
@@ -290,7 +290,7 @@ class View extends Component {
 
           <div className="panel">
             <div className="panel-body row">
-              <div className="col-xl-8 profile-bordered-block">
+              <div className="col-md-8 profile-bordered-block">
                 <AddressForm
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
@@ -304,7 +304,7 @@ class View extends Component {
                   onDocumentClick={this.handlePreviewImageClick}
                 />
               </div>
-              <div className="col-xl-4">
+              <div className="col-md-4">
                 {
                   data.kycAddressStatus &&
                   <VerifyData

@@ -30,10 +30,10 @@ class Personal extends Component {
     } = this.props;
 
     return (
-      <div className="player__account__details_personal">
-        <span className="player__account__details-label">Personal information</span>
+      <div className="account-details__personal-info">
+        <span className="account-details__label">Personal information</span>
         <div className="panel">
-          <div className="panel-body height-200">
+          <div className="panel-body">
             <PersonalInformationItem
               label="Date of birth"
               value={moment(birthDate).format('DD.MM.YYYY')}

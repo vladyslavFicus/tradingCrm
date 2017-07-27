@@ -30,7 +30,7 @@ const CustomValueField = (props) => {
 
   return (
     <div className={classList.formGroup}>
-      <label className="form-control-label">
+      <label>
         {label}
       </label>
       <div className="row">

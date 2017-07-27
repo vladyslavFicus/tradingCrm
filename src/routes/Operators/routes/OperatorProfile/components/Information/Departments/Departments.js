@@ -3,21 +3,20 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { renderLabel } from '../../../../../utils';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
-import './Departments.scss';
 
 const Departments = ({ authorities }) => (
-  <div className="player__account__details_additional">
-    <span className="player__account__details-label">
+  <div className="account-details__additional-info">
+    <span className="account-details__label">
       {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.ADDITIONAL_INFORMATION')}
     </span>
     <div className="panel">
-      <div className="panel-body height-200">
-        <small className="player__account__details_additional-label">
+      <div className="panel-body">
+        <span className="account-details__additional-info__label">
           {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.DEPARTMENTS')}
-        </small>
+        </span>
         {
           !!authorities.length &&
-          <div className="player__account__details_additional-departments">
+          <div className="margin-top-5">
             {
               authorities.map(authority =>
                 <span key={authority.id} className="label label-black">
