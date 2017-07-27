@@ -160,7 +160,6 @@ class WalletLimits extends Component {
         {
           modal.show &&
           <WalletLimitsModal
-            show
             {...modal.params}
             onSubmit={this.handleSubmit}
             onHide={this.handleModalHide}

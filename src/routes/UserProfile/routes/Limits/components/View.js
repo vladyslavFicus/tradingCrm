@@ -155,7 +155,6 @@ class View extends Component {
             {...modal.params}
             onSubmit={this.handleCancelLimit}
             onClose={this.handleCloseModal}
-            isOpen
           />
         }
         {

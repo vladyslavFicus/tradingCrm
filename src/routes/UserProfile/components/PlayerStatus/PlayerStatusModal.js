@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
-import classNames from 'classnames';
 import { createValidator } from '../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import { actions, durationUnits } from '../../../../constants/user';
@@ -39,8 +38,6 @@ const validator = (data) => {
 
 class PlayerStatusModal extends Component {
   static propTypes = {
-    isOpen: PropTypes.bool,
-    show: PropTypes.bool,
     action: PropTypes.string.isRequired,
     reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string,
@@ -48,13 +45,12 @@ class PlayerStatusModal extends Component {
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    classNames: PropTypes.string,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
-    isOpen: false,
-    show: false,
     title: '',
+    className: 'modal-danger',
   };
 
   renderReasonsSelect = reasons => (
@@ -98,7 +94,6 @@ class PlayerStatusModal extends Component {
 
   render() {
     const {
-      show,
       action,
       reasons,
       title,
@@ -106,13 +101,10 @@ class PlayerStatusModal extends Component {
       onSubmit,
       handleSubmit,
       className,
-      ...rest
     } = this.props;
 
-    const modalClassName = classNames(className, 'modal-danger');
-
     return (
-      <Modal {...rest} isOpen={show} toggle={onHide} className={modalClassName}>
+      <Modal isOpen toggle={onHide} className={className}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {
             !!title &&

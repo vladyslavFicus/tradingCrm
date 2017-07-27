@@ -17,7 +17,6 @@ const FORM_NAME = 'freeSpinCancelModal';
 class CancelModal extends Component {
   static propTypes = {
     item: PropTypes.freeSpinEntity.isRequired,
-    isOpen: PropTypes.bool,
     action: PropTypes.string,
     reasons: PropTypes.object,
     onClose: PropTypes.func.isRequired,
@@ -34,7 +33,6 @@ class CancelModal extends Component {
     disabled: PropTypes.bool,
   };
   static defaultProps = {
-    isOpen: false,
     handleSubmit: null,
     action: null,
     reasons: {},
@@ -83,7 +81,6 @@ class CancelModal extends Component {
 
   render() {
     const {
-      isOpen,
       action,
       reasons,
       onClose,
@@ -97,7 +94,7 @@ class CancelModal extends Component {
     } = this.props;
 
     return (
-      <Modal className="free-spin-cancel-modal" isOpen={isOpen} toggle={onClose}>
+      <Modal className="free-spin-cancel-modal" isOpen toggle={onClose}>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalHeader toggle={onClose}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.TITLE')}

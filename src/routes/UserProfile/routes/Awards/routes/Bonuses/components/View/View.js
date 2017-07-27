@@ -340,7 +340,6 @@ class View extends Component {
         {
           modal.name === MODAL_CREATE &&
           <CreateModal
-            isOpen
             initialValues={{
               playerUUID: profile.data.playerUUID,
               state: 'INACTIVE',

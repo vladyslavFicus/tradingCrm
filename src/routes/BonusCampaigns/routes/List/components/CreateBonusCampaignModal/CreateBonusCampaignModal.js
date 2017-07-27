@@ -127,7 +127,6 @@ class CreateBonusCampaignModal extends Component {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    isOpen: PropTypes.bool,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
@@ -194,13 +193,12 @@ class CreateBonusCampaignModal extends Component {
       currencies,
       valid,
       onClose,
-      isOpen,
       currentValues,
     } = this.props;
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
     return (
-      <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen={isOpen}>
+      <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen>
         <ModalHeader toggle={onClose}>
           {I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.TITLE')}
         </ModalHeader>
@@ -359,7 +357,7 @@ class CreateBonusCampaignModal extends Component {
               className="btn btn-default-outline pull-left"
               onClick={onClose}
             >
-              Cancel
+              {I18n.t('COMMON.CANCEL')}
             </button>
             <button
               type="submit"

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
-import classNames from 'classnames';
 import PropTypes from '../../../../constants/propTypes';
 import { createValidator } from '../../../../utils/validator';
 import { types, actions } from '../../../../constants/wallet';
@@ -18,23 +17,22 @@ class WalletLimitsModal extends Component {
     profile: PropTypes.userProfile.isRequired,
     action: PropTypes.oneOf(Object.keys(actions)).isRequired,
     type: PropTypes.oneOf(Object.keys(types)).isRequired,
-    isOpen: PropTypes.bool,
-    show: PropTypes.bool,
     reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string.isRequired,
     onHide: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
+    className: PropTypes.string,
   };
   static defaultProps = {
-    isOpen: false,
-    show: false,
+    handleSubmit: null,
+    className: 'modal-danger',
   };
 
   renderReasonsSelect = reasons => (
     <Field
       name="reason"
-      label={null}
+      label=""
       component={SelectField}
       position="vertical"
     >
@@ -50,7 +48,6 @@ class WalletLimitsModal extends Component {
   render() {
     const {
       action,
-      show,
       reasons,
       title,
       onHide,
@@ -59,13 +56,10 @@ class WalletLimitsModal extends Component {
       profile,
       type,
       className,
-      ...rest
     } = this.props;
 
-    const modalClassName = classNames(className, 'modal-danger');
-
     return (
-      <Modal {...rest} isOpen={show} toggle={onHide} className={modalClassName}>
+      <Modal isOpen toggle={onHide} className={className}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {
             !!title &&

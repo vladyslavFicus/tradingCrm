@@ -4,9 +4,11 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../constants/propTypes';
 import { shortify } from '../../../utils/uuid';
 
-const DeleteModal = ({ playerProfile, file, onSuccess, onClose, ...rest }) => (
-  <Modal {...rest} className="delete-modal" toggle={onClose}>
-    <ModalHeader toggle={onClose}> {I18n.t('FILES.DELETE_MODAL.TITLE')} </ModalHeader>
+const DeleteModal = ({ playerProfile, file, onSuccess, onClose }) => (
+  <Modal className="delete-modal" toggle={onClose} isOpen>
+    <ModalHeader toggle={onClose}>
+      {I18n.t('FILES.DELETE_MODAL.TITLE')}
+    </ModalHeader>
     <ModalBody className="text-center">
       <div
         className="margin-bottom-20 font-weight-700"
@@ -32,8 +34,8 @@ const DeleteModal = ({ playerProfile, file, onSuccess, onClose, ...rest }) => (
 );
 
 DeleteModal.propTypes = {
-  file: PropTypes.fileEntity.isRequired,
   playerProfile: PropTypes.object.isRequired,
+  file: PropTypes.fileEntity.isRequired,
   onSuccess: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };

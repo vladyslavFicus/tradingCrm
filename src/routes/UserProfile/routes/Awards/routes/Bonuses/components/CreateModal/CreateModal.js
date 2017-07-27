@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
@@ -49,157 +49,141 @@ const validator = (values) => {
   return createValidator(rules, validatorAttributeLabels, false)(values);
 };
 
-class CreateModal extends Component {
-  static propTypes = {
-    isOpen: PropTypes.bool,
-    handleSubmit: PropTypes.func,
-    change: PropTypes.func,
-    reset: PropTypes.func,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
-    disabled: PropTypes.bool,
-    onSubmit: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
-  };
+const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, disabled, invalid }) => (
+  <Modal className="create-bonus-modal" toggle={onClose} isOpen>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <ModalHeader>
+        {I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.TITLE')}
+      </ModalHeader>
+      <ModalBody>
+        <div className="row">
+          <div className="col-md-6">
+            <Field
+              name="label"
+              label={I18n.t(attributeLabels.label)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+            />
 
-  render() {
-    const {
-      onSubmit,
-      handleSubmit,
-      onClose,
-      isOpen,
-      pristine,
-      submitting,
-      disabled,
-      invalid,
-    } = this.props;
+            <Field
+              name="grantedAmount"
+              label={I18n.t(attributeLabels.grantedAmount)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+            />
 
-    return (
-      <Modal className="create-bonus-modal" toggle={onClose} isOpen={isOpen}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>
-            {I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.TITLE')}
-          </ModalHeader>
-          <ModalBody>
-            <div className="row">
-              <div className="col-md-6">
-                <Field
-                  name="label"
-                  label={I18n.t(attributeLabels.label)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                />
+            <Field
+              name="capping"
+              label={I18n.t(attributeLabels.capping)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+            />
 
-                <Field
-                  name="grantedAmount"
-                  label={I18n.t(attributeLabels.grantedAmount)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                />
+            <Field
+              name="expirationDate"
+              label={I18n.t(attributeLabels.expirationDate)}
+              disabled={disabled}
+              component={SingleDateField}
+              position="vertical"
+            />
 
-                <Field
-                  name="capping"
-                  label={I18n.t(attributeLabels.capping)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                />
-
-                <Field
-                  name="expirationDate"
-                  label={I18n.t(attributeLabels.expirationDate)}
-                  disabled={disabled}
-                  component={SingleDateField}
-                  position="vertical"
-                />
-
-                <div className="form-group">
-                  <div className="col-md-9">
-                    <div className="checkbox">
-                      <label>
-                        <Field
-                          name="optIn"
-                          type="checkbox"
-                          component="input"
-                          disabled={disabled}
-                        /> {I18n.t(attributeLabels.optIn)}
-                      </label>
-                    </div>
-                  </div>
+            <div className="form-group">
+              <div className="col-md-9">
+                <div className="checkbox">
+                  <label>
+                    <Field
+                      name="optIn"
+                      type="checkbox"
+                      component="input"
+                      disabled={disabled}
+                    /> {I18n.t(attributeLabels.optIn)}
+                  </label>
                 </div>
               </div>
-              <div className="col-md-6">
-                <Field
-                  name="priority"
-                  label={I18n.t(attributeLabels.priority)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                />
-
-                <Field
-                  name="amountToWage"
-                  label={I18n.t(attributeLabels.amountToWage)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                />
-
-                <Field
-                  name="prize"
-                  label={I18n.t(attributeLabels.prize)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                />
-
-                <Field
-                  name="moneyTypePriority"
-                  label={I18n.t(attributeLabels.moneyTypePriority)}
-                  type="select"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  {Object.keys(moneyTypeUsageLabels).map(key => (
-                    <option key={key} value={key}>
-                      {renderLabel(key, moneyTypeUsageLabels)}
-                    </option>
-                  ))}
-                </Field>
-              </div>
             </div>
-          </ModalBody>
-          <ModalFooter>
-            <button
-              className="btn btn-default-outline pull-left"
-              disabled={submitting}
-              type="reset"
-              onClick={onClose}
+          </div>
+          <div className="col-md-6">
+            <Field
+              name="priority"
+              label={I18n.t(attributeLabels.priority)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+            />
+
+            <Field
+              name="amountToWage"
+              label={I18n.t(attributeLabels.amountToWage)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+            />
+
+            <Field
+              name="prize"
+              label={I18n.t(attributeLabels.prize)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+            />
+
+            <Field
+              name="moneyTypePriority"
+              label={I18n.t(attributeLabels.moneyTypePriority)}
+              type="select"
+              component={SelectField}
+              position="vertical"
             >
-              {I18n.t('COMMON.CANCEL')}
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={pristine || submitting || invalid}
-            >
-              {I18n.t('COMMON.SAVE')}
-            </button>
-          </ModalFooter>
-        </form>
-      </Modal>
-    );
-  }
-}
+              {Object.keys(moneyTypeUsageLabels).map(key => (
+                <option key={key} value={key}>
+                  {renderLabel(key, moneyTypeUsageLabels)}
+                </option>
+              ))}
+            </Field>
+          </div>
+        </div>
+      </ModalBody>
+      <ModalFooter>
+        <button
+          className="btn btn-default-outline pull-left"
+          disabled={submitting}
+          type="reset"
+          onClick={onClose}
+        >
+          {I18n.t('COMMON.CANCEL')}
+        </button>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={pristine || submitting || invalid}
+        >
+          {I18n.t('COMMON.SAVE')}
+        </button>
+      </ModalFooter>
+    </form>
+  </Modal>
+);
+
+CreateModal.propTypes = {
+  handleSubmit: PropTypes.func,
+  change: PropTypes.func,
+  reset: PropTypes.func,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+  invalid: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default reduxForm({
   form: FORM_NAME,

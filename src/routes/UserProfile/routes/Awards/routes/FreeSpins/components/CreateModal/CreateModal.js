@@ -16,7 +16,6 @@ import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 
 class CreateModal extends Component {
   static propTypes = {
-    isOpen: PropTypes.bool,
     handleSubmit: PropTypes.func,
     change: PropTypes.func,
     pristine: PropTypes.bool,
@@ -44,7 +43,6 @@ class CreateModal extends Component {
     note: PropTypes.noteEntity,
   };
   static defaultProps = {
-    isOpen: false,
     pristine: false,
     submitting: false,
     invalid: false,
@@ -136,7 +134,6 @@ class CreateModal extends Component {
       onSubmit,
       handleSubmit,
       onClose,
-      isOpen,
       pristine,
       submitting,
       disabled,
@@ -164,7 +161,7 @@ class CreateModal extends Component {
     }
 
     return (
-      <Modal className="create-free-spin-modal" toggle={onClose} isOpen={isOpen}>
+      <Modal className="create-free-spin-modal" toggle={onClose} isOpen>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader toggle={onClose}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TITLE')}

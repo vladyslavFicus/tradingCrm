@@ -3,7 +3,6 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getFormValues, Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import classNames from 'classnames';
 import PropTypes from '../../../../constants/propTypes';
 import renderLabel from '../../../../utils/renderLabel';
 import { createValidator } from '../../../../utils/validator';
@@ -33,8 +32,6 @@ const validator = (data) => {
 class ChangeStatusModal extends Component {
   static propTypes = {
     campaign: PropTypes.bonusCampaignEntity.isRequired,
-    isOpen: PropTypes.bool,
-    show: PropTypes.bool,
     action: PropTypes.string,
     reasons: PropTypes.object,
     onHide: PropTypes.func.isRequired,
@@ -42,21 +39,23 @@ class ChangeStatusModal extends Component {
     handleSubmit: PropTypes.func,
     customReason: PropTypes.bool,
     submitButtonLabel: PropTypes.string,
-    submitButtonClassName: PropTypes.string,
     currentValues: PropTypes.shape({
       reason: PropTypes.string,
       customReason: PropTypes.string,
     }).isRequired,
+    className: PropTypes.string,
   };
   static defaultProps = {
+    action: '',
     reasons: {},
     submitButtonLabel: 'Submit',
-    submitButtonClassName: '',
     customReason: false,
     currentValues: {
       reason: '',
       customReason: '',
     },
+    handleSubmit: null,
+    className: 'modal-danger',
   };
 
   handleSubmit = ({ reason, customReason }) => {
@@ -93,10 +92,8 @@ class ChangeStatusModal extends Component {
 
   render() {
     const {
-      show,
       action,
       submitButtonLabel,
-      submitButtonClassName,
       reasons,
       onHide,
       onSubmit,
@@ -105,13 +102,10 @@ class ChangeStatusModal extends Component {
       currentValues,
       campaign,
       className,
-      ...rest
     } = this.props;
 
-    const modalClassName = classNames(className, 'modal-danger');
-
     return (
-      <Modal {...rest} isOpen={show} toggle={onHide} className={modalClassName}>
+      <Modal isOpen toggle={onHide} className={className}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader toggle={onHide}>
             {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.TITLE')}

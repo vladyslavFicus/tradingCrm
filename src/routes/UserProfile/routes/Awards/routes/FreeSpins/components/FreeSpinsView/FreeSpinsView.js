@@ -366,7 +366,6 @@ class FreeSpinsView extends Component {
         {
           modal.name === MODAL_CREATE &&
           <CreateModal
-            isOpen
             {...modal.params}
             onSubmit={this.handleSubmitNewFreeSpin}
             onClose={this.handleModalClose}
@@ -380,7 +379,6 @@ class FreeSpinsView extends Component {
         {
           modal.name === MODAL_CANCEL &&
           <CancelModal
-            isOpen
             {...modal.params}
             onSubmit={this.handleCancelFreeSpin}
             onClose={this.handleModalClose}

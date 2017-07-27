@@ -98,7 +98,6 @@ class AccountStatus extends Component {
           availableStatuses.length > 0 && modal.show &&
           <AccountStatusModal
             title={'Change account status'}
-            show
             {...modal.params}
             onSubmit={this.handleSubmit}
             onHide={this.handleModalHide}

@@ -38,7 +38,6 @@ class CreateOperatorModal extends Component {
       label: PropTypes.string,
       value: PropTypes.string,
     })),
-    isOpen: PropTypes.bool,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
@@ -58,11 +57,10 @@ class CreateOperatorModal extends Component {
       valid,
       roles,
       onClose,
-      isOpen,
     } = this.props;
 
     return (
-      <Modal className="create-operator-modal" toggle={onClose} isOpen={isOpen}>
+      <Modal className="create-operator-modal" toggle={onClose} isOpen>
         <ModalHeader toggle={onClose}>New operator</ModalHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -43,7 +43,6 @@ class CreateLimitModal extends Component {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    isOpen: PropTypes.bool,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
@@ -102,14 +101,13 @@ class CreateLimitModal extends Component {
       onClose,
       onSubmit,
       handleSubmit,
-      isOpen,
       pristine,
       submitting,
       valid,
     } = this.props;
 
     return (
-      <Modal toggle={onClose} isOpen={isOpen}>
+      <Modal toggle={onClose} isOpen>
         <ModalHeader toggle={onClose}>New Limit</ModalHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>

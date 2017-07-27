@@ -13,7 +13,7 @@ import PropTypes from '../../../constants/propTypes';
 import getFileBlobUrl from '../../../utils/getFileBlobUrl';
 import {
   UploadModal as UploadFileModal,
-  DeleteModal as DeleteFileModal,
+  DeleteModal as DeleteFileModal
 } from '../../../components/Files';
 import './ProfileLayout.scss';
 
@@ -597,7 +597,6 @@ class ProfileLayout extends Component {
           modal.name === MODAL_DELETE_FILE &&
           <DeleteFileModal
             {...modal.params}
-            isOpen
             playerProfile={playerProfile}
             onClose={this.handleCloseModal}
           />
