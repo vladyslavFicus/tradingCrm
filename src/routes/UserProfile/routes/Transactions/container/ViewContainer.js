@@ -1,17 +1,13 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
-import { actionCreators as viewActionCreators } from '../modules/view';
-import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../config/index';
+import { actionCreators as viewActionCreators } from '../modules';
+import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../config';
 import { paymentActions } from '../../../../../constants/payment';
 
-const mapStateToProps = ({
-  userTransactions,
-  profile: { profile, accumulatedBalances: { data: accumulatedBalances } },
-}) => ({
+const mapStateToProps = ({ userTransactions, profile: { profile } }) => ({
   ...userTransactions,
   currencyCode: profile.data.currencyCode,
-  profile: profile.data,
-  accumulatedBalances,
+  playerProfile: profile.data,
   paymentActionReasons: {
     [paymentActions.REJECT]: getTransactionRejectReasons(),
     [paymentActions.CHARGEBACK]: getTransactionChargebackReasons(),

@@ -49,9 +49,6 @@ const config = _.merge({
     validation: {
       password: null,
     },
-    reasons: {
-      rejection: [],
-    },
     limits: {
       deposit: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
       wager: { cooloff: '7 DAYS', periods: ['24 HOURS', '7 DAYS', '30 DAYS'] },
@@ -137,11 +134,11 @@ function getAvailableTags(department) {
 }
 
 function getTransactionRejectReasons() {
-  return config.nas.reasons && config.nas.reasons.rejection ? config.nas.reasons.rejection : [];
+  return config.nas.brand.reasons && config.nas.brand.reasons.rejection ? config.nas.brand.reasons.rejection : [];
 }
 
 function getTransactionChargebackReasons() {
-  return config.nas.reasons && config.nas.reasons.chargeback ? config.nas.reasons.chargeback : [];
+  return config.nas.brand.reasons && config.nas.brand.reasons.chargeback ? config.nas.brand.reasons.chargeback : [];
 }
 
 function getLimitPeriods() {

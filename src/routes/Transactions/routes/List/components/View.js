@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import TransactionsFilterForm from './TransactionsFilterForm';
+import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import FailedStatusIcon from '../../../../../components/FailedStatusIcon';
@@ -36,8 +36,16 @@ const defaultModalState = {
 
 class View extends Component {
   static propTypes = {
+    players: PropTypes.objectOf(PropTypes.userProfile).isRequired,
     transactions: PropTypes.pageableState(PropTypes.paymentEntity).isRequired,
+    filters: PropTypes.shape({
+      data: PropTypes.shape({
+        paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
+      }).isRequired,
+    }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
+    fetchFilters: PropTypes.func.isRequired,
+    fetchPlayerProfile: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
@@ -61,11 +69,13 @@ class View extends Component {
   };
 
   componentDidMount() {
+    this.props.fetchFilters();
     this.context.notes.setNoteChangedCallback(this.handleRefresh);
   }
 
   componentWillUnmount() {
     this.context.notes.setNoteChangedCallback(null);
+    this.props.resetAll();
   }
 
   handleNoteClick = (target, note, data) => {
@@ -93,8 +103,8 @@ class View extends Component {
   handleFiltersChanged = (data = {}) => {
     const filters = { ...data };
 
-    if (filters.states) {
-      filters.states = [filters.states];
+    if (Array.isArray(filters.statuses)) {
+      filters.statuses = filters.statuses.join(',');
     }
 
     this.setState({ filters, page: 0 }, this.handleRefresh);
@@ -133,7 +143,15 @@ class View extends Component {
   };
 
   handleOpenDetailModal = async (params) => {
-    const action = await this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId);
+    const { players } = this.props;
+    let playerProfile = players[params.payment.playerUUID];
+
+    if (!playerProfile) {
+      const action = await this.props.fetchPlayerProfile(params.payment.playerUUID);
+      playerProfile = action && !action.error
+        ? action.payload
+        : null;
+    }
 
     this.setState({
       modal: {
@@ -141,9 +159,7 @@ class View extends Component {
         name: MODAL_PAYMENT_DETAIL,
         params: {
           ...params,
-          transactions: action && !action.error
-            ? action.payload
-            : [],
+          playerProfile,
         },
       },
     });
@@ -315,7 +331,7 @@ class View extends Component {
   );
 
   render() {
-    const { transactions: { entities } } = this.props;
+    const { transactions: { entities }, filters: { data: availableFilters } } = this.props;
     const { modal, filters } = this.state;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
@@ -329,8 +345,8 @@ class View extends Component {
           <TransactionsFilterForm
             onSubmit={this.handleFiltersChanged}
             onReset={this.handleFilterReset}
-            initialValues={filters}
             disabled={!allowActions}
+            {...availableFilters}
           />
 
           <Content>

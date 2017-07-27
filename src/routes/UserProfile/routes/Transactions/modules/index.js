@@ -10,29 +10,20 @@ import filters, {
   actionTypes as filtersActionTypes,
   actionCreators as filtersActionCreators,
 } from './filters';
-import players, {
-  initialState as playersInitialState,
-  actionTypes as playersActionTypes,
-  actionCreators as playersActionCreators,
-} from './players';
 
 const initialState = {
   transactions: transactionsInitialState,
   filters: filtersInitialState,
-  players: playersInitialState,
 };
 const actionTypes = {
   ...transactionsActionTypes,
   ...filtersActionTypes,
-  ...playersActionTypes,
 };
 const actionCreators = {
   ...transactionsActionCreators,
   ...filtersActionCreators,
-  ...playersActionCreators,
   resetAll: () => (dispatch) => {
     dispatch(transactionsActionCreators.resetTransactions());
-    dispatch(playersActionCreators.resetPlayerProfiles());
   },
 };
 
@@ -45,5 +36,4 @@ export {
 export default combineReducers({
   transactions,
   filters,
-  players,
 });

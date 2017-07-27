@@ -9,9 +9,8 @@ import {
   statusesLabels as paymentsStatusesLabels,
   statusesColor as paymentsStatusesColor,
   types as paymentsTypes,
-  paymentActions
+  paymentActions,
 } from '../../../constants/payment';
-import { statusColorNames } from '../../../constants/user';
 import { targetTypes } from '../../../constants/note';
 import Amount from '../../../components/Amount';
 import NoteButton from '../../../components/NoteButton';
@@ -22,6 +21,7 @@ import PermissionContent from '../../../components/PermissionContent';
 import Permissions from '../../../utils/permissions';
 import permission from '../../../config/permissions';
 import Uuid from '../../../components/Uuid';
+import ModalPlayerInfo from '../../../components/ModalPlayerInfo';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
 const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
@@ -33,17 +33,12 @@ class PaymentDetailModal extends Component {
     onClose: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     onAskReason: PropTypes.func.isRequired,
-    accumulatedBalances: PropTypes.shape({
-      real: PropTypes.price.isRequired,
-      bonus: PropTypes.price.isRequired,
-    }),
-    profile: PropTypes.userProfile,
     payment: PropTypes.paymentEntity.isRequired,
+    playerProfile: PropTypes.userProfile.isRequired,
   };
   static defaultProps = {
     className: '',
     isOpen: false,
-    accumulatedBalances: {},
     profile: null,
   };
   static contextTypes = {
@@ -72,12 +67,11 @@ class PaymentDetailModal extends Component {
   };
 
   handleRejectClick = () => {
-    const { payment, profile, accumulatedBalances, onAskReason } = this.props;
+    const { payment, playerProfile, onAskReason } = this.props;
 
     return onAskReason({
       payment,
-      profile,
-      accumulatedBalances,
+      playerProfile,
       action: paymentActions.REJECT,
       modalStaticParams: {
         title: 'Withdrawal rejection',
@@ -88,12 +82,11 @@ class PaymentDetailModal extends Component {
   };
 
   handleChargebackClick = () => {
-    const { payment, profile, accumulatedBalances, onAskReason } = this.props;
+    const { payment, playerProfile, onAskReason } = this.props;
 
     return onAskReason({
       payment,
-      profile,
-      accumulatedBalances,
+      playerProfile,
       action: paymentActions.CHARGEBACK,
       modalStaticParams: {
         actionButtonLabel: 'Confirm',
@@ -156,63 +149,6 @@ class PaymentDetailModal extends Component {
     );
   };
 
-  renderPlayerInfo = () => {
-    const { profile } = this.props;
-
-    if (!profile) {
-      return null;
-    }
-
-    return (
-      <div className="row payment-detail-player">
-        <div className="col-md-4 payment-detail-player-block">
-          <div className="color-default text-uppercase font-size-11">
-            Player
-          </div>
-          <div className="font-size-14">
-            <div className="font-weight-700">
-              {profile.firstName} {profile.lastName}
-              <span className="font-weight-400">
-                {profile.birthDate ? `(${moment().diff(profile.birthDate, 'years')})` : null}
-              </span>
-            </div>
-            <span className="font-size-10 text-uppercase color-default">
-              {`${profile.username} - `}
-              <Uuid uuid={profile.playerUUID} uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
-              {` - ${profile.languageCode}`}
-            </span>
-          </div>
-        </div>
-        <div className="col-md-4 payment-detail-player-block">
-          <div className="color-default text-uppercase font-size-11">
-            Account Status
-          </div>
-          <div className="font-size-14">
-            <div className="font-weight-700">
-              <div className={` ${statusColorNames[profile.profileStatus]}`}>{profile.profileStatus}</div>
-              {!!profile.suspendEndDate && <span className="font-size-10 text-uppercase color-default">
-                    Until {moment(profile.suspendEndDate).format('L')}
-              </span>}
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 payment-detail-player-block">
-          <div className="color-default text-uppercase font-size-11">
-            Balance
-          </div>
-          <div className="font-size-14">
-            <div className="font-weight-700">
-              <Amount {...profile.balance} />
-            </div>
-            <span className="font-size-10 text-uppercase color-default">
-                  RM <Amount {...profile.real} /> + BM <Amount {...profile.bonus} />
-            </span>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   render() {
     const {
       payment: {
@@ -230,6 +166,7 @@ class PaymentDetailModal extends Component {
         note,
         userAgent,
       },
+      playerProfile,
       isOpen,
       onClose,
       className,
@@ -241,7 +178,7 @@ class PaymentDetailModal extends Component {
         <ModalHeader toggle={onClose}>Payment details</ModalHeader>
 
         <ModalBody>
-          {this.renderPlayerInfo}
+          <ModalPlayerInfo playerProfile={playerProfile} />
 
           <div className="row payment-detail-blocks">
             <div className="col-md-3 payment-detail-block">
@@ -249,7 +186,9 @@ class PaymentDetailModal extends Component {
                 Transaction
               </div>
               <div className="font-size-14">
-                <div className="font-weight-700">{shortify(paymentId, 'TA')}</div>
+                <div className="font-weight-700">
+                  <Uuid uuid={paymentId} uuidPrefix="TA" />
+                </div>
                 <span className="font-size-10 text-uppercase color-default">
                 by <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
                 </span>
@@ -330,7 +269,7 @@ class PaymentDetailModal extends Component {
               </div>
               <div>
                 <div className="font-weight-700">
-                  {paymentsMethodsLabels[paymentMethod] || paymentMethod}
+                  {paymentsMethodsLabels[paymentMethod] || 'Manual'}
                 </div>
                 <span className="font-size-10">
                   {shortify(paymentAccount, null, 2)}

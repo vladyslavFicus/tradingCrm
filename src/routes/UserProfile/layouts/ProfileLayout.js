@@ -38,7 +38,7 @@ const imageViewerInitialState = {
 class ProfileLayout extends Component {
   static propTypes = {
     profile: PropTypes.shape({
-      data: PropTypes.userProfile,
+      data: PropTypes.userProfile.isRequired,
       error: PropTypes.any,
       isLoading: PropTypes.bool.isRequired,
     }).isRequired,

@@ -168,7 +168,6 @@ class PaymentDetailModal extends Component {
         userAgent,
       },
       playerProfile,
-      accumulatedBalances,
       isOpen,
       onClose,
       className,
@@ -180,7 +179,7 @@ class PaymentDetailModal extends Component {
         <ModalHeader toggle={onClose}>Payment details</ModalHeader>
 
         <ModalBody>
-          <ModalPlayerInfo profile={playerProfile} balances={accumulatedBalances} />
+          <ModalPlayerInfo playerProfile={playerProfile} />
 
           <div className="row payment-detail-blocks">
             <div className="col-md-3 payment-detail-block">
@@ -188,7 +187,9 @@ class PaymentDetailModal extends Component {
                 Transaction
               </div>
               <div className="font-size-14">
-                <div className="font-weight-700">{shortify(paymentId, 'TA')}</div>
+                <div className="font-weight-700">
+                  <Uuid uuid={paymentId} uuidPrefix="TA" />
+                </div>
                 <span className="font-size-10 text-uppercase color-default">
                   by <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
                 </span>

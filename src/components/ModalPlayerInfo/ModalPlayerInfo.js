@@ -8,12 +8,10 @@ import Uuid from '../Uuid';
 
 class ModalPlayerInfo extends Component {
   static propTypes = {
-    profile: PropTypes.userProfile.isRequired,
-    balances: PropTypes.shape({
-      total: PropTypes.price.isRequired,
-      bonus: PropTypes.price.isRequired,
-      real: PropTypes.price.isRequired,
-    }).isRequired,
+    playerProfile: PropTypes.userProfile.isRequired,
+  };
+  static defaultProps = {
+    balances: null,
   };
 
   renderPlayerInfo = profile => (
@@ -58,7 +56,7 @@ class ModalPlayerInfo extends Component {
   );
 
   render() {
-    const { profile, balances } = this.props;
+    const { playerProfile } = this.props;
 
     return (
       <div className="row player-header-blocks margin-bottom-10 equal">
@@ -67,21 +65,21 @@ class ModalPlayerInfo extends Component {
             {I18n.t('COMMON.PLAYER')}
           </div>
 
-          {this.renderPlayerInfo(profile)}
+          {this.renderPlayerInfo(playerProfile)}
         </div>
         <div className="col-sm-4 equal-in">
           <div className="color-default text-uppercase font-size-11">
             {I18n.t('COMMON.ACCOUNT_STATUS')}
           </div>
 
-          {this.renderPlayerStatus(profile)}
+          {this.renderPlayerStatus(playerProfile)}
         </div>
         <div className="col-sm-4 equal-in">
           <div className="color-default text-uppercase font-size-11">
             {I18n.t('COMMON.BALANCE')}
           </div>
 
-          {this.renderBalance(balances)}
+          {this.renderBalance(playerProfile.balances)}
         </div>
       </div>
     );

@@ -3,6 +3,9 @@ import createReducer from '../../utils/createReducer';
 import { actionTypes as windowActionTypes } from '../modules/window';
 import { actionTypes as authActionTypes } from './auth';
 
+const PROFILE_ROUTE_PREFIX = 'users';
+const profilePathnameRegExp = new RegExp(`^\\/${PROFILE_ROUTE_PREFIX}\\/([^\\/]+)\\/?.*`, 'i');
+
 const KEY = 'user-panels';
 const ADD = `${KEY}/add`;
 const REMOVE = `${KEY}/remove`;
@@ -89,6 +92,7 @@ const actionHandlers = {
         {
           ...action.payload,
           color: getColor(state.items.map(i => i.color)),
+          path: 'profile',
         },
       ],
     };
@@ -113,7 +117,6 @@ const actionHandlers = {
     return newState;
   },
   [RESET]: () => ({ ...initialState }),
-  [locationActionTypes.LOCATION_CHANGE]: state => ({ ...state, activeIndex: null }),
   [windowActionTypes.UPDATE_USER_TAB]: (state, action) => {
     const { uuid, firstName, lastName } = action.payload;
     const newFullName = `${firstName} ${lastName}`;
@@ -131,6 +134,32 @@ const actionHandlers = {
   },
   [authActionTypes.LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
+
+if (window && window === window.parent) {
+  actionHandlers[locationActionTypes.LOCATION_CHANGE] = state => ({ ...state, activeIndex: null });
+} else {
+  actionHandlers[locationActionTypes.LOCATION_CHANGE] = (state, action) => {
+    const { pathname } = action.payload;
+    const [, playerUUID] = pathname.match(profilePathnameRegExp);
+
+    if (!playerUUID) {
+      return state;
+    }
+
+    const playerIndex = state.items.findIndex(item => item.uuid === playerUUID);
+    if (playerIndex === -1) {
+      return state;
+    }
+
+    const newState = { ...state, items: [...state.items] };
+    newState.items[playerIndex] = {
+      ...state.items[playerIndex],
+      path: pathname.replace(`/${PROFILE_ROUTE_PREFIX}/${playerUUID}/`, ''),
+    };
+
+    return newState;
+  };
+}
 const actionTypes = {
   ADD,
   REMOVE,

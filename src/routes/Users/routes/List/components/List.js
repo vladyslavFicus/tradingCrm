@@ -79,7 +79,7 @@ class List extends Component {
 
     return (
       <GridPlayerInfo
-        profile={{ ...data, uuid: data.playerUUID }}
+        profile={data}
         onClick={() => this.context.addPanel(panelData)}
       />
     );

@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import FailedStatusIcon from '../../../../../components/FailedStatusIcon';
 import Amount from '../../../../../components/Amount';
@@ -19,12 +20,11 @@ import { shortify } from '../../../../../utils/uuid';
 import StatusHistory from '../../../../../components/TransactionStatusHistory';
 import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
-import TransactionGridFilter from './TransactionGridFilter';
+import TransactionsFilterForm from '../../../../Transactions/components/TransactionsFilterForm';
 import PaymentDetailModal from './PaymentDetailModal';
 import PaymentActionReasonModal from './PaymentActionReasonModal';
 import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
-import PropTypes from '../../../../../constants/propTypes';
 import Uuid from '../../../../../components/Uuid';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
@@ -51,12 +51,7 @@ class View extends Component {
       id: PropTypes.string,
     }).isRequired,
     newPaymentNote: PropTypes.noteEntity,
-    profile: PropTypes.userProfile.isRequired,
-    accumulatedBalances: PropTypes.shape({
-      total: PropTypes.price.isRequired,
-      bonus: PropTypes.price.isRequired,
-      real: PropTypes.price.isRequired,
-    }).isRequired,
+    playerProfile: PropTypes.userProfile.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons,
   };
   static defaultProps = {
@@ -79,11 +74,11 @@ class View extends Component {
   };
 
   componentWillMount() {
-    this.handleRefresh();
     this.context.cacheChildrenComponent(this);
   }
 
   componentDidMount() {
+    this.handleRefresh();
     this.context.setNoteChangedCallback(this.handleRefresh);
   }
 
@@ -292,7 +287,6 @@ class View extends Component {
 
     const id = `payment-ip-${data.paymentId}`;
 
-
     return (
       <span>
         <i id={id} className={`fs-icon fs-${data.country.toLowerCase()}`} />
@@ -390,8 +384,7 @@ class View extends Component {
       currencyCode,
       loadPaymentAccounts,
       manageNote,
-      profile: playerProfile,
-      accumulatedBalances,
+      playerProfile,
       newPaymentNote,
     } = this.props;
 
@@ -411,7 +404,7 @@ class View extends Component {
           </div>
         </div>
 
-        <TransactionGridFilter
+        <TransactionsFilterForm
           currencyCode={currencyCode}
           onSubmit={this.handleFilterSubmit}
         />
@@ -490,7 +483,6 @@ class View extends Component {
             {...modal.params}
             isOpen
             playerProfile={playerProfile}
-            accumulatedBalances={accumulatedBalances}
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
             onAskReason={this.handleAskReason}
