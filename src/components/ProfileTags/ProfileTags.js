@@ -93,12 +93,14 @@ class ProfileTags extends PureComponent {
 
 ProfileTags.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    priority: PropTypes.string,
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    priority: PropTypes.string.isRequired,
   })),
   value: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    priority: PropTypes.string,
+    id: PropTypes.number.isRequired,
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
   })),
   onAdd: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
