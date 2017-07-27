@@ -3,7 +3,6 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getFormValues, Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import classNames from 'classnames';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { createValidator } from '../../../../../../../../utils/validator';
@@ -11,7 +10,6 @@ import { TextAreaField, SelectField } from '../../../../../../../../components/R
 import Uuid from '../../../../../../../../components/Uuid';
 import { actionLabels } from '../../../../../../../../constants/free-spin';
 import { attributeLabels } from './constants';
-import './CancelModal.scss';
 
 const CUSTOM_REASON = 'custom';
 const FORM_NAME = 'freeSpinCancelModal';
