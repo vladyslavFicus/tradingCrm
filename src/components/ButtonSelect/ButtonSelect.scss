@@ -1,7 +1,7 @@
 .button-select {
   .btn-default {
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 4px;
+    padding-bottom: 4px;
     background: #6a7a84;
     border-color: #6a7a84;
   }
@@ -16,7 +16,7 @@
 
   .Select {
     position: relative;
-    height: 21px;
+    height: 23px;
     .Select-menu-outer {
       position: absolute;
       min-width: 150px;
@@ -29,7 +29,7 @@
 
   .Select-control {
     display: inline-block;
-    height: 21px;
+    height: 23px;
     min-width: 31px;
     border-radius: 0;
     background: #6a7a84;

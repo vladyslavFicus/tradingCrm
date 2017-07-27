@@ -50,40 +50,38 @@ class View extends Component {
     const { bonusCampaign, currencies, locale } = this.props;
 
     return (
-      <div className="player__account__page_profile tab-content padding-vertical-20">
-        <div className="tab-pane active" role="tabpanel">
-          <div className="panel-body row">
-            <div className="col-md-10">
-              <Form
-                locale={locale}
-                currencies={currencies}
-                disabled={bonusCampaign.state !== statuses.DRAFT}
-                initialValues={{
-                  name: bonusCampaign.name,
-                  campaignPriority: bonusCampaign.campaignPriority,
-                  targetType: bonusCampaign.targetType,
-                  currency: bonusCampaign.currency,
-                  startDate: bonusCampaign.startDate,
-                  endDate: bonusCampaign.endDate,
-                  wagerWinMultiplier: bonusCampaign.wagerWinMultiplier,
-                  bonusLifetime: bonusCampaign.bonusLifetime,
-                  campaignRatio: bonusCampaign.campaignRatio,
-                  conversionPrize: bonusCampaign.conversionPrize || {
-                    value: null,
-                    type: customValueFieldTypes.ABSOLUTE,
-                  },
-                  capping: bonusCampaign.capping || {
-                    value: null,
-                    type: customValueFieldTypes.ABSOLUTE,
-                  },
-                  optIn: bonusCampaign.optIn,
-                  campaignType: bonusCampaign.campaignType,
-                  minAmount: bonusCampaign.minAmount,
-                  maxAmount: bonusCampaign.maxAmount,
-                }}
-                onSubmit={this.handleSubmit}
-              />
-            </div>
+      <div className="panel-body">
+        <div className="row">
+          <div className="col-md-10">
+            <Form
+              locale={locale}
+              currencies={currencies}
+              disabled={bonusCampaign.state !== statuses.DRAFT}
+              initialValues={{
+                name: bonusCampaign.name,
+                campaignPriority: bonusCampaign.campaignPriority,
+                targetType: bonusCampaign.targetType,
+                currency: bonusCampaign.currency,
+                startDate: bonusCampaign.startDate,
+                endDate: bonusCampaign.endDate,
+                wagerWinMultiplier: bonusCampaign.wagerWinMultiplier,
+                bonusLifetime: bonusCampaign.bonusLifetime,
+                campaignRatio: bonusCampaign.campaignRatio,
+                conversionPrize: bonusCampaign.conversionPrize || {
+                  value: null,
+                  type: customValueFieldTypes.ABSOLUTE,
+                },
+                capping: bonusCampaign.capping || {
+                  value: null,
+                  type: customValueFieldTypes.ABSOLUTE,
+                },
+                optIn: bonusCampaign.optIn,
+                campaignType: bonusCampaign.campaignType,
+                minAmount: bonusCampaign.minAmount,
+                maxAmount: bonusCampaign.maxAmount,
+              }}
+              onSubmit={this.handleSubmit}
+            />
           </div>
         </div>
       </div>

@@ -46,7 +46,7 @@ class AddressForm extends Component {
 
     return (
       <div>
-        <form role="form" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="row margin-bottom-20">
             <div className="col-xl-6">
               <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}</span>
@@ -61,8 +61,8 @@ class AddressForm extends Component {
               }
             </div>
           </div>
-          <div className="filter-row">
-            <div className="filter-row__medium">
+          <div className="form-row">
+            <div className="form-row__medium">
               <Field
                 name="country"
                 label={attributeLabels.country}
@@ -77,7 +77,7 @@ class AddressForm extends Component {
                 }
               </Field>
             </div>
-            <div className="filter-row__medium">
+            <div className="form-row__medium">
               <Field
                 name="city"
                 label={attributeLabels.city}
@@ -87,7 +87,7 @@ class AddressForm extends Component {
                 showErrorMessage
               />
             </div>
-            <div className="filter-row__medium">
+            <div className="form-row__small">
               <Field
                 name="postCode"
                 label={attributeLabels.postCode}
@@ -97,6 +97,8 @@ class AddressForm extends Component {
                 showErrorMessage
               />
             </div>
+          </div>
+          <div className="filter-row">
             <div className="filter-row__big">
               <Field
                 name="address"
