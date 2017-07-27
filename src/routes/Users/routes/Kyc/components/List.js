@@ -62,9 +62,7 @@ class List extends Component {
       }
 
       statuses.map((status) => {
-        const parts = status.split('.');
-        const statusKey = parts[0];
-        const statusValue = parts[1];
+        const [statusKey, statusValue] = status.split('.');
         if (customStatusFilters[statusKey]) {
           customStatusFilters[statusKey].push(statusValue);
         } else {
