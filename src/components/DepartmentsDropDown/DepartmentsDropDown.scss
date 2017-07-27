@@ -1,6 +1,9 @@
 .department {
   position: relative;
-  padding: 8px 40px 7px 20px;
+  padding: 8px 26px 7px 20px;
+  line-height: 1;
+  color: #fff;
+  font-size: 18px;
   &::before,
   &::after {
     content: '';

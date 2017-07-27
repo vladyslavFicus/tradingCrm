@@ -6,6 +6,7 @@
   right: 0;
   display: flex;
   flex-flow: row nowrap;
+  align-items: center;
   background-color: #000;
   z-index: 18;
   .navbar-brand {
@@ -64,8 +65,8 @@
       margin-right: 20px;
     }
     .dropdown {
-      padding-top: 12px;
-      padding-bottom: 14px;
+      padding-top: 4px;
+      padding-bottom: 4px;
     }
     .dropdown-btn {
       color: #ccc;
@@ -128,7 +129,7 @@
       right: 50px;
       font-size: 3rem;
       background: transparent;
-      color: #ffffff;
+      color: #fff;
       cursor: pointer;
       border: none;
       &:focus {
