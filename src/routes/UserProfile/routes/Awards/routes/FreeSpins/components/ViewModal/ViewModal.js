@@ -38,8 +38,8 @@ class ViewModal extends Component {
   };
 
   renderNote = data => (
-    <div className="row margin-top-20">
-      <div className="col-md-12 text-center">
+    <div className="row">
+      <div className="col-xs-12 text-center">
         <NoteButton
           id="free-spin-detail-modal-note"
           note={data.note}

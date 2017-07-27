@@ -106,9 +106,6 @@
   }
   .view-free-spin-modal {
     width: 750px;
-    .modal-header {
-      background-color: #fc6;
-    }
   }
   .create-free-spin-modal {
     width: 605px;
@@ -116,18 +113,40 @@
   .view-bonus-modal {
     width: 750px;
   }
-  &-info-header-block {
+  &-header-tab {
     min-height: 70px;
-    border-right: 1px solid #dfe4ed;
+    border-right: 1px solid #e4e4e4;
+    color: #333;
     &:last-child {
       border-right: none;
+    }
+    &:nth-child(n+2) {
+      padding-left: 1.5rem;
+    }
+    &__label {
+      font-weight: 700;
+      line-height: 1;
     }
   }
-  .grey-back-tab {
-    padding: 0 2rem;
-    border-right: 1px solid #dfe4ed;
+  &-body-tab {
+    word-break: break-all;
+    color: #333;
+  }
+  &-grey-tab {
+    padding-left: 1.5rem;
+    border-right: 1px solid #e4e4e4;
     &:last-child {
       border-right: none;
     }
+    &__amount {
+      font-size: 20px;
+      color: #36c;
+    }
+  }
+  &-tab-label {
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: #666;
   }
 }

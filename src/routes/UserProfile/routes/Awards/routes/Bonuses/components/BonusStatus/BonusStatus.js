@@ -6,7 +6,7 @@ import {
   statuses,
   statusesLabels,
   statusesProps,
-  cancellationReason,
+  cancellationReason
 } from '../../../../../../../../constants/bonus';
 import Uuid from '../../../../../../../../components/Uuid';
 import Amount from '../../../../../../../../components/Amount/Amount';
@@ -45,7 +45,7 @@ class BonusStatus extends Component {
     return (
       <div>
         <div {...props}>{label}</div>
-        {!!content && <div className="font-size-10">{content}</div>}
+        {!!content && <div className="font-size-11">{content}</div>}
       </div>
     );
   };
@@ -55,7 +55,7 @@ class BonusStatus extends Component {
     : null);
 
   renderStatusCancelled = bonus => (
-    <div className="font-size-10">
+    <div>
       {
         bonus.cancellerUUID &&
         <div>
@@ -80,7 +80,7 @@ class BonusStatus extends Component {
   );
 
   renderStatusWagered = bonus => (
-    <div className="font-size-10">
+    <div>
       {
         bonus.endDate &&
         <div>
@@ -103,7 +103,7 @@ class BonusStatus extends Component {
       <div className={className}>
         {
           !!label &&
-          <div className="color-default text-uppercase">
+          <div className="modal-tab-label">
             {label}
           </div>
         }
