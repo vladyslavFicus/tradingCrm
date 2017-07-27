@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, IndexLink } from 'react-router';
+import { withRouter } from 'react-router';
 import { SubmissionError } from 'redux-form';
 import ViewForm from './ViewForm';
-import LoggedForbidden from "../LoggedForbidden";
+import LoggedForbidden from '../LoggedForbidden';
 
 class View extends Component {
   static propTypes = {
@@ -34,16 +34,8 @@ class View extends Component {
     throw new SubmissionError({ _error: 'Something went wrong...' });
   };
 
-  componentWillMount() {
-    document.body.classList.add('full-height');
-  }
-
-  componentWillUnmount() {
-    document.body.classList.remove('full-height');
-  }
-
   render() {
-    const { logged, logout, title } = this.props;
+    const { logged, logout } = this.props;
 
     if (logged) {
       return (
@@ -55,36 +47,24 @@ class View extends Component {
     }
 
     return (
-      <section className="page-content">
-        <div className="page-content-inner" style={{ background: '#0e1836' }}>
-          <div className="single-page-block-header">
-            <div className="row">
-              <div className="col-lg-4">
-                <div className="logo">
-                  <IndexLink to="/" className="logo" style={{ fontSize: `${32}px` }}>
-                    <span style={{ color: '#e7edff' }}>NEW</span>
-                    <span style={{ color: 'rgb(26, 122, 175)' }}>AGE</span>
-                  </IndexLink>
-                </div>
-              </div>
+      <div className="form-page-container" style={{ height: '100%' }}>
+        <div className="wrapper">
+          <div className="form-page">
+            <div className="form-page__logo">
+              <img src="/img/horizon-logo.svg" alt="logo" />
             </div>
+
+            <ViewForm
+              onSubmit={this.handleSubmit}
+            />
+
           </div>
-          <div className="single-page-block">
-            <div className="single-page-block-inner effect-3d-element" ref="innerBlock">
-              <h2>{title}</h2>
-              <div className="single-page-block-form margin-top-25">
-                <ViewForm
-                  onSubmit={this.handleSubmit}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="single-page-block-footer text-center" />
         </div>
-      </section>
+
+        <div className="form-page__copyright">Copyright © {(new Date()).getFullYear()} by Newage</div>
+      </div>
     );
   }
 }
 
 export default withRouter(View);
-

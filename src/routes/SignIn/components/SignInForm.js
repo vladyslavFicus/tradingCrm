@@ -67,7 +67,7 @@ class SignInForm extends Component {
       onSubmit,
       error,
     } = this.props;
-    const className = classNames('sign-in__form', {
+    const className = classNames('form-page__form', {
       fadeInUp: step === 0,
       fadeOutLeft: step > 0,
       'position-absolute': step > 1,
@@ -86,7 +86,7 @@ class SignInForm extends Component {
               {error}
             </div>
           }
-          <div className="sign-in__form_input">
+          <div className="form-page__form_input">
             <Field
               name="login"
               type="text"
@@ -97,7 +97,7 @@ class SignInForm extends Component {
             />
 
           </div>
-          <div className="sign-in__form_input">
+          <div className="form-page__form_input">
             <Field
               name="password"
               type="password"
@@ -107,8 +107,8 @@ class SignInForm extends Component {
               placeholder={attributeLabels.password}
             />
           </div>
-          <div className="sign-in__form_submit">
-            <button className="btn btn-primary sign-in_btn" disabled={submitting}>
+          <div className="form-page__form_submit">
+            <button className="btn btn-primary form-page_btn" disabled={submitting}>
               Login
             </button>
           </div>

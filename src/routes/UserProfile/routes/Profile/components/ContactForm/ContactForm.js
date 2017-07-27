@@ -67,14 +67,14 @@ class ContactForm extends Component {
     const isPhoneNumberDirty = currentValues.phoneNumber !== initialValues.phoneNumber;
 
     return (
-      <div className="col-xl-8">
-        <form role="form" onSubmit={handleSubmit(onSubmit)}>
+      <div className="col-md-8">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="row margin-bottom-20">
-            <div className="col-xl-6">
+            <div className="col-md-6">
               <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE')}</span>
             </div>
 
-            <div className="col-xl-6 text-right">
+            <div className="col-md-6 text-right">
               {
                 dirty && !submitting && valid &&
                 <button className="btn btn-sm btn-primary" type="submit">
@@ -85,7 +85,7 @@ class ContactForm extends Component {
           </div>
 
           <div className="row">
-            <div className="col-xl-6">
+            <div className="col-md-6">
               <Field
                 name="phoneNumber"
                 className="form-group player-profile__contact-input"
@@ -108,7 +108,7 @@ class ContactForm extends Component {
                 showInputButton={isPhoneNumberDirty || !profile.phoneNumberVerified}
               />
             </div>
-            <div className="col-xl-6">
+            <div className="col-md-6">
               <Field
                 name="email"
                 className="form-group player-profile__contact-input"

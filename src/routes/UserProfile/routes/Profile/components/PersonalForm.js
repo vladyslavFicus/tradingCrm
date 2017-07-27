@@ -45,7 +45,7 @@ class PersonalForm extends Component {
     } = this.props;
 
     return (
-      <form className="padding-bottom-20" role="form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="padding-bottom-20" onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
           <div className="col-xl-6">
             <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE')}</span>
@@ -59,9 +59,8 @@ class PersonalForm extends Component {
             }
           </div>
         </div>
-
-        <div className="filter-row">
-          <div className="filter-row__small">
+        <div className="form-row">
+          <div className="form-row__small">
             <Field
               name="title"
               label={attributeLabels.title}
@@ -76,7 +75,7 @@ class PersonalForm extends Component {
               ))}
             </Field>
           </div>
-          <div className="filter-row__big">
+          <div className="form-row__medium">
             <Field
               name="firstName"
               label={attributeLabels.firstName}
@@ -86,7 +85,7 @@ class PersonalForm extends Component {
               showErrorMessage
             />
           </div>
-          <div className="filter-row__big">
+          <div className="form-row__medium">
             <Field
               name="lastName"
               label={attributeLabels.lastName}
@@ -96,7 +95,9 @@ class PersonalForm extends Component {
               showErrorMessage
             />
           </div>
-          <div className="filter-row__medium">
+        </div>
+        <div className="form-row">
+          <div className="form-row__medium">
             <Field
               name="identifier"
               label={attributeLabels.identifier}
@@ -106,14 +107,14 @@ class PersonalForm extends Component {
               showErrorMessage
             />
           </div>
-          <div className="filter-row__medium">
+          <div className="form-row__small">
             <Field
               name="birthDate"
               label={attributeLabels.birthDate}
               component={BirthdayField}
             />
           </div>
-          <div className="filter-row__small">
+          <div className="form-row__small">
             <Field
               name="gender"
               label={attributeLabels.gender}
