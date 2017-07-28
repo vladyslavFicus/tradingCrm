@@ -44,6 +44,12 @@ const statusesColor = {
   [statuses.REFUSED]: 'color-secondary',
   [statuses.DOCUMENTS_SENT]: 'color-primary',
 };
+const verifyRequestReasons = [
+  'KYC_REQUEST_REASON_ONE',
+  'KYC_REQUEST_REASON_TWO',
+  'KYC_REQUEST_REASON_THREE',
+  'KYC_REQUEST_REASON_FOUR',
+];
 export {
   statuses,
   types,
@@ -54,4 +60,5 @@ export {
   statusesColor,
   filterLabels,
   statusTypes,
+  verifyRequestReasons,
 };

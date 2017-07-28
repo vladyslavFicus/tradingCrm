@@ -159,7 +159,7 @@ class List extends Component {
           {
             status === kycStatuses.VERIFIED &&
             <div>
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={address.author} />
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={address.authorUUID} />
             </div>
           }
         </div>
