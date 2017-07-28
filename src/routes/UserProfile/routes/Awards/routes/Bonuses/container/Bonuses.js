@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
     profile,
     bonus,
     accumulatedBalances,
-    canClaimBonus: config.nas.brand.bonus.claim,
+    canClaimBonus: config.nas.brand.claim_bonus.enable,
   });
 };
 const mapActions = {
