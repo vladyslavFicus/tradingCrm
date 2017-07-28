@@ -51,7 +51,7 @@ function processConfig() {
       {},
       config,
       { nas: environmentConfig.nas },
-      { nas: { brand: environmentConfig.brand } },
+      { nas: { brand: { ...environmentConfig.brand, bonus: { claim: environmentConfig.claim.enable } } } },
       { logstash: environmentConfig.logstash },
     ));
 }
