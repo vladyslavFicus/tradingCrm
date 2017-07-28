@@ -12,9 +12,9 @@ class SignInBrands extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { activeBrand, logged, brands } = this.props;
+    const { activeBrand, logged } = this.props;
 
-    if (brands.length > 1) {
+    if (nextProps.brands.length > 1) {
       if (logged !== nextProps.logged) {
         if (nextProps.logged && !nextProps.activeBrand) {
           setTimeout(() => {

@@ -6,13 +6,13 @@ import { InputField } from '../../../components/ReduxForm';
 import PropTypes from '../../../constants/propTypes';
 
 const attributeLabels = {
-  login: 'Login',
+  email: 'Email',
   password: 'Password',
   department: 'Department',
 };
 
 const validator = createValidator({
-  login: 'required',
+  email: 'required',
   password: 'required|min:6',
   department: 'required',
 }, attributeLabels, false);
@@ -88,17 +88,19 @@ class SignInForm extends Component {
           }
           <div className="form-page__form_input">
             <Field
+              id="sign-in-email-field"
               name="login"
               type="text"
               label="Email"
               component={InputField}
               position="vertical"
-              placeholder={attributeLabels.login}
+              placeholder={attributeLabels.email}
             />
 
           </div>
           <div className="form-page__form_input">
             <Field
+              id="sign-in-password-field"
               name="password"
               type="password"
               label="Password"
@@ -108,7 +110,11 @@ class SignInForm extends Component {
             />
           </div>
           <div className="form-page__form_submit">
-            <button className="btn btn-primary form-page_btn" disabled={submitting}>
+            <button
+              id="sign-in-submit-button"
+              className="btn btn-primary form-page_btn"
+              disabled={submitting}
+            >
               Login
             </button>
           </div>
