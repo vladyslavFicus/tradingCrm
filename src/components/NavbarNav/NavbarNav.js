@@ -31,7 +31,7 @@ class NavbarNav extends Component {
         </DropdownToggle>
         <DropdownMenu>
           {items.map(item => (
-            <DropdownItem key={item.label} onClick={item.onClick} id={item.dropdownItemId}>
+            <DropdownItem key={item.label} onClick={item.onClick} id={item.id}>
               {item.label}
             </DropdownItem>
           ))}

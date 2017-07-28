@@ -110,7 +110,7 @@ class Navbar extends Component {
               {
                 label: 'Logout',
                 onClick: () => this.props.router.replace('/logout'),
-                dropdownItemId: 'profile-logout-button',
+                id: 'profile-logout-button',
               },
             ]}
             dropdownToggleId="profile-logout-toggle"
