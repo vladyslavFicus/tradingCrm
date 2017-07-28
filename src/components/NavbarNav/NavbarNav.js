@@ -6,6 +6,10 @@ class NavbarNav extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
     items: PropTypes.arrayOf(PropTypes.navbarNavItem).isRequired,
+    dropdownToggleId: PropTypes.string,
+  };
+  static defaultProps = {
+    dropdownToggleId: '',
   };
 
   state = {
@@ -18,16 +22,16 @@ class NavbarNav extends Component {
 
   render() {
     const { active } = this.state;
-    const { label, items } = this.props;
+    const { label, items, dropdownToggleId } = this.props;
 
     return (
       <Dropdown isOpen={active} toggle={this.handleToggleState}>
-        <DropdownToggle className="dropdown-btn">
+        <DropdownToggle className="dropdown-btn" id={dropdownToggleId}>
           {label}
         </DropdownToggle>
         <DropdownMenu>
           {items.map(item => (
-            <DropdownItem key={item.label} onClick={item.onClick}>
+            <DropdownItem key={item.label} onClick={item.onClick} id={item.dropdownItemId}>
               {item.label}
             </DropdownItem>
           ))}

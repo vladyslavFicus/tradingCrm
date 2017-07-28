@@ -82,9 +82,11 @@ class Navbar extends Component {
                   >&#10005;</button>
                   <div className="form-inline">
                     <input
-                      className="form-control" type="text" placeholder="Search..." autoFocus ref={(node) => {
-                      this.searchInput = node;
-                    }}
+                      className="form-control"
+                      type="text"
+                      placeholder="Search..."
+                      autoFocus
+                      ref={(node) => { this.searchInput = node; }}
                     />
                   </div>
                 </div>
@@ -105,8 +107,13 @@ class Navbar extends Component {
           <NavbarNav
             label={<i className="fa fa-user" />}
             items={[
-              { label: 'Logout', onClick: () => this.props.router.replace('/logout') },
+              {
+                label: 'Logout',
+                onClick: () => this.props.router.replace('/logout'),
+                dropdownItemId: 'profile-logout-button',
+              },
             ]}
+            dropdownToggleId="profile-logout-toggle"
           />
         </div>
       </header>
