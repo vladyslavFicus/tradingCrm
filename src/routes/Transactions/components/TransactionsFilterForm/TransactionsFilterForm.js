@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../../constants/propTypes';
-import { initiatorsLabels } from '../../../../constants/payment';
 import { createValidator } from '../../../../utils/validator';
 import {
   types,
   typesLabels,
   statusesLabels,
   methodsLabels,
+  initiatorsLabels,
 } from '../../../../constants/payment';
 import { InputField, DateTimeField, NasSelectField } from '../../../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
@@ -34,6 +34,7 @@ class TransactionsFilterForm extends Component {
       startDate: PropTypes.string,
       endDate: PropTypes.string,
     }),
+    filterByType: PropTypes.bool,
     paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
   };
   static defaultProps = {
@@ -43,6 +44,7 @@ class TransactionsFilterForm extends Component {
     pristine: false,
     disabled: false,
     currentValues: null,
+    filterByType: false,
   };
 
   startDateValidator = (current) => {
@@ -76,6 +78,7 @@ class TransactionsFilterForm extends Component {
       handleSubmit,
       onSubmit,
       paymentMethods,
+      filterByType,
     } = this.props;
 
     return (
@@ -108,21 +111,24 @@ class TransactionsFilterForm extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__medium">
-              <Field
-                name="type"
-                label={I18n.t(attributeLabels.type)}
-                labelClassName="form-label"
-                position="vertical"
-                component={NasSelectField}
-              >
-                {Object.keys(typesLabels).map(type => (
-                  <option key={type} value={type}>
-                    {typesLabels[type]}
-                  </option>
-                ))}
-              </Field>
-            </div>
+            {
+              filterByType &&
+              <div className="filter-row__medium">
+                <Field
+                  name="type"
+                  label={I18n.t(attributeLabels.type)}
+                  labelClassName="form-label"
+                  position="vertical"
+                  component={NasSelectField}
+                >
+                  {Object.keys(typesLabels).map(type => (
+                    <option key={type} value={type}>
+                      {typesLabels[type]}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+            }
             <div className="filter-row__medium">
               <Field
                 name="statuses"

@@ -11,7 +11,6 @@ import classNames from 'classnames';
 import PropTypes from '../../../constants/propTypes';
 import { targetTypes } from '../../../constants/note';
 import NoteButton from '../../../components/NoteButton';
-import './PaymentDetailModal.scss';
 import Uuid from '../../../components/Uuid';
 
 class PaymentActionReasonModal extends Component {

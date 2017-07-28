@@ -8,11 +8,10 @@ import {
   Input,
 } from 'reactstrap';
 import classNames from 'classnames';
-import PropTypes from '../../../../../constants/propTypes';
-import { targetTypes } from '../../../../../constants/note';
-import NoteButton from '../../../../../components/NoteButton';
-import './PaymentDetailModal.scss';
-import Uuid from '../../../../../components/Uuid';
+import PropTypes from '../../constants/propTypes';
+import { targetTypes } from '../../constants/note';
+import NoteButton from '../NoteButton';
+import Uuid from '../Uuid';
 
 class PaymentActionReasonModal extends Component {
   static propTypes = {

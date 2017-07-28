@@ -14,11 +14,11 @@ import {
   statuses as paymentsStatuses,
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
-import StatusHistory from '../../../../../components/TransactionStatusHistory';
+import TransactionStatus from '../../../../../components/TransactionStatus';
 import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
 import TransactionsFilterForm from './TransactionsFilterForm';
-import PaymentDetailModal from './PaymentDetailModal';
+import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
 import PaymentActionReasonModal from './PaymentActionReasonModal';
 import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
@@ -340,7 +340,7 @@ class View extends Component {
   };
 
   renderStatus = data => (
-    <StatusHistory
+    <TransactionStatus
       onLoadStatusHistory={() => this.props.loadPaymentStatuses(data.playerUUID, data.paymentId)}
       transaction={data}
     />
@@ -466,6 +466,7 @@ class View extends Component {
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
             onAskReason={this.handleAskReason}
+            onNoteClick={this.handleNoteClick}
           />
         }
 

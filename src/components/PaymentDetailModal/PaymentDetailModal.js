@@ -3,25 +3,23 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../constants/propTypes';
+import PropTypes from '../../constants/propTypes';
 import {
   methodsLabels as paymentsMethodsLabels,
-  statusesLabels as paymentsStatusesLabels,
-  statusesColor as paymentsStatusesColor,
   types as paymentsTypes,
   paymentActions,
-} from '../../../../../constants/payment';
-import { targetTypes } from '../../../../../constants/note';
-import Amount from '../../../../../components/Amount';
-import NoteButton from '../../../../../components/NoteButton';
-import { shortify } from '../../../../../utils/uuid';
+} from '../../constants/payment';
+import Amount from '../Amount';
+import NoteButton from '../NoteButton';
+import { shortify } from '../../utils/uuid';
 import './PaymentDetailModal.scss';
-import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
-import PermissionContent from '../../../../../components/PermissionContent';
-import Permissions from '../../../../../utils/permissions';
-import permission from '../../../../../config/permissions';
-import Uuid from '../../../../../components/Uuid';
-import ModalPlayerInfo from '../../../../../components/ModalPlayerInfo';
+import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
+import PermissionContent from '../PermissionContent';
+import Permissions from '../../utils/permissions';
+import permission from '../../config/permissions';
+import Uuid from '../Uuid';
+import ModalPlayerInfo from '../ModalPlayerInfo';
+import TransactionStatus from '../TransactionStatus';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
 const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
@@ -31,6 +29,7 @@ class PaymentDetailModal extends Component {
     className: PropTypes.string,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
+    onNoteClick: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     onAskReason: PropTypes.func.isRequired,
     payment: PropTypes.paymentEntity.isRequired,
@@ -40,19 +39,6 @@ class PaymentDetailModal extends Component {
     className: '',
     isOpen: false,
     profile: null,
-  };
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    setNoteChangedCallback: PropTypes.func.isRequired,
-  };
-
-  handleNoteClick = (target, note, data) => {
-    if (note) {
-      this.context.onEditNoteClick(target, note, { placement: 'top' });
-    } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target, { placement: 'top' });
-    }
   };
 
   handleApproveClick = () => {
@@ -146,27 +132,14 @@ class PaymentDetailModal extends Component {
 
   render() {
     const {
-      payment: {
-        paymentType,
-        paymentMethod,
-        paymentAccount,
-        status,
-        paymentId,
-        creatorUUID,
-        amount,
-        playerUUID,
-        creationTime,
-        country,
-        mobile,
-        note,
-        userAgent,
-      },
+      payment,
       playerProfile,
       isOpen,
       onClose,
       className,
+      onNoteClick,
     } = this.props;
-    const isWithdraw = paymentType === paymentsTypes.Withdraw;
+    const isWithdraw = payment.paymentType === paymentsTypes.Withdraw;
 
     return (
       <Modal isOpen={isOpen} toggle={onClose} className={classNames(className, 'payment-detail-modal')}>
@@ -182,10 +155,14 @@ class PaymentDetailModal extends Component {
               </div>
               <div className="font-size-14">
                 <div className="font-weight-700">
-                  <Uuid uuid={paymentId} uuidPrefix="TA" />
+                  <Uuid uuid={payment.paymentId} uuidPrefix="TA" />
                 </div>
                 <span className="font-size-10 text-uppercase color-default">
-                by <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+                  {'by '}
+                  <Uuid
+                    uuid={payment.playerUUID}
+                    uuidPrefix={payment.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+                  />
                 </span>
               </div>
             </div>
@@ -195,10 +172,10 @@ class PaymentDetailModal extends Component {
               </div>
               <div>
                 <div className="font-weight-700">
-                  {moment(creationTime).format('DD.MM.YYYY')}
+                  {moment(payment.creationTime).format('DD.MM.YYYY')}
                 </div>
                 <span className="font-size-10 color-default">
-                  {moment(creationTime).format('HH:mm')}
+                  {moment(payment.creationTime).format('HH:mm')}
                 </span>
               </div>
             </div>
@@ -206,44 +183,31 @@ class PaymentDetailModal extends Component {
               <div className="color-default text-uppercase font-size-11">
                 Ip
               </div>
-              {country && <i className={`fs-icon fs-${country.toLowerCase()}`} />}
+              {payment.country && <i className={`fs-icon fs-${payment.country.toLowerCase()}`} />}
             </div>
             <div className="col-md-2 payment-detail-block">
               <div className="color-default text-uppercase font-size-11">
                 Device
               </div>
               <i
-                id={`payment-detail-${paymentId}-tooltip`}
-                className={`fa font-size-20 ${mobile ? 'fa-mobile' : 'fa-desktop'}`}
+                id={`payment-detail-${payment.paymentId}-tooltip`}
+                className={`fa font-size-20 ${payment.mobile ? 'fa-mobile' : 'fa-desktop'}`}
               />
               <UncontrolledTooltip
                 placement="bottom"
-                target={`payment-detail-${paymentId}-tooltip`}
+                target={`payment-detail-${payment.paymentId}-tooltip`}
                 delay={{
                   show: 350, hide: 250,
                 }}
               >
-                {userAgent || 'User agent not defined'}
+                {payment.userAgent || 'User agent not defined'}
               </UncontrolledTooltip>
             </div>
             <div className="col-md-3 payment-detail-block">
               <div className="color-default text-uppercase font-size-11">
                 Status
               </div>
-              <div>
-                <div className={classNames(paymentsStatusesColor[status], 'font-weight-700', 'text-uppercase')}>
-                  {paymentsStatusesLabels[status] || status}
-                </div>
-                {
-                  creatorUUID &&
-                  <div className="font-size-10 color-default">
-                    {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={creatorUUID} />
-                  </div>
-                }
-                <span className="font-size-10 color-default">
-                  {moment(creationTime).format('DD.MM.YYYY - HH:mm')}
-                </span>
-              </div>
+              <TransactionStatus transaction={payment} />
             </div>
           </div>
 
@@ -255,7 +219,7 @@ class PaymentDetailModal extends Component {
               <div
                 className={classNames('font-size-16 font-weight-700', { 'color-danger': isWithdraw })}
               >
-                {isWithdraw && '-'}<Amount {...amount} />
+                {isWithdraw && '-'}<Amount {...payment.amount} />
               </div>
             </div>
             <div className="payment-detail-amount-block">
@@ -264,10 +228,10 @@ class PaymentDetailModal extends Component {
               </div>
               <div>
                 <div className="font-weight-700">
-                  {paymentsMethodsLabels[paymentMethod] || 'Manual'}
+                  {paymentsMethodsLabels[payment.paymentMethod] || 'Manual'}
                 </div>
                 <span className="font-size-10">
-                  {shortify(paymentAccount, null, 2)}
+                  {shortify(payment.paymentAccount, null, 2)}
                 </span>
               </div>
             </div>
@@ -276,9 +240,9 @@ class PaymentDetailModal extends Component {
             <div className="col-md-12 text-center">
               <NoteButton
                 id="payment-detail-modal-note"
-                note={note}
-                onClick={this.handleNoteClick}
-                targetEntity={this.props.payment}
+                note={payment.note}
+                onClick={onNoteClick}
+                targetEntity={payment}
               />
             </div>
           </div>

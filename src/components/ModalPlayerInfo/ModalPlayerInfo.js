@@ -40,7 +40,7 @@ class ModalPlayerInfo extends Component {
       {
         !!profile.suspendEndDate &&
         <div className="color-default font-size-11">
-          Until {moment(profile.suspendEndDate).format('L')}
+          Until {moment(profile.suspendEndDate).format('DD.MM.YYYY')}
         </div>
       }
     </div>

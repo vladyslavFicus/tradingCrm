@@ -8,10 +8,13 @@ import { statusesColor, statusesLabels, statuses, initiators } from '../../const
 import Uuid from '../Uuid';
 import FailedStatusIcon from '../FailedStatusIcon';
 
-class StatusHistory extends Component {
+class TransactionStatus extends Component {
   static propTypes = {
     transaction: PropTypes.paymentEntity.isRequired,
-    onLoadStatusHistory: PropTypes.func.isRequired,
+    onLoadStatusHistory: PropTypes.func,
+  };
+  static defaultProps = {
+    onLoadStatusHistory: null,
   };
 
   state = {
@@ -60,7 +63,7 @@ class StatusHistory extends Component {
 
   render() {
     const { dropDownOpen, statusHistory } = this.state;
-    const { transaction } = this.props;
+    const { transaction, onLoadStatusHistory } = this.props;
     const status = transaction.paymentFlowStatuses
       .find(flowStatus => flowStatus.paymentStatus.toUpperCase() === transaction.status);
     let authorUUID = null;
@@ -104,11 +107,11 @@ class StatusHistory extends Component {
     );
 
     return (
-      !statusHistory
+      !onLoadStatusHistory
         ? label
         : this.renderDropDown(label, statusHistory, dropDownOpen)
     );
   }
 }
 
-export default StatusHistory;
+export default TransactionStatus;

@@ -1,12 +1,24 @@
 import { connect } from 'react-redux';
-import { actionCreators } from '../modules/list';
-import List from '../components/List';
+import View from '../components/View';
+import { actionCreators } from '../modules';
+import { paymentActions } from '../../../../../constants/payment';
+import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../config';
 
-const mapStateToProps = ({ openLoopPaymentsList: list }) => ({ list });
+const mapStateToProps = ({ openLoopTransactions }) => ({
+  ...openLoopTransactions,
+  paymentActionReasons: {
+    [paymentActions.REJECT]: getTransactionRejectReasons(),
+    [paymentActions.CHARGEBACK]: getTransactionChargebackReasons(),
+  },
+});
+
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
+  fetchFilters: actionCreators.fetchFilters,
+  fetchPlayerProfile: actionCreators.fetchPlayerProfile,
   onChangePaymentStatus: actionCreators.changePaymentStatus,
   loadPaymentStatuses: actionCreators.fetchPaymentStatuses,
+  resetAll: actionCreators.resetAll,
 };
 
-export default connect(mapStateToProps, mapActions)(List);
+export default connect(mapStateToProps, mapActions)(View);

@@ -5,8 +5,8 @@ export default (store) => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, {
-        key: 'openLoopPaymentsList',
-        reducer: require('./modules/list').default,
+        key: 'openLoopTransactions',
+        reducer: require('./modules').default,
       });
 
       cb(null, require('./container/ViewContainer').default);

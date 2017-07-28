@@ -66,6 +66,7 @@ class View extends Component {
   };
 
   componentDidMount() {
+    this.props.fetchEntities();
     this.props.fetchFilters();
     this.context.notes.setNoteChangedCallback(this.handleRefresh);
   }
@@ -108,8 +109,7 @@ class View extends Component {
   };
 
   handleFilterReset = () => {
-    this.props.resetAll();
-    this.setState({ filters: {}, page: 0 });
+    this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
 
   handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
@@ -314,7 +314,7 @@ class View extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <span className="font-size-20">Transactions</span>
+            <span className="font-size-20">Open loops</span>
           </Title>
 
           <TransactionsFilterForm
@@ -322,7 +322,6 @@ class View extends Component {
             onReset={this.handleFilterReset}
             disabled={!allowActions}
             {...availableFilters}
-            filterByType
           />
 
           <Content>
@@ -407,7 +406,6 @@ class View extends Component {
                 onClose={this.handleCloseModal}
                 onChangePaymentStatus={this.handleChangePaymentStatus}
                 onAskReason={this.handleAskReason}
-                onNoteClick={this.handleNoteClick}
               />
             }
 
