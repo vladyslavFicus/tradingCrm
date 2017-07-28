@@ -81,7 +81,7 @@ class TransactionStatus extends Component {
 
     const label = (
       <div>
-        <div className={classNames(statusesColor[transaction.status], 'font-weight-700')}>
+        <div className={classNames(statusesColor[transaction.status], 'font-weight-700 text-uppercase')}>
           {statusesLabels[transaction.status] || transaction.status}
           {
             transaction.status === statuses.FAILED && !!transaction.reason &&

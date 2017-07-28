@@ -9,7 +9,6 @@ import {
 } from 'reactstrap';
 import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
-import { targetTypes } from '../../constants/note';
 import NoteButton from '../NoteButton';
 import Uuid from '../Uuid';
 
@@ -24,6 +23,7 @@ class PaymentActionReasonModal extends Component {
     reasons: PropTypes.arrayOf(PropTypes.string),
     action: PropTypes.string.isRequired,
     modalStaticParams: PropTypes.paymentReasonModalStaticParams,
+    onNoteClick: PropTypes.func.isRequired,
   };
   static defaultProps = {
     className: '',
@@ -31,25 +31,12 @@ class PaymentActionReasonModal extends Component {
     reasons: [],
     modalStaticParams: null,
   };
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    setNoteChangedCallback: PropTypes.func.isRequired,
-  };
 
   state = {
     dropDownOpen: false,
     selectedReason: 'Reason 1',
     isOtherReason: false,
     reason: 'Reason 1',
-  };
-
-  handleNoteClick = (target, note, data) => {
-    if (note) {
-      this.context.onEditNoteClick(target, note);
-    } else {
-      this.context.onAddNoteClick(data.paymentId, targetTypes.PAYMENT)(target);
-    }
   };
 
   toggle = () => {
@@ -90,6 +77,7 @@ class PaymentActionReasonModal extends Component {
       reasons,
       action,
       modalStaticParams,
+      onNoteClick,
     } = this.props;
 
     return (
@@ -135,9 +123,9 @@ class PaymentActionReasonModal extends Component {
           <div className="row">
             <div className="col-md-12 text-center">
               <NoteButton
-                id="payment-reject-modal-note"
+                id="payment-action-reason-modal"
                 note={note}
-                onClick={this.handleNoteClick}
+                onClick={onNoteClick}
                 targetEntity={payment}
               />
             </div>

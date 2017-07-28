@@ -418,6 +418,7 @@ class View extends Component {
                 isOpen
                 onClose={this.handleCloseModal}
                 onChangePaymentStatus={this.handleChangePaymentStatus}
+                onNoteClick={this.handleNoteClick}
               />
             }
           </Content>

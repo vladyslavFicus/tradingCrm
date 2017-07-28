@@ -19,7 +19,7 @@ import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
 import TransactionsFilterForm from './TransactionsFilterForm';
 import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
-import PaymentActionReasonModal from './PaymentActionReasonModal';
+import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
 import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 import Uuid from '../../../../../components/Uuid';
@@ -477,6 +477,7 @@ class View extends Component {
             isOpen
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
+            onNoteClick={this.handleNoteClick}
           />
         }
 
