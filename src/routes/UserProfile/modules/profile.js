@@ -250,8 +250,7 @@ function suspendProfile({ playerUUID, ...data }) {
         body: JSON.stringify(data),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -272,8 +271,7 @@ function prolongProfile({ playerUUID, ...data }) {
         body: JSON.stringify(data),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -294,8 +292,7 @@ function blockProfile({ playerUUID, ...data }) {
         body: JSON.stringify(data),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -316,8 +313,7 @@ function unblockProfile({ playerUUID, ...data }) {
         body: JSON.stringify(data),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -338,8 +334,7 @@ function resumeProfile({ playerUUID, ...data }) {
         body: JSON.stringify(data),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -613,6 +608,10 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
   [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [BLOCK_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [SUSPEND_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [UNBLOCK_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [PROLONG_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [SUBMIT_KYC.REQUEST]: state => ({
     ...state,
     isLoading: true,

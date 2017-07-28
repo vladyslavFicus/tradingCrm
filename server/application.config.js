@@ -40,7 +40,7 @@ module.exports = {
         general: '--',
         countries: ['AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ'],
       },
-      bonus: { claim: true },
+      claim_bonus: { enable: true },
     },
     currencies: { base: 'EUR', supported: ['EUR', 'USD', 'SEK', 'NOK', 'RUB'] },
   },

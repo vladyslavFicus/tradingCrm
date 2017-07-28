@@ -152,7 +152,8 @@
         "TO_WAGER": "To wager",
         "BONUS_TYPE": "Bonus type",
         "BONUS_STATUS": "Status"
-      }
+      },
+      "CLAIM_BONUS": "Claim bonus"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
