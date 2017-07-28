@@ -161,11 +161,11 @@ class ViewModal extends Component {
             {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
           </div>
           {
-          !!data.expirationDate &&
+            !!data.expirationDate &&
             <div className="little-grey-text font-size-11">
               {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
             </div>
-        }
+          }
         </div>
       ) : <span>&mdash</span>
   );
@@ -204,10 +204,10 @@ class ViewModal extends Component {
         </ModalBody>
         <ModalFooter>
           {
-            actions.length === 2 &&
+            actions.length > 0 &&
             <div className="row">
               {actions.map((action, index) => (
-                <div key={index} className={classNames('col-md-6', { 'text-right': index !== 0 })}>
+                <div key={action.children} className={classNames('col-md-6', { 'text-right': index !== 0 })}>
                   <button {...action} />
                 </div>
               ))}

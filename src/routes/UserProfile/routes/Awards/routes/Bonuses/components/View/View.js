@@ -24,7 +24,7 @@ const MODAL_VIEW = 'view-modal';
 
 class View extends Component {
   static propTypes = {
-    list: PropTypes.pageableState(PropTypes.bonusEntity),
+    list: PropTypes.pageableState(PropTypes.bonusEntity).isRequired,
     profile: PropTypes.userProfile.isRequired,
     accumulatedBalances: PropTypes.shape({
       total: PropTypes.price.isRequired,
@@ -37,6 +37,9 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
+    fetchActiveBonus: PropTypes.func.isRequired,
+    acceptBonus: PropTypes.func.isRequired,
+    cancelBonus: PropTypes.func.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -90,14 +93,15 @@ class View extends Component {
   };
 
   handlePageChanged = (page) => {
-    this.setState({ page: page - 1 }, () => this.handleRefresh());
+    this.setState({ page: page - 1 }, this.handleRefresh);
   };
 
   handleRefresh = () => this.props.fetchEntities({
     ...this.state.filters,
     page: this.state.page,
     playerUUID: this.props.params.id,
-  });
+  })
+    .then(() => this.props.fetchActiveBonus(this.props.params.id));
 
   handleSubmit = (inputFilters = {}) => {
     const filters = inputFilters;
@@ -109,7 +113,8 @@ class View extends Component {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
-  handleRowClick = (data) => {
+  handleRowClick = async (data) => {
+    const { canClaimBonus, fetchActiveBonus } = this.props;
     const actions = [
       {
         children: I18n.t('COMMON.CLOSE'),
@@ -117,6 +122,17 @@ class View extends Component {
         className: 'btn btn-default-outline text-uppercase',
       },
     ];
+
+    if (canClaimBonus && data.state === statuses.INACTIVE) {
+      const activeBonusAction = await fetchActiveBonus(this.props.params.id);
+      if (activeBonusAction && !activeBonusAction.error && activeBonusAction.payload.content.length === 0) {
+        actions.push({
+          children: I18n.t('PLAYER_PROFILE.BONUS.CLAIM_BONUS'),
+          onClick: this.handleClaimBonus.bind(null, data.id),
+          className: 'btn btn-danger text-uppercase',
+        });
+      }
+    }
 
     if ([statuses.INACTIVE, statuses.IN_PROGRESS].indexOf(data.state) > -1) {
       actions.push({
@@ -149,11 +165,17 @@ class View extends Component {
     });
   };
 
+  handleClaimBonus = (id) => {
+    this.props.acceptBonus(id, this.props.params.id)
+      .then(() => {
+        this.handleModalClose(this.handleRefresh);
+      });
+  };
+
   handleCancelBonus = (id) => {
     this.props.cancelBonus(id, this.props.params.id)
       .then(() => {
-        this.handleModalClose();
-        this.handleRefresh();
+        this.handleModalClose(this.handleRefresh);
       });
   };
 
