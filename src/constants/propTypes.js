@@ -422,7 +422,7 @@ PropTypes.userDeviceEntity = PropTypes.shape({
   totalSignIn: PropTypes.number.isRequired,
 });
 PropTypes.kycRequestStatusEntity = PropTypes.shape({
-  author: PropTypes.string.isRequired,
+  authorUUID: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   statusDate: PropTypes.string.isRequired,
 });
