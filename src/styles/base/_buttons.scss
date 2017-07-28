@@ -10,7 +10,7 @@
   background-color: #fff;
   border-color: #dfe4ed;
   &:focus {
-    outline: none;
+    outline: none !important;
   }
   &-sm {
     height: 29px;
