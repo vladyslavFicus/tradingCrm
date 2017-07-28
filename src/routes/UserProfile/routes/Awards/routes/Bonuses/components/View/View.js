@@ -129,7 +129,7 @@ class View extends Component {
         actions.push({
           children: I18n.t('PLAYER_PROFILE.BONUS.CLAIM_BONUS'),
           onClick: this.handleClaimBonus.bind(null, data.id),
-          className: 'btn btn-danger text-uppercase',
+          className: 'btn btn-primary text-uppercase',
         });
       }
     }
@@ -349,7 +349,7 @@ class View extends Component {
             name="status"
             header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_STATUS')}
             headerClassName={'text-uppercase'}
-            render={data => <BonusStatus bonus={data} />}
+            render={data => <BonusStatus id="bonuses-list" bonus={data} />}
           />
 
           <GridColumn

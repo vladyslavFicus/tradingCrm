@@ -124,7 +124,7 @@ PropTypes.bonusEntity = PropTypes.shape({
   bonusUUID: PropTypes.string,
   campaignUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   cancellerUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  cancellerReason: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  cancellationReason: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   capping: PropTypes.price,
   createdDate: PropTypes.string,
   currency: PropTypes.string,

@@ -152,7 +152,8 @@
         "TO_WAGER": "К ставке",
         "BONUS_TYPE": "Тип бонуса",
         "BONUS_STATUS": "Статус"
-      }
+      },
+      "CLAIM_BONUS": "Выдать бонус"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
