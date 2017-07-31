@@ -163,8 +163,6 @@ class ViewModal extends Component {
           </strong>
           {
             !!data.expirationDate &&
-            <div className="little-grey-text font-size-11">
-            !!data.expirationDate &&
             <div className="font-size-11">
               {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
             </div>
