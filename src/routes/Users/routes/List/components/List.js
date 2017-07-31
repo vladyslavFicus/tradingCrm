@@ -74,7 +74,7 @@ class List extends Component {
     const panelData = {
       fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
       login: data.username,
-      uuid: data.playerUUID,
+      uuid: 'dfjkasdhfk',
     };
 
     return (

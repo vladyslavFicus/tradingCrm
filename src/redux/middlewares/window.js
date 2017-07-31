@@ -27,7 +27,7 @@ export default () => next => (action) => {
   if (isIframeVersion && action && indexOfWindowAction > -1) {
     const actionFunction = config[action.type];
 
-    window.parent.postMessage(JSON.stringify(actionFunction(action.payload())), window.location.origin);
+    window.parent.postMessage(JSON.stringify(actionFunction(action.payload)), window.location.origin);
   }
 
   if (action.type === windowActionTypes.NAVIGATE_TO) {
