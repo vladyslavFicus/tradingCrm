@@ -45,9 +45,9 @@ class Navbar extends Component {
   };
 
   render() {
-    const { user, changeDepartment, locale } = this.context;
+    const { user, changeDepartment } = this.context;
     const { searchFieldActive, searchOverlayActive } = this.state;
-    const { showSearch, onLocaleChange, languages } = this.props;
+    const { showSearch } = this.props;
 
     return (
       <header className="header">
