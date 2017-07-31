@@ -24,7 +24,7 @@ class MyProfileSidebar extends Component {
     submitting: PropTypes.bool,
   };
   static defaultProps = {
-    isOpen: undefined,
+    isOpen: null,
   };
 
   handleClickOutside = () => {
