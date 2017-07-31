@@ -11,7 +11,7 @@ import { attributeLabels } from './constants';
 export const formName = 'my-profile-side-bar';
 
 const validator = createValidator({
-  phoneNumber: ['numeric'],
+  phoneNumber: 'numeric',
 }, attributeLabels, false);
 
 class MyProfileSidebar extends Component {
@@ -19,7 +19,12 @@ class MyProfileSidebar extends Component {
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     isOpen: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
     onToggleProfile: PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+  };
+  static defaultProps = {
+    isOpen: undefined,
   };
 
   handleClickOutside = () => {
@@ -76,7 +81,7 @@ class MyProfileSidebar extends Component {
                 </Field>
               </div>
               <div className="text-right">
-                <button disabled={submitting} className="btn btn-primary btn-sm" type="submit"></button>
+                <button disabled={submitting} className="btn btn-primary btn-sm" type="submit">{I18n.t('MY_PROFILE_SIDEBAR.SAVE_BUTTON')}</button>
               </div>
             </form>
           </section>
@@ -86,9 +91,9 @@ class MyProfileSidebar extends Component {
   }
 }
 
-MyProfileSidebar = onClickOutside(MyProfileSidebar);
+// MyProfileSidebar = onClickOutside(MyProfileSidebar);
 
 export default reduxForm({
   form: formName,
   validate: validator,
-})(MyProfileSidebar);
+})(onClickOutside(MyProfileSidebar));
