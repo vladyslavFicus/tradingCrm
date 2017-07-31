@@ -532,14 +532,14 @@ class ProfileLayout extends Component {
           />
 
           <div className="hide-details-block">
-            <div className="hide-details-block_arrow" />
+            <div className="hide-details-block_divider" />
             <button
               className="hide-details-block_text btn-transparent"
               onClick={this.handleToggleInformationBlock}
             >
               {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
             </button>
-            <div className="hide-details-block_arrow" />
+            <div className="hide-details-block_divider" />
           </div>
 
           <Collapse isOpen={informationShown}>

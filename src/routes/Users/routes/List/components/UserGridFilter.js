@@ -104,6 +104,7 @@ class UserGridFilter extends Component {
             <div className="filter-row__big">
               <Field
                 name="searchValue"
+                id="users-list-search-field"
                 type="text"
                 label={filterLabels.searchValue}
                 placeholder="Name, username, phone, email..."
@@ -278,6 +279,7 @@ class UserGridFilter extends Component {
                   Reset
                 </button>
                 <button
+                  id="users-list-apply-button"
                   disabled={submitting || (disabled && pristine)}
                   className="btn btn-primary"
                   type="submit"

@@ -20,7 +20,7 @@
   flex-flow: row nowrap;
   align-items: center;
   margin: 0 .9375rem;
-  &_arrow {
+  &_divider {
     @include flex(1 0 40%);
     min-height: 1px;
     border-top: 1px solid #eee;

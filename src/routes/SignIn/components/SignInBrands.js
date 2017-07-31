@@ -12,9 +12,9 @@ class SignInBrands extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { activeBrand, logged, brands } = this.props;
+    const { activeBrand, logged } = this.props;
 
-    if (brands.length > 1) {
+    if (nextProps.brands.length > 1) {
       if (logged !== nextProps.logged) {
         if (nextProps.logged && !nextProps.activeBrand) {
           setTimeout(() => {
@@ -65,18 +65,18 @@ class SignInBrands extends Component {
       onSelect,
     } = this.props;
 
-    const className = classNames('sign-in__multibrand', {
+    const className = classNames('form-page__multibrand', {
       fadeInUp: step > 0,
     });
-    const headingClassName = classNames('sign-in__multibrand_heading', {
+    const headingClassName = classNames('form-page__multibrand_heading', {
       'fadeOut-text': (!reverseStep && step > 3) || (reverseStep && step > 1) || brands.length === 1,
       fadeIn: step < 2 && reverseStep,
     });
-    const callToActionClassName = classNames('sign-in__multibrand_call-to-action', {
+    const callToActionClassName = classNames('form-page__multibrand_call-to-action', {
       'fadeOut-text': (!reverseStep && step > 3) || (reverseStep && step > 1) || brands.length === 1,
       fadeIn: step < 2 && reverseStep,
     });
-    const brandsListClassName = classNames('sign-in__multibrand_choice', {
+    const brandsListClassName = classNames('form-page__multibrand_choice', {
       chosen: (!reverseStep && step > 3) || (reverseStep && step > 2) || brands.length === 1,
     });
 

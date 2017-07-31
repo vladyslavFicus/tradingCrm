@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import classNames from 'classnames';
 import moment from 'moment';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import { shortify } from '../../../../../../../../utils/uuid';
@@ -129,7 +128,7 @@ class ViewModal extends Component {
         {this.renderPriority(item)}
       </div>
       <BonusType className="col-md-2 modal-body-tab" bonus={item} label="Bonus type" />
-      <BonusStatus className="col-md-2 modal-body-tab" bonus={item} label="Status" />
+      <BonusStatus id="bonus-view-modal" className="col-md-2 modal-body-tab" bonus={item} label="Status" />
     </div>
   );
 
@@ -164,6 +163,8 @@ class ViewModal extends Component {
           </strong>
           {
             !!data.expirationDate &&
+            <div className="little-grey-text font-size-11">
+            !!data.expirationDate &&
             <div className="font-size-11">
               {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
             </div>
@@ -190,6 +191,7 @@ class ViewModal extends Component {
 
   render() {
     const { item, profile, actions, accumulatedBalances, onClose, ...rest } = this.props;
+    const [leftSideAction, ...rightSideActions] = actions;
 
     return (
       <Modal className="view-bonus-modal" toggle={onClose} {...rest}>
@@ -203,18 +205,21 @@ class ViewModal extends Component {
           {this.renderBonusStats(item)}
           {this.renderNote(item)}
         </ModalBody>
-        <ModalFooter>
-          {
-            actions.length === 2 &&
+        {
+          actions.length > 0 &&
+          <ModalFooter>
             <div className="row">
-              {actions.map((action, index) => (
-                <div key={index} className={classNames('col-md-6', { 'text-right': index !== 0 })}>
-                  <button {...action} />
-                </div>
-              ))}
+              <div className="col-md-6">
+                {leftSideAction && <button {...leftSideAction} />}
+              </div>
+              <div className="col-md-6 text-right">
+                {rightSideActions.map(action => (
+                  <button key={action.children} {...action} />
+                ))}
+              </div>
             </div>
-          }
-        </ModalFooter>
+          </ModalFooter>
+        }
       </Modal>
     );
   }
