@@ -1,3 +1,4 @@
+import { browserHistory } from 'react-router';
 import { actionTypes as windowActionTypes } from '../redux/modules/window';
 
 export default (store) => {
@@ -8,7 +9,13 @@ export default (store) => {
           const action = JSON.parse(data);
 
           if (action && Object.values(windowActionTypes).indexOf(action.type) > -1) {
-            store.dispatch(action);
+            if (action.type === windowActionTypes.SCROLL_TO_TOP) {
+              window.scrollTo(0, 0);
+            } else if (action.type === windowActionTypes.NAVIGATE_TO) {
+              browserHistory.push(action.payload);
+            } else {
+              store.dispatch(action);
+            }
           }
         }
       }

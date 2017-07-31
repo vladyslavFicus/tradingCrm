@@ -165,16 +165,6 @@ class ProfileLayout extends Component {
 
   componentDidMount() {
     this.handleLoadProfile();
-
-    window.addEventListener('message', ({ data, origin }) => {
-      const action = JSON.parse(data);
-
-      if (origin === window.location.origin) {
-        if (typeof action === 'object' && action.type === windowActionTypes.SCROLL_TO_TOP) {
-          window.scrollTo(0, 0);
-        }
-      }
-    });
   }
 
   isShowScrollTop() {
