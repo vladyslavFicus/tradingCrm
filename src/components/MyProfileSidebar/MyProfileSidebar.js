@@ -36,7 +36,7 @@ class MyProfileSidebar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!this.state.initialized && nextProps.isOpen !== this.props.isOpen) {
+    if (!this.state.initialized && nextProps.isOpen && nextProps.isOpen !== this.props.isOpen) {
       this.setState({ initialized: true });
     }
   }
