@@ -81,7 +81,7 @@ class WalletLimitsModal extends Component {
               {' - '}
               <Uuid
                 uuid={profile.playerUUID}
-                uuidPrefix={profile.uuid.indexOf('PLAYER') === -1 ? 'PL' : null}
+                uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
               /> <strong>account</strong>
             </div>
 

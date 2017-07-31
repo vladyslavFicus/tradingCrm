@@ -39,13 +39,13 @@ class Additional extends Component {
     const { initialValues } = this.props;
 
     return (
-      <div className="player__account__details_additional">
-        <span className="player__account__details-label">Additional information</span>
+      <div className="account-details__additional-info">
+        <span className="account-details__label">Additional information</span>
         <div className="panel">
-          <div className="panel-body height-200">
-            <small className="player__account__details_additional-label">
+          <div className="panel-body">
+            <span className="account-details__additional-info__label">
               Marketing
-            </small>
+            </span>
             <div className="row">
               <div className="col-xs-8">
                 <span>SMS</span>

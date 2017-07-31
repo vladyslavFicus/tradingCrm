@@ -124,7 +124,7 @@ PropTypes.bonusEntity = PropTypes.shape({
   bonusUUID: PropTypes.string,
   campaignUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   cancellerUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  cancellerReason: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  cancellationReason: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   capping: PropTypes.price,
   createdDate: PropTypes.string,
   currency: PropTypes.string,
@@ -382,6 +382,7 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   freeSpinStatus: PropTypes.string.isRequired,
   freeSpinsAmount: PropTypes.number.isRequired,
   gameId: PropTypes.string.isRequired,
+  gameName: PropTypes.string,
   linesPerSpin: PropTypes.number.isRequired,
   multiplier: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
@@ -419,6 +420,25 @@ PropTypes.userDeviceEntity = PropTypes.shape({
   lastSignInIP: PropTypes.string.isRequired,
   operatingSystem: PropTypes.string.isRequired,
   totalSignIn: PropTypes.number.isRequired,
+});
+PropTypes.kycRequestStatusEntity = PropTypes.shape({
+  authorUUID: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  statusDate: PropTypes.string.isRequired,
+});
+PropTypes.kycRequestEntity = PropTypes.shape({
+  birthDate: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  languageCode: PropTypes.string.isRequired,
+  kycAddressStatus: PropTypes.kycRequestStatusEntity.isRequired,
+  kycPersonalStatus: PropTypes.kycRequestStatusEntity.isRequired,
+  kycRequest: {
+    requestDate: PropTypes.string.isRequired,
+    authorUUID: PropTypes.string.isRequired,
+  },
+  playerUUID: PropTypes.string.isRequired,
 });
 
 export default PropTypes;

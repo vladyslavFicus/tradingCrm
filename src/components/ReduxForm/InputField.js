@@ -129,11 +129,13 @@ class InputField extends Component {
       label,
       iconLeftClassName,
       iconRightClassName,
+      id,
     } = props;
 
     let inputField = (
       <input
         {...input}
+        id={id}
         disabled={disabled}
         type={type}
         className={classNames(inputClassName, { 'has-danger': touched && error })}

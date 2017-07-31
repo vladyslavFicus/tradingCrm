@@ -73,7 +73,7 @@ class Navbar extends Component {
               <div className="search-overlay__content">
                 <button
                   type="button"
-                    className={classNames('overlay-close', { closed: searchOverlayActive })}
+                  className={classNames('overlay-close', { closed: searchOverlayActive })}
                   onClick={this.handleOverlayClick}
                 >&#10005;</button>
                 <div className="form-inline">
@@ -92,9 +92,15 @@ class Navbar extends Component {
           <NavbarNav
             label={<i className="fa fa-user" />}
             items={[
+              {
+                label: 'Logout',
+                onClick: () => this.props.router.replace('/logout'),
+                id: 'profile-logout-button',
+              },
               { label: 'My profile', onClick: () => this.props.onToggleProfile() },
               { label: 'Logout', onClick: () => this.props.router.replace('/logout') },
             ]}
+            dropdownToggleId="profile-logout-toggle"
           />
         </div>
       </header>

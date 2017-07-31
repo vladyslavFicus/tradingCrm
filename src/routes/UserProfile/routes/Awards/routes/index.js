@@ -1,6 +1,6 @@
-import BonusListRoute from './Bonus';
-import CampaignListRoute from './Campaign';
-import FreeSpinListRoute from './FreeSpin';
+import BonusListRoute from './Bonuses';
+import CampaignListRoute from './Campaigns';
+import FreeSpinListRoute from './FreeSpins';
 
 export default store => [
   BonusListRoute(store),

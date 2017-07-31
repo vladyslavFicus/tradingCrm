@@ -12,7 +12,9 @@
       "DORMANT": "Бездействующие",
       "OPEN_LOOP": "Open loop",
       "GAMES": "Игры",
-      "COUNTRIES": "Страны"
+      "COUNTRIES": "Страны",
+      "PLAYERS_SEARCH": "Поиск игроков",
+      "PLAYERS_KYC_REQUEST": "KYC запросы"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -55,7 +57,17 @@
       "VERIFY_PERSONAL_DATA_TITLE": "Личность",
       "VERIFY_PERSONAL_DATA_DESCRIPTION": "Чтобы получить подтверждение, мы требуем, по крайней мере, одного действительного доказательства идентификации. Идентификация или проверка паспорта должны быть четкими, с четким изображением, читабельным, а не просроченным или поврежденным.",
       "VERIFY_ADDRESS_DATA_TITLE": "Адрес",
-      "VERIFY_ADDRESS_DATA_DESCRIPTION": "Подтверждением адреса может быть любой документ с указанием вашего имени и доказательство адреса И дата выдачи не старше 6 месяцев с момента предоставления."
+      "VERIFY_ADDRESS_DATA_DESCRIPTION": "Подтверждением адреса может быть любой документ с указанием вашего имени и доказательство адреса И дата выдачи не старше 6 месяцев с момента предоставления.",
+      "REQUEST_KYC_VERIFICATION": "Запросить верификацию KYC",
+      "SEND_KYC_REQUEST": {
+        "ACTION_TEXT": "Вы собираетесь послать KYC запрос игроку %{fullName}",
+        "BUTTON": "Послать KYC запрос",
+        "TITLE": "Послать KYC запрос",
+        "CONSTANTS": {
+          "REASON_LABEL": "Причина",
+          "CHOOSE_REASON": "-- Выберите причину --"
+        }
+      }
     },
     "GAME_ACTIVITY": {
       "FILTER_FORM": {
@@ -140,7 +152,8 @@
         "TO_WAGER": "К ставке",
         "BONUS_TYPE": "Тип бонуса",
         "BONUS_STATUS": "Статус"
-      }
+      },
+      "CLAIM_BONUS": "Выдать бонус"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -209,7 +222,8 @@
         "AVAILABILITY": "Доступность",
         "GRANTED": "Выдано",
         "STATUS": "Статус",
-        "NOTE": "Заметка"
+        "NOTE": "Заметка",
+        "GAME": "Провайдер и игра"
       },
       "VIEW_MODAL": {
         "FREE_SPIN": "Free spin",
@@ -339,7 +353,8 @@
     "GOOD_MORNING": "Доброе утро",
     "GOOD_AFTERNOON": "Добрый день",
     "GOOD_EVENING": "Добрый вечер",
-    "GOOD_NIGHT": "Доброй ночи"
+    "GOOD_NIGHT": "Доброй ночи",
+    "SINCE": "с %{date}"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -432,7 +447,7 @@
         "BONUS_MONEY": "Бонусные деньги"
       },
       "ROUTES": {
-        "BONUS": "Бонусы",
+        "BONUSES": "Бонусы",
         "ELIGIBLE_CAMPAIGNS": "Кампании",
         "FREE_SPINS": "Free Spins"
       }
@@ -802,5 +817,38 @@
   },
   "NOTE_BUTTON": {
     "DEFAULT_MESSAGE": "Добавить "
+  },
+  "KYC_REQUESTS": {
+    "GRID_VIEW": {
+      "INITIATED": "Инициирован",
+      "IDENTITY_STATUS": "Статус идентификации",
+      "ADDRESS_STATUS": "Статус адреса"
+    },
+    "TITLE": "KYC Запросы",
+    "FILTER": {
+      "DATE_RANGE": "Период времени запроса",
+      "DATE_FROM": "С",
+      "DATE_STATUS": "Статус проверки",
+      "DATE_TO": "По",
+      "STATUS": {
+        "FULLY_VERIFIED": "Полностью подтвержден",
+        "IDENTITY_VERIFIED": "Личность - подтверждена",
+        "IDENTITY_PENDING": "Личность - ожидает",
+        "IDENTITY_DOCUMENT_SENT": "Личность - документы высланы",
+        "ADDRESS_VERIFIED": "Адрес - подтвержден",
+        "ADDRESS_PENDING": "Адрес - ожидает",
+        "ADDRESS_DOCUMENT_SENT": "Адрес - документы высланы"
+      }
+    },
+    "REQUEST_TYPE": {
+      "MANUAL": "Вручную",
+      "AUTO": "Автоматически"
+    },
+    "STATUS": {
+      "PENDING": "Ожидает",
+      "VERIFIED": "Подтвержден",
+      "REFUSED": "Отклонен",
+      "DOCUMENTS_SENT": "Документы высланы"
+    }
   }
 }
