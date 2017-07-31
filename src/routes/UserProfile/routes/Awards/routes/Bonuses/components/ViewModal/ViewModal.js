@@ -207,12 +207,12 @@ class ViewModal extends Component {
           actions.length > 0 &&
           <ModalFooter>
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-6 text-left">
                 {leftSideAction && <button {...leftSideAction} />}
               </div>
               <div className="col-md-6 text-right">
                 {rightSideActions.map(action => (
-                  <button key={action.children} id="cancel-bonus-button" {...action} />
+                  <button key={action.children} {...action} />
                 ))}
               </div>
             </div>
