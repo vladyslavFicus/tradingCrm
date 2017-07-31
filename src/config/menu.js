@@ -6,7 +6,10 @@ const sidebarTopMenu = [
   {
     label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS'),
     icon: 'fa fa-users',
-    url: '/users/list',
+    items: [
+      { label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_SEARCH'), url: '/users/list' },
+      { label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_KYC_REQUEST'), url: '/users/kyc-requests' },
+    ],
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),

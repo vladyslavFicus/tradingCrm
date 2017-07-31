@@ -42,17 +42,46 @@
       flex-flow: row nowrap;
       justify-content: flex-end;
     }
-    .btn {
-      font-weight: 700;
-    }
     .btn:nth-child(n+2) {
       margin-left: 15px;
     }
   }
 }
 
+.form-row {
+  @include flexbox();
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  margin-right: -1rem;
+  margin-left: -1rem;
+  &__big {
+    @include flex(0 0 350px);
+    min-width: 1px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+  &__medium {
+    @include flex(0 0 250px);
+    min-width: 1px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+  &__small {
+    @include flex(0 0 150px);
+    min-width: 1px;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+}
+
 .form-group {
   position: relative;
+  margin-bottom: 20px;
+  &__note {
+    margin-top: -15px;
+    font-size: 12px;
+    color: #999;
+  }
 }
 
 label {

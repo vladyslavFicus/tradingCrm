@@ -31,6 +31,10 @@ const UPDATE_SUBSCRIPTION = createRequestAction(`${KEY}/update-subscription`);
 const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
 const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
 
+const SEND_KYC_REQUEST_VERIFICATION = createRequestAction(`${KEY}/send-kyc-request-verification`);
+const MANAGE_KYC_REQUEST_NOTE = `${KEY}/manage-kyc-request-note`;
+const RESET_KYC_REQUEST_NOTE = `${KEY}/reset-kyc-request-note`;
+
 const initialState = {
   data: {
     id: null,
@@ -77,6 +81,7 @@ const initialState = {
   error: null,
   isLoading: false,
   receivedAt: null,
+  kycRequestNote: null,
 };
 
 const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
@@ -245,8 +250,7 @@ function suspendProfile({ playerUUID, ...data }) {
         body: JSON.stringify(data),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -267,8 +271,7 @@ function prolongProfile({ playerUUID, ...data }) {
         body: JSON.stringify(data),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -289,8 +292,7 @@ function blockProfile({ playerUUID, ...data }) {
         body: JSON.stringify(data),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -311,8 +313,7 @@ function unblockProfile({ playerUUID, ...data }) {
         body: JSON.stringify(data),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -333,8 +334,7 @@ function resumeProfile({ playerUUID, ...data }) {
         body: JSON.stringify(data),
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchProfile(playerUUID)));
+    });
   };
 }
 
@@ -467,6 +467,53 @@ function successUpdateProfileReducer(state, action) {
   };
 }
 
+function manageKycRequestNote(data) {
+  return (dispatch, getState) => {
+    const { auth: { uuid, fullName } } = getState();
+
+    return dispatch({
+      type: MANAGE_KYC_REQUEST_NOTE,
+      payload: data !== null ? {
+        ...data,
+        author: fullName,
+        creatorUUID: uuid,
+        lastEditorUUID: uuid,
+      } : data,
+    });
+  };
+}
+
+function sendKycRequestVerification(playerUUID, params) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/kyc/${playerUUID}/request`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(params),
+        types: [
+          SEND_KYC_REQUEST_VERIFICATION.REQUEST,
+          SEND_KYC_REQUEST_VERIFICATION.SUCCESS,
+          SEND_KYC_REQUEST_VERIFICATION.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function resetNote() {
+  return {
+    type: RESET_KYC_REQUEST_NOTE,
+  };
+}
+
 const actionHandlers = {
   [UPDATE_SUBSCRIPTION.REQUEST]: (state, action) => {
     const { name, value } = action.payload;
@@ -561,6 +608,10 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
   [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [BLOCK_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [SUSPEND_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [UNBLOCK_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [PROLONG_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [SUBMIT_KYC.REQUEST]: state => ({
     ...state,
     isLoading: true,
@@ -576,6 +627,14 @@ const actionHandlers = {
   [UPDATE_IDENTIFIER.SUCCESS]: successUpdateProfileReducer,
   [VERIFY_DATA.SUCCESS]: successUpdateProfileReducer,
   [REFUSE_DATA.SUCCESS]: successUpdateProfileReducer,
+  [MANAGE_KYC_REQUEST_NOTE]: (state, action) => ({
+    ...state,
+    kycRequestNote: action.payload,
+  }),
+  [RESET_KYC_REQUEST_NOTE]: state => ({
+    ...state,
+    kycRequestNote: null,
+  }),
 };
 
 const actionTypes = {
@@ -604,6 +663,9 @@ const actionCreators = {
   deleteTag,
   verifyPhone,
   verifyEmail,
+  sendKycRequestVerification,
+  manageKycRequestNote,
+  resetNote,
 };
 
 export {

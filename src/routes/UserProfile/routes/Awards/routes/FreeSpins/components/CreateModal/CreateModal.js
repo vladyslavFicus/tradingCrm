@@ -53,6 +53,7 @@ class CreateModal extends Component {
     handleSubmit: null,
     change: null,
     currentValues: {},
+    note: null,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -90,6 +91,7 @@ class CreateModal extends Component {
   handleChangeProvider = (e) => {
     this.props.change('providerId', e);
     this.props.change('gameId', null);
+    this.props.change('gameName', null);
     this.props.change('linesPerSpin', null);
     this.setState({
       currentLines: [],
@@ -103,6 +105,7 @@ class CreateModal extends Component {
     if (game) {
       this.props.change('aggregatorId', game.aggregatorId);
       this.props.change('gameId', game.gameId);
+      this.props.change('gameName', game.fullGameName);
       this.props.change('linesPerSpin', null);
       this.setState({ currentLines: game.lines });
     }
@@ -117,17 +120,15 @@ class CreateModal extends Component {
     }
   };
 
-  handleSubmitNote = data => new Promise((resolve) => {
+  handleSubmitNote = (data) => {
     this.props.onManageNote(data);
     this.context.hidePopover();
-    resolve();
-  });
+  };
 
-  handleDeleteNote = () => new Promise((resolve) => {
+  handleDeleteNote = () => {
     this.props.onManageNote(null);
     this.context.hidePopover();
-    resolve();
-  });
+  };
 
   render() {
     const {

@@ -23,7 +23,7 @@ class Notes extends Component {
 
   renderItem = item => (
     <PopoverButton
-      className="display-block note panel"
+      className="panel"
       key={item.uuid}
       id={`profile-pinned-note-${item.uuid}`}
       onClick={id => this.props.onEditNoteClick(id, item, { placement: 'left' })}
@@ -32,7 +32,7 @@ class Notes extends Component {
         <div className="note-content__author">
           {
             item.author &&
-              <b>{`${item.author} - `}</b>
+              <strong>{`${item.author} - `}</strong>
           }
           <span>
             <Uuid uuid={item.lastEditorUUID} uuidPrefix={entitiesPrefixes[entities.operator]} />
@@ -58,12 +58,12 @@ class Notes extends Component {
     const { notes: { entities: notesEntities } } = this.props;
 
     return (
-      <div className="player__account__details_notes">
-        <span className="player__account__details-label">
+      <div className="account-details__pinned-notes">
+        <span className="account-details__label">
           {I18n.t('PLAYER_PROFILE.PINED_NOTES.TITLE')}
         </span>
         <div className="panel">
-          <div className="notes panel-body height-200">
+          <div className="panel-body">
             {notesEntities.content.map(this.renderItem)}
           </div>
         </div>
