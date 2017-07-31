@@ -6,10 +6,12 @@ import { sourceActionCreators as operatorSourceActionCreators } from './operator
 import getFingerprint from '../../utils/fingerPrint';
 import timestamp from '../../utils/timestamp';
 import { getBrand } from '../../config';
+import { actionCreators as userActionCreators } from './users'
 
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
 const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
+const UPDATE_PROFILE = createRequestAction(`${KEY}/update-profile`);
 const FETCH_AUTHORITIES = createRequestAction(`${KEY}/fetch-authorities`);
 const CHANGE_AUTHORITY = createRequestAction(`${KEY}/change-authorities`);
 const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
@@ -44,6 +46,8 @@ function signIn(data) {
     },
   });
 }
+
+const updateProfile = userActionCreators.updateProfile(UPDATE_PROFILE);
 
 function refreshToken() {
   return (dispatch, getState) => {
@@ -181,6 +185,10 @@ const actionHandlers = {
     fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
     data: action.payload,
   }),
+  [UPDATE_PROFILE.SUCCESS]: (state, action) => ({
+    ...state,
+    data: action.payload,
+  }),
   [REFRESH_TOKEN.SUCCESS]: (state, action) => ({
     ...state,
     token: action.payload.jwtToken,
@@ -195,6 +203,7 @@ const actionTypes = {
   REFRESH_TOKEN,
   VALIDATE_TOKEN,
   LOGOUT,
+  UPDATE_PROFILE,
 };
 const actionCreators = {
   signIn,
@@ -205,6 +214,7 @@ const actionCreators = {
   refreshToken,
   validateToken,
   resetPasswordConfirm,
+  updateProfile,
 };
 
 export {

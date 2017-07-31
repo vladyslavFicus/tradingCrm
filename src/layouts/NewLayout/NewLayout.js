@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { getAvailableLanguages } from '../../config';
+import _ from 'lodash';
+import { getAvailableLanguages } from '../../config/index';
 import PropTypes from '../../constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
@@ -14,6 +17,8 @@ import NotePopover from '../../components/NotePopover';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
+import MyProfileSidebar from '../../components/MyProfileSidebar';
+import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
 import './NewLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -52,6 +57,7 @@ class NewLayout extends Component {
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     setIsShowScrollTop: PropTypes.func.isRequired,
+    updateUserProfile: PropTypes.func.isRequired,
   };
   static childContextTypes = {
     user: PropTypes.shape({
@@ -107,6 +113,30 @@ class NewLayout extends Component {
   state = {
     noteChangedCallback: null,
     popover: { ...popoverInitialState },
+    isOpenProfile: false,
+  };
+
+  onToggleProfile = () => {
+    this.setState({ isOpenProfile: !this.state.isOpenProfile });
+  };
+
+  onProfileSubmit = async ({ language, ...nextData }) => {
+    const { user: { data } } = this.props;
+
+    this.props.onLocaleChange(language);
+
+    if (!_.isEqualWith(data, nextData)) {
+      const action = await this.props.updateUserProfile(this.props.user.uuid, nextData);
+
+      if (action) {
+        if (action.error && action.payload.response.fields_errors) {
+          const errors = parserErrorsFromServer(action.payload.response.fields_errors);
+          throw new SubmissionError(errors);
+        } else if (action.payload.response && action.payload.response.error) {
+          throw new SubmissionError({ __error: action.payload.response.error });
+        }
+      }
+    }
   };
 
   componentWillMount() {
@@ -209,6 +239,7 @@ class NewLayout extends Component {
   };
 
   render() {
+    const { popover, isOpenProfile } = this.state;
     const {
       children,
       router,
@@ -219,8 +250,9 @@ class NewLayout extends Component {
       onLocaleChange,
       languages,
       app: { showScrollToTop },
+      locale,
+      user,
     } = this.props;
-    const { popover } = this.state;
 
     return (
       <div>
@@ -229,11 +261,23 @@ class NewLayout extends Component {
           showSearch={false}
           languages={languages}
           onLocaleChange={onLocaleChange}
+          onToggleProfile={this.onToggleProfile}
         />
 
         <Sidebar topMenu={sidebarTopMenu} bottomMenu={sidebarBottomMenu} />
 
         <div className="section-container">{children}</div>
+
+        <MyProfileSidebar
+          isOpen={isOpenProfile}
+          languages={languages}
+          onSubmit={this.onProfileSubmit}
+          initialValues={{
+            language: locale,
+            ...user.data,
+          }}
+          onToggleProfile={this.onToggleProfile}
+        />
 
         <UsersPanel
           active={activeUserPanel}
@@ -291,4 +335,5 @@ export default connect(mapStateToProps, {
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
   setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
+  updateUserProfile: authActionCreators.updateProfile,
 })(NewLayout);

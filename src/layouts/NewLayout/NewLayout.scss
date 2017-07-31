@@ -74,3 +74,84 @@
 .rollOut {
   animation-name: rollOut;
 }
+
+.my-profile {
+  width: 300px;
+  height: calc(100% - 48px);
+  position: fixed;
+  top: 48px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 5px;
+  z-index: 20;
+  background-color: rgba(102, 102, 102, 1);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.149019607843137);
+  overflow-y: auto;
+  animation-duration: .5s;
+  animation-fill-mode: both;
+  transform: translate3d(110%, 0, 0);
+  &__header {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    font-size: 16px;
+    color: #fff;
+  }
+  &__sections {
+    flex: 1 0 auto;
+    margin-right: 1px;
+    margin-left: 1px;
+    padding: 20px 10px;
+    border-radius: 3px;
+    background-color: #fff;
+  }
+  &__personal-details {
+    margin-bottom: 20px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #ccc;
+  }
+  &__heading {
+    font-size: 18px;
+    font-weight: 400;
+    color: #333;
+  }
+  label {
+    margin-bottom: 0;
+    color: #333;
+  }
+  .btn-sm {
+    font-weight: 700;
+    font-size: 13px;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translate3d(110%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.slideInRight {
+  animation-name: slideInRight;
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    transform: translate3d(110%, 0, 0);
+  }
+}
+
+.slideOutRight {
+  animation-name: slideOutRight;
+}
