@@ -29,6 +29,9 @@ class NewLayout extends Component {
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     onLocaleChange: PropTypes.func.isRequired,
     user: PropTypes.shape({
+      showScrollToTop: PropTypes.bool,
+    }).isRequired,
+    app: PropTypes.shape({
       token: PropTypes.string,
       uuid: PropTypes.string,
     }).isRequired,
@@ -48,6 +51,7 @@ class NewLayout extends Component {
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
+    setIsShowScrollTop: PropTypes.func.isRequired,
   };
   static childContextTypes = {
     user: PropTypes.shape({

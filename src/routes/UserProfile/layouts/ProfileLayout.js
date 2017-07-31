@@ -14,7 +14,7 @@ import getFileBlobUrl from '../../../utils/getFileBlobUrl';
 import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../../redux/modules/window';
 import {
   UploadModal as UploadFileModal,
-  DeleteModal as DeleteFileModal,
+  DeleteModal as DeleteFileModal
 } from '../../../components/Files';
 import './ProfileLayout.scss';
 
