@@ -18,17 +18,28 @@ const validator = createValidator({
 class MyProfileSidebar extends Component {
   static propTypes = {
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
-    isOpen: PropTypes.any,
+    isOpen: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     onToggleProfile: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
   };
   static defaultProps = {
-    isOpen: null,
     handleSubmit: null,
     submitting: false,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = { initialized: props.isOpen };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isOpen) {
+      this.setState({ initialized: true });
+    }
+  }
 
   handleClickOutside = () => {
     if (this.props.isOpen) {
@@ -44,12 +55,13 @@ class MyProfileSidebar extends Component {
       onSubmit,
       submitting,
     } = this.props;
+    const { initialized } = this.state;
 
     return (
       <aside
         className={classNames(
           'my-profile',
-          { slideInRight: isOpen, slideOutRight: !_.isNil(isOpen) && !isOpen }
+          { slideInRight: isOpen, slideOutRight: initialized && !isOpen }
         )}
       >
         <header className="my-profile__header">

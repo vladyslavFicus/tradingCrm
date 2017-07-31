@@ -106,7 +106,7 @@ class NewLayout extends Component {
     hasTabs: false,
     noteChangedCallback: null,
     popover: { ...popoverInitialState },
-    isOpenProfile: null,
+    isOpenProfile: false,
   };
 
   onToggleProfile = () => {
