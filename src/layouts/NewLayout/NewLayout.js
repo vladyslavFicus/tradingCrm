@@ -116,9 +116,7 @@ class NewLayout extends Component {
   onProfileSubmit = async ({ language, ...newUserData }) => {
     const { user: { data: oldUserData } } = this.props;
 
-    if (language) {
-      this.props.onLocaleChange(language);
-    }
+    this.props.onLocaleChange(language);
 
     if (!_.isEqualWith(oldUserData, newUserData)) {
       const action = await this.props.updateUserProfile(this.props.user.uuid, newUserData);
