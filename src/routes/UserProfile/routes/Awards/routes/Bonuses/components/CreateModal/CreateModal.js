@@ -171,6 +171,7 @@ const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, di
           type="submit"
           className="btn btn-primary"
           disabled={pristine || submitting || invalid}
+          id="manual-bonus-modal-save-button"
         >
           {I18n.t('COMMON.SAVE')}
         </button>
