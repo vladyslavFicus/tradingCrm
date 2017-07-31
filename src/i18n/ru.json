@@ -67,6 +67,11 @@
           "REASON_LABEL": "Причина",
           "CHOOSE_REASON": "-- Выберите причину --"
         }
+      },
+      "KYC_STATUS_TITLE": {
+        "NOT_REQUESTED": "Не запрошено",
+        "VERIFIED": "Проверенный",
+        "NOT_VERIFIED": "Не проверенный"
       }
     },
     "GAME_ACTIVITY": {

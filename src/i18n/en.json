@@ -67,6 +67,11 @@
           "REASON_LABEL": "Reason",
           "CHOOSE_REASON": "-- Choose the reason --"
         }
+      },
+      "KYC_STATUS_TITLE": {
+        "NOT_REQUESTED": "Not requested",
+        "VERIFIED": "Verified",
+        "NOT_VERIFIED": "Not Verified"
       }
     },
     "GAME_ACTIVITY": {
