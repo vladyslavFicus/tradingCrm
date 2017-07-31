@@ -22,7 +22,7 @@ class ButtonSelect extends Component {
       <div className="btn-group tag-group button-select">
         <span className="tag-arrow tag-arrow-default" />
 
-        <div className={classNames('auto-complete', 'ignore-react-onclickoutside', { opened })}>
+        <div className={classNames('auto-complete', 'ignore-react-onclickoutside', { opened })} id="add-tag-field">
           <ReactSelect
             {...rest}
             placeholder={placeholder}

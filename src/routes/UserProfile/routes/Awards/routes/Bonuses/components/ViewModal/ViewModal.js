@@ -212,7 +212,7 @@ class ViewModal extends Component {
               </div>
               <div className="col-md-6 text-right">
                 {rightSideActions.map(action => (
-                  <button key={action.children} {...action} />
+                  <button key={action.children} id="cancel-bonus-button" {...action} />
                 ))}
               </div>
             </div>
