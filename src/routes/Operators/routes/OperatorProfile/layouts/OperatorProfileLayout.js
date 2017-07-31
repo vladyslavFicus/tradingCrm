@@ -9,6 +9,7 @@ import Header from '../components/Header';
 import modalCssModule from '../styles/InfoModal.scss';
 import PropTypes from '../../../../../constants/propTypes';
 import Uuid from '../../../../../components/Uuid';
+import './OperatorProfileLayout.scss';
 
 const INFO_MODAL = 'info-modal';
 const modalInitialState = {
@@ -194,7 +195,7 @@ class OperatorProfileLayout extends Component {
             onStatusChange={changeStatus}
           />
           <div className="hide-details-block">
-            <div className="hide-details-block_arrow" />
+            <div className="hide-details-block_divider" />
             <button
               className="hide-details-block_text btn-transparent"
               onClick={this.handleToggleInformationBlock}
@@ -205,7 +206,7 @@ class OperatorProfileLayout extends Component {
               }
             </button>
 
-            <div className="hide-details-block_arrow" />
+            <div className="hide-details-block_divider" />
           </div>
 
           <Collapse isOpen={informationShown}>
@@ -223,7 +224,7 @@ class OperatorProfileLayout extends Component {
                 location={location}
                 params={params}
               />
-              <div className="tab-content padding-vertical-20">
+              <div className="padding-vertical-40">
                 {children}
               </div>
             </div>

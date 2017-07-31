@@ -4,7 +4,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Panel, { Content } from '../../../../../components/Panel';
+import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
 import {
@@ -160,13 +160,26 @@ class List extends Component {
     return (
       <div className="page-content-inner">
         <Panel withBorders>
+          <Title>
+            <div className="row">
+              <div className="col-xl-3">
+                <span className="font-size-20">Operators</span>
+              </div>
+              <div className="col-xl-3 col-xl-offset-6 text-right">
+                <button className="btn btn-default-outline" onClick={this.handleOpenCreateModal}>
+                  + New operator
+                </button>
+              </div>
+            </div>
+          </Title>
+
+          <OperatorGridFilter
+            onSubmit={this.handleFilterSubmit}
+            initialValues={filters}
+            filterValues={filterValues}
+          />
+
           <Content>
-            <OperatorGridFilter
-              onSubmit={this.handleFilterSubmit}
-              initialValues={filters}
-              filterValues={filterValues}
-              onCreateOperatorClick={this.handleOpenCreateModal}
-            />
             <GridView
               tableClassName="table table-hovered data-grid-layout"
               headerClassName=""

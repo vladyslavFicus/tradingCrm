@@ -5,7 +5,7 @@ import buildFormData from '../../../utils/buildFormData';
 import asyncFileUpload from '../../../utils/asyncFileUpload';
 import { getApiRoot } from '../../../config';
 
-const KEY = 'user/files/uploading';
+const KEY = 'user/profile/uploading';
 const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
 const CANCEL_FILE = `${KEY}/cancel-file`;
 const MANAGE_NOTE = `${KEY}/manage-note`;

@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../../../constants/propTypes';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
 import Documents from './Documents';
 import VerifyData from './Kyc/VerifyData';
 import RefuseModal from './Kyc/RefuseModal';
+import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
 import { types as kycTypes, categories as kycCategories } from '../../../../../constants/kyc';
 
 const REFUSE_MODAL = 'refuse-modal';
+const REQUEST_KYC_VERIFICATION_MODAL = 'request-kyc-verification-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -19,11 +21,12 @@ class View extends Component {
   static propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
-    }),
-    profile: PropTypes.shape({
-      data: PropTypes.userProfile.isRequired,
-      receivedAt: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
-    }),
+    }).isRequired,
+    profile: PropTypes.userProfile.isRequired,
+    files: PropTypes.shape({
+      identity: PropTypes.arrayOf(PropTypes.fileEntity).isRequired,
+      address: PropTypes.arrayOf(PropTypes.fileEntity).isRequired,
+    }).isRequired,
     submitData: PropTypes.func.isRequired,
     verifyData: PropTypes.func.isRequired,
     refuseData: PropTypes.func.isRequired,
@@ -38,21 +41,25 @@ class View extends Component {
       birthDate: PropTypes.string,
       identifier: PropTypes.string,
       gender: PropTypes.string,
-    }),
+    }).isRequired,
     addressData: PropTypes.shape({
       country: PropTypes.string,
       city: PropTypes.string,
       postCode: PropTypes.string,
       address: PropTypes.string,
-    }),
+    }).isRequired,
     contactData: PropTypes.shape({
       email: PropTypes.string,
       phoneNumber: PropTypes.string,
-    }),
+    }).isRequired,
     checkLock: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
     filesUrl: PropTypes.string.isRequired,
+    locale: PropTypes.string.isRequired,
+    manageKycRequestNote: PropTypes.func.isRequired,
+    resetNote: PropTypes.func.isRequired,
+    sendKycRequestVerification: PropTypes.func.isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -115,6 +122,28 @@ class View extends Component {
     this.handleCloseModal();
   };
 
+  handleRequestKycVerify = async (inputParams) => {
+    const {
+      params: { id: playerUUID },
+      profile: { kycRequestNote: unsavedNote },
+      sendKycRequestVerification,
+      resetNote,
+    } = this.props;
+
+    const action = await sendKycRequestVerification(playerUUID, inputParams);
+
+    if (action && !action.error) {
+      if (unsavedNote) {
+        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
+        if (unsavedNote.pinned) {
+          this.context.refreshPinnedNotes();
+        }
+      }
+    }
+
+    this.handleCloseModal(resetNote);
+  }
+
   handleRefuseClick = (type) => {
     this.handleOpenModal(REFUSE_MODAL, {
       initialValues: {
@@ -129,6 +158,15 @@ class View extends Component {
         name,
         params,
       },
+    });
+  };
+
+  handleOpenRequestKycVerificationModal = () => {
+    const { profile: { data: { playerUUID, fullName } } } = this.props;
+
+    this.handleOpenModal(REQUEST_KYC_VERIFICATION_MODAL, {
+      playerUUID,
+      fullName,
     });
   };
 
@@ -186,11 +224,14 @@ class View extends Component {
   render() {
     const { modal } = this.state;
     const {
-      profile: { data, receivedAt },
+      profile: { data, receivedAt, kycRequestNote },
+      files,
       personalData,
       addressData,
       contactData,
       downloadFile,
+      locale,
+      manageKycRequestNote,
     } = this.props;
 
     if (!receivedAt) {
@@ -198,14 +239,23 @@ class View extends Component {
     }
 
     return (
-      <div className="player__account__page_profile tab-content">
+      <div>
         <div className="row margin-bottom-20">
-          <div className="col-md-6">
+          <div className="col-xl-6">
             <span className="font-size-20">{I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}</span>
+          </div>
+          <div className="col-sm-6 col-xs-6 text-right">
+            <button
+              type="button"
+              className="btn btn-sm btn-primary-outline"
+              onClick={this.handleOpenRequestKycVerificationModal}
+            >
+              {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
+            </button>
           </div>
         </div>
 
-        <div className="tab-pane active">
+        <div>
           <div className="panel">
             <div className="panel-body row">
               <div className="col-md-8 profile-bordered-block">
@@ -218,19 +268,19 @@ class View extends Component {
                   onChangeStatus={this.handleChangeFileStatus}
                   onUpload={this.handleUploadDocument(kycCategories.KYC_PERSONAL)}
                   onDownload={downloadFile}
-                  files={data.personalKycMetaData}
+                  files={files.identity}
                   onDocumentClick={this.handlePreviewImageClick}
                 />
               </div>
               <div className="col-md-4">
                 {
-                  data.personalStatus &&
+                  data.kycPersonalStatus &&
                   <VerifyData
                     title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
                     description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_DESCRIPTION')}
                     onVerify={this.handleVerify(kycCategories.KYC_PERSONAL)}
                     onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
-                    status={data.personalStatus}
+                    status={data.kycPersonalStatus}
                   />
                 }
               </div>
@@ -249,19 +299,19 @@ class View extends Component {
                   onChangeStatus={this.handleChangeFileStatus}
                   onUpload={this.handleUploadDocument(kycCategories.KYC_ADDRESS)}
                   onDownload={downloadFile}
-                  files={data.addressKycMetaData}
+                  files={files.address}
                   onDocumentClick={this.handlePreviewImageClick}
                 />
               </div>
               <div className="col-md-4">
                 {
-                  data.addressStatus &&
+                  data.kycAddressStatus &&
                   <VerifyData
                     title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
                     description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_DESCRIPTION')}
                     onVerify={this.handleVerify(kycCategories.KYC_ADDRESS)}
                     onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
-                    status={data.addressStatus}
+                    status={data.kycAddressStatus}
                   />
                 }
               </div>
@@ -288,6 +338,20 @@ class View extends Component {
               isOpen
               onSubmit={this.handleRefuse}
               onClose={this.handleCloseModal}
+            />
+          }
+
+          {
+            modal.name === REQUEST_KYC_VERIFICATION_MODAL &&
+            <RequestKycVerificationModal
+              note={kycRequestNote}
+              locale={locale}
+              title={I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.TITLE')}
+              show
+              {...modal.params}
+              onSubmit={this.handleRequestKycVerify}
+              onClose={this.handleCloseModal}
+              onManageNote={manageKycRequestNote}
             />
           }
         </div>

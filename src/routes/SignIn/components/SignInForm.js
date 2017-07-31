@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import classNames from 'classnames';
 import { createValidator } from '../../../utils/validator';
-import { InputField } from '../../../components/ReduxForm/UserProfile';
+import { InputField } from '../../../components/ReduxForm';
 import PropTypes from '../../../constants/propTypes';
 
 const attributeLabels = {
-  login: 'Login',
+  email: 'Email',
   password: 'Password',
   department: 'Department',
 };
 
 const validator = createValidator({
-  login: 'required',
+  email: 'required',
   password: 'required|min:6',
   department: 'required',
 }, attributeLabels, false);
@@ -67,7 +67,7 @@ class SignInForm extends Component {
       onSubmit,
       error,
     } = this.props;
-    const className = classNames('sign-in__form', {
+    const className = classNames('form-page__form', {
       fadeInUp: step === 0,
       fadeOutLeft: step > 0,
       'position-absolute': step > 1,
@@ -86,27 +86,35 @@ class SignInForm extends Component {
               {error}
             </div>
           }
-          <div className="sign-in__form_input">
+          <div className="form-page__form_input">
             <Field
+              id="sign-in-email-field"
               name="login"
               type="text"
               label="Email"
               component={InputField}
-              placeholder={attributeLabels.login}
+              position="vertical"
+              placeholder={attributeLabels.email}
             />
 
           </div>
-          <div className="sign-in__form_input">
+          <div className="form-page__form_input">
             <Field
+              id="sign-in-password-field"
               name="password"
               type="password"
               label="Password"
               component={InputField}
+              position="vertical"
               placeholder={attributeLabels.password}
             />
           </div>
-          <div className="sign-in__form_submit">
-            <button className="btn btn-primary sign-in_btn" disabled={submitting}>
+          <div className="form-page__form_submit">
+            <button
+              id="sign-in-submit-button"
+              className="btn btn-primary form-page_btn"
+              disabled={submitting}
+            >
               Login
             </button>
           </div>

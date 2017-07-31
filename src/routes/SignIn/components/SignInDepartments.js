@@ -30,38 +30,38 @@ class SignInDepartments extends Component {
   render() {
     const { step, departments } = this.state;
     const { onSelect, onBackClick, canGoBack, username, brand } = this.props;
-    const className = classNames('sign-in__department', {
+    const className = classNames('form-page__department', {
       fadeOutDown: step === 0,
       fadeInUp: step > 0,
-      'sign-in__single-brand': !canGoBack,
+      'form-page__single-brand': !canGoBack,
     });
 
     return (
       <div className={className}>
         {
           !canGoBack && username
-            ? <div className="sign-in__multibrand_heading"><Greeting username={username} /></div>
+            ? <div className="form-page__multibrand_heading"><Greeting username={username} /></div>
             : (
-              <div className="sign-in__department_return" onClick={onBackClick}>
+              <div className="form-page__department_return" onClick={onBackClick}>
                 All <span className="return-label">brands</span>
               </div>
             )
         }
         {
           !canGoBack && brand &&
-          <div className="sign-in__single-brand_brand">
+          <div className="form-page__single-brand_brand">
             <div>
-              <img src={brand.image} alt={brand.name} />
+              <img src={brand.image} alt={brand.name} id={brand.id} />
             </div>
-            <div className="sign-in__single-brand_label">
+            <div className="form-page__single-brand_label">
               {brand.name}
             </div>
           </div>
         }
-        <div className="sign-in__multibrand_call-to-action">
+        <div className="form-page__multibrand_call-to-action">
           {canGoBack ? 'And now, choose the department' : 'Please, choose  the department'}
         </div>
-        <div className="sign-in__department_block">
+        <div className="form-page__department_block">
           {departments.map(department => (
             <SignInDepartmentItem key={department.name} {...department} onClick={() => onSelect(department)} />
           ))}

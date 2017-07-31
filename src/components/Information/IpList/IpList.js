@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from '../../../constants/propTypes';
 import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../constants/propTypes';
 import CopyToClipboard from '../../CopyToClipboard';
-import './IpList.scss';
 
 class IpList extends Component {
   static propTypes = {
@@ -25,10 +24,10 @@ class IpList extends Component {
     const { label, ips, notificationLevel, notificationTitle, notificationMessage, notify } = this.props;
 
     return (
-      <div className="player__account__details_networking">
-        <span className="player__account__details-label">{label}</span>
+      <div className="account-details__network">
+        <span className="account-details__label">{label}</span>
         <div className="panel">
-          <div className="panel-body height-200">
+          <div className="panel-body">
             {
               ips.map(item => (
                 <div className="ip-container" key={item.ip}>

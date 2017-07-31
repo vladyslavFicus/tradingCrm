@@ -4,6 +4,7 @@ import { actionCreators as filesActionCreators } from '../modules/files';
 import ProfileLayout from '../layouts/ProfileLayout';
 import config, { getAvailableTags } from '../../../config';
 import { statusActions } from '../../../constants/user';
+import Permissions from '../../../utils/permissions';
 
 const mapStateToProps = (state) => {
   const {
@@ -16,6 +17,7 @@ const mapStateToProps = (state) => {
     },
     auth,
     i18n: { locale },
+    permissions: { data: currentPermissions },
   } = state;
 
   const lastIp = profile.data.signInIps.length > 0
@@ -27,6 +29,9 @@ const mapStateToProps = (state) => {
     availableStatuses = statusActions[profile.data.profileStatus];
   }
 
+  availableStatuses = availableStatuses
+    .filter(action => (new Permissions([action.permission])).check(currentPermissions));
+
   const uploadModalInitialValues = {};
   const uploadingFilesUUIDs = Object.keys(uploading);
   if (uploadingFilesUUIDs.length) {
@@ -34,6 +39,13 @@ const mapStateToProps = (state) => {
       uploadModalInitialValues[uuid] = { name: '', category: '' };
     });
   }
+  const selectedTags = profile.data.tags
+    ? profile.data.tags.map(option => `${option.priority}/${option.tag}`)
+    : [];
+  const availableTagsByDepartment = getAvailableTags(auth.department);
+  const availableTags = selectedTags && availableTagsByDepartment
+    ? availableTagsByDepartment.filter(option => selectedTags.indexOf(`${option.priority}/${option.value}`) === -1)
+    : [];
 
   return {
     auth,
@@ -41,7 +53,14 @@ const mapStateToProps = (state) => {
     lastIp,
     notes,
     accumulatedBalances,
-    availableTags: getAvailableTags(auth.department),
+    availableTags,
+    currentTags: profile.data.tags
+      ? profile.data.tags.map(option => ({
+        id: option.id,
+        label: option.tag,
+        value: option.tag,
+        priority: option.priority,
+      })) : [],
     availableStatuses,
     walletLimits,
     uploading,
@@ -53,9 +72,7 @@ const mapStateToProps = (state) => {
 
 const mapActions = {
   fetchProfile: actionCreators.fetchProfile,
-  fetchAccumulatedBalances: actionCreators.fetchBalances,
   updateSubscription: actionCreators.updateSubscription,
-  loadFullProfile: actionCreators.loadFullProfile,
   addTag: actionCreators.addTag,
   deleteTag: actionCreators.deleteTag,
   changeStatus: actionCreators.changeStatus,
@@ -71,6 +88,7 @@ const mapActions = {
   cancelFile: actionCreators.cancelFile,
   resetUploading: actionCreators.resetUploading,
   manageNote: actionCreators.manageNote,
+  fetchFiles: filesActionCreators.fetchFiles,
   saveFiles: filesActionCreators.saveFiles,
   deleteFile: filesActionCreators.deleteFile,
   downloadFile: filesActionCreators.downloadFile,

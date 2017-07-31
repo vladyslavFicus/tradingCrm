@@ -215,7 +215,7 @@ class NotePopover extends Component {
               </div>
 
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-4">
                   <div className="font-size-11">
                     <span className="font-weight-700">
                       {currentValues && currentValues.content ? currentValues.content.length : 0}
@@ -230,7 +230,7 @@ class NotePopover extends Component {
                   />
                 </div>
 
-                <div className="col-md-6 text-right margin-top-10">
+                <div className="col-md-8 text-right margin-top-10">
                   <button
                     type="reset"
                     className="btn btn-default-outline btn-sm margin-right-10"

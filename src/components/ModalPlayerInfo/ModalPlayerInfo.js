@@ -27,8 +27,8 @@ class ModalPlayerInfo extends Component {
         {profile.username}
         {' - '}
         <Uuid
-          uuid={profile.uuid}
-          uuidPrefix={profile.uuid.indexOf('PLAYER') === -1 ? 'PL' : null}
+          uuid={profile.playerUUID}
+          uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
         />
       </span>
     </div>

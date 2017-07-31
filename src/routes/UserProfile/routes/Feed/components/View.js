@@ -15,6 +15,11 @@ class View extends Component {
     exportFeed: PropTypes.func.isRequired,
     params: PropTypes.object,
   };
+
+  static contextTypes = {
+    cacheChildrenComponent: PropTypes.func.isRequired,
+  };
+
   static defaultProps = {
     isLoading: false,
   };
@@ -26,6 +31,11 @@ class View extends Component {
 
   componentWillMount() {
     this.handleFiltersChanged();
+    this.context.cacheChildrenComponent(this);
+  }
+
+  componentWillUnmount() {
+    this.context.cacheChildrenComponent(null);
   }
 
   handleRefresh = () => {
@@ -67,7 +77,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className={classNames('tab-pane fade in active profile-tab-container')}>
+      <div className={classNames('profile-tab-container')}>
         <div className="row margin-bottom-20">
           <div className="col-sm-3 col-xs-6">
             <span className="font-size-20">Feed</span>

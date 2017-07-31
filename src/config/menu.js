@@ -6,7 +6,10 @@ const sidebarTopMenu = [
   {
     label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS'),
     icon: 'fa fa-users',
-    url: '/users/list',
+    items: [
+      { label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_SEARCH'), url: '/users/list' },
+      { label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_KYC_REQUEST'), url: '/users/kyc-requests' },
+    ],
   },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
@@ -21,11 +24,6 @@ const sidebarTopMenu = [
       { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'), url: '/paymentMethods' },
     ],
   },
-  // {
-  //   label: I18n.t('SIDEBAR.TOP_MENU.COUNTRIES'),
-  //   icon: 'fa fa-globe',
-  //   url: '/countries',
-  // },
   {
     label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'),
     icon: 'fa fa-gift',
@@ -71,7 +69,7 @@ const sidebarBottomMenu = [
 const userProfileTabs = [
   { label: 'Profile', url: '/users/:id/profile' },
   { label: 'Transactions', url: '/users/:id/transactions' },
-  { label: 'Bonuses', url: '/users/:id/bonuses' },
+  { label: 'Awards', url: '/users/:id/awards' },
   { label: 'Activity', url: '/users/:id/game-activity' },
   { label: 'Payment acc.', url: '/users/:id/paymentAccounts' },
   { label: 'Limits', url: '/users/:id/limits' },

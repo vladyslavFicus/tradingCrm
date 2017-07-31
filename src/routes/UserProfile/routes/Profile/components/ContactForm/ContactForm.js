@@ -67,11 +67,11 @@ class ContactForm extends Component {
     const isPhoneNumberDirty = currentValues.phoneNumber !== initialValues.phoneNumber;
 
     return (
-      <div>
-        <form role="form" onSubmit={handleSubmit(onSubmit)}>
-          <div className="row">
+      <div className="col-md-8">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="row margin-bottom-20">
             <div className="col-md-6">
-              <h5 className="pull-left">{I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE')}</h5>
+              <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE')}</span>
             </div>
 
             <div className="col-md-6 text-right">
@@ -88,11 +88,11 @@ class ContactForm extends Component {
             <div className="col-md-6">
               <Field
                 name="phoneNumber"
-                className="form-group player-profile__contact-phone"
+                className="form-group player-profile__contact-input"
                 label={attributeLabels.phoneNumber}
                 labelAddon={(
                   !isPhoneNumberDirty && profile.phoneNumberVerified &&
-                  <div className="color-success font-size-12 pull-right">
+                  <div className="verification-label color-success font-size-12">
                     <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
                   </div>
                 )}
@@ -111,11 +111,11 @@ class ContactForm extends Component {
             <div className="col-md-6">
               <Field
                 name="email"
-                className="form-group player-profile__contact-email"
+                className="form-group player-profile__contact-input"
                 label={attributeLabels.email}
                 labelAddon={(
                   profile.profileStatus !== playerStatuses.INACTIVE &&
-                  <div className="color-success font-size-12 pull-right">
+                  <div className="verification-label color-success font-size-12">
                     <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
                   </div>
                 )}
@@ -145,5 +145,5 @@ export default connect(state => ({
   reduxForm({
     form: FORM_NAME,
     validate: validator,
-  })(ContactForm)
+  })(ContactForm),
 );

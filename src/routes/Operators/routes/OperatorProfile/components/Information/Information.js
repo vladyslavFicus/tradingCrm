@@ -4,18 +4,19 @@ import Personal from './Personal';
 import Departments from './Departments';
 import IpList from './IpList';
 import PropTypes from '../../../../../../constants/propTypes';
-import './Information.scss';
 
 const Information = ({ data, ips }) => (
-  <div className="player__account__details row">
-    <div className="col-md-4">
-      <Personal data={data} />
-    </div>
-    <div className="col-md-3">
-      <Departments authorities={data.authorities} />
-    </div>
-    <div className="col-md-2">
-      <IpList label={I18n.t('OPERATOR_PROFILE.IP_LIST.TITLE')} ips={ips} />
+  <div className="account-details">
+    <div className="row">
+      <div className="col-md-4">
+        <Personal data={data} />
+      </div>
+      <div className="col-md-3">
+        <Departments authorities={data.authorities} />
+      </div>
+      <div className="col-md-2">
+        <IpList label={I18n.t('OPERATOR_PROFILE.IP_LIST.TITLE')} ips={ips} />
+      </div>
     </div>
   </div>
 );

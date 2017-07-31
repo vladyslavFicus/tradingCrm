@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import ButtonSelect from 'components/ButtonSelect';
+import ButtonSelect from '../ButtonSelect';
 
 const optionClassNames = {
   negative: 'text-danger',
@@ -33,7 +33,7 @@ class ProfileTags extends PureComponent {
     });
   };
 
-  handleOutsideClick = (e) => {
+  handleOutsideClick = () => {
     this.setState({ showAutoComplete: false });
   };
 
@@ -43,54 +43,71 @@ class ProfileTags extends PureComponent {
     });
   };
 
-  renderTags = (tags) => {
-    return tags.map(tag => (
-      <div key={tag.id} className="btn-group tag-group">
-        <span className={`tag-arrow tag-arrow-${tagClassNames[tag.priority]}`} />
-        <span className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]}`}>
-          {tag.value}
-        </span>
-        <button
-          type="button"
-          className={`btn btn-xs btn-secondary ${valueClassNames[tag.priority]} btn-del`}
-          onClick={(e) => this.props.onDelete(tag)}
-        >&times;</button>
-      </div>
-    ));
-  };
+  renderTags = tags => tags.map(tag => (
+    <div key={tag.id} className="btn-group tag-group">
+      <span className={`tag-arrow tag-arrow-${tagClassNames[tag.priority]}`} />
+      <span className={`btn btn-xs ${valueClassNames[tag.priority]}`}>
+        {tag.value}
+      </span>
+      <button
+        type="button"
+        className={`btn btn-xs ${valueClassNames[tag.priority]} btn-del`}
+        onClick={() => this.props.onDelete(tag)}
+      >&times;</button>
+    </div>
+  ));
 
-  renderOption = (option) => {
-    return <strong className={optionClassNames[option.priority]}>
+  renderOption = option => (
+    <strong className={optionClassNames[option.priority]}>
       {option.label}
     </strong>
-  };
+  );
 
   render() {
     const { showAutoComplete } = this.state;
     const { value, options } = this.props;
 
-    return <div>
-      {this.renderTags(value)}
+    return (
+      <div>
+        {this.renderTags(value)}
 
-      {options.length > 0 && <ButtonSelect
-        opened={showAutoComplete}
-        className="btn btn-xs btn-default font-size-14"
-        onChange={this.handleSelect}
-        onCloseClick={this.handleOutsideClick}
-        optionRenderer={this.renderOption}
-        options={options}
-        onClick={this.handleToggleAutoComplete}
-        label={<i className="fa fa-plus-square" />}
-        handleClickOutside={this.handleOutsideClick}
-        disableClickOutside={!showAutoComplete}
-      />}
-    </div>;
+        {
+          options.length > 0 &&
+          <ButtonSelect
+            opened={showAutoComplete}
+            className="btn btn-xs btn-default"
+            onChange={this.handleSelect}
+            onCloseClick={this.handleOutsideClick}
+            optionRenderer={this.renderOption}
+            options={options}
+            onClick={this.handleToggleAutoComplete}
+            label={<i className="fa fa-plus-square" />}
+            handleClickOutside={this.handleOutsideClick}
+            disableClickOutside={!showAutoComplete}
+          />
+        }
+      </div>
+    );
   }
 }
 
 ProfileTags.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    priority: PropTypes.string.isRequired,
+  })),
+  value: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  })),
   onAdd: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+};
+ProfileTags.defaultProps = {
+  options: [],
+  value: [],
 };
 
 export default ProfileTags;
