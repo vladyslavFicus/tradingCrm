@@ -39,13 +39,13 @@ class DepartmentsDropDown extends Component {
     }
 
     const currentDepartmentNode = (
-      <div>
+      <div className="department__current">
         {this.renderLabel(current.department, departmentsLabels)}
         {' '}
-        {authorities.length > 0 && <i className={classNames('fa fa-angle-down', { 'arrow-up': active })} />}
         <div className="role">
           {this.renderLabel(current.role, rolesLabels)}
         </div>
+        {authorities.length > 0 && <i className={classNames('fa fa-angle-down', { 'arrow-up': active })} />}
       </div>
     );
 
