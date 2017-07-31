@@ -10,6 +10,10 @@ class DepartmentsDropDown extends Component {
   static propTypes = {
     authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
     current: PropTypes.authorityEntity,
+    toggleId: PropTypes.string,
+  };
+  static defaultProps = {
+    toggleId: 'department-toggle',
   };
 
   state = {
@@ -35,13 +39,13 @@ class DepartmentsDropDown extends Component {
     }
 
     const currentDepartmentNode = (
-      <div>
+      <div className="department__current">
         {this.renderLabel(current.department, departmentsLabels)}
         {' '}
-        {authorities.length > 0 && <i className={classNames('fa fa-angle-down', { 'arrow-up': active })} />}
         <div className="role">
           {this.renderLabel(current.role, rolesLabels)}
         </div>
+        {authorities.length > 0 && <i className={classNames('fa fa-angle-down', { 'arrow-up': active })} />}
       </div>
     );
 
@@ -51,7 +55,7 @@ class DepartmentsDropDown extends Component {
 
     return (
       <Dropdown isOpen={active} toggle={this.handleToggleState}>
-        <DropdownToggle className="dropdown-btn">
+        <DropdownToggle className="dropdown-btn" id={this.props.toggleId}>
           {currentDepartmentNode}
         </DropdownToggle>
         <DropdownMenu>

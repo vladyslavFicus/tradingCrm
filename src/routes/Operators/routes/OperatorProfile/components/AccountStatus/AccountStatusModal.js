@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { I18n } from 'react-redux-i18n';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from '../../../../../../utils/validator';
 import { SelectField } from '../../../../../../components/ReduxForm';
@@ -13,73 +14,59 @@ const validator = createValidator({
   reason: `required|string|in:${operatorChangeStatusReasons.join()}`,
 }, attributeLabels, false);
 
-class AccountStatusModal extends Component {
-  static propTypes = {
-    isOpen: PropTypes.bool,
-    show: PropTypes.bool,
-    action: PropTypes.string,
-    reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
-    title: PropTypes.string,
-    onHide: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func,
-  };
+const AccountStatusModal = ({ action, reasons, title, onHide, onSubmit, handleSubmit }) => (
+  <Modal isOpen toggle={onHide}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {
+        !!title &&
+        <ModalHeader toggle={onHide}>
+          {title}
+        </ModalHeader>
+      }
+      <ModalBody>
+        {
+          <Field
+            name="reason"
+            label={attributeLabels.reason}
+            component={SelectField}
+            position="vertical"
+          >
+            <option>-- Select reason --</option>
+            {reasons.map(item => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </Field>
+        }
+      </ModalBody>
 
-  render() {
-    const {
-      show,
-      action,
-      reasons,
-      title,
-      onHide,
-      onSubmit,
-      handleSubmit,
-      ...rest
-    } = this.props;
+      <ModalFooter>
+        <button className="btn btn-default-outline pull-left" onClick={onHide}>
+          {I18n.t('COMMON.BUTTONS.CANCEL')}
+        </button>
+        <button className="btn btn-danger" type="submit">
+          {action}
+        </button>
+      </ModalFooter>
+    </form>
+  </Modal>
+);
 
-    return (
-      <Modal {...rest} isOpen={show} toggle={onHide}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {
-            !!title &&
-            <ModalHeader toggle={onHide}>
-              {title}
-            </ModalHeader>
-          }
-          <ModalBody>
-            {
-              <Field
-                name="reason"
-                label={attributeLabels.reason}
-                component={SelectField}
-                className={'form-control'}
-                position="vertical"
-              >
-                <option>-- Select reason --</option>
-                {reasons.map(item => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </Field>
-            }
-          </ModalBody>
+AccountStatusModal.propTypes = {
+  action: PropTypes.string,
+  reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
+  title: PropTypes.string,
+  onHide: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func,
+};
 
-          <ModalFooter>
-            <Button
-              color="success"
-              type="submit"
-            >{action}</Button>
-            <Button
-              color="secondary"
-              onClick={onHide}
-            >Cancel</Button>
-          </ModalFooter>
-        </form>
-      </Modal>
-    );
-  }
-}
+AccountStatusModal.defaultProps = {
+  action: null,
+  title: '',
+  handleSubmit: null,
+};
 
 export default reduxForm({
   form: 'accountStatusModal',

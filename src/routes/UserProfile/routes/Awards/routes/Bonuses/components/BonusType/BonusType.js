@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import {
   typesLabels,
-  typesProps,
+  typesProps
 } from '../../../../../../../../constants/bonus';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 
@@ -28,7 +28,7 @@ class BonusStatus extends Component {
     return (
       <div>
         <div {...props}>{renderLabel(bonus.bonusType, typesLabels)}</div>
-        <div className="font-size-10">
+        <div className="font-size-11">
           {bonus.optIn ? 'Opt-in' : 'Non Opt-in'}
         </div>
       </div>
@@ -40,7 +40,7 @@ class BonusStatus extends Component {
 
     return (
       <div className={className}>
-        {!!label && <div className="color-default text-uppercase">
+        {!!label && <div className="modal-tab-label">
           {label}
         </div>}
 

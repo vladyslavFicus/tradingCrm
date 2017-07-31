@@ -10,7 +10,7 @@
   background-color: #fff;
   border-color: #dfe4ed;
   &:focus {
-    outline: none;
+    outline: none !important;
   }
   &-sm {
     height: 29px;
@@ -144,16 +144,18 @@
   }
 }
 
-button.btn:disabled,
-button.btn[disabled],
-button.btn:disabled:hover,
-button.btn[disabled]:hover {
+.btn:disabled,
+.btn[disabled],
+.btn:disabled:hover,
+.btn[disabled]:hover {
   background: #D3D3D3;
   color: #fff;
 }
 
-button.btn.btn-default-outline:disabled,
-button.btn.btn-default-outline[disabled] {
+.btn.btn-danger-outline:disabled,
+.btn.btn-danger-outline[disabled],
+.btn.btn-default-outline:disabled,
+.btn.btn-default-outline[disabled] {
   background: #fff;
   color: #CDCDCD;
   border-color: #CDCDCD;

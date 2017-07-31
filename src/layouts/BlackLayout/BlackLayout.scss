@@ -164,15 +164,17 @@
     }
   }
   &__department {
-    position: relative;
-    top: -390px;
+    position: absolute;
+    top: 150px;
+    right: 0;
+    left: 0;
     display: none;
     &_return {
       font-size: 20px;
       font-weight: 300;
       text-align: center;
       color: #9b9b9b;
-      text-shadow: 0 2px 4px #000000;
+      text-shadow: 0 2px 4px #000;
       cursor: pointer;
       &::before {
         content: url("../../../public/img/arrow-left-icon.svg");
@@ -187,9 +189,9 @@
         font-weight: 600;
       }
     }
-    .sign-in__multibrand_call-to-action {
+    .form-page__multibrand_call-to-action {
       position: relative;
-      top: 170px;
+      top: 160px;
     }
     &_block {
       display: flex;
@@ -236,9 +238,8 @@
     }
   }
   &__single-brand {
-    top: auto;
     display: none;
-    margin-top: 40px;
+    margin-top: 10px;
     &_brand {
       width: 193px;
       height: 140px;
@@ -268,9 +269,9 @@
       text-shadow: 0 2px 4px #000;
       text-transform: uppercase;
     }
-    .sign-in__multibrand_call-to-action,
-    .sign-in__department_block {
-      top: auto;
+    .form-page__multibrand_call-to-action,
+    .form-page__department_block {
+      top: 0;
     }
   }
 }
@@ -278,7 +279,7 @@
 .chosen {
   .chosen-brand {
     display: flex;
-    transform: translateY(-120px);
+    transform: translateY(-110px);
     transition: transform .3s ease-in-out;
     border: 1px solid #fff;
     opacity: 1;

@@ -7,9 +7,11 @@ import ContactForm from './ContactForm';
 import Documents from './Documents';
 import VerifyData from './Kyc/VerifyData';
 import RefuseModal from './Kyc/RefuseModal';
+import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
 import { types as kycTypes, categories as kycCategories } from '../../../../../constants/kyc';
 
 const REFUSE_MODAL = 'refuse-modal';
+const REQUEST_KYC_VERIFICATION_MODAL = 'request-kyc-verification-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -54,6 +56,10 @@ class View extends Component {
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
     filesUrl: PropTypes.string.isRequired,
+    locale: PropTypes.string.isRequired,
+    manageKycRequestNote: PropTypes.func.isRequired,
+    resetNote: PropTypes.func.isRequired,
+    sendKycRequestVerification: PropTypes.func.isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -116,6 +122,28 @@ class View extends Component {
     this.handleCloseModal();
   };
 
+  handleRequestKycVerify = async (inputParams) => {
+    const {
+      params: { id: playerUUID },
+      profile: { kycRequestNote: unsavedNote },
+      sendKycRequestVerification,
+      resetNote,
+    } = this.props;
+
+    const action = await sendKycRequestVerification(playerUUID, inputParams);
+
+    if (action && !action.error) {
+      if (unsavedNote) {
+        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
+        if (unsavedNote.pinned) {
+          this.context.refreshPinnedNotes();
+        }
+      }
+    }
+
+    this.handleCloseModal(resetNote);
+  }
+
   handleRefuseClick = (type) => {
     this.handleOpenModal(REFUSE_MODAL, {
       initialValues: {
@@ -130,6 +158,15 @@ class View extends Component {
         name,
         params,
       },
+    });
+  };
+
+  handleOpenRequestKycVerificationModal = () => {
+    const { profile: { data: { playerUUID, fullName } } } = this.props;
+
+    this.handleOpenModal(REQUEST_KYC_VERIFICATION_MODAL, {
+      playerUUID,
+      fullName,
     });
   };
 
@@ -187,12 +224,14 @@ class View extends Component {
   render() {
     const { modal } = this.state;
     const {
-      profile: { data, receivedAt },
+      profile: { data, receivedAt, kycRequestNote },
       files,
       personalData,
       addressData,
       contactData,
       downloadFile,
+      locale,
+      manageKycRequestNote,
     } = this.props;
 
     if (!receivedAt) {
@@ -204,6 +243,15 @@ class View extends Component {
         <div className="row margin-bottom-20">
           <div className="col-xl-6">
             <span className="font-size-20">{I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}</span>
+          </div>
+          <div className="col-sm-6 col-xs-6 text-right">
+            <button
+              type="button"
+              className="btn btn-sm btn-primary-outline"
+              onClick={this.handleOpenRequestKycVerificationModal}
+            >
+              {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
+            </button>
           </div>
         </div>
 
@@ -290,6 +338,20 @@ class View extends Component {
               isOpen
               onSubmit={this.handleRefuse}
               onClose={this.handleCloseModal}
+            />
+          }
+
+          {
+            modal.name === REQUEST_KYC_VERIFICATION_MODAL &&
+            <RequestKycVerificationModal
+              note={kycRequestNote}
+              locale={locale}
+              title={I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.TITLE')}
+              show
+              {...modal.params}
+              onSubmit={this.handleRequestKycVerify}
+              onClose={this.handleCloseModal}
+              onManageNote={manageKycRequestNote}
             />
           }
         </div>

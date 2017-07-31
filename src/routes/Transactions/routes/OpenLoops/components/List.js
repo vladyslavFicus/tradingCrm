@@ -188,8 +188,7 @@ class List extends Component {
         </Content>
 
         {modal.name === 'payment-detail' && <PaymentDetailModal
-          { ...modal.params }
-          isOpen
+          {...modal.params}
           onClose={this.handleCloseModal}
           onChangePaymentStatus={this.handleChangePaymentStatus}
         />}

@@ -22,6 +22,10 @@
       text-transform: uppercase;
       color: #999;
     }
+    &_disabled-triggers {
+      opacity: 0.2;
+      pointer-events: none;
+    }
   }
   &__network .panel-body {
     padding: 7px;

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import Switch from '../../../../../components/Forms/Switch/index';
+import classNames from 'classnames';
+import Switch from '../../../../../components/Forms/Switch';
 import { marketingTypes } from './constants';
+import { statuses } from '../../../../../constants/user';
 
 const SUBSCRIPTION_TYPE_SMS = 'marketingSMS';
 const SUBSCRIPTION_TYPE_NEWS = 'marketingNews';
@@ -10,8 +12,12 @@ const SUBSCRIPTION_TYPE_MAIL = 'marketingMail';
 
 class Additional extends Component {
   static propTypes = {
+    profileStatus: PropTypes.string,
     initialValues: PropTypes.object,
     updateSubscription: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    profileStatus: '',
   };
 
   static contextTypes = {
@@ -36,7 +42,7 @@ class Additional extends Component {
   };
 
   render() {
-    const { initialValues } = this.props;
+    const { initialValues, profileStatus } = this.props;
 
     return (
       <div className="account-details__additional-info">
@@ -46,37 +52,39 @@ class Additional extends Component {
             <span className="account-details__additional-info__label">
               Marketing
             </span>
-            <div className="row">
-              <div className="col-xs-8">
-                <span>SMS</span>
+            <div className={classNames({ 'account-details__additional-info_disabled-triggers': profileStatus === statuses.SUSPENDED })}>
+              <div className="row">
+                <div className="col-xs-8">
+                  <span>SMS</span>
+                </div>
+                <div className="col-xs-4 text-right">
+                  <Switch
+                    active={initialValues[SUBSCRIPTION_TYPE_SMS]}
+                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
+                  />
+                </div>
               </div>
-              <div className="col-xs-4 text-right">
-                <Switch
-                  active={initialValues[SUBSCRIPTION_TYPE_SMS]}
-                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
-                />
+              <div className="row">
+                <div className="col-xs-8">
+                  <span>News</span>
+                </div>
+                <div className="col-xs-4 text-right">
+                  <Switch
+                    active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
+                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-xs-8">
-                <span>News</span>
-              </div>
-              <div className="col-xs-4 text-right">
-                <Switch
-                  active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
-                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-xs-8">
-                <span>Snail mail</span>
-              </div>
-              <div className="col-xs-4 text-right">
-                <Switch
-                  active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
-                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
-                />
+              <div className="row">
+                <div className="col-xs-8">
+                  <span>Snail mail</span>
+                </div>
+                <div className="col-xs-4 text-right">
+                  <Switch
+                    active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
+                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -25,7 +25,7 @@ class Switch extends Component {
     this.setState({
       active: !this.state.active,
     });
-  }
+  };
 
   revert = _.debounce(this.toggle, 301);
 

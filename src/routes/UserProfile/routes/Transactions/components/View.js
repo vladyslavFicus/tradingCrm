@@ -13,7 +13,7 @@ import {
   typesLabels,
   typesProps,
   statusesColor,
-  statuses as paymentsStatuses,
+  statuses as paymentsStatuses
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
 import StatusHistory from '../../../../../components/TransactionStatusHistory';
@@ -492,7 +492,6 @@ class View extends Component {
           modal.name === MODAL_PAYMENT_ACTION_REASON &&
           <PaymentActionReasonModal
             {...modal.params}
-            isOpen
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
           />

@@ -14,7 +14,6 @@ import Permissions from '../../../utils/permissions';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
-import Placeholder from '../../../components/Placeholder/Placeholder';
 import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
 
 class Header extends Component {
@@ -165,7 +164,11 @@ class Header extends Component {
             >
               Add note
             </PopoverButton>
-            <button className="btn btn-default-outline m-x-1" onClick={onRefreshClick}>
+            <button
+              className="btn btn-default-outline m-x-1"
+              onClick={onRefreshClick}
+              id="refresh-page-button"
+            >
               <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
             </button>
             <UserProfileOptions

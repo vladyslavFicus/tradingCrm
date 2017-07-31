@@ -31,14 +31,16 @@ class Balances extends Component {
       {label}
 
       <DropdownMenu>
-        <DropdownItem>
-          <div className="amount"><Amount {...balances.deposits} /></div>
-          <div className="amount_label">Deposited</div>
-        </DropdownItem>
-        <DropdownItem>
-          <div className="amount"><Amount {...balances.withdraws} /></div>
-          <div className="amount_label">Withdrawn</div>
-        </DropdownItem>
+        <div className="dropdown-menu__content">
+          <DropdownItem>
+            <div className="amount"><Amount {...balances.deposits} /></div>
+            <div className="amount_label">Deposited</div>
+          </DropdownItem>
+          <DropdownItem>
+            <div className="amount"><Amount {...balances.withdraws} /></div>
+            <div className="amount_label">Withdrawn</div>
+          </DropdownItem>
+        </div>
       </DropdownMenu>
     </Dropdown>
   );

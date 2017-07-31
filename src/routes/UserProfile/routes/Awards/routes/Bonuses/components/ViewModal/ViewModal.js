@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import classNames from 'classnames';
 import moment from 'moment';
-import './ViewModal.scss';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import { shortify } from '../../../../../../../../utils/uuid';
 import Amount from '../../../../../../../../components/Amount';
@@ -47,30 +45,30 @@ class ViewModal extends Component {
   };
 
   renderBonusStats = data => (
-    <div className="row well player-header-blocks">
-      <div className="col-md-3 grey-back-tab">
-        <div className="color-default text-uppercase font-size-11">
+    <div className="row well">
+      <div className="col-md-3 modal-grey-tab">
+        <div className="modal-tab-label">
           Granted
         </div>
 
         {this.renderGrantedAmount(data)}
       </div>
-      <div className="col-md-3 grey-back-tab">
-        <div className="color-default text-uppercase font-size-11">
+      <div className="col-md-3 modal-grey-tab">
+        <div className="modal-tab-label">
           Wagered
         </div>
 
         {this.renderWageredAmount(data)}
       </div>
-      <div className="col-md-3 grey-back-tab">
-        <div className="color-default text-uppercase font-size-11">
+      <div className="col-md-3 modal-grey-tab">
+        <div className="modal-tab-label">
           To wager
         </div>
 
         {this.renderToWagerAmount(data)}
       </div>
-      <div className="col-md-3 grey-back-tab">
-        <div className="color-default text-uppercase font-size-11">
+      <div className="col-md-3 modal-grey-tab">
+        <div className="modal-tab-label">
           Total to wager
         </div>
 
@@ -81,12 +79,12 @@ class ViewModal extends Component {
 
   renderGrantedAmount = data => (
     <Amount
-      className="font-weight-600 font-size-20 color-primary"
+      className="modal-grey-tab__amount"
       {...data.grantedAmount}
     />
   );
 
-  renderWageredAmount = data => <Amount className="font-weight-600 font-size-20 color-primary" {...data.wagered} />;
+  renderWageredAmount = data => <Amount className="modal-grey-tab__amount" {...data.wagered} />;
 
   renderToWagerAmount = (data) => {
     const toWagerAmount = {
@@ -99,82 +97,85 @@ class ViewModal extends Component {
       currency: data.currency,
     };
 
-    return <Amount className="font-weight-600 font-size-20 color-primary" {...toWagerAmount} />;
+    return <Amount className="modal-grey-tab__amount" {...toWagerAmount} />;
   };
 
   renderTotalToWagerAmount = data => (
-    <Amount className="font-weight-600 font-size-20 color-primary" {...data.amountToWage} />
+    <Amount className="modal-grey-tab__amount" {...data.amountToWage} />
   );
 
   renderBonus = item => (
     <div className="row margin-vertical-20">
-      <div className="col-md-3">
-        <div className="color-default text-uppercase font-size-11">
+      <div className="col-md-3 modal-body-tab">
+        <div className="modal-tab-label">
           Bonus
         </div>
 
         {this.renderMainInfo(item)}
       </div>
-      <div className="col-md-3">
-        <div className="color-default text-uppercase font-size-11">
+      <div className="col-md-3 modal-body-tab">
+        <div className="modal-tab-label">
           Available
         </div>
 
         {this.renderAvailablePeriod(item)}
       </div>
-      <div className="col-md-2">
-        <div className="color-default text-uppercase font-size-11">
+      <div className="col-md-2 modal-body-tab">
+        <div className="modal-tab-label">
           Priority
         </div>
 
         {this.renderPriority(item)}
       </div>
-      <BonusType className="col-md-2" bonus={item} label="Bonus type" />
-      <BonusStatus className="col-md-2" bonus={item} label="Status" />
+      <BonusType className="col-md-2 modal-body-tab" bonus={item} label="Bonus type" />
+      <BonusStatus id="bonus-view-modal" className="col-md-2 modal-body-tab" bonus={item} label="Status" />
     </div>
   );
 
   renderMainInfo = data => (
-    <span>
-      <div className="font-weight-600">{data.label}</div>
-      <div className="little-grey-text font-size-11">{shortify(data.bonusUUID)}</div>
+    <div>
+      <strong>
+        {data.label}
+      </strong>
+
+      <div className="font-size-11">{shortify(data.bonusUUID)}</div>
       {
         !!data.campaignUUID &&
-        <div className="little-grey-text font-size-11">
+        <div className="font-size-11">
           by Campaign {shortify(data.campaignUUID, 'CA')}
         </div>
       }
       {
         !data.campaignUUID && !!data.operatorUUID &&
-        <div className="little-grey-text font-size-11">
+        <div className="font-size-11">
           by Manual Bonus {shortify(data.operatorUUID, 'OP')}
         </div>
       }
-    </span>
+    </div>
   );
 
   renderAvailablePeriod = data => (
     data.createdDate
       ? (
         <div>
-          <div className="font-weight-600">
+          <strong>
             {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-          </div>
+          </strong>
           {
-          !!data.expirationDate &&
-            <div className="little-grey-text font-size-11">
+            !!data.expirationDate &&
+            <div className="font-size-11">
               {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
             </div>
-        }
+          }
         </div>
       ) : <span>&mdash</span>
   );
 
-  renderPriority = data => <span>{data.priority}</span>;
+  renderPriority = data => <strong>{data.priority}</strong>;
 
   renderNote = data => (
-    <div className="row margin-top-20">
-      <div className="col-md-12 text-center">
+    <div className="row">
+      <div className="col-xs-12 text-center">
         <NoteButton
           id="free-spin-detail-modal-note"
           note={data.note}
@@ -188,6 +189,7 @@ class ViewModal extends Component {
 
   render() {
     const { item, profile, actions, accumulatedBalances, onClose, ...rest } = this.props;
+    const [leftSideAction, ...rightSideActions] = actions;
 
     return (
       <Modal className="view-bonus-modal" toggle={onClose} {...rest}>
@@ -197,23 +199,25 @@ class ViewModal extends Component {
             profile={profile.data}
             balances={accumulatedBalances}
           />
-          <hr />
           {this.renderBonus(item)}
           {this.renderBonusStats(item)}
           {this.renderNote(item)}
         </ModalBody>
-        <ModalFooter>
-          {
-            actions.length === 2 &&
+        {
+          actions.length > 0 &&
+          <ModalFooter>
             <div className="row">
-              {actions.map((action, index) => (
-                <div key={index} className={classNames('col-md-6', { 'text-right': index !== 0 })}>
-                  <button {...action} />
-                </div>
-              ))}
+              <div className="col-md-6 text-left">
+                {leftSideAction && <button {...leftSideAction} />}
+              </div>
+              <div className="col-md-6 text-right">
+                {rightSideActions.map(action => (
+                  <button key={action.children} {...action} />
+                ))}
+              </div>
             </div>
-          }
-        </ModalFooter>
+          </ModalFooter>
+        }
       </Modal>
     );
   }

@@ -6,16 +6,18 @@ import {
   statuses,
   statusesLabels,
   statusesProps,
-  cancellationReason,
+  cancellationReason
 } from '../../../../../../../../constants/bonus';
 import Uuid from '../../../../../../../../components/Uuid';
 import Amount from '../../../../../../../../components/Amount/Amount';
+import FailedStatusIcon from '../../../../../../../../components/FailedStatusIcon';
 
 class BonusStatus extends Component {
   static propTypes = {
     bonus: PropTypes.bonusEntity.isRequired,
     className: PropTypes.string,
     label: PropTypes.string,
+    id: PropTypes.string.isRequired,
   };
   static defaultProps = {
     label: null,
@@ -23,7 +25,7 @@ class BonusStatus extends Component {
   };
 
   renderStatus = () => {
-    const { bonus } = this.props;
+    const { bonus, id } = this.props;
     if (!bonus.state) {
       return bonus.state;
     }
@@ -44,22 +46,31 @@ class BonusStatus extends Component {
 
     return (
       <div>
-        <div {...props}>{label}</div>
+        <div {...props}>
+          {label}
+          {
+            bonus.state === statuses.CANCELLED &&
+            <FailedStatusIcon id={`${id}-cancellation-reason-${bonus.bonusUUID}`}>
+              {bonus.cancellationReason}
+            </FailedStatusIcon>
+          }
+        </div>
         {!!content && <div className="font-size-10">{content}</div>}
       </div>
     );
   };
 
   renderStatusActive = bonus => (bonus.expirationDate
-    ? <span>Until {moment(bonus.expirationDate).format('DD.MM.YYYY')}</span>
+    ? <span>{I18n.t('COMMON.DATE_UNTIL', { date: moment(bonus.expirationDate).format('DD.MM.YYYY') })}</span>
     : null);
 
   renderStatusCancelled = bonus => (
-    <div className="font-size-10">
+    <div>
       {
         bonus.cancellerUUID &&
         <div>
-          by{' '}
+          {I18n.t('COMMON.AUTHOR_BY')}
+          {' '}
           <Uuid
             uuid={bonus.cancellerUUID}
             uuidPrefix={(
@@ -73,14 +84,14 @@ class BonusStatus extends Component {
       {
         bonus.endDate &&
         <div>
-          on {moment(bonus.endDate).format('DD.MM.YYYY')}
+          {I18n.t('COMMON.DATE_ON', { date: moment(bonus.endDate).format('DD.MM.YYYY') })}
         </div>
       }
     </div>
   );
 
   renderStatusWagered = bonus => (
-    <div className="font-size-10">
+    <div>
       {
         bonus.endDate &&
         <div>
@@ -103,7 +114,7 @@ class BonusStatus extends Component {
       <div className={className}>
         {
           !!label &&
-          <div className="color-default text-uppercase">
+          <div className="modal-tab-label">
             {label}
           </div>
         }
