@@ -54,7 +54,7 @@ function startTimeout(store, expirationTime) {
 
 export default function ({ expireThreshold = 60 }) {
   return store => next => async (action) => {
-    if (!state.pending) {
+    if (action.type && action.type !== 'location/location-change' && !state.pending) {
       const { auth: { logged, token } } = store.getState();
 
       if (logged && token) {
