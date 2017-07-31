@@ -54,7 +54,7 @@ class DepartmentsDropDown extends Component {
     }
 
     return (
-      <Dropdown className="department" isOpen={active} toggle={this.handleToggleState}>
+      <Dropdown isOpen={active} toggle={this.handleToggleState}>
         <DropdownToggle className="dropdown-btn" id={this.props.toggleId}>
           {currentDepartmentNode}
         </DropdownToggle>

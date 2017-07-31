@@ -54,18 +54,21 @@ class Navbar extends Component {
         <IndexLink className="navbar-brand" href={'/'}>
           <img src={getLogo()} alt="current-lottery-logo" />
         </IndexLink>
-        <DepartmentsDropDown
-          onChange={changeDepartment}
-          current={user.authorities.find(authority => authority.department === user.department)}
-          authorities={user.authorities.filter(authority => authority.department !== user.department)}
-        />
-
+        <div className="department">
+          <DepartmentsDropDown
+            onChange={changeDepartment}
+            current={user.authorities.find(authority => authority.department === user.department)}
+            authorities={user.authorities.filter(authority => authority.department !== user.department)}
+          />
+        </div>
         {
           showSearch &&
           <form className="form-inline">
             <i className="fa fa-search" />
             <input
-              className="form-control" type="text" placeholder="Type to search"
+              className="form-control"
+              type="text"
+              placeholder="Type to search"
               onClick={this.handleSearchFieldClick}
             />
 
@@ -78,9 +81,13 @@ class Navbar extends Component {
                 >&#10005;</button>
                 <div className="form-inline">
                   <input
-                    className="form-control" type="text" placeholder="Search..." autoFocus ref={(node) => {
-                    this.searchInput = node;
-                  }}
+                    className="form-control"
+                    type="text"
+                    placeholder="Search..."
+                    autoFocus
+                    ref={(node) => {
+                      this.searchInput = node;
+                    }}
                   />
                 </div>
               </div>
