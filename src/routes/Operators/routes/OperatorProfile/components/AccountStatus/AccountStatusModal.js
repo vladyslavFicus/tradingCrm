@@ -62,6 +62,12 @@ AccountStatusModal.propTypes = {
   handleSubmit: PropTypes.func,
 };
 
+AccountStatusModal.defaultProps = {
+  action: null,
+  title: '',
+  handleSubmit: null,
+};
+
 export default reduxForm({
   form: 'accountStatusModal',
   validate: validator,
