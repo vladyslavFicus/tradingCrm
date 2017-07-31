@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import classNames from 'classnames';
+import _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import onClickOutside from 'react-onclickoutside';
 import PropTypes from '../../constants/propTypes';
@@ -17,7 +18,7 @@ const validator = createValidator({
 class MyProfileSidebar extends Component {
   static propTypes = {
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
-    isOpen: PropTypes.bool,
+    isOpen: PropTypes.any,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     onToggleProfile: PropTypes.func.isRequired,
@@ -44,11 +45,13 @@ class MyProfileSidebar extends Component {
       submitting,
     } = this.props;
 
+    console.log(isOpen);
+
     return (
       <aside
         className={classNames(
           'my-profile',
-          { slideInRight: isOpen, slideOutRight: isOpen === false }
+          { slideInRight: isOpen, slideOutRight: !_.isNil(isOpen) && !isOpen }
         )}
       >
         <header className="my-profile__header">
