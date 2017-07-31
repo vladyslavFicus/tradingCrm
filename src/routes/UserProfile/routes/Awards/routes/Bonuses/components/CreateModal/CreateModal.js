@@ -92,6 +92,7 @@ class CreateModal extends Component {
                   disabled={disabled}
                   component={InputField}
                   position="vertical"
+                  id="manual-bonus-modal-name"
                 />
 
                 <Field
@@ -101,6 +102,7 @@ class CreateModal extends Component {
                   disabled={disabled}
                   component={InputField}
                   position="vertical"
+                  id="manual-bonus-modal-granted-amount"
                 />
 
                 <Field
@@ -110,6 +112,7 @@ class CreateModal extends Component {
                   disabled={disabled}
                   component={InputField}
                   position="vertical"
+                  id="manual-bonus-modal-capping"
                 />
 
                 <Field
@@ -143,6 +146,7 @@ class CreateModal extends Component {
                   disabled={disabled}
                   component={InputField}
                   position="vertical"
+                  id="manual-bonus-modal-priority"
                 />
 
                 <Field
@@ -152,6 +156,7 @@ class CreateModal extends Component {
                   disabled={disabled}
                   component={InputField}
                   position="vertical"
+                  id="manual-bonus-modal-amount-to-wage"
                 />
 
                 <Field
@@ -161,6 +166,7 @@ class CreateModal extends Component {
                   disabled={disabled}
                   component={InputField}
                   position="vertical"
+                  id="manual-bonus-modal-prize"
                 />
 
                 <Field
@@ -196,6 +202,7 @@ class CreateModal extends Component {
                   type="submit"
                   className="btn btn-primary"
                   disabled={pristine || submitting || invalid}
+                  id="manual-bonus-modal-submit-button"
                 >
                   {I18n.t('COMMON.SAVE')}
                 </button>
