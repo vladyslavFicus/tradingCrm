@@ -51,7 +51,7 @@ class SignInDepartments extends Component {
           !canGoBack && brand &&
           <div className="form-page__single-brand_brand">
             <div>
-              <img src={brand.image} alt={brand.name} />
+              <img src={brand.image} alt={brand.name} id={brand.id} />
             </div>
             <div className="form-page__single-brand_label">
               {brand.name}

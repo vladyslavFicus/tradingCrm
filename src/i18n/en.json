@@ -57,7 +57,17 @@
       "VERIFY_PERSONAL_DATA_TITLE": "Identity",
       "VERIFY_PERSONAL_DATA_DESCRIPTION": "In order to get verified we require at least one valid proof of Identification. The ID or Passport scan need to be sharp with clear picture, readable and not expired or damaged.",
       "VERIFY_ADDRESS_DATA_TITLE": "Address",
-      "VERIFY_ADDRESS_DATA_DESCRIPTION": "Proof of address can be any document showing your name and proof of address AND a date of issuing not older than 6 months from moment of providing."
+      "VERIFY_ADDRESS_DATA_DESCRIPTION": "Proof of address can be any document showing your name and proof of address AND a date of issuing not older than 6 months from moment of providing.",
+      "REQUEST_KYC_VERIFICATION": "Request KYC verification",
+      "SEND_KYC_REQUEST": {
+        "ACTION_TEXT": "You are about to send KYC request to %{fullName}",
+        "BUTTON": "Send KYC Request",
+        "TITLE": "Send KYC request",
+        "CONSTANTS": {
+          "REASON_LABEL": "Reason",
+          "CHOOSE_REASON": "-- Choose the reason --"
+        }
+      }
     },
     "GAME_ACTIVITY": {
       "FILTER_FORM": {
@@ -142,7 +152,8 @@
         "TO_WAGER": "To wager",
         "BONUS_TYPE": "Bonus type",
         "BONUS_STATUS": "Status"
-      }
+      },
+      "CLAIM_BONUS": "Claim bonus"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {

@@ -14,7 +14,6 @@ import Permissions from '../../../utils/permissions';
 import WalletLimits from './WalletLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
-import Placeholder from '../../../components/Placeholder/Placeholder';
 import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
 
 class Header extends Component {
