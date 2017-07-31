@@ -45,8 +45,6 @@ class MyProfileSidebar extends Component {
       submitting,
     } = this.props;
 
-    console.log(isOpen);
-
     return (
       <aside
         className={classNames(
