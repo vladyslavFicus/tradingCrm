@@ -5,7 +5,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input,
+  Input
 } from 'reactstrap';
 import classNames from 'classnames';
 import PropTypes from '../../../constants/propTypes';
@@ -17,7 +17,6 @@ import Uuid from '../../../components/Uuid';
 class PaymentActionReasonModal extends Component {
   static propTypes = {
     className: PropTypes.string,
-    isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     profile: PropTypes.userProfile,
@@ -88,7 +87,6 @@ class PaymentActionReasonModal extends Component {
       },
       payment,
       profile,
-      isOpen,
       onClose,
       onChangePaymentStatus,
       reasons,
@@ -97,7 +95,7 @@ class PaymentActionReasonModal extends Component {
     } = this.props;
 
     return (
-      <Modal isOpen={isOpen} toggle={onClose} className={classNames(this.props.className, 'payment-detail-modal')}>
+      <Modal isOpen toggle={onClose} className={classNames(this.props.className, 'payment-detail-modal')}>
         <ModalHeader toggle={onClose}>
           {modalStaticParams.title}
         </ModalHeader>

@@ -25,10 +25,10 @@ class FreeSpinMainInfo extends Component {
         >
           {freeSpin.name}
         </div>
-        <div className="font-size-10">
+        <div className="font-size-11">
           <Uuid uuid={freeSpin.uuid} />
         </div>
-        <div className="font-size-10">
+        <div className="font-size-11">
           <Uuid uuid={freeSpin.authorUUID} />
         </div>
       </div>

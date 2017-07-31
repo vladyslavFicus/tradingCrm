@@ -411,7 +411,6 @@ class View extends Component {
               modal.name === MODAL_PAYMENT_ACTION_REASON &&
               <PaymentActionReasonModal
                 {...modal.params}
-                isOpen
                 onClose={this.handleCloseModal}
                 onChangePaymentStatus={this.handleChangePaymentStatus}
               />

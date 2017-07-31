@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
@@ -8,7 +8,6 @@ import { createValidator } from '../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { attributeLabels } from './constants';
-import './CreateModal.scss';
 
 const FORM_NAME = 'bonusManage';
 const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
@@ -50,170 +49,147 @@ const validator = (values) => {
   return createValidator(rules, validatorAttributeLabels, false)(values);
 };
 
-class CreateModal extends Component {
-  static propTypes = {
-    isOpen: PropTypes.bool,
-    handleSubmit: PropTypes.func,
-    change: PropTypes.func,
-    reset: PropTypes.func,
-    pristine: PropTypes.bool,
-    submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
-    disabled: PropTypes.bool,
-    onSubmit: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
-  };
+const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, disabled, invalid }) => (
+  <Modal className="create-bonus-modal" toggle={onClose} isOpen>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <ModalHeader>
+        {I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.TITLE')}
+      </ModalHeader>
+      <ModalBody>
+        <div className="row">
+          <div className="col-md-6">
+            <Field
+              name="label"
+              label={I18n.t(attributeLabels.label)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+              id="manual-bonus-modal-name"
+            />
 
-  render() {
-    const {
-      onSubmit,
-      handleSubmit,
-      onClose,
-      isOpen,
-      pristine,
-      submitting,
-      disabled,
-      invalid,
-    } = this.props;
+            <Field
+              name="grantedAmount"
+              label={I18n.t(attributeLabels.grantedAmount)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+              id="manual-bonus-modal-granted-amount"
+            />
 
-    return (
-      <Modal className="create-bonus-modal" toggle={onClose} isOpen={isOpen}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader>
-            {I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.TITLE')}
-          </ModalHeader>
-          <ModalBody>
-            <div className="row">
-              <div className="col-md-6">
-                <Field
-                  name="label"
-                  label={I18n.t(attributeLabels.label)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                  id="manual-bonus-modal-name"
-                />
+            <Field
+              name="capping"
+              label={I18n.t(attributeLabels.capping)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+              id="manual-bonus-modal-capping"
+            />
 
-                <Field
-                  name="grantedAmount"
-                  label={I18n.t(attributeLabels.grantedAmount)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                  id="manual-bonus-modal-granted-amount"
-                />
+            <Field
+              name="expirationDate"
+              label={I18n.t(attributeLabels.expirationDate)}
+              disabled={disabled}
+              component={SingleDateField}
+              position="vertical"
+            />
 
-                <Field
-                  name="capping"
-                  label={I18n.t(attributeLabels.capping)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                  id="manual-bonus-modal-capping"
-                />
-
-                <Field
-                  name="expirationDate"
-                  label={I18n.t(attributeLabels.expirationDate)}
-                  disabled={disabled}
-                  component={SingleDateField}
-                  position="vertical"
-                />
-
-                <div className="form-group">
-                  <div className="col-md-9">
-                    <div className="checkbox">
-                      <label>
-                        <Field
-                          name="optIn"
-                          type="checkbox"
-                          component="input"
-                          disabled={disabled}
-                        /> {I18n.t(attributeLabels.optIn)}
-                      </label>
-                    </div>
-                  </div>
+            <div className="form-group">
+              <div className="col-md-9">
+                <div className="checkbox">
+                  <label>
+                    <Field
+                      name="optIn"
+                      type="checkbox"
+                      component="input"
+                      disabled={disabled}
+                    /> {I18n.t(attributeLabels.optIn)}
+                  </label>
                 </div>
               </div>
-              <div className="col-md-6">
-                <Field
-                  name="priority"
-                  label={I18n.t(attributeLabels.priority)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                  id="manual-bonus-modal-priority"
-                />
-
-                <Field
-                  name="amountToWage"
-                  label={I18n.t(attributeLabels.amountToWage)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                  id="manual-bonus-modal-amount-to-wage"
-                />
-
-                <Field
-                  name="prize"
-                  label={I18n.t(attributeLabels.prize)}
-                  type="text"
-                  disabled={disabled}
-                  component={InputField}
-                  position="vertical"
-                  id="manual-bonus-modal-prize"
-                />
-
-                <Field
-                  name="moneyTypePriority"
-                  label={I18n.t(attributeLabels.moneyTypePriority)}
-                  type="select"
-                  component={SelectField}
-                  position="vertical"
-                >
-                  {Object.keys(moneyTypeUsageLabels).map(key => (
-                    <option key={key} value={key}>
-                      {renderLabel(key, moneyTypeUsageLabels)}
-                    </option>
-                  ))}
-                </Field>
-              </div>
             </div>
-          </ModalBody>
-          <ModalFooter>
-            <div className="row">
-              <div className="col-md-6">
-                <button
-                  className="btn btn-default-outline"
-                  disabled={submitting}
-                  type="reset"
-                  onClick={onClose}
-                >
-                  {I18n.t('COMMON.CANCEL')}
-                </button>
-              </div>
-              <div className="col-md-6 text-right">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={pristine || submitting || invalid}
-                  id="manual-bonus-modal-submit-button"
-                >
-                  {I18n.t('COMMON.SAVE')}
-                </button>
-              </div>
-            </div>
-          </ModalFooter>
-        </form>
-      </Modal>
-    );
-  }
-}
+          </div>
+          <div className="col-md-6">
+            <Field
+              name="priority"
+              label={I18n.t(attributeLabels.priority)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+              id="manual-bonus-modal-priority"
+            />
+
+            <Field
+              name="amountToWage"
+              label={I18n.t(attributeLabels.amountToWage)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+              id="manual-bonus-modal-amount-to-wage"
+            />
+
+            <Field
+              name="prize"
+              label={I18n.t(attributeLabels.prize)}
+              type="text"
+              disabled={disabled}
+              component={InputField}
+              position="vertical"
+              id="manual-bonus-modal-prize"
+            />
+
+            <Field
+              name="moneyTypePriority"
+              label={I18n.t(attributeLabels.moneyTypePriority)}
+              type="select"
+              component={SelectField}
+              position="vertical"
+            >
+              {Object.keys(moneyTypeUsageLabels).map(key => (
+                <option key={key} value={key}>
+                  {renderLabel(key, moneyTypeUsageLabels)}
+                </option>
+              ))}
+            </Field>
+          </div>
+        </div>
+      </ModalBody>
+      <ModalFooter>
+        <button
+          className="btn btn-default-outline pull-left"
+          disabled={submitting}
+          type="reset"
+          onClick={onClose}
+        >
+          {I18n.t('COMMON.CANCEL')}
+        </button>
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={pristine || submitting || invalid}
+        >
+          {I18n.t('COMMON.SAVE')}
+        </button>
+      </ModalFooter>
+    </form>
+  </Modal>
+);
+
+CreateModal.propTypes = {
+  handleSubmit: PropTypes.func,
+  change: PropTypes.func,
+  reset: PropTypes.func,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+  invalid: PropTypes.bool,
+  disabled: PropTypes.bool,
+  onSubmit: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default reduxForm({
   form: FORM_NAME,
