@@ -115,7 +115,6 @@ class StatusDropDown extends Component {
         {
           availableStatusActions.length > 0 && modal.show &&
           <ChangeStatusModal
-            show
             {...modal.params}
             campaign={campaign}
             onSubmit={this.handleSubmit}

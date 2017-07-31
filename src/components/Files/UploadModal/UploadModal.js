@@ -8,7 +8,6 @@ import { categories } from '../../../constants/files';
 import { createValidator } from '../../../utils/validator';
 import UploadingFile from '../UploadingFile';
 import { targetTypes } from '../constants';
-import './UploadModal.scss';
 import { shortify } from '../../../utils/uuid';
 
 const FORM_NAME = 'userUploadModal';
@@ -161,26 +160,20 @@ class UploadModal extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <div className="row">
-              <div className="col-md-6">
-                <button
-                  type="reset"
-                  disabled={submitting || uploading.some(i => i.uploading)}
-                  className="btn btn-default-outline text-uppercase"
-                  onClick={onClose}
-                >
-                  {I18n.t('COMMON.BUTTONS.CANCEL')}
-                </button>
-              </div>
-              <div className="col-md-6 text-right">
-                <button
-                  disabled={submitting || invalid || uploading.length === 0 || uploading.some(i => i.uploading)}
-                  className="btn btn-primary text-uppercase"
-                >
-                  {I18n.t('COMMON.BUTTONS.CONFIRM')}
-                </button>
-              </div>
-            </div>
+            <button
+              type="reset"
+              disabled={submitting || uploading.some(i => i.uploading)}
+              className="btn btn-default-outline pull-left"
+              onClick={onClose}
+            >
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
+            </button>
+            <button
+              disabled={submitting || invalid || uploading.length === 0 || uploading.some(i => i.uploading)}
+              className="btn btn-primary"
+            >
+              {I18n.t('COMMON.BUTTONS.CONFIRM')}
+            </button>
           </ModalFooter>
         </form>
       </Modal>

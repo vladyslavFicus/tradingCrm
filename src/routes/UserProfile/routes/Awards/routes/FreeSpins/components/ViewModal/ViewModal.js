@@ -8,7 +8,6 @@ import ViewModalMain from '../ViewModalMain';
 import ViewModalAdditional from '../ViewModalAdditional';
 import ViewModalStatistics from '../ViewModalStatistics';
 import NoteButton from '../../../../../../../../components/NoteButton';
-import './ViewModal.scss';
 
 class ViewModal extends Component {
   static propTypes = {
@@ -39,8 +38,8 @@ class ViewModal extends Component {
   };
 
   renderNote = data => (
-    <div className="row margin-top-20">
-      <div className="col-md-12 text-center">
+    <div className="row">
+      <div className="col-xs-12 text-center">
         <NoteButton
           id="free-spin-detail-modal-note"
           note={data.note}
@@ -72,7 +71,10 @@ class ViewModal extends Component {
             actions.length <= 2 &&
             <div className="row">
               {actions.map((action, index) => (
-                <div key={action.children} className={classNames('col-md-6', { 'text-right': index !== 0 })}>
+                <div
+                  key={action.children}
+                  className={classNames('col-xs-6', { 'text-right': index !== 0 }, { 'text-left': index === 0 })}
+                >
                   <button {...action} />
                 </div>
               ))}
