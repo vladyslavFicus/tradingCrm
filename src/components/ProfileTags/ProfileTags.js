@@ -81,7 +81,7 @@ class ProfileTags extends PureComponent {
             optionRenderer={this.renderOption}
             options={options}
             onClick={this.handleToggleAutoComplete}
-            label={<i className="fa fa-plus-square" />}
+            label={<i className="fa fa-plus-square" id="add-tag-button" />}
             handleClickOutside={this.handleOutsideClick}
             disableClickOutside={!showAutoComplete}
           />

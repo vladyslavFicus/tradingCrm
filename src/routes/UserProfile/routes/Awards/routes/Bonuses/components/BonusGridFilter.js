@@ -162,6 +162,7 @@ class BonusGridFilter extends Component {
                   disabled={submitting}
                   className="btn btn-primary"
                   type="submit"
+                  id="bonus-filters-apply-button"
                 >
                   Apply
                 </button>

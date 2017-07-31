@@ -65,6 +65,7 @@ const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, di
               disabled={disabled}
               component={InputField}
               position="vertical"
+              id="manual-bonus-modal-name"
             />
 
             <Field
@@ -74,6 +75,7 @@ const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, di
               disabled={disabled}
               component={InputField}
               position="vertical"
+              id="manual-bonus-modal-granted-amount"
             />
 
             <Field
@@ -83,6 +85,7 @@ const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, di
               disabled={disabled}
               component={InputField}
               position="vertical"
+              id="manual-bonus-modal-capping"
             />
 
             <Field
@@ -116,6 +119,7 @@ const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, di
               disabled={disabled}
               component={InputField}
               position="vertical"
+              id="manual-bonus-modal-priority"
             />
 
             <Field
@@ -125,6 +129,7 @@ const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, di
               disabled={disabled}
               component={InputField}
               position="vertical"
+              id="manual-bonus-modal-amount-to-wage"
             />
 
             <Field
@@ -134,6 +139,7 @@ const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, di
               disabled={disabled}
               component={InputField}
               position="vertical"
+              id="manual-bonus-modal-prize"
             />
 
             <Field

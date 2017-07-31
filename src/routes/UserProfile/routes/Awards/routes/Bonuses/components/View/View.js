@@ -279,7 +279,11 @@ class View extends Component {
             <BonusHeaderNavigation />
           </div>
           <div className="col-xs-4 text-right">
-            <button className="btn btn-sm btn-primary-outline" onClick={this.handleCreateManualBonusClick}>
+            <button
+              className="btn btn-sm btn-primary-outline"
+              onClick={this.handleCreateManualBonusClick}
+              id="add-manual-bonus-button"
+            >
               {I18n.t('PLAYER_PROFILE.BONUS.MANUAL_BONUS_BUTTON')}
             </button>
           </div>
