@@ -72,6 +72,7 @@ class Sidebar extends Component {
           <Nav
             items={this.props.topMenu}
             handleOpenTap={this.props.handleOpenTap}
+
           />
         </Scrollbars>
         <Nav

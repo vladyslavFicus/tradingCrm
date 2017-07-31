@@ -190,18 +190,11 @@ class NewLayout extends Component {
   handleOpenTap = (index) => {
     this.setState({
       sidebarTopMenu: this.state.sidebarTopMenu.map((menuItem, menuItemIndex) => {
-        const { items } = menuItem;
-        let currentMenu;
-
-        if (items) {
-          currentMenu = items.find(subMenuItem => subMenuItem.url === this.props.location.pathname);
-        }
-
-        if (menuItemIndex !== index && !currentMenu) {
+        if (menuItemIndex !== index) {
           menuItem.isOpen = false;
         }
 
-        if (menuItemIndex === index && !currentMenu) {
+        if (menuItemIndex === index) {
           menuItem.isOpen = !menuItem.isOpen;
         }
 

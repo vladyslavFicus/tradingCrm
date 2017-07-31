@@ -15,6 +15,7 @@ class NavItem extends Component {
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
+    location: PropTypes.object,
   };
 
   state = {
@@ -33,8 +34,8 @@ class NavItem extends Component {
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const withSubmenu = items && items.length > 0;
-    const className = classNames('nav-item', { active: isOpen, dropdown: withSubmenu });
     let subMenu = [];
+    let currentMenu = false;
 
     if (!label || (!url && !withSubmenu)) {
       return null;
@@ -52,7 +53,13 @@ class NavItem extends Component {
       if (!subMenu.length) {
         return null;
       }
+
+      if (subMenu) {
+        currentMenu = subMenu.find(subMenuItem => subMenuItem.url === this.context.location.pathname);
+      }
     }
+
+    const className = classNames('nav-item', { active: currentMenu || isOpen, dropdown: withSubmenu });
 
     return (
       <li className={className} onClick={() => handleOpenTap(index)}>
