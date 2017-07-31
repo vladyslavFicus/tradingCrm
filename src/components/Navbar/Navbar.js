@@ -14,6 +14,7 @@ class Navbar extends Component {
       replace: PropTypes.func.isRequired,
     }).isRequired,
     onLocaleChange: PropTypes.func.isRequired,
+    onToggleProfile: PropTypes.func.isRequired,
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
@@ -91,7 +92,7 @@ class Navbar extends Component {
           <NavbarNav
             label={<i className="fa fa-user" />}
             items={[
-              { label: 'My profile', onClick: () => this.props.toggleProfile() },
+              { label: 'My profile', onClick: () => this.props.onToggleProfile() },
               { label: 'Logout', onClick: () => this.props.router.replace('/logout') },
             ]}
           />

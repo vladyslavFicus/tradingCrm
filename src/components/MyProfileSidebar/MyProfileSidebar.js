@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
+import PropTypes from '../../constants/propTypes';
 import { InputField, SelectField } from '../ReduxForm';
 import { createValidator } from '../../utils/validator';
 
@@ -16,9 +17,15 @@ const validator = createValidator({
 }, attributeLabels, false);
 
 class MyProfileSidebar extends Component {
+  static propTypes = {
+    languages: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isOpen: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   handleClickOutside = () => {
     if (this.props.isOpen) {
-      this.props.toggleProfile(false);
+      this.props.onToggleProfile(false);
     }
   };
 
@@ -28,11 +35,14 @@ class MyProfileSidebar extends Component {
       languages,
       handleSubmit,
       onSubmit,
+      submitting,
     } = this.props;
 
     return (<aside
-      className={classNames('my-profile', { slideInRight: isOpen, slideOutRight: isOpen === false })}
-      onClick={this.handleMyProfileClick}
+      className={classNames(
+        'my-profile',
+        { slideInRight: isOpen, slideOutRight: isOpen === false }
+        )}
     >
       <header className="my-profile__header">
         My profile
@@ -66,30 +76,10 @@ class MyProfileSidebar extends Component {
               </Field>
             </div>
             <div className="text-right">
-              <button className="btn btn-primary btn-sm" type="submit">Save changes</button>
+              <button disabled={submitting} className="btn btn-primary btn-sm" type="submit">Save changes</button>
             </div>
           </form>
         </section>
-        {/* <section>*/}
-        {/* <h1 className="my-profile__heading">Change password</h1>*/}
-        {/* <form>*/}
-        {/* <div className="form-group">*/}
-        {/* <label>Old password</label>*/}
-        {/* <input type="password" className="form-control" />*/}
-        {/* </div>*/}
-        {/* <div className="form-group">*/}
-        {/* <label>New password</label>*/}
-        {/* <input type="password" className="form-control" />*/}
-        {/* </div>*/}
-        {/* <div className="form-group">*/}
-        {/* <label>Repeat new password</label>*/}
-        {/* <input type="password" className="form-control" />*/}
-        {/* </div>*/}
-        {/* <div className="text-right">*/}
-        {/* <button className="btn btn-primary btn-sm" type="submit">Save new password</button>*/}
-        {/* </div>*/}
-        {/* </form>*/}
-        {/* </section>*/}
       </div>
     </aside>);
   }

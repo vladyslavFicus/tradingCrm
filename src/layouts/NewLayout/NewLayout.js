@@ -48,6 +48,7 @@ class NewLayout extends Component {
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
+    updateUserProfile: PropTypes.func.isRequired,
   };
   static childContextTypes = {
     user: PropTypes.shape({
@@ -107,7 +108,7 @@ class NewLayout extends Component {
     isOpenProfile: null,
   };
 
-  toggleProfile = (isOpen) => {
+  onToggleProfile = (isOpen) => {
     const isOpenProfile = isOpen !== undefined ? isOpen : !this.state.isOpenProfile;
 
     this.setState({ isOpenProfile });
@@ -183,7 +184,10 @@ class NewLayout extends Component {
   };
 
   onProfileSubmit = async ({ language, ...userData }) => {
-    this.props.onLocaleChange(language);
+    if (language) {
+      this.props.onLocaleChange(language);
+    }
+
     const action = await this.props.updateUserProfile(this.props.user.uuid, userData);
 
     if (action) {
@@ -218,7 +222,7 @@ class NewLayout extends Component {
           showSearch={false}
           languages={languages}
           onLocaleChange={onLocaleChange}
-          toggleProfile={this.toggleProfile}
+          onToggleProfile={this.onToggleProfile}
         />
 
         <Sidebar topMenu={sidebarTopMenu} bottomMenu={sidebarBottomMenu} />
@@ -233,7 +237,7 @@ class NewLayout extends Component {
             language: locale,
             ...user.data,
           }}
-          toggleProfile={this.toggleProfile}
+          onToggleProfile={this.onToggleProfile}
         />
 
         <UsersPanel
