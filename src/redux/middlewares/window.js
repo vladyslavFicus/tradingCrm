@@ -6,7 +6,7 @@ import { actionCreators as appActionCreators } from '../modules/app';
 
 const config = {
   [profileActionTypes.FETCH_PROFILE.SUCCESS]: payload => windowActionCreators.updateUserTab({
-    uuid: payload.uuid,
+    uuid: payload.playerUUID,
     firstName: payload.firstName,
     lastName: payload.lastName,
   }),
