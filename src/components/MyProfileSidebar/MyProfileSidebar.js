@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import onClickOutside from 'react-onclickoutside';
 import PropTypes from '../../constants/propTypes';
 import { InputField, SelectField } from '../ReduxForm';
 import { createValidator } from '../../utils/validator';
+import { attributeLabels } from './constants';
 
 export const formName = 'my-profile-side-bar';
-const attributeLabels = {
-  phoneNumber: 'Phone',
-  language: 'Language',
-};
 
 const validator = createValidator({
   phoneNumber: ['numeric'],
@@ -21,11 +19,12 @@ class MyProfileSidebar extends Component {
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     isOpen: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
+    onToggleProfile: PropTypes.func.isRequired,
   };
 
   handleClickOutside = () => {
     if (this.props.isOpen) {
-      this.props.onToggleProfile(false);
+      this.props.onToggleProfile();
     }
   };
 
@@ -54,7 +53,7 @@ class MyProfileSidebar extends Component {
             <div className="form-group">
               <Field
                 name="phoneNumber"
-                label={attributeLabels.phoneNumber}
+                label={I18n.t(attributeLabels.phoneNumber)}
                 type="text"
                 component={InputField}
                 position="vertical"
@@ -64,7 +63,7 @@ class MyProfileSidebar extends Component {
             <div className="form-group">
               <Field
                 name="language"
-                label={attributeLabels.language}
+                label={I18n.t(attributeLabels.language)}
                 component={SelectField}
                 position="vertical"
               >

@@ -99,13 +99,13 @@ class Navbar extends Component {
           <NavbarNav
             label={<i className="fa fa-user" />}
             items={[
+
+              { label: 'My profile', onClick: () => this.props.onToggleProfile() },
               {
                 label: 'Logout',
                 onClick: () => this.props.router.replace('/logout'),
                 id: 'profile-logout-button',
               },
-              { label: 'My profile', onClick: () => this.props.onToggleProfile() },
-              { label: 'Logout', onClick: () => this.props.router.replace('/logout') },
             ]}
             dropdownToggleId="profile-logout-toggle"
           />

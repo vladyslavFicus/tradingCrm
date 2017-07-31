@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { getAvailableLanguages } from '../../config/index';
 import PropTypes from '../../constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
@@ -108,10 +109,29 @@ class NewLayout extends Component {
     isOpenProfile: null,
   };
 
-  onToggleProfile = (isOpen) => {
-    const isOpenProfile = isOpen !== undefined ? isOpen : !this.state.isOpenProfile;
+  onToggleProfile = () => {
+    this.setState({ isOpenProfile: !this.state.isOpenProfile });
+  };
 
-    this.setState({ isOpenProfile });
+  onProfileSubmit = async ({ language, ...newUserData }) => {
+    const { user: { data: oldUserData } } = this.props;
+
+    if (language) {
+      this.props.onLocaleChange(language);
+    }
+
+    if (!_.isEqualWith(oldUserData, newUserData)) {
+      const action = await this.props.updateUserProfile(this.props.user.uuid, newUserData);
+
+      if (action) {
+        if (action.error && action.payload.response.fields_errors) {
+          const errors = parserErrorsFromServer(action.payload.response.fields_errors);
+          throw new SubmissionError(errors);
+        } else if (action.payload.response && action.payload.response.error) {
+          throw new SubmissionError({ __error: action.payload.response.error });
+        }
+      }
+    }
   };
 
   setNoteChangedCallback = (cb) => {
@@ -181,23 +201,6 @@ class NewLayout extends Component {
 
   handleCloseTabs = () => {
     this.props.resetPanels();
-  };
-
-  onProfileSubmit = async ({ language, ...userData }) => {
-    if (language) {
-      this.props.onLocaleChange(language);
-    }
-
-    const action = await this.props.updateUserProfile(this.props.user.uuid, userData);
-
-    if (action) {
-      if (action.error && action.payload.response.fields_errors) {
-        const errors = parserErrorsFromServer(action.payload.response.fields_errors);
-        throw new SubmissionError(errors);
-      } else if (action.payload.response && action.payload.response.error) {
-        throw new SubmissionError({ __error: action.payload.response.error });
-      }
-    }
   };
 
   render() {

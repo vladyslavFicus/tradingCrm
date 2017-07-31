@@ -20,6 +20,12 @@
       "SUPPORT": "Support"
     }
   },
+  "MY_PROFILE_SIDEBAR": {
+    "ATTRIBUTES_LABELS": {
+      "PHONE": "Phone",
+      "LANGUAGE": "Language"
+    }
+  },
   "PAYMENT": {
     "METHODS": {
       "LIMITS": {
