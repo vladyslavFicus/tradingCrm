@@ -113,13 +113,13 @@ class NewLayout extends Component {
     this.setState({ isOpenProfile: !this.state.isOpenProfile });
   };
 
-  onProfileSubmit = async ({ language, ...newUserData }) => {
-    const { user: { data: oldUserData } } = this.props;
+  onProfileSubmit = async ({ language, ...nextData }) => {
+    const { user: { data } } = this.props;
 
     this.props.onLocaleChange(language);
 
-    if (!_.isEqualWith(oldUserData, newUserData)) {
-      const action = await this.props.updateUserProfile(this.props.user.uuid, newUserData);
+    if (!_.isEqualWith(data, nextData)) {
+      const action = await this.props.updateUserProfile(this.props.user.uuid, nextData);
 
       if (action) {
         if (action.error && action.payload.response.fields_errors) {
