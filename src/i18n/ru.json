@@ -21,6 +21,9 @@
     }
   },
   "MY_PROFILE_SIDEBAR": {
+    "MY_PROFILE": "Профиль",
+    "DETAILS": "Личные данные",
+    "SAVE_BUTTON": "Сохранить изменения",
     "ATTRIBUTES_LABELS": {
       "PHONE": "Телефон",
       "LANGUAGE": "Язык"

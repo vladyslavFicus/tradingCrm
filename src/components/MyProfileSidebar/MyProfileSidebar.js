@@ -37,50 +37,52 @@ class MyProfileSidebar extends Component {
       submitting,
     } = this.props;
 
-    return (<aside
-      className={classNames(
-        'my-profile',
-        { slideInRight: isOpen, slideOutRight: isOpen === false }
+    return (
+      <aside
+        className={classNames(
+          'my-profile',
+          { slideInRight: isOpen, slideOutRight: isOpen === false }
         )}
-    >
-      <header className="my-profile__header">
-        My profile
-      </header>
-      <div className="my-profile__sections">
-        <section className="my-profile__personal-details">
-          <h1 className="my-profile__heading">Personal details</h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="form-group">
-              <Field
-                name="phoneNumber"
-                label={I18n.t(attributeLabels.phoneNumber)}
-                type="text"
-                component={InputField}
-                position="vertical"
-                showErrorMessage
-              />
-            </div>
-            <div className="form-group">
-              <Field
-                name="language"
-                label={I18n.t(attributeLabels.language)}
-                component={SelectField}
-                position="vertical"
-              >
-                {languages.map(lang => (
-                  <option key={lang} value={lang}>
-                    {lang}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="text-right">
-              <button disabled={submitting} className="btn btn-primary btn-sm" type="submit">Save changes</button>
-            </div>
-          </form>
-        </section>
-      </div>
-    </aside>);
+      >
+        <header className="my-profile__header">
+          {I18n.t('MY_PROFILE_SIDEBAR.MY_PROFILE')}
+        </header>
+        <div className="my-profile__sections">
+          <section className="my-profile__personal-details">
+            <h1 className="my-profile__heading">{I18n.t('MY_PROFILE_SIDEBAR.DETAILS')}</h1>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="form-group">
+                <Field
+                  name="phoneNumber"
+                  label={I18n.t(attributeLabels.phoneNumber)}
+                  type="text"
+                  component={InputField}
+                  position="vertical"
+                  showErrorMessage
+                />
+              </div>
+              <div className="form-group">
+                <Field
+                  name="language"
+                  label={I18n.t(attributeLabels.language)}
+                  component={SelectField}
+                  position="vertical"
+                >
+                  {languages.map(lang => (
+                    <option key={lang} value={lang}>
+                      {lang}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+              <div className="text-right">
+                <button disabled={submitting} className="btn btn-primary btn-sm" type="submit"></button>
+              </div>
+            </form>
+          </section>
+        </div>
+      </aside>
+    );
   }
 }
 
