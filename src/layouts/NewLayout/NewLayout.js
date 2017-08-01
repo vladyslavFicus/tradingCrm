@@ -57,10 +57,12 @@ class NewLayout extends Component {
     deleteNote: PropTypes.func.isRequired,
     updateOperatorProfile: PropTypes.func.isRequired,
     setIsShowScrollTop: PropTypes.func.isRequired,
+    activePanelIndex: PropTypes.number,
   };
   static defaultProps = {
     permissions: [],
     activeUserPanel: null,
+    activePanelIndex: null,
   };
   static childContextTypes = {
     user: PropTypes.shape({
@@ -170,7 +172,9 @@ class NewLayout extends Component {
     const currentIframe = iframes[activePanelIndex];
 
     if (activePanelIndex !== null && currentIframe) {
-      currentIframe.contentWindow.postMessage(JSON.stringify(windowActionCreators.scrollToTop()), window.location.origin);
+      currentIframe
+        .contentWindow
+        .postMessage(JSON.stringify(windowActionCreators.scrollToTop()), window.location.origin);
     } else {
       window.scrollTo(0, 0);
     }
