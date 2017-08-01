@@ -194,10 +194,6 @@ class ProfileLayout extends Component {
     this.setState({ fileChangedCallback: cb });
   };
 
-  cacheChildrenComponent = (component) => {
-    this.children = component;
-  };
-
   handleLoadProfile = (needForceUpdate = false) => {
     const {
       profile,
