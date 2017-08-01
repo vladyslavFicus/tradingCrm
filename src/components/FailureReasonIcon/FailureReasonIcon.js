@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Popover, PopoverTitle, PopoverContent } from 'reactstrap';
 import onClickOutside from 'react-onclickoutside';
 import moment from 'moment';
+import './FailureReasonIcon.scss';
 
 class FailureReasonIcon extends Component {
   static propTypes = {
@@ -26,22 +27,28 @@ class FailureReasonIcon extends Component {
 
   renderPopoverContent = (reason, endDate) => {
     return (
-      <Popover placement="right" isOpen={this.state.popoverOpen} target="failure-reason-icon">
+      <Popover
+        className="failure-reason-popover"
+        placement="right"
+        isOpen={this.state.popoverOpen}
+        target="failure-reason-icon"
+      >
         <PopoverTitle>
-          {
-            !!reason &&
-            <div className="header-block-small">
-              by {reason}
-            </div>
-          }
+          <div>
+            by <strong>Helen Casssar</strong> - OP-777h1634
+          </div>
+          <div className="font-size-11">
+            2016-10-20 17:20:07
+          </div>
         </PopoverTitle>
         <PopoverContent>
-          {
-            !!endDate &&
-            <div className="header-block-small">
-              Until {moment(endDate).format('L')}
-            </div>
-          }
+          <div className="failure-reason-popover__textfield">
+            Full text of the reason will be displayed here. You can`t edit bla bla bl
+            Full text of the reason will be displayed here. You can`t edit bla bla bl
+            Full text of the reason will be displayed here. You can`t edit bla bla bl
+            Full text of the reason will be displayed here. You can`t edit bla bla bl
+            Full text of the reason will be displayed here. You can`t edit bla bla bl
+          </div>
         </PopoverContent>
       </Popover>
     );
@@ -64,4 +71,6 @@ class FailureReasonIcon extends Component {
   }
 }
 
-export default onClickOutside(FailureReasonIcon);
+export default FailureReasonIcon
+
+// export default onClickOutside(FailureReasonIcon);

@@ -184,7 +184,7 @@ class Header extends Component {
           </div>
         </div>
 
-        <div className=" panel-heading">
+        <div className="panel-heading">
           <div className="row">
             <div className="header-block header-block_account">
               <PlayerStatus
