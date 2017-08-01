@@ -13,7 +13,6 @@ const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
 const REFUSE_DATA = createRequestAction(`${KEY}/refuse-data`);
-const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
 
@@ -86,7 +85,6 @@ const initialState = {
 
 const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
 const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
-const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
 
@@ -624,7 +622,6 @@ const actionHandlers = {
     error: action.payload,
     receivedAt: timestamp(),
   }),
-  [UPDATE_IDENTIFIER.SUCCESS]: successUpdateProfileReducer,
   [VERIFY_DATA.SUCCESS]: successUpdateProfileReducer,
   [REFUSE_DATA.SUCCESS]: successUpdateProfileReducer,
   [MANAGE_KYC_REQUEST_NOTE]: (state, action) => ({
@@ -654,7 +651,6 @@ const actionCreators = {
   verifyData,
   refuseData,
   updateProfile,
-  updateIdentifier,
   resetPassword,
   activateProfile,
   updateSubscription,

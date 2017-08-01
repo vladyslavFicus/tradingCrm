@@ -36,7 +36,6 @@ const mapStateToProps = ({ profile: { profile, files }, i18n: { locale } }) => (
 });
 const mapActions = {
   fetchProfile: profileActionCreators.fetchProfile,
-  updateIdentifier: profileActionCreators.updateIdentifier,
   submitData: profileActionCreators.submitData,
   verifyData: profileActionCreators.verifyData,
   refuseData: profileActionCreators.refuseData,

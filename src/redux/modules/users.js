@@ -133,27 +133,6 @@ function updateProfile(type) {
   };
 }
 
-function updateIdentifier(type) {
-  return (uuid, identifier) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/profiles/${uuid}/identifier`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ identifier }),
-        types: [type.REQUEST, type.SUCCESS, type.FAILURE],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
 function fetchEntities(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -224,7 +203,6 @@ const actionCreators = {
   fetchEntities,
   fetchESEntities,
   updateProfile,
-  updateIdentifier,
   passwordResetRequest,
   profileActivateRequest,
 };

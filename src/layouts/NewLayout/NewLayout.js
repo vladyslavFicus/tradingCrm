@@ -28,22 +28,22 @@ const popoverInitialState = {
 
 class NewLayout extends Component {
   static propTypes = {
-    children: PropTypes.any,
+    children: PropTypes.any.isRequired,
     locale: PropTypes.string.isRequired,
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     onLocaleChange: PropTypes.func.isRequired,
     user: PropTypes.shape({
-      showScrollToTop: PropTypes.bool,
-    }).isRequired,
-    app: PropTypes.shape({
       token: PropTypes.string,
       uuid: PropTypes.string,
+    }).isRequired,
+    app: PropTypes.shape({
+      showScrollToTop: PropTypes.bool.isRequired,
     }).isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
       replace: PropTypes.func.isRequired,
     }).isRequired,
-    location: PropTypes.object,
+    location: PropTypes.object.isRequired,
     permissions: PropTypes.array,
     changeDepartment: PropTypes.func.isRequired,
     activeUserPanel: PropTypes.userPanelItem,
@@ -55,8 +55,12 @@ class NewLayout extends Component {
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
+    updateOperatorProfile: PropTypes.func.isRequired,
     setIsShowScrollTop: PropTypes.func.isRequired,
-    updateUserProfile: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    permissions: [],
+    activeUserPanel: null,
   };
   static childContextTypes = {
     user: PropTypes.shape({
@@ -125,7 +129,7 @@ class NewLayout extends Component {
     this.props.onLocaleChange(language);
 
     if (!_.isEqualWith(data, nextData)) {
-      const action = await this.props.updateUserProfile(this.props.user.uuid, nextData);
+      const action = await this.props.updateOperatorProfile(this.props.user.uuid, nextData);
 
       if (action) {
         if (action.error && action.payload.response.fields_errors) {
@@ -334,5 +338,5 @@ export default connect(mapStateToProps, {
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
   setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
-  updateUserProfile: authActionCreators.updateProfile,
+  updateOperatorProfile: authActionCreators.updateProfile,
 })(NewLayout);
