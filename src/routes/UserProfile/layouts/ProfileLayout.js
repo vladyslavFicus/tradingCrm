@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ImageViewer from 'react-images';
+import _ from 'lodash';
 import { Collapse } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import Tabs from '../../../components/Tabs';
@@ -144,7 +145,7 @@ class ProfileLayout extends Component {
       cacheChildrenComponent: this.cacheChildrenComponent,
     };
   }
-  
+
   state = {
     popover: { ...popoverInitialState },
     modal: { ...modalInitialState },
@@ -169,7 +170,7 @@ class ProfileLayout extends Component {
 
   isShowScrollTop = () => document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
 
-  handleScrollWindow = () => {
+  handleScrollWindow = _.debounce(() => {
     if (window && window.parent !== window && window.parent.postMessage) {
       if (this.isShowScrollTop()) {
         window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(true)), window.location.origin);
@@ -177,7 +178,7 @@ class ProfileLayout extends Component {
         window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(false)), window.location.origin);
       }
     }
-  };
+  }, 400);
 
   componentWillUnmount() {
     document.body.classList.remove('user-profile-layout');
