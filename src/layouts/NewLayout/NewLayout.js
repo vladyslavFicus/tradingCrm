@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { getAvailableLanguages } from '../../config/index';
 import PropTypes from '../../constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
@@ -11,6 +13,8 @@ import NotePopover from '../../components/NotePopover';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
+import MyProfileSidebar from '../../components/MyProfileSidebar';
+import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
 import './NewLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -21,7 +25,7 @@ const popoverInitialState = {
 
 class NewLayout extends Component {
   static propTypes = {
-    children: PropTypes.any,
+    children: PropTypes.any.isRequired,
     locale: PropTypes.string.isRequired,
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     onLocaleChange: PropTypes.func.isRequired,
@@ -33,7 +37,7 @@ class NewLayout extends Component {
       push: PropTypes.func.isRequired,
       replace: PropTypes.func.isRequired,
     }).isRequired,
-    location: PropTypes.object,
+    location: PropTypes.object.isRequired,
     permissions: PropTypes.array,
     changeDepartment: PropTypes.func.isRequired,
     activeUserPanel: PropTypes.userPanelItem,
@@ -45,6 +49,11 @@ class NewLayout extends Component {
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
+    updateOperatorProfile: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    permissions: [],
+    activeUserPanel: null,
   };
   static childContextTypes = {
     user: PropTypes.shape({
@@ -101,6 +110,30 @@ class NewLayout extends Component {
     hasTabs: false,
     noteChangedCallback: null,
     popover: { ...popoverInitialState },
+    isOpenProfile: false,
+  };
+
+  onToggleProfile = () => {
+    this.setState({ isOpenProfile: !this.state.isOpenProfile });
+  };
+
+  onProfileSubmit = async ({ language, ...nextData }) => {
+    const { user: { data } } = this.props;
+
+    this.props.onLocaleChange(language);
+
+    if (!_.isEqualWith(data, nextData)) {
+      const action = await this.props.updateOperatorProfile(this.props.user.uuid, nextData);
+
+      if (action) {
+        if (action.error && action.payload.response.fields_errors) {
+          const errors = parserErrorsFromServer(action.payload.response.fields_errors);
+          throw new SubmissionError(errors);
+        } else if (action.payload.response && action.payload.response.error) {
+          throw new SubmissionError({ __error: action.payload.response.error });
+        }
+      }
+    }
   };
 
   setNoteChangedCallback = (cb) => {
@@ -173,7 +206,7 @@ class NewLayout extends Component {
   };
 
   render() {
-    const { popover } = this.state;
+    const { popover, isOpenProfile } = this.state;
     const {
       children,
       router,
@@ -183,6 +216,8 @@ class NewLayout extends Component {
       setActivePanel,
       onLocaleChange,
       languages,
+      locale,
+      user,
     } = this.props;
 
     return (
@@ -192,11 +227,23 @@ class NewLayout extends Component {
           showSearch={false}
           languages={languages}
           onLocaleChange={onLocaleChange}
+          onToggleProfile={this.onToggleProfile}
         />
 
         <Sidebar topMenu={sidebarTopMenu} bottomMenu={sidebarBottomMenu} />
 
         <div className="section-container">{children}</div>
+
+        <MyProfileSidebar
+          isOpen={isOpenProfile}
+          languages={languages}
+          onSubmit={this.onProfileSubmit}
+          initialValues={{
+            language: locale,
+            ...user.data,
+          }}
+          onToggleProfile={this.onToggleProfile}
+        />
 
         <UsersPanel
           active={activeUserPanel}
@@ -240,4 +287,5 @@ export default connect(mapStateToProps, {
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
+  updateOperatorProfile: authActionCreators.updateProfile,
 })(NewLayout);

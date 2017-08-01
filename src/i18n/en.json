@@ -20,6 +20,15 @@
       "SUPPORT": "Support"
     }
   },
+  "MY_PROFILE_SIDEBAR": {
+    "MY_PROFILE": "My Profile",
+    "DETAILS": "Personal details",
+    "SAVE_BUTTON": "Save changes",
+    "ATTRIBUTES_LABELS": {
+      "PHONE": "Phone",
+      "LANGUAGE": "Language"
+    }
+  },
   "PAYMENT": {
     "METHODS": {
       "LIMITS": {
@@ -304,7 +313,8 @@
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm",
-      "UPLOAD_FILE": "+ Upload file"
+      "UPLOAD_FILE": "+ Upload file",
+      "CREATE_AND_OPEN": "Create & open"
     },
     "ACTIONS": {
       "ON": "Turn on",

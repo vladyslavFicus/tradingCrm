@@ -10,6 +10,7 @@ import { getBrand } from '../../config';
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
 const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
+const UPDATE_PROFILE = createRequestAction(`${KEY}/update-profile`);
 const FETCH_AUTHORITIES = createRequestAction(`${KEY}/fetch-authorities`);
 const CHANGE_AUTHORITY = createRequestAction(`${KEY}/change-authorities`);
 const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
@@ -18,6 +19,7 @@ const LOGOUT = createRequestAction(`${KEY}/logout`);
 
 const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 const fetchAuthorities = operatorSourceActionCreators.fetchAuthorities(FETCH_AUTHORITIES);
+const updateProfile = operatorSourceActionCreators.updateProfile(UPDATE_PROFILE);
 
 function signIn(data) {
   return async dispatch => dispatch({
@@ -84,7 +86,6 @@ function changeDepartment(department, brandId = getBrand(), token = null) {
     });
   };
 }
-
 
 function validateToken() {
   return (dispatch, getState) => {
@@ -181,11 +182,15 @@ const actionHandlers = {
     fullName: [action.payload.firstName, action.payload.lastName].join(' ').trim(),
     data: action.payload,
   }),
+  [UPDATE_PROFILE.SUCCESS]: (state, action) => ({
+    ...state,
+    data: action.payload,
+  }),
   [REFRESH_TOKEN.SUCCESS]: (state, action) => ({
     ...state,
     token: action.payload.jwtToken,
   }),
-  [VALIDATE_TOKEN.SUCCESS]: (state) => ({ ...state, lastTokenValidation: timestamp() }),
+  [VALIDATE_TOKEN.SUCCESS]: state => ({ ...state, lastTokenValidation: timestamp() }),
   [LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
 const actionTypes = {
@@ -195,6 +200,7 @@ const actionTypes = {
   REFRESH_TOKEN,
   VALIDATE_TOKEN,
   LOGOUT,
+  UPDATE_PROFILE,
 };
 const actionCreators = {
   signIn,
@@ -205,6 +211,7 @@ const actionCreators = {
   refreshToken,
   validateToken,
   resetPasswordConfirm,
+  updateProfile,
 };
 
 export {

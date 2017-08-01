@@ -147,7 +147,6 @@ class PlayerStatus extends Component {
           <PlayerStatusModal
             locale={locale}
             title={'Change account status'}
-            show
             {...modal.params}
             onSubmit={this.handleSubmit}
             onHide={this.handleModalHide}

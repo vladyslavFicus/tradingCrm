@@ -1,5 +1,33 @@
 import { CALL_API } from 'redux-api-middleware';
 
+function updateProfile(type) {
+  return (uuid, data) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `operator/operators/${uuid}`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          email: undefined,
+        }),
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function passwordResetRequest(type) {
   return ({ email }) => dispatch => dispatch({
     [CALL_API]: {
@@ -40,7 +68,7 @@ function sendInvitationRequest(type) {
         bailout: !logged,
       },
     });
-  }
+  };
 }
 
 function passwordResetConfirm(type) {
@@ -116,6 +144,7 @@ const sourceActionCreators = {
   passwordResetRequest,
   passwordResetConfirm,
   sendInvitationRequest,
+  updateProfile,
 };
 
 export {

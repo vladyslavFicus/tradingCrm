@@ -3,7 +3,6 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getFormValues, Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import classNames from 'classnames';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { createValidator } from '../../../../../../../../utils/validator';
@@ -11,7 +10,6 @@ import { TextAreaField, SelectField } from '../../../../../../../../components/R
 import Uuid from '../../../../../../../../components/Uuid';
 import { actionLabels } from '../../../../../../../../constants/free-spin';
 import { attributeLabels } from './constants';
-import './CancelModal.scss';
 
 const CUSTOM_REASON = 'custom';
 const FORM_NAME = 'freeSpinCancelModal';
@@ -19,7 +17,6 @@ const FORM_NAME = 'freeSpinCancelModal';
 class CancelModal extends Component {
   static propTypes = {
     item: PropTypes.freeSpinEntity.isRequired,
-    isOpen: PropTypes.bool,
     action: PropTypes.string,
     reasons: PropTypes.object,
     onClose: PropTypes.func.isRequired,
@@ -36,7 +33,6 @@ class CancelModal extends Component {
     disabled: PropTypes.bool,
   };
   static defaultProps = {
-    isOpen: false,
     handleSubmit: null,
     action: null,
     reasons: {},
@@ -64,7 +60,6 @@ class CancelModal extends Component {
         label={I18n.t(attributeLabels.reason)}
         component={SelectField}
         position="vertical"
-        className={'form-control'}
       >
         <option value="">
           {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.SELECT_REASON_OPTION')}
@@ -86,7 +81,6 @@ class CancelModal extends Component {
 
   render() {
     const {
-      isOpen,
       action,
       reasons,
       onClose,
@@ -100,7 +94,7 @@ class CancelModal extends Component {
     } = this.props;
 
     return (
-      <Modal className="free-spin-cancel-modal" isOpen={isOpen} toggle={onClose}>
+      <Modal className="free-spin-cancel-modal" isOpen toggle={onClose}>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalHeader toggle={onClose}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.TITLE')}
@@ -133,22 +127,19 @@ class CancelModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <div className="row">
-              <div className="col-md-6">
-                <button className="btn btn-default-outline text-uppercase" onClick={onClose}>
-                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CLOSE_BUTTON')}
-                </button>
-              </div>
-              <div className="col-md-6 text-right">
-                <button
-                  className="btn text-uppercase btn-danger"
-                  type="submit"
-                  disabled={pristine || submitting || invalid}
-                >
-                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CANCEL_BUTTON')}
-                </button>
-              </div>
-            </div>
+            <button
+              className="btn btn-default-outline pull-left"
+              onClick={onClose}
+            >
+              {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CLOSE_BUTTON')}
+            </button>
+            <button
+              className="btn btn-danger"
+              type="submit"
+              disabled={pristine || submitting || invalid}
+            >
+              {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CANCEL_BUTTON')}
+            </button>
           </ModalFooter>
         </form>
       </Modal>

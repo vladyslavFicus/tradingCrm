@@ -6,7 +6,6 @@ import { InputField, SelectField } from '../../../../components/ReduxForm';
 import { createValidator } from '../../../../utils/validator';
 import renderLabel from '../../../../utils/renderLabel';
 import { departmentsLabels, rolesLabels } from '../../../../constants/operators';
-import './CreateOperatorModal.scss';
 
 const attributeLabels = {
   firstName: 'First name',
@@ -39,7 +38,6 @@ class CreateOperatorModal extends Component {
       label: PropTypes.string,
       value: PropTypes.string,
     })),
-    isOpen: PropTypes.bool,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
@@ -59,11 +57,10 @@ class CreateOperatorModal extends Component {
       valid,
       roles,
       onClose,
-      isOpen,
     } = this.props;
 
     return (
-      <Modal className="create-operator-modal" toggle={onClose} isOpen={isOpen}>
+      <Modal className="create-operator-modal" toggle={onClose} isOpen>
         <ModalHeader toggle={onClose}>New operator</ModalHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -167,10 +164,10 @@ class CreateOperatorModal extends Component {
 
           <ModalFooter>
             <div className="row">
-              <div className="col-sm-7 text-muted font-size-12">
+              <div className="col-sm-6 text-muted font-size-12">
                 <b>Note</b>: You will be able to set additional departments in operator's profile once it's created
               </div>
-              <div className="col-sm-5 text-right">
+              <div className="col-sm-6 text-right">
                 <button
                   type="reset"
                   className="btn btn-default-outline text-uppercase"

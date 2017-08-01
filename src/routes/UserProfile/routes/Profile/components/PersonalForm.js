@@ -83,6 +83,7 @@ class PersonalForm extends Component {
               component={InputField}
               position="vertical"
               showErrorMessage
+              id="users-profile-first-name"
             />
           </div>
           <div className="form-row__medium">
@@ -93,6 +94,7 @@ class PersonalForm extends Component {
               component={InputField}
               position="vertical"
               showErrorMessage
+              id="users-profile-last-name"
             />
           </div>
         </div>
