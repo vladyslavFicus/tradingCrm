@@ -47,7 +47,7 @@ class Switch extends Component {
       <ReactSwitch
         on={this.state.active}
         onClick={this.handleSwitch}
-        isDisabled={this.props.disabled}
+        disabled={this.props.disabled}
       />
     );
   }
