@@ -3,7 +3,6 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getFormValues, Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import classNames from 'classnames';
 import PropTypes from '../../../../constants/propTypes';
 import renderLabel from '../../../../utils/renderLabel';
 import { createValidator } from '../../../../utils/validator';
@@ -11,7 +10,6 @@ import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import Uuid from '../../../../components/Uuid';
 import { actionLabels } from '../../../../constants/bonus-campaigns';
 import { attributeLabels } from './constants';
-import './ChangeStatusModal.scss';
 
 const CUSTOM_REASON = 'custom';
 const FORM_NAME = 'bonusCampaignStatusDropDownModal';
@@ -34,8 +32,6 @@ const validator = (data) => {
 class ChangeStatusModal extends Component {
   static propTypes = {
     campaign: PropTypes.bonusCampaignEntity.isRequired,
-    isOpen: PropTypes.bool,
-    show: PropTypes.bool,
     action: PropTypes.string,
     reasons: PropTypes.object,
     onHide: PropTypes.func.isRequired,
@@ -43,21 +39,23 @@ class ChangeStatusModal extends Component {
     handleSubmit: PropTypes.func,
     customReason: PropTypes.bool,
     submitButtonLabel: PropTypes.string,
-    submitButtonClassName: PropTypes.string,
     currentValues: PropTypes.shape({
       reason: PropTypes.string,
       customReason: PropTypes.string,
     }).isRequired,
+    className: PropTypes.string,
   };
   static defaultProps = {
+    action: '',
     reasons: {},
     submitButtonLabel: 'Submit',
-    submitButtonClassName: '',
     customReason: false,
     currentValues: {
       reason: '',
       customReason: '',
     },
+    handleSubmit: null,
+    className: 'modal-danger',
   };
 
   handleSubmit = ({ reason, customReason }) => {
@@ -73,7 +71,6 @@ class ChangeStatusModal extends Component {
         label={I18n.t(attributeLabels.reason)}
         component={SelectField}
         position="vertical"
-        className={'form-control'}
       >
         <option value="">
           {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.SELECT_REASON_OPTION')}
@@ -95,10 +92,8 @@ class ChangeStatusModal extends Component {
 
   render() {
     const {
-      show,
       action,
       submitButtonLabel,
-      submitButtonClassName,
       reasons,
       onHide,
       onSubmit,
@@ -106,11 +101,11 @@ class ChangeStatusModal extends Component {
       customReason,
       currentValues,
       campaign,
-      ...rest
+      className,
     } = this.props;
 
     return (
-      <Modal {...rest} className="bonus-campaign-change-status-modal" isOpen={show} toggle={onHide}>
+      <Modal isOpen toggle={onHide} className={className}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader toggle={onHide}>
             {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.TITLE')}
@@ -144,18 +139,12 @@ class ChangeStatusModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <div className="row">
-              <div className="col-md-6">
-                <button className="btn btn-default-outline text-uppercase" onClick={onHide}>
-                  {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
-                </button>
-              </div>
-              <div className="col-md-6 text-right">
-                <button className={classNames(submitButtonClassName, 'btn text-uppercase')} type="submit">
-                  {I18n.t(submitButtonLabel)}
-                </button>
-              </div>
-            </div>
+            <button className="btn btn-default-outline pull-left" onClick={onHide}>
+              {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
+            </button>
+            <button className="btn btn-danger" type="submit">
+              {I18n.t(submitButtonLabel)}
+            </button>
           </ModalFooter>
         </form>
       </Modal>

@@ -65,7 +65,7 @@ class Documents extends Component {
           </button>
         </div>
         <span className="font-size-10 color-default">
-        by {shortify(data.author)}
+          by {shortify(data.author)}
         </span>
       </div>
     );

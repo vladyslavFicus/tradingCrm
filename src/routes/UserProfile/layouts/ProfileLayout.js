@@ -13,7 +13,7 @@ import PropTypes from '../../../constants/propTypes';
 import getFileBlobUrl from '../../../utils/getFileBlobUrl';
 import {
   UploadModal as UploadFileModal,
-  DeleteModal as DeleteFileModal,
+  DeleteModal as DeleteFileModal
 } from '../../../components/Files';
 import './ProfileLayout.scss';
 
@@ -393,6 +393,7 @@ class ProfileLayout extends Component {
 
       if (action && !action.error) {
         this.handleOpenModal(MODAL_INFO, {
+          className: 'modal-danger',
           header: 'Reset password',
           body: (
             <span>
@@ -400,8 +401,8 @@ class ProfileLayout extends Component {
             </span>
           ),
           footer: (
-            <button className="btn btn-default" onClick={this.handleCloseModal}>
-              Close
+            <button className="btn btn-default-outline pull-left" onClick={this.handleCloseModal}>
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           ),
         });
@@ -424,8 +425,8 @@ class ProfileLayout extends Component {
             </span>
           ),
           footer: (
-            <button className="btn btn-default" onClick={this.handleCloseModal}>
-              Close
+            <button className="btn btn-default-outline pull-left" onClick={this.handleCloseModal}>
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           ),
         });
@@ -596,7 +597,6 @@ class ProfileLayout extends Component {
           modal.name === MODAL_DELETE_FILE &&
           <DeleteFileModal
             {...modal.params}
-            isOpen
             playerProfile={playerProfile}
             onClose={this.handleCloseModal}
           />

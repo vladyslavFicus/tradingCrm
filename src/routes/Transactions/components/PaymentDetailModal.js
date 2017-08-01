@@ -29,7 +29,6 @@ const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBA
 class PaymentDetailModal extends Component {
   static propTypes = {
     className: PropTypes.string,
-    isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     onAskReason: PropTypes.func.isRequired,
@@ -230,14 +229,13 @@ class PaymentDetailModal extends Component {
         note,
         userAgent,
       },
-      isOpen,
       onClose,
       className,
     } = this.props;
     const isWithdraw = paymentType === paymentsTypes.Withdraw;
 
     return (
-      <Modal isOpen={isOpen} toggle={onClose} className={classNames(className, 'payment-detail-modal')}>
+      <Modal isOpen toggle={onClose} className={classNames(className, 'payment-detail-modal')}>
         <ModalHeader toggle={onClose}>Payment details</ModalHeader>
 
         <ModalBody>

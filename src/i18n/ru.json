@@ -20,6 +20,15 @@
       "SUPPORT": "Поддержка"
     }
   },
+  "MY_PROFILE_SIDEBAR": {
+    "MY_PROFILE": "Профиль",
+    "DETAILS": "Личные данные",
+    "SAVE_BUTTON": "Сохранить изменения",
+    "ATTRIBUTES_LABELS": {
+      "PHONE": "Телефон",
+      "LANGUAGE": "Язык"
+    }
+  },
   "PAYMENT": {
     "METHODS": {
       "LIMITS": {
@@ -304,7 +313,8 @@
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить",
-      "UPLOAD_FILE": "+ Загрузить файл"
+      "UPLOAD_FILE": "+ Загрузить файл",
+      "CREATE_AND_OPEN": "Создать и открыть"
     },
     "ACTIONS": {
       "ON": "Вкл",

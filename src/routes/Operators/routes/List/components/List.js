@@ -229,7 +229,6 @@ class List extends Component {
               sendMail: true,
             }}
             onClose={this.handleModalClose}
-            isOpen
           />
         }
       </div>

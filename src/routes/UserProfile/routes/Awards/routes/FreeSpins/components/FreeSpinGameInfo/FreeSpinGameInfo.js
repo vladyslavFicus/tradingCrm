@@ -17,7 +17,7 @@ class FreeSpinGameInfo extends Component {
         <div className="font-weight-700">
           {freeSpin.providerId}
         </div>
-        <div className="font-size-10">
+        <div className="font-size-11">
           {freeSpin.gameName || freeSpin.gameId}
         </div>
       </div>

@@ -5,7 +5,6 @@ import PropTypes from '../../../../constants/propTypes';
 import { createValidator } from '../../../../utils/validator';
 import { types, actions } from '../../../../constants/wallet';
 import { SelectField } from '../../../../components/ReduxForm';
-import './WalletLimitsModal.scss';
 import Uuid from '../../../../components/Uuid';
 
 const attributeLabels = {
@@ -18,25 +17,23 @@ class WalletLimitsModal extends Component {
     profile: PropTypes.userProfile.isRequired,
     action: PropTypes.oneOf(Object.keys(actions)).isRequired,
     type: PropTypes.oneOf(Object.keys(types)).isRequired,
-    isOpen: PropTypes.bool,
-    show: PropTypes.bool,
     reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string.isRequired,
     onHide: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
+    className: PropTypes.string,
   };
   static defaultProps = {
-    isOpen: false,
-    show: false,
+    handleSubmit: null,
+    className: 'modal-danger',
   };
 
   renderReasonsSelect = reasons => (
     <Field
       name="reason"
-      label={null}
+      label=""
       component={SelectField}
-      className={'form-control'}
       position="vertical"
     >
       <option value="">Choose a reason</option>
@@ -51,7 +48,6 @@ class WalletLimitsModal extends Component {
   render() {
     const {
       action,
-      show,
       reasons,
       title,
       onHide,
@@ -59,11 +55,11 @@ class WalletLimitsModal extends Component {
       handleSubmit,
       profile,
       type,
-      ...rest
+      className,
     } = this.props;
 
     return (
-      <Modal {...rest} isOpen={show} toggle={onHide} className="wallet-limits-modal">
+      <Modal isOpen toggle={onHide} className={className}>
         <form onSubmit={handleSubmit(onSubmit)}>
           {
             !!title &&
@@ -72,7 +68,7 @@ class WalletLimitsModal extends Component {
             </ModalHeader>
           }
           <ModalBody>
-            <div className="text-center margin-bottom-50">
+            <div className="text-center margin-bottom-20">
               <strong>
                 You are about to {action.toLowerCase()} {type === types.DEPOSIT ? 'deposits' : 'withdrawals'}
                 {' '}
@@ -89,18 +85,18 @@ class WalletLimitsModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <div className="row">
-              <div className="col-md-6">
-                <button className="btn btn-default-outline text-uppercase" onClick={onHide}>
-                  Cancel
-                </button>
-              </div>
-              <div className="col-md-6 text-right">
-                <button className="btn btn-danger text-uppercase" type="submit">
-                  {action} {type}
-                </button>
-              </div>
-            </div>
+            <button
+              className="btn btn-default-outline pull-left"
+              onClick={onHide}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-danger"
+              type="submit"
+            >
+              {action} {type}
+            </button>
           </ModalFooter>
         </form>
       </Modal>

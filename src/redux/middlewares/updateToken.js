@@ -6,6 +6,7 @@ import {
 } from '../../redux/modules/auth';
 import { actionCreators as windowActionCreators } from '../modules/window';
 import timestamp from '../../utils/timestamp';
+import { actionTypes as locationActionTypes } from '../../redux/modules/location';
 
 const state = {
   pending: false,
@@ -54,7 +55,7 @@ function startTimeout(store, expirationTime) {
 
 export default function ({ expireThreshold = 60 }) {
   return store => next => async (action) => {
-    if (!state.pending) {
+    if (action.type && action.type !== locationActionTypes.LOCATION_CHANGE && !state.pending) {
       const { auth: { logged, token } } = store.getState();
 
       if (logged && token) {

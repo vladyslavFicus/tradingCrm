@@ -10,18 +10,17 @@ import {
   CustomValueField,
   InputField,
   SelectField,
-  DateTimeField,
+  DateTimeField
 } from '../../../../../../components/ReduxForm';
 import {
   campaignTypes,
   campaignTypesLabels,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
-  moneyTypeUsageLabels,
+  moneyTypeUsageLabels
 } from '../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
-import './CreateBonusCampaignModal.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 const FORM_NAME = 'bonusCampaignCreateForm';
@@ -128,7 +127,6 @@ class CreateBonusCampaignModal extends Component {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    isOpen: PropTypes.bool,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
@@ -195,13 +193,12 @@ class CreateBonusCampaignModal extends Component {
       currencies,
       valid,
       onClose,
-      isOpen,
       currentValues,
     } = this.props;
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
     return (
-      <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen={isOpen}>
+      <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen>
         <ModalHeader toggle={onClose}>
           {I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.TITLE')}
         </ModalHeader>
@@ -355,25 +352,20 @@ class CreateBonusCampaignModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <div className="row">
-              <div className="col-md-12 text-right">
-                <button
-                  type="reset"
-                  className="btn btn-default-outline text-uppercase"
-                  onClick={onClose}
-                >
-                  Cancel
-                </button>
-
-                <button
-                  type="submit"
-                  disabled={pristine || submitting || !valid}
-                  className="btn btn-primary text-uppercase"
-                >
-                  Create & open
-                </button>
-              </div>
-            </div>
+            <button
+              type="reset"
+              className="btn btn-default-outline pull-left"
+              onClick={onClose}
+            >
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
+            </button>
+            <button
+              type="submit"
+              disabled={pristine || submitting || !valid}
+              className="btn btn-primary"
+            >
+              {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
+            </button>
           </ModalFooter>
         </form>
       </Modal>

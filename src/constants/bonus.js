@@ -51,30 +51,30 @@ const moneyTypeUsageLabels = {
 
 const statusesProps = {
   [statuses.INACTIVE]: {
-    className: 'color-default font-weight-600 text-uppercase',
+    className: 'color-default font-weight-700 text-uppercase',
   },
   [statuses.IN_PROGRESS]: {
-    className: 'color-success font-weight-600 text-uppercase',
+    className: 'color-success font-weight-700 text-uppercase',
   },
   [statuses.WAGERING_COMPLETE]: {
-    className: 'color-warning font-weight-600 text-uppercase',
+    className: 'color-warning font-weight-700 text-uppercase',
   },
   [statuses.CONSUMED]: {
-    className: 'color-primary font-weight-600 text-uppercase',
+    className: 'color-primary font-weight-700 text-uppercase',
   },
   [statuses.CANCELLED]: {
-    className: 'color-danger font-weight-600 text-uppercase',
+    className: 'color-danger font-weight-700 text-uppercase',
   },
   [statuses.EXPIRED]: {
-    className: 'color-primary font-weight-600 text-uppercase',
+    className: 'color-primary font-weight-700 text-uppercase',
   },
 };
 const typesProps = {
   [types.FIRST_DEPOSIT]: {
-    className: 'color-primary font-weight-600 text-uppercase',
+    className: 'color-primary font-weight-700 text-uppercase',
   },
   [types.Manual]: {
-    className: 'color-success font-weight-600 text-uppercase',
+    className: 'color-success font-weight-700 text-uppercase',
   },
 };
 
