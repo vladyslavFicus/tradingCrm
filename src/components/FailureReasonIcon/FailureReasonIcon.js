@@ -34,19 +34,15 @@ class FailureReasonIcon extends Component {
         target="failure-reason-icon"
       >
         <PopoverTitle>
-          <div>
+          <div className="failure-reason-popover__title">
             by <strong>Helen Casssar</strong> - OP-777h1634
           </div>
-          <div className="font-size-11">
+          <div className="failure-reason-popover__date">
             2016-10-20 17:20:07
           </div>
         </PopoverTitle>
         <PopoverContent>
           <div className="failure-reason-popover__textfield">
-            Full text of the reason will be displayed here. You can`t edit bla bla bl
-            Full text of the reason will be displayed here. You can`t edit bla bla bl
-            Full text of the reason will be displayed here. You can`t edit bla bla bl
-            Full text of the reason will be displayed here. You can`t edit bla bla bl
             Full text of the reason will be displayed here. You can`t edit bla bla bl
           </div>
         </PopoverContent>

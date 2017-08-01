@@ -8,69 +8,70 @@
   &_account-status {
     position: absolute;
     right: 35px;
-    bottom: 8px;
+    bottom: 5px;
   }
 }
 
 .failure-reason-popover {
   padding: 10px;
   background-color: #fff;
-  border-color: #797979;
-  //box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.0980392156862745);
-  .popover-title,
-  .popover-content {
-    background-color: transparent;
-    padding: 0;
+  box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.0980392156862745);
+  &:before {
+    content: '';
+    border-width: 11px;
+  }
+  &:after {
+    content: "";
+    border-width: 10px;
+  }
+  &:before,
+  &:after {
+    position: absolute;
+    top: 50%;
+    border-left-width: 0;
+    display: block;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+  &:before {
+    left: -11px;
+    margin-top: -11px;
+    border-right-color: #797979;
+  }
+  &:after {
+    left: -10px;
+    margin-top: -10px;
+    border-right-color: #fff;
   }
   .popover-title {
     margin-bottom: 5px;
-    font-size: 13px;
+    padding: 0;
+    background-color: transparent;
     font-weight: 400;
+  }
+  .popover-content {
+    padding: 0;
+    background-color: transparent;
+  }
+  &__title {
+    font-size: 13px;
     color: #666;
   }
+  &__date {
+    font-size: 11px;
+  }
   &__textfield {
-    max-height: 40px;
-    overflow-y: auto;
     background-attachment: local;
     background-image: linear-gradient(90deg,#fff 0,transparent 0),linear-gradient(270deg,#fff 0,transparent 0),repeating-linear-gradient(#fff,#fff 17px,#dfe4ed 0,#dfe4ed 18px,#fff 0);
     font-size: 13px;
     line-height: 18px;
     color: #000;
+    text-align: justify;
   }
 }
 
-.popover:before {
-  content: '';
-  border-width: 11px;
-}
-
-.popover:after {
-  content: "";
-  border-width: 10px;
-}
-
-.popover:after, .popover:before {
-  position: absolute;
-  display: block;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-}
-
-.popover.bs-tether-element-attached-left:after, .popover.popover-right:after {
-  left: -10px;
-  margin-top: -10px;
-  border-right-color: #fff;
-}
-
-.popover.bs-tether-element-attached-left:after, .popover.bs-tether-element-attached-left:before, .popover.popover-right:after, .popover.popover-right:before {
-  top: 50%;
-  border-left-width: 0;
-}
-
-.popover.bs-tether-element-attached-left:before, .popover.popover-right:before {
-  left: -11px;
-  margin-top: -11px;
-  border-right-color: #797979;
+.popover.bs-tether-element-attached-left {
+  margin-left: 12px;
 }

@@ -13,8 +13,10 @@
   .nav-item {
     .active {
       color: #0088ff;
+      background-color: transparent;
       &:hover {
         color: #0088ff;
+        background-color: transparent;
       }
     }
     .nav-link {
