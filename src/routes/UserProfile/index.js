@@ -11,11 +11,11 @@ import NotesRoute from './routes/Notes';
 import { injectReducer } from '../../store/reducers';
 import { actionCreators as usersPanelsActionCreators } from '../../redux/modules/user-panels';
 
-const PROFILE_ROUTE_PREFIX = 'users';
-const profilePathnameRegExp = new RegExp(`^\\/${PROFILE_ROUTE_PREFIX}\\/([^\\/]+)\\/?.*`, 'i');
+const PLAYER_PROFILE_ROUTE_PREFIX = 'users';
+const profilePathnameRegExp = new RegExp(`^\\/${PLAYER_PROFILE_ROUTE_PREFIX}\\/([^\\/]+)\\/?.*`, 'i');
 
 export default store => ({
-  path: PROFILE_ROUTE_PREFIX,
+  path: PLAYER_PROFILE_ROUTE_PREFIX,
   onEnter: ({ location }, replace, cb) => {
     if (window && window.parent === window) {
       const [, playerUUID] = location.pathname.match(profilePathnameRegExp);
@@ -26,7 +26,7 @@ export default store => ({
           login: '',
           uuid: playerUUID,
         }));
-        replace({ pathname: '/users/list', state: { ignoreByUsersPanel: true } });
+        replace({ pathname: `/${PLAYER_PROFILE_ROUTE_PREFIX}/list`, state: { ignoreByUsersPanel: true } });
       }
     }
 
