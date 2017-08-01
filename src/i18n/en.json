@@ -294,6 +294,17 @@
         },
         "CLOSE_BUTTON": "Close"
       }
+    },
+    "TRANSACTIONS": {
+      "MODAL_CREATE": {
+        "NO_PAYMENT_ACCOUNTS_LABEL": "No payment accounts",
+        "CHOOSE_PAYMENT_ACCOUNT_LABEL": "Choose payment account",
+        "ACTION_TEXT_ACCOUNT": "from %{fullName} %{uuid} account",
+        "TITLE": "New transaction",
+        "ATTENTION_UNDONE_ACTION_LABEL": "Note",
+        "ATTENTION_UNDONE_ACTION": "This action can not be undone!",
+        "ACTION_TEXT": "You are about to %{action}"
+      }
     }
   },
   "COMMON": {
@@ -338,7 +349,7 @@
         "MESSAGE": "Full UUID has been copied to clipboard"
       },
       "COPY_FULL_IP": {
-        "MESSAGE": "IP adress has been copied to clipboard"
+        "MESSAGE": "IP address has been copied to clipboard"
       }
     },
     "OR": "Or",
@@ -364,7 +375,12 @@
     "GOOD_AFTERNOON": "Good afternoon",
     "GOOD_EVENING": "Good evening",
     "GOOD_NIGHT": "Good night",
-    "SINCE": "since %{date}"
+    "SINCE": "since %{date}",
+    "APPROVE": "Approve",
+    "REJECT": "Reject",
+    "DEFER": "Defer",
+    "SELECT_OPTION": "-- Select --",
+    "CONFIRM": "Confirm"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -570,6 +586,34 @@
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "SEARCH_BY": "Campaign name"
+        }
+      }
+    },
+    "PAYMENT": {
+      "PAYMENT_METHODS": {
+        "FAKEPAL": "Fakepal",
+        "QIWI": "Qiwi",
+        "VISA": "Visa",
+        "CARD": "Credit card",
+        "MASTERCARD": "Mastercard",
+        "YANDEX_MONEY": "Yandex money"
+      }
+    },
+    "TRANSACTIONS": {
+      "FILTER_FORM": {
+        "ATTRIBUTES_LABELS": {
+          "KEYWORD": "Search by",
+          "INITIATOR_TYPE": "Initiated by",
+          "TYPE": "Transaction type",
+          "STATUSES": "Transaction status",
+          "PAYMENT_METHOD": "Payment method",
+          "START_DATE": "Start date",
+          "END_DATE": "End date",
+          "AMOUNT_FROM": "Amount from",
+          "AMOUNT_TO": "Amount to"
+        },
+        "ATTRIBUTES_PLACEHOLDERS": {
+          "KEYWORD": "Transaction ID, Player, External reference"
         }
       }
     }
@@ -851,5 +895,24 @@
       "REFUSED": "Refused",
       "DOCUMENTS_SENT": "Documents sent"
     }
+  },
+  "PAYMENT_ACTION_REASON_MODAL": {
+    "SELECT_REASON_OPTION": "-- Select --",
+    "CUSTOM_REASON_OPTION": "Other",
+    "REASON_DROPDOWN": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Reason",
+        "CUSTOM_REASON_LABEL": "Custom reason"
+      }
+    }
+  },
+  "PAYMENT_DETAILS_MODAL": {
+    "TITLE": "Payment details",
+    "HEADER_TRANSACTION": "Transaction",
+    "HEADER_DATE_TIME": "Date & time",
+    "HEADER_DEVICE": "Device",
+    "HEADER_STATUS": "Status",
+    "HEADER_AMOUNT": "Amount",
+    "HEADER_PAYMENT_METHOD": "Payment method"
   }
 }

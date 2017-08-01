@@ -12,7 +12,6 @@ import {
   types as paymentTypes,
   manualTypesLabels as paymentTypesLabels,
 } from '../../../../../constants/payment';
-import { targetTypes } from '../../../../../constants/note';
 import PropTypes from '../../../../../constants/propTypes';
 import Currency from '../../../../../components/Amount/Currency';
 
@@ -30,6 +29,7 @@ class PaymentAddModal extends Component {
     handleSubmit: PropTypes.func.isRequired,
     onLoadPaymentAccounts: PropTypes.func.isRequired,
     onManageNote: PropTypes.func.isRequired,
+    onNoteClick: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
@@ -80,15 +80,6 @@ class PaymentAddModal extends Component {
     onSubmit: this.handleSubmitNote,
     onDelete: this.handleDeleteNote,
   });
-
-  handleNoteClick = (target) => {
-    const { note } = this.props;
-    if (note) {
-      this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
-    } else {
-      this.context.onAddNoteClick(null, targetTypes.PAYMENT)(target, this.getNotePopoverParams());
-    }
-  };
 
   handleSubmitNote = (data) => {
     this.props.onManageNote(data);
@@ -147,11 +138,9 @@ class PaymentAddModal extends Component {
 
     return (
       <div className="center-block text-center width-400 font-weight-700">
-        {I18n.t(
-          'PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ACTION_TEXT', {
-            action: paymentTypesLabels[currentValues.type],
-          }
-        )}
+        {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ACTION_TEXT', {
+          action: paymentTypesLabels[currentValues.type],
+        })}
         {' '}
         <Amount
           amount={currentValues.amount}
@@ -177,6 +166,7 @@ class PaymentAddModal extends Component {
       playerProfile,
       note,
       error,
+      onNoteClick,
     } = this.props;
 
     return (
@@ -235,7 +225,7 @@ class PaymentAddModal extends Component {
               <NoteButton
                 id="add-transaction-item-note-button"
                 note={note}
-                onClick={this.handleNoteClick}
+                onClick={onNoteClick}
               />
             </div>
           </ModalBody>

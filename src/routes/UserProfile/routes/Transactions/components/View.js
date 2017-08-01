@@ -492,6 +492,7 @@ class View extends Component {
             onLoadPaymentAccounts={() => loadPaymentAccounts(playerProfile.playerUUID)}
             onSubmit={this.handleAddPayment}
             onManageNote={manageNote}
+            onNoteClick={this.handleNoteClick}
           />
         }
       </div>
