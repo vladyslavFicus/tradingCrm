@@ -247,12 +247,9 @@ class NewLayout extends Component {
 
   handleUserPanelClick = (index) => {
     this.props.setActivePanel(index);
-
-    if (index !== null) {
-      this.props.setIsShowScrollTop(false);
-    } else {
-      this.props.setIsShowScrollTop(document.body.scrollTop > 100 || document.documentElement.scrollTop > 100);
-    }
+    this.props.setIsShowScrollTop(index !== null ?
+      false :
+      document.body.scrollTop > 100 || document.documentElement.scrollTop > 100);
   };
 
   render() {
