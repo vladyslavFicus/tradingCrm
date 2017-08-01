@@ -245,6 +245,16 @@ class NewLayout extends Component {
     this.props.resetPanels();
   };
 
+  handleUserPanelClick = (index) => {
+    this.props.setActivePanel(index);
+
+    if (index !== null) {
+      this.props.setIsShowScrollTop(false);
+    } else {
+      this.props.setIsShowScrollTop(document.body.scrollTop > 100 || document.documentElement.scrollTop > 100);
+    }
+  };
+
   render() {
     const { popover, isOpenProfile } = this.state;
     const {
@@ -253,7 +263,6 @@ class NewLayout extends Component {
       userPanels,
       activeUserPanel,
       removePanel,
-      setActivePanel,
       onLocaleChange,
       languages,
       app: { showScrollToTop },
@@ -289,7 +298,7 @@ class NewLayout extends Component {
         <UsersPanel
           active={activeUserPanel}
           items={userPanels}
-          onItemClick={setActivePanel}
+          onItemClick={this.handleUserPanelClick}
           onRemove={removePanel}
           onClose={this.handleCloseTabs}
         />

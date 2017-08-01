@@ -1,5 +1,5 @@
 import { actionTypes as profileActionTypes } from '../../routes/UserProfile/modules/profile';
-import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../modules/window';
+import { actionCreators as windowActionCreators } from '../modules/window';
 import { actionTypes as userPanelsActionTypes } from '../modules/user-panels';
 import { actionCreators as appActionCreators } from '../modules/app';
 
