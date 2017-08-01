@@ -325,13 +325,8 @@ PropTypes.paymentMethod = PropTypes.shape({
   withdrawLimit: PropTypes.paymentMethodLimit.isRequired,
 });
 PropTypes.paymentActionReasons = PropTypes.shape({
-  reject: PropTypes.arrayOf(PropTypes.string),
-  chargeback: PropTypes.arrayOf(PropTypes.string),
-});
-PropTypes.paymentReasonModalStaticParams = PropTypes.shape({
-  title: PropTypes.string,
-  actionButtonLabel: PropTypes.string,
-  actionDescription: PropTypes.string,
+  reject: PropTypes.object,
+  chargeback: PropTypes.object,
 });
 PropTypes.walletLimitEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,

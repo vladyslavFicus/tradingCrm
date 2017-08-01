@@ -59,7 +59,7 @@ class View extends Component {
   };
   static defaultProps = {
     newPaymentNote: null,
-    paymentActionReasons: [],
+    paymentActionReasons: {},
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -125,7 +125,7 @@ class View extends Component {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
-  handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
+  handleChangePaymentStatus = ({ action, playerUUID, paymentId, ...options }) => {
     const { onChangePaymentStatus } = this.props;
 
     return onChangePaymentStatus({ action, playerUUID, paymentId, options })
@@ -185,7 +185,7 @@ class View extends Component {
 
     return this.handleOpenReasonModal({
       ...data,
-      reasons: this.props.paymentActionReasons[data.action] || [],
+      reasons: this.props.paymentActionReasons[data.action] || {},
     });
   };
 
@@ -306,14 +306,15 @@ class View extends Component {
   };
 
   renderMethod = data => (
-    <div>
-      <div className="font-weight-700">
-        {methodsLabels[data.paymentMethod] || data.paymentMethod}
+    !data.paymentMethod ? <span>&mdash;</span>
+      : <div>
+        <div className="font-weight-700">
+          {methodsLabels[data.paymentMethod] || data.paymentMethod}
+        </div>
+        <span className="font-size-10">
+          <Uuid uuid={data.paymentAccount} uuidPartsCount={2} />
+        </span>
       </div>
-      <span className="font-size-10">
-        <Uuid uuid={data.paymentAccount} uuidPartsCount={2} />
-      </span>
-    </div>
   );
 
   renderDevice = (data) => {
@@ -477,6 +478,7 @@ class View extends Component {
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
             onNoteClick={this.handleNoteClick}
+            onSubmit={this.handleChangePaymentStatus}
           />
         }
 

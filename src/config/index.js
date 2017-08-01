@@ -134,11 +134,13 @@ function getAvailableTags(department) {
 }
 
 function getTransactionRejectReasons() {
-  return config.nas.brand.reasons && config.nas.brand.reasons.rejection ? config.nas.brand.reasons.rejection : [];
+  return config.nas.brand.reasons && config.nas.brand.reasons.rejection
+    ? config.nas.brand.reasons.rejection.reduce((res, item) => ({ ...res, [item]: item }), {}) : {};
 }
 
 function getTransactionChargebackReasons() {
-  return config.nas.brand.reasons && config.nas.brand.reasons.chargeback ? config.nas.brand.reasons.chargeback : [];
+  return config.nas.brand.reasons && config.nas.brand.reasons.chargeback
+    ? config.nas.brand.reasons.chargeback.reduce((res, item) => ({ ...res, [item]: item }), {}) : {};
 }
 
 function getLimitPeriods() {

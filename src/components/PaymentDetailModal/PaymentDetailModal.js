@@ -51,14 +51,18 @@ class PaymentDetailModal extends Component {
     const { payment, playerProfile, onAskReason } = this.props;
 
     return onAskReason({
+      title: 'Withdrawal rejection',
+      description: `You are about to reject withdraw transaction ${shortify(payment.paymentId, 'TA')} from`,
+      submitButtonLabel: 'Reject withdraw transaction',
+      action: paymentActions.REJECT,
       payment,
       playerProfile,
-      action: paymentActions.REJECT,
-      modalStaticParams: {
-        title: 'Withdrawal rejection',
-        actionButtonLabel: 'Reject withdraw transaction',
-        actionDescription: `You are about to reject withdraw transaction ${shortify(payment.paymentId, 'TA')} from`,
+      initialValues: {
+        action: paymentActions.CHARGEBACK,
+        playerUUID: playerProfile.playerUUID,
+        paymentId: payment.paymentId,
       },
+      customReason: true,
     });
   };
 
@@ -66,14 +70,18 @@ class PaymentDetailModal extends Component {
     const { payment, playerProfile, onAskReason } = this.props;
 
     return onAskReason({
+      title: 'Deposit chargeback',
+      description: `You are about to mark the deposit transaction ${shortify(payment.paymentId, 'TA')} as chargeback in`,
+      submitButtonLabel: 'Confirm',
+      action: paymentActions.CHARGEBACK,
       payment,
       playerProfile,
-      action: paymentActions.CHARGEBACK,
-      modalStaticParams: {
-        actionButtonLabel: 'Confirm',
-        title: 'Deposit chargeback',
-        actionDescription: `You are about to mark the deposit transaction ${shortify(payment.paymentId, 'TA')} as chargeback in`,
+      initialValues: {
+        action: paymentActions.CHARGEBACK,
+        playerUUID: playerProfile.playerUUID,
+        paymentId: payment.paymentId,
       },
+      customReason: true,
     });
   };
 
@@ -89,14 +97,14 @@ class PaymentDetailModal extends Component {
               color="primary"
               onClick={this.handleApproveClick}
             >
-              Approve
+              {I18n.t('COMMON.APPROVE')}
             </Button>
           </PermissionContent>
           <Button
             color="danger"
             onClick={this.handleRejectClick}
           >
-            Reject
+            {I18n.t('COMMON.REJECT')}
           </Button>
         </div>
       );
@@ -119,7 +127,7 @@ class PaymentDetailModal extends Component {
 
     return (
       <ModalFooter className="payment-detail-footer">
-        <Button onClick={onClose}>Defer</Button>
+        <Button onClick={onClose}>{I18n.t('COMMON.DEFER')}</Button>
         {
           actions &&
           <div className="payment-details-actions">
@@ -143,7 +151,7 @@ class PaymentDetailModal extends Component {
 
     return (
       <Modal isOpen={isOpen} toggle={onClose} className={classNames(className, 'payment-detail-modal')}>
-        <ModalHeader toggle={onClose}>Payment details</ModalHeader>
+        <ModalHeader toggle={onClose}>{I18n.t('PAYMENT_DETAILS_MODAL.TITLE')}</ModalHeader>
 
         <ModalBody>
           <ModalPlayerInfo playerProfile={playerProfile} />
@@ -151,7 +159,7 @@ class PaymentDetailModal extends Component {
           <div className="row payment-detail-blocks">
             <div className="col-md-3 payment-detail-block">
               <div className="color-default text-uppercase font-size-11">
-                Transaction
+                {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_TRANSACTION')}
               </div>
               <div className="font-size-14">
                 <div className="font-weight-700">
@@ -168,7 +176,7 @@ class PaymentDetailModal extends Component {
             </div>
             <div className="col-md-3 payment-detail-block">
               <div className="color-default text-uppercase font-size-11">
-                Date and Time
+                {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME')}
               </div>
               <div>
                 <div className="font-weight-700">
@@ -187,7 +195,7 @@ class PaymentDetailModal extends Component {
             </div>
             <div className="col-md-2 payment-detail-block">
               <div className="color-default text-uppercase font-size-11">
-                Device
+                {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DEVICE')}
               </div>
               <i
                 id={`payment-detail-${payment.paymentId}-tooltip`}
@@ -205,7 +213,7 @@ class PaymentDetailModal extends Component {
             </div>
             <div className="col-md-3 payment-detail-block">
               <div className="color-default text-uppercase font-size-11">
-                Status
+                {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_STATUS')}
               </div>
               <TransactionStatus transaction={payment} />
             </div>
@@ -214,7 +222,7 @@ class PaymentDetailModal extends Component {
           <div className="row well payment-detail-amount">
             <div className="payment-detail-amount-block">
               <div className="color-default text-uppercase font-size-11">
-                Amount
+                {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_AMOUNT')}
               </div>
               <div
                 className={classNames('font-size-16 font-weight-700', { 'color-danger': isWithdraw })}
@@ -224,7 +232,7 @@ class PaymentDetailModal extends Component {
             </div>
             <div className="payment-detail-amount-block">
               <div className="color-default text-uppercase font-size-11">
-                Payment Method
+                {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_PAYMENT_METHOD')}
               </div>
               <div>
                 <div className="font-weight-700">

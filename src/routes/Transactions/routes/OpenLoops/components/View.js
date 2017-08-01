@@ -15,7 +15,7 @@ import {
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
 import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
-import PaymentActionReasonModal from '../../../components/PaymentActionReasonModal';
+import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
 import TransactionStatus from '../../../../../components/TransactionStatus';
 import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
