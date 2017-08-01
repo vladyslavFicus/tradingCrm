@@ -114,15 +114,15 @@ const actionHandlers = {
   },
   [RESET]: () => ({ ...initialState }),
   [locationActionTypes.LOCATION_CHANGE]: state => ({ ...state, activeIndex: null }),
-  [windowActionTypes.UPDATE_USER_TAB]: (state, action) => {
-    const { uuid, firstName, lastName } = action.payload;
-    const newFullName = `${firstName} ${lastName}`;
+  [windowActionTypes.VIEW_PLAYER_PROFILE]: (state, action) => {
+    const { uuid, firstName, lastName, username: login } = action.payload;
+    const fullName = `${firstName} ${lastName}`;
 
     return {
       ...state,
       items: state.items.map((item) => {
-        if (item.uuid === uuid && item.fullName !== newFullName) {
-          item.fullName = newFullName;
+        if (item.uuid === uuid) {
+          return { ...item, fullName, login };
         }
 
         return item;

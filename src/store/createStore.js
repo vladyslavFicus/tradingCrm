@@ -13,7 +13,6 @@ import { actionCreators as languageActionCreators } from '../redux/modules/langu
 import { actionCreators as permissionsActionCreators } from '../redux/modules/permissions';
 import unauthorized from '../redux/middlewares/unauthorized';
 import updateToken from '../redux/middlewares/updateToken';
-import windowMiddleware from '../redux/middlewares/window';
 import config from '../config/index';
 import translations from '../i18n';
 
@@ -26,11 +25,10 @@ export default (initialState = {}, onComplete) => {
     unauthorized(config.middlewares.unauthorized),
     authMiddleware,
     apiErrors,
-    windowMiddleware,
   ];
 
   if (window && window.parent !== window && window.parent && window.parent.postMessage) {
-    middleware.push(require('../redux/middlewares/updateUserTab').default);
+    middleware.push(require('../redux/middlewares/window').default);
   }
 
   // ======================================================

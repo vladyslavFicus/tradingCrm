@@ -4,15 +4,17 @@ import { actionTypes as userPanelsActionTypes } from '../modules/user-panels';
 import { actionCreators as appActionCreators } from '../modules/app';
 
 const config = {
-  [profileActionTypes.FETCH_PROFILE.SUCCESS]: payload => windowActionCreators.updateUserTab({
+  [profileActionTypes.FETCH_PROFILE.SUCCESS]: payload => windowActionCreators.viewPlayerProfile({
     uuid: payload.playerUUID,
     firstName: payload.firstName,
     lastName: payload.lastName,
+    username: payload.username,
   }),
-  [profileActionTypes.SUBMIT_KYC.SUCCESS]: payload => windowActionCreators.updateUserTab({
+  [profileActionTypes.SUBMIT_KYC.SUCCESS]: payload => windowActionCreators.viewPlayerProfile({
     uuid: payload.uuid,
     firstName: payload.firstName,
     lastName: payload.lastName,
+    username: payload.username,
   }),
   [userPanelsActionTypes.SET_ACTIVE]: payload => appActionCreators.setIsShowScrollTop(!!payload),
 };
@@ -26,7 +28,9 @@ export default () => next => (action) => {
   if (isIframeVersion && action && indexOfWindowAction > -1) {
     const actionFunction = config[action.type];
 
-    window.parent.postMessage(JSON.stringify(actionFunction(action.payload)), window.location.origin);
+    if (typeof actionFunction === 'function') {
+      window.parent.postMessage(JSON.stringify(actionFunction(action.payload)), window.location.origin);
+    }
   }
 
   return next(action);

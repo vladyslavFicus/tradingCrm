@@ -3,6 +3,7 @@ const LOGOUT = `${KEY}/logout-message`;
 const CHANGE_LOCALE = `${KEY}/change-locale-message`;
 const NOTIFICATION = `${KEY}/notification-message`;
 const NAVIGATE_TO = `${KEY}/navigate-to`;
+const VIEW_PLAYER_PROFILE = `${KEY}/view-player-profile`;
 const SHOW_SCROLL_TO_TOP = `${KEY}/show-scroll-to-top`;
 const SCROLL_TO_TOP = `${KEY}/scroll-to-top`;
 
@@ -33,10 +34,10 @@ function navigateTo(to) {
   };
 }
 
-function updateUserTab(userDetail) {
+function viewPlayerProfile(payload) {
   return {
-    type: SHOW_SCROLL_TO_TOP,
-    payload: userDetail,
+    type: VIEW_PLAYER_PROFILE,
+    payload,
   };
 }
 
@@ -60,13 +61,14 @@ const actionTypes = {
   NAVIGATE_TO,
   SHOW_SCROLL_TO_TOP,
   SCROLL_TO_TOP,
+  VIEW_PLAYER_PROFILE,
 };
 const actionCreators = {
   changeLocale,
   logout,
   notify,
   navigateTo,
-  updateUserTab,
+  viewPlayerProfile,
   showScrollToTop,
   scrollToTop,
 };

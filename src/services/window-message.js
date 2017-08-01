@@ -12,8 +12,8 @@ export default (store) => {
             if (action.type === windowActionTypes.SCROLL_TO_TOP) {
               window.scrollTo(0, 0);
             } else if (action.type === windowActionTypes.NAVIGATE_TO) {
-                browserHistory.push(action.payload);
-              } else {
+              browserHistory.push(action.payload);
+            } else {
               store.dispatch(action);
             }
           }
