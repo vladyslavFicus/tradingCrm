@@ -96,7 +96,9 @@ class MyProfileSidebar extends Component {
                 </Field>
               </div>
               <div className="text-right">
-                <button disabled={submitting} className="btn btn-primary btn-sm" type="submit">{I18n.t('MY_PROFILE_SIDEBAR.SAVE_BUTTON')}</button>
+                <button disabled={submitting} className="btn btn-primary btn-sm" type="submit">
+                  {I18n.t('MY_PROFILE_SIDEBAR.SAVE_BUTTON')}
+                </button>
               </div>
             </form>
           </section>
@@ -105,8 +107,6 @@ class MyProfileSidebar extends Component {
     );
   }
 }
-
-// MyProfileSidebar = onClickOutside(MyProfileSidebar);
 
 export default reduxForm({
   form: formName,

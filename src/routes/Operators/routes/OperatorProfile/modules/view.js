@@ -15,37 +15,7 @@ const fetchProfile = operatorSourceActionCreators.fetchProfile(PROFILE);
 const resetPassword = operatorSourceActionCreators.passwordResetRequest(RESET_PASSWORD);
 const sendInvitation = operatorSourceActionCreators.sendInvitationRequest(SEND_INVITATION);
 
-function updateProfile(uuid, data) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged }, operatorProfile: { view: operatorProfile } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `operator/operators/${uuid}`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          country: operatorProfile.country,
-          firstName: operatorProfile.firstName,
-          lastName: operatorProfile.lastName,
-          phoneNumber: operatorProfile.phoneNumber,
-          ...data,
-          email: undefined,
-        }),
-        types: [
-          UPDATE_PROFILE.REQUEST,
-          UPDATE_PROFILE.SUCCESS,
-          UPDATE_PROFILE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
+const updateProfile = operatorSourceActionCreators.updateProfile(UPDATE_PROFILE);
 
 function changeStatus(data) {
   return (dispatch, getState) => {
