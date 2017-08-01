@@ -6,7 +6,6 @@ import { sourceActionCreators as operatorSourceActionCreators } from './operator
 import getFingerprint from '../../utils/fingerPrint';
 import timestamp from '../../utils/timestamp';
 import { getBrand } from '../../config';
-import { actionCreators as userActionCreators } from './users'
 
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
@@ -20,6 +19,7 @@ const LOGOUT = createRequestAction(`${KEY}/logout`);
 
 const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 const fetchAuthorities = operatorSourceActionCreators.fetchAuthorities(FETCH_AUTHORITIES);
+const updateProfile = operatorSourceActionCreators.updateProfile(UPDATE_PROFILE);
 
 function signIn(data) {
   return async dispatch => dispatch({
@@ -46,8 +46,6 @@ function signIn(data) {
     },
   });
 }
-
-const updateProfile = userActionCreators.updateProfile(UPDATE_PROFILE);
 
 function refreshToken() {
   return (dispatch, getState) => {
@@ -88,7 +86,6 @@ function changeDepartment(department, brandId = getBrand(), token = null) {
     });
   };
 }
-
 
 function validateToken() {
   return (dispatch, getState) => {
@@ -193,7 +190,7 @@ const actionHandlers = {
     ...state,
     token: action.payload.jwtToken,
   }),
-  [VALIDATE_TOKEN.SUCCESS]: (state) => ({ ...state, lastTokenValidation: timestamp() }),
+  [VALIDATE_TOKEN.SUCCESS]: state => ({ ...state, lastTokenValidation: timestamp() }),
   [LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
 const actionTypes = {

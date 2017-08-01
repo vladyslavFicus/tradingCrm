@@ -10,7 +10,7 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  *  Vars
  * ==================
  */
-const { BUILD_ENV } = process.env;
+const { NAS_ENV } = process.env;
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
@@ -44,7 +44,7 @@ function processError(error) {
 }
 
 function processConfig() {
-  const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${BUILD_ENV}.yml`);
+  const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_ENV}.yml`);
 
   return fetchZookeeperConfig({ environmentConfig })
     .then(config => _.merge(
@@ -68,8 +68,8 @@ function saveConfig(config) {
   });
 }
 
-if (!BUILD_ENV) {
-  throw new Error('"BUILD_ENV" is required environment variable');
+if (!NAS_ENV) {
+  throw new Error('"NAS_ENV" is required environment variable');
 }
 
 processConfig()
