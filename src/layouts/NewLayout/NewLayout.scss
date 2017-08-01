@@ -1,9 +1,78 @@
 .section-container {
   position: relative;
-  height: 100%;
-  width: 100%;
-  margin-top: 48px;
+  top: 48px;
   padding: 40px 40px 40px 100px;
+}
+
+.floating-buttons {
+  position: fixed;
+  right: 5px;
+  bottom: 20px;
+  z-index: 16;
+  &__circle {
+    display: block;
+    height: 30px;
+    width: 30px;
+    padding: 0;
+    background-color: #ccc;
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    transition: background .2s ease-in;
+    animation-duration: .75s;
+    animation-fill-mode: both;
+    opacity: 0;
+    outline: none;
+    &:nth-child(n+2) {
+      margin-top: 10px;
+    }
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      background-color: #333;
+    }
+  }
+  .fa {
+    color: #fff;
+    font-size: 16px;
+  }
+  &.bottom-60 {
+    bottom: 63px;
+  }
+}
+
+@keyframes rollIn {
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rollIn {
+  animation-name: rollIn;
+}
+
+@keyframes rollOut {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(150%, 0, 0) rotate3d(0, 0, 1, 120deg);
+  }
+}
+
+.rollOut {
+  animation-name: rollOut;
 }
 
 .my-profile {
