@@ -7,6 +7,10 @@ class Switch extends Component {
   static propTypes = {
     active: PropTypes.bool.isRequired,
     handleSwitch: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+  };
+  static defaultProps = {
+    disabled: false,
   };
 
   state = {
@@ -43,6 +47,7 @@ class Switch extends Component {
       <ReactSwitch
         on={this.state.active}
         onClick={this.handleSwitch}
+        isDisabled={this.props.disabled}
       />
     );
   }
