@@ -10,9 +10,29 @@ import PaymentAccountsRoute from './routes/PaymentAccounts';
 import NotesRoute from './routes/Notes';
 import { injectReducer } from '../../store/reducers';
 import { actionCreators } from './modules';
+import { actionCreators as usersPanelsActionCreators } from '../../redux/modules/user-panels';
+
+const PLAYER_PROFILE_ROUTE_PREFIX = 'users';
+const profilePathnameRegExp = new RegExp(`^\\/${PLAYER_PROFILE_ROUTE_PREFIX}\\/([^\\/]+)\\/?.*`, 'i');
 
 export default store => ({
-  path: 'users/:id',
+  path: `${PLAYER_PROFILE_ROUTE_PREFIX}/:id`,
+  onEnter: ({ location }, replace, cb) => {
+    if (window && window.parent === window) {
+      const [, playerUUID] = location.pathname.match(profilePathnameRegExp);
+
+      if (playerUUID) {
+        store.dispatch(usersPanelsActionCreators.add({
+          fullName: '',
+          login: '',
+          uuid: playerUUID,
+        }));
+        replace({ pathname: `/${PLAYER_PROFILE_ROUTE_PREFIX}/list`, state: { ignoreByUsersPanel: true } });
+      }
+    }
+
+    cb();
+  },
   getComponent: (nextState, cb) => {
     import(/* webpackChunkName: "profileReducer" */ './modules')
       .then((module) => {

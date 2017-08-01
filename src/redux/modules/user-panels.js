@@ -117,15 +117,22 @@ const actionHandlers = {
     return newState;
   },
   [RESET]: () => ({ ...initialState }),
-  [windowActionTypes.UPDATE_USER_TAB]: (state, action) => {
-    const { uuid, firstName, lastName } = action.payload;
-    const newFullName = `${firstName} ${lastName}`;
+  [locationActionTypes.LOCATION_CHANGE]: (state, action) => {
+    if (action.payload && action.payload.state && action.payload.state.ignoreByUsersPanel) {
+      return state;
+    }
+
+    return { ...state, activeIndex: null };
+  },
+  [windowActionTypes.VIEW_PLAYER_PROFILE]: (state, action) => {
+    const { uuid, firstName, lastName, username: login } = action.payload;
+    const fullName = `${firstName} ${lastName}`;
 
     return {
       ...state,
       items: state.items.map((item) => {
-        if (item.uuid === uuid && item.fullName !== newFullName) {
-          item.fullName = newFullName;
+        if (item.uuid === uuid) {
+          return { ...item, fullName, login };
         }
 
         return item;

@@ -314,7 +314,12 @@ class View extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <span className="font-size-20">Transactions</span>
+            <span
+              className="font-size-20"
+              id="transactions-list-header"
+            >
+              Transactions
+            </span>
           </Title>
 
           <TransactionsFilterForm

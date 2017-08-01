@@ -39,7 +39,6 @@ class View extends Component {
     }).isRequired,
     fetchActiveBonus: PropTypes.func.isRequired,
     acceptBonus: PropTypes.func.isRequired,
-    cancelBonus: PropTypes.func.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,

@@ -53,7 +53,11 @@ class Form extends Component {
           </div>
           {!(pristine || submitting) &&
           <div className="col-xl-6 text-right">
-            <button className="btn btn-sm btn-primary pull-right" type="submit">
+            <button
+              className="btn btn-sm btn-primary pull-right"
+              type="submit"
+              id="operators-profile-save-changes-button"
+            >
               Save changes
             </button>
           </div>
@@ -68,6 +72,7 @@ class Form extends Component {
               component={InputField}
               showErrorMessage
               position="vertical"
+              id="operators-profile-first-name"
             />
           </div>
           <div className="col-xl-4">
@@ -78,6 +83,7 @@ class Form extends Component {
               component={InputField}
               showErrorMessage
               position="vertical"
+              id="operators-profile-last-name"
             />
           </div>
           <div className="col-xl-4">
@@ -103,6 +109,7 @@ class Form extends Component {
               component={InputField}
               showErrorMessage
               position="vertical"
+              id="operators-profile-phone-number"
             />
           </div>
           <div className="col-xl-4">

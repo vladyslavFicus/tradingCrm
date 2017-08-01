@@ -76,7 +76,7 @@ class UsersPanel extends Component {
               active={active && active.uuid === item.uuid}
               key={item.uuid}
               {...item}
-              onClick={() => onItemClick(index)}
+              onClick={() => onItemClick(active && active.uuid === item.uuid ? null : index)}
               onRemoveClick={() => onRemove(index)}
             />
           ))}
