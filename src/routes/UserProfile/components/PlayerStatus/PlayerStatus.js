@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
+import FailureReasonIcon from '../../../../components/FailureReasonIcon';
 import PlayerStatusModal from './PlayerStatusModal';
 import { statuses, statusColorNames, statusesLabels, durationUnits } from '../../../../constants/user';
 
@@ -133,7 +134,9 @@ class PlayerStatus extends Component {
         }
         {
           status === statuses.BLOCKED &&
-          <span className="failure-reason-icon failure-reason-icon_account-status" />
+          <FailureReasonIcon
+            reason={reason}
+          />
         }
       </div>
     );
