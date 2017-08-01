@@ -41,7 +41,7 @@ class UsersPanelItem extends Component {
         <div className="users-panel-footer__tab__block">
           <div className="users-panel-footer__tab__name">{fullName}</div>
           <div className="users-panel-footer__tab__info">
-            {login} - {shortify(uuid, uuid.indexOf('PLAYER') === -1 ? 'PL' : '')}
+            {!!login && `${login} - `}{shortify(uuid, uuid.indexOf('PLAYER') === -1 ? 'PL' : '')}
           </div>
           <button className="btn-transparent users-panel-footer__tab__close" onClick={this.handleRemoveClick}>
             <i className="fa fa-times-circle" />

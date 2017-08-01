@@ -113,7 +113,13 @@ const actionHandlers = {
     return newState;
   },
   [RESET]: () => ({ ...initialState }),
-  [locationActionTypes.LOCATION_CHANGE]: state => ({ ...state, activeIndex: null }),
+  [locationActionTypes.LOCATION_CHANGE]: (state, action) => {
+    if (action.payload && action.payload.state && action.payload.state.ignoreByUsersPanel) {
+      return state;
+    }
+
+    return { ...state, activeIndex: null };
+  },
   [windowActionTypes.VIEW_PLAYER_PROFILE]: (state, action) => {
     const { uuid, firstName, lastName, username: login } = action.payload;
     const fullName = `${firstName} ${lastName}`;
