@@ -74,6 +74,7 @@ class CreateOperatorModal extends Component {
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
+                  id="create-new-operator-first-name"
                 />
               </div>
               <div className="col-md-6">
@@ -84,6 +85,7 @@ class CreateOperatorModal extends Component {
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
+                  id="create-new-operator-last-name"
                 />
               </div>
             </div>
@@ -97,6 +99,7 @@ class CreateOperatorModal extends Component {
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
+                  id="create-new-operator-email"
                 />
               </div>
               <div className="col-md-6">
@@ -107,6 +110,7 @@ class CreateOperatorModal extends Component {
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
+                  id="create-new-operator-phone"
                 />
               </div>
             </div>
@@ -155,7 +159,9 @@ class CreateOperatorModal extends Component {
                       name="sendMail"
                       type="checkbox"
                       component="input"
-                    /> Send invitation
+                      id="create-new-operator-send-invitation-checkbox"
+                    />
+                    Send invitation
                   </label>
                 </div>
               </div>
@@ -170,7 +176,7 @@ class CreateOperatorModal extends Component {
               <div className="col-sm-6 text-right">
                 <button
                   type="reset"
-                  className="btn btn-default-outline text-uppercase"
+                  className="btn btn-default-outline"
                   onClick={onClose}
                 >
                   Cancel
@@ -179,7 +185,8 @@ class CreateOperatorModal extends Component {
                 <button
                   type="submit"
                   disabled={pristine || submitting || !valid}
-                  className="btn btn-primary text-uppercase"
+                  className="btn btn-primary"
+                  id="create-new-operator-submit-button"
                 >
                   Create & open
                 </button>

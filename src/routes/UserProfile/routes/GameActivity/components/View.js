@@ -254,6 +254,7 @@ class View extends Component {
           activePage={entities.number + 1}
           totalPages={entities.totalPages}
           lazyLoad
+          rowClassName={data => classNames({ 'round-rollback-row': data.rollback })}
         >
           <GridColumn
             name="gameRound"
