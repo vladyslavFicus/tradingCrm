@@ -13,11 +13,19 @@ const SUBSCRIPTION_TYPE_MAIL = 'marketingMail';
 class Additional extends Component {
   static propTypes = {
     profileStatus: PropTypes.string,
-    initialValues: PropTypes.object,
+    initialValues: PropTypes.shape({
+      marketingMail: PropTypes.bool,
+      marketingNews: PropTypes.bool,
+      marketingSMS: PropTypes.bool,
+    }),
     updateSubscription: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    initialValues: null,
+    initialValues: PropTypes.shape({
+      marketingMail: false,
+      marketingNews: false,
+      marketingSMS: false,
+    }),
     profileStatus: '',
   };
 
