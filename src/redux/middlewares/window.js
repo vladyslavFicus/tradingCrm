@@ -1,4 +1,3 @@
-import { browserHistory } from 'react-router';
 import { actionTypes as profileActionTypes } from '../../routes/UserProfile/modules/profile';
 import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../modules/window';
 import { actionTypes as userPanelsActionTypes } from '../modules/user-panels';
@@ -28,10 +27,6 @@ export default () => next => (action) => {
     const actionFunction = config[action.type];
 
     window.parent.postMessage(JSON.stringify(actionFunction(action.payload)), window.location.origin);
-  }
-
-  if (action.type === windowActionTypes.NAVIGATE_TO) {
-    browserHistory.push(action.payload);
   }
 
   return next(action);

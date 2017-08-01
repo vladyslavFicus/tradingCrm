@@ -128,15 +128,6 @@ class ProfileLayout extends Component {
     cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
-  state = {
-    popover: { ...popoverInitialState },
-    modal: { ...modalInitialState },
-    imageViewer: { ...imageViewerInitialState },
-    noteChangedCallback: null,
-    fileChangedCallback: null,
-    informationShown: true,
-  };
-
   getChildContext() {
     return {
       onAddNote: this.props.addNote,
@@ -153,6 +144,15 @@ class ProfileLayout extends Component {
       cacheChildrenComponent: this.cacheChildrenComponent,
     };
   }
+  
+  state = {
+    popover: { ...popoverInitialState },
+    modal: { ...modalInitialState },
+    imageViewer: { ...imageViewerInitialState },
+    noteChangedCallback: null,
+    fileChangedCallback: null,
+    informationShown: true,
+  };
 
   cacheChildrenComponent = (component) => {
     this.children = component;
@@ -167,9 +167,7 @@ class ProfileLayout extends Component {
     this.handleLoadProfile();
   }
 
-  isShowScrollTop() {
-    return document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
-  }
+  isShowScrollTop = () => document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
 
   handleScrollWindow = () => {
     if (window && window.parent !== window && window.parent.postMessage) {
@@ -192,7 +190,7 @@ class ProfileLayout extends Component {
 
   setFileChangedCallback = (cb) => {
     this.setState({ fileChangedCallback: cb });
-  };
+  }
 
   handleLoadProfile = (needForceUpdate = false) => {
     const {
