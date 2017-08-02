@@ -115,11 +115,16 @@ class NewLayout extends Component {
     };
   }
 
-  state = {
-    noteChangedCallback: null,
-    popover: { ...popoverInitialState },
-    isOpenProfile: false,
-  };
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      noteChangedCallback: null,
+      popover: { ...popoverInitialState },
+      isOpenProfile: false,
+      initializedScroll: props.app.showScrollToTop || false,
+    };
+  }
 
   onToggleProfile = () => {
     this.setState({ isOpenProfile: !this.state.isOpenProfile });
@@ -262,7 +267,7 @@ class NewLayout extends Component {
       removePanel,
       onLocaleChange,
       languages,
-      app: { showScrollToTop },
+      app: { showScrollToTop, isInitializedScroll },
       locale,
       user,
     } = this.props;
@@ -303,7 +308,7 @@ class NewLayout extends Component {
         <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
           <button
             className={
-              classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: !showScrollToTop })
+              classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: isInitializedScroll && !showScrollToTop })
             }
             onClick={this.handleScrollToTop}
           >
