@@ -121,6 +121,14 @@ class NewLayout extends Component {
     isOpenProfile: false,
   };
 
+  componentWillMount() {
+    window.addEventListener('scroll', this.handleScrollWindow);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScrollWindow);
+  }
+
   onProfileSubmit = async ({ language, ...nextData }) => {
     const { user: { uuid, data }, locale, onLocaleChange, updateOperatorProfile } = this.props;
 
@@ -142,14 +150,6 @@ class NewLayout extends Component {
     }
   };
 
-  componentWillMount() {
-    window.addEventListener('scroll', this.handleScrollWindow);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScrollWindow);
-  }
-
   onToggleProfile = () => {
     this.setState({ isOpenProfile: !this.state.isOpenProfile });
   };
@@ -161,9 +161,9 @@ class NewLayout extends Component {
   handleScrollWindow = () => {
     const { app: { showScrollToTop }, setIsShowScrollTop } = this.props;
 
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    if (document.body.scrollTop > 100 && !showScrollToTop) {
       setIsShowScrollTop(true);
-    } else if (showScrollToTop) {
+    } else if (showScrollToTop && document.body.scrollTop < 100) {
       setIsShowScrollTop(false);
     }
   };
@@ -266,7 +266,7 @@ class NewLayout extends Component {
       removePanel,
       onLocaleChange,
       languages,
-      app: { showScrollToTop },
+      app: { showScrollToTop, isInitializedScroll },
       locale,
       user,
     } = this.props;
@@ -307,7 +307,7 @@ class NewLayout extends Component {
         <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
           <button
             className={
-              classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: !showScrollToTop })
+              classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: isInitializedScroll && !showScrollToTop })
             }
             onClick={this.handleScrollToTop}
           >
