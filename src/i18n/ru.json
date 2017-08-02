@@ -72,6 +72,21 @@
         "NOT_REQUESTED": "Не запрошено",
         "VERIFIED": "Проверенный",
         "NOT_VERIFIED": "Не проверенный"
+      },
+      "KYC_VERIFICATION": {
+        "WAITING_FOR_DOCS_DESCRIPTION": "Для подтверждения личности игрока необходим, как минимум один документ, скан-копия которого, должна быть хорошего качетсва, текст легко читаем, а cрок его действия не должен быть просрочен.",
+        "REQUEST_STATUS": "Статус запроса",
+        "WAITING_FOR_DOCUMENTS": "Ожидание документов",
+        "TYPE_NOT_VERIFIED": "",
+        "TYPE_NOT_REQUESTED": "",
+        "TYPE_VERIFICATION_REFUSED": "%{title} верификация отклонена",
+        "TYPE_VERIFIED": "%{title} верифицировано",
+        "ACTIONS": {
+          "REFUSE": "Отказать",
+          "VERIFY": "Подтвердить",
+          "REVOKE": "Отменить"
+        },
+        "PENDING": "Ожидает проверку документов"
       }
     },
     "GAME_ACTIVITY": {

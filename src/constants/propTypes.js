@@ -424,6 +424,7 @@ PropTypes.userDeviceEntity = PropTypes.shape({
 PropTypes.kycRequestStatusEntity = PropTypes.shape({
   authorUUID: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
+  reason: PropTypes.string.isRequired,
   statusDate: PropTypes.string.isRequired,
 });
 PropTypes.kycRequestEntity = PropTypes.shape({
@@ -436,6 +437,7 @@ PropTypes.kycRequestEntity = PropTypes.shape({
   kycPersonalStatus: PropTypes.kycRequestStatusEntity.isRequired,
   kycRequest: {
     requestDate: PropTypes.string.isRequired,
+    reason: PropTypes.string.isRequired,
     authorUUID: PropTypes.string.isRequired,
   },
   playerUUID: PropTypes.string.isRequired,

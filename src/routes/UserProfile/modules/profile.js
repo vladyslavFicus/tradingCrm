@@ -76,6 +76,7 @@ const initialState = {
     bonusBalance: { amount: 0, currency: config.nas.currencies.base },
     kycAddressStatus: null,
     kycPersonalStatus: null,
+    kycRequest: null,
     signInIps: [],
   },
   error: null,
@@ -396,6 +397,38 @@ function changeStatus({ action, ...data }) {
   };
 }
 
+function successKycActionReducer(state, action) {
+  const {
+    kycPersonalStatus,
+    kycAddressStatus,
+    kycRequest,
+  } = action.payload;
+
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      kycCompleted: kycPersonalStatus && kycPersonalStatus.value === statuses.VERIFIED
+      && kycAddressStatus && kycAddressStatus.value === statuses.VERIFIED,
+      kycPersonalStatus: {
+        authorUUID: kycPersonalStatus.author,
+        reason: kycPersonalStatus.reason,
+        status: kycPersonalStatus.status,
+        statusDate: kycPersonalStatus.statusDate,
+      },
+      kycAddressStatus: {
+        authorUUID: kycAddressStatus.author,
+        reason: kycAddressStatus.reason,
+        status: kycAddressStatus.status,
+        statusDate: kycAddressStatus.statusDate,
+      },
+    },
+    kycRequest,
+    isLoading: false,
+    receivedAt: timestamp(),
+  };
+}
+
 function successUpdateProfileReducer(state, action) {
   const {
     personalStatus: kycPersonalStatus,
@@ -625,8 +658,9 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
   [UPDATE_IDENTIFIER.SUCCESS]: successUpdateProfileReducer,
-  [VERIFY_DATA.SUCCESS]: successUpdateProfileReducer,
-  [REFUSE_DATA.SUCCESS]: successUpdateProfileReducer,
+  [VERIFY_DATA.SUCCESS]: successKycActionReducer,
+  [REFUSE_DATA.SUCCESS]: successKycActionReducer,
+  [SEND_KYC_REQUEST_VERIFICATION.SUCCESS]: successKycActionReducer,
   [MANAGE_KYC_REQUEST_NOTE]: (state, action) => ({
     ...state,
     kycRequestNote: action.payload,

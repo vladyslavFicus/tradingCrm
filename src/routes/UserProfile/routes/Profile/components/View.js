@@ -6,7 +6,7 @@ import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
 import Documents from './Documents';
-import VerifyData from './Kyc/VerifyData';
+import VerifyData from './Kyc/VerifyData/index';
 import RefuseModal from './Kyc/RefuseModal';
 import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
 import {
@@ -138,7 +138,6 @@ class View extends Component {
       profile: { kycRequestNote: unsavedNote },
       sendKycRequestVerification,
       resetNote,
-      fetchProfile,
     } = this.props;
 
     const action = await sendKycRequestVerification(playerUUID, inputParams);
@@ -152,9 +151,7 @@ class View extends Component {
       }
     }
 
-    this.handleCloseModal();
-    resetNote();
-    fetchProfile(playerUUID);
+    this.handleCloseModal(resetNote);
   }
 
   handleRefuseClick = (type) => {
@@ -308,16 +305,12 @@ class View extends Component {
                 />
               </div>
               <div className="col-md-4">
-                {
-                  data.kycPersonalStatus &&
-                  <VerifyData
-                    title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
-                    description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_DESCRIPTION')}
-                    onVerify={this.handleVerify(kycCategories.KYC_PERSONAL)}
-                    onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
-                    status={data.kycPersonalStatus}
-                  />
-                }
+                <VerifyData
+                  title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
+                  onVerify={this.handleVerify(kycCategories.KYC_PERSONAL)}
+                  onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
+                  status={data.kycPersonalStatus}
+                />
               </div>
             </div>
           </div>
@@ -339,16 +332,12 @@ class View extends Component {
                 />
               </div>
               <div className="col-md-4">
-                {
-                  data.kycAddressStatus &&
-                  <VerifyData
-                    title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
-                    description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_DESCRIPTION')}
-                    onVerify={this.handleVerify(kycCategories.KYC_ADDRESS)}
-                    onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
-                    status={data.kycAddressStatus}
-                  />
-                }
+                <VerifyData
+                  title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
+                  onVerify={this.handleVerify(kycCategories.KYC_ADDRESS)}
+                  onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
+                  status={data.kycAddressStatus}
+                />
               </div>
             </div>
           </div>
