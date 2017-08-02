@@ -6,6 +6,7 @@ const SET_SCROLL_TO_TOP = `${KEY}/set-scroll-to-top`;
 
 const initialState = {
   showScrollToTop: false,
+  isInitializedScroll: false,
 };
 
 function setIsShowScrollTop(payload) {
@@ -27,10 +28,12 @@ const actionHandlers = {
   [SET_SCROLL_TO_TOP]: (state, action) => ({
     ...state,
     showScrollToTop: action.payload,
+    isInitializedScroll: state.isInitializedScroll || action.payload,
   }),
   [windowActionTypes.SHOW_SCROLL_TO_TOP]: (state, action) => ({
     ...state,
     showScrollToTop: action.payload,
+    isInitializedScroll: state.isInitializedScroll || action.payload,
   }),
 };
 
