@@ -80,12 +80,34 @@ class View extends Component {
     this.context.cacheChildrenComponent(this);
   }
 
-  componentDidMount() {
-    const { params: { id: playerUUID }, fetchFilters } = this.props;
+  async componentDidMount() {
+    const {
+      params: { id: playerUUID, paymentUUID },
+      location,
+      fetchFilters,
+      fetchEntities,
+      router,
+      locationChange,
+    } = this.props;
 
     fetchFilters(playerUUID);
     this.handleRefresh();
     this.context.setNoteChangedCallback(this.handleRefresh);
+
+    if (paymentUUID) {
+      const action = await fetchEntities(playerUUID, { keyword: paymentUUID });
+
+      if (action && !action.error && action.payload.content.length > 0) {
+        this.handleOpenDetailModal({
+          payment: action.payload.content[0],
+          onClose: () => {
+            this.handleCloseModal();
+
+            locationChange({ pathname: location.pathname.replace(`/${paymentUUID}`, '') });
+          }
+        });
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -455,13 +477,12 @@ class View extends Component {
         {
           modal.name === MODAL_PAYMENT_DETAIL &&
           <PaymentDetailModal
-            {...modal.params}
-            isOpen
             playerProfile={playerProfile}
             onClose={this.handleCloseModal}
             onChangePaymentStatus={this.handleChangePaymentStatus}
             onAskReason={this.handleAskReason}
             onNoteClick={this.handleNoteClick}
+            {...modal.params}
           />
         }
 
