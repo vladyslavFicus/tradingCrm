@@ -16,7 +16,11 @@ const config = {
     lastName: payload.lastName,
     username: payload.username,
   }),
-  [profileActionTypes.FETCH_PROFILE.FAILURE]: ({ meta }) => windowActionCreators.closeProfileTab(meta.uuid),
+  [profileActionTypes.FETCH_PROFILE.FAILURE]: ({ payload, meta }) => {
+    return payload.status === 404
+      ? windowActionCreators.closeProfileTab(meta.uuid)
+      : undefined;
+  },
   [userPanelsActionTypes.SET_ACTIVE]: payload => appActionCreators.setIsShowScrollTop(!!payload),
 };
 
@@ -30,7 +34,11 @@ export default () => next => (action) => {
     const actionFunction = config[action.type];
 
     if (typeof actionFunction === 'function') {
-      window.parent.postMessage(JSON.stringify(actionFunction(action)), window.location.origin);
+      const windowActionMessage = actionFunction(action);
+
+      if (windowActionMessage !== undefined) {
+        window.parent.postMessage(JSON.stringify(windowActionMessage), window.location.origin);
+      }
     }
   }
 
