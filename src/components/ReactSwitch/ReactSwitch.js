@@ -11,7 +11,7 @@ class ReactSwitch extends Component {
     disabled: PropTypes.bool,
   };
   static defaultProps = {
-    className: 'react-switch',
+    className: '',
     disabled: false,
   };
 
@@ -19,7 +19,7 @@ class ReactSwitch extends Component {
     const { className, onClick, on, disabled } = this.props;
     return (
       <div
-        className={classNames(className, { 'is-disabled': disabled, on })}
+        className={classNames('react-switch', className, { 'is-disabled': disabled, on })}
         onClick={onClick}
       >
         <div className="switch-toggle" />

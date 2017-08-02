@@ -24,6 +24,8 @@
     "MY_PROFILE": "My Profile",
     "DETAILS": "Personal details",
     "SAVE_BUTTON": "Save changes",
+    "NOTIFICATION_SUCCESS_TITLE": "Profile",
+    "NOTIFICATION_SUCCESS_MESSAGE": "Changes saved",
     "ATTRIBUTES_LABELS": {
       "PHONE": "Phone",
       "LANGUAGE": "Language"

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { getAvailableLanguages } from '../../config';
@@ -84,6 +85,9 @@ class NewLayout extends Component {
       hidePopover: PropTypes.func.isRequired,
     }),
   };
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
+  };
 
   getChildContext() {
     const {
@@ -139,6 +143,12 @@ class NewLayout extends Component {
           throw new SubmissionError(errors);
         } else if (action.payload.response && action.payload.response.error) {
           throw new SubmissionError({ __error: action.payload.response.error });
+        } else {
+          this.context.addNotification({
+            level: 'success',
+            title: I18n.t('MY_PROFILE_SIDEBAR.NOTIFICATION_SUCCESS_TITLE'),
+            message: I18n.t('MY_PROFILE_SIDEBAR.NOTIFICATION_SUCCESS_MESSAGE'),
+          });
         }
       }
     }

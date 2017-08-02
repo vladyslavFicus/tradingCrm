@@ -139,6 +139,26 @@ const actionHandlers = {
       }),
     };
   },
+  [windowActionTypes.CLOSE_PROFILE_TAB]: (state, action) => {
+    const currentUserTabUuid = action.payload;
+    const currentUserTabIndex = state.items.findIndex(tab => tab.uuid === currentUserTabUuid);
+
+    if (!state.items[currentUserTabIndex]) {
+      return state;
+    }
+
+    const newState = { ...state, items: [...state.items] };
+
+    newState.items.splice(action.payload, 1);
+
+    if (newState.activeIndex === currentUserTabIndex) {
+      newState.activeIndex = newState.items.length > 0 || null;
+    } else {
+      newState.activeIndex = newState.items.indexOf(state.items[state.activeIndex]);
+    }
+
+    return newState;
+  },
   [authActionTypes.LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
 

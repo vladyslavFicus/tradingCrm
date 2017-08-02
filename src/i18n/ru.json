@@ -24,6 +24,8 @@
     "MY_PROFILE": "Профиль",
     "DETAILS": "Личные данные",
     "SAVE_BUTTON": "Сохранить изменения",
+    "NOTIFICATION_SUCCESS_TITLE": "Профиль",
+    "NOTIFICATION_SUCCESS_MESSAGE": "Изменения сохранены",
     "ATTRIBUTES_LABELS": {
       "PHONE": "Телефон",
       "LANGUAGE": "Язык"
