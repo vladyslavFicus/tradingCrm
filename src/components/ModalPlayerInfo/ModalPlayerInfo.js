@@ -10,25 +10,22 @@ class ModalPlayerInfo extends Component {
   static propTypes = {
     playerProfile: PropTypes.userProfile.isRequired,
   };
-  static defaultProps = {
-    balances: null,
-  };
 
   renderPlayerInfo = profile => (
-    <div className="line-height-1">
-      <span className="font-weight-600 text-capitalize font-size-14">
+    <div>
+      <span className="modal-header-tab__label">
         {[profile.firstName, profile.lastName].join(' ')}
       </span>
       {' '}
-      {!!profile.birthDate && <div>({moment().diff(profile.birthDate, 'years')})</div>}
-      <span className="little-grey-text font-size-11">
+      {!!profile.birthDate && <span>({moment().diff(profile.birthDate, 'years')})</span>}
+      <div className="font-size-11">
         {profile.username}
         {' - '}
         <Uuid
           uuid={profile.playerUUID}
           uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
         />
-      </span>
+      </div>
     </div>
   );
 
@@ -39,8 +36,8 @@ class ModalPlayerInfo extends Component {
       </div>
       {
         !!profile.suspendEndDate &&
-        <div className="color-default font-size-11">
-          Until {moment(profile.suspendEndDate).format('DD.MM.YYYY')}
+        <div className="font-size-11">
+          Until {moment(profile.suspendEndDate).format('L')}
         </div>
       }
     </div>
@@ -48,8 +45,8 @@ class ModalPlayerInfo extends Component {
 
   renderBalance = ({ total, bonus, real }) => (
     <div>
-      <Amount tag="div" className={'font-weight-600 text-uppercase'} {...total} />
-      <div className="little-grey-text font-size-11">
+      <Amount tag="div" className={'modal-header-tab__label'} {...total} />
+      <div className="font-size-11">
         RM <Amount {...real} /> + BM <Amount {...bonus} />
       </div>
     </div>
@@ -59,23 +56,23 @@ class ModalPlayerInfo extends Component {
     const { playerProfile } = this.props;
 
     return (
-      <div className="row player-header-blocks margin-bottom-10 equal">
-        <div className="col-sm-4 equal-in">
-          <div className="color-default text-uppercase font-size-11">
+      <div className="row">
+        <div className="col-sm-4 modal-header-tab">
+          <div className="modal-tab-label">
             {I18n.t('COMMON.PLAYER')}
           </div>
 
           {this.renderPlayerInfo(playerProfile)}
         </div>
-        <div className="col-sm-4 equal-in">
-          <div className="color-default text-uppercase font-size-11">
+        <div className="col-sm-4 modal-header-tab">
+          <div className="modal-tab-label">
             {I18n.t('COMMON.ACCOUNT_STATUS')}
           </div>
 
           {this.renderPlayerStatus(playerProfile)}
         </div>
-        <div className="col-sm-4 equal-in">
-          <div className="color-default text-uppercase font-size-11">
+        <div className="col-sm-4 modal-header-tab">
+          <div className="modal-tab-label">
             {I18n.t('COMMON.BALANCE')}
           </div>
 

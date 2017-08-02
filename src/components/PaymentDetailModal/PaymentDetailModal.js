@@ -27,7 +27,6 @@ const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBA
 class PaymentDetailModal extends Component {
   static propTypes = {
     className: PropTypes.string,
-    isOpen: PropTypes.bool,
     onClose: PropTypes.func.isRequired,
     onNoteClick: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
@@ -37,8 +36,6 @@ class PaymentDetailModal extends Component {
   };
   static defaultProps = {
     className: '',
-    isOpen: false,
-    profile: null,
   };
 
   handleApproveClick = () => {
@@ -87,8 +84,8 @@ class PaymentDetailModal extends Component {
 
   renderFooter = () => {
     const { onClose, payment: { paymentType } } = this.props;
-
     let actions = null;
+
     if (paymentType === paymentsTypes.Withdraw) {
       actions = (
         <div>
@@ -142,7 +139,6 @@ class PaymentDetailModal extends Component {
     const {
       payment,
       playerProfile,
-      isOpen,
       onClose,
       className,
       onNoteClick,
@@ -150,7 +146,7 @@ class PaymentDetailModal extends Component {
     const isWithdraw = payment.paymentType === paymentsTypes.Withdraw;
 
     return (
-      <Modal isOpen={isOpen} toggle={onClose} className={classNames(className, 'payment-detail-modal')}>
+      <Modal isOpen toggle={onClose} className={classNames(className, 'payment-detail-modal')}>
         <ModalHeader toggle={onClose}>{I18n.t('PAYMENT_DETAILS_MODAL.TITLE')}</ModalHeader>
 
         <ModalBody>

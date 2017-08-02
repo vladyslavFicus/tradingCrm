@@ -299,11 +299,11 @@
       "MODAL_CREATE": {
         "NO_PAYMENT_ACCOUNTS_LABEL": "Нет платежных аккаунтов",
         "CHOOSE_PAYMENT_ACCOUNT_LABEL": "Выбирите платежный аккаунт",
-        "ACTION_TEXT_ACCOUNT": "",
-        "TITLE": "",
-        "ATTENTION_UNDONE_ACTION_LABEL": "",
-        "ATTENTION_UNDONE_ACTION": "",
-        "ACTION_TEXT": ""
+        "ACTION_TEXT_ACCOUNT": "в %{fullName} %{uuid} аккаунта",
+        "TITLE": "Новая транзакция",
+        "ATTENTION_UNDONE_ACTION_LABEL": "Внимание",
+        "ATTENTION_UNDONE_ACTION": "Это действие не может быть отменно!",
+        "ACTION_TEXT": "Вы пытаетесь сделать %{action}"
       }
     }
   },
@@ -376,11 +376,11 @@
     "GOOD_EVENING": "Добрый вечер",
     "GOOD_NIGHT": "Доброй ночи",
     "SINCE": "с %{date}",
-    "APPROVE": "",
-    "REJECT": "",
-    "DEFER": "",
-    "SELECT_OPTION": "",
-    "CONFIRM": ""
+    "APPROVE": "Одобрить",
+    "REJECT": "Отклонить",
+    "DEFER": "Закрыть",
+    "SELECT_OPTION": "-- Выберите --",
+    "CONFIRM": "Подтвердить"
   },
   "FILES": {
     "UPLOAD_MODAL": {
