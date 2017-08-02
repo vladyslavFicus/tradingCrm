@@ -120,18 +120,26 @@ const actionHandlers = {
   [RESET]: () => ({ ...initialState }),
   [windowActionTypes.VIEW_PLAYER_PROFILE]: (state, action) => {
     const { uuid, firstName, lastName, username: login } = action.payload;
-    const fullName = `${firstName} ${lastName}`;
 
-    return {
+    const index = state.items.findIndex(item => item.uuid === uuid);
+
+    if (index === -1) {
+      return state;
+    }
+
+    const fullName = `${firstName || '-'} ${lastName || '-'}`;
+    const newState = {
       ...state,
-      items: state.items.map((item) => {
-        if (item.uuid === uuid) {
-          return { ...item, fullName, login };
-        }
-
-        return item;
-      }),
+      items: [...state.items],
     };
+
+    newState.items[index] = {
+      ...state.items[index],
+      fullName,
+      login,
+    };
+
+    return newState;
   },
   [windowActionTypes.CLOSE_PROFILE_TAB]: (state, action) => {
     const currentUserTabUuid = action.payload;
