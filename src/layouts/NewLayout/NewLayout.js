@@ -159,9 +159,9 @@ class NewLayout extends Component {
   handleScrollWindow = () => {
     const { app: { showScrollToTop } } = this.props;
 
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    if (document.body.scrollTop > 100 && !showScrollToTop) {
       this.props.setIsShowScrollTop(true);
-    } else if (showScrollToTop) {
+    } else if (showScrollToTop && document.body.scrollTop < 100) {
       this.props.setIsShowScrollTop(false);
     }
   };
