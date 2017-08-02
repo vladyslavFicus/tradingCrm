@@ -16,6 +16,7 @@ const config = {
     lastName: payload.lastName,
     username: payload.username,
   }),
+  [profileActionTypes.FETCH_PROFILE.FAILURE]: (payload, meta) => windowActionCreators.closeProfileTab(meta.uuid),
   [userPanelsActionTypes.SET_ACTIVE]: payload => appActionCreators.setIsShowScrollTop(!!payload),
 };
 
@@ -29,7 +30,7 @@ export default () => next => (action) => {
     const actionFunction = config[action.type];
 
     if (typeof actionFunction === 'function') {
-      window.parent.postMessage(JSON.stringify(actionFunction(action.payload)), window.location.origin);
+      window.parent.postMessage(JSON.stringify(actionFunction(action.payload, action.meta)), window.location.origin);
     }
   }
 
