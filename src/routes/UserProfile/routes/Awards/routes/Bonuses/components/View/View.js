@@ -25,12 +25,7 @@ const MODAL_VIEW = 'view-modal';
 class View extends Component {
   static propTypes = {
     list: PropTypes.pageableState(PropTypes.bonusEntity).isRequired,
-    profile: PropTypes.userProfile.isRequired,
-    accumulatedBalances: PropTypes.shape({
-      total: PropTypes.price.isRequired,
-      bonus: PropTypes.price.isRequired,
-      real: PropTypes.price.isRequired,
-    }).isRequired,
+    playerProfile: PropTypes.shape({ data: PropTypes.userProfile }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
     createBonus: PropTypes.func.isRequired,
     cancelBonus: PropTypes.func.isRequired,
@@ -269,7 +264,7 @@ class View extends Component {
 
   render() {
     const { modal } = this.state;
-    const { list: { entities }, profile, accumulatedBalances } = this.props;
+    const { list: { entities }, playerProfile: { data: playerProfile }, accumulatedBalances } = this.props;
 
     return (
       <div className="profile-tab-container">
@@ -366,9 +361,9 @@ class View extends Component {
           modal.name === MODAL_CREATE &&
           <CreateModal
             initialValues={{
-              playerUUID: profile.data.playerUUID,
+              playerUUID: playerProfile.data.playerUUID,
               state: 'INACTIVE',
-              currency: profile.data.currencyCode,
+              currency: playerProfile.data.currencyCode,
             }}
             onSubmit={this.handleSubmitManualBonus}
             onClose={this.handleModalClose}
@@ -378,8 +373,7 @@ class View extends Component {
           modal.name === MODAL_VIEW &&
           <ViewModal
             isOpen
-            profile={profile}
-            accumulatedBalances={accumulatedBalances}
+            playerProfile={playerProfile}
             {...modal.params}
             onClose={this.handleModalClose}
           />
