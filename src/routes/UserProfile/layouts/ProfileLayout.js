@@ -178,7 +178,7 @@ class ProfileLayout extends Component {
         window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(false)), window.location.origin);
       }
     }
-  }, 400);
+  }, 300);
 
   componentWillUnmount() {
     document.body.classList.remove('user-profile-layout');
