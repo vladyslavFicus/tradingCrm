@@ -19,10 +19,11 @@
     font-weight: 300;
   }
   &-xs {
-    height: auto;
-    line-height: inherit;
-    padding: 3px 5px;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 5px;
     font-size: 10px;
+    border-width: 0;
   }
   &-primary {
     border: none;
@@ -141,6 +142,22 @@
   }
   &-group .btn:focus {
     outline: none;
+  }
+  &-del {
+    width: 15px;
+    padding: 0;
+    overflow: hidden;
+  }
+  &-add-tag {
+    height: 24px;
+    width: 20px;
+    padding: 0;
+    border: none;
+    background-color: #6a7a84;
+    color: #fff;
+    font-size: 10px;
+    overflow: hidden;
+    line-height: normal;
   }
 }
 

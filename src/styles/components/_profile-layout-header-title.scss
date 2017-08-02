@@ -18,46 +18,44 @@
   }
   &__tags {
     max-width: 40%;
-    margin-top: 2px;
     .tag-group {
+      margin-top: 2px;
+      margin-right: 2px;
       opacity: 0.8;
       .tag-red {
-        background: #fb434a;
+        background-color: #fb434a;
         border-color: #fb434a;
         color: #fff;
-        &:hover {
-          background: #fb434a;
-          border-color: #fb434a;
-        }
       }
       .tag-green {
-        background: #46be8a;
+        background-color: #46be8a;
         border-color: #46be8a;
         color: #fff;
-        &:hover {
-          background: #46be8a;
-          border-color: #46be8a;
-        }
       }
       .tag-grey {
-        background: #6a7a84;
+        background-color: #6a7a84;
         border-color: #6a7a84;
         color: #fff;
-        &:hover {
-          background: #6a7a84;
-          border-color: #6a7a84;
-        }
       }
       &:hover {
         opacity: 1;
-        .tag-arrow,
-        .btn {
-          opacity: 1;
-        }
       }
-      .btn-del:hover {
+      .btn-del:hover,
+      .btn-add-tag:hover {
         opacity: 0.8;
       }
     }
+  }
+  &_fixed {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    z-index: 5;
   }
 }
