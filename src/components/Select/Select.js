@@ -33,7 +33,7 @@ class Select extends Component {
     const originalOptions = this.filterOptions(props.children);
     const selectedOptions = props.multiple
       ? originalOptions.filter(option => props.value.indexOf(option.value) > -1)
-      : [originalOptions.find(option => option.value === props.value)];
+      : [originalOptions.find(option => option.value === props.value)].filter(option => option);
 
     this.state = {
       opened: false,
@@ -66,7 +66,7 @@ class Select extends Component {
     if (!shallowEqual(value, nextProps.value)) {
       const originalSelectedOptions = nextProps.multiple
         ? originalOptions.filter(option => nextProps.value.indexOf(option.value) > -1)
-        : [originalOptions.find(option => option.value === nextProps.value)];
+        : [originalOptions.find(option => option.value === nextProps.value)].filter(option => option);
       this.setState({
         options: this.filterSelectedOptions(originalOptions, originalSelectedOptions, nextProps.multiple),
         originalSelectedOptions,
@@ -167,7 +167,7 @@ class Select extends Component {
           query: '',
           options: originalOptions,
           toSelectOptions: [],
-          selectedOptions: originalSelectedOptions,
+          selectedOptions: [...originalSelectedOptions],
         }, () => {
           if (!shallowEqual(previousValue, newValue)) {
             if (multiple) {

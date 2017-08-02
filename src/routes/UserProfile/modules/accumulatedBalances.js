@@ -77,27 +77,19 @@ const actionHandlers = {
     receivedAt: timestamp(),
   }),
   [profileActionTypes.FETCH_PROFILE.SUCCESS]: (state, action) => {
-    if (!action.payload.balance) {
+    if (!action.payload.balances) {
       return state;
     }
 
-    const newState = {
+    return {
       ...state,
       data: {
         ...state.data,
-        total: { ...action.payload.balance },
-        bonus: action.payload.bonusBalance || { ...emptyBalance, currency: action.payload.balance.currency },
+        ...action.payload.balances,
       },
       isLoading: false,
       receivedAt: timestamp(),
     };
-
-    newState.data.real = {
-      ...newState.data.total,
-      amount: Math.max(newState.data.total.amount - newState.data.bonus.amount, 0),
-    };
-
-    return newState;
   },
 };
 

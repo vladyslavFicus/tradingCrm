@@ -8,12 +8,7 @@ import Uuid from '../Uuid';
 
 class ModalPlayerInfo extends Component {
   static propTypes = {
-    profile: PropTypes.userProfile.isRequired,
-    balances: PropTypes.shape({
-      total: PropTypes.price.isRequired,
-      bonus: PropTypes.price.isRequired,
-      real: PropTypes.price.isRequired,
-    }).isRequired,
+    playerProfile: PropTypes.userProfile.isRequired,
   };
 
   renderPlayerInfo = profile => (
@@ -36,7 +31,7 @@ class ModalPlayerInfo extends Component {
 
   renderPlayerStatus = profile => (
     <div>
-      <div className={`font-weight-700 text-uppercase ${statusColorNames[profile.profileStatus]}`}>
+      <div className={`font-weight-600 text-uppercase ${statusColorNames[profile.profileStatus]}`}>
         {profile.profileStatus}
       </div>
       {
@@ -58,7 +53,7 @@ class ModalPlayerInfo extends Component {
   );
 
   render() {
-    const { profile, balances } = this.props;
+    const { playerProfile } = this.props;
 
     return (
       <div className="row">
@@ -67,21 +62,21 @@ class ModalPlayerInfo extends Component {
             {I18n.t('COMMON.PLAYER')}
           </div>
 
-          {this.renderPlayerInfo(profile)}
+          {this.renderPlayerInfo(playerProfile)}
         </div>
         <div className="col-sm-4 modal-header-tab">
           <div className="modal-tab-label">
             {I18n.t('COMMON.ACCOUNT_STATUS')}
           </div>
 
-          {this.renderPlayerStatus(profile)}
+          {this.renderPlayerStatus(playerProfile)}
         </div>
         <div className="col-sm-4 modal-header-tab">
           <div className="modal-tab-label">
             {I18n.t('COMMON.BALANCE')}
           </div>
 
-          {this.renderBalance(balances)}
+          {this.renderBalance(playerProfile.balances)}
         </div>
       </div>
     );
