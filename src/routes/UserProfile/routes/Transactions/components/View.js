@@ -102,7 +102,7 @@ class View extends Component {
           payment: action.payload.content[0],
           onClose: () => {
             this.handleCloseModal();
-            console.log(location.pathname.replace(`/${paymentUUID}`, ''));
+
             locationChange({ pathname: location.pathname.replace(`/${paymentUUID}`, '') });
           }
         });
