@@ -100,7 +100,6 @@ class TransactionsFilterForm extends Component {
               <Field
                 name="initiatorType"
                 label={I18n.t(attributeLabels.initiatorType)}
-                labelClassName="form-label"
                 position="vertical"
                 component={NasSelectField}
               >
@@ -117,7 +116,6 @@ class TransactionsFilterForm extends Component {
                 <Field
                   name="type"
                   label={I18n.t(attributeLabels.type)}
-                  labelClassName="form-label"
                   position="vertical"
                   component={NasSelectField}
                 >
@@ -133,7 +131,6 @@ class TransactionsFilterForm extends Component {
               <Field
                 name="statuses"
                 label={I18n.t(attributeLabels.statuses)}
-                labelClassName="form-label"
                 position="vertical"
                 component={NasSelectField}
                 multiple
@@ -149,7 +146,6 @@ class TransactionsFilterForm extends Component {
               <Field
                 name="paymentMethod"
                 label={I18n.t(attributeLabels.paymentMethod)}
-                labelClassName="form-label"
                 position="vertical"
                 component={NasSelectField}
               >

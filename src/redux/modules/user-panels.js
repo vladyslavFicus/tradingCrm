@@ -154,11 +154,13 @@ if (window && window === window.parent) {
     }
 
     const playerIndex = state.items.findIndex(item => item.uuid === playerUUID);
+
     if (playerIndex === -1) {
       return state;
     }
 
     const newState = { ...state, items: [...state.items] };
+
     newState.items[playerIndex] = {
       ...state.items[playerIndex],
       path: pathname.replace(`/${PROFILE_ROUTE_PREFIX}/${playerUUID}/`, ''),

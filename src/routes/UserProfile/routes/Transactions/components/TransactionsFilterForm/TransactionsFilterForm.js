@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../../../../constants/propTypes';
-import { initiatorsLabels } from '../../../../../../constants/payment';
 import { createValidator } from '../../../../../../utils/validator';
 import {
   types,
   typesLabels,
   statusesLabels,
   methodsLabels,
+  initiatorsLabels,
 } from '../../../../../../constants/payment';
 import { InputField, DateTimeField, NasSelectField } from '../../../../../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
@@ -98,7 +98,6 @@ class TransactionsFilterForm extends Component {
               <Field
                 name="initiatorType"
                 label={I18n.t(attributeLabels.initiatorType)}
-                labelClassName="form-label"
                 position="vertical"
                 component={NasSelectField}
               >
@@ -113,7 +112,6 @@ class TransactionsFilterForm extends Component {
               <Field
                 name="type"
                 label={I18n.t(attributeLabels.type)}
-                labelClassName="form-label"
                 position="vertical"
                 component={NasSelectField}
               >
@@ -128,7 +126,6 @@ class TransactionsFilterForm extends Component {
               <Field
                 name="statuses"
                 label={I18n.t(attributeLabels.statuses)}
-                labelClassName="form-label"
                 position="vertical"
                 component={NasSelectField}
                 multiple
@@ -144,7 +141,6 @@ class TransactionsFilterForm extends Component {
               <Field
                 name="paymentMethod"
                 label={I18n.t(attributeLabels.paymentMethod)}
-                labelClassName="form-label"
                 position="vertical"
                 component={NasSelectField}
               >
