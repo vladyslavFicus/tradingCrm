@@ -2,7 +2,7 @@ import { injectReducer } from '../../../../store/reducers';
 import { actionCreators as noteTypesActionCreators } from './modules/noteTypes';
 
 export default store => ({
-  path: ':id/notes',
+  path: 'notes',
   onEnter: async (nextState, replace, callback) => {
     injectReducer(store, { key: 'userNotes', reducer: require('./modules').default });
 

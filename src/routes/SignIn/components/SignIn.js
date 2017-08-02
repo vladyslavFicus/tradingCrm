@@ -53,8 +53,16 @@ class SignIn extends Component {
   }
 
   componentWillUnmount() {
+    if (this.resetStateTimout) {
+      clearTimeout(this.resetStateTimout);
+
+      this.resetStateTimout = null;
+    }
+
     this.props.reset();
   }
+
+  resetStateTimout = null;
 
   handleSubmit = async (data) => {
     const { signIn } = this.props;
@@ -70,7 +78,7 @@ class SignIn extends Component {
             const departments = Object.keys(departmentsByBrand[brands[0]]);
 
             if (departments.length === 1) {
-              this.handleSelectDepartment(brands[0], departments[0], token, uuid);
+              return this.handleSelectDepartment(brands[0], departments[0], token, uuid);
             }
           }
         });
@@ -97,6 +105,9 @@ class SignIn extends Component {
     this.setState({ loading: true }, async () => {
       const action = await changeDepartment(department, brand, token);
 
+      this.resetStateTimout = setTimeout(() => this.setState({ loading: false, logged: false }, () => {
+        this.props.reset();
+      }), 2000);
       if (action) {
         if (!action.error) {
           await Promise.all([
@@ -104,15 +115,13 @@ class SignIn extends Component {
             fetchAuthorities(uuid, action.payload.token),
           ]);
 
-          return this.redirectToNextPage();
+          this.redirectToNextPage();
+        } else {
+          const error = action.payload.response.error ?
+            action.payload.response.error : action.payload.message;
+          throw new SubmissionError({ _error: error });
         }
-
-        const error = action.payload.response.error ?
-          action.payload.response.error : action.payload.message;
-        throw new SubmissionError({ _error: error });
       }
-
-      this.setState({ loading: false });
     });
   };
 

@@ -40,7 +40,7 @@ const imageViewerInitialState = {
 class ProfileLayout extends Component {
   static propTypes = {
     profile: PropTypes.shape({
-      data: PropTypes.userProfile,
+      data: PropTypes.userProfile.isRequired,
       error: PropTypes.any,
       isLoading: PropTypes.bool.isRequired,
     }).isRequired,
@@ -165,7 +165,7 @@ class ProfileLayout extends Component {
   }
 
   componentDidMount() {
-    this.handleLoadProfile();
+    this.handleLoadAdditionalProfileData();
   }
 
   isShowScrollTop = () => document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
@@ -197,17 +197,12 @@ class ProfileLayout extends Component {
     const {
       profile,
       fetchProfile,
-      fetchNotes,
       params,
-      checkLock,
-      fetchFiles,
     } = this.props;
 
     if (!profile.isLoading) {
       fetchProfile(params.id)
-        .then(() => fetchNotes({ playerUUID: params.id, pinned: true }))
-        .then(() => fetchFiles(params.id))
-        .then(() => checkLock(params.id, { size: 999 }))
+        .then(this.handleLoadAdditionalProfileData)
         .then(() => {
           if (needForceUpdate &&
             this.children &&
@@ -216,6 +211,19 @@ class ProfileLayout extends Component {
           }
         });
     }
+  };
+
+  handleLoadAdditionalProfileData = () => {
+    const {
+      params,
+      fetchNotes,
+      checkLock,
+      fetchFiles,
+    } = this.props;
+
+    return fetchNotes({ playerUUID: params.id, pinned: true })
+      .then(() => fetchFiles(params.id))
+      .then(() => checkLock(params.id, { size: 999 }));
   };
 
   handleOpenModal = (name, params) => {

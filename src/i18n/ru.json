@@ -192,7 +192,7 @@
       },
       "TITLE": "Устройства"
     },
-    "PINED_NOTES": {
+    "PINNED_NOTES": {
       "TITLE": "Прикрепленные заметки"
     },
     "BONUS_CAMPAIGNS": {
@@ -296,6 +296,17 @@
         },
         "CLOSE_BUTTON": "Закрыть"
       }
+    },
+    "TRANSACTIONS": {
+      "MODAL_CREATE": {
+        "NO_PAYMENT_ACCOUNTS_LABEL": "Нет платежных аккаунтов",
+        "CHOOSE_PAYMENT_ACCOUNT_LABEL": "Выбирите платежный аккаунт",
+        "ACTION_TEXT_ACCOUNT": "в %{fullName} %{uuid} аккаунта",
+        "TITLE": "Новая транзакция",
+        "ATTENTION_UNDONE_ACTION_LABEL": "Внимание",
+        "ATTENTION_UNDONE_ACTION": "Это действие не может быть отменно!",
+        "ACTION_TEXT": "Вы пытаетесь сделать %{action}"
+      }
     }
   },
   "COMMON": {
@@ -366,7 +377,12 @@
     "GOOD_AFTERNOON": "Добрый день",
     "GOOD_EVENING": "Добрый вечер",
     "GOOD_NIGHT": "Доброй ночи",
-    "SINCE": "с %{date}"
+    "SINCE": "с %{date}",
+    "APPROVE": "Одобрить",
+    "REJECT": "Отклонить",
+    "DEFER": "Закрыть",
+    "SELECT_OPTION": "-- Выберите --",
+    "CONFIRM": "Подтвердить"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -572,6 +588,34 @@
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "SEARCH_BY": "Название кампании"
+        }
+      }
+    },
+    "PAYMENT": {
+      "PAYMENT_METHODS": {
+        "FAKEPAL": "Fakepal",
+        "QIWI": "Qiwi",
+        "VISA": "Visa",
+        "CARD": "Карта",
+        "MASTERCARD": "Mastercard",
+        "YANDEX_MONEY": "Yandex money"
+      }
+    },
+    "TRANSACTIONS": {
+      "FILTER_FORM": {
+        "ATTRIBUTES_LABELS": {
+          "KEYWORD": "Поиск по",
+          "INITIATOR_TYPE": "Инициировано",
+          "TYPE": "Тип транзакции",
+          "STATUSES": "Статус тразакции",
+          "PAYMENT_METHOD": "Платежный метод",
+          "START_DATE": "Дата начала",
+          "END_DATE": "Дата окончания",
+          "AMOUNT_FROM": "Сумма от",
+          "AMOUNT_TO": "Сумма до"
+        },
+        "ATTRIBUTES_PLACEHOLDERS": {
+          "KEYWORD": "ID транзакции, пользователь"
         }
       }
     }
@@ -862,5 +906,24 @@
       "REFUSED": "Отклонен",
       "DOCUMENTS_SENT": "Документы высланы"
     }
+  },
+  "PAYMENT_ACTION_REASON_MODAL": {
+    "SELECT_REASON_OPTION": "-- Выберите причину --",
+    "CUSTOM_REASON_OPTION": "Другая",
+    "REASON_DROPDOWN": {
+      "CONSTANTS": {
+        "REASON_LABEL": "Причина",
+        "CUSTOM_REASON_LABEL": "Другая причина"
+      }
+    }
+  },
+  "PAYMENT_DETAILS_MODAL": {
+    "TITLE": "Детали платежа",
+    "HEADER_TRANSACTION": "Транзакция",
+    "HEADER_DATE_TIME": "Дата и время",
+    "HEADER_DEVICE": "Устройство",
+    "HEADER_STATUS": "Статус",
+    "HEADER_AMOUNT": "Сумма",
+    "HEADER_PAYMENT_METHOD": "Платежный метод"
   }
 }

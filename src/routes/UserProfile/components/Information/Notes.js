@@ -60,7 +60,7 @@ class Notes extends Component {
     return (
       <div className="account-details__pinned-notes">
         <span className="account-details__label">
-          {I18n.t('PLAYER_PROFILE.PINED_NOTES.TITLE')}
+          {I18n.t('PLAYER_PROFILE.PINNED_NOTES.TITLE')}
         </span>
         <div className="panel">
           <div className="panel-body">

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import classNames from 'classnames';
-import _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import onClickOutside from 'react-onclickoutside';
 import PropTypes from '../../constants/propTypes';

@@ -1,36 +1,20 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import { initiators, initiatorsLabels } from '../../../../../constants/transaction';
-import { createValidator } from '../../../../../utils/validator';
-import { types, statuses, methods, typesLabels, statusesLabels, methodsLabels } from '../../../../../constants/payment';
-import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
-
-const FORM_NAME = 'transactionsFilter';
-const attributeLabels = {
-  keyword: 'Payment ID, External reference...',
-  initiatorType: 'Initiated by',
-  type: 'Transaction type',
-  statuses: 'Transaction status',
-  paymentMethod: 'Payment method',
-  startDate: 'Start date',
-  endDate: 'End date',
-  amountLowerBound: 'From',
-  amountUpperBound: 'To',
-};
-const validator = createValidator({
-  keyword: 'string',
-  initiatorType: ['string', `in:${Object.keys(initiators).join()}`],
-  type: ['string', `in:${Object.keys(types).join()}`],
-  statuses: ['string', `in:${Object.keys(statuses).join()}`],
-  paymentMethod: ['string', `in:${Object.keys(methods).join()}`],
-  startDate: 'string',
-  endDate: 'string',
-  amountLowerBound: 'numeric',
-  amountUpperBound: 'numeric',
-}, attributeLabels, false);
+import PropTypes from '../../../../../../constants/propTypes';
+import { createValidator } from '../../../../../../utils/validator';
+import {
+  types,
+  typesLabels,
+  statusesLabels,
+  methodsLabels,
+  initiatorsLabels,
+} from '../../../../../../constants/payment';
+import { InputField, DateTimeField, NasSelectField } from '../../../../../../components/ReduxForm';
+import { attributeLabels, attributePlaceholders } from './constants';
+import renderLabel from '../../../../../../utils/renderLabel';
 
 class TransactionsFilterForm extends Component {
   static propTypes = {
@@ -45,11 +29,20 @@ class TransactionsFilterForm extends Component {
       keyword: PropTypes.string,
       initiatorType: PropTypes.string,
       type: PropTypes.string,
-      statuses: PropTypes.string,
+      statuses: PropTypes.arrayOf(PropTypes.string),
       paymentMethod: PropTypes.string,
       startDate: PropTypes.string,
       endDate: PropTypes.string,
     }),
+    paymentMethods: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
+  static defaultProps = {
+    reset: null,
+    handleSubmit: null,
+    submitting: false,
+    pristine: false,
+    disabled: false,
+    currentValues: null,
   };
 
   startDateValidator = (current) => {
@@ -57,15 +50,17 @@ class TransactionsFilterForm extends Component {
 
     return currentValues && currentValues.endDate
       ? current.isSameOrBefore(moment(currentValues.endDate))
-      : true;
+      : current.isSameOrBefore(moment());
   };
 
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.startDate
-      ? current.isSameOrAfter(moment(currentValues.startDate))
-      : true;
+    return current.isSameOrBefore(moment()) && (
+      currentValues && currentValues.startDate
+        ? current.isSameOrAfter(moment(currentValues.startDate))
+        : true
+    );
   };
 
   handleReset = () => {
@@ -80,6 +75,7 @@ class TransactionsFilterForm extends Component {
       disabled,
       handleSubmit,
       onSubmit,
+      paymentMethods,
     } = this.props;
 
     return (
@@ -90,8 +86,8 @@ class TransactionsFilterForm extends Component {
               <Field
                 name="keyword"
                 type="text"
-                label={'Search by'}
-                placeholder={attributeLabels.keyword}
+                label={I18n.t(attributePlaceholders.keyword)}
+                placeholder={I18n.t(attributeLabels.keyword)}
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
@@ -101,12 +97,10 @@ class TransactionsFilterForm extends Component {
             <div className="filter-row__medium">
               <Field
                 name="initiatorType"
-                label={attributeLabels.initiatorType}
-                labelClassName="form-label"
+                label={I18n.t(attributeLabels.initiatorType)}
                 position="vertical"
-                component={SelectField}
+                component={NasSelectField}
               >
-                <option value="">Anyone</option>
                 {Object.keys(initiatorsLabels).map(assign => (
                   <option key={assign} value={assign}>
                     {initiatorsLabels[assign]}
@@ -117,12 +111,10 @@ class TransactionsFilterForm extends Component {
             <div className="filter-row__medium">
               <Field
                 name="type"
-                label={attributeLabels.type}
-                labelClassName="form-label"
+                label={I18n.t(attributeLabels.type)}
                 position="vertical"
-                component={SelectField}
+                component={NasSelectField}
               >
-                <option value="">Any type</option>
                 {Object.keys(typesLabels).map(type => (
                   <option key={type} value={type}>
                     {typesLabels[type]}
@@ -133,12 +125,11 @@ class TransactionsFilterForm extends Component {
             <div className="filter-row__medium">
               <Field
                 name="statuses"
-                label={attributeLabels.statuses}
-                labelClassName="form-label"
+                label={I18n.t(attributeLabels.statuses)}
                 position="vertical"
-                component={SelectField}
+                component={NasSelectField}
+                multiple
               >
-                <option value="">Any status</option>
                 {Object.keys(statusesLabels).map(status => (
                   <option key={status} value={status}>
                     {statusesLabels[status]}
@@ -149,15 +140,13 @@ class TransactionsFilterForm extends Component {
             <div className="filter-row__medium">
               <Field
                 name="paymentMethod"
-                label={attributeLabels.paymentMethod}
-                labelClassName="form-label"
+                label={I18n.t(attributeLabels.paymentMethod)}
                 position="vertical"
-                component={SelectField}
+                component={NasSelectField}
               >
-                <option value="">Any method</option>
-                {Object.keys(methodsLabels).map(method => (
+                {paymentMethods.map(method => (
                   <option key={method} value={method}>
-                    {methodsLabels[method]}
+                    {renderLabel(method, methodsLabels)}
                   </option>
                 ))}
               </Field>
@@ -167,7 +156,7 @@ class TransactionsFilterForm extends Component {
                 <Field
                   name="amountLowerBound"
                   type="text"
-                  label={attributeLabels.amountLowerBound}
+                  label={I18n.t(attributeLabels.amountLowerBound)}
                   position="vertical"
                   placeholder="0.00"
                   component={InputField}
@@ -176,7 +165,7 @@ class TransactionsFilterForm extends Component {
                 <Field
                   name="amountUpperBound"
                   type="text"
-                  label={attributeLabels.amountUpperBound}
+                  label={I18n.t(attributeLabels.amountUpperBound)}
                   position="vertical"
                   placeholder="0.00"
                   component={InputField}
@@ -189,7 +178,7 @@ class TransactionsFilterForm extends Component {
                 <div className="range-group">
                   <Field
                     name="startDate"
-                    placeholder={attributeLabels.startDate}
+                    placeholder={I18n.t(attributeLabels.startDate)}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
                     position="vertical"
@@ -197,7 +186,7 @@ class TransactionsFilterForm extends Component {
                   <span className="range-group__separator">-</span>
                   <Field
                     name="endDate"
-                    placeholder={attributeLabels.endDate}
+                    placeholder={I18n.t(attributeLabels.endDate)}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
                     position="vertical"
@@ -213,7 +202,7 @@ class TransactionsFilterForm extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
                   disabled={submitting || (disabled && pristine)}
@@ -221,7 +210,7 @@ class TransactionsFilterForm extends Component {
                   type="submit"
                   id="transactions-list-filters-apply-button"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>
@@ -232,9 +221,24 @@ class TransactionsFilterForm extends Component {
   }
 }
 
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
+const FORM_NAME = 'playerTransactionsFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
-  validate: validator,
+  validate: createValidator({
+    keyword: 'string',
+    initiatorType: ['string'],
+    type: ['string', `in:${Object.keys(types).join()}`],
+    statuses: ['array'],
+    paymentMethod: 'string',
+    startDate: 'string',
+    endDate: 'string',
+    amountLowerBound: 'numeric',
+    amountUpperBound: 'numeric',
+  }, validatorAttributeLabels, false),
 })(TransactionsFilterForm);
 
 export default connect(state => ({
