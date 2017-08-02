@@ -110,7 +110,7 @@ const actionHandlers = {
     newState.items.splice(action.payload, 1);
 
     if (newState.activeIndex === action.payload) {
-      newState.activeIndex = newState.items.length > 0 || null;
+      newState.activeIndex = null;
     } else {
       newState.activeIndex = newState.items.indexOf(state.items[state.activeIndex]);
     }
@@ -151,10 +151,10 @@ const actionHandlers = {
 
     const newState = { ...state, items: [...state.items] };
 
-    newState.items.splice(action.payload, 1);
+    newState.items.splice(currentUserTabIndex, 1);
 
     if (newState.activeIndex === currentUserTabIndex) {
-      newState.activeIndex = newState.items.length > 0 || null;
+      newState.activeIndex = null;
     } else {
       newState.activeIndex = newState.items.indexOf(state.items[state.activeIndex]);
     }
