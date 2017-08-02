@@ -6,15 +6,14 @@ import config from '../../../../../../../config';
 
 const mapStateToProps = (state) => {
   const {
-    profile: { profile, accumulatedBalances: { data: accumulatedBalances } },
+    profile: { profile },
     userBonusesList: { list, bonus },
   } = state;
 
   return ({
     list,
-    profile,
+    playerProfile: profile,
     bonus,
-    accumulatedBalances,
     canClaimBonus: config.nas.brand.claim_bonus.enable,
   });
 };

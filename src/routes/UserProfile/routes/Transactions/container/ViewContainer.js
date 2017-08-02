@@ -1,17 +1,14 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
-import { actionCreators as viewActionCreators } from '../modules/view';
-import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../config/index';
+import { actionCreators as viewActionCreators } from '../modules';
+import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../config';
 import { paymentActions } from '../../../../../constants/payment';
+import { actionCreators as locationActionCreators } from '../../../../../redux/modules/location';
 
-const mapStateToProps = ({
-  userTransactions,
-  profile: { profile, accumulatedBalances: { data: accumulatedBalances } },
-}) => ({
+const mapStateToProps = ({ userTransactions, profile: { profile } }) => ({
   ...userTransactions,
   currencyCode: profile.data.currencyCode,
-  profile: profile.data,
-  accumulatedBalances,
+  playerProfile: profile.data,
   paymentActionReasons: {
     [paymentActions.REJECT]: getTransactionRejectReasons(),
     [paymentActions.CHARGEBACK]: getTransactionChargebackReasons(),
@@ -20,12 +17,15 @@ const mapStateToProps = ({
 
 const mapActions = {
   fetchEntities: viewActionCreators.fetchEntities,
+  fetchFilters: viewActionCreators.fetchFilters,
   onChangePaymentStatus: viewActionCreators.changePaymentStatus,
   loadPaymentStatuses: viewActionCreators.fetchPaymentStatuses,
   loadPaymentAccounts: viewActionCreators.fetchPaymentAccounts,
   addPayment: viewActionCreators.addPayment,
   manageNote: viewActionCreators.manageNote,
   resetNote: viewActionCreators.resetNote,
+  resetAll: viewActionCreators.resetAll,
+  locationChange: locationActionCreators.locationChange,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

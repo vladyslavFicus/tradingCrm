@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import Switch from '../../../../../components/Forms/Switch/index';
+import classNames from 'classnames';
+import Switch from '../../../../../components/Forms/Switch';
 import { marketingTypes } from './constants';
+import { statuses } from '../../../../../constants/user';
 
 const SUBSCRIPTION_TYPE_SMS = 'marketingSMS';
 const SUBSCRIPTION_TYPE_NEWS = 'marketingNews';
@@ -10,8 +12,21 @@ const SUBSCRIPTION_TYPE_MAIL = 'marketingMail';
 
 class Additional extends Component {
   static propTypes = {
-    initialValues: PropTypes.object,
+    profileStatus: PropTypes.string,
+    initialValues: PropTypes.shape({
+      marketingMail: PropTypes.bool,
+      marketingNews: PropTypes.bool,
+      marketingSMS: PropTypes.bool,
+    }),
     updateSubscription: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    initialValues: PropTypes.shape({
+      marketingMail: false,
+      marketingNews: false,
+      marketingSMS: false,
+    }),
+    profileStatus: '',
   };
 
   static contextTypes = {
@@ -36,7 +51,7 @@ class Additional extends Component {
   };
 
   render() {
-    const { initialValues } = this.props;
+    const { initialValues, profileStatus } = this.props;
 
     return (
       <div className="account-details__additional-info">
@@ -44,39 +59,52 @@ class Additional extends Component {
         <div className="panel">
           <div className="panel-body">
             <span className="account-details__additional-info__label">
-              Marketing
+              {I18n.t('PLAYER_PROFILE.MARKETING.TITLE')}
             </span>
-            <div className="row">
-              <div className="col-xs-8">
-                <span>SMS</span>
+            <div className={classNames(
+              { 'account-details__additional-info_disabled-triggers': profileStatus === statuses.SUSPENDED })}
+            >
+              <div className="row">
+                <div className="col-xs-8">
+                  <span>
+                    {I18n.t('PLAYER_PROFILE.MARKETING.SMS')}
+                  </span>
+                </div>
+                <div className="col-xs-4 text-right">
+                  <Switch
+                    active={initialValues[SUBSCRIPTION_TYPE_SMS]}
+                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
+                    disabled={profileStatus === statuses.SUSPENDED}
+                  />
+                </div>
               </div>
-              <div className="col-xs-4 text-right">
-                <Switch
-                  active={initialValues[SUBSCRIPTION_TYPE_SMS]}
-                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
-                />
+              <div className="row">
+                <div className="col-xs-8">
+                  <span>
+                    {I18n.t('PLAYER_PROFILE.MARKETING.NEWS')}
+                  </span>
+                </div>
+                <div className="col-xs-4 text-right">
+                  <Switch
+                    active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
+                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
+                    disabled={profileStatus === statuses.SUSPENDED}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-xs-8">
-                <span>News</span>
-              </div>
-              <div className="col-xs-4 text-right">
-                <Switch
-                  active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
-                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-xs-8">
-                <span>Snail mail</span>
-              </div>
-              <div className="col-xs-4 text-right">
-                <Switch
-                  active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
-                  handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
-                />
+              <div className="row">
+                <div className="col-xs-8">
+                  <span>
+                    {I18n.t('PLAYER_PROFILE.MARKETING.MAIL')}
+                  </span>
+                </div>
+                <div className="col-xs-4 text-right">
+                  <Switch
+                    active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
+                    handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
+                    disabled={profileStatus === statuses.SUSPENDED}
+                  />
+                </div>
               </div>
             </div>
           </div>

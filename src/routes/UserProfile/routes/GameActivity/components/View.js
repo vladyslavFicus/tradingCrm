@@ -100,7 +100,6 @@ class View extends Component {
       );
     }
 
-
     return null;
   };
 
@@ -208,6 +207,25 @@ class View extends Component {
     </div>
   );
 
+  renderBalance = data => (
+    <div>
+      <div>
+        {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE_BEFORE')}
+        {': '}
+        <Amount {...data.balanceBeforeAmount} />
+      </div>
+      {
+        data.balanceAfterAmount ? (
+          <div>
+            {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE_AFTER')}
+            {': '}
+            <Amount {...data.balanceAfterAmount} />
+          </div>
+        ) : I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.PENDING_BALANCE')
+      }
+    </div>
+  );
+
   render() {
     const {
       activity: {
@@ -254,6 +272,7 @@ class View extends Component {
           activePage={entities.number + 1}
           totalPages={entities.totalPages}
           lazyLoad
+          rowClassName={data => classNames({ 'round-rollback-row': data.rollback })}
         >
           <GridColumn
             name="gameRound"
@@ -284,6 +303,11 @@ class View extends Component {
             name="winAmount"
             header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_AMOUNT')}
             render={this.renderAmount('totalWinAmount', 'realWinAmount', 'bonusWinAmount')}
+          />
+          <GridColumn
+            name="winDate"
+            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE')}
+            render={this.renderBalance}
           />
         </GridView>
       </div>

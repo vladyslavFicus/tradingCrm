@@ -32,6 +32,7 @@ class Information extends Component {
           </div>
           <div className="col-md-2">
             <Additional
+              profileStatus={data.profileStatus}
               initialValues={{
                 marketingMail: data.marketingMail,
                 marketingNews: data.marketingNews,

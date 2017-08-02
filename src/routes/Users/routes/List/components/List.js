@@ -79,7 +79,7 @@ class List extends Component {
 
     return (
       <GridPlayerInfo
-        profile={{ ...data, uuid: data.playerUUID }}
+        profile={data}
         onClick={() => this.context.addPanel(panelData)}
       />
     );
@@ -145,7 +145,12 @@ class List extends Component {
           <Title>
             <div className="row">
               <div className="col-xl-3">
-                <span className="font-size-20">Players</span>
+                <span
+                  className="font-size-20"
+                  id="users-list-header"
+                >
+                  Players
+                </span>
               </div>
 
               <div className="col-xl-3 col-xl-offset-6 text-right">

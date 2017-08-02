@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { actionCreators } from '../modules';
 import View from '../components/View';
+import { actionCreators } from '../modules';
 import { paymentActions } from '../../../../../constants/payment';
 import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../config';
 
@@ -14,6 +14,8 @@ const mapStateToProps = ({ transactions }) => ({
 
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
+  fetchFilters: actionCreators.fetchFilters,
+  fetchPlayerProfile: actionCreators.fetchPlayerProfile,
   onChangePaymentStatus: actionCreators.changePaymentStatus,
   loadPaymentStatuses: actionCreators.fetchPaymentStatuses,
   resetAll: actionCreators.resetAll,

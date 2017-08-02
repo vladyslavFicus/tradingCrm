@@ -17,7 +17,7 @@ function changePaymentStatus(type) {
         types: [
           type.REQUEST,
           type.SUCCESS,
-          type.FAILURE
+          type.FAILURE,
         ],
         bailout: !logged,
       },

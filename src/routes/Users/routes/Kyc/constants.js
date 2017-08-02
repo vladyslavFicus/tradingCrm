@@ -2,8 +2,8 @@ import I18n from '../../../../utils/fake-i18n';
 import { statusTypes as kysStatusTypes, statuses as kycStatuses } from '../../../../constants/kyc';
 
 const statusTypesKeys = {
-  [kysStatusTypes.ADDRESS]: 'addressStatus',
-  [kysStatusTypes.IDENTITY]: 'identityStatus',
+  [kysStatusTypes.ADDRESS]: 'kycAddressStatus',
+  [kysStatusTypes.IDENTITY]: 'kycPersonalStatus',
 };
 const multiselectStatuses = {
   [kysStatusTypes.FULLY_VERIFIED]: I18n.t('KYC_REQUESTS.FILTER.STATUS.FULLY_VERIFIED'),

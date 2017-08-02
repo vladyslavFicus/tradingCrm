@@ -30,7 +30,9 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-    profile: PropTypes.userProfile.isRequired,
+    profile: PropTypes.shape({
+      data: PropTypes.userProfile.isRequired,
+    }).isRequired,
     files: PropTypes.shape({
       identity: PropTypes.arrayOf(PropTypes.fileEntity).isRequired,
       address: PropTypes.arrayOf(PropTypes.fileEntity).isRequired,

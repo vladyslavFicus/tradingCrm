@@ -59,7 +59,12 @@ class Header extends Component {
       <div>
         <div className="panel-heading-row">
           <div className="panel-heading-row__info">
-            <div className="panel-heading-row__info-title">{`${firstName} ${lastName}`}</div>
+            <div
+              className="panel-heading-row__info-title"
+              id="operators-account-name"
+            >
+              {`${firstName} ${lastName}`}
+            </div>
             <span className="panel-heading-row__info-ids">
               {!!uuid && <Uuid uuid={uuid} />} {country && ` - ${country}`}
             </span>

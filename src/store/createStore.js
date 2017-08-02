@@ -27,8 +27,8 @@ export default (initialState = {}, onComplete) => {
     apiErrors,
   ];
 
-  if (window && window.parent !== window && window.parent.postMessage) {
-    middleware.push(require('../redux/middlewares/updateUserTab').default);
+  if (window && window.parent !== window && window.parent && window.parent.postMessage) {
+    middleware.push(require('../redux/middlewares/window').default);
   }
 
   // ======================================================
