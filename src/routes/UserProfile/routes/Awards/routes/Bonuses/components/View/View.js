@@ -361,9 +361,9 @@ class View extends Component {
           modal.name === MODAL_CREATE &&
           <CreateModal
             initialValues={{
-              playerUUID: playerProfile.data.playerUUID,
+              playerUUID: playerProfile.playerUUID,
               state: 'INACTIVE',
-              currency: playerProfile.data.currencyCode,
+              currency: playerProfile.currencyCode,
             }}
             onSubmit={this.handleSubmitManualBonus}
             onClose={this.handleModalClose}
