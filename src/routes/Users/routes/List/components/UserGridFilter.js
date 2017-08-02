@@ -255,7 +255,6 @@ class UserGridFilter extends Component {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('registrationDateTo')}
                     position="vertical"
-                    className={null}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -263,7 +262,6 @@ class UserGridFilter extends Component {
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('registrationDateFrom')}
                     position="vertical"
-                    className={null}
                   />
                 </div>
               </div>

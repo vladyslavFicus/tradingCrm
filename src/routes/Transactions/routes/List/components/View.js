@@ -14,7 +14,7 @@ import {
   typesLabels,
   typesProps,
   statusesColor,
-  statuses as paymentsStatuses,
+  statuses as paymentsStatuses
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
 import PaymentDetailModal from '../../../components/PaymentDetailModal';
@@ -330,7 +330,7 @@ class View extends Component {
           <Content>
             <GridView
               tableClassName="table table-hovered data-grid-layout"
-              headerClassName=""
+              headerClassName="text-uppercase"
               dataSource={entities.content}
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
@@ -341,56 +341,49 @@ class View extends Component {
               <GridColumn
                 name="paymentId"
                 header="Transaction"
-                headerClassName="text-uppercase"
                 render={this.renderTransactionId}
               />
               <GridColumn
                 name="profile"
                 header="Player"
-                headerClassName="text-uppercase"
                 render={this.renderPlayer}
               />
               <GridColumn
                 name="paymentType"
                 header="Type"
-                headerClassName="text-uppercase"
                 render={this.renderType}
               />
               <GridColumn
                 name="amount"
                 header="Amount"
-                headerClassName="text-uppercase"
                 render={this.renderAmount}
               />
               <GridColumn
                 name="creationTime"
                 header="DATE & TIME"
-                headerClassName="text-uppercase"
                 render={this.renderDateTime}
               />
               <GridColumn
                 name="country"
                 header="Ip"
-                headerClassName="text-uppercase text-center"
+                headerClassName="text-center"
                 render={this.renderIP}
               />
               <GridColumn
                 name="paymentMethod"
                 header="Method"
-                headerClassName="text-uppercase"
                 render={this.renderMethod}
               />
               <GridColumn
                 name="mobile"
                 header="Device"
-                headerClassName="text-uppercase text-center"
+                headerClassName="text-center"
                 className="text-center"
                 render={this.renderDevice}
               />
               <GridColumn
                 name="status"
                 header="Status"
-                headerClassName="text-uppercase"
                 className="text-uppercase"
                 render={this.renderStatus}
               />

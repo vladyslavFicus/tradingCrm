@@ -10,9 +10,6 @@
     min-width: 1px;
     padding-right: 1rem;
     padding-left: 1rem;
-    .range-group .form-control {
-      max-width: 200px;
-    }
   }
   &__medium {
     @include flex(0.75 0 250px);
@@ -25,9 +22,6 @@
     min-width: 1px;
     padding-right: 1rem;
     padding-left: 1rem;
-    .range-group .form-control {
-      max-width: 54px;
-    }
   }
   &__button-block {
     @include flex(1 0 auto);
@@ -135,7 +129,16 @@ label {
   @include flexbox();
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
+  .form-group,
+  .form-control {
+    @include flex(1 0 0);
+    min-width: 1px;
+  }
+  .form-group {
+    margin-bottom: 0;
+  }
   &__separator {
+    width: 25px;
     align-self: center;
     padding-right: 10px;
     padding-left: 10px;

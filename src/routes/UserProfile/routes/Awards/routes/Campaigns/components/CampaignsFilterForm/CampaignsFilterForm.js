@@ -107,7 +107,6 @@ class CampaignsFilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('activityDateTo')}
                     position="vertical"
-                    className={null}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -116,7 +115,6 @@ class CampaignsFilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('activityDateFrom')}
                     position="vertical"
-                    className={null}
                   />
                 </div>
               </div>
