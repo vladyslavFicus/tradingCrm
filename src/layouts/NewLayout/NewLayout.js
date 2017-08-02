@@ -115,16 +115,11 @@ class NewLayout extends Component {
     };
   }
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      noteChangedCallback: null,
-      popover: { ...popoverInitialState },
-      isOpenProfile: false,
-      initializedScroll: props.app.showScrollToTop || false,
-    };
-  }
+  state = {
+    noteChangedCallback: null,
+    popover: { ...popoverInitialState },
+    isOpenProfile: false,
+  };
 
   onToggleProfile = () => {
     this.setState({ isOpenProfile: !this.state.isOpenProfile });
