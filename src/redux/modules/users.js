@@ -61,7 +61,11 @@ function fetchProfile(type) {
               }
             },
           },
-          type.FAILURE,
+          {
+            type: type.FAILURE,
+            meta: { uuid },
+            payload: action => action.payload,
+          },
         ],
         bailout: !logged,
       },
