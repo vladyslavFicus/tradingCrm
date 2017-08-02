@@ -102,7 +102,11 @@
         "BET_DATE": "Bet date",
         "BET_AMOUNT": "Bet amount",
         "WIN_DATE": "Win date",
-        "WIN_AMOUNT": "Win amount"
+        "WIN_AMOUNT": "Win amount",
+        "BALANCE_BEFORE": "Before",
+        "BALANCE_AFTER": "After",
+        "PENDING_BALANCE": "Pending",
+        "BALANCE": "Balance"
       }
     },
     "MARKETING": {

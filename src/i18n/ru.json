@@ -102,7 +102,11 @@
         "BET_DATE": "Дата ставки",
         "BET_AMOUNT": "Сумма ставки",
         "WIN_DATE": "Дата выигрыша",
-        "WIN_AMOUNT": "Сумма выигрыша"
+        "WIN_AMOUNT": "Сумма выигрыша",
+        "BALANCE_BEFORE": "До",
+        "BALANCE_AFTER": "После",
+        "PENDING_BALANCE": "В ожидании",
+        "BALANCE": "Баланс"
       }
     },
     "MARKETING": {
