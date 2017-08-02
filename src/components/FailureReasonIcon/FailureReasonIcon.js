@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Popover, PopoverTitle, PopoverContent } from 'reactstrap';
 import onClickOutside from 'react-onclickoutside';
-import moment from 'moment';
 import './FailureReasonIcon.scss';
 
 class FailureReasonIcon extends Component {
   static propTypes = {
     reason: PropTypes.string,
-    endDate: PropTypes.string,
   };
   static defaultProps = {
     reason: null,
-    endDate: null,
   };
   state = {
     popoverOpen: false,
@@ -25,7 +22,7 @@ class FailureReasonIcon extends Component {
     this.setState({ popoverOpen: false });
   };
 
-  renderPopoverContent = (reason, endDate) => {
+  renderPopoverContent() {
     return (
       <Popover
         className="failure-reason-popover"
@@ -48,7 +45,7 @@ class FailureReasonIcon extends Component {
         </PopoverContent>
       </Popover>
     );
-  };
+  }
 
   render() {
     const { reason } = this.props;
@@ -67,6 +64,4 @@ class FailureReasonIcon extends Component {
   }
 }
 
-export default FailureReasonIcon
-
-// export default onClickOutside(FailureReasonIcon);
+export default onClickOutside(FailureReasonIcon);
