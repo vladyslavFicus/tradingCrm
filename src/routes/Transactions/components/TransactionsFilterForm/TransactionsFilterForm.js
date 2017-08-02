@@ -227,6 +227,10 @@ class TransactionsFilterForm extends Component {
   }
 }
 
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
 const FORM_NAME = 'transactionsFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
@@ -235,12 +239,12 @@ const FilterForm = reduxForm({
     initiatorType: ['string'],
     type: ['string', `in:${Object.keys(types).join()}`],
     statuses: ['array'],
-    paymentMethod: ['array'],
+    paymentMethod: 'string',
     startDate: 'string',
     endDate: 'string',
     amountLowerBound: 'numeric',
     amountUpperBound: 'numeric',
-  }, attributeLabels, false),
+  }, validatorAttributeLabels, false),
 })(TransactionsFilterForm);
 
 export default connect(state => ({
