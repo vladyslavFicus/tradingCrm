@@ -100,7 +100,7 @@ class NotesGridFilter extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__big">
+            <div className="filter-row__medium">
               <div className="form-group">
                 <label>Creation date range</label>
                 <div className="range-group">

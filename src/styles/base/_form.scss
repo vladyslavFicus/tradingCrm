@@ -24,7 +24,7 @@
     padding-left: 1rem;
   }
   &__button-block {
-    @include flex(1 0 auto);
+    @include flex(2 0 auto);
     min-width: 1px;
     align-self: center;
     margin-top: 6px;

@@ -246,7 +246,7 @@ class UserGridFilter extends Component {
                 <option value="">Any</option>
               </Field>
             </div>
-            <div className="filter-row__big">
+            <div className="filter-row__medium">
               <div className="form-group">
                 <label>Registration date range</label>
                 <div className="range-group">
