@@ -91,7 +91,7 @@ function fetchProfile(type) {
           {
             type: type.FAILURE,
             meta: { uuid },
-            payload: action => action.payload,
+            payload: payload => payload,
           },
         ],
         bailout: !logged,
