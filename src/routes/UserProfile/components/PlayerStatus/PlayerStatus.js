@@ -104,9 +104,12 @@ class PlayerStatus extends Component {
       availableStatuses,
       status,
       reason,
+      statusDate,
+      fullName,
       endDate,
       locale,
     } = this.props;
+
     const { dropDownOpen, modal } = this.state;
     const dropDownClassName = classNames('dropdown-highlight', {
       'cursor-pointer': status !== statuses.SUSPENDED && status !== statuses.INACTIVE,
@@ -136,6 +139,8 @@ class PlayerStatus extends Component {
           (status === statuses.BLOCKED || status === statuses.SUSPENDED) &&
           <FailureReasonIcon
             reason={reason}
+            statusDate={moment(statusDate).format('L')}
+            fullName={fullName}
           />
         }
       </div>

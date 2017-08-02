@@ -7,6 +7,10 @@ import './FailureReasonIcon.scss';
 class FailureReasonIcon extends Component {
   static propTypes = {
     reason: PropTypes.string,
+    statusDate: PropTypes.string,
+    fullName: PropTypes.string,
+    uuid: PropTypes.string,
+    uuidPrefix: PropTypes.string,
   };
   static defaultProps = {
     reason: null,
@@ -23,6 +27,8 @@ class FailureReasonIcon extends Component {
   };
 
   renderPopoverContent() {
+    const { fullName, statusDate, reason, uuid, uuidPrefix } = this.props;
+
     return (
       <Popover
         className="failure-reason-popover"
@@ -32,15 +38,15 @@ class FailureReasonIcon extends Component {
       >
         <PopoverTitle>
           <div className="failure-reason-popover__title">
-            by <strong>Helen Casssar</strong> - OP-777h1634
+            by <strong>{fullName}</strong>
           </div>
           <div className="failure-reason-popover__date">
-            2016-10-20 17:20:07
+            {statusDate}
           </div>
         </PopoverTitle>
         <PopoverContent>
           <div className="failure-reason-popover__textfield">
-            Full text of the reason will be displayed here. You can`t edit bla bla bl
+            {reason}
           </div>
         </PopoverContent>
       </Popover>
@@ -48,8 +54,6 @@ class FailureReasonIcon extends Component {
   }
 
   render() {
-    const { reason } = this.props;
-
     return (
       <div
         onClick={this.togglePopoverOpen}
@@ -58,7 +62,7 @@ class FailureReasonIcon extends Component {
           id="failure-reason-icon"
           className="failure-reason-icon failure-reason-icon_account-status"
         />
-        {this.renderPopoverContent(reason)}
+        {this.renderPopoverContent()}
       </div>
     );
   }
