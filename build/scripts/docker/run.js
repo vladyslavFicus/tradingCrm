@@ -43,17 +43,38 @@ function processError(error) {
   });
 }
 
+function compileNginxConfig(environmentConfig) {
+  let config = fs.readFileSync('./nginx.conf.tpl');
+  const params = {
+    logstashUrl: environmentConfig.logstash
+      ? environmentConfig.logstash.url
+      : '',
+  };
+
+  if (config) {
+    Object.keys(params).forEach(name => {
+      config = config.replace(`{{${name}}}`, params[name]);
+    });
+  }
+
+  fs.writeFileSync(NGINX_CONF_OUTPUT, config);
+}
+
 function processConfig() {
   const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_ENV}.yml`);
 
   return fetchZookeeperConfig({ environmentConfig })
-    .then(config => _.merge(
-      {},
-      config,
-      { nas: environmentConfig.nas },
-      { nas: { brand: environmentConfig.brand } },
-      { logstash: environmentConfig.logstash },
-    ));
+    .then(config => {
+      compileNginxConfig(environmentConfig);
+
+      return _.merge(
+        {},
+        config,
+        { nas: environmentConfig.nas },
+        { nas: { brand: environmentConfig.brand } },
+        { logstash: { url: `${environmentConfig.brand.backoffice.url}/log` } }
+      );
+    });
 }
 
 function saveConfig(config) {
