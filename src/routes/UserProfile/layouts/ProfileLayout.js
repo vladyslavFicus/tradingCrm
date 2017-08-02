@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ImageViewer from 'react-images';
+import _ from 'lodash';
 import { Collapse } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import Tabs from '../../../components/Tabs';
@@ -11,6 +12,7 @@ import { targetTypes } from '../../../constants/note';
 import Information from '../components/Information';
 import PropTypes from '../../../constants/propTypes';
 import getFileBlobUrl from '../../../utils/getFileBlobUrl';
+import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../../redux/modules/window';
 import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal
@@ -127,15 +129,6 @@ class ProfileLayout extends Component {
     cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
-  state = {
-    popover: { ...popoverInitialState },
-    modal: { ...modalInitialState },
-    imageViewer: { ...imageViewerInitialState },
-    noteChangedCallback: null,
-    fileChangedCallback: null,
-    informationShown: true,
-  };
-
   getChildContext() {
     return {
       onAddNote: this.props.addNote,
@@ -153,16 +146,43 @@ class ProfileLayout extends Component {
     };
   }
 
+  state = {
+    popover: { ...popoverInitialState },
+    modal: { ...modalInitialState },
+    imageViewer: { ...imageViewerInitialState },
+    noteChangedCallback: null,
+    fileChangedCallback: null,
+    informationShown: true,
+  };
+
+  cacheChildrenComponent = (component) => {
+    this.children = component;
+  };
+
   componentWillMount() {
     document.body.classList.add('user-profile-layout');
+    window.addEventListener('scroll', this.handleScrollWindow);
   }
 
   componentDidMount() {
     this.handleLoadProfile();
   }
 
+  isShowScrollTop = () => document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
+
+  handleScrollWindow = _.debounce(() => {
+    if (window && window.parent !== window && window.parent.postMessage) {
+      if (this.isShowScrollTop()) {
+        window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(true)), window.location.origin);
+      } else if (!this.isShowScrollTop()) {
+        window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(false)), window.location.origin);
+      }
+    }
+  }, 300);
+
   componentWillUnmount() {
     document.body.classList.remove('user-profile-layout');
+    window.removeEventListener('scroll', this.handleScrollWindow);
   }
 
   setNoteChangedCallback = (cb) => {
@@ -171,11 +191,7 @@ class ProfileLayout extends Component {
 
   setFileChangedCallback = (cb) => {
     this.setState({ fileChangedCallback: cb });
-  };
-
-  cacheChildrenComponent = (component) => {
-    this.children = component;
-  };
+  }
 
   handleLoadProfile = (needForceUpdate = false) => {
     const {

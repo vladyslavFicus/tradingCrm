@@ -38,7 +38,7 @@ class FileStatusDropDown extends Component {
           <i className="fa fa-angle-down" />
         </div>
         {
-          status.value !== statuses.UNDER_REVIEW &&
+          status.value !== statuses.PENDING &&
           <div className="font-size-10 color-default">
             {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={status.author} />
           </div>

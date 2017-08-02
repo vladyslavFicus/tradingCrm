@@ -3,7 +3,9 @@ const LOGOUT = `${KEY}/logout-message`;
 const CHANGE_LOCALE = `${KEY}/change-locale-message`;
 const NOTIFICATION = `${KEY}/notification-message`;
 const NAVIGATE_TO = `${KEY}/navigate-to`;
-const UPDATE_USER_TAB = `${KEY}/update-user-tab`;
+const VIEW_PLAYER_PROFILE = `${KEY}/view-player-profile`;
+const SHOW_SCROLL_TO_TOP = `${KEY}/show-scroll-to-top`;
+const SCROLL_TO_TOP = `${KEY}/scroll-to-top`;
 
 function changeLocale(locale) {
   return {
@@ -32,10 +34,23 @@ function navigateTo(to) {
   };
 }
 
-function updateUserTab(userDetail) {
+function viewPlayerProfile(payload) {
   return {
-    type: UPDATE_USER_TAB,
-    payload: userDetail,
+    type: VIEW_PLAYER_PROFILE,
+    payload,
+  };
+}
+
+function showScrollToTop(isShow) {
+  return {
+    type: SHOW_SCROLL_TO_TOP,
+    payload: isShow,
+  };
+}
+
+function scrollToTop() {
+  return {
+    type: SCROLL_TO_TOP,
   };
 }
 
@@ -44,14 +59,18 @@ const actionTypes = {
   CHANGE_LOCALE,
   LOGOUT,
   NAVIGATE_TO,
-  UPDATE_USER_TAB,
+  SHOW_SCROLL_TO_TOP,
+  SCROLL_TO_TOP,
+  VIEW_PLAYER_PROFILE,
 };
 const actionCreators = {
   changeLocale,
   logout,
   notify,
   navigateTo,
-  updateUserTab,
+  viewPlayerProfile,
+  showScrollToTop,
+  scrollToTop,
 };
 
 export {

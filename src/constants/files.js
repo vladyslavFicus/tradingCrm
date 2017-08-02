@@ -22,12 +22,12 @@ const categoriesLabels = {
 };
 
 const statuses = keyMirror({
-  UNDER_REVIEW: null,
+  PENDING: null,
   VERIFIED: null,
   REFUSED: null,
 });
 const statusActions = {
-  [statuses.UNDER_REVIEW]: [
+  [statuses.PENDING]: [
     {
       action: actions.VERIFY,
       label: 'Verify',
@@ -51,12 +51,12 @@ const statusActions = {
   ],
 };
 const statusesColorNames = {
-  [statuses.UNDER_REVIEW]: 'color-default',
+  [statuses.PENDING]: 'color-default',
   [statuses.VERIFIED]: 'color-success',
   [statuses.REFUSED]: 'color-red',
 };
 const statusesLabels = {
-  [statuses.UNDER_REVIEW]: 'Under review',
+  [statuses.PENDING]: 'Under review',
   [statuses.VERIFIED]: 'Verified',
   [statuses.REFUSED]: 'Refused',
 };
