@@ -26,6 +26,7 @@ export default store => ({
           fullName: '',
           login: '',
           uuid: playerUUID,
+          path: location.pathname.replace(`/${PLAYER_PROFILE_ROUTE_PREFIX}/${playerUUID}/`, ''),
         }));
         replace({ pathname: `/${PLAYER_PROFILE_ROUTE_PREFIX}/list`, state: { ignoreByUsersPanel: true } });
       }

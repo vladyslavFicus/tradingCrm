@@ -78,11 +78,12 @@ const actionHandlers = {
     const existIndex = state.items.findIndex(item => item.uuid === action.payload.uuid);
 
     if (existIndex > -1) {
-      if (state.activeIndex !== existIndex) {
-        return { ...state, activeIndex: existIndex };
+      const newState = { ...state, activeIndex: existIndex };
+      if (action.payload.path && newState.items[existIndex].path !== action.payload.path) {
+        newState.items[existIndex].path = action.payload.path;
       }
 
-      return state;
+      return newState;
     }
 
     const newState = {
@@ -92,7 +93,7 @@ const actionHandlers = {
         {
           ...action.payload,
           color: getColor(state.items.map(i => i.color)),
-          path: 'profile',
+          path: action.payload.path || 'profile',
         },
       ],
     };
@@ -117,13 +118,6 @@ const actionHandlers = {
     return newState;
   },
   [RESET]: () => ({ ...initialState }),
-  [locationActionTypes.LOCATION_CHANGE]: (state, action) => {
-    if (action.payload && action.payload.state && action.payload.state.ignoreByUsersPanel) {
-      return state;
-    }
-
-    return { ...state, activeIndex: null };
-  },
   [windowActionTypes.VIEW_PLAYER_PROFILE]: (state, action) => {
     const { uuid, firstName, lastName, username: login } = action.payload;
     const fullName = `${firstName} ${lastName}`;
@@ -143,7 +137,13 @@ const actionHandlers = {
 };
 
 if (window && window === window.parent) {
-  actionHandlers[locationActionTypes.LOCATION_CHANGE] = state => ({ ...state, activeIndex: null });
+  actionHandlers[locationActionTypes.LOCATION_CHANGE] = (state, action) => {
+    if (action.payload && action.payload.state && action.payload.state.ignoreByUsersPanel) {
+      return state;
+    }
+
+    return { ...state, activeIndex: null };
+  };
 } else {
   actionHandlers[locationActionTypes.LOCATION_CHANGE] = (state, action) => {
     const { pathname } = action.payload;
