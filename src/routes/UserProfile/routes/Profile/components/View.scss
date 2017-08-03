@@ -1,0 +1,18 @@
+.panel-body {
+  &__wrapper {
+    display: flex;
+    flex-flow: row wrap;
+  }
+  &__content-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  &__content {
+    flex: 1 0 auto;
+  }
+  &__buttons {
+    flex: 0 0 auto;
+    text-align: right;
+  }
+}

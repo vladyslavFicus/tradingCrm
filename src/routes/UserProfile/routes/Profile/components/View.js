@@ -18,6 +18,7 @@ import {
   userStatusesLabels as kycUserStatusesLabels,
   userStatusesColor as kycUserStatusesColor,
 } from '../../../../../constants/kyc';
+import './View.scss';
 
 const REFUSE_MODAL = 'refuse-modal';
 const REQUEST_KYC_VERIFICATION_MODAL = 'request-kyc-verification-modal';
@@ -292,7 +293,7 @@ class View extends Component {
 
         <div>
           <div className="panel">
-            <div className="panel-body row">
+            <div className="panel-body row panel-body__wrapper">
               <div className="col-md-8 profile-bordered-block">
                 <PersonalForm
                   initialValues={personalData}
@@ -319,7 +320,7 @@ class View extends Component {
           </div>
 
           <div className="panel">
-            <div className="panel-body row">
+            <div className="panel-body row panel-body__wrapper">
               <div className="col-md-8 profile-bordered-block">
                 <AddressForm
                   initialValues={addressData}
