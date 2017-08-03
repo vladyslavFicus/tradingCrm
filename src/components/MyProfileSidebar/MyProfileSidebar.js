@@ -57,7 +57,7 @@ class MyProfileSidebar extends Component {
     const { initialized } = this.state;
 
     return (
-      <aside
+      <div
         className={classNames(
           'my-profile',
           { slideInRight: isOpen, slideOutRight: initialized && !isOpen }
@@ -102,7 +102,7 @@ class MyProfileSidebar extends Component {
             </form>
           </section>
         </div>
-      </aside>
+      </div>
     );
   }
 }
