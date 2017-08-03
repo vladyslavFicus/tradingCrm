@@ -74,7 +74,7 @@ class Header extends Component {
               operatorStatus === statuses.INACTIVE &&
               <PermissionContent permissions={sendInvitationRequiredPermissions}>
                 <Button
-                  className="btn-default-outline margin-right-10"
+                  className="btn-sm btn-default-outline margin-right-10"
                   onClick={onSendInvitationClick}
                 >
                   Send Invitation
@@ -84,7 +84,7 @@ class Header extends Component {
             {
               operatorStatus === statuses.ACTIVE &&
               <Button
-                className="btn-default-outline"
+                className="btn-sm btn-default-outline"
                 onClick={onResetPasswordClick}
               >
                 Reset Password
