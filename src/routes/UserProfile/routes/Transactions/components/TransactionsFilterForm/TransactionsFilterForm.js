@@ -86,8 +86,8 @@ class TransactionsFilterForm extends Component {
               <Field
                 name="keyword"
                 type="text"
-                label={I18n.t(attributePlaceholders.keyword)}
-                placeholder={I18n.t(attributeLabels.keyword)}
+                label={I18n.t(attributeLabels.keyword)}
+                placeholder={I18n.t(attributePlaceholders.keyword)}
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"

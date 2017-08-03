@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import classNames from 'classnames';
-import { I18n } from 'react-redux-i18n';
 import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
-  types as paymentTypes,
   methodsLabels,
   typesLabels,
   typesProps,
-  statuses as paymentsStatuses,
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
 import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
@@ -19,10 +15,11 @@ import PaymentActionReasonModal from '../../../../../components/PaymentActionRea
 import TransactionStatus from '../../../../../components/TransactionStatus';
 import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
-import Amount from '../../../../../components/Amount';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 import Uuid from '../../../../../components/Uuid';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
+import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
+import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -171,40 +168,12 @@ class View extends Component {
     });
   };
 
-  renderTransactionId = (data) => {
-    const showPaymentDetails =
-      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
-      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
-
-    const paymentId = shortify(data.paymentId, 'TA');
-    const paymentLink = showPaymentDetails ?
-      (
-        <button
-          className="btn-transparent-text"
-          onClick={() => this.handleOpenDetailModal({ payment: data })}
-        >
-          {paymentId}
-        </button>
-      ) : paymentId;
-
-    return (
-      <div id={`payment-${data.paymentId}`}>
-        <div className="font-weight-700">{paymentLink}</div>
-        <span className="font-size-10 color-default">
-          {I18n.t('COMMON.AUTHOR_BY')}
-          {' '}
-          <Uuid
-            uuid={data.creatorUUID}
-            uuidPrefix={
-              data.creatorUUID.indexOf('OPERATOR') === -1
-                ? data.creatorUUID.indexOf('PLAYER') === -1 ? 'PL' : null
-                : null
-            }
-          />
-        </span>
-      </div>
-    );
-  };
+  renderTransactionId = data => (
+    <GridPaymentInfo
+      payment={data}
+      onClick={() => this.handleOpenDetailModal({ payment: data })}
+    />
+  );
 
   renderPlayer = data => (
     data.playerProfile
@@ -228,14 +197,7 @@ class View extends Component {
     );
   };
 
-  renderAmount = (data) => {
-    const negativeOperation = [paymentTypes.Withdraw, paymentTypes.Confiscate].indexOf(data.paymentType) !== -1;
-    return (
-      <div className={classNames('font-weight-700', { 'color-danger': negativeOperation })}>
-        {negativeOperation && '-'}<Amount {...data.amount} />
-      </div>
-    );
-  };
+  renderAmount = data => <GridPaymentAmount payment={data} />;
 
   renderDateTime = data => (
     <div>
@@ -333,7 +295,6 @@ class View extends Component {
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
-              rowClassName={data => (data.amountBarrierReached ? 'highlighted-row' : '')}
               lazyLoad
             >
               <GridColumn
@@ -365,6 +326,7 @@ class View extends Component {
                 name="country"
                 header="Ip"
                 headerClassName="text-center"
+                className="text-center"
                 render={this.renderIP}
               />
               <GridColumn
