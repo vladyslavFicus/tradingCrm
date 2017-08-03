@@ -409,13 +409,13 @@ function successKycActionReducer(state, action) {
       kycCompleted: kycPersonalStatus && kycPersonalStatus.value === statuses.VERIFIED
       && kycAddressStatus && kycAddressStatus.value === statuses.VERIFIED,
       kycPersonalStatus: {
-        authorUUID: kycPersonalStatus.author,
+        authorUUID: kycPersonalStatus.authorUUID,
         reason: kycPersonalStatus.reason,
         status: kycPersonalStatus.status,
         statusDate: kycPersonalStatus.statusDate,
       },
       kycAddressStatus: {
-        authorUUID: kycAddressStatus.author,
+        authorUUID: kycAddressStatus.authorUUID,
         reason: kycAddressStatus.reason,
         status: kycAddressStatus.status,
         statusDate: kycAddressStatus.statusDate,

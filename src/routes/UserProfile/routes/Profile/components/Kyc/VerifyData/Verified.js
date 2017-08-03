@@ -1,11 +1,12 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import Uuid from '../../../../../../../components/Uuid/index';
+import Uuid from '../../../../../../../components/Uuid';
 import PropTypes from '../../../../../../../constants/propTypes';
 
 const Verified = (props) => {
-  const { title, onRefuse } = props;
+  const { title, onRefuse, status } = props;
+
   return (
     <div>
       <div className=" margin-bottom-10">
@@ -34,6 +35,7 @@ const Verified = (props) => {
 
 Verified.propTypes = {
   title: PropTypes.string.isRequired,
+  status: PropTypes.kycStatus.isRequired,
   onRefuse: PropTypes.func.isRequired,
 };
 

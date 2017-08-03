@@ -6,7 +6,7 @@ import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
 import ContactForm from './ContactForm';
 import Documents from './Documents';
-import VerifyData from './Kyc/VerifyData/index';
+import VerifyData from './Kyc/VerifyData';
 import RefuseModal from './Kyc/RefuseModal';
 import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
 import {

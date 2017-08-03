@@ -17,7 +17,7 @@ export const stepStatuses = keyMirror({
 });
 
 const VerifyData = (props) => {
-  const { title, status, onVerify, onRefuse } = props;
+  const { title, status } = props;
 
   switch (true) {
     case !status:
@@ -27,9 +27,9 @@ const VerifyData = (props) => {
     case !!(status.status === kysStatuses.DOCUMENTS_SENT && !status.reason):
       return <NotVerified step={stepStatuses.VERIFICATION_IS_PENDING} {...props} />;
     case !!(status.status === kysStatuses.PENDING && status.reason):
-      return <Refused title={title} onVerify={onVerify} />;
+      return <Refused {...props} />;
     case !!(status.status === kysStatuses.VERIFIED):
-      return <Verified title={title} onRefuse={onRefuse} />;
+      return <Verified {...props} />;
     default:
       return <div>Unknown step</div>;
   }
@@ -37,8 +37,6 @@ const VerifyData = (props) => {
 VerifyData.propTypes = {
   title: PropTypes.string.isRequired,
   status: PropTypes.kycStatus,
-  onVerify: PropTypes.func.isRequired,
-  onRefuse: PropTypes.func.isRequired,
 };
 
 VerifyData.defaultProps = {
