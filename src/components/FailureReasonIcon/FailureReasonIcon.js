@@ -9,17 +9,19 @@ class FailureReasonIcon extends Component {
     reason: PropTypes.string,
     statusDate: PropTypes.string,
     fullName: PropTypes.string,
-    uuid: PropTypes.string,
-    uuidPrefix: PropTypes.string,
   };
   static defaultProps = {
     reason: null,
+    statusDate: null,
+    fullName: null,
   };
   state = {
     popoverOpen: false,
   };
 
-  togglePopoverOpen = () => {
+  togglePopoverOpen = (e) => {
+    e.stopPropagation();
+
     this.setState({ popoverOpen: !this.state.popoverOpen });
   };
   handleClickOutside = () => {

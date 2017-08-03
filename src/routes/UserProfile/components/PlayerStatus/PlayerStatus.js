@@ -29,11 +29,13 @@ class PlayerStatus extends Component {
     reason: null,
     endDate: null,
     status: null,
+    statusDate: null,
+    fullName: null,
   };
 
   state = { ...initialState };
 
-  toggle = () => {
+  toggle = (e) => {
     this.setState({
       dropDownOpen: !this.state.dropDownOpen,
     });
@@ -139,7 +141,7 @@ class PlayerStatus extends Component {
           (status === statuses.BLOCKED || status === statuses.SUSPENDED) &&
           <FailureReasonIcon
             reason={reason}
-            statusDate={moment(statusDate).format('L')}
+            statusDate={moment(statusDate).format('YYYY-MM-DD h:mm:ss a')}
             fullName={fullName}
           />
         }
