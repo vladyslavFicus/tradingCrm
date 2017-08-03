@@ -27,7 +27,7 @@ class FailureReasonIcon extends Component {
   };
 
   renderPopoverContent() {
-    const { fullName, statusDate, reason, uuid, uuidPrefix } = this.props;
+    const { fullName, statusDate, reason } = this.props;
 
     return (
       <Popover
