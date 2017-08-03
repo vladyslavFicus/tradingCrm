@@ -5,7 +5,7 @@ import PropTypes from '../../../../../../../constants/propTypes';
 import { stepStatuses } from './VerifyData';
 
 const NotVerified = (props) => {
-  const { step, title, onRefuse, onVerify } = props;
+  const { step, title, onRefuse, onVerify, status } = props;
 
   const requestStatus = step === stepStatuses.WAITING_FOR_DOCUMENTS ?
     I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.WAITING_FOR_DOCUMENTS') :
@@ -50,6 +50,7 @@ const NotVerified = (props) => {
   );
 };
 NotVerified.propTypes = {
+  status: PropTypes.kycStatus.isRequired,
   title: PropTypes.string.isRequired,
   step: PropTypes.string.isRequired,
   onRefuse: PropTypes.func.isRequired,
