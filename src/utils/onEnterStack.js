@@ -39,7 +39,7 @@ export default function onEnterStack(route, onEnterCallback) {
   if (Array.isArray(route.childRoutes) && route.childRoutes.length > 0) {
     route
       .childRoutes
-      .map((childRoute) => onEnterStack(childRoute, onEnterCallback));
+      .map(childRoute => onEnterStack(childRoute, onEnterCallback));
   }
 
   return route;

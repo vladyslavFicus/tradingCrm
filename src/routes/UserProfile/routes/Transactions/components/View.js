@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import Amount from '../../../../../components/Amount';
 import {
   types as paymentTypes,
   methodsLabels,
   typesLabels,
   typesProps,
-  statuses as paymentsStatuses,
 } from '../../../../../constants/payment';
-import { shortify } from '../../../../../utils/uuid';
 import TransactionStatus from '../../../../../components/TransactionStatus';
 import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
@@ -24,6 +20,8 @@ import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 import Uuid from '../../../../../components/Uuid';
 import renderLabel from '../../../../../utils/renderLabel';
+import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
+import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -87,7 +85,6 @@ class View extends Component {
       location,
       fetchFilters,
       fetchEntities,
-      router,
       locationChange,
     } = this.props;
 
@@ -105,7 +102,7 @@ class View extends Component {
             this.handleCloseModal();
 
             locationChange({ pathname: location.pathname.replace(`/${paymentUUID}`, '') });
-          }
+          },
         });
       }
     }
@@ -240,33 +237,12 @@ class View extends Component {
     });
   };
 
-  renderTransactionId = (data) => {
-    const showPaymentDetails =
-      (data.paymentType === paymentTypes.Withdraw && data.status === paymentsStatuses.PENDING) ||
-      (data.paymentType === paymentTypes.Deposit && data.status === paymentsStatuses.COMPLETED);
-
-    const paymentId = shortify(data.paymentId, 'TA');
-    const paymentLink = showPaymentDetails ?
-      (
-        <span
-          className="cursor-pointer"
-          onClick={() => this.handleOpenDetailModal({
-            payment: data,
-          })}
-        >
-          {paymentId}
-        </span>
-      ) : paymentId;
-
-    return (
-      <div id={`payment-${data.paymentId}`}>
-        <div className="font-weight-700">{paymentLink}</div>
-        <span className="font-size-10 text-uppercase color-default">
-          by <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
-        </span>
-      </div>
-    );
-  };
+  renderTransactionId = data => (
+    <GridPaymentInfo
+      payment={data}
+      onClick={() => this.handleOpenDetailModal({ payment: data })}
+    />
+  );
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -284,14 +260,7 @@ class View extends Component {
     );
   };
 
-  renderAmount = (data) => {
-    const negativeOperation = [paymentTypes.Withdraw, paymentTypes.Confiscate].indexOf(data.paymentType) !== -1;
-    return (
-      <div className={classNames('font-weight-700', { 'color-danger': negativeOperation })}>
-        {negativeOperation && '-'}<Amount {...data.amount} />
-      </div>
-    );
-  };
+  renderAmount = data => <GridPaymentAmount payment={data} />;
 
   renderDateTime = data => (
     <div>
@@ -423,7 +392,6 @@ class View extends Component {
           onPageChange={this.handlePageChanged}
           activePage={entities.number + 1}
           totalPages={entities.totalPages}
-          rowClassName={data => (data.amountBarrierReached ? 'highlighted-row' : '')}
           lazyLoad
         >
           <GridColumn
@@ -450,7 +418,7 @@ class View extends Component {
             name="country"
             header="Ip"
             headerClassName="text-center"
-            className="text-uppercase text-center"
+            className="text-center"
             render={this.renderIP}
           />
           <GridColumn

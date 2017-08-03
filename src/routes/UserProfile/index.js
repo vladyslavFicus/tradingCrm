@@ -4,7 +4,7 @@ import GameActivityRoute from './routes/GameActivity';
 import FilesRoute from './routes/Files';
 import DevicesRoute from './routes/Devices';
 import UserPaymentsRoute from './routes/Transactions';
-import UserAwardsRoute from './routes/Awards';
+import UserRewardsRoute from './routes/Rewards';
 import LimitsRoute from './routes/Limits';
 import PaymentAccountsRoute from './routes/PaymentAccounts';
 import NotesRoute from './routes/Notes';
@@ -61,7 +61,7 @@ export default store => ({
     FilesRoute(store),
     DevicesRoute(store),
     UserPaymentsRoute(store),
-    UserAwardsRoute(store),
+    UserRewardsRoute(store),
     PaymentAccountsRoute(store),
     LimitsRoute(store),
     NotesRoute(store),

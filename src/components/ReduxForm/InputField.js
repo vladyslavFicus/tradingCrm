@@ -27,6 +27,8 @@ class InputField extends Component {
     }).isRequired,
     iconLeftClassName: PropTypes.string,
     iconRightClassName: PropTypes.string,
+    labelClassName: PropTypes.string,
+    id: PropTypes.string,
   };
   static defaultProps = {
     className: 'form-group',
@@ -43,6 +45,8 @@ class InputField extends Component {
     inputButton: null,
     iconLeftClassName: '',
     iconRightClassName: '',
+    labelClassName: null,
+    id: null,
   };
 
   renderLabel = (props) => {

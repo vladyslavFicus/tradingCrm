@@ -86,8 +86,8 @@ class TransactionsFilterForm extends Component {
               <Field
                 name="keyword"
                 type="text"
-                label={I18n.t(attributePlaceholders.keyword)}
-                placeholder={I18n.t(attributeLabels.keyword)}
+                label={I18n.t(attributeLabels.keyword)}
+                placeholder={I18n.t(attributePlaceholders.keyword)}
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
@@ -152,29 +152,30 @@ class TransactionsFilterForm extends Component {
               </Field>
             </div>
             <div className="filter-row__medium">
-              <div className="range-group">
-                <Field
-                  name="amountLowerBound"
-                  type="text"
-                  label={I18n.t(attributeLabels.amountLowerBound)}
-                  position="vertical"
-                  placeholder="0.00"
-                  component={InputField}
-                />
-                <span className="range-group__separator">-</span>
-                <Field
-                  name="amountUpperBound"
-                  type="text"
-                  label={I18n.t(attributeLabels.amountUpperBound)}
-                  position="vertical"
-                  placeholder="0.00"
-                  component={InputField}
-                />
+              <div className="form-group">
+                <label>{I18n.t(attributeLabels.amount)}</label>
+                <div className="range-group">
+                  <Field
+                    name="amountLowerBound"
+                    type="text"
+                    placeholder="0.00"
+                    component={InputField}
+                    position="vertical"
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="amountUpperBound"
+                    type="text"
+                    placeholder="0.00"
+                    component={InputField}
+                    position="vertical"
+                  />
+                </div>
               </div>
             </div>
             <div className="filter-row__medium">
               <div className="form-group">
-                <label>Creation date range</label>
+                <label>{I18n.t(attributeLabels.creationDateRange)}</label>
                 <div className="range-group">
                   <Field
                     name="startDate"
