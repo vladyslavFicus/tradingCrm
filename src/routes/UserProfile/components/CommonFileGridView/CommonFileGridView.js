@@ -118,7 +118,7 @@ class CommonFileGridView extends Component {
   );
 
   render() {
-    const { ...rest } = this.props;
+    const { onStatusActionClick, onDownloadFileClick, onDeleteFileClick, ...rest } = this.props;
 
     return (
       <GridView

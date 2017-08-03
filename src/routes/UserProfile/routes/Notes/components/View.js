@@ -105,9 +105,9 @@ class View extends Component {
                   ? moment(data.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
                   : I18n.t('COMMON.UNKNOWN_TIME')
               }
-              { ' ' }
+              {' '}
               {I18n.t('COMMON.TO')}
-              { ' ' }
+              {' '}
               <Uuid uuid={data.targetUUID} uuidPrefix={entitiesPrefixes[data.targetType]} />
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import Uuid from '../../../../../../../../components/Uuid';
 
@@ -29,7 +30,9 @@ class FreeSpinMainInfo extends Component {
           <Uuid uuid={freeSpin.uuid} />
         </div>
         <div className="font-size-11">
-          by <Uuid uuid={freeSpin.authorUUID} />
+          {I18n.t('COMMON.AUTHOR_BY')}
+          {' '}
+          <Uuid uuid={freeSpin.authorUUID} />
         </div>
       </div>
     );
