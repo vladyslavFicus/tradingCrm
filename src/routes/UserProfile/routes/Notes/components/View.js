@@ -85,11 +85,11 @@ class View extends Component {
           <div className="feed-item_avatar-letter feed-item_avatar-letter_blue">o</div>
         </div>
         <div className="feed-item_info">
-          <div className="note-heading">
+          <div className="feed-item_cheading">
             <div className="color-secondary">
               {
                 data.author &&
-                <span className="font-weight-700 note-author">{`${data.author} - `}</span>
+                <span className="font-weight-700 feed-item_author">{`${data.author} - `}</span>
               }
               {
                 data.lastEditorUUID &&
@@ -109,7 +109,7 @@ class View extends Component {
             </div>
           </div>
           <div className="note panel margin-top-5">
-            <div className="note-content padding-10">
+            <div className="feed-item_content padding-10">
               <div className="row">
                 <div className="col-md-11">
                   {data.content}

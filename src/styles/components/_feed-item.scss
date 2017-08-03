@@ -100,14 +100,14 @@
     background: #333;
     text-transform: uppercase;
   }
-  .note-heading {
+  &_heading {
     font-size: 13px;
   }
-  .note-content {
+  &_content {
     background-color: $yellow-color;
     font-size: 13px;
   }
-  .note-author {
+  &_author {
     color: #0066CC;
   }
 }
