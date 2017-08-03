@@ -22,13 +22,13 @@ const VerifyData = (props) => {
   switch (true) {
     case !status:
       return <NotRequested title={title} />;
-    case !!(status.status === kysStatuses.PENDING && !status.reason):
+    case status.status === kysStatuses.PENDING && !status.reason:
       return <NotVerified step={stepStatuses.WAITING_FOR_DOCUMENTS} {...props} />;
-    case !!(status.status === kysStatuses.DOCUMENTS_SENT && !status.reason):
+    case status.status === kysStatuses.DOCUMENTS_SENT && !status.reason:
       return <NotVerified step={stepStatuses.VERIFICATION_IS_PENDING} {...props} />;
-    case !!(status.status === kysStatuses.PENDING && status.reason):
+    case status.status === kysStatuses.PENDING && !!status.reason:
       return <Refused {...props} />;
-    case !!(status.status === kysStatuses.VERIFIED):
+    case status.status === kysStatuses.VERIFIED:
       return <Verified {...props} />;
     default:
       return <div>Unknown step</div>;

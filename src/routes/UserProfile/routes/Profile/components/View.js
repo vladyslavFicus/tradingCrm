@@ -8,6 +8,7 @@ import ContactForm from './ContactForm';
 import Documents from './Documents';
 import VerifyData from './Kyc/VerifyData';
 import RefuseModal from './Kyc/RefuseModal';
+import renderLabel from '../../../../../utils/renderLabel';
 import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
 import {
   types as kycTypes,
@@ -247,7 +248,7 @@ class View extends Component {
       <div>
         {I18n.t('PLAYER_PROFILE.PROFILE.TITLE')} {' - '}
         <span className={classNames(kycUserStatusesColor[kycUserStatusCode], 'font-weight-600')}>
-          {I18n.t(kycUserStatusesLabels[kycUserStatusCode])}
+          {renderLabel(kycUserStatusCode, kycUserStatusesLabels)}
         </span>
       </div>
     );
