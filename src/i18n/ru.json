@@ -636,7 +636,9 @@
           "START_DATE": "Дата начала",
           "END_DATE": "Дата окончания",
           "AMOUNT_FROM": "Сумма от",
-          "AMOUNT_TO": "Сумма до"
+          "AMOUNT_TO": "Сумма до",
+          "AMOUNT": "Сумма",
+          "CREATION_DATE_RANGE": "Диапазон дат создания"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "ID транзакции, пользователь"

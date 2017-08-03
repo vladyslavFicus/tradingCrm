@@ -636,7 +636,9 @@
           "START_DATE": "Start date",
           "END_DATE": "End date",
           "AMOUNT_FROM": "Amount from",
-          "AMOUNT_TO": "Amount to"
+          "AMOUNT_TO": "Amount to",
+          "AMOUNT": "Amount",
+          "CREATION_DATE_RANGE": "Creation date range"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference"
