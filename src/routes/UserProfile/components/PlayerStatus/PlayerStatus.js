@@ -35,7 +35,7 @@ class PlayerStatus extends Component {
 
   state = { ...initialState };
 
-  toggle = (e) => {
+  toggle = () => {
     this.setState({
       dropDownOpen: !this.state.dropDownOpen,
     });
