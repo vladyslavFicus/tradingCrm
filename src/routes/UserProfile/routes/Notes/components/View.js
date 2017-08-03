@@ -99,15 +99,17 @@ class View extends Component {
                 </span>
               }
             </div>
-            <span className="display-block font-size-11 color-secondary">
+            <div className="font-size-11 color-secondary">
               {
                 data.lastEditionDate
                   ? moment(data.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
                   : I18n.t('COMMON.UNKNOWN_TIME')
               }
+              { ' ' }
               {I18n.t('COMMON.TO')}
+              { ' ' }
               <Uuid uuid={data.targetUUID} uuidPrefix={entitiesPrefixes[data.targetType]} />
-            </span>
+            </div>
           </div>
           <div className="note panel margin-top-5">
             <div className="note-content padding-10">

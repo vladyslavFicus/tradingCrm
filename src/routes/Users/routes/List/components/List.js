@@ -26,6 +26,9 @@ class List extends Component {
   static contextTypes = {
     addPanel: PropTypes.func.isRequired,
   };
+  static defaultProps = {
+    isLoading: false,
+  };
 
   state = {
     filters: {},
@@ -96,7 +99,7 @@ class List extends Component {
   renderRegistered = data => (
     <div>
       <div className="font-weight-700">{moment(data.registrationDate).format('DD.MM.YYYY')}</div>
-      <div className="font-size-11 color-default">
+      <div className="font-size-11">
         {moment(data.registrationDate).format('HH:mm:ss')}
       </div>
     </div>
@@ -110,7 +113,7 @@ class List extends Component {
         </div>
         {
           data.lastDeposit && data.lastDeposit.transactionDate &&
-          <div className="font-size-11 color-default">
+          <div className="font-size-11">
             Last deposit {moment(data.lastDeposit.transactionDate).format('DD.MM.YYYY')}
           </div>
         }
@@ -125,7 +128,7 @@ class List extends Component {
       </div>
       {
         data.profileStatusDate &&
-        <div className="font-size-11 color-default">
+        <div className="font-size-11">
           Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
         </div>
       }

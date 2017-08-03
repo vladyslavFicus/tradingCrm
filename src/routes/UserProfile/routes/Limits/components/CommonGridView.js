@@ -85,13 +85,13 @@ class CommonGridView extends Component {
           </div>
           {
             data.value.used &&
-            <div className="font-size-10 color-default">
+            <div className="font-size-11">
               used <Amount {...data.value.used} />
             </div>
           }
           {
             data.value.left &&
-            <div className="font-size-10 color-default">
+            <div className="font-size-11">
               left <Amount {...data.value.left} />
             </div>
           }
@@ -103,10 +103,10 @@ class CommonGridView extends Component {
           <div className="font-weight-700">
             {humanizeDuration(data.value.limit * 1000, humanizeDurationConfig)}
           </div>
-          <div className="font-size-10 color-default">
+          <div className="font-size-11">
             used {humanizeDuration(data.value.used * 1000, humanizeDurationConfig)}
           </div>
-          <div className="font-size-10 color-default">
+          <div className="font-size-11">
             left {humanizeDuration(data.value.left * 1000, humanizeDurationConfig)}
           </div>
         </div>
@@ -121,7 +121,7 @@ class CommonGridView extends Component {
       </div>
       {
         (data.status === statuses.IN_PROGRESS || data.status === statuses.ACTIVE) &&
-        <div className="font-size-10 color-default">
+        <div className="font-size-11">
           since {moment(data.startDate).format('DD.MM.YYYY HH:mm')}
         </div>
       }
@@ -130,13 +130,13 @@ class CommonGridView extends Component {
         <div>
           {
             data.statusAuthor &&
-            <div className="font-size-10 color-default">
+            <div className="font-size-11">
               {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.statusAuthor} uuidPrefix="OP" />
             </div>
           }
           {
             data.startDate &&
-            <div className="font-size-10 color-default">
+            <div className="font-size-11">
               activates on {moment(data.startDate).format('DD.MM.YYYY HH:mm')}
             </div>
           }
@@ -147,13 +147,13 @@ class CommonGridView extends Component {
         <div>
           {
             data.statusAuthor &&
-            <div className="font-size-10 color-default">
+            <div className="font-size-11">
               {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.statusAuthor} uuidPrefix="OP" />
             </div>
           }
           {
             data.expirationDate &&
-            <div className="font-size-10 color-default">
+            <div className="font-size-11">
               {data.status === statuses.COOLOFF ? 'until' : 'on'} {' '}
               {moment(data.expirationDate).format('DD.MM.YYYY HH:mm')}
             </div>
@@ -168,7 +168,7 @@ class CommonGridView extends Component {
       <div className="font-weight-700">{typesLabels[data.type]}</div>
       {
         data.author &&
-        <div className="text-muted font-size-10">
+        <div className="font-size-11">
           {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.author} />
         </div>
       }
@@ -180,9 +180,9 @@ class CommonGridView extends Component {
       <div className="font-weight-700">
         {moment(data.creationDate).format('DD.MM.YYYY')}
       </div>
-      <span className="font-size-10 color-default">
+      <div className="font-size-11">
         {moment(data.creationDate).format('HH:mm')}
-      </span>
+      </div>
     </div>
   );
 
@@ -202,42 +202,37 @@ class CommonGridView extends Component {
       <div className="profile-tab-container">
         <GridView
           tableClassName="table table-hovered data-grid-layout"
-          headerClassName=""
+          headerClassName="text-uppercase"
           dataSource={dataSource}
           totalPages={1}
         >
           <GridColumn
             name="type"
             header="Limit Type"
-            headerClassName="text-uppercase"
             render={this.renderType}
           />
 
           <GridColumn
             name="creationDate"
             header="Set On"
-            headerClassName="text-uppercase"
             render={this.renderCreationDate}
           />
 
           <GridColumn
             name="durationSeconds"
             header="Period"
-            headerClassName="text-uppercase"
             render={this.renderPeriod}
           />
 
           <GridColumn
             name="durationLimit"
             header="Amount/Value"
-            headerClassName="text-uppercase"
             render={this.renderLimit}
           />
 
           <GridColumn
             name="status"
             header="Status"
-            headerClassName="text-uppercase"
             render={this.renderStatus}
           />
 
@@ -246,7 +241,6 @@ class CommonGridView extends Component {
             <GridColumn
               name="notes"
               header="Note"
-              headerClassName="text-uppercase"
               render={this.renderNotes}
             />
           }
@@ -256,7 +250,6 @@ class CommonGridView extends Component {
             <GridColumn
               name="actions"
               header=""
-              headerClassName="text-uppercase"
               render={this.renderActions}
             />
           }

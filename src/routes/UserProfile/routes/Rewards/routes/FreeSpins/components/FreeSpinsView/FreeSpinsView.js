@@ -249,11 +249,11 @@ class FreeSpinsView extends Component {
       <div className="font-weight-700">
         {I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.FREE_SPIN_COUNT', { count: data.freeSpinsAmount })}
       </div>
-      <div className="font-size-10">
+      <div className="font-size-11">
         {I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.SPIN_VALUE')}:&nbsp;
         <Amount {...data.spinValue} />
       </div>
-      <div className="font-size-10">
+      <div className="font-size-11">
         {I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.TOTAL_VALUE')}:&nbsp;
         <Amount {...data.totalValue} />
       </div>
@@ -319,7 +319,7 @@ class FreeSpinsView extends Component {
 
         <GridView
           tableClassName="table table-hovered data-grid-layout"
-          headerClassName=""
+          headerClassName="text-uppercase"
           dataSource={entities.content}
           onPageChange={this.handlePageChanged}
           activePage={entities.number + 1}
@@ -328,37 +328,31 @@ class FreeSpinsView extends Component {
           <GridColumn
             name="freeSpin"
             header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.FREE_SPIN')}
-            headerClassName="text-uppercase"
             render={this.renderFreeSpin}
           />
           <GridColumn
             name="game"
             header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GAME')}
-            headerClassName="text-uppercase"
             render={this.renderGame}
           />
           <GridColumn
             name="availability"
             header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.AVAILABILITY')}
-            headerClassName="text-uppercase"
             render={this.renderAvailable}
           />
           <GridColumn
             name="granted"
             header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GRANTED')}
-            headerClassName="text-uppercase"
             render={this.renderGranted}
           />
           <GridColumn
             name="status"
             header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.STATUS')}
-            headerClassName="text-uppercase"
             render={this.renderStatus}
           />
           <GridColumn
             name="note"
             header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.NOTE')}
-            headerClassName="text-uppercase"
             render={this.renderNote}
           />
         </GridView>

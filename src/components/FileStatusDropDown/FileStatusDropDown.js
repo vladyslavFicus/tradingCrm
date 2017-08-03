@@ -39,7 +39,7 @@ class FileStatusDropDown extends Component {
         </div>
         {
           status.value !== statuses.PENDING &&
-          <div className="font-size-10 color-default">
+          <div className="font-size-11">
             {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={status.author} />
           </div>
         }
@@ -53,9 +53,9 @@ class FileStatusDropDown extends Component {
     return (
       <div className="file-status-dropdown">
         <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
-        <span onClick={this.toggle} className="cursor-pointer">
-          {label}
-        </span>
+          <span onClick={this.toggle} className="cursor-pointer">
+            {label}
+          </span>
           <DropdownMenu>
             {
               statusActions[status.value].map(item => (
