@@ -8,23 +8,25 @@ const Verified = (props) => {
   const { title, onRefuse, status } = props;
 
   return (
-    <div>
-      <div className=" margin-bottom-10">
-        <div className="font-size-18 font-weight-700 color-success">
-          <i className="fa fa-check-circle-o" /> {' '}
-          {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.TYPE_VERIFIED', { title })}
-        </div>
-        <div className="font-size-11 color-default ">
-          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={status.authorUUID} />
-          {I18n.t('COMMON.DATE_ON', { date: moment(status.statusDate).format('DD.MM.YYYY \\a\\t HH:mm:ss') })}
+    <div className="panel-body__content-container">
+      <div className="panel-body__content">
+        <div className="margin-bottom-10">
+          <div className="font-size-18 font-weight-700 color-success">
+            <i className="fa fa-check-circle-o" /> {' '}
+            {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.TYPE_VERIFIED', { title })}
+          </div>
+          <div className="font-size-11 color-default ">
+            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={status.authorUUID} />
+            {I18n.t('COMMON.DATE_ON', { date: moment(status.statusDate).format('DD.MM.YYYY \\a\\t HH:mm:ss') })}
+          </div>
         </div>
       </div>
 
-      <div className=" margin-top-50 text-right">
+      <div className="panel-body__buttons">
         <button
           onClick={onRefuse}
           type="button"
-          className="btn btn-danger-outline "
+          className="btn btn-danger-outline"
         >
           {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.ACTIONS.REVOKE')}
         </button>
