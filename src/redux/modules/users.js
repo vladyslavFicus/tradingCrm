@@ -39,7 +39,7 @@ const fetchProfileMapResponse = (response) => {
     birthDate: birthDate && moment(birthDate).isValid() ? moment(birthDate).format('YYYY-MM-DD') : null,
     kycDate,
     kycCompleted,
-    currencyCode: balance && balance.currency ? balance.currency : null,
+    balance: balance || emptyBalance,
     signInIps: signInIps ?
       Object.values(signInIps).sort((a, b) => {
         if (a.sessionStart > b.sessionStart) {
@@ -50,9 +50,13 @@ const fetchProfileMapResponse = (response) => {
 
         return 0;
       }) : [],
-    balances: {
-      total: balance || null,
-      bonus: bonusBalance || { ...emptyBalance, currency: balance ? balance.currency : emptyBalance.currency },
+  };
+  payload.currencyCode = payload.balance && payload.balance.currency ? payload.balance.currency : null;
+  payload.balances = {
+    total: balance || emptyBalance,
+    bonus: bonusBalance || {
+      ...emptyBalance,
+      currency: payload.balance ? payload.balance.currency : emptyBalance.currency,
     },
   };
 
@@ -91,7 +95,7 @@ function fetchProfile(type) {
           {
             type: type.FAILURE,
             meta: { uuid },
-            payload: payload => payload,
+            payload: (payload, state, response) => response,
           },
         ],
         bailout: !logged,

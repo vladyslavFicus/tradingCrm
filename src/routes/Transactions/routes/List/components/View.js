@@ -11,7 +11,7 @@ import {
   methodsLabels,
   typesLabels,
   typesProps,
-  statuses as paymentsStatuses,
+  statuses as paymentsStatuses
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
 import PaymentDetailModal from '../../../../../components/PaymentDetailModal';

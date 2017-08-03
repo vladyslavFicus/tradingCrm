@@ -24,7 +24,6 @@ const validator = (values) => {
     expirationDate: 'required',
     prize: ['numeric', 'min:0'],
     capping: ['numeric', 'min:0'],
-    optIn: 'boolean',
     converted: 'required',
     wagered: 'required',
     currency: 'required',
@@ -95,21 +94,6 @@ const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, di
               component={SingleDateField}
               position="vertical"
             />
-
-            <div className="form-group">
-              <div className="col-md-9">
-                <div className="checkbox">
-                  <label>
-                    <Field
-                      name="optIn"
-                      type="checkbox"
-                      component="input"
-                      disabled={disabled}
-                    /> {I18n.t(attributeLabels.optIn)}
-                  </label>
-                </div>
-              </div>
-            </div>
           </div>
           <div className="col-md-6">
             <Field
@@ -182,14 +166,19 @@ const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, di
 
 CreateModal.propTypes = {
   handleSubmit: PropTypes.func,
-  change: PropTypes.func,
-  reset: PropTypes.func,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
   invalid: PropTypes.bool,
   disabled: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+};
+CreateModal.defaultProps = {
+  handleSubmit: null,
+  pristine: false,
+  submitting: false,
+  invalid: false,
+  disabled: false,
 };
 
 export default reduxForm({

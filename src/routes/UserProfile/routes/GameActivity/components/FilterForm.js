@@ -182,7 +182,6 @@ class FilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
                     position="vertical"
-                    className={null}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -191,7 +190,6 @@ class FilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
                     position="vertical"
-                    className={null}
                   />
                 </div>
               </div>

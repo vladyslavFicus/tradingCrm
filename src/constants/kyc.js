@@ -12,6 +12,16 @@ const statuses = keyMirror({
   REFUSED: null,
   DOCUMENTS_SENT: null,
 });
+const userStatuses = keyMirror({
+  VERIFIED: null,
+  NOT_VERIFIED: null,
+  NOT_REQUESTED: null,
+});
+const userStatusesLabels = {
+  [userStatuses.VERIFIED]: I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS_TITLE.VERIFIED'),
+  [userStatuses.NOT_VERIFIED]: I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS_TITLE.NOT_VERIFIED'),
+  [userStatuses.NOT_REQUESTED]: I18n.t('PLAYER_PROFILE.PROFILE.KYC_STATUS_TITLE.NOT_REQUESTED'),
+};
 const statusTypes = keyMirror({
   IDENTITY: null,
   ADDRESS: null,
@@ -44,6 +54,11 @@ const statusesColor = {
   [statuses.REFUSED]: 'color-secondary',
   [statuses.DOCUMENTS_SENT]: 'color-primary',
 };
+const userStatusesColor = {
+  [userStatuses.VERIFIED]: 'color-success',
+  [userStatuses.NOT_VERIFIED]: 'color-warning',
+  [userStatuses.NOT_REQUESTED]: 'color-secondary',
+};
 const verifyRequestReasons = [
   'KYC_REQUEST_REASON_ONE',
   'KYC_REQUEST_REASON_TWO',
@@ -61,4 +76,7 @@ export {
   filterLabels,
   statusTypes,
   verifyRequestReasons,
+  userStatuses,
+  userStatusesLabels,
+  userStatusesColor,
 };

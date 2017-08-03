@@ -144,7 +144,6 @@ class BonusCampaignsFilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('creationDateTo')}
                     position="vertical"
-                    className={null}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -152,7 +151,6 @@ class BonusCampaignsFilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('creationDateFrom')}
                     position="vertical"
-                    className={null}
                   />
                 </div>
               </div>
@@ -167,7 +165,6 @@ class BonusCampaignsFilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('activityDateTo')}
                     position="vertical"
-                    className={null}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -176,7 +173,6 @@ class BonusCampaignsFilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('activityDateFrom')}
                     position="vertical"
-                    className={null}
                   />
                 </div>
               </div>

@@ -78,6 +78,26 @@
           "REASON_LABEL": "Reason",
           "CHOOSE_REASON": "-- Choose the reason --"
         }
+      },
+      "KYC_STATUS_TITLE": {
+        "NOT_REQUESTED": "Not requested",
+        "VERIFIED": "Verified",
+        "NOT_VERIFIED": "Not Verified"
+      },
+      "KYC_VERIFICATION": {
+        "WAITING_FOR_DOCS_DESCRIPTION": "In order to verify player's identity at least one valid proof of identification is required. The ID or Passport scan needs to be sharp with clear picture, readable and not expired or damaged.",
+        "REQUEST_STATUS": "Request status",
+        "WAITING_FOR_DOCUMENTS": "Waiting for documents",
+        "TYPE_NOT_VERIFIED": "%{title} not verified",
+        "TYPE_NOT_REQUESTED": "%{title} verification not requested",
+        "TYPE_VERIFICATION_REFUSED": "%{title} verification refused",
+        "TYPE_VERIFIED": "%{title} verified",
+        "ACTIONS": {
+          "REFUSE": "Refuse",
+          "VERIFY": "Verify",
+          "REVOKE": "Revoke"
+        },
+        "PENDING": "Documents verification is pending"
       }
     },
     "GAME_ACTIVITY": {
@@ -102,7 +122,11 @@
         "BET_DATE": "Bet date",
         "BET_AMOUNT": "Bet amount",
         "WIN_DATE": "Win date",
-        "WIN_AMOUNT": "Win amount"
+        "WIN_AMOUNT": "Win amount",
+        "BALANCE_BEFORE": "Before",
+        "BALANCE_AFTER": "After",
+        "PENDING_BALANCE": "Pending",
+        "BALANCE": "Balance"
       }
     },
     "MARKETING": {

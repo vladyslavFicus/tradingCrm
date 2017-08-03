@@ -23,6 +23,7 @@ import PaymentActionReasonModal from '../../../../../components/PaymentActionRea
 import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 import Uuid from '../../../../../components/Uuid';
+import renderLabel from '../../../../../utils/renderLabel';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -331,11 +332,14 @@ class View extends Component {
     !data.paymentMethod ? <span>&mdash;</span>
       : <div>
         <div className="font-weight-700">
-          {methodsLabels[data.paymentMethod] || data.paymentMethod}
+          {renderLabel(data.paymentMethod, methodsLabels)}
         </div>
-        <span className="font-size-10">
-          <Uuid uuid={data.paymentAccount} uuidPartsCount={2} />
-        </span>
+        {
+          !!data.paymentAccount &&
+          <span className="font-size-10">
+            <Uuid uuid={data.paymentAccount} uuidPartsCount={2} />
+          </span>
+        }
       </div>
   );
 

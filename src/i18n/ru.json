@@ -78,6 +78,26 @@
           "REASON_LABEL": "Причина",
           "CHOOSE_REASON": "-- Выберите причину --"
         }
+      },
+      "KYC_STATUS_TITLE": {
+        "NOT_REQUESTED": "Не запрошено",
+        "VERIFIED": "Проверенный",
+        "NOT_VERIFIED": "Не проверенный"
+      },
+      "KYC_VERIFICATION": {
+        "WAITING_FOR_DOCS_DESCRIPTION": "Для подтверждения личности игрока необходим, как минимум один документ, скан-копия которого, должна быть хорошего качества, текст легко читаем, а cрок его действия не должен быть просрочен.",
+        "REQUEST_STATUS": "Статус запроса",
+        "WAITING_FOR_DOCUMENTS": "Ожидание документов",
+        "TYPE_NOT_VERIFIED": "",
+        "TYPE_NOT_REQUESTED": "",
+        "TYPE_VERIFICATION_REFUSED": "%{title} верификация отклонена",
+        "TYPE_VERIFIED": "%{title} верифицировано",
+        "ACTIONS": {
+          "REFUSE": "Отказать",
+          "VERIFY": "Подтвердить",
+          "REVOKE": "Отменить"
+        },
+        "PENDING": "Ожидает проверку документов"
       }
     },
     "GAME_ACTIVITY": {
@@ -102,7 +122,11 @@
         "BET_DATE": "Дата ставки",
         "BET_AMOUNT": "Сумма ставки",
         "WIN_DATE": "Дата выигрыша",
-        "WIN_AMOUNT": "Сумма выигрыша"
+        "WIN_AMOUNT": "Сумма выигрыша",
+        "BALANCE_BEFORE": "До",
+        "BALANCE_AFTER": "После",
+        "PENDING_BALANCE": "В ожидании",
+        "BALANCE": "Баланс"
       }
     },
     "MARKETING": {
