@@ -30,6 +30,8 @@
     padding-top: 15px;
   }
   .nav-link {
+    width: 100%;
+    position: relative;
     color: inherit;
     &:focus,
     &:hover {
@@ -41,10 +43,10 @@
     text-align: center;
   }
   .fa-angle-down {
-    width: 40px;
+    width: 20px;
     position: absolute;
-    top: 18px;
-    right: 0;
+    top: 4px;
+    right: 8px;
     opacity: 0;
   }
   .nav-link__label {

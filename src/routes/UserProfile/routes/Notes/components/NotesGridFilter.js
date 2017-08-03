@@ -100,7 +100,7 @@ class NotesGridFilter extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__big">
+            <div className="filter-row__medium">
               <div className="form-group">
                 <label>Creation date range</label>
                 <div className="range-group">
@@ -110,7 +110,6 @@ class NotesGridFilter extends Component {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
                     position="vertical"
-                    className={null}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -119,7 +118,6 @@ class NotesGridFilter extends Component {
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
                     position="vertical"
-                    className={null}
                   />
                 </div>
               </div>

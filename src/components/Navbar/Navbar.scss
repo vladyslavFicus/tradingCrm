@@ -61,9 +61,6 @@
   &__right-nav {
     margin-right: 20px;
     margin-left: auto;
-    .btn-group {
-      margin-right: 20px;
-    }
     .dropdown {
       padding-top: 4px;
       padding-bottom: 4px;
@@ -143,38 +140,5 @@
       left: 15rem;
       font-size: 3rem;
     }
-  }
-  .right-navigation {
-    .fa {
-      padding: 16px 0;
-      font-size: 16px;
-      color: #cccccc;
-      &:hover {
-        color: #ffffff;
-      }
-    }
-    .dropdown-menu {
-      width: auto;
-      top: 101%;
-      right: 0;
-      left: auto;
-    }
-    .dropdown-item {
-      padding: .8rem 1.5rem;
-      color: #000000;
-      &:hover {
-        color: #cccccc;
-      }
-    }
-  }
-  .dropdown-btn {
-    height: auto;
-    font-size: 18px;
-    padding: 0 5px;
-    line-height: 1;
-    color: #fff;
-    background: transparent !important;
-    border: none !important;
-    text-align: left;
   }
 }

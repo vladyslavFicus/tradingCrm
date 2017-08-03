@@ -79,7 +79,6 @@ class KycGridFilter extends Component {
                     component={DateTimeField}
                     position="vertical"
                     isValidDate={this.endDateValidator('to')}
-                    className={null}
                   />
 
                   <span className="range-group__separator">-</span>
@@ -89,7 +88,6 @@ class KycGridFilter extends Component {
                     component={DateTimeField}
                     position="vertical"
                     isValidDate={this.endDateValidator('from')}
-                    className={null}
                   />
                 </div>
               </div>
