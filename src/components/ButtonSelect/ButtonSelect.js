@@ -36,7 +36,7 @@ class ButtonSelect extends Component {
 
         <button
           type="button"
-          className="btn btn-xs btn-default btn-delete"
+          className="btn btn-xs btn-delete"
           onClick={onCloseClick}
         >
           &times;
