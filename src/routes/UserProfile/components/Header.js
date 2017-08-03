@@ -159,13 +159,13 @@ class Header extends Component {
           <div className="panel-heading-row__actions">
             <PopoverButton
               id="header-add-note-button"
-              className="btn btn-default-outline"
+              className="btn btn-sm btn-default-outline"
               onClick={onAddNoteClick}
             >
               Add note
             </PopoverButton>
             <button
-              className="btn btn-default-outline m-x-1"
+              className="btn btn-sm btn-default-outline m-x-1"
               onClick={onRefreshClick}
               id="refresh-page-button"
             >

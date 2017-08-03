@@ -33,7 +33,7 @@ class UserProfileOptions extends Component {
 
     return (
       <Dropdown isOpen={isOpened} toggle={this.handleToggleDropDownState}>
-        <button className="btn btn-default-outline" onClick={this.handleToggleDropDownState}>
+        <button className="btn btn-sm btn-default-outline" onClick={this.handleToggleDropDownState}>
           {label}
         </button>
 
