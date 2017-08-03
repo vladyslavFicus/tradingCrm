@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import classNames from 'classnames';
-import _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import onClickOutside from 'react-onclickoutside';
 import PropTypes from '../../constants/propTypes';
@@ -96,7 +95,9 @@ class MyProfileSidebar extends Component {
                 </Field>
               </div>
               <div className="text-right">
-                <button disabled={submitting} className="btn btn-primary btn-sm" type="submit">{I18n.t('MY_PROFILE_SIDEBAR.SAVE_BUTTON')}</button>
+                <button disabled={submitting} className="btn btn-primary btn-sm" type="submit">
+                  {I18n.t('MY_PROFILE_SIDEBAR.SAVE_BUTTON')}
+                </button>
               </div>
             </form>
           </section>
@@ -105,8 +106,6 @@ class MyProfileSidebar extends Component {
     );
   }
 }
-
-// MyProfileSidebar = onClickOutside(MyProfileSidebar);
 
 export default reduxForm({
   form: formName,

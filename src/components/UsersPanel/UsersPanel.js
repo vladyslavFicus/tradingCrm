@@ -59,7 +59,7 @@ class UsersPanel extends Component {
               <iframe
                 className={className}
                 frameBorder={0}
-                src={`/users/${item.uuid}/profile`}
+                src={`/users/${item.uuid}/${item.path || 'profile'}`}
                 key={item.uuid}
                 style={{
                   height: active && active.uuid === item.uuid ? 'calc(100% - 74px)' : '0',
@@ -76,7 +76,7 @@ class UsersPanel extends Component {
               active={active && active.uuid === item.uuid}
               key={item.uuid}
               {...item}
-              onClick={() => onItemClick(index)}
+              onClick={() => onItemClick(active && active.uuid === item.uuid ? null : index)}
               onRemoveClick={() => onRemove(index)}
             />
           ))}

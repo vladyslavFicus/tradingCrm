@@ -88,6 +88,7 @@ class OperatorGridFilter extends Component {
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
+                id="operators-list-filters-search"
               />
             </div>
             <div className="filter-row__medium">
@@ -158,7 +159,6 @@ class OperatorGridFilter extends Component {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
                     position="vertical"
-                    className={null}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -166,7 +166,6 @@ class OperatorGridFilter extends Component {
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
                     position="vertical"
-                    className={null}
                   />
                 </div>
               </div>
@@ -185,6 +184,7 @@ class OperatorGridFilter extends Component {
                   disabled={submitting}
                   className="btn btn-primary"
                   type="submit"
+                  id="operators-list-filters-apply-button"
                 >
                   Apply
                 </button>

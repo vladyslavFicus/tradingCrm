@@ -1,0 +1,189 @@
+import React, { Component } from 'react';
+import { I18n } from 'react-redux-i18n';
+import { connect } from 'react-redux';
+import { reduxForm, Field, getFormValues } from 'redux-form';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap';
+import classNames from 'classnames';
+import PropTypes from '../../constants/propTypes';
+import NoteButton from '../NoteButton';
+import { SelectField, TextAreaField } from '../ReduxForm';
+import Uuid from '../Uuid';
+import { attributeLabels } from './constants';
+import { createValidator } from '../../utils/validator';
+
+const CUSTOM_REASON = 'custom';
+
+class PaymentActionReasonModal extends Component {
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+    playerProfile: PropTypes.userProfile.isRequired,
+    onNoteClick: PropTypes.func.isRequired,
+    payment: PropTypes.paymentEntity.isRequired,
+    reasons: PropTypes.arrayOf(PropTypes.string),
+    onSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
+    customReason: PropTypes.bool,
+    submitButtonLabel: PropTypes.string,
+    currentValues: PropTypes.shape({
+      reason: PropTypes.string,
+      customReason: PropTypes.string,
+    }).isRequired,
+    className: PropTypes.string,
+  };
+  static defaultProps = {
+    action: '',
+    reasons: {},
+    submitButtonLabel: 'Submit',
+    customReason: false,
+    currentValues: {
+      action: '',
+      playerUUID: '',
+      paymentId: '',
+      reason: '',
+      customReason: '',
+    },
+    handleSubmit: null,
+    className: 'modal-danger',
+  };
+
+  handleSubmit = ({ reason, customReason }) => {
+    const { onSubmit, action } = this.props;
+
+    return onSubmit({ reason: customReason || reason, action });
+  };
+
+  renderReasonsSelect = (reasons, customReason = false) => (
+    <div className="form-group">
+      <Field
+        name="reason"
+        label={I18n.t(attributeLabels.reason)}
+        component={SelectField}
+        position="vertical"
+      >
+        <option value="">
+          {I18n.t('PAYMENT_ACTION_REASON_MODAL.SELECT_REASON_OPTION')}
+        </option>
+        {Object.keys(reasons).map(key => (
+          <option key={key} value={key}>
+            {I18n.t(reasons[key])}
+          </option>
+        ))}
+        {
+          customReason &&
+          <option value="custom">
+            {I18n.t('PAYMENT_ACTION_REASON_MODAL.CUSTOM_REASON_OPTION')}
+          </option>
+        }
+      </Field>
+    </div>
+  );
+
+  render() {
+    const {
+      title,
+      description,
+      payment,
+      playerProfile: {
+        playerUUID,
+        firstName,
+        lastName,
+      },
+      onClose,
+      onSubmit,
+      reasons,
+      submitButtonLabel,
+      onNoteClick,
+      handleSubmit,
+      currentValues,
+      customReason,
+    } = this.props;
+
+    return (
+      <Modal isOpen toggle={onClose} className={classNames(this.props.className, 'payment-action-reason-modal')}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader toggle={onClose}>{title}</ModalHeader>
+          <ModalBody>
+            <div className="row">
+              <div className="col-md-12 text-center">
+                <div className="font-weight-700">
+                  {description}
+                </div>
+                <div className="font-weight-400">
+                  <span className="font-weight-700">{firstName} {lastName}</span>
+                  {' '}
+                  <Uuid uuid={playerUUID} uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+                </div>
+              </div>
+            </div>
+
+            {reasons && Object.keys(reasons).length > 0 && this.renderReasonsSelect(reasons, customReason)}
+
+            {
+              currentValues && currentValues.reason === CUSTOM_REASON &&
+              <Field
+                name="customReason"
+                placeholder={I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_PLACEHOLDER')}
+                label={''}
+                position="vertical"
+                component={TextAreaField}
+              />
+            }
+
+            <div className="row">
+              <div className="col-md-12 text-center">
+                <NoteButton
+                  id="payment-action-reason-modal"
+                  note={payment.note}
+                  onClick={onNoteClick}
+                  targetEntity={payment}
+                />
+              </div>
+            </div>
+
+          </ModalBody>
+
+          <ModalFooter>
+            <button className="btn btn-default-outline pull-left" onClick={onClose}>
+              {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
+            </button>
+            <button className="btn btn-danger" type="submit">
+              {I18n.t(submitButtonLabel)}
+            </button>
+          </ModalFooter>
+        </form>
+      </Modal>
+    );
+  }
+}
+
+const FORM_NAME = 'paymentActionReasonModal';
+
+export default connect(state => ({
+  currentValues: getFormValues(FORM_NAME)(state),
+}))(
+  reduxForm({
+    form: FORM_NAME,
+    validate: (data) => {
+      const rules = {
+        reason: 'string',
+      };
+
+      if (data.reasons) {
+        rules.reason = `required|string|in:${Object.keys(data.reasons).join()},custom`;
+      }
+
+      if (data.reason === CUSTOM_REASON) {
+        rules.customReason = 'required|string|min:3';
+      }
+
+      return createValidator(rules, attributeLabels, false)(data);
+    },
+  })(PaymentActionReasonModal)
+);

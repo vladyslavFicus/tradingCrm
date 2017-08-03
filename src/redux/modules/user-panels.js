@@ -3,6 +3,9 @@ import createReducer from '../../utils/createReducer';
 import { actionTypes as windowActionTypes } from '../modules/window';
 import { actionTypes as authActionTypes } from './auth';
 
+const PROFILE_ROUTE_PREFIX = 'users';
+const profilePathnameRegExp = new RegExp(`^\\/${PROFILE_ROUTE_PREFIX}\\/([^\\/]+)\\/?.*`, 'i');
+
 const KEY = 'user-panels';
 const ADD = `${KEY}/add`;
 const REMOVE = `${KEY}/remove`;
@@ -75,11 +78,12 @@ const actionHandlers = {
     const existIndex = state.items.findIndex(item => item.uuid === action.payload.uuid);
 
     if (existIndex > -1) {
-      if (state.activeIndex !== existIndex) {
-        return { ...state, activeIndex: existIndex };
+      const newState = { ...state, activeIndex: existIndex };
+      if (action.payload.path && newState.items[existIndex].path !== action.payload.path) {
+        newState.items[existIndex].path = action.payload.path;
       }
 
-      return state;
+      return newState;
     }
 
     const newState = {
@@ -89,6 +93,7 @@ const actionHandlers = {
         {
           ...action.payload,
           color: getColor(state.items.map(i => i.color)),
+          path: action.payload.path || 'profile',
         },
       ],
     };
@@ -105,7 +110,7 @@ const actionHandlers = {
     newState.items.splice(action.payload, 1);
 
     if (newState.activeIndex === action.payload) {
-      newState.activeIndex = newState.items.length > 0 || null;
+      newState.activeIndex = null;
     } else {
       newState.activeIndex = newState.items.indexOf(state.items[state.activeIndex]);
     }
@@ -113,24 +118,85 @@ const actionHandlers = {
     return newState;
   },
   [RESET]: () => ({ ...initialState }),
-  [locationActionTypes.LOCATION_CHANGE]: state => ({ ...state, activeIndex: null }),
-  [windowActionTypes.UPDATE_USER_TAB]: (state, action) => {
-    const { uuid, firstName, lastName } = action.payload;
-    const newFullName = `${firstName} ${lastName}`;
+  [windowActionTypes.VIEW_PLAYER_PROFILE]: (state, action) => {
+    const { uuid, firstName, lastName, username: login } = action.payload;
 
-    return {
+    const index = state.items.findIndex(item => item.uuid === uuid);
+
+    if (index === -1) {
+      return state;
+    }
+
+    const fullName = `${firstName || '-'} ${lastName || '-'}`;
+    const newState = {
       ...state,
-      items: state.items.map((item) => {
-        if (item.uuid === uuid && item.fullName !== newFullName) {
-          item.fullName = newFullName;
-        }
-
-        return item;
-      }),
+      items: [...state.items],
     };
+
+    newState.items[index] = {
+      ...state.items[index],
+      fullName,
+      login,
+    };
+
+    return newState;
+  },
+  [windowActionTypes.CLOSE_PROFILE_TAB]: (state, action) => {
+    const currentUserTabUuid = action.payload;
+    const currentUserTabIndex = state.items.findIndex(tab => tab.uuid === currentUserTabUuid);
+
+    if (!state.items[currentUserTabIndex]) {
+      return state;
+    }
+
+    const newState = { ...state, items: [...state.items] };
+
+    newState.items.splice(currentUserTabIndex, 1);
+
+    if (newState.activeIndex === currentUserTabIndex) {
+      newState.activeIndex = null;
+    } else {
+      newState.activeIndex = newState.items.indexOf(state.items[state.activeIndex]);
+    }
+
+    return newState;
   },
   [authActionTypes.LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
+
+if (window && window === window.parent) {
+  actionHandlers[locationActionTypes.LOCATION_CHANGE] = (state, action) => {
+    if (action.payload && action.payload.state && action.payload.state.ignoreByUsersPanel) {
+      return state;
+    }
+
+    return { ...state, activeIndex: null };
+  };
+} else {
+  actionHandlers[locationActionTypes.LOCATION_CHANGE] = (state, action) => {
+    const { pathname } = action.payload;
+    const [, playerUUID] = pathname.match(profilePathnameRegExp);
+
+    if (!playerUUID) {
+      return state;
+    }
+
+    const playerIndex = state.items.findIndex(item => item.uuid === playerUUID);
+
+    if (playerIndex === -1) {
+      return state;
+    }
+
+    const newState = { ...state, items: [...state.items] };
+
+    newState.items[playerIndex] = {
+      ...state.items[playerIndex],
+      path: pathname.replace(`/${PROFILE_ROUTE_PREFIX}/${playerUUID}/`, ''),
+    };
+
+    return newState;
+  };
+}
 const actionTypes = {
   ADD,
   REMOVE,

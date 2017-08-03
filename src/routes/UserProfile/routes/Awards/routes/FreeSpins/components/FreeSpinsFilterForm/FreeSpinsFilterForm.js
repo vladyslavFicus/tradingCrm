@@ -116,7 +116,6 @@ class FreeSpinsFilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('endDate')}
                     position="vertical"
-                    className={null}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -125,7 +124,6 @@ class FreeSpinsFilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('startDate')}
                     position="vertical"
-                    className={null}
                   />
                 </div>
               </div>

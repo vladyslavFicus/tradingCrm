@@ -12,12 +12,7 @@ import { targetTypes } from '../../../../../../../../constants/note';
 
 class ViewModal extends Component {
   static propTypes = {
-    profile: PropTypes.object.isRequired,
-    accumulatedBalances: PropTypes.shape({
-      total: PropTypes.price.isRequired,
-      bonus: PropTypes.price.isRequired,
-      real: PropTypes.price.isRequired,
-    }).isRequired,
+    playerProfile: PropTypes.userProfile.isRequired,
     actions: PropTypes.arrayOf(PropTypes.shape({
       children: PropTypes.any.isRequired,
       onClick: PropTypes.func.isRequired,
@@ -188,17 +183,14 @@ class ViewModal extends Component {
   );
 
   render() {
-    const { item, profile, actions, accumulatedBalances, onClose, ...rest } = this.props;
+    const { item, playerProfile, actions, onClose, ...rest } = this.props;
     const [leftSideAction, ...rightSideActions] = actions;
 
     return (
       <Modal className="view-bonus-modal" toggle={onClose} {...rest}>
         <ModalHeader toggle={onClose}>Bonus details</ModalHeader>
         <ModalBody>
-          <ModalPlayerInfo
-            profile={profile.data}
-            balances={accumulatedBalances}
-          />
+          <ModalPlayerInfo playerProfile={playerProfile} />
           {this.renderBonus(item)}
           {this.renderBonusStats(item)}
           {this.renderNote(item)}

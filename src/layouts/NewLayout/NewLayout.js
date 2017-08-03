@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
+import classNames from 'classnames';
 import _ from 'lodash';
-import { getAvailableLanguages } from '../../config/index';
+import { getAvailableLanguages } from '../../config';
 import PropTypes from '../../constants/propTypes';
 import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
 import { actionCreators as languageActionCreators } from '../../redux/modules/language';
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
 import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
+import { actionCreators as appActionCreators } from '../../redux/modules/app';
+import { actionCreators as windowActionCreators } from '../../redux/modules/window';
 import NotePopover from '../../components/NotePopover';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
@@ -25,7 +29,7 @@ const popoverInitialState = {
 
 class NewLayout extends Component {
   static propTypes = {
-    children: PropTypes.any,
+    children: PropTypes.any.isRequired,
     locale: PropTypes.string.isRequired,
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     onLocaleChange: PropTypes.func.isRequired,
@@ -33,11 +37,14 @@ class NewLayout extends Component {
       token: PropTypes.string,
       uuid: PropTypes.string,
     }).isRequired,
+    app: PropTypes.shape({
+      showScrollToTop: PropTypes.bool.isRequired,
+    }).isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
       replace: PropTypes.func.isRequired,
     }).isRequired,
-    location: PropTypes.object,
+    location: PropTypes.object.isRequired,
     permissions: PropTypes.array,
     changeDepartment: PropTypes.func.isRequired,
     activeUserPanel: PropTypes.userPanelItem,
@@ -49,7 +56,14 @@ class NewLayout extends Component {
     addNote: PropTypes.func.isRequired,
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
-    updateUserProfile: PropTypes.func.isRequired,
+    updateOperatorProfile: PropTypes.func.isRequired,
+    setIsShowScrollTop: PropTypes.func.isRequired,
+    activePanelIndex: PropTypes.number,
+  };
+  static defaultProps = {
+    permissions: [],
+    activeUserPanel: null,
+    activePanelIndex: null,
   };
   static childContextTypes = {
     user: PropTypes.shape({
@@ -70,6 +84,9 @@ class NewLayout extends Component {
       setNoteChangedCallback: PropTypes.func.isRequired,
       hidePopover: PropTypes.func.isRequired,
     }),
+  };
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
   };
 
   getChildContext() {
@@ -103,7 +120,6 @@ class NewLayout extends Component {
   }
 
   state = {
-    hasTabs: false,
     noteChangedCallback: null,
     popover: { ...popoverInitialState },
     sidebarTopMenu: sidebarTopMenu.map(menuItem => {
@@ -124,17 +140,23 @@ class NewLayout extends Component {
     isOpenProfile: false,
   };
 
-  onToggleProfile = () => {
-    this.setState({ isOpenProfile: !this.state.isOpenProfile });
-  };
+  componentWillMount() {
+    window.addEventListener('scroll', this.handleScrollWindow);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScrollWindow);
+  }
 
   onProfileSubmit = async ({ language, ...nextData }) => {
-    const { user: { data } } = this.props;
+    const { user: { uuid, data }, locale, onLocaleChange, updateOperatorProfile } = this.props;
 
-    this.props.onLocaleChange(language);
+    if (language !== locale) {
+      onLocaleChange(language);
+    }
 
     if (!_.isEqualWith(data, nextData)) {
-      const action = await this.props.updateUserProfile(this.props.user.uuid, nextData);
+      const action = await updateOperatorProfile(uuid, nextData);
 
       if (action) {
         if (action.error && action.payload.response.fields_errors) {
@@ -142,13 +164,47 @@ class NewLayout extends Component {
           throw new SubmissionError(errors);
         } else if (action.payload.response && action.payload.response.error) {
           throw new SubmissionError({ __error: action.payload.response.error });
+        } else {
+          this.context.addNotification({
+            level: 'success',
+            title: I18n.t('MY_PROFILE_SIDEBAR.NOTIFICATION_SUCCESS_TITLE'),
+            message: I18n.t('MY_PROFILE_SIDEBAR.NOTIFICATION_SUCCESS_MESSAGE'),
+          });
         }
       }
     }
   };
 
+  onToggleProfile = () => {
+    this.setState({ isOpenProfile: !this.state.isOpenProfile });
+  };
+
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
+  };
+
+  handleScrollWindow = () => {
+    const { app: { showScrollToTop }, setIsShowScrollTop } = this.props;
+
+    if (document.body.scrollTop > 100 && !showScrollToTop) {
+      setIsShowScrollTop(true);
+    } else if (showScrollToTop && document.body.scrollTop < 100) {
+      setIsShowScrollTop(false);
+    }
+  };
+
+  handleScrollToTop = () => {
+    const { activePanelIndex } = this.props;
+    const frames = document.querySelectorAll('iframe.user-panel-content-frame');
+    const currentFrame = frames[activePanelIndex];
+
+    if (activePanelIndex !== null && currentFrame) {
+      currentFrame
+        .contentWindow
+        .postMessage(JSON.stringify(windowActionCreators.scrollToTop()), window.location.origin);
+    } else {
+      window.scrollTo(0, 0);
+    }
   };
 
   handleAddNoteClick = (target, item, params = {}) => {
@@ -182,9 +238,10 @@ class NewLayout extends Component {
   };
 
   handleDeleteNoteClick = async (item) => {
+    const { deleteNote } = this.props;
     const { noteChangedCallback } = this.state;
 
-    await this.props.deleteNote(item.uuid);
+    await deleteNote(item.uuid);
     this.handlePopoverHide();
 
     if (typeof noteChangedCallback === 'function') {
@@ -193,12 +250,13 @@ class NewLayout extends Component {
   };
 
   handleSubmitNote = async (data) => {
+    const { addNote, editNote } = this.props;
     const { noteChangedCallback } = this.state;
 
     if (data.uuid) {
-      await this.props.editNote(data.uuid, data);
+      await editNote(data.uuid, data);
     } else {
-      await this.props.addNote(data);
+      await addNote(data);
     }
 
     this.handlePopoverHide();
@@ -214,6 +272,13 @@ class NewLayout extends Component {
 
   handleCloseTabs = () => {
     this.props.resetPanels();
+  };
+
+  handleUserPanelClick = (index) => {
+    const shouldScrollShow = !!index || document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
+
+    this.props.setActivePanel(index);
+    this.props.setIsShowScrollTop(shouldScrollShow);
   };
 
   handleOpenTap = (index) => {
@@ -240,9 +305,9 @@ class NewLayout extends Component {
       userPanels,
       activeUserPanel,
       removePanel,
-      setActivePanel,
       onLocaleChange,
       languages,
+      app: { showScrollToTop, isInitializedScroll },
       locale,
       user,
     } = this.props;
@@ -279,10 +344,21 @@ class NewLayout extends Component {
         <UsersPanel
           active={activeUserPanel}
           items={userPanels}
-          onItemClick={setActivePanel}
+          onItemClick={this.handleUserPanelClick}
           onRemove={removePanel}
           onClose={this.handleCloseTabs}
         />
+
+        <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
+          <button
+            className={
+              classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: isInitializedScroll && !showScrollToTop })
+            }
+            onClick={this.handleScrollToTop}
+          >
+            <i className="fa fa-caret-up" />
+          </button>
+        </div>
 
         {
           popover.name === NOTE_POPOVER &&
@@ -304,8 +380,10 @@ const mapStateToProps = state => ({
   permissions: state.permissions.data,
   activeUserPanel: state.userPanels.items[state.userPanels.activeIndex] || null,
   userPanels: state.userPanels.items,
+  activePanelIndex: state.userPanels.activeIndex,
   locale: state.i18n.locale,
   languages: getAvailableLanguages(),
+  app: state.app,
 });
 
 export default connect(mapStateToProps, {
@@ -318,5 +396,6 @@ export default connect(mapStateToProps, {
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
-  updateUserProfile: authActionCreators.updateProfile,
+  setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
+  updateOperatorProfile: authActionCreators.updateProfile,
 })(NewLayout);

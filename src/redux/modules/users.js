@@ -1,29 +1,45 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
+import config from '../../config';
 import buildQueryString from '../../utils/buildQueryString';
 import { statuses as kycStatuses } from '../../constants/kyc';
 
+const emptyBalance = {
+  amount: 0,
+  currency: config.nas.currencies.base,
+};
 const fetchProfileMapResponse = (response) => {
-  const { birthDate, kycPersonalStatus, kycAddressStatus, balance, signInIps } = response;
+  const {
+    firstName,
+    lastName,
+    birthDate,
+    kycPersonalStatus,
+    kycAddressStatus,
+    balance,
+    bonusBalance,
+    signInIps,
+  } = response;
   const kycCompleted = kycPersonalStatus && kycAddressStatus
     && kycPersonalStatus.status === kycStatuses.VERIFIED && kycAddressStatus.status === kycStatuses.VERIFIED;
   let kycDate = null;
 
   if (kycPersonalStatus && kycAddressStatus) {
-    kycDate = kycPersonalStatus.statusDate > kycAddressStatus.statusDate
-      ? kycPersonalStatus.statusDate
-      : kycAddressStatus.statusDate;
+    kycDate = (
+      kycPersonalStatus.statusDate > kycAddressStatus.statusDate
+        ? kycPersonalStatus.statusDate
+        : kycAddressStatus.statusDate
+    );
   }
 
-  return {
+  const payload = {
     ...response,
-    fullName: [response.firstName, response.lastName].join(' '),
-    age: moment().diff(birthDate, 'years'),
-    birthDate: moment(birthDate).format('YYYY-MM-DD'),
+    fullName: [firstName, lastName].filter(item => item).join(' '),
+    age: birthDate && moment(birthDate).isValid() ? moment().diff(birthDate, 'years') : null,
+    birthDate: birthDate && moment(birthDate).isValid() ? moment(birthDate).format('YYYY-MM-DD') : null,
     kycDate,
     kycCompleted,
-    currencyCode: balance && balance.currency ? balance.currency : null,
+    balance: balance || emptyBalance,
     signInIps: signInIps ?
       Object.values(signInIps).sort((a, b) => {
         if (a.sessionStart > b.sessionStart) {
@@ -35,6 +51,21 @@ const fetchProfileMapResponse = (response) => {
         return 0;
       }) : [],
   };
+  payload.currencyCode = payload.balance && payload.balance.currency ? payload.balance.currency : null;
+  payload.balances = {
+    total: balance || emptyBalance,
+    bonus: bonusBalance || {
+      ...emptyBalance,
+      currency: payload.balance ? payload.balance.currency : emptyBalance.currency,
+    },
+  };
+
+  payload.balances.real = {
+    ...payload.balances.total,
+    amount: Math.max(payload.balances.total.amount - payload.balances.bonus.amount, 0),
+  };
+
+  return payload;
 };
 
 function fetchProfile(type) {
@@ -61,7 +92,11 @@ function fetchProfile(type) {
               }
             },
           },
-          type.FAILURE,
+          {
+            type: type.FAILURE,
+            meta: { uuid },
+            payload: (payload, state, response) => response,
+          },
         ],
         bailout: !logged,
       },
@@ -126,27 +161,6 @@ function updateProfile(type) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-        types: [type.REQUEST, type.SUCCESS, type.FAILURE],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function updateIdentifier(type) {
-  return (uuid, identifier) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/profiles/${uuid}/identifier`,
-        method: 'PUT',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ identifier }),
         types: [type.REQUEST, type.SUCCESS, type.FAILURE],
         bailout: !logged,
       },
@@ -224,7 +238,6 @@ const actionCreators = {
   fetchEntities,
   fetchESEntities,
   updateProfile,
-  updateIdentifier,
   passwordResetRequest,
   profileActivateRequest,
 };

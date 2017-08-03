@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
+import classNames from 'classnames';
 import PropTypes from '../../../../../constants/propTypes';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
@@ -7,8 +8,16 @@ import ContactForm from './ContactForm';
 import Documents from './Documents';
 import VerifyData from './Kyc/VerifyData';
 import RefuseModal from './Kyc/RefuseModal';
+import renderLabel from '../../../../../utils/renderLabel';
 import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
-import { types as kycTypes, categories as kycCategories } from '../../../../../constants/kyc';
+import {
+  types as kycTypes,
+  categories as kycCategories,
+  statuses as kycStatuses,
+  userStatuses as kycUserStatuses,
+  userStatusesLabels as kycUserStatusesLabels,
+  userStatusesColor as kycUserStatusesColor,
+} from '../../../../../constants/kyc';
 
 const REFUSE_MODAL = 'refuse-modal';
 const REQUEST_KYC_VERIFICATION_MODAL = 'request-kyc-verification-modal';
@@ -22,7 +31,9 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-    profile: PropTypes.userProfile.isRequired,
+    profile: PropTypes.shape({
+      data: PropTypes.userProfile.isRequired,
+    }).isRequired,
     files: PropTypes.shape({
       identity: PropTypes.arrayOf(PropTypes.fileEntity).isRequired,
       address: PropTypes.arrayOf(PropTypes.fileEntity).isRequired,
@@ -64,6 +75,8 @@ class View extends Component {
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
+    onAddNote: PropTypes.func.isRequired,
+    refreshPinnedNotes: PropTypes.func.isRequired,
   };
 
   state = {
@@ -221,6 +234,26 @@ class View extends Component {
     this.context.showImages(`${this.props.filesUrl}${data.uuid}`, data.type);
   };
 
+  renderKycStatusTitle = () => {
+    const { profile: { data: profile } } = this.props;
+
+    let kycUserStatusCode = kycUserStatuses.NOT_REQUESTED;
+    if (profile.kycAddressStatus && profile.kycPersonalStatus) {
+      kycUserStatusCode = profile.kycAddressStatus.status === kycStatuses.VERIFIED &&
+      profile.kycPersonalStatus.status === kycStatuses.VERIFIED ?
+        kycUserStatuses.VERIFIED : kycUserStatuses.NOT_VERIFIED;
+    }
+
+    return (
+      <div>
+        {I18n.t('PLAYER_PROFILE.PROFILE.TITLE')} {' - '}
+        <span className={classNames(kycUserStatusesColor[kycUserStatusCode], 'font-weight-600')}>
+          {renderLabel(kycUserStatusCode, kycUserStatusesLabels)}
+        </span>
+      </div>
+    );
+  }
+
   render() {
     const { modal } = this.state;
     const {
@@ -242,7 +275,9 @@ class View extends Component {
       <div>
         <div className="row margin-bottom-20">
           <div className="col-xl-6">
-            <span className="font-size-20">{I18n.t('PLAYER_PROFILE.PROFILE.TITLE')}</span>
+            <div className="font-size-20">
+              {this.renderKycStatusTitle()}
+            </div>
           </div>
           <div className="col-sm-6 col-xs-6 text-right">
             <button
@@ -273,16 +308,12 @@ class View extends Component {
                 />
               </div>
               <div className="col-md-4">
-                {
-                  data.kycPersonalStatus &&
-                  <VerifyData
-                    title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
-                    description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_DESCRIPTION')}
-                    onVerify={this.handleVerify(kycCategories.KYC_PERSONAL)}
-                    onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
-                    status={data.kycPersonalStatus}
-                  />
-                }
+                <VerifyData
+                  title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
+                  onVerify={this.handleVerify(kycCategories.KYC_PERSONAL)}
+                  onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
+                  status={data.kycPersonalStatus}
+                />
               </div>
             </div>
           </div>
@@ -304,16 +335,12 @@ class View extends Component {
                 />
               </div>
               <div className="col-md-4">
-                {
-                  data.kycAddressStatus &&
-                  <VerifyData
-                    title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
-                    description={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_DESCRIPTION')}
-                    onVerify={this.handleVerify(kycCategories.KYC_ADDRESS)}
-                    onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
-                    status={data.kycAddressStatus}
-                  />
-                }
+                <VerifyData
+                  title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
+                  onVerify={this.handleVerify(kycCategories.KYC_ADDRESS)}
+                  onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
+                  status={data.kycAddressStatus}
+                />
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { injectReducer } from '../../../../store/reducers';
 
 export default store => ({
-  path: ':id/files',
+  path: 'files',
   getComponent(nextState, cb) {
     injectReducer(store, { key: 'userFiles', reducer: require('./modules').default });
 

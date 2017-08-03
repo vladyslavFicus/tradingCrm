@@ -414,7 +414,6 @@ class Form extends Component {
                   <Field
                     name="minAmount"
                     label={''}
-                    className={null}
                     placeholder={I18n.t(attributePlaceholders.minAmount)}
                     type="text"
                     component={InputField}
@@ -425,7 +424,6 @@ class Form extends Component {
                   <Field
                     name="maxAmount"
                     label={''}
-                    className={null}
                     placeholder={I18n.t(attributePlaceholders.maxAmount)}
                     type="text"
                     component={InputField}

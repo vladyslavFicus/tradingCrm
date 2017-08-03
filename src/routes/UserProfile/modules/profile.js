@@ -13,7 +13,6 @@ const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
 const REFUSE_DATA = createRequestAction(`${KEY}/refuse-data`);
-const UPDATE_IDENTIFIER = createRequestAction(`${KEY}/update-identifier`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
 
@@ -76,6 +75,7 @@ const initialState = {
     bonusBalance: { amount: 0, currency: config.nas.currencies.base },
     kycAddressStatus: null,
     kycPersonalStatus: null,
+    kycRequest: null,
     signInIps: [],
   },
   error: null,
@@ -86,7 +86,6 @@ const initialState = {
 
 const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
 const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
-const updateIdentifier = usersActionCreators.updateIdentifier(UPDATE_IDENTIFIER);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
 
@@ -396,6 +395,38 @@ function changeStatus({ action, ...data }) {
   };
 }
 
+function successKycActionReducer(state, action) {
+  const {
+    kycPersonalStatus,
+    kycAddressStatus,
+    kycRequest,
+  } = action.payload;
+
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      kycCompleted: kycPersonalStatus && kycPersonalStatus.value === statuses.VERIFIED
+      && kycAddressStatus && kycAddressStatus.value === statuses.VERIFIED,
+      kycPersonalStatus: {
+        authorUUID: kycPersonalStatus.authorUUID,
+        reason: kycPersonalStatus.reason,
+        status: kycPersonalStatus.status,
+        statusDate: kycPersonalStatus.statusDate,
+      },
+      kycAddressStatus: {
+        authorUUID: kycAddressStatus.authorUUID,
+        reason: kycAddressStatus.reason,
+        status: kycAddressStatus.status,
+        statusDate: kycAddressStatus.statusDate,
+      },
+    },
+    kycRequest,
+    isLoading: false,
+    receivedAt: timestamp(),
+  };
+}
+
 function successUpdateProfileReducer(state, action) {
   const {
     personalStatus: kycPersonalStatus,
@@ -624,9 +655,9 @@ const actionHandlers = {
     error: action.payload,
     receivedAt: timestamp(),
   }),
-  [UPDATE_IDENTIFIER.SUCCESS]: successUpdateProfileReducer,
-  [VERIFY_DATA.SUCCESS]: successUpdateProfileReducer,
-  [REFUSE_DATA.SUCCESS]: successUpdateProfileReducer,
+  [VERIFY_DATA.SUCCESS]: successKycActionReducer,
+  [REFUSE_DATA.SUCCESS]: successKycActionReducer,
+  [SEND_KYC_REQUEST_VERIFICATION.SUCCESS]: successKycActionReducer,
   [MANAGE_KYC_REQUEST_NOTE]: (state, action) => ({
     ...state,
     kycRequestNote: action.payload,
@@ -654,7 +685,6 @@ const actionCreators = {
   verifyData,
   refuseData,
   updateProfile,
-  updateIdentifier,
   resetPassword,
   activateProfile,
   updateSubscription,

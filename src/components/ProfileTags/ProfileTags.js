@@ -75,7 +75,7 @@ class ProfileTags extends PureComponent {
           options.length > 0 &&
           <ButtonSelect
             opened={showAutoComplete}
-            className="btn btn-xs btn-default"
+            className="btn btn-add-tag"
             onChange={this.handleSelect}
             onCloseClick={this.handleOutsideClick}
             optionRenderer={this.renderOption}

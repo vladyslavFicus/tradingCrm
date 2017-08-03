@@ -1,7 +1,7 @@
 import { injectReducer } from '../../../../store/reducers';
 
 export default store => ({
-  path: ':id/paymentAccounts',
+  path: 'paymentAccounts',
   getComponent(nextState, cb) {
     injectReducer(store, { key: 'userPaymentAccounts', reducer: require('./modules').default });
 

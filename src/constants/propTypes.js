@@ -199,8 +199,13 @@ PropTypes.userProfile = PropTypes.shape({
   token: PropTypes.string,
   tokenExpirationDate: PropTypes.string,
   username: PropTypes.string,
-  uuid: PropTypes.string,
+  playerUUID: PropTypes.string.isRequired,
   signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
+  balances: PropTypes.shape({
+    total: PropTypes.price.isRequired,
+    bonus: PropTypes.price.isRequired,
+    real: PropTypes.price.isRequired,
+  }),
 });
 PropTypes.authorityEntity = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -273,8 +278,8 @@ PropTypes.paymentEntity = PropTypes.shape({
   amount: PropTypes.price.isRequired,
   amountBarrierReached: PropTypes.bool.isRequired,
   baseCurrencyAmount: PropTypes.price,
-  clientIp: PropTypes.string.isRequired,
-  country: PropTypes.string.isRequired,
+  clientIp: PropTypes.string,
+  country: PropTypes.string,
   creationTime: PropTypes.string.isRequired,
   creatorType: PropTypes.string.isRequired,
   creatorUUID: PropTypes.string.isRequired,
@@ -285,7 +290,7 @@ PropTypes.paymentEntity = PropTypes.shape({
   paymentAccount: PropTypes.string,
   paymentFlowStatuses: PropTypes.arrayOf(PropTypes.paymentEntityStatus).isRequired,
   paymentId: PropTypes.string.isRequired,
-  paymentMethod: PropTypes.string.isRequired,
+  paymentMethod: PropTypes.string,
   paymentSystemRefs: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   paymentType: PropTypes.string.isRequired,
   playerUUID: PropTypes.string.isRequired,
@@ -299,7 +304,7 @@ PropTypes.userPaymentAccountEntity = PropTypes.shape({
   creationDate: PropTypes.string.isRequired,
   details: PropTypes.string.isRequired,
   lastActivityDate: PropTypes.string.isRequired,
-  lastPayment: PropTypes.paymentEntity.isRequired,
+  lastPayment: PropTypes.paymentEntity,
   paymentMethod: PropTypes.string.isRequired,
   playerUUID: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
@@ -320,13 +325,8 @@ PropTypes.paymentMethod = PropTypes.shape({
   withdrawLimit: PropTypes.paymentMethodLimit.isRequired,
 });
 PropTypes.paymentActionReasons = PropTypes.shape({
-  reject: PropTypes.arrayOf(PropTypes.string),
-  chargeback: PropTypes.arrayOf(PropTypes.string),
-});
-PropTypes.paymentReasonModalStaticParams = PropTypes.shape({
-  title: PropTypes.string,
-  actionButtonLabel: PropTypes.string,
-  actionDescription: PropTypes.string,
+  reject: PropTypes.object,
+  chargeback: PropTypes.object,
 });
 PropTypes.walletLimitEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
@@ -424,6 +424,7 @@ PropTypes.userDeviceEntity = PropTypes.shape({
 PropTypes.kycRequestStatusEntity = PropTypes.shape({
   authorUUID: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
+  reason: PropTypes.string.isRequired,
   statusDate: PropTypes.string.isRequired,
 });
 PropTypes.kycRequestEntity = PropTypes.shape({
@@ -436,6 +437,7 @@ PropTypes.kycRequestEntity = PropTypes.shape({
   kycPersonalStatus: PropTypes.kycRequestStatusEntity.isRequired,
   kycRequest: {
     requestDate: PropTypes.string.isRequired,
+    reason: PropTypes.string.isRequired,
     authorUUID: PropTypes.string.isRequired,
   },
   playerUUID: PropTypes.string.isRequired,

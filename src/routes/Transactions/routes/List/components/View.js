@@ -2,29 +2,27 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import TransactionsFilterForm from './TransactionsFilterForm';
+import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
-import FailedStatusIcon from '../../../../../components/FailedStatusIcon';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
   types as paymentTypes,
-  statusesLabels,
   methodsLabels,
   typesLabels,
   typesProps,
-  statusesColor,
-  statuses as paymentsStatuses,
+  statuses as paymentsStatuses
 } from '../../../../../constants/payment';
 import { shortify } from '../../../../../utils/uuid';
-import PaymentDetailModal from '../../../components/PaymentDetailModal';
-import PaymentActionReasonModal from '../../../components/PaymentActionReasonModal';
-import StatusHistory from '../../../../../components/TransactionStatusHistory';
+import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
+import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
+import TransactionStatus from '../../../../../components/TransactionStatus';
 import { targetTypes } from '../../../../../constants/note';
 import NoteButton from '../../../../../components/NoteButton';
 import Amount from '../../../../../components/Amount';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
 import Uuid from '../../../../../components/Uuid';
+import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -35,8 +33,16 @@ const defaultModalState = {
 
 class View extends Component {
   static propTypes = {
+    players: PropTypes.objectOf(PropTypes.userProfile).isRequired,
     transactions: PropTypes.pageableState(PropTypes.paymentEntity).isRequired,
+    filters: PropTypes.shape({
+      data: PropTypes.shape({
+        paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
+      }).isRequired,
+    }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
+    fetchFilters: PropTypes.func.isRequired,
+    fetchPlayerProfile: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
@@ -60,20 +66,23 @@ class View extends Component {
   };
 
   componentDidMount() {
+    this.props.fetchFilters();
     this.context.notes.setNoteChangedCallback(this.handleRefresh);
   }
 
   componentWillUnmount() {
     this.context.notes.setNoteChangedCallback(null);
+    this.props.resetAll();
   }
 
   handleNoteClick = (target, note, data) => {
     if (note) {
-      this.context.notes.onEditNoteClick(target, note);
+      this.context.notes.onEditNoteClick(target, note, { placement: 'left' });
     } else {
       this.context.notes.onAddNoteClick(
         target,
         { playerUUID: data.playerUUID, targetUUID: data.paymentId, targetType: targetTypes.PAYMENT },
+        { placement: 'left' }
       );
     }
   };
@@ -92,8 +101,8 @@ class View extends Component {
   handleFiltersChanged = (data = {}) => {
     const filters = { ...data };
 
-    if (filters.states) {
-      filters.states = [filters.states];
+    if (Array.isArray(filters.statuses)) {
+      filters.statuses = filters.statuses.join(',');
     }
 
     this.setState({ filters, page: 0 }, this.handleRefresh);
@@ -132,7 +141,15 @@ class View extends Component {
   };
 
   handleOpenDetailModal = async (params) => {
-    const action = await this.props.loadPaymentStatuses(params.payment.playerUUID, params.payment.paymentId);
+    const { players } = this.props;
+    let playerProfile = players[params.payment.playerUUID];
+
+    if (!playerProfile) {
+      const action = await this.props.fetchPlayerProfile(params.payment.playerUUID);
+      playerProfile = action && !action.error
+        ? action.payload
+        : null;
+    }
 
     this.setState({
       modal: {
@@ -140,9 +157,7 @@ class View extends Component {
         name: MODAL_PAYMENT_DETAIL,
         params: {
           ...params,
-          transactions: action && !action.error
-            ? action.payload
-            : [],
+          playerProfile,
         },
       },
     });
@@ -175,15 +190,26 @@ class View extends Component {
     return (
       <div id={`payment-${data.paymentId}`}>
         <div className="font-weight-700">{paymentLink}</div>
-        <span className="font-size-10 text-uppercase color-default">
-          by <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+        <span className="font-size-10 color-default">
+          {I18n.t('COMMON.AUTHOR_BY')}
+          {' '}
+          <Uuid
+            uuid={data.creatorUUID}
+            uuidPrefix={
+              data.creatorUUID.indexOf('OPERATOR') === -1
+                ? data.creatorUUID.indexOf('PLAYER') === -1 ? 'PL' : null
+                : null
+            }
+          />
         </span>
       </div>
     );
   };
 
   renderPlayer = data => (
-    <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+    data.playerProfile
+      ? <GridPlayerInfo profile={data.playerProfile} />
+      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
   );
 
   renderType = (data) => {
@@ -265,32 +291,9 @@ class View extends Component {
   };
 
   renderStatus = data => (
-    <StatusHistory
-      onLoad={() => this.props.loadPaymentStatuses(data.playerUUID, data.paymentId)}
-      label={
-        <div>
-          <div className={classNames(statusesColor[data.status], 'font-weight-700')}>
-            {statusesLabels[data.status] || data.status}
-            {
-              data.status === paymentsStatuses.FAILED && !!data.reason &&
-              <FailedStatusIcon id={`transaction-failure-reason-${data.paymentId}`}>
-                {data.reason}
-              </FailedStatusIcon>
-            }
-          </div>
-          {
-            data.creatorUUID &&
-            <div className="font-size-10 color-default">
-              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={data.creatorUUID} />
-            </div>
-          }
-          <span className="font-size-10 color-default text-lowercase">
-            {I18n.t('COMMON.DATE_ON', {
-              date: moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
-            })}
-          </span>
-        </div>
-      }
+    <TransactionStatus
+      onLoadStatusHistory={() => this.props.loadPaymentStatuses(data.playerUUID, data.paymentId)}
+      transaction={data}
     />
   );
 
@@ -304,7 +307,7 @@ class View extends Component {
   );
 
   render() {
-    const { transactions: { entities } } = this.props;
+    const { transactions: { entities }, filters: { data: availableFilters } } = this.props;
     const { modal, filters } = this.state;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
@@ -312,20 +315,26 @@ class View extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <span className="font-size-20">Transactions</span>
+            <span
+              className="font-size-20"
+              id="transactions-list-header"
+            >
+              Transactions
+            </span>
           </Title>
 
           <TransactionsFilterForm
             onSubmit={this.handleFiltersChanged}
             onReset={this.handleFilterReset}
-            initialValues={filters}
             disabled={!allowActions}
+            {...availableFilters}
+            filterByType
           />
 
           <Content>
             <GridView
               tableClassName="table table-hovered data-grid-layout"
-              headerClassName=""
+              headerClassName="text-uppercase"
               dataSource={entities.content}
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
@@ -336,56 +345,49 @@ class View extends Component {
               <GridColumn
                 name="paymentId"
                 header="Transaction"
-                headerClassName="text-uppercase"
                 render={this.renderTransactionId}
               />
               <GridColumn
                 name="profile"
                 header="Player"
-                headerClassName="text-uppercase"
                 render={this.renderPlayer}
               />
               <GridColumn
                 name="paymentType"
                 header="Type"
-                headerClassName="text-uppercase"
                 render={this.renderType}
               />
               <GridColumn
                 name="amount"
                 header="Amount"
-                headerClassName="text-uppercase"
                 render={this.renderAmount}
               />
               <GridColumn
                 name="creationTime"
                 header="DATE & TIME"
-                headerClassName="text-uppercase"
                 render={this.renderDateTime}
               />
               <GridColumn
                 name="country"
                 header="Ip"
-                headerClassName="text-uppercase text-center"
+                headerClassName="text-center"
                 render={this.renderIP}
               />
               <GridColumn
                 name="paymentMethod"
                 header="Method"
-                headerClassName="text-uppercase"
                 render={this.renderMethod}
               />
               <GridColumn
                 name="mobile"
                 header="Device"
-                headerClassName="text-uppercase text-center"
+                headerClassName="text-center"
                 className="text-center"
                 render={this.renderDevice}
               />
               <GridColumn
                 name="status"
                 header="Status"
-                headerClassName="text-uppercase"
                 className="text-uppercase"
                 render={this.renderStatus}
               />
@@ -404,6 +406,7 @@ class View extends Component {
                 onClose={this.handleCloseModal}
                 onChangePaymentStatus={this.handleChangePaymentStatus}
                 onAskReason={this.handleAskReason}
+                onNoteClick={this.handleNoteClick}
               />
             }
 
@@ -413,6 +416,7 @@ class View extends Component {
                 {...modal.params}
                 onClose={this.handleCloseModal}
                 onChangePaymentStatus={this.handleChangePaymentStatus}
+                onNoteClick={this.handleNoteClick}
               />
             }
           </Content>

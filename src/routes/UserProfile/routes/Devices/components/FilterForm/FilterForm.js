@@ -10,13 +10,17 @@ import { SelectField, DateTimeField } from '../../../../../../components/ReduxFo
 import { attributeLabels } from './constants';
 import renderLabel from '../../../../../../utils/renderLabel';
 
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
 const FORM_NAME = 'userDevicesFilter';
 const validate = createValidator({
   type: 'string',
   operatingSystem: 'string',
   dateFrom: 'string',
   dateTo: 'string',
-}, Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}), false);
+}, validatorAttributeLabels, false);
 
 class FilterForm extends Component {
   static propTypes = {
@@ -105,7 +109,6 @@ class FilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('signInDateTo')}
                     position="vertical"
-                    className={null}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -114,7 +117,6 @@ class FilterForm extends Component {
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('signInDateFrom')}
                     position="vertical"
-                    className={null}
                   />
                 </div>
               </div>

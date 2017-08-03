@@ -1,11 +1,4 @@
 .button-select {
-  .btn-default {
-    padding-top: 4px;
-    padding-bottom: 4px;
-    background: #6a7a84;
-    border-color: #6a7a84;
-  }
-
   & > .auto-complete {
     display: none;
     &.opened {
@@ -29,7 +22,7 @@
 
   .Select-control {
     display: inline-block;
-    height: 23px;
+    height: 24px;
     min-width: 31px;
     border-radius: 0;
     background: #6a7a84;
@@ -52,9 +45,11 @@
 
   .btn-delete {
     display: none;
+    background-color: #6a7a84;
+    color: #fff;
   }
 
-  .opened + .btn-default {
+  .opened + .btn-add-tag {
     display: none;
 
     &+.btn-delete {

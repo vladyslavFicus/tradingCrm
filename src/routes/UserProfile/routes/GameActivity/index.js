@@ -2,7 +2,7 @@ import { injectReducer } from '../../../../store/reducers';
 import { actionCreators } from './modules';
 
 export default store => ({
-  path: ':id/game-activity',
+  path: 'game-activity',
   onEnter: async (nextState, replace, callback) => {
     injectReducer(store, { key: 'userGamingActivity', reducer: require('./modules/index').default });
 
