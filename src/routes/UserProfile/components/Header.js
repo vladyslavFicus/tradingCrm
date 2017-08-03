@@ -221,7 +221,7 @@ class Header extends Component {
             <div className="header-block">
               <div className="header-block-title">Registered</div>
               <div className="header-block-middle">
-                {moment(playerProfile.registrationDate).fromNow()}
+                {moment.utc(playerProfile.registrationDate).local().fromNow()}
               </div>
               <div className="header-block-small">
                 on {moment(playerProfile.registrationDate).format('DD.MM.YYYY')}</div>
