@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import I18n from '../utils/fake-i18n';
 
 const statuses = keyMirror({
   PENDING: null,
@@ -9,8 +10,12 @@ const statuses = keyMirror({
 });
 
 const methods = keyMirror({
-  PAYPAL: null,
-  CREDIT_CARD: null,
+  fakepal: null,
+  qiwi: null,
+  visa: null,
+  card: null,
+  mastercard: null,
+  yamoney: null,
 });
 
 const methodStatuses = keyMirror({
@@ -60,8 +65,12 @@ const statusesLabels = {
 };
 
 const methodsLabels = {
-  [methods.PAYPAL]: 'Paypal',
-  [methods.CREDIT_CARD]: 'Adyen',
+  [methods.fakepla]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.FAKEPAL'),
+  [methods.qiwi]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.QIWI'),
+  [methods.visa]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.VISA'),
+  [methods.card]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.CARD'),
+  [methods.mastercard]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.MASTERCARD'),
+  [methods.yamoney]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_METHODS.YANDEX_MONEY'),
 };
 
 const methodsStatusesLabels = {
@@ -100,6 +109,15 @@ const methodStatusesColor = {
   [methodStatuses.INACTIVE]: 'color-default',
 };
 
+const initiators = keyMirror({
+  PLAYER: null,
+  OPERATOR: null,
+});
+const initiatorsLabels = {
+  [initiators.PLAYER]: 'Player',
+  [initiators.OPERATOR]: 'Operator',
+};
+
 export {
   statuses,
   statusesLabels,
@@ -115,4 +133,6 @@ export {
   methodStatusesColor,
   methodStatusActions,
   paymentActions,
+  initiators,
+  initiatorsLabels,
 };

@@ -6,6 +6,7 @@ const NAVIGATE_TO = `${KEY}/navigate-to`;
 const VIEW_PLAYER_PROFILE = `${KEY}/view-player-profile`;
 const SHOW_SCROLL_TO_TOP = `${KEY}/show-scroll-to-top`;
 const SCROLL_TO_TOP = `${KEY}/scroll-to-top`;
+const CLOSE_PROFILE_TAB = `${KEY}/close-profile-tab`;
 
 function changeLocale(locale) {
   return {
@@ -54,6 +55,13 @@ function scrollToTop() {
   };
 }
 
+function closeProfileTab(userUUID) {
+  return {
+    type: CLOSE_PROFILE_TAB,
+    payload: userUUID,
+  };
+}
+
 const actionTypes = {
   NOTIFICATION,
   CHANGE_LOCALE,
@@ -62,6 +70,7 @@ const actionTypes = {
   SHOW_SCROLL_TO_TOP,
   SCROLL_TO_TOP,
   VIEW_PLAYER_PROFILE,
+  CLOSE_PROFILE_TAB,
 };
 const actionCreators = {
   changeLocale,
@@ -71,6 +80,7 @@ const actionCreators = {
   viewPlayerProfile,
   showScrollToTop,
   scrollToTop,
+  closeProfileTab,
 };
 
 export {

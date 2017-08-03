@@ -4,24 +4,27 @@ import PropTypes from '../../constants/propTypes';
 import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../../components/Uuid';
 
-const GridPlayerInfo = props => (
-  <GridPlayerInfoPlaceholder ready={!!props.profile} firstLaunchOnly>
+const GridPlayerInfo = ({ profile, onClick, mainInfoClassName }) => (
+  <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
     {
-      !!props.profile &&
+      !!profile &&
       <div>
         <div
-          className={classNames(props.mainInfoClassName, { 'cursor-pointer': !!props.onClick })}
-          onClick={props.onClick}
+          className={classNames(mainInfoClassName, { 'cursor-pointer': !!onClick })}
+          onClick={onClick}
         >
-          {[props.profile.firstName, props.profile.lastName, `(${props.profile.age})`].join(' ')}
+          {profile.firstName} {profile.lastName} {!!profile.age && `(${profile.age})`}
           {' '}
-          {props.profile.kycCompleted && <i className="fa fa-check text-success" />}
+          {profile.kycCompleted && <i className="fa fa-check text-success" />}
         </div>
 
         <div className="font-size-11 color-default line-height-1">
-          <span>{props.profile.username}</span> {' - '}
-          <Uuid uuid={props.profile.uuid} uuidPrefix={props.profile.uuid.indexOf('PLAYER') === -1 ? 'PL' : ''} />
-          <div>{props.profile.languageCode}</div>
+          {!!profile.username && <span>{profile.username} - </span>}
+          <Uuid
+            uuid={profile.playerUUID}
+            uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : ''}
+          />
+          {!!profile.languageCode && <span> - {profile.languageCode}</span>}
         </div>
       </div>
     }

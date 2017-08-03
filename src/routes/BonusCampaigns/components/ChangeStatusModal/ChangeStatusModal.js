@@ -12,22 +12,6 @@ import { actionLabels } from '../../../../constants/bonus-campaigns';
 import { attributeLabels } from './constants';
 
 const CUSTOM_REASON = 'custom';
-const FORM_NAME = 'bonusCampaignStatusDropDownModal';
-const validator = (data) => {
-  const rules = {
-    reason: 'string',
-  };
-
-  if (data.reasons) {
-    rules.reason = `required|string|in:${Object.keys(data.reasons).join()},custom`;
-  }
-
-  if (data.reason === CUSTOM_REASON) {
-    rules.customReason = 'required|string|min:3';
-  }
-
-  return createValidator(rules, attributeLabels, false)(data);
-};
 
 class ChangeStatusModal extends Component {
   static propTypes = {
@@ -152,11 +136,27 @@ class ChangeStatusModal extends Component {
   }
 }
 
+const FORM_NAME = 'bonusCampaignStatusDropDownModal';
+
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate: validator,
+    validate: (data) => {
+      const rules = {
+        reason: 'string',
+      };
+
+      if (data.reasons) {
+        rules.reason = `required|string|in:${Object.keys(data.reasons).join()},custom`;
+      }
+
+      if (data.reason === CUSTOM_REASON) {
+        rules.customReason = 'required|string|min:3';
+      }
+
+      return createValidator(rules, attributeLabels, false)(data);
+    },
   })(ChangeStatusModal)
 );

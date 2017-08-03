@@ -20,6 +20,7 @@ const MANUAL_WITHDRAW = createRequestAction(`${KEY}/manual-withdraw`);
 const CONFISCATE = createRequestAction(`${KEY}/confiscate`);
 const MANAGE_NOTE = `${KEY}/manage-note`;
 const RESET_NOTE = `${KEY}/reset-note`;
+const RESET_TRANSACTIONS = `${KEY}/reset`;
 
 const fetchPaymentStatuses = paymentSourceActionCreators.fetchPaymentStatuses(FETCH_PAYMENT_STATUSES);
 const changePaymentStatus = paymentSourceActionCreators.changePaymentStatus(CHANGE_PAYMENT_STATUS);
@@ -186,6 +187,30 @@ function resetNote() {
   };
 }
 
+function resetTransactions() {
+  return {
+    type: RESET_TRANSACTIONS,
+  };
+}
+
+const initialState = {
+  entities: {
+    first: false,
+    last: false,
+    number: 0,
+    numberOfElements: 0,
+    size: 0,
+    sort: [],
+    totalElements: 0,
+    totalPages: 0,
+    content: [],
+  },
+  error: null,
+  filters: {},
+  isLoading: false,
+  receivedAt: null,
+  newPaymentNote: null,
+};
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
@@ -234,24 +259,7 @@ const actionHandlers = {
     ...state,
     newPaymentNote: null,
   }),
-};
-const initialState = {
-  entities: {
-    first: false,
-    last: false,
-    number: 0,
-    numberOfElements: 0,
-    size: 0,
-    sort: [],
-    totalElements: 0,
-    totalPages: 0,
-    content: [],
-  },
-  error: null,
-  filters: {},
-  isLoading: false,
-  receivedAt: null,
-  newPaymentNote: null,
+  [RESET_TRANSACTIONS]: () => ({ ...initialState }),
 };
 const actionTypes = {
   FETCH_ENTITIES,
@@ -260,8 +268,8 @@ const actionTypes = {
   MANUAL_DEPOSIT,
   MANUAL_WITHDRAW,
   CONFISCATE,
+  RESET_TRANSACTIONS,
 };
-
 const actionCreators = {
   fetchEntities,
   fetchPaymentStatuses,
@@ -270,6 +278,7 @@ const actionCreators = {
   addPayment,
   manageNote,
   resetNote,
+  resetTransactions,
 };
 
 export {

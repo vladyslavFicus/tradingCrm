@@ -1,5 +1,5 @@
 export default () => ({
-  path: ':id/profile',
+  path: 'profile',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       cb(null, require('./container/ViewContainer').default);

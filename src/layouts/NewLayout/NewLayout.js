@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { getAvailableLanguages } from '../../config';
@@ -84,6 +85,9 @@ class NewLayout extends Component {
       hidePopover: PropTypes.func.isRequired,
     }),
   };
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
+  };
 
   getChildContext() {
     const {
@@ -121,29 +125,6 @@ class NewLayout extends Component {
     isOpenProfile: false,
   };
 
-  onToggleProfile = () => {
-    this.setState({ isOpenProfile: !this.state.isOpenProfile });
-  };
-
-  onProfileSubmit = async ({ language, ...nextData }) => {
-    const { user: { data } } = this.props;
-
-    this.props.onLocaleChange(language);
-
-    if (!_.isEqualWith(data, nextData)) {
-      const action = await this.props.updateOperatorProfile(this.props.user.uuid, nextData);
-
-      if (action) {
-        if (action.error && action.payload.response.fields_errors) {
-          const errors = parserErrorsFromServer(action.payload.response.fields_errors);
-          throw new SubmissionError(errors);
-        } else if (action.payload.response && action.payload.response.error) {
-          throw new SubmissionError({ __error: action.payload.response.error });
-        }
-      }
-    }
-  };
-
   componentWillMount() {
     window.addEventListener('scroll', this.handleScrollWindow);
   }
@@ -152,27 +133,58 @@ class NewLayout extends Component {
     window.removeEventListener('scroll', this.handleScrollWindow);
   }
 
+  onProfileSubmit = async ({ language, ...nextData }) => {
+    const { user: { uuid, data }, locale, onLocaleChange, updateOperatorProfile } = this.props;
+
+    if (language !== locale) {
+      onLocaleChange(language);
+    }
+
+    if (!_.isEqualWith(data, nextData)) {
+      const action = await updateOperatorProfile(uuid, nextData);
+
+      if (action) {
+        if (action.error && action.payload.response.fields_errors) {
+          const errors = parserErrorsFromServer(action.payload.response.fields_errors);
+          throw new SubmissionError(errors);
+        } else if (action.payload.response && action.payload.response.error) {
+          throw new SubmissionError({ __error: action.payload.response.error });
+        } else {
+          this.context.addNotification({
+            level: 'success',
+            title: I18n.t('MY_PROFILE_SIDEBAR.NOTIFICATION_SUCCESS_TITLE'),
+            message: I18n.t('MY_PROFILE_SIDEBAR.NOTIFICATION_SUCCESS_MESSAGE'),
+          });
+        }
+      }
+    }
+  };
+
+  onToggleProfile = () => {
+    this.setState({ isOpenProfile: !this.state.isOpenProfile });
+  };
+
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
   };
 
   handleScrollWindow = () => {
-    const { app: { showScrollToTop } } = this.props;
+    const { app: { showScrollToTop }, setIsShowScrollTop } = this.props;
 
     if (document.body.scrollTop > 100 && !showScrollToTop) {
-      this.props.setIsShowScrollTop(true);
+      setIsShowScrollTop(true);
     } else if (showScrollToTop && document.body.scrollTop < 100) {
-      this.props.setIsShowScrollTop(false);
+      setIsShowScrollTop(false);
     }
   };
 
   handleScrollToTop = () => {
     const { activePanelIndex } = this.props;
-    const iframes = document.querySelectorAll('iframe.user-panel-content-frame');
-    const currentIframe = iframes[activePanelIndex];
+    const frames = document.querySelectorAll('iframe.user-panel-content-frame');
+    const currentFrame = frames[activePanelIndex];
 
-    if (activePanelIndex !== null && currentIframe) {
-      currentIframe
+    if (activePanelIndex !== null && currentFrame) {
+      currentFrame
         .contentWindow
         .postMessage(JSON.stringify(windowActionCreators.scrollToTop()), window.location.origin);
     } else {
@@ -211,9 +223,10 @@ class NewLayout extends Component {
   };
 
   handleDeleteNoteClick = async (item) => {
+    const { deleteNote } = this.props;
     const { noteChangedCallback } = this.state;
 
-    await this.props.deleteNote(item.uuid);
+    await deleteNote(item.uuid);
     this.handlePopoverHide();
 
     if (typeof noteChangedCallback === 'function') {
@@ -222,12 +235,13 @@ class NewLayout extends Component {
   };
 
   handleSubmitNote = async (data) => {
+    const { addNote, editNote } = this.props;
     const { noteChangedCallback } = this.state;
 
     if (data.uuid) {
-      await this.props.editNote(data.uuid, data);
+      await editNote(data.uuid, data);
     } else {
-      await this.props.addNote(data);
+      await addNote(data);
     }
 
     this.handlePopoverHide();
@@ -246,10 +260,10 @@ class NewLayout extends Component {
   };
 
   handleUserPanelClick = (index) => {
+    const shouldScrollShow = !!index || document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
+
     this.props.setActivePanel(index);
-    this.props.setIsShowScrollTop(index !== null ?
-      false :
-      document.body.scrollTop > 100 || document.documentElement.scrollTop > 100);
+    this.props.setIsShowScrollTop(shouldScrollShow);
   };
 
   render() {

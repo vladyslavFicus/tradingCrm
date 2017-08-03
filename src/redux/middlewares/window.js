@@ -4,18 +4,19 @@ import { actionTypes as userPanelsActionTypes } from '../modules/user-panels';
 import { actionCreators as appActionCreators } from '../modules/app';
 
 const config = {
-  [profileActionTypes.FETCH_PROFILE.SUCCESS]: payload => windowActionCreators.viewPlayerProfile({
+  [profileActionTypes.FETCH_PROFILE.SUCCESS]: ({ payload }) => windowActionCreators.viewPlayerProfile({
     uuid: payload.playerUUID,
     firstName: payload.firstName,
     lastName: payload.lastName,
     username: payload.username,
   }),
-  [profileActionTypes.SUBMIT_KYC.SUCCESS]: payload => windowActionCreators.viewPlayerProfile({
+  [profileActionTypes.SUBMIT_KYC.SUCCESS]: ({ payload }) => windowActionCreators.viewPlayerProfile({
     uuid: payload.uuid,
     firstName: payload.firstName,
     lastName: payload.lastName,
     username: payload.username,
   }),
+  [profileActionTypes.FETCH_PROFILE.FAILURE]: ({ meta }) => windowActionCreators.closeProfileTab(meta.uuid),
   [userPanelsActionTypes.SET_ACTIVE]: payload => appActionCreators.setIsShowScrollTop(!!payload),
 };
 
@@ -29,7 +30,7 @@ export default () => next => (action) => {
     const actionFunction = config[action.type];
 
     if (typeof actionFunction === 'function') {
-      window.parent.postMessage(JSON.stringify(actionFunction(action.payload)), window.location.origin);
+      window.parent.postMessage(JSON.stringify(actionFunction(action)), window.location.origin);
     }
   }
 

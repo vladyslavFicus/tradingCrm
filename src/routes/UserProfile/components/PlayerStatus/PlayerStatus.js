@@ -132,7 +132,7 @@ class PlayerStatus extends Component {
         {
           !!endDate &&
           <div className="header-block-small">
-            Until {moment(endDate).format('L')}
+            Until {moment(endDate).format('DD.MM.YYYY')}
           </div>
         }
         {

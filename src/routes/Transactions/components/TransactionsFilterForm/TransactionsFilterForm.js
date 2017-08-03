@@ -1,55 +1,50 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import moment from 'moment';
 import { getFormValues, reduxForm, Field } from 'redux-form';
-import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
-import { initiators, initiatorsLabels } from '../../../../../constants/transaction';
-import { createValidator } from '../../../../../utils/validator';
-import { types, statuses, methods, typesLabels, statusesLabels, methodsLabels } from '../../../../../constants/payment';
-import Currency from '../../../../../components/Amount/Currency';
+import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
+import moment from 'moment';
+import PropTypes from '../../../../constants/propTypes';
+import { createValidator } from '../../../../utils/validator';
+import {
+  types,
+  typesLabels,
+  statusesLabels,
+  methodsLabels,
+  initiatorsLabels,
+} from '../../../../constants/payment';
+import { InputField, DateTimeField, NasSelectField } from '../../../../components/ReduxForm';
+import { attributeLabels, attributePlaceholders } from './constants';
+import renderLabel from '../../../../utils/renderLabel';
 
-const FORM_NAME = 'userTransactionsFilter';
-const attributeLabels = {
-  keyword: 'Payment ID, External reference...',
-  initiatorType: 'Initiated by',
-  type: 'Transaction type',
-  statuses: 'Transaction status',
-  paymentMethod: 'Payment method',
-  startDate: 'Start date',
-  endDate: 'End date',
-  amountLowerBound: 'From',
-  amountUpperBound: 'To',
-};
-const validator = createValidator({
-  keyword: 'string',
-  initiatorType: ['string', `in:${Object.keys(initiators).join()}`],
-  type: ['string', `in:${Object.keys(types).join()}`],
-  statuses: ['string', `in:${Object.keys(statuses).join()}`],
-  paymentMethod: ['string', `in:${Object.keys(methods).join()}`],
-  startDate: 'string',
-  endDate: 'string',
-  amountLowerBound: 'numeric',
-  amountUpperBound: 'numeric',
-}, attributeLabels, false);
-
-class TransactionGridFilter extends Component {
+class TransactionsFilterForm extends Component {
   static propTypes = {
     reset: PropTypes.func,
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    disabled: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
-    currencyCode: PropTypes.string,
+    onReset: PropTypes.func.isRequired,
     currentValues: PropTypes.shape({
       keyword: PropTypes.string,
       initiatorType: PropTypes.string,
       type: PropTypes.string,
-      statuses: PropTypes.string,
+      statuses: PropTypes.arrayOf(PropTypes.string),
       paymentMethod: PropTypes.string,
       startDate: PropTypes.string,
       endDate: PropTypes.string,
     }),
+    filterByType: PropTypes.bool,
+    paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
+  };
+  static defaultProps = {
+    reset: null,
+    handleSubmit: null,
+    submitting: false,
+    pristine: false,
+    disabled: false,
+    currentValues: null,
+    filterByType: false,
   };
 
   startDateValidator = (current) => {
@@ -57,51 +52,33 @@ class TransactionGridFilter extends Component {
 
     return currentValues && currentValues.endDate
       ? current.isSameOrBefore(moment(currentValues.endDate))
-      : true;
+      : current.isSameOrBefore(moment());
   };
 
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.startDate
-      ? current.isSameOrAfter(moment(currentValues.startDate))
-      : true;
+    return current.isSameOrBefore(moment()) && (
+      currentValues && currentValues.startDate
+        ? current.isSameOrAfter(moment(currentValues.startDate))
+        : true
+    );
   };
 
   handleReset = () => {
     this.props.reset();
-    this.props.onSubmit();
-  };
-
-  renderAmountField = (props) => {
-    const { input, label, placeholder, type, disabled, meta: { touched, error }, inputClassName, currencyCode } = props;
-
-    return (
-      <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label>{label}</label>
-        <div className="input-with-icon input-with-icon__left">
-          <span className="input-left-icon">
-            {currencyCode && <Currency code={currencyCode} />}
-          </span>
-          <input
-            {...input}
-            disabled={disabled}
-            type={type}
-            className={classNames('form-control', inputClassName, { 'has-danger': touched && error })}
-            placeholder={placeholder}
-            title={placeholder}
-          />
-        </div>
-      </div>
-    );
+    this.props.onReset();
   };
 
   render() {
     const {
       submitting,
+      pristine,
+      disabled,
       handleSubmit,
       onSubmit,
-      currencyCode,
+      paymentMethods,
+      filterByType,
     } = this.props;
 
     return (
@@ -112,8 +89,8 @@ class TransactionGridFilter extends Component {
               <Field
                 name="keyword"
                 type="text"
-                label={'Search by'}
-                placeholder={attributeLabels.keyword}
+                label={I18n.t(attributePlaceholders.keyword)}
+                placeholder={I18n.t(attributeLabels.keyword)}
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
@@ -122,11 +99,10 @@ class TransactionGridFilter extends Component {
             <div className="filter-row__medium">
               <Field
                 name="initiatorType"
-                label={attributeLabels.initiatorType}
-                component={SelectField}
+                label={I18n.t(attributeLabels.initiatorType)}
                 position="vertical"
+                component={NasSelectField}
               >
-                <option value="">Anyone</option>
                 {Object.keys(initiatorsLabels).map(assign => (
                   <option key={assign} value={assign}>
                     {initiatorsLabels[assign]}
@@ -134,29 +110,31 @@ class TransactionGridFilter extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__medium">
-              <Field
-                name="type"
-                label={attributeLabels.type}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">Any type</option>
-                {Object.keys(typesLabels).map(type => (
-                  <option key={type} value={type}>
-                    {typesLabels[type]}
-                  </option>
-                ))}
-              </Field>
-            </div>
+            {
+              filterByType &&
+              <div className="filter-row__medium">
+                <Field
+                  name="type"
+                  label={I18n.t(attributeLabels.type)}
+                  position="vertical"
+                  component={NasSelectField}
+                >
+                  {Object.keys(typesLabels).map(type => (
+                    <option key={type} value={type}>
+                      {typesLabels[type]}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+            }
             <div className="filter-row__medium">
               <Field
                 name="statuses"
-                label={attributeLabels.statuses}
-                component={SelectField}
+                label={I18n.t(attributeLabels.statuses)}
                 position="vertical"
+                component={NasSelectField}
+                multiple
               >
-                <option value="">Any status</option>
                 {Object.keys(statusesLabels).map(status => (
                   <option key={status} value={status}>
                     {statusesLabels[status]}
@@ -167,14 +145,13 @@ class TransactionGridFilter extends Component {
             <div className="filter-row__medium">
               <Field
                 name="paymentMethod"
-                label={attributeLabels.paymentMethod}
-                component={SelectField}
+                label={I18n.t(attributeLabels.paymentMethod)}
                 position="vertical"
+                component={NasSelectField}
               >
-                <option value="">Any method</option>
-                {Object.keys(methodsLabels).map(method => (
-                  <option key={method} value={method}>
-                    {methodsLabels[method]}
+                {paymentMethods.map(method => (
+                  <option key={method.uuid} value={method.methodName}>
+                    {renderLabel(method.methodName, methodsLabels)}
                   </option>
                 ))}
               </Field>
@@ -184,29 +161,29 @@ class TransactionGridFilter extends Component {
                 <Field
                   name="amountLowerBound"
                   type="text"
-                  label={attributeLabels.amountLowerBound}
+                  label={I18n.t(attributeLabels.amountLowerBound)}
+                  position="vertical"
                   placeholder="0.00"
-                  currencyCode={currencyCode}
-                  component={this.renderAmountField}
+                  component={InputField}
                 />
                 <span className="range-group__separator">-</span>
                 <Field
                   name="amountUpperBound"
                   type="text"
-                  label={attributeLabels.amountUpperBound}
+                  label={I18n.t(attributeLabels.amountUpperBound)}
+                  position="vertical"
                   placeholder="0.00"
-                  currencyCode={currencyCode}
-                  component={this.renderAmountField}
+                  component={InputField}
                 />
               </div>
             </div>
-            <div className="filter-row__big">
+            <div className="filter-row__medium">
               <div className="form-group">
                 <label>Creation date range</label>
                 <div className="range-group">
                   <Field
                     name="startDate"
-                    placeholder={attributeLabels.startDate}
+                    placeholder={I18n.t(attributeLabels.startDate)}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
                     position="vertical"
@@ -215,7 +192,7 @@ class TransactionGridFilter extends Component {
                   <span className="range-group__separator">-</span>
                   <Field
                     name="endDate"
-                    placeholder={attributeLabels.endDate}
+                    placeholder={I18n.t(attributeLabels.endDate)}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
                     position="vertical"
@@ -227,19 +204,19 @@ class TransactionGridFilter extends Component {
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button
-                  disabled={submitting}
+                  disabled={submitting || (disabled && pristine)}
                   className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting}
+                  disabled={submitting || (disabled && pristine)}
                   className="btn btn-primary"
                   type="submit"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>
@@ -250,10 +227,25 @@ class TransactionGridFilter extends Component {
   }
 }
 
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
+const FORM_NAME = 'transactionsFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
-  validate: validator,
-})(TransactionGridFilter);
+  validate: createValidator({
+    keyword: 'string',
+    initiatorType: ['string'],
+    type: ['string', `in:${Object.keys(types).join()}`],
+    statuses: ['array'],
+    paymentMethod: 'string',
+    startDate: 'string',
+    endDate: 'string',
+    amountLowerBound: 'numeric',
+    amountUpperBound: 'numeric',
+  }, validatorAttributeLabels, false),
+})(TransactionsFilterForm);
 
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
