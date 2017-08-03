@@ -6,7 +6,7 @@ import {
   statuses,
   statusesLabels,
   statusesProps,
-  cancellationReason
+  cancellationReason,
 } from '../../../../../../../../constants/bonus';
 import Uuid from '../../../../../../../../components/Uuid';
 import Amount from '../../../../../../../../components/Amount/Amount';
