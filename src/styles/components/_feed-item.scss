@@ -15,8 +15,6 @@
       font-weight: 600;
       text-align: center;
       color: #fff;
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
       border-radius: 5px;
       text-transform: uppercase;
       background: #000;
@@ -75,8 +73,6 @@
     &-details {
       padding: 10px;
       border: 1px solid #ccc;
-      -webkit-border-radius: 3px;
-      -moz-border-radius: 3px;
       border-radius: 3px;
       background: #f8fafd;
       font-size: 12px;
@@ -98,12 +94,20 @@
   .tag {
     margin-right: 5px;
     padding: 1px 8px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
     border-radius: 3px;
     color: #fff;
     font-weight: 700;
     background: #333;
     text-transform: uppercase;
+  }
+  .note-heading {
+    font-size: 13px;
+  }
+  .note-content {
+    background-color: rgb(255, 253, 230);
+    font-size: 13px;
+  }
+  .note-author {
+    color: #0066CC;
   }
 }
