@@ -21,6 +21,7 @@ import permission from '../../config/permissions';
 import Uuid from '../Uuid';
 import ModalPlayerInfo from '../ModalPlayerInfo';
 import TransactionStatus from '../TransactionStatus';
+import renderLabel from '../../utils/renderLabel';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
 const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
@@ -233,7 +234,7 @@ class PaymentDetailModal extends Component {
               </div>
               <div>
                 <div className="font-weight-700">
-                  {paymentsMethodsLabels[payment.paymentMethod] || 'Manual'}
+                  {payment.paymentMethod ? renderLabel(payment.paymentMethod, paymentsMethodsLabels) : 'Manual'}
                 </div>
                 <span className="font-size-10">
                   {shortify(payment.paymentAccount, null, 2)}
