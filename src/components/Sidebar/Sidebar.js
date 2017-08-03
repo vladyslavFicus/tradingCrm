@@ -59,7 +59,7 @@ class Sidebar extends Component {
   render() {
     return (
       <aside
-        className={classNames('sidebar', { open: this.state.isOpen })}
+        className={classNames('sidebar', { 'sidebar_open': this.state.isOpen })}
         onMouseEnter={this.handleSidebarMouseEnter}
         onMouseLeave={this.handleSidebarMouseLeave}
       >
