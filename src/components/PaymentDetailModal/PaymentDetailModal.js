@@ -8,6 +8,7 @@ import {
   methodsLabels as paymentsMethodsLabels,
   types as paymentsTypes,
   paymentActions,
+  statuses as paymentStatuses,
 } from '../../constants/payment';
 import Amount from '../Amount';
 import NoteButton from '../NoteButton';
@@ -83,10 +84,10 @@ class PaymentDetailModal extends Component {
   };
 
   renderFooter = () => {
-    const { onClose, payment: { paymentType } } = this.props;
+    const { onClose, payment: { status, paymentType } } = this.props;
     let actions = null;
 
-    if (paymentType === paymentsTypes.Withdraw) {
+    if (paymentType === paymentsTypes.Withdraw && status === paymentStatuses.PENDING) {
       actions = (
         <div>
           <PermissionContent permissions={approvePendingWithdraw}>
@@ -107,7 +108,7 @@ class PaymentDetailModal extends Component {
       );
     }
 
-    if (paymentType === paymentsTypes.Deposit) {
+    if (paymentType === paymentsTypes.Deposit && status === paymentStatuses.COMPLETED) {
       actions = (
         <div>
           <PermissionContent permissions={chargebackCompletedDeposit}>
