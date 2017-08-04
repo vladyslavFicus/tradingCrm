@@ -70,6 +70,8 @@ class Header extends Component {
     currentTags: [],
     availableStatuses: [],
     loaded: false,
+    profileStatusDate: null,
+    profileStatusAuthor: null,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,

@@ -23,6 +23,8 @@ class PlayerStatus extends Component {
     availableStatuses: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    statusDate: PropTypes.string,
+    fullName: PropTypes.string,
   };
 
   static defaultProps = {
