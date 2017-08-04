@@ -88,13 +88,13 @@ class View extends Component {
   renderGameRoundType = (data) => {
     if (data.gameRoundType === 'FREE_SPIN') {
       return (
-        <div className="font-size-12 color-success font-weight-700">
+        <div className="font-size-11 color-success font-weight-700">
           FREE SPIN
         </div>
       );
     } else if (data.gameRoundType === 'BONUS_ROUND') {
       return (
-        <div className="font-size-12 color-primary font-weight-700">
+        <div className="font-size-11 color-primary font-weight-700">
           BONUS ROUND
         </div>
       );
@@ -104,27 +104,27 @@ class View extends Component {
   };
 
   renderGameRound = data => (
-    <span className={classNames({ 'text-danger': data.rollback })}>
+    <div className={classNames({ 'text-danger': data.rollback })}>
       <div className="font-weight-700">
         <Uuid uuid={data.gameRoundId} uuidPrefix="GR" />
       </div>
       {
         data.rollback &&
-        <div className="font-size-12 text-uppercase">
+        <div className="font-size-11 text-uppercase">
           {I18n.t('COMMON.ROLLBACK')}
         </div>
       }
-      <div className="font-size-12 text-uppercase">
+      <div className="font-size-11 text-uppercase">
         <Uuid uuid={data.gameSessionId} uuidPrefix="GS" />
       </div>
-    </span>
+    </div>
   );
 
   renderGame = (data) => {
     const { games: { entities: games }, providers } = this.props;
 
     return (
-      <span>
+      <div>
         <div className="font-weight-700">
           {
             data.gameId && games[data.gameId]
@@ -132,14 +132,14 @@ class View extends Component {
               : data.gameId
           }
         </div>
-        <span className="font-size-12 text-uppercase">
+        <div className="font-size-11 text-uppercase">
           {
             data.gameProviderId && providers[data.gameProviderId]
               ? providers[data.gameProviderId]
               : data.gameProviderId
           }
-        </span>
-      </span>
+        </div>
+      </div>
     );
   };
 
@@ -155,7 +155,7 @@ class View extends Component {
     return (
       <div>
         <div className="font-weight-700">{moment(data[column]).format('DD.MM.YYYY')}</div>
-        <div className="font-size-12">{moment(data[column]).format('HH:mm:ss')}</div>
+        <div className="font-size-11">{moment(data[column]).format('HH:mm:ss')}</div>
       </div>
     );
   };
@@ -170,23 +170,23 @@ class View extends Component {
     if (data[real] && data[real].amount && data[bonus] && data[bonus].amount) {
       sources = (
         <div>
-          <div className="font-size-12 color-primary">
+          <div className="font-size-11 color-primary">
             RM <Amount {...data[real]} />
           </div>
-          <div className="font-size-12 color-danger">
+          <div className="font-size-11 color-danger">
             BM <Amount {...data[bonus]} />
           </div>
         </div>
       );
     } else if (data[real] && data[real].amount) {
       sources = (
-        <div className="font-size-12 color-primary">
+        <div className="font-size-11 color-primary">
           RM
         </div>
       );
     } else if (data[bonus] && data[bonus].amount) {
       sources = (
-        <div className="font-size-12 color-danger">
+        <div className="font-size-11 color-danger">
           BM
         </div>
       );

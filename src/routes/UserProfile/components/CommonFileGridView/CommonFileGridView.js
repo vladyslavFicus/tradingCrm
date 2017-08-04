@@ -22,6 +22,8 @@ class CommonFileGridView extends Component {
     onPreviewImageClick: PropTypes.func,
   };
   static defaultProps = {
+    headerClassName: null,
+    tableClassName: null,
     onPreviewImageClick: null,
   };
 
@@ -55,11 +57,11 @@ class CommonFileGridView extends Component {
         >
           {data.name}
         </div>
-        <div title={data.realName} className="font-size-12">
+        <div title={data.realName} className="font-size-11">
           {data.name === data.realName ? null : `${shortifyInMiddle(data.realName, 40)} - `}
           <Uuid uuid={data.uuid} />
         </div>
-        <div className="font-size-12">
+        <div className="font-size-11">
           {'by '}
           <Uuid
             uuid={data.author}
@@ -85,7 +87,7 @@ class CommonFileGridView extends Component {
   renderDate = column => data => (
     <div>
       <div className="font-weight-700">{moment(data[column]).format('DD.MM.YYYY')}</div>
-      <div className="font-size-12">{moment(data[column]).format('HH:mm:ss')}</div>
+      <div className="font-size-11">{moment(data[column]).format('HH:mm:ss')}</div>
     </div>
   );
 

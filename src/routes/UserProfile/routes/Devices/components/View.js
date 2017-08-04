@@ -57,12 +57,12 @@ class View extends Component {
   };
 
   renderDeviceId = data => (
-    <span>
+    <div>
       <div className="font-weight-700"><Uuid uuid={data.hash} uuidPrefix="DV" length={8} /></div>
-      <span className="font-size-10 text-uppercase color-default">
+      <div className="font-size-11">
         {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={this.props.params.id} uuidPrefix="PL" />
-      </span>
-    </span>
+      </div>
+    </div>
   );
 
   renderType = data => (
@@ -99,9 +99,9 @@ class View extends Component {
         <div className="font-weight-700">
           {dateTime.format('DD.MM.YYYY')}
         </div>
-        <span className="font-size-10 color-default">
+        <div className="font-size-11">
           {dateTime.format('HH:mm:ss')}
-        </span>
+        </div>
       </div>
     );
   };
@@ -136,7 +136,7 @@ class View extends Component {
 
         <GridView
           tableClassName="table table-hovered data-grid-layout"
-          headerClassName=""
+          headerClassName="text-uppercase"
           dataSource={entities.content}
           onPageChange={this.handlePageChanged}
           activePage={entities.number + 1}
@@ -145,14 +145,12 @@ class View extends Component {
           <GridColumn
             name="deviceId"
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.DEVICE_ID')}
-            headerClassName={'text-uppercase'}
             render={this.renderDeviceId}
           />
 
           <GridColumn
             name="deviceType"
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.TYPE')}
-            headerClassName="text-uppercase"
             className="text-uppercase"
             render={this.renderType}
           />
@@ -160,28 +158,24 @@ class View extends Component {
           <GridColumn
             name="operatingSystem"
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.OPERATING_SYSTEM')}
-            headerClassName={'text-uppercase'}
             className="font-weight-700"
           />
 
           <GridColumn
             name="lastSignInCountryCode"
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.LAST_IP')}
-            headerClassName={'text-uppercase'}
             render={this.renderLastIp}
           />
 
           <GridColumn
             name="lastSignInDate"
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.LAST_LOGIN')}
-            headerClassName={'text-uppercase'}
             render={this.renderLastLogin}
           />
 
           <GridColumn
             name="totalSignIn"
             header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.TOTAL_LOGIN')}
-            headerClassName={'text-uppercase'}
             className="font-weight-700"
           />
         </GridView>

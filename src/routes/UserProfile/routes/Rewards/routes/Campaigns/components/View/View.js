@@ -155,7 +155,7 @@ class View extends Component {
 
         <GridView
           tableClassName="table table-hovered data-grid-layout"
-          headerClassName=""
+          headerClassName="text-uppercase"
           dataSource={entities.content}
           onPageChange={this.handlePageChanged}
           activePage={entities.number + 1}
@@ -164,28 +164,24 @@ class View extends Component {
           <GridColumn
             name="campaign"
             header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
-            headerClassName="text-uppercase"
             render={this.renderCampaign}
           />
 
           <GridColumn
             name="available"
             header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.AVAILABLE')}
-            headerClassName="text-uppercase"
             render={this.renderAvailable}
           />
 
           <GridColumn
             name="bonusType"
             header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.BONUS_TYPE')}
-            headerClassName="text-uppercase"
             render={this.renderBonusType}
           />
 
           <GridColumn
             name="optInStatus"
             header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.OPT_IN_STATUS')}
-            headerClassName="text-uppercase"
             render={this.renderOptInStatus}
           />
         </GridView>

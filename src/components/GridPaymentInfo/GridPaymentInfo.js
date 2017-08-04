@@ -18,14 +18,14 @@ const GridPaymentInfo = ({ payment, onClick }) => {
           {shortify(payment.paymentId, 'TA')}
         </button>
       </div>
-      <span className="font-size-10 color-default">
+      <div className="font-size-11">
         {I18n.t('COMMON.AUTHOR_BY')}
         {' '}
         <Uuid
           uuid={payment.creatorUUID}
           uuidPrefix={uuidPrefix}
         />
-      </span>
+      </div>
     </div>
   );
 };
