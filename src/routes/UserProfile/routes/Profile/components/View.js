@@ -192,14 +192,10 @@ class View extends Component {
     });
   };
 
-  handleUploadDocument = type => async (errors, file) => {
-    const { params, uploadFile, fetchProfile } = this.props;
+  handleUploadDocument = type => (errors, file) => {
+    const { params, uploadFile } = this.props;
 
-    const action = await uploadFile(params.id, type, file);
-
-    if (action && !action.error) {
-      fetchProfile(params.id);
-    }
+    uploadFile(params.id, type, file);
   };
 
   handleChangeFileStatus = async (uuid, fileAction) => {
