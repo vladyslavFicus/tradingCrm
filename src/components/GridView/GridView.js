@@ -21,6 +21,7 @@ class GridView extends Component {
     rowClassName: PropTypes.func,
     lazyLoad: PropTypes.bool,
     locale: PropTypes.string,
+    notFound: PropTypes.bool,
   };
   static defaultProps = {
     tableClassName: 'table table-stripped table-hovered',
@@ -28,6 +29,7 @@ class GridView extends Component {
     defaultFilters: {},
     summaryRow: null,
     locale: null,
+    notFound: false,
   };
 
   state = {
@@ -109,14 +111,10 @@ class GridView extends Component {
   renderFilters = columns => (
     columns.some(column => !!column)
       ? (
-      <tr>
-        {columns.map((item, key) =>
-          item ?
-            <td key={key} {...item} /> :
-            <td key={key} />
-        )}
-      </tr>
-    )
+        <tr>
+          {columns.map((item, key) => item ? <td key={key} {...item} /> : <td key={key} />)}
+        </tr>
+      )
       : null
   );
 
@@ -185,11 +183,11 @@ class GridView extends Component {
 
     return summaryRow ? (
       <tfoot>
-      <tr>
-        {columns.map(({ props }, key) =>
-          <td key={key}>{summaryRow[props.name]}</td>
-        )}
-      </tr>
+        <tr>
+          {columns.map(({ props }, key) =>
+            <td key={key}>{summaryRow[props.name]}</td>
+          )}
+        </tr>
       </tfoot>
     ) : null;
   }
@@ -222,6 +220,14 @@ class GridView extends Component {
     );
   }
 
+  renderNotFound = () => {
+    return (
+      <div>
+        <img src="./public/img/not-found/not-found-eng.svg" alt="not-found" />
+      </div>
+    );
+  };
+
   render() {
     const {
       tableClassName,
@@ -241,10 +247,9 @@ class GridView extends Component {
         <div className="col-md-12 table-responsive">
           <table className={tableClassName}>
             <thead className={headerClassName}>
-            {this.renderHead(this.recognizeHeaders(grids))}
-            {this.renderFilters(this.recognizeFilters(grids))}
+              {this.renderHead(this.recognizeHeaders(grids))}
+              {this.renderFilters(this.recognizeFilters(grids))}
             </thead>
-
             {this.renderBody(grids)}
             {this.renderFooter(grids)}
           </table>
