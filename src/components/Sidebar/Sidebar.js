@@ -9,26 +9,26 @@ class Sidebar extends Component {
   static propTypes = {
     topMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     bottomMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
-  }
+  };
 
   state = {
     isHover: false,
     isOpen: false,
-  }
+  };
 
-  openTimeout = null
+  openTimeout = null;
 
   renderTrackHorizontal = props => (
-    <div {...props} className="track-vertical" style={{ display: 'none' }}/>
-  )
+    <div {...props} className="track-vertical" style={{ display: 'none' }} />
+  );
 
   renderThumbHorizontal = props => (
-    <div {...props} className="thumb-vertical" style={{ display: 'none' }}/>
-  )
+    <div {...props} className="thumb-vertical" style={{ display: 'none' }} />
+  );
 
   renderThumbVertical = (style, ...props) => (
-    <div className="scroll-bar" {...props} style={{ ...style, backgroundColor: 'rgba(223,228,237,0.25)' }}/>
-  )
+    <div className="scroll-bar" {...props} style={{ ...style, backgroundColor: 'rgba(223,228,237,0.25)' }} />
+  );
 
   handleSidebarMouseEnter = () => {
     this.setState({
@@ -42,7 +42,7 @@ class Sidebar extends Component {
         }
       }, 1000);
     });
-  }
+  };
 
   handleSidebarMouseLeave = () => {
     this.setState({
@@ -54,12 +54,12 @@ class Sidebar extends Component {
       clearTimeout(this.openTimeout);
       this.openTimeout = null;
     }
-  }
+  };
 
   render() {
     return (
       <aside
-        className={classNames('sidebar', { 'sidebar_open': this.state.isOpen })}
+        className={classNames('sidebar', { sidebar_open: this.state.isOpen })}
         onMouseEnter={this.handleSidebarMouseEnter}
         onMouseLeave={this.handleSidebarMouseLeave}
       >
