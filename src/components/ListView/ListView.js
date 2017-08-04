@@ -84,33 +84,29 @@ class ListView extends Component {
     }
 
     return (
-      <div className="row">
-        <div className="col-md-12">
-          <Pagination
-            prev
-            next
-            first
-            last
-            ellipsis
-            boundaryLinks
-            items={totalPages}
-            maxButtons={5}
-            activePage={activePage}
-            onSelect={this.handlePageChange}
-            className="b3-pagination"
-          />
-        </div>
+      <div>
+        <Pagination
+          prev
+          next
+          first
+          last
+          ellipsis
+          boundaryLinks
+          items={totalPages}
+          maxButtons={5}
+          activePage={activePage}
+          onSelect={this.handlePageChange}
+          className="b3-pagination"
+        />
       </div>
     );
   }
 
   render() {
     return (
-      <div className="row">
-        <div className="col-md-12">
-          {this.renderItems()}
-          {!this.props.lazyLoad && this.renderPagination()}
-        </div>
+      <div>
+        {this.renderItems()}
+        {!this.props.lazyLoad && this.renderPagination()}
       </div>
     );
   }
