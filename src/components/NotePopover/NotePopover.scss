@@ -1,10 +1,12 @@
+@import "../../styles/settings/variables";
+
 .popover {
   width: 100%;
   max-width: 400px;
   border-color: #797979;
 
   .popover-inner {
-    background-color: #FFFDE6;
+    background-color: $yellow-color;
   }
 
   .popover-title {

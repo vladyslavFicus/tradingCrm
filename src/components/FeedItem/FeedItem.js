@@ -13,7 +13,6 @@ import FeedInfoProfileChanged from './FeedInfoProfileChanged';
 import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
 import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
 import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
-import './FeedItem.scss';
 import Uuid from '../Uuid';
 
 class FeedItem extends Component {
