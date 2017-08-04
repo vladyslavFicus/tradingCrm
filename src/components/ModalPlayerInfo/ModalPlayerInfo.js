@@ -33,7 +33,7 @@ class ModalPlayerInfo extends Component {
 
   renderPlayerStatus = profile => (
     <div>
-      <div className={`font-weight-600 text-uppercase ${statusColorNames[profile.profileStatus]}`}>
+      <div className={`text-uppercase modal-header-tab__label ${statusColorNames[profile.profileStatus]}`}>
         {profile.profileStatus}
       </div>
       {

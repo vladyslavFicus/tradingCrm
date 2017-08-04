@@ -194,19 +194,21 @@ class PaymentDetailModal extends Component {
               <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DEVICE')}
               </div>
-              <i
-                id={`payment-detail-${payment.paymentId}-tooltip`}
-                className={`fa font-size-20 ${payment.mobile ? 'fa-mobile' : 'fa-desktop'}`}
-              />
-              <UncontrolledTooltip
-                placement="bottom"
-                target={`payment-detail-${payment.paymentId}-tooltip`}
-                delay={{
-                  show: 350, hide: 250,
-                }}
-              >
-                {payment.userAgent || 'User agent not defined'}
-              </UncontrolledTooltip>
+              <div className="margin-top-5">
+                <i
+                  id={`payment-detail-${payment.paymentId}-tooltip`}
+                  className={`fa font-size-20 ${payment.mobile ? 'fa-mobile' : 'fa-desktop'}`}
+                />
+                <UncontrolledTooltip
+                  placement="bottom"
+                  target={`payment-detail-${payment.paymentId}-tooltip`}
+                  delay={{
+                    show: 350, hide: 250,
+                  }}
+                >
+                  {payment.userAgent || 'User agent not defined'}
+                </UncontrolledTooltip>
+              </div>
             </div>
             <div className="col-md-3 modal-body-tab">
               <div className="modal-tab-label">
