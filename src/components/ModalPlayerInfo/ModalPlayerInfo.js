@@ -13,11 +13,13 @@ class ModalPlayerInfo extends Component {
 
   renderPlayerInfo = profile => (
     <div>
-      <span className="modal-header-tab__label">
-        {[profile.firstName, profile.lastName].join(' ')}
-      </span>
-      {' '}
-      {!!profile.birthDate && <span>({moment().diff(profile.birthDate, 'years')})</span>}
+      <div className="modal-header-tab__label">
+        <span>
+          {[profile.firstName, profile.lastName].join(' ')}
+        </span>
+        {' '}
+        {!!profile.birthDate && <span>({moment().diff(profile.birthDate, 'years')})</span>}
+      </div>
       <div className="font-size-11">
         {profile.username}
         {' - '}
