@@ -8,7 +8,7 @@
   position: fixed;
   right: 5px;
   bottom: 20px;
-  z-index: 16;
+  z-index: 2;
   &__circle {
     display: block;
     height: 30px;
@@ -84,13 +84,21 @@
   display: flex;
   flex-direction: column;
   padding-bottom: 5px;
-  z-index: 20;
   background-color: rgba(102, 102, 102, 1);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.149019607843137);
   overflow-y: auto;
   animation-duration: .5s;
   animation-fill-mode: both;
   transform: translate3d(110%, 0, 0);
+  z-index: 20;
+  &__wrapper {
+    position: fixed;
+    top: 0;
+    right: 300px;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+  }
   &__header {
     margin-top: 10px;
     margin-bottom: 10px;

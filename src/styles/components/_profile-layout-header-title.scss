@@ -69,7 +69,7 @@
     overflow: hidden;
     line-height: normal;
   }
-  &_fixed {
+  &.fixed-header {
     position: fixed;
     top: 0;
     right: 0;

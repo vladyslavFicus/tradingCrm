@@ -251,11 +251,11 @@ class View extends Component {
     return (
       <div>
         <div {...props}> {label} </div>
-        <span className="font-size-10 text-uppercase color-default">
+        <div className="font-size-11 text-uppercase">
           {data.paymentSystemRefs.map((SystemRef, index) => (
             <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
           ))}
-        </span>
+        </div>
       </div>
     );
   };
@@ -267,9 +267,9 @@ class View extends Component {
       <div className="font-weight-700">
         {moment(data.creationTime).format('DD.MM.YYYY')}
       </div>
-      <span className="font-size-10 color-default">
+      <div className="font-size-11">
         {moment(data.creationTime).format('HH:mm:ss')}
-      </span>
+      </div>
     </div>
   );
 
@@ -305,7 +305,7 @@ class View extends Component {
         </div>
         {
           !!data.paymentAccount &&
-          <span className="font-size-10">
+          <span className="font-size-11">
             <Uuid uuid={data.paymentAccount} uuidPartsCount={2} />
           </span>
         }
@@ -436,7 +436,6 @@ class View extends Component {
           <GridColumn
             name="status"
             header="Status"
-            className="text-uppercase"
             render={this.renderStatus}
           />
           <GridColumn

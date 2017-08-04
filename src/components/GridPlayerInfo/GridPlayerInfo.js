@@ -18,7 +18,7 @@ const GridPlayerInfo = ({ profile, onClick, mainInfoClassName }) => (
           {profile.kycCompleted && <i className="fa fa-check text-success" />}
         </div>
 
-        <div className="font-size-11 color-default line-height-1">
+        <div className="font-size-11">
           {!!profile.username && <span>{profile.username} - </span>}
           <Uuid
             uuid={profile.playerUUID}

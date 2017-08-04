@@ -107,7 +107,7 @@ class View extends Component {
   renderPaymentAccount = data => (
     <div>
       <div className="font-weight-700 text-uppercase">{data.paymentMethod}</div>
-      <div className="text-muted font-size-10">{shortify(data.details)}</div>
+      <div className="font-size-11">{shortify(data.details)}</div>
     </div>
   );
 
@@ -116,9 +116,9 @@ class View extends Component {
       <div className="font-weight-700">
         {moment(data.creationDate).format('DD.MM.YYYY')}
       </div>
-      <span className="font-size-10 color-default">
+      <div className="font-size-11">
         {moment(data.creationDate).format('HH:mm:ss')}
-      </span>
+      </div>
     </div>
   );
 
@@ -132,9 +132,9 @@ class View extends Component {
         <div className="font-weight-700">
           {moment(data.lastActivityDate).format('DD.MM.YYYY')}
         </div>
-        <span className="font-size-10 color-default">
+        <div className="font-size-11">
           {moment(data.lastActivityDate).format('HH:mm:ss')}
-        </span>
+        </div>
       </div>
     );
   };
@@ -153,9 +153,9 @@ class View extends Component {
         <div className="font-weight-700">
           <Amount {...total} />
         </div>
-        <span className="font-size-10 color-default">
+        <div className="font-size-11">
           {I18n.t('COMMON.COUNT')}: {aggregate.number}
-        </span>
+        </div>
       </div>
     );
   };
@@ -277,13 +277,11 @@ class View extends Component {
           <GridColumn
             name="Files"
             header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.FILES')}
-            headerClassName="text-uppercase"
             render={this.renderFiles}
           />
           <GridColumn
             name="notes"
             header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.NOTE')}
-            headerClassName="text-uppercase"
             render={this.renderNotes}
           />
         </CollapseGridView>

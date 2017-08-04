@@ -6,11 +6,20 @@
   left: 0;
   padding-top: 20px;
   background-color: #333;
-  -webkit-transition: .5s width linear;
-  -moz-transition: .5s width linear;
-  -o-transition: .5s width linear;
-  transition: .5s width linear;
-  z-index: 17;
+  //-webkit-transition: .5s width linear;
+  //-moz-transition: .5s width linear;
+  //-o-transition: .5s width linear;
+  //transition: .5s width linear;
+  //z-index: 17;
+  -webkit-transition: .25s width linear;
+  -webkit-transition-delay: .75s;
+  -moz-transition: .25s width linear;
+  -moz-transition-delay: .75s;
+  -o-transition: .25s width linear;
+  -o-transition-delay: .75s;
+  transition: .25s width linear;
+  transition-delay: .75s;
+  z-index: 2;
   .nav:first-child {
     padding-bottom: 15px;
   }
