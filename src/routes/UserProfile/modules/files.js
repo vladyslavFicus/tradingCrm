@@ -6,6 +6,7 @@ import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import downloadBlob from '../../../utils/downloadBlob';
 import buildFormData from '../../../utils/buildFormData';
+import asyncFileUpload from '../../../utils/asyncFileUpload';
 
 const KEY = 'user/profile/files';
 const FETCH_FILES = createRequestAction(`${KEY}/fetch-files`);
@@ -14,7 +15,6 @@ const DOWNLOAD_FILE = createRequestAction(`${KEY}/download-file`);
 const VERIFY_FILE = createRequestAction(`${KEY}/verify-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-file`);
 const DELETE_FILE = createRequestAction(`${KEY}/delete-file`);
-const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
 
 const fetchFiles = filesSourceActionCreators.fetchFiles(FETCH_FILES);
 
@@ -44,30 +44,36 @@ function saveFiles(playerUUID, data) {
 }
 
 function uploadProfileFile(playerUUID, type, file) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+  return async (dispatch, getState) => {
+    const { auth: { token, fullName } } = getState();
 
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `/profile/kyc/${playerUUID}/${type}/upload`,
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: buildFormData({ file }),
-        types: [
-          {
-            type: UPLOAD_FILE.REQUEST,
-            payload: { file },
-          },
-          UPLOAD_FILE.SUCCESS,
-          UPLOAD_FILE.FAILURE,
-        ],
-        bailout: !logged,
+    const uploadUrl = `${getApiRoot()}/profile/files`;
+    const xhr = asyncFileUpload(uploadUrl, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-    })
-      .then(() => dispatch(fetchFiles(playerUUID, { category: type, size: 999 })));
+      body: buildFormData({
+        file,
+        attachmentAuthor: fullName,
+      }),
+    });
+
+    const response = await xhr.send();
+    const fileUUID = response.fileUUID;
+    if (fileUUID && file.name) {
+      const action = await dispatch(saveFiles(playerUUID, {
+        [fileUUID]: {
+          name: file.name,
+          category: type,
+        },
+      }));
+
+      if (action && !action.error) {
+        return dispatch(fetchFiles(playerUUID, { category: type, size: 999 }));
+      }
+    }
   };
 }
 
@@ -173,7 +179,7 @@ function successUploadFilesReducer(state, action) {
   };
 
   profileFiles.forEach((file) => {
-    if (file.category === categories.KYC_PERSONAL) {
+    if (file.category === categories.KYC_ADDRESS) {
       newState.identity = [
         ...newState.identity,
         file,
