@@ -14,7 +14,6 @@ import {
 
 class List extends Component {
   static propTypes = {
-    isLoading: PropTypes.bool,
     fetchESEntities: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.userProfile).isRequired,
     reset: PropTypes.func.isRequired,
@@ -25,9 +24,6 @@ class List extends Component {
   };
   static contextTypes = {
     addPanel: PropTypes.func.isRequired,
-  };
-  static defaultProps = {
-    isLoading: false,
   };
 
   state = {
