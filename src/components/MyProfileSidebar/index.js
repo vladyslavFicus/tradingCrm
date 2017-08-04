@@ -1,3 +1,3 @@
-import MyProfileSidebar from './MyProfileSidebar';
+import MyProfileSidebarWrapper from './MyProfileSidebarWrapper';
 
-export default MyProfileSidebar;
+export default MyProfileSidebarWrapper;
