@@ -406,7 +406,9 @@
     "REJECT": "Reject",
     "DEFER": "Defer",
     "SELECT_OPTION": "-- Select --",
-    "CONFIRM": "Confirm"
+    "CONFIRM": "Confirm",
+    "MGA_LIMIT": "MGA LIMIT",
+    "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded."
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -636,7 +638,9 @@
           "START_DATE": "Start date",
           "END_DATE": "End date",
           "AMOUNT_FROM": "Amount from",
-          "AMOUNT_TO": "Amount to"
+          "AMOUNT_TO": "Amount to",
+          "AMOUNT": "Amount",
+          "CREATION_DATE_RANGE": "Creation date range"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference"

@@ -159,13 +159,13 @@ class Header extends Component {
           <div className="panel-heading-row__actions">
             <PopoverButton
               id="header-add-note-button"
-              className="btn btn-default-outline"
+              className="btn btn-sm btn-default-outline"
               onClick={onAddNoteClick}
             >
               Add note
             </PopoverButton>
             <button
-              className="btn btn-default-outline m-x-1"
+              className="btn btn-sm btn-default-outline m-x-1"
               onClick={onRefreshClick}
               id="refresh-page-button"
             >
@@ -221,7 +221,7 @@ class Header extends Component {
             <div className="header-block">
               <div className="header-block-title">Registered</div>
               <div className="header-block-middle">
-                {moment(playerProfile.registrationDate).fromNow()}
+                {moment.utc(playerProfile.registrationDate).local().fromNow()}
               </div>
               <div className="header-block-small">
                 on {moment(playerProfile.registrationDate).format('DD.MM.YYYY')}</div>

@@ -7,16 +7,7 @@ export default (store, basePath = '') => (nextState, replace, callback) => {
     basePath = '';
   }
 
-  const signInRoute = {
-    pathname: `${basePath}/sign-in`,
-    state: {
-      nextPathname: {
-        pathname: nextState.location.pathname,
-        query: nextState.location.query,
-        search: nextState.location.search,
-      },
-    },
-  };
+  const signInRoute = `${basePath}/sign-in?returnUrl=${nextState.location.pathname}`;
 
   if (/logout$/.test(nextState.location.pathname)) {
     return callback();

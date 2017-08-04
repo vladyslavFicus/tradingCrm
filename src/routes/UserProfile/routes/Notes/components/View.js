@@ -7,7 +7,7 @@ import PropTypes from '../../../../../constants/propTypes';
 import PopoverButton from '../../../../../components/PopoverButton';
 import { entities, entitiesPrefixes } from '../../../../../constants/uuid';
 import './NoteItem.scss';
-import Uuid from '../../../../../components/Uuid/Uuid';
+import Uuid from '../../../../../components/Uuid';
 
 class View extends Component {
   static propTypes = {

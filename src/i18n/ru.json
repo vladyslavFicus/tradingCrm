@@ -406,7 +406,9 @@
     "REJECT": "Отклонить",
     "DEFER": "Закрыть",
     "SELECT_OPTION": "-- Выберите --",
-    "CONFIRM": "Подтвердить"
+    "CONFIRM": "Подтвердить",
+    "MGA_LIMIT": "MGA LIMIT",
+    "MGA_LIMIT_DESCRIPTION": "MGA Limit - Превышен общий предел в размере €2300 на снятие средств для неопытных игроков KYC."
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -636,7 +638,9 @@
           "START_DATE": "Дата начала",
           "END_DATE": "Дата окончания",
           "AMOUNT_FROM": "Сумма от",
-          "AMOUNT_TO": "Сумма до"
+          "AMOUNT_TO": "Сумма до",
+          "AMOUNT": "Сумма",
+          "CREATION_DATE_RANGE": "Диапазон дат создания"
         },
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "ID транзакции, пользователь"
