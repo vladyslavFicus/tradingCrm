@@ -1,9 +1,13 @@
 import React from 'react';
+import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import MyProfileSidebar from './MyProfileSidebar';
 
 const MyProfileSidebarWrapper = props => (
-  <aside className="my-profile__wrapper">
+  <aside className={classNames(
+    { 'my-profile__wrapper': props.isOpen }
+  )}
+  >
     <MyProfileSidebar {...props} />
   </aside>
 );
