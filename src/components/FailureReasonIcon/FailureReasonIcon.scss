@@ -12,10 +12,13 @@
   }
 }
 
-.failure-reason-popover {
+.popover-inner.failure-reason-popover {
   padding: 10px;
   background-color: #fff;
   box-shadow: 5px 3px 5px rgba(0, 0, 0, 0.0980392156862745);
+}
+
+.failure-reason-popover {
   &:before {
     content: '';
     border-width: 11px;
