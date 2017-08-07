@@ -227,34 +227,32 @@ class List extends Component {
           <Content>
             <SortableGridView
               tableClassName="table table-hovered data-grid-layout"
-              headerClassName=""
+              headerClassName="text-uppercase"
               dataSource={paymentMethods}
               onSortEnd={this.handleSortEnd}
             >
               <GridColumn
                 name="order"
                 header="Order"
-                headerClassName={'text-uppercase'}
                 className="font-weight-700"
                 render={data => <DragHandle order={data.order} />}
               />
               <GridColumn
                 name="methodName"
                 header="Payment Method"
-                headerClassName="text-uppercase"
-                className="text-uppercase"
+                className="font-weight-700 text-uppercase"
               />
               <GridColumn
                 name="depositLimit"
                 header="Deposit"
-                headerClassName={'text-uppercase'}
                 render={this.renderLimit}
+                className="font-weight-700"
               />
               <GridColumn
                 name="withdrawLimit"
                 header="Withdrawal"
-                headerClassName={'text-uppercase'}
                 render={this.renderLimit}
+                className="font-weight-700"
               />
               {
                 !filters.countryCode &&
@@ -262,7 +260,7 @@ class List extends Component {
                   name="availability"
                   header="Availability"
                   className="text-center"
-                  headerClassName={'text-uppercase text-center'}
+                  headerClassName="text-center"
                   render={this.renderCountryAvailability}
                 />
               }
@@ -271,8 +269,8 @@ class List extends Component {
                 <GridColumn
                   name="status"
                   header="Status"
-                  headerClassName={'text-uppercase'}
                   render={this.renderStatus}
+                  className="text-uppercase"
                 />
               }
             </SortableGridView>

@@ -116,8 +116,7 @@ class PlayerStatus extends Component {
 
     const { dropDownOpen, modal } = this.state;
     const dropDownClassName = classNames('dropdown-highlight', {
-      'cursor-pointer': status !== statuses.SUSPENDED && status !== statuses.INACTIVE,
-      'no-dropdown': status !== statuses.ACTIVE,
+      'cursor-pointer': availableStatuses.length > 0,
       'dropdown-open': dropDownOpen,
     });
     const label = (

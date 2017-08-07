@@ -127,7 +127,7 @@ class Header extends Component {
 
     return (
       <div>
-        <div className="panel-heading-row panel-heading-row_fixed">
+        <div className="panel-heading-row fixed-header">
           <HeaderPlayerPlaceholder ready={loaded}>
             <div className="panel-heading-row__info">
               <div className="panel-heading-row__info-title">

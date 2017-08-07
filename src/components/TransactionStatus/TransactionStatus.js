@@ -48,10 +48,10 @@ class TransactionStatus extends Component {
               <div className={classNames(statusesColor[status.paymentStatus], 'font-weight-700')}>
                 {status.paymentStatus}
               </div>
-              <div className="font-size-10 color-default">
+              <div className="font-size-11">
                 {moment(status.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
               </div>
-              <div className="font-size-10 color-default">
+              <div className="font-size-11">
                 {status.initiatorType}
               </div>
             </div>
@@ -92,17 +92,17 @@ class TransactionStatus extends Component {
         </div>
         {
           authorUUID &&
-          <div className="font-size-10 color-default">
+          <div className="font-size-11">
             {I18n.t('COMMON.AUTHOR_BY')}
             {' '}
             <Uuid {...authorUUID} />
           </div>
         }
-        <span className="font-size-10 color-default text-lowercase">
+        <div className="font-size-11">
           {I18n.t('COMMON.DATE_ON', {
             date: moment(transaction.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
           })}
-        </span>
+        </div>
       </div>
     );
 

@@ -119,7 +119,7 @@ class List extends Component {
     return (
       <div>
         <div className="font-weight-700">{I18n.t(type)}</div>
-        <div className="font-size-11 color-default">
+        <div className="font-size-11">
           {
             data.kycRequest && data.kycRequest.createDate &&
             <div>
@@ -154,7 +154,7 @@ class List extends Component {
         <div className={classNames(kysStatusColorNames[status], 'text-uppercase font-weight-700')}>
           {I18n.t(kysStatusLabels[status]) || status}
         </div>
-        <div className="font-size-11 color-default">
+        <div className="font-size-11">
           {date}
           {
             status === kycStatuses.VERIFIED &&
