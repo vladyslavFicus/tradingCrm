@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import { Popover, PopoverTitle, PopoverContent } from 'reactstrap';
 import onClickOutside from 'react-onclickoutside';
 import './FailureReasonIcon.scss';
@@ -40,7 +41,7 @@ class FailureReasonIcon extends Component {
       >
         <PopoverTitle>
           <div className="failure-reason-popover__title">
-            by <strong>{fullName}</strong>
+            {I18n.t('COMMON.AUTHOR_BY')} <strong>{fullName}</strong>
           </div>
           <div className="failure-reason-popover__date">
             {statusDate}
