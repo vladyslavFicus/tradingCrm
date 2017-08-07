@@ -111,7 +111,7 @@ class PaymentAddModal extends Component {
 
     if (type === paymentTypes.Deposit) {
       method = 'deposit';
-    } else if (method === paymentTypes.Withdraw || method === paymentTypes.Confiscate) {
+    } else if (method === paymentTypes.Confiscate) {
       method = 'withdraw';
     }
 
