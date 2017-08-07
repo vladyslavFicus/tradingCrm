@@ -105,6 +105,19 @@ class PaymentAddModal extends Component {
     this.context.hidePopover();
   };
 
+  isPaymentMethodDisabled(type) {
+    const { walletLimits } = this.props;
+    let method = type.toLowerCase();
+
+    if (type === paymentTypes.Deposit) {
+      method = 'deposit';
+    } else if (method === paymentTypes.Withdraw || method === paymentTypes.Confiscate) {
+      method = 'withdraw';
+    }
+
+    return walletLimits[method] ? walletLimits[method].locked : false;
+  }
+
   renderPaymentAccountField = () => {
     const { currentValues } = this.props;
     const { availablePaymentAccounts } = this.state;
@@ -168,19 +181,6 @@ class PaymentAddModal extends Component {
       </div>
     );
   };
-
-  isPaymentMethodDisabled(type) {
-    const { walletLimits } = this.props;
-    let method = type.toLowerCase();
-
-    if (type === 'Deposit') {
-      method = 'deposit';
-    } else if (method === 'Withdraw' || method === 'Confiscate') {
-      method = 'withdraw';
-    }
-
-    return walletLimits[method] ? walletLimits[method].locked : false;
-  }
 
   render() {
     const {
