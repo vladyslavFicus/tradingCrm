@@ -28,7 +28,7 @@ class StatusDropDown extends Component {
 
   render() {
     const { dropDownOpen } = this.state;
-    const { status } = this.props;
+    const { status, onStatusChange } = this.props;
 
     const label = (
       <div className={classNames('font-weight-700', accountStatusColors[status])}>
@@ -45,7 +45,7 @@ class StatusDropDown extends Component {
           {
             accountStatusActions[status].map(item => (
               <DropdownItem
-                onClick={() => this.props.onStatusChange(item.action)}
+                onClick={() => onStatusChange(item.action)}
                 className="text-uppercase"
                 key={item.label}
               >

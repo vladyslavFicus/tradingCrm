@@ -205,6 +205,7 @@ class View extends Component {
   renderStatus = (data) => {
     const { lockDeposit, lockWithdraw } = data;
     const status = lockDeposit && lockWithdraw ? paymentAccountStatuses.LOCKED : paymentAccountStatuses.ACTIVE;
+
     return (
       <StatusDropDown
         status={status}
