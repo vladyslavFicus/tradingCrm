@@ -15,7 +15,7 @@ class NavItem extends Component {
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
-    location: PropTypes.object,
+    location: PropTypes.array.isRequired,
   };
 
   state = {
