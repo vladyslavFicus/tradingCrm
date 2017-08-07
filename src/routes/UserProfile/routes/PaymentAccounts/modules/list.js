@@ -20,7 +20,7 @@ const VERIFY_FILE = createRequestAction(`${KEY}/verify-payment-account-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-payment-account-file`);
 
 const ACTIVE_PAYMENT_ACCOUNT = createRequestAction(`${KEY}/active-payment-account`);
-const LOCK_PAYMENT_ACCOUNT = createRequestAction(`${KEY}/active-payment-account`);
+const LOCK_PAYMENT_ACCOUNT = createRequestAction(`${KEY}/lock-payment-account`);
 
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const fetchFilesNotes = noteSourceActionCreators.fetchNotesByType(FETCH_FILES_NOTES);
