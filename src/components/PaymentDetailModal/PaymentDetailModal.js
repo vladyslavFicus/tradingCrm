@@ -13,7 +13,6 @@ import {
 import Amount from '../Amount';
 import NoteButton from '../NoteButton';
 import { shortify } from '../../utils/uuid';
-import './PaymentDetailModal.scss';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 import PermissionContent from '../PermissionContent';
 import Permissions from '../../utils/permissions';
@@ -90,7 +89,7 @@ class PaymentDetailModal extends Component {
 
     if (paymentType === paymentsTypes.Withdraw && status === paymentStatuses.PENDING) {
       actions = (
-        <div>
+        <span>
           <PermissionContent permissions={approvePendingWithdraw}>
             <Button
               color="primary"
@@ -105,13 +104,13 @@ class PaymentDetailModal extends Component {
           >
             {I18n.t('COMMON.REJECT')}
           </Button>
-        </div>
+        </span>
       );
     }
 
     if (paymentType === paymentsTypes.Deposit && status === paymentStatuses.COMPLETED) {
       actions = (
-        <div>
+        <span>
           <PermissionContent permissions={chargebackCompletedDeposit}>
             <Button
               color="danger"
@@ -120,18 +119,23 @@ class PaymentDetailModal extends Component {
               Mark as chargeback
             </Button>
           </PermissionContent>
-        </div>
+        </span>
       );
     }
 
     return (
-      <ModalFooter className="payment-detail-footer">
-        <Button onClick={onClose}>{I18n.t('COMMON.DEFER')}</Button>
+      <ModalFooter>
+        <Button
+          onClick={onClose}
+          className="pull-left"
+        >
+          {I18n.t('COMMON.DEFER')}
+        </Button>
         {
           actions &&
-          <div className="payment-details-actions">
+          <span className="payment-details-actions">
             {actions}
-          </div>
+          </span>
         }
       </ModalFooter>
     );
@@ -153,92 +157,88 @@ class PaymentDetailModal extends Component {
 
         <ModalBody>
           <ModalPlayerInfo playerProfile={playerProfile} />
-
-          <div className="row payment-detail-blocks">
-            <div className="col-md-3 payment-detail-block">
-              <div className="color-default text-uppercase font-size-11">
+          <div className="row margin-vertical-20">
+            <div className="col-md-3 modal-body-tab">
+              <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_TRANSACTION')}
               </div>
-              <div className="font-size-14">
-                <div className="font-weight-700">
-                  <Uuid uuid={payment.paymentId} uuidPrefix="TA" />
-                </div>
-                <span className="font-size-10 text-uppercase color-default">
-                  {'by '}
-                  <Uuid
-                    uuid={payment.playerUUID}
-                    uuidPrefix={payment.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
-                  />
-                </span>
+              <div className="modal-header-tab__label">
+                <Uuid uuid={payment.paymentId} uuidPrefix="TA" />
+              </div>
+              <div className="font-size-11">
+                {'by '}
+                <Uuid
+                  uuid={payment.playerUUID}
+                  uuidPrefix={payment.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+                />
               </div>
             </div>
-            <div className="col-md-3 payment-detail-block">
-              <div className="color-default text-uppercase font-size-11">
+            <div className="col-md-3 modal-body-tab">
+              <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME')}
               </div>
-              <div>
-                <div className="font-weight-700">
-                  {moment(payment.creationTime).format('DD.MM.YYYY')}
-                </div>
-                <span className="font-size-10 color-default">
-                  {moment(payment.creationTime).format('HH:mm')}
-                </span>
+              <div className="modal-header-tab__label">
+                {moment(payment.creationTime).format('DD.MM.YYYY')}
+              </div>
+              <div className="font-size-11">
+                {moment(payment.creationTime).format('HH:mm')}
               </div>
             </div>
-            <div className="col-md-1 payment-detail-block">
-              <div className="color-default text-uppercase font-size-11">
+            <div className="col-md-1 modal-body-tab">
+              <div className="modal-tab-label">
                 Ip
               </div>
               {payment.country && <i className={`fs-icon fs-${payment.country.toLowerCase()}`} />}
             </div>
-            <div className="col-md-2 payment-detail-block">
-              <div className="color-default text-uppercase font-size-11">
+            <div className="col-md-2 modal-body-tab">
+              <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DEVICE')}
               </div>
-              <i
-                id={`payment-detail-${payment.paymentId}-tooltip`}
-                className={`fa font-size-20 ${payment.mobile ? 'fa-mobile' : 'fa-desktop'}`}
-              />
-              <UncontrolledTooltip
-                placement="bottom"
-                target={`payment-detail-${payment.paymentId}-tooltip`}
-                delay={{
-                  show: 350, hide: 250,
-                }}
-              >
-                {payment.userAgent || 'User agent not defined'}
-              </UncontrolledTooltip>
+              <div className="margin-top-5">
+                <i
+                  id={`payment-detail-${payment.paymentId}-tooltip`}
+                  className={`fa font-size-20 ${payment.mobile ? 'fa-mobile' : 'fa-desktop'}`}
+                />
+                <UncontrolledTooltip
+                  placement="bottom"
+                  target={`payment-detail-${payment.paymentId}-tooltip`}
+                  delay={{
+                    show: 350, hide: 250,
+                  }}
+                >
+                  {payment.userAgent || 'User agent not defined'}
+                </UncontrolledTooltip>
+              </div>
             </div>
-            <div className="col-md-3 payment-detail-block">
-              <div className="color-default text-uppercase font-size-11">
+            <div className="col-md-3 modal-body-tab">
+              <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_STATUS')}
               </div>
               <TransactionStatus transaction={payment} />
             </div>
           </div>
-
           <div className="row well payment-detail-amount">
             <div className="payment-detail-amount-block">
-              <div className="color-default text-uppercase font-size-11">
+              <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_AMOUNT')}
               </div>
               <div
-                className={classNames('font-size-16 font-weight-700', { 'color-danger': isWithdraw })}
+                className={classNames('modal-grey-tab__amount', { 'color-danger': isWithdraw })}
               >
                 {isWithdraw && '-'}<Amount {...payment.amount} />
               </div>
             </div>
             <div className="payment-detail-amount-block">
-              <div className="color-default text-uppercase font-size-11">
+              <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_PAYMENT_METHOD')}
               </div>
               <div>
-                <div className="font-weight-700">
+                <div className="modal-grey-tab__amount">
                   {payment.paymentMethod ? renderLabel(payment.paymentMethod, paymentsMethodsLabels) : 'Manual'}
                 </div>
-                <span className="font-size-10">
+                <div className="font-size-14">
                   {shortify(payment.paymentAccount, null, 2)}
-                </span>
+                </div>
               </div>
             </div>
           </div>

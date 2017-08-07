@@ -94,6 +94,7 @@ class TransactionsFilterForm extends Component {
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
+                id="transactions-list-filters-search"
               />
             </div>
             <div className="filter-row__medium">
@@ -214,6 +215,7 @@ class TransactionsFilterForm extends Component {
                   disabled={submitting || (disabled && pristine)}
                   className="btn btn-primary"
                   type="submit"
+                  id="transactions-list-filters-apply-button"
                 >
                   {I18n.t('COMMON.APPLY')}
                 </button>
