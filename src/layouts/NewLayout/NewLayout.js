@@ -89,26 +89,30 @@ class NewLayout extends Component {
     addNotification: PropTypes.func.isRequired,
   };
 
-  state = {
-    noteChangedCallback: null,
-    popover: { ...popoverInitialState },
-    sidebarTopMenu: sidebarTopMenu.map(menuItem => {
-      const { items } = menuItem;
+  constructor(props) {
+    super(props);
 
-      if (items) {
-        const currentMenu = items.find(subMenuItem => subMenuItem.url === this.props.location.pathname);
+    this.state = {
+      noteChangedCallback: null,
+      popover: { ...popoverInitialState },
+      sidebarTopMenu: sidebarTopMenu.map(menuItem => {
+        const { items } = menuItem;
 
-        if (currentMenu) {
-          menuItem.isOpen = true;
+        if (items) {
+          const currentMenu = items.find(subMenuItem => subMenuItem.url === this.props.location.pathname);
+
+          if (currentMenu) {
+            menuItem.isOpen = true;
+          }
+        } else {
+          menuItem.isOpen = false;
         }
-      } else {
-        menuItem.isOpen = false;
-      }
 
-      return menuItem;
-    }),
-    isOpenProfile: false,
-  };
+        return menuItem;
+      }),
+      isOpenProfile: false,
+    };
+  }
 
   getChildContext() {
     const {
