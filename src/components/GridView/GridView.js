@@ -220,42 +220,37 @@ class GridView extends Component {
     );
   }
 
-  renderNotFound = () => {
-    return (
-      <div>
-        <img src="./public/img/not-found/not-found-eng.svg" alt="not-found" />
-      </div>
-    );
-  };
-
   render() {
     const {
       tableClassName,
       headerClassName,
       lazyLoad,
-      dataSource,
+      locale,
+      notFound,
     } = this.props;
 
-    if (!dataSource.length) {
-      return null;
+    if (notFound) {
+      return (
+        <div>
+          <img className="not-found-image" src={'./img/not-found/not-found-' + { locale } + '.svg'} alt="not-found" />
+        </div>
+      );
     }
 
     const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
-      <div className="row">
-        <div className="col-md-12 table-responsive">
-          <table className={tableClassName}>
-            <thead className={headerClassName}>
-              {this.renderHead(this.recognizeHeaders(grids))}
-              {this.renderFilters(this.recognizeFilters(grids))}
-            </thead>
-            {this.renderBody(grids)}
-            {this.renderFooter(grids)}
-          </table>
+      <div>
+        <table className={tableClassName}>
+          <thead className={headerClassName}>
+            {this.renderHead(this.recognizeHeaders(grids))}
+            {this.renderFilters(this.recognizeFilters(grids))}
+          </thead>
+          {this.renderBody(grids)}
+          {this.renderFooter(grids)}
+        </table>
 
-          {!lazyLoad && this.renderPagination()}
-        </div>
+        {!lazyLoad && this.renderPagination()}
       </div>
     );
   }
