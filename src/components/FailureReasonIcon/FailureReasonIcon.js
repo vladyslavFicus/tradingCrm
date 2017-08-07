@@ -25,6 +25,7 @@ class FailureReasonIcon extends Component {
 
     this.setState({ popoverOpen: !this.state.popoverOpen });
   };
+
   handleClickOutside = () => {
     this.setState({ popoverOpen: false });
   };
