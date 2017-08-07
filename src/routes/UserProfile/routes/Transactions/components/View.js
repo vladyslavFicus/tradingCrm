@@ -55,6 +55,20 @@ class View extends Component {
     newPaymentNote: PropTypes.noteEntity,
     playerProfile: PropTypes.userProfile.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons,
+    walletLimits: PropTypes.shape({
+      entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+      deposit: PropTypes.shape({
+        locked: PropTypes.bool.isRequired,
+        canUnlock: PropTypes.bool.isRequired,
+      }).isRequired,
+      withdraw: PropTypes.shape({
+        locked: PropTypes.bool.isRequired,
+        canUnlock: PropTypes.bool.isRequired,
+      }).isRequired,
+      error: PropTypes.object,
+      isLoading: PropTypes.bool.isRequired,
+      receivedAt: PropTypes.number,
+    }).isRequired,
   };
   static defaultProps = {
     newPaymentNote: null,
@@ -360,6 +374,7 @@ class View extends Component {
       manageNote,
       playerProfile,
       newPaymentNote,
+      walletLimits,
     } = this.props;
 
     return (
@@ -479,6 +494,7 @@ class View extends Component {
             onSubmit={this.handleAddPayment}
             onManageNote={manageNote}
             onNoteClick={this.handleNoteClick}
+            walletLimits={walletLimits}
           />
         }
       </div>
