@@ -107,7 +107,7 @@ class FilterForm extends Component {
                 <option value="">{I18n.t('COMMON.ANY')}</option>
                 {providers.map(item => (
                   <option key={item} value={item}>
-                    {providers}
+                    {item}
                   </option>
                 ))}
               </Field>

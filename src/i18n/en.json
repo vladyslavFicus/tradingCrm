@@ -379,7 +379,7 @@
       }
     },
     "OR": "Or",
-    "TO": "To",
+    "TO": "to",
     "OPT_IN": "Opt-In",
     "NON_OPT_IN": "Non Opt-in",
     "AUTHOR_BY": "by ",
@@ -937,12 +937,12 @@
     }
   },
   "PAYMENT_DETAILS_MODAL": {
-    "TITLE": "Payment details",
+    "TITLE": "Transaction details",
     "HEADER_TRANSACTION": "Transaction",
     "HEADER_DATE_TIME": "Date & time",
     "HEADER_DEVICE": "Device",
     "HEADER_STATUS": "Status",
     "HEADER_AMOUNT": "Amount",
-    "HEADER_PAYMENT_METHOD": "Payment method"
+    "HEADER_PAYMENT_METHOD": "Payment account"
   }
 }

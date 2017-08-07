@@ -379,7 +379,7 @@
       }
     },
     "OR": "Или",
-    "TO": "По",
+    "TO": "по",
     "OPT_IN": "Opt-In",
     "NON_OPT_IN": "Non Opt-In",
     "AUTHOR_BY": "от ",
@@ -952,6 +952,6 @@
     "HEADER_DEVICE": "Устройство",
     "HEADER_STATUS": "Статус",
     "HEADER_AMOUNT": "Сумма",
-    "HEADER_PAYMENT_METHOD": "Платежный метод"
+    "HEADER_PAYMENT_METHOD": "Платежный счет"
   }
 }

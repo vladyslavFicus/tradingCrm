@@ -191,22 +191,22 @@ class View extends Component {
 
   renderMainInfo = data => (
     <div>
-      <div className="font-weight-600 cursor-pointer" onClick={() => this.handleRowClick(data)}>
+      <div className="font-weight-700 cursor-pointer" onClick={() => this.handleRowClick(data)}>
         {data.label}
       </div>
-      <div className="text-muted font-size-10">
+      <div className="font-size-11">
         <Uuid uuid={data.bonusUUID} />
       </div>
       {
         !!data.uuid &&
-        <div className="text-muted font-size-10">
+        <div className="font-size-11">
           {I18n.t('PLAYER_PROFILE.BONUS.CREATED_BY_CAMPAIGN')}
           <Uuid uuid={data.uuid} uuidPrefix="CA" />
         </div>
       }
       {
         !data.campaignUUID && !!data.operatorUUID &&
-        <div className="text-muted font-size-10">
+        <div className="font-size-11">
           {I18n.t('PLAYER_PROFILE.BONUS.CREATED_BY_OPERATOR')}
           <Uuid uuid={data.operatorUUID} uuidPrefix={data.operatorUUID.indexOf('OPERATOR') > -1 ? '' : 'OP'} />
         </div>
@@ -217,12 +217,12 @@ class View extends Component {
   renderAvailablePeriod = data => (
     data.createdDate ? (
       <div>
-        <div className="font-weight-600">
+        <div className="font-weight-700">
           {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
         </div>
         {
           !!data.expirationDate &&
-          <div className="font-size-10">
+          <div className="font-size-11">
             {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
           </div>
         }
@@ -230,7 +230,7 @@ class View extends Component {
     ) : <span>&mdash;</span>
   );
 
-  renderGrantedAmount = data => <Amount tag="div" className="font-weight-600" {...data.grantedAmount} />;
+  renderGrantedAmount = data => <Amount tag="div" className="font-weight-700" {...data.grantedAmount} />;
 
   renderWageredAmount = (data) => {
     const isCompleted = data.toWager && !isNaN(data.toWager.amount) && data.toWager.amount <= 0;
@@ -238,7 +238,7 @@ class View extends Component {
     return (
       <Amount
         tag="div"
-        className={classNames({ 'font-weight-600 color-success': isCompleted })}
+        className={classNames({ 'font-weight-700 color-success': isCompleted })}
         {...data.wagered}
       />
     );
@@ -247,7 +247,7 @@ class View extends Component {
   renderToWagerAmount = data => (
     <div>
       <Amount tag="div" {...data.toWager} />
-      <div className="font-size-10">
+      <div className="font-size-11">
         {I18n.t('PLAYER_PROFILE.BONUS.AMOUNT_TO_WAGE_PREPENDED_TEXT')} <Amount {...data.amountToWage} />
       </div>
     </div>
@@ -264,7 +264,7 @@ class View extends Component {
 
   render() {
     const { modal } = this.state;
-    const { list: { entities }, playerProfile: { data: playerProfile }, accumulatedBalances } = this.props;
+    const { list: { entities }, playerProfile: { data: playerProfile } } = this.props;
 
     return (
       <div className="profile-tab-container">
@@ -289,7 +289,7 @@ class View extends Component {
 
         <GridView
           tableClassName="table table-hovered data-grid-layout"
-          headerClassName=""
+          headerClassName="text-uppercase"
           dataSource={entities.content}
           onPageChange={this.handlePageChanged}
           activePage={entities.number + 1}
@@ -298,55 +298,47 @@ class View extends Component {
           <GridColumn
             name="mainInfo"
             header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS')}
-            headerClassName={'text-uppercase'}
             render={this.renderMainInfo}
           />
 
           <GridColumn
             name="available"
             header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.AVAILABLE')}
-            headerClassName={'text-uppercase'}
             render={this.renderAvailablePeriod}
           />
 
           <GridColumn
             name="priority"
             header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.PRIORITY')}
-            headerClassName={'text-uppercase'}
           />
 
           <GridColumn
             name="granted"
             header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.GRANTED')}
-            headerClassName={'text-uppercase'}
             render={this.renderGrantedAmount}
           />
 
           <GridColumn
             name="wagered"
             header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.WAGERED')}
-            headerClassName={'text-uppercase'}
             render={this.renderWageredAmount}
           />
 
           <GridColumn
             name="toWager"
             header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.TO_WAGER')}
-            headerClassName={'text-uppercase'}
             render={this.renderToWagerAmount}
           />
 
           <GridColumn
             name="type"
             header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_TYPE')}
-            headerClassName={'text-uppercase'}
             render={data => <BonusType bonus={data} />}
           />
 
           <GridColumn
             name="status"
             header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_STATUS')}
-            headerClassName={'text-uppercase'}
             render={data => <BonusStatus id="bonuses-list" bonus={data} />}
           />
 

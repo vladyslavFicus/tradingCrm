@@ -92,61 +92,59 @@ class Header extends Component {
             }
           </div>
         </div>
-        <div className="panel-heading">
-          <div className="row">
-            <div className="header-block header-block_account">
-              <AccountStatus
-                profileStatus={operatorStatus}
-                onStatusChange={this.handleStatusChange}
-                label={
-                  <div className="dropdown-tab">
-                    <div className="header-block-title">Account Status</div>
-                    {availableStatuses.length > 0 && <i className="fa fa-angle-down" />}
-                    <div className={`header-block-middle ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
-                    {
-                      operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
-                      <div className="header-block-small">
-                        Since {moment(statusChangeDate).format('DD.MM.YYYY')}
-                      </div>
-                    }
-                    {
-                      operatorStatus === statuses.CLOSED &&
-                      <div>
-                        {
-                          statusChangeAuthor &&
-                          <div className="header-block-small">
-                            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix={'OP'} />
-                          </div>
-                        }
-                        {
-                          statusChangeDate &&
-                          <div className="header-block-small">
-                            on {moment(statusChangeDate).format('DD.MM.YYYY')}
-                          </div>
-                        }
-                      </div>
-                    }
-                  </div>
-                }
-                availableStatuses={availableStatuses}
-              />
-            </div>
-            <div className="header-block">
-              <div className="header-block-title">Registered</div>
-              {
-                registrationDate &&
-                <div>
-                  <div className="header-block-middle">
-                    {moment(registrationDate).fromNow()}
-                  </div>
-                  <div className="header-block-small">
-                    on {moment(registrationDate).format('DD.MM.YYYY HH:mm')}
-                  </div>
+        <div className="layout-quick-overview">
+          <div className="header-block header-block_account">
+            <AccountStatus
+              profileStatus={operatorStatus}
+              onStatusChange={this.handleStatusChange}
+              label={
+                <div className="dropdown-tab">
+                  <div className="header-block-title">Account Status</div>
+                  {availableStatuses.length > 0 && <i className="fa fa-angle-down" />}
+                  <div className={`header-block-middle ${statusColorNames[operatorStatus]}`}>{operatorStatus}</div>
+                  {
+                    operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
+                    <div className="header-block-small">
+                      Since {moment(statusChangeDate).format('DD.MM.YYYY')}
+                    </div>
+                  }
+                  {
+                    operatorStatus === statuses.CLOSED &&
+                    <div>
+                      {
+                        statusChangeAuthor &&
+                        <div className="header-block-small">
+                          {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={statusChangeAuthor} uuidPrefix={'OP'} />
+                        </div>
+                      }
+                      {
+                        statusChangeDate &&
+                        <div className="header-block-small">
+                          on {moment(statusChangeDate).format('DD.MM.YYYY')}
+                        </div>
+                      }
+                    </div>
+                  }
                 </div>
               }
-            </div>
-            <ProfileLastLogin className="header-block" lastIp={lastIp} />
+              availableStatuses={availableStatuses}
+            />
           </div>
+          <div className="header-block">
+            <div className="header-block-title">Registered</div>
+            {
+              registrationDate &&
+              <div>
+                <div className="header-block-middle">
+                  {moment(registrationDate).fromNow()}
+                </div>
+                <div className="header-block-small">
+                  on {moment(registrationDate).format('DD.MM.YYYY HH:mm')}
+                </div>
+              </div>
+            }
+          </div>
+          <ProfileLastLogin className="header-block" lastIp={lastIp} />
         </div>
       </div>
     );

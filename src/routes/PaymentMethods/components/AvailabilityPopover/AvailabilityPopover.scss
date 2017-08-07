@@ -1,6 +1,8 @@
+@import "../../../../styles/settings/variables";
+
 .availability-popover-container {
   .popover-title {
-    background: #FFFDE6;
+    background: $yellow-color;
     border: none;
   }
 

@@ -104,7 +104,7 @@ class List extends Component {
         </div>
         {
           data.statusChangeDate &&
-          <div className="font-size-12 color-default">
+          <div className="font-size-11">
             Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
           </div>
         }
@@ -120,7 +120,7 @@ class List extends Component {
             {[data.firstName, data.lastName].join(' ')}
           </Link>
         </div>
-        <div className="font-size-12 color-default">
+        <div className="font-size-11">
           <Uuid uuid={data.uuid} />
         </div>
       </div>
@@ -141,7 +141,7 @@ class List extends Component {
         <div className="font-weight-700">
           { moment(data.registrationDate).format('DD.MM.YYYY') }
         </div>
-        <div className="font-size-12 color-default">
+        <div className="font-size-11">
           { moment(data.registrationDate).format('HH.mm') }
         </div>
       </div>
@@ -191,7 +191,7 @@ class List extends Component {
           <Content>
             <GridView
               tableClassName="table table-hovered data-grid-layout"
-              headerClassName=""
+              headerClassName="text-uppercase"
               dataSource={entities.content}
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
@@ -201,25 +201,21 @@ class List extends Component {
               <GridColumn
                 name="uuid"
                 header="Operator"
-                headerClassName="text-uppercase"
                 render={this.renderOperator}
               />
               <GridColumn
                 name="country"
                 header="Country"
-                headerClassName="text-uppercase"
                 render={this.renderCountry}
               />
               <GridColumn
                 name="registered"
                 header="Registered"
-                headerClassName="text-uppercase"
                 render={this.renderRegistered}
               />
               <GridColumn
                 name="status"
                 header="Status"
-                headerClassName="text-uppercase"
                 render={this.renderStatus}
               />
             </GridView>

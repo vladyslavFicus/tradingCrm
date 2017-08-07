@@ -127,7 +127,7 @@ class Header extends Component {
 
     return (
       <div>
-        <div className="panel-heading-row panel-heading-row_fixed">
+        <div className="panel-heading-row fixed-header">
           <HeaderPlayerPlaceholder ready={loaded}>
             <div className="panel-heading-row__info">
               <div className="panel-heading-row__info-title">
@@ -186,50 +186,48 @@ class Header extends Component {
           </div>
         </div>
 
-        <div className="panel-heading panel-heading_with-fixed-header">
-          <div className="row">
-            <div className="header-block header-block_account">
-              <PlayerStatus
-                locale={locale}
-                status={playerProfile.profileStatus}
-                reason={playerProfile.profileStatusReason}
-                statusDate={playerProfile.profileStatusDate}
-                fullName={playerProfile.profileStatusAuthor}
-                endDate={playerProfile.suspendEndDate}
-                onChange={this.handleStatusChange}
-                availableStatuses={availableStatuses}
-              />
-            </div>
-            <div className="header-block header-block_balance">
-              <Balances
-                label={
-                  <div className="dropdown-tab">
-                    <div className="header-block-title">Balance</div>
-                    <div className="header-block-middle">
-                      <Amount {...accumulatedBalances.total} />
-                    </div>
-                    {this.getRealWithBonusBalance()}
+        <div className="layout-quick-overview layout-quick-overview_with-fixed-header">
+          <div className="header-block header-block_account">
+            <PlayerStatus
+              locale={locale}
+              status={playerProfile.profileStatus}
+              reason={playerProfile.profileStatusReason}
+              statusDate={playerProfile.profileStatusDate}
+              fullName={playerProfile.profileStatusAuthor}
+              endDate={playerProfile.suspendEndDate}
+              onChange={this.handleStatusChange}
+              availableStatuses={availableStatuses}
+            />
+          </div>
+          <div className="header-block header-block_balance">
+            <Balances
+              label={
+                <div className="dropdown-tab">
+                  <div className="header-block-title">Balance</div>
+                  <div className="header-block-middle">
+                    <Amount {...accumulatedBalances.total} />
                   </div>
-                }
-                accumulatedBalances={accumulatedBalances}
-              />
+                  {this.getRealWithBonusBalance()}
+                </div>
+              }
+              accumulatedBalances={accumulatedBalances}
+            />
+          </div>
+          <div className="header-block header-block_wallet-limits">
+            <WalletLimits
+              profile={playerProfile}
+              limits={walletLimits.state}
+              onChange={onWalletLimitChange}
+            />
+          </div>
+          <ProfileLastLogin lastIp={lastIp} />
+          <div className="header-block">
+            <div className="header-block-title">Registered</div>
+            <div className="header-block-middle">
+              {moment.utc(playerProfile.registrationDate).local().fromNow()}
             </div>
-            <div className="header-block header-block_wallet-limits">
-              <WalletLimits
-                profile={playerProfile}
-                limits={walletLimits.state}
-                onChange={onWalletLimitChange}
-              />
-            </div>
-            <ProfileLastLogin lastIp={lastIp} />
-            <div className="header-block">
-              <div className="header-block-title">Registered</div>
-              <div className="header-block-middle">
-                {moment.utc(playerProfile.registrationDate).local().fromNow()}
-              </div>
-              <div className="header-block-small">
-                on {moment(playerProfile.registrationDate).format('DD.MM.YYYY')}</div>
-            </div>
+            <div className="header-block-small">
+              on {moment(playerProfile.registrationDate).format('DD.MM.YYYY')}</div>
           </div>
         </div>
       </div>

@@ -32,13 +32,7 @@ class View extends Component {
   static propTypes = {
     players: PropTypes.objectOf(PropTypes.userProfile).isRequired,
     transactions: PropTypes.pageableState(PropTypes.paymentEntity).isRequired,
-    filters: PropTypes.shape({
-      data: PropTypes.shape({
-        paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
-      }).isRequired,
-    }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
-    fetchFilters: PropTypes.func.isRequired,
     fetchPlayerProfile: PropTypes.func.isRequired,
     loadPaymentStatuses: PropTypes.func.isRequired,
     onChangePaymentStatus: PropTypes.func.isRequired,
@@ -64,7 +58,6 @@ class View extends Component {
 
   componentDidMount() {
     this.props.fetchEntities();
-    this.props.fetchFilters();
     this.context.notes.setNoteChangedCallback(this.handleRefresh);
   }
 
@@ -104,10 +97,6 @@ class View extends Component {
     }
 
     this.setState({ filters, page: 0 }, this.handleRefresh);
-  };
-
-  handleFilterReset = () => {
-    this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
 
   handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
@@ -269,9 +258,8 @@ class View extends Component {
   );
 
   render() {
-    const { transactions: { entities }, filters: { data: availableFilters } } = this.props;
-    const { modal, filters } = this.state;
-    const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
+    const { transactions: { entities } } = this.props;
+    const { modal } = this.state;
 
     return (
       <div className="page-content-inner">
@@ -279,13 +267,6 @@ class View extends Component {
           <Title>
             <span className="font-size-20">Open loops</span>
           </Title>
-
-          <TransactionsFilterForm
-            onSubmit={this.handleFiltersChanged}
-            onReset={this.handleFilterReset}
-            disabled={!allowActions}
-            {...availableFilters}
-          />
 
           <Content>
             <GridView

@@ -55,7 +55,7 @@ class BonusStatus extends Component {
             </FailedStatusIcon>
           }
         </div>
-        {!!content && <div className="font-size-10">{content}</div>}
+        {!!content && <div className="font-size-11">{content}</div>}
       </div>
     );
   };
