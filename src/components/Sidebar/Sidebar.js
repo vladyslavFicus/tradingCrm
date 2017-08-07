@@ -9,6 +9,7 @@ class Sidebar extends Component {
   static propTypes = {
     topMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     bottomMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
+    handleOpenTap: PropTypes.func.isRequired,
   };
 
   state = {
@@ -17,18 +18,6 @@ class Sidebar extends Component {
   };
 
   openTimeout = null;
-
-  renderTrackHorizontal = props => (
-    <div {...props} className="track-vertical" style={{ display: 'none' }} />
-  );
-
-  renderThumbHorizontal = props => (
-    <div {...props} className="thumb-vertical" style={{ display: 'none' }} />
-  );
-
-  renderThumbVertical = (style, ...props) => (
-    <div className="scroll-bar" {...props} style={{ ...style, backgroundColor: 'rgba(223,228,237,0.25)' }} />
-  );
 
   handleSidebarMouseEnter = () => {
     this.setState({
@@ -55,6 +44,18 @@ class Sidebar extends Component {
       this.openTimeout = null;
     }
   };
+
+  renderTrackHorizontal = props => (
+    <div {...props} className="track-vertical" style={{ display: 'none' }} />
+  );
+
+  renderThumbHorizontal = props => (
+    <div {...props} className="thumb-vertical" style={{ display: 'none' }} />
+  );
+
+  renderThumbVertical = (style, ...props) => (
+    <div className="scroll-bar" {...props} style={{ ...style, backgroundColor: 'rgba(223,228,237,0.25)' }} />
+  );
 
   render() {
     return (

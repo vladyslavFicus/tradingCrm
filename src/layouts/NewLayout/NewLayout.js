@@ -89,6 +89,27 @@ class NewLayout extends Component {
     addNotification: PropTypes.func.isRequired,
   };
 
+  state = {
+    noteChangedCallback: null,
+    popover: { ...popoverInitialState },
+    sidebarTopMenu: sidebarTopMenu.map(menuItem => {
+      const { items } = menuItem;
+
+      if (items) {
+        const currentMenu = items.find(subMenuItem => subMenuItem.url === this.props.location.pathname);
+
+        if (currentMenu) {
+          menuItem.isOpen = true;
+        }
+      } else {
+        menuItem.isOpen = false;
+      }
+
+      return menuItem;
+    }),
+    isOpenProfile: false,
+  };
+
   getChildContext() {
     const {
       user,
@@ -118,27 +139,6 @@ class NewLayout extends Component {
       },
     };
   }
-
-  state = {
-    noteChangedCallback: null,
-    popover: { ...popoverInitialState },
-    sidebarTopMenu: sidebarTopMenu.map(menuItem => {
-      const { items } = menuItem;
-
-      if (items) {
-        const currentMenu = items.find(subMenuItem => subMenuItem.url === this.props.location.pathname);
-
-        if (currentMenu) {
-          menuItem.isOpen = true;
-        }
-      } else {
-        menuItem.isOpen = false;
-      }
-
-      return menuItem;
-    }),
-    isOpenProfile: false,
-  };
 
   componentWillMount() {
     window.addEventListener('scroll', this.handleScrollWindow);

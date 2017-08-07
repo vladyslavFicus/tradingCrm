@@ -12,11 +12,18 @@ class NavItem extends Component {
     label: PropTypes.string.isRequired,
     url: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.navItem),
+    isOpen: PropTypes.bool,
+    handleOpenTap: PropTypes.func,
+    index: PropTypes.number.isRequired,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
-    location: PropTypes.array.isRequired,
+    location: PropTypes.object.isRequired,
   };
+  static defaultProps = {
+    isOpen: null,
+    handleOpenTap: null,
+  }
 
   state = {
     opened: false,
