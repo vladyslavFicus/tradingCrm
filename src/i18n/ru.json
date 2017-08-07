@@ -952,6 +952,6 @@
     "HEADER_DEVICE": "Устройство",
     "HEADER_STATUS": "Статус",
     "HEADER_AMOUNT": "Сумма",
-    "HEADER_PAYMENT_METHOD": "Платежный метод"
+    "HEADER_PAYMENT_METHOD": "Платежный счет"
   }
 }
