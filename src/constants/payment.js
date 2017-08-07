@@ -23,6 +23,21 @@ const methodStatuses = keyMirror({
   INACTIVE: null,
 });
 
+const accountStatuses = keyMirror({
+  ACTIVE: null,
+  LOCKED: null,
+});
+
+const accountStatusLabels = {
+  [accountStatuses.ACTIVE]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.STATUS.ACTIVE'),
+  [accountStatuses.LOCKED]: I18n.t('CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.STATUS.LOCKED'),
+};
+
+const accountStatusColors = {
+  [accountStatuses.ACTIVE]: 'color-success',
+  [accountStatuses.LOCKED]: 'color-danger',
+};
+
 const methodStatusActions = {
   [methodStatuses.ACTIVE]: [
     {
@@ -34,6 +49,21 @@ const methodStatusActions = {
     {
       action: methodStatuses.ACTIVE,
       label: 'Activate',
+    },
+  ],
+};
+
+const accountStatusActions = {
+  [accountStatuses.ACTIVE]: [
+    {
+      action: accountStatuses.LOCKED,
+      label: I18n.t('CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.ACTION.LOCK'),
+    },
+  ],
+  [accountStatuses.LOCKED]: [
+    {
+      action: accountStatuses.ACTIVE,
+      label: I18n.t('CONSTANTS.PAYMENT.PAYMENT_ACCOUNT.ACTION.ACTIVATE'),
     },
   ],
 };
@@ -135,4 +165,8 @@ export {
   paymentActions,
   initiators,
   initiatorsLabels,
+  accountStatuses,
+  accountStatusLabels,
+  accountStatusColors,
+  accountStatusActions,
 };

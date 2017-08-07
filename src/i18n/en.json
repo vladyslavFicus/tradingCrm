@@ -143,7 +143,8 @@
         "WITHDRAWS": "Withdrawals",
         "DEPOSITS": "Deposits",
         "FILES": "Files",
-        "NOTE": "Note"
+        "NOTE": "Note",
+        "STATUS": "Status"
       },
       "TITLE": "Payment accounts",
       "ATTACHED_FILES": "Attached files"
@@ -625,6 +626,16 @@
         "CARD": "Credit card",
         "MASTERCARD": "Mastercard",
         "YANDEX_MONEY": "Yandex money"
+      },
+      "PAYMENT_ACCOUNT": {
+        "STATUS": {
+          "ACTIVE": "Active",
+          "LOCKED": "Locked"
+        },
+        "ACTION": {
+          "LOCK": "Lock deposits & withdrawals",
+          "ACTIVATE": "Activate"
+        }
       }
     },
     "TRANSACTIONS": {
