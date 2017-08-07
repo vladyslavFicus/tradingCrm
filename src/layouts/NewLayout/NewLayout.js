@@ -342,7 +342,10 @@ class NewLayout extends Component {
         <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
           <button
             className={
-              classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: isInitializedScroll && !showScrollToTop })
+              classNames('floating-buttons__circle', {
+                rollIn: showScrollToTop,
+                rollOut: isInitializedScroll && !showScrollToTop,
+              })
             }
             onClick={this.handleScrollToTop}
           >
