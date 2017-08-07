@@ -145,7 +145,7 @@ class View extends Component {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
-  handleChangePaymentStatus = ({ action, playerUUID, paymentId, ...options }) => {
+  handleChangePaymentStatus = (action, playerUUID, paymentId, options = {}) => {
     const { onChangePaymentStatus } = this.props;
 
     return onChangePaymentStatus({ action, playerUUID, paymentId, options })
