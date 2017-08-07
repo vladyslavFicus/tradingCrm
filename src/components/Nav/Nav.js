@@ -29,7 +29,7 @@ class Nav extends Component {
             icon={item.icon}
             url={item.url}
             items={item.items}
-            handleOpenTap={handleOpenTap}
+            onToggleMenuItem={handleOpenTap}
           />
         ))}
       </ul>

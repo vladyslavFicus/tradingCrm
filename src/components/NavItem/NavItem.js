@@ -13,7 +13,7 @@ class NavItem extends Component {
     url: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.navItem),
     isOpen: PropTypes.bool,
-    handleOpenTap: PropTypes.func,
+    onToggleMenuItem: PropTypes.func,
     index: PropTypes.number.isRequired,
   };
   static contextTypes = {
@@ -22,7 +22,7 @@ class NavItem extends Component {
   };
   static defaultProps = {
     isOpen: null,
-    handleOpenTap: null,
+    onToggleMenuItem: null,
   }
 
   state = {
@@ -36,7 +36,7 @@ class NavItem extends Component {
       url,
       items,
       isOpen,
-      handleOpenTap,
+      onToggleMenuItem,
       index,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
@@ -69,7 +69,7 @@ class NavItem extends Component {
     const className = classNames('nav-item', { active: currentMenu || isOpen, dropdown: withSubmenu });
 
     return (
-      <li className={className} onClick={() => handleOpenTap(index)}>
+      <li className={className} onClick={() => onToggleMenuItem(index)}>
         <Link className="nav-link" to={url}>
           {!!icon && <i className={icon} />}
           <span className="nav-link__label">
