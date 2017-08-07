@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
+import FailureReasonIcon from '../../../../components/FailureReasonIcon';
 import PlayerStatusModal from './PlayerStatusModal';
 import { statuses, statusColorNames, statusesLabels, durationUnits } from '../../../../constants/user';
 
@@ -22,12 +23,16 @@ class PlayerStatus extends Component {
     availableStatuses: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    statusDate: PropTypes.string,
+    fullName: PropTypes.string,
   };
 
   static defaultProps = {
     reason: null,
     endDate: null,
     status: null,
+    statusDate: null,
+    fullName: null,
   };
 
   state = { ...initialState };
@@ -103,9 +108,12 @@ class PlayerStatus extends Component {
       availableStatuses,
       status,
       reason,
+      statusDate,
+      fullName,
       endDate,
       locale,
     } = this.props;
+
     const { dropDownOpen, modal } = this.state;
     const dropDownClassName = classNames('dropdown-highlight', {
       'cursor-pointer': availableStatuses.length > 0,
@@ -129,6 +137,14 @@ class PlayerStatus extends Component {
           <div className="header-block-small">
             Until {moment(endDate).format('DD.MM.YYYY')}
           </div>
+        }
+        {
+          (status === statuses.BLOCKED || status === statuses.SUSPENDED) &&
+          <FailureReasonIcon
+            reason={reason}
+            statusDate={moment(statusDate).format('YYYY-MM-DD h:mm:ss a')}
+            fullName={fullName}
+          />
         }
       </div>
     );

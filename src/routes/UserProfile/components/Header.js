@@ -70,6 +70,8 @@ class Header extends Component {
     currentTags: [],
     availableStatuses: [],
     loaded: false,
+    profileStatusDate: null,
+    profileStatusAuthor: null,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
@@ -190,6 +192,8 @@ class Header extends Component {
               locale={locale}
               status={playerProfile.profileStatus}
               reason={playerProfile.profileStatusReason}
+              statusDate={playerProfile.profileStatusDate}
+              fullName={playerProfile.profileStatusAuthor}
               endDate={playerProfile.suspendEndDate}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
