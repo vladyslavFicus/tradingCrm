@@ -143,7 +143,8 @@
         "WITHDRAWS": "Выводы",
         "DEPOSITS": "Депозиты",
         "FILES": "Файлы",
-        "NOTE": "Заметки"
+        "NOTE": "Заметки",
+        "STATUS": "Статус"
       },
       "TITLE": "Платежные счета",
       "ATTACHED_FILES": "Прикрепленные файлы"
@@ -625,6 +626,16 @@
         "CARD": "Карта",
         "MASTERCARD": "Mastercard",
         "YANDEX_MONEY": "Yandex money"
+      },
+      "PAYMENT_ACCOUNT": {
+        "STATUS": {
+          "ACTIVE": "Активен",
+          "LOCKED": "Заблокирован"
+        },
+        "ACTION": {
+          "LOCK": "Заблокировать",
+          "ACTIVATE": "Активировать"
+        }
       }
     },
     "TRANSACTIONS": {
