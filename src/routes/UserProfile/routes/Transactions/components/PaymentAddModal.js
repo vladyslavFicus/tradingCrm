@@ -109,9 +109,7 @@ class PaymentAddModal extends Component {
     const { walletLimits } = this.props;
     let method = type.toLowerCase();
 
-    if (type === paymentTypes.Deposit) {
-      method = 'deposit';
-    } else if (method === paymentTypes.Confiscate) {
+    if (method === paymentTypes.Confiscate) {
       method = 'withdraw';
     }
 
