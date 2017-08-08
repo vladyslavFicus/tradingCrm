@@ -6,6 +6,8 @@ class Nav extends Component {
   static propTypes = {
     className: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.navItem).isRequired,
+    onMenuClick: PropTypes.func.isRequired,
+    handleOpenTap: PropTypes.func.isRequired,
   };
   static defaultProps = {
     className: 'nav',
@@ -16,6 +18,7 @@ class Nav extends Component {
       items,
       className,
       handleOpenTap,
+      onMenuClick,
     } = this.props;
 
     return (
@@ -30,6 +33,7 @@ class Nav extends Component {
             url={item.url}
             items={item.items}
             onToggleMenuItem={handleOpenTap}
+            onMenuClick={onMenuClick}
           />
         ))}
       </ul>

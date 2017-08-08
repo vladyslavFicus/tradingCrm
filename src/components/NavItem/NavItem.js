@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Link } from 'react-router';
 import { I18n } from 'react-redux-i18n';
 import Permissions from '../../utils/permissions';
 import SubNav from '../SubNav';
@@ -14,6 +13,7 @@ class NavItem extends Component {
     items: PropTypes.arrayOf(PropTypes.navItem),
     isOpen: PropTypes.bool,
     onToggleMenuItem: PropTypes.func,
+    onMenuClick: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
   };
   static contextTypes = {
@@ -38,6 +38,7 @@ class NavItem extends Component {
       isOpen,
       onToggleMenuItem,
       index,
+      onMenuClick,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const withSubmenu = items && items.length > 0;
@@ -70,18 +71,19 @@ class NavItem extends Component {
 
     return (
       <li className={className} onClick={() => onToggleMenuItem(index)}>
-        <Link className="nav-link" to={url}>
+        <span className="nav-link" onClick={() => onMenuClick(url)}>
           {!!icon && <i className={icon} />}
           <span className="nav-link__label">
             {I18n.t(label)}
             {withSubmenu && <i className="fa fa-angle-down" />}
           </span>
-        </Link>
+        </span>
 
         {
           withSubmenu &&
           <SubNav
             items={subMenu}
+            onMenuClick={onMenuClick}
           />
         }
       </li>

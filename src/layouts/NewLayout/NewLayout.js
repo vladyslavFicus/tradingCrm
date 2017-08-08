@@ -78,6 +78,7 @@ class NewLayout extends Component {
     updateOperatorProfile: PropTypes.func.isRequired,
     setIsShowScrollTop: PropTypes.func.isRequired,
     toggleMenuTap: PropTypes.func.isRequired,
+    menuClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.number,
   };
   static defaultProps = {
@@ -300,6 +301,7 @@ class NewLayout extends Component {
       locale,
       user,
       toggleMenuTap,
+      menuClick,
     } = this.props;
 
     return (
@@ -315,6 +317,7 @@ class NewLayout extends Component {
         <Sidebar
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}
+          menuClick={menuClick}
           handleOpenTap={toggleMenuTap}
         />
 
@@ -408,5 +411,6 @@ export default connect(mapStateToProps, {
   onLocaleChange: languageActionCreators.setLocale,
   setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
   toggleMenuTap: appActionCreators.toggleMenuTap,
+  menuClick: appActionCreators.menuClick,
   updateOperatorProfile: authActionCreators.updateProfile,
 })(NewLayout);

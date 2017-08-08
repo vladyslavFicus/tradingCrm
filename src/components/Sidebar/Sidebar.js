@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';
+import { browserHistory } from 'react-router';
 import Nav from '../Nav';
 import PropTypes from '../../constants/propTypes';
 import './Sidebar.scss';
@@ -10,6 +11,7 @@ class Sidebar extends Component {
     topMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     bottomMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     handleOpenTap: PropTypes.func.isRequired,
+    menuClick: PropTypes.func.isRequired,
   };
 
   state = {
@@ -45,6 +47,18 @@ class Sidebar extends Component {
     }
   };
 
+
+  onMenuClick = (url) => {
+    if (url) {
+      this.setState({
+        isHover: false,
+        isOpen: false,
+      });
+      browserHistory.push(url);
+      this.props.menuClick();
+    }
+  };
+
   renderTrackHorizontal = props => (
     <div {...props} className="track-vertical" style={{ display: 'none' }} />
   );
@@ -73,11 +87,14 @@ class Sidebar extends Component {
           <Nav
             items={this.props.topMenu}
             handleOpenTap={this.props.handleOpenTap}
+            onMenuClick={this.onMenuClick}
 
           />
         </Scrollbars>
         <Nav
           items={this.props.bottomMenu}
+          onMenuClick={this.onMenuClick}
+          handleOpenTap={this.props.handleOpenTap}
         />
       </aside>
     );

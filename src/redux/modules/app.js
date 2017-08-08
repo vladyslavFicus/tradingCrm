@@ -7,6 +7,7 @@ import { actionTypes as windowActionTypes } from './window';
 const KEY = 'app';
 const SET_SCROLL_TO_TOP = `${KEY}/set-scroll-to-top`;
 const TOGGLE_MENU_TAP = `${KEY}/toggle-menu-tap`;
+const MENU_CLICK = `${KEY}/menu-click`;
 
 const initialState = {
   showScrollToTop: false,
@@ -94,14 +95,22 @@ function toggleMenuTap(index) {
   };
 }
 
+function menuClick() {
+  return {
+    type: MENU_CLICK,
+  };
+}
+
 const actionCreators = {
   setIsShowScrollTop,
   toggleMenuTap,
+  menuClick,
 };
 
 const actionTypes = {
   SET_SCROLL_TO_TOP,
   TOGGLE_MENU_TAP,
+  MENU_CLICK,
 };
 
 const actionHandlers = {
@@ -134,6 +143,16 @@ const actionHandlers = {
       }),
     };
   },
+  [MENU_CLICK]: (state, action) => ({
+    ...state,
+    sidebarTopMenu: state.sidebarTopMenu.map((menuItem) => {
+      if (menuItem.items) {
+        menuItem.isOpen = false;
+      }
+
+      return menuItem;
+    }),
+  }),
 };
 
 export {

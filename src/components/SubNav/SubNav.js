@@ -5,10 +5,11 @@ import PropTypes from '../../constants/propTypes';
 class SubNav extends Component {
   static propTypes = {
     items: PropTypes.arrayOf(PropTypes.navSubItem).isRequired,
+    onMenuClick: PropTypes.func.isRequired,
   };
 
   render() {
-    const { items } = this.props;
+    const { items, onMenuClick } = this.props;
 
     return (
       <div className="dropdown-menu">
@@ -17,6 +18,7 @@ class SubNav extends Component {
             key={index}
             label={item.label}
             url={item.url}
+            onMenuClick={onMenuClick}
           />
         ))}
       </div>
