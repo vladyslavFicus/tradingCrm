@@ -48,11 +48,6 @@
   .nav-link__label {
     font-weight: 600;
     opacity: 0;
-    -webkit-transition: opacity .2s linear .2s;
-    -moz-transition: opacity .2s linear;
-    -o-transition: opacity .2s linear;
-    transition: opacity .2s linear .2s;
-    transition-delay: .2s;
     margin-left: 5px;
   }
   .dropdown-menu {
