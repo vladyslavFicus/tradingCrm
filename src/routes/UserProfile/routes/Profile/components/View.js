@@ -118,7 +118,17 @@ class View extends Component {
   handleVerify = type => async () => {
     const { verifyData, params, checkLock } = this.props;
 
-    await verifyData(params.id, type);
+    const action = await verifyData(params.id, type);
+    if (action && action.error) {
+      const message = kycCategories.KYC_ADDRESS ?
+        I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.VERIFY_KYC.ERROR') :
+        I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.VERIFY_KYC.ERROR');
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.TITLE'),
+        message,
+      });
+    }
     checkLock(params.id);
   };
 
