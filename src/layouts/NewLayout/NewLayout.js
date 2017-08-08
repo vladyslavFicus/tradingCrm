@@ -318,7 +318,7 @@ class NewLayout extends Component {
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}
           menuClick={menuClick}
-          handleOpenTap={toggleMenuTap}
+          onOpenTab={toggleMenuTap}
         />
 
         <div className="section-container">{children}</div>

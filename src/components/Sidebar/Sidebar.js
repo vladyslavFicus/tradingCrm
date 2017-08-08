@@ -10,7 +10,7 @@ class Sidebar extends Component {
   static propTypes = {
     topMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     bottomMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
-    handleOpenTap: PropTypes.func.isRequired,
+    onOpenTab: PropTypes.func.isRequired,
     menuClick: PropTypes.func.isRequired,
   };
 
@@ -86,7 +86,7 @@ class Sidebar extends Component {
         >
           <Nav
             items={this.props.topMenu}
-            handleOpenTap={this.props.handleOpenTap}
+            onOpenTab={this.props.onOpenTab}
             onMenuClick={this.onMenuClick}
 
           />
@@ -94,7 +94,7 @@ class Sidebar extends Component {
         <Nav
           items={this.props.bottomMenu}
           onMenuClick={this.onMenuClick}
-          handleOpenTap={this.props.handleOpenTap}
+          onOpenTab={this.props.onOpenTab}
         />
       </aside>
     );

@@ -7,7 +7,7 @@ class Nav extends Component {
     className: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     onMenuClick: PropTypes.func.isRequired,
-    handleOpenTap: PropTypes.func.isRequired,
+    onOpenTab: PropTypes.func.isRequired,
   };
   static defaultProps = {
     className: 'nav',
@@ -17,7 +17,7 @@ class Nav extends Component {
     const {
       items,
       className,
-      handleOpenTap,
+      onOpenTab,
       onMenuClick,
     } = this.props;
 
@@ -32,7 +32,7 @@ class Nav extends Component {
             icon={item.icon}
             url={item.url}
             items={item.items}
-            onToggleMenuItem={handleOpenTap}
+            onToggleMenuItem={onOpenTab}
             onMenuClick={onMenuClick}
           />
         ))}
