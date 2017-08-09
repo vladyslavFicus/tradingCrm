@@ -64,7 +64,10 @@
     visibility: hidden;
     background-color: #666;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2) inset;
-    transition: all .1s linear;
+    transition: all .2s linear;
+    &.addDelay {
+      transition-delay: .5s;
+    }
     .dropdown-item {
       padding-left: 56px;
       color: #ccc;
