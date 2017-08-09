@@ -27,9 +27,6 @@ class Sidebar extends Component {
       isHover: true,
     }, () => {
       this.openTimeout = setTimeout(() => {
-        clearTimeout(this.closeTimeout);
-        this.closeTimeout = null;
-
         if (this.state.isHover) {
           this.setState({
             isOpen: true,
@@ -37,6 +34,9 @@ class Sidebar extends Component {
         }
       }, 400);
     });
+
+    clearTimeout(this.closeTimeout);
+    this.closeTimeout = null;
   };
 
   handleSidebarMouseLeave = () => {
