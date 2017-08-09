@@ -88,7 +88,7 @@ class NavItem extends Component {
           <SubNav
             items={subMenu}
             onMenuClick={onMenuClick}
-            isAddDelay={(currentMenu || isOpen) && !isHover }
+            isAddDelay={!isHover}
           />
         }
       </li>
