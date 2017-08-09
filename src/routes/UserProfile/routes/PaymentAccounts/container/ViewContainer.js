@@ -18,6 +18,7 @@ const mapActions = {
   fetchFilesAndNotes: actionCreators.fetchFilesAndNotes,
   changeFileStatusByAction: actionCreators.changeFileStatusByAction,
   downloadFile: filesActionCreators.downloadFile,
+  changePaymentAccountStatus: actionCreators.changePaymentAccountStatus,
 };
 
 export default connect(mapStateToProps, mapActions)(View);
