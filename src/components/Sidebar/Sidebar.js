@@ -88,6 +88,8 @@ class Sidebar extends Component {
             items={this.props.topMenu}
             onOpenTab={this.props.onOpenTab}
             onMenuClick={this.onMenuClick}
+            isHover={this.state.isHover}
+            isSidebarOpen={this.state.isOpen}
 
           />
         </Scrollbars>
@@ -95,6 +97,8 @@ class Sidebar extends Component {
           items={this.props.bottomMenu}
           onMenuClick={this.onMenuClick}
           onOpenTab={this.props.onOpenTab}
+          isHover={this.state.isHover}
+          isSidebarOpen={this.state.isOpen}
         />
       </aside>
     );

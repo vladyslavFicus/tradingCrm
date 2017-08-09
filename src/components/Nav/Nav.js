@@ -5,6 +5,8 @@ import NavItem from '../NavItem';
 class Nav extends Component {
   static propTypes = {
     className: PropTypes.string,
+    isHover: PropTypes.bool.isRequired,
+    isSidebarOpen: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     onMenuClick: PropTypes.func.isRequired,
     onOpenTab: PropTypes.func.isRequired,
@@ -19,6 +21,8 @@ class Nav extends Component {
       className,
       onOpenTab,
       onMenuClick,
+      isHover,
+      isSidebarOpen,
     } = this.props;
 
     return (
@@ -34,6 +38,8 @@ class Nav extends Component {
             items={item.items}
             onToggleMenuItem={onOpenTab}
             onMenuClick={onMenuClick}
+            isHover={isHover}
+            isSidebarOpen={isSidebarOpen}
           />
         ))}
       </ul>
