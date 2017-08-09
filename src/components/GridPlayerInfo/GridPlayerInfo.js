@@ -4,13 +4,14 @@ import PropTypes from '../../constants/propTypes';
 import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../../components/Uuid';
 
-const GridPlayerInfo = ({ profile, onClick, mainInfoClassName }) => (
+const GridPlayerInfo = ({ profile, onClick, mainInfoClassName, id }) => (
   <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
     {
       !!profile &&
       <div>
         <div
           className={classNames(mainInfoClassName, { 'cursor-pointer': !!onClick })}
+          id={`${id ? `${id}-` : `players-list-${profile.playerUUID}-name`}`}
           onClick={onClick}
         >
           {profile.firstName} {profile.lastName} {!!profile.age && `(${profile.age})`}
@@ -18,7 +19,7 @@ const GridPlayerInfo = ({ profile, onClick, mainInfoClassName }) => (
           {profile.kycCompleted && <i className="fa fa-check text-success" />}
         </div>
 
-        <div className="font-size-11">
+        <div className="font-size-11" id={`players-list-${profile.playerUUID}-additional`}>
           {!!profile.username && <span>{profile.username} - </span>}
           <Uuid
             uuid={profile.playerUUID}
@@ -34,10 +35,12 @@ GridPlayerInfo.propTypes = {
   profile: PropTypes.userProfile.isRequired,
   onClick: PropTypes.func,
   mainInfoClassName: PropTypes.string,
+  id: PropTypes.string,
 };
 GridPlayerInfo.defaultProps = {
   onClick: null,
   mainInfoClassName: 'font-weight-700',
+  id: null,
 };
 
 export default GridPlayerInfo;
