@@ -38,6 +38,20 @@ class PaymentAddModal extends Component {
     }),
     note: PropTypes.noteEntity,
     error: PropTypes.string,
+    walletLimits: PropTypes.shape({
+      entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+      deposit: PropTypes.shape({
+        locked: PropTypes.bool.isRequired,
+        canUnlock: PropTypes.bool.isRequired,
+      }).isRequired,
+      withdraw: PropTypes.shape({
+        locked: PropTypes.bool.isRequired,
+        canUnlock: PropTypes.bool.isRequired,
+      }).isRequired,
+      error: PropTypes.object,
+      isLoading: PropTypes.bool.isRequired,
+      receivedAt: PropTypes.number,
+    }).isRequired,
   };
   static defaultProps = {
     submitting: false,
@@ -90,6 +104,17 @@ class PaymentAddModal extends Component {
     this.props.onManageNote(null);
     this.context.hidePopover();
   };
+
+  isPaymentMethodDisabled(type) {
+    const { walletLimits } = this.props;
+    let method = type.toLowerCase();
+
+    if (method === paymentTypes.Confiscate) {
+      method = 'withdraw';
+    }
+
+    return walletLimits[method] ? walletLimits[method].locked : false;
+  }
 
   renderPaymentAccountField = () => {
     const { currentValues } = this.props;
@@ -169,6 +194,8 @@ class PaymentAddModal extends Component {
       onNoteClick,
     } = this.props;
 
+    const filteredPaymentTypes = Object.keys(paymentTypes).filter(type => !this.isPaymentMethodDisabled(type));
+
     return (
       <Modal className="payment-create-modal" toggle={onClose} isOpen>
         <ModalHeader toggle={onClose}>
@@ -194,7 +221,7 @@ class PaymentAddModal extends Component {
                   position="vertical"
                 >
                   <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
-                  {Object.keys(paymentTypes).map(type => (
+                  {filteredPaymentTypes.map(type => (
                     <option key={type} value={type}>
                       {paymentTypesLabels[type]}
                     </option>

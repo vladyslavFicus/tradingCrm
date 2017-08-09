@@ -1,16 +1,13 @@
 .department {
   position: relative;
   padding: 5px 28px 4px 20px;
-  line-height: 1;
-  color: #fff;
-  font-size: 18px;
   &::before,
   &::after {
     content: '';
     width: 1px;
-    height: 22px;
+    height: 24px;
     position: absolute;
-    bottom: 15px;
+    bottom: 12px;
     background-color: darken(#464a4c, 5%);
   }
   &::before {
@@ -20,7 +17,10 @@
     right: 0;
   }
   &__current {
+    font-size: 18px;
     font-weight: 600;
+    line-height: 1;
+    color: #fff;
   }
   .dropdown {
     position: initial;

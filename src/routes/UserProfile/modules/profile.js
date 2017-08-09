@@ -427,6 +427,18 @@ function successKycActionReducer(state, action) {
   };
 }
 
+function successUpdateStatusReducer(state, action) {
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      ...action.payload,
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  };
+}
+
 function successUpdateProfileReducer(state, action) {
   const {
     personalStatus: kycPersonalStatus,
@@ -640,9 +652,10 @@ const actionHandlers = {
   }),
   [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [BLOCK_PROFILE.SUCCESS]: successUpdateProfileReducer,
-  [SUSPEND_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [SUSPEND_PROFILE.SUCCESS]: successUpdateStatusReducer,
   [UNBLOCK_PROFILE.SUCCESS]: successUpdateProfileReducer,
-  [PROLONG_PROFILE.SUCCESS]: successUpdateProfileReducer,
+  [PROLONG_PROFILE.SUCCESS]: successUpdateStatusReducer,
+  [RESUME_PROFILE.SUCCESS]: successUpdateStatusReducer,
   [SUBMIT_KYC.REQUEST]: state => ({
     ...state,
     isLoading: true,

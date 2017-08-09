@@ -8,6 +8,7 @@ import { targetTypes } from '../../../../../constants/note';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/files';
 import { actions as filesActions } from '../../../../../constants/files';
+import { accountStatuses as paymentAccountStatuses } from '../../../../../constants/payment';
 
 const KEY = 'user-payment-accounts';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
@@ -17,6 +18,9 @@ const FETCH_PAYMENT_ACCOUNT_FILES = createRequestAction(`${KEY}/fetch-payment-ac
 
 const VERIFY_FILE = createRequestAction(`${KEY}/verify-payment-account-file`);
 const REFUSE_FILE = createRequestAction(`${KEY}/refuse-payment-account-file`);
+
+const ACTIVE_PAYMENT_ACCOUNT = createRequestAction(`${KEY}/active-payment-account`);
+const LOCK_PAYMENT_ACCOUNT = createRequestAction(`${KEY}/lock-payment-account`);
 
 const fetchNotesFn = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const fetchFilesNotes = noteSourceActionCreators.fetchNotesByType(FETCH_FILES_NOTES);
@@ -151,6 +155,81 @@ function updateFileStatusReducer(state, action) {
   };
 }
 
+function activePaymentAccount(paymentAccountUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/payment/accounts/${paymentAccountUUID}/unlock`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          ACTIVE_PAYMENT_ACCOUNT.REQUEST,
+          ACTIVE_PAYMENT_ACCOUNT.SUCCESS,
+          ACTIVE_PAYMENT_ACCOUNT.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function lockPaymentAccount(paymentAccountUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/payment/accounts/${paymentAccountUUID}/lock`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          LOCK_PAYMENT_ACCOUNT.REQUEST,
+          LOCK_PAYMENT_ACCOUNT.SUCCESS,
+          LOCK_PAYMENT_ACCOUNT.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function changePaymentAccountStatus(action, paymentAccountUUID) {
+  return (dispatch) => {
+    if (action === paymentAccountStatuses.ACTIVE) {
+      return dispatch(activePaymentAccount(paymentAccountUUID));
+    } else if (action === paymentAccountStatuses.LOCKED) {
+      return dispatch(lockPaymentAccount(paymentAccountUUID));
+    }
+
+    throw new Error(`Unknown status change action "${action}".`);
+  };
+}
+
+function updatePaymentAccountStatusReducer(state, action) {
+  const paymentAccountUUID = action.payload.uuid;
+
+  const newState = {
+    ...state,
+    items: {
+      ...state.items,
+    },
+  };
+
+  newState.items[paymentAccountUUID] = { ...newState.items[paymentAccountUUID], ...action.payload };
+
+  return newState;
+}
+
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: state => ({
     ...state,
@@ -183,6 +262,8 @@ const actionHandlers = {
   }),
   [VERIFY_FILE.SUCCESS]: updateFileStatusReducer,
   [REFUSE_FILE.SUCCESS]: updateFileStatusReducer,
+  [ACTIVE_PAYMENT_ACCOUNT.SUCCESS]: updatePaymentAccountStatusReducer,
+  [LOCK_PAYMENT_ACCOUNT.SUCCESS]: updatePaymentAccountStatusReducer,
 };
 const initialState = {
   items: {},
@@ -198,6 +279,7 @@ const actionCreators = {
   fetchEntities,
   fetchFilesAndNotes,
   changeFileStatusByAction,
+  changePaymentAccountStatus,
 };
 
 export {
