@@ -68,7 +68,7 @@ function refreshToken() {
 }
 
 function changeDepartment(department, brandId = getBrand(), token = null) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { auth: { token: currentToken, logged } } = getState();
 
     return dispatch({
@@ -80,6 +80,9 @@ function changeDepartment(department, brandId = getBrand(), token = null) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token || currentToken}`,
         },
+        body: JSON.stringify({
+          device: await getFingerprint(),
+        }),
         types: [CHANGE_AUTHORITY.REQUEST, CHANGE_AUTHORITY.SUCCESS, CHANGE_AUTHORITY.FAILURE],
         bailout: !logged && !token,
       },
