@@ -14,7 +14,11 @@ const GridPaymentInfo = ({ payment, onClick }) => {
   return (
     <div id={`payment-${payment.paymentId}`}>
       <div className="font-weight-700">
-        <button className="btn-transparent-text" onClick={onClick}>
+        <button
+          className="btn-transparent-text"
+          onClick={onClick}
+          id={`transaction-${payment.paymentId}`}
+        >
           {shortify(payment.paymentId, 'TA')}
         </button>
       </div>

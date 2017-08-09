@@ -11,7 +11,7 @@ const GridPlayerInfo = ({ profile, onClick, mainInfoClassName, id }) => (
       <div>
         <div
           className={classNames(mainInfoClassName, { 'cursor-pointer': !!onClick })}
-          id={`${id ? `${id}-` : `players-list-${profile.playerUUID}-name`}`}
+          id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-main`}
           onClick={onClick}
         >
           {profile.firstName} {profile.lastName} {!!profile.age && `(${profile.age})`}
@@ -19,7 +19,10 @@ const GridPlayerInfo = ({ profile, onClick, mainInfoClassName, id }) => (
           {profile.kycCompleted && <i className="fa fa-check text-success" />}
         </div>
 
-        <div className="font-size-11" id={`players-list-${profile.playerUUID}-additional`}>
+        <div
+          className="font-size-11"
+          id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-additional`}
+        >
           {!!profile.username && <span>{profile.username} - </span>}
           <Uuid
             uuid={profile.playerUUID}
