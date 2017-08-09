@@ -137,16 +137,16 @@ class View extends Component {
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>
-      <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700 color-black">{data.name}</Link>
-      <div className="font-size-10">
+      <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700">{data.name}</Link>
+      <div className="font-size-11">
         <Uuid uuid={data.uuid} uuidPrefix="CA" />
       </div>
-      <div className="font-size-10">
+      <div className="font-size-11">
         {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.PRIORITY', { priority: data.campaignPriority })}
       </div>
       {
         data.authorUUID &&
-        <div className="font-size-10">
+        <div className="font-size-11">
           {I18n.t('COMMON.AUTHOR_BY')}
           <Uuid uuid={data.authorUUID} />
         </div>
@@ -164,11 +164,11 @@ class View extends Component {
         <div>
           {
             data.optIn &&
-            <div className="font-size-10">
+            <div className="font-size-11">
               {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TOTAL_OPT_IN_PLAYERS', { count: data.totalOptInPlayers })}
             </div>
           }
-          <div className="font-size-10">
+          <div className="font-size-11">
             {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TOTAL_SELECTED_PLAYERS', { count: data.totalSelectedPlayers })}
           </div>
         </div>
@@ -181,7 +181,7 @@ class View extends Component {
       <div className="text-uppercase font-weight-700">
         {renderLabel(data.campaignType, campaignTypesLabels)}
       </div>
-      <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
+      <div className="font-size-11">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
     </div>
   );
 
@@ -197,7 +197,7 @@ class View extends Component {
         <div className="font-weight-700">
           {date.format('DD.MM.YYYY')}
         </div>
-        <div className="font-size-10">
+        <div className="font-size-11">
           {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.DATE_TIME_AT', { time: date.format('HH:mm') })}
         </div>
       </div>
@@ -209,7 +209,7 @@ class View extends Component {
       <div className="font-weight-700">
         <Amount amount={data.grantedSum} currency={data.currency} />
       </div>
-      <div className="font-size-10">
+      <div className="font-size-11">
         {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.GRANTED_TO', { count: data.grantedTotal })}
       </div>
     </div>
@@ -272,7 +272,7 @@ class View extends Component {
             <GridView
               locale={locale}
               tableClassName="table table-hovered data-grid-layout"
-              headerClassName=""
+              headerClassName="text-uppercase"
               dataSource={entities.content}
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
@@ -282,56 +282,48 @@ class View extends Component {
               <GridColumn
                 name="campaign"
                 header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
-                headerClassName="text-uppercase"
                 render={this.renderCampaign}
               />
 
               <GridColumn
                 name="targetType"
                 header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TYPE')}
-                headerClassName="text-uppercase"
                 render={this.renderType}
               />
 
               <GridColumn
                 name="fulfillmentType"
                 header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
-                headerClassName="text-uppercase"
                 render={this.renderFulfillmentType}
               />
 
               <GridColumn
                 name="createdDate"
                 header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CREATED')}
-                headerClassName="text-uppercase"
                 render={this.renderDate('creationDate')}
               />
 
               <GridColumn
                 name="startDate"
                 header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.START_DATE')}
-                headerClassName="text-uppercase"
                 render={this.renderDate('startDate')}
               />
 
               <GridColumn
                 name="endDate"
                 header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.END_DATE')}
-                headerClassName="text-uppercase"
                 render={this.renderDate('endDate')}
               />
 
               <GridColumn
                 name="granted"
                 header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.GRANTED')}
-                headerClassName="text-uppercase"
                 render={this.renderGranted}
               />
 
               <GridColumn
                 name="status"
                 header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.STATUS')}
-                headerClassName="text-uppercase"
                 render={this.renderStatus}
               />
             </GridView>

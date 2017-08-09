@@ -3,6 +3,7 @@ import moment from 'moment';
 import _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { targetTypes as noteTargetTypes } from '../../../../../constants/note';
+import { accountStatuses as paymentAccountStatuses } from '../../../../../constants/payment';
 import PropTypes from '../../../../../constants/propTypes';
 import { GridColumn } from '../../../../../components/GridView';
 import { shortify } from '../../../../../utils/uuid';
@@ -11,6 +12,7 @@ import CollapseGridView from '../../../../../components/GridView/CollapseGridVie
 import CommonFileGridView from '../../../components/CommonFileGridView';
 import { targetTypes as fileTargetTypes } from '../../../../../components/Files/constants';
 import Amount from '../../../../../components/Amount';
+import StatusDropDown from './StatusDropDown';
 
 class View extends Component {
   static propTypes = {
@@ -24,6 +26,7 @@ class View extends Component {
     downloadFile: PropTypes.func.isRequired,
     fetchFilesAndNotes: PropTypes.func.isRequired,
     currencyCode: PropTypes.string,
+    changePaymentAccountStatus: PropTypes.func.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -102,6 +105,10 @@ class View extends Component {
 
   handlePreviewImageClick = (data) => {
     this.context.showImages(`${this.props.filesUrl}${data.uuid}`, data.type);
+  };
+
+  handleChangeStatus = paymentAccountUUID => (action) => {
+    this.props.changePaymentAccountStatus(action, paymentAccountUUID);
   };
 
   renderPaymentAccount = data => (
@@ -195,6 +202,18 @@ class View extends Component {
     );
   };
 
+  renderStatus = (data) => {
+    const { lockDeposit, lockWithdraw } = data;
+    const status = lockDeposit && lockWithdraw ? paymentAccountStatuses.LOCKED : paymentAccountStatuses.ACTIVE;
+
+    return (
+      <StatusDropDown
+        status={status}
+        onStatusChange={this.handleChangeStatus(data.uuid)}
+      />
+    );
+  }
+
   renderCollapseBlock = data => (
     <div>
       <div className="row margin-bottom-10">
@@ -273,6 +292,12 @@ class View extends Component {
             name="totalDeposits"
             header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.DEPOSITS')}
             render={this.renderAggregateAmount}
+          />
+          <GridColumn
+            name="Status"
+            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.STATUS')}
+            className="text-uppercase"
+            render={this.renderStatus}
           />
           <GridColumn
             name="Files"
