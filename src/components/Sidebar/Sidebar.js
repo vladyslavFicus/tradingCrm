@@ -31,7 +31,7 @@ class Sidebar extends Component {
             isOpen: true,
           });
         }
-      }, 1000);
+      }, 400);
     });
   };
 
