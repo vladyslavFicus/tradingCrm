@@ -71,7 +71,7 @@ class NavItem extends Component {
       }
     }
 
-    const className = classNames('nav-item', { active: isSidebarOpen && (currentMenu || isOpen), dropdown: withSubmenu });
+    const className = classNames('nav-item', { active: currentMenu || isOpen, dropdown: withSubmenu });
 
     return (
       <li className={className} onClick={() => onToggleMenuItem(index)}>

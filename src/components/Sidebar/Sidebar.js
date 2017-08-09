@@ -20,12 +20,16 @@ class Sidebar extends Component {
   };
 
   openTimeout = null;
+  closeTimeout = null;
 
   handleSidebarMouseEnter = () => {
     this.setState({
       isHover: true,
     }, () => {
       this.openTimeout = setTimeout(() => {
+        clearTimeout(this.closeTimeout);
+        this.closeTimeout = null;
+
         if (this.state.isHover) {
           this.setState({
             isOpen: true,
@@ -36,10 +40,12 @@ class Sidebar extends Component {
   };
 
   handleSidebarMouseLeave = () => {
-    this.setState({
-      isHover: false,
-      isOpen: false,
-    });
+    this.closeTimeout = setTimeout(() => {
+      this.setState({
+        isHover: false,
+        isOpen: false,
+      });
+    }, 400);
 
     if (!this.openTimeout) {
       clearTimeout(this.openTimeout);
