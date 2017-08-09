@@ -6231,6 +6231,12 @@ redux-form@^7.0.3:
     lodash-es "^4.17.3"
     prop-types "^15.5.9"
 
+redux-hotjar@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/redux-hotjar/-/redux-hotjar-0.2.0.tgz#3b86fb6bef253102557d1b90c2bc6a3b5fbc7d80"
+  dependencies:
+    redux-tap "^0.2.0"
+
 redux-persist@^4.8.3:
   version "4.8.3"
   resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-4.8.3.tgz#fbad95e7582483635c91a3dd83da4789e7a09107"
@@ -6238,6 +6244,10 @@ redux-persist@^4.8.3:
     json-stringify-safe "^5.0.1"
     lodash "^4.17.4"
     lodash-es "^4.17.4"
+
+redux-tap@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/redux-tap/-/redux-tap-0.2.0.tgz#be77a9ac2d779dde0325f0f34dc2cbfbe2c4f348"
 
 redux-thunk@^2.2.0:
   version "2.2.0"
