@@ -53,7 +53,7 @@ function exportEntities(filters = {}) {
       _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
     );
 
-    const response = await fetch(`${getApiRoot()}/profile/profiles/es?${queryString}`, {
+    const response = await fetch(`${getApiRoot()}/profile/profiles?${queryString}`, {
       method: filters.playerUuidList ? 'POST' : 'GET',
       headers: {
         Accept: 'text/csv',
