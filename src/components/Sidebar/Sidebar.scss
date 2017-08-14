@@ -11,6 +11,9 @@
   &.add-delay {
     transition-delay: .2s;
   }
+  .nav {
+    overflow-x: hidden;
+  }
   .nav:first-child {
     padding-bottom: 15px;
   }
