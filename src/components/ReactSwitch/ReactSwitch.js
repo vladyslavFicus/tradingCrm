@@ -17,6 +17,7 @@ class ReactSwitch extends Component {
 
   render() {
     const { className, onClick, on, disabled } = this.props;
+
     return (
       <div
         className={classNames('react-switch', className, { 'is-disabled': disabled, on })}

@@ -13,9 +13,13 @@ class Switch extends Component {
     disabled: false,
   };
 
-  state = {
-    active: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      active: props.active,
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.active !== this.props.active) {
@@ -43,11 +47,14 @@ class Switch extends Component {
   };
 
   render() {
+    const { active } = this.state;
+    const { disabled } = this.props;
+
     return (
       <ReactSwitch
-        on={this.state.active}
+        on={active}
         onClick={this.handleSwitch}
-        disabled={this.props.disabled}
+        disabled={disabled}
       />
     );
   }
