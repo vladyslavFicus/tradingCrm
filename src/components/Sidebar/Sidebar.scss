@@ -6,8 +6,11 @@
   left: 0;
   padding-top: 20px;
   background-color: #333;
-  transition: .3s width .4s;
+  transition: .3s width;
   z-index: 2;
+  &.add-delay {
+    transition-delay: .2s;
+  }
   .nav:first-child {
     padding-bottom: 15px;
   }
@@ -87,7 +90,7 @@
     }
     .nav-link__label {
       opacity: 1;
-      transition-delay: .4s;
+      transition-delay: .2s;
     }
     .fa-angle-down {
       opacity: 1;

@@ -81,7 +81,7 @@ class Sidebar extends Component {
   render() {
     return (
       <aside
-        className={classNames('sidebar', { sidebar_open: this.state.isOpen })}
+        className={classNames('sidebar', { sidebar_open: this.state.isOpen, 'add-delay': !this.state.isHover })}
         onMouseEnter={this.handleSidebarMouseEnter}
         onMouseLeave={this.handleSidebarMouseLeave}
       >
@@ -95,13 +95,13 @@ class Sidebar extends Component {
             items={this.props.topMenu}
             onOpenTab={this.props.onOpenTab}
             onMenuClick={this.onMenuClick}
+            isSidebarOpen={this.state.isOpen}
           />
         </Scrollbars>
         <Nav
           items={this.props.bottomMenu}
           onMenuClick={this.onMenuClick}
           onOpenTab={this.props.onOpenTab}
-          isHover={this.state.isHover}
           isSidebarOpen={this.state.isOpen}
         />
       </aside>

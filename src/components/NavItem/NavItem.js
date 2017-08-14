@@ -14,6 +14,7 @@ class NavItem extends Component {
     isOpen: PropTypes.bool,
     onToggleMenuItem: PropTypes.func,
     onMenuClick: PropTypes.func.isRequired,
+    isSidebarOpen: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
   };
   static contextTypes = {
@@ -39,6 +40,7 @@ class NavItem extends Component {
       onToggleMenuItem,
       index,
       onMenuClick,
+      isSidebarOpen,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const withSubmenu = items && items.length > 0;
@@ -67,7 +69,7 @@ class NavItem extends Component {
       }
     }
 
-    const className = classNames('nav-item', { active: currentMenu || isOpen, dropdown: withSubmenu });
+    const className = classNames('nav-item', { active: isSidebarOpen && (currentMenu || isOpen), dropdown: withSubmenu });
 
     return (
       <li className={className} onClick={() => onToggleMenuItem(index)}>
