@@ -74,7 +74,7 @@ function fetchProfile(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/profiles/es/${uuid}`,
+        endpoint: `profile/profiles/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -210,7 +210,7 @@ function fetchESEntities(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/profiles/es?${queryString}`,
+        endpoint: `profile/profiles?${queryString}`,
         method: filters.playerUuidList ? 'POST' : 'GET',
         headers: {
           Accept: 'application/json',
