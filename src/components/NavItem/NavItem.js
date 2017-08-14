@@ -12,8 +12,6 @@ class NavItem extends Component {
     url: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.navItem),
     isOpen: PropTypes.bool,
-    isHover: PropTypes.bool.isRequired,
-    isSidebarOpen: PropTypes.bool.isRequired,
     onToggleMenuItem: PropTypes.func,
     onMenuClick: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
@@ -41,8 +39,6 @@ class NavItem extends Component {
       onToggleMenuItem,
       index,
       onMenuClick,
-      isHover,
-      isSidebarOpen,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const withSubmenu = items && items.length > 0;
@@ -88,7 +84,6 @@ class NavItem extends Component {
           <SubNav
             items={subMenu}
             onMenuClick={onMenuClick}
-            isAddDelay={!isHover}
           />
         }
       </li>

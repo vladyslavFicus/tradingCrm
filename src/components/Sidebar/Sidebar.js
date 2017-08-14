@@ -29,13 +29,10 @@ class Sidebar extends Component {
       this.openTimeout = setTimeout(() => {
         if (this.state.isHover) {
           this.setState({
-            isHover: false,
             isOpen: true,
           });
-
-          setTimeout(() => this.setState({ isHover: true }), 100);
         }
-      }, 400);
+      }, 1000);
     });
 
     clearTimeout(this.closeTimeout);
@@ -49,7 +46,7 @@ class Sidebar extends Component {
         isOpen: false,
       });
       this.props.menuClick();
-    }, 100);
+    }, 1000);
 
     if (!this.openTimeout) {
       clearTimeout(this.openTimeout);
@@ -98,9 +95,6 @@ class Sidebar extends Component {
             items={this.props.topMenu}
             onOpenTab={this.props.onOpenTab}
             onMenuClick={this.onMenuClick}
-            isHover={this.state.isHover}
-            isSidebarOpen={this.state.isOpen}
-
           />
         </Scrollbars>
         <Nav

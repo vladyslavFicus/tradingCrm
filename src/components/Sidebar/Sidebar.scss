@@ -6,7 +6,7 @@
   left: 0;
   padding-top: 20px;
   background-color: #333;
-  transition: .2s width linear 1s;
+  transition: .3s width .3s;
   z-index: 2;
   .nav:first-child {
     padding-bottom: 15px;
@@ -41,7 +41,6 @@
     top: 4px;
     right: 8px;
     opacity: 0;
-    transition: transform .2s 0s, opacity .3s 1s;
   }
   .nav-link__label {
     margin-left: 5px;
@@ -64,9 +63,6 @@
     background-color: #666;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2) inset;
     transition: all .2s linear;
-    &.addDelay {
-      transition-delay: .3s;
-    }
     .dropdown-item {
       padding-left: 56px;
       color: #ccc;
@@ -86,7 +82,6 @@
   }
   &.sidebar_open {
     width: 240px;
-    transition-delay: .4s;
     .scroll-bar {
       opacity: 1;
     }

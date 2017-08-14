@@ -21,8 +21,6 @@ class Nav extends Component {
       className,
       onOpenTab,
       onMenuClick,
-      isHover,
-      isSidebarOpen,
     } = this.props;
 
     return (
@@ -38,8 +36,6 @@ class Nav extends Component {
             items={item.items}
             onToggleMenuItem={onOpenTab}
             onMenuClick={onMenuClick}
-            isHover={isHover}
-            isSidebarOpen={isSidebarOpen}
           />
         ))}
       </ul>
