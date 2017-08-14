@@ -2,7 +2,7 @@ import keyMirror from 'keymirror';
 import permissions from '../config/permissions';
 
 const attributeLabels = {
-  acceptedTermsId: 'Accepted terms ID',
+  acceptedTermsUUID: 'Accepted terms Uuid',
   address: 'Address',
   addressKycMetaData: 'Address files',
   kycAddressStatus: 'Address status',

@@ -162,7 +162,7 @@ PropTypes.uploadingFile = PropTypes.shape({
   error: PropTypes.string,
 });
 PropTypes.userProfile = PropTypes.shape({
-  acceptedTermsId: PropTypes.number,
+  acceptedTermsUUID: PropTypes.string,
   address: PropTypes.string,
   addressKycMetaData: PropTypes.arrayOf(PropTypes.fileEntity),
   kycAddressStatus: PropTypes.kycStatus,

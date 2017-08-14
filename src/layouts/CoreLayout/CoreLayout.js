@@ -26,7 +26,10 @@ class CoreLayout extends Component {
           if (typeof data === 'string') {
             const action = JSON.parse(data);
 
-            if (action.type === windowActionTypes.NOTIFICATION && this.notificationNode.addNotification) {
+            if (
+              action.type === windowActionTypes.NOTIFICATION && this.notificationNode
+              && this.notificationNode.addNotification
+            ) {
               this.notificationNode.addNotification(action.payload);
             }
           }
