@@ -29,8 +29,11 @@ class Sidebar extends Component {
       this.openTimeout = setTimeout(() => {
         if (this.state.isHover) {
           this.setState({
+            isHover: false,
             isOpen: true,
           });
+
+          setTimeout(() => this.setState({ isHover: true }), 100);
         }
       }, 400);
     });
@@ -45,7 +48,8 @@ class Sidebar extends Component {
         isHover: false,
         isOpen: false,
       });
-    }, 400);
+      this.props.menuClick();
+    }, 100);
 
     if (!this.openTimeout) {
       clearTimeout(this.openTimeout);
