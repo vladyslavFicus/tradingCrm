@@ -3,24 +3,30 @@
 .profile-layout {
   border: none;
   margin-bottom: 0;
+  .nav-tabs {
+    margin-top: -80px;
+    margin-right: 25px;
+    margin-left: 25px;
+  }
   &.operators-profile-layout {
     width: 94%;
     margin-top: -20px;
     margin-right: auto;
     margin-left: auto;
+    .nav-tabs {
+      margin-top: -80px;
+      margin-right: 0;
+      margin-left: 0;
+    }
   }
   &-heading {
-    padding-bottom: 60px;
+    padding-bottom: 75px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(248, 248, 248, 1) 100%, rgba(248, 248, 248, 1) 100%);
   }
   .profile-user-content {
     padding-top: 15px;
   }
-  .nav-tabs {
-    margin-top: -60px;
-    margin-right: 25px;
-    margin-left: 25px;
-  }
+
   .tab-content {
     padding-right: 25px;
     padding-left: 25px;
@@ -37,6 +43,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,.15);
   }
 }
 
@@ -46,6 +53,7 @@
   align-items: center;
   padding: 20px 25px;
   background-color: #fff;
+  transition: all .2s ease;
   &__heading {
     font-size: 20px;
   }

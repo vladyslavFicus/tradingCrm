@@ -1,13 +1,7 @@
 .layout-quick-overview {
   display: flex;
   flex-flow: row wrap;
-  padding: 25px .9375rem;
-}
-
-.layout-quick-overview_with-fixed-header {
-  margin-top: 75px;
-  padding-top: 21px;
-  padding-bottom: 10px;
+  padding: 21px .9375rem 10px;
 }
 
 .header-block {
