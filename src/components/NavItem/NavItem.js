@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Link } from 'react-router';
 import { I18n } from 'react-redux-i18n';
 import Permissions from '../../utils/permissions';
 import SubNav from '../SubNav';
@@ -12,17 +11,23 @@ class NavItem extends Component {
     label: PropTypes.string.isRequired,
     url: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.navItem),
+    isOpen: PropTypes.bool,
+    onToggleMenuItem: PropTypes.func,
+    onMenuClick: PropTypes.func.isRequired,
+    isSidebarOpen: PropTypes.bool.isRequired,
+    index: PropTypes.number.isRequired,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
+    location: PropTypes.object.isRequired,
   };
+  static defaultProps = {
+    isOpen: null,
+    onToggleMenuItem: null,
+  }
 
   state = {
     opened: false,
-  };
-
-  handleDropDownClick = () => {
-    this.setState({ opened: !this.state.opened });
   };
 
   render() {
@@ -31,11 +36,16 @@ class NavItem extends Component {
       icon,
       url,
       items,
+      isOpen,
+      onToggleMenuItem,
+      index,
+      onMenuClick,
+      isSidebarOpen,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
     const withSubmenu = items && items.length > 0;
-    const className = classNames('nav-item', { active: this.state.opened, dropdown: withSubmenu });
     let subMenu = [];
+    let currentMenu = false;
 
     if (!label || (!url && !withSubmenu)) {
       return null;
@@ -53,22 +63,29 @@ class NavItem extends Component {
       if (!subMenu.length) {
         return null;
       }
+
+      if (subMenu) {
+        currentMenu = subMenu.find(subMenuItem => subMenuItem.url === this.context.location.pathname);
+      }
     }
 
+    const className = classNames('nav-item', { active: isSidebarOpen && (currentMenu || isOpen), dropdown: withSubmenu });
+
     return (
-      <li className={className} onClick={this.handleDropDownClick}>
-        <Link className="nav-link" to={url}>
+      <li className={className} onClick={() => onToggleMenuItem(index)}>
+        <span className="nav-link" onClick={() => onMenuClick(url)}>
           {!!icon && <i className={icon} />}
           <span className="nav-link__label">
             {I18n.t(label)}
             {withSubmenu && <i className="fa fa-angle-down" />}
           </span>
-        </Link>
+        </span>
 
         {
           withSubmenu &&
           <SubNav
             items={subMenu}
+            onMenuClick={onMenuClick}
           />
         }
       </li>
