@@ -145,13 +145,7 @@ const actionHandlers = {
   },
   [MENU_CLICK]: (state, action) => ({
     ...state,
-    sidebarTopMenu: state.sidebarTopMenu.map((menuItem) => {
-      if (menuItem.items) {
-        menuItem.isOpen = false;
-      }
-
-      return menuItem;
-    }),
+    sidebarTopMenu: state.sidebarTopMenu.map(menuItem => menuItem.items ? { ...menuItem, isOpen: false } : menuItem),
   }),
 };
 
