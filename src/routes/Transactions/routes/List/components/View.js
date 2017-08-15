@@ -44,6 +44,7 @@ class View extends Component {
     onChangePaymentStatus: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -273,7 +274,11 @@ class View extends Component {
   );
 
   render() {
-    const { transactions: { entities }, filters: { data: availableFilters } } = this.props;
+    const {
+      transactions: { entities, isLoading, receivedAt },
+      filters: { data: availableFilters },
+      locale,
+    } = this.props;
     const { modal, filters } = this.state;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
@@ -306,6 +311,8 @@ class View extends Component {
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad
+              locale={locale}
+              notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
             >
               <GridColumn
                 name="paymentId"

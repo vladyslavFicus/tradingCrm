@@ -70,6 +70,7 @@ class View extends Component {
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number,
     }).isRequired,
+
   };
   static defaultProps = {
     newPaymentNote: null,
@@ -369,13 +370,14 @@ class View extends Component {
   render() {
     const { modal } = this.state;
     const {
-      transactions: { entities },
+      transactions: { entities, isLoading, receivedAt },
       filters: { data: availableFilters },
       loadPaymentAccounts,
       manageNote,
       playerProfile,
       newPaymentNote,
       walletLimits,
+      locale,
     } = this.props;
 
     return (
@@ -407,6 +409,8 @@ class View extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             lazyLoad
+            locale={locale}
+            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
           >
             <GridColumn
               name="paymentId"

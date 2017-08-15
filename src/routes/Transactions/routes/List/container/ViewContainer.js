@@ -4,8 +4,9 @@ import { actionCreators } from '../modules';
 import { paymentActions } from '../../../../../constants/payment';
 import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../config';
 
-const mapStateToProps = ({ transactions }) => ({
+const mapStateToProps = ({ transactions, i18n: { locale } }) => ({
   ...transactions,
+  locale,
   paymentActionReasons: {
     [paymentActions.REJECT]: getTransactionRejectReasons(),
     [paymentActions.CHARGEBACK]: getTransactionChargebackReasons(),

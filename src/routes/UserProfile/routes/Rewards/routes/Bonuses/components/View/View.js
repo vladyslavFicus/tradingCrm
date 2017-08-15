@@ -35,6 +35,7 @@ class View extends Component {
     }).isRequired,
     fetchActiveBonus: PropTypes.func.isRequired,
     acceptBonus: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -265,7 +266,11 @@ class View extends Component {
 
   render() {
     const { modal } = this.state;
-    const { list: { entities }, playerProfile: { data: playerProfile } } = this.props;
+    const {
+      list: { entities, isLoading, receivedAt },
+      playerProfile: { data: playerProfile },
+      locale,
+    } = this.props;
 
     return (
       <div className="profile-tab-container">
@@ -296,6 +301,8 @@ class View extends Component {
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
+            locale={locale}
+            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
           >
             <GridColumn
               name="mainInfo"

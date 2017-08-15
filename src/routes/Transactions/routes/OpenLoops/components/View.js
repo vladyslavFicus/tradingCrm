@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
@@ -38,6 +37,7 @@ class View extends Component {
     onChangePaymentStatus: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -258,7 +258,7 @@ class View extends Component {
   );
 
   render() {
-    const { transactions: { entities } } = this.props;
+    const { transactions: { entities, isLoading, receivedAt }, locale } = this.props;
     const { modal } = this.state;
 
     return (
@@ -277,6 +277,8 @@ class View extends Component {
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad
+              locale={locale}
+              notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
             >
               <GridColumn
                 name="paymentId"

@@ -37,6 +37,7 @@ class View extends Component {
     }).isRequired,
     fetchGameActivity: PropTypes.func.isRequired,
     exportGameActivity: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -232,6 +233,8 @@ class View extends Component {
       activity: {
         entities,
         exporting,
+        isLoading,
+        receivedAt,
       },
       filters: {
         data: { games, aggregators, providers },
@@ -240,6 +243,7 @@ class View extends Component {
       gameCategories: {
         entities: gameCategories,
       },
+      locale,
     } = this.props;
 
     return (
@@ -276,6 +280,8 @@ class View extends Component {
             totalPages={entities.totalPages}
             lazyLoad
             rowClassName={data => classNames({ 'round-rollback-row': data.rollback })}
+            locale={locale}
+            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
           >
             <GridColumn
               name="gameRound"

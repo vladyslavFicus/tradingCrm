@@ -165,10 +165,10 @@ class List extends Component {
         </div>
       </div>
     );
-  }
+  };
 
   render() {
-    const { list: { entities }, filterValues, locale } = this.props;
+    const { list: { entities, isLoading, receivedAt }, filterValues, locale } = this.props;
     const { filters } = this.state;
 
     return (
@@ -200,6 +200,7 @@ class List extends Component {
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad
+              notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
             >
               <GridColumn
                 name="id"
