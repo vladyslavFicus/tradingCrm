@@ -59,10 +59,16 @@
         "VERIFY_EMAIL": "Verify email"
       },
       "PERSONAL": {
-        "TITLE": "Personal information"
+        "TITLE": "Personal information",
+        "VERIFY_KYC": {
+          "ERROR": "Need to save personal information"
+        }
       },
       "ADDRESS": {
-        "TITLE": "Address"
+        "TITLE": "Address",
+        "VERIFY_KYC": {
+          "ERROR": "Need to save address information"
+        }
       },
       "TITLE": "Profile",
       "VERIFY_PERSONAL_DATA_TITLE": "Identity",
@@ -98,6 +104,9 @@
           "REVOKE": "Revoke"
         },
         "PENDING": "Documents verification is pending"
+      },
+      "VERIFY_KYC": {
+        "TITLE": "Verify KYC"
       }
     },
     "GAME_ACTIVITY": {
@@ -143,7 +152,8 @@
         "WITHDRAWS": "Withdrawals",
         "DEPOSITS": "Deposits",
         "FILES": "Files",
-        "NOTE": "Note"
+        "NOTE": "Note",
+        "STATUS": "Status"
       },
       "TITLE": "Payment accounts",
       "ATTACHED_FILES": "Attached files"
@@ -625,6 +635,16 @@
         "CARD": "Credit card",
         "MASTERCARD": "Mastercard",
         "YANDEX_MONEY": "Yandex money"
+      },
+      "PAYMENT_ACCOUNT": {
+        "STATUS": {
+          "ACTIVE": "Active",
+          "LOCKED": "Locked"
+        },
+        "ACTION": {
+          "LOCK": "Lock deposits & withdrawals",
+          "ACTIVATE": "Activate"
+        }
       }
     },
     "TRANSACTIONS": {

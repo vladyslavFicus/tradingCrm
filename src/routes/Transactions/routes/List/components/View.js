@@ -177,7 +177,7 @@ class View extends Component {
 
   renderPlayer = data => (
     data.playerProfile
-      ? <GridPlayerInfo profile={data.playerProfile} />
+      ? <GridPlayerInfo profile={data.playerProfile} id={`transaction-${data.paymentId}`} />
       : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
   );
 

@@ -59,10 +59,17 @@
         "VERIFY_EMAIL": "Подтвердить email"
       },
       "PERSONAL": {
-        "TITLE": "Персональная информация"
+        "TITLE": "Персональная информация",
+        "VERIFY_KYC": {
+          "TITLE": "",
+          "ERROR": "Необходимо сохранить персональные данные"
+        }
       },
       "ADDRESS": {
-        "TITLE": "Адрес"
+        "TITLE": "Адрес",
+        "VERIFY_KYC": {
+          "ERROR": "Необходимо сохранить адрес"
+        }
       },
       "TITLE": "Профиль",
       "VERIFY_PERSONAL_DATA_TITLE": "Личность",
@@ -98,6 +105,9 @@
           "REVOKE": "Отменить"
         },
         "PENDING": "Ожидает проверку документов"
+      },
+      "VERIFY_KYC": {
+        "TITLE": "KYC верификация"
       }
     },
     "GAME_ACTIVITY": {
@@ -143,7 +153,8 @@
         "WITHDRAWS": "Выводы",
         "DEPOSITS": "Депозиты",
         "FILES": "Файлы",
-        "NOTE": "Заметки"
+        "NOTE": "Заметки",
+        "STATUS": "Статус"
       },
       "TITLE": "Платежные счета",
       "ATTACHED_FILES": "Прикрепленные файлы"
@@ -625,6 +636,16 @@
         "CARD": "Карта",
         "MASTERCARD": "Mastercard",
         "YANDEX_MONEY": "Yandex money"
+      },
+      "PAYMENT_ACCOUNT": {
+        "STATUS": {
+          "ACTIVE": "Активен",
+          "LOCKED": "Заблокирован"
+        },
+        "ACTION": {
+          "LOCK": "Заблокировать",
+          "ACTIVATE": "Активировать"
+        }
       }
     },
     "TRANSACTIONS": {

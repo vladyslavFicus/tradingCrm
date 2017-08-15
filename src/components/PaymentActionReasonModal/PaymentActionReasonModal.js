@@ -20,13 +20,14 @@ const CUSTOM_REASON = 'custom';
 
 class PaymentActionReasonModal extends Component {
   static propTypes = {
+    action: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     playerProfile: PropTypes.userProfile.isRequired,
     onNoteClick: PropTypes.func.isRequired,
     payment: PropTypes.paymentEntity.isRequired,
-    reasons: PropTypes.arrayOf(PropTypes.string),
+    reasons: PropTypes.object,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     customReason: PropTypes.bool,
@@ -38,7 +39,6 @@ class PaymentActionReasonModal extends Component {
     className: PropTypes.string,
   };
   static defaultProps = {
-    action: '',
     reasons: {},
     submitButtonLabel: 'Submit',
     customReason: false,
@@ -54,9 +54,9 @@ class PaymentActionReasonModal extends Component {
   };
 
   handleSubmit = ({ reason, customReason }) => {
-    const { onSubmit, action } = this.props;
+    const { onSubmit, action, playerProfile, payment } = this.props;
 
-    return onSubmit({ reason: customReason || reason, action });
+    return onSubmit(action, playerProfile.playerUUID, payment.paymentId, { reason: customReason || reason });
   };
 
   renderReasonsSelect = (reasons, customReason = false) => (
@@ -96,18 +96,18 @@ class PaymentActionReasonModal extends Component {
         lastName,
       },
       onClose,
-      onSubmit,
       reasons,
       submitButtonLabel,
       onNoteClick,
       handleSubmit,
       currentValues,
       customReason,
+      className,
     } = this.props;
 
     return (
-      <Modal isOpen toggle={onClose} className={classNames(this.props.className, 'payment-action-reason-modal')}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <Modal isOpen toggle={onClose} className={classNames(className, 'payment-action-reason-modal')}>
+        <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalHeader toggle={onClose}>{title}</ModalHeader>
           <ModalBody>
             <div className="row">

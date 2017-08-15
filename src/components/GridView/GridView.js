@@ -29,6 +29,13 @@ class GridView extends Component {
     defaultFilters: {},
     summaryRow: null,
     locale: null,
+    onFiltersChanged: null,
+    onPageChange: null,
+    onRowClick: null,
+    activePage: null,
+    totalPages: null,
+    rowClassName: null,
+    lazyLoad: false,
     notFound: false,
   };
 
@@ -55,6 +62,16 @@ class GridView extends Component {
       ...filters,
     },
   }, this.onFiltersChanged);
+
+  getRowClassName = (data) => {
+    let className = this.props.rowClassName;
+
+    if (typeof className === 'function') {
+      className = className(data);
+    }
+
+    return className;
+  };
 
   recognizeHeaders = grids => grids.map(({ props }) => {
     const config = { children: typeof props.header === 'function' ? props.header() : props.header };
@@ -88,16 +105,6 @@ class GridView extends Component {
     return null;
   });
 
-  getRowClassName = (data) => {
-    let className = this.props.rowClassName;
-
-    if (typeof className === 'function') {
-      className = className(data);
-    }
-
-    return className;
-  };
-
   handlePageChange = (eventKey) => {
     this.props.onPageChange(eventKey, this.state.filters);
   };
@@ -118,9 +125,9 @@ class GridView extends Component {
       : null
   );
 
-  renderLoader = () => (
+  renderLoader = columns => (
     <tr className="infinite-preloader">
-      <td colSpan={6}>
+      <td colSpan={columns.length}>
         <img src="/img/infinite_preloader.svg" alt="preloader" />
       </td>
     </tr>
@@ -141,7 +148,7 @@ class GridView extends Component {
         loadMore={() => this.handlePageChange(activePage + 1)}
         element="tbody"
         hasMore={totalPages > activePage}
-        loader={this.renderLoader()}
+        loader={this.renderLoader(columns)}
       >
         {rows}
       </InfiniteScroll>
