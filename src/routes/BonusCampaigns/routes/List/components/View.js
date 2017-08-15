@@ -223,7 +223,7 @@ class View extends Component {
 
   render() {
     const {
-      campaigns: { entities, exporting },
+      campaigns: { entities, exporting, isLoading, receivedAt },
       locale,
       types: { list },
       statuses,
@@ -278,6 +278,7 @@ class View extends Component {
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad
+              notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
             >
               <GridColumn
                 name="campaign"

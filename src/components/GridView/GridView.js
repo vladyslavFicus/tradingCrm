@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GridColumn from './GridColumn';
 import shallowEqual from '../../utils/shallowEqual';
+import NotFoundContent from '../../components/NotFoundContent';
 
 class GridView extends Component {
   static propTypes = {
@@ -49,7 +50,7 @@ class GridView extends Component {
     }
 
     return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || (nextProps.locale !== this.props.locale);
+      || (nextProps.locale !== this.props.locale) || nextProps.notFound !== this.props.notFound;
   }
 
   onFiltersChanged = () => {
@@ -232,16 +233,17 @@ class GridView extends Component {
       tableClassName,
       headerClassName,
       lazyLoad,
-      locale,
       notFound,
+      dataSource,
+      locale,
     } = this.props;
 
     if (notFound) {
-      return (
-        <div>
-          <img className="not-found-image" src={'./img/not-found/not-found-' + { locale } + '.svg'} alt="not-found" />
-        </div>
-      );
+      return <NotFoundContent locale={locale} />;
+    }
+
+    if (!dataSource.length) {
+      return null;
     }
 
     const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
