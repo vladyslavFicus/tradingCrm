@@ -12,7 +12,7 @@ class SubNav extends Component {
     const { items, onMenuClick } = this.props;
 
     return (
-      <div className='dropdown-menu'>
+      <div className="dropdown-menu">
         {items.map((item, index) => (
           <SubNavItem
             key={index}
