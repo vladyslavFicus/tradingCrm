@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
+import Sticky from 'react-stickynode';
 import PropTypes from '../../../constants/propTypes';
 import PlayerStatus from './PlayerStatus';
 import UserProfileOptions from './UserProfileOptions';
@@ -127,66 +128,68 @@ class Header extends Component {
 
     return (
       <div>
-        <div className="panel-heading-row fixed-header">
-          <HeaderPlayerPlaceholder ready={loaded}>
-            <div className="panel-heading-row__info">
-              <div className="panel-heading-row__info-title">
-                {[playerProfile.fullName, `(${playerProfile.age})`].join(' ')}
-                {' '}
-                {playerProfile.kycCompleted && <i className="fa fa-check text-success" />}
+        <Sticky top={0} bottomBoundary={0}>
+          <div className="panel-heading-row">
+            <HeaderPlayerPlaceholder ready={loaded}>
+              <div className="panel-heading-row__info">
+                <div className="panel-heading-row__info-title">
+                  {[playerProfile.fullName, `(${playerProfile.age})`].join(' ')}
+                  {' '}
+                  {playerProfile.kycCompleted && <i className="fa fa-check text-success" />}
+                </div>
+                <div className="panel-heading-row__info-ids">
+                  {playerProfile.username}
+                  {' - '}
+                  {
+                    !!playerProfile.playerUUID &&
+                    <Uuid
+                      uuid={playerProfile.playerUUID}
+                      uuidPrefix={playerProfile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+                    />
+                  }
+                  {' - '}
+                  {playerProfile.languageCode}
+                </div>
               </div>
-              <div className="panel-heading-row__info-ids">
-                {playerProfile.username}
-                {' - '}
-                {
-                  !!playerProfile.playerUUID &&
-                  <Uuid
-                    uuid={playerProfile.playerUUID}
-                    uuidPrefix={playerProfile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
-                  />
-                }
-                {' - '}
-                {playerProfile.languageCode}
-              </div>
+            </HeaderPlayerPlaceholder>
+            <div className="panel-heading-row__tags">
+              <ProfileTags
+                onAdd={this.handleTagAdd}
+                onDelete={this.handleTagDelete}
+                options={availableTags}
+                value={currentTags}
+              />
             </div>
-          </HeaderPlayerPlaceholder>
-          <div className="panel-heading-row__tags">
-            <ProfileTags
-              onAdd={this.handleTagAdd}
-              onDelete={this.handleTagDelete}
-              options={availableTags}
-              value={currentTags}
-            />
+            <div className="panel-heading-row__actions">
+              <PopoverButton
+                id="header-add-note-button"
+                className="btn btn-sm btn-default-outline"
+                onClick={onAddNoteClick}
+              >
+                Add note
+              </PopoverButton>
+              <button
+                className="btn btn-sm btn-default-outline m-x-1"
+                onClick={onRefreshClick}
+                id="refresh-page-button"
+              >
+                <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
+              </button>
+              <UserProfileOptions
+                items={[
+                  { label: 'Reset password', onClick: onResetPasswordClick },
+                  {
+                    label: 'Send activation link',
+                    onClick: onProfileActivateClick,
+                    visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
+                  },
+                ]}
+              />
+            </div>
           </div>
-          <div className="panel-heading-row__actions">
-            <PopoverButton
-              id="header-add-note-button"
-              className="btn btn-sm btn-default-outline"
-              onClick={onAddNoteClick}
-            >
-              Add note
-            </PopoverButton>
-            <button
-              className="btn btn-sm btn-default-outline m-x-1"
-              onClick={onRefreshClick}
-              id="refresh-page-button"
-            >
-              <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
-            </button>
-            <UserProfileOptions
-              items={[
-                { label: 'Reset password', onClick: onResetPasswordClick },
-                {
-                  label: 'Send activation link',
-                  onClick: onProfileActivateClick,
-                  visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
-                },
-              ]}
-            />
-          </div>
-        </div>
+        </Sticky>
 
-        <div className="layout-quick-overview layout-quick-overview_with-fixed-header">
+        <div className="layout-quick-overview">
           <div className="header-block header-block_account">
             <PlayerStatus
               locale={locale}

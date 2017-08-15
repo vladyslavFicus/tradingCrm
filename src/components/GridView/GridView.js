@@ -208,22 +208,20 @@ class GridView extends Component {
     }
 
     return (
-      <div className="row">
-        <div className="col-md-12">
-          <Pagination
-            prev
-            next
-            first
-            last
-            ellipsis
-            boundaryLinks
-            items={totalPages}
-            maxButtons={5}
-            activePage={activePage}
-            onSelect={this.handlePageChange}
-            className="b3-pagination"
-          />
-        </div>
+      <div>
+        <Pagination
+          prev
+          next
+          first
+          last
+          ellipsis
+          boundaryLinks
+          items={totalPages}
+          maxButtons={5}
+          activePage={activePage}
+          onSelect={this.handlePageChange}
+          className="b3-pagination"
+        />
       </div>
     );
   }
@@ -249,7 +247,7 @@ class GridView extends Component {
     const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
-      <div>
+      <div className="table-responsive">
         <table className={tableClassName}>
           <thead className={headerClassName}>
             {this.renderHead(this.recognizeHeaders(grids))}
