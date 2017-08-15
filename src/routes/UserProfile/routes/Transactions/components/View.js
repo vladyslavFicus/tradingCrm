@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
@@ -379,19 +380,16 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <div className="row margin-bottom-20">
-          <div className="col-sm-3 col-xs-6">
-            <span className="font-size-20">Transactions</span>
+        <Sticky top={76} bottomBoundary={0}>
+          <div className="tab-header">
+            <div className="tab-header__heading">Transactions</div>
+            <div className="tab-header__actions">
+              <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
+                + Add transaction
+              </button>
+            </div>
           </div>
-          <div className="col-sm-9 col-xs-6 text-right">
-            <button
-              className="btn btn-sm btn-primary-outline"
-              onClick={this.handleOpenAddPaymentModal}
-            >
-              + Add transaction
-            </button>
-          </div>
-        </div>
+        </Sticky>
 
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}

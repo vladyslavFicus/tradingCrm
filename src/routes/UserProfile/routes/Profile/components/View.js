@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
+import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../constants/propTypes';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
@@ -280,22 +281,20 @@ class View extends Component {
 
     return (
       <div>
-        <div className="row margin-bottom-20">
-          <div className="col-xl-6">
-            <div className="font-size-20">
-              {this.renderKycStatusTitle()}
+        <Sticky top={76} bottomBoundary={0}>
+          <div className="tab-header">
+            <div className="tab-header__heading">{this.renderKycStatusTitle()}</div>
+            <div className="tab-header__actions">
+              <button
+                type="button"
+                className="btn btn-sm btn-primary-outline"
+                onClick={this.handleOpenRequestKycVerificationModal}
+              >
+                {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
+              </button>
             </div>
           </div>
-          <div className="col-sm-6 col-xs-6 text-right">
-            <button
-              type="button"
-              className="btn btn-sm btn-primary-outline"
-              onClick={this.handleOpenRequestKycVerificationModal}
-            >
-              {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
-            </button>
-          </div>
-        </div>
+        </Sticky>
 
         <div className="tab-content">
           <div className="panel">

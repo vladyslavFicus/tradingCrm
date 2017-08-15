@@ -289,7 +289,7 @@ class FreeSpinsView extends Component {
 
     return (
       <div className="profile-tab-container">
-        <Sticky enabled top={76} bottomBoundary={0}>
+        <Sticky top={76} bottomBoundary={0}>
           <div className="tab-header">
             <BonusHeaderNavigation />
             <div className="tab-header__actions">
