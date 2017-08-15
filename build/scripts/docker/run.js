@@ -44,7 +44,7 @@ function processError(error) {
 }
 
 function compileNginxConfig(environmentConfig) {
-  let config = fs.readFileSync('/opt/docker/nginx.conf.tpl');
+  let config = fs.readFileSync('/opt/docker/nginx.conf.tpl', { encoding: 'UTF-8' });
   const params = {
     logstashUrl: environmentConfig.logstash
       ? environmentConfig.logstash.url
