@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
+import Sticky from 'react-stickynode';
 import NotesGridFilter from './NotesGridFilter';
 import ListView from '../../../../../components/ListView';
 import PropTypes from '../../../../../constants/propTypes';
@@ -150,18 +151,18 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <div className="row margin-bottom-20">
-          <div className="col-md-3">
-            <span className="font-size-20">Notes</span>
+        <Sticky enabled top={76} bottomBoundary={0}>
+          <div className="tab-header">
+            <div className="tab-header__heading">Notes</div>
           </div>
-        </div>
+        </Sticky>
 
         <NotesGridFilter
           onSubmit={this.handleFiltersChanged}
           availableTypes={availableTypes}
         />
 
-        <div className="margin-top-20">
+        <div className="margint-top-20 tab-content">
           <ListView
             dataSource={content}
             itemClassName="note-item"

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../constants/propTypes';
 import { targetTypes } from '../../../../../constants/note';
 import { targetTypes as fileTargetTypes } from '../../../../../components/Files/constants';
@@ -105,41 +106,42 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className={'profile-tab-container'}>
-        <div className="row margin-bottom-20">
-          <div className="col-sm-3 col-xs-6">
-            <span className="font-size-20">Files</span>
+      <div className="profile-tab-container">
+        <Sticky enabled top={76} bottomBoundary={0}>
+          <div className="tab-header">
+            <div className="tab-header__heading">Files</div>
+            <div className="tab-header__actions">
+              <button
+                className="btn btn-sm btn-primary-outline"
+                onClick={() => this.context.onUploadFileClick({
+                  targetType: fileTargetTypes.FILES,
+                })}
+              >
+                + Upload file
+              </button>
+            </div>
           </div>
-
-          <div className="col-sm-9 col-xs-6 text-right">
-            <button
-              className="btn btn-sm btn-primary-outline"
-              onClick={() => this.context.onUploadFileClick({
-                targetType: fileTargetTypes.FILES,
-              })}
-            >
-              + Upload file
-            </button>
-          </div>
-        </div>
+        </Sticky>
 
         <FilesFilterForm
           onSubmit={this.handleFiltersChanged}
         />
 
-        <CommonFileGridView
-          dataSource={entities.content}
-          tableClassName="table table-hovered data-grid-layout"
-          headerClassName="text-uppercase"
-          totalPages={entities.totalPages}
-          activePage={entities.number + 1}
-          lazyLoad
-          onPageChange={this.handlePageChanged}
-          onStatusActionClick={this.handleStatusActionClick}
-          onDownloadFileClick={this.handleDownloadFileClick}
-          onDeleteFileClick={this.handleDeleteFileClick}
-          onPreviewImageClick={this.handlePreviewImageClick}
-        />
+        <div className="tab-content">
+          <CommonFileGridView
+            dataSource={entities.content}
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            totalPages={entities.totalPages}
+            activePage={entities.number + 1}
+            lazyLoad
+            onPageChange={this.handlePageChanged}
+            onStatusActionClick={this.handleStatusActionClick}
+            onDownloadFileClick={this.handleDownloadFileClick}
+            onDeleteFileClick={this.handleDeleteFileClick}
+            onPreviewImageClick={this.handlePreviewImageClick}
+          />
+        </div>
       </div>
     );
   }

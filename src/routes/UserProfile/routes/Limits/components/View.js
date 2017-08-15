@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Sticky from 'react-stickynode';
 import CancelLimitModal from './CancelLimitModal';
 import CreateLimitModal from './CreateLimitModal';
 import CommonGridView from './CommonGridView';
@@ -130,25 +131,24 @@ class View extends Component {
 
     return (
       <div>
-        <div className="row margin-bottom-20">
-          <div className="col-sm-3 col-xs-6">
-            <span className="font-size-20">Limits</span>
+        <Sticky enabled top={76} bottomBoundary={0}>
+          <div className="tab-header">
+            <div className="tab-header__heading">Limits</div>
+            <div className="tab-header__actions">
+              <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenCreateLimitModal}>
+                + New limit
+              </button>
+            </div>
           </div>
-          <div className="col-sm-9 col-xs-6 text-right">
-            <button
-              className="btn btn-sm btn-primary-outline"
-              onClick={this.handleOpenCreateLimitModal}
-            >
-              + New limit
-            </button>
-          </div>
-        </div>
+        </Sticky>
 
-        <CommonGridView
-          dataSource={list}
-          onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
-          onNoteClick={this.handleNoteClick}
-        />
+        <div className="tab-content">
+          <CommonGridView
+            dataSource={list}
+            onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
+            onNoteClick={this.handleNoteClick}
+          />
+        </div>
         {
           modal.name === CANCEL_LIMIT_MODAL &&
           <CancelLimitModal

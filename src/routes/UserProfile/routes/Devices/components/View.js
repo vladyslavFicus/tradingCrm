@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import moment from 'moment';
+import Sticky from 'react-stickynode';
 import { typesLabels, typesColor, types } from '../../../../../constants/devices';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
@@ -118,14 +119,14 @@ class View extends Component {
     const { filters } = this.state;
 
     return (
-      <div className={'profile-tab-container'}>
-        <div className="row margin-bottom-20">
-          <div className="col-sm-3 col-xs-6">
-            <span className="font-size-20">
+      <div className="profile-tab-container">
+        <Sticky enabled top={76} bottomBoundary={0}>
+          <div className="tab-header">
+            <div className="tab-header__heading">
               {I18n.t('PLAYER_PROFILE.DEVICES.TITLE')}
-            </span>
+            </div>
           </div>
-        </div>
+        </Sticky>
 
         <DevicesFilterForm
           deviceType={deviceType}
@@ -134,52 +135,53 @@ class View extends Component {
           initialValues={filters}
         />
 
-        <GridView
-          tableClassName="table table-hovered data-grid-layout"
-          headerClassName="text-uppercase"
-          dataSource={entities.content}
-          onPageChange={this.handlePageChanged}
-          activePage={entities.number + 1}
-          totalPages={entities.totalPages}
-        >
-          <GridColumn
-            name="deviceId"
-            header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.DEVICE_ID')}
-            render={this.renderDeviceId}
-          />
+        <div className="tab-content">
+          <GridView
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+          >
+            <GridColumn
+              name="deviceId"
+              header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.DEVICE_ID')}
+              render={this.renderDeviceId}
+            />
 
-          <GridColumn
-            name="deviceType"
-            header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.TYPE')}
-            className="text-uppercase"
-            render={this.renderType}
-          />
+            <GridColumn
+              name="deviceType"
+              header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.TYPE')}
+              className="text-uppercase"
+              render={this.renderType}
+            />
 
-          <GridColumn
-            name="operatingSystem"
-            header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.OPERATING_SYSTEM')}
-            className="font-weight-700"
-          />
+            <GridColumn
+              name="operatingSystem"
+              header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.OPERATING_SYSTEM')}
+              className="font-weight-700"
+            />
 
-          <GridColumn
-            name="lastSignInCountryCode"
-            header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.LAST_IP')}
-            render={this.renderLastIp}
-          />
+            <GridColumn
+              name="lastSignInCountryCode"
+              header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.LAST_IP')}
+              render={this.renderLastIp}
+            />
 
-          <GridColumn
-            name="lastSignInDate"
-            header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.LAST_LOGIN')}
-            render={this.renderLastLogin}
-          />
+            <GridColumn
+              name="lastSignInDate"
+              header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.LAST_LOGIN')}
+              render={this.renderLastLogin}
+            />
 
-          <GridColumn
-            name="totalSignIn"
-            header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.TOTAL_LOGIN')}
-            className="font-weight-700"
-          />
-        </GridView>
-
+            <GridColumn
+              name="totalSignIn"
+              header={I18n.t('PLAYER_PROFILE.DEVICES.GRID_VIEW.TOTAL_LOGIN')}
+              className="font-weight-700"
+            />
+          </GridView>
+        </div>
       </div>
     );
   }

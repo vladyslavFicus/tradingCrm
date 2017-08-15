@@ -297,7 +297,7 @@ class View extends Component {
           </div>
         </div>
 
-        <div>
+        <div className="tab-content">
           <div className="panel">
             <div className="panel-body row panel-body__wrapper">
               <div className="col-md-8 profile-bordered-block">

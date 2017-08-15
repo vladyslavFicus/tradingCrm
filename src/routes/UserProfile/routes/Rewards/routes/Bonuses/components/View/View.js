@@ -3,6 +3,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
@@ -268,87 +269,88 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <div className="row margin-bottom-20">
-          <div className="col-xs-8">
+        <Sticky enabled top={76} bottomBoundary={0}>
+          <div className="tab-header">
             <BonusHeaderNavigation />
+            <div className="tab-header__actions">
+              <button
+                className="btn btn-sm btn-primary-outline"
+                onClick={this.handleCreateManualBonusClick}
+                id="add-manual-bonus-button"
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS.MANUAL_BONUS_BUTTON')}
+              </button>
+            </div>
           </div>
-          <div className="col-xs-4 text-right">
-            <button
-              className="btn btn-sm btn-primary-outline"
-              onClick={this.handleCreateManualBonusClick}
-              id="add-manual-bonus-button"
-            >
-              {I18n.t('PLAYER_PROFILE.BONUS.MANUAL_BONUS_BUTTON')}
-            </button>
-          </div>
-        </div>
+        </Sticky>
 
         <BonusGridFilter
           onSubmit={this.handleSubmit}
         />
 
-        <GridView
-          tableClassName="table table-hovered data-grid-layout"
-          headerClassName="text-uppercase"
-          dataSource={entities.content}
-          onPageChange={this.handlePageChanged}
-          activePage={entities.number + 1}
-          totalPages={entities.totalPages}
-        >
-          <GridColumn
-            name="mainInfo"
-            header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS')}
-            render={this.renderMainInfo}
-          />
+        <div className="tab-content">
+          <GridView
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+          >
+            <GridColumn
+              name="mainInfo"
+              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS')}
+              render={this.renderMainInfo}
+            />
 
-          <GridColumn
-            name="available"
-            header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.AVAILABLE')}
-            render={this.renderAvailablePeriod}
-          />
+            <GridColumn
+              name="available"
+              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.AVAILABLE')}
+              render={this.renderAvailablePeriod}
+            />
 
-          <GridColumn
-            name="priority"
-            header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.PRIORITY')}
-          />
+            <GridColumn
+              name="priority"
+              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.PRIORITY')}
+            />
 
-          <GridColumn
-            name="granted"
-            header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.GRANTED')}
-            render={this.renderGrantedAmount}
-          />
+            <GridColumn
+              name="granted"
+              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.GRANTED')}
+              render={this.renderGrantedAmount}
+            />
 
-          <GridColumn
-            name="wagered"
-            header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.WAGERED')}
-            render={this.renderWageredAmount}
-          />
+            <GridColumn
+              name="wagered"
+              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.WAGERED')}
+              render={this.renderWageredAmount}
+            />
 
-          <GridColumn
-            name="toWager"
-            header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.TO_WAGER')}
-            render={this.renderToWagerAmount}
-          />
+            <GridColumn
+              name="toWager"
+              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.TO_WAGER')}
+              render={this.renderToWagerAmount}
+            />
 
-          <GridColumn
-            name="type"
-            header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_TYPE')}
-            render={data => <BonusType bonus={data} />}
-          />
+            <GridColumn
+              name="type"
+              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_TYPE')}
+              render={data => <BonusType bonus={data} />}
+            />
 
-          <GridColumn
-            name="status"
-            header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_STATUS')}
-            render={data => <BonusStatus id="bonuses-list" bonus={data} />}
-          />
+            <GridColumn
+              name="status"
+              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.BONUS_STATUS')}
+              render={data => <BonusStatus id="bonuses-list" bonus={data} />}
+            />
 
-          <GridColumn
-            name="actions"
-            header=""
-            render={this.renderActions}
-          />
-        </GridView>
-
+            <GridColumn
+              name="actions"
+              header=""
+              render={this.renderActions}
+            />
+          </GridView>
+        </div>
         {
           modal.name === MODAL_CREATE &&
           <CreateModal

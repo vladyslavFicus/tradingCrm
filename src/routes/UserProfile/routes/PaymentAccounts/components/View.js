@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
+import Sticky from 'react-stickynode';
 import { targetTypes as noteTargetTypes } from '../../../../../constants/note';
 import { accountStatuses as paymentAccountStatuses } from '../../../../../constants/payment';
 import PropTypes from '../../../../../constants/propTypes';
@@ -212,7 +213,7 @@ class View extends Component {
         onStatusChange={this.handleChangeStatus(data.uuid)}
       />
     );
-  }
+  };
 
   renderCollapseBlock = data => (
     <div>
@@ -250,66 +251,68 @@ class View extends Component {
     const { openUUID } = this.state;
 
     return (
-      <div className={'profile-tab-container'}>
-        <div className="row margin-bottom-20">
-          <div className="col-md-3">
-            <span className="font-size-20">
+      <div className="profile-tab-container">
+        <Sticky enabled top={76} bottomBoundary={0}>
+          <div className="tab-header">
+            <div className="tab-header__heading">
               {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.TITLE')}
-            </span>
+            </div>
           </div>
-        </div>
+        </Sticky>
 
-        <CollapseGridView
-          dataSource={_.values(paymentAccounts)}
-          openUUID={openUUID}
-          collapsedDataFieldName="files"
-          tableClassName="table table-hovered data-grid-layout"
-          headerClassName="text-uppercase"
-          renderCollapseBlock={this.renderCollapseBlock}
-          collapseClassName="payment-account-attached"
-        >
-          <GridColumn
-            name="paymentMethod"
-            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.PAYMENT_ACCOUNT')}
-            render={this.renderPaymentAccount}
-          />
-          <GridColumn
-            name="dateAdded"
-            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.DATE_ADDED')}
-            render={this.renderAddDate}
-          />
-          <GridColumn
-            name="lastPayment"
-            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.LAST_PAYMENT')}
-            render={this.renderLastPaymentDate}
-          />
-          <GridColumn
-            name="totalWithdraws"
-            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.WITHDRAWS')}
-            render={this.renderAggregateAmount}
-          />
-          <GridColumn
-            name="totalDeposits"
-            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.DEPOSITS')}
-            render={this.renderAggregateAmount}
-          />
-          <GridColumn
-            name="Status"
-            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.STATUS')}
-            className="text-uppercase"
-            render={this.renderStatus}
-          />
-          <GridColumn
-            name="Files"
-            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.FILES')}
-            render={this.renderFiles}
-          />
-          <GridColumn
-            name="notes"
-            header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.NOTE')}
-            render={this.renderNotes}
-          />
-        </CollapseGridView>
+        <div className="tab-content">
+          <CollapseGridView
+            dataSource={_.values(paymentAccounts)}
+            openUUID={openUUID}
+            collapsedDataFieldName="files"
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            renderCollapseBlock={this.renderCollapseBlock}
+            collapseClassName="payment-account-attached"
+          >
+            <GridColumn
+              name="paymentMethod"
+              header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.PAYMENT_ACCOUNT')}
+              render={this.renderPaymentAccount}
+            />
+            <GridColumn
+              name="dateAdded"
+              header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.DATE_ADDED')}
+              render={this.renderAddDate}
+            />
+            <GridColumn
+              name="lastPayment"
+              header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.LAST_PAYMENT')}
+              render={this.renderLastPaymentDate}
+            />
+            <GridColumn
+              name="totalWithdraws"
+              header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.WITHDRAWS')}
+              render={this.renderAggregateAmount}
+            />
+            <GridColumn
+              name="totalDeposits"
+              header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.DEPOSITS')}
+              render={this.renderAggregateAmount}
+            />
+            <GridColumn
+              name="Status"
+              header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.STATUS')}
+              className="text-uppercase"
+              render={this.renderStatus}
+            />
+            <GridColumn
+              name="Files"
+              header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.FILES')}
+              render={this.renderFiles}
+            />
+            <GridColumn
+              name="notes"
+              header={I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.COLUMN.NOTE')}
+              render={this.renderNotes}
+            />
+          </CollapseGridView>
+        </div>
       </div>
     );
   }

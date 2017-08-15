@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
+import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../constants/propTypes';
 import ListView from '../../../../../components/ListView';
 import FeedItem from '../../../../../components/FeedItem';
@@ -77,25 +77,24 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className={classNames('profile-tab-container')}>
-        <div className="row margin-bottom-20">
-          <div className="col-sm-3 col-xs-6">
-            <span className="font-size-20">Feed</span>
+      <div className="profile-tab-container">
+        <Sticky enabled top={76} bottomBoundary={0}>
+          <div className="tab-header">
+            <div className="tab-header__heading">Feed</div>
+            <div className="tab-header__actions">
+              <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
+                Export
+              </button>
+            </div>
           </div>
-
-          <div className="col-sm-9 col-xs-6 text-right">
-            <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
-              Export
-            </button>
-          </div>
-        </div>
+        </Sticky>
 
         <FeedFilterForm
           availableTypes={availableTypes}
           onSubmit={this.handleFiltersChanged}
         />
 
-        <div className="margin-top-20">
+        <div className="margin-top-20 tab-content">
           <ListView
             dataSource={entities.content}
             itemClassName="padding-bottom-20"

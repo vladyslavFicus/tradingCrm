@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
+import Sticky from 'react-stickynode';
 import FreeSpinMainInfo from '../FreeSpinMainInfo';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
@@ -288,26 +289,26 @@ class FreeSpinsView extends Component {
 
     return (
       <div className="profile-tab-container">
-        <div className="row margin-bottom-20">
-          <div className="col-md-6">
+        <Sticky enabled top={76} bottomBoundary={0}>
+          <div className="tab-header">
             <BonusHeaderNavigation />
+            <div className="tab-header__actions">
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline btn-sm"
+                onClick={this.handleExportButtonClick}
+              >
+                {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
+              </button>
+              <button
+                className="btn btn-primary-outline margin-left-15 btn-sm"
+                onClick={this.handleCreateButtonClick}
+              >
+                {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
+              </button>
+            </div>
           </div>
-          <div className="col-md-6 text-right">
-            <button
-              disabled={exporting || !allowActions}
-              className="btn btn-default-outline btn-sm"
-              onClick={this.handleExportButtonClick}
-            >
-              {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
-            </button>
-            <button
-              className="btn btn-primary-outline margin-left-15 btn-sm"
-              onClick={this.handleCreateButtonClick}
-            >
-              {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
-            </button>
-          </div>
-        </div>
+        </Sticky>
 
         <FreeSpinsFilterForm
           providers={providersFilterValues}
@@ -316,47 +317,47 @@ class FreeSpinsView extends Component {
           onReset={this.handleFilterReset}
           disabled={!allowActions}
         />
-
-        <GridView
-          tableClassName="table table-hovered data-grid-layout"
-          headerClassName="text-uppercase"
-          dataSource={entities.content}
-          onPageChange={this.handlePageChanged}
-          activePage={entities.number + 1}
-          totalPages={entities.totalPages}
-        >
-          <GridColumn
-            name="freeSpin"
-            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.FREE_SPIN')}
-            render={this.renderFreeSpin}
-          />
-          <GridColumn
-            name="game"
-            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GAME')}
-            render={this.renderGame}
-          />
-          <GridColumn
-            name="availability"
-            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.AVAILABILITY')}
-            render={this.renderAvailable}
-          />
-          <GridColumn
-            name="granted"
-            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GRANTED')}
-            render={this.renderGranted}
-          />
-          <GridColumn
-            name="status"
-            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.STATUS')}
-            render={this.renderStatus}
-          />
-          <GridColumn
-            name="note"
-            header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.NOTE')}
-            render={this.renderNote}
-          />
-        </GridView>
-
+        <div className="tab-content">
+          <GridView
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+          >
+            <GridColumn
+              name="freeSpin"
+              header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.FREE_SPIN')}
+              render={this.renderFreeSpin}
+            />
+            <GridColumn
+              name="game"
+              header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GAME')}
+              render={this.renderGame}
+            />
+            <GridColumn
+              name="availability"
+              header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.AVAILABILITY')}
+              render={this.renderAvailable}
+            />
+            <GridColumn
+              name="granted"
+              header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.GRANTED')}
+              render={this.renderGranted}
+            />
+            <GridColumn
+              name="status"
+              header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.STATUS')}
+              render={this.renderStatus}
+            />
+            <GridColumn
+              name="note"
+              header={I18n.t('PLAYER_PROFILE.FREE_SPINS.GRID_VIEW.NOTE')}
+              render={this.renderNote}
+            />
+          </GridView>
+        </div>
         {
           modal.name === MODAL_CREATE &&
           <CreateModal

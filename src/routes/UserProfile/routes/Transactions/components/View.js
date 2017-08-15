@@ -400,66 +400,67 @@ class View extends Component {
           {...availableFilters}
         />
 
-        <GridView
-          tableClassName="table table-hovered data-grid-layout"
-          headerClassName="text-uppercase"
-          dataSource={entities.content}
-          onPageChange={this.handlePageChanged}
-          activePage={entities.number + 1}
-          totalPages={entities.totalPages}
-          lazyLoad
-        >
-          <GridColumn
-            name="paymentId"
-            header="Transaction"
-            render={this.renderTransactionId}
-          />
-          <GridColumn
-            name="paymentType"
-            header="Type"
-            render={this.renderType}
-          />
-          <GridColumn
-            name="amount"
-            header="Amount"
-            render={this.renderAmount}
-          />
-          <GridColumn
-            name="creationTime"
-            header="DATE & TIME"
-            render={this.renderDateTime}
-          />
-          <GridColumn
-            name="country"
-            header="Ip"
-            headerClassName="text-center"
-            className="text-center"
-            render={this.renderIP}
-          />
-          <GridColumn
-            name="paymentMethod"
-            header="Method"
-            render={this.renderMethod}
-          />
-          <GridColumn
-            name="mobile"
-            header="Device"
-            headerClassName="text-center"
-            className="text-center"
-            render={this.renderDevice}
-          />
-          <GridColumn
-            name="status"
-            header="Status"
-            render={this.renderStatus}
-          />
-          <GridColumn
-            name="actions"
-            header=""
-            render={this.renderActions}
-          />
-        </GridView>
-
+        <div className="tab-content">
+          <GridView
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+          >
+            <GridColumn
+              name="paymentId"
+              header="Transaction"
+              render={this.renderTransactionId}
+            />
+            <GridColumn
+              name="paymentType"
+              header="Type"
+              render={this.renderType}
+            />
+            <GridColumn
+              name="amount"
+              header="Amount"
+              render={this.renderAmount}
+            />
+            <GridColumn
+              name="creationTime"
+              header="DATE & TIME"
+              render={this.renderDateTime}
+            />
+            <GridColumn
+              name="country"
+              header="Ip"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderIP}
+            />
+            <GridColumn
+              name="paymentMethod"
+              header="Method"
+              render={this.renderMethod}
+            />
+            <GridColumn
+              name="mobile"
+              header="Device"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderDevice}
+            />
+            <GridColumn
+              name="status"
+              header="Status"
+              render={this.renderStatus}
+            />
+            <GridColumn
+              name="actions"
+              header=""
+              render={this.renderActions}
+            />
+          </GridView>
+        </div>
         {
           modal.name === MODAL_PAYMENT_DETAIL &&
           <PaymentDetailModal
