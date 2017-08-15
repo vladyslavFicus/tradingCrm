@@ -3,12 +3,12 @@ FROM registry.newage.io/newage/frontend:1.0.0
 RUN mkdir /etc/nginx/logs && touch /etc/nginx/logs/static.log
 
 ENV BUILD_PATH /opt/build
+ENV NGINX_CONF_OUTPUT /etc/nginx/conf.d/default.conf
 
 RUN mkdir -p $BUILD_PATH
 WORKDIR $BUILD_PATH
 
 ADD ./dist $BUILD_PATH
-ADD ./nginx.conf /etc/nginx/conf.d/default.conf
 
 ADD ./entrypoint.sh /opt/entrypoint.sh
 COPY ./build/scripts/docker/* /opt/docker/
