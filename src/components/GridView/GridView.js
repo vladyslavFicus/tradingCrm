@@ -209,22 +209,20 @@ class GridView extends Component {
     }
 
     return (
-      <div className="row">
-        <div className="col-md-12">
-          <Pagination
-            prev
-            next
-            first
-            last
-            ellipsis
-            boundaryLinks
-            items={totalPages}
-            maxButtons={5}
-            activePage={activePage}
-            onSelect={this.handlePageChange}
-            className="b3-pagination"
-          />
-        </div>
+      <div>
+        <Pagination
+          prev
+          next
+          first
+          last
+          ellipsis
+          boundaryLinks
+          items={totalPages}
+          maxButtons={5}
+          activePage={activePage}
+          onSelect={this.handlePageChange}
+          className="b3-pagination"
+        />
       </div>
     );
   }
@@ -244,20 +242,18 @@ class GridView extends Component {
     const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
-      <div className="row">
-        <div className="col-md-12 table-responsive">
-          <table className={tableClassName}>
-            <thead className={headerClassName}>
-              {this.renderHead(this.recognizeHeaders(grids))}
-              {this.renderFilters(this.recognizeFilters(grids))}
-            </thead>
+      <div className="table-responsive">
+        <table className={tableClassName}>
+          <thead className={headerClassName}>
+            {this.renderHead(this.recognizeHeaders(grids))}
+            {this.renderFilters(this.recognizeFilters(grids))}
+          </thead>
 
-            {this.renderBody(grids)}
-            {this.renderFooter(grids)}
-          </table>
+          {this.renderBody(grids)}
+          {this.renderFooter(grids)}
+        </table>
 
-          {!lazyLoad && this.renderPagination()}
-        </div>
+        {!lazyLoad && this.renderPagination()}
       </div>
     );
   }

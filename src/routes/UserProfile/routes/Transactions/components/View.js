@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
@@ -379,19 +380,16 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <div className="row margin-bottom-20">
-          <div className="col-sm-3 col-xs-6">
-            <span className="font-size-20">Transactions</span>
+        <Sticky top={76} bottomBoundary={0}>
+          <div className="tab-header">
+            <div className="tab-header__heading">Transactions</div>
+            <div className="tab-header__actions">
+              <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
+                + Add transaction
+              </button>
+            </div>
           </div>
-          <div className="col-sm-9 col-xs-6 text-right">
-            <button
-              className="btn btn-sm btn-primary-outline"
-              onClick={this.handleOpenAddPaymentModal}
-            >
-              + Add transaction
-            </button>
-          </div>
-        </div>
+        </Sticky>
 
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}
@@ -400,66 +398,67 @@ class View extends Component {
           {...availableFilters}
         />
 
-        <GridView
-          tableClassName="table table-hovered data-grid-layout"
-          headerClassName="text-uppercase"
-          dataSource={entities.content}
-          onPageChange={this.handlePageChanged}
-          activePage={entities.number + 1}
-          totalPages={entities.totalPages}
-          lazyLoad
-        >
-          <GridColumn
-            name="paymentId"
-            header="Transaction"
-            render={this.renderTransactionId}
-          />
-          <GridColumn
-            name="paymentType"
-            header="Type"
-            render={this.renderType}
-          />
-          <GridColumn
-            name="amount"
-            header="Amount"
-            render={this.renderAmount}
-          />
-          <GridColumn
-            name="creationTime"
-            header="DATE & TIME"
-            render={this.renderDateTime}
-          />
-          <GridColumn
-            name="country"
-            header="Ip"
-            headerClassName="text-center"
-            className="text-center"
-            render={this.renderIP}
-          />
-          <GridColumn
-            name="paymentMethod"
-            header="Method"
-            render={this.renderMethod}
-          />
-          <GridColumn
-            name="mobile"
-            header="Device"
-            headerClassName="text-center"
-            className="text-center"
-            render={this.renderDevice}
-          />
-          <GridColumn
-            name="status"
-            header="Status"
-            render={this.renderStatus}
-          />
-          <GridColumn
-            name="actions"
-            header=""
-            render={this.renderActions}
-          />
-        </GridView>
-
+        <div className="tab-content">
+          <GridView
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+          >
+            <GridColumn
+              name="paymentId"
+              header="Transaction"
+              render={this.renderTransactionId}
+            />
+            <GridColumn
+              name="paymentType"
+              header="Type"
+              render={this.renderType}
+            />
+            <GridColumn
+              name="amount"
+              header="Amount"
+              render={this.renderAmount}
+            />
+            <GridColumn
+              name="creationTime"
+              header="DATE & TIME"
+              render={this.renderDateTime}
+            />
+            <GridColumn
+              name="country"
+              header="Ip"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderIP}
+            />
+            <GridColumn
+              name="paymentMethod"
+              header="Method"
+              render={this.renderMethod}
+            />
+            <GridColumn
+              name="mobile"
+              header="Device"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderDevice}
+            />
+            <GridColumn
+              name="status"
+              header="Status"
+              render={this.renderStatus}
+            />
+            <GridColumn
+              name="actions"
+              header=""
+              render={this.renderActions}
+            />
+          </GridView>
+        </div>
         {
           modal.name === MODAL_PAYMENT_DETAIL &&
           <PaymentDetailModal

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
+import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
@@ -242,18 +243,19 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className={classNames('profile-tab-container')}>
-        <div className="row margin-bottom-20">
-          <div className="col-sm-3 col-xs-6">
-            <span className="font-size-20">{I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.TITLE')}</span>
+      <div className="profile-tab-container">
+        <Sticky top={76} bottomBoundary={0}>
+          <div className="tab-header">
+            <div className="tab-header__heading">
+              {I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.TITLE')}
+            </div>
+            <div className="tab-header__actions">
+              <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
+                {I18n.t('COMMON.EXPORT')}
+              </button>
+            </div>
           </div>
-
-          <div className="col-sm-9 col-xs-6 text-right">
-            <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
-              {I18n.t('COMMON.EXPORT')}
-            </button>
-          </div>
-        </div>
+        </Sticky>
 
         <FilterForm
           providers={providers}
@@ -264,52 +266,54 @@ class View extends Component {
           onSubmit={this.handleFiltersChanged}
         />
 
-        <GridView
-          dataSource={entities.content}
-          tableClassName="table table-hovered data-grid-layout"
-          headerClassName="text-uppercase"
-          onPageChange={this.handlePageChanged}
-          activePage={entities.number + 1}
-          totalPages={entities.totalPages}
-          lazyLoad
-          rowClassName={data => classNames({ 'round-rollback-row': data.rollback })}
-        >
-          <GridColumn
-            name="gameRound"
-            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.GAME_ROUND')}
-            render={this.renderGameRound}
-          />
-          <GridColumn
-            name="game"
-            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.GAME')}
-            render={this.renderGame}
-          />
-          <GridColumn
-            name="betDate"
-            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BET_DATE')}
-            render={this.renderDate('betDate')}
-          />
-          <GridColumn
-            name="betAmount"
-            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BET_AMOUNT')}
-            render={this.renderBetAmount}
-          />
-          <GridColumn
-            name="winDate"
-            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_DATE')}
-            render={this.renderDate('winDate', true)}
-          />
-          <GridColumn
-            name="winAmount"
-            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_AMOUNT')}
-            render={this.renderAmount('totalWinAmount', 'realWinAmount', 'bonusWinAmount')}
-          />
-          <GridColumn
-            name="winDate"
-            header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE')}
-            render={this.renderBalance}
-          />
-        </GridView>
+        <div className="tab-content">
+          <GridView
+            dataSource={entities.content}
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            rowClassName={data => classNames({ 'round-rollback-row': data.rollback })}
+          >
+            <GridColumn
+              name="gameRound"
+              header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.GAME_ROUND')}
+              render={this.renderGameRound}
+            />
+            <GridColumn
+              name="game"
+              header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.GAME')}
+              render={this.renderGame}
+            />
+            <GridColumn
+              name="betDate"
+              header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BET_DATE')}
+              render={this.renderDate('betDate')}
+            />
+            <GridColumn
+              name="betAmount"
+              header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BET_AMOUNT')}
+              render={this.renderBetAmount}
+            />
+            <GridColumn
+              name="winDate"
+              header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_DATE')}
+              render={this.renderDate('winDate', true)}
+            />
+            <GridColumn
+              name="winAmount"
+              header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_AMOUNT')}
+              render={this.renderAmount('totalWinAmount', 'realWinAmount', 'bonusWinAmount')}
+            />
+            <GridColumn
+              name="winDate"
+              header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.BALANCE')}
+              render={this.renderBalance}
+            />
+          </GridView>
+        </div>
       </div>
     );
   }

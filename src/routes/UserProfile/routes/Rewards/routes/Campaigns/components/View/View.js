@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import Uuid from '../../../../../../../../components/Uuid';
@@ -141,50 +142,51 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <div className="row margin-bottom-20">
-          <div className="col-md-6 col-xs-6">
+        <Sticky top={76} bottomBoundary={0}>
+          <div className="tab-header">
             <BonusHeaderNavigation />
           </div>
-        </div>
+        </Sticky>
 
         <CampaignsFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           disabled={!allowActions}
         />
+        <div className="tab-content">
+          <GridView
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+          >
+            <GridColumn
+              name="campaign"
+              header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
+              render={this.renderCampaign}
+            />
 
-        <GridView
-          tableClassName="table table-hovered data-grid-layout"
-          headerClassName="text-uppercase"
-          dataSource={entities.content}
-          onPageChange={this.handlePageChanged}
-          activePage={entities.number + 1}
-          totalPages={entities.totalPages}
-        >
-          <GridColumn
-            name="campaign"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
-            render={this.renderCampaign}
-          />
+            <GridColumn
+              name="available"
+              header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.AVAILABLE')}
+              render={this.renderAvailable}
+            />
 
-          <GridColumn
-            name="available"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.AVAILABLE')}
-            render={this.renderAvailable}
-          />
+            <GridColumn
+              name="bonusType"
+              header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.BONUS_TYPE')}
+              render={this.renderBonusType}
+            />
 
-          <GridColumn
-            name="bonusType"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.BONUS_TYPE')}
-            render={this.renderBonusType}
-          />
-
-          <GridColumn
-            name="optInStatus"
-            header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.OPT_IN_STATUS')}
-            render={this.renderOptInStatus}
-          />
-        </GridView>
+            <GridColumn
+              name="optInStatus"
+              header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.OPT_IN_STATUS')}
+              render={this.renderOptInStatus}
+            />
+          </GridView>
+        </div>
       </div>
     );
   }
