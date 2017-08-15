@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import { getAvailableLanguages } from '../../config';
 import PropTypes from '../../constants/propTypes';
-import { sidebarTopMenu, sidebarBottomMenu } from '../../config/menu';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
 import { actionCreators as languageActionCreators } from '../../redux/modules/language';
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
@@ -39,6 +38,26 @@ class NewLayout extends Component {
     }).isRequired,
     app: PropTypes.shape({
       showScrollToTop: PropTypes.bool.isRequired,
+      sidebarTopMenu: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        icon: PropTypes.string.isRequired,
+        url: PropTypes.string,
+        isOpen: PropTypes.bool,
+        items: PropTypes.arrayOf(PropTypes.shape({
+          label: PropTypes.string.isRequired,
+          url: PropTypes.string.isRequired,
+        })),
+      })).isRequired,
+      sidebarBottomMenu: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        icon: PropTypes.string.isRequired,
+        url: PropTypes.string,
+        isOpen: PropTypes.bool,
+        items: PropTypes.arrayOf(PropTypes.shape({
+          label: PropTypes.string.isRequired,
+          url: PropTypes.string.isRequired,
+        })),
+      })).isRequired,
     }).isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
@@ -58,6 +77,8 @@ class NewLayout extends Component {
     deleteNote: PropTypes.func.isRequired,
     updateOperatorProfile: PropTypes.func.isRequired,
     setIsShowScrollTop: PropTypes.func.isRequired,
+    toggleMenuTap: PropTypes.func.isRequired,
+    menuClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.number,
   };
   static defaultProps = {
@@ -276,9 +297,11 @@ class NewLayout extends Component {
       removePanel,
       onLocaleChange,
       languages,
-      app: { showScrollToTop, isInitializedScroll },
+      app: { showScrollToTop, isInitializedScroll, sidebarTopMenu, sidebarBottomMenu },
       locale,
       user,
+      toggleMenuTap,
+      menuClick,
     } = this.props;
 
     return (
@@ -291,7 +314,12 @@ class NewLayout extends Component {
           onToggleProfile={this.onToggleProfile}
         />
 
-        <Sidebar topMenu={sidebarTopMenu} bottomMenu={sidebarBottomMenu} />
+        <Sidebar
+          topMenu={sidebarTopMenu}
+          bottomMenu={sidebarBottomMenu}
+          menuClick={menuClick}
+          onOpenTab={toggleMenuTap}
+        />
 
         <div className="section-container">{children}</div>
 
@@ -317,7 +345,10 @@ class NewLayout extends Component {
         <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
           <button
             className={
-              classNames('floating-buttons__circle', { rollIn: showScrollToTop, rollOut: isInitializedScroll && !showScrollToTop })
+              classNames('floating-buttons__circle', {
+                rollIn: showScrollToTop,
+                rollOut: isInitializedScroll && !showScrollToTop,
+              })
             }
             onClick={this.handleScrollToTop}
           >
@@ -348,7 +379,24 @@ const mapStateToProps = state => ({
   activePanelIndex: state.userPanels.activeIndex,
   locale: state.i18n.locale,
   languages: getAvailableLanguages(),
-  app: state.app,
+  app: {
+    ...state.app,
+    sidebarTopMenu: state.app.sidebarTopMenu.map(menuItem => {
+      const { items } = menuItem;
+
+      if (items) {
+        const currentMenu = items.find(subMenuItem => subMenuItem.url === location.pathname);
+
+        if (currentMenu) {
+          menuItem.isOpen = true;
+        }
+      } else {
+        menuItem.isOpen = false;
+      }
+
+      return menuItem;
+    }),
+  },
 });
 
 export default connect(mapStateToProps, {
@@ -362,5 +410,7 @@ export default connect(mapStateToProps, {
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
   setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
+  toggleMenuTap: appActionCreators.toggleMenuTap,
+  menuClick: appActionCreators.menuClick,
   updateOperatorProfile: authActionCreators.updateProfile,
 })(NewLayout);
