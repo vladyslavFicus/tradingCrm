@@ -70,6 +70,7 @@ class View extends Component {
   componentWillUnmount() {
     this.context.notes.setNoteChangedCallback(null);
     this.props.resetAll();
+    this.handleFiltersChanged({});
   }
 
   handleNoteClick = (target, note, data) => {

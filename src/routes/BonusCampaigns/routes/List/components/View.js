@@ -61,6 +61,10 @@ class View extends Component {
     this.handleRefresh();
   }
 
+  componentWillUnmount() {
+    this.handleFiltersChanged({});
+  }
+
   handleRefresh = () => this.props.fetchEntities({
     ...this.state.filters,
     page: this.state.page,
@@ -113,8 +117,7 @@ class View extends Component {
         this.context.addNotification({
           level: action.error ? 'error' : 'success',
           title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
-          message: `${I18n.t('COMMON.ACTIONS.ADDED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-            I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+          message: `${I18n.t('COMMON.ACTIONS.ADDED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
         });
       } else if (action.payload.response.fields_errors) {
         const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({

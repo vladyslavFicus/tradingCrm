@@ -31,6 +31,10 @@ class List extends Component {
     page: 0,
   };
 
+  componentWillUnmount() {
+    this.handleFilterReset();
+  }
+
   handlePageChanged = (page) => {
     if (!this.props.list.isLoading) {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
@@ -48,7 +52,7 @@ class List extends Component {
     playerUUID: this.props.params.id,
   });
 
-  handleFilterSubmit = (data) => {
+  handleFiltersChanged = (data = {}) => {
     const filters = { ...data };
 
     if (filters.countries) {
@@ -102,7 +106,7 @@ class List extends Component {
   );
 
   renderBalance = data => (
-    data.balance ?
+    data.balance ? (
       <div>
         <div className="font-weight-700">
           <Amount {...data.balance} />
@@ -114,7 +118,7 @@ class List extends Component {
           </div>
         }
       </div>
-      : 'Empty'
+    ) : 'Empty'
   );
 
   renderStatus = data => (
@@ -165,7 +169,7 @@ class List extends Component {
           </Title>
 
           <UserGridFilter
-            onSubmit={this.handleFilterSubmit}
+            onSubmit={this.handleFiltersChanged}
             onReset={this.handleFilterReset}
             disabled={!allowActions}
           />

@@ -73,6 +73,7 @@ class View extends Component {
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
     this.context.cacheChildrenComponent(null);
+    this.handleFiltersChanged({});
   }
 
   getNotePopoverParams = () => ({
@@ -98,7 +99,7 @@ class View extends Component {
   })
     .then(() => this.props.fetchActiveBonus(this.props.params.id));
 
-  handleSubmit = (inputFilters = {}) => {
+  handleFiltersChanged = (inputFilters = {}) => {
     const filters = inputFilters;
 
     if (filters.states) {
@@ -285,7 +286,7 @@ class View extends Component {
         </Sticky>
 
         <BonusGridFilter
-          onSubmit={this.handleSubmit}
+          onSubmit={this.handleFiltersChanged}
         />
 
         <div className="tab-content">

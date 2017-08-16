@@ -43,6 +43,10 @@ class View extends Component {
     this.handleRefresh();
   }
 
+  componentWillUnmount() {
+    this.handleFiltersChanged({});
+  }
+
   handleRefresh = () => {
     this.props.fetchEntities(this.props.params.id, this.state.filters);
   };

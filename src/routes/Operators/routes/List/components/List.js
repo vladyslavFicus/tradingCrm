@@ -48,6 +48,10 @@ class List extends Component {
     this.handleRefresh();
   }
 
+  componentWillUnmount() {
+    this.handleFiltersChanged({});
+  }
+
   handlePageChanged = (page) => {
     if (!this.props.isLoading) {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
@@ -59,7 +63,7 @@ class List extends Component {
     page: this.state.page,
   });
 
-  handleFilterSubmit = (filters) => {
+  handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
@@ -139,10 +143,10 @@ class List extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          { moment(data.registrationDate).format('DD.MM.YYYY') }
+          {moment(data.registrationDate).format('DD.MM.YYYY')}
         </div>
         <div className="font-size-11">
-          { moment(data.registrationDate).format('HH.mm') }
+          {moment(data.registrationDate).format('HH.mm')}
         </div>
       </div>
     );
@@ -183,7 +187,7 @@ class List extends Component {
           </Title>
 
           <OperatorGridFilter
-            onSubmit={this.handleFilterSubmit}
+            onSubmit={this.handleFiltersChanged}
             initialValues={filters}
             filterValues={filterValues}
           />

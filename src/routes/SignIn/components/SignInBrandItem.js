@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const SignInBrandItem = ({ className, name, image, onClick }) => (
   <div className={className} onClick={onClick}>
     <div>
-      <img src={image} alt={name} />
+      <img {...image} alt={name} />
     </div>
     <div className="choice-item_label">
       {name}
@@ -12,7 +12,14 @@ const SignInBrandItem = ({ className, name, image, onClick }) => (
   </div>
 );
 SignInBrandItem.propTypes = {
-  image: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  image: PropTypes.shape({
+    src: PropTypes.string.isRequired,
+    style: PropTypes.shape({
+      width: PropTypes.string,
+      height: PropTypes.string,
+    }),
+  }).isRequired,
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
