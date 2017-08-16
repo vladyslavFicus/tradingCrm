@@ -75,7 +75,8 @@ class NavItem extends Component {
     return (
       <li className={className}>
         {
-          withSubmenu && <span className="nav-link" onClick={() => onToggleMenuItem(index)}>
+          withSubmenu &&
+          <span className="nav-link" onClick={() => onToggleMenuItem(index)}>
             {!!icon && <i className={icon} />}
             <span className="nav-link__label">
               {I18n.t(label)}
@@ -85,7 +86,8 @@ class NavItem extends Component {
         }
 
         {
-          !withSubmenu && <Link className="nav-link" to={url} onClick={onMenuClick}>
+          !withSubmenu &&
+          <Link className="nav-link" to={url} onClick={onMenuClick}>
             {!!icon && <i className={icon} />}
             <span className="nav-link__label">
               {I18n.t(label)}
