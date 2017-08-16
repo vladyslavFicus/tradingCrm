@@ -46,7 +46,7 @@ class PaymentDetailModal extends Component {
   };
 
   handleRejectClick = () => {
-    const { payment, playerProfile, onAskReason } = this.props;
+    const { payment, playerProfile, onAskReason, onChangePaymentStatus } = this.props;
 
     return onAskReason({
       title: 'Withdrawal rejection',
@@ -61,11 +61,12 @@ class PaymentDetailModal extends Component {
         paymentId: payment.paymentId,
       },
       customReason: true,
+      onSubmit: onChangePaymentStatus,
     });
   };
 
   handleChargebackClick = () => {
-    const { payment, playerProfile, onAskReason } = this.props;
+    const { payment, playerProfile, onAskReason, onChangePaymentStatus } = this.props;
 
     return onAskReason({
       title: 'Deposit chargeback',
@@ -80,6 +81,7 @@ class PaymentDetailModal extends Component {
         paymentId: payment.paymentId,
       },
       customReason: true,
+      onSubmit: onChangePaymentStatus,
     });
   };
 

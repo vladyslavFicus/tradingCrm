@@ -13,7 +13,7 @@ function fetchEntities(playerUUID, filters = {}) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/profiles/es/${playerUUID}/devices?${buildQueryString(filters)}`,
+        endpoint: `profile/profiles/${playerUUID}/devices?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',

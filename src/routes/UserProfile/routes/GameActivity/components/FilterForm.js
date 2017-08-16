@@ -122,7 +122,7 @@ class FilterForm extends Component {
                 <option value="">{I18n.t('COMMON.ANY')}</option>
                 {games.map(item => (
                   <option key={item} value={item}>
-                    {gamesList[item]}
+                    {gamesList[item] || item}
                   </option>
                 ))}
               </Field>

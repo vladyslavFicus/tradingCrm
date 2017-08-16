@@ -27,9 +27,9 @@
     @include flex(2 0 auto);
     min-width: 1px;
     align-self: center;
-    margin-top: 6px;
     margin-left: auto;
-    padding: 0 1rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
     .button-block-container {
       @include flexbox();
       -webkit-flex-flow: row nowrap;

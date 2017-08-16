@@ -162,7 +162,7 @@ PropTypes.uploadingFile = PropTypes.shape({
   error: PropTypes.string,
 });
 PropTypes.userProfile = PropTypes.shape({
-  acceptedTermsId: PropTypes.number,
+  acceptedTermsUUID: PropTypes.string,
   address: PropTypes.string,
   addressKycMetaData: PropTypes.arrayOf(PropTypes.fileEntity),
   kycAddressStatus: PropTypes.kycStatus,
@@ -262,7 +262,7 @@ PropTypes.auditEntity = PropTypes.shape({
   creationDate: PropTypes.string.isRequired,
   details: PropTypes.object.isRequired,
   id: PropTypes.number.isRequired,
-  ip: PropTypes.string.isRequired,
+  ip: PropTypes.string,
   targetFullName: PropTypes.string.isRequired,
   targetUuid: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
