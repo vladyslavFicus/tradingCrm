@@ -25,6 +25,7 @@ class View extends Component {
       receivedAt: PropTypes.number.isRequired,
     }).isRequired,
     list: PropTypes.pageableState(PropTypes.userDeviceEntity).isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -109,9 +110,8 @@ class View extends Component {
 
   render() {
     const {
-      list: {
-        entities,
-      },
+      list: { entities, isLoading, receivedAt },
+      locale,
       filters: {
         data: { deviceType, operatingSystem },
       },
@@ -143,6 +143,8 @@ class View extends Component {
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
+            locale={locale}
+            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
           >
             <GridColumn
               name="deviceId"

@@ -16,6 +16,7 @@ class View extends Component {
     fetchFilesAndNotes: PropTypes.func.isRequired,
     changeFileStatusByAction: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -100,9 +101,8 @@ class View extends Component {
 
   render() {
     const {
-      files: {
-        entities,
-      },
+      files: { entities, isLoading, receivedAt },
+      locale,
     } = this.props;
 
     return (
@@ -140,6 +140,8 @@ class View extends Component {
             onDownloadFileClick={this.handleDownloadFileClick}
             onDeleteFileClick={this.handleDeleteFileClick}
             onPreviewImageClick={this.handlePreviewImageClick}
+            locale={locale}
+            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
           />
         </div>
       </div>

@@ -53,6 +53,7 @@ class FreeSpinsView extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -277,13 +278,14 @@ class FreeSpinsView extends Component {
   render() {
     const { modal, filters } = this.state;
     const {
-      list: { entities, exporting, newEntityNote },
+      list: { entities, exporting, newEntityNote, isLoading, receivedAt },
       filters: { data: { games: gamesFilterValues, providers: providersFilterValues } },
       providers,
       games,
       currency,
       manageNote,
       cancelReasons,
+      locale,
     } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
@@ -325,6 +327,8 @@ class FreeSpinsView extends Component {
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
+            locale={locale}
+            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
           >
             <GridColumn
               name="freeSpin"
