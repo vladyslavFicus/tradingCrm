@@ -198,59 +198,58 @@ class NotePopover extends Component {
         isOpen={isOpen}
         toggle={this.handleHide}
         target={target}
+        className="note-popover"
       >
-        <div className="note-popover-container">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="popover-title">
-              {this.renderTitle()}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="popover-title">
+            {this.renderTitle()}
+          </div>
+          <PopoverContent>
+            <div className="row">
+              <div className="col-md-12">
+                <Field
+                  name="content"
+                  component={this.renderMessageField}
+                />
+              </div>
             </div>
-            <PopoverContent>
-              <div className="row">
-                <div className="col-md-12">
-                  <Field
-                    name="content"
-                    component={this.renderMessageField}
-                  />
+
+            <div className="row">
+              <div className="col-md-4">
+                <div className="font-size-11">
+                  <span className="font-weight-700">
+                    {currentValues && currentValues.content ? currentValues.content.length : 0}
+                  </span>/{MAX_CONTENT_LENGTH}
                 </div>
+
+                <Field
+                  name="pinned"
+                  wrapperClassName="display-block font-size-12 margin-top-5"
+                  label="Pin"
+                  component={this.renderSwitchField}
+                />
               </div>
 
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="font-size-11">
-                    <span className="font-weight-700">
-                      {currentValues && currentValues.content ? currentValues.content.length : 0}
-                    </span>/{MAX_CONTENT_LENGTH}
-                  </div>
+              <div className="col-md-8 text-right margin-top-10">
+                <button
+                  type="reset"
+                  className="btn btn-default-outline btn-sm margin-right-10"
+                  onClick={() => this.handleHide(true)}
+                >
+                  Cancel
+                </button>
 
-                  <Field
-                    name="pinned"
-                    wrapperClassName="display-block font-size-12 margin-top-5"
-                    label="Pin"
-                    component={this.renderSwitchField}
-                  />
-                </div>
-
-                <div className="col-md-8 text-right margin-top-10">
-                  <button
-                    type="reset"
-                    className="btn btn-default-outline btn-sm margin-right-10"
-                    onClick={() => this.handleHide(true)}
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary btn-sm text-uppercase font-weight-700"
-                    disabled={pristine || submitting || invalid}
-                  >
-                    {item && item.uuid ? 'Update' : 'Save'}
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-sm text-uppercase font-weight-700"
+                  disabled={pristine || submitting || invalid}
+                >
+                  {item && item.uuid ? 'Update' : 'Save'}
+                </button>
               </div>
-            </PopoverContent>
-          </form>
-        </div>
+            </div>
+          </PopoverContent>
+        </form>
       </Popover>
     );
   }
