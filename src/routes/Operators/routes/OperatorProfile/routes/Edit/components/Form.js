@@ -20,7 +20,7 @@ const validator = createValidator({
   firstName: ['required', 'string'],
   lastName: ['required', 'string'],
   email: ['required', 'email'],
-  country: ['required', `in:,${Object.keys(countries).join()}`],
+  country: [`in:,${Object.keys(countries).join()}`],
   phoneNumber: 'string',
 }, attributeLabels, false);
 

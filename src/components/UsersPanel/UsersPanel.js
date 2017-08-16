@@ -70,7 +70,7 @@ class UsersPanel extends Component {
             );
           })}
         </div>
-        <footer className={footerClassName}>
+        <div className={footerClassName}>
           {items.map((item, index) => (
             <UsersPanelItem
               active={active && active.uuid === item.uuid}
@@ -84,7 +84,7 @@ class UsersPanel extends Component {
           <button className="btn-transparent users-panel-footer__close" onClick={onClose}>
             &times;
           </button>
-        </footer>
+        </div>
       </div>
     );
   }
