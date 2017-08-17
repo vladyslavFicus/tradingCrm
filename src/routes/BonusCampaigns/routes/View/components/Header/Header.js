@@ -43,11 +43,11 @@ class Header extends Component {
     return (
       <div>
         <div className="panel-heading-row">
-          <div className="panel-heading-row_campaign-info">
-            <div className="bonus__campaign__name">
+          <div className="panel-heading-row__info">
+            <div className="panel-heading-row__info-title">
               {name}
             </div>
-            <div className="bonus__campaign__uuid">
+            <div className="panel-heading-row__info-ids">
               <span className="short__uuid">
                 <Uuid uuid={uuid} uuidPrefix="CA" />
                 {' - '}
@@ -59,7 +59,7 @@ class Header extends Component {
           </div>
           {
             state === statuses.DRAFT && targetType === targetTypes.TARGET_LIST &&
-            <div className="panel-heading-row_actions">
+            <div className="panel-heading-row__actions">
               <FileUpload
                 label={I18n.t('BONUS_CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
                 allowedTypes={['text/csv', 'application/vnd.ms-excel']}
