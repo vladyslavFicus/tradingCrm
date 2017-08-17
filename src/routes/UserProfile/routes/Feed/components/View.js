@@ -14,6 +14,7 @@ class View extends Component {
     fetchFeed: PropTypes.func.isRequired,
     exportFeed: PropTypes.func.isRequired,
     params: PropTypes.object,
+    locale: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -70,10 +71,13 @@ class View extends Component {
       feed: {
         entities,
         exporting,
+        isLoading,
+        receivedAt,
       },
       feedTypes: {
         data: availableTypes,
       },
+      locale,
     } = this.props;
 
     return (
@@ -125,6 +129,8 @@ class View extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             lazyLoad
+            locale={locale}
+            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
           />
         </div>
       </div>

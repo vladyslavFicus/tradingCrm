@@ -4,6 +4,7 @@ import { actionCreators } from '../modules/index';
 
 const mapStateToProps = state => ({
   ...state.userFeed,
+  ...state.i18n,
 });
 
 export default connect(mapStateToProps, actionCreators)(View);

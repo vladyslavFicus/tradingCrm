@@ -24,6 +24,7 @@ class CommonGridView extends Component {
     onOpenCancelLimitModal: PropTypes.func,
     onNoteClick: PropTypes.func,
     insideModal: PropTypes.bool,
+    locale: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -196,7 +197,7 @@ class CommonGridView extends Component {
   );
 
   render() {
-    const { dataSource, insideModal } = this.props;
+    const { dataSource, insideModal, locale } = this.props;
 
     return (
       <div className="profile-tab-container">
@@ -205,6 +206,8 @@ class CommonGridView extends Component {
           headerClassName="text-uppercase"
           dataSource={dataSource}
           totalPages={1}
+          locale={locale}
+          notFound={dataSource.length === 0}
         >
           <GridColumn
             name="type"

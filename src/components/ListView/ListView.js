@@ -3,6 +3,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from '../../utils/shallowEqual';
+import NotFoundContent from '../../components/NotFoundContent';
 
 class ListView extends Component {
   static propTypes = {
@@ -15,11 +16,14 @@ class ListView extends Component {
     activePage: PropTypes.number,
     totalPages: PropTypes.number,
     itemClassName: PropTypes.string,
+    locale: PropTypes.string.isRequired,
+    notFound: PropTypes.bool,
   };
 
   static defaultProps = {
     defaultFilters: {},
     lazyLoad: false,
+    notFound: false,
   };
 
   state = {
@@ -31,7 +35,8 @@ class ListView extends Component {
       return true;
     }
 
-    return !shallowEqual(nextProps.dataSource, this.props.dataSource);
+    return !shallowEqual(nextProps.dataSource, this.props.dataSource)
+      || (nextProps.locale !== this.props.locale) || nextProps.notFound !== this.props.notFound;
   }
 
   onFiltersChanged() {
@@ -103,6 +108,12 @@ class ListView extends Component {
   }
 
   render() {
+    const { notFound, locale } = this.props;
+
+    if (notFound) {
+      return <NotFoundContent locale={locale} />;
+    }
+
     return (
       <div>
         {this.renderItems()}

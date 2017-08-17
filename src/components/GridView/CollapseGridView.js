@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GridColumn from './GridColumn';
+import NotFoundContent from '../../components/NotFoundContent';
 
 class CollapseGridView extends Component {
   static propTypes = {
@@ -14,11 +15,14 @@ class CollapseGridView extends Component {
     rowClassName: PropTypes.func,
     openUUID: PropTypes.string,
     collapsedDataFieldName: PropTypes.string.isRequired,
+    locale: PropTypes.string.isRequired,
+    notFound: PropTypes.bool,
   };
 
   static defaultProps = {
     tableClassName: 'table table-stripped table-hovered',
     headerClassName: 'thead-default',
+    notFound: false,
   };
 
   getRowClassName = (data) => {
@@ -90,7 +94,7 @@ class CollapseGridView extends Component {
     return values;
   };
 
-  renderColumn(key, column, data) {
+  renderColumn = (key, column, data) => {
     let content = null;
 
     if (typeof column.props.render === 'function') {
@@ -100,22 +104,27 @@ class CollapseGridView extends Component {
     }
 
     return <td className={column.props.className} key={key}>{content}</td>;
-  }
+  };
 
   render() {
-    const { tableClassName, headerClassName } = this.props;
+    const { tableClassName, headerClassName, locale, notFound } = this.props;
+
+    if (notFound) {
+      return <NotFoundContent locale={locale} />;
+    }
+
+    console.log(notFound)
+
     const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
-      <div className="row">
-        <div className="col-md-12 table-responsive">
-          <table className={tableClassName}>
-            <thead className={headerClassName}>
-              {this.renderHead(this.recognizeHeaders(grids))}
-            </thead>
-            {this.renderBody(grids)}
-          </table>
-        </div>
+      <div className="table-responsive">
+        <table className={tableClassName}>
+          <thead className={headerClassName}>
+            {this.renderHead(this.recognizeHeaders(grids))}
+          </thead>
+          {this.renderBody(grids)}
+        </table>
       </div>
     );
   }

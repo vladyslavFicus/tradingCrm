@@ -12,8 +12,9 @@ const limitPeriods = Object
     [period]: configLimitPeriods[period].periods || [],
   }), {});
 
-const mapStateToProps = ({ userLimits: { view } }) => ({
+const mapStateToProps = ({ userLimits: { view }, i18n: { locale } }) => ({
   ...view,
+  locale,
   limitPeriods,
 });
 

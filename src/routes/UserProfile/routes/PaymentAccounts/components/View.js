@@ -28,6 +28,12 @@ class View extends Component {
     fetchFilesAndNotes: PropTypes.func.isRequired,
     currencyCode: PropTypes.string,
     changePaymentAccountStatus: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    receivedAt: PropTypes.number,
+    locale: PropTypes.string.isRequired,
+  };
+  static defaultProps = {
+    receivedAt: null
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -247,7 +253,7 @@ class View extends Component {
   );
 
   render() {
-    const { paymentAccounts } = this.props;
+    const { paymentAccounts, locale, isLoading, receivedAt } = this.props;
     const { openUUID } = this.state;
 
     return (
@@ -269,6 +275,8 @@ class View extends Component {
             headerClassName="text-uppercase"
             renderCollapseBlock={this.renderCollapseBlock}
             collapseClassName="payment-account-attached"
+            locale={locale}
+            notFound={_.isEmpty(paymentAccounts) && isLoading === false && !!receivedAt}
           >
             <GridColumn
               name="paymentMethod"
