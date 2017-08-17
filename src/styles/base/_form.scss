@@ -233,6 +233,9 @@ label {
         opacity: 1;
         visibility: visible;
       }
+      .select-block__label {
+        z-index: 2;
+      }
     }
     &.with-option {
       font-weight: 600;
@@ -242,15 +245,14 @@ label {
       }
     }
     &__label {
+      position: relative;
       padding-top: 6px;
     }
     &__content {
       width: 100%;
       position: absolute;
-      top: 100%;
+      top: 95%;
       left: 0;
-      border: 1px solid #9b9b9b;
-      border-top-color: #cfcfcf;
       border-bottom-right-radius: 3px;
       border-bottom-left-radius: 3px;
       opacity: 0;
@@ -269,6 +271,11 @@ label {
       overflow-x: hidden;
       overflow-y: auto;
       padding: 5px 8px 2px;
+      border-right: 1px solid #9b9b9b;
+      border-bottom: 1px solid #9b9b9b;
+      border-left: 1px solid #9b9b9b;
+      border-bottom-right-radius: 3px;
+      border-bottom-left-radius: 3px;
     }
     &__options {
       &-item {
@@ -330,9 +337,12 @@ label {
   }
   &-search-bar {
     padding: 10px 5px;
+    border-right: 1px solid #9b9b9b;
+    border-left: 1px solid #9b9b9b;
     background-color: #eee;
     .form-control {
       height: 29px;
+      padding-bottom: 3px;
       font-size: 13px;
     }
     .input-left-icon {

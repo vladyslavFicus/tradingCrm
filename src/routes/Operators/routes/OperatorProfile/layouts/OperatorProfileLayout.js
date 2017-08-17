@@ -8,7 +8,6 @@ import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import PropTypes from '../../../../../constants/propTypes';
 import Uuid from '../../../../../components/Uuid';
-import './OperatorProfileLayout.scss';
 
 const INFO_MODAL = 'info-modal';
 const modalInitialState = {
