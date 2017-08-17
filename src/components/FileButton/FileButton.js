@@ -8,13 +8,11 @@ const styles = {
     position: 'absolute',
     top: 0,
     left: 0,
-    zIndex: 2,
     opacity: 0,
   },
   button: {
     cursor: 'pointer',
     position: 'relative',
-    zIndex: 1,
   },
 };
 
