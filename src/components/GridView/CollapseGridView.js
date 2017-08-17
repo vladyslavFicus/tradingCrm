@@ -113,8 +113,6 @@ class CollapseGridView extends Component {
       return <NotFoundContent locale={locale} />;
     }
 
-    console.log(notFound)
-
     const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
