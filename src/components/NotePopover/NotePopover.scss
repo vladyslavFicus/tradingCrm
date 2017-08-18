@@ -3,10 +3,11 @@
 .popover {
   max-width: none;
   border-color: #797979;
+  z-index: 0;
 }
 
 .popover-inner.note-popover {
-  width: 310px;
+  width: 320px;
   background-color: $yellow-color;
 
   textarea {
