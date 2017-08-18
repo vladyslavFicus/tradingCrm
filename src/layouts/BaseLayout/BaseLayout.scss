@@ -4,7 +4,10 @@
   border: none;
   margin-bottom: 0;
   .nav-tabs {
-    margin-top: -80px;
+    position: absolute;
+    top: -45px;
+    right: 0;
+    left: 0;
     margin-right: 25px;
     margin-left: 25px;
   }
@@ -13,18 +16,13 @@
     margin-top: -20px;
     margin-right: auto;
     margin-left: auto;
-    .nav-tabs {
-      margin-top: -80px;
-      margin-right: 0;
-      margin-left: 0;
-    }
   }
   &-heading {
     padding-bottom: 75px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(248, 248, 248, 1) 100%, rgba(248, 248, 248, 1) 100%);
   }
   .profile-user-content {
-    padding-top: 15px;
+    position: relative;
   }
 
   .tab-content {

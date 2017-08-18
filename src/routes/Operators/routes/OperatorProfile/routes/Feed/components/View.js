@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import ListView from '../../../../../../../components/ListView';
@@ -68,13 +67,12 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className={classNames('profile-tab-container')}>
-        <div className="row margin-bottom-20">
-          <div className="col-sm-3 col-xs-6">
-            <span className="font-size-20">{I18n.t('OPERATOR_PROFILE.FEED.TITLE')}</span>
+      <div className="profile-tab-container">
+        <div className="tab-header">
+          <div className="tab-header__heading">
+            {I18n.t('OPERATOR_PROFILE.FEED.TITLE')}
           </div>
-
-          <div className="col-sm-9 col-xs-6 text-right">
+          <div className="tab-header__actions">
             <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
               {I18n.t('COMMON.EXPORT')}
             </button>
@@ -86,40 +84,38 @@ class View extends Component {
           onSubmit={this.handleFiltersChanged}
         />
 
-        <div className="row">
-          <div className="col-md-12 margin-top-20">
-            <ListView
-              dataSource={entities.content}
-              itemClassName="padding-bottom-20"
-              onPageChange={this.handlePageChanged}
-              render={(item, key) => {
-                const options = {
-                  color: 'blue',
-                  letter: item.authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
-                };
+        <div className="tab-content">
+          <ListView
+            dataSource={entities.content}
+            itemClassName="padding-bottom-20"
+            onPageChange={this.handlePageChanged}
+            render={(item, key) => {
+              const options = {
+                color: 'blue',
+                letter: item.authorFullName.split(' ').splice(0, 2).map(word => word[0]).join(''),
+              };
 
-                if (item.authorUuid !== item.targetUuid) {
-                  if (item.authorUuid) {
-                    options.color = 'orange';
-                  } else {
-                    options.color = '';
-                    options.letter = 's';
-                  }
+              if (item.authorUuid !== item.targetUuid) {
+                if (item.authorUuid) {
+                  options.color = 'orange';
+                } else {
+                  options.color = '';
+                  options.letter = 's';
                 }
+              }
 
-                return (
-                  <FeedItem
-                    key={key}
-                    data={item}
-                    {...options}
-                  />
-                );
-              }}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-            />
-          </div>
+              return (
+                <FeedItem
+                  key={key}
+                  data={item}
+                  {...options}
+                />
+              );
+            }}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+          />
         </div>
       </div>
     );

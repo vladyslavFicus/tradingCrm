@@ -55,7 +55,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="panel-body">
         <div className="panel">
           <div className="panel-body">
             {
