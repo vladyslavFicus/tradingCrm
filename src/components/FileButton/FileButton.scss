@@ -1,0 +1,12 @@
+input[type="file"] {
+  display: none;
+}
+
+.btn-file {
+  display: inline-block;
+  height: auto;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  line-height: normal;
+  cursor: pointer;
+}
