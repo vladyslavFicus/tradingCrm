@@ -1,37 +1,37 @@
 .filter-row {
-  @include flexbox();
+  display: flex;
   -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
   justify-content: space-between;
   margin-right: -1rem;
   margin-left: -1rem;
   &__big {
-    @include flex(1 0 350px);
+    flex: 1 0 350px;
     min-width: 1px;
     padding-right: 1rem;
     padding-left: 1rem;
   }
   &__medium {
-    @include flex(0.75 0 250px);
+    flex: 0.75 0 250px;
     min-width: 1px;
     padding-right: 1rem;
     padding-left: 1rem;
   }
   &__small {
-    @include flex(0.25 0 150px);
+    flex: 0.25 0 150px;
     min-width: 1px;
     padding-right: 1rem;
     padding-left: 1rem;
   }
   &__button-block {
-    @include flex(2 0 auto);
+    flex: 2 0 auto;
     min-width: 1px;
     align-self: center;
     margin-left: auto;
     padding-right: 1rem;
     padding-left: 1rem;
     .button-block-container {
-      @include flexbox();
+      display: flex;
       -webkit-flex-flow: row nowrap;
       flex-flow: row nowrap;
       justify-content: flex-end;
@@ -43,25 +43,25 @@
 }
 
 .form-row {
-  @include flexbox();
+  display: flex;
   -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
   margin-right: -1rem;
   margin-left: -1rem;
   &__big {
-    @include flex(0 0 350px);
+    flex: 0 0 350px;
     min-width: 1px;
     padding-right: 1rem;
     padding-left: 1rem;
   }
   &__medium {
-    @include flex(0 0 250px);
+    flex: 0 0 250px;
     min-width: 1px;
     padding-right: 1rem;
     padding-left: 1rem;
   }
   &__small {
-    @include flex(0 0 150px);
+    flex: 0 0 150px;
     min-width: 1px;
     padding-right: 1rem;
     padding-left: 1rem;
@@ -126,12 +126,12 @@ label {
 }
 
 .range-group {
-  @include flexbox();
+  display: flex;
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   .form-group,
   .form-control {
-    @include flex(1 0 0);
+    flex: 1 0 0;
     min-width: 1px;
   }
   .form-group {
@@ -147,10 +147,6 @@ label {
 }
 
 .input-with-icon {
-  @include flexbox();
-  -webkit-flex-flow: row nowrap;
-  flex-flow: row nowrap;
-  align-items: center;
   position: relative;
   &__left .form-control {
     padding-left: 30px;
@@ -160,16 +156,18 @@ label {
   }
   .input-left-icon {
     position: absolute;
+    top: 12px;
     left: 8px;
   }
   .input-right-icon {
     position: absolute;
+    top: 12px;
     right: 8px;
   }
 }
 
 .input-with-button {
-  @include flexbox();
+  display: flex;
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   align-items: center;

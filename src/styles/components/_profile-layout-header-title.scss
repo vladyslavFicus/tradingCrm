@@ -1,5 +1,5 @@
 .panel-heading-row {
-  @include flexbox();
+  display: flex;
   align-items: center;
   padding: 12px 25px;
   background-color: #fff;
