@@ -13,7 +13,9 @@ class View extends Component {
     }).isRequired,
     fetchFeed: PropTypes.func.isRequired,
     exportFeed: PropTypes.func.isRequired,
-    params: PropTypes.object,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }).isRequired,
   };
   static defaultProps = {
     isLoading: false,
