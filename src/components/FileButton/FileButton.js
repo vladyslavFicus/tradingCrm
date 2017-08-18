@@ -1,30 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-const styles = {
-  fileInput: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    opacity: 0,
-  },
-  button: {
-    cursor: 'pointer',
-    position: 'relative',
-  },
-};
+import './FileButton.scss';
 
 class FileUpload extends Component {
   static propTypes = {
-    className: PropTypes.string,
     label: PropTypes.any.isRequired,
     onChosen: PropTypes.func.isRequired,
     singleMode: PropTypes.bool,
   };
   static defaultProps = {
-    className: 'btn btn-primary',
     label: 'Upload file',
     singleMode: true,
   };
@@ -42,22 +26,18 @@ class FileUpload extends Component {
   };
 
   render() {
-    const { className, label, singleMode } = this.props;
+    const { label, singleMode } = this.props;
 
     return (
-      <div
-        className={className}
-        style={styles.button}
-      >
+      <label className="btn btn-default-outline btn-file">
         <input
           type="file"
-          style={styles.fileInput}
           onClick={this.handleClick}
           onChange={this.handleChange}
           multiple={!singleMode}
         />
         {label}
-      </div>
+      </label>
     );
   }
 }
