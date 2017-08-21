@@ -159,12 +159,12 @@ class PaymentDetailModal extends Component {
 
         <ModalBody>
           <ModalPlayerInfo playerProfile={playerProfile} />
-          <div className="row margin-vertical-20">
-            <div className="col-md-3 modal-body-tab">
+          <div className="modal-body-tabs">
+            <div className="modal-body-tabs__item">
               <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_TRANSACTION')}
               </div>
-              <div className="modal-header-tab__label">
+              <div className="modal-header-tabs__label">
                 <Uuid uuid={payment.paymentId} uuidPrefix="TA" />
               </div>
               <div className="font-size-11">
@@ -175,24 +175,24 @@ class PaymentDetailModal extends Component {
                 />
               </div>
             </div>
-            <div className="col-md-3 modal-body-tab">
+            <div className="modal-body-tabs__item">
               <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME')}
               </div>
-              <div className="modal-header-tab__label">
+              <div className="modal-header-tabs__label">
                 {moment(payment.creationTime).format('DD.MM.YYYY')}
               </div>
               <div className="font-size-11">
                 {moment(payment.creationTime).format('HH:mm')}
               </div>
             </div>
-            <div className="col-md-1 modal-body-tab">
+            <div className="modal-body-tabs__item">
               <div className="modal-tab-label">
                 Ip
               </div>
               {payment.country && <i className={`fs-icon fs-${payment.country.toLowerCase()}`} />}
             </div>
-            <div className="col-md-2 modal-body-tab">
+            <div className="modal-body-tabs__item">
               <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DEVICE')}
               </div>
@@ -212,30 +212,30 @@ class PaymentDetailModal extends Component {
                 </UncontrolledTooltip>
               </div>
             </div>
-            <div className="col-md-3 modal-body-tab">
+            <div className="modal-body-tabs__item">
               <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_STATUS')}
               </div>
               <TransactionStatus transaction={payment} />
             </div>
           </div>
-          <div className="row well payment-detail-amount">
-            <div className="payment-detail-amount-block">
+          <div className="modal-footer-tabs">
+            <div className="modal-footer-tabs__item">
               <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_AMOUNT')}
               </div>
               <div
-                className={classNames('modal-grey-tab__amount', { 'color-danger': isWithdraw })}
+                className={classNames('modal-footer-tabs__amount', { 'color-danger': isWithdraw })}
               >
                 {isWithdraw && '-'}<Amount {...payment.amount} />
               </div>
             </div>
-            <div className="payment-detail-amount-block">
+            <div className="modal-footer-tabs__item">
               <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_PAYMENT_METHOD')}
               </div>
               <div>
-                <div className="modal-grey-tab__amount">
+                <div className="modal-footer-tabs__amount">
                   {payment.paymentMethod ? renderLabel(payment.paymentMethod, paymentsMethodsLabels) : 'Manual'}
                 </div>
                 <div className="font-size-14">
@@ -244,15 +244,13 @@ class PaymentDetailModal extends Component {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-12 text-center">
-              <NoteButton
-                id="payment-detail-modal-note"
-                note={payment.note}
-                onClick={onNoteClick}
-                targetEntity={payment}
-              />
-            </div>
+          <div className="text-center">
+            <NoteButton
+              id="payment-detail-modal-note"
+              note={payment.note}
+              onClick={onNoteClick}
+              targetEntity={payment}
+            />
           </div>
         </ModalBody>
 

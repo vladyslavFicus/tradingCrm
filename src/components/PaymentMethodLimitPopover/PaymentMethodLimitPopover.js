@@ -92,6 +92,7 @@ class PaymentMethodLimitPopover extends Component {
         isOpen
         toggle={toggle}
         target={target}
+        className="payment-limit-popover"
       >
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <PopoverContent>

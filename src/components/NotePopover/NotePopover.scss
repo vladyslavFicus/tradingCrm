@@ -1,17 +1,33 @@
 @import "../../styles/settings/variables";
 
 .popover {
-  width: 100%;
-  max-width: 400px;
+  max-width: none;
   border-color: #797979;
+  z-index: 0;
+}
 
-  .popover-inner {
-    background-color: $yellow-color;
+.popover-inner.note-popover {
+  width: 320px;
+  background-color: $yellow-color;
+
+  textarea {
+    padding: 2px;
+    border-radius: 0;
+    border-color: #ccc;
+    font-size: 14px;
+    background-attachment: local;
+    background-image:
+      linear-gradient(to right, white 0px, transparent 0px),
+      linear-gradient(to left, white 0px, transparent 0px),
+      repeating-linear-gradient(#FFFDE6, #FFFDE6 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
   }
 
   .popover-title {
     background-color: transparent;
     border: none;
+    padding-bottom: 0;
+    font-size: 16px;
+    font-weight: normal;
     &__container {
       margin-bottom: 5px;
       color: #666;
@@ -36,18 +52,6 @@
     }
   }
 
-  .popover-arrow {
-    display: none;
-  }
-}
-
-.note-popover-container {
-  .popover-title {
-    padding-bottom: 0;
-    font-size: 16px;
-    font-weight: normal;
-  }
-
   .popover-content {
     padding-top: 0;
     .form-group {
@@ -55,15 +59,7 @@
     }
   }
 
-  textarea {
-    padding: 2px;
-    border-radius: 0;
-    border-color: #ccc;
-    font-size: 14px;
-    background-attachment: local;
-    background-image:
-      linear-gradient(to right, white 0px, transparent 0px),
-      linear-gradient(to left, white 0px, transparent 0px),
-      repeating-linear-gradient(#FFFDE6, #FFFDE6 20px, #dfe4ed 20px, #dfe4ed 21px, #FFFDE6 21px);
+  .popover-arrow {
+    display: none;
   }
 }

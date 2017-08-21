@@ -1,10 +1,11 @@
-@import "../../styles/tools/mixins";
-
 .profile-layout {
   border: none;
   margin-bottom: 0;
   .nav-tabs {
-    margin-top: -80px;
+    position: absolute;
+    top: -45px;
+    right: 0;
+    left: 0;
     margin-right: 25px;
     margin-left: 25px;
   }
@@ -13,18 +14,13 @@
     margin-top: -20px;
     margin-right: auto;
     margin-left: auto;
-    .nav-tabs {
-      margin-top: -80px;
-      margin-right: 0;
-      margin-left: 0;
-    }
   }
   &-heading {
     padding-bottom: 75px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(248, 248, 248, 1) 100%, rgba(248, 248, 248, 1) 100%);
   }
   .profile-user-content {
-    padding-top: 15px;
+    position: relative;
   }
 
   .tab-content {
@@ -33,17 +29,19 @@
   }
 }
 
-.sticky-outer-wrapper,
-.sticky-inner-wrapper {
-  z-index: 5;
+.sticky-outer-wrapper.active {
+  z-index: 1;
+  .sticky-inner-wrapper {
+    z-index: 1;
+  }
 }
 
 .sticky-outer-wrapper.active {
   .tab-header {
     padding-top: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-    box-shadow: 0 2px 6px 0 rgba(0,0,0,.15);
+    border-top-color: #eee;
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,.1);
   }
 }
 
@@ -52,6 +50,7 @@
   flex-flow: row nowrap;
   align-items: center;
   padding: 20px 25px;
+  border-top: 1px solid transparent;
   background-color: #fff;
   transition: all .2s ease;
   &__heading {
@@ -63,11 +62,11 @@
 }
 
 .hide-details-block {
-  @include flexbox();
+  display: flex;
   flex-flow: row nowrap;
   align-items: center;
   &_divider {
-    @include flex(1 0 40%);
+    flex: 1 0 40%;
     min-height: 1px;
     border-top: 1px solid #eee;
   }

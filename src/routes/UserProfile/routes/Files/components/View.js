@@ -108,7 +108,7 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <Sticky top={76} bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0}>
           <div className="tab-header">
             <div className="tab-header__heading">Files</div>
             <div className="tab-header__actions">

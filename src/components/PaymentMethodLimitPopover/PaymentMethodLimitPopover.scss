@@ -1,10 +1,7 @@
 @import "../../styles/settings/variables";
 
-.popover {
+.popover-inner.payment-limit-popover {
   max-width: 300px;
-  width: 300px;
-  background-color: #f7f7f7;
-
   .popover-title {
     background: $yellow-color;
     border: none;

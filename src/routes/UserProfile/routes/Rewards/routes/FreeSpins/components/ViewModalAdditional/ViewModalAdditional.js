@@ -6,22 +6,22 @@ import FreeSpinSettings from '../FreeSpinSettings';
 import BonusSettings from '../BonusSettings';
 
 const ViewModalAdditional = ({ freeSpin }) => (
-  <div className="row margin-vertical-20">
-    <div className="col-md-4 modal-header-tab">
+  <div className="modal-body-tabs">
+    <div className="modal-body-tabs__item">
       <div className="modal-tab-label">
         {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.AVAILABLE')}
       </div>
 
       <FreeSpinAvailablePeriod freeSpin={freeSpin} />
     </div>
-    <div className="col-md-4 modal-header-tab">
+    <div className="modal-body-tabs__item">
       <div className="modal-tab-label">
         {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.SPIN_SETTINGS')}
       </div>
 
       <FreeSpinSettings freeSpin={freeSpin} />
     </div>
-    <div className="col-md-4 modal-header-tab">
+    <div className="modal-body-tabs__item">
       <div className="modal-tab-label">
         {I18n.t('PLAYER_PROFILE.FREE_SPINS.VIEW_MODAL.BONUS_SETTINGS')}
       </div>

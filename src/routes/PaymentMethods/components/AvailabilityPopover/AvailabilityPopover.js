@@ -184,43 +184,42 @@ class AvailabilityPopover extends Component {
         isOpen
         toggle={toggle}
         target={target}
+        className="availability-popover"
       >
-        <div className="availability-popover-container">
-          <PopoverContent>
-            <Nav tabs>
-              {
-                Object.keys(tabs).map(tab => (
-                  <NavItem key={tab}>
-                    <NavLink
-                      className={classNames({ active: activeTab === tab })}
-                      onClick={() => { this.toggleTab(tab); }}
-                    >
-                      {I18n.t(tabsLabels[tab])}
-                    </NavLink>
-                  </NavItem>
-                ))
-              }
-            </Nav>
-            <TabContent activeTab={activeTab}>
-              <div className="form-input-icon">
-                <i className="icmn-search" />
-                <Input
-                  onChange={this.handleSearch}
-                  className="form-control input-sm"
-                  value={search}
-                  type="text"
-                  placeholder={I18n.t('PAYMENT.METHODS.AVAILABILITY.SEARCH_PLACEHOLDER')}
-                />
-              </div>
-              <hr />
-              <TabPane tabId={activeTab}>
-                <Row>
-                  {this.renderTabListElements()}
-                </Row>
-              </TabPane>
-            </TabContent>
-          </PopoverContent>
-        </div>
+        <PopoverContent>
+          <Nav tabs>
+            {
+              Object.keys(tabs).map(tab => (
+                <NavItem key={tab}>
+                  <NavLink
+                    className={classNames({ active: activeTab === tab })}
+                    onClick={() => { this.toggleTab(tab); }}
+                  >
+                    {I18n.t(tabsLabels[tab])}
+                  </NavLink>
+                </NavItem>
+              ))
+            }
+          </Nav>
+          <TabContent activeTab={activeTab}>
+            <div className="form-input-icon">
+              <i className="icmn-search" />
+              <Input
+                onChange={this.handleSearch}
+                className="form-control input-sm"
+                value={search}
+                type="text"
+                placeholder={I18n.t('PAYMENT.METHODS.AVAILABILITY.SEARCH_PLACEHOLDER')}
+              />
+            </div>
+            <hr />
+            <TabPane tabId={activeTab}>
+              <Row>
+                {this.renderTabListElements()}
+              </Row>
+            </TabPane>
+          </TabContent>
+        </PopoverContent>
       </Popover>
     );
   }
