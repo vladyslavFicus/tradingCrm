@@ -47,21 +47,21 @@ function signIn(data) {
   });
 }
 
-function refreshToken() {
+function refreshToken(outsideToken = null) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
         method: 'GET',
-        endpoint: `/auth/token/renew?token=${token}`,
+        endpoint: `/auth/token/renew?token=${outsideToken || token}`,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${outsideToken || token}`,
         },
         types: [REFRESH_TOKEN.REQUEST, REFRESH_TOKEN.SUCCESS, REFRESH_TOKEN.FAILURE],
-        bailout: !logged,
+        bailout: !logged || (!outsideToken && !token),
       },
     });
   };

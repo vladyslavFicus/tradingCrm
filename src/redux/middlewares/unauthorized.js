@@ -4,10 +4,10 @@ import { actionTypes as windowActionTypes, actionCreators as windowActionCreator
 
 export default (codes = [401]) => {
   const isValidMiddlewareAction = ({ auth }, action) => auth.logged && action
-  && (
-    (action.error && action.payload && codes.indexOf(action.payload.status) > -1)
-    || action.type === windowActionTypes.LOGOUT
-  );
+    && (
+      (action.error && action.payload && codes.indexOf(action.payload.status) > -1)
+      || action.type === windowActionTypes.LOGOUT
+    );
 
   return ({ dispatch, getState }) => next => (action) => {
     const { auth, location } = getState();
@@ -22,7 +22,10 @@ export default (codes = [401]) => {
           !action.meta || !action.meta.ignoreByAuthMiddleware ||
           (location && location.pathname && !/(sign-in)/.test(location.pathname))
         ) {
-          browserHistory.push(`/sign-in${location && location.pathname ? `?returnUrl=${location.pathname}` : ''}`);
+          const returnUrl = location && location.pathname && !/(sign-in)/.test(location.pathname)
+            ? location.pathname
+            : '';
+          browserHistory.push(`/sign-in${returnUrl ? `?returnUrl=${returnUrl}` : ''}`);
         }
       }
     }
