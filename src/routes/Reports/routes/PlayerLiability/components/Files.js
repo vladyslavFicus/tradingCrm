@@ -17,7 +17,7 @@ class Files extends Component {
   };
 
   componentDidMount() {
-    this.handleFiltersChanged({});
+    this.handleFiltersChanged();
   }
 
   handlePageChanged = (page, filters) => {

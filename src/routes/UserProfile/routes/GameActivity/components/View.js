@@ -57,7 +57,6 @@ class View extends Component {
 
   componentWillUnmount() {
     this.context.cacheChildrenComponent(null);
-    this.handleFiltersChanged({});
   }
 
   handleRefresh = () => {

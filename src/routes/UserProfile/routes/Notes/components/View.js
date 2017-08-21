@@ -46,7 +46,6 @@ class View extends Component {
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
     this.context.cacheChildrenComponent(null);
-    this.handleFiltersChanged({});
   }
 
   handleNoteChanged = () => {

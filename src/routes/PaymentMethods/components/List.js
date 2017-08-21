@@ -43,10 +43,6 @@ class List extends Component {
     this.handleRefresh();
   }
 
-  componentWillUnmount() {
-    this.handleFiltersChanged({});
-  }
-
   handleRefresh = () => {
     this.props.loadPaymentMethods(this.state.filters);
   };

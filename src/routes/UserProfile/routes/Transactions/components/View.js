@@ -127,7 +127,6 @@ class View extends Component {
     this.context.setNoteChangedCallback(null);
     this.context.cacheChildrenComponent(null);
     this.props.resetAll();
-    this.handleFiltersChanged({});
   }
 
   handleNoteClick = (target, note, data) => {

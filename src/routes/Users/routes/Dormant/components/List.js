@@ -8,10 +8,6 @@ class List extends Component {
     this.handleFiltersChanged();
   }
 
-  componentWillUnmount() {
-    this.handleFiltersChanged({});
-  }
-
   handlePageChanged = (page, filters = {}) => {
     if (!this.props.list.isLoading) {
       this.props.fetchEntities({ ...filters, page: page - 1 });

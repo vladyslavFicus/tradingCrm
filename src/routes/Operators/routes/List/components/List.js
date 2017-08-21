@@ -48,10 +48,6 @@ class List extends Component {
     this.handleRefresh();
   }
 
-  componentWillUnmount() {
-    this.handleFiltersChanged({});
-  }
-
   handlePageChanged = (page) => {
     if (!this.props.isLoading) {
       this.setState({ page: page - 1 }, () => this.handleRefresh());

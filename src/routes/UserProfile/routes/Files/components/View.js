@@ -46,7 +46,6 @@ class View extends Component {
     this.context.setNoteChangedCallback(null);
     this.context.setFileChangedCallback(null);
     this.context.cacheChildrenComponent(null);
-    this.handleFiltersChanged({});
   }
 
   getNotePopoverParams = () => ({

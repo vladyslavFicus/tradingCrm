@@ -20,7 +20,7 @@ class Report extends Component {
   };
 
   componentDidMount() {
-    this.handleFiltersChanged({});
+    this.handleFiltersChanged();
   }
 
   renderEuColumn = (data, column) => <input
