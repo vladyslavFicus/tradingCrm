@@ -22,7 +22,7 @@ class GridView extends Component {
     rowClassName: PropTypes.func,
     lazyLoad: PropTypes.bool,
     locale: PropTypes.string,
-    notFound: PropTypes.bool,
+    showNoResults: PropTypes.bool,
   };
   static defaultProps = {
     tableClassName: 'table table-stripped table-hovered',
@@ -37,7 +37,7 @@ class GridView extends Component {
     totalPages: null,
     rowClassName: null,
     lazyLoad: false,
-    notFound: false,
+    showNoResults: false,
   };
 
   state = {
@@ -231,12 +231,12 @@ class GridView extends Component {
       tableClassName,
       headerClassName,
       lazyLoad,
-      notFound,
+      showNoResults,
       dataSource,
       locale,
     } = this.props;
 
-    if (notFound) {
+    if (showNoResults) {
       return <NotFoundContent locale={locale} />;
     }
 

@@ -34,6 +34,7 @@ class View extends Component {
       list: PropTypes.arrayOf(PropTypes.string).isRequired,
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number,
+      noResults: PropTypes.bool,
       error: PropTypes.object,
     }).isRequired,
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -54,6 +55,7 @@ class View extends Component {
     filters: {},
     page: 0,
     modal: { ...defaultModalState },
+    noResults: null,
   };
 
   componentDidMount() {
@@ -222,7 +224,7 @@ class View extends Component {
 
   render() {
     const {
-      campaigns: { entities, exporting, isLoading, receivedAt },
+      campaigns: { entities, exporting, noResults },
       locale,
       types: { list },
       statuses,
@@ -230,6 +232,8 @@ class View extends Component {
     } = this.props;
     const { modal, filters } = this.state;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
+
+    console.log('noResults', noResults);
 
     return (
       <div className="page-content-inner">
@@ -277,7 +281,7 @@ class View extends Component {
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad
-              notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
+              showNoResults={noResults}
             >
               <GridColumn
                 name="campaign"
