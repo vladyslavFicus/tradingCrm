@@ -459,7 +459,7 @@ function successUpdateProfileReducer(state, action) {
     address,
     email,
     profileStatus,
-    profileStatusComment: profileStatusReason,
+    profileStatusReason,
     username,
     profileTags,
   } = action.payload;

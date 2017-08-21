@@ -127,9 +127,9 @@ class PlayerStatus extends Component {
           {statusesLabels[status]}
         </div>
         {
-          !!reason &&
+          !!fullName &&
           <div className="header-block-small">
-            by {reason}
+            by {fullName}
           </div>
         }
         {
