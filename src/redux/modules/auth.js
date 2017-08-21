@@ -61,7 +61,7 @@ function refreshToken(outsideToken = null) {
           Authorization: `Bearer ${outsideToken || token}`,
         },
         types: [REFRESH_TOKEN.REQUEST, REFRESH_TOKEN.SUCCESS, REFRESH_TOKEN.FAILURE],
-        bailout: !logged || (!outsideToken && !token),
+        bailout: (!outsideToken && !token) || !logged,
       },
     });
   };
