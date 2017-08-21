@@ -17,7 +17,7 @@ class Files extends Component {
   };
 
   componentDidMount() {
-    this.handleFiltersChanged();
+    this.handleFiltersChanged({});
   }
 
   handlePageChanged = (page, filters) => {
@@ -26,7 +26,7 @@ class Files extends Component {
     }
   };
 
-  handleFiltersChanged = (filters) => {
+  handleFiltersChanged = (filters = {}) => {
     this.props.onFetch({ ...filters, page: 0 });
   };
 

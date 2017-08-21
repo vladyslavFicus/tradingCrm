@@ -25,7 +25,7 @@ const brandsConfig = {
     name: 'Horizon',
     image: { src: '/img/nascasino-brand-logo.png' },
   },
-  [brands.vslots]: {
+  [brands.vulcanprestige]: {
     name: 'Vslots',
     image: { src: '/img/vslot-brand-logo.png' },
   },
@@ -33,7 +33,7 @@ const brandsConfig = {
     name: 'Loki',
     image: { src: '/img/loki-brand-logo.png' },
   },
-  [brands.vulkan]: {
+  [brands.vulcanneon]: {
     name: 'Vulcan Neon',
     image: { src: '/img/vulcanneon_brand_logo.png', style: { width: '132px' } },
   },

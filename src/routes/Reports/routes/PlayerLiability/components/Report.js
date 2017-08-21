@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import GridView, { GridColumn } from 'components/GridView';
-import Panel, { Title, Content } from 'components/Panel';
-import Amount from 'components/Amount';
+import GridView, { GridColumn } from '../../../../../components/GridView';
+import Panel, { Title, Content } from '../../../../../components/Panel';
+import Amount from '../../../../../components/Amount';
 
 class Report extends Component {
   handlePageChanged = (page, filters) => {
@@ -20,7 +20,7 @@ class Report extends Component {
   };
 
   componentDidMount() {
-    this.handleFiltersChanged();
+    this.handleFiltersChanged({});
   }
 
   renderEuColumn = (data, column) => <input
