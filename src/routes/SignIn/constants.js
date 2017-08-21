@@ -3,8 +3,8 @@ import I18n from '../../utils/fake-i18n';
 
 const brands = keyMirror({
   hrzn: null,
-  vslots: null,
-  vulkan: null,
+  vulcanprestige: null,
+  vulcanneon: null,
   loki: null,
 });
 const departments = keyMirror({
