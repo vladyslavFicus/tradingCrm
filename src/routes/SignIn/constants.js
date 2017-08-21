@@ -3,7 +3,8 @@ import I18n from '../../utils/fake-i18n';
 
 const brands = keyMirror({
   hrzn: null,
-  vslots: null,
+  vulcanprestige: null,
+  vulcanneon: null,
   loki: null,
 });
 const departments = keyMirror({
@@ -22,15 +23,19 @@ const roles = keyMirror({
 const brandsConfig = {
   [brands.hrzn]: {
     name: 'Horizon',
-    image: '/img/nascasino-brand-logo.png',
+    image: { src: '/img/nascasino-brand-logo.png' },
   },
-  [brands.vslots]: {
+  [brands.vulcanprestige]: {
     name: 'Vslots',
-    image: '/img/vslot-brand-logo.png',
+    image: { src: '/img/vslot-brand-logo.png' },
   },
   [brands.loki]: {
     name: 'Loki',
-    image: '/img/loki-brand-logo.png',
+    image: { src: '/img/loki-brand-logo.png' },
+  },
+  [brands.vulcanneon]: {
+    name: 'Vulcan Neon',
+    image: { src: '/img/vulcanneon_brand_logo.png', style: { width: '132px' } },
   },
 };
 const departmentsConfig = {

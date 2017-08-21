@@ -470,10 +470,10 @@ class ProfileLayout extends Component {
     this.props.walletLimitAction({ ...data, playerUUID: this.props.params.id });
   };
 
-  handleUpdateSubscription = async (name, value) => {
+  handleUpdateSubscription = async (data) => {
     const { params: { id: playerUUID }, updateSubscription } = this.props;
 
-    return updateSubscription(playerUUID, name, value);
+    return updateSubscription(playerUUID, data);
   };
 
   showImages = async (url, type, options = {}) => {
