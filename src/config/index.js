@@ -169,6 +169,10 @@ function getLogo() {
   return /vslots/.test(getApiRoot()) ? '/img/vslots-logo.png' : '/img/logoNewAge.png';
 }
 
+function getVersion() {
+  return config.version;
+}
+
 export {
   getApiRoot,
   getBrand,
@@ -179,6 +183,7 @@ export {
   getTransactionChargebackReasons,
   getLimitPeriods,
   getAvailableLanguages,
+  getVersion,
 };
 
 export default config;

@@ -1,6 +1,5 @@
 const process = require('process');
 const fs = require('fs');
-const fetch = require('isomorphic-fetch');
 const ymlReader = require('yamljs');
 const _ = require('lodash');
 const fetchZookeeperConfig = require('./fetch-zookeeper-config');
@@ -68,7 +67,7 @@ function processConfig() {
       compileNginxConfig(environmentConfig);
 
       return _.merge(
-        {},
+        { version: Buffer.from(Date.now() + APP_NAME).toString('base64') },
         config,
         { nas: environmentConfig.nas },
         { nas: { brand: environmentConfig.brand } },

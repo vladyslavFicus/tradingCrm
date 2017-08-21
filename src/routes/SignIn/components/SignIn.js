@@ -53,16 +53,16 @@ class SignIn extends Component {
   }
 
   componentWillUnmount() {
-    if (this.resetStateTimout) {
-      clearTimeout(this.resetStateTimout);
+    if (this.resetStateTimeout) {
+      clearTimeout(this.resetStateTimeout);
 
-      this.resetStateTimout = null;
+      this.resetStateTimeout = null;
     }
 
     this.props.reset();
   }
 
-  resetStateTimout = null;
+  resetStateTimeout = null;
 
   handleSubmit = async (data) => {
     const { signIn } = this.props;
@@ -83,8 +83,7 @@ class SignIn extends Component {
           }
         });
       } else {
-        const error = action.payload.response.error ?
-          action.payload.response.error : action.payload.message;
+        const error = action.payload.response.error ? action.payload.response.error : action.payload.message;
         throw new SubmissionError({ _error: error });
       }
     }
@@ -102,12 +101,13 @@ class SignIn extends Component {
     const token = requestToken || dataToken;
     const uuid = requestUuid || dataUuid;
 
-    this.setState({ loading: true }, async () => {
+    this.setState({ loading: true, logged: false }, async () => {
       const action = await changeDepartment(department, brand, token);
 
-      this.resetStateTimout = setTimeout(() => this.setState({ loading: false, logged: false }, () => {
+      this.resetStateTimeout = setTimeout(() => this.setState({ loading: false }, () => {
         this.props.reset();
       }), 2000);
+
       if (action) {
         if (!action.error) {
           await Promise.all([
@@ -117,9 +117,11 @@ class SignIn extends Component {
 
           this.redirectToNextPage();
         } else {
-          const error = action.payload.response.error ?
-            action.payload.response.error : action.payload.message;
-          throw new SubmissionError({ _error: error });
+          throw new SubmissionError({
+            _error: action.payload.response.error
+              ? action.payload.response.error
+              : action.payload.message,
+          });
         }
       }
     });
@@ -129,7 +131,11 @@ class SignIn extends Component {
     const { location, router } = this.props;
     let nextUrl = '/';
 
-    if (location.query && location.query.returnUrl && !/sign\-in/.test(location.query.returnUrl)) {
+    if (
+      location.query && location.query.returnUrl
+      && !/sign\-in/.test(location.query.returnUrl)
+      && !/logout/.test(location.query.returnUrl)
+    ) {
       nextUrl = location.query.returnUrl;
     }
 

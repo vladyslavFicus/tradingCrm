@@ -1,5 +1,5 @@
 import keyMirror from 'keymirror';
-import { getErrorApiUrl, getBrand } from '../config';
+import { getErrorApiUrl, getBrand, getVersion } from '../config';
 
 const errorTypes = keyMirror({
   INTERNAL: null,
@@ -24,8 +24,9 @@ const sendError = (params) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      brand: getBrand(),
       ...params,
+      brand: getBrand(),
+      version: getVersion(),
     }),
   });
 };
