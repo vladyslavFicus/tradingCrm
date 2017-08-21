@@ -1,6 +1,7 @@
 @import "../../../../styles/settings/variables";
 
-.availability-popover-container {
+.popover-inner.availability-popover {
+  max-width: 300px;
   .popover-title {
     background: $yellow-color;
     border: none;

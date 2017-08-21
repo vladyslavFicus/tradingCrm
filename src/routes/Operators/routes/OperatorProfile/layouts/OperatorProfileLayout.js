@@ -8,7 +8,6 @@ import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import PropTypes from '../../../../../constants/propTypes';
 import Uuid from '../../../../../components/Uuid';
-import './OperatorProfileLayout.scss';
 
 const INFO_MODAL = 'info-modal';
 const modalInitialState = {
@@ -216,16 +215,14 @@ class OperatorProfileLayout extends Component {
           </Collapse>
         </div>
         <div className="panel profile-user-content">
-          <div className="panel-body">
-            <div className="nav-tabs-horizontal">
-              <Tabs
-                items={operatorProfileTabs}
-                location={location}
-                params={params}
-              />
-              <div className="padding-vertical-40">
-                {children}
-              </div>
+          <div className="nav-tabs-horizontal">
+            <Tabs
+              items={operatorProfileTabs}
+              location={location}
+              params={params}
+            />
+            <div>
+              {children}
             </div>
           </div>
         </div>

@@ -1,10 +1,9 @@
 .panel-heading-row {
-  @include flexbox();
+  display: flex;
   align-items: center;
   padding: 12px 25px;
   background-color: #fff;
   border-bottom: 1px solid #eee;
-  z-index: 5;
   transition: all .2s ease;
   &__info {
     &-title {
@@ -17,6 +16,7 @@
   }
   &__actions {
     margin-left: auto;
+    z-index: 0;
   }
   &__tags {
     max-width: 40%;
@@ -75,6 +75,7 @@
 
 .sticky-outer-wrapper.active {
   .panel-heading-row {
-    box-shadow: 0 0 12px 0 rgba(0,0,0,0.3);
+    box-shadow: 0 0 12px 0 rgba(0,0,0,0.2);
+    border-bottom-color: transparent;
   }
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';
-import { browserHistory } from 'react-router';
 import Nav from '../Nav';
 import PropTypes from '../../constants/propTypes';
 import './Sidebar.scss';
@@ -46,7 +45,7 @@ class Sidebar extends Component {
         isOpen: false,
       });
       this.props.menuClick();
-    }, 1000);
+    }, 400);
 
     if (!this.openTimeout) {
       clearTimeout(this.openTimeout);
@@ -55,15 +54,12 @@ class Sidebar extends Component {
   };
 
 
-  onMenuClick = (url) => {
-    if (url) {
-      this.setState({
-        isHover: false,
-        isOpen: false,
-      });
-      browserHistory.push(url);
-      this.props.menuClick();
-    }
+  onMenuClick = () => {
+    this.setState({
+      isHover: false,
+      isOpen: false,
+    });
+    this.props.menuClick();
   };
 
   renderTrackHorizontal = props => (

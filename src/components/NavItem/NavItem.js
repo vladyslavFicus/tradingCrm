@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
+import { Link } from 'react-router';
 import Permissions from '../../utils/permissions';
 import SubNav from '../SubNav';
 import PropTypes from '../../constants/propTypes';
@@ -24,7 +25,7 @@ class NavItem extends Component {
   static defaultProps = {
     isOpen: null,
     onToggleMenuItem: null,
-  }
+  };
 
   state = {
     opened: false,
@@ -72,14 +73,28 @@ class NavItem extends Component {
     const className = classNames('nav-item', { active: isSidebarOpen && (currentMenu || isOpen), dropdown: withSubmenu });
 
     return (
-      <li className={className} onClick={() => onToggleMenuItem(index)}>
-        <span className="nav-link" onClick={() => onMenuClick(url)}>
-          {!!icon && <i className={icon} />}
-          <span className="nav-link__label">
-            {I18n.t(label)}
-            {withSubmenu && <i className="fa fa-angle-down" />}
+      <li className={className}>
+        {
+          withSubmenu &&
+          <span className="nav-link" onClick={() => onToggleMenuItem(index)}>
+            {!!icon && <i className={icon} />}
+            <span className="nav-link__label">
+              {I18n.t(label)}
+              {withSubmenu && <i className="fa fa-angle-down" />}
+            </span>
           </span>
-        </span>
+        }
+
+        {
+          !withSubmenu &&
+          <Link className="nav-link" to={url} onClick={onMenuClick}>
+            {!!icon && <i className={icon} />}
+            <span className="nav-link__label">
+              {I18n.t(label)}
+              {withSubmenu && <i className="fa fa-angle-down" />}
+            </span>
+          </Link>
+        }
 
         {
           withSubmenu &&

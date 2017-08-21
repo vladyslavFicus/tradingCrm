@@ -38,16 +38,14 @@ class ViewModal extends Component {
   };
 
   renderNote = data => (
-    <div className="row">
-      <div className="col-xs-12 text-center">
-        <NoteButton
-          id="free-spin-detail-modal-note"
-          note={data.note}
-          onClick={this.handleNoteClick}
-          targetEntity={data}
-          preview
-        />
-      </div>
+    <div className="text-center">
+      <NoteButton
+        id="free-spin-detail-modal-note"
+        note={data.note}
+        onClick={this.handleNoteClick}
+        targetEntity={data}
+        preview
+      />
     </div>
   );
 

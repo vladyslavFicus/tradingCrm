@@ -13,7 +13,7 @@ class ModalPlayerInfo extends Component {
 
   renderPlayerInfo = profile => (
     <div>
-      <div className="modal-header-tab__label">
+      <div className="modal-header-tabs__label">
         <span>
           {[profile.firstName, profile.lastName].join(' ')}
         </span>
@@ -33,7 +33,7 @@ class ModalPlayerInfo extends Component {
 
   renderPlayerStatus = profile => (
     <div>
-      <div className={`text-uppercase modal-header-tab__label ${statusColorNames[profile.profileStatus]}`}>
+      <div className={`text-uppercase modal-header-tabs__label ${statusColorNames[profile.profileStatus]}`}>
         {profile.profileStatus}
       </div>
       {
@@ -47,7 +47,7 @@ class ModalPlayerInfo extends Component {
 
   renderBalance = ({ total, bonus, real }) => (
     <div>
-      <Amount tag="div" className={'modal-header-tab__label'} {...total} />
+      <Amount tag="div" className={'modal-header-tabs__label'} {...total} />
       <div className="font-size-11">
         RM <Amount {...real} /> + BM <Amount {...bonus} />
       </div>
@@ -58,22 +58,22 @@ class ModalPlayerInfo extends Component {
     const { playerProfile } = this.props;
 
     return (
-      <div className="row">
-        <div className="col-sm-4 modal-header-tab">
+      <div className="modal-header-tabs">
+        <div className="modal-header-tabs__item">
           <div className="modal-tab-label">
             {I18n.t('COMMON.PLAYER')}
           </div>
 
           {this.renderPlayerInfo(playerProfile)}
         </div>
-        <div className="col-sm-4 modal-header-tab">
+        <div className="modal-header-tabs__item">
           <div className="modal-tab-label">
             {I18n.t('COMMON.ACCOUNT_STATUS')}
           </div>
 
           {this.renderPlayerStatus(playerProfile)}
         </div>
-        <div className="col-sm-4 modal-header-tab">
+        <div className="modal-header-tabs__item">
           <div className="modal-tab-label">
             {I18n.t('COMMON.BALANCE')}
           </div>

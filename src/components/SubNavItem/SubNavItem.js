@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 
@@ -17,9 +18,9 @@ class SubNavItem extends Component {
     } = this.props;
 
     return (
-      <span className="dropdown-item" onClick={() => onMenuClick(url)}>
+      <Link className="dropdown-item" to={url} onClick={onMenuClick}>
         {I18n.t(label)}
-      </span>
+      </Link>
     );
   }
 }

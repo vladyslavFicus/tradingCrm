@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 PropTypes.brand = PropTypes.shape({
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.shape({
+    src: PropTypes.string.isRequired,
+    style: PropTypes.shape({
+      width: PropTypes.string,
+      height: PropTypes.string,
+    }),
+  }).isRequired,
 });
 PropTypes.department = PropTypes.shape({
   id: PropTypes.string.isRequired,

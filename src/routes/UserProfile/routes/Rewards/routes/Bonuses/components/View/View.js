@@ -99,7 +99,7 @@ class View extends Component {
   })
     .then(() => this.props.fetchActiveBonus(this.props.params.id));
 
-  handleSubmit = (inputFilters = {}) => {
+  handleFiltersChanged = (inputFilters = {}) => {
     const filters = inputFilters;
 
     if (filters.states) {
@@ -274,7 +274,7 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <Sticky top={76} bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0}>
           <div className="tab-header">
             <BonusHeaderNavigation />
             <div className="tab-header__actions">
@@ -290,7 +290,7 @@ class View extends Component {
         </Sticky>
 
         <BonusGridFilter
-          onSubmit={this.handleSubmit}
+          onSubmit={this.handleFiltersChanged}
         />
 
         <div className="tab-content">

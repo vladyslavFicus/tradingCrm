@@ -40,29 +40,29 @@ class ViewModal extends Component {
   };
 
   renderBonusStats = data => (
-    <div className="row well">
-      <div className="col-md-3 modal-grey-tab">
+    <div className="modal-footer-tabs modal-footer-tabs_justified-around">
+      <div className="modal-footer-tabs__item">
         <div className="modal-tab-label">
           Granted
         </div>
 
         {this.renderGrantedAmount(data)}
       </div>
-      <div className="col-md-3 modal-grey-tab">
+      <div className="modal-footer-tabs__item">
         <div className="modal-tab-label">
           Wagered
         </div>
 
         {this.renderWageredAmount(data)}
       </div>
-      <div className="col-md-3 modal-grey-tab">
+      <div className="modal-footer-tabs__item">
         <div className="modal-tab-label">
           To wager
         </div>
 
         {this.renderToWagerAmount(data)}
       </div>
-      <div className="col-md-3 modal-grey-tab">
+      <div className="modal-footer-tabs__item">
         <div className="modal-tab-label">
           Total to wager
         </div>
@@ -74,12 +74,12 @@ class ViewModal extends Component {
 
   renderGrantedAmount = data => (
     <Amount
-      className="modal-grey-tab__amount"
+      className="modal-footer-tabs__amount"
       {...data.grantedAmount}
     />
   );
 
-  renderWageredAmount = data => <Amount className="modal-grey-tab__amount" {...data.wagered} />;
+  renderWageredAmount = data => <Amount className="modal-footer-tabs__amount" {...data.wagered} />;
 
   renderToWagerAmount = (data) => {
     const toWagerAmount = {
@@ -92,46 +92,46 @@ class ViewModal extends Component {
       currency: data.currency,
     };
 
-    return <Amount className="modal-grey-tab__amount" {...toWagerAmount} />;
+    return <Amount className="modal-footer-tabs__amount" {...toWagerAmount} />;
   };
 
   renderTotalToWagerAmount = data => (
-    <Amount className="modal-grey-tab__amount" {...data.amountToWage} />
+    <Amount className="modal-footer-tabs__amount" {...data.amountToWage} />
   );
 
   renderBonus = item => (
-    <div className="row margin-vertical-20">
-      <div className="col-md-3 modal-body-tab">
+    <div className="modal-body-tabs">
+      <div className="modal-body-tabs__item">
         <div className="modal-tab-label">
           Bonus
         </div>
 
         {this.renderMainInfo(item)}
       </div>
-      <div className="col-md-3 modal-body-tab">
+      <div className="modal-body-tabs__item">
         <div className="modal-tab-label">
           Available
         </div>
 
         {this.renderAvailablePeriod(item)}
       </div>
-      <div className="col-md-2 modal-body-tab">
+      <div className="modal-body-tabs__item">
         <div className="modal-tab-label">
           Priority
         </div>
 
         {this.renderPriority(item)}
       </div>
-      <BonusType className="col-md-2 modal-body-tab" bonus={item} label="Bonus type" />
-      <BonusStatus id="bonus-view-modal" className="col-md-2 modal-body-tab" bonus={item} label="Status" />
+      <BonusType className="modal-body-tabs__item" bonus={item} label="Bonus type" />
+      <BonusStatus id="bonus-view-modal" className="modal-body-tabs__item" bonus={item} label="Status" />
     </div>
   );
 
   renderMainInfo = data => (
     <div>
-      <strong>
+      <div className="modal-header-tabs__label">
         {data.label}
-      </strong>
+      </div>
 
       <div className="font-size-11">{shortify(data.bonusUUID)}</div>
       {
@@ -153,9 +153,9 @@ class ViewModal extends Component {
     data.createdDate
       ? (
         <div>
-          <strong>
+          <div className="modal-header-tabs__label">
             {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
-          </strong>
+          </div>
           {
             !!data.expirationDate &&
             <div className="font-size-11">
@@ -166,19 +166,17 @@ class ViewModal extends Component {
       ) : <span>&mdash</span>
   );
 
-  renderPriority = data => <strong>{data.priority}</strong>;
+  renderPriority = data => <div className="modal-header-tabs__label">{data.priority}</div>;
 
   renderNote = data => (
-    <div className="row">
-      <div className="col-xs-12 text-center">
-        <NoteButton
-          id="free-spin-detail-modal-note"
-          note={data.note}
-          onClick={this.handleNoteClick}
-          targetEntity={data}
-          preview
-        />
-      </div>
+    <div className="text-center">
+      <NoteButton
+        id="free-spin-detail-modal-note"
+        note={data.note}
+        onClick={this.handleNoteClick}
+        targetEntity={data}
+        preview
+      />
     </div>
   );
 

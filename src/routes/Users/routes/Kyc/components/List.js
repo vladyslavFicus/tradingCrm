@@ -44,6 +44,10 @@ class List extends Component {
     page: 0,
   };
 
+  componentWillUnmount() {
+    this.handleFilterReset();
+  }
+
   handlePageChanged = (page) => {
     if (!this.props.list.isLoading) {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
@@ -54,7 +58,7 @@ class List extends Component {
     page: this.state.page,
   });
 
-  handleFilterSubmit = (data) => {
+  handleFiltersChanged = (data) => {
     let filters = { ...data };
 
     if (filters.statuses) {
@@ -112,9 +116,9 @@ class List extends Component {
   };
 
   renderInitiated = (data) => {
-    const type = data.kycRequest && data.kycRequest.authorUUID ?
-      kysRequestTypesLabels[kysRequestTypes.MANUAL] :
-      kysRequestTypesLabels[kysRequestTypes.AUTO];
+    const type = data.kycRequest && data.kycRequest.authorUUID
+      ? kysRequestTypesLabels[kysRequestTypes.MANUAL]
+      : kysRequestTypesLabels[kysRequestTypes.AUTO];
 
     return (
       <div>
@@ -184,7 +188,7 @@ class List extends Component {
             </div>
           </Title>
           <KycGridFilter
-            onSubmit={this.handleFilterSubmit}
+            onSubmit={this.handleFiltersChanged}
             onReset={this.handleFilterReset}
             initialValues={filters}
             filterValues={filterValues}
