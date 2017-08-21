@@ -129,7 +129,7 @@ class PlayerStatus extends Component {
         {
           !!reason &&
           <div className="header-block-small">
-            by {reason}
+            by {fullName}
           </div>
         }
         {
