@@ -20,7 +20,7 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
-    paymentAccounts: PropTypes.object,
+    paymentAccounts: PropTypes.object.isRequired,
     fetchEntities: PropTypes.func.isRequired,
     filesUrl: PropTypes.string.isRequired,
     changeFileStatusByAction: PropTypes.func.isRequired,
@@ -28,6 +28,8 @@ class View extends Component {
     fetchFilesAndNotes: PropTypes.func.isRequired,
     currencyCode: PropTypes.string,
     changePaymentAccountStatus: PropTypes.func.isRequired,
+    noResults: PropTypes.bool.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -247,7 +249,7 @@ class View extends Component {
   );
 
   render() {
-    const { paymentAccounts } = this.props;
+    const { paymentAccounts, locale, noResults } = this.props;
     const { openUUID } = this.state;
 
     return (
@@ -269,6 +271,8 @@ class View extends Component {
             headerClassName="text-uppercase"
             renderCollapseBlock={this.renderCollapseBlock}
             collapseClassName="payment-account-attached"
+            locale={locale}
+            showNoResults={noResults}
           >
             <GridColumn
               name="paymentMethod"

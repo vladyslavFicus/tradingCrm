@@ -7,6 +7,7 @@ const mapStateToProps = (state) => {
   const {
     userBonusFreeSpinsList: { list, filters, games: { games, providers } },
     profile: { profile },
+    i18n: { locale },
   } = state;
 
   return {
@@ -14,6 +15,7 @@ const mapStateToProps = (state) => {
     list,
     games,
     providers,
+    locale,
     currency: profile.data.currencyCode || config.nas.currencies.base,
     cancelReasons: config.modules.freeSpin.cancelReasons,
   };

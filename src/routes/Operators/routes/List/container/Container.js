@@ -4,8 +4,9 @@ import { actionCreators } from '../modules/list';
 import config from '../../../../../config/index';
 import List from '../components/List';
 
-const mapStateToProps = ({ operatorsList: list, ...state }) => ({
+const mapStateToProps = ({ operatorsList: list, ...state, i18n: { locale } }) => ({
   list,
+  locale,
   filterValues: getFormValues('operatorsListGridFilter')(state) || {},
   departments: config.availableDepartments,
   roles: config.availableRoles,

@@ -52,7 +52,7 @@ class Navbar extends Component {
     return (
       <header className="header">
         <IndexLink className="navbar-brand" href={'/'}>
-          <img src={getLogo()} alt="current-lottery-logo" />
+          <img src={getLogo()} alt="current-casino-logo" />
         </IndexLink>
         <div className="department">
           <DepartmentsDropDown

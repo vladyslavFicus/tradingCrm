@@ -79,6 +79,7 @@ const initialState = {
   filters: {},
   isLoading: false,
   receivedAt: null,
+  noResults: false,
 };
 const actionHandlers = {
   [FETCH_FILES.REQUEST]: (state, action) => ({
@@ -86,6 +87,7 @@ const actionHandlers = {
     filters: { ...action.meta.filters },
     isLoading: true,
     error: null,
+    noResults: false,
   }),
   [FETCH_FILES.SUCCESS]: (state, action) => ({
     ...state,
@@ -101,6 +103,7 @@ const actionHandlers = {
     },
     isLoading: false,
     receivedAt: timestamp(),
+    noResults: action.payload.content.length === 0,
   }),
   [FETCH_FILES.FAILURE]: (state, action) => ({
     ...state,

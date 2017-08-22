@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GridColumn from './GridColumn';
 import shallowEqual from '../../utils/shallowEqual';
+import NotFoundContent from '../../components/NotFoundContent';
 
 class GridView extends Component {
   static propTypes = {
@@ -21,6 +22,7 @@ class GridView extends Component {
     rowClassName: PropTypes.func,
     lazyLoad: PropTypes.bool,
     locale: PropTypes.string,
+    showNoResults: PropTypes.bool,
   };
   static defaultProps = {
     tableClassName: 'table table-stripped table-hovered',
@@ -35,6 +37,7 @@ class GridView extends Component {
     totalPages: null,
     rowClassName: null,
     lazyLoad: false,
+    showNoResults: false,
   };
 
   state = {
@@ -47,7 +50,7 @@ class GridView extends Component {
     }
 
     return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || (nextProps.locale !== this.props.locale);
+      || (nextProps.locale !== this.props.locale) || nextProps.showNoResults !== this.props.showNoResults;
   }
 
   onFiltersChanged = () => {
@@ -117,11 +120,7 @@ class GridView extends Component {
     columns.some(column => !!column)
       ? (
         <tr>
-          {columns.map((item, key) =>
-            item ?
-              <td key={key} {...item} /> :
-              <td key={key} />
-          )}
+          {columns.map((item, key) => item ? <td key={key} {...item} /> : <td key={key} />)}
         </tr>
       )
       : null
@@ -232,8 +231,14 @@ class GridView extends Component {
       tableClassName,
       headerClassName,
       lazyLoad,
+      showNoResults,
       dataSource,
+      locale,
     } = this.props;
+
+    if (showNoResults) {
+      return <NotFoundContent locale={locale} />;
+    }
 
     if (!dataSource.length) {
       return null;
@@ -248,7 +253,6 @@ class GridView extends Component {
             {this.renderHead(this.recognizeHeaders(grids))}
             {this.renderFilters(this.recognizeFilters(grids))}
           </thead>
-
           {this.renderBody(grids)}
           {this.renderFooter(grids)}
         </table>

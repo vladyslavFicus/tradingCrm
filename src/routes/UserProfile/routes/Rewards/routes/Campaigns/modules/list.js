@@ -43,6 +43,7 @@ const actionHandlers = {
     ...state,
     isLoading: true,
     error: null,
+    noResults: false,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
@@ -58,6 +59,7 @@ const actionHandlers = {
     },
     isLoading: false,
     receivedAt: timestamp(),
+    noResults: action.payload.content.length === 0,
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
@@ -81,6 +83,7 @@ const initialState = {
   error: null,
   isLoading: false,
   receivedAt: null,
+  noResults: false,
 };
 const actionTypes = {
   FETCH_ENTITIES,

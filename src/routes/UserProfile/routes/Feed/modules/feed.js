@@ -91,6 +91,7 @@ const actionHandlers = {
     isLoading: true,
     error: null,
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
+    noResults: false,
   }),
   [FETCH_FEED.SUCCESS]: (state, action) => ({
     ...state,
@@ -106,6 +107,7 @@ const actionHandlers = {
     },
     isLoading: false,
     receivedAt: timestamp(),
+    noResults: action.payload.content.length === 0,
   }),
   [FETCH_FEED.FAILURE]: (state, action) => ({
     ...state,
@@ -144,6 +146,7 @@ const initialState = {
   filters: {},
   isLoading: false,
   receivedAt: null,
+  noResults: false,
 };
 const actionTypes = {
   FETCH_FEED,

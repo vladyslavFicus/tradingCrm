@@ -235,12 +235,14 @@ const actionHandlers = {
     ...state,
     isLoading: true,
     error: null,
+    noResults: false,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
     items: mapPaymentAccounts(action.payload),
     isLoading: false,
     receivedAt: timestamp(),
+    noResults: action.payload.length === 0,
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
@@ -271,6 +273,7 @@ const initialState = {
   filters: {},
   isLoading: false,
   receivedAt: null,
+  noResults: false,
 };
 const actionTypes = {
   FETCH_ENTITIES,

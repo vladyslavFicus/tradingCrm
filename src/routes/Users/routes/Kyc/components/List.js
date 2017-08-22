@@ -172,7 +172,7 @@ class List extends Component {
   };
 
   render() {
-    const { list: { entities }, filterValues, locale } = this.props;
+    const { list: { entities, noResults }, filterValues, locale } = this.props;
     const { filters } = this.state;
 
     return (
@@ -204,6 +204,7 @@ class List extends Component {
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad
+              showNoResults={noResults}
             >
               <GridColumn
                 name="id"

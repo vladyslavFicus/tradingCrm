@@ -4,8 +4,9 @@ import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { actionCreators } from '../modules/list';
 import { getApiRoot } from '../../../../../config';
 
-const mapStateToProps = ({ userFiles: { list: files } }) => ({
+const mapStateToProps = ({ userFiles: { list: files }, i18n: { locale } }) => ({
   files,
+  locale,
   filesUrl: `${getApiRoot()}/profile/files/download/`,
 });
 

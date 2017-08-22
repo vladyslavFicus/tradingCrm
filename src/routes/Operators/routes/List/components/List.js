@@ -36,6 +36,7 @@ class List extends Component {
     router: PropTypes.object,
     filterValues: PropTypes.object,
     list: PropTypes.object,
+    locale: PropTypes.string.isRequired,
   };
 
   state = {
@@ -151,10 +152,11 @@ class List extends Component {
   render() {
     const { filters, modal } = this.state;
     const {
-      list: { entities },
+      list: { entities, noResults },
       filterValues,
       departments,
       roles,
+      locale,
     } = this.props;
 
     return (
@@ -197,6 +199,8 @@ class List extends Component {
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad
+              locale={locale}
+              showNoResults={noResults}
             >
               <GridColumn
                 name="uuid"

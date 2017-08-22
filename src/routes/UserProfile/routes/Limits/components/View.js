@@ -24,6 +24,7 @@ class View extends Component {
     cancelLimit: PropTypes.func.isRequired,
     setLimit: PropTypes.func.isRequired,
     limitPeriods: PropTypes.limitPeriodEntity,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -127,7 +128,7 @@ class View extends Component {
 
   render() {
     const { modal } = this.state;
-    const { list, limitPeriods } = this.props;
+    const { list, limitPeriods, locale } = this.props;
 
     return (
       <div>
@@ -147,6 +148,7 @@ class View extends Component {
             dataSource={list}
             onOpenCancelLimitModal={this.handleOpenCancelLimitModal}
             onNoteClick={this.handleNoteClick}
+            locale={locale}
           />
         </div>
         {

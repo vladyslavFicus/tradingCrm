@@ -210,6 +210,7 @@ const initialState = {
   isLoading: false,
   receivedAt: null,
   newPaymentNote: null,
+  noResults: false,
 };
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
@@ -220,6 +221,7 @@ const actionHandlers = {
     },
     isLoading: true,
     isFailed: false,
+    noResults: false,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
@@ -235,6 +237,7 @@ const actionHandlers = {
     },
     isLoading: false,
     receivedAt: timestamp(),
+    noResults: action.payload.content.length === 0,
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,

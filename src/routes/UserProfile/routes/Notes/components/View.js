@@ -12,7 +12,6 @@ import Uuid from '../../../../../components/Uuid';
 class View extends Component {
   static propTypes = {
     view: PropTypes.pageableState(PropTypes.noteEntity),
-    isLoading: PropTypes.bool,
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
@@ -20,6 +19,7 @@ class View extends Component {
       data: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -143,10 +143,12 @@ class View extends Component {
     const {
       view: {
         entities: { content, number, totalPages },
+        noResults,
       },
       noteTypes: {
         data: availableTypes,
       },
+      locale,
     } = this.props;
 
     return (
@@ -162,7 +164,7 @@ class View extends Component {
           availableTypes={availableTypes}
         />
 
-        <div className="margint-top-20 tab-content">
+        <div className="tab-content">
           <ListView
             dataSource={content}
             itemClassName="note-item"
@@ -171,6 +173,8 @@ class View extends Component {
             activePage={number + 1}
             totalPages={totalPages}
             lazyLoad
+            locale={locale}
+            showNoResults={noResults}
           />
         </div>
       </div>

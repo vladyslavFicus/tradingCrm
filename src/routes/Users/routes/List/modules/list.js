@@ -87,6 +87,7 @@ const initialState = {
   error: null,
   receivedAt: null,
   exporting: false,
+  noResults: false,
 };
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
@@ -95,6 +96,7 @@ const actionHandlers = {
     isLoading: true,
     error: null,
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
+    noResults: false,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
@@ -110,6 +112,7 @@ const actionHandlers = {
     },
     isLoading: false,
     receivedAt: timestamp(),
+    noResults: action.payload.content.length === 0,
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,

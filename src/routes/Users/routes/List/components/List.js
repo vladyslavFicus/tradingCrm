@@ -21,6 +21,7 @@ class List extends Component {
       id: PropTypes.string,
     }).isRequired,
     exportEntities: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     addPanel: PropTypes.func.isRequired,
@@ -136,7 +137,7 @@ class List extends Component {
   );
 
   render() {
-    const { list: { entities, exporting } } = this.props;
+    const { list: { entities, exporting, noResults }, locale } = this.props;
     const { filters } = this.state;
     const allowActions = Object
       .keys(filters)
@@ -183,6 +184,8 @@ class List extends Component {
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad
+              locale={locale}
+              showNoResults={noResults}
             >
               <GridColumn
                 name="id"

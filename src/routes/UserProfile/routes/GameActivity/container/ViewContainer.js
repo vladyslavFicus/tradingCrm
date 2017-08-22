@@ -5,6 +5,7 @@ import config from '../../../../../config/index';
 
 const mapStateToProps = state => ({
   ...state.userGamingActivity,
+  ...state.i18n,
   providers: config.providers,
 });
 

@@ -84,7 +84,7 @@ class View extends Component {
 
   handleFilterReset = () => {
     this.props.resetAll();
-    this.setState({ filters: {}, page: 0 });
+    this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
 
   handleOpenCreateModal = () => {
@@ -222,7 +222,7 @@ class View extends Component {
 
   render() {
     const {
-      campaigns: { entities, exporting },
+      campaigns: { entities, exporting, noResults },
       locale,
       types: { list },
       statuses,
@@ -277,6 +277,7 @@ class View extends Component {
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
               lazyLoad
+              showNoResults={noResults}
             >
               <GridColumn
                 name="campaign"

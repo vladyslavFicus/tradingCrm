@@ -43,6 +43,7 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -137,7 +138,7 @@ class View extends Component {
 
   render() {
     const { filters } = this.state;
-    const { list: { entities } } = this.props;
+    const { list: { entities, noResults }, locale } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
@@ -161,6 +162,8 @@ class View extends Component {
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
+            locale={locale}
+            showNoResults={noResults}
           >
             <GridColumn
               name="campaign"

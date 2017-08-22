@@ -8,12 +8,14 @@ const mapStateToProps = (state) => {
   const {
     profile: { profile },
     userBonusesList: { list, bonus },
+    i18n: { locale },
   } = state;
 
   return ({
     list,
     playerProfile: profile,
     bonus,
+    locale,
     canClaimBonus: config.nas.brand.claim_bonus.enable,
   });
 };

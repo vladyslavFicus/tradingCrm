@@ -167,7 +167,7 @@ class View extends Component {
     }
 
     this.handleCloseModal(resetNote);
-  }
+  };
 
   handleRefuseClick = (type) => {
     this.handleOpenModal(REFUSE_MODAL, {
@@ -260,7 +260,7 @@ class View extends Component {
         </span>
       </div>
     );
-  }
+  };
 
   render() {
     const { modal } = this.state;
