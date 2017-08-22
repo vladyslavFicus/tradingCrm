@@ -14,10 +14,7 @@
     background-repeat: no-repeat;
     cursor: pointer;
     opacity: .5;
-    -webkit-transition: opacity .5s ease;
-    -moz-transition: opacity .5s ease;
-    -o-transition: opacity .5s ease;
-    transition: opacity .5s ease;
+    transition: all .2s;
     &:hover {
       opacity: 1;
     }
