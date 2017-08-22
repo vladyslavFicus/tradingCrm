@@ -1,5 +1,4 @@
 module.exports = {
-  version: Buffer.from(`${Date.now()}backoffice`).toString('base64'),
   logstash: { url: 'http://hrzn01-dev-elk.nas.local:12202' },
   nas: {
     brand: {

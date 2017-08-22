@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 const config = _.merge({
+  version: __APP_VERSION__,
   availableDepartments: [],
   availableRoles: [],
   availableTags: [],

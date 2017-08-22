@@ -12,13 +12,13 @@ class SignInDepartments extends Component {
 
     if (logged !== nextProps.logged) {
       if (nextProps.logged) {
-        setTimeout(() => {
+        this.activeTimeout = setTimeout(() => {
           this.setState({ step: 1, departments: nextProps.departments });
         }, 250);
       } else {
-        setTimeout(() => {
+        this.activeTimeout = setTimeout(() => {
           this.setState({ step: 0 }, () => {
-            setTimeout(() => {
+            this.activeTimeout = setTimeout(() => {
               this.setState({ departments: nextProps.departments });
             }, 200);
           });
@@ -26,6 +26,15 @@ class SignInDepartments extends Component {
       }
     }
   }
+
+  componentWillUnmount() {
+    if (this.activeTimeout !== null) {
+      clearTimeout(this.activeTimeout);
+      this.activeTimeout = null;
+    }
+  }
+
+  activeTimeout = null;
 
   render() {
     const { step, departments } = this.state;

@@ -16,11 +16,11 @@ const config = {
     lastName: payload.lastName,
     username: payload.username,
   }),
-  [profileActionTypes.FETCH_PROFILE.FAILURE]: ({ payload, meta }) => {
-    return payload.status === 404
+  [profileActionTypes.FETCH_PROFILE.FAILURE]: ({ payload, meta }) => (
+    payload.status === 404
       ? windowActionCreators.closeProfileTab(meta.uuid)
-      : undefined;
-  },
+      : undefined
+  ),
   [userPanelsActionTypes.SET_ACTIVE]: payload => appActionCreators.setIsShowScrollTop(!!payload),
 };
 

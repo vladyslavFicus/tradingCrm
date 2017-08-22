@@ -51,7 +51,7 @@ function compileNginxConfig(environmentConfig) {
   };
 
   if (config) {
-    Object.keys(params).forEach(name => {
+    Object.keys(params).forEach((name) => {
       config = config.replace(`{{${name}}}`, params[name]);
     });
   }
@@ -63,11 +63,10 @@ function processConfig() {
   const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_ENV}.yml`);
 
   return fetchZookeeperConfig({ environmentConfig })
-    .then(config => {
+    .then((config) => {
       compileNginxConfig(environmentConfig);
 
       return _.merge(
-        { version: Buffer.from(Date.now() + APP_NAME).toString('base64') },
         config,
         { nas: environmentConfig.nas },
         { nas: { brand: environmentConfig.brand } },
