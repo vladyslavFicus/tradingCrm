@@ -137,7 +137,7 @@ class List extends Component {
   );
 
   render() {
-    const { list: { entities, exporting, isLoading, receivedAt }, locale } = this.props;
+    const { list: { entities, exporting, noResults }, locale } = this.props;
     const { filters } = this.state;
     const allowActions = Object
       .keys(filters)
@@ -185,7 +185,7 @@ class List extends Component {
               totalPages={entities.totalPages}
               lazyLoad
               locale={locale}
-              notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
+              showNoResults={noResults}
             >
               <GridColumn
                 name="id"

@@ -34,7 +34,6 @@ class View extends Component {
       list: PropTypes.arrayOf(PropTypes.string).isRequired,
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number,
-      noResults: PropTypes.bool,
       error: PropTypes.object,
     }).isRequired,
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -55,7 +54,6 @@ class View extends Component {
     filters: {},
     page: 0,
     modal: { ...defaultModalState },
-    noResults: null,
   };
 
   componentDidMount() {
@@ -86,7 +84,7 @@ class View extends Component {
 
   handleFilterReset = () => {
     this.props.resetAll();
-    this.setState({ filters: {}, page: 0 });
+    this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
 
   handleOpenCreateModal = () => {
@@ -232,8 +230,6 @@ class View extends Component {
     } = this.props;
     const { modal, filters } = this.state;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
-
-    console.log('noResults', noResults);
 
     return (
       <div className="page-content-inner">

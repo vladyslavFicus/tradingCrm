@@ -101,7 +101,7 @@ class View extends Component {
 
   render() {
     const {
-      files: { entities, isLoading, receivedAt },
+      files: { entities, noResults },
       locale,
     } = this.props;
 
@@ -141,7 +141,7 @@ class View extends Component {
             onDeleteFileClick={this.handleDeleteFileClick}
             onPreviewImageClick={this.handlePreviewImageClick}
             locale={locale}
-            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
+            showNoResults={noResults}
           />
         </div>
       </div>

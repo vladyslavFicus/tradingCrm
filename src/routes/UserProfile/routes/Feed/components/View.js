@@ -68,15 +68,8 @@ class View extends Component {
 
   render() {
     const {
-      feed: {
-        entities,
-        exporting,
-        isLoading,
-        receivedAt,
-      },
-      feedTypes: {
-        data: availableTypes,
-      },
+      feed: { entities, exporting, noResults },
+      feedTypes: { data: availableTypes },
       locale,
     } = this.props;
 
@@ -130,7 +123,7 @@ class View extends Component {
             totalPages={entities.totalPages}
             lazyLoad
             locale={locale}
-            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
+            showNoResults={noResults}
           />
         </div>
       </div>

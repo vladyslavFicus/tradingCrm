@@ -16,13 +16,13 @@ class CollapseGridView extends Component {
     openUUID: PropTypes.string,
     collapsedDataFieldName: PropTypes.string.isRequired,
     locale: PropTypes.string.isRequired,
-    notFound: PropTypes.bool,
+    showNoResults: PropTypes.bool,
   };
 
   static defaultProps = {
     tableClassName: 'table table-stripped table-hovered',
     headerClassName: 'thead-default',
-    notFound: false,
+    showNoResults: false,
   };
 
   getRowClassName = (data) => {
@@ -107,10 +107,14 @@ class CollapseGridView extends Component {
   };
 
   render() {
-    const { tableClassName, headerClassName, locale, notFound } = this.props;
+    const { tableClassName, headerClassName, locale, showNoResults, dataSource } = this.props;
 
-    if (notFound) {
+    if (showNoResults) {
       return <NotFoundContent locale={locale} />;
+    }
+
+    if (!dataSource.length) {
+      return null;
     }
 
     const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);

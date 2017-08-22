@@ -258,7 +258,7 @@ class View extends Component {
   );
 
   render() {
-    const { transactions: { entities, isLoading, receivedAt }, locale } = this.props;
+    const { transactions: { entities, noResults }, locale } = this.props;
     const { modal } = this.state;
 
     return (
@@ -278,7 +278,7 @@ class View extends Component {
               totalPages={entities.totalPages}
               lazyLoad
               locale={locale}
-              notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
+              showNoResults={noResults}
             >
               <GridColumn
                 name="paymentId"

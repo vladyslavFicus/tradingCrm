@@ -279,7 +279,7 @@ class FreeSpinsView extends Component {
   render() {
     const { modal, filters } = this.state;
     const {
-      list: { entities, exporting, newEntityNote, isLoading, receivedAt },
+      list: { entities, exporting, newEntityNote, noResults },
       filters: { data: { games: gamesFilterValues, providers: providersFilterValues } },
       providers,
       games,
@@ -329,7 +329,7 @@ class FreeSpinsView extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             locale={locale}
-            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
+            showNoResults={noResults}
           >
             <GridColumn
               name="freeSpin"

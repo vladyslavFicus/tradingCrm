@@ -110,7 +110,7 @@ class View extends Component {
 
   render() {
     const {
-      list: { entities, isLoading, receivedAt },
+      list: { entities, noResults },
       locale,
       filters: {
         data: { deviceType, operatingSystem },
@@ -144,7 +144,7 @@ class View extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             locale={locale}
-            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
+            showNoResults={noResults}
           >
             <GridColumn
               name="deviceId"

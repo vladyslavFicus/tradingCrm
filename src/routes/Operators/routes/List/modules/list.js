@@ -70,6 +70,7 @@ const actionHandlers = {
     filters: { ...action.meta.filters },
     isLoading: true,
     error: null,
+    noResults: false,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
@@ -85,12 +86,14 @@ const actionHandlers = {
     },
     isLoading: false,
     receivedAt: timestamp(),
+    noResults: action.payload.content.length === 0,
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
+    noResults: false,
   }),
 };
 
@@ -110,6 +113,7 @@ const initialState = {
   isLoading: false,
   error: null,
   receivedAt: null,
+  noResults: false,
 };
 function reducer(state = initialState, action) {
   const handler = actionHandlers[action.type];

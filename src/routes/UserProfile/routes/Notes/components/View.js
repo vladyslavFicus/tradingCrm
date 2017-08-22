@@ -15,7 +15,6 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
-    isLoading: PropTypes.bool,
     noteTypes: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
@@ -144,8 +143,7 @@ class View extends Component {
     const {
       view: {
         entities: { content, number, totalPages },
-        isLoading,
-        receivedAt,
+        noResults,
       },
       noteTypes: {
         data: availableTypes,
@@ -176,7 +174,7 @@ class View extends Component {
             totalPages={totalPages}
             lazyLoad
             locale={locale}
-            notFound={content.length === 0 && isLoading === false && !!receivedAt}
+            showNoResults={noResults}
           />
         </div>
       </div>

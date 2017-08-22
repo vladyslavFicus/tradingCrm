@@ -267,7 +267,7 @@ class View extends Component {
   render() {
     const { modal } = this.state;
     const {
-      list: { entities, isLoading, receivedAt },
+      list: { entities, noResults },
       playerProfile: { data: playerProfile },
       locale,
     } = this.props;
@@ -302,7 +302,7 @@ class View extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             locale={locale}
-            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
+            showNoResults={noResults}
           >
             <GridColumn
               name="mainInfo"

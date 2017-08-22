@@ -152,7 +152,7 @@ class List extends Component {
   render() {
     const { filters, modal } = this.state;
     const {
-      list: { entities, isLoading, receivedAt },
+      list: { entities, noResults },
       filterValues,
       departments,
       roles,
@@ -200,7 +200,7 @@ class List extends Component {
               totalPages={entities.totalPages}
               lazyLoad
               locale={locale}
-              notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
+              showNoResults={noResults}
             >
               <GridColumn
                 name="uuid"

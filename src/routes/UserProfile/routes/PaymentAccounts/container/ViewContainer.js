@@ -5,15 +5,14 @@ import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { getApiRoot } from '../../../../../config';
 
 const mapStateToProps = ({
-  userPaymentAccounts: { list: { items: paymentAccounts, isLoading, receivedAt } },
+  userPaymentAccounts: { list: { items: paymentAccounts, noResults } },
   profile: { profile: { data: { currencyCode } } },
   i18n: { locale },
 }) => ({
   paymentAccounts,
   currencyCode,
   locale,
-  isLoading,
-  receivedAt,
+  noResults,
   filesUrl: `${getApiRoot()}/profile/files/download/`,
 });
 

@@ -207,7 +207,7 @@ class CommonGridView extends Component {
           dataSource={dataSource}
           totalPages={1}
           locale={locale}
-          notFound={dataSource.length === 0}
+          showNoResults={dataSource.length === 0}
         >
           <GridColumn
             name="type"

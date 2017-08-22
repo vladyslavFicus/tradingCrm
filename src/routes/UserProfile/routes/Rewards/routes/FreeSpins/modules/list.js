@@ -230,12 +230,14 @@ const initialState = {
   isLoading: false,
   receivedAt: null,
   newEntityNote: null,
+  noResults: false,
 };
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
+    noResults: false,
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
     ...state,
@@ -251,12 +253,14 @@ const actionHandlers = {
     },
     isLoading: false,
     receivedAt: timestamp(),
+    noResults: action.payload.content.length === 0,
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
+    noResults: false,
   }),
   [MANAGE_NOTE]: (state, action) => ({
     ...state,

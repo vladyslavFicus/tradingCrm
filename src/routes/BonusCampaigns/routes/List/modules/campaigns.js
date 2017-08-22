@@ -206,7 +206,7 @@ const actionHandlers = {
     },
     isLoading: false,
     receivedAt: timestamp(),
-    noResults: !action.payload.content.length,
+    noResults: action.payload.content.length === 0,
   }),
   [FETCH_ENTITIES.FAILURE]: (state, action) => ({
     ...state,

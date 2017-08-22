@@ -20,7 +20,7 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
-    paymentAccounts: PropTypes.object,
+    paymentAccounts: PropTypes.object.isRequired,
     fetchEntities: PropTypes.func.isRequired,
     filesUrl: PropTypes.string.isRequired,
     changeFileStatusByAction: PropTypes.func.isRequired,
@@ -28,12 +28,8 @@ class View extends Component {
     fetchFilesAndNotes: PropTypes.func.isRequired,
     currencyCode: PropTypes.string,
     changePaymentAccountStatus: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    receivedAt: PropTypes.number,
+    noResults: PropTypes.bool.isRequired,
     locale: PropTypes.string.isRequired,
-  };
-  static defaultProps = {
-    receivedAt: null
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -253,7 +249,7 @@ class View extends Component {
   );
 
   render() {
-    const { paymentAccounts, locale, isLoading, receivedAt } = this.props;
+    const { paymentAccounts, locale, noResults } = this.props;
     const { openUUID } = this.state;
 
     return (
@@ -276,7 +272,7 @@ class View extends Component {
             renderCollapseBlock={this.renderCollapseBlock}
             collapseClassName="payment-account-attached"
             locale={locale}
-            notFound={_.isEmpty(paymentAccounts) && isLoading === false && !!receivedAt}
+            showNoResults={noResults}
           >
             <GridColumn
               name="paymentMethod"

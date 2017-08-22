@@ -16,6 +16,7 @@ class View extends Component {
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
+    locale: PropTypes.string.isRequired,
   };
   static defaultProps = {
     isLoading: false,
@@ -62,10 +63,12 @@ class View extends Component {
       feed: {
         entities,
         exporting,
+        noResults,
       },
       feedTypes: {
         data: availableTypes,
       },
+      locale,
     } = this.props;
 
     return (
@@ -117,6 +120,8 @@ class View extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             lazyLoad
+            locale={locale}
+            showNoResults={noResults}
           />
         </div>
       </div>

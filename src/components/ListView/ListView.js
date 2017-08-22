@@ -17,13 +17,13 @@ class ListView extends Component {
     totalPages: PropTypes.number,
     itemClassName: PropTypes.string,
     locale: PropTypes.string.isRequired,
-    notFound: PropTypes.bool,
+    showNoResults: PropTypes.bool,
   };
 
   static defaultProps = {
     defaultFilters: {},
     lazyLoad: false,
-    notFound: false,
+    showNoResults: false,
   };
 
   state = {
@@ -36,7 +36,7 @@ class ListView extends Component {
     }
 
     return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || (nextProps.locale !== this.props.locale) || nextProps.notFound !== this.props.notFound;
+      || (nextProps.locale !== this.props.locale) || nextProps.showNoResults !== this.props.showNoResults;
   }
 
   onFiltersChanged() {
@@ -108,9 +108,9 @@ class ListView extends Component {
   }
 
   render() {
-    const { notFound, locale } = this.props;
+    const { showNoResults, locale } = this.props;
 
-    if (notFound) {
+    if (showNoResults) {
       return <NotFoundContent locale={locale} />;
     }
 

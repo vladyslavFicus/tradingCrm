@@ -230,12 +230,7 @@ class View extends Component {
 
   render() {
     const {
-      activity: {
-        entities,
-        exporting,
-        isLoading,
-        receivedAt,
-      },
+      activity: { entities, exporting, noResults },
       filters: {
         data: { games, aggregators, providers },
       },
@@ -281,7 +276,7 @@ class View extends Component {
             lazyLoad
             rowClassName={data => classNames({ 'round-rollback-row': data.rollback })}
             locale={locale}
-            notFound={entities.content.length === 0 && isLoading === false && !!receivedAt}
+            showNoResults={noResults}
           >
             <GridColumn
               name="gameRound"
