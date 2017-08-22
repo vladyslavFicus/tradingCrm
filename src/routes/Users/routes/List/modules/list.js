@@ -119,7 +119,6 @@ const actionHandlers = {
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
-    noResults: false,
   }),
   [EXPORT_ENTITIES.REQUEST]: state => ({
     ...state,

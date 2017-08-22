@@ -260,7 +260,6 @@ const actionHandlers = {
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
-    noResults: false,
   }),
   [MANAGE_NOTE]: (state, action) => ({
     ...state,

@@ -110,7 +110,6 @@ const actionHandlers = {
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
-    noResults: false,
   }),
   [FETCH_NOTES.SUCCESS]: (state, action) => ({
     ...state,

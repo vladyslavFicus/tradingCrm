@@ -169,7 +169,6 @@ const actionHandlers = {
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
-    noResults: false,
   }),
 };
 const actionTypes = {
