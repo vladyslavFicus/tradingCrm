@@ -31,9 +31,9 @@
   &-ids {
     color: #676767;
     line-height: 1.17;
-    span {
-      font-weight: 600;
-    }
+  }
+  &-username {
+    font-weight: 600;
   }
   &-tags {
     margin: 5px -5px -3px;
@@ -45,8 +45,10 @@
     margin-bottom: 5px;
     margin-left: 15px;
     padding-right: 10px;
-    padding-left: 10px;
+    padding-left: 2px;
     line-height: 20px;
+    font-size: 11px;
+    font-weight: 600;
     color: #fff;
     &:before {
       content: '';
@@ -108,60 +110,40 @@
       line-height: 15px;
     }
   }
-  &_inactive {
+  &_INACTIVE {
     border-color: #bcbcbc;
     background-color: #eee;
     .mini-profile-label {
       background-image: linear-gradient(to left, #bdbdbd, #979797);
     }
   }
-  &_success {
+  &_ACTIVE {
     border-color: #1cbb1c;
     background-color: #e9f7e6;
     .mini-profile-label {
       background-image: linear-gradient(to right, #009a00, #07cd07);
     }
   }
-  &_primary {
-    border-color: #007ee4;
-    background-color: #eaeff8;
-    .mini-profile-label {
-      background-image: linear-gradient(to right, #0066cc, #0099ff);
-    }
-  }
-  &_danger {
+  &_BLOCKED {
     border-color: #cc5f32;
     background-color: #f6e2e1;
     .mini-profile-label {
       background-image: linear-gradient(to right, #990101, #d96620);
     }
   }
-  &_inverse {
+  &_DORMANT {
     border-color: #999;
     background-color: #d7d7d7;
     .mini-profile-label {
       background-image: linear-gradient(to right, #343434, #666666);
     }
   }
-  &_warning {
+  &_SUSPENDED,
+  &_COLLOFF {
     border-color: #ff8219;
     background-color: #ffeedc;
     .mini-profile-label {
       background-image: linear-gradient(to right, #ff6701, #ffa134);
-    }
-  }
-  &_info {
-    border-color: #00d0ff;
-    background-color: #eff9fb;
-    .mini-profile-label {
-      background-image: linear-gradient(to right, #007b9e, #00d0ff);
-    }
-  }
-  &_refused {
-    border-color: #d0011b;
-    background-color: #fedcdc;
-    .mini-profile-label {
-      background-image: linear-gradient(to right, #56030d, #b70016);
     }
   }
   .note-icon {
@@ -169,5 +151,6 @@
     height: 17px;
     margin-left: 5px;
     vertical-align: middle;
+    cursor: default;
   }
 }
