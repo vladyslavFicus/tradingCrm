@@ -73,7 +73,7 @@ class Header extends Component {
             }
             <BonusCampaignOptions
               items={[
-                { label: 'Dublicate campaign', onClick: () => cloneCampaign(id) },
+                { label: `${I18n.t('BONUS_CAMPAIGNS.OPTIONS.DUBLICATE_LABEL')}`, onClick: () => cloneCampaign(id) },
               ]}
             />
           </div>

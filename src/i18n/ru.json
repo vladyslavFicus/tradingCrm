@@ -895,6 +895,9 @@
     },
     "STATUS_DROPDOWN": {
       "TITLE": "Статус кампании"
+    },
+    "OPTIONS": {
+      "DUBLICATE_LABEL": "Скопировать компанию"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

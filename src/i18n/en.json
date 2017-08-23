@@ -889,6 +889,9 @@
     },
     "STATUS_DROPDOWN": {
       "TITLE": "Campaign status"
+    },
+    "OPTIONS": {
+      "DUBLICATE_LABEL": "Dublicate campaign"
     }
   },
   "PROFILE": {
