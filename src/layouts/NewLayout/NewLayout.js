@@ -18,7 +18,6 @@ import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
 import MyProfileSidebar from '../../components/MyProfileSidebar';
 import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
-import MiniProfile from '../../components/MiniProfile';
 import './NewLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -364,14 +363,6 @@ class NewLayout extends Component {
             toggle={this.handlePopoverHide}
             onSubmit={this.handleSubmitNote}
             onDelete={this.handleDeleteNoteClick}
-            {...popover.params}
-          />
-        }
-        {
-          popover.name === 'mini-profile' &&
-          <MiniProfile
-            isOpen
-            toggle={this.handlePopoverHide}
             {...popover.params}
           />
         }
