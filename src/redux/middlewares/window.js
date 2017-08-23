@@ -11,10 +11,8 @@ const config = {
     username: payload.username,
   }),
   [profileActionTypes.SUBMIT_KYC.SUCCESS]: ({ payload }) => windowActionCreators.viewPlayerProfile({
-    uuid: payload.uuid,
     firstName: payload.firstName,
     lastName: payload.lastName,
-    username: payload.username,
   }),
   [profileActionTypes.FETCH_PROFILE.FAILURE]: ({ payload, meta }) => {
     return payload.status === 404
