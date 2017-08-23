@@ -838,7 +838,8 @@
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Обновление бонус-компании",
         "ADD_PLAYERS": "Добавить игроков",
-        "ADD_CAMPAIGN": "Создание бонус-компании"
+        "ADD_CAMPAIGN": "Создание бонус-компании",
+        "CAMPAIGN_COPIED": "Компания скопирована"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Добавить игроков"

@@ -8,6 +8,7 @@ import Uuid from '../../../../../../components/Uuid';
 import StatusDropDown from '../../../../components/StatusDropDown';
 import { statuses, targetTypes, moneyTypeUsageLabels } from '../../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../../utils/renderLabel';
+import BonusCampaignOptions from '../BonusCampaignsOptions';
 import './Header.scss';
 
 class Header extends Component {
@@ -16,6 +17,7 @@ class Header extends Component {
     availableStatusActions: PropTypes.arrayOf(PropTypes.object),
     onChangeCampaignState: PropTypes.func.isRequired,
     onUpload: PropTypes.func.isRequired,
+    cloneCampaign: PropTypes.func.isRequired,
   };
   static defaultProps = {
     availableStatusActions: [],
@@ -34,10 +36,12 @@ class Header extends Component {
         currency,
         state,
         targetType,
+        id,
       },
       data,
       availableStatusActions,
       onChangeCampaignState,
+      cloneCampaign,
     } = this.props;
 
     return (
@@ -57,17 +61,22 @@ class Header extends Component {
               </span>
             </div>
           </div>
-          {
-            state === statuses.DRAFT && targetType === targetTypes.TARGET_LIST &&
-            <div className="panel-heading-row__actions">
+          <div className="panel-heading-row__actions">
+            {
+              state === statuses.DRAFT && targetType === targetTypes.TARGET_LIST &&
               <FileUpload
                 label={I18n.t('BONUS_CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
                 allowedTypes={['text/csv', 'application/vnd.ms-excel']}
                 onChosen={this.props.onUpload}
                 className="btn btn-info-outline"
               />
-            </div>
-          }
+            }
+            <BonusCampaignOptions
+              items={[
+                { label: 'Dublicate campaign', onClick: () => cloneCampaign(id) },
+              ]}
+            />
+          </div>
         </div>
 
         <div className="layout-quick-overview">

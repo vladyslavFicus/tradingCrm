@@ -832,7 +832,8 @@
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
         "ADD_PLAYERS": "Add players",
-        "ADD_CAMPAIGN": "Add campaign"
+        "ADD_CAMPAIGN": "Add campaign",
+        "CAMPAIGN_COPIED": "Campaign copied"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Add players"

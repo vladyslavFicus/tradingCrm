@@ -15,4 +15,5 @@ export default connect(mapStateToProps, {
   updateCampaign: actionCreators.updateCampaign,
   uploadFile: actionCreators.uploadPlayersFile,
   onChangeCampaignState: actionCreators.changeCampaignState,
+  cloneCampaign: actionCreators.cloneCampaign,
 })(ViewLayout);
