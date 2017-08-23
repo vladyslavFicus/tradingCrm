@@ -839,14 +839,14 @@
         "UPDATE_TITLE": "Обновление бонус-компании",
         "ADD_PLAYERS": "Добавить игроков",
         "ADD_CAMPAIGN": "Создание бонус-компании",
-        "CAMPAIGN_COPIED": "Компания скопирована"
+        "CAMPAIGN_COPIED": "Кампания скопирована"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Добавить игроков"
       }
     },
     "CREATE_MODAL": {
-      "TITLE": "Новая бонус-компания"
+      "TITLE": "Новая бонус-кампания"
     },
     "SETTINGS": {
       "LABEL": {
@@ -897,7 +897,7 @@
       "TITLE": "Статус кампании"
     },
     "OPTIONS": {
-      "DUBLICATE_LABEL": "Скопировать компанию"
+      "DUBLICATE_LABEL": "Скопировать кампанию"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

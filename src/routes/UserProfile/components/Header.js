@@ -5,7 +5,7 @@ import { SubmissionError } from 'redux-form';
 import Sticky from 'react-stickynode';
 import PropTypes from '../../../constants/propTypes';
 import PlayerStatus from './PlayerStatus';
-import UserProfileOptions from './UserProfileOptions';
+import UserProfileOptions from '../../../components/UserProfileOptions';
 import Balances from './Balances';
 import ProfileTags from '../../../components/ProfileTags';
 import Amount from '../../../components/Amount';

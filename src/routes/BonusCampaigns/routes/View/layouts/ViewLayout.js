@@ -25,7 +25,7 @@ class ViewLayout extends Component {
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
-    router: PropTypes.object.isRequired,
+    router: PropTypes.shape.isRequired,
   };
 
   state = {

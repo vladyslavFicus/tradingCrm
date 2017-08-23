@@ -166,13 +166,13 @@ function uploadPlayersFile(bonusCampaignId, file) {
   };
 }
 
-function cloneCampaign(bonusCampaignId) {
+function cloneCampaign(campaignId) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/promotion/campaigns/${bonusCampaignId}/clone`,
+        endpoint: `/promotion/campaigns/${campaignId}/clone`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
