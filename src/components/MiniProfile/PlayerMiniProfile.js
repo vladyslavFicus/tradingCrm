@@ -1,13 +1,13 @@
 import React from 'react';
 import './MiniProfile.scss';
 
-const MiniProfile = () => (
+const PlayerMiniProfile = () => (
   <div className="mini-profile mini-profile_inactive">
     <div className="mini-profile-header">
       <label className="mini-profile-label">inactive</label>
       <div className="mini-profile-type">Player</div>
       <div className="mini-profile-title">
-        <b>Jimmy Black</b> (29)
+        <b>Jimmy black</b> (29)
         <i className="note-icon note-pinned-note" />
       </div>
       <div className="mini-profile-ids">
@@ -52,4 +52,4 @@ const MiniProfile = () => (
   </div>
 );
 
-export default MiniProfile;
+export default PlayerMiniProfile;

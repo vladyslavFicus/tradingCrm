@@ -1,3 +1,3 @@
-import MiniProfile from './MiniProfile';
+import PlayerMiniProfile from './PlayerMiniProfile';
 
-export default MiniProfile;
+export default PlayerMiniProfile;
