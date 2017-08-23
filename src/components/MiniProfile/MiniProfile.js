@@ -20,11 +20,11 @@ class MiniProfile extends Component {
     profileType: 'Player', /* delete */
   };
 
-  renderHeader = (profileType, labelStatus) => {
+  renderHeader = () => {
     return (
       <div className="mini-profile_header">
-        <label className={`mini-profile-label label-${labelStatus}`}>inactive</label>
-        <div className="mini-profile-type">{profileType}</div>
+        <label className={`mini-profile-label label-inactive`}>inactive</label>
+        <div className="mini-profile-type">Player</div>
         <div className="mini-profile-title">
           <b>Jimmy Black</b> (29)
           <img src="assets/img/kyc-check-icon.svg" alt="check" />
