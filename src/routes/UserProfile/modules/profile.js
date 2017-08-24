@@ -133,7 +133,10 @@ function submitData(playerUUID, type, data) {
           SUBMIT_KYC.REQUEST,
           {
             type: SUBMIT_KYC.SUCCESS,
-            payload: data,
+            payload: {
+              ...data,
+              playerUUID,
+            },
           },
           SUBMIT_KYC.FAILURE,
         ],
