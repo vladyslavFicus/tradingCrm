@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import Uuid from '../../../../../../components/Uuid';
 import PropTypes from '../../../../../../constants/propTypes';
 
@@ -52,7 +53,7 @@ class SimpleConfirmationModal extends Component {
               onClick={onClose}
               className="btn btn-default-outline pull-left"
             >
-              Cancel
+              {I18n.t('COMMON.CANCEL')}
             </button>
             {' '}
             <button
