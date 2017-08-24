@@ -6,7 +6,7 @@ import Uuid from '../Uuid';
 import Amount from '../Amount';
 import './MiniProfile.scss';
 
-const PlayerMiniProfile = ({ playerProfile, lastIp }) => (
+const PlayerMiniProfile = ({ playerProfile }) => (
   <div className={`mini-profile mini-profile_${playerProfile.profileStatus}`}>
     <div className="mini-profile-header">
       <label className="mini-profile-label">{playerProfile.profileStatus}</label>
@@ -55,7 +55,7 @@ const PlayerMiniProfile = ({ playerProfile, lastIp }) => (
       <div className="info-block">
         <div className="info-block-label">{I18n.t('MINI_PROFILE.LAST_LOGIN')}</div>
         <div className="info-block-content">
-          {lastIp.sessionStart && moment.utc(lastIp.sessionStart).local().fromNow()}
+          1 month 10 days ago
         </div>
       </div>
       {
@@ -77,10 +77,6 @@ const PlayerMiniProfile = ({ playerProfile, lastIp }) => (
 
 PlayerMiniProfile.propTypes = {
   playerProfile: PropTypes.userProfile.isRequired,
-  lastIp: PropTypes.ipEntity,
-};
-PlayerMiniProfile.defaultProps = {
-  lastIp: null,
 };
 
 export default PlayerMiniProfile;
