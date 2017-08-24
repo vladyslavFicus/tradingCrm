@@ -90,7 +90,7 @@ const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
 
-function updateSubscription(playerUUID, name, value) {
+function updateSubscription(playerUUID, data, updatedSubscription) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -99,16 +99,16 @@ function updateSubscription(playerUUID, name, value) {
         endpoint: `profile/profiles/${playerUUID}/subscription`,
         method: 'PUT',
         types: [
-          { type: UPDATE_SUBSCRIPTION.REQUEST, payload: { name, value } },
+          { type: UPDATE_SUBSCRIPTION.REQUEST, payload: { updatedSubscription, data } },
           UPDATE_SUBSCRIPTION.SUCCESS,
-          { type: UPDATE_SUBSCRIPTION.FAILURE, payload: { name, value } },
+          { type: UPDATE_SUBSCRIPTION.FAILURE, payload: { updatedSubscription, data } },
         ],
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ [name]: value }),
+        body: JSON.stringify(data),
         bailout: !logged,
       },
     });
@@ -632,9 +632,9 @@ function resetNote() {
 
 const actionHandlers = {
   [UPDATE_SUBSCRIPTION.REQUEST]: (state, action) => {
-    const { name, value } = action.payload;
+    const { updatedSubscription, data } = action.payload;
 
-    if (state.data[name] === value) {
+    if (state.data[updatedSubscription] === data[updatedSubscription]) {
       return state;
     }
 
@@ -642,14 +642,14 @@ const actionHandlers = {
       ...state,
       data: {
         ...state.data,
-        [name]: value,
+        [updatedSubscription]: data[updatedSubscription],
       },
     };
   },
   [UPDATE_SUBSCRIPTION.FAILURE]: (state, action) => {
-    const { name, value } = action.payload;
+    const { updatedSubscription, data } = action.payload;
 
-    if (state.data[name] !== value) {
+    if (state.data[updatedSubscription] !== data[updatedSubscription]) {
       return state;
     }
 
@@ -657,7 +657,7 @@ const actionHandlers = {
       ...state,
       data: {
         ...state.data,
-        [name]: !value,
+        [updatedSubscription]: !data[updatedSubscription],
       },
     };
   },

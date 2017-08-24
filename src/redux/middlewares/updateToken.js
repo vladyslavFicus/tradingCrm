@@ -22,7 +22,7 @@ const logout = () => {
 };
 
 function startTimeout(store, expirationTime) {
-  const delay = (expirationTime - (timestamp() + 10)) * 1000;
+  const delay = (expirationTime - (timestamp() + 1)) * 1000;
 
   if (delay <= 0) {
     logout();
@@ -55,10 +55,10 @@ function startTimeout(store, expirationTime) {
 
 export default function ({ expireThreshold = 60 }) {
   return store => next => async (action) => {
-    if (!state.pending && isValidRSAA(action)) {
+    if (action.type && action.type !== locationActionTypes.LOCATION_CHANGE && !state.pending) {
       const { auth: { logged, token } } = store.getState();
 
-      if (logged && token) {
+      if (logged && token && isValidRSAA(action)) {
         const tokenData = jwtDecode(token);
         const isExpired = (tokenData.exp - timestamp()) <= expireThreshold;
 

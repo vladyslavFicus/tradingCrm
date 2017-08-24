@@ -21,11 +21,11 @@ class Additional extends Component {
     updateSubscription: PropTypes.func.isRequired,
   };
   static defaultProps = {
-    initialValues: PropTypes.shape({
+    initialValues: {
       marketingMail: false,
       marketingNews: false,
       marketingSMS: false,
-    }),
+    },
     profileStatus: '',
   };
 
@@ -34,7 +34,9 @@ class Additional extends Component {
   };
 
   handleSwitch = name => async (value) => {
-    const action = await this.props.updateSubscription(name, value);
+    const { initialValues, updateSubscription } = this.props;
+    const action = await updateSubscription({ ...initialValues, [name]: value }, name);
+
     if (action) {
       const message = `${I18n.t(marketingTypes[name])}
           ${value ? I18n.t('COMMON.ACTIONS.ON') : I18n.t('COMMON.ACTIONS.OFF')}
