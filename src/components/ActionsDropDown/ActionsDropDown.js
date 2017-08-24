@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 
-const UserProfileOption = PropTypes.shape({
+const ActionsDropDowns = PropTypes.shape({
   label: PropTypes.string,
   onClick: PropTypes.func,
 });
 
-class UserProfileOptions extends Component {
+class ActionsDropDown extends Component {
   static propTypes = {
     label: PropTypes.any,
-    items: PropTypes.arrayOf(UserProfileOption),
+    items: PropTypes.arrayOf(ActionsDropDowns),
   };
 
   static defaultProps = {
@@ -50,4 +50,4 @@ class UserProfileOptions extends Component {
   }
 }
 
-export default UserProfileOptions;
+export default ActionsDropDown;

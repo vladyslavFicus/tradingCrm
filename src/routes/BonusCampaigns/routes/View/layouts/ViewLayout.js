@@ -25,7 +25,9 @@ class ViewLayout extends Component {
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
-    router: PropTypes.shape.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   state = {
@@ -50,8 +52,8 @@ class ViewLayout extends Component {
     }
   };
 
-  handleCloneCampaign = async (companyId) => {
-    const action = await this.props.cloneCampaign(companyId);
+  handleCloneCampaign = async (campaignId) => {
+    const action = await this.props.cloneCampaign(campaignId);
 
     if (action) {
       this.context.addNotification({
@@ -62,7 +64,7 @@ class ViewLayout extends Component {
       });
     }
 
-    this.context.router.push(`/bonus-campaigns/${action.payload.campaignId}/view`);
+    this.context.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
   };
 
   render() {

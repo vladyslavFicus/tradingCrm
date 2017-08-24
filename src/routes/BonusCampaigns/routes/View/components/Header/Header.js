@@ -8,7 +8,7 @@ import Uuid from '../../../../../../components/Uuid';
 import StatusDropDown from '../../../../components/StatusDropDown';
 import { statuses, targetTypes, moneyTypeUsageLabels } from '../../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../../utils/renderLabel';
-import UserProfileOptions from '../../../../../../components/UserProfileOptions';
+import ActionsDropDown from '../../../../../../components/ActionsDropDown';
 import './Header.scss';
 
 class Header extends Component {
@@ -72,7 +72,7 @@ class Header extends Component {
               />
             }
             <span className="margin-left-10">
-              <UserProfileOptions
+              <ActionsDropDown
                 items={[
                   { label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.DUBLICATE_LABEL'), onClick: () => cloneCampaign(id) },
                 ]}
