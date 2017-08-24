@@ -1,9 +1,10 @@
 import { CALL_API } from 'redux-api-middleware';
+import moment from 'moment';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import timestamp from '../../../utils/timestamp';
 import { actions } from '../../../constants/user';
-import { statuses } from '../../../constants/kyc';
+import { statuses as kycStatuses, categories as kycCategories } from '../../../constants/kyc';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
 import config from '../../../config';
 
@@ -130,7 +131,13 @@ function submitData(playerUUID, type, data) {
         body: JSON.stringify(data),
         types: [
           SUBMIT_KYC.REQUEST,
-          SUBMIT_KYC.SUCCESS,
+          {
+            type: SUBMIT_KYC.SUCCESS,
+            payload: {
+              ...data,
+              playerUUID,
+            },
+          },
           SUBMIT_KYC.FAILURE,
         ],
         bailout: !logged,
@@ -185,7 +192,7 @@ function deleteTag(playerUUID, id) {
 
 function verifyData(playerUUID, type) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, uuid } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -198,7 +205,15 @@ function verifyData(playerUUID, type) {
         },
         types: [
           VERIFY_DATA.REQUEST,
-          VERIFY_DATA.SUCCESS,
+          {
+            type: VERIFY_DATA.SUCCESS,
+            payload: {
+              type: type === kycCategories.KYC_ADDRESS ? 'kycAddressStatus' : 'kycPersonalStatus',
+              authorUUID: uuid,
+              date: moment().format('YYYY-MM-DDTHH:mm:ss'),
+              status: kycStatuses.VERIFIED,
+            },
+          },
           VERIFY_DATA.FAILURE,
         ],
         bailout: !logged,
@@ -209,7 +224,7 @@ function verifyData(playerUUID, type) {
 
 function refuseData(playerUUID, type, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, uuid } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -223,7 +238,16 @@ function refuseData(playerUUID, type, data) {
         body: JSON.stringify(data),
         types: [
           REFUSE_DATA.REQUEST,
-          REFUSE_DATA.SUCCESS,
+          {
+            type: REFUSE_DATA.SUCCESS,
+            payload: {
+              type: type === kycCategories.KYC_ADDRESS ? 'kycAddressStatus' : 'kycPersonalStatus',
+              status: kycStatuses.PENDING,
+              reason: data.reason,
+              data: moment().format('YYYY-MM-DDTHH:mm:ss'),
+              authorUUID: uuid,
+            },
+          },
           REFUSE_DATA.FAILURE,
         ],
         bailout: !logged,
@@ -395,35 +419,92 @@ function changeStatus({ action, ...data }) {
   };
 }
 
-function successKycActionReducer(state, action) {
+function optimisticKycRequestActionReducer(state, action) {
   const {
-    kycPersonalStatus,
-    kycAddressStatus,
-    kycRequest,
+    date,
+    status,
+    authorUUID,
+    kycRequestReason,
+  } = action.payload;
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      kycCompleted: false,
+      kycPersonalStatus: {
+        statusDate: date,
+        reason: '',
+        authorUUID,
+        status,
+      },
+      kycAddressStatus: {
+        statusDate: date,
+        reason: '',
+        authorUUID,
+        status,
+      },
+      kycRequest: {
+        reason: kycRequestReason,
+        authorUUID,
+        requestDate: date,
+      },
+      isLoading: false,
+      receivedAt: timestamp(),
+    },
+  };
+}
+
+function optimisticVerifyKycActionReducer(state, action) {
+  const {
+    type,
+    date,
+    authorUUID,
+    status,
+  } = action.payload;
+
+  const otherKycStatus = type === 'kycPersonalStatus' ? 'kycAddressStatus' : 'kycPersonalStatus';
+  const kycCompleted = state.data[otherKycStatus] && state.data[otherKycStatus].status === kycStatuses.VERIFIED;
+
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      kycCompleted,
+      [type]: {
+        ...state.data[type],
+        authorUUID,
+        statusDate: date,
+        status,
+      },
+      isLoading: false,
+      receivedAt: timestamp(),
+    },
+  };
+}
+
+function optimisticRefuseKycActionReducer(state, action) {
+  const {
+    type,
+    date,
+    authorUUID,
+    status,
+    reason,
   } = action.payload;
 
   return {
     ...state,
     data: {
       ...state.data,
-      kycCompleted: kycPersonalStatus && kycPersonalStatus.value === statuses.VERIFIED
-      && kycAddressStatus && kycAddressStatus.value === statuses.VERIFIED,
-      kycPersonalStatus: {
-        authorUUID: kycPersonalStatus.authorUUID,
-        reason: kycPersonalStatus.reason,
-        status: kycPersonalStatus.status,
-        statusDate: kycPersonalStatus.statusDate,
+      [type]: {
+        ...state.data[type],
+        authorUUID,
+        statusDate: date,
+        reason,
+        status,
       },
-      kycAddressStatus: {
-        authorUUID: kycAddressStatus.authorUUID,
-        reason: kycAddressStatus.reason,
-        status: kycAddressStatus.status,
-        statusDate: kycAddressStatus.statusDate,
-      },
+      isLoading: false,
+      receivedAt: timestamp(),
     },
-    kycRequest,
-    isLoading: false,
-    receivedAt: timestamp(),
   };
 }
 
@@ -441,8 +522,6 @@ function successUpdateStatusReducer(state, action) {
 
 function successUpdateProfileReducer(state, action) {
   const {
-    personalStatus: kycPersonalStatus,
-    addressStatus: kycAddressStatus,
     firstName,
     lastName,
     birthDate,
@@ -468,21 +547,7 @@ function successUpdateProfileReducer(state, action) {
     ...state,
     data: {
       ...state.data,
-      kycCompleted: kycPersonalStatus && kycPersonalStatus.value === statuses.VERIFIED
-      && kycAddressStatus && kycAddressStatus.value === statuses.VERIFIED,
       fullName: [firstName, lastName].join(' ').trim(),
-      kycPersonalStatus: {
-        status: kycPersonalStatus.value,
-        statusDate: kycPersonalStatus.editDate,
-        authorUUID: kycPersonalStatus.author,
-        reason: kycPersonalStatus.reason,
-      },
-      kycAddressStatus: {
-        status: kycAddressStatus.value,
-        statusDate: kycAddressStatus.editDate,
-        authorUUID: kycAddressStatus.author,
-        reason: kycAddressStatus.reason,
-      },
       firstName,
       lastName,
       birthDate,
@@ -528,7 +593,7 @@ function manageKycRequestNote(data) {
 
 function sendKycRequestVerification(playerUUID, params) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, uuid } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -542,7 +607,15 @@ function sendKycRequestVerification(playerUUID, params) {
         body: JSON.stringify(params),
         types: [
           SEND_KYC_REQUEST_VERIFICATION.REQUEST,
-          SEND_KYC_REQUEST_VERIFICATION.SUCCESS,
+          {
+            type: SEND_KYC_REQUEST_VERIFICATION.SUCCESS,
+            payload: {
+              status: kycStatuses.PENDING,
+              date: moment().format('YYYY-MM-DDTHH:mm:ss'),
+              authorUUID: uuid,
+              kycRequestReason: params.reason,
+            },
+          },
           SEND_KYC_REQUEST_VERIFICATION.FAILURE,
         ],
         bailout: !logged,
@@ -661,16 +734,24 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [SUBMIT_KYC.SUCCESS]: successUpdateProfileReducer,
+  [SUBMIT_KYC.SUCCESS]: (state, action) => ({
+    ...state,
+    data: {
+      ...state.data,
+      ...action.payload,
+    },
+    isLoading: false,
+    receivedAt: timestamp(),
+  }),
   [SUBMIT_KYC.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
   }),
-  [VERIFY_DATA.SUCCESS]: successKycActionReducer,
-  [REFUSE_DATA.SUCCESS]: successKycActionReducer,
-  [SEND_KYC_REQUEST_VERIFICATION.SUCCESS]: successKycActionReducer,
+  [VERIFY_DATA.SUCCESS]: optimisticVerifyKycActionReducer,
+  [REFUSE_DATA.SUCCESS]: optimisticRefuseKycActionReducer,
+  [SEND_KYC_REQUEST_VERIFICATION.SUCCESS]: optimisticKycRequestActionReducer,
   [MANAGE_KYC_REQUEST_NOTE]: (state, action) => ({
     ...state,
     kycRequestNote: action.payload,
