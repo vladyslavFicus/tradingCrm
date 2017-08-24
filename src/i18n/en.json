@@ -106,7 +106,29 @@
         "PENDING": "Documents verification is pending"
       },
       "VERIFY_KYC": {
-        "TITLE": "Verify KYC"
+        "TITLE": "Verify KYC",
+        "MODAL": {
+          "TITLE": {
+            "PERSONAL": "KYC - Identity verification",
+            "ADDRESS": "KYC - Address verification"
+          },
+          "ACTION_TEXT": {
+            "PERSONAL": "You are about to verify identity of %{fullName}",
+            "ADDRESS": "You are about to verify address of %{fullName}"
+          },
+          "SUBMIT_BUTTON_LABEL": {
+            "PERSONAL": "Verify Identity",
+            "ADDRESS": "Verify Address"
+          }
+        }
+      },
+      "KYC_VERIFICATION_ALL": "Verify Identity & Address",
+      "VERIFY_KYC_ALL": {
+        "MODAL": {
+          "TITLE": "Identity & Address Verification",
+          "ACTION_TEXT": "You are about to verify the Identity and Address of %{fullName}",
+          "SUBMIT_BUTTON_LABEL": "Verify Identity & Address"
+        }
       }
     },
     "GAME_ACTIVITY": {
