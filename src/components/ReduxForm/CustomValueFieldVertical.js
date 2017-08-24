@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import classNames from 'classnames';
 import renderLabel from '../../utils/renderLabel';
 import InputField from './InputField';
 import { customValueFieldTypesLabels } from '../../constants/form';
@@ -17,30 +16,32 @@ const CustomValueField = (props) => {
   } = props;
 
   return (
-    <div className="double-group">
-      <label>
-        {label}
-      </label>
-      <Field
-        name={`${basename}.value`}
-        type="text"
-        label={''}
-        placeholder={typeof label === 'string' ? label : null}
-        component={InputField}
-        position="vertical"
-        disabled={disabled}
-        iconRightClassName={iconRightClassName}
-      />
-      <Field
-        name={`${basename}.type`}
-        className="form-control"
-        component="select"
-        disabled={disabled}
-      >
-        {typeValues.map(key =>
-          <option key={key} value={key}>{renderLabel(key, customValueFieldTypesLabels)}</option>
-        )}
-      </Field>
+    <div className="form-group">
+      <label>{label}</label>
+      <div className="double-group">
+        <Field
+          name={`${basename}.value`}
+          type="text"
+          label={''}
+          placeholder={typeof label === 'string' ? label : null}
+          component={InputField}
+          position="vertical"
+          disabled={disabled}
+          iconRightClassName={iconRightClassName}
+        />
+        <div className="double-group-large">
+          <Field
+            name={`${basename}.type`}
+            className="form-control"
+            component="select"
+            disabled={disabled}
+          >
+            {typeValues.map(key =>
+              <option key={key} value={key}>{renderLabel(key, customValueFieldTypesLabels)}</option>
+            )}
+          </Field>
+        </div>
+      </div>
       {!!errors[`${basename}.value`] && <div className="form-control-feedback">
         {errors[`${basename}.value`]}
       </div>}
@@ -53,7 +54,7 @@ const CustomValueField = (props) => {
 
 CustomValueField.defaultProps = {
   errors: {},
-  iconRightClassName: '',
+  iconRightClassName: 'nas nas-currencies_icon',
   disabled: false,
 };
 CustomValueField.propTypes = {

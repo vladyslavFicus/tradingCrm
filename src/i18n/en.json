@@ -864,7 +864,11 @@
         "CAMPAIGN_PERIOD": "Campaign period",
         "DESCRIPTION": "Description",
         "BASE_CURRENCY": "Base currency",
-        "MIN_PRIZE": "Min. prize"
+        "MIN_PRIZE": "Min. prize",
+        "TYPE": "Type",
+        "AFFILIATES": "Affiliates",
+        "EXCLUDE": "Exclude",
+        "COUNTRIES": "Countries"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",

@@ -87,6 +87,15 @@ label {
     font-weight: 300;
     color: #999;
   }
+  .label-action {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: 300;
+    input[type="checkbox"] {
+      vertical-align: middle;
+    }
+  }
 }
 
 .form-control {
@@ -403,4 +412,19 @@ label {
 
 .input-group .form-control {
   z-index: 0;
+}
+
+.double-group {
+  display: flex;
+  flex-flow: row nowrap;
+ .form-group {
+   flex: 0 0 70px;
+   min-width: 0;
+   margin-bottom: 0;
+ }
+  &-large {
+    flex: 1 0 auto;
+    min-width: 0;
+    margin-left: 10px;
+  }
 }

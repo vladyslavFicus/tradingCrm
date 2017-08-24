@@ -870,7 +870,11 @@
         "CAMPAIGN_PERIOD": "Период кампании",
         "DESCRIPTION": "Описание",
         "BASE_CURRENCY": "Базовая валюта",
-        "MIN_PRIZE": "Мин. приз"
+        "MIN_PRIZE": "Мин. приз",
+        "TYPE": "Тип",
+        "AFFILIATES": "Филиалы",
+        "EXCLUDE": "Исключить",
+        "COUNTRIES": "Страны"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",

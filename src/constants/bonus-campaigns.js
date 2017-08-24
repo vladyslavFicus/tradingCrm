@@ -92,6 +92,11 @@ const customValueFieldTypesByCampaignType = {
   [campaignTypes.PROFILE_COMPLETED]: [customValueFieldTypes.ABSOLUTE],
 };
 
+const optInSelect = {
+  OPTIN: 'Opt-in',
+  NON_OPTIN: 'Non Opt-in',
+};
+
 export {
   actions,
   actionLabels,
@@ -107,4 +112,5 @@ export {
   customValueFieldTypesByCampaignType,
   moneyTypeUsage,
   moneyTypeUsageLabels,
+  optInSelect,
 };
