@@ -60,13 +60,19 @@
       border-bottom: 10px solid transparent;
       border-right: 10px solid transparent;
     }
-    &_danger {
+    &_neutral {
+      background-color: #6a7a84;
+      &:before {
+        border-right-color: #6a7a84;
+      }
+    }
+    &_negative {
       background-color: #fb434a;
       &:before {
         border-right-color: #fb434a;
       }
     }
-    &_success {
+    &_positive {
       background-color: #009900;
       &:before {
         border-right-color: #009900;

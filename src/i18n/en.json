@@ -964,5 +964,13 @@
     "HEADER_STATUS": "Status",
     "HEADER_AMOUNT": "Amount",
     "HEADER_PAYMENT_METHOD": "Payment account"
+  },
+  "MINI_PROFILE": {
+    "PLAYER": "Player",
+    "STATUS_REASON": "Status reason",
+    "BALANCE": "Balance",
+    "LAST_LOGIN": "Last login",
+    "DEPOSITED": "Deposited",
+    "REGISTERED": "Registered"
   }
 }

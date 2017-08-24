@@ -18,6 +18,7 @@ import {
   DeleteModal as DeleteFileModal
 } from '../../../components/Files';
 import './ProfileLayout.scss';
+import MiniProfile from '../../../components/MiniProfile/PlayerMiniProfile';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -587,6 +588,7 @@ class ProfileLayout extends Component {
             <div>
               {children}
             </div>
+            <MiniProfile playerProfile={playerProfile} lastIp={lastIp} />
           </div>
         </div>
         {
