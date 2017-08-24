@@ -107,7 +107,29 @@
         "PENDING": "Ожидает проверку документов"
       },
       "VERIFY_KYC": {
-        "TITLE": "KYC верификация"
+        "TITLE": "KYC верификация",
+        "MODAL": {
+          "TITLE": {
+            "PERSONAL": "KYC - подтверждение данных",
+            "ADDRESS": "KYC - подтверждение адреса"
+          },
+          "ACTION_TEXT": {
+            "PERSONAL": "Вы собираетесь подтвердить личные данные %{fullName}",
+            "ADDRESS": "Вы собираетесь подтвердить адрес %{fullName}"
+          },
+          "SUBMIT_BUTTON_LABEL": {
+            "PERSONAL": "Подтвердить данные",
+            "ADDRESS": "Подтвердить адрес"
+          }
+        }
+      },
+      "KYC_VERIFICATION_ALL": "Подтвердить данные и адрес",
+      "VERIFY_KYC_ALL": {
+        "MODAL": {
+          "TITLE": "Подтверждение персональных данных и адреса",
+          "ACTION_TEXT": "Вы собираетесь подтвердить личные данные и адрес %{fullName}",
+          "SUBMIT_BUTTON_LABEL": "Подтвердить данные и адрес"
+        }
       }
     },
     "GAME_ACTIVITY": {

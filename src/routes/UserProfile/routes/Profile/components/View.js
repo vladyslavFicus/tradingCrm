@@ -9,6 +9,7 @@ import ContactForm from './ContactForm';
 import Documents from './Documents';
 import VerifyData from './Kyc/VerifyData';
 import RefuseModal from './Kyc/RefuseModal';
+import SimpleConfirmationModal from './Kyc/SimpleConfirmationModal';
 import renderLabel from '../../../../../utils/renderLabel';
 import RequestKycVerificationModal from './Kyc/RequestKycVerificationModal';
 import {
@@ -22,7 +23,9 @@ import {
 import './View.scss';
 
 const REFUSE_MODAL = 'refuse-modal';
+const VERIFY_MODAL = 'verify-modal';
 const REQUEST_KYC_VERIFICATION_MODAL = 'request-kyc-verification-modal';
+const KYC_VERIFY_ALL_MODAL = 'kyc-verify-all-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -73,6 +76,7 @@ class View extends Component {
     manageKycRequestNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
     sendKycRequestVerification: PropTypes.func.isRequired,
+    verifyKycAll: PropTypes.func.isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -116,10 +120,11 @@ class View extends Component {
     return action;
   };
 
-  handleVerify = type => async () => {
+  handleVerify = async () => {
     const { verifyData, params, checkLock } = this.props;
+    const { modal: { params: { verifyType } } } = this.state;
 
-    const action = await verifyData(params.id, type);
+    const action = await verifyData(params.id, verifyType);
     if (action && action.error) {
       const message = kycCategories.KYC_ADDRESS ?
         I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.VERIFY_KYC.ERROR') :
@@ -131,6 +136,7 @@ class View extends Component {
       });
     }
     checkLock(params.id);
+    this.handleCloseModal();
   };
 
   handleRefuse = async (data) => {
@@ -169,11 +175,48 @@ class View extends Component {
     this.handleCloseModal(resetNote);
   };
 
+  handleKycVerifyAll = () => {
+    const {
+      params: { id: playerUUID },
+      verifyKycAll,
+    } = this.props;
+
+    verifyKycAll(playerUUID);
+
+    this.handleCloseModal();
+  };
+
   handleRefuseClick = (type) => {
     this.handleOpenModal(REFUSE_MODAL, {
       initialValues: {
         [type]: true,
       },
+    });
+  };
+
+  handleVerifyClick = (verifyType) => {
+    const { profile: { data: { fullName } } } = this.props;
+
+    const kycVerifyModalStaticParams = {};
+    if (verifyType === kycCategories.KYC_PERSONAL) {
+      kycVerifyModalStaticParams.modalTitle =
+        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.TITLE.PERSONAL');
+      kycVerifyModalStaticParams.actionText =
+        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.ACTION_TEXT.PERSONAL', { fullName });
+      kycVerifyModalStaticParams.submitButtonLabel =
+        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.SUBMIT_BUTTON_LABEL.PERSONAL');
+    } else if (verifyType === kycCategories.KYC_ADDRESS) {
+      kycVerifyModalStaticParams.modalTitle =
+        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.TITLE.ADDRESS');
+      kycVerifyModalStaticParams.actionText =
+        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.ACTION_TEXT.ADDRESS', { fullName });
+      kycVerifyModalStaticParams.submitButtonLabel =
+        I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.MODAL.SUBMIT_BUTTON_LABEL.ADDRESS');
+    }
+
+    this.handleOpenModal(VERIFY_MODAL, {
+      verifyType,
+      ...kycVerifyModalStaticParams,
     });
   };
 
@@ -192,6 +235,16 @@ class View extends Component {
     this.handleOpenModal(REQUEST_KYC_VERIFICATION_MODAL, {
       playerUUID,
       fullName,
+    });
+  };
+
+  handleOpenVerifyKycAllModal = () => {
+    const { profile: { data: { fullName } } } = this.props;
+
+    this.handleOpenModal(KYC_VERIFY_ALL_MODAL, {
+      modalTitle: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC_ALL.MODAL.TITLE'),
+      actionText: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC_ALL.MODAL.ACTION_TEXT', { fullName }),
+      submitButtonLabel: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC_ALL.MODAL.SUBMIT_BUTTON_LABEL'),
     });
   };
 
@@ -285,6 +338,16 @@ class View extends Component {
           <div className="tab-header">
             <div className="tab-header__heading">{this.renderKycStatusTitle()}</div>
             <div className="tab-header__actions">
+              {
+                !data.kycCompleted &&
+                <button
+                  type="button"
+                  className="btn btn-sm btn-success-outline margin-right-10"
+                  onClick={this.handleOpenVerifyKycAllModal}
+                >
+                  {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION_ALL')}
+                </button>
+              }
               <button
                 type="button"
                 className="btn btn-sm btn-primary-outline"
@@ -316,7 +379,7 @@ class View extends Component {
               <div className="col-md-4">
                 <VerifyData
                   title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_PERSONAL_DATA_TITLE')}
-                  onVerify={this.handleVerify(kycCategories.KYC_PERSONAL)}
+                  onVerify={() => this.handleVerifyClick(kycCategories.KYC_PERSONAL)}
                   onRefuse={() => this.handleRefuseClick(kycCategories.KYC_PERSONAL)}
                   status={data.kycPersonalStatus}
                 />
@@ -343,7 +406,7 @@ class View extends Component {
               <div className="col-md-4">
                 <VerifyData
                   title={I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_ADDRESS_DATA_TITLE')}
-                  onVerify={this.handleVerify(kycCategories.KYC_ADDRESS)}
+                  onVerify={() => this.handleVerifyClick(kycCategories.KYC_ADDRESS)}
                   onRefuse={() => this.handleRefuseClick(kycCategories.KYC_ADDRESS)}
                   status={data.kycAddressStatus}
                 />
@@ -375,6 +438,17 @@ class View extends Component {
           }
 
           {
+            modal.name === VERIFY_MODAL &&
+            <SimpleConfirmationModal
+              {...modal.params}
+              form="verifyModal"
+              profile={data}
+              onSubmit={this.handleVerify}
+              onClose={this.handleCloseModal}
+            />
+          }
+
+          {
             modal.name === REQUEST_KYC_VERIFICATION_MODAL &&
             <RequestKycVerificationModal
               note={kycRequestNote}
@@ -385,6 +459,18 @@ class View extends Component {
               onSubmit={this.handleRequestKycVerify}
               onClose={this.handleCloseModal}
               onManageNote={manageKycRequestNote}
+            />
+          }
+
+          {
+            modal.name === KYC_VERIFY_ALL_MODAL &&
+            <SimpleConfirmationModal
+              form="verifyAllModal"
+              locale={locale}
+              {...modal.params}
+              profile={data}
+              onSubmit={this.handleKycVerifyAll}
+              onClose={this.handleCloseModal}
             />
           }
         </div>

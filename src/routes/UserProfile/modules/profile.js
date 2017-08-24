@@ -13,6 +13,7 @@ const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
 const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
 const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
+const VERIFY_KYC_ALL = createRequestAction(`${KEY}/verify-kyc-all`);
 const REFUSE_DATA = createRequestAction(`${KEY}/refuse-data`);
 const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
@@ -215,6 +216,37 @@ function verifyData(playerUUID, type) {
             },
           },
           VERIFY_DATA.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function verifyKycAll(playerUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged, uuid } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/kyc/${playerUUID}/verify`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          VERIFY_KYC_ALL.REQUEST,
+          {
+            type: VERIFY_KYC_ALL.SUCCESS,
+            payload: {
+              authorUUID: uuid,
+              date: moment().format('YYYY-MM-DDTHH:mm:ss'),
+              status: kycStatuses.VERIFIED,
+            },
+          },
+          VERIFY_KYC_ALL.FAILURE,
         ],
         bailout: !logged,
       },
@@ -482,6 +514,32 @@ function optimisticVerifyKycActionReducer(state, action) {
   };
 }
 
+function optimisticVerifyKycAllActionReducer(state, action) {
+  const {
+    date,
+    authorUUID,
+    status,
+  } = action.payload;
+
+  const verifiedStatusEntity = {
+    reason: '',
+    statusDate: date,
+    authorUUID,
+    status,
+  };
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      kycCompleted: true,
+      kycAddressStatus: verifiedStatusEntity,
+      kycPersonalStatus: verifiedStatusEntity,
+      isLoading: false,
+      receivedAt: timestamp(),
+    },
+  };
+}
+
 function optimisticRefuseKycActionReducer(state, action) {
   const {
     type,
@@ -502,6 +560,7 @@ function optimisticRefuseKycActionReducer(state, action) {
         reason,
         status,
       },
+      kycCompleted: false,
       isLoading: false,
       receivedAt: timestamp(),
     },
@@ -752,6 +811,7 @@ const actionHandlers = {
   [VERIFY_DATA.SUCCESS]: optimisticVerifyKycActionReducer,
   [REFUSE_DATA.SUCCESS]: optimisticRefuseKycActionReducer,
   [SEND_KYC_REQUEST_VERIFICATION.SUCCESS]: optimisticKycRequestActionReducer,
+  [VERIFY_KYC_ALL.SUCCESS]: optimisticVerifyKycAllActionReducer,
   [MANAGE_KYC_REQUEST_NOTE]: (state, action) => ({
     ...state,
     kycRequestNote: action.payload,
@@ -777,6 +837,7 @@ const actionCreators = {
   fetchProfile,
   submitData,
   verifyData,
+  verifyKycAll,
   refuseData,
   updateProfile,
   resetPassword,
