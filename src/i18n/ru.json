@@ -826,8 +826,8 @@
           "RATIO": "Коэффициент",
           "MULTIPLAYER": "Multiplayer",
           "LIFE_TIME": "Life time",
-          "CAMPAIGN_START": "Старт компании",
-          "CAMPAIGN_END": "Окончание компании",
+          "CAMPAIGN_START": "Старт кампании",
+          "CAMPAIGN_END": "Окончание кампании",
           "PRIZE": "Приз",
           "CAPPING": "Capping",
           "MONEY_TYPE_PRIORITY": "Приоритет использования денег: %{priority}"
@@ -836,20 +836,21 @@
         "GRANTED_TO_1": "для %{count} игрока"
       },
       "NOTIFICATIONS": {
-        "UPDATE_TITLE": "Обновление бонус-компании",
+        "UPDATE_TITLE": "Обновление бонус-кампании",
         "ADD_PLAYERS": "Добавить игроков",
-        "ADD_CAMPAIGN": "Создание бонус-компании"
+        "ADD_CAMPAIGN": "Создание бонус-кампании",
+        "CAMPAIGN_COPIED": "Кампания скопирована"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Добавить игроков"
       }
     },
     "CREATE_MODAL": {
-      "TITLE": "Новая бонус-компания"
+      "TITLE": "Новая бонус-кампания"
     },
     "SETTINGS": {
       "LABEL": {
-        "CAMPAIGN_NAME": "Название компании (Внутреннее)",
+        "CAMPAIGN_NAME": "Название кампании (Внутреннее)",
         "TARGET_TYPE": "Тип",
         "CURRENCY": "Валюта",
         "START_DATE": "Начало",
@@ -860,7 +861,7 @@
         "CAMPAIGN_RATIO": "Коэффициент",
         "CONVERSION_PRIZE": "Приз",
         "OPT_IN": "Opt-In",
-        "CAMPAIGN_TYPE": "Тип компании",
+        "CAMPAIGN_TYPE": "Тип кампании",
         "MIN_AMOUNT": "Мин. сумма",
         "MAX_AMOUNT": "Макс. сумма",
         "MIN_AMOUNT_PLACEHOLDER": "Мин.",
@@ -872,7 +873,7 @@
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
       "TARGET": "Тип",
-      "CAMPAIGN_SETTINGS": "Настройки компании",
+      "CAMPAIGN_SETTINGS": "Настройки кампании",
       "FULFILLMENT": "FULFILLMENT",
       "REWARD": "Вознаграждение",
       "DEPOSIT_AMOUNT": "Сумма пополнения"
@@ -894,6 +895,9 @@
     },
     "STATUS_DROPDOWN": {
       "TITLE": "Статус кампании"
+    },
+    "OPTIONS": {
+      "DUBLICATE_LABEL": "Скопировать кампанию"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

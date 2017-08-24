@@ -7,6 +7,7 @@ import buildFormData from '../../../../../utils/buildFormData';
 
 const KEY = 'campaign';
 const CAMPAIGN_UPDATE = createRequestAction(`${KEY}/campaign-update`);
+const CAMPAIGN_CLONE = createRequestAction(`${KEY}/campaign-clone`);
 const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
 const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
@@ -165,6 +166,30 @@ function uploadPlayersFile(bonusCampaignId, file) {
   };
 }
 
+function cloneCampaign(campaignId) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/promotion/campaigns/${campaignId}/clone`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          CAMPAIGN_CLONE.REQUEST,
+          CAMPAIGN_CLONE.SUCCESS,
+          CAMPAIGN_CLONE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const actionHandlers = {
   [CAMPAIGN_UPDATE.REQUEST]: (state, action) => ({
     ...state,
@@ -225,12 +250,14 @@ const actionTypes = {
   CAMPAIGN_UPDATE,
   FETCH_CAMPAIGN,
   CHANGE_CAMPAIGN_STATE,
+  CAMPAIGN_CLONE,
 };
 const actionCreators = {
   fetchCampaign,
   updateCampaign,
   changeCampaignState,
   uploadPlayersFile,
+  cloneCampaign,
 };
 
 export {
