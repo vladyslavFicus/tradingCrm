@@ -214,286 +214,284 @@ class Form extends Component {
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
 
     return (
-      <form className="form-horizontal" onSubmit={handleSubmit(onSubmit)}>
-        <div className="row margin-bottom-20">
-          <div className="col-xl-6">
-            <span className="personal-form-heading">
-              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
-            </span>
+      <form className="form-horizontal campaign-settings" onSubmit={handleSubmit(onSubmit)}>
+        <div className="tab-header">
+          <div className="tab-header__heading">
+            {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
           </div>
           {!(disabled || pristine || submitting || !valid) &&
-          <div className="col-xl-6 text-right">
+          <div className="tab-header__actions">
             <button
               onClick={this.handleRevert}
-              className="btn btn-sm margin-right-20"
+              className="btn btn-default-outline text-uppercase margin-right-20"
               type="submit"
             >
               {I18n.t('COMMON.REVERT_CHANGES')}
             </button>
-            <button className="btn btn-sm btn-primary" type="submit">
+            <button className="btn btn-primary text-uppercase" type="submit">
               {I18n.t('COMMON.SAVE_CHANGES')}
             </button>
           </div>
           }
         </div>
-        <div className="filter-row">
-          <div className="filter-row__medium">
-            <Field
-              name="name"
-              label={I18n.t(attributeLabels.name)}
-              type="text"
-              component={InputField}
-              position="vertical"
-              disabled={disabled}
-            />
-            <div className="form-group__note">
-              {
-                currentValues && currentValues.name
-                  ? currentValues.name.length
-                  : 0
-              }/{CAMPAIGN_NAME_MAX_LENGTH}
-            </div>
-          </div>
-          <div className="filter-row__small">
-            <Field
-              name="campaignPriority"
-              label={I18n.t(attributeLabels.campaignPriority)}
-              type="text"
-              component={InputField}
-              position="vertical"
-              disabled={disabled}
-            />
-          </div>
-          <div className="filter-row__small">
-            <Field
-              name="moneyTypePriority"
-              label={I18n.t(attributeLabels.moneyTypePriority)}
-              type="text"
-              component={SelectField}
-              position="vertical"
-              disabled={disabled}
-            >
-              {Object.keys(moneyTypeUsageLabels).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, moneyTypeUsageLabels)}
-                </option>
-              ))}
-            </Field>
-          </div>
-        </div>
-        <hr />
-        <div className="row margin-bottom-20">
-          <div className="col-xs-12">
-            <span className="personal-form-heading">
-              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.TARGET')}
-            </span>
-          </div>
-        </div>
-        <div className="filter-row">
-          <div className="filter-row__big">
-            <Field
-              name="targetType"
-              label={I18n.t(attributeLabels.targetType)}
-              type="select"
-              disabled
-              position="vertical"
-              component={SelectField}
-            >
-              <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_TARGET_TYPE')}</option>
-              {Object.keys(targetTypesLabels).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, targetTypesLabels)}
-                </option>
-              ))}
-            </Field>
-          </div>
-          <div className="filter-row__small">
-            <div className="form-group">
-              <label>
-                {I18n.t(attributeLabels.optIn)}
-              </label>
-              <Field
-                name="optIn"
-                className="form-control"
-                wrapperClassName="display-block font-size-12 margin-top-10"
-                component={this.renderSwitchField}
-                disabled={disabled}
-              />
-            </div>
-          </div>
-          <div className="filter-row__small">
-            <Field
-              name="currency"
-              label={I18n.t(attributeLabels.currency)}
-              type="select"
-              component={SelectField}
-              position="vertical"
-              disabled={disabled}
-            >
-              <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
-              {currencies.map(item => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </Field>
-          </div>
-          <div className="filter-row__medium">
-            <div className="range-group">
-              <Field
-                name="startDate"
-                label={I18n.t(attributeLabels.startDate)}
-                labelClassName={null}
-                position="vertical"
-                component={DateTimeField}
-                isValidDate={this.startDateValidator('endDate')}
-                disabled={disabled}
-              />
-              <span className="range-group__separator">-</span>
-              <Field
-                name="endDate"
-                label={I18n.t(attributeLabels.endDate)}
-                labelClassName={null}
-                position="vertical"
-                component={DateTimeField}
-                isValidDate={this.endDateValidator('startDate')}
-                disabled={disabled}
-              />
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div className="row margin-bottom-20">
-          <div className="col-xs-12">
-            <span className="personal-form-heading">
-              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT')}
-            </span>
-          </div>
-        </div>
-        <div className="filter-row">
-          <div className="filter-row__medium">
-            <Field
-              name="campaignType"
-              label={I18n.t(attributeLabels.campaignType)}
-              type="select"
-              position="vertical"
-              component={SelectField}
-              disabled={disabled}
-            >
-              {Object.keys(campaignTypesLabels).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, campaignTypesLabels)}
-                </option>
-              ))}
-            </Field>
-          </div>
-          <div className="filter-row__medium">
-            <CustomValueFieldVertical
-              basename={'campaignRatio'}
-              label={I18n.t(attributeLabels.campaignRatio)}
-              typeValues={allowedCustomValueTypes}
-              errors={this.getCustomValueFieldErrors('campaignRatio')}
-              disabled={disabled}
-            />
-            <div className="form-group__note">
-              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.RATIO_TOOLTIP')}
-            </div>
-          </div>
-          {
-            currentValues && currentValues.campaignType !== campaignTypes.PROFILE_COMPLETED &&
-            <div className="filter-row__medium">
-              <div className="form-group">
-                <label>
-                  {I18n.t('BONUS_CAMPAIGNS.SETTINGS.DEPOSIT_AMOUNT')}
-                  {' '}
-                  <span className="font-size-10 text-muted">
-                    {I18n.t('COMMON.OPTIONAL')}
-                  </span>
-                </label>
-                <div className="range-group">
+        <div className="tab-content">
+          <hr />
+          <div className="row">
+            <div className="col-lg-7">
+              <div>
+                <Field
+                  name="name"
+                  label={I18n.t(attributeLabels.name)}
+                  type="text"
+                  component={InputField}
+                  position="vertical"
+                  disabled={disabled}
+                />
+                <div className="form-group__note">
+                  {
+                    currentValues && currentValues.name
+                      ? currentValues.name.length
+                      : 0
+                  }/{CAMPAIGN_NAME_MAX_LENGTH}
+                </div>
+              </div>
+              <div className="margin-top-10 margin-bottom-20">
+                <Field
+                  name="description"
+                  label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.DESCRIPTION')}
+                  type="text"
+                  component={InputField}
+                  position="vertical"
+                  disabled
+                />
+              </div>
+              <div className="form-row">
+                <div className="form-row__small">
                   <Field
-                    name="minAmount"
-                    label={''}
-                    placeholder={I18n.t(attributePlaceholders.minAmount)}
-                    type="text"
-                    component={InputField}
+                    name="currency"
+                    label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.BASE_CURRENCY')}
+                    type="select"
+                    component={SelectField}
                     position="vertical"
                     disabled={disabled}
+                  >
+                    <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
+                    {currencies.map(item => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </Field>
+                </div>
+                <div className="form-row__medium">
+                  <CustomValueFieldVertical
+                    basename={'conversionPrize'}
+                    label={
+                      <span>
+                        {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
+                        <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                      </span>
+                    }
+                    typeValues={allowedCustomValueTypes}
+                    errors={this.getCustomValueFieldErrors('conversionPrize')}
+                    disabled={disabled}
+                    iconRightClassName="nas nas-currencies_icon"
                   />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    name="maxAmount"
-                    label={''}
-                    placeholder={I18n.t(attributePlaceholders.maxAmount)}
-                    type="text"
-                    component={InputField}
-                    position="vertical"
+                </div>
+
+
+
+
+
+
+
+
+
+                <div className="form-row__medium">
+                  <CustomValueFieldVertical
+                    basename={'capping'}
+                    label={
+                      <span>
+                        {I18n.t(attributeLabels.capping)}{' '}
+                        <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                      </span>
+                    }
+                    typeValues={allowedCustomValueTypes}
+                    errors={this.getCustomValueFieldErrors('capping')}
                     disabled={disabled}
                   />
                 </div>
               </div>
             </div>
-          }
-        </div>
-        <hr />
-        <div className="row margin-bottom-20">
-          <div className="col-xs-12">
+            <div className="col-lg-4">
+              <div className="form-group">
+                <label>{I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
+                <div className="range-group">
+                  <Field
+                    name="startDate"
+                    placeholder={attributeLabels.startDate}
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator('endDate')}
+                    position="vertical"
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="endDate"
+                    placeholder={attributeLabels.endDate}
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator('startDate')}
+                    position="vertical"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div className="row margin-bottom-20">
+            <div className="col-xs-12">
+            <span className="personal-form-heading">
+              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.TARGET')}
+            </span>
+            </div>
+          </div>
+          <div className="filter-row">
+            <div className="filter-row__big">
+              <Field
+                name="targetType"
+                label={I18n.t(attributeLabels.targetType)}
+                type="select"
+                disabled
+                position="vertical"
+                component={SelectField}
+              >
+                <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_TARGET_TYPE')}</option>
+                {Object.keys(targetTypesLabels).map(key => (
+                  <option key={key} value={key}>
+                    {renderLabel(key, targetTypesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__small">
+              <div className="form-group">
+                <label>
+                  {I18n.t(attributeLabels.optIn)}
+                </label>
+                <Field
+                  name="optIn"
+                  className="form-control"
+                  wrapperClassName="display-block font-size-12 margin-top-10"
+                  component={this.renderSwitchField}
+                  disabled={disabled}
+                />
+              </div>
+            </div>
+          </div>
+          <hr />
+          <div className="row margin-bottom-20">
+            <div className="col-xs-12">
+            <span className="personal-form-heading">
+              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT')}
+            </span>
+            </div>
+          </div>
+          <div className="filter-row">
+            <div className="filter-row__medium">
+              <Field
+                name="campaignType"
+                label={I18n.t(attributeLabels.campaignType)}
+                type="select"
+                position="vertical"
+                component={SelectField}
+                disabled={disabled}
+              >
+                {Object.keys(campaignTypesLabels).map(key => (
+                  <option key={key} value={key}>
+                    {renderLabel(key, campaignTypesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <CustomValueFieldVertical
+                basename={'campaignRatio'}
+                label={I18n.t(attributeLabels.campaignRatio)}
+                typeValues={allowedCustomValueTypes}
+                errors={this.getCustomValueFieldErrors('campaignRatio')}
+                disabled={disabled}
+              />
+              <div className="form-group__note">
+                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.RATIO_TOOLTIP')}
+              </div>
+            </div>
+            {
+              currentValues && currentValues.campaignType !== campaignTypes.PROFILE_COMPLETED &&
+              <div className="filter-row__medium">
+                <div className="form-group">
+                  <label>
+                    {I18n.t('BONUS_CAMPAIGNS.SETTINGS.DEPOSIT_AMOUNT')}
+                    {' '}
+                    <span className="font-size-10 text-muted">
+                    {I18n.t('COMMON.OPTIONAL')}
+                  </span>
+                  </label>
+                  <div className="range-group">
+                    <Field
+                      name="minAmount"
+                      label={''}
+                      placeholder={I18n.t(attributePlaceholders.minAmount)}
+                      type="text"
+                      component={InputField}
+                      position="vertical"
+                      disabled={disabled}
+                    />
+                    <span className="range-group__separator">-</span>
+                    <Field
+                      name="maxAmount"
+                      label={''}
+                      placeholder={I18n.t(attributePlaceholders.maxAmount)}
+                      type="text"
+                      component={InputField}
+                      position="vertical"
+                      disabled={disabled}
+                    />
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+          <hr />
+          <div className="row margin-bottom-20">
+            <div className="col-xs-12">
             <span className="personal-form-heading">
               {I18n.t('BONUS_CAMPAIGNS.SETTINGS.REWARD')}
             </span>
+            </div>
           </div>
-        </div>
-        <div className="filter-row">
-          <div className="filter-row__small">
-            <Field
-              name="wagerWinMultiplier"
-              position="vertical"
-              placeholder=" "
-              label={I18n.t(attributeLabels.wagerWinMultiplier)}
-              type="text"
-              component={InputField}
-              disabled={disabled}
-            />
-          </div>
-          <div className="filter-row__small">
-            <Field
-              name="bonusLifetime"
-              position="vertical"
-              label={I18n.t(attributeLabels.bonusLifetime)}
-              type="text"
-              component={InputField}
-              inputAddon={<span>days</span>}
-              inputAddonPosition="right"
-              disabled={disabled}
-            />
-          </div>
-          <div className="filter-row__medium">
-            <CustomValueFieldVertical
-              basename={'capping'}
-              label={
-                <div>
-                  {I18n.t(attributeLabels.capping)}{' '}
-                  <span className="font-size-10 text-muted">{I18n.t('COMMON.OPTIONAL')}</span>
-                </div>
-              }
-              typeValues={allowedCustomValueTypes}
-              errors={this.getCustomValueFieldErrors('capping')}
-              disabled={disabled}
-            />
-          </div>
-          <div className="filter-row__medium">
-            <CustomValueFieldVertical
-              basename={'conversionPrize'}
-              label={
-                <div>
-                  {I18n.t(attributeLabels.conversionPrize)}{' '}
-                  <span className="font-size-10 text-muted">{I18n.t('COMMON.OPTIONAL')}</span>
-                </div>
-              }
-              typeValues={allowedCustomValueTypes}
-              errors={this.getCustomValueFieldErrors('conversionPrize')}
-              disabled={disabled}
-            />
+          <div className="filter-row">
+            <div className="filter-row__small">
+              <Field
+                name="wagerWinMultiplier"
+                position="vertical"
+                placeholder=" "
+                label={I18n.t(attributeLabels.wagerWinMultiplier)}
+                type="text"
+                component={InputField}
+                disabled={disabled}
+              />
+            </div>
+            <div className="filter-row__small">
+              <Field
+                name="bonusLifetime"
+                position="vertical"
+                label={I18n.t(attributeLabels.bonusLifetime)}
+                type="text"
+                component={InputField}
+                inputAddon={<span>days</span>}
+                inputAddonPosition="right"
+                disabled={disabled}
+              />
+            </div>
           </div>
         </div>
       </form>
@@ -512,3 +510,29 @@ export default connect(state => ({
   meta: getFormMeta(FORM_NAME)(state),
 }))(SettingsForm);
 
+{/*<div className="filter-row__small">
+ <Field
+ name="campaignPriority"
+ label={I18n.t(attributeLabels.campaignPriority)}
+ type="text"
+ component={InputField}
+ position="vertical"
+ disabled={disabled}
+ />
+ </div>
+ <div className="filter-row__small">
+ <Field
+ name="moneyTypePriority"
+ label={I18n.t(attributeLabels.moneyTypePriority)}
+ type="text"
+ component={SelectField}
+ position="vertical"
+ disabled={disabled}
+ >
+ {Object.keys(moneyTypeUsageLabels).map(key => (
+ <option key={key} value={key}>
+ {renderLabel(key, moneyTypeUsageLabels)}
+ </option>
+ ))}
+ </Field>
+ </div>*/}

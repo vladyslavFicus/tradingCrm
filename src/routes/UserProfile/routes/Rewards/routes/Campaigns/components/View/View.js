@@ -142,7 +142,7 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0}>
           <div className="tab-header">
             <BonusHeaderNavigation />

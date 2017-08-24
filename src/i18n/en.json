@@ -847,8 +847,6 @@
         "CAMPAIGN_NAME": "Campaign name (Internal)",
         "TARGET_TYPE": "Target type",
         "CURRENCY": "Currency",
-        "START_DATE": "Start date",
-        "END_DATE": "End date",
         "CAPPING": "Capping",
         "MULTIPLIER": "Multiplier",
         "BONUS_LIFE_TIME": "Lifetime",
@@ -862,7 +860,11 @@
         "MAX_AMOUNT_PLACEHOLDER": "Max.",
         "RATIO_TOOLTIP": "Deposit : Granted bonus",
         "PRIORITY": "Priority",
-        "MONEY_TYPE_PRIORITY": "Money type priority"
+        "MONEY_TYPE_PRIORITY": "Money type priority",
+        "CAMPAIGN_PERIOD": "Campaign period",
+        "DESCRIPTION": "Description",
+        "BASE_CURRENCY": "Base currency",
+        "MIN_PRIZE": "Min. prize"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",

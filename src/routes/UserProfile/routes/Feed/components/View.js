@@ -74,7 +74,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0}>
           <div className="tab-header">
             <div className="tab-header__heading">Feed</div>

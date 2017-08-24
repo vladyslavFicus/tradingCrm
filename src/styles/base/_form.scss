@@ -82,6 +82,11 @@ label {
   margin-bottom: 0;
   font-weight: 600;
   color: $form-labels-color;
+  .label-additional {
+    font-size: 12px;
+    font-weight: 300;
+    color: #999;
+  }
 }
 
 .form-control {

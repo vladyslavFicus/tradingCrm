@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import classNames from 'classnames';
 import renderLabel from '../../utils/renderLabel';
+import InputField from './InputField';
 import { customValueFieldTypesLabels } from '../../constants/form';
 
 const CustomValueField = (props) => {
@@ -10,55 +11,36 @@ const CustomValueField = (props) => {
     basename,
     label,
     disabled,
-    valueInputClassName,
-    typeInputClassName,
     typeValues,
     errors,
+    iconRightClassName,
   } = props;
 
-  const classList = {
-    formGroup: classNames('form-group', {
-      'has-danger': !!errors[`${basename}.value`] || !!errors[`${basename}.type`],
-    }),
-    valueInput: classNames('form-control', valueInputClassName, {
-      'has-danger': !!errors[`${basename}.value`],
-    }),
-    typeInput: classNames('form-control', typeInputClassName, {
-      'has-danger': !!errors[`${basename}.type`],
-    }),
-  };
-
   return (
-    <div className={classList.formGroup}>
+    <div className="double-group">
       <label>
         {label}
       </label>
-      <div className="row">
-        <div className="col-md-4">
-          <Field
-            name={`${basename}.value`}
-            disabled={disabled}
-            placeholder={typeof label === 'string' ? label : null}
-            component="input"
-            type="text"
-            className={classList.valueInput}
-          />
-        </div>
-        <div className="col-md-8">
-          <Field
-            name={`${basename}.type`}
-            className={classList.typeInput}
-            component="select"
-            disabled={disabled}
-          >
-            {typeValues.map(key =>
-              <option key={key} value={key}>
-                {renderLabel(key, customValueFieldTypesLabels)}
-              </option>
-            )}
-          </Field>
-        </div>
-      </div>
+      <Field
+        name={`${basename}.value`}
+        type="text"
+        label={''}
+        placeholder={typeof label === 'string' ? label : null}
+        component={InputField}
+        position="vertical"
+        disabled={disabled}
+        iconRightClassName={iconRightClassName}
+      />
+      <Field
+        name={`${basename}.type`}
+        className="form-control"
+        component="select"
+        disabled={disabled}
+      >
+        {typeValues.map(key =>
+          <option key={key} value={key}>{renderLabel(key, customValueFieldTypesLabels)}</option>
+        )}
+      </Field>
       {!!errors[`${basename}.value`] && <div className="form-control-feedback">
         {errors[`${basename}.value`]}
       </div>}
@@ -70,18 +52,17 @@ const CustomValueField = (props) => {
 };
 
 CustomValueField.defaultProps = {
-  valueInputClassName: '',
-  typeInputClassName: '',
   errors: {},
+  iconRightClassName: '',
+  disabled: false,
 };
 CustomValueField.propTypes = {
   basename: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   typeValues: PropTypes.array.isRequired,
-  valueInputClassName: PropTypes.string,
-  typeInputClassName: PropTypes.string,
   errors: PropTypes.object,
   disabled: PropTypes.bool,
+  iconRightClassName: PropTypes.string,
 };
 
 export default CustomValueField;

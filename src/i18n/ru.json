@@ -853,8 +853,6 @@
         "CAMPAIGN_NAME": "Название кампании (Внутреннее)",
         "TARGET_TYPE": "Тип",
         "CURRENCY": "Валюта",
-        "START_DATE": "Начало",
-        "END_DATE": "Конец",
         "CAPPING": "Capping",
         "MULTIPLIER": "Multiplier",
         "BONUS_LIFE_TIME": "Время жизни",
@@ -868,7 +866,11 @@
         "MAX_AMOUNT_PLACEHOLDER": "Макс.",
         "RATIO_TOOLTIP": "Депозит: предоставленный бонус",
         "PRIORITY": "Приоритет",
-        "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
+        "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
+        "CAMPAIGN_PERIOD": "Период кампании",
+        "DESCRIPTION": "Описание",
+        "BASE_CURRENCY": "Базовая валюта",
+        "MIN_PRIZE": "Мин. приз"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",

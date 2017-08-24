@@ -9,7 +9,6 @@ import StatusDropDown from '../../../../components/StatusDropDown';
 import { statuses, targetTypes, moneyTypeUsageLabels } from '../../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../../utils/renderLabel';
 import ActionsDropDown from '../../../../../../components/ActionsDropDown';
-import './Header.scss';
 
 class Header extends Component {
   static propTypes = {
