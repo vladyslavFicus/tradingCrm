@@ -26,7 +26,7 @@ class Header extends Component {
   render() {
     const {
       data: {
-        name,
+        campaignName,
         moneyTypePriority,
         authorUUID,
         uuid,
@@ -49,7 +49,7 @@ class Header extends Component {
         <div className="panel-heading-row">
           <div className="panel-heading-row__info">
             <div className="panel-heading-row__info-title" id="campaign-name">
-              {name}
+              {campaignName}
             </div>
             <div className="panel-heading-row__info-ids">
               <span className="short__uuid">
