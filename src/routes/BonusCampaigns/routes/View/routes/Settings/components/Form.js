@@ -503,6 +503,7 @@ class Form extends Component {
 
 const SettingsForm = reduxForm({
   form: FORM_NAME,
+  enableReinitialize: true,
   validate: validator,
 })(Form);
 

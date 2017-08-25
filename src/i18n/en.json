@@ -913,7 +913,7 @@
       "TITLE": "Campaign status"
     },
     "OPTIONS": {
-      "DUBLICATE_LABEL": "Dublicate campaign"
+      "CLONE_LABEL": "Clone campaign"
     }
   },
   "PROFILE": {

@@ -74,7 +74,7 @@ class Header extends Component {
             <span className="margin-left-10">
               <ActionsDropDown
                 items={[
-                  { label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.DUBLICATE_LABEL'), onClick: () => cloneCampaign(id) },
+                  { label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'), onClick: () => cloneCampaign(id) },
                 ]}
               />
             </span>

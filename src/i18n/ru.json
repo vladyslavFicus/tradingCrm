@@ -919,7 +919,7 @@
       "TITLE": "Статус кампании"
     },
     "OPTIONS": {
-      "DUBLICATE_LABEL": "Скопировать кампанию"
+      "CLONE_LABEL": "Скопировать кампанию"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {
