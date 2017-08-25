@@ -93,8 +93,28 @@ const customValueFieldTypesByCampaignType = {
 };
 
 const optInSelect = {
-  OPTIN: 'Opt-in',
-  NON_OPTIN: 'Non Opt-in',
+  true: 'Opt-in',
+  false: 'Non Opt-in',
+};
+
+const fulfillmentSelect = {
+  registration: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.REGISTRATION_FULFILLMENT'),
+  deposit: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.DEPOSIT_FULFILLMENT'),
+  wagering: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.WAGERING_FULFILLMENT'),
+  login: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.LOGIN_FULFILLMENT'),
+  campaign: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.CAMPAIGN_FULFILLMENT'),
+  email: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.EMAIL_VERIFICATION_FULFILLMENT'),
+  phone: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.PHONE_VERIFICATION_FULFILLMENT'),
+};
+
+const wageredAmount = {
+  allGames: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.WAGERED_AMOUNT_ALL_GAMES'),
+  oneGame: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.WAGERED_AMOUNT_ONE_GAME'),
+};
+
+const campaignMenu = {
+  campaign1: 'campaign1',
+  campaign2: 'campaign2',
 };
 
 export {
@@ -113,4 +133,7 @@ export {
   moneyTypeUsage,
   moneyTypeUsageLabels,
   optInSelect,
+  fulfillmentSelect,
+  wageredAmount,
+  campaignMenu,
 };

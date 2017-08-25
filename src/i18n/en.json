@@ -874,8 +874,8 @@
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
       "TARGET": "Target",
       "CAMPAIGN_SETTINGS": "Campaign settings",
-      "FULFILLMENT": "Fulfillment",
-      "REWARD": "Reward",
+      "FULFILLMENTS": "Fulfillments",
+      "REWARDS": "Rewards",
       "DEPOSIT_AMOUNT": "Deposit amount"
     },
     "CHANGE_STATUS_MODAL": {
@@ -898,6 +898,22 @@
     },
     "OPTIONS": {
       "DUBLICATE_LABEL": "Dublicate campaign"
+    },
+    "FULFILLMENTS": {
+      "ADD_FULFILLMENT": "Add fulfillment",
+      "REGISTRATION_FULFILLMENT": "Registration fulfillment",
+      "DEPOSIT_FULFILLMENT": "Deposit fulfillment",
+      "DEPOSIT_AMOUNT_RANGE": "Deposit amount range",
+      "WAGERING_FULFILLMENT": "Wagering fulfillment",
+      "LOGIN_FULFILLMENT": "Login fulfillment",
+      "CAMPAIGN_FULFILLMENT": "Campaign fulfillment",
+      "EMAIL_VERIFICATION_FULFILLMENT": "Email verification fulfillment",
+      "PHONE_VERIFICATION_FULFILLMENT": "Phone verification fulfillment",
+      "WAGERED_AMOUNT_ALL_GAMES": "Wagered amount on all games is > X",
+      "WAGERED_AMOUNT_ONE_GAME": "Wagered amount on one game or number of selected games is > X",
+      "AMOUNT_TO_WAGER": "Amount to wager",
+      "EXCLUDE_BONUS_MONEY": "Exclude bonus money from wagering",
+      "CHOOSE_CAMPAIGN": "- Choose campaign -"
     }
   },
   "PROFILE": {

@@ -1,0 +1,63 @@
+.campaign-settings {
+  .tab-header {
+    padding-bottom: 0;
+  }
+  &-content {
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+  .nas-currencies_icon {
+    cursor: pointer;
+    &:before {
+      color: #000;
+    }
+  }
+}
+
+.add-campaign {
+  &-setting {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    margin-top: 40px;
+    .form-group {
+      margin-right: 10px;
+      margin-bottom: 0;
+    }
+  }
+  &-container {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    color: #333;
+    .form-row {
+      margin-top: 10px;
+    }
+    .form-group {
+      margin-bottom: 0;
+    }
+    input[type="checkbox"] {
+      margin-right: 2px;
+      vertical-align: middle;
+    }
+  }
+  &-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+  }
+  &-remove {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    font-size: 24px;
+    font-weight: 300;
+  }
+}
+
+.no-label {
+  display: none;
+}

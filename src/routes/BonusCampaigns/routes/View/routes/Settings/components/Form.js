@@ -14,11 +14,16 @@ import {
   customValueFieldTypesByCampaignType,
   moneyTypeUsageLabels,
   optInSelect,
+  fulfillmentSelect,
+  wageredAmount,
+  campaignMenu,
 } from '../../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from '../constants';
+import { DefaultFulfillment, DepositFulfillment, WageringFulfillment, CampaignFulfillment } from './Fulfillments';
+import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 const FORM_NAME = 'updateBonusCampaignSettings';
@@ -408,156 +413,62 @@ class Form extends Component {
           <div className="col-lg-6">
             <div className="tab-header">
               <div className="tab-header__heading">
-                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT')}
+                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENTS')}
               </div>
             </div>
           </div>
           <div className="col-lg-6">
             <div className="tab-header">
               <div className="tab-header__heading">
-                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.REWARD')}
+                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.REWARDS')}
               </div>
             </div>
           </div>
         </div>
+        <div className="campaign-settings-content">
+          <hr />
+          <div className="row">
+            <div className="col-lg-6 padding-bottom-40 with-right-border">
+              <DefaultFulfillment label={I18n.t(attributeLabels.registrationFulfillment)} />
+              <DepositFulfillment label={I18n.t(attributeLabels.depositFulfillment)} />
+              <WageringFulfillment
+                label={I18n.t(attributeLabels.wageringFulfillment)}
+                wagerMenu={wageredAmount}
+              />
+              <DefaultFulfillment label={I18n.t(attributeLabels.loginFulfillment)} />
+              <CampaignFulfillment
+                label={I18n.t(attributeLabels.campaignFulfillment)}
+                campaignMenu={campaignMenu}
+              />
+              <DefaultFulfillment label={I18n.t(attributeLabels.emailVerificationFulfillment)} />
+              <DefaultFulfillment label={I18n.t(attributeLabels.phoneVerificationFulfillment)} />
+              <div className="add-campaign-setting">
+                <Field
+                  name="fulfillmentSelect"
+                  label=""
+                  labelClassName="no-label"
+                  type="text"
+                  component={SelectField}
+                  position="vertical"
+                  disabled={disabled}
+                >
+                  {Object.keys(fulfillmentSelect).map(key => (
+                    <option key={key} value={key}>
+                      {renderLabel(key, fulfillmentSelect)}
+                    </option>
+                  ))}
+                </Field>
+                <button className="btn btn-default">{I18n.t(attributeLabels.addFulfillment)}</button>
+              </div>
+            </div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-        {/*<div>*/}
-          {/*<div className="filter-row">*/}
-            {/*<div className="filter-row__small">*/}
-              {/*<Field*/}
-                {/*name="campaignPriority"*/}
-                {/*label={I18n.t(attributeLabels.campaignPriority)}*/}
-                {/*type="text"*/}
-                {/*component={InputField}*/}
-                {/*position="vertical"*/}
-                {/*disabled={disabled}*/}
-              {/*/>*/}
-            {/*</div>*/}
-            {/*<div className="filter-row__small">*/}
-              {/*<Field*/}
-                {/*name="moneyTypePriority"*/}
-                {/*label={I18n.t(attributeLabels.moneyTypePriority)}*/}
-                {/*type="text"*/}
-                {/*component={SelectField}*/}
-                {/*position="vertical"*/}
-                {/*disabled={disabled}*/}
-              {/*>*/}
-                {/*{Object.keys(moneyTypeUsageLabels).map(key => (*/}
-                  {/*<option key={key} value={key}>*/}
-                    {/*{renderLabel(key, moneyTypeUsageLabels)}*/}
-                  {/*</option>*/}
-                {/*))}*/}
-              {/*</Field>*/}
-            {/*</div>*/}
-
-          {/*</div>*/}
-          {/*<hr />*/}
-          {/*<div className="filter-row">*/}
-            {/*<div className="filter-row__medium">*/}
-              {/*<Field*/}
-                {/*name="campaignType"*/}
-                {/*label={I18n.t(attributeLabels.campaignType)}*/}
-                {/*type="select"*/}
-                {/*position="vertical"*/}
-                {/*component={SelectField}*/}
-                {/*disabled={disabled}*/}
-              {/*>*/}
-                {/*{Object.keys(campaignTypesLabels).map(key => (*/}
-                  {/*<option key={key} value={key}>*/}
-                    {/*{renderLabel(key, campaignTypesLabels)}*/}
-                  {/*</option>*/}
-                {/*))}*/}
-              {/*</Field>*/}
-            {/*</div>*/}
-            {/*<div className="filter-row__medium">*/}
-              {/*<CustomValueFieldVertical*/}
-                {/*basename={'campaignRatio'}*/}
-                {/*label={I18n.t(attributeLabels.campaignRatio)}*/}
-                {/*typeValues={allowedCustomValueTypes}*/}
-                {/*errors={this.getCustomValueFieldErrors('campaignRatio')}*/}
-                {/*disabled={disabled}*/}
-              {/*/>*/}
-              {/*<div className="form-group__note">*/}
-                {/*{I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.RATIO_TOOLTIP')}*/}
-              {/*</div>*/}
-            {/*</div>*/}
-            {/*{*/}
-              {/*currentValues && currentValues.campaignType !== campaignTypes.PROFILE_COMPLETED &&*/}
-              {/*<div className="filter-row__medium">*/}
-                {/*<div className="form-group">*/}
-                  {/*<label>*/}
-                    {/*{I18n.t('BONUS_CAMPAIGNS.SETTINGS.DEPOSIT_AMOUNT')}*/}
-                    {/*{' '}*/}
-                    {/*<span className="font-size-10 text-muted">*/}
-                    {/*{I18n.t('COMMON.OPTIONAL')}*/}
-                  {/*</span>*/}
-                  {/*</label>*/}
-                  {/*<div className="range-group">*/}
-                    {/*<Field*/}
-                      {/*name="minAmount"*/}
-                      {/*label={''}*/}
-                      {/*placeholder={I18n.t(attributePlaceholders.minAmount)}*/}
-                      {/*type="text"*/}
-                      {/*component={InputField}*/}
-                      {/*position="vertical"*/}
-                      {/*disabled={disabled}*/}
-                    {/*/>*/}
-                    {/*<span className="range-group__separator">-</span>*/}
-                    {/*<Field*/}
-                      {/*name="maxAmount"*/}
-                      {/*label={''}*/}
-                      {/*placeholder={I18n.t(attributePlaceholders.maxAmount)}*/}
-                      {/*type="text"*/}
-                      {/*component={InputField}*/}
-                      {/*position="vertical"*/}
-                      {/*disabled={disabled}*/}
-                    {/*/>*/}
-                  {/*</div>*/}
-                {/*</div>*/}
-              {/*</div>*/}
-            {/*}*/}
-          {/*</div>*/}
-          {/*<hr />*/}
-          {/*<div className="filter-row">*/}
-            {/*<div className="filter-row__small">*/}
-              {/*<Field*/}
-                {/*name="wagerWinMultiplier"*/}
-                {/*position="vertical"*/}
-                {/*placeholder=" "*/}
-                {/*label={I18n.t(attributeLabels.wagerWinMultiplier)}*/}
-                {/*type="text"*/}
-                {/*component={InputField}*/}
-                {/*disabled={disabled}*/}
-              {/*/>*/}
-            {/*</div>*/}
-            {/*<div className="filter-row__small">*/}
-              {/*<Field*/}
-                {/*name="bonusLifetime"*/}
-                {/*position="vertical"*/}
-                {/*label={I18n.t(attributeLabels.bonusLifetime)}*/}
-                {/*type="text"*/}
-                {/*component={InputField}*/}
-                {/*inputAddon={<span>days</span>}*/}
-                {/*inputAddonPosition="right"*/}
-                {/*disabled={disabled}*/}
-              {/*/>*/}
-            {/*</div>*/}
-          {/*</div>*/}
-        {/*</div>*/}
-
-
+            <div className="col-lg-6 padding-bottom-40">
+              tttttttwetwety
+            </div>
+          </div>
+        </div>
       </form>
     );
   }
@@ -573,5 +484,3 @@ export default connect(state => ({
   errors: getFormSyncErrors(FORM_NAME)(state),
   meta: getFormMeta(FORM_NAME)(state),
 }))(SettingsForm);
-
-

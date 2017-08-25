@@ -880,8 +880,8 @@
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
       "TARGET": "Тип",
       "CAMPAIGN_SETTINGS": "Настройки кампании",
-      "FULFILLMENT": "FULFILLMENT",
-      "REWARD": "Вознаграждение",
+      "FULFILLMENTS": "Фулфилменты",
+      "REWARDS": "Вознаграждения",
       "DEPOSIT_AMOUNT": "Сумма пополнения"
     },
     "CHANGE_STATUS_MODAL": {
@@ -904,6 +904,22 @@
     },
     "OPTIONS": {
       "DUBLICATE_LABEL": "Скопировать кампанию"
+    },
+    "FULFILLMENTS": {
+      "ADD_FULFILLMENT": "Добавить фулфилмент",
+      "REGISTRATION_FULFILLMENT": "Фулфилмент регистрации",
+      "DEPOSIT_FULFILLMENT": "Фулфилмент депозита",
+      "DEPOSIT_AMOUNT_RANGE": "Сумма депозита",
+      "WAGERING_FULFILLMENT": "Фулфилмент ставок",
+      "LOGIN_FULFILLMENT": "Фулфилмент авторизации",
+      "CAMPAIGN_FULFILLMENT": "Фулфилмент кампании",
+      "EMAIL_VERIFICATION_FULFILLMENT": "Фулфилмент подтверждения е-мейла",
+      "PHONE_VERIFICATION_FULFILLMENT": "Фулфилмент подтверждения телефона",
+      "WAGERED_AMOUNT_ALL_GAMES": "Количество ставок во всех играх > X",
+      "WAGERED_AMOUNT_ONE_GAME": "Количество ставок в одной игре или выбранных играх > X",
+      "AMOUNT_TO_WAGER": "Сумма ставки",
+      "EXCLUDE_BONUS_MONEY": "Исключить бонусные деньги из ставок",
+      "CHOOSE_CAMPAIGN": "- Выберите кампанию -"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {
