@@ -107,6 +107,11 @@ const fulfillmentSelect = {
   phone: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.PHONE_VERIFICATION_FULFILLMENT'),
 };
 
+const rewardSelect = {
+  bonus: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS'),
+  freeSpins: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPINS'),
+};
+
 const wageredAmount = {
   allGames: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.WAGERED_AMOUNT_ALL_GAMES'),
   oneGame: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.WAGERED_AMOUNT_ONE_GAME'),
@@ -136,4 +141,5 @@ export {
   fulfillmentSelect,
   wageredAmount,
   campaignMenu,
+  rewardSelect,
 };

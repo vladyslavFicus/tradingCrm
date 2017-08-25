@@ -28,6 +28,8 @@ const attributeLabels = {
   campaignFulfillment: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.CAMPAIGN_FULFILLMENT'),
   emailVerificationFulfillment: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.EMAIL_VERIFICATION_FULFILLMENT'),
   phoneVerificationFulfillment: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.PHONE_VERIFICATION_FULFILLMENT'),
+  addReward: I18n.t('BONUS_CAMPAIGNS.REWARDS.ADD_REWARD'),
+  bonusReward: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS_REWARD'),
 };
 
 const attributePlaceholders = {

@@ -914,6 +914,13 @@
       "AMOUNT_TO_WAGER": "Amount to wager",
       "EXCLUDE_BONUS_MONEY": "Exclude bonus money from wagering",
       "CHOOSE_CAMPAIGN": "- Choose campaign -"
+    },
+    "REWARDS": {
+      "ADD_REWARD": "Add reward",
+      "BONUS": "Bonus",
+      "FREE_SPINS": "Free-spins",
+      "BONUS_REWARD": "Bonus reward",
+      "GRANT": "Grant"
     }
   },
   "PROFILE": {

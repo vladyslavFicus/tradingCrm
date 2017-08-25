@@ -920,6 +920,13 @@
       "AMOUNT_TO_WAGER": "Сумма ставки",
       "EXCLUDE_BONUS_MONEY": "Исключить бонусные деньги из ставок",
       "CHOOSE_CAMPAIGN": "- Выберите кампанию -"
+    },
+    "REWARDS": {
+      "ADD_REWARD": "Добавить награду",
+      "BONUS": "Бонус",
+      "FREE_SPINS": "Free-spins",
+      "BONUS_REWARD": "Бонусная награда",
+      "GRANT": "Грант"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

@@ -17,12 +17,14 @@ import {
   fulfillmentSelect,
   wageredAmount,
   campaignMenu,
+  rewardSelect,
 } from '../../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from '../constants';
 import { DefaultFulfillment, DepositFulfillment, WageringFulfillment, CampaignFulfillment } from './Fulfillments';
+import { BonusReward, FreeSpinReward } from './Rewards';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -427,8 +429,8 @@ class Form extends Component {
         </div>
         <div className="campaign-settings-content">
           <hr />
-          <div className="row">
-            <div className="col-lg-6 padding-bottom-40 with-right-border">
+          <div className="row padding-bottom-30">
+            <div className="col-lg-6 padding-bottom-30 with-right-border">
               <DefaultFulfillment label={I18n.t(attributeLabels.registrationFulfillment)} />
               <DepositFulfillment label={I18n.t(attributeLabels.depositFulfillment)} />
               <WageringFulfillment
@@ -461,11 +463,26 @@ class Form extends Component {
                 <button className="btn btn-default">{I18n.t(attributeLabels.addFulfillment)}</button>
               </div>
             </div>
-
-
-
-            <div className="col-lg-6 padding-bottom-40">
-              tttttttwetwety
+            <div className="col-lg-6 padding-bottom-30">
+              <BonusReward label={I18n.t(attributeLabels.bonusReward)} />
+              <div className="add-campaign-setting">
+                <Field
+                  name="rewardsSelect"
+                  label=""
+                  labelClassName="no-label"
+                  type="text"
+                  component={SelectField}
+                  position="vertical"
+                  disabled={disabled}
+                >
+                  {Object.keys(rewardSelect).map(key => (
+                    <option key={key} value={key}>
+                      {renderLabel(key, rewardSelect)}
+                    </option>
+                  ))}
+                </Field>
+                <button className="btn btn-default">{I18n.t(attributeLabels.addReward)}</button>
+              </div>
             </div>
           </div>
         </div>
