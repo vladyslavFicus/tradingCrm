@@ -58,7 +58,7 @@ class View extends Component {
               currencies={currencies}
               disabled={bonusCampaign.state !== statuses.DRAFT}
               initialValues={{
-                name: bonusCampaign.name,
+                campaignName: bonusCampaign.campaignName,
                 campaignPriority: bonusCampaign.campaignPriority,
                 targetType: bonusCampaign.targetType,
                 currency: bonusCampaign.currency,

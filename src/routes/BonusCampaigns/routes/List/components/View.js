@@ -136,7 +136,7 @@ class View extends Component {
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>
-      <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700">{data.name}</Link>
+      <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700">{data.campaignName}</Link>
       <div className="font-size-11">
         <Uuid uuid={data.uuid} uuidPrefix="CA" />
       </div>

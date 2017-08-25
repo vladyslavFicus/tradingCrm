@@ -128,11 +128,8 @@ function updateCampaign(id, data) {
         },
         body: JSON.stringify(endpointParams),
         types: [
-          {
-            type: CAMPAIGN_UPDATE.REQUEST,
-            meta: { data },
-          },
-          CAMPAIGN_UPDATE.SUCCESS,
+          CAMPAIGN_UPDATE.REQUEST,
+          { type: CAMPAIGN_UPDATE.SUCCESS, payload: data },
           CAMPAIGN_UPDATE.FAILURE,
         ],
       },
@@ -191,17 +188,14 @@ function cloneCampaign(campaignId) {
 }
 
 const actionHandlers = {
-  [CAMPAIGN_UPDATE.REQUEST]: (state, action) => ({
+  [CAMPAIGN_UPDATE.REQUEST]: state => ({
     ...state,
     error: null,
-    data: {
-      ...state.data,
-      ...action.meta.data,
-    },
     isLoading: true,
   }),
-  [CAMPAIGN_UPDATE.SUCCESS]: state => ({
+  [CAMPAIGN_UPDATE.SUCCESS]: (state, action) => ({
     ...state,
+    data: { ...state.data, ...action.payload },
     isLoading: false,
     receivedAt: timestamp(),
   }),
