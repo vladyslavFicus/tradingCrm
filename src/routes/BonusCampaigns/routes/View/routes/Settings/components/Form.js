@@ -41,7 +41,7 @@ const getCustomValueFieldTypes = (campaignType) => {
 const validator = (values) => {
   const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
   const rules = {
-    name: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
+    campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
     campaignPriority: 'integer',
     optIn: 'boolean',
     targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
@@ -119,7 +119,7 @@ class Form extends Component {
     meta: PropTypes.object,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentValues: PropTypes.shape({
-      name: PropTypes.bonusCampaignEntity.name,
+      campaignName: PropTypes.bonusCampaignEntity.campaignName,
       campaignPriority: PropTypes.bonusCampaignEntity.campaignPriority,
       targetType: PropTypes.bonusCampaignEntity.targetType,
       currency: PropTypes.bonusCampaignEntity.currency,
@@ -233,8 +233,8 @@ class Form extends Component {
             <div className="col-lg-7">
               <div>
                 <Field
-                  name="name"
-                  label={I18n.t(attributeLabels.name)}
+                  name="campaignName"
+                  label={I18n.t(attributeLabels.campaignName)}
                   type="text"
                   component={InputField}
                   position="vertical"
@@ -242,8 +242,8 @@ class Form extends Component {
                 />
                 <div className="form-group__note">
                   {
-                    currentValues && currentValues.name
-                      ? currentValues.name.length
+                    currentValues && currentValues.campaignName
+                      ? currentValues.campaignName.length
                       : 0
                   }/{CAMPAIGN_NAME_MAX_LENGTH}
                 </div>
@@ -493,6 +493,7 @@ class Form extends Component {
 
 const SettingsForm = reduxForm({
   form: FORM_NAME,
+  enableReinitialize: true,
   validate: validator,
 })(Form);
 

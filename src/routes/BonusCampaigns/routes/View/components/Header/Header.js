@@ -25,7 +25,7 @@ class Header extends Component {
   render() {
     const {
       data: {
-        name,
+        campaignName,
         moneyTypePriority,
         authorUUID,
         uuid,
@@ -48,7 +48,7 @@ class Header extends Component {
         <div className="panel-heading-row">
           <div className="panel-heading-row__info">
             <div className="panel-heading-row__info-title" id="campaign-name">
-              {name}
+              {campaignName}
             </div>
             <div className="panel-heading-row__info-ids">
               <span className="short__uuid">
@@ -73,7 +73,7 @@ class Header extends Component {
             <span className="margin-left-10">
               <ActionsDropDown
                 items={[
-                  { label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.DUBLICATE_LABEL'), onClick: () => cloneCampaign(id) },
+                  { label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'), onClick: () => cloneCampaign(id) },
                 ]}
               />
             </span>

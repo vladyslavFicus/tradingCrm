@@ -49,6 +49,7 @@ const mapActions = {
   manageKycRequestNote: profileActionCreators.manageKycRequestNote,
   resetNote: profileActionCreators.resetNote,
   sendKycRequestVerification: profileActionCreators.sendKycRequestVerification,
+  verifyKycAll: profileActionCreators.verifyKycAll,
 };
 
 export default connect(mapStateToProps, mapActions)(View);
