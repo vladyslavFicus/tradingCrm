@@ -3,7 +3,9 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import Uuid from '../../../../../../components/Uuid';
+import { targetTypes } from '../../../../../../constants/note';
 import PropTypes from '../../../../../../constants/propTypes';
+import NoteButton from '../../../../../../components/NoteButton';
 
 class SimpleConfirmationModal extends Component {
   static propTypes = {
@@ -15,6 +17,8 @@ class SimpleConfirmationModal extends Component {
     modalTitle: PropTypes.string,
     actionText: PropTypes.string,
     submitButtonLabel: PropTypes.string,
+    note: PropTypes.noteEntity,
+    onManageNote: PropTypes.func.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -22,6 +26,37 @@ class SimpleConfirmationModal extends Component {
     modalTitle: 'KYC - verification',
     actionText: 'You are about to verify player',
     submitButtonLabel: 'verify',
+    note: null,
+  };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    hidePopover: PropTypes.func.isRequired,
+  };
+
+  getNotePopoverParams = () => ({
+    placement: 'bottom',
+    onSubmit: this.handleSubmitNote,
+    onDelete: this.handleDeleteNote,
+  });
+
+  handleSubmitNote = (data) => {
+    this.props.onManageNote(data);
+    this.context.hidePopover();
+  };
+
+  handleDeleteNote = () => {
+    this.props.onManageNote(null);
+    this.context.hidePopover();
+  };
+
+  handleNoteClick = (target) => {
+    const { note } = this.props;
+    if (note) {
+      this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
+    } else {
+      this.context.onAddNoteClick(null, targetTypes.KYC_VERIFY)(target, this.getNotePopoverParams());
+    }
   };
 
   render() {
@@ -34,6 +69,7 @@ class SimpleConfirmationModal extends Component {
       modalTitle,
       actionText,
       submitButtonLabel,
+      note,
     } = this.props;
 
     return (
@@ -45,6 +81,14 @@ class SimpleConfirmationModal extends Component {
               <strong> {actionText} </strong>
               {' - '}
               <Uuid uuid={playerUUID} uuidPrefix="PL" />
+            </div>
+
+            <div className="row text-center margin-top-20">
+              <NoteButton
+                id="verify-kyc-note-button"
+                note={note}
+                onClick={this.handleNoteClick}
+              />
             </div>
           </ModalBody>
 
