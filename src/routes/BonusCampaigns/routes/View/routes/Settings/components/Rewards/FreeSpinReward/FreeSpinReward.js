@@ -9,7 +9,7 @@ import {
   provider, games, lines, coins, coinValues, multipliersTypes, moneyTypePrior,
 } from '../../../../../../../../../constants/bonus-campaigns';
 
-const FreeSpinReward = ({ netEnt }) => (
+const FreeSpinReward = ({ netEnt, toggleCalcModal }) => (
   <div className="add-campaign-container">
     <div className="add-campaign-label">
       {I18n.t(attributeLabels.freeSpinReward)}
@@ -215,6 +215,7 @@ const FreeSpinReward = ({ netEnt }) => (
           component={InputField}
           position="vertical"
           iconRightClassName="nas nas-currencies_icon"
+          clickAction={toggleCalcModal}
         />
       </div>
       <div className="form-row__small form-row_with-placeholder-right">
@@ -240,15 +241,16 @@ const FreeSpinReward = ({ netEnt }) => (
         <span className="right-placeholder">%</span>
       </div>
     </div>
-    <button className="btn-transparent add-campaign-remove">&times;</button>
   </div>
 );
 
 FreeSpinReward.propTypes = {
+  toggleCalcModal: PropTypes.func,
   netEnt: PropTypes.bool,
 };
 
 FreeSpinReward.defaultProps = {
+  toggleCalcModal: null,
   netEnt: true,
 };
 

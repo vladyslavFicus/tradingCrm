@@ -967,6 +967,18 @@
         "DAYS": "days",
         "NOT_SET": "Not set"
       }
+    },
+    "CURRENCY_CALC_MODAL": {
+      "HEADER": "Value in different currencies",
+      "BODY": {
+        "MIN_DEPOSIT": "Min. deposit amount range",
+        "RECALC": "Recalculate",
+        "RECALC_WARNING": "Recalculation will reset all customized values",
+        "CURRENCY": "Currency",
+        "RATE": "Rate",
+        "CALCULATED": "Calculated",
+        "CUSTOMIZED": "Customized"
+      }
     }
   },
   "PROFILE": {

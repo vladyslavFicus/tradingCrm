@@ -973,6 +973,18 @@
         "DAYS": "дней",
         "NOT_SET": "Не задано"
       }
+    },
+    "CURRENCY_CALC_MODAL": {
+      "HEADER": "Стоимость в разных валютах",
+      "BODY": {
+        "MIN_DEPOSIT": "Мин. диапазон депозитов",
+        "RECALC": "Пересчитать",
+        "RECALC_WARNING": "Пересчет сбросит все настроенные значения",
+        "CURRENCY": "Валюта",
+        "RATE": "Rate",
+        "CALCULATED": "Рассчитано",
+        "CUSTOMIZED": "Customized"
+      }
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

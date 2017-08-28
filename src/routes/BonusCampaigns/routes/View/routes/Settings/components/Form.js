@@ -131,6 +131,7 @@ class Form extends Component {
       campaignType: PropTypes.bonusCampaignEntity.campaignType,
     }),
     disabled: PropTypes.bool,
+    toggleModal: PropTypes.func.isRequired,
   };
   static defaultProps = {
     currentValues: {},
@@ -199,6 +200,7 @@ class Form extends Component {
       currencies,
       currentValues,
       disabled,
+      toggleModal,
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
@@ -285,6 +287,7 @@ class Form extends Component {
                     typeValues={allowedCustomValueTypes}
                     errors={this.getCustomValueFieldErrors('conversionPrize')}
                     disabled={disabled}
+                    toggleCalcModal={toggleModal}
                   />
                 </div>
                 <div className="form-row__medium">
@@ -299,6 +302,8 @@ class Form extends Component {
                     typeValues={allowedCustomValueTypes}
                     errors={this.getCustomValueFieldErrors('capping')}
                     disabled={disabled}
+                    onClick={toggleModal}
+                    toggleCalcModal={toggleModal}
                   />
                 </div>
               </div>
@@ -429,8 +434,8 @@ class Form extends Component {
           <div className="row padding-bottom-30">
             <div className="col-lg-6 padding-bottom-30 with-right-border">
               <DefaultFulfillment label={I18n.t(attributeLabels.registrationFulfillment)} />
-              <DepositFulfillment label={I18n.t(attributeLabels.depositFulfillment)} />
-              <WageringFulfillment label={I18n.t(attributeLabels.wageringFulfillment)} />
+              <DepositFulfillment label={I18n.t(attributeLabels.depositFulfillment)} toggleCalcModal={toggleModal} />
+              <WageringFulfillment label={I18n.t(attributeLabels.wageringFulfillment)} toggleCalcModal={toggleModal} />
               <DefaultFulfillment label={I18n.t(attributeLabels.loginFulfillment)} />
               <CampaignFulfillment label={I18n.t(attributeLabels.campaignFulfillment)} />
               <DefaultFulfillment label={I18n.t(attributeLabels.emailVerificationFulfillment)} />
@@ -455,8 +460,12 @@ class Form extends Component {
               </div>
             </div>
             <div className="col-lg-6 padding-bottom-30">
-              <BonusReward basename={'conversionPrize'} typeValues={allowedCustomValueTypes} />
-              <FreeSpinReward />
+              <BonusReward
+                basename={'conversionPrize'}
+                typeValues={allowedCustomValueTypes}
+                toggleCalcModal={toggleModal}
+              />
+              <FreeSpinReward toggleCalcModal={toggleModal} />
               <div className="add-campaign-setting">
                 <Field
                   name="rewardsSelect"
