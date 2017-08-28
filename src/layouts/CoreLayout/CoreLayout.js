@@ -11,7 +11,7 @@ class CoreLayout extends Component {
     addNotification: PropTypes.func.isRequired,
   };
 
-  state = { isFrameVersion: window && window.parent !== window && window.parent.postMessage };
+  state = { isFrameVersion: window.isFrame };
 
   getChildContext() {
     return {
@@ -43,7 +43,7 @@ class CoreLayout extends Component {
     const mergedParams = { ...defaultParams, ...params };
 
     if (this.state.isFrameVersion) {
-      window.parent.postMessage(JSON.stringify(windowActionCreators.notify(mergedParams)), window.location.origin);
+      window.dispatchAction(windowActionCreators.notify(mergedParams));
     } else if (this.notificationNode) {
       this.notificationNode.addNotification(mergedParams);
     }

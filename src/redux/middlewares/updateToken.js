@@ -15,7 +15,7 @@ const state = {
 
 const logout = () => {
   if (window && window.parent !== window) {
-    window.parent.postMessage(JSON.stringify(windowActionCreators.logout()), window.location.origin);
+    window.dispatchAction(windowActionCreators.logout());
   } else {
     browserHistory.push('/logout');
   }

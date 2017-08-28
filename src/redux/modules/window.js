@@ -8,6 +8,8 @@ const SHOW_SCROLL_TO_TOP = `${KEY}/show-scroll-to-top`;
 const SCROLL_TO_TOP = `${KEY}/scroll-to-top`;
 const CLOSE_PROFILE_TAB = `${KEY}/close-profile-tab`;
 
+const OPERATOR_ACTIVITY = `${KEY}/operator-activity`;
+
 function changeLocale(locale) {
   return {
     type: CHANGE_LOCALE,
@@ -62,6 +64,10 @@ function closeProfileTab(userUUID) {
   };
 }
 
+function operatorActivity() {
+  return { type: OPERATOR_ACTIVITY };
+}
+
 const actionTypes = {
   NOTIFICATION,
   CHANGE_LOCALE,
@@ -71,6 +77,7 @@ const actionTypes = {
   SCROLL_TO_TOP,
   VIEW_PLAYER_PROFILE,
   CLOSE_PROFILE_TAB,
+  OPERATOR_ACTIVITY,
 };
 const actionCreators = {
   changeLocale,
@@ -81,6 +88,7 @@ const actionCreators = {
   showScrollToTop,
   scrollToTop,
   closeProfileTab,
+  operatorActivity,
 };
 
 export {

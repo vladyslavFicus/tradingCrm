@@ -27,7 +27,7 @@ export default (initialState = {}, onComplete) => {
     apiErrors,
   ];
 
-  if (window && window.parent !== window && window.parent && window.parent.postMessage) {
+  if (window.isFrame) {
     middleware.push(require('../redux/middlewares/window').default);
   }
 

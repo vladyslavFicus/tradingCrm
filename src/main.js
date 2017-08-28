@@ -5,6 +5,7 @@ import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
 import { sendError, errorTypes } from './utils/errorLog';
 import createWindowMessageService from './services/window-message';
+import createInactivityService from './services/inactivity';
 
 moment.updateLocale('en', {
   longDateFormat: {
@@ -55,11 +56,14 @@ createStore(initialState, (store) => {
   }
 
   createWindowMessageService(store);
+  createInactivityService({ store });
 
   render();
 });
 
 if (window) {
+  window.isFrame = window.parent && window.parent !== window && window.parent.postMessage;
+
   if (typeof location.origin === 'undefined') {
     window.location.origin = window.location.protocol + '//' + window.location.host;
   }
@@ -77,4 +81,10 @@ if (window) {
 
     sendError(error);
   });
+
+  window.dispatchAction = (action) => {
+    if (window.isFrame) {
+      window.parent.postMessage(JSON.stringify(action), window.location.origin);
+    }
+  };
 }
