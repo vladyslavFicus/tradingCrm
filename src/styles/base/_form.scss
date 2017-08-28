@@ -66,6 +66,29 @@
     padding-right: 1rem;
     padding-left: 1rem;
   }
+  &__multiplier {
+    flex: 0;
+    align-self: center;
+    padding-top: 15px;
+    font-size: 14px;
+    color: #999;
+  }
+  &_with-placeholder-right {
+    position: relative;
+    label {
+      white-space: nowrap;
+    }
+    .form-control {
+      padding-right: 45px;
+    }
+    .right-placeholder {
+      position: absolute;
+      top: 30px;
+      right: 22px;
+      font-size: 14px;
+      color: #999;
+    }
+  }
 }
 
 .form-group {

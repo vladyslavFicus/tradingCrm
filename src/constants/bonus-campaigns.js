@@ -122,6 +122,17 @@ const campaignMenu = {
   campaign2: 'campaign2',
 };
 
+const multipliersTypes = {
+  bonus: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS'),
+  deposit: I18n.t('BONUS_CAMPAIGNS.REWARDS.DEPOSIT'),
+  bonusDeposit: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS_DEPOSIT'),
+};
+
+const moneyTypePrior = {
+  realMoney: I18n.t('BONUS_CAMPAIGNS.REWARDS.REAL_MONEY_FIRST'),
+  bonusMoney: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS_MONEY_FIRST'),
+};
+
 export {
   actions,
   actionLabels,
@@ -142,4 +153,6 @@ export {
   wageredAmount,
   campaignMenu,
   rewardSelect,
+  multipliersTypes,
+  moneyTypePrior,
 };

@@ -948,7 +948,22 @@
       "BONUS": "Бонус",
       "FREE_SPINS": "Free-spins",
       "BONUS_REWARD": "Бонусная награда",
-      "GRANT": "Грант"
+      "GRANT": "Грант",
+      "LIMITS": "Лимиты",
+      "MULTIPLIER": "Множитель",
+      "MULTIPLIERS_TYPE": "Тип множителя",
+      "DEPOSIT": "Депозит",
+      "BONUS_DEPOSIT": "Бонус + депозит",
+      "MONEY_TYPE_PRIOR": "Денежный приоритет",
+      "REAL_MONEY_FIRST": "Сначала реальные деньги",
+      "BONUS_MONEY_FIRST": "Сначала бонусные деньги",
+      "BM_BET_LIMIT": "Предел BM",
+      "LIFE_TIME": "Длительность",
+      "CUSTOM_CONTRIB_RATE": "Пользовательская ставка",
+      "PLACEHOLDERS": {
+        "DAYS": "дней",
+        "NOT_SET": "Не задано"
+      }
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

@@ -942,7 +942,22 @@
       "BONUS": "Bonus",
       "FREE_SPINS": "Free-spins",
       "BONUS_REWARD": "Bonus reward",
-      "GRANT": "Grant"
+      "GRANT": "Grant",
+      "LIMITS": "Limits",
+      "MULTIPLIER": "Multiplier",
+      "MULTIPLIERS_TYPE": "Multipliers type",
+      "DEPOSIT": "Deposit",
+      "BONUS_DEPOSIT": "Bonus + deposit",
+      "MONEY_TYPE_PRIOR": "Money type priority",
+      "REAL_MONEY_FIRST": "Real money first",
+      "BONUS_MONEY_FIRST": "Bonus money first",
+      "BM_BET_LIMIT": "BM bet limit",
+      "LIFE_TIME": "Life time",
+      "CUSTOM_CONTRIB_RATE": "Custom contribution rate",
+      "PLACEHOLDERS": {
+        "DAYS": "days",
+        "NOT_SET": "Not set"
+      }
     }
   },
   "PROFILE": {

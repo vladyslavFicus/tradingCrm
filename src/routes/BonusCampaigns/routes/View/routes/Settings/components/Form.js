@@ -464,7 +464,10 @@ class Form extends Component {
               </div>
             </div>
             <div className="col-lg-6 padding-bottom-30">
-              <BonusReward label={I18n.t(attributeLabels.bonusReward)} />
+              <BonusReward
+                basename={'conversionPrize'}
+                typeValues={allowedCustomValueTypes}
+              />
               <div className="add-campaign-setting">
                 <Field
                   name="rewardsSelect"
