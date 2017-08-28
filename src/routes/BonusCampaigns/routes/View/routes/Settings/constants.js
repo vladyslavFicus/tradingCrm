@@ -31,12 +31,4 @@ const attributeLabels = {
   addReward: I18n.t('BONUS_CAMPAIGNS.REWARDS.ADD_REWARD'),
 };
 
-const attributePlaceholders = {
-  minAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_AMOUNT_PLACEHOLDER'),
-  maxAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MAX_AMOUNT_PLACEHOLDER'),
-};
-
-export {
-  attributeLabels,
-  attributePlaceholders,
-};
+export default attributeLabels;

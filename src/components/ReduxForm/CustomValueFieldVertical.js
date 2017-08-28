@@ -59,7 +59,10 @@ CustomValueField.defaultProps = {
 };
 CustomValueField.propTypes = {
   basename: PropTypes.string.isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  label: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]).isRequired,
   typeValues: PropTypes.array.isRequired,
   errors: PropTypes.object,
   disabled: PropTypes.bool,

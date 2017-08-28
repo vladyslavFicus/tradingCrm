@@ -960,6 +960,15 @@
       "BM_BET_LIMIT": "Предел BM",
       "LIFE_TIME": "Длительность",
       "CUSTOM_CONTRIB_RATE": "Пользовательская ставка",
+      "FREE_SPIN_REWARD": "Free spin награда",
+      "PROVIDER": "Провайдер",
+      "GAMES": "Игры",
+      "LINES": "Линии",
+      "COINS": "Coins",
+      "COIN_VALUE": "Стоимость coin",
+      "PER_LINE": "За линию",
+      "SPIN_VALUE": "Spin значениe",
+      "TOTAL_VALUE": "Общее значение",
       "PLACEHOLDERS": {
         "DAYS": "дней",
         "NOT_SET": "Не задано"

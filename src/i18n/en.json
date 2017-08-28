@@ -954,6 +954,15 @@
       "BM_BET_LIMIT": "BM bet limit",
       "LIFE_TIME": "Life time",
       "CUSTOM_CONTRIB_RATE": "Custom contribution rate",
+      "FREE_SPIN_REWARD": "Free spin reward",
+      "PROVIDER": "Provider",
+      "GAMES": "Games",
+      "LINES": "Lines",
+      "COINS": "Coins",
+      "COIN_VALUE": "Coin value",
+      "PER_LINE": "Per line",
+      "SPIN_VALUE": "Spin value",
+      "TOTAL_VALUE": "Total value",
       "PLACEHOLDERS": {
         "DAYS": "days",
         "NOT_SET": "Not set"

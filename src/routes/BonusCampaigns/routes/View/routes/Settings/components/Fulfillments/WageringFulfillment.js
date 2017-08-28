@@ -4,8 +4,9 @@ import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { InputField, SelectField } from '../../../../../../../../components/ReduxForm';
+import { wageredAmount } from '../../../../../../../../constants/bonus-campaigns';
 
-const WageringFulfillment = ({ label, wagerMenu }) => (
+const WageringFulfillment = ({ label }) => (
   <div className="add-campaign-container">
     <div className="add-campaign-label">
       {label}
@@ -20,9 +21,9 @@ const WageringFulfillment = ({ label, wagerMenu }) => (
           component={SelectField}
           position="vertical"
         >
-          {Object.keys(wagerMenu).map(key => (
+          {Object.keys(wageredAmount).map(key => (
             <option key={key} value={key}>
-              {renderLabel(key, wagerMenu)}
+              {renderLabel(key, wageredAmount)}
             </option>
           ))}
         </Field>
@@ -48,9 +49,9 @@ const WageringFulfillment = ({ label, wagerMenu }) => (
     <button className="btn-transparent add-campaign-remove">&times;</button>
   </div>
 );
+
 WageringFulfillment.propTypes = {
   label: PropTypes.string.isRequired,
-  wagerMenu: PropTypes.object.isRequired,
   onClick: PropTypes.func,
 };
 

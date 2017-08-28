@@ -133,6 +133,42 @@ const moneyTypePrior = {
   bonusMoney: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS_MONEY_FIRST'),
 };
 
+const provider = {
+  netEnt: 'NetEnt',
+  microgaming: 'Microgaming',
+};
+
+const games = {
+  game1: 'Game name 1',
+  game2: 'Game name 2',
+  game3: 'Game name 3',
+};
+
+const lines = {
+  line1: '1',
+  line2: '2',
+  line3: '3',
+  line4: '4',
+  line5: '5',
+  line6: '6',
+  line7: '7',
+  line8: '8',
+  line9: '9',
+};
+
+const coins = {
+  coin1: '1',
+  coin3: '3',
+  coin9: '9',
+};
+
+const coinValues = {
+  value1: '€ 0,01',
+  value2: '€ 0,20',
+  value3: '€ 0,50',
+  value4: '€ 1,00',
+};
+
 export {
   actions,
   actionLabels,
@@ -155,4 +191,9 @@ export {
   rewardSelect,
   multipliersTypes,
   moneyTypePrior,
+  provider,
+  games,
+  lines,
+  coins,
+  coinValues,
 };

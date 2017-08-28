@@ -12,17 +12,14 @@ import {
   campaignTypesLabels,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
-  moneyTypeUsageLabels,
   optInSelect,
   fulfillmentSelect,
-  wageredAmount,
-  campaignMenu,
   rewardSelect,
 } from '../../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
-import { attributeLabels, attributePlaceholders } from '../constants';
+import attributeLabels from '../constants';
 import { DefaultFulfillment, DepositFulfillment, WageringFulfillment, CampaignFulfillment } from './Fulfillments';
 import { BonusReward, FreeSpinReward } from './Rewards';
 import './Form.scss';
@@ -433,15 +430,9 @@ class Form extends Component {
             <div className="col-lg-6 padding-bottom-30 with-right-border">
               <DefaultFulfillment label={I18n.t(attributeLabels.registrationFulfillment)} />
               <DepositFulfillment label={I18n.t(attributeLabels.depositFulfillment)} />
-              <WageringFulfillment
-                label={I18n.t(attributeLabels.wageringFulfillment)}
-                wagerMenu={wageredAmount}
-              />
+              <WageringFulfillment label={I18n.t(attributeLabels.wageringFulfillment)} />
               <DefaultFulfillment label={I18n.t(attributeLabels.loginFulfillment)} />
-              <CampaignFulfillment
-                label={I18n.t(attributeLabels.campaignFulfillment)}
-                campaignMenu={campaignMenu}
-              />
+              <CampaignFulfillment label={I18n.t(attributeLabels.campaignFulfillment)} />
               <DefaultFulfillment label={I18n.t(attributeLabels.emailVerificationFulfillment)} />
               <DefaultFulfillment label={I18n.t(attributeLabels.phoneVerificationFulfillment)} />
               <div className="add-campaign-setting">
@@ -464,10 +455,8 @@ class Form extends Component {
               </div>
             </div>
             <div className="col-lg-6 padding-bottom-30">
-              <BonusReward
-                basename={'conversionPrize'}
-                typeValues={allowedCustomValueTypes}
-              />
+              <BonusReward basename={'conversionPrize'} typeValues={allowedCustomValueTypes} />
+              <FreeSpinReward />
               <div className="add-campaign-setting">
                 <Field
                   name="rewardsSelect"

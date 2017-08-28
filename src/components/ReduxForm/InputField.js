@@ -9,7 +9,10 @@ class InputField extends Component {
       name: PropTypes.string,
       value: PropTypes.any,
     }).isRequired,
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+    ]),
     labelAddon: PropTypes.any,
     inputClassName: PropTypes.string,
     placeholder: PropTypes.string,

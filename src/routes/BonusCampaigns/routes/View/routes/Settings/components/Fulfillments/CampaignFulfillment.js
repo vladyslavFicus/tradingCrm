@@ -4,8 +4,9 @@ import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { SelectField } from '../../../../../../../../components/ReduxForm';
+import { campaignMenu } from '../../../../../../../../constants/bonus-campaigns';
 
-const CampaignFulfillment = ({ label, campaignMenu }) => (
+const CampaignFulfillment = ({ label }) => (
   <div className="add-campaign-container">
     <div className="add-campaign-label">
       {label}
@@ -32,9 +33,9 @@ const CampaignFulfillment = ({ label, campaignMenu }) => (
     <button className="btn-transparent add-campaign-remove">&times;</button>
   </div>
 );
+
 CampaignFulfillment.propTypes = {
   label: PropTypes.string.isRequired,
-  campaignMenu: PropTypes.object.isRequired,
   onClick: PropTypes.func,
 };
 
