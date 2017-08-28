@@ -36,6 +36,8 @@ const SEND_KYC_REQUEST_VERIFICATION = createRequestAction(`${KEY}/send-kyc-reque
 const MANAGE_KYC_REQUEST_NOTE = `${KEY}/manage-kyc-request-note`;
 const RESET_KYC_REQUEST_NOTE = `${KEY}/reset-kyc-request-note`;
 
+const FETCH_KYC_REASONS = createRequestAction(`${KEY}/ауеср-kyc-reasons`);
+
 const initialState = {
   data: {
     id: null,
@@ -79,6 +81,10 @@ const initialState = {
     kycPersonalStatus: null,
     kycRequest: null,
     signInIps: [],
+  },
+  kycReasons: {
+    refuse: [],
+    request: [],
   },
   error: null,
   isLoading: false,
@@ -427,6 +433,30 @@ function verifyEmail(playerUUID) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function fetchKycReasons() {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: 'profile/kyc/reasons',
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          FETCH_KYC_REASONS.REQUEST,
+          FETCH_KYC_REASONS.SUCCESS,
+          FETCH_KYC_REASONS.FAILURE,
+        ],
         bailout: !logged,
       },
     });
@@ -820,6 +850,10 @@ const actionHandlers = {
     ...state,
     kycRequestNote: null,
   }),
+  [FETCH_KYC_REASONS.SUCCESS]: (state, action) => ({
+    ...state,
+    kycReasons: action.payload,
+  }),
 };
 
 const actionTypes = {
@@ -851,6 +885,7 @@ const actionCreators = {
   sendKycRequestVerification,
   manageKycRequestNote,
   resetNote,
+  fetchKycReasons,
 };
 
 export {

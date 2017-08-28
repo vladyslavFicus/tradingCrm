@@ -50,6 +50,7 @@ const mapActions = {
   resetNote: profileActionCreators.resetNote,
   sendKycRequestVerification: profileActionCreators.sendKycRequestVerification,
   verifyKycAll: profileActionCreators.verifyKycAll,
+  fetchKycReasons: profileActionCreators.fetchKycReasons,
 };
 
 export default connect(mapStateToProps, mapActions)(View);
