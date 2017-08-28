@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { getFormValues, Field, reduxForm } from 'redux-form';
-import { TextAreaField } from '../../../../../../components/ReduxForm';
+import { I18n } from 'react-redux-i18n';
+import renderLabel from '../../../../../../utils/renderLabel';
+import { SelectField } from '../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../utils/validator';
-import { categories as kycCategories } from '../../../../../../constants/kyc';
+import { categories as kycCategories, refuseRequestReasons } from '../../../../../../constants/kyc';
 
 const FORM_NAME = 'refuseModal';
 const attributeLabels = {
@@ -50,14 +52,16 @@ class RefuseModal extends Component {
     onClose: PropTypes.func.isRequired,
     className: PropTypes.string,
     selectedValues: PropTypes.object,
+    reasons: PropTypes.arrayOf(PropTypes.string),
   };
   static defaultProps = {
     handleSubmit: null,
     className: 'modal-danger',
+    reasons: [],
   };
 
   renderRejectByType = (type) => {
-    const { selectedValues } = this.props;
+    const { selectedValues, reasons } = this.props;
 
     return (
       <div className="row">
@@ -72,18 +76,21 @@ class RefuseModal extends Component {
             {' '}
             <label htmlFor={`${type}-reject-reason-checkbox`}>{attributeLabels[type]}</label>
           </div>
-
           {
             selectedValues && selectedValues[type] &&
-            <div className="form-group padding-top-20">
-              <label>{attributeLabels[`${type}_reason`]}</label>
-              <Field
-                name={`${type}_reason`}
-                component={TextAreaField}
-                position="vertical"
-                rows="3"
-              />
-            </div>
+            <Field
+              name={`reason-${type}`}
+              label={attributeLabels.reason}
+              component={SelectField}
+              position="vertical"
+            >
+              <option>{I18n.t('COMMON.CHOOSE_REASON')}</option>
+              {reasons.map(item => (
+                <option key={item} value={item}>
+                  {renderLabel(item, refuseRequestReasons)}
+                </option>
+              ))}
+            </Field>
           }
         </div>
       </div>

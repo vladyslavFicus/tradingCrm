@@ -38,6 +38,10 @@ class View extends Component {
     }).isRequired,
     profile: PropTypes.shape({
       data: PropTypes.userProfile.isRequired,
+      kycReasons: PropTypes.shape({
+        refuse: PropTypes.array,
+        request: PropTypes.array,
+      }),
     }).isRequired,
     files: PropTypes.shape({
       identity: PropTypes.arrayOf(PropTypes.fileEntity).isRequired,
@@ -77,6 +81,7 @@ class View extends Component {
     resetNote: PropTypes.func.isRequired,
     sendKycRequestVerification: PropTypes.func.isRequired,
     verifyKycAll: PropTypes.func.isRequired,
+    fetchKycReasons: PropTypes.func.isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -88,6 +93,10 @@ class View extends Component {
   state = {
     modal: { ...modalInitialState },
   };
+
+  componentDidMount() {
+    this.props.fetchKycReasons();
+  }
 
   handleSubmitKYC = type => async (data) => {
     const { params: { id }, submitData } = this.props;
@@ -187,7 +196,10 @@ class View extends Component {
   };
 
   handleRefuseClick = (type) => {
+    const { profile: { kycReasons: { refuse } } } = this.props;
+
     this.handleOpenModal(REFUSE_MODAL, {
+      reasons: refuse,
       initialValues: {
         [type]: true,
       },
@@ -230,11 +242,12 @@ class View extends Component {
   };
 
   handleOpenRequestKycVerificationModal = () => {
-    const { profile: { data: { playerUUID, fullName } } } = this.props;
+    const { profile: { data: { playerUUID, fullName }, kycReasons: { request } } } = this.props;
 
     this.handleOpenModal(REQUEST_KYC_VERIFICATION_MODAL, {
       playerUUID,
       fullName,
+      reasons: request,
     });
   };
 
@@ -339,7 +352,7 @@ class View extends Component {
             <div className="tab-header__heading">{this.renderKycStatusTitle()}</div>
             <div className="tab-header__actions">
               {
-                !data.kycCompleted &&
+                !data.kycCompleted && !!data.kycRequest &&
                 <button
                   type="button"
                   className="btn btn-sm btn-success-outline margin-right-10"
@@ -431,7 +444,6 @@ class View extends Component {
             <RefuseModal
               {...modal.params}
               profile={data}
-              isOpen
               onSubmit={this.handleRefuse}
               onClose={this.handleCloseModal}
             />

@@ -59,12 +59,17 @@ const userStatusesColor = {
   [userStatuses.NOT_VERIFIED]: 'color-warning',
   [userStatuses.NOT_REQUESTED]: 'color-secondary',
 };
-const verifyRequestReasons = [
-  'KYC_REQUEST_REASON_ONE',
-  'KYC_REQUEST_REASON_TWO',
-  'KYC_REQUEST_REASON_THREE',
-  'KYC_REQUEST_REASON_FOUR',
-];
+const verifyRequestReasons = {
+  COMPLIANCE: I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.REASONS.COMPLIANCE'),
+  SECURITY_CHECK: I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.REASONS.SECURITY_CHECK'),
+  WITHDRAWAL_ON_HOLD: I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.REASONS.WITHDRAWAL_ON_HOLD'),
+};
+const refuseRequestReasons = {
+  UNCLEAR_OR_DARK_DOC: I18n.t('PLAYER_PROFILE.PROFILE.REFUSE_KYC_VERIFICATION.REASONS.UNCLEAR_OR_DARK_DOC'),
+  NOT_ALL_FOUR_CORNERS: I18n.t('PLAYER_PROFILE.PROFILE.REFUSE_KYC_VERIFICATION.REASONS.NOT_ALL_FOUR_CORNERS'),
+  EXPIRED_DOC: I18n.t('PLAYER_PROFILE.PROFILE.REFUSE_KYC_VERIFICATION.REASONS.EXPIRED_DOC'),
+};
+
 export {
   statuses,
   types,
@@ -76,6 +81,7 @@ export {
   filterLabels,
   statusTypes,
   verifyRequestReasons,
+  refuseRequestReasons,
   userStatuses,
   userStatusesLabels,
   userStatusesColor,
