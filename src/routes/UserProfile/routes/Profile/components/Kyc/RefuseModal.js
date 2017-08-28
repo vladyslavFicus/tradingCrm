@@ -8,6 +8,8 @@ import { SelectField } from '../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../utils/validator';
 import { categories as kycCategories, refuseRequestReasons } from '../../../../../../constants/kyc';
+import { targetTypes } from '../../../../../../constants/note';
+import NoteButton from '../../../../../../components/NoteButton';
 
 const FORM_NAME = 'refuseModal';
 const attributeLabels = {
@@ -53,11 +55,48 @@ class RefuseModal extends Component {
     className: PropTypes.string,
     selectedValues: PropTypes.object,
     reasons: PropTypes.arrayOf(PropTypes.string),
+    note: PropTypes.noteEntity,
+    onManageNote: PropTypes.func.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
     className: 'modal-danger',
     reasons: [],
+    note: null,
+  };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    hidePopover: PropTypes.func.isRequired,
+  };
+  static contextTypes = {
+    onAddNoteClick: PropTypes.func.isRequired,
+    onEditNoteClick: PropTypes.func.isRequired,
+    hidePopover: PropTypes.func.isRequired,
+  };
+  getNotePopoverParams = () => ({
+    placement: 'bottom',
+    onSubmit: this.handleSubmitNote,
+    onDelete: this.handleDeleteNote,
+  });
+
+  handleSubmitNote = (data) => {
+    this.props.onManageNote(data);
+    this.context.hidePopover();
+  };
+
+  handleDeleteNote = () => {
+    this.props.onManageNote(null);
+    this.context.hidePopover();
+  };
+
+  handleNoteClick = (target) => {
+    const { note } = this.props;
+    if (note) {
+      this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
+    } else {
+      this.context.onAddNoteClick(null, targetTypes.KYC_REFUSE)(target, this.getNotePopoverParams());
+    }
   };
 
   renderRejectByType = (type) => {
@@ -79,7 +118,7 @@ class RefuseModal extends Component {
           {
             selectedValues && selectedValues[type] &&
             <Field
-              name={`reason-${type}`}
+              name={`${type}_reason`}
               label={attributeLabels.reason}
               component={SelectField}
               position="vertical"
@@ -107,6 +146,7 @@ class RefuseModal extends Component {
       invalid,
       onClose,
       className,
+      note,
     } = this.props;
 
     return (
@@ -128,6 +168,14 @@ class RefuseModal extends Component {
             </div>
             <div className="margin-top-5">
               {this.renderRejectByType(kycCategories.KYC_ADDRESS)}
+            </div>
+
+            <div className="row text-center margin-top-20">
+              <NoteButton
+                id="refuse-kyc-note-button"
+                note={note}
+                onClick={this.handleNoteClick}
+              />
             </div>
           </ModalBody>
 

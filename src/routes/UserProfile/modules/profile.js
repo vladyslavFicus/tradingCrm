@@ -33,8 +33,8 @@ const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
 const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
 
 const SEND_KYC_REQUEST_VERIFICATION = createRequestAction(`${KEY}/send-kyc-request-verification`);
-const MANAGE_KYC_REQUEST_NOTE = `${KEY}/manage-kyc-request-note`;
-const RESET_KYC_REQUEST_NOTE = `${KEY}/reset-kyc-request-note`;
+const MANAGE_KYC_NOTE = `${KEY}/manage-kyc-request-note`;
+const RESET_KYC_NOTE = `${KEY}/reset-kyc-request-note`;
 
 const FETCH_KYC_REASONS = createRequestAction(`${KEY}/fetch-kyc-reasons`);
 
@@ -89,7 +89,12 @@ const initialState = {
   error: null,
   isLoading: false,
   receivedAt: null,
-  kycRequestNote: null,
+  notes: {
+    kycRequest: null,
+    refuse: null,
+    verify: null,
+    verifyAll: null,
+  },
 };
 
 const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
@@ -664,12 +669,15 @@ function successUpdateProfileReducer(state, action) {
   };
 }
 
-function manageKycRequestNote(data) {
+function manageKycNote(type, data) {
   return (dispatch, getState) => {
     const { auth: { uuid, fullName } } = getState();
 
     return dispatch({
-      type: MANAGE_KYC_REQUEST_NOTE,
+      type: MANAGE_KYC_NOTE,
+      meta: {
+        noteType: type,
+      },
       payload: data !== null ? {
         ...data,
         author: fullName,
@@ -713,9 +721,12 @@ function sendKycRequestVerification(playerUUID, params) {
   };
 }
 
-function resetNote() {
+function resetNote(noteType) {
   return {
-    type: RESET_KYC_REQUEST_NOTE,
+    type: RESET_KYC_NOTE,
+    meta: {
+      noteType,
+    },
   };
 }
 
@@ -842,13 +853,19 @@ const actionHandlers = {
   [REFUSE_DATA.SUCCESS]: optimisticRefuseKycActionReducer,
   [SEND_KYC_REQUEST_VERIFICATION.SUCCESS]: optimisticKycRequestActionReducer,
   [VERIFY_KYC_ALL.SUCCESS]: optimisticVerifyKycAllActionReducer,
-  [MANAGE_KYC_REQUEST_NOTE]: (state, action) => ({
+  [MANAGE_KYC_NOTE]: (state, action) => ({
     ...state,
-    kycRequestNote: action.payload,
+    notes: {
+      ...state.notes,
+      [action.meta.noteType]: action.payload,
+    },
   }),
-  [RESET_KYC_REQUEST_NOTE]: state => ({
+  [RESET_KYC_NOTE]: (state, action) => ({
     ...state,
-    kycRequestNote: null,
+    notes: {
+      ...state.notes,
+      [action.meta.noteType]: null,
+    },
   }),
   [FETCH_KYC_REASONS.SUCCESS]: (state, action) => ({
     ...state,
@@ -883,7 +900,7 @@ const actionCreators = {
   verifyPhone,
   verifyEmail,
   sendKycRequestVerification,
-  manageKycRequestNote,
+  manageKycNote,
   resetNote,
   fetchKycReasons,
 };
