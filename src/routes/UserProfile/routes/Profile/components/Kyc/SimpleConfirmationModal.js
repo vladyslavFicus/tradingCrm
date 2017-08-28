@@ -19,6 +19,7 @@ class SimpleConfirmationModal extends Component {
     submitButtonLabel: PropTypes.string,
     note: PropTypes.noteEntity,
     onManageNote: PropTypes.func.isRequired,
+    form: PropTypes.string.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -70,6 +71,7 @@ class SimpleConfirmationModal extends Component {
       actionText,
       submitButtonLabel,
       note,
+      form,
     } = this.props;
 
     return (
@@ -85,7 +87,7 @@ class SimpleConfirmationModal extends Component {
 
             <div className="row text-center margin-top-20">
               <NoteButton
-                id="verify-kyc-note-button"
+                id={`${form}-verify-kyc-note-button`}
                 note={note}
                 onClick={this.handleNoteClick}
               />
