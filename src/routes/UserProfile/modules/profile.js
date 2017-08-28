@@ -36,7 +36,7 @@ const SEND_KYC_REQUEST_VERIFICATION = createRequestAction(`${KEY}/send-kyc-reque
 const MANAGE_KYC_REQUEST_NOTE = `${KEY}/manage-kyc-request-note`;
 const RESET_KYC_REQUEST_NOTE = `${KEY}/reset-kyc-request-note`;
 
-const FETCH_KYC_REASONS = createRequestAction(`${KEY}/ауеср-kyc-reasons`);
+const FETCH_KYC_REASONS = createRequestAction(`${KEY}/fetch-kyc-reasons`);
 
 const initialState = {
   data: {
@@ -457,7 +457,7 @@ function fetchKycReasons() {
           FETCH_KYC_REASONS.SUCCESS,
           FETCH_KYC_REASONS.FAILURE,
         ],
-        bailout: !logged,
+        bailout: !logged || !token,
       },
     });
   };

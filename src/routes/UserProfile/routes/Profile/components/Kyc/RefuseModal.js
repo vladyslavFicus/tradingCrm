@@ -82,7 +82,6 @@ class RefuseModal extends Component {
               name={`reason-${type}`}
               label={attributeLabels.reason}
               component={SelectField}
-              className={'form-control'}
               position="vertical"
             >
               <option>{I18n.t('COMMON.CHOOSE_REASON')}</option>
