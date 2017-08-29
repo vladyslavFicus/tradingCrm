@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NotificationContainer from 'react-notification-system';
 import PropTypes from '../../constants/propTypes';
 import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../redux/modules/window';
+import DebugPanel from '../../components/DebugPanel';
 
 class CoreLayout extends Component {
   static propTypes = {
@@ -57,6 +58,7 @@ class CoreLayout extends Component {
       <div style={{ height: '100%' }}>
         {children}
 
+        <DebugPanel />
         {
           !isFrameVersion &&
           <NotificationContainer

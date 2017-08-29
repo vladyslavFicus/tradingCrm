@@ -4,7 +4,7 @@ import { actionTypes as authActionTypes } from '../redux/modules/auth';
 import { actionCreators as windowActionCreators } from '../redux/modules/window';
 
 const events = 'mousemove';
-export default ({ store, delay = 10 }) => {
+export default ({ store, delay = 300 }) => {
   if (window.isFrame) {
     const activityUpdate = _.debounce(() => { window.dispatchAction(windowActionCreators.operatorActivity()); }, 200);
 

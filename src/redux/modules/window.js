@@ -7,7 +7,6 @@ const VIEW_PLAYER_PROFILE = `${KEY}/view-player-profile`;
 const SHOW_SCROLL_TO_TOP = `${KEY}/show-scroll-to-top`;
 const SCROLL_TO_TOP = `${KEY}/scroll-to-top`;
 const CLOSE_PROFILE_TAB = `${KEY}/close-profile-tab`;
-
 const OPERATOR_ACTIVITY = `${KEY}/operator-activity`;
 
 function changeLocale(locale) {
