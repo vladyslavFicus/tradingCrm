@@ -30,8 +30,8 @@ const validator = createValidator({
   status: ['string', `in:${Object.keys(statuses).join()}`],
   department: ['string', `in:${departments.map(role => role.value).join()}`],
   role: ['string', `in:${roles.map(role => role.value).join()}`],
-  registrationDateFrom: 'string',
-  registrationDateTo: 'string',
+  registrationDateFrom: 'date',
+  registrationDateTo: 'date',
 }, attributeLabels, false);
 
 class OperatorGridFilter extends Component {
@@ -159,6 +159,7 @@ class OperatorGridFilter extends Component {
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
                     position="vertical"
+                    timeFormat={null}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -166,6 +167,7 @@ class OperatorGridFilter extends Component {
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
                     position="vertical"
+                    timeFormat={null}
                   />
                 </div>
               </div>

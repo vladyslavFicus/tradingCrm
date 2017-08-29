@@ -28,7 +28,7 @@ class BirthdayField extends Component {
 
           <DatePicker
             dateFormat="MM/DD/YYYY"
-            timeFormat={false}
+            timeFormat={null}
             onChange={this.handleDateChange}
             value={input.value ? moment(input.value) : null}
             closeOnSelect={true}
