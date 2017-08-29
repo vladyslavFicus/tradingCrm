@@ -9,7 +9,7 @@ import renderLabel from '../../../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from './constants';
 import { multipliersTypes, moneyTypePrior } from '../../../../../../../../../constants/bonus-campaigns';
 
-const BonusReward = ({ basename, typeValues, limits, toggleCalcModal }) => (
+const BonusReward = ({ basename, typeValues, limits, modalOpen }) => (
   <div className="add-campaign-container">
     <div className="add-campaign-label">
       {I18n.t(attributeLabels.bonusReward)}
@@ -20,7 +20,7 @@ const BonusReward = ({ basename, typeValues, limits, toggleCalcModal }) => (
           basename={basename}
           label={I18n.t(attributeLabels.grant)}
           typeValues={typeValues}
-          toggleCalcModal={toggleCalcModal}
+          modalOpen={modalOpen}
         />
       </div>
       {
@@ -35,7 +35,7 @@ const BonusReward = ({ basename, typeValues, limits, toggleCalcModal }) => (
               component={InputField}
               position="vertical"
               iconRightClassName="nas nas-currencies_icon"
-              clickAction={toggleCalcModal}
+              onIconClick={modalOpen}
             />
             <span className="range-group__separator">-</span>
             <Field
@@ -45,7 +45,7 @@ const BonusReward = ({ basename, typeValues, limits, toggleCalcModal }) => (
               component={InputField}
               position="vertical"
               iconRightClassName="nas nas-currencies_icon"
-              clickAction={toggleCalcModal}
+              onIconClick={modalOpen}
             />
           </div>
         </div>
@@ -106,7 +106,7 @@ const BonusReward = ({ basename, typeValues, limits, toggleCalcModal }) => (
           component={InputField}
           position="vertical"
           iconRightClassName="nas nas-currencies_icon"
-          clickAction={toggleCalcModal}
+          onIconClick={modalOpen}
         />
       </div>
       <div className="form-row__small form-row_with-placeholder-right">
@@ -140,12 +140,12 @@ BonusReward.propTypes = {
   basename: PropTypes.string.isRequired,
   typeValues: PropTypes.array.isRequired,
   limits: PropTypes.bool,
-  toggleCalcModal: PropTypes.func,
+  modalOpen: PropTypes.func,
   onClick: PropTypes.func,
 };
 BonusReward.defaultProps = {
   limits: true,
-  toggleCalcModal: null,
+  modalOpen: null,
 };
 
 export default BonusReward;

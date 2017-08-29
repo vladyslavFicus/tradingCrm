@@ -845,7 +845,10 @@
           "CAMPAIGN_END": "Campaign end",
           "PRIZE": "Prize",
           "CAPPING": "Capping",
-          "MONEY_TYPE_PRIORITY": "Money type priority: %{priority}"
+          "MONEY_TYPE_PRIORITY": "Money type priority: %{priority}",
+          "CONTENT": "Content",
+          "COMPLETE": "complete",
+          "EDIT_CONTENT": "Edit content"
         },
         "GRANTED_TO": "to %{count} Players",
         "GRANTED_TO_0": "to %{count} Players",

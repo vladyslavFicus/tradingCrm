@@ -56,10 +56,6 @@ class View extends Component {
     });
   };
 
-  handleSubmitModal = ({ reason, action }) => {
-    this.handleModalHide(null, () => this.props.onChange({ id: this.props.campaign.id, reason, action }));
-  };
-
   handleSubmit = async (data) => {
     const action = await this.props.updateCampaign(this.props.params.id, data);
 

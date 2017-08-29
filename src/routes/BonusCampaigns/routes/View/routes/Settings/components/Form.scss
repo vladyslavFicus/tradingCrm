@@ -7,9 +7,15 @@
     padding-left: 25px;
   }
   .nas-currencies_icon {
+    top: 10px;
+    right: 6px;
     cursor: pointer;
+    font-size: 20px;
     &:before {
       color: #000;
+    }
+    &:hover:before {
+      color: #58abee;
     }
   }
 }

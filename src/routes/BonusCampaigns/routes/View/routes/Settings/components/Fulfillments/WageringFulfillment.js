@@ -6,7 +6,7 @@ import renderLabel from '../../../../../../../../utils/renderLabel';
 import { InputField, SelectField } from '../../../../../../../../components/ReduxForm';
 import { wageredAmount } from '../../../../../../../../constants/bonus-campaigns';
 
-const WageringFulfillment = ({ label, toggleCalcModal }) => (
+const WageringFulfillment = ({ label, modalOpen }) => (
   <div className="add-campaign-container">
     <div className="add-campaign-label">
       {label}
@@ -39,7 +39,7 @@ const WageringFulfillment = ({ label, toggleCalcModal }) => (
           component={InputField}
           position="vertical"
           iconRightClassName="nas nas-currencies_icon"
-          clickAction={toggleCalcModal}
+          onIconClick={modalOpen}
         />
       </div>
     </div>
@@ -53,12 +53,12 @@ const WageringFulfillment = ({ label, toggleCalcModal }) => (
 
 WageringFulfillment.propTypes = {
   label: PropTypes.string.isRequired,
-  toggleCalcModal: PropTypes.func,
+  modalOpen: PropTypes.func,
   onClick: PropTypes.func,
 };
 
 WageringFulfillment.defaultProps = {
-  toggleCalcModal: null,
+  modalOpen: null,
 };
 
 export default WageringFulfillment;

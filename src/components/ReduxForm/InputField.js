@@ -32,7 +32,7 @@ class InputField extends Component {
     iconRightClassName: PropTypes.string,
     labelClassName: PropTypes.string,
     id: PropTypes.string,
-    clickAction: PropTypes.func,
+    onIconClick: PropTypes.func,
   };
   static defaultProps = {
     className: 'form-group',
@@ -51,7 +51,7 @@ class InputField extends Component {
     iconRightClassName: '',
     labelClassName: null,
     id: null,
-    clickAction: null,
+    onIconClick: null,
   };
 
   renderLabel = (props) => {
@@ -139,7 +139,7 @@ class InputField extends Component {
       iconLeftClassName,
       iconRightClassName,
       id,
-      clickAction,
+      onIconClick,
     } = props;
 
     let inputField = (
@@ -161,9 +161,15 @@ class InputField extends Component {
             'input-with-icon__right': !!iconRightClassName,
           })}
         >
-          {!!iconLeftClassName && <i className={classNames('input-left-icon', iconLeftClassName)} onClick={clickAction} />}
+          {
+            !!iconLeftClassName &&
+            <i className={classNames('input-left-icon', iconLeftClassName)} onClick={onIconClick} />
+          }
           {inputField}
-          {!!iconRightClassName && <i className={classNames('input-right-icon', iconRightClassName)} onClick={clickAction} />}
+          {
+            !!iconRightClassName &&
+            <i className={classNames('input-right-icon', iconRightClassName)} onClick={onIconClick} />
+          }
         </div>
       );
     }

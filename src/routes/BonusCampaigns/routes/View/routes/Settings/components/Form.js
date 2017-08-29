@@ -287,7 +287,7 @@ class Form extends Component {
                     typeValues={allowedCustomValueTypes}
                     errors={this.getCustomValueFieldErrors('conversionPrize')}
                     disabled={disabled}
-                    toggleCalcModal={toggleModal}
+                    modalOpen={toggleModal}
                   />
                 </div>
                 <div className="form-row__medium">
@@ -303,7 +303,7 @@ class Form extends Component {
                     errors={this.getCustomValueFieldErrors('capping')}
                     disabled={disabled}
                     onClick={toggleModal}
-                    toggleCalcModal={toggleModal}
+                    modalOpen={toggleModal}
                   />
                 </div>
               </div>
@@ -426,6 +426,16 @@ class Form extends Component {
               <div className="tab-header__heading">
                 {I18n.t('BONUS_CAMPAIGNS.SETTINGS.REWARDS')}
               </div>
+              <div className="tab-header__actions">
+                <span className="tab-header__label">{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CONTENT')}:</span>
+                {' '}
+                <b className="tab-header__label color-success">
+                  {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.COMPLETE')}
+                </b>
+                <button className="btn btn-default-outline btn-sm margin-left-15">
+                  {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.EDIT_CONTENT')}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -434,8 +444,8 @@ class Form extends Component {
           <div className="row padding-bottom-30">
             <div className="col-lg-6 padding-bottom-30 with-right-border">
               <DefaultFulfillment label={I18n.t(attributeLabels.registrationFulfillment)} />
-              <DepositFulfillment label={I18n.t(attributeLabels.depositFulfillment)} toggleCalcModal={toggleModal} />
-              <WageringFulfillment label={I18n.t(attributeLabels.wageringFulfillment)} toggleCalcModal={toggleModal} />
+              <DepositFulfillment label={I18n.t(attributeLabels.depositFulfillment)} modalOpen={toggleModal} />
+              <WageringFulfillment label={I18n.t(attributeLabels.wageringFulfillment)} modalOpen={toggleModal} />
               <DefaultFulfillment label={I18n.t(attributeLabels.loginFulfillment)} />
               <CampaignFulfillment label={I18n.t(attributeLabels.campaignFulfillment)} />
               <DefaultFulfillment label={I18n.t(attributeLabels.emailVerificationFulfillment)} />
@@ -463,9 +473,9 @@ class Form extends Component {
               <BonusReward
                 basename={'conversionPrize'}
                 typeValues={allowedCustomValueTypes}
-                toggleCalcModal={toggleModal}
+                modalOpen={toggleModal}
               />
-              <FreeSpinReward toggleCalcModal={toggleModal} />
+              <FreeSpinReward modalOpen={toggleModal} />
               <div className="add-campaign-setting">
                 <Field
                   name="rewardsSelect"

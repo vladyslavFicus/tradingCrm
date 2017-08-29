@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import { InputField } from '../../../../../../../../components/ReduxForm';
 
-const DepositFulfillment = ({ label, toggleCalcModal }) => (
+const DepositFulfillment = ({ label, modalOpen }) => (
   <div className="add-campaign-container">
     <div className="add-campaign-label">
       {label}
@@ -20,7 +20,7 @@ const DepositFulfillment = ({ label, toggleCalcModal }) => (
             component={InputField}
             position="vertical"
             iconRightClassName="nas nas-currencies_icon"
-            clickAction={toggleCalcModal}
+            onIconClick={modalOpen}
           />
           <span className="range-group__separator">-</span>
           <Field
@@ -30,7 +30,7 @@ const DepositFulfillment = ({ label, toggleCalcModal }) => (
             component={InputField}
             position="vertical"
             iconRightClassName="nas nas-currencies_icon"
-            clickAction={toggleCalcModal}
+            onIconClick={modalOpen}
           />
         </div>
       </div>
@@ -41,12 +41,12 @@ const DepositFulfillment = ({ label, toggleCalcModal }) => (
 
 DepositFulfillment.propTypes = {
   label: PropTypes.string.isRequired,
-  toggleCalcModal: PropTypes.func,
+  modalOpen: PropTypes.func,
   onClick: PropTypes.func,
 };
 
 DepositFulfillment.defaultProps = {
-  toggleCalcModal: null,
+  modalOpen: null,
 };
 
 export default DepositFulfillment;

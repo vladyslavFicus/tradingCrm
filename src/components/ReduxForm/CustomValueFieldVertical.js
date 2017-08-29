@@ -13,7 +13,7 @@ const CustomValueField = (props) => {
     typeValues,
     errors,
     iconRightClassName,
-    toggleCalcModal,
+    modalOpen,
   } = props;
 
   return (
@@ -29,7 +29,7 @@ const CustomValueField = (props) => {
           position="vertical"
           disabled={disabled}
           iconRightClassName={iconRightClassName}
-          clickAction={toggleCalcModal}
+          onIconClick={modalOpen}
         />
         <div className="double-group-large">
           <Field
@@ -58,7 +58,7 @@ CustomValueField.defaultProps = {
   errors: {},
   iconRightClassName: 'nas nas-currencies_icon',
   disabled: false,
-  toggleCalcModal: null,
+  modalOpen: null,
 };
 CustomValueField.propTypes = {
   basename: PropTypes.string.isRequired,
@@ -70,7 +70,7 @@ CustomValueField.propTypes = {
   errors: PropTypes.object,
   disabled: PropTypes.bool,
   iconRightClassName: PropTypes.string,
-  toggleCalcModal: PropTypes.func,
+  modalOpen: PropTypes.func,
 };
 
 export default CustomValueField;

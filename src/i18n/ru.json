@@ -852,7 +852,10 @@
           "CAMPAIGN_END": "Окончание кампании",
           "PRIZE": "Приз",
           "CAPPING": "Capping",
-          "MONEY_TYPE_PRIORITY": "Приоритет использования денег: %{priority}"
+          "MONEY_TYPE_PRIORITY": "Приоритет использования денег: %{priority}",
+          "CONTENT": "Контент",
+          "COMPLETE": "заполнен",
+          "EDIT_CONTENT": "Редактировать"
         },
         "GRANTED_TO": "для %{count} игроков",
         "GRANTED_TO_1": "для %{count} игрока"
