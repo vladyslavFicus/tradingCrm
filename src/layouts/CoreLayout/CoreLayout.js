@@ -58,7 +58,7 @@ class CoreLayout extends Component {
       <div style={{ height: '100%' }}>
         {children}
 
-        <DebugPanel />
+        {window.showDebugPanel && <DebugPanel />}
         {
           !isFrameVersion &&
           <NotificationContainer

@@ -8,10 +8,11 @@ import createInactivityService from './services/inactivity';
 import createTokenService from './services/token';
 
 if (window) {
+  window.isFrame = window.parent && window.parent !== window && !!window.parent.postMessage;
+  window.showDebugPanel = window.isFrame ? window.parent.showDebugPanel : __DEV__;
   window.reduxLocked = false;
   window.reduxLockedQueue = [];
-
-  window.isFrame = window.parent && window.parent !== window && !!window.parent.postMessage;
+  window.activeConnections = [];
 
   if (typeof location.origin === 'undefined') {
     window.location.origin = `${window.location.protocol}//${window.location.host}`;
@@ -81,7 +82,7 @@ createStore(initialState, (store) => {
   }
 
   createWindowMessageService(store);
-  // createInactivityService({ store });
+  createInactivityService({ store });
   createTokenService({ store });
 
   render();

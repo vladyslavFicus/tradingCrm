@@ -1,7 +1,6 @@
 import { isValidRSAA } from 'redux-api-middleware';
 
 export default () => next => (action) => {
-  console.log(`window.reduxLocked = ${window.reduxLocked}`);
   if (window.reduxLocked) {
     if (isValidRSAA(action)) {
       return new Promise((resolve) => {
@@ -11,6 +10,19 @@ export default () => next => (action) => {
 
     window.reduxLockedQueue.push({ action, next });
   } else {
-    return next(action);
+    const result = next(action);
+    if (isValidRSAA(action)) {
+      window.activeConnections.push(result);
+
+      result.then(() => {
+        const index = window.activeConnections.indexOf(result);
+
+        if (index > -1) {
+          window.activeConnections.splice(index, 1);
+        }
+      });
+    }
+
+    return result;
   }
 };
