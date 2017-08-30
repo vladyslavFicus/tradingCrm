@@ -22,7 +22,7 @@ const logout = () => {
 };
 
 function startTimeout(store, expirationTime) {
-  const delay = (expirationTime - (timestamp() + 10)) * 1000;
+  const delay = (expirationTime - (timestamp() + 1)) * 1000;
 
   if (delay <= 0) {
     logout();
@@ -38,7 +38,7 @@ function startTimeout(store, expirationTime) {
       if (logged && token) {
         const tokenData = jwtDecode(token);
 
-        if ((tokenData.exp - timestamp()) <= 0) {
+        if (tokenData.exp - timestamp() <= 0) {
           clearTimeout(state.logoutTimeout);
           state.logoutTimeout = null;
 
@@ -55,15 +55,17 @@ function startTimeout(store, expirationTime) {
 
 export default function ({ expireThreshold = 60 }) {
   return store => next => async (action) => {
-    if (!state.pending && isValidRSAA(action)) {
+    if (action.type && action.type !== locationActionTypes.LOCATION_CHANGE && !state.pending) {
       const { auth: { logged, token } } = store.getState();
 
       if (logged && token) {
         const tokenData = jwtDecode(token);
-        const isExpired = (tokenData.exp - timestamp()) <= expireThreshold;
+        const time = timestamp();
 
-        if (isExpired) {
+        if ((tokenData.exp - time) <= expireThreshold && isValidRSAA(action)) {
           console.info('[Token]: Start refreshing...');
+          console.log(tokenData.exp - timestamp(), expireThreshold, time, tokenData.exp);
+
           state.pending = true;
 
           const responseAction = await next(action);

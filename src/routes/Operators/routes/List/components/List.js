@@ -165,12 +165,7 @@ class List extends Component {
           <Title>
             <div className="row">
               <div className="col-xl-3">
-                <span
-                  className="font-size-20"
-                  id="operators-list-header"
-                >
-                  Operators
-                </span>
+                <span className="font-size-20" id="operators-list-header">Operators</span>
               </div>
               <div className="col-xl-3 col-xl-offset-6 text-right">
                 <button

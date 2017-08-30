@@ -84,6 +84,11 @@
         "CONSTANTS": {
           "REASON_LABEL": "Причина",
           "CHOOSE_REASON": "-- Выберите причину --"
+        },
+        "REASONS": {
+          "COMPLIANCE": "Согласие",
+          "SECURITY_CHECK": "Проверка безопасности",
+          "WITHDRAWAL_ON_HOLD": "Вывод на холде"
         }
       },
       "KYC_STATUS_TITLE": {
@@ -107,7 +112,36 @@
         "PENDING": "Ожидает проверку документов"
       },
       "VERIFY_KYC": {
-        "TITLE": "KYC верификация"
+        "TITLE": "KYC верификация",
+        "MODAL": {
+          "TITLE": {
+            "PERSONAL": "KYC - подтверждение данных",
+            "ADDRESS": "KYC - подтверждение адреса"
+          },
+          "ACTION_TEXT": {
+            "PERSONAL": "Вы собираетесь подтвердить личные данные %{fullName}",
+            "ADDRESS": "Вы собираетесь подтвердить адрес %{fullName}"
+          },
+          "SUBMIT_BUTTON_LABEL": {
+            "PERSONAL": "Подтвердить данные",
+            "ADDRESS": "Подтвердить адрес"
+          }
+        }
+      },
+      "KYC_VERIFICATION_ALL": "Подтвердить данные и адрес",
+      "VERIFY_KYC_ALL": {
+        "MODAL": {
+          "TITLE": "Подтверждение персональных данных и адреса",
+          "ACTION_TEXT": "Вы собираетесь подтвердить личные данные и адрес %{fullName}",
+          "SUBMIT_BUTTON_LABEL": "Подтвердить данные и адрес"
+        }
+      },
+      "REFUSE_KYC_VERIFICATION": {
+        "REASONS": {
+          "UNCLEAR_OR_DARK_DOC": "Нечеткая или темная картинка",
+          "NOT_ALL_FOUR_CORNERS": "Видны не все четыре угла",
+          "EXPIRED_DOC": "Истекший документ"
+        }
       }
     },
     "GAME_ACTIVITY": {
@@ -419,7 +453,8 @@
     "SELECT_OPTION": "-- Выберите --",
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
-    "MGA_LIMIT_DESCRIPTION": "MGA Limit - Превышен общий предел в размере €2300 на снятие средств для неопытных игроков KYC."
+    "MGA_LIMIT_DESCRIPTION": "MGA Limit - Превышен общий предел в размере €2300 на снятие средств для неопытных игроков KYC.",
+    "CHOOSE_REASON": "-- Выберите причину --"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -826,8 +861,8 @@
           "RATIO": "Коэффициент",
           "MULTIPLAYER": "Multiplayer",
           "LIFE_TIME": "Life time",
-          "CAMPAIGN_START": "Старт компании",
-          "CAMPAIGN_END": "Окончание компании",
+          "CAMPAIGN_START": "Старт кампании",
+          "CAMPAIGN_END": "Окончание кампании",
           "PRIZE": "Приз",
           "CAPPING": "Capping",
           "MONEY_TYPE_PRIORITY": "Приоритет использования денег: %{priority}"
@@ -836,20 +871,21 @@
         "GRANTED_TO_1": "для %{count} игрока"
       },
       "NOTIFICATIONS": {
-        "UPDATE_TITLE": "Обновление бонус-компании",
+        "UPDATE_TITLE": "Обновление бонус-кампании",
         "ADD_PLAYERS": "Добавить игроков",
-        "ADD_CAMPAIGN": "Создание бонус-компании"
+        "ADD_CAMPAIGN": "Создание бонус-кампании",
+        "CAMPAIGN_COPIED": "Кампания скопирована"
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Добавить игроков"
       }
     },
     "CREATE_MODAL": {
-      "TITLE": "Новая бонус-компания"
+      "TITLE": "Новая бонус-кампания"
     },
     "SETTINGS": {
       "LABEL": {
-        "CAMPAIGN_NAME": "Название компании (Внутреннее)",
+        "CAMPAIGN_NAME": "Название кампании (Внутреннее)",
         "TARGET_TYPE": "Тип",
         "CURRENCY": "Валюта",
         "START_DATE": "Начало",
@@ -860,7 +896,7 @@
         "CAMPAIGN_RATIO": "Коэффициент",
         "CONVERSION_PRIZE": "Приз",
         "OPT_IN": "Opt-In",
-        "CAMPAIGN_TYPE": "Тип компании",
+        "CAMPAIGN_TYPE": "Тип кампании",
         "MIN_AMOUNT": "Мин. сумма",
         "MAX_AMOUNT": "Макс. сумма",
         "MIN_AMOUNT_PLACEHOLDER": "Мин.",
@@ -872,7 +908,7 @@
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
       "TARGET": "Тип",
-      "CAMPAIGN_SETTINGS": "Настройки компании",
+      "CAMPAIGN_SETTINGS": "Настройки кампании",
       "FULFILLMENT": "FULFILLMENT",
       "REWARD": "Вознаграждение",
       "DEPOSIT_AMOUNT": "Сумма пополнения"
@@ -894,6 +930,9 @@
     },
     "STATUS_DROPDOWN": {
       "TITLE": "Статус кампании"
+    },
+    "OPTIONS": {
+      "CLONE_LABEL": "Скопировать кампанию"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

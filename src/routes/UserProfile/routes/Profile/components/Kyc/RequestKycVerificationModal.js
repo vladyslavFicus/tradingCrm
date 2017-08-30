@@ -3,19 +3,21 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
+import renderLabel from '../../../../../../utils/renderLabel';
 import Uuid from '../../../../../../components/Uuid';
 import { createValidator } from '../../../../../../utils/validator';
 import { SelectField } from '../../../../../../components/ReduxForm';
-import { verifyRequestReasons } from '../../../../../../constants/kyc';
 import { targetTypes } from '../../../../../../constants/note';
+import { verifyRequestReasons } from '../../../../../../constants/kyc';
 import NoteButton from '../../../../../../components/NoteButton';
 
 const attributeLabels = {
   reason: I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.CONSTANTS.REASON_LABEL'),
 };
-const validator = createValidator({
-  reason: `required|string|in:${verifyRequestReasons.join()}`,
-}, attributeLabels, false);
+
+const validator = (values, props) => createValidator({
+  reason: `required|string|in:${props.reasons.join()}`,
+}, attributeLabels, false)(values);
 
 class RequestKycVerificationModal extends Component {
   static propTypes = {
@@ -30,6 +32,7 @@ class RequestKycVerificationModal extends Component {
     fullName: PropTypes.string,
     note: PropTypes.noteEntity,
     onManageNote: PropTypes.func.isRequired,
+    reasons: PropTypes.arrayOf(PropTypes.string),
   };
   static defaultProps = {
     playerUUID: '',
@@ -41,6 +44,7 @@ class RequestKycVerificationModal extends Component {
     invalid: false,
     note: null,
     handleSubmit: null,
+    reasons: [],
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -85,6 +89,7 @@ class RequestKycVerificationModal extends Component {
       playerUUID,
       fullName,
       note,
+      reasons,
     } = this.props;
 
     return (
@@ -112,10 +117,10 @@ class RequestKycVerificationModal extends Component {
               className={'form-control'}
               position="vertical"
             >
-              <option>{I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.CONSTANTS.CHOOSE_REASON')}</option>
-              {verifyRequestReasons.map(item => (
+              <option>{I18n.t('COMMON.CHOOSE_REASON')}</option>
+              {reasons.map(item => (
                 <option key={item} value={item}>
-                  {item}
+                  {renderLabel(item, verifyRequestReasons)}
                 </option>
               ))}
             </Field>

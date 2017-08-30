@@ -133,11 +133,16 @@ const actionHandlers = {
       items: [...state.items],
     };
 
-    newState.items[index] = {
+    const newItem = {
       ...state.items[index],
       fullName,
-      login,
     };
+
+    if (login) {
+      newItem.login = login;
+    }
+
+    newState.items[index] = newItem;
 
     return newState;
   },

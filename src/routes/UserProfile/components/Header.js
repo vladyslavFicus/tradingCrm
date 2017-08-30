@@ -5,7 +5,7 @@ import { SubmissionError } from 'redux-form';
 import Sticky from 'react-stickynode';
 import PropTypes from '../../../constants/propTypes';
 import PlayerStatus from './PlayerStatus';
-import UserProfileOptions from './UserProfileOptions';
+import ActionsDropDown from '../../../components/ActionsDropDown';
 import Balances from './Balances';
 import ProfileTags from '../../../components/ProfileTags';
 import Amount from '../../../components/Amount';
@@ -175,7 +175,7 @@ class Header extends Component {
               >
                 <i className={classNames('fa fa-refresh', { 'fa-spin': isLoadingProfile })} />
               </button>
-              <UserProfileOptions
+              <ActionsDropDown
                 items={[
                   { label: 'Reset password', onClick: onResetPasswordClick },
                   {
@@ -196,7 +196,7 @@ class Header extends Component {
               status={playerProfile.profileStatus}
               reason={playerProfile.profileStatusReason}
               statusDate={playerProfile.profileStatusDate}
-              fullName={playerProfile.profileStatusAuthor}
+              statusAuthor={playerProfile.profileStatusAuthor}
               endDate={playerProfile.suspendEndDate}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}

@@ -17,6 +17,7 @@ class ViewLayout extends Component {
     data: PropTypes.bonusCampaignEntity.isRequired,
     availableStatusActions: PropTypes.arrayOf(PropTypes.object),
     onChangeCampaignState: PropTypes.func.isRequired,
+    cloneCampaign: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
   };
   static defaultProps = {
@@ -24,6 +25,9 @@ class ViewLayout extends Component {
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   state = {
@@ -48,6 +52,21 @@ class ViewLayout extends Component {
     }
   };
 
+  handleCloneCampaign = async (campaignId) => {
+    const action = await this.props.cloneCampaign(campaignId);
+
+    if (action) {
+      this.context.addNotification({
+        level: action.error ? 'error' : 'success',
+        title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.CAMPAIGN_COPIED'),
+        message: `${I18n.t('COMMON.NOTIFICATIONS.COPIED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+    }
+
+    this.context.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
+  };
+
   render() {
     const { informationShown } = this.state;
     const {
@@ -67,6 +86,7 @@ class ViewLayout extends Component {
             availableStatusActions={availableStatusActions}
             data={bonusCampaignData}
             onUpload={this.handleUploadFile}
+            cloneCampaign={this.handleCloneCampaign}
           />
 
           <div className="hide-details-block">

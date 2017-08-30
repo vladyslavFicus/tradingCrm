@@ -61,7 +61,7 @@ const getCustomValueFieldTypes = (campaignType) => {
 const validator = (values) => {
   const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
   const rules = {
-    name: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
+    campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
     campaignPriority: 'integer',
     startDate: 'required',
     endDate: 'required|nextDate:startDate',

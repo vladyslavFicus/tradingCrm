@@ -46,9 +46,11 @@ const mapActions = {
   changeFileStatusByAction: profileActionCreators.changeFileStatusByAction,
   verifyPhone: profileActionCreators.verifyPhone,
   verifyEmail: profileActionCreators.verifyEmail,
-  manageKycRequestNote: profileActionCreators.manageKycRequestNote,
+  manageKycNote: profileActionCreators.manageKycNote,
   resetNote: profileActionCreators.resetNote,
   sendKycRequestVerification: profileActionCreators.sendKycRequestVerification,
+  verifyKycAll: profileActionCreators.verifyKycAll,
+  fetchKycReasons: profileActionCreators.fetchKycReasons,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

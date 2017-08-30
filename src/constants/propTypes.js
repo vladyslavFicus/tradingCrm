@@ -351,7 +351,7 @@ PropTypes.customValue = PropTypes.shape({
 PropTypes.bonusCampaignEntity = PropTypes.shape({
   authorUUID: PropTypes.string.isRequired,
   bonusLifetime: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
+  campaignName: PropTypes.string.isRequired,
   campaignPriority: PropTypes.number.isRequired,
   campaignRatio: PropTypes.customValue.isRequired,
   uuid: PropTypes.string.isRequired,

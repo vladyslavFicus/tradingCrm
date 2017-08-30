@@ -17,6 +17,11 @@
   &__actions {
     margin-left: auto;
     z-index: 0;
+    .btn-file {
+      padding-top: 5px;
+      padding-bottom: 4px;
+      font-size: 13px;
+    }
   }
   &__tags {
     max-width: 40%;
