@@ -1012,6 +1012,7 @@
     "REGISTERED": "Registered",
     "TRANSACTION": "Transaction",
     "ERROR_MESSAGE": "Error message",
-    "REJECTION_REASON": "Rejection reason"
+    "REJECTION_REASON": "Rejection reason",
+    "OPERATOR": "Operator"
   }
 }

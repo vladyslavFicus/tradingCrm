@@ -13,6 +13,7 @@ import {
 } from '../../../../../constants/operators';
 import CreateOperatorModal from '../../../components/CreateOperatorModal';
 import Uuid from '../../../../../components/Uuid';
+import { OperatorMiniProfile } from '../../../../../components/MiniProfile';
 
 const MODAL_CREATE_OPERATOR = 'modal-create-operator';
 const modalInitialState = {
@@ -113,8 +114,8 @@ class List extends Component {
     );
   };
 
-  renderOperator = (data) => {
-    return (
+  renderOperator = data => (
+    <div>
       <div>
         <div className="font-weight-700">
           <Link to={`/operators/${data.uuid}/profile`}>
@@ -125,8 +126,9 @@ class List extends Component {
           <Uuid uuid={data.uuid} />
         </div>
       </div>
-    );
-  };
+      <OperatorMiniProfile operatorData={data} />
+    </div>
+  );
 
   renderCountry = (data) => {
     return (
