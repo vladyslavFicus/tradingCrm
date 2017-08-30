@@ -15,8 +15,6 @@ export default ({ store, delay = 600 }) => {
     const activityUpdate = _.debounce(() => {
       if (timeout) {
         clearTimeout(timeout);
-
-        timeout = null;
       }
 
       timeout = setTimeout(() => {
@@ -40,10 +38,10 @@ export default ({ store, delay = 600 }) => {
       if (logged !== auth.logged) {
         if (auth.logged) {
           logged = true;
-          window.addEventListener('mousemove', activityUpdate);
+          window.addEventListener(events, activityUpdate);
         } else {
           logged = false;
-          window.removeEventListener('mousemove', activityUpdate);
+          window.removeEventListener(events, activityUpdate);
         }
       }
     });
