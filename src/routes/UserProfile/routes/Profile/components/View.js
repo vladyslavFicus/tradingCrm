@@ -414,7 +414,7 @@ class View extends Component {
               {
                 !data.kycCompleted && !!data.kycRequest &&
                 <button
-                  id="verify-identity-button"
+                  id="verify-all-identities-button"
                   type="button"
                   className="btn btn-sm btn-success-outline margin-right-10"
                   onClick={this.handleOpenVerifyKycAllModal}
