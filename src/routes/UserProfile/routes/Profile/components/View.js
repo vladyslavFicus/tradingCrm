@@ -256,7 +256,7 @@ class View extends Component {
 
   onManageKycNote = type => (data) => {
     this.props.manageKycNote(type, data);
-  }
+  };
 
   handleVerifyClick = (verifyType) => {
     const { profile: { data: { fullName } } } = this.props;
@@ -414,6 +414,7 @@ class View extends Component {
               {
                 !data.kycCompleted && !!data.kycRequest &&
                 <button
+                  id="verify-identity-button"
                   type="button"
                   className="btn btn-sm btn-success-outline margin-right-10"
                   onClick={this.handleOpenVerifyKycAllModal}
@@ -422,6 +423,7 @@ class View extends Component {
                 </button>
               }
               <button
+                id="request-kyc-button"
                 type="button"
                 className="btn btn-sm btn-primary-outline"
                 onClick={this.handleOpenRequestKycVerificationModal}
