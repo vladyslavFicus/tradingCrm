@@ -24,7 +24,7 @@ const config = {
 };
 
 const allowedActions = Object.keys(config);
-const isIframeVersion = window && window.parent !== window && window.parent.postMessage;
+const isIframeVersion = window.isFrame;
 
 export default () => next => (action) => {
   const indexOfWindowAction = allowedActions.indexOf(action.type);
@@ -36,7 +36,7 @@ export default () => next => (action) => {
       const windowActionMessage = actionFunction(action);
 
       if (windowActionMessage !== undefined) {
-        window.parent.postMessage(JSON.stringify(windowActionMessage), window.location.origin);
+        window.dispatchAction(windowActionMessage);
       }
     }
   }

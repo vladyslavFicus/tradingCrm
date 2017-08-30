@@ -169,7 +169,7 @@ const actionHandlers = {
   [authActionTypes.LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
 
-if (window && window === window.parent) {
+if (!window.isFrame) {
   actionHandlers[locationActionTypes.LOCATION_CHANGE] = (state, action) => {
     if (action.payload && action.payload.state && action.payload.state.ignoreByUsersPanel) {
       return state;

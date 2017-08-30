@@ -13,8 +13,8 @@ export default (codes = [401]) => {
     const { auth, location } = getState();
 
     if (isValidMiddlewareAction({ auth }, action)) {
-      if (window && window.parent !== window) {
-        window.parent.postMessage(JSON.stringify(windowActionCreators.logout()), window.location.origin);
+      if (window.isFrame) {
+        window.dispatchAction(windowActionCreators.logout());
       } else {
         dispatch({ type: actionTypes.LOGOUT.SUCCESS });
 

@@ -38,7 +38,7 @@ class SignIn extends Component {
     logged: false,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     setTimeout(() => {
       this.setState({ loading: false });
     }, 300);
