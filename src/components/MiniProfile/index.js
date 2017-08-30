@@ -1,3 +1,7 @@
 import PlayerMiniProfile from './PlayerMiniProfile';
+import TransactionMiniProfile from './TransactionMiniProfile';
 
-export default PlayerMiniProfile;
+export {
+  PlayerMiniProfile,
+  TransactionMiniProfile,
+};

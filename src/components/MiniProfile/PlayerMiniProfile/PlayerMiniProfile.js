@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import Uuid from '../Uuid';
-import Amount from '../Amount';
-import './MiniProfile.scss';
+import Uuid from '../../Uuid';
+import Amount from '../../Amount';
+import './PlayerMiniProfile.scss';
 
 const PlayerMiniProfile = ({ playerProfile }) => (
   <div className={`mini-profile mini-profile_${playerProfile.profileStatus}`}>

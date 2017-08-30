@@ -20,6 +20,7 @@ import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import renderLabel from '../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
+import { TransactionMiniProfile } from '../../../../../components/MiniProfile';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -170,10 +171,13 @@ class View extends Component {
   };
 
   renderTransactionId = data => (
-    <GridPaymentInfo
-      payment={data}
-      onClick={() => this.handleOpenDetailModal({ payment: data })}
-    />
+    <div>
+      <GridPaymentInfo
+        payment={data}
+        onClick={() => this.handleOpenDetailModal({ payment: data })}
+      />
+      <TransactionMiniProfile transactionInfo={data} />
+    </div>
   );
 
   renderPlayer = data => (
@@ -286,12 +290,7 @@ class View extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <span
-              className="font-size-20"
-              id="transactions-list-header"
-            >
-              Transactions
-            </span>
+            <span className="font-size-20" id="transactions-list-header">Transactions</span>
           </Title>
 
           <TransactionsFilterForm
