@@ -16,7 +16,6 @@ const TransactionMiniProfile = ({ transactionInfo }) => {
 
   return (
     <div className={`mini-profile mini-profile_${transactionInfo.status}`}>
-      {console.log(transactionInfo)}
       <div className="mini-profile-header">
         <label className="mini-profile-label">{transactionInfo.status}</label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.TRANSACTION')}</div>
@@ -82,8 +81,22 @@ const TransactionMiniProfile = ({ transactionInfo }) => {
           <div className="info-block-label">{I18n.t('PAYMENT_DETAILS_MODAL.HEADER_AMOUNT')}</div>
           <div className="info-block-content">
             <div className="info-block-heading">
-              {/*{transactionInfo.}*/}
+              <Amount {...transactionInfo.amount} />
             </div>
+          </div>
+        </div>
+        <div className="info-block">
+          <div className="info-block-label">{I18n.t('PAYMENT_DETAILS_MODAL.HEADER_PAYMENT_METHOD')}</div>
+          <div className="info-block-content">
+            <div className="info-block-heading">
+              {transactionInfo.paymentMethod}
+            </div>
+            {
+              transactionInfo.paymentAccount &&
+              <div className="info-block-description">
+                <Uuid uuid={transactionInfo.paymentAccount} uuidPartsCount={2} />
+              </div>
+            }
           </div>
         </div>
       </div>

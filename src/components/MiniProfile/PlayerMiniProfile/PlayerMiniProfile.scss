@@ -87,7 +87,7 @@
   }
   .info-block {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     align-items: baseline;
     color: #4a4a4a;
     & + .info-block {
@@ -114,6 +114,11 @@
       font-size: 13px;
       font-weight: bold;
       line-height: 15px;
+    }
+  }
+  &-status-reason {
+    .info-block {
+      flex-wrap: wrap;
     }
   }
   &_INACTIVE {
