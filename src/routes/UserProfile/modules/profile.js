@@ -869,7 +869,10 @@ const actionHandlers = {
   }),
   [FETCH_KYC_REASONS.SUCCESS]: (state, action) => ({
     ...state,
-    kycReasons: action.payload,
+    kycReasons: {
+      refuse: Array.isArray(action.payload.refuse) ? action.payload.refuse : [],
+      request: Array.isArray(action.payload.request) ? action.payload.request : [],
+    },
   }),
 };
 
