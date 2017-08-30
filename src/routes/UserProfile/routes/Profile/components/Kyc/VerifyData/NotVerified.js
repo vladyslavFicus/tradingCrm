@@ -34,6 +34,7 @@ const NotVerified = (props) => {
 
       <div className="panel-body__buttons">
         <button
+          id={`refuse-${title.toLowerCase()}-button`}
           onClick={onRefuse}
           type="button"
           className="btn btn-danger-outline margin-right-10"
@@ -41,6 +42,7 @@ const NotVerified = (props) => {
           {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.ACTIONS.REFUSE')}
         </button>
         <button
+          id={`verify-${title.toLowerCase()}-button`}
           onClick={onVerify}
           type="button"
           className="btn btn-success-outline"
