@@ -1,6 +1,7 @@
 import { CALL_API, isValidRSAA } from 'redux-api-middleware';
 import jwtDecode from 'jwt-decode';
 import { v4 } from 'uuid';
+import { browserHistory } from 'react-router';
 import timestamp from '../utils/timestamp';
 import { actionCreators as authActionCreators } from '../redux/modules/auth';
 
@@ -55,23 +56,27 @@ const changeReduxLockState = (value, detail = {}) => {
   return Promise.all(locks);
 };
 
-const scheduleTokeRefreshTask = (store, token) => {
+const scheduleTokenRefreshTask = (store, token) => {
   const tokenData = jwtDecode(token);
   const delay = (tokenData.exp - timestamp()) - 60;
   console.log(`Scheduled token update in ${delay}`);
 
-  __scheduledTokenRefresh = setTimeout(async () => {
-    await changeReduxLockState(true, { token });
-    const action = await store.dispatch(authActionCreators.refreshToken(token));
+  if (delay > 0) {
+    __scheduledTokenRefresh = setTimeout(async () => {
+      await changeReduxLockState(true, { token });
+      const action = await store.dispatch(authActionCreators.refreshToken(token));
 
-    if (!action || action.error) {
-      return;
-    }
+      if (!action || action.error) {
+        return;
+      }
 
-    await changeReduxLockState(false, { token: action.payload.jwtToken });
+      await changeReduxLockState(false, { token: action.payload.jwtToken });
 
-    scheduleTokeRefreshTask(store, action.payload.jwtToken);
-  }, delay * 1000);
+      scheduleTokenRefreshTask(store, action.payload.jwtToken);
+    }, delay * 1000);
+  } else {
+    browserHistory.push('/logout');
+  }
 };
 
 const clearRefreshTokenTask = () => {
@@ -89,7 +94,7 @@ const mainStoreListener = store => () => {
       __logged = auth.logged;
       __token = auth.token;
 
-      scheduleTokeRefreshTask(store, __token);
+      scheduleTokenRefreshTask(store, __token);
     } else {
       clearRefreshTokenTask();
     }
