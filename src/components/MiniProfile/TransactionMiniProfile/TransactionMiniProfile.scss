@@ -1,4 +1,4 @@
-.mini-profile {
+.transaction-mini-profile {
   &_COMPLETED {
     border-color: #1cbb1c;
     background-color: #e9f7e6;
@@ -42,7 +42,7 @@
       color: #FF0000;
     }
   }
-  &-content_transaction {
+  &-content {
     .info-block-heading {
       color: #000;
     }
