@@ -3,18 +3,19 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Popover, PopoverTitle, PopoverContent } from 'reactstrap';
 import onClickOutside from 'react-onclickoutside';
+import Uuid from '../Uuid';
 import './FailureReasonIcon.scss';
 
 class FailureReasonIcon extends Component {
   static propTypes = {
     reason: PropTypes.string,
     statusDate: PropTypes.string,
-    fullName: PropTypes.string,
+    statusAuthor: PropTypes.string,
   };
   static defaultProps = {
     reason: null,
     statusDate: null,
-    fullName: null,
+    statusAuthor: null,
   };
   state = {
     popoverOpen: false,
@@ -31,7 +32,7 @@ class FailureReasonIcon extends Component {
   };
 
   renderPopoverContent() {
-    const { fullName, statusDate, reason } = this.props;
+    const { statusAuthor, statusDate, reason } = this.props;
 
     return (
       <Popover
@@ -42,7 +43,14 @@ class FailureReasonIcon extends Component {
       >
         <PopoverTitle>
           <div className="failure-reason-popover__title">
-            {I18n.t('COMMON.AUTHOR_BY')} <strong>{fullName}</strong>
+            {I18n.t('COMMON.AUTHOR_BY')}
+            {' '}
+            <span className="font-weight-700">
+              <Uuid
+                uuid={statusAuthor}
+                uuidPrefix={statusAuthor.indexOf('OPERATOR') === -1 ? 'OP' : null}
+              />
+            </span>
           </div>
           <div className="failure-reason-popover__date">
             {statusDate}
@@ -59,9 +67,7 @@ class FailureReasonIcon extends Component {
 
   render() {
     return (
-      <div
-        onClick={this.togglePopoverOpen}
-      >
+      <div onClick={this.togglePopoverOpen}>
         <span
           id="failure-reason-icon"
           className="failure-reason-icon failure-reason-icon_account-status"

@@ -196,7 +196,7 @@ class Header extends Component {
               status={playerProfile.profileStatus}
               reason={playerProfile.profileStatusReason}
               statusDate={playerProfile.profileStatusDate}
-              fullName={playerProfile.profileStatusAuthor}
+              statusAuthor={playerProfile.profileStatusAuthor}
               endDate={playerProfile.suspendEndDate}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
