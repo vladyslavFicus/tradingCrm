@@ -28,4 +28,27 @@
       background-image: linear-gradient(to right, #990101, #d96620);
     }
   }
+  .transaction-status {
+    margin-right: 8px;
+    text-transform: uppercase;
+    font-weight: bold;
+    &_Deposit {
+      color: #0368cc;
+    }
+    &_Withdraw {
+      color: #d0011b;
+    }
+    &_Confiscate {
+      color: #FF0000;
+    }
+  }
+  &-content_transaction {
+    .info-block-heading {
+      color: #000;
+    }
+    .info-block-description {
+      font-weight: 400;
+      color: #676767;
+    }
+  }
 }
