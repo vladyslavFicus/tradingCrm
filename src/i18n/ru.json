@@ -275,7 +275,8 @@
         "OPT_IN_STATUS": "Opt-in статус"
       },
       "OPTED_IN": "Opted-in",
-      "NOT_OPTED_IN": "Not opted-in"
+      "NOT_OPTED_IN": "Not opted-in",
+      "DECLINE": "Отказаться"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {

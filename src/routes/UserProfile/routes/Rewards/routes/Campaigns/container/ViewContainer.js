@@ -11,6 +11,7 @@ const mapStateToProps = ({
 });
 const mapActions = {
   fetchAvailableCampaignList: actionCreators.fetchAvailableCampaignList,
+  declineCampaign: actionCreators.declineCampaign,
 };
 
 export default connect(mapStateToProps, mapActions)(List);

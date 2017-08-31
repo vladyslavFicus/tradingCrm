@@ -10,6 +10,13 @@ import { campaignTypesLabels, targetTypesLabels } from '../../../../../../../../
 import IframeLink from '../../../../../../../../components/IframeLink';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
 import CampaignsFilterForm from '../CampaignsFilterForm';
+import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
+
+const CAMPAIGN_DECLINE_MODAL = 'campaign-decline-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
+};
 
 class View extends Component {
   static propTypes = {
@@ -40,6 +47,7 @@ class View extends Component {
       wagerWinMultiplier: PropTypes.number.isRequired,
     })).isRequired,
     fetchAvailableCampaignList: PropTypes.func.isRequired,
+    declineCampaign: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
@@ -50,6 +58,7 @@ class View extends Component {
   };
 
   state = {
+    modal: { ...modalInitialState },
     filters: {},
     page: 0,
   };
@@ -71,6 +80,29 @@ class View extends Component {
     });
   };
 
+  handleOpenModal = (name, params) => {
+    this.setState({
+      modal: {
+        name,
+        params,
+      },
+    });
+  };
+
+  handleCloseModal = (cb) => {
+    this.setState({ modal: { ...modalInitialState } }, () => {
+      if (typeof cb === 'function') {
+        cb();
+      }
+    });
+  };
+
+  handleDeclineClick = (campaignId) => {
+    this.handleOpenModal(CAMPAIGN_DECLINE_MODAL, {
+      campaignId,
+    });
+  }
+
   handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
@@ -78,6 +110,22 @@ class View extends Component {
   handleFilterReset = () => {
     this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
+
+  handleDeclineCampaign = async () => {
+    const { modal: { params: { campaignId } } } = this.state;
+
+    const {
+      declineCampaign,
+      params: { id: playerUUID },
+    } = this.props;
+
+    const action = await declineCampaign(campaignId, playerUUID);
+    this.handleCloseModal();
+
+    if (action && !action.error) {
+      this.handleRefresh();
+    }
+  }
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>
@@ -136,8 +184,24 @@ class View extends Component {
     </div>
   );
 
+  renderActions = (data) => {
+    if (!data.optedIn) {
+      return null;
+    }
+
+    return (
+      <button
+        type="button"
+        className="btn btn-sm btn-danger"
+        onClick={() => this.handleDeclineClick(data.id)}
+      >
+        {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE')}
+      </button>
+    );
+  }
+
   render() {
-    const { filters } = this.state;
+    const { filters, modal } = this.state;
     const { list: { entities, noResults }, locale } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
@@ -188,8 +252,25 @@ class View extends Component {
               header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.OPT_IN_STATUS')}
               render={this.renderOptInStatus}
             />
+
+            <GridColumn
+              name="actions"
+              header=""
+              render={this.renderActions}
+              headerStyle={{ width: '10%' }}
+            />
           </GridView>
         </div>
+
+        {
+          modal.name === CAMPAIGN_DECLINE_MODAL &&
+          <ConfirmActionModal
+            form="confirmDeclineCampaign"
+            onSubmit={this.handleDeclineCampaign}
+            onClose={this.handleCloseModal}
+          />
+        }
+
       </div>
     );
   }
