@@ -273,7 +273,8 @@
         "OPT_IN_STATUS": "Opt-in status"
       },
       "OPTED_IN": "Opted-in",
-      "NOT_OPTED_IN": "Not opted-in"
+      "NOT_OPTED_IN": "Not opted-in",
+      "DECLINE": "Decline"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
