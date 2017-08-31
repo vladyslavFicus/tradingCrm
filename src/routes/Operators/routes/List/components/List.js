@@ -116,12 +116,12 @@ class List extends Component {
   renderOperator = (data) => {
     return (
       <div>
-        <div className="font-weight-700">
+        <div className="font-weight-700" id={`operator-list-${data.uuid}-main`}>
           <Link to={`/operators/${data.uuid}/profile`}>
             {[data.firstName, data.lastName].join(' ')}
           </Link>
         </div>
-        <div className="font-size-11">
+        <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
           <Uuid uuid={data.uuid} />
         </div>
       </div>
