@@ -94,10 +94,6 @@
   &-transparent-text {
     padding: 0;
   }
-  &-icon {
-    padding: 4px 10px 0;
-    font-size: 21px;
-  }
   &-remove-filter {
     position: absolute;
     top: 2px;
@@ -134,6 +130,17 @@
   }
   &-group .btn:focus {
     outline: none;
+  }
+  &-icon {
+    padding-right: 10px;
+    padding-left: 10px;
+    line-height: normal;
+    &_active {
+      background-color: #F4F4F4;
+    }
+    .nas {
+      font-size: 21px;
+    }
   }
 }
 
