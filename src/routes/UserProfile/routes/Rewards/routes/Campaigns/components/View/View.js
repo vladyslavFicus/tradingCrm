@@ -120,6 +120,7 @@ class View extends Component {
     } = this.props;
 
     const action = await declineCampaign(campaignId, playerUUID);
+    this.handleCloseModal();
 
     if (action && !action.error) {
       this.handleRefresh();
