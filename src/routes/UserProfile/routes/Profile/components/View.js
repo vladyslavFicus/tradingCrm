@@ -373,7 +373,10 @@ class View extends Component {
     return (
       <div>
         {I18n.t('PLAYER_PROFILE.PROFILE.TITLE')} {' - '}
-        <span className={classNames(kycUserStatusesColor[kycUserStatusCode], 'font-weight-600')}>
+        <span
+          id={`profile-status-${kycUserStatusCode.toLowerCase().split('_').join('-')}`}
+          className={classNames(kycUserStatusesColor[kycUserStatusCode], 'font-weight-600')}
+        >
           {renderLabel(kycUserStatusCode, kycUserStatusesLabels)}
         </span>
       </div>
