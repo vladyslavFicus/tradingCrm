@@ -61,6 +61,8 @@ class List extends Component {
   });
 
   handleFiltersChanged = (filters = {}) => {
+    console.info('Operators search: Filter submitted');
+
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
