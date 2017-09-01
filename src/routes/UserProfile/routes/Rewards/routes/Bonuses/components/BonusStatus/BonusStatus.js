@@ -46,7 +46,7 @@ class BonusStatus extends Component {
 
     return (
       <div>
-        <div {...props}>
+        <div {...props} id={`${id}-bonus-status-${bonus.state.toLowerCase()}-${bonus.bonusUUID}`}>
           {label}
           {
             bonus.state === statuses.CANCELLED &&
