@@ -195,7 +195,7 @@ class View extends Component {
         className="btn btn-sm btn-danger"
         onClick={() => this.handleDeclineClick(data.id)}
       >
-        {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE')}
+        {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_OUT')}
       </button>
     );
   }
