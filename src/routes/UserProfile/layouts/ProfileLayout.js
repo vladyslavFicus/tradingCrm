@@ -20,6 +20,7 @@ import {
   DeleteModal as DeleteFileModal,
 } from '../../../components/Files';
 import './ProfileLayout.scss';
+import ChangePasswordModal from '../../../components/ChangePasswordModal';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -30,6 +31,7 @@ const MODAL_WALLET_LIMIT = 'wallet-limit-modal';
 const MODAL_INFO = 'info-modal';
 const MODAL_UPLOAD_FILE = 'upload-modal';
 const MODAL_DELETE_FILE = 'delete-modal';
+const MODAL_CHANGE_PASSWORD = 'change-password-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -489,6 +491,10 @@ class ProfileLayout extends Component {
         ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE')
         : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
     });
+
+    if (!hasError) {
+      this.handleCloseModal();
+    }
   };
 
   handleProfileActivateClick = async () => {
@@ -563,6 +569,10 @@ class ProfileLayout extends Component {
     });
   };
 
+  handleChangePasswordClick = () => {
+    this.handleOpenModal(MODAL_CHANGE_PASSWORD);
+  };
+
   render() {
     const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
     const {
@@ -608,9 +618,9 @@ class ProfileLayout extends Component {
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
             onWalletLimitChange={this.handleChangeWalletLimitState}
-            onSubmitNewPassword={this.handleSubmitNewPassword}
             onRefreshClick={() => this.handleLoadProfile(true)}
             loaded={!!receivedAt && !error}
+            onChangePasswordClick={this.handleChangePasswordClick}
           />
 
           <div className="hide-details-block">
@@ -695,6 +705,17 @@ class ProfileLayout extends Component {
             onClose={this.handleCloseModal}
             isOpen
             {...modal.params}
+          />
+        }
+        {
+          modal.name === MODAL_CHANGE_PASSWORD &&
+          <ChangePasswordModal
+            {...modal.params}
+            isOpen
+            onClose={this.handleCloseModal}
+            onSubmit={this.handleSubmitNewPassword}
+            userName={`${playerProfile.firstName} ${playerProfile.lastName}`}
+            userUuid={playerProfile.authorUuid}
           />
         }
 
