@@ -241,6 +241,7 @@ const FreeSpinReward = ({ netEnt, modalOpen }) => (
         <span className="right-placeholder">%</span>
       </div>
     </div>
+    <button className="btn-transparent add-campaign-remove">&times;</button>
   </div>
 );
 
