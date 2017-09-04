@@ -92,6 +92,7 @@ const mapActions = {
   saveFiles: filesActionCreators.saveFiles,
   deleteFile: filesActionCreators.deleteFile,
   downloadFile: filesActionCreators.downloadFile,
+  fetchBalances: actionCreators.fetchBalances,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);
