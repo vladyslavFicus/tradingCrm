@@ -499,7 +499,8 @@
       "TYPES": {
         "LOG_IN": "Авторизация",
         "LOG_OUT": "Выход",
-        "PLAYER_PROFILE_VERIFIED_EMAIL": "Персональная информация - E-mail подтвержден",
+        "PLAYER_PROFILE_VERIFIED_EMAIL": "Контактная информация - E-mail подтвержден",
+        "PLAYER_PROFILE_VERIFIED_PHONE": "Контактная информация - номер телефона подтвержден",
         "KYC_ADDRESS_REFUSED": "KYC - Адрес - отклонен",
         "KYC_ADDRESS_VERIFIED": "KYC - Адрес - подтвержден",
         "KYC_PERSONAL_REFUSED": "KYC - Личность - отклонена",
