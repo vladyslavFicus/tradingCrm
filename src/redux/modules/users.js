@@ -40,16 +40,15 @@ const fetchProfileMapResponse = (response) => {
     kycDate,
     kycCompleted,
     balance: balance || emptyBalance,
-    signInIps: signInIps ?
-      Object.values(signInIps).sort((a, b) => {
-        if (a.sessionStart > b.sessionStart) {
-          return -1;
-        } else if (b.sessionStart > a.sessionStart) {
-          return 1;
-        }
+    signInIps: signInIps ? Object.values(signInIps).sort((a, b) => {
+      if (a.sessionStart > b.sessionStart) {
+        return -1;
+      } else if (b.sessionStart > a.sessionStart) {
+        return 1;
+      }
 
-        return 0;
-      }) : [],
+      return 0;
+    }) : [],
   };
   payload.currencyCode = payload.balance && payload.balance.currency ? payload.balance.currency : null;
   payload.balances = {
@@ -105,9 +104,9 @@ function fetchProfile(type) {
 }
 
 function passwordResetRequest(type) {
-  return ({ email }) => dispatch => dispatch({
+  return ({ email }, sendEmail = true) => dispatch => dispatch({
     [CALL_API]: {
-      endpoint: 'auth/password/reset/request',
+      endpoint: `auth/password/reset/request${sendEmail ? '' : '?send-mail=false'}`,
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -121,6 +120,49 @@ function passwordResetRequest(type) {
       ],
     },
   });
+}
+
+function passwordResetConfirm(type) {
+  return ({ password, repeatPassword, token }) => dispatch => dispatch({
+    [CALL_API]: {
+      endpoint: 'auth/password/reset',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password, repeatPassword, token }),
+      types: [
+        type.REQUEST,
+        type.SUCCESS,
+        type.FAILURE,
+      ],
+    },
+  });
+}
+
+function fetchResetPasswordToken(type) {
+  return playerUUID => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `auth/password/reset-token?playerUUID=${playerUUID}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'text/html',
+        },
+        types: [
+          type.REQUEST,
+          { type: type.SUCCESS, payload: (action, state, res) => res.text() },
+          type.FAILURE,
+        ],
+        bailout: !logged || !token,
+      },
+    });
+  };
 }
 
 function profileActivateRequest(type) {
@@ -239,7 +281,9 @@ const actionCreators = {
   fetchESEntities,
   updateProfile,
   passwordResetRequest,
+  passwordResetConfirm,
   profileActivateRequest,
+  fetchResetPasswordToken,
 };
 
 export {

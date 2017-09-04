@@ -45,6 +45,7 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onProfileActivateClick: PropTypes.func.isRequired,
+    onSubmitNewPassword: PropTypes.func.isRequired,
     onWalletLimitChange: PropTypes.func.isRequired,
     walletLimits: PropTypes.shape({
       state: PropTypes.shape({
@@ -123,6 +124,7 @@ class Header extends Component {
       availableTags,
       currentTags,
       loaded,
+      onSubmitNewPassword,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
 
