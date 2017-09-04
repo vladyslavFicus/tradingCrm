@@ -84,6 +84,11 @@
         "CONSTANTS": {
           "REASON_LABEL": "Причина",
           "CHOOSE_REASON": "-- Выберите причину --"
+        },
+        "REASONS": {
+          "COMPLIANCE": "Согласие",
+          "SECURITY_CHECK": "Проверка безопасности",
+          "WITHDRAWAL_ON_HOLD": "Вывод на холде"
         }
       },
       "KYC_STATUS_TITLE": {
@@ -129,6 +134,13 @@
           "TITLE": "Подтверждение персональных данных и адреса",
           "ACTION_TEXT": "Вы собираетесь подтвердить личные данные и адрес %{fullName}",
           "SUBMIT_BUTTON_LABEL": "Подтвердить данные и адрес"
+        }
+      },
+      "REFUSE_KYC_VERIFICATION": {
+        "REASONS": {
+          "UNCLEAR_OR_DARK_DOC": "Нечеткая или темная картинка",
+          "NOT_ALL_FOUR_CORNERS": "Видны не все четыре угла",
+          "EXPIRED_DOC": "Истекший документ"
         }
       }
     },
@@ -263,7 +275,8 @@
         "OPT_IN_STATUS": "Opt-in статус"
       },
       "OPTED_IN": "Opted-in",
-      "NOT_OPTED_IN": "Not opted-in"
+      "NOT_OPTED_IN": "Not opted-in",
+      "OPT_OUT": "Отказаться"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -441,7 +454,8 @@
     "SELECT_OPTION": "-- Выберите --",
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
-    "MGA_LIMIT_DESCRIPTION": "MGA Limit - Превышен общий предел в размере €2300 на снятие средств для неопытных игроков KYC."
+    "MGA_LIMIT_DESCRIPTION": "MGA Limit - Превышен общий предел в размере €2300 на снятие средств для неопытных игроков KYC.",
+    "CHOOSE_REASON": "-- Выберите причину --"
   },
   "FILES": {
     "UPLOAD_MODAL": {

@@ -7,14 +7,14 @@ class IframeLink extends Component {
   static propTypes = {
     to: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   };
-  state = { isFrameVersion: window && window.parent !== window && window.parent.postMessage };
+  state = { isFrameVersion: window.isFrame };
 
   handleClick = (e) => {
     if (this.state.isFrameVersion) {
       e.stopPropagation();
       e.preventDefault();
 
-      window.parent.postMessage(JSON.stringify(windowActionCreators.navigateTo(this.props.to)), window.location.origin);
+      window.dispatchAction(windowActionCreators.navigateTo(this.props.to));
     }
   };
 

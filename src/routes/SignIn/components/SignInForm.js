@@ -59,12 +59,17 @@ class SignInForm extends Component {
 
   timeouts = [];
 
+  handleSubmit = (data) => {
+    console.info('Sign in data submitted.');
+
+    return this.props.onSubmit(data);
+  };
+
   render() {
     const { step } = this.state;
     const {
       handleSubmit,
       submitting,
-      onSubmit,
       error,
     } = this.props;
     const className = classNames('form-page__form', {
@@ -78,7 +83,7 @@ class SignInForm extends Component {
         <form
           name="form-validation"
           className="form-horizontal"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(this.handleSubmit)}
         >
           {
             error &&

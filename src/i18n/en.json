@@ -81,8 +81,12 @@
         "BUTTON": "Send KYC Request",
         "TITLE": "Send KYC request",
         "CONSTANTS": {
-          "REASON_LABEL": "Reason",
-          "CHOOSE_REASON": "-- Choose the reason --"
+          "REASON_LABEL": "Reason"
+        },
+        "REASONS": {
+          "COMPLIANCE": "Compliance",
+          "SECURITY_CHECK": "Security check",
+          "WITHDRAWAL_ON_HOLD": "Withdrawal on hold"
         }
       },
       "KYC_STATUS_TITLE": {
@@ -128,6 +132,13 @@
           "TITLE": "Identity & Address Verification",
           "ACTION_TEXT": "You are about to verify the Identity and Address of %{fullName}",
           "SUBMIT_BUTTON_LABEL": "Verify Identity & Address"
+        }
+      },
+      "REFUSE_KYC_VERIFICATION": {
+        "REASONS": {
+          "UNCLEAR_OR_DARK_DOC": "Unclear or dark doc",
+          "NOT_ALL_FOUR_CORNERS": "Not all four corner",
+          "EXPIRED_DOC": "Expired doc"
         }
       }
     },
@@ -262,7 +273,8 @@
         "OPT_IN_STATUS": "Opt-in status"
       },
       "OPTED_IN": "Opted-in",
-      "NOT_OPTED_IN": "Not opted-in"
+      "NOT_OPTED_IN": "Not opted-in",
+      "OPT_OUT": "Opt out"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -440,7 +452,8 @@
     "SELECT_OPTION": "-- Select --",
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
-    "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded."
+    "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded.",
+    "CHOOSE_REASON": "-- Choose the reason --"
   },
   "FILES": {
     "UPLOAD_MODAL": {

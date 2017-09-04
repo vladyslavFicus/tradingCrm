@@ -6,6 +6,7 @@ import moment from 'moment';
 import FailureReasonIcon from '../../../../components/FailureReasonIcon';
 import PlayerStatusModal from './PlayerStatusModal';
 import { statuses, statusColorNames, statusesLabels, durationUnits } from '../../../../constants/user';
+import Uuid from '../../../../components/Uuid';
 
 const initialState = {
   dropDownOpen: false,
@@ -24,7 +25,7 @@ class PlayerStatus extends Component {
     onChange: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     statusDate: PropTypes.string,
-    fullName: PropTypes.string,
+    statusAuthor: PropTypes.string,
   };
 
   static defaultProps = {
@@ -32,7 +33,7 @@ class PlayerStatus extends Component {
     endDate: null,
     status: null,
     statusDate: null,
-    fullName: null,
+    statusAuthor: null,
   };
 
   state = { ...initialState };
@@ -109,7 +110,7 @@ class PlayerStatus extends Component {
       status,
       reason,
       statusDate,
-      fullName,
+      statusAuthor,
       endDate,
       locale,
     } = this.props;
@@ -127,9 +128,14 @@ class PlayerStatus extends Component {
           {statusesLabels[status]}
         </div>
         {
-          !!fullName &&
+          !!statusAuthor &&
           <div className="header-block-small">
-            by {fullName}
+            by
+            {' '}
+            <Uuid
+              uuid={statusAuthor}
+              uuidPrefix={statusAuthor.indexOf('OPERATOR') === -1 ? 'OP' : null}
+            />
           </div>
         }
         {
@@ -143,7 +149,7 @@ class PlayerStatus extends Component {
           <FailureReasonIcon
             reason={reason}
             statusDate={moment(statusDate).format('YYYY-MM-DD h:mm:ss a')}
-            fullName={fullName}
+            statusAuthor={statusAuthor}
           />
         }
       </div>

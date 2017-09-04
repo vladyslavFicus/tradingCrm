@@ -169,11 +169,11 @@ class ProfileLayout extends Component {
   isShowScrollTop = () => document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
 
   handleScrollWindow = _.debounce(() => {
-    if (window && window.parent !== window && window.parent.postMessage) {
+    if (window.isFrame) {
       if (this.isShowScrollTop()) {
-        window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(true)), window.location.origin);
+        window.dispatchAction(windowActionCreators.showScrollToTop(true));
       } else if (!this.isShowScrollTop()) {
-        window.parent.postMessage(JSON.stringify(windowActionCreators.showScrollToTop(false)), window.location.origin);
+        window.dispatchAction(windowActionCreators.showScrollToTop(false));
       }
     }
   }, 300);

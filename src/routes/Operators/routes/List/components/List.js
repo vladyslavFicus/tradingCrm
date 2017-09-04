@@ -61,6 +61,8 @@ class List extends Component {
   });
 
   handleFiltersChanged = (filters = {}) => {
+    console.info('Operators search: Filter submitted');
+
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
@@ -116,12 +118,12 @@ class List extends Component {
   renderOperator = (data) => {
     return (
       <div>
-        <div className="font-weight-700">
+        <div className="font-weight-700" id={`operator-list-${data.uuid}-main`}>
           <Link to={`/operators/${data.uuid}/profile`}>
             {[data.firstName, data.lastName].join(' ')}
           </Link>
         </div>
-        <div className="font-size-11">
+        <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
           <Uuid uuid={data.uuid} />
         </div>
       </div>
@@ -165,12 +167,7 @@ class List extends Component {
           <Title>
             <div className="row">
               <div className="col-xl-3">
-                <span
-                  className="font-size-20"
-                  id="operators-list-header"
-                >
-                  Operators
-                </span>
+                <span className="font-size-20" id="operators-list-header">Operators</span>
               </div>
               <div className="col-xl-3 col-xl-offset-6 text-right">
                 <button

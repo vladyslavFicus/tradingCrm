@@ -33,8 +33,10 @@ const ADD_TAG = createRequestAction(`${KEY}/add-tag`);
 const DELETE_TAG = createRequestAction(`${KEY}/delete-tag`);
 
 const SEND_KYC_REQUEST_VERIFICATION = createRequestAction(`${KEY}/send-kyc-request-verification`);
-const MANAGE_KYC_REQUEST_NOTE = `${KEY}/manage-kyc-request-note`;
-const RESET_KYC_REQUEST_NOTE = `${KEY}/reset-kyc-request-note`;
+const MANAGE_KYC_NOTE = `${KEY}/manage-kyc-request-note`;
+const RESET_KYC_NOTE = `${KEY}/reset-kyc-request-note`;
+
+const FETCH_KYC_REASONS = createRequestAction(`${KEY}/fetch-kyc-reasons`);
 
 const initialState = {
   data: {
@@ -80,10 +82,19 @@ const initialState = {
     kycRequest: null,
     signInIps: [],
   },
+  kycReasons: {
+    refuse: [],
+    request: [],
+  },
   error: null,
   isLoading: false,
   receivedAt: null,
-  kycRequestNote: null,
+  notes: {
+    kycRequest: null,
+    refuse: null,
+    verify: null,
+    verifyAll: null,
+  },
 };
 
 const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
@@ -433,6 +444,30 @@ function verifyEmail(playerUUID) {
   };
 }
 
+function fetchKycReasons() {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: 'profile/kyc/reasons',
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          FETCH_KYC_REASONS.REQUEST,
+          FETCH_KYC_REASONS.SUCCESS,
+          FETCH_KYC_REASONS.FAILURE,
+        ],
+        bailout: !logged || !token,
+      },
+    });
+  };
+}
+
 function changeStatus({ action, ...data }) {
   return (dispatch) => {
     if (action === actions.BLOCK) {
@@ -634,12 +669,15 @@ function successUpdateProfileReducer(state, action) {
   };
 }
 
-function manageKycRequestNote(data) {
+function manageKycNote(type, data) {
   return (dispatch, getState) => {
     const { auth: { uuid, fullName } } = getState();
 
     return dispatch({
-      type: MANAGE_KYC_REQUEST_NOTE,
+      type: MANAGE_KYC_NOTE,
+      meta: {
+        noteType: type,
+      },
       payload: data !== null ? {
         ...data,
         author: fullName,
@@ -683,9 +721,12 @@ function sendKycRequestVerification(playerUUID, params) {
   };
 }
 
-function resetNote() {
+function resetNote(noteType) {
   return {
-    type: RESET_KYC_REQUEST_NOTE,
+    type: RESET_KYC_NOTE,
+    meta: {
+      noteType,
+    },
   };
 }
 
@@ -812,13 +853,26 @@ const actionHandlers = {
   [REFUSE_DATA.SUCCESS]: optimisticRefuseKycActionReducer,
   [SEND_KYC_REQUEST_VERIFICATION.SUCCESS]: optimisticKycRequestActionReducer,
   [VERIFY_KYC_ALL.SUCCESS]: optimisticVerifyKycAllActionReducer,
-  [MANAGE_KYC_REQUEST_NOTE]: (state, action) => ({
+  [MANAGE_KYC_NOTE]: (state, action) => ({
     ...state,
-    kycRequestNote: action.payload,
+    notes: {
+      ...state.notes,
+      [action.meta.noteType]: action.payload,
+    },
   }),
-  [RESET_KYC_REQUEST_NOTE]: state => ({
+  [RESET_KYC_NOTE]: (state, action) => ({
     ...state,
-    kycRequestNote: null,
+    notes: {
+      ...state.notes,
+      [action.meta.noteType]: null,
+    },
+  }),
+  [FETCH_KYC_REASONS.SUCCESS]: (state, action) => ({
+    ...state,
+    kycReasons: {
+      refuse: Array.isArray(action.payload.refuse) ? action.payload.refuse : [],
+      request: Array.isArray(action.payload.request) ? action.payload.request : [],
+    },
   }),
 };
 
@@ -849,8 +903,9 @@ const actionCreators = {
   verifyPhone,
   verifyEmail,
   sendKycRequestVerification,
-  manageKycRequestNote,
+  manageKycNote,
   resetNote,
+  fetchKycReasons,
 };
 
 export {

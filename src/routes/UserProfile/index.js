@@ -18,7 +18,7 @@ const profilePathnameRegExp = new RegExp(`^\\/${PLAYER_PROFILE_ROUTE_PREFIX}\\/(
 export default store => ({
   path: `${PLAYER_PROFILE_ROUTE_PREFIX}/:id`,
   onEnter: ({ location }, replace, cb) => {
-    if (window && window.parent === window) {
+    if (!window.isFrame) {
       const [, playerUUID] = location.pathname.match(profilePathnameRegExp);
 
       if (playerUUID) {

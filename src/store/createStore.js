@@ -12,7 +12,6 @@ import { actionCreators as locationActionCreators } from '../redux/modules/locat
 import { actionCreators as languageActionCreators } from '../redux/modules/language';
 import { actionCreators as permissionsActionCreators } from '../redux/modules/permissions';
 import unauthorized from '../redux/middlewares/unauthorized';
-import updateToken from '../redux/middlewares/updateToken';
 import config from '../config/index';
 import translations from '../i18n';
 
@@ -20,16 +19,19 @@ export default (initialState = {}, onComplete) => {
   const middleware = [
     thunk,
     apiUrl,
-    updateToken({}),
+  ];
+
+  if (window.isFrame) {
+    middleware.push(require('../redux/middlewares/catcher').default);
+    middleware.push(require('../redux/middlewares/window').default);
+  }
+
+  middleware.push(
     apiMiddleware,
     unauthorized(config.middlewares.unauthorized),
     authMiddleware,
-    apiErrors,
-  ];
-
-  if (window && window.parent !== window && window.parent && window.parent.postMessage) {
-    middleware.push(require('../redux/middlewares/window').default);
-  }
+    apiErrors
+  );
 
   // ======================================================
   // Store Enhancers

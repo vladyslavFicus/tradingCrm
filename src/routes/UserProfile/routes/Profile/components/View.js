@@ -20,6 +20,7 @@ import {
   userStatusesLabels as kycUserStatusesLabels,
   userStatusesColor as kycUserStatusesColor,
 } from '../../../../../constants/kyc';
+import { kycNoteTypes } from '../constants';
 import './View.scss';
 
 const REFUSE_MODAL = 'refuse-modal';
@@ -38,6 +39,10 @@ class View extends Component {
     }).isRequired,
     profile: PropTypes.shape({
       data: PropTypes.userProfile.isRequired,
+      kycReasons: PropTypes.shape({
+        refuse: PropTypes.array,
+        request: PropTypes.array,
+      }),
     }).isRequired,
     files: PropTypes.shape({
       identity: PropTypes.arrayOf(PropTypes.fileEntity).isRequired,
@@ -73,10 +78,11 @@ class View extends Component {
     verifyEmail: PropTypes.func.isRequired,
     filesUrl: PropTypes.string.isRequired,
     locale: PropTypes.string.isRequired,
-    manageKycRequestNote: PropTypes.func.isRequired,
+    manageKycNote: PropTypes.func.isRequired,
     resetNote: PropTypes.func.isRequired,
     sendKycRequestVerification: PropTypes.func.isRequired,
     verifyKycAll: PropTypes.func.isRequired,
+    fetchKycReasons: PropTypes.func.isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -88,6 +94,10 @@ class View extends Component {
   state = {
     modal: { ...modalInitialState },
   };
+
+  componentDidMount() {
+    this.props.fetchKycReasons();
+  }
 
   handleSubmitKYC = type => async (data) => {
     const { params: { id }, submitData } = this.props;
@@ -121,44 +131,79 @@ class View extends Component {
   };
 
   handleVerify = async () => {
-    const { verifyData, params, checkLock } = this.props;
+    const {
+      params: { id: playerUUID },
+      profile: { notes: { verify: unsavedNote } },
+      verifyData,
+      checkLock,
+    } = this.props;
     const { modal: { params: { verifyType } } } = this.state;
 
-    const action = await verifyData(params.id, verifyType);
-    if (action && action.error) {
-      const message = kycCategories.KYC_ADDRESS ?
-        I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.VERIFY_KYC.ERROR') :
-        I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.VERIFY_KYC.ERROR');
-      this.context.addNotification({
-        level: 'error',
-        title: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.TITLE'),
-        message,
-      });
+    const action = await verifyData(playerUUID, verifyType);
+    if (action) {
+      if (action.error) {
+        const message = kycCategories.KYC_ADDRESS ?
+          I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.VERIFY_KYC.ERROR') :
+          I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.VERIFY_KYC.ERROR');
+        this.context.addNotification({
+          level: 'error',
+          title: I18n.t('PLAYER_PROFILE.PROFILE.VERIFY_KYC.TITLE'),
+          message,
+        });
+      } else if (unsavedNote) {
+        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
+        if (unsavedNote.pinned) {
+          this.context.refreshPinnedNotes();
+        }
+      }
     }
-    checkLock(params.id);
+
+    checkLock(playerUUID);
     this.handleCloseModal();
+    this.handleResetNote(kycNoteTypes.verify);
   };
 
   handleRefuse = async (data) => {
-    const { refuseData, params, checkLock } = this.props;
+    const {
+      refuseData,
+      profile: { notes: { refuse: unsavedNote } },
+      params: { id: playerUUID },
+      checkLock,
+    } = this.props;
 
     if (data[kycCategories.KYC_PERSONAL]) {
-      await refuseData(params.id, kycCategories.KYC_PERSONAL, { reason: data[`${kycCategories.KYC_PERSONAL}_reason`] });
+      await refuseData(playerUUID, kycCategories.KYC_PERSONAL, {
+        reason: data[`${kycCategories.KYC_PERSONAL}_reason`],
+      });
     }
     if (data[kycCategories.KYC_ADDRESS]) {
-      await refuseData(params.id, kycCategories.KYC_ADDRESS, { reason: data[`${kycCategories.KYC_ADDRESS}_reason`] });
+      await refuseData(playerUUID, kycCategories.KYC_ADDRESS, {
+        reason: data[`${kycCategories.KYC_ADDRESS}_reason`],
+      });
     }
 
-    checkLock(params.id);
+    const action = await checkLock(playerUUID);
+
+    if (action && !action.error) {
+      if (unsavedNote) {
+        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
+        if (unsavedNote.pinned) {
+          this.context.refreshPinnedNotes();
+        }
+      }
+    }
+
     this.handleCloseModal();
+    this.handleResetNote(kycNoteTypes.refuse);
   };
+
+  handleResetNote = type => this.props.resetNote(type);
 
   handleRequestKycVerify = async (inputParams) => {
     const {
       params: { id: playerUUID },
-      profile: { kycRequestNote: unsavedNote },
+      profile: { notes: { kycRequest: unsavedNote } },
       sendKycRequestVerification,
-      resetNote,
     } = this.props;
 
     const action = await sendKycRequestVerification(playerUUID, inputParams);
@@ -172,26 +217,45 @@ class View extends Component {
       }
     }
 
-    this.handleCloseModal(resetNote);
+    this.handleCloseModal();
+    this.handleResetNote(kycNoteTypes.kycRequest);
   };
 
-  handleKycVerifyAll = () => {
+  handleKycVerifyAll = async () => {
     const {
       params: { id: playerUUID },
+      profile: { notes: { verifyAll: unsavedNote } },
       verifyKycAll,
     } = this.props;
 
-    verifyKycAll(playerUUID);
+    const action = await verifyKycAll(playerUUID);
+
+    if (action && !action.error) {
+      if (unsavedNote) {
+        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
+        if (unsavedNote.pinned) {
+          this.context.refreshPinnedNotes();
+        }
+      }
+    }
 
     this.handleCloseModal();
+    this.handleResetNote(kycNoteTypes.verifyAll);
   };
 
   handleRefuseClick = (type) => {
+    const { profile: { kycReasons: { refuse } } } = this.props;
+
     this.handleOpenModal(REFUSE_MODAL, {
+      reasons: refuse,
       initialValues: {
         [type]: true,
       },
     });
+  };
+
+  onManageKycNote = type => (data) => {
+    this.props.manageKycNote(type, data);
   };
 
   handleVerifyClick = (verifyType) => {
@@ -230,11 +294,12 @@ class View extends Component {
   };
 
   handleOpenRequestKycVerificationModal = () => {
-    const { profile: { data: { playerUUID, fullName } } } = this.props;
+    const { profile: { data: { playerUUID, fullName }, kycReasons: { request } } } = this.props;
 
     this.handleOpenModal(REQUEST_KYC_VERIFICATION_MODAL, {
       playerUUID,
       fullName,
+      reasons: request,
     });
   };
 
@@ -308,7 +373,10 @@ class View extends Component {
     return (
       <div>
         {I18n.t('PLAYER_PROFILE.PROFILE.TITLE')} {' - '}
-        <span className={classNames(kycUserStatusesColor[kycUserStatusCode], 'font-weight-600')}>
+        <span
+          id={`profile-status-${kycUserStatusCode.toLowerCase().split('_').join('-')}`}
+          className={classNames(kycUserStatusesColor[kycUserStatusCode], 'font-weight-600')}
+        >
           {renderLabel(kycUserStatusCode, kycUserStatusesLabels)}
         </span>
       </div>
@@ -318,14 +386,22 @@ class View extends Component {
   render() {
     const { modal } = this.state;
     const {
-      profile: { data, receivedAt, kycRequestNote },
+      profile: {
+        data,
+        receivedAt,
+        notes: {
+          kycRequest,
+          verify,
+          verifyAll,
+          refuse,
+        },
+      },
       files,
       personalData,
       addressData,
       contactData,
       downloadFile,
       locale,
-      manageKycRequestNote,
     } = this.props;
 
     if (!receivedAt) {
@@ -339,8 +415,9 @@ class View extends Component {
             <div className="tab-header__heading">{this.renderKycStatusTitle()}</div>
             <div className="tab-header__actions">
               {
-                !data.kycCompleted &&
+                !data.kycCompleted && !!data.kycRequest &&
                 <button
+                  id="verify-all-identities-button"
                   type="button"
                   className="btn btn-sm btn-success-outline margin-right-10"
                   onClick={this.handleOpenVerifyKycAllModal}
@@ -349,6 +426,7 @@ class View extends Component {
                 </button>
               }
               <button
+                id="request-kyc-button"
                 type="button"
                 className="btn btn-sm btn-primary-outline"
                 onClick={this.handleOpenRequestKycVerificationModal}
@@ -429,48 +507,53 @@ class View extends Component {
           {
             modal.name === REFUSE_MODAL &&
             <RefuseModal
+              note={refuse}
               {...modal.params}
               profile={data}
-              isOpen
               onSubmit={this.handleRefuse}
               onClose={this.handleCloseModal}
+              onManageNote={this.onManageKycNote(kycNoteTypes.refuse)}
             />
           }
 
           {
             modal.name === VERIFY_MODAL &&
             <SimpleConfirmationModal
+              note={verify}
               {...modal.params}
               form="verifyModal"
               profile={data}
               onSubmit={this.handleVerify}
               onClose={this.handleCloseModal}
+              onManageNote={this.onManageKycNote(kycNoteTypes.verify)}
             />
           }
 
           {
             modal.name === REQUEST_KYC_VERIFICATION_MODAL &&
             <RequestKycVerificationModal
-              note={kycRequestNote}
+              note={kycRequest}
               locale={locale}
               title={I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.TITLE')}
               show
               {...modal.params}
               onSubmit={this.handleRequestKycVerify}
               onClose={this.handleCloseModal}
-              onManageNote={manageKycRequestNote}
+              onManageNote={this.onManageKycNote(kycNoteTypes.kycRequest)}
             />
           }
 
           {
             modal.name === KYC_VERIFY_ALL_MODAL &&
             <SimpleConfirmationModal
+              note={verifyAll}
               form="verifyAllModal"
               locale={locale}
               {...modal.params}
               profile={data}
               onSubmit={this.handleKycVerifyAll}
               onClose={this.handleCloseModal}
+              onManageNote={this.onManageKycNote(kycNoteTypes.verifyAll)}
             />
           }
         </div>

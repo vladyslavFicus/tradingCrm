@@ -14,8 +14,8 @@ export default (store, basePath = '') => (nextState, replace, callback) => {
   }
 
   if (!auth.logged) {
-    if (window && window.parent !== window) {
-      window.parent.postMessage(JSON.stringify(windowActionCreators.logout()), window.location.origin);
+    if (window.isFrame) {
+      window.dispatchAction(windowActionCreators.logout());
     } else {
       replace(signInRoute);
     }
