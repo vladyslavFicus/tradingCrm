@@ -12,7 +12,10 @@ import { targetTypes } from '../../../constants/note';
 import Information from '../components/Information';
 import PropTypes from '../../../constants/propTypes';
 import getFileBlobUrl from '../../../utils/getFileBlobUrl';
-import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../../redux/modules/window';
+import {
+  actionCreators as windowActionCreators,
+  actionTypes as windowActionTypes
+} from '../../../redux/modules/window';
 import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal
@@ -106,6 +109,7 @@ class ProfileLayout extends Component {
     fetchFiles: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
+    fetchBalances: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
   };
   static defaultProps = {
@@ -155,10 +159,6 @@ class ProfileLayout extends Component {
     informationShown: true,
   };
 
-  cacheChildrenComponent = (component) => {
-    this.children = component;
-  };
-
   componentWillMount() {
     document.body.classList.add('user-profile-layout');
     window.addEventListener('scroll', this.handleScrollWindow);
@@ -167,18 +167,6 @@ class ProfileLayout extends Component {
   componentDidMount() {
     this.handleLoadAdditionalProfileData();
   }
-
-  isShowScrollTop = () => document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
-
-  handleScrollWindow = _.debounce(() => {
-    if (window.isFrame) {
-      if (this.isShowScrollTop()) {
-        window.dispatchAction(windowActionCreators.showScrollToTop(true));
-      } else if (!this.isShowScrollTop()) {
-        window.dispatchAction(windowActionCreators.showScrollToTop(false));
-      }
-    }
-  }, 300);
 
   componentWillUnmount() {
     document.body.classList.remove('user-profile-layout');
@@ -191,7 +179,23 @@ class ProfileLayout extends Component {
 
   setFileChangedCallback = (cb) => {
     this.setState({ fileChangedCallback: cb });
-  }
+  };
+
+  cacheChildrenComponent = (component) => {
+    this.children = component;
+  };
+
+  isShowScrollTop = () => document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
+
+  handleScrollWindow = _.debounce(() => {
+    if (window.isFrame) {
+      if (this.isShowScrollTop()) {
+        window.dispatchAction(windowActionCreators.showScrollToTop(true));
+      } else if (!this.isShowScrollTop()) {
+        window.dispatchAction(windowActionCreators.showScrollToTop(false));
+      }
+    }
+  }, 300);
 
   handleLoadProfile = (needForceUpdate = false) => {
     const {
@@ -219,9 +223,11 @@ class ProfileLayout extends Component {
       fetchNotes,
       checkLock,
       fetchFiles,
+      fetchBalances,
     } = this.props;
 
     return fetchNotes({ playerUUID: params.id, pinned: true })
+      .then(() => fetchBalances(params.id))
       .then(() => fetchFiles(params.id))
       .then(() => checkLock(params.id, { size: 999 }));
   };
