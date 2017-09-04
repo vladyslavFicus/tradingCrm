@@ -236,6 +236,18 @@
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
         "MESSAGE": "Full playerUUID has been copied to clipboard"
+      },
+      "NO_EMAIL": {
+        "TITLE": "Error",
+        "MESSAGE": "Player has no email"
+      },
+      "ERROR_SET_NEW_PASSWORD": {
+        "TITLE": "Error",
+        "MESSAGE": "Failed to change password"
+      },
+      "SUCCESS_SET_NEW_PASSWORD": {
+        "TITLE": "Success",
+        "MESSAGE": "Password changed successfully"
       }
     },
     "IP_LIST": {

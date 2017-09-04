@@ -81,6 +81,8 @@ const mapActions = {
   editNote: actionCreators.editNote,
   deleteNote: actionCreators.deleteNote,
   resetPassword: actionCreators.resetPassword,
+  resetPasswordConfirm: actionCreators.resetPasswordConfirm,
+  fetchResetPasswordToken: actionCreators.fetchResetPasswordToken,
   activateProfile: actionCreators.activateProfile,
   checkLock: actionCreators.checkLock,
   walletLimitAction: actionCreators.walletLimitAction,

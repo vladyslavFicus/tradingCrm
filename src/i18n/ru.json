@@ -61,7 +61,7 @@
       "PERSONAL": {
         "TITLE": "Персональная информация",
         "VERIFY_KYC": {
-          "TITLE": "",
+          "TITLE": "Ошибка",
           "ERROR": "Необходимо сохранить персональные данные"
         }
       },
@@ -100,8 +100,8 @@
         "WAITING_FOR_DOCS_DESCRIPTION": "Для подтверждения личности игрока необходим, как минимум один документ, скан-копия которого, должна быть хорошего качества, текст легко читаем, а cрок его действия не должен быть просрочен.",
         "REQUEST_STATUS": "Статус запроса",
         "WAITING_FOR_DOCUMENTS": "Ожидание документов",
-        "TYPE_NOT_VERIFIED": "",
-        "TYPE_NOT_REQUESTED": "",
+        "TYPE_NOT_VERIFIED": "Подтвержден",
+        "TYPE_NOT_REQUESTED": "Не запрошен",
         "TYPE_VERIFICATION_REFUSED": "%{title} верификация отклонена",
         "TYPE_VERIFIED": "%{title} верифицировано",
         "ACTIONS": {
@@ -238,6 +238,18 @@
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
         "MESSAGE": "Полный playerUUID скопирован в буфер обмена"
+      },
+      "NO_EMAIL": {
+        "TITLE": "Ошибка",
+        "MESSAGE": "У игрока отсутвует email"
+      },
+      "ERROR_SET_NEW_PASSWORD": {
+        "TITLE": "Ошибка",
+        "MESSAGE": "Не удалось поменять пароль"
+      },
+      "SUCCESS_SET_NEW_PASSWORD": {
+        "TITLE": "Успешно",
+        "MESSAGE": "Пароль успешно изменен"
       }
     },
     "IP_LIST": {

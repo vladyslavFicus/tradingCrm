@@ -14,11 +14,10 @@ import PropTypes from '../../../constants/propTypes';
 import getFileBlobUrl from '../../../utils/getFileBlobUrl';
 import {
   actionCreators as windowActionCreators,
-  actionTypes as windowActionTypes
 } from '../../../redux/modules/window';
 import {
   UploadModal as UploadFileModal,
-  DeleteModal as DeleteFileModal
+  DeleteModal as DeleteFileModal,
 } from '../../../components/Files';
 import './ProfileLayout.scss';
 
@@ -117,6 +116,9 @@ class ProfileLayout extends Component {
     currentTags: [],
     availableStatuses: [],
     lastIp: null,
+  };
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
   };
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
@@ -440,6 +442,55 @@ class ProfileLayout extends Component {
     }
   };
 
+  handleSubmitNewPassword = async (data) => {
+    const { resetPassword, resetPasswordConfirm, fetchResetPasswordToken, profile: { data: playerProfile } } = this.props;
+
+    if (!playerProfile.email) {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.NO_EMAIL.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.NO_EMAIL.MESSAGE'),
+      });
+    }
+
+    const resetPasswordAction = await resetPassword({ email: playerProfile.email }, false);
+
+    if (!resetPasswordAction || resetPasswordAction.error) {
+      return this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
+      });
+    }
+
+    const fetchResetPasswordTokenAction = await fetchResetPasswordToken(playerProfile.playerUUID);
+
+    if (!fetchResetPasswordTokenAction || fetchResetPasswordTokenAction.error) {
+      return this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
+      });
+    }
+
+    const resetPasswordConfirmAction = await resetPasswordConfirm({
+      ...data,
+      token: fetchResetPasswordTokenAction.payload,
+    });
+
+    const hasError = !resetPasswordConfirmAction || !!resetPasswordConfirmAction.error;
+
+    this.context.addNotification({
+      level: hasError ? 'error' : 'success',
+      title: hasError
+        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE')
+        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
+      message: hasError
+        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE')
+        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
+    });
+  };
+
   handleProfileActivateClick = async () => {
     const { activateProfile, profile: { data: { playerUUID, email } } } = this.props;
 
@@ -557,6 +608,7 @@ class ProfileLayout extends Component {
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
             onWalletLimitChange={this.handleChangeWalletLimitState}
+            onSubmitNewPassword={this.handleSubmitNewPassword}
             onRefreshClick={() => this.handleLoadProfile(true)}
             loaded={!!receivedAt && !error}
           />
