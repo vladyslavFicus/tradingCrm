@@ -8,6 +8,7 @@ import GridView, { GridColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
 import Uuid from '../../../../../components/Uuid';
 import FilterForm from './FilterForm';
+import GameRoundType from './GameRoundType';
 
 class View extends Component {
   static propTypes = {
@@ -85,24 +86,6 @@ class View extends Component {
       ...this.state.filters,
       page: this.state.page,
     });
-  };
-
-  renderGameRoundType = (data) => {
-    if (data.gameRoundType === 'FREE_SPIN') {
-      return (
-        <div className="font-size-11 color-success font-weight-700">
-          FREE SPIN
-        </div>
-      );
-    } else if (data.gameRoundType === 'BONUS_ROUND') {
-      return (
-        <div className="font-size-11 color-primary font-weight-700">
-          BONUS ROUND
-        </div>
-      );
-    }
-
-    return null;
   };
 
   renderGameRound = data => (
@@ -205,7 +188,7 @@ class View extends Component {
   renderBetAmount = data => (
     <div>
       {this.renderAmount('totalBetAmount', 'realBetAmount', 'bonusBetAmount')(data)}
-      {this.renderGameRoundType(data)}
+      <GameRoundType gameRound={data} />
     </div>
   );
 

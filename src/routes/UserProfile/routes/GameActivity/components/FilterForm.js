@@ -8,7 +8,7 @@ import renderLabel from '../../../../../utils/renderLabel';
 import PropTypes from '../../../../../constants/propTypes';
 import { moneyTypeLabels } from '../../../../../constants/gaming-activity';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
-import { filterFormAttributeLabels } from '../constants';
+import filterFormAttributeLabels from '../constants';
 
 const FORM_NAME = 'userGameActivityFilter';
 const validate = createValidator({
