@@ -140,6 +140,12 @@
           "NOT_ALL_FOUR_CORNERS": "Not all four corner",
           "EXPIRED_DOC": "Expired doc"
         }
+      },
+      "CHANGE_PASSWORD_MODAL": {
+        "TITLE": "Change player`s password",
+        "WARNING_HEADER": "You are about to change password",
+        "NEW_PASSWORD": "New password",
+        "REPEAT_PASSWORD": "Repeat password"
       }
     },
     "GAME_ACTIVITY": {
@@ -403,11 +409,13 @@
     "DEPARTMENTS": "Departments",
     "ANY": "Any",
     "ROLLBACK": "Rollback",
+    "FOR": "for",
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm",
       "UPLOAD_FILE": "+ Upload file",
-      "CREATE_AND_OPEN": "Create & open"
+      "CREATE_AND_OPEN": "Create & open",
+      "SAVE_NEW_PASSWORD": "Save new password"
     },
     "ACTIONS": {
       "ON": "Turn on",
