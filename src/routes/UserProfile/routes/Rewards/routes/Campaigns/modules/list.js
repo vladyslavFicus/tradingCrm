@@ -39,13 +39,14 @@ function fetchAvailableCampaignList(filters) {
   };
 }
 
-function declineCampaign(id, playerUUID) {
+function declineCampaign(id, playerUUID, returnToList = false) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
+    const optoutType = returnToList ? 'return_to_list' : 'ignore_campaign';
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/promotion/campaigns/${id}/optout/${playerUUID}`,
+        endpoint: `/promotion/campaigns/${id}/optout/${playerUUID}?optoutType=${optoutType}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
