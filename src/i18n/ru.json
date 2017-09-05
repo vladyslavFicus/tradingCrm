@@ -171,6 +171,15 @@
         "BALANCE_AFTER": "После",
         "PENDING_BALANCE": "В ожидании",
         "BALANCE": "Баланс"
+      },
+      "GAME_ROUND_TYPE": {
+        "FREE_SPIN": "Freespin",
+        "SPORTBET": "Спортбет",
+        "OTHER": "Другое",
+        "BONUS_ROUND_FREESPIN": "Бонусный раунд freespin",
+        "BONUS_ROUND_BONUS": "Бонус",
+        "BONUS_ROUND_CHANCE": "Бонусный раунд chance",
+        "BONUS_ROUND_CARD": "Бонусный раунд card"
       }
     },
     "MARKETING": {

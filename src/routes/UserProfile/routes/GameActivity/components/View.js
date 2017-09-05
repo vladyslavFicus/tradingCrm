@@ -8,7 +8,7 @@ import GridView, { GridColumn } from '../../../../../components/GridView';
 import Amount from '../../../../../components/Amount';
 import Uuid from '../../../../../components/Uuid';
 import FilterForm from './FilterForm';
-import GameRoundType from './GameRoundType';
+import GameRoundType from './GameRoundType/GameRoundType';
 
 class View extends Component {
   static propTypes = {

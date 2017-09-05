@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from '../../../../../constants/propTypes';
+import PropTypes from '../../../../../../constants/propTypes';
+import { types, typesLabels, typesProps } from './constants';
+import renderLabel from '../../../../../../utils/renderLabel';
+import './GameRoundType.scss';
 
 class GameRoundType extends Component {
   static propTypes = {
@@ -11,7 +14,12 @@ class GameRoundType extends Component {
   render() {
     const { gameRound } = this.props;
 
-    if (gameRound.gameRoundType === 'FREE_SPIN') {
+    return (
+      <div>tes</div>
+    );
+
+
+    /*if (gameRound.gameRoundType === 'FREE_SPIN') {
       return (
         <div className="font-size-11 color-success font-weight-700">
           FREE SPIN
@@ -37,11 +45,7 @@ class GameRoundType extends Component {
       );
     }
 
-    return (
-      <span>
-        {this.renderGameRoundType}
-      </span>
-    );
+    return null;*/
   }
 }
 
