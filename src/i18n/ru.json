@@ -288,7 +288,8 @@
       },
       "OPTED_IN": "Opted-in",
       "NOT_OPTED_IN": "Not opted-in",
-      "OPT_OUT": "Отказаться"
+      "OPT_OUT": "Opt out",
+      "DECLINE": "Отказаться"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {

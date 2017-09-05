@@ -286,7 +286,8 @@
       },
       "OPTED_IN": "Opted-in",
       "NOT_OPTED_IN": "Not opted-in",
-      "OPT_OUT": "Opt out"
+      "OPT_OUT": "Opt out",
+      "DECLINE": "Decline"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
