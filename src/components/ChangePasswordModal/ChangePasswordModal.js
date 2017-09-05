@@ -9,7 +9,7 @@ import { createValidator } from '../../utils/validator';
 import Uuid from '../Uuid';
 import config from '../../config';
 
-const ChangePasswordModal = ({ onClose, handleSubmit, onSubmit, userName, userUuid }) => (
+const ChangePasswordModal = ({ onClose, handleSubmit, onSubmit, fullName, playerUUID }) => (
   <Modal className="change-password-modal" toggle={onClose} isOpen>
     <form onSubmit={handleSubmit(onSubmit)}>
       <ModalHeader toggle={onClose}>
@@ -19,8 +19,9 @@ const ChangePasswordModal = ({ onClose, handleSubmit, onSubmit, userName, userUu
         <div className="change-password-modal-warning">
           {I18n.t('PLAYER_PROFILE.PROFILE.CHANGE_PASSWORD_MODAL.WARNING_HEADER')}
           <div>
-            {I18n.t('PLAYER_PROFILE.PROFILE.CHANGE_PASSWORD_MODAL.FOR')}
-            {' '}{userName}{' - '}<span className="change-password-modal-uuid"><Uuid uuid={userUuid} /></span>
+            {I18n.t('COMMON.FOR')}
+            {` ${fullName} - `}
+            <Uuid className="change-password-modal-uuid" uuid={playerUUID} />
           </div>
         </div>
         <Field
@@ -54,8 +55,8 @@ ChangePasswordModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
-  userName: PropTypes.string.isRequired,
-  userUuid: PropTypes.string.isRequired,
+  fullName: PropTypes.string.isRequired,
+  playerUUID: PropTypes.string.isRequired,
 };
 
 ChangePasswordModal.defaultProps = {

@@ -146,7 +146,6 @@
       "CHANGE_PASSWORD_MODAL": {
         "TITLE": "Изменить пароль игрока",
         "WARNING_HEADER": "Вы собираетесь изменить пароль",
-        "FOR": "для",
         "NEW_PASSWORD": "Новый пароль",
         "REPEAT_PASSWORD": "Повторите пароль"
       }
@@ -412,6 +411,7 @@
     "DEPARTMENTS": "Департаменты",
     "ANY": "Любые",
     "ROLLBACK": "Rollback",
+    "FOR": "для",
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить",

@@ -714,8 +714,8 @@ class ProfileLayout extends Component {
             isOpen
             onClose={this.handleCloseModal}
             onSubmit={this.handleSubmitNewPassword}
-            userName={`${playerProfile.firstName} ${playerProfile.lastName}`}
-            userUuid={playerProfile.authorUuid}
+            fullName={`${playerProfile.firstName} ${playerProfile.lastName}`}
+            playerUUID={playerProfile.authorUuid}
           />
         }
 

@@ -144,7 +144,6 @@
       "CHANGE_PASSWORD_MODAL": {
         "TITLE": "Change player`s password",
         "WARNING_HEADER": "You are about to change password",
-        "FOR": "for",
         "NEW_PASSWORD": "New password",
         "REPEAT_PASSWORD": "Repeat password"
       }
@@ -410,6 +409,7 @@
     "DEPARTMENTS": "Departments",
     "ANY": "Any",
     "ROLLBACK": "Rollback",
+    "FOR": "for",
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm",
