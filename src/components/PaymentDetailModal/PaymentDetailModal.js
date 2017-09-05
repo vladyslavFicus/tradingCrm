@@ -21,6 +21,7 @@ import Uuid from '../Uuid';
 import ModalPlayerInfo from '../ModalPlayerInfo';
 import TransactionStatus from '../TransactionStatus';
 import renderLabel from '../../utils/renderLabel';
+import PaymentAccount from '../PaymentAccount';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
 const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
@@ -238,9 +239,12 @@ class PaymentDetailModal extends Component {
                 <div className="modal-footer-tabs__amount">
                   {payment.paymentMethod ? renderLabel(payment.paymentMethod, paymentsMethodsLabels) : 'Manual'}
                 </div>
-                <div className="font-size-14">
-                  {shortify(payment.paymentAccount, null, 2)}
-                </div>
+                {
+                  !!payment.paymentAccount &&
+                  <div className="font-size-14">
+                    <PaymentAccount account={payment.paymentAccount} />
+                  </div>
+                }
               </div>
             </div>
           </div>
