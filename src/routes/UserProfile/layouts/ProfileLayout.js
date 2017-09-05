@@ -445,7 +445,12 @@ class ProfileLayout extends Component {
   };
 
   handleSubmitNewPassword = async (data) => {
-    const { resetPassword, resetPasswordConfirm, fetchResetPasswordToken, profile: { data: playerProfile } } = this.props;
+    const {
+      resetPassword,
+      resetPasswordConfirm,
+      fetchResetPasswordToken,
+      profile: { data: playerProfile },
+    } = this.props;
 
     if (!playerProfile.email) {
       this.context.addNotification({
@@ -570,7 +575,12 @@ class ProfileLayout extends Component {
   };
 
   handleChangePasswordClick = () => {
-    this.handleOpenModal(MODAL_CHANGE_PASSWORD);
+    const { profile: { data: playerProfile } } = this.props;
+
+    this.handleOpenModal(MODAL_CHANGE_PASSWORD, {
+      fullName: `${playerProfile.firstName} ${playerProfile.lastName}`,
+      playerUUID: `${playerProfile.authorUuid}`,
+    });
   };
 
   render() {
@@ -671,7 +681,6 @@ class ProfileLayout extends Component {
           modal.name === MODAL_UPLOAD_FILE &&
           <UploadFileModal
             {...modal.params}
-            isOpen
             onClose={this.handleCloseUploadModal}
             uploading={Object.values(uploading)}
             initialValues={uploadModalInitialValues}
@@ -694,16 +703,16 @@ class ProfileLayout extends Component {
         {
           modal.name === MODAL_INFO &&
           <Modal
-            onClose={this.handleCloseModal}
             isOpen
+            onClose={this.handleCloseModal}
             {...modal.params}
           />
         }
         {
           modal.name === MODAL_WALLET_LIMIT &&
           <Modal
-            onClose={this.handleCloseModal}
             isOpen
+            onClose={this.handleCloseModal}
             {...modal.params}
           />
         }
@@ -711,11 +720,8 @@ class ProfileLayout extends Component {
           modal.name === MODAL_CHANGE_PASSWORD &&
           <ChangePasswordModal
             {...modal.params}
-            isOpen
             onClose={this.handleCloseModal}
             onSubmit={this.handleSubmitNewPassword}
-            fullName={`${playerProfile.firstName} ${playerProfile.lastName}`}
-            playerUUID={playerProfile.authorUuid}
           />
         }
 
