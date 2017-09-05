@@ -8,7 +8,6 @@ import {
   typesLabels,
   typesProps,
 } from '../../../../../constants/payment';
-import { shortify } from '../../../../../utils/uuid';
 import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
 import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
 import TransactionStatus from '../../../../../components/TransactionStatus';
