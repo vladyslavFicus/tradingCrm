@@ -41,7 +41,6 @@ class SignInForm extends Component {
     const { logged } = this.props;
 
     if (logged !== nextProps.logged) {
-
       if (nextProps.logged) {
         this.setState({ step: 1 }, () => {
           this.timeouts.push(
