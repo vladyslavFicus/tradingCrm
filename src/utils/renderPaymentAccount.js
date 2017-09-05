@@ -13,4 +13,4 @@ export default (account) => {
   }
 
   return formatted;
-}
+};
