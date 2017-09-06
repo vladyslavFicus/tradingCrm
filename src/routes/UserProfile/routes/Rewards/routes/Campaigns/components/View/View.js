@@ -6,7 +6,10 @@ import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import Uuid from '../../../../../../../../components/Uuid';
 import renderLabel from '../../../../../../../../utils/renderLabel';
-import { campaignTypesLabels, targetTypesLabels } from '../../../../../../../../constants/bonus-campaigns';
+import {
+  campaignTypesLabels, statuses as bonusCampaignStatuses,
+  targetTypesLabels,
+} from '../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../components/IframeLink';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
 import CampaignsFilterForm from '../CampaignsFilterForm';
@@ -162,7 +165,7 @@ class View extends Component {
   );
 
   renderActions = (data) => {
-    if (!data.optedIn) {
+    if (!data.optedIn || data.state !== bonusCampaignStatuses.ACTIVE) {
       return null;
     }
 
