@@ -64,6 +64,7 @@ class Header extends Component {
     }).isRequired,
     locale: PropTypes.string.isRequired,
     loaded: PropTypes.bool,
+    onChangePasswordClick: PropTypes.func.isRequired,
   };
   static defaultProps = {
     lastIp: null,
@@ -123,12 +124,13 @@ class Header extends Component {
       availableTags,
       currentTags,
       loaded,
+      onChangePasswordClick,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
 
     return (
       <div>
-        <Sticky top={0} bottomBoundary={0}>
+        <Sticky top={0} bottomBoundary={0} innerZ="5">
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
@@ -183,6 +185,7 @@ class Header extends Component {
                     onClick: onProfileActivateClick,
                     visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
                   },
+                  { label: 'Change password', onClick: onChangePasswordClick },
                 ]}
               />
             </div>

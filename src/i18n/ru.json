@@ -61,7 +61,7 @@
       "PERSONAL": {
         "TITLE": "Персональная информация",
         "VERIFY_KYC": {
-          "TITLE": "",
+          "TITLE": "Ошибка",
           "ERROR": "Необходимо сохранить персональные данные"
         }
       },
@@ -100,8 +100,8 @@
         "WAITING_FOR_DOCS_DESCRIPTION": "Для подтверждения личности игрока необходим, как минимум один документ, скан-копия которого, должна быть хорошего качества, текст легко читаем, а cрок его действия не должен быть просрочен.",
         "REQUEST_STATUS": "Статус запроса",
         "WAITING_FOR_DOCUMENTS": "Ожидание документов",
-        "TYPE_NOT_VERIFIED": "",
-        "TYPE_NOT_REQUESTED": "",
+        "TYPE_NOT_VERIFIED": "Подтвержден",
+        "TYPE_NOT_REQUESTED": "Не запрошен",
         "TYPE_VERIFICATION_REFUSED": "%{title} верификация отклонена",
         "TYPE_VERIFIED": "%{title} верифицировано",
         "ACTIONS": {
@@ -142,6 +142,12 @@
           "NOT_ALL_FOUR_CORNERS": "Видны не все четыре угла",
           "EXPIRED_DOC": "Истекший документ"
         }
+      },
+      "CHANGE_PASSWORD_MODAL": {
+        "TITLE": "Изменить пароль игрока",
+        "WARNING_HEADER": "Вы собираетесь изменить пароль",
+        "NEW_PASSWORD": "Новый пароль",
+        "REPEAT_PASSWORD": "Повторите пароль"
       }
     },
     "GAME_ACTIVITY": {
@@ -238,6 +244,18 @@
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
         "MESSAGE": "Полный playerUUID скопирован в буфер обмена"
+      },
+      "NO_EMAIL": {
+        "TITLE": "Ошибка",
+        "MESSAGE": "У игрока отсутвует email"
+      },
+      "ERROR_SET_NEW_PASSWORD": {
+        "TITLE": "Ошибка",
+        "MESSAGE": "Не удалось поменять пароль"
+      },
+      "SUCCESS_SET_NEW_PASSWORD": {
+        "TITLE": "Успешно",
+        "MESSAGE": "Пароль успешно изменен"
       }
     },
     "IP_LIST": {
@@ -275,7 +293,9 @@
         "OPT_IN_STATUS": "Opt-in статус"
       },
       "OPTED_IN": "Opted-in",
-      "NOT_OPTED_IN": "Not opted-in"
+      "NOT_OPTED_IN": "Not opted-in",
+      "OPT_OUT": "Opt out",
+      "DECLINE": "Отказаться"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -392,11 +412,13 @@
     "DEPARTMENTS": "Департаменты",
     "ANY": "Любые",
     "ROLLBACK": "Rollback",
+    "FOR": "для",
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить",
       "UPLOAD_FILE": "+ Загрузить файл",
-      "CREATE_AND_OPEN": "Создать и открыть"
+      "CREATE_AND_OPEN": "Создать и открыть",
+      "SAVE_NEW_PASSWORD": "Сохранить новый пароль"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -499,7 +521,8 @@
       "TYPES": {
         "LOG_IN": "Авторизация",
         "LOG_OUT": "Выход",
-        "PLAYER_PROFILE_VERIFIED_EMAIL": "Персональная информация - E-mail подтвержден",
+        "PLAYER_PROFILE_VERIFIED_EMAIL": "Контактная информация - E-mail подтвержден",
+        "PLAYER_PROFILE_VERIFIED_PHONE": "Контактная информация - номер телефона подтвержден",
         "KYC_ADDRESS_REFUSED": "KYC - Адрес - отклонен",
         "KYC_ADDRESS_VERIFIED": "KYC - Адрес - подтвержден",
         "KYC_PERSONAL_REFUSED": "KYC - Личность - отклонена",

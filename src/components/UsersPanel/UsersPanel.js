@@ -57,10 +57,12 @@ class UsersPanel extends Component {
 
             return (
               <iframe
+                id={item.uuid}
+                key={item.uuid}
+                title={item.uuid}
                 className={className}
                 frameBorder={0}
                 src={`/users/${item.uuid}/${item.path || 'profile'}`}
-                key={item.uuid}
                 style={{
                   height: active && active.uuid === item.uuid ? 'calc(100% - 74px)' : '0',
                   margin: active && active.uuid === item.uuid ? '0 auto' : '0',

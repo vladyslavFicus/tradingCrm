@@ -1,4 +1,5 @@
 import { actionCreators as windowActionCreators } from '../redux/modules/window';
+import getSignInUrl from './getSignInUrl';
 
 export default (store, basePath = '') => (nextState, replace, callback) => {
   const { auth } = store.getState();
@@ -7,17 +8,17 @@ export default (store, basePath = '') => (nextState, replace, callback) => {
     basePath = '';
   }
 
-  const signInRoute = `${basePath}/sign-in?returnUrl=${nextState.location.pathname}`;
+  const signInUrl = getSignInUrl(nextState.location);
 
-  if (/logout$/.test(nextState.location.pathname)) {
+  if (!signInUrl) {
     return callback();
   }
 
   if (!auth.logged) {
-    if (window && window.parent !== window) {
-      window.parent.postMessage(JSON.stringify(windowActionCreators.logout()), window.location.origin);
+    if (window.isFrame) {
+      window.dispatchAction(windowActionCreators.logout());
     } else {
-      replace(signInRoute);
+      replace(`${basePath}${signInUrl}`);
     }
   }
 

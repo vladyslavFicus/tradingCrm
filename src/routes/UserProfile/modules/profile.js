@@ -15,7 +15,9 @@ const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
 const VERIFY_KYC_ALL = createRequestAction(`${KEY}/verify-kyc-all`);
 const REFUSE_DATA = createRequestAction(`${KEY}/refuse-data`);
-const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
+const RESET_PASSWORD_REQUEST = createRequestAction(`${KEY}/reset-password-request`);
+const RESET_PASSWORD_CONFIRM = createRequestAction(`${KEY}/reset-password-confirm`);
+const FETCH_RESET_PASSWORD_TOKEN = createRequestAction(`${KEY}/fetch-reset-password-token`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
 
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
@@ -99,7 +101,9 @@ const initialState = {
 
 const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
 const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
-const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
+const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD_REQUEST);
+const resetPasswordConfirm = usersActionCreators.passwordResetConfirm(RESET_PASSWORD_CONFIRM);
+const fetchResetPasswordToken = usersActionCreators.fetchResetPasswordToken(FETCH_RESET_PASSWORD_TOKEN);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
 
 function updateSubscription(playerUUID, data, updatedSubscription) {
@@ -886,6 +890,9 @@ const actionTypes = {
   REFUSE_DATA,
   VERIFY_PROFILE_PHONE,
   VERIFY_PROFILE_EMAIL,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_CONFIRM,
+  FETCH_RESET_PASSWORD_TOKEN,
 };
 const actionCreators = {
   fetchProfile,
@@ -895,6 +902,8 @@ const actionCreators = {
   refuseData,
   updateProfile,
   resetPassword,
+  resetPasswordConfirm,
+  fetchResetPasswordToken,
   activateProfile,
   updateSubscription,
   changeStatus,

@@ -107,7 +107,7 @@ config.module.rules.push({
 // Styles
 // ------------------------------------
 const extractStyles = new ExtractTextPlugin({
-  filename: 'styles/[name].css?[hash]',
+  filename: 'styles/[name].[hash].css',
   allChunks: true,
   disable: __DEV__,
 });

@@ -14,6 +14,7 @@ class Uuid extends Component {
     notificationTitle: PropTypes.string,
     notificationMessage: PropTypes.string,
     length: PropTypes.number,
+    className: PropTypes.string,
   };
   static defaultProps = {
     uuidPrefix: null,
@@ -23,6 +24,7 @@ class Uuid extends Component {
     notificationMessage: I18n.t('COMMON.NOTIFICATIONS.COPY_FULL_UUID.MESSAGE'),
     notify: true,
     length: null,
+    className: null,
   };
 
   render() {
@@ -35,6 +37,7 @@ class Uuid extends Component {
       notificationTitle,
       notificationMessage,
       length,
+      className,
     } = this.props;
 
     let uuid = inputUUID;
@@ -50,7 +53,7 @@ class Uuid extends Component {
         notificationTitle={notificationTitle}
         notificationMessage={notificationMessage}
       >
-        <span>{shortify(uuid, uuidPrefix, uuidPartsCount)}</span>
+        <span className={className}>{shortify(uuid, uuidPrefix, uuidPartsCount)}</span>
       </CopyToClipboard>
     );
   }

@@ -29,13 +29,6 @@
 }
 
 .sticky-outer-wrapper.active {
-  z-index: 1;
-  .sticky-inner-wrapper {
-    z-index: 1;
-  }
-}
-
-.sticky-outer-wrapper.active {
   .tab-header {
     padding-top: 10px;
     padding-bottom: 10px;

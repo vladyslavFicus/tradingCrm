@@ -1,16 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import moment from 'moment';
 import createStore from './store/createStore';
 import AppContainer from './containers/AppContainer';
 import { sendError, errorTypes } from './utils/errorLog';
 import createWindowMessageService from './services/window-message';
+import createInactivityService from './services/inactivity';
+import createTokenService from './services/token';
 
-moment.updateLocale('en', {
-  longDateFormat: {
-    L: 'YYYY/MM/DD',
-  },
-});
+if (window) {
+  window.isFrame = window.parent && window.parent !== window && !!window.parent.postMessage;
+  window.showDebugPanel = __DEV__;
+  window.reduxLocked = false;
+  window.reduxLockedQueue = [];
+  window.activeConnections = [];
+
+  if (typeof location.origin === 'undefined') {
+    window.location.origin = `${window.location.protocol}//${window.location.host}`;
+  }
+
+  window.addEventListener('error', (e) => {
+    const error = {
+      message: `${errorTypes.INTERNAL} error - ${e.message}`,
+      errorType: errorTypes.INTERNAL,
+    };
+
+    const stack = e.error.stack;
+    if (stack) {
+      error.stack = `\n${stack}`;
+    }
+
+    sendError(error);
+  });
+
+  window.dispatchAction = (action) => {
+    if (window.isFrame) {
+      window.parent.postMessage(JSON.stringify(action), window.location.origin);
+    }
+  };
+}
 
 const initialState = window.___INITIAL_STATE__;
 createStore(initialState, (store) => {
@@ -55,26 +82,8 @@ createStore(initialState, (store) => {
   }
 
   createWindowMessageService(store);
+  createInactivityService({ store });
+  createTokenService({ store });
 
   render();
 });
-
-if (window) {
-  if (typeof location.origin === 'undefined') {
-    window.location.origin = window.location.protocol + '//' + window.location.host;
-  }
-
-  window.addEventListener('error', (e) => {
-    const error = {
-      message: `${errorTypes.INTERNAL} error - ${e.message}`,
-      errorType: errorTypes.INTERNAL,
-    };
-
-    const stack = e.error.stack;
-    if (stack) {
-      error.stack = `\n${stack}`;
-    }
-
-    sendError(error);
-  });
-}

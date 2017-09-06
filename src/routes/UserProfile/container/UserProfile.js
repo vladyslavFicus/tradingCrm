@@ -81,6 +81,8 @@ const mapActions = {
   editNote: actionCreators.editNote,
   deleteNote: actionCreators.deleteNote,
   resetPassword: actionCreators.resetPassword,
+  resetPasswordConfirm: actionCreators.resetPasswordConfirm,
+  fetchResetPasswordToken: actionCreators.fetchResetPasswordToken,
   activateProfile: actionCreators.activateProfile,
   checkLock: actionCreators.checkLock,
   walletLimitAction: actionCreators.walletLimitAction,
@@ -92,6 +94,7 @@ const mapActions = {
   saveFiles: filesActionCreators.saveFiles,
   deleteFile: filesActionCreators.deleteFile,
   downloadFile: filesActionCreators.downloadFile,
+  fetchBalances: actionCreators.fetchBalances,
 };
 
 export default connect(mapStateToProps, mapActions)(ProfileLayout);

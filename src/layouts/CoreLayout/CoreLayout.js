@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NotificationContainer from 'react-notification-system';
 import PropTypes from '../../constants/propTypes';
 import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../redux/modules/window';
+import DebugPanel from '../../components/DebugPanel';
 
 class CoreLayout extends Component {
   static propTypes = {
@@ -11,7 +12,7 @@ class CoreLayout extends Component {
     addNotification: PropTypes.func.isRequired,
   };
 
-  state = { isFrameVersion: window && window.parent !== window && window.parent.postMessage };
+  state = { isFrameVersion: window.isFrame };
 
   getChildContext() {
     return {
@@ -43,7 +44,7 @@ class CoreLayout extends Component {
     const mergedParams = { ...defaultParams, ...params };
 
     if (this.state.isFrameVersion) {
-      window.parent.postMessage(JSON.stringify(windowActionCreators.notify(mergedParams)), window.location.origin);
+      window.dispatchAction(windowActionCreators.notify(mergedParams));
     } else if (this.notificationNode) {
       this.notificationNode.addNotification(mergedParams);
     }
@@ -57,6 +58,7 @@ class CoreLayout extends Component {
       <div style={{ height: '100%' }}>
         {children}
 
+        {window.showDebugPanel && <DebugPanel />}
         {
           !isFrameVersion &&
           <NotificationContainer

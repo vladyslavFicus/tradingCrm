@@ -77,6 +77,8 @@ class List extends Component {
   });
 
   handleFiltersChanged = (filters = {}) => {
+    console.info('Operators search: Filter submitted');
+
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
@@ -129,12 +131,12 @@ class List extends Component {
 
   renderOperator = data => (
     <div>
-      <div className="font-weight-700">
+      <div className="font-weight-700" id={`operator-list-${data.uuid}-main`}>
         <Link to={`/operators/${data.uuid}/profile`}>
           {[data.firstName, data.lastName].join(' ')}
         </Link>
       </div>
-      <div className="font-size-11">
+      <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
         <MiniProfile
           target={data.uuid}
           onMouseOver={() => this.onMiniProfileHover(data.uuid, miniProfileTypes.OPERATOR)}

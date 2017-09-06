@@ -18,7 +18,7 @@ import Uuid from '../Uuid';
 class FeedItem extends Component {
   static propTypes = {
     letter: PropTypes.string.isRequired,
-    color: PropTypes.oneOf(['', 'orange', 'blue']),
+    color: PropTypes.oneOf(['', 'orange', 'blue']).isRequired,
     data: PropTypes.auditEntity.isRequired,
   };
   state = {
@@ -43,6 +43,7 @@ class FeedItem extends Component {
       case types.KYC_PERSONAL_VERIFIED:
         return <FeedInfoKyc data={data} />;
       case types.PLAYER_PROFILE_VERIFIED_EMAIL:
+      case types.PLAYER_PROFILE_VERIFIED_PHONE:
       case types.PLAYER_PROFILE_CHANGED:
         return <FeedInfoProfileChanged data={data} />;
       case types.PLAYER_PROFILE_REGISTERED:

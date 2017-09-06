@@ -6,6 +6,7 @@ import buildQueryString from '../../../../../../../utils/buildQueryString';
 
 const KEY = 'user/bonus-campaign/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
+const DECLINE_CAMPAIGN = createRequestAction(`${KEY}/decline-campaign`);
 
 function fetchAvailableCampaignList(filters) {
   return (dispatch, getState) => {
@@ -32,6 +33,27 @@ function fetchAvailableCampaignList(filters) {
           FETCH_ENTITIES.SUCCESS,
           FETCH_ENTITIES.FAILURE,
         ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function declineCampaign(id, playerUUID, returnToList = false) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+    const optoutType = returnToList ? 'return_to_list' : 'ignore_campaign';
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/promotion/campaigns/${id}/optout/${playerUUID}?optoutType=${optoutType}`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [DECLINE_CAMPAIGN.REQUEST, DECLINE_CAMPAIGN.SUCCESS, DECLINE_CAMPAIGN.FAILURE],
         bailout: !logged,
       },
     });
@@ -90,6 +112,7 @@ const actionTypes = {
 };
 const actionCreators = {
   fetchAvailableCampaignList,
+  declineCampaign,
 };
 
 export {

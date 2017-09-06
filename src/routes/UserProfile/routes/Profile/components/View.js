@@ -373,7 +373,10 @@ class View extends Component {
     return (
       <div>
         {I18n.t('PLAYER_PROFILE.PROFILE.TITLE')} {' - '}
-        <span className={classNames(kycUserStatusesColor[kycUserStatusCode], 'font-weight-600')}>
+        <span
+          id={`profile-status-${kycUserStatusCode.toLowerCase().split('_').join('-')}`}
+          className={classNames(kycUserStatusesColor[kycUserStatusCode], 'font-weight-600')}
+        >
           {renderLabel(kycUserStatusCode, kycUserStatusesLabels)}
         </span>
       </div>
@@ -407,14 +410,14 @@ class View extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="1">
           <div className="tab-header">
             <div className="tab-header__heading">{this.renderKycStatusTitle()}</div>
             <div className="tab-header__actions">
               {
                 !data.kycCompleted && !!data.kycRequest &&
                 <button
-                  id="verify-identity-button"
+                  id="verify-all-identities-button"
                   type="button"
                   className="btn btn-sm btn-success-outline margin-right-10"
                   onClick={this.handleOpenVerifyKycAllModal}

@@ -1,6 +1,7 @@
 import { browserHistory } from 'react-router';
 import { actionTypes } from '../modules/auth';
 import { actionTypes as windowActionTypes, actionCreators as windowActionCreators } from '../modules/window';
+import getSignInUrl from '../../utils/getSignInUrl';
 
 export default (codes = [401]) => {
   const isValidMiddlewareAction = ({ auth }, action) => auth.logged && action
@@ -13,19 +14,14 @@ export default (codes = [401]) => {
     const { auth, location } = getState();
 
     if (isValidMiddlewareAction({ auth }, action)) {
-      if (window && window.parent !== window) {
-        window.parent.postMessage(JSON.stringify(windowActionCreators.logout()), window.location.origin);
+      if (window.isFrame) {
+        window.dispatchAction(windowActionCreators.logout());
       } else {
         dispatch({ type: actionTypes.LOGOUT.SUCCESS });
+        const signInUrl = getSignInUrl(location);
 
-        if (
-          !action.meta || !action.meta.ignoreByAuthMiddleware ||
-          (location && location.pathname && !/(sign-in)/.test(location.pathname))
-        ) {
-          const returnUrl = location && location.pathname && !/(sign-in)/.test(location.pathname)
-            ? location.pathname
-            : '';
-          browserHistory.push(`/sign-in${returnUrl ? `?returnUrl=${returnUrl}` : ''}`);
+        if ((!action.meta || !action.meta.ignoreByAuthMiddleware) && signInUrl) {
+          browserHistory.push(signInUrl);
         }
       }
     }

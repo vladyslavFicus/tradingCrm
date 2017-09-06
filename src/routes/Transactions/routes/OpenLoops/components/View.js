@@ -8,7 +8,6 @@ import {
   typesLabels,
   typesProps,
 } from '../../../../../constants/payment';
-import { shortify } from '../../../../../utils/uuid';
 import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
 import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
 import TransactionStatus from '../../../../../components/TransactionStatus';
@@ -19,6 +18,7 @@ import Uuid from '../../../../../components/Uuid';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
+import PaymentAccount from '../../../../../components/PaymentAccount';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -212,9 +212,12 @@ class View extends Component {
       <div className="font-weight-700">
         {methodsLabels[data.paymentMethod] || data.paymentMethod}
       </div>
-      <span className="font-size-10">
-        {shortify(data.paymentAccount, null, 2)}
-      </span>
+      {
+        !!data.paymentAccount &&
+        <span className="font-size-10">
+          <PaymentAccount account={data.paymentAccount} />
+        </span>
+      }
     </div>
   );
 

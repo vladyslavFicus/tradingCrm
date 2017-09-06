@@ -135,6 +135,7 @@ class View extends Component {
         children: I18n.t('PLAYER_PROFILE.BONUS.CANCEL_BONUS'),
         onClick: this.handleCancelBonus.bind(null, data.id),
         className: 'btn btn-danger text-uppercase',
+        id: `${data.bonusUUID}-cancel-button`,
       });
     }
 
@@ -274,7 +275,7 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="1">
           <div className="tab-header">
             <BonusHeaderNavigation />
             <div className="tab-header__actions">

@@ -10,36 +10,19 @@ import { campaignTypesLabels, targetTypesLabels } from '../../../../../../../../
 import IframeLink from '../../../../../../../../components/IframeLink';
 import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
 import CampaignsFilterForm from '../CampaignsFilterForm';
+import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
+
+const CAMPAIGN_DECLINE_MODAL = 'campaign-decline-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
+};
 
 class View extends Component {
   static propTypes = {
-    list: PropTypes.pageableState(PropTypes.shape({
-      authorUUID: PropTypes.string.isRequired,
-      bonusLifetime: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      campaignPriority: PropTypes.number.isRequired,
-      campaignRatio: PropTypes.customValue.isRequired,
-      uuid: PropTypes.string.isRequired,
-      capping: PropTypes.customValue,
-      conversionPrize: PropTypes.customValue,
-      creationDate: PropTypes.string.isRequired,
-      currency: PropTypes.string.isRequired,
-      grantedSum: PropTypes.number.isRequired,
-      grantedTotal: PropTypes.number.isRequired,
-      endDate: PropTypes.string.isRequired,
-      campaignType: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
-      optIn: PropTypes.bool.isRequired,
-      optedIn: PropTypes.bool.isRequired,
-      optInDate: PropTypes.string.isRequired,
-      startDate: PropTypes.string.isRequired,
-      state: PropTypes.string.isRequired,
-      stateReason: PropTypes.string,
-      statusChangedDate: PropTypes.string,
-      targetType: PropTypes.string.isRequired,
-      wagerWinMultiplier: PropTypes.number.isRequired,
-    })).isRequired,
+    list: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
     fetchAvailableCampaignList: PropTypes.func.isRequired,
+    declineCampaign: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
@@ -50,6 +33,7 @@ class View extends Component {
   };
 
   state = {
+    modal: { ...modalInitialState },
     filters: {},
     page: 0,
   };
@@ -71,6 +55,31 @@ class View extends Component {
     });
   };
 
+  handleOpenModal = (name, params) => {
+    this.setState({
+      modal: {
+        name,
+        params,
+      },
+    });
+  };
+
+  handleCloseModal = (cb) => {
+    this.setState({ modal: { ...modalInitialState } }, () => {
+      if (typeof cb === 'function') {
+        cb();
+      }
+    });
+  };
+
+  handleDeclineClick = (campaignId, returnToList = false) => {
+    this.handleOpenModal(CAMPAIGN_DECLINE_MODAL, {
+      campaignId,
+      returnToList,
+      onSubmit: this.handleDeclineCampaign,
+    });
+  };
+
   handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
@@ -79,13 +88,29 @@ class View extends Component {
     this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
 
+  handleDeclineCampaign = async () => {
+    const { modal: { params: { campaignId, returnToList } } } = this.state;
+
+    const {
+      declineCampaign,
+      params: { id: playerUUID },
+    } = this.props;
+
+    const action = await declineCampaign(campaignId, playerUUID, returnToList);
+    this.handleCloseModal();
+
+    if (action && !action.error) {
+      this.handleRefresh();
+    }
+  };
+
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>
       <IframeLink
         className="font-weight-700 color-black"
         to={`/bonus-campaigns/view/${data.id}/settings`}
       >
-        {data.name}
+        {data.campaignName}
       </IframeLink>
       <div className="font-size-10">
         {renderLabel(data.targetType, targetTypesLabels)}
@@ -130,20 +155,47 @@ class View extends Component {
       {
         data.optInDate &&
         <div className="font-size-10">
-          {I18n.t('COMMON.DATE_ON', { date: data.optInDate })}
+          {I18n.t('COMMON.DATE_ON', { date: moment.utc(data.optInDate).local().format('DD.MM.YYYY HH:mm') })}
         </div>
       }
     </div>
   );
 
+  renderActions = (data) => {
+    if (!data.optedIn) {
+      return null;
+    }
+
+    return (
+      <div className="text-center">
+        <button
+          key="optOutButton"
+          type="button"
+          className="btn btn-sm btn-danger margin-bottom-5"
+          onClick={() => this.handleDeclineClick(data.id, true)}
+        >
+          {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_OUT')}
+        </button>
+        <button
+          key="declineButton"
+          type="button"
+          className="btn btn-sm btn-danger display-inline"
+          onClick={() => this.handleDeclineClick(data.id)}
+        >
+          {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE')}
+        </button>
+      </div>
+    );
+  };
+
   render() {
-    const { filters } = this.state;
+    const { filters, modal } = this.state;
     const { list: { entities, noResults }, locale } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="1">
           <div className="tab-header">
             <BonusHeaderNavigation />
           </div>
@@ -188,8 +240,25 @@ class View extends Component {
               header={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.OPT_IN_STATUS')}
               render={this.renderOptInStatus}
             />
+
+            <GridColumn
+              name="actions"
+              header=""
+              render={this.renderActions}
+              headerStyle={{ width: '10%' }}
+            />
           </GridView>
         </div>
+
+        {
+          modal.name === CAMPAIGN_DECLINE_MODAL &&
+          <ConfirmActionModal
+            {...modal.params}
+            form="confirmDeclineCampaign"
+            onClose={this.handleCloseModal}
+          />
+        }
+
       </div>
     );
   }
