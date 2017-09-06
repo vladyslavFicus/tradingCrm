@@ -1,14 +1,16 @@
 import React from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
+import classNames from 'classnames';
 import Uuid from '../../Uuid';
 import PropTypes from '../../../constants/propTypes';
 import renderLabel from '../../../utils/renderLabel';
 import { departmentsLabels, rolesLabels } from '../../../constants/operators';
+import { operatorStatusNames } from '../constants';
 import './OperatorMiniProfile.scss';
 
 const OperatorMiniProfile = ({ data }) => (
-  <div className={`mini-profile operator-mini-profile_${data.operatorStatus}`}>
+  <div className={classNames('mini-profile operator-mini-profile', operatorStatusNames[data.operatorStatus])}>
     <div className="mini-profile-header">
       <label className="mini-profile-label">{data.operatorStatus}</label>
       <div className="mini-profile-type">{I18n.t('MINI_PROFILE.OPERATOR')}</div>

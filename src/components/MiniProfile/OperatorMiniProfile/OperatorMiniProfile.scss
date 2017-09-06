@@ -1,19 +1,19 @@
 .operator-mini-profile {
-  &_ACTIVE {
+  &.active {
     border-color: #1cbb1c;
     background-color: #e9f7e6;
     .mini-profile-label {
       background-image: linear-gradient(to right, #009a00, #07cd07);
     }
   }
-  &_INACTIVE {
+  &.inactive {
     border-color: #bcbcbc;
     background-color: #eee;
     .mini-profile-label {
       background-image: linear-gradient(to left, #bdbdbd, #979797);
     }
   }
-  &_CLOSED {
+  &.closed {
     border-color: #cc5f32;
     background-color: #f6e2e1;
     .mini-profile-label {

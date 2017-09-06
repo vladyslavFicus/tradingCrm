@@ -1,11 +1,13 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import classNames from 'classnames';
 import { shortify } from '../../../utils/uuid';
 import Uuid from '../../../components/Uuid';
 import Amount from '../../Amount';
 import './TransactionMiniProfile.scss';
 import { statuses } from '../../../constants/payment';
+import { paymentStatusNames } from '../constants';
 import PropTypes from '../../../constants/propTypes';
 
 const TransactionMiniProfile = ({ data }) => {
@@ -16,7 +18,7 @@ const TransactionMiniProfile = ({ data }) => {
   }
 
   return (
-    <div className={`mini-profile transaction-mini-profile_${data.status}`}>
+    <div className={classNames('mini-profile transaction-mini-profile', paymentStatusNames[data.status])}>
       <div className="mini-profile-header">
         <label className="mini-profile-label">{data.status}</label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.TRANSACTION')}</div>

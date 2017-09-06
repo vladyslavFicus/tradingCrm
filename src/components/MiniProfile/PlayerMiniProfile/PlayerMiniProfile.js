@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
+import classNames from 'classnames';
 import Uuid from '../../Uuid';
 import Amount from '../../Amount';
 import { statuses } from '../../../constants/user';
+import { userStatusNames } from '../constants';
 import './PlayerMiniProfile.scss';
 
 const PlayerMiniProfile = ({ data }) => {
@@ -15,7 +17,7 @@ const PlayerMiniProfile = ({ data }) => {
   }
 
   return (
-    <div className={`mini-profile mini-profile_${data.profileStatus}`}>
+    <div className={classNames('mini-profile mini-profile', userStatusNames[data.profileStatus])}>
       <div className="mini-profile-header">
         <label className="mini-profile-label">{data.profileStatus}</label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.PLAYER')}</div>
