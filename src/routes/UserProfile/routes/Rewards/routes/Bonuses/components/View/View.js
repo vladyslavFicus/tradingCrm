@@ -135,6 +135,7 @@ class View extends Component {
         children: I18n.t('PLAYER_PROFILE.BONUS.CANCEL_BONUS'),
         onClick: this.handleCancelBonus.bind(null, data.id),
         className: 'btn btn-danger text-uppercase',
+        id: `${data.bonusUUID}-cancel-button`,
       });
     }
 
