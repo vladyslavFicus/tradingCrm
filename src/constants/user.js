@@ -72,7 +72,7 @@ const actions = keyMirror({
   BLOCK: null,
   UNBLOCK: null,
   SUSPEND: null,
-  RESUME: null,
+  REMOVE: null,
   PROLONG: null,
 });
 const reasons = [
@@ -131,18 +131,18 @@ const statusActions = {
       permission: permissions.USER_PROFILE.PROLONG,
     },
     {
-      action: actions.RESUME,
+      action: actions.REMOVE,
       label: 'Remove',
       reasons,
-      permission: permissions.USER_PROFILE.RESUME,
+      permission: permissions.USER_PROFILE.REMOVE,
     },
   ],
   [statuses.COOLOFF]: [
     {
-      action: actions.RESUME,
+      action: actions.REMOVE,
       label: 'Resume',
       reasons,
-      permission: permissions.USER_PROFILE.RESUME,
+      permission: permissions.USER_PROFILE.REMOVE,
     },
   ],
 };

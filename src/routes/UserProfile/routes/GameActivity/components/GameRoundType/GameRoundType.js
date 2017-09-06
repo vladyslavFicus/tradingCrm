@@ -1,31 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { typesLabels, typesProps } from './constants';
+import { types, typesLabels, typesProps } from './constants';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './GameRoundType.scss';
 
-class GameRoundType extends Component {
-  static propTypes = {
-    gameRound: PropTypes.shape({
-      gameRoundType: PropTypes.string,
-    }).isRequired,
-  };
+const GameRoundType = ({ gamingActivityEntity }) => {
+  const className = typesProps[gamingActivityEntity.gameRoundType];
 
-  render() {
-    const { gameRound } = this.props;
-    const classNameType = typesProps[gameRound.gameRoundType];
-
-    if (gameRound.gameRoundType === 'SPIN') {
-      return null;
-    }
-
-    return (
-      <div className={classNames('game-round-type', classNameType)}>
-        {renderLabel(gameRound.gameRoundType, typesLabels)}
-      </div>
-    );
+  if (gamingActivityEntity.gameRoundType === types.SPIN) {
+    return null;
   }
-}
+
+  return (
+    <div className={classNames('game-round-type', className)}>
+      {renderLabel(gamingActivityEntity.gameRoundType, typesLabels)}
+    </div>
+  );
+};
+
+GameRoundType.propTypes = {
+  gamingActivityEntity: PropTypes.shape({
+    gameRoundType: PropTypes.string,
+  }).isRequired,
+};
 
 export default GameRoundType;

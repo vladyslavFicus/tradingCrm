@@ -5,6 +5,7 @@ const types = keyMirror({
   FREE_SPIN: null,
   SPORTBET: null,
   OTHER: null,
+  SPIN: null,
   BONUS_ROUND_FREESPIN: null,
   BONUS_ROUND_BONUS: null,
   BONUS_ROUND_CHANCE: null,
