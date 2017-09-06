@@ -11,7 +11,7 @@ function createThunkMiddleware(extraArgument) {
         const { ...state } = getState();
 
         if (state.auth && state.auth.logged) {
-          state.auth.token = getActualState();
+          state.auth.token = getActualState(state.auth.token);
         }
 
         return state;

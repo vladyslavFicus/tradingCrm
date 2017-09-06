@@ -45,6 +45,8 @@ class DebugPanel extends Component {
     return (
       <div style={{ ...styles, background: reduxLocked ? 'red' : 'green' }}>
         Locked: {reduxLocked ? 'True' : 'False'}
+        {' | '}
+        Version: {window.version}
       </div>
     );
   }
