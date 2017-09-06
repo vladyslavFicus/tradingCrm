@@ -12,6 +12,4 @@ const filterFormAttributeLabels = {
   endDate: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.END_DATE_LABEL'),
 };
 
-export {
-  filterFormAttributeLabels,
-};
+export default filterFormAttributeLabels;
