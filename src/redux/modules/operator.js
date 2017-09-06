@@ -115,7 +115,7 @@ function fetchProfile(type) {
 }
 
 function fetchAuthorities(type) {
-  return (uuid, insideToken = null) => (dispatch, getState) => {
+  return (uuid, outsideToken = null) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
@@ -125,14 +125,14 @@ function fetchAuthorities(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${insideToken || token}`,
+          Authorization: `Bearer ${outsideToken || token}`,
         },
         types: [
           type.REQUEST,
           type.SUCCESS,
           type.FAILURE,
         ],
-        bailout: !logged && !insideToken,
+        bailout: !logged && !outsideToken,
       },
     });
   };

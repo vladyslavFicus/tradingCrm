@@ -3,7 +3,8 @@ import jwtDecode from 'jwt-decode';
 import { v4 } from 'uuid';
 import { browserHistory } from 'react-router';
 import timestamp from '../utils/timestamp';
-import { actionCreators as authActionCreators } from '../redux/modules/auth';
+import { actionCreators as authActionCreators, actionTypes as authActionTypes } from '../redux/modules/auth';
+import goToSignInPage from '../utils/getSignInUrl';
 
 let __scheduledTokenRefresh = null;
 let __logged = false;
@@ -11,6 +12,29 @@ let __token = null;
 const LOCK_EVENT_NAME = 'redux.lock';
 const UNLOCK_EVENT_NAME = 'redux.unlock';
 const UNLOCK_EVENT_RESPONSE_TIMEOUT = 1234;
+
+const createReleaseLockedQueue = token => ({ next, action: originalAction, resolve }) => {
+  let action = originalAction;
+
+  if (isValidRSAA(action)) {
+    action = {
+      ...originalAction,
+      [CALL_API]: {
+        ...originalAction[CALL_API],
+        headers: {
+          ...originalAction[CALL_API].headers,
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    };
+  }
+
+  const result = next(action);
+
+  if (resolve) {
+    resolve(result);
+  }
+};
 
 const changeReduxLockState = (value, detail = {}) => {
   const locks = [];
@@ -56,6 +80,16 @@ const changeReduxLockState = (value, detail = {}) => {
   return Promise.all(locks);
 };
 
+const logout = (store) => {
+  store.dispatch({ type: authActionTypes.LOGOUT.SUCCESS });
+
+  const signInUrl = goToSignInPage(store.getState().location);
+
+  if (signInUrl) {
+    browserHistory.push(signInUrl);
+  }
+};
+
 const scheduleTokenRefreshTask = (store, token) => {
   const tokenData = jwtDecode(token);
   const delay = (tokenData.exp - timestamp()) - 60;
@@ -63,19 +97,26 @@ const scheduleTokenRefreshTask = (store, token) => {
 
   if (delay > 0) {
     __scheduledTokenRefresh = setTimeout(async () => {
+      window.reduxLocked = true;
       await changeReduxLockState(true, { token });
-      const action = await store.dispatch(authActionCreators.refreshToken(token));
+      const refreshTokenAction = await store.dispatch(authActionCreators.refreshToken(token));
 
-      if (!action || action.error) {
-        return;
+      if (!refreshTokenAction || refreshTokenAction.error) {
+        logout(store);
+      } else {
+        window.reduxLocked = false;
+
+        await changeReduxLockState(false, { token: refreshTokenAction.payload.jwtToken });
+
+        const releaseLockedQueue = createReleaseLockedQueue(refreshTokenAction.payload.jwtToken);
+        window.reduxLockedQueue.forEach(releaseLockedQueue);
+        window.reduxLockedQueue.splice(0, window.reduxLockedQueue.length);
+
+        scheduleTokenRefreshTask(store, refreshTokenAction.payload.jwtToken);
       }
-
-      await changeReduxLockState(false, { token: action.payload.jwtToken });
-
-      scheduleTokenRefreshTask(store, action.payload.jwtToken);
     }, delay * 1000);
   } else {
-    browserHistory.push('/logout');
+    logout(store);
   }
 };
 
@@ -113,32 +154,13 @@ export default ({ store }) => {
     });
 
     window.addEventListener(UNLOCK_EVENT_NAME, (e) => {
+      store.dispatch({ type: authActionTypes.REFRESH_TOKEN.SUCCESS, payload: { jwtToken: e.detail.token } });
       window.reduxLocked = false;
 
-      window.reduxLockedQueue.forEach(({ next, action: originalAction, resolve }) => {
-        let action = originalAction;
-
-        if (isValidRSAA(action)) {
-          action = {
-            ...originalAction,
-            [CALL_API]: {
-              ...originalAction[CALL_API],
-              headers: {
-                ...originalAction[CALL_API].headers,
-                Authorization: `Bearer ${e.detail.token}`,
-              },
-            },
-          };
-        }
-
-        const result = next(action);
-
-        if (resolve) {
-          resolve(result);
-        }
-      });
-
+      const releaseLockedQueue = createReleaseLockedQueue(e.detail.token);
+      window.reduxLockedQueue.forEach(releaseLockedQueue);
       window.reduxLockedQueue.splice(0, window.reduxLockedQueue.length);
+
       window.parent.dispatchEvent(new CustomEvent(`${UNLOCK_EVENT_NAME}ed#${e.detail.uuid}`));
     });
   } else {
