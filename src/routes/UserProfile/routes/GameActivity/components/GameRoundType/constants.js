@@ -22,27 +22,13 @@ const typesLabels = {
 };
 
 const typesProps = {
-  [types.FREE_SPIN]: {
-    className: 'game-round-type game-round-type_free-spin',
-  },
-  [types.SPORTBET]: {
-    className: 'game-round-type game-round-type_sportbet',
-  },
-  [types.OTHER]: {
-    className: 'game-round-type game-round-type_other',
-  },
-  [types.BONUS_ROUND_FREESPIN]: {
-    className: 'game-round-type game-round-type_bonus-frespin',
-  },
-  [types.BONUS_ROUND_BONUS]: {
-    className: 'game-round-type game-round-type_bonus-bonus',
-  },
-  [types.BONUS_ROUND_CHANCE]: {
-    className: 'game-round-type game-round-type_bonus-chance',
-  },
-  [types.BONUS_ROUND_CARD]: {
-    className: 'game-round-type game-round-type_bonus-card',
-  },
+  [types.FREE_SPIN]: 'game-round-type_free-spin',
+  [types.SPORTBET]: 'game-round-type_sportbet',
+  [types.OTHER]: 'game-round-type_other',
+  [types.BONUS_ROUND_FREESPIN]: 'game-round-type_bonus-freespin',
+  [types.BONUS_ROUND_BONUS]: 'game-round-type_bonus-bonus',
+  [types.BONUS_ROUND_CHANCE]: 'game-round-type_bonus-chance',
+  [types.BONUS_ROUND_CARD]: 'game-round-type_bonus-card',
 };
 
 export { types, typesLabels, typesProps };

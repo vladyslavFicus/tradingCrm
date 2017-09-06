@@ -132,7 +132,7 @@ const statusActions = {
     },
     {
       action: actions.RESUME,
-      label: 'Resume',
+      label: 'Remove',
       reasons,
       permission: permissions.USER_PROFILE.RESUME,
     },

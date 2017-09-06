@@ -179,13 +179,12 @@
         "BALANCE": "Баланс"
       },
       "GAME_ROUND_TYPE": {
-        "FREE_SPIN": "Freespin",
+        "FREE_SPIN": "Free spin",
         "SPORTBET": "Спортбет",
         "OTHER": "Другое",
-        "BONUS_ROUND_FREESPIN": "Бонусный раунд freespin",
-        "BONUS_ROUND_BONUS": "Бонус",
-        "BONUS_ROUND_CHANCE": "Бонусный раунд chance",
-        "BONUS_ROUND_CARD": "Бонусный раунд card"
+        "BONUS_ROUND_BONUS": "Бонус раунд",
+        "BONUS_ROUND_CHANCE": "Шанс",
+        "BONUS_ROUND_CARD": "Карта"
       }
     },
     "MARKETING": {

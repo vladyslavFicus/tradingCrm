@@ -177,13 +177,12 @@
         "BALANCE": "Balance"
       },
       "GAME_ROUND_TYPE": {
-        "FREE_SPIN": "Freespin",
+        "FREE_SPIN": "Free spin",
         "SPORTBET": "Sportbet",
         "OTHER": "Other",
-        "BONUS_ROUND_FREESPIN": "Bonus round freespin",
-        "BONUS_ROUND_BONUS": "Bonus",
-        "BONUS_ROUND_CHANCE": "Bonus round chance",
-        "BONUS_ROUND_CARD": "Bonus round card"
+        "BONUS_ROUND_BONUS": "Bonus round",
+        "BONUS_ROUND_CHANCE": "Chance",
+        "BONUS_ROUND_CARD": "Card"
       }
     },
     "MARKETING": {
