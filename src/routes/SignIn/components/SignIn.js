@@ -75,6 +75,7 @@ class SignIn extends Component {
         this.setState({ logged: true }, () => {
           const { departmentsByBrand, token, uuid } = action.payload;
           const brands = Object.keys(departmentsByBrand);
+          console.info(`Logged with ${brands.length} brands`);
 
           if (brands.length === 1) {
             const departments = Object.keys(departmentsByBrand[brands[0]]);

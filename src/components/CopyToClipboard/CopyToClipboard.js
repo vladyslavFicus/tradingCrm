@@ -62,7 +62,7 @@ class CopyToClipboard extends Component {
 
   handleClick = (e) => {
     e.stopPropagation();
-  }
+  };
 
   render() {
     const { className, children, text } = this.props;

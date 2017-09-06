@@ -7,13 +7,13 @@ import { targetTypes as noteTargetTypes } from '../../../../../constants/note';
 import { accountStatuses as paymentAccountStatuses } from '../../../../../constants/payment';
 import PropTypes from '../../../../../constants/propTypes';
 import { GridColumn } from '../../../../../components/GridView';
-import { shortify } from '../../../../../utils/uuid';
 import NoteButton from '../../../../../components/NoteButton';
 import CollapseGridView from '../../../../../components/GridView/CollapseGridView';
 import CommonFileGridView from '../../../components/CommonFileGridView';
 import { targetTypes as fileTargetTypes } from '../../../../../components/Files/constants';
 import Amount from '../../../../../components/Amount';
 import StatusDropDown from './StatusDropDown';
+import PaymentAccount from '../../../../../components/PaymentAccount';
 
 class View extends Component {
   static propTypes = {
@@ -117,7 +117,12 @@ class View extends Component {
   renderPaymentAccount = data => (
     <div>
       <div className="font-weight-700 text-uppercase">{data.paymentMethod}</div>
-      <div className="font-size-11">{shortify(data.details)}</div>
+      {
+        !!data.details &&
+        <div className="font-size-11">
+          <PaymentAccount account={data.details} />
+        </div>
+      }
     </div>
   );
 
@@ -254,7 +259,7 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="1">
           <div className="tab-header">
             <div className="tab-header__heading">
               {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.TITLE')}

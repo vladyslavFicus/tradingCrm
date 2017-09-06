@@ -19,10 +19,10 @@ import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
 import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
 import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../components/Reactstrap/Uncontrolled';
-import Uuid from '../../../../../components/Uuid';
 import renderLabel from '../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
+import PaymentAccount from '../../../../../components/PaymentAccount';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -322,7 +322,7 @@ class View extends Component {
         {
           !!data.paymentAccount &&
           <span className="font-size-11">
-            <Uuid uuid={data.paymentAccount} uuidPartsCount={2} />
+            <PaymentAccount account={data.paymentAccount} />
           </span>
         }
       </div>
@@ -382,7 +382,7 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="1">
           <div className="tab-header">
             <div className="tab-header__heading">Transactions</div>
             <div className="tab-header__actions">

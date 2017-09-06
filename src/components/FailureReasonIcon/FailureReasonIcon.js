@@ -45,12 +45,15 @@ class FailureReasonIcon extends Component {
           <div className="failure-reason-popover__title">
             {I18n.t('COMMON.AUTHOR_BY')}
             {' '}
-            <span className="font-weight-700">
-              <Uuid
-                uuid={statusAuthor}
-                uuidPrefix={statusAuthor.indexOf('OPERATOR') === -1 ? 'OP' : null}
-              />
-            </span>
+            {
+              !!statusAuthor &&
+              <span className="font-weight-700">
+                <Uuid
+                  uuid={statusAuthor}
+                  uuidPrefix={statusAuthor.indexOf('OPERATOR') === -1 ? 'OP' : null}
+                />
+              </span>
+            }
           </div>
           <div className="failure-reason-popover__date">
             {statusDate}

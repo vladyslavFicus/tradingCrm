@@ -142,6 +142,12 @@
           "NOT_ALL_FOUR_CORNERS": "Видны не все четыре угла",
           "EXPIRED_DOC": "Истекший документ"
         }
+      },
+      "CHANGE_PASSWORD_MODAL": {
+        "TITLE": "Изменить пароль игрока",
+        "WARNING_HEADER": "Вы собираетесь изменить пароль",
+        "NEW_PASSWORD": "Новый пароль",
+        "REPEAT_PASSWORD": "Повторите пароль"
       }
     },
     "GAME_ACTIVITY": {
@@ -297,7 +303,8 @@
       },
       "OPTED_IN": "Opted-in",
       "NOT_OPTED_IN": "Not opted-in",
-      "OPT_OUT": "Отказаться"
+      "OPT_OUT": "Opt out",
+      "DECLINE": "Отказаться"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -414,11 +421,13 @@
     "DEPARTMENTS": "Департаменты",
     "ANY": "Любые",
     "ROLLBACK": "Rollback",
+    "FOR": "для",
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить",
       "UPLOAD_FILE": "+ Загрузить файл",
-      "CREATE_AND_OPEN": "Создать и открыть"
+      "CREATE_AND_OPEN": "Создать и открыть",
+      "SAVE_NEW_PASSWORD": "Сохранить новый пароль"
     },
     "ACTIONS": {
       "ON": "Вкл",

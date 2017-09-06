@@ -41,13 +41,17 @@ class SignInForm extends Component {
     const { logged } = this.props;
 
     if (logged !== nextProps.logged) {
-      this.setState({ step: 1 }, () => {
-        this.timeouts.push(
-          setTimeout(() => {
-            this.setState({ step: 2 });
-          }, 350)
-        );
-      });
+      if (nextProps.logged) {
+        this.setState({ step: 1 }, () => {
+          this.timeouts.push(
+            setTimeout(() => {
+              this.setState({ step: 2 });
+            }, 350)
+          );
+        });
+      } else {
+        this.setState({ step: 0 });
+      }
     }
   }
 

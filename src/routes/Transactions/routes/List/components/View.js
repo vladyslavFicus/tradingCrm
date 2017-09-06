@@ -20,6 +20,7 @@ import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import renderLabel from '../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
+import PaymentAccount from '../../../../../components/PaymentAccount';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -228,7 +229,7 @@ class View extends Component {
         {
           !!data.paymentAccount &&
           <span className="font-size-10">
-            <Uuid uuid={data.paymentAccount} uuidPartsCount={2} />
+            <PaymentAccount account={data.paymentAccount} />
           </span>
         }
       </div>
