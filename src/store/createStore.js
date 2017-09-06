@@ -7,7 +7,9 @@ import makeRootReducer from './reducers';
 import thunk from '../redux/middlewares/thunk';
 import apiUrl from '../redux/middlewares/apiUrl';
 import authMiddleware from '../redux/middlewares/auth';
+import apiToken from '../redux/middlewares/apiToken';
 import apiErrors from '../redux/middlewares/apiErrors';
+import catcher from '../redux/middlewares/catcher';
 import { actionCreators as locationActionCreators } from '../redux/modules/location';
 import { actionCreators as languageActionCreators } from '../redux/modules/language';
 import { actionCreators as permissionsActionCreators } from '../redux/modules/permissions';
@@ -19,10 +21,11 @@ export default (initialState = {}, onComplete) => {
   const middleware = [
     thunk,
     apiUrl,
+    catcher,
+    apiToken,
   ];
 
   if (window.isFrame) {
-    middleware.push(require('../redux/middlewares/catcher').default);
     middleware.push(require('../redux/middlewares/window').default);
   }
 

@@ -12,15 +12,17 @@ export default () => next => (action) => {
   } else {
     const result = next(action);
     if (isValidRSAA(action)) {
-      window.activeConnections.push(result);
+      if (result) {
+        window.activeConnections.push(result);
 
-      result.then(() => {
-        const index = window.activeConnections.indexOf(result);
+        result.then(() => {
+          const index = window.activeConnections.indexOf(result);
 
-        if (index > -1) {
-          window.activeConnections.splice(index, 1);
-        }
-      });
+          if (index > -1) {
+            window.activeConnections.splice(index, 1);
+          }
+        });
+      }
     }
 
     return result;
