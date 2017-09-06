@@ -9,7 +9,7 @@ import Permissions from '../../../../../../../utils/permissions';
 import permission from '../../../../../../../config/permissions';
 
 const manageDepartmentsPermissions = new Permissions([
-  permission.OPERATORS.ADD_AUTHORITY, permission.OPERATORS.DELETE_AUTHORITY
+  permission.OPERATORS.ADD_AUTHORITY, permission.OPERATORS.DELETE_AUTHORITY,
 ]);
 
 class View extends Component {

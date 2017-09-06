@@ -1,61 +1,62 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { shortify } from '../../../utils/uuid';
 import Uuid from '../../../components/Uuid';
 import Amount from '../../Amount';
 import './TransactionMiniProfile.scss';
+import { statuses } from '../../../constants/payment';
+import PropTypes from '../../../constants/propTypes';
 
-const TransactionMiniProfile = ({ transaction }) => {
+const TransactionMiniProfile = ({ data }) => {
   let uuidPrefix = null;
 
-  if (transaction.creatorUUID.indexOf('OPERATOR') === -1) {
-    uuidPrefix = transaction.creatorUUID.indexOf('PLAYER') === -1 ? 'PL' : null;
+  if (data.creatorUUID.indexOf('OPERATOR') === -1) {
+    uuidPrefix = data.creatorUUID.indexOf('PLAYER') === -1 ? 'PL' : null;
   }
 
   return (
-    <div className={`mini-profile transaction-mini-profile_${transaction.status}`}>
+    <div className={`mini-profile transaction-mini-profile_${data.status}`}>
       <div className="mini-profile-header">
-        <label className="mini-profile-label">{transaction.status}</label>
+        <label className="mini-profile-label">{data.status}</label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.TRANSACTION')}</div>
         <div className="mini-profile-title">
-          <span className={`transaction-status transaction-status_${transaction.paymentType}`}>
-            {transaction.paymentType}
+          <span className={`transaction-status transaction-status_${data.paymentType}`}>
+            {data.paymentType}
           </span>
           {' '}
-          <span className="font-weight-700">{shortify(transaction.paymentId, 'TA')}</span>
+          <span className="font-weight-700">{shortify(data.paymentId, 'TA')}</span>
           <i className="note-icon note-pinned-note" />
         </div>
         <div className="mini-profile-ids">
           {I18n.t('COMMON.AUTHOR_BY')}
           {' '}
           <Uuid
-            uuid={transaction.creatorUUID}
+            uuid={data.creatorUUID}
             uuidPrefix={uuidPrefix}
           />
         </div>
         <div className="mini-profile-ids">
           {I18n.t('COMMON.DATE_ON', {
-            date: moment(transaction.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
+            date: moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
           })}
         </div>
       </div>
       {
-        transaction.status === 'FAILED' &&
+        data.status === statuses.FAILED &&
         <div className="mini-profile-status-reason">
           <div className="info-block">
             <div className="info-block_status-reason">{I18n.t('MINI_PROFILE.ERROR_MESSAGE')}</div>
-            <div className="info-block_status-reason_body">{transaction.reason}</div>
+            <div className="info-block_status-reason_body">{data.reason}</div>
           </div>
         </div>
       }
       {
-        transaction.status === 'REFUSED' &&
+        data.status === statuses.REFUSED &&
         <div className="mini-profile-status-reason">
           <div className="info-block">
             <div className="info-block_status-reason">{I18n.t('MINI_PROFILE.REJECTION_REASON')}</div>
-            <div className="info-block_status-reason_body">{transaction.reason}</div>
+            <div className="info-block_status-reason_body">{data.reason}</div>
           </div>
         </div>
       }
@@ -64,14 +65,14 @@ const TransactionMiniProfile = ({ transaction }) => {
           <div className="info-block-label">{I18n.t('MINI_PROFILE.PLAYER')}</div>
           <div className="info-block-content">
             <div className="info-block-heading">
-              {transaction.playerProfile.firstName}{' '}{transaction.playerProfile.lastName}
-              {transaction.playerProfile.kycCompleted && <i className="fa fa-check text-success margin-left-5" />}
+              {data.playerProfile.firstName}{' '}{data.playerProfile.lastName}
+              {data.playerProfile.kycCompleted && <i className="fa fa-check text-success margin-left-5" />}
             </div>
             <div className="info-block-description">
-              {transaction.playerProfile.username}
+              {data.playerProfile.username}
               {' - '}
               <Uuid
-                uuid={transaction.creatorUUID}
+                uuid={data.creatorUUID}
                 uuidPrefix={uuidPrefix}
               />
             </div>
@@ -81,22 +82,22 @@ const TransactionMiniProfile = ({ transaction }) => {
           <div className="info-block-label">{I18n.t('PAYMENT_DETAILS_MODAL.HEADER_AMOUNT')}</div>
           <div className="info-block-content">
             <div className="info-block-heading">
-              <Amount {...transaction.amount} />
+              <Amount {...data.amount} />
             </div>
           </div>
         </div>
         {
-          transaction.paymentMethod &&
+          data.paymentMethod &&
           <div className="info-block">
             <div className="info-block-label">{I18n.t('PAYMENT_DETAILS_MODAL.HEADER_PAYMENT_METHOD')}</div>
             <div className="info-block-content">
               <div className="info-block-heading">
-                {transaction.paymentMethod}
+                {data.paymentMethod}
               </div>
               {
-                transaction.paymentAccount &&
+                data.paymentAccount &&
                 <div className="info-block-description">
-                  <Uuid uuid={transaction.paymentAccount} uuidPartsCount={2} />
+                  <Uuid uuid={data.paymentAccount} uuidPartsCount={2} />
                 </div>
               }
             </div>
@@ -108,7 +109,7 @@ const TransactionMiniProfile = ({ transaction }) => {
 };
 
 TransactionMiniProfile.propTypes = {
-  transaction: PropTypes.object.isRequired,
+  data: PropTypes.paymentEntity.isRequired,
 };
 
 export default TransactionMiniProfile;

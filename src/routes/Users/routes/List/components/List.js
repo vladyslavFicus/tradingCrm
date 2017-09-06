@@ -25,6 +25,9 @@ class List extends Component {
   };
   static contextTypes = {
     addPanel: PropTypes.func.isRequired,
+    miniProfile: PropTypes.shape({
+      onShowMiniProfile: PropTypes.func.isRequired,
+    }),
   };
 
   state = {

@@ -13,6 +13,8 @@ import {
 } from '../../../../../constants/operators';
 import CreateOperatorModal from '../../../components/CreateOperatorModal';
 import Uuid from '../../../../../components/Uuid';
+import MiniProfile from '../../../../../components/MiniProfile';
+import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 
 const MODAL_CREATE_OPERATOR = 'modal-create-operator';
 const modalInitialState = {
@@ -39,6 +41,12 @@ class List extends Component {
     locale: PropTypes.string.isRequired,
   };
 
+  static contextTypes = {
+    miniProfile: PropTypes.shape({
+      onShowMiniProfile: PropTypes.func.isRequired,
+    }),
+  };
+
   state = {
     modal: { ...modalInitialState },
     filters: {},
@@ -47,6 +55,14 @@ class List extends Component {
 
   componentWillMount() {
     this.handleRefresh();
+  }
+
+  onMiniProfileHover = async (operatorUUID, type) => {
+    const action = await this.props.fetchOperatorMiniProfile(operatorUUID);
+
+    if (action) {
+      this.context.miniProfile.onShowMiniProfile(`id-${operatorUUID}`, action.payload, type);
+    }
   }
 
   handlePageChanged = (page) => {
@@ -93,25 +109,23 @@ class List extends Component {
     });
   };
 
-  renderStatus = (data) => {
-    return (
-      <div>
-        <div
-          className={
-            classNames(operatorStatusColorNames[data.operatorStatus], 'text-uppercase font-weight-700')
-          }
-        >
-          {operatorStatusesLabels[data.operatorStatus] || data.operatorStatus}
-        </div>
-        {
-          data.statusChangeDate &&
-          <div className="font-size-11">
-            Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
-          </div>
+  renderStatus = data => (
+    <div>
+      <div
+        className={
+          classNames(operatorStatusColorNames[data.operatorStatus], 'text-uppercase font-weight-700')
         }
+      >
+        {operatorStatusesLabels[data.operatorStatus] || data.operatorStatus}
       </div>
-    );
-  };
+      {
+        data.statusChangeDate &&
+        <div className="font-size-11">
+          Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
+        </div>
+      }
+    </div>
+  )
 
   renderOperator = data => (
     <div>
@@ -121,31 +135,32 @@ class List extends Component {
         </Link>
       </div>
       <div className="font-size-11">
-        <Uuid uuid={data.uuid} />
+        <MiniProfile
+          target={data.uuid}
+          onMouseOver={() => this.onMiniProfileHover(data.uuid, miniProfileTypes.OPERATOR)}
+        >
+          <Uuid uuid={data.uuid} />
+        </MiniProfile>
       </div>
     </div>
   );
 
-  renderCountry = (data) => {
-    return (
-      <div className="font-weight-700">
-        {data.country}
-      </div>
-    );
-  };
+  renderCountry = data => (
+    <div className="font-weight-700">
+      {data.country}
+    </div>
+  );
 
-  renderRegistered = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700">
-          {moment(data.registrationDate).format('DD.MM.YYYY')}
-        </div>
-        <div className="font-size-11">
-          {moment(data.registrationDate).format('HH.mm')}
-        </div>
+  renderRegistered = data => (
+    <div>
+      <div className="font-weight-700">
+        {moment(data.registrationDate).format('DD.MM.YYYY')}
       </div>
-    );
-  };
+      <div className="font-size-11">
+        {moment(data.registrationDate).format('HH.mm')}
+      </div>
+    </div>
+  );
 
   render() {
     const { filters, modal } = this.state;

@@ -454,7 +454,8 @@
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - Превышен общий предел в размере €2300 на снятие средств для неопытных игроков KYC.",
-    "CHOOSE_REASON": "-- Выберите причину --"
+    "CHOOSE_REASON": "-- Выберите причину --",
+    "NEVER": "Никогда"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1023,6 +1024,7 @@
     "REGISTERED": "Регистрация",
     "TRANSACTION": "Транзакция",
     "ERROR_MESSAGE": "Ошибка",
-    "REJECTION_REASON": "Причина отказа"
+    "REJECTION_REASON": "Причина отказа",
+    "OPERATOR": ""
   }
 }

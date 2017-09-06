@@ -37,7 +37,7 @@ class ProfileLastLogin extends Component {
                   {lastIp.country && I18n.t('PROFILE.LAST_LOGIN.FROM_COUNTRY', { country: lastIp.country })}
                 </div>
               </div>
-          )
+            )
         }
       </div>
     );
