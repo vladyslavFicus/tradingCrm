@@ -188,7 +188,7 @@ class View extends Component {
   renderBetAmount = data => (
     <div>
       {this.renderAmount('totalBetAmount', 'realBetAmount', 'bonusBetAmount')(data)}
-      <GameRoundType gamingActivityEntity={data} />
+      <GameRoundType gameRound={data} />
     </div>
   );
 
