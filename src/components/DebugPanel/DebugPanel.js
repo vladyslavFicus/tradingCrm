@@ -38,7 +38,7 @@ class DebugPanel extends Component {
   render() {
     const { reduxLocked } = this.state;
 
-    if (!window.isFrame) {
+    if (window.isFrame) {
       return null;
     }
 
