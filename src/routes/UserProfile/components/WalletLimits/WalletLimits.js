@@ -117,6 +117,23 @@ class WalletLimits extends Component {
     </div>
   );
 
+  renderLoginUnlock = () => (
+    <div className="limits-info_tab">
+      <div className="header-block_wallet-limits-tab_status">
+       Login - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
+      </div>
+      <div className="header-block_wallet-limits-tab_log">
+        by 5 failed login attempts
+      </div>
+      <div className="header-block_wallet-limits-tab_log">
+        until 24.04.2017 13:00
+      </div>
+      <button type="button" className="btn btn-danger-outline limits-info_tab-button" onClick={() => {}}>
+        Unlock login
+      </button>
+    </div>
+  );
+
   render() {
     const { dropDownOpen, modal } = this.state;
     const { limits: { entities, deposit, withdraw }, profile } = this.props;
@@ -131,6 +148,9 @@ class WalletLimits extends Component {
             <div className="header-block-title">Locks</div>
             {this.renderStatus('Deposit', deposit.locked)}
             {this.renderStatus('Withdrawal', withdraw.locked)}
+            <div className="header-block_wallet-limits-tab_status">
+              Login - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
+            </div>
           </div>
 
           <DropdownMenu>
@@ -152,6 +172,7 @@ class WalletLimits extends Component {
               entities.length > 0 &&
               <div className="limits-info">
                 {entities.map(this.renderLimit)}
+                {this.renderLoginUnlock()}
               </div>
             }
           </DropdownMenu>
