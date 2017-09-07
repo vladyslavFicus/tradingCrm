@@ -92,6 +92,103 @@ class View extends Component {
         />
 
         <div className="margin-top-20 tab-content">
+          <div className="padding-bottom-20">
+            <div className="feed-item">
+              <div className="feed-item_avatar">
+                <div className="feed-item_avatar-letter">s</div>
+              </div>
+              <div className="feed-item_info">
+                <div className="feed-item_info-status feed-item_info-status__green">
+                  Login automatically unlocked
+                  <span className="pull-right">AU-24525wetw</span>
+                </div>
+                <div className="feed-item_info-name">
+                  <span className="audit-name">System</span>
+                </div>
+                <div className="feed-item_info-date">
+                  07.09.2017 08:10:54
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="padding-bottom-20">
+            <div className="feed-item">
+              <div className="feed-item_avatar">
+                <div className="feed-item_avatar-letter feed-item_avatar-letter_orange">HC</div>
+              </div>
+              <div className="feed-item_info">
+                <div className="feed-item_info-status feed-item_info-status__green">
+                  Login manually unlocked
+                  <span className="pull-right">AU-24525wetw</span>
+                </div>
+                <div className="feed-item_info-name">
+                  <span className="audit-name blue">Helen Cassar</span>
+                  {' - '}
+                  <span className="copy-clipboard-container">OP-444442ye</span>
+                </div>
+                <div className="feed-item_info-date">
+                  07.09.2017 08:10:54
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="padding-bottom-20">
+            <div className="feed-item">
+              <div className="feed-item_avatar">
+                <div className="feed-item_avatar-letter">s</div>
+              </div>
+              <div className="feed-item_info">
+                <div className="feed-item_info-status feed-item_info-status__red">
+                  Login locked
+                  <span className="pull-right">AU-24525wetw</span>
+                </div>
+                <div className="feed-item_info-name">
+                  <span className="audit-name">System</span>
+                </div>
+                <div className="feed-item_info-date">
+                  07.09.2017 08:10:54
+                  <button className="feed-item_info-date_btn-hide btn-transparent">
+                    <span>Hide details <i className="fa fa-caret-down" /></span>
+                  </button>
+                </div>
+                <div className="feed-item_info-details">
+                  <div>Reason: <span className="feed-item_info-details_value">5 failed login attempts</span></div>
+                  <div>Locked until: <span className="feed-item_info-details_value">2016-10-20 17:50:07</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="padding-bottom-20">
+            <div className="feed-item">
+              <div className="feed-item_avatar">
+                <div className="feed-item_avatar-letter">s</div>
+              </div>
+              <div className="feed-item_info">
+                <div className="feed-item_info-status feed-item_info-status__red">
+                  Failed login attempt registered
+                  <span className="pull-right">AU-24525wetw</span>
+                </div>
+                <div className="feed-item_info-name">
+                  <span className="audit-name">System</span>
+                </div>
+                <div className="feed-item_info-date">
+                  07.09.2017 08:10:54 from 14.161.121.243
+                  <button className="feed-item_info-date_btn-hide btn-transparent">
+                    <span>Hide details <i className="fa fa-caret-down" /></span>
+                  </button>
+                </div>
+                <div className="feed-item_info-details">
+                  <div>IP: <span className="feed-item_info-details_value">14.161.121.243 - Ukraine</span></div>
+                  <div>Attempt date & time: <span className="feed-item_info-details_value">19.10.2016 at 10:15:36</span></div>
+                  <div>Device: <span className="feed-item_info-details_value">Desktop (macOS 10.12.3, Chrome V56.0.2924.87 64bit English, 2880x1800px )</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <ListView
             dataSource={entities.content}
             itemClassName="padding-bottom-20"
