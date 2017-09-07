@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import moment from 'moment';
 import PropTypes from '../../../../constants/propTypes';
 import { types, actions, reasons } from '../../../../constants/wallet';
-import WalletLimitsModal from './WalletLimitsModal';
+import PlayerLimitsModal from './PlayerLimitsModal';
 import Uuid from '../../../../components/Uuid';
-import './WalletLimits.scss';
+import './PlayerLimits.scss';
 
 const initialState = {
   dropDownOpen: false,
@@ -16,7 +16,7 @@ const initialState = {
   },
 };
 
-class WalletLimits extends Component {
+class PlayerLimits extends Component {
   static propTypes = {
     profile: PropTypes.userProfile.isRequired,
     limits: PropTypes.shape({
@@ -78,11 +78,11 @@ class WalletLimits extends Component {
 
   renderStatus = (label, locked) => {
     const className = locked
-      ? 'header-block_wallet-limits-tab_status_is-locked'
-      : 'header-block_wallet-limits-tab_status_is-allowed';
+      ? 'header-block_player-limits-tab_status_is-locked'
+      : 'header-block_player-limits-tab_status_is-allowed';
 
     return (
-      <div className="header-block_wallet-limits-tab_status">
+      <div className="header-block_player-limits-tab_status">
         {label} - <span className={className}>
           {locked ? 'Locked' : 'Allowed'}
         </span>
@@ -98,19 +98,19 @@ class WalletLimits extends Component {
 
   renderLimit = limit => (
     <div key={limit.id} className="limits-info_tab">
-      <div className="header-block_wallet-limits-tab_status">
-        {limit.type} - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
+      <div className="header-block_player-limits-tab_status">
+        {limit.type} - <span className="header-block_player-limits-tab_status_is-locked">Locked</span>
       </div>
       {
         limit.authorUUID &&
-        <div className="header-block_wallet-limits-tab_log">
+        <div className="header-block_player-limits-tab_log">
           by <Uuid uuid={limit.authorUUID} />
         </div>
       }
-      <div className="header-block_wallet-limits-tab_log">Reason - {limit.reason}</div>
+      <div className="header-block_player-limits-tab_log">Reason - {limit.reason}</div>
       {
         limit.startLock && moment(limit.startLock).isValid() &&
-        <div className="header-block_wallet-limits-tab_log">
+        <div className="header-block_player-limits-tab_log">
           on {moment(limit.startLock).format('DD.MM.YYYY HH:mm')}
         </div>
       }
@@ -119,13 +119,13 @@ class WalletLimits extends Component {
 
   renderLoginUnlock = () => (
     <div className="limits-info_tab">
-      <div className="header-block_wallet-limits-tab_status">
-       Login - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
+      <div className="header-block_player-limits-tab_status">
+       Login - <span className="header-block_player-limits-tab_status_is-locked">Locked</span>
       </div>
-      <div className="header-block_wallet-limits-tab_log">
+      <div className="header-block_player-limits-tab_log">
         by 5 failed login attempts
       </div>
-      <div className="header-block_wallet-limits-tab_log">
+      <div className="header-block_player-limits-tab_log">
         until 24.04.2017 13:00
       </div>
       <button type="button" className="btn btn-danger-outline limits-info_tab-button" onClick={() => {}}>
@@ -143,18 +143,18 @@ class WalletLimits extends Component {
 
     return (
       <div className={className}>
-        <Dropdown className="dropdown-inline" isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-          <div className="header-block_wallet-limits-tab">
+        <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
+          <div className="header-block_player-limits-tab">
             <div className="header-block-title">Locks</div>
             {this.renderStatus('Deposit', deposit.locked)}
             {this.renderStatus('Withdrawal', withdraw.locked)}
-            <div className="header-block_wallet-limits-tab_status">
-              Login - <span className="header-block_wallet-limits-tab_status_is-locked">Locked</span>
+            <div className="header-block_player-limits-tab_status">
+              Login - <span className="header-block_player-limits-tab_status_is-locked">Locked</span>
             </div>
           </div>
 
           <DropdownMenu>
-            <div className="header-block_wallet-limits_btn-group">
+            <div className="header-block_player-limits_btn-group">
               {this.renderButton(
                 'deposit',
                 deposit.canUnlock,
@@ -180,7 +180,7 @@ class WalletLimits extends Component {
 
         {
           modal.show &&
-          <WalletLimitsModal
+          <PlayerLimitsModal
             {...modal.params}
             onSubmit={this.handleSubmit}
             onHide={this.handleModalHide}
@@ -192,4 +192,4 @@ class WalletLimits extends Component {
   }
 }
 
-export default WalletLimits;
+export default PlayerLimits;
