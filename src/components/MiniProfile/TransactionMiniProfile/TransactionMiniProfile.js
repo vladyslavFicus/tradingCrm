@@ -7,7 +7,7 @@ import Uuid from '../../../components/Uuid';
 import Amount from '../../Amount';
 import './TransactionMiniProfile.scss';
 import { statuses } from '../../../constants/payment';
-import { paymentStatusNames } from '../constants';
+import { paymentStatusNames, paymentTypesNames } from '../constants';
 import PropTypes from '../../../constants/propTypes';
 
 const TransactionMiniProfile = ({ data }) => {
@@ -23,7 +23,7 @@ const TransactionMiniProfile = ({ data }) => {
         <label className="mini-profile-label">{data.status}</label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.TRANSACTION')}</div>
         <div className="mini-profile-title">
-          <span className={`transaction-status transaction-status_${data.paymentType}`}>
+          <span className={classNames('transaction-status', paymentTypesNames[data.paymentType])}>
             {data.paymentType}
           </span>
           {' '}

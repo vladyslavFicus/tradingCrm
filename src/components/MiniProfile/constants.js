@@ -1,6 +1,6 @@
 import { statuses as operatorStatuses } from '../../constants/operators';
 import { statuses as userStatuses } from '../../constants/user';
-import { statuses as paymentStatuses } from '../../constants/payment';
+import { statuses as paymentStatuses, types as paymentTypes } from '../../constants/payment';
 
 const operatorStatusNames = {
   [operatorStatuses.INACTIVE]: 'inactive',
@@ -25,8 +25,15 @@ const paymentStatusNames = {
   [paymentStatuses.FAILED]: 'failed',
 };
 
+const paymentTypesNames = {
+  [paymentTypes.Deposit]: 'deposit',
+  [paymentTypes.Withdraw]: 'withdraw',
+  [paymentTypes.Confiscate]: 'confiscate',
+};
+
 export {
   operatorStatusNames,
   userStatusNames,
   paymentStatusNames,
+  paymentTypesNames,
 };
