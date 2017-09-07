@@ -537,7 +537,11 @@
         "PLAYER_PROFILE_SEARCH": "Players' search",
         "NEW_OPERATOR_ACCOUNT_CREATED": "Operator - New operator created",
         "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
-        "PLAYER_PROFILE_VIEWED": "Players' profile viewed"
+        "PLAYER_PROFILE_VIEWED": "Players' profile viewed",
+        "LOGIN_AUTOMATICALLY_UNLOCKED": "Login automatically unlocked",
+        "LOGIN_MANUALLY_UNLOCKED": "Login manually unlocked",
+        "LOGIN_LOCKED": "Login locked",
+        "FAILED_LOGIN_ATTEMPT": "Failed login attempt registered"
       }
     },
     "OPERATORS": {
@@ -801,6 +805,13 @@
       "INVITATION_SENT": "Invitation",
       "INVITATION_SENT_SUCCESS": "Successfully sent",
       "INVITATION_SENT_FAILURE": "Not sent"
+    },
+    "LOGIN_EVENTS": {
+      "REASON": "Reason",
+      "FAILED_LOGIN_ATTEMPTS": "5 failed login attempts",
+      "LOCKED_UNTIL": "Locked until",
+      "ATTEMPT_DATE_TIME": "Attempt date & time",
+      "DEVICE": "Device"
     }
   },
   "LOGGED_FORBIDDEN": {
