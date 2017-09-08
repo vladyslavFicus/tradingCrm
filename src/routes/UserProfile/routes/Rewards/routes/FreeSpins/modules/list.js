@@ -129,7 +129,7 @@ function exportFreeSpins(filters = {}) {
     });
 
     const blobData = await response.blob();
-    downloadBlob(`player-free-spins-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`player-free-spins-${moment.utc().local().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
     return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
   };
@@ -196,7 +196,7 @@ function manageNote(data) {
         author: fullName,
         creatorUUID: uuid,
         lastEditorUUID: uuid,
-        lastEditionDate: moment().format('YYYY-MM-DDTHH:mm:ss'),
+        lastEditionDate: moment.utc().local().format('YYYY-MM-DDTHH:mm:ss'),
       } : data,
     });
   };

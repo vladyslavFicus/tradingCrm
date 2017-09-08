@@ -204,10 +204,10 @@ class View extends Component {
   renderDateTime = data => (
     <div>
       <div className="font-weight-700">
-        {moment(data.creationTime).format('DD.MM.YYYY')}
+        {moment.utc(data.creationTime).local().format('DD.MM.YYYY')}
       </div>
       <span className="font-size-10 color-default">
-        {moment(data.creationTime).format('HH:mm:ss')}
+        {moment.utc(data.creationTime).local().format('HH:mm:ss')}
       </span>
     </div>
   );

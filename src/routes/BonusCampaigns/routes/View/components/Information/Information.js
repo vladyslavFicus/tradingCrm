@@ -72,15 +72,15 @@ const Information = (props) => {
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.LIFE_TIME')}:</strong>{' '}
-                {moment().isSameOrAfter(endDate) ? 0 : moment(endDate).fromNow()}
+                {moment.utc().local().isSameOrAfter(endDate) ? 0 : moment.utc(endDate).local().fromNow()}
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CAMPAIGN_START')}:</strong>{' '}
-                {moment(startDate).format('DD.MM.YYYY HH:mm')}
+                {moment.utc(startDate).local().format('DD.MM.YYYY HH:mm')}
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CAMPAIGN_END')}:</strong>{' '}
-                {moment(endDate).format('DD.MM.YYYY HH:mm')}
+                {moment.utc(endDate).local().format('DD.MM.YYYY HH:mm')}
               </div>
               {
                 conversionPrize &&

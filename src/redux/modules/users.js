@@ -35,8 +35,8 @@ const fetchProfileMapResponse = (response) => {
   const payload = {
     ...response,
     fullName: [firstName, lastName].filter(item => item).join(' '),
-    age: birthDate && moment(birthDate).isValid() ? moment().diff(birthDate, 'years') : null,
-    birthDate: birthDate && moment(birthDate).isValid() ? moment(birthDate).format('YYYY-MM-DD') : null,
+    age: birthDate && moment.utc(birthDate).local().isValid() ? moment.utc().local().diff(birthDate, 'years') : null,
+    birthDate: birthDate && moment.utc(birthDate).local().isValid() ? moment.utc(birthDate).local().format('YYYY-MM-DD') : null,
     kycDate,
     kycCompleted,
     balance: balance || emptyBalance,

@@ -64,7 +64,7 @@ function exportEntities(filters = {}) {
     });
 
     const blobData = await response.blob();
-    downloadBlob(`users-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`users-export-${moment.utc().local().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
     return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
   };

@@ -108,7 +108,7 @@ class List extends Component {
         {
           data.statusChangeDate &&
           <div className="font-size-11">
-            Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
+            Since {moment.utc(data.statusChangeDate).local().format('DD.MM.YYYY')}
           </div>
         }
       </div>
@@ -142,10 +142,10 @@ class List extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          {moment(data.registrationDate).format('DD.MM.YYYY')}
+          {moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}
         </div>
         <div className="font-size-11">
-          {moment(data.registrationDate).format('HH.mm')}
+          {moment.utc(data.registrationDate).local().format('HH.mm')}
         </div>
       </div>
     );
