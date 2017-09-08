@@ -1,10 +1,6 @@
 /*
  * TOOLTIPS & POPOVERS
  */
-.popover {
-  border-color: #d2d9e5;
-}
-
 .popover .popover-arrow {
   border-width: 8px;
 }
