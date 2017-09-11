@@ -4,7 +4,7 @@ import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
-import { getApiRoot } from '../../../../../config/index';
+import { getApiRoot } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
 import shallowEqual from '../../../../../utils/shallowEqual';
