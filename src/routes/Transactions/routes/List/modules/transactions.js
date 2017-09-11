@@ -114,7 +114,7 @@ function exportEntities(filters = {}) {
     });
 
     const blobData = await response.blob();
-    downloadBlob(`users-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`transactions-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
     return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
   };
