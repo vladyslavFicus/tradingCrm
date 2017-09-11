@@ -177,6 +177,14 @@
         "BALANCE_AFTER": "После",
         "PENDING_BALANCE": "В ожидании",
         "BALANCE": "Баланс"
+      },
+      "GAME_ROUND_TYPE": {
+        "FREE_SPIN": "Free spin",
+        "SPORTBET": "Спортбет",
+        "OTHER": "Другое",
+        "BONUS_ROUND_BONUS": "Бонус раунд",
+        "BONUS_ROUND_CHANCE": "Шанс",
+        "BONUS_ROUND_CARD": "Карта"
       }
     },
     "MARKETING": {
@@ -758,7 +766,7 @@
     "MODALS": {
       "RESET_PASSWORD": {
         "TITLE": "Сброс пароля оператора - Подтверждение",
-        "ACTION_TEXT": "Вы собираетесь сбросить пароля для %{fullName}",
+        "ACTION_TEXT": "Вы собираетесь сбросить пароль для %{fullName}",
         "ACTION_TARGET": "профиль оператора",
         "CONFIRM_ACTION": "Сбросить пароль"
       },

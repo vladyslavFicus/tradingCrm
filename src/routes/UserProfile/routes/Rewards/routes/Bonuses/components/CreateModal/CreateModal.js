@@ -51,7 +51,7 @@ const validator = (values) => {
 const CreateModal = ({ onSubmit, handleSubmit, onClose, pristine, submitting, disabled, invalid }) => (
   <Modal className="create-bonus-modal" toggle={onClose} isOpen>
     <form onSubmit={handleSubmit(onSubmit)}>
-      <ModalHeader>
+      <ModalHeader toggle={onClose}>
         {I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.TITLE')}
       </ModalHeader>
       <ModalBody>

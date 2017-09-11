@@ -6,9 +6,7 @@ import { InputField, SelectField, BirthdayField } from '../../../../../component
 import { createValidator } from '../../../../../utils/validator';
 
 const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
-const titles = ['Mr.', 'Ms.', 'Mrs.'];
 const attributeLabels = {
-  title: 'Title',
   firstName: 'First name',
   lastName: 'Last name',
   identifier: 'ID Number',
@@ -16,7 +14,6 @@ const attributeLabels = {
   gender: 'Gender',
 };
 const validator = createValidator({
-  title: ['string'],
   firstName: 'string',
   lastName: 'string',
   birthDate: 'date',
@@ -60,21 +57,6 @@ class PersonalForm extends Component {
           </div>
         </div>
         <div className="form-row">
-          <div className="form-row__small">
-            <Field
-              name="title"
-              label={attributeLabels.title}
-              component={SelectField}
-              position="vertical"
-            >
-              <option value="">-- Select --</option>
-              {titles.map(item => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </Field>
-          </div>
           <div className="form-row__medium">
             <Field
               name="firstName"

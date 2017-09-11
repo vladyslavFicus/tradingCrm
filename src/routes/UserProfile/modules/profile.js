@@ -482,7 +482,7 @@ function changeStatus({ action, ...data }) {
       return dispatch(prolongProfile(data));
     } else if (action === actions.SUSPEND) {
       return dispatch(suspendProfile(data));
-    } else if (action === actions.RESUME) {
+    } else if (action === actions.REMOVE) {
       return dispatch(resumeProfile(data));
     }
 

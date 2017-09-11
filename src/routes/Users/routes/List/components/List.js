@@ -150,25 +150,18 @@ class List extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <div className="row">
-              <div className="col-xl-3">
-                <span
-                  className="font-size-20"
-                  id="users-list-header"
-                >
-                  Players
-                </span>
-              </div>
+            <div className="clearfix">
+              <span className="font-size-20" id="users-list-header">
+                Players
+              </span>
 
-              <div className="col-xl-3 col-xl-offset-6 text-right">
-                <button
-                  disabled={exporting || !allowActions}
-                  className="btn btn-default-outline"
-                  onClick={this.handleExport}
-                >
-                  Export
-                </button>
-              </div>
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline pull-right"
+                onClick={this.handleExport}
+              >
+                Export
+              </button>
             </div>
           </Title>
 

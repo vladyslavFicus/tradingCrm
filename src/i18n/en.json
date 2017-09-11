@@ -175,6 +175,14 @@
         "BALANCE_AFTER": "After",
         "PENDING_BALANCE": "Pending",
         "BALANCE": "Balance"
+      },
+      "GAME_ROUND_TYPE": {
+        "FREE_SPIN": "Free spin",
+        "SPORTBET": "Sportbet",
+        "OTHER": "Other",
+        "BONUS_ROUND_BONUS": "Bonus round",
+        "BONUS_ROUND_CHANCE": "Chance",
+        "BONUS_ROUND_CARD": "Card"
       }
     },
     "MARKETING": {
