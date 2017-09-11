@@ -14,7 +14,7 @@ class NoteButton extends Component {
     preview: PropTypes.bool,
     withMessage: PropTypes.bool,
     message: PropTypes.string,
-    onClick: PropTypes.func,
+    onClick: PropTypes.func.isRequired,
   };
   static defaultProps = {
     className: 'cursor-pointer',
@@ -23,7 +23,6 @@ class NoteButton extends Component {
     targetEntity: null,
     preview: false,
     withMessage: false,
-    onClick: null,
   };
 
   handleClick = (id) => {

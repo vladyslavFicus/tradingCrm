@@ -112,7 +112,7 @@ class RequestKycVerificationModal extends Component {
 
             <Field
               name="reason"
-              label={attributeLabels.reason}
+              label=""
               component={SelectField}
               className={'form-control'}
               position="vertical"

@@ -28,7 +28,10 @@ class CommonGridView extends Component {
   };
 
   static defaultProps = {
+    dataSource: null,
     insideModal: false,
+    onOpenCancelLimitModal: null,
+    onNoteClick: null,
   };
 
   renderActions = (data) => {

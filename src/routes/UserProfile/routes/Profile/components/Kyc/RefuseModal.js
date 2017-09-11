@@ -63,11 +63,10 @@ class RefuseModal extends Component {
     className: 'modal-danger',
     reasons: [],
     note: null,
-  };
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    hidePopover: PropTypes.func.isRequired,
+    pristine: false,
+    submitting: false,
+    invalid: false,
+    selectedValues: null,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -119,7 +118,7 @@ class RefuseModal extends Component {
             selectedValues && selectedValues[type] &&
             <Field
               name={`${type}_reason`}
-              label={attributeLabels.reason}
+              label=""
               component={SelectField}
               position="vertical"
             >
