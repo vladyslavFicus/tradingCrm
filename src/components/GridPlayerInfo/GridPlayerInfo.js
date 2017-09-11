@@ -21,22 +21,9 @@ class GridPlayerInfo extends Component {
     mainInfoClassName: 'font-weight-700',
     id: null,
   };
-  static contextTypes = {
-    miniProfile: PropTypes.shape({
-      onShowMiniProfile: PropTypes.func.isRequired,
-    }),
-  };
-
-  onMiniProfileHover = async (playerUUID, type) => {
-    const action = await this.props.fetchUserMiniProfile(playerUUID);
-
-    if (action && !action.error) {
-      this.context.miniProfile.onShowMiniProfile(`id-${playerUUID}`, action.payload, type);
-    }
-  }
 
   render() {
-    const { profile, onClick, mainInfoClassName, id } = this.props;
+    const { fetchUserMiniProfile, profile, onClick, mainInfoClassName, id } = this.props;
 
     return (
       <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
@@ -60,7 +47,8 @@ class GridPlayerInfo extends Component {
               {!!profile.username && <span>{profile.username} - </span>}
               <MiniProfile
                 target={profile.playerUUID}
-                onMouseOver={() => this.onMiniProfileHover(profile.playerUUID, miniProfileTypes.PLAYER)}
+                dataSource={() => fetchUserMiniProfile(profile.playerUUID)}
+                type={miniProfileTypes.PLAYER}
               >
                 <Uuid
                   uuid={profile.playerUUID}

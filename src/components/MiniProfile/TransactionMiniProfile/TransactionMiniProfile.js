@@ -9,12 +9,13 @@ import './TransactionMiniProfile.scss';
 import { statuses } from '../../../constants/payment';
 import { paymentStatusNames, paymentTypesNames } from '../constants';
 import PropTypes from '../../../constants/propTypes';
+import PaymentAccount from '../../../components/PaymentAccount';
 
 const TransactionMiniProfile = ({ data }) => {
-  let uuidPrefix = null;
+  let authorUuidPrefix = null;
 
   if (data.creatorUUID.indexOf('OPERATOR') === -1) {
-    uuidPrefix = data.creatorUUID.indexOf('PLAYER') === -1 ? 'PL' : null;
+    authorUuidPrefix = data.creatorUUID.indexOf('PLAYER') === -1 ? 'PL' : null;
   }
 
   return (
@@ -35,12 +36,12 @@ const TransactionMiniProfile = ({ data }) => {
           {' '}
           <Uuid
             uuid={data.creatorUUID}
-            uuidPrefix={uuidPrefix}
+            uuidPrefix={authorUuidPrefix}
           />
         </div>
         <div className="mini-profile-ids">
           {I18n.t('COMMON.DATE_ON', {
-            date: moment(data.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
+            date: moment.utc(data.creationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
           })}
         </div>
       </div>
@@ -67,7 +68,7 @@ const TransactionMiniProfile = ({ data }) => {
           <div className="info-block-label">{I18n.t('MINI_PROFILE.PLAYER')}</div>
           <div className="info-block-content">
             <div className="info-block-heading">
-              {data.playerProfile.firstName}{' '}{data.playerProfile.lastName}
+              {`${data.playerProfile.firstName} ${data.playerProfile.lastName}`}
               {data.playerProfile.kycCompleted && <i className="fa fa-check text-success margin-left-5" />}
             </div>
             <div className="info-block-description">
@@ -75,7 +76,7 @@ const TransactionMiniProfile = ({ data }) => {
               {' - '}
               <Uuid
                 uuid={data.creatorUUID}
-                uuidPrefix={uuidPrefix}
+                uuidPrefix={authorUuidPrefix}
               />
             </div>
           </div>
@@ -99,7 +100,7 @@ const TransactionMiniProfile = ({ data }) => {
               {
                 data.paymentAccount &&
                 <div className="info-block-description">
-                  <Uuid uuid={data.paymentAccount} uuidPartsCount={2} />
+                  <PaymentAccount account={data.paymentAccount} />
                 </div>
               }
             </div>

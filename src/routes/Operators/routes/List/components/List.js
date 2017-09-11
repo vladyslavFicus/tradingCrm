@@ -4,6 +4,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
@@ -39,12 +40,7 @@ class List extends Component {
     filterValues: PropTypes.object,
     list: PropTypes.object,
     locale: PropTypes.string.isRequired,
-  };
-
-  static contextTypes = {
-    miniProfile: PropTypes.shape({
-      onShowMiniProfile: PropTypes.func.isRequired,
-    }),
+    fetchOperatorMiniProfile: PropTypes.func.isRequired,
   };
 
   state = {
@@ -55,14 +51,6 @@ class List extends Component {
 
   componentWillMount() {
     this.handleRefresh();
-  }
-
-  onMiniProfileHover = async (operatorUUID, type) => {
-    const action = await this.props.fetchOperatorMiniProfile(operatorUUID);
-
-    if (action) {
-      this.context.miniProfile.onShowMiniProfile(`id-${operatorUUID}`, action.payload, type);
-    }
   }
 
   handlePageChanged = (page) => {
@@ -123,7 +111,7 @@ class List extends Component {
       {
         data.statusChangeDate &&
         <div className="font-size-11">
-          Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
+          {I18n.t('COMMON.SINCE', { date: moment.utc(data.statusChangeDate).local().format('DD.MM.YYYY') })}
         </div>
       }
     </div>
@@ -139,7 +127,8 @@ class List extends Component {
       <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
         <MiniProfile
           target={data.uuid}
-          onMouseOver={() => this.onMiniProfileHover(data.uuid, miniProfileTypes.OPERATOR)}
+          type={miniProfileTypes.OPERATOR}
+          dataSource={() => this.props.fetchOperatorMiniProfile(data.uuid)}
         >
           <Uuid uuid={data.uuid} />
         </MiniProfile>

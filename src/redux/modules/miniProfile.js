@@ -5,11 +5,11 @@ import { sourceActionCreators as ipsSourceActionCreators } from './ip';
 
 const KEY = 'mini-profile-fetch';
 const FETCH_OPERATOR_PROFILE = createRequestAction(`${KEY}/fetch-operator-profile`);
-const FETCH_USER_PROFILE = createRequestAction(`${KEY}/fetch-user-profile`);
+const FETCH_PLAYER_PROFILE = createRequestAction(`${KEY}/fetch-player-profile`);
 const FETCH_IPS = createRequestAction(`${KEY}/fetch-ips`);
 
 const fetchOperatorProfile = operatorSourceActionCreators.fetchProfile(FETCH_OPERATOR_PROFILE);
-const fetchUserMiniProfile = userSourceActionCreators.fetchProfile(FETCH_USER_PROFILE);
+const fetchUserMiniProfile = userSourceActionCreators.fetchProfile(FETCH_PLAYER_PROFILE);
 const fetchIps = ipsSourceActionCreators.fetchEntities(FETCH_IPS);
 
 function fetchOperatorMiniProfile(operatorUUID) {
@@ -38,7 +38,7 @@ function fetchOperatorMiniProfile(operatorUUID) {
 
 const actionTypes = {
   FETCH_OPERATOR_PROFILE,
-  FETCH_USER_PROFILE,
+  FETCH_PLAYER_PROFILE,
   FETCH_IPS,
 };
 

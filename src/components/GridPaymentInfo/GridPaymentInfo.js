@@ -11,15 +11,6 @@ class GridPaymentInfo extends Component {
     payment: PropTypes.paymentEntity.isRequired,
     onClick: PropTypes.func.isRequired,
   };
-  static contextTypes = {
-    miniProfile: PropTypes.shape({
-      onShowMiniProfile: PropTypes.func.isRequired,
-    }),
-  };
-
-  onMiniProfileHover = (target, params, type) => {
-    this.context.miniProfile.onShowMiniProfile(`id-${target}`, params, type);
-  }
 
   render() {
     const { payment, onClick } = this.props;
@@ -46,7 +37,8 @@ class GridPaymentInfo extends Component {
           {' '}
           <MiniProfile
             target={payment.paymentId}
-            onMouseOver={() => this.onMiniProfileHover(payment.paymentId, payment, miniProfileTypes.TRANSACTION)}
+            type={miniProfileTypes.TRANSACTION}
+            dataSource={payment}
           >
             <Uuid
               uuid={payment.creatorUUID}

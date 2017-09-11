@@ -296,6 +296,9 @@ class NewLayout extends Component {
   };
 
   handleOpenMiniProfile = (params, target, type) => {
+
+
+
     this.setState({
       miniProfilePopover: {
         name: MINI_PROFILE_POPOVER,
@@ -306,6 +309,7 @@ class NewLayout extends Component {
         },
       },
     });
+
   }
 
   handleShowMiniProfile = (target, popoverParams = {}, type) => {

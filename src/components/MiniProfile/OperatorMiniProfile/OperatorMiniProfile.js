@@ -15,25 +15,28 @@ const OperatorMiniProfile = ({ data }) => (
       <label className="mini-profile-label">{data.operatorStatus}</label>
       <div className="mini-profile-type">{I18n.t('MINI_PROFILE.OPERATOR')}</div>
       <div className="mini-profile-title">
-        <span className="font-weight-700">{data.firstName}{' '}{data.lastName}</span>
+        <span className="font-weight-700">
+          {`${data.firstName} ${data.lastName}`}
+        </span>
       </div>
       <div className="mini-profile-ids">
         <Uuid uuid={data.uuid} />
-        {
-          data.country &&
-          <span>{' - '}{data.country}</span>
-        }
+        {data.country && <span>{` - ${data.country}`}</span>}
       </div>
       {
         !!data.authorities.length &&
         <div className="operator-mini-profile-departments">
           {
             data.authorities.map(authority =>
-              <div className="operator-mini-profile-department" key={authority.id}>
-                <span className="font-weight-700">{ renderLabel(authority.department, departmentsLabels) }</span>
-                {' - '}
-                <span>{ renderLabel(authority.role, rolesLabels) }</span>
-              </div>
+              (
+                <div className="operator-mini-profile-department" key={authority.id}>
+                  <span className="font-weight-700">
+                    {renderLabel(authority.department, departmentsLabels)}
+                  </span>
+                  {' - '}
+                  <span>{ renderLabel(authority.role, rolesLabels) }</span>
+                </div>
+              )
             )
           }
         </div>
@@ -48,12 +51,12 @@ const OperatorMiniProfile = ({ data }) => (
                 : (
                   <div>
                     <div className="info-block-heading">
-                      {data.lastIp.signInDate && moment.utc(data.lastIp.signInDate).fromNow()}
+                      {data.lastIp.signInDate && moment.utc(data.lastIp.signInDate).local().fromNow()}
                     </div>
                     <div className="info-block-description">
                       {I18n.t('COMMON.DATE_ON', {
                         date: data.lastIp.signInDate &&
-                        moment.utc(data.lastIp.signInDate).format('DD.MM.YYYY HH:mm'),
+                        moment.utc(data.lastIp.signInDate).local().format('DD.MM.YYYY HH:mm'),
                       })}
                     </div>
                   </div>
@@ -70,7 +73,7 @@ const OperatorMiniProfile = ({ data }) => (
             </div>
             <div className="info-block-description">
               {I18n.t('COMMON.DATE_ON', {
-                date: moment(data.registrationDate).format('DD.MM.YYYY HH:mm'),
+                date: moment.utc(data.registrationDate).local().format('DD.MM.YYYY HH:mm'),
               })}
             </div>
           </div>

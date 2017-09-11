@@ -36,8 +36,7 @@ const PlayerMiniProfile = ({ data }) => {
               uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
             />
           }
-          {' - '}
-          {data.languageCode}
+          {` - ${data.languageCode}`}
         </div>
         {
           data.tags && Array.isArray(data.tags) &&
@@ -66,7 +65,9 @@ const PlayerMiniProfile = ({ data }) => {
           <div className="info-block-label">{I18n.t('MINI_PROFILE.LAST_LOGIN')}</div>
           <div className="info-block-content">
             {
-              lastLogin ? moment.utc(lastLogin).fromNow() : I18n.t('COMMON.UNAVAILABLE')
+              !lastLogin
+                ? I18n.t('COMMON.UNAVAILABLE')
+                : moment.utc(lastLogin).local().fromNow()
             }
           </div>
         </div>
