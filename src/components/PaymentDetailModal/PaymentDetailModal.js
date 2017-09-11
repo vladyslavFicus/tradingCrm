@@ -30,7 +30,7 @@ class PaymentDetailModal extends Component {
   static propTypes = {
     className: PropTypes.string,
     onClose: PropTypes.func.isRequired,
-    onNoteClick: PropTypes.func.isRequired,
+    onNoteClick: PropTypes.func,
     onChangePaymentStatus: PropTypes.func.isRequired,
     onAskReason: PropTypes.func.isRequired,
     payment: PropTypes.paymentEntity.isRequired,
@@ -38,6 +38,7 @@ class PaymentDetailModal extends Component {
   };
   static defaultProps = {
     className: '',
+    onNoteClick: null,
   };
 
   handleApproveClick = () => {
