@@ -49,7 +49,7 @@ function signIn(data) {
 
 function refreshToken(outsideToken = null) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, refreshingToken } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -61,7 +61,7 @@ function refreshToken(outsideToken = null) {
           Authorization: `Bearer ${outsideToken || token}`,
         },
         types: [REFRESH_TOKEN.REQUEST, REFRESH_TOKEN.SUCCESS, REFRESH_TOKEN.FAILURE],
-        bailout: (!outsideToken && !token) || !logged,
+        bailout: (!outsideToken && !token) || !logged || refreshingToken,
       },
     });
   };
