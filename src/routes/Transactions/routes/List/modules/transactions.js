@@ -101,21 +101,20 @@ function exportEntities(filters = {}) {
     }
 
     const queryString = buildQueryString(
-      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
+      _.omitBy({ page: 0, ...filters }, val => !val)
     );
 
     const response = await fetch(`${getApiRoot()}/payment/payments?${queryString}`, {
-      method: filters.playerUuidList ? 'POST' : 'GET',
+      method: 'GET',
       headers: {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: filters.playerUuidList ? JSON.stringify({ playerUuidList: filters.playerUuidList }) : undefined,
     });
 
     const blobData = await response.blob();
-    downloadBlob(`transactions-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`users-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
     return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
   };
@@ -144,6 +143,7 @@ const initialState = {
   isLoading: false,
   receivedAt: null,
   noResults: false,
+  exporting: false,
 };
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({

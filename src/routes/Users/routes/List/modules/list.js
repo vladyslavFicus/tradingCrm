@@ -50,17 +50,16 @@ function exportEntities(filters = {}) {
     }
 
     const queryString = buildQueryString(
-      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
+      _.omitBy({ page: 0, ...filters }, val => !val)
     );
 
     const response = await fetch(`${getApiRoot()}/profile/profiles?${queryString}`, {
-      method: filters.playerUuidList ? 'POST' : 'GET',
+      method: 'GET',
       headers: {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: filters.playerUuidList ? JSON.stringify({ playerUuidList: filters.playerUuidList }) : undefined,
     });
 
     const blobData = await response.blob();
