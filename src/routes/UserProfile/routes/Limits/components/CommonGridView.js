@@ -191,7 +191,7 @@ class CommonGridView extends Component {
     <div className="font-weight-700">
       {
         data.type !== types.SESSION_DURATION ?
-          moment().add(data.period, 'seconds').local().fromNow(true) : ' - '
+          moment().add(data.period, 'seconds').fromNow(true) : ' - '
       }
     </div>
   );

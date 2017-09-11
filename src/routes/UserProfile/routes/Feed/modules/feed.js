@@ -74,7 +74,7 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
     });
 
     const blobData = await response.blob();
-    downloadBlob(`player-audit-log-${playerUUID}-${moment().local().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`player-audit-log-${playerUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
     return dispatch({ type: EXPORT_FEED.SUCCESS });
   };

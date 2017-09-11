@@ -132,7 +132,7 @@ function exportEntities(filters = {}) {
     });
 
     const blobData = await response.blob();
-    downloadBlob(`bonus-campaigns-${moment().local().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`bonus-campaigns-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
     return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
   };

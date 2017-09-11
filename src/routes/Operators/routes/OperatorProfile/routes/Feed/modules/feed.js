@@ -80,7 +80,7 @@ function exportFeed(operatorUUID, filters = { page: 0 }) {
     });
 
     const blobData = await response.blob();
-    downloadBlob(`operator-audit-log-${operatorUUID}-${moment().local().format('DD-MM-YYYY-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`operator-audit-log-${operatorUUID}-${moment().format('DD-MM-YYYY-HH-mm-ss')}.csv`, blobData);
 
     return dispatch({ type: EXPORT_FEED.SUCCESS });
   };
