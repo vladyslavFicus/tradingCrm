@@ -4,7 +4,7 @@ import PropTypes from '../../constants/propTypes';
 import { attributeLabels } from '../../constants/user';
 
 const formatters = {
-  birthDate: [value => moment.utc(value).local().format('DD.MM.YYYY')],
+  birthDate: [value => moment(value).format('DD.MM.YYYY')],
   tokenExpirationDate: [value => moment.utc(value).local().format('DD.MM.YYYY HH:mm:ss')],
 };
 const formatValue = (attribute, value) => {

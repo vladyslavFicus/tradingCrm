@@ -74,7 +74,7 @@ function exportGameActivity(playerUUID, filters = { page: 0 }) {
     });
 
     const blobData = await response.blob();
-    downloadBlob(`player-game-activity-${playerUUID}-${moment.utc().local().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`player-game-activity-${playerUUID}-${moment().local().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
     return dispatch({ type: EXPORT_ACTIVITY.SUCCESS });
   };

@@ -148,7 +148,7 @@ class PlayerStatus extends Component {
           (status === statuses.BLOCKED || status === statuses.SUSPENDED) &&
           <FailureReasonIcon
             reason={reason}
-            statusDate={moment.utc(statusDate).local().format('YYYY-MM-DD h:mm:ss a')}
+            statusDate={moment.utc(statusDate).local().format('YYYY-MM-DD HH:mm:ss')}
             statusAuthor={statusAuthor}
           />
         }

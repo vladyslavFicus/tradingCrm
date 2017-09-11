@@ -10,7 +10,7 @@ const formatters = {
   uploadedFileList: [() => null],
   reason: [() => null],
   creationDate: [() => null],
-  birthDate: [value => moment.utc(value).local().format('DD.MM.YYYY')],
+  birthDate: [value => moment(value).format('DD.MM.YYYY')],
 };
 const formatValue = (attribute, value) => formatters[attribute]
   ? formatters[attribute].reduce((res, formatter) => formatter(res), value)

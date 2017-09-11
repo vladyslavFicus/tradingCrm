@@ -36,7 +36,7 @@ class Personal extends Component {
           <div className="panel-body">
             <PersonalInformationItem
               label="Date of birth"
-              value={moment.utc(birthDate).local().format('DD.MM.YYYY')}
+              value={moment(birthDate).format('DD.MM.YYYY')}
               verified={kycPersonalStatus && kycPersonalStatus.status === kycStatuses.VERIFIED}
             />
             <PersonalInformationItem

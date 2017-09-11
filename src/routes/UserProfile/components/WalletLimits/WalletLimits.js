@@ -109,7 +109,7 @@ class WalletLimits extends Component {
       }
       <div className="header-block_wallet-limits-tab_log">Reason - {limit.reason}</div>
       {
-        limit.startLock && moment.utc(limit.startLock).local().isValid() &&
+        limit.startLock && moment(limit.startLock).isValid() &&
         <div className="header-block_wallet-limits-tab_log">
           on {moment.utc(limit.startLock).local().format('DD.MM.YYYY HH:mm')}
         </div>

@@ -24,6 +24,8 @@ const Information = (props) => {
     },
   } = props;
 
+  const endDateLocal = moment.utc(endDate).local();
+
   return (
     <div className="bonus__campaign__details row">
       <div className="col-md-3">
@@ -72,7 +74,7 @@ const Information = (props) => {
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.LIFE_TIME')}:</strong>{' '}
-                {moment.utc().local().isSameOrAfter(endDate) ? 0 : moment.utc(endDate).local().fromNow()}
+                {moment().local().isSameOrAfter(endDate) ? 0 : endDateLocal.fromNow()}
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CAMPAIGN_START')}:</strong>{' '}
@@ -80,7 +82,7 @@ const Information = (props) => {
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CAMPAIGN_END')}:</strong>{' '}
-                {moment.utc(endDate).local().format('DD.MM.YYYY HH:mm')}
+                {endDateLocal.format('DD.MM.YYYY HH:mm')}
               </div>
               {
                 conversionPrize &&
