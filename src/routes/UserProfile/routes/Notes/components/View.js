@@ -102,7 +102,7 @@ class View extends Component {
             <div className="font-size-11 color-secondary">
               {
                 data.lastEditionDate
-                  ? moment(data.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
+                  ? moment.utc(data.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
                   : I18n.t('COMMON.UNKNOWN_TIME')
               }
               {' '}

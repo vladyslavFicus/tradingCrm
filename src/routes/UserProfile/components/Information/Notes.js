@@ -41,7 +41,7 @@ class Notes extends Component {
         <small>
           {
             item.lastEditionDate
-              ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
+              ? moment.utc(item.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
               : I18n.t('COMMON.UNKNOWN_TIME')
           } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
         </small>

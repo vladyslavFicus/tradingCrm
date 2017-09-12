@@ -74,10 +74,10 @@ class Documents extends Component {
   renderDateTime = data => (
     <div>
       <div className="font-weight-700">
-        {moment(data.uploadDate).format('DD.MM.YYYY')}
+        {moment.utc(data.uploadDate).local().format('DD.MM.YYYY')}
       </div>
       <span className="font-size-10 color-default">
-        at {moment(data.uploadDate).format('HH:mm')}
+        at {moment.utc(data.uploadDate).local().format('HH:mm')}
       </span>
     </div>
   );
