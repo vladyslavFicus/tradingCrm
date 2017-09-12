@@ -49,9 +49,20 @@ class NotePopover extends Component {
     toggle: PropTypes.func,
   };
   static defaultProps = {
+    item: null,
     defaultTitleLabel: 'Note',
     placement: 'bottom',
     isOpen: false,
+    onSubmitSuccess: null,
+    onSubmitFailure: null,
+    onDeleteSuccess: null,
+    onDeleteFailure: null,
+    handleSubmit: null,
+    currentValues: null,
+    submitting: false,
+    invalid: false,
+    pristine: false,
+    toggle: null,
   };
 
   handleHide = (ignoreChanges = false) => {

@@ -7,11 +7,9 @@ const formatters = {
   birthDate: [value => moment(value).format('DD.MM.YYYY')],
   tokenExpirationDate: [value => moment.utc(value).local().format('DD.MM.YYYY HH:mm:ss')],
 };
-const formatValue = (attribute, value) => {
-  return formatters[attribute]
-    ? formatters[attribute].reduce((res, formatter) => formatter(res), value)
-    : value;
-};
+const formatValue = (attribute, value) => (
+  formatters[attribute] ? formatters[attribute].reduce((res, formatter) => formatter(res), value) : value
+);
 
 const FeedInfoProfileRegistered = ({ data }) => (
   <div className="feed-item_info-details">
