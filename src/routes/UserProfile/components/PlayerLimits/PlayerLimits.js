@@ -153,10 +153,12 @@ class PlayerLimits extends Component {
           Login - <span className="header-block_player-limits-tab_status_is-locked">Locked</span>
         </div>
         <div className="header-block_player-limits-tab_log">
-          by 5 failed login attempts
+          {I18n.t('PLAYER_PROFILE.LOCKS.REASON')}
         </div>
         <div className="header-block_player-limits-tab_log">
-          until {moment(login.expirationDate).format('DD.MM.YYYY HH:mm')}
+          {I18n.t('COMMON.DATE_UNTIL', {
+            date: moment(login.expirationDate).format('DD.MM.YYYY HH:mm') })
+          }
         </div>
         {
           this.renderButton(
