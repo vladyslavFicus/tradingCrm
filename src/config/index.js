@@ -67,7 +67,11 @@ const config = _.merge({
   logstash: {
     url: '',
   },
-  middlewares: { unauthorized: [401, 403], persist: { whitelist: ['auth', 'userPanels', 'language'], keyPrefix: 'nas:' } },
+  middlewares: {
+    unauthorized: [401, 403],
+    persist: { whitelist: ['auth', 'userPanels', 'language'], keyPrefix: 'nas:' },
+    crossTabPersist: { whitelist: ['auth'], keyPrefix: 'nas:' },
+  },
   modules: {
     bonusCampaign: {
       cancelReasons: {
