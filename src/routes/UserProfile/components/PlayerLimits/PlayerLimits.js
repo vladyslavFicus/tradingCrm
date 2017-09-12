@@ -153,7 +153,7 @@ class PlayerLimits extends Component {
           Login - <span className="header-block_player-limits-tab_status_is-locked">Locked</span>
         </div>
         <div className="header-block_player-limits-tab_log">
-          {I18n.t('PLAYER_PROFILE.LOCKS.REASON')}
+          {I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.REASON')}
         </div>
         <div className="header-block_player-limits-tab_log">
           {I18n.t('COMMON.DATE_UNTIL', {
