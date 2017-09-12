@@ -2,6 +2,7 @@ import { CALL_API, isValidRSAA } from 'redux-api-middleware';
 import jwtDecode from 'jwt-decode';
 import { v4 } from 'uuid';
 import { browserHistory } from 'react-router';
+import _ from 'lodash';
 import timestamp from '../utils/timestamp';
 import { actionCreators as authActionCreators, actionTypes as authActionTypes } from '../redux/modules/auth';
 import goToSignInPage from '../utils/getSignInUrl';
@@ -92,7 +93,7 @@ const logout = (store) => {
 
 const scheduleTokenRefreshTask = (store, token) => {
   const tokenData = jwtDecode(token);
-  const delay = (tokenData.exp - timestamp()) - 60;
+  const delay = (tokenData.exp - timestamp()) - _.random(55, 65);
   console.log(`Scheduled token update in ${delay}`);
 
   if (delay > 0) {

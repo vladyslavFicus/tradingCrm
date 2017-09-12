@@ -49,7 +49,7 @@ function signIn(data) {
 
 function refreshToken(outsideToken = null) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, refreshingToken } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -61,7 +61,7 @@ function refreshToken(outsideToken = null) {
           Authorization: `Bearer ${outsideToken || token}`,
         },
         types: [REFRESH_TOKEN.REQUEST, REFRESH_TOKEN.SUCCESS, REFRESH_TOKEN.FAILURE],
-        bailout: (!outsideToken && !token) || !logged,
+        bailout: (!outsideToken && !token) || !logged || refreshingToken,
       },
     });
   };
@@ -163,6 +163,7 @@ function successSignInReducer(state, action) {
 }
 
 const initialState = {
+  refreshingToken: false,
   authorities: [],
   department: null,
   logged: false,
@@ -189,11 +190,24 @@ const actionHandlers = {
     ...state,
     data: action.payload,
   }),
-  [REFRESH_TOKEN.SUCCESS]: (state, action) => ({
-    ...state,
-    token: action.payload.jwtToken,
-  }),
   [VALIDATE_TOKEN.SUCCESS]: state => ({ ...state, lastTokenValidation: timestamp() }),
+  [REFRESH_TOKEN.REQUEST]: state => ({
+    ...state,
+    refreshingToken: true,
+  }),
+  [REFRESH_TOKEN.SUCCESS]: (state, action) => {
+    return action.payload.jwtToken === null
+      ? { ...initialState }
+      : {
+        ...state,
+        token: action.payload.jwtToken,
+        refreshingToken: false,
+      };
+  },
+  [REFRESH_TOKEN.FAILURE]: state => ({
+    ...state,
+    refreshingToken: false,
+  }),
   [LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
 const actionTypes = {
