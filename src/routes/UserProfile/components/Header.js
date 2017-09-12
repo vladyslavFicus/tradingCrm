@@ -61,6 +61,7 @@ class Header extends Component {
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,
       }).isRequired,
+      unlockLogin: PropTypes.func.isRequired,
     }).isRequired,
     locale: PropTypes.string.isRequired,
     loaded: PropTypes.bool,
@@ -223,6 +224,7 @@ class Header extends Component {
             <PlayerLimits
               profile={playerProfile}
               limits={walletLimits.state}
+              unlockLogin={walletLimits.unlockLogin}
               onChange={onWalletLimitChange}
             />
           </div>

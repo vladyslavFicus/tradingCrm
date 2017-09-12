@@ -86,6 +86,7 @@ const mapActions = {
   activateProfile: actionCreators.activateProfile,
   checkLock: actionCreators.checkLock,
   walletLimitAction: actionCreators.walletLimitAction,
+  unlockLogin: actionCreators.unlockLogin,
   uploadFile: actionCreators.uploadFile,
   cancelFile: actionCreators.cancelFile,
   resetUploading: actionCreators.resetUploading,

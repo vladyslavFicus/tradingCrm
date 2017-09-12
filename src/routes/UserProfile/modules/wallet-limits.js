@@ -6,8 +6,30 @@ import { actions, authors, types } from '../../../constants/wallet';
 
 const KEY = 'user-profile/wallet-limits';
 const CHECK_LOCK = createRequestAction(`${KEY}/check-lock`);
+const CHECK_LOGIN_LOCK = createRequestAction(`${KEY}/check-login-lock`);
 const LOCK = createRequestAction(`${KEY}/lock`);
 const UNLOCK = createRequestAction(`${KEY}/unlock`);
+const UNLOCK_LOGIN = createRequestAction(`${KEY}/unlock-login`);
+
+function checkLoginLock(uuid) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `auth/credentials/${uuid}/lock`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [CHECK_LOGIN_LOCK.REQUEST, CHECK_LOGIN_LOCK.SUCCESS, CHECK_LOGIN_LOCK.FAILURE],
+        bailout: !logged,
+      },
+    });
+  };
+}
 
 function checkLock(uuid) {
   return (dispatch, getState) => {
@@ -25,7 +47,7 @@ function checkLock(uuid) {
         types: [CHECK_LOCK.REQUEST, CHECK_LOCK.SUCCESS, CHECK_LOCK.FAILURE],
         bailout: !logged,
       },
-    });
+    }).then(() => dispatch(checkLoginLock(uuid)));
   };
 }
 
@@ -71,6 +93,26 @@ function unlockWallet({ playerUUID, type, reason }) {
   };
 }
 
+function unlockLogin(uuid) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `auth/credentials/${uuid}/lock`,
+        method: 'DELETE',
+        types: [UNLOCK_LOGIN.REQUEST, UNLOCK_LOGIN.SUCCESS, UNLOCK_LOGIN.FAILURE],
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function walletLimitAction({ playerUUID, action, type, reason }) {
   return async (dispatch) => {
     const actionFn = action === actions.LOCK
@@ -91,6 +133,10 @@ const initialState = {
   withdraw: {
     locked: false,
     canUnlock: false,
+  },
+  login: {
+    locked: false,
+    expirationDate: null,
   },
   error: null,
   isLoading: false,
@@ -120,12 +166,25 @@ const actionHandlers = {
     isLoading: false,
     receivedAt: timestamp(),
   }),
-
   [CHECK_LOCK.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
+  }),
+  [CHECK_LOGIN_LOCK.SUCCESS]: (state, action) => ({
+    ...state,
+    login: {
+      locked: action.payload.lock,
+      expirationDate: action.payload.lockExpirationDate,
+    },
+  }),
+  [UNLOCK_LOGIN.SUCCESS]: state => ({
+    ...state,
+    login: {
+      locked: false,
+      expirationDate: null,
+    },
   }),
 };
 const actionTypes = {
@@ -136,6 +195,7 @@ const actionTypes = {
 const actionCreators = {
   checkLock,
   walletLimitAction,
+  unlockLogin,
 };
 
 export {

@@ -111,6 +111,7 @@ class ProfileLayout extends Component {
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     fetchBalances: PropTypes.func.isRequired,
+    unlockLogin: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
   };
   static defaultProps = {
@@ -538,6 +539,8 @@ class ProfileLayout extends Component {
     this.props.walletLimitAction({ ...data, playerUUID: this.props.params.id });
   };
 
+  handleUnlockLogin = () => this.props.unlockLogin(this.props.params.id);
+
   handleUpdateSubscription = async (data, updatedSubscription) => {
     const { params: { id: playerUUID }, updateSubscription } = this.props;
 
@@ -620,6 +623,7 @@ class ProfileLayout extends Component {
             walletLimits={{
               state: walletLimits,
               actions: { onChange: this.handleChangeWalletLimitState },
+              unlockLogin: this.handleUnlockLogin,
             }}
             isLoadingProfile={isLoading}
             addTag={this.handleAddTag}

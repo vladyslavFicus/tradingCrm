@@ -3,6 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
+import Uuid from '../../components/Uuid';
 
 class ConfirmActionModal extends Component {
   static propTypes = {
@@ -14,6 +15,7 @@ class ConfirmActionModal extends Component {
     actionText: PropTypes.string,
     submitButtonLabel: PropTypes.string,
     form: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -21,6 +23,7 @@ class ConfirmActionModal extends Component {
     modalTitle: 'Confirm action',
     actionText: 'Do you really want to confirm this action?',
     submitButtonLabel: 'Confirm',
+    uuid: null,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -36,6 +39,7 @@ class ConfirmActionModal extends Component {
       className,
       modalTitle,
       actionText,
+      uuid,
       submitButtonLabel,
       form,
     } = this.props;
@@ -46,7 +50,8 @@ class ConfirmActionModal extends Component {
           <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
           <ModalBody>
             <div className="text-center center-block width-300">
-              <strong>{actionText}</strong>
+              <strong> {actionText} </strong>
+              {uuid && <Uuid uuid={uuid} uuidPrefix="PL" />}
             </div>
           </ModalBody>
 
