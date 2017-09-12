@@ -18,7 +18,7 @@ class ModalPlayerInfo extends Component {
           {[profile.firstName, profile.lastName].join(' ')}
         </span>
         {' '}
-        {!!profile.birthDate && <span>({moment.utc().local().diff(profile.birthDate, 'years')})</span>}
+        {!!profile.birthDate && <span>({moment().diff(profile.birthDate, 'years')})</span>}
       </div>
       <div className="font-size-11">
         {profile.username}
