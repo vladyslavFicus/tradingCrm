@@ -118,7 +118,6 @@ class RefuseModal extends Component {
             selectedValues && selectedValues[type] &&
             <Field
               name={`${type}_reason`}
-              label=""
               component={SelectField}
               position="vertical"
             >

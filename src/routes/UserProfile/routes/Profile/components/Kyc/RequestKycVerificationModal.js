@@ -112,9 +112,7 @@ class RequestKycVerificationModal extends Component {
 
             <Field
               name="reason"
-              label=""
               component={SelectField}
-              className={'form-control'}
               position="vertical"
             >
               <option>{I18n.t('COMMON.CHOOSE_REASON')}</option>

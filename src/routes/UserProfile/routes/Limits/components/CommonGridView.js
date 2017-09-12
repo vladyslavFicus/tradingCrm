@@ -90,13 +90,13 @@ class CommonGridView extends Component {
           {
             data.value.used &&
             <div className="font-size-11">
-              used <Amount {...data.value.used} />
+              {I18n.t('COMMON.USED', { value: <Amount {...data.value.used} /> })}
             </div>
           }
           {
             data.value.left &&
             <div className="font-size-11">
-              left <Amount {...data.value.left} />
+              {I18n.t('COMMON.LEFT', { value: <Amount {...data.value.left} /> })}
             </div>
           }
         </div>
@@ -108,10 +108,10 @@ class CommonGridView extends Component {
             {humanizeDuration(data.value.limit * 1000, humanizeDurationConfig)}
           </div>
           <div className="font-size-11">
-            used {humanizeDuration(data.value.used * 1000, humanizeDurationConfig)}
+            {I18n.t('COMMON.USED', { value: humanizeDuration(data.value.used * 1000, humanizeDurationConfig) })}
           </div>
           <div className="font-size-11">
-            left {humanizeDuration(data.value.left * 1000, humanizeDurationConfig)}
+            {I18n.t('COMMON.LEFT', { value: humanizeDuration(data.value.left * 1000, humanizeDurationConfig) })}
           </div>
         </div>
       }
@@ -126,7 +126,7 @@ class CommonGridView extends Component {
       {
         (data.status === statuses.IN_PROGRESS || data.status === statuses.ACTIVE) &&
         <div className="font-size-11">
-          since {moment(data.startDate).format('DD.MM.YYYY HH:mm')}
+          {I18n.t('COMMON.SINCE', { date: moment(data.startDate).format('DD.MM.YYYY HH:mm') })}
         </div>
       }
       {
@@ -141,7 +141,7 @@ class CommonGridView extends Component {
           {
             data.startDate &&
             <div className="font-size-11">
-              activates on {moment(data.startDate).format('DD.MM.YYYY HH:mm')}
+              {I18n.t('COMMON.ACTIVATES_ON', { date: moment(data.startDate).format('DD.MM.YYYY HH:mm') })}
             </div>
           }
         </div>
