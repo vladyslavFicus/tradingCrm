@@ -33,7 +33,7 @@ class BonusCampaignStatus extends Component {
           campaign.statusChangedDate &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_ON', {
-              date: moment.utc(campaign.statusChangedDate).format('DD.MM.YYYY HH:mm'),
+              date: moment.utc(campaign.statusChangedDate).local().format('DD.MM.YYYY HH:mm'),
             })}
           </div>
         }
@@ -41,7 +41,7 @@ class BonusCampaignStatus extends Component {
           status === statuses.PENDING &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_UNTIL', {
-              date: moment.utc(campaign.startDate).format('DD.MM.YYYY HH:mm'),
+              date: moment.utc(campaign.startDate).local().format('DD.MM.YYYY HH:mm'),
             })}
           </div>
         }

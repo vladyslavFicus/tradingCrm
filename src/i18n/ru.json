@@ -776,7 +776,7 @@
     "MODALS": {
       "RESET_PASSWORD": {
         "TITLE": "Сброс пароля оператора - Подтверждение",
-        "ACTION_TEXT": "Вы собираетесь сбросить пароля для %{fullName}",
+        "ACTION_TEXT": "Вы собираетесь сбросить пароль для %{fullName}",
         "ACTION_TARGET": "профиль оператора",
         "CONFIRM_ACTION": "Сбросить пароль"
       },

@@ -141,14 +141,14 @@ class PlayerStatus extends Component {
         {
           !!endDate &&
           <div className="header-block-small">
-            Until {moment(endDate).format('DD.MM.YYYY')}
+            Until {moment.utc(endDate).local().format('DD.MM.YYYY')}
           </div>
         }
         {
           (status === statuses.BLOCKED || status === statuses.SUSPENDED) &&
           <FailureReasonIcon
             reason={reason}
-            statusDate={moment(statusDate).format('YYYY-MM-DD h:mm:ss a')}
+            statusDate={moment.utc(statusDate).local().format('YYYY-MM-DD HH:mm:ss')}
             statusAuthor={statusAuthor}
           />
         }

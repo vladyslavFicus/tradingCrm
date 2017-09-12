@@ -31,7 +31,7 @@ class ProfileLastLogin extends Component {
                   {lastIp.sessionStart && moment.utc(lastIp.sessionStart).local().fromNow()}
                 </div>
                 <div className="header-block-small">
-                  {lastIp.sessionStart && moment.utc(lastIp.sessionStart).format('DD.MM.YYYY hh:mm')}
+                  {lastIp.sessionStart && moment.utc(lastIp.sessionStart).local().format('DD.MM.YYYY HH:mm')}
                 </div>
                 <div className="header-block-small">
                   {lastIp.country && I18n.t('PROFILE.LAST_LOGIN.FROM_COUNTRY', { country: lastIp.country })}

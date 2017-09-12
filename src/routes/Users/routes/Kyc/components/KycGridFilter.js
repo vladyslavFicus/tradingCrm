@@ -78,7 +78,7 @@ class KycGridFilter extends Component {
                     placeholder={I18n.t(filterLabels.from)}
                     component={DateTimeField}
                     position="vertical"
-                    isValidDate={this.endDateValidator('to')}
+                    isValidDate={this.startDateValidator('to')}
                   />
 
                   <span className="range-group__separator">-</span>

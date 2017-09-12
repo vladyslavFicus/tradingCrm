@@ -128,7 +128,7 @@ class List extends Component {
             data.kycRequest && data.kycRequest.createDate &&
             <div>
               {I18n.t('COMMON.DATE_ON', {
-                date: moment(data.kycRequest.createDate).format('DD.MM.YYYY'),
+                date: moment.utc(data.kycRequest.createDate).local().format('DD.MM.YYYY'),
               })}
             </div>
           }
@@ -150,7 +150,7 @@ class List extends Component {
     }
     const status = address.status;
 
-    let date = moment(address.statusDate).format('DD.MM.YYYY - HH:mm');
+    let date = moment.utc(address.statusDate).local().format('DD.MM.YYYY - HH:mm');
     date = status === kycStatuses.PENDING ? I18n.t('COMMON.SINCE', { date }) : I18n.t('COMMON.DATE_ON', { date });
 
     return (

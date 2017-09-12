@@ -154,12 +154,12 @@ class ViewModal extends Component {
       ? (
         <div>
           <div className="modal-header-tabs__label">
-            {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
+            {moment.utc(data.createdDate).local().format('DD.MM.YYYY HH:mm:ss')}
           </div>
           {
             !!data.expirationDate &&
             <div className="font-size-11">
-              {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+              {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm:ss')}
             </div>
           }
         </div>

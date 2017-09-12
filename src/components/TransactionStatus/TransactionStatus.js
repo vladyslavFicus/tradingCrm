@@ -49,7 +49,7 @@ class TransactionStatus extends Component {
                 {status.paymentStatus}
               </div>
               <div className="font-size-11">
-                {moment(status.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
+                {moment.utc(status.creationTime).local().format('DD.MM.YYYY - HH:mm:ss')}
               </div>
               <div className="font-size-11">
                 {status.initiatorType}
@@ -100,7 +100,7 @@ class TransactionStatus extends Component {
         }
         <div className="font-size-11">
           {I18n.t('COMMON.DATE_ON', {
-            date: moment(transaction.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
+            date: moment.utc(transaction.creationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
           })}
         </div>
       </div>

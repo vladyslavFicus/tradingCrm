@@ -235,7 +235,7 @@ class Header extends Component {
               {moment.utc(playerProfile.registrationDate).local().fromNow()}
             </div>
             <div className="header-block-small">
-              on {moment(playerProfile.registrationDate).format('DD.MM.YYYY')}</div>
+              on {moment.utc(playerProfile.registrationDate).local().format('DD.MM.YYYY')}</div>
           </div>
         </div>
       </div>
