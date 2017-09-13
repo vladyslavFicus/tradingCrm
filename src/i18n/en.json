@@ -182,7 +182,8 @@
         "OTHER": "Other",
         "BONUS_ROUND_BONUS": "Bonus round",
         "BONUS_ROUND_CHANCE": "Chance",
-        "BONUS_ROUND_CARD": "Card"
+        "BONUS_ROUND_CARD": "Card",
+        "BONUS_ROUND_FREESPIN": "Bonus round freespin"
       }
     },
     "MARKETING": {
@@ -401,6 +402,16 @@
         "ATTENTION_UNDONE_ACTION_LABEL": "Note",
         "ATTENTION_UNDONE_ACTION": "This action can not be undone!",
         "ACTION_TEXT": "You are about to %{action}"
+      }
+    },
+    "LOCKS": {
+      "LOGIN": {
+        "MODAL": {
+          "TITLE": "Unlock login for player",
+          "ACTION_TEXT": "You are about to unlock withdrawal for %{fullName}",
+          "SUBMIT_BUTTON_LABEL": "Unlock login"
+        },
+        "REASON": "by 5 failed login attempts"
       }
     }
   },

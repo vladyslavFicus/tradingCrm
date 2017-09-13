@@ -12,7 +12,7 @@ import Amount from '../../../components/Amount';
 import PopoverButton from '../../../components/PopoverButton';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
-import WalletLimits from './WalletLimits';
+import PlayerLimits from './PlayerLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
 import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
@@ -45,10 +45,10 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onProfileActivateClick: PropTypes.func.isRequired,
-    onWalletLimitChange: PropTypes.func.isRequired,
-    walletLimits: PropTypes.shape({
+    onPlayerLimitChange: PropTypes.func.isRequired,
+    playerLimits: PropTypes.shape({
       state: PropTypes.shape({
-        entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+        entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
         deposit: PropTypes.shape({
           locked: PropTypes.bool.isRequired,
           canUnlock: PropTypes.bool.isRequired,
@@ -61,6 +61,7 @@ class Header extends Component {
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,
       }).isRequired,
+      unlockLogin: PropTypes.func.isRequired,
     }).isRequired,
     locale: PropTypes.string.isRequired,
     loaded: PropTypes.bool,
@@ -115,8 +116,8 @@ class Header extends Component {
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
-      onWalletLimitChange,
-      walletLimits,
+      onPlayerLimitChange,
+      playerLimits,
       lastIp,
       onRefreshClick,
       isLoadingProfile,
@@ -219,11 +220,12 @@ class Header extends Component {
               accumulatedBalances={accumulatedBalances}
             />
           </div>
-          <div className="header-block header-block_wallet-limits">
-            <WalletLimits
+          <div className="header-block header-block_player-limits">
+            <PlayerLimits
               profile={playerProfile}
-              limits={walletLimits.state}
-              onChange={onWalletLimitChange}
+              limits={playerLimits.state}
+              unlockLogin={playerLimits.unlockLogin}
+              onChange={onPlayerLimitChange}
             />
           </div>
           <ProfileLastLogin lastIp={lastIp} />
