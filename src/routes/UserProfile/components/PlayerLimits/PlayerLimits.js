@@ -138,7 +138,7 @@ class PlayerLimits extends Component {
       <div className="header-block_player-limits-tab_log">Reason - {limit.reason}</div>
       {
         limit.startLock && moment(limit.startLock).isValid() &&
-        <div className="header-block_wallet-limits-tab_log">
+        <div className="header-block_player-limits-tab_log">
           on {moment.utc(limit.startLock).local().format('DD.MM.YYYY HH:mm')}
         </div>
       }
