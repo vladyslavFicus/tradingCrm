@@ -80,7 +80,7 @@ const Information = (props) => {
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CAMPAIGN_END')}:</strong>{' '}
-                {moment(endDate).format('DD.MM.YYYY HH:mm')}
+                {moment.utc(endDate).local().format('DD.MM.YYYY HH:mm')}
               </div>
               {
                 conversionPrize &&

@@ -5,12 +5,12 @@ import { getTransactionRejectReasons, getTransactionChargebackReasons } from '..
 import { paymentActions } from '../../../../../constants/payment';
 import { actionCreators as locationActionCreators } from '../../../../../redux/modules/location';
 
-const mapStateToProps = ({ userTransactions, profile: { profile, walletLimits }, i18n: { locale } }) => ({
+const mapStateToProps = ({ userTransactions, profile: { profile, playerLimits }, i18n: { locale } }) => ({
   ...userTransactions,
   locale,
   currencyCode: profile.data.currencyCode,
   playerProfile: profile.data,
-  walletLimits,
+  playerLimits,
   paymentActionReasons: {
     [paymentActions.REJECT]: getTransactionRejectReasons(),
     [paymentActions.CHARGEBACK]: getTransactionChargebackReasons(),

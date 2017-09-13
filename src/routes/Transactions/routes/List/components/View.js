@@ -46,6 +46,10 @@ class View extends Component {
     resetAll: PropTypes.func.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
     locale: PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }).isRequired,
+    exportEntities: PropTypes.func.isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -170,6 +174,12 @@ class View extends Component {
     });
   };
 
+  handleExport = () => this.props.exportEntities({
+    ...this.state.filters,
+    page: this.state.page,
+    playerUUID: this.props.params.id,
+  });
+
   renderTransactionId = data => (
     <GridPaymentInfo
       payment={data}
@@ -204,10 +214,10 @@ class View extends Component {
   renderDateTime = data => (
     <div>
       <div className="font-weight-700">
-        {moment(data.creationTime).format('DD.MM.YYYY')}
+        {moment.utc(data.creationTime).local().format('DD.MM.YYYY')}
       </div>
       <span className="font-size-10 color-default">
-        {moment(data.creationTime).format('HH:mm:ss')}
+        {moment.utc(data.creationTime).local().format('HH:mm:ss')}
       </span>
     </div>
   );
@@ -276,7 +286,7 @@ class View extends Component {
 
   render() {
     const {
-      transactions: { entities, noResults },
+      transactions: { entities, noResults, exporting },
       filters: { data: availableFilters },
       locale,
     } = this.props;
@@ -287,12 +297,19 @@ class View extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <span
-              className="font-size-20"
-              id="transactions-list-header"
-            >
-              Transactions
-            </span>
+            <div className="clearfix">
+              <span className="font-size-20" id="transactions-list-header">
+                Transactions
+              </span>
+
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline pull-right"
+                onClick={this.handleExport}
+              >
+                Export
+              </button>
+            </div>
           </Title>
 
           <TransactionsFilterForm

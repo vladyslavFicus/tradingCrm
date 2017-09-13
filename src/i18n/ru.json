@@ -184,7 +184,8 @@
         "OTHER": "Другое",
         "BONUS_ROUND_BONUS": "Бонус раунд",
         "BONUS_ROUND_CHANCE": "Шанс",
-        "BONUS_ROUND_CARD": "Карта"
+        "BONUS_ROUND_CARD": "Карта",
+        "BONUS_ROUND_FREESPIN": "Бонус раунд фриспин"
       }
     },
     "MARKETING": {
@@ -404,6 +405,16 @@
         "ATTENTION_UNDONE_ACTION": "Это действие не может быть отменно!",
         "ACTION_TEXT": "Вы пытаетесь сделать %{action}"
       }
+    },
+    "LOCKS": {
+      "LOGIN": {
+        "MODAL": {
+          "TITLE": "разблокировать авторизацию для игрока",
+          "ACTION_TEXT": "Вы собираетесь разблокировать игрока %{fullName}",
+          "SUBMIT_BUTTON_LABEL": "Разблокировать"
+        },
+        "REASON": "5 неудачных попыток входа"
+      }
     }
   },
   "COMMON": {
@@ -484,7 +495,10 @@
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - Превышен общий предел в размере €2300 на снятие средств для неопытных игроков KYC.",
-    "CHOOSE_REASON": "-- Выберите причину --"
+    "CHOOSE_REASON": "-- Выберите причину --",
+    "USED": "использовано %{value}",
+    "LEFT": "осталось %{value}",
+    "ACTIVATES_ON": "активируется %{date}"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -769,7 +783,7 @@
     "MODALS": {
       "RESET_PASSWORD": {
         "TITLE": "Сброс пароля оператора - Подтверждение",
-        "ACTION_TEXT": "Вы собираетесь сбросить пароля для %{fullName}",
+        "ACTION_TEXT": "Вы собираетесь сбросить пароль для %{fullName}",
         "ACTION_TARGET": "профиль оператора",
         "CONFIRM_ACTION": "Сбросить пароль"
       },

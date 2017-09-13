@@ -49,9 +49,20 @@ class NotePopover extends Component {
     toggle: PropTypes.func,
   };
   static defaultProps = {
+    item: null,
     defaultTitleLabel: 'Note',
     placement: 'bottom',
     isOpen: false,
+    onSubmitSuccess: null,
+    onSubmitFailure: null,
+    onDeleteSuccess: null,
+    onDeleteFailure: null,
+    handleSubmit: null,
+    currentValues: null,
+    submitting: false,
+    invalid: false,
+    pristine: false,
+    toggle: null,
   };
 
   handleHide = (ignoreChanges = false) => {
@@ -159,7 +170,7 @@ class NotePopover extends Component {
           <div className="popover-title__date">
             {
               item.lastEditionDate
-                ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
+                ? moment.utc(item.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
                 : I18n.t('COMMON.UNKNOWN_TIME')
             } {I18n.t('COMMON.TO')} {!!item.targetUUID && this.renderItemId(item)}
             <button

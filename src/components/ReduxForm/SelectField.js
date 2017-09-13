@@ -9,7 +9,7 @@ class SelectField extends Component {
       value: PropTypes.any,
       onChange: PropTypes.func,
     }).isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     labelClassName: PropTypes.string,
     children: PropTypes.node.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
@@ -36,6 +36,8 @@ class SelectField extends Component {
     inputButton: null,
     inputClassName: 'form-control',
     showInputButton: false,
+    label: null,
+    labelClassName: '',
   };
 
   renderInput = (props) => {

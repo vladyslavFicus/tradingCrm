@@ -12,7 +12,7 @@ const attributeLabels = {
 };
 const validator = createValidator({ reasons: 'required|string' }, attributeLabels, false);
 
-class WalletLimitsModal extends Component {
+class PlayerLimitsModal extends Component {
   static propTypes = {
     profile: PropTypes.userProfile.isRequired,
     action: PropTypes.oneOf(Object.keys(actions)).isRequired,
@@ -105,6 +105,6 @@ class WalletLimitsModal extends Component {
 }
 
 export default reduxForm({
-  form: 'walletLimitsModal',
+  form: 'playerLimitsModal',
   validate: validator,
-})(WalletLimitsModal);
+})(PlayerLimitsModal);

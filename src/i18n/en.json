@@ -182,7 +182,8 @@
         "OTHER": "Other",
         "BONUS_ROUND_BONUS": "Bonus round",
         "BONUS_ROUND_CHANCE": "Chance",
-        "BONUS_ROUND_CARD": "Card"
+        "BONUS_ROUND_CARD": "Card",
+        "BONUS_ROUND_FREESPIN": "Bonus round freespin"
       }
     },
     "MARKETING": {
@@ -402,6 +403,16 @@
         "ATTENTION_UNDONE_ACTION": "This action can not be undone!",
         "ACTION_TEXT": "You are about to %{action}"
       }
+    },
+    "LOCKS": {
+      "LOGIN": {
+        "MODAL": {
+          "TITLE": "Unlock login for player",
+          "ACTION_TEXT": "You are about to unlock withdrawal for %{fullName}",
+          "SUBMIT_BUTTON_LABEL": "Unlock login"
+        },
+        "REASON": "by 5 failed login attempts"
+      }
     }
   },
   "COMMON": {
@@ -482,7 +493,10 @@
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded.",
-    "CHOOSE_REASON": "-- Choose the reason --"
+    "CHOOSE_REASON": "-- Choose the reason --",
+    "USED": "used %{value}",
+    "LEFT": "left %{value}",
+    "ACTIVATES_ON": "activates on %{date}"
   },
   "FILES": {
     "UPLOAD_MODAL": {
