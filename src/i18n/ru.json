@@ -184,7 +184,8 @@
         "OTHER": "Другое",
         "BONUS_ROUND_BONUS": "Бонус раунд",
         "BONUS_ROUND_CHANCE": "Шанс",
-        "BONUS_ROUND_CARD": "Карта"
+        "BONUS_ROUND_CARD": "Карта",
+        "BONUS_ROUND_FREESPIN": "Бонус раунд фриспин"
       }
     },
     "MARKETING": {
@@ -403,6 +404,16 @@
         "ATTENTION_UNDONE_ACTION_LABEL": "Внимание",
         "ATTENTION_UNDONE_ACTION": "Это действие не может быть отменно!",
         "ACTION_TEXT": "Вы пытаетесь сделать %{action}"
+      }
+    },
+    "LOCKS": {
+      "LOGIN": {
+        "MODAL": {
+          "TITLE": "разблокировать авторизацию для игрока",
+          "ACTION_TEXT": "Вы собираетесь разблокировать игрока %{fullName}",
+          "SUBMIT_BUTTON_LABEL": "Разблокировать"
+        },
+        "REASON": "5 неудачных попыток входа"
       }
     }
   },

@@ -182,10 +182,10 @@ class PaymentDetailModal extends Component {
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME')}
               </div>
               <div className="modal-header-tabs__label">
-                {moment(payment.creationTime).format('DD.MM.YYYY')}
+                {moment.utc(payment.creationTime).local().format('DD.MM.YYYY')}
               </div>
               <div className="font-size-11">
-                {moment(payment.creationTime).format('HH:mm')}
+                {moment.utc(payment.creationTime).local().format('HH:mm')}
               </div>
             </div>
             <div className="modal-body-tabs__item">

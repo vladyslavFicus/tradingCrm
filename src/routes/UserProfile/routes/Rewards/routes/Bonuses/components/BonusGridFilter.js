@@ -28,12 +28,18 @@ const validator = createValidator({
 
 class BonusGridFilter extends Component {
   static propTypes = {
-    playerUUID: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
-    currentValues: PropTypes.object,
+    currentValues: PropTypes.shape({
+      keyword: PropTypes.string,
+      assigned: PropTypes.string,
+      type: PropTypes.string,
+      states: PropTypes.string,
+      startDate: PropTypes.string,
+      endDate: PropTypes.string,
+    }),
   };
 
   startDateValidator = (current) => {
@@ -132,6 +138,7 @@ class BonusGridFilter extends Component {
                     name="startDate"
                     placeholder={attributeLabels.startDate}
                     component={DateTimeField}
+                    timeFormat={null}
                     isValidDate={this.startDateValidator}
                     position="vertical"
                   />
@@ -140,6 +147,7 @@ class BonusGridFilter extends Component {
                     name="endDate"
                     placeholder={attributeLabels.endDate}
                     component={DateTimeField}
+                    timeFormat={null}
                     isValidDate={this.endDateValidator}
                     position="vertical"
                   />

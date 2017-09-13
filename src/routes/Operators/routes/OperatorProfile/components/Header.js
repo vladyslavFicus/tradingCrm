@@ -105,7 +105,7 @@ class Header extends Component {
                   {
                     operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
                     <div className="header-block-small">
-                      Since {moment(statusChangeDate).format('DD.MM.YYYY')}
+                      Since {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
                     </div>
                   }
                   {
@@ -120,7 +120,7 @@ class Header extends Component {
                       {
                         statusChangeDate &&
                         <div className="header-block-small">
-                          on {moment(statusChangeDate).format('DD.MM.YYYY')}
+                          on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
                         </div>
                       }
                     </div>
@@ -136,10 +136,10 @@ class Header extends Component {
               registrationDate &&
               <div>
                 <div className="header-block-middle">
-                  {moment(registrationDate).fromNow()}
+                  {moment.utc(registrationDate).local().fromNow()}
                 </div>
                 <div className="header-block-small">
-                  on {moment(registrationDate).format('DD.MM.YYYY HH:mm')}
+                  on {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
                 </div>
               </div>
             }

@@ -56,8 +56,8 @@ class View extends Component {
     newPaymentNote: PropTypes.noteEntity,
     playerProfile: PropTypes.userProfile.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons,
-    walletLimits: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+    playerLimits: PropTypes.shape({
+      entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
         locked: PropTypes.bool.isRequired,
         canUnlock: PropTypes.bool.isRequired,
@@ -281,10 +281,10 @@ class View extends Component {
   renderDateTime = data => (
     <div>
       <div className="font-weight-700">
-        {moment(data.creationTime).format('DD.MM.YYYY')}
+        {moment.utc(data.creationTime).local().format('DD.MM.YYYY')}
       </div>
       <div className="font-size-11">
-        {moment(data.creationTime).format('HH:mm:ss')}
+        {moment.utc(data.creationTime).local().format('HH:mm:ss')}
       </div>
     </div>
   );
@@ -376,7 +376,7 @@ class View extends Component {
       manageNote,
       playerProfile,
       newPaymentNote,
-      walletLimits,
+      playerLimits,
       locale,
     } = this.props;
 
@@ -497,7 +497,7 @@ class View extends Component {
             onSubmit={this.handleAddPayment}
             onManageNote={manageNote}
             onNoteClick={this.handleNoteClick}
-            walletLimits={walletLimits}
+            playerLimits={playerLimits}
           />
         }
       </div>

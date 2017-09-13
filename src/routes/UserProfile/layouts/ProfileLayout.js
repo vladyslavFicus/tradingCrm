@@ -88,8 +88,8 @@ class ProfileLayout extends Component {
     resetPassword: PropTypes.func.isRequired,
     activateProfile: PropTypes.func.isRequired,
     checkLock: PropTypes.func.isRequired,
-    walletLimits: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+    playerLimits: PropTypes.shape({
+      entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
         locked: PropTypes.bool.isRequired,
         canUnlock: PropTypes.bool.isRequired,
@@ -102,7 +102,7 @@ class ProfileLayout extends Component {
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number,
     }).isRequired,
-    walletLimitAction: PropTypes.func.isRequired,
+    playerLimitAction: PropTypes.func.isRequired,
     uploadModalInitialValues: PropTypes.object.isRequired,
     cancelFile: PropTypes.func.isRequired,
     resetUploading: PropTypes.func.isRequired,
@@ -111,6 +111,7 @@ class ProfileLayout extends Component {
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
     fetchBalances: PropTypes.func.isRequired,
+    unlockLogin: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
   };
   static defaultProps = {
@@ -534,9 +535,11 @@ class ProfileLayout extends Component {
     this.props.deleteTag(this.props.params.id, id);
   };
 
-  handleChangeWalletLimitState = (data) => {
-    this.props.walletLimitAction({ ...data, playerUUID: this.props.params.id });
+  handleChangePlayerLimitState = (data) => {
+    this.props.playerLimitAction({ ...data, playerUUID: this.props.params.id });
   };
+
+  handleUnlockLogin = () => this.props.unlockLogin(this.props.params.id);
 
   handleUpdateSubscription = async (data, updatedSubscription) => {
     const { params: { id: playerUUID }, updateSubscription } = this.props;
@@ -597,7 +600,7 @@ class ProfileLayout extends Component {
       accumulatedBalances,
       changeStatus,
       notes,
-      walletLimits,
+      playerLimits,
       uploading,
       uploadModalInitialValues,
       manageNote,
@@ -617,9 +620,10 @@ class ProfileLayout extends Component {
             onStatusChange={changeStatus}
             availableTags={availableTags}
             currentTags={currentTags}
-            walletLimits={{
-              state: walletLimits,
-              actions: { onChange: this.handleChangeWalletLimitState },
+            playerLimits={{
+              state: playerLimits,
+              actions: { onChange: this.handleChangePlayerLimitState },
+              unlockLogin: this.handleUnlockLogin,
             }}
             isLoadingProfile={isLoading}
             addTag={this.handleAddTag}
@@ -627,7 +631,7 @@ class ProfileLayout extends Component {
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
-            onWalletLimitChange={this.handleChangeWalletLimitState}
+            onPlayerLimitChange={this.handleChangePlayerLimitState}
             onRefreshClick={() => this.handleLoadProfile(true)}
             loaded={!!receivedAt && !error}
             onChangePasswordClick={this.handleChangePasswordClick}

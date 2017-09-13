@@ -25,7 +25,7 @@ const NotVerified = (props) => {
           {requestStatus}
         </div>
         <div className="font-size-11 color-default">
-          {I18n.t('COMMON.SINCE', { date: moment(status.statusDate).format('DD.MM.YYYY \\a\\t HH:mm') })}
+          {I18n.t('COMMON.SINCE', { date: moment.utc(status.statusDate).local().format('DD.MM.YYYY \\a\\t HH:mm') })}
         </div>
         <div className="font-size-12 padding-top-20">
           {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.WAITING_FOR_DOCS_DESCRIPTION')}
