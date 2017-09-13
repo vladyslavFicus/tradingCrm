@@ -16,6 +16,7 @@ class ConfirmActionModal extends Component {
     submitButtonLabel: PropTypes.string,
     form: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
+    uuidPrefix: PropTypes.string,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -24,6 +25,7 @@ class ConfirmActionModal extends Component {
     actionText: 'Do you really want to confirm this action?',
     submitButtonLabel: 'Confirm',
     uuid: null,
+    uuidPrefix: 'PL',
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -40,6 +42,7 @@ class ConfirmActionModal extends Component {
       modalTitle,
       actionText,
       uuid,
+      uuidPrefix,
       submitButtonLabel,
       form,
     } = this.props;
@@ -51,7 +54,7 @@ class ConfirmActionModal extends Component {
           <ModalBody>
             <div className="text-center center-block width-300">
               <strong>{actionText}</strong>
-              {uuid && <Uuid uuid={uuid} uuidPrefix="PL" />}
+              {uuid && <Uuid uuid={uuid} uuidPrefix={uuidPrefix} />}
             </div>
           </ModalBody>
 

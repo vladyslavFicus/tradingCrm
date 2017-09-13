@@ -97,6 +97,7 @@ class PlayerLimits extends Component {
     this.handleOpenModal(PLAYER_LOGIN_LIMIT_MODAL, {
       onSubmit: this.handleUnlockLogin,
       uuid: playerUUID,
+      uuidPrefix: 'PL',
       modalTitle: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.TITLE'),
       actionText: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.ACTION_TEXT', { fullName }),
       submitButtonLabel: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.SUBMIT_BUTTON_LABEL'),
