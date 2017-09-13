@@ -148,6 +148,10 @@ class PlayerLimits extends Component {
   renderLoginLimit = () => {
     const { limits: { login } } = this.props;
 
+    if (!login.locked) {
+      return null;
+    }
+
     return (
       <div className="limits-info_tab">
         <div className="header-block_player-limits-tab_status">
