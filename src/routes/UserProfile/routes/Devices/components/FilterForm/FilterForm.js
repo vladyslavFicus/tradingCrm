@@ -29,12 +29,13 @@ class FilterForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     currentValues: PropTypes.object,
-    deviceType: PropTypes.array.isRequired,
+    deviceType: PropTypes.array,
     operatingSystem: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
     currentValues: {},
+    deviceType: [],
   };
 
   handleReset = () => {

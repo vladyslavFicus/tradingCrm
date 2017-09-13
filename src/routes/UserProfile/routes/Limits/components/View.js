@@ -132,7 +132,7 @@ class View extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="1">
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">Limits</div>
             <div className="tab-header__actions">
@@ -157,6 +157,7 @@ class View extends Component {
             {...modal.params}
             onSubmit={this.handleCancelLimit}
             onClose={this.handleCloseModal}
+            locale={locale}
           />
         }
         {

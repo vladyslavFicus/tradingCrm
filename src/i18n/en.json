@@ -493,7 +493,10 @@
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded.",
-    "CHOOSE_REASON": "-- Choose the reason --"
+    "CHOOSE_REASON": "-- Choose the reason --",
+    "USED": "used %{value}",
+    "LEFT": "left %{value}",
+    "ACTIVATES_ON": "activates on %{date}"
   },
   "FILES": {
     "UPLOAD_MODAL": {
