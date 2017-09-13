@@ -21,7 +21,7 @@ class PlayerLimits extends Component {
   static propTypes = {
     profile: PropTypes.userProfile.isRequired,
     limits: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+      entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
         locked: PropTypes.bool.isRequired,
         canUnlock: PropTypes.bool.isRequired,

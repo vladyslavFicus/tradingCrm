@@ -50,7 +50,7 @@ class ConfirmActionModal extends Component {
           <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
           <ModalBody>
             <div className="text-center center-block width-300">
-              <strong> {actionText} </strong>
+              <strong>{actionText}</strong>
               {uuid && <Uuid uuid={uuid} uuidPrefix="PL" />}
             </div>
           </ModalBody>

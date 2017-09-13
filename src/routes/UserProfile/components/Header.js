@@ -45,10 +45,10 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onProfileActivateClick: PropTypes.func.isRequired,
-    onWalletLimitChange: PropTypes.func.isRequired,
-    walletLimits: PropTypes.shape({
+    onPlayerLimitChange: PropTypes.func.isRequired,
+    playerLimits: PropTypes.shape({
       state: PropTypes.shape({
-        entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+        entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
         deposit: PropTypes.shape({
           locked: PropTypes.bool.isRequired,
           canUnlock: PropTypes.bool.isRequired,
@@ -116,8 +116,8 @@ class Header extends Component {
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
-      onWalletLimitChange,
-      walletLimits,
+      onPlayerLimitChange,
+      playerLimits,
       lastIp,
       onRefreshClick,
       isLoadingProfile,
@@ -223,9 +223,9 @@ class Header extends Component {
           <div className="header-block header-block_player-limits">
             <PlayerLimits
               profile={playerProfile}
-              limits={walletLimits.state}
-              unlockLogin={walletLimits.unlockLogin}
-              onChange={onWalletLimitChange}
+              limits={playerLimits.state}
+              unlockLogin={playerLimits.unlockLogin}
+              onChange={onPlayerLimitChange}
             />
           </div>
           <ProfileLastLogin lastIp={lastIp} />

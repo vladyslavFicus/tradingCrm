@@ -4,7 +4,7 @@ import createRequestAction from '../../../utils/createRequestAction';
 import timestamp from '../../../utils/timestamp';
 import { actions, authors, types } from '../../../constants/wallet';
 
-const KEY = 'user-profile/wallet-limits';
+const KEY = 'user-profile/player-limits';
 const CHECK_LOCK = createRequestAction(`${KEY}/check-lock`);
 const CHECK_LOGIN_LOCK = createRequestAction(`${KEY}/check-login-lock`);
 const LOCK = createRequestAction(`${KEY}/lock`);
@@ -113,7 +113,7 @@ function unlockLogin(uuid) {
   };
 }
 
-function walletLimitAction({ playerUUID, action, type, reason }) {
+function playerLimitAction({ playerUUID, action, type, reason }) {
   return async (dispatch) => {
     const actionFn = action === actions.LOCK
       ? lockWallet
@@ -194,7 +194,7 @@ const actionTypes = {
 };
 const actionCreators = {
   checkLock,
-  walletLimitAction,
+  playerLimitAction,
   unlockLogin,
 };
 
