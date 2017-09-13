@@ -554,9 +554,6 @@
         "NEW_OPERATOR_ACCOUNT_CREATED": "Оператор - Новый оператор создан",
         "OPERATOR_ACCOUNT_CREATED": "Оператор - Аккаунт создан",
         "PLAYER_PROFILE_VIEWED": "Просмотр профиля игрока",
-        "LOGIN_AUTOMATICALLY_UNLOCKED": "Вход автоматически разблокирован",
-        "LOGIN_MANUALLY_UNLOCKED": "Вход вручную разблокирован",
-        "LOGIN_LOCKED": "Вход заблокирован",
         "FAILED_LOGIN_ATTEMPT": "Ошибка при попытке входа в систему"
       }
     },

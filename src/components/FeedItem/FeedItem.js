@@ -13,7 +13,6 @@ import FeedInfoProfileChanged from './FeedInfoProfileChanged';
 import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
 import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
 import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
-import FeedInfoLoginLocked from './FeedInfoLoginLocked';
 import FeedInfoFailedLoginAttempt from './FeedInfoFailedLoginAttempt';
 import Uuid from '../Uuid';
 
@@ -55,8 +54,6 @@ class FeedItem extends Component {
         return <FeedInfoOperatorCreation data={data} />;
       case types.PLAYER_PROFILE_VIEWED:
         return <FeedInfoPlayerProfileViewed data={data} />;
-      case types.LOGIN_LOCKED:
-        return <FeedInfoLoginLocked data={data} />;
       case types.FAILED_LOGIN_ATTEMPT:
         return <FeedInfoFailedLoginAttempt data={data} />;
       default:

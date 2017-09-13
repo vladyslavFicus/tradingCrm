@@ -552,9 +552,6 @@
         "NEW_OPERATOR_ACCOUNT_CREATED": "Operator - New operator created",
         "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
         "PLAYER_PROFILE_VIEWED": "Players' profile viewed",
-        "LOGIN_AUTOMATICALLY_UNLOCKED": "Login automatically unlocked",
-        "LOGIN_MANUALLY_UNLOCKED": "Login manually unlocked",
-        "LOGIN_LOCKED": "Login locked",
         "FAILED_LOGIN_ATTEMPT": "Failed login attempt registered"
       }
     },
