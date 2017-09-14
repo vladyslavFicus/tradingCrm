@@ -108,11 +108,11 @@ class View extends Component {
     const formData = { ...data };
 
     if (formData.startDate) {
-      formData.startDate = moment(formData.startDate).local();
+      formData.startDate = moment(formData.startDate).utc().format('YYYY-MM-DDTHH:mm');
     }
 
     if (formData.endDate) {
-      formData.endDate = moment(formData.endDate).local();
+      formData.endDate = moment(formData.endDate).utc().format('YYYY-MM-DDTHH:mm');
     }
 
     const action = await this.props.createCampaign(formData);
