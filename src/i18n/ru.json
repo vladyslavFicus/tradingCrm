@@ -553,7 +553,8 @@
         "PLAYER_PROFILE_SEARCH": "Поиск игроков",
         "NEW_OPERATOR_ACCOUNT_CREATED": "Оператор - Новый оператор создан",
         "OPERATOR_ACCOUNT_CREATED": "Оператор - Аккаунт создан",
-        "PLAYER_PROFILE_VIEWED": "Просмотр профиля игрока"
+        "PLAYER_PROFILE_VIEWED": "Просмотр профиля игрока",
+        "FAILED_LOGIN_ATTEMPT": "Ошибка при попытке входа в систему"
       }
     },
     "OPERATORS": {
@@ -821,6 +822,13 @@
       "INVITATION_SENT": "Приглашение",
       "INVITATION_SENT_SUCCESS": "Успешно отправлено",
       "INVITATION_SENT_FAILURE": "Не отправлено"
+    },
+    "LOGIN_EVENTS": {
+      "REASON": "Причина",
+      "FAILED_LOGIN_ATTEMPTS": "5 неудачных попыток входа в систему",
+      "LOCKED_UNTIL": "Заблокировано до",
+      "ATTEMPT_DATE_TIME": "Дата и время попытки",
+      "DEVICE": "Устройство"
     }
   },
   "LOGGED_FORBIDDEN": {

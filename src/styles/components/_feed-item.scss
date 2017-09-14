@@ -17,18 +17,18 @@
       color: #fff;
       border-radius: 5px;
       text-transform: uppercase;
-      background: #000;
+      background-color: #000;
       &_blue {
-        background: #0267cc;
+        background-color: #0267cc;
       }
       &_orange {
-        background: #ff9900;
+        background-color: #ff9900;
       }
     }
   }
   &_info {
     flex: 0 0 95%;
-    line-height: 1.15;
+    line-height: 1.2;
     &-status {
       font-size: 14px;
       font-weight: 700;
