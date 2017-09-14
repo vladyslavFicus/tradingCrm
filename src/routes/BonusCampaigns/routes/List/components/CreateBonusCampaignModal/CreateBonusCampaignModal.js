@@ -10,7 +10,7 @@ import {
   CustomValueField,
   InputField,
   SelectField,
-  DateTimeField
+  DateTimeField,
 } from '../../../../../../components/ReduxForm';
 import {
   campaignTypes,
@@ -31,7 +31,7 @@ const attributeLabels = {
   startDate: 'Start date',
   endDate: 'End date',
   currency: 'Currency',
-  moneyTypePriority: 'Money type priority',
+  moneyTypePriority: 'Wagering',
   bonusLifetime: 'Lifetime',
   campaignRatio: 'Ratio',
   'campaignRatio.value': 'Ratio',

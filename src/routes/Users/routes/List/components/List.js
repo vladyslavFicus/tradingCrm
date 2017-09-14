@@ -66,6 +66,14 @@ class List extends Component {
       filters.statuses = [filters.statuses];
     }
 
+    if (filters.registrationDateFrom) {
+      filters.registrationDateFrom = moment(filters.registrationDateFrom).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
+    if (filters.registrationDateTo) {
+      filters.registrationDateTo = moment(filters.registrationDateTo).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
