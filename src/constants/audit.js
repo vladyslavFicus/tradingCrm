@@ -16,6 +16,7 @@ const types = keyMirror({
   PLAYER_PROFILE_VIEWED: null,
   NEW_OPERATOR_ACCOUNT_CREATED: null,
   OPERATOR_ACCOUNT_CREATED: null,
+  FAILED_LOGIN_ATTEMPT: null,
 });
 const typesLabels = {
   [types.LOG_IN]: I18n.t('CONSTANTS.AUDIT.TYPES.LOG_IN'),
@@ -32,6 +33,7 @@ const typesLabels = {
   [types.PLAYER_PROFILE_VIEWED]: I18n.t('CONSTANTS.AUDIT.TYPES.PLAYER_PROFILE_VIEWED'),
   [types.NEW_OPERATOR_ACCOUNT_CREATED]: I18n.t('CONSTANTS.AUDIT.TYPES.NEW_OPERATOR_ACCOUNT_CREATED'),
   [types.OPERATOR_ACCOUNT_CREATED]: I18n.t('CONSTANTS.AUDIT.TYPES.OPERATOR_ACCOUNT_CREATED'),
+  [types.FAILED_LOGIN_ATTEMPT]: I18n.t('CONSTANTS.AUDIT.TYPES.FAILED_LOGIN_ATTEMPT'),
 };
 const typesClassNames = {
   [types.LOG_IN]: 'feed-item_info-status__blue',
@@ -47,6 +49,7 @@ const typesClassNames = {
   [types.PLAYER_PROFILE_SEARCH]: '',
   [types.NEW_OPERATOR_ACCOUNT_CREATED]: '',
   [types.OPERATOR_ACCOUNT_CREATED]: '',
+  [types.FAILED_LOGIN_ATTEMPT]: 'feed-item_info-status__red',
 };
 
 export {
