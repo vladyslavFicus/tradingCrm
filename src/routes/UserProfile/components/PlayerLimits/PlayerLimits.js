@@ -191,7 +191,7 @@ class PlayerLimits extends Component {
             <div className="header-block-title">Locks</div>
             {this.renderStatus('Deposit', deposit.locked)}
             {this.renderStatus('Withdrawal', withdraw.locked)}
-            {this.renderStatus('Login', login.locked)}
+            {login.locked && this.renderStatus('Login', true)}
           </div>
 
           <DropdownMenu>
