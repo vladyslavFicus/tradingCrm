@@ -6,6 +6,10 @@ class Container extends Component {
     children: PropTypes.node.isRequired,
     target: PropTypes.string.isRequired,
     dataSource: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+    showDelay: PropTypes.number,
+  };
+  static defaultProps = {
+    showDelay: 500,
   };
   static contextTypes = {
     miniProfile: PropTypes.shape({
@@ -13,7 +17,29 @@ class Container extends Component {
     }),
   };
 
-  handleOnMouseOver = async () => {
+  componentDidMount() {
+    this.target = document.getElementById(`id-${this.props.target}`);
+    this.target.addEventListener('mouseover', this.onMouseOver, true);
+    this.target.addEventListener('mouseout', this.onMouseLeave, true);
+  }
+
+  componentWillUnmount() {
+    this.target.removeEventListener('mouseover', this.onMouseOver, true);
+    this.target.removeEventListener('mouseout', this.onMouseLeave, true);
+  }
+
+  onMouseOver = () => {
+    this.showTimeout = setTimeout(this.loadContent, this.props.showDelay);
+  }
+
+  onMouseLeave = () => {
+    if (this.showTimeout) {
+      clearTimeout(this.showTimeout);
+      this.showTimeout = null;
+    }
+  }
+
+  loadContent = async () => {
     const { dataSource, target, type } = this.props;
     const { miniProfile: { onShowMiniProfile } } = this.context;
 
@@ -35,7 +61,6 @@ class Container extends Component {
       <div
         className="mini-profile-show-button"
         id={`id-${target}`}
-        onMouseOver={this.handleOnMouseOver}
       >
         {children}
       </div>
