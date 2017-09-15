@@ -136,11 +136,11 @@ class View extends Component {
   renderAvailable = data => (
     <div>
       <div className="font-weight-700">
-        {moment.utc(data.startDate).format('DD.MM.YYYY HH:mm')}
+        {moment.utc(data.startDate).local().format('DD.MM.YYYY HH:mm')}
       </div>
       <div className="font-size-10">
         {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.GRID_VIEW.DATE_TO', {
-          time: moment.utc(data.endDate).format('DD.MM.YYYY HH:mm'),
+          time: moment.utc(data.endDate).local().format('DD.MM.YYYY HH:mm'),
         })}
       </div>
     </div>

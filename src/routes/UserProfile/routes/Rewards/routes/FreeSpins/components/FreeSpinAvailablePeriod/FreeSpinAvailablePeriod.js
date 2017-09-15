@@ -17,11 +17,11 @@ class FreeSpinAvailablePeriod extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          {moment.utc(freeSpin.startDate).format('DD.MM.YYYY HH:mm')}
+          {moment.utc(freeSpin.startDate).local().format('DD.MM.YYYY HH:mm')}
         </div>
         <div className="font-size-11">
           {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_AVAILABLE_PERIOD.DATE_TO', {
-            time: moment.utc(freeSpin.endDate).format('DD.MM.YYYY HH:mm'),
+            time: moment.utc(freeSpin.endDate).local().format('DD.MM.YYYY HH:mm'),
           })}
         </div>
       </div>
