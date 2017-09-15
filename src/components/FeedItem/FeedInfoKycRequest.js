@@ -9,7 +9,10 @@ const FeedInfoKycRequest = ({ data }) => (
     <div>
       {I18n.t('FEED_ITEM.KYC.LOGIN_EVENTS.REASON')}:{' '}
       <span className="feed-item_info-details_value">
-        {renderLabel(data.details.reason, verifyRequestReasons)}
+        {
+          data.details.reason &&
+          renderLabel(data.details.reason, verifyRequestReasons)
+        }
       </span>
     </div>
   </div>
