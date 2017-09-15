@@ -71,7 +71,6 @@ class DateTimeField extends Component {
           placeholder,
         }}
         isValidDate={isValidDate}
-        utc={true}
       />
     );
 
