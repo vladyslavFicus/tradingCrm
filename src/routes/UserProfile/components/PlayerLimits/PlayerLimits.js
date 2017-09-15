@@ -146,11 +146,13 @@ class PlayerLimits extends Component {
   );
 
   renderLoginLimit = () => {
-    const { limits: { login } } = this.props;
-
-    if (!login.locked) {
-      return null;
-    }
+    const {
+      limits: {
+        login: {
+          expirationDate,
+        },
+      },
+    } = this.props;
 
     return (
       <div className="limits-info_tab">
@@ -161,8 +163,8 @@ class PlayerLimits extends Component {
           {I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.REASON')}
         </div>
         <div className="header-block_player-limits-tab_log">
-          {I18n.t('COMMON.DATE_UNTIL', {
-            date: moment(login.expirationDate).format('DD.MM.YYYY HH:mm') })
+          {expirationDate && I18n.t('COMMON.DATE_UNTIL', {
+            date: moment(expirationDate).format('DD.MM.YYYY HH:mm') })
           }
         </div>
         {
@@ -191,7 +193,7 @@ class PlayerLimits extends Component {
             <div className="header-block-title">Locks</div>
             {this.renderStatus('Deposit', deposit.locked)}
             {this.renderStatus('Withdrawal', withdraw.locked)}
-            {login.locked && this.renderStatus('Login', true)}
+            {this.renderStatus('Login', login.locked)}
           </div>
 
           <DropdownMenu>
@@ -210,10 +212,10 @@ class PlayerLimits extends Component {
               )}
             </div>
             {
-              entities.length > 0 &&
+              (entities.length > 0 || login.locked) &&
               <div className="limits-info">
                 {entities.map(this.renderLimit)}
-                {this.renderLoginLimit()}
+                {login.locked && this.renderLoginLimit()}
               </div>
             }
           </DropdownMenu>
