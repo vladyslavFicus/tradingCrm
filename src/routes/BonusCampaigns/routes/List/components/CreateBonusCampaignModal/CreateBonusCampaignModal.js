@@ -17,7 +17,7 @@ import {
   campaignTypesLabels,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
-  moneyTypeUsageLabels
+  moneyTypeUsageLabels,
 } from '../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';

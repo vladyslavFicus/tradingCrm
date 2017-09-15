@@ -105,17 +105,7 @@ class View extends Component {
   };
 
   handleSubmitNewBonusCampaign = async (data) => {
-    const formData = { ...data };
-
-    if (formData.startDate) {
-      formData.startDate = moment(formData.startDate).utc().format('YYYY-MM-DDTHH:mm');
-    }
-
-    if (formData.endDate) {
-      formData.endDate = moment(formData.endDate).utc().format('YYYY-MM-DDTHH:mm');
-    }
-
-    const action = await this.props.createCampaign(formData);
+    const action = await this.props.createCampaign(data);
 
     if (action) {
       if (!action.error) {
