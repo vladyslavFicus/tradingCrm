@@ -42,6 +42,7 @@ class FeedItem extends Component {
       case types.KYC_ADDRESS_VERIFIED:
       case types.KYC_PERSONAL_REFUSED:
       case types.KYC_PERSONAL_VERIFIED:
+      case types.KYC_REQUESTED:
         return <FeedInfoKyc data={data} />;
       case types.PLAYER_PROFILE_VERIFIED_EMAIL:
       case types.PLAYER_PROFILE_VERIFIED_PHONE:

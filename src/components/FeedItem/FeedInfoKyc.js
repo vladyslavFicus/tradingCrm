@@ -40,6 +40,14 @@ const FeedInfoKyc = ({ data }) => (
       );
     })}
     {
+      data.details.reason &&
+      <div>
+        <span className="feed-item_info-details_value">
+          {I18n.t('FEED_ITEM.KYC.LOGIN_EVENTS.REASON')}:
+        </span> {data.details.reason}
+      </div>
+    }
+    {
       data.details.uploadedFileList && data.details.uploadedFileList.length > 0 &&
       <div>
         {data.details.uploadedFileList.map((file, index) => (
