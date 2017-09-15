@@ -231,9 +231,6 @@ label {
         opacity: 1;
         visibility: visible;
       }
-      .select-block__label {
-        z-index: 2;
-      }
     }
     &.with-option {
       font-weight: 600;
@@ -251,6 +248,7 @@ label {
       position: absolute;
       top: 95%;
       left: 0;
+      border-top: 1px solid #cfcfcf;
       border-bottom-right-radius: 3px;
       border-bottom-left-radius: 3px;
       opacity: 0;
@@ -349,6 +347,7 @@ label {
       font-size: 13px;
     }
     .input-right-icon {
+      top: 18px;
       right: 12px;
       font-size: 13px;
     }

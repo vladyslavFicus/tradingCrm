@@ -99,7 +99,7 @@ class List extends Component {
     });
   };
 
-  renderStatus = data => (
+  renderStatus = (data) => (
     <div>
       <div
         className={
@@ -115,7 +115,7 @@ class List extends Component {
         </div>
       }
     </div>
-  )
+  );
 
   renderOperator = data => (
     <div>
@@ -145,10 +145,10 @@ class List extends Component {
   renderRegistered = data => (
     <div>
       <div className="font-weight-700">
-        {moment(data.registrationDate).format('DD.MM.YYYY')}
+        {moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}
       </div>
       <div className="font-size-11">
-        {moment(data.registrationDate).format('HH.mm')}
+        {moment.utc(data.registrationDate).local().format('HH.mm')}
       </div>
     </div>
   );

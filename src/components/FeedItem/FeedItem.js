@@ -13,6 +13,7 @@ import FeedInfoProfileChanged from './FeedInfoProfileChanged';
 import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
 import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
 import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
+import FeedInfoFailedLoginAttempt from './FeedInfoFailedLoginAttempt';
 import Uuid from '../Uuid';
 
 class FeedItem extends Component {
@@ -53,6 +54,8 @@ class FeedItem extends Component {
         return <FeedInfoOperatorCreation data={data} />;
       case types.PLAYER_PROFILE_VIEWED:
         return <FeedInfoPlayerProfileViewed data={data} />;
+      case types.FAILED_LOGIN_ATTEMPT:
+        return <FeedInfoFailedLoginAttempt data={data} />;
       default:
         return null;
     }
@@ -103,7 +106,7 @@ class FeedItem extends Component {
             }
           </div>
           <div className="feed-item_info-date">
-            {data.creationDate ? moment(data.creationDate).format('DD.MM.YYYY HH:mm:ss') : null}
+            {data.creationDate ? moment.utc(data.creationDate).local().format('DD.MM.YYYY HH:mm:ss') : null}
             {
               [types.LOG_IN, types.LOG_OUT].indexOf(data.type) === -1 && data.ip
                 ? ` ${I18n.t('COMMON.FROM')} ${data.ip}`

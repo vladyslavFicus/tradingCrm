@@ -102,7 +102,7 @@ class View extends Component {
             <div className="font-size-11 color-secondary">
               {
                 data.lastEditionDate
-                  ? moment(data.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
+                  ? moment.utc(data.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
                   : I18n.t('COMMON.UNKNOWN_TIME')
               }
               {' '}
@@ -153,7 +153,7 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="1">
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">Notes</div>
           </div>

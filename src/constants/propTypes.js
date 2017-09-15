@@ -330,7 +330,7 @@ PropTypes.paymentActionReasons = PropTypes.shape({
   reject: PropTypes.object,
   chargeback: PropTypes.object,
 });
-PropTypes.walletLimitEntity = PropTypes.shape({
+PropTypes.playerLimitEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
   authorUUID: PropTypes.any,
   id: PropTypes.number.isRequired,

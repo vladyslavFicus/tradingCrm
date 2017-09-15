@@ -74,7 +74,7 @@ class List extends Component {
               header="Publication date"
               headerClassName="text-center"
               headerStyle={{ width: '15%' }}
-              render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
+              render={(data, column) => moment.utc(data[column.name]).local().format('DD.MM.YYYY HH:mm:ss')}
               className="text-center"
             />
             <GridColumn

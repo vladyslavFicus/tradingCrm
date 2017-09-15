@@ -221,12 +221,12 @@ class View extends Component {
     data.createdDate ? (
       <div>
         <div className="font-weight-700">
-          {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
+          {moment.utc(data.createdDate).local().format('DD.MM.YYYY HH:mm:ss')}
         </div>
         {
           !!data.expirationDate &&
           <div className="font-size-11">
-            {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+            {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm:ss')}
           </div>
         }
       </div>
@@ -275,7 +275,7 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="1">
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <BonusHeaderNavigation />
             <div className="tab-header__actions">

@@ -38,8 +38,8 @@ class PaymentAddModal extends Component {
     }),
     note: PropTypes.noteEntity,
     error: PropTypes.string,
-    walletLimits: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+    playerLimits: PropTypes.shape({
+      entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
         locked: PropTypes.bool.isRequired,
         canUnlock: PropTypes.bool.isRequired,
@@ -106,14 +106,14 @@ class PaymentAddModal extends Component {
   };
 
   isPaymentMethodDisabled(type) {
-    const { walletLimits } = this.props;
+    const { playerLimits } = this.props;
     let method = type.toLowerCase();
 
     if (method === paymentTypes.Confiscate) {
       method = 'withdraw';
     }
 
-    return walletLimits[method] ? walletLimits[method].locked : false;
+    return playerLimits[method] ? playerLimits[method].locked : false;
   }
 
   renderPaymentAccountField = () => {

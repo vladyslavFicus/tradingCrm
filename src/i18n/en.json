@@ -182,7 +182,8 @@
         "OTHER": "Other",
         "BONUS_ROUND_BONUS": "Bonus round",
         "BONUS_ROUND_CHANCE": "Chance",
-        "BONUS_ROUND_CARD": "Card"
+        "BONUS_ROUND_CARD": "Card",
+        "BONUS_ROUND_FREESPIN": "Bonus round freespin"
       }
     },
     "MARKETING": {
@@ -402,6 +403,16 @@
         "ATTENTION_UNDONE_ACTION": "This action can not be undone!",
         "ACTION_TEXT": "You are about to %{action}"
       }
+    },
+    "LOCKS": {
+      "LOGIN": {
+        "MODAL": {
+          "TITLE": "Unlock login for player",
+          "ACTION_TEXT": "You are about to unlock withdrawal for %{fullName}",
+          "SUBMIT_BUTTON_LABEL": "Unlock login"
+        },
+        "REASON": "by 5 failed login attempts"
+      }
     }
   },
   "COMMON": {
@@ -483,6 +494,9 @@
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded.",
     "CHOOSE_REASON": "-- Choose the reason --",
+    "USED": "used %{value}",
+    "LEFT": "left %{value}",
+    "ACTIVATES_ON": "activates on %{date}",
     "NEVER": "Never"
   },
   "FILES": {
@@ -538,7 +552,8 @@
         "PLAYER_PROFILE_SEARCH": "Players' search",
         "NEW_OPERATOR_ACCOUNT_CREATED": "Operator - New operator created",
         "OPERATOR_ACCOUNT_CREATED": "Operator - Account created",
-        "PLAYER_PROFILE_VIEWED": "Players' profile viewed"
+        "PLAYER_PROFILE_VIEWED": "Players' profile viewed",
+        "FAILED_LOGIN_ATTEMPT": "Failed login attempt registered"
       }
     },
     "OPERATORS": {
@@ -802,6 +817,13 @@
       "INVITATION_SENT": "Invitation",
       "INVITATION_SENT_SUCCESS": "Successfully sent",
       "INVITATION_SENT_FAILURE": "Not sent"
+    },
+    "LOGIN_EVENTS": {
+      "REASON": "Reason",
+      "FAILED_LOGIN_ATTEMPTS": "5 failed login attempts",
+      "LOCKED_UNTIL": "Locked until",
+      "ATTEMPT_DATE_TIME": "Attempt date & time",
+      "DEVICE": "Device"
     }
   },
   "LOGGED_FORBIDDEN": {

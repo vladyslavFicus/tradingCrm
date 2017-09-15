@@ -129,10 +129,10 @@ class View extends Component {
   renderAddDate = data => (
     <div>
       <div className="font-weight-700">
-        {moment(data.creationDate).format('DD.MM.YYYY')}
+        {moment.utc(data.creationDate).local().format('DD.MM.YYYY')}
       </div>
       <div className="font-size-11">
-        {moment(data.creationDate).format('HH:mm:ss')}
+        {moment.utc(data.creationDate).local().format('HH:mm:ss')}
       </div>
     </div>
   );
@@ -145,10 +145,10 @@ class View extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          {moment(data.lastActivityDate).format('DD.MM.YYYY')}
+          {moment.utc(data.lastActivityDate).local().format('DD.MM.YYYY')}
         </div>
         <div className="font-size-11">
-          {moment(data.lastActivityDate).format('HH:mm:ss')}
+          {moment.utc(data.lastActivityDate).local().format('HH:mm:ss')}
         </div>
       </div>
     );
@@ -259,7 +259,7 @@ class View extends Component {
 
     return (
       <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="1">
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">
               {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.TITLE')}

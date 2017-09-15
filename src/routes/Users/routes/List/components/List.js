@@ -102,9 +102,9 @@ class List extends Component {
 
   renderRegistered = data => (
     <div>
-      <div className="font-weight-700">{moment(data.registrationDate).format('DD.MM.YYYY')}</div>
+      <div className="font-weight-700">{moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}</div>
       <div className="font-size-11">
-        {moment(data.registrationDate).format('HH:mm:ss')}
+        {moment.utc(data.registrationDate).local().format('HH:mm:ss')}
       </div>
     </div>
   );
@@ -118,7 +118,7 @@ class List extends Component {
         {
           data.lastDeposit && data.lastDeposit.transactionDate &&
           <div className="font-size-11">
-            Last deposit {moment(data.lastDeposit.transactionDate).format('DD.MM.YYYY')}
+            Last deposit {moment.utc(data.lastDeposit.transactionDate).local().format('DD.MM.YYYY')}
           </div>
         }
       </div>
@@ -133,7 +133,7 @@ class List extends Component {
       {
         data.profileStatusDate &&
         <div className="font-size-11">
-          Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
+          Since {moment.utc(data.profileStatusDate).local().format('DD.MM.YYYY')}
         </div>
       }
     </div>
