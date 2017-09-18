@@ -75,14 +75,6 @@ class View extends Component {
   handleFiltersChanged = (data = {}) => {
     const filters = { ...data };
 
-    if (filters.creationDateFrom) {
-      filters.creationDateFrom = moment(filters.creationDateFrom).utc().format('YYYY-MM-DDTHH:mm');
-    }
-
-    if (filters.creationDateTo) {
-      filters.creationDateTo = moment(filters.creationDateTo).utc().format('YYYY-MM-DDTHH:mm');
-    }
-
     if (filters.states) {
       filters.states = [filters.states];
     }
