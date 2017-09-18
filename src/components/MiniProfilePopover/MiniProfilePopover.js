@@ -11,13 +11,17 @@ class MiniProfilePopover extends Component {
   static propTypes = {
     placement: PropTypes.string,
     target: PropTypes.string.isRequired,
-    toggle: PropTypes.func.isRequired,
     type: PropTypes.string.isRequired,
     data: PropTypes.object.isRequired,
+    popoverMouseEvents: PropTypes.shape({
+      enter: PropTypes.func.isRequired,
+      leave: PropTypes.func.isRequired,
+    }),
   }
 
   static defaultProps = {
     placement: 'right',
+    popoverMouseEvents: null,
   }
 
   renderMiniProfile = () => {
@@ -36,18 +40,28 @@ class MiniProfilePopover extends Component {
   }
 
   render() {
-    const { placement, target, toggle } = this.props;
+    const { placement, target, popoverMouseEvents } = this.props;
+
+    const popoverContent = popoverMouseEvents ?
+      (
+        <div
+          onMouseEnter={popoverMouseEvents.enter}
+          onMouseLeave={popoverMouseEvents.leave}
+        >
+          {this.renderMiniProfile()}
+        </div>
+      )
+      : this.renderMiniProfile();
 
     return (
       <Popover
         placement={placement}
         isOpen
-        toggle={toggle}
         target={target}
         className="mini-profile-popover"
       >
         <PopoverContent>
-          {this.renderMiniProfile()}
+          {popoverContent}
         </PopoverContent>
       </Popover>
     );

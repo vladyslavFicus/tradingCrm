@@ -295,10 +295,7 @@ class NewLayout extends Component {
     });
   };
 
-  handleOpenMiniProfile = (params, target, type) => {
-
-
-
+  handleShowMiniProfile = (target, params, type, popoverMouseEvents) => {
     this.setState({
       miniProfilePopover: {
         name: MINI_PROFILE_POPOVER,
@@ -306,21 +303,11 @@ class NewLayout extends Component {
           data: params,
           target,
           type,
+          popoverMouseEvents,
         },
       },
     });
-
   }
-
-  handleShowMiniProfile = (target, popoverParams = {}, type) => {
-    const { miniProfilePopover: { name, params } } = this.state;
-
-    if (name === MINI_PROFILE_POPOVER && params.target !== target) {
-      this.handleHideMiniProfile(() => this.handleOpenMiniProfile(popoverParams, target, type));
-    } else {
-      this.handleOpenMiniProfile(popoverParams, target, type);
-    }
-  };
 
   handleCloseTabs = () => {
     this.props.resetPanels();
@@ -416,8 +403,6 @@ class NewLayout extends Component {
         {
           miniProfilePopover.name === MINI_PROFILE_POPOVER &&
           <MiniProfilePopover
-            isOpen
-            toggle={this.handleHideMiniProfile}
             {...miniProfilePopover.params}
           />
         }

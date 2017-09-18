@@ -6,10 +6,16 @@ class Container extends Component {
     children: PropTypes.node.isRequired,
     target: PropTypes.string.isRequired,
     dataSource: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
-    showDelay: PropTypes.number,
+    delay: PropTypes.shape({
+      show: PropTypes.number,
+      hide: PropTypes.number,
+    }),
   };
   static defaultProps = {
-    showDelay: 500,
+    delay: {
+      show: 500,
+      hide: 500,
+    },
   };
   static contextTypes = {
     miniProfile: PropTypes.shape({
@@ -19,23 +25,55 @@ class Container extends Component {
 
   componentDidMount() {
     this.target = document.getElementById(`id-${this.props.target}`);
+    this.addTargetEvents();
+  }
+
+  componentWillUnmount() {
+    this.removeTargetEvents();
+  }
+
+  addTargetEvents = () => {
     this.target.addEventListener('mouseover', this.onMouseOver, true);
     this.target.addEventListener('mouseout', this.onMouseLeave, true);
   }
 
-  componentWillUnmount() {
+  removeTargetEvents = () => {
     this.target.removeEventListener('mouseover', this.onMouseOver, true);
     this.target.removeEventListener('mouseout', this.onMouseLeave, true);
   }
 
   onMouseOver = () => {
-    this.showTimeout = setTimeout(this.loadContent, this.props.showDelay);
+    if (this.hideTimeout) {
+      this.clearHideTimeout();
+    }
+
+    this.showTimeout = setTimeout(this.show, this.props.delay.show);
   }
 
   onMouseLeave = () => {
     if (this.showTimeout) {
-      clearTimeout(this.showTimeout);
-      this.showTimeout = null;
+      this.clearShowTimeout();
+    }
+    this.hideTimeout = setTimeout(this.hide, this.props.delay.hide);
+  }
+
+  clearShowTimeout() {
+    clearTimeout(this.showTimeout);
+    this.showTimeout = null;
+  }
+
+  clearHideTimeout() {
+    clearTimeout(this.hideTimeout);
+    this.hideTimeout = null;
+  }
+
+  show = () => this.loadContent();
+
+  hide = () => this.context.miniProfile.onHideMiniProfile();
+
+  onMouseEnterPopover = () => {
+    if (this.hideTimeout) {
+      this.clearHideTimeout();
     }
   }
 
@@ -43,14 +81,19 @@ class Container extends Component {
     const { dataSource, target, type } = this.props;
     const { miniProfile: { onShowMiniProfile } } = this.context;
 
+    const popoverMouseEvents = {
+      enter: this.onMouseEnterPopover,
+      leave: this.onMouseLeave,
+    };
+
     if (_.isFunction(dataSource)) {
       const action = await dataSource();
 
       if (action && !action.error) {
-        onShowMiniProfile(`id-${target}`, action.payload, type);
+        onShowMiniProfile(`id-${target}`, action.payload, type, popoverMouseEvents);
       }
     } else {
-      onShowMiniProfile(`id-${target}`, dataSource, type);
+      onShowMiniProfile(`id-${target}`, dataSource, type, popoverMouseEvents);
     }
   }
 
