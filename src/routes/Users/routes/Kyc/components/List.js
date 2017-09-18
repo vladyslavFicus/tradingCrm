@@ -179,13 +179,9 @@ class List extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <div className="row">
-              <div className="col-md-3">
-                <span className="font-size-20">
-                  {I18n.t('KYC_REQUESTS.TITLE')}
-                </span>
-              </div>
-            </div>
+            <span className="font-size-20">
+              {I18n.t('KYC_REQUESTS.TITLE')}
+            </span>
           </Title>
           <KycGridFilter
             onSubmit={this.handleFiltersChanged}

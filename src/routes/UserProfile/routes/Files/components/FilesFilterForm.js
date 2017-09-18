@@ -101,6 +101,7 @@ class FilesFilterForm extends Component {
                     placeholder={attributeLabels.startDate}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
+                    timeFormat={null}
                     position="vertical"
                   />
                   <span className="range-group__separator">-</span>
@@ -109,6 +110,7 @@ class FilesFilterForm extends Component {
                     placeholder={attributeLabels.endDate}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
+                    timeFormat={null}
                     position="vertical"
                   />
                 </div>

@@ -14,6 +14,7 @@ import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
 import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
 import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
 import FeedInfoFailedLoginAttempt from './FeedInfoFailedLoginAttempt';
+import FeedInfoKycRequest from './FeedInfoKycRequest';
 import Uuid from '../Uuid';
 
 class FeedItem extends Component {
@@ -56,6 +57,8 @@ class FeedItem extends Component {
         return <FeedInfoPlayerProfileViewed data={data} />;
       case types.FAILED_LOGIN_ATTEMPT:
         return <FeedInfoFailedLoginAttempt data={data} />;
+      case types.KYC_REQUESTED:
+        return <FeedInfoKycRequest data={data} />;
       default:
         return null;
     }
@@ -141,4 +144,3 @@ class FeedItem extends Component {
 }
 
 export default FeedItem;
-

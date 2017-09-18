@@ -1,8 +1,8 @@
+import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import Panel, { Title, Content } from '../../../../../components/Panel';
@@ -31,16 +31,20 @@ class List extends Component {
     departments: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
-    })),
+    })).isRequired,
     roles: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
-    })),
+    })).isRequired,
     router: PropTypes.object,
     filterValues: PropTypes.object,
     list: PropTypes.object,
     locale: PropTypes.string.isRequired,
     fetchOperatorMiniProfile: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    isLoading: false,
   };
 
   state = {
@@ -99,7 +103,7 @@ class List extends Component {
     });
   };
 
-  renderStatus = (data) => (
+  renderStatus = data => (
     <div>
       <div
         className={
@@ -167,19 +171,15 @@ class List extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <div className="row">
-              <div className="col-xl-3">
-                <span className="font-size-20" id="operators-list-header">Operators</span>
-              </div>
-              <div className="col-xl-3 col-xl-offset-6 text-right">
-                <button
-                  className="btn btn-default-outline"
-                  onClick={this.handleOpenCreateModal}
-                  id="create-new-operator-button"
-                >
-                  + New operator
-                </button>
-              </div>
+            <div className="clearfix">
+              <span className="font-size-20" id="operators-list-header">Operators</span>
+              <button
+                className="btn btn-default-outline pull-right"
+                onClick={this.handleOpenCreateModal}
+                id="create-new-operator-button"
+              >
+                + New operator
+              </button>
             </div>
           </Title>
 

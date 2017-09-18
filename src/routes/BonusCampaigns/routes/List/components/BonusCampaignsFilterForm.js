@@ -140,6 +140,7 @@ class BonusCampaignsFilterForm extends Component {
                 <label>{I18n.t(attributeLabels.creationDate)}</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="creationDateFrom"
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('creationDateTo')}
@@ -147,6 +148,7 @@ class BonusCampaignsFilterForm extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="creationDateTo"
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('creationDateFrom')}
@@ -160,6 +162,7 @@ class BonusCampaignsFilterForm extends Component {
                 <label>{I18n.t(attributeLabels.activityDate)}</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="activityDateFrom"
                     placeholder={attributeLabels.startDate}
                     component={DateTimeField}
@@ -168,6 +171,7 @@ class BonusCampaignsFilterForm extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="activityDateTo"
                     placeholder={attributeLabels.endDate}
                     component={DateTimeField}
