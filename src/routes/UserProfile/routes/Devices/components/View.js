@@ -48,17 +48,7 @@ class View extends Component {
     this.props.fetchEntities(this.props.params.id, this.state.filters);
   };
 
-  handleFiltersChanged = (data = {}) => {
-    const filters = { ...data };
-
-    if (filters.signInDateFrom) {
-      filters.signInDateFrom = moment(filters.signInDateFrom).utc().format('YYYY-MM-DDTHH:mm');
-    }
-
-    if (filters.signInDateTo) {
-      filters.signInDateTo = moment(filters.signInDateTo).utc().format('YYYY-MM-DDTHH:mm');
-    }
-
+  handleFiltersChanged = (filters = {}) => {
     this.setState({ filters }, () => this.handleRefresh());
   };
 

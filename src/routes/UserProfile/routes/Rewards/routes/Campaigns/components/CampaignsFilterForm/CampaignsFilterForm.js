@@ -102,6 +102,7 @@ class CampaignsFilterForm extends Component {
                 <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="activityDateFrom"
                     placeholder={I18n.t(attributeLabels.activityDateFrom)}
                     component={DateTimeField}
@@ -110,6 +111,7 @@ class CampaignsFilterForm extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="activityDateTo"
                     placeholder={I18n.t(attributeLabels.activityDateTo)}
                     component={DateTimeField}

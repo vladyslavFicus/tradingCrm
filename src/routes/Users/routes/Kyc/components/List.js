@@ -88,14 +88,6 @@ class List extends Component {
       filters = { ...filters, ...formatStatusFilters };
     }
 
-    if (filters.from) {
-      filters.from = moment(filters.from).utc().format('YYYY-MM-DDTHH:mm');
-    }
-
-    if (filters.to) {
-      filters.to = moment(filters.to).utc().format('YYYY-MM-DDTHH:mm');
-    }
-
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
