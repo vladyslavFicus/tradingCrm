@@ -105,9 +105,7 @@ class View extends Component {
   };
 
   handleSubmitNewBonusCampaign = async (data) => {
-    const formData = { ...data };
-
-    const action = await this.props.createCampaign(formData);
+    const action = await this.props.createCampaign(data);
 
     if (action) {
       if (!action.error) {

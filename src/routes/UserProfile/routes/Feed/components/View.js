@@ -52,10 +52,8 @@ class View extends Component {
     }
   };
 
-  handleFiltersChanged = (data = {}) => {
-    const filters = { ...data };
-
-    this.setState({ filters, page: 0 }, () => this.handleRefresh());
+  handleFiltersChanged = (filters = {}) => {
+    this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
   handleExportClick = () => {

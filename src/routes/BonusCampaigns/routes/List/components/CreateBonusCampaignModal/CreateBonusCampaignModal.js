@@ -137,7 +137,7 @@ class CreateBonusCampaignModal extends Component {
   };
   static defaultProps = {
     pristine: false,
-    submitting: null,
+    submitting: false,
     valid: false,
     errors: {},
     meta: {},
