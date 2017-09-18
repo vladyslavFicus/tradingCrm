@@ -99,6 +99,7 @@ class FeedFilterForm extends Component {
                 <label>Action date range</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="creationDateFrom"
                     placeholder={attributeLabels.startDate}
                     component={DateTimeField}
@@ -107,6 +108,7 @@ class FeedFilterForm extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="creationDateTo"
                     placeholder={attributeLabels.endDate}
                     component={DateTimeField}
