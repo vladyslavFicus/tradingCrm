@@ -64,8 +64,8 @@ class List extends Component {
     page: this.state.page,
   });
 
-  handleFiltersChanged = (data = {}) => {
-    const filters = { ...data };
+  handleFiltersChanged = (filters = {}) => {
+    console.info('Operators search: Filter submitted');
 
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
