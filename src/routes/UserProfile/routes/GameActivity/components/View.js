@@ -74,11 +74,18 @@ class View extends Component {
     }
   };
 
-  handleFiltersChanged = (filters = {}) => {
-    this.setState({
-      filters,
-      page: 0,
-    }, () => this.handleRefresh());
+  handleFiltersChanged = (data = {}) => {
+    const filters = { ...data };
+
+    if (filters.startDate) {
+      filters.startDate = moment(filters.startDate).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
+    if (filters.endDate) {
+      filters.endDate = moment(filters.endDate).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
+    this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
   handleExportClick = () => {

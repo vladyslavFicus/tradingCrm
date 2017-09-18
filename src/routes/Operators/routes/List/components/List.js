@@ -1,8 +1,8 @@
+import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
@@ -28,15 +28,19 @@ class List extends Component {
     departments: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
-    })),
+    })).isRequired,
     roles: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
-    })),
+    })).isRequired,
     router: PropTypes.object,
     filterValues: PropTypes.object,
     list: PropTypes.object,
     locale: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    isLoading: false,
   };
 
   state = {
@@ -60,8 +64,8 @@ class List extends Component {
     page: this.state.page,
   });
 
-  handleFiltersChanged = (filters = {}) => {
-    console.info('Operators search: Filter submitted');
+  handleFiltersChanged = (data = {}) => {
+    const filters = { ...data };
 
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
@@ -95,61 +99,53 @@ class List extends Component {
     });
   };
 
-  renderStatus = (data) => {
-    return (
-      <div>
-        <div
-          className={
-            classNames(operatorStatusColorNames[data.operatorStatus], 'text-uppercase font-weight-700')
-          }
-        >
-          {operatorStatusesLabels[data.operatorStatus] || data.operatorStatus}
-        </div>
-        {
-          data.statusChangeDate &&
-          <div className="font-size-11">
-            Since {moment.utc(data.statusChangeDate).local().format('DD.MM.YYYY')}
-          </div>
+  renderStatus = data => (
+    <div>
+      <div
+        className={
+          classNames(operatorStatusColorNames[data.operatorStatus], 'text-uppercase font-weight-700')
         }
+      >
+        {operatorStatusesLabels[data.operatorStatus] || data.operatorStatus}
       </div>
-    );
-  };
-
-  renderOperator = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700" id={`operator-list-${data.uuid}-main`}>
-          <Link to={`/operators/${data.uuid}/profile`}>
-            {[data.firstName, data.lastName].join(' ')}
-          </Link>
-        </div>
-        <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
-          <Uuid uuid={data.uuid} />
-        </div>
-      </div>
-    );
-  };
-
-  renderCountry = (data) => {
-    return (
-      <div className="font-weight-700">
-        {data.country}
-      </div>
-    );
-  };
-
-  renderRegistered = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700">
-          {moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}
-        </div>
+      {
+        data.statusChangeDate &&
         <div className="font-size-11">
-          {moment.utc(data.registrationDate).local().format('HH.mm')}
+          Since {moment.utc(data.statusChangeDate).local().format('DD.MM.YYYY')}
         </div>
+      }
+    </div>
+  );
+
+  renderOperator = data => (
+    <div>
+      <div className="font-weight-700" id={`operator-list-${data.uuid}-main`}>
+        <Link to={`/operators/${data.uuid}/profile`}>
+          {[data.firstName, data.lastName].join(' ')}
+        </Link>
       </div>
-    );
-  };
+      <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
+        <Uuid uuid={data.uuid} />
+      </div>
+    </div>
+  );
+
+  renderCountry = data => (
+    <div className="font-weight-700">
+      {data.country}
+    </div>
+  );
+
+  renderRegistered = data => (
+    <div>
+      <div className="font-weight-700">
+        {moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}
+      </div>
+      <div className="font-size-11">
+        {moment.utc(data.registrationDate).local().format('HH.mm')}
+      </div>
+    </div>
+  );
 
   render() {
     const { filters, modal } = this.state;
@@ -165,19 +161,15 @@ class List extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <div className="row">
-              <div className="col-xl-3">
-                <span className="font-size-20" id="operators-list-header">Operators</span>
-              </div>
-              <div className="col-xl-3 col-xl-offset-6 text-right">
-                <button
-                  className="btn btn-default-outline"
-                  onClick={this.handleOpenCreateModal}
-                  id="create-new-operator-button"
-                >
-                  + New operator
-                </button>
-              </div>
+            <div className="clearfix">
+              <span className="font-size-20" id="operators-list-header">Operators</span>
+              <button
+                className="btn btn-default-outline pull-right"
+                onClick={this.handleOpenCreateModal}
+                id="create-new-operator-button"
+              >
+                + New operator
+              </button>
             </div>
           </Title>
 

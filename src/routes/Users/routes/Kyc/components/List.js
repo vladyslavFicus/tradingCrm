@@ -88,6 +88,14 @@ class List extends Component {
       filters = { ...filters, ...formatStatusFilters };
     }
 
+    if (filters.from) {
+      filters.from = moment(filters.from).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
+    if (filters.to) {
+      filters.to = moment(filters.to).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
@@ -179,13 +187,9 @@ class List extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <div className="row">
-              <div className="col-md-3">
-                <span className="font-size-20">
-                  {I18n.t('KYC_REQUESTS.TITLE')}
-                </span>
-              </div>
-            </div>
+            <span className="font-size-20">
+              {I18n.t('KYC_REQUESTS.TITLE')}
+            </span>
           </Title>
           <KycGridFilter
             onSubmit={this.handleFiltersChanged}

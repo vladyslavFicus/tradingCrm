@@ -108,6 +108,14 @@ class View extends Component {
       filters.statuses = filters.statuses.join(',');
     }
 
+    if (filters.startDate) {
+      filters.startDate = moment(filters.startDate).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
+    if (filters.endDate) {
+      filters.endDate = moment(filters.endDate).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
