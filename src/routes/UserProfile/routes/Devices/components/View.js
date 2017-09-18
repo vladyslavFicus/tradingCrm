@@ -48,7 +48,17 @@ class View extends Component {
     this.props.fetchEntities(this.props.params.id, this.state.filters);
   };
 
-  handleFiltersChanged = (filters = {}) => {
+  handleFiltersChanged = (data = {}) => {
+    const filters = { ...data };
+
+    if (filters.signInDateFrom) {
+      filters.signInDateFrom = moment(filters.signInDateFrom).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
+    if (filters.signInDateTo) {
+      filters.signInDateTo = moment(filters.signInDateTo).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
     this.setState({ filters }, () => this.handleRefresh());
   };
 
@@ -94,7 +104,7 @@ class View extends Component {
   };
 
   renderLastLogin = (data) => {
-    const dateTime = moment(data.lastSignInDate);
+    const dateTime = moment.utc(data.lastSignInDate).local();
 
     return (
       <div>

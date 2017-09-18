@@ -20,6 +20,10 @@ class View extends Component {
     }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool,
+  };
+  static defaultProps = {
+    isLoading: false,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Sticky from 'react-stickynode';
+import moment from 'moment';
 import PropTypes from '../../../../../constants/propTypes';
 import ListView from '../../../../../components/ListView';
 import FeedItem from '../../../../../components/FeedItem';
@@ -52,11 +53,18 @@ class View extends Component {
     }
   };
 
-  handleFiltersChanged = (filters = {}) => {
-    this.setState({
-      filters,
-      page: 0,
-    }, () => this.handleRefresh());
+  handleFiltersChanged = (data = {}) => {
+    const filters = { ...data };
+
+    if (filters.creationDateFrom) {
+      filters.creationDateFrom = moment(filters.creationDateFrom).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
+    if (filters.creationDateTo) {
+      filters.creationDateTo = moment(filters.creationDateTo).utc().format('YYYY-MM-DDTHH:mm');
+    }
+
+    this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
   handleExportClick = () => {

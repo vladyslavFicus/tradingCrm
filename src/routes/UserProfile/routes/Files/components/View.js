@@ -75,8 +75,6 @@ class View extends Component {
   };
 
   handleFiltersChanged = (filters = {}) => {
-    console.log(filters)
-
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
