@@ -17,6 +17,7 @@ const types = keyMirror({
   NEW_OPERATOR_ACCOUNT_CREATED: null,
   OPERATOR_ACCOUNT_CREATED: null,
   FAILED_LOGIN_ATTEMPT: null,
+  KYC_REQUESTED: null,
 });
 const typesLabels = {
   [types.LOG_IN]: I18n.t('CONSTANTS.AUDIT.TYPES.LOG_IN'),
@@ -34,6 +35,7 @@ const typesLabels = {
   [types.NEW_OPERATOR_ACCOUNT_CREATED]: I18n.t('CONSTANTS.AUDIT.TYPES.NEW_OPERATOR_ACCOUNT_CREATED'),
   [types.OPERATOR_ACCOUNT_CREATED]: I18n.t('CONSTANTS.AUDIT.TYPES.OPERATOR_ACCOUNT_CREATED'),
   [types.FAILED_LOGIN_ATTEMPT]: I18n.t('CONSTANTS.AUDIT.TYPES.FAILED_LOGIN_ATTEMPT'),
+  [types.KYC_REQUESTED]: I18n.t('CONSTANTS.AUDIT.TYPES.KYC_REQUESTED'),
 };
 const typesClassNames = {
   [types.LOG_IN]: 'feed-item_info-status__blue',
@@ -50,6 +52,7 @@ const typesClassNames = {
   [types.NEW_OPERATOR_ACCOUNT_CREATED]: '',
   [types.OPERATOR_ACCOUNT_CREATED]: '',
   [types.FAILED_LOGIN_ATTEMPT]: 'feed-item_info-status__red',
+  [types.KYC_REQUESTED]: 'feed-item_info-status__green',
 };
 
 export {
