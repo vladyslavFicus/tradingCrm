@@ -26,14 +26,9 @@ class OperatorProfileLayout extends Component {
     availableStatuses: PropTypes.array.isRequired,
     changeStatus: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
-    fetchIp: PropTypes.func.isRequired,
     onResetPassword: PropTypes.func.isRequired,
     onSendInvitation: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
-    ip: PropTypes.shape({
-      list: PropTypes.arrayOf(PropTypes.operatorIpEntity).isRequired,
-    }).isRequired,
-    lastIp: PropTypes.operatorIpEntity,
   };
 
   state = {
@@ -46,12 +41,10 @@ class OperatorProfileLayout extends Component {
       isLoading,
       fetchProfile,
       params: { id },
-      fetchIp,
     } = this.props;
 
     if (!isLoading) {
-      fetchProfile(id)
-        .then(() => fetchIp(id, { limit: 10 }));
+      fetchProfile(id);
     }
   }
 
@@ -171,8 +164,6 @@ class OperatorProfileLayout extends Component {
       params,
       children,
       data,
-      ip,
-      lastIp,
       availableStatuses,
       changeStatus,
     } = this.props;
@@ -186,7 +177,6 @@ class OperatorProfileLayout extends Component {
         <div className="profile-layout-heading">
           <Header
             data={data}
-            lastIp={lastIp}
             availableStatuses={availableStatuses}
             onResetPasswordClick={this.handleResetPasswordClick}
             onSendInvitationClick={this.handleSendInvitationClick}
@@ -208,10 +198,7 @@ class OperatorProfileLayout extends Component {
           </div>
 
           <Collapse isOpen={informationShown}>
-            <Information
-              data={data}
-              ips={ip.list}
-            />
+            <Information data={data} />
           </Collapse>
         </div>
         <div className="panel profile-user-content">
