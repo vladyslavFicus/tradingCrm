@@ -105,6 +105,7 @@ class FilterForm extends Component {
                 <label>{I18n.t('PLAYER_PROFILE.DEVICES.FILTER.LOGIN_DATE_RANGE')}</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="signInDateFrom"
                     placeholder={I18n.t(attributeLabels.dateFrom)}
                     component={DateTimeField}
@@ -113,6 +114,7 @@ class FilterForm extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="signInDateTo"
                     placeholder={I18n.t(attributeLabels.dateTo)}
                     component={DateTimeField}

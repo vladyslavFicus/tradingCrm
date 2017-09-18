@@ -184,6 +184,7 @@ class TransactionsFilterForm extends Component {
                 <label>{I18n.t(attributeLabels.creationDateRange)}</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="startDate"
                     placeholder={I18n.t(attributeLabels.startDate)}
                     component={DateTimeField}
@@ -192,6 +193,7 @@ class TransactionsFilterForm extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="endDate"
                     placeholder={I18n.t(attributeLabels.endDate)}
                     component={DateTimeField}

@@ -42,9 +42,9 @@ class View extends Component {
     this.props.deleteAuthority(this.props.params.id, department, role);
   };
 
-  handleAddAuthority = (data) => {
-    return this.props.addAuthority(this.props.params.id, data);
-  };
+  handleAddAuthority = data => (
+    this.props.addAuthority(this.props.params.id, data)
+  );
 
   render() {
     const {

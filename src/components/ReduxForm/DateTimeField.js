@@ -27,6 +27,7 @@ class DateTimeField extends Component {
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     iconLeftClassName: PropTypes.string,
     iconRightClassName: PropTypes.string,
+    utc: PropTypes.bool,
   };
   static defaultProps = {
     label: null,
@@ -37,19 +38,34 @@ class DateTimeField extends Component {
     position: 'horizontal',
     iconLeftClassName: '',
     iconRightClassName: 'nas nas-calendar_icon',
+    utc: false,
   };
 
+  getValue = () => {
+    const { input: { value }, utc } = this.props;
+
+    if (value) {
+      return utc ? moment.utc(value).local() : moment(value);
+    }
+
+    return null;
+  }
+
   handleChange = (value) => {
-    this.props.input.onChange(
-      value && value.format
-        ? value.format(`YYYY-MM-DD${this.props.timeFormat ? 'THH:mm:00' : ''}`)
-        : ''
-    );
+    const { input: { onChange }, timeFormat, utc } = this.props;
+
+    let formatValue = '';
+
+    if (value && value.format) {
+      formatValue = utc ? moment.utc(value) : value;
+      formatValue = formatValue.format(`YYYY-MM-DD${timeFormat ? 'THH:mm:00' : ''}`);
+    }
+
+    onChange(formatValue);
   };
 
   renderInput = () => {
     const {
-      input,
       disabled,
       placeholder,
       isValidDate,
@@ -64,7 +80,7 @@ class DateTimeField extends Component {
         dateFormat={dateFormat}
         timeFormat={timeFormat}
         onChange={this.handleChange}
-        value={input.value ? moment(input.value) : null}
+        value={this.getValue()}
         closeOnSelect
         inputProps={{
           disabled,

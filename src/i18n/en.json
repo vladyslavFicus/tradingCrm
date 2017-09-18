@@ -225,7 +225,7 @@
           "OPT_IN": "Opt-In",
           "CONVERTED": "Converted",
           "WAGERED": "Wagered",
-          "MONEY_TYPE_PRIORITY": "Money type priority"
+          "MONEY_TYPE_PRIORITY": "Wagering"
         }
       },
       "CANCEL_BONUS": "Cancel bonus",
@@ -373,7 +373,7 @@
           "CAPPING": "Capping",
           "MULTIPLIER": "Multiplier",
           "BONUS_LIFE_TIME": "Bonus life time",
-          "MONEY_TYPE_PRIORITY": "Money type usage"
+          "MONEY_TYPE_PRIORITY": "Wagering"
         },
         "FREE_SPIN_VALUE": "Free spin value",
         "TOTAL_VALUE": "Total value"
@@ -588,8 +588,8 @@
         "CAMPAIGN": "by Campaign"
       },
       "MONEY_TYPE_USAGE": {
-        "REAL_MONEY": "Real money",
-        "BONUS_MONEY": "Bonus money"
+        "REAL_MONEY": "Real money first",
+        "BONUS_MONEY": "Bonus money first"
       },
       "ROUTES": {
         "BONUSES": "Bonuses",
@@ -635,8 +635,8 @@
         "CANCEL": "cancel"
       },
       "MONEY_TYPE_USAGE": {
-        "REAL_MONEY": "Real money",
-        "BONUS_MONEY": "Bonus money"
+        "REAL_MONEY": "Real money first",
+        "BONUS_MONEY": "Bonus money first"
       }
     },
     "GAMING_ACTIVITY": {
@@ -911,7 +911,7 @@
           "CAMPAIGN_END": "Campaign end",
           "PRIZE": "Prize",
           "CAPPING": "Capping",
-          "MONEY_TYPE_PRIORITY": "Money type priority: %{priority}"
+          "MONEY_TYPE_PRIORITY": "Wagering: %{priority}"
         },
         "GRANTED_TO": "to %{count} Players",
         "GRANTED_TO_0": "to %{count} Players",
@@ -950,7 +950,7 @@
         "MAX_AMOUNT_PLACEHOLDER": "Max.",
         "RATIO_TOOLTIP": "Deposit : Granted bonus",
         "PRIORITY": "Priority",
-        "MONEY_TYPE_PRIORITY": "Money type priority"
+        "MONEY_TYPE_PRIORITY": "Wagering"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",

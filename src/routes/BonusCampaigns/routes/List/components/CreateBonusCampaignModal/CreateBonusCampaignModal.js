@@ -10,14 +10,14 @@ import {
   CustomValueField,
   InputField,
   SelectField,
-  DateTimeField
+  DateTimeField,
 } from '../../../../../../components/ReduxForm';
 import {
   campaignTypes,
   campaignTypesLabels,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
-  moneyTypeUsageLabels
+  moneyTypeUsageLabels,
 } from '../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
@@ -31,7 +31,7 @@ const attributeLabels = {
   startDate: 'Start date',
   endDate: 'End date',
   currency: 'Currency',
-  moneyTypePriority: 'Money type priority',
+  moneyTypePriority: 'Wagering',
   bonusLifetime: 'Lifetime',
   campaignRatio: 'Ratio',
   'campaignRatio.value': 'Ratio',
@@ -136,7 +136,37 @@ class CreateBonusCampaignModal extends Component {
     change: PropTypes.func.isRequired,
   };
   static defaultProps = {
+    pristine: false,
+    submitting: false,
+    valid: false,
+    errors: {},
+    meta: {},
     currentValues: {},
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { currentValues, change } = this.props;
+    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
+    if (currentValues && currentValues.campaignType &&
+      currentValues.campaignType !== nextCampaignType &&
+      nextCampaignType === campaignTypes.PROFILE_COMPLETED
+    ) {
+      ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
+        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
+      });
+    }
+  }
+
+  getCustomValueFieldErrors = (name) => {
+    const { errors, meta } = this.props;
+
+    if (meta && meta[name]) {
+      if ((meta[name].value && meta[name].value.touched) || (meta[name].type && meta[name].type.touched)) {
+        return errors;
+      }
+    }
+
+    return {};
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -158,31 +188,6 @@ class CreateBonusCampaignModal extends Component {
         : true
     );
   };
-
-  getCustomValueFieldErrors = (name) => {
-    const { errors, meta } = this.props;
-
-    if (meta && meta[name]) {
-      if ((meta[name].value && meta[name].value.touched) || (meta[name].type && meta[name].type.touched)) {
-        return errors;
-      }
-    }
-
-    return {};
-  };
-
-  componentWillReceiveProps(nextProps) {
-    const { currentValues, change } = this.props;
-    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
-    if (currentValues && currentValues.campaignType &&
-      currentValues.campaignType !== nextCampaignType &&
-      nextCampaignType === campaignTypes.PROFILE_COMPLETED
-    ) {
-      ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
-        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
-      });
-    }
-  }
 
   render() {
     const {
@@ -323,6 +328,7 @@ class CreateBonusCampaignModal extends Component {
             }
 
             <Field
+              utc
               name="startDate"
               label="Start date"
               component={DateTimeField}
@@ -330,6 +336,7 @@ class CreateBonusCampaignModal extends Component {
             />
 
             <Field
+              utc
               name="endDate"
               label="End date"
               component={DateTimeField}

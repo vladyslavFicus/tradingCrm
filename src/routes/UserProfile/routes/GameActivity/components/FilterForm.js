@@ -177,6 +177,7 @@ class FilterForm extends Component {
                 <label>{I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.FILTER_FORM.ACTIVITY_DATE_RANGE')}</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="startDate"
                     placeholder={I18n.t(filterFormAttributeLabels.startDate)}
                     component={DateTimeField}
@@ -185,6 +186,7 @@ class FilterForm extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="endDate"
                     placeholder={I18n.t(filterFormAttributeLabels.endDate)}
                     component={DateTimeField}

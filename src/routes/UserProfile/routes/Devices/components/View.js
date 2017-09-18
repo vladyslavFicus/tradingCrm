@@ -94,7 +94,7 @@ class View extends Component {
   };
 
   renderLastLogin = (data) => {
-    const dateTime = moment(data.lastSignInDate);
+    const dateTime = moment.utc(data.lastSignInDate).local();
 
     return (
       <div>

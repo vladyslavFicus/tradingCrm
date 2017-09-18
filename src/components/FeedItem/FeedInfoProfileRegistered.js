@@ -6,6 +6,7 @@ import { attributeLabels } from '../../constants/user';
 const formatters = {
   birthDate: [value => moment(value).format('DD.MM.YYYY')],
   tokenExpirationDate: [value => moment.utc(value).local().format('DD.MM.YYYY HH:mm:ss')],
+  registrationDate: [value => moment.utc(value).local().format('DD.MM.YYYY HH:mm:ss')],
 };
 const formatValue = (attribute, value) => (
   formatters[attribute] ? formatters[attribute].reduce((res, formatter) => formatter(res), value) : value
