@@ -144,4 +144,3 @@ class FeedItem extends Component {
 }
 
 export default FeedItem;
-
