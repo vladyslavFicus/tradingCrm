@@ -8,17 +8,20 @@ class PermissionContent extends Component {
     permissions: PropTypes.object,
   };
   static contextTypes = {
-    permissions: PropTypes.array.isRequired,
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
     return !shallowEqual(nextProps.permissions.getCompiled(), this.props.permissions.getCompiled()) ||
       !shallowEqual(nextProps.children, this.props.children);
   }
 
   render() {
-    return this.props.permissions.check(this.context.permissions)
-      ? this.props.children
+    const { children, permissions } = this.props;
+    const { permissions: currentPermissions } = this.context;
+
+    return permissions.check(currentPermissions)
+      ? children
       : null;
   }
 }
