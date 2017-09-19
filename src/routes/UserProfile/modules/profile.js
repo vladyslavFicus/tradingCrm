@@ -673,16 +673,6 @@ function successUpdateProfileReducer(state, action) {
   };
 }
 
-function successVerifyEmailReducer(state) {
-  return {
-    ...state,
-    data: {
-      ...state.data,
-      profileStatus: userStatuses.ACTIVE,
-    },
-  };
-}
-
 function manageKycNote(type, data) {
   return (dispatch, getState) => {
     const { auth: { uuid, fullName } } = getState();
@@ -782,7 +772,13 @@ const actionHandlers = {
       phoneNumberVerified: true,
     },
   }),
-  [VERIFY_PROFILE_EMAIL.SUCCESS]: successVerifyEmailReducer,
+  [VERIFY_PROFILE_EMAIL.SUCCESS]: state => ({
+    ...state,
+    data: {
+      ...state.data,
+      profileStatus: userStatuses.ACTIVE,
+    },
+  }),
   [ADD_TAG.SUCCESS]: (state, action) => {
     const { profileTags } = action.payload;
 
