@@ -3,7 +3,7 @@ import moment from 'moment';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import timestamp from '../../../utils/timestamp';
-import { actions } from '../../../constants/user';
+import { actions, statuses as userStatuses } from '../../../constants/user';
 import { statuses as kycStatuses, categories as kycCategories } from '../../../constants/kyc';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
 import config from '../../../config';
@@ -673,6 +673,16 @@ function successUpdateProfileReducer(state, action) {
   };
 }
 
+function successVerifyEmailReducer(state) {
+  return {
+    ...state,
+    data: {
+      ...state.data,
+      profileStatus: userStatuses.ACTIVE,
+    },
+  };
+}
+
 function manageKycNote(type, data) {
   return (dispatch, getState) => {
     const { auth: { uuid, fullName } } = getState();
@@ -772,7 +782,7 @@ const actionHandlers = {
       phoneNumberVerified: true,
     },
   }),
-  [VERIFY_PROFILE_EMAIL.SUCCESS]: successUpdateProfileReducer,
+  [VERIFY_PROFILE_EMAIL.SUCCESS]: successVerifyEmailReducer,
   [ADD_TAG.SUCCESS]: (state, action) => {
     const { profileTags } = action.payload;
 
