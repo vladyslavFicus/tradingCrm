@@ -7,6 +7,7 @@ import PropTypes from '../../constants/propTypes';
 import { statusesColor, statusesLabels, statuses, initiators } from '../../constants/payment';
 import Uuid from '../Uuid';
 import FailedStatusIcon from '../FailedStatusIcon';
+import renderLabel from '../../utils/renderLabel';
 
 class TransactionStatus extends Component {
   static propTypes = {
@@ -53,6 +54,11 @@ class TransactionStatus extends Component {
               </div>
               <div className="font-size-11">
                 {status.initiatorType}
+                {' '}
+                {
+                  (status.initiatorType === initiators.PLAYER || status.initiatorType === initiators.OPERATOR) &&
+                  <Uuid uuid={status.initiatorId} />
+                }
               </div>
             </div>
           ))
@@ -64,40 +70,25 @@ class TransactionStatus extends Component {
   render() {
     const { dropDownOpen, statusHistory } = this.state;
     const { transaction, onLoadStatusHistory } = this.props;
-    const status = transaction.paymentFlowStatuses
-      .find(flowStatus => flowStatus.paymentStatus.toUpperCase() === transaction.status);
-    let authorUUID = null;
+    const statusApproved = transaction.paymentFlowStatuses
+      .find(flowStatus => flowStatus.paymentStatus === 'Approved');
+    let transactionStatus = transaction.status;
 
-    if (status) {
-      if (status.initialorType === initiators.OPERATOR) {
-        authorUUID = { uuid: status.initiatorId };
-      } else if (status.initialorType === initiators.PLAYER) {
-        authorUUID = {
-          uuid: status.initiatorId,
-          uuidPrefix: status.initiatorId.indexOf('PLAYER') === -1 ? 'PL' : null,
-        };
-      }
+    if (transaction.status === statuses.PENDING && statusApproved) {
+      transactionStatus = statuses.APPROVED;
     }
 
     const label = (
       <div>
-        <div className={classNames(statusesColor[transaction.status], 'text-uppercase modal-header-tabs__label')}>
-          {statusesLabels[transaction.status] || transaction.status}
+        <div className={classNames(statusesColor[transactionStatus], 'text-uppercase modal-header-tabs__label')}>
+          {renderLabel(transactionStatus, statusesLabels)}
           {
-            transaction.status === statuses.FAILED && !!transaction.reason &&
+            transactionStatus === statuses.FAILED && !!transaction.reason &&
             <FailedStatusIcon id={`transaction-failure-reason-${transaction.paymentId}`}>
               {transaction.reason}
             </FailedStatusIcon>
           }
         </div>
-        {
-          authorUUID &&
-          <div className="font-size-11">
-            {I18n.t('COMMON.AUTHOR_BY')}
-            {' '}
-            <Uuid {...authorUUID} />
-          </div>
-        }
         <div className="font-size-11">
           {I18n.t('COMMON.DATE_ON', {
             date: moment.utc(transaction.creationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
