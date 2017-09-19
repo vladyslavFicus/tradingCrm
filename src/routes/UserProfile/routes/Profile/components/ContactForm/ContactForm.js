@@ -101,7 +101,7 @@ class ContactForm extends Component {
                 position="vertical"
                 showErrorMessage
                 inputButton={
-                  <button className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
+                  <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
                     {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
                   </button>
                 }
@@ -125,7 +125,7 @@ class ContactForm extends Component {
                 disabled
                 showErrorMessage
                 inputButton={
-                  <button className="btn btn-success-outline" onClick={this.handleVerifyEmailClick}>
+                  <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyEmailClick}>
                     {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
                   </button>
                 }
