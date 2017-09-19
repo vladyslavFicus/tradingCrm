@@ -1,8 +1,8 @@
 import keyMirror from 'keymirror';
 
-let pushCondition = (ctx) => (condition, permissions) => {
+const pushCondition = ctx => (condition, permissions) => {
   ctx.__permissions = ctx.__permissions.length
-    ? [condition, [ctx.__permissions, permissions],]
+    ? [condition, [ctx.__permissions, permissions]]
     : Array.isArray(permissions)
       ? [condition, permissions]
       : [condition, [permissions]];
@@ -26,13 +26,9 @@ class Permissions {
     }
   }
 
-  and = (permissions) => {
-    return this.pushCondition(CONDITIONS.AND, permissions);
-  };
+  and = permissions => this.pushCondition(CONDITIONS.AND, permissions);
 
-  or = (permissions) => {
-    return this.pushCondition(CONDITIONS.OR, permissions);
-  };
+  or = permissions => this.pushCondition(CONDITIONS.OR, permissions);
 
   /**
    * @param currentPermissions
@@ -61,6 +57,8 @@ class Permissions {
     } else if (condition === CONDITIONS.AND) {
       return allowedPermissions.every(item => this.checkPermissionItem(currentPermissions, item));
     }
+
+    return true;
   };
 
   checkPermissionItem = (currentPermissions, item) => {

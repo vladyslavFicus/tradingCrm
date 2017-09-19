@@ -6,7 +6,7 @@ import PermissionContent from '../../../../../components/PermissionContent';
 import Permissions from '../../../../../utils/permissions';
 import permission from '../../../../../config/permissions';
 
-const viewFileRequiredPermissions = new Permissions([permission.REPORTS.PLAYER_LIABILITY_FILE_VIEW]);
+const viewFileRequiredPermissions = new Permissions(permission.REPORTS.PLAYER_LIABILITY_FILE_VIEW);
 
 class Files extends Component {
   static propTypes = {
@@ -14,6 +14,9 @@ class Files extends Component {
     onDownload: PropTypes.func.isRequired,
     onFetch: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
+  };
+  static defaultProps = {
+    isLoading: false,
   };
 
   componentDidMount() {
@@ -34,15 +37,14 @@ class Files extends Component {
     this.props.onDownload(id);
   };
 
-  renderActions = (data) => {
-    return (
-      <a
-        onClick={() => this.handleDownload(data.fileName)}
-      >
-        <i className="fa fa-download" />
-      </a>
-    );
-  };
+  renderActions = data => (
+    <button
+      onClick={() => this.handleDownload(data.fileName)}
+      className="btn-transparent"
+    >
+      <i className="fa fa-download" />
+    </button>
+  );
 
   render() {
     const { entities } = this.props;

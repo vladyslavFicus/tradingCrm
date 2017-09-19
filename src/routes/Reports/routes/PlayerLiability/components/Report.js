@@ -23,13 +23,6 @@ class Report extends Component {
     this.handleFiltersChanged({});
   }
 
-  renderEuColumn = (data, column) => <input
-    type="checkbox"
-    readOnly
-    disabled
-    defaultValue={data[column.name]}
-  />;
-
   renderAmountColumn = (data, column) => {
     const { currency } = this.props;
     return <Amount amount={data[column.name]} currency={currency} />;
@@ -77,12 +70,6 @@ class Report extends Component {
             headerStyle={{ width: '10%' }}
           />
           <GridColumn
-            name="eu"
-            header="EU"
-            headerStyle={{ width: '5%' }}
-            render={this.renderEuColumn}
-          />
-          <GridColumn
             name="balance"
             header="Balance"
             headerStyle={{ width: '15%' }}
@@ -99,12 +86,6 @@ class Report extends Component {
             header="Bonus balance"
             headerStyle={{ width: '15%' }}
             render={this.renderAmountColumn}
-          />
-          <GridColumn
-            name="pendingBets"
-            header="Pending bets"
-            headerStyle={{ width: '10%' }}
-            render={(data, column) => <small>{data[column.name]}</small>}
           />
         </GridView>
       </Content>
