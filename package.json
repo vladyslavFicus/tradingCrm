@@ -38,7 +38,7 @@
     "react-copy-to-clipboard": "^5.0.0",
     "react-custom-scrollbars": "^4.1.2",
     "react-dates": "^12.5.1",
-    "react-datetime": "2.8.1",
+    "react-datetime": "2.10.1",
     "react-dom": "^15.6.1",
     "react-images": "^0.5.5",
     "react-infinite-scroller": "^1.0.15",
@@ -52,6 +52,7 @@
     "react-router-scroll": "^0.4.1",
     "react-select": "^1.0.0-rc.5",
     "react-sortable-hoc": "^0.6.7",
+    "react-stickynode": "^1.3.1",
     "react-time": "^4.3.0",
     "reactstrap": "^4.8.0",
     "redux": "^3.7.2",
@@ -67,7 +68,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "8.0.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -129,7 +130,6 @@
     "react-addons-shallow-compare": "^15.6.0",
     "react-addons-test-utils": "^15.6.0",
     "react-hot-loader": "^1.3.1",
-    "react-stickynode": "^1.3.1",
     "react-test-renderer": "^15.6.1",
     "redbox-react": "^1.5.0",
     "rimraf": "^2.6.1",
@@ -141,6 +141,6 @@
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.18.2",
     "webpack-uglify-parallel": "^0.1.3",
-    "yargs": "^8.0.1"
+    "yargs": "9.0.1"
   }
 }
