@@ -61,7 +61,7 @@ class FailureReasonIcon extends Component {
         </PopoverTitle>
         <PopoverContent>
           <div className="failure-reason-popover__textfield">
-            {reason}
+            {I18n.t(reason)}
           </div>
         </PopoverContent>
       </Popover>

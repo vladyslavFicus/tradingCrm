@@ -1000,6 +1000,10 @@
       "method": {
         "inactive": "Payment method inactive"
       }
+    },
+    "profile": {
+      "blocked": "Profile is blocked",
+      "duplicated": "Profile is duplicated"
     }
   },
   "NOTE_BUTTON": {
