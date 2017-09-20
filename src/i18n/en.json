@@ -145,6 +145,18 @@
         "WARNING_HEADER": "You are about to change password",
         "NEW_PASSWORD": "New password",
         "REPEAT_PASSWORD": "Repeat password"
+      },
+      "BLOCK_REASONS": {
+        "REASON_ONE": "Reason one",
+        "REASON_TWO": "Reason two",
+        "REASON_THREE": "Reason three",
+        "REASON_FOUR": "Reason four"
+      },
+      "UNBLOCK_REASONS": {
+        "REASON_ONE": "Unblock reason one",
+        "REASON_TWO": "Unblock reason two",
+        "REASON_THREE": "Unblock reason three",
+        "REASON_FOUR": "Unblock reason four"
       }
     },
     "GAME_ACTIVITY": {
@@ -798,7 +810,10 @@
       "DEVICE": "Device"
     },
     "KYC": {
-      "REJECT_REASON": "Rejection reason"
+      "REJECT_REASON": "Rejection reason",
+      "LOGIN_EVENTS": {
+        "REASON": "Reason"
+      }
     },
     "LOG_OUT": {
       "SESSION_ID": "Session ID",

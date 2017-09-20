@@ -147,6 +147,18 @@
         "WARNING_HEADER": "Вы собираетесь изменить пароль",
         "NEW_PASSWORD": "Новый пароль",
         "REPEAT_PASSWORD": "Повторите пароль"
+      },
+      "BLOCK_REASONS": {
+        "REASON_ONE": "Первая причина",
+        "REASON_TWO": "Вторая причина",
+        "REASON_THREE": "Третья причина",
+        "REASON_FOUR": "Четвертая причина"
+      },
+      "UNBLOCK_REASONS": {
+        "REASON_ONE": "Первая причина разблокировки",
+        "REASON_TWO": "Вторая причина разблокировки",
+        "REASON_THREE": "Третья причина разблокировки",
+        "REASON_FOUR": "Четвертая причина разблокировки"
       }
     },
     "GAME_ACTIVITY": {
@@ -804,7 +816,10 @@
       "DEVICE": "Устройство"
     },
     "KYC": {
-      "REJECT_REASON": "Причина отказа"
+      "REJECT_REASON": "Причина отказа",
+      "LOGIN_EVENTS": {
+        "REASON": "Причина"
+      }
     },
     "LOG_OUT": {
       "SESSION_ID": "ID сессии",

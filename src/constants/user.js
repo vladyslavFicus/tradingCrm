@@ -1,5 +1,6 @@
 import keyMirror from 'keymirror';
 import permissions from '../config/permissions';
+import I18n from '../utils/fake-i18n';
 
 const attributeLabels = {
   acceptedTermsUUID: 'Accepted terms Uuid',
@@ -75,12 +76,18 @@ const actions = keyMirror({
   REMOVE: null,
   PROLONG: null,
 });
-const reasons = [
-  'REASON_ONE',
-  'REASON_TWO',
-  'REASON_THREE',
-  'REASON_FOUR',
-];
+const reasons = {
+  'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.REASON_ONE': I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.REASON_ONE'),
+  'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.REASON_TWO': I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.REASON_TWO'),
+  'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.REASON_THREE': I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.REASON_THREE'),
+  'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.REASON_FOUR': I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.REASON_FOUR'),
+};
+const unblockReasons = {
+  'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.REASON_ONE': I18n.t('PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.REASON_ONE'),
+  'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.REASON_TWO': I18n.t('PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.REASON_TWO'),
+  'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.REASON_THREE': I18n.t('PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.REASON_THREE'),
+  'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.REASON_FOUR': I18n.t('PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.REASON_FOUR'),
+};
 const statusesLabels = {
   [statuses.INACTIVE]: 'Inactive',
   [statuses.ACTIVE]: 'Active',
@@ -114,12 +121,7 @@ const statusActions = {
     {
       action: actions.UNBLOCK,
       label: 'Unblock',
-      reasons: [
-        'UNBLOCK_REASON_ONE',
-        'UNBLOCK_REASON_TWO',
-        'UNBLOCK_REASON_THREE',
-        'UNBLOCK_REASON_FOUR',
-      ],
+      reasons: unblockReasons,
       permission: permissions.USER_PROFILE.UNBLOCK,
     },
   ],
