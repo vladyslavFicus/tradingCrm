@@ -12,7 +12,7 @@ const mapStateToProps = ({ kycRequests: list, i18n: { locale }, ...state }) => (
 
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
-  fetchUserMiniProfile: miniProfileActionCreators.fetchUserProfile,
+  fetchPlayerMiniProfile: miniProfileActionCreators.fetchPlayerProfile,
   reset: actionCreators.reset,
 };
 

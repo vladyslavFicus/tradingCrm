@@ -16,7 +16,7 @@ const mapStateToProps = ({ transactions, i18n: { locale } }) => ({
 
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
-  fetchUserMiniProfile: miniProfileActionCreators.fetchUserProfile,
+  fetchPlayerMiniProfile: miniProfileActionCreators.fetchPlayerProfile,
   fetchFilters: actionCreators.fetchFilters,
   fetchPlayerProfile: actionCreators.fetchPlayerProfile,
   onChangePaymentStatus: actionCreators.changePaymentStatus,

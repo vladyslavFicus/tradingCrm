@@ -10,7 +10,7 @@ const mapStateToProps = ({ usersList: list, i18n: { locale } }) => ({
 
 const mapActions = {
   fetchESEntities: actionCreators.fetchESEntities,
-  fetchUserMiniProfile: miniProfileActionCreators.fetchUserProfile,
+  fetchPlayerMiniProfile: miniProfileActionCreators.fetchPlayerProfile,
   exportEntities: actionCreators.exportEntities,
   reset: actionCreators.reset,
 };

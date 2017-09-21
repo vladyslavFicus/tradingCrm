@@ -22,7 +22,7 @@ import { statusTypesKeys } from '../constants';
 class List extends Component {
   static propTypes = {
     fetchEntities: PropTypes.func.isRequired,
-    fetchUserMiniProfile: PropTypes.func.isRequired,
+    fetchPlayerMiniProfile: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.kycRequestEntity).isRequired,
     filterValues: PropTypes.object.isRequired,
     reset: PropTypes.func.isRequired,
@@ -112,7 +112,7 @@ class List extends Component {
           age: data.birthDate ? moment().diff(data.birthDate, 'years') : null,
         }}
         onClick={() => this.context.addPanel(panelData)}
-        fetchUserProfile={this.props.fetchUserMiniProfile}
+        fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
       />
     );
   };

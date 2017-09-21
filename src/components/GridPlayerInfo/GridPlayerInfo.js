@@ -9,7 +9,7 @@ import MiniProfile from '../../components/MiniProfile';
 class GridPlayerInfo extends Component {
   static propTypes = {
     profile: PropTypes.userProfile.isRequired,
-    fetchUserProfile: PropTypes.func.isRequired,
+    fetchPlayerProfile: PropTypes.func.isRequired,
     onClick: PropTypes.func,
     mainInfoClassName: PropTypes.string,
     id: PropTypes.string,
@@ -21,7 +21,7 @@ class GridPlayerInfo extends Component {
   };
 
   render() {
-    const { fetchUserProfile, profile, onClick, mainInfoClassName, id } = this.props;
+    const { fetchPlayerProfile, profile, onClick, mainInfoClassName, id } = this.props;
 
     return (
       <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
@@ -45,7 +45,7 @@ class GridPlayerInfo extends Component {
               {!!profile.username && <span>{profile.username} - </span>}
               <MiniProfile
                 target={profile.playerUUID}
-                dataSource={fetchUserProfile}
+                dataSource={fetchPlayerProfile}
                 type={miniProfileTypes.PLAYER}
               >
                 <Uuid

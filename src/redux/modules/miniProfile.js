@@ -8,7 +8,7 @@ const FETCH_PLAYER_PROFILE = createRequestAction(`${KEY}/fetch-player-profile`);
 const FETCH_IPS = createRequestAction(`${KEY}/fetch-ips`);
 
 const fetchOperatorProfile = operatorSourceActionCreators.fetchProfile(FETCH_OPERATOR_PROFILE);
-const fetchUserProfile = userSourceActionCreators.fetchProfile(FETCH_PLAYER_PROFILE);
+const fetchPlayerProfile = userSourceActionCreators.fetchProfile(FETCH_PLAYER_PROFILE);
 
 const actionTypes = {
   FETCH_OPERATOR_PROFILE,
@@ -18,7 +18,7 @@ const actionTypes = {
 
 const actionCreators = {
   fetchOperatorProfile,
-  fetchUserProfile,
+  fetchPlayerProfile,
 };
 
 export {
