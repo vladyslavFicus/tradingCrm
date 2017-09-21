@@ -5,6 +5,7 @@ import SignInBrands from './SignInBrands';
 import SignInDepartments from './SignInDepartments';
 import Preloader from './Preloader';
 import PropTypes from '../propTypes';
+import Storage from '../../../utils/storage';
 
 class SignIn extends Component {
   static propTypes = {
@@ -14,6 +15,7 @@ class SignIn extends Component {
     location: PropTypes.shape({
       query: PropTypes.shape({
         returnUrl: PropTypes.string,
+        spec: PropTypes.string,
       }),
     }).isRequired,
     signIn: PropTypes.func.isRequired,
@@ -39,6 +41,14 @@ class SignIn extends Component {
   };
 
   componentDidMount() {
+    const { location } = this.props;
+
+    if (location.query && location.query.spec) {
+      Storage.set('test.spec', location.query.spec);
+    } else {
+      Storage.remove('test.spec');
+    }
+
     setTimeout(() => {
       this.setState({ loading: false });
     }, 300);
