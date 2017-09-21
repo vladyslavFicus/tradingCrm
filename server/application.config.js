@@ -7,8 +7,12 @@ module.exports = {
       fx_rate: { cron: '0 0 17 * * *' },
       validation: { password: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
       reasons: {
-        rejection: ['reason_1', 'reason_2', 'reason_3', 'reason_4'],
         chargeback: ['reason_1', 'reason_2', 'reason_3', 'reason_4'],
+      },
+      payment: {
+        reasons: {
+          refuse: ['REASON_1', 'REASON_2', 'REASON_3', 'PLAYER_CANCEL'],
+        },
       },
       locale: {
         defaultLanguage: 'en',
