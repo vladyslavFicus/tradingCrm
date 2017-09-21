@@ -21,7 +21,7 @@ function fetchAvailableCampaignList(filters) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${filters.playerUUID}/list?${buildQueryString(queryParams)}`,
+        endpoint: `promotion/campaigns/${filters.playerUUID}/available?${buildQueryString(queryParams)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
