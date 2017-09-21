@@ -119,7 +119,7 @@ const actionHandlers = {
   },
   [RESET]: () => ({ ...initialState }),
   [windowActionTypes.VIEW_PLAYER_PROFILE]: (state, action) => {
-    const { uuid, firstName, lastName, username: login } = action.payload;
+    const { uuid, firstName, lastName, login } = action.payload;
 
     const index = state.items.findIndex(item => item.uuid === uuid);
 
