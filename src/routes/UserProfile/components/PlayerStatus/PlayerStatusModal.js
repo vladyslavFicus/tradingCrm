@@ -65,7 +65,7 @@ class PlayerStatusModal extends Component {
       <option value="">-- Select reason --</option>
       {Object.keys(reasons).map(key => (
         <option key={key} value={key}>
-          { renderLabel(key, reasons) }
+          {renderLabel(key, reasons)}
         </option>
       ))}
     </Field>
