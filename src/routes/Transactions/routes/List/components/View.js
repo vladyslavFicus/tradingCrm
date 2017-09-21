@@ -50,6 +50,7 @@ class View extends Component {
       id: PropTypes.string,
     }).isRequired,
     exportEntities: PropTypes.func.isRequired,
+    fetchUserMiniProfile: PropTypes.func.isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -189,7 +190,11 @@ class View extends Component {
 
   renderPlayer = data => (
     data.playerProfile
-      ? <GridPlayerInfo profile={data.playerProfile} id={`transaction-${data.paymentId}`} />
+      ? <GridPlayerInfo
+        profile={data.playerProfile}
+        id={`transaction-${data.paymentId}`}
+        fetchUserProfile={this.props.fetchUserMiniProfile}
+      />
       : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
   );
 

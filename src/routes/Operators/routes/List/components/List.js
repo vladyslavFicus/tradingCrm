@@ -132,7 +132,7 @@ class List extends Component {
         <MiniProfile
           target={data.uuid}
           type={miniProfileTypes.OPERATOR}
-          dataSource={() => this.props.fetchOperatorMiniProfile(data.uuid)}
+          dataSource={this.props.fetchOperatorMiniProfile}
         >
           <Uuid uuid={data.uuid} />
         </MiniProfile>

@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import _ from 'lodash';
 
 class Container extends Component {
   static propTypes = {
@@ -24,23 +23,24 @@ class Container extends Component {
   };
 
   componentDidMount() {
-    this.target = document.getElementById(`id-${this.props.target}`);
     this.addTargetEvents();
   }
 
   componentWillUnmount() {
     this.removeTargetEvents();
+    clearTimeout(this.showTimeout);
+    clearTimeout(this.hideTimeout);
   }
 
   addTargetEvents = () => {
     this.target.addEventListener('mouseover', this.onMouseOver, true);
     this.target.addEventListener('mouseout', this.onMouseLeave, true);
-  }
+  };
 
   removeTargetEvents = () => {
     this.target.removeEventListener('mouseover', this.onMouseOver, true);
     this.target.removeEventListener('mouseout', this.onMouseLeave, true);
-  }
+  };
 
   onMouseOver = () => {
     if (this.hideTimeout) {
@@ -48,14 +48,14 @@ class Container extends Component {
     }
 
     this.showTimeout = setTimeout(this.show, this.props.delay.show);
-  }
+  };
 
   onMouseLeave = () => {
     if (this.showTimeout) {
       this.clearShowTimeout();
     }
     this.hideTimeout = setTimeout(this.hide, this.props.delay.hide);
-  }
+  };
 
   clearShowTimeout() {
     clearTimeout(this.showTimeout);
@@ -75,7 +75,7 @@ class Container extends Component {
     if (this.hideTimeout) {
       this.clearHideTimeout();
     }
-  }
+  };
 
   loadContent = async () => {
     const { dataSource, target, type } = this.props;
@@ -86,8 +86,8 @@ class Container extends Component {
       leave: this.onMouseLeave,
     };
 
-    if (_.isFunction(dataSource)) {
-      const action = await dataSource();
+    if (typeof dataSource === 'function') {
+      const action = await dataSource(target);
 
       if (action && !action.error) {
         onShowMiniProfile(`id-${target}`, action.payload, type, popoverMouseEvents);
@@ -95,7 +95,7 @@ class Container extends Component {
     } else {
       onShowMiniProfile(`id-${target}`, dataSource, type, popoverMouseEvents);
     }
-  }
+  };
 
   render() {
     const { children, target } = this.props;
@@ -104,6 +104,9 @@ class Container extends Component {
       <div
         className="mini-profile-show-button"
         id={`id-${target}`}
+        ref={(node) => {
+          this.target = node;
+        }}
       >
         {children}
       </div>

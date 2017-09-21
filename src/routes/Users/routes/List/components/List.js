@@ -15,6 +15,7 @@ import {
 class List extends Component {
   static propTypes = {
     fetchESEntities: PropTypes.func.isRequired,
+    fetchUserMiniProfile: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.userProfile).isRequired,
     reset: PropTypes.func.isRequired,
     params: PropTypes.shape({
@@ -86,6 +87,7 @@ class List extends Component {
 
     return (
       <GridPlayerInfo
+        fetchUserProfile={this.props.fetchUserMiniProfile}
         profile={data}
         onClick={() => this.context.addPanel(panelData)}
       />

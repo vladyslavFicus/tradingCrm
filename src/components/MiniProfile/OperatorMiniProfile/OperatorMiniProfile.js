@@ -43,29 +43,6 @@ const OperatorMiniProfile = ({ data }) => (
       }
       <div className="mini-profile-content">
         <div className="info-block">
-          <div className="info-block-label">{I18n.t('MINI_PROFILE.LAST_LOGIN')}</div>
-          <div className="info-block-content">
-            {
-              !data.lastIp
-                ? <div className="info-block-heading">{I18n.t('COMMON.UNAVAILABLE')}</div>
-                : (
-                  <div>
-                    <div className="info-block-heading">
-                      {data.lastIp.signInDate && moment.utc(data.lastIp.signInDate).local().fromNow()}
-                    </div>
-                    <div className="info-block-description">
-                      {I18n.t('COMMON.DATE_ON', {
-                        date: data.lastIp.signInDate &&
-                        moment.utc(data.lastIp.signInDate).local().format('DD.MM.YYYY HH:mm'),
-                      })}
-                    </div>
-                  </div>
-                )
-            }
-          </div>
-        </div>
-
-        <div className="info-block">
           <div className="info-block-label">{I18n.t('MINI_PROFILE.REGISTERED')}</div>
           <div className="info-block-content">
             <div className="info-block-heading">

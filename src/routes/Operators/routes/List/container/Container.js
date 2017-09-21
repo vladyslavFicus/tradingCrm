@@ -16,7 +16,7 @@ const mapStateToProps = ({ operatorsList: list, ...state, i18n: { locale } }) =>
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
   onSubmitNewOperator: actionCreators.createOperator,
-  fetchOperatorMiniProfile: miniProfileActionCreators.fetchOperatorMiniProfile,
+  fetchOperatorMiniProfile: miniProfileActionCreators.fetchOperatorProfile,
 };
 
 export default connect(mapStateToProps, mapActions)(List);

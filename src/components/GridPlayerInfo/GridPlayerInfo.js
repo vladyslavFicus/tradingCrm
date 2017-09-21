@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from '../../constants/propTypes';
 import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../../components/Uuid';
-import { actionCreators as miniProfileActionCreators } from '../../redux/modules/miniProfile';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
 import MiniProfile from '../../components/MiniProfile';
 
 class GridPlayerInfo extends Component {
   static propTypes = {
     profile: PropTypes.userProfile.isRequired,
-    fetchUserMiniProfile: PropTypes.func.isRequired,
+    fetchUserProfile: PropTypes.func.isRequired,
     onClick: PropTypes.func,
     mainInfoClassName: PropTypes.string,
     id: PropTypes.string,
@@ -23,7 +21,7 @@ class GridPlayerInfo extends Component {
   };
 
   render() {
-    const { fetchUserMiniProfile, profile, onClick, mainInfoClassName, id } = this.props;
+    const { fetchUserProfile, profile, onClick, mainInfoClassName, id } = this.props;
 
     return (
       <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
@@ -47,7 +45,7 @@ class GridPlayerInfo extends Component {
               {!!profile.username && <span>{profile.username} - </span>}
               <MiniProfile
                 target={profile.playerUUID}
-                dataSource={() => fetchUserMiniProfile(profile.playerUUID)}
+                dataSource={fetchUserProfile}
                 type={miniProfileTypes.PLAYER}
               >
                 <Uuid
@@ -64,6 +62,4 @@ class GridPlayerInfo extends Component {
   }
 }
 
-export default connect(() => ({}), {
-  fetchUserMiniProfile: miniProfileActionCreators.fetchUserMiniProfile,
-})(GridPlayerInfo);
+export default GridPlayerInfo;

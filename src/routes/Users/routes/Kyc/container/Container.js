@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { actionCreators } from '../modules/list';
+import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import List from '../components/List';
 
 const mapStateToProps = ({ kycRequests: list, i18n: { locale }, ...state }) => ({
@@ -11,6 +12,7 @@ const mapStateToProps = ({ kycRequests: list, i18n: { locale }, ...state }) => (
 
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
+  fetchUserMiniProfile: miniProfileActionCreators.fetchUserProfile,
   reset: actionCreators.reset,
 };
 
