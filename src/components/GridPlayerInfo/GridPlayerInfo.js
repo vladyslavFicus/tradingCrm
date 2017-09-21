@@ -23,7 +23,7 @@ const GridPlayerInfo = ({ profile, onClick, mainInfoClassName, id }) => (
           className="font-size-11"
           id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-additional`}
         >
-          {!!profile.username && <span>{profile.username} - </span>}
+          {!!profile.login && <span>{profile.login} - </span>}
           <Uuid
             uuid={profile.playerUUID}
             uuidPrefix={profile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : ''}

@@ -200,7 +200,7 @@ PropTypes.userProfile = PropTypes.shape({
   title: PropTypes.string,
   token: PropTypes.string,
   tokenExpirationDate: PropTypes.string,
-  username: PropTypes.string,
+  login: PropTypes.string,
   playerUUID: PropTypes.string.isRequired,
   signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
   balances: PropTypes.shape({

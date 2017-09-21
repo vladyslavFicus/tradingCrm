@@ -45,7 +45,7 @@ const initialState = {
     id: null,
     playerUUID: null,
     acceptedTermsUUID: null,
-    username: null,
+    login: null,
     fullName: null,
     firstName: null,
     lastName: null,
@@ -637,7 +637,7 @@ function successUpdateProfileReducer(state, action) {
     email,
     profileStatus,
     profileStatusReason,
-    username,
+    login,
     profileTags,
   } = action.payload;
 
@@ -660,7 +660,7 @@ function successUpdateProfileReducer(state, action) {
       title,
       profileStatus,
       profileStatusReason,
-      username,
+      login,
       country,
       city,
       address,
