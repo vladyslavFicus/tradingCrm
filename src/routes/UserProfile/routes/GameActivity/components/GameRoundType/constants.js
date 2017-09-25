@@ -2,6 +2,7 @@ import keyMirror from 'keymirror';
 import I18n from '../../../../../../utils/fake-i18n';
 
 const types = keyMirror({
+  ADJUSTMENT: null,
   FREE_SPIN: null,
   SPORTBET: null,
   OTHER: null,
@@ -13,6 +14,7 @@ const types = keyMirror({
 });
 
 const typesLabels = {
+  [types.ADJUSTMENT]: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GAME_ROUND_TYPE.ADJUSTMENT'),
   [types.FREE_SPIN]: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GAME_ROUND_TYPE.FREE_SPIN'),
   [types.SPORTBET]: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GAME_ROUND_TYPE.SPORTBET'),
   [types.OTHER]: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GAME_ROUND_TYPE.OTHER'),
@@ -23,6 +25,7 @@ const typesLabels = {
 };
 
 const typesProps = {
+  [types.ADJUSTMENT]: 'game-round-type_adjustment',
   [types.FREE_SPIN]: 'game-round-type_free-spin',
   [types.SPORTBET]: 'game-round-type_sportbet',
   [types.OTHER]: 'game-round-type_other',
