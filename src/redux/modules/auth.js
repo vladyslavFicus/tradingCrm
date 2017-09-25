@@ -163,10 +163,10 @@ function successSignInReducer(state, action) {
   };
 }
 
-function setLastActivity(timestamp) {
+function setLastActivity(time) {
   return {
     type: SET_LAST_ACTIVITY,
-    payload: { timestamp },
+    payload: { timestamp: time },
   };
 }
 
@@ -204,15 +204,15 @@ const actionHandlers = {
     ...state,
     refreshingToken: true,
   }),
-  [REFRESH_TOKEN.SUCCESS]: (state, action) => {
-    return action.payload.jwtToken === null
+  [REFRESH_TOKEN.SUCCESS]: (state, action) => (
+    action.payload.jwtToken === null
       ? { ...initialState }
       : {
         ...state,
         token: action.payload.jwtToken,
         refreshingToken: false,
-      };
-  },
+      }
+  ),
   [REFRESH_TOKEN.FAILURE]: state => ({
     ...state,
     refreshingToken: false,
