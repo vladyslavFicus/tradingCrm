@@ -469,20 +469,6 @@ class Form extends Component {
           </div>
           <div className="filter-row__medium">
             <CustomValueFieldVertical
-              basename={'capping'}
-              label={
-                <div>
-                  {I18n.t(attributeLabels.capping)}{' '}
-                  <span className="font-size-10 text-muted">{I18n.t('COMMON.OPTIONAL')}</span>
-                </div>
-              }
-              typeValues={allowedCustomValueTypes}
-              errors={this.getCustomValueFieldErrors('capping')}
-              disabled={disabled}
-            />
-          </div>
-          <div className="filter-row__medium">
-            <CustomValueFieldVertical
               basename={'conversionPrize'}
               label={
                 <div>
@@ -492,6 +478,20 @@ class Form extends Component {
               }
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('conversionPrize')}
+              disabled={disabled}
+            />
+          </div>
+          <div className="filter-row__medium">
+            <CustomValueFieldVertical
+              basename={'capping'}
+              label={
+                <div>
+                  {I18n.t(attributeLabels.capping)}{' '}
+                  <span className="font-size-10 text-muted">{I18n.t('COMMON.OPTIONAL')}</span>
+                </div>
+              }
+              typeValues={allowedCustomValueTypes}
+              errors={this.getCustomValueFieldErrors('capping')}
               disabled={disabled}
             />
           </div>

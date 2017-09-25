@@ -107,7 +107,7 @@ class UserGridFilter extends Component {
                 id="users-list-search-field"
                 type="text"
                 label={filterLabels.searchValue}
-                placeholder="Name, username, phone, email..."
+                placeholder="Name, login, phone, email..."
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"

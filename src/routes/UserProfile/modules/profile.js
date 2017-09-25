@@ -3,7 +3,7 @@ import moment from 'moment';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import timestamp from '../../../utils/timestamp';
-import { actions } from '../../../constants/user';
+import { actions, statuses as userStatuses } from '../../../constants/user';
 import { statuses as kycStatuses, categories as kycCategories } from '../../../constants/kyc';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
 import config from '../../../config';
@@ -45,7 +45,7 @@ const initialState = {
     id: null,
     playerUUID: null,
     acceptedTermsUUID: null,
-    username: null,
+    login: null,
     fullName: null,
     firstName: null,
     lastName: null,
@@ -637,7 +637,7 @@ function successUpdateProfileReducer(state, action) {
     email,
     profileStatus,
     profileStatusReason,
-    username,
+    login,
     profileTags,
   } = action.payload;
 
@@ -660,7 +660,7 @@ function successUpdateProfileReducer(state, action) {
       title,
       profileStatus,
       profileStatusReason,
-      username,
+      login,
       country,
       city,
       address,
@@ -772,7 +772,13 @@ const actionHandlers = {
       phoneNumberVerified: true,
     },
   }),
-  [VERIFY_PROFILE_EMAIL.SUCCESS]: successUpdateProfileReducer,
+  [VERIFY_PROFILE_EMAIL.SUCCESS]: state => ({
+    ...state,
+    data: {
+      ...state.data,
+      profileStatus: userStatuses.ACTIVE,
+    },
+  }),
   [ADD_TAG.SUCCESS]: (state, action) => {
     const { profileTags } = action.payload;
 

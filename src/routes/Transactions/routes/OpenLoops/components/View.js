@@ -19,6 +19,7 @@ import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
 import PaymentAccount from '../../../../../components/PaymentAccount';
+import renderLabel from '../../../../../utils/renderLabel';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -212,17 +213,18 @@ class View extends Component {
   };
 
   renderMethod = data => (
-    <div>
-      <div className="font-weight-700">
-        {methodsLabels[data.paymentMethod] || data.paymentMethod}
+    !data.paymentMethod ? <span>&mdash;</span>
+      : <div>
+        <div className="font-weight-700">
+          {renderLabel(data.paymentMethod, methodsLabels)}
+        </div>
+        {
+          !!data.paymentAccount &&
+          <span className="font-size-10">
+            <PaymentAccount account={data.paymentAccount} />
+          </span>
+        }
       </div>
-      {
-        !!data.paymentAccount &&
-        <span className="font-size-10">
-          <PaymentAccount account={data.paymentAccount} />
-        </span>
-      }
-    </div>
   );
 
   renderDevice = (data) => {

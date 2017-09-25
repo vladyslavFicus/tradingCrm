@@ -81,7 +81,7 @@ class List extends Component {
   renderUserInfo = (data) => {
     const panelData = {
       fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
-      login: data.username,
+      login: data.login,
       uuid: data.playerUUID,
     };
 

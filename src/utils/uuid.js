@@ -4,7 +4,7 @@ export function shortify(uuid, manualPrefix = null, size = 2) {
   }
 
   const elements = uuid.split('-');
-  if (elements.length < 2) {
+  if (elements.length < 2 || uuid.length < 12) {
     return manualPrefix ? `${manualPrefix}-${uuid}` : uuid;
   }
 

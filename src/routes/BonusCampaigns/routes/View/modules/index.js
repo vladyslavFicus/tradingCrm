@@ -110,10 +110,16 @@ function updateCampaign(id, data) {
     }
 
     const endpointParams = { ...data };
-    if (endpointParams.conversionPrize && endpointParams.conversionPrize.value === undefined) {
+    if (
+      endpointParams.conversionPrize &&
+      (endpointParams.conversionPrize.value === undefined || endpointParams.conversionPrize.value === undefined)
+    ) {
       endpointParams.conversionPrize = null;
     }
-    if (endpointParams.capping && endpointParams.capping.value === undefined) {
+    if (
+      endpointParams.capping &&
+      (endpointParams.capping.value === undefined || endpointParams.capping.value === null)
+    ) {
       endpointParams.capping = null;
     }
 

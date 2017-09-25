@@ -90,13 +90,13 @@ class CommonGridView extends Component {
           {
             data.value.used &&
             <div className="font-size-11">
-              {I18n.t('COMMON.USED', { value: <Amount {...data.value.used} /> })}
+              used <Amount {...data.value.used} />
             </div>
           }
           {
             data.value.left &&
             <div className="font-size-11">
-              {I18n.t('COMMON.LEFT', { value: <Amount {...data.value.left} /> })}
+              left <Amount {...data.value.left} />
             </div>
           }
         </div>

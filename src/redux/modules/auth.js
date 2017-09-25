@@ -149,14 +149,14 @@ function resetPasswordConfirm(type) {
 }
 
 function successSignInReducer(state, action) {
-  const { login: username, uuid, token } = action.payload;
+  const { login, uuid, token } = action.payload;
   const tokenData = jwtDecode(token);
 
   return {
     ...state,
     token,
     uuid,
-    username,
+    login,
     logged: true,
     department: tokenData.department,
   };
@@ -169,7 +169,7 @@ const initialState = {
   logged: false,
   token: null,
   uuid: null,
-  username: null,
+  login: null,
   fullName: null,
   lastTokenValidation: null,
   data: {},

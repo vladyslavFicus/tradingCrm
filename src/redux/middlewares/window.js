@@ -8,7 +8,7 @@ const config = {
     uuid: payload.playerUUID,
     firstName: payload.firstName,
     lastName: payload.lastName,
-    username: payload.username,
+    login: payload.login,
   }),
   [profileActionTypes.SUBMIT_KYC.SUCCESS]: ({ payload }) => windowActionCreators.viewPlayerProfile({
     uuid: payload.playerUUID,
