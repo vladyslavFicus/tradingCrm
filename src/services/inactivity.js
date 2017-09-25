@@ -6,8 +6,13 @@ import timestamp from '../utils/timestamp';
 
 const events = 'mousemove';
 const logout = (store) => {
-  store.dispatch({ type: authActionTypes.LOGOUT.SUCCESS });
-  const { location } = store.getState();
+  const { location, auth } = store.getState();
+
+  if (auth.token) {
+    store.dispatch(authActionCreators.logout());
+  } else {
+    store.dispatch({ type: authActionTypes.LOGOUT.SUCCESS });
+  }
 
   if (
     (location && location.pathname && !/(sign-in)/.test(location.pathname))
