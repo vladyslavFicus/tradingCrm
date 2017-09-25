@@ -11,7 +11,8 @@ import GridView, { GridColumn } from '../../../../../../../../components/GridVie
 import { statuses } from '../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../constants/note';
 import Uuid from '../../../../../../../../components/Uuid';
-import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
+import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
+import { routes as subTabRoutes } from '../../../../constants';
 import BonusGridFilter from '../BonusGridFilter';
 import ViewModal from '../ViewModal';
 import BonusType from '../BonusType';
@@ -277,7 +278,7 @@ class View extends Component {
       <div className="profile-tab-container">
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
-            <BonusHeaderNavigation />
+            <SubTabNavigation links={subTabRoutes} />
             <div className="tab-header__actions">
               <button
                 className="btn btn-sm btn-primary-outline"

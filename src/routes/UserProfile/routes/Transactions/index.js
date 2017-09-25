@@ -1,12 +1,14 @@
-import { injectReducer } from '../../../../store/reducers';
+import getChildRoutes from './routes';
 
 export default store => ({
-  path: 'transactions(/:paymentUUID)',
-  getComponent(nextState, cb) {
-    require.ensure([], (require) => {
-      injectReducer(store, { key: 'userTransactions', reducer: require('./modules').default });
+  path: 'transactions',
+  onEnter: (nextState, replace, cb) => {
+    if (nextState.location && /transactions$/.test(nextState.location.pathname)) {
+      replace(`/users/${nextState.params.id}/transactions/payments`);
+    }
 
-      cb(null, require('./container/ViewContainer').default);
-    }, 'player-transactions-view');
+    cb();
   },
+  childRoutes: getChildRoutes(store),
 });
+
