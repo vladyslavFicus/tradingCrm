@@ -16,6 +16,7 @@ const CHANGE_AUTHORITY = createRequestAction(`${KEY}/change-authorities`);
 const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
 const VALIDATE_TOKEN = createRequestAction(`${KEY}/validate-token`);
 const LOGOUT = createRequestAction(`${KEY}/logout`);
+const SET_LAST_ACTIVITY = `${KEY}/set-last-activity`;
 
 const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 const fetchAuthorities = operatorSourceActionCreators.fetchAuthorities(FETCH_AUTHORITIES);
@@ -162,7 +163,15 @@ function successSignInReducer(state, action) {
   };
 }
 
+function setLastActivity(timestamp) {
+  return {
+    type: SET_LAST_ACTIVITY,
+    payload: { timestamp },
+  };
+}
+
 const initialState = {
+  lastActivity: null,
   refreshingToken: false,
   authorities: [],
   department: null,
@@ -209,6 +218,10 @@ const actionHandlers = {
     refreshingToken: false,
   }),
   [LOGOUT.SUCCESS]: () => ({ ...initialState }),
+  [SET_LAST_ACTIVITY]: (state, action) => ({
+    ...state,
+    lastActivity: action.payload.timestamp,
+  }),
 };
 const actionTypes = {
   SIGN_IN,
@@ -218,6 +231,7 @@ const actionTypes = {
   VALIDATE_TOKEN,
   LOGOUT,
   UPDATE_PROFILE,
+  SET_LAST_ACTIVITY,
 };
 const actionCreators = {
   signIn,
@@ -226,7 +240,7 @@ const actionCreators = {
   changeDepartment,
   logout,
   refreshToken,
-  validateToken,
+  setLastActivity,
   resetPasswordConfirm,
   updateProfile,
 };
