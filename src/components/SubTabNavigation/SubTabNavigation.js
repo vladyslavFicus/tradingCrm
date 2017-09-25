@@ -24,7 +24,7 @@ SubTabNavigation.propTypes = {
   params: PropTypes.shape({
     id: PropTypes.string.isRequired,
   }).isRequired,
-  links: PropTypes.object().isRequired,
+  links: PropTypes.object.isRequired,
 };
 
 export default withRouter(SubTabNavigation);

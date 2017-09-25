@@ -12,7 +12,7 @@ import {
   methodsLabels,
   initiatorsLabels,
 } from '../../../../../../../../constants/payment';
-import { InputField, DateTimeField, NasSelectField } from '../../../../../../../../components/ReduxForm/index';
+import { InputField, DateTimeField, NasSelectField } from '../../../../../../../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 
