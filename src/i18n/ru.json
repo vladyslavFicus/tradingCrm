@@ -510,7 +510,8 @@
     "CHOOSE_REASON": "-- Выберите причину --",
     "USED": "использовано %{value}",
     "LEFT": "осталось %{value}",
-    "ACTIVATES_ON": "активируется %{date}"
+    "ACTIVATES_ON": "активируется %{date}",
+    "NEVER": "Никогда"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1090,5 +1091,17 @@
     "HEADER_STATUS": "Статус",
     "HEADER_AMOUNT": "Сумма",
     "HEADER_PAYMENT_METHOD": "Платежный счет"
+  },
+  "MINI_PROFILE": {
+    "PLAYER": "Игрок",
+    "STATUS_REASON": "Причина статуса",
+    "BALANCE": "Баланс",
+    "LAST_LOGIN": "Входил",
+    "DEPOSITED": "Пополнен",
+    "REGISTERED": "Регистрация",
+    "TRANSACTION": "Транзакция",
+    "ERROR_MESSAGE": "Ошибка",
+    "REJECTION_REASON": "Причина отказа",
+    "OPERATOR": ""
   }
 }

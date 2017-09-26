@@ -508,7 +508,8 @@
     "CHOOSE_REASON": "-- Choose the reason --",
     "USED": "used %{value}",
     "LEFT": "left %{value}",
-    "ACTIVATES_ON": "activates on %{date}"
+    "ACTIVATES_ON": "activates on %{date}",
+    "NEVER": "Never"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1079,5 +1080,17 @@
     "HEADER_STATUS": "Status",
     "HEADER_AMOUNT": "Amount",
     "HEADER_PAYMENT_METHOD": "Payment account"
+  },
+  "MINI_PROFILE": {
+    "PLAYER": "Player",
+    "STATUS_REASON": "Status reason",
+    "BALANCE": "Balance",
+    "LAST_LOGIN": "Last login",
+    "DEPOSITED": "Deposited",
+    "REGISTERED": "Registered",
+    "TRANSACTION": "Transaction",
+    "ERROR_MESSAGE": "Error message",
+    "REJECTION_REASON": "Rejection reason",
+    "OPERATOR": "Operator"
   }
 }
