@@ -1,10 +1,10 @@
-import createReducer from 'utils/createReducer';
-import { getApiRoot } from 'config/index';
-import downloadBlob from 'utils/downloadBlob';
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from 'utils/timestamp';
-import buildQueryString from 'utils/buildQueryString';
-import createRequestAction from 'utils/createRequestAction';
+import createReducer from '../../../../../utils/createReducer';
+import { getApiRoot } from '../../../../../config/index';
+import downloadBlob from '../../../../../utils/downloadBlob';
+import timestamp from '../../../../../utils/timestamp';
+import buildQueryString from '../../../../../utils/buildQueryString';
+import createRequestAction from '../../../../../utils/createRequestAction';
 
 const KEY = 'reports/player-liability/report';
 const FETCH_REPORT = createRequestAction(`${KEY}/fetch-report`);
@@ -88,8 +88,8 @@ function downloadReport(fileName = 'player-liability.csv') {
         'Content-Type': 'text/csv',
       },
     })
-      .then((resp) => resp.blob())
-      .then((blob) => downloadBlob(fileName, blob));
+      .then(resp => resp.blob())
+      .then(blob => downloadBlob(fileName, blob));
   };
 }
 

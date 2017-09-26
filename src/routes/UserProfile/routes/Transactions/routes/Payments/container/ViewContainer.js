@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
-import { actionCreators as viewActionCreators } from '../modules/index';
-import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../../../config/index';
+import { actionCreators as viewActionCreators } from '../modules';
+import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../../../config';
 import { paymentActions } from '../../../../../../../constants/payment';
 import { actionCreators as locationActionCreators } from '../../../../../../../redux/modules/location';
 

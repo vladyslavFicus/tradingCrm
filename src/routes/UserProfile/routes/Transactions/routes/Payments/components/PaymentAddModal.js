@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../../../utils/validator';
-import { SelectField, InputField } from '../../../../../../../components/ReduxForm/index';
+import { SelectField, InputField } from '../../../../../../../components/ReduxForm';
 import { shortify } from '../../../../../../../utils/uuid';
-import Amount from '../../../../../../../components/Amount/index';
-import NoteButton from '../../../../../../../components/NoteButton/index';
+import Amount from '../../../../../../../components/Amount';
+import NoteButton from '../../../../../../../components/NoteButton';
 import {
   types as paymentTypes,
   manualTypesLabels as paymentTypesLabels,

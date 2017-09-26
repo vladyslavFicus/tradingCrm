@@ -7,7 +7,7 @@ import { reduxForm, Field, getFormValues } from 'redux-form';
 import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
-import config from '../../../../../config/index';
+import config from '../../../../../config';
 
 const tags = config.nas.brand.tags.reduce((result, item) => ({
   ...result,

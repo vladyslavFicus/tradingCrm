@@ -4,25 +4,25 @@ import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../../../constants/propTypes';
-import GridView, { GridColumn } from '../../../../../../../components/GridView/index';
+import GridView, { GridColumn } from '../../../../../../../components/GridView';
 import {
   types as paymentTypes,
   methodsLabels,
   typesLabels,
   typesProps,
 } from '../../../../../../../constants/payment';
-import TransactionStatus from '../../../../../../../components/TransactionStatus/index';
+import TransactionStatus from '../../../../../../../components/TransactionStatus';
 import { targetTypes } from '../../../../../../../constants/note';
-import NoteButton from '../../../../../../../components/NoteButton/index';
+import NoteButton from '../../../../../../../components/NoteButton';
 import TransactionsFilterForm from './TransactionsFilterForm';
-import PaymentDetailModal from '../../../../../../../components/PaymentDetailModal/index';
-import PaymentActionReasonModal from '../../../../../../../components/PaymentActionReasonModal/index';
+import PaymentDetailModal from '../../../../../../../components/PaymentDetailModal';
+import PaymentActionReasonModal from '../../../../../../../components/PaymentActionReasonModal';
 import PaymentAddModal from './PaymentAddModal';
 import { UncontrolledTooltip } from '../../../../../../../components/Reactstrap/Uncontrolled';
 import renderLabel from '../../../../../../../utils/renderLabel';
-import GridPaymentInfo from '../../../../../../../components/GridPaymentInfo/index';
-import GridPaymentAmount from '../../../../../../../components/GridPaymentAmount/index';
-import PaymentAccount from '../../../../../../../components/PaymentAccount/index';
+import GridPaymentInfo from '../../../../../../../components/GridPaymentInfo';
+import GridPaymentAmount from '../../../../../../../components/GridPaymentAmount';
+import PaymentAccount from '../../../../../../../components/PaymentAccount';
 import SubTabNavigation from '../../../../../../../components/SubTabNavigation';
 import { routes as subTabRoutes } from '../../../constants';
 
