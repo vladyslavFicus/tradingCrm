@@ -182,7 +182,7 @@ class View extends Component {
         profile={data.playerProfile}
         fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
       />
-      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />;
   };
 
   renderType = (data) => {

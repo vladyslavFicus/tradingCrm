@@ -205,7 +205,7 @@ class View extends Component {
         id={`transaction-${data.paymentId}`}
         fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
       />
-      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
+      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />;
   };
 
   renderType = (data) => {
