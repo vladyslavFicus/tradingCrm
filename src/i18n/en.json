@@ -194,7 +194,8 @@
         "BONUS_ROUND_BONUS": "Bonus round",
         "BONUS_ROUND_CHANCE": "Chance",
         "BONUS_ROUND_CARD": "Card",
-        "BONUS_ROUND_FREESPIN": "Bonus round freespin"
+        "BONUS_ROUND_FREESPIN": "Bonus round freespin",
+        "ADJUSTMENT": "Adjustment"
       }
     },
     "MARKETING": {
@@ -758,6 +759,10 @@
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference"
         }
+      },
+      "ROUTES": {
+        "PAYMENTS": "Payments",
+        "GAMING_ACTIVITY": "Gaming activity"
       }
     }
   },

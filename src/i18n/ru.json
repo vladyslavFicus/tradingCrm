@@ -196,7 +196,8 @@
         "BONUS_ROUND_BONUS": "Бонус раунд",
         "BONUS_ROUND_CHANCE": "Шанс",
         "BONUS_ROUND_CARD": "Карта",
-        "BONUS_ROUND_FREESPIN": "Бонус раунд фриспин"
+        "BONUS_ROUND_FREESPIN": "Бонус раунд фриспин",
+        "ADJUSTMENT": "Подгонка"
       }
     },
     "MARKETING": {
@@ -760,6 +761,10 @@
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "ID транзакции, пользователь"
         }
+      },
+      "ROUTES": {
+        "PAYMENTS": "Платежи",
+        "GAMING_ACTIVITY": "Игровая активность"
       }
     }
   },
