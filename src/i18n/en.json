@@ -758,6 +758,10 @@
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference"
         }
+      },
+      "ROUTES": {
+        "PAYMENTS": "Payments",
+        "GAMING_ACTIVITY": "Gaming activity"
       }
     }
   },

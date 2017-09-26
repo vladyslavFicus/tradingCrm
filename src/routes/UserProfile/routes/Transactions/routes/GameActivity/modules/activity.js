@@ -1,19 +1,19 @@
 import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
 import _ from 'lodash';
-import { getApiRoot } from '../../../../../config';
-import createReducer from '../../../../../utils/createReducer';
-import timestamp from '../../../../../utils/timestamp';
-import buildQueryString from '../../../../../utils/buildQueryString';
-import createRequestAction from '../../../../../utils/createRequestAction';
-import shallowEqual from '../../../../../utils/shallowEqual';
-import downloadBlob from '../../../../../utils/downloadBlob';
+import { getApiRoot } from '../../../../../../../config';
+import createReducer from '../../../../../../../utils/createReducer';
+import timestamp from '../../../../../../../utils/timestamp';
+import buildQueryString from '../../../../../../../utils/buildQueryString';
+import createRequestAction from '../../../../../../../utils/createRequestAction';
+import shallowEqual from '../../../../../../../utils/shallowEqual';
+import downloadBlob from '../../../../../../../utils/downloadBlob';
 
-const KEY = 'user/feed/feed';
-const FETCH_FEED = createRequestAction(`${KEY}/fetch-feed`);
-const EXPORT_FEED = createRequestAction(`${KEY}/export-feed`);
+const KEY = 'user/game-activity/activity';
+const FETCH_ACTIVITY = createRequestAction(`${KEY}/fetch-activity`);
+const EXPORT_ACTIVITY = createRequestAction(`${KEY}/export-activity`);
 
-const arrayedFilters = ['actionType'];
+const arrayedFilters = ['aggregators', 'providers', 'games', 'gameTypes', 'betTypes', 'winTypes'];
 const mapListArrayValues = (values, fields) => {
   const mapped = { ...values };
 
@@ -26,14 +26,14 @@ const mapListArrayValues = (values, fields) => {
   return mapped;
 };
 
-function fetchFeed(playerUUID, filters = { page: 0 }) {
+function fetchGameActivity(playerUUID, filters = { page: 0 }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     const queryString = buildQueryString(_.omitBy(mapListArrayValues(filters, arrayedFilters), val => !val));
     return dispatch({
       [CALL_API]: {
-        endpoint: `/audit/audit/logs/${playerUUID}?${queryString}&sort=creationDate,desc`,
+        endpoint: `/gaming_activity/gaming/activity/${playerUUID}?${queryString}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -42,11 +42,11 @@ function fetchFeed(playerUUID, filters = { page: 0 }) {
         },
         types: [
           {
-            type: FETCH_FEED.REQUEST,
+            type: FETCH_ACTIVITY.REQUEST,
             meta: { filters },
           },
-          FETCH_FEED.SUCCESS,
-          FETCH_FEED.FAILURE,
+          FETCH_ACTIVITY.SUCCESS,
+          FETCH_ACTIVITY.FAILURE,
         ],
         bailout: !logged,
       },
@@ -54,16 +54,16 @@ function fetchFeed(playerUUID, filters = { page: 0 }) {
   };
 }
 
-function exportFeed(playerUUID, filters = { page: 0 }) {
+function exportGameActivity(playerUUID, filters = { page: 0 }) {
   return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     if (!logged) {
-      return dispatch({ type: EXPORT_FEED.FAILED });
+      return dispatch({ type: EXPORT_ACTIVITY.FAILED });
     }
 
     const queryString = buildQueryString(_.omitBy(mapListArrayValues(filters, arrayedFilters), val => !val));
-    const requestUrl = `${getApiRoot()}/audit/audit/logs/${playerUUID}?${queryString}&sort=creationDate,desc`;
+    const requestUrl = `${getApiRoot()}/gaming_activity/gaming/activity/${playerUUID}?${queryString}`;
     const response = await fetch(requestUrl, {
       method: 'GET',
       headers: {
@@ -74,18 +74,14 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
     });
 
     const blobData = await response.blob();
-    downloadBlob(`player-audit-log-${playerUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+    downloadBlob(`player-game-activity-${playerUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
-    return dispatch({ type: EXPORT_FEED.SUCCESS });
+    return dispatch({ type: EXPORT_ACTIVITY.SUCCESS });
   };
 }
 
-const mapAuditEntities = entities => entities.map(entity => (typeof entity.details === 'string'
-  ? { ...entity, details: JSON.parse(entity.details) }
-  : entity));
-
 const actionHandlers = {
-  [FETCH_FEED.REQUEST]: (state, action) => ({
+  [FETCH_ACTIVITY.REQUEST]: (state, action) => ({
     ...state,
     filters: { ...action.meta.filters },
     isLoading: true,
@@ -93,37 +89,37 @@ const actionHandlers = {
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
     noResults: false,
   }),
-  [FETCH_FEED.SUCCESS]: (state, action) => ({
+  [FETCH_ACTIVITY.SUCCESS]: (state, action) => ({
     ...state,
     entities: {
       ...state.entities,
       ...action.payload,
       content: action.payload.number === 0
-        ? mapAuditEntities(action.payload.content)
+        ? action.payload.content
         : [
           ...state.entities.content,
-          ...mapAuditEntities(action.payload.content),
+          ...action.payload.content,
         ],
     },
     isLoading: false,
     receivedAt: timestamp(),
     noResults: action.payload.content.length === 0,
   }),
-  [FETCH_FEED.FAILURE]: (state, action) => ({
+  [FETCH_ACTIVITY.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
     receivedAt: timestamp(),
   }),
-  [EXPORT_FEED.REQUEST]: state => ({
+  [EXPORT_ACTIVITY.REQUEST]: state => ({
     ...state,
     exporting: true,
   }),
-  [EXPORT_FEED.SUCCESS]: state => ({
+  [EXPORT_ACTIVITY.SUCCESS]: state => ({
     ...state,
     exporting: false,
   }),
-  [EXPORT_FEED.FAILURE]: state => ({
+  [EXPORT_ACTIVITY.FAILURE]: state => ({
     ...state,
     exporting: false,
   }),
@@ -149,12 +145,12 @@ const initialState = {
   noResults: false,
 };
 const actionTypes = {
-  FETCH_FEED,
-  EXPORT_FEED,
+  FETCH_ACTIVITY,
+  EXPORT_ACTIVITY,
 };
 const actionCreators = {
-  fetchFeed,
-  exportFeed,
+  fetchGameActivity,
+  exportGameActivity,
 };
 
 export {

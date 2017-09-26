@@ -11,7 +11,8 @@ import {
   targetTypesLabels,
 } from '../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../components/IframeLink';
-import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
+import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
+import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
 
@@ -200,7 +201,7 @@ class View extends Component {
       <div className="profile-tab-container">
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
-            <BonusHeaderNavigation />
+            <SubTabNavigation links={subTabRoutes} />
           </div>
         </Sticky>
 

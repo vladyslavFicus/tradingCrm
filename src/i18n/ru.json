@@ -760,6 +760,10 @@
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "ID транзакции, пользователь"
         }
+      },
+      "ROUTES": {
+        "PAYMENTS": "Платежи",
+        "GAMING_ACTIVITY": "Игровая активность"
       }
     }
   },

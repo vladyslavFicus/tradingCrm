@@ -7,7 +7,8 @@ import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import { targetTypes } from '../../../../../../../../constants/note';
 import { statuses, actions } from '../../../../../../../../constants/free-spin';
-import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
+import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
+import { routes as subTabRoutes } from '../../../../constants';
 import Amount from '../../../../../../../../components/Amount';
 import FreeSpinStatus from '../../../../../../../../components/FreeSpinStatus';
 import NoteButton from '../../../../../../../../components/NoteButton';
@@ -294,7 +295,7 @@ class FreeSpinsView extends Component {
       <div className="profile-tab-container">
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
-            <BonusHeaderNavigation />
+            <SubTabNavigation links={subTabRoutes} />
             <div className="tab-header__actions">
               <button
                 disabled={exporting || !allowActions}
