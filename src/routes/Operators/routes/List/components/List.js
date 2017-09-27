@@ -45,6 +45,9 @@ class List extends Component {
 
   static defaultProps = {
     isLoading: false,
+    router: null,
+    filterValues: null,
+    list: null,
   };
 
   state = {
@@ -178,7 +181,8 @@ class List extends Component {
                 onClick={this.handleOpenCreateModal}
                 id="create-new-operator-button"
               >
-                + New operator
+                {'+ '}
+                {I18n.t('NEW_OPERATOR.TITLE')}
               </button>
             </div>
           </Title>

@@ -442,6 +442,9 @@
     "ANY": "Any",
     "ROLLBACK": "Rollback",
     "FOR": "for",
+    "FIRST_NAME": "First name",
+    "LAST_NAME": "Last name",
+    "SEND_INVITATION": "Send invitation",
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm",
@@ -1092,5 +1095,10 @@
     "ERROR_MESSAGE": "Error message",
     "REJECTION_REASON": "Rejection reason",
     "OPERATOR": "Operator"
+  },
+  "NEW_OPERATOR": {
+    "TITLE": "New operator",
+    "NOTE": "Note",
+    "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
   }
 }
