@@ -7,7 +7,7 @@ import { InputField, SelectField, DateTimeField } from '../../../../../component
 import { createValidator } from '../../../../../utils/validator';
 import renderLabel from '../../../../../utils/renderLabel';
 import { statusesLabels, statuses, rolesLabels, departmentsLabels } from '../../../../../constants/operators';
-import config from '../../../../../config/index';
+import config from '../../../../../config';
 
 const { availableDepartments: departments, availableRoles: roles } = config;
 const countries = countryList().getData().reduce((result, item) => ({

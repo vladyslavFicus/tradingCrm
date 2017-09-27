@@ -15,6 +15,7 @@ import {
 class List extends Component {
   static propTypes = {
     fetchESEntities: PropTypes.func.isRequired,
+    fetchPlayerMiniProfile: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.userProfile).isRequired,
     reset: PropTypes.func.isRequired,
     params: PropTypes.shape({
@@ -25,6 +26,9 @@ class List extends Component {
   };
   static contextTypes = {
     addPanel: PropTypes.func.isRequired,
+    miniProfile: PropTypes.shape({
+      onShowMiniProfile: PropTypes.func.isRequired,
+    }),
   };
 
   state = {
@@ -77,12 +81,13 @@ class List extends Component {
   renderUserInfo = (data) => {
     const panelData = {
       fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
-      login: data.username,
+      login: data.login,
       uuid: data.playerUUID,
     };
 
     return (
       <GridPlayerInfo
+        fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
         profile={data}
         onClick={() => this.context.addPanel(panelData)}
       />

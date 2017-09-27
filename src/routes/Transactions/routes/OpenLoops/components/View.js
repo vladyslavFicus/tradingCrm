@@ -39,6 +39,7 @@ class View extends Component {
     resetAll: PropTypes.func.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
     locale: PropTypes.string.isRequired,
+    fetchPlayerMiniProfile: PropTypes.func.isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -49,6 +50,7 @@ class View extends Component {
       setNoteChangedCallback: PropTypes.func.isRequired,
       hidePopover: PropTypes.func.isRequired,
     }),
+    addPanel: PropTypes.func.isRequired,
   };
 
   state = {
@@ -165,11 +167,23 @@ class View extends Component {
     />
   );
 
-  renderPlayer = data => (
-    data.playerProfile
-      ? <GridPlayerInfo profile={data.playerProfile} />
-      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
-  );
+  renderPlayer = (data) => {
+    const { firstName, lastName, login, playerUUID } = data.playerProfile;
+
+    const panelData = {
+      fullName: `${firstName || '-'} ${lastName || '-'}`,
+      login,
+      uuid: playerUUID,
+    };
+
+    return data.playerProfile
+      ? <GridPlayerInfo
+        onClick={() => this.context.addPanel(panelData)}
+        profile={data.playerProfile}
+        fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
+      />
+      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />;
+  };
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;

@@ -21,7 +21,7 @@ const WITHDRAW_UNLOCK = createRequestAction(`${KEY}/withdraw-unlock`);
 const profileInitialState = {
   data: {
     id: null,
-    username: null,
+    login: null,
     email: null,
     currency: null,
     balance: { amount: 0, currency: 'EUR' },

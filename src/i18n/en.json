@@ -9,7 +9,6 @@
       "BONUS_CAMPAIGNS": "Bonus campaigns",
       "PLAYER_LIABILITY": "Player liability",
       "REVENUE": "Revenue",
-      "DORMANT": "Dormant",
       "OPEN_LOOP": "Open loop",
       "GAMES": "Games",
       "COUNTRIES": "Countries",
@@ -146,6 +145,18 @@
         "WARNING_HEADER": "You are about to change password",
         "NEW_PASSWORD": "New password",
         "REPEAT_PASSWORD": "Repeat password"
+      },
+      "BLOCK_REASONS": {
+        "REASON_ONE": "Reason one",
+        "REASON_TWO": "Reason two",
+        "REASON_THREE": "Reason three",
+        "REASON_FOUR": "Reason four"
+      },
+      "UNBLOCK_REASONS": {
+        "REASON_ONE": "Unblock reason one",
+        "REASON_TWO": "Unblock reason two",
+        "REASON_THREE": "Unblock reason three",
+        "REASON_FOUR": "Unblock reason four"
       }
     },
     "GAME_ACTIVITY": {
@@ -183,7 +194,8 @@
         "BONUS_ROUND_BONUS": "Bonus round",
         "BONUS_ROUND_CHANCE": "Chance",
         "BONUS_ROUND_CARD": "Card",
-        "BONUS_ROUND_FREESPIN": "Bonus round freespin"
+        "BONUS_ROUND_FREESPIN": "Bonus round freespin",
+        "ADJUSTMENT": "Adjustment"
       }
     },
     "MARKETING": {
@@ -496,7 +508,8 @@
     "CHOOSE_REASON": "-- Choose the reason --",
     "USED": "used %{value}",
     "LEFT": "left %{value}",
-    "ACTIVATES_ON": "activates on %{date}"
+    "ACTIVATES_ON": "activates on %{date}",
+    "NEVER": "Never"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -746,6 +759,10 @@
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "Transaction ID, Player, External reference"
         }
+      },
+      "ROUTES": {
+        "PAYMENTS": "Payments",
+        "GAMING_ACTIVITY": "Gaming activity"
       }
     }
   },
@@ -799,7 +816,10 @@
       "DEVICE": "Device"
     },
     "KYC": {
-      "REJECT_REASON": "Rejection reason"
+      "REJECT_REASON": "Rejection reason",
+      "LOGIN_EVENTS": {
+        "REASON": "Reason"
+      }
     },
     "LOG_OUT": {
       "SESSION_ID": "Session ID",
@@ -1000,6 +1020,10 @@
       "method": {
         "inactive": "Payment method inactive"
       }
+    },
+    "profile": {
+      "blocked": "Profile is blocked",
+      "duplicated": "Profile is duplicated"
     }
   },
   "NOTE_BUTTON": {
@@ -1056,5 +1080,17 @@
     "HEADER_STATUS": "Status",
     "HEADER_AMOUNT": "Amount",
     "HEADER_PAYMENT_METHOD": "Payment account"
+  },
+  "MINI_PROFILE": {
+    "PLAYER": "Player",
+    "STATUS_REASON": "Status reason",
+    "BALANCE": "Balance",
+    "LAST_LOGIN": "Last login",
+    "DEPOSITED": "Deposited",
+    "REGISTERED": "Registered",
+    "TRANSACTION": "Transaction",
+    "ERROR_MESSAGE": "Error message",
+    "REJECTION_REASON": "Rejection reason",
+    "OPERATOR": "Operator"
   }
 }

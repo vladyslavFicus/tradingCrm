@@ -9,7 +9,6 @@
       "BONUS_CAMPAIGNS": "Бонусные программы",
       "PLAYER_LIABILITY": "Обязательства",
       "REVENUE": "Доход",
-      "DORMANT": "Бездействующие",
       "OPEN_LOOP": "Open loop",
       "GAMES": "Игры",
       "COUNTRIES": "Страны",
@@ -148,6 +147,18 @@
         "WARNING_HEADER": "Вы собираетесь изменить пароль",
         "NEW_PASSWORD": "Новый пароль",
         "REPEAT_PASSWORD": "Повторите пароль"
+      },
+      "BLOCK_REASONS": {
+        "REASON_ONE": "Первая причина",
+        "REASON_TWO": "Вторая причина",
+        "REASON_THREE": "Третья причина",
+        "REASON_FOUR": "Четвертая причина"
+      },
+      "UNBLOCK_REASONS": {
+        "REASON_ONE": "Первая причина разблокировки",
+        "REASON_TWO": "Вторая причина разблокировки",
+        "REASON_THREE": "Третья причина разблокировки",
+        "REASON_FOUR": "Четвертая причина разблокировки"
       }
     },
     "GAME_ACTIVITY": {
@@ -185,7 +196,8 @@
         "BONUS_ROUND_BONUS": "Бонус раунд",
         "BONUS_ROUND_CHANCE": "Шанс",
         "BONUS_ROUND_CARD": "Карта",
-        "BONUS_ROUND_FREESPIN": "Бонус раунд фриспин"
+        "BONUS_ROUND_FREESPIN": "Бонус раунд фриспин",
+        "ADJUSTMENT": "Подгонка"
       }
     },
     "MARKETING": {
@@ -498,7 +510,8 @@
     "CHOOSE_REASON": "-- Выберите причину --",
     "USED": "использовано %{value}",
     "LEFT": "осталось %{value}",
-    "ACTIVATES_ON": "активируется %{date}"
+    "ACTIVATES_ON": "активируется %{date}",
+    "NEVER": "Никогда"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -748,6 +761,10 @@
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "ID транзакции, пользователь"
         }
+      },
+      "ROUTES": {
+        "PAYMENTS": "Платежи",
+        "GAMING_ACTIVITY": "Игровая активность"
       }
     }
   },
@@ -805,7 +822,10 @@
       "DEVICE": "Устройство"
     },
     "KYC": {
-      "REJECT_REASON": "Причина отказа"
+      "REJECT_REASON": "Причина отказа",
+      "LOGIN_EVENTS": {
+        "REASON": "Причина"
+      }
     },
     "LOG_OUT": {
       "SESSION_ID": "ID сессии",
@@ -1011,6 +1031,10 @@
       "method": {
         "inactive": "Платежный метод неактивен"
       }
+    },
+    "profile": {
+      "blocked": "Профиль заблокирован",
+      "duplicated": "Профиль дублируется"
     }
   },
   "NOTE_BUTTON": {
@@ -1067,5 +1091,17 @@
     "HEADER_STATUS": "Статус",
     "HEADER_AMOUNT": "Сумма",
     "HEADER_PAYMENT_METHOD": "Платежный счет"
+  },
+  "MINI_PROFILE": {
+    "PLAYER": "Игрок",
+    "STATUS_REASON": "Причина статуса",
+    "BALANCE": "Баланс",
+    "LAST_LOGIN": "Входил",
+    "DEPOSITED": "Пополнен",
+    "REGISTERED": "Регистрация",
+    "TRANSACTION": "Транзакция",
+    "ERROR_MESSAGE": "Ошибка",
+    "REJECTION_REASON": "Причина отказа",
+    "OPERATOR": ""
   }
 }

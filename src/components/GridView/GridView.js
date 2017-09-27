@@ -122,7 +122,11 @@ class GridView extends Component {
   });
 
   handlePageChange = (eventKey) => {
-    this.props.onPageChange(eventKey, this.state.filters);
+    const { totalPages, activePage, onPageChange } = this.props;
+
+    if (totalPages > activePage) {
+      onPageChange(eventKey, this.state.filters);
+    }
   };
 
   renderHead = columns => (

@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
@@ -13,6 +14,8 @@ import {
 } from '../../../../../constants/operators';
 import CreateOperatorModal from '../../../components/CreateOperatorModal';
 import Uuid from '../../../../../components/Uuid';
+import MiniProfile from '../../../../../components/MiniProfile';
+import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 
 const MODAL_CREATE_OPERATOR = 'modal-create-operator';
 const modalInitialState = {
@@ -37,6 +40,7 @@ class List extends Component {
     filterValues: PropTypes.object,
     list: PropTypes.object,
     locale: PropTypes.string.isRequired,
+    fetchOperatorMiniProfile: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -111,7 +115,7 @@ class List extends Component {
       {
         data.statusChangeDate &&
         <div className="font-size-11">
-          Since {moment.utc(data.statusChangeDate).local().format('DD.MM.YYYY')}
+          {I18n.t('COMMON.SINCE', { date: moment.utc(data.statusChangeDate).local().format('DD.MM.YYYY') })}
         </div>
       }
     </div>
@@ -125,7 +129,13 @@ class List extends Component {
         </Link>
       </div>
       <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
-        <Uuid uuid={data.uuid} />
+        <MiniProfile
+          target={data.uuid}
+          type={miniProfileTypes.OPERATOR}
+          dataSource={this.props.fetchOperatorMiniProfile}
+        >
+          <Uuid uuid={data.uuid} />
+        </MiniProfile>
       </div>
     </div>
   );
