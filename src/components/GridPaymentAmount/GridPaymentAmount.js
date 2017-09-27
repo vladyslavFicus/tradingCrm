@@ -8,7 +8,7 @@ import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 
 const GridPaymentInfo = ({ payment }) => {
   const negativeOperation = [paymentTypes.Withdraw, paymentTypes.Confiscate].indexOf(payment.paymentType) !== -1;
-  const className = classNames('modal-header-tabs__label', { 'color-danger': negativeOperation });
+  const className = classNames('font-weight-700', { 'color-danger': negativeOperation });
 
   return (
     <div className={className}>

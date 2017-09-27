@@ -228,7 +228,7 @@ class View extends Component {
 
   renderDateTime = data => (
     <div>
-      <div className="modal-header-tabs__label">
+      <div className="font-weight-700">
         {moment.utc(data.creationTime).local().format('DD.MM.YYYY')}
       </div>
       <div className="font-size-11">
@@ -248,7 +248,7 @@ class View extends Component {
   renderMethod = data => (
     !data.paymentMethod ? <span>&mdash;</span>
       : <div>
-        <div className="modal-header-tabs__label">
+        <div className="font-weight-700">
           {renderLabel(data.paymentMethod, methodsLabels)}
         </div>
         {
