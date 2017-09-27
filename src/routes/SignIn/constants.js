@@ -4,12 +4,14 @@ import I18n from '../../utils/fake-i18n';
 const brands = keyMirror({
   hrzn: null,
   vulcanprestige: null,
-  vulcanneon: null,
+  vulcanneon_dev: null,
   loki: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
   CS: null,
+  PLAYER: null,
+  BI: null,
   RFP: null,
   MARKETING: null,
 });
@@ -18,6 +20,7 @@ const roles = keyMirror({
   ROLE2: null,
   ROLE3: null,
   ROLE4: null,
+  PLAYER: null,
 });
 
 const brandsConfig = {
@@ -33,7 +36,7 @@ const brandsConfig = {
     name: 'Loki',
     image: { src: '/img/loki-brand-logo.png' },
   },
-  [brands.vulcanneon]: {
+  [brands.vulcanneon_dev]: {
     name: 'Vulcan Neon',
     image: { src: '/img/vulcanneon_brand_logo.png', style: { width: '132px' } },
   },
@@ -41,6 +44,14 @@ const brandsConfig = {
 const departmentsConfig = {
   [departments.CS]: {
     name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.CS'),
+    image: '/img/cs-dep-icon.svg',
+  },
+  [departments.PLAYER]: {
+    name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.PLAYER'),
+    image: '/img/cs-dep-icon.svg',
+  },
+  [departments.BI]: {
+    name: I18n.t('CONSTANTS.SIGN_IN.DEPARTMENTS.BI'),
     image: '/img/cs-dep-icon.svg',
   },
   [departments.RFP]: {
@@ -61,6 +72,7 @@ const rolesConfig = {
   [roles.ROLE2]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE2'),
   [roles.ROLE3]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE3'),
   [roles.ROLE4]: I18n.t('CONSTANTS.OPERATORS.ROLES.ROLE4'),
+  [roles.PLAYER]: I18n.t('CONSTANTS.OPERATORS.ROLES.PLAYER'),
 };
 
 export { brands, departments, roles, brandsConfig, departmentsConfig, rolesConfig };
