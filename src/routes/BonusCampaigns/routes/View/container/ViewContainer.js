@@ -16,4 +16,5 @@ export default connect(mapStateToProps, {
   uploadFile: actionCreators.uploadPlayersFile,
   onChangeCampaignState: actionCreators.changeCampaignState,
   cloneCampaign: actionCreators.cloneCampaign,
+  removePlayers: actionCreators.removePlayers,
 })(ViewLayout);

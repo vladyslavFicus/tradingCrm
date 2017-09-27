@@ -15,7 +15,7 @@ class ConfirmActionModal extends Component {
     actionText: PropTypes.string,
     submitButtonLabel: PropTypes.string,
     form: PropTypes.string.isRequired,
-    uuid: PropTypes.string.isRequired,
+    uuid: PropTypes.string,
     uuidPrefix: PropTypes.string,
   };
   static defaultProps = {
@@ -23,14 +23,14 @@ class ConfirmActionModal extends Component {
     className: 'modal-danger',
     modalTitle: 'Confirm action',
     actionText: 'Do you really want to confirm this action?',
-    submitButtonLabel: 'Confirm',
+    submitButtonLabel: I18n.t('COMMON.BUTTONS.CONFIRM'),
     uuid: null,
     uuidPrefix: 'PL',
   };
   static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    hidePopover: PropTypes.func.isRequired,
+    onAddNoteClick: PropTypes.func,
+    onEditNoteClick: PropTypes.func,
+    hidePopover: PropTypes.func,
   };
 
   render() {

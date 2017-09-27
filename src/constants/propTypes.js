@@ -371,6 +371,7 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   statusChangedDate: PropTypes.string,
   targetType: PropTypes.string.isRequired,
   wagerWinMultiplier: PropTypes.number.isRequired,
+  zeroPlayersSelected: PropTypes.bool.isRequired,
 });
 PropTypes.freeSpinEntity = PropTypes.shape({
   aggregatorId: PropTypes.string.isRequired,

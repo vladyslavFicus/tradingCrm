@@ -18,6 +18,7 @@ class Header extends Component {
     onChangeCampaignState: PropTypes.func.isRequired,
     onUpload: PropTypes.func.isRequired,
     cloneCampaign: PropTypes.func.isRequired,
+    removePlayers: PropTypes.func.isRequired,
   };
   static defaultProps = {
     availableStatusActions: [],
@@ -42,6 +43,7 @@ class Header extends Component {
       availableStatusActions,
       onChangeCampaignState,
       cloneCampaign,
+      removePlayers,
     } = this.props;
 
     return (
@@ -62,6 +64,15 @@ class Header extends Component {
             </div>
           </div>
           <div className="panel-heading-row__actions">
+            {
+              state === statuses.DRAFT &&
+              <button
+                className="btn btn-sm btn-default-outline margin-right-10"
+                onClick={() => removePlayers(id)}
+              >
+                {I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
+              </button>
+            }
             {
               state === statuses.DRAFT && targetType === targetTypes.TARGET_LIST &&
               <FileUpload

@@ -99,6 +99,10 @@ class View extends Component {
     this.props.fetchKycReasons();
   }
 
+  onManageKycNote = type => (data) => {
+    this.props.manageKycNote(type, data);
+  };
+
   handleSubmitKYC = type => async (data) => {
     const { params: { id }, submitData } = this.props;
 
@@ -252,10 +256,6 @@ class View extends Component {
         [type]: true,
       },
     });
-  };
-
-  onManageKycNote = type => (data) => {
-    this.props.manageKycNote(type, data);
   };
 
   handleVerifyClick = (verifyType) => {
