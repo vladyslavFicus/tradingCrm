@@ -215,7 +215,7 @@ class View extends Component {
     return (
       <div>
         <div {...props}>{label}</div>
-        <span className="font-size-10 text-uppercase color-default">
+        <span className="font-size-11 text-uppercase">
           {data.paymentSystemRefs.map((SystemRef, index) => (
             <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
           ))}
@@ -228,12 +228,12 @@ class View extends Component {
 
   renderDateTime = data => (
     <div>
-      <div className="font-weight-700">
+      <div className="modal-header-tabs__label">
         {moment.utc(data.creationTime).local().format('DD.MM.YYYY')}
       </div>
-      <span className="font-size-10 color-default">
+      <div className="font-size-11">
         {moment.utc(data.creationTime).local().format('HH:mm:ss')}
-      </span>
+      </div>
     </div>
   );
 
@@ -248,14 +248,14 @@ class View extends Component {
   renderMethod = data => (
     !data.paymentMethod ? <span>&mdash;</span>
       : <div>
-        <div className="font-weight-700">
+        <div className="modal-header-tabs__label">
           {renderLabel(data.paymentMethod, methodsLabels)}
         </div>
         {
           !!data.paymentAccount &&
-          <span className="font-size-10">
+          <div className="font-size-11">
             <PaymentAccount account={data.paymentAccount} />
-          </span>
+          </div>
         }
       </div>
   );
