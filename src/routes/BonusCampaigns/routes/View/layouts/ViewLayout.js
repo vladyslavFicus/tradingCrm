@@ -93,7 +93,9 @@ class ViewLayout extends Component {
     this.context.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
   };
 
-  handleRemovePlayersClick = (campaignId) => {
+  handleRemovePlayersClick = () => {
+    const { params: { id: campaignId } } = this.props;
+
     this.handleOpenModal(REMOVE_PLAYERS, {
       campaignId,
       onSubmit: this.handleRemovePlayers,

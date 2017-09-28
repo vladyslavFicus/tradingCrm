@@ -69,7 +69,7 @@ class Header extends Component {
               <span>
                 <button
                   className="btn btn-sm btn-default-outline margin-right-10"
-                  onClick={() => removeAllPlayers(id)}
+                  onClick={removeAllPlayers}
                 >
                   {I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
                 </button>
