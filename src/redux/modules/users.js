@@ -16,8 +16,9 @@ const fetchProfileMapResponse = (response) => {
     birthDate,
     kycPersonalStatus,
     kycAddressStatus,
-    balance,
+    totalBalance,
     bonusBalance,
+    realMoneyBalance,
     signInIps,
   } = response;
   const kycCompleted = kycPersonalStatus && kycAddressStatus
@@ -39,7 +40,7 @@ const fetchProfileMapResponse = (response) => {
     birthDate: birthDate && moment(birthDate).isValid() ? moment(birthDate).format('YYYY-MM-DD') : null,
     kycDate,
     kycCompleted,
-    balance: balance || emptyBalance,
+    balance: totalBalance || emptyBalance,
     signInIps: signInIps ? Object.values(signInIps).sort((a, b) => {
       if (a.sessionStart > b.sessionStart) {
         return -1;
@@ -52,16 +53,15 @@ const fetchProfileMapResponse = (response) => {
   };
   payload.currencyCode = payload.balance && payload.balance.currency ? payload.balance.currency : null;
   payload.balances = {
-    total: balance || emptyBalance,
+    total: totalBalance || emptyBalance,
     bonus: bonusBalance || {
       ...emptyBalance,
       currency: payload.balance ? payload.balance.currency : emptyBalance.currency,
     },
-  };
-
-  payload.balances.real = {
-    ...payload.balances.total,
-    amount: Math.max(payload.balances.total.amount - payload.balances.bonus.amount, 0),
+    real: realMoneyBalance || {
+      ...emptyBalance,
+      currency: payload.balance ? payload.balance.currency : emptyBalance.currency,
+    },
   };
 
   return payload;
