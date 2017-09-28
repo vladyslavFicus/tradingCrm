@@ -1107,7 +1107,7 @@
     "OPERATOR": "Оператор"
   },
   "OPERATORS": {
-    "CREATE_OPERATOR": "+ Новый оператор",
+    "CREATE_OPERATOR_BUTTON": "+ Новый оператор",
     "MODALS": {
       "NEW_OPERATOR": {
         "TITLE": "Новый оператор",

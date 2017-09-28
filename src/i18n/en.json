@@ -1096,7 +1096,7 @@
     "OPERATOR": "Operator"
   },
   "OPERATORS": {
-    "CREATE_OPERATOR": "+ New operator",
+    "CREATE_OPERATOR_BUTTON": "+ New operator",
     "MODALS": {
       "NEW_OPERATOR": {
         "TITLE": "New operator",
