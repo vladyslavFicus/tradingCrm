@@ -146,12 +146,6 @@ class PaymentDetailModal extends Component {
     );
   };
 
-  renderIp = () => {
-    const { payment } = this.props;
-
-    return <IpFlag id={payment.paymentId} country={payment.country} ip={payment.clientIp} />;
-  };
-
   render() {
     const {
       payment,
@@ -194,7 +188,7 @@ class PaymentDetailModal extends Component {
               </div>
               {
                 payment.country &&
-                this.renderIp()
+                <IpFlag id={payment.paymentId} country={payment.country} ip={payment.clientIp} />
               }
             </div>
             <div className="modal-body-tabs__item">

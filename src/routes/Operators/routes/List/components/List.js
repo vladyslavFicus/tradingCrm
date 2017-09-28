@@ -148,7 +148,7 @@ class List extends Component {
       return data.country;
     }
 
-    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} />;
+    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} alt={data.country} />;
   };
 
   renderRegistered = data => (
