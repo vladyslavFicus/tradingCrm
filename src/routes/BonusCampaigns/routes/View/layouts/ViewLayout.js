@@ -110,8 +110,13 @@ class ViewLayout extends Component {
     const action = await this.props.removeAllPlayers(campaignId);
     this.handleCloseModal();
 
-    if (action && !action.error) {
-      this.handleRefresh();
+    if (action) {
+      this.context.addNotification({
+        level: action.error ? 'error' : 'success',
+        title: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON'),
+        message: action.error ? I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.ERROR_NOTIFICATION') :
+          I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.SUCCESS_NOTIFICATION'),
+      });
     }
   };
 

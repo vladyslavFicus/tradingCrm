@@ -1003,7 +1003,9 @@
     },
     "REMOVE_PLAYERS": {
       "BUTTON": "Remove all players",
-      "MODAL_TEXT": "You are about to remove all players from the target of this campaign."
+      "MODAL_TEXT": "You are about to remove all players from the target of this campaign.",
+      "SUCCESS_NOTIFICATION": "All players were successfully removed",
+      "ERROR_NOTIFICATION": "Failed to remove all players"
     }
   },
   "PROFILE": {
