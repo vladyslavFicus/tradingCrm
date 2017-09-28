@@ -1007,6 +1007,12 @@
     },
     "OPTIONS": {
       "CLONE_LABEL": "Скопировать кампанию"
+    },
+    "REMOVE_PLAYERS": {
+      "BUTTON": "Удалить всех игроков",
+      "MODAL_TEXT": "Вы собираетесь удалить всех игроков из цели этой кампании.",
+      "SUCCESS_NOTIFICATION": "Все игроки были успешно удалены",
+      "ERROR_NOTIFICATION": "Не удалось удалить всех игроков"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {

@@ -11,6 +11,7 @@ const CAMPAIGN_CLONE = createRequestAction(`${KEY}/campaign-clone`);
 const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
 const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
+const REMOVE_PLAYERS = createRequestAction(`${KEY}/remove-players`);
 
 function fetchCampaign(id) {
   return (dispatch, getState) => {
@@ -193,6 +194,30 @@ function cloneCampaign(campaignId) {
   };
 }
 
+function removeAllPlayers(campaignId) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/promotion/campaigns/${campaignId}/players-list`,
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          REMOVE_PLAYERS.REQUEST,
+          REMOVE_PLAYERS.SUCCESS,
+          REMOVE_PLAYERS.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const actionHandlers = {
   [CAMPAIGN_UPDATE.REQUEST]: state => ({
     ...state,
@@ -239,6 +264,13 @@ const actionHandlers = {
       totalSelectedPlayers: action.payload.playersCount,
     },
   }),
+  [REMOVE_PLAYERS.SUCCESS]: state => ({
+    ...state,
+    data: {
+      ...state.data,
+      totalSelectedPlayers: 0,
+    },
+  }),
 };
 const initialState = {
   data: {},
@@ -251,6 +283,7 @@ const actionTypes = {
   FETCH_CAMPAIGN,
   CHANGE_CAMPAIGN_STATE,
   CAMPAIGN_CLONE,
+  REMOVE_PLAYERS,
 };
 const actionCreators = {
   fetchCampaign,
@@ -258,6 +291,7 @@ const actionCreators = {
   changeCampaignState,
   uploadPlayersFile,
   cloneCampaign,
+  removeAllPlayers,
 };
 
 export {
