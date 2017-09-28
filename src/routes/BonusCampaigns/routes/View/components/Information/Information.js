@@ -21,7 +21,6 @@ const Information = (props) => {
       wagerWinMultiplier,
       campaignRatio,
       campaignType,
-      zeroPlayersSelected,
     },
   } = props;
 
@@ -40,7 +39,7 @@ const Information = (props) => {
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_SELECTED')}</strong>:{' '}
-                {zeroPlayersSelected ? 0 : totalSelectedPlayers}
+                {totalSelectedPlayers}
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_OPT_IN')}</strong>:{' '}

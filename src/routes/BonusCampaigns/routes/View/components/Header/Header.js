@@ -18,7 +18,7 @@ class Header extends Component {
     onChangeCampaignState: PropTypes.func.isRequired,
     onUpload: PropTypes.func.isRequired,
     cloneCampaign: PropTypes.func.isRequired,
-    removePlayers: PropTypes.func.isRequired,
+    removeAllPlayers: PropTypes.func.isRequired,
   };
   static defaultProps = {
     availableStatusActions: [],
@@ -43,7 +43,7 @@ class Header extends Component {
       availableStatusActions,
       onChangeCampaignState,
       cloneCampaign,
-      removePlayers,
+      removeAllPlayers,
     } = this.props;
 
     return (
@@ -65,22 +65,21 @@ class Header extends Component {
           </div>
           <div className="panel-heading-row__actions">
             {
-              state === statuses.DRAFT &&
-              <button
-                className="btn btn-sm btn-default-outline margin-right-10"
-                onClick={() => removePlayers(id)}
-              >
-                {I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
-              </button>
-            }
-            {
               state === statuses.DRAFT && targetType === targetTypes.TARGET_LIST &&
-              <FileUpload
-                label={I18n.t('BONUS_CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
-                allowedTypes={['text/csv', 'application/vnd.ms-excel']}
-                onChosen={this.props.onUpload}
-                className="btn btn-info-outline"
-              />
+              <span>
+                <button
+                  className="btn btn-sm btn-default-outline margin-right-10"
+                  onClick={() => removeAllPlayers(id)}
+                >
+                  {I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
+                </button>
+                <FileUpload
+                  label={I18n.t('BONUS_CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
+                  allowedTypes={['text/csv', 'application/vnd.ms-excel']}
+                  onChosen={this.props.onUpload}
+                  className="btn btn-info-outline"
+                />
+              </span>
             }
             <span className="margin-left-10">
               <ActionsDropDown

@@ -26,7 +26,7 @@ class ViewLayout extends Component {
     onChangeCampaignState: PropTypes.func.isRequired,
     cloneCampaign: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
-    removePlayers: PropTypes.func.isRequired,
+    removeAllPlayers: PropTypes.func.isRequired,
   };
   static defaultProps = {
     availableStatusActions: [],
@@ -93,7 +93,7 @@ class ViewLayout extends Component {
     this.context.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
   };
 
-  handleRemovePlayersClick = (campaignId = false) => {
+  handleRemovePlayersClick = (campaignId) => {
     this.handleOpenModal(REMOVE_PLAYERS, {
       campaignId,
       onSubmit: this.handleRemovePlayers,
@@ -103,7 +103,7 @@ class ViewLayout extends Component {
   handleRemovePlayers = async () => {
     const { modal: { params: { campaignId } } } = this.state;
 
-    const action = await this.props.removePlayers(campaignId);
+    const action = await this.props.removeAllPlayers(campaignId);
     this.handleCloseModal();
 
     if (action && !action.error) {
@@ -131,7 +131,7 @@ class ViewLayout extends Component {
             data={bonusCampaignData}
             onUpload={this.handleUploadFile}
             cloneCampaign={this.handleCloneCampaign}
-            removePlayers={this.handleRemovePlayersClick}
+            removeAllPlayers={this.handleRemovePlayersClick}
           />
 
           <div className="hide-details-block">

@@ -194,7 +194,7 @@ function cloneCampaign(campaignId) {
   };
 }
 
-function removePlayers(campaignId) {
+function removeAllPlayers(campaignId) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -268,14 +268,12 @@ const actionHandlers = {
     ...state,
     data: {
       ...state.data,
-      zeroPlayersSelected: true,
+      totalSelectedPlayers: 0,
     },
   }),
 };
 const initialState = {
-  data: {
-    zeroPlayersSelected: false,
-  },
+  data: {},
   error: null,
   isLoading: false,
   receivedAt: null,
@@ -293,7 +291,7 @@ const actionCreators = {
   changeCampaignState,
   uploadPlayersFile,
   cloneCampaign,
-  removePlayers,
+  removeAllPlayers,
 };
 
 export {

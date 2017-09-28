@@ -27,11 +27,6 @@ class ConfirmActionModal extends Component {
     uuid: null,
     uuidPrefix: 'PL',
   };
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func,
-    onEditNoteClick: PropTypes.func,
-    hidePopover: PropTypes.func,
-  };
 
   render() {
     const {
