@@ -165,7 +165,7 @@ class CreateOperatorModal extends Component {
                       component="input"
                       id="create-new-operator-send-invitation-checkbox"
                     />
-                    {I18n.t('COMMON.SEND_INVITATION')}
+                    {I18n.t('OPERATORS.MODALS.NEW_OPERATOR.SEND_INVITATION')}
                   </label>
                 </div>
               </div>

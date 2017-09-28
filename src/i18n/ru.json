@@ -446,7 +446,6 @@
     "FOR": "для",
     "FIRST_NAME": "Имя",
     "LAST_NAME": "Фамилия",
-    "SEND_INVITATION": "Отправить приглашение",
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить",
@@ -1105,13 +1104,14 @@
     "TRANSACTION": "Транзакция",
     "ERROR_MESSAGE": "Ошибка",
     "REJECTION_REASON": "Причина отказа",
-    "OPERATOR": ""
+    "OPERATOR": "Оператор"
   },
   "OPERATORS": {
     "CREATE_OPERATOR": "+ Новый оператор",
     "MODALS": {
       "NEW_OPERATOR": {
         "TITLE": "Новый оператор",
+        "SEND_INVITATION": "Отправить приглашение",
         "NOTE": "Заметка",
         "NOTE_MESSAGE": "Вы сможете задать дополнительные департаменты в профиле оператора после его создания"
       }
