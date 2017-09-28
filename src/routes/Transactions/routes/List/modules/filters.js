@@ -29,6 +29,13 @@ function fetchFilters() {
 const initialState = {
   data: {
     paymentMethods: [],
+    statuses: {
+      PENDING: 'Pending',
+      REFUSED: 'Refused',
+      FAILED: 'Failed',
+      COMPLETED: 'Completed',
+      CHARGEBACK: 'Chargeback',
+    },
   },
   error: null,
   isLoading: false,
