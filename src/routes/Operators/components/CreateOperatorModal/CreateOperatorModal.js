@@ -67,7 +67,7 @@ class CreateOperatorModal extends Component {
 
     return (
       <Modal className="create-operator-modal" toggle={onClose} isOpen>
-        <ModalHeader toggle={onClose}>{I18n.t('NEW_OPERATOR.TITLE')}</ModalHeader>
+        <ModalHeader toggle={onClose}>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.TITLE')}</ModalHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
@@ -175,9 +175,9 @@ class CreateOperatorModal extends Component {
           <ModalFooter>
             <div className="row">
               <div className="col-sm-6 text-muted font-size-12">
-                <b>{I18n.t('NEW_OPERATOR.NOTE')}</b>
+                <b>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE')}</b>
                 {':'}
-                {I18n.t('NEW_OPERATOR.NOTE_MESSAGE')}
+                {I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE_MESSAGE')}
               </div>
               <div className="col-sm-6">
                 <button

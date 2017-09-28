@@ -181,8 +181,7 @@ class List extends Component {
                 onClick={this.handleOpenCreateModal}
                 id="create-new-operator-button"
               >
-                {'+ '}
-                {I18n.t('NEW_OPERATOR.TITLE')}
+                {I18n.t('OPERATORS.CREATE_OPERATOR')}
               </button>
             </div>
           </Title>
