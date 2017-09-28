@@ -18,6 +18,7 @@ class Header extends Component {
     onChangeCampaignState: PropTypes.func.isRequired,
     onUpload: PropTypes.func.isRequired,
     cloneCampaign: PropTypes.func.isRequired,
+    removeAllPlayers: PropTypes.func.isRequired,
   };
   static defaultProps = {
     availableStatusActions: [],
@@ -42,6 +43,7 @@ class Header extends Component {
       availableStatusActions,
       onChangeCampaignState,
       cloneCampaign,
+      removeAllPlayers,
     } = this.props;
 
     return (
@@ -64,12 +66,20 @@ class Header extends Component {
           <div className="panel-heading-row__actions">
             {
               state === statuses.DRAFT && targetType === targetTypes.TARGET_LIST &&
-              <FileUpload
-                label={I18n.t('BONUS_CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
-                allowedTypes={['text/csv', 'application/vnd.ms-excel']}
-                onChosen={this.props.onUpload}
-                className="btn btn-info-outline"
-              />
+              <span>
+                <button
+                  className="btn btn-sm btn-default-outline margin-right-10"
+                  onClick={removeAllPlayers}
+                >
+                  {I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
+                </button>
+                <FileUpload
+                  label={I18n.t('BONUS_CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
+                  allowedTypes={['text/csv', 'application/vnd.ms-excel']}
+                  onChosen={this.props.onUpload}
+                  className="btn btn-info-outline"
+                />
+              </span>
             }
             <span className="margin-left-10">
               <ActionsDropDown

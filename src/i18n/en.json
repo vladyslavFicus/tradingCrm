@@ -442,6 +442,8 @@
     "ANY": "Any",
     "ROLLBACK": "Rollback",
     "FOR": "for",
+    "FIRST_NAME": "First name",
+    "LAST_NAME": "Last name",
     "BUTTONS": {
       "CANCEL": "Cancel",
       "CONFIRM": "Confirm",
@@ -1000,6 +1002,12 @@
     },
     "OPTIONS": {
       "CLONE_LABEL": "Clone campaign"
+    },
+    "REMOVE_PLAYERS": {
+      "BUTTON": "Remove all players",
+      "MODAL_TEXT": "You are about to remove all players from the target of this campaign.",
+      "SUCCESS_NOTIFICATION": "All players were successfully removed",
+      "ERROR_NOTIFICATION": "Failed to remove all players"
     }
   },
   "PROFILE": {
@@ -1092,5 +1100,16 @@
     "ERROR_MESSAGE": "Error message",
     "REJECTION_REASON": "Rejection reason",
     "OPERATOR": "Operator"
+  },
+  "OPERATORS": {
+    "CREATE_OPERATOR_BUTTON": "+ New operator",
+    "MODALS": {
+      "NEW_OPERATOR": {
+        "TITLE": "New operator",
+        "SEND_INVITATION": "Send invitation",
+        "NOTE": "Note",
+        "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
+      }
+    }
   }
 }

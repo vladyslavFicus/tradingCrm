@@ -99,6 +99,10 @@ class View extends Component {
     this.props.fetchKycReasons();
   }
 
+  onManageKycNote = type => (data) => {
+    this.props.manageKycNote(type, data);
+  };
+
   handleSubmitKYC = type => async (data) => {
     const { params: { id }, submitData } = this.props;
 
@@ -138,6 +142,7 @@ class View extends Component {
       checkLock,
     } = this.props;
     const { modal: { params: { verifyType } } } = this.state;
+    console.info(`Verify modal submitted - ${verifyType}`);
 
     const action = await verifyData(playerUUID, verifyType);
     if (action) {
@@ -156,6 +161,10 @@ class View extends Component {
           this.context.refreshPinnedNotes();
         }
       }
+    }
+
+    if (action && !action.error) {
+      console.info(`Verify success - ${verifyType}`);
     }
 
     checkLock(playerUUID);
@@ -254,13 +263,10 @@ class View extends Component {
     });
   };
 
-  onManageKycNote = type => (data) => {
-    this.props.manageKycNote(type, data);
-  };
-
   handleVerifyClick = (verifyType) => {
     const { profile: { data: { fullName } } } = this.props;
 
+    console.info(`Verify button clicked - ${verifyType}`);
     const kycVerifyModalStaticParams = {};
     if (verifyType === kycCategories.KYC_PERSONAL) {
       kycVerifyModalStaticParams.modalTitle =

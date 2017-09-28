@@ -6,6 +6,13 @@ import { bonusCampaignTabs } from '../../../../../config/menu';
 import PropTypes from '../../../../../constants/propTypes';
 import Header from '../components/Header';
 import Information from '../components/Information';
+import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
+
+const REMOVE_PLAYERS = 'remove-players-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
+};
 
 class ViewLayout extends Component {
   static propTypes = {
@@ -19,6 +26,7 @@ class ViewLayout extends Component {
     onChangeCampaignState: PropTypes.func.isRequired,
     cloneCampaign: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
+    removeAllPlayers: PropTypes.func.isRequired,
   };
   static defaultProps = {
     availableStatusActions: [],
@@ -32,6 +40,24 @@ class ViewLayout extends Component {
 
   state = {
     informationShown: true,
+    modal: { ...modalInitialState },
+  };
+
+  handleOpenModal = (name, params) => {
+    this.setState({
+      modal: {
+        name,
+        params,
+      },
+    });
+  };
+
+  handleCloseModal = (cb) => {
+    this.setState({ modal: { ...modalInitialState } }, () => {
+      if (typeof cb === 'function') {
+        cb();
+      }
+    });
   };
 
   handleToggleInformationBlock = () => {
@@ -67,8 +93,35 @@ class ViewLayout extends Component {
     this.context.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
   };
 
+  handleRemovePlayersClick = () => {
+    const { params: { id: campaignId } } = this.props;
+
+    this.handleOpenModal(REMOVE_PLAYERS, {
+      campaignId,
+      onSubmit: this.handleRemovePlayers,
+      modalTitle: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON'),
+      actionText: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT'),
+    });
+  };
+
+  handleRemovePlayers = async () => {
+    const { modal: { params: { campaignId } } } = this.state;
+
+    const action = await this.props.removeAllPlayers(campaignId);
+    this.handleCloseModal();
+
+    if (action) {
+      this.context.addNotification({
+        level: action.error ? 'error' : 'success',
+        title: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON'),
+        message: action.error ? I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.ERROR_NOTIFICATION') :
+          I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.SUCCESS_NOTIFICATION'),
+      });
+    }
+  };
+
   render() {
-    const { informationShown } = this.state;
+    const { informationShown, modal } = this.state;
     const {
       data: bonusCampaignData,
       location,
@@ -87,6 +140,7 @@ class ViewLayout extends Component {
             data={bonusCampaignData}
             onUpload={this.handleUploadFile}
             cloneCampaign={this.handleCloneCampaign}
+            removeAllPlayers={this.handleRemovePlayersClick}
           />
 
           <div className="hide-details-block">
@@ -124,8 +178,15 @@ class ViewLayout extends Component {
             </div>
           </div>
         </div>
+        {
+          modal.name === REMOVE_PLAYERS &&
+          <ConfirmActionModal
+            {...modal.params}
+            form="confirmRemovePlayers"
+            onClose={this.handleCloseModal}
+          />
+        }
       </div>
-
     );
   }
 }

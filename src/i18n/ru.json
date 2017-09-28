@@ -444,6 +444,8 @@
     "ANY": "Любые",
     "ROLLBACK": "Rollback",
     "FOR": "для",
+    "FIRST_NAME": "Имя",
+    "LAST_NAME": "Фамилия",
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить",
@@ -1007,6 +1009,12 @@
     },
     "OPTIONS": {
       "CLONE_LABEL": "Скопировать кампанию"
+    },
+    "REMOVE_PLAYERS": {
+      "BUTTON": "Удалить всех игроков",
+      "MODAL_TEXT": "Вы собираетесь удалить всех игроков из цели этой кампании.",
+      "SUCCESS_NOTIFICATION": "Все игроки были успешно удалены",
+      "ERROR_NOTIFICATION": "Не удалось удалить всех игроков"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {
@@ -1102,6 +1110,17 @@
     "TRANSACTION": "Транзакция",
     "ERROR_MESSAGE": "Ошибка",
     "REJECTION_REASON": "Причина отказа",
-    "OPERATOR": ""
+    "OPERATOR": "Оператор"
+  },
+  "OPERATORS": {
+    "CREATE_OPERATOR_BUTTON": "+ Новый оператор",
+    "MODALS": {
+      "NEW_OPERATOR": {
+        "TITLE": "Новый оператор",
+        "SEND_INVITATION": "Отправить приглашение",
+        "NOTE": "Заметка",
+        "NOTE_MESSAGE": "Вы сможете задать дополнительные департаменты в профиле оператора после его создания"
+      }
+    }
   }
 }
