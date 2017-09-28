@@ -101,7 +101,7 @@ class Container extends Component {
     const { children, target } = this.props;
 
     return (
-      <div
+      <span
         className="mini-profile-show-button"
         id={`id-${target}`}
         ref={(node) => {
@@ -109,7 +109,7 @@ class Container extends Component {
         }}
       >
         {children}
-      </div>
+      </span>
     );
   }
 }

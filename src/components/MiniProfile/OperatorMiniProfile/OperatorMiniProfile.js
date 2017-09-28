@@ -41,18 +41,18 @@ const OperatorMiniProfile = ({ data }) => (
           }
         </div>
       }
-      <div className="mini-profile-content">
-        <div className="info-block">
-          <div className="info-block-label">{I18n.t('MINI_PROFILE.REGISTERED')}</div>
-          <div className="info-block-content">
-            <div className="info-block-heading">
-              {moment.utc(data.registrationDate).local().fromNow()}
-            </div>
-            <div className="info-block-description">
-              {I18n.t('COMMON.DATE_ON', {
-                date: moment.utc(data.registrationDate).local().format('DD.MM.YYYY HH:mm'),
-              })}
-            </div>
+    </div>
+    <div className="mini-profile-content">
+      <div className="info-block">
+        <div className="info-block-label">{I18n.t('MINI_PROFILE.REGISTERED')}</div>
+        <div className="info-block-content">
+          <div className="info-block-heading">
+            {moment.utc(data.registrationDate).local().fromNow()}
+          </div>
+          <div className="info-block-description">
+            {I18n.t('COMMON.DATE_ON', {
+              date: moment.utc(data.registrationDate).local().format('DD.MM.YYYY HH:mm'),
+            })}
           </div>
         </div>
       </div>

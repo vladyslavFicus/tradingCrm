@@ -169,13 +169,6 @@ class PaymentDetailModal extends Component {
               <div className="modal-header-tabs__label">
                 <Uuid uuid={payment.paymentId} uuidPrefix="TA" />
               </div>
-              <div className="font-size-11">
-                {'by '}
-                <Uuid
-                  uuid={payment.playerUUID}
-                  uuidPrefix={payment.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
-                />
-              </div>
             </div>
             <div className="modal-body-tabs__item">
               <div className="modal-tab-label">
@@ -236,17 +229,15 @@ class PaymentDetailModal extends Component {
               <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_PAYMENT_METHOD')}
               </div>
-              <div>
-                <div className="modal-footer-tabs__amount">
-                  {payment.paymentMethod ? renderLabel(payment.paymentMethod, paymentsMethodsLabels) : 'Manual'}
-                </div>
-                {
-                  !!payment.paymentAccount &&
-                  <div className="font-size-14">
-                    <PaymentAccount account={payment.paymentAccount} />
-                  </div>
-                }
+              <div className="modal-footer-tabs__amount">
+                {payment.paymentMethod ? renderLabel(payment.paymentMethod, paymentsMethodsLabels) : 'Manual'}
               </div>
+              {
+                !!payment.paymentAccount &&
+                <div className="font-size-14">
+                  <PaymentAccount account={payment.paymentAccount} />
+                </div>
+              }
             </div>
           </div>
           <div className="text-center">
