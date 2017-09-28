@@ -97,6 +97,8 @@ class ViewLayout extends Component {
     this.handleOpenModal(REMOVE_PLAYERS, {
       campaignId,
       onSubmit: this.handleRemovePlayers,
+      modalTitle: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON'),
+      actionText: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT'),
     });
   };
 
@@ -175,8 +177,6 @@ class ViewLayout extends Component {
             {...modal.params}
             form="confirmRemovePlayers"
             onClose={this.handleCloseModal}
-            modalTitle={I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
-            actionText={I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT')}
           />
         }
       </div>
