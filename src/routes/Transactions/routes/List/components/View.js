@@ -36,6 +36,7 @@ class View extends Component {
     filters: PropTypes.shape({
       data: PropTypes.shape({
         paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
+        statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
       }).isRequired,
     }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
