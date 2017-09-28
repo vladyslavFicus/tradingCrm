@@ -22,6 +22,7 @@ import ModalPlayerInfo from '../ModalPlayerInfo';
 import TransactionStatus from '../TransactionStatus';
 import renderLabel from '../../utils/renderLabel';
 import PaymentAccount from '../PaymentAccount';
+import IpFlag from '../IpFlag';
 
 const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
 const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
@@ -145,6 +146,12 @@ class PaymentDetailModal extends Component {
     );
   };
 
+  renderIp = () => {
+    const { payment } = this.props;
+
+    return <IpFlag id={payment.paymentId} country={payment.country} ip={payment.clientIp} />;
+  };
+
   render() {
     const {
       payment,
@@ -185,7 +192,10 @@ class PaymentDetailModal extends Component {
               <div className="modal-tab-label">
                 Ip
               </div>
-              {payment.country && <i className={`fs-icon fs-${payment.country.toLowerCase()}`} />}
+              {
+                payment.country &&
+                this.renderIp()
+              }
             </div>
             <div className="modal-body-tabs__item">
               <div className="modal-tab-label">

@@ -143,11 +143,13 @@ class List extends Component {
     </div>
   );
 
-  renderCountry = data => (
-    <div className="font-weight-700">
-      {data.country}
-    </div>
-  );
+  renderCountry = (data) => {
+    if (!data.country) {
+      return data.country;
+    }
+
+    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} />;
+  };
 
   renderRegistered = data => (
     <div>

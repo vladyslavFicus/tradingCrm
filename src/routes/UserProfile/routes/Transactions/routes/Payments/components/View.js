@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
 import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../components/GridView';
@@ -25,6 +24,7 @@ import GridPaymentAmount from '../../../../../../../components/GridPaymentAmount
 import PaymentAccount from '../../../../../../../components/PaymentAccount';
 import SubTabNavigation from '../../../../../../../components/SubTabNavigation';
 import { routes as subTabRoutes } from '../../../constants';
+import IpFlag from '../../../../../../../components/IpFlag';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -298,21 +298,7 @@ class View extends Component {
 
     const id = `payment-ip-${data.paymentId}`;
 
-    return (
-      <span>
-        <i id={id} className={`fs-icon fs-${data.country.toLowerCase()}`} />
-        <UncontrolledTooltip
-          placement="bottom"
-          target={id}
-          delay={{
-            show: 350,
-            hide: 250,
-          }}
-        >
-          {data.clientIp ? data.clientIp : I18n.t('COMMON.UNAVAILABLE')}
-        </UncontrolledTooltip>
-      </span>
-    );
+    return <IpFlag id={id} country={data.country} ip={data.clientIp} />;
   };
 
   renderMethod = data => (
