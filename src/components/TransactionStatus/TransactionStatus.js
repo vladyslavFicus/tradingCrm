@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { Dropdown, DropdownMenu } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
+import _ from 'lodash';
 import PropTypes from '../../constants/propTypes';
 import { statusesColor, statusesLabels, statuses, initiators } from '../../constants/payment';
 import Uuid from '../Uuid';
@@ -76,7 +77,7 @@ class TransactionStatus extends Component {
       .find(flowStatus => flowStatus.paymentStatus.toUpperCase() === transaction.status);
     let authorUUID = null;
     const isApproved = transaction.paymentFlowStatuses
-      .find(flowStatus => flowStatus.paymentStatus === 'Approved');
+      .find(flowStatus => flowStatus.paymentStatus === _.startCase(statuses.APPROVED.toLowerCase()));
     let transactionStatus = transaction.status;
 
     if (status) {
