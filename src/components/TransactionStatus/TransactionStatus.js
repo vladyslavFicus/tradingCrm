@@ -94,7 +94,7 @@ class TransactionStatus extends Component {
 
     const label = (
       <div>
-        <div className={classNames(statusesColor[transactionStatus], 'text-uppercase modal-header-tabs__label')}>
+        <div className={classNames(statusesColor[transactionStatus], 'font-weight-700 text-uppercase')}>
           {renderLabel(transactionStatus, statusesLabels)}
           {
             transactionStatus === statuses.FAILED && !!transaction.reason &&
