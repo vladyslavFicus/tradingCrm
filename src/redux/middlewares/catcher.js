@@ -1,7 +1,5 @@
 import { CALL_API, isValidRSAA } from 'redux-api-middleware';
-import { v4 } from 'uuid';
 import { actionTypes as authActionTypes } from '../modules/auth';
-import { actionTypes as userPanelsActionTypes } from '../modules/user-panels';
 
 export default ({ getState }) => next => (action) => {
   if (!action) {
@@ -38,15 +36,6 @@ export default ({ getState }) => next => (action) => {
           }
         });
       }
-    } else if (action.type === userPanelsActionTypes.ADD) {
-      window.activeConnections.push(new Promise((resolve) => {
-        const uuid = v4();
-        console.warn(`unresolved: ${uuid}`);
-        setTimeout(() => {
-          console.warn(`resolved: ${uuid}`);
-          resolve();
-        }, 10000);
-      }));
     }
 
     return result;
