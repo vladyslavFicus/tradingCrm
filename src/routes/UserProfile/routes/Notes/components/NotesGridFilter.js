@@ -4,9 +4,8 @@ import { reduxForm, Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { createValidator } from '../../../../../utils/validator';
-import { InputField, NasSelectField, DateTimeField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 import { targetTypesLabels } from '../../../../../constants/note';
-import renderLabel from '../../../../../utils/renderLabel';
 
 const FORM_NAME = 'userNotesFilter';
 const attributeLabels = {
@@ -90,13 +89,13 @@ class NotesGridFilter extends Component {
               <Field
                 name="targetType"
                 label={attributeLabels.targetType}
+                component={SelectField}
                 position="vertical"
-                component={NasSelectField}
-                multiple
               >
+                <option value="">All types</option>
                 {availableTypes.map(type => (
                   <option key={type} value={type}>
-                    {renderLabel(type, targetTypesLabels)}
+                    {targetTypesLabels[type] || type}
                   </option>
                 ))}
               </Field>
