@@ -13,7 +13,7 @@ function fetchFilters() {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/payment/methods`,
+        endpoint: '/payment/methods',
         method: 'GET',
         headers: {
           Accept: 'application/json',

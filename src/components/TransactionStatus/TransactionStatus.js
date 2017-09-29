@@ -73,7 +73,7 @@ class TransactionStatus extends Component {
     const status = transaction.paymentFlowStatuses
       .find(flowStatus => flowStatus.paymentStatus.toUpperCase() === transaction.status);
     let authorUUID = null;
-    const statusApproved = transaction.paymentFlowStatuses
+    const isApproved = transaction.paymentFlowStatuses
       .find(flowStatus => flowStatus.paymentStatus === 'Approved');
     let transactionStatus = transaction.status;
 
@@ -88,7 +88,7 @@ class TransactionStatus extends Component {
       }
     }
 
-    if (transaction.status === statuses.PENDING && statusApproved) {
+    if (transaction.status === statuses.PENDING && isApproved) {
       transactionStatus = statuses.APPROVED;
     }
 
