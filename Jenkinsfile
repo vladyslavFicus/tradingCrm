@@ -23,6 +23,7 @@ yarn build
     stage('assemble') {
         sh "docker build -t devregistry.newage.io/hrzn/${service}:latest ."
         sh "docker push devregistry.newage.io/hrzn/${service}:latest"
+        sh "docker rmi devregistry.newage.io/hrzn/${service}:latest"
     }
 
     stage('deploy') {
