@@ -1,5 +1,4 @@
 import keyMirror from 'keymirror';
-import _ from 'lodash';
 import I18n from '../utils/fake-i18n';
 
 const statuses = keyMirror({
@@ -89,7 +88,7 @@ const manualTypesLabels = {
 };
 
 const statusesLabels = {
-  [statuses.APPROVED.toLowerCase()]: _.startCase('Approved'),
+  [statuses.APPROVED]: 'Approved',
   [statuses.PENDING]: 'Pending',
   [statuses.REFUSED]: 'Refused',
   [statuses.FAILED]: 'Failed',

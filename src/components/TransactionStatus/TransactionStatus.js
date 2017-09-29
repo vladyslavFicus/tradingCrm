@@ -54,10 +54,12 @@ class TransactionStatus extends Component {
               </div>
               <div className="font-size-11">
                 {status.initiatorType}
-                {' '}
                 {
                   (status.initiatorType === initiators.PLAYER || status.initiatorType === initiators.OPERATOR) &&
-                  <Uuid uuid={status.initiatorId} />
+                    <span>
+                      {' '}
+                      <Uuid uuid={status.initiatorId} />
+                    </span>
                 }
               </div>
             </div>
@@ -80,7 +82,7 @@ class TransactionStatus extends Component {
     if (status) {
       if (status.initialorType === initiators.OPERATOR) {
         authorUUID = { uuid: status.initiatorId };
-      } else if (status.initialorType === initiators.PLAYER) {
+      } else if (status.initiatorType === initiators.PLAYER) {
         authorUUID = {
           uuid: status.initiatorId,
           uuidPrefix: status.initiatorId.indexOf('PLAYER') === -1 ? 'PL' : null,
