@@ -150,7 +150,6 @@ const mainStoreListener = store => () => {
 
   if (__logged !== auth.logged) {
     if (auth.logged && auth.token !== __token) {
-      console.warn('New token');
       __logged = auth.logged;
       __token = auth.token;
 
@@ -173,21 +172,17 @@ const mainStoreListener = store => () => {
       __pending = true;
 
       if (!__responsible) {
-        console.warn('Not responsible: auth.refreshingToken');
         window.reduxLocked = true;
       }
     } else {
       __pending = false;
-      console.warn('Pending: false');
 
       if (!__responsible) {
-        console.warn('Not responsible');
         __token = auth.token;
 
         unlockRedux(__token);
         scheduleTokenRefreshTask(store, __token);
       } else {
-        console.warn('Responsible: false');
         __responsible = false;
       }
     }
