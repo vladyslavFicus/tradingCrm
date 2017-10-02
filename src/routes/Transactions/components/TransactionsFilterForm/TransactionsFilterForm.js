@@ -8,9 +8,9 @@ import { createValidator } from '../../../../utils/validator';
 import {
   types,
   typesLabels,
-  statusesLabels,
   methodsLabels,
   initiatorsLabels,
+  statusesLabels,
 } from '../../../../constants/payment';
 import { InputField, DateTimeField, NasSelectField } from '../../../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
@@ -36,6 +36,7 @@ class TransactionsFilterForm extends Component {
     }),
     filterByType: PropTypes.bool,
     paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
+    statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
     reset: null,
@@ -79,6 +80,7 @@ class TransactionsFilterForm extends Component {
       onSubmit,
       paymentMethods,
       filterByType,
+      statuses,
     } = this.props;
 
     return (
@@ -136,9 +138,9 @@ class TransactionsFilterForm extends Component {
                 component={NasSelectField}
                 multiple
               >
-                {Object.keys(statusesLabels).map(status => (
+                {statuses.map(status => (
                   <option key={status} value={status}>
-                    {statusesLabels[status]}
+                    {renderLabel(status, statusesLabels)}
                   </option>
                 ))}
               </Field>
