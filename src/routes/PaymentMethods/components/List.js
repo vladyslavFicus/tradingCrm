@@ -12,6 +12,7 @@ import AvailabilityPopover from './AvailabilityPopover';
 import PopoverButton from '../../../components/PopoverButton';
 import PropTypes from '../../../constants/propTypes';
 import StatusDropDown from './StatusDropDown';
+import FileStatusDropDown from '../../../components/FileStatusDropDown';
 
 const DragHandle = SortableHandle(({ order }) => <span>:: {order}</span>);
 const PAYMENT_METHOD_LIMIT_POPOVER = 'payment-method-limit-popover';
@@ -188,6 +189,7 @@ class List extends Component {
         className="payment-method-toggle"
       >
         {this.renderLimitRepresentation(data, column)}
+        <i className="fa fa-angle-down" />
       </PopoverButton>
     );
   };

@@ -43,10 +43,30 @@
 }
 
 .payment-method-toggle {
+  position: relative;
   padding: 10px 35px 10px 10px;
   cursor: pointer;
   &.show {
     background-color: #f2f2f2;
+    .fa-angle-down {
+      display: inline-block;
+      transform: rotate(180deg);
+    }
+  }
+  &:hover {
+    .fa-angle-down {
+      display: inline-block;
+    }
+  }
+  .fa-angle-down {
+    display: none;
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    transition: all .2s ease-in-out;
+    &:before {
+      color: #a8a8a8;
+    }
   }
 }
 
