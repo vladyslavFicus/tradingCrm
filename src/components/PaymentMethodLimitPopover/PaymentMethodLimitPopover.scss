@@ -19,11 +19,7 @@
     margin-bottom: 0;
     font-size: 14px;
     font-weight: 700;
-    &:hover {
-      .payment-limit-popover__title {
-        background-color: #fcfcfc;
-      }
-    }
+    cursor: pointer;
   }
   &__body {
     display: flex;
@@ -38,7 +34,7 @@
     margin-bottom: 0;
   }
   .btn {
-    margin-left: 10px;
+    margin-left: 15px;
   }
 }
 

@@ -125,7 +125,7 @@ class PaymentMethodLimitPopover extends Component {
               />
               <button
                 type="submit"
-                className="btn btn-primary text-uppercase"
+                className="btn btn-primary"
                 disabled={pristine || submitting || invalid}
               >
                 {I18n.t('COMMON.SAVE')}
