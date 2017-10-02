@@ -17,7 +17,7 @@ const IpFlag = ({ id, country, ip }) => (
       }}
     >
       {
-        !ip
+        (!ip && !country)
           ? I18n.t('COMMON.UNAVAILABLE')
           : <span>{`${renderLabel(country, countries)} - ${ip}`}</span>
       }
