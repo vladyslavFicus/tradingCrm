@@ -208,11 +208,11 @@ function deleteTag(playerUUID, id) {
 
 function verifyData(playerUUID, type) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid } } = getState();
+    const { auth: { token, logged, uuid, notifications: { email } } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/kyc/${playerUUID}/${type}/verify`,
+        endpoint: `profile/kyc/${playerUUID}/${type}/verify${!email ? '?send-mail=false' : ''}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -240,11 +240,11 @@ function verifyData(playerUUID, type) {
 
 function verifyKycAll(playerUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid } } = getState();
+    const { auth: { token, logged, uuid, notifications: { email } } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/kyc/${playerUUID}/verify`,
+        endpoint: `profile/kyc/${playerUUID}/verify${!email ? '?send-mail=false' : ''}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -271,11 +271,11 @@ function verifyKycAll(playerUUID) {
 
 function refuseData(playerUUID, type, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid } } = getState();
+    const { auth: { token, logged, uuid, notifications: { email } } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/kyc/${playerUUID}/${type}`,
+        endpoint: `profile/kyc/${playerUUID}/${type}${!email ? '?send-mail=false' : ''}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
@@ -694,11 +694,11 @@ function manageKycNote(type, data) {
 
 function sendKycRequestVerification(playerUUID, params) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid } } = getState();
+    const { auth: { token, logged, uuid, notifications: { email } } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/profile/kyc/${playerUUID}/request`,
+        endpoint: `/profile/kyc/${playerUUID}/request${!email ? '?send-mail=false' : ''}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',

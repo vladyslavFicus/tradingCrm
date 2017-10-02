@@ -29,6 +29,7 @@ class SignIn extends Component {
     fullName: PropTypes.string,
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     departments: PropTypes.arrayOf(PropTypes.department).isRequired,
+    changeEmailNotificationSetting: PropTypes.func.isRequired,
   };
   static defaultProps = {
     brand: null,
@@ -41,10 +42,18 @@ class SignIn extends Component {
   };
 
   componentDidMount() {
-    const { location } = this.props;
+    const { location, changeEmailNotificationSetting } = this.props;
 
-    if (location.query && location.query.spec) {
-      Storage.set('test.spec', location.query.spec);
+    if (location.query) {
+      if (location.query.spec) {
+        Storage.set('test.spec', location.query.spec);
+      } else {
+        Storage.remove('test.spec');
+      }
+
+      if (location.query['send-mail']) {
+        changeEmailNotificationSetting(location.query['send-mail'] !== 'false');
+      }
     } else {
       Storage.remove('test.spec');
     }
