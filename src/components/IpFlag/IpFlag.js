@@ -17,9 +17,13 @@ const IpFlag = ({ id, country, ip }) => (
       }}
     >
       {
-        (!ip && !country)
-          ? I18n.t('COMMON.UNAVAILABLE')
-          : <span>{`${renderLabel(country, countries)} - ${ip}`}</span>
+        (country && ip)
+          ? <span>{`
+          ${(country && !ip) ? `${renderLabel(country, countries)}` : ''}
+          ${(country && ip) ? `${renderLabel(country, countries)} - ${ip}` : ''}
+          ${(ip && !country) ? `${ip}` : ''}
+          `}</span>
+          : I18n.t('COMMON.UNAVAILABLE')
       }
     </UncontrolledTooltip>
   </span>
@@ -27,11 +31,12 @@ const IpFlag = ({ id, country, ip }) => (
 
 IpFlag.propTypes = {
   id: PropTypes.string.isRequired,
-  country: PropTypes.string.isRequired,
+  country: PropTypes.string,
   ip: PropTypes.string,
 };
 
 IpFlag.defaultProps = {
+  country: null,
   ip: null,
 };
 
