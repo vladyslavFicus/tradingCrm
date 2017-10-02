@@ -1,10 +1,17 @@
 import { CALL_API, isValidRSAA } from 'redux-api-middleware';
 import { actionTypes as authActionTypes } from '../modules/auth';
 
-export default () => next => (action) => {
+export default ({ getState }) => next => (action) => {
+  if (!action) {
+    return next(action);
+  }
+
   if (window.reduxLocked) {
     if (isValidRSAA(action)) {
-      if (action[CALL_API].types.indexOf(authActionTypes.REFRESH_TOKEN.SUCCESS) > -1) {
+      const shouldPropagate = action[CALL_API].types.indexOf(authActionTypes.REFRESH_TOKEN.SUCCESS) > -1
+        && !getState().auth.refreshingToken;
+
+      if (shouldPropagate) {
         return next(action);
       }
 
