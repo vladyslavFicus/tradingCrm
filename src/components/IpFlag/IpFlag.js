@@ -19,7 +19,7 @@ const IpFlag = ({ id, country, ip }) => (
       {
         !ip
           ? I18n.t('COMMON.UNAVAILABLE')
-          : <span>{renderLabel(country, countries)}{' - '}{ip}</span>
+          : <span>{`${renderLabel(country, countries)} - ${ip}`}</span>
       }
     </UncontrolledTooltip>
   </span>
