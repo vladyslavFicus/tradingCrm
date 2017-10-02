@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Popover, PopoverContent } from 'reactstrap';
 import { reduxForm, Field } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { InputField } from '../../components/ReduxForm';
 import PaymentMethodLimitPopoverStyle from './PaymentMethodLimitPopover.scss';
 
 const attributeLabels = {
-  min: 'Min',
-  max: 'Max',
+  min: 'Min.',
+  max: 'Max.',
 };
 
 const validator = createValidator({
@@ -35,7 +36,12 @@ class PaymentMethodLimitPopover extends Component {
   };
 
   static defaultProps = {
-    placement: 'bottom',
+    placement: 'bottom left',
+    submitting: false,
+    invalid: false,
+    pristine: false,
+    toggle: null,
+    handleSubmit: null,
   };
 
   handleSubmit = (data) => {
@@ -61,16 +67,14 @@ class PaymentMethodLimitPopover extends Component {
         Enable {limitType}
       </span> :
       <span
-        className="color-danger"
+        className="payment-limit-popover__title_disable-action"
         onClick={() => onDisable(methodUUID, limitUUID)}
       >
         Disable {limitType}
       </span>;
 
     return (
-      <div className="font-weight-700 cursor-pointer">
-        {option}
-      </div>
+      <h4>{option}</h4>
     );
   };
 
@@ -96,44 +100,36 @@ class PaymentMethodLimitPopover extends Component {
       >
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <PopoverContent>
-            <div className="row">
-              <div className="col-md-12">
-                { this.renderLimitDisableOptions() }
-              </div>
+            <div className="payment-limit-popover__title">
+              {this.renderLimitDisableOptions()}
             </div>
-
-            <div className="row popover-body">
-              <div className="col-md-4">
-                <Field
-                  name="min"
-                  label={attributeLabels.min}
-                  type="text"
-                  position="vertical"
-                  showErrorMessage={false}
-                  inputClassName="form-control input-sm"
-                  component={InputField}
-                />
-              </div>
-              <div className="col-md-4">
-                <Field
-                  name="max"
-                  label={attributeLabels.max}
-                  type="text"
-                  position="vertical"
-                  showErrorMessage={false}
-                  inputClassName="form-control input-sm"
-                  component={InputField}
-                />
-              </div>
-              <div className="col-md-4">
-                <button
-                  type="submit"
-                  className="btn btn-primary btn-sm text-uppercase"
-                  disabled={pristine || submitting || invalid}
-                >
-                  Save
-                </button>
-              </div>
+            <div className="payment-limit-popover__body">
+              <Field
+                name="min"
+                label={attributeLabels.min}
+                type="text"
+                position="vertical"
+                showErrorMessage={false}
+                inputClassName="form-control input-sm"
+                component={InputField}
+              />
+              <span className="range-group__separator">-</span>
+              <Field
+                name="max"
+                label={attributeLabels.max}
+                type="text"
+                position="vertical"
+                showErrorMessage={false}
+                inputClassName="form-control input-sm"
+                component={InputField}
+              />
+              <button
+                type="submit"
+                className="btn btn-primary text-uppercase"
+                disabled={pristine || submitting || invalid}
+              >
+                {I18n.t('COMMON.SAVE')}
+              </button>
             </div>
           </PopoverContent>
         </form>
