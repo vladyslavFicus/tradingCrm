@@ -41,7 +41,7 @@ class TransactionStatus extends Component {
   };
 
   renderDropDown = (label, statusHistory, dropDownOpen) => (
-    <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
+    <Dropdown isOpen={dropDownOpen} toggle={this.toggle} className="status-dropdown">
       <button className="btn-transparent-text text-left" onClick={this.toggle}>{label}</button>
       <DropdownMenu>
         {
@@ -97,7 +97,7 @@ class TransactionStatus extends Component {
 
     const label = (
       <div>
-        <div className={classNames(statusesColor[transactionStatus], 'font-weight-700 text-uppercase')}>
+        <div className={classNames(statusesColor[transactionStatus], 'font-weight-700 text-uppercase status')}>
           {renderLabel(transactionStatus, statusesLabels)}
           {
             transactionStatus === statuses.FAILED && !!transaction.reason &&
@@ -105,6 +105,7 @@ class TransactionStatus extends Component {
               {transaction.reason}
             </FailedStatusIcon>
           }
+          <i className="fa fa-angle-down" />
         </div>
         {
           authorUUID &&

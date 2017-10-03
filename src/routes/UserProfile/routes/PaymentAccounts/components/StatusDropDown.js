@@ -31,13 +31,14 @@ class StatusDropDown extends Component {
     const { status, onStatusChange } = this.props;
 
     const label = (
-      <div className={classNames('font-weight-700', accountStatusColors[status])}>
+      <div className={classNames('font-weight-700 status', accountStatusColors[status])}>
         {renderLabel(status, accountStatusLabels)}
+        <i className="fa fa-angle-down" />
       </div>
     );
 
     return (
-      <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
+      <Dropdown isOpen={dropDownOpen} toggle={this.toggle} className="status-dropdown">
         <span onClick={this.toggle} className="cursor-pointer">
           {label}
         </span>
