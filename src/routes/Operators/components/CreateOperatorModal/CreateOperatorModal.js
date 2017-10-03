@@ -58,18 +58,12 @@ class CreateOperatorModal extends Component {
   };
 
   handleChangeDepartment = (e) => {
-    const { currentValues, change } = this.props;
-
     if (e.target.value === departments.ADMINISTRATION) {
-      change('role', roles.ROLE4);
+      this.props.change('role', roles.ROLE4);
     }
-
-    return currentValues;
   };
 
-  handleSubmit = (data) => {
-    this.props.onSubmit(data);
-  };
+  handleSubmit = data => this.props.onSubmit(data);
 
   render() {
     const {
