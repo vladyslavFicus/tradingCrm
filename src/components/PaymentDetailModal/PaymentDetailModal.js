@@ -186,10 +186,7 @@ class PaymentDetailModal extends Component {
               <div className="modal-tab-label">
                 Ip
               </div>
-              {
-                payment.country &&
-                <IpFlag id={payment.paymentId} country={payment.country} ip={payment.clientIp} />
-              }
+              <IpFlag id={payment.paymentId} country={payment.country} ip={payment.clientIp} />
             </div>
             <div className="modal-body-tabs__item">
               <div className="modal-tab-label">
