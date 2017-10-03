@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField } from '../../../../components/ReduxForm';
 import { createValidator } from '../../../../utils/validator';
@@ -42,11 +43,28 @@ class CreateOperatorModal extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
+    change: PropTypes.func,
+    currentValues: PropTypes.shape({
+      department: PropTypes.string,
+      role: PropTypes.string,
+    }),
   };
   static defaultProps = {
     pristine: false,
     submitting: false,
     valid: false,
+    currentValues: {},
+    change: null,
+  };
+
+  handleAdminPicked = (e) => {
+    const { currentValues } = this.props;
+
+    if (e.target.value === 'ADMINISTRATION') {
+      this.props.change('role', 'ROLE1');
+    }
+
+    return currentValues;
   };
 
   handleSubmit = (data) => {
@@ -63,6 +81,7 @@ class CreateOperatorModal extends Component {
       valid,
       roles,
       onClose,
+      currentValues,
     } = this.props;
 
     return (
@@ -129,6 +148,7 @@ class CreateOperatorModal extends Component {
                   label={attributeLabels.department}
                   component={SelectField}
                   position="vertical"
+                  onChange={this.handleAdminPicked}
                 >
                   {departments.map(({ label, value }) => (
                     <option key={value} value={value}>
@@ -144,6 +164,7 @@ class CreateOperatorModal extends Component {
                   label={attributeLabels.role}
                   component={SelectField}
                   position="vertical"
+                  disabled={!currentValues || (currentValues.department === 'ADMINISTRATION')}
                 >
                   {roles.map(({ label, value }) => (
                     <option key={value} value={value}>
@@ -205,7 +226,11 @@ class CreateOperatorModal extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'operatorCreateForm',
-  validate: validator,
-})(CreateOperatorModal);
+export default connect(state => ({
+  currentValues: getFormValues('operatorCreateForm')(state),
+}))(
+  reduxForm({
+    form: 'operatorCreateForm',
+    validate: validator,
+  })(CreateOperatorModal),
+);
