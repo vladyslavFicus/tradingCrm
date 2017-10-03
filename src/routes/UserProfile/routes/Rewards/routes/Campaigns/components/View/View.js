@@ -120,7 +120,6 @@ class View extends Component {
     const campaignsActions = await fetchCampaigns({
       size: 9999,
       state: bonusCampaignStatuses.DRAFT,
-      /*[bonusCampaignStatuses.ACTIVE, bonusCampaignStatuses.PENDING, bonusCampaignStatuses.DRAFT],*/
     });
 
     if (!campaignsActions || campaignsActions.error) {
