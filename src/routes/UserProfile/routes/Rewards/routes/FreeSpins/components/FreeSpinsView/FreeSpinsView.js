@@ -97,7 +97,6 @@ class FreeSpinsView extends Component {
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
     this.context.cacheChildrenComponent(null);
-
   }
 
   handleNoteClick = (target, note, data) => {

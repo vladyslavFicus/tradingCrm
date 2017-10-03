@@ -14,7 +14,7 @@ class Select extends Component {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     multiple: PropTypes.bool,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
     showSearch: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     searchPlaceholder: PropTypes.string,
   };
@@ -63,7 +63,7 @@ class Select extends Component {
       });
     }
 
-    if (!shallowEqual(value, nextProps.value)) {
+    if (!this.shallowEqual(value, nextProps.value)) {
       const originalSelectedOptions = nextProps.multiple
         ? originalOptions.filter(option => nextProps.value.indexOf(option.value) > -1)
         : [originalOptions.find(option => option.value === nextProps.value)].filter(option => option);
@@ -74,6 +74,17 @@ class Select extends Component {
       });
     }
   }
+
+  shallowEqual = (current, next) => {
+    const currentType = typeof current;
+    const nextType = typeof next;
+
+    if (currentType !== 'object' && nextType !== 'object') {
+      return current === next;
+    }
+
+    return shallowEqual(current, next);
+  };
 
   bindRef = name => (node) => {
     this[name] = node;
@@ -279,23 +290,25 @@ class Select extends Component {
     );
   };
 
-  renderOptions = (options, selectedOptions, toSelectOptions, multiple) => (multiple
-    ? (
-      <SelectMultipleOptions
-        headerText="available options"
-        options={options}
-        selectedOptions={toSelectOptions}
-        onChange={this.handleSelectMultipleOptions}
-      />
-    )
-    : (
-      <SelectSingleOptions
-        options={options}
-        selectedOption={selectedOptions[0]}
-        onChange={this.handleSelectSingleOption}
-        bindActiveOption={this.bindActiveOptionRef}
-      />
-    ));
+  renderOptions = (options, selectedOptions, toSelectOptions, multiple) => (
+    multiple
+      ? (
+        <SelectMultipleOptions
+          headerText="available options"
+          options={options}
+          selectedOptions={toSelectOptions}
+          onChange={this.handleSelectMultipleOptions}
+        />
+      )
+      : (
+        <SelectSingleOptions
+          options={options}
+          selectedOption={selectedOptions[0]}
+          onChange={this.handleSelectSingleOption}
+          bindActiveOption={this.bindActiveOptionRef}
+        />
+      )
+  );
 
   render() {
     const { query, opened, options, selectedOptions, originalSelectedOptions, toSelectOptions } = this.state;
