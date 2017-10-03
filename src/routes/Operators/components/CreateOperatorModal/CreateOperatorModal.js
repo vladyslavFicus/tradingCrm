@@ -7,7 +7,7 @@ import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField } from '../../../../components/ReduxForm';
 import { createValidator } from '../../../../utils/validator';
 import renderLabel from '../../../../utils/renderLabel';
-import { departmentsLabels, rolesLabels } from '../../../../constants/operators';
+import { departments, departmentsLabels, roles, rolesLabels } from '../../../../constants/operators';
 
 const attributeLabels = {
   firstName: I18n.t('COMMON.FIRST_NAME'),
@@ -32,11 +32,11 @@ class CreateOperatorModal extends Component {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    departments: PropTypes.arrayOf(PropTypes.shape({
+    availableDepartments: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
     })).isRequired,
-    roles: PropTypes.arrayOf(PropTypes.shape({
+    availableRoles: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
     })).isRequired,
@@ -58,10 +58,10 @@ class CreateOperatorModal extends Component {
   };
 
   handleChangeDepartment = (e) => {
-    const { currentValues } = this.props;
+    const { currentValues, change } = this.props;
 
-    if (e.target.value === 'ADMINISTRATION') {
-      this.props.change('role', rolesLabels.ROLE4);
+    if (e.target.value === departments.ADMINISTRATION) {
+      change('role', roles.ROLE4);
     }
 
     return currentValues;
@@ -75,11 +75,11 @@ class CreateOperatorModal extends Component {
     const {
       handleSubmit,
       onSubmit,
-      departments,
+      availableDepartments,
       pristine,
       submitting,
       valid,
-      roles,
+      availableRoles,
       onClose,
       currentValues,
     } = this.props;
@@ -150,7 +150,7 @@ class CreateOperatorModal extends Component {
                   position="vertical"
                   onChange={this.handleChangeDepartment}
                 >
-                  {departments.map(({ label, value }) => (
+                  {availableDepartments.map(({ label, value }) => (
                     <option key={value} value={value}>
                       {renderLabel(label, departmentsLabels)}
                     </option>
@@ -164,9 +164,9 @@ class CreateOperatorModal extends Component {
                   label={attributeLabels.role}
                   component={SelectField}
                   position="vertical"
-                  disabled={!currentValues || (currentValues.department === 'ADMINISTRATION')}
+                  disabled={!currentValues || (currentValues.department === departments.ADMINISTRATION)}
                 >
-                  {roles.map(({ label, value }) => (
+                  {availableRoles.map(({ label, value }) => (
                     <option key={value} value={value}>
                       {renderLabel(label, rolesLabels)}
                     </option>
