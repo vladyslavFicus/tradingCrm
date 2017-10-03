@@ -52,11 +52,13 @@ const departments = keyMirror({
   CS: null,
   RFP: null,
   MARKETING: null,
+  ADMINISTRATION: null,
 });
 const departmentsLabels = {
   [departments.CS]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.CS'),
   [departments.RFP]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.RFP'),
   [departments.MARKETING]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.MARKETING'),
+  [departments.ADMINISTRATION]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.ADMINISTRATION'),
 };
 const roles = keyMirror({
   ROLE1: null,

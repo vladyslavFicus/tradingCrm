@@ -57,11 +57,11 @@ class CreateOperatorModal extends Component {
     change: null,
   };
 
-  handleAdminPicked = (e) => {
+  handleChangeDepartment = (e) => {
     const { currentValues } = this.props;
 
     if (e.target.value === 'ADMINISTRATION') {
-      this.props.change('role', 'ROLE1');
+      this.props.change('role', rolesLabels.ROLE4);
     }
 
     return currentValues;
@@ -148,7 +148,7 @@ class CreateOperatorModal extends Component {
                   label={attributeLabels.department}
                   component={SelectField}
                   position="vertical"
-                  onChange={this.handleAdminPicked}
+                  onChange={this.handleChangeDepartment}
                 >
                   {departments.map(({ label, value }) => (
                     <option key={value} value={value}>
