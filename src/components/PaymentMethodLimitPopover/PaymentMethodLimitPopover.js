@@ -8,8 +8,8 @@ import { InputField } from '../../components/ReduxForm';
 import PaymentMethodLimitPopoverStyle from './PaymentMethodLimitPopover.scss';
 
 const attributeLabels = {
-  min: 'Min.',
-  max: 'Max.',
+  min: I18n.t('COMMON.MIN'),
+  max: I18n.t('COMMON.MAX'),
 };
 
 const validator = createValidator({
@@ -64,13 +64,13 @@ class PaymentMethodLimitPopover extends Component {
         className="color-success"
         onClick={() => onEnable(methodUUID, limitUUID)}
       >
-        Enable {limitType}
+        {I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.ENABLE_LIMIT_TYPE', { type: limitType })}
       </span> :
       <span
         className="payment-limit-popover__title_disable-action"
         onClick={() => onDisable(methodUUID, limitUUID)}
       >
-        Disable {limitType}
+        {I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.DISABLE_LIMIT_TYPE', { type: limitType })}
       </span>;
 
     return (

@@ -183,7 +183,9 @@ class List extends Component {
           methodUUID: data.uuid,
           limitUUID: item.uuid,
           type: column.name,
-          limitType: column.name === 'depositLimit' ? 'deposits' : 'withdrawals',
+          limitType: column.name === 'depositLimit'
+            ? I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.DEPOSITS')
+            : I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.WITHDRAWALS'),
         })}
         className="payment-method-toggle"
       >

@@ -513,7 +513,9 @@
     "USED": "использовано %{value}",
     "LEFT": "осталось %{value}",
     "ACTIVATES_ON": "активируется %{date}",
-    "NEVER": "Никогда"
+    "NEVER": "Никогда",
+    "MIN": "Мин.",
+    "MAX": "Mакс."
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1122,5 +1124,11 @@
         "NOTE_MESSAGE": "Вы сможете задать дополнительные департаменты в профиле оператора после его создания"
       }
     }
+  },
+  "PAYMENT_METHOD_LIMIT_POPOVER": {
+    "ENABLE_LIMIT_TYPE": "Включить %{type}",
+    "DISABLE_LIMIT_TYPE": "Отключить %{type}",
+    "DEPOSITS": "пополнение",
+    "WITHDRAWALS": "вывод средств"
   }
 }
