@@ -861,8 +861,8 @@
   },
   "GAMES": {
     "TITLE": "Игры",
-    "EXPORT_BUTTON": "Экспорт игр",
-    "UPLOAD_FILE_BUTTON": "Импорт игр",
+    "EXPORT_BUTTON": "Экспорт",
+    "UPLOAD_FILE_BUTTON": "Импорт",
     "RESET_BUTTON": "Сбросить список игр"
   },
   "ERRORS": {

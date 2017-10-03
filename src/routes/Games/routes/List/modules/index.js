@@ -1,6 +1,4 @@
 import { combineReducers } from 'redux';
-import { CALL_API } from 'redux-api-middleware';
-import createRequestAction from '../../../../../utils/createRequestAction';
 
 import files, {
   initialState as filesInitialState,
@@ -8,41 +6,26 @@ import files, {
   actionCreators as filesActionCreators,
 } from './files';
 
-const KEY = 'games/list/files';
-const RESET_GAMES = createRequestAction(`${KEY}/reset-games`);
+import games, {
+  initialState as gamesInitialState,
+  actionTypes as gamesActionTypes,
+  actionCreators as gamesActionCreators,
+} from './games';
 
 const initialState = {
   files: filesInitialState,
+  games: gamesInitialState,
 };
 const actionTypes = {
   ...filesActionTypes,
-  RESET_GAMES,
+  ...gamesActionTypes,
 };
 const actionCreators = {
+  ...gamesActionCreators,
   ...filesActionCreators,
   clearAll: () => (dispatch) => {
     dispatch(filesActionCreators.clearFiles());
-  },
-  resetGames: () => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: 'game_info/games/reset',
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          RESET_GAMES.REQUEST,
-          RESET_GAMES.SUCCESS,
-          RESET_GAMES.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
+    dispatch(gamesActionCreators.resetGames());
   },
 };
 
@@ -54,4 +37,5 @@ export {
 
 export default combineReducers({
   files,
+  games,
 });

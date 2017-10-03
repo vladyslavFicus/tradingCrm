@@ -1,0 +1,197 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { reduxForm, Field } from 'redux-form';
+import { SelectField } from '../../../../../components/ReduxForm';
+import { createValidator } from '../../../../../utils/validator';
+
+const attributeLabels = {
+  provider: '',
+  gameType: '',
+  platform: '',
+  technology: '',
+  freeSpin: '',
+};
+
+const validator = createValidator({
+  provider: 'string',
+  gameType: 'string',
+  platform: 'string',
+  technology: 'string',
+  freeSpin: 'string',
+}, attributeLabels, false);
+
+class GamesGridFilter extends Component {
+  static propTypes = {
+    formValues: PropTypes.shape({
+      provider: PropTypes.string,
+      gameType: PropTypes.string,
+      platform: PropTypes.string,
+      technology: PropTypes.string,
+      freeSpin: PropTypes.string,
+    }).isRequired,
+    submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
+    handleSubmit: PropTypes.func,
+    reset: PropTypes.func,
+    onReset: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+  };
+  
+  static defaultProps = {
+    formValues: {
+      provider: '',
+      gameType: '',
+      platform: '',
+      technology: '',
+      freeSpin: '',
+    },
+    submitting: false,
+    pristine: false,
+    handleSubmit: null,
+    reset: null,
+    disabled: false,
+  };
+
+  handleReset = () => {
+    this.props.reset();
+    this.props.onReset();
+  };
+
+  render() {
+    const {
+      formValues,
+      submitting,
+      pristine,
+      handleSubmit,
+      onSubmit,
+      disabled,
+    } = this.props;
+
+    return (
+      <div className="well">
+        <form onSubmit={handleSubmit(this.handleSubmit)}>
+          <div className="filter-row">
+            <div className="filter-row__medium">
+              <Field
+                name="searchBy"
+                type="text"
+                label="Search by"
+                placeholder={attributeLabels.keyword}
+                component={InputField}
+                position="vertical"
+                iconLeftClassName="nas nas-search_icon"
+                id="operators-list-filters-search"
+              />
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="country"
+                label={attributeLabels.country}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+                {Object
+                  .keys(countries)
+                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                }
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="status"
+                label={attributeLabels.status}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+                {Object.keys(statusesLabels).map(status => (
+                  <option key={status} value={status}>
+                    {statusesLabels[status]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="department"
+                label={attributeLabels.department}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+                {departments.map(({ label, value }) => (
+                  <option key={value} value={value}>
+                    {renderLabel(label, departmentsLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="role"
+                label={attributeLabels.role}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">Any</option>
+                {roles.map(({ label, value }) => (
+                  <option key={value} value={value}>
+                    {renderLabel(label, rolesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="filter-row__big">
+              <div className="form-group">
+                <label>Registration date range</label>
+                <div className="range-group">
+                  <Field
+                    name="registration_date_from"
+                    component={DateTimeField}
+                    isValidDate={this.startDateValidator}
+                    position="vertical"
+                    timeFormat={null}
+                  />
+                  <span className="range-group__separator">-</span>
+                  <Field
+                    name="registration_date_to"
+                    component={DateTimeField}
+                    isValidDate={this.endDateValidator}
+                    position="vertical"
+                    timeFormat={null}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="filter-row__button-block">
+              <div className="button-block-container">
+                <button
+                  disabled={submitting}
+                  className="btn btn-default"
+                  onClick={this.handleReset}
+                  type="reset"
+                >
+                  Reset
+                </button>
+                <button
+                  disabled={submitting}
+                  className="btn btn-primary"
+                  type="submit"
+                  id="operators-list-filters-apply-button"
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
+
+export default reduxForm({
+  form: 'gamesListGridFilter',
+  validate: validator,
+})(GamesGridFilter);
