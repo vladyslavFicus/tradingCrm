@@ -13,7 +13,7 @@ const mergeEntities = (stored, fetched) => {
   const merged = [...stored];
 
   fetched.forEach((item) => {
-    if (merged.findIndex(i => i.uuid === item.uuid) === -1) {
+    if (merged.findIndex(i => i.gameId === item.gameId) === -1) {
       merged.push(item);
     }
   });

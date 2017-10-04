@@ -218,7 +218,7 @@ class View extends Component {
         <div {...props}>{label}</div>
         <span className="font-size-11 text-uppercase">
           {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
+            <div key={[`${SystemRef}-${index}`]}>{SystemRef}</div>
           ))}
         </span>
       </div>

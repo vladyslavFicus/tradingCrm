@@ -2,8 +2,9 @@ import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators } from '../modules';
 
-const mapStateToProps = ({ games, i18n: { locale } }) => ({
+const mapStateToProps = ({ games, i18n: { locale }, data }) => ({
   ...games,
+  ...data,
   locale,
 });
 const mapActions = {
@@ -12,6 +13,8 @@ const mapActions = {
   clearAll: actionCreators.clearAll,
   fetchGames: actionCreators.fetchGames,
   resetServerGames: actionCreators.resetServerGames,
+  resetGames: actionCreators.resetGames,
+  fetchCategories: actionCreators.fetchCategories,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

@@ -511,7 +511,9 @@
     "USED": "used %{value}",
     "LEFT": "left %{value}",
     "ACTIVATES_ON": "activates on %{date}",
-    "NEVER": "Never"
+    "NEVER": "Never",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -857,7 +859,19 @@
     "TITLE": "Games",
     "EXPORT_BUTTON": "Export",
     "UPLOAD_FILE_BUTTON": "Import",
-    "RESET_BUTTON": "Reset games"
+    "RESET_BUTTON": "Reset games",
+    "GRID": {
+      "GAME": "Game",
+      "PROVIDER": "Provider",
+      "PLATFORM": "Platform",
+      "TECHNOLOGY": "Technology",
+      "FREE_SPINS": "Free-spins",
+      "STATUS": "Status",
+      "FREE_SPINS_AVAILABLE": "Available",
+      "FREE_SPINS_UNAVAILABLE": "Unavailable"
+    },
+    "GAME_TYPE": "Game type",
+    "FREE_SPINS_AVAILABILITY": "Free-spins availability"
   },
   "ERRORS": {
     "FILE": {

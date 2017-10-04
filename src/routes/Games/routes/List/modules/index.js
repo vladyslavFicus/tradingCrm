@@ -12,17 +12,26 @@ import games, {
   actionCreators as gamesActionCreators,
 } from './games';
 
+import filters, {
+  initialState as filtersInitialState,
+  actionTypes as filtersActionTypes,
+  actionCreators as filtersActionCreators,
+} from './filters';
+
 const initialState = {
   files: filesInitialState,
   games: gamesInitialState,
+  filters: filtersInitialState,
 };
 const actionTypes = {
   ...filesActionTypes,
   ...gamesActionTypes,
+  ...filtersActionTypes,
 };
 const actionCreators = {
   ...gamesActionCreators,
   ...filesActionCreators,
+  ...filtersActionCreators,
   clearAll: () => (dispatch) => {
     dispatch(filesActionCreators.clearFiles());
     dispatch(gamesActionCreators.resetGames());
@@ -38,4 +47,5 @@ export {
 export default combineReducers({
   files,
   games,
+  filters,
 });

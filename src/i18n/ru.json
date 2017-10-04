@@ -513,7 +513,9 @@
     "USED": "использовано %{value}",
     "LEFT": "осталось %{value}",
     "ACTIVATES_ON": "активируется %{date}",
-    "NEVER": "Никогда"
+    "NEVER": "Никогда",
+    "ACTIVE": "Активный",
+    "INACTIVE": "Неактивный"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -863,7 +865,19 @@
     "TITLE": "Игры",
     "EXPORT_BUTTON": "Экспорт",
     "UPLOAD_FILE_BUTTON": "Импорт",
-    "RESET_BUTTON": "Сбросить список игр"
+    "RESET_BUTTON": "Сбросить список игр",
+    "GRID": {
+      "GAME": "Игра",
+      "PROVIDER": "Провайдер",
+      "PLATFORM": "Платформа",
+      "TECHNOLOGY": "Технология",
+      "FREE_SPINS": "Free-spins",
+      "STATUS": "Статус",
+      "FREE_SPINS_AVAILABLE": "Доступны",
+      "FREE_SPINS_UNAVAILABLE": "Недоступны"
+    },
+    "GAME_TYPE": "Тип игры",
+    "FREE_SPINS_AVAILABILITY": "Наличие Free-spins"
   },
   "ERRORS": {
     "FILE": {

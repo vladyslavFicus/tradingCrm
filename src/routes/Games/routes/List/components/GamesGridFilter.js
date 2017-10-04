@@ -3,53 +3,29 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { SelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
-
-const attributeLabels = {
-  provider: '',
-  gameType: '',
-  platform: '',
-  technology: '',
-  freeSpin: '',
-};
+import { attributeLabels, attributePlaceholders } from '../constants';
 
 const validator = createValidator({
   provider: 'string',
   gameType: 'string',
   platform: 'string',
-  technology: 'string',
   freeSpin: 'string',
 }, attributeLabels, false);
 
 class GamesGridFilter extends Component {
   static propTypes = {
-    formValues: PropTypes.shape({
-      provider: PropTypes.string,
-      gameType: PropTypes.string,
-      platform: PropTypes.string,
-      technology: PropTypes.string,
-      freeSpin: PropTypes.string,
-    }).isRequired,
-    submitting: PropTypes.bool,
-    pristine: PropTypes.bool,
-    handleSubmit: PropTypes.func,
+    submitting: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    categories: PropTypes.array.isRequired,
+    currentValues: PropTypes.object,
     reset: PropTypes.func,
     onReset: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
   };
-  
+
   static defaultProps = {
-    formValues: {
-      provider: '',
-      gameType: '',
-      platform: '',
-      technology: '',
-      freeSpin: '',
-    },
-    submitting: false,
-    pristine: false,
-    handleSubmit: null,
+    currentValues: {},
     reset: null,
-    disabled: false,
   };
 
   handleReset = () => {
@@ -59,111 +35,80 @@ class GamesGridFilter extends Component {
 
   render() {
     const {
-      formValues,
       submitting,
-      pristine,
       handleSubmit,
       onSubmit,
-      disabled,
+      categories,
+      currentValues,
     } = this.props;
+
+    {console.log(this.props)}
 
     return (
       <div className="well">
-        <form onSubmit={handleSubmit(this.handleSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="filter-row">
             <div className="filter-row__medium">
               <Field
-                name="searchBy"
-                type="text"
-                label="Search by"
-                placeholder={attributeLabels.keyword}
-                component={InputField}
-                position="vertical"
-                iconLeftClassName="nas nas-search_icon"
-                id="operators-list-filters-search"
-              />
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="country"
-                label={attributeLabels.country}
+                name="provider"
+                label={attributeLabels.provider}
                 component={SelectField}
                 position="vertical"
               >
-                <option value="">Any</option>
-                {Object
-                  .keys(countries)
-                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                }
+                <option value="">{attributePlaceholders.any}</option>
+                {categories.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
               </Field>
             </div>
-            <div className="filter-row__medium">
+            {/*<div className="filter-row__medium">
               <Field
-                name="status"
-                label={attributeLabels.status}
+                name="gameType"
+                label={attributeLabels.gameType}
                 component={SelectField}
                 position="vertical"
               >
-                <option value="">Any</option>
-                {Object.keys(statusesLabels).map(status => (
-                  <option key={status} value={status}>
-                    {statusesLabels[status]}
+                <option value="">{attributePlaceholders.any}</option>
+                {gameTypes.map(item => (
+                  <option key={item} value={item}>
+                    {item}
                   </option>
                 ))}
               </Field>
             </div>
             <div className="filter-row__medium">
               <Field
-                name="department"
-                label={attributeLabels.department}
+                name="platform"
+                label={attributeLabels.platform}
                 component={SelectField}
                 position="vertical"
               >
-                <option value="">Any</option>
-                {departments.map(({ label, value }) => (
-                  <option key={value} value={value}>
-                    {renderLabel(label, departmentsLabels)}
+                <option value="">{attributePlaceholders.any}</option>
+                {platforms.map(item => (
+                  <option key={item} value={item}>
+                    {item}
                   </option>
                 ))}
               </Field>
-            </div>
-            <div className="filter-row__medium">
+            </div>*/}
+            {/*<div className="filter-row__medium">
               <Field
-                name="role"
-                label={attributeLabels.role}
+                name="freeSpin"
+                label={attributeLabels.freeSpin}
                 component={SelectField}
                 position="vertical"
               >
-                <option value="">Any</option>
-                {roles.map(({ label, value }) => (
-                  <option key={value} value={value}>
-                    {renderLabel(label, rolesLabels)}
+                <option value="">{attributePlaceholders.any}</option>
+                {platforms.map(item => (
+                  <option key={item} value={item}>
+                    {item}
                   </option>
                 ))}
               </Field>
-            </div>
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>Registration date range</label>
-                <div className="range-group">
-                  <Field
-                    name="registration_date_from"
-                    component={DateTimeField}
-                    isValidDate={this.startDateValidator}
-                    position="vertical"
-                    timeFormat={null}
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    name="registration_date_to"
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator}
-                    position="vertical"
-                    timeFormat={null}
-                  />
-                </div>
-              </div>
-            </div>
+            </div>*/}
+
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button
@@ -192,6 +137,6 @@ class GamesGridFilter extends Component {
 }
 
 export default reduxForm({
-  form: 'gamesListGridFilter',
+  form: 'gamesGridFilter',
   validate: validator,
 })(GamesGridFilter);

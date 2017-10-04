@@ -4,6 +4,8 @@ import PropTypes from '../../../../../constants/propTypes';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import FileUpload from '../../../../../components/FileUpload';
 import GridView, { GridColumn } from '../../../../../components/GridView';
+import GameStatus from './GameStatus';
+import GamesGridFilter from './GamesGridFilter';
 
 class View extends Component {
   static propTypes = {
@@ -19,16 +21,27 @@ class View extends Component {
       }).isRequired,
     }).isRequired,
     fetchGames: PropTypes.func.isRequired,
+    fetchCategories: PropTypes.func.isRequired,
     games: PropTypes.pageableState(PropTypes.gameEntity).isRequired,
     uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     clearAll: PropTypes.func.isRequired,
     resetServerGames: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    resetGames: PropTypes.func.isRequired,
+    data: PropTypes.shape({
+      categories: PropTypes.arrayOf(PropTypes.string),
+    }).isRequired,
+  };
+
+  state = {
+    filters: {},
+    page: 0,
   };
 
   componentDidMount() {
-    this.props.fetchGames();
+    this.props.fetchCategories();
+    this.handleRefresh();
   }
 
   componentWillUnmount() {
@@ -43,6 +56,32 @@ class View extends Component {
     this.props.uploadFile(file, errors);
   };
 
+  handleRefresh = () => this.props.fetchGames({
+    ...this.state.filters,
+    page: this.state.page,
+  });
+
+  handlePageChanged = (page) => {
+    if (!this.props.games.isLoading) {
+      this.setState({ page: page - 1 }, () => this.handleRefresh());
+    }
+  };
+
+  handleFiltersChanged = (data = {}) => {
+    const filters = { ...data };
+
+    if (filters.states) {
+      filters.states = [filters.states];
+    }
+
+    this.setState({ filters, page: 0 }, this.handleRefresh);
+  };
+
+  handleFilterReset = () => {
+    this.props.resetGames();
+    this.setState({ filters: {}, page: 0 }, this.handleRefresh);
+  };
+
   renderGame = data => (
     <div>
       <div className="font-weight-700">{data.fullGameName}</div>
@@ -50,15 +89,21 @@ class View extends Component {
     </div>
   );
 
-  renderProvider = data => <div className="font-weight-700">{data.gameProviderId}</div>;
+  renderProvider = data => <div className="font-weight-700 first-letter-big">{data.gameProviderId}</div>;
 
   renderPlatform = data => <div className="font-weight-700">{data.gameInfoType}</div>;
 
-  renderTechnology = () => <div className="font-weight-700">HTML5</div>;
+  renderFreeSpins = data => (
+    <div className="font-weight-700">
+      {
+        data.lines
+          ? <span>{I18n.t('GAMES.GRID.FREE_SPINS_AVAILABLE')}</span>
+          : <span>{I18n.t('GAMES.GRID.FREE_SPINS_UNAVAILABLE')}</span>
+      }
+    </div>
+  );
 
-  renderFreeSpins = () => <div className="font-weight-700">Available</div>;
-
-  renderStatus = () => <div className="font-weight-700 color-success text-uppercase">Active</div>
+  renderStatus = data => <GameStatus status={data.disabled} />;
 
   render() {
     const {
@@ -66,10 +111,11 @@ class View extends Component {
       resetServerGames,
       games: { entities, noResults },
       locale,
+      data: { categories },
     } = this.props;
     const disabled = upload.uploading || download.loading;
-
-    console.log(entities);
+    const { filters } = this.state;
+    const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <div className="page-content-inner">
@@ -109,10 +155,17 @@ class View extends Component {
             </div>
           </Title>
 
+          <GamesGridFilter
+            onSubmit={this.handleFiltersChanged}
+            onReset={this.handleFilterReset}
+            disabled={!allowActions}
+            categories={categories}
+          />
+
           <Content>
             <GridView
               locale={locale}
-              tableClassName="table table-hovered data-grid-layout"
+              tableClassName="table data-grid-layout"
               headerClassName="text-uppercase"
               dataSource={entities.content}
               onPageChange={this.handlePageChanged}
@@ -123,37 +176,31 @@ class View extends Component {
             >
               <GridColumn
                 name="game"
-                header="Game"
+                header={I18n.t('GAMES.GRID.GAME')}
                 render={this.renderGame}
               />
 
               <GridColumn
                 name="provider"
-                header="Provider"
+                header={I18n.t('GAMES.GRID.PROVIDER')}
                 render={this.renderProvider}
               />
 
               <GridColumn
                 name="platform"
-                header="Platform"
+                header={I18n.t('GAMES.GRID.PLATFORM')}
                 render={this.renderPlatform}
               />
 
               <GridColumn
-                name="technology"
-                header="Technology"
-                render={this.renderTechnology}
-              />
-
-              <GridColumn
                 name="freeSpins"
-                header="Free-spins"
+                header={I18n.t('GAMES.GRID.FREE_SPINS')}
                 render={this.renderFreeSpins}
               />
 
               <GridColumn
                 name="gameStatus"
-                header="Status"
+                header={I18n.t('GAMES.GRID.STATUS')}
                 render={this.renderStatus}
               />
             </GridView>
