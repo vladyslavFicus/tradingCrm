@@ -9,8 +9,8 @@ const mapStateToProps = ({ operatorsList: list, ...state, i18n: { locale } }) =>
   list,
   locale,
   filterValues: getFormValues('operatorsListGridFilter')(state) || {},
-  departments: config.availableDepartments,
-  roles: config.availableRoles,
+  availableDepartments: config.availableDepartments,
+  availableRoles: config.availableRoles,
 });
 
 const mapActions = {

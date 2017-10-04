@@ -575,7 +575,8 @@
       "DEPARTMENTS": {
         "CS": "Customer service",
         "RFP": "Risk Fraud & Payment",
-        "MARKETING": "Marketing"
+        "MARKETING": "Marketing",
+        "ADMINISTRATION": "Administration"
       },
       "ROLES": {
         "ROLE1": "Executive",
