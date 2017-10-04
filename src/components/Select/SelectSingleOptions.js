@@ -5,7 +5,7 @@ import classNames from 'classnames';
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 });
 
 class SelectSingleOptions extends React.Component {

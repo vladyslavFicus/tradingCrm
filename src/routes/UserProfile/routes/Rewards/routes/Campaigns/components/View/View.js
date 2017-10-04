@@ -15,8 +15,10 @@ import SubTabNavigation from '../../../../../../../../components/SubTabNavigatio
 import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
+import AddToCampaignModal from '../AddToCampaignModal';
 
 const CAMPAIGN_DECLINE_MODAL = 'campaign-decline-modal';
+const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -25,8 +27,11 @@ const modalInitialState = {
 class View extends Component {
   static propTypes = {
     list: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
+    profile: PropTypes.userProfile.isRequired,
     fetchAvailableCampaignList: PropTypes.func.isRequired,
     declineCampaign: PropTypes.func.isRequired,
+    fetchCampaigns: PropTypes.func.isRequired,
+    addPlayerToCampaign: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
@@ -34,6 +39,7 @@ class View extends Component {
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
+    addNotification: PropTypes.func.isRequired,
   };
 
   state = {
@@ -106,6 +112,53 @@ class View extends Component {
     if (action && !action.error) {
       this.handleRefresh();
     }
+  };
+
+  handleAddToCampaignClick = async () => {
+    const { fetchCampaigns } = this.props;
+
+    const campaignsActions = await fetchCampaigns({
+      size: 9999,
+      state: bonusCampaignStatuses.DRAFT,
+    });
+
+    if (!campaignsActions || campaignsActions.error) {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.MESSAGE'),
+      });
+    } else {
+      this.handleOpenModal(ADD_TO_CAMPAIGN_MODAL, {
+        campaigns: campaignsActions.payload.content,
+      });
+    }
+  };
+
+  handleAddToCampaign = async ({ campaignId }) => {
+    const { params: { id }, addPlayerToCampaign } = this.props;
+
+    const addPlayerToCampaignAction = await addPlayerToCampaign(campaignId, id);
+
+    if (addPlayerToCampaignAction) {
+      let level = 'success';
+      let title = I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.SUCCESS_ADD_PLAYER_TO_CAMPAIGN.TITLE');
+      let message = I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.SUCCESS_ADD_PLAYER_TO_CAMPAIGN.MESSAGE');
+
+      if (addPlayerToCampaignAction.error) {
+        level = 'error';
+        title = I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FAILURE_ADD_PLAYER_TO_CAMPAIGN.TITLE');
+        message = I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FAILURE_ADD_PLAYER_TO_CAMPAIGN.MESSAGE');
+      }
+
+      this.context.addNotification({
+        level,
+        title,
+        message,
+      });
+    }
+
+    this.handleCloseModal(this.handleRefresh);
   };
 
   renderCampaign = data => (
@@ -194,7 +247,7 @@ class View extends Component {
 
   render() {
     const { filters, modal } = this.state;
-    const { list: { entities, noResults }, locale } = this.props;
+    const { list: { entities, noResults }, profile, locale } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
@@ -202,6 +255,14 @@ class View extends Component {
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <SubTabNavigation links={subTabRoutes} />
+            <div className="tab-header__actions">
+              <button
+                className="btn btn-primary-outline margin-left-15 btn-sm"
+                onClick={this.handleAddToCampaignClick}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
+              </button>
+            </div>
           </div>
         </Sticky>
 
@@ -260,6 +321,15 @@ class View extends Component {
             {...modal.params}
             form="confirmDeclineCampaign"
             onClose={this.handleCloseModal}
+          />
+        }
+        {
+          modal.name === ADD_TO_CAMPAIGN_MODAL &&
+          <AddToCampaignModal
+            {...modal.params}
+            onClose={this.handleCloseModal}
+            onSubmit={this.handleAddToCampaign}
+            fullName={profile.fullName}
           />
         }
 

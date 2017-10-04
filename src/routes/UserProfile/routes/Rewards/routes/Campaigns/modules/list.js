@@ -4,7 +4,7 @@ import createRequestAction from '../../../../../../../utils/createRequestAction'
 import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 
-const KEY = 'user/bonus-campaign/list';
+const KEY = 'player/bonus-campaign/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 const DECLINE_CAMPAIGN = createRequestAction(`${KEY}/decline-campaign`);
 

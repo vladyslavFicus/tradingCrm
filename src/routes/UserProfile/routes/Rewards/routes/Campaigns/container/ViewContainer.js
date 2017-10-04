@@ -1,17 +1,21 @@
 import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
-import List from '../components/View';
+import View from '../components/View';
 
 const mapStateToProps = ({
-  userBonusCampaignsList: { list },
+  profile: { profile: { data: profile } },
+  playerBonusCampaignsList: { list },
   i18n: { locale },
 }) => ({
   list,
   locale,
+  profile,
 });
 const mapActions = {
   fetchAvailableCampaignList: actionCreators.fetchAvailableCampaignList,
   declineCampaign: actionCreators.declineCampaign,
+  fetchCampaigns: actionCreators.fetchCampaigns,
+  addPlayerToCampaign: actionCreators.addPlayerToCampaign,
 };
 
-export default connect(mapStateToProps, mapActions)(List);
+export default connect(mapStateToProps, mapActions)(View);
