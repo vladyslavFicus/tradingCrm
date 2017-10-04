@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import countryList from 'country-list';
+import classNames from 'classnames';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 
 const IpFlag = ({ id, country, ip }) => {
@@ -10,7 +11,7 @@ const IpFlag = ({ id, country, ip }) => {
 
   return (
     <span>
-      <i id={id} className={`fs-icon ${country ? `fs-${country.toLowerCase()}` : ''}`} />
+      <i id={id} className={classNames('fs-icon', { [`fs-${country.toLowerCase()}`]: country })} />
       <UncontrolledTooltip
         placement="top"
         target={id}
