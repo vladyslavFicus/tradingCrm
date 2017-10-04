@@ -44,7 +44,7 @@
           "WITHDRAW": "Вывод",
           "FULLY_DISABLED": "Полностью отключен"
         },
-        "SEARCH_PLACEHOLDER": "Поиск по стране",
+        "SEARCH_PLACEHOLDER": "Быстрый поиск",
         "NO_RESULT_BY_SEARCH": "Не найдено страны “%{search}” в %{tabName}"
       }
     }

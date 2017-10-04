@@ -44,7 +44,7 @@
           "WITHDRAW": "Withdraw",
           "FULLY_DISABLED": "Fully disabled"
         },
-        "SEARCH_PLACEHOLDER": "Quick search by country",
+        "SEARCH_PLACEHOLDER": "Quick search",
         "NO_RESULT_BY_SEARCH": "No countries begins from “%{search}” found in %{tabName}"
       }
     }
