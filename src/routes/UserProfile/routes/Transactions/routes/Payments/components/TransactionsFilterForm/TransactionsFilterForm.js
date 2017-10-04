@@ -35,6 +35,7 @@ class TransactionsFilterForm extends Component {
       endDate: PropTypes.string,
     }),
     paymentMethods: PropTypes.arrayOf(PropTypes.string).isRequired,
+    statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
     reset: null,
@@ -76,6 +77,7 @@ class TransactionsFilterForm extends Component {
       handleSubmit,
       onSubmit,
       paymentMethods,
+      statuses,
     } = this.props;
 
     return (
@@ -130,9 +132,9 @@ class TransactionsFilterForm extends Component {
                 component={NasSelectField}
                 multiple
               >
-                {Object.keys(statusesLabels).map(status => (
+                {statuses.map(status => (
                   <option key={status} value={status}>
-                    {statusesLabels[status]}
+                    {renderLabel(status, statusesLabels)}
                   </option>
                 ))}
               </Field>

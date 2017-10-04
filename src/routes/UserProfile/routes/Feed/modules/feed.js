@@ -80,9 +80,13 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
   };
 }
 
-const mapAuditEntities = entities => entities.map(entity => (typeof entity.details === 'string'
-  ? { ...entity, details: JSON.parse(entity.details) }
-  : entity));
+const mapAuditEntities = entities => entities.map(
+  entity => (
+    typeof entity.details === 'string'
+      ? { ...entity, details: JSON.parse(entity.details) }
+      : entity
+  )
+);
 
 const actionHandlers = {
   [FETCH_FEED.REQUEST]: (state, action) => ({

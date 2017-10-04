@@ -8,7 +8,7 @@ const errorTypes = keyMirror({
 });
 
 const sendError = (params) => {
-  if (!__DEV__) {
+  if (__DEV__) {
     console.warn(params);
 
     return false;

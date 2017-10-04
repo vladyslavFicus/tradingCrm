@@ -14,9 +14,9 @@ const UPDATE_PROFILE = createRequestAction(`${KEY}/update-profile`);
 const FETCH_AUTHORITIES = createRequestAction(`${KEY}/fetch-authorities`);
 const CHANGE_AUTHORITY = createRequestAction(`${KEY}/change-authorities`);
 const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
-const VALIDATE_TOKEN = createRequestAction(`${KEY}/validate-token`);
 const LOGOUT = createRequestAction(`${KEY}/logout`);
 const SET_LAST_ACTIVITY = `${KEY}/set-last-activity`;
+const CHANGE_EMAIL_NOTIFICATION_SETTING = `${KEY}/change-email-notification-setting`;
 
 const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 const fetchAuthorities = operatorSourceActionCreators.fetchAuthorities(FETCH_AUTHORITIES);
@@ -91,26 +91,6 @@ function changeDepartment(department, brandId = getBrand(), token = null) {
   };
 }
 
-function validateToken() {
-  return (dispatch, getState) => {
-    const { auth: { token, logged, lastTokenValidation } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        method: 'GET',
-        endpoint: `/auth/token/validate?token=${token}`,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [VALIDATE_TOKEN.REQUEST, VALIDATE_TOKEN.SUCCESS, VALIDATE_TOKEN.FAILURE],
-        bailout: !logged || (timestamp() - lastTokenValidation) < 1,
-      },
-    });
-  };
-}
-
 function logout() {
   return (dispatch, getState) => {
     const { auth: { token } } = getState();
@@ -170,6 +150,13 @@ function setLastActivity(time) {
   };
 }
 
+function changeEmailNotificationSetting(payload) {
+  return {
+    type: CHANGE_EMAIL_NOTIFICATION_SETTING,
+    payload,
+  };
+}
+
 const initialState = {
   lastActivity: null,
   refreshingToken: false,
@@ -180,7 +167,9 @@ const initialState = {
   uuid: null,
   login: null,
   fullName: null,
-  lastTokenValidation: null,
+  notifications: {
+    email: true,
+  },
   data: {},
 };
 const actionHandlers = {
@@ -199,7 +188,6 @@ const actionHandlers = {
     ...state,
     data: action.payload,
   }),
-  [VALIDATE_TOKEN.SUCCESS]: state => ({ ...state, lastTokenValidation: timestamp() }),
   [REFRESH_TOKEN.REQUEST]: state => ({
     ...state,
     refreshingToken: true,
@@ -222,16 +210,20 @@ const actionHandlers = {
     ...state,
     lastActivity: action.payload.timestamp,
   }),
+  [CHANGE_EMAIL_NOTIFICATION_SETTING]: (state, action) => ({
+    ...state,
+    notifications: { ...state.notifications, email: action.payload },
+  }),
 };
 const actionTypes = {
   SIGN_IN,
   CHANGE_AUTHORITY,
   FETCH_PROFILE,
   REFRESH_TOKEN,
-  VALIDATE_TOKEN,
   LOGOUT,
   UPDATE_PROFILE,
   SET_LAST_ACTIVITY,
+  CHANGE_EMAIL_NOTIFICATION_SETTING,
 };
 const actionCreators = {
   signIn,
@@ -243,6 +235,7 @@ const actionCreators = {
   setLastActivity,
   resetPasswordConfirm,
   updateProfile,
+  changeEmailNotificationSetting,
 };
 
 export {

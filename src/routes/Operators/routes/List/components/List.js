@@ -28,11 +28,11 @@ class List extends Component {
     isLoading: PropTypes.bool,
     onSubmitNewOperator: PropTypes.func.isRequired,
     fetchEntities: PropTypes.func.isRequired,
-    departments: PropTypes.arrayOf(PropTypes.shape({
+    availableDepartments: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
     })).isRequired,
-    roles: PropTypes.arrayOf(PropTypes.shape({
+    availableRoles: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
     })).isRequired,
@@ -165,8 +165,8 @@ class List extends Component {
     const {
       list: { entities, noResults },
       filterValues,
-      departments,
-      roles,
+      availableDepartments,
+      availableRoles,
       locale,
     } = this.props;
 
@@ -232,11 +232,11 @@ class List extends Component {
           modal.name === MODAL_CREATE_OPERATOR &&
           <CreateOperatorModal
             onSubmit={this.handleSubmitNewOperator}
-            departments={departments}
-            roles={roles}
+            availableDepartments={availableDepartments}
+            availableRoles={availableRoles}
             initialValues={{
-              department: departments[0] ? departments[0].value : null,
-              role: roles[0] ? roles[0].value : null,
+              department: availableDepartments[0] ? availableDepartments[0].value : null,
+              role: availableRoles[0] ? availableRoles[0].value : null,
               sendMail: true,
             }}
             onClose={this.handleModalClose}

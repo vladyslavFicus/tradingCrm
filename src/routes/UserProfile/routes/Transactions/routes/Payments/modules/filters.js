@@ -2,6 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import timestamp from '../../../../../../../utils/timestamp';
+import { statuses } from '../../../../../../../constants/payment';
 
 const KEY = 'transactions/filters';
 const FETCH_FILTERS = createRequestAction(`${KEY}/fetch-filters`);
@@ -29,6 +30,13 @@ function fetchFilters(playerUUID) {
 const initialState = {
   data: {
     paymentMethods: [],
+    statuses: [
+      statuses.PENDING,
+      statuses.REFUSED,
+      statuses.FAILED,
+      statuses.COMPLETED,
+      statuses.CHARGEBACK,
+    ],
   },
   error: null,
   isLoading: false,
