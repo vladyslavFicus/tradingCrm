@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import renderLabel from '../../utils/renderLabel';
-import { countries } from '../../config/countries';
+import countryList from 'country-list';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 
 const IpFlag = ({ id, country, ip }) => {
-  const tooltipContent = [renderLabel(country, countries), ip].filter(i => i).join(' - ');
+  const countryName = countryList().getName(country);
+  const tooltipContent = [countryName, ip].filter(i => i).join(' - ');
 
   return (
     <span>
-      <i id={id} className={`fs-icon fs-${country.toLowerCase()}`} />
+      <i id={id} className={`fs-icon ${country ? `fs-${country.toLowerCase()}` : ''}`} />
       <UncontrolledTooltip
         placement="top"
         target={id}
@@ -20,9 +20,9 @@ const IpFlag = ({ id, country, ip }) => {
         }}
       >
         {
-          (!country && !ip)
-            ? I18n.t('COMMON.UNAVAILABLE')
-            : <span>{tooltipContent}</span>
+          ip
+            ? <span>{tooltipContent}</span>
+            : I18n.t('COMMON.UNAVAILABLE')
         }
       </UncontrolledTooltip>
     </span>
