@@ -45,6 +45,8 @@ class Header extends Component {
       cloneCampaign,
       removeAllPlayers,
     } = this.props;
+    const allowUpload = [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) > -1
+      && targetType === targetTypes.TARGET_LIST;
 
     return (
       <div>
@@ -65,7 +67,7 @@ class Header extends Component {
           </div>
           <div className="panel-heading-row__actions">
             {
-              state === statuses.DRAFT && targetType === targetTypes.TARGET_LIST &&
+              allowUpload &&
               <span>
                 <button
                   className="btn btn-sm btn-default-outline margin-right-10"
