@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
@@ -9,8 +9,10 @@ import { attributeLabels, attributePlaceholders } from './constants';
 import SelectCampaignOption from '../SelectCampaignOption';
 import SelectCampaignOptionsHeader from '../SelectCampaignOptionsHeader';
 import './AddToCampaignModal.scss';
+import { statuses as bonusCampaignStatuses } from '../../../../../../../../constants/bonus-campaigns';
+import shallowEqual from '../../../../../../../../utils/shallowEqual';
 
-class AddToCampaignModal extends Component {
+class AddToCampaignModal extends PureComponent {
   static propTypes = {
     campaigns: PropTypes.arrayOf(PropTypes.bonusCampaignEntity).isRequired,
     handleSubmit: PropTypes.func,
@@ -28,7 +30,42 @@ class AddToCampaignModal extends Component {
     handleSubmit: null,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeOnly: false,
+      options: props.campaigns,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { activeOnly } = this.state;
+    const { campaigns } = this.props;
+
+    if (!shallowEqual(campaigns, nextProps.campaigns)) {
+      this.setState({
+        options: nextProps.campaigns
+          .filter(campaign => (activeOnly ? campaign.state === bonusCampaignStatuses.ACTIVE : true)),
+      });
+    }
+  }
+
+  handleOnlyActiveCampaignsClick = () => {
+    const activeOnly = !this.state.activeOnly;
+    const { campaigns } = this.props;
+
+    requestAnimationFrame(() =>
+      this.setState({
+        activeOnly,
+        options: campaigns
+          .filter(campaign => (activeOnly ? campaign.state === bonusCampaignStatuses.ACTIVE : true)),
+      })
+    );
+  };
+
   render() {
+    const { options } = this.state;
     const {
       onSubmit,
       handleSubmit,
@@ -36,7 +73,6 @@ class AddToCampaignModal extends Component {
       pristine,
       submitting,
       invalid,
-      campaigns,
       fullName,
     } = this.props;
 
@@ -54,18 +90,28 @@ class AddToCampaignModal extends Component {
               name="campaignId"
               label={I18n.t(attributeLabels.campaignId)}
               labelClassName="form-label"
-              component={NasSelectField}
+              labelTag="div"
+              labelAddon={
+                <div className="pull-right">
+                  <label>
+                    <input type="checkbox" onClick={this.handleOnlyActiveCampaignsClick} />
+                    {' '}
+                    {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTIVE_ONLY')}
+                  </label>
+                </div>
+              } component={NasSelectField}
               position="vertical"
               placeholder={I18n.t(attributePlaceholders.campaignId)}
               optionsHeader={SelectCampaignOptionsHeader}
               singleOptionComponent={SelectCampaignOption}
             >
-              {campaigns.map(campaign => (
+              {options.map(campaign => (
                 <option key={campaign.id} value={campaign.id} campaign={campaign}>
                   {`${campaign.campaignName} - ${campaign.state}`}
                 </option>
               ))}
             </Field>
+
           </ModalBody>
           <ModalFooter>
             <button

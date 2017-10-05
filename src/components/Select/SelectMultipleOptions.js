@@ -9,7 +9,7 @@ const OptionPropType = PropTypes.shape({
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 });
 
-class SelectMultipleOptions extends React.Component {
+class SelectMultipleOptions extends React.PureComponent {
   static propTypes = {
     headerText: PropTypes.string.isRequired,
     className: PropTypes.string,

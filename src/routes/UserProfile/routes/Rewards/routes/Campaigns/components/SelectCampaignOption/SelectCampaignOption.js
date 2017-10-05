@@ -26,8 +26,11 @@ const SelectCampaignOption = props => (
 );
 
 SelectCampaignOption.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   campaign: PropTypes.bonusCampaignEntity.isRequired,
+};
+SelectCampaignOption.defaultProps = {
+  onClick: null,
 };
 
 export default SelectCampaignOption;

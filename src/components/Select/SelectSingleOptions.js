@@ -8,7 +8,7 @@ const OptionPropType = PropTypes.shape({
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 });
 
-class SelectSingleOptions extends React.Component {
+class SelectSingleOptions extends React.PureComponent {
   static propTypes = {
     className: PropTypes.string,
     optionClassName: PropTypes.string,
@@ -23,7 +23,7 @@ class SelectSingleOptions extends React.Component {
     optionClassName: 'select-block__options-item',
     options: [],
     selectedOption: undefined,
-    optionView: null,
+    optionComponent: null,
   };
 
   render() {

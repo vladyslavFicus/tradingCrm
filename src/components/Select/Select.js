@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
@@ -8,7 +8,7 @@ import SelectSingleOptions from './SelectSingleOptions';
 import SelectMultipleOptions from './SelectMultipleOptions';
 import deleteFromArray from '../../utils/deleteFromArray';
 
-class Select extends Component {
+class Select extends PureComponent {
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     onChange: PropTypes.func,
@@ -53,17 +53,20 @@ class Select extends Component {
     this.searchBarRef = null;
   }
 
+  componentDidMount() {
+    this.mounted = true;
+  }
+
   componentWillReceiveProps(nextProps) {
     const { query, originalOptions } = this.state;
     const { children, value } = this.props;
     let options = originalOptions;
 
     if (!shallowEqual(children, nextProps.children)) {
-      options = this.filterOptions(nextProps.children);
-
+      options = [...this.filterOptions(nextProps.children)];
       this.setState({
         originalOptions: options,
-        options: this.filterOptionsByQuery(query, options),
+        options: this.filterOptionsByQuery(query, [...options]),
       });
     }
 
@@ -78,6 +81,12 @@ class Select extends Component {
       });
     }
   }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  mounted = false;
 
   shallowEqual = (current, next) => {
     const currentType = typeof current;
@@ -177,22 +186,24 @@ class Select extends Component {
     newValue = newValue.map(option => option.value);
 
     this.setState({ opened: false }, () => {
-      setTimeout(() => {
-        this.setState({
-          query: '',
-          options: originalOptions,
-          toSelectOptions: [],
-          selectedOptions: [...originalSelectedOptions],
-        }, () => {
-          if (!shallowEqual(previousValue, newValue)) {
-            if (multiple) {
-              this.props.onChange(newValue);
-            } else if (newValue.length > 0) {
-              this.props.onChange(newValue[0]);
+      requestAnimationFrame(() => {
+        if (this.mounted) {
+          this.setState({
+            query: '',
+            options: originalOptions,
+            toSelectOptions: [],
+            selectedOptions: [...originalSelectedOptions],
+          }, () => {
+            if (!shallowEqual(previousValue, newValue)) {
+              if (multiple) {
+                this.props.onChange(newValue);
+              } else if (newValue.length > 0) {
+                this.props.onChange(newValue[0]);
+              }
             }
-          }
-        });
-      }, 150);
+          });
+        }
+      });
     });
   };
 

@@ -12,7 +12,9 @@ class NasSelectField extends Component {
     }).isRequired,
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
+    labelTag: PropTypes.string,
     labelClassName: PropTypes.string,
+    labelAddon: PropTypes.element,
     children: PropTypes.node.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     showErrorMessage: PropTypes.bool,
@@ -33,7 +35,9 @@ class NasSelectField extends Component {
   static defaultProps = {
     position: 'horizontal',
     placeholder: null,
+    labelTag: 'label',
     labelClassName: 'form-label',
+    labelAddon: null,
     showErrorMessage: true,
     disabled: false,
     multiple: false,
@@ -106,14 +110,16 @@ class NasSelectField extends Component {
   renderVertical = (props) => {
     const {
       label,
+      labelTag,
       labelClassName,
+      labelAddon,
       meta: { touched, error },
       showErrorMessage,
     } = props;
 
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label className={labelClassName}>{label}</label>
+        {React.createElement(labelTag, { className: labelClassName }, <div>{label}{labelAddon}</div>)}
         {this.renderInput(props)}
         {
           showErrorMessage && touched && error &&
@@ -129,7 +135,9 @@ class NasSelectField extends Component {
   renderHorizontal = (props) => {
     const {
       label,
+      labelTag,
       labelClassName,
+      labelAddon,
       meta: { touched, error },
       showErrorMessage,
     } = props;
@@ -137,9 +145,7 @@ class NasSelectField extends Component {
     return (
       <div className={classNames('form-group row', { 'has-danger': touched && error })}>
         <div className="col-md-3">
-          <label className={labelClassName}>
-            {label}
-          </label>
+          {React.createElement(labelTag, { className: labelClassName }, <div>{label}{labelAddon}</div>)}
         </div>
         <div className="col-md-9">
           {this.renderInput(props)}
