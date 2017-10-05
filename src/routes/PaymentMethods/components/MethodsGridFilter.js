@@ -50,10 +50,9 @@ class MethodsGridFilter extends Component {
                 position="vertical"
               >
                 <option value="">- General -</option>
-                {Object
-                  .keys(countries)
-                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                }
+                {Object.keys(countries).map(key =>
+                  <option key={key} value={key}>{countries[key]}</option>
+                )}
               </Field>
             </div>
             <div className="filter-row__small">
