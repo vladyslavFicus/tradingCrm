@@ -6,9 +6,6 @@ const attributeLabels = {
   platform: I18n.t('GAMES.GRID.PLATFORM'),
   freeSpin: I18n.t('GAMES.FREE_SPINS_AVAILABILITY'),
 };
-const attributePlaceholders = {
-  any: I18n.t('COMMON.ANY'),
-};
 
 
-export { attributeLabels, attributePlaceholders };
+export { attributeLabels };

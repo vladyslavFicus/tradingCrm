@@ -29,8 +29,11 @@ class View extends Component {
     resetServerGames: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     resetGames: PropTypes.func.isRequired,
-    data: PropTypes.shape({
-      categories: PropTypes.arrayOf(PropTypes.string),
+    filters: PropTypes.shape({
+      data: PropTypes.shape({
+        categories: PropTypes.arrayOf(PropTypes.string),
+        gameProviderId: PropTypes.arrayOf(PropTypes.string),
+      }),
     }).isRequired,
   };
 
@@ -111,11 +114,13 @@ class View extends Component {
       resetServerGames,
       games: { entities, noResults },
       locale,
-      data: { categories },
+      filters: { data: { categories, gameProviderId } },
     } = this.props;
     const disabled = upload.uploading || download.loading;
     const { filters } = this.state;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
+
+    {console.log(gameProviderId)}
 
     return (
       <div className="page-content-inner">

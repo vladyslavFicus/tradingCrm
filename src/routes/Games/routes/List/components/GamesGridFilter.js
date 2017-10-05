@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import { SelectField } from '../../../../../components/ReduxForm';
+import { I18n } from 'react-redux-i18n';
+import { NasSelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
-import { attributeLabels, attributePlaceholders } from '../constants';
+import { attributeLabels } from '../constants';
 
 const validator = createValidator({
   provider: 'string',
@@ -17,7 +18,7 @@ class GamesGridFilter extends Component {
     submitting: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired,
+    categories: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentValues: PropTypes.object,
     reset: PropTypes.func,
     onReset: PropTypes.func.isRequired,
@@ -42,23 +43,21 @@ class GamesGridFilter extends Component {
       currentValues,
     } = this.props;
 
-    {console.log(this.props)}
-
     return (
       <div className="well">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="filter-row">
             <div className="filter-row__medium">
               <Field
-                name="provider"
-                label={attributeLabels.provider}
-                component={SelectField}
+                name="gameType"
+                label={I18n.t(attributeLabels.gameType)}
+                component={NasSelectField}
+                placeholder={I18n.t('COMMON.ANY')}
                 position="vertical"
               >
-                <option value="">{attributePlaceholders.any}</option>
-                {categories.map(item => (
+                {Object.keys(categories).map(item => (
                   <option key={item} value={item}>
-                    {item}
+                    {categories[item]}
                   </option>
                 ))}
               </Field>
