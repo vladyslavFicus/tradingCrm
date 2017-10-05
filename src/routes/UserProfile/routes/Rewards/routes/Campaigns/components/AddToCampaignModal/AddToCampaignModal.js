@@ -47,35 +47,29 @@ class AddToCampaignModal extends Component {
             {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.TITLE')}
           </ModalHeader>
           <ModalBody>
-            <div className="row margin-bottom-20 font-weight-700">
-              <div className="col-md-8 col-md-offset-2 text-center">
-                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTION', { fullName })}
-              </div>
+            <div className="add-to-campaign-modal__header">
+              {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTION', { fullName })}
             </div>
-            <div className="row">
-              <div className="col-md-12">
-                <Field
-                  name="campaignId"
-                  label={I18n.t(attributeLabels.campaignId)}
-                  labelClassName="form-label"
-                  component={NasSelectField}
-                  position="vertical"
-                  placeholder={I18n.t(attributePlaceholders.campaignId)}
-                  optionsHeader={SelectCampaignOptionsHeader}
-                  singleOptionComponent={SelectCampaignOption}
-                >
-                  {campaigns.map(campaign => (
-                    <option key={campaign.id} value={campaign.id} campaign={campaign}>
-                      {`${campaign.campaignName} - ${campaign.state}`}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-            </div>
+            <Field
+              name="campaignId"
+              label={I18n.t(attributeLabels.campaignId)}
+              labelClassName="form-label"
+              component={NasSelectField}
+              position="vertical"
+              placeholder={I18n.t(attributePlaceholders.campaignId)}
+              optionsHeader={SelectCampaignOptionsHeader}
+              singleOptionComponent={SelectCampaignOption}
+            >
+              {campaigns.map(campaign => (
+                <option key={campaign.id} value={campaign.id} campaign={campaign}>
+                  {`${campaign.campaignName} - ${campaign.state}`}
+                </option>
+              ))}
+            </Field>
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline"
               disabled={submitting}
               type="reset"
               onClick={onClose}

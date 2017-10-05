@@ -5,21 +5,21 @@ import BonusCampaignStatus from '../../../../../../../../components/BonusCampaig
 import Uuid from '../../../../../../../../components/Uuid';
 
 const SelectCampaignOption = props => (
-  <div className="row font-size-12" onClick={props.onClick}>
-    <div className="col-sm-5">
-      <div className="font-weight-700">
+  <div className="row add-to-campaign-modal__campaign" onClick={props.onClick}>
+    <div className="col-md-4">
+      <div className="font-weight-700 add-to-campaign-modal__campaign-name">
         {props.campaign.campaignName}
       </div>
-      <div className="font-size-10">
+      <div className="font-size-11">
         <Uuid uuid={props.campaign.uuid} uuidPrefix="CA" />
       </div>
     </div>
-    <div className="col-sm-4">
+    <div className="col-md-6">
       {moment.utc(props.campaign.startDate).local().format('DD.MM.YYYY HH:mm')}
       {' - '}
       {moment.utc(props.campaign.endDate).local().format('DD.MM.YYYY HH:mm')}
     </div>
-    <div className="col-sm-3">
+    <div className="col-md-2">
       <BonusCampaignStatus campaign={props.campaign} showAdditionalInfo={false} />
     </div>
   </div>
