@@ -316,7 +316,30 @@
       "OPTED_IN": "Opted-in",
       "NOT_OPTED_IN": "Not opted-in",
       "OPT_OUT": "Opt out",
-      "DECLINE": "Отказаться"
+      "DECLINE": "Отказаться",
+      "MODALS": {
+        "ADD_TO_CAMPAIGN": {
+          "TITLE": "Добавление в кампанию",
+          "CAMPAIGN_ID_LABEL": "Кампании",
+          "ACTION": "Вы собираетесь добавить игрока %{fullName} в кампанию",
+          "CAMPAIGN_ID_PLACEHOLDER": "Выберите кампанию"
+        }
+      },
+      "NOTIFICATIONS": {
+        "FETCH_CAMPAIGNS_ERROR": {
+          "TITLE": "Ошибка",
+          "MESSAGE": "Не удалось загрузить список кампаний"
+        },
+        "SUCCESS_ADD_PLAYER_TO_CAMPAIGN": {
+          "TITLE": "Успешно",
+          "MESSAGE": "Игрок успешно добавлен в кампанию"
+        },
+        "FAILURE_ADD_PLAYER_TO_CAMPAIGN": {
+          "TITLE": "Ошибка",
+          "MESSAGE": "Не удалось добавить игрока в кампанию"
+        }
+      },
+      "ADD_TO_CAMPAIGN_BUTTON": "+ Добавить в Кампанию"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -514,6 +537,7 @@
     "LEFT": "осталось %{value}",
     "ACTIVATES_ON": "активируется %{date}",
     "NEVER": "Никогда",
+    "ADD": "Добавить",
     "ACTIVE": "Активный",
     "INACTIVE": "Неактивный"
   },
@@ -579,7 +603,8 @@
       "DEPARTMENTS": {
         "CS": "Обслуживание клиентов",
         "RFP": "Risk Fraud & Payment",
-        "MARKETING": "Маркетинг"
+        "MARKETING": "Маркетинг",
+        "ADMINISTRATION": "Администрация"
       },
       "ROLES": {
         "ROLE1": "Executive",

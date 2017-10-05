@@ -314,7 +314,30 @@
       "OPTED_IN": "Opted-in",
       "NOT_OPTED_IN": "Not opted-in",
       "OPT_OUT": "Opt out",
-      "DECLINE": "Decline"
+      "DECLINE": "Decline",
+      "MODALS": {
+        "ADD_TO_CAMPAIGN": {
+          "TITLE": "Add to Campaign",
+          "CAMPAIGN_ID_LABEL": "Campaigns",
+          "ACTION": "You are about to add player %{fullName} to the target of a campaign",
+          "CAMPAIGN_ID_PLACEHOLDER": "Choose campaign"
+        }
+      },
+      "NOTIFICATIONS": {
+        "FETCH_CAMPAIGNS_ERROR": {
+          "TITLE": "Error",
+          "MESSAGE": "Error loading campaigns"
+        },
+        "SUCCESS_ADD_PLAYER_TO_CAMPAIGN": {
+          "TITLE": "Success",
+          "MESSAGE": "The player was successfully added to the campaign."
+        },
+        "FAILURE_ADD_PLAYER_TO_CAMPAIGN": {
+          "TITLE": "Error",
+          "MESSAGE": "Could not add player to campaign."
+        }
+      },
+      "ADD_TO_CAMPAIGN_BUTTON": "+ Add to Campaign"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -512,6 +535,7 @@
     "LEFT": "left %{value}",
     "ACTIVATES_ON": "activates on %{date}",
     "NEVER": "Never",
+    "ADD": "Add",
     "ACTIVE": "Active",
     "INACTIVE": "Inactive"
   },
@@ -577,7 +601,8 @@
       "DEPARTMENTS": {
         "CS": "Customer service",
         "RFP": "Risk Fraud & Payment",
-        "MARKETING": "Marketing"
+        "MARKETING": "Marketing",
+        "ADMINISTRATION": "Administration"
       },
       "ROLES": {
         "ROLE1": "Executive",

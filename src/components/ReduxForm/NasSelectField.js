@@ -11,6 +11,7 @@ class NasSelectField extends Component {
       onChange: PropTypes.func,
     }).isRequired,
     label: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
     labelClassName: PropTypes.string,
     children: PropTypes.node.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
@@ -29,6 +30,7 @@ class NasSelectField extends Component {
   };
   static defaultProps = {
     position: 'horizontal',
+    placeholder: null,
     labelClassName: 'form-label',
     showErrorMessage: true,
     disabled: false,
@@ -52,11 +54,13 @@ class NasSelectField extends Component {
       meta: { touched, error },
       children,
       multiple,
+      placeholder,
     } = props;
 
     let inputField = (
       <Select
         {...input}
+        placeholder={placeholder}
         disabled={disabled}
         multiple={multiple}
         className={classNames(inputClassName, { 'has-danger': touched && error })}
