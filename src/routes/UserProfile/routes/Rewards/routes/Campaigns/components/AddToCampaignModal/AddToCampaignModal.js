@@ -6,6 +6,9 @@ import PropTypes from '../../../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../../../utils/validator';
 import { NasSelectField } from '../../../../../../../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
+import SelectCampaignOption from '../SelectCampaignOption';
+import SelectCampaignOptionsHeader from '../SelectCampaignOptionsHeader';
+import './AddToCampaignModal.scss';
 
 class AddToCampaignModal extends Component {
   static propTypes = {
@@ -58,10 +61,12 @@ class AddToCampaignModal extends Component {
                   component={NasSelectField}
                   position="vertical"
                   placeholder={I18n.t(attributePlaceholders.campaignId)}
+                  optionsHeader={SelectCampaignOptionsHeader}
+                  singleOptionComponent={SelectCampaignOption}
                 >
                   {campaigns.map(campaign => (
-                    <option key={campaign.id} value={campaign.id}>
-                      {campaign.campaignName}
+                    <option key={campaign.id} value={campaign.id} campaign={campaign}>
+                      {`${campaign.campaignName} - ${campaign.state}`}
                     </option>
                   ))}
                 </Field>

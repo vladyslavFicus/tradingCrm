@@ -1,11 +1,18 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import { sourceActionCreators } from '../../../../../../../redux/modules/bonusCampaigns';
+import { statuses as bonusCampaignStatuses } from '../../../../../../../constants/bonus-campaigns';
 
 const KEY = 'player/bonus-campaign/campaigns';
 const FETCH_CAMPAIGNS = createRequestAction(`${KEY}/fetch-campaigns`);
 const ADD_PLAYER_TO_CAMPAIGN = createRequestAction(`${KEY}/add-player-to-campaign`);
-const fetchCampaigns = sourceActionCreators.fetchCampaigns(FETCH_CAMPAIGNS);
+const fetchCampaigns = (filters = {}) => {
+  return sourceActionCreators.fetchCampaigns(FETCH_CAMPAIGNS)({
+    ...filters,
+    size: 99999,
+    state: [bonusCampaignStatuses.DRAFT, bonusCampaignStatuses.PENDING, bonusCampaignStatuses.ACTIVE],
+  });
+};
 
 function addPlayerToCampaign(campaignId, playerUUID) {
   return (dispatch, getState) => {

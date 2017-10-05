@@ -17,6 +17,8 @@ class Select extends Component {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
     showSearch: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     searchPlaceholder: PropTypes.string,
+    optionsHeader: PropTypes.oneOfType([PropTypes.func]),
+    singleOptionComponent: PropTypes.oneOfType([PropTypes.func]),
   };
   static defaultProps = {
     onChange: null,
@@ -25,6 +27,8 @@ class Select extends Component {
     multiple: false,
     value: null,
     searchPlaceholder: 'Search',
+    optionsHeader: null,
+    singleOptionComponent: null,
   };
 
   constructor(props) {
@@ -228,10 +232,11 @@ class Select extends Component {
 
   filterOptions = options => options
     .filter(option => option.type === 'option')
-    .map(option => ({
-      label: option.props.children,
-      value: option.props.value,
-      key: option.key,
+    .map(({ key, props: { value, children, ...props } }) => ({
+      label: children,
+      value,
+      key,
+      props,
     }));
 
   filterSelectedOptions = (options, selectedOptions, multiple) => (
@@ -265,7 +270,7 @@ class Select extends Component {
 
   renderLabel = () => {
     const { originalSelectedOptions, toSelectOptions } = this.state;
-    const { multiple, placeholder: inputPlaceholder } = this.props;
+    const { multiple, placeholder: inputPlaceholder, singleOptionComponent } = this.props;
     let placeholder = inputPlaceholder;
 
     if (multiple) {
@@ -276,10 +281,20 @@ class Select extends Component {
           ? mergedOptions[0].label
           : `${mergedOptions.length} options selected`;
       }
-    } else if (toSelectOptions.length) {
-      placeholder = toSelectOptions[0].label;
-    } else if (originalSelectedOptions.length) {
-      placeholder = originalSelectedOptions[0].label;
+    } else {
+      const OptionCustomComponent = singleOptionComponent;
+      let option = toSelectOptions.length
+        ? toSelectOptions[0] : null;
+
+      if (!option && originalSelectedOptions.length) {
+        option = originalSelectedOptions[0];
+      }
+
+      if (option) {
+        placeholder = OptionCustomComponent
+          ? <OptionCustomComponent {...option.props} />
+          : option.label;
+      }
     }
 
     return (
@@ -290,7 +305,7 @@ class Select extends Component {
     );
   };
 
-  renderOptions = (options, selectedOptions, toSelectOptions, multiple) => (
+  renderOptions = (options, selectedOptions, toSelectOptions, multiple, singleOptionComponent) => (
     multiple
       ? (
         <SelectMultipleOptions
@@ -306,14 +321,23 @@ class Select extends Component {
           selectedOption={selectedOptions[0]}
           onChange={this.handleSelectSingleOption}
           bindActiveOption={this.bindActiveOptionRef}
+          optionComponent={singleOptionComponent}
         />
       )
   );
 
   render() {
-    const { query, opened, options, selectedOptions, originalSelectedOptions, toSelectOptions } = this.state;
-    const { multiple, searchPlaceholder } = this.props;
+    const {
+      query,
+      opened,
+      options,
+      selectedOptions,
+      originalSelectedOptions,
+      toSelectOptions,
+    } = this.state;
+    const { multiple, searchPlaceholder, optionsHeader, singleOptionComponent } = this.props;
 
+    const OptionsHeaderComponent = optionsHeader;
     const showSearchBar = this.hasSearchBar();
     const className = classNames('select-block', {
       'is-opened': opened,
@@ -339,14 +363,15 @@ class Select extends Component {
             />
           }
           <div className="select-block__container" ref={this.bindContainerRef}>
+            {OptionsHeaderComponent && <OptionsHeaderComponent />}
             {multiple && this.renderSelectedOptions(originalSelectedOptions, selectedOptions)}
             {
               !!query && options.length === 0 &&
-              <span className="text-muted font-size-10 margin-10">
+              <div className="text-muted font-size-10 margin-10">
                 Options by query {`"${query}"`} not found...
-              </span>
+              </div>
             }
-            {this.renderOptions(options, originalSelectedOptions, toSelectOptions, multiple)}
+            {this.renderOptions(options, originalSelectedOptions, toSelectOptions, multiple, singleOptionComponent)}
           </div>
         </div>
       </div>

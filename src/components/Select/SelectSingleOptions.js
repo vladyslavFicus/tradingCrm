@@ -15,16 +15,28 @@ class SelectSingleOptions extends React.Component {
     onChange: PropTypes.func.isRequired,
     options: PropTypes.arrayOf(OptionPropType),
     selectedOption: OptionPropType,
+    bindActiveOption: PropTypes.func.isRequired,
+    optionComponent: PropTypes.oneOfType([PropTypes.func]),
   };
   static defaultProps = {
     className: 'select-block__options',
     optionClassName: 'select-block__options-item',
     options: [],
     selectedOption: undefined,
+    optionView: null,
   };
 
   render() {
-    const { options, selectedOption, className, optionClassName, onChange, bindActiveOption } = this.props;
+    const {
+      options,
+      selectedOption,
+      className,
+      optionClassName,
+      onChange,
+      bindActiveOption,
+      optionComponent,
+    } = this.props;
+    const OptionCustomComponent = optionComponent;
 
     if (options.length === 0) {
       return null;
@@ -39,6 +51,7 @@ class SelectSingleOptions extends React.Component {
             className: classNames(optionClassName, {
               'is-selected': isActive,
             }),
+            ...option.props,
           };
 
           if (isActive) {
@@ -47,11 +60,9 @@ class SelectSingleOptions extends React.Component {
             optionProps.onClick = () => onChange(option);
           }
 
-          return (
-            <div {...optionProps}>
-              {option.label}
-            </div>
-          );
+          return OptionCustomComponent
+            ? <OptionCustomComponent {...optionProps} />
+            : <div {...optionProps}>{option.label}</div>;
         })}
       </div>
     );

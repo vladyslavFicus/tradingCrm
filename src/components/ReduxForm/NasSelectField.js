@@ -27,6 +27,8 @@ class NasSelectField extends Component {
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
     inputButton: PropTypes.any,
     showInputButton: PropTypes.bool,
+    optionsHeader: PropTypes.oneOfType([PropTypes.func]),
+    singleOptionComponent: PropTypes.oneOfType([PropTypes.func]),
   };
   static defaultProps = {
     position: 'horizontal',
@@ -40,6 +42,8 @@ class NasSelectField extends Component {
     inputButton: null,
     inputClassName: 'form-control select-block',
     showInputButton: false,
+    optionsHeader: null,
+    singleOptionComponent: null,
   };
 
   renderInput = (props) => {
@@ -55,12 +59,16 @@ class NasSelectField extends Component {
       children,
       multiple,
       placeholder,
+      optionsHeader,
+      singleOptionComponent,
     } = props;
 
     let inputField = (
       <Select
         {...input}
         placeholder={placeholder}
+        optionsHeader={optionsHeader}
+        singleOptionComponent={singleOptionComponent}
         disabled={disabled}
         multiple={multiple}
         className={classNames(inputClassName, { 'has-danger': touched && error })}
