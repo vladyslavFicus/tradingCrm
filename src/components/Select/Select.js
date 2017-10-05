@@ -17,8 +17,8 @@ class Select extends PureComponent {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
     showSearch: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     searchPlaceholder: PropTypes.string,
-    optionsHeader: PropTypes.oneOfType([PropTypes.func]),
-    singleOptionComponent: PropTypes.oneOfType([PropTypes.func]),
+    optionsHeader: PropTypes.func,
+    singleOptionComponent: PropTypes.func,
   };
   static defaultProps = {
     onChange: null,

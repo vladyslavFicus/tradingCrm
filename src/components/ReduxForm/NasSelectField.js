@@ -29,8 +29,8 @@ class NasSelectField extends Component {
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
     inputButton: PropTypes.any,
     showInputButton: PropTypes.bool,
-    optionsHeader: PropTypes.oneOfType([PropTypes.func]),
-    singleOptionComponent: PropTypes.oneOfType([PropTypes.func]),
+    optionsHeader: PropTypes.func,
+    singleOptionComponent: PropTypes.func,
   };
   static defaultProps = {
     position: 'horizontal',
