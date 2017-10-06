@@ -1,48 +1,77 @@
-@import "../../../../styles/settings/variables";
-
-.popover-inner.availability-popover {
+.availability-popover {
   max-width: 300px;
-  .popover-title {
-    background: $yellow-color;
-    border: none;
-  }
+  border: 1px solid #f2f2f2;
 
-  .tab-pane {
-    overflow-x: hidden;
-    max-height: 150px;
-    overflow-y: auto;
-  }
-
-  .nav-item {
-    .active {
-      color: #0088ff;
-      background-color: transparent;
-      &:hover {
-        color: #0088ff;
-        background-color: transparent;
-      }
-    }
-    .nav-link {
-      border: none;
-      cursor: pointer;
-    }
+  .popover-content {
+    padding: 0;
   }
 
   .nav-tabs {
-    margin-top: 0;
-    border-bottom: none;
-    font-weight: 700;
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: #f2f2f2;
+    .nav-item {
+      flex: 1 0 auto;
+      margin: 0;
+      text-align: center;
+    }
+    .nav-link {
+      padding-top: .75em;
+      padding-bottom: .75em;
+      border: 0;
+      border-radius: 0;
+      border-top: 3px solid transparent;
+      font-size: 14px;
+      font-weight: 700;
+      color: #333;
+      cursor: pointer;
+      &:hover {
+        color: #333;
+      }
+    }
+    .active {
+      border-top-color: #09f;
+      background-color: #fff;
+      color: #09f;
+      &:hover {
+        border-top-color: #09f;
+        color: #09f;
+      }
+    }
+  }
+
+  .input-with-icon {
+    padding: 14px 10px 0;
+  }
+
+  .input-with-icon .input-left-icon {
+    top: 20px;
+    left: 18px;
+    font-size: 13px;
+    &:before {
+      color: #a7a7a7;
+    }
+  }
+
+  .form-control {
+    height: 25px;
+    font-size: 13px;
+    color: #999;
+  }
+
+  .tab-pane {
+    max-height: 150px;
+    padding: 0 10px 14px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-size: 14px;
+    color: #333;
+    &__limit-amount {
+      color: #999;
+    }
   }
 
   .tab-name {
-    font-weight: 700;
-    color: #08f;
-  }
-
-  .icmn-search {
-    font-size: 12px;
-  }
-  .popover-content {
-    background: white;
+    color: #09f;
   }
 }

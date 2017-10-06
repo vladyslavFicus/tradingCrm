@@ -44,7 +44,7 @@
           "WITHDRAW": "Withdraw",
           "FULLY_DISABLED": "Fully disabled"
         },
-        "SEARCH_PLACEHOLDER": "Quick search by country",
+        "SEARCH_PLACEHOLDER": "Quick search",
         "NO_RESULT_BY_SEARCH": "No countries begins from “%{search}” found in %{tabName}"
       }
     }
@@ -535,7 +535,9 @@
     "LEFT": "left %{value}",
     "ACTIVATES_ON": "activates on %{date}",
     "NEVER": "Never",
-    "ADD": "Add"
+    "ADD": "Add",
+    "MIN": "Min.",
+    "MAX": "Max."
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1136,5 +1138,11 @@
         "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
       }
     }
+  },
+  "PAYMENT_METHOD_LIMIT_POPOVER": {
+    "ENABLE_LIMIT_TYPE": "Enable %{type}",
+    "DISABLE_LIMIT_TYPE": "Disable %{type}",
+    "DEPOSITS": "deposits",
+    "WITHDRAWALS": "withdrawals"
   }
 }

@@ -183,10 +183,14 @@ class List extends Component {
           methodUUID: data.uuid,
           limitUUID: item.uuid,
           type: column.name,
-          limitType: column.name === 'depositLimit' ? 'deposits' : 'withdrawals',
+          limitType: column.name === 'depositLimit'
+            ? I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.DEPOSITS')
+            : I18n.t('PAYMENT_METHOD_LIMIT_POPOVER.WITHDRAWALS'),
         })}
+        className="payment-method-toggle"
       >
         {this.renderLimitRepresentation(data, column)}
+        <i className="fa fa-angle-down" />
       </PopoverButton>
     );
   };
@@ -247,12 +251,14 @@ class List extends Component {
                 header="Deposit"
                 render={this.renderLimit}
                 className="font-weight-700"
+                headerClassName="payment-method-table-header"
               />
               <GridColumn
                 name="withdrawLimit"
                 header="Withdrawal"
                 render={this.renderLimit}
                 className="font-weight-700"
+                headerClassName="payment-method-table-header"
               />
               {
                 !filters.countryCode &&

@@ -44,7 +44,7 @@
           "WITHDRAW": "Вывод",
           "FULLY_DISABLED": "Полностью отключен"
         },
-        "SEARCH_PLACEHOLDER": "Поиск по стране",
+        "SEARCH_PLACEHOLDER": "Быстрый поиск",
         "NO_RESULT_BY_SEARCH": "Не найдено страны “%{search}” в %{tabName}"
       }
     }
@@ -488,7 +488,7 @@
     "COUNT": "Количество",
     "CLOSE": "Закрыть",
     "CANCEL": "Отмена",
-    "SAVE": "Сохранение",
+    "SAVE": "Сохранить",
     "ACCOUNT_STATUS": "Статус аккаунта",
     "BALANCE": "Баланс",
     "NOTIFICATIONS": {
@@ -537,7 +537,9 @@
     "LEFT": "осталось %{value}",
     "ACTIVATES_ON": "активируется %{date}",
     "NEVER": "Никогда",
-    "ADD": "Добавить"
+    "ADD": "Добавить",
+    "MIN": "Мин.",
+    "MAX": "Mакс."
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1147,5 +1149,11 @@
         "NOTE_MESSAGE": "Вы сможете задать дополнительные департаменты в профиле оператора после его создания"
       }
     }
+  },
+  "PAYMENT_METHOD_LIMIT_POPOVER": {
+    "ENABLE_LIMIT_TYPE": "Включить %{type}",
+    "DISABLE_LIMIT_TYPE": "Отключить %{type}",
+    "DEPOSITS": "пополнение",
+    "WITHDRAWALS": "вывод средств"
   }
 }
