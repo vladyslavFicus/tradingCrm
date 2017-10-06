@@ -413,10 +413,14 @@
           "CAPPING": "Capping",
           "MULTIPLIER": "Множитель",
           "BONUS_LIFE_TIME": "Время жизни бонуса",
-          "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
+          "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
+          "COIN_SIZE": "Стоимость коина",
+          "NUMBER_OF_COINS": "Кол-во коинов"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
-        "TOTAL_VALUE": "Сумма spin"
+        "TOTAL_VALUE": "Сумма spin",
+        "CHOOSE_COIN_SIZE": "-- Выберите --",
+        "CHOOSE_NUMBER_OF_COINS": "-- Выберите --"
       },
       "MODAL_CANCEL": {
         "SELECT_REASON_OPTION": "-- Выберите причину --",
