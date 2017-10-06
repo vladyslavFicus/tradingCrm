@@ -5,7 +5,7 @@ import renderLabel from '../../../../../utils/renderLabel';
 import { gameStatus, gameStatusLabels, gameStatusColor } from '../../../../../constants/games';
 
 const GameStatus = ({ status }) => {
-  const gameStatuses = status ? gameStatus.INACTIVE : gameStatus.ACTIVE;
+  const gameStatuses = status.disabled ? gameStatus.INACTIVE : gameStatus.ACTIVE;
 
   return (
     <div className={classNames('font-weight-700 text-uppercase', gameStatusColor[gameStatuses])}>
@@ -15,7 +15,7 @@ const GameStatus = ({ status }) => {
 };
 
 GameStatus.propTypes = {
-  status: PropTypes.bool.isRequired,
+  status: PropTypes.object.isRequired,
 };
 
 export default GameStatus;

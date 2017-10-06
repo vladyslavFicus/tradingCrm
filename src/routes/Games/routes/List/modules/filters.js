@@ -4,7 +4,7 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import { type, gameProvider, withLines } from '../../../../../constants/games';
 
-const KEY = 'games/categories';
+const KEY = 'games/filters';
 const FETCH_CATEGORIES = createRequestAction(`${KEY}/fetch-categories`);
 
 function fetchCategories() {
@@ -35,16 +35,8 @@ const initialState = {
   data: {
     categories: [],
     withLines,
-    type: [
-      type.MOBILE,
-      type.DESKTOP,
-    ],
-    gameProvider: [
-      gameProvider.microgaming,
-      gameProvider.greentube,
-      gameProvider.netent,
-      gameProvider.stakelogic,
-    ],
+    type,
+    gameProvider,
   },
   error: null,
   isLoading: false,

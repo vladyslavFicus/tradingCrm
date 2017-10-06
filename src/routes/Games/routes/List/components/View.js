@@ -34,8 +34,8 @@ class View extends Component {
       data: PropTypes.shape({
         categories: PropTypes.arrayOf(PropTypes.string).isRequired,
         withLines: PropTypes.object.isRequired,
-        type: PropTypes.arrayOf(PropTypes.string).isRequired,
-        gameProvider: PropTypes.arrayOf(PropTypes.string).isRequired,
+        type: PropTypes.object.isRequired,
+        gameProvider: PropTypes.object.isRequired,
       }).isRequired,
     }).isRequired,
   };
@@ -112,8 +112,6 @@ class View extends Component {
       }
     </div>
   );
-
-  renderStatus = data => <GameStatus status={data.disabled} />;
 
   render() {
     const {
@@ -211,7 +209,7 @@ class View extends Component {
               <GridColumn
                 name="gameStatus"
                 header={I18n.t('GAMES.GRID.STATUS')}
-                render={this.renderStatus}
+                render={data => <GameStatus status={data} />}
               />
             </GridView>
           </Content>

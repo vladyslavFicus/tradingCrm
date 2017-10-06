@@ -8,4 +8,4 @@ const attributeLabels = {
 };
 
 
-export { attributeLabels };
+export default attributeLabels;

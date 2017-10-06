@@ -4,7 +4,7 @@ import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createReducer from '../../../../../utils/createReducer';
 
-const KEY = 'games/list/games';
+const KEY = 'games';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
 const RESET_SERVER_GAMES = createRequestAction(`${KEY}/reset-server-games`);
 const RESET_GAMES = `${KEY}/reset-games`;

@@ -4,31 +4,26 @@ import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { SelectField, NasSelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
-import { attributeLabels } from '../constants';
+import attributeLabels from '../constants';
 import { typeLabels, gameProviderLabels, withLinesLabels } from '../../../../../constants/games';
 import renderLabel from '../../../../../utils/renderLabel';
 
-const validator = createValidator({
-  gameProvider: 'string',
-  category: 'string',
-  type: 'string',
-  withLines: 'string',
-}, attributeLabels, false);
-
 class GamesGridFilter extends Component {
   static propTypes = {
-    submitting: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool,
+    handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
     withLines: PropTypes.object.isRequired,
-    type: PropTypes.arrayOf(PropTypes.string).isRequired,
-    gameProvider: PropTypes.arrayOf(PropTypes.string).isRequired,
+    type: PropTypes.object.isRequired,
+    gameProvider: PropTypes.object.isRequired,
     reset: PropTypes.func,
     onReset: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
+    submitting: false,
+    handleSubmit: null,
     reset: null,
   };
 
@@ -59,10 +54,10 @@ class GamesGridFilter extends Component {
                 component={SelectField}
                 position="vertical"
               >
-                <option value="">{I18n.t('COMMON.ALL')}</option>
+                <option value="">{I18n.t('COMMON.ANY')}</option>
                 {Object.keys(gameProvider).map(item => (
                   <option key={item} value={gameProvider[item]}>
-                    {renderLabel(gameProvider[item], gameProviderLabels)}
+                    {renderLabel(item, gameProviderLabels)}
                   </option>
                 ))}
               </Field>
@@ -86,13 +81,14 @@ class GamesGridFilter extends Component {
               <Field
                 name="type"
                 label={I18n.t(attributeLabels.type)}
-                component={NasSelectField}
+                component={SelectField}
                 placeholder={I18n.t('COMMON.ANY')}
                 position="vertical"
               >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
                 {Object.keys(type).map(item => (
                   <option key={item} value={type[item]}>
-                    {renderLabel(type[item], typeLabels)}
+                    {renderLabel(item, typeLabels)}
                   </option>
                 ))}
               </Field>
@@ -101,13 +97,14 @@ class GamesGridFilter extends Component {
               <Field
                 name="withLines"
                 label={I18n.t(attributeLabels.withLines)}
-                component={NasSelectField}
+                component={SelectField}
                 placeholder={I18n.t('COMMON.ANY')}
                 position="vertical"
               >
+                <option value="">{I18n.t('COMMON.ANY')}</option>
                 {Object.keys(withLines).map(item => (
                   <option key={item} value={item}>
-                    {renderLabel(withLines[item], withLinesLabels)}
+                    {renderLabel(item, withLinesLabels)}
                   </option>
                 ))}
               </Field>
@@ -141,5 +138,10 @@ class GamesGridFilter extends Component {
 
 export default reduxForm({
   form: 'gamesGridFilter',
-  validate: validator,
+  validate: createValidator({
+    gameProvider: 'string',
+    gameType: 'string',
+    platform: 'string',
+    freeSpinAvailability: 'string',
+  }, attributeLabels, false),
 })(GamesGridFilter);
