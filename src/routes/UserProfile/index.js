@@ -17,17 +17,19 @@ const profilePathnameRegExp = new RegExp(`^\\/${PLAYER_PROFILE_ROUTE_PREFIX}\\/(
 export default store => ({
   path: `${PLAYER_PROFILE_ROUTE_PREFIX}/:id`,
   onEnter: ({ location }, replace, cb) => {
-    if (!window.isFrame) {
-      const [, playerUUID] = location.pathname.match(profilePathnameRegExp);
+    if (!__DEV__) {
+      if (!window.isFrame) {
+        const [, playerUUID] = location.pathname.match(profilePathnameRegExp);
 
-      if (playerUUID) {
-        store.dispatch(usersPanelsActionCreators.add({
-          fullName: '',
-          login: '',
-          uuid: playerUUID,
-          path: location.pathname.replace(`/${PLAYER_PROFILE_ROUTE_PREFIX}/${playerUUID}/`, ''),
-        }));
-        replace({ pathname: `/${PLAYER_PROFILE_ROUTE_PREFIX}/list`, state: { ignoreByUsersPanel: true } });
+        if (playerUUID) {
+          store.dispatch(usersPanelsActionCreators.add({
+            fullName: '',
+            login: '',
+            uuid: playerUUID,
+            path: location.pathname.replace(`/${PLAYER_PROFILE_ROUTE_PREFIX}/${playerUUID}/`, ''),
+          }));
+          replace({ pathname: `/${PLAYER_PROFILE_ROUTE_PREFIX}/list`, state: { ignoreByUsersPanel: true } });
+        }
       }
     }
 

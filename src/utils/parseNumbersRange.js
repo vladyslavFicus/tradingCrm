@@ -1,10 +1,11 @@
 export default (config) => {
   const items = config.split(';');
+
   return items.reduce((res, item) => {
-    const [start, end] = item.split('-').map(i => parseInt(i, 10));
+    const [start, end] = item.split('-').map(i => parseFloat(i));
 
     return end
-      ? [...res, ...[...new Array(end - (start + 1))].map((_, i) => start + i)]
+      ? [...res, ...[...new Array(end - start)].map((_, i) => start + i), end]
       : [...res, start];
   }, []);
 };

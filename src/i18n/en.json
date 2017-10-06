@@ -408,10 +408,14 @@
           "CAPPING": "Capping",
           "MULTIPLIER": "Multiplier",
           "BONUS_LIFE_TIME": "Bonus life time",
-          "MONEY_TYPE_PRIORITY": "Wagering"
+          "MONEY_TYPE_PRIORITY": "Wagering",
+          "COIN_SIZE": "Coin price",
+          "NUMBER_OF_COINS": "Coins"
         },
         "FREE_SPIN_VALUE": "Free spin value",
-        "TOTAL_VALUE": "Total value"
+        "TOTAL_VALUE": "Total value",
+        "CHOOSE_COIN_SIZE": "-- Choose --",
+        "CHOOSE_NUMBER_OF_COINS": "-- Choose --"
       },
       "MODAL_CANCEL": {
         "SELECT_REASON_OPTION": "-- Select reason --",
