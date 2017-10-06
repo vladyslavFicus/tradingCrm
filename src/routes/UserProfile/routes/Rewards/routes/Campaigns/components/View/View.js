@@ -115,23 +115,32 @@ class View extends Component {
   };
 
   handleAddToCampaignClick = async () => {
-    const { fetchCampaigns } = this.props;
+    const { fetchCampaigns, params: { id } } = this.props;
 
-    const campaignsActions = await fetchCampaigns({
-      size: 9999,
-      state: bonusCampaignStatuses.DRAFT,
-    });
+    const currentPlayerCampaignsActions = await fetchCampaigns({ playerUUID: id });
 
-    if (!campaignsActions || campaignsActions.error) {
+    if (!currentPlayerCampaignsActions || currentPlayerCampaignsActions.error) {
       this.context.addNotification({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.TITLE'),
         message: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.MESSAGE'),
       });
     } else {
-      this.handleOpenModal(ADD_TO_CAMPAIGN_MODAL, {
-        campaigns: campaignsActions.payload.content,
-      });
+      const currentCampaigns = currentPlayerCampaignsActions.payload.content.map(i => i.id);
+
+      const campaignsActions = await fetchCampaigns();
+
+      if (!campaignsActions || campaignsActions.error) {
+        this.context.addNotification({
+          level: 'error',
+          title: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.TITLE'),
+          message: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.FETCH_CAMPAIGNS_ERROR.MESSAGE'),
+        });
+      } else {
+        this.handleOpenModal(ADD_TO_CAMPAIGN_MODAL, {
+          campaigns: campaignsActions.payload.content.filter(i => currentCampaigns.indexOf(i.id) === -1),
+        });
+      }
     }
   };
 

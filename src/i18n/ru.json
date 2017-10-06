@@ -322,7 +322,10 @@
           "TITLE": "Добавление в кампанию",
           "CAMPAIGN_ID_LABEL": "Кампании",
           "ACTION": "Вы собираетесь добавить игрока %{fullName} в кампанию",
-          "CAMPAIGN_ID_PLACEHOLDER": "Выберите кампанию"
+          "CAMPAIGN_ID_PLACEHOLDER": "Выберите кампанию",
+          "CAMPAIGN": "Кампания",
+          "AVAILABILITY": "Доступность",
+          "STATUS": "Статус"
         }
       },
       "NOTIFICATIONS": {

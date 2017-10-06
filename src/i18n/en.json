@@ -320,7 +320,10 @@
           "TITLE": "Add to Campaign",
           "CAMPAIGN_ID_LABEL": "Campaigns",
           "ACTION": "You are about to add player %{fullName} to the target of a campaign",
-          "CAMPAIGN_ID_PLACEHOLDER": "Choose campaign"
+          "CAMPAIGN_ID_PLACEHOLDER": "Choose campaign",
+          "CAMPAIGN": "Campaign",
+          "AVAILABILITY": "Availability",
+          "STATUS": "Status"
         }
       },
       "NOTIFICATIONS": {

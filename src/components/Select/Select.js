@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
@@ -8,7 +8,7 @@ import SelectSingleOptions from './SelectSingleOptions';
 import SelectMultipleOptions from './SelectMultipleOptions';
 import deleteFromArray from '../../utils/deleteFromArray';
 
-class Select extends Component {
+class Select extends PureComponent {
   static propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     onChange: PropTypes.func,
@@ -17,6 +17,8 @@ class Select extends Component {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
     showSearch: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
     searchPlaceholder: PropTypes.string,
+    optionsHeader: PropTypes.func,
+    singleOptionComponent: PropTypes.func,
   };
   static defaultProps = {
     onChange: null,
@@ -25,6 +27,8 @@ class Select extends Component {
     multiple: false,
     value: null,
     searchPlaceholder: 'Search',
+    optionsHeader: null,
+    singleOptionComponent: null,
   };
 
   constructor(props) {
@@ -49,17 +53,20 @@ class Select extends Component {
     this.searchBarRef = null;
   }
 
+  componentDidMount() {
+    this.mounted = true;
+  }
+
   componentWillReceiveProps(nextProps) {
     const { query, originalOptions } = this.state;
     const { children, value } = this.props;
     let options = originalOptions;
 
     if (!shallowEqual(children, nextProps.children)) {
-      options = this.filterOptions(nextProps.children);
-
+      options = [...this.filterOptions(nextProps.children)];
       this.setState({
         originalOptions: options,
-        options: this.filterOptionsByQuery(query, options),
+        options: this.filterOptionsByQuery(query, [...options]),
       });
     }
 
@@ -74,6 +81,12 @@ class Select extends Component {
       });
     }
   }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  mounted = false;
 
   shallowEqual = (current, next) => {
     const currentType = typeof current;
@@ -173,22 +186,24 @@ class Select extends Component {
     newValue = newValue.map(option => option.value);
 
     this.setState({ opened: false }, () => {
-      setTimeout(() => {
-        this.setState({
-          query: '',
-          options: originalOptions,
-          toSelectOptions: [],
-          selectedOptions: [...originalSelectedOptions],
-        }, () => {
-          if (!shallowEqual(previousValue, newValue)) {
-            if (multiple) {
-              this.props.onChange(newValue);
-            } else if (newValue.length > 0) {
-              this.props.onChange(newValue[0]);
+      requestAnimationFrame(() => {
+        if (this.mounted) {
+          this.setState({
+            query: '',
+            options: originalOptions,
+            toSelectOptions: [],
+            selectedOptions: [...originalSelectedOptions],
+          }, () => {
+            if (!shallowEqual(previousValue, newValue)) {
+              if (multiple) {
+                this.props.onChange(newValue);
+              } else if (newValue.length > 0) {
+                this.props.onChange(newValue[0]);
+              }
             }
-          }
-        });
-      }, 150);
+          });
+        }
+      });
     });
   };
 
@@ -228,10 +243,11 @@ class Select extends Component {
 
   filterOptions = options => options
     .filter(option => option.type === 'option')
-    .map(option => ({
-      label: option.props.children,
-      value: option.props.value,
-      key: option.key,
+    .map(({ key, props: { value, children, ...props } }) => ({
+      label: children,
+      value,
+      key,
+      props,
     }));
 
   filterSelectedOptions = (options, selectedOptions, multiple) => (
@@ -265,7 +281,7 @@ class Select extends Component {
 
   renderLabel = () => {
     const { originalSelectedOptions, toSelectOptions } = this.state;
-    const { multiple, placeholder: inputPlaceholder } = this.props;
+    const { multiple, placeholder: inputPlaceholder, singleOptionComponent } = this.props;
     let placeholder = inputPlaceholder;
 
     if (multiple) {
@@ -276,10 +292,20 @@ class Select extends Component {
           ? mergedOptions[0].label
           : `${mergedOptions.length} options selected`;
       }
-    } else if (toSelectOptions.length) {
-      placeholder = toSelectOptions[0].label;
-    } else if (originalSelectedOptions.length) {
-      placeholder = originalSelectedOptions[0].label;
+    } else {
+      const OptionCustomComponent = singleOptionComponent;
+      let option = toSelectOptions.length
+        ? toSelectOptions[0] : null;
+
+      if (!option && originalSelectedOptions.length) {
+        option = originalSelectedOptions[0];
+      }
+
+      if (option) {
+        placeholder = OptionCustomComponent
+          ? <OptionCustomComponent {...option.props} />
+          : option.label;
+      }
     }
 
     return (
@@ -290,7 +316,7 @@ class Select extends Component {
     );
   };
 
-  renderOptions = (options, selectedOptions, toSelectOptions, multiple) => (
+  renderOptions = (options, selectedOptions, toSelectOptions, multiple, singleOptionComponent) => (
     multiple
       ? (
         <SelectMultipleOptions
@@ -306,14 +332,23 @@ class Select extends Component {
           selectedOption={selectedOptions[0]}
           onChange={this.handleSelectSingleOption}
           bindActiveOption={this.bindActiveOptionRef}
+          optionComponent={singleOptionComponent}
         />
       )
   );
 
   render() {
-    const { query, opened, options, selectedOptions, originalSelectedOptions, toSelectOptions } = this.state;
-    const { multiple, searchPlaceholder } = this.props;
+    const {
+      query,
+      opened,
+      options,
+      selectedOptions,
+      originalSelectedOptions,
+      toSelectOptions,
+    } = this.state;
+    const { multiple, searchPlaceholder, optionsHeader, singleOptionComponent } = this.props;
 
+    const OptionsHeaderComponent = optionsHeader;
     const showSearchBar = this.hasSearchBar();
     const className = classNames('select-block', {
       'is-opened': opened,
@@ -339,14 +374,15 @@ class Select extends Component {
             />
           }
           <div className="select-block__container" ref={this.bindContainerRef}>
+            {OptionsHeaderComponent && <OptionsHeaderComponent />}
             {multiple && this.renderSelectedOptions(originalSelectedOptions, selectedOptions)}
             {
               !!query && options.length === 0 &&
-              <span className="text-muted font-size-10 margin-10">
+              <div className="text-muted font-size-10 margin-10">
                 Options by query {`"${query}"`} not found...
-              </span>
+              </div>
             }
-            {this.renderOptions(options, originalSelectedOptions, toSelectOptions, multiple)}
+            {this.renderOptions(options, originalSelectedOptions, toSelectOptions, multiple, singleOptionComponent)}
           </div>
         </div>
       </div>
