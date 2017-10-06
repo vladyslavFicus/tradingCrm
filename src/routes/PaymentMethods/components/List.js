@@ -13,7 +13,7 @@ import PopoverButton from '../../../components/PopoverButton';
 import PropTypes from '../../../constants/propTypes';
 import StatusDropDown from './StatusDropDown';
 
-const DragHandle = SortableHandle(({ order }) => <span>:: {order}</span>);
+const DragHandle = SortableHandle(({ order }) => <span className="drag-item">:: {order}</span>);
 const PAYMENT_METHOD_LIMIT_POPOVER = 'payment-method-limit-popover';
 const PAYMENT_METHOD_AVAILABILITY_POPOVER = 'payment-method-availability-popover';
 

@@ -79,3 +79,19 @@ small {
 .dropdown-menu {
   z-index: 1;
 }
+
+.drag-item:hover {
+  cursor: pointer;
+}
+
+.drag-content {
+  display: table !important;
+  border: 1px solid #000;
+  td {
+    padding: 1rem;
+    line-height: 1.5;
+    vertical-align: top;
+    font-weight: 700;
+    color: #333;
+  }
+}
