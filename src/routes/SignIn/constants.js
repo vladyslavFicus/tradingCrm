@@ -4,7 +4,7 @@ import I18n from '../../utils/fake-i18n';
 const brands = keyMirror({
   hrzn: null,
   vulcanprestige: null,
-  vulcanneon_dev: null,
+  vulcanneon: null,
   loki: null,
 });
 const departments = keyMirror({
@@ -33,7 +33,7 @@ const brandsConfig = {
     name: 'Loki',
     image: { src: '/img/loki-brand-logo.png' },
   },
-  [brands.vulcanneon_dev]: {
+  [brands.vulcanneon]: {
     name: 'Vulcan Neon',
     image: { src: '/img/vulcanneon_brand_logo.png', style: { width: '132px' } },
   },

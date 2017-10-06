@@ -20,6 +20,7 @@ import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
 import PaymentAccount from '../../../../../components/PaymentAccount';
 import renderLabel from '../../../../../utils/renderLabel';
+import IpFlag from '../../../../../components/IpFlag';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -219,7 +220,9 @@ class View extends Component {
       return data.country;
     }
 
-    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} />;
+    const id = `open-loop-${data.paymentId}`;
+
+    return <IpFlag id={id} country={data.country} ip={data.clientIp} />;
   };
 
   renderMethod = data => (

@@ -394,8 +394,10 @@ label {
 .input-group .form-control {
   z-index: 0;
 }
-
-.form-check-input {
+input[type=checkbox] {
   margin-right: 5px;
-  vertical-align: middle;
+  vertical-align: baseline;
+  &:hover {
+    cursor: pointer;
+  }
 }
