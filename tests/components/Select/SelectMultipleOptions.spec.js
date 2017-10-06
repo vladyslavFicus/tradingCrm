@@ -44,6 +44,4 @@ describe('(Component) SelectMultipleOptions', () => {
   it('renders with options passed by prop "options"', () => {
     expect(_wrapper.find(`label.${_props.optionClassName}`)).to.have.length(_props.options.length);
   });
-
-  it('renders with an header that contain prop "headerText" text');
 });

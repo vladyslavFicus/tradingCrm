@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -8,7 +8,7 @@ const OptionPropType = PropTypes.shape({
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 });
 
-class SelectSingleOptions extends React.PureComponent {
+class SelectSingleOptions extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     optionClassName: PropTypes.string,
