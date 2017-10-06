@@ -2,9 +2,8 @@ import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators } from '../modules';
 
-const mapStateToProps = ({ games, i18n: { locale }, filters }) => ({
+const mapStateToProps = ({ games, i18n: { locale } }) => ({
   ...games,
-  ...filters,
   locale,
 });
 const mapActions = {

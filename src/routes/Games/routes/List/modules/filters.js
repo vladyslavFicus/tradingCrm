@@ -2,6 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
+import { type, gameProvider, withLines } from '../../../../../constants/games';
 
 const KEY = 'games/categories';
 const FETCH_CATEGORIES = createRequestAction(`${KEY}/fetch-categories`);
@@ -33,6 +34,17 @@ function fetchCategories() {
 const initialState = {
   data: {
     categories: [],
+    withLines,
+    type: [
+      type.MOBILE,
+      type.DESKTOP,
+    ],
+    gameProvider: [
+      gameProvider.microgaming,
+      gameProvider.greentube,
+      gameProvider.netent,
+      gameProvider.stakelogic,
+    ],
   },
   error: null,
   isLoading: false,

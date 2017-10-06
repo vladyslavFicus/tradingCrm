@@ -472,7 +472,8 @@
       "CONFIRM": "Confirm",
       "UPLOAD_FILE": "+ Upload file",
       "CREATE_AND_OPEN": "Create & open",
-      "SAVE_NEW_PASSWORD": "Save new password"
+      "SAVE_NEW_PASSWORD": "Save new password",
+      "SAVE": "Save"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -537,7 +538,8 @@
     "NEVER": "Never",
     "ADD": "Add",
     "ACTIVE": "Active",
-    "INACTIVE": "Inactive"
+    "INACTIVE": "Inactive",
+    "ALL": "All"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -896,7 +898,13 @@
       "FREE_SPINS_UNAVAILABLE": "Unavailable"
     },
     "GAME_TYPE": "Game type",
-    "FREE_SPINS_AVAILABILITY": "Free-spins availability"
+    "FREE_SPINS_AVAILABILITY": "Free-spins availability",
+    "MOBILE": "Mobile",
+    "DESKTOP": "Desktop",
+    "MICROGAMING": "Microgaming",
+    "GREENTUBE": "Greentube",
+    "NETENT": "NetEnt",
+    "STAKELOGIC": "Stakelogic"
   },
   "ERRORS": {
     "FILE": {

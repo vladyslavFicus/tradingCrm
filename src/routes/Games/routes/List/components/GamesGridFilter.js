@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { NasSelectField } from '../../../../../components/ReduxForm';
+import { SelectField, NasSelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 import { attributeLabels } from '../constants';
+import { typeLabels, gameProviderLabels, withLinesLabels } from '../../../../../constants/games';
+import renderLabel from '../../../../../utils/renderLabel';
 
 const validator = createValidator({
-  provider: 'string',
-  gameType: 'string',
-  platform: 'string',
-  freeSpin: 'string',
+  gameProvider: 'string',
+  category: 'string',
+  type: 'string',
+  withLines: 'string',
 }, attributeLabels, false);
 
 class GamesGridFilter extends Component {
@@ -19,13 +21,14 @@ class GamesGridFilter extends Component {
     handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
-    currentValues: PropTypes.object,
+    withLines: PropTypes.object.isRequired,
+    type: PropTypes.arrayOf(PropTypes.string).isRequired,
+    gameProvider: PropTypes.arrayOf(PropTypes.string).isRequired,
     reset: PropTypes.func,
     onReset: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    currentValues: {},
     reset: null,
   };
 
@@ -40,7 +43,9 @@ class GamesGridFilter extends Component {
       handleSubmit,
       onSubmit,
       categories,
-      currentValues,
+      withLines,
+      type,
+      gameProvider,
     } = this.props;
 
     return (
@@ -49,65 +54,64 @@ class GamesGridFilter extends Component {
           <div className="filter-row">
             <div className="filter-row__medium">
               <Field
-                name="gameType"
-                label={I18n.t(attributeLabels.gameType)}
-                component={NasSelectField}
-                placeholder={I18n.t('COMMON.ANY')}
-                position="vertical"
-              >
-                {Object.keys(categories).map(item => (
-                  <option key={item} value={item}>
-                    {categories[item]}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            {/*<div className="filter-row__medium">
-              <Field
-                name="gameType"
-                label={attributeLabels.gameType}
+                name="gameProvider"
+                label={I18n.t(attributeLabels.gameProvider)}
                 component={SelectField}
                 position="vertical"
               >
-                <option value="">{attributePlaceholders.any}</option>
-                {gameTypes.map(item => (
-                  <option key={item} value={item}>
-                    {item}
+                <option value="">{I18n.t('COMMON.ALL')}</option>
+                {Object.keys(gameProvider).map(item => (
+                  <option key={item} value={gameProvider[item]}>
+                    {renderLabel(gameProvider[item], gameProviderLabels)}
                   </option>
                 ))}
               </Field>
             </div>
             <div className="filter-row__medium">
               <Field
-                name="platform"
-                label={attributeLabels.platform}
-                component={SelectField}
+                name="category"
+                label={I18n.t(attributeLabels.category)}
+                component={NasSelectField}
+                placeholder={I18n.t('COMMON.ANY')}
                 position="vertical"
               >
-                <option value="">{attributePlaceholders.any}</option>
-                {platforms.map(item => (
-                  <option key={item} value={item}>
-                    {item}
+                {Object.keys(categories).map(item => (
+                  <option key={item} value={categories[item]}>
+                    {categories[item]}
                   </option>
                 ))}
               </Field>
-            </div>*/}
-            {/*<div className="filter-row__medium">
+            </div>
+            <div className="filter-row__medium">
               <Field
-                name="freeSpin"
-                label={attributeLabels.freeSpin}
-                component={SelectField}
+                name="type"
+                label={I18n.t(attributeLabels.type)}
+                component={NasSelectField}
+                placeholder={I18n.t('COMMON.ANY')}
                 position="vertical"
               >
-                <option value="">{attributePlaceholders.any}</option>
-                {platforms.map(item => (
-                  <option key={item} value={item}>
-                    {item}
+                {Object.keys(type).map(item => (
+                  <option key={item} value={type[item]}>
+                    {renderLabel(type[item], typeLabels)}
                   </option>
                 ))}
               </Field>
-            </div>*/}
-
+            </div>
+            <div className="filter-row__medium">
+              <Field
+                name="withLines"
+                label={I18n.t(attributeLabels.withLines)}
+                component={NasSelectField}
+                placeholder={I18n.t('COMMON.ANY')}
+                position="vertical"
+              >
+                {Object.keys(withLines).map(item => (
+                  <option key={item} value={item}>
+                    {renderLabel(withLines[item], withLinesLabels)}
+                  </option>
+                ))}
+              </Field>
+            </div>
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button
@@ -116,7 +120,7 @@ class GamesGridFilter extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
                   disabled={submitting}
@@ -124,7 +128,7 @@ class GamesGridFilter extends Component {
                   type="submit"
                   id="operators-list-filters-apply-button"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>

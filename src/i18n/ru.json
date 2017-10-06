@@ -474,7 +474,8 @@
       "CONFIRM": "Подтвердить",
       "UPLOAD_FILE": "+ Загрузить файл",
       "CREATE_AND_OPEN": "Создать и открыть",
-      "SAVE_NEW_PASSWORD": "Сохранить новый пароль"
+      "SAVE_NEW_PASSWORD": "Сохранить новый пароль",
+      "SAVE": "Сохранить"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -539,7 +540,8 @@
     "NEVER": "Никогда",
     "ADD": "Добавить",
     "ACTIVE": "Активный",
-    "INACTIVE": "Неактивный"
+    "INACTIVE": "Неактивный",
+    "ALL": "Все"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -902,7 +904,13 @@
       "FREE_SPINS_UNAVAILABLE": "Недоступны"
     },
     "GAME_TYPE": "Тип игры",
-    "FREE_SPINS_AVAILABILITY": "Наличие Free-spins"
+    "FREE_SPINS_AVAILABILITY": "Наличие Free-spins",
+    "MOBILE": "Мобильная",
+    "DESKTOP": "Десктопная",
+    "MICROGAMING": "Microgaming",
+    "GREENTUBE": "Greentube",
+    "NETENT": "NetEnt",
+    "STAKELOGIC": "Stakelogic"
   },
   "ERRORS": {
     "FILE": {

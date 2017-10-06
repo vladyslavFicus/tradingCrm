@@ -6,6 +6,7 @@ import FileUpload from '../../../../../components/FileUpload';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import GameStatus from './GameStatus';
 import GamesGridFilter from './GamesGridFilter';
+import { withLines } from '../../../../../constants/games';
 
 class View extends Component {
   static propTypes = {
@@ -31,9 +32,11 @@ class View extends Component {
     resetGames: PropTypes.func.isRequired,
     filters: PropTypes.shape({
       data: PropTypes.shape({
-        categories: PropTypes.arrayOf(PropTypes.string),
-        gameProviderId: PropTypes.arrayOf(PropTypes.string),
-      }),
+        categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+        withLines: PropTypes.object.isRequired,
+        type: PropTypes.arrayOf(PropTypes.string).isRequired,
+        gameProvider: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }).isRequired,
     }).isRequired,
   };
 
@@ -73,11 +76,15 @@ class View extends Component {
   handleFiltersChanged = (data = {}) => {
     const filters = { ...data };
 
-    if (filters.states) {
-      filters.states = [filters.states];
+    if (filters.withLines === withLines.AVAILABLE) {
+      filters.withLines = true;
     }
 
-    this.setState({ filters, page: 0 }, this.handleRefresh);
+    if (filters.withLines === withLines.UNAVAILABLE) {
+      filters.withLines = false;
+    }
+
+    return this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
   handleFilterReset = () => {
@@ -114,13 +121,11 @@ class View extends Component {
       resetServerGames,
       games: { entities, noResults },
       locale,
-      filters: { data: { categories, gameProviderId } },
+      filters: { data: availableFilters },
     } = this.props;
     const disabled = upload.uploading || download.loading;
     const { filters } = this.state;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
-
-    {console.log(gameProviderId)}
 
     return (
       <div className="page-content-inner">
@@ -164,7 +169,7 @@ class View extends Component {
             onSubmit={this.handleFiltersChanged}
             onReset={this.handleFilterReset}
             disabled={!allowActions}
-            categories={categories}
+            {...availableFilters}
           />
 
           <Content>
