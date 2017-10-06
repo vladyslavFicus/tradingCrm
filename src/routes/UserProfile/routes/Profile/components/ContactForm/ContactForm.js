@@ -1,50 +1,59 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm, getFormValues } from 'redux-form';
+import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
-import { InputField } from '../../../../../../components/ReduxForm';
+import { InputField, SelectField } from '../../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../../utils/validator';
 import { statuses as playerStatuses } from '../../../../../../constants/user';
+import { attributeLabels } from './constants';
 import './ContactForm.scss';
 
 const FORM_NAME = 'updateProfileContact';
-const attributeLabels = {
-  phoneNumber: 'Phone',
-  email: 'Email',
-};
 const validator = createValidator({
   email: 'required|email',
+  phone: 'required|numeric',
+  phoneCode: 'required|numeric',
 }, attributeLabels, false);
 
 class ContactForm extends Component {
   static propTypes = {
-    handleSubmit: PropTypes.func,
+    handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     dirty: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     profile: PropTypes.userProfile,
     initialValues: PropTypes.shape({
-      phoneNumber: PropTypes.string,
+      phoneCode: PropTypes.string,
+      phone: PropTypes.string,
       email: PropTypes.string,
     }),
     currentValues: PropTypes.shape({
-      phoneNumber: PropTypes.string,
+      phoneCode: PropTypes.string,
+      phone: PropTypes.string,
       email: PropTypes.string,
     }),
+    phoneCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
     onVerifyPhoneClick: PropTypes.func.isRequired,
     onVerifyEmailClick: PropTypes.func.isRequired,
+    fetchMeta: PropTypes.func.isRequired,
+    formSyncErrors: PropTypes.object,
   };
   static defaultProps = {
     initialValues: {},
     currentValues: {},
+    formSyncErrors: {},
   };
+
+  componentDidMount() {
+    this.props.fetchMeta();
+  }
 
   handleVerifyPhoneClick = () => {
     const { currentValues, onVerifyPhoneClick } = this.props;
 
-    return onVerifyPhoneClick(currentValues.phoneNumber);
+    return onVerifyPhoneClick(currentValues.phone, currentValues.phoneCode);
   };
 
   handleVerifyEmailClick = () => {
@@ -61,13 +70,20 @@ class ContactForm extends Component {
       onSubmit,
       valid,
       profile,
+      phoneCodes,
       initialValues,
       currentValues,
+      formSyncErrors,
     } = this.props;
-    const isPhoneNumberDirty = currentValues.phoneNumber !== initialValues.phoneNumber;
+    const isPhoneDirty = currentValues.phone !== initialValues.phone ||
+      currentValues.phoneCode !== initialValues.phoneCode;
+
+    const isPhoneValid = !formSyncErrors.phone && !formSyncErrors.phoneCode;
+    const isPhoneVerifiable = isPhoneValid
+      && (isPhoneDirty || (!isPhoneDirty && !profile.phoneNumberVerified));
 
     return (
-      <div className="col-md-8">
+      <div className="col-md-12">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="row margin-bottom-20">
             <div className="col-md-6">
@@ -85,34 +101,49 @@ class ContactForm extends Component {
           </div>
 
           <div className="row">
-            <div className="col-md-6">
-              <Field
-                name="phoneNumber"
-                className="form-group player-profile__contact-input"
-                label={attributeLabels.phoneNumber}
-                labelAddon={(
-                  !isPhoneNumberDirty && profile.phoneNumberVerified &&
-                  <div className="verification-label color-success font-size-12">
-                    <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                  </div>
-                )}
-                type="text"
-                component={InputField}
-                position="vertical"
-                showErrorMessage
-                inputButton={
-                  <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
-                    {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
-                  </button>
-                }
-                showInputButton={isPhoneNumberDirty || !profile.phoneNumberVerified}
-              />
+            <div className="col-md-8">
+              <div className="col-md-3">
+                <Field
+                  name="phoneCode"
+                  component={SelectField}
+                  position="vertical"
+                  label={I18n.t(attributeLabels.phoneCode)}
+                  className="form-control"
+                >
+                  <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
+                  {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
+                </Field>
+              </div>
+              <div className="col-md-9">
+                <Field
+                  name="phone"
+                  type="text"
+                  className="form-group player-profile__contact-input"
+                  component={InputField}
+                  showErrorMessage
+                  label={I18n.t(attributeLabels.phone)}
+                  position="vertical"
+                  showInputButton={isPhoneVerifiable}
+                  labelAddon={(
+                    !isPhoneDirty && profile.phoneNumberVerified &&
+                    <div className="verification-label color-success font-size-12">
+                      <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+                    </div>
+                  )}
+                  inputButton={
+                    <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
+                      {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
+                    </button>
+                  }
+                />
+              </div>
             </div>
-            <div className="col-md-6">
+
+            <div className="col-md-4">
               <Field
                 name="email"
                 className="form-group player-profile__contact-input"
-                label={attributeLabels.email}
+                label={I18n.t(attributeLabels.email)}
                 labelAddon={(
                   profile.profileStatus !== playerStatuses.INACTIVE &&
                   <div className="verification-label color-success font-size-12">
@@ -141,6 +172,7 @@ class ContactForm extends Component {
 
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
+  formSyncErrors: getFormSyncErrors(FORM_NAME)(state),
 }))(
   reduxForm({
     form: FORM_NAME,
