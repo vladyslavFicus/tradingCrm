@@ -8,7 +8,7 @@ node('build') {
         env.GIT_COMMIT_MESSAGE = sh returnStdout: true, script: 'git log --oneline -1'
     }
 
-    docker.image('kkarczmarczyk/node-yarn:8.0').inside('-v /home/jenkins:/home/jenkins') {
+    docker.image('kkarczmarczyk/node-yarn:6.9').inside('-v /home/jenkins:/home/jenkins') {
         stage('Test') {
             sh '''
                 export HOME=/home/jenkins

@@ -121,7 +121,7 @@
     "karma-junit-reporter": "^1.2.0",
     "karma-mocha": "^1.0.1",
     "karma-mocha-reporter": "^2.2.4",
-    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-phantomjs-launcher": "^1.0.4",
     "karma-webpack": "^2.0.4",
     "karma-webpack-with-fast-source-maps": "^1.10.2",
     "mocha": "^3.5.0",
