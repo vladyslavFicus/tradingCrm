@@ -6,7 +6,6 @@ import downloadBlob from '../../../../../utils/downloadBlob';
 import { getApiRoot } from '../../../../../config';
 import asyncFileUpload from '../../../../../utils/asyncFileUpload';
 
-
 const KEY = 'games/list/files';
 const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
 const PROGRESS = `${KEY}/upload-progress`;
@@ -114,7 +113,7 @@ const actionHandlers = {
       progress: 0,
     }),
   }),
-  [UPLOAD_FILE.SUCCESS]: (state) => ({
+  [UPLOAD_FILE.SUCCESS]: state => ({
     ...state,
     upload: {
       ...state.upload,

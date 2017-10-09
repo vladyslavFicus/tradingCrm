@@ -198,7 +198,7 @@ const actionTypes = {
   FETCH_PAYMENT_STATUSES,
   CHANGE_PAYMENT_STATUS,
   RESET_TRANSACTIONS,
-  EXPORT_ENTITIES
+  EXPORT_ENTITIES,
 };
 const actionCreators = {
   fetchEntities,

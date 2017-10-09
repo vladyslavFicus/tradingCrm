@@ -481,7 +481,8 @@
       "CONFIRM": "Подтвердить",
       "UPLOAD_FILE": "+ Загрузить файл",
       "CREATE_AND_OPEN": "Создать и открыть",
-      "SAVE_NEW_PASSWORD": "Сохранить новый пароль"
+      "SAVE_NEW_PASSWORD": "Сохранить новый пароль",
+      "SAVE": "Сохранить"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -546,7 +547,10 @@
     "NEVER": "Никогда",
     "ADD": "Добавить",
     "MIN": "Мин.",
-    "MAX": "Mакс."
+    "MAX": "Mакс.",
+    "ACTIVE": "Активный",
+    "INACTIVE": "Неактивный",
+    "ALL": "Все"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -895,9 +899,27 @@
   },
   "GAMES": {
     "TITLE": "Игры",
-    "EXPORT_BUTTON": "Экспорт игр",
-    "UPLOAD_FILE_BUTTON": "Импорт игр",
-    "RESET_BUTTON": "Сбросить список игр"
+    "EXPORT_BUTTON": "Экспорт",
+    "UPLOAD_FILE_BUTTON": "Импорт",
+    "RESET_BUTTON": "Сбросить список игр",
+    "GRID": {
+      "GAME": "Игра",
+      "PROVIDER": "Провайдер",
+      "PLATFORM": "Платформа",
+      "TECHNOLOGY": "Технология",
+      "FREE_SPINS": "Free-spins",
+      "STATUS": "Статус",
+      "FREE_SPINS_AVAILABLE": "Доступны",
+      "FREE_SPINS_UNAVAILABLE": "Недоступны"
+    },
+    "GAME_TYPE": "Тип игры",
+    "FREE_SPINS_AVAILABILITY": "Наличие Free-spins",
+    "MOBILE": "Мобильная",
+    "DESKTOP": "Десктопная",
+    "MICROGAMING": "Microgaming",
+    "GREENTUBE": "Greentube",
+    "NETENT": "NetEnt",
+    "STAKELOGIC": "Stakelogic"
   },
   "ERRORS": {
     "FILE": {
