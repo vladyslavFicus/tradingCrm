@@ -156,6 +156,7 @@ function updateContacts(uuid, data) {
             payload: {
               ...data,
               phoneNumberVerified: false,
+              phoneNumber: `${data.phoneCode}${data.phone}`,
             },
           },
           UPDATE_PROFILE.FAILURE,

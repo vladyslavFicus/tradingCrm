@@ -353,11 +353,11 @@ class View extends Component {
   };
 
   handleVerifyPhone = async (phone, phoneCode) => {
-    const { params, profile, verifyPhone, updateProfile } = this.props;
+    const { params, profile, verifyPhone, updateContacts } = this.props;
     const { phone: currentPhone, phoneCode: currentPhoneCode } = profile.data;
 
     if (phone !== currentPhone || phoneCode !== currentPhoneCode) {
-      await updateProfile(params.id, { phone, phoneCode });
+      await updateContacts(params.id, { phone, phoneCode });
     }
 
     return verifyPhone(params.id);
