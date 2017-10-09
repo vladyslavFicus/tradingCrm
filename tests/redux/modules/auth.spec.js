@@ -12,7 +12,7 @@ const getCurrentState = () => ({
 describe('Redux::Auth', () => {
   describe('Initial state', () => {
     it('Should not be an undefined', () => {
-      expect(initialState).to.not.be.equal(initialState);
+      expect(initialState).to.not.be.equal(undefined);
     });
   });
 
