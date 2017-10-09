@@ -51,4 +51,12 @@ const karmaConfig = {
   },
 };
 
+if (argv.reporter === 'jenkins') {
+  karmaConfig.singleRun = true;
+  karmaConfig.reporters = ['dots', 'junit'];
+  karmaConfig.junitReporter = {
+    outputFile: 'test-results.xml',
+  };
+}
+
 module.exports = cfg => cfg.set(karmaConfig);
