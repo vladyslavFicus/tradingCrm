@@ -20,7 +20,10 @@ node('build') {
         }
 
         stage('Build') {
-            sh '''yarn build'''
+            sh '''
+                export HOME=/home/jenkins
+                yarn build
+            '''
         }
     }
 
