@@ -59,11 +59,9 @@ class TransactionsFilterForm extends Component {
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return current.isSameOrBefore(moment()) && (
-      currentValues && currentValues.startDate
-        ? current.isSameOrAfter(moment(currentValues.startDate))
-        : true
-    );
+    return currentValues && currentValues.startDate
+      ? current.isSameOrAfter(moment(currentValues.startDate))
+      : true;
   };
 
   handleReset = () => {
