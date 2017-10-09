@@ -9,6 +9,7 @@ import { sourceActionCreators as noteSourceActionCreators } from '../../../../..
 import { targetTypes } from '../../../../../../../constants/note';
 import { getApiRoot } from '../../../../../../../config';
 import downloadBlob from '../../../../../../../utils/downloadBlob';
+import { providers } from '../constants';
 
 const KEY = 'user/bonus-free-spin/list';
 const RESET_LIST = `${KEY}/reset`;
@@ -30,15 +31,26 @@ const mapEntities = async (dispatch, pageable) => {
 
   const newPageable = { ...pageable };
 
-  newPageable.content = newPageable.content.map(item => ({
-    ...item,
-    spinValue: { amount: item.betPerLine * item.linesPerSpin, currency: item.currencyCode },
-    totalValue: { amount: item.betPerLine * item.linesPerSpin * item.freeSpinsAmount, currency: item.currencyCode },
-    betPerLine: { amount: item.betPerLine, currency: item.currencyCode },
-    winning: { amount: item.winning, currency: item.currencyCode },
-    prize: item.prize ? { amount: item.prize, currency: item.currencyCode } : null,
-    capping: item.capping ? { amount: item.capping, currency: item.currencyCode } : null,
-  }));
+  newPageable.content = newPageable.content.map(item => {
+    let betPrice = item.betPerLine;
+
+    if (item.providerId === providers.microgaming) {
+      const coinSize = (item.coinSize ? parseFloat(item.coinSize) : 0) || 0;
+      const numberOfCoins = (item.numberOfCoins ? parseInt(item.numberOfCoins, 10) : 0) || 0;
+
+      betPrice = coinSize * numberOfCoins;
+    }
+
+    return {
+      ...item,
+      spinValue: { amount: betPrice * item.linesPerSpin, currency: item.currencyCode },
+      totalValue: { amount: betPrice * item.linesPerSpin * item.freeSpinsAmount, currency: item.currencyCode },
+      betPerLine: { amount: betPrice, currency: item.currencyCode },
+      winning: { amount: item.winning, currency: item.currencyCode },
+      prize: item.prize ? { amount: item.prize, currency: item.currencyCode } : null,
+      capping: item.capping ? { amount: item.capping, currency: item.currencyCode } : null,
+    };
+  });
 
   const action = await dispatch(fetchNotes(targetTypes.FREE_SPIN, uuids));
   if (!action || action.error) {
@@ -138,10 +150,12 @@ function exportFreeSpins(filters = {}) {
 function createFreeSpin(data) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
+    const endpointSuffix = `/${data.providerId && data.providerId !== providers.igromat ? data.providerId : ''}`;
+    const endpoint = `free_spin/free-spins${endpointSuffix}`;
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'free_spin/free-spins',
+        endpoint,
         method: 'POST',
         headers: {
           Accept: 'application/json',

@@ -411,10 +411,14 @@
           "CAPPING": "Capping",
           "MULTIPLIER": "Multiplier",
           "BONUS_LIFE_TIME": "Bonus life time",
-          "MONEY_TYPE_PRIORITY": "Wagering"
+          "MONEY_TYPE_PRIORITY": "Wagering",
+          "COIN_SIZE": "Coin price",
+          "NUMBER_OF_COINS": "Coins"
         },
         "FREE_SPIN_VALUE": "Free spin value",
-        "TOTAL_VALUE": "Total value"
+        "TOTAL_VALUE": "Total value",
+        "CHOOSE_COIN_SIZE": "-- Choose --",
+        "CHOOSE_NUMBER_OF_COINS": "-- Choose --"
       },
       "MODAL_CANCEL": {
         "SELECT_REASON_OPTION": "-- Select reason --",
@@ -475,7 +479,8 @@
       "CONFIRM": "Confirm",
       "UPLOAD_FILE": "+ Upload file",
       "CREATE_AND_OPEN": "Create & open",
-      "SAVE_NEW_PASSWORD": "Save new password"
+      "SAVE_NEW_PASSWORD": "Save new password",
+      "SAVE": "Save"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -540,7 +545,10 @@
     "NEVER": "Never",
     "ADD": "Add",
     "MIN": "Min.",
-    "MAX": "Max."
+    "MAX": "Max.",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "ALL": "All"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -885,9 +893,27 @@
   },
   "GAMES": {
     "TITLE": "Games",
-    "EXPORT_BUTTON": "Export games",
-    "UPLOAD_FILE_BUTTON": "Import games",
-    "RESET_BUTTON": "Reset games"
+    "EXPORT_BUTTON": "Export",
+    "UPLOAD_FILE_BUTTON": "Import",
+    "RESET_BUTTON": "Reset games",
+    "GRID": {
+      "GAME": "Game",
+      "PROVIDER": "Provider",
+      "PLATFORM": "Platform",
+      "TECHNOLOGY": "Technology",
+      "FREE_SPINS": "Free-spins",
+      "STATUS": "Status",
+      "FREE_SPINS_AVAILABLE": "Available",
+      "FREE_SPINS_UNAVAILABLE": "Unavailable"
+    },
+    "GAME_TYPE": "Game type",
+    "FREE_SPINS_AVAILABILITY": "Free-spins availability",
+    "MOBILE": "Mobile",
+    "DESKTOP": "Desktop",
+    "MICROGAMING": "Microgaming",
+    "GREENTUBE": "Greentube",
+    "NETENT": "NetEnt",
+    "STAKELOGIC": "Stakelogic"
   },
   "ERRORS": {
     "FILE": {

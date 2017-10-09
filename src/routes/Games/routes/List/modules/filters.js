@@ -2,24 +2,29 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
+import { type, gameProvider, withLines } from '../../../../../constants/games';
 
-const KEY = 'transactions/filters';
-const FETCH_FILTERS = createRequestAction(`${KEY}/fetch-filters`);
+const KEY = 'games/filters';
+const FETCH_CATEGORIES = createRequestAction(`${KEY}/fetch-categories`);
 
-function fetchFilters() {
+function fetchCategories() {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: '/payment/methods',
+        endpoint: '/game_info/public/categories',
         method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        types: [FETCH_FILTERS.REQUEST, FETCH_FILTERS.SUCCESS, FETCH_FILTERS.FAILURE],
+        types: [
+          FETCH_CATEGORIES.REQUEST,
+          FETCH_CATEGORIES.SUCCESS,
+          FETCH_CATEGORIES.FAILURE,
+        ],
         bailout: !logged,
       },
     });
@@ -28,39 +33,42 @@ function fetchFilters() {
 
 const initialState = {
   data: {
-    paymentMethods: [],
+    categories: [],
+    withLines,
+    type,
+    gameProvider,
   },
   error: null,
   isLoading: false,
   receivedAt: null,
 };
 const actionHandlers = {
-  [FETCH_FILTERS.REQUEST]: state => ({
+  [FETCH_CATEGORIES.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [FETCH_FILTERS.SUCCESS]: (state, action) => ({
+  [FETCH_CATEGORIES.SUCCESS]: (state, action) => ({
     ...state,
     data: {
       ...state.data,
-      paymentMethods: action.payload,
+      categories: action.payload,
     },
     isLoading: false,
     receivedAt: timestamp(),
   }),
-  [FETCH_FILTERS.FAILURE]: (state, action) => ({
+  [FETCH_CATEGORIES.FAILURE]: (state, action) => ({
     ...state,
-    isLoading: false,
     error: action.payload,
+    isLoading: false,
     receivedAt: timestamp(),
   }),
 };
 const actionTypes = {
-  FETCH_FILTERS,
+  FETCH_CATEGORIES,
 };
 const actionCreators = {
-  fetchFilters,
+  fetchCategories,
 };
 
 export {
