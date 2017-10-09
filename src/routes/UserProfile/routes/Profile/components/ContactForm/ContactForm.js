@@ -18,7 +18,7 @@ const validator = createValidator({
 
 class ContactForm extends Component {
   static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     dirty: PropTypes.bool,
     submitting: PropTypes.bool,
@@ -41,6 +41,7 @@ class ContactForm extends Component {
     formSyncErrors: PropTypes.object,
   };
   static defaultProps = {
+    handleSubmit: null,
     initialValues: {},
     currentValues: {},
     formSyncErrors: {},
