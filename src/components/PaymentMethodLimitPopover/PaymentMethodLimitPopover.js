@@ -6,6 +6,7 @@ import PropTypes from '../../constants/propTypes';
 import { createValidator } from '../../utils/validator';
 import { InputField } from '../../components/ReduxForm';
 import PaymentMethodLimitPopoverStyle from './PaymentMethodLimitPopover.scss';
+import { Currency } from '../../components/Amount';
 
 const attributeLabels = {
   min: I18n.t('COMMON.MIN'),
@@ -33,6 +34,7 @@ class PaymentMethodLimitPopover extends Component {
     pristine: PropTypes.bool,
     toggle: PropTypes.func,
     handleSubmit: PropTypes.func,
+    currencyCode: PropTypes.string,
   };
 
   static defaultProps = {
@@ -42,6 +44,7 @@ class PaymentMethodLimitPopover extends Component {
     pristine: false,
     toggle: null,
     handleSubmit: null,
+    currencyCode: null,
   };
 
   handleSubmit = (data) => {
@@ -87,6 +90,7 @@ class PaymentMethodLimitPopover extends Component {
       submitting,
       invalid,
       pristine,
+      currencyCode,
     } = this.props;
 
     return (
@@ -112,6 +116,7 @@ class PaymentMethodLimitPopover extends Component {
                 showErrorMessage={false}
                 inputClassName="form-control input-sm"
                 component={InputField}
+                inputAddon={<Currency code={currencyCode} />}
               />
               <span className="range-group__separator">-</span>
               <Field
@@ -122,6 +127,7 @@ class PaymentMethodLimitPopover extends Component {
                 showErrorMessage={false}
                 inputClassName="form-control input-sm"
                 component={InputField}
+                inputAddon={<Currency code={currencyCode} />}
               />
               <button
                 type="submit"
