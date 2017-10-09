@@ -3,10 +3,11 @@
 .payment-limit-popover {
   margin-top: -10px;
   .popover-content {
-    max-width: 320px;
+    max-width: 370px;
     padding: 0;
     border: 1px solid #f2f2f2;
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.247058823529412);
+    background-color: #fff;
   }
   &__title {
     padding: 10px;
