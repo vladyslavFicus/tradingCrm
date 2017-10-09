@@ -20,7 +20,7 @@ node('build') {
         }
 
         stage('Build') {
-            sh yarn build
+            sh '''yarn build'''
         }
     }
 
