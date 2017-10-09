@@ -10,13 +10,18 @@ node('build') {
 
     docker.image('kkarczmarczyk/node-yarn:6.7').inside('-v /home/jenkins:/home/jenkins') {
         stage('Test') {
-            sh '''
-                export HOME=/home/jenkins
-                yarn
-                yarn test:jenkins
-            '''
+            try {
+                sh '''
+                    export HOME=/home/jenkins
+                    yarn
+                    yarn test:jenkins
+                '''
 
-            junit testResults: "tests/test-results.xml"
+                junit testResults: "tests/test-results.xml"
+            } catch (Exception e) {
+                junit testResults: "tests/test-results.xml"
+                throw e
+            }
         }
 
         stage('Build') {
