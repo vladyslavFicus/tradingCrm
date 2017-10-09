@@ -80,8 +80,7 @@ class ContactForm extends Component {
       currentValues.phoneCode !== initialValues.phoneCode;
 
     const isPhoneValid = !formSyncErrors.phone && !formSyncErrors.phoneCode;
-    const isPhoneVerifiable = isPhoneValid
-      && (isPhoneDirty || (!isPhoneDirty && !profile.phoneNumberVerified));
+    const isPhoneVerifiable = isPhoneValid && (isPhoneDirty || !profile.phoneNumberVerified);
 
     return (
       <div className="col-md-12">
