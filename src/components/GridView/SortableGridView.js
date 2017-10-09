@@ -102,25 +102,21 @@ class SortableGridView extends Component {
     const columns = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
-      <div className="row">
-        <div className="col-md-12">
-          <table className={tableClassName}>
-            <thead className={headerClassName}>
-              { this.renderHead(this.recognizeHeaders(columns)) }
-            </thead>
-            {
-              dataSource &&
-              <SortableList
-                useDragHandle
-                columns={columns}
-                items={dataSource}
-                onSortEnd={this.onSortEnd}
-                helperClass="drag-content"
-              />
-            }
-          </table>
-        </div>
-      </div>
+      <table className={tableClassName}>
+        <thead className={headerClassName}>
+          { this.renderHead(this.recognizeHeaders(columns)) }
+        </thead>
+        {
+          dataSource &&
+          <SortableList
+            useDragHandle
+            columns={columns}
+            items={dataSource}
+            onSortEnd={this.onSortEnd}
+            helperClass="drag-content"
+          />
+        }
+      </table>
     );
   }
 }
