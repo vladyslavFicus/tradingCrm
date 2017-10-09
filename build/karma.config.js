@@ -55,7 +55,9 @@ if (argv.reporter === 'jenkins') {
   karmaConfig.singleRun = true;
   karmaConfig.reporters = ['dots', 'junit'];
   karmaConfig.junitReporter = {
+    outputDir: 'tests',
     outputFile: 'test-results.xml',
+    useBrowserName: false,
   };
 }
 

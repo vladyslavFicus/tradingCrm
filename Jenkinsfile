@@ -15,6 +15,8 @@ node('build') {
                 yarn
                 yarn test:jenkins
             '''
+
+            junit testResults: "tests/test-results.xml"
         }
 
         stage('Build') {
