@@ -13,7 +13,7 @@ node('build') {
             sh '''
                 export HOME=/home/jenkins
                 yarn
-                yarn test --reporter jenkins
+                yarn test:jenkins
             '''
         }
 
