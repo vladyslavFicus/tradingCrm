@@ -9,7 +9,7 @@ node('build') {
     }
 
     docker.image('kkarczmarczyk/node-yarn:6.7').inside('-v /home/jenkins:/home/jenkins') {
-        stage('Build') {
+        stage('Test') {
             sh '''
                 export HOME=/home/jenkins
                 yarn
