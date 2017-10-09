@@ -1,6 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
+import { getDialCodeByDigits } from 'bc-countries';
 import config from '../../config';
 import buildQueryString from '../../utils/buildQueryString';
 import { statuses as kycStatuses } from '../../constants/kyc';
@@ -11,6 +12,10 @@ const emptyBalance = {
 };
 const fetchProfileMapResponse = (response) => {
   const {
+    email,
+    phone,
+    phoneNumber,
+    phoneCode,
     firstName,
     lastName,
     birthDate,
@@ -21,6 +26,18 @@ const fetchProfileMapResponse = (response) => {
     realMoneyBalance,
     signInIps,
   } = response;
+
+  const contactData = { email, phone, phoneNumber, phoneCode };
+
+  if (!phoneCode && phoneNumber) {
+    const parsedPhoneCode = getDialCodeByDigits(phoneNumber);
+
+    if (parsedPhoneCode) {
+      contactData.phoneCode = parsedPhoneCode;
+      contactData.phoneNumber = contactData.phoneNumber.substring(parsedPhoneCode.length);
+    }
+  }
+
   const kycCompleted = kycPersonalStatus && kycAddressStatus
     && kycPersonalStatus.status === kycStatuses.VERIFIED && kycAddressStatus.status === kycStatuses.VERIFIED;
   let kycDate = null;
@@ -35,6 +52,7 @@ const fetchProfileMapResponse = (response) => {
 
   const payload = {
     ...response,
+    ...contactData,
     fullName: [firstName, lastName].filter(item => item).join(' '),
     age: birthDate && moment(birthDate).isValid() ? moment().diff(birthDate, 'years') : null,
     birthDate: birthDate && moment(birthDate).isValid() ? moment(birthDate).format('YYYY-MM-DD') : null,
