@@ -36,6 +36,12 @@ import uploading, {
   actionCreators as uploadingActionCreators,
 } from './uploading';
 
+import meta, {
+  initialState as metaInitialState,
+  actionTypes as metaActionTypes,
+  actionCreators as metaActionCreators,
+} from './meta';
+
 const actionCreators = {
   ...profileActionCreators,
   ...accumulatedBalancesActionCreators,
@@ -43,6 +49,7 @@ const actionCreators = {
   ...playerLimitsActionCreators,
   ...uploadingActionCreators,
   ...filesActionCreators,
+  ...metaActionCreators,
 };
 const actionTypes = {
   ...profileActionTypes,
@@ -51,6 +58,7 @@ const actionTypes = {
   ...playerLimitsActionTypes,
   ...uploadingActionTypes,
   ...filesActionTypes,
+  ...metaActionTypes,
 };
 const initialState = {
   files: filesInitialState,
@@ -59,6 +67,7 @@ const initialState = {
   notes: notesInitialState,
   playerLimits: playerLimitsInitialState,
   uploading: uploadingInitialState,
+  meta: metaInitialState,
 };
 
 export {
@@ -73,4 +82,5 @@ export default combineReducers({
   notes,
   playerLimits,
   uploading,
+  meta,
 });

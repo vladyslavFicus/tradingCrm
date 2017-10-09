@@ -55,7 +55,11 @@
         "TITLE": "Contacts",
         "VERIFIED": "Verified",
         "VERIFY_PHONE": "Verify phone",
-        "VERIFY_EMAIL": "Verify email"
+        "VERIFY_EMAIL": "Verify email",
+        "LABEL": {
+          "PHONE": "Phone",
+          "PHONE_CODE": "Code"
+        }
       },
       "PERSONAL": {
         "TITLE": "Personal information",

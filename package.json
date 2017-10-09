@@ -17,6 +17,7 @@
   "author": "nassoft",
   "license": "MIT",
   "dependencies": {
+    "bc-countries": "^2.0.0",
     "classnames": "^2.2.5",
     "country-list": "^1.1.0",
     "filesize": "^3.5.10",

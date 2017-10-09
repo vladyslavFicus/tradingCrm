@@ -61,6 +61,8 @@ const initialState = {
     languageCode: null,
     currencyCode: null,
     phoneNumber: null,
+    phone: null,
+    phoneCode: null,
     phoneNumberVerified: false,
     affiliateId: null,
     btag: null,
@@ -100,11 +102,69 @@ const initialState = {
 };
 
 const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
-const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD_REQUEST);
 const resetPasswordConfirm = usersActionCreators.passwordResetConfirm(RESET_PASSWORD_CONFIRM);
 const fetchResetPasswordToken = usersActionCreators.fetchResetPasswordToken(FETCH_RESET_PASSWORD_TOKEN);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
+
+function updateProfile(uuid, data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/profiles/${uuid}`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        types: [
+          UPDATE_PROFILE.REQUEST,
+          {
+            type: UPDATE_PROFILE.SUCCESS,
+            payload: data,
+          },
+          UPDATE_PROFILE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function updateContacts(uuid, data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/profiles/${uuid}`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        types: [
+          UPDATE_PROFILE.REQUEST,
+          {
+            type: UPDATE_PROFILE.SUCCESS,
+            payload: {
+              ...data,
+              phoneNumberVerified: false,
+            },
+          },
+          UPDATE_PROFILE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
 
 function updateSubscription(playerUUID, data, updatedSubscription) {
   return (dispatch, getState) => {
@@ -619,54 +679,11 @@ function successUpdateStatusReducer(state, action) {
 }
 
 function successUpdateProfileReducer(state, action) {
-  const {
-    firstName,
-    lastName,
-    birthDate,
-    acceptedTermsUUID,
-    gender,
-    identifier,
-    postCode,
-    phoneNumber,
-    phoneNumberVerified,
-    suspendEndDate,
-    title,
-    country,
-    city,
-    address,
-    email,
-    profileStatus,
-    profileStatusReason,
-    login,
-    profileTags,
-  } = action.payload;
-
   return {
     ...state,
     data: {
       ...state.data,
-      fullName: [firstName, lastName].join(' ').trim(),
-      firstName,
-      lastName,
-      birthDate,
-      acceptedTermsUUID,
-      email,
-      gender,
-      identifier,
-      postCode,
-      phoneNumber,
-      phoneNumberVerified,
-      suspendEndDate,
-      title,
-      profileStatus,
-      profileStatusReason,
-      login,
-      country,
-      city,
-      address,
-      tags: profileTags.length > 0
-        ? profileTags.map(tag => ({ id: tag.id, tag: tag.tag, priority: tag.tagPriority }))
-        : [],
+      ...action.payload,
     },
     isLoading: false,
     receivedAt: timestamp(),
@@ -907,6 +924,7 @@ const actionCreators = {
   verifyKycAll,
   refuseData,
   updateProfile,
+  updateContacts,
   resetPassword,
   resetPasswordConfirm,
   fetchResetPasswordToken,
