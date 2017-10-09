@@ -44,7 +44,7 @@ class SortableGridView extends Component {
   };
 
   static defaultProps = {
-    tableClassName: 'table table-stripped',
+    tableClassName: 'table',
     headerClassName: 'thead-default',
     defaultFilters: {},
     onFiltersChanged: null,
@@ -104,7 +104,7 @@ class SortableGridView extends Component {
     return (
       <table className={tableClassName}>
         <thead className={headerClassName}>
-          { this.renderHead(this.recognizeHeaders(columns)) }
+          {this.renderHead(this.recognizeHeaders(columns))}
         </thead>
         {
           dataSource &&
