@@ -6,13 +6,11 @@ import { statuses as bonusCampaignStatuses } from '../../../../../../../constant
 const KEY = 'player/bonus-campaign/campaigns';
 const FETCH_CAMPAIGNS = createRequestAction(`${KEY}/fetch-campaigns`);
 const ADD_PLAYER_TO_CAMPAIGN = createRequestAction(`${KEY}/add-player-to-campaign`);
-const fetchCampaigns = (filters = {}) => {
-  return sourceActionCreators.fetchCampaigns(FETCH_CAMPAIGNS)({
-    ...filters,
-    size: 99999,
-    state: [bonusCampaignStatuses.DRAFT, bonusCampaignStatuses.PENDING, bonusCampaignStatuses.ACTIVE],
-  });
-};
+const fetchCampaigns = (filters = {}) => sourceActionCreators.fetchCampaigns(FETCH_CAMPAIGNS)({
+  ...filters,
+  size: 99999,
+  state: [bonusCampaignStatuses.PENDING, bonusCampaignStatuses.ACTIVE],
+});
 
 function addPlayerToCampaign(campaignId, playerUUID) {
   return (dispatch, getState) => {
