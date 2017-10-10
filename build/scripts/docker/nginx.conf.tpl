@@ -9,7 +9,7 @@ server {
     proxy_set_header Host $http_host;
     proxy_set_header X-NginX-Proxy true;
 
-    proxy_pass       http://api.casino2.app/$1;
+    proxy_pass       http://gateway:80/$1;
   }
 
   location /health {
