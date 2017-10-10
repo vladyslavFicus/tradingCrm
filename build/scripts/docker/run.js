@@ -3,6 +3,7 @@ const fs = require('fs');
 const ymlReader = require('yamljs');
 const _ = require('lodash');
 const fetchZookeeperConfig = require('./fetch-zookeeper-config');
+const { exec } = require('child_process');
 
 /**
  * ==================
@@ -21,6 +22,16 @@ const defaultHealth = {
   status: STATUS.DOWN,
   config: { status: STATUS.DOWN },
 };
+
+const execPromisify = command => new Promise((resolve, reject) => {
+  exec(command, (error, stdout) => {
+    if (error) {
+      return reject(error);
+    }
+
+    return resolve(stdout);
+  });
+});
 
 /**
  * ==================
@@ -44,19 +55,24 @@ function processError(error) {
 
 function compileNginxConfig(environmentConfig) {
   let config = fs.readFileSync('/opt/docker/nginx.conf.tpl', { encoding: 'UTF-8' });
-  const params = {
-    logstashUrl: environmentConfig.logstash
-      ? environmentConfig.logstash.url
-      : '',
-  };
 
-  if (config) {
-    Object.keys(params).forEach((name) => {
-      config = config.replace(`{{${name}}}`, params[name]);
+  execPromisify("cat /etc/resolv.conf | grep \"nameserver\" | awk '{print $2}' | tr '\n' ' '")
+    .then((resolvers) => {
+      const params = {
+        logstashUrl: environmentConfig.logstash
+          ? environmentConfig.logstash.url
+          : '',
+        resolvers,
+      };
+
+      if (config) {
+        Object.keys(params).forEach((name) => {
+          config = config.replace(`{{${name}}}`, params[name]);
+        });
+      }
+
+      fs.writeFileSync(NGINX_CONF_OUTPUT, config);
     });
-  }
-
-  fs.writeFileSync(NGINX_CONF_OUTPUT, config);
 }
 
 function processConfig() {

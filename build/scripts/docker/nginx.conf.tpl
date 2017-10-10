@@ -1,4 +1,4 @@
-resolver $NAMESERVERS;
+resolver {{resolvers}};
 
 server {
   server_name _;
