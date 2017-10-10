@@ -3,20 +3,32 @@ def service = 'backoffice'
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10'))])
 
 node('build') {
-
     stage('checkout') {
         checkout scm
         env.GIT_COMMIT_MESSAGE = sh returnStdout: true, script: 'git log --oneline -1'
     }
 
     docker.image('kkarczmarczyk/node-yarn:6.7').inside('-v /home/jenkins:/home/jenkins') {
-        env.CONFIG_ENV = 'test'
+        stage('Test') {
+            try {
+                sh '''
+                    export HOME=/home/jenkins
+                    yarn
+                    yarn test:jenkins
+                '''
+
+                junit testResults: "tests/test-results.xml"
+            } catch (Exception e) {
+                junit testResults: "tests/test-results.xml"
+                throw e
+            }
+        }
+
         stage('Build') {
             sh '''
-export HOME=/home/jenkins
-yarn
-yarn build
-'''
+                export HOME=/home/jenkins
+                yarn build
+            '''
         }
     }
 
