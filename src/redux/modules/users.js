@@ -35,6 +35,8 @@ const fetchProfileMapResponse = (response) => {
     if (parsedPhoneCode) {
       contactData.phoneCode = parsedPhoneCode;
       contactData.phone = contactData.phoneNumber.substring(parsedPhoneCode.length);
+    } else {
+      contactData.phone = contactData.phoneNumber;
     }
   }
 
