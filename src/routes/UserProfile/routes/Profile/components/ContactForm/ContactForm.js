@@ -6,10 +6,16 @@ import PropTypes from '../../../../../../constants/propTypes';
 import { InputField, SelectField } from '../../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../../utils/validator';
 import { statuses as playerStatuses } from '../../../../../../constants/user';
-import { attributeLabels } from './constants';
 import './ContactForm.scss';
 
 const FORM_NAME = 'updateProfileContact';
+
+const attributeLabels = {
+  phone: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE'),
+  phoneCode: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE_CODE'),
+  email: I18n.t('COMMON.EMAIL'),
+};
+
 const validator = createValidator({
   email: 'required|email',
   phone: 'required|numeric',
@@ -107,7 +113,7 @@ class ContactForm extends Component {
                   name="phoneCode"
                   component={SelectField}
                   position="vertical"
-                  label={I18n.t(attributeLabels.phoneCode)}
+                  label={attributeLabels.phoneCode}
                   className="form-control"
                 >
                   <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
@@ -121,7 +127,7 @@ class ContactForm extends Component {
                   className="form-group player-profile__contact-input"
                   component={InputField}
                   showErrorMessage
-                  label={I18n.t(attributeLabels.phone)}
+                  label={attributeLabels.phone}
                   position="vertical"
                   showInputButton={isPhoneVerifiable}
                   labelAddon={(
@@ -143,7 +149,7 @@ class ContactForm extends Component {
               <Field
                 name="email"
                 className="form-group player-profile__contact-input"
-                label={I18n.t(attributeLabels.email)}
+                label={attributeLabels.email}
                 labelAddon={(
                   profile.profileStatus !== playerStatuses.INACTIVE &&
                   <div className="verification-label color-success font-size-12">
