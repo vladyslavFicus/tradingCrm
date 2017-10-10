@@ -2,6 +2,16 @@ server {
   server_name _;
   root /opt/build;
 
+  location ~ ^/api/(.*) {
+    proxy_set_header Host      $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-NginX-Proxy true;
+
+    proxy_pass       http://gateway/$1;
+  }
+
   location /health {
     try_files /../health.json =503;
   }
@@ -11,15 +21,6 @@ server {
     proxy_set_header Host      $host;
     proxy_set_header X-Real-IP $remote_addr;
   }
-
-  location ^~ /api/ {
-      proxy_pass       http://gateway/;
-      proxy_set_header Host      $host;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header Host $http_host;
-      proxy_set_header X-NginX-Proxy true;
-    }
 
   location / {
     try_files $uri $uri/ /index.html;
