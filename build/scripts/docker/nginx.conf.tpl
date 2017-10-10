@@ -1,3 +1,5 @@
+resolver $NAMESERVERS;
+
 server {
   server_name _;
   root /opt/build;
