@@ -27,6 +27,8 @@ const modalInitialState = {
   params: {},
 };
 
+const addToCampaignPermission = new Permissions(permission.USER_PROFILE.ADD_TO_CAMPAIGN);
+
 class View extends Component {
   static propTypes = {
     list: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
@@ -261,7 +263,6 @@ class View extends Component {
     const { filters, modal } = this.state;
     const { list: { entities, noResults }, profile, locale } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
-    const addToCampaignPermission = new Permissions(permission.USER_PROFILE.ADD_TO_CAMPAIGN);
 
     return (
       <div className="profile-tab-container">
