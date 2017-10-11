@@ -5,7 +5,7 @@ server {
   root /opt/build;
 
   location ~ /api/(.*) {
-    access_log /var/log/nginx/api-proxy.access.log full;
+    access_log /var/log/nginx/api-proxy.access.log;
     error_log /var/log/nginx/api-proxy.error.log;
 
     proxy_http_version 1.1;
