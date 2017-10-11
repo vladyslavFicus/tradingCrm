@@ -328,7 +328,7 @@
           "CAMPAIGN": "Campaign",
           "AVAILABILITY": "Availability",
           "STATUS": "Status",
-          "ACTIVE_ONLY": ""
+          "ACTIVE_ONLY": "Active only"
         }
       },
       "NOTIFICATIONS": {
