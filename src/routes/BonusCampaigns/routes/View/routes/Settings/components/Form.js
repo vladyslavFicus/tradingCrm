@@ -105,8 +105,8 @@ const validator = (values) => {
 
 class Form extends Component {
   static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
-    onSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
@@ -134,8 +134,14 @@ class Form extends Component {
     toggleModal: PropTypes.func.isRequired,
   };
   static defaultProps = {
+    handleSubmit: null,
     currentValues: {},
     disabled: false,
+    meta: {},
+    submitting: false,
+    pristine: false,
+    valid: false,
+    errors: {},
   };
 
   componentWillReceiveProps(nextProps) {
@@ -313,19 +319,23 @@ class Form extends Component {
                 <label>{I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="startDate"
                     placeholder={attributeLabels.startDate}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('endDate')}
                     position="vertical"
+                    disabled={disabled}
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="endDate"
                     placeholder={attributeLabels.endDate}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('startDate')}
                     position="vertical"
+                    disabled={disabled}
                   />
                 </div>
               </div>
