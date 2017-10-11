@@ -161,6 +161,11 @@
         "REASON_TWO": "Unblock reason two",
         "REASON_THREE": "Unblock reason three",
         "REASON_FOUR": "Unblock reason four"
+      },
+      "BALANCES_DROPDOWN": {
+        "WITHDRAWABLE": "Withdrawable",
+        "DEPOSITED": "Deposited",
+        "WITHDRAWN": "Withdrawn"
       }
     },
     "GAME_ACTIVITY": {
