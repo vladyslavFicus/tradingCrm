@@ -115,7 +115,7 @@ class View extends Component {
   };
 
   handleAddToCampaignClick = async () => {
-    const { fetchCampaigns, params: { id } } = this.props;
+    const { fetchCampaigns, params: { id }, profile: { currency } } = this.props;
 
     const currentPlayerCampaignsActions = await fetchCampaigns({ playerUUID: id });
 
@@ -128,7 +128,7 @@ class View extends Component {
     } else {
       const currentCampaigns = currentPlayerCampaignsActions.payload.content.map(i => i.id);
 
-      const campaignsActions = await fetchCampaigns();
+      const campaignsActions = await fetchCampaigns({ currency });
 
       if (!campaignsActions || campaignsActions.error) {
         this.context.addNotification({
@@ -138,7 +138,8 @@ class View extends Component {
         });
       } else {
         this.handleOpenModal(ADD_TO_CAMPAIGN_MODAL, {
-          campaigns: campaignsActions.payload.content.filter(i => currentCampaigns.indexOf(i.id) === -1),
+          campaigns: campaignsActions.payload.content
+            .filter(i => currentCampaigns.indexOf(i.id) === -1 && i.currency === currency),
         });
       }
     }
@@ -228,7 +229,6 @@ class View extends Component {
   );
 
   renderActions = (data) => {
-    console.log(data.optedIn, data.state);
     if (!data.optedIn || data.state !== bonusCampaignStatuses.ACTIVE) {
       return null;
     }
