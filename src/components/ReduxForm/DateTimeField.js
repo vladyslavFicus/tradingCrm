@@ -33,7 +33,7 @@ class DateTimeField extends Component {
     label: null,
     labelClassName: 'form-control-label',
     className: 'form-group',
-    dateFormat: 'MM/DD/YYYY',
+    dateFormat: 'DD.MM.YYYY',
     timeFormat: 'HH:mm',
     position: 'horizontal',
     iconLeftClassName: '',
@@ -49,7 +49,7 @@ class DateTimeField extends Component {
     }
 
     return null;
-  }
+  };
 
   handleChange = (value) => {
     const { input: { onChange }, timeFormat, utc } = this.props;

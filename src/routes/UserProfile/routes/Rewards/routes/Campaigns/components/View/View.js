@@ -228,6 +228,7 @@ class View extends Component {
   );
 
   renderActions = (data) => {
+    console.log(data.optedIn, data.state);
     if (!data.optedIn || data.state !== bonusCampaignStatuses.ACTIVE) {
       return null;
     }

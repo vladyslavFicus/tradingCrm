@@ -329,7 +329,8 @@
           "CAMPAIGN_ID_PLACEHOLDER": "Выберите кампанию",
           "CAMPAIGN": "Кампания",
           "AVAILABILITY": "Доступность",
-          "STATUS": "Статус"
+          "STATUS": "Статус",
+          "ACTIVE_ONLY": ""
         }
       },
       "NOTIFICATIONS": {
@@ -1017,7 +1018,30 @@
       }
     },
     "CREATE_MODAL": {
-      "TITLE": "Новая бонус-кампания"
+      "TITLE": "Новая бонус-кампания",
+      "NAME_LABEL": "Название",
+      "PRIORITY_LABEL": "Проиоритет",
+      "START_DATE_LABEL": "Дата начала",
+      "END_DATE_LABEL": "Дата завершения",
+      "CURRENCY_LABEL": "Валюта",
+      "MONEY_TYPE_PRIORITY_LABEL": "",
+      "LIFETIME_LABEL": "",
+      "RATIO_LABEL": "",
+      "RATIO_VALUE_LABEL": "",
+      "RATION_TYPE_LABEL": "",
+      "CAPPING_LABEL": "",
+      "CAPPING_VALUE_LABEL": "",
+      "CAPPING_TYPE_LABEL": "",
+      "PRIZE_LABEL": "",
+      "PRIZE_VALUE_LABEL": "",
+      "PRIZE_TYPE_LABEL": "",
+      "MULTIPLIER_LABEL": "",
+      "CAMPAIGN_TYPE_LABEL": "",
+      "MIN_AMOUNT_LABEL": "",
+      "MAX_AMOUNT_LABEL": "",
+      "TARGET_TYPE_LABEL": "",
+      "OPT_IN_LABEL": "",
+      "LOCK_AMOUNT_LABEL": ""
     },
     "SETTINGS": {
       "LABEL": {
