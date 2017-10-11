@@ -16,6 +16,8 @@ import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
 import AddToCampaignModal from '../AddToCampaignModal';
+import Permissions from '../../../../../../../../utils/permissions';
+import permission from '../../../../../../../../config/permissions';
 
 const CAMPAIGN_DECLINE_MODAL = 'campaign-decline-modal';
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
@@ -40,6 +42,7 @@ class View extends Component {
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
+    permissions: PropTypes.array.isRequired,
   };
 
   state = {
@@ -257,6 +260,7 @@ class View extends Component {
   render() {
     const { filters, modal } = this.state;
     const { list: { entities, noResults }, profile, locale } = this.props;
+    const { permissions: currentPermissions } = this.context;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
@@ -265,12 +269,15 @@ class View extends Component {
           <div className="tab-header">
             <SubTabNavigation links={subTabRoutes} />
             <div className="tab-header__actions">
-              <button
-                className="btn btn-primary-outline margin-left-15 btn-sm"
-                onClick={this.handleAddToCampaignClick}
-              >
-                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
-              </button>
+              {
+                (new Permissions([permission.USER_PROFILE.ADD_TO_CAMPAIGN])).check(currentPermissions) &&
+                <button
+                  className="btn btn-primary-outline margin-left-15 btn-sm"
+                  onClick={this.handleAddToCampaignClick}
+                >
+                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
+                </button>
+              }
             </div>
           </div>
         </Sticky>
