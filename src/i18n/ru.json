@@ -329,7 +329,8 @@
           "CAMPAIGN_ID_PLACEHOLDER": "Выберите кампанию",
           "CAMPAIGN": "Кампания",
           "AVAILABILITY": "Доступность",
-          "STATUS": "Статус"
+          "STATUS": "Статус",
+          "ACTIVE_ONLY": "Только активные"
         }
       },
       "NOTIFICATIONS": {
@@ -1017,7 +1018,30 @@
       }
     },
     "CREATE_MODAL": {
-      "TITLE": "Новая бонус-кампания"
+      "TITLE": "Новая бонус-кампания",
+      "NAME_LABEL": "Название",
+      "PRIORITY_LABEL": "Проиоритет",
+      "START_DATE_LABEL": "Дата начала",
+      "END_DATE_LABEL": "Дата завершения",
+      "CURRENCY_LABEL": "Валюта",
+      "MONEY_TYPE_PRIORITY_LABEL": "Приор. исп. денег",
+      "LIFETIME_LABEL": "Время жизни",
+      "RATIO_LABEL": "Соотношение",
+      "RATIO_VALUE_LABEL": "Значение соотношения",
+      "RATION_TYPE_LABEL": "Тип соотношения",
+      "CAPPING_LABEL": "Capping",
+      "CAPPING_VALUE_LABEL": "Capping value",
+      "CAPPING_TYPE_LABEL": "Capping type",
+      "PRIZE_LABEL": "Prize",
+      "PRIZE_VALUE_LABEL": "Prize value",
+      "PRIZE_TYPE_LABEL": "Prize type",
+      "MULTIPLIER_LABEL": "Множитель",
+      "CAMPAIGN_TYPE_LABEL": "Тип кампании",
+      "MIN_AMOUNT_LABEL": "Мин. сумма",
+      "MAX_AMOUNT_LABEL": "Макс. сумма",
+      "TARGET_TYPE_LABEL": "Тип таргета",
+      "OPT_IN_LABEL": "Opt-In",
+      "LOCK_AMOUNT_LABEL": "Заблок. сумму пополнения"
     },
     "SETTINGS": {
       "LABEL": {

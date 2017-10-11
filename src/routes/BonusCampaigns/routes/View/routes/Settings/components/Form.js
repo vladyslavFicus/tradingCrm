@@ -101,8 +101,8 @@ const validator = (values) => {
 
 class Form extends Component {
   static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
-    onSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
@@ -129,8 +129,14 @@ class Form extends Component {
     disabled: PropTypes.bool,
   };
   static defaultProps = {
+    handleSubmit: null,
     currentValues: {},
     disabled: false,
+    meta: {},
+    submitting: false,
+    pristine: false,
+    valid: false,
+    errors: {},
   };
 
   componentWillReceiveProps(nextProps) {
@@ -341,6 +347,7 @@ class Form extends Component {
           <div className="filter-row__medium">
             <div className="range-group">
               <Field
+                utc
                 name="startDate"
                 label={I18n.t(attributeLabels.startDate)}
                 labelClassName={null}
@@ -351,6 +358,7 @@ class Form extends Component {
               />
               <span className="range-group__separator">-</span>
               <Field
+                utc
                 name="endDate"
                 label={I18n.t(attributeLabels.endDate)}
                 labelClassName={null}

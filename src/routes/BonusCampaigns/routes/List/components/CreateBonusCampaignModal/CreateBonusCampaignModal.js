@@ -21,34 +21,9 @@ import {
 } from '../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
+import { attributeLabels } from './constants';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
-const FORM_NAME = 'bonusCampaignCreateForm';
-
-const attributeLabels = {
-  campaignName: 'Name',
-  priority: 'Priority',
-  startDate: 'Start date',
-  endDate: 'End date',
-  currency: 'Currency',
-  moneyTypePriority: 'Wagering',
-  bonusLifetime: 'Lifetime',
-  campaignRatio: 'Ratio',
-  'campaignRatio.value': 'Ratio',
-  'campaignRatio.type': 'Ratio value type',
-  capping: 'Capping',
-  'capping.value': 'Capping',
-  'capping.type': 'Capping value type',
-  conversionPrize: 'Prize',
-  'conversionPrize.value': 'Conversion prize',
-  'conversionPrize.type': 'Conversion prize value type',
-  wagerWinMultiplier: 'Multiplier',
-  campaignType: 'Campaign type',
-  minAmount: 'Min amount',
-  maxAmount: 'Max amount',
-  targetType: 'Target type',
-  optIn: 'Opt-In',
-};
 
 const getCustomValueFieldTypes = (campaignType) => {
   if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
@@ -56,69 +31,6 @@ const getCustomValueFieldTypes = (campaignType) => {
   }
 
   return customValueFieldTypesByCampaignType[campaignType];
-};
-
-const validator = (values) => {
-  const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
-  const rules = {
-    campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
-    campaignPriority: 'integer',
-    startDate: 'required',
-    endDate: 'required|nextDate:startDate',
-    currency: 'required',
-    bonusLifetime: 'required|integer',
-    campaignRatio: {
-      value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${allowedCustomValueTypes.join()}`],
-    },
-    capping: {
-      value: ['numeric', 'customTypeValue.value'],
-      type: [`in:${allowedCustomValueTypes.join()}`],
-    },
-    conversionPrize: {
-      value: ['numeric', 'customTypeValue.value'],
-      type: [`in:${allowedCustomValueTypes.join()}`],
-    },
-    wagerWinMultiplier: 'required|integer|max:999',
-    campaignType: ['required', `in:${Object.keys(campaignTypesLabels).join()}`],
-    targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
-    minAmount: 'min:0',
-    maxAmount: 'min:0',
-  };
-
-  if (values.minAmount) {
-    const minAmount = parseFloat(values.minAmount).toFixed(2);
-
-    if (!isNaN(minAmount)) {
-      rules.maxAmount = 'greaterOrSame:minAmount';
-    }
-  }
-
-  if (values.maxAmount) {
-    const maxAmount = parseFloat(values.maxAmount).toFixed(2);
-
-    if (!isNaN(maxAmount)) {
-      rules.minAmount = 'lessOrSame:maxAmount';
-    }
-  }
-
-  if (values.conversionPrize && values.conversionPrize.value) {
-    const value = parseFloat(values.conversionPrize.value).toFixed(2);
-
-    if (!isNaN(value)) {
-      rules.capping.value.push('greaterThan:conversionPrize.value');
-    }
-  }
-
-  if (values.capping && values.capping.value) {
-    const value = parseFloat(values.capping.value).toFixed(2);
-
-    if (!isNaN(value)) {
-      rules.conversionPrize.value.push('lessThan:capping.value');
-    }
-  }
-
-  return createValidator(rules, attributeLabels, false)(values);
 };
 
 class CreateBonusCampaignModal extends Component {
@@ -201,6 +113,8 @@ class CreateBonusCampaignModal extends Component {
       currentValues,
     } = this.props;
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
+    const isDepositCampaign = currentValues
+      && [campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(currentValues.campaignType) > -1;
 
     return (
       <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen>
@@ -212,26 +126,26 @@ class CreateBonusCampaignModal extends Component {
           <ModalBody>
             <Field
               name="campaignName"
-              label={attributeLabels.campaignName}
+              label={I18n.t(attributeLabels.campaignName)}
               type="text"
               component={InputField}
             />
             <Field
               name="priority"
-              label={attributeLabels.priority}
+              label={I18n.t(attributeLabels.priority)}
               type="text"
               component={InputField}
             />
             <Field
               name="bonusLifetime"
-              label={attributeLabels.bonusLifetime}
+              label={I18n.t(attributeLabels.bonusLifetime)}
               type="text"
               component={InputField}
             />
 
             <Field
               name="currency"
-              label={attributeLabels.currency}
+              label={I18n.t(attributeLabels.currency)}
               type="select"
               component={SelectField}
             >
@@ -245,7 +159,7 @@ class CreateBonusCampaignModal extends Component {
 
             <Field
               name="moneyTypePriority"
-              label={attributeLabels.moneyTypePriority}
+              label={I18n.t(attributeLabels.moneyTypePriority)}
               type="select"
               component={SelectField}
             >
@@ -258,31 +172,31 @@ class CreateBonusCampaignModal extends Component {
 
             <CustomValueField
               basename={'campaignRatio'}
-              label={attributeLabels.campaignRatio}
+              label={I18n.t(attributeLabels.campaignRatio)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('campaignRatio')}
             />
             <CustomValueField
               basename={'conversionPrize'}
-              label={attributeLabels.conversionPrize}
+              label={I18n.t(attributeLabels.conversionPrize)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('conversionPrize')}
             />
             <CustomValueField
               basename={'capping'}
-              label={attributeLabels.capping}
+              label={I18n.t(attributeLabels.capping)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('capping')}
             />
             <Field
               name="wagerWinMultiplier"
-              label={attributeLabels.wagerWinMultiplier}
+              label={I18n.t(attributeLabels.wagerWinMultiplier)}
               type="text"
               component={InputField}
             />
             <Field
               name="targetType"
-              label={attributeLabels.targetType}
+              label={I18n.t(attributeLabels.targetType)}
               type="select"
               component={SelectField}
             >
@@ -295,7 +209,7 @@ class CreateBonusCampaignModal extends Component {
             </Field>
             <Field
               name="campaignType"
-              label={attributeLabels.campaignType}
+              label={I18n.t(attributeLabels.campaignType)}
               type="select"
               component={SelectField}
             >
@@ -306,23 +220,34 @@ class CreateBonusCampaignModal extends Component {
               ))}
             </Field>
             {
-              currentValues && currentValues.campaignType !== campaignTypes.PROFILE_COMPLETED &&
+              isDepositCampaign &&
               <div className="row">
-                <div className="col-md-offset-3 col-md-4">
+                <div className="col-md-offset-3 col-md-3">
                   <Field
                     name="minAmount"
-                    placeholder={attributeLabels.minAmount}
+                    placeholder={I18n.t(attributeLabels.minAmount)}
                     type="text"
                     component={InputField}
                   />
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-3">
                   <Field
                     name="maxAmount"
-                    placeholder={attributeLabels.maxAmount}
+                    placeholder={I18n.t(attributeLabels.maxAmount)}
                     type="text"
                     component={InputField}
                   />
+                </div>
+                <div className="col-md-3">
+                  <div className="checkbox">
+                    <label>
+                      <Field
+                        name="lockAmount"
+                        type="checkbox"
+                        component="input"
+                      /> {I18n.t(attributeLabels.lockAmount)}
+                    </label>
+                  </div>
                 </div>
               </div>
             }
@@ -330,7 +255,7 @@ class CreateBonusCampaignModal extends Component {
             <Field
               utc
               name="startDate"
-              label="Start date"
+              label={I18n.t(attributeLabels.startDate)}
               component={DateTimeField}
               isValidDate={this.startDateValidator('endDate')}
             />
@@ -338,20 +263,20 @@ class CreateBonusCampaignModal extends Component {
             <Field
               utc
               name="endDate"
-              label="End date"
+              label={I18n.t(attributeLabels.endDate)}
               component={DateTimeField}
               isValidDate={this.endDateValidator('startDate')}
             />
 
             <div className="form-group row">
-              <div className="col-md-9 col-md-offset-3">
+              <div className="col-md-3 col-md-offset-3">
                 <div className="checkbox">
                   <label>
                     <Field
                       name="optIn"
                       type="checkbox"
                       component="input"
-                    /> {attributeLabels.optIn}
+                    /> {I18n.t(attributeLabels.optIn)}
                   </label>
                 </div>
               </div>
@@ -380,6 +305,12 @@ class CreateBonusCampaignModal extends Component {
   }
 }
 
+const FORM_NAME = 'bonusCampaignCreateForm';
+
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
   errors: getFormSyncErrors(FORM_NAME)(state),
@@ -387,6 +318,67 @@ export default connect(state => ({
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate: validator,
+    validate: (values) => {
+      const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
+      const rules = {
+        campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
+        campaignPriority: 'integer',
+        startDate: 'required',
+        endDate: 'required|nextDate:startDate',
+        currency: 'required',
+        bonusLifetime: 'required|integer',
+        campaignRatio: {
+          value: 'required|numeric|customTypeValue.value',
+          type: ['required', `in:${allowedCustomValueTypes.join()}`],
+        },
+        capping: {
+          value: ['numeric', 'customTypeValue.value'],
+          type: [`in:${allowedCustomValueTypes.join()}`],
+        },
+        conversionPrize: {
+          value: ['numeric', 'customTypeValue.value'],
+          type: [`in:${allowedCustomValueTypes.join()}`],
+        },
+        wagerWinMultiplier: 'required|integer|max:999',
+        campaignType: ['required', `in:${Object.keys(campaignTypesLabels).join()}`],
+        targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
+        minAmount: 'min:0',
+        maxAmount: 'min:0',
+      };
+
+      if (values.minAmount) {
+        const minAmount = parseFloat(values.minAmount).toFixed(2);
+
+        if (!isNaN(minAmount)) {
+          rules.maxAmount = 'greaterOrSame:minAmount';
+        }
+      }
+
+      if (values.maxAmount) {
+        const maxAmount = parseFloat(values.maxAmount).toFixed(2);
+
+        if (!isNaN(maxAmount)) {
+          rules.minAmount = 'lessOrSame:maxAmount';
+        }
+      }
+
+      if (values.conversionPrize && values.conversionPrize.value) {
+        const value = parseFloat(values.conversionPrize.value).toFixed(2);
+
+        if (!isNaN(value)) {
+          rules.capping.value.push('greaterThan:conversionPrize.value');
+        }
+      }
+
+      if (values.capping && values.capping.value) {
+        const value = parseFloat(values.capping.value).toFixed(2);
+
+        if (!isNaN(value)) {
+          rules.conversionPrize.value.push('lessThan:capping.value');
+        }
+      }
+
+      return createValidator(rules, validatorAttributeLabels, false)(values);
+    },
   })(CreateBonusCampaignModal),
 );
