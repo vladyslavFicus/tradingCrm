@@ -56,19 +56,23 @@ function processError(error) {
 function compileNginxConfig(environmentConfig) {
   let config = fs.readFileSync('/opt/docker/nginx.conf.tpl', { encoding: 'UTF-8' });
 
-  const params = {
-    logstashUrl: environmentConfig.logstash
-      ? environmentConfig.logstash.url
-      : '',
-  };
+  execPromisify("cat /etc/resolv.conf | grep \"nameserver\" | awk '{print $2}' | tr '\n' ' '")
+    .then((resolvers) => {
+      const params = {
+        logstashUrl: environmentConfig.logstash
+          ? environmentConfig.logstash.url
+          : '',
+        resolvers,
+      };
 
-  if (config) {
-    Object.keys(params).forEach((name) => {
-      config = config.replace(`{{${name}}}`, params[name]);
+      if (config) {
+        Object.keys(params).forEach((name) => {
+          config = config.replace(`{{${name}}}`, params[name]);
+        });
+      }
+
+      fs.writeFileSync(NGINX_CONF_OUTPUT, config);
     });
-  }
-
-  fs.writeFileSync(NGINX_CONF_OUTPUT, config);
 }
 
 function processConfig() {

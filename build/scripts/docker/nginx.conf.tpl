@@ -1,3 +1,5 @@
+resolver {{resolvers}};
+
 server {
   server_name _;
   root /opt/build;
