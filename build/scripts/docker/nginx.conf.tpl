@@ -4,7 +4,7 @@ server {
   server_name _;
   root /opt/build;
 
-  location /api {
+  location ^~ /api {
     access_log /var/log/nginx/api-proxy.access.log;
     error_log /var/log/nginx/api-proxy.error.log;
 
