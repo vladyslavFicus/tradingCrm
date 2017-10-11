@@ -16,6 +16,7 @@ import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
 import AddToCampaignModal from '../AddToCampaignModal';
+import PermissionContent from '../../../../../../../../components/PermissionContent';
 import Permissions from '../../../../../../../../utils/permissions';
 import permission from '../../../../../../../../config/permissions';
 
@@ -42,7 +43,6 @@ class View extends Component {
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
     addNotification: PropTypes.func.isRequired,
-    permissions: PropTypes.array.isRequired,
   };
 
   state = {
@@ -260,8 +260,8 @@ class View extends Component {
   render() {
     const { filters, modal } = this.state;
     const { list: { entities, noResults }, profile, locale } = this.props;
-    const { permissions: currentPermissions } = this.context;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
+    const addToCampaignPermission = new Permissions(permission.USER_PROFILE.ADD_TO_CAMPAIGN);
 
     return (
       <div className="profile-tab-container">
@@ -269,15 +269,14 @@ class View extends Component {
           <div className="tab-header">
             <SubTabNavigation links={subTabRoutes} />
             <div className="tab-header__actions">
-              {
-                (new Permissions([permission.USER_PROFILE.ADD_TO_CAMPAIGN])).check(currentPermissions) &&
+              <PermissionContent permissions={addToCampaignPermission}>
                 <button
                   className="btn btn-primary-outline margin-left-15 btn-sm"
                   onClick={this.handleAddToCampaignClick}
                 >
                   {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
                 </button>
-              }
+              </PermissionContent>
             </div>
           </div>
         </Sticky>
