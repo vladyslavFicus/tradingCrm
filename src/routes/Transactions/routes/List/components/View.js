@@ -20,6 +20,8 @@ import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import renderLabel from '../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
+import PaymentAccount from '../../../../../components/PaymentAccount';
+import IpFlag from '../../../../../components/IpFlag';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -35,6 +37,7 @@ class View extends Component {
     filters: PropTypes.shape({
       data: PropTypes.shape({
         paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
+        statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
       }).isRequired,
     }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
@@ -45,6 +48,11 @@ class View extends Component {
     resetAll: PropTypes.func.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
     locale: PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }).isRequired,
+    exportEntities: PropTypes.func.isRequired,
+    fetchPlayerMiniProfile: PropTypes.func.isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -55,6 +63,7 @@ class View extends Component {
       setNoteChangedCallback: PropTypes.func.isRequired,
       hidePopover: PropTypes.func.isRequired,
     }),
+    addPanel: PropTypes.func.isRequired,
   };
 
   state = {
@@ -169,6 +178,12 @@ class View extends Component {
     });
   };
 
+  handleExport = () => this.props.exportEntities({
+    ...this.state.filters,
+    page: this.state.page,
+    playerUUID: this.props.params.id,
+  });
+
   renderTransactionId = data => (
     <GridPaymentInfo
       payment={data}
@@ -176,11 +191,24 @@ class View extends Component {
     />
   );
 
-  renderPlayer = data => (
-    data.playerProfile
-      ? <GridPlayerInfo profile={data.playerProfile} id={`transaction-${data.paymentId}`} />
-      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
-  );
+  renderPlayer = (data) => {
+    const { firstName, lastName, login, playerUUID } = data.playerProfile;
+
+    const panelData = {
+      fullName: `${firstName || '-'} ${lastName || '-'}`,
+      login,
+      uuid: playerUUID,
+    };
+
+    return data.playerProfile
+      ? <GridPlayerInfo
+        onClick={() => this.context.addPanel(panelData)}
+        profile={data.playerProfile}
+        id={`transaction-${data.paymentId}`}
+        fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
+      />
+      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />;
+  };
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -189,9 +217,9 @@ class View extends Component {
     return (
       <div>
         <div {...props}>{label}</div>
-        <span className="font-size-10 text-uppercase color-default">
+        <span className="font-size-11 text-uppercase">
           {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
+            <div key={[`${SystemRef}-${index}`]}>{SystemRef}</div>
           ))}
         </span>
       </div>
@@ -203,11 +231,11 @@ class View extends Component {
   renderDateTime = data => (
     <div>
       <div className="font-weight-700">
-        {moment(data.creationTime).format('DD.MM.YYYY')}
+        {moment.utc(data.creationTime).local().format('DD.MM.YYYY')}
       </div>
-      <span className="font-size-10 color-default">
-        {moment(data.creationTime).format('HH:mm:ss')}
-      </span>
+      <div className="font-size-11">
+        {moment.utc(data.creationTime).local().format('HH:mm:ss')}
+      </div>
     </div>
   );
 
@@ -216,7 +244,9 @@ class View extends Component {
       return data.country;
     }
 
-    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} />;
+    const id = `transaction-ip-${data.paymentId}`;
+
+    return <IpFlag id={id} country={data.country} ip={data.clientIp} />;
   };
 
   renderMethod = data => (
@@ -227,9 +257,9 @@ class View extends Component {
         </div>
         {
           !!data.paymentAccount &&
-          <span className="font-size-10">
-            <Uuid uuid={data.paymentAccount} uuidPartsCount={2} />
-          </span>
+          <div className="font-size-11">
+            <PaymentAccount account={data.paymentAccount} />
+          </div>
         }
       </div>
   );
@@ -275,7 +305,7 @@ class View extends Component {
 
   render() {
     const {
-      transactions: { entities, noResults },
+      transactions: { entities, noResults, exporting },
       filters: { data: availableFilters },
       locale,
     } = this.props;
@@ -286,12 +316,19 @@ class View extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <span
-              className="font-size-20"
-              id="transactions-list-header"
-            >
-              Transactions
-            </span>
+            <div className="clearfix">
+              <span className="font-size-20" id="transactions-list-header">
+                Transactions
+              </span>
+
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline pull-right"
+                onClick={this.handleExport}
+              >
+                Export
+              </button>
+            </div>
           </Title>
 
           <TransactionsFilterForm

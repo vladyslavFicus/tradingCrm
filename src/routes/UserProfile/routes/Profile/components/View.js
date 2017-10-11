@@ -52,6 +52,7 @@ class View extends Component {
     verifyData: PropTypes.func.isRequired,
     refuseData: PropTypes.func.isRequired,
     updateProfile: PropTypes.func.isRequired,
+    updateContacts: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     changeFileStatusByAction: PropTypes.func.isRequired,
@@ -71,7 +72,13 @@ class View extends Component {
     }).isRequired,
     contactData: PropTypes.shape({
       email: PropTypes.string,
-      phoneNumber: PropTypes.string,
+      phoneCode: PropTypes.string,
+      phone: PropTypes.string,
+    }).isRequired,
+    meta: PropTypes.shape({
+      data: PropTypes.shape({
+        countryCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+      }).isRequired,
     }).isRequired,
     checkLock: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
@@ -83,6 +90,7 @@ class View extends Component {
     sendKycRequestVerification: PropTypes.func.isRequired,
     verifyKycAll: PropTypes.func.isRequired,
     fetchKycReasons: PropTypes.func.isRequired,
+    fetchMeta: PropTypes.func.isRequired,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -98,6 +106,10 @@ class View extends Component {
   componentDidMount() {
     this.props.fetchKycReasons();
   }
+
+  onManageKycNote = type => (data) => {
+    this.props.manageKycNote(type, data);
+  };
 
   handleSubmitKYC = type => async (data) => {
     const { params: { id }, submitData } = this.props;
@@ -116,9 +128,11 @@ class View extends Component {
   };
 
   handleSubmitContact = async (data) => {
-    const { params, updateProfile } = this.props;
+    const { params, updateContacts } = this.props;
+    const { phone, phoneCode } = data;
 
-    const action = await updateProfile(params.id, { phoneNumber: data.phoneNumber });
+    const action = await updateContacts(params.id, { phone, phoneCode });
+
     if (action) {
       this.context.addNotification({
         level: action.error ? 'error' : 'success',
@@ -138,6 +152,7 @@ class View extends Component {
       checkLock,
     } = this.props;
     const { modal: { params: { verifyType } } } = this.state;
+    console.info(`Verify modal submitted - ${verifyType}`);
 
     const action = await verifyData(playerUUID, verifyType);
     if (action) {
@@ -156,6 +171,10 @@ class View extends Component {
           this.context.refreshPinnedNotes();
         }
       }
+    }
+
+    if (action && !action.error) {
+      console.info(`Verify success - ${verifyType}`);
     }
 
     checkLock(playerUUID);
@@ -254,13 +273,10 @@ class View extends Component {
     });
   };
 
-  onManageKycNote = type => (data) => {
-    this.props.manageKycNote(type, data);
-  };
-
   handleVerifyClick = (verifyType) => {
     const { profile: { data: { fullName } } } = this.props;
 
+    console.info(`Verify button clicked - ${verifyType}`);
     const kycVerifyModalStaticParams = {};
     if (verifyType === kycCategories.KYC_PERSONAL) {
       kycVerifyModalStaticParams.modalTitle =
@@ -336,11 +352,12 @@ class View extends Component {
     }
   };
 
-  handleVerifyPhone = async (phoneNumber) => {
-    const { params, profile, verifyPhone, updateProfile } = this.props;
+  handleVerifyPhone = async (phone, phoneCode) => {
+    const { params, profile, verifyPhone, updateContacts } = this.props;
+    const { phone: currentPhone, phoneCode: currentPhoneCode } = profile.data;
 
-    if (phoneNumber !== profile.data.phoneNumber) {
-      await updateProfile(params.id, { phoneNumber });
+    if (phone !== currentPhone || phoneCode !== currentPhoneCode) {
+      await updateContacts(params.id, { phone, phoneCode });
     }
 
     return verifyPhone(params.id);
@@ -396,11 +413,15 @@ class View extends Component {
           refuse,
         },
       },
+      meta: {
+        data: metaData,
+      },
       files,
       personalData,
       addressData,
       contactData,
       downloadFile,
+      fetchMeta,
       locale,
     } = this.props;
 
@@ -410,7 +431,7 @@ class View extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">{this.renderKycStatusTitle()}</div>
             <div className="tab-header__actions">
@@ -495,7 +516,9 @@ class View extends Component {
           <div className="panel">
             <div className="panel-body row">
               <ContactForm
+                fetchMeta={fetchMeta}
                 profile={data}
+                phoneCodes={metaData.phoneCodes}
                 initialValues={contactData}
                 onSubmit={this.handleSubmitContact}
                 onVerifyPhoneClick={this.handleVerifyPhone}

@@ -1,0 +1,149 @@
+import React, { PureComponent } from 'react';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Field, reduxForm } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../../../../../../constants/propTypes';
+import { createValidator } from '../../../../../../../../utils/validator';
+import { NasSelectField } from '../../../../../../../../components/ReduxForm';
+import { attributeLabels, attributePlaceholders } from './constants';
+import SelectCampaignOption from '../SelectCampaignOption';
+import SelectCampaignOptionsHeader from '../SelectCampaignOptionsHeader';
+import './AddToCampaignModal.scss';
+import { statuses as bonusCampaignStatuses } from '../../../../../../../../constants/bonus-campaigns';
+import shallowEqual from '../../../../../../../../utils/shallowEqual';
+
+class AddToCampaignModal extends PureComponent {
+  static propTypes = {
+    campaigns: PropTypes.arrayOf(PropTypes.bonusCampaignEntity).isRequired,
+    handleSubmit: PropTypes.func,
+    pristine: PropTypes.bool,
+    submitting: PropTypes.bool,
+    invalid: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    fullName: PropTypes.string.isRequired,
+  };
+  static defaultProps = {
+    pristine: false,
+    submitting: false,
+    invalid: false,
+    handleSubmit: null,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      activeOnly: false,
+      options: props.campaigns,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { activeOnly } = this.state;
+    const { campaigns } = this.props;
+
+    if (!shallowEqual(campaigns, nextProps.campaigns)) {
+      this.setState({
+        options: nextProps.campaigns
+          .filter(campaign => (activeOnly ? campaign.state === bonusCampaignStatuses.ACTIVE : true)),
+      });
+    }
+  }
+
+  handleOnlyActiveCampaignsClick = () => {
+    const activeOnly = !this.state.activeOnly;
+    const { campaigns } = this.props;
+
+    requestAnimationFrame(() =>
+      this.setState({
+        activeOnly,
+        options: campaigns
+          .filter(campaign => (activeOnly ? campaign.state === bonusCampaignStatuses.ACTIVE : true)),
+      })
+    );
+  };
+
+  render() {
+    const { options } = this.state;
+    const {
+      onSubmit,
+      handleSubmit,
+      onClose,
+      pristine,
+      submitting,
+      invalid,
+      fullName,
+    } = this.props;
+
+    return (
+      <Modal className="add-to-campaign-modal" toggle={onClose} isOpen>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader toggle={onClose}>
+            {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.TITLE')}
+          </ModalHeader>
+          <ModalBody>
+            <div className="add-to-campaign-modal__header">
+              {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTION', { fullName })}
+            </div>
+            <Field
+              name="campaignId"
+              label={I18n.t(attributeLabels.campaignId)}
+              labelClassName="form-label"
+              labelTag="div"
+              labelAddon={
+                <div className="pull-right">
+                  <label>
+                    <input type="checkbox" onClick={this.handleOnlyActiveCampaignsClick} />
+                    {' '}
+                    {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTIVE_ONLY')}
+                  </label>
+                </div>
+              } component={NasSelectField}
+              position="vertical"
+              placeholder={I18n.t(attributePlaceholders.campaignId)}
+              optionsHeader={SelectCampaignOptionsHeader}
+              singleOptionComponent={SelectCampaignOption}
+            >
+              {options.map(campaign => (
+                <option key={campaign.id} value={campaign.id} campaign={campaign}>
+                  {`${campaign.campaignName} - ${campaign.state}`}
+                </option>
+              ))}
+            </Field>
+
+          </ModalBody>
+          <ModalFooter>
+            <button
+              className="btn btn-default-outline"
+              disabled={submitting}
+              type="reset"
+              onClick={onClose}
+            >
+              {I18n.t('COMMON.CANCEL')}
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={pristine || submitting || invalid}
+            >
+              {I18n.t('COMMON.CONFIRM')}
+            </button>
+          </ModalFooter>
+        </form>
+      </Modal>
+    );
+  }
+}
+
+const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
+  ...res,
+  [name]: I18n.t(attributeLabels[name]),
+}), {});
+const FORM_NAME = 'addToCampaignModal';
+export default reduxForm({
+  form: FORM_NAME,
+  validate: createValidator({
+    campaignId: ['required'],
+  }, validatorAttributeLabels, false),
+})(AddToCampaignModal);

@@ -262,16 +262,11 @@ label {
     cursor: pointer;
     &.is-opened {
       .select-icon {
-        -webkit-transform: rotate(180deg);
-        -ms-transform: rotate(180deg);
         transform: rotate(180deg);
       }
       .select-block__content {
         opacity: 1;
         visibility: visible;
-      }
-      .select-block__label {
-        z-index: 2;
       }
     }
     &.with-option {
@@ -290,15 +285,13 @@ label {
       position: absolute;
       top: 95%;
       left: 0;
+      border-top: 1px solid #cfcfcf;
       border-bottom-right-radius: 3px;
       border-bottom-left-radius: 3px;
       opacity: 0;
       visibility: hidden;
       background-color: #fff;
-      box-shadow: 0 2px 23px 0 #ededed;
-      -webkit-transition: all .25s ease;
-      -moz-transition: all .25s ease;
-      -o-transition: all .25s ease;
+      box-shadow: 0 5px 15px 0 #ededed;
       transition: all .25s ease;
       z-index: 1;
       cursor: default;
@@ -383,10 +376,12 @@ label {
       font-size: 13px;
     }
     .input-left-icon {
+      top: 18px;
       left: 12px;
       font-size: 13px;
     }
     .input-right-icon {
+      top: 18px;
       right: 12px;
       font-size: 13px;
     }
@@ -437,6 +432,13 @@ label {
 
 .input-group .form-control {
   z-index: 0;
+}
+input[type=checkbox] {
+  margin-right: 5px;
+  vertical-align: baseline;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .double-group {

@@ -1,6 +1,6 @@
 .DS_STORE
 *.log
-
+tests/test-results.xml
 node_modules/
 bower_components/
 

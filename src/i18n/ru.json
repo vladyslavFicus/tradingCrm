@@ -9,7 +9,6 @@
       "BONUS_CAMPAIGNS": "Бонусные программы",
       "PLAYER_LIABILITY": "Обязательства",
       "REVENUE": "Доход",
-      "DORMANT": "Бездействующие",
       "OPEN_LOOP": "Open loop",
       "GAMES": "Игры",
       "COUNTRIES": "Страны",
@@ -45,7 +44,7 @@
           "WITHDRAW": "Вывод",
           "FULLY_DISABLED": "Полностью отключен"
         },
-        "SEARCH_PLACEHOLDER": "Поиск по стране",
+        "SEARCH_PLACEHOLDER": "Быстрый поиск",
         "NO_RESULT_BY_SEARCH": "Не найдено страны “%{search}” в %{tabName}"
       }
     }
@@ -56,12 +55,16 @@
         "TITLE": "Контакты",
         "VERIFIED": "Подтвержден",
         "VERIFY_PHONE": "Подтвердить телефон",
-        "VERIFY_EMAIL": "Подтвердить email"
+        "VERIFY_EMAIL": "Подтвердить email",
+        "LABEL": {
+          "PHONE": "Телефон",
+          "PHONE_CODE": "Код"
+        }
       },
       "PERSONAL": {
         "TITLE": "Персональная информация",
         "VERIFY_KYC": {
-          "TITLE": "",
+          "TITLE": "Ошибка",
           "ERROR": "Необходимо сохранить персональные данные"
         }
       },
@@ -100,8 +103,8 @@
         "WAITING_FOR_DOCS_DESCRIPTION": "Для подтверждения личности игрока необходим, как минимум один документ, скан-копия которого, должна быть хорошего качества, текст легко читаем, а cрок его действия не должен быть просрочен.",
         "REQUEST_STATUS": "Статус запроса",
         "WAITING_FOR_DOCUMENTS": "Ожидание документов",
-        "TYPE_NOT_VERIFIED": "",
-        "TYPE_NOT_REQUESTED": "",
+        "TYPE_NOT_VERIFIED": "Подтвержден",
+        "TYPE_NOT_REQUESTED": "Не запрошен",
         "TYPE_VERIFICATION_REFUSED": "%{title} верификация отклонена",
         "TYPE_VERIFIED": "%{title} верифицировано",
         "ACTIONS": {
@@ -142,6 +145,24 @@
           "NOT_ALL_FOUR_CORNERS": "Видны не все четыре угла",
           "EXPIRED_DOC": "Истекший документ"
         }
+      },
+      "CHANGE_PASSWORD_MODAL": {
+        "TITLE": "Изменить пароль игрока",
+        "WARNING_HEADER": "Вы собираетесь изменить пароль",
+        "NEW_PASSWORD": "Новый пароль",
+        "REPEAT_PASSWORD": "Повторите пароль"
+      },
+      "BLOCK_REASONS": {
+        "REASON_ONE": "Первая причина",
+        "REASON_TWO": "Вторая причина",
+        "REASON_THREE": "Третья причина",
+        "REASON_FOUR": "Четвертая причина"
+      },
+      "UNBLOCK_REASONS": {
+        "REASON_ONE": "Первая причина разблокировки",
+        "REASON_TWO": "Вторая причина разблокировки",
+        "REASON_THREE": "Третья причина разблокировки",
+        "REASON_FOUR": "Четвертая причина разблокировки"
       }
     },
     "GAME_ACTIVITY": {
@@ -171,6 +192,16 @@
         "BALANCE_AFTER": "После",
         "PENDING_BALANCE": "В ожидании",
         "BALANCE": "Баланс"
+      },
+      "GAME_ROUND_TYPE": {
+        "FREE_SPIN": "Free spin",
+        "SPORTBET": "Спортбет",
+        "OTHER": "Другое",
+        "BONUS_ROUND_BONUS": "Бонус раунд",
+        "BONUS_ROUND_CHANCE": "Шанс",
+        "BONUS_ROUND_CARD": "Карта",
+        "BONUS_ROUND_FREESPIN": "Бонус раунд фриспин",
+        "ADJUSTMENT": "Подгонка"
       }
     },
     "MARKETING": {
@@ -238,6 +269,18 @@
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
         "MESSAGE": "Полный playerUUID скопирован в буфер обмена"
+      },
+      "NO_EMAIL": {
+        "TITLE": "Ошибка",
+        "MESSAGE": "У игрока отсутвует email"
+      },
+      "ERROR_SET_NEW_PASSWORD": {
+        "TITLE": "Ошибка",
+        "MESSAGE": "Не удалось поменять пароль"
+      },
+      "SUCCESS_SET_NEW_PASSWORD": {
+        "TITLE": "Успешно",
+        "MESSAGE": "Пароль успешно изменен"
       }
     },
     "IP_LIST": {
@@ -276,7 +319,34 @@
       },
       "OPTED_IN": "Opted-in",
       "NOT_OPTED_IN": "Not opted-in",
-      "OPT_OUT": "Отказаться"
+      "OPT_OUT": "Opt out",
+      "DECLINE": "Отказаться",
+      "MODALS": {
+        "ADD_TO_CAMPAIGN": {
+          "TITLE": "Добавление в кампанию",
+          "CAMPAIGN_ID_LABEL": "Кампании",
+          "ACTION": "Вы собираетесь добавить игрока %{fullName} в кампанию",
+          "CAMPAIGN_ID_PLACEHOLDER": "Выберите кампанию",
+          "CAMPAIGN": "Кампания",
+          "AVAILABILITY": "Доступность",
+          "STATUS": "Статус"
+        }
+      },
+      "NOTIFICATIONS": {
+        "FETCH_CAMPAIGNS_ERROR": {
+          "TITLE": "Ошибка",
+          "MESSAGE": "Не удалось загрузить список кампаний"
+        },
+        "SUCCESS_ADD_PLAYER_TO_CAMPAIGN": {
+          "TITLE": "Успешно",
+          "MESSAGE": "Игрок успешно добавлен в кампанию"
+        },
+        "FAILURE_ADD_PLAYER_TO_CAMPAIGN": {
+          "TITLE": "Ошибка",
+          "MESSAGE": "Не удалось добавить игрока в кампанию"
+        }
+      },
+      "ADD_TO_CAMPAIGN_BUTTON": "+ Добавить в Кампанию"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -347,10 +417,14 @@
           "CAPPING": "Capping",
           "MULTIPLIER": "Множитель",
           "BONUS_LIFE_TIME": "Время жизни бонуса",
-          "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
+          "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
+          "COIN_SIZE": "Стоимость коина",
+          "NUMBER_OF_COINS": "Кол-во коинов"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
-        "TOTAL_VALUE": "Сумма spin"
+        "TOTAL_VALUE": "Сумма spin",
+        "CHOOSE_COIN_SIZE": "-- Выберите --",
+        "CHOOSE_NUMBER_OF_COINS": "-- Выберите --"
       },
       "MODAL_CANCEL": {
         "SELECT_REASON_OPTION": "-- Выберите причину --",
@@ -377,6 +451,16 @@
         "ATTENTION_UNDONE_ACTION": "Это действие не может быть отменно!",
         "ACTION_TEXT": "Вы пытаетесь сделать %{action}"
       }
+    },
+    "LOCKS": {
+      "LOGIN": {
+        "MODAL": {
+          "TITLE": "разблокировать авторизацию для игрока",
+          "ACTION_TEXT": "Вы собираетесь разблокировать игрока %{fullName}",
+          "SUBMIT_BUTTON_LABEL": "Разблокировать"
+        },
+        "REASON": "5 неудачных попыток входа"
+      }
     }
   },
   "COMMON": {
@@ -393,11 +477,16 @@
     "DEPARTMENTS": "Департаменты",
     "ANY": "Любые",
     "ROLLBACK": "Rollback",
+    "FOR": "для",
+    "FIRST_NAME": "Имя",
+    "LAST_NAME": "Фамилия",
     "BUTTONS": {
       "CANCEL": "Отменить",
       "CONFIRM": "Подтвердить",
       "UPLOAD_FILE": "+ Загрузить файл",
-      "CREATE_AND_OPEN": "Создать и открыть"
+      "CREATE_AND_OPEN": "Создать и открыть",
+      "SAVE_NEW_PASSWORD": "Сохранить новый пароль",
+      "SAVE": "Сохранить"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -411,7 +500,7 @@
     "COUNT": "Количество",
     "CLOSE": "Закрыть",
     "CANCEL": "Отмена",
-    "SAVE": "Сохранение",
+    "SAVE": "Сохранить",
     "ACCOUNT_STATUS": "Статус аккаунта",
     "BALANCE": "Баланс",
     "NOTIFICATIONS": {
@@ -455,7 +544,17 @@
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - Превышен общий предел в размере €2300 на снятие средств для неопытных игроков KYC.",
-    "CHOOSE_REASON": "-- Выберите причину --"
+    "CHOOSE_REASON": "-- Выберите причину --",
+    "USED": "использовано %{value}",
+    "LEFT": "осталось %{value}",
+    "ACTIVATES_ON": "активируется %{date}",
+    "NEVER": "Никогда",
+    "ADD": "Добавить",
+    "MIN": "Мин.",
+    "MAX": "Mакс.",
+    "ACTIVE": "Активный",
+    "INACTIVE": "Неактивный",
+    "ALL": "Все"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -499,7 +598,8 @@
       "TYPES": {
         "LOG_IN": "Авторизация",
         "LOG_OUT": "Выход",
-        "PLAYER_PROFILE_VERIFIED_EMAIL": "Персональная информация - E-mail подтвержден",
+        "PLAYER_PROFILE_VERIFIED_EMAIL": "Контактная информация - E-mail подтвержден",
+        "PLAYER_PROFILE_VERIFIED_PHONE": "Контактная информация - номер телефона подтвержден",
         "KYC_ADDRESS_REFUSED": "KYC - Адрес - отклонен",
         "KYC_ADDRESS_VERIFIED": "KYC - Адрес - подтвержден",
         "KYC_PERSONAL_REFUSED": "KYC - Личность - отклонена",
@@ -509,14 +609,17 @@
         "PLAYER_PROFILE_SEARCH": "Поиск игроков",
         "NEW_OPERATOR_ACCOUNT_CREATED": "Оператор - Новый оператор создан",
         "OPERATOR_ACCOUNT_CREATED": "Оператор - Аккаунт создан",
-        "PLAYER_PROFILE_VIEWED": "Просмотр профиля игрока"
+        "PLAYER_PROFILE_VIEWED": "Просмотр профиля игрока",
+        "FAILED_LOGIN_ATTEMPT": "Ошибка при попытке входа в систему",
+        "KYC_REQUESTED": "KYC - Верификация - запрошена"
       }
     },
     "OPERATORS": {
       "DEPARTMENTS": {
         "CS": "Обслуживание клиентов",
         "RFP": "Risk Fraud & Payment",
-        "MARKETING": "Маркетинг"
+        "MARKETING": "Маркетинг",
+        "ADMINISTRATION": "Администрация"
       },
       "ROLES": {
         "ROLE1": "Executive",
@@ -702,6 +805,10 @@
         "ATTRIBUTES_PLACEHOLDERS": {
           "KEYWORD": "ID транзакции, пользователь"
         }
+      },
+      "ROUTES": {
+        "PAYMENTS": "Платежи",
+        "GAMING_ACTIVITY": "Игровая активность"
       }
     }
   },
@@ -735,7 +842,7 @@
     "MODALS": {
       "RESET_PASSWORD": {
         "TITLE": "Сброс пароля оператора - Подтверждение",
-        "ACTION_TEXT": "Вы собираетесь сбросить пароля для %{fullName}",
+        "ACTION_TEXT": "Вы собираетесь сбросить пароль для %{fullName}",
         "ACTION_TARGET": "профиль оператора",
         "CONFIRM_ACTION": "Сбросить пароль"
       },
@@ -759,7 +866,10 @@
       "DEVICE": "Устройство"
     },
     "KYC": {
-      "REJECT_REASON": "Причина отказа"
+      "REJECT_REASON": "Причина отказа",
+      "LOGIN_EVENTS": {
+        "REASON": "Причина"
+      }
     },
     "LOG_OUT": {
       "SESSION_ID": "ID сессии",
@@ -777,6 +887,13 @@
       "INVITATION_SENT": "Приглашение",
       "INVITATION_SENT_SUCCESS": "Успешно отправлено",
       "INVITATION_SENT_FAILURE": "Не отправлено"
+    },
+    "LOGIN_EVENTS": {
+      "REASON": "Причина",
+      "FAILED_LOGIN_ATTEMPTS": "5 неудачных попыток входа в систему",
+      "LOCKED_UNTIL": "Заблокировано до",
+      "ATTEMPT_DATE_TIME": "Дата и время попытки",
+      "DEVICE": "Устройство"
     }
   },
   "LOGGED_FORBIDDEN": {
@@ -786,9 +903,27 @@
   },
   "GAMES": {
     "TITLE": "Игры",
-    "EXPORT_BUTTON": "Экспорт игр",
-    "UPLOAD_FILE_BUTTON": "Импорт игр",
-    "RESET_BUTTON": "Сбросить список игр"
+    "EXPORT_BUTTON": "Экспорт",
+    "UPLOAD_FILE_BUTTON": "Импорт",
+    "RESET_BUTTON": "Сбросить список игр",
+    "GRID": {
+      "GAME": "Игра",
+      "PROVIDER": "Провайдер",
+      "PLATFORM": "Платформа",
+      "TECHNOLOGY": "Технология",
+      "FREE_SPINS": "Free-spins",
+      "STATUS": "Статус",
+      "FREE_SPINS_AVAILABLE": "Доступны",
+      "FREE_SPINS_UNAVAILABLE": "Недоступны"
+    },
+    "GAME_TYPE": "Тип игры",
+    "FREE_SPINS_AVAILABILITY": "Наличие Free-spins",
+    "MOBILE": "Мобильная",
+    "DESKTOP": "Десктопная",
+    "MICROGAMING": "Microgaming",
+    "GREENTUBE": "Greentube",
+    "NETENT": "NetEnt",
+    "STAKELOGIC": "Stakelogic"
   },
   "ERRORS": {
     "FILE": {
@@ -1002,6 +1137,12 @@
         "CALCULATED": "Рассчитано",
         "CUSTOMIZED": "Customized"
       }
+    },
+    "REMOVE_PLAYERS": {
+      "BUTTON": "Удалить всех игроков",
+      "MODAL_TEXT": "Вы собираетесь удалить всех игроков из цели этой кампании.",
+      "SUCCESS_NOTIFICATION": "Все игроки были успешно удалены",
+      "ERROR_NOTIFICATION": "Не удалось удалить всех игроков"
     }
   },
   "BONUS_CAMPAIGN_STATUS": {
@@ -1026,6 +1167,10 @@
       "method": {
         "inactive": "Платежный метод неактивен"
       }
+    },
+    "profile": {
+      "blocked": "Профиль заблокирован",
+      "duplicated": "Профиль дублируется"
     }
   },
   "NOTE_BUTTON": {
@@ -1082,5 +1227,34 @@
     "HEADER_STATUS": "Статус",
     "HEADER_AMOUNT": "Сумма",
     "HEADER_PAYMENT_METHOD": "Платежный счет"
+  },
+  "MINI_PROFILE": {
+    "PLAYER": "Игрок",
+    "STATUS_REASON": "Причина статуса",
+    "BALANCE": "Баланс",
+    "LAST_LOGIN": "Входил",
+    "DEPOSITED": "Пополнен",
+    "REGISTERED": "Регистрация",
+    "TRANSACTION": "Транзакция",
+    "ERROR_MESSAGE": "Ошибка",
+    "REJECTION_REASON": "Причина отказа",
+    "OPERATOR": "Оператор"
+  },
+  "OPERATORS": {
+    "CREATE_OPERATOR_BUTTON": "+ Новый оператор",
+    "MODALS": {
+      "NEW_OPERATOR": {
+        "TITLE": "Новый оператор",
+        "SEND_INVITATION": "Отправить приглашение",
+        "NOTE": "Заметка",
+        "NOTE_MESSAGE": "Вы сможете задать дополнительные департаменты в профиле оператора после его создания"
+      }
+    }
+  },
+  "PAYMENT_METHOD_LIMIT_POPOVER": {
+    "ENABLE_LIMIT_TYPE": "Включить %{type}",
+    "DISABLE_LIMIT_TYPE": "Отключить %{type}",
+    "DEPOSITS": "пополнение",
+    "WITHDRAWALS": "вывод средств"
   }
 }

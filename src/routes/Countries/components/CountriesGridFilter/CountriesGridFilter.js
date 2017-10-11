@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { SelectField } from '../../../../components/ReduxForm/index';
+import { SelectField } from '../../../../components/ReduxForm';
 import { accessTypes, accessTypeLabels } from '../../../../constants/countries';
 import { createValidator } from '../../../../utils/validator';
 import renderLabel from '../../../../utils/renderLabel';

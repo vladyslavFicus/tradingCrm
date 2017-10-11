@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import deleteFromArray from '../../utils/deleteFromArray';
@@ -6,10 +6,10 @@ import deleteFromArray from '../../utils/deleteFromArray';
 const OptionPropType = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 });
 
-class SelectMultipleOptions extends React.Component {
+class SelectMultipleOptions extends PureComponent {
   static propTypes = {
     headerText: PropTypes.string.isRequired,
     className: PropTypes.string,

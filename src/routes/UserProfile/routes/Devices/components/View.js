@@ -9,6 +9,7 @@ import GridView, { GridColumn } from '../../../../../components/GridView';
 import DevicesFilterForm from './FilterForm';
 import renderLabel from '../../../../../utils/renderLabel';
 import Uuid from '../../../../../components/Uuid';
+import IpFlag from '../../../../../components/IpFlag';
 
 class View extends Component {
   static propTypes = {
@@ -86,15 +87,13 @@ class View extends Component {
       return data.lastSignInCountryCode;
     }
 
-    if (data.lastSignInCountryCode === 'unknown') {
-      return <div className="font-weight-700"> {I18n.t('COMMON.UNKNOWN')} </div>;
-    }
+    const id = `last-ip-${data.hash}`;
 
-    return <i className={`fs-icon fs-${data.lastSignInCountryCode.toLowerCase()}`} />;
+    return <IpFlag id={id} country={data.lastSignInCountryCode} ip={data.lastSignInIP} />;
   };
 
   renderLastLogin = (data) => {
-    const dateTime = moment(data.lastSignInDate);
+    const dateTime = moment.utc(data.lastSignInDate).local();
 
     return (
       <div>
@@ -120,7 +119,7 @@ class View extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">
               {I18n.t('PLAYER_PROFILE.DEVICES.TITLE')}

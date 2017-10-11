@@ -15,6 +15,7 @@ import {
 class List extends Component {
   static propTypes = {
     fetchESEntities: PropTypes.func.isRequired,
+    fetchPlayerMiniProfile: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.userProfile).isRequired,
     reset: PropTypes.func.isRequired,
     params: PropTypes.shape({
@@ -25,6 +26,9 @@ class List extends Component {
   };
   static contextTypes = {
     addPanel: PropTypes.func.isRequired,
+    miniProfile: PropTypes.shape({
+      onShowMiniProfile: PropTypes.func.isRequired,
+    }),
   };
 
   state = {
@@ -77,12 +81,13 @@ class List extends Component {
   renderUserInfo = (data) => {
     const panelData = {
       fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
-      login: data.username,
+      login: data.login,
       uuid: data.playerUUID,
     };
 
     return (
       <GridPlayerInfo
+        fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
         profile={data}
         onClick={() => this.context.addPanel(panelData)}
       />
@@ -99,9 +104,9 @@ class List extends Component {
 
   renderRegistered = data => (
     <div>
-      <div className="font-weight-700">{moment(data.registrationDate).format('DD.MM.YYYY')}</div>
+      <div className="font-weight-700">{moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}</div>
       <div className="font-size-11">
-        {moment(data.registrationDate).format('HH:mm:ss')}
+        {moment.utc(data.registrationDate).local().format('HH:mm:ss')}
       </div>
     </div>
   );
@@ -115,7 +120,7 @@ class List extends Component {
         {
           data.lastDeposit && data.lastDeposit.transactionDate &&
           <div className="font-size-11">
-            Last deposit {moment(data.lastDeposit.transactionDate).format('DD.MM.YYYY')}
+            Last deposit {moment.utc(data.lastDeposit.transactionDate).local().format('DD.MM.YYYY')}
           </div>
         }
       </div>
@@ -130,7 +135,7 @@ class List extends Component {
       {
         data.profileStatusDate &&
         <div className="font-size-11">
-          Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
+          Since {moment.utc(data.profileStatusDate).local().format('DD.MM.YYYY')}
         </div>
       }
     </div>
@@ -147,25 +152,18 @@ class List extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <div className="row">
-              <div className="col-xl-3">
-                <span
-                  className="font-size-20"
-                  id="users-list-header"
-                >
-                  Players
-                </span>
-              </div>
+            <div className="clearfix">
+              <span className="font-size-20" id="users-list-header">
+                Players
+              </span>
 
-              <div className="col-xl-3 col-xl-offset-6 text-right">
-                <button
-                  disabled={exporting || !allowActions}
-                  className="btn btn-default-outline"
-                  onClick={this.handleExport}
-                >
-                  Export
-                </button>
-              </div>
+              <button
+                disabled={exporting || !allowActions}
+                className="btn btn-default-outline pull-right"
+                onClick={this.handleExport}
+              >
+                Export
+              </button>
             </div>
           </Title>
 

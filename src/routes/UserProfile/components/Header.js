@@ -12,7 +12,7 @@ import Amount from '../../../components/Amount';
 import PopoverButton from '../../../components/PopoverButton';
 import permission from '../../../config/permissions';
 import Permissions from '../../../utils/permissions';
-import WalletLimits from './WalletLimits';
+import PlayerLimits from './PlayerLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
 import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
@@ -45,10 +45,10 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onProfileActivateClick: PropTypes.func.isRequired,
-    onWalletLimitChange: PropTypes.func.isRequired,
-    walletLimits: PropTypes.shape({
+    onPlayerLimitChange: PropTypes.func.isRequired,
+    playerLimits: PropTypes.shape({
       state: PropTypes.shape({
-        entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+        entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
         deposit: PropTypes.shape({
           locked: PropTypes.bool.isRequired,
           canUnlock: PropTypes.bool.isRequired,
@@ -61,9 +61,11 @@ class Header extends Component {
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,
       }).isRequired,
+      unlockLogin: PropTypes.func.isRequired,
     }).isRequired,
     locale: PropTypes.string.isRequired,
     loaded: PropTypes.bool,
+    onChangePasswordClick: PropTypes.func.isRequired,
   };
   static defaultProps = {
     lastIp: null,
@@ -114,8 +116,8 @@ class Header extends Component {
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
-      onWalletLimitChange,
-      walletLimits,
+      onPlayerLimitChange,
+      playerLimits,
       lastIp,
       onRefreshClick,
       isLoadingProfile,
@@ -123,12 +125,13 @@ class Header extends Component {
       availableTags,
       currentTags,
       loaded,
+      onChangePasswordClick,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
 
     return (
       <div>
-        <Sticky top={0} bottomBoundary={0}>
+        <Sticky top={0} bottomBoundary={0} innerZ="5">
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
@@ -138,7 +141,7 @@ class Header extends Component {
                   {playerProfile.kycCompleted && <i className="fa fa-check text-success" />}
                 </div>
                 <div className="panel-heading-row__info-ids">
-                  {playerProfile.username}
+                  {playerProfile.login}
                   {' - '}
                   {
                     !!playerProfile.playerUUID &&
@@ -183,6 +186,7 @@ class Header extends Component {
                     onClick: onProfileActivateClick,
                     visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
                   },
+                  { label: 'Change password', onClick: onChangePasswordClick },
                 ]}
               />
             </div>
@@ -216,11 +220,12 @@ class Header extends Component {
               accumulatedBalances={accumulatedBalances}
             />
           </div>
-          <div className="header-block header-block_wallet-limits">
-            <WalletLimits
+          <div className="header-block header-block_player-limits">
+            <PlayerLimits
               profile={playerProfile}
-              limits={walletLimits.state}
-              onChange={onWalletLimitChange}
+              limits={playerLimits.state}
+              unlockLogin={playerLimits.unlockLogin}
+              onChange={onPlayerLimitChange}
             />
           </div>
           <ProfileLastLogin lastIp={lastIp} />
@@ -230,7 +235,7 @@ class Header extends Component {
               {moment.utc(playerProfile.registrationDate).local().fromNow()}
             </div>
             <div className="header-block-small">
-              on {moment(playerProfile.registrationDate).format('DD.MM.YYYY')}</div>
+              on {moment.utc(playerProfile.registrationDate).local().format('DD.MM.YYYY')}</div>
           </div>
         </div>
       </div>

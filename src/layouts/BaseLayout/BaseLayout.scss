@@ -29,28 +29,11 @@
   }
 }
 
-.sticky-outer-wrapper.active {
-  z-index: 1;
-  .sticky-inner-wrapper {
-    z-index: 1;
-  }
-}
-
-.sticky-outer-wrapper.active {
-  .tab-header {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-top-color: #eee;
-    box-shadow: 0 3px 6px 0 rgba(0,0,0,.1);
-  }
-}
-
 .tab-header {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   padding: 20px 25px;
-  border-top: 1px solid transparent;
   background-color: #fff;
   transition: all .2s ease;
   &__heading {
@@ -63,6 +46,14 @@
   &__label {
     font-size: 16px;
     color: #333;
+  }
+}
+
+.sticky-outer-wrapper.active {
+  .tab-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,.1);
   }
 }
 

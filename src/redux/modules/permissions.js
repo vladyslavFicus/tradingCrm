@@ -1,27 +1,31 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../utils/createReducer';
 import createRequestAction from '../../utils/createRequestAction';
-import { actionTypes as authActionTypes } from '../../redux/modules/auth';
+import { actionTypes as authActionTypes } from './auth';
 
 const KEY = 'permissions';
 const FETCH_PERMISSIONS = createRequestAction(`${KEY}/fetch-permissions`);
 const SET_PERMISSIONS = `${KEY}/set-permissions`;
 
-function fetchPermissions(insideToken = null) {
+function fetchPermissions(outsideToken = null) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        method: 'GET',
         endpoint: 'auth/permissions',
+        method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${insideToken || token}`,
+          Authorization: `Bearer ${outsideToken || token}`,
         },
-        types: [FETCH_PERMISSIONS.REQUEST, FETCH_PERMISSIONS.SUCCESS, FETCH_PERMISSIONS.FAILURE],
-        bailout: !logged,
+        types: [
+          FETCH_PERMISSIONS.REQUEST,
+          FETCH_PERMISSIONS.SUCCESS,
+          FETCH_PERMISSIONS.FAILURE,
+        ],
+        bailout: !logged && !outsideToken,
       },
     });
   };

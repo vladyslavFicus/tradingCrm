@@ -22,6 +22,7 @@ import { statusTypesKeys } from '../constants';
 class List extends Component {
   static propTypes = {
     fetchEntities: PropTypes.func.isRequired,
+    fetchPlayerMiniProfile: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.kycRequestEntity).isRequired,
     filterValues: PropTypes.object.isRequired,
     reset: PropTypes.func.isRequired,
@@ -111,6 +112,7 @@ class List extends Component {
           age: data.birthDate ? moment().diff(data.birthDate, 'years') : null,
         }}
         onClick={() => this.context.addPanel(panelData)}
+        fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
       />
     );
   };
@@ -128,7 +130,7 @@ class List extends Component {
             data.kycRequest && data.kycRequest.createDate &&
             <div>
               {I18n.t('COMMON.DATE_ON', {
-                date: moment(data.kycRequest.createDate).format('DD.MM.YYYY'),
+                date: moment.utc(data.kycRequest.createDate).local().format('DD.MM.YYYY'),
               })}
             </div>
           }
@@ -150,7 +152,7 @@ class List extends Component {
     }
     const status = address.status;
 
-    let date = moment(address.statusDate).format('DD.MM.YYYY - HH:mm');
+    let date = moment.utc(address.statusDate).local().format('DD.MM.YYYY - HH:mm');
     date = status === kycStatuses.PENDING ? I18n.t('COMMON.SINCE', { date }) : I18n.t('COMMON.DATE_ON', { date });
 
     return (
@@ -179,13 +181,9 @@ class List extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <div className="row">
-              <div className="col-md-3">
-                <span className="font-size-20">
-                  {I18n.t('KYC_REQUESTS.TITLE')}
-                </span>
-              </div>
-            </div>
+            <span className="font-size-20">
+              {I18n.t('KYC_REQUESTS.TITLE')}
+            </span>
           </Title>
           <KycGridFilter
             onSubmit={this.handleFiltersChanged}

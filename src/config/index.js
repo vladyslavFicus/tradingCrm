@@ -46,6 +46,11 @@ const config = _.merge({
       departments: [],
       tags: {},
       roles: [],
+      payment: {
+        reasons: {
+          refuse: ['REASON_1', 'REASON_2', 'REASON_3', 'PLAYER_CANCEL'],
+        },
+      },
     },
     validation: {
       password: null,
@@ -67,7 +72,11 @@ const config = _.merge({
   logstash: {
     url: '',
   },
-  middlewares: { unauthorized: [401, 403], persist: { whitelist: ['auth', 'userPanels', 'language'], keyPrefix: 'nas:' } },
+  middlewares: {
+    unauthorized: [401, 403],
+    persist: { whitelist: ['auth', 'userPanels', 'language'], keyPrefix: 'nas:' },
+    crossTabPersist: { whitelist: ['auth'], keyPrefix: 'nas:' },
+  },
   modules: {
     bonusCampaign: {
       cancelReasons: {
@@ -135,8 +144,8 @@ function getAvailableTags(department) {
 }
 
 function getTransactionRejectReasons() {
-  return config.nas.brand.reasons && config.nas.brand.reasons.rejection
-    ? config.nas.brand.reasons.rejection.reduce((res, item) => ({ ...res, [item]: item }), {}) : {};
+  return config.nas.brand.payment && config.nas.brand.payment.reasons && config.nas.brand.payment.reasons.refuse
+    ? config.nas.brand.payment.reasons.refuse.reduce((res, item) => ({ ...res, [item]: item }), {}) : {};
 }
 
 function getTransactionChargebackReasons() {

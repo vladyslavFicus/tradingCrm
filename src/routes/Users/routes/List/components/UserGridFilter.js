@@ -7,7 +7,7 @@ import { reduxForm, Field, getFormValues } from 'redux-form';
 import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
-import config from '../../../../../config/index';
+import config from '../../../../../config';
 
 const tags = config.nas.brand.tags.reduce((result, item) => ({
   ...result,
@@ -107,7 +107,7 @@ class UserGridFilter extends Component {
                 id="users-list-search-field"
                 type="text"
                 label={filterLabels.searchValue}
-                placeholder="Name, username, phone, email..."
+                placeholder="Name, login, phone, email..."
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
@@ -251,6 +251,7 @@ class UserGridFilter extends Component {
                 <label>Registration date range</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="registrationDateFrom"
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('registrationDateTo')}
@@ -258,6 +259,7 @@ class UserGridFilter extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="registrationDateTo"
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('registrationDateFrom')}

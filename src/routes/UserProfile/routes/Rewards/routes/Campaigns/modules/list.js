@@ -4,7 +4,7 @@ import createRequestAction from '../../../../../../../utils/createRequestAction'
 import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 
-const KEY = 'user/bonus-campaign/list';
+const KEY = 'player/bonus-campaign/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 const DECLINE_CAMPAIGN = createRequestAction(`${KEY}/decline-campaign`);
 
@@ -21,7 +21,7 @@ function fetchAvailableCampaignList(filters) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${filters.playerUUID}/list?${buildQueryString(queryParams)}`,
+        endpoint: `promotion/campaigns/${filters.playerUUID}/available?${buildQueryString(queryParams)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -39,13 +39,14 @@ function fetchAvailableCampaignList(filters) {
   };
 }
 
-function declineCampaign(id, playerUUID) {
+function declineCampaign(id, playerUUID, returnToList = false) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
+    const optoutType = returnToList ? 'return_to_list' : 'ignore_campaign';
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/promotion/campaigns/${id}/optout/${playerUUID}`,
+        endpoint: `/promotion/campaigns/${id}/optout/${playerUUID}?optoutType=${optoutType}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',

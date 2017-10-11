@@ -12,12 +12,16 @@ const karmaConfig = {
       { type: 'text-summary' },
     ],
   },
-  files: [{
-    pattern: TEST_BUNDLER,
-    watched: false,
-    served: true,
-    included: true,
-  }],
+  files: [
+    './node_modules/babel-polyfill/dist/polyfill.js',
+    './node_modules/phantomjs-polyfill/bind-polyfill.js',
+    {
+      pattern: TEST_BUNDLER,
+      watched: false,
+      served: true,
+      included: true,
+    },
+  ],
   frameworks: ['mocha'],
   reporters: ['mocha'],
   preprocessors: {
@@ -46,5 +50,15 @@ const karmaConfig = {
     noInfo: true,
   },
 };
+
+if (argv.reporter === 'jenkins') {
+  karmaConfig.singleRun = true;
+  karmaConfig.reporters = ['dots', 'junit'];
+  karmaConfig.junitReporter = {
+    outputDir: 'tests',
+    outputFile: 'test-results.xml',
+    useBrowserName: false,
+  };
+}
 
 module.exports = cfg => cfg.set(karmaConfig);

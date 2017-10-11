@@ -178,6 +178,22 @@
   }
   &__amount {
     font-size: 20px;
+    line-height: 1.1;
     color: $dark-blue-color;
+  }
+}
+
+.change-password-modal {
+  .modal-header {
+    background-color: #fc6;
+  }
+  &-warning {
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+    color: #333;
+  }
+  &-uuid {
+    font-weight: 300;
   }
 }

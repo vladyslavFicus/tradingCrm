@@ -4,7 +4,6 @@ import { SubmissionError } from 'redux-form';
 import Form from './Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../../../../constants/propTypes';
-import { customValueFieldTypes } from '../../../../../../../constants/form';
 import CurrencyCalculationModal from '../../../../../components/CurrencyCalculationModal';
 
 const initialState = {
@@ -17,12 +16,29 @@ const initialState = {
 class View extends Component {
   static propTypes = {
     bonusCampaign: PropTypes.bonusCampaignEntity.isRequired,
+    bonusCampaignForm: PropTypes.shape({
+      campaignName: PropTypes.bonusCampaignEntity.campaignName,
+      campaignPriority: PropTypes.bonusCampaignEntity.campaignPriority,
+      targetType: PropTypes.bonusCampaignEntity.targetType,
+      currency: PropTypes.bonusCampaignEntity.currency,
+      startDate: PropTypes.bonusCampaignEntity.startDate,
+      endDate: PropTypes.bonusCampaignEntity.endDate,
+      wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
+      bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
+      campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
+      conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
+      capping: PropTypes.bonusCampaignEntity.capping,
+      optIn: PropTypes.bonusCampaignEntity.optIn,
+      campaignType: PropTypes.bonusCampaignEntity.campaignType,
+      minAmount: PropTypes.bonusCampaignEntity.minAmount,
+      maxAmount: PropTypes.bonusCampaignEntity.maxAmount,
+    }).isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
-    }),
+    }).isRequired,
     updateCampaign: PropTypes.func.isRequired,
-    locale: PropTypes.string,
+    locale: PropTypes.string.isRequired,
   };
 
   static contextTypes = {
@@ -57,7 +73,8 @@ class View extends Component {
   };
 
   handleSubmit = async (data) => {
-    const action = await this.props.updateCampaign(this.props.params.id, data);
+    const { params, updateCampaign } = this.props;
+    const action = await updateCampaign(params.id, data);
 
     if (action) {
       this.context.addNotification({
@@ -83,37 +100,16 @@ class View extends Component {
 
   render() {
     const { modal } = this.state;
-    const { bonusCampaign, currencies, locale } = this.props;
+    const { bonusCampaign, bonusCampaignForm, currencies, locale } = this.props;
 
     return (
-      <div>
+      <div >
         <Form
           locale={locale}
           currencies={currencies}
           disabled={bonusCampaign.state !== statuses.DRAFT}
-          initialValues={{
-            campaignName: bonusCampaign.campaignName,
-            campaignPriority: bonusCampaign.campaignPriority,
-            targetType: bonusCampaign.targetType,
-            currency: bonusCampaign.currency,
-            startDate: bonusCampaign.startDate,
-            endDate: bonusCampaign.endDate,
-            wagerWinMultiplier: bonusCampaign.wagerWinMultiplier,
-            bonusLifetime: bonusCampaign.bonusLifetime,
-            campaignRatio: bonusCampaign.campaignRatio,
-            conversionPrize: bonusCampaign.conversionPrize || {
-              value: null,
-              type: customValueFieldTypes.ABSOLUTE,
-            },
-            capping: bonusCampaign.capping || {
-              value: null,
-              type: customValueFieldTypes.ABSOLUTE,
-            },
-            optIn: bonusCampaign.optIn,
-            campaignType: bonusCampaign.campaignType,
-            minAmount: bonusCampaign.minAmount,
-            maxAmount: bonusCampaign.maxAmount,
-          }}
+          initialValues={bonusCampaignForm
+          }
           onSubmit={this.handleSubmit}
           toggleModal={this.handleModalOpen}
         />

@@ -75,10 +75,7 @@ class View extends Component {
   };
 
   handleFiltersChanged = (filters = {}) => {
-    this.setState({
-      filters,
-      page: 0,
-    }, () => this.handleRefresh());
+    this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
   handleStatusActionClick = (uuid, action) => {
@@ -107,7 +104,7 @@ class View extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">Files</div>
             <div className="tab-header__actions">

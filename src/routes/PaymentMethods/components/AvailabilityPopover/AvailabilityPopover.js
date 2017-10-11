@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Popover, PopoverContent, TabContent, TabPane, Nav, NavItem, NavLink, Row, Col, Input,
-} from 'reactstrap';
+import { Popover, PopoverContent, TabContent, TabPane, Nav, NavItem, NavLink, Input } from 'reactstrap';
 import classNames from 'classnames';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
@@ -32,6 +30,8 @@ class AvailabilityPopover extends Component {
 
   static defaultProps = {
     placement: 'left',
+    toggle: null,
+    countries: {},
   };
 
   state = {
@@ -141,25 +141,24 @@ class AvailabilityPopover extends Component {
     const tabListElements = [];
     Object.keys(tabCountries).map((letter, key) => {
       tabListElements.push(
-        <Col className="col-xs-12" key={`${key}-${letter}`}>
+        <div key={[`${key}-${letter}`]}>
           <span className="font-weight-700">{letter}</span>
-        </Col>
+        </div>
       );
 
       tabCountries[letter].map((country) => {
         tabListElements.push(
-          <Col className="col-xs-12" key={`${key}-${country}`}>
+          <div key={[`${key}-${country}`]}>
             <span className="font-weight-700">{country}</span> {'- '}
-            <span className="color-default">{this.renderLimit(country)}</span>
-          </Col>
+            <span className="tab-pane__limit-amount">{this.renderLimit(country)}</span>
+          </div>
         );
       });
     });
 
     if (!tabListElements.length && search) {
       return (
-        <Col
-          className="col-xs-12"
+        <div
           dangerouslySetInnerHTML={{
             __html: I18n.t('PAYMENT.METHODS.AVAILABILITY.NO_RESULT_BY_SEARCH', {
               search: `<span class="font-weight-700">${search}</span>`,
@@ -202,11 +201,11 @@ class AvailabilityPopover extends Component {
             }
           </Nav>
           <TabContent activeTab={activeTab}>
-            <div className="form-input-icon">
-              <i className="icmn-search" />
+            <div className="input-with-icon input-with-icon__left">
+              <i className="input-left-icon nas nas-search_icon" />
               <Input
                 onChange={this.handleSearch}
-                className="form-control input-sm"
+                className="form-control"
                 value={search}
                 type="text"
                 placeholder={I18n.t('PAYMENT.METHODS.AVAILABILITY.SEARCH_PLACEHOLDER')}
@@ -214,9 +213,7 @@ class AvailabilityPopover extends Component {
             </div>
             <hr />
             <TabPane tabId={activeTab}>
-              <Row>
-                {this.renderTabListElements()}
-              </Row>
+              {this.renderTabListElements()}
             </TabPane>
           </TabContent>
         </PopoverContent>

@@ -1,10 +1,10 @@
-import 'normalize.js';
 import chai from 'chai';
 import sinon from 'sinon';
 import dirtyChai from 'dirty-chai';
-import chaiAsPromised from 'chai-as-promised';
 import sinonChai from 'sinon-chai';
 import chaiEnzyme from 'chai-enzyme';
+import 'normalize.js';
+import appConfig from '../server/application.config';
 
 // Mocha / Chai
 // ------------------------------------
@@ -14,12 +14,12 @@ chai.should();
 global.chai = chai;
 global.expect = chai.expect;
 global.sinon = sinon;
+global.window.nas = appConfig;
 
 // Chai Plugins
 // ------------------------------------
 chai.use(chaiEnzyme());
 chai.use(dirtyChai);
-chai.use(chaiAsPromised);
 chai.use(sinonChai);
 
 // Test Importer

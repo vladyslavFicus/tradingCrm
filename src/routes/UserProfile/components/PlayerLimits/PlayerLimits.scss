@@ -1,0 +1,49 @@
+.header-block_player-limits {
+  padding-left: 0;
+  &-tab {
+    padding-left: 1.2rem;
+    &_status {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      &_is-locked {
+        text-transform: uppercase;
+        color: #CC0000;
+      }
+      &_is-allowed {
+        text-transform: uppercase;
+        color: #009900;
+      }
+    }
+    &_log {
+      font-size: 11px;
+    }
+  }
+
+  &_btn-group {
+    display: inline-flex;
+    width: 100%;
+    padding: 1rem 1.2rem;
+    .btn {
+      flex: 1;
+    }
+  }
+
+  .limits-info {
+    padding: .75rem 1.2rem;
+    border-top: 1px solid #eee;
+    cursor: default;
+    &_tab {
+      position: relative;
+      line-height: 1.2;
+      &:nth-child(n+2) {
+        margin-top: 10px;
+      }
+      &-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+  }
+}

@@ -200,7 +200,7 @@ PropTypes.userProfile = PropTypes.shape({
   title: PropTypes.string,
   token: PropTypes.string,
   tokenExpirationDate: PropTypes.string,
-  username: PropTypes.string,
+  login: PropTypes.string,
   playerUUID: PropTypes.string.isRequired,
   signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
   balances: PropTypes.shape({
@@ -330,7 +330,7 @@ PropTypes.paymentActionReasons = PropTypes.shape({
   reject: PropTypes.object,
   chargeback: PropTypes.object,
 });
-PropTypes.walletLimitEntity = PropTypes.shape({
+PropTypes.playerLimitEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
   authorUUID: PropTypes.any,
   id: PropTypes.number.isRequired,

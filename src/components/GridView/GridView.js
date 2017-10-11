@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import GridColumn from './GridColumn';
 import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../../components/NotFoundContent';
+import PermissionContent from '../PermissionContent/PermissionContent';
 
 class GridView extends Component {
   static propTypes = {
@@ -45,7 +46,7 @@ class GridView extends Component {
   };
 
   shouldComponentUpdate(nextProps) {
-    if (!this.props.lazyLoad) {
+    if (!nextProps.lazyLoad) {
       return true;
     }
 
@@ -74,30 +75,44 @@ class GridView extends Component {
     return className;
   };
 
-  recognizeHeaders = grids => grids.map(({ props }) => {
-    const config = { children: typeof props.header === 'function' ? props.header() : props.header };
+  getGridColumn = (child) => {
+    return child.type === PermissionContent && child.props.children.type === GridColumn
+      ? child.props.children.props
+      : child.props;
+  };
 
-    if (props.headerClassName) {
-      config.className = props.headerClassName;
+  recognizeHeaders = grids => grids.map(child => {
+    const gridColumn = this.getGridColumn(child);
+
+    const config = {
+      children: typeof gridColumn.header === 'function'
+        ? gridColumn.header()
+        : gridColumn.header,
+    };
+
+    if (gridColumn.headerClassName) {
+      config.className = gridColumn.headerClassName;
     }
 
-    if (props.headerStyle) {
-      config.style = props.headerStyle;
+    if (gridColumn.headerStyle) {
+      config.style = gridColumn.headerStyle;
     }
 
     return config;
   });
 
-  recognizeFilters = grids => grids.map(({ props }) => {
-    if (typeof props.filter === 'function') {
-      const config = { children: props.filter(this.setFilters) };
+  recognizeFilters = grids => grids.map(child => {
+    const gridColumn = this.getGridColumn(child);
 
-      if (props.filterClassName) {
-        config.className = props.filterClassName;
+    if (typeof gridColumn.filter === 'function') {
+      const config = { children: gridColumn.filter(this.setFilters) };
+
+      if (gridColumn.filterClassName) {
+        config.className = gridColumn.filterClassName;
       }
 
-      if (props.filterStyle) {
-        config.style = props.filterStyle;
+      if (gridColumn.filterStyle) {
+        config.style = gridColumn.filterStyle;
       }
 
       return config;
@@ -107,7 +122,11 @@ class GridView extends Component {
   });
 
   handlePageChange = (eventKey) => {
-    this.props.onPageChange(eventKey, this.state.filters);
+    const { totalPages, activePage, onPageChange } = this.props;
+
+    if (totalPages > activePage) {
+      onPageChange(eventKey, this.state.filters);
+    }
   };
 
   renderHead = columns => (
@@ -120,7 +139,7 @@ class GridView extends Component {
     columns.some(column => !!column)
       ? (
         <tr>
-          {columns.map((item, key) => item ? <td key={key} {...item} /> : <td key={key} />)}
+          {columns.map((item, key) => (item ? <td key={key} {...item} /> : <td key={key} />))}
         </tr>
       )
       : null
@@ -144,16 +163,20 @@ class GridView extends Component {
 
     const rows = dataSource.map((data, key) => this.renderRow(key, columns, data));
 
-    return lazyLoad
-      ? <InfiniteScroll
-        loadMore={() => this.handlePageChange(activePage + 1)}
-        element="tbody"
-        hasMore={totalPages > activePage}
-        loader={this.renderLoader(columns)}
-      >
-        {rows}
-      </InfiniteScroll>
-      : <tbody>{rows}</tbody>;
+    if (lazyLoad) {
+      return (
+        <InfiniteScroll
+          loadMore={() => this.handlePageChange(activePage + 1)}
+          element="tbody"
+          hasMore={totalPages > activePage}
+          loader={this.renderLoader(columns)}
+        >
+          {rows}
+        </InfiniteScroll>
+      );
+    }
+
+    return <tbody>{rows}</tbody>;
   };
 
   renderRow = (key, columns, data) => {
@@ -175,21 +198,26 @@ class GridView extends Component {
   };
 
   renderColumn(key, column, data) {
+    const gridColumn = this.getGridColumn(column);
     let content = null;
 
-    if (typeof column.props.render === 'function') {
-      content = column.props.render.call(null, data, column.props, this.state.filters);
-    } else if (typeof column.props.name === 'string') {
-      content = data[column.props.name];
+    if (typeof gridColumn.render === 'function') {
+      content = gridColumn.render.call(null, data, gridColumn, this.state.filters);
+    } else if (typeof gridColumn.name === 'string') {
+      content = data[gridColumn.name];
     }
 
-    return <td className={column.props.className} key={key}>{content}</td>;
+    return <td className={gridColumn.className} key={key}>{content}</td>;
   }
 
   renderFooter(columns) {
     const { summaryRow } = this.props;
 
-    return summaryRow ? (
+    if (!summaryRow) {
+      return null;
+    }
+
+    return (
       <tfoot>
         <tr>
           {columns.map(({ props }, key) =>
@@ -197,7 +225,7 @@ class GridView extends Component {
           )}
         </tr>
       </tfoot>
-    ) : null;
+    );
   }
 
   renderPagination() {
@@ -244,7 +272,9 @@ class GridView extends Component {
       return null;
     }
 
-    const grids = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
+    const grids = React.Children
+      .toArray(this.props.children)
+      .filter(child => child.type === GridColumn || child.type === PermissionContent);
 
     return (
       <div className="table-responsive">

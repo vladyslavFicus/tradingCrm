@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators } from '../modules';
-import { getLimitPeriods } from '../../../../../config/index';
+import { getLimitPeriods } from '../../../../../config';
 
 const configLimitPeriods = getLimitPeriods();
 

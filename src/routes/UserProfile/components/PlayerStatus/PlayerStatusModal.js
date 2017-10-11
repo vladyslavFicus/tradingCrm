@@ -7,6 +7,7 @@ import { createValidator } from '../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import { actions, durationUnits } from '../../../../constants/user';
 import pluralDurationUnit from '../../../../utils/pluralDurationUnit';
+import renderLabel from '../../../../utils/renderLabel';
 
 const attributeLabels = {
   period: 'Period',
@@ -27,7 +28,7 @@ const validator = (data) => {
   };
 
   if (data.reasons) {
-    rules.reason = `required|string|in:${data.reasons.join()}`;
+    rules.reason = `required|string|in:${Object.keys(data.reasons).join()}`;
   }
 
   if (data.action === actions.SUSPEND || data.action === actions.PROLONG) {
@@ -40,7 +41,7 @@ const validator = (data) => {
 class PlayerStatusModal extends Component {
   static propTypes = {
     action: PropTypes.string.isRequired,
-    reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
+    reasons: PropTypes.object.isRequired,
     title: PropTypes.string,
     onHide: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -62,9 +63,9 @@ class PlayerStatusModal extends Component {
       position="vertical"
     >
       <option value="">-- Select reason --</option>
-      {reasons.map(item => (
-        <option key={item} value={item}>
-          {item}
+      {Object.keys(reasons).map(key => (
+        <option key={key} value={key}>
+          {renderLabel(key, reasons)}
         </option>
       ))}
     </Field>
@@ -126,16 +127,10 @@ class PlayerStatusModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <button
-              className="btn btn-default-outline pull-left"
-              onClick={onHide}
-            >
+            <button className="btn btn-default-outline pull-left" onClick={onHide}>
               {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
-            <button
-              type="submit"
-              className="btn btn-danger"
-            >
+            <button type="submit" className="btn btn-danger">
               {action}
             </button>
           </ModalFooter>

@@ -1,9 +1,10 @@
+import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { Link } from 'react-router';
 import moment from 'moment';
 import classNames from 'classnames';
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
@@ -13,6 +14,8 @@ import {
 } from '../../../../../constants/operators';
 import CreateOperatorModal from '../../../components/CreateOperatorModal';
 import Uuid from '../../../../../components/Uuid';
+import MiniProfile from '../../../../../components/MiniProfile';
+import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 
 const MODAL_CREATE_OPERATOR = 'modal-create-operator';
 const modalInitialState = {
@@ -25,18 +28,26 @@ class List extends Component {
     isLoading: PropTypes.bool,
     onSubmitNewOperator: PropTypes.func.isRequired,
     fetchEntities: PropTypes.func.isRequired,
-    departments: PropTypes.arrayOf(PropTypes.shape({
+    availableDepartments: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
-    })),
-    roles: PropTypes.arrayOf(PropTypes.shape({
+    })).isRequired,
+    availableRoles: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
-    })),
+    })).isRequired,
     router: PropTypes.object,
     filterValues: PropTypes.object,
     list: PropTypes.object,
     locale: PropTypes.string.isRequired,
+    fetchOperatorMiniProfile: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    isLoading: false,
+    router: null,
+    filterValues: null,
+    list: null,
   };
 
   state = {
@@ -95,69 +106,69 @@ class List extends Component {
     });
   };
 
-  renderStatus = (data) => {
-    return (
-      <div>
-        <div
-          className={
-            classNames(operatorStatusColorNames[data.operatorStatus], 'text-uppercase font-weight-700')
-          }
-        >
-          {operatorStatusesLabels[data.operatorStatus] || data.operatorStatus}
-        </div>
-        {
-          data.statusChangeDate &&
-          <div className="font-size-11">
-            Since {moment(data.statusChangeDate).format('DD.MM.YYYY')}
-          </div>
+  renderStatus = data => (
+    <div>
+      <div
+        className={
+          classNames(operatorStatusColorNames[data.operatorStatus], 'text-uppercase font-weight-700')
         }
+      >
+        {operatorStatusesLabels[data.operatorStatus] || data.operatorStatus}
       </div>
-    );
-  };
+      {
+        data.statusChangeDate &&
+        <div className="font-size-11">
+          {I18n.t('COMMON.SINCE', { date: moment.utc(data.statusChangeDate).local().format('DD.MM.YYYY') })}
+        </div>
+      }
+    </div>
+  );
 
-  renderOperator = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700" id={`operator-list-${data.uuid}-main`}>
-          <Link to={`/operators/${data.uuid}/profile`}>
-            {[data.firstName, data.lastName].join(' ')}
-          </Link>
-        </div>
-        <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
-          <Uuid uuid={data.uuid} />
-        </div>
+  renderOperator = data => (
+    <div>
+      <div className="font-weight-700" id={`operator-list-${data.uuid}-main`}>
+        <Link to={`/operators/${data.uuid}/profile`}>
+          {[data.firstName, data.lastName].join(' ')}
+        </Link>
       </div>
-    );
-  };
+      <div className="font-size-11" id={`operator-list-${data.uuid}-additional`}>
+        <MiniProfile
+          target={data.uuid}
+          type={miniProfileTypes.OPERATOR}
+          dataSource={this.props.fetchOperatorMiniProfile}
+        >
+          <Uuid uuid={data.uuid} />
+        </MiniProfile>
+      </div>
+    </div>
+  );
 
   renderCountry = (data) => {
-    return (
-      <div className="font-weight-700">
-        {data.country}
-      </div>
-    );
+    if (!data.country) {
+      return data.country;
+    }
+
+    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} alt={data.country} />;
   };
 
-  renderRegistered = (data) => {
-    return (
-      <div>
-        <div className="font-weight-700">
-          {moment(data.registrationDate).format('DD.MM.YYYY')}
-        </div>
-        <div className="font-size-11">
-          {moment(data.registrationDate).format('HH.mm')}
-        </div>
+  renderRegistered = data => (
+    <div>
+      <div className="font-weight-700">
+        {moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}
       </div>
-    );
-  };
+      <div className="font-size-11">
+        {moment.utc(data.registrationDate).local().format('HH.mm')}
+      </div>
+    </div>
+  );
 
   render() {
     const { filters, modal } = this.state;
     const {
       list: { entities, noResults },
       filterValues,
-      departments,
-      roles,
+      availableDepartments,
+      availableRoles,
       locale,
     } = this.props;
 
@@ -165,19 +176,15 @@ class List extends Component {
       <div className="page-content-inner">
         <Panel withBorders>
           <Title>
-            <div className="row">
-              <div className="col-xl-3">
-                <span className="font-size-20" id="operators-list-header">Operators</span>
-              </div>
-              <div className="col-xl-3 col-xl-offset-6 text-right">
-                <button
-                  className="btn btn-default-outline"
-                  onClick={this.handleOpenCreateModal}
-                  id="create-new-operator-button"
-                >
-                  + New operator
-                </button>
-              </div>
+            <div className="clearfix">
+              <span className="font-size-20" id="operators-list-header">Operators</span>
+              <button
+                className="btn btn-default-outline pull-right"
+                onClick={this.handleOpenCreateModal}
+                id="create-new-operator-button"
+              >
+                {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
+              </button>
             </div>
           </Title>
 
@@ -227,11 +234,11 @@ class List extends Component {
           modal.name === MODAL_CREATE_OPERATOR &&
           <CreateOperatorModal
             onSubmit={this.handleSubmitNewOperator}
-            departments={departments}
-            roles={roles}
+            availableDepartments={availableDepartments}
+            availableRoles={availableRoles}
             initialValues={{
-              department: departments[0] ? departments[0].value : null,
-              role: roles[0] ? roles[0].value : null,
+              department: availableDepartments[0] ? availableDepartments[0].value : null,
+              role: availableRoles[0] ? availableRoles[0].value : null,
               sendMail: true,
             }}
             onClose={this.handleModalClose}

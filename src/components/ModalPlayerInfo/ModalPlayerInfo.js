@@ -21,7 +21,7 @@ class ModalPlayerInfo extends Component {
         {!!profile.birthDate && <span>({moment().diff(profile.birthDate, 'years')})</span>}
       </div>
       <div className="font-size-11">
-        {profile.username}
+        {profile.login}
         {' - '}
         <Uuid
           uuid={profile.playerUUID}
@@ -39,7 +39,7 @@ class ModalPlayerInfo extends Component {
       {
         !!profile.suspendEndDate &&
         <div className="font-size-11">
-          Until {moment(profile.suspendEndDate).format('L')}
+          Until {moment.utc(profile.suspendEndDate).local().format('L')}
         </div>
       }
     </div>

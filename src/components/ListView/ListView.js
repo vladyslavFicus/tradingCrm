@@ -24,6 +24,11 @@ class ListView extends Component {
     defaultFilters: {},
     lazyLoad: false,
     showNoResults: false,
+    onFiltersChanged: null,
+    onPageChange: null,
+    activePage: 0,
+    totalPages: null,
+    itemClassName: '',
   };
 
   state = {

@@ -2,6 +2,9 @@
   padding: 10px 15px;
   .panel-body {
     height: $account-details-panel-height;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-all;
   }
   &__label {
     font-size: 12px;

@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
+import { getFormValues, getFormSubmitErrors } from 'redux-form';
 import View from '../components/View';
 import { actionCreators } from '../modules';
-import { getFormValues, getFormSubmitErrors } from 'redux-form';
-import config from 'config/index';
+import config from '../../../../../config';
 
 const valuesSelector = getFormValues('revenueReport');
 const errorSelector = getFormSubmitErrors('revenueReport');

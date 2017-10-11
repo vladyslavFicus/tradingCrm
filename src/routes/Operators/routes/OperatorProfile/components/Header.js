@@ -5,7 +5,6 @@ import { I18n } from 'react-redux-i18n';
 import Uuid from '../../../../../components/Uuid';
 import { statusColorNames, statuses } from '../../../../../constants/operators';
 import AccountStatus from './AccountStatus';
-import ProfileLastLogin from './ProfileLastLogin';
 import PropTypes from '../../../../../constants/propTypes';
 import PermissionContent from '../../../../../components/PermissionContent';
 import Permissions from '../../../../../utils/permissions';
@@ -16,7 +15,6 @@ const sendInvitationRequiredPermissions = new Permissions([permission.OPERATORS.
 class Header extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    lastIp: PropTypes.operatorIpEntity,
     availableStatuses: PropTypes.arrayOf(PropTypes.shape({
       action: PropTypes.string,
       label: PropTypes.string,
@@ -26,9 +24,6 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onSendInvitationClick: PropTypes.func.isRequired,
-  };
-  static defaultProps = {
-    lastIp: null,
   };
 
   handleStatusChange = (data) => {
@@ -49,7 +44,6 @@ class Header extends Component {
         statusChangeDate,
         statusChangeAuthor,
       },
-      lastIp,
       availableStatuses,
       onResetPasswordClick,
       onSendInvitationClick,
@@ -105,7 +99,7 @@ class Header extends Component {
                   {
                     operatorStatus === statuses.ACTIVE && !!statusChangeDate &&
                     <div className="header-block-small">
-                      Since {moment(statusChangeDate).format('DD.MM.YYYY')}
+                      Since {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
                     </div>
                   }
                   {
@@ -120,7 +114,7 @@ class Header extends Component {
                       {
                         statusChangeDate &&
                         <div className="header-block-small">
-                          on {moment(statusChangeDate).format('DD.MM.YYYY')}
+                          on {moment.utc(statusChangeDate).local().format('DD.MM.YYYY')}
                         </div>
                       }
                     </div>
@@ -136,15 +130,14 @@ class Header extends Component {
               registrationDate &&
               <div>
                 <div className="header-block-middle">
-                  {moment(registrationDate).fromNow()}
+                  {moment.utc(registrationDate).local().fromNow()}
                 </div>
                 <div className="header-block-small">
-                  on {moment(registrationDate).format('DD.MM.YYYY HH:mm')}
+                  on {moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
                 </div>
               </div>
             }
           </div>
-          <ProfileLastLogin className="header-block" lastIp={lastIp} />
         </div>
       </div>
     );

@@ -61,10 +61,6 @@ const initialState = {
           permissions: new Permissions([permission.REPORTS.VAT_VIEW]),
         },
         {
-          label: I18n.t('SIDEBAR.TOP_MENU.DORMANT'),
-          url: '/users/dormant',
-        },
-        {
           label: I18n.t('SIDEBAR.TOP_MENU.OPEN_LOOP'),
           url: '/transactions/open-loops',
         },

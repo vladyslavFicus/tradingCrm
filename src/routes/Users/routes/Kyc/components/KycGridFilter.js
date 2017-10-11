@@ -74,15 +74,17 @@ class KycGridFilter extends Component {
                 <label>{I18n.t('KYC_REQUESTS.FILTER.DATE_RANGE')}</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="from"
                     placeholder={I18n.t(filterLabels.from)}
                     component={DateTimeField}
                     position="vertical"
-                    isValidDate={this.endDateValidator('to')}
+                    isValidDate={this.startDateValidator('to')}
                   />
 
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="to"
                     placeholder={I18n.t(filterLabels.to)}
                     component={DateTimeField}

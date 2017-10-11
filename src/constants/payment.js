@@ -2,6 +2,7 @@ import keyMirror from 'keymirror';
 import I18n from '../utils/fake-i18n';
 
 const statuses = keyMirror({
+  APPROVED: null,
   PENDING: null,
   REFUSED: null,
   FAILED: null,
@@ -87,6 +88,7 @@ const manualTypesLabels = {
 };
 
 const statusesLabels = {
+  [statuses.APPROVED]: 'Approved',
   [statuses.PENDING]: 'Pending',
   [statuses.REFUSED]: 'Refused',
   [statuses.FAILED]: 'Failed',
@@ -127,6 +129,7 @@ const typesProps = {
 };
 
 const statusesColor = {
+  [statuses.APPROVED]: 'color-success',
   [statuses.PENDING]: 'color-info',
   [statuses.REFUSED]: 'color-warning',
   [statuses.FAILED]: 'color-danger',

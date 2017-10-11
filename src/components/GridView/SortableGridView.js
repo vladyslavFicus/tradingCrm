@@ -4,37 +4,33 @@ import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-ho
 import GridColumn from '../GridView/GridColumn';
 import shallowEqual from '../../utils/shallowEqual';
 
-const SortableItem = SortableElement(({ data, index, columns }) => {
-  return (
-    <tr>
-      {
-        columns.map((column, columnKey) => {
-          let content = null;
+const SortableItem = SortableElement(({ data, index, columns }) => (
+  <tr>
+    {
+      columns.map((column, columnKey) => {
+        let content = null;
 
-          if (typeof column.props.render === 'function') {
-            content = column.props.render.call(null, data, column.props);
-          } else if (typeof column.props.name === 'string') {
-            content = data[column.props.name];
-          }
+        if (typeof column.props.render === 'function') {
+          content = column.props.render.call(null, data, column.props);
+        } else if (typeof column.props.name === 'string') {
+          content = data[column.props.name];
+        }
 
-          return (
-            <td className={column.props.className} key={`${index}-${columnKey}`}>{content}</td>
-          );
-        })
-      }
-    </tr>
-  );
-});
+        return (
+          <td className={column.props.className} key={[`${index}-${columnKey}`]}>{content}</td>
+        );
+      })
+    }
+  </tr>
+));
 
-const SortableList = SortableContainer(({ items, columns }) => {
-  return (
-    <tbody>
-      {items.map((value, index) => (
-        <SortableItem key={`item-${index}`} index={index} data={value} columns={columns} />
-      ))}
-    </tbody>
-  );
-});
+const SortableList = SortableContainer(({ items, columns }) => (
+  <tbody>
+    {items.map((value, index) => (
+      <SortableItem key={[`item-${index}`]} index={index} data={value} columns={columns} />
+    ))}
+  </tbody>
+));
 
 class SortableGridView extends Component {
   static propTypes = {
@@ -48,9 +44,11 @@ class SortableGridView extends Component {
   };
 
   static defaultProps = {
-    tableClassName: 'table table-stripped table-hovered',
+    tableClassName: 'table',
     headerClassName: 'thead-default',
     defaultFilters: {},
+    onFiltersChanged: null,
+    onSortEnd: null,
   };
 
   state = {
@@ -75,8 +73,8 @@ class SortableGridView extends Component {
     }, () => this.props.onSortEnd({ from: oldIndex + 1, to: newIndex + 1 }));
   };
 
-  recognizeHeaders = (grids) => {
-    return grids.map(({ props }) => {
+  recognizeHeaders = grids => (
+    grids.map(({ props }) => {
       const config = { children: props.header };
 
       if (props.headerClassName) {
@@ -88,8 +86,8 @@ class SortableGridView extends Component {
       }
 
       return config;
-    });
-  };
+    })
+  );
 
   renderHead = columns => <tr>{columns.map((item, key) => <th key={key} {...item} />)}</tr>;
 
@@ -101,29 +99,24 @@ class SortableGridView extends Component {
 
     const { dataSource } = this.state;
 
-    const columns = React.Children.toArray(this.props.children).filter((child) => {
-      return child.type === GridColumn;
-    });
+    const columns = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
-      <div className="row">
-        <div className="col-md-12">
-          <table className={tableClassName}>
-            <thead className={headerClassName}>
-              { this.renderHead(this.recognizeHeaders(columns)) }
-            </thead>
-            {
-              dataSource &&
-              <SortableList
-                useDragHandle
-                columns={columns}
-                items={dataSource}
-                onSortEnd={this.onSortEnd}
-              />
-            }
-          </table>
-        </div>
-      </div>
+      <table className={tableClassName}>
+        <thead className={headerClassName}>
+          {this.renderHead(this.recognizeHeaders(columns))}
+        </thead>
+        {
+          dataSource &&
+          <SortableList
+            useDragHandle
+            columns={columns}
+            items={dataSource}
+            onSortEnd={this.onSortEnd}
+            helperClass="drag-content"
+          />
+        }
+      </table>
     );
   }
 }

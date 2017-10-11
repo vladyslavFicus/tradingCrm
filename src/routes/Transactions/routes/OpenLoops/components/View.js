@@ -8,7 +8,6 @@ import {
   typesLabels,
   typesProps,
 } from '../../../../../constants/payment';
-import { shortify } from '../../../../../utils/uuid';
 import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
 import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
 import TransactionStatus from '../../../../../components/TransactionStatus';
@@ -19,6 +18,9 @@ import Uuid from '../../../../../components/Uuid';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
+import PaymentAccount from '../../../../../components/PaymentAccount';
+import renderLabel from '../../../../../utils/renderLabel';
+import IpFlag from '../../../../../components/IpFlag';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -38,6 +40,7 @@ class View extends Component {
     resetAll: PropTypes.func.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
     locale: PropTypes.string.isRequired,
+    fetchPlayerMiniProfile: PropTypes.func.isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -48,6 +51,7 @@ class View extends Component {
       setNoteChangedCallback: PropTypes.func.isRequired,
       hidePopover: PropTypes.func.isRequired,
     }),
+    addPanel: PropTypes.func.isRequired,
   };
 
   state = {
@@ -164,11 +168,23 @@ class View extends Component {
     />
   );
 
-  renderPlayer = data => (
-    data.playerProfile
-      ? <GridPlayerInfo profile={data.playerProfile} />
-      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
-  );
+  renderPlayer = (data) => {
+    const { firstName, lastName, login, playerUUID } = data.playerProfile;
+
+    const panelData = {
+      fullName: `${firstName || '-'} ${lastName || '-'}`,
+      login,
+      uuid: playerUUID,
+    };
+
+    return data.playerProfile
+      ? <GridPlayerInfo
+        onClick={() => this.context.addPanel(panelData)}
+        profile={data.playerProfile}
+        fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
+      />
+      : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />;
+  };
 
   renderType = (data) => {
     const label = typesLabels[data.paymentType] || data.paymentType;
@@ -191,10 +207,10 @@ class View extends Component {
   renderDateTime = data => (
     <div>
       <div className="font-weight-700">
-        {moment(data.creationTime).format('DD.MM.YYYY')}
+        {moment.utc(data.creationTime).local().format('DD.MM.YYYY')}
       </div>
       <span className="font-size-10 color-default">
-        {moment(data.creationTime).format('HH:mm:ss')}
+        {moment.utc(data.creationTime).local().format('HH:mm:ss')}
       </span>
     </div>
   );
@@ -204,18 +220,24 @@ class View extends Component {
       return data.country;
     }
 
-    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} />;
+    const id = `open-loop-${data.paymentId}`;
+
+    return <IpFlag id={id} country={data.country} ip={data.clientIp} />;
   };
 
   renderMethod = data => (
-    <div>
-      <div className="font-weight-700">
-        {methodsLabels[data.paymentMethod] || data.paymentMethod}
+    !data.paymentMethod ? <span>&mdash;</span>
+      : <div>
+        <div className="font-weight-700">
+          {renderLabel(data.paymentMethod, methodsLabels)}
+        </div>
+        {
+          !!data.paymentAccount &&
+          <span className="font-size-10">
+            <PaymentAccount account={data.paymentAccount} />
+          </span>
+        }
       </div>
-      <span className="font-size-10">
-        {shortify(data.paymentAccount, null, 2)}
-      </span>
-    </div>
   );
 
   renderDevice = (data) => {

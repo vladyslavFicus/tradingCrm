@@ -5,6 +5,7 @@ import SignInBrands from './SignInBrands';
 import SignInDepartments from './SignInDepartments';
 import Preloader from './Preloader';
 import PropTypes from '../propTypes';
+import Storage from '../../../utils/storage';
 
 class SignIn extends Component {
   static propTypes = {
@@ -14,6 +15,7 @@ class SignIn extends Component {
     location: PropTypes.shape({
       query: PropTypes.shape({
         returnUrl: PropTypes.string,
+        spec: PropTypes.string,
       }),
     }).isRequired,
     signIn: PropTypes.func.isRequired,
@@ -27,6 +29,7 @@ class SignIn extends Component {
     fullName: PropTypes.string,
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     departments: PropTypes.arrayOf(PropTypes.department).isRequired,
+    changeEmailNotificationSetting: PropTypes.func.isRequired,
   };
   static defaultProps = {
     brand: null,
@@ -39,6 +42,22 @@ class SignIn extends Component {
   };
 
   componentDidMount() {
+    const { location, changeEmailNotificationSetting } = this.props;
+
+    if (location.query) {
+      if (location.query.spec) {
+        Storage.set('test.spec', location.query.spec);
+      } else {
+        Storage.remove('test.spec');
+      }
+
+      if (location.query['send-mail']) {
+        changeEmailNotificationSetting(location.query['send-mail'] !== 'false');
+      }
+    } else {
+      Storage.remove('test.spec');
+    }
+
     setTimeout(() => {
       this.setState({ loading: false });
     }, 300);
@@ -75,6 +94,7 @@ class SignIn extends Component {
         this.setState({ logged: true }, () => {
           const { departmentsByBrand, token, uuid } = action.payload;
           const brands = Object.keys(departmentsByBrand);
+          console.info(`Logged with ${brands.length} brands`);
 
           if (brands.length === 1) {
             const departments = Object.keys(departmentsByBrand[brands[0]]);

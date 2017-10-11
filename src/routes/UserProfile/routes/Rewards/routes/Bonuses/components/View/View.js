@@ -11,7 +11,8 @@ import GridView, { GridColumn } from '../../../../../../../../components/GridVie
 import { statuses } from '../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../constants/note';
 import Uuid from '../../../../../../../../components/Uuid';
-import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
+import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
+import { routes as subTabRoutes } from '../../../../constants';
 import BonusGridFilter from '../BonusGridFilter';
 import ViewModal from '../ViewModal';
 import BonusType from '../BonusType';
@@ -135,6 +136,7 @@ class View extends Component {
         children: I18n.t('PLAYER_PROFILE.BONUS.CANCEL_BONUS'),
         onClick: this.handleCancelBonus.bind(null, data.id),
         className: 'btn btn-danger text-uppercase',
+        id: `${data.bonusUUID}-cancel-button`,
       });
     }
 
@@ -220,12 +222,12 @@ class View extends Component {
     data.createdDate ? (
       <div>
         <div className="font-weight-700">
-          {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
+          {moment.utc(data.createdDate).local().format('DD.MM.YYYY HH:mm')}
         </div>
         {
           !!data.expirationDate &&
           <div className="font-size-11">
-            {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+            {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}
           </div>
         }
       </div>
@@ -274,9 +276,9 @@ class View extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
-            <BonusHeaderNavigation />
+            <SubTabNavigation links={subTabRoutes} />
             <div className="tab-header__actions">
               <button
                 className="btn btn-sm btn-primary-outline"
