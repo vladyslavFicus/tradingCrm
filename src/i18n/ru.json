@@ -264,7 +264,8 @@
         "BONUS_TYPE": "Тип бонуса",
         "BONUS_STATUS": "Статус"
       },
-      "CLAIM_BONUS": "Выдать бонус"
+      "CLAIM_BONUS": "Выдать бонус",
+      "LOCKED_GRANTED": "Блок.:"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {

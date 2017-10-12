@@ -262,7 +262,8 @@
         "BONUS_TYPE": "Bonus type",
         "BONUS_STATUS": "Status"
       },
-      "CLAIM_BONUS": "Claim bonus"
+      "CLAIM_BONUS": "Claim bonus",
+      "LOCKED_GRANTED": "Locked:"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
