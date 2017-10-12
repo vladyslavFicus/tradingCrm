@@ -26,6 +26,7 @@ const mapStateToProps = ({ bonusCampaignView: { data }, i18n: { locale } }) => (
     },
     optIn: data.optIn,
     campaignType: data.campaignType,
+    moneyTypePriority: data.moneyTypePriority,
     minAmount: data.minAmount,
     maxAmount: data.maxAmount,
   },

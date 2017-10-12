@@ -20,6 +20,7 @@ export default {
     UNBLOCK: 'profile;PUT;/profiles/{playerUUID}/unblock',
     PROLONG: 'profile;PUT;/profiles/{playerUUID}/suspend/prolong',
     REMOVE: 'profile;PUT;/profiles/{playerUUID}/resume',
+    ADD_TO_CAMPAIGN: 'promotion;PUT;/campaigns/{id}/players-list/{playerUUID}',
   },
   PAYMENTS: {
     APPROVE_WITHDRAW: 'payment;POST;/payments/{playerUUID}/{paymentId}/approve',

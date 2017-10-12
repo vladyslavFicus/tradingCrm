@@ -158,9 +158,7 @@ function getLimitPeriods() {
 }
 
 function getApiRoot() {
-  return config.nas.brand.api.url
-    ? config.nas.brand.api.url.replace(/\/$/, '')
-    : '';
+  return '/api';
 }
 
 function getErrorApiUrl() {

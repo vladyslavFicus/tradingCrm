@@ -267,7 +267,8 @@
         "BONUS_TYPE": "Bonus type",
         "BONUS_STATUS": "Status"
       },
-      "CLAIM_BONUS": "Claim bonus"
+      "CLAIM_BONUS": "Claim bonus",
+      "LOCKED_GRANTED": "Locked:"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -332,7 +333,8 @@
           "CAMPAIGN_ID_PLACEHOLDER": "Choose campaign",
           "CAMPAIGN": "Campaign",
           "AVAILABILITY": "Availability",
-          "STATUS": "Status"
+          "STATUS": "Status",
+          "ACTIVE_ONLY": "Active only"
         }
       },
       "NOTIFICATIONS": {
@@ -1015,7 +1017,30 @@
       }
     },
     "CREATE_MODAL": {
-      "TITLE": "New bonus campaign"
+      "TITLE": "New bonus campaign",
+      "NAME_LABEL": "Name",
+      "PRIORITY_LABEL": "Priority",
+      "START_DATE_LABEL": "Start date",
+      "END_DATE_LABEL": "End date",
+      "CURRENCY_LABEL": "Currency",
+      "MONEY_TYPE_PRIORITY_LABEL": "Wagering",
+      "LIFETIME_LABEL": "Lifetime",
+      "RATIO_LABEL": "Ratio",
+      "RATIO_VALUE_LABEL": "Ratio value",
+      "RATION_TYPE_LABEL": "Ratio type",
+      "CAPPING_LABEL": "Capping",
+      "CAPPING_VALUE_LABEL": "Capping value",
+      "CAPPING_TYPE_LABEL": "Capping type",
+      "PRIZE_LABEL": "Prize",
+      "PRIZE_VALUE_LABEL": "Prize value",
+      "PRIZE_TYPE_LABEL": "Prize type",
+      "MULTIPLIER_LABEL": "Multiplier",
+      "CAMPAIGN_TYPE_LABEL": "Campaign type",
+      "MIN_AMOUNT_LABEL": "Min amount",
+      "MAX_AMOUNT_LABEL": "Max amount",
+      "TARGET_TYPE_LABEL": "Target type",
+      "OPT_IN_LABEL": "Opt-In",
+      "LOCK_AMOUNT_LABEL": "Lock deposited amount"
     },
     "SETTINGS": {
       "LABEL": {

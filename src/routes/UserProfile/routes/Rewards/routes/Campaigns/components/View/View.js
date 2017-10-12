@@ -16,6 +16,9 @@ import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
 import AddToCampaignModal from '../AddToCampaignModal';
+import PermissionContent from '../../../../../../../../components/PermissionContent';
+import Permissions from '../../../../../../../../utils/permissions';
+import permission from '../../../../../../../../config/permissions';
 
 const CAMPAIGN_DECLINE_MODAL = 'campaign-decline-modal';
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
@@ -23,6 +26,8 @@ const modalInitialState = {
   name: null,
   params: {},
 };
+
+const addToCampaignPermission = new Permissions(permission.USER_PROFILE.ADD_TO_CAMPAIGN);
 
 class View extends Component {
   static propTypes = {
@@ -115,7 +120,7 @@ class View extends Component {
   };
 
   handleAddToCampaignClick = async () => {
-    const { fetchCampaigns, params: { id } } = this.props;
+    const { fetchCampaigns, params: { id }, profile: { currency } } = this.props;
 
     const currentPlayerCampaignsActions = await fetchCampaigns({ playerUUID: id });
 
@@ -128,7 +133,7 @@ class View extends Component {
     } else {
       const currentCampaigns = currentPlayerCampaignsActions.payload.content.map(i => i.id);
 
-      const campaignsActions = await fetchCampaigns();
+      const campaignsActions = await fetchCampaigns({ currency });
 
       if (!campaignsActions || campaignsActions.error) {
         this.context.addNotification({
@@ -138,7 +143,8 @@ class View extends Component {
         });
       } else {
         this.handleOpenModal(ADD_TO_CAMPAIGN_MODAL, {
-          campaigns: campaignsActions.payload.content.filter(i => currentCampaigns.indexOf(i.id) === -1),
+          campaigns: campaignsActions.payload.content
+            .filter(i => currentCampaigns.indexOf(i.id) === -1 && i.currency === currency),
         });
       }
     }
@@ -265,12 +271,14 @@ class View extends Component {
           <div className="tab-header">
             <SubTabNavigation links={subTabRoutes} />
             <div className="tab-header__actions">
-              <button
-                className="btn btn-primary-outline margin-left-15 btn-sm"
-                onClick={this.handleAddToCampaignClick}
-              >
-                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
-              </button>
+              <PermissionContent permissions={addToCampaignPermission}>
+                <button
+                  className="btn btn-primary-outline margin-left-15 btn-sm"
+                  onClick={this.handleAddToCampaignClick}
+                >
+                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
+                </button>
+              </PermissionContent>
             </div>
           </div>
         </Sticky>

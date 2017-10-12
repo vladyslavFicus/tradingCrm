@@ -45,7 +45,7 @@ function resetServerGames() {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'game_info/public/games/reset',
+        endpoint: 'game_info/games/reset',
         method: 'GET',
         headers: {
           Accept: 'application/json',
