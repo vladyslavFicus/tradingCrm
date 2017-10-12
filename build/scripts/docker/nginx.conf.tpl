@@ -4,15 +4,11 @@ server {
   server_name _;
   root /opt/build;
 
-  location ^~ /api {
-    access_log /var/log/nginx/api-proxy.access.log;
-    error_log /var/log/nginx/api-proxy.error.log;
-
-    proxy_set_header Host $http_host;
+  location /api/ {
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-NginX-Proxy true;
 
-    proxy_pass http://gateway:80;
+    proxy_pass http://gateway/;
   }
 
   location /health {
