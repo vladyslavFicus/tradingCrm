@@ -9,6 +9,7 @@ class Balances extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
     accumulatedBalances: PropTypes.shape({
+      withdrawable: PropTypes.price,
       deposits: PropTypes.price,
       withdraws: PropTypes.price,
       total: PropTypes.price,
@@ -33,15 +34,15 @@ class Balances extends Component {
       <DropdownMenu>
         <div className="dropdown-menu__content">
           <DropdownItem>
-            <div className="amount">€0.000</div>
+            <Amount className="amount" {...balances.withdrawable} />
             <div className="amount_label">{I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.WITHDRAWABLE')}</div>
           </DropdownItem>
           <DropdownItem>
-            <div className="amount"><Amount {...balances.deposits} /></div>
+            <Amount className="amount" {...balances.deposits} />
             <div className="amount_label">{I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.DEPOSITED')}</div>
           </DropdownItem>
           <DropdownItem>
-            <div className="amount"><Amount {...balances.withdraws} /></div>
+            <Amount className="amount" {...balances.withdraws} />
             <div className="amount_label">{I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.WITHDRAWN')}</div>
           </DropdownItem>
         </div>
