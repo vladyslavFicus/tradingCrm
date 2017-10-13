@@ -66,6 +66,7 @@ class Header extends Component {
     locale: PropTypes.string.isRequired,
     loaded: PropTypes.bool,
     onChangePasswordClick: PropTypes.func.isRequired,
+    onShareProfileClick: PropTypes.func.isRequired,
   };
   static defaultProps = {
     lastIp: null,
@@ -126,6 +127,7 @@ class Header extends Component {
       currentTags,
       loaded,
       onChangePasswordClick,
+      onShareProfileClick,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
 
@@ -187,6 +189,7 @@ class Header extends Component {
                     visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
                   },
                   { label: 'Change password', onClick: onChangePasswordClick },
+                  { label: 'Share profile', onClick: onShareProfileClick },
                 ]}
               />
             </div>

@@ -511,7 +511,8 @@
       },
       "COPY_FULL_IP": {
         "MESSAGE": "IP address has been copied to clipboard"
-      }
+      },
+      "COPY_PROFILE_LINK": "Profile link has been copied to your clipboard"
     },
     "OR": "Or",
     "TO": "to",
@@ -1202,5 +1203,10 @@
     "DISABLE_LIMIT_TYPE": "Disable %{type}",
     "DEPOSITS": "deposits",
     "WITHDRAWALS": "withdrawals"
+  },
+  "SHARE_LINK_MODAL": {
+    "TITLE": "Share player profiles link",
+    "TEXT": "You are about to copy players profile link",
+    "COPY_LINK": "Copy"
   }
 }
