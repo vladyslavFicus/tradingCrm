@@ -738,7 +738,6 @@ class ProfileLayout extends Component {
         {
           modal.name === MODAL_SHARE_PROFILE &&
           <ShareLinkModal
-            {...modal.params}
             onClose={this.handleCloseModal}
             playerUUID={playerProfile.playerUUID}
           />
