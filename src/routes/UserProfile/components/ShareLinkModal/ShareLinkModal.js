@@ -71,7 +71,7 @@ class ShareLinkModal extends Component {
         </ModalBody>
         <ModalFooter>
           <button className="btn btn-default-outline" onClick={onClose}>
-            {I18n.t('COMMON.BUTTONS.CLOSE')}
+            {I18n.t('COMMON.CLOSE')}
           </button>
         </ModalFooter>
       </Modal>
