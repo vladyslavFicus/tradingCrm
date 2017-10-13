@@ -168,6 +168,12 @@
         "WITHDRAWABLE": "Доступно к выводу",
         "DEPOSITED": "Пополнено",
         "WITHDRAWN": "Выведено"
+      },
+      "ACTIONS_DROPDOWN": {
+        "RESET_PASSWORD": "Сбросить пароль",
+        "SEND_ACTIVATION_LINK": "Отправить ссылку активации",
+        "CHANGE_PASSWORD": "Сменить пароль",
+        "SHARE_PROFILE": "Поделиться профилем"
       }
     },
     "GAME_ACTIVITY": {
@@ -518,7 +524,8 @@
       },
       "COPY_FULL_IP": {
         "MESSAGE": "IP адресс был скопирован в буфер обмена"
-      }
+      },
+      "COPY_PROFILE_LINK": "Ссылка на профиль была скопирована в ваш буфер обмена"
     },
     "OR": "Или",
     "TO": "по",
@@ -1218,5 +1225,10 @@
     "DISABLE_LIMIT_TYPE": "Отключить %{type}",
     "DEPOSITS": "пополнение",
     "WITHDRAWALS": "вывод средств"
+  },
+  "SHARE_LINK_MODAL": {
+    "TITLE": "Поделиться ссылкой на профиль игрока",
+    "TEXT": "Вы собираетесь скопировать ссылку на профиль игрока",
+    "COPY_LINK": "Скопировать"
   }
 }

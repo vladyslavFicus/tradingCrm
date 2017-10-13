@@ -181,6 +181,10 @@ function getVersion() {
   return config.version;
 }
 
+function getDomain() {
+  return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
+}
+
 export {
   getApiRoot,
   getBrand,
@@ -192,6 +196,7 @@ export {
   getLimitPeriods,
   getAvailableLanguages,
   getVersion,
+  getDomain,
 };
 
 export default config;

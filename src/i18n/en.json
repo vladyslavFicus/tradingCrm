@@ -166,6 +166,12 @@
         "WITHDRAWABLE": "Withdrawable",
         "DEPOSITED": "Deposited",
         "WITHDRAWN": "Withdrawn"
+      },
+      "ACTIONS_DROPDOWN": {
+        "RESET_PASSWORD": "Reset password",
+        "SEND_ACTIVATION_LINK": "Send activation link",
+        "CHANGE_PASSWORD": "Change password",
+        "SHARE_PROFILE": "Share profile"
       }
     },
     "GAME_ACTIVITY": {
@@ -516,7 +522,8 @@
       },
       "COPY_FULL_IP": {
         "MESSAGE": "IP address has been copied to clipboard"
-      }
+      },
+      "COPY_PROFILE_LINK": "Profile link has been copied to your clipboard"
     },
     "OR": "Or",
     "TO": "to",
@@ -1207,5 +1214,10 @@
     "DISABLE_LIMIT_TYPE": "Disable %{type}",
     "DEPOSITS": "deposits",
     "WITHDRAWALS": "withdrawals"
+  },
+  "SHARE_LINK_MODAL": {
+    "TITLE": "Share player profiles link",
+    "TEXT": "You are about to copy players profile link",
+    "COPY_LINK": "Copy"
   }
 }
