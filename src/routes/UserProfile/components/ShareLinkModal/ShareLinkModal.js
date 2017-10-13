@@ -14,7 +14,6 @@ class ShareLinkModal extends Component {
     notificationMessage: PropTypes.string.isRequired,
   };
   static defaultProps = {
-    handleSubmit: null,
     notificationLevel: 'success',
     notificationTitle: I18n.t('COMMON.NOTIFICATIONS.COPIED'),
     notificationMessage: I18n.t('COMMON.NOTIFICATIONS.COPY_PROFILE_LINK'),
