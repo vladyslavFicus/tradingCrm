@@ -22,10 +22,6 @@ class ShareLinkModal extends Component {
     addNotification: PropTypes.func.isRequired,
   };
 
-  animate = () => {
-    setTimeout(this.toggle, 1000);
-  };
-
   handleCopy = () => {
     const { addNotification } = this.context;
     const {
@@ -33,8 +29,6 @@ class ShareLinkModal extends Component {
       notificationTitle,
       notificationMessage,
     } = this.props;
-
-    this.animate();
 
     addNotification({
       level: notificationLevel,

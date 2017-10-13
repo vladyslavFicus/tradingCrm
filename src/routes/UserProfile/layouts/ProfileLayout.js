@@ -589,11 +589,7 @@ class ProfileLayout extends Component {
   };
 
   handleShareProfileClick = () => {
-    const { profile: { data: playerProfile } } = this.props;
-
-    this.handleOpenModal(MODAL_SHARE_PROFILE, {
-      playerUUID: `${playerProfile.playerUUID}`,
-    });
+    this.handleOpenModal(MODAL_SHARE_PROFILE);
   };
 
   render() {
@@ -744,6 +740,7 @@ class ProfileLayout extends Component {
           <ShareLinkModal
             {...modal.params}
             onClose={this.handleCloseModal}
+            playerUUID={playerProfile.playerUUID}
           />
         }
 

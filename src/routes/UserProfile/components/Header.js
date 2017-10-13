@@ -3,6 +3,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import Sticky from 'react-stickynode';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../constants/propTypes';
 import PlayerStatus from './PlayerStatus';
 import ActionsDropDown from '../../../components/ActionsDropDown';
@@ -182,14 +183,23 @@ class Header extends Component {
               </button>
               <ActionsDropDown
                 items={[
-                  { label: 'Reset password', onClick: onResetPasswordClick },
                   {
-                    label: 'Send activation link',
+                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
+                    onClick: onResetPasswordClick,
+                  },
+                  {
+                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SEND_ACTIVATION_LINK'),
                     onClick: onProfileActivateClick,
                     visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
                   },
-                  { label: 'Change password', onClick: onChangePasswordClick },
-                  { label: 'Share profile', onClick: onShareProfileClick },
+                  {
+                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
+                    onClick: onChangePasswordClick,
+                  },
+                  {
+                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SHARE_PROFILE'),
+                    onClick: onShareProfileClick,
+                  },
                 ]}
               />
             </div>

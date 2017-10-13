@@ -161,6 +161,12 @@
         "REASON_TWO": "Unblock reason two",
         "REASON_THREE": "Unblock reason three",
         "REASON_FOUR": "Unblock reason four"
+      },
+      "ACTIONS_DROPDOWN": {
+        "RESET_PASSWORD": "Reset password",
+        "SEND_ACTIVATION_LINK": "Send activation link",
+        "CHANGE_PASSWORD": "Change password",
+        "SHARE_PROFILE": "Share profile"
       }
     },
     "GAME_ACTIVITY": {
