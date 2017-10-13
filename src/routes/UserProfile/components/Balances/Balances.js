@@ -9,12 +9,12 @@ class Balances extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
     accumulatedBalances: PropTypes.shape({
-      withdrawable: PropTypes.price,
-      deposits: PropTypes.price,
-      withdraws: PropTypes.price,
-      total: PropTypes.price,
       bonus: PropTypes.price,
+      deposits: PropTypes.price,
+      total: PropTypes.price,
       real: PropTypes.price,
+      withdraws: PropTypes.price,
+      withdrawable: PropTypes.price,
     }).isRequired,
   };
 

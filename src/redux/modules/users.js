@@ -23,6 +23,7 @@ const fetchProfileMapResponse = (response) => {
     kycAddressStatus,
     totalBalance,
     bonusBalance,
+    withdrawableAmount,
     realMoneyBalance,
     signInIps,
   } = response;
@@ -73,12 +74,16 @@ const fetchProfileMapResponse = (response) => {
   };
   payload.currencyCode = payload.balance && payload.balance.currency ? payload.balance.currency : null;
   payload.balances = {
-    total: totalBalance || emptyBalance,
+    total: totalBalance || { ...emptyBalance },
     bonus: bonusBalance || {
       ...emptyBalance,
       currency: payload.balance ? payload.balance.currency : emptyBalance.currency,
     },
     real: realMoneyBalance || {
+      ...emptyBalance,
+      currency: payload.balance ? payload.balance.currency : emptyBalance.currency,
+    },
+    withdrawable: withdrawableAmount || {
       ...emptyBalance,
       currency: payload.balance ? payload.balance.currency : emptyBalance.currency,
     },

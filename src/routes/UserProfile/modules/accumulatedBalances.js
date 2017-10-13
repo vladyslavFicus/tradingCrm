@@ -90,10 +90,6 @@ const actionHandlers = {
       data: {
         ...state.data,
         ...action.payload.balances,
-        withdrawable: {
-          ...state.data.withdrawable,
-          currency: action.payload.balances.total.currency,
-        },
         withdraws: {
           ...state.data.withdraws,
           currency: action.payload.balances.total.currency,
