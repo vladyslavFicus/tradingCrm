@@ -164,6 +164,11 @@
         "REASON_THREE": "Третья причина разблокировки",
         "REASON_FOUR": "Четвертая причина разблокировки"
       },
+      "BALANCES_DROPDOWN": {
+        "WITHDRAWABLE": "Доступно к выводу",
+        "DEPOSITED": "Пополнено",
+        "WITHDRAWN": "Выведено"
+      },
       "ACTIONS_DROPDOWN": {
         "RESET_PASSWORD": "Сбросить пароль",
         "SEND_ACTIVATION_LINK": "Отправить ссылку активации",

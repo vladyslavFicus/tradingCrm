@@ -162,6 +162,11 @@
         "REASON_THREE": "Unblock reason three",
         "REASON_FOUR": "Unblock reason four"
       },
+      "BALANCES_DROPDOWN": {
+        "WITHDRAWABLE": "Withdrawable",
+        "DEPOSITED": "Deposited",
+        "WITHDRAWN": "Withdrawn"
+      },
       "ACTIONS_DROPDOWN": {
         "RESET_PASSWORD": "Reset password",
         "SEND_ACTIVATION_LINK": "Send activation link",
