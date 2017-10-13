@@ -6,12 +6,12 @@ import classNames from 'classnames';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 
 const IpFlag = ({ id, country, ip }) => {
-  const countryName = countryList().getName(country);
+  const countryName = country ? countryList().getName(country) : null;
   const tooltipContent = [countryName, ip].filter(i => i).join(' - ');
 
   return (
     <span>
-      <i id={id} className={classNames('fs-icon', { [`fs-${country.toLowerCase()}`]: country })} />
+      <i id={id} className={classNames('fs-icon', { [`fs-${country ? country.toLowerCase() : ''}`]: country })} />
       <UncontrolledTooltip
         placement="top"
         target={id}
