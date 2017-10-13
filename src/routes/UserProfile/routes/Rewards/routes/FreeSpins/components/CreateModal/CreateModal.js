@@ -243,7 +243,7 @@ class CreateModal extends Component {
     }
 
     return (
-      <div className="row margin-bottom-15">
+      <div className="row margin-bottom-20">
         <div className="col-md-12 text-center">
           <div className="font-size-12 text-muted">
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.FREE_SPIN_VALUE')} = <Amount {...spinValue} />
@@ -279,7 +279,7 @@ class CreateModal extends Component {
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TITLE')}
           </ModalHeader>
           <ModalBody>
-            <div className="row margin-bottom-20">
+            <div className="row">
               <div className="col-md-10">
                 <Field
                   name="name"
@@ -292,35 +292,31 @@ class CreateModal extends Component {
                 />
               </div>
             </div>
-            <div className="row margin-bottom-20">
+            <div className="row">
               <div className="col-md-10">
                 <div className="form-group">
                   <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
-
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Field
-                        name="startDate"
-                        placeholder={I18n.t(attributeLabels.startDate)}
-                        component={DateTimeField}
-                        position="vertical"
-                        isValidDate={this.startDateValidator('endDate')}
-                      />
-                    </div>
-                    <div className="col-md-6">
-                      <Field
-                        name="endDate"
-                        placeholder={I18n.t(attributeLabels.endDate)}
-                        component={DateTimeField}
-                        position="vertical"
-                        isValidDate={this.endDateValidator('startDate')}
-                      />
-                    </div>
+                  <div className="range-group">
+                    <Field
+                      name="startDate"
+                      placeholder={I18n.t(attributeLabels.startDate)}
+                      component={DateTimeField}
+                      position="vertical"
+                      isValidDate={this.startDateValidator('endDate')}
+                    />
+                    <span className="range-group__separator">-</span>
+                    <Field
+                      name="endDate"
+                      placeholder={I18n.t(attributeLabels.endDate)}
+                      component={DateTimeField}
+                      position="vertical"
+                      isValidDate={this.endDateValidator('startDate')}
+                    />
                   </div>
                 </div>
               </div>
             </div>
-            <div className="row margin-bottom-20">
+            <div className="row">
               <div className="col-md-4">
                 <Field
                   name="providerId"
@@ -422,6 +418,8 @@ class CreateModal extends Component {
                   showErrorMessage={false}
                 />
               </div>
+            </div>
+            <div className="row">
               <div className="col-md-3">
                 <Field
                   name="multiplier"
@@ -435,7 +433,7 @@ class CreateModal extends Component {
                   showErrorMessage={false}
                 />
               </div>
-              <div className="col-md-3">
+              <div className="col-md-4">
                 <Field
                   name="bonusLifeTime"
                   label={I18n.t(attributeLabels.bonusLifeTime)}
@@ -450,7 +448,7 @@ class CreateModal extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-md-7">
                 <Field
                   name="moneyTypePriority"
                   label={I18n.t(attributeLabels.moneyTypePriority)}
@@ -466,7 +464,7 @@ class CreateModal extends Component {
                 </Field>
               </div>
             </div>
-            <div className="row margin-top-20">
+            <div className="row">
               <div className="col-md-12 text-center">
                 <NoteButton
                   id="free-spin-create-modal-note"
@@ -491,7 +489,7 @@ class CreateModal extends Component {
               className="btn btn-primary"
               disabled={pristine || submitting || invalid}
             >
-              {I18n.t('COMMON.SAVE')}
+              {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.BUTTON')}
             </button>
           </ModalFooter>
         </form>

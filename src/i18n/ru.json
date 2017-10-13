@@ -409,24 +409,25 @@
           "NAME": "Название",
           "START_DATE": "Дата начала",
           "END_DATE": "Дата окончания",
-          "AVAILABILITY_DATE_RANGE": "Время жизни free spin",
+          "AVAILABILITY_DATE_RANGE": "Время жизни free-spin",
           "PROVIDER": "Провайдер",
           "GAME": "Игра",
-          "FREE_SPINS_AMOUNT": "Кол-во free spins",
-          "LINES_PER_SPIN": "Линий в spin",
-          "BET_PER_LINE": "Ставка за линию",
+          "FREE_SPINS_AMOUNT": "Кол-во free-spins",
+          "LINES_PER_SPIN": "Линий в спине",
+          "BET_PER_LINE": "Ставка на линию",
           "PRIZE": "Prize",
           "CAPPING": "Capping",
           "MULTIPLIER": "Множитель",
           "BONUS_LIFE_TIME": "Время жизни бонуса",
           "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
           "COIN_SIZE": "Стоимость коина",
-          "NUMBER_OF_COINS": "Кол-во коинов"
+          "NUMBER_OF_COINS": "Коинов на линию"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
         "TOTAL_VALUE": "Сумма spin",
         "CHOOSE_COIN_SIZE": "-- Выберите --",
-        "CHOOSE_NUMBER_OF_COINS": "-- Выберите --"
+        "CHOOSE_NUMBER_OF_COINS": "-- Выберите --",
+        "BUTTON": "Создать Free-spin"
       },
       "MODAL_CANCEL": {
         "SELECT_REASON_OPTION": "-- Выберите причину --",
