@@ -421,15 +421,15 @@ class Form extends Component {
                   </span>
                 </label>
                 <div className="range-group">
-                    <Field
-                      name="minAmount"
-                      label={''}
-                      placeholder={I18n.t(attributePlaceholders.minAmount)}
-                      type="text"
-                      component={InputField}
-                      position="vertical"
-                      disabled={disabled}
-                    />
+                  <Field
+                    name="minAmount"
+                    label={''}
+                    placeholder={I18n.t(attributePlaceholders.minAmount)}
+                    type="text"
+                    component={InputField}
+                    position="vertical"
+                    disabled={disabled}
+                  />
                   <span className="range-group__separator">-</span>
                   <Field
                     name="maxAmount"
