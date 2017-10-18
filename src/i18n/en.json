@@ -161,6 +161,17 @@
         "REASON_TWO": "Unblock reason two",
         "REASON_THREE": "Unblock reason three",
         "REASON_FOUR": "Unblock reason four"
+      },
+      "BALANCES_DROPDOWN": {
+        "WITHDRAWABLE": "Withdrawable",
+        "DEPOSITED": "Deposited",
+        "WITHDRAWN": "Withdrawn"
+      },
+      "ACTIONS_DROPDOWN": {
+        "RESET_PASSWORD": "Reset password",
+        "SEND_ACTIVATION_LINK": "Send activation link",
+        "CHANGE_PASSWORD": "Change password",
+        "SHARE_PROFILE": "Share profile"
       }
     },
     "GAME_ACTIVITY": {
@@ -262,7 +273,8 @@
         "BONUS_TYPE": "Bonus type",
         "BONUS_STATUS": "Status"
       },
-      "CLAIM_BONUS": "Claim bonus"
+      "CLAIM_BONUS": "Claim bonus",
+      "LOCKED_GRANTED": "Locked:"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -423,7 +435,8 @@
         "FREE_SPIN_VALUE": "Free spin value",
         "TOTAL_VALUE": "Total value",
         "CHOOSE_COIN_SIZE": "-- Choose --",
-        "CHOOSE_NUMBER_OF_COINS": "-- Choose --"
+        "CHOOSE_NUMBER_OF_COINS": "-- Choose --",
+        "BUTTON": "Create Free-spin"
       },
       "MODAL_CANCEL": {
         "SELECT_REASON_OPTION": "-- Select reason --",
@@ -510,7 +523,8 @@
       },
       "COPY_FULL_IP": {
         "MESSAGE": "IP address has been copied to clipboard"
-      }
+      },
+      "COPY_PROFILE_LINK": "Profile link has been copied to your clipboard"
     },
     "OR": "Or",
     "TO": "to",
@@ -695,6 +709,10 @@
       "MONEY_TYPE_USAGE": {
         "REAL_MONEY": "Real money first",
         "BONUS_MONEY": "Bonus money first"
+      },
+      "LOCK_AMOUNT_STRATEGY": {
+        "LOCK_ALL": "Lock all money",
+        "LOCK_PARTIAL": "Lock deposited amount"
       }
     },
     "GAMING_ACTIVITY": {
@@ -1037,7 +1055,10 @@
       "MAX_AMOUNT_LABEL": "Max amount",
       "TARGET_TYPE_LABEL": "Target type",
       "OPT_IN_LABEL": "Opt-In",
-      "LOCK_AMOUNT_LABEL": "Lock deposited amount"
+      "LOCK_AMOUNT_STRATEGY_LABEL": "Lock amount strategy",
+      "CHOOSE_CURRENCY": "-- Choose currency --",
+      "CHOOSE_TARGET_TYPE": "-- Choose target type --",
+      "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- Choose lock --"
     },
     "SETTINGS": {
       "LABEL": {
@@ -1269,5 +1290,10 @@
     "DISABLE_LIMIT_TYPE": "Disable %{type}",
     "DEPOSITS": "deposits",
     "WITHDRAWALS": "withdrawals"
+  },
+  "SHARE_LINK_MODAL": {
+    "TITLE": "Share player profiles link",
+    "TEXT": "You are about to copy players profile link",
+    "COPY_LINK": "Copy"
   }
 }

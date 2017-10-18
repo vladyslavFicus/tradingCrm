@@ -18,6 +18,7 @@ import {
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
   moneyTypeUsageLabels,
+  lockAmountStrategyLabels,
 } from '../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
@@ -149,7 +150,7 @@ class CreateBonusCampaignModal extends Component {
               type="select"
               component={SelectField}
             >
-              <option value="">--- Choose currency ---</option>
+              <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_CURRENCY')}</option>
               {currencies.map(item => (
                 <option key={item} value={item}>
                   {item}
@@ -200,7 +201,7 @@ class CreateBonusCampaignModal extends Component {
               type="select"
               component={SelectField}
             >
-              <option value="">--- Choose target type ---</option>
+              <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_TARGET_TYPE')}</option>
               {Object.keys(targetTypesLabels).map(key => (
                 <option key={key} value={key}>
                   {renderLabel(key, targetTypesLabels)}
@@ -239,15 +240,21 @@ class CreateBonusCampaignModal extends Component {
                   />
                 </div>
                 <div className="col-md-3">
-                  <div className="checkbox">
-                    <label>
-                      <Field
-                        name="lockAmount"
-                        type="checkbox"
-                        component="input"
-                      /> {I18n.t(attributeLabels.lockAmount)}
-                    </label>
-                  </div>
+                  <Field
+                    name="lockAmountStrategy"
+                    label={null}
+                    type="select"
+                    component={SelectField}
+                    position="vertical"
+                    showErrorMessage={false}
+                  >
+                    <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_LOCK_AMOUNT_STRATEGY')}</option>
+                    {Object.keys(lockAmountStrategyLabels).map(key => (
+                      <option key={key} value={key}>
+                        {renderLabel(key, lockAmountStrategyLabels)}
+                      </option>
+                    ))}
+                  </Field>
                 </div>
               </div>
             }
@@ -344,6 +351,7 @@ export default connect(state => ({
         targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
         minAmount: 'min:0',
         maxAmount: 'min:0',
+        lockAmountStrategy: 'required',
       };
 
       if (values.minAmount) {

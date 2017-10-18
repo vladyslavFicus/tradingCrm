@@ -88,9 +88,11 @@ class ViewLayout extends Component {
         message: `${I18n.t('COMMON.NOTIFICATIONS.COPIED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
           I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
-    }
 
-    this.context.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
+      if (!action.error) {
+        this.context.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
+      }
+    }
   };
 
   handleRemovePlayersClick = () => {

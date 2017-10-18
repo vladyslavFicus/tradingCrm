@@ -77,7 +77,7 @@ class View extends Component {
     }).isRequired,
     meta: PropTypes.shape({
       data: PropTypes.shape({
-        countryCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+        countryCodes: PropTypes.arrayOf(PropTypes.string),
       }).isRequired,
     }).isRequired,
     checkLock: PropTypes.func.isRequired,

@@ -17,7 +17,9 @@ const Refused = (props) => {
           </div>
           <div className="font-size-11 color-default ">
             {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={status.authorUUID} />
-            {I18n.t('COMMON.DATE_ON', { date: moment.utc(status.statusDate).local().format('DD.MM.YYYY \\a\\t HH:mm:ss') })}
+            {I18n.t('COMMON.DATE_ON', {
+              date: moment.utc(status.statusDate).local().format('DD.MM.YYYY \\a\\t HH:mm:ss'),
+            })}
           </div>
         </div>
         <div className="padding-bottom-20">

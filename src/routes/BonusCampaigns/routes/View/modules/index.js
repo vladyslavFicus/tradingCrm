@@ -113,7 +113,7 @@ function updateCampaign(id, data) {
     const endpointParams = { ...data };
     if (
       endpointParams.conversionPrize &&
-      (endpointParams.conversionPrize.value === undefined || endpointParams.conversionPrize.value === undefined)
+      (endpointParams.conversionPrize.value === undefined || endpointParams.conversionPrize.value === null)
     ) {
       endpointParams.conversionPrize = null;
     }

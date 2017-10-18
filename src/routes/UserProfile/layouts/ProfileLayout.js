@@ -20,6 +20,7 @@ import {
   DeleteModal as DeleteFileModal,
 } from '../../../components/Files';
 import ChangePasswordModal from '../../../components/ChangePasswordModal';
+import ShareLinkModal from '../components/ShareLinkModal';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -31,6 +32,7 @@ const MODAL_INFO = 'info-modal';
 const MODAL_UPLOAD_FILE = 'upload-modal';
 const MODAL_DELETE_FILE = 'delete-modal';
 const MODAL_CHANGE_PASSWORD = 'change-password-modal';
+const MODAL_SHARE_PROFILE = 'share-profile-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -584,6 +586,10 @@ class ProfileLayout extends Component {
     });
   };
 
+  handleShareProfileClick = () => {
+    this.handleOpenModal(MODAL_SHARE_PROFILE);
+  };
+
   render() {
     const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
     const {
@@ -633,6 +639,7 @@ class ProfileLayout extends Component {
             onRefreshClick={() => this.handleLoadProfile(true)}
             loaded={!!receivedAt && !error}
             onChangePasswordClick={this.handleChangePasswordClick}
+            onShareProfileClick={this.handleShareProfileClick}
           />
 
           <div className="hide-details-block">
@@ -721,6 +728,13 @@ class ProfileLayout extends Component {
             {...modal.params}
             onClose={this.handleCloseModal}
             onSubmit={this.handleSubmitNewPassword}
+          />
+        }
+        {
+          modal.name === MODAL_SHARE_PROFILE &&
+          <ShareLinkModal
+            onClose={this.handleCloseModal}
+            playerUUID={playerProfile.playerUUID}
           />
         }
 

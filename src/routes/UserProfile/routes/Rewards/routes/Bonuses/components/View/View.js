@@ -234,7 +234,14 @@ class View extends Component {
     ) : <span>&mdash;</span>
   );
 
-  renderGrantedAmount = data => <Amount tag="div" className="font-weight-700" {...data.grantedAmount} />;
+  renderGrantedAmount = data => (
+    <div>
+      <Amount tag="div" className="font-weight-700" {...data.grantedAmount} />
+      <div className="font-size-11">
+        {I18n.t('PLAYER_PROFILE.BONUS.LOCKED_GRANTED')} <Amount {...data.initialLockedAmount} />
+      </div>
+    </div>
+  );
 
   renderWageredAmount = (data) => {
     const isCompleted = data.toWager && !isNaN(data.toWager.amount) && data.toWager.amount <= 0;
@@ -316,11 +323,6 @@ class View extends Component {
               name="available"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.AVAILABLE')}
               render={this.renderAvailablePeriod}
-            />
-
-            <GridColumn
-              name="priority"
-              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.PRIORITY')}
             />
 
             <GridColumn

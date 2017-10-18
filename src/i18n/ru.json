@@ -163,6 +163,17 @@
         "REASON_TWO": "Вторая причина разблокировки",
         "REASON_THREE": "Третья причина разблокировки",
         "REASON_FOUR": "Четвертая причина разблокировки"
+      },
+      "BALANCES_DROPDOWN": {
+        "WITHDRAWABLE": "Доступно к выводу",
+        "DEPOSITED": "Пополнено",
+        "WITHDRAWN": "Выведено"
+      },
+      "ACTIONS_DROPDOWN": {
+        "RESET_PASSWORD": "Сбросить пароль",
+        "SEND_ACTIVATION_LINK": "Отправить ссылку активации",
+        "CHANGE_PASSWORD": "Сменить пароль",
+        "SHARE_PROFILE": "Поделиться профилем"
       }
     },
     "GAME_ACTIVITY": {
@@ -264,7 +275,8 @@
         "BONUS_TYPE": "Тип бонуса",
         "BONUS_STATUS": "Статус"
       },
-      "CLAIM_BONUS": "Выдать бонус"
+      "CLAIM_BONUS": "Выдать бонус",
+      "LOCKED_GRANTED": "Блок.:"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -408,24 +420,25 @@
           "NAME": "Название",
           "START_DATE": "Дата начала",
           "END_DATE": "Дата окончания",
-          "AVAILABILITY_DATE_RANGE": "Время жизни free spin",
+          "AVAILABILITY_DATE_RANGE": "Время жизни free-spin",
           "PROVIDER": "Провайдер",
           "GAME": "Игра",
-          "FREE_SPINS_AMOUNT": "Кол-во free spins",
-          "LINES_PER_SPIN": "Линий в spin",
-          "BET_PER_LINE": "Ставка за линию",
+          "FREE_SPINS_AMOUNT": "Кол-во free-spins",
+          "LINES_PER_SPIN": "Линий в спине",
+          "BET_PER_LINE": "Ставка на линию",
           "PRIZE": "Prize",
           "CAPPING": "Capping",
           "MULTIPLIER": "Множитель",
           "BONUS_LIFE_TIME": "Время жизни бонуса",
           "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
           "COIN_SIZE": "Стоимость коина",
-          "NUMBER_OF_COINS": "Кол-во коинов"
+          "NUMBER_OF_COINS": "Коинов на линию"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
         "TOTAL_VALUE": "Сумма spin",
         "CHOOSE_COIN_SIZE": "-- Выберите --",
-        "CHOOSE_NUMBER_OF_COINS": "-- Выберите --"
+        "CHOOSE_NUMBER_OF_COINS": "-- Выберите --",
+        "BUTTON": "Создать Free-spin"
       },
       "MODAL_CANCEL": {
         "SELECT_REASON_OPTION": "-- Выберите причину --",
@@ -512,7 +525,8 @@
       },
       "COPY_FULL_IP": {
         "MESSAGE": "IP адресс был скопирован в буфер обмена"
-      }
+      },
+      "COPY_PROFILE_LINK": "Ссылка на профиль была скопирована в ваш буфер обмена"
     },
     "OR": "Или",
     "TO": "по",
@@ -697,6 +711,10 @@
       "MONEY_TYPE_USAGE": {
         "REAL_MONEY": "Реальные деньги",
         "BONUS_MONEY": "Бонусные деньги"
+      },
+      "LOCK_AMOUNT_STRATEGY": {
+        "LOCK_ALL": "Заблокировать все средства",
+        "LOCK_PARTIAL": "Заблокировать сумму пополнения"
       }
     },
     "GAMING_ACTIVITY": {
@@ -1044,7 +1062,10 @@
       "MAX_AMOUNT_LABEL": "Макс. сумма",
       "TARGET_TYPE_LABEL": "Тип таргета",
       "OPT_IN_LABEL": "Opt-In",
-      "LOCK_AMOUNT_LABEL": "Заблок. сумму пополнения"
+      "LOCK_AMOUNT_STRATEGY_LABEL": "Стратегия блок. денег",
+      "CHOOSE_CURRENCY": "-- Выберите валюту --",
+      "CHOOSE_TARGET_TYPE": "-- Выберите тип таргета --",
+      "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- Выберите блок. --"
     },
     "SETTINGS": {
       "LABEL": {
@@ -1280,5 +1301,10 @@
     "DISABLE_LIMIT_TYPE": "Отключить %{type}",
     "DEPOSITS": "пополнение",
     "WITHDRAWALS": "вывод средств"
+  },
+  "SHARE_LINK_MODAL": {
+    "TITLE": "Поделиться ссылкой на профиль игрока",
+    "TEXT": "Вы собираетесь скопировать ссылку на профиль игрока",
+    "COPY_LINK": "Скопировать"
   }
 }

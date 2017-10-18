@@ -16,6 +16,9 @@ import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
 import AddToCampaignModal from '../AddToCampaignModal';
+import PermissionContent from '../../../../../../../../components/PermissionContent';
+import Permissions from '../../../../../../../../utils/permissions';
+import permission from '../../../../../../../../config/permissions';
 
 const CAMPAIGN_DECLINE_MODAL = 'campaign-decline-modal';
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
@@ -24,11 +27,13 @@ const modalInitialState = {
   params: {},
 };
 
+const addToCampaignPermission = new Permissions(permission.USER_PROFILE.ADD_TO_CAMPAIGN);
+
 class View extends Component {
   static propTypes = {
     list: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
     profile: PropTypes.userProfile.isRequired,
-    fetchAvailableCampaignList: PropTypes.func.isRequired,
+    fetchPlayerCampaigns: PropTypes.func.isRequired,
     declineCampaign: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     addPlayerToCampaign: PropTypes.func.isRequired,
@@ -58,7 +63,7 @@ class View extends Component {
   }
 
   handleRefresh = () => {
-    this.props.fetchAvailableCampaignList({
+    this.props.fetchPlayerCampaigns({
       ...this.state.filters,
       page: this.state.page,
       playerUUID: this.props.params.id,
@@ -266,12 +271,14 @@ class View extends Component {
           <div className="tab-header">
             <SubTabNavigation links={subTabRoutes} />
             <div className="tab-header__actions">
-              <button
-                className="btn btn-primary-outline margin-left-15 btn-sm"
-                onClick={this.handleAddToCampaignClick}
-              >
-                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
-              </button>
+              <PermissionContent permissions={addToCampaignPermission}>
+                <button
+                  className="btn btn-primary-outline margin-left-15 btn-sm"
+                  onClick={this.handleAddToCampaignClick}
+                >
+                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
+                </button>
+              </PermissionContent>
             </div>
           </div>
         </Sticky>
