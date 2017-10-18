@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Field, reduxForm, getFormValues, getFormSyncErrors, getFormMeta } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import countryList from 'country-list';
 import { I18n } from 'react-redux-i18n';
 import {
-  InputField, SelectField, DateTimeField, CustomValueFieldVertical,
+  InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField,
 } from '../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
@@ -21,11 +22,17 @@ import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import attributeLabels from '../constants';
 import { DefaultFulfillment, DepositFulfillment, WageringFulfillment, CampaignFulfillment } from './Fulfillments';
+import Fulfillments from './Fulfillments';
 import { BonusReward, FreeSpinReward } from './Rewards';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 const FORM_NAME = 'updateBonusCampaignSettings';
+
+const countries = countryList().getData().reduce((result, item) => ({
+  ...result,
+  [item.code]: item.name,
+}), {});
 
 const getCustomValueFieldTypes = (campaignType) => {
   if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
@@ -62,6 +69,7 @@ const validator = (values) => {
     },
     minAmount: 'min:0',
     maxAmount: 'min:0',
+    country: `in:,${Object.keys(countries).join()}`,
   };
 
   if (values.minAmount) {
@@ -129,6 +137,7 @@ class Form extends Component {
       capping: PropTypes.bonusCampaignEntity.capping,
       optIn: PropTypes.bonusCampaignEntity.optIn,
       campaignType: PropTypes.bonusCampaignEntity.campaignType,
+      excludeCountries: PropTypes.bonusCampaignEntity.excludeCountries,
     }),
     disabled: PropTypes.bool,
     toggleModal: PropTypes.func.isRequired,
@@ -385,41 +394,30 @@ class Form extends Component {
             </div>
             <div className="filter-row__big">
               <Field
-                name="affiliates"
-                label={
-                  <span>
-                    {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.AFFILIATES')}
-                    <span className="label-action">
-                      <input type="checkbox" />
-                      {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
-                    </span>
-                  </span>
-                }
-                type="text"
-                component={InputField}
-                position="vertical"
-                disabled={disabled}
-                placeholder="78987987, 867868768, 786876876"
-              />
-            </div>
-            <div className="filter-row__big">
-              <Field
                 name="countries"
                 label={
                   <span>
                     {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.COUNTRIES')}
                     <span className="label-action">
-                      <input type="checkbox" />
+                      <Field
+                        name="excludeCountries"
+                        type="checkbox"
+                        component="input"
+                      />
                       {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
                     </span>
                   </span>
                 }
-                type="text"
-                component={InputField}
+                component={NasSelectField}
                 position="vertical"
-                disabled={disabled}
-                placeholder="France, Germany"
-              />
+                multiple
+              >
+                {Object
+                  .keys(countries)
+                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                }
+              </Field>
+
             </div>
           </div>
         </div>
@@ -436,7 +434,7 @@ class Form extends Component {
               <div className="tab-header__heading">
                 {I18n.t('BONUS_CAMPAIGNS.SETTINGS.REWARDS')}
               </div>
-              <div className="tab-header__actions">
+              {/*<div className="tab-header__actions">
                 <span className="tab-header__label">{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CONTENT')}:</span>
                 {' '}
                 <b className="tab-header__label color-success">
@@ -445,47 +443,26 @@ class Form extends Component {
                 <button className="btn btn-default-outline btn-sm margin-left-15">
                   {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.EDIT_CONTENT')}
                 </button>
-              </div>
+              </div>*/}
             </div>
           </div>
         </div>
         <div className="campaign-settings-content">
           <hr />
           <div className="row padding-bottom-30">
-            <div className="col-lg-6 padding-bottom-30 with-right-border">
-              <DefaultFulfillment label={I18n.t(attributeLabels.registrationFulfillment)} />
-              <DepositFulfillment label={I18n.t(attributeLabels.depositFulfillment)} modalOpen={toggleModal} />
-              <WageringFulfillment label={I18n.t(attributeLabels.wageringFulfillment)} modalOpen={toggleModal} />
-              <DefaultFulfillment label={I18n.t(attributeLabels.loginFulfillment)} />
-              <CampaignFulfillment label={I18n.t(attributeLabels.campaignFulfillment)} />
-              <DefaultFulfillment label={I18n.t(attributeLabels.emailVerificationFulfillment)} />
-              <DefaultFulfillment label={I18n.t(attributeLabels.phoneVerificationFulfillment)} />
-              <div className="add-campaign-setting">
-                <Field
-                  name="fulfillmentSelect"
-                  label=""
-                  labelClassName="no-label"
-                  type="text"
-                  component={SelectField}
-                  position="vertical"
-                  disabled={disabled}
-                >
-                  {Object.keys(fulfillmentSelect).map(key => (
-                    <option key={key} value={key}>
-                      {renderLabel(key, fulfillmentSelect)}
-                    </option>
-                  ))}
-                </Field>
-                <button className="btn btn-default">{I18n.t(attributeLabels.addFulfillment)}</button>
-              </div>
-            </div>
+
+            <Fulfillments
+              toggleModal={toggleModal}
+              disabled={disabled}
+            />
+
             <div className="col-lg-6 padding-bottom-30">
               <BonusReward
                 basename={'conversionPrize'}
                 typeValues={allowedCustomValueTypes}
                 modalOpen={toggleModal}
               />
-              <FreeSpinReward modalOpen={toggleModal} />
+              {/*{<FreeSpinReward modalOpen={toggleModal} />}
               <div className="add-campaign-setting">
                 <Field
                   name="rewardsSelect"
@@ -503,7 +480,7 @@ class Form extends Component {
                   ))}
                 </Field>
                 <button className="btn btn-default">{I18n.t(attributeLabels.addReward)}</button>
-              </div>
+              </div>*/}
             </div>
           </div>
         </div>

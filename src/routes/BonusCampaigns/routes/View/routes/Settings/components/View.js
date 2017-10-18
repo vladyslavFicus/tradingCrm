@@ -108,8 +108,7 @@ class View extends Component {
           locale={locale}
           currencies={currencies}
           disabled={bonusCampaign.state !== statuses.DRAFT}
-          initialValues={bonusCampaignForm
-          }
+          initialValues={bonusCampaignForm}
           onSubmit={this.handleSubmit}
           toggleModal={this.handleModalOpen}
         />

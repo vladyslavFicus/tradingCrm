@@ -29,6 +29,8 @@ const mapStateToProps = ({ bonusCampaignView: { data }, i18n: { locale } }) => (
     moneyTypePriority: data.moneyTypePriority,
     minAmount: data.minAmount,
     maxAmount: data.maxAmount,
+    excludeCountries: data.includeCountries ? !data.includeCountries : false,
+    countries: data.countries || [],
   },
   currencies: config.nas.currencies.supported || [],
   locale,

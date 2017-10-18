@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import { InputField } from '../../../../../../../../components/ReduxForm';
 
-const DepositFulfillment = ({ label, modalOpen }) => (
+const DepositFulfillment = ({ label, modalOpen, remove }) => (
   <div className="add-campaign-container">
     <div className="add-campaign-label">
       {label}
@@ -35,7 +35,13 @@ const DepositFulfillment = ({ label, modalOpen }) => (
         </div>
       </div>
     </div>
-    <button className="btn-transparent add-campaign-remove">&times;</button>
+    <button
+      type="button"
+      onClick={remove}
+      className="btn-transparent add-campaign-remove"
+    >
+      &times;
+    </button>
   </div>
 );
 

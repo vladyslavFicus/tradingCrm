@@ -124,6 +124,9 @@ function updateCampaign(id, data) {
       endpointParams.capping = null;
     }
 
+    endpointParams.includeCountries = !endpointParams.excludeCountries;
+    delete endpointParams.excludeCountries;
+
     return dispatch({
       [CALL_API]: {
         endpoint: `promotion/campaigns/${id}`,

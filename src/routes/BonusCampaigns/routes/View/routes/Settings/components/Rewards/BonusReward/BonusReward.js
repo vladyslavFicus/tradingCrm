@@ -132,7 +132,7 @@ const BonusReward = ({ basename, typeValues, limits, modalOpen }) => (
         <span className="right-placeholder">%</span>
       </div>
     </div>
-    <button className="btn-transparent add-campaign-remove">&times;</button>
+    {/*<button className="btn-transparent add-campaign-remove">&times;</button>*/}
   </div>
 );
 
