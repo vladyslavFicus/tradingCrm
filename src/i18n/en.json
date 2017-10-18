@@ -252,7 +252,12 @@
           "OPT_IN": "Opt-In",
           "CONVERTED": "Converted",
           "WAGERED": "Wagered",
-          "MONEY_TYPE_PRIORITY": "Wagering"
+          "MONEY_TYPE_PRIORITY": "Wagering",
+          "LOCK_AMOUNT_STRATEGY": "Withdrawal lock"
+        },
+        "LOCK_AMOUNT_STRATEGY": {
+          "LOCK_ALL": "Lock all",
+          "LOCK_PARTIAL": "Lock bonus money"
         }
       },
       "CANCEL_BONUS": "Cancel bonus",
