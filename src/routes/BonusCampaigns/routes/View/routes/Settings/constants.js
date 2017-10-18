@@ -20,6 +20,7 @@ const attributeLabels = {
   optIn: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.OPT_IN'),
   minAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_AMOUNT'),
   maxAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MAX_AMOUNT'),
+  lockAmountStrategy: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.LOCK_AMOUNT_STRATEGY_LABEL'),
 };
 
 const attributePlaceholders = {

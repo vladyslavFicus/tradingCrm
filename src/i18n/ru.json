@@ -1089,7 +1089,8 @@
         "MAX_AMOUNT_PLACEHOLDER": "Макс.",
         "RATIO_TOOLTIP": "Депозит: предоставленный бонус",
         "PRIORITY": "Приоритет",
-        "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
+        "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
+        "LOCK_AMOUNT_STRATEGY_LABEL": "Стратегия блок. денег"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",

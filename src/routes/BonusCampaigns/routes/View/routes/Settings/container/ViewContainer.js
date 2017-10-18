@@ -29,6 +29,7 @@ const mapStateToProps = ({ bonusCampaignView: { data }, i18n: { locale } }) => (
     moneyTypePriority: data.moneyTypePriority,
     minAmount: data.minAmount,
     maxAmount: data.maxAmount,
+    lockAmountStrategy: data.lockAmountStrategy,
   },
   currencies: config.nas.currencies.supported || [],
   locale,

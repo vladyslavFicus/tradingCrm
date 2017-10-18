@@ -14,6 +14,7 @@ import {
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
   moneyTypeUsageLabels,
+  lockAmountStrategyLabels
 } from '../../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { createValidator } from '../../../../../../../utils/validator';
@@ -58,6 +59,7 @@ const validator = (values) => {
     },
     minAmount: 'min:0',
     maxAmount: 'min:0',
+    lockAmountStrategy: ['required', 'string', `in:${Object.keys(lockAmountStrategyLabels).join()}`],
   };
 
   if (values.minAmount) {
@@ -379,7 +381,7 @@ class Form extends Component {
           </div>
         </div>
         <div className="filter-row">
-          <div className="filter-row__medium">
+          <div className="filter-row__small">
             <Field
               name="campaignType"
               label={I18n.t(attributeLabels.campaignType)}
@@ -419,15 +421,15 @@ class Form extends Component {
                   </span>
                 </label>
                 <div className="range-group">
-                  <Field
-                    name="minAmount"
-                    label={''}
-                    placeholder={I18n.t(attributePlaceholders.minAmount)}
-                    type="text"
-                    component={InputField}
-                    position="vertical"
-                    disabled={disabled}
-                  />
+                    <Field
+                      name="minAmount"
+                      label={''}
+                      placeholder={I18n.t(attributePlaceholders.minAmount)}
+                      type="text"
+                      component={InputField}
+                      position="vertical"
+                      disabled={disabled}
+                    />
                   <span className="range-group__separator">-</span>
                   <Field
                     name="maxAmount"
@@ -438,7 +440,28 @@ class Form extends Component {
                     position="vertical"
                     disabled={disabled}
                   />
+                  <div className="col-md-6">
+                    <Field
+                      name="lockAmountStrategy"
+                      label={null}
+                      type="select"
+                      component={SelectField}
+                      position="vertical"
+                      showErrorMessage={false}
+                    >
+                      <option value="">
+                        {I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_LOCK_AMOUNT_STRATEGY')}
+                      </option>
+                      {Object.keys(lockAmountStrategyLabels).map(key => (
+                        <option key={key} value={key}>
+                          {renderLabel(key, lockAmountStrategyLabels)}
+                        </option>
+                      ))}
+                    </Field>
+                  </div>
                 </div>
+
+
               </div>
             </div>
           }
