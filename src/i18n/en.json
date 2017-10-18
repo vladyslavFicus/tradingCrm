@@ -435,7 +435,8 @@
         "FREE_SPIN_VALUE": "Free spin value",
         "TOTAL_VALUE": "Total value",
         "CHOOSE_COIN_SIZE": "-- Choose --",
-        "CHOOSE_NUMBER_OF_COINS": "-- Choose --"
+        "CHOOSE_NUMBER_OF_COINS": "-- Choose --",
+        "BUTTON": "Create Free-spin"
       },
       "MODAL_CANCEL": {
         "SELECT_REASON_OPTION": "-- Select reason --",
