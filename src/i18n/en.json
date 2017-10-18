@@ -708,6 +708,10 @@
       "MONEY_TYPE_USAGE": {
         "REAL_MONEY": "Real money first",
         "BONUS_MONEY": "Bonus money first"
+      },
+      "LOCK_AMOUNT_STRATEGY": {
+        "LOCK_ALL": "Lock all money",
+        "LOCK_PARTIAL": "Lock deposited amount"
       }
     },
     "GAMING_ACTIVITY": {
@@ -1047,7 +1051,10 @@
       "MAX_AMOUNT_LABEL": "Max amount",
       "TARGET_TYPE_LABEL": "Target type",
       "OPT_IN_LABEL": "Opt-In",
-      "LOCK_AMOUNT_LABEL": "Lock deposited amount"
+      "LOCK_AMOUNT_STRATEGY_LABEL": "Lock amount strategy",
+      "CHOOSE_CURRENCY": "-- Choose currency --",
+      "CHOOSE_TARGET_TYPE": "-- Choose target type --",
+      "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- Choose lock --"
     },
     "SETTINGS": {
       "LABEL": {

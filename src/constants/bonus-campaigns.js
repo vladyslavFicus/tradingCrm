@@ -51,6 +51,14 @@ const moneyTypeUsageLabels = {
   [moneyTypeUsage.REAL_MONEY_FIRST]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.MONEY_TYPE_USAGE.REAL_MONEY'),
   [moneyTypeUsage.BONUS_MONEY_FIRST]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.MONEY_TYPE_USAGE.BONUS_MONEY'),
 };
+const lockAmountStrategy = keyMirror({
+  LOCK_ALL: null,
+  LOCK_PARTIAL: null,
+});
+const lockAmountStrategyLabels = {
+  [lockAmountStrategy.LOCK_ALL]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.LOCK_AMOUNT_STRATEGY.LOCK_ALL'),
+  [lockAmountStrategy.LOCK_PARTIAL]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.LOCK_AMOUNT_STRATEGY.LOCK_PARTIAL'),
+};
 
 const cancelAction = {
   action: actions.CANCEL,
@@ -107,4 +115,6 @@ export {
   customValueFieldTypesByCampaignType,
   moneyTypeUsage,
   moneyTypeUsageLabels,
+  lockAmountStrategy,
+  lockAmountStrategyLabels,
 };

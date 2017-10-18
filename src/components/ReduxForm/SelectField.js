@@ -101,7 +101,7 @@ class SelectField extends Component {
 
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label className={labelClassName}>{label}</label>
+        {label && <label className={labelClassName}>{label}</label>}
         {this.renderInput(props)}
         {
           showErrorMessage && touched && error &&

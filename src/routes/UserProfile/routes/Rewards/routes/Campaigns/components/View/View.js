@@ -33,7 +33,7 @@ class View extends Component {
   static propTypes = {
     list: PropTypes.pageableState(PropTypes.bonusCampaignEntity).isRequired,
     profile: PropTypes.userProfile.isRequired,
-    fetchAvailableCampaignList: PropTypes.func.isRequired,
+    fetchPlayerCampaigns: PropTypes.func.isRequired,
     declineCampaign: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     addPlayerToCampaign: PropTypes.func.isRequired,
@@ -63,7 +63,7 @@ class View extends Component {
   }
 
   handleRefresh = () => {
-    this.props.fetchAvailableCampaignList({
+    this.props.fetchPlayerCampaigns({
       ...this.state.filters,
       page: this.state.page,
       playerUUID: this.props.params.id,
