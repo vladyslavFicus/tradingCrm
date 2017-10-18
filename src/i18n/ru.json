@@ -254,7 +254,12 @@
           "OPT_IN": "Opt-In",
           "CONVERTED": "Converted",
           "WAGERED": "Wagered",
-          "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
+          "MONEY_TYPE_PRIORITY": "Приор. исп. денег",
+          "LOCK_AMOUNT_STRATEGY": "Блок. вывода средств"
+        },
+        "LOCK_AMOUNT_STRATEGY": {
+          "LOCK_ALL": "Заблокировать все средства",
+          "LOCK_PARTIAL": "Заблокировать бонусные деньги"
         }
       },
       "CANCEL_BONUS": "Отменить бонус",
