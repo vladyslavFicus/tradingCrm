@@ -12,7 +12,7 @@ const mapStateToProps = ({
   profile,
 });
 const mapActions = {
-  fetchAvailableCampaignList: actionCreators.fetchAvailableCampaignList,
+  fetchPlayerCampaigns: actionCreators.fetchPlayerCampaigns,
   declineCampaign: actionCreators.declineCampaign,
   fetchCampaigns: actionCreators.fetchCampaigns,
   addPlayerToCampaign: actionCreators.addPlayerToCampaign,
