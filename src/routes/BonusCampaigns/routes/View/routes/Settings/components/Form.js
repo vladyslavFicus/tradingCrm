@@ -460,8 +460,6 @@ class Form extends Component {
                     </Field>
                   </div>
                 </div>
-
-
               </div>
             </div>
           }
