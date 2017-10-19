@@ -34,6 +34,11 @@ class NewLayout extends Component {
     locale: PropTypes.string.isRequired,
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     onLocaleChange: PropTypes.func.isRequired,
+    settings: PropTypes.shape({
+      sendMail: PropTypes.bool.isRequired,
+      playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
+      errorParams: PropTypes.object.isRequired,
+    }).isRequired,
     user: PropTypes.shape({
       token: PropTypes.string,
       uuid: PropTypes.string,
@@ -89,6 +94,11 @@ class NewLayout extends Component {
     activePanelIndex: null,
   };
   static childContextTypes = {
+    settings: PropTypes.shape({
+      sendMail: PropTypes.bool.isRequired,
+      playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
+      errorParams: PropTypes.object.isRequired,
+    }).isRequired,
     user: PropTypes.shape({
       token: PropTypes.string,
       uuid: PropTypes.string,
@@ -125,9 +135,11 @@ class NewLayout extends Component {
       locale,
       addPanel,
       removePanel,
+      settings,
     } = this.props;
 
     return {
+      settings,
       user,
       location,
       permissions,
@@ -413,6 +425,7 @@ class NewLayout extends Component {
 }
 
 const mapStateToProps = state => ({
+  settings: state.settings,
   user: state.auth,
   permissions: state.permissions.data,
   activeUserPanel: state.userPanels.items[state.userPanels.activeIndex] || null,

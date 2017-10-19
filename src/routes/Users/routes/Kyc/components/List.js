@@ -15,7 +15,7 @@ import {
   statusesLabels as kysStatusLabels,
   requestTypes as kysRequestTypes,
   requestTypesLabels as kysRequestTypesLabels,
-  statusTypes as kysStatusTypes
+  statusTypes as kysStatusTypes,
 } from '../../../../../constants/kyc';
 import { statusTypesKeys } from '../constants';
 
@@ -94,14 +94,12 @@ class List extends Component {
     this.setState({ filters: {}, page: 0 });
   };
 
-  renderUserInfo = (data) => {
-    return (
-      <GridPlayerInfo
-        profile={data}
-        fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
-      />
-    );
-  };
+  renderUserInfo = data => (
+    <GridPlayerInfo
+      profile={data}
+      fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
+    />
+  );
 
   renderInitiated = (data) => {
     const type = data.kycRequest && data.kycRequest.authorUUID
