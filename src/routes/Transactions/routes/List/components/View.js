@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import TransactionsFilterForm from '../../../components/TransactionsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
   methodsLabels,
@@ -314,21 +315,19 @@ class View extends Component {
 
     return (
       <div className="page-content-inner">
-        <Panel withBorders>
+        <Card>
           <Title>
-            <div className="clearfix">
-              <span className="font-size-20" id="transactions-list-header">
-                Transactions
-              </span>
+            <span className="font-size-20" id="transactions-list-header">
+              {I18n.t('COMMON.TRANSACTIONS')}
+            </span>
 
-              <button
-                disabled={exporting || !allowActions}
-                className="btn btn-default-outline pull-right"
-                onClick={this.handleExport}
-              >
-                Export
-              </button>
-            </div>
+            <button
+              disabled={exporting || !allowActions}
+              className="btn btn-default-outline ml-auto"
+              onClick={this.handleExport}
+            >
+              {I18n.t('COMMON.EXPORT')}
+            </button>
           </Title>
 
           <TransactionsFilterForm
@@ -430,7 +429,7 @@ class View extends Component {
               />
             }
           </Content>
-        </Panel>
+        </Card>
       </div>
     );
   }

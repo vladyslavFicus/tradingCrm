@@ -307,7 +307,7 @@ class NewLayout extends Component {
         },
       },
     });
-  }
+  };
 
   handleCloseTabs = () => {
     this.props.resetPanels();
@@ -354,7 +354,7 @@ class NewLayout extends Component {
           onOpenTab={toggleMenuTap}
         />
 
-        <div className="section-container">{children}</div>
+        <main className="content-container">{children}</main>
 
         <MyProfileSidebar
           isOpen={isOpenProfile}

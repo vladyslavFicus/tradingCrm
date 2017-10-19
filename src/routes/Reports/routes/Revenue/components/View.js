@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Panel, { Title, Content } from 'components/Panel';
+import Card, { Title, Content } from 'components/Card';
 import PreviewGrid from './PreviewGrid';
 import Form from './Form';
 import PermissionContent from 'components/PermissionContent';
@@ -41,33 +41,35 @@ class View extends Component {
       currency,
     } = this.props;
 
-    return <div className="page-content-inner">
-      <Panel withBorders>
-        <Title>
-          <span className="font-size-20">Revenue report</span>
-        </Title>
+    return (
+      <div className="page-content-inner">
+        <Card>
+          <Title>
+            <span className="font-size-20">Revenue report</span>
+          </Title>
 
-        <PermissionContent permissions={viewReportPermissions}>
-          <Content>
-            <Form
-              fields={form.values}
-              errors={form.errors}
-              onDownload={onDownload}
-              onSubmit={this.handleSubmit}
-            />
+          <PermissionContent permissions={viewReportPermissions}>
+            <Content>
+              <Form
+                fields={form.values}
+                errors={form.errors}
+                onDownload={onDownload}
+                onSubmit={this.handleSubmit}
+              />
 
-            {Object.keys(filters).length > 0 && <PreviewGrid
-              onFiltersChanged={this.handleFiltersChanged}
-              onPageChanged={this.handlePageChanged}
-              reportType={filters.type}
-              filters={filters}
-              {...entities}
-              currency={currency}
-            />}
-          </Content>
-        </PermissionContent>
-      </Panel>
-    </div>;
+              {Object.keys(filters).length > 0 && <PreviewGrid
+                onFiltersChanged={this.handleFiltersChanged}
+                onPageChanged={this.handlePageChanged}
+                reportType={filters.type}
+                filters={filters}
+                {...entities}
+                currency={currency}
+              />}
+            </Content>
+          </PermissionContent>
+        </Card>
+      </div>
+    );
   }
 }
 

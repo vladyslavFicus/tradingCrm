@@ -438,7 +438,7 @@ class ProfileLayout extends Component {
             </span>
           ),
           footer: (
-            <button className="btn btn-default-outline pull-left" onClick={this.handleCloseModal}>
+            <button className="btn btn-default-outline mr-auto" onClick={this.handleCloseModal}>
               {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           ),
@@ -520,7 +520,7 @@ class ProfileLayout extends Component {
             </span>
           ),
           footer: (
-            <button className="btn btn-default-outline pull-left" onClick={this.handleCloseModal}>
+            <button className="btn btn-default-outline mr-auto" onClick={this.handleCloseModal}>
               {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           ),

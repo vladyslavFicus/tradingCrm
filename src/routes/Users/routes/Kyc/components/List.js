@@ -6,7 +6,7 @@ import _ from 'lodash';
 import KycGridFilter from './KycGridFilter';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import Uuid from '../../../../../components/Uuid';
 import {
@@ -179,7 +179,7 @@ class List extends Component {
 
     return (
       <div className="page-content-inner">
-        <Panel withBorders>
+        <Card>
           <Title>
             <span className="font-size-20">
               {I18n.t('KYC_REQUESTS.TITLE')}
@@ -226,7 +226,7 @@ class List extends Component {
               />
             </GridView>
           </Content>
-        </Panel>
+        </Card>
       </div>
     );
   }

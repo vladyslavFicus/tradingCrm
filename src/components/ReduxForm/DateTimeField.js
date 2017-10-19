@@ -31,7 +31,7 @@ class DateTimeField extends Component {
   };
   static defaultProps = {
     label: null,
-    labelClassName: 'form-control-label',
+    labelClassName: null,
     className: 'form-group',
     dateFormat: 'DD.MM.YYYY',
     timeFormat: 'HH:mm',

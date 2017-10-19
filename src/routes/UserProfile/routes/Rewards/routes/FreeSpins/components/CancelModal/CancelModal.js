@@ -128,7 +128,7 @@ class CancelModal extends Component {
 
           <ModalFooter>
             <button
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               onClick={onClose}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CLOSE_BUTTON')}

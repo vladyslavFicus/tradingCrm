@@ -84,7 +84,7 @@ class Form extends Component {
 
       <div className={classes.period(errors)}>
         <div className="col-md-3">
-          <label className="form-control-label">{attributeLabels.period}</label>
+          <label>{attributeLabels.period}</label>
         </div>
         <div className="col-md-9">
           <RemoteDateRangePickerWrapper
@@ -95,8 +95,8 @@ class Form extends Component {
             disabled={disabled}
           />
 
-          <Field type="hidden" component="input" name="startDate"/>
-          <Field type="hidden" component="input" name="endDate"/>
+          <Field type="hidden" component="input" name="startDate" />
+          <Field type="hidden" component="input" name="endDate" />
 
           {!pristine && !!errors.startDate && <div className="form-control-feedback">
             {errors.startDate}
@@ -104,26 +104,26 @@ class Form extends Component {
           {!pristine && !!errors.endDate && <div className="form-control-feedback">
             {errors.endDate}
           </div>}
-        </div>
-      </div>
 
-      <div className="form-actions">
-        <div className="form-group row">
-          <div className="col-md-9 col-md-offset-3">
+          <div className="margin-top-20">
             <button
               type="submit"
               disabled={!valid || submitting}
-              className="btn width-150 btn-primary">
+              className="btn width-150 btn-primary"
+            >
               Preview
             </button>
-            &nbsp;
-            {valid && <button
-              type="button"
-              disabled={!valid || submitting}
-              onClick={this.handleDownload}
-              className="btn width-150 btn-primary">
-              Export as CSV
-            </button>}
+            {
+              valid &&
+              <button
+                type="button"
+                disabled={!valid || submitting}
+                onClick={this.handleDownload}
+                className="btn width-150 btn-primary margin-left-15"
+              >
+                Export as CSV
+              </button>
+            }
           </div>
         </div>
       </div>

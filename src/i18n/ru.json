@@ -68,6 +68,9 @@
           "ERROR": "Необходимо сохранить персональные данные"
         }
       },
+      "ADDITIONAL": {
+        "TITLE": "Дополнительная информация"
+      },
       "ADDRESS": {
         "TITLE": "Адрес",
         "VERIFY_KYC": {
@@ -505,7 +508,8 @@
       "UPLOAD_FILE": "+ Загрузить файл",
       "CREATE_AND_OPEN": "Создать и открыть",
       "SAVE_NEW_PASSWORD": "Сохранить новый пароль",
-      "SAVE": "Сохранить"
+      "SAVE": "Сохранить",
+      "EXPORT_AS_CSV": "Экспортировать как CSV"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -574,7 +578,10 @@
     "MAX": "Mакс.",
     "ACTIVE": "Активный",
     "INACTIVE": "Неактивный",
-    "ALL": "Все"
+    "ALL": "Все",
+    "PLAYERS": "Игроки",
+    "TRANSACTIONS": "Транзакции",
+    "PLAYER_LIABILITY_REPORT": "Отчет об ответственности игрока"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1157,7 +1164,7 @@
     }
   },
   "NOTE_BUTTON": {
-    "DEFAULT_MESSAGE": "Добавить "
+    "DEFAULT_MESSAGE": "Добавить заметку"
   },
   "KYC_REQUESTS": {
     "GRID_VIEW": {
@@ -1224,6 +1231,7 @@
     "OPERATOR": "Оператор"
   },
   "OPERATORS": {
+    "HEADING": "Операторы",
     "CREATE_OPERATOR_BUTTON": "+ Новый оператор",
     "MODALS": {
       "NEW_OPERATOR": {

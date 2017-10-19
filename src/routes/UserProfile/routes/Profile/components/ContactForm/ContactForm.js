@@ -108,40 +108,42 @@ class ContactForm extends Component {
 
           <div className="row">
             <div className="col-md-8">
-              <div className="col-md-3">
-                <Field
-                  name="phoneCode"
-                  component={SelectField}
-                  position="vertical"
-                  label={attributeLabels.phoneCode}
-                  className="form-control"
-                >
-                  <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
-                  {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
-                </Field>
-              </div>
-              <div className="col-md-9">
-                <Field
-                  name="phone"
-                  type="text"
-                  className="form-group player-profile__contact-input"
-                  component={InputField}
-                  showErrorMessage
-                  label={attributeLabels.phone}
-                  position="vertical"
-                  showInputButton={isPhoneVerifiable}
-                  labelAddon={(
-                    !isPhoneDirty && profile.phoneNumberVerified &&
-                    <div className="verification-label color-success font-size-12">
-                      <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                    </div>
-                  )}
-                  inputButton={
-                    <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
-                      {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
-                    </button>
-                  }
-                />
+              <div className="row">
+                <div className="col-md-3">
+                  <Field
+                    name="phoneCode"
+                    component={SelectField}
+                    position="vertical"
+                    label={attributeLabels.phoneCode}
+                    className="form-control"
+                  >
+                    <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
+                    {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
+                  </Field>
+                </div>
+                <div className="col-md-9">
+                  <Field
+                    name="phone"
+                    type="text"
+                    className="form-group player-profile__contact-input"
+                    component={InputField}
+                    showErrorMessage
+                    label={attributeLabels.phone}
+                    position="vertical"
+                    showInputButton={isPhoneVerifiable}
+                    labelAddon={(
+                      !isPhoneDirty && profile.phoneNumberVerified &&
+                      <div className="verification-label color-success font-size-12">
+                        <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+                      </div>
+                    )}
+                    inputButton={
+                      <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
+                        {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
+                      </button>
+                    }
+                  />
+                </div>
               </div>
             </div>
 

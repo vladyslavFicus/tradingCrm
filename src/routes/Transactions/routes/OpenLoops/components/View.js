@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import PropTypes from '../../../../../constants/propTypes';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
   methodsLabels,
@@ -285,7 +285,7 @@ class View extends Component {
 
     return (
       <div className="page-content-inner">
-        <Panel withBorders>
+        <Card>
           <Title>
             <span className="font-size-20">Open loops</span>
           </Title>
@@ -381,7 +381,7 @@ class View extends Component {
               />
             }
           </Content>
-        </Panel>
+        </Card>
       </div>
     );
   }

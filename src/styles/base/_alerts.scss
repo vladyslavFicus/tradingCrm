@@ -1,16 +1,13 @@
-/*
-* NOTIFICATIONS & ALERTS
-*/
 .alert {
   border: none;
   font-weight: normal;
-  color: #ffffff;
+  color: #fff;
 }
 
 .alert .close {
-  color: #ffffff;
   opacity: .5;
   outline: none !important;
+  color: #fff;
 }
 
 .alert .close:hover {
@@ -19,9 +16,8 @@
 
 .alert a, .alert .alert-link {
   font-weight: normal;
-  color: #ffffff;
+  color: #fff;
   opacity: .7;
-  -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
 }
 

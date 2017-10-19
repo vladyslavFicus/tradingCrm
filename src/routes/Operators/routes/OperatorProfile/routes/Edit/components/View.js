@@ -7,6 +7,7 @@ import { renderLabel } from '../../../../../utils';
 import PermissionContent from '../../../../../../../components/PermissionContent';
 import Permissions from '../../../../../../../utils/permissions';
 import permission from '../../../../../../../config/permissions';
+import Card, { Content } from '../../../../../../../components/Card';
 
 const manageDepartmentsPermissions = new Permissions([
   permission.OPERATORS.ADD_AUTHORITY, permission.OPERATORS.DELETE_AUTHORITY,
@@ -55,9 +56,9 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="panel-body">
-        <div className="panel">
-          <div className="panel-body">
+      <Content>
+        <Card>
+          <Content>
             {
               !!profileLoaded &&
               <Form
@@ -71,11 +72,11 @@ class View extends Component {
                 onSubmit={this.handleSubmit}
               />
             }
-          </div>
-        </div>
+          </Content>
+        </Card>
         <PermissionContent permissions={manageDepartmentsPermissions}>
-          <div className="panel">
-            <div className="panel-body">
+          <Card>
+            <Content>
               <div className="personal-form-heading margin-bottom-20">Departments</div>
               {
                 authorities.map((authority, key) => (
@@ -101,10 +102,10 @@ class View extends Component {
                 departments={departments}
                 roles={roles}
               />
-            </div>
-          </div>
+            </Content>
+          </Card>
         </PermissionContent>
-      </div>
+      </Content>
     );
   }
 }

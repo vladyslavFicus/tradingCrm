@@ -172,10 +172,10 @@ class Header extends Component {
                 className="btn btn-sm btn-default-outline"
                 onClick={onAddNoteClick}
               >
-                Add note
+                {I18n.t('NOTE_BUTTON.DEFAULT_MESSAGE')}
               </PopoverButton>
               <button
-                className="btn btn-sm btn-default-outline m-x-1"
+                className="btn btn-sm btn-default-outline mx-3"
                 onClick={onRefreshClick}
                 id="refresh-page-button"
               >

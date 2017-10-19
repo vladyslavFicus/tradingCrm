@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import Panel, { Title, Content } from '../../../components/Panel';
+import Card, { Title, Content } from '../../../components/Card';
 import SortableGridView from '../../../components/GridView/SortableGridView';
 import { GridColumn } from '../../../components/GridView';
 import Amount from '../../../components/Amount';
@@ -219,7 +219,7 @@ class List extends Component {
 
     return (
       <div className="page-content-inner">
-        <Panel withBorders>
+        <Card>
           <Title>
             <span className="font-size-20">Payment methods</span>
           </Title>
@@ -281,7 +281,7 @@ class List extends Component {
               }
             </SortableGridView>
           </Content>
-        </Panel>
+        </Card>
 
         {
           popover.name === PAYMENT_METHOD_LIMIT_POPOVER &&

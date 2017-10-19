@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import FileUpload from '../../../../../components/FileUpload';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import GameStatus from './GameStatus';
@@ -127,40 +127,37 @@ class View extends Component {
 
     return (
       <div className="page-content-inner">
-        <Panel withBorders>
+        <Card>
           <Title>
-            <div className="row">
-              <div className="col-sm-2">
-                <span className="font-size-20" id="operators-list-header">{I18n.t('GAMES.TITLE')}</span>
-              </div>
-              <div className="col-sm-10 text-right">
-                <button
-                  disabled={disabled}
-                  className="btn btn-default-outline"
-                  onClick={this.handleDownloadClick}
-                >
-                  {I18n.t('GAMES.EXPORT_BUTTON')}
-                </button>
-                <span className="m-x-1">
-                  <FileUpload
-                    disabled={disabled}
-                    label={I18n.t('GAMES.UPLOAD_FILE_BUTTON')}
-                    allowedSize={5}
-                    allowedTypes={['text/csv', 'application/vnd.ms-excel']}
-                    incorrectFileType={I18n.t('ERRORS.FILE.INVALID_FILE_EXTENSION')}
-                    incorrectFileSize={I18n.t('ERRORS.FILE.INVALID_FILE_SIZE')}
-                    onChosen={this.handleUploadFile}
-                  />
-                </span>
-                <button
-                  disabled={disabled}
-                  className="btn btn-default-outline"
-                  onClick={resetServerGames}
-                >
-                  {I18n.t('GAMES.RESET_BUTTON')}
-                </button>
-              </div>
-            </div>
+            <span className="font-size-20 mr-auto" id="operators-list-header">
+              {I18n.t('GAMES.TITLE')}
+            </span>
+
+            <button
+              disabled={disabled}
+              className="btn btn-default-outline"
+              onClick={this.handleDownloadClick}
+            >
+              {I18n.t('GAMES.EXPORT_BUTTON')}
+            </button>
+            <span className="mx-3">
+              <FileUpload
+                disabled={disabled}
+                label={I18n.t('GAMES.UPLOAD_FILE_BUTTON')}
+                allowedSize={5}
+                allowedTypes={['text/csv', 'application/vnd.ms-excel']}
+                incorrectFileType={I18n.t('ERRORS.FILE.INVALID_FILE_EXTENSION')}
+                incorrectFileSize={I18n.t('ERRORS.FILE.INVALID_FILE_SIZE')}
+                onChosen={this.handleUploadFile}
+              />
+            </span>
+            <button
+              disabled={disabled}
+              className="btn btn-default-outline"
+              onClick={resetServerGames}
+            >
+              {I18n.t('GAMES.RESET_BUTTON')}
+            </button>
           </Title>
 
           <GamesGridFilter
@@ -213,7 +210,7 @@ class View extends Component {
               />
             </GridView>
           </Content>
-        </Panel>
+        </Card>
       </div>
     );
   }

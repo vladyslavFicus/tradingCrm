@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { SubmissionError } from 'redux-form';
 import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
 import {
@@ -233,29 +233,26 @@ class View extends Component {
 
     return (
       <div className="page-content-inner">
-        <Panel withBorders>
+        <Card>
           <Title>
-            <div className="row">
-              <div className="col-md-3">
-                <span className="font-size-20">{I18n.t('BONUS_CAMPAIGNS.TITLE')}</span>
-              </div>
-              <div className="col-md-3 col-md-offset-6 text-right">
-                <button
-                  disabled={exporting || !allowActions}
-                  className="btn btn-default-outline margin-right-10"
-                  onClick={this.handleExport}
-                >
-                  {I18n.t('COMMON.EXPORT')}
-                </button>
+            <span className="font-size-20 mr-auto">
+              {I18n.t('BONUS_CAMPAIGNS.TITLE')}
+            </span>
 
-                <button
-                  className="btn btn-primary-outline"
-                  onClick={this.handleOpenCreateModal}
-                >
-                  {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
-                </button>
-              </div>
-            </div>
+            <button
+              disabled={exporting || !allowActions}
+              className="btn btn-default-outline margin-right-10"
+              onClick={this.handleExport}
+            >
+              {I18n.t('COMMON.EXPORT')}
+            </button>
+
+            <button
+              className="btn btn-primary-outline"
+              onClick={this.handleOpenCreateModal}
+            >
+              {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
+            </button>
           </Title>
 
           <BonusCampaignsFilterForm
@@ -328,7 +325,7 @@ class View extends Component {
               />
             </GridView>
           </Content>
-        </Panel>
+        </Card>
 
         {
           modal.name === MODAL_CREATE_BONUS_CAMPAIGN &&

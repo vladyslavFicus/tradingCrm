@@ -8,6 +8,7 @@ import { operatorProfileTabs } from '../../../../../config/menu';
 import Header from '../components/Header';
 import PropTypes from '../../../../../constants/propTypes';
 import Uuid from '../../../../../components/Uuid';
+import Card from '../../../../../components/Card';
 
 const INFO_MODAL = 'info-modal';
 const modalInitialState = {
@@ -208,9 +209,9 @@ class OperatorProfileLayout extends Component {
               location={location}
               params={params}
             />
-            <div>
+            <Card noBorders>
               {children}
-            </div>
+            </Card>
           </div>
         </div>
         {

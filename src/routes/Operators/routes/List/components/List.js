@@ -5,7 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
 import {
@@ -174,18 +174,19 @@ class List extends Component {
 
     return (
       <div className="page-content-inner">
-        <Panel withBorders>
+        <Card>
           <Title>
-            <div className="clearfix">
-              <span className="font-size-20" id="operators-list-header">Operators</span>
-              <button
-                className="btn btn-default-outline pull-right"
-                onClick={this.handleOpenCreateModal}
-                id="create-new-operator-button"
-              >
-                {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
-              </button>
-            </div>
+            <span className="font-size-20" id="operators-list-header">
+              {I18n.t('OPERATORS.HEADING')}
+            </span>
+
+            <button
+              className="btn btn-default-outline ml-auto"
+              onClick={this.handleOpenCreateModal}
+              id="create-new-operator-button"
+            >
+              {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
+            </button>
           </Title>
 
           <OperatorGridFilter
@@ -228,7 +229,7 @@ class List extends Component {
               />
             </GridView>
           </Content>
-        </Panel>
+        </Card>
 
         {
           modal.name === MODAL_CREATE_OPERATOR &&

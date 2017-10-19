@@ -3,6 +3,9 @@
     border: none;
     border-radius: 0;
   }
+  &-dialog {
+    width: 600px;
+  }
   &.fade {
     .modal-dialog {
       transform: translateY(10%);
@@ -34,7 +37,6 @@
     }
   }
   &-title {
-    float: left;
     font-size: 18px;
     color: #333;
     &:first-letter {
@@ -48,6 +50,7 @@
   &-footer {
     padding-top: 10px;
     padding-bottom: 10px;
+    text-align: right;
     .btn {
       text-transform: uppercase;
     }
@@ -95,6 +98,11 @@
       }
     }
   }
+  @media (min-width: 576px) {
+    .modal-dialog {
+      max-width: none;
+    }
+  }
   .create-bonus-campaign-modal {
     width: 900px;
   }
@@ -110,13 +118,13 @@
   .create-free-spin-modal {
     width: 605px;
   }
+  .view-bonus-modal {
+    width: 750px;
+  }
   .free-spin-cancel-modal {
     .modal-header {
       background-color: #fc6;
     }
-  }
-  .view-bonus-modal {
-    width: 750px;
   }
   &-tab-label {
     margin-bottom: 3px;

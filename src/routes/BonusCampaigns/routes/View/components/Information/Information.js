@@ -6,6 +6,7 @@ import UnitValue from '../UnitValue';
 import { targetTypesLabels, campaignTypesLabels } from '../../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../../utils/renderLabel';
 import './Information.scss';
+import Card, { Content } from '../../../../../../components/Card';
 
 const Information = (props) => {
   const {
@@ -25,14 +26,14 @@ const Information = (props) => {
   } = props;
 
   return (
-    <div className="bonus__campaign__details row">
+    <div className="account-details row">
       <div className="col-md-3">
         <div className="bonus__campaign__details_block">
           <span className="bonus__campaign__details-label">
             {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET')}
           </span>
-          <div className="panel">
-            <div className="panel-body height-200">
+          <Card>
+            <Content>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET_TYPE')}</strong>:{' '}
                 {renderLabel(targetType, targetTypesLabels)}
@@ -45,8 +46,8 @@ const Information = (props) => {
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_OPT_IN')}</strong>:{' '}
                 {totalOptInPlayers}
               </div>
-            </div>
-          </div>
+            </Content>
+          </Card>
         </div>
       </div>
       <div className="col-md-3">
@@ -54,8 +55,8 @@ const Information = (props) => {
           <span className="bonus__campaign__details-label">
             {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.REWARD_PARAMS')}
           </span>
-          <div className="panel">
-            <div className="panel-body height-200">
+          <Card>
+            <Content>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.FULFILLMENT_TYPE')}:</strong>{' '}
                 {
@@ -96,8 +97,8 @@ const Information = (props) => {
                   <UnitValue {...capping} currency={currency} />
                 </div>
               }
-            </div>
-          </div>
+            </Content>
+          </Card>
         </div>
       </div>
     </div>

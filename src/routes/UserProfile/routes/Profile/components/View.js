@@ -22,6 +22,7 @@ import {
 } from '../../../../../constants/kyc';
 import { kycNoteTypes } from '../constants';
 import './View.scss';
+import Card from '../../../../../components/Card/Card';
 
 const REFUSE_MODAL = 'refuse-modal';
 const VERIFY_MODAL = 'verify-modal';
@@ -459,8 +460,8 @@ class View extends Component {
         </Sticky>
 
         <div className="tab-content">
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 profile-bordered-block">
                 <PersonalForm
                   initialValues={personalData}
@@ -484,10 +485,10 @@ class View extends Component {
                 />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 profile-bordered-block">
                 <AddressForm
                   initialValues={addressData}
@@ -511,10 +512,10 @@ class View extends Component {
                 />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="panel">
-            <div className="panel-body row">
+          <Card>
+            <div className="card-body row">
               <ContactForm
                 fetchMeta={fetchMeta}
                 profile={data}
@@ -525,7 +526,7 @@ class View extends Component {
                 onVerifyEmailClick={this.handleVerifyEmail}
               />
             </div>
-          </div>
+          </Card>
 
           {
             modal.name === REFUSE_MODAL &&

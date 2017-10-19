@@ -166,8 +166,8 @@ class ViewLayout extends Component {
           </Collapse>
         </div>
 
-        <div className="panel profile-user-content">
-          <div className="panel-body">
+        <div className="card profile-user-content">
+          <div className="card-body">
             <div className="nav-tabs-horizontal">
               <Tabs
                 items={bonusCampaignTabs}

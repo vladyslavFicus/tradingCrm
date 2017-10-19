@@ -67,6 +67,9 @@
           "ERROR": "Need to save personal information"
         }
       },
+      "ADDITIONAL": {
+        "TITLE": "Additional information"
+      },
       "ADDRESS": {
         "TITLE": "Address",
         "VERIFY_KYC": {
@@ -503,7 +506,8 @@
       "UPLOAD_FILE": "+ Upload file",
       "CREATE_AND_OPEN": "Create & open",
       "SAVE_NEW_PASSWORD": "Save new password",
-      "SAVE": "Save"
+      "SAVE": "Save",
+      "EXPORT_AS_CSV": "Export as CSV"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -572,7 +576,10 @@
     "MAX": "Max.",
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
-    "ALL": "All"
+    "ALL": "All",
+    "PLAYERS": "Players",
+    "TRANSACTIONS": "Transactions",
+    "PLAYER_LIABILITY_REPORT": "Player liability report"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1213,6 +1220,7 @@
     "OPERATOR": "Operator"
   },
   "OPERATORS": {
+    "HEADING": "Operators",
     "CREATE_OPERATOR_BUTTON": "+ New operator",
     "MODALS": {
       "NEW_OPERATOR": {
