@@ -190,7 +190,11 @@ class Header extends Component {
                   {
                     label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SEND_ACTIVATION_LINK'),
                     onClick: onProfileActivateClick,
-                    visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
+                    visible: (
+                      (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions)
+                      &&
+                      playerProfile.profileStatus === 'INACTIVE'
+                    ),
                   },
                   {
                     label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
