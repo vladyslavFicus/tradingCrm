@@ -13,11 +13,35 @@ class GridPlayerInfo extends Component {
     onClick: PropTypes.func,
     mainInfoClassName: PropTypes.string,
     id: PropTypes.string,
+    openAsPage: PropTypes.bool,
   };
   static defaultProps = {
     onClick: null,
     mainInfoClassName: 'font-weight-700',
     id: null,
+    openAsPage: false,
+  };
+  static contextTypes = {
+    addPanel: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
+  handleClick = () => {
+    const { profile, openAsPage } = this.props;
+
+    if (openAsPage) {
+      this.context.router.push(`/users/${profile.playerUUID}/profile`);
+    } else {
+      const panelData = {
+        fullName: `${profile.firstName || '-'} ${profile.lastName || '-'}`,
+        login: profile.username,
+        uuid: profile.playerUUID,
+      };
+
+      this.context.addPanel(panelData);
+    }
   };
 
   render() {

@@ -307,7 +307,7 @@ class NewLayout extends Component {
         },
       },
     });
-  }
+  };
 
   handleCloseTabs = () => {
     this.props.resetPanels();

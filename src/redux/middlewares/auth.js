@@ -20,7 +20,6 @@ export default store => next => (action) => {
     if (action.type === REHYDRATE) {
       if (action.payload.auth && action.payload.auth.isLoading) {
         action.payload.auth.isLoading = false;
-        action.payload.auth.notifications.email = false;
       }
     }
 

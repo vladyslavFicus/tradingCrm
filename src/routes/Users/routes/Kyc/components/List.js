@@ -31,9 +31,6 @@ class List extends Component {
   static defaultProps = {
     filterValues: {},
   };
-  static contextTypes = {
-    addPanel: PropTypes.func.isRequired,
-  };
 
   state = {
     filters: {
@@ -98,20 +95,9 @@ class List extends Component {
   };
 
   renderUserInfo = (data) => {
-    const panelData = {
-      fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
-      login: data.username,
-      uuid: data.playerUUID,
-    };
-
     return (
       <GridPlayerInfo
-        profile={{
-          ...data,
-          uuid: data.playerUUID,
-          age: data.birthDate ? moment().diff(data.birthDate, 'years') : null,
-        }}
-        onClick={() => this.context.addPanel(panelData)}
+        profile={data}
         fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
       />
     );
