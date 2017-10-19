@@ -119,4 +119,5 @@ class AddressForm extends Component {
 export default reduxForm({
   form: 'updateProfileAddress',
   validate: validator,
+  enableReinitialize: true,
 })(AddressForm);

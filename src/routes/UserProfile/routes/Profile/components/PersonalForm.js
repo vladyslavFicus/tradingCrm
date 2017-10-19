@@ -122,4 +122,5 @@ class PersonalForm extends Component {
 export default reduxForm({
   form: 'updateProfilePersonal',
   validate: validator,
+  enableReinitialize: true,
 })(PersonalForm);
