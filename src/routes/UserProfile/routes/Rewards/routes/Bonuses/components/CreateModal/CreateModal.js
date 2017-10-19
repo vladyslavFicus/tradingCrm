@@ -107,13 +107,14 @@ class CreateModal extends Component {
               </div>
               <div className="col-md-3">
                 <Field
+                  utc
+                  id="manual-bonus-modal-expiration-date"
                   name="expirationDate"
                   label={I18n.t(attributeLabels.expirationDate)}
                   labelClassName={null}
                   disabled={disabled}
                   component={DateTimeField}
                   position="vertical"
-                  utc
                   isValidDate={this.handleValidateExpirationDate}
                 />
               </div>

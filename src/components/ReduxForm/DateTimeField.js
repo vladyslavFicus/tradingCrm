@@ -6,6 +6,7 @@ import DateTime from 'react-datetime';
 
 class DateTimeField extends Component {
   static propTypes = {
+    id: PropTypes.string,
     className: PropTypes.string,
     input: PropTypes.shape({
       onChange: PropTypes.func.isRequired,
@@ -23,13 +24,13 @@ class DateTimeField extends Component {
     disabled: PropTypes.bool,
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
-    inputAddon: PropTypes.bool,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
     iconLeftClassName: PropTypes.string,
     iconRightClassName: PropTypes.string,
     utc: PropTypes.bool,
   };
   static defaultProps = {
+    id: null,
     label: null,
     labelClassName: 'form-control-label',
     className: 'form-group',
@@ -39,6 +40,8 @@ class DateTimeField extends Component {
     iconLeftClassName: '',
     iconRightClassName: 'nas nas-calendar_icon',
     utc: false,
+    disabled: false,
+    placeholder: '',
   };
 
   getValue = () => {
@@ -66,6 +69,7 @@ class DateTimeField extends Component {
 
   renderInput = () => {
     const {
+      id,
       disabled,
       placeholder,
       isValidDate,
@@ -83,6 +87,7 @@ class DateTimeField extends Component {
         value={this.getValue()}
         closeOnSelect
         inputProps={{
+          id,
           disabled,
           placeholder,
         }}
