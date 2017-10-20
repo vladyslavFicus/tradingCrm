@@ -18,7 +18,6 @@ class GridPlayerInfo extends Component {
     id: null,
     onClick: null,
     mainInfoClassName: 'font-weight-700',
-    openAsPage: false,
     clickable: true,
   };
   static contextTypes = {
