@@ -15,7 +15,7 @@ const triggerActions = {
     authActionTypes.LOGOUT.SUCCESS,
   ],
 };
-export default store => next => async (action) => {
+export default store => next => (action) => {
   if (action) {
     if (action.type === REHYDRATE) {
       if (action.payload.auth && action.payload.auth.isLoading) {
