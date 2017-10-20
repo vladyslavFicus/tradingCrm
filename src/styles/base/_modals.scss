@@ -197,3 +197,23 @@
     font-weight: 300;
   }
 }
+
+.modal-to-much-opened-profiles {
+  .users-panel-footer__tab__block {
+    padding-right: 40px;
+  }
+  .users-panel-footer__tab {
+    width: 310px;
+    margin-right: auto;
+    margin-left: auto;
+    border: 1px solid #999;
+    & + .users-panel-footer__tab {
+      margin-top: 10px;
+    }
+  }
+  .custom-checkbox {
+    position: absolute;
+    right: 5px;
+    top: 8px;
+  }
+}

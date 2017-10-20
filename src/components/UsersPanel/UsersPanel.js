@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import UsersPanelItem from '../UsersPanelItem';
 import PropTypes from '../../constants/propTypes';
 import './UsersPanel.scss';
+import ToMuchOpenedProfilesModal from './ToMuchOpenedProfilesModal';
 
 class UsersPanel extends Component {
   static propTypes = {
@@ -32,24 +33,31 @@ class UsersPanel extends Component {
     }
   }
 
+  handleCancelClick = () => this.props.onRemove(this.props.items.length - 1);
+
   render() {
     const { active, items, onClose, onRemove, onItemClick } = this.props;
+    const availableItems = items.slice(0, 5);
+    const [newPlayer] = items.slice(-1);
 
-    if (!items.length) {
+    if (!availableItems.length) {
       return null;
     }
 
-    const activeIndex = items.indexOf(active);
+    const activeIndex = availableItems.indexOf(active);
     const blockClassName = classNames('users-panel', { 'users-panel-opened': !!active });
+    const footerActiveClassName = `border-${availableItems[activeIndex] && availableItems[activeIndex].color
+      ? availableItems[activeIndex].color
+      : undefined}`;
     const footerClassName = classNames('users-panel-footer', {
       border: !!active,
-      [`border-${items[activeIndex] && items[activeIndex].color ? items[activeIndex].color : undefined}`]: !!active,
+      [footerActiveClassName]: !!active,
     });
 
     return (
       <div className={blockClassName}>
         <div className="users-panel-content" style={{ visibility: active ? 'visible' : 'hidden' }}>
-          {items.map((item) => {
+          {availableItems.map((item) => {
             const className = classNames(
               'user-panel-content-frame',
               active && active.color ? `user-panel-content-frame-${active.color}` : ''
@@ -73,7 +81,7 @@ class UsersPanel extends Component {
           })}
         </div>
         <div className={footerClassName}>
-          {items.map((item, index) => (
+          {availableItems.map((item, index) => (
             <UsersPanelItem
               active={active && active.uuid === item.uuid}
               key={item.uuid}
@@ -87,6 +95,16 @@ class UsersPanel extends Component {
             &times;
           </button>
         </div>
+        {
+          items.length > 5 &&
+          <ToMuchOpenedProfilesModal
+            isOpen
+            items={availableItems}
+            newPlayer={newPlayer}
+            onClose={this.handleCancelClick}
+            onRemove={onRemove}
+          />
+        }
       </div>
     );
   }

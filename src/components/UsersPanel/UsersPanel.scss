@@ -3,6 +3,7 @@ $green: #009900;
 $purple: #6600ff;
 $blue: #0066ff;
 $pink: #cc00ff;
+$carrot: #b93703;
 
 body.user-panel-open {
   overflow: hidden;
@@ -65,6 +66,9 @@ body.user-panel-open {
     &.border-pink {
       border-top-color: $pink;
     }
+    &.border-carrot {
+      border-top-color: $carrot;
+    }
   }
   &-opened {
     .users-panel-content {
@@ -91,6 +95,9 @@ body.user-panel-open {
       }
       &-pink {
         border-top-color: $pink;
+      }
+      &-carrot {
+        border-top-color: $carrot;
       }
     }
   }

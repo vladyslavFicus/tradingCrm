@@ -12,7 +12,7 @@ const REMOVE = `${KEY}/remove`;
 const SET_ACTIVE = `${KEY}/set-active`;
 const RESET = `${KEY}/reset`;
 
-function getColor(usedColors, colors = ['orange', 'green', 'purple', 'blue', 'pink']) {
+function getColor(usedColors, colors = ['orange', 'green', 'purple', 'blue', 'pink', 'carrot']) {
   if (!Array.isArray(colors) || !colors.length) {
     throw new Error('No available colors');
   }
@@ -71,7 +71,7 @@ const actionHandlers = {
     activeIndex: state.activeIndex !== action.payload ? action.payload : null,
   }),
   [ADD]: (state, action) => {
-    if (state.items.length >= 5) {
+    if (state.items.length >= 6) {
       return state;
     }
 

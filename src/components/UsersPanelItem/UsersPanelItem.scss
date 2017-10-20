@@ -3,6 +3,7 @@ $green: #009900;
 $purple: #6600ff;
 $blue: #0066ff;
 $pink: #cc00ff;
+$carrot: #b93703;
 
 .users-panel-footer__tab {
   position: relative;
@@ -43,6 +44,11 @@ $pink: #cc00ff;
   &.tab-pink {
     .users-panel-footer__tab__block {
       border-left-color: $pink;
+    }
+  }
+  &.tab-carrot {
+    .users-panel-footer__tab__block {
+      border-left-color: $carrot;
     }
   }
   &__name {
@@ -93,6 +99,9 @@ $pink: #cc00ff;
     }
     &.tab-pink {
       background-color: $pink;
+    }
+    &.tab-carrot {
+      background-color: $carrot;
     }
   }
 }
