@@ -5,6 +5,7 @@ import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../../components/Uuid';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
 import MiniProfile from '../../components/MiniProfile';
+import { playerProfileViewTypes } from '../../constants';
 
 class GridPlayerInfo extends Component {
   static propTypes = {
@@ -33,12 +34,12 @@ class GridPlayerInfo extends Component {
   handleClick = () => {
     const { profile } = this.props;
 
-    if (this.context.settings.playerProfileViewType) {
+    if (this.context.settings.playerProfileViewType === playerProfileViewTypes.page) {
       this.context.router.push(`/users/${profile.playerUUID}/profile`);
     } else {
       const panelData = {
         fullName: `${profile.firstName || '-'} ${profile.lastName || '-'}`,
-        login: profile.username,
+        login: profile.login,
         uuid: profile.playerUUID,
       };
 

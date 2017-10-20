@@ -29,7 +29,7 @@ const actionHandlers = {
         ...action.payload.settings,
         playerProfileViewType: (
           Object.keys(playerProfileViewTypes).indexOf(action.payload.settings.playerProfileViewType) === -1
-        ) ? playerProfileViewTypes.frame : state.playerProfileViewType,
+        ) ? playerProfileViewTypes.frame : action.payload.settings.playerProfileViewType,
       };
     }
 
