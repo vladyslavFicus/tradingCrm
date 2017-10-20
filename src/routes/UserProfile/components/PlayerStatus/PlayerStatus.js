@@ -160,7 +160,7 @@ class PlayerStatus extends Component {
         {
           !!endDate &&
           <div className="header-block-small">
-            {I18n.t('COMMON.UNTIL')} {moment.utc(endDate).local().format('DD.MM.YYYY')}
+            {I18n.t('COMMON.DATE_UNTIL', { date: moment.utc(endDate).local().format('DD.MM.YYYY') })}
           </div>
         }
         {

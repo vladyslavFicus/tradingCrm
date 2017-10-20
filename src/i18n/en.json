@@ -172,6 +172,9 @@
         "SEND_ACTIVATION_LINK": "Send activation link",
         "CHANGE_PASSWORD": "Change password",
         "SHARE_PROFILE": "Share profile"
+      },
+      "HEADER": {
+        "ADD_NOTE": "Add note"
       }
     },
     "GAME_ACTIVITY": {
