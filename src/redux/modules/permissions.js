@@ -26,7 +26,7 @@ function fetchPermissions(outsideToken = null) {
           FETCH_PERMISSIONS.SUCCESS,
           FETCH_PERMISSIONS.FAILURE,
         ],
-        bailout: !logged && !outsideToken && (timestamp() - receivedAt < 3000) && !isLoading,
+        bailout: (!logged && !outsideToken) || (timestamp() - receivedAt < 3000) || isLoading,
       },
     });
   };
