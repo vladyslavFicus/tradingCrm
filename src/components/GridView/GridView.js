@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import GridColumn from './GridColumn';
 import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../../components/NotFoundContent';
-import PermissionContent from '../PermissionContent/PermissionContent';
+import PermissionContent from '../PermissionContent';
 
 class GridView extends Component {
   static propTypes = {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import GridView, { GridColumn } from 'components/GridView';
-import { types } from 'constants/revenue-report';
-import Amount from 'components/Amount';
+import GridView, { GridColumn } from '../../../../../components/GridView';
+import { types } from '../../../../../constants/revenue-report';
+import Amount from '../../../../../components/Amount';
 
 class PreviewGrid extends Component {
   render() {
@@ -16,24 +16,26 @@ class PreviewGrid extends Component {
   }
 
   renderEuColumn(data, column) {
-    return <input type="checkbox" readOnly disabled defaultValue={data[column.name]}/>;
+    return <input type="checkbox" readOnly disabled defaultValue={data[column.name]} />;
   }
 
   renderAmountColumn = (data, column) => {
     const { currency } = this.props;
+
     return <Amount amount={data[column.name]} currency={currency} />;
   };
 
   renderSummaryRow = () => {
-    const { totalsRow, currency }  = this.props;
+    const { totalsRow, currency } = this.props;
+
     if (totalsRow.length < 1) {
       return null;
     }
 
-    return Object.keys(totalsRow[0]).reduce((res, item) => {
-      res[item] = <Amount amount={totalsRow[0][item]} currency={currency}/>;
-      return res;
-    }, {});
+    return Object.keys(totalsRow[0]).reduce((res, item) => ({
+      ...res,
+      [item]: <Amount amount={totalsRow[0][item]} currency={currency} />,
+    }), {});
   };
 
   renderCountryGrid() {
@@ -46,7 +48,7 @@ class PreviewGrid extends Component {
       onPageChanged,
     } = this.props;
 
-    return <GridView
+    return (<GridView
       dataSource={content}
       summaryRow={this.renderSummaryRow()}
       onFiltersChanged={onFiltersChanged}
@@ -108,7 +110,7 @@ class PreviewGrid extends Component {
         headerStyle={{ width: '10%' }}
         render={this.renderAmountColumn}
       />
-    </GridView>;
+    </GridView>);
   }
 
   renderPlayerGrid() {
@@ -121,7 +123,7 @@ class PreviewGrid extends Component {
       onPageChanged,
     } = this.props;
 
-    return <GridView
+    return (<GridView
       dataSource={content}
       summaryRow={this.renderSummaryRow()}
       onFiltersChanged={onFiltersChanged}
@@ -188,7 +190,7 @@ class PreviewGrid extends Component {
         headerStyle={{ width: '10%' }}
         render={this.renderAmountColumn}
       />
-    </GridView>;
+    </GridView>);
   }
 }
 

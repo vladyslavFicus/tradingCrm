@@ -10,8 +10,11 @@ import NotesRoute from './routes/Notes';
 import { injectReducer } from '../../store/reducers';
 import { actionCreators } from './modules';
 import { actionCreators as usersPanelsActionCreators } from '../../redux/modules/user-panels';
+import Permissions from '../../utils/permissions';
+import permissions from '../../config/permissions';
 import { playerProfileViewTypes } from '../../constants';
 
+const requiredPermissions = new Permissions([permissions.USER_PROFILE.PROFILE_VIEW]);
 const PLAYER_PROFILE_ROUTE_PREFIX = 'users';
 const profilePathnameRegExp = new RegExp(`^\\/${PLAYER_PROFILE_ROUTE_PREFIX}\\/([^\\/]+)\\/?.*`, 'i');
 
@@ -38,7 +41,11 @@ export default store => ({
 
     cb();
   },
-  getComponent: (nextState, cb) => {
+  getComponent(nextState, cb) {
+    if (!requiredPermissions.check(store.getState().permissions.data)) {
+      return cb(null, require('../Forbidden/container/Container').default);
+    }
+
     import(/* webpackChunkName: "profileReducer" */ './modules')
       .then((module) => {
         injectReducer(store, { key: 'profile', reducer: module.default });

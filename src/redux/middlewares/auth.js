@@ -15,7 +15,7 @@ const triggerActions = {
     authActionTypes.LOGOUT.SUCCESS,
   ],
 };
-export default store => next => (action) => {
+export default store => next => async (action) => {
   if (action) {
     if (action.type === REHYDRATE) {
       if (action.payload.auth && action.payload.auth.isLoading) {
@@ -31,7 +31,6 @@ export default store => next => (action) => {
 
       const isAuthRehydrate = !!action.payload.language;
       if (auth && auth.uuid && auth.token && isAuthRehydrate) {
-        store.dispatch(permissionsActionCreators.fetchPermissions(auth.token));
         store.dispatch(authActionCreators.fetchProfile(auth.uuid, auth.token));
         store.dispatch(authActionCreators.fetchAuthorities(auth.uuid, auth.token));
       }

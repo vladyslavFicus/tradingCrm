@@ -2,6 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../utils/createReducer';
 import createRequestAction from '../../utils/createRequestAction';
 import { actionTypes as authActionTypes } from './auth';
+import timestamp from '../../utils/timestamp';
 
 const KEY = 'permissions';
 const FETCH_PERMISSIONS = createRequestAction(`${KEY}/fetch-permissions`);
@@ -9,7 +10,7 @@ const SET_PERMISSIONS = `${KEY}/set-permissions`;
 
 function fetchPermissions(outsideToken = null) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged }, permissions: { receivedAt, isLoading } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -25,7 +26,7 @@ function fetchPermissions(outsideToken = null) {
           FETCH_PERMISSIONS.SUCCESS,
           FETCH_PERMISSIONS.FAILURE,
         ],
-        bailout: !logged && !outsideToken,
+        bailout: !logged && !outsideToken && (timestamp() - receivedAt < 3000) && !isLoading,
       },
     });
   };
@@ -40,6 +41,7 @@ function setPermissions(permissions) {
 
 function successSignInReducer(state, action) {
   const permissions = action.payload.permissions || [];
+
   return {
     ...state,
     data: (
@@ -57,7 +59,7 @@ const initialState = {
   receivedAt: null,
 };
 const actionHandlers = {
-  [FETCH_PERMISSIONS.REQUEST]: (state) => ({
+  [FETCH_PERMISSIONS.REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
@@ -65,6 +67,7 @@ const actionHandlers = {
   [FETCH_PERMISSIONS.SUCCESS]: (state, action) => ({
     ...state,
     data: action.payload.map(item => `${item.serviceName};${item.httpMethod};${item.urlPattern}`),
+    receivedAt: timestamp(),
     isLoading: false,
   }),
   [FETCH_PERMISSIONS.FAILURE]: (state, action) => ({
@@ -78,9 +81,7 @@ const actionHandlers = {
   }),
   [authActionTypes.SIGN_IN.SUCCESS]: successSignInReducer,
   [authActionTypes.CHANGE_AUTHORITY.SUCCESS]: successSignInReducer,
-  [authActionTypes.LOGOUT.SUCCESS]: () => ({
-    ...initialState,
-  }),
+  [authActionTypes.LOGOUT.SUCCESS]: () => ({ ...initialState }),
 };
 
 const actionTypes = {
