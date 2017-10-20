@@ -1,4 +1,5 @@
 module.exports = {
+  version: Date.now(),
   logstash: { url: 'http://hrzn01-dev-elk.nas.local:12202' },
   nas: {
     brand: {
@@ -61,5 +62,8 @@ module.exports = {
       },
     },
   },
-  middlewares: { unauthorized: [401], persist: { whitelist: ['auth', 'userPanels', 'language'], keyPrefix: 'nas:' } },
+  middlewares: {
+    unauthorized: [401],
+    persist: { whitelist: ['auth', 'userPanels', 'language', 'settings'], keyPrefix: 'nas:' },
+  },
 };

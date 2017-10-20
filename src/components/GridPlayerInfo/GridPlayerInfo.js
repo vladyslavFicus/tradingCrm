@@ -8,20 +8,46 @@ import MiniProfile from '../../components/MiniProfile';
 
 class GridPlayerInfo extends Component {
   static propTypes = {
+    id: PropTypes.string,
     profile: PropTypes.userProfile.isRequired,
     fetchPlayerProfile: PropTypes.func.isRequired,
-    onClick: PropTypes.func,
     mainInfoClassName: PropTypes.string,
-    id: PropTypes.string,
+    clickable: PropTypes.bool,
   };
   static defaultProps = {
+    id: null,
     onClick: null,
     mainInfoClassName: 'font-weight-700',
-    id: null,
+    clickable: true,
+  };
+  static contextTypes = {
+    settings: PropTypes.shape({
+      playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
+    }).isRequired,
+    addPanel: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
+  handleClick = () => {
+    const { profile } = this.props;
+
+    if (this.context.settings.playerProfileViewType) {
+      this.context.router.push(`/users/${profile.playerUUID}/profile`);
+    } else {
+      const panelData = {
+        fullName: `${profile.firstName || '-'} ${profile.lastName || '-'}`,
+        login: profile.username,
+        uuid: profile.playerUUID,
+      };
+
+      this.context.addPanel(panelData);
+    }
   };
 
   render() {
-    const { fetchPlayerProfile, profile, onClick, mainInfoClassName, id } = this.props;
+    const { fetchPlayerProfile, profile, clickable, mainInfoClassName, id } = this.props;
 
     return (
       <GridPlayerInfoPlaceholder ready={!!profile} firstLaunchOnly>
@@ -29,9 +55,9 @@ class GridPlayerInfo extends Component {
           !!profile &&
           <div>
             <div
-              className={classNames(mainInfoClassName, { 'cursor-pointer': !!onClick })}
+              className={classNames(mainInfoClassName, { 'cursor-pointer': !!clickable })}
               id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-main`}
-              onClick={onClick}
+              onClick={this.handleClick}
             >
               {profile.firstName} {profile.lastName} {!!profile.age && `(${profile.age})`}
               {' '}
