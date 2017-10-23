@@ -12,6 +12,7 @@ class UsersPanel extends Component {
     onItemClick: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
+    onReplace: PropTypes.func.isRequired,
   };
   static defaultProps = {
     active: null,
@@ -36,7 +37,7 @@ class UsersPanel extends Component {
   handleCancelClick = () => this.props.onRemove(this.props.items.length - 1);
 
   render() {
-    const { active, items, onClose, onRemove, onItemClick } = this.props;
+    const { active, items, onClose, onRemove, onItemClick, onReplace } = this.props;
     const availableItems = items.slice(0, 5);
     const [newPlayer] = items.slice(-1);
 
@@ -102,7 +103,7 @@ class UsersPanel extends Component {
             items={availableItems}
             newPlayer={newPlayer}
             onClose={this.handleCancelClick}
-            onRemove={onRemove}
+            onReplace={onReplace}
           />
         }
       </div>

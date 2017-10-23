@@ -11,6 +11,7 @@ const ADD = `${KEY}/add`;
 const REMOVE = `${KEY}/remove`;
 const SET_ACTIVE = `${KEY}/set-active`;
 const RESET = `${KEY}/reset`;
+const REPLACE = `${KEY}/replace`;
 
 function getColor(usedColors, colors = ['orange', 'green', 'purple', 'blue', 'pink', 'carrot']) {
   if (!Array.isArray(colors) || !colors.length) {
@@ -61,6 +62,16 @@ function reset() {
   };
 }
 
+function replaceData(oldData, newData) {
+  return {
+    type: REPLACE,
+    payload: {
+      oldData,
+      newData,
+    },
+  };
+}
+
 const initialState = {
   items: [],
   activeIndex: null,
@@ -71,7 +82,7 @@ const actionHandlers = {
     activeIndex: state.activeIndex !== action.payload ? action.payload : null,
   }),
   [ADD]: (state, action) => {
-    if (state.items.length >= 6) {
+    if (state.items.length >= 5) {
       return state;
     }
 
@@ -167,6 +178,21 @@ const actionHandlers = {
     return newState;
   },
   [authActionTypes.LOGOUT.SUCCESS]: () => ({ ...initialState }),
+  [REPLACE]: (state, action) => {
+    const newState = {
+      items: state.items.filter(item => action.payload.oldData.indexOf(item) === -1),
+      activeIndex: null,
+    };
+
+    newState.items.push(...action.payload.newData.map(item => ({
+      ...item,
+      path: item.path || 'profile',
+    })));
+
+    newState.activeIndex = newState.items.length - 1;
+
+    return newState;
+  },
 };
 
 if (!window.isFrame) {
@@ -207,12 +233,14 @@ const actionTypes = {
   REMOVE,
   RESET,
   SET_ACTIVE,
+  REPLACE,
 };
 const actionCreators = {
   add,
   remove,
   reset,
   setActive,
+  replaceData,
 };
 
 export {

@@ -87,6 +87,7 @@ class NewLayout extends Component {
     toggleMenuTap: PropTypes.func.isRequired,
     menuClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.number,
+    replaceData: PropTypes.func.isRequired,
   };
   static defaultProps = {
     permissions: [],
@@ -347,6 +348,7 @@ class NewLayout extends Component {
       user,
       toggleMenuTap,
       menuClick,
+      replaceData,
     } = this.props;
 
     return (
@@ -385,6 +387,7 @@ class NewLayout extends Component {
           onItemClick={this.handleUserPanelClick}
           onRemove={removePanel}
           onClose={this.handleCloseTabs}
+          onReplace={replaceData}
         />
 
         <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
@@ -459,6 +462,7 @@ export default connect(mapStateToProps, {
   removePanel: userPanelsActionCreators.remove,
   resetPanels: userPanelsActionCreators.reset,
   setActivePanel: userPanelsActionCreators.setActive,
+  replaceData: userPanelsActionCreators.replaceData,
   addNote: noteActionCreators.addNote,
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,

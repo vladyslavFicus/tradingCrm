@@ -9,7 +9,7 @@ class ToMuchOpenedProfilesModal extends Component {
     items: PropTypes.array.isRequired,
     newPlayer: PropTypes.object.isRequired,
     onClose: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired,
+    onReplace: PropTypes.func.isRequired,
   };
 
   state = {
@@ -17,23 +17,32 @@ class ToMuchOpenedProfilesModal extends Component {
   };
 
   handleTabChecked = (e) => {
+    const { items } = this.props;
     const { selectedItems } = this.state;
+    const selectedItem = items[e.target.value];
 
-    if (e.target.checked) {
-      this.setState({ selectedItems: [...selectedItems, e.target.value] });
-    } else {
-      const index = selectedItems.indexOf(e.target.value);
+    if (selectedItem) {
+      if (e.target.checked) {
+        this.setState({ selectedItems: [...selectedItems, selectedItem] });
+      } else {
+        const index = selectedItems.indexOf(selectedItem);
 
-      if (index > -1) {
-        const newSelectedItems = [...selectedItems];
-        newSelectedItems.splice(index, 1);
+        if (index > -1) {
+          const newSelectedItems = [...selectedItems];
+          newSelectedItems.splice(index, 1);
 
-        this.setState({ selectedItems: newSelectedItems });
+          this.setState({ selectedItems: newSelectedItems });
+        }
       }
     }
   };
 
-  handleSubmit = () => this.state.selectedItems.forEach(this.props.onRemove);
+  handleSubmit = () => {
+    const { selectedItems } = this.state;
+    const { onReplace, newPlayer } = this.props;
+
+    onReplace(selectedItems, [newPlayer]);
+  };
 
   render() {
     const { items, newPlayer, onClose } = this.props;
