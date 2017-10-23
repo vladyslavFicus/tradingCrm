@@ -17,6 +17,7 @@ import PlayerLimits from './PlayerLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
 import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
+import { statuses } from '../../../constants/user';
 
 class Header extends Component {
   static propTypes = {
@@ -193,7 +194,7 @@ class Header extends Component {
                     visible: (
                       (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions)
                       &&
-                      playerProfile.profileStatus === 'INACTIVE'
+                      playerProfile.profileStatus === statuses.INACTIVE
                     ),
                   },
                   {
