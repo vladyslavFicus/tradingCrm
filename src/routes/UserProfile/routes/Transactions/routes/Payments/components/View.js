@@ -183,7 +183,7 @@ class View extends Component {
       params: { id: playerUUID },
       currencyCode,
       resetNote,
-      newPaymentNote: unsavedNote,
+      transactions: { newPaymentNote: unsavedNote },
     } = this.props;
 
     const params = {
@@ -359,12 +359,11 @@ class View extends Component {
   render() {
     const { modal } = this.state;
     const {
-      transactions: { entities, noResults },
+      transactions: { entities, noResults, newPaymentNote },
       filters: { data: availableFilters },
       loadPaymentAccounts,
       manageNote,
       playerProfile,
-      newPaymentNote,
       playerLimits,
       locale,
     } = this.props;
@@ -485,7 +484,6 @@ class View extends Component {
             onLoadPaymentAccounts={() => loadPaymentAccounts(playerProfile.playerUUID)}
             onSubmit={this.handleAddPayment}
             onManageNote={manageNote}
-            onNoteClick={this.handleNoteClick}
             playerLimits={playerLimits}
           />
         }

@@ -17,6 +17,7 @@ import PlayerLimits from './PlayerLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
 import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
+import { statuses } from '../../../constants/user';
 import PermissionContent from '../../../components/PermissionContent';
 
 const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
@@ -199,7 +200,10 @@ class Header extends Component {
                   {
                     label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SEND_ACTIVATION_LINK'),
                     onClick: onProfileActivateClick,
-                    visible: sendActivationLinkPermission.check(currentPermissions),
+                    visible: (
+                      sendActivationLinkPermission.check(currentPermissions)
+                      && playerProfile.profileStatus === statuses.INACTIVE
+                    ),
                   },
                   {
                     label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
