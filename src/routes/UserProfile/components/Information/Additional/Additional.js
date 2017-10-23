@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import Switch from '../../../../../components/Forms/Switch';
 import { marketingTypes } from './constants';
 import { statuses } from '../../../../../constants/user';
+import Permissions from '../../../../../utils/permissions';
+import permissions from '../../../../../config/permissions';
 
 const SUBSCRIPTION_TYPE_SMS = 'marketingSMS';
 const SUBSCRIPTION_TYPE_NEWS = 'marketingNews';
@@ -28,8 +30,8 @@ class Additional extends Component {
     },
     profileStatus: '',
   };
-
   static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
     addNotification: PropTypes.func.isRequired,
   };
 
@@ -54,6 +56,8 @@ class Additional extends Component {
 
   render() {
     const { initialValues, profileStatus } = this.props;
+    const disabled = profileStatus === statuses.SUSPENDED
+      || !(new Permissions(permissions.USER_PROFILE.UPDATE_MARKETING_SETTINGS)).check(this.context.permissions);
 
     return (
       <div className="account-details__additional-info">
@@ -64,7 +68,7 @@ class Additional extends Component {
               {I18n.t('PLAYER_PROFILE.MARKETING.TITLE')}
             </span>
             <div className={classNames(
-              { 'account-details__additional-info_disabled-triggers': profileStatus === statuses.SUSPENDED })}
+              { 'account-details__additional-info_disabled-triggers': disabled })}
             >
               <div className="row">
                 <div className="col-xs-8">
@@ -76,7 +80,7 @@ class Additional extends Component {
                   <Switch
                     active={initialValues[SUBSCRIPTION_TYPE_SMS]}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
-                    disabled={profileStatus === statuses.SUSPENDED}
+                    disabled={disabled}
                   />
                 </div>
               </div>
@@ -90,7 +94,7 @@ class Additional extends Component {
                   <Switch
                     active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
-                    disabled={profileStatus === statuses.SUSPENDED}
+                    disabled={disabled}
                   />
                 </div>
               </div>
@@ -104,7 +108,7 @@ class Additional extends Component {
                   <Switch
                     active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
-                    disabled={profileStatus === statuses.SUSPENDED}
+                    disabled={disabled}
                   />
                 </div>
               </div>

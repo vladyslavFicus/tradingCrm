@@ -5,12 +5,12 @@ import PropTypes from '../../../../../../../constants/propTypes';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
 import { renderLabel } from '../../../../../utils';
 import PermissionContent from '../../../../../../../components/PermissionContent';
-import Permissions from '../../../../../../../utils/permissions';
-import permission from '../../../../../../../config/permissions';
+import permissions from '../../../../../../../config/permissions';
 
-const manageDepartmentsPermissions = new Permissions([
-  permission.OPERATORS.ADD_AUTHORITY, permission.OPERATORS.DELETE_AUTHORITY,
-]);
+const manageDepartmentsPermissions = [
+  permissions.OPERATORS.ADD_AUTHORITY,
+  permissions.OPERATORS.DELETE_AUTHORITY,
+];
 
 class View extends Component {
   static propTypes = {
@@ -83,7 +83,7 @@ class View extends Component {
                     <strong>
                       {renderLabel(authority.department, departmentsLabels)}
                       {' - '}
-                      { renderLabel(authority.role, rolesLabels) }
+                      {renderLabel(authority.role, rolesLabels)}
                     </strong>
                     <strong className="margin-left-20">
                       <i
@@ -108,4 +108,5 @@ class View extends Component {
     );
   }
 }
+
 export default View;

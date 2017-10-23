@@ -7,8 +7,11 @@ import PropTypes from '../../../../constants/propTypes';
 import { types, actions, reasons } from '../../../../constants/wallet';
 import PlayerLimitsModal from './PlayerLimitsModal';
 import ConfirmActionModal from '../../../../components/Modal/ConfirmActionModal';
-import Uuid from '../../../../components/Uuid';
 import './PlayerLimits.scss';
+import permissions from '../../../../config/permissions';
+import PermissionContent from '../../../../components/PermissionContent';
+import PlayerLimitButton from './PlayerLimitButton';
+import PlayerLimit from './PlayerLimit';
 
 const PLAYER_LIMITS_MODAL = 'player-limits-modal';
 const PLAYER_LOGIN_LIMIT_MODAL = 'player-login-limit-modal';
@@ -118,67 +121,6 @@ class PlayerLimits extends Component {
     );
   };
 
-  renderButton = (label, canUnlock, className, onChange) => (
-    <button type="button" className={className} onClick={onChange}>
-      {canUnlock ? 'Unlock' : 'Lock'} {label}
-    </button>
-  );
-
-  renderLimit = limit => (
-    <div key={limit.id} className="limits-info_tab">
-      <div className="header-block_player-limits-tab_status">
-        {limit.type} - <span className="header-block_player-limits-tab_status_is-locked">Locked</span>
-      </div>
-      {
-        limit.authorUUID &&
-        <div className="header-block_player-limits-tab_log">
-          by <Uuid uuid={limit.authorUUID} />
-        </div>
-      }
-      <div className="header-block_player-limits-tab_log">Reason - {limit.reason}</div>
-      {
-        limit.startLock && moment(limit.startLock).isValid() &&
-        <div className="header-block_player-limits-tab_log">
-          on {moment.utc(limit.startLock).local().format('DD.MM.YYYY HH:mm')}
-        </div>
-      }
-    </div>
-  );
-
-  renderLoginLimit = () => {
-    const {
-      limits: {
-        login: {
-          expirationDate,
-        },
-      },
-    } = this.props;
-
-    return (
-      <div className="limits-info_tab">
-        <div className="header-block_player-limits-tab_status">
-          Login - <span className="header-block_player-limits-tab_status_is-locked">Locked</span>
-        </div>
-        <div className="header-block_player-limits-tab_log">
-          {I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.REASON')}
-        </div>
-        <div className="header-block_player-limits-tab_log">
-          {expirationDate && I18n.t('COMMON.DATE_UNTIL', {
-            date: moment(expirationDate).format('DD.MM.YYYY HH:mm') })
-          }
-        </div>
-        {
-          this.renderButton(
-            'login',
-            true,
-            'btn btn-danger-outline limits-info_tab-button',
-            this.handleUnlockLoginClick,
-          )
-        }
-      </div>
-    );
-  }
-
   render() {
     const { dropDownOpen, modal } = this.state;
     const { limits: { entities, deposit, withdraw, login }, profile } = this.props;
@@ -191,31 +133,71 @@ class PlayerLimits extends Component {
         <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
           <div className="header-block_player-limits-tab">
             <div className="header-block-title">Locks</div>
-            {this.renderStatus('Deposit', deposit.locked)}
-            {this.renderStatus('Withdrawal', withdraw.locked)}
-            {this.renderStatus('Login', login.locked)}
+            <PermissionContent permissions={permissions.USER_PROFILE.GET_PAYMENT_LOCKS}>
+              <div>
+                {this.renderStatus('Deposit', deposit.locked)}
+                {this.renderStatus('Withdrawal', withdraw.locked)}
+              </div>
+            </PermissionContent>
+            <PermissionContent permissions={permissions.USER_PROFILE.GET_LOGIN_LOCK}>
+              {this.renderStatus('Login', login.locked)}
+            </PermissionContent>
           </div>
 
           <DropdownMenu>
             <div className="header-block_player-limits_btn-group">
-              {this.renderButton(
-                'deposit',
-                deposit.canUnlock,
-                'btn btn-danger-outline margin-right-10',
-                this.handleActionClick.bind(null, types.DEPOSIT, deposit.canUnlock ? actions.UNLOCK : actions.LOCK),
-              )}
-              {this.renderButton(
-                'withdrawal',
-                withdraw.canUnlock,
-                'btn btn-danger-outline',
-                this.handleActionClick.bind(null, types.WITHDRAW, withdraw.canUnlock ? actions.UNLOCK : actions.LOCK),
-              )}
+              <PermissionContent permissions={permissions.USER_PROFILE.LOCK_DEPOSIT}>
+                <PlayerLimitButton
+                  className="btn btn-danger-outline margin-right-10"
+                  canUnlock={deposit.canUnlock}
+                  label="deposit"
+                  onClick={() => this.handleActionClick(
+                    types.DEPOSIT,
+                    deposit.canUnlock ? actions.UNLOCK : actions.LOCK
+                  )}
+                />
+              </PermissionContent>
+              <PermissionContent permissions={permissions.USER_PROFILE.LOCK_WITHDRAW}>
+                <PlayerLimitButton
+                  className="btn btn-danger-outline"
+                  canUnlock={deposit.canUnlock}
+                  label="withdrawal"
+                  onClick={() => this.handleActionClick(
+                    types.WITHDRAW,
+                    withdraw.canUnlock ? actions.UNLOCK : actions.LOCK
+                  )}
+                />
+              </PermissionContent>
             </div>
             {
               (entities.length > 0 || login.locked) &&
               <div className="limits-info">
-                {entities.map(this.renderLimit)}
-                {login.locked && this.renderLoginLimit()}
+                <PermissionContent permissions={permissions.USER_PROFILE.GET_PAYMENT_LOCKS}>
+                  <div>
+                    {entities.map(limit => (
+                      <PlayerLimit
+                        key={limit.id}
+                        label={limit.type}
+                        authorUUID={limit.authorUUID}
+                        reason={limit.reason}
+                        date={limit.startLock}
+                      />
+                    ))}
+                  </div>
+                </PermissionContent>
+                <PermissionContent permissions={permissions.USER_PROFILE.GET_LOGIN_LOCK}>
+                  {
+                    login.locked &&
+                    <PlayerLimit
+                      label="Login"
+                      reason={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.REASON')}
+                      unlockButtonLabel="Login"
+                      unlockButtonClassName="btn btn-danger-outline limits-info_tab-button"
+                      onUnlockButtonClick={this.handleUnlockLoginClick}
+                      endDate={login.expirationDate}
+                    />
+                  }
+                </PermissionContent>
               </div>
             }
           </DropdownMenu>

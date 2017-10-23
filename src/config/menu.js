@@ -1,69 +1,13 @@
-import Permissions, { CONDITIONS } from '../utils/permissions';
-import permission from './permissions';
-import I18n from '../utils/fake-i18n';
+import permissions from './permissions';
 
-const sidebarTopMenu = [
-  {
-    label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS'),
-    icon: 'fa fa-users',
-    items: [
-      { label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_SEARCH'), url: '/users/list' },
-      { label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS_KYC_REQUEST'), url: '/users/kyc-requests' },
-    ],
-  },
-  {
-    label: I18n.t('SIDEBAR.TOP_MENU.OPERATORS'),
-    icon: 'fa fa-eye',
-    url: '/operators/list',
-  },
-  {
-    label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
-    icon: 'fa fa-credit-card',
-    items: [
-      { label: I18n.t('SIDEBAR.TOP_MENU.TRANSACTIONS'), url: '/transactions' },
-      { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'), url: '/paymentMethods' },
-    ],
-  },
-  {
-    label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'),
-    icon: 'fa fa-gift',
-    url: '/bonus-campaigns',
-  },
-  {
-    label: 'MGA',
-    icon: 'fa fa-pie-chart',
-    items: [
-      {
-        label: I18n.t('SIDEBAR.TOP_MENU.PLAYER_LIABILITY'),
-        url: '/reports/player-liability',
-        permissions: new Permissions([
-          permission.REPORTS.PLAYER_LIABILITY_VIEW,
-          permission.REPORTS.PLAYER_LIABILITY_FILE_VIEW,
-          permission.REPORTS.PLAYER_LIABILITY_FILES_VIEW,
-        ], CONDITIONS.OR),
-      },
-      {
-        label: I18n.t('SIDEBAR.TOP_MENU.REVENUE'),
-        url: '/reports/revenue',
-        permissions: new Permissions([permission.REPORTS.VAT_VIEW]),
-      },
-      {
-        label: I18n.t('SIDEBAR.TOP_MENU.OPEN_LOOP'),
-        url: '/transactions/open-loops',
-      },
-    ],
-  },
-  {
-    label: I18n.t('SIDEBAR.TOP_MENU.GAMES'),
-    icon: 'fa fa-gamepad',
-    url: '/games',
-  },
-];
-const sidebarBottomMenu = [
-  { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'fa fa-life-ring', url: '#' },
-];
 const userProfileTabs = [
-  { label: 'Profile', url: '/users/:id/profile' },
+  {
+    label: 'Profile',
+    url: '/users/:id/profile',
+    permissions: [
+      permissions.USER_PROFILE.PROFILE_VIEW,
+    ],
+  },
   { label: 'Transactions', url: '/users/:id/transactions' },
   { label: 'Rewards', url: '/users/:id/rewards' },
   { label: 'Payment acc.', url: '/users/:id/paymentAccounts' },
@@ -84,8 +28,6 @@ const operatorProfileTabs = [
 ];
 
 export {
-  sidebarTopMenu,
-  sidebarBottomMenu,
   userProfileTabs,
   operatorProfileTabs,
   bonusCampaignTabs,

@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import PermissionContent from '../../../../../components/PermissionContent';
-import Permissions from '../../../../../utils/permissions';
 import permission from '../../../../../config/permissions';
-
-const viewFileRequiredPermissions = new Permissions(permission.REPORTS.PLAYER_LIABILITY_FILE_VIEW);
 
 class Files extends Component {
   static propTypes = {
@@ -70,7 +67,7 @@ class Files extends Component {
                   header="Name"
                   headerStyle={{ width: '90%' }}
                 />
-                <PermissionContent permissions={viewFileRequiredPermissions}>
+                <PermissionContent permissions={permissions.REPORTS.PLAYER_LIABILITY_FILE_VIEW}>
                   <GridColumn
                     name="actions"
                     header="Actions"

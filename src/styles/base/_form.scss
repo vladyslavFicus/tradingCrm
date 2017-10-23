@@ -237,6 +237,13 @@ label {
         color: #9b9b9b;
       }
     }
+    &.is-disabled {
+      pointer-events: none;
+      .select-block__label {
+        background-color: #f6f6f6;
+        border: 1px solid #cfcfcf;
+      }
+    }
     &__label {
       position: relative;
       padding-top: 6px;
@@ -392,6 +399,7 @@ label {
 .input-group .form-control {
   z-index: 0;
 }
+
 input[type=checkbox] {
   margin-right: 5px;
   vertical-align: baseline;

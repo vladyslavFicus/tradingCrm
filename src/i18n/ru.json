@@ -174,6 +174,9 @@
         "SEND_ACTIVATION_LINK": "Отправить ссылку активации",
         "CHANGE_PASSWORD": "Сменить пароль",
         "SHARE_PROFILE": "Поделиться профилем"
+      },
+      "HEADER": {
+        "ADD_NOTE": "Добавить заметку"
       }
     },
     "GAME_ACTIVITY": {

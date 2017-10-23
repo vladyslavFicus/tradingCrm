@@ -4,6 +4,8 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
 import { InputField, SelectField, BirthdayField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
+import PermissionContent from '../../../../../components/PermissionContent';
+import permissions from '../../../../../config/permissions';
 
 const genders = ['UNDEFINED', 'MALE', 'FEMALE'];
 const attributeLabels = {
@@ -26,11 +28,13 @@ class PersonalForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
+    disabled: PropTypes.bool,
   };
   static defaultProps = {
     handleSubmit: null,
     pristine: false,
     submitting: false,
+    disabled: false,
   };
 
   render() {
@@ -39,6 +43,7 @@ class PersonalForm extends Component {
       onSubmit,
       pristine,
       submitting,
+      disabled,
     } = this.props;
 
     return (
@@ -47,14 +52,16 @@ class PersonalForm extends Component {
           <div className="col-xl-6">
             <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE')}</span>
           </div>
-          <div className="col-xl-6 text-right">
-            {
-              !(pristine || submitting) &&
-              <button className="btn btn-sm btn-primary" type="submit">
-                {I18n.t('COMMON.SAVE_CHANGES')}
-              </button>
-            }
-          </div>
+          <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_PROFILE}>
+            <div className="col-xl-6 text-right">
+              {
+                !pristine && !submitting && !disabled &&
+                <button className="btn btn-sm btn-primary" type="submit">
+                  {I18n.t('COMMON.SAVE_CHANGES')}
+                </button>
+              }
+            </div>
+          </PermissionContent>
         </div>
         <div className="form-row">
           <div className="form-row__medium">
@@ -65,6 +72,7 @@ class PersonalForm extends Component {
               component={InputField}
               position="vertical"
               showErrorMessage
+              disabled={disabled}
               id="users-profile-first-name"
             />
           </div>
@@ -76,6 +84,7 @@ class PersonalForm extends Component {
               component={InputField}
               position="vertical"
               showErrorMessage
+              disabled={disabled}
               id="users-profile-last-name"
             />
           </div>
@@ -89,6 +98,7 @@ class PersonalForm extends Component {
               component={InputField}
               position="vertical"
               showErrorMessage
+              disabled={disabled}
             />
           </div>
           <div className="form-row__small">
@@ -96,6 +106,7 @@ class PersonalForm extends Component {
               name="birthDate"
               label={attributeLabels.birthDate}
               component={BirthdayField}
+              disabled={disabled}
             />
           </div>
           <div className="form-row__small">
@@ -105,6 +116,7 @@ class PersonalForm extends Component {
               type="text"
               component={SelectField}
               position="vertical"
+              disabled={disabled}
             >
               {genders.map(item => (
                 <option key={item} value={item}>

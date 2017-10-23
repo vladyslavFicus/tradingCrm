@@ -7,15 +7,15 @@ import { InputField, SelectField } from '../../../../../../components/ReduxForm'
 import { createValidator } from '../../../../../../utils/validator';
 import { statuses as playerStatuses } from '../../../../../../constants/user';
 import './ContactForm.scss';
+import permissions from '../../../../../../config/permissions';
+import PermissionContent from '../../../../../../components/PermissionContent/PermissionContent';
 
 const FORM_NAME = 'updateProfileContact';
-
 const attributeLabels = {
   phone: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE'),
   phoneCode: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE_CODE'),
   email: I18n.t('COMMON.EMAIL'),
 };
-
 const validator = createValidator({
   email: 'required|email',
   phone: 'required|numeric',
@@ -29,7 +29,7 @@ class ContactForm extends Component {
     dirty: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
-    profile: PropTypes.userProfile,
+    profile: PropTypes.userProfile.isRequired,
     initialValues: PropTypes.shape({
       phoneCode: PropTypes.string,
       phone: PropTypes.string,
@@ -45,12 +45,17 @@ class ContactForm extends Component {
     onVerifyEmailClick: PropTypes.func.isRequired,
     fetchMeta: PropTypes.func.isRequired,
     formSyncErrors: PropTypes.object,
+    disabled: PropTypes.bool,
   };
   static defaultProps = {
     handleSubmit: null,
+    dirty: false,
+    submitting: false,
+    valid: true,
     initialValues: {},
     currentValues: {},
     formSyncErrors: {},
+    disabled: false,
   };
 
   componentDidMount() {
@@ -81,6 +86,7 @@ class ContactForm extends Component {
       initialValues,
       currentValues,
       formSyncErrors,
+      disabled,
     } = this.props;
     const isPhoneDirty = currentValues.phone !== initialValues.phone ||
       currentValues.phoneCode !== initialValues.phoneCode;
@@ -98,7 +104,7 @@ class ContactForm extends Component {
 
             <div className="col-md-6 text-right">
               {
-                dirty && !submitting && valid &&
+                dirty && !submitting && valid && !disabled &&
                 <button className="btn btn-sm btn-primary" type="submit">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
@@ -115,6 +121,7 @@ class ContactForm extends Component {
                   position="vertical"
                   label={attributeLabels.phoneCode}
                   className="form-control"
+                  disabled={disabled}
                 >
                   <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
                   {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
@@ -137,10 +144,13 @@ class ContactForm extends Component {
                     </div>
                   )}
                   inputButton={
-                    <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
-                      {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
-                    </button>
+                    <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
+                      <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
+                        {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
+                      </button>
+                    </PermissionContent>
                   }
+                  disabled={disabled}
                 />
               </div>
             </div>
@@ -162,9 +172,11 @@ class ContactForm extends Component {
                 disabled
                 showErrorMessage
                 inputButton={
-                  <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyEmailClick}>
-                    {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
-                  </button>
+                  <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
+                    <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyEmailClick}>
+                      {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
+                    </button>
+                  </PermissionContent>
                 }
                 showInputButton={profile.profileStatus === playerStatuses.INACTIVE}
               />
