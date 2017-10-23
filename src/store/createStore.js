@@ -14,8 +14,9 @@ import catcher from '../redux/middlewares/catcher';
 import { actionCreators as locationActionCreators } from '../redux/modules/location';
 import { actionCreators as languageActionCreators } from '../redux/modules/language';
 import unauthorized from '../redux/middlewares/unauthorized';
-import config from '../config/index';
+import config from '../config';
 import translations from '../i18n';
+import { actionCreators as permissionsActionCreators } from '../redux/modules/permissions';
 
 export default (initialState = {}, onComplete) => {
   const middleware = [
@@ -61,11 +62,16 @@ export default (initialState = {}, onComplete) => {
     )
   );
 
-  const persist = persistStore(store, config.middlewares.persist, () => {
+  const persist = persistStore(store, config.middlewares.persist, async () => {
+    const { auth: { logged, token } } = store.getState();
     let { language } = store.getState();
 
     if (!language) {
       language = config.nas.locale.defaultLanguage;
+    }
+
+    if (logged && token) {
+      await store.dispatch(permissionsActionCreators.fetchPermissions(token));
     }
 
     syncTranslationWithStore(store);

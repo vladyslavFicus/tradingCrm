@@ -25,7 +25,6 @@ class List extends Component {
     locale: PropTypes.string.isRequired,
   };
   static contextTypes = {
-    addPanel: PropTypes.func.isRequired,
     miniProfile: PropTypes.shape({
       onShowMiniProfile: PropTypes.func.isRequired,
     }),
@@ -78,21 +77,12 @@ class List extends Component {
     this.setState({ filters: {}, page: 0 });
   };
 
-  renderUserInfo = (data) => {
-    const panelData = {
-      fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
-      login: data.login,
-      uuid: data.playerUUID,
-    };
-
-    return (
-      <GridPlayerInfo
-        fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
-        profile={data}
-        onClick={() => this.context.addPanel(panelData)}
-      />
-    );
-  };
+  renderUserInfo = data => (
+    <GridPlayerInfo
+      fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
+      profile={data}
+    />
+  );
 
   renderLocation = data => (
     <div className="font-weight-700">{data.country}</div>

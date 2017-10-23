@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import DatePicker from '../Forms/DatePicker';
 
 const AGE_YEARS_CONSTRAINT = 18;
 
 class BirthdayField extends Component {
+  static propTypes = {
+    input: PropTypes.shape({
+      onChange: PropTypes.func.isRequired,
+      value: PropTypes.string.isRequired,
+    }),
+    label: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
+  };
+  static defaultProps = {
+    disabled: false,
+  };
+
   handleDateChange = (date) => {
     const { input: { onChange } } = this.props;
 
-    onChange(date ? date.format('YYYY-MM-DD') + 'T00:00:00' : '');
+    onChange(date ? `${date.format('YYYY-MM-DD')}T00:00:00` : '');
   };
 
   ageValidator = (current) => {
@@ -27,20 +40,20 @@ class BirthdayField extends Component {
           <i className="input-left-icon nas nas-calendar_icon" />
 
           <DatePicker
-            dateFormat="MM/DD/YYYY"
+            dateFormat="DD.MM.YYYY"
             timeFormat={null}
             onChange={this.handleDateChange}
             value={input.value ? moment(input.value) : null}
-            closeOnSelect={true}
+            closeOnSelect
             inputProps={{
-              disabled
+              disabled,
             }}
             isValidDate={this.ageValidator}
           />
         </div>
       </div>
     );
-  };
+  }
 }
 
 export default BirthdayField;

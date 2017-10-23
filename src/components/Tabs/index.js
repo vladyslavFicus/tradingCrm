@@ -1,35 +1,48 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-const Tabs = ({ items, params, location: { pathname } }) => (
-  <ul className="nav nav-tabs">
-    {items.map((item) => {
-      const url = item.url.replace(/:id/, params.id);
+class Tabs extends Component {
+  static propTypes = {
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+    }).isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    })),
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
+  };
+  static defaultProps = {
+    items: [],
+  };
+  static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  };
 
-      return (
-        <li key={url} className="nav-item">
-          {
-            pathname.indexOf(url) === -1
-              ? <Link className="nav-link" to={item.url.replace(/:id/, params.id)}>{item.label}</Link>
-              : <span className="nav-link active">{item.label}</span>
-          }
-        </li>
-      );
-    })}
-  </ul>
-);
+  render() {
+    const { items, params, location: { pathname } } = this.props;
 
-Tabs.propTypes = {
-  location: React.PropTypes.shape({
-    pathname: React.PropTypes.string.isRequired,
-  }).isRequired,
-  items: React.PropTypes.arrayOf(React.PropTypes.shape({
-    label: React.PropTypes.string.isRequired,
-    url: React.PropTypes.string.isRequired,
-  })),
-};
-Tabs.defaultProps = {
-  items: [],
-};
+    return (
+      <ul className="nav nav-tabs">
+        {items.map((item) => {
+          const url = item.url.replace(/:id/, params.id);
+
+          return (
+            <li key={url} className="nav-item">
+              {
+                pathname.indexOf(url) === -1
+                  ? <Link className="nav-link" to={item.url.replace(/:id/, params.id)}>{item.label}</Link>
+                  : <span className="nav-link active">{item.label}</span>
+              }
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
+}
 
 export default Tabs;

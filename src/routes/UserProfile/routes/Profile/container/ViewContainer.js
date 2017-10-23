@@ -4,8 +4,12 @@ import { actionCreators as profileActionCreators } from '../../../modules';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { statuses as kycStatuses } from '../../../../../constants/kyc';
 import { getApiRoot } from '../../../../../config';
+import Permissions from '../../../../../utils/permissions';
+import permissions from '../../../../../config/permissions';
 
-const mapStateToProps = ({ profile: { profile, files, meta }, i18n: { locale } }) => {
+const updateProfilePermissions = new Permissions(permissions.USER_PROFILE.UPDATE_PROFILE);
+
+const mapStateToProps = ({ profile: { profile, files, meta }, i18n: { locale }, permissions: currentPermissions }) => {
   const {
     email,
     phone,
@@ -36,6 +40,7 @@ const mapStateToProps = ({ profile: { profile, files, meta }, i18n: { locale } }
     canVerifyAll: !profile.data.kycCompleted,
     locale,
     filesUrl: `${getApiRoot()}/profile/files/download/`,
+    canUpdateProfile: updateProfilePermissions.check(currentPermissions.data),
   };
 };
 const mapActions = {

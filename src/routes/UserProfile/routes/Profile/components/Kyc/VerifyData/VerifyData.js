@@ -38,7 +38,6 @@ VerifyData.propTypes = {
   title: PropTypes.string.isRequired,
   status: PropTypes.kycStatus,
 };
-
 VerifyData.defaultProps = {
   status: null,
 };

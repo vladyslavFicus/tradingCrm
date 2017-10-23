@@ -3,6 +3,8 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import Uuid from '../../../../../../../components/Uuid';
 import PropTypes from '../../../../../../../constants/propTypes';
+import PermissionContent from '../../../../../../../components/PermissionContent';
+import permissions from '../../../../../../../config/permissions';
 
 const Refused = (props) => {
   const { title, onVerify, status } = props;
@@ -40,13 +42,15 @@ const Refused = (props) => {
       </div>
 
       <div className="panel-body__buttons">
-        <button
-          onClick={onVerify}
-          type="button"
-          className="btn btn-success-outline"
-        >
-          {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.ACTIONS.VERIFY')} {title.toLowerCase()}
-        </button>
+        <PermissionContent permissions={permissions.USER_PROFILE.KYC_VERIFY}>
+          <button
+            onClick={onVerify}
+            type="button"
+            className="btn btn-success-outline"
+          >
+            {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.ACTIONS.VERIFY')} {title.toLowerCase()}
+          </button>
+        </PermissionContent>
       </div>
     </div>
   );

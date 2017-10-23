@@ -19,6 +19,7 @@ class Select extends PureComponent {
     searchPlaceholder: PropTypes.string,
     optionsHeader: PropTypes.func,
     singleOptionComponent: PropTypes.func,
+    disabled: PropTypes.bool,
   };
   static defaultProps = {
     onChange: null,
@@ -29,6 +30,7 @@ class Select extends PureComponent {
     searchPlaceholder: 'Search',
     optionsHeader: null,
     singleOptionComponent: null,
+    disabled: false,
   };
 
   constructor(props) {
@@ -346,13 +348,20 @@ class Select extends PureComponent {
       originalSelectedOptions,
       toSelectOptions,
     } = this.state;
-    const { multiple, searchPlaceholder, optionsHeader, singleOptionComponent } = this.props;
+    const {
+      multiple,
+      searchPlaceholder,
+      optionsHeader,
+      singleOptionComponent,
+      disabled,
+    } = this.props;
 
     const OptionsHeaderComponent = optionsHeader;
     const showSearchBar = this.hasSearchBar();
     const className = classNames('select-block', {
       'is-opened': opened,
       'with-option': !!selectedOptions.length > 0,
+      'is-disabled': disabled,
     });
     const selectBlockClassName = classNames('select-block__content', {
       'with-search-bar': showSearchBar,

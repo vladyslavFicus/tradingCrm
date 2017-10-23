@@ -1,4 +1,6 @@
 import keyMirror from 'keymirror';
+import permissions from '../config/permissions';
+import Permissions from '../utils/permissions';
 
 const actions = keyMirror({
   VERIFY: null,
@@ -31,22 +33,26 @@ const statusActions = {
     {
       action: actions.VERIFY,
       label: 'Verify',
+      permissions: new Permissions(permissions.USER_PROFILE.VERIFY_FILE),
     },
     {
       action: actions.REFUSE,
       label: 'Refuse',
+      permissions: new Permissions(permissions.USER_PROFILE.REFUSE_FILE),
     },
   ],
   [statuses.VERIFIED]: [
     {
       action: actions.REFUSE,
       label: 'Refuse',
+      permissions: new Permissions(permissions.USER_PROFILE.REFUSE_FILE),
     },
   ],
   [statuses.REFUSED]: [
     {
       action: actions.VERIFY,
       label: 'Verify',
+      permissions: new Permissions(permissions.USER_PROFILE.VERIFY_FILE),
     },
   ],
 };

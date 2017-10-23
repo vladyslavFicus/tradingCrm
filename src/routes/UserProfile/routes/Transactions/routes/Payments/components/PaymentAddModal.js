@@ -12,6 +12,7 @@ import {
   types as paymentTypes,
   manualTypesLabels as paymentTypesLabels,
 } from '../../../../../../../constants/payment';
+import { targetTypes } from '../../../../../../../constants/note';
 import PropTypes from '../../../../../../../constants/propTypes';
 import Currency from '../../../../../../../components/Amount/Currency';
 
@@ -29,7 +30,6 @@ class PaymentAddModal extends Component {
     handleSubmit: PropTypes.func.isRequired,
     onLoadPaymentAccounts: PropTypes.func.isRequired,
     onManageNote: PropTypes.func.isRequired,
-    onNoteClick: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
@@ -103,6 +103,15 @@ class PaymentAddModal extends Component {
   handleDeleteNote = () => {
     this.props.onManageNote(null);
     this.context.hidePopover();
+  };
+
+  handleNoteClick = (target) => {
+    const { note } = this.props;
+    if (note) {
+      this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
+    } else {
+      this.context.onAddNoteClick(null, targetTypes.PAYMENT)(target, this.getNotePopoverParams());
+    }
   };
 
   isPaymentMethodDisabled(type) {
@@ -191,7 +200,6 @@ class PaymentAddModal extends Component {
       playerProfile,
       note,
       error,
-      onNoteClick,
     } = this.props;
 
     const filteredPaymentTypes = Object.keys(paymentTypes).filter(type => !this.isPaymentMethodDisabled(type));
@@ -252,7 +260,7 @@ class PaymentAddModal extends Component {
               <NoteButton
                 id="add-transaction-item-note-button"
                 note={note}
-                onClick={onNoteClick}
+                onClick={this.handleNoteClick}
               />
             </div>
           </ModalBody>
