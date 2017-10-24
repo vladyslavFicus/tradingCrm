@@ -34,16 +34,34 @@ class Balances extends Component {
       <DropdownMenu>
         <div className="dropdown-menu__content">
           <DropdownItem>
-            <Amount className="amount" {...balances.withdrawable} />
-            <div className="amount_label">{I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.WITHDRAWABLE')}</div>
+            <Amount
+              className="amount"
+              id="player-balance-withdrawable-amount"
+              {...balances.withdrawable}
+            />
+            <div className="amount_label" id="player-balance-withdrawable-amount-label">
+              {I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.WITHDRAWABLE')}
+            </div>
           </DropdownItem>
           <DropdownItem>
-            <Amount className="amount" {...balances.deposits} />
-            <div className="amount_label">{I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.DEPOSITED')}</div>
+            <Amount
+              className="amount"
+              id="player-balance-deposited-amount"
+              {...balances.deposits}
+            />
+            <div className="amount_label" id="player-balance-deposited-amount-label">
+              {I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.DEPOSITED')}
+            </div>
           </DropdownItem>
           <DropdownItem>
-            <Amount className="amount" {...balances.withdraws} />
-            <div className="amount_label">{I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.WITHDRAWN')}</div>
+            <Amount
+              className="amount"
+              id="player-balance-withdrawn-amount"
+              {...balances.withdraws}
+            />
+            <div className="amount_label" id="player-balance-withdrawn-amount-label">
+              {I18n.t('PLAYER_PROFILE.PROFILE.BALANCES_DROPDOWN.WITHDRAWN')}
+            </div>
           </DropdownItem>
         </div>
       </DropdownMenu>
