@@ -247,6 +247,10 @@ label {
     &__label {
       position: relative;
       padding-top: 6px;
+      padding-right: 25px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     &__content {
       width: 100%;
