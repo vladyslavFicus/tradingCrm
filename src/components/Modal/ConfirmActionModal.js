@@ -49,7 +49,7 @@ class ConfirmActionModal extends Component {
           <ModalBody>
             <div className="text-center center-block width-300">
               <strong>{actionText}</strong>
-              {uuid && <Uuid uuid={uuid} uuidPrefix={uuidPrefix} />}
+              {uuid && <Uuid uuid={uuid} uuidPrefix={uuidPrefix} className="padding-left-5" />}
             </div>
           </ModalBody>
 
