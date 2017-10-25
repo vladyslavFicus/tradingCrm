@@ -26,6 +26,8 @@ class Container extends Component {
       disabled,
     } = this.props;
 
+    const nodePath = `${nodeGroupTypes.rewards}.${nodeTypes.bonus}`;
+
     switch (node) {
       case nodeTypes.bonus:
         return (
@@ -33,6 +35,7 @@ class Container extends Component {
             disabled={disabled}
             errors={getSubFieldErrors(errors, `${nodeGroupTypes.rewards}.${nodeTypes.bonus}`)}
             typeValues={allowedCustomValueTypes}
+            nodePath={nodePath}
           />
         );
       default:

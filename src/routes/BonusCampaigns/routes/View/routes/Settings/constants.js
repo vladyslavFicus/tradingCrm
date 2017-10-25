@@ -47,5 +47,7 @@ const attributePlaceholders = {
 export {
   attributeLabels,
   nodeGroupTypes,
-  attributePlaceholders
+  attributePlaceholders,
 };
+
+export default attributeLabels;

@@ -23,7 +23,7 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
     },
     optIn: data.optIn,
     campaignType: data.campaignType,
-    excludeCountries: !data.includeCountries,
+    excludeCountries: data.excludeCountries,
     countries: data.countries || [],
   };
 

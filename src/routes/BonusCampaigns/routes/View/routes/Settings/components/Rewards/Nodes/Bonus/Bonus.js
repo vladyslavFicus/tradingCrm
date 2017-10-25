@@ -7,11 +7,12 @@ import {
 } from '../../../../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from './constants';
-import { multipliersTypes, moneyTypeUsageLabels } from '../../../../../../../../../../constants/bonus-campaigns';
+import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../../../../constants/bonus-campaigns';
 
 class Bonus extends Component {
   static propTypes = {
     typeValues: PropTypes.array.isRequired,
+    nodePath: PropTypes.string.isRequired,
     errors: PropTypes.object,
     disabled: PropTypes.bool,
   };
@@ -21,6 +22,8 @@ class Bonus extends Component {
     limits: true,
     errors: {},
   };
+
+  buildFieldName = name => `${this.props.nodePath}.${name}`;
 
   render() {
     const {
@@ -38,7 +41,7 @@ class Bonus extends Component {
           <div className="form-row__big">
             <CustomValueFieldVertical
               disabled={disabled}
-              basename={'rewards.bonus.campaignRatio'}
+              basename={this.buildFieldName('campaignRatio')}
               label={I18n.t(attributeLabels.grant)}
               typeValues={typeValues}
               errors={errors}
@@ -48,7 +51,7 @@ class Bonus extends Component {
         <div className="form-row">
           <div className="form-row__small">
             <Field
-              name="rewards.bonus.wagerWinMultiplier"
+              name={this.buildFieldName('wagerWinMultiplier')}
               type="text"
               placeholder="0.00"
               label={I18n.t(attributeLabels.multiplier)}
@@ -57,13 +60,13 @@ class Bonus extends Component {
               disabled={disabled}
               meta={{
                 touched: true,
-                error: errors['rewards.bonus.wagerWinMultiplier'],
+                error: errors[this.buildFieldName('wagerWinMultiplier')],
               }}
             />
           </div>
           <div className="form-row__medium">
             <Field
-              name="rewards.bonus.moneyTypePriority"
+              name={this.buildFieldName('moneyTypePriority')}
               type="text"
               label={I18n.t(attributeLabels.moneyPrior)}
               component={SelectField}
@@ -71,10 +74,10 @@ class Bonus extends Component {
               disabled={disabled}
               meta={{
                 touched: true,
-                error: errors['rewards.bonus.moneyTypePriority'],
+                error: errors[this.buildFieldName('moneyTypePriority')],
               }}
             >
-              {Object.keys(moneyTypeUsageLabels).map(key => (
+              {Object.keys(moneyTypeUsage).map(key => (
                 <option key={key} value={key}>
                   {renderLabel(key, moneyTypeUsageLabels)}
                 </option>
@@ -84,7 +87,7 @@ class Bonus extends Component {
 
           <div className="form-row__small form-row_with-placeholder-right">
             <Field
-              name="rewards.bonus.bonusLifetime"
+              name={this.buildFieldName('bonusLifetime')}
               type="text"
               placeholder="0"
               label={I18n.t(attributeLabels.lifeTime)}
@@ -93,7 +96,7 @@ class Bonus extends Component {
               disabled={disabled}
               meta={{
                 touched: true,
-                error: errors['rewards.bonus.bonusLifetime'],
+                error: errors[this.buildFieldName('bonusLifetime')],
               }}
             />
             <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>

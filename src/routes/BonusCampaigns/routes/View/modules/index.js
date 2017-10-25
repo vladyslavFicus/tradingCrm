@@ -129,7 +129,10 @@ function updateCampaign(id, data) {
       return { type: false };
     }
 
-    let endpointParams = { ...data };
+    let endpointParams = {
+      ...data,
+      includeCountries: !data.excludeCountries,
+    };
     if (
       endpointParams.conversionPrize &&
       (endpointParams.conversionPrize.value === undefined || endpointParams.conversionPrize.value === null)
@@ -142,9 +145,6 @@ function updateCampaign(id, data) {
     ) {
       endpointParams.capping = null;
     }
-
-    endpointParams.includeCountries = !endpointParams.excludeCountries;
-    delete endpointParams.excludeCountries;
 
     const fulfillmentDeposit = _.get(endpointParams, 'fulfillments.deposit');
     if (fulfillmentDeposit) {
@@ -175,6 +175,7 @@ function updateCampaign(id, data) {
       };
     }
 
+    delete endpointParams.excludeCountries;
     delete endpointParams.firstDeposit;
     delete endpointParams.fulfillments;
     delete endpointParams.rewards;
@@ -326,6 +327,7 @@ const actionHandlers = {
     data: {
       ...state.data,
       ...action.payload,
+      excludeCountries: !action.payload.includeCountries,
     },
     nodeGroups: {
       ...state.nodeGroups,
