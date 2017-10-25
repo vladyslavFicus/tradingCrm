@@ -1,14 +1,3 @@
-import DefaultFulfillment from './DefaultFulfillment';
-import DepositFulfillment from './DepositFulfillment';
-import WageringFulfillment from './WageringFulfillment';
-import CampaignFulfillment from './CampaignFulfillment';
-import View from './View';
+import Container from './Container';
 
-export {
-  DefaultFulfillment,
-  DepositFulfillment,
-  WageringFulfillment,
-  CampaignFulfillment,
-};
-
-export default View;
+export default Container;

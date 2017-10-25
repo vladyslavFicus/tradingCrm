@@ -6,11 +6,10 @@ import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../../../../constants/propTypes';
 import CurrencyCalculationModal from '../../../../../components/CurrencyCalculationModal';
 
-const initialState = {
-  modal: {
-    show: false,
-    params: {},
-  },
+const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
 };
 
 class View extends Component {
@@ -39,33 +38,44 @@ class View extends Component {
     }).isRequired,
     updateCampaign: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    revert: PropTypes.func.isRequired,
+    removeNode: PropTypes.func.isRequired,
+    addNode: PropTypes.func.isRequired,
+    nodeGroups: PropTypes.shape({
+      fulfillments: PropTypes.array.isRequired,
+      rewards: PropTypes.array.isRequired,
+    }).isRequired,
   };
 
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
   };
 
-  state = { ...initialState };
+  state = {
+    modal: { ...modalInitialState },
+  };
 
-  handleModalOpen = (action) => {
+  handleCurrencyAmountModalOpen = (action) => {
+    this.handleOpenModal(CURRENCY_AMOUNT_MODAL, {
+      initialValues: {
+        action: action.action,
+        reasons: action.reasons,
+      },
+      ...action,
+    });
+  }
+
+  handleOpenModal = (name, params) => {
     this.setState({
       modal: {
-        show: true,
-        params: {
-          initialValues: {
-            action: action.action,
-            reasons: action.reasons,
-          },
-          ...action,
-        },
+        name,
+        params,
       },
     });
   };
 
   handleModalHide = (e, callback) => {
-    this.setState({
-      modal: { ...initialState.modal },
-    }, () => {
+    this.setState({ modal: { ...modalInitialState } }, () => {
       if (typeof callback === 'function') {
         callback();
       }
@@ -100,20 +110,33 @@ class View extends Component {
 
   render() {
     const { modal } = this.state;
-    const { bonusCampaign, bonusCampaignForm, currencies, locale } = this.props;
+    const {
+      bonusCampaign,
+      bonusCampaignForm,
+      currencies,
+      locale,
+      revert,
+      nodeGroups,
+      removeNode,
+      addNode,
+    } = this.props;
 
     return (
-      <div >
+      <div>
         <Form
           locale={locale}
           currencies={currencies}
           disabled={bonusCampaign.state !== statuses.DRAFT}
           initialValues={bonusCampaignForm}
+          removeNode={removeNode}
+          addNode={addNode}
+          nodeGroups={nodeGroups}
+          revert={revert}
           onSubmit={this.handleSubmit}
-          toggleModal={this.handleModalOpen}
+          toggleModal={this.handleCurrencyAmountModalOpen}
         />
         {
-          modal.show &&
+          modal.name === CURRENCY_AMOUNT_MODAL &&
           <CurrencyCalculationModal
             {...modal.params}
             onHide={this.handleModalHide}

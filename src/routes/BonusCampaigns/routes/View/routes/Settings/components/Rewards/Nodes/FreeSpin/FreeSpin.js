@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { InputField, SelectField } from '../../../../../../../../../components/ReduxForm/index';
-import renderLabel from '../../../../../../../../../utils/renderLabel';
+import { InputField, SelectField } from '../../../../../../../../../../components/ReduxForm/index';
+import renderLabel from '../../../../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from './constants';
 import {
   provider, games, lines, coins, coinValues, multipliersTypes, moneyTypePrior,
-} from '../../../../../../../../../constants/bonus-campaigns';
+} from '../../../../../../../../../../constants/bonus-campaigns';
 
-const FreeSpinReward = ({ netEnt, modalOpen }) => (
+const FreeSpin = ({ netEnt, modalOpen }) => (
   <div className="add-campaign-container">
     <div className="add-campaign-label">
       {I18n.t(attributeLabels.freeSpinReward)}
@@ -245,14 +245,14 @@ const FreeSpinReward = ({ netEnt, modalOpen }) => (
   </div>
 );
 
-FreeSpinReward.propTypes = {
+FreeSpin.propTypes = {
   modalOpen: PropTypes.func,
   netEnt: PropTypes.bool,
 };
 
-FreeSpinReward.defaultProps = {
+FreeSpin.defaultProps = {
   modalOpen: null,
   netEnt: true,
 };
 
-export default FreeSpinReward;
+export default FreeSpin;

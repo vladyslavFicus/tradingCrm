@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
-import renderLabel from '../../../../../../../../utils/renderLabel';
-import { InputField, SelectField } from '../../../../../../../../components/ReduxForm';
-import { wageredAmount } from '../../../../../../../../constants/bonus-campaigns';
+import renderLabel from '../../../../../../../../../utils/renderLabel';
+import { InputField, SelectField } from '../../../../../../../../../components/ReduxForm';
+import { wageredAmount } from '../../../../../../../../../constants/bonus-campaigns';
 
-const WageringFulfillment = ({ label, modalOpen }) => (
+const Wagering = ({ label, modalOpen, remove }) => (
   <div className="add-campaign-container">
     <div className="add-campaign-label">
       {label}
@@ -47,18 +47,25 @@ const WageringFulfillment = ({ label, modalOpen }) => (
       <input type="checkbox" />
       <span>{I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.EXCLUDE_BONUS_MONEY')}</span>
     </div>
-    <button className="btn-transparent add-campaign-remove">&times;</button>
+    <button
+      className="btn-transparent add-campaign-remove"
+      type="button"
+      onClick={remove}
+    >
+      &times;
+    </button>
   </div>
 );
 
-WageringFulfillment.propTypes = {
+Wagering.propTypes = {
   label: PropTypes.string.isRequired,
   modalOpen: PropTypes.func,
-  onClick: PropTypes.func,
+  remove: PropTypes.func,
 };
 
-WageringFulfillment.defaultProps = {
+Wagering.defaultProps = {
   modalOpen: null,
+  remove: null,
 };
 
-export default WageringFulfillment;
+export default Wagering;

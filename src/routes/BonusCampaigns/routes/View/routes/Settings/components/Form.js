@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import countryList from 'country-list';
 import { I18n } from 'react-redux-i18n';
+import _ from 'lodash';
 import {
   InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField,
 } from '../../../../../../../components/ReduxForm';
@@ -11,19 +12,19 @@ import PropTypes from '../../../../../../../constants/propTypes';
 import {
   campaignTypes,
   campaignTypesLabels,
+  moneyTypeUsage,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
   optInSelect,
-  fulfillmentSelect,
-  rewardSelect,
+  lockAmountStrategy,
 } from '../../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
-import attributeLabels from '../constants';
-import { DefaultFulfillment, DepositFulfillment, WageringFulfillment, CampaignFulfillment } from './Fulfillments';
+import getSubFieldErrors from '../../../../../../../utils/getSubFieldErrors';
+import attributeLabels, { nodeGroupTypes } from '../constants';
 import Fulfillments from './Fulfillments';
-import { BonusReward, FreeSpinReward } from './Rewards';
+import Rewards from './Rewards';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -52,13 +53,7 @@ const validator = (values) => {
     currency: 'required',
     startDate: 'required',
     endDate: 'required|nextDate:startDate',
-    wagerWinMultiplier: 'required|integer|max:999',
-    bonusLifetime: 'required|integer',
     campaignType: ['required', 'string', `in:${Object.keys(campaignTypesLabels).join()}`],
-    campaignRatio: {
-      value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${allowedCustomValueTypes.join()}`],
-    },
     capping: {
       value: ['numeric', 'customTypeValue.value'],
       type: [`in:${allowedCustomValueTypes.join()}`],
@@ -67,41 +62,44 @@ const validator = (values) => {
       value: ['numeric', 'customTypeValue.value'],
       type: [`in:${allowedCustomValueTypes.join()}`],
     },
-    minAmount: 'min:0',
-    maxAmount: 'min:0',
     country: `in:,${Object.keys(countries).join()}`,
+    fulfillments: {
+      deposit: {
+        minAmount: ['numeric', 'min:0'],
+        maxAmount: ['numeric', 'min:0'],
+        lockAmountStrategy: ['string', `in:${Object.keys(lockAmountStrategy).join()}`],
+      },
+    },
+    rewards: {
+      bonus: {
+        campaignRatio: {
+          value: ['required', 'numeric', 'customTypeValue.value'],
+          type: [`in:${allowedCustomValueTypes.join()}`],
+        },
+        wagerWinMultiplier: ['required', 'integer', 'max:999'],
+        bonusLifetime: ['required', 'integer'],
+        moneyTypePriority: ['required', `in:${Object.keys(moneyTypeUsage).join()}`],
+      },
+    },
   };
 
-  if (values.minAmount) {
-    const minAmount = parseFloat(values.minAmount).toFixed(2);
-
-    if (!isNaN(minAmount)) {
-      rules.maxAmount = 'greaterOrSame:minAmount';
+  const fulfillmentDeposit = _.get(values, 'fulfillments.deposit');
+  if (fulfillmentDeposit) {
+    const minAmount = fulfillmentDeposit.minAmount;
+    if (minAmount && !isNaN(parseFloat(minAmount).toFixed(2))) {
+      rules.fulfillments.deposit.maxAmount.push('greaterOrSame:fulfillments.deposit.minAmount');
     }
+    rules.fulfillments.deposit.lockAmountStrategy.push('required');
   }
 
-  if (values.maxAmount) {
-    const maxAmount = parseFloat(values.maxAmount).toFixed(2);
-
-    if (!isNaN(maxAmount)) {
-      rules.minAmount = 'lessOrSame:maxAmount';
-    }
+  const conversionPrize = _.get(values, 'conversionPrize.value');
+  if (conversionPrize && !isNaN(parseFloat(conversionPrize).toFixed(2))) {
+    rules.capping.value.push('greaterThan:conversionPrize.value');
   }
 
-  if (values.conversionPrize && values.conversionPrize.value) {
-    const value = parseFloat(values.conversionPrize.value).toFixed(2);
-
-    if (!isNaN(value)) {
-      rules.capping.value.push('greaterThan:conversionPrize.value');
-    }
-  }
-
-  if (values.capping && values.capping.value) {
-    const value = parseFloat(values.capping.value).toFixed(2);
-
-    if (!isNaN(value)) {
-      rules.conversionPrize.value.push('lessThan:capping.value');
-    }
+  const capping = _.get(values, 'capping.value');
+  if (capping && !isNaN(parseFloat(capping).toFixed(2))) {
+    rules.conversionPrize.value.push('lessThan:capping.value');
   }
 
   return createValidator(
@@ -118,6 +116,7 @@ class Form extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
+    fulfillmentExist: PropTypes.bool,
     reset: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     errors: PropTypes.object,
@@ -141,6 +140,13 @@ class Form extends Component {
     }),
     disabled: PropTypes.bool,
     toggleModal: PropTypes.func.isRequired,
+    revert: PropTypes.func.isRequired,
+    removeNode: PropTypes.func.isRequired,
+    addNode: PropTypes.func.isRequired,
+    nodeGroups: PropTypes.shape({
+      fulfillments: PropTypes.array.isRequired,
+      rewards: PropTypes.array.isRequired,
+    }).isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -150,6 +156,7 @@ class Form extends Component {
     submitting: false,
     pristine: false,
     valid: false,
+    fulfillmentExist: false,
     errors: {},
   };
 
@@ -199,11 +206,17 @@ class Form extends Component {
   };
 
   handleRevert = (e) => {
+    const { revert, reset } = this.props;
+
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.reset();
+    revert();
+    reset();
   };
+
+  handleRemoveNode = nodeGroup => node => this.props.removeNode(nodeGroup, node);
+  handleAddNode = nodeGroup => node => this.props.addNode(nodeGroup, node);
 
   render() {
     const {
@@ -212,10 +225,14 @@ class Form extends Component {
       pristine,
       submitting,
       valid,
+      fulfillmentExist,
       currencies,
       currentValues,
+      change,
+      nodeGroups,
       disabled,
       toggleModal,
+      errors,
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
@@ -226,7 +243,7 @@ class Form extends Component {
           <div className="tab-header__heading">
             {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
           </div>
-          {!(disabled || pristine || submitting || !valid) &&
+          {!(disabled || pristine || submitting || !valid || !_.isEmpty(errors) || !fulfillmentExist) &&
           <div className="tab-header__actions">
             <button
               onClick={this.handleRevert}
@@ -400,6 +417,7 @@ class Form extends Component {
                     {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.COUNTRIES')}
                     <span className="label-action">
                       <Field
+                        disabled={disabled}
                         name="excludeCountries"
                         type="checkbox"
                         component="input"
@@ -410,6 +428,7 @@ class Form extends Component {
                 }
                 component={NasSelectField}
                 position="vertical"
+                disabled={disabled}
                 multiple
               >
                 {Object
@@ -417,7 +436,6 @@ class Form extends Component {
                   .map(key => <option key={key} value={key}>{countries[key]}</option>)
                 }
               </Field>
-
             </div>
           </div>
         </div>
@@ -434,54 +452,27 @@ class Form extends Component {
               <div className="tab-header__heading">
                 {I18n.t('BONUS_CAMPAIGNS.SETTINGS.REWARDS')}
               </div>
-              {/*<div className="tab-header__actions">
-                <span className="tab-header__label">{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.CONTENT')}:</span>
-                {' '}
-                <b className="tab-header__label color-success">
-                  {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.COMPLETE')}
-                </b>
-                <button className="btn btn-default-outline btn-sm margin-left-15">
-                  {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.EDIT_CONTENT')}
-                </button>
-              </div>*/}
             </div>
           </div>
         </div>
         <div className="campaign-settings-content">
           <hr />
           <div className="row padding-bottom-30">
-
             <Fulfillments
-              toggleModal={toggleModal}
               disabled={disabled}
+              change={change}
+              activeNodes={nodeGroups.fulfillments}
+              errors={getSubFieldErrors(errors, nodeGroupTypes.fulfillments)}
+              remove={this.handleRemoveNode(nodeGroupTypes.fulfillments)}
+              add={this.handleAddNode(nodeGroupTypes.fulfillments)}
             />
-
-            <div className="col-lg-6 padding-bottom-30">
-              <BonusReward
-                basename={'conversionPrize'}
-                typeValues={allowedCustomValueTypes}
-                modalOpen={toggleModal}
-              />
-              {/*{<FreeSpinReward modalOpen={toggleModal} />}
-              <div className="add-campaign-setting">
-                <Field
-                  name="rewardsSelect"
-                  label=""
-                  labelClassName="no-label"
-                  type="text"
-                  component={SelectField}
-                  position="vertical"
-                  disabled={disabled}
-                >
-                  {Object.keys(rewardSelect).map(key => (
-                    <option key={key} value={key}>
-                      {renderLabel(key, rewardSelect)}
-                    </option>
-                  ))}
-                </Field>
-                <button className="btn btn-default">{I18n.t(attributeLabels.addReward)}</button>
-              </div>*/}
-            </div>
+            <Rewards
+              disabled={disabled}
+              change={change}
+              activeNodes={nodeGroups.rewards}
+              allowedCustomValueTypes={allowedCustomValueTypes}
+              errors={getSubFieldErrors(errors, nodeGroupTypes.rewards)}
+            />
           </div>
         </div>
       </form>
@@ -495,8 +486,13 @@ const SettingsForm = reduxForm({
   validate: validator,
 })(Form);
 
-export default connect(state => ({
-  currentValues: getFormValues(FORM_NAME)(state),
-  errors: getFormSyncErrors(FORM_NAME)(state),
-  meta: getFormMeta(FORM_NAME)(state),
-}))(SettingsForm);
+export default connect((state) => {
+  const currentValues = getFormValues(FORM_NAME)(state);
+
+  return {
+    currentValues,
+    errors: getFormSyncErrors(FORM_NAME)(state),
+    meta: getFormMeta(FORM_NAME)(state),
+    fulfillmentExist: currentValues && !_.isEmpty(currentValues.fulfillments),
+  };
+})(SettingsForm);

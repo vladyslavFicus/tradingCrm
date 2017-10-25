@@ -1,7 +1,3 @@
-import BonusReward from './BonusReward/BonusReward';
-import FreeSpinReward from './FreeSpinReward/FreeSpinReward';
+import Container from './Container';
 
-export {
-  BonusReward,
-  FreeSpinReward,
-};
+export default Container;

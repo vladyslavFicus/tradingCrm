@@ -1073,8 +1073,6 @@
         "TARGET_TYPE": "Тип",
         "CURRENCY": "Валюта",
         "CAPPING": "Capping",
-        "MULTIPLIER": "Multiplier",
-        "BONUS_LIFE_TIME": "Время жизни",
         "CAMPAIGN_RATIO": "Коэффициент",
         "CONVERSION_PRIZE": "Приз",
         "OPT_IN": "Opt-In",
@@ -1085,7 +1083,6 @@
         "MAX_AMOUNT_PLACEHOLDER": "Макс.",
         "RATIO_TOOLTIP": "Депозит: предоставленный бонус",
         "PRIORITY": "Приоритет",
-        "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
         "CAMPAIGN_PERIOD": "Период кампании",
         "DESCRIPTION": "Описание",
         "BASE_CURRENCY": "Базовая валюта",
@@ -1093,7 +1090,9 @@
         "TYPE": "Тип",
         "AFFILIATES": "Филиалы",
         "EXCLUDE": "Исключить",
-        "COUNTRIES": "Страны"
+        "COUNTRIES": "Страны",
+        "START_DATE": "Дата начала",
+        "END_DATE": "Дата окончания"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
@@ -1101,7 +1100,18 @@
       "CAMPAIGN_SETTINGS": "Настройки кампании",
       "FULFILLMENTS": "Фулфилменты",
       "REWARDS": "Вознаграждения",
-      "DEPOSIT_AMOUNT": "Сумма пополнения"
+      "DEPOSIT_AMOUNT": "Сумма пополнения",
+      "FULFILLMENT": {
+        "LABEL": {
+          "ADD_FULFILLMENT": ""
+        },
+        "DEPOSIT": {
+          "LABEL": ""
+        },
+        "PROFILE_COMPLETED": {
+          "LABEL": ""
+        }
+      }
     },
     "CHANGE_STATUS_MODAL": {
       "SELECT_REASON_OPTION": "-- Выберите причину --",
@@ -1138,11 +1148,15 @@
       "WAGERED_AMOUNT_ONE_GAME": "Количество ставок в одной игре или выбранных играх > X",
       "AMOUNT_TO_WAGER": "Сумма ставки",
       "EXCLUDE_BONUS_MONEY": "Исключить бонусные деньги из ставок",
-      "CHOOSE_CAMPAIGN": "- Выберите кампанию -"
+      "CHOOSE_CAMPAIGN": "- Выберите кампанию -",
+      "DEPOSIT": {
+        "MIN_AMOUNT": "",
+        "MAX_AMOUNT": "",
+        "LOCK_AMOUNT_STRATEGY": ""
+      }
     },
     "REWARDS": {
       "ADD_REWARD": "Добавить награду",
-      "BONUS": "Бонус",
       "FREE_SPINS": "Free-spins",
       "BONUS_REWARD": "Бонусная награда",
       "GRANT": "Грант",
@@ -1169,6 +1183,15 @@
       "PLACEHOLDERS": {
         "DAYS": "дней",
         "NOT_SET": "Не задано"
+      },
+      "BONUS": {
+        "CAMPAIGN_RATIO": {
+          "VALUE": "Коэффициент",
+          "TYPE": "Тип"
+        },
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Время жизни",
+        "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
       }
     },
     "CURRENCY_CALC_MODAL": {

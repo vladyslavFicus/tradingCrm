@@ -1066,8 +1066,6 @@
         "TARGET_TYPE": "Target type",
         "CURRENCY": "Currency",
         "CAPPING": "Capping",
-        "MULTIPLIER": "Multiplier",
-        "BONUS_LIFE_TIME": "Lifetime",
         "CAMPAIGN_RATIO": "Ratio",
         "CONVERSION_PRIZE": "Prize",
         "OPT_IN": "Opt-In",
@@ -1078,7 +1076,6 @@
         "MAX_AMOUNT_PLACEHOLDER": "Max.",
         "RATIO_TOOLTIP": "Deposit : Granted bonus",
         "PRIORITY": "Priority",
-        "MONEY_TYPE_PRIORITY": "Wagering",
         "CAMPAIGN_PERIOD": "Campaign period",
         "DESCRIPTION": "Description",
         "BASE_CURRENCY": "Base currency",
@@ -1086,7 +1083,9 @@
         "TYPE": "Type",
         "AFFILIATES": "Affiliates",
         "EXCLUDE": "Exclude",
-        "COUNTRIES": "Countries"
+        "COUNTRIES": "Countries",
+        "START_DATE": "Start date",
+        "END_DATE": "End date"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
@@ -1094,7 +1093,18 @@
       "CAMPAIGN_SETTINGS": "Campaign settings",
       "FULFILLMENTS": "Fulfillments",
       "REWARDS": "Rewards",
-      "DEPOSIT_AMOUNT": "Deposit amount"
+      "DEPOSIT_AMOUNT": "Deposit amount",
+      "FULFILLMENT": {
+        "LABEL": {
+          "ADD_FULFILLMENT": "Add fulfillment"
+        },
+        "DEPOSIT": {
+          "LABEL": "Deposit"
+        },
+        "PROFILE_COMPLETED": {
+          "LABEL": "Profile completed"
+        }
+      }
     },
     "CHANGE_STATUS_MODAL": {
       "SELECT_REASON_OPTION": "-- Select reason --",
@@ -1131,11 +1141,15 @@
       "WAGERED_AMOUNT_ONE_GAME": "Wagered amount on one game or number of selected games is > X",
       "AMOUNT_TO_WAGER": "Amount to wager",
       "EXCLUDE_BONUS_MONEY": "Exclude bonus money from wagering",
-      "CHOOSE_CAMPAIGN": "- Choose campaign -"
+      "CHOOSE_CAMPAIGN": "- Choose campaign -",
+      "DEPOSIT": {
+        "MIN_AMOUNT": "Min. amount",
+        "MAX_AMOUNT": "Max. amount",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy"
+      }
     },
     "REWARDS": {
       "ADD_REWARD": "Add reward",
-      "BONUS": "Bonus",
       "FREE_SPINS": "Free-spins",
       "BONUS_REWARD": "Bonus reward",
       "GRANT": "Grant",
@@ -1162,6 +1176,15 @@
       "PLACEHOLDERS": {
         "DAYS": "days",
         "NOT_SET": "Not set"
+      },
+      "BONUS": {
+        "CAMPAIGN_RATIO": {
+          "VALUE": "Ratio",
+          "TYPE": "Type"
+        },
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Lifetime",
+        "MONEY_TYPE_PRIORITY": "Wagering type"
       }
     },
     "CURRENCY_CALC_MODAL": {

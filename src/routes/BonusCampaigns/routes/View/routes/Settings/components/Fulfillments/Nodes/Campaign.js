@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
-import renderLabel from '../../../../../../../../utils/renderLabel';
-import { SelectField } from '../../../../../../../../components/ReduxForm';
-import { campaignMenu } from '../../../../../../../../constants/bonus-campaigns';
+import renderLabel from '../../../../../../../../../utils/renderLabel';
+import { SelectField } from '../../../../../../../../../components/ReduxForm';
+import { campaignMenu } from '../../../../../../../../../constants/bonus-campaigns';
 
-const CampaignFulfillment = ({ label }) => (
+const Campaign = ({ label, remove }) => (
   <div className="add-campaign-container">
     <div className="add-campaign-label">
       {label}
@@ -30,13 +30,23 @@ const CampaignFulfillment = ({ label }) => (
         </Field>
       </div>
     </div>
-    <button className="btn-transparent add-campaign-remove">&times;</button>
+    <button
+      className="btn-transparent add-campaign-remove"
+      type="button"
+      onClick={remove}
+    >
+      &times;
+    </button>
   </div>
 );
 
-CampaignFulfillment.propTypes = {
+Campaign.propTypes = {
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
+  remove: PropTypes.func,
 };
 
-export default CampaignFulfillment;
+Campaign.defaultProps = {
+  remove: null,
+};
+
+export default Campaign;

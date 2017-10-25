@@ -1,9 +1,23 @@
+import keyMirror from 'keymirror';
 import I18n from '../../../../../../../../utils/fake-i18n';
 
 const attributeLabels = {
-  depositFulfillment: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.DEPOSIT_FULFILLMENT'),
-  addFulfillment: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.ADD_FULFILLMENT'),
-  profileCompleted: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.PROFILE_COMPLETED'),
+  addFulfillment: I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.LABEL.ADD_FULFILLMENT'),
+};
+
+const nodeTypes = keyMirror({
+  deposit: null,
+  profileCompleted: null,
+});
+
+const nodeTypesLabels = {
+  [nodeTypes.deposit]: I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.DEPOSIT.LABEL'),
+  [nodeTypes.profileCompleted]: I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.PROFILE_COMPLETED.LABEL'),
+};
+
+export {
+  nodeTypes,
+  nodeTypesLabels,
 };
 
 export default attributeLabels;
