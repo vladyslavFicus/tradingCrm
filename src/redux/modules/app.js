@@ -102,13 +102,11 @@ const actionCreators = {
   toggleMenuTap,
   menuClick,
 };
-
 const actionTypes = {
   SET_SCROLL_TO_TOP,
   TOGGLE_MENU_TAP,
   MENU_CLICK,
 };
-
 const actionHandlers = {
   [SET_SCROLL_TO_TOP]: (state, action) => ({
     ...state,
@@ -121,27 +119,20 @@ const actionHandlers = {
     isInitializedScroll: state.isInitializedScroll || action.payload,
   }),
   [TOGGLE_MENU_TAP]: (state, action) => {
-    const newSidebarTopMenu = [ ...state.sidebarTopMenu ];
+    const newSidebarTopMenu = [...state.sidebarTopMenu];
     const index = action.payload;
 
     return {
       ...state,
-      sidebarTopMenu: newSidebarTopMenu.map((menuItem, menuItemIndex) => {
-        if (menuItemIndex !== index) {
-          menuItem.isOpen = false;
-        }
-
-        if (menuItemIndex === index) {
-          menuItem.isOpen = !menuItem.isOpen;
-        }
-
-        return menuItem;
-      }),
+      sidebarTopMenu: newSidebarTopMenu.map((menuItem, menuItemIndex) => ({
+        ...menuItem,
+        isOpen: menuItemIndex !== index || !menuItem.isOpen,
+      })),
     };
   },
-  [MENU_CLICK]: (state, action) => ({
+  [MENU_CLICK]: state => ({
     ...state,
-    sidebarTopMenu: state.sidebarTopMenu.map(menuItem => menuItem.items ? { ...menuItem, isOpen: false } : menuItem),
+    sidebarTopMenu: state.sidebarTopMenu.map(menuItem => (menuItem.items ? { ...menuItem, isOpen: false } : menuItem)),
   }),
 };
 

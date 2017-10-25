@@ -1,6 +1,5 @@
 import Validator from 'validatorjs';
 import _ from 'lodash';
-import { customValueFieldTypes } from '../constants/form';
 
 Validator.register('nextDate', function (value, requirement) {
   return value >= this.validator.input[requirement];

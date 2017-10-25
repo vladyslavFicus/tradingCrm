@@ -38,8 +38,14 @@ const nodeGroupTypes = keyMirror({
   rewards: null,
 });
 
-export {
-  nodeGroupTypes,
+//edit path
+const attributePlaceholders = {
+  minAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_AMOUNT_PLACEHOLDER'),
+  maxAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MAX_AMOUNT_PLACEHOLDER'),
 };
 
-export default attributeLabels;
+export {
+  attributeLabels,
+  nodeGroupTypes,
+  attributePlaceholders
+};

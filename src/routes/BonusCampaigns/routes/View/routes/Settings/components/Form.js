@@ -206,13 +206,11 @@ class Form extends Component {
   };
 
   handleRevert = (e) => {
-    const { revert, reset } = this.props;
-
     e.preventDefault();
     e.stopPropagation();
 
-    revert();
-    reset();
+    this.props.revert();
+    this.props.reset();
   };
 
   handleRemoveNode = nodeGroup => node => this.props.removeNode(nodeGroup, node);

@@ -15,17 +15,13 @@ import NoteButton from '../NoteButton';
 import { shortify } from '../../utils/uuid';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 import PermissionContent from '../PermissionContent';
-import Permissions from '../../utils/permissions';
-import permission from '../../config/permissions';
+import permissions from '../../config/permissions';
 import Uuid from '../Uuid';
 import ModalPlayerInfo from '../ModalPlayerInfo';
 import TransactionStatus from '../TransactionStatus';
 import renderLabel from '../../utils/renderLabel';
 import PaymentAccount from '../PaymentAccount';
 import IpFlag from '../IpFlag';
-
-const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
-const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
 
 class PaymentDetailModal extends Component {
   static propTypes = {
@@ -95,7 +91,7 @@ class PaymentDetailModal extends Component {
     if (paymentType === paymentsTypes.Withdraw && status === paymentStatuses.PENDING) {
       actions = (
         <span>
-          <PermissionContent permissions={approvePendingWithdraw}>
+          <PermissionContent permissions={permissions.PAYMENTS.APPROVE_WITHDRAW}>
             <Button
               color="primary"
               onClick={this.handleApproveClick}
@@ -116,7 +112,7 @@ class PaymentDetailModal extends Component {
     if (paymentType === paymentsTypes.Deposit && status === paymentStatuses.COMPLETED) {
       actions = (
         <span>
-          <PermissionContent permissions={chargebackCompletedDeposit}>
+          <PermissionContent permissions={permissions.PAYMENTS.CHARGEBACK_DEPOSIT}>
             <Button
               color="danger"
               onClick={this.handleChargebackClick}

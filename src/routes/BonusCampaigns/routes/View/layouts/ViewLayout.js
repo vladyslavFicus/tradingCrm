@@ -160,9 +160,7 @@ class ViewLayout extends Component {
           </div>
 
           <Collapse isOpen={informationShown}>
-            <Information
-              data={bonusCampaignData}
-            />
+            <Information data={bonusCampaignData} />
           </Collapse>
         </div>
 

@@ -174,6 +174,9 @@
         "SEND_ACTIVATION_LINK": "Отправить ссылку активации",
         "CHANGE_PASSWORD": "Сменить пароль",
         "SHARE_PROFILE": "Поделиться профилем"
+      },
+      "HEADER": {
+        "ADD_NOTE": "Добавить заметку"
       }
     },
     "GAME_ACTIVITY": {
@@ -254,7 +257,12 @@
           "OPT_IN": "Opt-In",
           "CONVERTED": "Converted",
           "WAGERED": "Wagered",
-          "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
+          "MONEY_TYPE_PRIORITY": "Приор. исп. денег",
+          "LOCK_AMOUNT_STRATEGY": "Блок. вывода средств"
+        },
+        "LOCK_AMOUNT_STRATEGY": {
+          "LOCK_ALL": "Заблокировать все средства",
+          "LOCK_PARTIAL": "Заблокировать бонусные деньги"
         }
       },
       "CANCEL_BONUS": "Отменить бонус",
@@ -1092,7 +1100,8 @@
         "EXCLUDE": "Исключить",
         "COUNTRIES": "Страны",
         "START_DATE": "Дата начала",
-        "END_DATE": "Дата окончания"
+        "END_DATE": "Дата окончания",
+        "LOCK_AMOUNT_STRATEGY_LABEL": "Стратегия блок. денег"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",

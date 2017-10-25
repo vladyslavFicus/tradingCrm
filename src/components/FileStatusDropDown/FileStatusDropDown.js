@@ -4,12 +4,22 @@ import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import Uuid from '../../components/Uuid';
-import { statuses, statusActions, statusesColorNames, statusesLabels, actionsColorNames } from '../../constants/files';
+import {
+  statuses,
+  statusActions,
+  statusesColorNames,
+  statusesLabels,
+  actionsColorNames,
+} from '../../constants/files';
+import renderLabel from '../../utils/renderLabel';
 
 class FileStatusDropDown extends Component {
   static propTypes = {
     status: PropTypes.status.isRequired,
     onStatusChange: PropTypes.func.isRequired,
+  };
+  static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   state = {
@@ -24,16 +34,15 @@ class FileStatusDropDown extends Component {
 
   render() {
     const { dropDownOpen } = this.state;
-    const { status } = this.props;
+    const { status, onStatusChange } = this.props;
+    const { permissions: currentPermissions } = this.context;
+    const actions = statusActions[status.value]
+      .filter(i => i && (i.permissions === undefined || i.permissions.check(currentPermissions)));
 
     const label = (
       <div>
         <div className={classNames('font-weight-700 status', statusesColorNames[status.value])}>
-          {
-            statusesLabels[status.value]
-              ? statusesLabels[status.value]
-              : status.value
-          }
+          {renderLabel(status.value, statusesLabels)}
           <i className="fa fa-angle-down" />
         </div>
         {
@@ -45,7 +54,7 @@ class FileStatusDropDown extends Component {
       </div>
     );
 
-    if (!statusActions[status.value]) {
+    if (actions.length === 0) {
       return label;
     }
 
@@ -56,17 +65,18 @@ class FileStatusDropDown extends Component {
         </span>
         <DropdownMenu>
           {
-            statusActions[status.value].map(item => (
-              <DropdownItem
-                onClick={() => this.props.onStatusChange(item.action)}
-                className={classNames('text-uppercase', actionsColorNames[item.action])}
-                key={item.label}
-              >
-                <div className="font-weight-700">
-                  {item.label}
-                </div>
-              </DropdownItem>
-            ))
+            actions
+              .map(item => (
+                <DropdownItem
+                  onClick={() => onStatusChange(item.action)}
+                  className={classNames('text-uppercase', actionsColorNames[item.action])}
+                  key={item.label}
+                >
+                  <div className="font-weight-700">
+                    {item.label}
+                  </div>
+                </DropdownItem>
+              ))
           }
         </DropdownMenu>
       </Dropdown>

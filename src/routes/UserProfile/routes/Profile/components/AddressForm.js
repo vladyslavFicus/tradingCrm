@@ -29,11 +29,13 @@ class AddressForm extends Component {
     onSubmit: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
+    disabled: PropTypes.bool,
   };
   static defaultProps = {
     handleSubmit: null,
     pristine: false,
     submitting: false,
+    disabled: false,
   };
 
   render() {
@@ -42,6 +44,7 @@ class AddressForm extends Component {
       submitting,
       handleSubmit,
       onSubmit,
+      disabled,
     } = this.props;
 
     return (
@@ -54,7 +57,7 @@ class AddressForm extends Component {
 
             <div className="col-xl-6 text-right">
               {
-                !(pristine || submitting) &&
+                !pristine && !submitting && !disabled &&
                 <button className="btn btn-sm btn-primary" type="submit">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
@@ -70,6 +73,7 @@ class AddressForm extends Component {
                 position="vertical"
                 wrapperClassName="col-lg-4"
                 component={NasSelectField}
+                disabled={disabled}
               >
                 {Object
                   .keys(countries)
@@ -85,6 +89,7 @@ class AddressForm extends Component {
                 component={InputField}
                 position="vertical"
                 showErrorMessage
+                disabled={disabled}
               />
             </div>
             <div className="form-row__small">
@@ -95,6 +100,7 @@ class AddressForm extends Component {
                 component={InputField}
                 position="vertical"
                 showErrorMessage
+                disabled={disabled}
               />
             </div>
           </div>
@@ -107,6 +113,7 @@ class AddressForm extends Component {
                 component={TextAreaField}
                 position="vertical"
                 showErrorMessage
+                disabled={disabled}
               />
             </div>
           </div>
@@ -119,4 +126,5 @@ class AddressForm extends Component {
 export default reduxForm({
   form: 'updateProfileAddress',
   validate: validator,
+  enableReinitialize: true,
 })(AddressForm);

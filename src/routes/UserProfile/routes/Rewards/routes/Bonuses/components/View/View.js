@@ -19,6 +19,7 @@ import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
 import CreateModal from '../CreateModal/CreateModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
+import { lockAmountStrategy } from '../../../../../../../../constants/bonus-campaigns';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -369,6 +370,7 @@ class View extends Component {
               playerUUID: playerProfile.playerUUID,
               state: 'INACTIVE',
               currency: playerProfile.currencyCode,
+              lockAmountStrategy: lockAmountStrategy.LOCK_ALL,
             }}
             onSubmit={this.handleSubmitManualBonus}
             onClose={this.handleModalClose}

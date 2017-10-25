@@ -172,6 +172,9 @@
         "SEND_ACTIVATION_LINK": "Send activation link",
         "CHANGE_PASSWORD": "Change password",
         "SHARE_PROFILE": "Share profile"
+      },
+      "HEADER": {
+        "ADD_NOTE": "Add note"
       }
     },
     "GAME_ACTIVITY": {
@@ -252,7 +255,12 @@
           "OPT_IN": "Opt-In",
           "CONVERTED": "Converted",
           "WAGERED": "Wagered",
-          "MONEY_TYPE_PRIORITY": "Wagering"
+          "MONEY_TYPE_PRIORITY": "Wagering",
+          "LOCK_AMOUNT_STRATEGY": "Withdrawal lock"
+        },
+        "LOCK_AMOUNT_STRATEGY": {
+          "LOCK_ALL": "Lock all",
+          "LOCK_PARTIAL": "Lock bonus money"
         }
       },
       "CANCEL_BONUS": "Cancel bonus",
@@ -1085,7 +1093,8 @@
         "EXCLUDE": "Exclude",
         "COUNTRIES": "Countries",
         "START_DATE": "Start date",
-        "END_DATE": "End date"
+        "END_DATE": "End date",
+        "LOCK_AMOUNT_STRATEGY_LABEL": "Lock strategy"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
