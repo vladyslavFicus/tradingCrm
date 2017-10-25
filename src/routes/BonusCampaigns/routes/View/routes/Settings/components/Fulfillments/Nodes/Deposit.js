@@ -69,8 +69,9 @@ class Deposit extends Component {
               />
             </div>
           </div>
-
-          <div className="form-row__big margin-top-10">
+        </div>
+        <div className="form-row">
+          <div className="form-row__big">
             <label>Withdrawal lock</label>
             <div className="range-group">
               <Field

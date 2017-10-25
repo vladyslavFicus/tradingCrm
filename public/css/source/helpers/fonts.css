@@ -55,7 +55,7 @@
 .nas-check_box_checked:before {
   content: "\e906";
 }
-.nas-check_box_idle:before {
+.nas-check_box:before {
   content: "\e907";
 }
 .nas-clear_icon:before {

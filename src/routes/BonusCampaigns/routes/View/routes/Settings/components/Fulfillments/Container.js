@@ -39,7 +39,7 @@ class Container extends Component {
   handleRemoveNode = (node) => {
     this.props.remove(node);
     this.handleRefreshActiveNodes();
-  }
+  };
 
   handleRefreshActiveNodes = () => {
     const { change, activeNodes } = this.props;
@@ -50,13 +50,13 @@ class Container extends Component {
     if (availableNodes.length > 0) {
       this.handleSelectNode(availableNodes[0]);
     }
-  }
+  };
 
   handleSelectNode = (value) => {
     this.setState({
       selectedNode: value,
     });
-  }
+  };
 
   handleSelectPureNode = node => this.props.change(`${nodeGroupTypes.fulfillments}.${node}`, true);
 

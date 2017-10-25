@@ -242,12 +242,12 @@ label {
       color: #4990e2;
     }
     &.is-checked .nas-check_box:before {
-      content: "\e905";
+      content: "\e906";
       color: #4990e2;
     }
   }
   &--checkbox:hover .nas-check_box:before {
-    content: "\e905";
+    content: "\e906";
   }
   &--radio:hover .nas-radio_button:before {
     content: "\e90c";
