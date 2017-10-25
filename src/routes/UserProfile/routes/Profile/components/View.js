@@ -477,7 +477,7 @@ class View extends Component {
                 <PersonalForm
                   initialValues={personalData}
                   onSubmit={this.handleSubmitKYC(kycTypes.personal)}
-                  disabled={canUpdateProfile}
+                  disabled={!canUpdateProfile}
                 />
                 <hr />
                 <PermissionContent
@@ -510,7 +510,7 @@ class View extends Component {
                 <AddressForm
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
-                  disabled={canUpdateProfile}
+                  disabled={!canUpdateProfile}
                 />
                 <hr />
                 <PermissionContent
@@ -547,7 +547,7 @@ class View extends Component {
                 onSubmit={this.handleSubmitContact}
                 onVerifyPhoneClick={this.handleVerifyPhone}
                 onVerifyEmailClick={this.handleVerifyEmail}
-                disabled={canUpdateProfile}
+                disabled={!canUpdateProfile}
               />
             </div>
           </div>
