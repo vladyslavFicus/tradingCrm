@@ -72,7 +72,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <div className="tab-header">
           <div className="tab-header__heading">
             {I18n.t('OPERATOR_PROFILE.FEED.TITLE')}

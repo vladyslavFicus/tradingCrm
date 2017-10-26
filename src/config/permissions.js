@@ -37,7 +37,7 @@ export default {
     KYC_VERIFY_ALL: 'profile;POST;/kyc/{playerUUID}/verify',
     KYC_VERIFY: 'profile;POST;/kyc/{playerUUID}/{type}/verify',
     KYC_REJECT: 'profile;DELETE;/kyc/{playerUUID}/{type}',
-    UPDATE_PROFILE: 'profile;PUT;/profiles/{playerUUID}1',
+    UPDATE_PROFILE: 'profile;PUT;/profiles/{playerUUID}',
     VIEW_FILES: 'profile;GET;/files/{playerUUID}',
     VIEW_FILE: 'profile;GET;/kyc/download/{fileId}',
     UPLOAD_FILE: 'profile;POST;/files',

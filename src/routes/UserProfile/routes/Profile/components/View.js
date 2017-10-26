@@ -473,11 +473,11 @@ class View extends Component {
         <div className="tab-content">
           <div className="panel">
             <div className="panel-body row panel-body__wrapper">
-              <div className="col-md-8 profile-bordered-block">
+              <div className="col-md-8 with-right-border">
                 <PersonalForm
                   initialValues={personalData}
                   onSubmit={this.handleSubmitKYC(kycTypes.personal)}
-                  disabled={canUpdateProfile}
+                  disabled={!canUpdateProfile}
                 />
                 <hr />
                 <PermissionContent
@@ -506,11 +506,11 @@ class View extends Component {
 
           <div className="panel">
             <div className="panel-body row panel-body__wrapper">
-              <div className="col-md-8 profile-bordered-block">
+              <div className="col-md-8 with-right-border">
                 <AddressForm
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
-                  disabled={canUpdateProfile}
+                  disabled={!canUpdateProfile}
                 />
                 <hr />
                 <PermissionContent
@@ -547,7 +547,7 @@ class View extends Component {
                 onSubmit={this.handleSubmitContact}
                 onVerifyPhoneClick={this.handleVerifyPhone}
                 onVerifyEmailClick={this.handleVerifyEmail}
-                disabled={canUpdateProfile}
+                disabled={!canUpdateProfile}
               />
             </div>
           </div>

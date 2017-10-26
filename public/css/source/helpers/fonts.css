@@ -6,11 +6,10 @@
 
 @font-face {
   font-family: 'NAS-Font';
-  src:  url('../../../fonts/NAS-Font.eot?17n06m');
-  src:  url('../../../fonts/NAS-Font.eot?17n06m#iefix') format('embedded-opentype'),
-  url('../../../fonts/NAS-Font.ttf?17n06m') format('truetype'),
-  url('../../../fonts/NAS-Font.woff?17n06m') format('woff'),
-  url('../../../fonts/NAS-Font.svg?17n06m#NAS-Font') format('svg');
+  src:
+    url('../../../fonts/NAS-Font.ttf?462knr') format('truetype'),
+    url('../../../fonts/NAS-Font.woff?462knr') format('woff'),
+    url('../../../fonts/NAS-Font.svg?462knr#NAS-Font') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -35,51 +34,55 @@
   color: #cfcfcf;
 }
 
-.nas-add_filter_icon:before {
+.nas-currencies_icon:before {
   content: "\e900";
 }
-.nas-calendar_arrow_left:before {
+.nas-add_filter_icon:before {
   content: "\e901";
 }
-.nas-calendar_arrow_right:before {
+.nas-calendar_arrow_left:before {
   content: "\e902";
 }
-.nas-calendar_icon:before {
+.nas-calendar_arrow_right:before {
   content: "\e903";
 }
-.nas-case_sensetive_switch_icon:before {
+.nas-calendar_icon:before {
   content: "\e904";
 }
-.nas-check_box_checked:before {
+.nas-case_sensetive_switch_icon:before {
   content: "\e905";
 }
-.nas-check_box:before {
+.nas-check_box_checked:before {
   content: "\e906";
 }
-.nas-clear_icon:before {
+.nas-check_box:before {
   content: "\e907";
 }
-.nas-currency_euro_icon:before {
+.nas-clear_icon:before {
   content: "\e908";
 }
-.nas-dropdown_arrow_icon:before {
+.nas-currency_euro_icon:before {
   content: "\e909";
 }
-.nas-field_alert_icon:before {
+.nas-dropdown_arrow_icon:before {
   content: "\e90a";
 }
-.nas-radio_button_checked:before {
+.nas-field_alert_icon:before {
   content: "\e90b";
 }
-.nas-radio_button_hover:before {
+.nas-radio_button_checked:before {
   content: "\e90c";
 }
-.nas-radio_button:before {
+.nas-radio_button_hover:before {
   content: "\e90d";
 }
-.nas-search_icon:before {
+.nas-radio_button_idle:before {
   content: "\e90e";
 }
+.nas-search_icon:before {
+  content: "\e90f";
+}
+
 
 /*!
  *  Font Awesome 4.6.3 by @davegandy - http://fontawesome.io - @fontawesome

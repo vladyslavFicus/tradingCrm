@@ -163,7 +163,7 @@ class PlayerLimits extends Component {
               (entities.length > 0 || login.locked) &&
               <div className="limits-info">
                 <PermissionContent permissions={permissions.USER_PROFILE.GET_PAYMENT_LOCKS}>
-                  <div>
+                  <div className={classNames({ 'no-margin': entities.length < 1 })}>
                     {entities.map(limit => (
                       <PlayerLimit
                         key={limit.id}

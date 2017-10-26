@@ -83,3 +83,11 @@
     overflow: hidden;
   }
 }
+
+.bonus__campaign__target,
+.bonus__campaign__fulfillment-reward {
+  .panel-body {
+    padding: 7px;
+    font-size: 13px;
+  }
+}
