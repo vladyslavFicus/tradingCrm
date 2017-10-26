@@ -41,7 +41,8 @@ class PlayerLimit extends Component {
       profileStatus,
     } = this.props;
     const isUnlockButtonVisible = (
-      !!(unlockButtonLabel && unlockButtonClassName && onUnlockButtonClick) && profileStatus === statuses.ACTIVE);
+      !!(unlockButtonLabel && unlockButtonClassName && onUnlockButtonClick) && profileStatus === statuses.ACTIVE
+    );
 
     return (
       <div className="limits-info_tab">
