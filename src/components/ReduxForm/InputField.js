@@ -9,7 +9,10 @@ class InputField extends Component {
       name: PropTypes.string,
       value: PropTypes.any,
     }).isRequired,
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+    ]),
     labelAddon: PropTypes.any,
     inputClassName: PropTypes.string,
     placeholder: PropTypes.string,
@@ -29,6 +32,7 @@ class InputField extends Component {
     iconRightClassName: PropTypes.string,
     labelClassName: PropTypes.string,
     id: PropTypes.string,
+    onIconClick: PropTypes.func,
   };
   static defaultProps = {
     className: 'form-group',
@@ -47,6 +51,7 @@ class InputField extends Component {
     iconRightClassName: '',
     labelClassName: null,
     id: null,
+    onIconClick: null,
   };
 
   renderLabel = (props) => {
@@ -134,6 +139,7 @@ class InputField extends Component {
       iconLeftClassName,
       iconRightClassName,
       id,
+      onIconClick,
     } = props;
 
     let inputField = (
@@ -155,9 +161,15 @@ class InputField extends Component {
             'input-with-icon__right': !!iconRightClassName,
           })}
         >
-          {!!iconLeftClassName && <i className={classNames('input-left-icon', iconLeftClassName)} />}
+          {
+            !!iconLeftClassName &&
+            <i className={classNames('input-left-icon', iconLeftClassName)} onClick={onIconClick} />
+          }
           {inputField}
-          {!!iconRightClassName && <i className={classNames('input-right-icon', iconRightClassName)} />}
+          {
+            !!iconRightClassName &&
+            <i className={classNames('input-right-icon', iconRightClassName)} onClick={onIconClick} />
+          }
         </div>
       );
     }

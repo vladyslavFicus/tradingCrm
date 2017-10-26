@@ -473,7 +473,7 @@ class View extends Component {
         <div className="tab-content">
           <div className="panel">
             <div className="panel-body row panel-body__wrapper">
-              <div className="col-md-8 profile-bordered-block">
+              <div className="col-md-8 with-right-border">
                 <PersonalForm
                   initialValues={personalData}
                   onSubmit={this.handleSubmitKYC(kycTypes.personal)}
@@ -506,7 +506,7 @@ class View extends Component {
 
           <div className="panel">
             <div className="panel-body row panel-body__wrapper">
-              <div className="col-md-8 profile-bordered-block">
+              <div className="col-md-8 with-right-border">
                 <AddressForm
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
