@@ -22,7 +22,7 @@ import {
 import './ProfileLayout.scss';
 import ChangePasswordModal from '../../../components/ChangePasswordModal';
 import ShareLinkModal from '../components/ShareLinkModal';
-import ResetPasswordModal from '../components/ResetPasswordModal';
+import ConfirmActionModal from '../../../components/Modal/ConfirmActionModal';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -751,13 +751,17 @@ class ProfileLayout extends Component {
             playerUUID={playerProfile.playerUUID}
           />
         }
+
         {
           modal.name === MODAL_RESET_PASSWORD &&
-          <ResetPasswordModal
+          <ConfirmActionModal
+            onSubmit={this.handleResetPassword}
             onClose={this.handleCloseModal}
-            playerName={`${playerProfile.firstName} ${playerProfile.lastName}`}
-            playerUUID={playerProfile.playerUUID}
-            resetPassword={this.handleResetPassword}
+            modalTitle={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TITLE')}
+            actionText={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TEXT')}
+            fullName={`${playerProfile.firstName} ${playerProfile.lastName}`}
+            uuid={playerProfile.playerUUID}
+            submitButtonLabel={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.BUTTON_ACTION')}
           />
         }
 

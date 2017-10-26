@@ -484,7 +484,7 @@
       "LOGIN": {
         "MODAL": {
           "TITLE": "Unlock login for player",
-          "ACTION_TEXT": "You are about to unlock withdrawal for %{fullName}",
+          "ACTION_TEXT": "You are about to unlock withdrawal for",
           "SUBMIT_BUTTON_LABEL": "Unlock login"
         },
         "REASON": "by 5 failed login attempts"

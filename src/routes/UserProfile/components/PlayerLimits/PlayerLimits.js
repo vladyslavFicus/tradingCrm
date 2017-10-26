@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Dropdown, DropdownMenu } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import moment from 'moment';
 import PropTypes from '../../../../constants/propTypes';
 import { types, actions, reasons } from '../../../../constants/wallet';
 import PlayerLimitsModal from './PlayerLimitsModal';
@@ -95,16 +94,7 @@ class PlayerLimits extends Component {
   };
 
   handleUnlockLoginClick = () => {
-    const { profile: { fullName, playerUUID } } = this.props;
-
-    this.handleOpenModal(PLAYER_LOGIN_LIMIT_MODAL, {
-      onSubmit: this.handleUnlockLogin,
-      uuid: playerUUID,
-      uuidPrefix: 'PL',
-      modalTitle: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.TITLE'),
-      actionText: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.ACTION_TEXT', { fullName }),
-      submitButtonLabel: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.SUBMIT_BUTTON_LABEL'),
-    });
+    this.handleOpenModal(PLAYER_LOGIN_LIMIT_MODAL);
   };
 
   renderStatus = (label, locked) => {
@@ -215,9 +205,13 @@ class PlayerLimits extends Component {
         {
           modal.name === PLAYER_LOGIN_LIMIT_MODAL &&
           <ConfirmActionModal
-            {...modal.params}
-            form="confirmUnlockLogin"
+            onSubmit={this.handleUnlockLogin}
             onClose={this.handleModalHide}
+            modalTitle={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.TITLE')}
+            actionText={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.ACTION_TEXT')}
+            fullName={profile.fullName}
+            uuid={profile.playerUUID}
+            submitButtonLabel={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.SUBMIT_BUTTON_LABEL')}
           />
         }
       </div>
