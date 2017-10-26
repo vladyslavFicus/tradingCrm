@@ -105,38 +105,6 @@ const optInSelect = {
   false: I18n.t('COMMON.NON_OPT_IN'),
 };
 
-const fulfillmentSelect = {
-  registration: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.REGISTRATION_FULFILLMENT'),
-  deposit: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.DEPOSIT_FULFILLMENT'),
-  profileCompleted: 'Profile completed',
-  wagering: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.WAGERING_FULFILLMENT'),
-  login: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.LOGIN_FULFILLMENT'),
-  campaign: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.CAMPAIGN_FULFILLMENT'),
-  email: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.EMAIL_VERIFICATION_FULFILLMENT'),
-  phone: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.PHONE_VERIFICATION_FULFILLMENT'),
-};
-
-const rewardSelect = {
-  bonus: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS'),
-  freeSpins: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPINS'),
-};
-
-const wageredAmount = {
-  allGames: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.WAGERED_AMOUNT_ALL_GAMES'),
-  oneGame: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.WAGERED_AMOUNT_ONE_GAME'),
-};
-
-const multipliersTypes = {
-  bonus: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS'),
-  deposit: I18n.t('BONUS_CAMPAIGNS.REWARDS.DEPOSIT'),
-  bonusDeposit: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS_DEPOSIT'),
-};
-
-const moneyTypePrior = {
-  realMoney: I18n.t('BONUS_CAMPAIGNS.REWARDS.REAL_MONEY_FIRST'),
-  bonusMoney: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS_MONEY_FIRST'),
-};
-
 export {
   actions,
   actionLabels,
@@ -153,11 +121,6 @@ export {
   moneyTypeUsage,
   moneyTypeUsageLabels,
   optInSelect,
-  fulfillmentSelect,
-  wageredAmount,
-  rewardSelect,
-  multipliersTypes,
-  moneyTypePrior,
   lockAmountStrategy,
   lockAmountStrategyLabels,
 };
