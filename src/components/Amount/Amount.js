@@ -23,7 +23,7 @@ const Amount = ({ tag, className, amount, currency, amountClassName, currencyCla
 
   const chunks = [
     <Currency key="currency" code={currency} className={currencyClassName} />,
-    <span key="amount" className={amountClassName}>
+    <span key="amount" className={amountClassName} id={id}>
       {formatMoney(parsedAmount)}
     </span>,
   ];
@@ -32,7 +32,7 @@ const Amount = ({ tag, className, amount, currency, amountClassName, currencyCla
     chunks.reverse();
   }
 
-  return React.createElement(tag, { className, id }, chunks);
+  return React.createElement(tag, { className }, chunks);
 };
 
 Amount.defaultProps = {
