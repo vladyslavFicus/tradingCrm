@@ -7,10 +7,7 @@ import { statusColorNames, statuses } from '../../../../../constants/operators';
 import AccountStatus from './AccountStatus';
 import PropTypes from '../../../../../constants/propTypes';
 import PermissionContent from '../../../../../components/PermissionContent';
-import Permissions from '../../../../../utils/permissions';
-import permission from '../../../../../config/permissions';
-
-const sendInvitationRequiredPermissions = new Permissions([permission.OPERATORS.OPERATOR_SEND_INVITATION]);
+import permissions from '../../../../../config/permissions';
 
 class Header extends Component {
   static propTypes = {
@@ -66,7 +63,7 @@ class Header extends Component {
           <div className="panel-heading-row__actions">
             {
               operatorStatus === statuses.INACTIVE &&
-              <PermissionContent permissions={sendInvitationRequiredPermissions}>
+              <PermissionContent permissions={permissions.OPERATORS.OPERATOR_SEND_INVITATION}>
                 <Button
                   className="btn-sm btn-default-outline margin-right-10"
                   onClick={onSendInvitationClick}

@@ -134,8 +134,8 @@ class ViewLayout extends Component {
     } = this.props;
 
     return (
-      <div className="player panel profile-layout">
-        <div className="profile-layout-heading">
+      <div className="layout layout_not-iframe">
+        <div className="layout-info">
           <Header
             onChangeCampaignState={onChangeCampaignState}
             availableStatusActions={availableStatusActions}
@@ -160,24 +160,18 @@ class ViewLayout extends Component {
           </div>
 
           <Collapse isOpen={informationShown}>
-            <Information
-              data={bonusCampaignData}
-            />
+            <Information data={bonusCampaignData} />
           </Collapse>
         </div>
 
-        <div className="card profile-user-content">
-          <div className="card-body">
-            <div className="nav-tabs-horizontal">
-              <Tabs
-                items={bonusCampaignTabs}
-                location={location}
-                params={params}
-              />
-              <div className="padding-vertical-20">
-                {children}
-              </div>
-            </div>
+        <div className="layout-content">
+          <div className="nav-tabs-horizontal">
+            <Tabs
+              items={bonusCampaignTabs}
+              location={location}
+              params={params}
+            />
+            {children}
           </div>
         </div>
         {

@@ -10,7 +10,6 @@ const mapActionCreators = {
   changeDepartment: authActionCreators.changeDepartment,
   fetchProfile: authActionCreators.fetchProfile,
   fetchAuthorities: authActionCreators.fetchAuthorities,
-  changeEmailNotificationSetting: authActionCreators.changeEmailNotificationSetting,
 };
 const mapStateToProps = ({ signIn }) => ({ ...signIn });
 

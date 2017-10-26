@@ -1,9 +1,14 @@
 import { CALL_API } from 'redux-api-middleware';
+import _ from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { actions, statusesReasons } from '../../../../../constants/bonus-campaigns';
+import { actions, statusesReasons, campaignTypes } from '../../../../../constants/bonus-campaigns';
 import buildFormData from '../../../../../utils/buildFormData';
+import { nodeGroupTypes } from '../routes/Settings/constants';
+import { nodeTypes as fulfillmentNodeTypes } from '../routes/Settings/components/Fulfillments/constants';
+import { nodeTypes as rewardNodeTypes } from '../routes/Settings/components/Rewards/constants';
+import deleteFromArray from '../../../../../utils/deleteFromArray';
 
 const KEY = 'campaign';
 const CAMPAIGN_UPDATE = createRequestAction(`${KEY}/campaign-update`);
@@ -12,6 +17,21 @@ const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
 const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
 const REMOVE_PLAYERS = createRequestAction(`${KEY}/remove-players`);
+const REVERT = createRequestAction(`${KEY}/revert-form`);
+const REMOVE_FULFILLMENT_NODE = `${KEY}/remove-fulfillment-node`;
+const ADD_FULFILLMENT_NODE = `${KEY}/add-fulfillment-node`;
+
+function mapFulfillmentNode(campaignType) {
+  const node = null;
+
+  if (campaignType === campaignTypes.PROFILE_COMPLETED) {
+    return fulfillmentNodeTypes.profileCompleted;
+  } else if ([campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(campaignType) > -1) {
+    return fulfillmentNodeTypes.deposit;
+  }
+
+  return node;
+}
 
 function fetchCampaign(id) {
   return (dispatch, getState) => {
@@ -110,7 +130,10 @@ function updateCampaign(id, data) {
       return { type: false };
     }
 
-    const endpointParams = { ...data };
+    let endpointParams = {
+      ...data,
+      includeCountries: !data.excludeCountries,
+    };
     if (
       endpointParams.conversionPrize &&
       (endpointParams.conversionPrize.value === undefined || endpointParams.conversionPrize.value === null)
@@ -123,6 +146,40 @@ function updateCampaign(id, data) {
     ) {
       endpointParams.capping = null;
     }
+
+    const fulfillmentDeposit = _.get(endpointParams, 'fulfillments.deposit');
+    if (fulfillmentDeposit) {
+      endpointParams = {
+        ...endpointParams,
+        ...fulfillmentDeposit,
+        campaignType: campaignTypes.DEPOSIT,
+      };
+
+      if (fulfillmentDeposit.firstDeposit) {
+        endpointParams.campaignType = campaignTypes.FIRST_DEPOSIT;
+      }
+    }
+
+    const fulfillmentProfileCompleted = _.get(endpointParams, 'fulfillments.profileCompleted');
+    if (fulfillmentProfileCompleted) {
+      endpointParams = {
+        ...endpointParams,
+        campaignType: campaignTypes.PROFILE_COMPLETED,
+      };
+    }
+
+    const rewardBonus = _.get(endpointParams, 'rewards.bonus');
+    if (rewardBonus) {
+      endpointParams = {
+        ...endpointParams,
+        ...rewardBonus,
+      };
+    }
+
+    delete endpointParams.excludeCountries;
+    delete endpointParams.firstDeposit;
+    delete endpointParams.fulfillments;
+    delete endpointParams.rewards;
 
     return dispatch({
       [CALL_API]: {
@@ -218,6 +275,28 @@ function removeAllPlayers(campaignId) {
   };
 }
 
+function revert() {
+  return {
+    type: REVERT,
+  };
+}
+
+function removeNode(nodeGroup, node) {
+  return {
+    type: REMOVE_FULFILLMENT_NODE,
+    nodeGroup,
+    node,
+  };
+}
+
+function addNode(nodeGroup, node) {
+  return {
+    type: ADD_FULFILLMENT_NODE,
+    nodeGroup,
+    node,
+  };
+}
+
 const actionHandlers = {
   [CAMPAIGN_UPDATE.REQUEST]: state => ({
     ...state,
@@ -249,6 +328,11 @@ const actionHandlers = {
     data: {
       ...state.data,
       ...action.payload,
+      excludeCountries: !action.payload.includeCountries,
+    },
+    nodeGroups: {
+      ...state.nodeGroups,
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(action.payload.campaignType)],
     },
   }),
   [FETCH_CAMPAIGN.FAILURE]: (state, action) => ({
@@ -271,9 +355,37 @@ const actionHandlers = {
       totalSelectedPlayers: 0,
     },
   }),
+  [REMOVE_FULFILLMENT_NODE]: (state, action) => ({
+    ...state,
+    nodeGroups: {
+      ...state.nodeGroups,
+      [action.nodeGroup]: deleteFromArray(state.nodeGroups.fulfillments, action.node),
+    },
+  }),
+  [ADD_FULFILLMENT_NODE]: (state, action) => ({
+    ...state,
+    nodeGroups: {
+      ...state.nodeGroups,
+      [action.nodeGroup]: [
+        ...state.nodeGroups[action.nodeGroup],
+        action.node,
+      ],
+    },
+  }),
+  [REVERT]: state => ({
+    ...state,
+    nodeGroups: {
+      ...state.nodeGroups,
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.campaignType)],
+    },
+  }),
 };
 const initialState = {
   data: {},
+  nodeGroups: {
+    [nodeGroupTypes.fulfillments]: [],
+    [nodeGroupTypes.rewards]: [rewardNodeTypes.bonus],
+  },
   error: null,
   isLoading: false,
   receivedAt: null,
@@ -284,6 +396,7 @@ const actionTypes = {
   CHANGE_CAMPAIGN_STATE,
   CAMPAIGN_CLONE,
   REMOVE_PLAYERS,
+  REVERT,
 };
 const actionCreators = {
   fetchCampaign,
@@ -292,6 +405,9 @@ const actionCreators = {
   uploadPlayersFile,
   cloneCampaign,
   removeAllPlayers,
+  revert,
+  removeNode,
+  addNode,
 };
 
 export {

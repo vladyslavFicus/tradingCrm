@@ -177,6 +177,9 @@
         "SEND_ACTIVATION_LINK": "Отправить ссылку активации",
         "CHANGE_PASSWORD": "Сменить пароль",
         "SHARE_PROFILE": "Поделиться профилем"
+      },
+      "HEADER": {
+        "ADD_NOTE": "Добавить заметку"
       }
     },
     "GAME_ACTIVITY": {
@@ -1032,7 +1035,10 @@
           "CAMPAIGN_END": "Окончание кампании",
           "PRIZE": "Приз",
           "CAPPING": "Capping",
-          "MONEY_TYPE_PRIORITY": "Приоритет использования денег: %{priority}"
+          "MONEY_TYPE_PRIORITY": "Приоритет использования денег: %{priority}",
+          "CONTENT": "Контент",
+          "COMPLETE": "заполнен",
+          "EDIT_CONTENT": "Редактировать"
         },
         "GRANTED_TO": "для %{count} игроков",
         "GRANTED_TO_1": "для %{count} игрока"
@@ -1081,11 +1087,7 @@
         "CAMPAIGN_NAME": "Название кампании (Внутреннее)",
         "TARGET_TYPE": "Тип",
         "CURRENCY": "Валюта",
-        "START_DATE": "Начало",
-        "END_DATE": "Конец",
         "CAPPING": "Capping",
-        "MULTIPLIER": "Multiplier",
-        "BONUS_LIFE_TIME": "Время жизни",
         "CAMPAIGN_RATIO": "Коэффициент",
         "CONVERSION_PRIZE": "Приз",
         "OPT_IN": "Opt-In",
@@ -1096,16 +1098,37 @@
         "MAX_AMOUNT_PLACEHOLDER": "Макс.",
         "RATIO_TOOLTIP": "Депозит: предоставленный бонус",
         "PRIORITY": "Приоритет",
-        "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
+        "CAMPAIGN_PERIOD": "Период кампании",
+        "DESCRIPTION": "Описание",
+        "BASE_CURRENCY": "Базовая валюта",
+        "MIN_PRIZE": "Мин. приз",
+        "TYPE": "Тип",
+        "AFFILIATES": "Филиалы",
+        "EXCLUDE": "Исключить",
+        "COUNTRIES": "Страны",
+        "START_DATE": "Дата начала",
+        "END_DATE": "Дата окончания",
         "LOCK_AMOUNT_STRATEGY_LABEL": "Стратегия блок. денег"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
       "TARGET": "Тип",
       "CAMPAIGN_SETTINGS": "Настройки кампании",
-      "FULFILLMENT": "FULFILLMENT",
-      "REWARD": "Вознаграждение",
-      "DEPOSIT_AMOUNT": "Сумма пополнения"
+      "FULFILLMENTS": "Фулфилменты",
+      "REWARDS": "Вознаграждения",
+      "DEPOSIT_AMOUNT": "Сумма пополнения",
+      "FULFILLMENT": {
+        "LABEL": {
+          "ADD_FULFILLMENT": "Добавить условие"
+        },
+        "DEPOSIT": {
+          "LABEL": "Депозит"
+        },
+        "PROFILE_COMPLETED": {
+          "LABEL": "Профиль заполнен"
+        },
+        "SELECT_FULFILLMENT": "-- Выбрать условие --"
+      }
     },
     "CHANGE_STATUS_MODAL": {
       "SELECT_REASON_OPTION": "-- Выберите причину --",
@@ -1127,6 +1150,78 @@
     },
     "OPTIONS": {
       "CLONE_LABEL": "Скопировать кампанию"
+    },
+    "FULFILLMENTS": {
+      "ADD_FULFILLMENT": "Добавить фулфилмент",
+      "REGISTRATION_FULFILLMENT": "Фулфилмент регистрации",
+      "DEPOSIT_FULFILLMENT": "Фулфилмент депозита",
+      "DEPOSIT_AMOUNT_RANGE": "Сумма депозита",
+      "WAGERING_FULFILLMENT": "Фулфилмент ставок",
+      "LOGIN_FULFILLMENT": "Фулфилмент авторизации",
+      "CAMPAIGN_FULFILLMENT": "Фулфилмент кампании",
+      "EMAIL_VERIFICATION_FULFILLMENT": "Фулфилмент подтверждения е-мейла",
+      "PHONE_VERIFICATION_FULFILLMENT": "Фулфилмент подтверждения телефона",
+      "WAGERED_AMOUNT_ALL_GAMES": "Количество ставок во всех играх > X",
+      "WAGERED_AMOUNT_ONE_GAME": "Количество ставок в одной игре или выбранных играх > X",
+      "AMOUNT_TO_WAGER": "Сумма ставки",
+      "EXCLUDE_BONUS_MONEY": "Исключить бонусные деньги из ставок",
+      "CHOOSE_CAMPAIGN": "- Выберите кампанию -",
+      "DEPOSIT": {
+        "MIN_AMOUNT": "Мин. сумма",
+        "MAX_AMOUNT": "Макс. сумма",
+        "LOCK_AMOUNT_STRATEGY": "Стратегия блок. денег"
+      }
+    },
+    "REWARDS": {
+      "ADD_REWARD": "Добавить награду",
+      "FREE_SPINS": "Free-spins",
+      "BONUS_REWARD": "Бонусная награда",
+      "GRANT": "Грант",
+      "LIMITS": "Лимиты",
+      "MULTIPLIER": "Множитель",
+      "MULTIPLIERS_TYPE": "Тип множителя",
+      "DEPOSIT": "Депозит",
+      "BONUS_DEPOSIT": "Бонус + депозит",
+      "MONEY_TYPE_PRIOR": "Денежный приоритет",
+      "REAL_MONEY_FIRST": "Сначала реальные деньги",
+      "BONUS_MONEY_FIRST": "Сначала бонусные деньги",
+      "BM_BET_LIMIT": "Предел BM",
+      "LIFE_TIME": "Длительность",
+      "CUSTOM_CONTRIB_RATE": "Пользовательская ставка",
+      "FREE_SPIN_REWARD": "Free spin награда",
+      "PROVIDER": "Провайдер",
+      "GAMES": "Игры",
+      "LINES": "Линии",
+      "COINS": "Coins",
+      "COIN_VALUE": "Стоимость coin",
+      "PER_LINE": "За линию",
+      "SPIN_VALUE": "Spin значениe",
+      "TOTAL_VALUE": "Общее значение",
+      "PLACEHOLDERS": {
+        "DAYS": "дней",
+        "NOT_SET": "Не задано"
+      },
+      "BONUS": {
+        "CAMPAIGN_RATIO": {
+          "VALUE": "Коэффициент",
+          "TYPE": "Тип"
+        },
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Время жизни",
+        "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
+      }
+    },
+    "CURRENCY_CALC_MODAL": {
+      "HEADER": "Стоимость в разных валютах",
+      "BODY": {
+        "MIN_DEPOSIT": "Мин. диапазон депозитов",
+        "RECALC": "Пересчитать",
+        "RECALC_WARNING": "Пересчет сбросит все настроенные значения",
+        "CURRENCY": "Валюта",
+        "RATE": "Rate",
+        "CALCULATED": "Рассчитано",
+        "CUSTOMIZED": "Customized"
+      }
     },
     "REMOVE_PLAYERS": {
       "BUTTON": "Удалить всех игроков",

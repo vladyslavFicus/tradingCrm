@@ -16,7 +16,6 @@ const CHANGE_AUTHORITY = createRequestAction(`${KEY}/change-authorities`);
 const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
 const LOGOUT = createRequestAction(`${KEY}/logout`);
 const SET_LAST_ACTIVITY = `${KEY}/set-last-activity`;
-const CHANGE_EMAIL_NOTIFICATION_SETTING = `${KEY}/change-email-notification-setting`;
 
 const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 const fetchAuthorities = operatorSourceActionCreators.fetchAuthorities(FETCH_AUTHORITIES);
@@ -150,13 +149,6 @@ function setLastActivity(time) {
   };
 }
 
-function changeEmailNotificationSetting(payload) {
-  return {
-    type: CHANGE_EMAIL_NOTIFICATION_SETTING,
-    payload,
-  };
-}
-
 const initialState = {
   lastActivity: null,
   refreshingToken: false,
@@ -210,10 +202,6 @@ const actionHandlers = {
     ...state,
     lastActivity: action.payload.timestamp,
   }),
-  [CHANGE_EMAIL_NOTIFICATION_SETTING]: (state, action) => ({
-    ...state,
-    notifications: { ...state.notifications, email: action.payload },
-  }),
 };
 const actionTypes = {
   SIGN_IN,
@@ -223,7 +211,6 @@ const actionTypes = {
   LOGOUT,
   UPDATE_PROFILE,
   SET_LAST_ACTIVITY,
-  CHANGE_EMAIL_NOTIFICATION_SETTING,
 };
 const actionCreators = {
   signIn,
@@ -235,7 +222,6 @@ const actionCreators = {
   setLastActivity,
   resetPasswordConfirm,
   updateProfile,
-  changeEmailNotificationSetting,
 };
 
 export {

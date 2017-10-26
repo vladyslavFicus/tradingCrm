@@ -176,6 +176,10 @@ small {
   text-transform: uppercase;
 }
 
+.with-right-border {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 .rdtPicker {
   width: auto;
   right: -5px;

@@ -9,7 +9,7 @@ export default store => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       if (!requiredPermissions.check(store.getState().permissions.data)) {
-        return cb(null, require('routes/Forbidden/container/Container').default);
+        return cb(null, require('../../../Forbidden/container/Container').default);
       }
 
       injectReducer(store, {

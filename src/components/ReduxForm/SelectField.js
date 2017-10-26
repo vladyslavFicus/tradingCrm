@@ -19,7 +19,7 @@ class SelectField extends Component {
     meta: PropTypes.shape({
       touched: PropTypes.bool,
       error: PropTypes.string,
-    }).isRequired,
+    }),
     inputClassName: PropTypes.string,
     inputAddon: PropTypes.element,
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
@@ -38,6 +38,10 @@ class SelectField extends Component {
     showInputButton: false,
     label: null,
     labelClassName: '',
+    meta: {
+      touched: false,
+      error: false,
+    },
   };
 
   renderInput = (props) => {

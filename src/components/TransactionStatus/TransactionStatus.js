@@ -54,7 +54,7 @@ class TransactionStatus extends Component {
                 {moment.utc(status.creationTime).local().format('DD.MM.YYYY - HH:mm:ss')}
               </div>
               <div className="font-size-11">
-                {status.initiatorType}
+                {`${I18n.t('COMMON.AUTHOR_BY')} ${status.initiatorType}`}
                 {
                   (status.initiatorType === initiators.PLAYER || status.initiatorType === initiators.OPERATOR) &&
                     <span>
@@ -100,7 +100,7 @@ class TransactionStatus extends Component {
         <div className={classNames(statusesColor[transactionStatus], 'font-weight-700 text-uppercase status')}>
           {renderLabel(transactionStatus, statusesLabels)}
           {
-            transactionStatus === statuses.FAILED && !!transaction.reason &&
+            (transactionStatus === statuses.FAILED || transactionStatus === statuses.REFUSED) && !!transaction.reason &&
             <FailedStatusIcon id={`transaction-failure-reason-${transaction.paymentId}`}>
               {transaction.reason}
             </FailedStatusIcon>

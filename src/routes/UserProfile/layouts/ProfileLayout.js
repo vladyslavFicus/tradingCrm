@@ -19,7 +19,6 @@ import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal,
 } from '../../../components/Files';
-import './ProfileLayout.scss';
 import ChangePasswordModal from '../../../components/ChangePasswordModal';
 import ShareLinkModal from '../components/ShareLinkModal';
 
@@ -167,7 +166,6 @@ class ProfileLayout extends Component {
   };
 
   componentWillMount() {
-    document.body.classList.add('user-profile-layout');
     window.addEventListener('scroll', this.handleScrollWindow);
   }
 
@@ -615,8 +613,8 @@ class ProfileLayout extends Component {
     } = this.props;
 
     return (
-      <div className="player panel profile-layout">
-        <div className="profile-layout-heading">
+      <div className="layout">
+        <div className="layout-info">
           <Header
             playerProfile={playerProfile}
             locale={locale}
@@ -665,17 +663,14 @@ class ProfileLayout extends Component {
             />
           </Collapse>
         </div>
-        <div className="panel profile-user-content">
+        <div className="layout-content">
           <div className="nav-tabs-horizontal">
             <Tabs
               items={userProfileTabs}
               location={location}
               params={params}
             />
-
-            <div>
-              {children}
-            </div>
+            {children}
           </div>
         </div>
         {

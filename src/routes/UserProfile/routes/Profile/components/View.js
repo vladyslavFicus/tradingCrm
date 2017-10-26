@@ -22,6 +22,9 @@ import {
 } from '../../../../../constants/kyc';
 import { kycNoteTypes } from '../constants';
 import './View.scss';
+import PermissionContent from '../../../../../components/PermissionContent';
+import { CONDITIONS } from '../../../../../utils/permissions';
+import permissions from '../../../../../config/permissions';
 import Card from '../../../../../components/Card/Card';
 
 const REFUSE_MODAL = 'refuse-modal';
@@ -92,12 +95,16 @@ class View extends Component {
     verifyKycAll: PropTypes.func.isRequired,
     fetchKycReasons: PropTypes.func.isRequired,
     fetchMeta: PropTypes.func.isRequired,
+    canUpdateProfile: PropTypes.bool,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
     refreshPinnedNotes: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    canUpdateProfile: false,
   };
 
   state = {
@@ -424,6 +431,7 @@ class View extends Component {
       downloadFile,
       fetchMeta,
       locale,
+      canUpdateProfile,
     } = this.props;
 
     if (!receivedAt) {
@@ -438,23 +446,27 @@ class View extends Component {
             <div className="tab-header__actions">
               {
                 !data.kycCompleted && !!data.kycRequest &&
-                <button
-                  id="verify-all-identities-button"
-                  type="button"
-                  className="btn btn-sm btn-success-outline margin-right-10"
-                  onClick={this.handleOpenVerifyKycAllModal}
-                >
-                  {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION_ALL')}
-                </button>
+                <PermissionContent permissions={permissions.USER_PROFILE.KYC_VERIFY_ALL}>
+                  <button
+                    id="verify-all-identities-button"
+                    type="button"
+                    className="btn btn-sm btn-success-outline margin-right-10"
+                    onClick={this.handleOpenVerifyKycAllModal}
+                  >
+                    {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION_ALL')}
+                  </button>
+                </PermissionContent>
               }
-              <button
-                id="request-kyc-button"
-                type="button"
-                className="btn btn-sm btn-primary-outline"
-                onClick={this.handleOpenRequestKycVerificationModal}
-              >
-                {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
-              </button>
+              <PermissionContent permissions={permissions.USER_PROFILE.REQUEST_KYC}>
+                <button
+                  id="request-kyc-button"
+                  type="button"
+                  className="btn btn-sm btn-primary-outline"
+                  onClick={this.handleOpenRequestKycVerificationModal}
+                >
+                  {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
+                </button>
+              </PermissionContent>
             </div>
           </div>
         </Sticky>
@@ -462,19 +474,25 @@ class View extends Component {
         <div className="tab-content">
           <Card>
             <div className="card-body row panel-body__wrapper">
-              <div className="col-md-8 profile-bordered-block">
+              <div className="col-md-8 with-right-border">
                 <PersonalForm
                   initialValues={personalData}
                   onSubmit={this.handleSubmitKYC(kycTypes.personal)}
+                  disabled={!canUpdateProfile}
                 />
                 <hr />
-                <Documents
-                  onChangeStatus={this.handleChangeFileStatus}
-                  onUpload={this.handleUploadDocument(kycCategories.KYC_PERSONAL)}
-                  onDownload={downloadFile}
-                  files={files.identity}
-                  onDocumentClick={this.handlePreviewImageClick}
-                />
+                <PermissionContent
+                  permissions={[permissions.USER_PROFILE.VIEW_FILES, permissions.USER_PROFILE.UPLOAD_FILE]}
+                  permissionsCondition={CONDITIONS.OR}
+                >
+                  <Documents
+                    onChangeStatus={this.handleChangeFileStatus}
+                    onUpload={this.handleUploadDocument(kycCategories.KYC_PERSONAL)}
+                    onDownload={downloadFile}
+                    files={files.identity}
+                    onDocumentClick={this.handlePreviewImageClick}
+                  />
+                </PermissionContent>
               </div>
               <div className="col-md-4">
                 <VerifyData
@@ -489,19 +507,25 @@ class View extends Component {
 
           <Card>
             <div className="card-body row panel-body__wrapper">
-              <div className="col-md-8 profile-bordered-block">
+              <div className="col-md-8 with-right-border">
                 <AddressForm
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
+                  disabled={!canUpdateProfile}
                 />
                 <hr />
-                <Documents
-                  onChangeStatus={this.handleChangeFileStatus}
-                  onUpload={this.handleUploadDocument(kycCategories.KYC_ADDRESS)}
-                  onDownload={downloadFile}
-                  files={files.address}
-                  onDocumentClick={this.handlePreviewImageClick}
-                />
+                <PermissionContent
+                  permissions={[permissions.USER_PROFILE.VIEW_FILES, permissions.USER_PROFILE.UPLOAD_FILE]}
+                  permissionsCondition={CONDITIONS.OR}
+                >
+                  <Documents
+                    onChangeStatus={this.handleChangeFileStatus}
+                    onUpload={this.handleUploadDocument(kycCategories.KYC_ADDRESS)}
+                    onDownload={downloadFile}
+                    files={files.address}
+                    onDocumentClick={this.handlePreviewImageClick}
+                  />
+                </PermissionContent>
               </div>
               <div className="col-md-4">
                 <VerifyData
@@ -524,6 +548,7 @@ class View extends Component {
                 onSubmit={this.handleSubmitContact}
                 onVerifyPhoneClick={this.handleVerifyPhone}
                 onVerifyEmailClick={this.handleVerifyEmail}
+                disabled={!canUpdateProfile}
               />
             </div>
           </Card>

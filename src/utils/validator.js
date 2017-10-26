@@ -1,6 +1,5 @@
 import Validator from 'validatorjs';
 import _ from 'lodash';
-import { customValueFieldTypes } from '../constants/form';
 
 Validator.register('nextDate', function (value, requirement) {
   return value >= this.validator.input[requirement];
@@ -82,12 +81,12 @@ Validator.register('greaterOrSame', function (inputValue, requirement, attribute
 
 Validator.register('customTypeValue.value', function (inputValue, requirement, attribute) {
   const attributeBaseName = attribute.replace(/\.value/, '');
-  if (typeof this.validator.input[attributeBaseName]) {
-    if (this.validator.input[attributeBaseName] === null) {
+  const customTypeValueField = _.get(this.validator.input, attributeBaseName);
+
+  if (typeof customTypeValueField) {
+    if (customTypeValueField === null) {
       return true;
     }
-
-    const customTypeValueField = this.validator.input[attributeBaseName];
 
     if (!customTypeValueField.type) {
       this.validator.errors.add(`${attributeBaseName}.type`, 'Choose type of value');

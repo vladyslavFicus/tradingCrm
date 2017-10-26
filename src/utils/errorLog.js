@@ -1,5 +1,5 @@
 import keyMirror from 'keymirror';
-import { getErrorApiUrl, getBrand, getVersion } from '../config';
+import config, { getErrorApiUrl, getBrand, getVersion } from '../config';
 import Storage from '../utils/storage';
 
 const errorTypes = keyMirror({
@@ -18,15 +18,15 @@ const sendError = (params) => {
     return false;
   }
 
-  const body = {
+  let body = {
     ...params,
     brand: getBrand(),
     version: getVersion(),
   };
 
-  const testSpec = Storage.get('test.spec');
-  if (testSpec) {
-    body.testSpec = testSpec;
+  const settings = Storage.get(`${config.middlewares.persist.keyPrefix}settings`, true);
+  if (settings) {
+    body = { ...body, ...settings.errorParams };
   }
 
   return fetch(getErrorApiUrl(), {

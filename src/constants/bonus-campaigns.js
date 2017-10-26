@@ -100,6 +100,11 @@ const customValueFieldTypesByCampaignType = {
   [campaignTypes.PROFILE_COMPLETED]: [customValueFieldTypes.ABSOLUTE],
 };
 
+const optInSelect = {
+  true: I18n.t('COMMON.OPT_IN'),
+  false: I18n.t('COMMON.NON_OPT_IN'),
+};
+
 export {
   actions,
   actionLabels,
@@ -115,6 +120,7 @@ export {
   customValueFieldTypesByCampaignType,
   moneyTypeUsage,
   moneyTypeUsageLabels,
+  optInSelect,
   lockAmountStrategy,
   lockAmountStrategyLabels,
 };

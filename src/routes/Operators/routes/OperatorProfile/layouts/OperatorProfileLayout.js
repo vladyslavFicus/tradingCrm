@@ -174,8 +174,8 @@ class OperatorProfileLayout extends Component {
     } = this.state;
 
     return (
-      <div className="panel profile-layout operators-profile-layout">
-        <div className="profile-layout-heading">
+      <div className="layout layout_not-iframe">
+        <div className="layout-info">
           <Header
             data={data}
             availableStatuses={availableStatuses}
@@ -202,7 +202,7 @@ class OperatorProfileLayout extends Component {
             <Information data={data} />
           </Collapse>
         </div>
-        <div className="panel profile-user-content">
+        <div className="layout-content">
           <div className="nav-tabs-horizontal">
             <Tabs
               items={operatorProfileTabs}
