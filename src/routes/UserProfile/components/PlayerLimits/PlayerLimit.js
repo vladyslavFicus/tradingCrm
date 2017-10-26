@@ -4,6 +4,7 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import Uuid from '../../../../components/Uuid';
 import PlayerLimitButton from './PlayerLimitButton';
+import { statuses } from '../../../../constants/user';
 
 class PlayerLimit extends Component {
   static propTypes = {
@@ -15,6 +16,7 @@ class PlayerLimit extends Component {
     unlockButtonLabel: PropTypes.string,
     unlockButtonClassName: PropTypes.string,
     onUnlockButtonClick: PropTypes.func,
+    profileStatus: PropTypes.string.isRequired,
   };
   static defaultProps = {
     reason: '',
@@ -36,8 +38,10 @@ class PlayerLimit extends Component {
       unlockButtonLabel,
       unlockButtonClassName,
       onUnlockButtonClick,
+      profileStatus,
     } = this.props;
-    const isUnlockButtonVisible = !!(unlockButtonLabel && unlockButtonClassName && onUnlockButtonClick);
+    const isUnlockButtonVisible = (
+      !!(unlockButtonLabel && unlockButtonClassName && onUnlockButtonClick) && profileStatus === statuses.ACTIVE);
 
     return (
       <div className="limits-info_tab">

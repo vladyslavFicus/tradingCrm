@@ -478,8 +478,7 @@
           "TITLE": "Unlock login for player",
           "ACTION_TEXT": "You are about to unlock withdrawal for %{fullName}",
           "SUBMIT_BUTTON_LABEL": "Unlock login"
-        },
-        "REASON": "by 5 failed login attempts"
+        }
       }
     }
   },
@@ -1146,6 +1145,9 @@
     "profile": {
       "blocked": "Profile is blocked",
       "duplicated": "Profile is duplicated"
+    },
+    "user": {
+      "logon-attempts-limit-reached": "by 5 failed login attempts"
     }
   },
   "NOTE_BUTTON": {

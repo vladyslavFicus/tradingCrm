@@ -136,6 +136,7 @@ const initialState = {
   },
   login: {
     locked: false,
+    lockReason: null,
     expirationDate: null,
   },
   error: null,
@@ -176,6 +177,7 @@ const actionHandlers = {
     ...state,
     login: {
       locked: action.payload.lock,
+      lockReason: action.payload.lockReason,
       expirationDate: action.payload.lockExpirationDate,
     },
   }),
@@ -183,6 +185,7 @@ const actionHandlers = {
     ...state,
     login: {
       locked: false,
+      lockReason: null,
       expirationDate: null,
     },
   }),

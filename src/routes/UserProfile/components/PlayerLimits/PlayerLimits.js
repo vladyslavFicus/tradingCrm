@@ -160,7 +160,7 @@ class PlayerLimits extends Component {
               <PermissionContent permissions={permissions.USER_PROFILE.LOCK_WITHDRAW}>
                 <PlayerLimitButton
                   className="btn btn-danger-outline"
-                  canUnlock={deposit.canUnlock}
+                  canUnlock={withdraw.canUnlock}
                   label="withdrawal"
                   onClick={() => this.handleActionClick(
                     types.WITHDRAW,
@@ -181,6 +181,7 @@ class PlayerLimits extends Component {
                         authorUUID={limit.authorUUID}
                         reason={limit.reason}
                         date={limit.startLock}
+                        profileStatus={profile.profileStatus}
                       />
                     ))}
                   </div>
@@ -190,11 +191,12 @@ class PlayerLimits extends Component {
                     login.locked &&
                     <PlayerLimit
                       label="Login"
-                      reason={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.REASON')}
+                      reason={I18n.t(login.lockReason)}
                       unlockButtonLabel="Login"
                       unlockButtonClassName="btn btn-danger-outline limits-info_tab-button"
                       onUnlockButtonClick={this.handleUnlockLoginClick}
                       endDate={login.expirationDate}
+                      profileStatus={profile.profileStatus}
                     />
                   }
                 </PermissionContent>
