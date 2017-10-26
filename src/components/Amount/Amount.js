@@ -10,7 +10,7 @@ const formatMoney = (amount) => {
 };
 
 
-const Amount = ({ tag, className, amount, currency, amountClassName, currencyClassName, id }) => {
+const Amount = ({ tag, className, amount, currency, amountClassName, currencyClassName, id, amountId }) => {
   const parsedAmount = parseFloat(amount).toFixed(2);
   if (isNaN(parsedAmount)) {
     return null;
@@ -23,7 +23,7 @@ const Amount = ({ tag, className, amount, currency, amountClassName, currencyCla
 
   const chunks = [
     <Currency key="currency" code={currency} className={currencyClassName} />,
-    <span key="amount" className={amountClassName} id={id}>
+    <span key="amount" className={amountClassName} id={amountId}>
       {formatMoney(parsedAmount)}
     </span>,
   ];
@@ -32,7 +32,7 @@ const Amount = ({ tag, className, amount, currency, amountClassName, currencyCla
     chunks.reverse();
   }
 
-  return React.createElement(tag, { className }, chunks);
+  return React.createElement(tag, { className, id }, chunks);
 };
 
 Amount.defaultProps = {
@@ -41,6 +41,7 @@ Amount.defaultProps = {
   amountClassName: '',
   currencyClassName: '',
   id: null,
+  amountId: null,
 };
 Amount.propTypes = {
   tag: PropTypes.string,
@@ -50,6 +51,7 @@ Amount.propTypes = {
   currency: PropTypes.string.isRequired,
   currencyClassName: PropTypes.string,
   id: PropTypes.string,
+  amountId: PropTypes.string,
 };
 
 export default Amount;
