@@ -41,9 +41,12 @@
       }
       &-button {
         position: absolute;
-        top: 0;
+        top: -5px;
         right: 0;
       }
+    }
+    .no-margin {
+      margin-bottom: -10px;
     }
   }
 }
