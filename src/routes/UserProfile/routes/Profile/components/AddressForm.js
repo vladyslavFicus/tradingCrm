@@ -55,10 +55,10 @@ class AddressForm extends Component {
               <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}</span>
             </div>
 
-            <div className="col-xl-6 text-right" id="profile-address-info-save-btn">
+            <div className="col-xl-6 text-right">
               {
                 !pristine && !submitting && !disabled &&
-                <button className="btn btn-sm btn-primary" type="submit">
+                <button className="btn btn-sm btn-primary" type="submit" id="profile-address-info-save-btn">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
               }
