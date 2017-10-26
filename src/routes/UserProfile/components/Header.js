@@ -232,7 +232,7 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
           </div>
-          <div className="header-block header-block_balance">
+          <div className="header-block header-block_balance" id="player-profile-balance-block">
             <Balances
               label={
                 <div className="dropdown-tab">
