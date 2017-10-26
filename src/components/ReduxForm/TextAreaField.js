@@ -25,6 +25,7 @@ class TextAreaField extends Component {
       touched: PropTypes.bool,
       error: PropTypes.string,
     }).isRequired,
+    id: PropTypes.string,
   };
   static defaultProps = {
     className: 'form-group',
@@ -39,6 +40,7 @@ class TextAreaField extends Component {
     inputAddon: null,
     inputAddonPosition: 'left',
     rows: null,
+    id: null,
   };
 
   renderLabel = (props) => {
@@ -117,22 +119,22 @@ class TextAreaField extends Component {
       showInputButton,
       input,
       disabled,
-      type,
       inputClassName,
       meta: { touched, error },
       placeholder,
       label,
       rows,
+      id,
     } = props;
 
     let inputField = (
       <textarea
         {...input}
         disabled={disabled}
-        type={type}
         className={classNames(inputClassName, { 'has-danger': touched && error })}
         placeholder={placeholder || label}
         rows={rows}
+        id={id}
       />
     );
 
