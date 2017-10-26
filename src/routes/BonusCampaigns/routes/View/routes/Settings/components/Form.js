@@ -11,20 +11,17 @@ import {
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
   campaignTypes,
-  campaignTypesLabels,
-  moneyTypeUsage,
   targetTypesLabels,
-  customValueFieldTypesByCampaignType,
   optInSelect,
-  lockAmountStrategy,
 } from '../../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
-import { createValidator } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import getSubFieldErrors from '../../../../../../../utils/getSubFieldErrors';
 import attributeLabels, { nodeGroupTypes } from '../constants';
+import { nodeTypes as fulfillmentNodeTypes } from './Fulfillments/constants';
 import Fulfillments from './Fulfillments';
 import Rewards from './Rewards';
+import validator from './validator';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -35,78 +32,12 @@ const countries = countryList().getData().reduce((result, item) => ({
   [item.code]: item.name,
 }), {});
 
-const getCustomValueFieldTypes = (campaignType) => {
-  if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
-    return [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE];
-  }
+const getCustomValueFieldTypes = (fulfillment) => {
+  const profileCompleted = _.get(fulfillment, fulfillmentNodeTypes.profileCompleted);
 
-  return customValueFieldTypesByCampaignType[campaignType];
-};
-
-const validator = (values) => {
-  const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
-  const rules = {
-    campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
-    campaignPriority: 'integer',
-    optIn: 'boolean',
-    targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
-    currency: 'required',
-    startDate: 'required',
-    endDate: 'required|nextDate:startDate',
-    campaignType: ['required', 'string', `in:${Object.keys(campaignTypesLabels).join()}`],
-    capping: {
-      value: ['numeric', 'customTypeValue.value'],
-      type: [`in:${allowedCustomValueTypes.join()}`],
-    },
-    conversionPrize: {
-      value: ['numeric', 'customTypeValue.value'],
-      type: [`in:${allowedCustomValueTypes.join()}`],
-    },
-    country: `in:,${Object.keys(countries).join()}`,
-    fulfillments: {
-      deposit: {
-        minAmount: ['numeric', 'min:0'],
-        maxAmount: ['numeric', 'min:0'],
-        lockAmountStrategy: ['string', `in:${Object.keys(lockAmountStrategy).join()}`],
-      },
-    },
-    rewards: {
-      bonus: {
-        campaignRatio: {
-          value: ['required', 'numeric', 'customTypeValue.value'],
-          type: [`in:${allowedCustomValueTypes.join()}`],
-        },
-        wagerWinMultiplier: ['required', 'integer', 'max:999'],
-        bonusLifetime: ['required', 'integer'],
-        moneyTypePriority: ['required', `in:${Object.keys(moneyTypeUsage).join()}`],
-      },
-    },
-  };
-
-  const fulfillmentDeposit = _.get(values, 'fulfillments.deposit');
-  if (fulfillmentDeposit) {
-    const minAmount = fulfillmentDeposit.minAmount;
-    if (minAmount && !isNaN(parseFloat(minAmount).toFixed(2))) {
-      rules.fulfillments.deposit.maxAmount.push('greaterOrSame:fulfillments.deposit.minAmount');
-    }
-    rules.fulfillments.deposit.lockAmountStrategy.push('required');
-  }
-
-  const conversionPrize = _.get(values, 'conversionPrize.value');
-  if (conversionPrize && !isNaN(parseFloat(conversionPrize).toFixed(2))) {
-    rules.capping.value.push('greaterThan:conversionPrize.value');
-  }
-
-  const capping = _.get(values, 'capping.value');
-  if (capping && !isNaN(parseFloat(capping).toFixed(2))) {
-    rules.conversionPrize.value.push('lessThan:capping.value');
-  }
-
-  return createValidator(
-    rules,
-    Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}),
-    false
-  )(values);
+  return profileCompleted
+    ? [customValueFieldTypes.ABSOLUTE]
+    : [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE];
 };
 
 class Form extends Component {
@@ -233,7 +164,7 @@ class Form extends Component {
       errors,
     } = this.props;
 
-    const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
+    const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfillments);
 
     return (
       <form className="form-horizontal campaign-settings" onSubmit={handleSubmit(onSubmit)}>
@@ -276,16 +207,6 @@ class Form extends Component {
                       : 0
                   }/{CAMPAIGN_NAME_MAX_LENGTH}
                 </div>
-              </div>
-              <div className="margin-top-10 margin-bottom-20">
-                <Field
-                  name="description"
-                  label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.DESCRIPTION')}
-                  type="text"
-                  component={InputField}
-                  position="vertical"
-                  disabled
-                />
               </div>
               <div className="form-row">
                 <div className="form-row__small">
@@ -395,7 +316,7 @@ class Form extends Component {
               <Field
                 name="optIn"
                 label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.TYPE')}
-                type="text"
+                type="select"
                 component={SelectField}
                 position="vertical"
                 disabled={disabled}
@@ -481,7 +402,10 @@ class Form extends Component {
 const SettingsForm = reduxForm({
   form: FORM_NAME,
   enableReinitialize: true,
-  validate: validator,
+  validate: values => validator(values, {
+    allowedCustomValueTypes: getCustomValueFieldTypes(values),
+    countries,
+  }),
 })(Form);
 
 export default connect((state) => {

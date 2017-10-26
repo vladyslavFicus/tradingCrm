@@ -23,6 +23,7 @@ const ADD_FULFILLMENT_NODE = `${KEY}/add-fulfillment-node`;
 
 function mapFulfillmentNode(campaignType) {
   const node = null;
+
   if (campaignType === campaignTypes.PROFILE_COMPLETED) {
     return fulfillmentNodeTypes.profileCompleted;
   } else if ([campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(campaignType) > -1) {

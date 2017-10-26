@@ -1112,7 +1112,8 @@
         },
         "PROFILE_COMPLETED": {
           "LABEL": "Profile completed"
-        }
+        },
+        "SELECT_FULFILLMENT": "-- Select fulfillment --"
       }
     },
     "CHANGE_STATUS_MODAL": {

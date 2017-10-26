@@ -48,7 +48,9 @@ class Container extends Component {
 
     return (
       <div className="col-lg-6 padding-bottom-30">
-        {activeNodes.map(node => this.renderNode(node))}
+        {activeNodes.map(node =>
+          <div key={node}>{this.renderNode(node)}</div>
+        )}
       </div>
     );
   }

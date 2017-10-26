@@ -100,7 +100,9 @@ class Container extends Component {
 
     return (
       <div className="col-lg-6 padding-bottom-30 with-right-border">
-        {activeNodes.map(node => this.renderNode(node))}
+        {activeNodes.map(node =>
+          <div key={node}>{this.renderNode(node)}</div>
+        )}
         {
           (availableNodes.length > 0 && !activeNodes.length) &&
           <div className="add-campaign-setting col-md-12">
@@ -115,7 +117,7 @@ class Container extends Component {
                   onChange: e => this.handleSelectNode(e.target.value),
                 }}
               >
-                <option value="">-- Select fulfillment --</option>
+                <option value="">{I18n.t(attributeLabels.selectFulfillment)}</option>
                 {
                   availableNodes.map(key => (
                     <option key={key} value={key}>

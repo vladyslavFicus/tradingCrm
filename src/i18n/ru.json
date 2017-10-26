@@ -1112,14 +1112,15 @@
       "DEPOSIT_AMOUNT": "Сумма пополнения",
       "FULFILLMENT": {
         "LABEL": {
-          "ADD_FULFILLMENT": ""
+          "ADD_FULFILLMENT": "Добавить условие"
         },
         "DEPOSIT": {
-          "LABEL": ""
+          "LABEL": "Депозит"
         },
         "PROFILE_COMPLETED": {
-          "LABEL": ""
-        }
+          "LABEL": "Профиль заполнен"
+        },
+        "SELECT_FULFILLMENT": "-- Выбрать условие --"
       }
     },
     "CHANGE_STATUS_MODAL": {
@@ -1159,9 +1160,9 @@
       "EXCLUDE_BONUS_MONEY": "Исключить бонусные деньги из ставок",
       "CHOOSE_CAMPAIGN": "- Выберите кампанию -",
       "DEPOSIT": {
-        "MIN_AMOUNT": "",
-        "MAX_AMOUNT": "",
-        "LOCK_AMOUNT_STRATEGY": ""
+        "MIN_AMOUNT": "Мин. сумма",
+        "MAX_AMOUNT": "Макс. сумма",
+        "LOCK_AMOUNT_STRATEGY": "Стратегия блок. денег"
       }
     },
     "REWARDS": {

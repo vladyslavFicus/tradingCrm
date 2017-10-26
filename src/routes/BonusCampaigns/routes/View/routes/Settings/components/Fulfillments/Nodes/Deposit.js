@@ -70,8 +70,8 @@ class Deposit extends Component {
             </div>
           </div>
         </div>
-        <div className="form-row">
-          <div className="form-row__big">
+        <div className="filter-row">
+          <div className="filter-row__big">
             <label>Withdrawal lock</label>
             <div className="range-group">
               <Field
@@ -94,12 +94,14 @@ class Deposit extends Component {
                 ))}
               </Field>
               <div className="form-group first-deposit">
-                <Field
-                  name={this.buildFieldName('firstDeposit')}
-                  type="checkbox"
-                  component="input"
-                  disabled={disabled}
-                /> First deposit only
+                <label>
+                  <Field
+                    name={this.buildFieldName('firstDeposit')}
+                    type="checkbox"
+                    component="input"
+                    disabled={disabled}
+                  /> First deposit only
+                </label>
               </div>
             </div>
           </div>

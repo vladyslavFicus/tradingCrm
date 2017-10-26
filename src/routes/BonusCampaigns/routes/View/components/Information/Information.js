@@ -34,15 +34,15 @@ const Information = (props) => {
             <div className="panel">
               <div className="panel-body">
                 <div>
-                  <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET_TYPE')}</strong>:{' '}
+                  <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET_TYPE')}:</strong>{' '}
                   {renderLabel(targetType, targetTypesLabels)}
                 </div>
                 <div>
-                  <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_SELECTED')}</strong>:{' '}
+                  <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_SELECTED')}:</strong>{' '}
                   {totalSelectedPlayers}
                 </div>
                 <div>
-                  <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_OPT_IN')}</strong>:{' '}
+                  <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_OPT_IN')}:</strong>{' '}
                   {totalOptInPlayers}
                 </div>
               </div>
@@ -58,9 +58,7 @@ const Information = (props) => {
               <div className="panel-body">
                 <div>
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.FULFILLMENT_TYPE')}:</strong>{' '}
-                  {
-                    renderLabel(campaignType, campaignTypesLabels)
-                  }
+                  {renderLabel(campaignType, campaignTypesLabels)}
                 </div>
                 <div>
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.RATIO')}:</strong> {' '}

@@ -101,8 +101,8 @@ const customValueFieldTypesByCampaignType = {
 };
 
 const optInSelect = {
-  true: 'Opt-in',
-  false: 'Non Opt-in',
+  true: I18n.t('COMMON.OPT_IN'),
+  false: I18n.t('COMMON.NON_OPT_IN'),
 };
 
 const fulfillmentSelect = {
@@ -126,11 +126,6 @@ const wageredAmount = {
   oneGame: I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.WAGERED_AMOUNT_ONE_GAME'),
 };
 
-const campaignMenu = {
-  campaign1: 'campaign1',
-  campaign2: 'campaign2',
-};
-
 const multipliersTypes = {
   bonus: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS'),
   deposit: I18n.t('BONUS_CAMPAIGNS.REWARDS.DEPOSIT'),
@@ -140,42 +135,6 @@ const multipliersTypes = {
 const moneyTypePrior = {
   realMoney: I18n.t('BONUS_CAMPAIGNS.REWARDS.REAL_MONEY_FIRST'),
   bonusMoney: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS_MONEY_FIRST'),
-};
-
-const provider = {
-  netEnt: 'NetEnt',
-  microgaming: 'Microgaming',
-};
-
-const games = {
-  game1: 'Game name 1',
-  game2: 'Game name 2',
-  game3: 'Game name 3',
-};
-
-const lines = {
-  line1: '1',
-  line2: '2',
-  line3: '3',
-  line4: '4',
-  line5: '5',
-  line6: '6',
-  line7: '7',
-  line8: '8',
-  line9: '9',
-};
-
-const coins = {
-  coin1: '1',
-  coin3: '3',
-  coin9: '9',
-};
-
-const coinValues = {
-  value1: '€ 0,01',
-  value2: '€ 0,20',
-  value3: '€ 0,50',
-  value4: '€ 1,00',
 };
 
 export {
@@ -196,15 +155,9 @@ export {
   optInSelect,
   fulfillmentSelect,
   wageredAmount,
-  campaignMenu,
   rewardSelect,
   multipliersTypes,
   moneyTypePrior,
-  provider,
-  games,
-  lines,
-  coins,
-  coinValues,
   lockAmountStrategy,
   lockAmountStrategyLabels,
 };
