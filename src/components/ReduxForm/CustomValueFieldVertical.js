@@ -7,6 +7,7 @@ import { customValueFieldTypesLabels } from '../../constants/form';
 
 const CustomValueFieldVertical = (props) => {
   const {
+    id,
     basename,
     label,
     disabled,
@@ -36,6 +37,7 @@ const CustomValueFieldVertical = (props) => {
       <div className="row">
         <div className="col-md-4">
           <Field
+            id={id}
             name={`${basename}.value`}
             disabled={disabled}
             placeholder={typeof label === 'string' ? label : null}
@@ -76,8 +78,10 @@ CustomValueFieldVertical.defaultProps = {
   typeInputClassName: '',
   errors: {},
   disabled: false,
+  id: null,
 };
 CustomValueFieldVertical.propTypes = {
+  id: PropTypes.string,
   basename: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   typeValues: PropTypes.array.isRequired,

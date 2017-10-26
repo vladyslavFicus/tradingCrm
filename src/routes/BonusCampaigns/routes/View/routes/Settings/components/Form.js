@@ -193,6 +193,7 @@ class Form extends Component {
             <div className="col-lg-7">
               <div>
                 <Field
+                  id="bonus-campaign-name"
                   name="campaignName"
                   label={I18n.t(attributeLabels.campaignName)}
                   type="text"
@@ -228,6 +229,7 @@ class Form extends Component {
                 </div>
                 <div className="form-row__medium">
                   <CustomValueFieldVertical
+                    id="bonus-campaign-conversion-prize"
                     basename={'conversionPrize'}
                     label={
                       <span>
