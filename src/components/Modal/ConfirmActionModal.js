@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom/server';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
@@ -33,16 +34,20 @@ class ConfirmActionModal extends Component {
       submitButtonLabel,
     } = this.props;
 
+    const playerInfo = [];
+    if (fullName) {
+      playerInfo.push(fullName);
+    }
+    if (uuid) {
+      playerInfo.push(ReactDOM.renderToString(<span className="font-weight-400">{shortify(uuid)}</span>));
+    }
     return (
       <Modal isOpen toggle={onClose} className="modal-danger">
         <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
         <ModalBody>
           <div className="text-center margin-bottom-20 font-weight-700">
             <div>{actionText}</div>
-            {
-              (fullName || uuid) &&
-              <div>{fullName} - <span className="font-weight-400">{shortify(uuid)}</span></div>
-            }
+            <div dangerouslySetInnerHTML={{ __html: playerInfo.join(' - ') }} />
           </div>
         </ModalBody>
 
