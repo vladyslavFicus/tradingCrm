@@ -181,7 +181,7 @@ class Form extends Component {
             >
               {I18n.t('COMMON.REVERT_CHANGES')}
             </button>
-            <button className="btn btn-primary text-uppercase" type="submit">
+            <button className="btn btn-primary text-uppercase" type="submit" id="bonus-campaign-save-button">
               {I18n.t('COMMON.SAVE_CHANGES')}
             </button>
           </div>
