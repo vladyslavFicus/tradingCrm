@@ -316,6 +316,7 @@ class Form extends Component {
             </div>
             <div className="filter-row__small">
               <Field
+                id="bonus-campaign-target-type"
                 name="optIn"
                 label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.TYPE')}
                 type="select"

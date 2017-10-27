@@ -25,8 +25,10 @@ class SelectField extends Component {
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
     inputButton: PropTypes.any,
     showInputButton: PropTypes.bool,
+    id: PropTypes.string,
   };
   static defaultProps = {
+    id: null,
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,
@@ -56,10 +58,12 @@ class SelectField extends Component {
       meta: { touched, error },
       children,
       multiple,
+      id,
     } = props;
 
     let inputField = (
       <select
+        id={id}
         {...input}
         disabled={disabled}
         multiple={multiple}
