@@ -448,8 +448,6 @@ class ProfileLayout extends Component {
           title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
           message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.ERROR_NOTIFICATION_TEXT'),
         });
-
-        this.handleCloseModal();
       }
     }
   };
