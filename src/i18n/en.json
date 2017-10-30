@@ -175,6 +175,9 @@
       },
       "HEADER": {
         "ADD_NOTE": "Add note"
+      },
+      "EMAIL": {
+        "TITLE": "Email"
       }
     },
     "GAME_ACTIVITY": {
@@ -1228,6 +1231,9 @@
         "payment": {
           "operation": "Invalid payment operation"
         }
+      },
+      "email": {
+        "exist": "Email already exist"
       }
     },
     "payment": {

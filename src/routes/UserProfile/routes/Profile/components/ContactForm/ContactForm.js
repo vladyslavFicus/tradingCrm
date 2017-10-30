@@ -1,41 +1,15 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm, getFormSyncErrors, getFormValues } from 'redux-form';
-import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
-import { InputField, SelectField } from '../../../../../../components/ReduxForm';
-import { createValidator } from '../../../../../../utils/validator';
-import { statuses as playerStatuses } from '../../../../../../constants/user';
 import './ContactForm.scss';
-import permissions from '../../../../../../config/permissions';
-import PermissionContent from '../../../../../../components/PermissionContent/PermissionContent';
-
-const FORM_NAME = 'updateProfileContact';
-const attributeLabels = {
-  phone: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE'),
-  phoneCode: I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.LABEL.PHONE_CODE'),
-  email: I18n.t('COMMON.EMAIL'),
-};
-const validator = createValidator({
-  email: 'required|email',
-  phone: 'required|numeric',
-  phoneCode: 'required|numeric',
-}, attributeLabels, false);
+import PhoneForm from './PhoneForm';
+import EmailForm from './EmailForm';
 
 class ContactForm extends Component {
   static propTypes = {
-    handleSubmit: PropTypes.func,
-    onSubmit: PropTypes.func.isRequired,
-    dirty: PropTypes.bool,
-    submitting: PropTypes.bool,
-    valid: PropTypes.bool,
+    onSubmitPhone: PropTypes.func.isRequired,
+    onSubmitEmail: PropTypes.func.isRequired,
     profile: PropTypes.userProfile.isRequired,
-    initialValues: PropTypes.shape({
-      phoneCode: PropTypes.string,
-      phone: PropTypes.string,
-      email: PropTypes.string,
-    }),
-    currentValues: PropTypes.shape({
+    contactData: PropTypes.shape({
       phoneCode: PropTypes.string,
       phone: PropTypes.string,
       email: PropTypes.string,
@@ -44,17 +18,10 @@ class ContactForm extends Component {
     onVerifyPhoneClick: PropTypes.func.isRequired,
     onVerifyEmailClick: PropTypes.func.isRequired,
     fetchMeta: PropTypes.func.isRequired,
-    formSyncErrors: PropTypes.object,
     disabled: PropTypes.bool,
   };
   static defaultProps = {
-    handleSubmit: null,
-    dirty: false,
-    submitting: false,
-    valid: true,
-    initialValues: {},
-    currentValues: {},
-    formSyncErrors: {},
+    contactData: {},
     disabled: false,
   };
 
@@ -62,139 +29,43 @@ class ContactForm extends Component {
     this.props.fetchMeta();
   }
 
-  handleVerifyPhoneClick = () => {
-    const { currentValues, onVerifyPhoneClick } = this.props;
-
-    return onVerifyPhoneClick(currentValues.phone, currentValues.phoneCode);
-  };
-
-  handleVerifyEmailClick = () => {
-    const { currentValues, onVerifyEmailClick } = this.props;
-
-    return onVerifyEmailClick(currentValues.email);
-  };
-
   render() {
     const {
-      dirty,
-      submitting,
-      handleSubmit,
-      onSubmit,
-      valid,
-      profile,
-      phoneCodes,
-      initialValues,
-      currentValues,
-      formSyncErrors,
       disabled,
+      profile,
+      contactData,
+      phoneCodes,
+      onSubmitPhone,
+      onSubmitEmail,
+      onVerifyPhoneClick,
+      onVerifyEmailClick,
     } = this.props;
-    const isPhoneDirty = currentValues.phone !== initialValues.phone ||
-      currentValues.phoneCode !== initialValues.phoneCode;
-
-    const isPhoneValid = !formSyncErrors.phone && !formSyncErrors.phoneCode;
-    const isPhoneVerifiable = isPhoneValid && (isPhoneDirty || !profile.phoneNumberVerified);
 
     return (
       <div className="col-md-12">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="row margin-bottom-20">
-            <div className="col-md-6">
-              <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE')}</span>
-            </div>
-
-            <div className="col-md-6 text-right">
-              {
-                dirty && !submitting && valid && !disabled &&
-                <button className="btn btn-sm btn-primary" type="submit">
-                  {I18n.t('COMMON.SAVE_CHANGES')}
-                </button>
-              }
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-md-8">
-              <div className="col-md-3">
-                <Field
-                  name="phoneCode"
-                  component={SelectField}
-                  position="vertical"
-                  label={attributeLabels.phoneCode}
-                  className="form-control"
-                  disabled={disabled}
-                >
-                  <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
-                  {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
-                </Field>
-              </div>
-              <div className="col-md-9">
-                <Field
-                  name="phone"
-                  type="text"
-                  className="form-group player-profile__contact-input"
-                  component={InputField}
-                  showErrorMessage
-                  label={attributeLabels.phone}
-                  position="vertical"
-                  showInputButton={isPhoneVerifiable}
-                  labelAddon={(
-                    !isPhoneDirty && profile.phoneNumberVerified &&
-                    <div className="verification-label color-success font-size-12">
-                      <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                    </div>
-                  )}
-                  inputButton={
-                    <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
-                      <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
-                        {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
-                      </button>
-                    </PermissionContent>
-                  }
-                  disabled={disabled}
-                />
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <Field
-                name="email"
-                className="form-group player-profile__contact-input"
-                label={attributeLabels.email}
-                labelAddon={(
-                  profile.profileStatus !== playerStatuses.INACTIVE &&
-                  <div className="verification-label color-success font-size-12">
-                    <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                  </div>
-                )}
-                type="text"
-                component={InputField}
-                position="vertical"
-                disabled
-                showErrorMessage
-                inputButton={
-                  <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_EMAIL}>
-                    <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyEmailClick}>
-                      {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_EMAIL')}
-                    </button>
-                  </PermissionContent>
-                }
-                showInputButton={profile.profileStatus === playerStatuses.INACTIVE}
-              />
-            </div>
-          </div>
-        </form>
+        <PhoneForm
+          disabled={disabled}
+          profile={profile}
+          phoneCodes={phoneCodes}
+          onSubmit={onSubmitPhone}
+          onVerifyPhoneClick={onVerifyPhoneClick}
+          initialValues={{
+            phone: contactData.phone,
+            phoneCode: contactData.phoneCode,
+          }}
+        />
+        <hr />
+        <EmailForm
+          profileStatus={profile.profileStatus}
+          onSubmit={onSubmitEmail}
+          onVerifyEmailClick={onVerifyEmailClick}
+          initialValues={{
+            email: contactData.email,
+          }}
+        />
       </div>
     );
   }
 }
 
-export default connect(state => ({
-  currentValues: getFormValues(FORM_NAME)(state),
-  formSyncErrors: getFormSyncErrors(FORM_NAME)(state),
-}))(
-  reduxForm({
-    form: FORM_NAME,
-    validate: validator,
-    enableReinitialize: true,
-  })(ContactForm),
-);
+export default ContactForm;

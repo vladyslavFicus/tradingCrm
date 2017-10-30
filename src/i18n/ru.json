@@ -177,6 +177,9 @@
       },
       "HEADER": {
         "ADD_NOTE": "Добавить заметку"
+      },
+      "EMAIL": {
+        "TITLE": ""
       }
     },
     "GAME_ACTIVITY": {
@@ -1239,6 +1242,9 @@
         "payment": {
           "operation": "Невалидная платежная операция"
         }
+      },
+      "email": {
+        "exist": "Email уже существует"
       }
     },
     "payment": {
