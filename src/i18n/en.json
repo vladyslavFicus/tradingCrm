@@ -176,6 +176,14 @@
       "HEADER": {
         "ADD_NOTE": "Add note"
       },
+      "RESET_PASSWORD_MODAL": {
+        "TITLE": "Password reset - Confirmation",
+        "TEXT": "You are about to send password reset link to",
+        "BUTTON_ACTION": "Send via email",
+        "NOTIFICATION_TITLE": "Password reset",
+        "SUCCESS_NOTIFICATION_TEXT": "Reset password link has been successfully sent via email",
+        "ERROR_NOTIFICATION_TEXT": "Failed to send reset password link via email"
+      },
       "EMAIL": {
         "TITLE": "Email"
       }
@@ -479,7 +487,7 @@
       "LOGIN": {
         "MODAL": {
           "TITLE": "Unlock login for player",
-          "ACTION_TEXT": "You are about to unlock withdrawal for %{fullName}",
+          "ACTION_TEXT": "You are about to unlock withdrawal for",
           "SUBMIT_BUTTON_LABEL": "Unlock login"
         },
         "REASON": "by 5 failed login attempts"
