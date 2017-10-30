@@ -34,20 +34,16 @@ class ConfirmActionModal extends Component {
       submitButtonLabel,
     } = this.props;
 
-    const playerInfo = [];
-    if (fullName) {
-      playerInfo.push(fullName);
-    }
-    if (uuid) {
-      playerInfo.push(ReactDOM.renderToString(<span className="font-weight-400">{shortify(uuid)}</span>));
-    }
     return (
       <Modal isOpen toggle={onClose} className="modal-danger">
         <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
         <ModalBody>
-          <div className="text-center margin-bottom-20 font-weight-700">
+          <div className="text-center font-weight-700">
             <div>{actionText}</div>
-            <div dangerouslySetInnerHTML={{ __html: playerInfo.join(' - ') }} />
+            <div>
+              {`${fullName}${uuid ? ' - ' : ''}`}
+              {uuid && <span className="font-weight-400">{shortify(uuid)}</span>}
+            </div>
           </div>
         </ModalBody>
 
