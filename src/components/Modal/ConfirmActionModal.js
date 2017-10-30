@@ -40,7 +40,7 @@ class ConfirmActionModal extends Component {
           <div className="text-center font-weight-700">
             <div>{actionText}</div>
             <div>
-              {`${fullName}${uuid ? ' - ' : ''}`}
+              {`${fullName}${fullName && uuid ? ' - ' : ''}`}
               {uuid && <span className="font-weight-400">{shortify(uuid)}</span>}
             </div>
           </div>
