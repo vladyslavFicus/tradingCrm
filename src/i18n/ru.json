@@ -1324,7 +1324,13 @@
     "TRANSACTION": "Транзакция",
     "ERROR_MESSAGE": "Ошибка",
     "REJECTION_REASON": "Причина отказа",
-    "OPERATOR": "Оператор"
+    "OPERATOR": "Оператор",
+    "CAMPAIGN": "Кампания",
+    "CREATED": "Создана",
+    "LAUNCHED": "Запущена",
+    "CANCELED": "Отменена",
+    "DATE_RANGE": "Диапазон дат",
+    "NOT_SELECTED": "не выбрано"
   },
   "OPERATORS": {
     "CREATE_OPERATOR_BUTTON": "+ Новый оператор",

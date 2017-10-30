@@ -1,6 +1,7 @@
 import { statuses as operatorStatuses } from '../../constants/operators';
 import { statuses as userStatuses } from '../../constants/user';
 import { statuses as paymentStatuses, types as paymentTypes } from '../../constants/payment';
+import { statuses as campaignStatuses } from '../../constants/bonus-campaigns';
 
 const operatorStatusNames = {
   [operatorStatuses.INACTIVE]: 'inactive',
@@ -31,9 +32,18 @@ const paymentTypesNames = {
   [paymentTypes.Confiscate]: 'confiscate',
 };
 
+const campaignStatusNames = {
+  [campaignStatuses.DRAFT]: 'draft',
+  [campaignStatuses.PENDING]: 'pending',
+  [campaignStatuses.ACTIVE]: 'active',
+  [campaignStatuses.FINISHED]: 'finished',
+  [campaignStatuses.CANCELED]: 'canceled',
+};
+
 export {
   operatorStatusNames,
   userStatusNames,
   paymentStatusNames,
   paymentTypesNames,
+  campaignStatusNames,
 };

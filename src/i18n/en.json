@@ -1313,7 +1313,13 @@
     "TRANSACTION": "Transaction",
     "ERROR_MESSAGE": "Error message",
     "REJECTION_REASON": "Rejection reason",
-    "OPERATOR": "Operator"
+    "OPERATOR": "Operator",
+    "CAMPAIGN": "Campaign",
+    "CREATED": "Created",
+    "LAUNCHED": "Launched",
+    "CANCELED": "Canceled",
+    "DATE_RANGE": "Date range",
+    "NOT_SELECTED": "not selected"
   },
   "OPERATORS": {
     "CREATE_OPERATOR_BUTTON": "+ New operator",

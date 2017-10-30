@@ -5,6 +5,7 @@ import {
   TransactionMiniProfile,
   OperatorMiniProfile,
   PlayerMiniProfile,
+  BonusCampaignMiniProfile,
 } from '../../components/MiniProfile';
 
 class MiniProfilePopover extends Component {
@@ -17,12 +18,12 @@ class MiniProfilePopover extends Component {
       enter: PropTypes.func.isRequired,
       leave: PropTypes.func.isRequired,
     }),
-  }
+  };
 
   static defaultProps = {
     placement: 'right',
     popoverMouseEvents: null,
-  }
+  };
 
   renderMiniProfile = () => {
     const { data, type } = this.props;
@@ -34,10 +35,12 @@ class MiniProfilePopover extends Component {
         return <OperatorMiniProfile data={data} />;
       case miniProfileTypes.PLAYER:
         return <PlayerMiniProfile data={data} />;
+      case miniProfileTypes.CAMPAIGN:
+        return <BonusCampaignMiniProfile data={data} />;
       default:
         return null;
     }
-  }
+  };
 
   render() {
     const { placement, target, popoverMouseEvents } = this.props;
