@@ -103,14 +103,10 @@ class CreateBonusCampaignModal extends Component {
     );
   };
 
-  handleAllPlayersTypeSelected = (e) => {
-    const { currentValues, change } = this.props;
-
+  handleChangeTargetType = (e) => {
     if (e.target.value === targetTypes.ALL) {
-      change('optIn', true);
+      this.props.change('optIn', true);
     }
-
-    return currentValues;
   };
 
   render() {
@@ -211,7 +207,7 @@ class CreateBonusCampaignModal extends Component {
               label={I18n.t(attributeLabels.targetType)}
               type="select"
               component={SelectField}
-              onChange={this.handleAllPlayersTypeSelected}
+              onChange={this.handleChangeTargetType}
             >
               <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_TARGET_TYPE')}</option>
               {Object.keys(targetTypesLabels).map(key => (
