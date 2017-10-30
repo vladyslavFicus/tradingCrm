@@ -1019,7 +1019,10 @@
           "CAMPAIGN_END": "Campaign end",
           "PRIZE": "Prize",
           "CAPPING": "Capping",
-          "MONEY_TYPE_PRIORITY": "Wagering: %{priority}"
+          "MONEY_TYPE_PRIORITY": "Wagering: %{priority}",
+          "CONTENT": "Content",
+          "COMPLETE": "complete",
+          "EDIT_CONTENT": "Edit content"
         },
         "GRANTED_TO": "to %{count} Players",
         "GRANTED_TO_0": "to %{count} Players",
@@ -1069,11 +1072,7 @@
         "CAMPAIGN_NAME": "Campaign name (Internal)",
         "TARGET_TYPE": "Target type",
         "CURRENCY": "Currency",
-        "START_DATE": "Start date",
-        "END_DATE": "End date",
         "CAPPING": "Capping",
-        "MULTIPLIER": "Multiplier",
-        "BONUS_LIFE_TIME": "Lifetime",
         "CAMPAIGN_RATIO": "Ratio",
         "CONVERSION_PRIZE": "Prize",
         "OPT_IN": "Opt-In",
@@ -1084,16 +1083,37 @@
         "MAX_AMOUNT_PLACEHOLDER": "Max.",
         "RATIO_TOOLTIP": "Deposit : Granted bonus",
         "PRIORITY": "Priority",
-        "MONEY_TYPE_PRIORITY": "Wagering",
+        "CAMPAIGN_PERIOD": "Campaign period",
+        "DESCRIPTION": "Description",
+        "BASE_CURRENCY": "Base currency",
+        "MIN_PRIZE": "Min. prize",
+        "TYPE": "Type",
+        "AFFILIATES": "Affiliates",
+        "EXCLUDE": "Exclude",
+        "COUNTRIES": "Countries",
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
         "LOCK_AMOUNT_STRATEGY_LABEL": "Lock strategy"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
       "TARGET": "Target",
       "CAMPAIGN_SETTINGS": "Campaign settings",
-      "FULFILLMENT": "Fulfillment",
-      "REWARD": "Reward",
-      "DEPOSIT_AMOUNT": "Deposit amount"
+      "FULFILLMENTS": "Fulfillments",
+      "REWARDS": "Rewards",
+      "DEPOSIT_AMOUNT": "Deposit amount",
+      "FULFILLMENT": {
+        "LABEL": {
+          "ADD_FULFILLMENT": "Add fulfillment"
+        },
+        "DEPOSIT": {
+          "LABEL": "Deposit"
+        },
+        "PROFILE_COMPLETED": {
+          "LABEL": "Profile completed"
+        },
+        "SELECT_FULFILLMENT": "-- Select fulfillment --"
+      }
     },
     "CHANGE_STATUS_MODAL": {
       "SELECT_REASON_OPTION": "-- Select reason --",
@@ -1115,6 +1135,78 @@
     },
     "OPTIONS": {
       "CLONE_LABEL": "Clone campaign"
+    },
+    "FULFILLMENTS": {
+      "ADD_FULFILLMENT": "Add fulfillment",
+      "REGISTRATION_FULFILLMENT": "Registration fulfillment",
+      "DEPOSIT_FULFILLMENT": "Deposit fulfillment",
+      "DEPOSIT_AMOUNT_RANGE": "Deposit amount range",
+      "WAGERING_FULFILLMENT": "Wagering fulfillment",
+      "LOGIN_FULFILLMENT": "Login fulfillment",
+      "CAMPAIGN_FULFILLMENT": "Campaign fulfillment",
+      "EMAIL_VERIFICATION_FULFILLMENT": "Email verification fulfillment",
+      "PHONE_VERIFICATION_FULFILLMENT": "Phone verification fulfillment",
+      "WAGERED_AMOUNT_ALL_GAMES": "Wagered amount on all games is > X",
+      "WAGERED_AMOUNT_ONE_GAME": "Wagered amount on one game or number of selected games is > X",
+      "AMOUNT_TO_WAGER": "Amount to wager",
+      "EXCLUDE_BONUS_MONEY": "Exclude bonus money from wagering",
+      "CHOOSE_CAMPAIGN": "- Choose campaign -",
+      "DEPOSIT": {
+        "MIN_AMOUNT": "Min. amount",
+        "MAX_AMOUNT": "Max. amount",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy"
+      }
+    },
+    "REWARDS": {
+      "ADD_REWARD": "Add reward",
+      "FREE_SPINS": "Free-spins",
+      "BONUS_REWARD": "Bonus reward",
+      "GRANT": "Grant",
+      "LIMITS": "Limits",
+      "MULTIPLIER": "Multiplier",
+      "MULTIPLIERS_TYPE": "Multipliers type",
+      "DEPOSIT": "Deposit",
+      "BONUS_DEPOSIT": "Bonus + deposit",
+      "MONEY_TYPE_PRIOR": "Money type priority",
+      "REAL_MONEY_FIRST": "Real money first",
+      "BONUS_MONEY_FIRST": "Bonus money first",
+      "BM_BET_LIMIT": "BM bet limit",
+      "LIFE_TIME": "Life time",
+      "CUSTOM_CONTRIB_RATE": "Custom contribution rate",
+      "FREE_SPIN_REWARD": "Free spin reward",
+      "PROVIDER": "Provider",
+      "GAMES": "Games",
+      "LINES": "Lines",
+      "COINS": "Coins",
+      "COIN_VALUE": "Coin value",
+      "PER_LINE": "Per line",
+      "SPIN_VALUE": "Spin value",
+      "TOTAL_VALUE": "Total value",
+      "PLACEHOLDERS": {
+        "DAYS": "days",
+        "NOT_SET": "Not set"
+      },
+      "BONUS": {
+        "CAMPAIGN_RATIO": {
+          "VALUE": "Ratio",
+          "TYPE": "Type"
+        },
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Lifetime",
+        "MONEY_TYPE_PRIORITY": "Wagering type"
+      }
+    },
+    "CURRENCY_CALC_MODAL": {
+      "HEADER": "Value in different currencies",
+      "BODY": {
+        "MIN_DEPOSIT": "Min. deposit amount range",
+        "RECALC": "Recalculate",
+        "RECALC_WARNING": "Recalculation will reset all customized values",
+        "CURRENCY": "Currency",
+        "RATE": "Rate",
+        "CALCULATED": "Calculated",
+        "CUSTOMIZED": "Customized"
+      }
     },
     "REMOVE_PLAYERS": {
       "BUTTON": "Remove all players",

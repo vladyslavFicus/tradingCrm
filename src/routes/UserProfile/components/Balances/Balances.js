@@ -36,7 +36,7 @@ class Balances extends Component {
           <DropdownItem>
             <Amount
               className="amount"
-              id="player-balance-withdrawable-amount"
+              amountId="player-balance-withdrawable-amount"
               {...balances.withdrawable}
             />
             <div className="amount_label" id="player-balance-withdrawable-amount-label">
@@ -46,7 +46,7 @@ class Balances extends Component {
           <DropdownItem>
             <Amount
               className="amount"
-              id="player-balance-deposited-amount"
+              amountId="player-balance-deposited-amount"
               {...balances.deposits}
             />
             <div className="amount_label" id="player-balance-deposited-amount-label">
@@ -56,7 +56,7 @@ class Balances extends Component {
           <DropdownItem>
             <Amount
               className="amount"
-              id="player-balance-withdrawn-amount"
+              amountId="player-balance-withdrawn-amount"
               {...balances.withdraws}
             />
             <div className="amount_label" id="player-balance-withdrawn-amount-label">

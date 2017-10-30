@@ -243,7 +243,7 @@ class Header extends Component {
                 <div className="dropdown-tab">
                   <div className="header-block-title">Balance</div>
                   <div className="header-block-middle">
-                    <Amount {...accumulatedBalances.total} />
+                    <Amount {...accumulatedBalances.total} amountId="player-total-balance-amount" />
                   </div>
                   {this.getRealWithBonusBalance()}
                 </div>

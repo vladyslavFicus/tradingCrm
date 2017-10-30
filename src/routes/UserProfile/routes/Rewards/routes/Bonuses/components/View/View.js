@@ -228,7 +228,7 @@ class View extends Component {
         {
           !!data.expirationDate &&
           <div className="font-size-11">
-            {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}
+            {`${I18n.t('COMMON.TO')} ${moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}`}
           </div>
         }
       </div>
@@ -283,7 +283,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <SubTabNavigation links={subTabRoutes} />
