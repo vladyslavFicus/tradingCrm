@@ -180,21 +180,21 @@ class CreateBonusCampaignModal extends Component {
               label={I18n.t(attributeLabels.campaignRatio)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('campaignRatio')}
-              id="create-campaign-ratio-value"
+              valueId="create-campaign-ratio-value"
             />
             <CustomValueField
               basename={'conversionPrize'}
               label={I18n.t(attributeLabels.conversionPrize)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('conversionPrize')}
-              id="create-campaign-conversion-prize-value"
+              valueId="create-campaign-conversion-prize-value"
             />
             <CustomValueField
               basename={'capping'}
               label={I18n.t(attributeLabels.capping)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('capping')}
-              id="create-campaign-capping-value"
+              valueId="create-campaign-capping-value"
             />
             <Field
               name="wagerWinMultiplier"
