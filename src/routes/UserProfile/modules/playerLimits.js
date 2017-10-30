@@ -135,9 +135,9 @@ const initialState = {
     canUnlock: false,
   },
   login: {
-    locked: false,
+    lock: false,
+    lockExpirationDate: null,
     lockReason: null,
-    expirationDate: null,
   },
   error: null,
   isLoading: false,
@@ -175,19 +175,11 @@ const actionHandlers = {
   }),
   [CHECK_LOGIN_LOCK.SUCCESS]: (state, action) => ({
     ...state,
-    login: {
-      locked: action.payload.lock,
-      lockReason: action.payload.lockReason,
-      expirationDate: action.payload.lockExpirationDate,
-    },
+    login: action.payload,
   }),
   [UNLOCK_LOGIN.SUCCESS]: state => ({
     ...state,
-    login: {
-      locked: false,
-      lockReason: null,
-      expirationDate: null,
-    },
+    login: initialState.login,
   }),
 };
 const actionTypes = {

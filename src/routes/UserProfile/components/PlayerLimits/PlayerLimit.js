@@ -46,42 +46,45 @@ class PlayerLimit extends Component {
 
     return (
       <div className="limits-info_tab">
-        <div className="header-block_player-limits-tab_status">
-          {label} - <span className="header-block_player-limits-tab_status_is-locked">Locked</span>
+        <div className="limits-info_tab-content">
+          <div className="header-block_player-limits-tab_status">
+            {label} - <span className="header-block_player-limits-tab_status_is-locked">Locked</span>
+          </div>
+          {
+            authorUUID &&
+            <div className="header-block_player-limits-tab_log">
+              {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={authorUUID} />
+            </div>
+          }
+          {
+            reason &&
+            <div className="header-block_player-limits-tab_log">
+              Reason - {reason}
+            </div>
+          }
+          {
+            startDate && moment(startDate).isValid() &&
+            <div className="header-block_player-limits-tab_log">
+              {I18n.t('COMMON.DATE_ON', { date: moment.utc(startDate).local().format('DD.MM.YYYY HH:mm') })}
+            </div>
+          }
+          {
+            endDate && moment(endDate).isValid() &&
+            <div className="header-block_player-limits-tab_log">
+              {I18n.t('COMMON.DATE_UNTIL', { date: moment.utc(endDate).local().format('DD.MM.YYYY HH:mm') })}
+            </div>
+          }
         </div>
         {
-          authorUUID &&
-          <div className="header-block_player-limits-tab_log">
-            {I18n.t('COMMON.AUTHOR_BY')} <Uuid uuid={authorUUID} />
-          </div>
-        }
-        {
-          reason &&
-          <div className="header-block_player-limits-tab_log">
-            {!isUnlockButtonVisible && <span>Reason - </span>}
-            {reason}
-          </div>
-        }
-        {
-          startDate && moment(startDate).isValid() &&
-          <div className="header-block_player-limits-tab_log">
-            {I18n.t('COMMON.DATE_ON', { date: moment.utc(startDate).local().format('DD.MM.YYYY HH:mm') })}
-          </div>
-        }
-        {
-          endDate && moment(endDate).isValid() &&
-          <div className="header-block_player-limits-tab_log">
-            {I18n.t('COMMON.DATE_UNTIL', { date: moment.utc(endDate).local().format('DD.MM.YYYY HH:mm') })}
-          </div>
-        }
-        {
           isUnlockButtonVisible &&
-          <PlayerLimitButton
-            className={unlockButtonClassName}
-            canUnlock
-            label={unlockButtonLabel}
-            onClick={onUnlockButtonClick}
-          />
+          <div className="limits-info_tab-action">
+            <PlayerLimitButton
+              className={unlockButtonClassName}
+              canUnlock
+              label={unlockButtonLabel}
+              onClick={onUnlockButtonClick}
+            />
+          </div>
         }
       </div>
     );
