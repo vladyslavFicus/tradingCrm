@@ -14,6 +14,7 @@ const CustomValueField = (props) => {
     typeInputClassName,
     typeValues,
     errors,
+    id,
   } = props;
 
   const classList = {
@@ -45,6 +46,7 @@ const CustomValueField = (props) => {
               component="input"
               type="text"
               className={classList.valueInput}
+              id={id}
             />
           </div>
           <div className="col-md-3">
@@ -77,6 +79,8 @@ CustomValueField.defaultProps = {
   valueInputClassName: '',
   typeInputClassName: '',
   errors: {},
+  disabled: false,
+  id: null,
 };
 CustomValueField.propTypes = {
   basename: PropTypes.string.isRequired,
@@ -86,6 +90,7 @@ CustomValueField.propTypes = {
   typeInputClassName: PropTypes.string,
   errors: PropTypes.object,
   disabled: PropTypes.bool,
+  id: PropTypes.string,
 };
 
 export default CustomValueField;

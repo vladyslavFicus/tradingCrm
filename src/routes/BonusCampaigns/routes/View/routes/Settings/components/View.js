@@ -63,7 +63,7 @@ class View extends Component {
       },
       ...action,
     });
-  }
+  };
 
   handleOpenModal = (name, params) => {
     this.setState({
