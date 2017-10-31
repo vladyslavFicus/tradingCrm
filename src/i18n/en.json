@@ -183,6 +183,9 @@
         "NOTIFICATION_TITLE": "Password reset",
         "SUCCESS_NOTIFICATION_TEXT": "Reset password link has been successfully sent via email",
         "ERROR_NOTIFICATION_TEXT": "Failed to send reset password link via email"
+      },
+      "EMAIL": {
+        "TITLE": "Email"
       }
     },
     "GAME_ACTIVITY": {
@@ -1235,6 +1238,9 @@
         "payment": {
           "operation": "Invalid payment operation"
         }
+      },
+      "email": {
+        "exist": "Email already exist"
       }
     },
     "payment": {

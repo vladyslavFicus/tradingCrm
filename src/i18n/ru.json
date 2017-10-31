@@ -185,6 +185,9 @@
         "NOTIFICATION_TITLE": "Сброс пароля",
         "SUCCESS_NOTIFICATION_TEXT": "Ссылка на сброс пароля была успешно отправлена по email",
         "ERROR_NOTIFICATION_TEXT": "Не удалось отправить ссылку на сброс пароля по email"
+      },
+      "EMAIL": {
+        "TITLE": "Email"
       }
     },
     "GAME_ACTIVITY": {
@@ -1246,6 +1249,9 @@
         "payment": {
           "operation": "Невалидная платежная операция"
         }
+      },
+      "email": {
+        "exist": "Email уже существует"
       }
     },
     "payment": {
