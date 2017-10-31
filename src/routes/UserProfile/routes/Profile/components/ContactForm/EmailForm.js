@@ -85,12 +85,14 @@ class EmailForm extends Component {
             />
           </div>
           <div className="col-md-6 text-right">
-            {
-              dirty && !submitting && valid && !disabled &&
-              <button className="btn btn-sm btn-primary" type="submit">
-                {I18n.t('COMMON.SAVE_CHANGES')}
-              </button>
-            }
+            <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_EMAIL}>
+              {
+                dirty && !submitting && valid && !disabled &&
+                <button className="btn btn-sm btn-primary" type="submit">
+                  {I18n.t('COMMON.SAVE_CHANGES')}
+                </button>
+              }
+            </PermissionContent>
           </div>
         </div>
       </form>

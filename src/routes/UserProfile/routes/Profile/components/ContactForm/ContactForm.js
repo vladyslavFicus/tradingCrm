@@ -56,6 +56,7 @@ class ContactForm extends Component {
         />
         <hr />
         <EmailForm
+          disabled={disabled}
           profileStatus={profile.profileStatus}
           onSubmit={onSubmitEmail}
           onVerifyEmailClick={onVerifyEmailClick}
