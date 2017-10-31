@@ -106,6 +106,8 @@ class CreateBonusCampaignModal extends Component {
   handleChangeTargetType = (e) => {
     if (e.target.value === targetTypes.ALL) {
       this.props.change('optIn', true);
+    } else {
+      this.props.change('optIn', false);
     }
   };
 
