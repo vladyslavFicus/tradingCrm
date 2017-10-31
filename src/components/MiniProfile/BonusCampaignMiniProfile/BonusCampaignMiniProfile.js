@@ -3,13 +3,13 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../constants/propTypes';
 import { campaignStatusNames } from '../constants';
-import { statuses } from '../../../constants/bonus-campaigns';
+import { statuses, targetTypesLabels, campaignTypesLabels } from '../../../constants/bonus-campaigns';
 import Uuid from '../../Uuid';
+import renderLabel from '../../../utils/renderLabel';
 import './BonusCampaignMiniProfile.scss';
 
 const BonusCampaignMiniProfile = ({ data }) => (
   <div className={`mini-profile campaign-mini-profile ${data.stateReason ? campaignStatusNames.CANCELED : campaignStatusNames[data.state]}`}>
-    {console.log(data)}
     <div className="mini-profile-header">
       <label className="mini-profile-label">
         {`${data.stateReason ? campaignStatusNames.CANCELED : campaignStatusNames[data.state]}`}
@@ -24,19 +24,31 @@ const BonusCampaignMiniProfile = ({ data }) => (
       <div className="mini-profile-ids">
         {
           data.stateReason &&
-          I18n.t('MINI_PROFILE.CANCELED')
+          <div>
+            {I18n.t('MINI_PROFILE.CANCELED')}
+            {` ${I18n.t('COMMON.AUTHOR_BY')} `}
+            <Uuid uuid={data.statusChangedAuthorUUID} uuidPrefix="OP" />
+            {` ${I18n.t('COMMON.DATE_ON', { date: moment.utc(data.statusChangedDate).local().format('DD.MM.YYYY HH:mm') })}`}
+          </div>
         }
         {
           data.state === statuses.DRAFT &&
-          I18n.t('MINI_PROFILE.CREATED')
+          <div>
+            {I18n.t('MINI_PROFILE.CREATED')}
+            {` ${I18n.t('COMMON.AUTHOR_BY')} `}
+            <Uuid uuid={data.authorUUID} uuidPrefix="OP" />
+            {` ${I18n.t('COMMON.DATE_ON', { date: moment.utc(data.creationDate).local().format('DD.MM.YYYY HH:mm') })}`}
+          </div>
         }
         {
           (data.state !== statuses.draft && !data.stateReason) &&
-          I18n.t('MINI_PROFILE.LAUNCHED')
+          <div>
+            {I18n.t('MINI_PROFILE.LAUNCHED')}
+            {` ${I18n.t('COMMON.AUTHOR_BY')} `}
+            <Uuid uuid={data.statusChangedAuthorUUID} uuidPrefix="OP" />
+            {` ${I18n.t('COMMON.DATE_ON', { date: moment.utc(data.statusChangedDate).local().format('DD.MM.YYYY HH:mm') })}`}
+          </div>
         }
-        {` ${I18n.t('COMMON.AUTHOR_BY')} `}
-        <Uuid uuid={data.authorUUID} uuidPrefix="OP" />
-        {` ${I18n.t('COMMON.DATE_ON', { date: moment.utc(data.creationDate).local().format('DD.MM.YYYY HH:mm') })}`}
       </div>
       <div className="mini-profile-ids">
         {`${I18n.t('MINI_PROFILE.DATE_RANGE')} `}
@@ -48,29 +60,29 @@ const BonusCampaignMiniProfile = ({ data }) => (
     </div>
     <div className="mini-profile-content">
       <div className="info-block">
-        <div className="info-block-label">TARGET</div>
+        <div className="info-block-label">{I18n.t('MINI_PROFILE.TARGET')}</div>
         <div className="info-block-content">
           <div className="info-block-heading">
-            Selected players
+            {renderLabel(data.targetType, targetTypesLabels)}
           </div>
           <div className="info-block-description">
-            Opted-in 121 players
+            {I18n.t('MINI_PROFILE.OPTED_IN', { value: data.totalOptInPlayers })}
           </div>
           <div className="info-block-description">
-            Selected 151 players
+            {I18n.t('MINI_PROFILE.SELECTED', { value: data.totalSelectedPlayers })}
           </div>
         </div>
       </div>
       <div className="info-block">
-        <div className="info-block-label">FULFILLMENT</div>
+        <div className="info-block-label">{I18n.t('MINI_PROFILE.FULFILLMENT')}</div>
         <div className="info-block-content">
           <div className="info-block-heading">
-            First deposit
+            {renderLabel(data.campaignType, campaignTypesLabels)}
           </div>
         </div>
       </div>
       <div className="info-block">
-        <div className="info-block-label">REWARD</div>
+        <div className="info-block-label">{I18n.t('MINI_PROFILE.REWARD')}</div>
         <div className="info-block-content">
           <div className="info-block-heading">
             Bonus

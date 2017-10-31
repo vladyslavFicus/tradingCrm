@@ -1319,7 +1319,12 @@
     "LAUNCHED": "Launched",
     "CANCELED": "Canceled",
     "DATE_RANGE": "Date range",
-    "NOT_SELECTED": "not selected"
+    "NOT_SELECTED": "not selected",
+    "TARGET": "Target",
+    "FULFILLMENT": "Fulfillment",
+    "REWARD": "Reward",
+    "OPTED_IN": "Opted-in %{value} players",
+    "SELECTED": "Selected %{value} players"
   },
   "OPERATORS": {
     "CREATE_OPERATOR_BUTTON": "+ New operator",
