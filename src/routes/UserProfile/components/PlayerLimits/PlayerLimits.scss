@@ -28,22 +28,29 @@
       flex: 1;
     }
   }
+}
 
-  .limits-info {
-    padding: .75rem 1.2rem;
-    border-top: 1px solid #eee;
-    cursor: default;
-    &_tab {
-      position: relative;
+.limits-info {
+  padding: .75rem 1.2rem;
+  border-top: 1px solid #eee;
+  cursor: default;
+  &_container:nth-child(2) {
+    margin-top: 10px;
+  }
+  .locks-container {
+    .limits-info_tab:nth-child(n+2) {
+      margin-top: 10px;
+    }
+  }
+  &_tab {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    &-content {
       line-height: 1.2;
-      &:nth-child(n+2) {
-        margin-top: 10px;
-      }
-      &-button {
-        position: absolute;
-        top: 0;
-        right: 0;
-      }
+    }
+    &-action {
+      margin-left: 10px;
     }
   }
 }

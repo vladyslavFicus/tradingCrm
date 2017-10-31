@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import Sticky from 'react-stickynode';
+import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../constants/propTypes';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
@@ -55,7 +56,8 @@ class View extends Component {
     verifyData: PropTypes.func.isRequired,
     refuseData: PropTypes.func.isRequired,
     updateProfile: PropTypes.func.isRequired,
-    updateContacts: PropTypes.func.isRequired,
+    updatePhone: PropTypes.func.isRequired,
+    updateEmail: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     changeFileStatusByAction: PropTypes.func.isRequired,
@@ -134,11 +136,11 @@ class View extends Component {
     return action;
   };
 
-  handleSubmitContact = async (data) => {
-    const { params, updateContacts } = this.props;
+  handleUpdatePhone = async (data) => {
+    const { params, updatePhone } = this.props;
     const { phone, phoneCode } = data;
 
-    const action = await updateContacts(params.id, { phone, phoneCode });
+    const action = await updatePhone(params.id, { phone, phoneCode });
 
     if (action) {
       this.context.addNotification({
@@ -150,6 +152,26 @@ class View extends Component {
     }
     return action;
   };
+
+  handleUpdateEmail = async (data) => {
+    const { params, updateEmail } = this.props;
+
+    const action = await updateEmail(params.id, data);
+
+    if (action) {
+      if (!action.error) {
+        this.context.addNotification({
+          level: 'success',
+          title: I18n.t('PLAYER_PROFILE.PROFILE.EMAIL.TITLE'),
+          message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        });
+      } else {
+        throw new SubmissionError({ email: I18n.t(action.payload.response.error) });
+      }
+    }
+
+    return action;
+  }
 
   handleVerify = async () => {
     const {
@@ -360,11 +382,11 @@ class View extends Component {
   };
 
   handleVerifyPhone = async (phone, phoneCode) => {
-    const { params, profile, verifyPhone, updateContacts } = this.props;
+    const { params, profile, verifyPhone, updatePhone } = this.props;
     const { phone: currentPhone, phoneCode: currentPhoneCode } = profile.data;
 
     if (phone !== currentPhone || phoneCode !== currentPhoneCode) {
-      await updateContacts(params.id, { phone, phoneCode });
+      await updatePhone(params.id, { phone, phoneCode });
     }
 
     return verifyPhone(params.id);
@@ -473,7 +495,7 @@ class View extends Component {
         <div className="tab-content">
           <div className="panel">
             <div className="panel-body row panel-body__wrapper">
-              <div className="col-md-8 profile-bordered-block">
+              <div className="col-md-8 with-right-border">
                 <PersonalForm
                   initialValues={personalData}
                   onSubmit={this.handleSubmitKYC(kycTypes.personal)}
@@ -506,7 +528,7 @@ class View extends Component {
 
           <div className="panel">
             <div className="panel-body row panel-body__wrapper">
-              <div className="col-md-8 profile-bordered-block">
+              <div className="col-md-8 with-right-border">
                 <AddressForm
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
@@ -538,17 +560,21 @@ class View extends Component {
           </div>
 
           <div className="panel">
-            <div className="panel-body row">
-              <ContactForm
-                fetchMeta={fetchMeta}
-                profile={data}
-                phoneCodes={metaData.phoneCodes}
-                initialValues={contactData}
-                onSubmit={this.handleSubmitContact}
-                onVerifyPhoneClick={this.handleVerifyPhone}
-                onVerifyEmailClick={this.handleVerifyEmail}
-                disabled={!canUpdateProfile}
-              />
+            <div className="panel-body row panel-body__wrapper">
+              <div className="col-md-8 with-right-border">
+                <ContactForm
+                  fetchMeta={fetchMeta}
+                  profile={data}
+                  phoneCodes={metaData.phoneCodes}
+                  contactData={contactData}
+                  onSubmitPhone={this.handleUpdatePhone}
+                  onSubmitEmail={this.handleUpdateEmail}
+                  onVerifyPhoneClick={this.handleVerifyPhone}
+                  onVerifyEmailClick={this.handleVerifyEmail}
+                  disabled={!canUpdateProfile}
+                />
+              </div>
+              <div className="col-md-4" />
             </div>
           </div>
 

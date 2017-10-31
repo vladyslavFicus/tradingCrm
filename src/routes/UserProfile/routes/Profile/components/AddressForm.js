@@ -58,7 +58,7 @@ class AddressForm extends Component {
             <div className="col-xl-6 text-right">
               {
                 !pristine && !submitting && !disabled &&
-                <button className="btn btn-sm btn-primary" type="submit">
+                <button className="btn btn-sm btn-primary" type="submit" id="profile-address-info-save-btn">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
               }
@@ -109,11 +109,11 @@ class AddressForm extends Component {
               <Field
                 name="address"
                 label={attributeLabels.address}
-                type="text"
                 component={TextAreaField}
                 position="vertical"
                 showErrorMessage
                 disabled={disabled}
+                id="profile-address-textarea"
               />
             </div>
           </div>

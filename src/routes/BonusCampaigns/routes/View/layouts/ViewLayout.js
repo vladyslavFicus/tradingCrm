@@ -98,12 +98,7 @@ class ViewLayout extends Component {
   handleRemovePlayersClick = () => {
     const { params: { id: campaignId } } = this.props;
 
-    this.handleOpenModal(REMOVE_PLAYERS, {
-      campaignId,
-      onSubmit: this.handleRemovePlayers,
-      modalTitle: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON'),
-      actionText: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT'),
-    });
+    this.handleOpenModal(REMOVE_PLAYERS, { campaignId });
   };
 
   handleRemovePlayers = async () => {
@@ -134,8 +129,8 @@ class ViewLayout extends Component {
     } = this.props;
 
     return (
-      <div className="player panel profile-layout">
-        <div className="profile-layout-heading">
+      <div className="layout layout_not-iframe">
+        <div className="layout-info">
           <Header
             onChangeCampaignState={onChangeCampaignState}
             availableStatusActions={availableStatusActions}
@@ -164,26 +159,23 @@ class ViewLayout extends Component {
           </Collapse>
         </div>
 
-        <div className="panel profile-user-content">
-          <div className="panel-body">
-            <div className="nav-tabs-horizontal">
-              <Tabs
-                items={bonusCampaignTabs}
-                location={location}
-                params={params}
-              />
-              <div className="padding-vertical-20">
-                {children}
-              </div>
-            </div>
+        <div className="layout-content">
+          <div className="nav-tabs-horizontal">
+            <Tabs
+              items={bonusCampaignTabs}
+              location={location}
+              params={params}
+            />
+            {children}
           </div>
         </div>
         {
           modal.name === REMOVE_PLAYERS &&
           <ConfirmActionModal
-            {...modal.params}
-            form="confirmRemovePlayers"
+            onSubmit={this.handleRemovePlayers}
             onClose={this.handleCloseModal}
+            modalTitle={I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
+            actionText={I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT')}
           />
         }
       </div>

@@ -7,7 +7,7 @@ class UnitValue extends Component {
     type: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired,
     currency: PropTypes.string.isRequired,
-  }
+  };
 
   render() {
     const { value, type, currency } = this.props;

@@ -1,77 +1,69 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
-import Uuid from '../../components/Uuid';
+import { shortify } from '../../utils/uuid';
 
 class ConfirmActionModal extends Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func,
     onClose: PropTypes.func.isRequired,
-    className: PropTypes.string,
     modalTitle: PropTypes.string,
     actionText: PropTypes.string,
     submitButtonLabel: PropTypes.string,
-    form: PropTypes.string.isRequired,
+    fullName: PropTypes.string,
     uuid: PropTypes.string,
-    uuidPrefix: PropTypes.string,
   };
   static defaultProps = {
-    handleSubmit: null,
-    className: 'modal-danger',
     modalTitle: 'Confirm action',
     actionText: 'Do you really want to confirm this action?',
     submitButtonLabel: I18n.t('COMMON.BUTTONS.CONFIRM'),
+    fullName: null,
     uuid: null,
-    uuidPrefix: 'PL',
   };
 
   render() {
     const {
       onSubmit,
-      handleSubmit,
       onClose,
-      className,
       modalTitle,
       actionText,
+      fullName,
       uuid,
-      uuidPrefix,
       submitButtonLabel,
-      form,
     } = this.props;
 
     return (
-      <Modal isOpen toggle={onClose} className={className}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
-          <ModalBody>
-            <div className="text-center center-block width-300">
-              <strong>{actionText}</strong>
-              {uuid && <Uuid uuid={uuid} uuidPrefix={uuidPrefix} />}
+      <Modal isOpen toggle={onClose} className="modal-danger">
+        <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
+        <ModalBody>
+          <div className="text-center font-weight-700">
+            <div>{actionText}</div>
+            <div>
+              {`${fullName}${fullName && uuid ? ' - ' : ''}`}
+              {uuid && <span className="font-weight-400">{shortify(uuid)}</span>}
             </div>
-          </ModalBody>
+          </div>
+        </ModalBody>
 
-          <ModalFooter>
-            <button
-              onClick={onClose}
-              className="btn btn-default-outline pull-left"
-            >
-              {I18n.t('COMMON.CANCEL')}
-            </button>
-            {' '}
-            <button
-              type="submit"
-              className="btn btn-danger-outline"
-            >
-              {submitButtonLabel}
-            </button>
-          </ModalFooter>
-        </form>
+        <ModalFooter>
+          <button
+            onClick={onClose}
+            className="btn btn-default-outline pull-left"
+          >
+            {I18n.t('COMMON.CANCEL')}
+          </button>
+          <button
+            type="submit"
+            className="btn btn-danger-outline"
+            onClick={onSubmit}
+          >
+            {submitButtonLabel}
+          </button>
+        </ModalFooter>
       </Modal>
     );
   }
 }
 
-export default reduxForm()(ConfirmActionModal);
+export default ConfirmActionModal;
