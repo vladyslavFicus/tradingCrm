@@ -33,8 +33,9 @@ class PlayerLimits extends Component {
         canUnlock: PropTypes.bool.isRequired,
       }).isRequired,
       login: PropTypes.shape({
-        locked: PropTypes.bool.isRequired,
-        expirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        lock: PropTypes.bool.isRequired,
+        lockExpirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        lockReason: PropTypes.string,
       }).isRequired,
       error: PropTypes.object,
       isLoading: PropTypes.bool.isRequired,
@@ -94,16 +95,7 @@ class PlayerLimits extends Component {
   };
 
   handleUnlockLoginClick = () => {
-    const { profile: { fullName, playerUUID } } = this.props;
-
-    this.handleOpenModal(PLAYER_LOGIN_LIMIT_MODAL, {
-      onSubmit: this.handleUnlockLogin,
-      uuid: playerUUID,
-      uuidPrefix: 'PL',
-      modalTitle: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.TITLE'),
-      actionText: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.ACTION_TEXT', { fullName }),
-      submitButtonLabel: I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.SUBMIT_BUTTON_LABEL'),
-    });
+    this.handleOpenModal(PLAYER_LOGIN_LIMIT_MODAL);
   };
 
   renderStatus = (label, locked) => {
@@ -139,7 +131,7 @@ class PlayerLimits extends Component {
               </div>
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.GET_LOGIN_LOCK}>
-              {this.renderStatus('Login', login.locked)}
+              {this.renderStatus('Login', login.lock)}
             </PermissionContent>
           </div>
 
@@ -159,7 +151,7 @@ class PlayerLimits extends Component {
               <PermissionContent permissions={permissions.USER_PROFILE.LOCK_WITHDRAW}>
                 <PlayerLimitButton
                   className="btn btn-danger-outline"
-                  canUnlock={deposit.canUnlock}
+                  canUnlock={withdraw.canUnlock}
                   label="withdrawal"
                   onClick={() => this.handleActionClick(
                     types.WITHDRAW,
@@ -169,10 +161,10 @@ class PlayerLimits extends Component {
               </PermissionContent>
             </div>
             {
-              (entities.length > 0 || login.locked) &&
+              (entities.length > 0 || login.lock) &&
               <div className="limits-info">
                 <PermissionContent permissions={permissions.USER_PROFILE.GET_PAYMENT_LOCKS}>
-                  <div className={classNames({ 'no-margin': entities.length < 1 })}>
+                  <div className="limits-info_container locks-container">
                     {entities.map(limit => (
                       <PlayerLimit
                         key={limit.id}
@@ -180,21 +172,25 @@ class PlayerLimits extends Component {
                         authorUUID={limit.authorUUID}
                         reason={limit.reason}
                         date={limit.startLock}
+                        profileStatus={profile.profileStatus}
                       />
                     ))}
                   </div>
                 </PermissionContent>
                 <PermissionContent permissions={permissions.USER_PROFILE.GET_LOGIN_LOCK}>
                   {
-                    login.locked &&
-                    <PlayerLimit
-                      label="Login"
-                      reason={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.REASON')}
-                      unlockButtonLabel="Login"
-                      unlockButtonClassName="btn btn-danger-outline limits-info_tab-button"
-                      onUnlockButtonClick={this.handleUnlockLoginClick}
-                      endDate={login.expirationDate}
-                    />
+                    login.lock &&
+                    <div className="limits-info_container">
+                      <PlayerLimit
+                        label="Login"
+                        reason={I18n.t(login.lockReason)}
+                        unlockButtonLabel="Login"
+                        unlockButtonClassName="btn btn-danger-outline limits-info_tab-button"
+                        onUnlockButtonClick={this.handleUnlockLoginClick}
+                        endDate={login.lockExpirationDate}
+                        profileStatus={profile.profileStatus}
+                      />
+                    </div>
                   }
                 </PermissionContent>
               </div>
@@ -214,9 +210,13 @@ class PlayerLimits extends Component {
         {
           modal.name === PLAYER_LOGIN_LIMIT_MODAL &&
           <ConfirmActionModal
-            {...modal.params}
-            form="confirmUnlockLogin"
+            onSubmit={this.handleUnlockLogin}
             onClose={this.handleModalHide}
+            modalTitle={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.TITLE')}
+            actionText={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.ACTION_TEXT')}
+            fullName={profile.fullName}
+            uuid={profile.playerUUID}
+            submitButtonLabel={I18n.t('PLAYER_PROFILE.LOCKS.LOGIN.MODAL.SUBMIT_BUTTON_LABEL')}
           />
         }
       </div>

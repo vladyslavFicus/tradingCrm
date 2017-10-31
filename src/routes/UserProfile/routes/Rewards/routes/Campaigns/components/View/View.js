@@ -85,11 +85,7 @@ class View extends Component {
   };
 
   handleDeclineClick = (campaignId, returnToList = false) => {
-    this.handleOpenModal(CAMPAIGN_DECLINE_MODAL, {
-      campaignId,
-      returnToList,
-      onSubmit: this.handleDeclineCampaign,
-    });
+    this.handleOpenModal(CAMPAIGN_DECLINE_MODAL, { campaignId, returnToList });
   };
 
   handleFiltersChanged = (filters = {}) => {
@@ -332,8 +328,7 @@ class View extends Component {
         {
           modal.name === CAMPAIGN_DECLINE_MODAL &&
           <ConfirmActionModal
-            {...modal.params}
-            form="confirmDeclineCampaign"
+            onSubmit={this.handleDeclineCampaign}
             onClose={this.handleCloseModal}
           />
         }

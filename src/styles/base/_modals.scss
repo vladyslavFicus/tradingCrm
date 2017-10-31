@@ -64,11 +64,6 @@
       background-color: #fc6;
     }
   }
-  .delete-modal {
-    .modal-header {
-      background-color: #fc6;
-    }
-  }
   .upload-modal {
     width: 735px;
     .uploading-files {
@@ -109,11 +104,6 @@
   }
   .create-free-spin-modal {
     width: 605px;
-  }
-  .free-spin-cancel-modal {
-    .modal-header {
-      background-color: #fc6;
-    }
   }
   .view-bonus-modal {
     width: 750px;
@@ -184,9 +174,6 @@
 }
 
 .change-password-modal {
-  .modal-header {
-    background-color: #fc6;
-  }
   &-warning {
     margin-bottom: 25px;
     text-align: center;

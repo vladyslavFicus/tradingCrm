@@ -66,6 +66,11 @@ class Header extends Component {
           locked: PropTypes.bool.isRequired,
           canUnlock: PropTypes.bool.isRequired,
         }).isRequired,
+        login: PropTypes.shape({
+          lock: PropTypes.bool.isRequired,
+          lockExpirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+          lockReason: PropTypes.string,
+        }).isRequired,
         error: PropTypes.object,
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,

@@ -21,6 +21,7 @@ import {
 } from '../../../components/Files';
 import ChangePasswordModal from '../../../components/ChangePasswordModal';
 import ShareLinkModal from '../components/ShareLinkModal';
+import ConfirmActionModal from '../../../components/Modal/ConfirmActionModal';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -33,6 +34,7 @@ const MODAL_UPLOAD_FILE = 'upload-modal';
 const MODAL_DELETE_FILE = 'delete-modal';
 const MODAL_CHANGE_PASSWORD = 'change-password-modal';
 const MODAL_SHARE_PROFILE = 'share-profile-modal';
+const MODAL_RESET_PASSWORD = 'reset-password-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -114,6 +116,8 @@ class ProfileLayout extends Component {
     fetchBalances: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    saveFiles: PropTypes.func.isRequired,
+    deleteFile: PropTypes.func.isRequired,
   };
   static defaultProps = {
     availableTags: [],
@@ -139,6 +143,15 @@ class ProfileLayout extends Component {
     cacheChildrenComponent: PropTypes.func.isRequired,
   };
 
+  state = {
+    popover: { ...popoverInitialState },
+    modal: { ...modalInitialState },
+    imageViewer: { ...imageViewerInitialState },
+    noteChangedCallback: null,
+    fileChangedCallback: null,
+    informationShown: true,
+  };
+
   getChildContext() {
     return {
       onAddNote: this.props.addNote,
@@ -155,15 +168,6 @@ class ProfileLayout extends Component {
       cacheChildrenComponent: this.cacheChildrenComponent,
     };
   }
-
-  state = {
-    popover: { ...popoverInitialState },
-    modal: { ...modalInitialState },
-    imageViewer: { ...imageViewerInitialState },
-    noteChangedCallback: null,
-    fileChangedCallback: null,
-    informationShown: true,
-  };
 
   componentWillMount() {
     window.addEventListener('scroll', this.handleScrollWindow);
@@ -420,26 +424,29 @@ class ProfileLayout extends Component {
     this.setState({ popover: { ...popoverInitialState } });
   };
 
-  handleResetPasswordClick = async () => {
+  handleResetPasswordClick = () => {
+    this.handleOpenModal(MODAL_RESET_PASSWORD);
+  };
+
+  handleResetPassword = async () => {
     const { resetPassword, profile: { data } } = this.props;
 
     if (data.email) {
       const action = await resetPassword({ email: data.email });
 
       if (action && !action.error) {
-        this.handleOpenModal(MODAL_INFO, {
-          className: 'modal-danger',
-          header: 'Reset password',
-          body: (
-            <span>
-              Reset password link was sent to <strong>{data.email}</strong>.
-            </span>
-          ),
-          footer: (
-            <button className="btn btn-default-outline pull-left" onClick={this.handleCloseModal}>
-              {I18n.t('COMMON.BUTTONS.CANCEL')}
-            </button>
-          ),
+        this.context.addNotification({
+          level: 'success',
+          title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
+          message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.SUCCESS_NOTIFICATION_TEXT'),
+        });
+
+        this.handleCloseModal();
+      } else {
+        this.context.addNotification({
+          level: 'error',
+          title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
+          message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.ERROR_NOTIFICATION_TEXT'),
         });
       }
     }
@@ -735,6 +742,19 @@ class ProfileLayout extends Component {
           <ShareLinkModal
             onClose={this.handleCloseModal}
             playerUUID={playerProfile.playerUUID}
+          />
+        }
+
+        {
+          modal.name === MODAL_RESET_PASSWORD &&
+          <ConfirmActionModal
+            onSubmit={this.handleResetPassword}
+            onClose={this.handleCloseModal}
+            modalTitle={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TITLE')}
+            actionText={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TEXT')}
+            fullName={`${playerProfile.firstName} ${playerProfile.lastName}`}
+            uuid={playerProfile.playerUUID}
+            submitButtonLabel={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.BUTTON_ACTION')}
           />
         }
 
