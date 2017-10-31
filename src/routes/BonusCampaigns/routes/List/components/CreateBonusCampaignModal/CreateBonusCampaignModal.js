@@ -130,18 +130,21 @@ class CreateBonusCampaignModal extends Component {
               label={I18n.t(attributeLabels.campaignName)}
               type="text"
               component={InputField}
+              id="create-campaign-name"
             />
             <Field
               name="priority"
               label={I18n.t(attributeLabels.priority)}
               type="text"
               component={InputField}
+              id="create-campaign-priority"
             />
             <Field
               name="bonusLifetime"
               label={I18n.t(attributeLabels.bonusLifetime)}
               type="text"
               component={InputField}
+              id="create-campaign-bonus-life-time"
             />
 
             <Field
@@ -149,6 +152,7 @@ class CreateBonusCampaignModal extends Component {
               label={I18n.t(attributeLabels.currency)}
               type="select"
               component={SelectField}
+              id="create-campaign-currency"
             >
               <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_CURRENCY')}</option>
               {currencies.map(item => (
@@ -176,30 +180,35 @@ class CreateBonusCampaignModal extends Component {
               label={I18n.t(attributeLabels.campaignRatio)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('campaignRatio')}
+              valueId="create-campaign-ratio-value"
             />
             <CustomValueField
               basename={'conversionPrize'}
               label={I18n.t(attributeLabels.conversionPrize)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('conversionPrize')}
+              valueId="create-campaign-conversion-prize-value"
             />
             <CustomValueField
               basename={'capping'}
               label={I18n.t(attributeLabels.capping)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('capping')}
+              valueId="create-campaign-capping-value"
             />
             <Field
               name="wagerWinMultiplier"
               label={I18n.t(attributeLabels.wagerWinMultiplier)}
               type="text"
               component={InputField}
+              id="create-campaign-wager-win-multiplier"
             />
             <Field
               name="targetType"
               label={I18n.t(attributeLabels.targetType)}
               type="select"
               component={SelectField}
+              id="create-campaign-target-type"
             >
               <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_TARGET_TYPE')}</option>
               {Object.keys(targetTypesLabels).map(key => (
@@ -232,6 +241,7 @@ class CreateBonusCampaignModal extends Component {
                         type="text"
                         component={InputField}
                         position="vertical"
+                        id="create-campaign-min-lock-amount"
                       />
                     </div>
                     <div className="col-md-4">
@@ -241,6 +251,7 @@ class CreateBonusCampaignModal extends Component {
                         type="text"
                         component={InputField}
                         position="vertical"
+                        id="create-campaign-max-lock-amount"
                       />
                     </div>
                     <div className="col-md-4">
@@ -251,6 +262,7 @@ class CreateBonusCampaignModal extends Component {
                         component={SelectField}
                         position="vertical"
                         showErrorMessage={false}
+                        id="create-campaign-lock-strategy"
                       >
                         <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_LOCK_AMOUNT_STRATEGY')}</option>
                         {Object.keys(lockAmountStrategyLabels).map(key => (
@@ -271,6 +283,7 @@ class CreateBonusCampaignModal extends Component {
               label={I18n.t(attributeLabels.startDate)}
               component={DateTimeField}
               isValidDate={this.startDateValidator('endDate')}
+              id="create-campaign-start-date"
             />
 
             <Field
@@ -279,6 +292,7 @@ class CreateBonusCampaignModal extends Component {
               label={I18n.t(attributeLabels.endDate)}
               component={DateTimeField}
               isValidDate={this.endDateValidator('startDate')}
+              id="create-campaign-end-date"
             />
 
             <div className="form-group row">
@@ -289,6 +303,7 @@ class CreateBonusCampaignModal extends Component {
                       name="optIn"
                       type="checkbox"
                       component="input"
+                      id="create-campaign-optin"
                     /> {I18n.t(attributeLabels.optIn)}
                   </label>
                 </div>
@@ -308,6 +323,7 @@ class CreateBonusCampaignModal extends Component {
               type="submit"
               disabled={pristine || submitting || !valid}
               className="btn btn-primary ml-auto"
+              id="create-campaign-submit-button"
             >
               {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
             </button>

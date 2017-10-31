@@ -181,7 +181,7 @@ class Form extends Component {
             >
               {I18n.t('COMMON.REVERT_CHANGES')}
             </button>
-            <button className="btn btn-primary text-uppercase" type="submit">
+            <button className="btn btn-primary text-uppercase" type="submit" id="bonus-campaign-save-button">
               {I18n.t('COMMON.SAVE_CHANGES')}
             </button>
           </div>
@@ -193,6 +193,7 @@ class Form extends Component {
             <div className="col-lg-7">
               <div>
                 <Field
+                  id="bonus-campaign-name"
                   name="campaignName"
                   label={I18n.t(attributeLabels.campaignName)}
                   type="text"
@@ -228,6 +229,7 @@ class Form extends Component {
                 </div>
                 <div className="form-row__medium">
                   <CustomValueFieldVertical
+                    id="bonus-campaign-conversion-prize"
                     basename={'conversionPrize'}
                     label={
                       <span>
@@ -314,6 +316,7 @@ class Form extends Component {
             </div>
             <div className="filter-row__small">
               <Field
+                id="bonus-campaign-target-type"
                 name="optIn"
                 label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.TYPE')}
                 type="select"
