@@ -237,7 +237,9 @@ class View extends Component {
           <Title>
             <div className="row">
               <div className="col-md-3">
-                <span className="font-size-20">{I18n.t('BONUS_CAMPAIGNS.TITLE')}</span>
+                <span className="font-size-20" id="campaigns-page-title">
+                  {I18n.t('BONUS_CAMPAIGNS.TITLE')}
+                </span>
               </div>
               <div className="col-md-3 col-md-offset-6 text-right">
                 <button
