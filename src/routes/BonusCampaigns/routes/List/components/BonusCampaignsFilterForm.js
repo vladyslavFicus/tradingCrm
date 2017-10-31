@@ -16,10 +16,10 @@ const validator = createValidator({
   fulfillmentType: 'string',
   optIn: 'string',
   state: 'string',
-  creationDateFrom: 'string',
-  creationDateTo: 'string',
-  activityDateFrom: 'string',
-  activityDateTo: 'string',
+  creationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+  creationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+  activityDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+  activityDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
 }, attributeLabels, false);
 
 class BonusCampaignsFilterForm extends Component {

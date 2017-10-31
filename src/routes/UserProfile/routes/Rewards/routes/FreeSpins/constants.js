@@ -1,6 +1,6 @@
 import keyMirror from 'keymirror';
 
-export const providers = keyMirror({
+export const aggregators = keyMirror({
   igromat: null,
   microgaming: null,
 });
