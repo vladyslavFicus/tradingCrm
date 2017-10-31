@@ -13,6 +13,7 @@ class ConfirmActionModal extends Component {
     submitButtonLabel: PropTypes.string,
     fullName: PropTypes.string,
     uuid: PropTypes.string,
+    additionalText: PropTypes.string,
   };
   static defaultProps = {
     modalTitle: 'Confirm action',
@@ -20,6 +21,7 @@ class ConfirmActionModal extends Component {
     submitButtonLabel: I18n.t('COMMON.BUTTONS.CONFIRM'),
     fullName: null,
     uuid: null,
+    additionalText: null,
   };
 
   render() {
@@ -31,6 +33,7 @@ class ConfirmActionModal extends Component {
       fullName,
       uuid,
       submitButtonLabel,
+      additionalText,
     } = this.props;
 
     return (
@@ -42,6 +45,7 @@ class ConfirmActionModal extends Component {
             <div>
               {`${fullName}${fullName && uuid ? ' - ' : ''}`}
               {uuid && <span className="font-weight-400">{shortify(uuid)}</span>}
+              {additionalText && <span className="margin-left-5">{additionalText}</span>}
             </div>
           </div>
         </ModalBody>
