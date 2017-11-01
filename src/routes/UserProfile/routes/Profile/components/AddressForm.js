@@ -143,11 +143,7 @@ export default reduxForm({
 
     return createValidator(
       rules,
-      attributeLabels, {
-        required: 'FRONTEND.VALIDATORS.REQUIRED_FIELD',
-        not_contain: 'FRONTEND.VALIDATORS.SIGN_UP_PASSWORD_NOT_CONTAIN',
-        numeric: 'FRONTEND.VALIDATORS.NUMBER_FIELD',
-      },
+      attributeLabels,
       false,
     )(values);
   },
