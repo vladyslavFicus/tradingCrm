@@ -477,7 +477,7 @@ class CreateModal extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               disabled={submitting}
               type="reset"
               onClick={onClose}

@@ -68,6 +68,9 @@
           "ERROR": "Необходимо сохранить персональные данные"
         }
       },
+      "ADDITIONAL": {
+        "TITLE": "Дополнительная информация"
+      },
       "ADDRESS": {
         "TITLE": "Адрес",
         "VERIFY_KYC": {
@@ -518,7 +521,8 @@
       "UPLOAD_FILE": "+ Загрузить файл",
       "CREATE_AND_OPEN": "Создать и открыть",
       "SAVE_NEW_PASSWORD": "Сохранить новый пароль",
-      "SAVE": "Сохранить"
+      "SAVE": "Сохранить",
+      "EXPORT_AS_CSV": "Экспортировать как CSV"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -587,7 +591,10 @@
     "MAX": "Mакс.",
     "ACTIVE": "Активный",
     "INACTIVE": "Неактивный",
-    "ALL": "Все"
+    "ALL": "Все",
+    "PLAYERS": "Игроки",
+    "TRANSACTIONS": "Транзакции",
+    "PLAYER_LIABILITY_REPORT": "Отчет об ответственности игрока"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -879,14 +886,13 @@
     "MODALS": {
       "RESET_PASSWORD": {
         "TITLE": "Сброс пароля оператора - Подтверждение",
-        "ACTION_TEXT": "Вы собираетесь сбросить пароль для %{fullName}",
-        "ACTION_TARGET": "профиль оператора",
+        "ACTION_TEXT": "Вы собираетесь сбросить пароль для",
+        "ACTION_TARGET": "профиля оператора",
         "CONFIRM_ACTION": "Сбросить пароль"
       },
       "SEND_INVITATION": {
         "TITLE": "Отправка приглашения - Подтверждение",
-        "ACTION_TEXT": "Вы собираетесь отправить приглашение для %{fullName}",
-        "ACTION_TARGET": "профиль оператора",
+        "ACTION_TEXT": "Вы собираетесь отправить приглашение для оператора",
         "CONFIRM_ACTION": "Отправить приглашение"
       }
     },
@@ -1268,7 +1274,7 @@
     }
   },
   "NOTE_BUTTON": {
-    "DEFAULT_MESSAGE": "Добавить "
+    "DEFAULT_MESSAGE": "Добавить заметку"
   },
   "KYC_REQUESTS": {
     "GRID_VIEW": {
@@ -1335,6 +1341,7 @@
     "OPERATOR": "Оператор"
   },
   "OPERATORS": {
+    "HEADING": "Операторы",
     "CREATE_OPERATOR_BUTTON": "+ Новый оператор",
     "MODALS": {
       "NEW_OPERATOR": {

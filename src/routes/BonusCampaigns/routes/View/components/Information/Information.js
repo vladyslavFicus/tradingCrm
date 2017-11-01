@@ -5,6 +5,7 @@ import PropTypes from '../../../../../../constants/propTypes';
 import UnitValue from '../UnitValue';
 import { targetTypesLabels, campaignTypesLabels } from '../../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../../utils/renderLabel';
+import Card, { Content } from '../../../../../../components/Card';
 
 const Information = (props) => {
   const {
@@ -31,8 +32,8 @@ const Information = (props) => {
             <span className="account-details__label">
               {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET')}
             </span>
-            <div className="panel">
-              <div className="panel-body">
+            <Card>
+              <Content>
                 <div>
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.TARGET_TYPE')}:</strong>{' '}
                   {renderLabel(targetType, targetTypesLabels)}
@@ -45,8 +46,8 @@ const Information = (props) => {
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.PLAYERS_OPT_IN')}:</strong>{' '}
                   {totalOptInPlayers}
                 </div>
-              </div>
-            </div>
+              </Content>
+            </Card>
           </div>
         </div>
         <div className="col-md-3">
@@ -54,8 +55,8 @@ const Information = (props) => {
             <span className="account-details__label">
               {I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.REWARD_PARAMS')}
             </span>
-            <div className="panel">
-              <div className="panel-body">
+            <Card>
+              <Content>
                 <div>
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.FULFILLMENT_TYPE')}:</strong>{' '}
                   {renderLabel(campaignType, campaignTypesLabels)}
@@ -94,8 +95,8 @@ const Information = (props) => {
                     <UnitValue {...capping} currency={currency} />
                   </div>
                 }
-              </div>
-            </div>
+              </Content>
+            </Card>
           </div>
         </div>
       </div>

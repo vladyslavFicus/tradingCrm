@@ -1,6 +1,6 @@
 .account-details {
   padding: 10px 15px;
-  .panel-body {
+  .card-body {
     height: $account-details-panel-height;
     overflow-y: auto;
     overflow-x: hidden;
@@ -11,12 +11,12 @@
     text-transform: uppercase;
     color: #999;
   }
-  &__personal-info .panel-body {
+  &__personal-info .card-body {
     padding: 7px;
     font-size: 13px;
   }
   &__additional-info {
-    .panel-body {
+    .card-body {
       padding: 5px 7px;
       font-size: 13px;
     }
@@ -30,17 +30,17 @@
       pointer-events: none;
     }
   }
-  &__network .panel-body {
+  &__network .card-body {
     padding: 7px;
     font-size: 13px;
     overflow-x: hidden;
   }
   &__pinned-notes {
-    .panel-body {
+    .card-body {
       padding: 7px;
       overflow-x: hidden;
     }
-    .panel {
+    .card {
       display: block;
       margin-bottom: 9px;
     }
@@ -59,7 +59,7 @@
       font-style: italic;
     }
   }
-  .label {
+  .badge {
     &-black {
       width: 100%;
       margin-bottom: 7px;

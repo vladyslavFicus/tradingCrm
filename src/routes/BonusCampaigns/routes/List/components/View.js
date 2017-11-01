@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { SubmissionError } from 'redux-form';
 import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
 import {
@@ -232,103 +232,98 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <div className="page-content-inner">
-        <Panel withBorders>
-          <Title>
-            <div className="row">
-              <div className="col-md-3">
-                <span className="font-size-20">{I18n.t('BONUS_CAMPAIGNS.TITLE')}</span>
-              </div>
-              <div className="col-md-3 col-md-offset-6 text-right">
-                <button
-                  disabled={exporting || !allowActions}
-                  className="btn btn-default-outline margin-right-10"
-                  onClick={this.handleExport}
-                >
-                  {I18n.t('COMMON.EXPORT')}
-                </button>
+      <Card>
+        <Title>
+          <span className="font-size-20 mr-auto">
+            {I18n.t('BONUS_CAMPAIGNS.TITLE')}
+          </span>
 
-                <button
-                  className="btn btn-primary-outline"
-                  onClick={this.handleOpenCreateModal}
-                >
-                  {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
-                </button>
-              </div>
-            </div>
-          </Title>
+          <button
+            disabled={exporting || !allowActions}
+            className="btn btn-default-outline margin-right-10"
+            onClick={this.handleExport}
+          >
+            {I18n.t('COMMON.EXPORT')}
+          </button>
 
-          <BonusCampaignsFilterForm
-            onSubmit={this.handleFiltersChanged}
-            onReset={this.handleFilterReset}
-            disabled={!allowActions}
-            types={list}
-            statuses={statuses}
+          <button
+            className="btn btn-primary-outline"
+            onClick={this.handleOpenCreateModal}
+          >
+            {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
+          </button>
+        </Title>
+
+        <BonusCampaignsFilterForm
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          disabled={!allowActions}
+          types={list}
+          statuses={statuses}
+          locale={locale}
+        />
+
+        <Content>
+          <GridView
             locale={locale}
-          />
+            tableClassName="table data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            showNoResults={noResults}
+          >
+            <GridColumn
+              name="campaign"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
+              render={this.renderCampaign}
+            />
 
-          <Content>
-            <GridView
-              locale={locale}
-              tableClassName="table data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={entities.content}
-              onPageChange={this.handlePageChanged}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-              showNoResults={noResults}
-            >
-              <GridColumn
-                name="campaign"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
-                render={this.renderCampaign}
-              />
+            <GridColumn
+              name="targetType"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TYPE')}
+              render={this.renderType}
+            />
 
-              <GridColumn
-                name="targetType"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TYPE')}
-                render={this.renderType}
-              />
+            <GridColumn
+              name="fulfillmentType"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
+              render={this.renderFulfillmentType}
+            />
 
-              <GridColumn
-                name="fulfillmentType"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
-                render={this.renderFulfillmentType}
-              />
+            <GridColumn
+              name="createdDate"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CREATED')}
+              render={this.renderDate('creationDate')}
+            />
 
-              <GridColumn
-                name="createdDate"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CREATED')}
-                render={this.renderDate('creationDate')}
-              />
+            <GridColumn
+              name="startDate"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.START_DATE')}
+              render={this.renderDate('startDate')}
+            />
 
-              <GridColumn
-                name="startDate"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.START_DATE')}
-                render={this.renderDate('startDate')}
-              />
+            <GridColumn
+              name="endDate"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.END_DATE')}
+              render={this.renderDate('endDate')}
+            />
 
-              <GridColumn
-                name="endDate"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.END_DATE')}
-                render={this.renderDate('endDate')}
-              />
+            <GridColumn
+              name="granted"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.GRANTED')}
+              render={this.renderGranted}
+            />
 
-              <GridColumn
-                name="granted"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.GRANTED')}
-                render={this.renderGranted}
-              />
-
-              <GridColumn
-                name="status"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.STATUS')}
-                render={this.renderStatus}
-              />
-            </GridView>
-          </Content>
-        </Panel>
+            <GridColumn
+              name="status"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.STATUS')}
+              render={this.renderStatus}
+            />
+          </GridView>
+        </Content>
 
         {
           modal.name === MODAL_CREATE_BONUS_CAMPAIGN &&
@@ -351,7 +346,7 @@ class View extends Component {
             isOpen
           />
         }
-      </div>
+      </Card>
     );
   }
 }

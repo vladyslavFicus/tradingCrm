@@ -190,7 +190,7 @@ class Header extends Component {
                 </PopoverButton>
               </PermissionContent>
               <button
-                className="btn btn-sm btn-default-outline m-x-1"
+                className="btn btn-sm btn-default-outline mx-3"
                 onClick={onRefreshClick}
                 id="refresh-page-button"
               >

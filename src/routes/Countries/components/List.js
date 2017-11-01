@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import Panel, { Title, Content } from '../../../components/Panel';
+import Card, { Title, Content } from '../../../components/Card';
 import CountriesGridFilter from './CountriesGridFilter';
 import GridView, { GridColumn } from '../../../components/GridView';
 import StatusDropDown from './StatusDropDown';
@@ -56,7 +56,7 @@ class List extends Component {
 
     return (
       <div className="page-content-inner">
-        <Panel withBorders>
+        <Card>
           <Title>
             <span className="font-size-20">{I18n.t('COUNTRIES.TITLE')}</span>
           </Title>
@@ -93,7 +93,7 @@ class List extends Component {
               />
             </GridView>
           </Content>
-        </Panel>
+        </Card>
       </div>
     );
   }

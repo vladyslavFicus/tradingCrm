@@ -79,13 +79,13 @@ class SimpleConfirmationModal extends Component {
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
           <ModalBody>
-            <div className="text-center center-block width-300">
+            <div className="text-center mx-auto width-300">
               <strong> {actionText} </strong>
               {' - '}
               <Uuid uuid={playerUUID} uuidPrefix="PL" />
             </div>
 
-            <div className="row text-center margin-top-20">
+            <div className="text-center margin-top-20">
               <NoteButton
                 id={`${form}-verify-kyc-note-button`}
                 note={note}
@@ -97,7 +97,7 @@ class SimpleConfirmationModal extends Component {
           <ModalFooter>
             <button
               onClick={onClose}
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
             >
               {I18n.t('COMMON.CANCEL')}
             </button>

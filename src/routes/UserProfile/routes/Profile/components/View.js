@@ -26,6 +26,7 @@ import './View.scss';
 import PermissionContent from '../../../../../components/PermissionContent';
 import { CONDITIONS } from '../../../../../utils/permissions';
 import permissions from '../../../../../config/permissions';
+import Card from '../../../../../components/Card/Card';
 
 const REFUSE_MODAL = 'refuse-modal';
 const VERIFY_MODAL = 'verify-modal';
@@ -171,7 +172,7 @@ class View extends Component {
     }
 
     return action;
-  }
+  };
 
   handleVerify = async () => {
     const {
@@ -493,8 +494,8 @@ class View extends Component {
         </Sticky>
 
         <div className="tab-content">
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 with-right-border">
                 <PersonalForm
                   initialValues={personalData}
@@ -524,10 +525,10 @@ class View extends Component {
                 />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 with-right-border">
                 <AddressForm
                   initialValues={addressData}
@@ -557,10 +558,10 @@ class View extends Component {
                 />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 with-right-border">
                 <ContactForm
                   fetchMeta={fetchMeta}
@@ -576,7 +577,7 @@ class View extends Component {
               </div>
               <div className="col-md-4" />
             </div>
-          </div>
+          </Card>
 
           {
             modal.name === REFUSE_MODAL &&

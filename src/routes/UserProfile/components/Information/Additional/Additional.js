@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Switch from '../../../../../components/Forms/Switch';
 import { marketingTypes } from './constants';
 import { statuses } from '../../../../../constants/user';
+import Card, { Content } from '../../../../../components/Card';
 import Permissions from '../../../../../utils/permissions';
 import permissions from '../../../../../config/permissions';
 
@@ -61,9 +62,11 @@ class Additional extends Component {
 
     return (
       <div className="account-details__additional-info">
-        <span className="account-details__label">Additional information</span>
-        <div className="panel">
-          <div className="panel-body">
+        <span className="account-details__label">
+          {I18n.t('PLAYER_PROFILE.PROFILE.ADDITIONAL.TITLE')}
+        </span>
+        <Card>
+          <Content>
             <span className="account-details__additional-info__label">
               {I18n.t('PLAYER_PROFILE.MARKETING.TITLE')}
             </span>
@@ -71,12 +74,12 @@ class Additional extends Component {
               { 'account-details__additional-info_disabled-triggers': disabled })}
             >
               <div className="row">
-                <div className="col-xs-8">
+                <div className="col-sm-8">
                   <span>
                     {I18n.t('PLAYER_PROFILE.MARKETING.SMS')}
                   </span>
                 </div>
-                <div className="col-xs-4 text-right">
+                <div className="col-sm-4 text-right">
                   <Switch
                     active={initialValues[SUBSCRIPTION_TYPE_SMS]}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
@@ -85,12 +88,12 @@ class Additional extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-xs-8">
+                <div className="col-sm-8">
                   <span>
                     {I18n.t('PLAYER_PROFILE.MARKETING.NEWS')}
                   </span>
                 </div>
-                <div className="col-xs-4 text-right">
+                <div className="col-sm-4 text-right">
                   <Switch
                     active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
@@ -99,12 +102,12 @@ class Additional extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-xs-8">
+                <div className="col-sm-8">
                   <span>
                     {I18n.t('PLAYER_PROFILE.MARKETING.MAIL')}
                   </span>
                 </div>
-                <div className="col-xs-4 text-right">
+                <div className="col-sm-4 text-right">
                   <Switch
                     active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
@@ -113,8 +116,8 @@ class Additional extends Component {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </Content>
+        </Card>
       </div>
     );
   }

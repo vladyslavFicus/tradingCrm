@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import PropTypes from '../../../../../constants/propTypes';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
   methodsLabels,
@@ -187,7 +187,7 @@ class View extends Component {
         <div {...props}>{label}</div>
         <span className="font-size-10 text-uppercase color-default">
           {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
+            <div key={[`${SystemRef}-${index}`]}>{SystemRef}</div>
           ))}
         </span>
       </div>
@@ -276,105 +276,103 @@ class View extends Component {
     const { modal } = this.state;
 
     return (
-      <div className="page-content-inner">
-        <Panel withBorders>
-          <Title>
-            <span className="font-size-20">Open loops</span>
-          </Title>
+      <Card>
+        <Title>
+          <span className="font-size-20">Open loops</span>
+        </Title>
 
-          <Content>
-            <GridView
-              tableClassName="table data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={entities.content}
-              onPageChange={this.handlePageChanged}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-              locale={locale}
-              showNoResults={noResults}
-            >
-              <GridColumn
-                name="paymentId"
-                header="Transaction"
-                render={this.renderTransactionId}
-              />
-              <GridColumn
-                name="profile"
-                header="Player"
-                render={this.renderPlayer}
-              />
-              <GridColumn
-                name="paymentType"
-                header="Type"
-                render={this.renderType}
-              />
-              <GridColumn
-                name="amount"
-                header="Amount"
-                render={this.renderAmount}
-              />
-              <GridColumn
-                name="creationTime"
-                header="DATE & TIME"
-                render={this.renderDateTime}
-              />
-              <GridColumn
-                name="country"
-                header="Ip"
-                headerClassName="text-center"
-                className="text-center"
-                render={this.renderIP}
-              />
-              <GridColumn
-                name="paymentMethod"
-                header="Method"
-                render={this.renderMethod}
-              />
-              <GridColumn
-                name="mobile"
-                header="Device"
-                headerClassName="text-center"
-                className="text-center"
-                render={this.renderDevice}
-              />
-              <GridColumn
-                name="status"
-                header="Status"
-                className="text-uppercase"
-                render={this.renderStatus}
-              />
-              <GridColumn
-                name="actions"
-                header=""
-                render={this.renderActions}
-              />
-            </GridView>
+        <Content>
+          <GridView
+            tableClassName="table data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            locale={locale}
+            showNoResults={noResults}
+          >
+            <GridColumn
+              name="paymentId"
+              header="Transaction"
+              render={this.renderTransactionId}
+            />
+            <GridColumn
+              name="profile"
+              header="Player"
+              render={this.renderPlayer}
+            />
+            <GridColumn
+              name="paymentType"
+              header="Type"
+              render={this.renderType}
+            />
+            <GridColumn
+              name="amount"
+              header="Amount"
+              render={this.renderAmount}
+            />
+            <GridColumn
+              name="creationTime"
+              header="DATE & TIME"
+              render={this.renderDateTime}
+            />
+            <GridColumn
+              name="country"
+              header="Ip"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderIP}
+            />
+            <GridColumn
+              name="paymentMethod"
+              header="Method"
+              render={this.renderMethod}
+            />
+            <GridColumn
+              name="mobile"
+              header="Device"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderDevice}
+            />
+            <GridColumn
+              name="status"
+              header="Status"
+              className="text-uppercase"
+              render={this.renderStatus}
+            />
+            <GridColumn
+              name="actions"
+              header=""
+              render={this.renderActions}
+            />
+          </GridView>
 
-            {
-              modal.name === MODAL_PAYMENT_DETAIL &&
-              <PaymentDetailModal
-                {...modal.params}
-                isOpen
-                onClose={this.handleCloseModal}
-                onChangePaymentStatus={this.handleChangePaymentStatus}
-                onAskReason={this.handleAskReason}
-              />
-            }
+          {
+            modal.name === MODAL_PAYMENT_DETAIL &&
+            <PaymentDetailModal
+              {...modal.params}
+              isOpen
+              onClose={this.handleCloseModal}
+              onChangePaymentStatus={this.handleChangePaymentStatus}
+              onAskReason={this.handleAskReason}
+            />
+          }
 
-            {
-              modal.name === MODAL_PAYMENT_ACTION_REASON &&
-              <PaymentActionReasonModal
-                {...modal.params}
-                isOpen
-                onClose={this.handleCloseModal}
-                onChangePaymentStatus={this.handleChangePaymentStatus}
-                onNoteClick={this.handleNoteClick}
-              />
-            }
-          </Content>
-        </Panel>
-      </div>
+          {
+            modal.name === MODAL_PAYMENT_ACTION_REASON &&
+            <PaymentActionReasonModal
+              {...modal.params}
+              isOpen
+              onClose={this.handleCloseModal}
+              onChangePaymentStatus={this.handleChangePaymentStatus}
+              onNoteClick={this.handleNoteClick}
+            />
+          }
+        </Content>
+      </Card>
     );
   }
 }
