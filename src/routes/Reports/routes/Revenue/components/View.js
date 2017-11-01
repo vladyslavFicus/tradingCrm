@@ -28,36 +28,35 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="page-content-inner">
-        <Card>
-          <Title>
-            <span className="font-size-20">Revenue report</span>
-          </Title>
+      <Card>
+        <Title>
+          <span className="font-size-20">Revenue report</span>
+        </Title>
 
-          <PermissionContent permissions={permissions.REPORTS.PLAYER_LIABILITY_VIEW}>
-            <Content>
-              <Form
-                fields={form.values}
-                errors={form.errors}
-                onDownload={onDownload}
-                onSubmit={this.handleSubmit}
+        <PermissionContent permissions={permissions.REPORTS.PLAYER_LIABILITY_VIEW}>
+          <Content>
+            <Form
+              fields={form.values}
+              errors={form.errors}
+              onDownload={onDownload}
+              onSubmit={this.handleSubmit}
+            />
+
+            {
+              Object.keys(filters).length > 0 &&
+              <PreviewGrid
+                onFiltersChanged={this.handleFiltersChanged}
+                onPageChanged={this.handlePageChanged}
+                reportType={filters.type}
+                filters={filters}
+                {...entities}
+                currency={currency}
               />
-
-              {
-                Object.keys(filters).length > 0 &&
-                <PreviewGrid
-                  onFiltersChanged={this.handleFiltersChanged}
-                  onPageChanged={this.handlePageChanged}
-                  reportType={filters.type}
-                  filters={filters}
-                  {...entities}
-                  currency={currency}
-                />
-              }
-            </Content>
-          </PermissionContent>
-        </Card>
-      </div>);
+            }
+          </Content>
+        </PermissionContent>
+      </Card>
+    );
   }
 }
 
