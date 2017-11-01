@@ -109,11 +109,11 @@ class AddressForm extends Component {
               <Field
                 name="address"
                 label={attributeLabels.address}
-                type="text"
                 component={TextAreaField}
                 position="vertical"
                 showErrorMessage
                 disabled={disabled}
+                id="profile-address-textarea"
               />
             </div>
           </div>

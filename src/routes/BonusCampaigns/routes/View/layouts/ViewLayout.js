@@ -98,12 +98,7 @@ class ViewLayout extends Component {
   handleRemovePlayersClick = () => {
     const { params: { id: campaignId } } = this.props;
 
-    this.handleOpenModal(REMOVE_PLAYERS, {
-      campaignId,
-      onSubmit: this.handleRemovePlayers,
-      modalTitle: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON'),
-      actionText: I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT'),
-    });
+    this.handleOpenModal(REMOVE_PLAYERS, { campaignId });
   };
 
   handleRemovePlayers = async () => {
@@ -177,9 +172,10 @@ class ViewLayout extends Component {
         {
           modal.name === REMOVE_PLAYERS &&
           <ConfirmActionModal
-            {...modal.params}
-            form="confirmRemovePlayers"
+            onSubmit={this.handleRemovePlayers}
             onClose={this.handleCloseModal}
+            modalTitle={I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
+            actionText={I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT')}
           />
         }
       </div>

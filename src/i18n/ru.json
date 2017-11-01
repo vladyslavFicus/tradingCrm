@@ -180,6 +180,17 @@
       },
       "HEADER": {
         "ADD_NOTE": "Добавить заметку"
+      },
+      "RESET_PASSWORD_MODAL": {
+        "TITLE": "Сброс пароля - подтверждение",
+        "TEXT": "Вы собираетесь отправить ссылку на сброс пароля",
+        "BUTTON_ACTION": "Отправить на email",
+        "NOTIFICATION_TITLE": "Сброс пароля",
+        "SUCCESS_NOTIFICATION_TEXT": "Ссылка на сброс пароля была успешно отправлена по email",
+        "ERROR_NOTIFICATION_TEXT": "Не удалось отправить ссылку на сброс пароля по email"
+      },
+      "EMAIL": {
+        "TITLE": "Email"
       }
     },
     "GAME_ACTIVITY": {
@@ -481,10 +492,9 @@
       "LOGIN": {
         "MODAL": {
           "TITLE": "разблокировать авторизацию для игрока",
-          "ACTION_TEXT": "Вы собираетесь разблокировать игрока %{fullName}",
+          "ACTION_TEXT": "Вы собираетесь разблокировать игрока",
           "SUBMIT_BUTTON_LABEL": "Разблокировать"
-        },
-        "REASON": "5 неудачных попыток входа"
+        }
       }
     }
   },
@@ -876,14 +886,13 @@
     "MODALS": {
       "RESET_PASSWORD": {
         "TITLE": "Сброс пароля оператора - Подтверждение",
-        "ACTION_TEXT": "Вы собираетесь сбросить пароль для %{fullName}",
-        "ACTION_TARGET": "профиль оператора",
+        "ACTION_TEXT": "Вы собираетесь сбросить пароль для",
+        "ACTION_TARGET": "профиля оператора",
         "CONFIRM_ACTION": "Сбросить пароль"
       },
       "SEND_INVITATION": {
         "TITLE": "Отправка приглашения - Подтверждение",
-        "ACTION_TEXT": "Вы собираетесь отправить приглашение для %{fullName}",
-        "ACTION_TARGET": "профиль оператора",
+        "ACTION_TEXT": "Вы собираетесь отправить приглашение для оператора",
         "CONFIRM_ACTION": "Отправить приглашение"
       }
     },
@@ -1246,6 +1255,9 @@
         "payment": {
           "operation": "Невалидная платежная операция"
         }
+      },
+      "email": {
+        "exist": "Email уже существует"
       }
     },
     "payment": {
@@ -1256,6 +1268,9 @@
     "profile": {
       "blocked": "Профиль заблокирован",
       "duplicated": "Профиль дублируется"
+    },
+    "user": {
+      "logon-attempts-limit-reached": "5 неудачных попыток входа"
     }
   },
   "NOTE_BUTTON": {

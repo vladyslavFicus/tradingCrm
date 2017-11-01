@@ -228,7 +228,7 @@ class View extends Component {
         {
           !!data.expirationDate &&
           <div className="font-size-11">
-            {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}
+            {`${I18n.t('COMMON.TO')} ${moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}`}
           </div>
         }
       </div>

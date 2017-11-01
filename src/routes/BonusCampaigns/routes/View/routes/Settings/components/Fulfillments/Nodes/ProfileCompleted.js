@@ -8,7 +8,7 @@ class ProfileCompleted extends Component {
   static propTypes = {
     remove: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
-  }
+  };
 
   componentWillMount() {
     this.props.load();
