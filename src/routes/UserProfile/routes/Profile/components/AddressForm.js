@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import countryList from 'country-list';
 import { I18n } from 'react-redux-i18n';
 import { InputField, TextAreaField, NasSelectField } from '../../../../../components/ReduxForm';
+import PropTypes from '../../../../../constants/propTypes';
 import { createValidator } from '../../../../../utils/validator';
 
 const attributeLabels = {
@@ -12,16 +11,6 @@ const attributeLabels = {
   postCode: 'Post Code',
   address: 'Full Address',
 };
-const countries = countryList().getData().reduce((result, item) => ({
-  ...result,
-  [item.code]: item.name,
-}), {});
-const validator = createValidator({
-  country: ['required', `in:,${Object.keys(countries).join()}`],
-  city: ['string', 'min:3'],
-  postCode: ['string', 'min:3'],
-  address: ['string'],
-}, attributeLabels, false);
 
 class AddressForm extends Component {
   static propTypes = {
@@ -30,12 +19,20 @@ class AddressForm extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     disabled: PropTypes.bool,
+    meta: PropTypes.shape({
+      countries: PropTypes.arrayOf(PropTypes.object).isRequired,
+      countryCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }),
   };
   static defaultProps = {
     handleSubmit: null,
     pristine: false,
     submitting: false,
     disabled: false,
+    meta: {
+      countries: [],
+      countryCodes: [],
+    },
   };
 
   render() {
@@ -45,6 +42,9 @@ class AddressForm extends Component {
       handleSubmit,
       onSubmit,
       disabled,
+      meta: {
+        countries,
+      },
     } = this.props;
 
     return (
@@ -75,9 +75,14 @@ class AddressForm extends Component {
                 component={NasSelectField}
                 disabled={disabled}
               >
-                {Object
-                  .keys(countries)
-                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                {
+                  countries.map(item =>
+                    (
+                      <option key={`${item.countryCode}-${item.phoneCode}`} value={item.countryCode}>
+                        {item.countryName}
+                      </option>
+                    )
+                  )
                 }
               </Field>
             </div>
@@ -125,6 +130,21 @@ class AddressForm extends Component {
 
 export default reduxForm({
   form: 'updateProfileAddress',
-  validate: validator,
   enableReinitialize: true,
+  validate: (values, props) => {
+    const { meta: { countryCodes } } = props;
+
+    const rules = {
+      country: ['required', `in:,${countryCodes.join()}`],
+      city: ['string', 'min:3'],
+      postCode: ['string', 'min:3'],
+      address: ['string'],
+    };
+
+    return createValidator(
+      rules,
+      attributeLabels,
+      false,
+    )(values);
+  },
 })(AddressForm);
