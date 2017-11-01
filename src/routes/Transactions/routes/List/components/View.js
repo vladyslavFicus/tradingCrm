@@ -306,123 +306,121 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <div className="page-content-inner">
-        <Card>
-          <Title>
-            <span className="font-size-20" id="transactions-list-header">
-              {I18n.t('COMMON.TRANSACTIONS')}
-            </span>
+      <Card>
+        <Title>
+          <span className="font-size-20" id="transactions-list-header">
+            {I18n.t('COMMON.TRANSACTIONS')}
+          </span>
 
-            <button
-              disabled={exporting || !allowActions}
-              className="btn btn-default-outline ml-auto"
-              onClick={this.handleExport}
-            >
-              {I18n.t('COMMON.EXPORT')}
-            </button>
-          </Title>
+          <button
+            disabled={exporting || !allowActions}
+            className="btn btn-default-outline ml-auto"
+            onClick={this.handleExport}
+          >
+            {I18n.t('COMMON.EXPORT')}
+          </button>
+        </Title>
 
-          <TransactionsFilterForm
-            onSubmit={this.handleFiltersChanged}
-            onReset={this.handleFilterReset}
-            disabled={!allowActions}
-            {...availableFilters}
-            filterByType
-          />
+        <TransactionsFilterForm
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          disabled={!allowActions}
+          {...availableFilters}
+          filterByType
+        />
 
-          <Content>
-            <GridView
-              tableClassName="table table-hovered data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={entities.content}
-              onPageChange={this.handlePageChanged}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-              locale={locale}
-              showNoResults={noResults}
-            >
-              <GridColumn
-                name="paymentId"
-                header="Transaction"
-                render={this.renderTransactionId}
-              />
-              <GridColumn
-                name="profile"
-                header="Player"
-                render={this.renderPlayer}
-              />
-              <GridColumn
-                name="paymentType"
-                header="Type"
-                render={this.renderType}
-              />
-              <GridColumn
-                name="amount"
-                header="Amount"
-                render={this.renderAmount}
-              />
-              <GridColumn
-                name="creationTime"
-                header="DATE & TIME"
-                render={this.renderDateTime}
-              />
-              <GridColumn
-                name="country"
-                header="Ip"
-                headerClassName="text-center"
-                className="text-center"
-                render={this.renderIP}
-              />
-              <GridColumn
-                name="paymentMethod"
-                header="Method"
-                render={this.renderMethod}
-              />
-              <GridColumn
-                name="mobile"
-                header="Device"
-                headerClassName="text-center"
-                className="text-center"
-                render={this.renderDevice}
-              />
-              <GridColumn
-                name="status"
-                header="Status"
-                className="text-uppercase"
-                render={this.renderStatus}
-              />
-              <GridColumn
-                name="actions"
-                header=""
-                render={this.renderActions}
-              />
-            </GridView>
+        <Content>
+          <GridView
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            locale={locale}
+            showNoResults={noResults}
+          >
+            <GridColumn
+              name="paymentId"
+              header="Transaction"
+              render={this.renderTransactionId}
+            />
+            <GridColumn
+              name="profile"
+              header="Player"
+              render={this.renderPlayer}
+            />
+            <GridColumn
+              name="paymentType"
+              header="Type"
+              render={this.renderType}
+            />
+            <GridColumn
+              name="amount"
+              header="Amount"
+              render={this.renderAmount}
+            />
+            <GridColumn
+              name="creationTime"
+              header="DATE & TIME"
+              render={this.renderDateTime}
+            />
+            <GridColumn
+              name="country"
+              header="Ip"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderIP}
+            />
+            <GridColumn
+              name="paymentMethod"
+              header="Method"
+              render={this.renderMethod}
+            />
+            <GridColumn
+              name="mobile"
+              header="Device"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderDevice}
+            />
+            <GridColumn
+              name="status"
+              header="Status"
+              className="text-uppercase"
+              render={this.renderStatus}
+            />
+            <GridColumn
+              name="actions"
+              header=""
+              render={this.renderActions}
+            />
+          </GridView>
 
-            {
-              modal.name === MODAL_PAYMENT_DETAIL &&
-              <PaymentDetailModal
-                {...modal.params}
-                isOpen
-                onClose={this.handleCloseModal}
-                onChangePaymentStatus={this.handleChangePaymentStatus}
-                onAskReason={this.handleAskReason}
-                onNoteClick={this.handleNoteClick}
-              />
-            }
+          {
+            modal.name === MODAL_PAYMENT_DETAIL &&
+            <PaymentDetailModal
+              {...modal.params}
+              isOpen
+              onClose={this.handleCloseModal}
+              onChangePaymentStatus={this.handleChangePaymentStatus}
+              onAskReason={this.handleAskReason}
+              onNoteClick={this.handleNoteClick}
+            />
+          }
 
-            {
-              modal.name === MODAL_PAYMENT_ACTION_REASON &&
-              <PaymentActionReasonModal
-                {...modal.params}
-                onClose={this.handleCloseModal}
-                onChangePaymentStatus={this.handleChangePaymentStatus}
-                onNoteClick={this.handleNoteClick}
-              />
-            }
-          </Content>
-        </Card>
-      </div>
+          {
+            modal.name === MODAL_PAYMENT_ACTION_REASON &&
+            <PaymentActionReasonModal
+              {...modal.params}
+              onClose={this.handleCloseModal}
+              onChangePaymentStatus={this.handleChangePaymentStatus}
+              onNoteClick={this.handleNoteClick}
+            />
+          }
+        </Content>
+      </Card>
     );
   }
 }

@@ -173,64 +173,61 @@ class List extends Component {
     } = this.props;
 
     return (
-      <div className="page-content-inner">
-        <Card>
-          <Title>
-            <span className="font-size-20" id="operators-list-header">
-              {I18n.t('OPERATORS.HEADING')}
-            </span>
+      <Card>
+        <Title>
+          <span className="font-size-20" id="operators-list-header">
+            {I18n.t('OPERATORS.HEADING')}
+          </span>
 
-            <button
-              className="btn btn-default-outline ml-auto"
-              onClick={this.handleOpenCreateModal}
-              id="create-new-operator-button"
-            >
-              {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
-            </button>
-          </Title>
+          <button
+            className="btn btn-default-outline ml-auto"
+            onClick={this.handleOpenCreateModal}
+            id="create-new-operator-button"
+          >
+            {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
+          </button>
+        </Title>
 
-          <OperatorGridFilter
-            onSubmit={this.handleFiltersChanged}
-            initialValues={filters}
-            filterValues={filterValues}
-          />
+        <OperatorGridFilter
+          onSubmit={this.handleFiltersChanged}
+          initialValues={filters}
+          filterValues={filterValues}
+        />
 
-          <Content>
-            <GridView
-              tableClassName="table table-hovered data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={entities.content}
-              onPageChange={this.handlePageChanged}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-              locale={locale}
-              showNoResults={noResults}
-            >
-              <GridColumn
-                name="uuid"
-                header="Operator"
-                render={this.renderOperator}
-              />
-              <GridColumn
-                name="country"
-                header="Country"
-                render={this.renderCountry}
-              />
-              <GridColumn
-                name="registered"
-                header="Registered"
-                render={this.renderRegistered}
-              />
-              <GridColumn
-                name="status"
-                header="Status"
-                render={this.renderStatus}
-              />
-            </GridView>
-          </Content>
-        </Card>
-
+        <Content>
+          <GridView
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            locale={locale}
+            showNoResults={noResults}
+          >
+            <GridColumn
+              name="uuid"
+              header="Operator"
+              render={this.renderOperator}
+            />
+            <GridColumn
+              name="country"
+              header="Country"
+              render={this.renderCountry}
+            />
+            <GridColumn
+              name="registered"
+              header="Registered"
+              render={this.renderRegistered}
+            />
+            <GridColumn
+              name="status"
+              header="Status"
+              render={this.renderStatus}
+            />
+          </GridView>
+        </Content>
         {
           modal.name === MODAL_CREATE_OPERATOR &&
           <CreateOperatorModal
@@ -245,7 +242,7 @@ class List extends Component {
             onClose={this.handleModalClose}
           />
         }
-      </div>
+      </Card>
     );
   }
 }
