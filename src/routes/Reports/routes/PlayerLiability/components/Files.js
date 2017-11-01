@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import Panel, { Title, Content } from '../../../../../components/Panel';
 import PermissionContent from '../../../../../components/PermissionContent';
-import permission from '../../../../../config/permissions';
+import permissions from '../../../../../config/permissions';
 
 class Files extends Component {
   static propTypes = {
