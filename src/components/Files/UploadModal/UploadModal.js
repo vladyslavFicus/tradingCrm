@@ -163,7 +163,7 @@ class UploadModal extends Component {
             <button
               type="reset"
               disabled={submitting || uploading.some(i => i.uploading)}
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               onClick={onClose}
             >
               {I18n.t('COMMON.BUTTONS.CANCEL')}

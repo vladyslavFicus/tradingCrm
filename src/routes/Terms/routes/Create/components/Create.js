@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Panel, { Title, Content } from 'components/Panel';
+import Card, { Title, Content } from 'components/Card';
 import ManageForm from 'routes/Terms/components/ManageForm';
 import { actionTypes } from '../modules/create';
 
@@ -21,7 +21,7 @@ export default class Create extends Component {
 
   render() {
     return <div className="page-content-inner">
-      <Panel>
+      <Card>
         <Title>
           <h3>Create T&C</h3>
         </Title>
@@ -36,7 +36,7 @@ export default class Create extends Component {
             </div>
           </div>
         </Content>
-      </Panel>
+      </Card>
     </div>;
   }
 }

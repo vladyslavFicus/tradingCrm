@@ -1,6 +1,3 @@
-/*
- * TABS
- */
 .profile-user-content {
   border: none;
 }
@@ -26,9 +23,7 @@
 .nav-tabs-horizontal .nav-tabs .nav-item .nav-link.active {
   border-top-color: #01a8fe;
   color: #01a8fe;
-  -moz-box-shadow: 0px 15px 0px 0px white, 0px 0px 0px 0px white, 0 0 15px -4px rgba(0, 0, 0, 0.149019607843137), 0 0 15px -4px rgba(0, 0, 0, 0.149019607843137);
-  -webkit-box-shadow: 0px 15px 0px 0px white, 0px 0px 0px 0px white, 0 0 15px -4px rgba(0, 0, 0, 0.149019607843137), 0 0 15px -4px rgba(0, 0, 0, 0.149019607843137);
-  box-shadow: 0px 15px 0px 0px white, 0px 0px 0px 0px white, 0 0 15px -4px rgba(0, 0, 0, 0.149019607843137), 0 0 15px -4px rgba(0, 0, 0, 0.149019607843137);
+  box-shadow: 0 15px 0 0 white, 0 0 0 0 white, 0 0 15px -4px rgba(0, 0, 0, 0.149019607843137), 0 0 15px -4px rgba(0, 0, 0, 0.149019607843137);
 }
 
 .nav-tabs-horizontal .nav-tabs .nav-item .nav-link:hover {

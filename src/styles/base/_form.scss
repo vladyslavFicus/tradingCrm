@@ -131,6 +131,7 @@ label {
   background-color: #fff;
   border: 1px solid #cfcfcf;
   font-size: 15px;
+  line-height: 1.5;
   &:focus {
     box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
     border-color: #4990e2;
@@ -444,8 +445,9 @@ label {
 }
 
 input[type=checkbox] {
+  margin-top: -1px;
   margin-right: 5px;
-  vertical-align: baseline;
+  vertical-align: middle;
   &:hover {
     cursor: pointer;
   }

@@ -102,7 +102,7 @@ class RequestKycVerificationModal extends Component {
             </ModalHeader>
           }
           <ModalBody>
-            <div className="text-center center-block width-300">
+            <div className="text-center mx-auto width-300">
               <strong>
                 {I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.ACTION_TEXT', { fullName })}
               </strong>
@@ -124,7 +124,7 @@ class RequestKycVerificationModal extends Component {
             </Field>
 
 
-            <div className="row text-center">
+            <div className="text-center">
               <NoteButton
                 id="request-kyc-verification-note-button"
                 note={note}
@@ -135,7 +135,7 @@ class RequestKycVerificationModal extends Component {
 
           <ModalFooter>
             <Button
-              className="pull-left"
+              className="mr-auto"
               color="secondary"
               onClick={onClose}
             >{I18n.t('COMMON.CANCEL')}</Button>

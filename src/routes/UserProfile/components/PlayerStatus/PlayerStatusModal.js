@@ -127,7 +127,7 @@ class PlayerStatusModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <button className="btn btn-default-outline pull-left" onClick={onHide}>
+            <button className="btn btn-default-outline mr-auto" onClick={onHide}>
               {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
             <button type="submit" className="btn btn-danger">

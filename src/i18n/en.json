@@ -67,6 +67,9 @@
           "ERROR": "Need to save personal information"
         }
       },
+      "ADDITIONAL": {
+        "TITLE": "Additional information"
+      },
       "ADDRESS": {
         "TITLE": "Address",
         "VERIFY_KYC": {
@@ -516,7 +519,8 @@
       "UPLOAD_FILE": "+ Upload file",
       "CREATE_AND_OPEN": "Create & open",
       "SAVE_NEW_PASSWORD": "Save new password",
-      "SAVE": "Save"
+      "SAVE": "Save",
+      "EXPORT_AS_CSV": "Export as CSV"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -585,7 +589,10 @@
     "MAX": "Max.",
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
-    "ALL": "All"
+    "ALL": "All",
+    "PLAYERS": "Players",
+    "TRANSACTIONS": "Transactions",
+    "PLAYER_LIABILITY_REPORT": "Player liability report"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -873,14 +880,13 @@
     "MODALS": {
       "RESET_PASSWORD": {
         "TITLE": "Operators password reset - Confirmation",
-        "ACTION_TEXT": "You are about to reset password for %{fullName}",
+        "ACTION_TEXT": "You are about to reset password for",
         "ACTION_TARGET": "operator account",
         "CONFIRM_ACTION": "Reset password"
       },
       "SEND_INVITATION": {
         "TITLE": "Send invitation to operator - Confirmation",
-        "ACTION_TEXT": "You are about to reset password for %{fullName}",
-        "ACTION_TARGET": "operator account",
+        "ACTION_TEXT": "You are about to send an invitation to operator",
         "CONFIRM_ACTION": "Send invitation"
       }
     },
@@ -1324,6 +1330,7 @@
     "OPERATOR": "Operator"
   },
   "OPERATORS": {
+    "HEADING": "Operators",
     "CREATE_OPERATOR_BUTTON": "+ New operator",
     "MODALS": {
       "NEW_OPERATOR": {
