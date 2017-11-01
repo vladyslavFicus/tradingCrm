@@ -80,11 +80,7 @@ class View extends Component {
       phoneCode: PropTypes.string,
       phone: PropTypes.string,
     }).isRequired,
-    meta: PropTypes.shape({
-      data: PropTypes.shape({
-        countryCodes: PropTypes.arrayOf(PropTypes.string),
-      }).isRequired,
-    }).isRequired,
+    meta: PropTypes.meta.isRequired,
     checkLock: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
@@ -530,6 +526,10 @@ class View extends Component {
             <div className="panel-body row panel-body__wrapper">
               <div className="col-md-8 with-right-border">
                 <AddressForm
+                  meta={{
+                    countries: metaData.countries,
+                    countryCodes: metaData.countryCodes,
+                  }}
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
                   disabled={!canUpdateProfile}
