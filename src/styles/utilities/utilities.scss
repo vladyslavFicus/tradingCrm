@@ -332,3 +332,8 @@ small {
     color: #4a4a4a;
   }
 }
+
+.table-hovered tbody tr:hover {
+  background-color: #fcfcfc;
+  cursor: pointer;
+}

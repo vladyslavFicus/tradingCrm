@@ -69,7 +69,7 @@ class List extends Component {
           <Content>
             <GridView
               dataSource={entities.content}
-              tableClassName="table table-hovered data-grid-layout"
+              tableClassName="table data-grid-layout"
               headerClassName="text-uppercase"
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}

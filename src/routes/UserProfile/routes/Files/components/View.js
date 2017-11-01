@@ -127,7 +127,7 @@ class View extends Component {
         <div className="tab-content">
           <CommonFileGridView
             dataSource={entities.content}
-            tableClassName="table table-hovered data-grid-layout"
+            tableClassName="table data-grid-layout"
             headerClassName="text-uppercase"
             totalPages={entities.totalPages}
             activePage={entities.number + 1}

@@ -322,7 +322,7 @@ class FreeSpinsView extends Component {
         />
         <div className="tab-content">
           <GridView
-            tableClassName="table table-hovered data-grid-layout"
+            tableClassName="table data-grid-layout"
             headerClassName="text-uppercase"
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}

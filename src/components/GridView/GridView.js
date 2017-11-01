@@ -26,7 +26,7 @@ class GridView extends Component {
     showNoResults: PropTypes.bool,
   };
   static defaultProps = {
-    tableClassName: 'table table-stripped table-hovered',
+    tableClassName: 'table',
     headerClassName: 'thead-default',
     defaultFilters: {},
     summaryRow: null,

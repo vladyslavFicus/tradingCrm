@@ -333,7 +333,7 @@ class View extends Component {
 
           <Content>
             <GridView
-              tableClassName="table table-hovered data-grid-layout"
+              tableClassName="table data-grid-layout"
               headerClassName="text-uppercase"
               dataSource={entities.content}
               onPageChange={this.handlePageChanged}

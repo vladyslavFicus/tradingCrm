@@ -20,7 +20,7 @@ class CollapseGridView extends Component {
   };
 
   static defaultProps = {
-    tableClassName: 'table table-stripped table-hovered',
+    tableClassName: 'table',
     headerClassName: 'thead-default',
     showNoResults: false,
   };

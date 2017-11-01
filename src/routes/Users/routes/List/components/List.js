@@ -11,6 +11,7 @@ import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
 } from '../../../../../constants/user';
+import { playerProfileViewTypes } from '../../../../../constants';
 
 class List extends Component {
   static propTypes = {
@@ -28,6 +29,13 @@ class List extends Component {
     miniProfile: PropTypes.shape({
       onShowMiniProfile: PropTypes.func.isRequired,
     }),
+    settings: PropTypes.shape({
+      playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
+    }).isRequired,
+    addPanel: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   state = {
@@ -75,6 +83,20 @@ class List extends Component {
   handleFilterReset = () => {
     this.props.reset();
     this.setState({ filters: {}, page: 0 });
+  };
+
+  handleOpenProfile = (data) => {
+    if (this.context.settings.playerProfileViewType === playerProfileViewTypes.page) {
+      this.context.router.push(`/users/${data.playerUUID}/profile`);
+    } else {
+      const panelData = {
+        fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
+        login: data.login,
+        uuid: data.playerUUID,
+      };
+
+      this.context.addPanel(panelData);
+    }
   };
 
   renderUserInfo = data => (
@@ -174,6 +196,7 @@ class List extends Component {
               lazyLoad
               locale={locale}
               showNoResults={noResults}
+              onRowClick={this.handleOpenProfile}
             >
               <GridColumn
                 name="id"

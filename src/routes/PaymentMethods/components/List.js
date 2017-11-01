@@ -230,7 +230,7 @@ class List extends Component {
 
           <Content>
             <SortableGridView
-              tableClassName="table table-hovered data-grid-layout"
+              tableClassName="table data-grid-layout"
               headerClassName="text-uppercase"
               dataSource={paymentMethods}
               onSortEnd={this.handleSortEnd}

@@ -205,7 +205,7 @@ class CommonGridView extends Component {
     return (
       <div>
         <GridView
-          tableClassName="table table-hovered data-grid-layout"
+          tableClassName="table data-grid-layout"
           headerClassName="text-uppercase"
           dataSource={dataSource}
           totalPages={1}
