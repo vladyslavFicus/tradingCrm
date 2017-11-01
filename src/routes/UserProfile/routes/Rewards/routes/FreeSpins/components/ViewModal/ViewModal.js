@@ -71,7 +71,7 @@ class ViewModal extends Component {
               {actions.map((action, index) => (
                 <div
                   key={action.children}
-                  className={classNames('col-xs-6', { 'text-right': index !== 0 }, { 'text-left': index === 0 })}
+                  className={classNames('col-sm-6', { 'text-right': index !== 0 }, { 'text-left': index === 0 })}
                 >
                   <button {...action} />
                 </div>

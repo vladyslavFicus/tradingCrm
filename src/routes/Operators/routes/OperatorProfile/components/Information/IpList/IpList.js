@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import CopyToClipboard from '../../../../../../../components/CopyToClipboard';
+import Card, { Content } from '../../../../../../../components/Card';
 
 class IpList extends Component {
   static propTypes = {
@@ -26,8 +27,8 @@ class IpList extends Component {
     return (
       <div className="account-details__network">
         <span className="account-details__label">{label}</span>
-        <div className="panel">
-          <div className="panel-body">
+        <Card>
+          <Content>
             {
               ips.map(item => (
                 <div className="ip-container" key={item.ipAddress}>
@@ -47,8 +48,8 @@ class IpList extends Component {
                 </div>
               ))
             }
-          </div>
-        </div>
+          </Content>
+        </Card>
       </div>
     );
   }

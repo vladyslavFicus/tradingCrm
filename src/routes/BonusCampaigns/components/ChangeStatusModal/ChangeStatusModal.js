@@ -123,7 +123,7 @@ class ChangeStatusModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <button className="btn btn-default-outline pull-left" onClick={onHide}>
+            <button className="btn btn-default-outline mr-auto" onClick={onHide}>
               {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
             </button>
             <button className="btn btn-danger" type="submit">

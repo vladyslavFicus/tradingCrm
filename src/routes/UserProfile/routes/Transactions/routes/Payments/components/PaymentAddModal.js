@@ -171,7 +171,7 @@ class PaymentAddModal extends Component {
     }
 
     return (
-      <div className="center-block text-center width-400 font-weight-700">
+      <div className="mx-auto text-center width-400 font-weight-700">
         {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ACTION_TEXT', {
           action: paymentTypesLabels[currentValues.type],
         })}
@@ -256,7 +256,7 @@ class PaymentAddModal extends Component {
             <div className="row">
               {this.renderInfoBlock()}
             </div>
-            <div className="row text-center">
+            <div className="text-center">
               <NoteButton
                 id="add-transaction-item-note-button"
                 note={note}
@@ -284,7 +284,7 @@ class PaymentAddModal extends Component {
                 <button
                   disabled={pristine || submitting || !valid}
                   type="submit"
-                  className="btn btn-primary text-uppercase"
+                  className="btn btn-primary text-uppercase margin-left-5"
                 >
                   {I18n.t('COMMON.CONFIRM')}
                 </button>

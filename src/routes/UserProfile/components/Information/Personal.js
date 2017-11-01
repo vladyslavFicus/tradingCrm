@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import PersonalInformationItem from '../../../../components/Information/PersonalInformationItem';
 import PropTypes from '../../../../constants/propTypes';
 import { statuses as kycStatuses } from '../../../../constants/kyc';
 import { statuses as userStatuses } from '../../../../constants/user';
+import Card, { Content } from '../../../../components/Card';
 
 class Personal extends Component {
   static propTypes = {
@@ -31,9 +33,11 @@ class Personal extends Component {
 
     return (
       <div className="account-details__personal-info">
-        <span className="account-details__label">Personal information</span>
-        <div className="panel">
-          <div className="panel-body">
+        <span className="account-details__label">
+          {I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE')}
+        </span>
+        <Card>
+          <Content>
             <PersonalInformationItem
               label="Date of birth"
               value={moment(birthDate).format('DD.MM.YYYY')}
@@ -77,8 +81,8 @@ class Personal extends Component {
               label="B-TAG"
               value={btag || <span className="color-default">no b-tag</span>}
             />
-          </div>
-        </div>
+          </Content>
+        </Card>
       </div>
     );
   }

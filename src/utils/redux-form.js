@@ -22,7 +22,7 @@ export const renderInput = ({ input, label, type, values, disabled, meta: { touc
 export const renderField = ({ input, label, type, values, disabled, meta: { touched, error } }) => (
   <div className={classNames('form-group row', { 'has-danger': touched && error })}>
     <div className="col-md-3">
-      <label className="form-control-label">
+      <label>
         {label}
       </label>
     </div>

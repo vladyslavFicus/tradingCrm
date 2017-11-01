@@ -128,7 +128,7 @@ class PaymentDetailModal extends Component {
       <ModalFooter>
         <Button
           onClick={onClose}
-          className="pull-left"
+          className="mr-auto"
         >
           {I18n.t('COMMON.DEFER')}
         </Button>
