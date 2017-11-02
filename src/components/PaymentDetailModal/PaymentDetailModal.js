@@ -95,6 +95,7 @@ class PaymentDetailModal extends Component {
             <Button
               color="primary"
               onClick={this.handleApproveClick}
+              className="margin-right-5"
             >
               {I18n.t('COMMON.APPROVE')}
             </Button>
