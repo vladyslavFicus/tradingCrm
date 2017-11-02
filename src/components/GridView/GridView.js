@@ -2,6 +2,7 @@ import { Pagination } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import GridColumn from './GridColumn';
 import shallowEqual from '../../utils/shallowEqual';
 import NotFoundContent from '../../components/NotFoundContent';
@@ -26,8 +27,8 @@ class GridView extends Component {
     showNoResults: PropTypes.bool,
   };
   static defaultProps = {
-    tableClassName: 'table',
-    headerClassName: 'thead-default',
+    tableClassName: null,
+    headerClassName: 'text-uppercase',
     defaultFilters: {},
     summaryRow: null,
     locale: null,
@@ -278,7 +279,7 @@ class GridView extends Component {
 
     return (
       <div className="table-responsive">
-        <table className={tableClassName}>
+        <table className={classNames('table', tableClassName)}>
           <thead className={headerClassName}>
             {this.renderHead(this.recognizeHeaders(grids))}
             {this.renderFilters(this.recognizeFilters(grids))}

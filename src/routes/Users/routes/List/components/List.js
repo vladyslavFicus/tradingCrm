@@ -185,8 +185,7 @@ class List extends Component {
 
         <Content>
           <GridView
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
+            tableClassName="table-hovered data-grid-layout"
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}

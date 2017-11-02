@@ -114,8 +114,6 @@ class Documents extends Component {
           files.length > 0 &&
           <PermissionContent permissions={permissions.USER_PROFILE.VIEW_FILES}>
             <GridView
-              tableClassName="table"
-              headerClassName="text-uppercase"
               dataSource={files}
               totalPages={0}
             >

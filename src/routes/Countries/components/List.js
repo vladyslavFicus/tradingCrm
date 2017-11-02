@@ -69,8 +69,7 @@ class List extends Component {
           <Content>
             <GridView
               dataSource={entities.content}
-              tableClassName="table data-grid-layout"
-              headerClassName="text-uppercase"
+              tableClassName="data-grid-layout"
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
@@ -80,14 +79,12 @@ class List extends Component {
               <GridColumn
                 name="countryName"
                 header={I18n.t('COUNTRIES.GRID.LABEL.COUNTRY')}
-                headerClassName="text-uppercase"
                 className="font-weight-700"
                 headerStyle={{ width: '350px' }}
               />
               <GridColumn
                 name="access"
                 header={I18n.t('COUNTRIES.GRID.LABEL.ACCESS')}
-                headerClassName="text-uppercase"
                 className="text-uppercase"
                 render={this.renderStatus}
               />
