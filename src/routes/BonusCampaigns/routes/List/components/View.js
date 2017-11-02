@@ -234,7 +234,7 @@ class View extends Component {
     return (
       <Card>
         <Title>
-          <span className="font-size-20 mr-auto">
+          <span className="font-size-20 mr-auto" id="campaigns-page-title">
             {I18n.t('BONUS_CAMPAIGNS.TITLE')}
           </span>
 
