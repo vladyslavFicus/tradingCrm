@@ -127,7 +127,6 @@ class View extends Component {
         <div className="tab-content">
           <CommonFileGridView
             dataSource={entities.content}
-            tableClassName="data-grid-layout"
             totalPages={entities.totalPages}
             activePage={entities.number + 1}
             lazyLoad

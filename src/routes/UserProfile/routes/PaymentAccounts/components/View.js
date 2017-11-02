@@ -242,7 +242,7 @@ class View extends Component {
 
       <CommonFileGridView
         dataSource={_.values(data.files)}
-        tableClassName="data-grid-layout payment-account-attached"
+        tableClassName="payment-account-attached"
         totalPages={1}
         onStatusActionClick={this.handleStatusActionClick}
         onDownloadFileClick={this.handleDownloadFileClick}
@@ -271,7 +271,6 @@ class View extends Component {
             dataSource={_.values(paymentAccounts)}
             openUUID={openUUID}
             collapsedDataFieldName="files"
-            tableClassName="data-grid-layout"
             renderCollapseBlock={this.renderCollapseBlock}
             collapseClassName="payment-account-attached"
             locale={locale}

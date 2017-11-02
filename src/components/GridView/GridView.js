@@ -279,7 +279,7 @@ class GridView extends Component {
 
     return (
       <div className="table-responsive">
-        <table className={classNames('table', tableClassName)}>
+        <table className={classNames('table data-grid-layout', tableClassName)}>
           <thead className={headerClassName}>
             {this.renderHead(this.recognizeHeaders(grids))}
             {this.renderFilters(this.recognizeFilters(grids))}

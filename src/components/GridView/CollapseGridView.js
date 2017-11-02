@@ -126,7 +126,7 @@ class CollapseGridView extends Component {
 
     return (
       <div className="table-responsive">
-        <table className={classNames('table', tableClassName)}>
+        <table className={classNames('table data-grid-layout', tableClassName)}>
           <thead className={headerClassName}>
             {this.renderHead(this.recognizeHeaders(grids))}
           </thead>

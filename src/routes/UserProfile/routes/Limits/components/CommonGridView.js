@@ -205,7 +205,6 @@ class CommonGridView extends Component {
     return (
       <div>
         <GridView
-          tableClassName="data-grid-layout"
           dataSource={dataSource}
           totalPages={1}
           locale={locale}

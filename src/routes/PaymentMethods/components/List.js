@@ -229,7 +229,6 @@ class List extends Component {
 
         <Content>
           <SortableGridView
-            tableClassName="data-grid-layout"
             dataSource={paymentMethods}
             onSortEnd={this.handleSortEnd}
           >

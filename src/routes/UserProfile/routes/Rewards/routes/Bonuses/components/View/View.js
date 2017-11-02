@@ -305,7 +305,6 @@ class View extends Component {
 
         <div className="tab-content">
           <GridView
-            tableClassName="data-grid-layout"
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}

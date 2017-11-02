@@ -103,7 +103,7 @@ class SortableGridView extends Component {
     const columns = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
-      <table className={classNames('table', tableClassName)}>
+      <table className={classNames('table data-grid-layout', tableClassName)}>
         <thead className={headerClassName}>
           {this.renderHead(this.recognizeHeaders(columns))}
         </thead>
