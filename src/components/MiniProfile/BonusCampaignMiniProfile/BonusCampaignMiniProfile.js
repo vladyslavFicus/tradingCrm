@@ -4,6 +4,7 @@ import moment from 'moment';
 import PropTypes from '../../../constants/propTypes';
 import { campaignStatusNames } from '../constants';
 import { statuses, targetTypesLabels, campaignTypesLabels } from '../../../constants/bonus-campaigns';
+import { customValueFieldTypes } from '../../../constants/form';
 import Uuid from '../../Uuid';
 import renderLabel from '../../../utils/renderLabel';
 import './BonusCampaignMiniProfile.scss';
@@ -41,7 +42,7 @@ const BonusCampaignMiniProfile = ({ data }) => (
           </div>
         }
         {
-          (data.state !== statuses.draft && !data.stateReason) &&
+          (data.state !== statuses.DRAFT && !data.stateReason) &&
           <div>
             {I18n.t('MINI_PROFILE.LAUNCHED')}
             {` ${I18n.t('COMMON.AUTHOR_BY')} `}
@@ -85,10 +86,21 @@ const BonusCampaignMiniProfile = ({ data }) => (
         <div className="info-block-label">{I18n.t('MINI_PROFILE.REWARD')}</div>
         <div className="info-block-content">
           <div className="info-block-heading">
-            Bonus
+            {I18n.t('MINI_PROFILE.BONUS')}
           </div>
           <div className="info-block-description">
-            50% of deposit
+            {
+              data.campaignRatio.type === customValueFieldTypes.ABSOLUTE &&
+              <span>
+                {`${data.campaignRatio.value} ${data.currency}`}
+              </span>
+            }
+            {
+              data.campaignRatio.type === customValueFieldTypes.PERCENTAGE &&
+              <span>
+                {`${data.campaignRatio.value} %`}
+              </span>
+            }
           </div>
         </div>
       </div>
