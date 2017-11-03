@@ -60,7 +60,6 @@ function compileNginxConfig(environmentConfig) {
     logstashUrl: environmentConfig.logstash
       ? environmentConfig.logstash.url
       : '',
-    resolvers: '127.0.0.11',
   };
 
   if (config) {
