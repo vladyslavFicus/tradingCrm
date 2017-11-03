@@ -15,6 +15,7 @@ import {
 import {
   campaignTypes,
   campaignTypesLabels,
+  targetTypes,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
   moneyTypeUsageLabels,
@@ -100,6 +101,12 @@ class CreateBonusCampaignModal extends Component {
         ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
         : true
     );
+  };
+
+  handleChangeTargetType = (e) => {
+    if (e.target.value === targetTypes.ALL) {
+      this.props.change('optIn', true);
+    }
   };
 
   render() {
@@ -209,6 +216,7 @@ class CreateBonusCampaignModal extends Component {
               type="select"
               component={SelectField}
               id="create-campaign-target-type"
+              onChange={this.handleChangeTargetType}
             >
               <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_TARGET_TYPE')}</option>
               {Object.keys(targetTypesLabels).map(key => (
@@ -304,6 +312,7 @@ class CreateBonusCampaignModal extends Component {
                       type="checkbox"
                       component="input"
                       id="create-campaign-optin"
+                      disabled={currentValues.targetType === targetTypes.ALL}
                     /> {I18n.t(attributeLabels.optIn)}
                   </label>
                 </div>
