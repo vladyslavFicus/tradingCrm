@@ -69,7 +69,7 @@ class KycGridFilter extends Component {
       <div className="well">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="filter-row">
-            <div className="filter-row__medium">
+            <div className="filter-row__big">
               <div className="form-group">
                 <label>{I18n.t('KYC_REQUESTS.FILTER.DATE_RANGE')}</label>
                 <div className="range-group">
