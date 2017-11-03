@@ -42,8 +42,8 @@ class UsersPanel extends Component {
     const activeIndex = items.indexOf(active);
     const blockClassName = classNames('users-panel', { 'users-panel-opened': !!active });
     const footerClassName = classNames('users-panel-footer', {
-      border: !!active,
-      [`border-${items[activeIndex] && items[activeIndex].color ? items[activeIndex].color : undefined}`]: !!active,
+      'with-border': !!active,
+      [`with-border-${items[activeIndex] && items[activeIndex].color ? items[activeIndex].color : undefined}`]: !!active,
     });
 
     return (

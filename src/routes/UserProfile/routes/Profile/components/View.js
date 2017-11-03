@@ -26,6 +26,7 @@ import './View.scss';
 import PermissionContent from '../../../../../components/PermissionContent';
 import { CONDITIONS } from '../../../../../utils/permissions';
 import permissions from '../../../../../config/permissions';
+import Card from '../../../../../components/Card/Card';
 
 const REFUSE_MODAL = 'refuse-modal';
 const VERIFY_MODAL = 'verify-modal';
@@ -80,11 +81,7 @@ class View extends Component {
       phoneCode: PropTypes.string,
       phone: PropTypes.string,
     }).isRequired,
-    meta: PropTypes.shape({
-      data: PropTypes.shape({
-        countryCodes: PropTypes.arrayOf(PropTypes.string),
-      }).isRequired,
-    }).isRequired,
+    meta: PropTypes.meta.isRequired,
     checkLock: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
@@ -171,7 +168,7 @@ class View extends Component {
     }
 
     return action;
-  }
+  };
 
   handleVerify = async () => {
     const {
@@ -493,8 +490,8 @@ class View extends Component {
         </Sticky>
 
         <div className="tab-content">
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 with-right-border">
                 <PersonalForm
                   initialValues={personalData}
@@ -524,12 +521,16 @@ class View extends Component {
                 />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 with-right-border">
                 <AddressForm
+                  meta={{
+                    countries: metaData.countries,
+                    countryCodes: metaData.countryCodes,
+                  }}
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
                   disabled={!canUpdateProfile}
@@ -557,10 +558,10 @@ class View extends Component {
                 />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 with-right-border">
                 <ContactForm
                   fetchMeta={fetchMeta}
@@ -576,7 +577,7 @@ class View extends Component {
               </div>
               <div className="col-md-4" />
             </div>
-          </div>
+          </Card>
 
           {
             modal.name === REFUSE_MODAL &&

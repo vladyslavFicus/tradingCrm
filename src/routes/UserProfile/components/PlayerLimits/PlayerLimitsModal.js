@@ -86,7 +86,7 @@ class PlayerLimitsModal extends Component {
 
           <ModalFooter>
             <button
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               onClick={onHide}
             >
               Cancel

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../constants/propTypes';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import FileUpload from '../../../../../components/FileUpload';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import GameStatus from './GameStatus';
@@ -126,95 +126,90 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <div className="page-content-inner">
-        <Panel withBorders>
-          <Title>
-            <div className="row">
-              <div className="col-sm-2">
-                <span className="font-size-20" id="operators-list-header">{I18n.t('GAMES.TITLE')}</span>
-              </div>
-              <div className="col-sm-10 text-right">
-                <button
-                  disabled={disabled}
-                  className="btn btn-default-outline"
-                  onClick={this.handleDownloadClick}
-                >
-                  {I18n.t('GAMES.EXPORT_BUTTON')}
-                </button>
-                <span className="m-x-1">
-                  <FileUpload
-                    disabled={disabled}
-                    label={I18n.t('GAMES.UPLOAD_FILE_BUTTON')}
-                    allowedSize={5}
-                    allowedTypes={['text/csv', 'application/vnd.ms-excel']}
-                    incorrectFileType={I18n.t('ERRORS.FILE.INVALID_FILE_EXTENSION')}
-                    incorrectFileSize={I18n.t('ERRORS.FILE.INVALID_FILE_SIZE')}
-                    onChosen={this.handleUploadFile}
-                  />
-                </span>
-                <button
-                  disabled={disabled}
-                  className="btn btn-default-outline"
-                  onClick={resetServerGames}
-                >
-                  {I18n.t('GAMES.RESET_BUTTON')}
-                </button>
-              </div>
-            </div>
-          </Title>
+      <Card>
+        <Title>
+          <span className="font-size-20 mr-auto" id="operators-list-header">
+            {I18n.t('GAMES.TITLE')}
+          </span>
 
-          <GamesGridFilter
-            onSubmit={this.handleFiltersChanged}
-            onReset={this.handleFilterReset}
-            disabled={!allowActions}
-            {...availableFilters}
-          />
+          <button
+            disabled={disabled}
+            className="btn btn-default-outline"
+            onClick={this.handleDownloadClick}
+          >
+            {I18n.t('GAMES.EXPORT_BUTTON')}
+          </button>
+          <span className="mx-3">
+            <FileUpload
+              disabled={disabled}
+              label={I18n.t('GAMES.UPLOAD_FILE_BUTTON')}
+              allowedSize={5}
+              allowedTypes={['text/csv', 'application/vnd.ms-excel']}
+              incorrectFileType={I18n.t('ERRORS.FILE.INVALID_FILE_EXTENSION')}
+              incorrectFileSize={I18n.t('ERRORS.FILE.INVALID_FILE_SIZE')}
+              onChosen={this.handleUploadFile}
+            />
+          </span>
+          <button
+            disabled={disabled}
+            className="btn btn-default-outline"
+            onClick={resetServerGames}
+          >
+            {I18n.t('GAMES.RESET_BUTTON')}
+          </button>
+        </Title>
 
-          <Content>
-            <GridView
-              locale={locale}
-              tableClassName="table data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={entities.content}
-              onPageChange={this.handlePageChanged}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-              showNoResults={noResults}
-            >
-              <GridColumn
-                name="game"
-                header={I18n.t('GAMES.GRID.GAME')}
-                render={this.renderGame}
-              />
+        <GamesGridFilter
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          disabled={!allowActions}
+          {...availableFilters}
+        />
 
-              <GridColumn
-                name="provider"
-                header={I18n.t('GAMES.GRID.PROVIDER')}
-                render={this.renderProvider}
-              />
+        <Content>
+          <GridView
+            locale={locale}
+            tableClassName="table data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            showNoResults={noResults}
+          >
+            <GridColumn
+              name="game"
+              header={I18n.t('GAMES.GRID.GAME')}
+              render={this.renderGame}
+            />
 
-              <GridColumn
-                name="platform"
-                header={I18n.t('GAMES.GRID.PLATFORM')}
-                render={this.renderPlatform}
-              />
+            <GridColumn
+              name="provider"
+              header={I18n.t('GAMES.GRID.PROVIDER')}
+              render={this.renderProvider}
+            />
 
-              <GridColumn
-                name="freeSpins"
-                header={I18n.t('GAMES.GRID.FREE_SPINS')}
-                render={this.renderFreeSpins}
-              />
+            <GridColumn
+              name="platform"
+              header={I18n.t('GAMES.GRID.PLATFORM')}
+              render={this.renderPlatform}
+            />
 
-              <GridColumn
-                name="gameStatus"
-                header={I18n.t('GAMES.GRID.STATUS')}
-                render={data => <GameStatus status={data} />}
-              />
-            </GridView>
-          </Content>
-        </Panel>
-      </div>
+            <GridColumn
+              name="freeSpins"
+              header={I18n.t('GAMES.GRID.FREE_SPINS')}
+              render={this.renderFreeSpins}
+            />
+
+            <GridColumn
+              name="gameStatus"
+              header={I18n.t('GAMES.GRID.STATUS')}
+              render={data => <GameStatus status={data} />}
+            />
+          </GridView>
+        </Content>
+      </Card>
     );
   }
 }

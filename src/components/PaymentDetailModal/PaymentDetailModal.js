@@ -95,6 +95,7 @@ class PaymentDetailModal extends Component {
             <Button
               color="primary"
               onClick={this.handleApproveClick}
+              className="margin-right-5"
             >
               {I18n.t('COMMON.APPROVE')}
             </Button>
@@ -128,7 +129,7 @@ class PaymentDetailModal extends Component {
       <ModalFooter>
         <Button
           onClick={onClose}
-          className="pull-left"
+          className="mr-auto"
         >
           {I18n.t('COMMON.DEFER')}
         </Button>

@@ -89,7 +89,7 @@ class AddToCampaignModal extends PureComponent {
             <Field
               name="campaignId"
               label={I18n.t(attributeLabels.campaignId)}
-              labelClassName="form-label"
+              labelClassName="form-label clearfix"
               labelTag="div"
               labelAddon={
                 <div className="pull-right">

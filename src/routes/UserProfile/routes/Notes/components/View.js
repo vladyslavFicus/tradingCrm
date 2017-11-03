@@ -123,7 +123,7 @@ class View extends Component {
                   {
                     data.pinned &&
                     <div className="padding-top-10">
-                      <span className="label label-info text-uppercase font-size-11">Pinned Note</span>
+                      <span className="badge badge-info text-uppercase font-size-11">Pinned Note</span>
                     </div>
                   }
                 </div>

@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
-const Content = ({ children }) => (
-  <div className={classNames(['panel-body'])}>
-    {children}
-  </div>
-);
+const Content = ({ children }) => <div className="card-body">{children}</div>;
 
 Content.propTypes = {
   children: PropTypes.node.isRequired,

@@ -11,6 +11,7 @@ import {
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
   campaignTypes,
+  targetTypes,
   targetTypesLabels,
   optInSelect,
 } from '../../../../../../../constants/bonus-campaigns';
@@ -146,6 +147,12 @@ class Form extends Component {
 
   handleRemoveNode = nodeGroup => node => this.props.removeNode(nodeGroup, node);
   handleAddNode = nodeGroup => node => this.props.addNode(nodeGroup, node);
+
+  handleChangeTargetType = (e) => {
+    if (e.target.value === targetTypes.ALL) {
+      this.props.change('optIn', true);
+    }
+  };
 
   render() {
     const {
@@ -305,6 +312,7 @@ class Form extends Component {
                 disabled={disabled}
                 position="vertical"
                 component={SelectField}
+                onChange={this.handleChangeTargetType}
               >
                 <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_TARGET_TYPE')}</option>
                 {Object.keys(targetTypesLabels).map(key => (
@@ -322,7 +330,7 @@ class Form extends Component {
                 type="select"
                 component={SelectField}
                 position="vertical"
-                disabled={disabled}
+                disabled={disabled || currentValues.targetType === targetTypes.ALL}
               >
                 {Object.keys(optInSelect).map(key => (
                   <option key={key} value={key}>

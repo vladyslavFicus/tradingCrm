@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import Amount from '../../../../../components/Amount';
 
 class Report extends Component {
+  componentDidMount() {
+    this.handleFiltersChanged({});
+  }
+
   handlePageChanged = (page, filters) => {
     if (!this.props.isLoading) {
       this.props.onFetch({ ...filters, page: page - 1 });
@@ -15,13 +20,9 @@ class Report extends Component {
     this.props.onFetch({ ...filters, page: 0 });
   };
 
-  handleExportClick = (e) => {
+  handleExportClick = () => {
     this.props.onDownload();
   };
-
-  componentDidMount() {
-    this.handleFiltersChanged({});
-  }
 
   renderAmountColumn = (data, column) => {
     const { currency } = this.props;
@@ -31,65 +32,64 @@ class Report extends Component {
   render() {
     const { entities } = this.props;
 
-    return <Panel withBorders>
-      <Title>
-        <div className="row">
-          <div className="col-md-3">
-            <span className="font-size-20">Player liability report</span>
-          </div>
-          <div className="col-md-3 col-md-offset-6 text-right">
-            <button className="btn btn-primary" onClick={this.handleExportClick}>
-              Export as CSV
-            </button>
-          </div>
-        </div>
-      </Title>
+    return (
+      <Card>
+        <Title>
+          <span className="font-size-20">
+            {I18n.t('COMMON.PLAYER_LIABILITY_REPORT')}
+          </span>
 
-      <Content>
-        <GridView
-          dataSource={entities.content}
-          onFiltersChanged={this.handleFiltersChanged}
-          onPageChange={this.handlePageChanged}
-          activePage={entities.number + 1}
-          totalPages={entities.totalPages}
-        >
-          <GridColumn
-            name="id"
-            header="ID"
-            headerStyle={{ width: '10%' }}
-            render={(data, column) => <small>{data[column.name]}</small>}
-          />
-          <GridColumn
-            name="playerUUID"
-            header="Player"
-            headerStyle={{ width: '20%' }}
-          />
-          <GridColumn
-            name="country"
-            header="Country"
-            headerStyle={{ width: '10%' }}
-          />
-          <GridColumn
-            name="balance"
-            header="Balance"
-            headerStyle={{ width: '15%' }}
-            render={this.renderAmountColumn}
-          />
-          <GridColumn
-            name="realMoneyBalance"
-            header="Real money balance"
-            headerStyle={{ width: '15%' }}
-            render={this.renderAmountColumn}
-          />
-          <GridColumn
-            name="bonusBalance"
-            header="Bonus balance"
-            headerStyle={{ width: '15%' }}
-            render={this.renderAmountColumn}
-          />
-        </GridView>
-      </Content>
-    </Panel>;
+          <button className="btn btn-primary ml-auto" onClick={this.handleExportClick}>
+            {I18n.t('COMMON.BUTTONS.EXPORT_AS_CSV')}
+          </button>
+        </Title>
+
+        <Content>
+          <GridView
+            dataSource={entities.content}
+            onFiltersChanged={this.handleFiltersChanged}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+          >
+            <GridColumn
+              name="id"
+              header="ID"
+              headerStyle={{ width: '10%' }}
+              render={(data, column) => <small>{data[column.name]}</small>}
+            />
+            <GridColumn
+              name="playerUUID"
+              header="Player"
+              headerStyle={{ width: '20%' }}
+            />
+            <GridColumn
+              name="country"
+              header="Country"
+              headerStyle={{ width: '10%' }}
+            />
+            <GridColumn
+              name="balance"
+              header="Balance"
+              headerStyle={{ width: '15%' }}
+              render={this.renderAmountColumn}
+            />
+            <GridColumn
+              name="realMoneyBalance"
+              header="Real money balance"
+              headerStyle={{ width: '15%' }}
+              render={this.renderAmountColumn}
+            />
+            <GridColumn
+              name="bonusBalance"
+              header="Bonus balance"
+              headerStyle={{ width: '15%' }}
+              render={this.renderAmountColumn}
+            />
+          </GridView>
+        </Content>
+      </Card>
+    );
   }
 }
 
@@ -98,6 +98,7 @@ Report.propTypes = {
   onDownload: PropTypes.func.isRequired,
   onFetch: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default Report;

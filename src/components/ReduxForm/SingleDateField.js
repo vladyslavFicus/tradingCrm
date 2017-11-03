@@ -29,7 +29,7 @@ class SingleDateField extends Component {
     className: 'form-group',
     label: null,
     labelAddon: null,
-    labelClassName: 'form-control-label',
+    labelClassName: null,
     showInputButton: false,
     position: 'horizontal',
     showErrorMessage: true,

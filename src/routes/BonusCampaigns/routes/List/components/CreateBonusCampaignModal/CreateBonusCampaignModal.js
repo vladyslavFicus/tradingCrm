@@ -15,6 +15,7 @@ import {
 import {
   campaignTypes,
   campaignTypesLabels,
+  targetTypes,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
   moneyTypeUsageLabels,
@@ -100,6 +101,12 @@ class CreateBonusCampaignModal extends Component {
         ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
         : true
     );
+  };
+
+  handleChangeTargetType = (e) => {
+    if (e.target.value === targetTypes.ALL) {
+      this.props.change('optIn', true);
+    }
   };
 
   render() {
@@ -209,6 +216,7 @@ class CreateBonusCampaignModal extends Component {
               type="select"
               component={SelectField}
               id="create-campaign-target-type"
+              onChange={this.handleChangeTargetType}
             >
               <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_TARGET_TYPE')}</option>
               {Object.keys(targetTypesLabels).map(key => (
@@ -232,41 +240,47 @@ class CreateBonusCampaignModal extends Component {
             {
               isDepositCampaign &&
               <div className="row">
-                <div className="col-md-offset-3 col-md-3">
-                  <Field
-                    name="minAmount"
-                    placeholder={I18n.t(attributeLabels.minAmount)}
-                    type="text"
-                    component={InputField}
-                    id="create-campaign-min-lock-amount"
-                  />
-                </div>
-                <div className="col-md-3">
-                  <Field
-                    name="maxAmount"
-                    placeholder={I18n.t(attributeLabels.maxAmount)}
-                    type="text"
-                    component={InputField}
-                    id="create-campaign-max-lock-amount"
-                  />
-                </div>
-                <div className="col-md-3">
-                  <Field
-                    name="lockAmountStrategy"
-                    label={null}
-                    type="select"
-                    component={SelectField}
-                    position="vertical"
-                    showErrorMessage={false}
-                    id="create-campaign-lock-strategy"
-                  >
-                    <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_LOCK_AMOUNT_STRATEGY')}</option>
-                    {Object.keys(lockAmountStrategyLabels).map(key => (
-                      <option key={key} value={key}>
-                        {renderLabel(key, lockAmountStrategyLabels)}
-                      </option>
-                    ))}
-                  </Field>
+                <div className="col-md-9 ml-auto">
+                  <div className="row">
+                    <div className="col-md-4">
+                      <Field
+                        name="minAmount"
+                        placeholder={I18n.t(attributeLabels.minAmount)}
+                        type="text"
+                        component={InputField}
+                        position="vertical"
+                        id="create-campaign-min-lock-amount"
+                      />
+                    </div>
+                    <div className="col-md-4">
+                      <Field
+                        name="maxAmount"
+                        placeholder={I18n.t(attributeLabels.maxAmount)}
+                        type="text"
+                        component={InputField}
+                        position="vertical"
+                        id="create-campaign-max-lock-amount"
+                      />
+                    </div>
+                    <div className="col-md-4">
+                      <Field
+                        name="lockAmountStrategy"
+                        label={null}
+                        type="select"
+                        component={SelectField}
+                        position="vertical"
+                        showErrorMessage={false}
+                        id="create-campaign-lock-strategy"
+                      >
+                        <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_LOCK_AMOUNT_STRATEGY')}</option>
+                        {Object.keys(lockAmountStrategyLabels).map(key => (
+                          <option key={key} value={key}>
+                            {renderLabel(key, lockAmountStrategyLabels)}
+                          </option>
+                        ))}
+                      </Field>
+                    </div>
+                  </div>
                 </div>
               </div>
             }
@@ -290,7 +304,7 @@ class CreateBonusCampaignModal extends Component {
             />
 
             <div className="form-group row">
-              <div className="col-md-3 col-md-offset-3">
+              <div className="col-md-9 ml-auto">
                 <div className="checkbox">
                   <label>
                     <Field
@@ -298,6 +312,7 @@ class CreateBonusCampaignModal extends Component {
                       type="checkbox"
                       component="input"
                       id="create-campaign-optin"
+                      disabled={currentValues.targetType === targetTypes.ALL}
                     /> {I18n.t(attributeLabels.optIn)}
                   </label>
                 </div>
@@ -308,7 +323,7 @@ class CreateBonusCampaignModal extends Component {
           <ModalFooter>
             <button
               type="reset"
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline"
               onClick={onClose}
             >
               {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -316,7 +331,7 @@ class CreateBonusCampaignModal extends Component {
             <button
               type="submit"
               disabled={pristine || submitting || !valid}
-              className="btn btn-primary"
+              className="btn btn-primary ml-auto"
               id="create-campaign-submit-button"
             >
               {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
