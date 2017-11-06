@@ -1324,7 +1324,8 @@
     "FULFILLMENT": "Fulfillment",
     "REWARD": "Reward",
     "OPTED_IN": "Opted-in %{value} players",
-    "SELECTED": "Selected %{value} players"
+    "SELECTED": "Selected %{value} players",
+    "BONUS": "Bonus"
   },
   "OPERATORS": {
     "CREATE_OPERATOR_BUTTON": "+ New operator",

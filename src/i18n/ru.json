@@ -1335,7 +1335,8 @@
     "FULFILLMENT": "Fulfillment",
     "REWARD": "Награда",
     "OPTED_IN": "Opted-in %{value} игроков",
-    "SELECTED": "Выбрано %{value} игроков"
+    "SELECTED": "Выбрано %{value} игроков",
+    "BONUS": "Бонус"
   },
   "OPERATORS": {
     "CREATE_OPERATOR_BUTTON": "+ Новый оператор",
