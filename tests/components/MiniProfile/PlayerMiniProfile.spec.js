@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import PlayerMiniProfile from '../../../src/components/MiniProfile/PlayerMiniProfile';
+import { currencyCodes } from '../../../src/components/Amount/constants';
 import Uuid from '../../../src/components/Uuid';
 import { statuses as userStatuses } from '../../../src/constants/user';
 
@@ -23,10 +24,10 @@ describe('(Component) PlayerMiniProfile', () => {
         playerUUID,
         profileStatusReason: "",
         balances: {
-          bonus: { amount: 0, currency: "EUR" },
-          real: { amount: 0, currency: "EUR" },
-          total: { amount: 0, currency: "EUR" },
-          withdrawable: { amount: 0, currency: "EUR" },
+          bonus: { amount: 0, currency: currencyCodes.EUR },
+          real: { amount: 0, currency: currencyCodes.EUR },
+          total: { amount: 0, currency: currencyCodes.EUR },
+          withdrawable: { amount: 0, currency: currencyCodes.EUR },
         },
         tags: [
           {id: 14430, priority: 'neutral', tag: 'tag2'},
