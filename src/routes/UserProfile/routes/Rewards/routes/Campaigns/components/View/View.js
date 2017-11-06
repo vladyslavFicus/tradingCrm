@@ -84,8 +84,8 @@ class View extends Component {
     });
   };
 
-  handleDeclineClick = (campaignId, returnToList = false) => {
-    this.handleOpenModal(CAMPAIGN_DECLINE_MODAL, { campaignId, returnToList });
+  handleDeclineClick = (uuid, returnToList = false) => {
+    this.handleOpenModal(CAMPAIGN_DECLINE_MODAL, { uuid, returnToList });
   };
 
   handleFiltersChanged = (filters = {}) => {
@@ -97,14 +97,14 @@ class View extends Component {
   };
 
   handleDeclineCampaign = async () => {
-    const { modal: { params: { campaignId, returnToList } } } = this.state;
+    const { modal: { params: { uuid, returnToList } } } = this.state;
 
     const {
       declineCampaign,
       params: { id: playerUUID },
     } = this.props;
 
-    const action = await declineCampaign(campaignId, playerUUID, returnToList);
+    const action = await declineCampaign(uuid, playerUUID, returnToList);
     this.handleCloseModal();
 
     if (action && !action.error) {
@@ -143,10 +143,10 @@ class View extends Component {
     }
   };
 
-  handleAddToCampaign = async ({ campaignId }) => {
+  handleAddToCampaign = async ({ campaignUuid }) => {
     const { params: { id }, addPlayerToCampaign } = this.props;
 
-    const addPlayerToCampaignAction = await addPlayerToCampaign(campaignId, id);
+    const addPlayerToCampaignAction = await addPlayerToCampaign(campaignUuid, id);
 
     if (addPlayerToCampaignAction) {
       let level = 'success';
@@ -237,7 +237,7 @@ class View extends Component {
           key="optOutButton"
           type="button"
           className="btn btn-sm btn-danger margin-bottom-5"
-          onClick={() => this.handleDeclineClick(data.id, true)}
+          onClick={() => this.handleDeclineClick(data.uuid, true)}
         >
           {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_OUT')}
         </button>
@@ -245,7 +245,7 @@ class View extends Component {
           key="declineButton"
           type="button"
           className="btn btn-sm btn-danger display-inline"
-          onClick={() => this.handleDeclineClick(data.id)}
+          onClick={() => this.handleDeclineClick(data.uuid)}
         >
           {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE')}
         </button>

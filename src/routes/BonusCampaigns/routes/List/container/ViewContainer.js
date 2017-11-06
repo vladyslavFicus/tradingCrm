@@ -15,7 +15,6 @@ const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
   createCampaign: actionCreators.createCampaign,
   exportEntities: actionCreators.exportEntities,
-  onChangeCampaignStatus: actionCreators.changeCampaignState,
   fetchTypes: actionCreators.fetchTypes,
   resetAll: actionCreators.resetAll,
 };
