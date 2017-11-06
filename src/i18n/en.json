@@ -1319,7 +1319,7 @@
     "LAUNCHED": "Launched",
     "CANCELED": "Canceled",
     "DATE_RANGE": "Date range",
-    "NOT_SELECTED": "not selected",
+    "RANGE_NOT_SELECTED": "not selected",
     "TARGET": "Target",
     "FULFILLMENT": "Fulfillment",
     "REWARD": "Reward",

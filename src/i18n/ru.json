@@ -1330,7 +1330,7 @@
     "LAUNCHED": "Запущена",
     "CANCELED": "Отменена",
     "DATE_RANGE": "Диапазон дат",
-    "NOT_SELECTED": "не выбрано",
+    "RANGE_NOT_SELECTED": "не выбрано",
     "TARGET": "Цель",
     "FULFILLMENT": "Fulfillment",
     "REWARD": "Награда",

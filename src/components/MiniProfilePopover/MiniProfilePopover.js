@@ -36,7 +36,7 @@ class MiniProfilePopover extends Component {
       case miniProfileTypes.PLAYER:
         return <PlayerMiniProfile data={data} />;
       case miniProfileTypes.CAMPAIGN:
-        return <BonusCampaignMiniProfile data={data} />;
+        return <BonusCampaignMiniProfile campaign={data} />;
       default:
         return null;
     }
