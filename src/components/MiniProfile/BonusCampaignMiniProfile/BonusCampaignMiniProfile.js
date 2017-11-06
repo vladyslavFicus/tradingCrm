@@ -15,7 +15,6 @@ const BonusCampaignMiniProfile = ({ campaign }) => (
     `mini-profile campaign-mini-profile
     ${campaign.stateReason ? campaignStatusNames.CANCELED : campaignStatusNames[campaign.state]}`}
   >
-    {console.log(campaign)}
     <div className="mini-profile-header">
       <label className="mini-profile-label">
         {`${campaign.stateReason ? campaignStatusNames.CANCELED : campaignStatusNames[campaign.state]}`}
