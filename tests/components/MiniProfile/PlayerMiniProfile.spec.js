@@ -58,7 +58,7 @@ describe('(Component) PlayerMiniProfile', () => {
     expect(_wrapper.find('i.fa.fa-check')).to.not.exist();
   });
 
-  it('render tags', () => {
+  it('renders with tags passed by prop "data.tags"', () => {
     _props.data.tags.map(tag => {
       expect(_wrapper.find(`span.mini-profile-tag_${tag.priority}`)).to.exist();
     })
