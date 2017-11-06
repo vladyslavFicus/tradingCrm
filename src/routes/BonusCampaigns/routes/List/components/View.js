@@ -109,7 +109,7 @@ class View extends Component {
 
     if (action) {
       if (!action.error) {
-        this.props.router.push(`/bonus-campaigns/view/${action.payload.uuid}/settings`);
+        this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignUUID}/settings`);
         this.context.addNotification({
           level: action.error ? 'error' : 'success',
           title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
