@@ -8,11 +8,11 @@ import { statuses as userStatuses } from '../../../src/constants/user';
 describe('(Component) PlayerMiniProfile', () => {
   let _props, _wrapper;
 
-  const playerUUID = "PLAYER-3fd80a6e-931d-43b4-9f71-e639b9ea8045";
+  const playerUUID = 'PLAYER-3fd80a6e-931d-43b4-9f71-e639b9ea8045';
 
   const playerUUIDContainer = <Uuid
     uuid={playerUUID}
-    uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+    uuidPrefix='PL'
   />;
 
   beforeEach(() => {
@@ -42,7 +42,7 @@ describe('(Component) PlayerMiniProfile', () => {
     expect(_wrapper.is('div')).to.equal(true);
   });
 
-  it('render check icon', () => {
+  it('renders check icon when kyc is completed', () => {
     _props = {
       data: {
         ..._props.data,
@@ -53,7 +53,7 @@ describe('(Component) PlayerMiniProfile', () => {
     expect(_wrapper.find('i.fa.fa-check')).to.exist();
   });
 
-  it('do not render check icon', () => {
+  it('renders with tags passed by prop "data.tags"', () => {
     _wrapper = shallow(<PlayerMiniProfile {..._props} />);
     expect(_wrapper.find('i.fa.fa-check')).to.not.exist();
   });
@@ -84,7 +84,7 @@ describe('(Component) PlayerMiniProfile', () => {
     expect(_wrapper.find('div.info-block_status-reason_body')).to.exist();
   });
 
-  it('render UUID', () => {
+  it('render with <UUID />', () => {
     expect(_wrapper).to.contain(playerUUIDContainer);
   });
 
