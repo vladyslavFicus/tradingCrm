@@ -10,10 +10,7 @@ describe('(Component) PlayerMiniProfile', () => {
 
   const playerUUID = 'PLAYER-3fd80a6e-931d-43b4-9f71-e639b9ea8045';
 
-  const playerUUIDContainer = <Uuid
-    uuid={playerUUID}
-    uuidPrefix='PL'
-  />;
+  const playerUUIDContainer = <Uuid uuid={playerUUID} />;
 
   beforeEach(() => {
     _props = {
@@ -84,7 +81,7 @@ describe('(Component) PlayerMiniProfile', () => {
     expect(_wrapper.find('div.info-block_status-reason_body')).to.exist();
   });
 
-  it('render with <UUID />', () => {
+  it('render with UUID', () => {
     expect(_wrapper).to.contain(playerUUIDContainer);
   });
 
