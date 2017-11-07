@@ -28,6 +28,7 @@ class DateTimeField extends Component {
     iconLeftClassName: PropTypes.string,
     iconRightClassName: PropTypes.string,
     utc: PropTypes.bool,
+    showErrorMessage: PropTypes.bool,
   };
   static defaultProps = {
     id: null,
@@ -42,26 +43,24 @@ class DateTimeField extends Component {
     utc: false,
     disabled: false,
     placeholder: '',
+    showErrorMessage: true,
   };
 
   getValue = () => {
     const { input: { value }, utc } = this.props;
 
-    if (value) {
-      return utc ? moment.utc(value).local() : moment(value);
-    }
-
-    return null;
+    const momentInstance = utc ? moment.utc(value).local() : moment(value);
+    return momentInstance.isValid() ? momentInstance : value;
   };
 
   handleChange = (value) => {
     const { input: { onChange }, timeFormat, utc } = this.props;
 
-    let formatValue = '';
+    let formatValue = value;
 
-    if (value && value.format) {
-      formatValue = utc ? moment.utc(value) : value;
-      formatValue = formatValue.format(`YYYY-MM-DD${timeFormat ? 'THH:mm:00' : ''}`);
+    const momentInstance = utc ? moment.utc(value) : moment(value);
+    if (momentInstance.isValid()) {
+      formatValue = momentInstance.format(`YYYY-MM-DD${timeFormat ? 'THH:mm:00' : ''}`);
     }
 
     onChange(formatValue);
@@ -135,12 +134,20 @@ class DateTimeField extends Component {
     const {
       className,
       meta: { touched, error },
+      showErrorMessage,
     } = props;
 
     return (
       <div className={classNames(className, { 'has-danger': touched && error })}>
         {this.renderLabel(props)}
         {this.renderInput(props)}
+        {
+          showErrorMessage && touched && error &&
+          <div className="form-control-feedback">
+            <i className="nas nas-field_alert_icon" />
+            {error}
+          </div>
+        }
       </div>
     );
   };
@@ -149,6 +156,7 @@ class DateTimeField extends Component {
     const {
       className,
       meta: { touched, error },
+      showErrorMessage,
     } = props;
 
     return (
@@ -156,6 +164,13 @@ class DateTimeField extends Component {
         {this.renderLabel(props)}
         <div className="col-md-9">
           {this.renderInput(props)}
+          {
+            showErrorMessage && touched && error &&
+            <div className="form-control-feedback">
+              <i className="nas nas-field_alert_icon" />
+              {error}
+            </div>
+          }
         </div>
       </div>
     );

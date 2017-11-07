@@ -43,6 +43,7 @@ class UserGridFilter extends Component {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
+    valid: PropTypes.bool,
   };
   static defaultProps = {
     currentValues: {
@@ -65,6 +66,7 @@ class UserGridFilter extends Component {
     handleSubmit: null,
     reset: null,
     disabled: false,
+    valid: false,
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -95,6 +97,7 @@ class UserGridFilter extends Component {
       handleSubmit,
       onSubmit,
       disabled,
+      valid,
     } = this.props;
 
     return (
@@ -254,6 +257,7 @@ class UserGridFilter extends Component {
                     utc
                     name="registrationDateFrom"
                     component={DateTimeField}
+                    showErrorMessage
                     isValidDate={this.startDateValidator('registrationDateTo')}
                     position="vertical"
                   />
@@ -262,6 +266,7 @@ class UserGridFilter extends Component {
                     utc
                     name="registrationDateTo"
                     component={DateTimeField}
+                    showErrorMessage
                     isValidDate={this.endDateValidator('registrationDateFrom')}
                     position="vertical"
                   />
@@ -280,7 +285,7 @@ class UserGridFilter extends Component {
                 </button>
                 <button
                   id="users-list-apply-button"
-                  disabled={submitting || (disabled && pristine)}
+                  disabled={submitting || (disabled && pristine) || !valid}
                   className="btn btn-primary"
                   type="submit"
                 >
@@ -298,6 +303,7 @@ class UserGridFilter extends Component {
 const FORM_NAME = 'userListGridFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
+  touchOnChange: true,
   validate: createValidator({
     keyword: 'string',
     country: `in:,${Object.keys(countries).join()}`,
@@ -308,8 +314,8 @@ const FilterForm = reduxForm({
     status: 'string',
     tags: `in:,${Object.keys(tags).join()}`,
     segments: 'string',
-    registrationDateFrom: 'string',
-    registrationDateTo: 'string',
+    registrationDateFrom: 'date',
+    registrationDateTo: 'date',
     balanceFrom: 'integer',
     balanceTo: 'integer',
   }, filterLabels, false),
