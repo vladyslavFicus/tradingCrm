@@ -34,12 +34,9 @@
   padding: .75rem 1.2rem;
   border-top: 1px solid #eee;
   cursor: default;
-  &_container:nth-child(2) {
-    margin-top: 10px;
-  }
   .locks-container {
-    .limits-info_tab:nth-child(n+2) {
-      margin-top: 10px;
+    .limits-info_tab {
+      margin-bottom: 10px;
     }
   }
   &_tab {

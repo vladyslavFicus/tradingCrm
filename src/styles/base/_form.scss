@@ -1,6 +1,5 @@
 .filter-row {
   display: flex;
-  -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
   justify-content: space-between;
   margin-right: -1rem;
@@ -44,7 +43,6 @@
 
 .form-row {
   display: flex;
-  -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
   margin-right: -1rem;
   margin-left: -1rem;
@@ -166,7 +164,6 @@ label {
 
 .range-group {
   display: flex;
-  -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   .form-group,
   .form-control {
@@ -177,10 +174,9 @@ label {
     margin-bottom: 0;
   }
   &__separator {
-    width: 25px;
-    align-self: center;
-    padding-right: 10px;
-    padding-left: 10px;
+    flex: 0 0 20px;
+    padding-top: 8px;
+    text-align: center;
     color: #9b9b9b;
   }
 }
@@ -207,7 +203,6 @@ label {
 
 .input-with-button {
   display: flex;
-  -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   align-items: center;
   .btn {
