@@ -33,13 +33,13 @@ function mapFulfillmentNode(campaignType) {
   return node;
 }
 
-function fetchCampaign(id) {
+function fetchCampaign(uuid) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${id}`,
+        endpoint: `promotion/campaigns/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -57,13 +57,13 @@ function fetchCampaign(id) {
   };
 }
 
-function activateCampaign(id) {
+function activateCampaign(uuid) {
   return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     await dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${id}/activate`,
+        endpoint: `promotion/campaigns/${uuid}/activate`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -79,24 +79,27 @@ function activateCampaign(id) {
       },
     });
 
-    return dispatch(fetchCampaign(id));
+    return dispatch(fetchCampaign(uuid));
   };
 }
 
-function cancelCampaign(id, reason) {
+function cancelCampaign(uuid, reason) {
   return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     await dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${id}/complete`,
+        endpoint: `promotion/campaigns/${uuid}/complete`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ reason, stateReason: statusesReasons.CANCELED }),
+        body: JSON.stringify({
+          reason,
+          stateReason: statusesReasons.CANCELED,
+        }),
         types: [
           CHANGE_CAMPAIGN_STATE.REQUEST,
           CHANGE_CAMPAIGN_STATE.SUCCESS,
@@ -106,7 +109,7 @@ function cancelCampaign(id, reason) {
       },
     });
 
-    return dispatch(fetchCampaign(id));
+    return dispatch(fetchCampaign(uuid));
   };
 }
 
@@ -122,7 +125,7 @@ function changeCampaignState({ id, action, reason }) {
   };
 }
 
-function updateCampaign(id, data) {
+function updateCampaign(uuid, data) {
   return (dispatch, getState) => {
     const { token, uuid: currentUuid } = getState().auth;
 
@@ -183,7 +186,7 @@ function updateCampaign(id, data) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${id}`,
+        endpoint: `promotion/campaigns/${uuid}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -201,13 +204,13 @@ function updateCampaign(id, data) {
   };
 }
 
-function uploadPlayersFile(bonusCampaignId, file) {
+function uploadPlayersFile(uuid, file) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/promotion/campaigns/${bonusCampaignId}/players-list`,
+        endpoint: `/promotion/campaigns/${uuid}/players-list`,
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -227,13 +230,13 @@ function uploadPlayersFile(bonusCampaignId, file) {
   };
 }
 
-function cloneCampaign(campaignId) {
+function cloneCampaign(uuid) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/promotion/campaigns/${campaignId}/clone`,
+        endpoint: `/promotion/campaigns/${uuid}/clone`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -251,13 +254,13 @@ function cloneCampaign(campaignId) {
   };
 }
 
-function removeAllPlayers(campaignId) {
+function removeAllPlayers(uuid) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/promotion/campaigns/${campaignId}/players-list`,
+        endpoint: `/promotion/campaigns/${uuid}/players-list`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',

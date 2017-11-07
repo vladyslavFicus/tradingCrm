@@ -87,8 +87,8 @@ class AddToCampaignModal extends PureComponent {
               {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTION', { fullName })}
             </div>
             <Field
-              name="campaignId"
-              label={I18n.t(attributeLabels.campaignId)}
+              name="campaignUuid"
+              label={I18n.t(attributeLabels.campaignUuid)}
               labelClassName="form-label clearfix"
               labelTag="div"
               labelAddon={
@@ -101,12 +101,12 @@ class AddToCampaignModal extends PureComponent {
                 </div>
               } component={NasSelectField}
               position="vertical"
-              placeholder={I18n.t(attributePlaceholders.campaignId)}
+              placeholder={I18n.t(attributePlaceholders.campaignUuid)}
               optionsHeader={SelectCampaignOptionsHeader}
               singleOptionComponent={SelectCampaignOption}
             >
               {options.map(campaign => (
-                <option key={campaign.id} value={campaign.id} campaign={campaign}>
+                <option key={campaign.uuid} value={campaign.uuid} campaign={campaign}>
                   {`${campaign.campaignName} - ${campaign.state}`}
                 </option>
               ))}
@@ -144,6 +144,6 @@ const FORM_NAME = 'addToCampaignModal';
 export default reduxForm({
   form: FORM_NAME,
   validate: createValidator({
-    campaignId: ['required'],
+    campaignUuid: ['required'],
   }, validatorAttributeLabels, false),
 })(AddToCampaignModal);

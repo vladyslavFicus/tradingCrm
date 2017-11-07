@@ -61,13 +61,16 @@ class OperatorProfileLayout extends Component {
   };
 
   handleResetPasswordSubmit = async () => {
-    const { onResetPassword, data } = this.props;
+    const {
+      onResetPassword,
+      params: {
+        id: operatorUUID
+      },
+    } = this.props;
 
-    if (data.email) {
-      await onResetPassword({ email: data.email });
+    await onResetPassword(operatorUUID);
 
-      this.handleCloseModal();
-    }
+    this.handleCloseModal();
   };
 
   handleSendInvitationClick = async () => {

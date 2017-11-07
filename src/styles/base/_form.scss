@@ -128,7 +128,6 @@ label {
   height: 39px;
   padding: 3px 10px 5px;
   border-radius: 3px;
-  background-color: #fff;
   border: 1px solid #cfcfcf;
   font-size: 15px;
   line-height: 1.5;
@@ -141,20 +140,17 @@ label {
     font-weight: 300;
   }
   &::-moz-placeholder {
-    color: #cfcfcf;
-    font-weight: 300;
+    @extend .form-control::-webkit-input-placeholder;
   }
   &:-moz-placeholder {
-    color: #cfcfcf;
-    font-weight: 300;
+    @extend .form-control::-webkit-input-placeholder;
   }
   &:-ms-input-placeholder {
-    color: #cfcfcf;
-    font-weight: 300;
+    @extend .form-control::-webkit-input-placeholder;
   }
   &:disabled {
     background-color: #f6f6f6;
-    border: 1px solid #cfcfcf;
+    border-color: #cfcfcf;
   }
   &-with-button {
     .form-control {
@@ -162,6 +158,9 @@ label {
       width: 250px;
       margin-right: 10px;
     }
+  }
+  &.has-danger {
+    border-color: #d0011b;
   }
 }
 

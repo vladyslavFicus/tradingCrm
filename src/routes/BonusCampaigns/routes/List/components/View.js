@@ -109,7 +109,7 @@ class View extends Component {
 
     if (action) {
       if (!action.error) {
-        this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
+        this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignUUID}/settings`);
         this.context.addNotification({
           level: action.error ? 'error' : 'success',
           title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
@@ -136,7 +136,7 @@ class View extends Component {
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>
-      <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700">{data.campaignName}</Link>
+      <Link to={`/bonus-campaigns/view/${data.uuid}`} className="font-weight-700">{data.campaignName}</Link>
       <div className="font-size-11">
         <Uuid uuid={data.uuid} uuidPrefix="CA" />
       </div>
