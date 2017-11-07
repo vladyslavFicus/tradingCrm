@@ -118,6 +118,7 @@ class PersonalForm extends Component {
               name="birthDate"
               label={attributeLabels.birthDate}
               component={DateTimeField}
+              timeFormat={false}
               disabled={disabled}
               showErrorMessage
               position="vertical"
