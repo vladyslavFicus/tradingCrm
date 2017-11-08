@@ -5,7 +5,7 @@ import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../../components/Uuid';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
 import MiniProfile from '../../components/MiniProfile';
-import profileClick from '../../utils/profileClick';
+import ProfileClick from '../../utils/ProfileClick';
 
 class GridPlayerInfo extends Component {
   static propTypes = {
@@ -14,7 +14,7 @@ class GridPlayerInfo extends Component {
     fetchPlayerProfile: PropTypes.func.isRequired,
     mainInfoClassName: PropTypes.string,
     clickable: PropTypes.bool,
-    handleOpenProfile: PropTypes.func.isRequired,
+    onPlayerClick: PropTypes.func.isRequired,
   };
   static defaultProps = {
     id: null,
@@ -24,9 +24,9 @@ class GridPlayerInfo extends Component {
   };
 
   handleProfileOpen = () => {
-    const { handleOpenProfile, profile } = this.props;
+    const { onPlayerClick, profile } = this.props;
 
-    handleOpenProfile(profile);
+    onPlayerClick(profile);
   };
 
   render() {
@@ -71,4 +71,4 @@ class GridPlayerInfo extends Component {
   }
 }
 
-export default profileClick(GridPlayerInfo);
+export default ProfileClick(GridPlayerInfo);

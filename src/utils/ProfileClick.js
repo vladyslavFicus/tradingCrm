@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { playerProfileViewTypes } from '../constants';
 
-const profileClick = (WrappedComponent) => {
-  return class profileOpen extends Component {
+const ProfileClick = (WrappedComponent) => {
+  return class OpenProfile extends Component {
     static contextTypes = {
       settings: PropTypes.shape({
         playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
@@ -14,13 +14,7 @@ const profileClick = (WrappedComponent) => {
       }).isRequired,
     };
 
-    constructor(props) {
-      super(props);
-
-      this.handleOpenProfile = this.handleOpenProfile.bind(this);
-    }
-
-    handleOpenProfile(data) {
+    handlePlayerClick = (data) => {
       if (this.context.settings.playerProfileViewType === playerProfileViewTypes.page) {
         this.context.router.push(`/users/${data.playerUUID}/profile`);
       } else {
@@ -35,9 +29,9 @@ const profileClick = (WrappedComponent) => {
     };
 
     render() {
-      return <WrappedComponent {...this.props} {...this.context} handleOpenProfile={this.handleOpenProfile} />;
+      return <WrappedComponent {...this.props} onPlayerClick={this.handlePlayerClick} />;
     }
   };
 };
 
-export default profileClick;
+export default ProfileClick;

@@ -12,7 +12,7 @@ import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
 } from '../../../../../constants/user';
-import profileClick from '../../../../../utils/profileClick';
+import ProfileClick from '../../../../../utils/ProfileClick';
 
 class List extends Component {
   static propTypes = {
@@ -25,7 +25,7 @@ class List extends Component {
     }).isRequired,
     exportEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    handleOpenProfile: PropTypes.func.isRequired,
+    onPlayerClick: PropTypes.func.isRequired,
   };
   static contextTypes = {
     miniProfile: PropTypes.shape({
@@ -135,7 +135,7 @@ class List extends Component {
   );
 
   render() {
-    const { list: { entities, exporting, noResults }, locale, handleOpenProfile } = this.props;
+    const { list: { entities, exporting, noResults }, locale, onPlayerClick } = this.props;
     const { filters } = this.state;
     const allowActions = Object
       .keys(filters)
@@ -173,7 +173,7 @@ class List extends Component {
             lazyLoad
             locale={locale}
             showNoResults={noResults}
-            onRowClick={handleOpenProfile}
+            onRowClick={onPlayerClick}
           >
             <GridColumn
               name="id"
@@ -212,4 +212,4 @@ class List extends Component {
   }
 }
 
-export default profileClick(List);
+export default ProfileClick(List);
