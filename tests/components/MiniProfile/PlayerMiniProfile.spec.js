@@ -20,6 +20,7 @@ describe('(Component) PlayerMiniProfile', () => {
         username: "",
         playerUUID,
         profileStatusReason: "",
+        kycCompleted: false,
         balances: {
           bonus: { amount: 0, currency: currencyCodes.EUR },
           real: { amount: 0, currency: currencyCodes.EUR },
@@ -50,7 +51,7 @@ describe('(Component) PlayerMiniProfile', () => {
     expect(_wrapper.find('i.fa.fa-check')).to.exist();
   });
 
-  it('renders with check icon when "data.tags" is exist', () => {
+  it('do not renders check icon when kyc is not completed', () => {
     _wrapper = shallow(<PlayerMiniProfile {..._props} />);
     expect(_wrapper.find('i.fa.fa-check')).to.not.exist();
   });
@@ -61,7 +62,7 @@ describe('(Component) PlayerMiniProfile', () => {
     })
   });
 
-  it('renders reason', () => {
+  it('renders reason according to player status', () => {
     _props = {
       data: {
         ..._props.data,
