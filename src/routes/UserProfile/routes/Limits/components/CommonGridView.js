@@ -203,7 +203,7 @@ class CommonGridView extends Component {
     const { dataSource, insideModal, locale } = this.props;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <GridView
           tableClassName="table table-hovered data-grid-layout"
           headerClassName="text-uppercase"

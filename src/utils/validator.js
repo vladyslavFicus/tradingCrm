@@ -86,13 +86,12 @@ function greaterOrSameValidator(inputValue, requirement, attribute) {
 
 function customValueTypeValidator(inputValue, requirement, attribute) {
   const attributeBaseName = attribute.replace(/\.value/, '');
+  const customTypeValueField = _.get(this.validator.input, attributeBaseName);
 
-  if (typeof this.validator.input[attributeBaseName] !== 'undefined') {
-    if (this.validator.input[attributeBaseName] === null) {
+  if (typeof customTypeValueField !== 'undefined') {
+    if (customTypeValueField === null) {
       return true;
     }
-
-    const customTypeValueField = this.validator.input[attributeBaseName];
 
     if (!customTypeValueField.type) {
       this.validator.errors.add(`${attributeBaseName}.type`, 'Choose type of value');

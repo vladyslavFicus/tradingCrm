@@ -1,4 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
+import _ from 'lodash';
+import countryListLib from 'country-list';
 import createRequestAction from '../../../utils/createRequestAction';
 import createReducer from '../../../utils/createReducer';
 import timestamp from '../../../utils/timestamp';
@@ -21,8 +23,8 @@ const FETCH_META = createRequestAction(`${KEY}/fetch-meta`);
 function fetchMeta() {
   return {
     [CALL_API]: {
-      endpoint: 'profile/public/metainfo',
-      method: 'GET',
+      endpoint: 'profile/public/signup',
+      method: 'OPTIONS',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -37,8 +39,19 @@ function fetchMeta() {
 }
 
 const initialState = {
+  source: {},
   data: {
+    countries: [],
+    countryCodes: [],
+    currencyCodes: [],
     phoneCodes: [],
+    passwordPattern: '',
+  },
+  playerMeta: {
+    countryCode: null,
+    currencyCode: null,
+    ip: null,
+    phoneCode: null,
   },
   error: null,
   isLoading: false,
@@ -50,19 +63,40 @@ const actionHandlers = {
     error: null,
     isLoading: true,
   }),
-  [FETCH_META.SUCCESS]: (state, action) => ({
-    ...state,
-    data: {
+  [FETCH_META.SUCCESS]: (state, action) => {
+    const newState = {
+      ...state,
+      source: action.payload,
+      playerMeta: action.payload.geoLocation,
+      isLoading: false,
+      receivedAt: timestamp(),
+    };
+
+    const phoneCodes = _.get(action.payload, 'post.phoneCode.list', []);
+    const currencyCodes = _.get(action.payload, 'post.currency.list', []);
+    const countryList = _.get(action.payload, 'post.country.list', []);
+    const passwordPattern = _.get(action.payload, 'post.password.pattern', '');
+    const countryCodes = countryList ? countryList.map(item => item.countryCode) : [];
+    const countries = countryList.map(item => ({
+      ...item,
+      countryName: countryListLib().getName(item.countryCode),
+    }));
+
+    newState.data = {
       ...state.data,
-      phoneCodes: action.payload
-        .reduce((res, item) => item ? mergePhoneCodes(res, formatPhoneCode(item.phoneCode)) : res, [])
+      phoneCodes: phoneCodes ? phoneCodes
+        .reduce((res, item) => item ? mergePhoneCodes(res, formatPhoneCode(item)) : res, [])
         .filter(i => i)
         .filter((el, i, a) => i === a.indexOf(el))
-        .sort(),
-    },
-    isLoading: false,
-    receivedAt: timestamp(),
-  }),
+        .sort() : [],
+      currencyCodes,
+      countries,
+      countryCodes,
+      passwordPattern,
+    };
+
+    return newState;
+  },
   [FETCH_META.FAILURE]: (state, action) => ({
     ...state,
     error: action.payload,

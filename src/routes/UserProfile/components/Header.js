@@ -66,6 +66,11 @@ class Header extends Component {
           locked: PropTypes.bool.isRequired,
           canUnlock: PropTypes.bool.isRequired,
         }).isRequired,
+        login: PropTypes.shape({
+          lock: PropTypes.bool.isRequired,
+          lockExpirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+          lockReason: PropTypes.string,
+        }).isRequired,
         error: PropTypes.object,
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,
@@ -185,7 +190,7 @@ class Header extends Component {
                 </PopoverButton>
               </PermissionContent>
               <button
-                className="btn btn-sm btn-default-outline m-x-1"
+                className="btn btn-sm btn-default-outline mx-3"
                 onClick={onRefreshClick}
                 id="refresh-page-button"
               >
@@ -232,13 +237,13 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
           </div>
-          <div className="header-block header-block_balance">
+          <div className="header-block header-block_balance" id="player-profile-balance-block">
             <Balances
               label={
                 <div className="dropdown-tab">
                   <div className="header-block-title">Balance</div>
                   <div className="header-block-middle">
-                    <Amount {...accumulatedBalances.total} />
+                    <Amount {...accumulatedBalances.total} amountId="player-total-balance-amount" />
                   </div>
                   {this.getRealWithBonusBalance()}
                 </div>

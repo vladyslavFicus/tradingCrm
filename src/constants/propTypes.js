@@ -363,6 +363,8 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   grantedTotal: PropTypes.number.isRequired,
   endDate: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
+  excludeCountries: PropTypes.bool.isRequired,
+  countries: PropTypes.arrayOf(PropTypes.string).isRequired,
   id: PropTypes.number.isRequired,
   optIn: PropTypes.bool.isRequired,
   startDate: PropTypes.string.isRequired,
@@ -443,6 +445,46 @@ PropTypes.kycRequestEntity = PropTypes.shape({
     authorUUID: PropTypes.string.isRequired,
   },
   playerUUID: PropTypes.string.isRequired,
+});
+PropTypes.meta = PropTypes.shape({
+  data: PropTypes.shape({
+    countryCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    phoneCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currencyCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    countries: PropTypes.arrayOf(PropTypes.object).isRequired,
+    passwordPattern: PropTypes.string.isRequired,
+  }).isRequired,
+  source: PropTypes.shape({
+    post: PropTypes.shape({
+      country: PropTypes.shape({
+        list: PropTypes.arrayOf(PropTypes.shape({
+          countryCode: PropTypes.string,
+          phoneCode: PropTypes.string,
+        })),
+      }),
+      currency: PropTypes.shape({
+        base: PropTypes.string,
+        list: PropTypes.arrayOf(PropTypes.string),
+      }),
+      password: PropTypes.shape({
+        pattern: PropTypes.string,
+      }),
+      phoneCode: PropTypes.shape({
+        list: PropTypes.arrayOf(PropTypes.string),
+      }),
+    }),
+    geolocation: PropTypes.shape({
+      country: PropTypes.string.isRequired,
+      currencyCode: PropTypes.string.isRequired,
+      ip: PropTypes.string.isRequired,
+      phoneCode: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  playerMeta: PropTypes.shape({
+    countryCode: PropTypes.string,
+    phoneCode: PropTypes.string,
+    currencyCode: PropTypes.string,
+  }).isRequired,
 });
 
 export default PropTypes;

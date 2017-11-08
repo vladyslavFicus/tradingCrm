@@ -1,6 +1,5 @@
 .filter-row {
   display: flex;
-  -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
   justify-content: space-between;
   margin-right: -1rem;
@@ -44,7 +43,6 @@
 
 .form-row {
   display: flex;
-  -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
   margin-right: -1rem;
   margin-left: -1rem;
@@ -66,6 +64,31 @@
     padding-right: 1rem;
     padding-left: 1rem;
   }
+  &__multiplier {
+    flex: 0;
+    align-self: center;
+    margin-right: -4px;
+    margin-left: -4px;
+    padding-top: 18px;
+    font-size: 14px;
+    color: #999;
+  }
+  &_with-placeholder-right {
+    position: relative;
+    label {
+      white-space: nowrap;
+    }
+    .form-control {
+      padding-right: 45px;
+    }
+    .right-placeholder {
+      position: absolute;
+      top: 30px;
+      right: 22px;
+      font-size: 14px;
+      color: #999;
+    }
+  }
 }
 
 .form-group {
@@ -76,45 +99,61 @@
     font-size: 12px;
     color: #999;
   }
+  &.has-danger {
+    .form-control {
+      border-color: #d0011b;
+    }
+  }
 }
 
 label {
   margin-bottom: 0;
   font-weight: 600;
   color: $form-labels-color;
+  .label-additional {
+    font-size: 12px;
+    font-weight: 300;
+    color: #999;
+  }
+  .label-action {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: 300;
+    input[type="checkbox"] {
+      margin-right: 2px;
+      vertical-align: middle;
+    }
+  }
 }
 
 .form-control {
   height: 39px;
   padding: 3px 10px 5px;
   border-radius: 3px;
-  background-color: #fff;
   border: 1px solid #cfcfcf;
   font-size: 15px;
+  line-height: 1.5;
   &:focus {
     box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
     border-color: #4990e2;
-    font-weight: 600;
   }
   &::-webkit-input-placeholder {
     color: #cfcfcf;
     font-weight: 300;
   }
   &::-moz-placeholder {
-    color: #cfcfcf;
-    font-weight: 300;
+    @extend .form-control::-webkit-input-placeholder;
   }
   &:-moz-placeholder {
-    color: #cfcfcf;
-    font-weight: 300;
+    @extend .form-control::-webkit-input-placeholder;
   }
   &:-ms-input-placeholder {
-    color: #cfcfcf;
-    font-weight: 300;
+    @extend .form-control::-webkit-input-placeholder;
   }
   &:disabled {
     background-color: #f6f6f6;
-    border: 1px solid #cfcfcf;
+    border-color: #cfcfcf;
   }
   &-with-button {
     .form-control {
@@ -127,7 +166,6 @@ label {
 
 .range-group {
   display: flex;
-  -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   .form-group,
   .form-control {
@@ -138,10 +176,9 @@ label {
     margin-bottom: 0;
   }
   &__separator {
-    width: 25px;
-    align-self: center;
-    padding-right: 10px;
-    padding-left: 10px;
+    flex: 0 0 20px;
+    padding-top: 8px;
+    text-align: center;
     color: #9b9b9b;
   }
 }
@@ -168,7 +205,6 @@ label {
 
 .input-with-button {
   display: flex;
-  -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   align-items: center;
   .btn {
@@ -203,12 +239,12 @@ label {
       color: #4990e2;
     }
     &.is-checked .nas-check_box:before {
-      content: "\e905";
+      content: "\e906";
       color: #4990e2;
     }
   }
   &--checkbox:hover .nas-check_box:before {
-    content: "\e905";
+    content: "\e906";
   }
   &--radio:hover .nas-radio_button:before {
     content: "\e90c";
@@ -247,6 +283,10 @@ label {
     &__label {
       position: relative;
       padding-top: 6px;
+      padding-right: 25px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     &__content {
       width: 100%;
@@ -401,9 +441,25 @@ label {
 }
 
 input[type=checkbox] {
+  margin-top: -1px;
   margin-right: 5px;
-  vertical-align: baseline;
+  vertical-align: middle;
   &:hover {
     cursor: pointer;
+  }
+}
+
+.double-group {
+  display: flex;
+  flex-flow: row nowrap;
+ .form-group {
+   flex: 0 0 70px;
+   min-width: 0;
+   margin-bottom: 0;
+ }
+  &-large {
+    flex: 1 0 auto;
+    min-width: 0;
+    margin-left: 10px;
   }
 }

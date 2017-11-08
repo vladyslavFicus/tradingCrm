@@ -90,6 +90,7 @@ class BonusCampaignsFilterForm extends Component {
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
+                id="campaigns-filters-search"
               />
             </div>
             <div className="filter-row__medium">
@@ -195,6 +196,7 @@ class BonusCampaignsFilterForm extends Component {
                   disabled={submitting || (disabled && pristine)}
                   className="btn btn-primary"
                   type="submit"
+                  id="campaigns-filters-submit"
                 >
                   {I18n.t('COMMON.APPLY')}
                 </button>

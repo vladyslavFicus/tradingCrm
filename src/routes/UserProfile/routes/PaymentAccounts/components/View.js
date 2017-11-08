@@ -225,12 +225,12 @@ class View extends Component {
   renderCollapseBlock = data => (
     <div>
       <div className="row margin-bottom-10">
-        <div className="col-sm-4 col-xs-6">
+        <div className="col-sm-4 col-sm-6">
           <span className="font-size-16">
             {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.ATTACHED_FILES')}
           </span>
         </div>
-        <div className="col-sm-8 col-xs-6 text-right">
+        <div className="col-sm-8 col-sm-6 text-right">
           <button
             className="btn btn-sm btn-primary-outline"
             onClick={() => this.handleUploadFileClick(data)}
@@ -258,7 +258,7 @@ class View extends Component {
     const { openUUID } = this.state;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">

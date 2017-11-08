@@ -94,7 +94,7 @@ class CancelModal extends Component {
     } = this.props;
 
     return (
-      <Modal className="free-spin-cancel-modal" isOpen toggle={onClose}>
+      <Modal className="modal-danger" isOpen toggle={onClose}>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalHeader toggle={onClose}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.TITLE')}
@@ -128,7 +128,7 @@ class CancelModal extends Component {
 
           <ModalFooter>
             <button
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               onClick={onClose}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CLOSE_BUTTON')}

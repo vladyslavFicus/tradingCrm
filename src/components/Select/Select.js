@@ -61,14 +61,21 @@ class Select extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const { query, originalOptions } = this.state;
-    const { children, value } = this.props;
+    const { children, value, multiple } = this.props;
     let options = originalOptions;
 
     if (!shallowEqual(children, nextProps.children)) {
       options = [...this.filterOptions(nextProps.children)];
+
+      const selectedOptions = multiple
+        ? options.filter(option => value.indexOf(option.value) > -1)
+        : [options.find(option => option.value === value)].filter(option => option);
+
       this.setState({
         originalOptions: options,
         options: this.filterOptionsByQuery(query, [...options]),
+        selectedOptions,
+        originalSelectedOptions: selectedOptions,
       });
     }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import Panel, { Title, Content } from '../../../components/Panel';
+import Card, { Title, Content } from '../../../components/Card';
 import SortableGridView from '../../../components/GridView/SortableGridView';
 import { GridColumn } from '../../../components/GridView';
 import Amount from '../../../components/Amount';
@@ -218,70 +218,68 @@ class List extends Component {
     const { popover, filters } = this.state;
 
     return (
-      <div className="page-content-inner">
-        <Panel withBorders>
-          <Title>
-            <span className="font-size-20">Payment methods</span>
-          </Title>
+      <Card>
+        <Title>
+          <span className="font-size-20">Payment methods</span>
+        </Title>
 
-          <MethodGridFilter
-            onSubmit={this.handleFiltersChanged}
-          />
+        <MethodGridFilter
+          onSubmit={this.handleFiltersChanged}
+        />
 
-          <Content>
-            <SortableGridView
-              tableClassName="table table-hovered data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={paymentMethods}
-              onSortEnd={this.handleSortEnd}
-            >
+        <Content>
+          <SortableGridView
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={paymentMethods}
+            onSortEnd={this.handleSortEnd}
+          >
+            <GridColumn
+              name="order"
+              header="Order"
+              className="font-weight-700"
+              render={data => <DragHandle order={data.order} />}
+            />
+            <GridColumn
+              name="methodName"
+              header="Payment Method"
+              className="font-weight-700 text-uppercase"
+            />
+            <GridColumn
+              name="depositLimit"
+              header="Deposit"
+              render={this.renderLimit}
+              className="font-weight-700"
+              headerClassName="payment-method-table-header"
+            />
+            <GridColumn
+              name="withdrawLimit"
+              header="Withdrawal"
+              render={this.renderLimit}
+              className="font-weight-700"
+              headerClassName="payment-method-table-header"
+            />
+            {
+              !filters.countryCode &&
               <GridColumn
-                name="order"
-                header="Order"
-                className="font-weight-700"
-                render={data => <DragHandle order={data.order} />}
+                name="availability"
+                header="Availability"
+                className="text-center"
+                headerClassName="text-center"
+                render={this.renderCountryAvailability}
               />
+            }
+            {
+              !filters.countryCode &&
               <GridColumn
-                name="methodName"
-                header="Payment Method"
-                className="font-weight-700 text-uppercase"
+                name="status"
+                header="Status"
+                render={this.renderStatus}
+                className="text-uppercase"
               />
-              <GridColumn
-                name="depositLimit"
-                header="Deposit"
-                render={this.renderLimit}
-                className="font-weight-700"
-                headerClassName="payment-method-table-header"
-              />
-              <GridColumn
-                name="withdrawLimit"
-                header="Withdrawal"
-                render={this.renderLimit}
-                className="font-weight-700"
-                headerClassName="payment-method-table-header"
-              />
-              {
-                !filters.countryCode &&
-                <GridColumn
-                  name="availability"
-                  header="Availability"
-                  className="text-center"
-                  headerClassName="text-center"
-                  render={this.renderCountryAvailability}
-                />
-              }
-              {
-                !filters.countryCode &&
-                <GridColumn
-                  name="status"
-                  header="Status"
-                  render={this.renderStatus}
-                  className="text-uppercase"
-                />
-              }
-            </SortableGridView>
-          </Content>
-        </Panel>
+            }
+          </SortableGridView>
+        </Content>
 
         {
           popover.name === PAYMENT_METHOD_LIMIT_POPOVER &&
@@ -304,7 +302,7 @@ class List extends Component {
             {...popover.params}
           />
         }
-      </div>
+      </Card>
     );
   }
 }

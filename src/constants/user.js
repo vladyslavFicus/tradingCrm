@@ -103,6 +103,20 @@ const durationUnits = keyMirror({
   PERMANENT: null,
 });
 const statusActions = {
+  [statuses.INACTIVE]: [
+    {
+      action: actions.BLOCK,
+      label: 'Block',
+      reasons,
+      permission: permissions.USER_PROFILE.BLOCK,
+    },
+    {
+      action: actions.SUSPEND,
+      label: 'Self Exclusion',
+      reasons,
+      permission: permissions.USER_PROFILE.SUSPEND,
+    },
+  ],
   [statuses.ACTIVE]: [
     {
       action: actions.BLOCK,

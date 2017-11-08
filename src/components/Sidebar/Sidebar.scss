@@ -12,6 +12,7 @@
     transition-delay: .2s;
   }
   .nav {
+    display: block;
     overflow: hidden;
   }
   .nav:first-child {
@@ -30,6 +31,7 @@
   }
   .nav-link {
     width: 100%;
+    padding: 0;
     position: relative;
     color: inherit;
     &:focus,
@@ -73,6 +75,7 @@
       padding-left: 56px;
       color: #ccc;
       &:hover {
+        background: transparent;
         color: #fff;
       }
     }

@@ -5,7 +5,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import OperatorGridFilter from './OperatorGridFilter';
 import {
@@ -173,63 +173,61 @@ class List extends Component {
     } = this.props;
 
     return (
-      <div className="page-content-inner">
-        <Panel withBorders>
-          <Title>
-            <div className="clearfix">
-              <span className="font-size-20" id="operators-list-header">Operators</span>
-              <button
-                className="btn btn-default-outline pull-right"
-                onClick={this.handleOpenCreateModal}
-                id="create-new-operator-button"
-              >
-                {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
-              </button>
-            </div>
-          </Title>
+      <Card>
+        <Title>
+          <span className="font-size-20" id="operators-list-header">
+            {I18n.t('OPERATORS.HEADING')}
+          </span>
 
-          <OperatorGridFilter
-            onSubmit={this.handleFiltersChanged}
-            initialValues={filters}
-            filterValues={filterValues}
-          />
+          <button
+            className="btn btn-default-outline ml-auto"
+            onClick={this.handleOpenCreateModal}
+            id="create-new-operator-button"
+          >
+            {I18n.t('OPERATORS.CREATE_OPERATOR_BUTTON')}
+          </button>
+        </Title>
 
-          <Content>
-            <GridView
-              tableClassName="table table-hovered data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={entities.content}
-              onPageChange={this.handlePageChanged}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-              locale={locale}
-              showNoResults={noResults}
-            >
-              <GridColumn
-                name="uuid"
-                header="Operator"
-                render={this.renderOperator}
-              />
-              <GridColumn
-                name="country"
-                header="Country"
-                render={this.renderCountry}
-              />
-              <GridColumn
-                name="registered"
-                header="Registered"
-                render={this.renderRegistered}
-              />
-              <GridColumn
-                name="status"
-                header="Status"
-                render={this.renderStatus}
-              />
-            </GridView>
-          </Content>
-        </Panel>
+        <OperatorGridFilter
+          onSubmit={this.handleFiltersChanged}
+          initialValues={filters}
+          filterValues={filterValues}
+        />
 
+        <Content>
+          <GridView
+            tableClassName="table table-hovered data-grid-layout"
+            headerClassName="text-uppercase"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            locale={locale}
+            showNoResults={noResults}
+          >
+            <GridColumn
+              name="uuid"
+              header="Operator"
+              render={this.renderOperator}
+            />
+            <GridColumn
+              name="country"
+              header="Country"
+              render={this.renderCountry}
+            />
+            <GridColumn
+              name="registered"
+              header="Registered"
+              render={this.renderRegistered}
+            />
+            <GridColumn
+              name="status"
+              header="Status"
+              render={this.renderStatus}
+            />
+          </GridView>
+        </Content>
         {
           modal.name === MODAL_CREATE_OPERATOR &&
           <CreateOperatorModal
@@ -244,7 +242,7 @@ class List extends Component {
             onClose={this.handleModalClose}
           />
         }
-      </div>
+      </Card>
     );
   }
 }

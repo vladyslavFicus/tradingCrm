@@ -5,8 +5,9 @@ import classNames from 'classnames';
 import renderLabel from '../../utils/renderLabel';
 import { customValueFieldTypesLabels } from '../../constants/form';
 
-const CustomValueField = (props) => {
+const CustomValueFieldVertical = (props) => {
   const {
+    id,
     basename,
     label,
     disabled,
@@ -36,6 +37,7 @@ const CustomValueField = (props) => {
       <div className="row">
         <div className="col-md-4">
           <Field
+            id={id}
             name={`${basename}.value`}
             disabled={disabled}
             placeholder={typeof label === 'string' ? label : null}
@@ -52,9 +54,11 @@ const CustomValueField = (props) => {
             disabled={disabled}
           >
             {typeValues.map(key =>
-              <option key={key} value={key}>
-                {renderLabel(key, customValueFieldTypesLabels)}
-              </option>
+              (
+                <option key={key} value={key}>
+                  {renderLabel(key, customValueFieldTypesLabels)}
+                </option>
+              )
             )}
           </Field>
         </div>
@@ -69,12 +73,15 @@ const CustomValueField = (props) => {
   );
 };
 
-CustomValueField.defaultProps = {
+CustomValueFieldVertical.defaultProps = {
   valueInputClassName: '',
   typeInputClassName: '',
   errors: {},
+  disabled: false,
+  id: null,
 };
-CustomValueField.propTypes = {
+CustomValueFieldVertical.propTypes = {
+  id: PropTypes.string,
   basename: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   typeValues: PropTypes.array.isRequired,
@@ -84,4 +91,4 @@ CustomValueField.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export default CustomValueField;
+export default CustomValueFieldVertical;

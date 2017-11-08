@@ -206,7 +206,7 @@ class CreateOperatorModal extends Component {
                 <button
                   type="submit"
                   disabled={pristine || submitting || !valid}
-                  className="btn btn-primary"
+                  className="btn btn-primary ml-2"
                   id="create-new-operator-submit-button"
                 >
                   {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
