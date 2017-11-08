@@ -50,7 +50,7 @@ describe('(Component) PlayerMiniProfile', () => {
     expect(_wrapper.find('i.fa.fa-check')).to.exist();
   });
 
-  it('renders with tags passed by prop "data.tags"', () => {
+  it('renders with check icon when "data.tags" is exist', () => {
     _wrapper = shallow(<PlayerMiniProfile {..._props} />);
     expect(_wrapper.find('i.fa.fa-check')).to.not.exist();
   });
@@ -61,7 +61,7 @@ describe('(Component) PlayerMiniProfile', () => {
     })
   });
 
-  it('render reason', () => {
+  it('renders reason', () => {
     _props = {
       data: {
         ..._props.data,
@@ -81,11 +81,11 @@ describe('(Component) PlayerMiniProfile', () => {
     expect(_wrapper.find('div.info-block_status-reason_body')).to.exist();
   });
 
-  it('render with UUID', () => {
+  it('renders with UUID', () => {
     expect(_wrapper).to.contain(playerUUIDContainer);
   });
 
-  it('do not render UUID', () => {
+  it('do not renders UUID', () => {
     _props = {
       data: {
         ..._props.data,
