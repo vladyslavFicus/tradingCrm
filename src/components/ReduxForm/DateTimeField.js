@@ -98,13 +98,13 @@ class DateTimeField extends Component {
   handleChange = (value) => {
     const { input: { onChange }, utc } = this.props;
 
-    let formatValue = '';
+    let formatValue = value;
 
     if (value instanceof moment) {
       formatValue = (utc ? moment.utc(value) : value).format(this.state.ISOFormat);
     }
 
-    onChange(formatValue || '');
+    onChange(formatValue);
   };
 
   renderInput = () => {
