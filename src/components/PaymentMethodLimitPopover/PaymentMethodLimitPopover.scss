@@ -24,16 +24,16 @@
   &__body {
     display: flex;
     flex-flow: row nowrap;
-    align-items: flex-end;
     padding: 10px;
   }
   .range-group__separator {
-    margin-top: 12px;
+    padding-top: 28px;
   }
   .form-group {
     margin-bottom: 0;
   }
   .btn {
+    align-self: flex-end;
     margin-left: 15px;
   }
 }
