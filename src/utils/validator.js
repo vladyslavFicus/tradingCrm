@@ -1,11 +1,16 @@
 import Validator from 'validatorjs';
 import _ from 'lodash';
 
-Validator.register('nextDate', function (value, requirement) {
+function nextDateValidator(value, requirement) {
   return value >= this.validator.input[requirement];
-}, 'The :attribute must be equal or bigger');
+}
 
-Validator.register('lessThan', function (inputValue, requirement, attribute) {
+function sameOrAfterValidator(value, requirement, attribute) {
+  console.log(value, requirement, attribute);
+  return true;
+}
+
+function lessThanValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
   if (isNaN(value)) {
@@ -27,9 +32,9 @@ Validator.register('lessThan', function (inputValue, requirement, attribute) {
   }
 
   return true;
-}, 'The :attribute must be less');
+}
 
-Validator.register('greaterThan', function (inputValue, requirement, attribute) {
+function greaterThanValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
   if (isNaN(value)) {
@@ -51,9 +56,9 @@ Validator.register('greaterThan', function (inputValue, requirement, attribute) 
   }
 
   return true;
-}, 'The :attribute must be greater');
+}
 
-Validator.register('lessOrSame', function (inputValue, requirement, attribute) {
+function lessOrSameValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
   if (isNaN(value)) {
@@ -64,9 +69,9 @@ Validator.register('lessOrSame', function (inputValue, requirement, attribute) {
   const greaterValue = Number(_.get(this.validator.input, requirement));
 
   return greaterValue === 0 || value <= greaterValue;
-}, 'The :attribute must be less');
+}
 
-Validator.register('greaterOrSame', function (inputValue, requirement, attribute) {
+function greaterOrSameValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
   if (isNaN(value)) {
@@ -77,13 +82,13 @@ Validator.register('greaterOrSame', function (inputValue, requirement, attribute
   const lessValue = Number(_.get(this.validator.input, requirement));
 
   return lessValue === 0 || value >= lessValue;
-}, 'The :attribute must be greater');
+}
 
-Validator.register('customTypeValue.value', function (inputValue, requirement, attribute) {
+function customValueTypeValidator(inputValue, requirement, attribute) {
   const attributeBaseName = attribute.replace(/\.value/, '');
   const customTypeValueField = _.get(this.validator.input, attributeBaseName);
 
-  if (typeof customTypeValueField) {
+  if (typeof customTypeValueField !== 'undefined') {
     if (customTypeValueField === null) {
       return true;
     }
@@ -110,7 +115,15 @@ Validator.register('customTypeValue.value', function (inputValue, requirement, a
   }
 
   return false;
-}, 'The :attribute must be a valid CustomType');
+}
+
+Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
+Validator.register('sameOrAfter', sameOrAfterValidator, ':attribute must be same or after');
+Validator.register('lessThan', lessThanValidator, 'The :attribute must be less');
+Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
+Validator.register('lessOrSame', lessOrSameValidator, 'The :attribute must be less');
+Validator.register('greaterOrSame', greaterOrSameValidator, 'The :attribute must be greater');
+Validator.register('customTypeValue.value', customValueTypeValidator, 'The :attribute must be a valid CustomType');
 
 const getFirstErrors = errors => Object.keys(errors).reduce((result, current) => ({
   ...result,

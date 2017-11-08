@@ -17,9 +17,9 @@ const attributeLabels = {
 
 const validate = (values, props) => createValidator({
   searchValue: 'string',
-  startDate: 'string',
   targetType: ['string', `in:,${props.availableTypes.join()}`],
-  endDate: 'string',
+  startDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+  endDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
 }, attributeLabels, false);
 
 class NotesGridFilter extends Component {
