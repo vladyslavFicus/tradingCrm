@@ -432,7 +432,7 @@ class ProfileLayout extends Component {
     const {
       resetPassword,
       params: {
-        id: playerUUID
+        id: playerUUID,
       },
     } = this.props;
 
@@ -463,6 +463,7 @@ class ProfileLayout extends Component {
       resetPasswordConfirm,
       fetchResetPasswordToken,
       profile: { data: playerProfile },
+      params: { id: playerUUID },
     } = this.props;
 
     if (!playerProfile.email) {
@@ -473,7 +474,7 @@ class ProfileLayout extends Component {
       });
     }
 
-    const resetPasswordAction = await resetPassword({ email: playerProfile.email }, false);
+    const resetPasswordAction = await resetPassword(playerUUID, false);
 
     if (!resetPasswordAction || resetPasswordAction.error) {
       return this.context.addNotification({
