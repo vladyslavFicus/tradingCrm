@@ -29,13 +29,13 @@ function fetchActiveBonus(playerUUID) {
   };
 }
 
-function acceptBonus(id, playerUUID) {
+function acceptBonus(bonusUUID, playerUUID) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus/bonuses/${playerUUID}/${id}/accept`,
+        endpoint: `bonus/bonuses/${playerUUID}/${bonusUUID}/accept`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -53,13 +53,13 @@ function acceptBonus(id, playerUUID) {
   };
 }
 
-function cancelBonus(id, playerUUID) {
+function cancelBonus(bonusUUID, playerUUID) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus/bonuses/${playerUUID}/${id}/cancel`,
+        endpoint: `bonus/bonuses/${playerUUID}/${bonusUUID}/cancel`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',
