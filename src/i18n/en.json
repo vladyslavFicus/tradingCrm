@@ -297,7 +297,17 @@
         "BONUS_STATUS": "Status"
       },
       "CLAIM_BONUS": "Claim bonus",
-      "LOCKED_GRANTED": "Locked:"
+      "LOCKED_GRANTED": "Locked:",
+      "FILTER_FORM": {
+        "LABEL": {
+          "KEYWORD": "Bonus ID, Bonus name, Granted by...",
+          "ASSIGNED_BY": "Assigned by",
+          "STATES": "Bonus status",
+          "TYPE": "Bonus type",
+          "START_DATE": "Start date",
+          "END_DATE": "End date"
+        }
+      }
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -495,6 +505,37 @@
           "SUBMIT_BUTTON_LABEL": "Unlock login"
         }
       }
+    },
+    "FILES": {
+      "FILTER_FORM": {
+        "LABEL": {
+          "SEARCH_BY": "Search by",
+          "FILE_CATEGORY": "File category",
+          "DATE_FROM": "Start date",
+          "DATE_TO": "End date",
+          "DATE_RANGE": "Date range"
+        }
+      }
+    },
+    "NOTES": {
+      "FILTER": {
+        "LABELS": {
+          "SEARCH_BY": "Author, targetUUID",
+          "TARGET_TYPE": "Target type",
+          "CREATION_DATE_RANGE": "Creation date range"
+        }
+      }
+    },
+    "FEED": {
+      "FILTER_FORM": {
+        "LABELS": {
+          "SEARCH_BY": "Search by",
+          "ACTION_TYPES": "Action types",
+          "CREATION_DATE_FROM": "Creation date from",
+          "CREATION_DATE_TO": "Creation date to",
+          "ACTION_DATE_RANGE": "Action date range"
+        }
+      }
     }
   },
   "COMMON": {
@@ -594,7 +635,8 @@
     "PLAYERS": "Players",
     "TRANSACTIONS": "Transactions",
     "PLAYER_LIABILITY_REPORT": "Player liability report",
-    "PAYMENTS": "Payments"
+    "PAYMENTS": "Payments",
+    "ALL_ACTIONS": "All actions"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1340,6 +1382,21 @@
         "SEND_INVITATION": "Send invitation",
         "NOTE": "Note",
         "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
+      }
+    },
+    "LIST": {
+      "FILTER_FORM": {
+        "LABEL": {
+          "KEYWORD": "Name, Phone, Email, UUID...",
+          "COUNTRY": "Country",
+          "STATUS": "Status",
+          "DEPARTMENT": "Department",
+          "ROLE": "Role",
+          "REGISTRATION_DATE_FROM": "Registration Date From",
+          "REGISTRATION_DATE_TO": "Registration Date To",
+          "REGISTRATION_DATE_RANGE": "Registration Date Range",
+          "SEARCH_BY": "Search by"
+        }
       }
     }
   },

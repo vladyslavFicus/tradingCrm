@@ -20,37 +20,20 @@ class OperatorProfileLayout extends Component {
   static propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
-    }),
-    location: PropTypes.object,
-    children: PropTypes.node,
+    }).isRequired,
+    location: PropTypes.object.isRequired,
+    children: PropTypes.node.isRequired,
     data: PropTypes.operatorProfile.isRequired,
     availableStatuses: PropTypes.array.isRequired,
     changeStatus: PropTypes.func.isRequired,
-    fetchProfile: PropTypes.func.isRequired,
     onResetPassword: PropTypes.func.isRequired,
     onSendInvitation: PropTypes.func.isRequired,
-    isLoading: PropTypes.bool,
-  };
-  static defaultProps = {
-    isLoading: false,
   };
 
   state = {
     modal: { ...modalInitialState },
     informationShown: true,
   };
-
-  componentDidMount() {
-    const {
-      isLoading,
-      fetchProfile,
-      params: { id },
-    } = this.props;
-
-    if (!isLoading) {
-      fetchProfile(id);
-    }
-  }
 
   handleToggleInformationBlock = () => {
     this.setState({ informationShown: !this.state.informationShown });
@@ -64,7 +47,7 @@ class OperatorProfileLayout extends Component {
     const {
       onResetPassword,
       params: {
-        id: operatorUUID
+        id: operatorUUID,
       },
     } = this.props;
 

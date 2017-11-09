@@ -19,14 +19,15 @@ const validate = createValidator({
   gameTypes: ['string'],
   betTypes: ['string', `in:${Object.keys(moneyTypeLabels).join()}`],
   winTypes: ['string', `in:${Object.keys(moneyTypeLabels).join()}`],
-  startDate: 'string',
-  endDate: 'string',
+  startDate: ['regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/'],
+  endDate: ['regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/'],
 }, filterFormAttributeLabels, false);
 
 class FilterForm extends Component {
   static propTypes = {
     submitting: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func,
+    reset: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     aggregators: PropTypes.array.isRequired,
     providers: PropTypes.array.isRequired,
@@ -36,7 +37,14 @@ class FilterForm extends Component {
     currentValues: PropTypes.object,
   };
   static defaultProps = {
+    handleSubmit: null,
+    reset: null,
     currentValues: {},
+  };
+
+  handleReset = () => {
+    this.props.reset();
+    this.props.onSubmit();
   };
 
   startDateValidator = (current) => {
