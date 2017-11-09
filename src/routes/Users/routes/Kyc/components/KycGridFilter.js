@@ -116,7 +116,7 @@ class KycGridFilter extends Component {
                   {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting || pristine || !invalid}
+                  disabled={submitting || pristine || invalid}
                   className="btn btn-primary"
                   type="submit"
                 >

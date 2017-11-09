@@ -6,11 +6,6 @@ function nextDateValidator(value, requirement) {
   return value >= this.validator.input[requirement];
 }
 
-function sameOrAfterValidator(value, requirement, attribute) {
-  console.log(value, requirement, attribute);
-  return true;
-}
-
 function lessThanValidator(inputValue, requirement, attribute) {
   const value = Number(inputValue);
 
@@ -119,7 +114,6 @@ function customValueTypeValidator(inputValue, requirement, attribute) {
 }
 
 Validator.register('nextDate', nextDateValidator, 'The :attribute must be equal or bigger');
-Validator.register('sameOrAfter', sameOrAfterValidator, ':attribute must be same or after');
 Validator.register('lessThan', lessThanValidator, 'The :attribute must be less');
 Validator.register('greaterThan', greaterThanValidator, 'The :attribute must be greater');
 Validator.register('lessOrSame', lessOrSameValidator, 'The :attribute must be less');

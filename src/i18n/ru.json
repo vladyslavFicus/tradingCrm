@@ -531,7 +531,7 @@
       "FILTER_FORM": {
         "LABELS": {
           "SEARCH_BY": "Поиск по",
-          "ACTION_TYPES": "тип",
+          "ACTION_TYPES": "Тип",
           "CREATION_DATE_FROM": "Дата создания с",
           "CREATION_DATE_TO": "Дата создания по",
           "ACTION_DATE_RANGE": "Период даты создания"

@@ -508,7 +508,7 @@ const CreateModalReduxForm = reduxForm({
   validate: (values) => {
     const rules = {
       name: 'required|string',
-      startDate: 'required|sameOrAfter|regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+      startDate: 'required|regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
       endDate: 'required|regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
       providerId: 'required',
       gameId: 'required',
