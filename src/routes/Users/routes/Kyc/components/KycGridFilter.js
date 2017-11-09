@@ -3,16 +3,10 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { createValidator } from '../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../utils/validator';
 import { filterLabels } from '../../../../../constants/kyc';
 import { multiselectStatuses } from '../constants';
 import { DateTimeField, NasSelectField } from '../../../../../components/ReduxForm';
-
-const validator = createValidator({
-  from: 'string',
-  to: 'string',
-  status: 'string',
-}, filterLabels, false);
 
 class KycGridFilter extends Component {
   static propTypes = {
@@ -27,8 +21,10 @@ class KycGridFilter extends Component {
     reset: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    invalid: PropTypes.bool,
   };
   static defaultProps = {
+    invalid: true,
     filterValues: {
       from: '',
       to: '',
@@ -63,6 +59,7 @@ class KycGridFilter extends Component {
       pristine,
       handleSubmit,
       onSubmit,
+      invalid,
     } = this.props;
 
     return (
@@ -119,7 +116,7 @@ class KycGridFilter extends Component {
                   {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting || pristine}
+                  disabled={submitting || pristine || invalid}
                   className="btn btn-primary"
                   type="submit"
                 >
@@ -136,5 +133,10 @@ class KycGridFilter extends Component {
 
 export default reduxForm({
   form: 'kycRequestsGridFilter',
-  validate: validator,
+  touchOnChange: true,
+  validate: createValidator({
+    from: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    to: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    status: 'string',
+  }, translateLabels(filterLabels), false),
 })(KycGridFilter);

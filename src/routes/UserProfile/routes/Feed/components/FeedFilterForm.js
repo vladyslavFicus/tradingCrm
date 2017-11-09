@@ -2,37 +2,28 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
-import { createValidator } from '../../../../../utils/validator';
+import { I18n } from 'react-redux-i18n';
+import { createValidator, translateLabels } from '../../../../../utils/validator';
 import PropTypes from '../../../../../constants/propTypes';
 import { typesLabels } from '../../../../../constants/audit';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 import renderLabel from '../../../../../utils/renderLabel';
-
-const FORM_NAME = 'userFeedFilter';
-const attributeLabels = {
-  searchBy: 'Search by',
-  actionType: 'Action types',
-  creationDateFrom: 'Creation date from',
-  creationDateTo: 'Creation date to',
-};
-const validate = createValidator({
-  searchBy: 'string',
-  actionType: 'string',
-  creationDateFrom: 'string',
-  creationDateTo: 'string',
-}, attributeLabels, false);
+import { attributeLabels } from '../constants';
 
 class FeedFilterForm extends Component {
   static propTypes = {
-    submitting: PropTypes.bool,
-    handleSubmit: PropTypes.func,
+    submitting: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func,
+    reset: PropTypes.func.isRequired,
     currentValues: PropTypes.object,
     availableTypes: PropTypes.arrayOf(PropTypes.string),
+    invalid: PropTypes.bool,
   };
   static defaultProps = {
     currentValues: {},
+    availableTypes: [],
+    invalid: true,
   };
 
   handleReset = () => {
@@ -62,6 +53,7 @@ class FeedFilterForm extends Component {
       handleSubmit,
       onSubmit,
       availableTypes,
+      invalid,
     } = this.props;
 
     return (
@@ -72,7 +64,7 @@ class FeedFilterForm extends Component {
               <Field
                 name="searchBy"
                 type="text"
-                label={attributeLabels.searchBy}
+                label={I18n.t(attributeLabels.searchBy)}
                 placeholder={'Action ID, Operator ID, IP'}
                 component={InputField}
                 position="vertical"
@@ -82,11 +74,11 @@ class FeedFilterForm extends Component {
             <div className="filter-row__medium">
               <Field
                 name="actionType"
-                label={attributeLabels.actionType}
+                label={I18n.t(attributeLabels.actionType)}
                 component={SelectField}
                 position="vertical"
               >
-                <option value="">All actions</option>
+                <option value="">{I18n.t('COMMON.ALL_ACTIONS')}</option>
                 {availableTypes.map(type => (
                   <option key={type} value={type}>
                     {renderLabel(type, typesLabels)}
@@ -96,12 +88,14 @@ class FeedFilterForm extends Component {
             </div>
             <div className="filter-row__big">
               <div className="form-group">
-                <label>Action date range</label>
+                <label>
+                  {I18n.t('PLAYER_PROFILE.FEED.FILTER_FORM.LABELS.ACTION_DATE_RANGE')}
+                </label>
                 <div className="range-group">
                   <Field
                     utc
                     name="creationDateFrom"
-                    placeholder={attributeLabels.startDate}
+                    placeholder={I18n.t(attributeLabels.creationDateFrom)}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
                     position="vertical"
@@ -110,7 +104,7 @@ class FeedFilterForm extends Component {
                   <Field
                     utc
                     name="creationDateTo"
-                    placeholder={attributeLabels.endDate}
+                    placeholder={I18n.t(attributeLabels.creationDateTo)}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
                     position="vertical"
@@ -126,14 +120,14 @@ class FeedFilterForm extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting}
+                  disabled={submitting || invalid}
                   className="btn btn-primary"
                   type="submit"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>
@@ -144,11 +138,19 @@ class FeedFilterForm extends Component {
   }
 }
 
+const FORM_NAME = 'userFeedFilter';
+
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate,
+    touchOnChange: true,
+    validate: createValidator({
+      searchBy: 'string',
+      actionType: 'string',
+      creationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+      creationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    }, translateLabels(attributeLabels), false),
   })(FeedFilterForm),
 );
