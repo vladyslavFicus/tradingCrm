@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import countryList from 'country-list';
-import { SelectField } from '../../../components/ReduxForm';
-import { methodsStatusesLabels, methodStatuses } from '../../../constants/payment';
-import { createValidator } from '../../../utils/validator';
+import { SelectField } from '../../../../../components/ReduxForm';
+import { methodsStatusesLabels, methodStatuses } from '../../../../../constants/payment';
+import { createValidator } from '../../../../../utils/validator';
 
 const countries = countryList().getData().reduce((result, item) => ({
   ...result,

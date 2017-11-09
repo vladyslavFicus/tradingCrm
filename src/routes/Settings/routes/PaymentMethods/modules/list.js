@@ -1,9 +1,9 @@
 import { CALL_API } from 'redux-api-middleware';
 import countries from 'country-list';
-import createReducer from '../../../utils/createReducer';
-import timestamp from '../../../utils/timestamp';
-import createRequestAction from '../../../utils/createRequestAction';
-import buildQueryString from '../../../utils/buildQueryString';
+import createReducer from '../../../../../utils/createReducer';
+import timestamp from '../../../../../utils/timestamp';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import buildQueryString from '../../../../../utils/buildQueryString';
 
 const KEY = 'payment-methods';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
