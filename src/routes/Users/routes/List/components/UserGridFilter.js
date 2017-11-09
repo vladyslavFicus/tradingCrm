@@ -43,7 +43,7 @@ class UserGridFilter extends Component {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    valid: PropTypes.bool,
+    invalid: PropTypes.bool,
   };
   static defaultProps = {
     currentValues: {
@@ -66,7 +66,7 @@ class UserGridFilter extends Component {
     handleSubmit: null,
     reset: null,
     disabled: false,
-    valid: false,
+    invalid: true,
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -97,7 +97,7 @@ class UserGridFilter extends Component {
       handleSubmit,
       onSubmit,
       disabled,
-      valid,
+      invalid,
     } = this.props;
 
     return (
@@ -257,7 +257,6 @@ class UserGridFilter extends Component {
                     utc
                     name="registrationDateFrom"
                     component={DateTimeField}
-                    showErrorMessage
                     isValidDate={this.startDateValidator('registrationDateTo')}
                     position="vertical"
                   />
@@ -266,7 +265,6 @@ class UserGridFilter extends Component {
                     utc
                     name="registrationDateTo"
                     component={DateTimeField}
-                    showErrorMessage
                     isValidDate={this.endDateValidator('registrationDateFrom')}
                     position="vertical"
                   />
@@ -285,7 +283,7 @@ class UserGridFilter extends Component {
                 </button>
                 <button
                   id="users-list-apply-button"
-                  disabled={submitting || (disabled && pristine) || !valid}
+                  disabled={submitting || (disabled && pristine) || invalid}
                   className="btn btn-primary"
                   type="submit"
                 >

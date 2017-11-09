@@ -16,12 +16,6 @@ const attributeLabels = {
   birthDate: 'Date of birth',
   gender: 'Gender',
 };
-const validator = createValidator({
-  firstName: 'string',
-  lastName: 'string',
-  birthDate: 'date',
-  identifier: ['string'],
-}, attributeLabels, false);
 
 const AGE_YEARS_CONSTRAINT = 18;
 
@@ -118,9 +112,8 @@ class PersonalForm extends Component {
               name="birthDate"
               label={attributeLabels.birthDate}
               component={DateTimeField}
-              timeFormat={false}
+              timeFormat={null}
               disabled={disabled}
-              showErrorMessage
               position="vertical"
               isValidDate={this.ageValidator}
             />
@@ -150,6 +143,11 @@ class PersonalForm extends Component {
 export default reduxForm({
   form: 'updateProfilePersonal',
   touchOnChange: true,
-  validate: validator,
+  validate: createValidator({
+    firstName: 'string',
+    lastName: 'string',
+    birthDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+    identifier: 'string',
+  }, attributeLabels, false),
   enableReinitialize: true,
 })(PersonalForm);

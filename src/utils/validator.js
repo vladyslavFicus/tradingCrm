@@ -1,4 +1,5 @@
 import Validator from 'validatorjs';
+import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 
 function nextDateValidator(value, requirement) {
@@ -141,5 +142,11 @@ const createValidator = (rules, attributeLabels = {}, multipleErrors = true) => 
   return {};
 };
 
-export { createValidator };
+const translateLabels = labels =>
+  Object.keys(labels).reduce((res, name) => ({ ...res, [name]: I18n.t(labels[name]) }), {});
+
+export {
+  createValidator,
+  translateLabels,
+};
 export default createValidator;

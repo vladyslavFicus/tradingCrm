@@ -3,24 +3,14 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import { createValidator } from '../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../utils/validator';
 import PropTypes from '../../../../../../constants/propTypes';
 import { typesLabels } from '../../../../../../constants/devices';
 import { SelectField, DateTimeField } from '../../../../../../components/ReduxForm';
 import { attributeLabels } from './constants';
 import renderLabel from '../../../../../../utils/renderLabel';
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
 const FORM_NAME = 'userDevicesFilter';
-const validate = createValidator({
-  type: 'string',
-  operatingSystem: 'string',
-  dateFrom: 'string',
-  dateTo: 'string',
-}, validatorAttributeLabels, false);
 
 class FilterForm extends Component {
   static propTypes = {
@@ -31,9 +21,11 @@ class FilterForm extends Component {
     currentValues: PropTypes.object,
     deviceType: PropTypes.array,
     operatingSystem: PropTypes.array.isRequired,
+    invalid: PropTypes.bool,
   };
 
   static defaultProps = {
+    invalid: true,
     currentValues: {},
     deviceType: [],
   };
@@ -66,6 +58,7 @@ class FilterForm extends Component {
       onSubmit,
       operatingSystem,
       deviceType,
+      invalid,
     } = this.props;
 
     return (
@@ -107,7 +100,7 @@ class FilterForm extends Component {
                   <Field
                     utc
                     name="signInDateFrom"
-                    placeholder={I18n.t(attributeLabels.dateFrom)}
+                    placeholder={I18n.t(attributeLabels.signInDateFrom)}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('signInDateTo')}
                     position="vertical"
@@ -116,7 +109,7 @@ class FilterForm extends Component {
                   <Field
                     utc
                     name="signInDateTo"
-                    placeholder={I18n.t(attributeLabels.dateTo)}
+                    placeholder={I18n.t(attributeLabels.signInDateTo)}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('signInDateFrom')}
                     position="vertical"
@@ -135,7 +128,7 @@ class FilterForm extends Component {
                   {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting}
+                  disabled={submitting || invalid}
                   className="btn btn-primary"
                   type="submit"
                 >
@@ -155,6 +148,12 @@ export default connect(state => ({
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate,
+    touchOnChange: true,
+    validate: createValidator({
+      type: 'string',
+      operatingSystem: 'string',
+      signInDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+      signInDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    }, translateLabels(attributeLabels), false),
   })(FilterForm),
 );

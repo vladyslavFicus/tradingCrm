@@ -4,7 +4,7 @@ import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import { createValidator } from '../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../utils/validator';
 import { campaignTypesLabels, statusesLabels } from '../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, placeholders } from '../constants';
@@ -33,10 +33,10 @@ class BonusCampaignsFilterForm extends Component {
     }).isRequired,
     types: PropTypes.arrayOf(PropTypes.string).isRequired,
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
-    valid: PropTypes.bool,
+    invalid: PropTypes.bool,
   };
   static defaultProps = {
-    valid: false,
+    invalid: true,
     reset: null,
     disabled: false,
     handleSubmit: null,
@@ -74,7 +74,7 @@ class BonusCampaignsFilterForm extends Component {
       onSubmit,
       types,
       statuses,
-      valid,
+      invalid,
     } = this.props;
 
     return (
@@ -169,7 +169,6 @@ class BonusCampaignsFilterForm extends Component {
                     name="activityDateFrom"
                     placeholder={attributeLabels.startDate}
                     component={DateTimeField}
-                    showErrorMessage
                     isValidDate={this.startDateValidator('activityDateTo')}
                     position="vertical"
                   />
@@ -179,7 +178,6 @@ class BonusCampaignsFilterForm extends Component {
                     name="activityDateTo"
                     placeholder={attributeLabels.endDate}
                     component={DateTimeField}
-                    showErrorMessage
                     isValidDate={this.endDateValidator('activityDateFrom')}
                     position="vertical"
                   />
@@ -197,7 +195,7 @@ class BonusCampaignsFilterForm extends Component {
                   {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting || (disabled && pristine) || !valid}
+                  disabled={submitting || (disabled && pristine) || invalid}
                   className="btn btn-primary"
                   type="submit"
                   id="campaigns-filters-submit"
@@ -225,10 +223,7 @@ const FilterForm = reduxForm({
     creationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     activityDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     activityDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-  },
-  Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}),
-  false
-  ),
+  }, translateLabels(attributeLabels), false),
 })(BonusCampaignsFilterForm);
 
 export default connect(state => ({

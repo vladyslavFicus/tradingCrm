@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../../../../../../constants/propTypes';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import {
   types,
   typesLabels,
@@ -36,8 +36,10 @@ class TransactionsFilterForm extends Component {
     }),
     paymentMethods: PropTypes.arrayOf(PropTypes.string).isRequired,
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
+    invalid: PropTypes.bool,
   };
   static defaultProps = {
+    invalid: true,
     reset: null,
     handleSubmit: null,
     submitting: false,
@@ -78,6 +80,7 @@ class TransactionsFilterForm extends Component {
       onSubmit,
       paymentMethods,
       statuses,
+      invalid,
     } = this.props;
 
     return (
@@ -210,7 +213,7 @@ class TransactionsFilterForm extends Component {
                   {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting || (disabled && pristine)}
+                  disabled={submitting || (disabled && pristine) || invalid}
                   className="btn btn-primary"
                   type="submit"
                   id="transactions-list-filters-apply-button"
@@ -226,13 +229,10 @@ class TransactionsFilterForm extends Component {
   }
 }
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
 const FORM_NAME = 'playerTransactionsFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
+  touchOnChange: true,
   validate: createValidator({
     keyword: 'string',
     initiatorType: ['string'],
@@ -243,7 +243,7 @@ const FilterForm = reduxForm({
     endDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     amountLowerBound: 'numeric',
     amountUpperBound: 'numeric',
-  }, validatorAttributeLabels, false),
+  }, translateLabels(attributeLabels), false),
 })(TransactionsFilterForm);
 
 export default connect(state => ({

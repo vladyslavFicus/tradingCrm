@@ -56,7 +56,7 @@ class DateTimeField extends Component {
     const ISOFormat = [
       props.dateFormat ? ISO_FORMAT_DATE : null,
       props.timeFormat ? ISO_FORMAT_TIME : null,
-    ].join('T').trim();
+    ].filter(v => v).join('T').trim();
     this.state = {
       format,
       ISOFormat,
