@@ -126,7 +126,7 @@ class View extends Component {
       if (activeBonusAction && !activeBonusAction.error && activeBonusAction.payload.content.length === 0) {
         actions.push({
           children: I18n.t('PLAYER_PROFILE.BONUS.CLAIM_BONUS'),
-          onClick: this.handleClaimBonus.bind(null, data.id),
+          onClick: this.handleClaimBonus.bind(null, data.bonusUUID),
           className: 'btn btn-primary text-uppercase',
         });
       }
@@ -135,7 +135,7 @@ class View extends Component {
     if ([statuses.INACTIVE, statuses.IN_PROGRESS].indexOf(data.state) > -1) {
       actions.push({
         children: I18n.t('PLAYER_PROFILE.BONUS.CANCEL_BONUS'),
-        onClick: this.handleCancelBonus.bind(null, data.id),
+        onClick: this.handleCancelBonus.bind(null, data.bonusUUID),
         className: 'btn btn-danger text-uppercase',
         id: `${data.bonusUUID}-cancel-button`,
       });
@@ -164,15 +164,15 @@ class View extends Component {
     });
   };
 
-  handleClaimBonus = (id) => {
-    this.props.acceptBonus(id, this.props.params.id)
+  handleClaimBonus = (bonusUUID) => {
+    this.props.acceptBonus(bonusUUID, this.props.params.id)
       .then(() => {
         this.handleModalClose(this.handleRefresh);
       });
   };
 
-  handleCancelBonus = (id) => {
-    this.props.cancelBonus(id, this.props.params.id)
+  handleCancelBonus = (bonusUUID) => {
+    this.props.cancelBonus(bonusUUID, this.props.params.id)
       .then(() => {
         this.handleModalClose(this.handleRefresh);
       });
