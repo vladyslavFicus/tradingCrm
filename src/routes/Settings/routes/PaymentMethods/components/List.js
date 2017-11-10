@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import Card, { Title, Content } from '../../../components/Card';
-import SortableGridView from '../../../components/GridView/SortableGridView';
-import { GridColumn } from '../../../components/GridView';
-import Amount from '../../../components/Amount';
+import Card, { Title, Content } from '../../../../../components/Card';
+import SortableGridView from '../../../../../components/GridView/SortableGridView';
+import { GridColumn } from '../../../../../components/GridView';
+import Amount from '../../../../../components/Amount';
 import MethodGridFilter from './MethodsGridFilter';
-import LimitPopover from '../../../components/PaymentMethodLimitPopover';
+import LimitPopover from '../../../../../components/PaymentMethodLimitPopover';
 import AvailabilityPopover from './AvailabilityPopover';
-import PopoverButton from '../../../components/PopoverButton';
-import PropTypes from '../../../constants/propTypes';
+import PopoverButton from '../../../../../components/PopoverButton';
+import PropTypes from '../../../../../constants/propTypes';
 import StatusDropDown from './StatusDropDown';
 
 const DragHandle = SortableHandle(({ order }) => <span className="drag-item">:: {order}</span>);
@@ -33,6 +33,9 @@ class List extends Component {
     getCountryAvailability: PropTypes.func.isRequired,
     paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod),
   };
+  static defaultProps = {
+    paymentMethods: [],
+  }
 
   state = {
     popover: { ...popoverInitialState },

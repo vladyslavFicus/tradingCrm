@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
-import { methodStatusActions, methodStatusesColor, methodsStatusesLabels } from '../../../constants/payment';
+import {
+  methodStatusActions, methodStatusesColor, methodsStatusesLabels,
+} from '../../../../../constants/payment';
 
 class StatusDropDown extends Component {
   static propTypes = {

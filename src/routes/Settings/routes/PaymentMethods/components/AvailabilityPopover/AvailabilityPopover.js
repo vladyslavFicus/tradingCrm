@@ -4,8 +4,8 @@ import { Popover, PopoverContent, TabContent, TabPane, Nav, NavItem, NavLink, In
 import classNames from 'classnames';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
-import fakeI18n from '../../../../utils/fake-i18n';
-import Amount from '../../../../components/Amount';
+import fakeI18n from '../../../../../../utils/fake-i18n';
+import Amount from '../../../../../../components/Amount';
 import AvailabilityPopoverStyle from './AvailabilityPopover.scss';
 
 const tabs = keyMirror({

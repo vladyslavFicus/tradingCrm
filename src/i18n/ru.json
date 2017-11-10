@@ -13,7 +13,8 @@
       "GAMES": "Игры",
       "COUNTRIES": "Страны",
       "PLAYERS_SEARCH": "Поиск игроков",
-      "PLAYERS_KYC_REQUEST": "KYC запросы"
+      "PLAYERS_KYC_REQUEST": "KYC запросы",
+      "SETTINGS": "Настройки"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -636,6 +637,7 @@
     "PLAYERS": "Игроки",
     "TRANSACTIONS": "Транзакции",
     "PLAYER_LIABILITY_REPORT": "Отчет об ответственности игрока",
+    "PAYMENTS": "Платежи",
     "ALL_ACTIONS": "Все действия"
   },
   "FILES": {

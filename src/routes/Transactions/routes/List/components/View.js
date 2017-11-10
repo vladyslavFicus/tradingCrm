@@ -309,7 +309,7 @@ class View extends Component {
       <Card>
         <Title>
           <span className="font-size-20" id="transactions-list-header">
-            {I18n.t('COMMON.TRANSACTIONS')}
+            {I18n.t('COMMON.PAYMENTS')}
           </span>
 
           <button
