@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
+import PropTypes from '../../../constants/propTypes';
 import Uuid from '../../Uuid';
 import Amount from '../../Amount';
 import { statuses } from '../../../constants/user';
