@@ -10,7 +10,7 @@ const { exec } = require('child_process');
  *  Vars
  * ==================
  */
-const { NAS_ENV, NGINX_CONF_OUTPUT } = process.env;
+const { NAS_PROJECT, NGINX_CONF_OUTPUT } = process.env;
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
@@ -62,7 +62,7 @@ function compileNginxConfig(environmentConfig) {
 }
 
 function processConfig() {
-  const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_ENV}.yml`);
+  const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_PROJECT}.yml`);
 
   return fetchZookeeperConfig({ environmentConfig })
     .then((config) => {
@@ -93,8 +93,8 @@ function saveConfig(config) {
   });
 }
 
-if (!NAS_ENV) {
-  throw new Error('"NAS_ENV" is required environment variable');
+if (!NAS_PROJECT) {
+  throw new Error('"NAS_PROJECT" is required environment variable');
 }
 
 processConfig()
