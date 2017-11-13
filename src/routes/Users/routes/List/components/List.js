@@ -12,7 +12,7 @@ import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
 } from '../../../../../constants/user';
-import ProfileClick from '../../../../../utils/ProfileClick';
+import withPlayerClick from '../../../../../utils/withPlayerClick';
 
 class List extends Component {
   static propTypes = {
@@ -212,4 +212,4 @@ class List extends Component {
   }
 }
 
-export default ProfileClick(List);
+export default withPlayerClick(List);

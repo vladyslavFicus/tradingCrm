@@ -5,7 +5,7 @@ import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../../components/Uuid';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
 import MiniProfile from '../../components/MiniProfile';
-import ProfileClick from '../../utils/ProfileClick';
+import withPlayerClick from '../../utils/withPlayerClick';
 
 class GridPlayerInfo extends Component {
   static propTypes = {
@@ -23,7 +23,7 @@ class GridPlayerInfo extends Component {
     clickable: true,
   };
 
-  handleProfileOpen = () => {
+  handleClick = () => {
     const { onPlayerClick, profile } = this.props;
 
     onPlayerClick(profile);
@@ -40,7 +40,7 @@ class GridPlayerInfo extends Component {
             <div
               className={classNames(mainInfoClassName, { 'cursor-pointer': !!clickable })}
               id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-main`}
-              onClick={this.handleProfileOpen}
+              onClick={this.handleClick}
             >
               {profile.firstName} {profile.lastName} {!!profile.age && `(${profile.age})`}
               {' '}
@@ -71,4 +71,4 @@ class GridPlayerInfo extends Component {
   }
 }
 
-export default ProfileClick(GridPlayerInfo);
+export default withPlayerClick(GridPlayerInfo);

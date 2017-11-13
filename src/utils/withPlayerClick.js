@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { playerProfileViewTypes } from '../constants';
 
-const ProfileClick = (WrappedComponent) => {
+const withPlayerClick = (WrappedComponent) => {
   return class OpenProfile extends Component {
     static contextTypes = {
       settings: PropTypes.shape({
@@ -34,4 +34,4 @@ const ProfileClick = (WrappedComponent) => {
   };
 };
 
-export default ProfileClick;
+export default withPlayerClick;
