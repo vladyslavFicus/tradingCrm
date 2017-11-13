@@ -2,8 +2,13 @@ import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../constants/propTypes';
-import { campaignStatusNames } from '../constants';
-import { statuses, targetTypesLabels, campaignTypesLabels } from '../../../constants/bonus-campaigns';
+import { campaignStatusClassNames } from '../constants';
+import {
+  statuses,
+  statusesLabels,
+  targetTypesLabels,
+  campaignTypesLabels,
+} from '../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../constants/form';
 import Uuid from '../../Uuid';
 import renderLabel from '../../../utils/renderLabel';
@@ -37,11 +42,15 @@ const BonusCampaignMiniProfile = (props) => {
   return (
     <div className={
       `mini-profile campaign-mini-profile
-    ${stateReason ? campaignStatusNames.CANCELED : campaignStatusNames[state]}`}
+    ${stateReason ? campaignStatusClassNames.CANCELED : campaignStatusClassNames[state]}`}
     >
       <div className="mini-profile-header">
         <label className="mini-profile-label">
-          {`${stateReason ? campaignStatusNames.CANCELED : campaignStatusNames[state]}`}
+          {
+            stateReason
+              ? I18n.t(statusesLabels.CANCELED)
+              : renderLabel(state, statusesLabels)
+          }
         </label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.CAMPAIGN')}</div>
         <div className="mini-profile-title font-weight-700">{campaignName}</div>

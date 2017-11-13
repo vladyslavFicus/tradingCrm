@@ -32,7 +32,7 @@ const paymentTypesNames = {
   [paymentTypes.Confiscate]: 'confiscate',
 };
 
-const campaignStatusNames = {
+const campaignStatusClassNames = {
   [campaignStatuses.DRAFT]: 'draft',
   [campaignStatuses.PENDING]: 'pending',
   [campaignStatuses.ACTIVE]: 'active',
@@ -45,5 +45,5 @@ export {
   userStatusNames,
   paymentStatusNames,
   paymentTypesNames,
-  campaignStatusNames,
+  campaignStatusClassNames,
 };
