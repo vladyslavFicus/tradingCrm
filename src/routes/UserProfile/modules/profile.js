@@ -11,6 +11,7 @@ import config from '../../../config';
 const KEY = 'user-profile/view';
 const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
 const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
+const UPDATE_EMAIL = createRequestAction(`${KEY}/update-email`);
 const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
 const VERIFY_KYC_ALL = createRequestAction(`${KEY}/verify-kyc-all`);
@@ -135,7 +136,7 @@ function updateProfile(uuid, data) {
   };
 }
 
-function updateContacts(uuid, data) {
+function updatePhone(uuid, data) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -166,6 +167,35 @@ function updateContacts(uuid, data) {
     });
   };
 }
+
+function updateEmail(uuid, data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/profiles/${uuid}/email`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        types: [
+          UPDATE_EMAIL.REQUEST,
+          {
+            type: UPDATE_EMAIL.SUCCESS,
+            payload: data,
+          },
+          UPDATE_EMAIL.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 
 function updateSubscription(playerUUID, data, updatedSubscription) {
   return (dispatch, getState) => {
@@ -857,6 +887,7 @@ const actionHandlers = {
   [UNBLOCK_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [PROLONG_PROFILE.SUCCESS]: successUpdateStatusReducer,
   [RESUME_PROFILE.SUCCESS]: successUpdateStatusReducer,
+  [UPDATE_EMAIL.SUCCESS]: successUpdateProfileReducer,
   [SUBMIT_KYC.REQUEST]: state => ({
     ...state,
     isLoading: true,
@@ -925,7 +956,8 @@ const actionCreators = {
   verifyKycAll,
   refuseData,
   updateProfile,
-  updateContacts,
+  updatePhone,
+  updateEmail,
   resetPassword,
   resetPasswordConfirm,
   fetchResetPasswordToken,

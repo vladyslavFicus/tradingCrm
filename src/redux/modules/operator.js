@@ -29,22 +29,27 @@ function updateProfile(type) {
 }
 
 function passwordResetRequest(type) {
-  return ({ email }) => dispatch => dispatch({
-    [CALL_API]: {
-      endpoint: 'auth/password/reset/request',
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+  return (uuid) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `auth/password/${uuid}/reset/request`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
       },
-      body: JSON.stringify({ email }),
-      types: [
-        type.REQUEST,
-        type.SUCCESS,
-        type.FAILURE,
-      ],
-    },
-  });
+    })
+  };
 }
 
 function sendInvitationRequest(type) {

@@ -65,8 +65,8 @@ class ViewLayout extends Component {
   };
 
   handleUploadFile = async (errors, file) => {
-    const { params, uploadFile } = this.props;
-    const action = await uploadFile(params.id, file);
+    const { params: { id: uuid }, uploadFile } = this.props;
+    const action = await uploadFile(uuid, file);
 
     if (action) {
       this.context.addNotification({
@@ -78,8 +78,8 @@ class ViewLayout extends Component {
     }
   };
 
-  handleCloneCampaign = async (campaignId) => {
-    const action = await this.props.cloneCampaign(campaignId);
+  handleCloneCampaign = async (uuid) => {
+    const action = await this.props.cloneCampaign(uuid);
 
     if (action) {
       this.context.addNotification({
@@ -90,21 +90,21 @@ class ViewLayout extends Component {
       });
 
       if (!action.error) {
-        this.context.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
+        this.context.router.push(`/bonus-campaigns/view/${action.payload.uuid}/settings`);
       }
     }
   };
 
   handleRemovePlayersClick = () => {
-    const { params: { id: campaignId } } = this.props;
+    const { params: { id: uuid } } = this.props;
 
-    this.handleOpenModal(REMOVE_PLAYERS, { campaignId });
+    this.handleOpenModal(REMOVE_PLAYERS, { uuid });
   };
 
   handleRemovePlayers = async () => {
-    const { modal: { params: { campaignId } } } = this.state;
+    const { modal: { params: { uuid } } } = this.state;
 
-    const action = await this.props.removeAllPlayers(campaignId);
+    const action = await this.props.removeAllPlayers(uuid);
     this.handleCloseModal();
 
     if (action) {

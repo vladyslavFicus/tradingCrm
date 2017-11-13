@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import Sticky from 'react-stickynode';
+import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../constants/propTypes';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
@@ -25,6 +26,7 @@ import './View.scss';
 import PermissionContent from '../../../../../components/PermissionContent';
 import { CONDITIONS } from '../../../../../utils/permissions';
 import permissions from '../../../../../config/permissions';
+import Card from '../../../../../components/Card/Card';
 
 const REFUSE_MODAL = 'refuse-modal';
 const VERIFY_MODAL = 'verify-modal';
@@ -55,7 +57,8 @@ class View extends Component {
     verifyData: PropTypes.func.isRequired,
     refuseData: PropTypes.func.isRequired,
     updateProfile: PropTypes.func.isRequired,
-    updateContacts: PropTypes.func.isRequired,
+    updatePhone: PropTypes.func.isRequired,
+    updateEmail: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     changeFileStatusByAction: PropTypes.func.isRequired,
@@ -78,11 +81,7 @@ class View extends Component {
       phoneCode: PropTypes.string,
       phone: PropTypes.string,
     }).isRequired,
-    meta: PropTypes.shape({
-      data: PropTypes.shape({
-        countryCodes: PropTypes.arrayOf(PropTypes.string),
-      }).isRequired,
-    }).isRequired,
+    meta: PropTypes.meta.isRequired,
     checkLock: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
@@ -134,11 +133,11 @@ class View extends Component {
     return action;
   };
 
-  handleSubmitContact = async (data) => {
-    const { params, updateContacts } = this.props;
+  handleUpdatePhone = async (data) => {
+    const { params, updatePhone } = this.props;
     const { phone, phoneCode } = data;
 
-    const action = await updateContacts(params.id, { phone, phoneCode });
+    const action = await updatePhone(params.id, { phone, phoneCode });
 
     if (action) {
       this.context.addNotification({
@@ -148,6 +147,26 @@ class View extends Component {
           ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
     }
+    return action;
+  };
+
+  handleUpdateEmail = async (data) => {
+    const { params, updateEmail } = this.props;
+
+    const action = await updateEmail(params.id, data);
+
+    if (action) {
+      if (!action.error) {
+        this.context.addNotification({
+          level: 'success',
+          title: I18n.t('PLAYER_PROFILE.PROFILE.EMAIL.TITLE'),
+          message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        });
+      } else {
+        throw new SubmissionError({ email: I18n.t(action.payload.response.error) });
+      }
+    }
+
     return action;
   };
 
@@ -360,11 +379,11 @@ class View extends Component {
   };
 
   handleVerifyPhone = async (phone, phoneCode) => {
-    const { params, profile, verifyPhone, updateContacts } = this.props;
+    const { params, profile, verifyPhone, updatePhone } = this.props;
     const { phone: currentPhone, phoneCode: currentPhoneCode } = profile.data;
 
     if (phone !== currentPhone || phoneCode !== currentPhoneCode) {
-      await updateContacts(params.id, { phone, phoneCode });
+      await updatePhone(params.id, { phone, phoneCode });
     }
 
     return verifyPhone(params.id);
@@ -471,8 +490,8 @@ class View extends Component {
         </Sticky>
 
         <div className="tab-content">
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 with-right-border">
                 <PersonalForm
                   initialValues={personalData}
@@ -502,12 +521,16 @@ class View extends Component {
                 />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 with-right-border">
                 <AddressForm
+                  meta={{
+                    countries: metaData.countries,
+                    countryCodes: metaData.countryCodes,
+                  }}
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
                   disabled={!canUpdateProfile}
@@ -535,22 +558,26 @@ class View extends Component {
                 />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="panel">
-            <div className="panel-body row">
-              <ContactForm
-                fetchMeta={fetchMeta}
-                profile={data}
-                phoneCodes={metaData.phoneCodes}
-                initialValues={contactData}
-                onSubmit={this.handleSubmitContact}
-                onVerifyPhoneClick={this.handleVerifyPhone}
-                onVerifyEmailClick={this.handleVerifyEmail}
-                disabled={!canUpdateProfile}
-              />
+          <Card>
+            <div className="card-body row panel-body__wrapper">
+              <div className="col-md-8 with-right-border">
+                <ContactForm
+                  fetchMeta={fetchMeta}
+                  profile={data}
+                  phoneCodes={metaData.phoneCodes}
+                  contactData={contactData}
+                  onSubmitPhone={this.handleUpdatePhone}
+                  onSubmitEmail={this.handleUpdateEmail}
+                  onVerifyPhoneClick={this.handleVerifyPhone}
+                  onVerifyEmailClick={this.handleVerifyEmail}
+                  disabled={!canUpdateProfile}
+                />
+              </div>
+              <div className="col-md-4" />
             </div>
-          </div>
+          </Card>
 
           {
             modal.name === REFUSE_MODAL &&

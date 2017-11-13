@@ -66,6 +66,11 @@ class Header extends Component {
           locked: PropTypes.bool.isRequired,
           canUnlock: PropTypes.bool.isRequired,
         }).isRequired,
+        login: PropTypes.shape({
+          lock: PropTypes.bool.isRequired,
+          lockExpirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+          lockReason: PropTypes.string,
+        }).isRequired,
         error: PropTypes.object,
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,
@@ -185,7 +190,7 @@ class Header extends Component {
                 </PopoverButton>
               </PermissionContent>
               <button
-                className="btn btn-sm btn-default-outline m-x-1"
+                className="btn btn-sm btn-default-outline mx-3"
                 onClick={onRefreshClick}
                 id="refresh-page-button"
               >

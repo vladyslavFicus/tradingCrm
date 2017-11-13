@@ -13,7 +13,8 @@
       "GAMES": "Games",
       "COUNTRIES": "Countries",
       "PLAYERS_SEARCH": "Players' search",
-      "PLAYERS_KYC_REQUEST": "KYC requests"
+      "PLAYERS_KYC_REQUEST": "KYC requests",
+      "SETTINGS": "Settings"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -66,6 +67,9 @@
         "VERIFY_KYC": {
           "ERROR": "Need to save personal information"
         }
+      },
+      "ADDITIONAL": {
+        "TITLE": "Additional information"
       },
       "ADDRESS": {
         "TITLE": "Address",
@@ -183,6 +187,9 @@
         "NOTIFICATION_TITLE": "Password reset",
         "SUCCESS_NOTIFICATION_TEXT": "Reset password link has been successfully sent via email",
         "ERROR_NOTIFICATION_TEXT": "Failed to send reset password link via email"
+      },
+      "EMAIL": {
+        "TITLE": "Email"
       }
     },
     "GAME_ACTIVITY": {
@@ -290,7 +297,17 @@
         "BONUS_STATUS": "Status"
       },
       "CLAIM_BONUS": "Claim bonus",
-      "LOCKED_GRANTED": "Locked:"
+      "LOCKED_GRANTED": "Locked:",
+      "FILTER_FORM": {
+        "LABEL": {
+          "KEYWORD": "Bonus ID, Bonus name, Granted by...",
+          "ASSIGNED_BY": "Assigned by",
+          "STATES": "Bonus status",
+          "TYPE": "Bonus type",
+          "START_DATE": "Start date",
+          "END_DATE": "End date"
+        }
+      }
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -486,8 +503,38 @@
           "TITLE": "Unlock login for player",
           "ACTION_TEXT": "You are about to unlock withdrawal for",
           "SUBMIT_BUTTON_LABEL": "Unlock login"
-        },
-        "REASON": "by 5 failed login attempts"
+        }
+      }
+    },
+    "FILES": {
+      "FILTER_FORM": {
+        "LABEL": {
+          "SEARCH_BY": "Search by",
+          "FILE_CATEGORY": "File category",
+          "DATE_FROM": "Start date",
+          "DATE_TO": "End date",
+          "DATE_RANGE": "Date range"
+        }
+      }
+    },
+    "NOTES": {
+      "FILTER": {
+        "LABELS": {
+          "SEARCH_BY": "Author, targetUUID",
+          "TARGET_TYPE": "Target type",
+          "CREATION_DATE_RANGE": "Creation date range"
+        }
+      }
+    },
+    "FEED": {
+      "FILTER_FORM": {
+        "LABELS": {
+          "SEARCH_BY": "Search by",
+          "ACTION_TYPES": "Action types",
+          "CREATION_DATE_FROM": "Creation date from",
+          "CREATION_DATE_TO": "Creation date to",
+          "ACTION_DATE_RANGE": "Action date range"
+        }
       }
     }
   },
@@ -514,7 +561,8 @@
       "UPLOAD_FILE": "+ Upload file",
       "CREATE_AND_OPEN": "Create & open",
       "SAVE_NEW_PASSWORD": "Save new password",
-      "SAVE": "Save"
+      "SAVE": "Save",
+      "EXPORT_AS_CSV": "Export as CSV"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -583,7 +631,12 @@
     "MAX": "Max.",
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
-    "ALL": "All"
+    "ALL": "All",
+    "PLAYERS": "Players",
+    "TRANSACTIONS": "Transactions",
+    "PLAYER_LIABILITY_REPORT": "Player liability report",
+    "PAYMENTS": "Payments",
+    "ALL_ACTIONS": "All actions"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -871,14 +924,13 @@
     "MODALS": {
       "RESET_PASSWORD": {
         "TITLE": "Operators password reset - Confirmation",
-        "ACTION_TEXT": "You are about to reset password for %{fullName}",
+        "ACTION_TEXT": "You are about to reset password for",
         "ACTION_TARGET": "operator account",
         "CONFIRM_ACTION": "Reset password"
       },
       "SEND_INVITATION": {
         "TITLE": "Send invitation to operator - Confirmation",
-        "ACTION_TEXT": "You are about to reset password for %{fullName}",
-        "ACTION_TARGET": "operator account",
+        "ACTION_TEXT": "You are about to send an invitation to operator",
         "CONFIRM_ACTION": "Send invitation"
       }
     },
@@ -1236,6 +1288,9 @@
         "payment": {
           "operation": "Invalid payment operation"
         }
+      },
+      "email": {
+        "exist": "Email already exist"
       }
     },
     "payment": {
@@ -1246,6 +1301,9 @@
     "profile": {
       "blocked": "Profile is blocked",
       "duplicated": "Profile is duplicated"
+    },
+    "user": {
+      "logon-attempts-limit-reached": "by 5 failed login attempts"
     }
   },
   "NOTE_BUTTON": {
@@ -1328,6 +1386,7 @@
     "BONUS": "Bonus"
   },
   "OPERATORS": {
+    "HEADING": "Operators",
     "CREATE_OPERATOR_BUTTON": "+ New operator",
     "MODALS": {
       "NEW_OPERATOR": {
@@ -1335,6 +1394,21 @@
         "SEND_INVITATION": "Send invitation",
         "NOTE": "Note",
         "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
+      }
+    },
+    "LIST": {
+      "FILTER_FORM": {
+        "LABEL": {
+          "KEYWORD": "Name, Phone, Email, UUID...",
+          "COUNTRY": "Country",
+          "STATUS": "Status",
+          "DEPARTMENT": "Department",
+          "ROLE": "Role",
+          "REGISTRATION_DATE_FROM": "Registration Date From",
+          "REGISTRATION_DATE_TO": "Registration Date To",
+          "REGISTRATION_DATE_RANGE": "Registration Date Range",
+          "SEARCH_BY": "Search by"
+        }
       }
     }
   },

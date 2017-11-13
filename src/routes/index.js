@@ -18,13 +18,12 @@ import DashboardRoute from './Dashboard';
 import UsersRoute from './Users';
 import OperatorsRoute from './Operators';
 import TransactionsRoute from './Transactions';
-import PaymentMethodsRoute from './PaymentMethods';
 import BonusCampaignsRoute from './BonusCampaigns';
 import TermsRoute from './Terms';
 import NotFoundRoute from './NotFound';
 import LogoutRoute from './Logout';
 import ReportsRoute from './Reports';
-import GamesRoute from './Games';
+import SettingsRoute from './Settings';
 import CountriesRoute from './Countries';
 
 export default store => ({
@@ -48,12 +47,11 @@ export default store => ({
             UsersRoute(store),
             OperatorsRoute(store),
             TransactionsRoute(store),
-            PaymentMethodsRoute(store),
             BonusCampaignsRoute(store),
             TermsRoute(store),
             LogoutRoute(store),
             ReportsRoute(store),
-            GamesRoute(store),
+            SettingsRoute(store),
             CountriesRoute(store),
             OperatorProfileRoute(store),
           ],

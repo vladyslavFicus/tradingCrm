@@ -13,7 +13,8 @@
       "GAMES": "Игры",
       "COUNTRIES": "Страны",
       "PLAYERS_SEARCH": "Поиск игроков",
-      "PLAYERS_KYC_REQUEST": "KYC запросы"
+      "PLAYERS_KYC_REQUEST": "KYC запросы",
+      "SETTINGS": "Настройки"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -67,6 +68,9 @@
           "TITLE": "Ошибка",
           "ERROR": "Необходимо сохранить персональные данные"
         }
+      },
+      "ADDITIONAL": {
+        "TITLE": "Дополнительная информация"
       },
       "ADDRESS": {
         "TITLE": "Адрес",
@@ -185,6 +189,9 @@
         "NOTIFICATION_TITLE": "Сброс пароля",
         "SUCCESS_NOTIFICATION_TEXT": "Ссылка на сброс пароля была успешно отправлена по email",
         "ERROR_NOTIFICATION_TEXT": "Не удалось отправить ссылку на сброс пароля по email"
+      },
+      "EMAIL": {
+        "TITLE": "Email"
       }
     },
     "GAME_ACTIVITY": {
@@ -292,7 +299,17 @@
         "BONUS_STATUS": "Статус"
       },
       "CLAIM_BONUS": "Выдать бонус",
-      "LOCKED_GRANTED": "Блок.:"
+      "LOCKED_GRANTED": "Блок.:",
+      "FILTER_FORM": {
+        "LABEL": {
+          "KEYWORD": "Бонус ID, название бонуса, кем выдано...",
+          "ASSIGNED_BY": "Присвоен",
+          "STATES": "Статус",
+          "TYPE": "Тип",
+          "START_DATE": "Дата старта",
+          "END_DATE": "Дата конца"
+        }
+      }
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -488,8 +505,38 @@
           "TITLE": "разблокировать авторизацию для игрока",
           "ACTION_TEXT": "Вы собираетесь разблокировать игрока",
           "SUBMIT_BUTTON_LABEL": "Разблокировать"
-        },
-        "REASON": "5 неудачных попыток входа"
+        }
+      }
+    },
+    "FILES": {
+      "FILTER_FORM": {
+        "LABEL": {
+          "SEARCH_BY": "Поиск по",
+          "FILE_CATEGORY": "Категория",
+          "DATE_FROM": "Дата начала",
+          "DATE_TO": "Дата конца",
+          "DATE_RANGE": "Период даты создания"
+        }
+      }
+    },
+    "NOTES": {
+      "FILTER": {
+        "LABELS": {
+          "SEARCH_BY": "Поиск по",
+          "TARGET_TYPE": "Тип",
+          "CREATION_DATE_RANGE": "Период даты создания"
+        }
+      }
+    },
+    "FEED": {
+      "FILTER_FORM": {
+        "LABELS": {
+          "SEARCH_BY": "Поиск по",
+          "ACTION_TYPES": "Тип",
+          "CREATION_DATE_FROM": "Дата создания с",
+          "CREATION_DATE_TO": "Дата создания по",
+          "ACTION_DATE_RANGE": "Период даты создания"
+        }
       }
     }
   },
@@ -516,7 +563,8 @@
       "UPLOAD_FILE": "+ Загрузить файл",
       "CREATE_AND_OPEN": "Создать и открыть",
       "SAVE_NEW_PASSWORD": "Сохранить новый пароль",
-      "SAVE": "Сохранить"
+      "SAVE": "Сохранить",
+      "EXPORT_AS_CSV": "Экспортировать как CSV"
     },
     "ACTIONS": {
       "ON": "Вкл",
@@ -585,7 +633,12 @@
     "MAX": "Mакс.",
     "ACTIVE": "Активный",
     "INACTIVE": "Неактивный",
-    "ALL": "Все"
+    "ALL": "Все",
+    "PLAYERS": "Игроки",
+    "TRANSACTIONS": "Транзакции",
+    "PLAYER_LIABILITY_REPORT": "Отчет об ответственности игрока",
+    "PAYMENTS": "Платежи",
+    "ALL_ACTIONS": "Все действия"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -877,14 +930,13 @@
     "MODALS": {
       "RESET_PASSWORD": {
         "TITLE": "Сброс пароля оператора - Подтверждение",
-        "ACTION_TEXT": "Вы собираетесь сбросить пароль для %{fullName}",
-        "ACTION_TARGET": "профиль оператора",
+        "ACTION_TEXT": "Вы собираетесь сбросить пароль для",
+        "ACTION_TARGET": "профиля оператора",
         "CONFIRM_ACTION": "Сбросить пароль"
       },
       "SEND_INVITATION": {
         "TITLE": "Отправка приглашения - Подтверждение",
-        "ACTION_TEXT": "Вы собираетесь отправить приглашение для %{fullName}",
-        "ACTION_TARGET": "профиль оператора",
+        "ACTION_TEXT": "Вы собираетесь отправить приглашение для оператора",
         "CONFIRM_ACTION": "Отправить приглашение"
       }
     },
@@ -1247,6 +1299,9 @@
         "payment": {
           "operation": "Невалидная платежная операция"
         }
+      },
+      "email": {
+        "exist": "Email уже существует"
       }
     },
     "payment": {
@@ -1257,10 +1312,13 @@
     "profile": {
       "blocked": "Профиль заблокирован",
       "duplicated": "Профиль дублируется"
+    },
+    "user": {
+      "logon-attempts-limit-reached": "5 неудачных попыток входа"
     }
   },
   "NOTE_BUTTON": {
-    "DEFAULT_MESSAGE": "Добавить "
+    "DEFAULT_MESSAGE": "Добавить заметку"
   },
   "KYC_REQUESTS": {
     "GRID_VIEW": {
@@ -1339,6 +1397,7 @@
     "BONUS": "Бонус"
   },
   "OPERATORS": {
+    "HEADING": "Операторы",
     "CREATE_OPERATOR_BUTTON": "+ Новый оператор",
     "MODALS": {
       "NEW_OPERATOR": {
@@ -1346,6 +1405,21 @@
         "SEND_INVITATION": "Отправить приглашение",
         "NOTE": "Заметка",
         "NOTE_MESSAGE": "Вы сможете задать дополнительные департаменты в профиле оператора после его создания"
+      }
+    },
+    "LIST": {
+      "FILTER_FORM": {
+        "LABEL": {
+          "KEYWORD": "Имя, Телефон, Email, UUID...",
+          "COUNTRY": "Страна",
+          "STATUS": "Статус",
+          "DEPARTMENT": "Департамент",
+          "ROLE": "Роль",
+          "REGISTRATION_DATE_FROM": "Дата регистрации с",
+          "REGISTRATION_DATE_TO": "Дата регистрации по",
+          "REGISTRATION_DATE_RANGE": "Временной диапазон",
+          "SEARCH_BY": "Поиск по"
+        }
       }
     }
   },

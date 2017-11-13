@@ -9,7 +9,7 @@ import { sourceActionCreators as noteSourceActionCreators } from '../../../../..
 import { targetTypes } from '../../../../../../../constants/note';
 import { getApiRoot } from '../../../../../../../config';
 import downloadBlob from '../../../../../../../utils/downloadBlob';
-import { providers } from '../constants';
+import { aggregators } from '../constants';
 
 const KEY = 'user/bonus-free-spin/list';
 const RESET_LIST = `${KEY}/reset`;
@@ -34,7 +34,7 @@ const mapEntities = async (dispatch, pageable) => {
   newPageable.content = newPageable.content.map(item => {
     let betPrice = item.betPerLine;
 
-    if (item.providerId === providers.microgaming) {
+    if (item.providerId === aggregators.microgaming) {
       const coinSize = (item.coinSize ? parseFloat(item.coinSize) : 0) || 0;
       const numberOfCoins = (item.numberOfCoins ? parseInt(item.numberOfCoins, 10) : 0) || 0;
 
@@ -150,7 +150,7 @@ function exportFreeSpins(filters = {}) {
 function createFreeSpin(data) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
-    const endpointSuffix = `/${data.providerId && data.providerId !== providers.igromat ? data.providerId : ''}`;
+    const endpointSuffix = `/${data.aggregatorId && data.aggregatorId !== aggregators.igromat ? data.providerId : ''}`;
     const endpoint = `free_spin/free-spins${endpointSuffix}`;
 
     return dispatch({

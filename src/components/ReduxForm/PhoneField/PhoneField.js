@@ -34,7 +34,7 @@ class PhoneField extends Component {
     className: 'form-group',
     label: null,
     labelAddon: null,
-    labelClassName: 'form-control-label',
+    labelClassName: null,
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,

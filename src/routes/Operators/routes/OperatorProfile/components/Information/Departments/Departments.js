@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { renderLabel } from '../../../../../utils';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
+import Card, { Content } from '../../../../../../../components/Card';
 
 const Departments = ({ authorities }) => (
   <div className="account-details__additional-info">
     <span className="account-details__label">
       {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.ADDITIONAL_INFORMATION')}
     </span>
-    <div className="panel">
-      <div className="panel-body">
+    <Card>
+      <Content>
         <span className="account-details__additional-info__label">
           {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.DEPARTMENTS')}
         </span>
@@ -19,11 +20,11 @@ const Departments = ({ authorities }) => (
           <div className="margin-top-5">
             {
               authorities.map(authority =>
-                <span key={authority.id} className="label label-black">
-                  <div className="label-department">
+                <span key={authority.id} className="badge badge-black">
+                  <div className="badge-department">
                     { renderLabel(authority.department, departmentsLabels) }
                   </div>
-                  <div className="label-role">
+                  <div className="badge-role">
                     { renderLabel(authority.role, rolesLabels) }
                   </div>
                 </span>
@@ -31,8 +32,8 @@ const Departments = ({ authorities }) => (
             }
           </div>
         }
-      </div>
-    </div>
+      </Content>
+    </Card>
   </div>
 );
 

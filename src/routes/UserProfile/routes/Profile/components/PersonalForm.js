@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import moment from 'moment';
 import PropTypes from '../../../../../constants/propTypes';
-import { InputField, SelectField, BirthdayField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 import PermissionContent from '../../../../../components/PermissionContent';
 import permissions from '../../../../../config/permissions';
@@ -15,12 +16,8 @@ const attributeLabels = {
   birthDate: 'Date of birth',
   gender: 'Gender',
 };
-const validator = createValidator({
-  firstName: 'string',
-  lastName: 'string',
-  birthDate: 'date',
-  identifier: ['string'],
-}, attributeLabels, false);
+
+const AGE_YEARS_CONSTRAINT = 18;
 
 class PersonalForm extends Component {
   static propTypes = {
@@ -29,12 +26,20 @@ class PersonalForm extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     disabled: PropTypes.bool,
+    valid: PropTypes.bool,
   };
   static defaultProps = {
     handleSubmit: null,
     pristine: false,
     submitting: false,
     disabled: false,
+    valid: false,
+  };
+
+  ageValidator = (current) => {
+    const requireAge = moment().subtract(AGE_YEARS_CONSTRAINT, 'year');
+
+    return current.isBefore(requireAge);
   };
 
   render() {
@@ -44,6 +49,7 @@ class PersonalForm extends Component {
       pristine,
       submitting,
       disabled,
+      valid,
     } = this.props;
 
     return (
@@ -55,7 +61,7 @@ class PersonalForm extends Component {
           <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_PROFILE}>
             <div className="col-xl-6 text-right">
               {
-                !pristine && !submitting && !disabled &&
+                !pristine && !submitting && !disabled && valid &&
                 <button className="btn btn-sm btn-primary" type="submit" id="profile-personal-info-save-btn">
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
@@ -101,15 +107,18 @@ class PersonalForm extends Component {
               disabled={disabled}
             />
           </div>
-          <div className="form-row__small">
+          <div className="form-row__medium">
             <Field
               name="birthDate"
               label={attributeLabels.birthDate}
-              component={BirthdayField}
+              component={DateTimeField}
+              timeFormat={null}
               disabled={disabled}
+              position="vertical"
+              isValidDate={this.ageValidator}
             />
           </div>
-          <div className="form-row__small">
+          <div className="form-row__medium">
             <Field
               name="gender"
               label={attributeLabels.gender}
@@ -133,6 +142,12 @@ class PersonalForm extends Component {
 
 export default reduxForm({
   form: 'updateProfilePersonal',
-  validate: validator,
+  touchOnChange: true,
+  validate: createValidator({
+    firstName: 'string',
+    lastName: 'string',
+    birthDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+    identifier: 'string',
+  }, attributeLabels, false),
   enableReinitialize: true,
 })(PersonalForm);

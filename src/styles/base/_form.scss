@@ -1,6 +1,5 @@
 .filter-row {
   display: flex;
-  -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
   justify-content: space-between;
   margin-right: -1rem;
@@ -44,7 +43,6 @@
 
 .form-row {
   display: flex;
-  -webkit-flex-flow: row wrap;
   flex-flow: row wrap;
   margin-right: -1rem;
   margin-left: -1rem;
@@ -101,6 +99,11 @@
     font-size: 12px;
     color: #999;
   }
+  &.has-danger {
+    .form-control {
+      border-color: #d0011b;
+    }
+  }
 }
 
 label {
@@ -128,9 +131,9 @@ label {
   height: 39px;
   padding: 3px 10px 5px;
   border-radius: 3px;
-  background-color: #fff;
   border: 1px solid #cfcfcf;
   font-size: 15px;
+  line-height: 1.5;
   &:focus {
     box-shadow: 0 0 4px 0 rgba(74, 144, 226, 0.5);
     border-color: #4990e2;
@@ -140,20 +143,17 @@ label {
     font-weight: 300;
   }
   &::-moz-placeholder {
-    color: #cfcfcf;
-    font-weight: 300;
+    @extend .form-control::-webkit-input-placeholder;
   }
   &:-moz-placeholder {
-    color: #cfcfcf;
-    font-weight: 300;
+    @extend .form-control::-webkit-input-placeholder;
   }
   &:-ms-input-placeholder {
-    color: #cfcfcf;
-    font-weight: 300;
+    @extend .form-control::-webkit-input-placeholder;
   }
   &:disabled {
     background-color: #f6f6f6;
-    border: 1px solid #cfcfcf;
+    border-color: #cfcfcf;
   }
   &-with-button {
     .form-control {
@@ -166,7 +166,6 @@ label {
 
 .range-group {
   display: flex;
-  -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   .form-group,
   .form-control {
@@ -177,10 +176,9 @@ label {
     margin-bottom: 0;
   }
   &__separator {
-    width: 25px;
-    align-self: center;
-    padding-right: 10px;
-    padding-left: 10px;
+    flex: 0 0 20px;
+    padding-top: 8px;
+    text-align: center;
     color: #9b9b9b;
   }
 }
@@ -207,7 +205,6 @@ label {
 
 .input-with-button {
   display: flex;
-  -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   align-items: center;
   .btn {
@@ -444,8 +441,9 @@ label {
 }
 
 input[type=checkbox] {
+  margin-top: -1px;
   margin-right: 5px;
-  vertical-align: baseline;
+  vertical-align: middle;
   &:hover {
     cursor: pointer;
   }

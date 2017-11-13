@@ -16,13 +16,13 @@ const fetchCampaigns = (filters = {}) => sourceActionCreators.fetchCampaigns(FET
   targetType: campaignTargetTypes.TARGET_LIST,
 });
 
-function addPlayerToCampaign(campaignId, playerUUID) {
+function addPlayerToCampaign(uuid, playerUUID) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `promotion/campaigns/${campaignId}/players-list/${playerUUID}`,
+        endpoint: `promotion/campaigns/${uuid}/players-list/${playerUUID}`,
         method: 'PUT',
         headers: {
           Accept: 'application/json',

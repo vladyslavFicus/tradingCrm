@@ -13,7 +13,7 @@ import NoteButton from '../../../../../../../../components/NoteButton';
 import { targetTypes } from '../../../../../../../../constants/note';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
-import { providers as providersMap } from '../../constants';
+import { aggregators } from '../../constants';
 
 class CreateModal extends Component {
   static propTypes = {
@@ -144,7 +144,7 @@ class CreateModal extends Component {
   renderAdditionalFields = () => {
     const { currentValues, currency } = this.props;
 
-    if (currentValues.providerId === providersMap.microgaming) {
+    if (currentValues.aggregatorId === aggregators.microgaming) {
       const { currentCoins, currentCoinSizes } = this.state;
 
       return (
@@ -212,7 +212,7 @@ class CreateModal extends Component {
     const { currentValues, currency } = this.props;
     let betPrice = 0;
 
-    if (currentValues.providerId === providersMap.microgaming) {
+    if (currentValues.aggregatorId === aggregators.microgaming) {
       const coinSize = (
         currentValues && currentValues.coinSize
           ? parseFloat(currentValues.coinSize) : 0
@@ -477,7 +477,7 @@ class CreateModal extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               disabled={submitting}
               type="reset"
               onClick={onClose}
@@ -508,8 +508,8 @@ const CreateModalReduxForm = reduxForm({
   validate: (values) => {
     const rules = {
       name: 'required|string',
-      startDate: 'required|string',
-      endDate: 'required|string',
+      startDate: 'required|regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+      endDate: 'required|regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
       providerId: 'required',
       gameId: 'required',
       freeSpinsAmount: ['required', 'integer'],
@@ -536,7 +536,7 @@ const CreateModalReduxForm = reduxForm({
       }
     }
 
-    if (values.providerId === providersMap.microgaming) {
+    if (values.aggregatorId === aggregators.microgaming) {
       rules.coinSize = ['required', 'numeric'];
       rules.numberOfCoins = ['required', 'numeric'];
     } else {

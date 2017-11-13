@@ -1,0 +1,77 @@
+.availability-popover {
+  max-width: 350px;
+  border: 1px solid #f2f2f2;
+
+  .popover-content {
+    padding: 0;
+  }
+
+  .nav-tabs {
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: #f2f2f2;
+    .nav-item {
+      flex: 1 0 auto;
+      margin: 0;
+      text-align: center;
+    }
+    .nav-link {
+      padding-top: .75em;
+      padding-bottom: .75em;
+      border: 0;
+      border-radius: 0;
+      border-top: 3px solid transparent;
+      font-size: 14px;
+      font-weight: 700;
+      color: #333;
+      cursor: pointer;
+      &:hover {
+        color: #333;
+      }
+    }
+    .active {
+      border-top-color: #09f;
+      background-color: #fff;
+      color: #09f;
+      &:hover {
+        border-top-color: #09f;
+        color: #09f;
+      }
+    }
+  }
+
+  .input-with-icon {
+    padding: 14px 10px 0;
+  }
+
+  .input-with-icon .input-left-icon {
+    top: 20px;
+    left: 18px;
+    font-size: 13px;
+    &:before {
+      color: #a7a7a7;
+    }
+  }
+
+  .form-control {
+    height: 25px;
+    font-size: 13px;
+    color: #999;
+  }
+
+  .tab-pane {
+    max-height: 150px;
+    padding: 0 10px 14px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-size: 14px;
+    color: #333;
+    &__limit-amount {
+      color: #999;
+    }
+  }
+
+  .tab-name {
+    color: #09f;
+  }
+}

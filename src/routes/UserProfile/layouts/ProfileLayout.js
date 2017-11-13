@@ -429,27 +429,32 @@ class ProfileLayout extends Component {
   };
 
   handleResetPassword = async () => {
-    const { resetPassword, profile: { data } } = this.props;
+    const {
+      resetPassword,
+      params: {
+        id: playerUUID,
+      },
+    } = this.props;
 
-    if (data.email) {
-      const action = await resetPassword({ email: data.email });
+    const action = await resetPassword(playerUUID);
 
-      if (action && !action.error) {
-        this.context.addNotification({
-          level: 'success',
-          title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
-          message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.SUCCESS_NOTIFICATION_TEXT'),
-        });
+    if (action && !action.error) {
+      this.context.addNotification({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
+        message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.SUCCESS_NOTIFICATION_TEXT'),
+      });
 
-        this.handleCloseModal();
-      } else {
-        this.context.addNotification({
-          level: 'error',
-          title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
-          message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.ERROR_NOTIFICATION_TEXT'),
-        });
-      }
+      this.handleCloseModal();
+    } else {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
+        message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.ERROR_NOTIFICATION_TEXT'),
+      });
     }
+
+    return action;
   };
 
   handleSubmitNewPassword = async (data) => {
@@ -458,6 +463,7 @@ class ProfileLayout extends Component {
       resetPasswordConfirm,
       fetchResetPasswordToken,
       profile: { data: playerProfile },
+      params: { id: playerUUID },
     } = this.props;
 
     if (!playerProfile.email) {
@@ -468,7 +474,7 @@ class ProfileLayout extends Component {
       });
     }
 
-    const resetPasswordAction = await resetPassword({ email: playerProfile.email }, false);
+    const resetPasswordAction = await resetPassword(playerUUID, false);
 
     if (!resetPasswordAction || resetPasswordAction.error) {
       return this.context.addNotification({
@@ -525,7 +531,7 @@ class ProfileLayout extends Component {
             </span>
           ),
           footer: (
-            <button className="btn btn-default-outline pull-left" onClick={this.handleCloseModal}>
+            <button className="btn btn-default-outline mr-auto" onClick={this.handleCloseModal}>
               {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           ),

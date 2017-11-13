@@ -4,23 +4,13 @@ import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import { createValidator } from '../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../utils/validator';
 import { campaignTypesLabels, statusesLabels } from '../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, placeholders } from '../constants';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 
 const FORM_NAME = 'bonusCampaignsFilter';
-const validator = createValidator({
-  searchBy: 'string',
-  fulfillmentType: 'string',
-  optIn: 'string',
-  state: 'string',
-  creationDateFrom: 'string',
-  creationDateTo: 'string',
-  activityDateFrom: 'string',
-  activityDateTo: 'string',
-}, attributeLabels, false);
 
 class BonusCampaignsFilterForm extends Component {
   static propTypes = {
@@ -40,9 +30,18 @@ class BonusCampaignsFilterForm extends Component {
       creationDateTo: PropTypes.string,
       activityDateFrom: PropTypes.string,
       activityDateTo: PropTypes.string,
-    }),
+    }).isRequired,
     types: PropTypes.arrayOf(PropTypes.string).isRequired,
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
+    invalid: PropTypes.bool,
+  };
+  static defaultProps = {
+    invalid: true,
+    reset: null,
+    disabled: false,
+    handleSubmit: null,
+    pristine: false,
+    submitting: false,
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -75,6 +74,7 @@ class BonusCampaignsFilterForm extends Component {
       onSubmit,
       types,
       statuses,
+      invalid,
     } = this.props;
 
     return (
@@ -90,6 +90,7 @@ class BonusCampaignsFilterForm extends Component {
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
+                id="campaigns-filters-search"
               />
             </div>
             <div className="filter-row__medium">
@@ -143,6 +144,7 @@ class BonusCampaignsFilterForm extends Component {
                     utc
                     name="creationDateFrom"
                     component={DateTimeField}
+                    showErrorMessage
                     isValidDate={this.startDateValidator('creationDateTo')}
                     position="vertical"
                   />
@@ -151,6 +153,7 @@ class BonusCampaignsFilterForm extends Component {
                     utc
                     name="creationDateTo"
                     component={DateTimeField}
+                    showErrorMessage
                     isValidDate={this.endDateValidator('creationDateFrom')}
                     position="vertical"
                   />
@@ -192,9 +195,10 @@ class BonusCampaignsFilterForm extends Component {
                   {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting || (disabled && pristine)}
+                  disabled={submitting || (disabled && pristine) || invalid}
                   className="btn btn-primary"
                   type="submit"
+                  id="campaigns-filters-submit"
                 >
                   {I18n.t('COMMON.APPLY')}
                 </button>
@@ -209,7 +213,17 @@ class BonusCampaignsFilterForm extends Component {
 
 const FilterForm = reduxForm({
   form: FORM_NAME,
-  validate: validator,
+  touchOnChange: true,
+  validate: createValidator({
+    searchBy: 'string',
+    fulfillmentType: 'string',
+    optIn: 'string',
+    state: 'string',
+    creationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    creationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    activityDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    activityDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+  }, translateLabels(attributeLabels), false),
 })(BonusCampaignsFilterForm);
 
 export default connect(state => ({

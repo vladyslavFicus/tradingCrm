@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import DateTime from 'react-datetime';
 
+const ISO_FORMAT_DATE = 'YYYY-MM-DD';
+const ISO_FORMAT_TIME = 'HH:mm:ss';
+
 class DateTimeField extends Component {
   static propTypes = {
     id: PropTypes.string,
@@ -28,6 +31,7 @@ class DateTimeField extends Component {
     iconLeftClassName: PropTypes.string,
     iconRightClassName: PropTypes.string,
     utc: PropTypes.bool,
+    showErrorMessage: PropTypes.bool,
   };
   static defaultProps = {
     id: null,
@@ -42,26 +46,62 @@ class DateTimeField extends Component {
     utc: false,
     disabled: false,
     placeholder: '',
+    showErrorMessage: true,
   };
+
+  constructor(props) {
+    super();
+
+    const format = [props.dateFormat, props.timeFormat].join(' ').trim();
+    const ISOFormat = [
+      props.dateFormat ? ISO_FORMAT_DATE : null,
+      props.timeFormat ? ISO_FORMAT_TIME : null,
+    ].filter(v => v).join('T').trim();
+    this.state = {
+      format,
+      ISOFormat,
+      validLength: ISOFormat.length,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { dateFormat, timeFormat } = this.props;
+
+    if (dateFormat !== nextProps.dateFormat || timeFormat !== nextProps.timeFormat) {
+      const format = [nextProps.dateFormat, nextProps.timeFormat].join(' ').trim();
+      const ISOFormat = [
+        nextProps.dateFormat ? ISO_FORMAT_DATE : null,
+        nextProps.timeFormat ? ISO_FORMAT_TIME : null,
+      ].join('T').trim();
+      this.setState({
+        format,
+        ISOFormat,
+        validLength: ISOFormat.length,
+      });
+    }
+  }
 
   getValue = () => {
     const { input: { value }, utc } = this.props;
 
-    if (value) {
-      return utc ? moment.utc(value).local() : moment(value);
+    if (this.shouldFormatValue(value)) {
+      return (utc ? moment.utc(value).local() : moment(value)).format(this.state.format);
     }
 
-    return null;
+    return value;
   };
 
+  shouldFormatValue = value => (
+    value && value.length === this.state.validLength && moment(value, this.state.ISOFormat).isValid()
+  );
+
   handleChange = (value) => {
-    const { input: { onChange }, timeFormat, utc } = this.props;
+    const { input: { onChange }, utc } = this.props;
 
-    let formatValue = '';
+    let formatValue = value;
 
-    if (value && value.format) {
-      formatValue = utc ? moment.utc(value) : value;
-      formatValue = formatValue.format(`YYYY-MM-DD${timeFormat ? 'THH:mm:00' : ''}`);
+    if (value instanceof moment) {
+      formatValue = (utc ? moment.utc(value) : value).format(this.state.ISOFormat);
     }
 
     onChange(formatValue);
@@ -135,12 +175,20 @@ class DateTimeField extends Component {
     const {
       className,
       meta: { touched, error },
+      showErrorMessage,
     } = props;
 
     return (
       <div className={classNames(className, { 'has-danger': touched && error })}>
         {this.renderLabel(props)}
         {this.renderInput(props)}
+        {
+          showErrorMessage && touched && error &&
+          <div className="form-control-feedback">
+            <i className="nas nas-field_alert_icon" />
+            {error}
+          </div>
+        }
       </div>
     );
   };
@@ -149,6 +197,7 @@ class DateTimeField extends Component {
     const {
       className,
       meta: { touched, error },
+      showErrorMessage,
     } = props;
 
     return (
@@ -156,6 +205,13 @@ class DateTimeField extends Component {
         {this.renderLabel(props)}
         <div className="col-md-9">
           {this.renderInput(props)}
+          {
+            showErrorMessage && touched && error &&
+            <div className="form-control-feedback">
+              <i className="nas nas-field_alert_icon" />
+              {error}
+            </div>
+          }
         </div>
       </div>
     );
