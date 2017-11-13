@@ -3,7 +3,6 @@ const fs = require('fs');
 const ymlReader = require('yamljs');
 const _ = require('lodash');
 const fetchZookeeperConfig = require('./fetch-zookeeper-config');
-const { exec } = require('child_process');
 
 /**
  * ==================
@@ -96,6 +95,8 @@ function saveConfig(config) {
 if (!NAS_PROJECT) {
   throw new Error('"NAS_PROJECT" is required environment variable');
 }
+
+log('NAS_PROJECT:', NAS_PROJECT);
 
 processConfig()
   .then(config => saveConfig(config).then(() => {
