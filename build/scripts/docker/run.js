@@ -23,16 +23,6 @@ const defaultHealth = {
   config: { status: STATUS.DOWN },
 };
 
-const execPromisify = command => new Promise((resolve, reject) => {
-  exec(command, (error, stdout) => {
-    if (error) {
-      return reject(error);
-    }
-
-    return resolve(stdout);
-  });
-});
-
 /**
  * ==================
  *  Utils
@@ -81,8 +71,12 @@ function processConfig() {
       return _.merge(
         config,
         { nas: environmentConfig.nas },
-        { nas: { brand: environmentConfig.brand } },
-        { logstash: { url: `${environmentConfig.brand.backoffice.url}/log` } }
+        {
+          nas: {
+            brand: environmentConfig.brand,
+            api: { url: environmentConfig.hrzn.api_url },
+          },
+        },
       );
     });
 }

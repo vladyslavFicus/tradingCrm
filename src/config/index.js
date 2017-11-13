@@ -162,7 +162,7 @@ function getApiRoot() {
 }
 
 function getErrorApiUrl() {
-  return config.logstash.url || '';
+  return '/log';
 }
 
 function getBrand() {
