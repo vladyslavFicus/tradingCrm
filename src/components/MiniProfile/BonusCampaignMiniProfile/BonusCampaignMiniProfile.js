@@ -10,116 +10,141 @@ import renderLabel from '../../../utils/renderLabel';
 import Amount from '../../../components/Amount';
 import './BonusCampaignMiniProfile.scss';
 
-const BonusCampaignMiniProfile = ({ campaign }) => (
-  <div className={
-    `mini-profile campaign-mini-profile
-    ${campaign.stateReason ? campaignStatusNames.CANCELED : campaignStatusNames[campaign.state]}`}
-  >
-    <div className="mini-profile-header">
-      <label className="mini-profile-label">
-        {`${campaign.stateReason ? campaignStatusNames.CANCELED : campaignStatusNames[campaign.state]}`}
-      </label>
-      <div className="mini-profile-type">{I18n.t('MINI_PROFILE.CAMPAIGN')}</div>
-      <div className="mini-profile-title font-weight-700">{campaign.campaignName}</div>
-      <div className="mini-profile-ids font-weight-700">
-        <Uuid uuid={campaign.uuid} uuidPrefix="CA" />
-        {' - '}
-        {campaign.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}
-      </div>
-      <div className="mini-profile-ids">
-        {
-          (campaign.cancellationReason && campaign.stateReason) &&
-          <div>
-            {I18n.t('MINI_PROFILE.CANCELED')}
-            {` ${I18n.t('COMMON.AUTHOR_BY')} `}
-            <Uuid uuid={campaign.statusChangedAuthorUUID} uuidPrefix="OP" />
-            {` ${I18n.t('COMMON.DATE_ON', {
-              date: moment.utc(campaign.statusChangedDate).local().format('DD.MM.YYYY HH:mm'),
-            })}`}
-          </div>
-        }
-        {
-          campaign.state === statuses.DRAFT &&
-          <div>
-            {I18n.t('MINI_PROFILE.CREATED')}
-            {` ${I18n.t('COMMON.AUTHOR_BY')} `}
-            <Uuid uuid={campaign.authorUUID} uuidPrefix="OP" />
-            {` ${I18n.t('COMMON.DATE_ON',
-              { date: moment.utc(campaign.creationDate).local().format('DD.MM.YYYY HH:mm') }
-            )}`}
-          </div>
-        }
-        {
-          (campaign.state !== statuses.DRAFT && !campaign.stateReason) &&
-          <div>
-            {I18n.t('MINI_PROFILE.LAUNCHED')}
-            {` ${I18n.t('COMMON.AUTHOR_BY')} `}
-            <Uuid uuid={campaign.statusChangedAuthorUUID} uuidPrefix="OP" />
-            {` ${I18n.t('COMMON.DATE_ON', {
-              date: moment.utc(campaign.statusChangedDate).local().format('DD.MM.YYYY HH:mm'),
-            })}`}
-          </div>
-        }
-      </div>
-      <div className="mini-profile-ids">
-        {`${I18n.t('MINI_PROFILE.DATE_RANGE')} `}
-        {(campaign.startDate && campaign.endDate)
-          ? `${moment.utc(campaign.startDate).local().format('DD.MM.YYYY')}
+const BonusCampaignMiniProfile = (props) => {
+  const {
+    data: {
+      authorUUID,
+      campaignName,
+      campaignRatio,
+      uuid,
+      creationDate,
+      currency,
+      endDate,
+      campaignType,
+      optIn,
+      startDate,
+      state,
+      stateReason,
+      statusChangedDate,
+      targetType,
+      cancellationReason,
+      statusChangedAuthorUUID,
+      totalOptInPlayers,
+      totalSelectedPlayers,
+    },
+  } = props;
+
+  return (
+    <div className={
+      `mini-profile campaign-mini-profile
+    ${stateReason ? campaignStatusNames.CANCELED : campaignStatusNames[state]}`}
+    >
+      <div className="mini-profile-header">
+        <label className="mini-profile-label">
+          {`${stateReason ? campaignStatusNames.CANCELED : campaignStatusNames[state]}`}
+        </label>
+        <div className="mini-profile-type">{I18n.t('MINI_PROFILE.CAMPAIGN')}</div>
+        <div className="mini-profile-title font-weight-700">{campaignName}</div>
+        <div className="mini-profile-ids font-weight-700">
+          <Uuid uuid={uuid} uuidPrefix="CA" />
+          {' - '}
+          {optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}
+        </div>
+        <div className="mini-profile-ids">
+          {
+            (cancellationReason && stateReason) &&
+            <div>
+              {I18n.t('MINI_PROFILE.CANCELED')}
+              {` ${I18n.t('COMMON.AUTHOR_BY')} `}
+              <Uuid uuid={statusChangedAuthorUUID} uuidPrefix="OP" />
+              {` ${I18n.t('COMMON.DATE_ON', {
+                date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY HH:mm'),
+              })}`}
+            </div>
+          }
+          {
+            state === statuses.DRAFT &&
+            <div>
+              {I18n.t('MINI_PROFILE.CREATED')}
+              {` ${I18n.t('COMMON.AUTHOR_BY')} `}
+              <Uuid uuid={authorUUID} uuidPrefix="OP" />
+              {` ${I18n.t('COMMON.DATE_ON',
+                { date: moment.utc(creationDate).local().format('DD.MM.YYYY HH:mm') }
+              )}`}
+            </div>
+          }
+          {
+            (state !== statuses.DRAFT && !stateReason) &&
+            <div>
+              {I18n.t('MINI_PROFILE.LAUNCHED')}
+              {` ${I18n.t('COMMON.AUTHOR_BY')} `}
+              <Uuid uuid={statusChangedAuthorUUID} uuidPrefix="OP" />
+              {` ${I18n.t('COMMON.DATE_ON', {
+                date: moment.utc(statusChangedDate).local().format('DD.MM.YYYY HH:mm'),
+              })}`}
+            </div>
+          }
+        </div>
+        <div className="mini-profile-ids">
+          {`${I18n.t('MINI_PROFILE.DATE_RANGE')} `}
+          {(startDate && endDate)
+            ? `${moment.utc(startDate).local().format('DD.MM.YYYY')}
             -
-            ${moment.utc(campaign.endDate).local().format('DD.MM.YYYY')}`
-          : I18n.t('MINI_PROFILE.RANGE_NOT_SELECTED')
-        }
+            ${moment.utc(endDate).local().format('DD.MM.YYYY')}`
+            : I18n.t('MINI_PROFILE.RANGE_NOT_SELECTED')
+          }
+        </div>
+      </div>
+      <div className="mini-profile-content">
+        <div className="info-block">
+          <div className="info-block-label">{I18n.t('MINI_PROFILE.TARGET')}</div>
+          <div className="info-block-content">
+            <div className="info-block-heading">
+              {renderLabel(targetType, targetTypesLabels)}
+            </div>
+            <div className="info-block-description">
+              {I18n.t('MINI_PROFILE.OPTED_IN', { value: totalOptInPlayers })}
+            </div>
+            <div className="info-block-description">
+              {I18n.t('MINI_PROFILE.SELECTED', { value: totalSelectedPlayers })}
+            </div>
+          </div>
+        </div>
+        <div className="info-block">
+          <div className="info-block-label">{I18n.t('MINI_PROFILE.FULFILLMENT')}</div>
+          <div className="info-block-content">
+            <div className="info-block-heading">
+              {renderLabel(campaignType, campaignTypesLabels)}
+            </div>
+          </div>
+        </div>
+        <div className="info-block">
+          <div className="info-block-label">{I18n.t('MINI_PROFILE.REWARD')}</div>
+          <div className="info-block-content">
+            <div className="info-block-heading">
+              {I18n.t('MINI_PROFILE.BONUS')}
+            </div>
+            <div className="info-block-description">
+              {
+                campaignRatio.type === customValueFieldTypes.ABSOLUTE &&
+                <Amount amount={campaignRatio.value} currency={currency} />
+              }
+              {
+                campaignRatio.type === customValueFieldTypes.PERCENTAGE &&
+                <span>
+                  {`${campaignRatio.value} %`}
+                </span>
+              }
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div className="mini-profile-content">
-      <div className="info-block">
-        <div className="info-block-label">{I18n.t('MINI_PROFILE.TARGET')}</div>
-        <div className="info-block-content">
-          <div className="info-block-heading">
-            {renderLabel(campaign.targetType, targetTypesLabels)}
-          </div>
-          <div className="info-block-description">
-            {I18n.t('MINI_PROFILE.OPTED_IN', { value: campaign.totalOptInPlayers })}
-          </div>
-          <div className="info-block-description">
-            {I18n.t('MINI_PROFILE.SELECTED', { value: campaign.totalSelectedPlayers })}
-          </div>
-        </div>
-      </div>
-      <div className="info-block">
-        <div className="info-block-label">{I18n.t('MINI_PROFILE.FULFILLMENT')}</div>
-        <div className="info-block-content">
-          <div className="info-block-heading">
-            {renderLabel(campaign.campaignType, campaignTypesLabels)}
-          </div>
-        </div>
-      </div>
-      <div className="info-block">
-        <div className="info-block-label">{I18n.t('MINI_PROFILE.REWARD')}</div>
-        <div className="info-block-content">
-          <div className="info-block-heading">
-            {I18n.t('MINI_PROFILE.BONUS')}
-          </div>
-          <div className="info-block-description">
-            {
-              campaign.campaignRatio.type === customValueFieldTypes.ABSOLUTE &&
-              <Amount amount={campaign.campaignRatio.value} currency={campaign.currency} />
-            }
-            {
-              campaign.campaignRatio.type === customValueFieldTypes.PERCENTAGE &&
-              <span>
-                {`${campaign.campaignRatio.value} %`}
-              </span>
-            }
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+  );
+};
 
 BonusCampaignMiniProfile.propTypes = {
-  campaign: PropTypes.bonusCampaignEntity.isRequired,
+  data: PropTypes.bonusCampaignEntity.isRequired,
 };
 
 export default BonusCampaignMiniProfile;
