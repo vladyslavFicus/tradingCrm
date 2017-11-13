@@ -169,8 +169,6 @@ class View extends Component {
         <Content>
           <GridView
             locale={locale}
-            tableClassName="table data-grid-layout"
-            headerClassName="text-uppercase"
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}

@@ -414,3 +414,8 @@ small {
   padding: 25px;
   border: none;
 }
+
+.table-hovered tbody tr:hover {
+  background-color: #fcfcfc;
+  cursor: pointer;
+}

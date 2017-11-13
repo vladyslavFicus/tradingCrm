@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import GridColumn from './GridColumn';
 import NotFoundContent from '../../components/NotFoundContent';
 
@@ -20,9 +21,13 @@ class CollapseGridView extends Component {
   };
 
   static defaultProps = {
-    tableClassName: 'table table-stripped table-hovered',
-    headerClassName: 'thead-default',
+    tableClassName: null,
+    headerClassName: 'text-uppercase',
     showNoResults: false,
+    collapseClassName: null,
+    onRowClick: null,
+    rowClassName: null,
+    openUUID: null,
   };
 
   getRowClassName = (data) => {
@@ -121,7 +126,7 @@ class CollapseGridView extends Component {
 
     return (
       <div className="table-responsive">
-        <table className={tableClassName}>
+        <table className={classNames('table data-grid-layout', tableClassName)}>
           <thead className={headerClassName}>
             {this.renderHead(this.recognizeHeaders(grids))}
           </thead>

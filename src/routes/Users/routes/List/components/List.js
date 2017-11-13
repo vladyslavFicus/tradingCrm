@@ -12,6 +12,7 @@ import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
 } from '../../../../../constants/user';
+import withPlayerClick from '../../../../../utils/withPlayerClick';
 
 class List extends Component {
   static propTypes = {
@@ -24,6 +25,7 @@ class List extends Component {
     }).isRequired,
     exportEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    onPlayerClick: PropTypes.func.isRequired,
   };
   static contextTypes = {
     miniProfile: PropTypes.shape({
@@ -133,7 +135,7 @@ class List extends Component {
   );
 
   render() {
-    const { list: { entities, exporting, noResults }, locale } = this.props;
+    const { list: { entities, exporting, noResults }, locale, onPlayerClick } = this.props;
     const { filters } = this.state;
     const allowActions = Object
       .keys(filters)
@@ -163,8 +165,7 @@ class List extends Component {
 
         <Content>
           <GridView
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
+            tableClassName="table-hovered"
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
@@ -172,6 +173,7 @@ class List extends Component {
             lazyLoad
             locale={locale}
             showNoResults={noResults}
+            onRowClick={onPlayerClick}
           >
             <GridColumn
               name="id"
@@ -210,4 +212,4 @@ class List extends Component {
   }
 }
 
-export default List;
+export default withPlayerClick(List);

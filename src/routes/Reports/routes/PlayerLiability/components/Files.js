@@ -72,9 +72,9 @@ class Files extends Component {
                     name="actions"
                     header="Actions"
                     headerStyle={{ width: '10%' }}
-                    headerClassName={'text-center'}
+                    headerClassName="text-center"
                     render={this.renderActions}
-                    className={'text-center'}
+                    className="text-center"
                   />
                 </PermissionContent>
               </GridView>
