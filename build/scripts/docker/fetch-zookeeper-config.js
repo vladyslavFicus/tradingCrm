@@ -15,11 +15,11 @@ const getChildren = (client, configPath) => new Promise((resolve, reject) => {
 
 module.exports = function (params) {
   return new Promise(function (resolve, reject) {
-    const environmentConfig = params.environmentConfig;
+    const projectConfig = params.projectConfig;
 
     if (environmentConfig.zookeeper.url && NAS_ENV) {
       const configPath = `/system/${NAS_ENV}/nas/brand`;
-      const client = zookeeper.createClient(environmentConfig.zookeeper.url);
+      const client = zookeeper.createClient(projectConfig.zookeeper.url);
 
       client.once('connected', async function () {
         const childKeys = await getChildren(client, configPath);

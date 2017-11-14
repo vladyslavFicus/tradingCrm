@@ -9,7 +9,7 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  *  Vars
  * ==================
  */
-const { NAS_PROJECT, NGINX_CONF_OUTPUT } = process.env;
+const { NAS_PROJECT, NAS_ENV, NGINX_CONF_OUTPUT } = process.env;
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
@@ -61,18 +61,19 @@ function compileNginxConfig(environmentConfig) {
 }
 
 function processConfig() {
-  const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_PROJECT}.yml`);
+  const projectConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_PROJECT}.yml`);
+  const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_ENV}.yml`);
 
-  return fetchZookeeperConfig({ environmentConfig })
+  return fetchZookeeperConfig({ projectConfig })
     .then((config) => {
-      compileNginxConfig(environmentConfig);
+      compileNginxConfig(projectConfig);
 
       return _.merge(
         config,
         { nas: environmentConfig.nas },
         {
           nas: {
-            brand: Object.assign({ api: { url: environmentConfig.hrzn.api_url } }, environmentConfig.brand),
+            brand: Object.assign({ api: { url: projectConfig.hrzn.api_url } }, projectConfig.brand),
           },
         },
       );
