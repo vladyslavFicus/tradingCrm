@@ -178,7 +178,8 @@
         "SHARE_PROFILE": "Share profile"
       },
       "HEADER": {
-        "ADD_NOTE": "Add note"
+        "ADD_NOTE": "Add note",
+        "NO_NAME": "No name"
       },
       "RESET_PASSWORD_MODAL": {
         "TITLE": "Password reset - Confirmation",

@@ -21,7 +21,6 @@ import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import renderLabel from '../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
-import PaymentAccount from '../../../../../components/PaymentAccount';
 import IpFlag from '../../../../../components/IpFlag';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
@@ -251,7 +250,7 @@ class View extends Component {
         {
           !!data.paymentAccount &&
           <div className="font-size-11">
-            <PaymentAccount account={data.paymentAccount} />
+            {data.paymentAccount}
           </div>
         }
       </div>

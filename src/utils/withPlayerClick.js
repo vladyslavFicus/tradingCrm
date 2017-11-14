@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import { playerProfileViewTypes } from '../constants';
 
 const withPlayerClick = (WrappedComponent) => {
@@ -19,7 +20,9 @@ const withPlayerClick = (WrappedComponent) => {
         this.context.router.push(`/users/${data.playerUUID}/profile`);
       } else {
         const panelData = {
-          fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
+          fullName: (data.firstName && data.lastName)
+            ? `${data.firstName} ${data.lastName}`
+            : I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_NAME'),
           login: data.login,
           uuid: data.playerUUID,
         };
