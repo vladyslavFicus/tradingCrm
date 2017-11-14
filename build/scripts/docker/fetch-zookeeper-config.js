@@ -17,7 +17,7 @@ module.exports = function (params) {
   return new Promise(function (resolve, reject) {
     const projectConfig = params.projectConfig;
 
-    if (environmentConfig.zookeeper.url && NAS_ENV) {
+    if (projectConfig.zookeeper.url && NAS_ENV) {
       const configPath = `/system/${NAS_ENV}/nas/brand`;
       const client = zookeeper.createClient(projectConfig.zookeeper.url);
 
