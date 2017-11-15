@@ -5,7 +5,6 @@ import { Field, reduxForm, getFormValues, getFormSyncErrors, getFormMeta } from 
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { createValidator } from '../../../../../../utils/validator';
 import {
   CustomValueField,
   InputField,
@@ -24,8 +23,7 @@ import {
 import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
 import { attributeLabels } from './constants';
-
-const CAMPAIGN_NAME_MAX_LENGTH = 100;
+import validator from './validator';
 
 const getCustomValueFieldTypes = (campaignType) => {
   if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
@@ -318,6 +316,20 @@ class CreateBonusCampaignModal extends Component {
                 </div>
               </div>
             </div>
+            <div className="form-group row">
+              <div className="col-md-9 ml-auto">
+                <div className="checkbox">
+                  <label>
+                    <Field
+                      name="claimable"
+                      type="checkbox"
+                      component="input"
+                      id="create-campaign-claimable"
+                    /> {I18n.t(attributeLabels.claimable)}
+                  </label>
+                </div>
+              </div>
+            </div>
           </ModalBody>
 
           <ModalFooter>
@@ -345,10 +357,6 @@ class CreateBonusCampaignModal extends Component {
 
 const FORM_NAME = 'bonusCampaignCreateForm';
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
   errors: getFormSyncErrors(FORM_NAME)(state),
@@ -356,68 +364,8 @@ export default connect(state => ({
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate: (values) => {
-      const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
-      const rules = {
-        campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
-        campaignPriority: 'integer',
-        startDate: 'required',
-        endDate: 'required|nextDate:startDate',
-        currency: 'required',
-        bonusLifetime: 'required|integer',
-        campaignRatio: {
-          value: 'required|numeric|customTypeValue.value',
-          type: ['required', `in:${allowedCustomValueTypes.join()}`],
-        },
-        capping: {
-          value: ['numeric', 'customTypeValue.value'],
-          type: [`in:${allowedCustomValueTypes.join()}`],
-        },
-        conversionPrize: {
-          value: ['numeric', 'customTypeValue.value'],
-          type: [`in:${allowedCustomValueTypes.join()}`],
-        },
-        wagerWinMultiplier: 'required|integer|max:999',
-        campaignType: ['required', `in:${Object.keys(campaignTypesLabels).join()}`],
-        targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
-        minAmount: 'min:0',
-        maxAmount: 'min:0',
-        lockAmountStrategy: 'required',
-      };
-
-      if (values.minAmount) {
-        const minAmount = parseFloat(values.minAmount).toFixed(2);
-
-        if (!isNaN(minAmount)) {
-          rules.maxAmount = 'greaterOrSame:minAmount';
-        }
-      }
-
-      if (values.maxAmount) {
-        const maxAmount = parseFloat(values.maxAmount).toFixed(2);
-
-        if (!isNaN(maxAmount)) {
-          rules.minAmount = 'lessOrSame:maxAmount';
-        }
-      }
-
-      if (values.conversionPrize && values.conversionPrize.value) {
-        const value = parseFloat(values.conversionPrize.value).toFixed(2);
-
-        if (!isNaN(value)) {
-          rules.capping.value.push('greaterThan:conversionPrize.value');
-        }
-      }
-
-      if (values.capping && values.capping.value) {
-        const value = parseFloat(values.capping.value).toFixed(2);
-
-        if (!isNaN(value)) {
-          rules.conversionPrize.value.push('lessThan:capping.value');
-        }
-      }
-
-      return createValidator(rules, validatorAttributeLabels, false)(values);
-    },
+    validate: values => validator(values, {
+      allowedCustomValueTypes: getCustomValueFieldTypes(values),
+    }),
   })(CreateBonusCampaignModal),
 );

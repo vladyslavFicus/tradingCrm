@@ -1126,7 +1126,8 @@
       "LOCK_AMOUNT_STRATEGY_LABEL": "Lock amount strategy",
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
-      "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- Choose lock --"
+      "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- Choose lock --",
+      "CLAIMABLE_LABEL": "Claimable"
     },
     "SETTINGS": {
       "LABEL": {
