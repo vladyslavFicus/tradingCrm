@@ -173,7 +173,7 @@ class View extends Component {
     <div id={`bonus-campaign-${data.uuid}`}>
       <IframeLink
         className="font-weight-700 color-black"
-        to={`/bonus-campaigns/view/${data.id}/settings`}
+        to={`/bonus-campaigns/view/${data.uuid}/settings`}
       >
         {data.campaignName}
       </IframeLink>

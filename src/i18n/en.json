@@ -1399,6 +1399,16 @@
           "SEARCH_BY": "Search by"
         }
       }
+    },
+    "PROFILE": {
+      "DEPARTMENTS": {
+        "LABELS": {
+          "DEPARTMENT": "Department",
+          "ROLE": "Role"
+        },
+        "LABEL": "Departments",
+        "ADD_BUTTON_LABEL": "+ADD"
+      }
     }
   },
   "PAYMENT_METHOD_LIMIT_POPOVER": {
