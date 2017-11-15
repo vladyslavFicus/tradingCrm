@@ -1422,11 +1422,10 @@
       },
       "PERSONAL_FORM": {
         "LABELS": {
-          "FIRST_NAME": "",
-          "LAST_NAME": "",
-          "COUNTRY": "",
-          "PHONE": "",
-          "EMAIL": ""
+          "FIRST_NAME": "Имя",
+          "LAST_NAME": "Фамилия",
+          "COUNTRY": "Страна",
+          "PHONE": "Телефон"
         }
       }
     }
@@ -1453,9 +1452,9 @@
   "PAYMENT_METHODS": {
     "FILTER_FORM": {
       "LABELS": {
-        "ALL_STATUSES": "",
-        "STATUS": "",
-        "COUNTRY": ""
+        "ALL_STATUSES": "Все статусы",
+        "STATUS": "Статус",
+        "COUNTRY": "Страна"
       }
     }
   }
