@@ -339,6 +339,7 @@ class View extends Component {
               conversionPrize: {
                 type: customValueFieldTypes.ABSOLUTE,
               },
+              claimable: false,
             }}
             onClose={this.handleCloseModal}
             isOpen

@@ -104,14 +104,12 @@ class Bonus extends Component {
         <div className="form-row">
           <div className="form-row__big">
             <div className="form-group">
-              <label>
-                <Field
-                  name={this.buildFieldName('claimable')}
-                  type="checkbox"
-                  component="input"
-                  disabled={disabled}
-                /> Claimable
-              </label>
+              <Field
+                name={this.buildFieldName('claimable')}
+                type="checkbox"
+                component="input"
+                disabled={disabled}
+              /> Claimable
             </div>
           </div>
         </div>
