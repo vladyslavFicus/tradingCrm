@@ -1409,6 +1409,16 @@
           "SEARCH_BY": "Поиск по"
         }
       }
+    },
+    "PROFILE": {
+      "DEPARTMENTS": {
+        "LABELS": {
+          "DEPARTMENT": "Департамент",
+          "ROLE": "Роль"
+        },
+        "LABEL": "Департаменты",
+        "ADD_BUTTON_LABEL": "+Добавить"
+      }
     }
   },
   "PAYMENT_METHOD_LIMIT_POPOVER": {
