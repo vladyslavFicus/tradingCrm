@@ -1,3 +1,9 @@
-import Default from '../components/Default';
+import { connect } from 'react-redux';
+import NotFound from '../components/NotFound';
 
-export default Default;
+const mapStateToProps = ({ i18n: { locale } }) => ({
+  locale,
+});
+
+export default connect(mapStateToProps, {})(NotFound);
+

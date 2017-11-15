@@ -4,7 +4,7 @@ import { SelectField } from '../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { createValidator } from '../../../../../../../utils/validator';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
-import { renderLabel } from '../../../../../utils';
+import renderLabel from '../../../../../../../utils/renderLabel';
 
 const attributeLabels = {
   department: 'Department',

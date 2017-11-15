@@ -3,7 +3,7 @@ import Form from './Form';
 import DepartmentsForm from './DepartmentsForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
-import { renderLabel } from '../../../../../utils';
+import renderLabel from '../../../../../../../utils/renderLabel';
 import PermissionContent from '../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../config/permissions';
 import Card, { Content } from '../../../../../../../components/Card';

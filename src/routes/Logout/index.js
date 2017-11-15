@@ -1,6 +1,6 @@
-import { actionCreators as authActionCreators } from 'redux/modules/auth';
+import { actionCreators as authActionCreators } from '../../redux/modules/auth';
 
-export default (store) => ({
+export default store => ({
   path: 'logout',
   onEnter(nextState, replace, cb) {
     store.dispatch(authActionCreators.logout())

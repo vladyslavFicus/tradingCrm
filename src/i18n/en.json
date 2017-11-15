@@ -1411,5 +1411,13 @@
     "TITLE": "Share player profiles link",
     "TEXT": "You are about to copy players profile link",
     "COPY_LINK": "Copy"
+  },
+  "NOT_FOUND": {
+    "TITLE": "Error 404",
+    "DESCRIPTION": "The page you are looking for does not exist; it may have been moved, or removed altogether. You might want to try the search function. Alternatively, return to the front page."
+  },
+  "FORBIDDEN": {
+    "TITLE": "Access denied",
+    "DESCRIPTION": "Sorry, you do not have sufficient rights to view this page. Please contact your site admin if you think you have received this message in error."
   }
 }
