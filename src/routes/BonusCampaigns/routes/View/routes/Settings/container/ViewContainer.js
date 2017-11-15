@@ -35,6 +35,7 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
         moneyTypePriority: data.moneyTypePriority,
         bonusLifetime: data.bonusLifetime,
         campaignRatio: data.campaignRatio,
+        claimable: data.claimable,
       },
     },
   };

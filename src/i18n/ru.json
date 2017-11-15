@@ -1133,7 +1133,8 @@
       "LOCK_AMOUNT_STRATEGY_LABEL": "Стратегия блок. денег",
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип таргета --",
-      "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- Выберите блок. --"
+      "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- Выберите блок. --",
+      "CLAIMABLE_LABEL": "Требовать подтверждения"
     },
     "SETTINGS": {
       "LABEL": {

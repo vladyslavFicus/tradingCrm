@@ -1,7 +1,6 @@
-import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
-import { createValidator } from '../../../../../../../utils/validator';
-import attributeLabels from '../constants';
+import { createValidator, translateLabels } from '../../../../../../../utils/validator';
+import { attributeLabels } from '../constants';
 import {
   campaignTypesLabels,
   targetTypesLabels,
@@ -73,9 +72,5 @@ export default (values, params) => {
     rules.conversionPrize.value.push('lessThan:capping.value');
   }
 
-  return createValidator(
-    rules,
-    Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}),
-    false
-  )(values);
+  return createValidator(rules, translateLabels(attributeLabels), false)(values);
 };

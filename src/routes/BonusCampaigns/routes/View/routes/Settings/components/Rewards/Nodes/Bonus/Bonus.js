@@ -84,7 +84,6 @@ class Bonus extends Component {
               ))}
             </Field>
           </div>
-
           <div className="form-row__small form-row_with-placeholder-right">
             <Field
               name={this.buildFieldName('bonusLifetime')}
@@ -100,6 +99,20 @@ class Bonus extends Component {
               }}
             />
             <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-row__big">
+            <div className="form-group">
+              <label>
+                <Field
+                  name={this.buildFieldName('claimable')}
+                  type="checkbox"
+                  component="input"
+                  disabled={disabled}
+                /> Claimable
+              </label>
+            </div>
           </div>
         </div>
       </div>
