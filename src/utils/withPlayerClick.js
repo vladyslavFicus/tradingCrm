@@ -21,7 +21,7 @@ const withPlayerClick = (WrappedComponent) => {
       } else {
         const panelData = {
           fullName: (data.firstName || data.lastName)
-            ? `${data.firstName} ${data.lastName}`
+            ? `${data.firstName || ''} ${data.lastName || ''}`
             : I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_NAME'),
           login: data.login,
           uuid: data.playerUUID,
