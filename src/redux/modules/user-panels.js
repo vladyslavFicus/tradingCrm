@@ -129,7 +129,7 @@ const actionHandlers = {
     }
 
     const fullName = (firstName || lastName)
-      ? `${firstName || ''} ${lastName || ''}`
+      ? [firstName, lastName].filter(v => v).join(' ')
       : I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_NAME');
     const newState = {
       ...state,
