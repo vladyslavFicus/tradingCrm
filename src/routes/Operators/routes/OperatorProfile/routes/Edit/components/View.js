@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import Form from './Form';
+import PersonalForm from './PersonalForm';
 import DepartmentsForm from './DepartmentsForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
@@ -67,7 +67,7 @@ class View extends Component {
           <Content>
             {
               !!profileLoaded &&
-              <Form
+              <PersonalForm
                 initialValues={{
                   firstName: profile.firstName,
                   lastName: profile.lastName,

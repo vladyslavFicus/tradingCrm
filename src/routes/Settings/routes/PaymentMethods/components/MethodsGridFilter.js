@@ -1,25 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
-import countryList from 'country-list';
+import { I18n } from 'react-redux-i18n';
 import { SelectField } from '../../../../../components/ReduxForm';
 import { methodsStatusesLabels, methodStatuses } from '../../../../../constants/payment';
-import { createValidator } from '../../../../../utils/validator';
-
-const countries = countryList().getData().reduce((result, item) => ({
-  ...result,
-  [item.code]: item.name,
-}), {});
-
-const attributeLabels = {
-  status: 'Status',
-  country: 'Country sorting',
-};
-
-const validator = createValidator({
-  status: ['string', `in:,${Object.keys(methodStatuses).join()}`],
-  country: ['string', `in:${Object.keys(countries).join()}`],
-}, attributeLabels, false);
+import { createValidator, translateLabels } from '../../../../../utils/validator';
+import { attributeLabels } from './constants';
+import countries from '../../../../../utils/countryList';
 
 class MethodsGridFilter extends Component {
   static propTypes = {
@@ -27,6 +14,10 @@ class MethodsGridFilter extends Component {
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    handleSubmit: null,
+    submitting: false,
   };
 
   handleReset = () => {
@@ -44,7 +35,7 @@ class MethodsGridFilter extends Component {
             <div className="filter-row__small">
               <Field
                 name="countryCode"
-                label={attributeLabels.country}
+                label={I18n.t(attributeLabels.country)}
                 labelClassName="form-label"
                 component={SelectField}
                 position="vertical"
@@ -58,12 +49,12 @@ class MethodsGridFilter extends Component {
             <div className="filter-row__small">
               <Field
                 name="status"
-                label={attributeLabels.status}
+                label={I18n.t(attributeLabels.status)}
                 labelClassName="form-label"
                 component={SelectField}
                 position="vertical"
               >
-                <option value="">All statuses</option>
+                <option value="">{I18n.t('PAYMENT_METHODS.FILTER_FORM.LABELS.ALL_STATUSES')}</option>
                 {Object.keys(methodsStatusesLabels).map(status => (
                   <option key={status} value={status}>
                     {methodsStatusesLabels[status]}
@@ -79,14 +70,14 @@ class MethodsGridFilter extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
                   disabled={submitting}
                   className="btn btn-primary"
                   type="submit"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>
@@ -99,5 +90,8 @@ class MethodsGridFilter extends Component {
 
 export default reduxForm({
   form: 'filterPaymentMethods',
-  validate: validator,
+  validate: createValidator({
+    status: ['string', `in:,${Object.keys(methodStatuses).join()}`],
+    country: ['string', `in:${Object.keys(countries).join()}`],
+  }, translateLabels(attributeLabels), false),
 })(MethodsGridFilter);

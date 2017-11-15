@@ -3,19 +3,11 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import { filterFormAttributeLabels } from '../constants';
-import { createValidator } from '../../../../../../../utils/validator';
+import { filterFormAttributeLabels as attributeLabels } from '../constants';
+import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { typesLabels } from '../../../../../../../constants/audit';
 import { InputField, SelectField, DateTimeField } from '../../../../../../../components/ReduxForm';
-
-const FORM_NAME = 'userFeedFilter';
-const validate = createValidator({
-  searchBy: 'string',
-  actionType: 'string',
-  creationDateFrom: 'string',
-  creationDateTo: 'string',
-}, filterFormAttributeLabels, false);
 
 class FeedFilterForm extends Component {
   static propTypes = {
@@ -28,6 +20,10 @@ class FeedFilterForm extends Component {
   };
   static defaultProps = {
     currentValues: {},
+    handleSubmit: null,
+    reset: null,
+    availableTypes: [],
+    submitting: false,
   };
 
   handleReset = () => {
@@ -67,7 +63,7 @@ class FeedFilterForm extends Component {
               <Field
                 name="searchBy"
                 type="text"
-                label={I18n.t(filterFormAttributeLabels.searchBy)}
+                label={I18n.t(attributeLabels.searchBy)}
                 placeholder={I18n.t('OPERATOR_PROFILE.FEED.FILTER_FORM.SEARCH_BY_PLACEHOLDER')}
                 component={InputField}
                 position="vertical"
@@ -77,7 +73,7 @@ class FeedFilterForm extends Component {
             <div className="filter-row__medium">
               <Field
                 name="actionType"
-                label={I18n.t(filterFormAttributeLabels.actionType)}
+                label={I18n.t(attributeLabels.actionType)}
                 component={SelectField}
                 position="vertical"
               >
@@ -97,7 +93,7 @@ class FeedFilterForm extends Component {
                 <div className="range-group">
                   <Field
                     name="creationDateFrom"
-                    placeholder={I18n.t(filterFormAttributeLabels.creationDateFrom)}
+                    placeholder={I18n.t(attributeLabels.creationDateFrom)}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
                     position="vertical"
@@ -105,7 +101,7 @@ class FeedFilterForm extends Component {
                   <span className="range-group__separator">-</span>
                   <Field
                     name="creationDateTo"
-                    placeholder={I18n.t(filterFormAttributeLabels.creationDateTo)}
+                    placeholder={I18n.t(attributeLabels.creationDateTo)}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
                     position="vertical"
@@ -139,11 +135,18 @@ class FeedFilterForm extends Component {
   }
 }
 
+const FORM_NAME = 'userFeedFilter';
+
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate,
+    validate: createValidator({
+      searchBy: 'string',
+      actionType: 'string',
+      creationDateFrom: 'string',
+      creationDateTo: 'string',
+    }, translateLabels(attributeLabels), false),
   })(FeedFilterForm)
 );

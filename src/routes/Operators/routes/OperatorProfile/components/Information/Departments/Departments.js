@@ -20,14 +20,16 @@ const Departments = ({ authorities }) => (
           <div className="margin-top-5">
             {
               authorities.map(authority =>
-                <span key={authority.id} className="badge badge-black">
-                  <div className="badge-department">
-                    { renderLabel(authority.department, departmentsLabels) }
-                  </div>
-                  <div className="badge-role">
-                    { renderLabel(authority.role, rolesLabels) }
-                  </div>
-                </span>
+                (
+                  <span key={authority.id} className="badge badge-black">
+                    <div className="badge-department">
+                      { renderLabel(authority.department, departmentsLabels) }
+                    </div>
+                    <div className="badge-role">
+                      { renderLabel(authority.role, rolesLabels) }
+                    </div>
+                  </span>
+                )
               )
             }
           </div>
@@ -43,6 +45,10 @@ Departments.propTypes = {
     id: PropTypes.number,
     role: PropTypes.string,
   })),
+};
+
+Departments.defaultProps = {
+  authorities: [],
 };
 
 export default Departments;

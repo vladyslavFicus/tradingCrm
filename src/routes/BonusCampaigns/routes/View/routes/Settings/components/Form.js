@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Field, reduxForm, getFormValues, getFormSyncErrors, getFormMeta } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import countryList from 'country-list';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import {
@@ -18,20 +17,15 @@ import {
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import getSubFieldErrors from '../../../../../../../utils/getSubFieldErrors';
-import attributeLabels, { nodeGroupTypes } from '../constants';
+import { nodeGroupTypes, attributeLabels } from '../constants';
 import { nodeTypes as fulfillmentNodeTypes } from './Fulfillments/constants';
+import countries from '../../../../../../../utils/countryList';
 import Fulfillments from './Fulfillments';
 import Rewards from './Rewards';
 import validator from './validator';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
-const FORM_NAME = 'updateBonusCampaignSettings';
-
-const countries = countryList().getData().reduce((result, item) => ({
-  ...result,
-  [item.code]: item.name,
-}), {});
 
 const getCustomValueFieldTypes = (fulfillment) => {
   const profileCompleted = _.get(fulfillment, fulfillmentNodeTypes.profileCompleted);
@@ -409,6 +403,8 @@ class Form extends Component {
     );
   }
 }
+
+const FORM_NAME = 'updateBonusCampaignSettings';
 
 const SettingsForm = reduxForm({
   form: FORM_NAME,

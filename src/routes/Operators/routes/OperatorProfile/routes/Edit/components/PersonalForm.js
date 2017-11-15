@@ -1,30 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
-import countryList from 'country-list';
+import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField } from '../../../../../../../components/ReduxForm';
-import { createValidator } from '../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../utils/validator';
+import { personalFormAttributeLabels as attributeLabels } from './constants';
+import countries from '../../../../../../../utils/countryList';
 
-const attributeLabels = {
-  firstName: 'First name',
-  lastName: 'Last name',
-  country: 'Country',
-  phoneNumber: 'Phone',
-  email: 'Email',
-};
-const countries = countryList().getData().reduce((result, item) => ({
-  ...result,
-  [item.code]: item.name,
-}), {});
-const validator = createValidator({
-  firstName: ['required', 'string'],
-  lastName: ['required', 'string'],
-  email: ['required', 'email'],
-  country: [`in:,${Object.keys(countries).join()}`],
-  phoneNumber: 'string',
-}, attributeLabels, false);
-
-class Form extends Component {
+class PersonalForm extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
@@ -58,7 +41,7 @@ class Form extends Component {
               type="submit"
               id="operators-profile-save-changes-button"
             >
-              Save changes
+              {I18n.t('COMMON.SAVE_CHANGES')}
             </button>
           </div>
           }
@@ -67,7 +50,7 @@ class Form extends Component {
           <div className="col-xl-4">
             <Field
               name="firstName"
-              label={attributeLabels.firstName}
+              label={I18n.t(attributeLabels.firstName)}
               type="text"
               component={InputField}
               showErrorMessage
@@ -78,7 +61,7 @@ class Form extends Component {
           <div className="col-xl-4">
             <Field
               name="lastName"
-              label={attributeLabels.lastName}
+              label={I18n.t(attributeLabels.lastName)}
               type="text"
               component={InputField}
               showErrorMessage
@@ -89,7 +72,7 @@ class Form extends Component {
           <div className="col-xl-4">
             <Field
               name="email"
-              label={attributeLabels.email}
+              label={I18n.t(attributeLabels.email)}
               type="text"
               disabled
               component={InputField}
@@ -104,7 +87,7 @@ class Form extends Component {
           <div className="col-xl-4">
             <Field
               name="phoneNumber"
-              label={attributeLabels.phoneNumber}
+              label={I18n.t(attributeLabels.phoneNumber)}
               type="text"
               component={InputField}
               showErrorMessage
@@ -115,7 +98,7 @@ class Form extends Component {
           <div className="col-xl-4">
             <Field
               name="country"
-              label={attributeLabels.country}
+              label={I18n.t(attributeLabels.country)}
               type="text"
               component={SelectField}
               position="vertical"
@@ -135,6 +118,12 @@ class Form extends Component {
 
 export default reduxForm({
   form: 'updateOperatorProfilePersonal',
-  validate: validator,
+  validate: createValidator({
+    firstName: ['required', 'string'],
+    lastName: ['required', 'string'],
+    email: ['required', 'email'],
+    country: [`in:,${Object.keys(countries).join()}`],
+    phoneNumber: 'string',
+  }, translateLabels(attributeLabels), false),
   enableReinitialize: true,
-})(Form);
+})(PersonalForm);

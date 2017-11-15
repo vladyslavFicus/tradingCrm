@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import { SelectField } from '../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
-import { attributeLabels } from '../constants';
+import { attributeLabels } from './constants';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
 import renderLabel from '../../../../../../../utils/renderLabel';
 

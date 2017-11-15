@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import countryList from 'country-list';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
 import config from '../../../../../config';
+import countries from '../../../../../utils/countryList';
 
 const tags = config.nas.brand.tags.reduce((result, item) => ({
   ...result,
   [item.value]: item.label,
 }), {});
 const currencies = config.nas.currencies.supported || [];
-const countries = countryList().getData().reduce((result, item) => ({
-  ...result,
-  [item.code]: item.name,
-}), {});
 
 class UserGridFilter extends Component {
   static propTypes = {

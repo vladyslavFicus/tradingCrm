@@ -16,7 +16,7 @@ const initialState = {
 class AccountStatus extends Component {
   static propTypes = {
     label: PropTypes.any.isRequired,
-    profileStatus: PropTypes.string,
+    profileStatus: PropTypes.string.isRequired,
     availableStatuses: PropTypes.array.isRequired,
     onStatusChange: PropTypes.func.isRequired,
   };
@@ -57,35 +57,35 @@ class AccountStatus extends Component {
     this.handleModalHide(null, () => this.props.onStatusChange(data));
   };
 
-  renderDropDown = (label, availableStatuses, dropDownOpen) => {
-    return (
-      <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
-        {label}
+  renderDropDown = (label, availableStatuses, dropDownOpen) => (
+    <Dropdown isOpen={dropDownOpen} toggle={this.toggle} onClick={this.toggle}>
+      {label}
 
-        <DropdownMenu>
-          {
-            availableStatuses.map(({ label: statusLabel, reasons, ...rest }) => (
-              <DropdownItem
-                key={rest.action}
-                {...rest}
-                onClick={this.handleStatusClick.bind(this, { statusLabel, reasons, ...rest })}
-              >
-                {statusLabel}
-              </DropdownItem>
-            ))
-          }
-        </DropdownMenu>
-      </Dropdown>
-    );
-  };
+      <DropdownMenu>
+        {
+          availableStatuses.map(({ label: statusLabel, reasons, ...rest }) => (
+            <DropdownItem
+              key={rest.action}
+              {...rest}
+              onClick={this.handleStatusClick.bind(this, { statusLabel, reasons, ...rest })}
+            >
+              {statusLabel}
+            </DropdownItem>
+          ))
+        }
+      </DropdownMenu>
+    </Dropdown>
+  );
 
   render() {
     const { dropDownOpen, modal } = this.state;
     const { label, availableStatuses, profileStatus } = this.props;
+
     const dropdownClassName = classNames('dropdown-highlight', {
       'cursor-pointer': profileStatus !== statuses.SUSPENDED && availableStatuses.length > 0,
       'dropdown-open': dropDownOpen,
     });
+
     return (
       <div className={dropdownClassName}>
         {
