@@ -20,7 +20,7 @@ const withPlayerClick = (WrappedComponent) => {
         this.context.router.push(`/users/${data.playerUUID}/profile`);
       } else {
         const panelData = {
-          fullName: (data.firstName && data.lastName)
+          fullName: (data.firstName || data.lastName)
             ? `${data.firstName} ${data.lastName}`
             : I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_NAME'),
           login: data.login,

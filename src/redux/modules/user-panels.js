@@ -128,7 +128,7 @@ const actionHandlers = {
       return state;
     }
 
-    const fullName = (firstName && lastName)
+    const fullName = (firstName || lastName)
       ? `${firstName} ${lastName}`
       : I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_NAME');
     const newState = {
