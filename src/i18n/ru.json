@@ -181,7 +181,7 @@
       },
       "HEADER": {
         "ADD_NOTE": "Добавить заметку",
-        "NO_NAME": "Без имени"
+        "NO_FULLNAME": "Без имени"
       },
       "RESET_PASSWORD_MODAL": {
         "TITLE": "Сброс пароля - подтверждение",

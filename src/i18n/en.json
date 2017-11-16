@@ -179,7 +179,7 @@
       },
       "HEADER": {
         "ADD_NOTE": "Add note",
-        "NO_NAME": "No name"
+        "NO_FULLNAME": "No name"
       },
       "RESET_PASSWORD_MODAL": {
         "TITLE": "Password reset - Confirmation",
