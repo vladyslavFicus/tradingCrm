@@ -201,6 +201,7 @@ class Header extends Component {
               <ActionsDropDown
                 items={[
                   {
+                    id: 'reset-password-option',
                     label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
                     onClick: onResetPasswordClick,
                   },

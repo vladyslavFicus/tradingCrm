@@ -40,6 +40,7 @@ class ActionsDropDown extends Component {
         <DropdownMenu right>
           {visibleItems.map(item => (
             <DropdownItem
+              id={item.id}
               key={item.label}
               onClick={item.onClick}
             >{item.label}</DropdownItem>
