@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import classNames from 'classnames';
 import GridColumn from '../GridView/GridColumn';
 import shallowEqual from '../../utils/shallowEqual';
 
@@ -44,8 +45,8 @@ class SortableGridView extends Component {
   };
 
   static defaultProps = {
-    tableClassName: 'table',
-    headerClassName: 'thead-default',
+    tableClassName: null,
+    headerClassName: 'text-uppercase',
     defaultFilters: {},
     onFiltersChanged: null,
     onSortEnd: null,
@@ -102,7 +103,7 @@ class SortableGridView extends Component {
     const columns = React.Children.toArray(this.props.children).filter(child => child.type === GridColumn);
 
     return (
-      <table className={tableClassName}>
+      <table className={classNames('table data-grid-layout', tableClassName)}>
         <thead className={headerClassName}>
           {this.renderHead(this.recognizeHeaders(columns))}
         </thead>
