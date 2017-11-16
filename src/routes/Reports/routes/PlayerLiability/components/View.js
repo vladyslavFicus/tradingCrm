@@ -6,6 +6,16 @@ import Report from './Report';
 import Files from './Files';
 
 class View extends Component {
+  static propTypes = {
+    files: PropTypes.object.isRequired,
+    onFilesFetch: PropTypes.func.isRequired,
+    onFilesDownload: PropTypes.func.isRequired,
+    report: PropTypes.object.isRequired,
+    onReportFetch: PropTypes.func.isRequired,
+    onReportDownload: PropTypes.func.isRequired,
+    currency: PropTypes.string.isRequired,
+  };
+
   render() {
     const {
       files,
@@ -17,35 +27,27 @@ class View extends Component {
       currency,
     } = this.props;
 
-    return <div className="page-content-inner">
-      <PermissionContent permissions={permissions.REPORTS.PLAYER_LIABILITY_FILES_VIEW}>
-        <Files
-          {...files}
-          onDownload={onFilesDownload}
-          onFetch={onFilesFetch}
-        />
-      </PermissionContent>
+    return (
+      <div className="page-content-inner">
+        <PermissionContent permissions={permissions.REPORTS.PLAYER_LIABILITY_FILES_VIEW}>
+          <Files
+            {...files}
+            onDownload={onFilesDownload}
+            onFetch={onFilesFetch}
+          />
+        </PermissionContent>
 
-      <PermissionContent permissions={permissions.REPORTS.PLAYER_LIABILITY_VIEW}>
-        <Report
-          {...report}
-          onDownload={onReportDownload}
-          onFetch={onReportFetch}
-          currency={currency}
-        />
-      </PermissionContent>
-    </div>;
+        <PermissionContent permissions={permissions.REPORTS.PLAYER_LIABILITY_VIEW}>
+          <Report
+            {...report}
+            onDownload={onReportDownload}
+            onFetch={onReportFetch}
+            currency={currency}
+          />
+        </PermissionContent>
+      </div>
+    );
   }
 }
-
-View.propTypes = {
-  files: PropTypes.object.isRequired,
-  onFilesFetch: PropTypes.func.isRequired,
-  onFilesDownload: PropTypes.func.isRequired,
-  report: PropTypes.object.isRequired,
-  onReportFetch: PropTypes.func.isRequired,
-  onReportDownload: PropTypes.func.isRequired,
-  currency: PropTypes.string.isRequired,
-};
 
 export default View;

@@ -3,13 +3,9 @@ import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { SelectField } from '../../../../components/ReduxForm';
 import { accessTypes, accessTypeLabels } from '../../../../constants/countries';
-import { createValidator } from '../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../utils/validator';
 import renderLabel from '../../../../utils/renderLabel';
 import { attributeLabels } from './constants';
-
-const validator = createValidator({
-  access: ['string', `in:,${Object.keys(accessTypes).join()}`],
-}, Object.keys(attributeLabels).reduce((res, name) => ({ ...res, [name]: I18n.t(attributeLabels[name]) }), {}), false);
 
 class CountriesGridFilter extends Component {
   static propTypes = {
@@ -17,6 +13,10 @@ class CountriesGridFilter extends Component {
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    handleSubmit: null,
+    submitting: false,
   };
 
   handleReset = () => {
@@ -80,5 +80,7 @@ class CountriesGridFilter extends Component {
 
 export default reduxForm({
   form: 'filterCountries',
-  validate: validator,
+  validate: createValidator({
+    access: ['string', `in:,${Object.keys(accessTypes).join()}`],
+  }, translateLabels(attributeLabels), false),
 })(CountriesGridFilter);

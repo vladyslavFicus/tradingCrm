@@ -5,27 +5,10 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm, getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField } from '../../../../components/ReduxForm';
-import { createValidator } from '../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../utils/validator';
 import renderLabel from '../../../../utils/renderLabel';
+import { attributeLabels } from './constants';
 import { departments, departmentsLabels, roles, rolesLabels } from '../../../../constants/operators';
-
-const attributeLabels = {
-  firstName: I18n.t('COMMON.FIRST_NAME'),
-  lastName: I18n.t('COMMON.LAST_NAME'),
-  email: I18n.t('COMMON.EMAIL'),
-  phone: I18n.t('COMMON.PHONE'),
-  department: I18n.t('COMMON.DEPARTMENT'),
-  role: I18n.t('COMMON.ROLE'),
-};
-
-const validator = createValidator({
-  firstName: ['required', 'string', 'min:3'],
-  lastName: ['required', 'string', 'min:3'],
-  email: ['required', 'email'],
-  phone: 'min:3',
-  department: 'required',
-  role: 'required',
-}, attributeLabels, false);
 
 class CreateOperatorModal extends Component {
   static propTypes = {
@@ -89,7 +72,7 @@ class CreateOperatorModal extends Component {
                 <Field
                   name="firstName"
                   type="text"
-                  label={attributeLabels.firstName}
+                  label={I18n.t(attributeLabels.firstName)}
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
@@ -100,7 +83,7 @@ class CreateOperatorModal extends Component {
                 <Field
                   name="lastName"
                   type="text"
-                  label={attributeLabels.lastName}
+                  label={I18n.t(attributeLabels.lastName)}
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
@@ -114,7 +97,7 @@ class CreateOperatorModal extends Component {
                 <Field
                   name="email"
                   type="text"
-                  label={attributeLabels.email}
+                  label={I18n.t(attributeLabels.email)}
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
@@ -125,7 +108,7 @@ class CreateOperatorModal extends Component {
                 <Field
                   name="phone"
                   type="text"
-                  label={attributeLabels.phone}
+                  label={I18n.t(attributeLabels.phone)}
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
@@ -139,7 +122,7 @@ class CreateOperatorModal extends Component {
                 <Field
                   name="department"
                   type="text"
-                  label={attributeLabels.department}
+                  label={I18n.t(attributeLabels.department)}
                   component={SelectField}
                   position="vertical"
                   onChange={this.handleChangeDepartment}
@@ -155,7 +138,7 @@ class CreateOperatorModal extends Component {
                 <Field
                   name="role"
                   type="text"
-                  label={attributeLabels.role}
+                  label={I18n.t(attributeLabels.role)}
                   component={SelectField}
                   position="vertical"
                   disabled={!currentValues || (currentValues.department === departments.ADMINISTRATION)}
@@ -225,6 +208,13 @@ export default connect(state => ({
 }))(
   reduxForm({
     form: 'operatorCreateForm',
-    validate: validator,
+    validate: createValidator({
+      firstName: ['required', 'string', 'min:3'],
+      lastName: ['required', 'string', 'min:3'],
+      email: ['required', 'email'],
+      phone: 'min:3',
+      department: 'required',
+      role: 'required',
+    }, translateLabels(attributeLabels), false),
   })(CreateOperatorModal),
 );

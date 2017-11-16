@@ -367,6 +367,7 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   countries: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   id: PropTypes.number.isRequired,
   optIn: PropTypes.bool.isRequired,
+  claimable: PropTypes.bool.isRequired,
   startDate: PropTypes.string.isRequired,
   state: PropTypes.string.isRequired,
   stateReason: PropTypes.string,
