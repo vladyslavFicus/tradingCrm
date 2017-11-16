@@ -152,7 +152,9 @@ class Header extends Component {
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
                 <div className="panel-heading-row__info-title">
-                  {[playerProfile.fullName, `(${playerProfile.age})`].join(' ')}
+                  {playerProfile.fullName || I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
+                  {' '}
+                  ({playerProfile.age || '?'})
                   {' '}
                   {playerProfile.kycCompleted && <i className="fa fa-check text-success" />}
                 </div>

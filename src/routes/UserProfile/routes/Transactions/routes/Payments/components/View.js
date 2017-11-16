@@ -21,7 +21,6 @@ import { UncontrolledTooltip } from '../../../../../../../components/Reactstrap/
 import renderLabel from '../../../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../../../components/GridPaymentAmount';
-import PaymentAccount from '../../../../../../../components/PaymentAccount';
 import SubTabNavigation from '../../../../../../../components/SubTabNavigation';
 import { routes as subTabRoutes } from '../../../constants';
 import IpFlag from '../../../../../../../components/IpFlag';
@@ -311,7 +310,7 @@ class View extends Component {
         {
           !!data.paymentAccount &&
           <span className="font-size-11">
-            <PaymentAccount account={data.paymentAccount} />
+            {data.paymentAccount}
           </span>
         }
       </div>

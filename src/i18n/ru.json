@@ -180,7 +180,8 @@
         "SHARE_PROFILE": "Поделиться профилем"
       },
       "HEADER": {
-        "ADD_NOTE": "Добавить заметку"
+        "ADD_NOTE": "Добавить заметку",
+        "NO_FULLNAME": "Без имени"
       },
       "RESET_PASSWORD_MODAL": {
         "TITLE": "Сброс пароля - подтверждение",

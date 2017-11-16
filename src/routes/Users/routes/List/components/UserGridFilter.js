@@ -143,7 +143,6 @@ class UserGridFilter extends Component {
                   <Field
                     name="ageFrom"
                     type="text"
-                    placeholder="20"
                     component="input"
                     className="form-control"
                   />
@@ -151,7 +150,6 @@ class UserGridFilter extends Component {
                   <Field
                     name="ageTo"
                     type="text"
-                    placeholder="30"
                     component="input"
                     className="form-control"
                   />
@@ -165,7 +163,6 @@ class UserGridFilter extends Component {
                   <Field
                     name="balanceFrom"
                     type="text"
-                    placeholder="100"
                     component="input"
                     className="form-control"
                   />
@@ -173,7 +170,6 @@ class UserGridFilter extends Component {
                   <Field
                     name="balanceTo"
                     type="text"
-                    placeholder="150"
                     component="input"
                     className="form-control"
                   />

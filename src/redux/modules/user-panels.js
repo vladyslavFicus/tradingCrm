@@ -1,3 +1,4 @@
+import { I18n } from 'react-redux-i18n';
 import { actionTypes as locationActionTypes } from './location';
 import createReducer from '../../utils/createReducer';
 import { actionTypes as windowActionTypes } from '../modules/window';
@@ -127,7 +128,9 @@ const actionHandlers = {
       return state;
     }
 
-    const fullName = `${firstName || '-'} ${lastName || '-'}`;
+    const fullName = (firstName || lastName)
+      ? [firstName, lastName].filter(v => v).join(' ')
+      : I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME');
     const newState = {
       ...state,
       items: [...state.items],
