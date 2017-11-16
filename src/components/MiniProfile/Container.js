@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Container extends Component {
   static propTypes = {
@@ -32,16 +33,6 @@ class Container extends Component {
     clearTimeout(this.hideTimeout);
   }
 
-  addTargetEvents = () => {
-    this.target.addEventListener('mouseover', this.onMouseOver, true);
-    this.target.addEventListener('mouseout', this.onMouseLeave, true);
-  };
-
-  removeTargetEvents = () => {
-    this.target.removeEventListener('mouseover', this.onMouseOver, true);
-    this.target.removeEventListener('mouseout', this.onMouseLeave, true);
-  };
-
   onMouseOver = () => {
     if (this.hideTimeout) {
       this.clearHideTimeout();
@@ -57,6 +48,22 @@ class Container extends Component {
     this.hideTimeout = setTimeout(this.hide, this.props.delay.hide);
   };
 
+  onMouseEnterPopover = () => {
+    if (this.hideTimeout) {
+      this.clearHideTimeout();
+    }
+  };
+
+  addTargetEvents = () => {
+    this.target.addEventListener('mouseover', this.onMouseOver, true);
+    this.target.addEventListener('mouseout', this.onMouseLeave, true);
+  };
+
+  removeTargetEvents = () => {
+    this.target.removeEventListener('mouseover', this.onMouseOver, true);
+    this.target.removeEventListener('mouseout', this.onMouseLeave, true);
+  };
+
   clearShowTimeout() {
     clearTimeout(this.showTimeout);
     this.showTimeout = null;
@@ -70,12 +77,6 @@ class Container extends Component {
   show = () => this.loadContent();
 
   hide = () => this.context.miniProfile.onHideMiniProfile();
-
-  onMouseEnterPopover = () => {
-    if (this.hideTimeout) {
-      this.clearHideTimeout();
-    }
-  };
 
   loadContent = async () => {
     const { dataSource, target, type } = this.props;
