@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import countryList from 'country-list';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
@@ -10,12 +9,9 @@ import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels } from '../constants';
 import { statusesLabels, statuses, rolesLabels, departmentsLabels } from '../../../../../constants/operators';
 import config from '../../../../../config';
+import countries from '../../../../../utils/countryList';
 
 const { availableDepartments: departments, availableRoles: roles } = config;
-const countries = countryList().getData().reduce((result, item) => ({
-  ...result,
-  [item.code]: item.name,
-}), {});
 
 class OperatorGridFilter extends Component {
   static propTypes = {
@@ -30,6 +26,7 @@ class OperatorGridFilter extends Component {
     invalid: true,
     handleSubmit: null,
     submitting: false,
+    filterValues: {},
   };
 
   handleSubmit = () => this.props.onSubmit(this.props.filterValues);
