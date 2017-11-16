@@ -1,4 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
+import { getBrand } from '../../config';
 
 function updateProfile(type) {
   return (uuid, data) => (dispatch, getState) => {
@@ -29,12 +30,12 @@ function updateProfile(type) {
 }
 
 function passwordResetRequest(type) {
-  return (uuid) => (dispatch, getState) => {
+  return uuid => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `auth/password/${uuid}/reset/request`,
+        endpoint: `auth/password/${getBrand()}/${uuid}/reset/request`,
         method: 'POST',
         headers: {
           Accept: 'application/json',

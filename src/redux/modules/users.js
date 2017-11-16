@@ -2,7 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
 import { getDialCodeByDigits } from 'bc-countries';
-import config from '../../config';
+import config, { getBrand } from '../../config';
 import buildQueryString from '../../utils/buildQueryString';
 import { statuses as kycStatuses } from '../../constants/kyc';
 
@@ -134,7 +134,7 @@ function passwordResetRequest(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `auth/password/${uuid}/reset/request${sendEmail ? '' : '?send-mail=false'}`,
+        endpoint: `auth/password/${getBrand()}/${uuid}/reset/request${sendEmail ? '' : '?send-mail=false'}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
