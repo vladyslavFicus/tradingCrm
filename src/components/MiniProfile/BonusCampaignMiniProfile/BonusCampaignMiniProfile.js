@@ -1,8 +1,8 @@
 import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import classNames from 'classnames';
 import PropTypes from '../../../constants/propTypes';
-import { campaignStatusClassNames } from '../constants';
 import {
   statuses,
   statusesLabels,
@@ -32,25 +32,21 @@ const BonusCampaignMiniProfile = (props) => {
       stateReason,
       statusChangedDate,
       targetType,
-      cancellationReason,
       statusChangedAuthorUUID,
       totalOptInPlayers,
       totalSelectedPlayers,
     },
   } = props;
 
+  const status = state === statuses.FINISHED && stateReason === statuses.CANCELED
+    ? statuses.CANCELED
+    : state;
+
   return (
-    <div className={
-      `mini-profile campaign-mini-profile
-    ${stateReason ? campaignStatusClassNames.CANCELED : campaignStatusClassNames[state]}`}
-    >
+    <div className={classNames('mini-profile campaign-mini-profile', status.toLowerCase())}>
       <div className="mini-profile-header">
         <label className="mini-profile-label">
-          {
-            stateReason
-              ? I18n.t(statusesLabels.CANCELED)
-              : renderLabel(state, statusesLabels)
-          }
+          {renderLabel(status, statusesLabels)}
         </label>
         <div className="mini-profile-type">{I18n.t('MINI_PROFILE.CAMPAIGN')}</div>
         <div className="mini-profile-title font-weight-700">{campaignName}</div>
@@ -61,7 +57,7 @@ const BonusCampaignMiniProfile = (props) => {
         </div>
         <div className="mini-profile-ids">
           {
-            (cancellationReason && stateReason) &&
+            status === statuses.CANCELED &&
             <div>
               {I18n.t('MINI_PROFILE.CANCELED')}
               {` ${I18n.t('COMMON.AUTHOR_BY')} `}
@@ -83,7 +79,7 @@ const BonusCampaignMiniProfile = (props) => {
             </div>
           }
           {
-            (state !== statuses.DRAFT && !stateReason) &&
+            (status !== statuses.CANCELED && status !== statuses.DRAFT) &&
             <div>
               {I18n.t('MINI_PROFILE.LAUNCHED')}
               {` ${I18n.t('COMMON.AUTHOR_BY')} `}
