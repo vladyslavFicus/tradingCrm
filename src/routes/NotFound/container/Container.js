@@ -5,5 +5,5 @@ const mapStateToProps = ({ i18n: { locale } }) => ({
   locale,
 });
 
-export default connect(mapStateToProps, {})(NotFound);
+export default connect(mapStateToProps)(NotFound);
 

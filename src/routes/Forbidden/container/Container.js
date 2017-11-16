@@ -5,4 +5,4 @@ const mapStateToProps = ({ i18n: { locale } }) => ({
   locale,
 });
 
-export default connect(mapStateToProps, {})(Forbidden);
+export default connect(mapStateToProps)(Forbidden);
