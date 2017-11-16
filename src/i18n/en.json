@@ -1372,7 +1372,19 @@
     "TRANSACTION": "Transaction",
     "ERROR_MESSAGE": "Error message",
     "REJECTION_REASON": "Rejection reason",
-    "OPERATOR": "Operator"
+    "OPERATOR": "Operator",
+    "CAMPAIGN": "Campaign",
+    "CREATED": "Created",
+    "LAUNCHED": "Launched",
+    "CANCELED": "Canceled",
+    "DATE_RANGE": "Date range",
+    "RANGE_NOT_SELECTED": "not selected",
+    "TARGET": "Target",
+    "FULFILLMENT": "Fulfillment",
+    "REWARD": "Reward",
+    "OPTED_IN": "Opted-in %{value} players",
+    "SELECTED": "Selected %{value} players",
+    "BONUS": "Bonus"
   },
   "OPERATORS": {
     "HEADING": "Operators",

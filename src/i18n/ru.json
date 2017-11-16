@@ -1383,7 +1383,19 @@
     "TRANSACTION": "Транзакция",
     "ERROR_MESSAGE": "Ошибка",
     "REJECTION_REASON": "Причина отказа",
-    "OPERATOR": "Оператор"
+    "OPERATOR": "Оператор",
+    "CAMPAIGN": "Кампания",
+    "CREATED": "Создана",
+    "LAUNCHED": "Запущена",
+    "CANCELED": "Отменена",
+    "DATE_RANGE": "Диапазон дат",
+    "RANGE_NOT_SELECTED": "не выбрано",
+    "TARGET": "Цель",
+    "FULFILLMENT": "Fulfillment",
+    "REWARD": "Награда",
+    "OPTED_IN": "Opted-in %{value} игроков",
+    "SELECTED": "Выбрано %{value} игроков",
+    "BONUS": "Бонус"
   },
   "OPERATORS": {
     "HEADING": "Операторы",

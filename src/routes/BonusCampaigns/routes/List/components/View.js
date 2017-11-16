@@ -19,6 +19,8 @@ import Amount from '../../../../../components/Amount';
 import BonusCampaignStatus from '../../../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
 import CreateBonusCampaignModal from './CreateBonusCampaignModal';
+import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
+import MiniProfile from '../../../../../components/MiniProfile';
 
 const MODAL_CREATE_BONUS_CAMPAIGN = 'modal-create-bonus-campaign';
 const defaultModalState = {
@@ -138,7 +140,13 @@ class View extends Component {
     <div id={`bonus-campaign-${data.uuid}`}>
       <Link to={`/bonus-campaigns/view/${data.uuid}`} className="font-weight-700">{data.campaignName}</Link>
       <div className="font-size-11">
-        <Uuid uuid={data.uuid} uuidPrefix="CA" />
+        <MiniProfile
+          target={data.uuid}
+          dataSource={data}
+          type={miniProfileTypes.CAMPAIGN}
+        >
+          <Uuid uuid={data.uuid} uuidPrefix="CA" />
+        </MiniProfile>
       </div>
       <div className="font-size-11">
         {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.PRIORITY', { priority: data.campaignPriority })}
