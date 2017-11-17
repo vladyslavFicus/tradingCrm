@@ -274,7 +274,8 @@
           "CONVERTED": "Converted",
           "WAGERED": "Wagered",
           "MONEY_TYPE_PRIORITY": "Приор. исп. денег",
-          "LOCK_AMOUNT_STRATEGY": "Блок. вывода средств"
+          "LOCK_AMOUNT_STRATEGY": "Блок. вывода средств",
+          "CLAIMABLE": "Требовать подтверждения"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Заблокировать все средства",

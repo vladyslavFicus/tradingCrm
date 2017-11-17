@@ -369,6 +369,7 @@ class View extends Component {
               state: 'INACTIVE',
               currency: playerProfile.currencyCode,
               lockAmountStrategy: lockAmountStrategy.LOCK_ALL,
+              claimable: false,
             }}
             onSubmit={this.handleSubmitManualBonus}
             onClose={this.handleModalClose}

@@ -272,7 +272,8 @@
           "CONVERTED": "Converted",
           "WAGERED": "Wagered",
           "MONEY_TYPE_PRIORITY": "Wagering",
-          "LOCK_AMOUNT_STRATEGY": "Withdrawal lock"
+          "LOCK_AMOUNT_STRATEGY": "Withdrawal lock",
+          "CLAIMABLE": "Claimable"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Lock all",

@@ -195,6 +195,20 @@ class CreateModal extends Component {
                 </Field>
               </div>
             </div>
+            <div className="form-group row">
+              <div className="col-md-12">
+                <div className="checkbox">
+                  <label>
+                    <Field
+                      name="claimable"
+                      type="checkbox"
+                      component="input"
+                      id="create-campaign-claimable"
+                    /> {I18n.t(attributeLabels.claimable)}
+                  </label>
+                </div>
+              </div>
+            </div>
           </ModalBody>
           <ModalFooter>
             <button
