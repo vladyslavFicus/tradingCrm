@@ -109,10 +109,10 @@ class CreateBonusCampaignModal extends Component {
   };
 
   handleChangeCampaignType = (e) => {
-    if (e.target.value === campaignTypes.WITHOUT_FULFILMENT) {
+    if (e.target.value === campaignTypes.WITHOUT_FULFILLMENT) {
       this.handleEnableOptIn();
     }
-  }
+  };
 
   handleEnableOptIn = () => this.props.change('optIn', true);
 
@@ -310,7 +310,7 @@ class CreateBonusCampaignModal extends Component {
                       id="create-campaign-optin"
                       disabled={
                         currentValues.targetType === targetTypes.ALL ||
-                        currentValues.campaignType === campaignTypes.WITHOUT_FULFILMENT
+                        currentValues.campaignType === campaignTypes.WITHOUT_FULFILLMENT
                       }
                     /> {I18n.t(attributeLabels.optIn)}
                   </label>

@@ -59,7 +59,7 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
         profileCompleted: true,
       },
     };
-  } else if (bonusCampaignForm.campaignType === campaignTypes.WITHOUT_FULFILMENT) {
+  } else if (bonusCampaignForm.campaignType === campaignTypes.WITHOUT_FULFILLMENT) {
     bonusCampaignForm = {
       ...bonusCampaignForm,
       fulfillments: {
