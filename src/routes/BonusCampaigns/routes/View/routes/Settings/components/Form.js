@@ -50,7 +50,6 @@ class Form extends Component {
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentValues: PropTypes.shape({
       campaignName: PropTypes.bonusCampaignEntity.campaignName,
-      campaignPriority: PropTypes.bonusCampaignEntity.campaignPriority,
       targetType: PropTypes.bonusCampaignEntity.targetType,
       currency: PropTypes.bonusCampaignEntity.currency,
       startDate: PropTypes.bonusCampaignEntity.startDate,

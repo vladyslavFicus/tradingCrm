@@ -7,7 +7,8 @@ import GridView, { GridColumn } from '../../../../../../../../components/GridVie
 import Uuid from '../../../../../../../../components/Uuid';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import {
-  campaignTypesLabels, statuses as bonusCampaignStatuses,
+  campaignTypesLabels,
+  statuses as bonusCampaignStatuses,
   targetTypesLabels,
 } from '../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../components/IframeLink';

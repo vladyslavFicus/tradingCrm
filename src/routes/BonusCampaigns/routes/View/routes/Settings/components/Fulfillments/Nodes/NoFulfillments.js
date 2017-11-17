@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
 import { nodeTypes, nodeTypesLabels } from '../constants';
 
-class ProfileCompleted extends Component {
+class NoFulfillments extends Component {
   static propTypes = {
     remove: PropTypes.func.isRequired,
     load: PropTypes.func.isRequired,
@@ -21,10 +21,10 @@ class ProfileCompleted extends Component {
     return (
       <div className="add-campaign-container">
         <div className="add-campaign-label">
-          {I18n.t(nodeTypesLabels[nodeTypes.profileCompleted])}
+          {I18n.t(nodeTypesLabels[nodeTypes.noFulfillments])}
         </div>
         <Field
-          name={this.buildFieldName('profileCompleted')}
+          name={this.buildFieldName('noFulfillments')}
           component="input"
           type="checkbox"
           hidden
@@ -41,4 +41,4 @@ class ProfileCompleted extends Component {
   }
 }
 
-export default ProfileCompleted;
+export default NoFulfillments;

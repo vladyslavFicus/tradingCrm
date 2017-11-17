@@ -2,7 +2,6 @@ import _ from 'lodash';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import { attributeLabels } from '../constants';
 import {
-  campaignTypesLabels,
   targetTypesLabels,
   lockAmountStrategy,
   moneyTypeUsage,
@@ -17,13 +16,11 @@ export default (values, params) => {
 
   const rules = {
     campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
-    campaignPriority: 'integer',
     optIn: 'boolean',
     targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
     currency: 'required',
     startDate: 'required',
     endDate: 'required|nextDate:startDate',
-    campaignType: ['required', 'string', `in:${Object.keys(campaignTypesLabels).join()}`],
     capping: {
       value: ['numeric', 'customTypeValue.value'],
       type: [`in:${allowedCustomValueTypes.join()}`],

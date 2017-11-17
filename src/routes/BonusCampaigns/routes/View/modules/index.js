@@ -28,6 +28,8 @@ function mapFulfillmentNode(campaignType) {
     return fulfillmentNodeTypes.profileCompleted;
   } else if ([campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(campaignType) > -1) {
     return fulfillmentNodeTypes.deposit;
+  } else if (campaignType === campaignTypes.WITHOUT_FULFILMENT) {
+    return fulfillmentNodeTypes.noFulfillments;
   }
 
   return node;
@@ -168,6 +170,14 @@ function updateCampaign(uuid, data) {
       endpointParams = {
         ...endpointParams,
         campaignType: campaignTypes.PROFILE_COMPLETED,
+      };
+    }
+
+    const fulfillmentNoFulfillments = _.get(endpointParams, 'fulfillments.noFulfillments');
+    if (fulfillmentNoFulfillments) {
+      endpointParams = {
+        ...endpointParams,
+        campaignType: campaignTypes.WITHOUT_FULFILMENT,
       };
     }
 
