@@ -372,7 +372,7 @@ class Form extends Component {
             </div>
           </div>
           <div className="col-lg-6">
-            <div className="tab-header">
+            <div className="tab-header pl-0">
               <div className="tab-header__heading">
                 {I18n.t('BONUS_CAMPAIGNS.SETTINGS.REWARDS')}
               </div>
