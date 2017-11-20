@@ -756,7 +756,8 @@
       "CAMPAIGN_TYPE": {
         "FIRST_DEPOSIT": "Первое пополнение",
         "DEPOSIT": "Пополнение",
-        "PROFILE_COMPLETED": "Профиль заполнен"
+        "PROFILE_COMPLETED": "Профиль заполнен",
+        "WITHOUT_FULFILMENT": "Без условий"
       },
       "STATUSES": {
         "DRAFT": "Черновик",
@@ -1052,8 +1053,7 @@
       "TOTAL_SELECTED_PLAYERS": "Выбрано: %{count} игроков",
       "TOTAL_SELECTED_PLAYERS_1": "Выбрано: %{count} игрок",
       "TOTAL_SELECTED_PLAYERS_2": "Выбрано: %{count} игрока",
-      "TYPE": "Тип",
-      "PRIORITY": "Приоритет: %{priority}"
+      "TYPE": "Тип"
     },
     "TITLE": "Бонусные кампании",
     "FILTER_FORM": {
@@ -1111,7 +1111,6 @@
     "CREATE_MODAL": {
       "TITLE": "Новая бонус-кампания",
       "NAME_LABEL": "Название",
-      "PRIORITY_LABEL": "Проиоритет",
       "START_DATE_LABEL": "Дата начала",
       "END_DATE_LABEL": "Дата завершения",
       "CURRENCY_LABEL": "Валюта",
@@ -1153,7 +1152,6 @@
         "MIN_AMOUNT_PLACEHOLDER": "Мин.",
         "MAX_AMOUNT_PLACEHOLDER": "Макс.",
         "RATIO_TOOLTIP": "Депозит: предоставленный бонус",
-        "PRIORITY": "Приоритет",
         "CAMPAIGN_PERIOD": "Период кампании",
         "DESCRIPTION": "Описание",
         "BASE_CURRENCY": "Базовая валюта",
@@ -1183,7 +1181,10 @@
         "PROFILE_COMPLETED": {
           "LABEL": "Профиль заполнен"
         },
-        "SELECT_FULFILLMENT": "-- Выбрать условие --"
+        "SELECT_FULFILLMENT": "-- Выбрать условие --",
+        "NO_FULFILLMENTS": {
+          "LABEL": "Без условий"
+        }
       }
     },
     "CHANGE_STATUS_MODAL": {

@@ -87,17 +87,20 @@ const campaignTypes = keyMirror({
   FIRST_DEPOSIT: null,
   DEPOSIT: null,
   PROFILE_COMPLETED: null,
+  WITHOUT_FULFILMENT: null,
 });
 const campaignTypesLabels = {
   [campaignTypes.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.FIRST_DEPOSIT'),
   [campaignTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.DEPOSIT'),
   [campaignTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.PROFILE_COMPLETED'),
+  [campaignTypes.WITHOUT_FULFILMENT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.WITHOUT_FULFILMENT'),
 };
 
 const customValueFieldTypesByCampaignType = {
   [campaignTypes.FIRST_DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
   [campaignTypes.DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
   [campaignTypes.PROFILE_COMPLETED]: [customValueFieldTypes.ABSOLUTE],
+  [campaignTypes.WITHOUT_FULFILMENT]: [customValueFieldTypes.ABSOLUTE],
 };
 
 const optInSelect = {

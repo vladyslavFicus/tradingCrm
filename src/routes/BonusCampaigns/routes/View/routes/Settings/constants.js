@@ -3,7 +3,6 @@ import I18n from '../../../../../../utils/fake-i18n';
 
 const attributeLabels = {
   campaignName: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_NAME'),
-  campaignPriority: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.PRIORITY'),
   targetType: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.TARGET_TYPE'),
   currency: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CURRENCY'),
   startDate: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.START_DATE'),

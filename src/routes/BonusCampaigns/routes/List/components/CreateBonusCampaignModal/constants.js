@@ -2,7 +2,6 @@ import I18n from '../../../../../../utils/fake-i18n';
 
 export const attributeLabels = {
   campaignName: I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.NAME_LABEL'),
-  priority: I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.PRIORITY_LABEL'),
   startDate: I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.START_DATE_LABEL'),
   endDate: I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.END_DATE_LABEL'),
   currency: I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CURRENCY_LABEL'),

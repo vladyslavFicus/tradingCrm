@@ -46,6 +46,7 @@ class CreateBonusCampaignModal extends Component {
     errors: PropTypes.object,
     meta: PropTypes.object,
     change: PropTypes.func.isRequired,
+    types: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
     pristine: false,
@@ -103,14 +104,23 @@ class CreateBonusCampaignModal extends Component {
 
   handleChangeTargetType = (e) => {
     if (e.target.value === targetTypes.ALL) {
-      this.props.change('optIn', true);
+      this.handleEnableOptIn();
     }
   };
+
+  handleChangeCampaignType = (e) => {
+    if (e.target.value === campaignTypes.WITHOUT_FULFILMENT) {
+      this.handleEnableOptIn();
+    }
+  };
+
+  handleEnableOptIn = () => this.props.change('optIn', true);
 
   render() {
     const {
       handleSubmit,
       onSubmit,
+      types,
       pristine,
       submitting,
       currencies,
@@ -138,20 +148,12 @@ class CreateBonusCampaignModal extends Component {
               id="create-campaign-name"
             />
             <Field
-              name="priority"
-              label={I18n.t(attributeLabels.priority)}
-              type="text"
-              component={InputField}
-              id="create-campaign-priority"
-            />
-            <Field
               name="bonusLifetime"
               label={I18n.t(attributeLabels.bonusLifetime)}
               type="text"
               component={InputField}
               id="create-campaign-bonus-life-time"
             />
-
             <Field
               name="currency"
               label={I18n.t(attributeLabels.currency)}
@@ -166,7 +168,6 @@ class CreateBonusCampaignModal extends Component {
                 </option>
               ))}
             </Field>
-
             <Field
               name="moneyTypePriority"
               label={I18n.t(attributeLabels.moneyTypePriority)}
@@ -179,7 +180,6 @@ class CreateBonusCampaignModal extends Component {
                 </option>
               ))}
             </Field>
-
             <CustomValueField
               basename={'campaignRatio'}
               label={I18n.t(attributeLabels.campaignRatio)}
@@ -228,10 +228,11 @@ class CreateBonusCampaignModal extends Component {
               label={I18n.t(attributeLabels.campaignType)}
               type="select"
               component={SelectField}
+              onChange={this.handleChangeCampaignType}
             >
-              {Object.keys(campaignTypesLabels).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, campaignTypesLabels)}
+              {types.map(item => (
+                <option key={item} value={item}>
+                  {renderLabel(item, campaignTypesLabels)}
                 </option>
               ))}
             </Field>
@@ -282,7 +283,6 @@ class CreateBonusCampaignModal extends Component {
                 </div>
               </div>
             }
-
             <Field
               utc
               name="startDate"
@@ -291,7 +291,6 @@ class CreateBonusCampaignModal extends Component {
               isValidDate={this.startDateValidator('endDate')}
               id="create-campaign-start-date"
             />
-
             <Field
               utc
               name="endDate"
@@ -300,7 +299,6 @@ class CreateBonusCampaignModal extends Component {
               isValidDate={this.endDateValidator('startDate')}
               id="create-campaign-end-date"
             />
-
             <div className="form-group row">
               <div className="col-md-9 ml-auto">
                 <div className="checkbox">
@@ -310,7 +308,10 @@ class CreateBonusCampaignModal extends Component {
                       type="checkbox"
                       component="input"
                       id="create-campaign-optin"
-                      disabled={currentValues.targetType === targetTypes.ALL}
+                      disabled={
+                        currentValues.targetType === targetTypes.ALL ||
+                        currentValues.campaignType === campaignTypes.WITHOUT_FULFILMENT
+                      }
                     /> {I18n.t(attributeLabels.optIn)}
                   </label>
                 </div>
@@ -364,8 +365,9 @@ export default connect(state => ({
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate: values => validator(values, {
+    validate: (values, props) => validator(values, {
       allowedCustomValueTypes: getCustomValueFieldTypes(values),
+      campaignType: props.types,
     }),
   })(CreateBonusCampaignModal),
 );

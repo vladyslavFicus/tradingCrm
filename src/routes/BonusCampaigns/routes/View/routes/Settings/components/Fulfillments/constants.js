@@ -9,11 +9,13 @@ const attributeLabels = {
 const nodeTypes = keyMirror({
   deposit: null,
   profileCompleted: null,
+  noFulfillments: null,
 });
 
 const nodeTypesLabels = {
   [nodeTypes.deposit]: I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.DEPOSIT.LABEL'),
   [nodeTypes.profileCompleted]: I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.PROFILE_COMPLETED.LABEL'),
+  [nodeTypes.noFulfillments]: I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.NO_FULFILLMENTS.LABEL'),
 };
 
 export {

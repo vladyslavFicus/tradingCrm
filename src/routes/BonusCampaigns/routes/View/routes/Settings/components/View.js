@@ -17,7 +17,6 @@ class View extends Component {
     bonusCampaign: PropTypes.bonusCampaignEntity.isRequired,
     bonusCampaignForm: PropTypes.shape({
       campaignName: PropTypes.bonusCampaignEntity.campaignName,
-      campaignPriority: PropTypes.bonusCampaignEntity.campaignPriority,
       targetType: PropTypes.bonusCampaignEntity.targetType,
       currency: PropTypes.bonusCampaignEntity.currency,
       startDate: PropTypes.bonusCampaignEntity.startDate,

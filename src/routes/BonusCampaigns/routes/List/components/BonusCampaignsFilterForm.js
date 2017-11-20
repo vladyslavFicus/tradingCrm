@@ -214,16 +214,17 @@ class BonusCampaignsFilterForm extends Component {
 const FilterForm = reduxForm({
   form: FORM_NAME,
   touchOnChange: true,
-  validate: createValidator({
+  validate: (values, props) => createValidator({
     searchBy: 'string',
-    fulfillmentType: 'string',
+    fulfillmentType: ['string', `in:,${props.types.join()}`],
     optIn: 'string',
     state: 'string',
     creationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     creationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     activityDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     activityDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-  }, translateLabels(attributeLabels), false),
+  },
+  translateLabels(attributeLabels), false)(values),
 })(BonusCampaignsFilterForm);
 
 export default connect(state => ({

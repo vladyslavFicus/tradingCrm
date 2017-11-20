@@ -754,7 +754,8 @@
       "CAMPAIGN_TYPE": {
         "FIRST_DEPOSIT": "First deposit",
         "DEPOSIT": "Deposit",
-        "PROFILE_COMPLETED": "Profile completed"
+        "PROFILE_COMPLETED": "Profile completed",
+        "WITHOUT_FULFILMENT": "Without fulfilment"
       },
       "STATUSES": {
         "DRAFT": "Draft",
@@ -1044,8 +1045,7 @@
       "TOTAL_OPT_IN_PLAYERS_1": "Opt-In: %{count} player",
       "TOTAL_SELECTED_PLAYERS": "Selected: %{count} players",
       "TOTAL_SELECTED_PLAYERS_1": "Selected: %{count} player",
-      "TYPE": "Target type",
-      "PRIORITY": "Priority: %{priority}"
+      "TYPE": "Target type"
     },
     "TITLE": "Bonus campaigns",
     "FILTER_FORM": {
@@ -1104,7 +1104,6 @@
     "CREATE_MODAL": {
       "TITLE": "New bonus campaign",
       "NAME_LABEL": "Name",
-      "PRIORITY_LABEL": "Priority",
       "START_DATE_LABEL": "Start date",
       "END_DATE_LABEL": "End date",
       "CURRENCY_LABEL": "Currency",
@@ -1146,7 +1145,6 @@
         "MIN_AMOUNT_PLACEHOLDER": "Min.",
         "MAX_AMOUNT_PLACEHOLDER": "Max.",
         "RATIO_TOOLTIP": "Deposit : Granted bonus",
-        "PRIORITY": "Priority",
         "CAMPAIGN_PERIOD": "Campaign period",
         "DESCRIPTION": "Description",
         "BASE_CURRENCY": "Base currency",
@@ -1176,7 +1174,10 @@
         "PROFILE_COMPLETED": {
           "LABEL": "Profile completed"
         },
-        "SELECT_FULFILLMENT": "-- Select fulfillment --"
+        "SELECT_FULFILLMENT": "-- Select fulfillment --",
+        "NO_FULFILLMENTS": {
+          "LABEL": "No fulfillments"
+        }
       }
     },
     "CHANGE_STATUS_MODAL": {

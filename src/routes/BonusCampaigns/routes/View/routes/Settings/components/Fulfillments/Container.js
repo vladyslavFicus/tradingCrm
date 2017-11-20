@@ -6,13 +6,14 @@ import { SelectField } from '../../../../../../../../components/ReduxForm';
 import {
   Deposit as DepositNode,
   ProfileCompleted as ProfileCompletedNode,
+  NoFulfillments as NoFulfillmentsNode,
 } from './Nodes';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import attributeLabels, { nodeTypes, nodeTypesLabels } from './constants';
 import { nodeGroupTypes } from '../../constants';
 import getSubFieldErrors from '../../../../../../../../utils/getSubFieldErrors';
 
-const ALL_NODES = [nodeTypes.deposit, nodeTypes.profileCompleted];
+const ALL_NODES = [nodeTypes.deposit, nodeTypes.profileCompleted, nodeTypes.noFulfillments];
 
 class Container extends Component {
   static propTypes = {
@@ -86,6 +87,17 @@ class Container extends Component {
             load={() => this.handleSelectPureNode(nodeTypes.profileCompleted)}
             remove={() => this.handleRemoveNode(nodeTypes.profileCompleted)}
             label={I18n.t(nodeTypesLabels[nodeTypes.profileCompleted])}
+            nodePath={nodePath}
+          />
+        );
+      case nodeTypes.noFulfillments:
+        return (
+          <NoFulfillmentsNode
+            disabled={disabled}
+            load={() => this.handleSelectPureNode(nodeTypes.noFulfillments)}
+            remove={() => this.handleRemoveNode(nodeTypes.noFulfillments)}
+            label={I18n.t(nodeTypesLabels[nodeTypes.noFulfillments])}
+            nodePath={nodePath}
           />
         );
       default:

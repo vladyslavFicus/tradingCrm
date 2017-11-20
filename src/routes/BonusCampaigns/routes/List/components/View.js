@@ -45,7 +45,9 @@ class View extends Component {
     exportEntities: PropTypes.func.isRequired,
     fetchTypes: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
-    router: PropTypes.object,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static contextTypes = {
@@ -147,9 +149,6 @@ class View extends Component {
         >
           <Uuid uuid={data.uuid} uuidPrefix="CA" />
         </MiniProfile>
-      </div>
-      <div className="font-size-11">
-        {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.PRIORITY', { priority: data.campaignPriority })}
       </div>
       {
         data.authorUUID &&
@@ -335,6 +334,7 @@ class View extends Component {
           modal.name === MODAL_CREATE_BONUS_CAMPAIGN &&
           <CreateBonusCampaignModal
             onSubmit={this.handleSubmitNewBonusCampaign}
+            types={list}
             currencies={currencies}
             initialValues={{
               campaignType: campaignTypes.FIRST_DEPOSIT,

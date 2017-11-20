@@ -8,7 +8,6 @@ import { campaignTypes } from '../../../../../../../constants/bonus-campaigns';
 const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { locale } }) => {
   let bonusCampaignForm = {
     campaignName: data.campaignName,
-    campaignPriority: data.campaignPriority,
     targetType: data.targetType,
     currency: data.currency,
     startDate: data.startDate,
@@ -38,6 +37,7 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
         claimable: data.claimable,
       },
     },
+    fulfillments: {},
   };
 
   if ([campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(bonusCampaignForm.campaignType) > -1) {
@@ -52,11 +52,18 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
         },
       },
     };
-  } else if (campaignTypes.PROFILE_COMPLETED) {
+  } else if (bonusCampaignForm.campaignType === campaignTypes.PROFILE_COMPLETED) {
     bonusCampaignForm = {
       ...bonusCampaignForm,
       fulfillments: {
         profileCompleted: true,
+      },
+    };
+  } else if (bonusCampaignForm.campaignType === campaignTypes.WITHOUT_FULFILMENT) {
+    bonusCampaignForm = {
+      ...bonusCampaignForm,
+      fulfillments: {
+        noFulfillments: true,
       },
     };
   }
