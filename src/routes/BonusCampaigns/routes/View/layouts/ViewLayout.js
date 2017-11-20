@@ -90,7 +90,7 @@ class ViewLayout extends Component {
       });
 
       if (!action.error) {
-        this.context.router.push(`/bonus-campaigns/view/${action.payload.uuid}/settings`);
+        this.context.router.push(`/bonus-campaigns/view/${action.payload.campaignUUID}/settings`);
       }
     }
   };
