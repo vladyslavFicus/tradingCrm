@@ -754,7 +754,7 @@
         "FIRST_DEPOSIT": "First deposit",
         "DEPOSIT": "Deposit",
         "PROFILE_COMPLETED": "Profile completed",
-        "WITHOUT_FULFILLMENT": "Without fulfillment"
+        "WITHOUT_FULFILMENT": "Without fulfilment"
       },
       "STATUSES": {
         "DRAFT": "Draft",

@@ -28,7 +28,7 @@ function mapFulfillmentNode(campaignType) {
     return fulfillmentNodeTypes.profileCompleted;
   } else if ([campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(campaignType) > -1) {
     return fulfillmentNodeTypes.deposit;
-  } else if (campaignType === campaignTypes.WITHOUT_FULFILLMENT) {
+  } else if (campaignType === campaignTypes.WITHOUT_FULFILMENT) {
     return fulfillmentNodeTypes.noFulfillments;
   }
 
@@ -177,7 +177,7 @@ function updateCampaign(uuid, data) {
     if (fulfillmentNoFulfillments) {
       endpointParams = {
         ...endpointParams,
-        campaignType: campaignTypes.WITHOUT_FULFILLMENT,
+        campaignType: campaignTypes.WITHOUT_FULFILMENT,
       };
     }
 
