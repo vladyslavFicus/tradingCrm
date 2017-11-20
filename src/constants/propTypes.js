@@ -142,6 +142,7 @@ PropTypes.bonusEntity = PropTypes.shape({
   state: PropTypes.string,
   wagered: PropTypes.price,
   convertedAmount: PropTypes.number,
+  claimable: PropTypes.bool.isRequired,
 });
 PropTypes.fileEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,

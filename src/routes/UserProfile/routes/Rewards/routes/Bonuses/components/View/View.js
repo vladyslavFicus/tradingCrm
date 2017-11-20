@@ -112,7 +112,7 @@ class View extends Component {
   };
 
   handleRowClick = async (data) => {
-    const { canClaimBonus, fetchActiveBonus } = this.props;
+    const { fetchActiveBonus } = this.props;
     const actions = [
       {
         children: I18n.t('COMMON.CLOSE'),
@@ -121,7 +121,7 @@ class View extends Component {
       },
     ];
 
-    if (canClaimBonus && data.state === statuses.INACTIVE) {
+    if (data.claimable && data.state === statuses.INACTIVE) {
       const activeBonusAction = await fetchActiveBonus(this.props.params.id);
       if (activeBonusAction && !activeBonusAction.error && activeBonusAction.payload.content.length === 0) {
         actions.push({
