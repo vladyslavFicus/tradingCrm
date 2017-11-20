@@ -140,7 +140,7 @@ class PaymentAddModal extends Component {
     return (
       <div className="col-md-5">
         <Field
-          name="paymentAccount"
+          name="paymentAccountUuid"
           label={attributeLabels.paymentAccount}
           type="text"
           component={SelectField}
