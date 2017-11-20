@@ -310,7 +310,7 @@ const Form = reduxForm({
     };
 
     if (data.type === paymentTypes.Withdraw) {
-      rules.paymentAccount = 'required|string';
+      rules.paymentAccountUuid = 'required|string';
     }
 
     return createValidator(
