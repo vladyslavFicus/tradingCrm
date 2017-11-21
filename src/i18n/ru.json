@@ -109,9 +109,6 @@
           "SUSPECTED_FRAUD": "Подозрение мошенничества",
           "SUSPECTED_ML": "Suspected ML",
           "SUSPECTED_IDENTITY_THEFT": "Украденные данные"
-        },
-        "CONSTANTS": {
-          "REASON_LABEL": ""
         }
       },
       "KYC_STATUS_TITLE": {
