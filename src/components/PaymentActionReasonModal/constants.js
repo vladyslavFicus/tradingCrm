@@ -5,4 +5,8 @@ const attributeLabels = {
   customReason: I18n.t('PAYMENT_ACTION_REASON_MODAL.REASON_DROPDOWN.CONSTANTS.CUSTOM_REASON_LABEL'),
 };
 
-export { attributeLabels };
+export {
+  attributeLabels,
+};
+
+export default attributeLabels;

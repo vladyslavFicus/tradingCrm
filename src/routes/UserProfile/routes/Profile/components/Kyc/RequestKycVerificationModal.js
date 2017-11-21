@@ -5,19 +5,12 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import renderLabel from '../../../../../../utils/renderLabel';
 import Uuid from '../../../../../../components/Uuid';
-import { createValidator } from '../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../utils/validator';
 import { SelectField } from '../../../../../../components/ReduxForm';
 import { targetTypes } from '../../../../../../constants/note';
 import { verifyRequestReasons } from '../../../../../../constants/kyc';
 import NoteButton from '../../../../../../components/NoteButton';
-
-const attributeLabels = {
-  reason: I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.CONSTANTS.REASON_LABEL'),
-};
-
-const validator = (values, props) => createValidator({
-  reason: `required|string|in:${props.reasons.join()}`,
-}, attributeLabels, false)(values);
+import { attributeLabels } from './constants';
 
 class RequestKycVerificationModal extends Component {
   static propTypes = {
@@ -26,7 +19,7 @@ class RequestKycVerificationModal extends Component {
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool,
     playerUUID: PropTypes.string,
     fullName: PropTypes.string,
@@ -41,7 +34,6 @@ class RequestKycVerificationModal extends Component {
     show: false,
     pristine: false,
     submitting: false,
-    invalid: false,
     note: null,
     handleSubmit: null,
     reasons: [],
@@ -109,9 +101,9 @@ class RequestKycVerificationModal extends Component {
               {' - '}
               <Uuid uuid={playerUUID} uuidPrefix="PL" />
             </div>
-
             <Field
               name="reason"
+              label={I18n.t(attributeLabels.reason)}
               component={SelectField}
               position="vertical"
             >
@@ -122,8 +114,6 @@ class RequestKycVerificationModal extends Component {
                 </option>
               ))}
             </Field>
-
-
             <div className="text-center">
               <NoteButton
                 id="request-kyc-verification-note-button"
@@ -153,5 +143,7 @@ class RequestKycVerificationModal extends Component {
 
 export default reduxForm({
   form: 'requestKycVerificationModal',
-  validate: validator,
+  validate: (values, props) => createValidator({
+    reason: `required|string|in:${props.reasons.join()}`,
+  }, translateLabels(attributeLabels), false)(values),
 })(RequestKycVerificationModal);

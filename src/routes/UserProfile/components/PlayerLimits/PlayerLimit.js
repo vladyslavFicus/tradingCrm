@@ -59,7 +59,7 @@ class PlayerLimit extends Component {
           {
             reason &&
             <div className="header-block_player-limits-tab_log">
-              Reason - {reason}
+              {I18n.t('COMMON.REASON')} - {I18n.t(reason)}
             </div>
           }
           {

@@ -24,10 +24,7 @@ class BonusGridFilter extends Component {
       startDate: PropTypes.string,
       endDate: PropTypes.string,
     }),
-    invalid: PropTypes.bool,
-  };
-  static defaultProps = {
-    invalid: true,
+    invalid: PropTypes.bool.isRequired,
   };
 
   startDateValidator = (current) => {

@@ -13,7 +13,7 @@ class DepartmentsForm extends Component {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
     onFetch: PropTypes.func.isRequired,
     roles: PropTypes.arrayOf(PropTypes.dropDownOption),
     departments: PropTypes.arrayOf(PropTypes.dropDownOption),
@@ -25,7 +25,6 @@ class DepartmentsForm extends Component {
     roles: [],
     departments: [],
     authorities: [],
-    invalid: true,
   };
 
   state = {
@@ -85,7 +84,7 @@ class DepartmentsForm extends Component {
                     component={SelectField}
                     position="vertical"
                   >
-                    <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
+                    <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
                     {
                       availableDepartments.map(({ label, value }) => (
                         <option key={value} value={value}>
@@ -103,7 +102,7 @@ class DepartmentsForm extends Component {
                     component={SelectField}
                     position="vertical"
                   >
-                    <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
+                    <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
                     {
                       roles.map(({ label, value }) => (
                         <option key={value} value={value}>

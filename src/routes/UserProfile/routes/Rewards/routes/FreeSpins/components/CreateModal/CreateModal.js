@@ -21,7 +21,7 @@ class CreateModal extends Component {
     change: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -46,7 +46,6 @@ class CreateModal extends Component {
   static defaultProps = {
     pristine: false,
     submitting: false,
-    invalid: false,
     disabled: false,
     handleSubmit: null,
     change: null,

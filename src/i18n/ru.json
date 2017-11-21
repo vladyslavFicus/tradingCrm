@@ -48,6 +48,19 @@
         "SEARCH_PLACEHOLDER": "Быстрый поиск",
         "NO_RESULT_BY_SEARCH": "Не найдено страны “%{search}” в %{tabName}"
       }
+    },
+    "DEPOSIT_CHARGEBACK": {
+      "REASONS": {
+        "STOLEN_LOST_CC": "Утрачена/потеряна карта",
+        "CUSTOMER_NOT_SATISFIED": "Клиент не удовлетворен"
+      }
+    },
+    "WITHDRAW_REJECT": {
+      "REASONS": {
+        "USING_DIFFERENT_PM": "Использование других платежных методов",
+        "USING_3RD_PARTY_PM": "Использование сторонних платежных методов",
+        "CUSTOMER_REQUEST": "По запросу клиента"
+      }
     }
   },
   "PLAYER_PROFILE": {
@@ -88,14 +101,17 @@
         "ACTION_TEXT": "Вы собираетесь послать KYC запрос игроку %{fullName}",
         "BUTTON": "Послать KYC запрос",
         "TITLE": "Послать KYC запрос",
-        "CONSTANTS": {
-          "REASON_LABEL": "Причина",
-          "CHOOSE_REASON": "-- Выберите причину --"
-        },
         "REASONS": {
           "COMPLIANCE": "Согласие",
           "SECURITY_CHECK": "Проверка безопасности",
-          "WITHDRAWAL_ON_HOLD": "Вывод на холде"
+          "WITHDRAWAL_ON_HOLD": "Вывод на холде",
+          "WITHDRAWAL_OVER": "Вывод больше 2,300 EUR",
+          "SUSPECTED_FRAUD": "Подозрение мошенничества",
+          "SUSPECTED_ML": "Suspected ML",
+          "SUSPECTED_IDENTITY_THEFT": "Украденные данные"
+        },
+        "CONSTANTS": {
+          "REASON_LABEL": ""
         }
       },
       "KYC_STATUS_TITLE": {
@@ -160,13 +176,21 @@
         "REASON_ONE": "Первая причина",
         "REASON_TWO": "Вторая причина",
         "REASON_THREE": "Третья причина",
-        "REASON_FOUR": "Четвертая причина"
+        "REASON_FOUR": "Четвертая причина",
+        "USER_REQUEST": "Запрос клиента",
+        "BONUS_ABUSE": "Злоупотребление бонусами",
+        "DUPLICATE_ACCOUNT": "Дубликат аккаунта",
+        "PENDING_INVESTIGATION": "Исследуется",
+        "OTHER": "Другая"
       },
       "UNBLOCK_REASONS": {
         "REASON_ONE": "Первая причина разблокировки",
         "REASON_TWO": "Вторая причина разблокировки",
         "REASON_THREE": "Третья причина разблокировки",
-        "REASON_FOUR": "Четвертая причина разблокировки"
+        "REASON_FOUR": "Четвертая причина разблокировки",
+        "CUSTOMER_REQUEST": "По запросу клиента",
+        "INVESTIGATION_COMPLETE": "Исследование закончено",
+        "OTHER": "Другая"
       },
       "BALANCES_DROPDOWN": {
         "WITHDRAWABLE": "Доступно к выводу",
@@ -193,6 +217,10 @@
       },
       "EMAIL": {
         "TITLE": "Email"
+      },
+      "SELF_EXCLUSION_REASONS": {
+        "USER_REQUEST": "Запрос клиента",
+        "OTHER": "Другая"
       }
     },
     "GAME_ACTIVITY": {
@@ -476,7 +504,6 @@
         "BUTTON": "Создать Free-spin"
       },
       "MODAL_CANCEL": {
-        "SELECT_REASON_OPTION": "-- Выберите причину --",
         "CUSTOM_REASON_OPTION": "Другая причина",
         "TITLE": "Отмена Free spins",
         "ACTION_TEXT": "Вы собираетесь отменить \"%{title}\"",
@@ -538,6 +565,22 @@
           "CREATION_DATE_FROM": "Дата создания с",
           "CREATION_DATE_TO": "Дата создания по",
           "ACTION_DATE_RANGE": "Период даты создания"
+        }
+      }
+    },
+    "WALLET": {
+      "LOCK": {
+        "REASONS": {
+          "SUSPECTED_FRAUD": "Подозрение мошенничества",
+          "SUSPECTED_ML": "Suspected ML",
+          "SUSPECTED_IDENTITY_THEFT": "Украденные данные"
+        }
+      },
+      "UNLOCK": {
+        "REASONS": {
+          "KYC_PROVIDED": "Предоставлен KYC",
+          "DECLARATION_PROVIDED": "Предоставлена декларация",
+          "ID_PROVIDED": "Предоставлен ID"
         }
       }
     }
@@ -621,7 +664,12 @@
     "APPROVE": "Одобрить",
     "REJECT": "Отклонить",
     "DEFER": "Закрыть",
-    "SELECT_OPTION": "-- Выберите --",
+    "SELECT_OPTION": {
+      "DEFAULT": "-- Выберите --",
+      "REASON": "-- Выберите причину --",
+      "PERIOD": "-- Выберите период --",
+      "COUNTRY": "-- Выберите страну --"
+    },
     "CONFIRM": "Подтвердить",
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - Превышен общий предел в размере €2300 на снятие средств для неопытных игроков KYC.",
@@ -640,7 +688,8 @@
     "TRANSACTIONS": "Транзакции",
     "PLAYER_LIABILITY_REPORT": "Отчет об ответственности игрока",
     "PAYMENTS": "Платежи",
-    "ALL_ACTIONS": "Все действия"
+    "ALL_ACTIONS": "Все действия",
+    "REASON": "Причина"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -659,6 +708,10 @@
       "NO_UPLOADED": "Нет загруженных файлов",
       "BUTTONS": {
         "ADD_FILES": "+ Добавить файлы"
+      },
+      "LABEL": {
+        "NAME": "Название файла",
+        "CATEGORY": "Выберите категорию"
       }
     },
     "DELETE_MODAL": {
@@ -945,6 +998,16 @@
     },
     "IP_LIST": {
       "TITLE": "Последние 10 IP"
+    },
+    "CLOSE_REASONS": {
+      "PENDING_INVESTIGATION": "Исследуется",
+      "TERMINATED": "Отменен"
+    },
+    "ACTIVATE_REASONS": {
+      "ACTIVATE": "Причина активации"
+    },
+    "PERSONAL_INFORMATION": {
+      "TITLE": "Персональные данные"
     }
   },
   "FEED_ITEM": {
@@ -1188,7 +1251,6 @@
       }
     },
     "CHANGE_STATUS_MODAL": {
-      "SELECT_REASON_OPTION": "-- Выберите причину --",
       "CUSTOM_REASON_OPTION": "Другая",
       "CUSTOM_REASON_PLACEHOLDER": "Причина",
       "CANCEL_BUTTON": "Отмена",
@@ -1358,7 +1420,6 @@
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
-    "SELECT_REASON_OPTION": "-- Выберите причину --",
     "CUSTOM_REASON_OPTION": "Другая",
     "REASON_DROPDOWN": {
       "CONSTANTS": {

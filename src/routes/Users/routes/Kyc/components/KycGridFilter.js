@@ -21,10 +21,9 @@ class KycGridFilter extends Component {
     reset: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
   };
   static defaultProps = {
-    invalid: true,
     filterValues: {
       from: '',
       to: '',

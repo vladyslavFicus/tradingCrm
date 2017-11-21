@@ -48,6 +48,19 @@
         "SEARCH_PLACEHOLDER": "Quick search",
         "NO_RESULT_BY_SEARCH": "No countries begins from “%{search}” found in %{tabName}"
       }
+    },
+    "DEPOSIT_CHARGEBACK": {
+      "REASONS": {
+        "STOLEN_LOST_CC": "Stolen/Lost CC",
+        "CUSTOMER_NOT_SATISFIED": "Customer not satisfied"
+      }
+    },
+    "WITHDRAW_REJECT": {
+      "REASONS": {
+        "USING_DIFFERENT_PM": "Using different PM",
+        "USING_3RD_PARTY_PM": "Using 3-rd party PM",
+        "CUSTOMER_REQUEST": "Customer request"
+      }
     }
   },
   "PLAYER_PROFILE": {
@@ -87,13 +100,17 @@
         "ACTION_TEXT": "You are about to send KYC request to %{fullName}",
         "BUTTON": "Send KYC Request",
         "TITLE": "Send KYC request",
-        "CONSTANTS": {
-          "REASON_LABEL": "Reason"
-        },
         "REASONS": {
           "COMPLIANCE": "Compliance",
           "SECURITY_CHECK": "Security check",
-          "WITHDRAWAL_ON_HOLD": "Withdrawal on hold"
+          "WITHDRAWAL_ON_HOLD": "Withdrawal on hold",
+          "WITHDRAWAL_OVER": "Withdrawal over 2,300 EUR",
+          "SUSPECTED_FRAUD": "Suspected Fraud",
+          "SUSPECTED_ML": "Suspected ML",
+          "SUSPECTED_IDENTITY_THEFT": "Suspected Identity Theft"
+        },
+        "CONSTANTS": {
+          "REASON_LABEL": ""
         }
       },
       "KYC_STATUS_TITLE": {
@@ -143,9 +160,9 @@
       },
       "REFUSE_KYC_VERIFICATION": {
         "REASONS": {
-          "UNCLEAR_OR_DARK_DOC": "Unclear or dark doc",
-          "NOT_ALL_FOUR_CORNERS": "Not all four corner",
-          "EXPIRED_DOC": "Expired doc"
+          "UNCLEAR_OR_DARK_DOC": "Unclear document",
+          "NOT_ALL_FOUR_CORNERS": "Document is only partially visible – all edges must be visible",
+          "EXPIRED_DOC": "Expired document"
         }
       },
       "CHANGE_PASSWORD_MODAL": {
@@ -155,16 +172,16 @@
         "REPEAT_PASSWORD": "Repeat password"
       },
       "BLOCK_REASONS": {
-        "REASON_ONE": "Reason one",
-        "REASON_TWO": "Reason two",
-        "REASON_THREE": "Reason three",
-        "REASON_FOUR": "Reason four"
+        "USER_REQUEST": "User request",
+        "BONUS_ABUSE": "Bonus abuse",
+        "DUPLICATE_ACCOUNT": "Duplicate account",
+        "PENDING_INVESTIGATION": "Pending investigation",
+        "OTHER": "Other (require space to input reason manually)"
       },
       "UNBLOCK_REASONS": {
-        "REASON_ONE": "Unblock reason one",
-        "REASON_TWO": "Unblock reason two",
-        "REASON_THREE": "Unblock reason three",
-        "REASON_FOUR": "Unblock reason four"
+        "CUSTOMER_REQUEST": "Customer request",
+        "INVESTIGATION_COMPLETE": "Investigation complete",
+        "OTHER": "Other (require space to input reason manually)"
       },
       "BALANCES_DROPDOWN": {
         "WITHDRAWABLE": "Withdrawable",
@@ -191,6 +208,10 @@
       },
       "EMAIL": {
         "TITLE": "Email"
+      },
+      "SELF_EXCLUSION_REASONS": {
+        "USER_REQUEST": "User request",
+        "OTHER": "Other"
       }
     },
     "GAME_ACTIVITY": {
@@ -474,7 +495,6 @@
         "BUTTON": "Create Free-spin"
       },
       "MODAL_CANCEL": {
-        "SELECT_REASON_OPTION": "-- Select reason --",
         "CUSTOM_REASON_OPTION": "Other",
         "TITLE": "Free spins cancelation",
         "ACTION_TEXT": "You are about to %{action} the \"%{title}\"",
@@ -536,6 +556,22 @@
           "CREATION_DATE_FROM": "Creation date from",
           "CREATION_DATE_TO": "Creation date to",
           "ACTION_DATE_RANGE": "Action date range"
+        }
+      }
+    },
+    "WALLET": {
+      "LOCK": {
+        "REASONS": {
+          "SUSPECTED_FRAUD": "Suspected Fraud",
+          "SUSPECTED_ML": "Suspected ML",
+          "SUSPECTED_IDENTITY_THEFT": "Suspected Identity Theft"
+        }
+      },
+      "UNLOCK": {
+        "REASONS": {
+          "KYC_PROVIDED": "KYC provided",
+          "DECLARATION_PROVIDED": "Declaration of Source of Funds provided",
+          "ID_PROVIDED": "Selfie ID provided"
         }
       }
     }
@@ -619,7 +655,12 @@
     "APPROVE": "Approve",
     "REJECT": "Reject",
     "DEFER": "Defer",
-    "SELECT_OPTION": "-- Select --",
+    "SELECT_OPTION": {
+      "DEFAULT": "-- Select --",
+      "REASON": "-- Select reason --",
+      "PERIOD": "-- Select period --",
+      "COUNTRY": "-- Select country --"
+    },
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded.",
@@ -638,7 +679,8 @@
     "TRANSACTIONS": "Transactions",
     "PLAYER_LIABILITY_REPORT": "Player liability report",
     "PAYMENTS": "Payments",
-    "ALL_ACTIONS": "All actions"
+    "ALL_ACTIONS": "All actions",
+    "REASON": "Reason"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -657,6 +699,10 @@
       "NO_UPLOADED": "There are no uploaded files",
       "BUTTONS": {
         "ADD_FILES": "+ Add files"
+      },
+      "LABEL": {
+        "NAME": "File title",
+        "CATEGORY": "Choose category"
       }
     },
     "DELETE_MODAL": {
@@ -939,6 +985,16 @@
     },
     "IP_LIST": {
       "TITLE": "Last 10 ip's"
+    },
+    "CLOSE_REASONS": {
+      "PENDING_INVESTIGATION": "Pending investigation",
+      "TERMINATED": "Terminated"
+    },
+    "ACTIVATE_REASONS": {
+      "ACTIVATE": "Activate reason"
+    },
+    "PERSONAL_INFORMATION": {
+      "TITLE": "Personal information"
     }
   },
   "FEED_ITEM": {
@@ -1181,7 +1237,6 @@
       }
     },
     "CHANGE_STATUS_MODAL": {
-      "SELECT_REASON_OPTION": "-- Select reason --",
       "CUSTOM_REASON_OPTION": "Other",
       "CUSTOM_REASON_PLACEHOLDER": "Custom reason",
       "CANCEL_BUTTON": "Cancel",
@@ -1347,7 +1402,6 @@
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
-    "SELECT_REASON_OPTION": "-- Select --",
     "CUSTOM_REASON_OPTION": "Other",
     "REASON_DROPDOWN": {
       "CONSTANTS": {

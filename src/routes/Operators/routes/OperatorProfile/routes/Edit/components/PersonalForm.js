@@ -32,7 +32,9 @@ class PersonalForm extends Component {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
           <div className="col-xl-6">
-            <span className="personal-form-heading">Personal information</span>
+            <span className="personal-form-heading">
+              {I18n.t('OPERATOR_PROFILE.PERSONAL_INFORMATION.TITLE')}
+            </span>
           </div>
           {!(pristine || submitting) &&
           <div className="col-xl-6 text-right">
@@ -103,7 +105,7 @@ class PersonalForm extends Component {
               component={SelectField}
               position="vertical"
             >
-              <option value="">-- Select country --</option>
+              <option value="">{I18n.t('COMMON.SELECT_OPTION.COUNTRY')}</option>
               {Object
                 .keys(countries)
                 .map(key => <option key={key} value={key}>{countries[key]}</option>)

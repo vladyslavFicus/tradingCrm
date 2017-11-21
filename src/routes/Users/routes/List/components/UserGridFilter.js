@@ -39,7 +39,7 @@ class UserGridFilter extends Component {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     currentValues: {
@@ -62,7 +62,6 @@ class UserGridFilter extends Component {
     handleSubmit: null,
     reset: null,
     disabled: false,
-    invalid: true,
   };
 
   startDateValidator = toAttribute => (current) => {
