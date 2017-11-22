@@ -22,6 +22,7 @@ class View extends Component {
       startDate: PropTypes.bonusCampaignEntity.startDate,
       endDate: PropTypes.bonusCampaignEntity.endDate,
       wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
+      promoCode: PropTypes.bonusCampaignEntity.promoCode,
       bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
       campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
@@ -96,11 +97,11 @@ class View extends Component {
       if (action.error && action.payload.response.fields_errors) {
         const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
           ...res,
-          [name]: action.payload.response.fields_errors[name].error,
+          [name]: I18n.t(action.payload.response.fields_errors[name].error),
         }), {});
         throw new SubmissionError(errors);
       } else if (action.payload.response && action.payload.response.error) {
-        throw new SubmissionError({ __error: action.payload.response.error });
+        throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
       }
     }
 

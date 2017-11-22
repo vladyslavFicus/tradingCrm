@@ -55,6 +55,7 @@ class Form extends Component {
       startDate: PropTypes.bonusCampaignEntity.startDate,
       endDate: PropTypes.bonusCampaignEntity.endDate,
       wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
+      promoCode: PropTypes.bonusCampaignEntity.promoCode,
       bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
       campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
@@ -281,6 +282,18 @@ class Form extends Component {
                     placeholder={attributeLabels.endDate}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('startDate')}
+                    position="vertical"
+                    disabled={disabled}
+                  />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-row__big">
+                  <Field
+                    name="promoCode"
+                    type="text"
+                    label={I18n.t(attributeLabels.promoCode)}
+                    component={InputField}
                     position="vertical"
                     disabled={disabled}
                   />

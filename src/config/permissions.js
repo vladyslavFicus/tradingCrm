@@ -23,6 +23,7 @@ export default {
     REMOVE: 'profile;PUT;/profiles/{playerUUID}/resume',
     PROFILE_VIEW: 'profile;GET;/profiles/{playerUUID}',
     ADD_TO_CAMPAIGN: 'promotion;PUT;/campaigns/{id}/players-list/{playerUUID}',
+    ADD_PROMO_CODE_TO_PLAYER: 'promotion;PUT;/campaigns/{playerUUID}/by-promo-code/{promoCode}',
     ADD_TAG: 'profile;POST;/profiles/{playerUUID}/tags',
     DELETE_TAG: 'profile;DELETE;/profiles/{playerUUID}/tags/{tagId}',
     LOCK_DEPOSIT: 'payment;POST;/lock/deposit',
