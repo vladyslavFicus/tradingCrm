@@ -173,7 +173,7 @@ class Form extends Component {
           <div className="tab-header__heading">
             {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
           </div>
-          {!(disabled || pristine || submitting || !valid || !_.isEmpty(errors) || !fulfillmentExist) &&
+          {!(pristine || submitting || !valid || !_.isEmpty(errors) || !fulfillmentExist) &&
           <div className="tab-header__actions">
             <button
               onClick={this.handleRevert}
@@ -295,7 +295,6 @@ class Form extends Component {
                     label={I18n.t(attributeLabels.promoCode)}
                     component={InputField}
                     position="vertical"
-                    disabled={disabled}
                   />
                 </div>
               </div>
