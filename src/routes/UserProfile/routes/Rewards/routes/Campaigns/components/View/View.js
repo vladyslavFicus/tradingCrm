@@ -148,10 +148,6 @@ class View extends Component {
     }
   };
 
-  handleAddPromoCodeClick = () => {
-    this.handleOpenModal(ADD_PROMO_CODE_MODAL);
-  }
-
   handleAddToCampaign = async ({ campaignUuid }) => {
     const { params: { id }, addPlayerToCampaign } = this.props;
 
@@ -295,7 +291,7 @@ class View extends Component {
               <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
                 <button
                   className="btn btn-primary-outline margin-left-15 btn-sm"
-                  onClick={this.handleAddPromoCodeClick}
+                  onClick={() =>this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
                 >
                   {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
                 </button>

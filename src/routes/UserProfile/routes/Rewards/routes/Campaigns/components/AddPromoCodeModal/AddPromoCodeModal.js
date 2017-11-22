@@ -7,7 +7,7 @@ import { createValidator, translateLabels } from '../../../../../../../../utils/
 import { InputField } from '../../../../../../../../components/ReduxForm';
 import { attributeLabels } from './constants';
 
-class AddToCampaignModal extends PureComponent {
+class AddPromoCodeModal extends PureComponent {
   static propTypes = {
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
@@ -82,4 +82,4 @@ export default reduxForm({
   validate: createValidator({
     promoCode: ['required', 'string'],
   }, translateLabels(attributeLabels), false),
-})(AddToCampaignModal);
+})(AddPromoCodeModal);
