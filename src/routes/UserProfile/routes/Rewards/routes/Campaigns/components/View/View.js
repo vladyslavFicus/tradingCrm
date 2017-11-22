@@ -182,7 +182,7 @@ class View extends Component {
       throw new SubmissionError({ promoCode: I18n.t(action.payload.response.error) });
     }
 
-    this.handleCloseModal(this.handleRefresh);
+    this.handleCloseModal();
   }
 
   renderCampaign = data => (
