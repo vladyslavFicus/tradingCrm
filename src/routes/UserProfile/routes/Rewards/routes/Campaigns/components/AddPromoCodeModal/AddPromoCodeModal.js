@@ -35,7 +35,7 @@ class AddPromoCodeModal extends PureComponent {
     } = this.props;
 
     return (
-      <Modal className="add-to-campaign-modal" toggle={onClose} isOpen>
+      <Modal toggle={onClose} isOpen>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader toggle={onClose}>
             {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_PROMO_CODE.TITLE')}

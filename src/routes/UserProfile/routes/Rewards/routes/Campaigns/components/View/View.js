@@ -183,7 +183,7 @@ class View extends Component {
     }
 
     this.handleCloseModal();
-  }
+  };
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>
@@ -291,7 +291,7 @@ class View extends Component {
               <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
                 <button
                   className="btn btn-primary-outline margin-left-15 btn-sm"
-                  onClick={() =>this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
+                  onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
                 >
                   {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
                 </button>
