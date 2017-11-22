@@ -3,46 +3,8 @@
     display: none;
     &.opened {
       display: block;
-      float: left;
     }
   }
-
-  .Select {
-    position: relative;
-    height: 23px;
-    .Select-menu-outer {
-      position: absolute;
-      min-width: 150px;
-    }
-  }
-
-  .Select:focus {
-    outline: none;
-  }
-
-  .Select-control {
-    display: inline-block;
-    height: 24px;
-    min-width: 31px;
-    border-radius: 0;
-    background: #6a7a84;
-    border: 0;
-    color: #fff;
-    .Select-placeholder {
-      padding: 0;
-    }
-    .Select-input {
-      height: 12px;
-      font-size: 10px;
-      input {
-        padding: 0 0 3px 0;
-      }
-    }
-    .Select-arrow-zone {
-      display: none;
-    }
-  }
-
   .btn-delete {
     display: none;
     background-color: #6a7a84;
@@ -52,8 +14,45 @@
   .opened + .btn-add-tag {
     display: none;
 
-    &+.btn-delete {
+    & + .btn-delete {
       display: block;
     }
   }
+}
+
+.Select {
+  height: 23px;
+  &:focus {
+    outline: none;
+  }
+  &-placeholder {
+    padding: 0;
+  }
+  &-menu-outer {
+    position: absolute;
+    min-width: 150px;
+  }
+  &-control {
+    display: inline-block;
+    height: 24px;
+    min-width: 31px;
+    border-radius: 0;
+    background: #6a7a84;
+    border: 0;
+    color: #fff;
+  }
+  &-input {
+    height: 12px;
+    font-size: 10px;
+    input {
+      padding: 0 0 3px 0;
+    }
+  }
+  &-arrow-zone {
+    display: none;
+  }
+}
+
+.is-open > .Select-control {
+  background: #6a7a84;
 }
