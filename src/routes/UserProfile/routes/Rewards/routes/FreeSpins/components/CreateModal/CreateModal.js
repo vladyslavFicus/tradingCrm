@@ -6,7 +6,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import { InputField, DateTimeField, SelectField } from '../../../../../../../../components/ReduxForm';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { attributeLabels } from './constants';
 import Amount, { Currency } from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
@@ -500,10 +500,6 @@ class CreateModal extends Component {
   }
 }
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
 const FORM_NAME = 'freeSpinManage';
 const CreateModalReduxForm = reduxForm({
   form: FORM_NAME,
@@ -545,7 +541,7 @@ const CreateModalReduxForm = reduxForm({
       rules.betPerLine = ['required', 'numeric', 'max:1000'];
     }
 
-    return createValidator(rules, validatorAttributeLabels, false)(values);
+    return createValidator(rules, translateLabels(attributeLabels), false)(values);
   },
 })(CreateModal);
 

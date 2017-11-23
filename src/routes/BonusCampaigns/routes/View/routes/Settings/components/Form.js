@@ -55,6 +55,7 @@ class Form extends Component {
       startDate: PropTypes.bonusCampaignEntity.startDate,
       endDate: PropTypes.bonusCampaignEntity.endDate,
       wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
+      promoCode: PropTypes.bonusCampaignEntity.promoCode,
       bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
       campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
@@ -172,7 +173,7 @@ class Form extends Component {
           <div className="tab-header__heading">
             {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
           </div>
-          {!(disabled || pristine || submitting || !valid || !_.isEmpty(errors) || !fulfillmentExist) &&
+          {!(pristine || submitting || !valid || !_.isEmpty(errors) || !fulfillmentExist) &&
           <div className="tab-header__actions">
             <button
               onClick={this.handleRevert}
@@ -283,6 +284,17 @@ class Form extends Component {
                     isValidDate={this.endDateValidator('startDate')}
                     position="vertical"
                     disabled={disabled}
+                  />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-row__big">
+                  <Field
+                    name="promoCode"
+                    type="text"
+                    label={I18n.t(attributeLabels.promoCode)}
+                    component={InputField}
+                    position="vertical"
                   />
                 </div>
               </div>

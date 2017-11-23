@@ -16,6 +16,7 @@ const mapActions = {
   declineCampaign: actionCreators.declineCampaign,
   fetchCampaigns: actionCreators.fetchCampaigns,
   addPlayerToCampaign: actionCreators.addPlayerToCampaign,
+  addPromoCodeToPlayer: actionCreators.addPromoCodeToPlayer,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

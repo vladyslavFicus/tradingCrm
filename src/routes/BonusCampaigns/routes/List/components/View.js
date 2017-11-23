@@ -122,11 +122,11 @@ class View extends Component {
       } else if (action.payload.response.fields_errors) {
         const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
           ...res,
-          [name]: action.payload.response.fields_errors[name].error,
+          [name]: I18n.t(action.payload.response.fields_errors[name].error),
         }), {});
         throw new SubmissionError(errors);
       } else if (action.payload.response.error) {
-        throw new SubmissionError({ __error: action.payload.response.error });
+        throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
       }
     }
 

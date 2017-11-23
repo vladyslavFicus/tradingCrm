@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
+import { SubmissionError } from 'redux-form';
 import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
@@ -17,11 +18,13 @@ import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
 import AddToCampaignModal from '../AddToCampaignModal';
+import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../config/permissions';
 
 const CAMPAIGN_DECLINE_MODAL = 'campaign-decline-modal';
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
+const ADD_PROMO_CODE_MODAL = 'add-promo-code-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -35,6 +38,7 @@ class View extends Component {
     declineCampaign: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     addPlayerToCampaign: PropTypes.func.isRequired,
+    addPromoCodeToPlayer: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
@@ -170,6 +174,17 @@ class View extends Component {
     this.handleCloseModal(this.handleRefresh);
   };
 
+  handleAddPromoCode = async ({ promoCode }) => {
+    const { params: { id }, addPromoCodeToPlayer } = this.props;
+    const action = await addPromoCodeToPlayer(id, promoCode);
+
+    if (!action || action.error) {
+      throw new SubmissionError({ promoCode: I18n.t(action.payload.response.error) });
+    }
+
+    this.handleCloseModal();
+  };
+
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>
       <IframeLink
@@ -273,6 +288,14 @@ class View extends Component {
                   {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
                 </button>
               </PermissionContent>
+              <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
+                <button
+                  className="btn btn-primary-outline margin-left-15 btn-sm"
+                  onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
+                >
+                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
+                </button>
+              </PermissionContent>
             </div>
           </div>
         </Sticky>
@@ -337,6 +360,15 @@ class View extends Component {
             {...modal.params}
             onClose={this.handleCloseModal}
             onSubmit={this.handleAddToCampaign}
+            fullName={profile.fullName}
+          />
+        }
+        {
+          modal.name === ADD_PROMO_CODE_MODAL &&
+          <AddPromoCodeModal
+            {...modal.params}
+            onClose={this.handleCloseModal}
+            onSubmit={this.handleAddPromoCode}
             fullName={profile.fullName}
           />
         }

@@ -9,6 +9,7 @@ import {
 const KEY = 'player/bonus-campaign/campaigns';
 const FETCH_CAMPAIGNS = createRequestAction(`${KEY}/fetch-campaigns`);
 const ADD_PLAYER_TO_CAMPAIGN = createRequestAction(`${KEY}/add-player-to-campaign`);
+const ADD_PROMO_CODE_TO_PLAYER = createRequestAction(`${KEY}/add-promo-code-to-player`);
 const fetchCampaigns = (filters = {}) => sourceActionCreators.fetchCampaigns(FETCH_CAMPAIGNS)({
   ...filters,
   size: 99999,
@@ -40,6 +41,30 @@ function addPlayerToCampaign(uuid, playerUUID) {
   };
 }
 
+function addPromoCodeToPlayer(playerUUID, promoCode) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `promotion/campaigns/${playerUUID}/by-promo-code/${promoCode}`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          ADD_PROMO_CODE_TO_PLAYER.REQUEST,
+          ADD_PROMO_CODE_TO_PLAYER.SUCCESS,
+          ADD_PROMO_CODE_TO_PLAYER.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const actionTypes = {
   FETCH_CAMPAIGNS,
   ADD_PLAYER_TO_CAMPAIGN,
@@ -47,6 +72,7 @@ const actionTypes = {
 const actionCreators = {
   fetchCampaigns,
   addPlayerToCampaign,
+  addPromoCodeToPlayer,
 };
 
 export {
