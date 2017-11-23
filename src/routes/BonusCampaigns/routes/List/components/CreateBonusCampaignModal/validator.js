@@ -31,6 +31,7 @@ export default (values, params) => {
     minAmount: 'min:0',
     maxAmount: 'min:0',
     lockAmountStrategy: 'required',
+    promoCode: 'string',
   };
 
   if (values.minAmount) {

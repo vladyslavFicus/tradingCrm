@@ -397,6 +397,13 @@
           "AVAILABILITY": "Availability",
           "STATUS": "Status",
           "ACTIVE_ONLY": "Active only"
+        },
+        "ADD_PROMO_CODE": {
+          "TITLE": "Add promo code to player",
+          "ACTION": "You are about to add promo code to player %{fullName}",
+          "LABEL": {
+            "PROMO_CODE": "Promo code"
+          }
         }
       },
       "NOTIFICATIONS": {
@@ -413,7 +420,8 @@
           "MESSAGE": "Could not add player to campaign."
         }
       },
-      "ADD_TO_CAMPAIGN_BUTTON": "+ Add to Campaign"
+      "ADD_TO_CAMPAIGN_BUTTON": "+ Add to Campaign",
+      "ADD_PROMO_CODE_BUTTON": "+ Add promo code"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -1184,7 +1192,8 @@
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
       "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- Choose lock --",
-      "CLAIMABLE_LABEL": "Claimable"
+      "CLAIMABLE_LABEL": "Claimable",
+      "PROMO_CODE": "Promo code"
     },
     "SETTINGS": {
       "LABEL": {
@@ -1211,7 +1220,8 @@
         "COUNTRIES": "Countries",
         "START_DATE": "Start date",
         "END_DATE": "End date",
-        "LOCK_AMOUNT_STRATEGY_LABEL": "Lock strategy"
+        "LOCK_AMOUNT_STRATEGY_LABEL": "Lock strategy",
+        "PROMO_CODE": "Promo code"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
@@ -1346,6 +1356,9 @@
       "invalid": {
         "payment": {
           "operation": "Invalid payment operation"
+        },
+        "campaign": {
+          "promo-code": "Invalid promo code"
         }
       },
       "email": {
@@ -1363,6 +1376,13 @@
     },
     "user": {
       "logon-attempts-limit-reached": "by 5 failed login attempts"
+    },
+    "campaign": {
+      "command": {
+        "byPromoCode": {
+          "notAllow": "Not allow"
+        }
+      }
     }
   },
   "NOTE_BUTTON": {

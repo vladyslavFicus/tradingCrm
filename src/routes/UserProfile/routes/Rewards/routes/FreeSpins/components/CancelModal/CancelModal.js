@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import renderLabel from '../../../../../../../../utils/renderLabel';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../../../../../components/ReduxForm';
 import Uuid from '../../../../../../../../components/Uuid';
 import { actionLabels } from '../../../../../../../../constants/free-spin';
 import { attributeLabels } from './constants';
 
 const CUSTOM_REASON = 'custom';
-const FORM_NAME = 'freeSpinCancelModal';
 
 class CancelModal extends Component {
   static propTypes = {
@@ -142,10 +141,8 @@ class CancelModal extends Component {
   }
 }
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
+const FORM_NAME = 'freeSpinCancelModal';
+
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
 }))(
@@ -160,7 +157,7 @@ export default connect(state => ({
         rules.customReason = 'required|string|min:3';
       }
 
-      return createValidator(rules, validatorAttributeLabels, false)(data);
+      return createValidator(rules, translateLabels(attributeLabels), false)(data);
     }
     ,
   })(CancelModal),

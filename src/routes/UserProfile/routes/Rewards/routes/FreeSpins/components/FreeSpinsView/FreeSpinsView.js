@@ -108,11 +108,14 @@ class FreeSpinsView extends Component {
   };
 
   handleRefresh = () => {
-    this.props.fetchFreeSpins({
+    const { params: { id: playerUUID }, fetchFreeSpins, fetchFilters } = this.props;
+
+    fetchFreeSpins({
       ...this.state.filters,
       page: this.state.page,
-      playerUUID: this.props.params.id,
-    });
+      playerUUID,
+    })
+      .then(() => fetchFilters(playerUUID));
   };
 
   handleFiltersChanged = (filters = {}) => {
@@ -170,7 +173,6 @@ class FreeSpinsView extends Component {
       createFreeSpin,
       resetNote,
       list: { newEntityNote: unsavedNote },
-      fetchFilters,
     } = this.props;
     const action = await createFreeSpin(data);
 
@@ -185,7 +187,6 @@ class FreeSpinsView extends Component {
       }
 
       resetNote();
-      fetchFilters();
       this.handleModalClose(this.handleRefresh);
     }
 

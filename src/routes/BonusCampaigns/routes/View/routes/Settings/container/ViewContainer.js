@@ -24,6 +24,7 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
     campaignType: data.campaignType,
     excludeCountries: data.excludeCountries,
     countries: data.countries || [],
+    promoCode: data.promoCode,
   };
 
   bonusCampaignForm = {

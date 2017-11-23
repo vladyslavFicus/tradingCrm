@@ -5,50 +5,10 @@ import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { InputField, DateTimeField, SelectField } from '../../../../../../../../components/ReduxForm';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { attributeLabels, lockAmountStrategyLabels } from './constants';
-
-const FORM_NAME = 'bonusManage';
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
-const validator = (values) => {
-  const rules = {
-    playerUUID: 'required|string',
-    label: 'required|string',
-    priority: 'required|numeric|min:0',
-    grantedAmount: 'required|numeric|min:0',
-    amountToWage: 'required|numeric|min:0',
-    expirationDate: 'required',
-    prize: ['numeric', 'min:0'],
-    capping: ['numeric', 'min:0'],
-    converted: 'required',
-    wagered: 'required',
-    currency: 'required',
-    lockAmountStrategy: 'required',
-  };
-
-  if (values.prize && values.prize.value) {
-    const value = parseFloat(values.prize.value).toFixed(2);
-
-    if (!isNaN(value)) {
-      rules.capping.value.push('greaterThan:prize');
-    }
-  }
-
-  if (values.capping && values.capping.value) {
-    const value = parseFloat(values.capping.value).toFixed(2);
-
-    if (!isNaN(value)) {
-      rules.prize.value.push('lessThan:capping');
-    }
-  }
-
-  return createValidator(rules, validatorAttributeLabels, false)(values);
-};
 
 class CreateModal extends Component {
   static propTypes = {
@@ -233,7 +193,41 @@ class CreateModal extends Component {
   }
 }
 
+const FORM_NAME = 'bonusManage';
 export default reduxForm({
   form: FORM_NAME,
-  validate: validator,
+  validate: (values) => {
+    const rules = {
+      playerUUID: 'required|string',
+      label: 'required|string',
+      priority: 'required|numeric|min:0',
+      grantedAmount: 'required|numeric|min:0',
+      amountToWage: 'required|numeric|min:0',
+      expirationDate: 'required',
+      prize: ['numeric', 'min:0'],
+      capping: ['numeric', 'min:0'],
+      converted: 'required',
+      wagered: 'required',
+      currency: 'required',
+      lockAmountStrategy: 'required',
+    };
+
+    if (values.prize && values.prize.value) {
+      const value = parseFloat(values.prize.value).toFixed(2);
+
+      if (!isNaN(value)) {
+        rules.capping.value.push('greaterThan:prize');
+      }
+    }
+
+    if (values.capping && values.capping.value) {
+      const value = parseFloat(values.capping.value).toFixed(2);
+
+      if (!isNaN(value)) {
+        rules.prize.value.push('lessThan:capping');
+      }
+    }
+
+    return createValidator(rules, translateLabels(attributeLabels), false)(values);
+  },
 })(CreateModal);

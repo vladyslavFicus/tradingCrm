@@ -150,7 +150,7 @@ function exportFreeSpins(filters = {}) {
 function createFreeSpin(data) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
-    const endpointSuffix = `/${data.aggregatorId && data.aggregatorId !== aggregators.igromat ? data.providerId : ''}`;
+    const endpointSuffix = data.aggregatorId && data.aggregatorId !== aggregators.igromat ? `/${data.providerId}` : '';
     const endpoint = `free_spin/free-spins${endpointSuffix}`;
 
     return dispatch({
