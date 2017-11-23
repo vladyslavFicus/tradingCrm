@@ -99,7 +99,7 @@ class PhoneForm extends Component {
               className="form-control"
               disabled={disabled}
             >
-              <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
+              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
               {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
             </Field>
           </div>

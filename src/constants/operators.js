@@ -24,26 +24,31 @@ const statusColorNames = {
   [statuses.CLOSED]: 'color-danger',
 };
 
-const reasons = [
-  'REASON_ONE',
-  'REASON_TWO',
-  'REASON_THREE',
-  'REASON_FOUR',
-];
+const closeReasons = {
+  'OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION':
+    I18n.t('OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION'),
+  'OPERATOR_PROFILE.CLOSE_REASONS.TERMINATED':
+    I18n.t('OPERATOR_PROFILE.CLOSE_REASONS.TERMINATED'),
+};
+
+const activeReasons = {
+  'OPERATOR_PROFILE.ACTIVATE_REASONS.ACTIVATE':
+    I18n.t('OPERATOR_PROFILE.ACTIVATE_REASONS.ACTIVATE'),
+};
 
 const statusActions = {
   [statuses.ACTIVE]: [
     {
       action: actions.CLOSED,
       label: 'Close',
-      reasons,
+      reasons: closeReasons,
     },
   ],
   [statuses.CLOSED]: [
     {
       action: actions.ACTIVE,
       label: 'Activate',
-      reasons,
+      reasons: activeReasons,
     },
   ],
 };
@@ -79,7 +84,6 @@ export {
   statusesLabels,
   statusColorNames,
   statusActions,
-  reasons,
   departments,
   departmentsLabels,
   roles,

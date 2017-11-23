@@ -1,7 +1,6 @@
 import { statuses as operatorStatuses } from '../../constants/operators';
 import { statuses as userStatuses } from '../../constants/user';
 import { statuses as paymentStatuses, types as paymentTypes } from '../../constants/payment';
-import { statuses as campaignStatuses } from '../../constants/bonus-campaigns';
 
 const operatorStatusNames = {
   [operatorStatuses.INACTIVE]: 'inactive',

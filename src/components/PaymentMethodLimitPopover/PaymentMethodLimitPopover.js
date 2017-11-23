@@ -30,7 +30,7 @@ class PaymentMethodLimitPopover extends Component {
     target: PropTypes.string.isRequired,
     limitType: PropTypes.string.isRequired,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool,
     toggle: PropTypes.func,
     handleSubmit: PropTypes.func,
@@ -40,7 +40,6 @@ class PaymentMethodLimitPopover extends Component {
   static defaultProps = {
     placement: 'bottom left',
     submitting: false,
-    invalid: false,
     pristine: false,
     toggle: null,
     handleSubmit: null,

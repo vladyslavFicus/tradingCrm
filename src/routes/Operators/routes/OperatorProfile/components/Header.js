@@ -16,7 +16,7 @@ class Header extends Component {
       action: PropTypes.string,
       label: PropTypes.string,
       role: PropTypes.string,
-      reasons: PropTypes.array,
+      reasons: PropTypes.object,
     })).isRequired,
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,

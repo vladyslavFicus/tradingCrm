@@ -28,7 +28,7 @@ class CancelModal extends Component {
     }).isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -41,7 +41,6 @@ class CancelModal extends Component {
     },
     pristine: false,
     submitting: false,
-    invalid: false,
   };
 
   handleSubmit = ({ reason, customReason }) => {
@@ -58,9 +57,7 @@ class CancelModal extends Component {
         component={SelectField}
         position="vertical"
       >
-        <option value="">
-          {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.SELECT_REASON_OPTION')}
-        </option>
+        <option value="">{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
         {Object.keys(reasons).map(key => (
           <option key={key} value={key}>
             {renderLabel(key, reasons)}
@@ -151,14 +148,10 @@ export default connect(state => ({
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate: (data) => {
+    validate: (data, props) => {
       const rules = {
-        reason: 'string',
+        reason: `required|string|in:${Object.keys(props.reasons).join()},custom`,
       };
-
-      if (data.reasons) {
-        rules.reason = `required|string|in:${Object.keys(data.reasons).join()},${CUSTOM_REASON}`;
-      }
 
       if (data.reason === CUSTOM_REASON) {
         rules.customReason = 'required|string|min:3';

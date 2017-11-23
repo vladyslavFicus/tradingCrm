@@ -18,7 +18,7 @@ class AddToCampaignModal extends PureComponent {
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     fullName: PropTypes.string.isRequired,
@@ -26,7 +26,6 @@ class AddToCampaignModal extends PureComponent {
   static defaultProps = {
     pristine: false,
     submitting: false,
-    invalid: false,
     handleSubmit: null,
   };
 

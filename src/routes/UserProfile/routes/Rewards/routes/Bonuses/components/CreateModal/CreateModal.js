@@ -15,7 +15,7 @@ class CreateModal extends Component {
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -24,7 +24,6 @@ class CreateModal extends Component {
     handleSubmit: null,
     pristine: false,
     submitting: false,
-    invalid: false,
     disabled: false,
   };
 

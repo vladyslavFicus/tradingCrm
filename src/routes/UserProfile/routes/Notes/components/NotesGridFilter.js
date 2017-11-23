@@ -22,13 +22,12 @@ class NotesGridFilter extends Component {
       to: PropTypes.string,
     }),
     availableTypes: PropTypes.arrayOf(PropTypes.string),
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     currentValues: {},
     availableTypes: [],
-    invalid: true,
   };
 
   startDateValidator = (current) => {
