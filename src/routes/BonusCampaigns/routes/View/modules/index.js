@@ -3,7 +3,7 @@ import _ from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { actions, statusesReasons, campaignTypes } from '../../../../../constants/bonus-campaigns';
+import { actions, statusesReasons, campaignTypes, countryStrategies } from '../../../../../constants/bonus-campaigns';
 import buildFormData from '../../../../../utils/buildFormData';
 import { nodeGroupTypes } from '../routes/Settings/constants';
 import { nodeTypes as fulfillmentNodeTypes } from '../routes/Settings/components/Fulfillments/constants';
@@ -137,7 +137,7 @@ function updateCampaign(uuid, data) {
 
     let endpointParams = {
       ...data,
-      includeCountries: !data.excludeCountries,
+      countryStrategy: data.excludeCountries ? countryStrategies.EXCLUDE : countryStrategies.INCLUDE,
     };
     if (
       endpointParams.conversionPrize &&
@@ -341,7 +341,7 @@ const actionHandlers = {
     data: {
       ...state.data,
       ...action.payload,
-      excludeCountries: !action.payload.includeCountries,
+      excludeCountries: action.payload.countryStrategy === countryStrategies.EXCLUDE,
     },
     nodeGroups: {
       ...state.nodeGroups,

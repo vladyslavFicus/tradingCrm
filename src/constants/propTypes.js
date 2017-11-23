@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { types as limitTypes } from '../constants/limits';
+import { types as limitTypes } from './limits';
+import { countryStrategies } from './bonus-campaigns';
 
 PropTypes.price = PropTypes.shape({
   amount: PropTypes.number,
@@ -363,9 +364,11 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   grantedTotal: PropTypes.number.isRequired,
   endDate: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
-  includeCountries: PropTypes.bool.isRequired,
+  countryStrategy: PropTypes.oneOf([
+    countryStrategies.INCLUDE,
+    countryStrategies.EXCLUDE,
+  ]).isRequired,
   countries: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  id: PropTypes.number.isRequired,
   optIn: PropTypes.bool.isRequired,
   claimable: PropTypes.bool.isRequired,
   startDate: PropTypes.string.isRequired,

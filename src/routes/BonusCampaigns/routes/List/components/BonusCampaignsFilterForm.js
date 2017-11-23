@@ -30,7 +30,7 @@ class BonusCampaignsFilterForm extends Component {
       creationDateTo: PropTypes.string,
       activityDateFrom: PropTypes.string,
       activityDateTo: PropTypes.string,
-    }).isRequired,
+    }),
     types: PropTypes.arrayOf(PropTypes.string).isRequired,
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
     invalid: PropTypes.bool,
@@ -42,6 +42,7 @@ class BonusCampaignsFilterForm extends Component {
     handleSubmit: null,
     pristine: false,
     submitting: false,
+    currentValues: {},
   };
 
   startDateValidator = toAttribute => (current) => {

@@ -108,6 +108,11 @@ const optInSelect = {
   false: I18n.t('COMMON.NON_OPT_IN'),
 };
 
+const countryStrategies = keyMirror({
+  INCLUDE: null,
+  EXCLUDE: null,
+});
+
 export {
   actions,
   actionLabels,
@@ -126,4 +131,5 @@ export {
   optInSelect,
   lockAmountStrategy,
   lockAmountStrategyLabels,
+  countryStrategies,
 };
