@@ -47,11 +47,11 @@ class UsersPanel extends Component {
 
     const activeIndex = availableItems.indexOf(active);
     const blockClassName = classNames('users-panel', { 'users-panel-opened': !!active });
-    const footerActiveClassName = `border-${availableItems[activeIndex] && availableItems[activeIndex].color
+    const footerActiveClassName = `with-border-${availableItems[activeIndex] && availableItems[activeIndex].color
       ? availableItems[activeIndex].color
       : undefined}`;
     const footerClassName = classNames('users-panel-footer', {
-      border: !!active,
+      'with-border': !!active,
       [footerActiveClassName]: !!active,
     });
 
