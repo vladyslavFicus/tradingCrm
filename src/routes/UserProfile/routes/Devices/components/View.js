@@ -118,7 +118,7 @@ class View extends Component {
     const { filters } = this.state;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">
@@ -136,8 +136,6 @@ class View extends Component {
 
         <div className="tab-content">
           <GridView
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}

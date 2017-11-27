@@ -4,6 +4,7 @@ const types = keyMirror({
   TRANSACTION: null,
   OPERATOR: null,
   PLAYER: null,
+  CAMPAIGN: null,
 });
 
 export {

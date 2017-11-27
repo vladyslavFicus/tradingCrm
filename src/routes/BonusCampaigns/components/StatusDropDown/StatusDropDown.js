@@ -59,7 +59,13 @@ class StatusDropDown extends Component {
   };
 
   handleSubmit = ({ reason, action }) => {
-    this.handleModalHide(null, () => this.props.onChange({ id: this.props.campaign.id, reason, action }));
+    const { onChange, campaign: { uuid } } = this.props;
+
+    this.handleModalHide(null, () => onChange({
+      id: uuid,
+      reason,
+      action,
+    }));
   };
 
   renderDropDown = (label, availableStatuses, dropDownOpen) => (

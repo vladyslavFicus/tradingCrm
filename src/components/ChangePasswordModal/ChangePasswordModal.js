@@ -10,7 +10,7 @@ import Uuid from '../Uuid';
 import config from '../../config';
 
 const ChangePasswordModal = ({ onClose, handleSubmit, onSubmit, fullName, playerUUID }) => (
-  <Modal className="change-password-modal" toggle={onClose} isOpen>
+  <Modal className="modal-danger change-password-modal" toggle={onClose} isOpen>
     <form onSubmit={handleSubmit(onSubmit)}>
       <ModalHeader toggle={onClose}>
         {I18n.t('PLAYER_PROFILE.PROFILE.CHANGE_PASSWORD_MODAL.TITLE')}

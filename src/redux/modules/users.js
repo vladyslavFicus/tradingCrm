@@ -2,7 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
 import { getDialCodeByDigits } from 'bc-countries';
-import config from '../../config';
+import config, { getBrand } from '../../config';
 import buildQueryString from '../../utils/buildQueryString';
 import { statuses as kycStatuses } from '../../constants/kyc';
 
@@ -129,22 +129,27 @@ function fetchProfile(type) {
 }
 
 function passwordResetRequest(type) {
-  return ({ email }, sendEmail = true) => dispatch => dispatch({
-    [CALL_API]: {
-      endpoint: `auth/password/reset/request${sendEmail ? '' : '?send-mail=false'}`,
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+  return (uuid, sendEmail = true) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `auth/password/${getBrand()}/${uuid}/reset/request${sendEmail ? '' : '?send-mail=false'}`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
       },
-      body: JSON.stringify({ email }),
-      types: [
-        type.REQUEST,
-        type.SUCCESS,
-        type.FAILURE,
-      ],
-    },
-  });
+    });
+  };
 }
 
 function passwordResetConfirm(type) {

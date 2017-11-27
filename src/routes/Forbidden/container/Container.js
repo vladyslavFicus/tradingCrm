@@ -1,3 +1,8 @@
-import Default from '../components/Default';
+import { connect } from 'react-redux';
+import Forbidden from '../components/Forbidden';
 
-export default Default;
+const mapStateToProps = ({ i18n: { locale } }) => ({
+  locale,
+});
+
+export default connect(mapStateToProps)(Forbidden);

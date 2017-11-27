@@ -123,7 +123,7 @@ class View extends Component {
                   {
                     data.pinned &&
                     <div className="padding-top-10">
-                      <span className="label label-info text-uppercase font-size-11">Pinned Note</span>
+                      <span className="badge badge-info text-uppercase font-size-11">Pinned Note</span>
                     </div>
                   }
                 </div>
@@ -156,7 +156,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">Notes</div>

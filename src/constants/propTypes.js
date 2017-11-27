@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { types as limitTypes } from '../constants/limits';
+import { types as limitTypes } from './limits';
+import { countryStrategies } from './bonus-campaigns';
 
 PropTypes.price = PropTypes.shape({
   amount: PropTypes.number,
@@ -142,6 +143,7 @@ PropTypes.bonusEntity = PropTypes.shape({
   state: PropTypes.string,
   wagered: PropTypes.price,
   convertedAmount: PropTypes.number,
+  claimable: PropTypes.bool.isRequired,
 });
 PropTypes.fileEntity = PropTypes.shape({
   author: PropTypes.string.isRequired,
@@ -352,7 +354,6 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   authorUUID: PropTypes.string.isRequired,
   bonusLifetime: PropTypes.number.isRequired,
   campaignName: PropTypes.string.isRequired,
-  campaignPriority: PropTypes.number.isRequired,
   campaignRatio: PropTypes.customValue.isRequired,
   uuid: PropTypes.string.isRequired,
   capping: PropTypes.customValue,
@@ -363,8 +364,13 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   grantedTotal: PropTypes.number.isRequired,
   endDate: PropTypes.string.isRequired,
   campaignType: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  countryStrategy: PropTypes.oneOf([
+    countryStrategies.INCLUDE,
+    countryStrategies.EXCLUDE,
+  ]).isRequired,
+  countries: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   optIn: PropTypes.bool.isRequired,
+  claimable: PropTypes.bool.isRequired,
   startDate: PropTypes.string.isRequired,
   state: PropTypes.string.isRequired,
   stateReason: PropTypes.string,
@@ -443,6 +449,46 @@ PropTypes.kycRequestEntity = PropTypes.shape({
     authorUUID: PropTypes.string.isRequired,
   },
   playerUUID: PropTypes.string.isRequired,
+});
+PropTypes.meta = PropTypes.shape({
+  data: PropTypes.shape({
+    countryCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    phoneCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currencyCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    countries: PropTypes.arrayOf(PropTypes.object).isRequired,
+    passwordPattern: PropTypes.string.isRequired,
+  }).isRequired,
+  source: PropTypes.shape({
+    post: PropTypes.shape({
+      country: PropTypes.shape({
+        list: PropTypes.arrayOf(PropTypes.shape({
+          countryCode: PropTypes.string,
+          phoneCode: PropTypes.string,
+        })),
+      }),
+      currency: PropTypes.shape({
+        base: PropTypes.string,
+        list: PropTypes.arrayOf(PropTypes.string),
+      }),
+      password: PropTypes.shape({
+        pattern: PropTypes.string,
+      }),
+      phoneCode: PropTypes.shape({
+        list: PropTypes.arrayOf(PropTypes.string),
+      }),
+    }),
+    geolocation: PropTypes.shape({
+      country: PropTypes.string.isRequired,
+      currencyCode: PropTypes.string.isRequired,
+      ip: PropTypes.string.isRequired,
+      phoneCode: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  playerMeta: PropTypes.shape({
+    countryCode: PropTypes.string,
+    phoneCode: PropTypes.string,
+    currencyCode: PropTypes.string,
+  }).isRequired,
 });
 
 export default PropTypes;

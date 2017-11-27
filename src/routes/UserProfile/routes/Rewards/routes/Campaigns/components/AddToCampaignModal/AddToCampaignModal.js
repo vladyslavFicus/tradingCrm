@@ -3,7 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../constants/propTypes';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { NasSelectField } from '../../../../../../../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
 import SelectCampaignOption from '../SelectCampaignOption';
@@ -18,7 +18,7 @@ class AddToCampaignModal extends PureComponent {
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     fullName: PropTypes.string.isRequired,
@@ -26,7 +26,6 @@ class AddToCampaignModal extends PureComponent {
   static defaultProps = {
     pristine: false,
     submitting: false,
-    invalid: false,
     handleSubmit: null,
   };
 
@@ -87,9 +86,9 @@ class AddToCampaignModal extends PureComponent {
               {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTION', { fullName })}
             </div>
             <Field
-              name="campaignId"
-              label={I18n.t(attributeLabels.campaignId)}
-              labelClassName="form-label"
+              name="campaignUuid"
+              label={I18n.t(attributeLabels.campaignUuid)}
+              labelClassName="form-label clearfix"
               labelTag="div"
               labelAddon={
                 <div className="pull-right">
@@ -99,14 +98,15 @@ class AddToCampaignModal extends PureComponent {
                     {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTIVE_ONLY')}
                   </label>
                 </div>
-              } component={NasSelectField}
+              }
+              component={NasSelectField}
               position="vertical"
-              placeholder={I18n.t(attributePlaceholders.campaignId)}
+              placeholder={I18n.t(attributePlaceholders.campaignUuid)}
               optionsHeader={SelectCampaignOptionsHeader}
               singleOptionComponent={SelectCampaignOption}
             >
               {options.map(campaign => (
-                <option key={campaign.id} value={campaign.id} campaign={campaign}>
+                <option key={campaign.uuid} value={campaign.uuid} campaign={campaign}>
                   {`${campaign.campaignName} - ${campaign.state}`}
                 </option>
               ))}
@@ -136,14 +136,10 @@ class AddToCampaignModal extends PureComponent {
   }
 }
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
 const FORM_NAME = 'addToCampaignModal';
 export default reduxForm({
   form: FORM_NAME,
   validate: createValidator({
-    campaignId: ['required'],
-  }, validatorAttributeLabels, false),
+    campaignUuid: ['required'],
+  }, translateLabels(attributeLabels), false),
 })(AddToCampaignModal);

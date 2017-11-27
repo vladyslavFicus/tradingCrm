@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import PermissionContent from '../../../../../components/PermissionContent';
-import permission from '../../../../../config/permissions';
+import permissions from '../../../../../config/permissions';
 
 class Files extends Component {
   static propTypes = {
@@ -47,7 +47,7 @@ class Files extends Component {
     const { entities } = this.props;
 
     return (
-      <Panel withBorders>
+      <Card>
         <Title>
           <span className="font-size-20">Report files</span>
         </Title>
@@ -72,16 +72,16 @@ class Files extends Component {
                     name="actions"
                     header="Actions"
                     headerStyle={{ width: '10%' }}
-                    headerClassName={'text-center'}
+                    headerClassName="text-center"
                     render={this.renderActions}
-                    className={'text-center'}
+                    className="text-center"
                   />
                 </PermissionContent>
               </GridView>
             </div>
           </div>
         </Content>
-      </Panel>
+      </Card>
     );
   }
 }

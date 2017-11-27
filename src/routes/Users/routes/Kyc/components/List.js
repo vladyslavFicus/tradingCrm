@@ -6,7 +6,7 @@ import _ from 'lodash';
 import KycGridFilter from './KycGridFilter';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import Uuid from '../../../../../components/Uuid';
 import {
@@ -162,56 +162,52 @@ class List extends Component {
     const { filters } = this.state;
 
     return (
-      <div className="page-content-inner">
-        <Panel withBorders>
-          <Title>
-            <span className="font-size-20">
-              {I18n.t('KYC_REQUESTS.TITLE')}
-            </span>
-          </Title>
-          <KycGridFilter
-            onSubmit={this.handleFiltersChanged}
-            onReset={this.handleFilterReset}
-            initialValues={filters}
-            filterValues={filterValues}
+      <Card>
+        <Title>
+          <span className="font-size-20">
+            {I18n.t('KYC_REQUESTS.TITLE')}
+          </span>
+        </Title>
+        <KycGridFilter
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          initialValues={filters}
+          filterValues={filterValues}
+          locale={locale}
+        />
+        <Content>
+          <GridView
             locale={locale}
-          />
-          <Content>
-            <GridView
-              locale={locale}
-              tableClassName="table table-hovered data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={entities.content}
-              onPageChange={this.handlePageChanged}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-              showNoResults={noResults}
-            >
-              <GridColumn
-                name="id"
-                header={I18n.t('COMMON.PLAYER')}
-                render={this.renderUserInfo}
-              />
-              <GridColumn
-                name="initiated"
-                header={I18n.t('KYC_REQUESTS.GRID_VIEW.INITIATED')}
-                render={this.renderInitiated}
-              />
-              <GridColumn
-                name="identityStatus"
-                header={I18n.t('KYC_REQUESTS.GRID_VIEW.IDENTITY_STATUS')}
-                render={this.renderStatus('kycPersonalStatus')}
-              />
-              <GridColumn
-                name="addressStatus"
-                header={I18n.t('KYC_REQUESTS.GRID_VIEW.ADDRESS_STATUS')}
-                render={this.renderStatus('kycAddressStatus')}
-              />
-            </GridView>
-          </Content>
-        </Panel>
-      </div>
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            showNoResults={noResults}
+          >
+            <GridColumn
+              name="id"
+              header={I18n.t('COMMON.PLAYER')}
+              render={this.renderUserInfo}
+            />
+            <GridColumn
+              name="initiated"
+              header={I18n.t('KYC_REQUESTS.GRID_VIEW.INITIATED')}
+              render={this.renderInitiated}
+            />
+            <GridColumn
+              name="identityStatus"
+              header={I18n.t('KYC_REQUESTS.GRID_VIEW.IDENTITY_STATUS')}
+              render={this.renderStatus('kycPersonalStatus')}
+            />
+            <GridColumn
+              name="addressStatus"
+              header={I18n.t('KYC_REQUESTS.GRID_VIEW.ADDRESS_STATUS')}
+              render={this.renderStatus('kycAddressStatus')}
+            />
+          </GridView>
+        </Content>
+      </Card>
     );
   }
 }

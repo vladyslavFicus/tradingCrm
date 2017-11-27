@@ -224,7 +224,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">
@@ -250,8 +250,6 @@ class View extends Component {
         <div className="tab-content">
           <GridView
             dataSource={entities.content}
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
             totalPages={entities.totalPages}

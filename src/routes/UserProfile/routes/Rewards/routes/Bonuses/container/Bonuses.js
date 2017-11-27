@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
 import { actionCreators as profileActionCreators } from '../../../../../modules/profile';
 import List from '../components/View';
-import config from '../../../../../../../config';
 
 const mapStateToProps = (state) => {
   const {
@@ -16,7 +15,6 @@ const mapStateToProps = (state) => {
     playerProfile: profile,
     bonus,
     locale,
-    canClaimBonus: config.nas.brand.claim_bonus.enable,
   });
 };
 const mapActions = {

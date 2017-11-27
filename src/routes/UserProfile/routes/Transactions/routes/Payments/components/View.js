@@ -21,7 +21,6 @@ import { UncontrolledTooltip } from '../../../../../../../components/Reactstrap/
 import renderLabel from '../../../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../../../components/GridPaymentAmount';
-import PaymentAccount from '../../../../../../../components/PaymentAccount';
 import SubTabNavigation from '../../../../../../../components/SubTabNavigation';
 import { routes as subTabRoutes } from '../../../constants';
 import IpFlag from '../../../../../../../components/IpFlag';
@@ -311,7 +310,7 @@ class View extends Component {
         {
           !!data.paymentAccount &&
           <span className="font-size-11">
-            <PaymentAccount account={data.paymentAccount} />
+            {data.paymentAccount}
           </span>
         }
       </div>
@@ -369,7 +368,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <SubTabNavigation links={subTabRoutes} />
@@ -390,8 +389,6 @@ class View extends Component {
 
         <div className="tab-content">
           <GridView
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}

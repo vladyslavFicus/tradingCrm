@@ -32,7 +32,7 @@ class PaymentAddModal extends Component {
     onManageNote: PropTypes.func.isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
     currentValues: PropTypes.shape({
       type: PropTypes.string,
     }),
@@ -56,7 +56,6 @@ class PaymentAddModal extends Component {
   static defaultProps = {
     submitting: false,
     pristine: false,
-    valid: false,
     currentValues: {},
     note: null,
     error: '',
@@ -140,7 +139,7 @@ class PaymentAddModal extends Component {
     return (
       <div className="col-md-5">
         <Field
-          name="paymentAccount"
+          name="paymentAccountUuid"
           label={attributeLabels.paymentAccount}
           type="text"
           component={SelectField}
@@ -163,15 +162,15 @@ class PaymentAddModal extends Component {
     const {
       playerProfile: { playerUUID, fullName, currencyCode },
       currentValues,
-      valid,
+      invalid,
     } = this.props;
 
-    if (!valid || !(currentValues && currentValues.amount) || !currencyCode) {
+    if (invalid || !(currentValues && currentValues.amount) || !currencyCode) {
       return null;
     }
 
     return (
-      <div className="center-block text-center width-400 font-weight-700">
+      <div className="mx-auto text-center width-400 font-weight-700">
         {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ACTION_TEXT', {
           action: paymentTypesLabels[currentValues.type],
         })}
@@ -196,7 +195,7 @@ class PaymentAddModal extends Component {
       handleSubmit,
       pristine,
       submitting,
-      valid,
+      invalid,
       playerProfile,
       note,
       error,
@@ -228,7 +227,7 @@ class PaymentAddModal extends Component {
                   component={SelectField}
                   position="vertical"
                 >
-                  <option value="">{I18n.t('COMMON.SELECT_OPTION')}</option>
+                  <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
                   {filteredPaymentTypes.map(type => (
                     <option key={type} value={type}>
                       {paymentTypesLabels[type]}
@@ -256,7 +255,7 @@ class PaymentAddModal extends Component {
             <div className="row">
               {this.renderInfoBlock()}
             </div>
-            <div className="row text-center">
+            <div className="text-center">
               <NoteButton
                 id="add-transaction-item-note-button"
                 note={note}
@@ -282,9 +281,9 @@ class PaymentAddModal extends Component {
                   {I18n.t('COMMON.CANCEL')}
                 </button>
                 <button
-                  disabled={pristine || submitting || !valid}
+                  disabled={pristine || submitting || invalid}
                   type="submit"
-                  className="btn btn-primary text-uppercase"
+                  className="btn btn-primary text-uppercase margin-left-5"
                 >
                   {I18n.t('COMMON.CONFIRM')}
                 </button>
@@ -298,6 +297,7 @@ class PaymentAddModal extends Component {
 }
 
 const FORM_NAME = 'createPaymentForm';
+
 const Form = reduxForm({
   form: FORM_NAME,
   initialValues: {
@@ -310,14 +310,10 @@ const Form = reduxForm({
     };
 
     if (data.type === paymentTypes.Withdraw) {
-      rules.paymentAccount = 'required|string';
+      rules.paymentAccountUuid = 'required|string';
     }
 
-    return createValidator(
-      rules,
-      attributeLabels,
-      false,
-    )(data);
+    return createValidator(rules, attributeLabels, false)(data);
   },
 })(PaymentAddModal);
 export default connect(state => ({

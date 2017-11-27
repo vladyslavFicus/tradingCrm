@@ -14,7 +14,6 @@ const KEY = 'bonusCampaigns/campaigns';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const CREATE_CAMPAIGN = createRequestAction(`${KEY}/create-campaign`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
-const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const RESET_CAMPAIGNS = `${KEY}/reset`;
 
 const mergeEntities = (stored, fetched) => {
@@ -101,30 +100,6 @@ function exportEntities(filters = {}) {
   };
 }
 
-function changeCampaignState(state, id) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `promotion/campaigns/${id}/${state}`,
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          CHANGE_CAMPAIGN_STATE.REQUEST,
-          CHANGE_CAMPAIGN_STATE.SUCCESS,
-          CHANGE_CAMPAIGN_STATE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
 function resetCampaigns() {
   return {
     type: RESET_CAMPAIGNS,
@@ -181,14 +156,12 @@ const actionHandlers = {
 const actionTypes = {
   FETCH_ENTITIES,
   EXPORT_ENTITIES,
-  CHANGE_CAMPAIGN_STATE,
   RESET_CAMPAIGNS,
 };
 const actionCreators = {
   fetchEntities,
   createCampaign,
   exportEntities,
-  changeCampaignState,
   resetCampaigns,
 };
 

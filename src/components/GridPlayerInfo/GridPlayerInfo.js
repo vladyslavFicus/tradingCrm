@@ -5,7 +5,7 @@ import GridPlayerInfoPlaceholder from '../GridPlayerInfoPlaceholder';
 import Uuid from '../../components/Uuid';
 import { types as miniProfileTypes } from '../../constants/miniProfile';
 import MiniProfile from '../../components/MiniProfile';
-import { playerProfileViewTypes } from '../../constants';
+import withPlayerClick from '../../utils/withPlayerClick';
 
 class GridPlayerInfo extends Component {
   static propTypes = {
@@ -14,6 +14,7 @@ class GridPlayerInfo extends Component {
     fetchPlayerProfile: PropTypes.func.isRequired,
     mainInfoClassName: PropTypes.string,
     clickable: PropTypes.bool,
+    onPlayerClick: PropTypes.func.isRequired,
   };
   static defaultProps = {
     id: null,
@@ -21,30 +22,11 @@ class GridPlayerInfo extends Component {
     mainInfoClassName: 'font-weight-700',
     clickable: true,
   };
-  static contextTypes = {
-    settings: PropTypes.shape({
-      playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
-    }).isRequired,
-    addPanel: PropTypes.func.isRequired,
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-  };
 
   handleClick = () => {
-    const { profile } = this.props;
+    const { onPlayerClick, profile } = this.props;
 
-    if (this.context.settings.playerProfileViewType === playerProfileViewTypes.page) {
-      this.context.router.push(`/users/${profile.playerUUID}/profile`);
-    } else {
-      const panelData = {
-        fullName: `${profile.firstName || '-'} ${profile.lastName || '-'}`,
-        login: profile.login,
-        uuid: profile.playerUUID,
-      };
-
-      this.context.addPanel(panelData);
-    }
+    onPlayerClick(profile);
   };
 
   render() {
@@ -89,4 +71,4 @@ class GridPlayerInfo extends Component {
   }
 }
 
-export default GridPlayerInfo;
+export default withPlayerClick(GridPlayerInfo);

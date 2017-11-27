@@ -13,7 +13,8 @@
       "GAMES": "Games",
       "COUNTRIES": "Countries",
       "PLAYERS_SEARCH": "Players' search",
-      "PLAYERS_KYC_REQUEST": "KYC requests"
+      "PLAYERS_KYC_REQUEST": "KYC requests",
+      "SETTINGS": "Settings"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -47,6 +48,19 @@
         "SEARCH_PLACEHOLDER": "Quick search",
         "NO_RESULT_BY_SEARCH": "No countries begins from “%{search}” found in %{tabName}"
       }
+    },
+    "DEPOSIT_CHARGEBACK": {
+      "REASONS": {
+        "STOLEN_LOST_CC": "Stolen/Lost CC",
+        "CUSTOMER_NOT_SATISFIED": "Customer not satisfied"
+      }
+    },
+    "WITHDRAW_REJECT": {
+      "REASONS": {
+        "USING_DIFFERENT_PM": "Using different PM",
+        "USING_3RD_PARTY_PM": "Using 3-rd party PM",
+        "CUSTOMER_REQUEST": "Customer request"
+      }
     }
   },
   "PLAYER_PROFILE": {
@@ -67,6 +81,9 @@
           "ERROR": "Need to save personal information"
         }
       },
+      "ADDITIONAL": {
+        "TITLE": "Additional information"
+      },
       "ADDRESS": {
         "TITLE": "Address",
         "VERIFY_KYC": {
@@ -83,13 +100,17 @@
         "ACTION_TEXT": "You are about to send KYC request to %{fullName}",
         "BUTTON": "Send KYC Request",
         "TITLE": "Send KYC request",
-        "CONSTANTS": {
-          "REASON_LABEL": "Reason"
-        },
         "REASONS": {
           "COMPLIANCE": "Compliance",
           "SECURITY_CHECK": "Security check",
-          "WITHDRAWAL_ON_HOLD": "Withdrawal on hold"
+          "WITHDRAWAL_ON_HOLD": "Withdrawal on hold",
+          "WITHDRAWAL_OVER": "Withdrawal over 2,300 EUR",
+          "SUSPECTED_FRAUD": "Suspected Fraud",
+          "SUSPECTED_ML": "Suspected ML",
+          "SUSPECTED_IDENTITY_THEFT": "Suspected Identity Theft"
+        },
+        "CONSTANTS": {
+          "REASON_LABEL": ""
         }
       },
       "KYC_STATUS_TITLE": {
@@ -139,9 +160,9 @@
       },
       "REFUSE_KYC_VERIFICATION": {
         "REASONS": {
-          "UNCLEAR_OR_DARK_DOC": "Unclear or dark doc",
-          "NOT_ALL_FOUR_CORNERS": "Not all four corner",
-          "EXPIRED_DOC": "Expired doc"
+          "UNCLEAR_OR_DARK_DOC": "Unclear document",
+          "NOT_ALL_FOUR_CORNERS": "Document is only partially visible – all edges must be visible",
+          "EXPIRED_DOC": "Expired document"
         }
       },
       "CHANGE_PASSWORD_MODAL": {
@@ -151,16 +172,16 @@
         "REPEAT_PASSWORD": "Repeat password"
       },
       "BLOCK_REASONS": {
-        "REASON_ONE": "Reason one",
-        "REASON_TWO": "Reason two",
-        "REASON_THREE": "Reason three",
-        "REASON_FOUR": "Reason four"
+        "USER_REQUEST": "User request",
+        "BONUS_ABUSE": "Bonus abuse",
+        "DUPLICATE_ACCOUNT": "Duplicate account",
+        "PENDING_INVESTIGATION": "Pending investigation",
+        "OTHER": "Other (require space to input reason manually)"
       },
       "UNBLOCK_REASONS": {
-        "REASON_ONE": "Unblock reason one",
-        "REASON_TWO": "Unblock reason two",
-        "REASON_THREE": "Unblock reason three",
-        "REASON_FOUR": "Unblock reason four"
+        "CUSTOMER_REQUEST": "Customer request",
+        "INVESTIGATION_COMPLETE": "Investigation complete",
+        "OTHER": "Other (require space to input reason manually)"
       },
       "BALANCES_DROPDOWN": {
         "WITHDRAWABLE": "Withdrawable",
@@ -174,7 +195,23 @@
         "SHARE_PROFILE": "Share profile"
       },
       "HEADER": {
-        "ADD_NOTE": "Add note"
+        "ADD_NOTE": "Add note",
+        "NO_FULLNAME": "No name"
+      },
+      "RESET_PASSWORD_MODAL": {
+        "TITLE": "Password reset - Confirmation",
+        "TEXT": "You are about to send password reset link to",
+        "BUTTON_ACTION": "Send via email",
+        "NOTIFICATION_TITLE": "Password reset",
+        "SUCCESS_NOTIFICATION_TEXT": "Reset password link has been successfully sent via email",
+        "ERROR_NOTIFICATION_TEXT": "Failed to send reset password link via email"
+      },
+      "EMAIL": {
+        "TITLE": "Email"
+      },
+      "SELF_EXCLUSION_REASONS": {
+        "USER_REQUEST": "User request",
+        "OTHER": "Other"
       }
     },
     "GAME_ACTIVITY": {
@@ -256,7 +293,8 @@
           "CONVERTED": "Converted",
           "WAGERED": "Wagered",
           "MONEY_TYPE_PRIORITY": "Wagering",
-          "LOCK_AMOUNT_STRATEGY": "Withdrawal lock"
+          "LOCK_AMOUNT_STRATEGY": "Withdrawal lock",
+          "CLAIMABLE": "Claimable"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Lock all",
@@ -282,7 +320,17 @@
         "BONUS_STATUS": "Status"
       },
       "CLAIM_BONUS": "Claim bonus",
-      "LOCKED_GRANTED": "Locked:"
+      "LOCKED_GRANTED": "Locked:",
+      "FILTER_FORM": {
+        "LABEL": {
+          "KEYWORD": "Bonus ID, Bonus name, Granted by...",
+          "ASSIGNED_BY": "Assigned by",
+          "STATES": "Bonus status",
+          "TYPE": "Bonus type",
+          "START_DATE": "Start date",
+          "END_DATE": "End date"
+        }
+      }
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -349,6 +397,13 @@
           "AVAILABILITY": "Availability",
           "STATUS": "Status",
           "ACTIVE_ONLY": "Active only"
+        },
+        "ADD_PROMO_CODE": {
+          "TITLE": "Add promo code to player",
+          "ACTION": "You are about to add promo code to player %{fullName}",
+          "LABEL": {
+            "PROMO_CODE": "Promo code"
+          }
         }
       },
       "NOTIFICATIONS": {
@@ -365,7 +420,8 @@
           "MESSAGE": "Could not add player to campaign."
         }
       },
-      "ADD_TO_CAMPAIGN_BUTTON": "+ Add to Campaign"
+      "ADD_TO_CAMPAIGN_BUTTON": "+ Add to Campaign",
+      "ADD_PROMO_CODE_BUTTON": "+ Add promo code"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -447,7 +503,6 @@
         "BUTTON": "Create Free-spin"
       },
       "MODAL_CANCEL": {
-        "SELECT_REASON_OPTION": "-- Select reason --",
         "CUSTOM_REASON_OPTION": "Other",
         "TITLE": "Free spins cancelation",
         "ACTION_TEXT": "You are about to %{action} the \"%{title}\"",
@@ -476,10 +531,56 @@
       "LOGIN": {
         "MODAL": {
           "TITLE": "Unlock login for player",
-          "ACTION_TEXT": "You are about to unlock withdrawal for %{fullName}",
+          "ACTION_TEXT": "You are about to unlock withdrawal for",
           "SUBMIT_BUTTON_LABEL": "Unlock login"
-        },
-        "REASON": "by 5 failed login attempts"
+        }
+      }
+    },
+    "FILES": {
+      "FILTER_FORM": {
+        "LABEL": {
+          "SEARCH_BY": "Search by",
+          "FILE_CATEGORY": "File category",
+          "DATE_FROM": "Start date",
+          "DATE_TO": "End date",
+          "DATE_RANGE": "Date range"
+        }
+      }
+    },
+    "NOTES": {
+      "FILTER": {
+        "LABELS": {
+          "SEARCH_BY": "Author, targetUUID",
+          "TARGET_TYPE": "Target type",
+          "CREATION_DATE_RANGE": "Creation date range"
+        }
+      }
+    },
+    "FEED": {
+      "FILTER_FORM": {
+        "LABELS": {
+          "SEARCH_BY": "Search by",
+          "ACTION_TYPES": "Action types",
+          "CREATION_DATE_FROM": "Creation date from",
+          "CREATION_DATE_TO": "Creation date to",
+          "ACTION_DATE_RANGE": "Action date range"
+        }
+      }
+    },
+    "WALLET": {
+      "LOCK": {
+        "REASONS": {
+          "SUSPECTED_FRAUD": "Suspected Fraud",
+          "SUSPECTED_ML": "Suspected ML",
+          "SUSPECTED_IDENTITY_THEFT": "Suspected Identity Theft"
+        }
+      },
+      "UNLOCK": {
+        "REASONS": {
+          "KYC_PROVIDED": "KYC provided",
+          "DECLARATION_PROVIDED": "Declaration of Source of Funds provided",
+          "ID_PROVIDED": "Selfie ID provided"
+        }
       }
     }
   },
@@ -489,7 +590,7 @@
     "APPLY": "Apply",
     "EXPORT": "Export",
     "FROM": "From",
-    "EMAIL": "E-mail",
+    "EMAIL": "Email",
     "PHONE": "Phone",
     "DEPARTMENT": "Department",
     "ROLE": "Role",
@@ -506,7 +607,8 @@
       "UPLOAD_FILE": "+ Upload file",
       "CREATE_AND_OPEN": "Create & open",
       "SAVE_NEW_PASSWORD": "Save new password",
-      "SAVE": "Save"
+      "SAVE": "Save",
+      "EXPORT_AS_CSV": "Export as CSV"
     },
     "ACTIONS": {
       "ON": "Turn on",
@@ -561,7 +663,12 @@
     "APPROVE": "Approve",
     "REJECT": "Reject",
     "DEFER": "Defer",
-    "SELECT_OPTION": "-- Select --",
+    "SELECT_OPTION": {
+      "DEFAULT": "-- Select --",
+      "REASON": "-- Select reason --",
+      "PERIOD": "-- Select period --",
+      "COUNTRY": "-- Select country --"
+    },
     "CONFIRM": "Confirm",
     "MGA_LIMIT": "MGA LIMIT",
     "MGA_LIMIT_DESCRIPTION": "MGA Limit - the cumulative limit of €2300 on withdrawals for KYC not verified players is exceeded.",
@@ -575,7 +682,13 @@
     "MAX": "Max.",
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
-    "ALL": "All"
+    "ALL": "All",
+    "PLAYERS": "Players",
+    "TRANSACTIONS": "Transactions",
+    "PLAYER_LIABILITY_REPORT": "Player liability report",
+    "PAYMENTS": "Payments",
+    "ALL_ACTIONS": "All actions",
+    "REASON": "Reason"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -594,6 +707,10 @@
       "NO_UPLOADED": "There are no uploaded files",
       "BUTTONS": {
         "ADD_FILES": "+ Add files"
+      },
+      "LABEL": {
+        "NAME": "File title",
+        "CATEGORY": "Choose category"
       }
     },
     "DELETE_MODAL": {
@@ -691,7 +808,8 @@
       "CAMPAIGN_TYPE": {
         "FIRST_DEPOSIT": "First deposit",
         "DEPOSIT": "Deposit",
-        "PROFILE_COMPLETED": "Profile completed"
+        "PROFILE_COMPLETED": "Profile completed",
+        "WITHOUT_FULFILMENT": "Without fulfilment"
       },
       "STATUSES": {
         "DRAFT": "Draft",
@@ -863,19 +981,28 @@
     "MODALS": {
       "RESET_PASSWORD": {
         "TITLE": "Operators password reset - Confirmation",
-        "ACTION_TEXT": "You are about to reset password for %{fullName}",
+        "ACTION_TEXT": "You are about to reset password for",
         "ACTION_TARGET": "operator account",
         "CONFIRM_ACTION": "Reset password"
       },
       "SEND_INVITATION": {
         "TITLE": "Send invitation to operator - Confirmation",
-        "ACTION_TEXT": "You are about to reset password for %{fullName}",
-        "ACTION_TARGET": "operator account",
+        "ACTION_TEXT": "You are about to send an invitation to operator",
         "CONFIRM_ACTION": "Send invitation"
       }
     },
     "IP_LIST": {
       "TITLE": "Last 10 ip's"
+    },
+    "CLOSE_REASONS": {
+      "PENDING_INVESTIGATION": "Pending investigation",
+      "TERMINATED": "Terminated"
+    },
+    "ACTIVATE_REASONS": {
+      "ACTIVATE": "Activate reason"
+    },
+    "PERSONAL_INFORMATION": {
+      "TITLE": "Personal information"
     }
   },
   "FEED_ITEM": {
@@ -982,8 +1109,7 @@
       "TOTAL_OPT_IN_PLAYERS_1": "Opt-In: %{count} player",
       "TOTAL_SELECTED_PLAYERS": "Selected: %{count} players",
       "TOTAL_SELECTED_PLAYERS_1": "Selected: %{count} player",
-      "TYPE": "Target type",
-      "PRIORITY": "Priority: %{priority}"
+      "TYPE": "Target type"
     },
     "TITLE": "Bonus campaigns",
     "FILTER_FORM": {
@@ -1020,7 +1146,10 @@
           "CAMPAIGN_END": "Campaign end",
           "PRIZE": "Prize",
           "CAPPING": "Capping",
-          "MONEY_TYPE_PRIORITY": "Wagering: %{priority}"
+          "MONEY_TYPE_PRIORITY": "Wagering: %{priority}",
+          "CONTENT": "Content",
+          "COMPLETE": "complete",
+          "EDIT_CONTENT": "Edit content"
         },
         "GRANTED_TO": "to %{count} Players",
         "GRANTED_TO_0": "to %{count} Players",
@@ -1039,7 +1168,6 @@
     "CREATE_MODAL": {
       "TITLE": "New bonus campaign",
       "NAME_LABEL": "Name",
-      "PRIORITY_LABEL": "Priority",
       "START_DATE_LABEL": "Start date",
       "END_DATE_LABEL": "End date",
       "CURRENCY_LABEL": "Currency",
@@ -1063,18 +1191,16 @@
       "LOCK_AMOUNT_STRATEGY_LABEL": "Lock amount strategy",
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
-      "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- Choose lock --"
+      "CHOOSE_LOCK_AMOUNT_STRATEGY": "-- Choose lock --",
+      "CLAIMABLE_LABEL": "Claimable",
+      "PROMO_CODE": "Promo code"
     },
     "SETTINGS": {
       "LABEL": {
         "CAMPAIGN_NAME": "Campaign name (Internal)",
         "TARGET_TYPE": "Target type",
         "CURRENCY": "Currency",
-        "START_DATE": "Start date",
-        "END_DATE": "End date",
         "CAPPING": "Capping",
-        "MULTIPLIER": "Multiplier",
-        "BONUS_LIFE_TIME": "Lifetime",
         "CAMPAIGN_RATIO": "Ratio",
         "CONVERSION_PRIZE": "Prize",
         "OPT_IN": "Opt-In",
@@ -1084,20 +1210,43 @@
         "MIN_AMOUNT_PLACEHOLDER": "Min.",
         "MAX_AMOUNT_PLACEHOLDER": "Max.",
         "RATIO_TOOLTIP": "Deposit : Granted bonus",
-        "PRIORITY": "Priority",
-        "MONEY_TYPE_PRIORITY": "Wagering",
-        "LOCK_AMOUNT_STRATEGY_LABEL": "Lock strategy"
+        "CAMPAIGN_PERIOD": "Campaign period",
+        "DESCRIPTION": "Description",
+        "BASE_CURRENCY": "Base currency",
+        "MIN_PRIZE": "Min. prize",
+        "TYPE": "Type",
+        "AFFILIATES": "Affiliates",
+        "EXCLUDE": "Exclude",
+        "COUNTRIES": "Countries",
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
+        "LOCK_AMOUNT_STRATEGY_LABEL": "Lock strategy",
+        "PROMO_CODE": "Promo code"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
       "TARGET": "Target",
       "CAMPAIGN_SETTINGS": "Campaign settings",
-      "FULFILLMENT": "Fulfillment",
-      "REWARD": "Reward",
-      "DEPOSIT_AMOUNT": "Deposit amount"
+      "FULFILLMENTS": "Fulfillments",
+      "REWARDS": "Rewards",
+      "DEPOSIT_AMOUNT": "Deposit amount",
+      "FULFILLMENT": {
+        "LABEL": {
+          "ADD_FULFILLMENT": "Add fulfillment"
+        },
+        "DEPOSIT": {
+          "LABEL": "Deposit"
+        },
+        "PROFILE_COMPLETED": {
+          "LABEL": "Profile completed"
+        },
+        "SELECT_FULFILLMENT": "-- Select fulfillment --",
+        "NO_FULFILLMENTS": {
+          "LABEL": "No fulfillments"
+        }
+      }
     },
     "CHANGE_STATUS_MODAL": {
-      "SELECT_REASON_OPTION": "-- Select reason --",
       "CUSTOM_REASON_OPTION": "Other",
       "CUSTOM_REASON_PLACEHOLDER": "Custom reason",
       "CANCEL_BUTTON": "Cancel",
@@ -1117,6 +1266,78 @@
     "OPTIONS": {
       "CLONE_LABEL": "Clone campaign"
     },
+    "FULFILLMENTS": {
+      "ADD_FULFILLMENT": "Add fulfillment",
+      "REGISTRATION_FULFILLMENT": "Registration fulfillment",
+      "DEPOSIT_FULFILLMENT": "Deposit fulfillment",
+      "DEPOSIT_AMOUNT_RANGE": "Deposit amount range",
+      "WAGERING_FULFILLMENT": "Wagering fulfillment",
+      "LOGIN_FULFILLMENT": "Login fulfillment",
+      "CAMPAIGN_FULFILLMENT": "Campaign fulfillment",
+      "EMAIL_VERIFICATION_FULFILLMENT": "Email verification fulfillment",
+      "PHONE_VERIFICATION_FULFILLMENT": "Phone verification fulfillment",
+      "WAGERED_AMOUNT_ALL_GAMES": "Wagered amount on all games is > X",
+      "WAGERED_AMOUNT_ONE_GAME": "Wagered amount on one game or number of selected games is > X",
+      "AMOUNT_TO_WAGER": "Amount to wager",
+      "EXCLUDE_BONUS_MONEY": "Exclude bonus money from wagering",
+      "CHOOSE_CAMPAIGN": "- Choose campaign -",
+      "DEPOSIT": {
+        "MIN_AMOUNT": "Min. amount",
+        "MAX_AMOUNT": "Max. amount",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy"
+      }
+    },
+    "REWARDS": {
+      "ADD_REWARD": "Add reward",
+      "FREE_SPINS": "Free-spins",
+      "BONUS_REWARD": "Bonus reward",
+      "GRANT": "Grant",
+      "LIMITS": "Limits",
+      "MULTIPLIER": "Multiplier",
+      "MULTIPLIERS_TYPE": "Multipliers type",
+      "DEPOSIT": "Deposit",
+      "BONUS_DEPOSIT": "Bonus + deposit",
+      "MONEY_TYPE_PRIOR": "Money type priority",
+      "REAL_MONEY_FIRST": "Real money first",
+      "BONUS_MONEY_FIRST": "Bonus money first",
+      "BM_BET_LIMIT": "BM bet limit",
+      "LIFE_TIME": "Life time",
+      "CUSTOM_CONTRIB_RATE": "Custom contribution rate",
+      "FREE_SPIN_REWARD": "Free spin reward",
+      "PROVIDER": "Provider",
+      "GAMES": "Games",
+      "LINES": "Lines",
+      "COINS": "Coins",
+      "COIN_VALUE": "Coin value",
+      "PER_LINE": "Per line",
+      "SPIN_VALUE": "Spin value",
+      "TOTAL_VALUE": "Total value",
+      "PLACEHOLDERS": {
+        "DAYS": "days",
+        "NOT_SET": "Not set"
+      },
+      "BONUS": {
+        "CAMPAIGN_RATIO": {
+          "VALUE": "Ratio",
+          "TYPE": "Type"
+        },
+        "MULTIPLIER": "Multiplier",
+        "BONUS_LIFE_TIME": "Lifetime",
+        "MONEY_TYPE_PRIORITY": "Wagering type"
+      }
+    },
+    "CURRENCY_CALC_MODAL": {
+      "HEADER": "Value in different currencies",
+      "BODY": {
+        "MIN_DEPOSIT": "Min. deposit amount range",
+        "RECALC": "Recalculate",
+        "RECALC_WARNING": "Recalculation will reset all customized values",
+        "CURRENCY": "Currency",
+        "RATE": "Rate",
+        "CALCULATED": "Calculated",
+        "CUSTOMIZED": "Customized"
+      }
+    },
     "REMOVE_PLAYERS": {
       "BUTTON": "Remove all players",
       "MODAL_TEXT": "You are about to remove all players from the target of this campaign.",
@@ -1135,7 +1356,13 @@
       "invalid": {
         "payment": {
           "operation": "Invalid payment operation"
+        },
+        "campaign": {
+          "promo-code": "Invalid promo code"
         }
+      },
+      "email": {
+        "exist": "Email already exist"
       }
     },
     "payment": {
@@ -1146,6 +1373,16 @@
     "profile": {
       "blocked": "Profile is blocked",
       "duplicated": "Profile is duplicated"
+    },
+    "user": {
+      "logon-attempts-limit-reached": "by 5 failed login attempts"
+    },
+    "campaign": {
+      "command": {
+        "byPromoCode": {
+          "notAllow": "Not allow"
+        }
+      }
     }
   },
   "NOTE_BUTTON": {
@@ -1185,7 +1422,6 @@
     }
   },
   "PAYMENT_ACTION_REASON_MODAL": {
-    "SELECT_REASON_OPTION": "-- Select --",
     "CUSTOM_REASON_OPTION": "Other",
     "REASON_DROPDOWN": {
       "CONSTANTS": {
@@ -1213,9 +1449,22 @@
     "TRANSACTION": "Transaction",
     "ERROR_MESSAGE": "Error message",
     "REJECTION_REASON": "Rejection reason",
-    "OPERATOR": "Operator"
+    "OPERATOR": "Operator",
+    "CAMPAIGN": "Campaign",
+    "CREATED": "Created",
+    "LAUNCHED": "Launched",
+    "CANCELED": "Canceled",
+    "DATE_RANGE": "Date range",
+    "RANGE_NOT_SELECTED": "not selected",
+    "TARGET": "Target",
+    "FULFILLMENT": "Fulfillment",
+    "REWARD": "Reward",
+    "OPTED_IN": "Opted-in %{value} players",
+    "SELECTED": "Selected %{value} players",
+    "BONUS": "Bonus"
   },
   "OPERATORS": {
+    "HEADING": "Operators",
     "CREATE_OPERATOR_BUTTON": "+ New operator",
     "MODALS": {
       "NEW_OPERATOR": {
@@ -1223,6 +1472,39 @@
         "SEND_INVITATION": "Send invitation",
         "NOTE": "Note",
         "NOTE_MESSAGE": "You will be able to set additional departments in operator`s profile once it`s created"
+      }
+    },
+    "LIST": {
+      "FILTER_FORM": {
+        "LABEL": {
+          "KEYWORD": "Name, Phone, Email, UUID...",
+          "COUNTRY": "Country",
+          "STATUS": "Status",
+          "DEPARTMENT": "Department",
+          "ROLE": "Role",
+          "REGISTRATION_DATE_FROM": "Registration Date From",
+          "REGISTRATION_DATE_TO": "Registration Date To",
+          "REGISTRATION_DATE_RANGE": "Registration Date Range",
+          "SEARCH_BY": "Search by"
+        }
+      }
+    },
+    "PROFILE": {
+      "DEPARTMENTS": {
+        "LABELS": {
+          "DEPARTMENT": "Department",
+          "ROLE": "Role"
+        },
+        "LABEL": "Departments",
+        "ADD_BUTTON_LABEL": "+ADD"
+      },
+      "PERSONAL_FORM": {
+        "LABELS": {
+          "FIRST_NAME": "First name",
+          "LAST_NAME": "Last name",
+          "COUNTRY": "Country",
+          "PHONE": "Phone"
+        }
       }
     }
   },
@@ -1236,6 +1518,23 @@
     "TITLE": "Share player profiles link",
     "TEXT": "You are about to copy players profile link",
     "COPY_LINK": "Copy"
+  },
+  "NOT_FOUND": {
+    "TITLE": "Error 404",
+    "DESCRIPTION": "The page you are looking for does not exist; it may have been moved, or removed altogether. You might want to try the search function. Alternatively, return to the front page."
+  },
+  "FORBIDDEN": {
+    "TITLE": "Access denied",
+    "DESCRIPTION": "Sorry, you do not have sufficient rights to view this page. Please contact your site admin if you think you have received this message in error."
+  },
+  "PAYMENT_METHODS": {
+    "FILTER_FORM": {
+      "LABELS": {
+        "ALL_STATUSES": "All statuses",
+        "STATUS": "Status",
+        "COUNTRY": "Country"
+      }
+    }
   },
   "TO_MUCH_OPENED_PROFILES_MODAL": {
     "TITLE": "To much opened profiles",

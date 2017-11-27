@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../constants/propTypes';
-import { createValidator } from '../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../utils/validator';
 import { types, actions } from '../../../../constants/wallet';
 import { SelectField } from '../../../../components/ReduxForm';
 import Uuid from '../../../../components/Uuid';
-
-const attributeLabels = {
-  reason: 'Reason',
-};
-const validator = createValidator({ reasons: 'required|string' }, attributeLabels, false);
+import renderLabel from '../../../../utils/renderLabel';
+import { attributeLabels } from './constants';
 
 class PlayerLimitsModal extends Component {
   static propTypes = {
@@ -32,14 +30,14 @@ class PlayerLimitsModal extends Component {
   renderReasonsSelect = reasons => (
     <Field
       name="reason"
-      label=""
+      label={I18n.t('COMMON.REASON')}
       component={SelectField}
       position="vertical"
     >
-      <option value="">Choose a reason</option>
-      {reasons.map(item => (
-        <option key={item} value={item}>
-          {item}
+      <option value="">{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
+      {Object.keys(reasons).map(key => (
+        <option key={key} value={key}>
+          {renderLabel(key, reasons)}
         </option>
       ))}
     </Field>
@@ -86,10 +84,10 @@ class PlayerLimitsModal extends Component {
 
           <ModalFooter>
             <button
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               onClick={onHide}
             >
-              Cancel
+              {I18n.t('COMMON.CANCEL')}
             </button>
             <button
               className="btn btn-danger"
@@ -106,5 +104,7 @@ class PlayerLimitsModal extends Component {
 
 export default reduxForm({
   form: 'playerLimitsModal',
-  validate: validator,
+  validate: (values, props) => createValidator({
+    reason: `required|string|in:${Object.keys(props.reasons).join()}`,
+  }, translateLabels(attributeLabels), false)(values),
 })(PlayerLimitsModal);

@@ -8,18 +8,14 @@ export function shortify(uuid, manualPrefix = null, size = 2) {
     return manualPrefix ? `${manualPrefix}-${uuid}` : uuid;
   }
 
-  let sourcePrefix = manualPrefix;
-  if (!sourcePrefix) {
-    sourcePrefix = elements[0] ? elements[0].substr(0, 2) : '';
-  }
+  const isUppercasePrefixExist = elements[0] === (elements[0].toUpperCase());
 
-  if (elements.length >= size) {
-    const additionalPartsSize = size - 1;
-    const startOffset = elements.length - additionalPartsSize;
-    const endOffset = startOffset + additionalPartsSize;
+  const additionalPartsSize = size - 1;
+  const startOffset = isUppercasePrefixExist ? 1 : 0;
+  const endOffset = startOffset + additionalPartsSize;
 
-    return `${sourcePrefix}-${elements.slice(startOffset, endOffset).join('-')}`;
-  }
+  const prefix = !manualPrefix && isUppercasePrefixExist ? elements[0].substr(0, 2) : manualPrefix;
+  const mainPart = elements.slice(startOffset, endOffset).join('-');
 
-  return `${sourcePrefix}-${elements.slice(elements.length - 1, elements.length)}`;
+  return [prefix, mainPart].filter(v => v).join('-');
 }

@@ -26,7 +26,7 @@ const Refused = (props) => {
         </div>
         <div className="padding-bottom-20">
           <div className="font-weight-700 text-uppercase">
-            {I18n.t('PLAYER_PROFILE.PROFILE.SEND_KYC_REQUEST.CONSTANTS.REASON_LABEL')}:
+            {I18n.t('COMMON.REASON')}:
           </div>
           <div className="font-italic font-size-12">{status.reason}</div>
         </div>

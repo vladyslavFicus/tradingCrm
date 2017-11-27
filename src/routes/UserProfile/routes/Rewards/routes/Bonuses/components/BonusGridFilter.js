@@ -2,29 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import { InputField, SelectField, DateTimeField } from '../../../../../../../components/ReduxForm';
 import { statusesLabels, typesLabels, assignLabels } from '../../../../../../../constants/bonus';
-import { createValidator } from '../../../../../../../utils/validator';
+import { attributeLabels } from '../constants';
+import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../utils/renderLabel';
-
-const FORM_NAME = 'userBonusesFilter';
-const attributeLabels = {
-  keyword: 'Bonus ID, Bonus name, Granted by...',
-  assigned: 'Assigned by',
-  states: 'Bonus status',
-  type: 'Bonus type',
-  startDate: 'Start date',
-  endDate: 'End date',
-};
-const validator = createValidator({
-  keyword: 'string',
-  assigned: 'string',
-  states: 'string',
-  type: 'string',
-  startDate: 'string',
-  endDate: 'string',
-}, attributeLabels, false);
 
 class BonusGridFilter extends Component {
   static propTypes = {
@@ -40,6 +24,7 @@ class BonusGridFilter extends Component {
       startDate: PropTypes.string,
       endDate: PropTypes.string,
     }),
+    invalid: PropTypes.bool.isRequired,
   };
 
   startDateValidator = (current) => {
@@ -68,6 +53,7 @@ class BonusGridFilter extends Component {
       submitting,
       handleSubmit,
       onSubmit,
+      invalid,
     } = this.props;
 
     return (
@@ -79,7 +65,7 @@ class BonusGridFilter extends Component {
                 name="keyword"
                 type="text"
                 label={'Search by'}
-                placeholder={attributeLabels.keyword}
+                placeholder={I18n.t(attributeLabels.keyword)}
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
@@ -88,7 +74,7 @@ class BonusGridFilter extends Component {
             <div className="filter-row__medium">
               <Field
                 name="assigned"
-                label={attributeLabels.assigned}
+                label={I18n.t(attributeLabels.assigned)}
                 component={SelectField}
                 position="vertical"
               >
@@ -103,7 +89,7 @@ class BonusGridFilter extends Component {
             <div className="filter-row__medium">
               <Field
                 name="type"
-                label={attributeLabels.type}
+                label={I18n.t(attributeLabels.type)}
                 component={SelectField}
                 position="vertical"
               >
@@ -118,7 +104,7 @@ class BonusGridFilter extends Component {
             <div className="filter-row__medium">
               <Field
                 name="states"
-                label={attributeLabels.states}
+                label={I18n.t(attributeLabels.states)}
                 component={SelectField}
                 position="vertical"
               >
@@ -136,7 +122,7 @@ class BonusGridFilter extends Component {
                 <div className="range-group">
                   <Field
                     name="startDate"
-                    placeholder={attributeLabels.startDate}
+                    placeholder={I18n.t(attributeLabels.startDate)}
                     component={DateTimeField}
                     timeFormat={null}
                     isValidDate={this.startDateValidator}
@@ -145,7 +131,7 @@ class BonusGridFilter extends Component {
                   <span className="range-group__separator">-</span>
                   <Field
                     name="endDate"
-                    placeholder={attributeLabels.endDate}
+                    placeholder={I18n.t(attributeLabels.endDate)}
                     component={DateTimeField}
                     timeFormat={null}
                     isValidDate={this.endDateValidator}
@@ -162,15 +148,15 @@ class BonusGridFilter extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting}
+                  disabled={submitting || invalid}
                   className="btn btn-primary"
                   type="submit"
                   id="bonus-filters-apply-button"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>
@@ -181,9 +167,19 @@ class BonusGridFilter extends Component {
   }
 }
 
+const FORM_NAME = 'userBonusesFilter';
+
 const FilterForm = reduxForm({
   form: FORM_NAME,
-  validate: validator,
+  touchOnChange: true,
+  validate: createValidator({
+    keyword: 'string',
+    assigned: 'string',
+    states: 'string',
+    type: 'string',
+    startDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+    endDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+  }, translateLabels(attributeLabels), false),
 })(BonusGridFilter);
 
 export default connect(state => ({

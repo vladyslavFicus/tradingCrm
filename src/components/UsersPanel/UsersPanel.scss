@@ -45,25 +45,23 @@ body.user-panel-open {
         color: #fff;
       }
     }
-    &.border {
+    &.with-border {
       border-top: 4px solid transparent;
-      -moz-box-shadow: none;
-      -webkit-box-shadow: none;
       box-shadow: none;
     }
-    &.border-orange {
+    &.with-border-orange {
       border-top-color: $orange;
     }
-    &.border-green {
+    &.with-border-green {
       border-top-color: $green;
     }
-    &.border-purple {
+    &.with-border-purple {
       border-top-color: $purple;
     }
-    &.border-blue {
+    &.with-border-blue {
       border-top-color: $blue;
     }
-    &.border-pink {
+    &.with-border-pink {
       border-top-color: $pink;
     }
     &.border-carrot {

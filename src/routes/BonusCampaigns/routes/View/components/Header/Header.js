@@ -9,7 +9,6 @@ import StatusDropDown from '../../../../components/StatusDropDown';
 import { statuses, targetTypes, moneyTypeUsageLabels } from '../../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../../utils/renderLabel';
 import ActionsDropDown from '../../../../../../components/ActionsDropDown';
-import './Header.scss';
 
 class Header extends Component {
   static propTypes = {
@@ -37,7 +36,6 @@ class Header extends Component {
         currency,
         state,
         targetType,
-        id,
       },
       data,
       availableStatusActions,
@@ -86,7 +84,7 @@ class Header extends Component {
             <span className="margin-left-10">
               <ActionsDropDown
                 items={[
-                  { label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'), onClick: () => cloneCampaign(id) },
+                  { label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'), onClick: () => cloneCampaign(uuid) },
                 ]}
               />
             </span>

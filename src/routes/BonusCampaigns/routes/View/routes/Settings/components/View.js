@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
-import PropTypes from '../../../../../../../constants/propTypes';
 import Form from './Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
+import PropTypes from '../../../../../../../constants/propTypes';
+import CurrencyCalculationModal from '../../../../../components/CurrencyCalculationModal';
+
+const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
+const modalInitialState = {
+  name: null,
+  params: {},
+};
 
 class View extends Component {
   static propTypes = {
     bonusCampaign: PropTypes.bonusCampaignEntity.isRequired,
     bonusCampaignForm: PropTypes.shape({
       campaignName: PropTypes.bonusCampaignEntity.campaignName,
-      campaignPriority: PropTypes.bonusCampaignEntity.campaignPriority,
       targetType: PropTypes.bonusCampaignEntity.targetType,
       currency: PropTypes.bonusCampaignEntity.currency,
       startDate: PropTypes.bonusCampaignEntity.startDate,
       endDate: PropTypes.bonusCampaignEntity.endDate,
       wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
+      promoCode: PropTypes.bonusCampaignEntity.promoCode,
       bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
       campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
@@ -31,10 +38,48 @@ class View extends Component {
     }).isRequired,
     updateCampaign: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    revert: PropTypes.func.isRequired,
+    removeNode: PropTypes.func.isRequired,
+    addNode: PropTypes.func.isRequired,
+    nodeGroups: PropTypes.shape({
+      fulfillments: PropTypes.array.isRequired,
+      rewards: PropTypes.array.isRequired,
+    }).isRequired,
   };
 
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
+  };
+
+  state = {
+    modal: { ...modalInitialState },
+  };
+
+  handleCurrencyAmountModalOpen = (action) => {
+    this.handleOpenModal(CURRENCY_AMOUNT_MODAL, {
+      initialValues: {
+        action: action.action,
+        reasons: action.reasons,
+      },
+      ...action,
+    });
+  };
+
+  handleOpenModal = (name, params) => {
+    this.setState({
+      modal: {
+        name,
+        params,
+      },
+    });
+  };
+
+  handleModalHide = (e, callback) => {
+    this.setState({ modal: { ...modalInitialState } }, () => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
   };
 
   handleSubmit = async (data) => {
@@ -52,11 +97,11 @@ class View extends Component {
       if (action.error && action.payload.response.fields_errors) {
         const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
           ...res,
-          [name]: action.payload.response.fields_errors[name].error,
+          [name]: I18n.t(action.payload.response.fields_errors[name].error),
         }), {});
         throw new SubmissionError(errors);
       } else if (action.payload.response && action.payload.response.error) {
-        throw new SubmissionError({ __error: action.payload.response.error });
+        throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
       }
     }
 
@@ -64,21 +109,39 @@ class View extends Component {
   };
 
   render() {
-    const { bonusCampaign, bonusCampaignForm, currencies, locale } = this.props;
+    const { modal } = this.state;
+    const {
+      bonusCampaign,
+      bonusCampaignForm,
+      currencies,
+      locale,
+      revert,
+      nodeGroups,
+      removeNode,
+      addNode,
+    } = this.props;
 
     return (
-      <div className="panel-body">
-        <div className="row">
-          <div className="col-md-10">
-            <Form
-              locale={locale}
-              currencies={currencies}
-              disabled={bonusCampaign.state !== statuses.DRAFT}
-              initialValues={bonusCampaignForm}
-              onSubmit={this.handleSubmit}
-            />
-          </div>
-        </div>
+      <div>
+        <Form
+          locale={locale}
+          currencies={currencies}
+          disabled={bonusCampaign.state !== statuses.DRAFT}
+          initialValues={bonusCampaignForm}
+          removeNode={removeNode}
+          addNode={addNode}
+          nodeGroups={nodeGroups}
+          revert={revert}
+          onSubmit={this.handleSubmit}
+          toggleModal={this.handleCurrencyAmountModalOpen}
+        />
+        {
+          modal.name === CURRENCY_AMOUNT_MODAL &&
+          <CurrencyCalculationModal
+            {...modal.params}
+            onHide={this.handleModalHide}
+          />
+        }
       </div>
     );
   }

@@ -103,7 +103,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">Files</div>
@@ -127,8 +127,6 @@ class View extends Component {
         <div className="tab-content">
           <CommonFileGridView
             dataSource={entities.content}
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
             totalPages={entities.totalPages}
             activePage={entities.number + 1}
             lazyLoad

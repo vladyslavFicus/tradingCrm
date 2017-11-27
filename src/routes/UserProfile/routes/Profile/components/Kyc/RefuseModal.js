@@ -168,7 +168,7 @@ class RefuseModal extends Component {
               {this.renderRejectByType(kycCategories.KYC_ADDRESS)}
             </div>
 
-            <div className="row text-center margin-top-20">
+            <div className="text-center margin-top-20">
               <NoteButton
                 id="refuse-kyc-note-button"
                 note={note}
@@ -180,7 +180,7 @@ class RefuseModal extends Component {
           <ModalFooter>
             <button
               onClick={onClose}
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
             >
               Cancel
             </button>

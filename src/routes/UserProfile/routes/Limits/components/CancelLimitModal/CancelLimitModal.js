@@ -20,7 +20,7 @@ const CancelLimitModal = (props) => {
     <Modal toggle={onClose} isOpen>
       <ModalHeader toggle={onClose}>{modalTitle}</ModalHeader>
       <ModalBody>
-        <div className="row text-center font-weight-700 margin-bottom-15">
+        <div className="text-center font-weight-700 margin-bottom-15">
           {modalSubTitle}
         </div>
         <CommonGridView
@@ -46,7 +46,7 @@ const CancelLimitModal = (props) => {
 
             <button
               type="submit"
-              className="btn btn-primary"
+              className="btn btn-primary margin-left-5"
               onClick={() => onSubmit(data.type, data.uuid)}
             >
               {submitButtonLabel}

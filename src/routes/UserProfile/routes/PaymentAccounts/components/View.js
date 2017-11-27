@@ -225,12 +225,12 @@ class View extends Component {
   renderCollapseBlock = data => (
     <div>
       <div className="row margin-bottom-10">
-        <div className="col-sm-4 col-xs-6">
+        <div className="col-sm-4 col-sm-6">
           <span className="font-size-16">
             {I18n.t('PLAYER_PROFILE.PAYMENT_ACCOUNT.ATTACHED_FILES')}
           </span>
         </div>
-        <div className="col-sm-8 col-xs-6 text-right">
+        <div className="col-sm-8 col-sm-6 text-right">
           <button
             className="btn btn-sm btn-primary-outline"
             onClick={() => this.handleUploadFileClick(data)}
@@ -242,8 +242,7 @@ class View extends Component {
 
       <CommonFileGridView
         dataSource={_.values(data.files)}
-        tableClassName="table table-hovered data-grid-layout payment-account-attached"
-        headerClassName="text-uppercase"
+        tableClassName="payment-account-attached"
         totalPages={1}
         onStatusActionClick={this.handleStatusActionClick}
         onDownloadFileClick={this.handleDownloadFileClick}
@@ -258,7 +257,7 @@ class View extends Component {
     const { openUUID } = this.state;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">
@@ -272,8 +271,6 @@ class View extends Component {
             dataSource={_.values(paymentAccounts)}
             openUUID={openUUID}
             collapsedDataFieldName="files"
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
             renderCollapseBlock={this.renderCollapseBlock}
             collapseClassName="payment-account-attached"
             locale={locale}

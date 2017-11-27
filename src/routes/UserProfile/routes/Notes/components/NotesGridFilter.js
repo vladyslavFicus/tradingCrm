@@ -3,57 +3,46 @@ import PropTypes from 'prop-types';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { createValidator } from '../../../../../utils/validator';
+import { I18n } from 'react-redux-i18n';
+import { createValidator, translateLabels } from '../../../../../utils/validator';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
 import { targetTypesLabels } from '../../../../../constants/note';
-
-const FORM_NAME = 'userNotesFilter';
-const attributeLabels = {
-  searchValue: 'Author, targetUUID',
-  targetType: 'Target type',
-  startDate: 'Start date',
-  endDate: 'End date',
-};
-
-const validate = (values, props) => createValidator({
-  searchValue: 'string',
-  startDate: 'string',
-  targetType: ['string', `in:,${props.availableTypes.join()}`],
-  endDate: 'string',
-}, attributeLabels, false);
+import { attributeLabels } from '../constants';
 
 class NotesGridFilter extends Component {
   static propTypes = {
     reset: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func,
-    submitting: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     currentValues: PropTypes.shape({
       searchValue: PropTypes.string,
       targetType: PropTypes.string,
-      startDate: PropTypes.string,
-      endDate: PropTypes.string,
+      from: PropTypes.string,
+      to: PropTypes.string,
     }),
     availableTypes: PropTypes.arrayOf(PropTypes.string),
+    invalid: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     currentValues: {},
+    availableTypes: [],
   };
 
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.endDate
-      ? current.isSameOrBefore(moment(currentValues.endDate))
+    return currentValues && currentValues.to
+      ? current.isSameOrBefore(moment(currentValues.to))
       : true;
   };
 
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.startDate
-      ? current.isSameOrAfter(moment(currentValues.startDate))
+    return currentValues && currentValues.from
+      ? current.isSameOrAfter(moment(currentValues.from))
       : true;
   };
 
@@ -68,6 +57,7 @@ class NotesGridFilter extends Component {
       handleSubmit,
       onSubmit,
       availableTypes,
+      invalid,
     } = this.props;
 
     return (
@@ -79,7 +69,7 @@ class NotesGridFilter extends Component {
                 name="searchValue"
                 type="text"
                 label={'Search by'}
-                placeholder={attributeLabels.searchValue}
+                placeholder={I18n.t(attributeLabels.searchValue)}
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
@@ -88,7 +78,7 @@ class NotesGridFilter extends Component {
             <div className="filter-row__medium">
               <Field
                 name="targetType"
-                label={attributeLabels.targetType}
+                label={I18n.t(attributeLabels.targetType)}
                 component={SelectField}
                 position="vertical"
               >
@@ -102,11 +92,13 @@ class NotesGridFilter extends Component {
             </div>
             <div className="filter-row__medium">
               <div className="form-group">
-                <label>Creation date range</label>
+                <label>
+                  {I18n.t('PLAYER_PROFILE.NOTES.FILTER.LABELS.CREATION_DATE_RANGE')}
+                </label>
                 <div className="range-group">
                   <Field
                     name="from"
-                    placeholder={attributeLabels.startDate}
+                    placeholder={I18n.t(attributeLabels.from)}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
                     timeFormat={null}
@@ -115,7 +107,7 @@ class NotesGridFilter extends Component {
                   <span className="range-group__separator">-</span>
                   <Field
                     name="to"
-                    placeholder={attributeLabels.endDate}
+                    placeholder={I18n.t(attributeLabels.to)}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
                     timeFormat={null}
@@ -132,14 +124,14 @@ class NotesGridFilter extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting}
+                  disabled={submitting || invalid}
                   className="btn btn-primary"
                   type="submit"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>
@@ -150,11 +142,19 @@ class NotesGridFilter extends Component {
   }
 }
 
+const FORM_NAME = 'userNotesFilter';
+
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate,
+    touchOnChange: true,
+    validate: (values, props) => createValidator({
+      searchValue: 'string',
+      targetType: ['string', `in:,${props.availableTypes.join()}`],
+      from: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+      to: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+    }, translateLabels(attributeLabels), false)(values),
   })(NotesGridFilter),
 );

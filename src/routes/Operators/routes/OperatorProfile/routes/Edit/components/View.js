@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import Form from './Form';
+import { I18n } from 'react-redux-i18n';
+import PersonalForm from './PersonalForm';
 import DepartmentsForm from './DepartmentsForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { departmentsLabels, rolesLabels } from '../../../../../../../constants/operators';
-import { renderLabel } from '../../../../../utils';
+import renderLabel from '../../../../../../../utils/renderLabel';
 import PermissionContent from '../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../config/permissions';
+import Card, { Content } from '../../../../../../../components/Card';
 
 const manageDepartmentsPermissions = [
   permissions.OPERATORS.ADD_AUTHORITY,
@@ -17,19 +19,24 @@ class View extends Component {
     updateProfile: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
-    }),
+    }).isRequired,
     profile: PropTypes.shape({
       data: PropTypes.operatorProfile,
       error: PropTypes.any,
       isLoading: PropTypes.bool,
       receivedAt: PropTypes.any,
-    }),
+    }).isRequired,
     fetchAuthority: PropTypes.func.isRequired,
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
     authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
     departments: PropTypes.arrayOf(PropTypes.dropDownOption),
     roles: PropTypes.arrayOf(PropTypes.dropDownOption),
+  };
+  static defaultProps = {
+    authorities: [],
+    departments: [],
+    roles: [],
   };
 
   handleSubmit = data => this.props.updateProfile(this.props.params.id, data);
@@ -55,12 +62,12 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="panel-body">
-        <div className="panel">
-          <div className="panel-body">
+      <Content>
+        <Card>
+          <Content>
             {
               !!profileLoaded &&
-              <Form
+              <PersonalForm
                 initialValues={{
                   firstName: profile.firstName,
                   lastName: profile.lastName,
@@ -71,15 +78,17 @@ class View extends Component {
                 onSubmit={this.handleSubmit}
               />
             }
-          </div>
-        </div>
+          </Content>
+        </Card>
         <PermissionContent permissions={manageDepartmentsPermissions}>
-          <div className="panel">
-            <div className="panel-body">
-              <div className="personal-form-heading margin-bottom-20">Departments</div>
+          <Card>
+            <Content>
+              <div className="personal-form-heading margin-bottom-20">
+                {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.LABEL')}
+              </div>
               {
                 authorities.map((authority, key) => (
-                  <div key={key} className="margin-bottom-20">
+                  <div key={`${key.department}-${key.role}`} className="margin-bottom-20">
                     <strong>
                       {renderLabel(authority.department, departmentsLabels)}
                       {' - '}
@@ -101,10 +110,10 @@ class View extends Component {
                 departments={departments}
                 roles={roles}
               />
-            </div>
-          </div>
+            </Content>
+          </Card>
         </PermissionContent>
-      </div>
+      </Content>
     );
   }
 }

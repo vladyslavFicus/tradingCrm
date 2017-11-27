@@ -5,14 +5,13 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import renderLabel from '../../../../../../../../utils/renderLabel';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../../../../../components/ReduxForm';
 import Uuid from '../../../../../../../../components/Uuid';
 import { actionLabels } from '../../../../../../../../constants/free-spin';
 import { attributeLabels } from './constants';
 
 const CUSTOM_REASON = 'custom';
-const FORM_NAME = 'freeSpinCancelModal';
 
 class CancelModal extends Component {
   static propTypes = {
@@ -29,8 +28,7 @@ class CancelModal extends Component {
     }).isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
-    disabled: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -43,8 +41,6 @@ class CancelModal extends Component {
     },
     pristine: false,
     submitting: false,
-    invalid: false,
-    disabled: false,
   };
 
   handleSubmit = ({ reason, customReason }) => {
@@ -61,9 +57,7 @@ class CancelModal extends Component {
         component={SelectField}
         position="vertical"
       >
-        <option value="">
-          {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.SELECT_REASON_OPTION')}
-        </option>
+        <option value="">{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
         {Object.keys(reasons).map(key => (
           <option key={key} value={key}>
             {renderLabel(key, reasons)}
@@ -94,7 +88,7 @@ class CancelModal extends Component {
     } = this.props;
 
     return (
-      <Modal className="free-spin-cancel-modal" isOpen toggle={onClose}>
+      <Modal className="modal-danger" isOpen toggle={onClose}>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalHeader toggle={onClose}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.TITLE')}
@@ -128,7 +122,7 @@ class CancelModal extends Component {
 
           <ModalFooter>
             <button
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               onClick={onClose}
             >
               {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CANCEL.CLOSE_BUTTON')}
@@ -147,29 +141,23 @@ class CancelModal extends Component {
   }
 }
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
+const FORM_NAME = 'freeSpinCancelModal';
+
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate: (data) => {
+    validate: (data, props) => {
       const rules = {
-        reason: 'string',
+        reason: `required|string|in:${Object.keys(props.reasons).join()},custom`,
       };
-
-      if (data.reasons) {
-        rules.reason = `required|string|in:${Object.keys(data.reasons).join()},custom`;
-      }
 
       if (data.reason === CUSTOM_REASON) {
         rules.customReason = 'required|string|min:3';
       }
 
-      return createValidator(rules, validatorAttributeLabels, false)(data);
+      return createValidator(rules, translateLabels(attributeLabels), false)(data);
     }
     ,
   })(CancelModal),

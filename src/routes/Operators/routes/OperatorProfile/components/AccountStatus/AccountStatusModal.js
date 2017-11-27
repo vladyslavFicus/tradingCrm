@@ -3,18 +3,12 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
-import { createValidator } from '../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../utils/validator';
 import { SelectField } from '../../../../../../components/ReduxForm';
-import { reasons as operatorChangeStatusReasons } from '../../../../../../constants/operators';
+import renderLabel from '../../../../../../utils/renderLabel';
+import { attributeLabels } from './constants';
 
-const attributeLabels = {
-  reason: 'Reason',
-};
-const validator = createValidator({
-  reason: `required|string|in:${operatorChangeStatusReasons.join()}`,
-}, attributeLabels, false);
-
-const AccountStatusModal = ({ action, reasons, title, onHide, onSubmit, handleSubmit }) => (
+const AccountStatusModal = ({ action, reasons, title, onHide, onSubmit, handleSubmit, invalid }) => (
   <Modal isOpen toggle={onHide}>
     <form onSubmit={handleSubmit(onSubmit)}>
       {
@@ -24,28 +18,30 @@ const AccountStatusModal = ({ action, reasons, title, onHide, onSubmit, handleSu
         </ModalHeader>
       }
       <ModalBody>
-        {
-          <Field
-            name="reason"
-            label={attributeLabels.reason}
-            component={SelectField}
-            position="vertical"
-          >
-            <option>-- Select reason --</option>
-            {reasons.map(item => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </Field>
-        }
+        <Field
+          name="reason"
+          label={I18n.t(attributeLabels.reason)}
+          component={SelectField}
+          position="vertical"
+        >
+          <option>{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
+          {Object.keys(reasons).map(key => (
+            <option key={key} value={key}>
+              {renderLabel(key, reasons)}
+            </option>
+          ))}
+        </Field>
       </ModalBody>
 
       <ModalFooter>
-        <button className="btn btn-default-outline pull-left" onClick={onHide}>
+        <button className="btn btn-default-outline mr-auto" onClick={onHide}>
           {I18n.t('COMMON.BUTTONS.CANCEL')}
         </button>
-        <button className="btn btn-danger" type="submit">
+        <button
+          className="btn btn-danger"
+          type="submit"
+          disabled={invalid}
+        >
           {action}
         </button>
       </ModalFooter>
@@ -55,11 +51,12 @@ const AccountStatusModal = ({ action, reasons, title, onHide, onSubmit, handleSu
 
 AccountStatusModal.propTypes = {
   action: PropTypes.string,
-  reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
+  reasons: PropTypes.object.isRequired,
   title: PropTypes.string,
   onHide: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func,
+  invalid: PropTypes.bool.isRequired,
 };
 
 AccountStatusModal.defaultProps = {
@@ -70,5 +67,7 @@ AccountStatusModal.defaultProps = {
 
 export default reduxForm({
   form: 'accountStatusModal',
-  validate: validator,
+  validate: (values, props) => createValidator({
+    reason: `required|string|in:${Object.keys(props.reasons).join()}`,
+  }, translateLabels(attributeLabels), false)(values),
 })(AccountStatusModal);

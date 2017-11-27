@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import countryList from 'country-list';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
 import config from '../../../../../config';
+import countries from '../../../../../utils/countryList';
 
 const tags = config.nas.brand.tags.reduce((result, item) => ({
   ...result,
   [item.value]: item.label,
 }), {});
 const currencies = config.nas.currencies.supported || [];
-const countries = countryList().getData().reduce((result, item) => ({
-  ...result,
-  [item.code]: item.name,
-}), {});
 
 class UserGridFilter extends Component {
   static propTypes = {
@@ -43,6 +39,7 @@ class UserGridFilter extends Component {
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     currentValues: {
@@ -95,6 +92,7 @@ class UserGridFilter extends Component {
       handleSubmit,
       onSubmit,
       disabled,
+      invalid,
     } = this.props;
 
     return (
@@ -144,7 +142,6 @@ class UserGridFilter extends Component {
                   <Field
                     name="ageFrom"
                     type="text"
-                    placeholder="20"
                     component="input"
                     className="form-control"
                   />
@@ -152,7 +149,6 @@ class UserGridFilter extends Component {
                   <Field
                     name="ageTo"
                     type="text"
-                    placeholder="30"
                     component="input"
                     className="form-control"
                   />
@@ -166,7 +162,6 @@ class UserGridFilter extends Component {
                   <Field
                     name="balanceFrom"
                     type="text"
-                    placeholder="100"
                     component="input"
                     className="form-control"
                   />
@@ -174,7 +169,6 @@ class UserGridFilter extends Component {
                   <Field
                     name="balanceTo"
                     type="text"
-                    placeholder="150"
                     component="input"
                     className="form-control"
                   />
@@ -246,7 +240,7 @@ class UserGridFilter extends Component {
                 <option value="">Any</option>
               </Field>
             </div>
-            <div className="filter-row__medium">
+            <div className="filter-row__big">
               <div className="form-group">
                 <label>Registration date range</label>
                 <div className="range-group">
@@ -280,7 +274,7 @@ class UserGridFilter extends Component {
                 </button>
                 <button
                   id="users-list-apply-button"
-                  disabled={submitting || (disabled && pristine)}
+                  disabled={submitting || (disabled && pristine) || invalid}
                   className="btn btn-primary"
                   type="submit"
                 >
@@ -298,6 +292,7 @@ class UserGridFilter extends Component {
 const FORM_NAME = 'userListGridFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
+  touchOnChange: true,
   validate: createValidator({
     keyword: 'string',
     country: `in:,${Object.keys(countries).join()}`,
@@ -308,8 +303,8 @@ const FilterForm = reduxForm({
     status: 'string',
     tags: `in:,${Object.keys(tags).join()}`,
     segments: 'string',
-    registrationDateFrom: 'string',
-    registrationDateTo: 'string',
+    registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     balanceFrom: 'integer',
     balanceTo: 'integer',
   }, filterLabels, false),

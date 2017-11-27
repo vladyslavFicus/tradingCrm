@@ -112,7 +112,7 @@ class View extends Component {
   };
 
   handleRowClick = async (data) => {
-    const { canClaimBonus, fetchActiveBonus } = this.props;
+    const { fetchActiveBonus } = this.props;
     const actions = [
       {
         children: I18n.t('COMMON.CLOSE'),
@@ -121,12 +121,12 @@ class View extends Component {
       },
     ];
 
-    if (canClaimBonus && data.state === statuses.INACTIVE) {
+    if (data.claimable && data.state === statuses.INACTIVE) {
       const activeBonusAction = await fetchActiveBonus(this.props.params.id);
       if (activeBonusAction && !activeBonusAction.error && activeBonusAction.payload.content.length === 0) {
         actions.push({
           children: I18n.t('PLAYER_PROFILE.BONUS.CLAIM_BONUS'),
-          onClick: this.handleClaimBonus.bind(null, data.id),
+          onClick: this.handleClaimBonus.bind(null, data.bonusUUID),
           className: 'btn btn-primary text-uppercase',
         });
       }
@@ -135,7 +135,7 @@ class View extends Component {
     if ([statuses.INACTIVE, statuses.IN_PROGRESS].indexOf(data.state) > -1) {
       actions.push({
         children: I18n.t('PLAYER_PROFILE.BONUS.CANCEL_BONUS'),
-        onClick: this.handleCancelBonus.bind(null, data.id),
+        onClick: this.handleCancelBonus.bind(null, data.bonusUUID),
         className: 'btn btn-danger text-uppercase',
         id: `${data.bonusUUID}-cancel-button`,
       });
@@ -164,15 +164,15 @@ class View extends Component {
     });
   };
 
-  handleClaimBonus = (id) => {
-    this.props.acceptBonus(id, this.props.params.id)
+  handleClaimBonus = (bonusUUID) => {
+    this.props.acceptBonus(bonusUUID, this.props.params.id)
       .then(() => {
         this.handleModalClose(this.handleRefresh);
       });
   };
 
-  handleCancelBonus = (id) => {
-    this.props.cancelBonus(id, this.props.params.id)
+  handleCancelBonus = (bonusUUID) => {
+    this.props.cancelBonus(bonusUUID, this.props.params.id)
       .then(() => {
         this.handleModalClose(this.handleRefresh);
       });
@@ -228,7 +228,7 @@ class View extends Component {
         {
           !!data.expirationDate &&
           <div className="font-size-11">
-            {moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}
+            {`${I18n.t('COMMON.TO')} ${moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}`}
           </div>
         }
       </div>
@@ -283,7 +283,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
+      <div>
         <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <SubTabNavigation links={subTabRoutes} />
@@ -305,8 +305,6 @@ class View extends Component {
 
         <div className="tab-content">
           <GridView
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
@@ -371,6 +369,7 @@ class View extends Component {
               state: 'INACTIVE',
               currency: playerProfile.currencyCode,
               lockAmountStrategy: lockAmountStrategy.LOCK_ALL,
+              claimable: false,
             }}
             onSubmit={this.handleSubmitManualBonus}
             onClose={this.handleModalClose}

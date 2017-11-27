@@ -1,52 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import countryList from 'country-list';
 import { reduxForm, Field } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
-import { createValidator } from '../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../utils/validator';
 import renderLabel from '../../../../../utils/renderLabel';
+import { attributeLabels } from '../constants';
 import { statusesLabels, statuses, rolesLabels, departmentsLabels } from '../../../../../constants/operators';
 import config from '../../../../../config';
+import countries from '../../../../../utils/countryList';
 
 const { availableDepartments: departments, availableRoles: roles } = config;
-const countries = countryList().getData().reduce((result, item) => ({
-  ...result,
-  [item.code]: item.name,
-}), {});
-const attributeLabels = {
-  keyword: 'Name, Phone, Email, UUID...',
-  country: 'Country',
-  status: 'Status',
-  department: 'Department',
-  role: 'Role',
-  registrationDateFrom: 'registrationDateFrom',
-  registrationDateTo: 'registrationDateTo',
-};
-
-const validator = createValidator({
-  keyword: 'string',
-  country: ['string', `in:${Object.keys(countries).join()}`],
-  status: ['string', `in:${Object.keys(statuses).join()}`],
-  department: ['string', `in:${departments.map(role => role.value).join()}`],
-  role: ['string', `in:${roles.map(role => role.value).join()}`],
-  registrationDateFrom: 'date',
-  registrationDateTo: 'date',
-}, attributeLabels, false);
 
 class OperatorGridFilter extends Component {
   static propTypes = {
     filterValues: PropTypes.object,
     reset: PropTypes.func.isRequired,
-    submit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
+    invalid: PropTypes.bool,
+  };
+  static defaultProps = {
+    invalid: true,
+    handleSubmit: null,
+    submitting: false,
+    filterValues: {},
   };
 
-  handleSubmit = () => {
-    return this.props.onSubmit(this.props.filterValues);
-  };
+  handleSubmit = () => this.props.onSubmit(this.props.filterValues);
 
   startDateValidator = (current) => {
     const { filterValues } = this.props;
@@ -73,6 +56,7 @@ class OperatorGridFilter extends Component {
     const {
       submitting,
       handleSubmit,
+      invalid,
     } = this.props;
 
     return (
@@ -83,8 +67,8 @@ class OperatorGridFilter extends Component {
               <Field
                 name="searchBy"
                 type="text"
-                label="Search by"
-                placeholder={attributeLabels.keyword}
+                label={I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.SEARCH_BY')}
+                placeholder={I18n.t(attributeLabels.keyword)}
                 component={InputField}
                 position="vertical"
                 iconLeftClassName="nas nas-search_icon"
@@ -94,7 +78,7 @@ class OperatorGridFilter extends Component {
             <div className="filter-row__medium">
               <Field
                 name="country"
-                label={attributeLabels.country}
+                label={I18n.t(attributeLabels.country)}
                 component={SelectField}
                 position="vertical"
               >
@@ -108,7 +92,7 @@ class OperatorGridFilter extends Component {
             <div className="filter-row__medium">
               <Field
                 name="status"
-                label={attributeLabels.status}
+                label={I18n.t(attributeLabels.status)}
                 component={SelectField}
                 position="vertical"
               >
@@ -123,7 +107,7 @@ class OperatorGridFilter extends Component {
             <div className="filter-row__medium">
               <Field
                 name="department"
-                label={attributeLabels.department}
+                label={I18n.t(attributeLabels.department)}
                 component={SelectField}
                 position="vertical"
               >
@@ -138,7 +122,7 @@ class OperatorGridFilter extends Component {
             <div className="filter-row__medium">
               <Field
                 name="role"
-                label={attributeLabels.role}
+                label={I18n.t(attributeLabels.role)}
                 component={SelectField}
                 position="vertical"
               >
@@ -152,10 +136,12 @@ class OperatorGridFilter extends Component {
             </div>
             <div className="filter-row__big">
               <div className="form-group">
-                <label>Registration date range</label>
+                <label>
+                  {I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.REGISTRATION_DATE_RANGE')}
+                </label>
                 <div className="range-group">
                   <Field
-                    name="registration_date_from"
+                    name="registrationDateFrom"
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
                     position="vertical"
@@ -163,7 +149,7 @@ class OperatorGridFilter extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
-                    name="registration_date_to"
+                    name="registrationDateTo"
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
                     position="vertical"
@@ -180,15 +166,15 @@ class OperatorGridFilter extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting}
+                  disabled={submitting || invalid}
                   className="btn btn-primary"
                   type="submit"
                   id="operators-list-filters-apply-button"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>
@@ -201,5 +187,14 @@ class OperatorGridFilter extends Component {
 
 export default reduxForm({
   form: 'operatorsListGridFilter',
-  validate: validator,
+  touchOnChange: true,
+  validate: createValidator({
+    keyword: 'string',
+    country: ['string', `in:${Object.keys(countries).join()}`],
+    status: ['string', `in:${Object.keys(statuses).join()}`],
+    department: ['string', `in:${departments.map(role => role.value).join()}`],
+    role: ['string', `in:${roles.map(role => role.value).join()}`],
+    registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+    registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+  }, translateLabels(attributeLabels), false),
 })(OperatorGridFilter);

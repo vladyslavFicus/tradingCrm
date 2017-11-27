@@ -6,14 +6,14 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import { InputField, DateTimeField, SelectField } from '../../../../../../../../components/ReduxForm';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { attributeLabels } from './constants';
 import Amount, { Currency } from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
 import { targetTypes } from '../../../../../../../../constants/note';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
-import { providers as providersMap } from '../../constants';
+import { aggregators } from '../../constants';
 
 class CreateModal extends Component {
   static propTypes = {
@@ -21,7 +21,7 @@ class CreateModal extends Component {
     change: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -46,7 +46,6 @@ class CreateModal extends Component {
   static defaultProps = {
     pristine: false,
     submitting: false,
-    invalid: false,
     disabled: false,
     handleSubmit: null,
     change: null,
@@ -144,47 +143,49 @@ class CreateModal extends Component {
   renderAdditionalFields = () => {
     const { currentValues, currency } = this.props;
 
-    if (currentValues.providerId === providersMap.microgaming) {
+    if (currentValues.aggregatorId === aggregators.microgaming) {
       const { currentCoins, currentCoinSizes } = this.state;
 
       return (
-        <div>
-          <div className="col-md-4">
-            <Field
-              name="coinSize"
-              label={I18n.t(attributeLabels.coinSize)}
-              labelClassName="form-label"
-              position="vertical"
-              component={SelectField}
-              showErrorMessage
-              disabled={!currentValues || !currentValues.providerId}
-              inputAddon={<Currency code={currency} />}
-            >
-              <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_COIN_SIZE')}</option>
-              {currentCoinSizes.map(item => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </Field>
-          </div>
-          <div className="col-md-4">
-            <Field
-              name="numberOfCoins"
-              label={I18n.t(attributeLabels.numberOfCoins)}
-              labelClassName="form-label"
-              position="vertical"
-              component={SelectField}
-              showErrorMessage
-              disabled={!currentValues || !currentValues.providerId}
-            >
-              <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_NUMBER_OF_COINS')}</option>
-              {currentCoins.map(item => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </Field>
+        <div className="col-md-8">
+          <div className="row">
+            <div className="col-md-6">
+              <Field
+                name="coinSize"
+                label={I18n.t(attributeLabels.coinSize)}
+                labelClassName="form-label"
+                position="vertical"
+                component={SelectField}
+                showErrorMessage
+                disabled={!currentValues || !currentValues.providerId}
+                inputAddon={<Currency code={currency} />}
+              >
+                <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_COIN_SIZE')}</option>
+                {currentCoinSizes.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="col-md-6">
+              <Field
+                name="numberOfCoins"
+                label={I18n.t(attributeLabels.numberOfCoins)}
+                labelClassName="form-label"
+                position="vertical"
+                component={SelectField}
+                showErrorMessage
+                disabled={!currentValues || !currentValues.providerId}
+              >
+                <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_NUMBER_OF_COINS')}</option>
+                {currentCoins.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
+            </div>
           </div>
         </div>
       );
@@ -212,7 +213,7 @@ class CreateModal extends Component {
     const { currentValues, currency } = this.props;
     let betPrice = 0;
 
-    if (currentValues.providerId === providersMap.microgaming) {
+    if (currentValues.aggregatorId === aggregators.microgaming) {
       const coinSize = (
         currentValues && currentValues.coinSize
           ? parseFloat(currentValues.coinSize) : 0
@@ -477,7 +478,7 @@ class CreateModal extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               disabled={submitting}
               type="reset"
               onClick={onClose}
@@ -498,18 +499,14 @@ class CreateModal extends Component {
   }
 }
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
 const FORM_NAME = 'freeSpinManage';
 const CreateModalReduxForm = reduxForm({
   form: FORM_NAME,
   validate: (values) => {
     const rules = {
       name: 'required|string',
-      startDate: 'required|string',
-      endDate: 'required|string',
+      startDate: 'required|regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+      endDate: 'required|regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
       providerId: 'required',
       gameId: 'required',
       freeSpinsAmount: ['required', 'integer'],
@@ -536,14 +533,14 @@ const CreateModalReduxForm = reduxForm({
       }
     }
 
-    if (values.providerId === providersMap.microgaming) {
+    if (values.aggregatorId === aggregators.microgaming) {
       rules.coinSize = ['required', 'numeric'];
       rules.numberOfCoins = ['required', 'numeric'];
     } else {
       rules.betPerLine = ['required', 'numeric', 'max:1000'];
     }
 
-    return createValidator(rules, validatorAttributeLabels, false)(values);
+    return createValidator(rules, translateLabels(attributeLabels), false)(values);
   },
 })(CreateModal);
 

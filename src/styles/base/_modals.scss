@@ -3,6 +3,9 @@
     border: none;
     border-radius: 0;
   }
+  &-dialog {
+    width: 600px;
+  }
   &.fade {
     .modal-dialog {
       transform: translateY(10%);
@@ -18,14 +21,14 @@
     opacity: 1;
   }
   &-header {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
     border-bottom: none;
     background-color: #dff2ff;
     .close {
-      height: 29px;
-      line-height: 29px;
-      margin-top: 0;
+      margin: 0;
+      padding: 0;
       font-size: 45px;
       font-weight: 300;
     }
@@ -34,7 +37,6 @@
     }
   }
   &-title {
-    float: left;
     font-size: 18px;
     color: #333;
     &:first-letter {
@@ -48,6 +50,7 @@
   &-footer {
     padding-top: 10px;
     padding-bottom: 10px;
+    text-align: right;
     .btn {
       text-transform: uppercase;
     }
@@ -60,11 +63,6 @@
     }
   }
   &-danger {
-    .modal-header {
-      background-color: #fc6;
-    }
-  }
-  .delete-modal {
     .modal-header {
       background-color: #fc6;
     }
@@ -95,6 +93,11 @@
       }
     }
   }
+  @media (min-width: 576px) {
+    .modal-dialog {
+      max-width: none;
+    }
+  }
   .create-bonus-campaign-modal {
     width: 900px;
   }
@@ -109,11 +112,6 @@
   }
   .create-free-spin-modal {
     width: 605px;
-  }
-  .free-spin-cancel-modal {
-    .modal-header {
-      background-color: #fc6;
-    }
   }
   .view-bonus-modal {
     width: 750px;
@@ -184,9 +182,6 @@
 }
 
 .change-password-modal {
-  .modal-header {
-    background-color: #fc6;
-  }
   &-warning {
     margin-bottom: 25px;
     text-align: center;
@@ -196,6 +191,12 @@
   &-uuid {
     font-weight: 300;
   }
+}
+
+.share-profile-modal__copy-button {
+  width: 100%;
+  padding-right: 7px;
+  padding-left: 7px;
 }
 
 .modal-to-much-opened-profiles {

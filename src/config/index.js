@@ -46,11 +46,6 @@ const config = _.merge({
       departments: [],
       tags: {},
       roles: [],
-      payment: {
-        reasons: {
-          refuse: ['REASON_1', 'REASON_2', 'REASON_3', 'PLAYER_CANCEL'],
-        },
-      },
     },
     validation: {
       password: null,
@@ -143,16 +138,6 @@ function getAvailableTags(department) {
   return config.nas.brand.tags.filter(item => item.department === department);
 }
 
-function getTransactionRejectReasons() {
-  return config.nas.brand.payment && config.nas.brand.payment.reasons && config.nas.brand.payment.reasons.refuse
-    ? config.nas.brand.payment.reasons.refuse.reduce((res, item) => ({ ...res, [item]: item }), {}) : {};
-}
-
-function getTransactionChargebackReasons() {
-  return config.nas.brand.reasons && config.nas.brand.reasons.chargeback
-    ? config.nas.brand.reasons.chargeback.reduce((res, item) => ({ ...res, [item]: item }), {}) : {};
-}
-
 function getLimitPeriods() {
   return config.nas.limits || [];
 }
@@ -162,7 +147,7 @@ function getApiRoot() {
 }
 
 function getErrorApiUrl() {
-  return config.logstash.url || '';
+  return '/log';
 }
 
 function getBrand() {
@@ -191,8 +176,6 @@ export {
   getErrorApiUrl,
   getLogo,
   getAvailableTags,
-  getTransactionRejectReasons,
-  getTransactionChargebackReasons,
   getLimitPeriods,
   getAvailableLanguages,
   getVersion,

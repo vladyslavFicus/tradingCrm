@@ -1,6 +1,18 @@
-.profile-layout {
-  border: none;
-  margin-bottom: 0;
+.layout {
+  &_not-iframe {
+    width: 94%;
+    margin-top: -15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  &-info {
+    padding-bottom: 50px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(248, 248, 248, 1) 100%, rgba(248, 248, 248, 1) 100%);
+  }
+  &-content {
+    position: relative;
+    background-color: #fff;
+  }
   .nav-tabs {
     position: absolute;
     top: -45px;
@@ -9,20 +21,6 @@
     margin-right: 25px;
     margin-left: 25px;
   }
-  &.operators-profile-layout {
-    width: 94%;
-    margin-top: -20px;
-    margin-right: auto;
-    margin-left: auto;
-  }
-  &-heading {
-    padding-bottom: 75px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(248, 248, 248, 1) 100%, rgba(248, 248, 248, 1) 100%);
-  }
-  .profile-user-content {
-    position: relative;
-  }
-
   .tab-content {
     padding: 0 25px 25px;
   }
@@ -37,9 +35,14 @@
   transition: all .2s ease;
   &__heading {
     font-size: 20px;
+    color: #333;
   }
   &__actions {
     margin-left: auto;
+  }
+  &__label {
+    font-size: 16px;
+    color: #333;
   }
 }
 

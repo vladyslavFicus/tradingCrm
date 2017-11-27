@@ -10,7 +10,7 @@ class NasSelectField extends Component {
       value: PropTypes.any,
       onChange: PropTypes.func,
     }).isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
     placeholder: PropTypes.string,
     labelTag: PropTypes.string,
     labelClassName: PropTypes.string,
