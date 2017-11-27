@@ -1,17 +1,21 @@
 import React from 'react';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
+import Uuid from '../../components/Uuid';
 import { shortify } from '../../utils/uuid';
 
 const GridPaymentInfo = ({ payment, onClick }) => (
   <div id={`payment-${payment.paymentId}`}>
-    <div className="font-weight-700">
-      <button
-        className="btn-transparent-text"
-        onClick={onClick}
-        id={`transaction-${payment.paymentId}`}
-      >
-        {shortify(payment.paymentId, 'TA')}
-      </button>
+    <button
+      className="btn-transparent-text font-weight-700"
+      onClick={onClick}
+      id={`transaction-${payment.paymentId}`}
+    >
+      {shortify(payment.paymentId, 'TA')}
+    </button>
+    <div className="font-size-11">
+      {I18n.t('COMMON.AUTHOR_BY')}
+      <Uuid uuid={payment.creatorUUID} />
     </div>
   </div>
 );
