@@ -424,6 +424,10 @@
         "FAILURE_ADD_PLAYER_TO_CAMPAIGN": {
           "TITLE": "Ошибка",
           "MESSAGE": "Не удалось добавить игрока в кампанию"
+        },
+        "SUCCESS_ADD_PROMO_CODE": {
+          "TITLE": "Успешно",
+          "MESSAGE": "Игрок был успешно добавлен в кампанию по промо-коду"
         }
       },
       "ADD_TO_CAMPAIGN_BUTTON": "+ Добавить в Кампанию",
