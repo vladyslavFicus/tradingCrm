@@ -62,7 +62,6 @@ function compileNginxConfig(environmentConfig) {
 
 function processConfig() {
   const projectConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_PROJECT}.yml`);
-  const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_ENV}.yml`);
 
   return fetchZookeeperConfig({ projectConfig })
     .then((config) => {
@@ -70,7 +69,6 @@ function processConfig() {
 
       return _.merge(
         config,
-        { nas: environmentConfig.nas },
         {
           nas: {
             brand: Object.assign({
