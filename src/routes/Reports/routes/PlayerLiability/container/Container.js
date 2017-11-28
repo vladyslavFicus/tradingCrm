@@ -5,7 +5,7 @@ import config from '../../../../../config';
 
 const mapStateToProps = ({ playerLiabilityReport }) => ({
   ...playerLiabilityReport,
-  currency: config.nas.currencies.base,
+  currency: config.nas.brand.currencies.base,
 });
 const mapActions = {
   onReportDownload: actionCreators.downloadReport,

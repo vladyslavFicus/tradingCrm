@@ -7,7 +7,7 @@ import { actionTypes as profileActionTypes } from './profile';
 
 const emptyBalance = {
   amount: 0,
-  currency: config.nas.currencies.base,
+  currency: config.nas.brand.currencies.base,
 };
 
 const KEY = 'user/balances';

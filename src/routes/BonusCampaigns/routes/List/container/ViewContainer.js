@@ -8,7 +8,7 @@ const mapStateToProps = ({ bonusCampaigns, i18n: { locale } }) => ({
   ...bonusCampaigns,
   locale,
   statuses: Object.keys(statuses),
-  currencies: config.nas.currencies.supported || [],
+  currencies: config.nas.brand.currencies.supported || [],
 });
 
 const mapActions = {

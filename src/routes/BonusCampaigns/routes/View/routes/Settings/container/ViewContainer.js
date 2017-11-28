@@ -73,7 +73,7 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
     bonusCampaign: data,
     bonusCampaignForm,
     nodeGroups,
-    currencies: config.nas.currencies.supported || [],
+    currencies: config.nas.brand.currencies.supported || [],
     locale,
   };
 };
