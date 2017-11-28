@@ -180,9 +180,15 @@ class View extends Component {
 
     if (!action || action.error) {
       throw new SubmissionError({ promoCode: I18n.t(action.payload.response.error) });
-    }
+    } else {
+      this.context.addNotification({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.SUCCESS_ADD_PROMO_CODE.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.NOTIFICATIONS.SUCCESS_ADD_PROMO_CODE.MESSAGE'),
+      });
 
-    this.handleCloseModal();
+      this.handleCloseModal(this.handleRefresh);
+    }
   };
 
   renderCampaign = data => (

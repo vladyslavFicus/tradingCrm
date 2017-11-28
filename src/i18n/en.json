@@ -418,6 +418,10 @@
         "FAILURE_ADD_PLAYER_TO_CAMPAIGN": {
           "TITLE": "Error",
           "MESSAGE": "Could not add player to campaign."
+        },
+        "SUCCESS_ADD_PROMO_CODE": {
+          "TITLE": "Success",
+          "MESSAGE": "Player was successfully added to campaign`s target by promo code"
         }
       },
       "ADD_TO_CAMPAIGN_BUTTON": "+ Add to Campaign",
