@@ -139,16 +139,10 @@ function updateCampaign(uuid, data) {
       ...data,
       countryStrategy: data.excludeCountries ? countryStrategies.EXCLUDE : countryStrategies.INCLUDE,
     };
-    if (
-      endpointParams.conversionPrize &&
-      (endpointParams.conversionPrize.value === undefined || endpointParams.conversionPrize.value === null)
-    ) {
+    if (endpointParams.conversionPrize && !endpointParams.conversionPrize.value) {
       endpointParams.conversionPrize = null;
     }
-    if (
-      endpointParams.capping &&
-      (endpointParams.capping.value === undefined || endpointParams.capping.value === null)
-    ) {
+    if (endpointParams.capping && !endpointParams.capping.value) {
       endpointParams.capping = null;
     }
 
