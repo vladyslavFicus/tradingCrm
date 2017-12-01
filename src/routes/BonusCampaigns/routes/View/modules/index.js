@@ -200,7 +200,7 @@ function updateCampaign(uuid, data) {
         body: JSON.stringify(endpointParams),
         types: [
           CAMPAIGN_UPDATE.REQUEST,
-          { type: CAMPAIGN_UPDATE.SUCCESS, payload: data },
+          { type: CAMPAIGN_UPDATE.SUCCESS, payload: endpointParams },
           CAMPAIGN_UPDATE.FAILURE,
         ],
       },

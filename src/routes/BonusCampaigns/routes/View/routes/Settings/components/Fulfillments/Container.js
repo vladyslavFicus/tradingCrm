@@ -103,7 +103,7 @@ class Container extends Component {
       default:
         return null;
     }
-  }
+  };
 
   render() {
     const { disabled, activeNodes } = this.props;

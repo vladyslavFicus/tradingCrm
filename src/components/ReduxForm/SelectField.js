@@ -42,7 +42,7 @@ class SelectField extends Component {
     labelClassName: '',
     meta: {
       touched: false,
-      error: false,
+      error: '',
     },
   };
 
