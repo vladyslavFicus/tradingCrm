@@ -41,7 +41,7 @@ class Container extends Component {
       default:
         return null;
     }
-  }
+  };
 
   render() {
     const { activeNodes } = this.props;

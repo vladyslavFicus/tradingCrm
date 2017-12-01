@@ -28,9 +28,10 @@ import './Form.scss';
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
 const getCustomValueFieldTypes = (fulfillment) => {
-  const profileCompleted = _.get(fulfillment, fulfillmentNodeTypes.profileCompleted);
+  const isAbsolute = _.get(fulfillment, fulfillmentNodeTypes.profileCompleted)
+    || _.get(fulfillment, fulfillmentNodeTypes.noFulfillments);
 
-  return profileCompleted
+  return isAbsolute
     ? [customValueFieldTypes.ABSOLUTE]
     : [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE];
 };
@@ -88,14 +89,22 @@ class Form extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { currentValues, change } = this.props;
-    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
-    if (currentValues && currentValues.campaignType &&
-      currentValues.campaignType !== nextCampaignType &&
-      nextCampaignType === campaignTypes.PROFILE_COMPLETED
-    ) {
-      ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
-        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
-      });
+    const { currentValues: nextValues } = nextProps;
+
+    if (!_.isEqual(currentValues.fulfillments, nextValues.fulfillments)) {
+      const isNoFulfilment = _.get(nextValues.fulfillments, fulfillmentNodeTypes.noFulfillments);
+      const isAbsolute = _.get(nextValues.fulfillments, fulfillmentNodeTypes.profileCompleted)
+        || isNoFulfilment;
+
+      if (isAbsolute) {
+        ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
+          change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
+        });
+      }
+
+      if (isNoFulfilment) {
+        change('optIn', true);
+      }
     }
   }
 
@@ -131,10 +140,7 @@ class Form extends Component {
     );
   };
 
-  handleRevert = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
+  handleRevert = () => {
     this.props.revert();
     this.props.reset();
   };
@@ -166,6 +172,8 @@ class Form extends Component {
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfillments);
+    const isOptInDisabled = disabled || currentValues.targetType === targetTypes.ALL
+      || _.get(currentValues.fulfillments, fulfillmentNodeTypes.noFulfillments);
 
     return (
       <form className="form-horizontal campaign-settings" onSubmit={handleSubmit(onSubmit)}>
@@ -178,7 +186,7 @@ class Form extends Component {
             <button
               onClick={this.handleRevert}
               className="btn btn-default-outline text-uppercase margin-right-20"
-              type="submit"
+              type="button"
             >
               {I18n.t('COMMON.REVERT_CHANGES')}
             </button>
@@ -335,7 +343,7 @@ class Form extends Component {
                 type="select"
                 component={SelectField}
                 position="vertical"
-                disabled={disabled || currentValues.targetType === targetTypes.ALL}
+                disabled={isOptInDisabled}
               >
                 {Object.keys(optInSelect).map(key => (
                   <option key={key} value={key}>
