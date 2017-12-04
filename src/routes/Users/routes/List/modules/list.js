@@ -35,11 +35,11 @@ function mapProfile(item) {
 
       return 0;
     }) : item.signInIps,
-    balance: item.realMoneyBalance || item.bonusMoneyBalance ? {
+    balance: item.realMoneyBalance || item.bonusBalance ? {
       ...emptyBalance,
       amount: (
         (item.realMoneyBalance ? item.realMoneyBalance.amount : 0)
-        + (item.bonusMoneyBalance ? item.bonusMoneyBalance.amount : 0)
+        + (item.bonusBalance ? item.bonusBalance.amount : 0)
       ),
     } : emptyBalance,
   };
