@@ -59,6 +59,7 @@
         "exports": "always-multiline",
         "functions": "ignore"
       }
-    ]
+    ],
+    "no-return-assign": "off"
   }
 }

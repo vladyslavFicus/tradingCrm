@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
-import classNames from 'classnames';
+import { TimelineLite, Power1 } from 'gsap';
 import Nav from '../Nav';
 import PropTypes from '../../constants/propTypes';
 import './Sidebar.scss';
@@ -9,57 +9,58 @@ class Sidebar extends Component {
   static propTypes = {
     topMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     bottomMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
-    onOpenTab: PropTypes.func.isRequired,
-    menuClick: PropTypes.func.isRequired,
+    onToggleTab: PropTypes.func.isRequired,
+    menuItemClick: PropTypes.func.isRequired,
   };
 
   state = {
-    isHover: false,
     isOpen: false,
   };
 
-  openTimeout = null;
-  closeTimeout = null;
+  componentDidMount() {
+    const { sidebar } = this;
+    this.props.menuItemClick();
 
-  handleSidebarMouseEnter = () => {
+    const tl = new TimelineLite({ paused: true });
+
+    tl.fromTo(sidebar, 0.15, { width: '60px' }, { width: '240px', ease: Power1.easeOut })
+      .fromTo('.nav-link__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
+
+    this.tl = tl;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { isOpen } = this.state;
+
+    if (!prevState.isOpen && isOpen) {
+      this.tl.play();
+    } else if (prevState.isOpen && !isOpen) {
+      this.tl.reverse();
+    }
+  }
+
+  onMenuItemClick = () => {
     this.setState({
-      isHover: true,
-    }, () => {
-      this.openTimeout = setTimeout(() => {
-        if (this.state.isHover) {
-          this.setState({
-            isOpen: true,
-          });
-        }
-      }, 1000);
-    });
-
-    clearTimeout(this.closeTimeout);
-    this.closeTimeout = null;
+      isOpen: false,
+    }, this.props.menuItemClick);
   };
 
-  handleSidebarMouseLeave = () => {
-    this.closeTimeout = setTimeout(() => {
-      this.setState({
-        isHover: false,
-        isOpen: false,
-      });
-      this.props.menuClick();
-    }, 400);
-
-    if (!this.openTimeout) {
-      clearTimeout(this.openTimeout);
-      this.openTimeout = null;
+  open = () => {
+    if (!this.state.isOpen) {
+      this.setState({ isOpen: true });
     }
   };
 
+  close = () => {
+    if (this.state.isOpen) {
+      this.setState({ isOpen: false });
+    }
+  };
 
-  onMenuClick = () => {
-    this.setState({
-      isHover: false,
-      isOpen: false,
-    });
-    this.props.menuClick();
+  toggleTab = (index) => {
+    this.open();
+
+    this.props.onToggleTab(index);
   };
 
   renderTrackHorizontal = props => (
@@ -75,11 +76,15 @@ class Sidebar extends Component {
   );
 
   render() {
+    const { topMenu, bottomMenu, onToggleTab } = this.props;
+    const { isOpen } = this.state;
+
     return (
       <aside
-        className={classNames('sidebar', { sidebar_open: this.state.isOpen, 'add-delay': !this.state.isHover })}
-        onMouseEnter={this.handleSidebarMouseEnter}
-        onMouseLeave={this.handleSidebarMouseLeave}
+        ref={node => this.sidebar = node}
+        className="sidebar"
+        onMouseEnter={this.open}
+        onMouseLeave={this.close}
       >
         <Scrollbars
           renderTrackHorizontal={this.renderTrackHorizontal}
@@ -88,17 +93,17 @@ class Sidebar extends Component {
           style={{ height: 'calc(100% - 85px)' }}
         >
           <Nav
-            items={this.props.topMenu}
-            onOpenTab={this.props.onOpenTab}
-            onMenuClick={this.onMenuClick}
-            isSidebarOpen={this.state.isOpen}
+            isSidebarOpen={isOpen}
+            items={topMenu}
+            onToggleTab={this.toggleTab}
+            onMenuItemClick={this.onMenuItemClick}
           />
         </Scrollbars>
         <Nav
-          items={this.props.bottomMenu}
-          onMenuClick={this.onMenuClick}
-          onOpenTab={this.props.onOpenTab}
-          isSidebarOpen={this.state.isOpen}
+          isSidebarOpen={isOpen}
+          items={bottomMenu}
+          onToggleTab={onToggleTab}
+          onMenuItemClick={this.onMenuItemClick}
         />
       </aside>
     );
