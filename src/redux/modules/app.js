@@ -4,8 +4,8 @@ import { actionTypes as windowActionTypes } from './window';
 
 const KEY = 'app';
 const SET_SCROLL_TO_TOP = `${KEY}/set-scroll-to-top`;
-const TOGGLE_MENU_TAP = `${KEY}/toggle-menu-tap`;
-const MENU_CLICK = `${KEY}/menu-click`;
+const TOGGLE_MENU_TAB = `${KEY}/toggle-menu-tab`;
+const MENU_ITEM_CLICK = `${KEY}/menu-item-click`;
 
 const initialState = {
   showScrollToTop: false,
@@ -30,7 +30,7 @@ const initialState = {
       icon: 'fa fa-credit-card',
       isOpen: false,
       items: [
-        { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'), url: '/transactions' },
+        { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'), url: '/transactions/list' },
         { label: I18n.t('SIDEBAR.TOP_MENU.OPEN_LOOP'), url: '/transactions/open-loops' },
       ],
     },
@@ -61,28 +61,28 @@ function setIsShowScrollTop(payload) {
   };
 }
 
-function toggleMenuTap(index) {
+function toggleMenuTab(index) {
   return {
-    type: TOGGLE_MENU_TAP,
+    type: TOGGLE_MENU_TAB,
     payload: index,
   };
 }
 
-function menuClick() {
+function menuItemClick() {
   return {
-    type: MENU_CLICK,
+    type: MENU_ITEM_CLICK,
   };
 }
 
 const actionCreators = {
   setIsShowScrollTop,
-  toggleMenuTap,
-  menuClick,
+  toggleMenuTab,
+  menuItemClick,
 };
 const actionTypes = {
   SET_SCROLL_TO_TOP,
-  TOGGLE_MENU_TAP,
-  MENU_CLICK,
+  TOGGLE_MENU_TAB,
+  MENU_ITEM_CLICK,
 };
 const actionHandlers = {
   [SET_SCROLL_TO_TOP]: (state, action) => ({
@@ -95,7 +95,7 @@ const actionHandlers = {
     showScrollToTop: action.payload,
     isInitializedScroll: state.isInitializedScroll || action.payload,
   }),
-  [TOGGLE_MENU_TAP]: (state, action) => {
+  [TOGGLE_MENU_TAB]: (state, action) => {
     const newSidebarTopMenu = [...state.sidebarTopMenu];
     const index = action.payload;
 
@@ -103,14 +103,26 @@ const actionHandlers = {
       ...state,
       sidebarTopMenu: newSidebarTopMenu.map((menuItem, menuItemIndex) => ({
         ...menuItem,
-        isOpen: menuItemIndex !== index || !menuItem.isOpen,
+        isOpen: menuItemIndex !== index ? false : !menuItem.isOpen,
       })),
     };
   },
-  [MENU_CLICK]: state => ({
-    ...state,
-    sidebarTopMenu: state.sidebarTopMenu.map(menuItem => (menuItem.items ? { ...menuItem, isOpen: false } : menuItem)),
-  }),
+  [MENU_ITEM_CLICK]: (state) => {
+    const newSidebarTopMenu = [...state.sidebarTopMenu];
+
+    return {
+      ...state,
+      sidebarTopMenu: newSidebarTopMenu.map((menuItem) => {
+        const { items } = menuItem;
+        const isSubMenu = !!(items && items.length);
+
+        return {
+          ...menuItem,
+          isOpen: isSubMenu && !!items.find(subMenuItem => subMenuItem.url === location.pathname),
+        };
+      }),
+    };
+  },
 };
 
 export {

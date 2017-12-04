@@ -5,10 +5,9 @@ import NavItem from '../NavItem';
 class Nav extends Component {
   static propTypes = {
     className: PropTypes.string,
-    isSidebarOpen: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.navItem).isRequired,
-    onMenuClick: PropTypes.func.isRequired,
-    onOpenTab: PropTypes.func.isRequired,
+    onMenuItemClick: PropTypes.func.isRequired,
+    onToggleTab: PropTypes.func.isRequired,
   };
   static defaultProps = {
     className: 'nav',
@@ -18,25 +17,19 @@ class Nav extends Component {
     const {
       items,
       className,
-      onOpenTab,
-      onMenuClick,
-      isSidebarOpen,
+      onToggleTab,
+      onMenuItemClick,
     } = this.props;
 
     return (
       <ul className={className}>
         {items.map((item, index) => (
           <NavItem
-            key={index}
+            {...item}
+            key={item.label}
             index={index}
-            label={item.label}
-            isOpen={item.isOpen}
-            icon={item.icon}
-            url={item.url}
-            items={item.items}
-            onToggleMenuItem={onOpenTab}
-            onMenuClick={onMenuClick}
-            isSidebarOpen={isSidebarOpen}
+            onToggleTab={onToggleTab}
+            onMenuItemClick={onMenuItemClick}
           />
         ))}
       </ul>
