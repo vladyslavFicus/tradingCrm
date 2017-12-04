@@ -4,7 +4,7 @@ import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
-import { getApiRoot } from '../../../../../config/index';
+import config, { getApiRoot } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
 import shallowEqual from '../../../../../utils/shallowEqual';
@@ -14,6 +14,11 @@ const KEY = 'users';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
 const RESET = `${KEY}/reset`;
+
+const emptyBalance = {
+  amount: 0,
+  currency: config.nas.brand.currencies.base,
+};
 
 function mapProfile(item) {
   return {
@@ -30,6 +35,13 @@ function mapProfile(item) {
 
       return 0;
     }) : item.signInIps,
+    balance: item.realMoneyBalance || item.bonusMoneyBalance ? {
+      ...emptyBalance,
+      amount: (
+        (item.realMoneyBalance ? item.realMoneyBalance.amount : 0)
+        + (item.bonusMoneyBalance ? item.bonusMoneyBalance.amount : 0)
+      ),
+    } : emptyBalance,
   };
 }
 
@@ -50,17 +62,16 @@ function exportEntities(filters = {}) {
     }
 
     const queryString = buildQueryString(
-      _.omitBy({ page: 0, ...filters }, (val, key) => !val || key === 'playerUuidList')
+      _.omitBy({ page: 0, ...filters }, val => !val)
     );
 
     const response = await fetch(`${getApiRoot()}/profile/profiles?${queryString}`, {
-      method: filters.playerUuidList ? 'POST' : 'GET',
+      method: 'GET',
       headers: {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: filters.playerUuidList ? JSON.stringify({ playerUuidList: filters.playerUuidList }) : undefined,
     });
 
     const blobData = await response.blob();

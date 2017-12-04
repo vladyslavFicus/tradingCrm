@@ -4,7 +4,7 @@ import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { attributeLabels, attributePlaceholders } from './constants';
 import { InputField, SelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
 
@@ -154,10 +154,6 @@ class FreeSpinsFilterForm extends Component {
   }
 }
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
 const FORM_NAME = 'freeSpinsFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
@@ -167,7 +163,7 @@ const FilterForm = reduxForm({
     gameId: 'string',
     startDate: 'string',
     endDate: 'string',
-  }, validatorAttributeLabels, false),
+  }, translateLabels(attributeLabels), false),
 })(FreeSpinsFilterForm);
 
 export default connect(state => ({

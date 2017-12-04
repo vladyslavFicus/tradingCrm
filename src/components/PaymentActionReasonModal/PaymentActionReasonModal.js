@@ -14,7 +14,8 @@ import NoteButton from '../NoteButton';
 import { SelectField, TextAreaField } from '../ReduxForm';
 import Uuid from '../Uuid';
 import { attributeLabels } from './constants';
-import { createValidator } from '../../utils/validator';
+import { createValidator, translateLabels } from '../../utils/validator';
+import renderLabel from '../../utils/renderLabel';
 
 const CUSTOM_REASON = 'custom';
 
@@ -37,6 +38,7 @@ class PaymentActionReasonModal extends Component {
       customReason: PropTypes.string,
     }).isRequired,
     className: PropTypes.string,
+    invalid: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     reasons: {},
@@ -67,12 +69,10 @@ class PaymentActionReasonModal extends Component {
         component={SelectField}
         position="vertical"
       >
-        <option value="">
-          {I18n.t('PAYMENT_ACTION_REASON_MODAL.SELECT_REASON_OPTION')}
-        </option>
+        <option value="">{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
         {Object.keys(reasons).map(key => (
           <option key={key} value={key}>
-            {I18n.t(reasons[key])}
+            {renderLabel(key, reasons)}
           </option>
         ))}
         {
@@ -103,6 +103,7 @@ class PaymentActionReasonModal extends Component {
       currentValues,
       customReason,
       className,
+      invalid,
     } = this.props;
 
     return (
@@ -150,10 +151,14 @@ class PaymentActionReasonModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <button className="btn btn-default-outline pull-left" onClick={onClose}>
+            <button className="btn btn-default-outline mr-auto" onClick={onClose}>
               {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
             </button>
-            <button className="btn btn-danger" type="submit">
+            <button
+              className="btn btn-danger"
+              type="submit"
+              disabled={invalid}
+            >
               {I18n.t(submitButtonLabel)}
             </button>
           </ModalFooter>
@@ -170,20 +175,16 @@ export default connect(state => ({
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate: (data) => {
+    validate: (data, props) => {
       const rules = {
-        reason: 'string',
+        reason: `string|in:${Object.keys(props.reasons).join()},custom`,
       };
-
-      if (data.reasons) {
-        rules.reason = `required|string|in:${Object.keys(data.reasons).join()},custom`;
-      }
 
       if (data.reason === CUSTOM_REASON) {
         rules.customReason = 'required|string|min:3';
       }
 
-      return createValidator(rules, attributeLabels, false)(data);
+      return createValidator(rules, translateLabels(attributeLabels), false)(data);
     },
   })(PaymentActionReasonModal)
 );

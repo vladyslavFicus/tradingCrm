@@ -1,0 +1,20 @@
+.sub-tab-nav {
+  font-size: 20px;
+  &__link {
+    padding-right: 5px;
+    padding-left: 5px;
+    border-bottom: 2px solid transparent;
+    color: #333;
+    &:focus {
+      color: #069;
+      outline: none;
+    }
+    &:hover {
+      color: #069;
+    }
+  }
+  &__link_active {
+    border-bottom-color: #069;
+    color: #069;
+  }
+}

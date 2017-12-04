@@ -20,4 +20,4 @@ export default (objA, objB) => {
   }
 
   return true;
-}
+};

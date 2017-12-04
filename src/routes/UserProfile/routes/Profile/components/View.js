@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import classNames from 'classnames';
 import Sticky from 'react-stickynode';
+import { SubmissionError } from 'redux-form';
 import PropTypes from '../../../../../constants/propTypes';
 import PersonalForm from './PersonalForm';
 import AddressForm from './AddressForm';
@@ -22,6 +23,10 @@ import {
 } from '../../../../../constants/kyc';
 import { kycNoteTypes } from '../constants';
 import './View.scss';
+import PermissionContent from '../../../../../components/PermissionContent';
+import { CONDITIONS } from '../../../../../utils/permissions';
+import permissions from '../../../../../config/permissions';
+import Card from '../../../../../components/Card/Card';
 
 const REFUSE_MODAL = 'refuse-modal';
 const VERIFY_MODAL = 'verify-modal';
@@ -52,6 +57,8 @@ class View extends Component {
     verifyData: PropTypes.func.isRequired,
     refuseData: PropTypes.func.isRequired,
     updateProfile: PropTypes.func.isRequired,
+    updatePhone: PropTypes.func.isRequired,
+    updateEmail: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
     changeFileStatusByAction: PropTypes.func.isRequired,
@@ -71,8 +78,10 @@ class View extends Component {
     }).isRequired,
     contactData: PropTypes.shape({
       email: PropTypes.string,
-      phoneNumber: PropTypes.string,
+      phoneCode: PropTypes.string,
+      phone: PropTypes.string,
     }).isRequired,
+    meta: PropTypes.meta.isRequired,
     checkLock: PropTypes.func.isRequired,
     verifyPhone: PropTypes.func.isRequired,
     verifyEmail: PropTypes.func.isRequired,
@@ -83,12 +92,17 @@ class View extends Component {
     sendKycRequestVerification: PropTypes.func.isRequired,
     verifyKycAll: PropTypes.func.isRequired,
     fetchKycReasons: PropTypes.func.isRequired,
+    fetchMeta: PropTypes.func.isRequired,
+    canUpdateProfile: PropTypes.bool,
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
     refreshPinnedNotes: PropTypes.func.isRequired,
+  };
+  static defaultProps = {
+    canUpdateProfile: false,
   };
 
   state = {
@@ -98,6 +112,10 @@ class View extends Component {
   componentDidMount() {
     this.props.fetchKycReasons();
   }
+
+  onManageKycNote = type => (data) => {
+    this.props.manageKycNote(type, data);
+  };
 
   handleSubmitKYC = type => async (data) => {
     const { params: { id }, submitData } = this.props;
@@ -115,10 +133,12 @@ class View extends Component {
     return action;
   };
 
-  handleSubmitContact = async (data) => {
-    const { params, updateProfile } = this.props;
+  handleUpdatePhone = async (data) => {
+    const { params, updatePhone } = this.props;
+    const { phone, phoneCode } = data;
 
-    const action = await updateProfile(params.id, { phoneNumber: data.phoneNumber });
+    const action = await updatePhone(params.id, { phone, phoneCode });
+
     if (action) {
       this.context.addNotification({
         level: action.error ? 'error' : 'success',
@@ -130,6 +150,26 @@ class View extends Component {
     return action;
   };
 
+  handleUpdateEmail = async (data) => {
+    const { params, updateEmail } = this.props;
+
+    const action = await updateEmail(params.id, data);
+
+    if (action) {
+      if (!action.error) {
+        this.context.addNotification({
+          level: 'success',
+          title: I18n.t('PLAYER_PROFILE.PROFILE.EMAIL.TITLE'),
+          message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        });
+      } else {
+        throw new SubmissionError({ email: I18n.t(action.payload.response.error) });
+      }
+    }
+
+    return action;
+  };
+
   handleVerify = async () => {
     const {
       params: { id: playerUUID },
@@ -138,6 +178,7 @@ class View extends Component {
       checkLock,
     } = this.props;
     const { modal: { params: { verifyType } } } = this.state;
+    console.info(`Verify modal submitted - ${verifyType}`);
 
     const action = await verifyData(playerUUID, verifyType);
     if (action) {
@@ -156,6 +197,10 @@ class View extends Component {
           this.context.refreshPinnedNotes();
         }
       }
+    }
+
+    if (action && !action.error) {
+      console.info(`Verify success - ${verifyType}`);
     }
 
     checkLock(playerUUID);
@@ -254,13 +299,10 @@ class View extends Component {
     });
   };
 
-  onManageKycNote = type => (data) => {
-    this.props.manageKycNote(type, data);
-  };
-
   handleVerifyClick = (verifyType) => {
     const { profile: { data: { fullName } } } = this.props;
 
+    console.info(`Verify button clicked - ${verifyType}`);
     const kycVerifyModalStaticParams = {};
     if (verifyType === kycCategories.KYC_PERSONAL) {
       kycVerifyModalStaticParams.modalTitle =
@@ -336,11 +378,12 @@ class View extends Component {
     }
   };
 
-  handleVerifyPhone = async (phoneNumber) => {
-    const { params, profile, verifyPhone, updateProfile } = this.props;
+  handleVerifyPhone = async (phone, phoneCode) => {
+    const { params, profile, verifyPhone, updatePhone } = this.props;
+    const { phone: currentPhone, phoneCode: currentPhoneCode } = profile.data;
 
-    if (phoneNumber !== profile.data.phoneNumber) {
-      await updateProfile(params.id, { phoneNumber });
+    if (phone !== currentPhone || phoneCode !== currentPhoneCode) {
+      await updatePhone(params.id, { phone, phoneCode });
     }
 
     return verifyPhone(params.id);
@@ -396,12 +439,17 @@ class View extends Component {
           refuse,
         },
       },
+      meta: {
+        data: metaData,
+      },
       files,
       personalData,
       addressData,
       contactData,
       downloadFile,
+      fetchMeta,
       locale,
+      canUpdateProfile,
     } = this.props;
 
     if (!receivedAt) {
@@ -410,49 +458,59 @@ class View extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">{this.renderKycStatusTitle()}</div>
             <div className="tab-header__actions">
               {
                 !data.kycCompleted && !!data.kycRequest &&
-                <button
-                  id="verify-all-identities-button"
-                  type="button"
-                  className="btn btn-sm btn-success-outline margin-right-10"
-                  onClick={this.handleOpenVerifyKycAllModal}
-                >
-                  {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION_ALL')}
-                </button>
+                <PermissionContent permissions={permissions.USER_PROFILE.KYC_VERIFY_ALL}>
+                  <button
+                    id="verify-all-identities-button"
+                    type="button"
+                    className="btn btn-sm btn-success-outline margin-right-10"
+                    onClick={this.handleOpenVerifyKycAllModal}
+                  >
+                    {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION_ALL')}
+                  </button>
+                </PermissionContent>
               }
-              <button
-                id="request-kyc-button"
-                type="button"
-                className="btn btn-sm btn-primary-outline"
-                onClick={this.handleOpenRequestKycVerificationModal}
-              >
-                {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
-              </button>
+              <PermissionContent permissions={permissions.USER_PROFILE.REQUEST_KYC}>
+                <button
+                  id="request-kyc-button"
+                  type="button"
+                  className="btn btn-sm btn-primary-outline"
+                  onClick={this.handleOpenRequestKycVerificationModal}
+                >
+                  {I18n.t('PLAYER_PROFILE.PROFILE.REQUEST_KYC_VERIFICATION')}
+                </button>
+              </PermissionContent>
             </div>
           </div>
         </Sticky>
 
         <div className="tab-content">
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
-              <div className="col-md-8 profile-bordered-block">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
+              <div className="col-md-8 with-right-border">
                 <PersonalForm
                   initialValues={personalData}
                   onSubmit={this.handleSubmitKYC(kycTypes.personal)}
+                  disabled={!canUpdateProfile}
                 />
                 <hr />
-                <Documents
-                  onChangeStatus={this.handleChangeFileStatus}
-                  onUpload={this.handleUploadDocument(kycCategories.KYC_PERSONAL)}
-                  onDownload={downloadFile}
-                  files={files.identity}
-                  onDocumentClick={this.handlePreviewImageClick}
-                />
+                <PermissionContent
+                  permissions={[permissions.USER_PROFILE.VIEW_FILES, permissions.USER_PROFILE.UPLOAD_FILE]}
+                  permissionsCondition={CONDITIONS.OR}
+                >
+                  <Documents
+                    onChangeStatus={this.handleChangeFileStatus}
+                    onUpload={this.handleUploadDocument(kycCategories.KYC_PERSONAL)}
+                    onDownload={downloadFile}
+                    files={files.identity}
+                    onDocumentClick={this.handlePreviewImageClick}
+                  />
+                </PermissionContent>
               </div>
               <div className="col-md-4">
                 <VerifyData
@@ -463,23 +521,33 @@ class View extends Component {
                 />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="panel">
-            <div className="panel-body row panel-body__wrapper">
-              <div className="col-md-8 profile-bordered-block">
+          <Card>
+            <div className="card-body row panel-body__wrapper">
+              <div className="col-md-8 with-right-border">
                 <AddressForm
+                  meta={{
+                    countries: metaData.countries,
+                    countryCodes: metaData.countryCodes,
+                  }}
                   initialValues={addressData}
                   onSubmit={this.handleSubmitKYC(kycTypes.address)}
+                  disabled={!canUpdateProfile}
                 />
                 <hr />
-                <Documents
-                  onChangeStatus={this.handleChangeFileStatus}
-                  onUpload={this.handleUploadDocument(kycCategories.KYC_ADDRESS)}
-                  onDownload={downloadFile}
-                  files={files.address}
-                  onDocumentClick={this.handlePreviewImageClick}
-                />
+                <PermissionContent
+                  permissions={[permissions.USER_PROFILE.VIEW_FILES, permissions.USER_PROFILE.UPLOAD_FILE]}
+                  permissionsCondition={CONDITIONS.OR}
+                >
+                  <Documents
+                    onChangeStatus={this.handleChangeFileStatus}
+                    onUpload={this.handleUploadDocument(kycCategories.KYC_ADDRESS)}
+                    onDownload={downloadFile}
+                    files={files.address}
+                    onDocumentClick={this.handlePreviewImageClick}
+                  />
+                </PermissionContent>
               </div>
               <div className="col-md-4">
                 <VerifyData
@@ -490,19 +558,26 @@ class View extends Component {
                 />
               </div>
             </div>
-          </div>
+          </Card>
 
-          <div className="panel">
-            <div className="panel-body row">
-              <ContactForm
-                profile={data}
-                initialValues={contactData}
-                onSubmit={this.handleSubmitContact}
-                onVerifyPhoneClick={this.handleVerifyPhone}
-                onVerifyEmailClick={this.handleVerifyEmail}
-              />
+          <Card>
+            <div className="card-body row panel-body__wrapper">
+              <div className="col-md-8 with-right-border">
+                <ContactForm
+                  fetchMeta={fetchMeta}
+                  profile={data}
+                  phoneCodes={metaData.phoneCodes}
+                  contactData={contactData}
+                  onSubmitPhone={this.handleUpdatePhone}
+                  onSubmitEmail={this.handleUpdateEmail}
+                  onVerifyPhoneClick={this.handleVerifyPhone}
+                  onVerifyEmailClick={this.handleVerifyEmail}
+                  disabled={!canUpdateProfile}
+                />
+              </div>
+              <div className="col-md-4" />
             </div>
-          </div>
+          </Card>
 
           {
             modal.name === REFUSE_MODAL &&

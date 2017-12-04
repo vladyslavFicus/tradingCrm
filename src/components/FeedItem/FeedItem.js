@@ -13,12 +13,14 @@ import FeedInfoProfileChanged from './FeedInfoProfileChanged';
 import FeedInfoProfileRegistered from './FeedInfoProfileRegistered';
 import FeedInfoOperatorCreation from './FeedInfoOperatorCreation';
 import FeedInfoPlayerProfileViewed from './FeedInfoPlayerProfileViewed';
+import FeedInfoFailedLoginAttempt from './FeedInfoFailedLoginAttempt';
+import FeedInfoKycRequest from './FeedInfoKycRequest';
 import Uuid from '../Uuid';
 
 class FeedItem extends Component {
   static propTypes = {
     letter: PropTypes.string.isRequired,
-    color: PropTypes.oneOf(['', 'orange', 'blue']),
+    color: PropTypes.oneOf(['', 'orange', 'blue']).isRequired,
     data: PropTypes.auditEntity.isRequired,
   };
   state = {
@@ -43,6 +45,7 @@ class FeedItem extends Component {
       case types.KYC_PERSONAL_VERIFIED:
         return <FeedInfoKyc data={data} />;
       case types.PLAYER_PROFILE_VERIFIED_EMAIL:
+      case types.PLAYER_PROFILE_VERIFIED_PHONE:
       case types.PLAYER_PROFILE_CHANGED:
         return <FeedInfoProfileChanged data={data} />;
       case types.PLAYER_PROFILE_REGISTERED:
@@ -52,6 +55,10 @@ class FeedItem extends Component {
         return <FeedInfoOperatorCreation data={data} />;
       case types.PLAYER_PROFILE_VIEWED:
         return <FeedInfoPlayerProfileViewed data={data} />;
+      case types.FAILED_LOGIN_ATTEMPT:
+        return <FeedInfoFailedLoginAttempt data={data} />;
+      case types.KYC_REQUESTED:
+        return <FeedInfoKycRequest data={data} />;
       default:
         return null;
     }
@@ -102,7 +109,7 @@ class FeedItem extends Component {
             }
           </div>
           <div className="feed-item_info-date">
-            {data.creationDate ? moment(data.creationDate).format('DD.MM.YYYY HH:mm:ss') : null}
+            {data.creationDate ? moment.utc(data.creationDate).local().format('DD.MM.YYYY HH:mm:ss') : null}
             {
               [types.LOG_IN, types.LOG_OUT].indexOf(data.type) === -1 && data.ip
                 ? ` ${I18n.t('COMMON.FROM')} ${data.ip}`
@@ -137,4 +144,3 @@ class FeedItem extends Component {
 }
 
 export default FeedItem;
-

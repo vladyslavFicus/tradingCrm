@@ -75,10 +75,7 @@ class View extends Component {
   };
 
   handleFiltersChanged = (filters = {}) => {
-    this.setState({
-      filters,
-      page: 0,
-    }, () => this.handleRefresh());
+    this.setState({ filters, page: 0 }, this.handleRefresh);
   };
 
   handleStatusActionClick = (uuid, action) => {
@@ -106,8 +103,8 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+      <div>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">Files</div>
             <div className="tab-header__actions">
@@ -130,8 +127,6 @@ class View extends Component {
         <div className="tab-content">
           <CommonFileGridView
             dataSource={entities.content}
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
             totalPages={entities.totalPages}
             activePage={entities.number + 1}
             lazyLoad

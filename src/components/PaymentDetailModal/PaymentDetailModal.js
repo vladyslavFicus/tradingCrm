@@ -15,21 +15,19 @@ import NoteButton from '../NoteButton';
 import { shortify } from '../../utils/uuid';
 import { UncontrolledTooltip } from '../Reactstrap/Uncontrolled';
 import PermissionContent from '../PermissionContent';
-import Permissions from '../../utils/permissions';
-import permission from '../../config/permissions';
+import permissions from '../../config/permissions';
 import Uuid from '../Uuid';
 import ModalPlayerInfo from '../ModalPlayerInfo';
 import TransactionStatus from '../TransactionStatus';
 import renderLabel from '../../utils/renderLabel';
-
-const approvePendingWithdraw = new Permissions([permission.PAYMENTS.APPROVE_WITHDRAW]);
-const chargebackCompletedDeposit = new Permissions([permission.PAYMENTS.CHARGEBACK_DEPOSIT]);
+import PaymentAccount from '../PaymentAccount';
+import IpFlag from '../IpFlag';
 
 class PaymentDetailModal extends Component {
   static propTypes = {
     className: PropTypes.string,
     onClose: PropTypes.func.isRequired,
-    onNoteClick: PropTypes.func.isRequired,
+    onNoteClick: PropTypes.func,
     onChangePaymentStatus: PropTypes.func.isRequired,
     onAskReason: PropTypes.func.isRequired,
     payment: PropTypes.paymentEntity.isRequired,
@@ -37,6 +35,7 @@ class PaymentDetailModal extends Component {
   };
   static defaultProps = {
     className: '',
+    onNoteClick: null,
   };
 
   handleApproveClick = () => {
@@ -92,10 +91,11 @@ class PaymentDetailModal extends Component {
     if (paymentType === paymentsTypes.Withdraw && status === paymentStatuses.PENDING) {
       actions = (
         <span>
-          <PermissionContent permissions={approvePendingWithdraw}>
+          <PermissionContent permissions={permissions.PAYMENTS.APPROVE_WITHDRAW}>
             <Button
               color="primary"
               onClick={this.handleApproveClick}
+              className="margin-right-5"
             >
               {I18n.t('COMMON.APPROVE')}
             </Button>
@@ -113,7 +113,7 @@ class PaymentDetailModal extends Component {
     if (paymentType === paymentsTypes.Deposit && status === paymentStatuses.COMPLETED) {
       actions = (
         <span>
-          <PermissionContent permissions={chargebackCompletedDeposit}>
+          <PermissionContent permissions={permissions.PAYMENTS.CHARGEBACK_DEPOSIT}>
             <Button
               color="danger"
               onClick={this.handleChargebackClick}
@@ -129,7 +129,7 @@ class PaymentDetailModal extends Component {
       <ModalFooter>
         <Button
           onClick={onClose}
-          className="pull-left"
+          className="mr-auto"
         >
           {I18n.t('COMMON.DEFER')}
         </Button>
@@ -167,30 +167,23 @@ class PaymentDetailModal extends Component {
               <div className="modal-header-tabs__label">
                 <Uuid uuid={payment.paymentId} uuidPrefix="TA" />
               </div>
-              <div className="font-size-11">
-                {'by '}
-                <Uuid
-                  uuid={payment.playerUUID}
-                  uuidPrefix={payment.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
-                />
-              </div>
             </div>
             <div className="modal-body-tabs__item">
               <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_DATE_TIME')}
               </div>
               <div className="modal-header-tabs__label">
-                {moment(payment.creationTime).format('DD.MM.YYYY')}
+                {moment.utc(payment.creationTime).local().format('DD.MM.YYYY')}
               </div>
               <div className="font-size-11">
-                {moment(payment.creationTime).format('HH:mm')}
+                {moment.utc(payment.creationTime).local().format('HH:mm')}
               </div>
             </div>
             <div className="modal-body-tabs__item">
               <div className="modal-tab-label">
                 Ip
               </div>
-              {payment.country && <i className={`fs-icon fs-${payment.country.toLowerCase()}`} />}
+              <IpFlag id={payment.paymentId} country={payment.country} ip={payment.clientIp} />
             </div>
             <div className="modal-body-tabs__item">
               <div className="modal-tab-label">
@@ -234,14 +227,15 @@ class PaymentDetailModal extends Component {
               <div className="modal-tab-label">
                 {I18n.t('PAYMENT_DETAILS_MODAL.HEADER_PAYMENT_METHOD')}
               </div>
-              <div>
-                <div className="modal-footer-tabs__amount">
-                  {payment.paymentMethod ? renderLabel(payment.paymentMethod, paymentsMethodsLabels) : 'Manual'}
-                </div>
-                <div className="font-size-14">
-                  {shortify(payment.paymentAccount, null, 2)}
-                </div>
+              <div className="modal-footer-tabs__amount">
+                {payment.paymentMethod ? renderLabel(payment.paymentMethod, paymentsMethodsLabels) : 'Manual'}
               </div>
+              {
+                !!payment.paymentAccount &&
+                <div className="font-size-14">
+                  <PaymentAccount account={payment.paymentAccount} />
+                </div>
+              }
             </div>
           </div>
           <div className="text-center">

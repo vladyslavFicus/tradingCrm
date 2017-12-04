@@ -16,7 +16,7 @@ const mapStateToProps = (state) => {
     games,
     providers,
     locale,
-    currency: profile.data.currencyCode || config.nas.currencies.base,
+    currency: profile.data.currencyCode || config.nas.brand.currencies.base,
     cancelReasons: config.modules.freeSpin.cancelReasons,
   };
 };

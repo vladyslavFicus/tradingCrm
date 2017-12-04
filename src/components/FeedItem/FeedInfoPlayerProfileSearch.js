@@ -2,11 +2,14 @@ import React from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 import { filterLabels } from '../../constants/user';
+import renderLabel from '../../utils/renderLabel';
 
 const formatters = {};
-const formatValue = (attribute, value) => formatters[attribute]
-  ? formatters[attribute].reduce((res, formatter) => formatter(res), value)
-  : value;
+const formatValue = (attribute, value) => (
+  formatters[attribute]
+    ? formatters[attribute].reduce((res, formatter) => formatter(res), value)
+    : value
+);
 
 const FeedInfoPlayerProfileSearch = ({ data }) => (
   <div className="feed-item_info-details">
@@ -16,7 +19,7 @@ const FeedInfoPlayerProfileSearch = ({ data }) => (
 
     {Object.keys(data.details).map(attribute => (
       <div key={attribute}>
-        {filterLabels[attribute] || attribute}:
+        {renderLabel(attribute, filterLabels)}:
         <span className="feed-item_info-details_value">
           {formatValue(attribute, data.details[attribute].toString())}
         </span>

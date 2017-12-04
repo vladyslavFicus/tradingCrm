@@ -24,26 +24,31 @@ const statusColorNames = {
   [statuses.CLOSED]: 'color-danger',
 };
 
-const reasons = [
-  'REASON_ONE',
-  'REASON_TWO',
-  'REASON_THREE',
-  'REASON_FOUR',
-];
+const closeReasons = {
+  'OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION':
+    I18n.t('OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION'),
+  'OPERATOR_PROFILE.CLOSE_REASONS.TERMINATED':
+    I18n.t('OPERATOR_PROFILE.CLOSE_REASONS.TERMINATED'),
+};
+
+const activeReasons = {
+  'OPERATOR_PROFILE.ACTIVATE_REASONS.ACTIVATE':
+    I18n.t('OPERATOR_PROFILE.ACTIVATE_REASONS.ACTIVATE'),
+};
 
 const statusActions = {
   [statuses.ACTIVE]: [
     {
       action: actions.CLOSED,
       label: 'Close',
-      reasons,
+      reasons: closeReasons,
     },
   ],
   [statuses.CLOSED]: [
     {
       action: actions.ACTIVE,
       label: 'Activate',
-      reasons,
+      reasons: activeReasons,
     },
   ],
 };
@@ -52,11 +57,13 @@ const departments = keyMirror({
   CS: null,
   RFP: null,
   MARKETING: null,
+  ADMINISTRATION: null,
 });
 const departmentsLabels = {
   [departments.CS]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.CS'),
   [departments.RFP]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.RFP'),
   [departments.MARKETING]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.MARKETING'),
+  [departments.ADMINISTRATION]: I18n.t('CONSTANTS.OPERATORS.DEPARTMENTS.ADMINISTRATION'),
 };
 const roles = keyMirror({
   ROLE1: null,
@@ -77,7 +84,6 @@ export {
   statusesLabels,
   statusColorNames,
   statusActions,
-  reasons,
   departments,
   departmentsLabels,
   roles,

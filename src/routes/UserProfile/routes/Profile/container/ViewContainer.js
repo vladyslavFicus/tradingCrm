@@ -4,42 +4,53 @@ import { actionCreators as profileActionCreators } from '../../../modules';
 import { actionCreators as filesActionCreators } from '../../../modules/files';
 import { statuses as kycStatuses } from '../../../../../constants/kyc';
 import { getApiRoot } from '../../../../../config';
+import Permissions from '../../../../../utils/permissions';
+import permissions from '../../../../../config/permissions';
 
-const mapStateToProps = ({ profile: { profile, files }, i18n: { locale } }) => ({
-  profile,
-  personalData: {
-    title: profile.data.title,
-    firstName: profile.data.firstName,
-    lastName: profile.data.lastName,
-    birthDate: profile.data.birthDate,
-    identifier: profile.data.identifier,
-    gender: profile.data.gender,
-  },
-  addressData: {
-    country: profile.data.country,
-    city: profile.data.city,
-    postCode: profile.data.postCode,
-    address: profile.data.address,
-  },
-  contactData: {
-    email: profile.data.email,
-    phoneNumber: profile.data.phoneNumber,
-  },
-  canRefuseAll: (
-    (profile.data.kycPersonalStatus && profile.data.kycPersonalStatus.status === kycStatuses.VERIFIED) ||
-    (profile.data.kycAddressStatus && profile.data.kycAddressStatus.status === kycStatuses.VERIFIED)
-  ),
-  files,
-  canVerifyAll: !profile.data.kycCompleted,
-  locale,
-  filesUrl: `${getApiRoot()}/profile/files/download/`,
-});
+const updateProfilePermissions = new Permissions(permissions.USER_PROFILE.UPDATE_PROFILE);
+
+const mapStateToProps = ({ profile: { profile, files, meta }, i18n: { locale }, permissions: currentPermissions }) => {
+  const {
+    email,
+    phone,
+    phoneCode,
+    title,
+    firstName,
+    lastName,
+    birthDate,
+    identifier,
+    gender,
+    country,
+    city,
+    postCode,
+    address,
+  } = profile.data;
+
+  return {
+    profile,
+    personalData: { title, firstName, lastName, birthDate, identifier, gender },
+    addressData: { country, city, postCode, address },
+    contactData: { email, phone, phoneCode },
+    canRefuseAll: (
+      (profile.data.kycPersonalStatus && profile.data.kycPersonalStatus.status === kycStatuses.VERIFIED) ||
+      (profile.data.kycAddressStatus && profile.data.kycAddressStatus.status === kycStatuses.VERIFIED)
+    ),
+    files,
+    meta,
+    canVerifyAll: !profile.data.kycCompleted,
+    locale,
+    filesUrl: `${getApiRoot()}/profile/files/download/`,
+    canUpdateProfile: updateProfilePermissions.check(currentPermissions.data),
+  };
+};
 const mapActions = {
   fetchProfile: profileActionCreators.fetchProfile,
   submitData: profileActionCreators.submitData,
   verifyData: profileActionCreators.verifyData,
   refuseData: profileActionCreators.refuseData,
   updateProfile: profileActionCreators.updateProfile,
+  updatePhone: profileActionCreators.updatePhone,
+  updateEmail: profileActionCreators.updateEmail,
   uploadFile: profileActionCreators.uploadProfileFile,
   downloadFile: filesActionCreators.downloadFile,
   checkLock: profileActionCreators.checkLock,
@@ -51,6 +62,7 @@ const mapActions = {
   sendKycRequestVerification: profileActionCreators.sendKycRequestVerification,
   verifyKycAll: profileActionCreators.verifyKycAll,
   fetchKycReasons: profileActionCreators.fetchKycReasons,
+  fetchMeta: profileActionCreators.fetchMeta,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

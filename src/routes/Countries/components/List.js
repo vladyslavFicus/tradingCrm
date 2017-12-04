@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import Panel, { Title, Content } from '../../../components/Panel';
+import Card, { Title, Content } from '../../../components/Card';
 import CountriesGridFilter from './CountriesGridFilter';
 import GridView, { GridColumn } from '../../../components/GridView';
 import StatusDropDown from './StatusDropDown';
@@ -56,7 +56,7 @@ class List extends Component {
 
     return (
       <div className="page-content-inner">
-        <Panel withBorders>
+        <Card>
           <Title>
             <span className="font-size-20">{I18n.t('COUNTRIES.TITLE')}</span>
           </Title>
@@ -69,8 +69,6 @@ class List extends Component {
           <Content>
             <GridView
               dataSource={entities.content}
-              tableClassName="table table-hovered data-grid-layout"
-              headerClassName="text-uppercase"
               onPageChange={this.handlePageChanged}
               activePage={entities.number + 1}
               totalPages={entities.totalPages}
@@ -80,20 +78,18 @@ class List extends Component {
               <GridColumn
                 name="countryName"
                 header={I18n.t('COUNTRIES.GRID.LABEL.COUNTRY')}
-                headerClassName="text-uppercase"
                 className="font-weight-700"
                 headerStyle={{ width: '350px' }}
               />
               <GridColumn
                 name="access"
                 header={I18n.t('COUNTRIES.GRID.LABEL.ACCESS')}
-                headerClassName="text-uppercase"
                 className="text-uppercase"
                 render={this.renderStatus}
               />
             </GridView>
           </Content>
-        </Panel>
+        </Card>
       </div>
     );
   }

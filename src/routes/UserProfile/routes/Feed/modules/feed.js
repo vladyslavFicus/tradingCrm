@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
 import _ from 'lodash';
-import { getApiRoot } from '../../../../../config/index';
+import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
@@ -80,9 +80,13 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
   };
 }
 
-const mapAuditEntities = entities => entities.map(entity => (typeof entity.details === 'string'
-  ? { ...entity, details: JSON.parse(entity.details) }
-  : entity));
+const mapAuditEntities = entities => entities.map(
+  entity => (
+    typeof entity.details === 'string'
+      ? { ...entity, details: JSON.parse(entity.details) }
+      : entity
+  )
+);
 
 const actionHandlers = {
   [FETCH_FEED.REQUEST]: (state, action) => ({

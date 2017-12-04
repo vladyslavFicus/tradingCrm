@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import UserGridFilter from './UserGridFilter';
 import PropTypes from '../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import Amount from '../../../../../components/Amount';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import {
   statusColorNames as userStatusColorNames,
   statusesLabels as userStatusesLabels,
 } from '../../../../../constants/user';
+import withPlayerClick from '../../../../../utils/withPlayerClick';
 
 class List extends Component {
   static propTypes = {
     fetchESEntities: PropTypes.func.isRequired,
+    fetchPlayerMiniProfile: PropTypes.func.isRequired,
     list: PropTypes.pageableState(PropTypes.userProfile).isRequired,
     reset: PropTypes.func.isRequired,
     params: PropTypes.shape({
@@ -22,9 +25,12 @@ class List extends Component {
     }).isRequired,
     exportEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    onPlayerClick: PropTypes.func.isRequired,
   };
   static contextTypes = {
-    addPanel: PropTypes.func.isRequired,
+    miniProfile: PropTypes.shape({
+      onShowMiniProfile: PropTypes.func.isRequired,
+    }),
   };
 
   state = {
@@ -74,20 +80,12 @@ class List extends Component {
     this.setState({ filters: {}, page: 0 });
   };
 
-  renderUserInfo = (data) => {
-    const panelData = {
-      fullName: `${data.firstName || '-'} ${data.lastName || '-'}`,
-      login: data.username,
-      uuid: data.playerUUID,
-    };
-
-    return (
-      <GridPlayerInfo
-        profile={data}
-        onClick={() => this.context.addPanel(panelData)}
-      />
-    );
-  };
+  renderUserInfo = data => (
+    <GridPlayerInfo
+      fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
+      profile={data}
+    />
+  );
 
   renderLocation = data => (
     <div className="font-weight-700">{data.country}</div>
@@ -99,9 +97,9 @@ class List extends Component {
 
   renderRegistered = data => (
     <div>
-      <div className="font-weight-700">{moment(data.registrationDate).format('DD.MM.YYYY')}</div>
+      <div className="font-weight-700">{moment.utc(data.registrationDate).local().format('DD.MM.YYYY')}</div>
       <div className="font-size-11">
-        {moment(data.registrationDate).format('HH:mm:ss')}
+        {moment.utc(data.registrationDate).local().format('HH:mm:ss')}
       </div>
     </div>
   );
@@ -115,7 +113,7 @@ class List extends Component {
         {
           data.lastDeposit && data.lastDeposit.transactionDate &&
           <div className="font-size-11">
-            Last deposit {moment(data.lastDeposit.transactionDate).format('DD.MM.YYYY')}
+            Last deposit {moment.utc(data.lastDeposit.transactionDate).local().format('DD.MM.YYYY')}
           </div>
         }
       </div>
@@ -130,99 +128,88 @@ class List extends Component {
       {
         data.profileStatusDate &&
         <div className="font-size-11">
-          Since {moment(data.profileStatusDate).format('DD.MM.YYYY')}
+          Since {moment.utc(data.profileStatusDate).local().format('DD.MM.YYYY')}
         </div>
       }
     </div>
   );
 
   render() {
-    const { list: { entities, exporting, noResults }, locale } = this.props;
+    const { list: { entities, exporting, noResults }, locale, onPlayerClick } = this.props;
     const { filters } = this.state;
     const allowActions = Object
       .keys(filters)
       .filter(i => (filters[i] && Array.isArray(filters[i]) && filters[i].length > 0) || filters[i]).length > 0;
 
     return (
-      <div className="page-content-inner">
-        <Panel withBorders>
-          <Title>
-            <div className="row">
-              <div className="col-xl-3">
-                <span
-                  className="font-size-20"
-                  id="users-list-header"
-                >
-                  Players
-                </span>
-              </div>
+      <Card>
+        <Title>
+          <span className="font-size-20" id="users-list-header">
+            {I18n.t('COMMON.PLAYERS')}
+          </span>
 
-              <div className="col-xl-3 col-xl-offset-6 text-right">
-                <button
-                  disabled={exporting || !allowActions}
-                  className="btn btn-default-outline"
-                  onClick={this.handleExport}
-                >
-                  Export
-                </button>
-              </div>
-            </div>
-          </Title>
+          <button
+            disabled={exporting || !allowActions}
+            className="btn btn-default-outline ml-auto"
+            onClick={this.handleExport}
+          >
+            {I18n.t('COMMON.EXPORT')}
+          </button>
+        </Title>
 
-          <UserGridFilter
-            onSubmit={this.handleFiltersChanged}
-            onReset={this.handleFilterReset}
-            disabled={!allowActions}
-          />
+        <UserGridFilter
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          disabled={!allowActions}
+        />
 
-          <Content>
-            <GridView
-              tableClassName="table table-hovered data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={entities.content}
-              onPageChange={this.handlePageChanged}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-              locale={locale}
-              showNoResults={noResults}
-            >
-              <GridColumn
-                name="id"
-                header="Player"
-                render={this.renderUserInfo}
-              />
-              <GridColumn
-                name="location"
-                header="Location"
-                render={this.renderLocation}
-              />
-              <GridColumn
-                name="affiliateId"
-                header="Affiliate"
-                render={this.renderAffiliate}
-              />
-              <GridColumn
-                name="registrationDate"
-                header="Registered"
-                render={this.renderRegistered}
-              />
-              <GridColumn
-                name="balance"
-                header="Balance"
-                render={this.renderBalance}
-              />
-              <GridColumn
-                name="profileStatus"
-                header="Status"
-                render={this.renderStatus}
-              />
-            </GridView>
-          </Content>
-        </Panel>
-      </div>
+        <Content>
+          <GridView
+            tableClassName="table-hovered"
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            locale={locale}
+            showNoResults={noResults}
+            onRowClick={onPlayerClick}
+          >
+            <GridColumn
+              name="id"
+              header="Player"
+              render={this.renderUserInfo}
+            />
+            <GridColumn
+              name="location"
+              header="Location"
+              render={this.renderLocation}
+            />
+            <GridColumn
+              name="affiliateId"
+              header="Affiliate"
+              render={this.renderAffiliate}
+            />
+            <GridColumn
+              name="registrationDate"
+              header="Registered"
+              render={this.renderRegistered}
+            />
+            <GridColumn
+              name="balance"
+              header="Balance"
+              render={this.renderBalance}
+            />
+            <GridColumn
+              name="profileStatus"
+              header="Status"
+              render={this.renderStatus}
+            />
+          </GridView>
+        </Content>
+      </Card>
     );
   }
 }
 
-export default List;
+export default withPlayerClick(List);

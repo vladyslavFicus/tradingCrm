@@ -5,50 +5,25 @@ import { Field, reduxForm, getFormValues, getFormSyncErrors, getFormMeta } from 
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { createValidator } from '../../../../../../utils/validator';
 import {
   CustomValueField,
   InputField,
   SelectField,
-  DateTimeField
+  DateTimeField,
 } from '../../../../../../components/ReduxForm';
 import {
   campaignTypes,
   campaignTypesLabels,
+  targetTypes,
   targetTypesLabels,
   customValueFieldTypesByCampaignType,
-  moneyTypeUsageLabels
+  moneyTypeUsageLabels,
+  lockAmountStrategyLabels,
 } from '../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
-
-const CAMPAIGN_NAME_MAX_LENGTH = 100;
-const FORM_NAME = 'bonusCampaignCreateForm';
-
-const attributeLabels = {
-  campaignName: 'Name',
-  priority: 'Priority',
-  startDate: 'Start date',
-  endDate: 'End date',
-  currency: 'Currency',
-  moneyTypePriority: 'Money type priority',
-  bonusLifetime: 'Lifetime',
-  campaignRatio: 'Ratio',
-  'campaignRatio.value': 'Ratio',
-  'campaignRatio.type': 'Ratio value type',
-  capping: 'Capping',
-  'capping.value': 'Capping',
-  'capping.type': 'Capping value type',
-  conversionPrize: 'Prize',
-  'conversionPrize.value': 'Conversion prize',
-  'conversionPrize.type': 'Conversion prize value type',
-  wagerWinMultiplier: 'Multiplier',
-  campaignType: 'Campaign type',
-  minAmount: 'Min amount',
-  maxAmount: 'Max amount',
-  targetType: 'Target type',
-  optIn: 'Opt-In',
-};
+import { attributeLabels } from './constants';
+import validator from './validator';
 
 const getCustomValueFieldTypes = (campaignType) => {
   if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
@@ -56,69 +31,6 @@ const getCustomValueFieldTypes = (campaignType) => {
   }
 
   return customValueFieldTypesByCampaignType[campaignType];
-};
-
-const validator = (values) => {
-  const allowedCustomValueTypes = getCustomValueFieldTypes(values.campaignType);
-  const rules = {
-    campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
-    campaignPriority: 'integer',
-    startDate: 'required',
-    endDate: 'required|nextDate:startDate',
-    currency: 'required',
-    bonusLifetime: 'required|integer',
-    campaignRatio: {
-      value: 'required|numeric|customTypeValue.value',
-      type: ['required', `in:${allowedCustomValueTypes.join()}`],
-    },
-    capping: {
-      value: ['numeric', 'customTypeValue.value'],
-      type: [`in:${allowedCustomValueTypes.join()}`],
-    },
-    conversionPrize: {
-      value: ['numeric', 'customTypeValue.value'],
-      type: [`in:${allowedCustomValueTypes.join()}`],
-    },
-    wagerWinMultiplier: 'required|integer|max:999',
-    campaignType: ['required', `in:${Object.keys(campaignTypesLabels).join()}`],
-    targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
-    minAmount: 'min:0',
-    maxAmount: 'min:0',
-  };
-
-  if (values.minAmount) {
-    const minAmount = parseFloat(values.minAmount).toFixed(2);
-
-    if (!isNaN(minAmount)) {
-      rules.maxAmount = 'greaterOrSame:minAmount';
-    }
-  }
-
-  if (values.maxAmount) {
-    const maxAmount = parseFloat(values.maxAmount).toFixed(2);
-
-    if (!isNaN(maxAmount)) {
-      rules.minAmount = 'lessOrSame:maxAmount';
-    }
-  }
-
-  if (values.conversionPrize && values.conversionPrize.value) {
-    const value = parseFloat(values.conversionPrize.value).toFixed(2);
-
-    if (!isNaN(value)) {
-      rules.capping.value.push('greaterThan:conversionPrize.value');
-    }
-  }
-
-  if (values.capping && values.capping.value) {
-    const value = parseFloat(values.capping.value).toFixed(2);
-
-    if (!isNaN(value)) {
-      rules.conversionPrize.value.push('lessThan:capping.value');
-    }
-  }
-
-  return createValidator(rules, attributeLabels, false)(values);
 };
 
 class CreateBonusCampaignModal extends Component {
@@ -134,9 +46,40 @@ class CreateBonusCampaignModal extends Component {
     errors: PropTypes.object,
     meta: PropTypes.object,
     change: PropTypes.func.isRequired,
+    types: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
   static defaultProps = {
+    pristine: false,
+    submitting: false,
+    valid: false,
+    errors: {},
+    meta: {},
     currentValues: {},
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { currentValues, change } = this.props;
+    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
+    if (currentValues && currentValues.campaignType &&
+      currentValues.campaignType !== nextCampaignType &&
+      nextCampaignType === campaignTypes.PROFILE_COMPLETED
+    ) {
+      ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
+        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
+      });
+    }
+  }
+
+  getCustomValueFieldErrors = (name) => {
+    const { errors, meta } = this.props;
+
+    if (meta && meta[name]) {
+      if ((meta[name].value && meta[name].value.touched) || (meta[name].type && meta[name].type.touched)) {
+        return errors;
+      }
+    }
+
+    return {};
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -159,35 +102,25 @@ class CreateBonusCampaignModal extends Component {
     );
   };
 
-  getCustomValueFieldErrors = (name) => {
-    const { errors, meta } = this.props;
-
-    if (meta && meta[name]) {
-      if ((meta[name].value && meta[name].value.touched) || (meta[name].type && meta[name].type.touched)) {
-        return errors;
-      }
+  handleChangeTargetType = (e) => {
+    if (e.target.value === targetTypes.ALL) {
+      this.handleEnableOptIn();
     }
-
-    return {};
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { currentValues, change } = this.props;
-    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
-    if (currentValues && currentValues.campaignType &&
-      currentValues.campaignType !== nextCampaignType &&
-      nextCampaignType === campaignTypes.PROFILE_COMPLETED
-    ) {
-      ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
-        change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
-      });
+  handleChangeCampaignType = (e) => {
+    if (e.target.value === campaignTypes.WITHOUT_FULFILMENT) {
+      this.handleEnableOptIn();
     }
-  }
+  };
+
+  handleEnableOptIn = () => this.props.change('optIn', true);
 
   render() {
     const {
       handleSubmit,
       onSubmit,
+      types,
       pristine,
       submitting,
       currencies,
@@ -196,6 +129,8 @@ class CreateBonusCampaignModal extends Component {
       currentValues,
     } = this.props;
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
+    const isDepositCampaign = currentValues
+      && [campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(currentValues.campaignType) > -1;
 
     return (
       <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen>
@@ -207,40 +142,35 @@ class CreateBonusCampaignModal extends Component {
           <ModalBody>
             <Field
               name="campaignName"
-              label={attributeLabels.campaignName}
+              label={I18n.t(attributeLabels.campaignName)}
               type="text"
               component={InputField}
-            />
-            <Field
-              name="priority"
-              label={attributeLabels.priority}
-              type="text"
-              component={InputField}
+              id="create-campaign-name"
             />
             <Field
               name="bonusLifetime"
-              label={attributeLabels.bonusLifetime}
+              label={I18n.t(attributeLabels.bonusLifetime)}
               type="text"
               component={InputField}
+              id="create-campaign-bonus-life-time"
             />
-
             <Field
               name="currency"
-              label={attributeLabels.currency}
+              label={I18n.t(attributeLabels.currency)}
               type="select"
               component={SelectField}
+              id="create-campaign-currency"
             >
-              <option value="">--- Choose currency ---</option>
+              <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_CURRENCY')}</option>
               {currencies.map(item => (
                 <option key={item} value={item}>
                   {item}
                 </option>
               ))}
             </Field>
-
             <Field
               name="moneyTypePriority"
-              label={attributeLabels.moneyTypePriority}
+              label={I18n.t(attributeLabels.moneyTypePriority)}
               type="select"
               component={SelectField}
             >
@@ -250,38 +180,43 @@ class CreateBonusCampaignModal extends Component {
                 </option>
               ))}
             </Field>
-
             <CustomValueField
               basename={'campaignRatio'}
-              label={attributeLabels.campaignRatio}
+              label={I18n.t(attributeLabels.campaignRatio)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('campaignRatio')}
+              valueId="create-campaign-ratio-value"
             />
             <CustomValueField
               basename={'conversionPrize'}
-              label={attributeLabels.conversionPrize}
+              label={I18n.t(attributeLabels.conversionPrize)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('conversionPrize')}
+              valueId="create-campaign-conversion-prize-value"
             />
             <CustomValueField
               basename={'capping'}
-              label={attributeLabels.capping}
+              label={I18n.t(attributeLabels.capping)}
               typeValues={allowedCustomValueTypes}
               errors={this.getCustomValueFieldErrors('capping')}
+              valueId="create-campaign-capping-value"
             />
             <Field
               name="wagerWinMultiplier"
-              label={attributeLabels.wagerWinMultiplier}
+              label={I18n.t(attributeLabels.wagerWinMultiplier)}
               type="text"
               component={InputField}
+              id="create-campaign-wager-win-multiplier"
             />
             <Field
               name="targetType"
-              label={attributeLabels.targetType}
+              label={I18n.t(attributeLabels.targetType)}
               type="select"
               component={SelectField}
+              id="create-campaign-target-type"
+              onChange={this.handleChangeTargetType}
             >
-              <option value="">--- Choose target type ---</option>
+              <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_TARGET_TYPE')}</option>
               {Object.keys(targetTypesLabels).map(key => (
                 <option key={key} value={key}>
                   {renderLabel(key, targetTypesLabels)}
@@ -290,61 +225,115 @@ class CreateBonusCampaignModal extends Component {
             </Field>
             <Field
               name="campaignType"
-              label={attributeLabels.campaignType}
+              label={I18n.t(attributeLabels.campaignType)}
               type="select"
               component={SelectField}
+              onChange={this.handleChangeCampaignType}
             >
-              {Object.keys(campaignTypesLabels).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, campaignTypesLabels)}
+              {types.map(item => (
+                <option key={item} value={item}>
+                  {renderLabel(item, campaignTypesLabels)}
                 </option>
               ))}
             </Field>
             {
-              currentValues && currentValues.campaignType !== campaignTypes.PROFILE_COMPLETED &&
+              isDepositCampaign &&
               <div className="row">
-                <div className="col-md-offset-3 col-md-4">
-                  <Field
-                    name="minAmount"
-                    placeholder={attributeLabels.minAmount}
-                    type="text"
-                    component={InputField}
-                  />
-                </div>
-                <div className="col-md-4">
-                  <Field
-                    name="maxAmount"
-                    placeholder={attributeLabels.maxAmount}
-                    type="text"
-                    component={InputField}
-                  />
+                <div className="col-md-9 ml-auto">
+                  <div className="row">
+                    <div className="col-md-4">
+                      <Field
+                        name="minAmount"
+                        placeholder={I18n.t(attributeLabels.minAmount)}
+                        type="text"
+                        component={InputField}
+                        position="vertical"
+                        id="create-campaign-min-lock-amount"
+                      />
+                    </div>
+                    <div className="col-md-4">
+                      <Field
+                        name="maxAmount"
+                        placeholder={I18n.t(attributeLabels.maxAmount)}
+                        type="text"
+                        component={InputField}
+                        position="vertical"
+                        id="create-campaign-max-lock-amount"
+                      />
+                    </div>
+                    <div className="col-md-4">
+                      <Field
+                        name="lockAmountStrategy"
+                        label={null}
+                        type="select"
+                        component={SelectField}
+                        position="vertical"
+                        showErrorMessage={false}
+                        id="create-campaign-lock-strategy"
+                      >
+                        <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_LOCK_AMOUNT_STRATEGY')}</option>
+                        {Object.keys(lockAmountStrategyLabels).map(key => (
+                          <option key={key} value={key}>
+                            {renderLabel(key, lockAmountStrategyLabels)}
+                          </option>
+                        ))}
+                      </Field>
+                    </div>
+                  </div>
                 </div>
               </div>
             }
-
             <Field
+              name="promoCode"
+              label={I18n.t(attributeLabels.promoCode)}
+              type="text"
+              component={InputField}
+              id="create-campaign-promo-code"
+            />
+            <Field
+              utc
               name="startDate"
-              label="Start date"
+              label={I18n.t(attributeLabels.startDate)}
               component={DateTimeField}
               isValidDate={this.startDateValidator('endDate')}
+              id="create-campaign-start-date"
             />
-
             <Field
+              utc
               name="endDate"
-              label="End date"
+              label={I18n.t(attributeLabels.endDate)}
               component={DateTimeField}
               isValidDate={this.endDateValidator('startDate')}
+              id="create-campaign-end-date"
             />
-
             <div className="form-group row">
-              <div className="col-md-9 col-md-offset-3">
+              <div className="col-md-9 ml-auto">
                 <div className="checkbox">
                   <label>
                     <Field
                       name="optIn"
                       type="checkbox"
                       component="input"
-                    /> {attributeLabels.optIn}
+                      id="create-campaign-optin"
+                      disabled={
+                        currentValues.targetType === targetTypes.ALL ||
+                        currentValues.campaignType === campaignTypes.WITHOUT_FULFILMENT
+                      }
+                    /> {I18n.t(attributeLabels.optIn)}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="form-group row">
+              <div className="col-md-9 ml-auto">
+                <div className="checkbox">
+                  <label>
+                    <Field
+                      name="claimable"
+                      type="checkbox"
+                      component="input"
+                      id="create-campaign-claimable"
+                    /> {I18n.t(attributeLabels.claimable)}
                   </label>
                 </div>
               </div>
@@ -354,7 +343,7 @@ class CreateBonusCampaignModal extends Component {
           <ModalFooter>
             <button
               type="reset"
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline"
               onClick={onClose}
             >
               {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -362,7 +351,8 @@ class CreateBonusCampaignModal extends Component {
             <button
               type="submit"
               disabled={pristine || submitting || !valid}
-              className="btn btn-primary"
+              className="btn btn-primary ml-auto"
+              id="create-campaign-submit-button"
             >
               {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
             </button>
@@ -373,6 +363,8 @@ class CreateBonusCampaignModal extends Component {
   }
 }
 
+const FORM_NAME = 'bonusCampaignCreateForm';
+
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
   errors: getFormSyncErrors(FORM_NAME)(state),
@@ -380,6 +372,9 @@ export default connect(state => ({
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate: validator,
+    validate: (values, props) => validator(values, {
+      allowedCustomValueTypes: getCustomValueFieldTypes(values),
+      campaignType: props.types,
+    }),
   })(CreateBonusCampaignModal),
 );

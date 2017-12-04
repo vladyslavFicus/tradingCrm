@@ -1,4 +1,4 @@
-import Permissions, { CONDITIONS } from 'utils/permissions';
+import Permissions, { CONDITIONS } from '../../src/utils/permissions';
 
 let permissionInstance;
 const permission = {

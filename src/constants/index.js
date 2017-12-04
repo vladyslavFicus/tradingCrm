@@ -1,14 +1,10 @@
-import * as form from './form';
+import keyMirror from 'keymirror';
 
-export const WEB_API = 'WEB_API';
+const playerProfileViewTypes = keyMirror({
+  page: null,
+  frame: null,
+});
 
-export const ContentType = {
-  JSON: 'application/json',
-  FORM_DATA: 'multipart/form-data',
-};
-
-export default {
-  WEB_API,
-  ContentType,
-  form,
+export {
+  playerProfileViewTypes,
 };

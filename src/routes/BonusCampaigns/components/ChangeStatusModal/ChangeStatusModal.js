@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../constants/propTypes';
 import renderLabel from '../../../../utils/renderLabel';
-import { createValidator } from '../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../utils/validator';
 import { TextAreaField, SelectField } from '../../../../components/ReduxForm';
 import Uuid from '../../../../components/Uuid';
 import { actionLabels } from '../../../../constants/bonus-campaigns';
@@ -28,6 +28,7 @@ class ChangeStatusModal extends Component {
       customReason: PropTypes.string,
     }).isRequired,
     className: PropTypes.string,
+    invalid: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     action: '',
@@ -56,9 +57,7 @@ class ChangeStatusModal extends Component {
         component={SelectField}
         position="vertical"
       >
-        <option value="">
-          {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.SELECT_REASON_OPTION')}
-        </option>
+        <option value="">{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
         {Object.keys(reasons).map(key => (
           <option key={key} value={key}>
             {I18n.t(reasons[key])}
@@ -86,6 +85,7 @@ class ChangeStatusModal extends Component {
       currentValues,
       campaign,
       className,
+      invalid,
     } = this.props;
 
     return (
@@ -123,10 +123,14 @@ class ChangeStatusModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <button className="btn btn-default-outline pull-left" onClick={onHide}>
+            <button className="btn btn-default-outline mr-auto" onClick={onHide}>
               {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
             </button>
-            <button className="btn btn-danger" type="submit">
+            <button
+              disabled={invalid}
+              className="btn btn-danger"
+              type="submit"
+            >
               {I18n.t(submitButtonLabel)}
             </button>
           </ModalFooter>
@@ -143,20 +147,18 @@ export default connect(state => ({
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate: (data) => {
-      const rules = {
-        reason: 'string',
-      };
+    validate: (data, props) => {
+      const rules = {};
 
-      if (data.reasons) {
-        rules.reason = `required|string|in:${Object.keys(data.reasons).join()},custom`;
+      if (props.reasons) {
+        rules.reason = `required|string|in:${Object.keys(props.reasons).join()},custom`;
       }
 
       if (data.reason === CUSTOM_REASON) {
         rules.customReason = 'required|string|min:3';
       }
 
-      return createValidator(rules, attributeLabels, false)(data);
+      return createValidator(rules, translateLabels(attributeLabels), false)(data);
     },
   })(ChangeStatusModal)
 );

@@ -1,6 +1,6 @@
 import childRoutes from './routes';
 
-export default (store) => ({
+export default store => ({
   path: 'users',
   childRoutes: childRoutes(store),
 });

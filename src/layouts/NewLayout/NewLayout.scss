@@ -1,4 +1,4 @@
-.section-container {
+.content-container {
   position: relative;
   top: 48px;
   padding: 40px 40px 40px 100px;
@@ -8,7 +8,6 @@
   position: fixed;
   right: 5px;
   bottom: 20px;
-  z-index: 2;
   &__circle {
     display: block;
     height: 30px;
@@ -90,14 +89,13 @@
   animation-duration: .5s;
   animation-fill-mode: both;
   transform: translate3d(110%, 0, 0);
-  z-index: 20;
   &__wrapper {
     position: fixed;
     top: 0;
     right: 300px;
     bottom: 0;
     left: 0;
-    z-index: 5;
+    z-index: 9999;
   }
   &__header {
     margin-top: 10px;

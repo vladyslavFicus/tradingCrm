@@ -4,7 +4,7 @@ import { getFormValues, reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { campaignTypesLabels } from '../../../../../../../../constants/bonus-campaigns';
 import { attributeLabels, attributePlaceholders } from './constants';
@@ -102,6 +102,7 @@ class CampaignsFilterForm extends Component {
                 <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="activityDateFrom"
                     placeholder={I18n.t(attributeLabels.activityDateFrom)}
                     component={DateTimeField}
@@ -110,6 +111,7 @@ class CampaignsFilterForm extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="activityDateTo"
                     placeholder={I18n.t(attributeLabels.activityDateTo)}
                     component={DateTimeField}
@@ -145,10 +147,6 @@ class CampaignsFilterForm extends Component {
   }
 }
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
 const FORM_NAME = 'campaignsFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
@@ -157,7 +155,7 @@ const FilterForm = reduxForm({
     bonusType: 'string',
     activityDateFrom: 'string',
     activityDateTo: 'string',
-  }, validatorAttributeLabels, false),
+  }, translateLabels(attributeLabels), false),
 })(CampaignsFilterForm);
 
 export default connect(state => ({

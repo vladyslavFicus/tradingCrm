@@ -9,7 +9,7 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  *  Vars
  * ==================
  */
-const { NAS_ENV, NGINX_CONF_OUTPUT } = process.env;
+const { NAS_PROJECT, NAS_ENV, NGINX_CONF_OUTPUT } = process.env;
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
@@ -44,6 +44,7 @@ function processError(error) {
 
 function compileNginxConfig(environmentConfig) {
   let config = fs.readFileSync('/opt/docker/nginx.conf.tpl', { encoding: 'UTF-8' });
+
   const params = {
     logstashUrl: environmentConfig.logstash
       ? environmentConfig.logstash.url
@@ -60,17 +61,22 @@ function compileNginxConfig(environmentConfig) {
 }
 
 function processConfig() {
-  const environmentConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_ENV}.yml`);
+  const projectConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_PROJECT}.yml`);
 
-  return fetchZookeeperConfig({ environmentConfig })
+  return fetchZookeeperConfig({ projectConfig })
     .then((config) => {
-      compileNginxConfig(environmentConfig);
+      compileNginxConfig(projectConfig);
 
       return _.merge(
         config,
-        { nas: environmentConfig.nas },
-        { nas: { brand: environmentConfig.brand } },
-        { logstash: { url: `${environmentConfig.brand.backoffice.url}/log` } }
+        {
+          nas: {
+            brand: Object.assign({
+              api: { url: projectConfig.hrzn.api_url },
+              name: NAS_ENV,
+            }, projectConfig.brand),
+          },
+        },
       );
     });
 }
@@ -87,9 +93,11 @@ function saveConfig(config) {
   });
 }
 
-if (!NAS_ENV) {
-  throw new Error('"NAS_ENV" is required environment variable');
+if (!NAS_PROJECT) {
+  throw new Error('"NAS_PROJECT" is required environment variable');
 }
+
+log('NAS_PROJECT:', NAS_PROJECT);
 
 processConfig()
   .then(config => saveConfig(config).then(() => {

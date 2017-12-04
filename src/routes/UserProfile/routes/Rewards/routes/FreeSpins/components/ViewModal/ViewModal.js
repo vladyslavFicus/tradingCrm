@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import { targetTypes } from '../../../../../../../../constants/note';
@@ -65,19 +64,9 @@ class ViewModal extends Component {
           {this.renderNote(item)}
         </ModalBody>
         <ModalFooter>
-          {
-            actions.length <= 2 &&
-            <div className="row">
-              {actions.map((action, index) => (
-                <div
-                  key={action.children}
-                  className={classNames('col-xs-6', { 'text-right': index !== 0 }, { 'text-left': index === 0 })}
-                >
-                  <button {...action} />
-                </div>
-              ))}
-            </div>
-          }
+          {actions.map(action => (
+            <button key={action.children} {...action} />
+          ))}
         </ModalFooter>
       </Modal>
     );

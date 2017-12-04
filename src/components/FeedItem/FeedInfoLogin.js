@@ -28,7 +28,7 @@ const FeedInfoLogin = ({ data }) => (
       <div>
         {I18n.t('FEED_ITEM.LOG_IN.SESSION_START')}:
         <span className="feed-item_info-details_value">
-          {moment(data.details.sessionStart).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
+          {moment.utc(data.details.sessionStart).local().format('DD.MM.YYYY \\a\\t HH:mm:ss')}
         </span>
       </div>
     }

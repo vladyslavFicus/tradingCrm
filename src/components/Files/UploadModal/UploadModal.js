@@ -5,42 +5,25 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../constants/propTypes';
 import FileUpload from '../../FileUpload';
 import { categories } from '../../../constants/files';
-import { createValidator } from '../../../utils/validator';
+import { createValidator, translateLabels } from '../../../utils/validator';
 import UploadingFile from '../UploadingFile';
 import { targetTypes } from '../constants';
 import { shortify } from '../../../utils/uuid';
-
-const FORM_NAME = 'userUploadModal';
-const attributeLabels = {
-  name: 'File title',
-  category: 'Choose category',
-};
-const validator = createValidator({
-  name: ['required', 'string', 'min:3'],
-  category: ['required', 'string', `in:${Object.keys(categories).join()}`],
-}, attributeLabels, false);
-
-const validate = (data) => {
-  if (!data) {
-    return {};
-  }
-
-  return Object.keys(data).reduce((res, file) => ({ ...res, [file]: validator(data[file]) }), {});
-};
+import { attributeLabels } from './constants';
 
 class UploadModal extends Component {
   static propTypes = {
     profile: PropTypes.object,
     uploading: PropTypes.arrayOf(PropTypes.uploadingFile).isRequired,
-    invalid: PropTypes.bool,
-    submitting: PropTypes.bool,
-    handleSubmit: PropTypes.func,
+    invalid: PropTypes.bool.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCancelFile: PropTypes.func.isRequired,
     onManageNote: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
-    targetType: PropTypes.string,
+    targetType: PropTypes.string.isRequired,
     fileInitialValues: PropTypes.object,
     targetUuid: PropTypes.string,
     maxFileSize: PropTypes.number,
@@ -163,7 +146,7 @@ class UploadModal extends Component {
             <button
               type="reset"
               disabled={submitting || uploading.some(i => i.uploading)}
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               onClick={onClose}
             >
               {I18n.t('COMMON.BUTTONS.CANCEL')}
@@ -181,8 +164,13 @@ class UploadModal extends Component {
   }
 }
 
+const FORM_NAME = 'userUploadModal';
+
 export default reduxForm({
   form: FORM_NAME,
-  validate,
+  validate: createValidator({
+    name: ['required', 'string', 'min:3'],
+    category: ['required', 'string', `in:${Object.keys(categories).join()}`],
+  }, translateLabels(attributeLabels), false),
   enableReinitialize: true,
 })(UploadModal);

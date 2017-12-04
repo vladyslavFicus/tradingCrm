@@ -3,10 +3,12 @@ import {
   actionTypes as authActionTypes,
   actionCreators as authActionCreators,
 } from '../modules/auth';
+import { actionCreators as permissionsActionCreators } from '../modules/permissions';
 
 const triggerActions = {
   start: [
     authActionTypes.SIGN_IN.SUCCESS,
+    authActionTypes.CHANGE_AUTHORITY.SUCCESS,
     REHYDRATE,
   ],
   stop: [
@@ -27,7 +29,8 @@ export default store => next => (action) => {
         auth = action.payload.auth;
       }
 
-      if (auth && auth.uuid && auth.token) {
+      const isAuthRehydrate = !!action.payload.language;
+      if (auth && auth.uuid && auth.token && isAuthRehydrate) {
         store.dispatch(authActionCreators.fetchProfile(auth.uuid, auth.token));
         store.dispatch(authActionCreators.fetchAuthorities(auth.uuid, auth.token));
       }

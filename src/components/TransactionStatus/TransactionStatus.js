@@ -3,10 +3,12 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { Dropdown, DropdownMenu } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
+import _ from 'lodash';
 import PropTypes from '../../constants/propTypes';
 import { statusesColor, statusesLabels, statuses, initiators } from '../../constants/payment';
 import Uuid from '../Uuid';
 import FailedStatusIcon from '../FailedStatusIcon';
+import renderLabel from '../../utils/renderLabel';
 
 class TransactionStatus extends Component {
   static propTypes = {
@@ -39,7 +41,7 @@ class TransactionStatus extends Component {
   };
 
   renderDropDown = (label, statusHistory, dropDownOpen) => (
-    <Dropdown isOpen={dropDownOpen} toggle={this.toggle}>
+    <Dropdown isOpen={dropDownOpen} toggle={this.toggle} className="status-dropdown">
       <button className="btn-transparent-text text-left" onClick={this.toggle}>{label}</button>
       <DropdownMenu>
         {
@@ -49,10 +51,17 @@ class TransactionStatus extends Component {
                 {status.paymentStatus}
               </div>
               <div className="font-size-11">
-                {moment(status.creationTime).format('DD.MM.YYYY - HH:mm:ss')}
+                {moment.utc(status.creationTime).local().format('DD.MM.YYYY - HH:mm:ss')}
               </div>
               <div className="font-size-11">
-                {status.initiatorType}
+                {`${I18n.t('COMMON.AUTHOR_BY')} ${status.initiatorType}`}
+                {
+                  (status.initiatorType === initiators.PLAYER || status.initiatorType === initiators.OPERATOR) &&
+                    <span>
+                      {' '}
+                      <Uuid uuid={status.initiatorId} />
+                    </span>
+                }
               </div>
             </div>
           ))
@@ -67,11 +76,14 @@ class TransactionStatus extends Component {
     const status = transaction.paymentFlowStatuses
       .find(flowStatus => flowStatus.paymentStatus.toUpperCase() === transaction.status);
     let authorUUID = null;
+    const isApproved = transaction.paymentFlowStatuses
+      .find(flowStatus => flowStatus.paymentStatus === _.startCase(statuses.APPROVED.toLowerCase()));
+    let transactionStatus = transaction.status;
 
     if (status) {
       if (status.initialorType === initiators.OPERATOR) {
         authorUUID = { uuid: status.initiatorId };
-      } else if (status.initialorType === initiators.PLAYER) {
+      } else if (status.initiatorType === initiators.PLAYER) {
         authorUUID = {
           uuid: status.initiatorId,
           uuidPrefix: status.initiatorId.indexOf('PLAYER') === -1 ? 'PL' : null,
@@ -79,16 +91,21 @@ class TransactionStatus extends Component {
       }
     }
 
+    if (transaction.status === statuses.PENDING && isApproved) {
+      transactionStatus = statuses.APPROVED;
+    }
+
     const label = (
       <div>
-        <div className={classNames(statusesColor[transaction.status], 'text-uppercase modal-header-tabs__label')}>
-          {statusesLabels[transaction.status] || transaction.status}
+        <div className={classNames(statusesColor[transactionStatus], 'font-weight-700 text-uppercase status')}>
+          {renderLabel(transactionStatus, statusesLabels)}
           {
-            transaction.status === statuses.FAILED && !!transaction.reason &&
+            (transactionStatus === statuses.FAILED || transactionStatus === statuses.REFUSED) && !!transaction.reason &&
             <FailedStatusIcon id={`transaction-failure-reason-${transaction.paymentId}`}>
               {transaction.reason}
             </FailedStatusIcon>
           }
+          <i className="fa fa-angle-down" />
         </div>
         {
           authorUUID &&
@@ -100,7 +117,7 @@ class TransactionStatus extends Component {
         }
         <div className="font-size-11">
           {I18n.t('COMMON.DATE_ON', {
-            date: moment(transaction.creationTime).format('DD.MM.YYYY - HH:mm:ss'),
+            date: moment.utc(transaction.creationTime).local().format('DD.MM.YYYY - HH:mm:ss'),
           })}
         </div>
       </div>

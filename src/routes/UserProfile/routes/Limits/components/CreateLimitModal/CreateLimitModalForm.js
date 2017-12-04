@@ -152,7 +152,7 @@ class CreateLimitModal extends Component {
                 <button
                   disabled={pristine || submitting || !valid}
                   type="submit"
-                  className="btn btn-primary"
+                  className="btn btn-primary margin-left-5"
                 >
                   Set limit
                 </button>

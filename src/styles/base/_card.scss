@@ -1,0 +1,21 @@
+.card {
+  margin-bottom: 25px;
+  border-radius: 5px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+  &.no-borders {
+    border: 0;
+    border-radius: 0;
+  }
+  &-heading {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: 25px;
+    border-bottom: 1px solid #dfe4ed;
+  }
+  &-body {
+    padding: 25px;
+  }
+}

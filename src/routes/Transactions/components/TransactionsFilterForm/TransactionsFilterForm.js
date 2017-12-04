@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../../constants/propTypes';
-import { createValidator } from '../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../utils/validator';
 import {
   types,
   typesLabels,
-  statusesLabels,
   methodsLabels,
   initiatorsLabels,
+  statusesLabels,
 } from '../../../../constants/payment';
 import { InputField, DateTimeField, NasSelectField } from '../../../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
@@ -36,8 +36,11 @@ class TransactionsFilterForm extends Component {
     }),
     filterByType: PropTypes.bool,
     paymentMethods: PropTypes.arrayOf(PropTypes.paymentMethod).isRequired,
+    statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
+    invalid: PropTypes.bool,
   };
   static defaultProps = {
+    invalid: true,
     reset: null,
     handleSubmit: null,
     submitting: false,
@@ -58,11 +61,9 @@ class TransactionsFilterForm extends Component {
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return current.isSameOrBefore(moment()) && (
-      currentValues && currentValues.startDate
-        ? current.isSameOrAfter(moment(currentValues.startDate))
-        : true
-    );
+    return currentValues && currentValues.startDate
+      ? current.isSameOrAfter(moment(currentValues.startDate))
+      : true;
   };
 
   handleReset = () => {
@@ -79,6 +80,8 @@ class TransactionsFilterForm extends Component {
       onSubmit,
       paymentMethods,
       filterByType,
+      statuses,
+      invalid,
     } = this.props;
 
     return (
@@ -136,9 +139,9 @@ class TransactionsFilterForm extends Component {
                 component={NasSelectField}
                 multiple
               >
-                {Object.keys(statusesLabels).map(status => (
+                {statuses.map(status => (
                   <option key={status} value={status}>
-                    {statusesLabels[status]}
+                    {renderLabel(status, statusesLabels)}
                   </option>
                 ))}
               </Field>
@@ -179,11 +182,12 @@ class TransactionsFilterForm extends Component {
                 </div>
               </div>
             </div>
-            <div className="filter-row__medium">
+            <div className="filter-row__big">
               <div className="form-group">
                 <label>{I18n.t(attributeLabels.creationDateRange)}</label>
                 <div className="range-group">
                   <Field
+                    utc
                     name="startDate"
                     placeholder={I18n.t(attributeLabels.startDate)}
                     component={DateTimeField}
@@ -192,6 +196,7 @@ class TransactionsFilterForm extends Component {
                   />
                   <span className="range-group__separator">-</span>
                   <Field
+                    utc
                     name="endDate"
                     placeholder={I18n.t(attributeLabels.endDate)}
                     component={DateTimeField}
@@ -212,7 +217,7 @@ class TransactionsFilterForm extends Component {
                   {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting || (disabled && pristine)}
+                  disabled={submitting || (disabled && pristine) || invalid}
                   className="btn btn-primary"
                   type="submit"
                   id="transactions-list-filters-apply-button"
@@ -228,24 +233,21 @@ class TransactionsFilterForm extends Component {
   }
 }
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
 const FORM_NAME = 'transactionsFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
+  touchOnChange: true,
   validate: createValidator({
     keyword: 'string',
     initiatorType: ['string'],
     type: ['string', `in:${Object.keys(types).join()}`],
     statuses: ['array'],
     paymentMethod: 'string',
-    startDate: 'string',
-    endDate: 'string',
+    startDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    endDate: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     amountLowerBound: 'numeric',
     amountUpperBound: 'numeric',
-  }, validatorAttributeLabels, false),
+  }, translateLabels(attributeLabels), false),
 })(TransactionsFilterForm);
 
 export default connect(state => ({

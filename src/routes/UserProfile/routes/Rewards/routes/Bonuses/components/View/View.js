@@ -11,13 +11,15 @@ import GridView, { GridColumn } from '../../../../../../../../components/GridVie
 import { statuses } from '../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../constants/note';
 import Uuid from '../../../../../../../../components/Uuid';
-import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
+import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
+import { routes as subTabRoutes } from '../../../../constants';
 import BonusGridFilter from '../BonusGridFilter';
 import ViewModal from '../ViewModal';
 import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
 import CreateModal from '../CreateModal/CreateModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
+import { lockAmountStrategy } from '../../../../../../../../constants/bonus-campaigns';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -110,7 +112,7 @@ class View extends Component {
   };
 
   handleRowClick = async (data) => {
-    const { canClaimBonus, fetchActiveBonus } = this.props;
+    const { fetchActiveBonus } = this.props;
     const actions = [
       {
         children: I18n.t('COMMON.CLOSE'),
@@ -119,12 +121,12 @@ class View extends Component {
       },
     ];
 
-    if (canClaimBonus && data.state === statuses.INACTIVE) {
+    if (data.claimable && data.state === statuses.INACTIVE) {
       const activeBonusAction = await fetchActiveBonus(this.props.params.id);
       if (activeBonusAction && !activeBonusAction.error && activeBonusAction.payload.content.length === 0) {
         actions.push({
           children: I18n.t('PLAYER_PROFILE.BONUS.CLAIM_BONUS'),
-          onClick: this.handleClaimBonus.bind(null, data.id),
+          onClick: this.handleClaimBonus.bind(null, data.bonusUUID),
           className: 'btn btn-primary text-uppercase',
         });
       }
@@ -133,8 +135,9 @@ class View extends Component {
     if ([statuses.INACTIVE, statuses.IN_PROGRESS].indexOf(data.state) > -1) {
       actions.push({
         children: I18n.t('PLAYER_PROFILE.BONUS.CANCEL_BONUS'),
-        onClick: this.handleCancelBonus.bind(null, data.id),
+        onClick: this.handleCancelBonus.bind(null, data.bonusUUID),
         className: 'btn btn-danger text-uppercase',
+        id: `${data.bonusUUID}-cancel-button`,
       });
     }
 
@@ -161,15 +164,15 @@ class View extends Component {
     });
   };
 
-  handleClaimBonus = (id) => {
-    this.props.acceptBonus(id, this.props.params.id)
+  handleClaimBonus = (bonusUUID) => {
+    this.props.acceptBonus(bonusUUID, this.props.params.id)
       .then(() => {
         this.handleModalClose(this.handleRefresh);
       });
   };
 
-  handleCancelBonus = (id) => {
-    this.props.cancelBonus(id, this.props.params.id)
+  handleCancelBonus = (bonusUUID) => {
+    this.props.cancelBonus(bonusUUID, this.props.params.id)
       .then(() => {
         this.handleModalClose(this.handleRefresh);
       });
@@ -220,19 +223,26 @@ class View extends Component {
     data.createdDate ? (
       <div>
         <div className="font-weight-700">
-          {moment(data.createdDate).format('DD.MM.YYYY HH:mm:ss')}
+          {moment.utc(data.createdDate).local().format('DD.MM.YYYY HH:mm')}
         </div>
         {
           !!data.expirationDate &&
           <div className="font-size-11">
-            {moment(data.expirationDate).format('DD.MM.YYYY HH:mm:ss')}
+            {`${I18n.t('COMMON.TO')} ${moment.utc(data.expirationDate).local().format('DD.MM.YYYY HH:mm')}`}
           </div>
         }
       </div>
     ) : <span>&mdash;</span>
   );
 
-  renderGrantedAmount = data => <Amount tag="div" className="font-weight-700" {...data.grantedAmount} />;
+  renderGrantedAmount = data => (
+    <div>
+      <Amount tag="div" className="font-weight-700" {...data.grantedAmount} />
+      <div className="font-size-11">
+        {I18n.t('PLAYER_PROFILE.BONUS.LOCKED_GRANTED')} <Amount {...data.initialLockedAmount} />
+      </div>
+    </div>
+  );
 
   renderWageredAmount = (data) => {
     const isCompleted = data.toWager && !isNaN(data.toWager.amount) && data.toWager.amount <= 0;
@@ -273,10 +283,10 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+      <div>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
-            <BonusHeaderNavigation />
+            <SubTabNavigation links={subTabRoutes} />
             <div className="tab-header__actions">
               <button
                 className="btn btn-sm btn-primary-outline"
@@ -295,8 +305,6 @@ class View extends Component {
 
         <div className="tab-content">
           <GridView
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
@@ -314,11 +322,6 @@ class View extends Component {
               name="available"
               header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.AVAILABLE')}
               render={this.renderAvailablePeriod}
-            />
-
-            <GridColumn
-              name="priority"
-              header={I18n.t('PLAYER_PROFILE.BONUS.GRID_VIEW.PRIORITY')}
             />
 
             <GridColumn
@@ -365,6 +368,8 @@ class View extends Component {
               playerUUID: playerProfile.playerUUID,
               state: 'INACTIVE',
               currency: playerProfile.currencyCode,
+              lockAmountStrategy: lockAmountStrategy.LOCK_ALL,
+              claimable: false,
             }}
             onSubmit={this.handleSubmitManualBonus}
             onClose={this.handleModalClose}

@@ -46,6 +46,10 @@ const config = _.merge({
       departments: [],
       tags: {},
       roles: [],
+      currencies: {
+        base: 'EUR',
+        supported: [],
+      },
     },
     validation: {
       password: null,
@@ -67,7 +71,11 @@ const config = _.merge({
   logstash: {
     url: '',
   },
-  middlewares: { unauthorized: [401, 403], persist: { whitelist: ['auth', 'userPanels', 'language'], keyPrefix: 'nas:' } },
+  middlewares: {
+    unauthorized: [401, 403],
+    persist: { whitelist: ['auth', 'userPanels', 'language', 'settings'], keyPrefix: 'nas:' },
+    crossTabPersist: { whitelist: ['auth'], keyPrefix: 'nas:' },
+  },
   modules: {
     bonusCampaign: {
       cancelReasons: {
@@ -134,28 +142,16 @@ function getAvailableTags(department) {
   return config.nas.brand.tags.filter(item => item.department === department);
 }
 
-function getTransactionRejectReasons() {
-  return config.nas.brand.reasons && config.nas.brand.reasons.rejection
-    ? config.nas.brand.reasons.rejection.reduce((res, item) => ({ ...res, [item]: item }), {}) : {};
-}
-
-function getTransactionChargebackReasons() {
-  return config.nas.brand.reasons && config.nas.brand.reasons.chargeback
-    ? config.nas.brand.reasons.chargeback.reduce((res, item) => ({ ...res, [item]: item }), {}) : {};
-}
-
 function getLimitPeriods() {
   return config.nas.limits || [];
 }
 
 function getApiRoot() {
-  return config.nas.brand.api.url
-    ? config.nas.brand.api.url.replace(/\/$/, '')
-    : '';
+  return '/api';
 }
 
 function getErrorApiUrl() {
-  return config.logstash.url || '';
+  return '/log';
 }
 
 function getBrand() {
@@ -174,17 +170,20 @@ function getVersion() {
   return config.version;
 }
 
+function getDomain() {
+  return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
+}
+
 export {
   getApiRoot,
   getBrand,
   getErrorApiUrl,
   getLogo,
   getAvailableTags,
-  getTransactionRejectReasons,
-  getTransactionChargebackReasons,
   getLimitPeriods,
   getAvailableLanguages,
   getVersion,
+  getDomain,
 };
 
 export default config;

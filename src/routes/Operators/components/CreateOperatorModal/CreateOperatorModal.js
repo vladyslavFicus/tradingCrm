@@ -1,87 +1,89 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, getFormValues } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField } from '../../../../components/ReduxForm';
-import { createValidator } from '../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../utils/validator';
 import renderLabel from '../../../../utils/renderLabel';
-import { departmentsLabels, rolesLabels } from '../../../../constants/operators';
-
-const attributeLabels = {
-  firstName: 'First name',
-  lastName: 'Last name',
-  email: 'Email',
-  phone: 'Phone',
-  department: 'Department',
-  role: 'Role',
-};
-
-const validator = createValidator({
-  firstName: ['required', 'min:3'],
-  lastName: ['required', 'min:3'],
-  email: ['required', 'email'],
-  phone: ['required', 'min:3'],
-  department: ['required'],
-  role: ['required'],
-}, attributeLabels, false);
+import { attributeLabels } from './constants';
+import { departments, departmentsLabels, roles, rolesLabels } from '../../../../constants/operators';
 
 class CreateOperatorModal extends Component {
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    departments: PropTypes.arrayOf(PropTypes.shape({
+    availableDepartments: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
-    })),
-    roles: PropTypes.arrayOf(PropTypes.shape({
+    })).isRequired,
+    availableRoles: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string,
       value: PropTypes.string,
-    })),
+    })).isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
+    change: PropTypes.func,
+    currentValues: PropTypes.shape({
+      department: PropTypes.string,
+      role: PropTypes.string,
+    }),
+  };
+  static defaultProps = {
+    pristine: false,
+    submitting: false,
+    valid: false,
+    currentValues: {},
+    change: null,
   };
 
-  handleSubmit = (data) => {
-    this.props.onSubmit(data);
+  handleChangeDepartment = (e) => {
+    if (e.target.value === departments.ADMINISTRATION) {
+      this.props.change('role', roles.ROLE4);
+    }
   };
+
+  handleSubmit = data => this.props.onSubmit(data);
 
   render() {
     const {
       handleSubmit,
       onSubmit,
-      departments,
+      availableDepartments,
       pristine,
       submitting,
       valid,
-      roles,
+      availableRoles,
       onClose,
+      currentValues,
     } = this.props;
 
     return (
       <Modal className="create-operator-modal" toggle={onClose} isOpen>
-        <ModalHeader toggle={onClose}>New operator</ModalHeader>
+        <ModalHeader toggle={onClose}>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.TITLE')}</ModalHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <Field
                   name="firstName"
                   type="text"
-                  label={attributeLabels.firstName}
+                  label={I18n.t(attributeLabels.firstName)}
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
                   id="create-new-operator-first-name"
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <Field
                   name="lastName"
                   type="text"
-                  label={attributeLabels.lastName}
+                  label={I18n.t(attributeLabels.lastName)}
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
@@ -91,22 +93,22 @@ class CreateOperatorModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <Field
                   name="email"
                   type="text"
-                  label={attributeLabels.email}
+                  label={I18n.t(attributeLabels.email)}
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
                   id="create-new-operator-email"
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <Field
                   name="phone"
                   type="text"
-                  label={attributeLabels.phone}
+                  label={I18n.t(attributeLabels.phone)}
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
@@ -116,42 +118,42 @@ class CreateOperatorModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <Field
                   name="department"
-                  label={attributeLabels.department}
+                  type="text"
+                  label={I18n.t(attributeLabels.department)}
                   component={SelectField}
                   position="vertical"
-                  showErrorMessage={false}
-                  children={[
-                    ...departments.map(({ label, value }) => (
-                      <option key={value} value={value}>
-                        {renderLabel(label, departmentsLabels)}
-                      </option>
-                    )),
-                  ]}
-                />
+                  onChange={this.handleChangeDepartment}
+                >
+                  {availableDepartments.map(({ label, value }) => (
+                    <option key={value} value={value}>
+                      {renderLabel(label, departmentsLabels)}
+                    </option>
+                  ))}
+                </Field>
               </div>
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <Field
                   name="role"
-                  label={attributeLabels.role}
+                  type="text"
+                  label={I18n.t(attributeLabels.role)}
                   component={SelectField}
                   position="vertical"
-                  showErrorMessage={false}
-                  children={[
-                    ...roles.map(({ label, value }) => (
-                      <option key={value} value={value}>
-                        {renderLabel(label, rolesLabels)}
-                      </option>
-                    )),
-                  ]}
-                />
+                  disabled={!currentValues || (currentValues.department === departments.ADMINISTRATION)}
+                >
+                  {availableRoles.map(({ label, value }) => (
+                    <option key={value} value={value}>
+                      {renderLabel(label, rolesLabels)}
+                    </option>
+                  ))}
+                </Field>
               </div>
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <div className="form-check">
                   <label className="form-check-label">
                     <Field
@@ -161,7 +163,7 @@ class CreateOperatorModal extends Component {
                       component="input"
                       id="create-new-operator-send-invitation-checkbox"
                     />
-                    Send invitation
+                    {I18n.t('OPERATORS.MODALS.NEW_OPERATOR.SEND_INVITATION')}
                   </label>
                 </div>
               </div>
@@ -171,24 +173,26 @@ class CreateOperatorModal extends Component {
           <ModalFooter>
             <div className="row">
               <div className="col-sm-6 text-muted font-size-12">
-                <b>Note</b>: You will be able to set additional departments in operator's profile once it's created
+                <b>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE')}</b>
+                {':'}
+                {I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE_MESSAGE')}
               </div>
-              <div className="col-sm-6 text-right">
+              <div className="col-sm-6">
                 <button
                   type="reset"
                   className="btn btn-default-outline"
                   onClick={onClose}
                 >
-                  Cancel
+                  {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </button>
 
                 <button
                   type="submit"
                   disabled={pristine || submitting || !valid}
-                  className="btn btn-primary"
+                  className="btn btn-primary ml-2"
                   id="create-new-operator-submit-button"
                 >
-                  Create & open
+                  {I18n.t('COMMON.BUTTONS.CREATE_AND_OPEN')}
                 </button>
               </div>
             </div>
@@ -199,7 +203,18 @@ class CreateOperatorModal extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'operatorCreateForm',
-  validate: validator,
-})(CreateOperatorModal);
+export default connect(state => ({
+  currentValues: getFormValues('operatorCreateForm')(state),
+}))(
+  reduxForm({
+    form: 'operatorCreateForm',
+    validate: createValidator({
+      firstName: ['required', 'string', 'min:3'],
+      lastName: ['required', 'string', 'min:3'],
+      email: ['required', 'email'],
+      phone: 'min:3',
+      department: 'required',
+      role: 'required',
+    }, translateLabels(attributeLabels), false),
+  })(CreateOperatorModal),
+);

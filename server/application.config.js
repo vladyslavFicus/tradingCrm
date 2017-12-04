@@ -1,4 +1,5 @@
 module.exports = {
+  version: Date.now(),
   logstash: { url: 'http://hrzn01-dev-elk.nas.local:12202' },
   nas: {
     brand: {
@@ -6,10 +7,6 @@ module.exports = {
       password: { pattern: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
       fx_rate: { cron: '0 0 17 * * *' },
       validation: { password: '^((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%_]).{6,32})$' },
-      reasons: {
-        rejection: ['reason_1', 'reason_2', 'reason_3', 'reason_4'],
-        chargeback: ['reason_1', 'reason_2', 'reason_3', 'reason_4'],
-      },
       locale: {
         defaultLanguage: 'en',
         languages: ['en', 'ru'],
@@ -40,7 +37,6 @@ module.exports = {
         general: '--',
         countries: ['AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ'],
       },
-      claim_bonus: { enable: true },
     },
     currencies: { base: 'EUR', supported: ['EUR', 'USD', 'SEK', 'NOK', 'RUB'] },
   },
@@ -57,5 +53,8 @@ module.exports = {
       },
     },
   },
-  middlewares: { unauthorized: [401], persist: { whitelist: ['auth', 'userPanels', 'language'], keyPrefix: 'nas:' } },
+  middlewares: {
+    unauthorized: [401],
+    persist: { whitelist: ['auth', 'userPanels', 'language', 'settings'], keyPrefix: 'nas:' },
+  },
 };

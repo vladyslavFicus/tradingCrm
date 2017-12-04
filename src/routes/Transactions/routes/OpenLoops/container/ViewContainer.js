@@ -1,20 +1,21 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
 import { actionCreators } from '../modules';
-import { paymentActions } from '../../../../../constants/payment';
-import { getTransactionRejectReasons, getTransactionChargebackReasons } from '../../../../../config';
+import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../constants/payment';
+import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 
 const mapStateToProps = ({ openLoopTransactions, i18n: { locale } }) => ({
   ...openLoopTransactions,
   locale,
   paymentActionReasons: {
-    [paymentActions.REJECT]: getTransactionRejectReasons(),
-    [paymentActions.CHARGEBACK]: getTransactionChargebackReasons(),
+    [paymentActions.REJECT]: rejectReasons,
+    [paymentActions.CHARGEBACK]: chargebackReasons,
   },
 });
 
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
+  fetchPlayerMiniProfile: miniProfileActionCreators.fetchPlayerProfile,
   fetchFilters: actionCreators.fetchFilters,
   fetchPlayerProfile: actionCreators.fetchPlayerProfile,
   onChangePaymentStatus: actionCreators.changePaymentStatus,

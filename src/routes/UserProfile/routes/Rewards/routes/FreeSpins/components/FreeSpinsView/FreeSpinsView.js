@@ -7,7 +7,8 @@ import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import { targetTypes } from '../../../../../../../../constants/note';
 import { statuses, actions } from '../../../../../../../../constants/free-spin';
-import BonusHeaderNavigation from '../../../../components/BonusHeaderNavigation';
+import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
+import { routes as subTabRoutes } from '../../../../constants';
 import Amount from '../../../../../../../../components/Amount';
 import FreeSpinStatus from '../../../../../../../../components/FreeSpinStatus';
 import NoteButton from '../../../../../../../../components/NoteButton';
@@ -96,7 +97,6 @@ class FreeSpinsView extends Component {
   componentWillUnmount() {
     this.context.setNoteChangedCallback(null);
     this.context.cacheChildrenComponent(null);
-
   }
 
   handleNoteClick = (target, note, data) => {
@@ -108,11 +108,14 @@ class FreeSpinsView extends Component {
   };
 
   handleRefresh = () => {
-    this.props.fetchFreeSpins({
+    const { params: { id: playerUUID }, fetchFreeSpins, fetchFilters } = this.props;
+
+    fetchFreeSpins({
       ...this.state.filters,
       page: this.state.page,
-      playerUUID: this.props.params.id,
-    });
+      playerUUID,
+    })
+      .then(() => fetchFilters(playerUUID));
   };
 
   handleFiltersChanged = (filters = {}) => {
@@ -170,7 +173,6 @@ class FreeSpinsView extends Component {
       createFreeSpin,
       resetNote,
       list: { newEntityNote: unsavedNote },
-      fetchFilters,
     } = this.props;
     const action = await createFreeSpin(data);
 
@@ -185,7 +187,6 @@ class FreeSpinsView extends Component {
       }
 
       resetNote();
-      fetchFilters();
       this.handleModalClose(this.handleRefresh);
     }
 
@@ -291,10 +292,10 @@ class FreeSpinsView extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+      <div>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
-            <BonusHeaderNavigation />
+            <SubTabNavigation links={subTabRoutes} />
             <div className="tab-header__actions">
               <button
                 disabled={exporting || !allowActions}
@@ -322,8 +323,6 @@ class FreeSpinsView extends Component {
         />
         <div className="tab-content">
           <GridView
-            tableClassName="table table-hovered data-grid-layout"
-            headerClassName="text-uppercase"
             dataSource={entities.content}
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}

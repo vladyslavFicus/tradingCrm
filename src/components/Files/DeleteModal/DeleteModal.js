@@ -5,7 +5,7 @@ import PropTypes from '../../../constants/propTypes';
 import { shortify } from '../../../utils/uuid';
 
 const DeleteModal = ({ playerProfile, file, onSuccess, onClose }) => (
-  <Modal className="delete-modal" toggle={onClose} isOpen>
+  <Modal className="modal-danger" toggle={onClose} isOpen>
     <ModalHeader toggle={onClose}>
       {I18n.t('FILES.DELETE_MODAL.TITLE')}
     </ModalHeader>
@@ -23,7 +23,7 @@ const DeleteModal = ({ playerProfile, file, onSuccess, onClose }) => (
       <div className="margin-bottom-20"> {I18n.t('FILES.DELETE_MODAL.WARNING_TEXT')} </div>
     </ModalBody>
     <ModalFooter>
-      <button className="btn btn-default-outline pull-left" onClick={onClose}>
+      <button className="btn btn-default-outline mr-auto" onClick={onClose}>
         {I18n.t('COMMON.BUTTONS.CANCEL')}
       </button>
       <button className="btn btn-danger" onClick={onSuccess}>

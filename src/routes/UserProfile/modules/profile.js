@@ -3,7 +3,7 @@ import moment from 'moment';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import timestamp from '../../../utils/timestamp';
-import { actions } from '../../../constants/user';
+import { actions, statuses as userStatuses } from '../../../constants/user';
 import { statuses as kycStatuses, categories as kycCategories } from '../../../constants/kyc';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
 import config from '../../../config';
@@ -11,11 +11,14 @@ import config from '../../../config';
 const KEY = 'user-profile/view';
 const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
 const UPDATE_PROFILE = createRequestAction(`${KEY}/update`);
+const UPDATE_EMAIL = createRequestAction(`${KEY}/update-email`);
 const SUBMIT_KYC = createRequestAction(`${KEY}/submit-kyc`);
 const VERIFY_DATA = createRequestAction(`${KEY}/verify-data`);
 const VERIFY_KYC_ALL = createRequestAction(`${KEY}/verify-kyc-all`);
 const REFUSE_DATA = createRequestAction(`${KEY}/refuse-data`);
-const RESET_PASSWORD = createRequestAction(`${KEY}/reset-password`);
+const RESET_PASSWORD_REQUEST = createRequestAction(`${KEY}/reset-password-request`);
+const RESET_PASSWORD_CONFIRM = createRequestAction(`${KEY}/reset-password-confirm`);
+const FETCH_RESET_PASSWORD_TOKEN = createRequestAction(`${KEY}/fetch-reset-password-token`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
 
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
@@ -43,7 +46,7 @@ const initialState = {
     id: null,
     playerUUID: null,
     acceptedTermsUUID: null,
-    username: null,
+    login: null,
     fullName: null,
     firstName: null,
     lastName: null,
@@ -59,6 +62,8 @@ const initialState = {
     languageCode: null,
     currencyCode: null,
     phoneNumber: null,
+    phone: null,
+    phoneCode: null,
     phoneNumberVerified: false,
     affiliateId: null,
     btag: null,
@@ -74,9 +79,9 @@ const initialState = {
     registrationDate: null,
     tags: [],
     kycCompleted: false,
-    balance: { amount: 0, currency: config.nas.currencies.base },
-    realBalance: { amount: 0, currency: config.nas.currencies.base },
-    bonusBalance: { amount: 0, currency: config.nas.currencies.base },
+    balance: { amount: 0, currency: config.nas.brand.currencies.base },
+    realBalance: { amount: 0, currency: config.nas.brand.currencies.base },
+    bonusBalance: { amount: 0, currency: config.nas.brand.currencies.base },
     kycAddressStatus: null,
     kycPersonalStatus: null,
     kycRequest: null,
@@ -98,9 +103,99 @@ const initialState = {
 };
 
 const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
-const updateProfile = usersActionCreators.updateProfile(UPDATE_PROFILE);
-const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD);
+const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD_REQUEST);
+const resetPasswordConfirm = usersActionCreators.passwordResetConfirm(RESET_PASSWORD_CONFIRM);
+const fetchResetPasswordToken = usersActionCreators.fetchResetPasswordToken(FETCH_RESET_PASSWORD_TOKEN);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
+
+function updateProfile(uuid, data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/profiles/${uuid}`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        types: [
+          UPDATE_PROFILE.REQUEST,
+          {
+            type: UPDATE_PROFILE.SUCCESS,
+            payload: data,
+          },
+          UPDATE_PROFILE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function updatePhone(uuid, data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/profiles/${uuid}`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        types: [
+          UPDATE_PROFILE.REQUEST,
+          {
+            type: UPDATE_PROFILE.SUCCESS,
+            payload: {
+              ...data,
+              phoneNumberVerified: false,
+              phoneNumber: `${data.phoneCode}${data.phone}`,
+            },
+          },
+          UPDATE_PROFILE.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function updateEmail(uuid, data) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/profile/profiles/${uuid}/email`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        types: [
+          UPDATE_EMAIL.REQUEST,
+          {
+            type: UPDATE_EMAIL.SUCCESS,
+            payload: data,
+          },
+          UPDATE_EMAIL.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 
 function updateSubscription(playerUUID, data, updatedSubscription) {
   return (dispatch, getState) => {
@@ -204,11 +299,11 @@ function deleteTag(playerUUID, id) {
 
 function verifyData(playerUUID, type) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid } } = getState();
+    const { auth: { token, logged, uuid }, settings: { sendMail } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/kyc/${playerUUID}/${type}/verify`,
+        endpoint: `profile/kyc/${playerUUID}/${type}/verify${!sendMail ? '?send-mail=false' : ''}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -236,11 +331,11 @@ function verifyData(playerUUID, type) {
 
 function verifyKycAll(playerUUID) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid } } = getState();
+    const { auth: { token, logged, uuid }, settings: { sendMail } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/kyc/${playerUUID}/verify`,
+        endpoint: `profile/kyc/${playerUUID}/verify${!sendMail ? '?send-mail=false' : ''}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -267,11 +362,11 @@ function verifyKycAll(playerUUID) {
 
 function refuseData(playerUUID, type, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid } } = getState();
+    const { auth: { token, logged, uuid }, settings: { sendMail } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `profile/kyc/${playerUUID}/${type}`,
+        endpoint: `profile/kyc/${playerUUID}/${type}${!sendMail ? '?send-mail=false' : ''}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
@@ -478,7 +573,7 @@ function changeStatus({ action, ...data }) {
       return dispatch(prolongProfile(data));
     } else if (action === actions.SUSPEND) {
       return dispatch(suspendProfile(data));
-    } else if (action === actions.RESUME) {
+    } else if (action === actions.REMOVE) {
       return dispatch(resumeProfile(data));
     }
 
@@ -615,54 +710,11 @@ function successUpdateStatusReducer(state, action) {
 }
 
 function successUpdateProfileReducer(state, action) {
-  const {
-    firstName,
-    lastName,
-    birthDate,
-    acceptedTermsUUID,
-    gender,
-    identifier,
-    postCode,
-    phoneNumber,
-    phoneNumberVerified,
-    suspendEndDate,
-    title,
-    country,
-    city,
-    address,
-    email,
-    profileStatus,
-    profileStatusReason,
-    username,
-    profileTags,
-  } = action.payload;
-
   return {
     ...state,
     data: {
       ...state.data,
-      fullName: [firstName, lastName].join(' ').trim(),
-      firstName,
-      lastName,
-      birthDate,
-      acceptedTermsUUID,
-      email,
-      gender,
-      identifier,
-      postCode,
-      phoneNumber,
-      phoneNumberVerified,
-      suspendEndDate,
-      title,
-      profileStatus,
-      profileStatusReason,
-      username,
-      country,
-      city,
-      address,
-      tags: profileTags.length > 0
-        ? profileTags.map(tag => ({ id: tag.id, tag: tag.tag, priority: tag.tagPriority }))
-        : [],
+      ...action.payload,
     },
     isLoading: false,
     receivedAt: timestamp(),
@@ -690,11 +742,11 @@ function manageKycNote(type, data) {
 
 function sendKycRequestVerification(playerUUID, params) {
   return (dispatch, getState) => {
-    const { auth: { token, logged, uuid } } = getState();
+    const { auth: { token, logged, uuid }, settings: { sendMail } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/profile/kyc/${playerUUID}/request`,
+        endpoint: `/profile/kyc/${playerUUID}/request${!sendMail ? '?send-mail=false' : ''}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -768,7 +820,13 @@ const actionHandlers = {
       phoneNumberVerified: true,
     },
   }),
-  [VERIFY_PROFILE_EMAIL.SUCCESS]: successUpdateProfileReducer,
+  [VERIFY_PROFILE_EMAIL.SUCCESS]: state => ({
+    ...state,
+    data: {
+      ...state.data,
+      profileStatus: userStatuses.ACTIVE,
+    },
+  }),
   [ADD_TAG.SUCCESS]: (state, action) => {
     const { profileTags } = action.payload;
 
@@ -829,6 +887,7 @@ const actionHandlers = {
   [UNBLOCK_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [PROLONG_PROFILE.SUCCESS]: successUpdateStatusReducer,
   [RESUME_PROFILE.SUCCESS]: successUpdateStatusReducer,
+  [UPDATE_EMAIL.SUCCESS]: successUpdateProfileReducer,
   [SUBMIT_KYC.REQUEST]: state => ({
     ...state,
     isLoading: true,
@@ -886,6 +945,9 @@ const actionTypes = {
   REFUSE_DATA,
   VERIFY_PROFILE_PHONE,
   VERIFY_PROFILE_EMAIL,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_CONFIRM,
+  FETCH_RESET_PASSWORD_TOKEN,
 };
 const actionCreators = {
   fetchProfile,
@@ -894,7 +956,11 @@ const actionCreators = {
   verifyKycAll,
   refuseData,
   updateProfile,
+  updatePhone,
+  updateEmail,
   resetPassword,
+  resetPasswordConfirm,
+  fetchResetPasswordToken,
   activateProfile,
   updateSubscription,
   changeStatus,

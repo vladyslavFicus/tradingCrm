@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import PropTypes from '../../../../../constants/propTypes';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import {
   methodsLabels,
   typesLabels,
   typesProps,
 } from '../../../../../constants/payment';
-import { shortify } from '../../../../../utils/uuid';
 import PaymentDetailModal from '../../../../../components/PaymentDetailModal';
 import PaymentActionReasonModal from '../../../../../components/PaymentActionReasonModal';
 import TransactionStatus from '../../../../../components/TransactionStatus';
@@ -19,6 +18,9 @@ import Uuid from '../../../../../components/Uuid';
 import GridPlayerInfo from '../../../../../components/GridPlayerInfo';
 import GridPaymentInfo from '../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../components/GridPaymentAmount';
+import PaymentAccount from '../../../../../components/PaymentAccount';
+import renderLabel from '../../../../../utils/renderLabel';
+import IpFlag from '../../../../../components/IpFlag';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -38,6 +40,7 @@ class View extends Component {
     resetAll: PropTypes.func.isRequired,
     paymentActionReasons: PropTypes.paymentActionReasons.isRequired,
     locale: PropTypes.string.isRequired,
+    fetchPlayerMiniProfile: PropTypes.func.isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -166,7 +169,12 @@ class View extends Component {
 
   renderPlayer = data => (
     data.playerProfile
-      ? <GridPlayerInfo profile={data.playerProfile} />
+      ? (
+        <GridPlayerInfo
+          profile={data.playerProfile}
+          fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
+        />
+      )
       : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
   );
 
@@ -179,7 +187,7 @@ class View extends Component {
         <div {...props}>{label}</div>
         <span className="font-size-10 text-uppercase color-default">
           {data.paymentSystemRefs.map((SystemRef, index) => (
-            <div key={`${SystemRef}-${index}`}>{SystemRef}</div>
+            <div key={[`${SystemRef}-${index}`]}>{SystemRef}</div>
           ))}
         </span>
       </div>
@@ -191,10 +199,10 @@ class View extends Component {
   renderDateTime = data => (
     <div>
       <div className="font-weight-700">
-        {moment(data.creationTime).format('DD.MM.YYYY')}
+        {moment.utc(data.creationTime).local().format('DD.MM.YYYY')}
       </div>
       <span className="font-size-10 color-default">
-        {moment(data.creationTime).format('HH:mm:ss')}
+        {moment.utc(data.creationTime).local().format('HH:mm:ss')}
       </span>
     </div>
   );
@@ -204,18 +212,24 @@ class View extends Component {
       return data.country;
     }
 
-    return <i className={`fs-icon fs-${data.country.toLowerCase()}`} />;
+    const id = `open-loop-${data.paymentId}`;
+
+    return <IpFlag id={id} country={data.country} ip={data.clientIp} />;
   };
 
   renderMethod = data => (
-    <div>
-      <div className="font-weight-700">
-        {methodsLabels[data.paymentMethod] || data.paymentMethod}
+    !data.paymentMethod ? <span>&mdash;</span>
+      : <div>
+        <div className="font-weight-700">
+          {renderLabel(data.paymentMethod, methodsLabels)}
+        </div>
+        {
+          !!data.paymentAccount &&
+          <span className="font-size-10">
+            <PaymentAccount account={data.paymentAccount} />
+          </span>
+        }
       </div>
-      <span className="font-size-10">
-        {shortify(data.paymentAccount, null, 2)}
-      </span>
-    </div>
   );
 
   renderDevice = (data) => {
@@ -262,105 +276,101 @@ class View extends Component {
     const { modal } = this.state;
 
     return (
-      <div className="page-content-inner">
-        <Panel withBorders>
-          <Title>
-            <span className="font-size-20">Open loops</span>
-          </Title>
+      <Card>
+        <Title>
+          <span className="font-size-20">Open loops</span>
+        </Title>
 
-          <Content>
-            <GridView
-              tableClassName="table table-hovered data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={entities.content}
-              onPageChange={this.handlePageChanged}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-              locale={locale}
-              showNoResults={noResults}
-            >
-              <GridColumn
-                name="paymentId"
-                header="Transaction"
-                render={this.renderTransactionId}
-              />
-              <GridColumn
-                name="profile"
-                header="Player"
-                render={this.renderPlayer}
-              />
-              <GridColumn
-                name="paymentType"
-                header="Type"
-                render={this.renderType}
-              />
-              <GridColumn
-                name="amount"
-                header="Amount"
-                render={this.renderAmount}
-              />
-              <GridColumn
-                name="creationTime"
-                header="DATE & TIME"
-                render={this.renderDateTime}
-              />
-              <GridColumn
-                name="country"
-                header="Ip"
-                headerClassName="text-center"
-                className="text-center"
-                render={this.renderIP}
-              />
-              <GridColumn
-                name="paymentMethod"
-                header="Method"
-                render={this.renderMethod}
-              />
-              <GridColumn
-                name="mobile"
-                header="Device"
-                headerClassName="text-center"
-                className="text-center"
-                render={this.renderDevice}
-              />
-              <GridColumn
-                name="status"
-                header="Status"
-                className="text-uppercase"
-                render={this.renderStatus}
-              />
-              <GridColumn
-                name="actions"
-                header=""
-                render={this.renderActions}
-              />
-            </GridView>
+        <Content>
+          <GridView
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            locale={locale}
+            showNoResults={noResults}
+          >
+            <GridColumn
+              name="paymentId"
+              header="Transaction"
+              render={this.renderTransactionId}
+            />
+            <GridColumn
+              name="profile"
+              header="Player"
+              render={this.renderPlayer}
+            />
+            <GridColumn
+              name="paymentType"
+              header="Type"
+              render={this.renderType}
+            />
+            <GridColumn
+              name="amount"
+              header="Amount"
+              render={this.renderAmount}
+            />
+            <GridColumn
+              name="creationTime"
+              header="DATE & TIME"
+              render={this.renderDateTime}
+            />
+            <GridColumn
+              name="country"
+              header="Ip"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderIP}
+            />
+            <GridColumn
+              name="paymentMethod"
+              header="Method"
+              render={this.renderMethod}
+            />
+            <GridColumn
+              name="mobile"
+              header="Device"
+              headerClassName="text-center"
+              className="text-center"
+              render={this.renderDevice}
+            />
+            <GridColumn
+              name="status"
+              header="Status"
+              className="text-uppercase"
+              render={this.renderStatus}
+            />
+            <GridColumn
+              name="actions"
+              header=""
+              render={this.renderActions}
+            />
+          </GridView>
 
-            {
-              modal.name === MODAL_PAYMENT_DETAIL &&
-              <PaymentDetailModal
-                {...modal.params}
-                isOpen
-                onClose={this.handleCloseModal}
-                onChangePaymentStatus={this.handleChangePaymentStatus}
-                onAskReason={this.handleAskReason}
-              />
-            }
+          {
+            modal.name === MODAL_PAYMENT_DETAIL &&
+            <PaymentDetailModal
+              {...modal.params}
+              isOpen
+              onClose={this.handleCloseModal}
+              onChangePaymentStatus={this.handleChangePaymentStatus}
+              onAskReason={this.handleAskReason}
+            />
+          }
 
-            {
-              modal.name === MODAL_PAYMENT_ACTION_REASON &&
-              <PaymentActionReasonModal
-                {...modal.params}
-                isOpen
-                onClose={this.handleCloseModal}
-                onChangePaymentStatus={this.handleChangePaymentStatus}
-                onNoteClick={this.handleNoteClick}
-              />
-            }
-          </Content>
-        </Panel>
-      </div>
+          {
+            modal.name === MODAL_PAYMENT_ACTION_REASON &&
+            <PaymentActionReasonModal
+              {...modal.params}
+              isOpen
+              onClose={this.handleCloseModal}
+              onChangePaymentStatus={this.handleChangePaymentStatus}
+              onNoteClick={this.handleNoteClick}
+            />
+          }
+        </Content>
+      </Card>
     );
   }
 }

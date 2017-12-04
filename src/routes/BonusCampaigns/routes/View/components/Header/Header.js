@@ -9,7 +9,6 @@ import StatusDropDown from '../../../../components/StatusDropDown';
 import { statuses, targetTypes, moneyTypeUsageLabels } from '../../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../../utils/renderLabel';
 import ActionsDropDown from '../../../../../../components/ActionsDropDown';
-import './Header.scss';
 
 class Header extends Component {
   static propTypes = {
@@ -18,6 +17,7 @@ class Header extends Component {
     onChangeCampaignState: PropTypes.func.isRequired,
     onUpload: PropTypes.func.isRequired,
     cloneCampaign: PropTypes.func.isRequired,
+    removeAllPlayers: PropTypes.func.isRequired,
   };
   static defaultProps = {
     availableStatusActions: [],
@@ -36,13 +36,15 @@ class Header extends Component {
         currency,
         state,
         targetType,
-        id,
       },
       data,
       availableStatusActions,
       onChangeCampaignState,
       cloneCampaign,
+      removeAllPlayers,
     } = this.props;
+    const allowUpload = [statuses.DRAFT, statuses.PENDING, statuses.ACTIVE].indexOf(state) > -1
+      && targetType === targetTypes.TARGET_LIST;
 
     return (
       <div>
@@ -63,18 +65,26 @@ class Header extends Component {
           </div>
           <div className="panel-heading-row__actions">
             {
-              state === statuses.DRAFT && targetType === targetTypes.TARGET_LIST &&
-              <FileUpload
-                label={I18n.t('BONUS_CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
-                allowedTypes={['text/csv', 'application/vnd.ms-excel']}
-                onChosen={this.props.onUpload}
-                className="btn btn-info-outline"
-              />
+              allowUpload &&
+              <span>
+                <button
+                  className="btn btn-sm btn-default-outline margin-right-10"
+                  onClick={removeAllPlayers}
+                >
+                  {I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
+                </button>
+                <FileUpload
+                  label={I18n.t('BONUS_CAMPAIGNS.VIEW.BUTTON.ADD_PLAYERS')}
+                  allowedTypes={['text/csv', 'application/vnd.ms-excel']}
+                  onChosen={this.props.onUpload}
+                  className="btn btn-info-outline"
+                />
+              </span>
             }
             <span className="margin-left-10">
               <ActionsDropDown
                 items={[
-                  { label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'), onClick: () => cloneCampaign(id) },
+                  { label: I18n.t('BONUS_CAMPAIGNS.OPTIONS.CLONE_LABEL'), onClick: () => cloneCampaign(uuid) },
                 ]}
               />
             </span>

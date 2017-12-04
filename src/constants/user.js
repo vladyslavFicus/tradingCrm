@@ -1,5 +1,6 @@
 import keyMirror from 'keymirror';
 import permissions from '../config/permissions';
+import I18n from '../utils/fake-i18n';
 
 const attributeLabels = {
   acceptedTermsUUID: 'Accepted terms Uuid',
@@ -72,15 +73,34 @@ const actions = keyMirror({
   BLOCK: null,
   UNBLOCK: null,
   SUSPEND: null,
-  RESUME: null,
+  REMOVE: null,
   PROLONG: null,
 });
-const reasons = [
-  'REASON_ONE',
-  'REASON_TWO',
-  'REASON_THREE',
-  'REASON_FOUR',
-];
+const reasons = {
+  'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.USER_REQUEST':
+    I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.USER_REQUEST'),
+  'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.BONUS_ABUSE':
+    I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.BONUS_ABUSE'),
+  'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.DUPLICATE_ACCOUNT':
+    I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.DUPLICATE_ACCOUNT'),
+  'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.PENDING_INVESTIGATION':
+    I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.PENDING_INVESTIGATION'),
+  'PLAYER_PROFILE.PROFILE.BLOCK_REASONS.OTHER':
+    I18n.t('PLAYER_PROFILE.PROFILE.BLOCK_REASONS.OTHER'),
+};
+const unblockReasons = {
+  'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.CUSTOMER_REQUEST':
+    I18n.t('PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.CUSTOMER_REQUEST'),
+  'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.INVESTIGATION_COMPLETE':
+    I18n.t('PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.INVESTIGATION_COMPLETE'),
+  'PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.OTHER': I18n.t('PLAYER_PROFILE.PROFILE.UNBLOCK_REASONS.OTHER'),
+};
+const selfExclusionReasons = {
+  'PLAYER_PROFILE.PROFILE.SELF_EXCLUSION_REASONS.USER_REQUEST':
+    I18n.t('PLAYER_PROFILE.PROFILE.SELF_EXCLUSION_REASONS.USER_REQUEST'),
+  'PLAYER_PROFILE.PROFILE.SELF_EXCLUSION_REASONS.OTHER':
+    I18n.t('PLAYER_PROFILE.PROFILE.SELF_EXCLUSION_REASONS.OTHER'),
+};
 const statusesLabels = {
   [statuses.INACTIVE]: 'Inactive',
   [statuses.ACTIVE]: 'Active',
@@ -96,6 +116,20 @@ const durationUnits = keyMirror({
   PERMANENT: null,
 });
 const statusActions = {
+  [statuses.INACTIVE]: [
+    {
+      action: actions.BLOCK,
+      label: 'Block',
+      reasons,
+      permission: permissions.USER_PROFILE.BLOCK,
+    },
+    {
+      action: actions.SUSPEND,
+      label: 'Self Exclusion',
+      reasons: selfExclusionReasons,
+      permission: permissions.USER_PROFILE.SUSPEND,
+    },
+  ],
   [statuses.ACTIVE]: [
     {
       action: actions.BLOCK,
@@ -106,7 +140,7 @@ const statusActions = {
     {
       action: actions.SUSPEND,
       label: 'Self Exclusion',
-      reasons,
+      reasons: selfExclusionReasons,
       permission: permissions.USER_PROFILE.SUSPEND,
     },
   ],
@@ -114,12 +148,7 @@ const statusActions = {
     {
       action: actions.UNBLOCK,
       label: 'Unblock',
-      reasons: [
-        'UNBLOCK_REASON_ONE',
-        'UNBLOCK_REASON_TWO',
-        'UNBLOCK_REASON_THREE',
-        'UNBLOCK_REASON_FOUR',
-      ],
+      reasons: unblockReasons,
       permission: permissions.USER_PROFILE.UNBLOCK,
     },
   ],
@@ -131,18 +160,18 @@ const statusActions = {
       permission: permissions.USER_PROFILE.PROLONG,
     },
     {
-      action: actions.RESUME,
-      label: 'Resume',
+      action: actions.REMOVE,
+      label: 'Remove',
       reasons,
-      permission: permissions.USER_PROFILE.RESUME,
+      permission: permissions.USER_PROFILE.REMOVE,
     },
   ],
   [statuses.COOLOFF]: [
     {
-      action: actions.RESUME,
+      action: actions.REMOVE,
       label: 'Resume',
       reasons,
-      permission: permissions.USER_PROFILE.RESUME,
+      permission: permissions.USER_PROFILE.REMOVE,
     },
   ],
 };

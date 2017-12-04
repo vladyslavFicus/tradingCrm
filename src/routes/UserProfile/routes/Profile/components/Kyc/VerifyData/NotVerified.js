@@ -3,6 +3,8 @@ import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { stepStatuses } from './VerifyData';
+import PermissionContent from '../../../../../../../components/PermissionContent';
+import permissions from '../../../../../../../config/permissions';
 
 const NotVerified = (props) => {
   const { step, title, onRefuse, onVerify, status } = props;
@@ -25,7 +27,7 @@ const NotVerified = (props) => {
           {requestStatus}
         </div>
         <div className="font-size-11 color-default">
-          {I18n.t('COMMON.SINCE', { date: moment(status.statusDate).format('DD.MM.YYYY \\a\\t HH:mm') })}
+          {I18n.t('COMMON.SINCE', { date: moment.utc(status.statusDate).local().format('DD.MM.YYYY \\a\\t HH:mm') })}
         </div>
         <div className="font-size-12 padding-top-20">
           {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.WAITING_FOR_DOCS_DESCRIPTION')}
@@ -33,22 +35,26 @@ const NotVerified = (props) => {
       </div>
 
       <div className="panel-body__buttons">
-        <button
-          id={`refuse-${title.toLowerCase()}-button`}
-          onClick={onRefuse}
-          type="button"
-          className="btn btn-danger-outline margin-right-10"
-        >
-          {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.ACTIONS.REFUSE')}
-        </button>
-        <button
-          id={`verify-${title.toLowerCase()}-button`}
-          onClick={onVerify}
-          type="button"
-          className="btn btn-success-outline"
-        >
-          {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.ACTIONS.VERIFY')} {title.toLowerCase()}
-        </button>
+        <PermissionContent permissions={permissions.USER_PROFILE.KYC_REJECT}>
+          <button
+            id={`refuse-${title.toLowerCase()}-button`}
+            onClick={onRefuse}
+            type="button"
+            className="btn btn-danger-outline margin-right-10"
+          >
+            {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.ACTIONS.REFUSE')}
+          </button>
+        </PermissionContent>
+        <PermissionContent permissions={permissions.USER_PROFILE.KYC_VERIFY}>
+          <button
+            id={`verify-${title.toLowerCase()}-button`}
+            onClick={onVerify}
+            type="button"
+            className="btn btn-success-outline"
+          >
+            {I18n.t('PLAYER_PROFILE.PROFILE.KYC_VERIFICATION.ACTIONS.VERIFY')} {title.toLowerCase()}
+          </button>
+        </PermissionContent>
       </div>
     </div>
   );

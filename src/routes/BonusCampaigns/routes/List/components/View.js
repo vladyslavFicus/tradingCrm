@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { SubmissionError } from 'redux-form';
 import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
 import {
@@ -19,6 +19,8 @@ import Amount from '../../../../../components/Amount';
 import BonusCampaignStatus from '../../../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
 import CreateBonusCampaignModal from './CreateBonusCampaignModal';
+import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
+import MiniProfile from '../../../../../components/MiniProfile';
 
 const MODAL_CREATE_BONUS_CAMPAIGN = 'modal-create-bonus-campaign';
 const defaultModalState = {
@@ -43,7 +45,9 @@ class View extends Component {
     exportEntities: PropTypes.func.isRequired,
     fetchTypes: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
-    router: PropTypes.object,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static contextTypes = {
@@ -109,7 +113,7 @@ class View extends Component {
 
     if (action) {
       if (!action.error) {
-        this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignId}/settings`);
+        this.props.router.push(`/bonus-campaigns/view/${action.payload.campaignUUID}/settings`);
         this.context.addNotification({
           level: action.error ? 'error' : 'success',
           title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
@@ -118,11 +122,11 @@ class View extends Component {
       } else if (action.payload.response.fields_errors) {
         const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
           ...res,
-          [name]: action.payload.response.fields_errors[name].error,
+          [name]: I18n.t(action.payload.response.fields_errors[name].error),
         }), {});
         throw new SubmissionError(errors);
       } else if (action.payload.response.error) {
-        throw new SubmissionError({ __error: action.payload.response.error });
+        throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
       }
     }
 
@@ -136,12 +140,15 @@ class View extends Component {
 
   renderCampaign = data => (
     <div id={`bonus-campaign-${data.uuid}`}>
-      <Link to={`/bonus-campaigns/view/${data.id}`} className="font-weight-700">{data.campaignName}</Link>
+      <Link to={`/bonus-campaigns/view/${data.uuid}`} className="font-weight-700">{data.campaignName}</Link>
       <div className="font-size-11">
-        <Uuid uuid={data.uuid} uuidPrefix="CA" />
-      </div>
-      <div className="font-size-11">
-        {I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.PRIORITY', { priority: data.campaignPriority })}
+        <MiniProfile
+          target={data.uuid}
+          dataSource={data}
+          type={miniProfileTypes.CAMPAIGN}
+        >
+          <Uuid uuid={data.uuid} uuidPrefix="CA" />
+        </MiniProfile>
       </div>
       {
         data.authorUUID &&
@@ -232,108 +239,102 @@ class View extends Component {
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
-      <div className="page-content-inner">
-        <Panel withBorders>
-          <Title>
-            <div className="row">
-              <div className="col-md-3">
-                <span className="font-size-20">{I18n.t('BONUS_CAMPAIGNS.TITLE')}</span>
-              </div>
-              <div className="col-md-3 col-md-offset-6 text-right">
-                <button
-                  disabled={exporting || !allowActions}
-                  className="btn btn-default-outline margin-right-10"
-                  onClick={this.handleExport}
-                >
-                  {I18n.t('COMMON.EXPORT')}
-                </button>
+      <Card>
+        <Title>
+          <span className="font-size-20 mr-auto" id="campaigns-page-title">
+            {I18n.t('BONUS_CAMPAIGNS.TITLE')}
+          </span>
 
-                <button
-                  className="btn btn-primary-outline"
-                  onClick={this.handleOpenCreateModal}
-                >
-                  {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
-                </button>
-              </div>
-            </div>
-          </Title>
+          <button
+            disabled={exporting || !allowActions}
+            className="btn btn-default-outline margin-right-10"
+            onClick={this.handleExport}
+          >
+            {I18n.t('COMMON.EXPORT')}
+          </button>
 
-          <BonusCampaignsFilterForm
-            onSubmit={this.handleFiltersChanged}
-            onReset={this.handleFilterReset}
-            disabled={!allowActions}
-            types={list}
-            statuses={statuses}
+          <button
+            className="btn btn-primary-outline"
+            onClick={this.handleOpenCreateModal}
+          >
+            {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
+          </button>
+        </Title>
+
+        <BonusCampaignsFilterForm
+          onSubmit={this.handleFiltersChanged}
+          onReset={this.handleFilterReset}
+          disabled={!allowActions}
+          types={list}
+          statuses={statuses}
+          locale={locale}
+        />
+
+        <Content>
+          <GridView
             locale={locale}
-          />
+            dataSource={entities.content}
+            onPageChange={this.handlePageChanged}
+            activePage={entities.number + 1}
+            totalPages={entities.totalPages}
+            lazyLoad
+            showNoResults={noResults}
+          >
+            <GridColumn
+              name="campaign"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
+              render={this.renderCampaign}
+            />
 
-          <Content>
-            <GridView
-              locale={locale}
-              tableClassName="table table-hovered data-grid-layout"
-              headerClassName="text-uppercase"
-              dataSource={entities.content}
-              onPageChange={this.handlePageChanged}
-              activePage={entities.number + 1}
-              totalPages={entities.totalPages}
-              lazyLoad
-              showNoResults={noResults}
-            >
-              <GridColumn
-                name="campaign"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CAMPAIGN')}
-                render={this.renderCampaign}
-              />
+            <GridColumn
+              name="targetType"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TYPE')}
+              render={this.renderType}
+            />
 
-              <GridColumn
-                name="targetType"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.TYPE')}
-                render={this.renderType}
-              />
+            <GridColumn
+              name="fulfillmentType"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
+              render={this.renderFulfillmentType}
+            />
 
-              <GridColumn
-                name="fulfillmentType"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.FULFILLMENT_TYPE')}
-                render={this.renderFulfillmentType}
-              />
+            <GridColumn
+              name="createdDate"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CREATED')}
+              render={this.renderDate('creationDate')}
+            />
 
-              <GridColumn
-                name="createdDate"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.CREATED')}
-                render={this.renderDate('creationDate')}
-              />
+            <GridColumn
+              name="startDate"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.START_DATE')}
+              render={this.renderDate('startDate')}
+            />
 
-              <GridColumn
-                name="startDate"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.START_DATE')}
-                render={this.renderDate('startDate')}
-              />
+            <GridColumn
+              name="endDate"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.END_DATE')}
+              render={this.renderDate('endDate')}
+            />
 
-              <GridColumn
-                name="endDate"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.END_DATE')}
-                render={this.renderDate('endDate')}
-              />
+            <GridColumn
+              name="granted"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.GRANTED')}
+              render={this.renderGranted}
+            />
 
-              <GridColumn
-                name="granted"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.GRANTED')}
-                render={this.renderGranted}
-              />
-
-              <GridColumn
-                name="status"
-                header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.STATUS')}
-                render={this.renderStatus}
-              />
-            </GridView>
-          </Content>
-        </Panel>
+            <GridColumn
+              name="status"
+              header={I18n.t('BONUS_CAMPAIGNS.GRID_VIEW.STATUS')}
+              render={this.renderStatus}
+            />
+          </GridView>
+        </Content>
 
         {
           modal.name === MODAL_CREATE_BONUS_CAMPAIGN &&
           <CreateBonusCampaignModal
             onSubmit={this.handleSubmitNewBonusCampaign}
+            types={list}
             currencies={currencies}
             initialValues={{
               campaignType: campaignTypes.FIRST_DEPOSIT,
@@ -346,12 +347,13 @@ class View extends Component {
               conversionPrize: {
                 type: customValueFieldTypes.ABSOLUTE,
               },
+              claimable: false,
             }}
             onClose={this.handleCloseModal}
             isOpen
           />
         }
-      </div>
+      </Card>
     );
   }
 }
