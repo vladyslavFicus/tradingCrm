@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import './FiltersSelect.scss';
 
 class FiltersSelect extends Component {
   state = {
@@ -15,7 +16,7 @@ class FiltersSelect extends Component {
 
     return (
       <button
-        className={classNames('btn btn-default-outline btn-icon', { 'btn-icon_active': active })}
+        className={classNames('filters-select', { 'filters-select_active': active })}
         onClick={this.handleActive}
       >
         <i className="nas nas-add_filter_icon" />
