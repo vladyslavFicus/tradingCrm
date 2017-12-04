@@ -8,6 +8,7 @@ class Nav extends Component {
     items: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     onMenuItemClick: PropTypes.func.isRequired,
     onToggleTab: PropTypes.func.isRequired,
+    isSidebarOpen: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     className: 'nav',
@@ -19,6 +20,7 @@ class Nav extends Component {
       className,
       onToggleTab,
       onMenuItemClick,
+      isSidebarOpen,
     } = this.props;
 
     return (
@@ -26,6 +28,7 @@ class Nav extends Component {
         {items.map((item, index) => (
           <NavItem
             {...item}
+            isSidebarOpen={isSidebarOpen}
             key={item.label}
             index={index}
             onToggleTab={onToggleTab}

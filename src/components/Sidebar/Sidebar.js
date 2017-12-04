@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
-import { TimelineLite, Power3 } from 'gsap';
+import { TimelineLite, Power1 } from 'gsap';
 import Nav from '../Nav';
 import PropTypes from '../../constants/propTypes';
 import './Sidebar.scss';
@@ -23,8 +23,8 @@ class Sidebar extends Component {
 
     const tl = new TimelineLite({ paused: true });
 
-    tl.fromTo(sidebar, 0.2, { width: '60px' }, { width: '240px', ease: Power3.easeOut })
-      .fromTo('.nav-link__label', 0.2, { autoAlpha: 0 }, { autoAlpha: 1 });
+    tl.fromTo(sidebar, 0.15, { width: '60px' }, { width: '240px', ease: Power1.easeOut })
+      .fromTo('.nav-link__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
 
     this.tl = tl;
   }
@@ -77,6 +77,7 @@ class Sidebar extends Component {
 
   render() {
     const { topMenu, bottomMenu, onToggleTab } = this.props;
+    const { isOpen } = this.state;
 
     return (
       <aside
@@ -92,12 +93,14 @@ class Sidebar extends Component {
           style={{ height: 'calc(100% - 85px)' }}
         >
           <Nav
+            isSidebarOpen={isOpen}
             items={topMenu}
             onToggleTab={this.toggleTab}
             onMenuItemClick={this.onMenuItemClick}
           />
         </Scrollbars>
         <Nav
+          isSidebarOpen={isOpen}
           items={bottomMenu}
           onToggleTab={onToggleTab}
           onMenuItemClick={this.onMenuItemClick}

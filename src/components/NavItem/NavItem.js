@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router';
-import { TimelineLite, Power3 } from 'gsap';
+import { TimelineLite, Power1 } from 'gsap';
 import Permissions from '../../utils/permissions';
 import SubNav from '../SubNav';
 import PropTypes from '../../constants/propTypes';
@@ -18,6 +18,7 @@ class NavItem extends Component {
     onToggleTab: PropTypes.func,
     onMenuItemClick: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
+    isSidebarOpen: PropTypes.bool.isRequired,
   };
   static contextTypes = {
     permissions: PropTypes.array.isRequired,
@@ -32,32 +33,28 @@ class NavItem extends Component {
   };
 
   componentDidMount() {
-    const { items, isOpen } = this.props;
+    const { items } = this.props;
 
     if (items.length) {
       const tl = new TimelineLite({ paused: true });
 
       const submenuDomNode = findDOMNode(this.submenu);
 
-      tl.fromTo(submenuDomNode, 0.15, { height: 0 }, { height: submenuDomNode.scrollHeight, ease: Power3.easeOut })
+      tl.fromTo(submenuDomNode, 0.15, { height: 0 }, { height: submenuDomNode.scrollHeight, ease: Power1.easeOut })
         .fromTo(this.icon, 0.15, { rotation: 0 }, { rotation: 180 }, 0)
         .fromTo(submenuDomNode, 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
-
-      if (isOpen) {
-        tl.play();
-      }
 
       this.tl = tl;
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { isOpen } = this.props;
+    const { isOpen, isSidebarOpen } = this.props;
 
     if (this.submenu) {
-      if ((!prevProps.isOpen && isOpen)) {
+      if ((isOpen && isSidebarOpen) && (!prevProps.isOpen || prevProps.isSidebarOpen === false)) {
         this.tl.play();
-      } else if ((prevProps.isOpen && !isOpen)) {
+      } else if ((prevProps.isOpen && !isOpen) || (prevProps.isSidebarOpen && isSidebarOpen === false)) {
         this.tl.reverse();
       }
     }
