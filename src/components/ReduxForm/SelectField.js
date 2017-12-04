@@ -9,7 +9,7 @@ class SelectField extends Component {
       value: PropTypes.any,
       onChange: PropTypes.func,
     }).isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     labelClassName: PropTypes.string,
     children: PropTypes.node.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
@@ -19,14 +19,16 @@ class SelectField extends Component {
     meta: PropTypes.shape({
       touched: PropTypes.bool,
       error: PropTypes.string,
-    }).isRequired,
+    }),
     inputClassName: PropTypes.string,
     inputAddon: PropTypes.element,
     inputAddonPosition: PropTypes.oneOf(['left', 'right']),
     inputButton: PropTypes.any,
     showInputButton: PropTypes.bool,
+    id: PropTypes.string,
   };
   static defaultProps = {
+    id: null,
     position: 'horizontal',
     showErrorMessage: true,
     disabled: false,
@@ -36,6 +38,12 @@ class SelectField extends Component {
     inputButton: null,
     inputClassName: 'form-control',
     showInputButton: false,
+    label: null,
+    labelClassName: '',
+    meta: {
+      touched: false,
+      error: '',
+    },
   };
 
   renderInput = (props) => {
@@ -50,10 +58,12 @@ class SelectField extends Component {
       meta: { touched, error },
       children,
       multiple,
+      id,
     } = props;
 
     let inputField = (
       <select
+        id={id}
         {...input}
         disabled={disabled}
         multiple={multiple}
@@ -99,7 +109,7 @@ class SelectField extends Component {
 
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        <label className={labelClassName}>{label}</label>
+        {label && <label className={labelClassName}>{label}</label>}
         {this.renderInput(props)}
         {
           showErrorMessage && touched && error &&

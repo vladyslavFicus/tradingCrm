@@ -20,6 +20,10 @@ class View extends Component {
     }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool,
+  };
+  static defaultProps = {
+    isLoading: false,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -102,7 +106,7 @@ class View extends Component {
             <div className="font-size-11 color-secondary">
               {
                 data.lastEditionDate
-                  ? moment(data.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
+                  ? moment.utc(data.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
                   : I18n.t('COMMON.UNKNOWN_TIME')
               }
               {' '}
@@ -119,7 +123,7 @@ class View extends Component {
                   {
                     data.pinned &&
                     <div className="padding-top-10">
-                      <span className="label label-info text-uppercase font-size-11">Pinned Note</span>
+                      <span className="badge badge-info text-uppercase font-size-11">Pinned Note</span>
                     </div>
                   }
                 </div>
@@ -152,8 +156,8 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div className="profile-tab-container">
-        <Sticky top=".panel-heading-row" bottomBoundary={0}>
+      <div>
+        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">Notes</div>
           </div>

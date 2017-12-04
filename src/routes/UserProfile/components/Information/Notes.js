@@ -5,6 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import { entities, entitiesPrefixes } from '../../../../constants/uuid';
 import PopoverButton from '../../../../components/PopoverButton';
 import Uuid from '../../../../components/Uuid';
+import Card, { Content } from '../../../../components/Card';
 
 class Notes extends Component {
   static propTypes = {
@@ -41,7 +42,7 @@ class Notes extends Component {
         <small>
           {
             item.lastEditionDate
-              ? moment(item.lastEditionDate).format('DD.MM.YYYY HH:mm:ss')
+              ? moment.utc(item.lastEditionDate).local().format('DD.MM.YYYY HH:mm:ss')
               : I18n.t('COMMON.UNKNOWN_TIME')
           } {I18n.t('COMMON.TO')} {this.renderItemId(item)}
         </small>
@@ -62,11 +63,11 @@ class Notes extends Component {
         <span className="account-details__label">
           {I18n.t('PLAYER_PROFILE.PINNED_NOTES.TITLE')}
         </span>
-        <div className="panel">
-          <div className="panel-body">
+        <Card>
+          <Content>
             {notesEntities.content.map(this.renderItem)}
-          </div>
-        </div>
+          </Content>
+        </Card>
       </div>
     );
   }

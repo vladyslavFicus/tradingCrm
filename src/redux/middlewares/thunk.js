@@ -1,7 +1,7 @@
-function getActualState(loadedState) {
+function getActualState(defaultValue = null) {
   const storedState = JSON.parse(window.localStorage.getItem('nas:auth'));
 
-  return storedState && storedState.token ? storedState.token : loadedState;
+  return storedState && storedState.token ? storedState.token : defaultValue;
 }
 
 function createThunkMiddleware(extraArgument) {
@@ -9,9 +9,11 @@ function createThunkMiddleware(extraArgument) {
     if (typeof action === 'function') {
       return action(dispatch, () => {
         const { ...state } = getState();
-        if (state.auth && state.auth.token) {
+
+        if (state.auth && state.auth.logged) {
           state.auth.token = getActualState(state.auth.token);
         }
+
         return state;
       }, extraArgument);
     }

@@ -6,6 +6,7 @@ const logger = require('../build/lib/logger');
 const webpackConfig = require('../build/webpack.config');
 const project = require('../project.config');
 const compress = require('compression');
+const proxy = require('express-http-proxy');
 
 const app = express();
 app.use(compress());
@@ -23,6 +24,8 @@ if (project.env === 'development') {
   if (process.env.BRAND_ID) {
     _.set(appConfig, 'nas.brand.name', process.env.BRAND_ID);
   }
+
+  app.use('/api', proxy(_.get(appConfig, 'nas.brand.api.url')));
 
   logger.info('Enabling webpack development and HMR middleware');
   app.use(require('webpack-dev-middleware')(compiler, {

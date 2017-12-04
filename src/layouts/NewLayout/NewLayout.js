@@ -13,6 +13,7 @@ import { actionCreators as userPanelsActionCreators } from '../../redux/modules/
 import { actionCreators as appActionCreators } from '../../redux/modules/app';
 import { actionCreators as windowActionCreators } from '../../redux/modules/window';
 import NotePopover from '../../components/NotePopover';
+import MiniProfilePopover from '../../components/MiniProfilePopover';
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
@@ -21,6 +22,7 @@ import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
 import './NewLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
+const MINI_PROFILE_POPOVER = 'mini-profile-popover';
 const popoverInitialState = {
   name: null,
   params: {},
@@ -32,6 +34,11 @@ class NewLayout extends Component {
     locale: PropTypes.string.isRequired,
     languages: PropTypes.arrayOf(PropTypes.string).isRequired,
     onLocaleChange: PropTypes.func.isRequired,
+    settings: PropTypes.shape({
+      sendMail: PropTypes.bool.isRequired,
+      playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
+      errorParams: PropTypes.object.isRequired,
+    }).isRequired,
     user: PropTypes.shape({
       token: PropTypes.string,
       uuid: PropTypes.string,
@@ -87,6 +94,11 @@ class NewLayout extends Component {
     activePanelIndex: null,
   };
   static childContextTypes = {
+    settings: PropTypes.shape({
+      sendMail: PropTypes.bool.isRequired,
+      playerProfileViewType: PropTypes.oneOf(['page', 'frame']).isRequired,
+      errorParams: PropTypes.object.isRequired,
+    }).isRequired,
     user: PropTypes.shape({
       token: PropTypes.string,
       uuid: PropTypes.string,
@@ -105,6 +117,10 @@ class NewLayout extends Component {
       setNoteChangedCallback: PropTypes.func.isRequired,
       hidePopover: PropTypes.func.isRequired,
     }),
+    miniProfile: PropTypes.shape({
+      onShowMiniProfile: PropTypes.func.isRequired,
+      onHideMiniProfile: PropTypes.func.isRequired,
+    }),
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -119,9 +135,11 @@ class NewLayout extends Component {
       locale,
       addPanel,
       removePanel,
+      settings,
     } = this.props;
 
     return {
+      settings,
       user,
       location,
       permissions,
@@ -137,12 +155,17 @@ class NewLayout extends Component {
         setNoteChangedCallback: this.setNoteChangedCallback,
         hidePopover: this.handlePopoverHide,
       },
+      miniProfile: {
+        onShowMiniProfile: this.handleShowMiniProfile,
+        onHideMiniProfile: this.handleHideMiniProfile,
+      },
     };
   }
 
   state = {
     noteChangedCallback: null,
     popover: { ...popoverInitialState },
+    miniProfilePopover: { ...popoverInitialState },
     isOpenProfile: false,
   };
 
@@ -276,6 +299,28 @@ class NewLayout extends Component {
     this.setState({ popover: { ...popoverInitialState } });
   };
 
+  handleHideMiniProfile = (callback) => {
+    this.setState({ miniProfilePopover: { ...popoverInitialState } }, () => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    });
+  };
+
+  handleShowMiniProfile = (target, params, type, popoverMouseEvents) => {
+    this.setState({
+      miniProfilePopover: {
+        name: MINI_PROFILE_POPOVER,
+        params: {
+          data: params,
+          target,
+          type,
+          popoverMouseEvents,
+        },
+      },
+    });
+  };
+
   handleCloseTabs = () => {
     this.props.resetPanels();
   };
@@ -288,7 +333,7 @@ class NewLayout extends Component {
   };
 
   render() {
-    const { popover, isOpenProfile } = this.state;
+    const { popover, miniProfilePopover, isOpenProfile } = this.state;
     const {
       children,
       router,
@@ -321,7 +366,7 @@ class NewLayout extends Component {
           onOpenTab={toggleMenuTap}
         />
 
-        <div className="section-container">{children}</div>
+        <main className="content-container">{children}</main>
 
         <MyProfileSidebar
           isOpen={isOpenProfile}
@@ -366,12 +411,21 @@ class NewLayout extends Component {
             {...popover.params}
           />
         }
+
+        {
+          miniProfilePopover.name === MINI_PROFILE_POPOVER &&
+          <MiniProfilePopover
+            {...miniProfilePopover.params}
+          />
+        }
+
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  settings: state.settings,
   user: state.auth,
   permissions: state.permissions.data,
   activeUserPanel: state.userPanels.items[state.userPanels.activeIndex] || null,

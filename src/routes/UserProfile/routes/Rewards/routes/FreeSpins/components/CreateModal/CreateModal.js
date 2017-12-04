@@ -6,13 +6,14 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import { InputField, DateTimeField, SelectField } from '../../../../../../../../components/ReduxForm';
-import { createValidator } from '../../../../../../../../utils/validator';
+import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { attributeLabels } from './constants';
 import Amount, { Currency } from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
 import { targetTypes } from '../../../../../../../../constants/note';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
+import { aggregators } from '../../constants';
 
 class CreateModal extends Component {
   static propTypes = {
@@ -20,7 +21,7 @@ class CreateModal extends Component {
     change: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    invalid: PropTypes.bool,
+    invalid: PropTypes.bool.isRequired,
     disabled: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
@@ -45,7 +46,6 @@ class CreateModal extends Component {
   static defaultProps = {
     pristine: false,
     submitting: false,
-    invalid: false,
     disabled: false,
     handleSubmit: null,
     change: null,
@@ -60,6 +60,8 @@ class CreateModal extends Component {
 
   state = {
     currentLines: [],
+    currentCoins: [],
+    currentCoinSizes: [],
     currentGames: [],
   };
 
@@ -89,9 +91,13 @@ class CreateModal extends Component {
     this.props.change('providerId', e);
     this.props.change('gameId', null);
     this.props.change('gameName', null);
+    this.props.change('clientId', null);
+    this.props.change('moduleId', null);
     this.props.change('linesPerSpin', null);
     this.setState({
       currentLines: [],
+      currentCoins: [],
+      currentCoinSizes: [],
       currentGames: this.props.games.filter(i => i.gameProviderId === e.target.value),
     });
   };
@@ -103,13 +109,20 @@ class CreateModal extends Component {
       this.props.change('aggregatorId', game.aggregatorId);
       this.props.change('gameId', game.gameId);
       this.props.change('gameName', game.fullGameName);
+      this.props.change('clientId', game.clientId);
+      this.props.change('moduleId', game.moduleId);
       this.props.change('linesPerSpin', null);
-      this.setState({ currentLines: game.lines });
+      this.setState({
+        currentLines: game.lines,
+        currentCoins: game.coins,
+        currentCoinSizes: game.coinSizes,
+      });
     }
   };
 
   handleNoteClick = (target) => {
     const { note } = this.props;
+
     if (note) {
       this.context.onEditNoteClick(target, note, this.getNotePopoverParams());
     } else {
@@ -127,6 +140,123 @@ class CreateModal extends Component {
     this.context.hidePopover();
   };
 
+  renderAdditionalFields = () => {
+    const { currentValues, currency } = this.props;
+
+    if (currentValues.aggregatorId === aggregators.microgaming) {
+      const { currentCoins, currentCoinSizes } = this.state;
+
+      return (
+        <div className="col-md-8">
+          <div className="row">
+            <div className="col-md-6">
+              <Field
+                name="coinSize"
+                label={I18n.t(attributeLabels.coinSize)}
+                labelClassName="form-label"
+                position="vertical"
+                component={SelectField}
+                showErrorMessage
+                disabled={!currentValues || !currentValues.providerId}
+                inputAddon={<Currency code={currency} />}
+              >
+                <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_COIN_SIZE')}</option>
+                {currentCoinSizes.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="col-md-6">
+              <Field
+                name="numberOfCoins"
+                label={I18n.t(attributeLabels.numberOfCoins)}
+                labelClassName="form-label"
+                position="vertical"
+                component={SelectField}
+                showErrorMessage
+                disabled={!currentValues || !currentValues.providerId}
+              >
+                <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_NUMBER_OF_COINS')}</option>
+                {currentCoins.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="col-md-4">
+        <Field
+          name="betPerLine"
+          type="text"
+          label={I18n.t(attributeLabels.betPerLine)}
+          labelClassName="form-label"
+          position="vertical"
+          component={InputField}
+          placeholder={'0.00'}
+          showErrorMessage
+          disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
+          inputAddon={<Currency code={currency} />}
+        />
+      </div>
+    );
+  };
+
+  renderPrice = () => {
+    const { currentValues, currency } = this.props;
+    let betPrice = 0;
+
+    if (currentValues.aggregatorId === aggregators.microgaming) {
+      const coinSize = (
+        currentValues && currentValues.coinSize
+          ? parseFloat(currentValues.coinSize) : 0
+      ) || 0;
+      const numberOfCoins = (
+        currentValues && currentValues.numberOfCoins
+          ? parseInt(currentValues.numberOfCoins, 10) : 0
+      ) || 0;
+
+      betPrice = coinSize * numberOfCoins;
+    } else {
+      betPrice = currentValues && currentValues.betPerLine
+        ? parseFloat(currentValues.betPerLine) : 0;
+    }
+
+    const linesPerSpin = currentValues && currentValues.linesPerSpin
+      ? parseFloat(currentValues.linesPerSpin) : 0;
+    const freeSpinsAmount = currentValues && currentValues.freeSpinsAmount
+      ? parseInt(currentValues.freeSpinsAmount, 10) : 0;
+    const spinValue = { amount: 0, currency };
+    const totalValue = { amount: 0, currency };
+
+    if (!isNaN(betPrice) && !isNaN(linesPerSpin)) {
+      spinValue.amount = betPrice * linesPerSpin;
+    }
+    if (!isNaN(betPrice) && !isNaN(linesPerSpin) && !isNaN(freeSpinsAmount)) {
+      totalValue.amount = betPrice * linesPerSpin * freeSpinsAmount;
+    }
+
+    return (
+      <div className="row margin-bottom-20">
+        <div className="col-md-12 text-center">
+          <div className="font-size-12 text-muted">
+            {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.FREE_SPIN_VALUE')} = <Amount {...spinValue} />
+          </div>
+          <div className="font-size-12 text-muted">
+            {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TOTAL_VALUE')} = <Amount {...totalValue} />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const {
       onSubmit,
@@ -137,26 +267,11 @@ class CreateModal extends Component {
       disabled,
       invalid,
       currency,
-      providers,
       currentValues,
+      providers,
       note,
     } = this.props;
     const { currentLines, currentGames } = this.state;
-    const betPerLine = currentValues && currentValues.betPerLine
-      ? parseFloat(currentValues.betPerLine) : 0;
-    const linesPerSpin = currentValues && currentValues.linesPerSpin
-      ? parseFloat(currentValues.linesPerSpin) : 0;
-    const freeSpinsAmount = currentValues && currentValues.freeSpinsAmount
-      ? parseInt(currentValues.freeSpinsAmount, 10) : 0;
-    const spinValue = { amount: 0, currency };
-    const totalValue = { amount: 0, currency };
-
-    if (!isNaN(betPerLine) && !isNaN(linesPerSpin)) {
-      spinValue.amount = betPerLine * linesPerSpin;
-    }
-    if (!isNaN(betPerLine) && !isNaN(linesPerSpin) && !isNaN(freeSpinsAmount)) {
-      totalValue.amount = betPerLine * linesPerSpin * freeSpinsAmount;
-    }
 
     return (
       <Modal className="create-free-spin-modal" toggle={onClose} isOpen>
@@ -165,7 +280,7 @@ class CreateModal extends Component {
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TITLE')}
           </ModalHeader>
           <ModalBody>
-            <div className="row margin-bottom-20">
+            <div className="row">
               <div className="col-md-10">
                 <Field
                   name="name"
@@ -178,35 +293,31 @@ class CreateModal extends Component {
                 />
               </div>
             </div>
-            <div className="row margin-bottom-20">
+            <div className="row">
               <div className="col-md-10">
                 <div className="form-group">
                   <label>{I18n.t(attributeLabels.availabilityDateRange)}</label>
-
-                  <div className="row">
-                    <div className="col-md-6">
-                      <Field
-                        name="startDate"
-                        placeholder={I18n.t(attributeLabels.startDate)}
-                        component={DateTimeField}
-                        position="vertical"
-                        isValidDate={this.startDateValidator('endDate')}
-                      />
-                    </div>
-                    <div className="col-md-6">
-                      <Field
-                        name="endDate"
-                        placeholder={I18n.t(attributeLabels.endDate)}
-                        component={DateTimeField}
-                        position="vertical"
-                        isValidDate={this.endDateValidator('startDate')}
-                      />
-                    </div>
+                  <div className="range-group">
+                    <Field
+                      name="startDate"
+                      placeholder={I18n.t(attributeLabels.startDate)}
+                      component={DateTimeField}
+                      position="vertical"
+                      isValidDate={this.startDateValidator('endDate')}
+                    />
+                    <span className="range-group__separator">-</span>
+                    <Field
+                      name="endDate"
+                      placeholder={I18n.t(attributeLabels.endDate)}
+                      component={DateTimeField}
+                      position="vertical"
+                      isValidDate={this.endDateValidator('startDate')}
+                    />
                   </div>
                 </div>
               </div>
             </div>
-            <div className="row margin-bottom-20">
+            <div className="row">
               <div className="col-md-4">
                 <Field
                   name="providerId"
@@ -257,7 +368,7 @@ class CreateModal extends Component {
                 />
               </div>
             </div>
-            <div className="row margin-bottom-20">
+            <div className="row">
               <div className="col-md-4">
                 <Field
                   name="linesPerSpin"
@@ -276,31 +387,9 @@ class CreateModal extends Component {
                   ))}
                 </Field>
               </div>
-              <div className="col-md-4">
-                <Field
-                  name="betPerLine"
-                  type="text"
-                  label={I18n.t(attributeLabels.betPerLine)}
-                  labelClassName="form-label"
-                  position="vertical"
-                  component={InputField}
-                  placeholder={'0.00'}
-                  showErrorMessage
-                  disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
-                  inputAddon={<Currency code={currency} />}
-                />
-              </div>
-              <div className="col-md-4">
-                <div className="margin-top-30">
-                  <div className="font-size-12 text-muted">
-                    {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.FREE_SPIN_VALUE')} = <Amount {...spinValue} />
-                  </div>
-                  <div className="font-size-12 text-muted">
-                    {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TOTAL_VALUE')} = <Amount {...totalValue} />
-                  </div>
-                </div>
-              </div>
+              {this.renderAdditionalFields()}
             </div>
+            {this.renderPrice()}
             <div className="row">
               <div className="col-md-3">
                 <Field
@@ -330,6 +419,8 @@ class CreateModal extends Component {
                   showErrorMessage={false}
                 />
               </div>
+            </div>
+            <div className="row">
               <div className="col-md-3">
                 <Field
                   name="multiplier"
@@ -343,7 +434,7 @@ class CreateModal extends Component {
                   showErrorMessage={false}
                 />
               </div>
-              <div className="col-md-3">
+              <div className="col-md-4">
                 <Field
                   name="bonusLifeTime"
                   label={I18n.t(attributeLabels.bonusLifeTime)}
@@ -358,7 +449,7 @@ class CreateModal extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-md-7">
                 <Field
                   name="moneyTypePriority"
                   label={I18n.t(attributeLabels.moneyTypePriority)}
@@ -374,7 +465,7 @@ class CreateModal extends Component {
                 </Field>
               </div>
             </div>
-            <div className="row margin-top-20">
+            <div className="row">
               <div className="col-md-12 text-center">
                 <NoteButton
                   id="free-spin-create-modal-note"
@@ -387,7 +478,7 @@ class CreateModal extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
               disabled={submitting}
               type="reset"
               onClick={onClose}
@@ -399,7 +490,7 @@ class CreateModal extends Component {
               className="btn btn-primary"
               disabled={pristine || submitting || invalid}
             >
-              {I18n.t('COMMON.SAVE')}
+              {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.BUTTON')}
             </button>
           </ModalFooter>
         </form>
@@ -408,23 +499,18 @@ class CreateModal extends Component {
   }
 }
 
-const validatorAttributeLabels = Object.keys(attributeLabels).reduce((res, name) => ({
-  ...res,
-  [name]: I18n.t(attributeLabels[name]),
-}), {});
 const FORM_NAME = 'freeSpinManage';
 const CreateModalReduxForm = reduxForm({
   form: FORM_NAME,
   validate: (values) => {
     const rules = {
       name: 'required|string',
-      startDate: 'required|string',
-      endDate: 'required|string',
+      startDate: 'required|regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+      endDate: 'required|regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
       providerId: 'required',
       gameId: 'required',
       freeSpinsAmount: ['required', 'integer'],
       linesPerSpin: ['required', 'integer'],
-      betPerLine: ['required', 'numeric', 'max:1000'],
       prize: ['numeric'],
       capping: ['numeric'],
       multiplier: 'required|numeric',
@@ -447,7 +533,14 @@ const CreateModalReduxForm = reduxForm({
       }
     }
 
-    return createValidator(rules, validatorAttributeLabels, false)(values);
+    if (values.aggregatorId === aggregators.microgaming) {
+      rules.coinSize = ['required', 'numeric'];
+      rules.numberOfCoins = ['required', 'numeric'];
+    } else {
+      rules.betPerLine = ['required', 'numeric', 'max:1000'];
+    }
+
+    return createValidator(rules, translateLabels(attributeLabels), false)(values);
   },
 })(CreateModal);
 

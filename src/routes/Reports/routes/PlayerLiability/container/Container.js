@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
-import { actionCreators } from '../modules/index';
-import config from 'config/index';
+import { actionCreators } from '../modules';
+import config from '../../../../../config';
 
 const mapStateToProps = ({ playerLiabilityReport }) => ({
   ...playerLiabilityReport,
-  currency: config.nas.currencies.base,
+  currency: config.nas.brand.currencies.base,
 });
 const mapActions = {
   onReportDownload: actionCreators.downloadReport,

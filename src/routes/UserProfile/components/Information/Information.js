@@ -5,6 +5,8 @@ import IpList from '../../../../components/Information/IpList';
 import Personal from './Personal';
 import Additional from './Additional';
 import Notes from './Notes';
+import PermissionContent from '../../../../components/PermissionContent';
+import permissions from '../../../../config/permissions';
 
 class Information extends Component {
   static propTypes = {
@@ -44,12 +46,14 @@ class Information extends Component {
           <div className="col-md-2">
             <IpList label={I18n.t('PLAYER_PROFILE.IP_LIST.TITLE')} ips={ips} />
           </div>
-          <div className="col-md-4">
-            <Notes
-              notes={notes}
-              onEditNoteClick={onEditNoteClick}
-            />
-          </div>
+          <PermissionContent permissions={permissions.NOTES.VIEW_NOTES}>
+            <div className="col-md-4">
+              <Notes
+                notes={notes}
+                onEditNoteClick={onEditNoteClick}
+              />
+            </div>
+          </PermissionContent>
         </div>
       </div>
     );

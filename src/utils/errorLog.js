@@ -1,5 +1,6 @@
 import keyMirror from 'keymirror';
-import { getErrorApiUrl, getBrand, getVersion } from '../config';
+import config, { getErrorApiUrl, getBrand, getVersion } from '../config';
+import Storage from '../utils/storage';
 
 const errorTypes = keyMirror({
   INTERNAL: null,
@@ -17,17 +18,24 @@ const sendError = (params) => {
     return false;
   }
 
+  let body = {
+    ...params,
+    brand: getBrand(),
+    version: getVersion(),
+  };
+
+  const settings = Storage.get(`${config.middlewares.persist.keyPrefix}settings`, true);
+  if (settings) {
+    body = { ...body, ...settings.errorParams };
+  }
+
   return fetch(getErrorApiUrl(), {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      ...params,
-      brand: getBrand(),
-      version: getVersion(),
-    }),
+    body: JSON.stringify(body),
   });
 };
 

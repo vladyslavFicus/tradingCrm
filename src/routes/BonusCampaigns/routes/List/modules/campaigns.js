@@ -8,12 +8,12 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
+import { sourceActionCreators } from '../../../../../redux/modules/bonusCampaigns';
 
 const KEY = 'bonusCampaigns/campaigns';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);
 const CREATE_CAMPAIGN = createRequestAction(`${KEY}/create-campaign`);
 const EXPORT_ENTITIES = createRequestAction(`${KEY}/export-entities`);
-const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const RESET_CAMPAIGNS = `${KEY}/reset`;
 
 const mergeEntities = (stored, fetched) => {
@@ -28,45 +28,7 @@ const mergeEntities = (stored, fetched) => {
   return merged;
 };
 
-function fetchEntities(filters = {}) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    const queryParams = { page: 0, orderByPriority: true, ...filters };
-
-    if (queryParams.state) {
-      if (queryParams.state === statuses.CANCELED) {
-        queryParams.state = statuses.FINISHED;
-        queryParams.stateReason = statusesReasons.CANCELED;
-      }
-    }
-
-    const queryString = buildQueryString(
-      _.omitBy(queryParams, val => !val),
-    );
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `promotion/campaigns?${queryString}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          {
-            type: FETCH_ENTITIES.REQUEST,
-            meta: { filters },
-          },
-          FETCH_ENTITIES.SUCCESS,
-          FETCH_ENTITIES.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
+const fetchEntities = sourceActionCreators.fetchCampaigns(FETCH_ENTITIES);
 
 function createCampaign(data) {
   return (dispatch, getState) => {
@@ -138,31 +100,6 @@ function exportEntities(filters = {}) {
   };
 }
 
-
-function changeCampaignState(state, id) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `promotion/campaigns/${id}/${state}`,
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          CHANGE_CAMPAIGN_STATE.REQUEST,
-          CHANGE_CAMPAIGN_STATE.SUCCESS,
-          CHANGE_CAMPAIGN_STATE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
 function resetCampaigns() {
   return {
     type: RESET_CAMPAIGNS,
@@ -219,14 +156,12 @@ const actionHandlers = {
 const actionTypes = {
   FETCH_ENTITIES,
   EXPORT_ENTITIES,
-  CHANGE_CAMPAIGN_STATE,
   RESET_CAMPAIGNS,
 };
 const actionCreators = {
   fetchEntities,
   createCampaign,
   exportEntities,
-  changeCampaignState,
   resetCampaigns,
 };
 

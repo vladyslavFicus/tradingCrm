@@ -42,14 +42,18 @@
     &-tab {
       padding-left: 1.2rem;
     }
+    &-item {
+      white-space: normal;
+    }
   }
 
   .dropdown-menu {
     top: 100%;
+    width: auto;
     min-width: 100%;
     margin: 0;
     padding: 0;
-    border: 1px solid #eee;
+    border: none;
     border-radius: 0;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, .15);
   }
@@ -73,6 +77,7 @@
 
     .dropdown-menu {
       top: 110%;
+      border: 1px solid #eee;
     }
 
     .dropdown-menu .dropdown-item {
@@ -91,19 +96,19 @@
   &_balance {
     padding-left: 0;
 
-    .dropdown-menu__content {
-      display: inline-flex;
-      width: 100%;
-    }
-
     .dropdown-menu {
-      padding: 1rem 0;
-      border: none;
-      box-shadow: 4px 4px 4px rgba(0,0,0,.15);
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      &__content {
+        display: inline-flex;
+        width: 100%;
+      }
       .dropdown-item {
+        display: inline-block;
         flex: 1;
-        min-width: 1px;
-        padding: 0 0 0 1.5rem;
+        padding: 0 10px;
+        text-align: center;
+        white-space: nowrap;
         &:nth-child(n+2) {
           border-left: 1px solid #dfe4ed;
         }
@@ -124,10 +129,6 @@
         font-size: 11px;
       }
     }
-  }
-
-  &_wallet-limits {
-    padding-left: 0;
   }
 }
 

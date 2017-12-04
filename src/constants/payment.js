@@ -2,6 +2,7 @@ import keyMirror from 'keymirror';
 import I18n from '../utils/fake-i18n';
 
 const statuses = keyMirror({
+  APPROVED: null,
   PENDING: null,
   REFUSED: null,
   FAILED: null,
@@ -68,6 +69,22 @@ const accountStatusActions = {
   ],
 };
 
+const chargebackReasons = {
+  'PAYMENT.DEPOSIT_CHARGEBACK.REASONS.STOLEN_LOST_CC':
+    I18n.t('PAYMENT.DEPOSIT_CHARGEBACK.REASONS.STOLEN_LOST_CC'),
+  'PAYMENT.DEPOSIT_CHARGEBACK.REASONS.CUSTOMER_NOT_SATISFIED':
+    I18n.t('PAYMENT.DEPOSIT_CHARGEBACK.REASONS.CUSTOMER_NOT_SATISFIED'),
+};
+
+const rejectReasons = {
+  'PAYMENT.WITHDRAW_REJECT.REASONS.USING_DIFFERENT_PM':
+    I18n.t('PAYMENT.WITHDRAW_REJECT.REASONS.USING_DIFFERENT_PM'),
+  'PAYMENT.WITHDRAW_REJECT.REASONS.USING_3RD_PARTY_PM':
+    I18n.t('PAYMENT.WITHDRAW_REJECT.REASONS.USING_3RD_PARTY_PM'),
+  'PAYMENT.WITHDRAW_REJECT.REASONS.CUSTOMER_REQUEST':
+    I18n.t('PAYMENT.WITHDRAW_REJECT.REASONS.CUSTOMER_REQUEST'),
+};
+
 const paymentActions = {
   REJECT: 'refuse',
   CHARGEBACK: 'chargeback',
@@ -87,6 +104,7 @@ const manualTypesLabels = {
 };
 
 const statusesLabels = {
+  [statuses.APPROVED]: 'Approved',
   [statuses.PENDING]: 'Pending',
   [statuses.REFUSED]: 'Refused',
   [statuses.FAILED]: 'Failed',
@@ -127,6 +145,7 @@ const typesProps = {
 };
 
 const statusesColor = {
+  [statuses.APPROVED]: 'color-success',
   [statuses.PENDING]: 'color-info',
   [statuses.REFUSED]: 'color-warning',
   [statuses.FAILED]: 'color-danger',
@@ -169,4 +188,6 @@ export {
   accountStatusLabels,
   accountStatusColors,
   accountStatusActions,
+  chargebackReasons,
+  rejectReasons,
 };

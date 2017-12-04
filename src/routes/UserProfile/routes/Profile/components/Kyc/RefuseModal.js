@@ -63,11 +63,10 @@ class RefuseModal extends Component {
     className: 'modal-danger',
     reasons: [],
     note: null,
-  };
-  static contextTypes = {
-    onAddNoteClick: PropTypes.func.isRequired,
-    onEditNoteClick: PropTypes.func.isRequired,
-    hidePopover: PropTypes.func.isRequired,
+    pristine: false,
+    submitting: false,
+    invalid: false,
+    selectedValues: null,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -119,7 +118,6 @@ class RefuseModal extends Component {
             selectedValues && selectedValues[type] &&
             <Field
               name={`${type}_reason`}
-              label={attributeLabels.reason}
               component={SelectField}
               position="vertical"
             >
@@ -170,7 +168,7 @@ class RefuseModal extends Component {
               {this.renderRejectByType(kycCategories.KYC_ADDRESS)}
             </div>
 
-            <div className="row text-center margin-top-20">
+            <div className="text-center margin-top-20">
               <NoteButton
                 id="refuse-kyc-note-button"
                 note={note}
@@ -182,7 +180,7 @@ class RefuseModal extends Component {
           <ModalFooter>
             <button
               onClick={onClose}
-              className="btn btn-default-outline pull-left"
+              className="btn btn-default-outline mr-auto"
             >
               Cancel
             </button>

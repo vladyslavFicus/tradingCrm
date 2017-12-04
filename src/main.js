@@ -9,7 +9,7 @@ import createTokenService from './services/token';
 
 if (window) {
   window.isFrame = window.parent && window.parent !== window && !!window.parent.postMessage;
-  window.showDebugPanel = window.isFrame ? window.parent.showDebugPanel : __DEV__;
+  window.showDebugPanel = false;
   window.reduxLocked = false;
   window.reduxLockedQueue = [];
   window.activeConnections = [];

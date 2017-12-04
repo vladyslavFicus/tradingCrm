@@ -35,7 +35,7 @@ const FeedInfoLogout = ({ data }) => (
       <div>
         {I18n.t('FEED_ITEM.LOG_OUT.SESSION_START')}:
         <span className="feed-item_info-details_value">
-          {moment(data.details.sessionStart).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
+          {moment.utc(data.details.sessionStart).local().format('DD.MM.YYYY \\a\\t HH:mm:ss')}
         </span>
       </div>
     }
@@ -44,7 +44,7 @@ const FeedInfoLogout = ({ data }) => (
       <div>
         {I18n.t('FEED_ITEM.LOG_OUT.SESSION_END')}:
         <span className="feed-item_info-details_value">
-          {moment(data.details.sessionEnd).format('DD.MM.YYYY \\a\\t HH:mm:ss')}
+          {moment.utc(data.details.sessionEnd).local().format('DD.MM.YYYY \\a\\t HH:mm:ss')}
         </span>
       </div>
     }

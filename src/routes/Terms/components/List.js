@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Panel, { Title, Content } from 'components/Panel';
+import Card, { Title, Content } from 'components/Card';
 import GridView, { GridColumn } from 'components/GridView';
 import { Link } from 'react-router';
 import moment from 'moment';
@@ -43,7 +43,7 @@ class List extends Component {
     const { list: { entities } } = this.props;
 
     return <div className="page-content-inner">
-      <Panel withBorders>
+      <Card>
         <Title>
           <h3>Terms & conditions</h3>
         </Title>
@@ -74,7 +74,7 @@ class List extends Component {
               header="Publication date"
               headerClassName="text-center"
               headerStyle={{ width: '15%' }}
-              render={(data, column) => moment(data[column.name]).format('DD.MM.YYYY HH:mm:ss')}
+              render={(data, column) => moment.utc(data[column.name]).local().format('DD.MM.YYYY HH:mm:ss')}
               className="text-center"
             />
             <GridColumn
@@ -95,7 +95,7 @@ class List extends Component {
             />
           </GridView>
         </Content>
-      </Panel>
+      </Card>
     </div>;
   }
 }

@@ -7,10 +7,11 @@ const targetTypes = keyMirror({
   PAYMENT: null,
   FILE: null,
   LIMIT: null,
-  PAYMENT_ACCOUNT: null,
+  PAYMENTACCOUNT: null,
   KYC_REQUEST_VERIFICATION: null,
   KYC_VERIFY: null,
   KYC_REFUSE: null,
+  PAYMENTACCOUNTATTACHMENT: null,
 });
 const targetTypesLabels = {
   [targetTypes.PROFILE]: 'Profile',
@@ -19,10 +20,11 @@ const targetTypesLabels = {
   [targetTypes.PAYMENT]: 'Payment',
   [targetTypes.FILE]: 'File',
   [targetTypes.LIMIT]: 'Limit',
-  [targetTypes.PAYMENT_ACCOUNT]: 'Payment Account',
+  [targetTypes.PAYMENTACCOUNT]: 'Payment account',
   [targetTypes.KYC_REQUEST_VERIFICATION]: 'KYC Request Verification',
   [targetTypes.KYC_REQUEST_VERIFICATION]: 'KYC Verify',
   [targetTypes.KYC_REQUEST_VERIFICATION]: 'KYC Refuse',
+  [targetTypes.PAYMENTACCOUNTATTACHMENT]: 'Payment account attachment',
 };
 
 export {

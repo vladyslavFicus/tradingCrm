@@ -1,6 +1,4 @@
 import createReducer from '../../utils/createReducer';
-import Permissions, { CONDITIONS } from '../../utils/permissions';
-import permission from '../../config/permissions';
 import I18n from '../../utils/fake-i18n';
 import { actionTypes as windowActionTypes } from './window';
 
@@ -28,12 +26,12 @@ const initialState = {
       url: '/operators/list',
     },
     {
-      label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
+      label: I18n.t('SIDEBAR.TOP_MENU.TRANSACTIONS'),
       icon: 'fa fa-credit-card',
       isOpen: false,
       items: [
-        { label: I18n.t('SIDEBAR.TOP_MENU.TRANSACTIONS'), url: '/transactions' },
-        { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'), url: '/paymentMethods' },
+        { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'), url: '/transactions' },
+        { label: I18n.t('SIDEBAR.TOP_MENU.OPEN_LOOP'), url: '/transactions/open-loops' },
       ],
     },
     {
@@ -42,38 +40,13 @@ const initialState = {
       url: '/bonus-campaigns',
     },
     {
-      label: 'MGA',
-      icon: 'fa fa-pie-chart',
+      label: I18n.t('SIDEBAR.TOP_MENU.SETTINGS'),
+      icon: 'fa fa-gear',
       isOpen: false,
       items: [
-        {
-          label: I18n.t('SIDEBAR.TOP_MENU.PLAYER_LIABILITY'),
-          url: '/reports/player-liability',
-          permissions: new Permissions([
-            permission.REPORTS.PLAYER_LIABILITY_VIEW,
-            permission.REPORTS.PLAYER_LIABILITY_FILE_VIEW,
-            permission.REPORTS.PLAYER_LIABILITY_FILES_VIEW,
-          ], CONDITIONS.OR),
-        },
-        {
-          label: I18n.t('SIDEBAR.TOP_MENU.REVENUE'),
-          url: '/reports/revenue',
-          permissions: new Permissions([permission.REPORTS.VAT_VIEW]),
-        },
-        {
-          label: I18n.t('SIDEBAR.TOP_MENU.DORMANT'),
-          url: '/users/dormant',
-        },
-        {
-          label: I18n.t('SIDEBAR.TOP_MENU.OPEN_LOOP'),
-          url: '/transactions/open-loops',
-        },
+        { label: I18n.t('SIDEBAR.TOP_MENU.GAMES'), url: '/settings/games' },
+        { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'), url: '/settings/paymentMethods' },
       ],
-    },
-    {
-      label: I18n.t('SIDEBAR.TOP_MENU.GAMES'),
-      icon: 'fa fa-gamepad',
-      url: '/games',
     },
   ],
   sidebarBottomMenu: [
@@ -106,13 +79,11 @@ const actionCreators = {
   toggleMenuTap,
   menuClick,
 };
-
 const actionTypes = {
   SET_SCROLL_TO_TOP,
   TOGGLE_MENU_TAP,
   MENU_CLICK,
 };
-
 const actionHandlers = {
   [SET_SCROLL_TO_TOP]: (state, action) => ({
     ...state,
@@ -125,27 +96,20 @@ const actionHandlers = {
     isInitializedScroll: state.isInitializedScroll || action.payload,
   }),
   [TOGGLE_MENU_TAP]: (state, action) => {
-    const newSidebarTopMenu = [ ...state.sidebarTopMenu ];
+    const newSidebarTopMenu = [...state.sidebarTopMenu];
     const index = action.payload;
 
     return {
       ...state,
-      sidebarTopMenu: newSidebarTopMenu.map((menuItem, menuItemIndex) => {
-        if (menuItemIndex !== index) {
-          menuItem.isOpen = false;
-        }
-
-        if (menuItemIndex === index) {
-          menuItem.isOpen = !menuItem.isOpen;
-        }
-
-        return menuItem;
-      }),
+      sidebarTopMenu: newSidebarTopMenu.map((menuItem, menuItemIndex) => ({
+        ...menuItem,
+        isOpen: menuItemIndex !== index || !menuItem.isOpen,
+      })),
     };
   },
-  [MENU_CLICK]: (state, action) => ({
+  [MENU_CLICK]: state => ({
     ...state,
-    sidebarTopMenu: state.sidebarTopMenu.map(menuItem => menuItem.items ? { ...menuItem, isOpen: false } : menuItem),
+    sidebarTopMenu: state.sidebarTopMenu.map(menuItem => (menuItem.items ? { ...menuItem, isOpen: false } : menuItem)),
   }),
 };
 

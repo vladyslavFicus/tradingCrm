@@ -2,36 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
-import { createValidator } from '../../../../../utils/validator';
+import { I18n } from 'react-redux-i18n';
+import { createValidator, translateLabels } from '../../../../../utils/validator';
 import PropTypes from '../../../../../constants/propTypes';
 import { categoriesLabels } from '../../../../../constants/files';
+import { attributeLabels } from '../constants';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
-
-const FORM_NAME = 'userFilesFilter';
-const attributeLabels = {
-  keyword: 'Search by',
-  fileCategory: 'File category',
-  uploadDateFrom: 'Start date',
-  uploadDateTo: 'End date',
-};
-const validate = createValidator({
-  searchBy: 'string',
-  category: 'string',
-  uploadDateFrom: 'string',
-  uploadDateTo: 'string',
-}, attributeLabels, false);
 
 class FilesFilterForm extends Component {
   static propTypes = {
-    submitting: PropTypes.bool,
-    handleSubmit: PropTypes.func,
+    submitting: PropTypes.bool.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    reset: PropTypes.func,
+    reset: PropTypes.func.isRequired,
     currentValues: PropTypes.object,
+    invalid: PropTypes.bool,
   };
 
   static defaultProps = {
     currentValues: {},
+    invalid: true,
   };
 
   handleReset = () => {
@@ -60,6 +50,7 @@ class FilesFilterForm extends Component {
       submitting,
       handleSubmit,
       onSubmit,
+      invalid,
     } = this.props;
 
     return (
@@ -70,7 +61,7 @@ class FilesFilterForm extends Component {
               <Field
                 name="searchBy"
                 type="text"
-                label={attributeLabels.keyword}
+                label={I18n.t(attributeLabels.keyword)}
                 placeholder={'File name, File ID'}
                 component={InputField}
                 position="vertical"
@@ -80,11 +71,11 @@ class FilesFilterForm extends Component {
             <div className="filter-row__small">
               <Field
                 name="fileCategory"
-                label={attributeLabels.fileCategory}
+                label={I18n.t(attributeLabels.fileCategory)}
                 component={SelectField}
                 position="vertical"
               >
-                <option value="">Any</option>
+                <option value="">{I18n.t('COMMON.ANY')}</option>
                 {Object.keys(categoriesLabels).map(category => (
                   <option key={category} value={category}>
                     {categoriesLabels[category]}
@@ -94,21 +85,25 @@ class FilesFilterForm extends Component {
             </div>
             <div className="filter-row__big">
               <div className="form-group">
-                <label>Date range</label>
+                <label>
+                  {I18n.t('PLAYER_PROFILE.FILES.FILTER_FORM.LABEL.DATE_RANGE')}
+                </label>
                 <div className="range-group">
                   <Field
                     name="uploadDateFrom"
-                    placeholder={attributeLabels.startDate}
+                    placeholder={I18n.t(attributeLabels.uploadDateFrom)}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator}
+                    timeFormat={null}
                     position="vertical"
                   />
                   <span className="range-group__separator">-</span>
                   <Field
                     name="uploadDateTo"
-                    placeholder={attributeLabels.endDate}
+                    placeholder={I18n.t(attributeLabels.uploadDateTo)}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator}
+                    timeFormat={null}
                     position="vertical"
                   />
                 </div>
@@ -122,14 +117,14 @@ class FilesFilterForm extends Component {
                   onClick={this.handleReset}
                   type="reset"
                 >
-                  Reset
+                  {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting}
+                  disabled={submitting || invalid}
                   className="btn btn-primary"
                   type="submit"
                 >
-                  Apply
+                  {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
             </div>
@@ -140,11 +135,19 @@ class FilesFilterForm extends Component {
   }
 }
 
+const FORM_NAME = 'userFilesFilter';
+
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
 }))(
   reduxForm({
     form: FORM_NAME,
-    validate,
+    touchOnChange: true,
+    validate: createValidator({
+      searchBy: 'string',
+      category: 'string',
+      uploadDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+      uploadDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
+    }, translateLabels(attributeLabels), false),
   })(FilesFilterForm),
 );

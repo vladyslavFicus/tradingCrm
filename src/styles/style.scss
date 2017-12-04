@@ -1,7 +1,10 @@
 @import '~react-dates/css/variables';
 @import '~react-dates/css/styles';
 @import '~react-datetime/css/react-datetime.css';
-@import "settings/variables";
-@import "utilities/utilities";
+@import "fonts";
+@import "variables";
+@import "helpers";
+@import "utilities";
 @import "base/base";
 @import "components/components";
+@import "flags/flags";

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import View from '../components/View';
-import { actionCreators } from '../modules/index';
+import { actionCreators } from '../modules';
 
 const mapStateToProps = ({ operatorFeed, i18n: { locale } }) => ({
   ...operatorFeed,

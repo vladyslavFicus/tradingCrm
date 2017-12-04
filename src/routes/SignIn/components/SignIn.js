@@ -14,6 +14,7 @@ class SignIn extends Component {
     location: PropTypes.shape({
       query: PropTypes.shape({
         returnUrl: PropTypes.string,
+        spec: PropTypes.string,
       }),
     }).isRequired,
     signIn: PropTypes.func.isRequired,
@@ -70,9 +71,12 @@ class SignIn extends Component {
 
     if (action) {
       if (!action.error) {
+        console.info('Sign in successful');
+
         this.setState({ logged: true }, () => {
           const { departmentsByBrand, token, uuid } = action.payload;
           const brands = Object.keys(departmentsByBrand);
+          console.info(`Logged with ${brands.length} brands`);
 
           if (brands.length === 1) {
             const departments = Object.keys(departmentsByBrand[brands[0]]);
@@ -84,6 +88,8 @@ class SignIn extends Component {
         });
       } else {
         const error = action.payload.response.error ? action.payload.response.error : action.payload.message;
+        console.info(`Sign in failure, reason: ${error}`);
+
         throw new SubmissionError({ _error: error });
       }
     }
@@ -97,6 +103,7 @@ class SignIn extends Component {
       data: { token: dataToken, uuid: dataUuid },
       fetchAuthorities,
       fetchProfile,
+      reset,
     } = this.props;
     const token = requestToken || dataToken;
     const uuid = requestUuid || dataUuid;
@@ -105,7 +112,7 @@ class SignIn extends Component {
       const action = await changeDepartment(department, brand, token);
 
       this.resetStateTimeout = setTimeout(() => this.setState({ loading: false }, () => {
-        this.props.reset();
+        reset();
       }), 2000);
 
       if (action) {
@@ -149,6 +156,7 @@ class SignIn extends Component {
       brands,
       departments,
       fullName,
+      selectBrand,
     } = this.props;
 
     return (
@@ -170,7 +178,7 @@ class SignIn extends Component {
               activeBrand={brand}
               username={fullName}
               brands={brands}
-              onSelect={this.props.selectBrand}
+              onSelect={selectBrand}
             />
 
             <SignInDepartments
@@ -180,7 +188,7 @@ class SignIn extends Component {
               username={fullName}
               departments={departments}
               onSelect={({ id }) => this.handleSelectDepartment(brand.brand, id)}
-              onBackClick={() => this.props.selectBrand(null)}
+              onBackClick={() => selectBrand(null)}
             />
           </div>
         </div>

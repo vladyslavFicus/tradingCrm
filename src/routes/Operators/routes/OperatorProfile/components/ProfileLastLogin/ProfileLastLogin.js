@@ -28,16 +28,16 @@ class ProfileLastLogin extends Component {
             : (
               <div>
                 <div className="header-block-middle" key="time-ago">
-                  {lastIp.signInDate && moment.utc(lastIp.signInDate).fromNow()}
+                  {lastIp.signInDate && moment.utc(lastIp.signInDate).local().fromNow()}
                 </div>
                 <div className="header-block-small">
-                  {lastIp.signInDate && moment.utc(lastIp.signInDate).format('DD.MM.YYYY hh:mm')}
+                  {lastIp.signInDate && moment.utc(lastIp.signInDate).local().format('DD.MM.YYYY HH:mm')}
                 </div>
                 <div className="header-block-small">
                   {lastIp.country && I18n.t('PROFILE.LAST_LOGIN.FROM_COUNTRY', { country: lastIp.country })}
                 </div>
               </div>
-          )
+            )
         }
       </div>
     );

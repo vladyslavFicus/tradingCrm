@@ -12,12 +12,16 @@ import { targetTypes } from '../../../constants/note';
 import Information from '../components/Information';
 import PropTypes from '../../../constants/propTypes';
 import getFileBlobUrl from '../../../utils/getFileBlobUrl';
-import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../../redux/modules/window';
+import {
+  actionCreators as windowActionCreators,
+} from '../../../redux/modules/window';
 import {
   UploadModal as UploadFileModal,
-  DeleteModal as DeleteFileModal
+  DeleteModal as DeleteFileModal,
 } from '../../../components/Files';
-import './ProfileLayout.scss';
+import ChangePasswordModal from '../../../components/ChangePasswordModal';
+import ShareLinkModal from '../components/ShareLinkModal';
+import ConfirmActionModal from '../../../components/Modal/ConfirmActionModal';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -28,6 +32,9 @@ const MODAL_WALLET_LIMIT = 'wallet-limit-modal';
 const MODAL_INFO = 'info-modal';
 const MODAL_UPLOAD_FILE = 'upload-modal';
 const MODAL_DELETE_FILE = 'delete-modal';
+const MODAL_CHANGE_PASSWORD = 'change-password-modal';
+const MODAL_SHARE_PROFILE = 'share-profile-modal';
+const MODAL_RESET_PASSWORD = 'reset-password-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -84,8 +91,8 @@ class ProfileLayout extends Component {
     resetPassword: PropTypes.func.isRequired,
     activateProfile: PropTypes.func.isRequired,
     checkLock: PropTypes.func.isRequired,
-    walletLimits: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+    playerLimits: PropTypes.shape({
+      entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
         locked: PropTypes.bool.isRequired,
         canUnlock: PropTypes.bool.isRequired,
@@ -98,7 +105,7 @@ class ProfileLayout extends Component {
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number,
     }).isRequired,
-    walletLimitAction: PropTypes.func.isRequired,
+    playerLimitAction: PropTypes.func.isRequired,
     uploadModalInitialValues: PropTypes.object.isRequired,
     cancelFile: PropTypes.func.isRequired,
     resetUploading: PropTypes.func.isRequired,
@@ -106,13 +113,20 @@ class ProfileLayout extends Component {
     fetchFiles: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
     manageNote: PropTypes.func.isRequired,
+    fetchBalances: PropTypes.func.isRequired,
+    unlockLogin: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    saveFiles: PropTypes.func.isRequired,
+    deleteFile: PropTypes.func.isRequired,
   };
   static defaultProps = {
     availableTags: [],
     currentTags: [],
     availableStatuses: [],
     lastIp: null,
+  };
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
   };
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
@@ -127,6 +141,15 @@ class ProfileLayout extends Component {
     onDeleteFileClick: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
+  };
+
+  state = {
+    popover: { ...popoverInitialState },
+    modal: { ...modalInitialState },
+    imageViewer: { ...imageViewerInitialState },
+    noteChangedCallback: null,
+    fileChangedCallback: null,
+    informationShown: true,
   };
 
   getChildContext() {
@@ -146,39 +169,13 @@ class ProfileLayout extends Component {
     };
   }
 
-  state = {
-    popover: { ...popoverInitialState },
-    modal: { ...modalInitialState },
-    imageViewer: { ...imageViewerInitialState },
-    noteChangedCallback: null,
-    fileChangedCallback: null,
-    informationShown: true,
-  };
-
-  cacheChildrenComponent = (component) => {
-    this.children = component;
-  };
-
   componentWillMount() {
-    document.body.classList.add('user-profile-layout');
     window.addEventListener('scroll', this.handleScrollWindow);
   }
 
   componentDidMount() {
     this.handleLoadAdditionalProfileData();
   }
-
-  isShowScrollTop = () => document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
-
-  handleScrollWindow = _.debounce(() => {
-    if (window.isFrame) {
-      if (this.isShowScrollTop()) {
-        window.dispatchAction(windowActionCreators.showScrollToTop(true));
-      } else if (!this.isShowScrollTop()) {
-        window.dispatchAction(windowActionCreators.showScrollToTop(false));
-      }
-    }
-  }, 300);
 
   componentWillUnmount() {
     document.body.classList.remove('user-profile-layout');
@@ -191,7 +188,23 @@ class ProfileLayout extends Component {
 
   setFileChangedCallback = (cb) => {
     this.setState({ fileChangedCallback: cb });
-  }
+  };
+
+  cacheChildrenComponent = (component) => {
+    this.children = component;
+  };
+
+  isShowScrollTop = () => document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
+
+  handleScrollWindow = _.debounce(() => {
+    if (window.isFrame) {
+      if (this.isShowScrollTop()) {
+        window.dispatchAction(windowActionCreators.showScrollToTop(true));
+      } else if (!this.isShowScrollTop()) {
+        window.dispatchAction(windowActionCreators.showScrollToTop(false));
+      }
+    }
+  }, 300);
 
   handleLoadProfile = (needForceUpdate = false) => {
     const {
@@ -219,9 +232,11 @@ class ProfileLayout extends Component {
       fetchNotes,
       checkLock,
       fetchFiles,
+      fetchBalances,
     } = this.props;
 
     return fetchNotes({ playerUUID: params.id, pinned: true })
+      .then(() => fetchBalances(params.id))
       .then(() => fetchFiles(params.id))
       .then(() => checkLock(params.id, { size: 999 }));
   };
@@ -409,28 +424,95 @@ class ProfileLayout extends Component {
     this.setState({ popover: { ...popoverInitialState } });
   };
 
-  handleResetPasswordClick = async () => {
-    const { resetPassword, profile: { data } } = this.props;
+  handleResetPasswordClick = () => {
+    this.handleOpenModal(MODAL_RESET_PASSWORD);
+  };
 
-    if (data.email) {
-      const action = await resetPassword({ email: data.email });
+  handleResetPassword = async () => {
+    const {
+      resetPassword,
+      params: {
+        id: playerUUID,
+      },
+    } = this.props;
 
-      if (action && !action.error) {
-        this.handleOpenModal(MODAL_INFO, {
-          className: 'modal-danger',
-          header: 'Reset password',
-          body: (
-            <span>
-              Reset password link was sent to <strong>{data.email}</strong>.
-            </span>
-          ),
-          footer: (
-            <button className="btn btn-default-outline pull-left" onClick={this.handleCloseModal}>
-              {I18n.t('COMMON.BUTTONS.CANCEL')}
-            </button>
-          ),
-        });
-      }
+    const action = await resetPassword(playerUUID);
+
+    if (action && !action.error) {
+      this.context.addNotification({
+        level: 'success',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
+        message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.SUCCESS_NOTIFICATION_TEXT'),
+      });
+
+      this.handleCloseModal();
+    } else {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
+        message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.ERROR_NOTIFICATION_TEXT'),
+      });
+    }
+
+    return action;
+  };
+
+  handleSubmitNewPassword = async (data) => {
+    const {
+      resetPassword,
+      resetPasswordConfirm,
+      fetchResetPasswordToken,
+      profile: { data: playerProfile },
+      params: { id: playerUUID },
+    } = this.props;
+
+    if (!playerProfile.email) {
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.NO_EMAIL.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.NO_EMAIL.MESSAGE'),
+      });
+    }
+
+    const resetPasswordAction = await resetPassword(playerUUID, false);
+
+    if (!resetPasswordAction || resetPasswordAction.error) {
+      return this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
+      });
+    }
+
+    const fetchResetPasswordTokenAction = await fetchResetPasswordToken(playerProfile.playerUUID);
+
+    if (!fetchResetPasswordTokenAction || fetchResetPasswordTokenAction.error) {
+      return this.context.addNotification({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
+      });
+    }
+
+    const resetPasswordConfirmAction = await resetPasswordConfirm({
+      ...data,
+      token: fetchResetPasswordTokenAction.payload,
+    });
+
+    const hasError = !resetPasswordConfirmAction || !!resetPasswordConfirmAction.error;
+
+    this.context.addNotification({
+      level: hasError ? 'error' : 'success',
+      title: hasError
+        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE')
+        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
+      message: hasError
+        ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE')
+        : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
+    });
+
+    if (!hasError) {
+      this.handleCloseModal();
     }
   };
 
@@ -449,7 +531,7 @@ class ProfileLayout extends Component {
             </span>
           ),
           footer: (
-            <button className="btn btn-default-outline pull-left" onClick={this.handleCloseModal}>
+            <button className="btn btn-default-outline mr-auto" onClick={this.handleCloseModal}>
               {I18n.t('COMMON.BUTTONS.CANCEL')}
             </button>
           ),
@@ -466,9 +548,11 @@ class ProfileLayout extends Component {
     this.props.deleteTag(this.props.params.id, id);
   };
 
-  handleChangeWalletLimitState = (data) => {
-    this.props.walletLimitAction({ ...data, playerUUID: this.props.params.id });
+  handleChangePlayerLimitState = (data) => {
+    this.props.playerLimitAction({ ...data, playerUUID: this.props.params.id });
   };
+
+  handleUnlockLogin = () => this.props.unlockLogin(this.props.params.id);
 
   handleUpdateSubscription = async (data, updatedSubscription) => {
     const { params: { id: playerUUID }, updateSubscription } = this.props;
@@ -506,6 +590,19 @@ class ProfileLayout extends Component {
     });
   };
 
+  handleChangePasswordClick = () => {
+    const { profile: { data: playerProfile } } = this.props;
+
+    this.handleOpenModal(MODAL_CHANGE_PASSWORD, {
+      fullName: `${playerProfile.firstName} ${playerProfile.lastName}`,
+      playerUUID: `${playerProfile.authorUuid}`,
+    });
+  };
+
+  handleShareProfileClick = () => {
+    this.handleOpenModal(MODAL_SHARE_PROFILE);
+  };
+
   render() {
     const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
     const {
@@ -520,7 +617,7 @@ class ProfileLayout extends Component {
       accumulatedBalances,
       changeStatus,
       notes,
-      walletLimits,
+      playerLimits,
       uploading,
       uploadModalInitialValues,
       manageNote,
@@ -529,8 +626,8 @@ class ProfileLayout extends Component {
     } = this.props;
 
     return (
-      <div className="player panel profile-layout">
-        <div className="profile-layout-heading">
+      <div className="layout">
+        <div className="layout-info">
           <Header
             playerProfile={playerProfile}
             locale={locale}
@@ -540,9 +637,10 @@ class ProfileLayout extends Component {
             onStatusChange={changeStatus}
             availableTags={availableTags}
             currentTags={currentTags}
-            walletLimits={{
-              state: walletLimits,
-              actions: { onChange: this.handleChangeWalletLimitState },
+            playerLimits={{
+              state: playerLimits,
+              actions: { onChange: this.handleChangePlayerLimitState },
+              unlockLogin: this.handleUnlockLogin,
             }}
             isLoadingProfile={isLoading}
             addTag={this.handleAddTag}
@@ -550,9 +648,11 @@ class ProfileLayout extends Component {
             onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
             onResetPasswordClick={this.handleResetPasswordClick}
             onProfileActivateClick={this.handleProfileActivateClick}
-            onWalletLimitChange={this.handleChangeWalletLimitState}
+            onPlayerLimitChange={this.handleChangePlayerLimitState}
             onRefreshClick={() => this.handleLoadProfile(true)}
             loaded={!!receivedAt && !error}
+            onChangePasswordClick={this.handleChangePasswordClick}
+            onShareProfileClick={this.handleShareProfileClick}
           />
 
           <div className="hide-details-block">
@@ -576,17 +676,14 @@ class ProfileLayout extends Component {
             />
           </Collapse>
         </div>
-        <div className="panel profile-user-content">
+        <div className="layout-content">
           <div className="nav-tabs-horizontal">
             <Tabs
               items={userProfileTabs}
               location={location}
               params={params}
             />
-
-            <div>
-              {children}
-            </div>
+            {children}
           </div>
         </div>
         {
@@ -603,7 +700,6 @@ class ProfileLayout extends Component {
           modal.name === MODAL_UPLOAD_FILE &&
           <UploadFileModal
             {...modal.params}
-            isOpen
             onClose={this.handleCloseUploadModal}
             uploading={Object.values(uploading)}
             initialValues={uploadModalInitialValues}
@@ -626,17 +722,45 @@ class ProfileLayout extends Component {
         {
           modal.name === MODAL_INFO &&
           <Modal
-            onClose={this.handleCloseModal}
             isOpen
+            onClose={this.handleCloseModal}
             {...modal.params}
           />
         }
         {
           modal.name === MODAL_WALLET_LIMIT &&
           <Modal
-            onClose={this.handleCloseModal}
             isOpen
+            onClose={this.handleCloseModal}
             {...modal.params}
+          />
+        }
+        {
+          modal.name === MODAL_CHANGE_PASSWORD &&
+          <ChangePasswordModal
+            {...modal.params}
+            onClose={this.handleCloseModal}
+            onSubmit={this.handleSubmitNewPassword}
+          />
+        }
+        {
+          modal.name === MODAL_SHARE_PROFILE &&
+          <ShareLinkModal
+            onClose={this.handleCloseModal}
+            playerUUID={playerProfile.playerUUID}
+          />
+        }
+
+        {
+          modal.name === MODAL_RESET_PASSWORD &&
+          <ConfirmActionModal
+            onSubmit={this.handleResetPassword}
+            onClose={this.handleCloseModal}
+            modalTitle={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TITLE')}
+            actionText={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.TEXT')}
+            fullName={`${playerProfile.firstName} ${playerProfile.lastName}`}
+            uuid={playerProfile.playerUUID}
+            submitButtonLabel={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.BUTTON_ACTION')}
           />
         }
 

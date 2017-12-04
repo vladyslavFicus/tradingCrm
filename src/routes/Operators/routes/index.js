@@ -1,5 +1,5 @@
 import ListRoute from './List';
 
-export default (store) => [
+export default store => [
   ListRoute(store),
 ];

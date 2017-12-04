@@ -1,6 +1,5 @@
 import ProfileRoute from './routes/Profile';
 import FeedRoute from './routes/Feed';
-import GameActivityRoute from './routes/GameActivity';
 import FilesRoute from './routes/Files';
 import DevicesRoute from './routes/Devices';
 import UserPaymentsRoute from './routes/Transactions';
@@ -11,30 +10,42 @@ import NotesRoute from './routes/Notes';
 import { injectReducer } from '../../store/reducers';
 import { actionCreators } from './modules';
 import { actionCreators as usersPanelsActionCreators } from '../../redux/modules/user-panels';
+import Permissions from '../../utils/permissions';
+import permissions from '../../config/permissions';
+import { playerProfileViewTypes } from '../../constants';
 
+const requiredPermissions = new Permissions([permissions.USER_PROFILE.PROFILE_VIEW]);
 const PLAYER_PROFILE_ROUTE_PREFIX = 'users';
 const profilePathnameRegExp = new RegExp(`^\\/${PLAYER_PROFILE_ROUTE_PREFIX}\\/([^\\/]+)\\/?.*`, 'i');
 
 export default store => ({
   path: `${PLAYER_PROFILE_ROUTE_PREFIX}/:id`,
   onEnter: ({ location }, replace, cb) => {
-    if (!window.isFrame) {
-      const [, playerUUID] = location.pathname.match(profilePathnameRegExp);
+    const { settings } = store.getState();
 
-      if (playerUUID) {
-        store.dispatch(usersPanelsActionCreators.add({
-          fullName: '',
-          login: '',
-          uuid: playerUUID,
-          path: location.pathname.replace(`/${PLAYER_PROFILE_ROUTE_PREFIX}/${playerUUID}/`, ''),
-        }));
-        replace({ pathname: `/${PLAYER_PROFILE_ROUTE_PREFIX}/list`, state: { ignoreByUsersPanel: true } });
+    if (settings.playerProfileViewType === playerProfileViewTypes.frame) {
+      if (!window.isFrame) {
+        const [, playerUUID] = location.pathname.match(profilePathnameRegExp);
+
+        if (playerUUID) {
+          store.dispatch(usersPanelsActionCreators.add({
+            fullName: '',
+            login: '',
+            uuid: playerUUID,
+            path: location.pathname.replace(`/${PLAYER_PROFILE_ROUTE_PREFIX}/${playerUUID}/`, ''),
+          }));
+          replace({ pathname: `/${PLAYER_PROFILE_ROUTE_PREFIX}/list`, state: { ignoreByUsersPanel: true } });
+        }
       }
     }
 
     cb();
   },
-  getComponent: (nextState, cb) => {
+  getComponent(nextState, cb) {
+    if (!requiredPermissions.check(store.getState().permissions.data)) {
+      return cb(null, require('../Forbidden/container/Container').default);
+    }
+
     import(/* webpackChunkName: "profileReducer" */ './modules')
       .then((module) => {
         injectReducer(store, { key: 'profile', reducer: module.default });
@@ -44,9 +55,9 @@ export default store => ({
       .then((action) => {
         if (action && !action.error) {
           return import(/* webpackChunkName: "playerProfileRoute" */ './container/UserProfile');
-        } else {
-          return import(/* webpackChunkName: "notFoundRoute" */ '../NotFound/container/Container');
         }
+
+        return import(/* webpackChunkName: "notFoundRoute" */ '../NotFound/container/Container');
       })
       .then((component) => {
         cb(null, component.default);
@@ -57,7 +68,6 @@ export default store => ({
   childRoutes: [
     ProfileRoute(store),
     FeedRoute(store),
-    GameActivityRoute(store),
     FilesRoute(store),
     DevicesRoute(store),
     UserPaymentsRoute(store),

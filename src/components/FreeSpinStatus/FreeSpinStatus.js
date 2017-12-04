@@ -39,7 +39,7 @@ class FreeSpinStatus extends Component {
           freeSpin.statusChangedDate &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_ON', {
-              date: moment.utc(freeSpin.statusChangedDate).format('DD.MM.YYYY HH:mm'),
+              date: moment.utc(freeSpin.statusChangedDate).local().format('DD.MM.YYYY HH:mm'),
             })}
           </div>
         }
@@ -47,7 +47,7 @@ class FreeSpinStatus extends Component {
           freeSpin.freeSpinStatus === statuses.PENDING &&
           <div className={`${blockName}__status-date`}>
             {I18n.t('COMMON.DATE_UNTIL', {
-              date: moment.utc(freeSpin.startDate).format('DD.MM.YYYY HH:mm'),
+              date: moment.utc(freeSpin.startDate).local().format('DD.MM.YYYY HH:mm'),
             })}
           </div>
         }

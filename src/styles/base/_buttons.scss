@@ -2,19 +2,15 @@
   height: 39px;
   line-height: 38px;
   padding: 0 16px;
-  -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
   font-size: 14px;
   font-weight: 600;
   color: #827ca1;
   background-color: #fff;
   border-color: #dfe4ed;
-  &:focus {
-    outline: none !important;
-  }
   &-sm {
     height: 29px;
-    line-height: 29px;
+    line-height: 27px;
     font-size: 13px;
   }
   &-primary {

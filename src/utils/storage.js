@@ -1,19 +1,19 @@
-import { parseJson } from './helpers';
+import parseJson from './parseJson';
+
 const storage = localStorage;
 
-export default Storage = {
+export default {
   get(key, isObject = false) {
-    let value = storage.getItem(key);
+    const value = storage.getItem(key);
 
-    return isObject ? parseJson(value) : value;
+    return isObject ? parseJson(storage.getItem(key)) : value;
   },
 
   set(key, value) {
-    let type = typeof value;
-    if (type === 'object') {
-      value = JSON.stringify(value);
-    }
+    storage.setItem(key, typeof value === 'object' ? JSON.stringify(value) : value);
+  },
 
-    storage.setItem(key, value);
+  remove(key) {
+    storage.removeItem(key);
   },
 };

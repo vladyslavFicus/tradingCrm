@@ -3,6 +3,7 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PersonalInformationItem from '../../../../../../components/Information/PersonalInformationItem';
 import PropTypes from '../../../../../../constants/propTypes';
+import Card, { Content } from '../../../../../../components/Card';
 
 const Personal = ({ data: {
   country,
@@ -16,8 +17,8 @@ const Personal = ({ data: {
     <span className="account-details__label">
       {I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.PERSONAL_INFORMATION')}
     </span>
-    <div className="panel">
-      <div className="panel-body">
+    <Card>
+      <Content>
         <PersonalInformationItem
           label={I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.FIRST_NAME')}
           value={firstName}
@@ -40,10 +41,10 @@ const Personal = ({ data: {
         />
         <PersonalInformationItem
           label={I18n.t('OPERATOR_PROFILE.DETAILS.LABEL.REGISTRATION_DATE')}
-          value={moment(registrationDate).format('DD.MM.YYYY HH:mm')}
+          value={moment.utc(registrationDate).local().format('DD.MM.YYYY HH:mm')}
         />
-      </div>
-    </div>
+      </Content>
+    </Card>
   </div>
 );
 

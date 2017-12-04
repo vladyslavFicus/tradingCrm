@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GridView, { GridColumn } from '../../../../../components/GridView';
-import Panel, { Title, Content } from '../../../../../components/Panel';
+import Card, { Title, Content } from '../../../../../components/Card';
 import PermissionContent from '../../../../../components/PermissionContent';
-import Permissions from '../../../../../utils/permissions';
-import permission from '../../../../../config/permissions';
-
-const viewFileRequiredPermissions = new Permissions([permission.REPORTS.PLAYER_LIABILITY_FILE_VIEW]);
+import permissions from '../../../../../config/permissions';
 
 class Files extends Component {
   static propTypes = {
@@ -14,6 +11,9 @@ class Files extends Component {
     onDownload: PropTypes.func.isRequired,
     onFetch: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
+  };
+  static defaultProps = {
+    isLoading: false,
   };
 
   componentDidMount() {
@@ -34,21 +34,20 @@ class Files extends Component {
     this.props.onDownload(id);
   };
 
-  renderActions = (data) => {
-    return (
-      <a
-        onClick={() => this.handleDownload(data.fileName)}
-      >
-        <i className="fa fa-download" />
-      </a>
-    );
-  };
+  renderActions = data => (
+    <button
+      onClick={() => this.handleDownload(data.fileName)}
+      className="btn-transparent"
+    >
+      <i className="fa fa-download" />
+    </button>
+  );
 
   render() {
     const { entities } = this.props;
 
     return (
-      <Panel withBorders>
+      <Card>
         <Title>
           <span className="font-size-20">Report files</span>
         </Title>
@@ -68,21 +67,21 @@ class Files extends Component {
                   header="Name"
                   headerStyle={{ width: '90%' }}
                 />
-                <PermissionContent permissions={viewFileRequiredPermissions}>
+                <PermissionContent permissions={permissions.REPORTS.PLAYER_LIABILITY_FILE_VIEW}>
                   <GridColumn
                     name="actions"
                     header="Actions"
                     headerStyle={{ width: '10%' }}
-                    headerClassName={'text-center'}
+                    headerClassName="text-center"
                     render={this.renderActions}
-                    className={'text-center'}
+                    className="text-center"
                   />
                 </PermissionContent>
               </GridView>
             </div>
           </div>
         </Content>
-      </Panel>
+      </Card>
     );
   }
 }

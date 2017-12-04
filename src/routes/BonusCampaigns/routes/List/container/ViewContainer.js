@@ -8,14 +8,13 @@ const mapStateToProps = ({ bonusCampaigns, i18n: { locale } }) => ({
   ...bonusCampaigns,
   locale,
   statuses: Object.keys(statuses),
-  currencies: config.nas.currencies.supported || [],
+  currencies: config.nas.brand.currencies.supported || [],
 });
 
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
   createCampaign: actionCreators.createCampaign,
   exportEntities: actionCreators.exportEntities,
-  onChangeCampaignStatus: actionCreators.changeCampaignState,
   fetchTypes: actionCreators.fetchTypes,
   resetAll: actionCreators.resetAll,
 };

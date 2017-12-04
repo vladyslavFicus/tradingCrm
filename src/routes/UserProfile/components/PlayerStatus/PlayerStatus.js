@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import moment from 'moment';
+import { I18n } from 'react-redux-i18n';
 import FailureReasonIcon from '../../../../components/FailureReasonIcon';
 import PlayerStatusModal from './PlayerStatusModal';
 import { statuses, statusColorNames, statusesLabels, durationUnits } from '../../../../constants/user';
 import Uuid from '../../../../components/Uuid';
+import renderLabel from '../../../../utils/renderLabel';
+import Permissions, { CONDITIONS } from '../../../../utils/permissions';
+import permissions from '../../../../config/permissions';
 
 const initialState = {
   dropDownOpen: false,
@@ -15,6 +19,12 @@ const initialState = {
     params: {},
   },
 };
+const changeStatusPermissions = new Permissions([
+  permissions.USER_PROFILE.PROLONG,
+  permissions.USER_PROFILE.BLOCK,
+  permissions.USER_PROFILE.UNBLOCK,
+  permissions.USER_PROFILE.SUSPEND,
+], CONDITIONS.OR);
 
 class PlayerStatus extends Component {
   static propTypes = {
@@ -27,13 +37,15 @@ class PlayerStatus extends Component {
     statusDate: PropTypes.string,
     statusAuthor: PropTypes.string,
   };
-
   static defaultProps = {
     reason: null,
     endDate: null,
     status: null,
     statusDate: null,
     statusAuthor: null,
+  };
+  static contextTypes = {
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   state = { ...initialState };
@@ -104,6 +116,23 @@ class PlayerStatus extends Component {
     </Dropdown>
   );
 
+  renderAuthor = (author) => {
+    if (!author) {
+      return null;
+    }
+
+    return (
+      <div className="header-block-small">
+        {I18n.t('COMMON.AUTHOR_BY')}
+        {' '}
+        <Uuid
+          uuid={author}
+          uuidPrefix={author.indexOf('OPERATOR') === -1 ? 'OP' : null}
+        />
+      </div>
+    );
+  };
+
   render() {
     const {
       availableStatuses,
@@ -114,8 +143,8 @@ class PlayerStatus extends Component {
       endDate,
       locale,
     } = this.props;
-
     const { dropDownOpen, modal } = this.state;
+    const canChangeStatus = changeStatusPermissions.check(this.context.permissions);
     const dropDownClassName = classNames('dropdown-highlight', {
       'cursor-pointer': availableStatuses.length > 0,
       'dropdown-open': dropDownOpen,
@@ -123,39 +152,29 @@ class PlayerStatus extends Component {
     const label = (
       <div className="dropdown-tab">
         <div className="header-block-title">Account Status</div>
-        {availableStatuses.length > 0 && <i className="fa fa-angle-down" />}
+        {availableStatuses.length > 0 && canChangeStatus && <i className="fa fa-angle-down" />}
         <div className={classNames(statusColorNames[status], 'header-block-middle text-uppercase')}>
-          {statusesLabels[status]}
+          {renderLabel(status, statusesLabels)}
         </div>
-        {
-          !!statusAuthor &&
-          <div className="header-block-small">
-            by
-            {' '}
-            <Uuid
-              uuid={statusAuthor}
-              uuidPrefix={statusAuthor.indexOf('OPERATOR') === -1 ? 'OP' : null}
-            />
-          </div>
-        }
+        {this.renderAuthor(statusAuthor)}
         {
           !!endDate &&
           <div className="header-block-small">
-            Until {moment(endDate).format('DD.MM.YYYY')}
+            {I18n.t('COMMON.DATE_UNTIL', { date: moment.utc(endDate).local().format('DD.MM.YYYY') })}
           </div>
         }
         {
           (status === statuses.BLOCKED || status === statuses.SUSPENDED) &&
           <FailureReasonIcon
             reason={reason}
-            statusDate={moment(statusDate).format('YYYY-MM-DD h:mm:ss a')}
+            statusDate={moment.utc(statusDate).local().format('YYYY-MM-DD HH:mm:ss')}
             statusAuthor={statusAuthor}
           />
         }
       </div>
     );
 
-    if (availableStatuses.length === 0) {
+    if (availableStatuses.length === 0 || !canChangeStatus) {
       return label;
     }
 

@@ -5,6 +5,7 @@ const types = keyMirror({
   LOG_IN: null,
   LOG_OUT: null,
   PLAYER_PROFILE_VERIFIED_EMAIL: null,
+  PLAYER_PROFILE_VERIFIED_PHONE: null,
   KYC_ADDRESS_REFUSED: null,
   KYC_ADDRESS_VERIFIED: null,
   KYC_PERSONAL_REFUSED: null,
@@ -15,11 +16,14 @@ const types = keyMirror({
   PLAYER_PROFILE_VIEWED: null,
   NEW_OPERATOR_ACCOUNT_CREATED: null,
   OPERATOR_ACCOUNT_CREATED: null,
+  FAILED_LOGIN_ATTEMPT: null,
+  KYC_REQUESTED: null,
 });
 const typesLabels = {
   [types.LOG_IN]: I18n.t('CONSTANTS.AUDIT.TYPES.LOG_IN'),
   [types.LOG_OUT]: I18n.t('CONSTANTS.AUDIT.TYPES.LOG_OUT'),
   [types.PLAYER_PROFILE_VERIFIED_EMAIL]: I18n.t('CONSTANTS.AUDIT.TYPES.PLAYER_PROFILE_VERIFIED_EMAIL'),
+  [types.PLAYER_PROFILE_VERIFIED_PHONE]: I18n.t('CONSTANTS.AUDIT.TYPES.PLAYER_PROFILE_VERIFIED_PHONE'),
   [types.KYC_ADDRESS_REFUSED]: I18n.t('CONSTANTS.AUDIT.TYPES.KYC_ADDRESS_REFUSED'),
   [types.KYC_ADDRESS_VERIFIED]: I18n.t('CONSTANTS.AUDIT.TYPES.KYC_ADDRESS_VERIFIED'),
   [types.KYC_PERSONAL_REFUSED]: I18n.t('CONSTANTS.AUDIT.TYPES.KYC_PERSONAL_REFUSED'),
@@ -30,11 +34,14 @@ const typesLabels = {
   [types.PLAYER_PROFILE_VIEWED]: I18n.t('CONSTANTS.AUDIT.TYPES.PLAYER_PROFILE_VIEWED'),
   [types.NEW_OPERATOR_ACCOUNT_CREATED]: I18n.t('CONSTANTS.AUDIT.TYPES.NEW_OPERATOR_ACCOUNT_CREATED'),
   [types.OPERATOR_ACCOUNT_CREATED]: I18n.t('CONSTANTS.AUDIT.TYPES.OPERATOR_ACCOUNT_CREATED'),
+  [types.FAILED_LOGIN_ATTEMPT]: I18n.t('CONSTANTS.AUDIT.TYPES.FAILED_LOGIN_ATTEMPT'),
+  [types.KYC_REQUESTED]: I18n.t('CONSTANTS.AUDIT.TYPES.KYC_REQUESTED'),
 };
 const typesClassNames = {
   [types.LOG_IN]: 'feed-item_info-status__blue',
   [types.LOG_OUT]: '',
   [types.PLAYER_PROFILE_VERIFIED_EMAIL]: 'feed-item_info-status__blue',
+  [types.PLAYER_PROFILE_VERIFIED_PHONE]: 'feed-item_info-status__blue',
   [types.KYC_ADDRESS_REFUSED]: 'feed-item_info-status__red',
   [types.KYC_ADDRESS_VERIFIED]: 'feed-item_info-status__green',
   [types.KYC_PERSONAL_REFUSED]: 'feed-item_info-status__red',
@@ -44,6 +51,8 @@ const typesClassNames = {
   [types.PLAYER_PROFILE_SEARCH]: '',
   [types.NEW_OPERATOR_ACCOUNT_CREATED]: '',
   [types.OPERATOR_ACCOUNT_CREATED]: '',
+  [types.FAILED_LOGIN_ATTEMPT]: 'feed-item_info-status__red',
+  [types.KYC_REQUESTED]: 'feed-item_info-status__green',
 };
 
 export {

@@ -38,13 +38,15 @@ class DebugPanel extends Component {
   render() {
     const { reduxLocked } = this.state;
 
-    if (!window.isFrame) {
+    if (window.isFrame) {
       return null;
     }
 
     return (
       <div style={{ ...styles, background: reduxLocked ? 'red' : 'green' }}>
         Locked: {reduxLocked ? 'True' : 'False'}
+        {' | '}
+        Version: {window.version}
       </div>
     );
   }

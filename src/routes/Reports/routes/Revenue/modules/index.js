@@ -1,10 +1,10 @@
-import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import { getApiRoot } from 'config/index';
-import buildQueryString from 'utils/buildQueryString';
-import createRequestAction from 'utils/createRequestAction';
-import downloadBlob from 'utils/downloadBlob';
-import timestamp from 'utils/timestamp';
+import createReducer from '../../../../../utils/createReducer';
+import { getApiRoot } from '../../../../../config';
+import buildQueryString from '../../../../../utils/buildQueryString';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import downloadBlob from '../../../../../utils/downloadBlob';
+import timestamp from '../../../../../utils/timestamp';
 
 const KEY = 'reports/revenue';
 const DOWNLOAD_REPORT = createRequestAction(`${KEY}/download-report`);
@@ -28,12 +28,12 @@ const initialState = {
   isLoading: false,
 };
 const actionHandlers = {
-  [DOWNLOAD_REPORT.REQUEST]: (state, action) => ({
+  [DOWNLOAD_REPORT.REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
   }),
-  [DOWNLOAD_REPORT.SUCCESS]: (state, action) => ({
+  [DOWNLOAD_REPORT.SUCCESS]: state => ({
     ...state,
     isLoading: false,
   }),

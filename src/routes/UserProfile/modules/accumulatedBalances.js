@@ -7,7 +7,7 @@ import { actionTypes as profileActionTypes } from './profile';
 
 const emptyBalance = {
   amount: 0,
-  currency: config.nas.currencies.base,
+  currency: config.nas.brand.currencies.base,
 };
 
 const KEY = 'user/balances';
@@ -60,11 +60,15 @@ const actionHandlers = {
         deposits: Object.keys(walletCurrencyDeposits).length !== 0 ? {
           amount: walletCurrencyDeposits[Object.keys(walletCurrencyDeposits)[0]],
           currency,
-        } : state.data.deposits,
+        } : { ...state.data.deposits, currency },
         withdraws: Object.keys(walletCurrencyWithdraws).length !== 0 ? {
           amount: walletCurrencyWithdraws[Object.keys(walletCurrencyWithdraws)[0]],
           currency,
-        } : state.data.withdraws,
+        } : { ...state.data.withdraws, currency },
+        withdrawable: {
+          ...state.data.withdrawable,
+          currency,
+        },
       },
       isLoading: false,
       receivedAt: timestamp(),
@@ -86,6 +90,14 @@ const actionHandlers = {
       data: {
         ...state.data,
         ...action.payload.balances,
+        withdraws: {
+          ...state.data.withdraws,
+          currency: action.payload.balances.total.currency,
+        },
+        deposits: {
+          ...state.data.deposits,
+          currency: action.payload.balances.total.currency,
+        },
       },
       isLoading: false,
       receivedAt: timestamp(),
@@ -97,6 +109,7 @@ const initialState = {
   data: {
     deposits: emptyBalance,
     withdraws: emptyBalance,
+    withdrawable: emptyBalance,
     total: emptyBalance,
     bonus: emptyBalance,
     real: emptyBalance,

@@ -3,6 +3,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import Sticky from 'react-stickynode';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../constants/propTypes';
 import PlayerStatus from './PlayerStatus';
 import ActionsDropDown from '../../../components/ActionsDropDown';
@@ -10,12 +11,20 @@ import Balances from './Balances';
 import ProfileTags from '../../../components/ProfileTags';
 import Amount from '../../../components/Amount';
 import PopoverButton from '../../../components/PopoverButton';
-import permission from '../../../config/permissions';
-import Permissions from '../../../utils/permissions';
-import WalletLimits from './WalletLimits';
+import permissions from '../../../config/permissions';
+import Permissions, { CONDITIONS } from '../../../utils/permissions';
+import PlayerLimits from './PlayerLimits';
 import ProfileLastLogin from '../../../components/ProfileLastLogin';
 import Uuid from '../../../components/Uuid';
 import HeaderPlayerPlaceholder from './HeaderPlayerPlaceholder';
+import { statuses } from '../../../constants/user';
+import PermissionContent from '../../../components/PermissionContent';
+
+const sendActivationLinkPermission = new Permissions([permissions.USER_PROFILE.SEND_ACTIVATION_LINK]);
+const playerLimitsPermission = [
+  permissions.USER_PROFILE.GET_LOGIN_LOCK,
+  permissions.USER_PROFILE.GET_PAYMENT_LOCKS,
+];
 
 class Header extends Component {
   static propTypes = {
@@ -45,10 +54,10 @@ class Header extends Component {
     onStatusChange: PropTypes.func.isRequired,
     onResetPasswordClick: PropTypes.func.isRequired,
     onProfileActivateClick: PropTypes.func.isRequired,
-    onWalletLimitChange: PropTypes.func.isRequired,
-    walletLimits: PropTypes.shape({
+    onPlayerLimitChange: PropTypes.func.isRequired,
+    playerLimits: PropTypes.shape({
       state: PropTypes.shape({
-        entities: PropTypes.arrayOf(PropTypes.walletLimitEntity).isRequired,
+        entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
         deposit: PropTypes.shape({
           locked: PropTypes.bool.isRequired,
           canUnlock: PropTypes.bool.isRequired,
@@ -57,13 +66,21 @@ class Header extends Component {
           locked: PropTypes.bool.isRequired,
           canUnlock: PropTypes.bool.isRequired,
         }).isRequired,
+        login: PropTypes.shape({
+          lock: PropTypes.bool.isRequired,
+          lockExpirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+          lockReason: PropTypes.string,
+        }).isRequired,
         error: PropTypes.object,
         isLoading: PropTypes.bool.isRequired,
         receivedAt: PropTypes.number,
       }).isRequired,
+      unlockLogin: PropTypes.func.isRequired,
     }).isRequired,
     locale: PropTypes.string.isRequired,
     loaded: PropTypes.bool,
+    onChangePasswordClick: PropTypes.func.isRequired,
+    onShareProfileClick: PropTypes.func.isRequired,
   };
   static defaultProps = {
     lastIp: null,
@@ -75,7 +92,7 @@ class Header extends Component {
     profileStatusAuthor: null,
   };
   static contextTypes = {
-    permissions: PropTypes.array.isRequired,
+    permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   getRealWithBonusBalance = () => {
@@ -114,8 +131,8 @@ class Header extends Component {
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
-      onWalletLimitChange,
-      walletLimits,
+      onPlayerLimitChange,
+      playerLimits,
       lastIp,
       onRefreshClick,
       isLoadingProfile,
@@ -123,22 +140,26 @@ class Header extends Component {
       availableTags,
       currentTags,
       loaded,
+      onChangePasswordClick,
+      onShareProfileClick,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
 
     return (
       <div>
-        <Sticky top={0} bottomBoundary={0}>
+        <Sticky top={0} bottomBoundary={0} innerZ="5">
           <div className="panel-heading-row">
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
                 <div className="panel-heading-row__info-title">
-                  {[playerProfile.fullName, `(${playerProfile.age})`].join(' ')}
+                  {playerProfile.fullName || I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
+                  {' '}
+                  ({playerProfile.age || '?'})
                   {' '}
                   {playerProfile.kycCompleted && <i className="fa fa-check text-success" />}
                 </div>
                 <div className="panel-heading-row__info-ids">
-                  {playerProfile.username}
+                  {playerProfile.login}
                   {' - '}
                   {
                     !!playerProfile.playerUUID &&
@@ -161,15 +182,17 @@ class Header extends Component {
               />
             </div>
             <div className="panel-heading-row__actions">
-              <PopoverButton
-                id="header-add-note-button"
-                className="btn btn-sm btn-default-outline"
-                onClick={onAddNoteClick}
-              >
-                Add note
-              </PopoverButton>
+              <PermissionContent permissions={permissions.NOTES.ADD_NOTE}>
+                <PopoverButton
+                  id="header-add-note-button"
+                  className="btn btn-sm btn-default-outline"
+                  onClick={onAddNoteClick}
+                >
+                  {I18n.t('PLAYER_PROFILE.PROFILE.HEADER.ADD_NOTE')}
+                </PopoverButton>
+              </PermissionContent>
               <button
-                className="btn btn-sm btn-default-outline m-x-1"
+                className="btn btn-sm btn-default-outline mx-3"
                 onClick={onRefreshClick}
                 id="refresh-page-button"
               >
@@ -177,11 +200,26 @@ class Header extends Component {
               </button>
               <ActionsDropDown
                 items={[
-                  { label: 'Reset password', onClick: onResetPasswordClick },
                   {
-                    label: 'Send activation link',
+                    id: 'reset-password-option',
+                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.RESET_PASSWORD'),
+                    onClick: onResetPasswordClick,
+                  },
+                  {
+                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SEND_ACTIVATION_LINK'),
                     onClick: onProfileActivateClick,
-                    visible: (new Permissions([permission.USER_PROFILE.SEND_ACTIVATION_LINK])).check(currentPermissions),
+                    visible: (
+                      sendActivationLinkPermission.check(currentPermissions)
+                      && playerProfile.profileStatus === statuses.INACTIVE
+                    ),
+                  },
+                  {
+                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.CHANGE_PASSWORD'),
+                    onClick: onChangePasswordClick,
+                  },
+                  {
+                    label: I18n.t('PLAYER_PROFILE.PROFILE.ACTIONS_DROPDOWN.SHARE_PROFILE'),
+                    onClick: onShareProfileClick,
                   },
                 ]}
               />
@@ -202,13 +240,13 @@ class Header extends Component {
               availableStatuses={availableStatuses}
             />
           </div>
-          <div className="header-block header-block_balance">
+          <div className="header-block header-block_balance" id="player-profile-balance-block">
             <Balances
               label={
                 <div className="dropdown-tab">
                   <div className="header-block-title">Balance</div>
                   <div className="header-block-middle">
-                    <Amount {...accumulatedBalances.total} />
+                    <Amount {...accumulatedBalances.total} amountId="player-total-balance-amount" />
                   </div>
                   {this.getRealWithBonusBalance()}
                 </div>
@@ -216,13 +254,16 @@ class Header extends Component {
               accumulatedBalances={accumulatedBalances}
             />
           </div>
-          <div className="header-block header-block_wallet-limits">
-            <WalletLimits
-              profile={playerProfile}
-              limits={walletLimits.state}
-              onChange={onWalletLimitChange}
-            />
-          </div>
+          <PermissionContent permissions={playerLimitsPermission} permissionsCondition={CONDITIONS.OR}>
+            <div className="header-block header-block_player-limits">
+              <PlayerLimits
+                profile={playerProfile}
+                limits={playerLimits.state}
+                unlockLogin={playerLimits.unlockLogin}
+                onChange={onPlayerLimitChange}
+              />
+            </div>
+          </PermissionContent>
           <ProfileLastLogin lastIp={lastIp} />
           <div className="header-block">
             <div className="header-block-title">Registered</div>
@@ -230,7 +271,7 @@ class Header extends Component {
               {moment.utc(playerProfile.registrationDate).local().fromNow()}
             </div>
             <div className="header-block-small">
-              on {moment(playerProfile.registrationDate).format('DD.MM.YYYY')}</div>
+              on {moment.utc(playerProfile.registrationDate).local().format('DD.MM.YYYY')}</div>
           </div>
         </div>
       </div>
