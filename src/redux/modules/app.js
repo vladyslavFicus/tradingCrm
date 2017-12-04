@@ -103,7 +103,7 @@ const actionHandlers = {
       ...state,
       sidebarTopMenu: newSidebarTopMenu.map((menuItem, menuItemIndex) => ({
         ...menuItem,
-        isOpen: menuItemIndex !== index ? false : !menuItem.isOpen,
+        isOpen: !(menuItemIndex !== index || menuItem.isOpen),
       })),
     };
   },
