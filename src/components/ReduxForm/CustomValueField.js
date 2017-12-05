@@ -15,6 +15,7 @@ const CustomValueField = (props) => {
     typeValues,
     errors,
     valueId,
+    onRemoveClick,
   } = props;
 
   const classList = {
@@ -34,6 +35,7 @@ const CustomValueField = (props) => {
       <div className="col-md-3">
         <label>
           {label}
+          {onRemoveClick && <button className="nas nas-clear_icon label-clear" onClick={onRemoveClick} />}
         </label>
       </div>
       <div className="col-md-9">
@@ -81,6 +83,7 @@ CustomValueField.defaultProps = {
   errors: {},
   disabled: false,
   valueId: null,
+  onRemoveClick: null,
 };
 CustomValueField.propTypes = {
   basename: PropTypes.string.isRequired,
@@ -91,6 +94,7 @@ CustomValueField.propTypes = {
   errors: PropTypes.object,
   disabled: PropTypes.bool,
   valueId: PropTypes.string,
+  onRemoveClick: PropTypes.func,
 };
 
 export default CustomValueField;

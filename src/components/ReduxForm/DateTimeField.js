@@ -32,6 +32,7 @@ class DateTimeField extends Component {
     iconRightClassName: PropTypes.string,
     utc: PropTypes.bool,
     showErrorMessage: PropTypes.bool,
+    onRemoveClick: PropTypes.func,
   };
   static defaultProps = {
     id: null,
@@ -47,6 +48,7 @@ class DateTimeField extends Component {
     disabled: false,
     placeholder: '',
     showErrorMessage: true,
+    onRemoveClick: null,
   };
 
   constructor(props) {
@@ -158,13 +160,19 @@ class DateTimeField extends Component {
       label,
       labelClassName,
       position,
+      onRemoveClick,
     } = props;
 
     if (!label) {
       return null;
     }
 
-    const labelNode = <label className={labelClassName}>{label}</label>;
+    const labelNode = (
+      <label className={labelClassName}>
+        {label}
+        {onRemoveClick && <button className="nas nas-clear_icon label-clear" onClick={onRemoveClick} />}
+      </label>
+    );
 
     return position === 'vertical'
       ? labelNode

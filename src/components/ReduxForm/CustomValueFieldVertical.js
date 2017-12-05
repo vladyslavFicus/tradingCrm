@@ -15,6 +15,7 @@ const CustomValueFieldVertical = (props) => {
     typeInputClassName,
     typeValues,
     errors,
+    onRemoveClick,
   } = props;
 
   const classList = {
@@ -33,6 +34,7 @@ const CustomValueFieldVertical = (props) => {
     <div className={classList.formGroup}>
       <label>
         {label}
+        {onRemoveClick && <button className="nas nas-clear_icon label-clear" onClick={onRemoveClick} />}
       </label>
       <div className="row">
         <div className="col-md-4">
@@ -79,6 +81,7 @@ CustomValueFieldVertical.defaultProps = {
   errors: {},
   disabled: false,
   id: null,
+  onRemoveClick: null,
 };
 CustomValueFieldVertical.propTypes = {
   id: PropTypes.string,
@@ -89,6 +92,7 @@ CustomValueFieldVertical.propTypes = {
   typeInputClassName: PropTypes.string,
   errors: PropTypes.object,
   disabled: PropTypes.bool,
+  onRemoveClick: PropTypes.func,
 };
 
 export default CustomValueFieldVertical;

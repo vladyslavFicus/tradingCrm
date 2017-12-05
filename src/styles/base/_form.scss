@@ -107,6 +107,8 @@
 }
 
 label {
+  position: relative;
+  width: 100%;
   margin-bottom: 0;
   font-weight: 600;
   color: $form-labels-color;
@@ -123,6 +125,18 @@ label {
     input[type="checkbox"] {
       margin-right: 2px;
       vertical-align: middle;
+    }
+  }
+  .label-clear {
+    position: absolute;
+    top: 4px;
+    right: 0;
+    padding: 0;
+    border: 0;
+    background: 0;
+    font-size: 13px;
+    &:before {
+      color: #d0011b;
     }
   }
 }

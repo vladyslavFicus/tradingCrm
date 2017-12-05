@@ -26,6 +26,7 @@ class SelectField extends Component {
     inputButton: PropTypes.any,
     showInputButton: PropTypes.bool,
     id: PropTypes.string,
+    onRemoveClick: PropTypes.func,
   };
   static defaultProps = {
     id: null,
@@ -44,6 +45,7 @@ class SelectField extends Component {
       touched: false,
       error: '',
     },
+    onRemoveClick: null,
   };
 
   renderInput = (props) => {
@@ -105,11 +107,17 @@ class SelectField extends Component {
       labelClassName,
       meta: { touched, error },
       showErrorMessage,
+      onRemoveClick,
     } = props;
 
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        {label && <label className={labelClassName}>{label}</label>}
+        {label && (
+          <label className={labelClassName}>
+            {label}
+            {onRemoveClick && <button className="nas nas-clear_icon label-clear" onClick={onRemoveClick} />}
+          </label>)
+        }
         {this.renderInput(props)}
         {
           showErrorMessage && touched && error &&
@@ -128,6 +136,7 @@ class SelectField extends Component {
       labelClassName,
       meta: { touched, error },
       showErrorMessage,
+      onRemoveClick,
     } = props;
 
     return (
@@ -135,6 +144,7 @@ class SelectField extends Component {
         <div className="col-md-3">
           <label className={labelClassName}>
             {label}
+            {onRemoveClick && <button className="nas nas-clear_icon label-clear" onClick={onRemoveClick} />}
           </label>
         </div>
         <div className="col-md-9">
