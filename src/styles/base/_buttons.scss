@@ -127,17 +127,6 @@
   &-group .btn:focus {
     outline: none;
   }
-  &-icon {
-    padding-right: 10px;
-    padding-left: 10px;
-    line-height: normal;
-    &_active {
-      background-color: #F4F4F4;
-    }
-    .nas {
-      font-size: 21px;
-    }
-  }
 }
 
 .btn:disabled,
