@@ -33,7 +33,6 @@ class InputField extends Component {
     labelClassName: PropTypes.string,
     id: PropTypes.string,
     onIconClick: PropTypes.func,
-    onRemoveClick: PropTypes.func,
   };
   static defaultProps = {
     className: 'form-group',
@@ -53,7 +52,6 @@ class InputField extends Component {
     labelClassName: null,
     id: null,
     onIconClick: null,
-    onRemoveClick: null,
   };
 
   renderLabel = (props) => {
@@ -62,7 +60,6 @@ class InputField extends Component {
       labelClassName,
       labelAddon,
       position,
-      onRemoveClick,
     } = props;
 
     if (!label) {
@@ -71,17 +68,8 @@ class InputField extends Component {
 
     const labelNode = (
       !labelAddon
-        ? (
-          <label className={labelClassName}>
-            {label}{onRemoveClick && <button className="nas nas-clear_icon label-clear" onClick={onRemoveClick} />}
-          </label>
-        )
-        : (
-          <label className={labelClassName}>
-            {label} {labelAddon}
-            {onRemoveClick && <button className="nas nas-clear_icon label-clear" onClick={onRemoveClick} />}
-          </label>
-        )
+        ? <label className={labelClassName}>{label}</label>
+        : <label className={labelClassName}>{label} {labelAddon}</label>
     );
 
     return position === 'vertical'

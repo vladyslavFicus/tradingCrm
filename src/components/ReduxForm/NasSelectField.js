@@ -31,7 +31,6 @@ class NasSelectField extends Component {
     showInputButton: PropTypes.bool,
     optionsHeader: PropTypes.func,
     singleOptionComponent: PropTypes.func,
-    onRemoveClick: PropTypes.func,
   };
   static defaultProps = {
     position: 'horizontal',
@@ -49,7 +48,6 @@ class NasSelectField extends Component {
     showInputButton: false,
     optionsHeader: null,
     singleOptionComponent: null,
-    onRemoveClick: null,
   };
 
   renderInput = (props) => {
@@ -117,19 +115,11 @@ class NasSelectField extends Component {
       labelAddon,
       meta: { touched, error },
       showErrorMessage,
-      onRemoveClick,
     } = props;
 
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        {
-          React.createElement(labelTag,
-            { className: labelClassName },
-            <div>
-              {label}{labelAddon}
-              {onRemoveClick && <button className="nas nas-clear_icon label-clear" onClick={onRemoveClick} />}
-            </div>)
-        }
+        {React.createElement(labelTag, { className: labelClassName }, <div>{label}{labelAddon}</div>)}
         {this.renderInput(props)}
         {
           showErrorMessage && touched && error &&
@@ -150,20 +140,12 @@ class NasSelectField extends Component {
       labelAddon,
       meta: { touched, error },
       showErrorMessage,
-      onRemoveClick,
     } = props;
 
     return (
       <div className={classNames('form-group row', { 'has-danger': touched && error })}>
         <div className="col-md-3">
-          {
-            React.createElement(labelTag,
-              { className: labelClassName },
-              <div>
-                {label}{labelAddon}
-                {onRemoveClick && <button className="nas nas-clear_icon label-clear" onClick={onRemoveClick} />}
-              </div>)
-          }
+          {React.createElement(labelTag, { className: labelClassName }, <div>{label}{labelAddon}</div>)}
         </div>
         <div className="col-md-9">
           {this.renderInput(props)}
