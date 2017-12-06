@@ -1,7 +1,7 @@
 import { injectReducer } from '../../../../store/reducers';
 
 export default store => ({
-  path: 'transactions',
+  path: 'transactions/list',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, {

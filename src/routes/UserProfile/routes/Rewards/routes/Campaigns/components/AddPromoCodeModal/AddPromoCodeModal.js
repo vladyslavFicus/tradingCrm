@@ -6,6 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import { InputField } from '../../../../../../../../components/ReduxForm';
 import { attributeLabels } from './constants';
+import normalizePromoCode from '../../../../../../../../utils/normalizePromoCode';
 
 class AddPromoCodeModal extends PureComponent {
   static propTypes = {
@@ -51,6 +52,7 @@ class AddPromoCodeModal extends PureComponent {
               type="text"
               position="vertical"
               component={InputField}
+              normalize={normalizePromoCode}
             />
           </ModalBody>
           <ModalFooter>

@@ -5,20 +5,20 @@ import PropTypes from '../../constants/propTypes';
 class SubNav extends Component {
   static propTypes = {
     items: PropTypes.arrayOf(PropTypes.navSubItem).isRequired,
-    onMenuClick: PropTypes.func.isRequired,
+    onMenuItemClick: PropTypes.func.isRequired,
   };
 
   render() {
-    const { items, onMenuClick } = this.props;
+    const { items, onMenuItemClick } = this.props;
 
     return (
       <div className="dropdown-menu">
-        {items.map((item, index) => (
+        {items.map(item => (
           <SubNavItem
-            key={index}
+            key={item.label}
             label={item.label}
             url={item.url}
-            onMenuClick={onMenuClick}
+            onMenuItemClick={onMenuItemClick}
           />
         ))}
       </div>

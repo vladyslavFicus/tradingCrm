@@ -84,8 +84,8 @@ class NewLayout extends Component {
     deleteNote: PropTypes.func.isRequired,
     updateOperatorProfile: PropTypes.func.isRequired,
     setIsShowScrollTop: PropTypes.func.isRequired,
-    toggleMenuTap: PropTypes.func.isRequired,
-    menuClick: PropTypes.func.isRequired,
+    toggleMenuTab: PropTypes.func.isRequired,
+    menuItemClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.number,
   };
   static defaultProps = {
@@ -126,6 +126,13 @@ class NewLayout extends Component {
     addNotification: PropTypes.func.isRequired,
   };
 
+  state = {
+    noteChangedCallback: null,
+    popover: { ...popoverInitialState },
+    miniProfilePopover: { ...popoverInitialState },
+    isOpenProfile: false,
+  };
+
   getChildContext() {
     const {
       user,
@@ -161,13 +168,6 @@ class NewLayout extends Component {
       },
     };
   }
-
-  state = {
-    noteChangedCallback: null,
-    popover: { ...popoverInitialState },
-    miniProfilePopover: { ...popoverInitialState },
-    isOpenProfile: false,
-  };
 
   componentWillMount() {
     window.addEventListener('scroll', this.handleScrollWindow);
@@ -345,8 +345,8 @@ class NewLayout extends Component {
       app: { showScrollToTop, isInitializedScroll, sidebarTopMenu, sidebarBottomMenu },
       locale,
       user,
-      toggleMenuTap,
-      menuClick,
+      toggleMenuTab,
+      menuItemClick,
     } = this.props;
 
     return (
@@ -362,8 +362,8 @@ class NewLayout extends Component {
         <Sidebar
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}
-          menuClick={menuClick}
-          onOpenTab={toggleMenuTap}
+          menuItemClick={menuItemClick}
+          onToggleTab={toggleMenuTab}
         />
 
         <main className="content-container">{children}</main>
@@ -425,6 +425,7 @@ class NewLayout extends Component {
 }
 
 const mapStateToProps = state => ({
+  app: state.app,
   settings: state.settings,
   user: state.auth,
   permissions: state.permissions.data,
@@ -433,24 +434,6 @@ const mapStateToProps = state => ({
   activePanelIndex: state.userPanels.activeIndex,
   locale: state.i18n.locale,
   languages: getAvailableLanguages(),
-  app: {
-    ...state.app,
-    sidebarTopMenu: state.app.sidebarTopMenu.map(menuItem => {
-      const { items } = menuItem;
-
-      if (items) {
-        const currentMenu = items.find(subMenuItem => subMenuItem.url === location.pathname);
-
-        if (currentMenu) {
-          menuItem.isOpen = true;
-        }
-      } else {
-        menuItem.isOpen = false;
-      }
-
-      return menuItem;
-    }),
-  },
 });
 
 export default connect(mapStateToProps, {
@@ -464,7 +447,7 @@ export default connect(mapStateToProps, {
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
   setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
-  toggleMenuTap: appActionCreators.toggleMenuTap,
-  menuClick: appActionCreators.menuClick,
+  toggleMenuTab: appActionCreators.toggleMenuTab,
+  menuItemClick: appActionCreators.menuItemClick,
   updateOperatorProfile: authActionCreators.updateProfile,
 })(NewLayout);

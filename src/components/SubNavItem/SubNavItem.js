@@ -7,19 +7,20 @@ class SubNavItem extends Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
-    onMenuClick: PropTypes.func.isRequired,
+    onMenuItemClick: PropTypes.func.isRequired,
   };
 
   render() {
     const {
       label,
       url,
-      onMenuClick,
+      onMenuItemClick,
     } = this.props;
 
     return (
-      <Link className="dropdown-item" to={url} onClick={onMenuClick}>
-        {I18n.t(label)}
+      <Link className="dropdown-item" to={url} onClick={onMenuItemClick}>
+        <i className="fa fa-chevron-right" />
+        <span className="nav-sublink__label">{I18n.t(label)}</span>
       </Link>
     );
   }
