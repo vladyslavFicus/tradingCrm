@@ -130,7 +130,10 @@ class AdvancedFilters extends Component {
 
       input = (
         <div className="form-group">
-          <label>{filter.label} {removeButton}</label>
+          <div>
+            <label>{filter.label}</label>
+            {removeButton}
+          </div>
           <div className="range-group">
             <Field
               component="input"
@@ -151,7 +154,10 @@ class AdvancedFilters extends Component {
 
       input = (
         <div className="form-group">
-          <label>{filter.label} {removeButton}</label>
+          <div>
+            <label>{filter.label}</label>
+            {removeButton}
+          </div>
           <div className="range-group">
             <Field
               component={DateTimeField}

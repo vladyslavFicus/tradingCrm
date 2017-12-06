@@ -15,7 +15,12 @@ const FieldLabel = (props) => {
   }
 
   const Wrapper = wrapperTag;
-  const node = <label className={labelClassName}>{label}{addon}</label>;
+  const node = (
+    <div>
+      <label className={labelClassName}>{label}</label>
+      {addon}
+    </div>
+  );
 
   return !Wrapper
     ? node

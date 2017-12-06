@@ -4,6 +4,7 @@ import onClickOutside from 'react-onclickoutside';
 import PropTypes from 'prop-types';
 import './FiltersSelect.scss';
 import SelectSingleOptions from '../../Select/SelectSingleOptions';
+import SelectSearchBox from '../../Select/SelectSearchBox';
 
 class FiltersSelect extends Component {
   static propTypes = {
@@ -51,8 +52,16 @@ class FiltersSelect extends Component {
     const { opened } = this.state;
     const { options } = this.props;
 
+    const className = classNames('select-block', {
+      'is-opened': opened,
+    });
+
+    const selectBlockClassName = classNames('select-block__content', {
+      'with-search-bar': options.length > 5,
+    });
+
     return (
-      <div>
+      <div className="filter-row__advanced-select">
         <button
           className={classNames('filters-select', { 'filters-select_active': opened })}
           onClick={this.handleIconClick}
@@ -60,13 +69,23 @@ class FiltersSelect extends Component {
         >
           <i className="nas nas-add_filter_icon" />
         </button>
-        {
-          opened &&
-          <SelectSingleOptions
-            onChange={this.handleChange}
-            options={options.map(option => ({ key: option.uuid, label: option.label, value: option.uuid }))}
-          />
-        }
+        <div className={className}>
+          <div className={selectBlockClassName}>
+            {
+              options.length > 5 &&
+              <SelectSearchBox
+                query=""
+                onChange={() => {}}
+              />
+            }
+            <div className="select-block__container">
+              <SelectSingleOptions
+                onChange={this.handleChange}
+                options={options.map(option => ({ key: option.uuid, label: option.label, value: option.uuid }))}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
