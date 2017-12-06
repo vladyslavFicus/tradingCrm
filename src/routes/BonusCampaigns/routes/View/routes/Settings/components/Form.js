@@ -24,6 +24,7 @@ import Fulfillments from './Fulfillments';
 import Rewards from './Rewards';
 import validator from './validator';
 import './Form.scss';
+import normalizePromoCode from '../../../../../../../utils/normalizePromoCode';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -302,6 +303,7 @@ class Form extends Component {
                     type="text"
                     label={I18n.t(attributeLabels.promoCode)}
                     component={InputField}
+                    normalize={normalizePromoCode}
                     position="vertical"
                   />
                 </div>
