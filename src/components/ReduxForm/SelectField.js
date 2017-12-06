@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import FieldLabel from './FieldLabel';
 
 class SelectField extends Component {
   static propTypes = {
@@ -10,6 +11,7 @@ class SelectField extends Component {
       onChange: PropTypes.func,
     }).isRequired,
     label: PropTypes.string,
+    labelAddon: PropTypes.any,
     labelClassName: PropTypes.string,
     children: PropTypes.node.isRequired,
     position: PropTypes.oneOf(['horizontal', 'vertical']),
@@ -39,6 +41,7 @@ class SelectField extends Component {
     inputClassName: 'form-control',
     showInputButton: false,
     label: null,
+    labelAddon: null,
     labelClassName: '',
     meta: {
       touched: false,
@@ -102,6 +105,7 @@ class SelectField extends Component {
   renderVertical = (props) => {
     const {
       label,
+      labelAddon,
       labelClassName,
       meta: { touched, error },
       showErrorMessage,
@@ -109,7 +113,11 @@ class SelectField extends Component {
 
     return (
       <div className={classNames('form-group', { 'has-danger': touched && error })}>
-        {label && <label className={labelClassName}>{label}</label>}
+        <FieldLabel
+          label={label}
+          labelClassName={labelClassName}
+          addon={labelAddon}
+        />
         {this.renderInput(props)}
         {
           showErrorMessage && touched && error &&
@@ -125,6 +133,7 @@ class SelectField extends Component {
   renderHorizontal = (props) => {
     const {
       label,
+      labelAddon,
       labelClassName,
       meta: { touched, error },
       showErrorMessage,
@@ -132,11 +141,13 @@ class SelectField extends Component {
 
     return (
       <div className={classNames('form-group row', { 'has-danger': touched && error })}>
-        <div className="col-md-3">
-          <label className={labelClassName}>
-            {label}
-          </label>
-        </div>
+        <FieldLabel
+          label={label}
+          labelClassName={labelClassName}
+          addon={labelAddon}
+          wrapperTag="div"
+          wrapperClassName="col-md-3"
+        />
         <div className="col-md-9">
           {this.renderInput(props)}
           {

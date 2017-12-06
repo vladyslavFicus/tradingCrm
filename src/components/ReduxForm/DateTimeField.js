@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import DateTime from 'react-datetime';
+import FieldLabel from './FieldLabel';
 
 const ISO_FORMAT_DATE = 'YYYY-MM-DD';
 const ISO_FORMAT_TIME = 'HH:mm:ss';
@@ -18,6 +19,7 @@ class DateTimeField extends Component {
     }).isRequired,
     isValidDate: PropTypes.func.isRequired,
     label: PropTypes.string,
+    labelAddon: PropTypes.any,
     labelClassName: PropTypes.string,
     meta: PropTypes.shape({
       touched: PropTypes.bool,
@@ -36,6 +38,7 @@ class DateTimeField extends Component {
   static defaultProps = {
     id: null,
     label: null,
+    labelAddon: null,
     labelClassName: 'form-control-label',
     className: 'form-group',
     dateFormat: 'DD.MM.YYYY',
@@ -153,26 +156,11 @@ class DateTimeField extends Component {
     return inputField;
   };
 
-  renderLabel = (props) => {
+  renderVertical = (props) => {
     const {
       label,
       labelClassName,
-      position,
-    } = props;
-
-    if (!label) {
-      return null;
-    }
-
-    const labelNode = <label className={labelClassName}>{label}</label>;
-
-    return position === 'vertical'
-      ? labelNode
-      : <div className="col-md-3">{labelNode}</div>;
-  };
-
-  renderVertical = (props) => {
-    const {
+      labelAddon,
       className,
       meta: { touched, error },
       showErrorMessage,
@@ -180,7 +168,11 @@ class DateTimeField extends Component {
 
     return (
       <div className={classNames(className, { 'has-danger': touched && error })}>
-        {this.renderLabel(props)}
+        <FieldLabel
+          label={label}
+          labelClassName={labelClassName}
+          addon={labelAddon}
+        />
         {this.renderInput(props)}
         {
           showErrorMessage && touched && error &&
@@ -195,6 +187,9 @@ class DateTimeField extends Component {
 
   renderHorizontal = (props) => {
     const {
+      label,
+      labelClassName,
+      labelAddon,
       className,
       meta: { touched, error },
       showErrorMessage,
@@ -202,7 +197,13 @@ class DateTimeField extends Component {
 
     return (
       <div className={classNames(`${className} row`, { 'has-danger': touched && error })}>
-        {this.renderLabel(props)}
+        <FieldLabel
+          label={label}
+          labelClassName={labelClassName}
+          addon={labelAddon}
+          wrapperTag="div"
+          wrapperClassName="col-md-3"
+        />
         <div className="col-md-9">
           {this.renderInput(props)}
           {

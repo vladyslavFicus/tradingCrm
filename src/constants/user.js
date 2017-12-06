@@ -55,7 +55,7 @@ const filterLabels = {
   status: 'Status',
   tags: 'Tags',
   segments: 'Segments',
-  registrationDate: 'Registered',
+  registrationDate: 'Registration date range',
   registrationDateFrom: 'Registered from',
   registrationDateTo: 'Registered to',
   balance: 'Balance',

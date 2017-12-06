@@ -15,7 +15,7 @@ class SelectSingleOptions extends PureComponent {
     onChange: PropTypes.func.isRequired,
     options: PropTypes.arrayOf(OptionPropType),
     selectedOption: OptionPropType,
-    bindActiveOption: PropTypes.func.isRequired,
+    bindActiveOption: PropTypes.func,
     optionComponent: PropTypes.oneOfType([PropTypes.func]),
   };
   static defaultProps = {
@@ -54,7 +54,7 @@ class SelectSingleOptions extends PureComponent {
             ...option.props,
           };
 
-          if (isActive) {
+          if (isActive && bindActiveOption) {
             optionProps.ref = bindActiveOption;
           } else {
             optionProps.onClick = () => onChange(option);

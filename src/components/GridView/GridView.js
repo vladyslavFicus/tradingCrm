@@ -76,13 +76,11 @@ class GridView extends Component {
     return className;
   };
 
-  getGridColumn = (child) => {
-    return child.type === PermissionContent && child.props.children.type === GridColumn
-      ? child.props.children.props
-      : child.props;
-  };
+  getGridColumn = child => (child.type === PermissionContent && child.props.children.type === GridColumn
+    ? child.props.children.props
+    : child.props);
 
-  recognizeHeaders = grids => grids.map(child => {
+  recognizeHeaders = grids => grids.map((child) => {
     const gridColumn = this.getGridColumn(child);
 
     const config = {
@@ -102,7 +100,7 @@ class GridView extends Component {
     return config;
   });
 
-  recognizeFilters = grids => grids.map(child => {
+  recognizeFilters = grids => grids.map((child) => {
     const gridColumn = this.getGridColumn(child);
 
     if (typeof gridColumn.filter === 'function') {

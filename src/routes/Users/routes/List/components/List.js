@@ -26,6 +26,14 @@ class List extends Component {
     exportEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     onPlayerClick: PropTypes.func.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      priority: PropTypes.string.isRequired,
+      department: PropTypes.string.isRequired,
+    })).isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    countries: PropTypes.object.isRequired,
   };
   static contextTypes = {
     miniProfile: PropTypes.shape({
@@ -135,7 +143,14 @@ class List extends Component {
   );
 
   render() {
-    const { list: { entities, exporting, noResults }, locale, onPlayerClick } = this.props;
+    const {
+      list: { entities, exporting, noResults },
+      locale,
+      onPlayerClick,
+      tags,
+      currencies,
+      countries,
+    } = this.props;
     const { filters } = this.state;
     const allowActions = Object
       .keys(filters)
@@ -161,6 +176,9 @@ class List extends Component {
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
           disabled={!allowActions}
+          tags={tags}
+          currencies={currencies}
+          countries={countries}
         />
 
         <Content>

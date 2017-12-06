@@ -2,18 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { reduxForm, Field, getFormValues } from 'redux-form';
-import { InputField, SelectField, DateTimeField, NasSelectField } from '../../../../../components/ReduxForm';
+import { reduxForm, getFormValues } from 'redux-form';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
-import config from '../../../../../config';
-import countries from '../../../../../utils/countryList';
-
-const tags = config.nas.brand.tags.reduce((result, item) => ({
-  ...result,
-  [item.value]: item.label,
-}), {});
-const currencies = config.nas.brand.currencies.supported || [];
+import AdvancedFilters, { FilterItem, FilterField, FilterActions } from '../../../../../components/AdvancedFilters';
 
 class UserGridFilter extends Component {
   static propTypes = {
@@ -40,6 +32,14 @@ class UserGridFilter extends Component {
     onSubmit: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     invalid: PropTypes.bool.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+      priority: PropTypes.string.isRequired,
+      department: PropTypes.string.isRequired,
+    })).isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    countries: PropTypes.object.isRequired,
   };
   static defaultProps = {
     currentValues: {
@@ -93,197 +93,111 @@ class UserGridFilter extends Component {
       onSubmit,
       disabled,
       invalid,
+      tags,
+      currencies,
+      countries,
     } = this.props;
 
     return (
       <div className="well">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="filter-row">
-            <div className="filter-row__big">
-              <Field
-                name="searchValue"
-                id="users-list-search-field"
-                type="text"
-                label={filterLabels.searchValue}
-                placeholder="Name, login, phone, email..."
-                component={InputField}
-                position="vertical"
-                iconLeftClassName="nas nas-search_icon"
-              />
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="countries"
-                label={filterLabels.country}
-                component={NasSelectField}
-                position="vertical"
-                multiple
-              >
-                {Object
-                  .keys(countries)
-                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                }
-              </Field>
-            </div>
-            <div className="filter-row__small">
-              <Field
-                name="city"
-                type="text"
-                label="City"
-                placeholder={filterLabels.city}
-                component={InputField}
-                position="vertical"
-              />
-            </div>
-            <div className="filter-row__small">
-              <div className="form-group">
-                <label>Age</label>
-                <div className="range-group">
-                  <Field
-                    name="ageFrom"
-                    type="text"
-                    component="input"
-                    className="form-control"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    name="ageTo"
-                    type="text"
-                    component="input"
-                    className="form-control"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="filter-row__small">
-              <div className="form-group">
-                <label>Balance</label>
-                <div className="range-group">
-                  <Field
-                    name="balanceFrom"
-                    type="text"
-                    component="input"
-                    className="form-control"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    name="balanceTo"
-                    type="text"
-                    component="input"
-                    className="form-control"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="filter-row__small">
-              <Field
-                name="currencies"
-                label={filterLabels.currencies}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">Any</option>
-                {currencies.map(currency => (
-                  <option key={currency} value={currency}>
-                    {currency}
+        <AdvancedFilters onSubmit={handleSubmit(onSubmit)}>
+          <FilterItem label={filterLabels.searchValue} size="big" type="input" default>
+            <FilterField
+              id="users-list-search-field"
+              name="searchValue"
+              placeholder="Name, login, phone, email..."
+              type="text"
+            />
+          </FilterItem>
+
+          <FilterItem label={filterLabels.country} size="medium" type="nas:select" default>
+            <FilterField name="countries" multiple>
+              {Object
+                .keys(countries)
+                .map(key => <option key={key} value={key}>{countries[key]}</option>)
+              }
+            </FilterField>
+          </FilterItem>
+
+          <FilterItem label={filterLabels.city} size="small" type="input" default>
+            <FilterField name="city" type="text" />
+          </FilterItem>
+
+          <FilterItem label={filterLabels.age} size="small" type="range:input" default>
+            <FilterField name="ageFrom" type="text" />
+            <FilterField name="ageTo" type="text" />
+          </FilterItem>
+
+          <FilterItem label={filterLabels.balance} size="small" type="range:input" default>
+            <FilterField name="balanceFrom" type="text" />
+            <FilterField name="balanceTo" type="text" />
+          </FilterItem>
+
+          <FilterItem label={filterLabels.currencies} size="small" type="select" default>
+            <FilterField name="currencies">
+              <option value="">Any</option>
+              {currencies.map(currency => (
+                <option key={currency} value={currency}>
+                  {currency}
+                </option>
+              ))}
+            </FilterField>
+          </FilterItem>
+
+          <FilterItem label={filterLabels.affiliateId} size="medium" type="input">
+            <FilterField name="affiliateId" type="text" />
+          </FilterItem>
+
+          <FilterItem label={filterLabels.status} size="small" type="select">
+            <FilterField name="statuses">
+              <option value="">Any</option>
+              {Object.keys(statusesLabels).map(status => (
+                <option key={status} value={status}>
+                  {statusesLabels[status]}
+                </option>
+              ))}
+            </FilterField>
+          </FilterItem>
+
+          <FilterItem label={filterLabels.tags} size="small" type="select">
+            <FilterField name="tags">
+              <option value="">Any</option>
+              {
+                tags.length > 0 &&
+                tags.map(tag => (
+                  <option key={`${tag.value}`} value={tag.value}>
+                    {tag.label}
                   </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="affiliateId"
-                type="text"
-                label="Affiliate"
-                placeholder={filterLabels.affiliateId}
-                component={InputField}
-                position="vertical"
-              />
-            </div>
-            <div className="filter-row__small">
-              <Field
-                name="statuses"
-                label={filterLabels.status}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">Any</option>
-                {Object.keys(statusesLabels).map(status => (
-                  <option key={status} value={status}>
-                    {statusesLabels[status]}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__small">
-              <Field
-                name="tags"
-                label={filterLabels.tags}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">Any</option>
-                {Object.keys(tags).map(item => (
-                  <option key={tags[item]} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__small">
-              <Field
-                name="segments"
-                label={filterLabels.segments}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">Any</option>
-              </Field>
-            </div>
-            <div className="filter-row__big">
-              <div className="form-group">
-                <label>Registration date range</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    name="registrationDateFrom"
-                    component={DateTimeField}
-                    isValidDate={this.startDateValidator('registrationDateTo')}
-                    position="vertical"
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    name="registrationDateTo"
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator('registrationDateFrom')}
-                    position="vertical"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="filter-row__button-block">
-              <div className="button-block-container">
-                <button
-                  disabled={submitting || (disabled && pristine)}
-                  className="btn btn-default"
-                  onClick={this.handleReset}
-                  type="reset"
-                >
-                  Reset
-                </button>
-                <button
-                  id="users-list-apply-button"
-                  disabled={submitting || (disabled && pristine) || invalid}
-                  className="btn btn-primary"
-                  type="submit"
-                >
-                  Apply
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
+                ))
+              }
+            </FilterField>
+          </FilterItem>
+
+          <FilterItem label={filterLabels.segments} size="small" type="select">
+            <FilterField name="segments">
+              <option value="">Any</option>
+            </FilterField>
+          </FilterItem>
+
+          <FilterItem label={filterLabels.registrationDate} size="big" type="range:date">
+            <FilterField
+              utc
+              name="registrationDateFrom"
+              isValidDate={this.startDateValidator('registrationDateTo')}
+            />
+            <FilterField
+              utc
+              name="registrationDateTo"
+              isValidDate={this.endDateValidator('registrationDateFrom')}
+            />
+          </FilterItem>
+
+          <FilterActions
+            onResetClick={this.handleReset}
+            resetDisabled={submitting || (disabled && pristine)}
+            submitDisabled={submitting || (disabled && pristine) || invalid}
+          />
+        </AdvancedFilters>
       </div>
     );
   }
@@ -293,15 +207,15 @@ const FORM_NAME = 'userListGridFilter';
 const FilterForm = reduxForm({
   form: FORM_NAME,
   touchOnChange: true,
-  validate: createValidator({
+  validate: (values, props) => createValidator({
     keyword: 'string',
-    country: `in:,${Object.keys(countries).join()}`,
-    currencies: `in:,${currencies.join()}`,
+    country: `in:,${Object.keys(props.countries).join()}`,
+    currencies: `in:,${props.currencies.join()}`,
     ageFrom: 'integer',
     ageTo: 'integer',
     affiliateId: 'string',
     status: 'string',
-    tags: `in:,${Object.keys(tags).join()}`,
+    tags: `in:,${props.tags.map(tag => tag.value).join()}`,
     segments: 'string',
     registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
