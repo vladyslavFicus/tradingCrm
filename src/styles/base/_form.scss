@@ -162,8 +162,12 @@ label {
   border: 0;
   background: 0;
   font-size: 13px;
+  opacity: 0.6;
   &:before {
     color: #d0011b;
+  }
+  &:hover {
+    opacity: 1;
   }
 }
 
