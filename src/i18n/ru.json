@@ -1375,6 +1375,9 @@
       "invalid": {
         "payment": {
           "operation": "Невалидная платежная операция"
+        },
+        "campaign": {
+          "promo-code": "Невалидный промокод"
         }
       },
       "email": {
@@ -1392,6 +1395,14 @@
     },
     "user": {
       "logon-attempts-limit-reached": "5 неудачных попыток входа"
+    },
+    "campaign": {
+      "command": {
+        "byPromoCode": {
+          "alreadyPresent": "Промокод уже привязан к этому игроку",
+          "notAllow": "Невалидный промокод"
+        }
+      }
     }
   },
   "NOTE_BUTTON": {
