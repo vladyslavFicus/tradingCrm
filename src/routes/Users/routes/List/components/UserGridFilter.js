@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { reduxForm, getFormValues } from 'redux-form';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
-import AdvancedFilters, { FilterItem, FilterField, FilterActions } from '../../../../../components/AdvancedFilters';
+import AdvancedFilters, { FilterItem, FilterField } from '../../../../../components/AdvancedFilters';
 
 class UserGridFilter extends Component {
   static propTypes = {
@@ -100,7 +100,12 @@ class UserGridFilter extends Component {
 
     return (
       <div className="well">
-        <AdvancedFilters onSubmit={handleSubmit(onSubmit)}>
+        <AdvancedFilters
+          onSubmit={handleSubmit(onSubmit)}
+          onResetClick={this.handleReset}
+          resetDisabled={submitting || (disabled && pristine)}
+          submitDisabled={submitting || (disabled && pristine) || invalid}
+        >
           <FilterItem label={filterLabels.searchValue} size="big" type="input" default>
             <FilterField
               id="users-list-search-field"
@@ -191,12 +196,6 @@ class UserGridFilter extends Component {
               isValidDate={this.endDateValidator('registrationDateFrom')}
             />
           </FilterItem>
-
-          <FilterActions
-            onResetClick={this.handleReset}
-            resetDisabled={submitting || (disabled && pristine)}
-            submitDisabled={submitting || (disabled && pristine) || invalid}
-          />
         </AdvancedFilters>
       </div>
     );

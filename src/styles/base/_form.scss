@@ -40,16 +40,6 @@
     }
   }
   &__advanced-select {
-    flex: 0 0 68px;
-    align-self: center;
-    min-width: 1px;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    .select-block.positioned-right {
-      .select-block__content {
-        right: auto;
-      }
-    }
     .select-block__content {
       min-width: 250px;
       right: 0;

@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { v4 } from 'uuid';
+import { I18n } from 'react-redux-i18n';
 import FilterItem from './FilterItem';
 import FilterField from './FilterField';
-import FilterActions from './FilterActions';
 import { InputField, SelectField, DateTimeField, NasSelectField } from '../ReduxForm';
 import { TYPES } from './constants';
 import AvailableFiltersSelect from './FiltersSelect';
-import shallowEqual from '../../utils/shallowEqual';
 
 const TYPES_COMPONENTS = {
   [TYPES.input]: InputField,
@@ -24,9 +23,14 @@ class AdvancedFilters extends Component {
     className: PropTypes.string,
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     onSubmit: PropTypes.func.isRequired,
+    onResetClick: PropTypes.func.isRequired,
+    submitDisabled: PropTypes.bool,
+    resetDisabled: PropTypes.bool,
   };
   static defaultProps = {
     className: 'filter-row',
+    submitDisabled: false,
+    resetDisabled: false,
   };
 
   constructor(props) {
@@ -42,20 +46,8 @@ class AdvancedFilters extends Component {
       filters,
       currentFilters: filters.filter(filter => filter.default),
       availableFilters: filters.filter(filter => !filter.default),
-      actions: children.filter(child => child.type === FilterActions),
+      actions: children.filter(child => child.type),
     };
-  }
-
-  componentWillReceiveProps({ children: nextChildren }) {
-    const { children } = this.props;
-
-    if (!shallowEqual(children, nextChildren)) {
-      const actions = React.Children
-        .toArray(nextChildren)
-        .filter(child => child.type === FilterActions);
-
-      this.setState({ actions });
-    }
   }
 
   mapFilter = (element) => {
@@ -183,26 +175,41 @@ class AdvancedFilters extends Component {
   };
 
   render() {
-    const { className, onSubmit } = this.props;
+    const { className, onSubmit, onResetClick, submitDisabled, resetDisabled } = this.props;
     const { currentFilters, availableFilters, actions } = this.state;
 
     return (
       <form onSubmit={onSubmit}>
         <div className={className}>
           {currentFilters.map(this.renderFilter)}
-
-          {
-            availableFilters.length > 0 &&
-            <AvailableFiltersSelect
-              onChange={this.handleAddFilter}
-              options={availableFilters}
-            />
-          }
-
           {
             actions &&
             <div className="filter-row__button-block">
-              {actions}
+              <div className="button-block-container">
+                {
+                  availableFilters.length > 0 &&
+                  <AvailableFiltersSelect
+                    onChange={this.handleAddFilter}
+                    options={availableFilters}
+                  />
+                }
+                <button
+                  disabled={resetDisabled}
+                  className="btn btn-default"
+                  onClick={onResetClick}
+                  type="reset"
+                >
+                  {I18n.t('COMMON.RESET')}
+                </button>
+                <button
+                  id="users-list-apply-button"
+                  disabled={submitDisabled}
+                  className="btn btn-primary"
+                  type="submit"
+                >
+                  {I18n.t('COMMON.APPLY')}
+                </button>
+              </div>
             </div>
           }
         </div>
