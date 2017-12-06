@@ -1384,7 +1384,8 @@
     "campaign": {
       "command": {
         "byPromoCode": {
-          "notAllow": "Not allow"
+          "alreadyPresent": "Promo code already added to this player",
+          "notAllow": "Invalid promo code"
         }
       }
     }
