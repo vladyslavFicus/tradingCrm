@@ -1540,5 +1540,9 @@
         "COUNTRY": "Country"
       }
     }
+  },
+  "ADVANCED_OPTIONS": {
+    "FILTERS_NOT_FOUND": "Filters not found",
+    "NO_OPTIONS_AVAILABLE": "No options available"
   }
 }

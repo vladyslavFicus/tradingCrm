@@ -225,13 +225,10 @@ class DynamicFilters extends Component {
 
           <div className={`${className}__button-block`}>
             <div className="button-block-container">
-              {
-                availableFilters.length > 0 &&
-                <AvailableFiltersSelect
-                  onChange={this.handleAddFilter}
-                  options={availableFilters}
-                />
-              }
+              <AvailableFiltersSelect
+                onChange={this.handleAddFilter}
+                options={availableFilters}
+              />
               <button
                 disabled={submitting || (allowReset && pristine)}
                 className="btn btn-default"

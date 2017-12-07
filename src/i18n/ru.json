@@ -1555,5 +1555,9 @@
         "COUNTRY": "Страна"
       }
     }
+  },
+  "ADVANCED_OPTIONS": {
+    "FILTERS_NOT_FOUND": "Фильтры не найдены",
+    "NO_OPTIONS_AVAILABLE": "Нет доступных фильтров"
   }
 }

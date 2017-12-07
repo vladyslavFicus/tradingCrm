@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import onClickOutside from 'react-onclickoutside';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import './FiltersSelect.scss';
 import SelectSingleOptions from '../../Select/SelectSingleOptions';
 import SelectSearchBox, { filterOptionsByQuery } from '../../Select/SelectSearchBox';
@@ -72,7 +73,7 @@ class FiltersSelect extends Component {
     } else {
       this.setState({
         query: e.target.value,
-        options: filterOptionsByQuery(e.target.value, this.state.options),
+        options: filterOptionsByQuery(e.target.value, this.state.originalOptions),
       });
     }
   };
@@ -88,8 +89,27 @@ class FiltersSelect extends Component {
     this.props.onChange(option.value);
   };
 
+  renderOptions = () => {
+    const { query, options } = this.state;
+
+    if (query && options.length === 0) {
+      return <div className="text-center">{I18n.t('ADVANCED_OPTIONS.FILTERS_NOT_FOUND')}</div>;
+    }
+
+    if (options.length === 0) {
+      return <div className="text-center">{I18n.t('ADVANCED_OPTIONS.NO_OPTIONS_AVAILABLE')}</div>;
+    }
+
+    return (
+      <SelectSingleOptions
+        onChange={this.handleChange}
+        options={options}
+      />
+    );
+  };
+
   render() {
-    const { opened, query, options, withSearchBar } = this.state;
+    const { opened, query, withSearchBar } = this.state;
     const className = classNames('select-block', {
       'is-opened': opened,
     });
@@ -115,17 +135,8 @@ class FiltersSelect extends Component {
                 onChange={this.handleSearch}
               />
             }
-            {
-              query && options.length === 0 &&
-              <div className="text-muted font-size-10 margin-10">
-                Options by query "{query}" not found...
-              </div>
-            }
             <div className="select-block__container">
-              <SelectSingleOptions
-                onChange={this.handleChange}
-                options={options}
-              />
+              {this.renderOptions()}
             </div>
           </div>
         </div>
