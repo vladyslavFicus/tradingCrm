@@ -29,11 +29,6 @@ class View extends Component {
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number.isRequired,
     }).isRequired,
-    gameCategories: PropTypes.shape({
-      entities: PropTypes.object.isRequired,
-      isLoading: PropTypes.bool.isRequired,
-      receivedAt: PropTypes.number.isRequired,
-    }).isRequired,
     providers: PropTypes.object.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -217,9 +212,6 @@ class View extends Component {
         data: { games, aggregators, providers },
       },
       games: { entities: gamesList },
-      gameCategories: {
-        entities: gameCategories,
-      },
       locale,
     } = this.props;
 
@@ -243,7 +235,6 @@ class View extends Component {
           aggregators={aggregators}
           games={games}
           gamesList={gamesList}
-          gameCategories={gameCategories}
           onSubmit={this.handleFiltersChanged}
         />
 

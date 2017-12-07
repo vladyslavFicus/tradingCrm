@@ -10,11 +10,6 @@ import games, {
   actionTypes as gamesActionTypes,
   actionCreators as gamesActionCreators,
 } from './games';
-import gameCategories, {
-  initialState as gameCategoriesInitialState,
-  actionTypes as gameCategoriesActionTypes,
-  actionCreators as gameCategoriesActionCreators,
-} from './gameCategories';
 import filters, {
   initialState as filtersInitialState,
   actionTypes as filtersActionTypes,
@@ -25,19 +20,16 @@ const initialState = {
   activity: activityInitialState,
   filters: filtersInitialState,
   games: gamesInitialState,
-  gameCategories: gameCategoriesInitialState,
 };
 const actionTypes = {
   ...activityActionTypes,
   ...filtersActionTypes,
   ...gamesActionTypes,
-  ...gameCategoriesActionTypes,
 };
 const actionCreators = {
   ...activityActionCreators,
   ...filtersActionCreators,
   ...gamesActionCreators,
-  ...gameCategoriesActionCreators,
 };
 
 export {
@@ -50,5 +42,4 @@ export default combineReducers({
   activity,
   filters,
   games,
-  gameCategories,
 });

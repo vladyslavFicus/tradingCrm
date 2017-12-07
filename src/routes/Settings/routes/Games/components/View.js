@@ -22,7 +22,6 @@ class View extends Component {
       }).isRequired,
     }).isRequired,
     fetchGames: PropTypes.func.isRequired,
-    fetchCategories: PropTypes.func.isRequired,
     games: PropTypes.pageableState(PropTypes.gameEntity).isRequired,
     uploadFile: PropTypes.func.isRequired,
     downloadFile: PropTypes.func.isRequired,
@@ -32,7 +31,6 @@ class View extends Component {
     resetGames: PropTypes.func.isRequired,
     filters: PropTypes.shape({
       data: PropTypes.shape({
-        categories: PropTypes.arrayOf(PropTypes.string).isRequired,
         withLines: PropTypes.object.isRequired,
         type: PropTypes.object.isRequired,
         gameProvider: PropTypes.object.isRequired,
@@ -46,7 +44,6 @@ class View extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchCategories();
     this.handleRefresh();
   }
 

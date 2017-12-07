@@ -13,7 +13,6 @@ const mapActions = {
   fetchGames: actionCreators.fetchGames,
   resetServerGames: actionCreators.resetServerGames,
   resetGames: actionCreators.resetGames,
-  fetchCategories: actionCreators.fetchCategories,
 };
 
 export default connect(mapStateToProps, mapActions)(View);
