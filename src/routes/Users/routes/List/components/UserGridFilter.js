@@ -211,5 +211,6 @@ class UserGridFilter extends Component {
 }
 
 export default connect(state => ({
+  form: FORM_NAME,
   currentValues: getFormValues(FORM_NAME)(state),
 }))(UserGridFilter);

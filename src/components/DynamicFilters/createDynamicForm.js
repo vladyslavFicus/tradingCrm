@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { v4 } from 'uuid';
 import { I18n } from 'react-redux-i18n';
@@ -9,6 +10,7 @@ import { InputField, SelectField, DateTimeField, NasSelectField } from '../Redux
 import { TYPES } from './constants';
 import AvailableFiltersSelect from './FiltersSelect';
 import RangeFormGroup from './RangeFormGroup';
+import { actionCreators } from './reduxModule';
 
 const TYPES_COMPONENTS = {
   [TYPES.input]: InputField,
@@ -16,10 +18,9 @@ const TYPES_COMPONENTS = {
   [TYPES.nas_select]: NasSelectField,
   [TYPES.range_input]: InputField,
   [TYPES.range_date]: DateTimeField,
-  [TYPES.range_datetime]: DateTimeField,
 };
 
-class DynamicFilters extends Component {
+class DynamicForm extends Component {
   static propTypes = {
     className: PropTypes.string,
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
@@ -32,6 +33,10 @@ class DynamicFilters extends Component {
     handleSubmit: PropTypes.func,
     reset: PropTypes.func,
     invalid: PropTypes.bool.isRequired,
+    formName: PropTypes.string.isRequired,
+    selectedFilters: PropTypes.arrayOf(PropTypes.string).isRequired,
+    addItem: PropTypes.func.isRequired,
+    removeItem: PropTypes.func.isRequired,
   };
   static defaultProps = {
     className: 'filter-row',
@@ -50,11 +55,27 @@ class DynamicFilters extends Component {
     const filters = children
       .filter(child => child.type === FilterItem)
       .map(this.mapFilter);
+    const currentFilters = filters
+      .filter(filter => filter.default || props.selectedFilters.indexOf(filter.name) > -1)
+      .sort((a, b) => {
+        if (a.default && b.default) {
+          return 0;
+        } else if (a.default && !b.default) {
+          return -1;
+        } else if (!a.default && b.default) {
+          return 1;
+        }
+
+        const aIndex = props.selectedFilters.indexOf(a.name);
+        const bIndex = props.selectedFilters.indexOf(b.name);
+
+        return aIndex < bIndex ? -1 : 1;
+      });
 
     this.state = {
       filters,
-      currentFilters: filters.filter(filter => filter.default),
-      availableFilters: filters.filter(filter => !filter.default),
+      currentFilters,
+      availableFilters: filters.filter(filter => currentFilters.findIndex(f => f.uuid === filter.uuid) === -1),
       data: {},
     };
   }
@@ -65,17 +86,21 @@ class DynamicFilters extends Component {
       .toArray(children)
       .filter(child => child.type === FilterField);
 
-    return {
+    const filter = {
       uuid: v4(),
       label,
       size,
       type,
       default: element.props.default,
-      inputs: childrenList.map(child => ({ ...child.props, key: child.props.name, })),
+      inputs: childrenList.map(child => ({ ...child.props, key: child.props.name })),
     };
+    filter.name = filter.inputs.reduce((res, input) => [res, input.name].filter(n => n).join('/'), null);
+
+    return filter;
   };
 
   handleAddFilter = (uuid) => {
+    const { addItem, formName } = this.props;
     const { filters, currentFilters } = this.state;
     const nextCurrentFilters = [...currentFilters];
     const newFilter = filters.find(filter => filter.uuid === uuid);
@@ -87,10 +112,13 @@ class DynamicFilters extends Component {
     this.setState({
       currentFilters: nextCurrentFilters,
       availableFilters: filters.filter(filter => nextCurrentFilters.findIndex(f => f.uuid === filter.uuid) === -1),
+    }, () => {
+      addItem(formName, newFilter.name);
     });
   };
 
   handleRemoveFilter = (uuid) => {
+    const { removeItem, formName } = this.props;
     const { filters, currentFilters, data } = this.state;
 
     const index = currentFilters.findIndex(filter => filter.uuid === uuid);
@@ -106,6 +134,7 @@ class DynamicFilters extends Component {
         currentFilters[index].inputs.forEach((input) => {
           delete nextData[input.name];
         });
+        removeItem(formName, currentFilters[index].name);
 
         if (Object.keys(nextData).length > 0) {
           this.handleSubmit(nextData);
@@ -228,4 +257,16 @@ class DynamicFilters extends Component {
   }
 }
 
-export default options => reduxForm(options)(DynamicFilters);
+export default (options) => {
+  const Form = reduxForm(options)(DynamicForm);
+
+  return connect(state => ({
+    formName: options.form,
+    selectedFilters: state.dynamicFilters && state.dynamicFilters[options.form]
+      ? state.dynamicFilters[options.form]
+      : [],
+  }), {
+    addItem: actionCreators.addItem,
+    removeItem: actionCreators.removeItem,
+  })(Form);
+};

@@ -73,7 +73,7 @@ const config = _.merge({
   },
   middlewares: {
     unauthorized: [401, 403],
-    persist: { whitelist: ['auth', 'userPanels', 'language', 'settings'], keyPrefix: 'nas:' },
+    persist: { whitelist: ['auth', 'userPanels', 'language', 'settings', 'dynamicFilters'], keyPrefix: 'nas:' },
     crossTabPersist: { whitelist: ['auth'], keyPrefix: 'nas:' },
   },
   modules: {
