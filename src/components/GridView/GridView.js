@@ -76,9 +76,11 @@ class GridView extends Component {
     return className;
   };
 
-  getGridColumn = child => (child.type === PermissionContent && child.props.children.type === GridColumn
-    ? child.props.children.props
-    : child.props);
+  getGridColumn = child => (
+    child.type === PermissionContent && child.props.children.type === GridColumn
+      ? child.props.children.props
+      : child.props
+  );
 
   recognizeHeaders = grids => grids.map((child) => {
     const gridColumn = this.getGridColumn(child);

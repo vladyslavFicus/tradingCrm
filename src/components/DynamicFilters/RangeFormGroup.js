@@ -22,8 +22,8 @@ RangeFormGroup.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element).isRequired,
 };
 RangeFormGroup.defaultProps = {
-  label: '',
-  labelAddon: '',
+  label: null,
+  labelAddon: null,
 };
 
 export default RangeFormGroup;
