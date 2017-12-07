@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import FieldLabel from './FieldLabel';
 
 class InputField extends Component {
   static propTypes = {
@@ -54,31 +55,11 @@ class InputField extends Component {
     onIconClick: null,
   };
 
-  renderLabel = (props) => {
+  renderHorizontal = (props) => {
     const {
       label,
       labelClassName,
       labelAddon,
-      position,
-    } = props;
-
-    if (!label) {
-      return null;
-    }
-
-    const labelNode = (
-      !labelAddon
-        ? <label className={labelClassName}>{label}</label>
-        : <label className={labelClassName}>{label} {labelAddon}</label>
-    );
-
-    return position === 'vertical'
-      ? labelNode
-      : <div className="col-md-3">{labelNode}</div>;
-  };
-
-  renderHorizontal = (props) => {
-    const {
       className,
       meta: { touched, error },
       showErrorMessage,
@@ -86,7 +67,13 @@ class InputField extends Component {
 
     return (
       <div className={classNames(`${className} row`, { 'has-danger': touched && error })}>
-        {this.renderLabel(props)}
+        <FieldLabel
+          label={label}
+          labelClassName={labelClassName}
+          addon={labelAddon}
+          wrapperTag="div"
+          wrapperClassName="col-md-3"
+        />
         <div className="col-md-9">
           {this.renderInput(props)}
           {
@@ -103,6 +90,9 @@ class InputField extends Component {
 
   renderVertical = (props) => {
     const {
+      label,
+      labelClassName,
+      labelAddon,
       className,
       meta: { touched, error },
       showErrorMessage,
@@ -110,7 +100,11 @@ class InputField extends Component {
 
     return (
       <div className={classNames(className, { 'has-danger': touched && error })}>
-        {this.renderLabel(props)}
+        <FieldLabel
+          label={label}
+          labelClassName={labelClassName}
+          addon={labelAddon}
+        />
         {this.renderInput(props)}
         {
           showErrorMessage && touched && error &&

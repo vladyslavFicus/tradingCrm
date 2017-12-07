@@ -59,7 +59,7 @@
     "reactstrap": "^4.8.0",
     "redux": "^3.7.2",
     "redux-api-middleware": "^2.0.0-beta.3",
-    "redux-form": "^7.0.3",
+    "redux-form": "7.2.0",
     "redux-persist": "^4.9.1",
     "redux-persist-crosstab": "^3.6.0",
     "redux-thunk": "^2.2.0",
