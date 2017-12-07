@@ -9,7 +9,6 @@ export default store => ({
     await Promise.all([
       store.dispatch(actionCreators.fetchGames()),
       store.dispatch(actionCreators.fetchFilters(nextState.params.id)),
-      store.dispatch(actionCreators.fetchGameCategories()),
     ]);
 
     callback();

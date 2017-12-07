@@ -13,7 +13,6 @@ class GamesGridFilter extends Component {
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.string).isRequired,
     withLines: PropTypes.object.isRequired,
     type: PropTypes.object.isRequired,
     gameProvider: PropTypes.object.isRequired,
@@ -37,7 +36,6 @@ class GamesGridFilter extends Component {
       submitting,
       handleSubmit,
       onSubmit,
-      categories,
       withLines,
       type,
       gameProvider,
@@ -58,21 +56,6 @@ class GamesGridFilter extends Component {
                 {Object.keys(gameProvider).map(item => (
                   <option key={item} value={gameProvider[item]}>
                     {renderLabel(item, gameProviderLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="category"
-                label={I18n.t(attributeLabels.category)}
-                component={NasSelectField}
-                placeholder={I18n.t('COMMON.ANY')}
-                position="vertical"
-              >
-                {Object.keys(categories).map(item => (
-                  <option key={item} value={categories[item]}>
-                    {categories[item]}
                   </option>
                 ))}
               </Field>
