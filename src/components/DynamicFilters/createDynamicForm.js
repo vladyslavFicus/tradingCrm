@@ -8,6 +8,7 @@ import FilterField from './FilterField';
 import { InputField, SelectField, DateTimeField, NasSelectField } from '../ReduxForm';
 import { TYPES } from './constants';
 import AvailableFiltersSelect from './FiltersSelect';
+import RangeFormGroup from './RangeFormGroup';
 
 const TYPES_COMPONENTS = {
   [TYPES.input]: InputField,
@@ -45,8 +46,7 @@ class DynamicFilters extends Component {
   constructor(props) {
     super(props);
 
-    const children = React.Children
-      .toArray(props.children);
+    const children = React.Children.toArray(props.children);
     const filters = children
       .filter(child => child.type === FilterItem)
       .map(this.mapFilter);
@@ -71,7 +71,7 @@ class DynamicFilters extends Component {
       size,
       type,
       default: element.props.default,
-      inputs: childrenList.map(child => ({ ...child.props })),
+      inputs: childrenList.map(child => ({ ...child.props, key: child.props.name, })),
     };
   };
 
@@ -123,7 +123,10 @@ class DynamicFilters extends Component {
 
   handleReset = () => {
     this.props.reset();
-    this.props.onReset();
+
+    if (typeof this.props.onReset === 'function') {
+      this.props.onReset();
+    }
   };
 
   renderFilter = (filter) => {
@@ -149,53 +152,25 @@ class DynamicFilters extends Component {
           labelAddon={removeButton}
         />
       );
-    } else if (filter.type === TYPES.range_input) {
+    } else {
       const [from, to] = filter.inputs;
 
-      input = (
-        <div className="form-group">
-          <div>
-            <label>{filter.label}</label>
-            {removeButton}
-          </div>
-          <div className="range-group">
-            <Field
-              component="input"
-              className="form-control"
-              {...from}
-            />
-            <span className="range-group__separator">-</span>
-            <Field
-              component="input"
-              className="form-control"
-              {...to}
-            />
-          </div>
-        </div>
-      );
-    } else if (filter.type === TYPES.range_date) {
-      const [from, to] = filter.inputs;
+      if (filter.type === TYPES.range_input) {
+        input = [
+          <Field component="input" className="form-control" {...from} />,
+          <Field component="input" className="form-control" {...to} />,
+        ];
+      } else if (filter.type === TYPES.range_date) {
+        input = [
+          <Field component={DateTimeField} position="vertical" {...from} />,
+          <Field component={DateTimeField} position="vertical" {...to} />,
+        ];
+      }
 
       input = (
-        <div className="form-group">
-          <div>
-            <label>{filter.label}</label>
-            {removeButton}
-          </div>
-          <div className="range-group">
-            <Field
-              component={DateTimeField}
-              position="vertical"
-              {...from}
-            />
-            <span className="range-group__separator">-</span>
-            <Field
-              component={DateTimeField}
-              position="vertical"
-              {...to}
-            />
-          </div>
-        </div>
+        <RangeFormGroup label={filter.label} labelAddon={removeButton}>
+          {input}
+        </RangeFormGroup>
       );
     }
 
