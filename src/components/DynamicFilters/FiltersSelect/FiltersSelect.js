@@ -4,7 +4,8 @@ import onClickOutside from 'react-onclickoutside';
 import PropTypes from 'prop-types';
 import './FiltersSelect.scss';
 import SelectSingleOptions from '../../Select/SelectSingleOptions';
-import SelectSearchBox from '../../Select/SelectSearchBox';
+import SelectSearchBox, { filterOptionsByQuery } from '../../Select/SelectSearchBox';
+import shallowEqual from '../../../utils/shallowEqual';
 
 class FiltersSelect extends Component {
   static propTypes = {
@@ -15,9 +16,34 @@ class FiltersSelect extends Component {
     })).isRequired,
   };
 
-  state = {
-    opened: false,
-  };
+  constructor(props) {
+    super(props);
+
+    const originalOptions = props.options.map(this.mapOptions);
+    this.state = {
+      opened: false,
+      query: '',
+      originalOptions,
+      options: originalOptions,
+      withSearchBar: originalOptions.length > 5,
+    };
+  }
+
+  componentWillReceiveProps({ options: nextOptions }) {
+    const { options } = this.props;
+
+    if (!shallowEqual(options, nextOptions)) {
+      const originalOptions = nextOptions.map(this.mapOptions);
+
+      this.setState({
+        originalOptions,
+        options: originalOptions,
+        withSearchBar: originalOptions.length > 5,
+      });
+    }
+  }
+
+  mapOptions = option => ({ key: option.uuid, label: option.label, value: option.uuid });
 
   handleIconClick = () => {
     if (!this.state.opened) {
@@ -37,6 +63,20 @@ class FiltersSelect extends Component {
     this.setState({ opened: false });
   };
 
+  handleSearch = (e) => {
+    if (e === null) {
+      this.setState({
+        query: '',
+        options: this.state.originalOptions,
+      });
+    } else {
+      this.setState({
+        query: e.target.value,
+        options: filterOptionsByQuery(e.target.value, this.state.options),
+      });
+    }
+  };
+
   handleClickOutside = () => {
     if (this.state.opened) {
       this.handleClose();
@@ -49,15 +89,12 @@ class FiltersSelect extends Component {
   };
 
   render() {
-    const { opened } = this.state;
-    const { options } = this.props;
-
+    const { opened, query, options, withSearchBar } = this.state;
     const className = classNames('select-block', {
       'is-opened': opened,
     });
-
     const selectBlockClassName = classNames('select-block__content', {
-      'with-search-bar': options.length > 5,
+      'with-search-bar': withSearchBar,
     });
 
     return (
@@ -72,16 +109,22 @@ class FiltersSelect extends Component {
         <div className={className}>
           <div className={selectBlockClassName}>
             {
-              options.length > 5 &&
+              withSearchBar &&
               <SelectSearchBox
-                query=""
-                onChange={() => {}}
+                query={query}
+                onChange={this.handleSearch}
               />
+            }
+            {
+              query && options.length === 0 &&
+              <div className="text-muted font-size-10 margin-10">
+                Options by query "{query}" not found...
+              </div>
             }
             <div className="select-block__container">
               <SelectSingleOptions
                 onChange={this.handleChange}
-                options={options.map(option => ({ key: option.uuid, label: option.label, value: option.uuid }))}
+                options={options}
               />
             </div>
           </div>

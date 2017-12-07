@@ -2,10 +2,32 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { reduxForm, getFormValues } from 'redux-form';
+import { getFormValues } from 'redux-form';
+import { I18n } from 'react-redux-i18n';
 import { createValidator } from '../../../../../utils/validator';
 import { statusesLabels, filterLabels } from '../../../../../constants/user';
-import AdvancedFilters, { FilterItem, FilterField } from '../../../../../components/AdvancedFilters';
+import createDynamicForm, { FilterItem, FilterField, TYPES, SIZES } from '../../../../../components/DynamicFilters';
+
+const FORM_NAME = 'userListGridFilter';
+const DynamicFilters = createDynamicForm({
+  form: FORM_NAME,
+  touchOnChange: true,
+  validate: (values, props) => createValidator({
+    keyword: 'string',
+    country: `in:,${Object.keys(props.countries).join()}`,
+    currencies: `in:,${props.currencies.join()}`,
+    ageFrom: 'integer',
+    ageTo: 'integer',
+    affiliateId: 'string',
+    status: 'string',
+    tags: `in:,${props.tags.map(tag => tag.value).join()}`,
+    segments: 'string',
+    registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
+    balanceFrom: 'integer',
+    balanceTo: 'integer',
+  }, filterLabels, false),
+});
 
 class UserGridFilter extends Component {
   static propTypes = {
@@ -24,14 +46,9 @@ class UserGridFilter extends Component {
       balanceFrom: PropTypes.string,
       balanceTo: PropTypes.string,
     }).isRequired,
-    submitting: PropTypes.bool,
-    pristine: PropTypes.bool,
-    handleSubmit: PropTypes.func,
-    reset: PropTypes.func,
+    disabled: PropTypes.bool,
     onReset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    disabled: PropTypes.bool,
-    invalid: PropTypes.bool.isRequired,
     tags: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
@@ -57,10 +74,6 @@ class UserGridFilter extends Component {
       balanceFrom: '',
       balanceTo: '',
     },
-    submitting: false,
-    pristine: false,
-    handleSubmit: null,
-    reset: null,
     disabled: false,
   };
 
@@ -80,19 +93,11 @@ class UserGridFilter extends Component {
       : true;
   };
 
-  handleReset = () => {
-    this.props.reset();
-    this.props.onReset();
-  };
-
   render() {
     const {
-      submitting,
-      pristine,
-      handleSubmit,
       onSubmit,
+      onReset,
       disabled,
-      invalid,
       tags,
       currencies,
       countries,
@@ -100,13 +105,16 @@ class UserGridFilter extends Component {
 
     return (
       <div className="well">
-        <AdvancedFilters
-          onSubmit={handleSubmit(onSubmit)}
-          onResetClick={this.handleReset}
-          resetDisabled={submitting || (disabled && pristine)}
-          submitDisabled={submitting || (disabled && pristine) || invalid}
+        <DynamicFilters
+          allowSubmit={disabled}
+          allowReset={disabled}
+          onSubmit={onSubmit}
+          onReset={onReset}
+          tags={tags}
+          currencies={currencies}
+          countries={countries}
         >
-          <FilterItem label={filterLabels.searchValue} size="big" type="input" default>
+          <FilterItem label={filterLabels.searchValue} size={SIZES.big} type={TYPES.input} default>
             <FilterField
               id="users-list-search-field"
               name="searchValue"
@@ -115,7 +123,7 @@ class UserGridFilter extends Component {
             />
           </FilterItem>
 
-          <FilterItem label={filterLabels.country} size="medium" type="nas:select" default>
+          <FilterItem label={filterLabels.country} size={SIZES.medium} type={TYPES.nas_select} default>
             <FilterField name="countries" multiple>
               {Object
                 .keys(countries)
@@ -124,23 +132,23 @@ class UserGridFilter extends Component {
             </FilterField>
           </FilterItem>
 
-          <FilterItem label={filterLabels.city} size="small" type="input" default>
+          <FilterItem label={filterLabels.city} size={SIZES.small} type={TYPES.input} default>
             <FilterField name="city" type="text" />
           </FilterItem>
 
-          <FilterItem label={filterLabels.age} size="small" type="range:input" default>
+          <FilterItem label={filterLabels.age} size={SIZES.small} type={TYPES.range_input} default>
             <FilterField name="ageFrom" type="text" />
             <FilterField name="ageTo" type="text" />
           </FilterItem>
 
-          <FilterItem label={filterLabels.balance} size="small" type="range:input" default>
+          <FilterItem label={filterLabels.balance} size={SIZES.small} type={TYPES.range_input} default>
             <FilterField name="balanceFrom" type="text" />
             <FilterField name="balanceTo" type="text" />
           </FilterItem>
 
-          <FilterItem label={filterLabels.currencies} size="small" type="select" default>
+          <FilterItem label={filterLabels.currencies} size={SIZES.small} type={TYPES.select}>
             <FilterField name="currencies">
-              <option value="">Any</option>
+              <option value="">{I18n.t('COMMON.ANY')}</option>
               {currencies.map(currency => (
                 <option key={currency} value={currency}>
                   {currency}
@@ -149,13 +157,13 @@ class UserGridFilter extends Component {
             </FilterField>
           </FilterItem>
 
-          <FilterItem label={filterLabels.affiliateId} size="medium" type="input">
+          <FilterItem label={filterLabels.affiliateId} size={SIZES.medium} type={TYPES.input}>
             <FilterField name="affiliateId" type="text" />
           </FilterItem>
 
-          <FilterItem label={filterLabels.status} size="small" type="select">
+          <FilterItem label={filterLabels.status} size={SIZES.small} type={TYPES.select}>
             <FilterField name="statuses">
-              <option value="">Any</option>
+              <option value="">{I18n.t('COMMON.ANY')}</option>
               {Object.keys(statusesLabels).map(status => (
                 <option key={status} value={status}>
                   {statusesLabels[status]}
@@ -164,9 +172,9 @@ class UserGridFilter extends Component {
             </FilterField>
           </FilterItem>
 
-          <FilterItem label={filterLabels.tags} size="small" type="select">
+          <FilterItem label={filterLabels.tags} size={SIZES.small} type={TYPES.select}>
             <FilterField name="tags">
-              <option value="">Any</option>
+              <option value="">{I18n.t('COMMON.ANY')}</option>
               {
                 tags.length > 0 &&
                 tags.map(tag => (
@@ -178,13 +186,13 @@ class UserGridFilter extends Component {
             </FilterField>
           </FilterItem>
 
-          <FilterItem label={filterLabels.segments} size="small" type="select">
+          <FilterItem label={filterLabels.segments} size={SIZES.small} type={TYPES.select}>
             <FilterField name="segments">
-              <option value="">Any</option>
+              <option value="">{I18n.t('COMMON.ANY')}</option>
             </FilterField>
           </FilterItem>
 
-          <FilterItem label={filterLabels.registrationDate} size="big" type="range:date">
+          <FilterItem label={filterLabels.registrationDate} size={SIZES.big} type={TYPES.range_date}>
             <FilterField
               utc
               name="registrationDateFrom"
@@ -196,33 +204,12 @@ class UserGridFilter extends Component {
               isValidDate={this.endDateValidator('registrationDateFrom')}
             />
           </FilterItem>
-        </AdvancedFilters>
+        </DynamicFilters>
       </div>
     );
   }
 }
 
-const FORM_NAME = 'userListGridFilter';
-const FilterForm = reduxForm({
-  form: FORM_NAME,
-  touchOnChange: true,
-  validate: (values, props) => createValidator({
-    keyword: 'string',
-    country: `in:,${Object.keys(props.countries).join()}`,
-    currencies: `in:,${props.currencies.join()}`,
-    ageFrom: 'integer',
-    ageTo: 'integer',
-    affiliateId: 'string',
-    status: 'string',
-    tags: `in:,${props.tags.map(tag => tag.value).join()}`,
-    segments: 'string',
-    registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
-    balanceFrom: 'integer',
-    balanceTo: 'integer',
-  }, filterLabels, false),
-})(UserGridFilter);
-
 export default connect(state => ({
   currentValues: getFormValues(FORM_NAME)(state),
-}))(FilterForm);
+}))(UserGridFilter);

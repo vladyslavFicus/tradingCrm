@@ -55,6 +55,7 @@ class List extends Component {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
+
   handleRefresh = () => this.props.fetchESEntities({
     ...this.state.filters,
     page: this.state.page,

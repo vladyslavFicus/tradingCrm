@@ -13,7 +13,6 @@ const TYPES = {
   nas_select: 'nas:select',
   range_input: 'range:input',
   range_date: 'range:date',
-  range_datetime: 'range:datetime',
 };
 
 export {

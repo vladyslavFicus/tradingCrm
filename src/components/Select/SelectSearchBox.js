@@ -32,4 +32,15 @@ SelectSearchBox.defaultProps = {
   query: '',
 };
 
+const filterOptionsByQuery = (query, options) => {
+  if (query === '') {
+    return options;
+  }
+  const lowerCasedQuery = query.toLowerCase();
+
+  return options.filter(option => option.label.toLowerCase().indexOf(lowerCasedQuery) > -1);
+};
+
+export { filterOptionsByQuery };
+
 export default SelectSearchBox;
