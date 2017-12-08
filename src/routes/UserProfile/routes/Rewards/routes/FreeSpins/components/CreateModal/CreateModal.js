@@ -14,6 +14,8 @@ import { targetTypes } from '../../../../../../../../constants/note';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { aggregators } from '../../constants';
+import MicrogamingAdditionalFields from './MicrogamingAdditionalFields';
+import NetentAdditionalFields from './NetentAdditionalFields';
 
 class CreateModal extends Component {
   static propTypes = {
@@ -147,47 +149,29 @@ class CreateModal extends Component {
       const { currentCoins, currentCoinSizes } = this.state;
 
       return (
-        <div className="col-md-8">
-          <div className="row">
-            <div className="col-md-6">
-              <Field
-                name="coinSize"
-                label={I18n.t(attributeLabels.coinSize)}
-                labelClassName="form-label"
-                position="vertical"
-                component={SelectField}
-                showErrorMessage
-                disabled={!currentValues || !currentValues.providerId}
-                inputAddon={<Currency code={currency} />}
-              >
-                <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_COIN_SIZE')}</option>
-                {currentCoinSizes.map(item => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="col-md-6">
-              <Field
-                name="numberOfCoins"
-                label={I18n.t(attributeLabels.numberOfCoins)}
-                labelClassName="form-label"
-                position="vertical"
-                component={SelectField}
-                showErrorMessage
-                disabled={!currentValues || !currentValues.providerId}
-              >
-                <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_NUMBER_OF_COINS')}</option>
-                {currentCoins.map(item => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </Field>
-            </div>
-          </div>
-        </div>
+        <MicrogamingAdditionalFields
+          currency={currency}
+          disabled={!currentValues || !currentValues.providerId}
+          coins={currentCoins}
+          coinSizes={currentCoinSizes}
+          coinLabel={I18n.t(attributeLabels.numberOfCoins)}
+          coinSizeLabel={I18n.t(attributeLabels.coinSize)}
+        />
+      );
+    }
+
+    if (currentValues.aggregatorId === aggregators.netent) {
+      const { currentBetLevels, currentCoinValueLevels } = this.state;
+
+      return (
+        <NetentAdditionalFields
+          currency={currency}
+          disabled={!currentValues || !currentValues.providerId}
+          betLevels={currentCoins}
+          coinValueLevels={currentCoinSizes}
+          betLevelLabel={I18n.t(attributeLabels.betLevel)}
+          coinValueLevelLabel={I18n.t(attributeLabels.coinValueLevel)}
+        />
       );
     }
 

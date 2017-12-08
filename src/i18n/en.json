@@ -110,7 +110,7 @@
           "SUSPECTED_IDENTITY_THEFT": "Suspected Identity Theft"
         },
         "CONSTANTS": {
-          "REASON_LABEL": ""
+          "REASON_LABEL": "Reason"
         }
       },
       "KYC_STATUS_TITLE": {
@@ -498,7 +498,9 @@
           "BONUS_LIFE_TIME": "Bonus life time",
           "MONEY_TYPE_PRIORITY": "Wagering",
           "COIN_SIZE": "Coin price",
-          "NUMBER_OF_COINS": "Number of coins"
+          "NUMBER_OF_COINS": "Number of coins",
+          "BET_LEVEL": "Bet level",
+          "COIN_VALUE_LEVEL": "Coin value level"
         },
         "FREE_SPIN_VALUE": "Free spin value",
         "TOTAL_VALUE": "Total value",
