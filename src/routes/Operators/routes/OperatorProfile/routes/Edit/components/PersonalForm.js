@@ -31,10 +31,8 @@ class PersonalForm extends Component {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
-          <div className="col-xl-6">
-            <span className="personal-form-heading">
-              {I18n.t('OPERATOR_PROFILE.PERSONAL_INFORMATION.TITLE')}
-            </span>
+          <div className="col-xl-6 personal-form-heading">
+            {I18n.t('OPERATOR_PROFILE.PERSONAL_INFORMATION.TITLE')}
           </div>
           {!(pristine || submitting) &&
           <div className="col-xl-6 text-right">

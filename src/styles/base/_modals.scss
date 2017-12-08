@@ -126,7 +126,6 @@
 
 .modal-header-tabs {
   display: flex;
-  flex-flow: row nowrap;
   justify-content: space-between;
   &__item {
     min-width: 0;
@@ -145,7 +144,6 @@
 
 .modal-body-tabs {
   display: flex;
-  flex-flow: row nowrap;
   margin-top: 20px;
   margin-bottom: 20px;
   &__item {
@@ -155,7 +153,6 @@
 
 .modal-footer-tabs {
   display: flex;
-  flex-flow: row nowrap;
   justify-content: center;
   margin-right: -15px;
   margin-bottom: 20px;

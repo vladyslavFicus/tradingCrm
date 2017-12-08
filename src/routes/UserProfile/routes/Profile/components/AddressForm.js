@@ -51,8 +51,8 @@ class AddressForm extends Component {
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="row margin-bottom-20">
-            <div className="col-xl-6">
-              <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}</span>
+            <div className="col-xl-6 personal-form-heading">
+              {I18n.t('PLAYER_PROFILE.PROFILE.ADDRESS.TITLE')}
             </div>
 
             <div className="col-xl-6 text-right">

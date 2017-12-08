@@ -88,7 +88,6 @@
   }
   .info-block {
     display: flex;
-    flex-flow: row nowrap;
     align-items: baseline;
     color: #4a4a4a;
     & + .info-block {

@@ -575,7 +575,6 @@ class View extends Component {
                   disabled={!canUpdateProfile}
                 />
               </div>
-              <div className="col-md-4" />
             </div>
           </Card>
 
