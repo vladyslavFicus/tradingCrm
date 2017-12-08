@@ -114,10 +114,10 @@ class PhoneForm extends Component {
               position="vertical"
               showInputButton={isPhoneVerifiable}
               labelAddon={(
-                !isPhoneDirty && profile.phoneNumberVerified &&
-                <div className="verification-label color-success font-size-12">
-                  <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                </div>
+                !isPhoneDirty && profile.phoneNumberVerified ?
+                  <div className="verification-label color-success font-size-12">
+                    <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+                  </div> : null
               )}
               inputButton={
                 <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
