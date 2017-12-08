@@ -51,6 +51,8 @@ const actionHandlers = {
         lines: i.lines ? parseNumbersRange(i.lines) : [],
         coins: i.coins ? parseNumbersRange(i.coins) : [],
         coinSizes: i.coinSizes ? parseNumbersRange(i.coinSizes) : [],
+        betLevel: i.betLevel ? parseNumbersRange(i.betLevel) : [],
+        coinValueLevel: i.coinValueLevel ? parseNumbersRange(i.coinValueLevel) : [],
       })),
       isLoading: false,
       receivedAt: timestamp(),
