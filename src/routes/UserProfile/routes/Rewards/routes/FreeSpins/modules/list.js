@@ -31,20 +31,28 @@ const mapEntities = async (dispatch, pageable) => {
 
   const newPageable = { ...pageable };
 
-  newPageable.content = newPageable.content.map(item => {
+  newPageable.content = newPageable.content.map((item) => {
     let betPrice = item.betPerLine;
+    let linesPerSpin = item.linesPerSpin
+      ? parseFloat(item.linesPerSpin) : 0;
 
     if (item.providerId === aggregators.microgaming) {
       const coinSize = (item.coinSize ? parseFloat(item.coinSize) : 0) || 0;
       const numberOfCoins = (item.numberOfCoins ? parseInt(item.numberOfCoins, 10) : 0) || 0;
 
       betPrice = coinSize * numberOfCoins;
+    } else if (item.aggregatorId === aggregators.netent) {
+      const betLevel = (item.betLevel ? parseFloat(item.betLevel) : 0) || 0;
+      const coinValueLevel = (item.coinValueLevel ? parseInt(item.coinValueLevel, 10) : 0) || 0;
+
+      linesPerSpin = 1;
+      betPrice = betLevel * coinValueLevel;
     }
 
     return {
       ...item,
-      spinValue: { amount: betPrice * item.linesPerSpin, currency: item.currencyCode },
-      totalValue: { amount: betPrice * item.linesPerSpin * item.freeSpinsAmount, currency: item.currencyCode },
+      spinValue: { amount: betPrice * linesPerSpin, currency: item.currencyCode },
+      totalValue: { amount: betPrice * linesPerSpin * item.freeSpinsAmount, currency: item.currencyCode },
       betPerLine: { amount: betPrice, currency: item.currencyCode },
       winning: { amount: item.winning, currency: item.currencyCode },
       prize: item.prize ? { amount: item.prize, currency: item.currencyCode } : null,
