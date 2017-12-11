@@ -17,7 +17,6 @@ const NetentAdditionalFields = ({ betLevelLabel, coinValueLevelLabel, betLevels,
           component={SelectField}
           showErrorMessage
           disabled={disabled}
-          inputAddon={<Currency code={currency} />}
         >
           <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_COIN_SIZE')}</option>
           {betLevels.map(item => (

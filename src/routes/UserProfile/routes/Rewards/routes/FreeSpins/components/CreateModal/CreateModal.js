@@ -64,6 +64,8 @@ class CreateModal extends Component {
     currentLines: [],
     currentCoins: [],
     currentCoinSizes: [],
+    currentBetLevels: [],
+    currentCoinValueLevels: [],
     currentGames: [],
   };
 
@@ -100,6 +102,8 @@ class CreateModal extends Component {
       currentLines: [],
       currentCoins: [],
       currentCoinSizes: [],
+      currentBetLevels: [],
+      currentCoinValueLevels: [],
       currentGames: this.props.games.filter(i => i.gameProviderId === e.target.value),
     });
   };
@@ -118,6 +122,8 @@ class CreateModal extends Component {
         currentLines: game.lines,
         currentCoins: game.coins,
         currentCoinSizes: game.coinSizes,
+        currentBetLevels: game.betLevels,
+        currentCoinValueLevels: game.coinValueLevels,
       });
     }
   };
@@ -132,6 +138,16 @@ class CreateModal extends Component {
     }
   };
 
+  handleSubmit = (form) => {
+    const data = { ...form };
+
+    if (data.aggregatorId === aggregators.netent) {
+      data.comment = data.name;
+    }
+
+    this.props.onSubmit(data);
+  };
+
   handleSubmitNote = (data) => {
     this.props.onManageNote(data);
     this.context.hidePopover();
@@ -144,6 +160,10 @@ class CreateModal extends Component {
 
   renderAdditionalFields = () => {
     const { currentValues, currency } = this.props;
+
+    if (!currentValues.aggregatorId) {
+      return null;
+    }
 
     if (currentValues.aggregatorId === aggregators.microgaming) {
       const { currentCoins, currentCoinSizes } = this.state;
@@ -167,8 +187,8 @@ class CreateModal extends Component {
         <NetentAdditionalFields
           currency={currency}
           disabled={!currentValues || !currentValues.providerId}
-          betLevels={currentCoins}
-          coinValueLevels={currentCoinSizes}
+          betLevels={currentBetLevels}
+          coinValueLevels={currentCoinValueLevels}
           betLevelLabel={I18n.t(attributeLabels.betLevel)}
           coinValueLevelLabel={I18n.t(attributeLabels.coinValueLevel)}
         />
@@ -195,7 +215,10 @@ class CreateModal extends Component {
 
   renderPrice = () => {
     const { currentValues, currency } = this.props;
-    let betPrice = 0;
+    let betPrice = currentValues && currentValues.betPerLine
+      ? parseFloat(currentValues.betPerLine) : 0;
+    let linesPerSpin = currentValues && currentValues.linesPerSpin
+      ? parseFloat(currentValues.linesPerSpin) : 0;
 
     if (currentValues.aggregatorId === aggregators.microgaming) {
       const coinSize = (
@@ -208,13 +231,20 @@ class CreateModal extends Component {
       ) || 0;
 
       betPrice = coinSize * numberOfCoins;
-    } else {
-      betPrice = currentValues && currentValues.betPerLine
-        ? parseFloat(currentValues.betPerLine) : 0;
+    } else if (currentValues.aggregatorId === aggregators.netent) {
+      const betLevel = (
+        currentValues && currentValues.betLevel
+          ? parseFloat(currentValues.betLevel) : 0
+      ) || 0;
+      const coinValueLevel = (
+        currentValues && currentValues.coinValueLevel
+          ? parseInt(currentValues.coinValueLevel, 10) : 0
+      ) || 0;
+
+      linesPerSpin = 1;
+      betPrice = betLevel * coinValueLevel;
     }
 
-    const linesPerSpin = currentValues && currentValues.linesPerSpin
-      ? parseFloat(currentValues.linesPerSpin) : 0;
     const freeSpinsAmount = currentValues && currentValues.freeSpinsAmount
       ? parseInt(currentValues.freeSpinsAmount, 10) : 0;
     const spinValue = { amount: 0, currency };
@@ -243,7 +273,6 @@ class CreateModal extends Component {
 
   render() {
     const {
-      onSubmit,
       handleSubmit,
       onClose,
       pristine,
@@ -256,10 +285,13 @@ class CreateModal extends Component {
       note,
     } = this.props;
     const { currentLines, currentGames } = this.state;
+    const showLinesPerSpin = (
+      currentValues && !!currentValues.aggregatorId && currentValues.aggregatorId !== aggregators.netent
+    );
 
     return (
       <Modal className="create-free-spin-modal" toggle={onClose} isOpen>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalHeader toggle={onClose}>
             {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.TITLE')}
           </ModalHeader>
@@ -353,24 +385,27 @@ class CreateModal extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-4">
-                <Field
-                  name="linesPerSpin"
-                  label={I18n.t(attributeLabels.linesPerSpin)}
-                  labelClassName="form-label"
-                  position="vertical"
-                  component={SelectField}
-                  showErrorMessage={false}
-                  disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
-                >
-                  <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}</option>
-                  {currentLines.map(item => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </Field>
-              </div>
+              {
+                showLinesPerSpin &&
+                <div className="col-md-4">
+                  <Field
+                    name="linesPerSpin"
+                    label={I18n.t(attributeLabels.linesPerSpin)}
+                    labelClassName="form-label"
+                    position="vertical"
+                    component={SelectField}
+                    showErrorMessage={false}
+                    disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
+                  >
+                    <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}</option>
+                    {currentLines.map(item => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </Field>
+                </div>
+              }
               {this.renderAdditionalFields()}
             </div>
             {this.renderPrice()}
