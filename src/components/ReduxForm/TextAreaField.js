@@ -142,9 +142,9 @@ class TextAreaField extends Component {
       inputField = (
         <div className="input-group">
           {inputAddonPosition === 'right' && inputField}
-          <div className="input-group-addon">
+          <span className="input-group-addon">
             {inputAddon}
-          </div>
+          </span>
           {inputAddonPosition === 'left' && inputField}
         </div>
       );
@@ -152,11 +152,11 @@ class TextAreaField extends Component {
 
     if (inputButton) {
       inputField = (
-        <div className="form-control-with-button">
+        <div className="input-group">
           {inputField}
-          <div className="form-control-button">
+          <span className="input-group-btn">
             {showInputButton && inputButton}
-          </div>
+          </span>
         </div>
       );
     }
