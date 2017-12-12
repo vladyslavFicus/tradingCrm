@@ -21,6 +21,9 @@ import MyProfileSidebar from '../../components/MyProfileSidebar';
 import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
 import './NewLayout.scss';
 
+import moment from 'moment';
+import DateRangePickerWrapper from '../../components/DateRangePickerWrapper';
+
 const NOTE_POPOVER = 'note-popover';
 const MINI_PROFILE_POPOVER = 'mini-profile-popover';
 const popoverInitialState = {
@@ -349,8 +352,24 @@ class NewLayout extends Component {
       menuItemClick,
     } = this.props;
 
+
     return (
       <div>
+
+        {/*<DateRangePickerWrapper
+          enableOutsideDays
+          isOutsideRange={() => false}
+          showDefaultInputIcon
+          initialStartDate={moment().add(2, 'days')}
+          initialEndDate={moment().add(5, 'days')}
+          hideKeyboardShortcutsPanel
+          customArrowIcon="-"
+          displayFormat="DD.MM.YYYY"
+          keepOpenOnDateSelect
+          firstDayOfWeek={1}
+          //focused
+        />*/}
+
         <Navbar
           router={router}
           showSearch={false}

@@ -170,6 +170,11 @@ config.plugins.push(extractStyles);
 // Images
 // ------------------------------------
 config.module.rules.push({
+  test: /\.svg$/,
+  loader: 'svg-inline-loader',
+});
+
+config.module.rules.push({
   test: /\.(png|jpg|gif)$/,
   loader: 'url-loader',
   options: {

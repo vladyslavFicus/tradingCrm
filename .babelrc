@@ -5,12 +5,16 @@
     "stage-0"
   ],
   "plugins": [
-    "transform-runtime"
+    "transform-runtime",
+    "inline-react-svg"
   ],
   "env": {
     "production": {
       "presets": [
         "react-optimize"
+      ],
+      "plugins": [
+        "inline-react-svg"
       ]
     }
   }
