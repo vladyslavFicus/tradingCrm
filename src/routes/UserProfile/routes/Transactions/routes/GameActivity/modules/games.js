@@ -44,17 +44,17 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_GAMES.SUCCESS]: (state, action) => ({
+  [FETCH_GAMES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    entities: mapGames(action.payload.content),
+    entities: mapGames(payload.content),
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_GAMES.FAILURE]: (state, action) => ({
+  [FETCH_GAMES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const actionTypes = {

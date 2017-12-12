@@ -117,28 +117,28 @@ const actionHandlers = {
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
     noResults: false,
   }),
-  [FETCH_FEED.SUCCESS]: (state, action) => ({
+  [FETCH_FEED.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? mapAuditEntities(action.payload.content)
+      ...payload,
+      ...payload,
+      content: payload.number === 0
+        ? mapAuditEntities(payload.content)
         : [
           ...state.entities.content,
-          ...mapAuditEntities(action.payload.content),
+          ...mapAuditEntities(payload.content),
         ],
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_FEED.FAILURE]: (state, action) => ({
+  [FETCH_FEED.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [EXPORT_FEED.REQUEST]: state => ({
     ...state,

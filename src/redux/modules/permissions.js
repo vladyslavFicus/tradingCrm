@@ -64,10 +64,10 @@ const actionHandlers = {
     error: null,
     isLoading: true,
   }),
-  [FETCH_PERMISSIONS.SUCCESS]: (state, action) => ({
+  [FETCH_PERMISSIONS.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    data: action.payload.map(item => `${item.serviceName};${item.httpMethod};${item.urlPattern}`),
-    receivedAt: timestamp(),
+    data: payload.map(item => `${item.serviceName};${item.httpMethod};${item.urlPattern}`),
+    receivedAt: endRequestTime,
     isLoading: false,
   }),
   [FETCH_PERMISSIONS.FAILURE]: (state, action) => ({

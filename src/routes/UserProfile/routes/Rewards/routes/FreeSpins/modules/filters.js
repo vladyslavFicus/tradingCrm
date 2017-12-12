@@ -41,17 +41,17 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_FILTERS.SUCCESS]: (state, action) => ({
+  [FETCH_FILTERS.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    data: action.payload,
+    data: payload,
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_FILTERS.FAILURE]: (state, action) => ({
+  [FETCH_FILTERS.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const actionTypes = {
