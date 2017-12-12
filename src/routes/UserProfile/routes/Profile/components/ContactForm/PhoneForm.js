@@ -76,11 +76,11 @@ class PhoneForm extends Component {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
-          <div className="col-md-6">
-            <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE')}</span>
+          <div className="col-xl-6 personal-form-heading">
+            {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.TITLE')}
           </div>
 
-          <div className="col-md-6 text-right">
+          <div className="col-xl-6 text-right">
             {
               dirty && !submitting && valid && !disabled &&
               <button className="btn btn-sm btn-primary" type="submit">
@@ -89,8 +89,8 @@ class PhoneForm extends Component {
             }
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-3">
+        <div className="form-row">
+          <div className="form-row__small">
             <Field
               name="phoneCode"
               component={SelectField}
@@ -103,32 +103,33 @@ class PhoneForm extends Component {
               {phoneCodes.map(code => <option key={code} value={code}>+{code}</option>)}
             </Field>
           </div>
-          <div className="col-md-9">
+          <div className="form-row__big">
             <Field
               name="phone"
               type="text"
-              className="form-group player-profile__contact-input"
               component={InputField}
               showErrorMessage
               label={attributeLabels.phone}
               position="vertical"
-              showInputButton={isPhoneVerifiable}
               labelAddon={(
-                !isPhoneDirty && profile.phoneNumberVerified &&
-                <div className="verification-label color-success font-size-12">
-                  <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
-                </div>
+                !isPhoneDirty && profile.phoneNumberVerified ?
+                  <div className="verification-label color-success font-size-12">
+                    <i className="fa fa-check-circle-o" /> {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFIED')}
+                  </div> : null
               )}
-              inputButton={
-                <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
-                  <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
-                    {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
-                  </button>
-                </PermissionContent>
-              }
               disabled={disabled}
             />
           </div>
+          {
+            isPhoneVerifiable &&
+            <PermissionContent permissions={permissions.USER_PROFILE.VERIFY_PHONE}>
+              <div className="form-row__small form-row__action">
+                <button type="button" className="btn btn-success-outline" onClick={this.handleVerifyPhoneClick}>
+                  {I18n.t('PLAYER_PROFILE.PROFILE.CONTACTS.VERIFY_PHONE')}
+                </button>
+              </div>
+            </PermissionContent>
+          }
         </div>
       </form>
     );

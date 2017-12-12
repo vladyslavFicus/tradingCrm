@@ -33,7 +33,6 @@ class FilterForm extends Component {
     providers: PropTypes.array.isRequired,
     games: PropTypes.array.isRequired,
     gamesList: PropTypes.object.isRequired,
-    gameCategories: PropTypes.object.isRequired,
     currentValues: PropTypes.object,
   };
   static defaultProps = {
@@ -66,7 +65,6 @@ class FilterForm extends Component {
   render() {
     const {
       games,
-      gameCategories,
       aggregators,
       gamesList,
       providers,
@@ -131,21 +129,6 @@ class FilterForm extends Component {
                 {games.map(item => (
                   <option key={item} value={item}>
                     {gamesList[item] || item}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="gameTypes"
-                label={I18n.t(filterFormAttributeLabels.gameTypes)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">{I18n.t('COMMON.ANY')}</option>
-                {Object.keys(gameCategories).map(item => (
-                  <option key={item} value={item}>
-                    {gameCategories[item]}
                   </option>
                 ))}
               </Field>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from '../../../../../../constants/propTypes';
-import './ContactForm.scss';
 import PhoneForm from './PhoneForm';
 import EmailForm from './EmailForm';
 
@@ -42,7 +41,7 @@ class ContactForm extends Component {
     } = this.props;
 
     return (
-      <div className="col-md-12">
+      <div>
         <PhoneForm
           disabled={disabled}
           profile={profile}

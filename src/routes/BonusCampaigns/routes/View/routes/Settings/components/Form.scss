@@ -23,7 +23,6 @@
 .add-campaign {
   &-setting {
     display: flex;
-    flex-flow: row nowrap;
     justify-content: center;
     margin-top: 40px;
     .form-group {
@@ -81,7 +80,6 @@
   }
   &__wrapper {
     display: flex;
-    flex-flow: row nowrap;
   }
   &-values {
     font-family: ArialMT, Arial, sans-serif;

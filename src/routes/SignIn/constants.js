@@ -31,7 +31,7 @@ const brandsConfig = {
   },
   [brands.loki]: {
     name: 'Loki',
-    image: { src: '/img/loki-brand-logo.png' },
+    image: { src: '/img/loki-brand-logo.svg' },
   },
   [brands.vulcanneon]: {
     name: 'Vulcan Neon',
