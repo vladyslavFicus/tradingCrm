@@ -5,14 +5,14 @@ import moment from 'moment';
 import omit from 'lodash/omit';
 import { Field } from 'redux-form';
 import { withStyles, withStylesPropTypes, css } from 'react-with-styles';
+
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
 import { DateRangePickerPhrases } from 'react-dates/lib/defaultPhrases';
 import { DateRangePickerShape, isInclusivelyAfterDay, isSameDay } from 'react-dates/lib';
 import { START_DATE, END_DATE, HORIZONTAL_ORIENTATION, ANCHOR_LEFT } from 'react-dates/constants';
-
-import DateRangePickerController from './DateRangePickerController';
+import DateRangePickerController from 'react-dates/lib/components/DateRangePicker';
 import { presets } from './periodPresets';
 
 const propTypes = {
