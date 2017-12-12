@@ -7,12 +7,12 @@ import { Field } from 'redux-form';
 import { withStyles, withStylesPropTypes, css } from 'react-with-styles';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
-import DateRangePickerController from '../../ReactDates/components/DateRangePickerController';
-import { DateRangePickerPhrases } from '../../ReactDates/defaultPhrases';
-import DateRangePickerShape from '../../ReactDates/shapes/DateRangePickerShape';
-import { START_DATE, END_DATE, HORIZONTAL_ORIENTATION, ANCHOR_LEFT } from '../../ReactDates/constants';
-import isInclusivelyAfterDay from '../../ReactDates/utils/isInclusivelyAfterDay';
-import isSameDay from '../../ReactDates/utils/isSameDay';
+
+import { DateRangePickerPhrases } from 'react-dates/lib/defaultPhrases';
+import { DateRangePickerShape, isInclusivelyAfterDay, isSameDay } from 'react-dates/lib';
+import { START_DATE, END_DATE, HORIZONTAL_ORIENTATION, ANCHOR_LEFT } from 'react-dates/constants';
+
+import DateRangePickerController from './DateRangePickerController';
 import { presets } from './periodPresets';
 
 const propTypes = {

@@ -6,22 +6,17 @@ import { Portal } from 'react-portal';
 import { forbidExtraProps } from 'airbnb-prop-types';
 import { addEventListener } from 'consolidated-events';
 import isTouchDevice from 'is-touch-device';
-
-import { DateRangePickerPhrases } from '../defaultPhrases';
-
-import OutsideClickHandler from './OutsideClickHandler';
-import getResponsiveContainerStyles from '../utils/getResponsiveContainerStyles';
-import getInputHeight from '../utils/getInputHeight';
-
-import isInclusivelyAfterDay from '../utils/isInclusivelyAfterDay';
-
-import DateRangePickerInputController from './DateRangePickerInputController';
-import DayPickerRangeController from './DayPickerRangeController';
-
-import CloseButton from './CloseButton';
-
-import DateRangePickerShape from '../shapes/DateRangePickerShape';
-
+import { DateRangePickerPhrases } from 'react-dates/lib/defaultPhrases';
+import OutsideClickHandler from 'react-dates/lib/components/OutsideClickHandler';
+import getResponsiveContainerStyles from 'react-dates/lib/utils/getResponsiveContainerStyles';
+import getInputHeight from 'react-dates/lib/utils/getInputHeight';
+import {
+  isInclusivelyAfterDay,
+  DateRangePickerShape,
+  DateRangePickerInputController,
+  DayPickerRangeController,
+} from 'react-dates/lib';
+import CloseButton from 'react-dates/lib/components/CloseButton';
 import {
   START_DATE,
   END_DATE,
@@ -35,7 +30,7 @@ import {
   ICON_BEFORE_POSITION,
   FANG_HEIGHT_PX,
   DEFAULT_VERTICAL_SPACING,
-} from '../constants';
+} from 'react-dates/constants';
 
 const propTypes = forbidExtraProps({
   ...withStylesPropTypes,
