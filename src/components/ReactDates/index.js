@@ -1,7 +1,7 @@
 export { default as CalendarDay } from './components/CalendarDay';
 export { default as CalendarMonth } from './components/CalendarMonth';
 export { default as CalendarMonthGrid } from './components/CalendarMonthGrid';
-export { default as DateRangePicker } from './components/DateRangePicker';
+export { default as DateRangePicker } from './components/DateRangePickerController';
 export { default as DateRangePickerInput } from './components/DateRangePickerInput';
 export { default as DateRangePickerInputController } from './components/DateRangePickerInputController';
 export { default as DateRangePickerShape } from './shapes/DateRangePickerShape';

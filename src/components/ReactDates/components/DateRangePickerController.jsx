@@ -110,7 +110,7 @@ const defaultProps = {
   phrases: DateRangePickerPhrases,
 };
 
-class DateRangePicker extends React.Component {
+class DateRangePickerController extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -522,10 +522,10 @@ class DateRangePicker extends React.Component {
   }
 }
 
-DateRangePicker.propTypes = propTypes;
-DateRangePicker.defaultProps = defaultProps;
+DateRangePickerController.propTypes = propTypes;
+DateRangePickerController.defaultProps = defaultProps;
 
-export { DateRangePicker as PureDateRangePicker };
+export { DateRangePickerController as PureDateRangePicker };
 export default withStyles(({ reactDates: { color, zIndex } }) => ({
   DateRangePicker: {
     position: 'relative',
@@ -598,4 +598,4 @@ export default withStyles(({ reactDates: { color, zIndex } }) => ({
     width: 15,
     fill: color.core.grayLighter,
   },
-}))(DateRangePicker);
+}))(DateRangePickerController);
