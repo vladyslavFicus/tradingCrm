@@ -69,23 +69,21 @@ class DateRangePicker extends React.Component {
     const { startDate, endDate } = this.state;
 
     return (
-      <div className="presetsBlock">
-        <ul>
-          <li>{I18n.t('DATE_PICKER.PERIOD_RESETS.TITLE')}</li>
-          {presets.map(({ text, start, end }) => {
-            const isSelected = isSameDay(start, startDate) && isSameDay(end, endDate);
-            return (
-              <li
-                key={text}
-                className={classNames({ active: isSelected })}
-                onClick={this.handlePresetClick(start, end)}
-              >
-                {I18n.t(text)}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <ul className="presetsBlock">
+        <li>{I18n.t('DATE_PICKER.PERIOD_RESETS.TITLE')}</li>
+        {presets.map(({ text, start, end }) => {
+          const isSelected = isSameDay(start, startDate) && isSameDay(end, endDate);
+          return (
+            <li
+              key={text}
+              className={classNames({ active: isSelected })}
+              onClick={this.handlePresetClick(start, end)}
+            >
+              {I18n.t(text)}
+            </li>
+          );
+        })}
+      </ul>
     );
   };
 
