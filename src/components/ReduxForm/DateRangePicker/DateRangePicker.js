@@ -114,6 +114,7 @@ class DateRangePicker extends React.Component {
           endDate={endDate}
           navPrev={<i className="fa fa-angle-left" />}
           navNext={<i className="fa fa-angle-right" />}
+          small
         />
         <Field
           name={start}

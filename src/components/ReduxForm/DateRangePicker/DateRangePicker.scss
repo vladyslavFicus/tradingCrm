@@ -3,6 +3,21 @@
 $selected-color: rgba(74,144,226,.1);
 
 .nasDateRangePicker {
+  .DateRangePickerInput {
+    width: 280px;
+    border-radius: 3px;
+  }
+
+  .DateInput {
+    &_fang {
+      height: 8px;
+    }
+
+    &_input__focused {
+      border-bottom: 2px solid transparent;
+    }
+  }
+
   .DayPicker {
     &::after {
       height: 50px;
