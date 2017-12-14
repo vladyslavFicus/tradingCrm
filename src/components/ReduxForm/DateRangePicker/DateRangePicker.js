@@ -1,4 +1,5 @@
 import React from 'react';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import momentPropTypes from 'react-moment-proptypes';
@@ -75,7 +76,7 @@ class DateRangePicker extends React.Component {
     return (
       <div className="presetsBlock">
         <ul>
-          <li>Range presets</li>
+          <li>{I18n.t('DATE_PICKER.PERIOD_RESETS.TITLE')}</li>
           {presets.map(({ text, start, end }) => {
             const isSelected = isSameDay(start, startDate) && isSameDay(end, endDate);
             return (
@@ -84,7 +85,7 @@ class DateRangePicker extends React.Component {
                 className={classNames({ active: isSelected })}
                 onClick={() => this.onDatesChange({ startDate: start, endDate: end })}
               >
-                {text}
+                {I18n.t(text)}
               </li>
             );
           })}

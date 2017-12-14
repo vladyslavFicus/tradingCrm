@@ -1546,5 +1546,17 @@
   "ADVANCED_OPTIONS": {
     "FILTERS_NOT_FOUND": "Filters not found",
     "NO_OPTIONS_AVAILABLE": "No options available"
+  },
+  "DATE_PICKER": {
+    "PERIOD_RESETS": {
+      "PREVIOUS_WEEK": "Previous week",
+      "THIS_WEEK": "This week",
+      "PREVIOUS_MONTH": "Previous month",
+      "THIS_MONTH": "This month",
+      "LAST_7_DAYS": "Last 7 days",
+      "LAST_14_DAYS": "Last 14 days",
+      "THIS_YEAR": "This year",
+      "TITLE": "Range presets"
+    }
   }
 }

@@ -1561,5 +1561,17 @@
   "ADVANCED_OPTIONS": {
     "FILTERS_NOT_FOUND": "Фильтры не найдены",
     "NO_OPTIONS_AVAILABLE": "Нет доступных фильтров"
+  },
+  "DATE_PICKER": {
+    "PERIOD_RESETS": {
+      "PREVIOUS_WEEK": "Предыдущая неделя",
+      "THIS_WEEK": "Текущая неделя",
+      "PREVIOUS_MONTH": "Предыдущий месяц",
+      "THIS_MONTH": "Текущий месяц",
+      "LAST_7_DAYS": "Последние 7 дней",
+      "LAST_14_DAYS": "Последние 14 дней",
+      "THIS_YEAR": "Последний год",
+      "TITLE": "Диапазон"
+    }
   }
 }
