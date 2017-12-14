@@ -237,18 +237,18 @@ const actionHandlers = {
     error: null,
     noResults: false,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    items: mapPaymentAccounts(action.payload),
+    items: mapPaymentAccounts(payload),
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.length === 0,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [FETCH_NOTES.SUCCESS]: (state, action) => ({
     ...state,

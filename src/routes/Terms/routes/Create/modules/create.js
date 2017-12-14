@@ -32,21 +32,21 @@ function createTerm(data) {
 }
 
 const actionHandlers = {
-  [CREATE_TERMS.REQUEST]: (state, action) => ({
+  [CREATE_TERMS.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [CREATE_TERMS.SUCCESS]: (state, action) => ({
+  [CREATE_TERMS.SUCCESS]: (state, { meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [CREATE_TERMS.FAILURE]: (state, action) => ({
+  [CREATE_TERMS.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const initialState = {

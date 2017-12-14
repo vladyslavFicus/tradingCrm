@@ -33,20 +33,20 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_REPORT_FILES.SUCCESS]: (state, action) => ({
+  [FETCH_REPORT_FILES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_REPORT_FILES.FAILURE]: (state, action) => ({
+  [FETCH_REPORT_FILES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 

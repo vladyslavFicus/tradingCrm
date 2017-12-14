@@ -46,11 +46,11 @@ function changeStatus(data) {
   };
 }
 
-const successFetchProfileReducer = (state, action) => ({
+const successFetchProfileReducer = (state, { payload, meta: { endRequestTime } }) => ({
   ...state,
-  data: action.payload,
+  data: payload,
   isLoading: false,
-  receivedAt: timestamp(),
+  receivedAt: endRequestTime,
 });
 
 const actionHandlers = {
@@ -60,11 +60,11 @@ const actionHandlers = {
     error: null,
   }),
   [PROFILE.SUCCESS]: successFetchProfileReducer,
-  [PROFILE.FAILURE]: (state, action) => ({
+  [PROFILE.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [UPDATE_PROFILE.SUCCESS]: successFetchProfileReducer,
 };

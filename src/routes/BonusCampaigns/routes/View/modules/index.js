@@ -310,17 +310,17 @@ const actionHandlers = {
     error: null,
     isLoading: true,
   }),
-  [CAMPAIGN_UPDATE.SUCCESS]: (state, action) => ({
+  [CAMPAIGN_UPDATE.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    data: { ...state.data, ...action.payload },
+    data: { ...state.data, ...payload },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [CAMPAIGN_UPDATE.FAILURE]: (state, action) => ({
+  [CAMPAIGN_UPDATE.FAILURE]: (state, { error, meta: { endRequestTime } }) => ({
     ...state,
-    error: action.error,
+    error,
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
 
   [FETCH_CAMPAIGN.REQUEST]: state => ({
@@ -328,25 +328,25 @@ const actionHandlers = {
     error: null,
     isLoading: true,
   }),
-  [FETCH_CAMPAIGN.SUCCESS]: (state, action) => ({
+  [FETCH_CAMPAIGN.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
     isLoading: false,
     data: {
       ...state.data,
-      ...action.payload,
-      excludeCountries: action.payload.countryStrategy === countryStrategies.EXCLUDE,
+      ...payload,
+      excludeCountries: payload.countryStrategy === countryStrategies.EXCLUDE,
     },
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(action.payload.campaignType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.campaignType)],
     },
   }),
-  [FETCH_CAMPAIGN.FAILURE]: (state, action) => ({
+  [FETCH_CAMPAIGN.FAILURE]: (state, { error, meta: { endRequestTime } }) => ({
     ...state,
-    error: action.error,
+    error,
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
   [UPLOAD_PLAYERS_FILE.SUCCESS]: (state, action) => ({
     ...state,

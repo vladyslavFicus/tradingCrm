@@ -581,13 +581,13 @@ function changeStatus({ action, ...data }) {
   };
 }
 
-function optimisticKycRequestActionReducer(state, action) {
+function optimisticKycRequestActionReducer(state, { payload, meta: { endRequestTime } }) {
   const {
     date,
     status,
     authorUUID,
     kycRequestReason,
-  } = action.payload;
+  } = payload;
   return {
     ...state,
     data: {
@@ -611,18 +611,18 @@ function optimisticKycRequestActionReducer(state, action) {
         requestDate: date,
       },
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     },
   };
 }
 
-function optimisticVerifyKycActionReducer(state, action) {
+function optimisticVerifyKycActionReducer(state, { payload, meta: { endRequestTime } }) {
   const {
     type,
     date,
     authorUUID,
     status,
-  } = action.payload;
+  } = payload;
 
   const otherKycStatus = type === 'kycPersonalStatus' ? 'kycAddressStatus' : 'kycPersonalStatus';
   const kycCompleted = state.data[otherKycStatus] && state.data[otherKycStatus].status === kycStatuses.VERIFIED;
@@ -639,17 +639,17 @@ function optimisticVerifyKycActionReducer(state, action) {
         status,
       },
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     },
   };
 }
 
-function optimisticVerifyKycAllActionReducer(state, action) {
+function optimisticVerifyKycAllActionReducer(state, { payload, meta: { endRequestTime } }) {
   const {
     date,
     authorUUID,
     status,
-  } = action.payload;
+  } = payload;
 
   const verifiedStatusEntity = {
     reason: '',
@@ -665,19 +665,19 @@ function optimisticVerifyKycAllActionReducer(state, action) {
       kycAddressStatus: verifiedStatusEntity,
       kycPersonalStatus: verifiedStatusEntity,
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     },
   };
 }
 
-function optimisticRefuseKycActionReducer(state, action) {
+function optimisticRefuseKycActionReducer(state, { payload, meta: { endRequestTime } }) {
   const {
     type,
     date,
     authorUUID,
     status,
     reason,
-  } = action.payload;
+  } = payload;
 
   return {
     ...state,
@@ -692,32 +692,32 @@ function optimisticRefuseKycActionReducer(state, action) {
       },
       kycCompleted: false,
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     },
   };
 }
 
-function successUpdateStatusReducer(state, action) {
+function successUpdateStatusReducer(state, { payload, meta: { endRequestTime } }) {
   return {
     ...state,
     data: {
       ...state.data,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   };
 }
 
-function successUpdateProfileReducer(state, action) {
+function successUpdateProfileReducer(state, { payload, meta: { endRequestTime } }) {
   return {
     ...state,
     data: {
       ...state.data,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   };
 }
 
@@ -866,20 +866,20 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_PROFILE.SUCCESS]: (state, action) => ({
+  [FETCH_PROFILE.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     data: {
       ...state.data,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_PROFILE.FAILURE]: (state, action) => ({
+  [FETCH_PROFILE.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [UPDATE_PROFILE.SUCCESS]: successUpdateProfileReducer,
   [BLOCK_PROFILE.SUCCESS]: successUpdateProfileReducer,
@@ -893,20 +893,20 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [SUBMIT_KYC.SUCCESS]: (state, action) => ({
+  [SUBMIT_KYC.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     data: {
       ...state.data,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [SUBMIT_KYC.FAILURE]: (state, action) => ({
+  [SUBMIT_KYC.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [VERIFY_DATA.SUCCESS]: optimisticVerifyKycActionReducer,
   [REFUSE_DATA.SUCCESS]: optimisticRefuseKycActionReducer,

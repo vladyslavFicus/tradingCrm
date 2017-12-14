@@ -41,8 +41,8 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_GAMES.SUCCESS]: (state, action) => {
-    const { content } = action.payload;
+  [FETCH_GAMES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => {
+    const { content } = payload;
 
     const newState = {
       ...state,
@@ -55,7 +55,7 @@ const actionHandlers = {
         coinValueLevels: i.coinValueLevel ? parseNumbersRange(i.coinValueLevel) : [],
       })),
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     };
 
     newState.providers = content
