@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateRangePicker } from '../../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../../utils/validator';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels } from '../constants';
@@ -20,6 +20,7 @@ class OperatorGridFilter extends Component {
     handleSubmit: PropTypes.func,
     submitting: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
     invalid: PropTypes.bool,
   };
   static defaultProps = {
@@ -57,6 +58,7 @@ class OperatorGridFilter extends Component {
       submitting,
       handleSubmit,
       invalid,
+      change,
     } = this.props;
 
     return (
@@ -139,21 +141,22 @@ class OperatorGridFilter extends Component {
                 <label>
                   {I18n.t('OPERATORS.LIST.FILTER_FORM.LABEL.REGISTRATION_DATE_RANGE')}
                 </label>
+
                 <div className="range-group">
-                  <Field
-                    name="registrationDateFrom"
-                    component={DateTimeField}
-                    isValidDate={this.startDateValidator}
-                    position="vertical"
-                    timeFormat={null}
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    name="registrationDateTo"
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator}
-                    position="vertical"
-                    timeFormat={null}
+                  <DateRangePicker
+                    enableOutsideDays
+                    isOutsideRange={() => false}
+                    showDefaultInputIcon
+                    hideKeyboardShortcutsPanel
+                    customArrowIcon="-"
+                    keepOpenOnDateSelect
+                    firstDayOfWeek={1}
+                    change={change}
+                    withTime={false}
+                    periodKeys={{
+                      start: 'registrationDateFrom',
+                      end: 'registrationDateTo',
+                    }}
                   />
                 </div>
               </div>
