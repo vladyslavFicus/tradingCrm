@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { InputField, SelectField } from '../../../../../components/ReduxForm';
+import { InputField, SelectField, DateRangePicker } from '../../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../../utils/validator';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels } from '../constants';
 import { statusesLabels, statuses, rolesLabels, departmentsLabels } from '../../../../../constants/operators';
 import config from '../../../../../config';
 import countries from '../../../../../utils/countryList';
-import DateRangePicker from '../../../../../components/ReduxForm/DateRangePicker';
 
 const { availableDepartments: departments, availableRoles: roles } = config;
 

@@ -33,13 +33,6 @@ class DateRangePicker extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.onDatesChange({
-      startDate: this.props.initialStartDate,
-      endDate: this.props.initialEndDate,
-    });
-  }
-
   onDatesChange = ({ startDate, endDate }) => {
     const {
       change,
@@ -70,6 +63,8 @@ class DateRangePicker extends React.Component {
 
   onFocusChange = focusedInput => this.setState({ focusedInput });
 
+  handlePresetClick = (startDate, endDate) => () => this.onDatesChange({ startDate, endDate });
+
   renderDatePresets = () => {
     const { startDate, endDate } = this.state;
 
@@ -83,7 +78,7 @@ class DateRangePicker extends React.Component {
               <li
                 key={text}
                 className={classNames({ active: isSelected })}
-                onClick={() => this.onDatesChange({ startDate: start, endDate: end })}
+                onClick={this.handlePresetClick(start, end)}
               >
                 {I18n.t(text)}
               </li>

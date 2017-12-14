@@ -349,7 +349,6 @@ class NewLayout extends Component {
       menuItemClick,
     } = this.props;
 
-
     return (
       <div>
         <Navbar
