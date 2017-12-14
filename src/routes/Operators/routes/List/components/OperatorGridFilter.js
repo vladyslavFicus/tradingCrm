@@ -10,7 +10,7 @@ import { attributeLabels } from '../constants';
 import { statusesLabels, statuses, rolesLabels, departmentsLabels } from '../../../../../constants/operators';
 import config from '../../../../../config';
 import countries from '../../../../../utils/countryList';
-import DateRangePicker from '../../../../../components/ReduxForm/DateRangePicker/';
+import DateRangePicker from '../../../../../components/ReduxForm/DateRangePicker';
 
 const { availableDepartments: departments, availableRoles: roles } = config;
 
@@ -150,8 +150,6 @@ class OperatorGridFilter extends Component {
                     showDefaultInputIcon
                     hideKeyboardShortcutsPanel
                     customArrowIcon="-"
-                    displayFormat="DD.MM.YYYY"
-                    dateFormat="YYYY-MM-DD"
                     keepOpenOnDateSelect
                     firstDayOfWeek={1}
                     change={change}

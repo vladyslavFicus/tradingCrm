@@ -194,7 +194,7 @@ DateRangePicker.defaultProps = {
   isDayBlocked: () => false,
   isOutsideRange: day => !isInclusivelyAfterDay(day, moment()),
   isDayHighlighted: () => false,
-  displayFormat: () => moment.localeData().longDateFormat('L'),
+  displayFormat: 'DD.MM.YYYY',
   monthFormat: 'MMMM YYYY',
   phrases: DateRangePickerPhrases,
   withTime: true,
