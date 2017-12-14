@@ -1,86 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import momentPropTypes from 'react-moment-proptypes';
 import moment from 'moment';
 import omit from 'lodash/omit';
 import { Field } from 'redux-form';
-import { withStyles, withStylesPropTypes, css } from 'react-with-styles';
-
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
-
 import { DateRangePickerPhrases } from 'react-dates/lib/defaultPhrases';
 import { DateRangePickerShape, isInclusivelyAfterDay, isSameDay } from 'react-dates/lib';
 import { START_DATE, END_DATE, HORIZONTAL_ORIENTATION, ANCHOR_LEFT } from 'react-dates/constants';
 import DateRangePickerController from 'react-dates/lib/components/DateRangePicker';
+
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import './DateRangePicker.scss';
+
 import { presets } from './periodPresets';
-
-const propTypes = {
-  ...withStylesPropTypes,
-  autoFocus: PropTypes.bool,
-  autoFocusEndDate: PropTypes.bool,
-  initialStartDate: momentPropTypes.momentObj,
-  initialEndDate: momentPropTypes.momentObj,
-
-  ...omit(DateRangePickerShape, [
-    'startDate',
-    'endDate',
-    'change',
-    'focusedInput',
-    'onFocusChange',
-  ]),
-
-  withTime: PropTypes.bool,
-  dateFormat: PropTypes.string,
-};
-
-const defaultProps = {
-  autoFocus: false,
-  autoFocusEndDate: false,
-  initialStartDate: null,
-  initialEndDate: null,
-  startDateId: START_DATE,
-  startDatePlaceholderText: 'Start Date',
-  endDateId: END_DATE,
-  endDatePlaceholderText: 'End Date',
-  disabled: false,
-  required: false,
-  screenReaderInputMessage: '',
-  showClearDates: false,
-  showDefaultInputIcon: false,
-  customInputIcon: null,
-  customArrowIcon: null,
-  customCloseIcon: null,
-  block: false,
-  small: false,
-  renderMonth: null,
-  orientation: HORIZONTAL_ORIENTATION,
-  anchorDirection: ANCHOR_LEFT,
-  horizontalMargin: 0,
-  withPortal: false,
-  withFullScreenPortal: false,
-  initialVisibleMonth: null,
-  numberOfMonths: 1,
-  keepOpenOnDateSelect: false,
-  reopenPickerOnClearDates: false,
-  isRTL: false,
-  navPrev: null,
-  navNext: null,
-  onPrevMonthClick() {},
-  onNextMonthClick() {},
-  onClose() {},
-  renderDay: null,
-  minimumNights: 1,
-  enableOutsideDays: false,
-  isDayBlocked: () => false,
-  isOutsideRange: day => !isInclusivelyAfterDay(day, moment()),
-  isDayHighlighted: () => false,
-  displayFormat: () => moment.localeData().longDateFormat('L'),
-  monthFormat: 'MMMM YYYY',
-  phrases: DateRangePickerPhrases,
-  withTime: true,
-  dateFormat: 'YYYY-MM-DD',
-};
 
 class DateRangePicker extends React.Component {
   constructor(props) {
@@ -133,32 +67,28 @@ class DateRangePicker extends React.Component {
     });
   };
 
-  onFocusChange = (focusedInput) => {
-    this.setState({ focusedInput });
-  };
+  onFocusChange = focusedInput => this.setState({ focusedInput });
 
   renderDatePresets = () => {
     const { startDate, endDate } = this.state;
-    const { styles } = this.props;
 
     return (
-      <div {...css(styles.PresetDateRangePicker_panel)}>
-        {presets.map(({ text, start, end }) => {
-          const isSelected = isSameDay(start, startDate) && isSameDay(end, endDate);
-          return (
-            <button
-              key={text}
-              {...css(
-                styles.PresetDateRangePicker_button,
-                isSelected && styles.PresetDateRangePicker_button__selected,
-              )}
-              type="button"
-              onClick={() => this.onDatesChange({ startDate: start, endDate: end })}
-            >
-              {text}
-            </button>
-          );
-        })}
+      <div className="presetsBlock">
+        <ul>
+          <li>Range presets</li>
+          {presets.map(({ text, start, end }) => {
+            const isSelected = isSameDay(start, startDate) && isSameDay(end, endDate);
+            return (
+              <li
+                key={text}
+                className={classNames({ active: isSelected })}
+                onClick={() => this.onDatesChange({ startDate: start, endDate: end })}
+              >
+                {text}
+              </li>
+            );
+          })}
+        </ul>
       </div>
     );
   };
@@ -179,7 +109,7 @@ class DateRangePicker extends React.Component {
     ]);
 
     return (
-      <div>
+      <div className="nasDateRangePicker">
         <DateRangePickerController
           {...props}
           renderCalendarInfo={this.renderDatePresets}
@@ -188,6 +118,8 @@ class DateRangePicker extends React.Component {
           focusedInput={focusedInput}
           startDate={startDate}
           endDate={endDate}
+          navPrev={<i className="fa fa-angle-left" />}
+          navNext={<i className="fa fa-angle-right" />}
         />
         <Field
           name={start}
@@ -204,37 +136,69 @@ class DateRangePicker extends React.Component {
   }
 }
 
-DateRangePicker.propTypes = propTypes;
-DateRangePicker.defaultProps = defaultProps;
+DateRangePicker.propTypes = {
+  autoFocus: PropTypes.bool,
+  autoFocusEndDate: PropTypes.bool,
+  initialStartDate: momentPropTypes.momentObj,
+  initialEndDate: momentPropTypes.momentObj,
 
-export default withStyles(({ reactDates: { color } }) => ({
-  PresetDateRangePicker_panel: {
-    padding: '0 22px 11px 22px',
-  },
+  ...omit(DateRangePickerShape, [
+    'startDate',
+    'endDate',
+    'change',
+    'focusedInput',
+    'onFocusChange',
+  ]),
 
-  PresetDateRangePicker_button: {
-    position: 'relative',
-    height: '100%',
-    textAlign: 'center',
-    background: 'none',
-    border: `2px solid ${color.core.primary}`,
-    color: color.core.primary,
-    padding: '4px 12px',
-    marginRight: 8,
-    font: 'inherit',
-    fontWeight: 700,
-    lineHeight: 'normal',
-    overflow: 'visible',
-    boxSizing: 'border-box',
-    cursor: 'pointer',
+  withTime: PropTypes.bool,
+  dateFormat: PropTypes.string,
+};
+DateRangePicker.defaultProps = {
+  autoFocus: false,
+  autoFocusEndDate: false,
+  initialStartDate: null,
+  initialEndDate: null,
+  startDateId: START_DATE,
+  startDatePlaceholderText: 'Start Date',
+  endDateId: END_DATE,
+  endDatePlaceholderText: 'End Date',
+  disabled: false,
+  required: false,
+  screenReaderInputMessage: '',
+  showClearDates: false,
+  showDefaultInputIcon: false,
+  customInputIcon: null,
+  customArrowIcon: null,
+  customCloseIcon: null,
+  block: false,
+  small: false,
+  renderMonth: null,
+  orientation: HORIZONTAL_ORIENTATION,
+  anchorDirection: ANCHOR_LEFT,
+  horizontalMargin: 0,
+  withPortal: false,
+  withFullScreenPortal: false,
+  initialVisibleMonth: null,
+  numberOfMonths: 1,
+  keepOpenOnDateSelect: false,
+  reopenPickerOnClearDates: false,
+  isRTL: false,
+  navPrev: null,
+  navNext: null,
+  onPrevMonthClick() {},
+  onNextMonthClick() {},
+  onClose() {},
+  renderDay: null,
+  minimumNights: 1,
+  enableOutsideDays: false,
+  isDayBlocked: () => false,
+  isOutsideRange: day => !isInclusivelyAfterDay(day, moment()),
+  isDayHighlighted: () => false,
+  displayFormat: () => moment.localeData().longDateFormat('L'),
+  monthFormat: 'MMMM YYYY',
+  phrases: DateRangePickerPhrases,
+  withTime: true,
+  dateFormat: 'YYYY-MM-DD',
+};
 
-    ':active': {
-      outline: 0,
-    },
-  },
-
-  PresetDateRangePicker_button__selected: {
-    color: color.core.white,
-    background: color.core.primary,
-  },
-}))(DateRangePicker);
+export default DateRangePicker;
