@@ -24,6 +24,7 @@ import { customValueFieldTypes } from '../../../../../../constants/form';
 import renderLabel from '../../../../../../utils/renderLabel';
 import { attributeLabels } from './constants';
 import validator from './validator';
+import normalizePromoCode from '../../../../../../utils/normalizePromoCode';
 
 const getCustomValueFieldTypes = (campaignType) => {
   if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
@@ -291,6 +292,7 @@ class CreateBonusCampaignModal extends Component {
                 type="text"
                 component={InputField}
                 id="create-campaign-promo-code"
+                normalize={normalizePromoCode}
               />
             }
             <Field

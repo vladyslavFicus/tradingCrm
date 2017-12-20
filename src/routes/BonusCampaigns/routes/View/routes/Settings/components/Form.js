@@ -152,6 +152,7 @@ class Form extends Component {
   handleChangeTargetType = (e) => {
     if (e.target.value === targetTypes.ALL) {
       this.props.change('optIn', true);
+      this.props.change('promoCode', null);
     }
   };
 
@@ -296,18 +297,21 @@ class Form extends Component {
                   />
                 </div>
               </div>
-              <div className="form-row">
-                <div className="form-row__big">
-                  <Field
-                    name="promoCode"
-                    type="text"
-                    label={I18n.t(attributeLabels.promoCode)}
-                    component={InputField}
-                    normalize={normalizePromoCode}
-                    position="vertical"
-                  />
+              {
+                currentValues && currentValues.targetType === targetTypes.TARGET_LIST &&
+                <div className="form-row">
+                  <div className="form-row__big">
+                    <Field
+                      name="promoCode"
+                      type="text"
+                      label={I18n.t(attributeLabels.promoCode)}
+                      component={InputField}
+                      normalize={normalizePromoCode}
+                      position="vertical"
+                    />
+                  </div>
                 </div>
-              </div>
+              }
             </div>
           </div>
         </div>
