@@ -283,13 +283,16 @@ class CreateBonusCampaignModal extends Component {
                 </div>
               </div>
             }
-            <Field
-              name="promoCode"
-              label={I18n.t(attributeLabels.promoCode)}
-              type="text"
-              component={InputField}
-              id="create-campaign-promo-code"
-            />
+            {
+              currentValues && currentValues.targetType === targetTypes.TARGET_LIST &&
+              <Field
+                name="promoCode"
+                label={I18n.t(attributeLabels.promoCode)}
+                type="text"
+                component={InputField}
+                id="create-campaign-promo-code"
+              />
+            }
             <Field
               utc
               name="startDate"
