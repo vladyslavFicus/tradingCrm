@@ -53,7 +53,7 @@ class DateTimeField extends Component {
   };
 
   constructor(props) {
-    super();
+    super(props);
 
     const format = [props.dateFormat, props.timeFormat].join(' ').trim();
     const ISOFormat = [

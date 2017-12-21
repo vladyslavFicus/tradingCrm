@@ -294,7 +294,7 @@ class View extends Component {
                   {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
                 </button>
               </PermissionContent>
-              <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
+              <PermissionContent permissions={permissions.USER_PROFILE.ADD_PROMO_CODE_TO_PLAYER}>
                 <button
                   className="btn btn-primary-outline margin-left-15 btn-sm"
                   onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
