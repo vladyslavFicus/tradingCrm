@@ -470,13 +470,8 @@ label {
   z-index: 0;
 }
 
-input[type=checkbox] {
-  margin-top: -1px;
-  margin-right: 5px;
-  vertical-align: middle;
-  &:hover {
-    cursor: pointer;
-  }
+.form-check-label:hover {
+  cursor: pointer;
 }
 
 .double-group {
