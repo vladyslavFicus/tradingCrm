@@ -1,6 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
-import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';

@@ -1,7 +1,6 @@
 import moment from 'moment';
 import _ from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
-import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
 import config, { getApiRoot } from '../../../../../config';

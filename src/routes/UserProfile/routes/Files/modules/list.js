@@ -1,6 +1,5 @@
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 import { targetTypes } from '../../../../../constants/note';
 import { actions as filesActions } from '../../../../../constants/files';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';

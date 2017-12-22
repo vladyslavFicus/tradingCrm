@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 
 const KEY = 'user/notes/target-types';
 const FETCH_NOTE_TYPES = createRequestAction(`${KEY}/fetch-note-types`);

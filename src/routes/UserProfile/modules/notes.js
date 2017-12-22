@@ -1,6 +1,5 @@
 import { sourceActionCreators as noteSourceActionCreators } from '../../../redux/modules/note';
 import createReducer from '../../../utils/createReducer';
-import timestamp from '../../../utils/timestamp';
 import createRequestAction from '../../../utils/createRequestAction';
 
 const KEY = 'user/profile/notes';

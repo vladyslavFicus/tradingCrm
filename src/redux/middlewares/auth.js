@@ -1,9 +1,8 @@
-import { REHYDRATE } from 'redux-persist/constants';
+import { REHYDRATE } from 'redux-persist/lib/constants';
 import {
   actionTypes as authActionTypes,
   actionCreators as authActionCreators,
 } from '../modules/auth';
-import { actionCreators as permissionsActionCreators } from '../modules/permissions';
 
 const triggerActions = {
   start: [

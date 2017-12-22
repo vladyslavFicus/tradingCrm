@@ -1,5 +1,4 @@
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import createReducer from '../../../../../utils/createReducer';
 import { getBrand } from '../../../../../config';

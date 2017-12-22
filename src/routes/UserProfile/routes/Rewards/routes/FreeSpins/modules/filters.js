@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
-import timestamp from '../../../../../../../utils/timestamp';
 
 const KEY = 'user/bonus-free-spin/filters';
 const FETCH_FILTERS = createRequestAction(`${KEY}/fetch-filters`);

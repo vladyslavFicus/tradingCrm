@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
-import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { actions, statusesReasons, campaignTypes, countryStrategies } from '../../../../../constants/bonus-campaigns';
 import buildFormData from '../../../../../utils/buildFormData';

@@ -1,4 +1,4 @@
-import { REHYDRATE } from 'redux-persist/constants';
+import { REHYDRATE } from 'redux-persist/lib/constants';
 import createReducer from '../../utils/createReducer';
 import { playerProfileViewTypes } from '../../constants';
 
