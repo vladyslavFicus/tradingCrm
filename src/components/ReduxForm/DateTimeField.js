@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import DateTime from 'react-datetime';
+import DateTime from 'react-datetime/dist/DateTime';
+import '../../styles/components/DateTime.scss';
 import FieldLabel from './FieldLabel';
 
 const ISO_FORMAT_DATE = 'YYYY-MM-DD';
@@ -34,6 +35,8 @@ class DateTimeField extends Component {
     iconRightClassName: PropTypes.string,
     utc: PropTypes.bool,
     showErrorMessage: PropTypes.bool,
+    closeOnSelect: PropTypes.bool,
+    withTime: PropTypes.bool,
   };
   static defaultProps = {
     id: null,
@@ -50,6 +53,8 @@ class DateTimeField extends Component {
     disabled: false,
     placeholder: '',
     showErrorMessage: true,
+    closeOnSelect: true,
+    withTime: false,
   };
 
   constructor(props) {
@@ -103,7 +108,7 @@ class DateTimeField extends Component {
 
     let formatValue = value;
 
-    if (value instanceof moment) {
+    if (value) {
       formatValue = (utc ? moment.utc(value) : value).format(this.state.ISOFormat);
     }
 
@@ -120,6 +125,9 @@ class DateTimeField extends Component {
       timeFormat,
       iconLeftClassName,
       iconRightClassName,
+      timePresets,
+      closeOnSelect,
+      withTime,
     } = this.props;
 
     let inputField = (
@@ -128,13 +136,15 @@ class DateTimeField extends Component {
         timeFormat={timeFormat}
         onChange={this.handleChange}
         value={this.getValue()}
-        closeOnSelect
         inputProps={{
           id,
           disabled,
           placeholder,
         }}
         isValidDate={isValidDate}
+        closeOnSelect={closeOnSelect}
+        timePresets={timePresets}
+        withTime={withTime}
       />
     );
 
