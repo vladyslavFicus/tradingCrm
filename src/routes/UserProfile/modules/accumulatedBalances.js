@@ -1,6 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../utils/createReducer';
-import timestamp from '../../../utils/timestamp';
 import createRequestAction from '../../../utils/createRequestAction';
 import config from '../../../config';
 import { actionTypes as profileActionTypes } from './profile';

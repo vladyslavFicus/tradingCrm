@@ -2,7 +2,6 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
-import timestamp from '../../../../../../../utils/timestamp';
 import parseNumbersRange from '../../../../../../../utils/parseNumbersRange';
 
 const KEY = 'user/bonus-free-spin/games';

@@ -3,7 +3,6 @@ import {
   actionTypes as authActionTypes,
   actionCreators as authActionCreators,
 } from '../modules/auth';
-import { actionCreators as permissionsActionCreators } from '../modules/permissions';
 
 const triggerActions = {
   start: [

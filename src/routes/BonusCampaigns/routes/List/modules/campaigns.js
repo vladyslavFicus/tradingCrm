@@ -5,7 +5,6 @@ import { statuses, statusesReasons } from '../../../../../constants/bonus-campai
 import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
 import { sourceActionCreators } from '../../../../../redux/modules/bonusCampaigns';

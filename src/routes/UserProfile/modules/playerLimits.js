@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
-import timestamp from '../../../utils/timestamp';
 import { actions, authors, types } from '../../../constants/wallet';
 
 const KEY = 'user-profile/player-limits';

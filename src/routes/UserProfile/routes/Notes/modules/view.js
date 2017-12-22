@@ -1,6 +1,5 @@
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 
 const KEY = 'user-notes';

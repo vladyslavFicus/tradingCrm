@@ -3,7 +3,7 @@ import _ from 'lodash';
 import countryListLib from 'country-list';
 import createRequestAction from '../../../utils/createRequestAction';
 import createReducer from '../../../utils/createReducer';
-import timestamp from '../../../utils/timestamp';
+import { getBrand } from '../../../config';
 
 function formatPhoneCode(phone) {
   return phone.replace(/[-\s]/g, '');
@@ -23,7 +23,7 @@ const FETCH_META = createRequestAction(`${KEY}/fetch-meta`);
 function fetchMeta() {
   return {
     [CALL_API]: {
-      endpoint: 'profile/public/signup',
+      endpoint: `profile/public/signup?brandId=${getBrand()}`,
       method: 'OPTIONS',
       headers: {
         Accept: 'application/json',

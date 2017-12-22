@@ -4,7 +4,6 @@ import { getApiRoot } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import downloadBlob from '../../../../../utils/downloadBlob';
-import timestamp from '../../../../../utils/timestamp';
 
 const KEY = 'reports/revenue';
 const DOWNLOAD_REPORT = createRequestAction(`${KEY}/download-report`);

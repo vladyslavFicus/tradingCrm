@@ -3,7 +3,6 @@ import moment from 'moment';
 import _ from 'lodash';
 import { getApiRoot } from '../../../../../../../config';
 import createReducer from '../../../../../../../utils/createReducer';
-import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import shallowEqual from '../../../../../../../utils/shallowEqual';
