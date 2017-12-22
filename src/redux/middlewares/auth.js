@@ -1,4 +1,4 @@
-import { REHYDRATE } from 'redux-persist/lib/constants';
+import { REHYDRATE } from 'redux-persist/constants';
 import {
   actionTypes as authActionTypes,
   actionCreators as authActionCreators,
