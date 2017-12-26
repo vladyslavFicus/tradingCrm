@@ -108,7 +108,7 @@ class DateTimeField extends Component {
 
     let formatValue = value;
 
-    if (value) {
+    if (value._isAMomentObject) {
       formatValue = (utc ? moment.utc(value) : value).format(this.state.ISOFormat);
     }
 
