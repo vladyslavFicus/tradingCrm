@@ -41,12 +41,12 @@
 .rdtPicker td.rdtMinute:hover,
 .rdtPicker td.rdtSecond:hover,
 .rdtPicker .rdtTimeToggle:hover {
-  background: #eeeeee;
+  background: #eee;
   cursor: pointer;
 }
 .rdtPicker td.rdtOld,
 .rdtPicker td.rdtNew {
-  color: #999999;
+  color: #999;
 }
 .rdtPicker td.rdtToday {
   position: relative;
@@ -73,17 +73,17 @@
 .rdtPicker td.rdtDisabled,
 .rdtPicker td.rdtDisabled:hover {
   background: none;
-  color: #999999;
+  color: #999;
   cursor: not-allowed;
 }
 
 .rdtPicker td span.rdtOld {
-  color: #999999;
+  color: #999;
 }
 .rdtPicker td span.rdtDisabled,
 .rdtPicker td span.rdtDisabled:hover {
   background: none;
-  color: #999999;
+  color: #999;
   cursor: not-allowed;
 }
 .rdtPicker th {
@@ -116,7 +116,7 @@
 .rdtPicker th.rdtDisabled,
 .rdtPicker th.rdtDisabled:hover {
   background: none;
-  color: #999999;
+  color: #999;
   cursor: not-allowed;
 }
 .rdtPicker thead tr:first-child th {

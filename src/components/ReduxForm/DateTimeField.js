@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import DateTime from 'react-datetime/dist/DateTime';
+import DateTime from 'react-datetime';
 import '../../styles/components/DateTime.scss';
 import FieldLabel from './FieldLabel';
 
