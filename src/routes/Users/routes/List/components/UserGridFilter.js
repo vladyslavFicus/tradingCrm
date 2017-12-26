@@ -197,11 +197,17 @@ class UserGridFilter extends Component {
               utc
               name="registrationDateFrom"
               isValidDate={this.startDateValidator('registrationDateTo')}
+              timePresets
+              withTime
+              closeOnSelect={false}
             />
             <FilterField
               utc
               name="registrationDateTo"
               isValidDate={this.endDateValidator('registrationDateFrom')}
+              timePresets
+              withTime
+              closeOnSelect={false}
             />
           </FilterItem>
         </DynamicFilters>
