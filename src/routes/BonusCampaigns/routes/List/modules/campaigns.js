@@ -33,7 +33,7 @@ function createCampaign(data) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    const endpointParams = { ...data, optIn: data.optIn || false };
+    const endpointParams = { ...data, optIn: data.optIn || false, campaignType: 'BONUS' };
     if (endpointParams.conversionPrize && endpointParams.conversionPrize.value === undefined) {
       endpointParams.conversionPrize = null;
     }

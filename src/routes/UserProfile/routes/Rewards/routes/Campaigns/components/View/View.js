@@ -8,7 +8,7 @@ import GridView, { GridColumn } from '../../../../../../../../components/GridVie
 import Uuid from '../../../../../../../../components/Uuid';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import {
-  campaignTypesLabels,
+  fulfilmentTypesLabels,
   statuses as bonusCampaignStatuses,
   targetTypesLabels,
 } from '../../../../../../../../constants/bonus-campaigns';
@@ -211,7 +211,7 @@ class View extends Component {
   renderBonusType = data => (
     <div>
       <div className="text-uppercase font-weight-700">
-        {renderLabel(data.campaignType, campaignTypesLabels)}
+        {renderLabel(data.fulfilmentType, fulfilmentTypesLabels)}
       </div>
       <div className="font-size-10">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
     </div>

@@ -2,7 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { actions, statusesReasons, campaignTypes, countryStrategies } from '../../../../../constants/bonus-campaigns';
+import { actions, statusesReasons, fulfilmentTypes, countryStrategies } from '../../../../../constants/bonus-campaigns';
 import buildFormData from '../../../../../utils/buildFormData';
 import { nodeGroupTypes } from '../routes/Settings/constants';
 import { nodeTypes as fulfillmentNodeTypes } from '../routes/Settings/components/Fulfillments/constants';
@@ -20,14 +20,14 @@ const REVERT = createRequestAction(`${KEY}/revert-form`);
 const REMOVE_FULFILLMENT_NODE = `${KEY}/remove-fulfillment-node`;
 const ADD_FULFILLMENT_NODE = `${KEY}/add-fulfillment-node`;
 
-function mapFulfillmentNode(campaignType) {
+function mapFulfillmentNode(fulfilmentType) {
   const node = null;
 
-  if (campaignType === campaignTypes.PROFILE_COMPLETED) {
+  if (fulfilmentType === fulfilmentTypes.PROFILE_COMPLETED) {
     return fulfillmentNodeTypes.profileCompleted;
-  } else if ([campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(campaignType) > -1) {
+  } else if ([fulfilmentTypes.DEPOSIT, fulfilmentTypes.FIRST_DEPOSIT].indexOf(fulfilmentType) > -1) {
     return fulfillmentNodeTypes.deposit;
-  } else if (campaignType === campaignTypes.WITHOUT_FULFILMENT) {
+  } else if (fulfilmentType === fulfilmentTypes.WITHOUT_FULFILMENT) {
     return fulfillmentNodeTypes.noFulfillments;
   }
 
@@ -137,6 +137,7 @@ function updateCampaign(uuid, data) {
     let endpointParams = {
       ...data,
       countryStrategy: data.excludeCountries ? countryStrategies.EXCLUDE : countryStrategies.INCLUDE,
+      campaignType: 'BONUS',
     };
     if (endpointParams.conversionPrize && !endpointParams.conversionPrize.value) {
       endpointParams.conversionPrize = null;
@@ -150,11 +151,11 @@ function updateCampaign(uuid, data) {
       endpointParams = {
         ...endpointParams,
         ...fulfillmentDeposit,
-        campaignType: campaignTypes.DEPOSIT,
+        fulfilmentType: fulfilmentTypes.DEPOSIT,
       };
 
       if (fulfillmentDeposit.firstDeposit) {
-        endpointParams.campaignType = campaignTypes.FIRST_DEPOSIT;
+        endpointParams.fulfilmentType = fulfilmentTypes.FIRST_DEPOSIT;
       }
     }
 
@@ -162,7 +163,7 @@ function updateCampaign(uuid, data) {
     if (fulfillmentProfileCompleted) {
       endpointParams = {
         ...endpointParams,
-        campaignType: campaignTypes.PROFILE_COMPLETED,
+        fulfilmentType: fulfilmentTypes.PROFILE_COMPLETED,
       };
     }
 
@@ -170,7 +171,7 @@ function updateCampaign(uuid, data) {
     if (fulfillmentNoFulfillments) {
       endpointParams = {
         ...endpointParams,
-        campaignType: campaignTypes.WITHOUT_FULFILMENT,
+        fulfilmentType: fulfilmentTypes.WITHOUT_FULFILMENT,
       };
     }
 
@@ -338,7 +339,7 @@ const actionHandlers = {
     },
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.campaignType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfilmentType)],
     },
   }),
   [FETCH_CAMPAIGN.FAILURE]: (state, { error, meta: { endRequestTime } }) => ({
@@ -382,7 +383,7 @@ const actionHandlers = {
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.campaignType)],
+      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.fulfilmentType)],
     },
   }),
 };

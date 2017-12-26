@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator, translateLabels } from '../../../../../utils/validator';
-import { campaignTypesLabels, statusesLabels } from '../../../../../constants/bonus-campaigns';
+import { fulfilmentTypesLabels, statusesLabels } from '../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, placeholders } from '../constants';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
@@ -104,7 +104,7 @@ class BonusCampaignsFilterForm extends Component {
                 <option value="">{I18n.t('COMMON.ANY')}</option>
                 {types.map(item => (
                   <option key={item} value={item}>
-                    {renderLabel(item, campaignTypesLabels)}
+                    {renderLabel(item, fulfilmentTypesLabels)}
                   </option>
                 ))}
               </Field>

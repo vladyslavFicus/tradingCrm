@@ -3,7 +3,7 @@ import View from '../components/View';
 import config from '../../../../../../../config';
 import { actionCreators } from '../../../modules';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
-import { campaignTypes } from '../../../../../../../constants/bonus-campaigns';
+import { fulfilmentTypes } from '../../../../../../../constants/bonus-campaigns';
 
 const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { locale } }) => {
   let bonusCampaignForm = {
@@ -21,7 +21,7 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
       type: customValueFieldTypes.ABSOLUTE,
     },
     optIn: data.optIn,
-    campaignType: data.campaignType,
+    fulfilmentType: data.fulfilmentType,
     excludeCountries: data.excludeCountries,
     countries: data.countries || [],
     promoCode: data.promoCode,
@@ -41,7 +41,7 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
     fulfillments: {},
   };
 
-  if ([campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(bonusCampaignForm.campaignType) > -1) {
+  if ([fulfilmentTypes.DEPOSIT, fulfilmentTypes.FIRST_DEPOSIT].indexOf(bonusCampaignForm.fulfilmentType) > -1) {
     bonusCampaignForm = {
       ...bonusCampaignForm,
       fulfillments: {
@@ -49,18 +49,18 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
           minAmount: data.minAmount,
           maxAmount: data.maxAmount,
           lockAmountStrategy: data.lockAmountStrategy,
-          firstDeposit: bonusCampaignForm.campaignType === campaignTypes.FIRST_DEPOSIT,
+          firstDeposit: bonusCampaignForm.fulfilmentType === fulfilmentTypes.FIRST_DEPOSIT,
         },
       },
     };
-  } else if (bonusCampaignForm.campaignType === campaignTypes.PROFILE_COMPLETED) {
+  } else if (bonusCampaignForm.fulfilmentType === fulfilmentTypes.PROFILE_COMPLETED) {
     bonusCampaignForm = {
       ...bonusCampaignForm,
       fulfillments: {
         profileCompleted: true,
       },
     };
-  } else if (bonusCampaignForm.campaignType === campaignTypes.WITHOUT_FULFILMENT) {
+  } else if (bonusCampaignForm.fulfilmentType === fulfilmentTypes.WITHOUT_FULFILMENT) {
     bonusCampaignForm = {
       ...bonusCampaignForm,
       fulfillments: {

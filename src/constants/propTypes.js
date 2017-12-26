@@ -363,7 +363,7 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   grantedSum: PropTypes.number.isRequired,
   grantedTotal: PropTypes.number.isRequired,
   endDate: PropTypes.string.isRequired,
-  campaignType: PropTypes.string.isRequired,
+  fulfilmentType: PropTypes.string.isRequired,
   countryStrategy: PropTypes.oneOf([
     countryStrategies.INCLUDE,
     countryStrategies.EXCLUDE,

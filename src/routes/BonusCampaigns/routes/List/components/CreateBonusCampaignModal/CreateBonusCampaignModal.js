@@ -12,11 +12,11 @@ import {
   DateTimeField,
 } from '../../../../../../components/ReduxForm';
 import {
-  campaignTypes,
-  campaignTypesLabels,
+  fulfilmentTypes,
+  fulfilmentTypesLabels,
   targetTypes,
   targetTypesLabels,
-  customValueFieldTypesByCampaignType,
+  customValueFieldTypesByFulfilmentType,
   moneyTypeUsageLabels,
   lockAmountStrategyLabels,
 } from '../../../../../../constants/bonus-campaigns';
@@ -26,12 +26,12 @@ import { attributeLabels } from './constants';
 import validator from './validator';
 import normalizePromoCode from '../../../../../../utils/normalizePromoCode';
 
-const getCustomValueFieldTypes = (campaignType) => {
-  if (!campaignType || !customValueFieldTypesByCampaignType[campaignType]) {
+const getCustomValueFieldTypes = (fulfilmentType) => {
+  if (!fulfilmentType || !customValueFieldTypesByFulfilmentType[fulfilmentType]) {
     return [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE];
   }
 
-  return customValueFieldTypesByCampaignType[campaignType];
+  return customValueFieldTypesByFulfilmentType[fulfilmentType];
 };
 
 class CreateBonusCampaignModal extends Component {
@@ -60,10 +60,10 @@ class CreateBonusCampaignModal extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { currentValues, change } = this.props;
-    const { currentValues: { campaignType: nextCampaignType } } = nextProps;
-    if (currentValues && currentValues.campaignType &&
-      currentValues.campaignType !== nextCampaignType &&
-      nextCampaignType === campaignTypes.PROFILE_COMPLETED
+    const { currentValues: { fulfilmentType: nextFulfilmentType } } = nextProps;
+    if (currentValues && currentValues.fulfilmentType &&
+      currentValues.fulfilmentType !== nextFulfilmentType &&
+      nextFulfilmentType === fulfilmentTypes.PROFILE_COMPLETED
     ) {
       ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
         change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
@@ -110,8 +110,8 @@ class CreateBonusCampaignModal extends Component {
     }
   };
 
-  handleChangeCampaignType = (e) => {
-    if (e.target.value === campaignTypes.WITHOUT_FULFILMENT) {
+  handleChangeFulfilmentType = (e) => {
+    if (e.target.value === fulfilmentTypes.WITHOUT_FULFILMENT) {
       this.handleEnableOptIn();
     }
   };
@@ -130,9 +130,9 @@ class CreateBonusCampaignModal extends Component {
       onClose,
       currentValues,
     } = this.props;
-    const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.campaignType);
+    const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfilmentType);
     const isDepositCampaign = currentValues
-      && [campaignTypes.DEPOSIT, campaignTypes.FIRST_DEPOSIT].indexOf(currentValues.campaignType) > -1;
+      && [fulfilmentTypes.DEPOSIT, fulfilmentTypes.FIRST_DEPOSIT].indexOf(currentValues.fulfilmentType) > -1;
 
     return (
       <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen>
@@ -226,15 +226,15 @@ class CreateBonusCampaignModal extends Component {
               ))}
             </Field>
             <Field
-              name="campaignType"
-              label={I18n.t(attributeLabels.campaignType)}
+              name="fulfilmentType"
+              label={I18n.t(attributeLabels.fulfilmentType)}
               type="select"
               component={SelectField}
-              onChange={this.handleChangeCampaignType}
+              onChange={this.handleChangeFulfilmentType}
             >
               {types.map(item => (
                 <option key={item} value={item}>
-                  {renderLabel(item, campaignTypesLabels)}
+                  {renderLabel(item, fulfilmentTypesLabels)}
                 </option>
               ))}
             </Field>
@@ -323,7 +323,7 @@ class CreateBonusCampaignModal extends Component {
                       id="create-campaign-optin"
                       disabled={
                         currentValues.targetType === targetTypes.ALL ||
-                        currentValues.campaignType === campaignTypes.WITHOUT_FULFILMENT
+                        currentValues.fulfilmentType === fulfilmentTypes.WITHOUT_FULFILMENT
                       }
                     /> {I18n.t(attributeLabels.optIn)}
                   </label>
@@ -380,7 +380,7 @@ export default connect(state => ({
     form: FORM_NAME,
     validate: (values, props) => validator(values, {
       allowedCustomValueTypes: getCustomValueFieldTypes(values),
-      campaignType: props.types,
+      fulfilmentType: props.types,
     }),
   })(CreateBonusCampaignModal),
 );

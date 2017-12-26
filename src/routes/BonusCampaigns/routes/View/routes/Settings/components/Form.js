@@ -9,7 +9,7 @@ import {
 } from '../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
-  campaignTypes,
+  fulfilmentTypes,
   targetTypes,
   targetTypesLabels,
   optInSelect,
@@ -63,7 +63,7 @@ class Form extends Component {
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,
       optIn: PropTypes.bonusCampaignEntity.optIn,
-      campaignType: PropTypes.bonusCampaignEntity.campaignType,
+      fulfilmentType: PropTypes.bonusCampaignEntity.fulfilmentType,
       excludeCountries: PropTypes.bonusCampaignEntity.excludeCountries,
     }),
     disabled: PropTypes.bool,
