@@ -163,7 +163,7 @@ function getAvailableLanguages() {
 }
 
 function getLogo() {
-  return /vslots/.test(getApiRoot()) ? '/img/vslots-logo.png' : '/img/logoNewAge.png';
+  return '/img/logoNewAge.png';
 }
 
 function getVersion() {

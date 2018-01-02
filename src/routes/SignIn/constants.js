@@ -4,7 +4,7 @@ import I18n from '../../utils/fake-i18n';
 const brands = keyMirror({
   hrzn: null,
   vulcanprestige: null,
-  vulcanneon: null,
+  redbox: null,
   loki: null,
 });
 const departments = keyMirror({
@@ -26,16 +26,16 @@ const brandsConfig = {
     image: { src: '/img/nascasino-brand-logo.png' },
   },
   [brands.vulcanprestige]: {
-    name: 'Vslots',
-    image: { src: '/img/vslot-brand-logo.png' },
+    name: 'Vulcan Prestige',
+    image: { src: '/img/vulcanprestige_brand_logo.png', style: { width: '120px' } },
   },
   [brands.loki]: {
     name: 'Loki',
     image: { src: '/img/loki-brand-logo.svg' },
   },
-  [brands.vulcanneon]: {
-    name: 'Vulcan Neon',
-    image: { src: '/img/vulcanneon_brand_logo.png', style: { width: '132px' } },
+  [brands.redbox]: {
+    name: 'Redbox',
+    image: { src: '/img/redbox_brand_logo.svg', style: { width: '160px' } },
   },
 };
 const departmentsConfig = {
