@@ -173,7 +173,7 @@ class CreateModal extends Component {
   };
 
   renderAdditionalFields = () => {
-    const { currentValues } = this.props;
+    const { currentValues, currency } = this.props;
 
     if (!currentValues.aggregatorId) {
       return null;
