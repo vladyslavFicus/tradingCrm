@@ -60,6 +60,7 @@
         "functions": "ignore"
       }
     ],
-    "no-return-assign": "off"
+    "no-return-assign": "off",
+    "radix": 0
   }
 }
