@@ -116,9 +116,7 @@ class CreateModal extends Component {
     if (game) {
       let linesPerSpin = null;
 
-      if (game.aggregatorId === aggregators.microgaming &&
-        Array.isArray(game.lines) && game.lines.length > 0
-      ) {
+      if (game.aggregatorId === aggregators.microgaming && Array.isArray(game.lines) && game.lines.length > 0) {
         linesPerSpin = parseInt(Math.max(...game.lines));
       }
 
@@ -150,13 +148,18 @@ class CreateModal extends Component {
   };
 
   handleSubmit = (form) => {
-    const data = { ...form };
+    const { onSubmit, currentValues } = this.props;
 
+    const data = { ...form };
     if (data.aggregatorId === aggregators.netent) {
       data.comment = data.name;
     }
 
-    this.props.onSubmit(data);
+    if (currentValues.aggregatorId === aggregators.microgaming) {
+      delete data.linesPerSpin;
+    }
+
+    onSubmit(data);
   };
 
   handleSubmitNote = (data) => {
@@ -167,17 +170,6 @@ class CreateModal extends Component {
   handleDeleteNote = () => {
     this.props.onManageNote(null);
     this.context.hidePopover();
-  };
-
-  handleSubmit = (formValues) => {
-    const { onSubmit, currentValues } = this.props;
-
-    const data = { ...formValues };
-    if (currentValues.aggregatorId === aggregators.microgaming) {
-      delete data.linesPerSpin;
-    }
-
-    onSubmit(data);
   };
 
   renderAdditionalFields = () => {
