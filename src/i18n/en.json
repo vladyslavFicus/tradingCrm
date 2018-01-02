@@ -498,7 +498,8 @@
           "BONUS_LIFE_TIME": "Bonus life time",
           "MONEY_TYPE_PRIORITY": "Wagering",
           "COIN_SIZE": "Coin price",
-          "NUMBER_OF_COINS": "Number of coins"
+          "NUMBER_OF_COINS": "Number of coins",
+          "APPROXE_BET_VALUE": "Approx. bet value"
         },
         "FREE_SPIN_VALUE": "Free spin value",
         "TOTAL_VALUE": "Total value",

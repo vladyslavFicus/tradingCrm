@@ -504,7 +504,8 @@
           "BONUS_LIFE_TIME": "Время жизни бонуса",
           "MONEY_TYPE_PRIORITY": "Приоритет использования денег",
           "COIN_SIZE": "Стоимость коина",
-          "NUMBER_OF_COINS": "Коинов на линию"
+          "NUMBER_OF_COINS": "Коинов на линию",
+          "APPROXE_BET_VALUE": "Прим. значение ставки"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
         "TOTAL_VALUE": "Сумма spin",
