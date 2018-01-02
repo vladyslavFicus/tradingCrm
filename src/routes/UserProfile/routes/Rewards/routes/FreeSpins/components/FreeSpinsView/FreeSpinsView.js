@@ -169,8 +169,6 @@ class FreeSpinsView extends Component {
   };
 
   handleSubmitNewFreeSpin = async (data) => {
-    console.log('data', data);
-    return null;
     const {
       createFreeSpin,
       resetNote,

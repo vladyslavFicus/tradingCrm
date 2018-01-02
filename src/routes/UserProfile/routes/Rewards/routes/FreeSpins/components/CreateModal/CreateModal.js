@@ -181,23 +181,17 @@ class CreateModal extends Component {
   };
 
   renderAdditionalFields = () => {
-    const { currentValues, currency } = this.props;
+    const { currentValues } = this.props;
 
     if (!currentValues.aggregatorId) {
       return null;
     }
 
     if (currentValues.aggregatorId === aggregators.microgaming) {
-      const { currentCoins, currentCoinSizes } = this.state;
-
       return (
         <MicrogamingAdditionalFields
-          currency={currency}
           disabled={!currentValues || !currentValues.providerId}
-          coins={currentCoins}
-          coinSizes={currentCoinSizes}
-          coinLabel={I18n.t(attributeLabels.numberOfCoins)}
-          coinSizeLabel={I18n.t(attributeLabels.coinSize)}
+          approxeBetValueLabel={I18n.t(attributeLabels.approxeBetValue)}
         />
       );
     }
