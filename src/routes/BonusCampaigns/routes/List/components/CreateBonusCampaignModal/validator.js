@@ -5,7 +5,7 @@ import { targetTypesLabels } from '../../../../../../constants/bonus-campaigns';
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
 export default (values, params) => {
-  const { allowedCustomValueTypes, campaignType } = params;
+  const { allowedCustomValueTypes, fulfilmentType } = params;
 
   const rules = {
     campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
@@ -26,7 +26,7 @@ export default (values, params) => {
       type: [`in:${allowedCustomValueTypes.join()}`],
     },
     wagerWinMultiplier: 'required|integer|max:999',
-    campaignType: ['required', 'string', `in:${campaignType.join()}`],
+    fulfilmentType: ['required', 'string', `in:${fulfilmentType.join()}`],
     targetType: ['required', 'string', `in:${Object.keys(targetTypesLabels).join()}`],
     minAmount: 'min:0',
     maxAmount: 'min:0',

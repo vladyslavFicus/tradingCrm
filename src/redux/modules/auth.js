@@ -4,7 +4,6 @@ import createReducer from '../../utils/createReducer';
 import createRequestAction from '../../utils/createRequestAction';
 import { sourceActionCreators as operatorSourceActionCreators } from './operator';
 import getFingerprint from '../../utils/fingerPrint';
-import timestamp from '../../utils/timestamp';
 import { getBrand } from '../../config';
 
 const KEY = 'auth';

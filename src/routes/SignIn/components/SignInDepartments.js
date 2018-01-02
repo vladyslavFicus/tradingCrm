@@ -39,6 +39,7 @@ class SignInDepartments extends Component {
   render() {
     const { step, departments } = this.state;
     const { onSelect, onBackClick, canGoBack, username, brand } = this.props;
+    if (!step)  return null;
     const className = classNames('form-page__department', {
       fadeOutDown: step === 0,
       fadeInUp: step > 0,

@@ -49,7 +49,7 @@ function passwordResetRequest(type) {
         ],
         bailout: !logged,
       },
-    })
+    });
   };
 }
 
@@ -80,7 +80,7 @@ function sendInvitationRequest(type) {
 function passwordResetConfirm(type) {
   return ({ password, token }) => dispatch => dispatch({
     [CALL_API]: {
-      endpoint: '/operator/public/operators/activate',
+      endpoint: `/operator/public/operators/activate?brandId=${getBrand()}`,
       method: 'POST',
       headers: {
         Accept: 'application/json',

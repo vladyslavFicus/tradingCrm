@@ -1,6 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createReducer from '../../../../../utils/createReducer';
 
@@ -93,24 +92,24 @@ const actionHandlers = {
     error: null,
     noResults: false,
   }),
-  [FETCH_GAMES.SUCCESS]: (state, action) => ({
+  [FETCH_GAMES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content
-        : mergeEntities(state.entities.content, action.payload.content),
+      ...payload,
+      content: payload.number === 0
+        ? payload.content
+        : mergeEntities(state.entities.content, payload.content),
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_GAMES.FAILURE]: (state, action) => ({
+  [FETCH_GAMES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [RESET_GAMES]: () => ({ ...initialState }),
 };

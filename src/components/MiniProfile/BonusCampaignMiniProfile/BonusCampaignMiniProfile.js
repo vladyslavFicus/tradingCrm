@@ -7,7 +7,7 @@ import {
   statuses,
   statusesLabels,
   targetTypesLabels,
-  campaignTypesLabels,
+  fulfilmentTypesLabels,
 } from '../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../constants/form';
 import Uuid from '../../Uuid';
@@ -25,7 +25,7 @@ const BonusCampaignMiniProfile = (props) => {
       creationDate,
       currency,
       endDate,
-      campaignType,
+      fulfilmentType,
       optIn,
       startDate,
       state,
@@ -119,7 +119,7 @@ const BonusCampaignMiniProfile = (props) => {
           <div className="info-block-label">{I18n.t('MINI_PROFILE.FULFILLMENT')}</div>
           <div className="info-block-content">
             <div className="info-block-heading">
-              {renderLabel(campaignType, campaignTypesLabels)}
+              {renderLabel(fulfilmentType, fulfilmentTypesLabels)}
             </div>
           </div>
         </div>

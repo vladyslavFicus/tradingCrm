@@ -172,12 +172,12 @@ class CreateOperatorModal extends Component {
 
           <ModalFooter>
             <div className="row">
-              <div className="col-sm-6 text-muted font-size-12">
+              <div className="col-5 text-muted font-size-12 text-left">
                 <b>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE')}</b>
                 {':'}
                 {I18n.t('OPERATORS.MODALS.NEW_OPERATOR.NOTE_MESSAGE')}
               </div>
-              <div className="col-sm-6">
+              <div className="col-7">
                 <button
                   type="reset"
                   className="btn btn-default-outline"

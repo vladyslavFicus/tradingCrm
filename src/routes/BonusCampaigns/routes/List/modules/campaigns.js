@@ -5,7 +5,6 @@ import { statuses, statusesReasons } from '../../../../../constants/bonus-campai
 import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
 import { sourceActionCreators } from '../../../../../redux/modules/bonusCampaigns';
@@ -34,7 +33,7 @@ function createCampaign(data) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    const endpointParams = { ...data, optIn: data.optIn || false };
+    const endpointParams = { ...data, optIn: data.optIn || false, campaignType: 'BONUS' };
     if (endpointParams.conversionPrize && endpointParams.conversionPrize.value === undefined) {
       endpointParams.conversionPrize = null;
     }
@@ -132,24 +131,24 @@ const actionHandlers = {
     error: null,
     noResults: false,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content
-        : mergeEntities(state.entities.content, action.payload.content),
+      ...payload,
+      content: payload.number === 0
+        ? payload.content
+        : mergeEntities(state.entities.content, payload.content),
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [RESET_CAMPAIGNS]: () => ({ ...initialState }),
 };

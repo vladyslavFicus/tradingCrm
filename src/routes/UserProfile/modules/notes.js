@@ -1,6 +1,5 @@
 import { sourceActionCreators as noteSourceActionCreators } from '../../../redux/modules/note';
 import createReducer from '../../../utils/createReducer';
-import timestamp from '../../../utils/timestamp';
 import createRequestAction from '../../../utils/createRequestAction';
 
 const KEY = 'user/profile/notes';
@@ -21,20 +20,20 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const initialState = {

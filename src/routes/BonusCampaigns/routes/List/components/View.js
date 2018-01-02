@@ -9,8 +9,8 @@ import Card, { Title, Content } from '../../../../../components/Card';
 import GridView, { GridColumn } from '../../../../../components/GridView';
 import renderLabel from '../../../../../utils/renderLabel';
 import {
-  campaignTypes,
-  campaignTypesLabels,
+  fulfilmentTypes,
+  fulfilmentTypesLabels,
   targetTypes,
   targetTypesLabels,
 } from '../../../../../constants/bonus-campaigns';
@@ -185,7 +185,7 @@ class View extends Component {
   renderFulfillmentType = data => (
     <div>
       <div className="text-uppercase font-weight-700">
-        {renderLabel(data.campaignType, campaignTypesLabels)}
+        {renderLabel(data.fulfilmentType, fulfilmentTypesLabels)}
       </div>
       <div className="font-size-11">{data.optIn ? I18n.t('COMMON.OPT_IN') : I18n.t('COMMON.NON_OPT_IN')}</div>
     </div>
@@ -337,7 +337,7 @@ class View extends Component {
             types={list}
             currencies={currencies}
             initialValues={{
-              campaignType: campaignTypes.FIRST_DEPOSIT,
+              fulfilmentType: fulfilmentTypes.FIRST_DEPOSIT,
               campaignRatio: {
                 type: customValueFieldTypes.ABSOLUTE,
               },

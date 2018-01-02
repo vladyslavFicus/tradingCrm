@@ -87,8 +87,8 @@ class View extends Component {
                 {I18n.t('OPERATORS.PROFILE.DEPARTMENTS.LABEL')}
               </div>
               {
-                authorities.map((authority, key) => (
-                  <div key={`${key.department}-${key.role}`} className="margin-bottom-20">
+                authorities.map(authority => (
+                  <div key={authority.id} className="margin-bottom-20">
                     <strong>
                       {renderLabel(authority.department, departmentsLabels)}
                       {' - '}

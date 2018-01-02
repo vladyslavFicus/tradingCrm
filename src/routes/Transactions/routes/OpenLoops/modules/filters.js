@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import timestamp from '../../../../../utils/timestamp';
 
 const KEY = 'transactions/filters';
 const FETCH_FILTERS = createRequestAction(`${KEY}/fetch-filters`);
@@ -40,20 +39,20 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_FILTERS.SUCCESS]: (state, action) => ({
+  [FETCH_FILTERS.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     data: {
       ...state.data,
-      paymentMethods: action.payload,
+      paymentMethods: payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_FILTERS.FAILURE]: (state, action) => ({
+  [FETCH_FILTERS.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const actionTypes = {

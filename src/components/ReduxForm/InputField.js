@@ -172,9 +172,9 @@ class InputField extends Component {
       inputField = (
         <div className="input-group">
           {inputAddonPosition === 'right' && inputField}
-          <div className="input-group-addon">
+          <span className="input-group-addon">
             {inputAddon}
-          </div>
+          </span>
           {inputAddonPosition === 'left' && inputField}
         </div>
       );
@@ -182,9 +182,11 @@ class InputField extends Component {
 
     if (inputButton) {
       inputField = (
-        <div className="form-control-with-button">
+        <div className="input-group">
           {inputField}
-          {showInputButton && inputButton}
+          <span className="input-group-btn">
+            {showInputButton && inputButton}
+          </span>
         </div>
       );
     }

@@ -55,8 +55,8 @@ class PersonalForm extends Component {
     return (
       <form className="padding-bottom-20" onSubmit={handleSubmit(onSubmit)}>
         <div className="row margin-bottom-20">
-          <div className="col-xl-6">
-            <span className="personal-form-heading">{I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE')}</span>
+          <div className="col-xl-6 personal-form-heading">
+            {I18n.t('PLAYER_PROFILE.PROFILE.PERSONAL.TITLE')}
           </div>
           <PermissionContent permissions={permissions.USER_PROFILE.UPDATE_PROFILE}>
             <div className="col-xl-6 text-right">

@@ -1,6 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
-import timestamp from '../../../../../../../utils/timestamp';
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 
@@ -78,30 +77,30 @@ function cancelBonus(bonusUUID, playerUUID) {
 }
 
 const actionHandlers = {
-  [FETCH_ACTIVE_BONUS.REQUEST]: (state, action) => ({
+  [FETCH_ACTIVE_BONUS.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [FETCH_ACTIVE_BONUS.SUCCESS]: (state, action) => {
+  [FETCH_ACTIVE_BONUS.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => {
     const newState = {
       ...state,
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     };
 
-    if (action.payload.content && action.payload.content.length > 0) {
-      newState.data = action.payload.content[0];
+    if (payload.content && payload.content.length > 0) {
+      newState.data = payload.content[0];
     }
 
     return newState;
   },
 
-  [FETCH_ACTIVE_BONUS.FAILURE]: (state, action) => ({
+  [FETCH_ACTIVE_BONUS.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 const initialState = {

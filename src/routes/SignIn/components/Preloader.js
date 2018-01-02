@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 class Preloader extends React.Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = { display: props.show ? 'block' : 'none' };
   }
 

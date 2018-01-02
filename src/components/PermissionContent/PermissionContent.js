@@ -20,7 +20,7 @@ class PermissionContent extends Component {
   };
 
   constructor(props, context) {
-    super();
+    super(props);
 
     this.state = {
       visible: (new Permissions(props.permissions, props.permissionsCondition)).check(context.permissions),

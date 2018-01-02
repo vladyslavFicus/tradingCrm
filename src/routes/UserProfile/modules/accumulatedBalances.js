@@ -1,6 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../utils/createReducer';
-import timestamp from '../../../utils/timestamp';
 import createRequestAction from '../../../utils/createRequestAction';
 import config from '../../../config';
 import { actionTypes as profileActionTypes } from './profile';
@@ -43,8 +42,8 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => {
-    const { walletCurrencyDeposits, walletCurrencyWithdraws } = action.payload;
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => {
+    const { walletCurrencyDeposits, walletCurrencyWithdraws } = payload;
     let currency = emptyBalance.currency;
 
     if (Object.keys(walletCurrencyDeposits).length > 0) {
@@ -71,17 +70,17 @@ const actionHandlers = {
         },
       },
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     };
   },
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
-  [profileActionTypes.FETCH_PROFILE.SUCCESS]: (state, action) => {
-    if (!action.payload.balances) {
+  [profileActionTypes.FETCH_PROFILE.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => {
+    if (!payload.balances) {
       return state;
     }
 
@@ -89,18 +88,18 @@ const actionHandlers = {
       ...state,
       data: {
         ...state.data,
-        ...action.payload.balances,
+        ...payload.balances,
         withdraws: {
           ...state.data.withdraws,
-          currency: action.payload.balances.total.currency,
+          currency: payload.balances.total.currency,
         },
         deposits: {
           ...state.data.deposits,
-          currency: action.payload.balances.total.currency,
+          currency: payload.balances.total.currency,
         },
       },
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     };
   },
 };

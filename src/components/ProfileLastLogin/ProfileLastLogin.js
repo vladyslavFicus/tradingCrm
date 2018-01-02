@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../constants/propTypes';
 
-class ProfileLastLogin extends Component {
+class ProfileLastLogin extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     lastIp: PropTypes.ipEntity,

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../constants/propTypes';
 import UnitValue from '../UnitValue';
-import { targetTypesLabels, campaignTypesLabels } from '../../../../../../constants/bonus-campaigns';
+import { targetTypesLabels, fulfilmentTypesLabels } from '../../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../../utils/renderLabel';
 import Card, { Content } from '../../../../../../components/Card';
 
@@ -20,7 +20,7 @@ const Information = (props) => {
       capping,
       wagerWinMultiplier,
       campaignRatio,
-      campaignType,
+      fulfilmentType,
     },
   } = props;
 
@@ -59,7 +59,7 @@ const Information = (props) => {
               <Content>
                 <div>
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.FULFILLMENT_TYPE')}:</strong>{' '}
-                  {renderLabel(campaignType, campaignTypesLabels)}
+                  {renderLabel(fulfilmentType, fulfilmentTypesLabels)}
                 </div>
                 <div>
                   <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.RATIO')}:</strong> {' '}

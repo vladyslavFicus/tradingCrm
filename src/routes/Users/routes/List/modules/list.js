@@ -1,7 +1,6 @@
 import moment from 'moment';
 import _ from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
-import timestamp from '../../../../../utils/timestamp';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
 import config, { getApiRoot } from '../../../../../config';
@@ -109,27 +108,27 @@ const actionHandlers = {
     exporting: state.exporting && shallowEqual(action.meta.filters, state.filters),
     noResults: false,
   }),
-  [FETCH_ENTITIES.SUCCESS]: (state, action) => ({
+  [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
-      content: action.payload.number === 0
-        ? action.payload.content.map(mapProfile)
+      ...payload,
+      content: payload.number === 0
+        ? payload.content.map(mapProfile)
         : [
           ...state.entities.content,
-          ...action.payload.content.map(mapProfile),
+          ...payload.content.map(mapProfile),
         ],
     },
     isLoading: false,
-    receivedAt: timestamp(),
-    noResults: action.payload.content.length === 0,
+    receivedAt: endRequestTime,
+    noResults: payload.content.length === 0,
   }),
-  [FETCH_ENTITIES.FAILURE]: (state, action) => ({
+  [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
   [EXPORT_ENTITIES.REQUEST]: state => ({
     ...state,

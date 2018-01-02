@@ -31,8 +31,6 @@
     padding-left: 1rem;
     .button-block-container {
       display: flex;
-      -webkit-flex-flow: row nowrap;
-      flex-flow: row nowrap;
       justify-content: flex-end;
     }
     .btn:nth-child(n+2) {
@@ -68,8 +66,7 @@
 }
 
 .form-row {
-  display: flex;
-  flex-flow: row wrap;
+  flex-wrap: wrap;
   margin-right: -1rem;
   margin-left: -1rem;
   &__big {
@@ -98,6 +95,10 @@
     padding-top: 18px;
     font-size: 14px;
     color: #999;
+  }
+  &__action {
+    align-self: center;
+    padding-left: 0;
   }
   &_with-placeholder-right {
     position: relative;
@@ -207,7 +208,6 @@ label {
 
 .range-group {
   display: flex;
-  flex-flow: row nowrap;
   .form-group,
   .form-control {
     flex: 1 0 0;
@@ -470,18 +470,12 @@ label {
   z-index: 0;
 }
 
-input[type=checkbox] {
-  margin-top: -1px;
-  margin-right: 5px;
-  vertical-align: middle;
-  &:hover {
-    cursor: pointer;
-  }
+.form-check-label:hover {
+  cursor: pointer;
 }
 
 .double-group {
   display: flex;
-  flex-flow: row nowrap;
  .form-group {
    flex: 0 0 70px;
    min-width: 0;

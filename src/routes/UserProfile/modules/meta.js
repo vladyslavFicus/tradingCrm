@@ -3,7 +3,7 @@ import _ from 'lodash';
 import countryListLib from 'country-list';
 import createRequestAction from '../../../utils/createRequestAction';
 import createReducer from '../../../utils/createReducer';
-import timestamp from '../../../utils/timestamp';
+import { getBrand } from '../../../config';
 
 function formatPhoneCode(phone) {
   return phone.replace(/[-\s]/g, '');
@@ -23,7 +23,7 @@ const FETCH_META = createRequestAction(`${KEY}/fetch-meta`);
 function fetchMeta() {
   return {
     [CALL_API]: {
-      endpoint: 'profile/public/signup',
+      endpoint: `profile/public/signup?brandId=${getBrand()}`,
       method: 'OPTIONS',
       headers: {
         Accept: 'application/json',
@@ -63,19 +63,19 @@ const actionHandlers = {
     error: null,
     isLoading: true,
   }),
-  [FETCH_META.SUCCESS]: (state, action) => {
+  [FETCH_META.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => {
     const newState = {
       ...state,
-      source: action.payload,
-      playerMeta: action.payload.geoLocation,
+      source: payload,
+      playerMeta: payload.geoLocation,
       isLoading: false,
-      receivedAt: timestamp(),
+      receivedAt: endRequestTime,
     };
 
-    const phoneCodes = _.get(action.payload, 'post.phoneCode.list', []);
-    const currencyCodes = _.get(action.payload, 'post.currency.list', []);
-    const countryList = _.get(action.payload, 'post.country.list', []);
-    const passwordPattern = _.get(action.payload, 'post.password.pattern', '');
+    const phoneCodes = _.get(payload, 'post.phoneCode.list', []);
+    const currencyCodes = _.get(payload, 'post.currency.list', []);
+    const countryList = _.get(payload, 'post.country.list', []);
+    const passwordPattern = _.get(payload, 'post.password.pattern', '');
     const countryCodes = countryList ? countryList.map(item => item.countryCode) : [];
     const countries = countryList.map(item => ({
       ...item,
@@ -97,11 +97,11 @@ const actionHandlers = {
 
     return newState;
   },
-  [FETCH_META.FAILURE]: (state, action) => ({
+  [FETCH_META.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    error: action.payload,
+    error: payload,
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
 };
 const actionTypes = {

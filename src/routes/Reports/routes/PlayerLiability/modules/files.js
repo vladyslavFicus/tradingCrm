@@ -2,7 +2,6 @@ import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import { getApiRoot } from '../../../../../config';
 import downloadBlob from '../../../../../utils/downloadBlob';
-import timestamp from '../../../../../utils/timestamp';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../utils/createRequestAction';
 
@@ -33,20 +32,20 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_REPORT_FILES.SUCCESS]: (state, action) => ({
+  [FETCH_REPORT_FILES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_REPORT_FILES.FAILURE]: (state, action) => ({
+  [FETCH_REPORT_FILES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 

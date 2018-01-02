@@ -1,6 +1,5 @@
 import createReducer from 'utils/createReducer';
 import { CALL_API } from 'redux-api-middleware';
-import timestamp from 'utils/timestamp';
 import createRequestAction from 'utils/createRequestAction';
 
 const KEY = 'term-view';
@@ -27,25 +26,25 @@ function fetchTerm(id) {
 }
 
 const actionHandlers = {
-  [FETCH_TERM.REQUEST]: (state, action) => ({
+  [FETCH_TERM.REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
   }),
-  [FETCH_TERM.SUCCESS]: (state, action) => ({
+  [FETCH_TERM.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
     data: {
       ...state.data,
-      ...action.payload,
+      ...payload,
     },
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_TERM.FAILURE]: (state, action) => ({
+  [FETCH_TERM.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    error: action.payload,
+    error: payload,
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
 };
 const initialState = {

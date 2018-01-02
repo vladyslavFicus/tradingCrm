@@ -4,7 +4,6 @@ import { getApiRoot } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import downloadBlob from '../../../../../utils/downloadBlob';
-import timestamp from '../../../../../utils/timestamp';
 
 const KEY = 'reports/revenue';
 const DOWNLOAD_REPORT = createRequestAction(`${KEY}/download-report`);
@@ -49,20 +48,20 @@ const actionHandlers = {
     isLoading: true,
     error: null,
   }),
-  [FETCH_REPORT.SUCCESS]: (state, action) => ({
+  [FETCH_REPORT.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     entities: {
       ...state.entities,
-      ...action.payload,
+      ...payload,
     },
     isLoading: false,
-    receivedAt: timestamp(),
+    receivedAt: endRequestTime,
   }),
-  [FETCH_REPORT.FAILURE]: (state, action) => ({
+  [FETCH_REPORT.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     isLoading: false,
-    error: action.payload,
-    receivedAt: timestamp(),
+    error: payload,
+    receivedAt: endRequestTime,
   }),
 };
 
