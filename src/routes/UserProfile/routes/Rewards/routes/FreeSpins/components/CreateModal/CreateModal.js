@@ -109,15 +109,24 @@ class CreateModal extends Component {
   };
 
   handleChangeGame = (e) => {
+    const { change } = this.props;
+
     const game = this.state.currentGames.find(i => i.gameId === e.target.value);
 
     if (game) {
-      this.props.change('aggregatorId', game.aggregatorId);
-      this.props.change('gameId', game.gameId);
-      this.props.change('gameName', game.fullGameName);
-      this.props.change('clientId', game.clientId);
-      this.props.change('moduleId', game.moduleId);
-      this.props.change('linesPerSpin', null);
+      let linesPerSpin = null;
+
+      if (game.aggregatorId === aggregators.microgaming && Array.isArray(game.lines) && game.lines.length > 0) {
+        linesPerSpin = parseInt(Math.max(...game.lines));
+      }
+
+      change('linesPerSpin', linesPerSpin);
+      change('aggregatorId', game.aggregatorId);
+      change('gameId', game.gameId);
+      change('gameName', game.fullGameName);
+      change('clientId', game.clientId);
+      change('moduleId', game.moduleId);
+
       this.setState({
         currentLines: game.lines,
         currentCoins: game.coins,
@@ -139,13 +148,18 @@ class CreateModal extends Component {
   };
 
   handleSubmit = (form) => {
-    const data = { ...form };
+    const { onSubmit, currentValues } = this.props;
 
+    const data = { ...form };
     if (data.aggregatorId === aggregators.netent) {
       data.comment = data.name;
     }
 
-    this.props.onSubmit(data);
+    if (currentValues.aggregatorId === aggregators.microgaming) {
+      delete data.linesPerSpin;
+    }
+
+    onSubmit(data);
   };
 
   handleSubmitNote = (data) => {
@@ -159,23 +173,17 @@ class CreateModal extends Component {
   };
 
   renderAdditionalFields = () => {
-    const { currentValues, currency } = this.props;
+    const { currentValues } = this.props;
 
     if (!currentValues.aggregatorId) {
       return null;
     }
 
     if (currentValues.aggregatorId === aggregators.microgaming) {
-      const { currentCoins, currentCoinSizes } = this.state;
-
       return (
         <MicrogamingAdditionalFields
-          currency={currency}
           disabled={!currentValues || !currentValues.providerId}
-          coins={currentCoins}
-          coinSizes={currentCoinSizes}
-          coinLabel={I18n.t(attributeLabels.numberOfCoins)}
-          coinSizeLabel={I18n.t(attributeLabels.coinSize)}
+          approxeBetValueLabel={I18n.t(attributeLabels.approxeBetValue)}
         />
       );
     }
@@ -220,18 +228,7 @@ class CreateModal extends Component {
     let linesPerSpin = currentValues && currentValues.linesPerSpin
       ? parseFloat(currentValues.linesPerSpin) : 0;
 
-    if (currentValues.aggregatorId === aggregators.microgaming) {
-      const coinSize = (
-        currentValues && currentValues.coinSize
-          ? parseFloat(currentValues.coinSize) : 0
-      ) || 0;
-      const numberOfCoins = (
-        currentValues && currentValues.numberOfCoins
-          ? parseInt(currentValues.numberOfCoins, 10) : 0
-      ) || 0;
-
-      betPrice = coinSize * numberOfCoins;
-    } else if (currentValues.aggregatorId === aggregators.netent) {
+    if (currentValues.aggregatorId === aggregators.netent) {
       const betLevel = (
         currentValues && currentValues.betLevel
           ? parseFloat(currentValues.betLevel) : 0
@@ -394,8 +391,15 @@ class CreateModal extends Component {
                     labelClassName="form-label"
                     position="vertical"
                     component={SelectField}
+                    type="number"
+                    normalize={v => parseInt(v)}
                     showErrorMessage={false}
-                    disabled={!currentValues || !currentValues.providerId || !currentValues.gameId}
+                    disabled={
+                      !currentValues ||
+                      !currentValues.providerId ||
+                      !currentValues.gameId ||
+                      currentValues.aggregatorId === aggregators.microgaming
+                    }
                   >
                     <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}</option>
                     {currentLines.map(item => (
@@ -529,7 +533,6 @@ const CreateModalReduxForm = reduxForm({
       providerId: 'required',
       gameId: 'required',
       freeSpinsAmount: ['required', 'integer'],
-      linesPerSpin: ['required', 'integer'],
       prize: ['numeric'],
       capping: ['numeric'],
       multiplier: 'required|numeric',
@@ -553,10 +556,10 @@ const CreateModalReduxForm = reduxForm({
     }
 
     if (values.aggregatorId === aggregators.microgaming) {
-      rules.coinSize = ['required', 'numeric'];
-      rules.numberOfCoins = ['required', 'numeric'];
+      rules.approxeBetValue = ['required', 'numeric', 'min:1'];
     } else {
       rules.betPerLine = ['required', 'numeric', 'max:1000'];
+      rules.linesPerSpin = ['required', 'integer'];
     }
 
     return createValidator(rules, translateLabels(attributeLabels), false)(values);

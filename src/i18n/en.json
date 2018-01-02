@@ -500,7 +500,8 @@
           "COIN_SIZE": "Coin price",
           "NUMBER_OF_COINS": "Number of coins",
           "BET_LEVEL": "Bet level",
-          "COIN_VALUE_LEVEL": "Coin value level"
+          "COIN_VALUE_LEVEL": "Coin value level",
+          "APPROXE_BET_VALUE": "Approx. bet value"
         },
         "FREE_SPIN_VALUE": "Free spin value",
         "TOTAL_VALUE": "Total value",
