@@ -73,7 +73,6 @@ function processConfig() {
           nas: {
             brand: Object.assign({
               api: { url: projectConfig.hrzn.api_url },
-              name: projectConfig.hrzn.brands[0],
             }, projectConfig.brand),
           },
         },

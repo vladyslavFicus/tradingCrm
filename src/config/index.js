@@ -39,7 +39,6 @@ const config = _.merge({
   },
   nas: {
     brand: {
-      name: '',
       api: {
         url: '',
       },
