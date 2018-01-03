@@ -1,6 +1,6 @@
 import { injectReducer } from '../../../../store/reducers';
 
-export default (store) => ({
+export default store => ({
   path: 'transactions/open-loops',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {

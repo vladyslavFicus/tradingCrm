@@ -51,7 +51,7 @@ class GridPlayerInfo extends Component {
               className="font-size-11"
               id={`${id ? `${id}-` : ''}players-list-${profile.playerUUID}-additional`}
             >
-              {!!profile.login && <span>{profile.login} - </span>}
+              {!!profile.username && <span>{profile.username} - </span>}
               <MiniProfile
                 target={profile.playerUUID}
                 dataSource={fetchPlayerProfile}
