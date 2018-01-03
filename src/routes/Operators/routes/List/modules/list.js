@@ -9,7 +9,7 @@ const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 
 function createOperator(data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -23,7 +23,7 @@ function createOperator(data) {
         body: JSON.stringify({
           ...data,
           sendMail: !!data.sendMail,
-          brandId: getBrand(),
+          brandId,
         }),
         types: [
           CREATE_OPERATOR.REQUEST,

@@ -32,7 +32,6 @@ function signIn(data) {
       body: JSON.stringify({
         ...data,
         device: await getFingerprint(),
-        brandId: getBrand(),
       }),
       types: [
         {
@@ -66,7 +65,7 @@ function refreshToken(outsideToken = null) {
   };
 }
 
-function changeDepartment(department, brandId = getBrand(), token = null) {
+function changeDepartment(department, brandId, token = null) {
   return async (dispatch, getState) => {
     const { auth: { token: currentToken, logged } } = getState();
 
@@ -133,6 +132,7 @@ function successSignInReducer(state, action) {
 
   return {
     ...state,
+    brandId: tokenData.brandId,
     token,
     uuid,
     login,
@@ -149,6 +149,7 @@ function setLastActivity(time) {
 }
 
 const initialState = {
+  brandId: null,
   lastActivity: null,
   refreshingToken: false,
   authorities: [],
@@ -183,15 +184,20 @@ const actionHandlers = {
     ...state,
     refreshingToken: true,
   }),
-  [REFRESH_TOKEN.SUCCESS]: (state, action) => (
-    action.payload.jwtToken === null
-      ? { ...initialState }
-      : {
-        ...state,
-        token: action.payload.jwtToken,
-        refreshingToken: false,
-      }
-  ),
+  [REFRESH_TOKEN.SUCCESS]: (state, action) => {
+    if (action.payload.jwtToken === null) {
+      return { ...initialState };
+    }
+
+    const tokenData = jwtDecode(action.payload.jwtToken);
+
+    return {
+      ...state,
+      brandId: tokenData.brandId,
+      token: action.payload.jwtToken,
+      refreshingToken: false,
+    };
+  },
   [REFRESH_TOKEN.FAILURE]: state => ({
     ...state,
     refreshingToken: false,

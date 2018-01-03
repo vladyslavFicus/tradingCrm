@@ -34,7 +34,7 @@ function fetchAuthority(operatorUUID) {
 
 function addAuthority(operatorUUID, data) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -45,7 +45,7 @@ function addAuthority(operatorUUID, data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ ...data, brandId: getBrand() }),
+        body: JSON.stringify({ ...data, brandId }),
         types: [
           ADD_ENTITIES.REQUEST,
           ADD_ENTITIES.SUCCESS,
@@ -60,7 +60,7 @@ function addAuthority(operatorUUID, data) {
 
 function deleteAuthority(operatorUUID, department, role) {
   return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
@@ -74,7 +74,7 @@ function deleteAuthority(operatorUUID, department, role) {
         body: JSON.stringify({
           department,
           role,
-          brandId: getBrand(),
+          brandId,
         }),
         types: [
           DELETE_ENTITIES.REQUEST,

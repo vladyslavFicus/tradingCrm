@@ -130,11 +130,11 @@ function fetchProfile(type) {
 
 function passwordResetRequest(type) {
   return (uuid, sendEmail = true) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `auth/password/${getBrand()}/${uuid}/reset/request${sendEmail ? '' : '?send-mail=false'}`,
+        endpoint: `auth/password/${brandId}/${uuid}/reset/request${sendEmail ? '' : '?send-mail=false'}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',

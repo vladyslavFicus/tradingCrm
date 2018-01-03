@@ -9,7 +9,7 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  *  Vars
  * ==================
  */
-const { NAS_PROJECT, NAS_ENV, NGINX_CONF_OUTPUT } = process.env;
+const { NAS_PROJECT, NGINX_CONF_OUTPUT } = process.env;
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
@@ -73,7 +73,6 @@ function processConfig() {
           nas: {
             brand: Object.assign({
               api: { url: projectConfig.hrzn.api_url },
-              name: NAS_ENV,
             }, projectConfig.brand),
           },
         },

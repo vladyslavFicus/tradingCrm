@@ -31,11 +31,11 @@ function updateProfile(type) {
 
 function passwordResetRequest(type) {
   return uuid => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token, logged, brandId } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `auth/password/${getBrand()}/${uuid}/reset/request`,
+        endpoint: `auth/password/${brandId}/${uuid}/reset/request`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -78,22 +78,26 @@ function sendInvitationRequest(type) {
 }
 
 function passwordResetConfirm(type) {
-  return ({ password, token }) => dispatch => dispatch({
-    [CALL_API]: {
-      endpoint: `/operator/public/operators/activate?brandId=${getBrand()}`,
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+  return ({ password, token }) => (dispatch, getState) => {
+    const { auth: { brandId } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/operator/public/operators/activate?brandId=${brandId}`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password, token }),
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
       },
-      body: JSON.stringify({ password, token }),
-      types: [
-        type.REQUEST,
-        type.SUCCESS,
-        type.FAILURE,
-      ],
-    },
-  });
+    });
+  };
 }
 
 function fetchProfile(type) {

@@ -21,20 +21,24 @@ const KEY = 'player-profile/meta';
 const FETCH_META = createRequestAction(`${KEY}/fetch-meta`);
 
 function fetchMeta() {
-  return {
-    [CALL_API]: {
-      endpoint: `profile/public/signup?brandId=${getBrand()}`,
-      method: 'OPTIONS',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+  return (dispatch, getState) => {
+    const { auth: { brandId } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `profile/public/signup?brandId=${brandId}`,
+        method: 'OPTIONS',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        types: [
+          FETCH_META.REQUEST,
+          FETCH_META.SUCCESS,
+          FETCH_META.FAILURE,
+        ],
       },
-      types: [
-        FETCH_META.REQUEST,
-        FETCH_META.SUCCESS,
-        FETCH_META.FAILURE,
-      ],
-    },
+    });
   };
 }
 
