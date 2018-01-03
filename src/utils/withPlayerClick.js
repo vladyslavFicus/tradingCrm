@@ -23,7 +23,7 @@ const withPlayerClick = (WrappedComponent) => {
           fullName: (data.firstName || data.lastName)
             ? [data.firstName, data.lastName].filter(v => v).join(' ')
             : I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME'),
-          login: data.login,
+          username: data.username,
           uuid: data.playerUUID,
         };
 

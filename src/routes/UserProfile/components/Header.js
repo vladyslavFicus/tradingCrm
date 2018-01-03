@@ -159,7 +159,7 @@ class Header extends Component {
                   {playerProfile.kycCompleted && <i className="fa fa-check text-success" />}
                 </div>
                 <div className="panel-heading-row__info-ids">
-                  {playerProfile.login}
+                  {playerProfile.username}
                   {' - '}
                   {
                     !!playerProfile.playerUUID &&
