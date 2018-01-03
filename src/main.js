@@ -13,6 +13,9 @@ if (window) {
   window.reduxLocked = false;
   window.reduxLockedQueue = [];
   window.activeConnections = [];
+  window.app = {
+    brandId: null,
+  };
 
   if (typeof location.origin === 'undefined') {
     window.location.origin = `${window.location.protocol}//${window.location.host}`;
@@ -39,8 +42,7 @@ if (window) {
   };
 }
 
-const initialState = window.___INITIAL_STATE__;
-createStore(initialState, (store) => {
+createStore({}, (store) => {
   const MOUNT_NODE = document.getElementById('root');
 
   let render = () => {
