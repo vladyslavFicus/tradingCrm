@@ -202,6 +202,7 @@ function updateCampaign(uuid, data) {
     }
 
     const rewardFreeSpin = _.get(endpointParams, 'rewards.freeSpin');
+
     if (rewardFreeSpin) {
       endpointParams.campaignType = 'FREE_SPIN';
       delete endpointParams.campaignRatio;

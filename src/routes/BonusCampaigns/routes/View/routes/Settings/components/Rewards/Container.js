@@ -51,10 +51,9 @@ class Container extends Component {
 
   handleRefreshActiveNodes = () => {
     const { change, activeNodes } = this.props;
+    const availableNodes = _.difference(ALL_NODES, activeNodes);
 
     change(nodeGroupTypes.rewards, {});
-
-    const availableNodes = _.difference(ALL_NODES, activeNodes);
     if (availableNodes.length > 0) {
       this.handleSelectNode(availableNodes[0]);
     }

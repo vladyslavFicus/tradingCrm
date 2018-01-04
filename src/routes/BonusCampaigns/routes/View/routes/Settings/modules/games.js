@@ -4,7 +4,7 @@ import createRequestAction from '../../../../../../../utils/createRequestAction'
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import parseNumbersRange from '../../../../../../../utils/parseNumbersRange';
 
-const KEY = 'bonus-campaign/view//settings';
+const KEY = 'bonus-campaign/view/settings';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
 
 function fetchGames() {
@@ -34,6 +34,7 @@ const initialState = {
   error: null,
   receivedAt: null,
 };
+
 const actionHandlers = {
   [FETCH_GAMES.REQUEST]: state => ({
     ...state,
@@ -42,13 +43,13 @@ const actionHandlers = {
   }),
   [FETCH_GAMES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    games: payload.content.map(i => ({
-      ...i,
-      lines: i.lines ? parseNumbersRange(i.lines) : [],
-      coins: i.coins ? parseNumbersRange(i.coins) : [],
-      coinSizes: i.coinSizes ? parseNumbersRange(i.coinSizes) : [],
-      betLevels: i.betLevel ? parseNumbersRange(i.betLevel) : [],
-      coinValueLevels: i.coinValueLevel ? parseNumbersRange(i.coinValueLevel) : [],
+    games: payload.content.map(game => ({
+      ...game,
+      lines: game.lines ? parseNumbersRange(game.lines) : [],
+      coins: game.coins ? parseNumbersRange(game.coins) : [],
+      coinSizes: game.coinSizes ? parseNumbersRange(game.coinSizes) : [],
+      betLevels: game.betLevel ? parseNumbersRange(game.betLevel) : [],
+      coinValueLevels: game.coinValueLevel ? parseNumbersRange(game.coinValueLevel) : [],
     })),
     isLoading: false,
     receivedAt: endRequestTime,
@@ -59,9 +60,11 @@ const actionHandlers = {
     error: action.payload,
   }),
 };
+
 const actionTypes = {
   FETCH_GAMES,
 };
+
 const actionCreators = {
   fetchGames,
 };
