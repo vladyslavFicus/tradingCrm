@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
+import config from '../../../../../../../config';
 import {
   InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField,
 } from '../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
-  fulfilmentTypes,
   targetTypes,
   targetTypesLabels,
   optInSelect,
@@ -75,6 +75,13 @@ class Form extends Component {
       fulfillments: PropTypes.array.isRequired,
       rewards: PropTypes.array.isRequired,
     }).isRequired,
+    games: PropTypes.array,
+    providers: PropTypes.array,
+    templates: PropTypes.array,
+    currency: PropTypes.string.isRequired,
+    fetchGames: PropTypes.func.isRequired,
+    fetchFreeSpinTemplate: PropTypes.func.isRequired,
+    fetchFreeSpinTemplates: PropTypes.func.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -86,6 +93,9 @@ class Form extends Component {
     valid: false,
     fulfillmentExist: false,
     errors: {},
+    games: [],
+    providers: [],
+    templates: [],
   };
 
   componentWillReceiveProps(nextProps) {
@@ -171,6 +181,13 @@ class Form extends Component {
       disabled,
       toggleModal,
       errors,
+      games,
+      providers,
+      templates,
+      currency,
+      fetchFreeSpinTemplate,
+      fetchFreeSpinTemplates,
+      fetchGames,
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfillments);
@@ -421,6 +438,15 @@ class Form extends Component {
               activeNodes={nodeGroups.rewards}
               allowedCustomValueTypes={allowedCustomValueTypes}
               errors={getSubFieldErrors(errors, nodeGroupTypes.rewards)}
+              remove={this.handleRemoveNode(nodeGroupTypes.rewards)}
+              add={this.handleAddNode(nodeGroupTypes.rewards)}
+              games={games}
+              providers={providers}
+              templates={templates}
+              currency={currency}
+              fetchFreeSpinTemplate={fetchFreeSpinTemplate}
+              fetchGames={fetchGames}
+              fetchFreeSpinTemplates={fetchFreeSpinTemplates}
             />
           </div>
         </div>
@@ -429,7 +455,7 @@ class Form extends Component {
   }
 }
 
-const FORM_NAME = 'updateBonusCampaignSettings';
+export const FORM_NAME = 'updateBonusCampaignSettings';
 
 const SettingsForm = reduxForm({
   form: FORM_NAME,
@@ -448,5 +474,6 @@ export default connect((state) => {
     errors: getFormSyncErrors(FORM_NAME)(state),
     meta: getFormMeta(FORM_NAME)(state),
     fulfillmentExist: currentValues && !_.isEmpty(currentValues.fulfillments),
+    currency: config.nas.brand.currencies.base,
   };
 })(SettingsForm);

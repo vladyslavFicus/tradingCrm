@@ -2,7 +2,13 @@ import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { actions, statusesReasons, fulfilmentTypes, countryStrategies } from '../../../../../constants/bonus-campaigns';
+import {
+  actions,
+  statusesReasons,
+  fulfilmentTypes,
+  rewardTypes,
+  countryStrategies,
+} from '../../../../../constants/bonus-campaigns';
 import buildFormData from '../../../../../utils/buildFormData';
 import { nodeGroupTypes } from '../routes/Settings/constants';
 import { nodeTypes as fulfillmentNodeTypes } from '../routes/Settings/components/Fulfillments/constants';
@@ -17,8 +23,8 @@ const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`
 const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
 const REMOVE_PLAYERS = createRequestAction(`${KEY}/remove-players`);
 const REVERT = createRequestAction(`${KEY}/revert-form`);
-const REMOVE_FULFILLMENT_NODE = `${KEY}/remove-fulfillment-node`;
-const ADD_FULFILLMENT_NODE = `${KEY}/add-fulfillment-node`;
+const REMOVE_NODE = `${KEY}/remove-node`;
+const ADD_NODE = `${KEY}/add-fulfillment-node`;
 
 function mapFulfillmentNode(fulfilmentType) {
   const node = null;
@@ -29,6 +35,18 @@ function mapFulfillmentNode(fulfilmentType) {
     return fulfillmentNodeTypes.deposit;
   } else if (fulfilmentType === fulfilmentTypes.WITHOUT_FULFILMENT) {
     return fulfillmentNodeTypes.noFulfillments;
+  }
+
+  return node;
+}
+
+function mapRewardNode(campaignType) {
+  const node = null;
+
+  if (campaignType === rewardTypes.FREE_SPIN) {
+    return rewardNodeTypes.freeSpin;
+  } if (campaignType === rewardTypes.BONUS) {
+    return rewardNodeTypes.bonus;
   }
 
   return node;
@@ -137,7 +155,6 @@ function updateCampaign(uuid, data) {
     let endpointParams = {
       ...data,
       countryStrategy: data.excludeCountries ? countryStrategies.EXCLUDE : countryStrategies.INCLUDE,
-      campaignType: 'BONUS',
     };
     if (endpointParams.conversionPrize && !endpointParams.conversionPrize.value) {
       endpointParams.conversionPrize = null;
@@ -180,7 +197,14 @@ function updateCampaign(uuid, data) {
       endpointParams = {
         ...endpointParams,
         ...rewardBonus,
+        campaignType: 'BONUS',
       };
+    }
+
+    const rewardFreeSpin = _.get(endpointParams, 'rewards.freeSpin');
+    if (rewardFreeSpin) {
+      endpointParams.campaignType = 'FREE_SPIN';
+      delete endpointParams.campaignRatio;
     }
 
     delete endpointParams.excludeCountries;
@@ -200,7 +224,7 @@ function updateCampaign(uuid, data) {
         body: JSON.stringify(endpointParams),
         types: [
           CAMPAIGN_UPDATE.REQUEST,
-          { type: CAMPAIGN_UPDATE.SUCCESS, payload: endpointParams },
+          CAMPAIGN_UPDATE.SUCCESS,
           CAMPAIGN_UPDATE.FAILURE,
         ],
       },
@@ -290,7 +314,7 @@ function revert() {
 
 function removeNode(nodeGroup, node) {
   return {
-    type: REMOVE_FULFILLMENT_NODE,
+    type: REMOVE_NODE,
     nodeGroup,
     node,
   };
@@ -298,7 +322,7 @@ function removeNode(nodeGroup, node) {
 
 function addNode(nodeGroup, node) {
   return {
-    type: ADD_FULFILLMENT_NODE,
+    type: ADD_NODE,
     nodeGroup,
     node,
   };
@@ -340,6 +364,7 @@ const actionHandlers = {
     nodeGroups: {
       ...state.nodeGroups,
       [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(payload.fulfilmentType)],
+      [nodeGroupTypes.rewards]: [mapRewardNode(payload.campaignType)],
     },
   }),
   [FETCH_CAMPAIGN.FAILURE]: (state, { error, meta: { endRequestTime } }) => ({
@@ -362,14 +387,14 @@ const actionHandlers = {
       totalSelectedPlayers: 0,
     },
   }),
-  [REMOVE_FULFILLMENT_NODE]: (state, action) => ({
+  [REMOVE_NODE]: (state, action) => ({
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
-      [action.nodeGroup]: deleteFromArray(state.nodeGroups.fulfillments, action.node),
+      [action.nodeGroup]: deleteFromArray(state.nodeGroups[action.nodeGroup], action.node),
     },
   }),
-  [ADD_FULFILLMENT_NODE]: (state, action) => ({
+  [ADD_NODE]: (state, action) => ({
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
@@ -384,6 +409,7 @@ const actionHandlers = {
     nodeGroups: {
       ...state.nodeGroups,
       [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.fulfilmentType)],
+      [nodeGroupTypes.rewards]: [mapRewardNode(state.data.campaignType)],
     },
   }),
 };
@@ -391,7 +417,7 @@ const initialState = {
   data: {},
   nodeGroups: {
     [nodeGroupTypes.fulfillments]: [],
-    [nodeGroupTypes.rewards]: [rewardNodeTypes.bonus],
+    [nodeGroupTypes.rewards]: [],
   },
   error: null,
   isLoading: false,

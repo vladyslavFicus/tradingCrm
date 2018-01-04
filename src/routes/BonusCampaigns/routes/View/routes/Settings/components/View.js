@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
+import _ from 'lodash';
 import Form from './Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../../../../constants/propTypes';
@@ -41,10 +42,23 @@ class View extends Component {
     revert: PropTypes.func.isRequired,
     removeNode: PropTypes.func.isRequired,
     addNode: PropTypes.func.isRequired,
+    fetchGames: PropTypes.func.isRequired,
+    createFreeSpinTemplate: PropTypes.func.isRequired,
+    fetchFreeSpinTemplates: PropTypes.func.isRequired,
     nodeGroups: PropTypes.shape({
       fulfillments: PropTypes.array.isRequired,
       rewards: PropTypes.array.isRequired,
     }).isRequired,
+    games: PropTypes.array,
+    providers: PropTypes.array,
+    templates: PropTypes.array,
+    fetchFreeSpinTemplate: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    games: [],
+    providers: [],
+    templates: [],
   };
 
   static contextTypes = {
@@ -82,30 +96,61 @@ class View extends Component {
     });
   };
 
-  handleSubmit = async (data) => {
-    const { params, updateCampaign } = this.props;
-    const action = await updateCampaign(params.id, data);
+  handleSubmit = async (formData) => {
+    let data = { ...formData };
 
-    if (action) {
+    const { params, updateCampaign, createFreeSpinTemplate } = this.props;
+
+    const rewardsFreeSpin = _.get(data, 'rewards.freeSpin');
+    if (rewardsFreeSpin) {
+      let rewardsFreeSpinData = {};
+
+      if (rewardsFreeSpin.templateUUID) {
+        rewardsFreeSpinData = rewardsFreeSpin;
+      } else {
+        const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
+
+        if (createAction && !createAction.error) {
+          rewardsFreeSpinData = createAction.payload;
+        } else {
+          throw new SubmissionError({
+            rewards: {
+              freeSpin: {
+                name: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.NAME_ALREADY_EXIST'),
+              },
+            },
+          });
+        }
+      }
+
+      data = {
+        ...data,
+        ...rewardsFreeSpinData,
+      };
+    }
+
+    const updateAction = await updateCampaign(params.id, data);
+
+    if (updateAction) {
       this.context.addNotification({
-        level: action.error ? 'error' : 'success',
+        level: updateAction.error ? 'error' : 'success',
         title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${updateAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
           I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
       });
 
-      if (action.error && action.payload.response.fields_errors) {
-        const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
+      if (updateAction.error && updateAction.payload.response.fields_errors) {
+        const errors = Object.keys(updateAction.payload.response.fields_errors).reduce((res, name) => ({
           ...res,
-          [name]: I18n.t(action.payload.response.fields_errors[name].error),
+          [name]: I18n.t(updateAction.payload.response.fields_errors[name].error),
         }), {});
         throw new SubmissionError(errors);
-      } else if (action.payload.response && action.payload.response.error) {
-        throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
+      } else if (updateAction.payload.response && updateAction.payload.response.error) {
+        throw new SubmissionError({ __error: I18n.t(updateAction.payload.response.error) });
       }
     }
 
-    return action;
+    return updateAction;
   };
 
   render() {
@@ -119,6 +164,12 @@ class View extends Component {
       nodeGroups,
       removeNode,
       addNode,
+      games,
+      providers,
+      templates,
+      fetchFreeSpinTemplate,
+      fetchFreeSpinTemplates,
+      fetchGames,
     } = this.props;
 
     return (
@@ -134,6 +185,12 @@ class View extends Component {
           revert={revert}
           onSubmit={this.handleSubmit}
           toggleModal={this.handleCurrencyAmountModalOpen}
+          games={games}
+          providers={providers}
+          templates={templates}
+          fetchFreeSpinTemplate={fetchFreeSpinTemplate}
+          fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+          fetchGames={fetchGames}
         />
         {
           modal.name === CURRENCY_AMOUNT_MODAL &&

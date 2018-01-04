@@ -1306,7 +1306,6 @@
     },
     "REWARDS": {
       "ADD_REWARD": "Добавить награду",
-      "FREE_SPINS": "Free-spins",
       "BONUS_REWARD": "Бонусная награда",
       "GRANT": "Грант",
       "LIMITS": "Лимиты",
@@ -1317,16 +1316,7 @@
       "MONEY_TYPE_PRIOR": "Денежный приоритет",
       "REAL_MONEY_FIRST": "Сначала реальные деньги",
       "BONUS_MONEY_FIRST": "Сначала бонусные деньги",
-      "BM_BET_LIMIT": "Предел BM",
       "LIFE_TIME": "Длительность",
-      "CUSTOM_CONTRIB_RATE": "Пользовательская ставка",
-      "FREE_SPIN_REWARD": "Free spin награда",
-      "PROVIDER": "Провайдер",
-      "GAMES": "Игры",
-      "LINES": "Линии",
-      "COINS": "Coins",
-      "COIN_VALUE": "Стоимость coin",
-      "PER_LINE": "За линию",
       "SPIN_VALUE": "Spin значениe",
       "TOTAL_VALUE": "Общее значение",
       "PLACEHOLDERS": {
@@ -1341,7 +1331,27 @@
         "MULTIPLIER": "Multiplier",
         "BONUS_LIFE_TIME": "Время жизни",
         "MONEY_TYPE_PRIORITY": "Приоритет использования денег"
-      }
+      },
+      "FREE_SPIN": {
+        "NAME_ALREADY_EXIST": "Имя уже существует",
+        "ADD_REWARDS": "Добавить награду",
+        "SELECT_REWARDS": "Выбрать награду",
+        "BET_PER_LINE": "",
+        "CHOOSE_TEMPLATE": "",
+        "TEMPLATE": "",
+        "PRIZE": "",
+        "WAGERING": "",
+        "CAPPING": "",
+        "MONEY_PRIORITY": "",
+        "FREE_SPIN_REWARD": "",
+        "FREE_SPINS": ""
+      },
+      "NAME": "",
+      "MONEY_PRIORITY": "",
+      "BM_BET_LIMIT": "",
+      "CUSTOM_CONTRIB_RATE": "",
+      "PROVIDER": "",
+      "GAMES": ""
     },
     "CURRENCY_CALC_MODAL": {
       "HEADER": "Стоимость в разных валютах",

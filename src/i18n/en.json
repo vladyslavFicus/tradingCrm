@@ -1295,7 +1295,6 @@
     },
     "REWARDS": {
       "ADD_REWARD": "Add reward",
-      "FREE_SPINS": "Free-spins",
       "BONUS_REWARD": "Bonus reward",
       "GRANT": "Grant",
       "LIMITS": "Limits",
@@ -1303,19 +1302,9 @@
       "MULTIPLIERS_TYPE": "Multipliers type",
       "DEPOSIT": "Deposit",
       "BONUS_DEPOSIT": "Bonus + deposit",
-      "MONEY_TYPE_PRIOR": "Money type priority",
       "REAL_MONEY_FIRST": "Real money first",
       "BONUS_MONEY_FIRST": "Bonus money first",
-      "BM_BET_LIMIT": "BM bet limit",
       "LIFE_TIME": "Life time",
-      "CUSTOM_CONTRIB_RATE": "Custom contribution rate",
-      "FREE_SPIN_REWARD": "Free spin reward",
-      "PROVIDER": "Provider",
-      "GAMES": "Games",
-      "LINES": "Lines",
-      "COINS": "Coins",
-      "COIN_VALUE": "Coin value",
-      "PER_LINE": "Per line",
       "SPIN_VALUE": "Spin value",
       "TOTAL_VALUE": "Total value",
       "PLACEHOLDERS": {
@@ -1330,7 +1319,28 @@
         "MULTIPLIER": "Multiplier",
         "BONUS_LIFE_TIME": "Lifetime",
         "MONEY_TYPE_PRIORITY": "Wagering type"
-      }
+      },
+      "FREE_SPIN": {
+        "NAME_ALREADY_EXIST": "Name already exist",
+        "ADD_REWARDS": "Add rewards",
+        "SELECT_REWARDS": "Select rewards",
+        "BET_PER_LINE": "Bet per line",
+        "TEMPLATE": "Template",
+        "CHOOSE_TEMPLATE": "-- Choose template --",
+        "PRIZE": "Prize",
+        "WAGERING": "Wagering",
+        "CAPPING": "Capping",
+        "MONEY_PRIORITY": "Money type priority",
+        "FREE_SPIN_REWARD": "Free spin reward",
+        "FREE_SPINS": "Free spins"
+      },
+      "NAME": "",
+      "MONEY_PRIORITY": "",
+      "BM_BET_LIMIT": "",
+      "CUSTOM_CONTRIB_RATE": "",
+      "MONEY_TYPE_PRIOR": "",
+      "PROVIDER": "",
+      "GAMES": ""
     },
     "CURRENCY_CALC_MODAL": {
       "HEADER": "Value in different currencies",
