@@ -94,14 +94,10 @@ if (!NAS_PROJECT) {
   throw new Error('"NAS_PROJECT" is required environment variable');
 }
 
-log('NAS_PROJECT:', NAS_PROJECT);
-
 processConfig()
   .then(config => saveConfig(config).then(() => {
     const health = Object.assign({}, defaultHealth);
     const apiUrl = _.get(config, REQUIRED_CONFIG_PARAM);
-    log('REQUIRED_CONFIG_PARAM', REQUIRED_CONFIG_PARAM);
-    log('apiUrl', apiUrl);
 
     if (apiUrl) {
       health.config.status = STATUS.UP;
