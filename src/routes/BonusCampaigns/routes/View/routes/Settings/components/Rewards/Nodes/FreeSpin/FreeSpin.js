@@ -15,6 +15,8 @@ import {
 
 import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../../../../constants/bonus-campaigns';
 
+const floatNormalize = v => isNaN(parseFloat(v)) ? v : parseFloat(v);
+
 class FreeSpin extends Component {
   static propTypes = {
     nodePath: PropTypes.string.isRequired,
@@ -176,7 +178,7 @@ class FreeSpin extends Component {
           labelClassName="form-label"
           position="vertical"
           component={InputField}
-          normalize={v => parseFloat(v)}
+          normalize={floatNormalize}
           placeholder={'0.00'}
           showErrorMessage
           disabled={
@@ -351,7 +353,7 @@ class FreeSpin extends Component {
                   aplaceholder="0"
                   label={I18n.t(attributeLabels.freeSpins)}
                   component={InputField}
-                  normalize={v => parseFloat(v)}
+                  normalize={floatNormalize}
                   position="vertical"
                   disabled={!customTemplate}
                 />
@@ -366,7 +368,7 @@ class FreeSpin extends Component {
                   type="number"
                   disabled={disabled || !customTemplate}
                   component={InputField}
-                  normalize={v => parseFloat(v)}
+                  normalize={floatNormalize}
                   position="vertical"
                   placeholder={'0.00'}
                   inputAddon={<Currency code={currency} />}
@@ -381,7 +383,7 @@ class FreeSpin extends Component {
                   type="number"
                   disabled={disabled || !customTemplate}
                   component={InputField}
-                  normalize={v => parseFloat(v)}
+                  normalize={floatNormalize}
                   position="vertical"
                   placeholder={'0.00'}
                   inputAddon={<Currency code={currency} />}
@@ -399,7 +401,7 @@ class FreeSpin extends Component {
                   labelClassName="form-label"
                   position="vertical"
                   component={SelectField}
-                  normalize={v => parseFloat(v)}
+                  normalize={floatNormalize}
                   showErrorMessage={false}
                   disabled={
                     disabled ||
@@ -432,7 +434,7 @@ class FreeSpin extends Component {
               placeholder="0.00"
               label={I18n.t(attributeLabels.wagering)}
               component={InputField}
-              normalize={v => parseFloat(v)}
+              normalize={floatNormalize}
               position="vertical"
               disabled={disabled || !customTemplate}
             />
@@ -461,7 +463,7 @@ class FreeSpin extends Component {
               placeholder="0"
               label={I18n.t(attributeLabels.lifeTime)}
               component={InputField}
-              normalize={v => parseFloat(v)}
+              normalize={floatNormalize}
               position="vertical"
               disabled={disabled || !customTemplate}
             />
