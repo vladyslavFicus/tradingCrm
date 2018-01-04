@@ -28,11 +28,9 @@ const defaultHealth = {
  * ==================
  */
 const log = data => console.log(consolePrefix, data);
-const saveHealth = health => new Promise((resolve) => {
-  fs.writeFile('/opt/health.json', JSON.stringify(health), { encoding: 'utf8' }, () => {
-    resolve();
-  });
-});
+const saveHealth = (health) => {
+  fs.writeFileSync('/opt/health.json', JSON.stringify(health), { encoding: 'utf8' });
+};
 
 function processError(error) {
   log(error);
@@ -102,10 +100,14 @@ processConfig()
   .then(config => saveConfig(config).then(() => {
     const health = Object.assign({}, defaultHealth);
     const apiUrl = _.get(config, REQUIRED_CONFIG_PARAM);
+    log('REQUIRED_CONFIG_PARAM', REQUIRED_CONFIG_PARAM);
+    log('apiUrl', apiUrl);
 
     if (apiUrl) {
       health.config.status = STATUS.UP;
       health.status = STATUS.UP;
+
+      log('health', health);
 
       return saveHealth(health);
     }
