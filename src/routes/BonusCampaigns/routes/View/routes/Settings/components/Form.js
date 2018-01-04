@@ -75,7 +75,7 @@ class Form extends Component {
       fulfillments: PropTypes.array.isRequired,
       rewards: PropTypes.array.isRequired,
     }).isRequired,
-    games: PropTypes.array,
+    games: PropTypes.arrayOf(PropTypes.gameEntity),
     providers: PropTypes.array,
     templates: PropTypes.array,
     currency: PropTypes.string.isRequired,

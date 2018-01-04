@@ -197,14 +197,14 @@ function updateCampaign(uuid, data) {
       endpointParams = {
         ...endpointParams,
         ...rewardBonus,
-        campaignType: 'BONUS',
+        campaignType: rewardTypes.BONUS,
       };
     }
 
     const rewardFreeSpin = _.get(endpointParams, 'rewards.freeSpin');
 
     if (rewardFreeSpin) {
-      endpointParams.campaignType = 'FREE_SPIN';
+      endpointParams.campaignType = rewardTypes.FREE_SPIN;
       delete endpointParams.campaignRatio;
     }
 
