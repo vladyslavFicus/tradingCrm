@@ -1295,20 +1295,10 @@
     },
     "REWARDS": {
       "ADD_REWARD": "Add reward",
-      "BONUS_REWARD": "Bonus reward",
-      "GRANT": "Grant",
-      "LIMITS": "Limits",
-      "MULTIPLIER": "Multiplier",
-      "MULTIPLIERS_TYPE": "Multipliers type",
       "DEPOSIT": "Deposit",
       "BONUS_DEPOSIT": "Bonus + deposit",
       "REAL_MONEY_FIRST": "Real money first",
       "BONUS_MONEY_FIRST": "Bonus money first",
-      "LIFE_TIME": "Life time",
-      "PLACEHOLDERS": {
-        "DAYS": "days",
-        "NOT_SET": "Not set"
-      },
       "BONUS": {
         "CAMPAIGN_RATIO": {
           "VALUE": "Ratio",
@@ -1316,7 +1306,19 @@
         },
         "MULTIPLIER": "Multiplier",
         "BONUS_LIFE_TIME": "Lifetime",
-        "MONEY_TYPE_PRIORITY": "Wagering type"
+        "MONEY_TYPE_PRIORITY": "Wagering type",
+        "BONUS_REWARD": "Bonus reward",
+        "GRANT": "Grant",
+        "LIMITS": "Limits",
+        "MULTIPLIERS_TYPE": "Multipliers type",
+        "MONEY_TYPE_PRIOR": "Money type priority",
+        "BM_BET_LIMIT": "",
+        "LIFE_TIME": "Lifetime",
+        "CUSTOM_CONTRIB_RATE": "Custom cont. rate",
+        "PLACEHOLDERS": {
+          "DAYS": "days",
+          "NOT_SET": "Not set"
+        }
       },
       "FREE_SPIN": {
         "NAME_ALREADY_EXIST": "Name already exist",
@@ -1332,15 +1334,16 @@
         "FREE_SPIN_REWARD": "Free spin reward",
         "FREE_SPINS": "Free spins",
         "SPIN_VALUE": "Spin value",
-        "TOTAL_VALUE": "Total value"
-      },
-      "NAME": "",
-      "MONEY_PRIORITY": "",
-      "BM_BET_LIMIT": "",
-      "CUSTOM_CONTRIB_RATE": "",
-      "MONEY_TYPE_PRIOR": "",
-      "PROVIDER": "",
-      "GAMES": ""
+        "TOTAL_VALUE": "Total value",
+        "NAME": "Title",
+        "PROVIDER": "Providers",
+        "GAMES": "Games",
+        "LIFE_TIME": "Lifetime",
+        "PLACEHOLDERS": {
+          "DAYS": "days",
+          "NOT_SET": "Not set"
+        }
+      }
     },
     "CURRENCY_CALC_MODAL": {
       "HEADER": "Value in different currencies",
