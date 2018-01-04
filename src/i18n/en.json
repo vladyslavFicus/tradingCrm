@@ -1305,8 +1305,6 @@
       "REAL_MONEY_FIRST": "Real money first",
       "BONUS_MONEY_FIRST": "Bonus money first",
       "LIFE_TIME": "Life time",
-      "SPIN_VALUE": "Spin value",
-      "TOTAL_VALUE": "Total value",
       "PLACEHOLDERS": {
         "DAYS": "days",
         "NOT_SET": "Not set"
@@ -1332,7 +1330,9 @@
         "CAPPING": "Capping",
         "MONEY_PRIORITY": "Money type priority",
         "FREE_SPIN_REWARD": "Free spin reward",
-        "FREE_SPINS": "Free spins"
+        "FREE_SPINS": "Free spins",
+        "SPIN_VALUE": "Spin value",
+        "TOTAL_VALUE": "Total value"
       },
       "NAME": "",
       "MONEY_PRIORITY": "",

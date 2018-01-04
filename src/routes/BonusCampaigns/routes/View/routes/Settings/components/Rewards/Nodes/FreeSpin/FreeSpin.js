@@ -6,8 +6,7 @@ import _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField } from '../../../../../../../../../../components/ReduxForm';
 import { FORM_NAME } from '../../../Form';
-
-import { Currency } from '../../../../../../../../../../components/Amount';
+import Amount, { Currency } from '../../../../../../../../../../components/Amount';
 import renderLabel from '../../../../../../../../../../utils/renderLabel';
 import {
   attributeLabels,
@@ -169,7 +168,7 @@ class FreeSpin extends Component {
     }
 
     return (
-      <div className="col-md-4">
+      <div className="col-md-6">
         <Field
           name={this.buildFieldName('betPerLine')}
           type="number"
@@ -188,6 +187,43 @@ class FreeSpin extends Component {
           }
           inputAddon={<Currency code={currency} />}
         />
+      </div>
+    );
+  };
+
+  renderPrice = () => {
+    const { currentValues, currency } = this.props;
+    const betPrice = currentValues && currentValues.betPerLine
+      ? parseFloat(currentValues.betPerLine) : 0;
+    const linesPerSpin = currentValues && currentValues.linesPerSpin
+      ? parseFloat(currentValues.linesPerSpin) : 0;
+
+    const freeSpinsAmount = currentValues && currentValues.freeSpinsAmount
+      ? parseInt(currentValues.freeSpinsAmount, 10) : 0;
+    const spinValue = { amount: 0, currency };
+    const totalValue = { amount: 0, currency };
+
+    if (!isNaN(betPrice) && !isNaN(linesPerSpin)) {
+      spinValue.amount = betPrice * linesPerSpin;
+    }
+    if (!isNaN(betPrice) && !isNaN(linesPerSpin) && !isNaN(freeSpinsAmount)) {
+      totalValue.amount = betPrice * linesPerSpin * freeSpinsAmount;
+    }
+
+    return (
+      <div className="col-lg-4">
+        <div className="free-spin-card__wrapper">
+          <div className="free-spin-card">
+            <div className="free-spin-card-values"><Amount {...spinValue} /></div>
+            <div className="free-spin-card-values">{spinValue.currency}</div>
+            <div className="free-spin-card-label">{I18n.t(attributeLabels.spinValue)}</div>
+          </div>
+          <div className="free-spin-card">
+            <div className="free-spin-card-values"><Amount {...totalValue} /></div>
+            <div className="free-spin-card-values">{totalValue.currency}</div>
+            <div className="free-spin-card-label">{I18n.t(attributeLabels.totalValue)}</div>
+          </div>
+        </div>
       </div>
     );
   };
@@ -304,82 +340,87 @@ class FreeSpin extends Component {
             </Field>
           </div>
         </div>
-
         <hr />
-
         <div className="row">
-          <div className="col-md-3">
-            <Field
-              name={this.buildFieldName('freeSpinsAmount')}
-              type="number"
-              aplaceholder="0"
-              label={I18n.t(attributeLabels.freeSpins)}
-              component={InputField}
-              normalize={v => parseFloat(v)}
-              position="vertical"
-              disabled={!customTemplate}
-            />
-          </div>
-          <div className="col-md-3">
-            <Field
-              name={this.buildFieldName('prize')}
-              label={I18n.t(attributeLabels.prize)}
-              labelClassName="form-label"
-              type="number"
-              disabled={disabled || !customTemplate}
-              component={InputField}
-              normalize={v => parseFloat(v)}
-              position="vertical"
-              placeholder={'0.00'}
-              inputAddon={<Currency code={currency} />}
-              showErrorMessage={false}
-            />
-          </div>
-          <div className="col-md-3">
-            <Field
-              name={this.buildFieldName('capping')}
-              label={I18n.t(attributeLabels.capping)}
-              labelClassName="form-label"
-              type="number"
-              disabled={disabled || !customTemplate}
-              component={InputField}
-              normalize={v => parseFloat(v)}
-              position="vertical"
-              placeholder={'0.00'}
-              inputAddon={<Currency code={currency} />}
-              showErrorMessage={false}
-            />
-          </div>
-        </div>
+          <div className="col-lg-8">
+            <div className="row">
+              <div className="col-md-12">
+                <Field
+                  name={this.buildFieldName('freeSpinsAmount')}
+                  type="number"
+                  aplaceholder="0"
+                  label={I18n.t(attributeLabels.freeSpins)}
+                  component={InputField}
+                  normalize={v => parseFloat(v)}
+                  position="vertical"
+                  disabled={!customTemplate}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-md-6">
+                <Field
+                  name={this.buildFieldName('prize')}
+                  label={I18n.t(attributeLabels.prize)}
+                  labelClassName="form-label"
+                  type="number"
+                  disabled={disabled || !customTemplate}
+                  component={InputField}
+                  normalize={v => parseFloat(v)}
+                  position="vertical"
+                  placeholder={'0.00'}
+                  inputAddon={<Currency code={currency} />}
+                  showErrorMessage={false}
+                />
+              </div>
+              <div className="col-md-6">
+                <Field
+                  name={this.buildFieldName('capping')}
+                  label={I18n.t(attributeLabels.capping)}
+                  labelClassName="form-label"
+                  type="number"
+                  disabled={disabled || !customTemplate}
+                  component={InputField}
+                  normalize={v => parseFloat(v)}
+                  position="vertical"
+                  placeholder={'0.00'}
+                  inputAddon={<Currency code={currency} />}
+                  showErrorMessage={false}
+                />
+              </div>
+            </div>
 
-        <div className="row">
-          <div className="col-md-4">
-            <Field
-              name={this.buildFieldName('linesPerSpin')}
-              type="number"
-              label="lines per spin"
-              labelClassName="form-label"
-              position="vertical"
-              component={SelectField}
-              normalize={v => parseFloat(v)}
-              showErrorMessage={false}
-              disabled={
-                disabled ||
-                !customTemplate ||
-                !currentValues ||
-                !currentValues.providerId ||
-                !currentValues.gameId
-              }
-            >
-              <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}</option>
-              {currentLines.map(item => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </Field>
+            <div className="row">
+              <div className="col-md-6">
+                <Field
+                  name={this.buildFieldName('linesPerSpin')}
+                  type="number"
+                  label="lines per spin"
+                  labelClassName="form-label"
+                  position="vertical"
+                  component={SelectField}
+                  normalize={v => parseFloat(v)}
+                  showErrorMessage={false}
+                  disabled={
+                    disabled ||
+                    !customTemplate ||
+                    !currentValues ||
+                    !currentValues.providerId ||
+                    !currentValues.gameId
+                  }
+                >
+                  <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}</option>
+                  {currentLines.map(item => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+              {this.renderAdditionalFields()}
+            </div>
           </div>
-          {this.renderAdditionalFields()}
+          {this.renderPrice()}
         </div>
 
         <hr />

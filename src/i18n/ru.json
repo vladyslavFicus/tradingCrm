@@ -1317,8 +1317,6 @@
       "REAL_MONEY_FIRST": "Сначала реальные деньги",
       "BONUS_MONEY_FIRST": "Сначала бонусные деньги",
       "LIFE_TIME": "Длительность",
-      "SPIN_VALUE": "Spin значениe",
-      "TOTAL_VALUE": "Общее значение",
       "PLACEHOLDERS": {
         "DAYS": "дней",
         "NOT_SET": "Не задано"
@@ -1344,7 +1342,9 @@
         "CAPPING": "",
         "MONEY_PRIORITY": "",
         "FREE_SPIN_REWARD": "",
-        "FREE_SPINS": ""
+        "FREE_SPINS": "",
+        "SPIN_VALUE": "Spin значениe",
+        "TOTAL_VALUE": "Общее значение"
       },
       "NAME": "",
       "MONEY_PRIORITY": "",

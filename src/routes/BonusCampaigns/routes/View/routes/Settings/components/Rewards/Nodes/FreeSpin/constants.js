@@ -2,8 +2,6 @@ import I18n from '../../../../../../../../../../utils/fake-i18n';
 
 const attributeLabels = {
   lifeTime: I18n.t('BONUS_CAMPAIGNS.REWARDS.LIFE_TIME'),
-  spinValue: I18n.t('BONUS_CAMPAIGNS.REWARDS.SPIN_VALUE'),
-  totalValue: I18n.t('BONUS_CAMPAIGNS.REWARDS.TOTAL_VALUE'),
   multiplier: I18n.t('BONUS_CAMPAIGNS.REWARDS.MULTIPLIER'),
   multipliersType: I18n.t('BONUS_CAMPAIGNS.REWARDS.MULTIPLIERS_TYPE'),
 
@@ -25,6 +23,8 @@ const attributeLabels = {
   wagering: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.WAGERING'),
   capping: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CAPPING'),
   moneyPriority: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.MONEY_PRIORITY'),
+  spinValue: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.SPIN_VALUE'),
+  totalValue: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.TOTAL_VALUE'),
 };
 
 const attributePlaceholders = {
