@@ -1323,9 +1323,7 @@
         "LIMITS": "Лимиты",
         "MULTIPLIERS_TYPE": "Тип множителя",
         "MONEY_TYPE_PRIOR": "Денежный приоритет",
-        "BM_BET_LIMIT": "",
         "LIFE_TIME": "Длительность",
-        "CUSTOM_CONTRIB_RATE": "",
         "PLACEHOLDERS": {
           "DAYS": "дней",
           "NOT_SET": "Не задано"

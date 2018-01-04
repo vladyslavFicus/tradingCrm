@@ -1312,9 +1312,7 @@
         "LIMITS": "Limits",
         "MULTIPLIERS_TYPE": "Multipliers type",
         "MONEY_TYPE_PRIOR": "Money type priority",
-        "BM_BET_LIMIT": "",
         "LIFE_TIME": "Lifetime",
-        "CUSTOM_CONTRIB_RATE": "Custom cont. rate",
         "PLACEHOLDERS": {
           "DAYS": "days",
           "NOT_SET": "Not set"
