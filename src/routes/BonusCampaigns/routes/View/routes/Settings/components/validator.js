@@ -40,12 +40,12 @@ export default (values, params) => {
     rewards: {
       bonus: {
         campaignRatio: {
-          value: ['required', 'numeric', 'customTypeValue.value'],
+          value: ['numeric', 'customTypeValue.value'],
           type: [`in:${allowedCustomValueTypes.join()}`],
         },
-        wagerWinMultiplier: ['required', 'integer', 'max:999'],
-        bonusLifetime: ['required', 'integer'],
-        moneyTypePriority: ['required', `in:${Object.keys(moneyTypeUsage).join()}`],
+        wagerWinMultiplier: ['integer', 'max:999'],
+        bonusLifetime: ['integer'],
+        moneyTypePriority: [`in:${Object.keys(moneyTypeUsage).join()}`],
       },
     },
   };
@@ -67,6 +67,16 @@ export default (values, params) => {
   const capping = _.get(values, 'capping.value');
   if (capping && !isNaN(parseFloat(capping).toFixed(2))) {
     rules.conversionPrize.value.push('lessThan:capping.value');
+  }
+
+  const rewardsBonus = _.get(values, 'rewards.bonus');
+  const rewardsFreeSpins = _.get(values, 'rewards.freeSpin');
+
+  if (rewardsBonus && !rewardsFreeSpins) {
+    rules.rewards.bonus.campaignRatio.value.push('required');
+    rules.rewards.bonus.wagerWinMultiplier.push('required');
+    rules.rewards.bonus.bonusLifetime.push('required');
+    rules.rewards.bonus.moneyTypePriority.push('required');
   }
 
   return createValidator(rules, translateLabels(attributeLabels), false)(values);

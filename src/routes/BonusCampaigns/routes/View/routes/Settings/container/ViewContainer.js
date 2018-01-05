@@ -2,10 +2,66 @@ import { connect } from 'react-redux';
 import View from '../components/View';
 import config from '../../../../../../../config';
 import { actionCreators } from '../../../modules';
+import { actionCreators as settingsActionCreators } from '../modules';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
-import { fulfilmentTypes } from '../../../../../../../constants/bonus-campaigns';
+import { fulfilmentTypes, rewardTypes } from '../../../../../../../constants/bonus-campaigns';
 
-const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { locale } }) => {
+const mapFulfillmentsToForm = (data) => {
+  let result = {};
+
+  if ([fulfilmentTypes.DEPOSIT, fulfilmentTypes.FIRST_DEPOSIT].indexOf(data.fulfilmentType) > -1) {
+    result = {
+      deposit: {
+        minAmount: data.minAmount,
+        maxAmount: data.maxAmount,
+        lockAmountStrategy: data.lockAmountStrategy,
+        firstDeposit: data.fulfilmentType === fulfilmentTypes.FIRST_DEPOSIT,
+      },
+    };
+  } else if (data.fulfilmentType === fulfilmentTypes.PROFILE_COMPLETED) {
+    result = {
+      profileCompleted: true,
+    };
+  } else if (data.fulfilmentType === fulfilmentTypes.WITHOUT_FULFILMENT) {
+    result = {
+      noFulfillments: true,
+    };
+  }
+
+  return result;
+};
+
+const mapRewardsToForm = (data) => {
+  let result = {
+    bonus: {
+      wagerWinMultiplier: data.wagerWinMultiplier,
+      moneyTypePriority: data.moneyTypePriority,
+      bonusLifetime: data.bonusLifetime,
+      campaignRatio: data.campaignRatio,
+      claimable: data.claimable,
+    },
+  };
+
+  if (data.campaignType === rewardTypes.FREE_SPIN) {
+    result = {
+      ...result,
+      freeSpin: {
+        templateUUID: data.templateUUID,
+      },
+    };
+  }
+
+  return result;
+};
+
+const mapStateToProps = ({
+  bonusCampaignView: { data, nodeGroups },
+  bonusCampaignSettings: {
+    games: { games, providers },
+    templates: { data: templates },
+  },
+  i18n: { locale },
+}) => {
   let bonusCampaignForm = {
     campaignName: data.campaignName,
     targetType: data.targetType,
@@ -29,51 +85,18 @@ const mapStateToProps = ({ bonusCampaignView: { data, nodeGroups }, i18n: { loca
 
   bonusCampaignForm = {
     ...bonusCampaignForm,
-    rewards: {
-      bonus: {
-        wagerWinMultiplier: data.wagerWinMultiplier,
-        moneyTypePriority: data.moneyTypePriority,
-        bonusLifetime: data.bonusLifetime,
-        campaignRatio: data.campaignRatio,
-        claimable: data.claimable,
-      },
-    },
-    fulfillments: {},
+    fulfillments: mapFulfillmentsToForm(data),
+    rewards: mapRewardsToForm(data),
   };
-
-  if ([fulfilmentTypes.DEPOSIT, fulfilmentTypes.FIRST_DEPOSIT].indexOf(bonusCampaignForm.fulfilmentType) > -1) {
-    bonusCampaignForm = {
-      ...bonusCampaignForm,
-      fulfillments: {
-        deposit: {
-          minAmount: data.minAmount,
-          maxAmount: data.maxAmount,
-          lockAmountStrategy: data.lockAmountStrategy,
-          firstDeposit: bonusCampaignForm.fulfilmentType === fulfilmentTypes.FIRST_DEPOSIT,
-        },
-      },
-    };
-  } else if (bonusCampaignForm.fulfilmentType === fulfilmentTypes.PROFILE_COMPLETED) {
-    bonusCampaignForm = {
-      ...bonusCampaignForm,
-      fulfillments: {
-        profileCompleted: true,
-      },
-    };
-  } else if (bonusCampaignForm.fulfilmentType === fulfilmentTypes.WITHOUT_FULFILMENT) {
-    bonusCampaignForm = {
-      ...bonusCampaignForm,
-      fulfillments: {
-        noFulfillments: true,
-      },
-    };
-  }
 
   return {
     bonusCampaign: data,
     bonusCampaignForm,
     nodeGroups,
     currencies: config.nas.brand.currencies.supported || [],
+    games,
+    providers,
+    templates,
     locale,
   };
 };
@@ -83,6 +106,10 @@ const mapActions = {
   revert: actionCreators.revert,
   removeNode: actionCreators.removeNode,
   addNode: actionCreators.addNode,
+  createFreeSpinTemplate: settingsActionCreators.createFreeSpinTemplate,
+  fetchFreeSpinTemplates: settingsActionCreators.fetchFreeSpinTemplates,
+  fetchFreeSpinTemplate: settingsActionCreators.fetchFreeSpinTemplate,
+  fetchGames: settingsActionCreators.fetchGames,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

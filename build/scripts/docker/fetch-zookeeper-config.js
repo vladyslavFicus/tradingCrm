@@ -1,7 +1,6 @@
 /* eslint-disable */
 const zookeeper = require('node-zookeeper-client');
 const _ = require('lodash');
-const { NAS_ENV } = process.env;
 
 const getChildren = (client, configPath) => new Promise((resolve, reject) => {
   client.getChildren(configPath, (error, children) => {
@@ -16,9 +15,16 @@ const getChildren = (client, configPath) => new Promise((resolve, reject) => {
 module.exports = function (params) {
   return new Promise(function (resolve, reject) {
     const projectConfig = params.projectConfig;
+    const brandId = projectConfig.hrzn.brands.length > 0
+      ? projectConfig.hrzn.brands[projectConfig.hrzn.brands.length - 1]
+      : null;
 
-    if (projectConfig.zookeeper.url && NAS_ENV) {
-      const configPath = `/system/${NAS_ENV}/nas/brand`;
+    if (brandId === null) {
+      return resolve({});
+    }
+
+    if (projectConfig.zookeeper.url) {
+      const configPath = `/system/${brandId}/nas/brand`;
       const client = zookeeper.createClient(projectConfig.zookeeper.url);
 
       client.once('connected', async function () {

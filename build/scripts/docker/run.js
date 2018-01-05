@@ -9,7 +9,7 @@ const fetchZookeeperConfig = require('./fetch-zookeeper-config');
  *  Vars
  * ==================
  */
-const { NAS_PROJECT, NAS_ENV, NGINX_CONF_OUTPUT } = process.env;
+const { NAS_PROJECT, NGINX_CONF_OUTPUT } = process.env;
 const APP_NAME = 'backoffice';
 const REQUIRED_CONFIG_PARAM = 'nas.brand.api.url';
 const consolePrefix = '[startup.js]: ';
@@ -28,11 +28,9 @@ const defaultHealth = {
  * ==================
  */
 const log = data => console.log(consolePrefix, data);
-const saveHealth = health => new Promise((resolve) => {
-  fs.writeFile('/opt/health.json', JSON.stringify(health), { encoding: 'utf8' }, () => {
-    resolve();
-  });
-});
+const saveHealth = (health) => {
+  fs.writeFileSync('/opt/health.json', JSON.stringify(health), { encoding: 'utf8' });
+};
 
 function processError(error) {
   log(error);
@@ -73,7 +71,6 @@ function processConfig() {
           nas: {
             brand: Object.assign({
               api: { url: projectConfig.hrzn.api_url },
-              name: NAS_ENV,
             }, projectConfig.brand),
           },
         },
@@ -97,8 +94,6 @@ if (!NAS_PROJECT) {
   throw new Error('"NAS_PROJECT" is required environment variable');
 }
 
-log('NAS_PROJECT:', NAS_PROJECT);
-
 processConfig()
   .then(config => saveConfig(config).then(() => {
     const health = Object.assign({}, defaultHealth);
@@ -107,6 +102,8 @@ processConfig()
     if (apiUrl) {
       health.config.status = STATUS.UP;
       health.status = STATUS.UP;
+
+      log('health', health);
 
       return saveHealth(health);
     }

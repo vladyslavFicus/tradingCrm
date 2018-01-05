@@ -39,7 +39,6 @@ const config = _.merge({
   },
   nas: {
     brand: {
-      name: '',
       api: {
         url: '',
       },
@@ -154,16 +153,12 @@ function getErrorApiUrl() {
   return '/log';
 }
 
-function getBrand() {
-  return config.nas.brand.name;
-}
-
 function getAvailableLanguages() {
   return config.nas.brand.locale.languages || [];
 }
 
 function getLogo() {
-  return /vslots/.test(getApiRoot()) ? '/img/vslots-logo.png' : '/img/logoNewAge.png';
+  return '/img/logoNewAge.png';
 }
 
 function getVersion() {
@@ -176,7 +171,6 @@ function getDomain() {
 
 export {
   getApiRoot,
-  getBrand,
   getErrorApiUrl,
   getLogo,
   getAvailableTags,

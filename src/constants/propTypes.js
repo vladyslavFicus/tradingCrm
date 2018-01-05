@@ -203,6 +203,7 @@ PropTypes.userProfile = PropTypes.shape({
   token: PropTypes.string,
   tokenExpirationDate: PropTypes.string,
   login: PropTypes.string,
+  username: PropTypes.string,
   playerUUID: PropTypes.string.isRequired,
   signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
   balances: PropTypes.shape({
@@ -251,7 +252,7 @@ PropTypes.navItem = PropTypes.shape({
 });
 PropTypes.userPanelItem = PropTypes.shape({
   fullName: PropTypes.string.isRequired,
-  login: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
   uuid: PropTypes.string.isRequired,
 });
 PropTypes.navbarNavItem = PropTypes.shape({

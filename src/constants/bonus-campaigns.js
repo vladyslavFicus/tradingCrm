@@ -89,6 +89,10 @@ const fulfilmentTypes = keyMirror({
   PROFILE_COMPLETED: null,
   WITHOUT_FULFILMENT: null,
 });
+const rewardTypes = keyMirror({
+  BONUS: null,
+  FREE_SPIN: null,
+});
 const fulfilmentTypesLabels = {
   [fulfilmentTypes.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.FIRST_DEPOSIT'),
   [fulfilmentTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.DEPOSIT'),
@@ -122,6 +126,7 @@ export {
   statusesLabels,
   statusesClassNames,
   fulfilmentTypes,
+  rewardTypes,
   fulfilmentTypesLabels,
   targetTypes,
   targetTypesLabels,

@@ -20,7 +20,7 @@ const sendError = (params) => {
 
   let body = {
     ...params,
-    brand: getBrand(),
+    brand: window.app.brandId,
     version: getVersion(),
   };
 
