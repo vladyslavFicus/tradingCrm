@@ -15,6 +15,7 @@ class Bonus extends Component {
     nodePath: PropTypes.string.isRequired,
     errors: PropTypes.object,
     disabled: PropTypes.bool,
+    remove: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -30,6 +31,7 @@ class Bonus extends Component {
       typeValues,
       errors,
       disabled,
+      remove,
     } = this.props;
 
     return (
@@ -77,6 +79,7 @@ class Bonus extends Component {
                 error: errors[this.buildFieldName('moneyTypePriority')],
               }}
             >
+              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
               {Object.keys(moneyTypeUsage).map(key => (
                 <option key={key} value={key}>
                   {renderLabel(key, moneyTypeUsageLabels)}
@@ -113,6 +116,16 @@ class Bonus extends Component {
             </div>
           </div>
         </div>
+        {
+          !disabled &&
+          <button
+            type="button"
+            onClick={remove}
+            className="btn-transparent add-campaign-remove"
+          >
+            &times;
+          </button>
+        }
       </div>
     );
   }

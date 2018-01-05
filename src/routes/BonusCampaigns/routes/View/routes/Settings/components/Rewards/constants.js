@@ -7,10 +7,12 @@ const attributeLabels = {
 
 const nodeTypes = keyMirror({
   bonus: null,
+  freeSpin: null,
 });
 
 const nodeTypesLabels = {
   [nodeTypes.bonus]: 'Bonus',
+  [nodeTypes.freeSpin]: 'Free spin',
 };
 
 export {
