@@ -203,7 +203,7 @@ class BonusCampaignsFilterForm extends Component {
                   type="submit"
                   id="campaigns-filters-submit"
                 >
-                  { isLoading && <i className="fa fa-refresh fa-spin" /> } {' '}
+                  {isLoading && <i className="fa fa-refresh fa-spin" />} {' '}
                   {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
