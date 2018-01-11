@@ -229,7 +229,7 @@ class View extends Component {
 
   render() {
     const {
-      campaigns: { entities, exporting, noResults },
+      campaigns: { entities, exporting, noResults, isLoading },
       locale,
       types: { list },
       statuses,
@@ -268,6 +268,7 @@ class View extends Component {
           types={list}
           statuses={statuses}
           locale={locale}
+          isLoading={isLoading}
         />
 
         <Content>

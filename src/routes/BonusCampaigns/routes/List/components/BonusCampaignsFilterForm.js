@@ -34,6 +34,7 @@ class BonusCampaignsFilterForm extends Component {
     types: PropTypes.arrayOf(PropTypes.string).isRequired,
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
     invalid: PropTypes.bool,
+    isLoading: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     invalid: true,
@@ -76,6 +77,7 @@ class BonusCampaignsFilterForm extends Component {
       types,
       statuses,
       invalid,
+      isLoading,
     } = this.props;
 
     return (
@@ -188,7 +190,7 @@ class BonusCampaignsFilterForm extends Component {
             <div className="filter-row__button-block">
               <div className="button-block-container">
                 <button
-                  disabled={submitting || (disabled && pristine)}
+                  disabled={submitting || (disabled && pristine) || isLoading}
                   className="btn btn-default"
                   onClick={this.handleReset}
                   type="reset"
@@ -196,11 +198,12 @@ class BonusCampaignsFilterForm extends Component {
                   {I18n.t('COMMON.RESET')}
                 </button>
                 <button
-                  disabled={submitting || (disabled && pristine) || invalid}
+                  disabled={submitting || (disabled && pristine) || invalid || isLoading}
                   className="btn btn-primary"
                   type="submit"
                   id="campaigns-filters-submit"
                 >
+                  {isLoading && <i className="fa fa-refresh fa-spin" />} {' '}
                   {I18n.t('COMMON.APPLY')}
                 </button>
               </div>
