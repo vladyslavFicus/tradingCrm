@@ -15,11 +15,17 @@ import filters, {
   actionTypes as filtersActionTypes,
   actionCreators as filtersActionCreators,
 } from './filters';
+import templates, {
+  initialState as templatesInitialState,
+  actionTypes as templatesActionTypes,
+  actionCreators as templatesActionCreators,
+} from './templates';
 
 const actionCreators = {
   ...gamesActionCreators,
   ...filtersActionCreators,
   ...listActionCreators,
+  ...templatesActionCreators,
   resetAll: () => (dispatch) => {
     dispatch(listActionCreators.resetList());
   },
@@ -28,11 +34,13 @@ const actionTypes = {
   ...gamesActionTypes,
   ...filtersActionTypes,
   ...listActionTypes,
+  ...templatesActionTypes,
 };
 const initialState = {
   ...gamesInitialState,
   ...filtersInitialState,
   ...listInitialState,
+  ...templatesInitialState,
 };
 
 export {
@@ -44,4 +52,5 @@ export default combineReducers({
   games,
   filters,
   list,
+  templates,
 });

@@ -409,6 +409,10 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   playedCount: PropTypes.number.isRequired,
   winning: PropTypes.price.isRequired,
 });
+PropTypes.freeSpinListEntity = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});
 PropTypes.gameEntity = PropTypes.shape({
   aggregatorId: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired,

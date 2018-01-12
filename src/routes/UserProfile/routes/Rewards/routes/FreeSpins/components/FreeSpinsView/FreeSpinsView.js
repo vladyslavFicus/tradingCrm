@@ -55,7 +55,14 @@ class FreeSpinsView extends Component {
       id: PropTypes.string,
     }).isRequired,
     locale: PropTypes.string.isRequired,
+    fetchFreeSpinTemplates: PropTypes.func.isRequired,
+    fetchFreeSpinTemplate: PropTypes.func.isRequired,
+    templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
   };
+  static defaultProps = {
+    templates: [],
+  };
+
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
@@ -288,6 +295,9 @@ class FreeSpinsView extends Component {
       manageNote,
       cancelReasons,
       locale,
+      fetchFreeSpinTemplates,
+      fetchFreeSpinTemplate,
+      templates,
     } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
@@ -373,6 +383,9 @@ class FreeSpinsView extends Component {
             providers={providers}
             note={newEntityNote}
             onManageNote={manageNote}
+            templates={templates}
+            fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+            fetchFreeSpinTemplate={fetchFreeSpinTemplate}
           />
         }
         {
