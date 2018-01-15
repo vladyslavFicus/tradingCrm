@@ -151,11 +151,10 @@ class CreateModal extends Component {
     this.loadTemplateData(templateUUID);
   };
 
-
   loadTemplateData = async (templateUUID) => {
     const { fetchFreeSpinTemplate, change } = this.props;
-
     const action = await fetchFreeSpinTemplate(templateUUID);
+
     if (action && !action.error) {
       const {
         name,

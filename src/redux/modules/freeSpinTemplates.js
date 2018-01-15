@@ -39,16 +39,7 @@ function fetchFreeSpinTemplate(type) {
         },
         types: [
           type.REQUEST,
-          {
-            type: type.SUCCESS,
-            payload: (action, state, res) => {
-              const contentType = res.headers.get('Content-Type');
-
-              if (contentType && ~contentType.indexOf('json')) {
-                return res.json().then(json => json);
-              }
-            },
-          },
+          type.SUCCESS,
           type.FAILURE,
         ],
         bailout: !logged,
