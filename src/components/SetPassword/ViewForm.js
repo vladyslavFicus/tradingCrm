@@ -13,7 +13,7 @@ const attributeLabels = {
 };
 
 const validator = createValidator({
-  password: ['required', `regex:${config.nas.validation.password}`],
+  password: ['required', 'regex:^.{6,32}$'],
   repeatPassword: [
     'required',
     'same:password',
