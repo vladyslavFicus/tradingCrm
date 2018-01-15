@@ -34,14 +34,19 @@ class BonusStatus extends Component {
       ? I18n.t(statusesLabels[bonus.state])
       : bonus.state;
     const props = statusesProps[bonus.state] || {};
-    let content = null;
 
-    if (bonus.state === statuses.IN_PROGRESS) {
-      content = this.renderStatusActive(bonus);
-    } else if (bonus.state === statuses.CANCELLED) {
-      content = this.renderStatusCancelled(bonus);
-    } else if (bonus.state === statuses.WAGERING_COMPLETE) {
-      content = this.renderStatusWagered(bonus);
+    let content;
+    switch (true) {
+      case bonus.state === statuses.IN_PROGRESS:
+        content = this.renderStatusActive(bonus); break;
+      case bonus.state === statuses.CANCELLED:
+        content = this.renderStatusCancelled(bonus); break;
+      case bonus.state === statuses.WAGERING_COMPLETE:
+        content = this.renderStatusWagered(bonus); break;
+      case bonus.state === statuses.EXPIRED || bonus.state === statuses.CONSUMED:
+        content = this.renderStatusExpiredOrConsumed(bonus); break;
+      default:
+        content = null;
     }
 
     return (
@@ -59,6 +64,17 @@ class BonusStatus extends Component {
       </div>
     );
   };
+
+  renderStatusExpiredOrConsumed = bonus => (
+    <div>
+      {
+        bonus.endDate &&
+        <div>
+          {I18n.t('COMMON.DATE_ON', { date: moment.utc(bonus.endDate).local().format('DD.MM.YYYY HH:mm:ss') })}
+        </div>
+      }
+    </div>
+  );
 
   renderStatusActive = bonus => (bonus.expirationDate
     ? <span>{I18n.t('COMMON.DATE_UNTIL', {
