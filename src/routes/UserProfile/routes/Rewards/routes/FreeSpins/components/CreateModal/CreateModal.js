@@ -24,7 +24,6 @@ class CreateModal extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     invalid: PropTypes.bool.isRequired,
-    disabled: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     currency: PropTypes.string.isRequired,
@@ -44,15 +43,18 @@ class CreateModal extends Component {
     games: PropTypes.arrayOf(PropTypes.gameEntity).isRequired,
     onManageNote: PropTypes.func.isRequired,
     note: PropTypes.noteEntity,
+    templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
+    fetchFreeSpinTemplates: PropTypes.func.isRequired,
+    fetchFreeSpinTemplate: PropTypes.func.isRequired,
   };
   static defaultProps = {
     pristine: false,
     submitting: false,
-    disabled: false,
     handleSubmit: null,
     change: null,
     currentValues: {},
     note: null,
+    templates: [],
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -67,7 +69,12 @@ class CreateModal extends Component {
     currentBetLevels: [],
     currentCoinValueLevels: [],
     currentGames: [],
+    useTemplate: false,
   };
+
+  componentDidMount() {
+    this.props.fetchFreeSpinTemplates();
+  }
 
   getNotePopoverParams = () => ({
     placement: 'bottom',
@@ -91,8 +98,8 @@ class CreateModal extends Component {
       : true;
   };
 
-  handleChangeProvider = (e) => {
-    this.props.change('providerId', e);
+  handleChangeProvider = (providerId) => {
+    this.props.change('providerId', providerId);
     this.props.change('gameId', null);
     this.props.change('gameName', null);
     this.props.change('clientId', null);
@@ -104,14 +111,14 @@ class CreateModal extends Component {
       currentCoinSizes: [],
       currentBetLevels: [],
       currentCoinValueLevels: [],
-      currentGames: this.props.games.filter(i => i.gameProviderId === e.target.value),
+      currentGames: this.props.games.filter(i => i.gameProviderId === providerId),
     });
   };
 
-  handleChangeGame = (e) => {
+  handleChangeGame = (gameId) => {
     const { change } = this.props;
 
-    const game = this.state.currentGames.find(i => i.gameId === e.target.value);
+    const game = this.state.currentGames.find(i => i.gameId === gameId);
 
     if (game) {
       let linesPerSpin = null;
@@ -135,6 +142,60 @@ class CreateModal extends Component {
         currentCoinValueLevels: game.coinValueLevels,
       });
     }
+  };
+
+  handleChangeTemplate = (e) => {
+    const templateUUID = e.target.value;
+    this.props.change('templateUUID', templateUUID);
+
+    this.loadTemplateData(templateUUID);
+  };
+
+  loadTemplateData = async (templateUUID) => {
+    const { fetchFreeSpinTemplate, change } = this.props;
+    const action = await fetchFreeSpinTemplate(templateUUID);
+
+    if (action && !action.error) {
+      const {
+        name,
+        providerId,
+        gameId,
+        freeSpinsAmount,
+        prize,
+        capping,
+        multiplier,
+        moneyTypePriority,
+        bonusLifeTime,
+        betPerLine,
+        linesPerSpin,
+      } = action.payload;
+
+      this.handleChangeProvider(providerId);
+      this.handleChangeGame(gameId);
+      change('name', name);
+      change('freeSpinsAmount', freeSpinsAmount);
+      change('linesPerSpin', linesPerSpin);
+      change('betPerLine', betPerLine);
+      change('prize', prize);
+      change('capping', capping);
+      change('multiplier', multiplier);
+      change('capping', capping);
+      change('bonusLifeTime', bonusLifeTime);
+      change('moneyTypePriority', moneyTypePriority);
+    }
+  };
+
+  toggleUseTemplate = (e) => {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+
+    if (value) {
+      this.props.change('templateUUID', '');
+    }
+
+    this.setState({
+      useTemplate: value,
+    });
   };
 
   handleNoteClick = (target) => {
@@ -274,14 +335,18 @@ class CreateModal extends Component {
       onClose,
       pristine,
       submitting,
-      disabled,
       invalid,
       currency,
       currentValues,
       providers,
       note,
+      templates,
     } = this.props;
-    const { currentLines, currentGames } = this.state;
+    const {
+      currentLines,
+      currentGames,
+      useTemplate,
+    } = this.state;
     const showLinesPerSpin = (
       currentValues && !!currentValues.aggregatorId && currentValues.aggregatorId !== aggregators.netent
     );
@@ -294,13 +359,42 @@ class CreateModal extends Component {
           </ModalHeader>
           <ModalBody>
             <div className="row">
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>
+                    <input
+                      type="checkbox"
+                      onChange={this.toggleUseTemplate}
+                      checked={useTemplate}
+                    /> {I18n.t(attributeLabels.useTemplate)}
+                  </label>
+                </div>
+                <Field
+                  name="templateUUID"
+                  label={I18n.t(attributeLabels.template)}
+                  labelClassName="form-label"
+                  position="vertical"
+                  component={SelectField}
+                  showErrorMessage={false}
+                  onChange={this.handleChangeTemplate}
+                  disabled={!useTemplate}
+                >
+                  <option value="">{I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CHOOSE_TEMPLATE')}</option>
+                  {templates.map(item => (
+                    <option key={item.uuid} value={item.uuid}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+            </div>
+            <div className="row">
               <div className="col-md-10">
                 <Field
                   name="name"
                   label={I18n.t(attributeLabels.name)}
                   labelClassName="form-label"
                   type="text"
-                  disabled={disabled}
                   component={InputField}
                   position="vertical"
                 />
@@ -339,7 +433,7 @@ class CreateModal extends Component {
                   position="vertical"
                   component={SelectField}
                   showErrorMessage={false}
-                  onChange={this.handleChangeProvider}
+                  onChange={e => this.handleChangeProvider(e.target.value)}
                 >
                   <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_PROVIDER')}</option>
                   {providers.map(item => (
@@ -358,11 +452,11 @@ class CreateModal extends Component {
                   component={SelectField}
                   showErrorMessage={false}
                   disabled={!currentValues || !currentValues.providerId}
-                  onChange={this.handleChangeGame}
+                  onChange={e => this.handleChangeGame(e.target.value)}
                 >
                   <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
                   {currentGames.map(item => (
-                    <option key={item.gameId} value={item.gameId}>
+                    <option key={item.internalGameId} value={item.gameId}>
                       {`${item.fullGameName} (${item.gameId})`}
                     </option>
                   ))}
@@ -374,7 +468,6 @@ class CreateModal extends Component {
                   label={I18n.t(attributeLabels.freeSpinsAmount)}
                   labelClassName="form-label"
                   type="text"
-                  disabled={disabled}
                   component={InputField}
                   position="vertical"
                   showErrorMessage={false}
@@ -420,7 +513,6 @@ class CreateModal extends Component {
                   label={I18n.t(attributeLabels.prize)}
                   labelClassName="form-label"
                   type="text"
-                  disabled={disabled}
                   component={InputField}
                   position="vertical"
                   placeholder={'0.00'}
@@ -434,7 +526,6 @@ class CreateModal extends Component {
                   label={I18n.t(attributeLabels.capping)}
                   labelClassName="form-label"
                   type="text"
-                  disabled={disabled}
                   component={InputField}
                   position="vertical"
                   placeholder={'0.00'}
@@ -450,7 +541,6 @@ class CreateModal extends Component {
                   label={I18n.t(attributeLabels.multiplier)}
                   labelClassName="form-label"
                   type="text"
-                  disabled={disabled}
                   component={InputField}
                   position="vertical"
                   placeholder={''}
@@ -463,7 +553,6 @@ class CreateModal extends Component {
                   label={I18n.t(attributeLabels.bonusLifeTime)}
                   labelClassName="form-label"
                   type="text"
-                  disabled={disabled}
                   component={InputField}
                   position="vertical"
                   placeholder={''}

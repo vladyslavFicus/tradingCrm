@@ -1,4 +1,3 @@
-import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import {
@@ -6,51 +5,11 @@ import {
 } from '../../../../../../../redux/modules/freeSpinTemplates';
 
 const KEY = 'bonus-campaign/view/settings';
-const CREATE_FREE_SPIN_TEMPLATE = createRequestAction(`${KEY}/create-free-spin-template`);
 const FETCH_FREE_SPINS_TEMPLATES = createRequestAction(`${KEY}/fetch-free-spin-templates`);
 const FETCH_FREE_SPINS_TEMPLATE = createRequestAction(`${KEY}/fetch-free-spin-template`);
 
 const fetchFreeSpinTemplates = freeSpinTemplatesActionCreators.fetchFreeSpinTemplates(FETCH_FREE_SPINS_TEMPLATES);
 const fetchFreeSpinTemplate = freeSpinTemplatesActionCreators.fetchFreeSpinTemplate(FETCH_FREE_SPINS_TEMPLATE);
-
-function createFreeSpinTemplate(data) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: 'free_spin_template/templates',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-        types: [
-          CREATE_FREE_SPIN_TEMPLATE.REQUEST,
-          {
-            type: CREATE_FREE_SPIN_TEMPLATE.SUCCESS,
-            payload: (action, state, res) => {
-              const contentType = res.headers.get('Content-Type');
-
-              if (contentType && ~contentType.indexOf('json')) {
-                return res.json().then(json => ({
-                  templateUUID: json.uuid,
-                  bonusLifetime: json.bonusLifeTime,
-                  claimable: json.claimable,
-                  wagerWinMultiplier: json.multiplier,
-                }));
-              }
-            },
-          },
-          CREATE_FREE_SPIN_TEMPLATE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
 
 const initialState = {
   data: [],
@@ -82,12 +41,11 @@ const actionHandlers = {
 };
 
 const actionTypes = {
-  CREATE_FREE_SPIN_TEMPLATE,
   FETCH_FREE_SPINS_TEMPLATES,
+  FETCH_FREE_SPINS_TEMPLATE,
 };
 const actionCreators = {
   fetchFreeSpinTemplates,
-  createFreeSpinTemplate,
   fetchFreeSpinTemplate,
 };
 

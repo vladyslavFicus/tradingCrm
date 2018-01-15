@@ -507,7 +507,9 @@
           "NUMBER_OF_COINS": "Коинов на линию",
           "BET_LEVEL": "Уровень ставки",
           "COIN_VALUE_LEVEL": "Уровень стоимости монет",
-          "APPROXE_BET_VALUE": "Прим. значение ставки"
+          "APPROXE_BET_VALUE": "Прим. значение ставки",
+          "USE_TEMPLATE": "Использовать шаблон",
+          "TEMPLATE": "Шаблон"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
         "TOTAL_VALUE": "Сумма spin",

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { getFormValues, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../../../../../../../../constants/propTypes';
 import { InputField, SelectField } from '../../../../../../../../../../components/ReduxForm';
 import { FORM_NAME } from '../../../Form';
 import Amount, { Currency } from '../../../../../../../../../../components/Amount';
@@ -27,7 +27,7 @@ class FreeSpin extends Component {
     disabled: PropTypes.bool,
     currency: PropTypes.string.isRequired,
     providers: PropTypes.array,
-    templates: PropTypes.array,
+    templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
     currentValues: PropTypes.shape({
       aggregatorId: PropTypes.string,
       betPerLine: PropTypes.number,
@@ -42,7 +42,6 @@ class FreeSpin extends Component {
       name: PropTypes.string,
       prize: PropTypes.number,
       providerId: PropTypes.string,
-      templateStatus: PropTypes.string,
       templateUUID: PropTypes.string,
     }),
   };
@@ -101,7 +100,6 @@ class FreeSpin extends Component {
         moneyTypePriority,
         bonusLifeTime,
         claimable,
-        status,
         betPerLine,
         linesPerSpin,
       } = action.payload;
@@ -117,7 +115,6 @@ class FreeSpin extends Component {
       this.setField('moneyTypePriority', moneyTypePriority);
       this.setField('bonusLifeTime', bonusLifeTime);
       this.setField('claimable', claimable);
-      this.setField('templateStatus', status);
       this.setField('betPerLine', betPerLine);
       this.setField('linesPerSpin', linesPerSpin);
 
@@ -153,7 +150,6 @@ class FreeSpin extends Component {
 
     if (value) {
       this.setField('templateUUID');
-      this.setField('templateStatus');
     }
 
     this.setState({
