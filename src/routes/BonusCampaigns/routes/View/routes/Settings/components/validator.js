@@ -25,6 +25,7 @@ export default (values, params) => {
       value: ['numeric', 'customTypeValue.value'],
       type: [`in:${allowedCustomValueTypes.join()}`],
     },
+    optInPeriod: ['numeric', 'min:0'],
     conversionPrize: {
       value: ['numeric', 'customTypeValue.value'],
       type: [`in:${allowedCustomValueTypes.join()}`],

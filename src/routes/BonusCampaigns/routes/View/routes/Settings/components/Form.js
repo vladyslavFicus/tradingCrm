@@ -6,7 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import config from '../../../../../../../config';
 import {
-  InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField,
+  InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField, PeriodField,
 } from '../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
@@ -164,6 +164,17 @@ class Form extends Component {
       this.props.change('optIn', true);
       this.props.change('promoCode', null);
     }
+  };
+
+  handleChangeOptIn = (e) => {
+    const { change } = this.props;
+    const value = e.target.value;
+
+    if (value === 'false' || value === false) {
+      change('optInPeriod', '');
+    }
+
+    change('optIn', value);
   };
 
   render() {
@@ -340,7 +351,7 @@ class Form extends Component {
         <div className="campaign-settings-content">
           <hr />
           <div className="filter-row">
-            <div className="filter-row__medium">
+            <div className="filter-row__small">
               <Field
                 name="targetType"
                 label={I18n.t(attributeLabels.targetType)}
@@ -367,6 +378,7 @@ class Form extends Component {
                 component={SelectField}
                 position="vertical"
                 disabled={isOptInDisabled}
+                onChange={this.handleChangeOptIn}
               >
                 {Object.keys(optInSelect).map(key => (
                   <option key={key} value={key}>
@@ -375,7 +387,25 @@ class Form extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__big">
+            {
+              (currentValues.optIn === 'true' || currentValues.optIn === true) &&
+              <div className="filter-row__small">
+                <Field
+                  name="optInPeriod"
+                  label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.OPT_IN_PERIOD')}
+                  type="number"
+                  component={PeriodField}
+                  disabled={isOptInDisabled}
+                >
+                  {Object.keys(optInSelect).map(key => (
+                    <option key={key} value={key}>
+                      {renderLabel(key, optInSelect)}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+            }
+            <div className="filter-row__medium">
               <Field
                 name="countries"
                 label={
