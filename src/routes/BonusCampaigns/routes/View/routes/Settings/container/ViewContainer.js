@@ -68,6 +68,7 @@ const mapStateToProps = ({
     currency: data.currency,
     startDate: data.startDate,
     endDate: data.endDate,
+    optInPeriod: data.optInPeriod,
     conversionPrize: data.conversionPrize || {
       value: null,
       type: customValueFieldTypes.ABSOLUTE,
