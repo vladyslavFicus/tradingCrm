@@ -171,7 +171,8 @@ class Form extends Component {
     const value = e.target.value;
 
     if (value === 'false' || value === false) {
-      change('optInPeriod', '');
+      change('optInPeriod', null);
+      change('optInPeriodTimeUnit', null);
     }
 
     change('optIn', value);
