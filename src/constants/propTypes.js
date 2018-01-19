@@ -360,6 +360,8 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   capping: PropTypes.customValue,
   conversionPrize: PropTypes.customValue,
   creationDate: PropTypes.string.isRequired,
+  optInPeriod: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  optInPeriodTimeUnit: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   currency: PropTypes.string.isRequired,
   grantedSum: PropTypes.number.isRequired,
   grantedTotal: PropTypes.number.isRequired,

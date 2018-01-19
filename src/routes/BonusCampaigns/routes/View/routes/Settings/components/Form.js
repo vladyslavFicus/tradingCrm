@@ -17,7 +17,7 @@ import {
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import getSubFieldErrors from '../../../../../../../utils/getSubFieldErrors';
-import { nodeGroupTypes, attributeLabels } from '../constants';
+import { nodeGroupTypes, attributeLabels, optInPeriods, optInPeriodsLabels } from '../constants';
 import { nodeTypes as fulfillmentNodeTypes } from './Fulfillments/constants';
 import countries from '../../../../../../../utils/countryList';
 import Fulfillments from './Fulfillments';
@@ -164,6 +164,18 @@ class Form extends Component {
       this.props.change('optIn', true);
       this.props.change('promoCode', null);
     }
+  };
+
+  handleChangeOptIn = (e) => {
+    const { change } = this.props;
+    const value = e.target.value;
+
+    if (value === 'false' || value === false) {
+      change('optInPeriod', null);
+      change('optInPeriodTimeUnit', null);
+    }
+
+    change('optIn', value);
   };
 
   render() {
@@ -340,7 +352,7 @@ class Form extends Component {
         <div className="campaign-settings-content">
           <hr />
           <div className="filter-row">
-            <div className="filter-row__medium">
+            <div className="filter-row__small">
               <Field
                 name="targetType"
                 label={I18n.t(attributeLabels.targetType)}
@@ -367,6 +379,7 @@ class Form extends Component {
                 component={SelectField}
                 position="vertical"
                 disabled={isOptInDisabled}
+                onChange={this.handleChangeOptIn}
               >
                 {Object.keys(optInSelect).map(key => (
                   <option key={key} value={key}>
@@ -375,7 +388,45 @@ class Form extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__big">
+            {
+              (currentValues.optIn === 'true' || currentValues.optIn === true) &&
+              <div className="filter-row__small">
+                <div className="form-group">
+                  <label>{I18n.t(attributeLabels.optInPeriod)}</label>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <Field
+                        name="optInPeriod"
+                        type="number"
+                        placeholder=""
+                        disabled={isOptInDisabled}
+                        component={InputField}
+                        position="vertical"
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <Field
+                        name="optInPeriodTimeUnit"
+                        type="select"
+                        component={SelectField}
+                        position="vertical"
+                        disabled={isOptInDisabled}
+                      >
+                        <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.SELECT_OPT_IN_PERIOD')}</option>
+                        {
+                          Object.keys(optInPeriods).map(period => (
+                            <option key={period} value={period}>
+                              {renderLabel(period, optInPeriodsLabels)}
+                            </option>
+                          ))
+                        }
+                      </Field>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+            <div className="filter-row__medium">
               <Field
                 name="countries"
                 label={
