@@ -69,6 +69,7 @@ const mapStateToProps = ({
     startDate: data.startDate,
     endDate: data.endDate,
     optInPeriod: data.optInPeriod,
+    optInPeriodTimeUnit: data.optInPeriodTimeUnit,
     conversionPrize: data.conversionPrize || {
       value: null,
       type: customValueFieldTypes.ABSOLUTE,

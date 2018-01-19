@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
-import { attributeLabels } from '../constants';
+import { attributeLabels, optInPeriods } from '../constants';
 import {
   targetTypesLabels,
   lockAmountStrategy,
@@ -26,6 +26,7 @@ export default (values, params) => {
       type: [`in:${allowedCustomValueTypes.join()}`],
     },
     optInPeriod: ['numeric', 'min:0'],
+    optInPeriodTimeUnit: [`in:${Object.keys(optInPeriods).join()}`],
     conversionPrize: {
       value: ['numeric', 'customTypeValue.value'],
       type: [`in:${allowedCustomValueTypes.join()}`],
@@ -50,6 +51,10 @@ export default (values, params) => {
       },
     },
   };
+
+  if (values.optInPeriod) {
+    rules.optInPeriodTimeUnit.push('required');
+  }
 
   const fulfillmentDeposit = _.get(values, 'fulfillments.deposit');
   if (fulfillmentDeposit) {

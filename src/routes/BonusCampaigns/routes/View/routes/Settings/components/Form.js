@@ -6,7 +6,7 @@ import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import config from '../../../../../../../config';
 import {
-  InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField, PeriodField,
+  InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField,
 } from '../../../../../../../components/ReduxForm';
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
@@ -17,7 +17,7 @@ import {
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import getSubFieldErrors from '../../../../../../../utils/getSubFieldErrors';
-import { nodeGroupTypes, attributeLabels } from '../constants';
+import { nodeGroupTypes, attributeLabels, optInPeriods, optInPeriodsLabels } from '../constants';
 import { nodeTypes as fulfillmentNodeTypes } from './Fulfillments/constants';
 import countries from '../../../../../../../utils/countryList';
 import Fulfillments from './Fulfillments';
@@ -390,19 +390,39 @@ class Form extends Component {
             {
               (currentValues.optIn === 'true' || currentValues.optIn === true) &&
               <div className="filter-row__small">
-                <Field
-                  name="optInPeriod"
-                  label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.OPT_IN_PERIOD')}
-                  type="number"
-                  component={PeriodField}
-                  disabled={isOptInDisabled}
-                >
-                  {Object.keys(optInSelect).map(key => (
-                    <option key={key} value={key}>
-                      {renderLabel(key, optInSelect)}
-                    </option>
-                  ))}
-                </Field>
+                <div className="form-group">
+                  <label>{I18n.t(attributeLabels.optInPeriod)}</label>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <Field
+                        name="optInPeriod"
+                        type="number"
+                        placeholder=""
+                        disabled={isOptInDisabled}
+                        component={InputField}
+                        position="vertical"
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <Field
+                        name="optInPeriodTimeUnit"
+                        type="select"
+                        component={SelectField}
+                        position="vertical"
+                        disabled={isOptInDisabled}
+                      >
+                        <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.SELECT_OPT_IN_PERIOD')}</option>
+                        {
+                          Object.keys(optInPeriods).map(period => (
+                            <option key={period} value={period}>
+                              {renderLabel(period, optInPeriodsLabels)}
+                            </option>
+                          ))
+                        }
+                      </Field>
+                    </div>
+                  </div>
+                </div>
               </div>
             }
             <div className="filter-row__medium">

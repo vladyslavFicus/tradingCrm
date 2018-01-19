@@ -1268,7 +1268,8 @@
         "NO_FULFILLMENTS": {
           "LABEL": "Без условий"
         }
-      }
+      },
+      "SELECT_OPT_IN_PERIOD": "- Период -"
     },
     "CHANGE_STATUS_MODAL": {
       "CUSTOM_REASON_OPTION": "Другая",

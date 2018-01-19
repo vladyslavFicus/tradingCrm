@@ -1257,7 +1257,8 @@
         "NO_FULFILLMENTS": {
           "LABEL": "No fulfillments"
         }
-      }
+      },
+      "SELECT_OPT_IN_PERIOD": "- Period -"
     },
     "CHANGE_STATUS_MODAL": {
       "CUSTOM_REASON_OPTION": "Other",
