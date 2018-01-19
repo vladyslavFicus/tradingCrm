@@ -697,7 +697,10 @@
     "PLAYER_LIABILITY_REPORT": "Player liability report",
     "PAYMENTS": "Payments",
     "ALL_ACTIONS": "All actions",
-    "REASON": "Reason"
+    "REASON": "Reason",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "WEEKS": "Weeks"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1230,7 +1233,8 @@
         "START_DATE": "Start date",
         "END_DATE": "End date",
         "LOCK_AMOUNT_STRATEGY_LABEL": "Lock strategy",
-        "PROMO_CODE": "Promo code"
+        "PROMO_CODE": "Promo code",
+        "OPT_IN_PERIOD": "Opt-in timeout"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
@@ -1253,7 +1257,8 @@
         "NO_FULFILLMENTS": {
           "LABEL": "No fulfillments"
         }
-      }
+      },
+      "SELECT_OPT_IN_PERIOD": "- Period -"
     },
     "CHANGE_STATUS_MODAL": {
       "CUSTOM_REASON_OPTION": "Other",
