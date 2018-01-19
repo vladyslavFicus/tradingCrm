@@ -35,12 +35,10 @@ class FreeSpin extends Component {
       freeSpinsAmount: PropTypes.number,
       gameId: PropTypes.string,
       moneyTypePriority: PropTypes.string,
-      capping: PropTypes.number,
       linesPerSpin: PropTypes.number,
       claimable: PropTypes.bool,
       multiplier: PropTypes.number,
       name: PropTypes.string,
-      prize: PropTypes.number,
       providerId: PropTypes.string,
       templateUUID: PropTypes.string,
     }),
@@ -94,8 +92,6 @@ class FreeSpin extends Component {
         providerId,
         gameId,
         freeSpinsAmount,
-        prize,
-        capping,
         multiplier,
         moneyTypePriority,
         bonusLifeTime,
@@ -109,8 +105,6 @@ class FreeSpin extends Component {
 
       this.setField('name', name);
       this.setField('freeSpinsAmount', freeSpinsAmount);
-      this.setField('prize', prize);
-      this.setField('capping', capping);
       this.setField('multiplier', multiplier);
       this.setField('moneyTypePriority', moneyTypePriority);
       this.setField('bonusLifeTime', bonusLifeTime);
@@ -232,7 +226,6 @@ class FreeSpin extends Component {
       remove,
       providers,
       currentValues,
-      currency,
       templates,
     } = this.props;
 
@@ -355,39 +348,6 @@ class FreeSpin extends Component {
                 />
               </div>
             </div>
-            <div className="row">
-              <div className="col-md-6">
-                <Field
-                  name={this.buildFieldName('prize')}
-                  label={I18n.t(attributeLabels.prize)}
-                  labelClassName="form-label"
-                  type="number"
-                  disabled={disabled || !customTemplate}
-                  component={InputField}
-                  normalize={floatNormalize}
-                  position="vertical"
-                  placeholder={'0.00'}
-                  inputAddon={<Currency code={currency} />}
-                  showErrorMessage={false}
-                />
-              </div>
-              <div className="col-md-6">
-                <Field
-                  name={this.buildFieldName('capping')}
-                  label={I18n.t(attributeLabels.capping)}
-                  labelClassName="form-label"
-                  type="number"
-                  disabled={disabled || !customTemplate}
-                  component={InputField}
-                  normalize={floatNormalize}
-                  position="vertical"
-                  placeholder={'0.00'}
-                  inputAddon={<Currency code={currency} />}
-                  showErrorMessage={false}
-                />
-              </div>
-            </div>
-
             <div className="row">
               <div className="col-md-6">
                 <Field
