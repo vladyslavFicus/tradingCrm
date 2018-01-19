@@ -5,11 +5,15 @@ import List from '../components/List';
 import config from '../../../../../config';
 import countries from '../../../../../utils/countryList';
 
-const mapStateToProps = ({ usersList: list, i18n: { locale } }) => ({
+const mapStateToProps = ({
+  usersList: list,
+  i18n: { locale },
+  options: { data: { currencyCodes } },
+}) => ({
   list,
   locale,
   tags: config.tags || [],
-  currencies: config.nas.brand.currencies.supported || [],
+  currencies: currencyCodes,
   countries,
 });
 

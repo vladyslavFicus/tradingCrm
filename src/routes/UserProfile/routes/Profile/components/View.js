@@ -92,7 +92,6 @@ class View extends Component {
     sendKycRequestVerification: PropTypes.func.isRequired,
     verifyKycAll: PropTypes.func.isRequired,
     fetchKycReasons: PropTypes.func.isRequired,
-    fetchMeta: PropTypes.func.isRequired,
     canUpdateProfile: PropTypes.bool,
   };
   static contextTypes = {
@@ -447,7 +446,6 @@ class View extends Component {
       addressData,
       contactData,
       downloadFile,
-      fetchMeta,
       locale,
       canUpdateProfile,
     } = this.props;
@@ -564,7 +562,6 @@ class View extends Component {
             <div className="card-body row panel-body__wrapper">
               <div className="col-md-8 with-right-border">
                 <ContactForm
-                  fetchMeta={fetchMeta}
                   profile={data}
                   phoneCodes={metaData.phoneCodes}
                   contactData={contactData}

@@ -60,6 +60,7 @@ const mapStateToProps = ({
     games: { games, providers },
     templates: { data: templates },
   },
+  options: { data: { currencyCodes } },
   i18n: { locale },
 }) => {
   let bonusCampaignForm = {
@@ -95,7 +96,7 @@ const mapStateToProps = ({
     bonusCampaign: data,
     bonusCampaignForm,
     nodeGroups,
-    currencies: config.nas.brand.currencies.supported || [],
+    currencies: currencyCodes,
     games,
     providers,
     templates,

@@ -16,7 +16,7 @@ const RESET = `${KEY}/reset`;
 
 const emptyBalance = {
   amount: 0,
-  currency: config.nas.brand.currencies.base,
+  currency: 'EUR',
 };
 
 function mapProfile(item) {

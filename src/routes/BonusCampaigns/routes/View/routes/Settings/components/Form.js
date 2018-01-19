@@ -525,6 +525,6 @@ export default connect((state) => {
     errors: getFormSyncErrors(FORM_NAME)(state),
     meta: getFormMeta(FORM_NAME)(state),
     fulfillmentExist: currentValues && !_.isEmpty(currentValues.fulfillments),
-    currency: config.nas.brand.currencies.base,
+    currency: 'EUR',
   };
 })(SettingsForm);
