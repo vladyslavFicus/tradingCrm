@@ -6,7 +6,6 @@ import TextAreaField from './TextAreaField';
 import DateTimeField from './DateTimeField';
 import NasSelectField from './NasSelectField';
 import DateRangePicker from './DateRangePicker';
-import PeriodField from './PeriodField';
 
 export {
   CustomValueField,
@@ -17,5 +16,4 @@ export {
   DateTimeField,
   NasSelectField,
   DateRangePicker,
-  PeriodField,
 };
