@@ -13,6 +13,7 @@ const mapStateToProps = (state) => {
     },
     profile: { profile },
     i18n: { locale },
+    options: { data: { baseCurrency } },
   } = state;
 
   return {
@@ -22,7 +23,7 @@ const mapStateToProps = (state) => {
     templates,
     providers,
     locale,
-    currency: profile.data.currencyCode || config.nas.brand.currencies.base,
+    currency: profile.data.currencyCode || baseCurrency,
     cancelReasons: config.modules.freeSpin.cancelReasons,
   };
 };

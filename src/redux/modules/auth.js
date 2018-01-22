@@ -4,7 +4,7 @@ import createReducer from '../../utils/createReducer';
 import createRequestAction from '../../utils/createRequestAction';
 import { sourceActionCreators as operatorSourceActionCreators } from './operator';
 import getFingerprint from '../../utils/fingerPrint';
-import { getBrand } from '../../config';
+import { actionCreators as optionsActionCreators } from './options';
 
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
@@ -103,7 +103,7 @@ function logout() {
         },
         types: [LOGOUT.REQUEST, LOGOUT.SUCCESS, LOGOUT.FAILURE],
       },
-    });
+    }).then(() => dispatch(optionsActionCreators.reset()));
   };
 }
 
