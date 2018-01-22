@@ -39,7 +39,7 @@ function mapProfile(item) {
         (item.realMoneyBalance ? item.realMoneyBalance.amount : 0)
         + (item.bonusBalance ? item.bonusBalance.amount : 0)
       ),
-      currency: item.currency ? item.currency : emptyBalance.currency,
+      currency: item.currency || emptyBalance.currency
     } : emptyBalance,
   };
 }
