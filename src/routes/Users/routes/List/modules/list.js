@@ -3,7 +3,7 @@ import _ from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
-import config, { getApiRoot } from '../../../../../config';
+import { getApiRoot } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
 import shallowEqual from '../../../../../utils/shallowEqual';
@@ -35,11 +35,11 @@ function mapProfile(item) {
       return 0;
     }) : item.signInIps,
     balance: item.realMoneyBalance || item.bonusBalance ? {
-      ...emptyBalance,
       amount: (
         (item.realMoneyBalance ? item.realMoneyBalance.amount : 0)
         + (item.bonusBalance ? item.bonusBalance.amount : 0)
       ),
+      currency: item.currency ? item.currency : emptyBalance.currency,
     } : emptyBalance,
   };
 }
