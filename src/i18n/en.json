@@ -1235,7 +1235,8 @@
         "END_DATE": "End date",
         "LOCK_AMOUNT_STRATEGY_LABEL": "Lock strategy",
         "PROMO_CODE": "Promo code",
-        "OPT_IN_PERIOD": "Opt-in timeout"
+        "OPT_IN_PERIOD": "Opt-in timeout",
+        "CHOOSE_CAMPAIGN": "Choose campaign"
       },
       "CHOOSE_CURRENCY": "-- Choose currency --",
       "CHOOSE_TARGET_TYPE": "-- Choose target type --",
@@ -1265,7 +1266,8 @@
           "TITLE": "Choose campaign",
           "MESSAGE": "Only the players who have successfully converted the bonus from the selected campaign will become targets of the campaign you are setiing up."
         }
-      }
+      },
+      "NO_SELECTED_LINKED_CAMPAIGN": "No selected linked campaign"
     },
     "CHANGE_STATUS_MODAL": {
       "CUSTOM_REASON_OPTION": "Other",

@@ -204,7 +204,9 @@ class Form extends Component {
 
     if (!linkedCampaignUUID) {
       return (
-        <div className="linked-campaign-empty">No selected linked campaign</div>
+        <div className="linked-campaign-empty">
+          {I18n.t('BONUS_CAMPAIGNS.SETTINGS.NO_SELECTED_LINKED_CAMPAIGN')}
+        </div>
       );
     }
 
@@ -521,7 +523,7 @@ class Form extends Component {
                   className="btn btn-default-outline text-uppercase margin-top-20"
                   type="button"
                 >
-                  Choose campaign
+                  {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CHOOSE_CAMPAIGN')}
                 </button>
               }
             </div>
