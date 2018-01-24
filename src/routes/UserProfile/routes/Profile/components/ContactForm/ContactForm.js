@@ -16,17 +16,12 @@ class ContactForm extends Component {
     phoneCodes: PropTypes.arrayOf(PropTypes.string).isRequired,
     onVerifyPhoneClick: PropTypes.func.isRequired,
     onVerifyEmailClick: PropTypes.func.isRequired,
-    fetchMeta: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
   };
   static defaultProps = {
     contactData: {},
     disabled: false,
   };
-
-  componentDidMount() {
-    this.props.fetchMeta();
-  }
 
   render() {
     const {

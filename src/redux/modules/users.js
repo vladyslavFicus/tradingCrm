@@ -8,7 +8,7 @@ import { statuses as kycStatuses } from '../../constants/kyc';
 
 const emptyBalance = {
   amount: 0,
-  currency: config.nas.brand.currencies.base,
+  currency: 'EUR',
 };
 const fetchProfileMapResponse = (response) => {
   const {

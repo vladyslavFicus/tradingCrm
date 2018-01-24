@@ -83,7 +83,6 @@ class EmailForm extends Component {
               type="text"
               component={InputField}
               position="vertical"
-              disabled={profileStatus !== playerStatuses.INACTIVE}
               showErrorMessage
             />
           </div>

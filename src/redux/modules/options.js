@@ -1,9 +1,8 @@
 import { CALL_API } from 'redux-api-middleware';
-import _ from 'lodash';
 import countryListLib from 'country-list';
-import createRequestAction from '../../../utils/createRequestAction';
-import createReducer from '../../../utils/createReducer';
-import { getBrand } from '../../../config';
+import _ from 'lodash';
+import createReducer from '../../utils/createReducer';
+import createRequestAction from '../../utils/createRequestAction';
 
 function formatPhoneCode(phone) {
   return phone.replace(/[-\s]/g, '');
@@ -17,10 +16,11 @@ function mergePhoneCodes(current, phone) {
   return [...current, phone];
 }
 
-const KEY = 'player-profile/meta';
-const FETCH_META = createRequestAction(`${KEY}/fetch-meta`);
+const KEY = 'options';
+const RESET = `${KEY}/reset`;
+const FETCH_SIGN_UP = createRequestAction(`${KEY}/fetch-sign-up`);
 
-function fetchMeta() {
+function fetchSignUp() {
   return (dispatch, getState) => {
     const { auth: { brandId } } = getState();
 
@@ -33,12 +33,18 @@ function fetchMeta() {
           'Content-Type': 'application/json',
         },
         types: [
-          FETCH_META.REQUEST,
-          FETCH_META.SUCCESS,
-          FETCH_META.FAILURE,
+          FETCH_SIGN_UP.REQUEST,
+          FETCH_SIGN_UP.SUCCESS,
+          FETCH_SIGN_UP.FAILURE,
         ],
       },
     });
+  };
+}
+
+function reset() {
+  return {
+    type: RESET,
   };
 }
 
@@ -50,6 +56,7 @@ const initialState = {
     currencyCodes: [],
     phoneCodes: [],
     passwordPattern: '',
+    baseCurrency: '',
   },
   playerMeta: {
     countryCode: null,
@@ -61,13 +68,14 @@ const initialState = {
   isLoading: false,
   receivedAt: null,
 };
+
 const actionHandlers = {
-  [FETCH_META.REQUEST]: state => ({
+  [FETCH_SIGN_UP.REQUEST]: state => ({
     ...state,
     error: null,
     isLoading: true,
   }),
-  [FETCH_META.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => {
+  [FETCH_SIGN_UP.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => {
     const newState = {
       ...state,
       source: payload,
@@ -78,6 +86,7 @@ const actionHandlers = {
 
     const phoneCodes = _.get(payload, 'post.phoneCode.list', []);
     const currencyCodes = _.get(payload, 'post.currency.list', []);
+    const baseCurrency = _.get(payload, 'post.currency.base', '');
     const countryList = _.get(payload, 'post.country.list', []);
     const passwordPattern = _.get(payload, 'post.password.pattern', '');
     const countryCodes = countryList ? countryList.map(item => item.countryCode) : [];
@@ -94,6 +103,7 @@ const actionHandlers = {
         .filter((el, i, a) => i === a.indexOf(el))
         .sort() : [],
       currencyCodes,
+      baseCurrency,
       countries,
       countryCodes,
       passwordPattern,
@@ -101,25 +111,29 @@ const actionHandlers = {
 
     return newState;
   },
-  [FETCH_META.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
+  [FETCH_SIGN_UP.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     error: payload,
     isLoading: false,
     receivedAt: endRequestTime,
   }),
+  [RESET]: () => ({ ...initialState }),
 };
+
 const actionTypes = {
-  FETCH_META,
+  FETCH_SIGN_UP,
+  RESET,
 };
+
 const actionCreators = {
-  fetchMeta,
+  fetchSignUp,
+  reset,
 };
 
 export {
-  initialState,
-  actionTypes,
   actionCreators,
-  actionHandlers,
+  actionTypes,
+  initialState,
 };
 
 export default createReducer(initialState, actionHandlers);

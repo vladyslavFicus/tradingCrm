@@ -9,7 +9,12 @@ import permissions from '../../../../../config/permissions';
 
 const updateProfilePermissions = new Permissions(permissions.USER_PROFILE.UPDATE_PROFILE);
 
-const mapStateToProps = ({ profile: { profile, files, meta }, i18n: { locale }, permissions: currentPermissions }) => {
+const mapStateToProps = ({
+  profile: { profile, files },
+  i18n: { locale },
+  permissions: currentPermissions,
+  options,
+}) => {
   const {
     email,
     phone,
@@ -36,7 +41,7 @@ const mapStateToProps = ({ profile: { profile, files, meta }, i18n: { locale }, 
       (profile.data.kycAddressStatus && profile.data.kycAddressStatus.status === kycStatuses.VERIFIED)
     ),
     files,
-    meta,
+    meta: options,
     canVerifyAll: !profile.data.kycCompleted,
     locale,
     filesUrl: `${getApiRoot()}/profile/files/download/`,
@@ -62,7 +67,6 @@ const mapActions = {
   sendKycRequestVerification: profileActionCreators.sendKycRequestVerification,
   verifyKycAll: profileActionCreators.verifyKycAll,
   fetchKycReasons: profileActionCreators.fetchKycReasons,
-  fetchMeta: profileActionCreators.fetchMeta,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

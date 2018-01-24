@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import { getBrand } from '../../config';
+import { actionCreators as optionsActionCreators } from './options';
 
 function updateProfile(type) {
   return (uuid, data) => (dispatch, getState) => {
@@ -144,7 +144,7 @@ function fetchAuthorities(type) {
         ],
         bailout: !logged && !outsideToken,
       },
-    });
+    }).then(() => dispatch(optionsActionCreators.fetchSignUp()));
   };
 }
 

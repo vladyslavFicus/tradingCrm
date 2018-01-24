@@ -24,10 +24,12 @@ const statusesReasons = keyMirror({
 const targetTypes = keyMirror({
   ALL: null,
   TARGET_LIST: null,
+  LINKED_CAMPAIGN: null,
 });
 const targetTypesLabels = {
   [targetTypes.ALL]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.TARGET_TYPES.ALL'),
   [targetTypes.TARGET_LIST]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.TARGET_TYPES.TARGET_LIST'),
+  [targetTypes.LINKED_CAMPAIGN]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.TARGET_TYPES.LINKED_CAMPAIGN'),
 };
 const statusesLabels = {
   [statuses.DRAFT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.STATUSES.DRAFT'),

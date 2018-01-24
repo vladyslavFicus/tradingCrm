@@ -43,8 +43,33 @@ function fetchCampaigns(type) {
   };
 }
 
+function fetchCampaign(type) {
+  return uuid => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `promotion/campaigns/${uuid}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const sourceActionCreators = {
   fetchCampaigns,
+  fetchCampaign,
 };
 
 export {

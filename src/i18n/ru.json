@@ -649,7 +649,10 @@
       "COPY_FULL_IP": {
         "MESSAGE": "IP адресс был скопирован в буфер обмена"
       },
-      "COPY_PROFILE_LINK": "Ссылка на профиль была скопирована в ваш буфер обмена"
+      "COPY_PROFILE_LINK": "Ссылка на профиль была скопирована в ваш буфер обмена",
+      "COPY_INTERNAL_GAME_ID": {
+        "MESSAGE": "Внутрений game id был скопирован в буфер обмена"
+      }
     },
     "OR": "Или",
     "TO": "по",
@@ -838,7 +841,8 @@
       },
       "TARGET_TYPES": {
         "ALL": "Все игроки",
-        "TARGET_LIST": "Выбранные игроки"
+        "TARGET_LIST": "Выбранные игроки",
+        "LINKED_CAMPAIGN": "Сязанная кампания"
       },
       "STATUS_ACTIONS": {
         "ACTIVATE_CAMPAIGN": "Активировать кампанию",
@@ -1245,7 +1249,8 @@
         "END_DATE": "Дата окончания",
         "LOCK_AMOUNT_STRATEGY_LABEL": "Стратегия блок. денег",
         "PROMO_CODE": "Промо-код",
-        "OPT_IN_PERIOD": "Opt-in период"
+        "OPT_IN_PERIOD": "Opt-in период",
+        "CHOOSE_CAMPAIGN": "Выбрать кампанию"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
@@ -1269,7 +1274,14 @@
           "LABEL": "Без условий"
         }
       },
-      "SELECT_OPT_IN_PERIOD": "- Период -"
+      "SELECT_OPT_IN_PERIOD": "- Период -",
+      "MODAL": {
+        "CHOOSE_CAMPAIGN": {
+          "TITLE": "Выберите кампанию",
+          "MESSAGE": "Только игроки, которые успешно конвертировали бонус из выбранной кампании, станут объектами кампании, которую вы настраиваете."
+        }
+      },
+      "NO_SELECTED_LINKED_CAMPAIGN": "Не выбрана связанная кампания"
     },
     "CHANGE_STATUS_MODAL": {
       "CUSTOM_REASON_OPTION": "Другая",
