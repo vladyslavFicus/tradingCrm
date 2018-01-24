@@ -16,7 +16,7 @@ class LinkedCampaign extends Component {
       authorUUID: PropTypes.string.isRequired,
     }),
     linkedCampaignUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    removeLinkedCampaign: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -29,7 +29,7 @@ class LinkedCampaign extends Component {
       targetType,
       linkedCampaignUUID,
       linkedCampaign,
-      removeLinkedCampaign,
+      remove,
     } = this.props;
 
     if (targetType !== targetTypes.LINKED_CAMPAIGN) {
@@ -42,6 +42,10 @@ class LinkedCampaign extends Component {
           {I18n.t('BONUS_CAMPAIGNS.SETTINGS.NO_SELECTED_LINKED_CAMPAIGN')}
         </div>
       );
+    }
+
+    if (!linkedCampaign) {
+      return <i className="fa fa-refresh fa-spin" />;
     }
 
     return (
@@ -62,7 +66,7 @@ class LinkedCampaign extends Component {
         </div>
         <button
           type="button"
-          onClick={removeLinkedCampaign}
+          onClick={remove}
           className="btn-transparent linked-campaign-remove"
         >
           &times;

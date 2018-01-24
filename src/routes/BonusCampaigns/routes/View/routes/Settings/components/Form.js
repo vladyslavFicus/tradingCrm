@@ -499,7 +499,7 @@ class Form extends Component {
                 linkedCampaign={linkedCampaign}
                 targetType={currentValues.targetType}
                 linkedCampaignUUID={currentValues.linkedCampaignUUID}
-                removeLinkedCampaign={this.handleRemoveLinkedCampaign}
+                remove={this.handleRemoveLinkedCampaign}
               />
             </div>
           </div>
