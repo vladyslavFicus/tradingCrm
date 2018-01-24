@@ -17,7 +17,7 @@ import SubTabNavigation from '../../../../../../../../components/SubTabNavigatio
 import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
-import AddToCampaignModal from '../AddToCampaignModal';
+import AddToCampaignModal from '../../../../../../../../components/AddToCampaignModal';
 import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../config/permissions';
@@ -366,7 +366,12 @@ class View extends Component {
             {...modal.params}
             onClose={this.handleCloseModal}
             onSubmit={this.handleAddToCampaign}
-            fullName={profile.fullName}
+            title={I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.TITLE')}
+            message={
+              I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTION', {
+                fullName: profile.fullName,
+              })
+            }
           />
         }
         {

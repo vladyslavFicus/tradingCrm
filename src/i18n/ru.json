@@ -838,7 +838,8 @@
       },
       "TARGET_TYPES": {
         "ALL": "Все игроки",
-        "TARGET_LIST": "Выбранные игроки"
+        "TARGET_LIST": "Выбранные игроки",
+        "LINKED_CAMPAIGN": "Сязанная кампания"
       },
       "STATUS_ACTIONS": {
         "ACTIVATE_CAMPAIGN": "Активировать кампанию",
@@ -1269,7 +1270,13 @@
           "LABEL": "Без условий"
         }
       },
-      "SELECT_OPT_IN_PERIOD": "- Период -"
+      "SELECT_OPT_IN_PERIOD": "- Период -",
+      "MODAL": {
+        "CHOOSE_CAMPAIGN": {
+          "TITLE": "Выберите компанию",
+          "MESSAGE": "Только игроки, которые успешно конвертировали бонус из выбранной кампании, станут объектами кампании, которую вы настраиваете."
+        }
+      }
     },
     "CHANGE_STATUS_MODAL": {
       "CUSTOM_REASON_OPTION": "Другая",

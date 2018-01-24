@@ -832,7 +832,8 @@
       },
       "TARGET_TYPES": {
         "ALL": "All players",
-        "TARGET_LIST": "Selected players"
+        "TARGET_LIST": "Selected players",
+        "LINKED_CAMPAIGN": "Linked campaign"
       },
       "STATUS_ACTIONS": {
         "ACTIVATE_CAMPAIGN": "Activate campaign",
@@ -1258,7 +1259,13 @@
           "LABEL": "No fulfillments"
         }
       },
-      "SELECT_OPT_IN_PERIOD": "- Period -"
+      "SELECT_OPT_IN_PERIOD": "- Period -",
+      "MODAL": {
+        "CHOOSE_CAMPAIGN": {
+          "TITLE": "Choose campaign",
+          "MESSAGE": "Only the players who have successfully converted the bonus from the selected campaign will become targets of the campaign you are setiing up."
+        }
+      }
     },
     "CHANGE_STATUS_MODAL": {
       "CUSTOM_REASON_OPTION": "Other",

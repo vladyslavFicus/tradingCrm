@@ -2,15 +2,15 @@ import React, { PureComponent } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../../../constants/propTypes';
-import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
-import { NasSelectField } from '../../../../../../../../components/ReduxForm';
+import PropTypes from '../../constants/propTypes';
+import { createValidator, translateLabels } from '../../utils/validator';
+import { NasSelectField } from '../../components/ReduxForm';
 import { attributeLabels, attributePlaceholders } from './constants';
-import SelectCampaignOption from '../SelectCampaignOption';
-import SelectCampaignOptionsHeader from '../SelectCampaignOptionsHeader';
+import SelectCampaignOption from './SelectCampaignOption';
+import SelectCampaignOptionsHeader from './SelectCampaignOptionsHeader';
 import './AddToCampaignModal.scss';
-import { statuses as bonusCampaignStatuses } from '../../../../../../../../constants/bonus-campaigns';
-import shallowEqual from '../../../../../../../../utils/shallowEqual';
+import { statuses as bonusCampaignStatuses } from '../../constants/bonus-campaigns';
+import shallowEqual from '../../utils/shallowEqual';
 
 class AddToCampaignModal extends PureComponent {
   static propTypes = {
@@ -21,7 +21,8 @@ class AddToCampaignModal extends PureComponent {
     invalid: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    fullName: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
   };
   static defaultProps = {
     pristine: false,
@@ -72,19 +73,18 @@ class AddToCampaignModal extends PureComponent {
       pristine,
       submitting,
       invalid,
-      fullName,
+      title,
+      message,
     } = this.props;
 
     return (
       <Modal className="add-to-campaign-modal" toggle={onClose} isOpen>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader toggle={onClose}>
-            {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.TITLE')}
+            {title}
           </ModalHeader>
           <ModalBody>
-            <div className="add-to-campaign-modal__header">
-              {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.MODALS.ADD_TO_CAMPAIGN.ACTION', { fullName })}
-            </div>
+            <div className="add-to-campaign-modal__header">{message}</div>
             <Field
               name="campaignUuid"
               label={I18n.t(attributeLabels.campaignUuid)}

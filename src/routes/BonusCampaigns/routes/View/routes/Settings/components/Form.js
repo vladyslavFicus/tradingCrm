@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
-import config from '../../../../../../../config';
 import {
   InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField,
 } from '../../../../../../../components/ReduxForm';
+import Uuid from '../../../../../../../components/Uuid';
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
   targetTypes,
@@ -82,6 +82,8 @@ class Form extends Component {
     fetchGames: PropTypes.func.isRequired,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
+    handleClickChooseCampaign: PropTypes.func.isRequired,
+    linkedCampaign: PropTypes.object,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -96,6 +98,7 @@ class Form extends Component {
     games: [],
     providers: [],
     templates: [],
+    linkedCampaign: null,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -160,7 +163,13 @@ class Form extends Component {
   handleAddNode = nodeGroup => node => this.props.addNode(nodeGroup, node);
 
   handleChangeTargetType = (e) => {
-    if (e.target.value === targetTypes.ALL) {
+    const targetType = e.target.value;
+
+    if (targetType !== targetTypes.LINKED_CAMPAIGN) {
+      this.props.change('linkedCampaignUUID', null);
+    }
+
+    if (targetType === targetTypes.ALL) {
       this.props.change('optIn', true);
       this.props.change('promoCode', null);
     }
@@ -176,6 +185,54 @@ class Form extends Component {
     }
 
     change('optIn', value);
+  };
+
+  handleRemoveLinkedCampaign = () => this.props.change('linkedCampaignUUID', null);
+
+  renderLinkedCampaign = () => {
+    const {
+      currentValues: {
+        targetType,
+        linkedCampaignUUID,
+      },
+      linkedCampaign,
+    } = this.props;
+
+    if (targetType !== targetTypes.LINKED_CAMPAIGN) {
+      return null;
+    }
+
+    if (!linkedCampaignUUID) {
+      return (
+        <div className="linked-campaign-empty">No selected linked campaign</div>
+      );
+    }
+
+    return (
+      <div className="linked-campaign-container">
+        <div className="linked-campaign-label">
+          {linkedCampaign.campaignName}
+        </div>
+        <div>
+          {moment.utc(linkedCampaign.startDate).local().format('DD.MM.YYYY HH:mm')} {' - '}
+          {moment.utc(linkedCampaign.endDate).local().format('DD.MM.YYYY HH:mm')}
+        </div>
+        <div>
+          <Uuid uuid={linkedCampaign.uuid} uuidPrefix="CA" />
+        </div>
+        <div>
+          {I18n.t('COMMON.AUTHOR_BY')}
+          <Uuid uuid={linkedCampaign.authorUUID} uuidPrefix="OP" />
+        </div>
+        <button
+          type="button"
+          onClick={this.handleRemoveLinkedCampaign}
+          className="btn-transparent linked-campaign-remove"
+        >
+          &times;
+        </button>
+      </div>
+    );
   };
 
   render() {
@@ -200,6 +257,7 @@ class Form extends Component {
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
+      handleClickChooseCampaign,
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfillments);
@@ -363,7 +421,7 @@ class Form extends Component {
                 onChange={this.handleChangeTargetType}
               >
                 <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_TARGET_TYPE')}</option>
-                {Object.keys(targetTypesLabels).map(key => (
+                {Object.keys(targetTypes).map(key => (
                   <option key={key} value={key}>
                     {renderLabel(key, targetTypesLabels)}
                   </option>
@@ -399,7 +457,7 @@ class Form extends Component {
                         name="optInPeriod"
                         type="number"
                         placeholder=""
-                        disabled={isOptInDisabled}
+                        disabled={disabled}
                         component={InputField}
                         position="vertical"
                       />
@@ -410,7 +468,7 @@ class Form extends Component {
                         type="select"
                         component={SelectField}
                         position="vertical"
-                        disabled={isOptInDisabled}
+                        disabled={disabled}
                       >
                         <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.SELECT_OPT_IN_PERIOD')}</option>
                         {
@@ -427,32 +485,56 @@ class Form extends Component {
               </div>
             }
             <div className="filter-row__medium">
-              <Field
-                name="countries"
-                label={
-                  <span>
-                    {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.COUNTRIES')}
-                    <span className="label-action">
-                      <Field
-                        disabled={disabled}
-                        name="excludeCountries"
-                        type="checkbox"
-                        component="input"
-                      />
-                      {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
+              {
+                currentValues.targetType === targetTypes.ALL &&
+                <Field
+                  name="countries"
+                  label={
+                    <span>
+                      {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.COUNTRIES')}
+                      <span className="label-action">
+                        <Field
+                          disabled={disabled}
+                          name="excludeCountries"
+                          type="checkbox"
+                          component="input"
+                        />
+                        {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
+                      </span>
                     </span>
-                  </span>
-                }
-                component={NasSelectField}
-                position="vertical"
-                disabled={disabled}
-                multiple
-              >
-                {Object
-                  .keys(countries)
-                  .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                }
-              </Field>
+                  }
+                  component={NasSelectField}
+                  position="vertical"
+                  disabled={disabled}
+                  multiple
+                >
+                  {Object
+                    .keys(countries)
+                    .map(key => <option key={key} value={key}>{countries[key]}</option>)
+                  }
+                </Field>
+              }
+              {
+                currentValues.targetType === targetTypes.LINKED_CAMPAIGN &&
+                <button
+                  onClick={handleClickChooseCampaign}
+                  className="btn btn-default-outline text-uppercase margin-top-20"
+                  type="button"
+                >
+                  Choose campaign
+                </button>
+              }
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-lg-6">
+              <Field
+                name="linkedCampaignUUID"
+                hidden="hidden"
+                type="text"
+                component="input"
+              />
+              {this.renderLinkedCampaign()}
             </div>
           </div>
         </div>
