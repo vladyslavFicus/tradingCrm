@@ -5,9 +5,8 @@ import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField, DateRangePicker } from '../../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../../utils/validator';
-import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels } from '../constants';
-import { statusesLabels, statuses, rolesLabels, departmentsLabels } from '../../../../../constants/operators';
+import { statusesLabels, statuses } from '../../../../../constants/operators';
 import config from '../../../../../config';
 import countries from '../../../../../utils/countryList';
 
@@ -102,36 +101,6 @@ class OperatorGridFilter extends Component {
                 {Object.keys(statusesLabels).map(status => (
                   <option key={status} value={status}>
                     {statusesLabels[status]}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="department"
-                label={I18n.t(attributeLabels.department)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">Any</option>
-                {departments.map(({ label, value }) => (
-                  <option key={value} value={value}>
-                    {renderLabel(label, departmentsLabels)}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="filter-row__medium">
-              <Field
-                name="role"
-                label={I18n.t(attributeLabels.role)}
-                component={SelectField}
-                position="vertical"
-              >
-                <option value="">Any</option>
-                {roles.map(({ label, value }) => (
-                  <option key={value} value={value}>
-                    {renderLabel(label, rolesLabels)}
                   </option>
                 ))}
               </Field>

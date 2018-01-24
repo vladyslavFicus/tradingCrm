@@ -7,6 +7,7 @@ import GridView, { GridColumn } from '../../../../../components/GridView';
 import GameStatus from './GameStatus';
 import GamesGridFilter from './GamesGridFilter';
 import { withLines } from '../../../../../constants/games';
+import Uuid from '../../../../../components/Uuid/Uuid';
 
 class View extends Component {
   static propTypes = {
@@ -93,6 +94,13 @@ class View extends Component {
     <div>
       <div className="font-weight-700">{data.fullGameName}</div>
       <div className="font-size-11">{data.gameId}</div>
+      <div className="font-size-11">
+        <strong>ID</strong>{': '}
+        <Uuid
+          uuid={data.internalGameId}
+          notificationMessage={I18n.t('COMMON.NOTIFICATIONS.COPY_INTERNAL_GAME_ID.MESSAGE')}
+        />
+      </div>
     </div>
   );
 

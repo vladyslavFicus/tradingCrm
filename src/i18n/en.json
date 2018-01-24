@@ -643,7 +643,10 @@
       "COPY_FULL_IP": {
         "MESSAGE": "IP address has been copied to clipboard"
       },
-      "COPY_PROFILE_LINK": "Profile link has been copied to your clipboard"
+      "COPY_PROFILE_LINK": "Profile link has been copied to your clipboard",
+      "COPY_INTERNAL_GAME_ID": {
+        "MESSAGE": "Internal game id has been copied to clipboard"
+      }
     },
     "OR": "Or",
     "TO": "to",
