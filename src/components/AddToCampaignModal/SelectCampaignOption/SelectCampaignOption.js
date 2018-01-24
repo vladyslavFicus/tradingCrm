@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
-import PropTypes from '../../../../../../../../constants/propTypes';
-import BonusCampaignStatus from '../../../../../../../../components/BonusCampaignStatus';
-import Uuid from '../../../../../../../../components/Uuid';
+import PropTypes from '../../../constants/propTypes';
+import BonusCampaignStatus from '../../../components/BonusCampaignStatus';
+import Uuid from '../../../components/Uuid';
 
 const SelectCampaignOption = props => (
   <div className="row add-to-campaign-modal__campaign" onClick={props.onClick}>

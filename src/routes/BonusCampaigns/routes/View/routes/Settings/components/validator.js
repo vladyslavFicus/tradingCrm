@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { createValidator, translateLabels } from '../../../../../../../utils/validator';
 import { attributeLabels, optInPeriods } from '../constants';
 import {
+  targetTypes,
   targetTypesLabels,
   lockAmountStrategy,
   moneyTypeUsage,
@@ -27,6 +28,7 @@ export default (values, params) => {
     },
     optInPeriod: ['numeric', 'min:0'],
     optInPeriodTimeUnit: [`in:${Object.keys(optInPeriods).join()}`],
+    linkedCampaignUUID: ['string'],
     conversionPrize: {
       value: ['numeric', 'customTypeValue.value'],
       type: [`in:${allowedCustomValueTypes.join()}`],
@@ -54,6 +56,10 @@ export default (values, params) => {
 
   if (values.optInPeriod) {
     rules.optInPeriodTimeUnit.push('required');
+  }
+
+  if (values.targetType === targetTypes.LINKED_CAMPAIGN) {
+    rules.linkedCampaignUUID.push('required');
   }
 
   const fulfillmentDeposit = _.get(values, 'fulfillments.deposit');
