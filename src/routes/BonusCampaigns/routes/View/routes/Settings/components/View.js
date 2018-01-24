@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { SubmissionError, change } from 'redux-form';
+import { SubmissionError } from 'redux-form';
 import _ from 'lodash';
-import Form, { FORM_NAME } from './Form';
+import Form from './Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../../../../constants/propTypes';
 import CurrencyCalculationModal from '../../../../../components/CurrencyCalculationModal';
@@ -56,7 +55,7 @@ class View extends Component {
     providers: PropTypes.array,
     templates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
-    changeLinkedCampaign: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
   };
@@ -185,14 +184,14 @@ class View extends Component {
   };
 
   handleSubmitLinkedCampaign = async (data) => {
-    const { changeLinkedCampaign, fetchCampaign } = this.props;
+    const { fetchCampaign, change } = this.props;
 
     const action = await fetchCampaign(data.campaignUuid);
     if (action && !action.error) {
       this.setLinkedCampaignData(action.payload);
     }
 
-    changeLinkedCampaign(data.campaignUuid);
+    change('linkedCampaignUUID', data.campaignUuid);
     this.handleCloseModal(CHOOSE_CAMPAIGN_MODAL);
   };
 
@@ -259,6 +258,4 @@ class View extends Component {
   }
 }
 
-export default connect(null, {
-  changeLinkedCampaign: value => change(FORM_NAME, 'linkedCampaignUUID', value),
-})(View);
+export default View;

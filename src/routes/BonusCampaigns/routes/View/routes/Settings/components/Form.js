@@ -7,7 +7,6 @@ import _ from 'lodash';
 import {
   InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField,
 } from '../../../../../../../components/ReduxForm';
-import Uuid from '../../../../../../../components/Uuid';
 import PropTypes from '../../../../../../../constants/propTypes';
 import {
   targetTypes,
@@ -25,6 +24,7 @@ import Rewards from './Rewards';
 import validator from './validator';
 import './Form.scss';
 import normalizePromoCode from '../../../../../../../utils/normalizePromoCode';
+import LinkedCampaign from './LinkedCampaign';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -83,7 +83,13 @@ class Form extends Component {
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
     handleClickChooseCampaign: PropTypes.func.isRequired,
-    linkedCampaign: PropTypes.object,
+    linkedCampaign: PropTypes.shape({
+      campaignName: PropTypes.string.isRequired,
+      startDate: PropTypes.string.isRequired,
+      endDate: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
+      authorUUID: PropTypes.string.isRequired,
+    }),
   };
   static defaultProps = {
     handleSubmit: null,
@@ -189,54 +195,6 @@ class Form extends Component {
 
   handleRemoveLinkedCampaign = () => this.props.change('linkedCampaignUUID', null);
 
-  renderLinkedCampaign = () => {
-    const {
-      currentValues: {
-        targetType,
-        linkedCampaignUUID,
-      },
-      linkedCampaign,
-    } = this.props;
-
-    if (targetType !== targetTypes.LINKED_CAMPAIGN) {
-      return null;
-    }
-
-    if (!linkedCampaignUUID) {
-      return (
-        <div className="linked-campaign-empty">
-          {I18n.t('BONUS_CAMPAIGNS.SETTINGS.NO_SELECTED_LINKED_CAMPAIGN')}
-        </div>
-      );
-    }
-
-    return (
-      <div className="linked-campaign-container">
-        <div className="linked-campaign-label">
-          {linkedCampaign.campaignName}
-        </div>
-        <div>
-          {moment.utc(linkedCampaign.startDate).local().format('DD.MM.YYYY HH:mm')} {' - '}
-          {moment.utc(linkedCampaign.endDate).local().format('DD.MM.YYYY HH:mm')}
-        </div>
-        <div>
-          <Uuid uuid={linkedCampaign.uuid} uuidPrefix="CA" />
-        </div>
-        <div>
-          {I18n.t('COMMON.AUTHOR_BY')}
-          <Uuid uuid={linkedCampaign.authorUUID} uuidPrefix="OP" />
-        </div>
-        <button
-          type="button"
-          onClick={this.handleRemoveLinkedCampaign}
-          className="btn-transparent linked-campaign-remove"
-        >
-          &times;
-        </button>
-      </div>
-    );
-  };
-
   render() {
     const {
       handleSubmit,
@@ -260,6 +218,7 @@ class Form extends Component {
       fetchFreeSpinTemplates,
       fetchGames,
       handleClickChooseCampaign,
+      linkedCampaign,
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfillments);
@@ -536,7 +495,12 @@ class Form extends Component {
                 type="text"
                 component="input"
               />
-              {this.renderLinkedCampaign()}
+              <LinkedCampaign
+                linkedCampaign={linkedCampaign}
+                targetType={currentValues.targetType}
+                linkedCampaignUUID={currentValues.linkedCampaignUUID}
+                removeLinkedCampaign={this.handleRemoveLinkedCampaign}
+              />
             </div>
           </div>
         </div>

@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
+import { change } from 'redux-form';
 import View from '../components/View';
+import { FORM_NAME } from '../components/Form';
 import { actionCreators } from '../../../modules';
 import { actionCreators as settingsActionCreators } from '../modules';
 import { actionCreators as campaignsActionCreators } from '../modules/campaigns';
@@ -116,6 +118,7 @@ const mapActions = {
   fetchGames: settingsActionCreators.fetchGames,
   fetchCampaigns: campaignsActionCreators.fetchCampaigns,
   fetchCampaign: campaignsActionCreators.fetchCampaign,
+  change: (field, value) => change(FORM_NAME, field, value),
 };
 
 export default connect(mapStateToProps, mapActions)(View);
