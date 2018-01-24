@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
+import { change } from 'redux-form';
 import View from '../components/View';
-import config from '../../../../../../../config';
+import { FORM_NAME } from '../components/Form';
 import { actionCreators } from '../../../modules';
 import { actionCreators as settingsActionCreators } from '../modules';
+import { actionCreators as campaignsActionCreators } from '../modules/campaigns';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { fulfilmentTypes, rewardTypes } from '../../../../../../../constants/bonus-campaigns';
 
@@ -71,6 +73,7 @@ const mapStateToProps = ({
     endDate: data.endDate,
     optInPeriod: data.optInPeriod,
     optInPeriodTimeUnit: data.optInPeriodTimeUnit,
+    linkedCampaignUUID: data.linkedCampaignUUID,
     conversionPrize: data.conversionPrize || {
       value: null,
       type: customValueFieldTypes.ABSOLUTE,
@@ -113,6 +116,9 @@ const mapActions = {
   fetchFreeSpinTemplates: settingsActionCreators.fetchFreeSpinTemplates,
   fetchFreeSpinTemplate: settingsActionCreators.fetchFreeSpinTemplate,
   fetchGames: settingsActionCreators.fetchGames,
+  fetchCampaigns: campaignsActionCreators.fetchCampaigns,
+  fetchCampaign: campaignsActionCreators.fetchCampaign,
+  change: (field, value) => change(FORM_NAME, field, value),
 };
 
 export default connect(mapStateToProps, mapActions)(View);

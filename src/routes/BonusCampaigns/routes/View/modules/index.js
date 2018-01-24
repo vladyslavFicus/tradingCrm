@@ -13,6 +13,7 @@ import buildFormData from '../../../../../utils/buildFormData';
 import { nodeGroupTypes } from '../routes/Settings/constants';
 import { nodeTypes as fulfillmentNodeTypes } from '../routes/Settings/components/Fulfillments/constants';
 import { nodeTypes as rewardNodeTypes } from '../routes/Settings/components/Rewards/constants';
+import { sourceActionCreators as bonusCampaignActionCreators } from '../../../../../redux/modules/bonusCampaigns';
 import deleteFromArray from '../../../../../utils/deleteFromArray';
 
 const KEY = 'campaign';
@@ -25,6 +26,8 @@ const REMOVE_PLAYERS = createRequestAction(`${KEY}/remove-players`);
 const REVERT = createRequestAction(`${KEY}/revert-form`);
 const REMOVE_NODE = `${KEY}/remove-node`;
 const ADD_NODE = `${KEY}/add-fulfillment-node`;
+
+const fetchCampaign = bonusCampaignActionCreators.fetchCampaign(FETCH_CAMPAIGN);
 
 function mapFulfillmentNode(fulfilmentType) {
   const node = null;
@@ -50,30 +53,6 @@ function mapRewardNode(campaignType) {
   }
 
   return node;
-}
-
-function fetchCampaign(uuid) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `promotion/campaigns/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          FETCH_CAMPAIGN.REQUEST,
-          FETCH_CAMPAIGN.SUCCESS,
-          FETCH_CAMPAIGN.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
 }
 
 function activateCampaign(uuid) {
