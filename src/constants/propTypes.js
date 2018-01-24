@@ -222,7 +222,6 @@ PropTypes.dropDownOption = PropTypes.shape({
   value: PropTypes.string.isRequired,
 });
 PropTypes.operatorProfile = PropTypes.shape({
-  authorities: PropTypes.arrayOf(PropTypes.authorityEntity).isRequired,
   country: PropTypes.any,
   email: PropTypes.string,
   firstName: PropTypes.string,

@@ -31,10 +31,6 @@ class DepartmentsForm extends Component {
     show: false,
   };
 
-  componentDidMount() {
-    this.props.onFetch();
-  }
-
   toggleShow = () => {
     this.setState({
       show: !this.state.show,
