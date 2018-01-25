@@ -20,25 +20,21 @@ const KEY = 'options';
 const RESET = `${KEY}/reset`;
 const FETCH_SIGN_UP = createRequestAction(`${KEY}/fetch-sign-up`);
 
-function fetchSignUp() {
-  return (dispatch, getState) => {
-    const { auth: { brandId } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `profile/public/signup?brandId=${brandId}`,
-        method: 'OPTIONS',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        types: [
-          FETCH_SIGN_UP.REQUEST,
-          FETCH_SIGN_UP.SUCCESS,
-          FETCH_SIGN_UP.FAILURE,
-        ],
+function fetchSignUp(brandId) {
+  return {
+    [CALL_API]: {
+      endpoint: `profile/public/signup?brandId=${brandId}`,
+      method: 'OPTIONS',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-    });
+      types: [
+        FETCH_SIGN_UP.REQUEST,
+        FETCH_SIGN_UP.SUCCESS,
+        FETCH_SIGN_UP.FAILURE,
+      ],
+    },
   };
 }
 
@@ -68,7 +64,6 @@ const initialState = {
   isLoading: false,
   receivedAt: null,
 };
-
 const actionHandlers = {
   [FETCH_SIGN_UP.REQUEST]: state => ({
     ...state,
@@ -98,7 +93,7 @@ const actionHandlers = {
     newState.data = {
       ...state.data,
       phoneCodes: phoneCodes ? phoneCodes
-        .reduce((res, item) => item ? mergePhoneCodes(res, formatPhoneCode(item)) : res, [])
+        .reduce((res, item) => (item ? mergePhoneCodes(res, formatPhoneCode(item)) : res), [])
         .filter(i => i)
         .filter((el, i, a) => i === a.indexOf(el))
         .sort() : [],
@@ -119,12 +114,10 @@ const actionHandlers = {
   }),
   [RESET]: () => ({ ...initialState }),
 };
-
 const actionTypes = {
   FETCH_SIGN_UP,
   RESET,
 };
-
 const actionCreators = {
   fetchSignUp,
   reset,

@@ -1,4 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
+import jwtDecode from 'jwt-decode';
 import { actionCreators as optionsActionCreators } from './options';
 
 function updateProfile(type) {
@@ -126,7 +127,15 @@ function fetchProfile(type) {
 
 function fetchAuthorities(type) {
   return (uuid, outsideToken = null) => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
+    const { auth: { token: authToken, logged } } = getState();
+    const token = outsideToken || authToken;
+    let brandId = null;
+
+    const decodedToken = jwtDecode(token);
+
+    if (decodedToken) {
+      brandId = decodedToken.brandId;
+    }
 
     return dispatch({
       [CALL_API]: {
@@ -135,16 +144,17 @@ function fetchAuthorities(type) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${outsideToken || token}`,
+          Authorization: `Bearer ${token}`,
         },
         types: [
           type.REQUEST,
           type.SUCCESS,
           type.FAILURE,
         ],
-        bailout: !logged && !outsideToken,
+        bailout: !logged && !token,
       },
-    }).then(() => dispatch(optionsActionCreators.fetchSignUp()));
+    })
+      .then(() => dispatch(optionsActionCreators.fetchSignUp(brandId)));
   };
 }
 
