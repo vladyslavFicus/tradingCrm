@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
+import _ from 'lodash';
 import FileUpload from '../../../../../../components/FileUpload';
 import Amount from '../../../../../../components/Amount';
 import PropTypes from '../../../../../../constants/propTypes';
@@ -22,6 +23,23 @@ class Header extends Component {
   static defaultProps = {
     availableStatusActions: [],
   };
+  static contextTypes = {
+    addNotification: PropTypes.func.isRequired,
+  };
+
+  handleChangeCampaignState = async (data) => {
+    const action = await this.props.onChangeCampaignState(data);
+
+    if (action && action.error) {
+      const error = _.get(action, 'payload.response.error');
+
+      this.context.addNotification({
+        level: 'error',
+        title: I18n.t('BONUS_CAMPAIGNS.VIEW.CHANGE_STATUS_ERROR'),
+        message: error ? I18n.t(error) : I18n.t('COMMON.ERROR'),
+      });
+    }
+  };
 
   render() {
     const {
@@ -39,7 +57,6 @@ class Header extends Component {
       },
       data,
       availableStatusActions,
-      onChangeCampaignState,
       cloneCampaign,
       removeAllPlayers,
     } = this.props;
@@ -94,7 +111,7 @@ class Header extends Component {
         <div className="layout-quick-overview">
           <div className="header-block header-block_account">
             <StatusDropDown
-              onChange={onChangeCampaignState}
+              onChange={this.handleChangeCampaignState}
               campaign={data}
               availableStatusActions={availableStatusActions}
             />

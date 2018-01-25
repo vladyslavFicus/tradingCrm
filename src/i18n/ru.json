@@ -1190,7 +1190,8 @@
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Добавить игроков"
-      }
+      },
+      "CHANGE_STATUS_ERROR": "Ошибка смены статуса"
     },
     "CREATE_MODAL": {
       "TITLE": "Новая бонус-кампания",

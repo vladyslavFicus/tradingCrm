@@ -7,7 +7,7 @@ import { targetTypes } from '../../../../../../../constants/bonus-campaigns';
 
 class LinkedCampaign extends Component {
   static propTypes = {
-    targetType: PropTypes.string.isRequired,
+    targetType: PropTypes.string,
     linkedCampaign: PropTypes.shape({
       campaignName: PropTypes.string.isRequired,
       startDate: PropTypes.string.isRequired,
@@ -22,6 +22,7 @@ class LinkedCampaign extends Component {
   static defaultProps = {
     linkedCampaign: null,
     linkedCampaignUUID: '',
+    targetType: '',
   };
 
   render() {

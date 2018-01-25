@@ -5,6 +5,8 @@ import _ from 'lodash';
 import Form from './Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../../../../constants/propTypes';
+import { mapResponseErrorToField } from '../constants';
+import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
 import CurrencyCalculationModal from '../../../../../components/CurrencyCalculationModal';
 import AddToCampaignModal from '../../../../../../../components/AddToCampaignModal';
 
@@ -169,7 +171,12 @@ class View extends Component {
         }), {});
         throw new SubmissionError(errors);
       } else if (updateAction.payload.response && updateAction.payload.response.error) {
-        throw new SubmissionError({ __error: I18n.t(updateAction.payload.response.error) });
+        const fieldError = recognizeFieldError(updateAction.payload.response.error, mapResponseErrorToField);
+        if (fieldError) {
+          throw new SubmissionError(fieldError);
+        } else {
+          throw new SubmissionError({ __error: I18n.t(updateAction.payload.response.error) });
+        }
       }
     }
 
