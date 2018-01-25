@@ -1435,6 +1435,9 @@
         "byPromoCode": {
           "alreadyPresent": "Промокод уже привязан к этому игроку",
           "notAllow": "Невалидный промокод"
+        },
+        "activate": {
+          "notAllow": "Не разрешено"
         }
       }
     }
