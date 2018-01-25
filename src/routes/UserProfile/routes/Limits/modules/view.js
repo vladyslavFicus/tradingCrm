@@ -141,13 +141,13 @@ function fetchLimits(uuid, fetchNotes = fetchNotesFn) {
 function setPlayingSessionLimit(playerUUID, type, data) {
   return (dispatch, getState) => {
     const {
-      auth: { token, logged },
+      auth: { token, logged, brandId },
       profile: { accumulatedBalances: { data: { real: { currency: currencyCode } } } },
     } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `/playing-session/${playerUUID}/limits/${type}`,
+        endpoint: `/playing-session/${playerUUID}/limits/${type}?brandId=${brandId}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
