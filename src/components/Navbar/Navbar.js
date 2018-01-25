@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import { IndexLink } from 'react-router';
 import PropTypes from '../../constants/propTypes';
@@ -7,7 +7,7 @@ import NavbarNav from '../NavbarNav';
 import { getLogo } from '../../config';
 import './Navbar.scss';
 
-class Navbar extends PureComponent {
+class Navbar extends Component {
   static propTypes = {
     showSearch: PropTypes.bool,
     router: PropTypes.shape({
