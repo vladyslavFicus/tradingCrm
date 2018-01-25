@@ -159,7 +159,11 @@ function getAvailableLanguages() {
 
 function getLogo() {
   const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige'];
-  const brandId = _.get(window, 'app.brandId', 'hrzn').replace(/(_\w+)/, '');
+  let brandId = _.get(window, 'app.brandId');
+
+  if (brandId) {
+    brandId = brandId.replace(/(_\w+)/, '');
+  }
 
   if (brands.indexOf(brandId) > -1) {
     return `/img/brand/logo/${brandId}.svg`;
