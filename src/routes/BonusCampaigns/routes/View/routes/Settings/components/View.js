@@ -128,7 +128,10 @@ class View extends Component {
       if (rewardsFreeSpin.templateUUID) {
         rewardsFreeSpinData = rewardsFreeSpin;
       } else {
-        const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
+        const createAction = await createFreeSpinTemplate({
+          claimable: false,
+          ...rewardsFreeSpin,
+        });
 
         if (createAction && !createAction.error) {
           rewardsFreeSpinData = createAction.payload;
