@@ -915,7 +915,8 @@
         "CS": "Обслуживание клиентов",
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Маркетинг",
-        "ADMINISTRATION": "Администрация"
+        "ADMINISTRATION": "Администрация",
+        "BI": ""
       }
     },
     "BONUS_CAMPAIGNS": {
