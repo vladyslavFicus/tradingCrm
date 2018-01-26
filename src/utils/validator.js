@@ -130,7 +130,10 @@ const createValidator = (rules, attributeLabels = {}, multipleErrors = true) => 
   validation.setAttributeNames(attributeLabels);
 
   if (validation.fails()) {
-    return multipleErrors ? validation.errors.all() : getFirstErrors(validation.errors.all());
+    const flattenErrors = multipleErrors ? validation.errors.all() : getFirstErrors(validation.errors.all());
+    const nestedErrors = _.zipObjectDeep(Object.keys(flattenErrors), Object.values(flattenErrors));
+
+    return nestedErrors;
   }
 
   return {};

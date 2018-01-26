@@ -35,15 +35,14 @@ class FreeSpin extends Component {
       freeSpinsAmount: PropTypes.number,
       gameId: PropTypes.string,
       moneyTypePriority: PropTypes.string,
-      capping: PropTypes.number,
       linesPerSpin: PropTypes.number,
       claimable: PropTypes.bool,
       multiplier: PropTypes.number,
       name: PropTypes.string,
-      prize: PropTypes.number,
       providerId: PropTypes.string,
       templateUUID: PropTypes.string,
     }),
+    errors: PropTypes.object,
   };
 
   static defaultProps = {
@@ -52,6 +51,7 @@ class FreeSpin extends Component {
     providers: [],
     templates: [],
     currentValues: {},
+    errors: {},
   };
 
   state = {
@@ -94,8 +94,6 @@ class FreeSpin extends Component {
         providerId,
         gameId,
         freeSpinsAmount,
-        prize,
-        capping,
         multiplier,
         moneyTypePriority,
         bonusLifeTime,
@@ -109,8 +107,6 @@ class FreeSpin extends Component {
 
       this.setField('name', name);
       this.setField('freeSpinsAmount', freeSpinsAmount);
-      this.setField('prize', prize);
-      this.setField('capping', capping);
       this.setField('multiplier', multiplier);
       this.setField('moneyTypePriority', moneyTypePriority);
       this.setField('bonusLifeTime', bonusLifeTime);
@@ -158,7 +154,7 @@ class FreeSpin extends Component {
   };
 
   renderAdditionalFields = () => {
-    const { currentValues, currency } = this.props;
+    const { currentValues, currency, errors } = this.props;
     const { customTemplate } = this.state;
 
     if (!currentValues.aggregatorId) {
@@ -170,13 +166,14 @@ class FreeSpin extends Component {
         <Field
           name={this.buildFieldName('betPerLine')}
           type="number"
+          step="any"
           label={I18n.t(attributeLabels.betPerLine)}
           labelClassName="form-label"
           position="vertical"
           component={InputField}
           normalize={floatNormalize}
           placeholder={'0.00'}
-          showErrorMessage
+          showErrorMessage={false}
           disabled={
             !currentValues ||
             !currentValues.providerId ||
@@ -232,8 +229,8 @@ class FreeSpin extends Component {
       remove,
       providers,
       currentValues,
-      currency,
       templates,
+      errors,
     } = this.props;
 
     const {
@@ -251,15 +248,6 @@ class FreeSpin extends Component {
         <div className="filter-row">
           <div className="filter-row__big">
             <div className="range-group">
-              <div className="form-group first-deposit">
-                <label>
-                  <input
-                    type="checkbox"
-                    onChange={this.toggleCustomTemplate}
-                    checked={customTemplate}
-                  /> Custom Template
-                </label>
-              </div>
               <div className="form-group">
                 <Field
                   name={this.buildFieldName('templateUUID')}
@@ -279,6 +267,15 @@ class FreeSpin extends Component {
                   ))}
                 </Field>
               </div>
+              <div className="form-group first-deposit">
+                <label>
+                  <input
+                    type="checkbox"
+                    onChange={this.toggleCustomTemplate}
+                    checked={customTemplate}
+                  /> Custom Template
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -289,6 +286,7 @@ class FreeSpin extends Component {
               name={this.buildFieldName('name')}
               type="text"
               placeholder=""
+              showErrorMessage={false}
               label={I18n.t(attributeLabels.name)}
               component={InputField}
               position="vertical"
@@ -352,42 +350,10 @@ class FreeSpin extends Component {
                   normalize={floatNormalize}
                   position="vertical"
                   disabled={!customTemplate}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-md-6">
-                <Field
-                  name={this.buildFieldName('prize')}
-                  label={I18n.t(attributeLabels.prize)}
-                  labelClassName="form-label"
-                  type="number"
-                  disabled={disabled || !customTemplate}
-                  component={InputField}
-                  normalize={floatNormalize}
-                  position="vertical"
-                  placeholder={'0.00'}
-                  inputAddon={<Currency code={currency} />}
-                  showErrorMessage={false}
-                />
-              </div>
-              <div className="col-md-6">
-                <Field
-                  name={this.buildFieldName('capping')}
-                  label={I18n.t(attributeLabels.capping)}
-                  labelClassName="form-label"
-                  type="number"
-                  disabled={disabled || !customTemplate}
-                  component={InputField}
-                  normalize={floatNormalize}
-                  position="vertical"
-                  placeholder={'0.00'}
-                  inputAddon={<Currency code={currency} />}
                   showErrorMessage={false}
                 />
               </div>
             </div>
-
             <div className="row">
               <div className="col-md-6">
                 <Field
@@ -427,12 +393,13 @@ class FreeSpin extends Component {
             <Field
               name={this.buildFieldName('multiplier')}
               type="number"
-              placeholder="0.00"
+              placeholder="0"
               label={I18n.t(attributeLabels.wagering)}
               component={InputField}
               normalize={floatNormalize}
               position="vertical"
               disabled={disabled || !customTemplate}
+              showErrorMessage={false}
             />
           </div>
           <div className="form-row__medium">
@@ -443,6 +410,7 @@ class FreeSpin extends Component {
               component={SelectField}
               position="vertical"
               disabled={disabled || !customTemplate}
+              showErrorMessage={false}
             >
               <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
               {Object.keys(moneyTypeUsage).map(key => (
@@ -462,6 +430,7 @@ class FreeSpin extends Component {
               normalize={floatNormalize}
               position="vertical"
               disabled={disabled || !customTemplate}
+              showErrorMessage={false}
             />
             <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
           </div>

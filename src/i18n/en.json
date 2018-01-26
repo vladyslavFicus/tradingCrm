@@ -1180,7 +1180,8 @@
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Add players"
-      }
+      },
+      "CHANGE_STATUS_ERROR": "Change status failure"
     },
     "CREATE_MODAL": {
       "TITLE": "New bonus campaign",
@@ -1420,6 +1421,9 @@
         "byPromoCode": {
           "alreadyPresent": "Promo code already added to this player",
           "notAllow": "Invalid promo code"
+        },
+        "activate": {
+          "notAllow": "Not allow"
         }
       }
     }

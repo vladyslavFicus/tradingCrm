@@ -51,6 +51,18 @@ export default (values, params) => {
         bonusLifetime: ['integer'],
         moneyTypePriority: [`in:${Object.keys(moneyTypeUsage).join()}`],
       },
+      freeSpin: {
+        name: ['string'],
+        providerId: ['string'],
+        gameId: ['string'],
+        aggregatorId: ['string'],
+        moneyTypePriority: ['string'],
+        freeSpinsAmount: ['integer', 'min:0'],
+        linesPerSpin: ['integer'],
+        betPerLine: ['numeric', 'min:0'],
+        bonusLifeTime: ['integer', 'min:1', 'max:230'],
+        multiplier: ['integer', 'min:1', 'max:500'],
+      },
     },
   };
 
@@ -89,6 +101,12 @@ export default (values, params) => {
     rules.rewards.bonus.wagerWinMultiplier.push('required');
     rules.rewards.bonus.bonusLifetime.push('required');
     rules.rewards.bonus.moneyTypePriority.push('required');
+  }
+
+  if (rewardsFreeSpins && !rewardsFreeSpins.templateUUID) {
+    ['name', 'providerId', 'gameId', 'aggregatorId', 'freeSpinsAmount', 'linesPerSpin',
+      'betPerLine', 'bonusLifeTime', 'multiplier', 'moneyTypePriority',
+    ].map(field => rules.rewards.freeSpin[field].push('required'));
   }
 
   return createValidator(rules, translateLabels(attributeLabels), false)(values);

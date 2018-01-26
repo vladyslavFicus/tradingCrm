@@ -59,7 +59,7 @@ function activateCampaign(uuid) {
   return async (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
-    await dispatch({
+    const action = await dispatch({
       [CALL_API]: {
         endpoint: `promotion/campaigns/${uuid}/activate`,
         method: 'POST',
@@ -77,7 +77,11 @@ function activateCampaign(uuid) {
       },
     });
 
-    return dispatch(fetchCampaign(uuid));
+    if (action && !action.error) {
+      await dispatch(fetchCampaign(uuid));
+    }
+
+    return action;
   };
 }
 

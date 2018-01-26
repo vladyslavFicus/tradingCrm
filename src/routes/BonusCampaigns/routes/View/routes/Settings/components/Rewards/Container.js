@@ -108,6 +108,7 @@ class Container extends Component {
             fetchFreeSpinTemplate={fetchFreeSpinTemplate}
             fetchGames={fetchGames}
             fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+            errors={getSubFieldErrors(errors, freeSpinNodePath)}
           />
         );
       default:
