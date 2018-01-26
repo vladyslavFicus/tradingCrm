@@ -230,6 +230,7 @@ class CreateBonusCampaignModal extends Component {
               type="select"
               component={SelectField}
               onChange={this.handleChangeFulfilmentType}
+              id="create-campaign-fulfilment-type"
             >
               {types.map(item => (
                 <option key={item} value={item}>
