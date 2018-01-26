@@ -93,16 +93,6 @@ class Deposit extends Component {
                   </option>
                 ))}
               </Field>
-              <div className="form-group first-deposit">
-                <label>
-                  <Field
-                    name={this.buildFieldName('firstDeposit')}
-                    type="checkbox"
-                    component="input"
-                    disabled={disabled}
-                  /> First deposit only
-                </label>
-              </div>
             </div>
           </div>
         </div>
