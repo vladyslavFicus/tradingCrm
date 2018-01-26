@@ -180,10 +180,6 @@ class FreeSpin extends Component {
             !currentValues.gameId ||
             !customTemplate
           }
-          meta={{
-            touched: true,
-            error: errors[this.buildFieldName('betPerLine')],
-          }}
           inputAddon={<Currency code={currency} />}
         />
       </div>
@@ -290,14 +286,11 @@ class FreeSpin extends Component {
               name={this.buildFieldName('name')}
               type="text"
               placeholder=""
+              showErrorMessage={false}
               label={I18n.t(attributeLabels.name)}
               component={InputField}
               position="vertical"
               disabled={!customTemplate}
-              meta={{
-                touched: true,
-                error: errors[this.buildFieldName('name')],
-              }}
             />
           </div>
         </div>
@@ -313,10 +306,6 @@ class FreeSpin extends Component {
               showErrorMessage={false}
               onChange={e => this.handleChangeProvider(e.target.value)}
               disabled={!customTemplate}
-              meta={{
-                touched: true,
-                error: errors[this.buildFieldName('providerId')],
-              }}
             >
               <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_PROVIDER')}</option>
               {providers.map(item => (
@@ -337,10 +326,6 @@ class FreeSpin extends Component {
               showErrorMessage={false}
               disabled={!currentValues || !currentValues.providerId || !customTemplate}
               onChange={e => this.handleChangeGame(e.target.value)}
-              meta={{
-                touched: true,
-                error: errors[this.buildFieldName('gameId')],
-              }}
             >
               <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
               {currentGames.map(item => (
@@ -366,10 +351,6 @@ class FreeSpin extends Component {
                   position="vertical"
                   disabled={!customTemplate}
                   showErrorMessage={false}
-                  meta={{
-                    touched: true,
-                    error: errors[this.buildFieldName('freeSpinsAmount')],
-                  }}
                 />
               </div>
             </div>
@@ -391,10 +372,6 @@ class FreeSpin extends Component {
                     !currentValues.providerId ||
                     !currentValues.gameId
                   }
-                  meta={{
-                    touched: true,
-                    error: errors[this.buildFieldName('linesPerSpin')],
-                  }}
                 >
                   <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_LINES_PER_SPIN')}</option>
                   {currentLines.map(item => (
@@ -423,10 +400,6 @@ class FreeSpin extends Component {
               position="vertical"
               disabled={disabled || !customTemplate}
               showErrorMessage={false}
-              meta={{
-                touched: true,
-                error: errors[this.buildFieldName('multiplier')],
-              }}
             />
           </div>
           <div className="form-row__medium">
@@ -438,10 +411,6 @@ class FreeSpin extends Component {
               position="vertical"
               disabled={disabled || !customTemplate}
               showErrorMessage={false}
-              meta={{
-                touched: true,
-                error: errors[this.buildFieldName('moneyTypePriority')],
-              }}
             >
               <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
               {Object.keys(moneyTypeUsage).map(key => (
@@ -462,10 +431,6 @@ class FreeSpin extends Component {
               position="vertical"
               disabled={disabled || !customTemplate}
               showErrorMessage={false}
-              meta={{
-                touched: true,
-                error: errors[this.buildFieldName('bonusLifeTime')],
-              }}
             />
             <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
           </div>
