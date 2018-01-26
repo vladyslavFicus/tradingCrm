@@ -1191,7 +1191,8 @@
       },
       "BUTTON": {
         "ADD_PLAYERS": "+ Добавить игроков"
-      }
+      },
+      "CHANGE_STATUS_ERROR": "Ошибка смены статуса"
     },
     "CREATE_MODAL": {
       "TITLE": "Новая бонус-кампания",
@@ -1435,6 +1436,9 @@
         "byPromoCode": {
           "alreadyPresent": "Промокод уже привязан к этому игроку",
           "notAllow": "Невалидный промокод"
+        },
+        "activate": {
+          "notAllow": "Не разрешено"
         }
       }
     }

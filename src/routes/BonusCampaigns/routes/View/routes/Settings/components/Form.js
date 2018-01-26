@@ -570,7 +570,6 @@ export default connect((state) => {
 
   return {
     currentValues,
-    errors: getFormSyncErrors(FORM_NAME)(state),
     meta: getFormMeta(FORM_NAME)(state),
     fulfillmentExist: currentValues && !_.isEmpty(currentValues.fulfillments),
     currency: 'EUR',

@@ -50,6 +50,10 @@ const optInPeriods = keyMirror({
   WEEKS: null,
 });
 
+const mapResponseErrorToField = {
+  'promo-code': 'promoCode',
+};
+
 const optInPeriodsLabels = {
   [optInPeriods.HOURS]: I18n.t('COMMON.HOURS'),
   [optInPeriods.DAYS]: I18n.t('COMMON.DAYS'),
@@ -62,6 +66,7 @@ export {
   attributePlaceholders,
   optInPeriods,
   optInPeriodsLabels,
+  mapResponseErrorToField,
 };
 
 export default attributeLabels;
