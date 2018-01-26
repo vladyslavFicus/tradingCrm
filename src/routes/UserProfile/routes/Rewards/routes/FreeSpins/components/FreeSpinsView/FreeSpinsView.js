@@ -337,6 +337,7 @@ class FreeSpinsView extends Component {
             onPageChange={this.handlePageChanged}
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
+            lazyLoad
             locale={locale}
             showNoResults={noResults}
           >

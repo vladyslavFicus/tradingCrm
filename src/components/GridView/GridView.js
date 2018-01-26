@@ -125,8 +125,10 @@ class GridView extends Component {
   handlePageChange = (eventKey) => {
     const { totalPages, activePage, onPageChange } = this.props;
 
-    if (totalPages > activePage) {
-      onPageChange(eventKey, this.state.filters);
+    if (typeof onPageChange === 'function') {
+      if (totalPages > activePage) {
+        onPageChange(eventKey, this.state.filters);
+      }
     }
   };
 
@@ -220,11 +222,11 @@ class GridView extends Component {
 
     return (
       <tfoot>
-        <tr>
-          {columns.map(({ props }, key) =>
-            <td key={key}>{summaryRow[props.name]}</td>
-          )}
-        </tr>
+      <tr>
+        {columns.map(({ props }, key) =>
+          <td key={key}>{summaryRow[props.name]}</td>
+        )}
+      </tr>
       </tfoot>
     );
   }
@@ -281,8 +283,8 @@ class GridView extends Component {
       <div className="table-responsive">
         <table className={classNames('table data-grid-layout', tableClassName)}>
           <thead className={headerClassName}>
-            {this.renderHead(this.recognizeHeaders(grids))}
-            {this.renderFilters(this.recognizeFilters(grids))}
+          {this.renderHead(this.recognizeHeaders(grids))}
+          {this.renderFilters(this.recognizeFilters(grids))}
           </thead>
           {this.renderBody(grids)}
           {this.renderFooter(grids)}

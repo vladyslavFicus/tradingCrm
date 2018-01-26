@@ -48,7 +48,13 @@ class ListView extends Component {
     this.props.onFiltersChanged(this.state.filters);
   }
 
-  handlePageChange = eventKey => this.props.onPageChange(eventKey, this.state.filters);
+  handlePageChange = (eventKey) => {
+    const { onPageChange } = this.props;
+
+    if (typeof onPageChange === 'function') {
+      onPageChange(eventKey, this.state.filters);
+    }
+  };
 
   renderItems = () => {
     const {
