@@ -72,6 +72,10 @@ class View extends Component {
     });
   };
 
+  handlePageChanged = (page) => {
+    this.setState({ page: page - 1 }, this.handleRefresh);
+  };
+
   handleOpenModal = (name, params) => {
     this.setState({
       modal: {

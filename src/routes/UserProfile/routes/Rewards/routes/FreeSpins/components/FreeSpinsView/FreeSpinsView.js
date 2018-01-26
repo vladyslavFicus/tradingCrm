@@ -114,6 +114,10 @@ class FreeSpinsView extends Component {
     }
   };
 
+  handlePageChanged = (page) => {
+    this.setState({ page: page - 1 }, this.handleRefresh);
+  };
+
   handleRefresh = () => {
     const { params: { id: playerUUID }, fetchFreeSpins, fetchFilters } = this.props;
 
