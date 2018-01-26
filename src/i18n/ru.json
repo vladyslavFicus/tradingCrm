@@ -827,7 +827,6 @@
     },
     "BONUS_CAMPAIGN": {
       "CAMPAIGN_TYPE": {
-        "FIRST_DEPOSIT": "Первое пополнение",
         "DEPOSIT": "Пополнение",
         "PROFILE_COMPLETED": "Профиль заполнен",
         "WITHOUT_FULFILMENT": "Без условий"

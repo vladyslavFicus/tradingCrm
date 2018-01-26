@@ -338,7 +338,7 @@ class View extends Component {
             types={list}
             currencies={currencies}
             initialValues={{
-              fulfilmentType: fulfilmentTypes.FIRST_DEPOSIT,
+              fulfilmentType: fulfilmentTypes.DEPOSIT,
               campaignRatio: {
                 type: customValueFieldTypes.ABSOLUTE,
               },
