@@ -12,19 +12,28 @@ import templates, {
   initialState as templatesInitialState,
 } from './templates';
 
+import payments, {
+  actionCreators as paymentsActionCreators,
+  actionTypes as paymentsActionTypes,
+  initialState as paymentsInitialState,
+} from './payments';
+
 const actionCreators = {
   ...gamesActionCreators,
   ...templatesActionCreators,
+  ...paymentsActionCreators,
 };
 
 const actionTypes = {
   ...gamesActionTypes,
   ...templatesActionTypes,
+  ...paymentsActionTypes,
 };
 
 const initialState = {
   games: gamesInitialState,
   templates: templatesInitialState,
+  payments: paymentsInitialState,
 };
 
 export {
@@ -36,5 +45,6 @@ export {
 export default combineReducers({
   games,
   templates,
+  payments,
 });
 

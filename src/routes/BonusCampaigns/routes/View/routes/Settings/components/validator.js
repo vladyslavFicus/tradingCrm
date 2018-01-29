@@ -78,6 +78,7 @@ export default (values, params) => {
   const fulfillmentDeposit = _.get(values, 'fulfillments.deposit');
   if (fulfillmentDeposit) {
     const minAmount = fulfillmentDeposit.minAmount;
+
     if (minAmount && !isNaN(parseFloat(minAmount).toFixed(2))) {
       rules.fulfillments.deposit.maxAmount.push('greaterOrSame:fulfillments.deposit.minAmount');
     }

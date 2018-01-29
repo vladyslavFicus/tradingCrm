@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
-import { InputField, SelectField } from '../../../../../../../../../components/ReduxForm';
+import { InputField, SelectField, NasSelectField } from '../../../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../../../utils/renderLabel';
 import { lockAmountStrategyLabels } from '../../../../../../../../../constants/bonus-campaigns';
 import ordinalizeNumber from '../../../../../../../../../utils/ordinalizeNumber';
@@ -14,11 +14,18 @@ class Deposit extends Component {
     nodePath: PropTypes.string.isRequired,
     remove: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    fetchPaymentMethods: PropTypes.func.isRequired,
+    paymentMethods: PropTypes.array,
   };
 
   static defaultProps = {
     disabled: false,
+    paymentMethods: [],
   };
+
+  componentDidMount() {
+    this.props.fetchPaymentMethods();
+  }
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
 
@@ -28,6 +35,7 @@ class Deposit extends Component {
       remove,
       disabled,
       locale,
+      paymentMethods,
     } = this.props;
 
     return (
@@ -103,6 +111,28 @@ class Deposit extends Component {
                     {renderLabel(key, lockAmountStrategyLabels)}
                   </option>
                 ))}
+              </Field>
+            </div>
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="filter-row__big">
+            <div className="range-group">
+              <Field
+                name={this.buildFieldName('restrictedPaymentMethods')}
+                label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.RESTRICTED_PAYMENT_METHODS')}
+                component={NasSelectField}
+                position="vertical"
+                disabled={disabled}
+                multiple
+              >
+                {
+                  paymentMethods.map(paymentMethod => (
+                    <option key={paymentMethod.uuid} value={paymentMethod.methodName.toUpperCase()}>
+                      {paymentMethod.methodName}
+                    </option>
+                  ))
+                }
               </Field>
             </div>
           </div>

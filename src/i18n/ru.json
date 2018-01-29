@@ -709,7 +709,8 @@
     "REASON": "Причина",
     "HOURS": "Часы",
     "DAYS": "Дни",
-    "WEEKS": "Недели"
+    "WEEKS": "Недели",
+    "NONE": "Ни одного"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1277,7 +1278,8 @@
         "NO_FULFILLMENTS": {
           "LABEL": "Без условий"
         },
-        "DEPOSIT_NUMBER_LABEL": "Номер депозита"
+        "DEPOSIT_NUMBER_LABEL": "Номер депозита",
+        "RESTRICTED_PAYMENT_METHODS": "Исключить платежные методы"
       },
       "SELECT_OPT_IN_PERIOD": "- Период -",
       "MODAL": {
