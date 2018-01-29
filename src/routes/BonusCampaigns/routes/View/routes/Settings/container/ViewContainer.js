@@ -17,6 +17,7 @@ const mapFulfillmentsToForm = (data) => {
         minAmount: data.minAmount,
         maxAmount: data.maxAmount,
         lockAmountStrategy: data.lockAmountStrategy,
+        depositNumber: data.depositNumber,
       },
     };
   } else if (data.fulfilmentType === fulfilmentTypes.PROFILE_COMPLETED) {

@@ -20,6 +20,7 @@ const mapActions = {
   exportEntities: actionCreators.exportEntities,
   fetchTypes: actionCreators.fetchTypes,
   resetAll: actionCreators.resetAll,
+  fetchDepositNumbers: actionCreators.fetchDepositNumbers,
 };
 
 export default connect(mapStateToProps, mapActions)(View);
