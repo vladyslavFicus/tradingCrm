@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, reduxForm, getFormValues, getFormSyncErrors, getFormMeta } from 'redux-form';
+import { Field, reduxForm, getFormValues, getFormMeta } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
@@ -15,7 +15,6 @@ import {
 } from '../../../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import renderLabel from '../../../../../../../utils/renderLabel';
-import getSubFieldErrors from '../../../../../../../utils/getSubFieldErrors';
 import { nodeGroupTypes, attributeLabels, optInPeriods, optInPeriodsLabels } from '../constants';
 import { nodeTypes as fulfillmentNodeTypes } from './Fulfillments/constants';
 import countries from '../../../../../../../utils/countryList';
@@ -90,6 +89,7 @@ class Form extends Component {
       uuid: PropTypes.string.isRequired,
       authorUUID: PropTypes.string.isRequired,
     }),
+    locale: PropTypes.string.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -219,6 +219,7 @@ class Form extends Component {
       fetchGames,
       handleClickChooseCampaign,
       linkedCampaign,
+      locale,
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfillments);
@@ -524,10 +525,10 @@ class Form extends Component {
           <hr />
           <div className="row padding-bottom-30">
             <Fulfillments
+              locale={locale}
               disabled={disabled}
               change={change}
               activeNodes={nodeGroups.fulfillments}
-              errors={getSubFieldErrors(errors, nodeGroupTypes.fulfillments)}
               remove={this.handleRemoveNode(nodeGroupTypes.fulfillments)}
               add={this.handleAddNode(nodeGroupTypes.fulfillments)}
             />
@@ -536,7 +537,6 @@ class Form extends Component {
               change={change}
               activeNodes={nodeGroups.rewards}
               allowedCustomValueTypes={allowedCustomValueTypes}
-              errors={getSubFieldErrors(errors, nodeGroupTypes.rewards)}
               remove={this.handleRemoveNode(nodeGroupTypes.rewards)}
               add={this.handleAddNode(nodeGroupTypes.rewards)}
               games={games}

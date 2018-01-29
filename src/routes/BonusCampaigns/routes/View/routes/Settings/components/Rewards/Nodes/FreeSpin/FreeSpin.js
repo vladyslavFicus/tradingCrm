@@ -42,7 +42,6 @@ class FreeSpin extends Component {
       providerId: PropTypes.string,
       templateUUID: PropTypes.string,
     }),
-    errors: PropTypes.object,
   };
 
   static defaultProps = {
@@ -51,7 +50,6 @@ class FreeSpin extends Component {
     providers: [],
     templates: [],
     currentValues: {},
-    errors: {},
   };
 
   state = {
@@ -154,7 +152,7 @@ class FreeSpin extends Component {
   };
 
   renderAdditionalFields = () => {
-    const { currentValues, currency, errors } = this.props;
+    const { currentValues, currency } = this.props;
     const { customTemplate } = this.state;
 
     if (!currentValues.aggregatorId) {
@@ -230,7 +228,6 @@ class FreeSpin extends Component {
       providers,
       currentValues,
       templates,
-      errors,
     } = this.props;
 
     const {

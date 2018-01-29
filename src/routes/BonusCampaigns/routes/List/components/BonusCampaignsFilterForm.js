@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { createValidator, translateLabels } from '../../../../../utils/validator';
-import { fulfilmentTypesLabels, statusesLabels } from '../../../../../constants/bonus-campaigns';
+import { fulfilmentTypesLabels, statusesLabels, fulfilmentTypes } from '../../../../../constants/bonus-campaigns';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, placeholders } from '../constants';
 import { InputField, SelectField, DateTimeField } from '../../../../../components/ReduxForm';
+import ordinalizeNumber from '../../../../../utils/ordinalizeNumber';
 
 const FORM_NAME = 'bonusCampaignsFilter';
 
@@ -21,6 +22,7 @@ class BonusCampaignsFilterForm extends Component {
     disabled: PropTypes.bool,
     onSubmit: PropTypes.func.isRequired,
     onReset: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
     currentValues: PropTypes.shape({
       searchBy: PropTypes.string,
       fulfillmentType: PropTypes.string,
@@ -35,6 +37,9 @@ class BonusCampaignsFilterForm extends Component {
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
     invalid: PropTypes.bool,
     isLoading: PropTypes.bool.isRequired,
+    fetchDepositNumbers: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
+    depositNumbers: PropTypes.array,
   };
   static defaultProps = {
     invalid: true,
@@ -44,6 +49,7 @@ class BonusCampaignsFilterForm extends Component {
     pristine: false,
     submitting: false,
     currentValues: {},
+    depositNumbers: [],
   };
 
   startDateValidator = toAttribute => (current) => {
@@ -67,6 +73,16 @@ class BonusCampaignsFilterForm extends Component {
     this.props.onReset();
   };
 
+  handleChangeFulfillmentType = (e) => {
+    const { change, fetchDepositNumbers } = this.props;
+    const fulfillmentType = e.target.value;
+
+    change('fulfillmentType', fulfillmentType);
+    if (fulfillmentType === fulfilmentTypes.DEPOSIT) {
+      fetchDepositNumbers();
+    }
+  };
+
   render() {
     const {
       submitting,
@@ -78,6 +94,9 @@ class BonusCampaignsFilterForm extends Component {
       statuses,
       invalid,
       isLoading,
+      currentValues,
+      depositNumbers,
+      locale,
     } = this.props;
 
     return (
@@ -102,6 +121,7 @@ class BonusCampaignsFilterForm extends Component {
                 label={I18n.t(attributeLabels.fulfillmentType)}
                 component={SelectField}
                 position="vertical"
+                onChange={this.handleChangeFulfillmentType}
               >
                 <option value="">{I18n.t('COMMON.ANY')}</option>
                 {types.map(item => (
@@ -111,6 +131,27 @@ class BonusCampaignsFilterForm extends Component {
                 ))}
               </Field>
             </div>
+            {
+              currentValues.fulfillmentType === fulfilmentTypes.DEPOSIT &&
+              <div className="filter-row__small">
+                <Field
+                  name="depositNumber"
+                  label={I18n.t(attributeLabels.depositNumber)}
+                  component={SelectField}
+                  position="vertical"
+                >
+                  <option value="">{I18n.t('COMMON.ANY')}</option>
+                  {depositNumbers.map(i => (
+                    <option key={i} value={i}>
+                      {`
+                        ${ordinalizeNumber(i, locale)}
+                        ${I18n.t('BONUS_CAMPAIGNS.FILTER_FORM.DEPOSIT_NUMBER_OPTION')}
+                      `}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+            }
             <div className="filter-row__small">
               <Field
                 name="state"
@@ -223,6 +264,7 @@ const FilterForm = reduxForm({
     fulfillmentType: ['string', `in:,${props.types.join()}`],
     optIn: 'string',
     state: 'string',
+    depositNumber: ['numeric', 'min:1', 'max:10'],
     creationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     creationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
     activityDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/',
