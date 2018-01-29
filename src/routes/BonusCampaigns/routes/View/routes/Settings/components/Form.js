@@ -566,10 +566,9 @@ export const FORM_NAME = 'updateBonusCampaignSettings';
 const SettingsForm = reduxForm({
   form: FORM_NAME,
   enableReinitialize: true,
-  validate: (values, props) => validator(values, {
+  validate: values => validator(values, {
     allowedCustomValueTypes: getCustomValueFieldTypes(values),
     countries,
-    paymentMethods: props.paymentMethods,
   }),
 })(Form);
 

@@ -703,7 +703,8 @@
     "REASON": "Reason",
     "HOURS": "Hours",
     "DAYS": "Days",
-    "WEEKS": "Weeks"
+    "WEEKS": "Weeks",
+    "NONE": "None"
   },
   "FILES": {
     "UPLOAD_MODAL": {

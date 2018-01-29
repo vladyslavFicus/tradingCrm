@@ -709,7 +709,8 @@
     "REASON": "Причина",
     "HOURS": "Часы",
     "DAYS": "Дни",
-    "WEEKS": "Недели"
+    "WEEKS": "Недели",
+    "NONE": "Ни одного"
   },
   "FILES": {
     "UPLOAD_MODAL": {

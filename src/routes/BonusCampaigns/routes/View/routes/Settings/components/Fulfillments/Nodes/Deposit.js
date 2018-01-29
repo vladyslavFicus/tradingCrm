@@ -119,15 +119,16 @@ class Deposit extends Component {
           <div className="filter-row__big">
             <div className="range-group">
               <Field
-                name="restrictedPaymentMethods"
+                name={this.buildFieldName('restrictedPaymentMethods')}
                 label="Exclude payment methods"
                 component={NasSelectField}
                 position="vertical"
                 disabled={disabled}
+                multiple
               >
                 {
                   paymentMethods.map(paymentMethod => (
-                    <option key={paymentMethod.uuid} value={paymentMethod.uuid}>
+                    <option key={paymentMethod.uuid} value={paymentMethod.methodName.toUpperCase()}>
                       {paymentMethod.methodName}
                     </option>
                   ))
