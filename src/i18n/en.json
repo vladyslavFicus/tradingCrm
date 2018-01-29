@@ -1267,7 +1267,8 @@
         "NO_FULFILLMENTS": {
           "LABEL": "No fulfillments"
         },
-        "DEPOSIT_NUMBER_LABEL": "Deposits number"
+        "DEPOSIT_NUMBER_LABEL": "Deposits number",
+        "RESTRICTED_PAYMENT_METHODS": "Restricted payment methods"
       },
       "SELECT_OPT_IN_PERIOD": "- Period -",
       "MODAL": {

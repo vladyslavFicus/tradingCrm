@@ -120,7 +120,7 @@ class Deposit extends Component {
             <div className="range-group">
               <Field
                 name={this.buildFieldName('restrictedPaymentMethods')}
-                label="Exclude payment methods"
+                label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.RESTRICTED_PAYMENT_METHODS')}
                 component={NasSelectField}
                 position="vertical"
                 disabled={disabled}
