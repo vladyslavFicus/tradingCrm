@@ -5,6 +5,7 @@ import { FORM_NAME } from '../components/Form';
 import { actionCreators } from '../../../modules';
 import { actionCreators as settingsActionCreators } from '../modules';
 import { actionCreators as campaignsActionCreators } from '../modules/campaigns';
+import { actionCreators as paymentsActionCreators } from '../modules/payments';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { fulfilmentTypes, rewardTypes } from '../../../../../../../constants/bonus-campaigns';
 
@@ -61,6 +62,7 @@ const mapStateToProps = ({
   bonusCampaignSettings: {
     games: { games, providers },
     templates: { data: templates },
+    payments: { list: paymentMethods },
   },
   options: { data: { currencyCodes } },
   i18n: { locale },
@@ -103,6 +105,7 @@ const mapStateToProps = ({
     games,
     providers,
     templates,
+    paymentMethods,
     locale,
   };
 };
@@ -118,6 +121,7 @@ const mapActions = {
   fetchGames: settingsActionCreators.fetchGames,
   fetchCampaigns: campaignsActionCreators.fetchCampaigns,
   fetchCampaign: campaignsActionCreators.fetchCampaign,
+  fetchPaymentMethods: paymentsActionCreators.fetchPaymentMethods,
   change: (field, value) => change(FORM_NAME, field, value),
 };
 

@@ -22,11 +22,14 @@ class Container extends Component {
     add: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    fetchPaymentMethods: PropTypes.func.isRequired,
+    paymentMethods: PropTypes.array,
   };
 
   static defaultProps = {
     disabled: false,
     activeNodes: [],
+    paymentMethods: [],
   };
 
   state = {
@@ -60,7 +63,7 @@ class Container extends Component {
   handleSelectPureNode = node => this.props.change(`${nodeGroupTypes.fulfillments}.${node}`, true);
 
   renderNode = (node) => {
-    const { disabled, locale } = this.props;
+    const { disabled, locale, fetchPaymentMethods, paymentMethods } = this.props;
 
     const nodePath = `${nodeGroupTypes.fulfillments}.${nodeTypes.deposit}`;
 
@@ -68,6 +71,8 @@ class Container extends Component {
       case nodeTypes.deposit:
         return (
           <DepositNode
+            fetchPaymentMethods={fetchPaymentMethods}
+            paymentMethods={paymentMethods}
             locale={locale}
             disabled={disabled}
             label={I18n.t(nodeTypesLabels[nodeTypes.deposit])}

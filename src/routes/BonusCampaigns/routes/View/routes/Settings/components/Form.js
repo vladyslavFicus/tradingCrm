@@ -90,6 +90,8 @@ class Form extends Component {
       authorUUID: PropTypes.string.isRequired,
     }),
     locale: PropTypes.string.isRequired,
+    paymentMethods: PropTypes.array,
+    fetchPaymentMethods: PropTypes.func.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -105,6 +107,7 @@ class Form extends Component {
     providers: [],
     templates: [],
     linkedCampaign: null,
+    paymentMethods: [],
   };
 
   componentWillReceiveProps(nextProps) {
@@ -220,6 +223,8 @@ class Form extends Component {
       handleClickChooseCampaign,
       linkedCampaign,
       locale,
+      fetchPaymentMethods,
+      paymentMethods,
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfillments);
@@ -531,6 +536,8 @@ class Form extends Component {
               activeNodes={nodeGroups.fulfillments}
               remove={this.handleRemoveNode(nodeGroupTypes.fulfillments)}
               add={this.handleAddNode(nodeGroupTypes.fulfillments)}
+              fetchPaymentMethods={fetchPaymentMethods}
+              paymentMethods={paymentMethods}
             />
             <Rewards
               disabled={disabled}
@@ -559,9 +566,10 @@ export const FORM_NAME = 'updateBonusCampaignSettings';
 const SettingsForm = reduxForm({
   form: FORM_NAME,
   enableReinitialize: true,
-  validate: values => validator(values, {
+  validate: (values, props) => validator(values, {
     allowedCustomValueTypes: getCustomValueFieldTypes(values),
     countries,
+    paymentMethods: props.paymentMethods,
   }),
 })(Form);
 

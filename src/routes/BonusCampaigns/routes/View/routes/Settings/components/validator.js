@@ -13,6 +13,7 @@ export default (values, params) => {
   const {
     allowedCustomValueTypes,
     countries,
+    paymentMethods,
   } = params;
 
   const rules = {
@@ -40,6 +41,7 @@ export default (values, params) => {
         maxAmount: ['numeric', 'min:0'],
         lockAmountStrategy: ['string', `in:${Object.keys(lockAmountStrategy).join()}`],
         depositNumber: ['integer', 'min:1'],
+        restrictedPaymentMethods: ['string'],
       },
     },
     rewards: {
@@ -78,10 +80,13 @@ export default (values, params) => {
   const fulfillmentDeposit = _.get(values, 'fulfillments.deposit');
   if (fulfillmentDeposit) {
     const minAmount = fulfillmentDeposit.minAmount;
+    const paymentMethodNames = paymentMethods.map(paymentMethod => paymentMethod.methodName);
+
     if (minAmount && !isNaN(parseFloat(minAmount).toFixed(2))) {
       rules.fulfillments.deposit.maxAmount.push('greaterOrSame:fulfillments.deposit.minAmount');
     }
     rules.fulfillments.deposit.lockAmountStrategy.push('required');
+    rules.fulfillments.deposit.restrictedPaymentMethods.push(`in:${paymentMethodNames.join()}`);
   }
 
   const conversionPrize = _.get(values, 'conversionPrize.value');

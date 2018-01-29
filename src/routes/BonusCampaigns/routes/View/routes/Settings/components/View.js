@@ -60,12 +60,14 @@ class View extends Component {
     change: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
+    paymentMethods: PropTypes.array.isRequired,
   };
 
   static defaultProps = {
     games: [],
     providers: [],
     templates: [],
+    paymentMethods: [],
   };
 
   static contextTypes = {
@@ -219,9 +221,11 @@ class View extends Component {
       games,
       providers,
       templates,
+      paymentMethods,
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
+      fetchPaymentMethods,
     } = this.props;
 
     return (
@@ -245,6 +249,8 @@ class View extends Component {
           fetchGames={fetchGames}
           handleClickChooseCampaign={this.handleClickChooseCampaign}
           linkedCampaign={linkedCampaign}
+          fetchPaymentMethods={fetchPaymentMethods}
+          paymentMethods={paymentMethods}
         />
         {
           modal.name === CURRENCY_AMOUNT_MODAL &&
