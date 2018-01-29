@@ -11,13 +11,13 @@ import { fulfilmentTypes, rewardTypes } from '../../../../../../../constants/bon
 const mapFulfillmentsToForm = (data) => {
   let result = {};
 
-  if ([fulfilmentTypes.DEPOSIT, fulfilmentTypes.FIRST_DEPOSIT].indexOf(data.fulfilmentType) > -1) {
+  if (data.fulfilmentType === fulfilmentTypes.DEPOSIT) {
     result = {
       deposit: {
         minAmount: data.minAmount,
         maxAmount: data.maxAmount,
         lockAmountStrategy: data.lockAmountStrategy,
-        firstDeposit: data.fulfilmentType === fulfilmentTypes.FIRST_DEPOSIT,
+        depositNumber: data.depositNumber,
       },
     };
   } else if (data.fulfilmentType === fulfilmentTypes.PROFILE_COMPLETED) {

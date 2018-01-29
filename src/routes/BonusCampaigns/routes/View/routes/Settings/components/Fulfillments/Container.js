@@ -11,22 +11,20 @@ import {
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import attributeLabels, { nodeTypes, nodeTypesLabels } from './constants';
 import { nodeGroupTypes } from '../../constants';
-import getSubFieldErrors from '../../../../../../../../utils/getSubFieldErrors';
 
 const ALL_NODES = [nodeTypes.deposit, nodeTypes.profileCompleted, nodeTypes.noFulfillments];
 
 class Container extends Component {
   static propTypes = {
     change: PropTypes.func.isRequired,
-    errors: PropTypes.object,
     disabled: PropTypes.bool,
     activeNodes: PropTypes.array,
     add: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    errors: {},
     disabled: false,
     activeNodes: [],
   };
@@ -62,10 +60,7 @@ class Container extends Component {
   handleSelectPureNode = node => this.props.change(`${nodeGroupTypes.fulfillments}.${node}`, true);
 
   renderNode = (node) => {
-    const {
-      errors,
-      disabled,
-    } = this.props;
+    const { disabled, locale } = this.props;
 
     const nodePath = `${nodeGroupTypes.fulfillments}.${nodeTypes.deposit}`;
 
@@ -73,10 +68,10 @@ class Container extends Component {
       case nodeTypes.deposit:
         return (
           <DepositNode
+            locale={locale}
             disabled={disabled}
             label={I18n.t(nodeTypesLabels[nodeTypes.deposit])}
             remove={() => this.handleRemoveNode(nodeTypes.deposit)}
-            errors={getSubFieldErrors(errors, nodePath)}
             nodePath={nodePath}
           />
         );

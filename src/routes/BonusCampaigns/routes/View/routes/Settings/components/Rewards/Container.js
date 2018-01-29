@@ -6,14 +6,12 @@ import { nodeTypes, nodeTypesLabels } from './constants';
 import { Bonus as BonusNode, FreeSpin as FreeSpinNode } from './Nodes';
 import { SelectField } from '../../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../../utils/renderLabel';
-import getSubFieldErrors from '../../../../../../../../utils/getSubFieldErrors';
 import { nodeGroupTypes } from '../../constants';
 
 const ALL_NODES = [nodeTypes.bonus, nodeTypes.freeSpin];
 
 class Container extends Component {
   static propTypes = {
-    errors: PropTypes.object,
     disabled: PropTypes.bool,
     activeNodes: PropTypes.array,
     change: PropTypes.func.isRequired,
@@ -30,7 +28,6 @@ class Container extends Component {
   };
 
   static defaultProps = {
-    errors: {},
     disabled: false,
     activeNodes: [],
     games: [],
@@ -68,7 +65,6 @@ class Container extends Component {
   renderNode = (node) => {
     const {
       allowedCustomValueTypes,
-      errors,
       disabled,
       games,
       providers,
@@ -88,7 +84,6 @@ class Container extends Component {
         return (
           <BonusNode
             disabled={disabled}
-            errors={getSubFieldErrors(errors, bonusNodePath)}
             typeValues={allowedCustomValueTypes}
             remove={() => this.handleRemoveNode(nodeTypes.bonus)}
             nodePath={bonusNodePath}
@@ -108,7 +103,6 @@ class Container extends Component {
             fetchFreeSpinTemplate={fetchFreeSpinTemplate}
             fetchGames={fetchGames}
             fetchFreeSpinTemplates={fetchFreeSpinTemplates}
-            errors={getSubFieldErrors(errors, freeSpinNodePath)}
           />
         );
       default:

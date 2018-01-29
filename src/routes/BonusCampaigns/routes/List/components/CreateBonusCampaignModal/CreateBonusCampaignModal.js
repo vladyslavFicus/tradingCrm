@@ -131,8 +131,7 @@ class CreateBonusCampaignModal extends Component {
       currentValues,
     } = this.props;
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfilmentType);
-    const isDepositCampaign = currentValues
-      && [fulfilmentTypes.DEPOSIT, fulfilmentTypes.FIRST_DEPOSIT].indexOf(currentValues.fulfilmentType) > -1;
+    const isDepositCampaign = currentValues && currentValues.fulfilmentType === fulfilmentTypes.DEPOSIT;
 
     return (
       <Modal className="create-bonus-campaign-modal" toggle={onClose} isOpen>
@@ -231,6 +230,7 @@ class CreateBonusCampaignModal extends Component {
               type="select"
               component={SelectField}
               onChange={this.handleChangeFulfilmentType}
+              id="create-campaign-fulfilment-type"
             >
               {types.map(item => (
                 <option key={item} value={item}>

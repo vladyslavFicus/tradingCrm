@@ -827,7 +827,6 @@
     },
     "BONUS_CAMPAIGN": {
       "CAMPAIGN_TYPE": {
-        "FIRST_DEPOSIT": "Первое пополнение",
         "DEPOSIT": "Пополнение",
         "PROFILE_COMPLETED": "Профиль заполнен",
         "WITHOUT_FULFILMENT": "Без условий"
@@ -1152,7 +1151,9 @@
       "CREATION_DATE_TO": "Конечная дата создания",
       "ACTIVITY_DATE_FROM": "Начальная дата активности",
       "ACTIVITY_DATE_TO": "Конечная дата активности",
-      "SEARCH_BY_PLACEHOLDER": "Кампания, Оператор"
+      "SEARCH_BY_PLACEHOLDER": "Кампания, Оператор",
+      "DEPOSIT_NUMBER_OPTION": "депозит",
+      "DEPOSIT_NUMBER": "Номер депозита"
     },
     "BUTTON_CREATE_CAMPAIGN": "+ Добавить кампанию",
     "VIEW": {
@@ -1266,7 +1267,8 @@
           "ADD_FULFILLMENT": "Добавить условие"
         },
         "DEPOSIT": {
-          "LABEL": "Депозит"
+          "LABEL": "Депозит",
+          "NUMBER_OPTION": "депозит"
         },
         "PROFILE_COMPLETED": {
           "LABEL": "Профиль заполнен"
@@ -1274,7 +1276,8 @@
         "SELECT_FULFILLMENT": "-- Выбрать условие --",
         "NO_FULFILLMENTS": {
           "LABEL": "Без условий"
-        }
+        },
+        "DEPOSIT_NUMBER_LABEL": "Номер депозита"
       },
       "SELECT_OPT_IN_PERIOD": "- Период -",
       "MODAL": {

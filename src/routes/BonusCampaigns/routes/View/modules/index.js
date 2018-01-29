@@ -34,7 +34,7 @@ function mapFulfillmentNode(fulfilmentType) {
 
   if (fulfilmentType === fulfilmentTypes.PROFILE_COMPLETED) {
     return fulfillmentNodeTypes.profileCompleted;
-  } else if ([fulfilmentTypes.DEPOSIT, fulfilmentTypes.FIRST_DEPOSIT].indexOf(fulfilmentType) > -1) {
+  } else if (fulfilmentType === fulfilmentTypes.DEPOSIT) {
     return fulfillmentNodeTypes.deposit;
   } else if (fulfilmentType === fulfilmentTypes.WITHOUT_FULFILMENT) {
     return fulfillmentNodeTypes.noFulfillments;
@@ -153,10 +153,6 @@ function updateCampaign(uuid, data) {
         ...fulfillmentDeposit,
         fulfilmentType: fulfilmentTypes.DEPOSIT,
       };
-
-      if (fulfillmentDeposit.firstDeposit) {
-        endpointParams.fulfilmentType = fulfilmentTypes.FIRST_DEPOSIT;
-      }
     }
 
     const fulfillmentProfileCompleted = _.get(endpointParams, 'fulfillments.profileCompleted');
@@ -192,7 +188,6 @@ function updateCampaign(uuid, data) {
     }
 
     delete endpointParams.excludeCountries;
-    delete endpointParams.firstDeposit;
     delete endpointParams.fulfillments;
     delete endpointParams.rewards;
 

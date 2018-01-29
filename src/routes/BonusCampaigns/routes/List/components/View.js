@@ -38,12 +38,19 @@ class View extends Component {
       receivedAt: PropTypes.number,
       error: PropTypes.object,
     }).isRequired,
+    depositNumbers: PropTypes.shape({
+      list: PropTypes.arrayOf(PropTypes.string).isRequired,
+      isLoading: PropTypes.bool.isRequired,
+      receivedAt: PropTypes.number,
+      error: PropTypes.object,
+    }).isRequired,
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
     locale: PropTypes.string.isRequired,
     fetchEntities: PropTypes.func.isRequired,
     createCampaign: PropTypes.func.isRequired,
     exportEntities: PropTypes.func.isRequired,
     fetchTypes: PropTypes.func.isRequired,
+    fetchDepositNumbers: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
@@ -229,9 +236,11 @@ class View extends Component {
 
   render() {
     const {
+      fetchDepositNumbers,
       campaigns: { entities, exporting, noResults, isLoading },
       locale,
       types: { list },
+      depositNumbers: { list: depositNumbers },
       statuses,
       currencies,
     } = this.props;
@@ -264,8 +273,10 @@ class View extends Component {
         <BonusCampaignsFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}
+          fetchDepositNumbers={fetchDepositNumbers}
           disabled={!allowActions}
           types={list}
+          depositNumbers={depositNumbers}
           statuses={statuses}
           locale={locale}
           isLoading={isLoading}
@@ -338,7 +349,7 @@ class View extends Component {
             types={list}
             currencies={currencies}
             initialValues={{
-              fulfilmentType: fulfilmentTypes.FIRST_DEPOSIT,
+              fulfilmentType: fulfilmentTypes.DEPOSIT,
               campaignRatio: {
                 type: customValueFieldTypes.ABSOLUTE,
               },

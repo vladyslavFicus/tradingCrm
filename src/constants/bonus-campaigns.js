@@ -86,7 +86,6 @@ const statusActions = {
   [statuses.ACTIVE]: [cancelAction],
 };
 const fulfilmentTypes = keyMirror({
-  FIRST_DEPOSIT: null,
   DEPOSIT: null,
   PROFILE_COMPLETED: null,
   WITHOUT_FULFILMENT: null,
@@ -96,14 +95,12 @@ const rewardTypes = keyMirror({
   FREE_SPIN: null,
 });
 const fulfilmentTypesLabels = {
-  [fulfilmentTypes.FIRST_DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.FIRST_DEPOSIT'),
   [fulfilmentTypes.DEPOSIT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.DEPOSIT'),
   [fulfilmentTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.PROFILE_COMPLETED'),
   [fulfilmentTypes.WITHOUT_FULFILMENT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.WITHOUT_FULFILMENT'),
 };
 
 const customValueFieldTypesByFulfilmentType = {
-  [fulfilmentTypes.FIRST_DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
   [fulfilmentTypes.DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
   [fulfilmentTypes.PROFILE_COMPLETED]: [customValueFieldTypes.ABSOLUTE],
   [fulfilmentTypes.WITHOUT_FULFILMENT]: [customValueFieldTypes.ABSOLUTE],

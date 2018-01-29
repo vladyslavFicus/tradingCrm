@@ -821,7 +821,6 @@
     },
     "BONUS_CAMPAIGN": {
       "CAMPAIGN_TYPE": {
-        "FIRST_DEPOSIT": "First deposit",
         "DEPOSIT": "Deposit",
         "PROFILE_COMPLETED": "Profile completed",
         "WITHOUT_FULFILMENT": "Without fulfilment"
@@ -1140,7 +1139,9 @@
       "CREATION_DATE_TO": "Creation date to",
       "ACTIVITY_DATE_FROM": "Activity date from",
       "ACTIVITY_DATE_TO": "Activity date to",
-      "SEARCH_BY_PLACEHOLDER": "Campaign, Operator"
+      "SEARCH_BY_PLACEHOLDER": "Campaign, Operator",
+      "DEPOSIT_NUMBER_OPTION": "deposit",
+      "DEPOSIT_NUMBER": "Deposit number"
     },
     "BUTTON_CREATE_CAMPAIGN": "+ Add campaign",
     "VIEW": {
@@ -1255,7 +1256,8 @@
           "ADD_FULFILLMENT": "Add fulfillment"
         },
         "DEPOSIT": {
-          "LABEL": "Deposit"
+          "LABEL": "Deposit",
+          "NUMBER_OPTION": "deposit"
         },
         "PROFILE_COMPLETED": {
           "LABEL": "Profile completed"
@@ -1263,7 +1265,8 @@
         "SELECT_FULFILLMENT": "-- Select fulfillment --",
         "NO_FULFILLMENTS": {
           "LABEL": "No fulfillments"
-        }
+        },
+        "DEPOSIT_NUMBER_LABEL": "Deposits number"
       },
       "SELECT_OPT_IN_PERIOD": "- Period -",
       "MODAL": {

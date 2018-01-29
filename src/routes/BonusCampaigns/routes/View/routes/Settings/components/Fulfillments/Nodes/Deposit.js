@@ -5,6 +5,7 @@ import { Field } from 'redux-form';
 import { InputField, SelectField } from '../../../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../../../utils/renderLabel';
 import { lockAmountStrategyLabels } from '../../../../../../../../../constants/bonus-campaigns';
+import ordinalizeNumber from '../../../../../../../../../utils/ordinalizeNumber';
 
 class Deposit extends Component {
   static propTypes = {
@@ -12,12 +13,11 @@ class Deposit extends Component {
     disabled: PropTypes.bool,
     nodePath: PropTypes.string.isRequired,
     remove: PropTypes.func.isRequired,
-    errors: PropTypes.object,
+    locale: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
     disabled: false,
-    errors: {},
   };
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
@@ -26,8 +26,8 @@ class Deposit extends Component {
     const {
       label,
       remove,
-      errors,
       disabled,
+      locale,
     } = this.props;
 
     return (
@@ -48,10 +48,6 @@ class Deposit extends Component {
                 position="vertical"
                 disabled={disabled}
                 iconRightClassName="nas nas-currencies_icon"
-                meta={{
-                  touched: true,
-                  error: errors[this.buildFieldName('minAmount')],
-                }}
               />
               <span className="range-group__separator">-</span>
               <Field
@@ -62,16 +58,35 @@ class Deposit extends Component {
                 position="vertical"
                 disabled={disabled}
                 iconRightClassName="nas nas-currencies_icon"
-                meta={{
-                  touched: true,
-                  error: errors[this.buildFieldName('maxAmount')],
-                }}
               />
             </div>
           </div>
         </div>
         <div className="filter-row">
-          <div className="filter-row__big">
+          <div className="filter-row__small">
+            <label>{I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.DEPOSIT_NUMBER_LABEL')}</label>
+            <div className="range-group">
+              <Field
+                name={this.buildFieldName('depositNumber')}
+                label={null}
+                type="select"
+                component={SelectField}
+                position="vertical"
+                disabled={disabled}
+              >
+                <option value="">Any deposit</option>
+                {[...new Array(10)].map((_, i) => (
+                  <option key={i} value={i + 1}>
+                    {`
+                      ${ordinalizeNumber(i + 1, locale)}
+                      ${I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.DEPOSIT.NUMBER_OPTION')}
+                    `}
+                  </option>
+                ))}
+              </Field>
+            </div>
+          </div>
+          <div className="filter-row__medium">
             <label>Withdrawal lock</label>
             <div className="range-group">
               <Field
@@ -81,10 +96,6 @@ class Deposit extends Component {
                 component={SelectField}
                 position="vertical"
                 disabled={disabled}
-                meta={{
-                  touched: true,
-                  error: errors[this.buildFieldName('lockAmountStrategy')],
-                }}
               >
                 <option value="">{I18n.t('BONUS_CAMPAIGNS.CREATE_MODAL.CHOOSE_LOCK_AMOUNT_STRATEGY')}</option>
                 {Object.keys(lockAmountStrategyLabels).map(key => (
@@ -93,16 +104,6 @@ class Deposit extends Component {
                   </option>
                 ))}
               </Field>
-              <div className="form-group first-deposit">
-                <label>
-                  <Field
-                    name={this.buildFieldName('firstDeposit')}
-                    type="checkbox"
-                    component="input"
-                    disabled={disabled}
-                  /> First deposit only
-                </label>
-              </div>
             </div>
           </div>
         </div>

@@ -39,6 +39,7 @@ export default (values, params) => {
         minAmount: ['numeric', 'min:0'],
         maxAmount: ['numeric', 'min:0'],
         lockAmountStrategy: ['string', `in:${Object.keys(lockAmountStrategy).join()}`],
+        depositNumber: ['integer', 'min:1'],
       },
     },
     rewards: {
