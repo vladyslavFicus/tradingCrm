@@ -28,6 +28,11 @@ class SignIn extends Component {
     fullName: PropTypes.string,
     brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
     departments: PropTypes.arrayOf(PropTypes.department).isRequired,
+    data: PropTypes.shape({
+      uuid: PropTypes.string,
+      token: PropTypes.string,
+      departmentsByBrand: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
+    }).isRequired,
   };
   static defaultProps = {
     brand: null,
@@ -95,6 +100,19 @@ class SignIn extends Component {
     }
 
     return action;
+  };
+
+  handleSelectBrand = (brand) => {
+    if (brand) {
+      const { data: { departmentsByBrand, token, uuid } } = this.props;
+      const departments = Object.keys(departmentsByBrand[brand.brand]);
+
+      if (departments.length === 1) {
+        return this.handleSelectDepartment(brand.brand, departments[0], token, uuid);
+      }
+    }
+
+    this.props.selectBrand(brand);
   };
 
   handleSelectDepartment = async (brand, department, requestToken = null, requestUuid = null) => {
@@ -178,7 +196,7 @@ class SignIn extends Component {
               activeBrand={brand}
               username={fullName}
               brands={brands}
-              onSelect={selectBrand}
+              onSelect={this.handleSelectBrand}
             />
 
             <SignInDepartments
