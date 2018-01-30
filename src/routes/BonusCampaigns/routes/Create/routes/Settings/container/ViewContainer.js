@@ -57,7 +57,7 @@ const mapRewardsToForm = (data) => {
 };
 
 const mapStateToProps = ({
-  bonusCampaignView: { data, nodeGroups },
+  bonusCampaignCreate: { data, nodeGroups },
   bonusCampaignSettings: {
     games: { games, providers },
     templates: { data: templates },
@@ -109,6 +109,7 @@ const mapStateToProps = ({
 
 const mapActions = {
   updateCampaign: actionCreators.updateCampaign,
+  createCampaign: actionCreators.createCampaign,
   revert: actionCreators.revert,
   removeNode: actionCreators.removeNode,
   addNode: actionCreators.addNode,

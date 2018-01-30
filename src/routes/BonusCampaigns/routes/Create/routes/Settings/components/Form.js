@@ -42,8 +42,6 @@ class Form extends Component {
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool,
-    fulfillmentExist: PropTypes.bool,
     reset: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     errors: PropTypes.object,
@@ -201,15 +199,12 @@ class Form extends Component {
       onSubmit,
       pristine,
       submitting,
-      valid,
-      fulfillmentExist,
       currencies,
       currentValues,
       change,
       nodeGroups,
       disabled,
       toggleModal,
-      errors,
       games,
       providers,
       templates,
@@ -232,19 +227,19 @@ class Form extends Component {
           <div className="tab-header__heading">
             {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
           </div>
-          {!(pristine || submitting || !valid || !_.isEmpty(errors) || !fulfillmentExist) &&
-          <div className="tab-header__actions">
-            <button
-              onClick={this.handleRevert}
-              className="btn btn-default-outline text-uppercase margin-right-20"
-              type="button"
-            >
-              {I18n.t('COMMON.REVERT_CHANGES')}
-            </button>
-            <button className="btn btn-primary text-uppercase" type="submit" id="bonus-campaign-save-button">
-              {I18n.t('COMMON.SAVE_CHANGES')}
-            </button>
-          </div>
+          {!(pristine || submitting) &&
+            <div className="tab-header__actions">
+              <button
+                onClick={this.handleRevert}
+                className="btn btn-default-outline text-uppercase margin-right-20"
+                type="button"
+              >
+                {I18n.t('COMMON.REVERT_CHANGES')}
+              </button>
+              <button className="btn btn-primary text-uppercase" type="submit" id="bonus-campaign-save-button">
+                {I18n.t('COMMON.SAVE_CHANGES')}
+              </button>
+            </div>
           }
         </div>
         <div className="campaign-settings-content">
@@ -291,12 +286,7 @@ class Form extends Component {
                   <CustomValueFieldVertical
                     id="bonus-campaign-conversion-prize"
                     basename={'conversionPrize'}
-                    label={
-                      <span>
-                        {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
-                        <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                      </span>
-                    }
+                    label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}
                     typeValues={allowedCustomValueTypes}
                     errors={this.getCustomValueFieldErrors('conversionPrize')}
                     disabled={disabled}
@@ -306,12 +296,7 @@ class Form extends Component {
                 <div className="form-row__medium">
                   <CustomValueFieldVertical
                     basename={'capping'}
-                    label={
-                      <span>
-                        {I18n.t(attributeLabels.capping)}{' '}
-                        <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                      </span>
-                    }
+                    label={I18n.t(attributeLabels.capping)}
                     typeValues={allowedCustomValueTypes}
                     errors={this.getCustomValueFieldErrors('capping')}
                     disabled={disabled}
@@ -554,11 +539,10 @@ class Form extends Component {
   }
 }
 
-export const FORM_NAME = 'updateBonusCampaignSettings';
+export const FORM_NAME = 'createBonusCampaignSettings';
 
 const SettingsForm = reduxForm({
   form: FORM_NAME,
-  enableReinitialize: true,
   validate: values => validator(values, {
     allowedCustomValueTypes: getCustomValueFieldTypes(values),
     countries,

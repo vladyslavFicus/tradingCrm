@@ -1,6 +1,6 @@
 import { injectReducer } from '../../../../../../store/reducers';
 
-export default (store) => ({
+export default store => ({
   path: 'settings',
   getComponent(nextState, cb) {
     injectReducer(store, { key: 'bonusCampaignSettings', reducer: require('./modules').default });

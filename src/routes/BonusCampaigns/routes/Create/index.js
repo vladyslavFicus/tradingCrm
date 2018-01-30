@@ -7,8 +7,14 @@ export default store => ({
 
   onEnter: async (nextState, replace, callback) => {
     injectReducer(store, {
-      key: 'bonusCampaignView', reducer: require('./modules').default,
+      key: 'bonusCampaignCreate', reducer: require('./modules').default,
     });
+
+    const lastRouteParam = nextState.location.pathname.split('/').slice(-1)[0];
+
+    if (['settings', 'feed'].indexOf(lastRouteParam) === -1) {
+      replace(`${nextState.location.pathname}/settings`);
+    }
 
     callback();
   },

@@ -7,6 +7,7 @@ import {
   lockAmountStrategy,
   moneyTypeUsage,
 } from '../../../../../../../constants/bonus-campaigns';
+
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
 export default (values, params) => {
@@ -23,15 +24,15 @@ export default (values, params) => {
     startDate: 'required',
     endDate: 'required|nextDate:startDate',
     capping: {
-      value: ['numeric', 'customTypeValue.value'],
-      type: [`in:${allowedCustomValueTypes.join()}`],
+      value: ['numeric', 'required', 'customTypeValue.value'],
+      type: ['required', `in:${allowedCustomValueTypes.join()}`],
     },
     optInPeriod: ['numeric', 'min:0'],
     optInPeriodTimeUnit: [`in:${Object.keys(optInPeriods).join()}`],
     linkedCampaignUUID: ['string'],
     conversionPrize: {
-      value: ['numeric', 'customTypeValue.value'],
-      type: [`in:${allowedCustomValueTypes.join()}`],
+      value: ['numeric', 'required', 'customTypeValue.value'],
+      type: ['required', `in:${allowedCustomValueTypes.join()}`],
     },
     country: `in:,${Object.keys(countries).join()}`,
     fulfillments: {
