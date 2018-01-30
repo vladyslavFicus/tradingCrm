@@ -106,10 +106,38 @@ class View extends Component {
         ...rewardsFreeSpinData,
       };
     }
-  }
+
+    const updateAction = await updateCampaign(params.id, data);
+
+    if (updateAction) {
+      this.context.addNotification({
+        level: updateAction.error ? 'error' : 'success',
+        title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
+        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${updateAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+
+      if (updateAction.error && updateAction.payload.response.fields_errors) {
+        const errors = Object.keys(updateAction.payload.response.fields_errors).reduce((res, name) => ({
+          ...res,
+          [name]: I18n.t(updateAction.payload.response.fields_errors[name].error),
+        }), {});
+        throw new SubmissionError(errors);
+      } else if (updateAction.payload.response && updateAction.payload.response.error) {
+        const fieldError = recognizeFieldError(updateAction.payload.response.error, mapResponseErrorToField);
+        if (fieldError) {
+          throw new SubmissionError(fieldError);
+        } else {
+          throw new SubmissionError({ __error: I18n.t(updateAction.payload.response.error) });
+        }
+      }
+    }
+
+    return updateAction;
+  };
+
 
   render() {
-    const { modal, linkedCampaign } = this.state;
     const {
       bonusCampaign,
       bonusCampaignForm,
@@ -125,10 +153,32 @@ class View extends Component {
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
+      fetchCampaigns,
+      fetchCampaign,
+      change,
     } = this.props;
 
     return (
-      <Settings />
+      <Settings
+        fetchGames={fetchGames}
+        fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+        fetchFreeSpinTemplate={fetchFreeSpinTemplate}
+        templates={templates}
+        providers={providers}
+        games={games}
+        fetchCampaigns={fetchCampaigns}
+        fetchCampaign={fetchCampaign}
+        handleSubmit={this.handleSubmit}
+        addNode={addNode}
+        removeNode={removeNode}
+        nodeGroups={nodeGroups}
+        revert={revert}
+        bonusCampaign={bonusCampaign}
+        bonusCampaignForm={bonusCampaignForm}
+        locale={locale}
+        currencies={currencies}
+        change={change}
+      />
     );
   }
 }

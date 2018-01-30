@@ -38,14 +38,10 @@ class View extends Component {
     statuses: PropTypes.arrayOf(PropTypes.string).isRequired,
     locale: PropTypes.string.isRequired,
     fetchEntities: PropTypes.func.isRequired,
-    createCampaign: PropTypes.func.isRequired,
     exportEntities: PropTypes.func.isRequired,
     fetchTypes: PropTypes.func.isRequired,
     fetchDepositNumbers: PropTypes.func.isRequired,
     resetAll: PropTypes.func.isRequired,
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
   };
 
   static contextTypes = {

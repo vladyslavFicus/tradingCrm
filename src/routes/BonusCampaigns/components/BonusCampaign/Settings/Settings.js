@@ -13,7 +13,7 @@ const modalInitialState = {
   params: {},
 };
 
-class View extends Component {
+class Settings extends Component {
   static propTypes = {
     bonusCampaign: PropTypes.bonusCampaignEntity.isRequired,
     bonusCampaignForm: PropTypes.shape({
@@ -32,18 +32,13 @@ class View extends Component {
       fulfilmentType: PropTypes.bonusCampaignEntity.fulfilmentType,
       minAmount: PropTypes.bonusCampaignEntity.minAmount,
       maxAmount: PropTypes.bonusCampaignEntity.maxAmount,
-    }).isRequired,
+    }),
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }).isRequired,
-    updateCampaign: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     revert: PropTypes.func.isRequired,
     removeNode: PropTypes.func.isRequired,
     addNode: PropTypes.func.isRequired,
     fetchGames: PropTypes.func.isRequired,
-    createFreeSpinTemplate: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
     nodeGroups: PropTypes.shape({
       fulfillments: PropTypes.array.isRequired,
@@ -56,12 +51,14 @@ class View extends Component {
     change: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     games: [],
     providers: [],
     templates: [],
+    bonusCampaignForm: {},
   };
 
   static contextTypes = {
@@ -200,4 +197,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default Settings;

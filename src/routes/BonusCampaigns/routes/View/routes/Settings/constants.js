@@ -57,7 +57,6 @@ const optInPeriodsLabels = {
 
 export {
   attributeLabels,
-  nodeGroupTypes,
   attributePlaceholders,
   optInPeriods,
   optInPeriodsLabels,

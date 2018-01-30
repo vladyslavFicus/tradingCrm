@@ -10,7 +10,7 @@ import {
   countryStrategies,
 } from '../../../../../constants/bonus-campaigns';
 import buildFormData from '../../../../../utils/buildFormData';
-import { nodeGroupTypes } from '../routes/Settings/constants';
+import { nodeGroupTypes } from '../../../components/BonusCampaign/Settings/constants';
 import { nodeTypes as fulfillmentNodeTypes } from '../../../components/BonusCampaign/Settings/Fulfillments/constants';
 import { nodeTypes as rewardNodeTypes } from '../../../components/BonusCampaign/Settings/Rewards/constants';
 import { sourceActionCreators as bonusCampaignActionCreators } from '../../../../../redux/modules/bonusCampaigns';

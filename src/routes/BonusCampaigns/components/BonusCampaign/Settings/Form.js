@@ -42,8 +42,6 @@ class Form extends Component {
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    valid: PropTypes.bool,
-    fulfillmentExist: PropTypes.bool,
     reset: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     errors: PropTypes.object,
@@ -201,15 +199,12 @@ class Form extends Component {
       onSubmit,
       pristine,
       submitting,
-      valid,
-      fulfillmentExist,
       currencies,
       currentValues,
       change,
       nodeGroups,
       disabled,
       toggleModal,
-      errors,
       games,
       providers,
       templates,
@@ -232,7 +227,7 @@ class Form extends Component {
           <div className="tab-header__heading">
             {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
           </div>
-          {!(pristine || submitting || !valid || !_.isEmpty(errors) || !fulfillmentExist) &&
+          {!(pristine || submitting) &&
           <div className="tab-header__actions">
             <button
               onClick={this.handleRevert}

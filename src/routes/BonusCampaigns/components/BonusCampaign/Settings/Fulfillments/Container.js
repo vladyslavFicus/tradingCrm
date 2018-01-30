@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
-import keyMirror from 'keymirror';
 import { SelectField } from '../../../../../../components/ReduxForm';
 import {
   Deposit as DepositNode,
@@ -11,11 +10,7 @@ import {
 } from './Nodes';
 import renderLabel from '../../../../../../utils/renderLabel';
 import attributeLabels, { nodeTypes, nodeTypesLabels } from './constants';
-
-const nodeGroupTypes = keyMirror({
-  fulfillments: null,
-  rewards: null,
-});
+import { nodeGroupTypes } from '../constants';
 
 const ALL_NODES = [nodeTypes.deposit, nodeTypes.profileCompleted, nodeTypes.noFulfillments];
 

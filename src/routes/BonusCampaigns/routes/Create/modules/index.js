@@ -8,8 +8,8 @@ import {
   countryStrategies,
 } from '../../../../../constants/bonus-campaigns';
 import { nodeGroupTypes } from '../routes/Settings/constants';
-import { nodeTypes as fulfillmentNodeTypes } from '../routes/Settings/components/Fulfillments/constants';
-import { nodeTypes as rewardNodeTypes } from '../routes/Settings/components/Rewards/constants';
+import { nodeTypes as fulfillmentNodeTypes } from '../../../components/BonusCampaign/Settings/Fulfillments/constants';
+import { nodeTypes as rewardNodeTypes } from '../../../components/BonusCampaign/Settings/Rewards/constants';
 import deleteFromArray from '../../../../../utils/deleteFromArray';
 
 const KEY = 'campaign';

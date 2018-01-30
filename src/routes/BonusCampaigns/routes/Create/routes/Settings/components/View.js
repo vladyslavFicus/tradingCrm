@@ -2,43 +2,15 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
 import _ from 'lodash';
-import Form from './Form';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { mapResponseErrorToField } from '../constants';
 import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
-import CurrencyCalculationModal from '../../../../../components/CurrencyCalculationModal';
-import AddToCampaignModal from '../../../../../../../components/AddToCampaignModal';
-
-const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
-const CHOOSE_CAMPAIGN_MODAL = 'choose-campaign-modal';
-const modalInitialState = {
-  name: null,
-  params: {},
-};
+import Settings from '../../../../../components/BonusCampaign/Settings';
+import { statuses } from '../../../../../../../constants/bonus-campaigns';
 
 class View extends Component {
   static propTypes = {
-    bonusCampaignForm: PropTypes.shape({
-      campaignName: PropTypes.bonusCampaignEntity.campaignName,
-      targetType: PropTypes.bonusCampaignEntity.targetType,
-      currency: PropTypes.bonusCampaignEntity.currency,
-      startDate: PropTypes.bonusCampaignEntity.startDate,
-      endDate: PropTypes.bonusCampaignEntity.endDate,
-      wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
-      promoCode: PropTypes.bonusCampaignEntity.promoCode,
-      bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
-      campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
-      conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
-      capping: PropTypes.bonusCampaignEntity.capping,
-      optIn: PropTypes.bonusCampaignEntity.optIn,
-      fulfilmentType: PropTypes.bonusCampaignEntity.fulfilmentType,
-      minAmount: PropTypes.bonusCampaignEntity.minAmount,
-      maxAmount: PropTypes.bonusCampaignEntity.maxAmount,
-    }).isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }).isRequired,
     locale: PropTypes.string.isRequired,
     revert: PropTypes.func.isRequired,
     removeNode: PropTypes.func.isRequired,
@@ -72,37 +44,9 @@ class View extends Component {
     }).isRequired,
   };
 
-  state = {
-    modal: { ...modalInitialState },
-    linkedCampaign: null,
-  };
-
-  handleCurrencyAmountModalOpen = (action) => {
-    this.handleOpenModal(CURRENCY_AMOUNT_MODAL, {
-      initialValues: {
-        action: action.action,
-        reasons: action.reasons,
-      },
-      ...action,
-    });
-  };
-
-  handleOpenModal = (name, params) => {
-    this.setState({
-      modal: {
-        name,
-        params,
-      },
-    });
-  };
-
-  handleCloseModal = (e, callback) => {
-    this.setState({ modal: { ...modalInitialState } }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    });
-  };
+  bonusCampaign = {
+    state: statuses.DRAFT,
+  }
 
   handleSubmit = async (formData) => {
     let data = { ...formData };
@@ -172,32 +116,8 @@ class View extends Component {
     }
   };
 
-  handleClickChooseCampaign = async () => {
-    const action = await this.props.fetchCampaigns();
-
-    if (action && !action.error) {
-      this.handleOpenModal(CHOOSE_CAMPAIGN_MODAL, {
-        campaigns: action.payload.content,
-      });
-    }
-  };
-
-  setLinkedCampaignData = linkedCampaign => this.setState({ linkedCampaign });
-
-  handleSubmitLinkedCampaign = async (data) => {
-    const { fetchCampaign, change } = this.props;
-    const action = await fetchCampaign(data.campaignUuid);
-
-    if (action && !action.error) {
-      this.setLinkedCampaignData(action.payload);
-    }
-
-    change('linkedCampaignUUID', data.campaignUuid);
-    this.handleCloseModal(CHOOSE_CAMPAIGN_MODAL);
-  };
 
   render() {
-    const { modal, linkedCampaign } = this.state;
     const {
       currencies,
       locale,
@@ -211,46 +131,31 @@ class View extends Component {
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
+      fetchCampaigns,
+      fetchCampaign,
+      change,
     } = this.props;
 
     return (
-      <div>
-        <Form
-          locale={locale}
-          currencies={currencies}
-          removeNode={removeNode}
-          addNode={addNode}
-          nodeGroups={nodeGroups}
-          revert={revert}
-          onSubmit={this.handleSubmit}
-          toggleModal={this.handleCurrencyAmountModalOpen}
-          games={games}
-          providers={providers}
-          templates={templates}
-          fetchFreeSpinTemplate={fetchFreeSpinTemplate}
-          fetchFreeSpinTemplates={fetchFreeSpinTemplates}
-          fetchGames={fetchGames}
-          handleClickChooseCampaign={this.handleClickChooseCampaign}
-          linkedCampaign={linkedCampaign}
-        />
-        {
-          modal.name === CURRENCY_AMOUNT_MODAL &&
-          <CurrencyCalculationModal
-            {...modal.params}
-            onHide={this.handleCloseModal}
-          />
-        }
-        {
-          modal.name === CHOOSE_CAMPAIGN_MODAL &&
-          <AddToCampaignModal
-            {...modal.params}
-            onClose={this.handleCloseModal}
-            onSubmit={this.handleSubmitLinkedCampaign}
-            title={I18n.t('BONUS_CAMPAIGNS.SETTINGS.MODAL.CHOOSE_CAMPAIGN.TITLE')}
-            message={I18n.t('BONUS_CAMPAIGNS.SETTINGS.MODAL.CHOOSE_CAMPAIGN.MESSAGE')}
-          />
-        }
-      </div>
+      <Settings
+        fetchGames={fetchGames}
+        fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+        fetchFreeSpinTemplate={fetchFreeSpinTemplate}
+        templates={templates}
+        providers={providers}
+        games={games}
+        fetchCampaigns={fetchCampaigns}
+        fetchCampaign={fetchCampaign}
+        handleSubmit={this.handleSubmit}
+        addNode={addNode}
+        removeNode={removeNode}
+        nodeGroups={nodeGroups}
+        revert={revert}
+        bonusCampaign={this.bonusCampaign}
+        locale={locale}
+        currencies={currencies}
+        change={change}
+      />
     );
   }
 }

@@ -4,8 +4,8 @@ import { Collapse } from 'reactstrap';
 import Tabs from '../../../../../components/Tabs';
 import { bonusCampaignTabs } from '../../../../../config/menu';
 import PropTypes from '../../../../../constants/propTypes';
-import Header from '../../../components/BonusCampaign/Header';
-import Information from '../../../components/BonusCampaign/Information';
+import Header from '../components/Header';
+import Information from '../components/Information';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 
 const REMOVE_PLAYERS = 'remove-players-modal';
@@ -18,7 +18,7 @@ class ViewLayout extends Component {
   static propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
-    }),
+    }).isRequired,
     location: PropTypes.object,
     children: PropTypes.node,
     data: PropTypes.bonusCampaignEntity.isRequired,

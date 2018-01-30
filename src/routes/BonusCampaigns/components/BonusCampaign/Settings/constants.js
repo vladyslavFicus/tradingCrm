@@ -55,6 +55,12 @@ const optInPeriodsLabels = {
   [optInPeriods.WEEKS]: I18n.t('COMMON.WEEKS'),
 };
 
+
+const nodeGroupTypes = keyMirror({
+  fulfillments: null,
+  rewards: null,
+});
+
 export {
   attributeLabels,
   nodeGroupTypes,

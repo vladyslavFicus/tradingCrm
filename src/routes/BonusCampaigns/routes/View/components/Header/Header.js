@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
-import FileUpload from '../../../../../components/FileUpload';
-import Amount from '../../../../../components/Amount';
-import PropTypes from '../../../../../constants/propTypes';
-import Uuid from '../../../../../components/Uuid';
-import StatusDropDown from '../../../components/StatusDropDown';
-import { statuses, targetTypes, moneyTypeUsageLabels } from '../../../../../constants/bonus-campaigns';
-import renderLabel from '../../../../../utils/renderLabel';
-import ActionsDropDown from '../../../../../components/ActionsDropDown';
+import FileUpload from '../../../../../../components/FileUpload';
+import Amount from '../../../../../../components/Amount';
+import PropTypes from '../../../../../../constants/propTypes';
+import Uuid from '../../../../../../components/Uuid';
+import StatusDropDown from '../../../../components/StatusDropDown';
+import { statuses, targetTypes, moneyTypeUsageLabels } from '../../../../../../constants/bonus-campaigns';
+import renderLabel from '../../../../../../utils/renderLabel';
+import ActionsDropDown from '../../../../../../components/ActionsDropDown';
 
 class Header extends Component {
   static propTypes = {

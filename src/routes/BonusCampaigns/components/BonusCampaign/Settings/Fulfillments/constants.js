@@ -18,6 +18,7 @@ const nodeTypesLabels = {
   [nodeTypes.noFulfillments]: I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.NO_FULFILLMENTS.LABEL'),
 };
 
+
 export {
   nodeTypes,
   nodeTypesLabels,
