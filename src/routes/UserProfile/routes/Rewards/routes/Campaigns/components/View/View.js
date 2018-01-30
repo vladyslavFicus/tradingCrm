@@ -302,16 +302,14 @@ class View extends Component {
               </button>
             </div>
             :
-            <div>
-              <button
-                key="optInButton"
-                type="button"
-                className="btn btn-success"
-                onClick={() => this.handleOptInClick(data.uuid)}
-              >
-                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN')}
-              </button>
-            </div>
+            <button
+              key="optInButton"
+              type="button"
+              className="btn btn-success"
+              onClick={() => this.handleOptInClick(data.uuid)}
+            >
+              {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN')}
+            </button>
         }
       </div>
     );
