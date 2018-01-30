@@ -23,6 +23,7 @@ import PermissionContent from '../../../../../../../../components/PermissionCont
 import permissions from '../../../../../../../../config/permissions';
 
 const CAMPAIGN_DECLINE_MODAL = 'campaign-decline-modal';
+const CAMPAIGN_OPT_IN_MODAL = 'campaign-opt-in-modal';
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
 const ADD_PROMO_CODE_MODAL = 'add-promo-code-modal';
 const modalInitialState = {
@@ -36,6 +37,7 @@ class View extends Component {
     profile: PropTypes.userProfile.isRequired,
     fetchPlayerCampaigns: PropTypes.func.isRequired,
     declineCampaign: PropTypes.func.isRequired,
+    optInCampaign: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     addPlayerToCampaign: PropTypes.func.isRequired,
     addPromoCodeToPlayer: PropTypes.func.isRequired,
@@ -97,6 +99,10 @@ class View extends Component {
     this.handleOpenModal(CAMPAIGN_DECLINE_MODAL, { uuid, returnToList });
   };
 
+  handleOptInClick = (uuid) => {
+    this.handleOpenModal(CAMPAIGN_OPT_IN_MODAL, { uuid });
+  };
+
   handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
@@ -114,6 +120,22 @@ class View extends Component {
     } = this.props;
 
     const action = await declineCampaign(uuid, playerUUID, returnToList);
+    this.handleCloseModal();
+
+    if (action && !action.error) {
+      this.handleRefresh();
+    }
+  };
+
+  handleOptInCampaign = async () => {
+    const { modal: { params: { uuid } } } = this.state;
+
+    const {
+      optInCampaign,
+      params: { id: playerUUID },
+    } = this.props;
+
+    const action = await optInCampaign(uuid, playerUUID);
     this.handleCloseModal();
 
     if (action && !action.error) {
@@ -253,28 +275,44 @@ class View extends Component {
   );
 
   renderActions = (data) => {
-    if (!data.optedIn || data.state !== bonusCampaignStatuses.ACTIVE) {
+    if (data.state !== bonusCampaignStatuses.ACTIVE) {
       return null;
     }
 
     return (
       <div className="text-center">
-        <button
-          key="optOutButton"
-          type="button"
-          className="btn btn-sm btn-danger margin-bottom-5"
-          onClick={() => this.handleDeclineClick(data.uuid, true)}
-        >
-          {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_OUT')}
-        </button>
-        <button
-          key="declineButton"
-          type="button"
-          className="btn btn-sm btn-danger display-inline"
-          onClick={() => this.handleDeclineClick(data.uuid)}
-        >
-          {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE')}
-        </button>
+        {
+          data.optedIn ?
+            <div>
+              <button
+                key="optOutButton"
+                type="button"
+                className="btn btn-danger margin-right-10"
+                onClick={() => this.handleDeclineClick(data.uuid, true)}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_OUT')}
+              </button>
+              <button
+                key="declineButton"
+                type="button"
+                className="btn btn-danger"
+                onClick={() => this.handleDeclineClick(data.uuid)}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE')}
+              </button>
+            </div>
+            :
+            <div>
+              <button
+                key="optInButton"
+                type="button"
+                className="btn btn-success"
+                onClick={() => this.handleOptInClick(data.uuid)}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN')}
+              </button>
+            </div>
+        }
       </div>
     );
   };
@@ -353,15 +391,21 @@ class View extends Component {
               name="actions"
               header=""
               render={this.renderActions}
-              headerStyle={{ width: '10%' }}
+              headerStyle={{ width: '200px' }}
             />
           </GridView>
         </div>
-
         {
           modal.name === CAMPAIGN_DECLINE_MODAL &&
           <ConfirmActionModal
             onSubmit={this.handleDeclineCampaign}
+            onClose={this.handleCloseModal}
+          />
+        }
+        {
+          modal.name === CAMPAIGN_OPT_IN_MODAL &&
+          <ConfirmActionModal
+            onSubmit={this.handleOptInCampaign}
             onClose={this.handleCloseModal}
           />
         }
@@ -388,7 +432,6 @@ class View extends Component {
             fullName={profile.fullName}
           />
         }
-
       </div>
     );
   }

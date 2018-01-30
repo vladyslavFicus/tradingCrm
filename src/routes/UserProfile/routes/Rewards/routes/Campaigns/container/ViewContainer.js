@@ -14,6 +14,7 @@ const mapStateToProps = ({
 const mapActions = {
   fetchPlayerCampaigns: actionCreators.fetchPlayerCampaigns,
   declineCampaign: actionCreators.declineCampaign,
+  optInCampaign: actionCreators.optInCampaign,
   fetchCampaigns: actionCreators.fetchCampaigns,
   addPlayerToCampaign: actionCreators.addPlayerToCampaign,
   addPromoCodeToPlayer: actionCreators.addPromoCodeToPlayer,
