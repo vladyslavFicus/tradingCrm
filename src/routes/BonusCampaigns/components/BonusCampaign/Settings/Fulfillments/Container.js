@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
-import { SelectField } from '../../../../../../../../components/ReduxForm';
+import keyMirror from 'keymirror';
+import { SelectField } from '../../../../../../components/ReduxForm';
 import {
   Deposit as DepositNode,
   ProfileCompleted as ProfileCompletedNode,
   NoFulfillments as NoFulfillmentsNode,
 } from './Nodes';
-import renderLabel from '../../../../../../../../utils/renderLabel';
+import renderLabel from '../../../../../../utils/renderLabel';
 import attributeLabels, { nodeTypes, nodeTypesLabels } from './constants';
-import { nodeGroupTypes } from '../../constants';
+
+const nodeGroupTypes = keyMirror({
+  fulfillments: null,
+  rewards: null,
+});
 
 const ALL_NODES = [nodeTypes.deposit, nodeTypes.profileCompleted, nodeTypes.noFulfillments];
 

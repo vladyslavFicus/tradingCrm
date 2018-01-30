@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { change } from 'redux-form';
 import View from '../components/View';
-import { FORM_NAME } from '../components/Form';
+import { FORM_NAME } from '../../../../../components/BonusCampaign/Settings/Form';
 import { actionCreators } from '../../../modules';
 import { actionCreators as settingsActionCreators } from '../modules';
 import { actionCreators as campaignsActionCreators } from '../modules/campaigns';

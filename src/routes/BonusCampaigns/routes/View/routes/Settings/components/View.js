@@ -2,16 +2,9 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
 import _ from 'lodash';
-import Form from './Form';
-import { statuses } from '../../../../../../../constants/bonus-campaigns';
+import Settings from '../../../../../components/BonusCampaign/Settings';
 import PropTypes from '../../../../../../../constants/propTypes';
-import { mapResponseErrorToField } from '../constants';
-import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
-import CurrencyCalculationModal from '../../../../../components/CurrencyCalculationModal';
-import AddToCampaignModal from '../../../../../../../components/AddToCampaignModal';
 
-const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
-const CHOOSE_CAMPAIGN_MODAL = 'choose-campaign-modal';
 const modalInitialState = {
   name: null,
   params: {},
@@ -77,46 +70,6 @@ class View extends Component {
     linkedCampaign: null,
   };
 
-  async componentDidMount() {
-    const { bonusCampaignForm: { linkedCampaignUUID }, fetchCampaign } = this.props;
-
-    if (linkedCampaignUUID) {
-      const action = await fetchCampaign(linkedCampaignUUID);
-
-      if (action && !action.error) {
-        this.setLinkedCampaignData(action.payload);
-      }
-    }
-  }
-
-  setLinkedCampaignData = linkedCampaign => this.setState({ linkedCampaign });
-
-  handleCurrencyAmountModalOpen = (action) => {
-    this.handleOpenModal(CURRENCY_AMOUNT_MODAL, {
-      initialValues: {
-        action: action.action,
-        reasons: action.reasons,
-      },
-      ...action,
-    });
-  };
-
-  handleOpenModal = (name, params) => {
-    this.setState({
-      modal: {
-        name,
-        params,
-      },
-    });
-  };
-
-  handleCloseModal = (e, callback) => {
-    this.setState({ modal: { ...modalInitialState } }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
-    });
-  };
 
   handleSubmit = async (formData) => {
     let data = { ...formData };
@@ -153,57 +106,7 @@ class View extends Component {
         ...rewardsFreeSpinData,
       };
     }
-
-    const updateAction = await updateCampaign(params.id, data);
-
-    if (updateAction) {
-      this.context.addNotification({
-        level: updateAction.error ? 'error' : 'success',
-        title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${updateAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-      });
-
-      if (updateAction.error && updateAction.payload.response.fields_errors) {
-        const errors = Object.keys(updateAction.payload.response.fields_errors).reduce((res, name) => ({
-          ...res,
-          [name]: I18n.t(updateAction.payload.response.fields_errors[name].error),
-        }), {});
-        throw new SubmissionError(errors);
-      } else if (updateAction.payload.response && updateAction.payload.response.error) {
-        const fieldError = recognizeFieldError(updateAction.payload.response.error, mapResponseErrorToField);
-        if (fieldError) {
-          throw new SubmissionError(fieldError);
-        } else {
-          throw new SubmissionError({ __error: I18n.t(updateAction.payload.response.error) });
-        }
-      }
-    }
-
-    return updateAction;
-  };
-
-  handleClickChooseCampaign = async () => {
-    const action = await this.props.fetchCampaigns();
-
-    if (action && !action.error) {
-      this.handleOpenModal(CHOOSE_CAMPAIGN_MODAL, {
-        campaigns: action.payload.content,
-      });
-    }
-  };
-
-  handleSubmitLinkedCampaign = async (data) => {
-    const { fetchCampaign, change } = this.props;
-
-    const action = await fetchCampaign(data.campaignUuid);
-    if (action && !action.error) {
-      this.setLinkedCampaignData(action.payload);
-    }
-
-    change('linkedCampaignUUID', data.campaignUuid);
-    this.handleCloseModal(CHOOSE_CAMPAIGN_MODAL);
-  };
+  }
 
   render() {
     const { modal, linkedCampaign } = this.state;
@@ -225,45 +128,7 @@ class View extends Component {
     } = this.props;
 
     return (
-      <div>
-        <Form
-          locale={locale}
-          currencies={currencies}
-          disabled={bonusCampaign.state !== statuses.DRAFT}
-          initialValues={bonusCampaignForm}
-          removeNode={removeNode}
-          addNode={addNode}
-          nodeGroups={nodeGroups}
-          revert={revert}
-          onSubmit={this.handleSubmit}
-          toggleModal={this.handleCurrencyAmountModalOpen}
-          games={games}
-          providers={providers}
-          templates={templates}
-          fetchFreeSpinTemplate={fetchFreeSpinTemplate}
-          fetchFreeSpinTemplates={fetchFreeSpinTemplates}
-          fetchGames={fetchGames}
-          handleClickChooseCampaign={this.handleClickChooseCampaign}
-          linkedCampaign={linkedCampaign}
-        />
-        {
-          modal.name === CURRENCY_AMOUNT_MODAL &&
-          <CurrencyCalculationModal
-            {...modal.params}
-            onHide={this.handleCloseModal}
-          />
-        }
-        {
-          modal.name === CHOOSE_CAMPAIGN_MODAL &&
-          <AddToCampaignModal
-            {...modal.params}
-            onClose={this.handleCloseModal}
-            onSubmit={this.handleSubmitLinkedCampaign}
-            title={I18n.t('BONUS_CAMPAIGNS.SETTINGS.MODAL.CHOOSE_CAMPAIGN.TITLE')}
-            message={I18n.t('BONUS_CAMPAIGNS.SETTINGS.MODAL.CHOOSE_CAMPAIGN.MESSAGE')}
-          />
-        }
-      </div>
+      <Settings />
     );
   }
 }

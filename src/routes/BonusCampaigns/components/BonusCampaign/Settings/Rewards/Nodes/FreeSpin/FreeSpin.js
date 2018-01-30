@@ -3,19 +3,19 @@ import { getFormValues, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../../../../../constants/propTypes';
-import { InputField, SelectField } from '../../../../../../../../../../components/ReduxForm';
+import PropTypes from '../../../../../../../../constants/propTypes';
+import { InputField, SelectField } from '../../../../../../../../components/ReduxForm';
 import { FORM_NAME } from '../../../Form';
-import Amount, { Currency } from '../../../../../../../../../../components/Amount';
-import renderLabel from '../../../../../../../../../../utils/renderLabel';
+import Amount, { Currency } from '../../../../../../../../components/Amount';
+import renderLabel from '../../../../../../../../utils/renderLabel';
 import {
   attributeLabels,
   attributePlaceholders,
 } from './constants';
 
-import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../../../../constants/bonus-campaigns';
+import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../../constants/bonus-campaigns';
 
-const floatNormalize = v => isNaN(parseFloat(v)) ? v : parseFloat(v);
+const floatNormalize = v => (isNaN(parseFloat(v)) ? v : parseFloat(v));
 
 class FreeSpin extends Component {
   static propTypes = {

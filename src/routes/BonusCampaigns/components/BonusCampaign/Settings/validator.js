@@ -1,12 +1,13 @@
 import _ from 'lodash';
-import { createValidator, translateLabels } from '../../../../../../../utils/validator';
-import { attributeLabels, optInPeriods } from '../constants';
+import { createValidator, translateLabels } from '../../../../../utils/validator';
+import { attributeLabels, optInPeriods } from './constants';
 import {
   targetTypes,
   targetTypesLabels,
   lockAmountStrategy,
   moneyTypeUsage,
-} from '../../../../../../../constants/bonus-campaigns';
+} from '../../../../../constants/bonus-campaigns';
+
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
 export default (values, params) => {

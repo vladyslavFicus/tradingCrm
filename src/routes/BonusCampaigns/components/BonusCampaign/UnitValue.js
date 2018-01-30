@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import Amount from '../../../../../components/Amount';
-import { customValueFieldTypes } from '../../../../../constants/form';
+import Amount from '../../../../components/Amount';
+import { customValueFieldTypes } from '../../../../constants/form';
 
 class UnitValue extends Component {
   static propTypes = {

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import Uuid from '../../../../../../../components/Uuid';
-import { targetTypes } from '../../../../../../../constants/bonus-campaigns';
+import Uuid from '../../../../../components/Uuid';
+import { targetTypes } from '../../../../../constants/bonus-campaigns';
 
 class LinkedCampaign extends Component {
   static propTypes = {

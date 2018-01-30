@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
-import { InputField, SelectField } from '../../../../../../../../../components/ReduxForm';
-import renderLabel from '../../../../../../../../../utils/renderLabel';
-import { lockAmountStrategyLabels } from '../../../../../../../../../constants/bonus-campaigns';
-import ordinalizeNumber from '../../../../../../../../../utils/ordinalizeNumber';
+import { InputField, SelectField } from '../../../../../../../components/ReduxForm';
+import renderLabel from '../../../../../../../utils/renderLabel';
+import { lockAmountStrategyLabels } from '../../../../../../../constants/bonus-campaigns';
+import ordinalizeNumber from '../../../../../../../utils/ordinalizeNumber';
 
 class Deposit extends Component {
   static propTypes = {

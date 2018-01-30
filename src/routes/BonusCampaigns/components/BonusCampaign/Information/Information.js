@@ -1,11 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import PropTypes from '../../../../../../constants/propTypes';
+import PropTypes from '../../../../../constants/propTypes';
 import UnitValue from '../UnitValue';
-import { targetTypesLabels, fulfilmentTypesLabels } from '../../../../../../constants/bonus-campaigns';
-import renderLabel from '../../../../../../utils/renderLabel';
-import Card, { Content } from '../../../../../../components/Card';
+import { targetTypesLabels, fulfilmentTypesLabels } from '../../../../../constants/bonus-campaigns';
+import renderLabel from '../../../../../utils/renderLabel';
+import Card, { Content } from '../../../../../components/Card';
 
 const Information = (props) => {
   const {

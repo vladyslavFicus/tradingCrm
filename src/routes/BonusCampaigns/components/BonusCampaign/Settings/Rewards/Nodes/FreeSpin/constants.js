@@ -1,4 +1,4 @@
-import I18n from '../../../../../../../../../../utils/fake-i18n';
+import I18n from '../../../../../../../../utils/fake-i18n';
 
 const attributeLabels = {
   lifeTime: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.LIFE_TIME'),

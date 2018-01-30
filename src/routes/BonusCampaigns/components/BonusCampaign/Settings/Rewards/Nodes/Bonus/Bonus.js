@@ -4,10 +4,10 @@ import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import {
   InputField, SelectField, CustomValueFieldVertical,
-} from '../../../../../../../../../../components/ReduxForm';
-import renderLabel from '../../../../../../../../../../utils/renderLabel';
+} from '../../../../../../../../components/ReduxForm';
+import renderLabel from '../../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from './constants';
-import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../../../../constants/bonus-campaigns';
+import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../../constants/bonus-campaigns';
 
 class Bonus extends Component {
   static propTypes = {

@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
 import { nodeTypes, nodeTypesLabels } from './constants';
 import { Bonus as BonusNode, FreeSpin as FreeSpinNode } from './Nodes';
-import { SelectField } from '../../../../../../../../components/ReduxForm';
-import renderLabel from '../../../../../../../../utils/renderLabel';
-import { nodeGroupTypes } from '../../constants';
+import { SelectField } from '../../../../../../components/ReduxForm';
+import renderLabel from '../../../../../../utils/renderLabel';
+
+const nodeGroupTypes = keyMirror({
+  fulfillments: null,
+  rewards: null,
+});
 
 const ALL_NODES = [nodeTypes.bonus, nodeTypes.freeSpin];
 

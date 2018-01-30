@@ -4,8 +4,8 @@ import { Collapse } from 'reactstrap';
 import Tabs from '../../../../../components/Tabs';
 import { bonusCampaignTabs } from '../../../../../config/menu';
 import PropTypes from '../../../../../constants/propTypes';
-import Header from '../components/Header';
-import Information from '../components/Information';
+import Header from '../../../components/BonusCampaign/Header';
+import Information from '../../../components/BonusCampaign/Information';
 import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
 
 const REMOVE_PLAYERS = 'remove-players-modal';

@@ -6,23 +6,23 @@ import { I18n } from 'react-redux-i18n';
 import _ from 'lodash';
 import {
   InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField,
-} from '../../../../../../../components/ReduxForm';
-import PropTypes from '../../../../../../../constants/propTypes';
+} from '../../../../../components/ReduxForm';
+import PropTypes from '../../../../../constants/propTypes';
 import {
   targetTypes,
   targetTypesLabels,
   optInSelect,
-} from '../../../../../../../constants/bonus-campaigns';
-import { customValueFieldTypes } from '../../../../../../../constants/form';
-import renderLabel from '../../../../../../../utils/renderLabel';
-import { nodeGroupTypes, attributeLabels, optInPeriods, optInPeriodsLabels } from '../constants';
+} from '../../../../../constants/bonus-campaigns';
+import { customValueFieldTypes } from '../../../../../constants/form';
+import renderLabel from '../../../../../utils/renderLabel';
+import { nodeGroupTypes, attributeLabels, optInPeriods, optInPeriodsLabels } from './constants';
 import { nodeTypes as fulfillmentNodeTypes } from './Fulfillments/constants';
-import countries from '../../../../../../../utils/countryList';
+import countries from '../../../../../utils/countryList';
 import Fulfillments from './Fulfillments';
 import Rewards from './Rewards';
 import validator from './validator';
 import './Form.scss';
-import normalizePromoCode from '../../../../../../../utils/normalizePromoCode';
+import normalizePromoCode from '../../../../../utils/normalizePromoCode';
 import LinkedCampaign from './LinkedCampaign';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
