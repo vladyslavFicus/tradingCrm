@@ -68,10 +68,10 @@ class Settings extends Component {
     templates: [],
     bonusCampaignForm: {
       capping: {
-        type: customValueFieldTypes.PERCENTAGE,
+        type: customValueFieldTypes.ABSOLUTE,
       },
       conversionPrize: {
-        type: customValueFieldTypes.PERCENTAGE,
+        type: customValueFieldTypes.ABSOLUTE,
       },
     },
   };
