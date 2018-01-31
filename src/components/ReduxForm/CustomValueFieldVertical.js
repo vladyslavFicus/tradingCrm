@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import renderLabel from '../../utils/renderLabel';
 import { customValueFieldTypesLabels } from '../../constants/form';
 
-const CustomValueFieldVertical = (props) => {
+const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors } }) => {
   const {
     id,
     basename,
@@ -14,18 +14,17 @@ const CustomValueFieldVertical = (props) => {
     valueInputClassName,
     typeInputClassName,
     typeValues,
-    errors,
   } = props;
 
   const classList = {
     formGroup: classNames('form-group', {
-      'has-danger': !!errors[`${basename}.value`] || !!errors[`${basename}.type`],
+      'has-danger': errors[basename] && (!!errors[basename].value || !!errors[basename].type),
     }),
     valueInput: classNames('form-control', valueInputClassName, {
-      'has-danger': !!errors[`${basename}.value`],
+      'has-danger': errors[basename] && !!errors[basename].value,
     }),
     typeInput: classNames('form-control', typeInputClassName, {
-      'has-danger': !!errors[`${basename}.type`],
+      'has-danger': errors[basename] && !!errors[basename].type,
     }),
   };
 
@@ -80,6 +79,7 @@ CustomValueFieldVertical.defaultProps = {
   disabled: false,
   id: null,
 };
+
 CustomValueFieldVertical.propTypes = {
   id: PropTypes.string,
   basename: PropTypes.string.isRequired,
@@ -87,8 +87,11 @@ CustomValueFieldVertical.propTypes = {
   typeValues: PropTypes.array.isRequired,
   valueInputClassName: PropTypes.string,
   typeInputClassName: PropTypes.string,
-  errors: PropTypes.object,
   disabled: PropTypes.bool,
+};
+
+CustomValueFieldVertical.contextTypes = {
+  _reduxForm: PropTypes.object,
 };
 
 export default CustomValueFieldVertical;
