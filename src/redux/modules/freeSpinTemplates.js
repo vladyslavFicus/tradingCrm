@@ -1,13 +1,12 @@
 import { CALL_API } from 'redux-api-middleware';
-import buildQueryString from '../../utils/buildQueryString';
 
 function fetchFreeSpinTemplates(type) {
-  return (filters = {}) => (dispatch, getState) => {
+  return () => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates?${buildQueryString(filters)}`,
+        endpoint: 'free_spin_template/templates',
         method: 'GET',
         headers: {
           Accept: 'application/json',
