@@ -2,40 +2,15 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
 import _ from 'lodash';
-import Settings from '../../../../../components/Settings';
-import PropTypes from '../../../../../../../constants/propTypes';
-import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
+import PropTypes from '../../../../../../constants/propTypes';
+import { mapResponseErrorToField } from '../../constants';
+import recognizeFieldError from '../../../../../../utils/recognizeFieldError';
+import SettingsForm from '../../../../components/Settings';
+import { statuses } from '../../../../../../constants/bonus-campaigns';
 
-const modalInitialState = {
-  name: null,
-  params: {},
-};
-
-class View extends Component {
+class Settings extends Component {
   static propTypes = {
-    bonusCampaign: PropTypes.bonusCampaignEntity.isRequired,
-    bonusCampaignForm: PropTypes.shape({
-      campaignName: PropTypes.bonusCampaignEntity.campaignName,
-      targetType: PropTypes.bonusCampaignEntity.targetType,
-      currency: PropTypes.bonusCampaignEntity.currency,
-      startDate: PropTypes.bonusCampaignEntity.startDate,
-      endDate: PropTypes.bonusCampaignEntity.endDate,
-      wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
-      promoCode: PropTypes.bonusCampaignEntity.promoCode,
-      bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
-      campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
-      conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
-      capping: PropTypes.bonusCampaignEntity.capping,
-      optIn: PropTypes.bonusCampaignEntity.optIn,
-      fulfilmentType: PropTypes.bonusCampaignEntity.fulfilmentType,
-      minAmount: PropTypes.bonusCampaignEntity.minAmount,
-      maxAmount: PropTypes.bonusCampaignEntity.maxAmount,
-    }).isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }).isRequired,
-    updateCampaign: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     revert: PropTypes.func.isRequired,
     removeNode: PropTypes.func.isRequired,
@@ -62,25 +37,24 @@ class View extends Component {
     games: [],
     providers: [],
     templates: [],
-    paymentMethods: [],
   };
 
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
-  state = {
-    modal: { ...modalInitialState },
-    linkedCampaign: null,
-  };
-
+  bonusCampaign = {
+    state: statuses.DRAFT,
+  }
 
   handleSubmit = async (formData) => {
     let data = { ...formData };
-
-    const { params, updateCampaign, createFreeSpinTemplate } = this.props;
-
+    const { createCampaign, createFreeSpinTemplate } = this.props;
     const rewardsFreeSpin = _.get(data, 'rewards.freeSpin');
+
     if (rewardsFreeSpin) {
       let rewardsFreeSpinData = {};
 
@@ -111,40 +85,42 @@ class View extends Component {
       };
     }
 
-    const updateAction = await updateCampaign(params.id, data);
 
-    if (updateAction) {
-      this.context.addNotification({
-        level: updateAction.error ? 'error' : 'success',
-        title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${updateAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-      });
+    const createAction = await createCampaign(data);
 
-      if (updateAction.error && updateAction.payload.response.fields_errors) {
-        const errors = Object.keys(updateAction.payload.response.fields_errors).reduce((res, name) => ({
-          ...res,
-          [name]: I18n.t(updateAction.payload.response.fields_errors[name].error),
-        }), {});
-        throw new SubmissionError(errors);
-      } else if (updateAction.payload.response && updateAction.payload.response.error) {
-        const fieldError = recognizeFieldError(updateAction.payload.response.error, mapResponseErrorToField);
-        if (fieldError) {
-          throw new SubmissionError(fieldError);
-        } else {
-          throw new SubmissionError({ __error: I18n.t(updateAction.payload.response.error) });
-        }
-      }
+    if (!createAction.error) {
+      this.context.router.push(`/bonus-campaigns/view/${createAction.payload.campaignUUID}/settings`);
     }
 
-    return updateAction;
+    this.context.addNotification({
+      level: createAction.error ? 'error' : 'success',
+      title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
+      message: `${I18n.t('COMMON.ACTIONS.ADDED')} ${createAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+        I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+    });
+
+    if (createAction.error && createAction.payload.response.fields_errors) {
+      const errors = Object.keys(createAction.payload.response.fields_errors).reduce((res, name) => ({
+        ...res,
+        [name]: I18n.t(createAction.payload.response.fields_errors[name].error),
+      }), {});
+      throw new SubmissionError(errors);
+    } else if (createAction.payload.response && createAction.payload.response.error) {
+      const fieldError = recognizeFieldError(createAction.payload.response.error, mapResponseErrorToField);
+      if (fieldError) {
+        throw new SubmissionError(fieldError);
+      } else {
+        throw new SubmissionError({ __error: I18n.t(createAction.payload.response.error) });
+      }
+    }
+    if (!createAction.error) {
+      this.context.router.push(`/bonus-campaigns/view/${createAction.payload.campaignUUID}/settings`);
+    }
   };
 
 
   render() {
     const {
-      bonusCampaign,
-      bonusCampaignForm,
       currencies,
       locale,
       revert,
@@ -154,18 +130,18 @@ class View extends Component {
       games,
       providers,
       templates,
-      paymentMethods,
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
-      fetchPaymentMethods,
       fetchCampaigns,
       fetchCampaign,
       change,
+      paymentMethods,
+      fetchPaymentMethods,
     } = this.props;
 
     return (
-      <Settings
+      <SettingsForm
         fetchGames={fetchGames}
         fetchPaymentMethods={fetchPaymentMethods}
         paymentMethods={paymentMethods}
@@ -181,8 +157,7 @@ class View extends Component {
         removeNode={removeNode}
         nodeGroups={nodeGroups}
         revert={revert}
-        bonusCampaign={bonusCampaign}
-        bonusCampaignForm={bonusCampaignForm}
+        bonusCampaign={this.bonusCampaign}
         locale={locale}
         currencies={currencies}
         change={change}
@@ -191,4 +166,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default Settings;

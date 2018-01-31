@@ -10,9 +10,9 @@ import {
   countryStrategies,
 } from '../../../../../constants/bonus-campaigns';
 import buildFormData from '../../../../../utils/buildFormData';
-import { nodeGroupTypes } from '../routes/Settings/constants';
-import { nodeTypes as fulfillmentNodeTypes } from '../routes/Settings/components/Fulfillments/constants';
-import { nodeTypes as rewardNodeTypes } from '../routes/Settings/components/Rewards/constants';
+import { nodeGroupTypes } from '../../../components/Settings/constants';
+import { nodeTypes as fulfillmentNodeTypes } from '../../../components/Settings/Fulfillments/constants';
+import { nodeTypes as rewardNodeTypes } from '../../../components/Settings/Rewards/constants';
 import { sourceActionCreators as bonusCampaignActionCreators } from '../../../../../redux/modules/bonusCampaigns';
 import deleteFromArray from '../../../../../utils/deleteFromArray';
 
@@ -23,7 +23,7 @@ const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
 const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
 const REMOVE_PLAYERS = createRequestAction(`${KEY}/remove-players`);
-const REVERT = createRequestAction(`${KEY}/revert-form`);
+const REVERT = `${KEY}/revert-form`;
 const REMOVE_NODE = `${KEY}/remove-node`;
 const ADD_NODE = `${KEY}/add-fulfillment-node`;
 

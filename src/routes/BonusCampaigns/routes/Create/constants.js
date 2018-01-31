@@ -1,5 +1,5 @@
 import keyMirror from 'keymirror';
-import I18n from '../../../../../../utils/fake-i18n';
+import I18n from '../../../../utils/fake-i18n';
 
 const attributeLabels = {
   campaignName: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_NAME'),
@@ -34,6 +34,11 @@ const attributeLabels = {
   'rewards.bonus.moneyTypePriority ': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MONEY_TYPE_PRIORITY'),
 };
 
+const nodeGroupTypes = keyMirror({
+  fulfillments: null,
+  rewards: null,
+});
+
 const attributePlaceholders = {
   minAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_AMOUNT_PLACEHOLDER'),
   maxAmount: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MAX_AMOUNT_PLACEHOLDER'),
@@ -57,6 +62,7 @@ const optInPeriodsLabels = {
 
 export {
   attributeLabels,
+  nodeGroupTypes,
   attributePlaceholders,
   optInPeriods,
   optInPeriodsLabels,

@@ -1,5 +1,5 @@
 import keyMirror from 'keymirror';
-import I18n from '../../../../../../utils/fake-i18n';
+import I18n from '../../../../utils/fake-i18n';
 
 const attributeLabels = {
   campaignName: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_NAME'),
@@ -55,8 +55,15 @@ const optInPeriodsLabels = {
   [optInPeriods.WEEKS]: I18n.t('COMMON.WEEKS'),
 };
 
+
+const nodeGroupTypes = keyMirror({
+  fulfillments: null,
+  rewards: null,
+});
+
 export {
   attributeLabels,
+  nodeGroupTypes,
   attributePlaceholders,
   optInPeriods,
   optInPeriodsLabels,
