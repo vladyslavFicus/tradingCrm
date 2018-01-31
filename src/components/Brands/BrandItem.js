@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SignInBrandItem = ({ className, name, image, onClick }) => (
+const BrandItem = ({ className, name, image, onClick }) => (
   <div className={className} onClick={onClick}>
     <div>
       <img {...image} alt={name} />
@@ -11,7 +11,7 @@ const SignInBrandItem = ({ className, name, image, onClick }) => (
     </div>
   </div>
 );
-SignInBrandItem.propTypes = {
+BrandItem.propTypes = {
   className: PropTypes.string,
   image: PropTypes.shape({
     src: PropTypes.string.isRequired,
@@ -23,8 +23,8 @@ SignInBrandItem.propTypes = {
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
-SignInBrandItem.defaultProps = {
+BrandItem.defaultProps = {
   className: 'choice-item',
 };
 
-export default SignInBrandItem;
+export default BrandItem;

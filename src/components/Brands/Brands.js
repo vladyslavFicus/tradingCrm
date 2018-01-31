@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import SignInBrandItem from './SignInBrandItem';
-import PropTypes from '../propTypes';
-import Greeting from '../../../components/Greeting';
+import PropTypes from '../../constants/propTypes';
+import BrandItem from './BrandItem';
+import Greeting from '../Greeting';
 
-class SignInBrands extends Component {
-  state = {
-    step: 0,
-    activeBrand: null,
-    reverseStep: false,
+class Brands extends Component {
+  static propTypes = {
+    activeBrand: PropTypes.brand,
+    logged: PropTypes.bool.isRequired,
+    username: PropTypes.string,
+    brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
+    onSelect: PropTypes.func.isRequired,
   };
+  static defaultProps = {
+    activeBrand: null,
+    username: null,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      step: +props.logged,
+      activeBrand: null,
+      reverseStep: false,
+    };
+  }
 
   componentWillReceiveProps(nextProps) {
     const { activeBrand, logged } = this.props;
@@ -113,7 +129,7 @@ class SignInBrands extends Component {
             });
 
             return (
-              <SignInBrandItem
+              <BrandItem
                 className={itemClassName}
                 key={brand.id}
                 {...brand}
@@ -127,16 +143,4 @@ class SignInBrands extends Component {
   }
 }
 
-SignInBrands.propTypes = {
-  activeBrand: PropTypes.brand,
-  logged: PropTypes.bool.isRequired,
-  username: PropTypes.string,
-  brands: PropTypes.arrayOf(PropTypes.brand).isRequired,
-  onSelect: PropTypes.func.isRequired,
-};
-SignInBrands.defaultProps = {
-  activeBrand: null,
-  username: null,
-};
-
-export default SignInBrands;
+export default Brands;

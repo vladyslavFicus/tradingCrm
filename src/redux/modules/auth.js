@@ -15,6 +15,7 @@ const CHANGE_AUTHORITY = createRequestAction(`${KEY}/change-authorities`);
 const REFRESH_TOKEN = createRequestAction(`${KEY}/refresh-token`);
 const LOGOUT = createRequestAction(`${KEY}/logout`);
 const SET_LAST_ACTIVITY = `${KEY}/set-last-activity`;
+const SET_DEPARTMENTS_BY_BRAND = `${KEY}/set-departments-by-brand`;
 
 const fetchProfile = operatorSourceActionCreators.fetchProfile(FETCH_PROFILE);
 const fetchAuthorities = operatorSourceActionCreators.fetchAuthorities(FETCH_AUTHORITIES);
@@ -148,6 +149,13 @@ function setLastActivity(time) {
   };
 }
 
+function setDepartmentsByBrand(payload) {
+  return {
+    type: SET_DEPARTMENTS_BY_BRAND,
+    payload,
+  };
+}
+
 const initialState = {
   brandId: null,
   lastActivity: null,
@@ -162,6 +170,7 @@ const initialState = {
   notifications: {
     email: true,
   },
+  departmentsByBrand: {},
   data: {},
 };
 const actionHandlers = {
@@ -207,6 +216,10 @@ const actionHandlers = {
     ...state,
     lastActivity: action.payload.timestamp,
   }),
+  [SET_DEPARTMENTS_BY_BRAND]: (state, { payload }) => ({
+    ...state,
+    departmentsByBrand: payload,
+  }),
 };
 const actionTypes = {
   SIGN_IN,
@@ -216,6 +229,7 @@ const actionTypes = {
   LOGOUT,
   UPDATE_PROFILE,
   SET_LAST_ACTIVITY,
+  SET_DEPARTMENTS_BY_BRAND,
 };
 const actionCreators = {
   signIn,
@@ -227,6 +241,7 @@ const actionCreators = {
   setLastActivity,
   resetPasswordConfirm,
   updateProfile,
+  setDepartmentsByBrand,
 };
 
 export {
