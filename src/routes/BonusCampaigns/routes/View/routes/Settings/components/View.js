@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Settings from '../../../../../components/Settings';
 import PropTypes from '../../../../../../../constants/propTypes';
 import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
+import { mapResponseErrorToField } from '../constants';
 
 const modalInitialState = {
   name: null,
