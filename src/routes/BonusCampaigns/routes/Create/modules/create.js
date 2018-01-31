@@ -14,7 +14,7 @@ import deleteFromArray from '../../../../../utils/deleteFromArray';
 
 const KEY = 'campaign';
 const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
-const REVERT = createRequestAction(`${KEY}/revert-form`);
+const REVERT = `${KEY}/revert-form`;
 const REMOVE_NODE = `${KEY}/remove-node`;
 const ADD_NODE = `${KEY}/add-fulfillment-node`;
 const CREATE_CAMPAIGN = createRequestAction(`${KEY}/create-campaign`);
@@ -204,8 +204,8 @@ const actionHandlers = {
     ...state,
     nodeGroups: {
       ...state.nodeGroups,
-      [nodeGroupTypes.fulfillments]: [mapFulfillmentNode(state.data.fulfilmentType)],
-      [nodeGroupTypes.rewards]: [mapRewardNode(state.data.campaignType)],
+      [nodeGroupTypes.fulfillments]: state.data.fulfilmentType ? [mapFulfillmentNode(state.data.fulfilmentType)] : [],
+      [nodeGroupTypes.rewards]: state.data.campaignType ? [mapRewardNode(state.data.campaignType)] : [],
     },
   }),
 };

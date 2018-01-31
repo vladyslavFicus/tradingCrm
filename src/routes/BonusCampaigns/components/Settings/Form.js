@@ -129,6 +129,10 @@ class Form extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.props.revert();
+  }
+
   getCustomValueFieldErrors = (name) => {
     const { errors, meta } = this.props;
 

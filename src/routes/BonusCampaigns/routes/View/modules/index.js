@@ -23,7 +23,7 @@ const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
 const CHANGE_CAMPAIGN_STATE = createRequestAction(`${KEY}/change-campaign-state`);
 const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
 const REMOVE_PLAYERS = createRequestAction(`${KEY}/remove-players`);
-const REVERT = createRequestAction(`${KEY}/revert-form`);
+const REVERT = `${KEY}/revert-form`;
 const REMOVE_NODE = `${KEY}/remove-node`;
 const ADD_NODE = `${KEY}/add-fulfillment-node`;
 

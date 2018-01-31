@@ -60,10 +60,6 @@ class Bonus extends Component {
               component={InputField}
               position="vertical"
               disabled={disabled}
-              meta={{
-                touched: true,
-                error: errors[this.buildFieldName('wagerWinMultiplier')],
-              }}
             />
           </div>
           <div className="form-row__medium">
@@ -74,10 +70,6 @@ class Bonus extends Component {
               component={SelectField}
               position="vertical"
               disabled={disabled}
-              meta={{
-                touched: true,
-                error: errors[this.buildFieldName('moneyTypePriority')],
-              }}
             >
               <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
               {Object.keys(moneyTypeUsage).map(key => (
@@ -96,10 +88,6 @@ class Bonus extends Component {
               component={InputField}
               position="vertical"
               disabled={disabled}
-              meta={{
-                touched: true,
-                error: errors[this.buildFieldName('bonusLifetime')],
-              }}
             />
             <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
           </div>

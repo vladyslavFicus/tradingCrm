@@ -106,6 +106,11 @@ export default (values, params) => {
     rules.rewards.bonus.moneyTypePriority.push('required');
   }
 
+  if (rewardsFreeSpins && !rewardsFreeSpins.templateUUID) {
+    ['name', 'providerId', 'gameId', 'aggregatorId', 'freeSpinsAmount', 'linesPerSpin',
+      'betPerLine', 'bonusLifeTime', 'multiplier', 'moneyTypePriority',
+    ].map(field => rules.rewards.freeSpin[field].push('required'));
+  }
 
   return createValidator(rules, translateLabels(attributeLabels), false)(values);
 };
