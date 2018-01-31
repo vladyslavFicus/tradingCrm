@@ -5,6 +5,7 @@ import { statuses } from '../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../constants/propTypes';
 import CurrencyCalculationModal from '../../components/CurrencyCalculationModal';
 import AddToCampaignModal from '../../../../components/AddToCampaignModal';
+import { customValueFieldTypes } from '../../../../constants/form';
 
 const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
 const CHOOSE_CAMPAIGN_MODAL = 'choose-campaign-modal';
@@ -60,7 +61,14 @@ class Settings extends Component {
     games: [],
     providers: [],
     templates: [],
-    bonusCampaignForm: {},
+    bonusCampaignForm: {
+      capping: {
+        type: customValueFieldTypes.PERCENTAGE,
+      },
+      conversionPrize: {
+        type: customValueFieldTypes.PERCENTAGE,
+      },
+    },
   };
 
   static contextTypes = {
