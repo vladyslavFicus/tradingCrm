@@ -104,7 +104,7 @@ class View extends Component {
 
   pollingFreeSpinTemplate = null;
 
-  startPollingFreeSpinTemplate = (uuid) => new Promise((resolve) => {
+  startPollingFreeSpinTemplate = uuid => new Promise((resolve) => {
     this.pollingFreeSpinTemplate = setInterval(async () => {
       const action = await this.props.fetchFreeSpinTemplate(uuid);
 
