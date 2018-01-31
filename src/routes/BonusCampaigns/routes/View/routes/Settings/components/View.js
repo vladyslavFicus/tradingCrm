@@ -13,7 +13,7 @@ import AddToCampaignModal from '../../../../../../../components/AddToCampaignMod
 
 const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
 const CHOOSE_CAMPAIGN_MODAL = 'choose-campaign-modal';
-const POLLING_FREE_SPIN_TEMPLATE_INTERVAL =  1000;
+const POLLING_FREE_SPIN_TEMPLATE_INTERVAL = 1000;
 const modalInitialState = {
   name: null,
   params: {},
