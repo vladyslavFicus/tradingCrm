@@ -5,6 +5,7 @@ import _ from 'lodash';
 import Form from './Form';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../../../../constants/propTypes';
+import { statuses as freeSpinTemplateStatuses } from '../../../../../../../constants/free-spin-template';
 import { mapResponseErrorToField } from '../constants';
 import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
 import CurrencyCalculationModal from '../../../../../components/CurrencyCalculationModal';
@@ -12,6 +13,7 @@ import AddToCampaignModal from '../../../../../../../components/AddToCampaignMod
 
 const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
 const CHOOSE_CAMPAIGN_MODAL = 'choose-campaign-modal';
+const POLLING_FREE_SPIN_TEMPLATE_INTERVAL = 1000;
 const modalInitialState = {
   name: null,
   params: {},
@@ -60,6 +62,7 @@ class View extends Component {
     change: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
+    fetchPaymentMethods: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
   };
 
@@ -91,7 +94,34 @@ class View extends Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.pollingFreeSpinTemplate) {
+      this.stopPollingFreeSpinTemplate();
+    }
+  }
+
   setLinkedCampaignData = linkedCampaign => this.setState({ linkedCampaign });
+
+  pollingFreeSpinTemplate = null;
+
+  startPollingFreeSpinTemplate = uuid => new Promise((resolve) => {
+    this.pollingFreeSpinTemplate = setInterval(async () => {
+      const action = await this.props.fetchFreeSpinTemplate(uuid);
+
+      if (action && !action.error) {
+        const { status } = action.payload;
+        if (status === freeSpinTemplateStatuses.CREATED) {
+          this.stopPollingFreeSpinTemplate();
+          resolve();
+        }
+      }
+    }, POLLING_FREE_SPIN_TEMPLATE_INTERVAL);
+  });
+
+  stopPollingFreeSpinTemplate = () => {
+    clearInterval(this.pollingFreeSpinTemplate);
+    this.pollingFreeSpinTemplate = null;
+  };
 
   handleCurrencyAmountModalOpen = (action) => {
     this.handleOpenModal(CURRENCY_AMOUNT_MODAL, {
@@ -139,6 +169,7 @@ class View extends Component {
 
         if (createAction && !createAction.error) {
           rewardsFreeSpinData = createAction.payload;
+          await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
         } else {
           throw new SubmissionError({
             rewards: {

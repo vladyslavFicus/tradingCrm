@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../../../../constants/propTypes';
+import { statuses as freeSpinTemplate } from '../../../../../../../../../../constants/free-spin-template';
 import { InputField, SelectField } from '../../../../../../../../../../components/ReduxForm';
 import { FORM_NAME } from '../../../Form';
 import Amount, { Currency } from '../../../../../../../../../../components/Amount';
@@ -62,7 +63,7 @@ class FreeSpin extends Component {
     const { fetchGames, currentValues: { templateUUID }, fetchFreeSpinTemplates } = this.props;
 
     const action = await fetchGames();
-    await fetchFreeSpinTemplates();
+    await fetchFreeSpinTemplates({ status: freeSpinTemplate.CREATED });
     if (action && !action.error && templateUUID) {
       this.loadTemplateData(templateUUID);
     }
