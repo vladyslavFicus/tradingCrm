@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import _ from 'lodash';
+import { difference } from 'lodash';
 import { SelectField } from '../../../../../components/ReduxForm';
 import {
   Deposit as DepositNode,
@@ -48,7 +48,7 @@ class Container extends Component {
 
     change(nodeGroupTypes.fulfillments, {});
 
-    const availableNodes = _.difference(ALL_NODES, activeNodes);
+    const availableNodes = difference(ALL_NODES, activeNodes);
     if (availableNodes.length > 0) {
       this.handleSelectNode(availableNodes[0]);
     }
@@ -108,7 +108,7 @@ class Container extends Component {
   render() {
     const { disabled, activeNodes } = this.props;
     const { selectedNode } = this.state;
-    const availableNodes = _.difference(ALL_NODES, activeNodes);
+    const availableNodes = difference(ALL_NODES, activeNodes);
 
     return (
       <div className="col-lg-6 padding-bottom-30 with-right-border">

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import _ from 'lodash';
+import { get } from 'lodash';
 import FileUpload from '../../../../../../components/FileUpload';
 import Amount from '../../../../../../components/Amount';
 import PropTypes from '../../../../../../constants/propTypes';
@@ -31,7 +31,7 @@ class Header extends Component {
     const action = await this.props.onChangeCampaignState(data);
 
     if (action && action.error) {
-      const error = _.get(action, 'payload.response.error');
+      const error = get(action, 'payload.response.error');
 
       this.context.addNotification({
         level: 'error',

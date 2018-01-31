@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import _ from 'lodash';
+import { omitBy } from 'lodash';
 import moment from 'moment';
 import { statuses, statusesReasons } from '../../../../../constants/bonus-campaigns';
 import { getApiRoot } from '../../../../../config';
@@ -80,7 +80,7 @@ function exportEntities(filters = {}) {
     }
 
     const queryString = buildQueryString(
-      _.omitBy(queryParams, val => !val),
+      omitBy(queryParams, val => !val),
     );
 
     const response = await fetch(`${getApiRoot()}/promotion/campaigns?${queryString}`, {

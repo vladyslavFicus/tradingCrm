@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
-import _ from 'lodash';
 import PropTypes from '../../../../../../constants/propTypes';
 import { mapResponseErrorToField } from '../../constants';
 import recognizeFieldError from '../../../../../../utils/recognizeFieldError';
@@ -16,8 +15,9 @@ class Settings extends Component {
     removeNode: PropTypes.func.isRequired,
     addNode: PropTypes.func.isRequired,
     fetchGames: PropTypes.func.isRequired,
-    createFreeSpinTemplate: PropTypes.func.isRequired,
+    createCampaign: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
+    createFreeSpinTemplate: PropTypes.func.isRequired,
     nodeGroups: PropTypes.shape({
       fulfillments: PropTypes.array.isRequired,
       rewards: PropTypes.array.isRequired,
@@ -48,45 +48,10 @@ class Settings extends Component {
 
   bonusCampaign = {
     state: statuses.DRAFT,
-  }
+  };
 
-  handleSubmit = async (formData) => {
-    let data = { ...formData };
-    const { createCampaign, createFreeSpinTemplate } = this.props;
-    const rewardsFreeSpin = _.get(data, 'rewards.freeSpin');
-
-    if (rewardsFreeSpin) {
-      let rewardsFreeSpinData = {};
-
-      if (rewardsFreeSpin.templateUUID) {
-        rewardsFreeSpinData = rewardsFreeSpin;
-      } else {
-        const createAction = await createFreeSpinTemplate({
-          claimable: false,
-          ...rewardsFreeSpin,
-        });
-
-        if (createAction && !createAction.error) {
-          rewardsFreeSpinData = createAction.payload;
-        } else {
-          throw new SubmissionError({
-            rewards: {
-              freeSpin: {
-                name: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.NAME_ALREADY_EXIST'),
-              },
-            },
-          });
-        }
-      }
-
-      data = {
-        ...data,
-        ...rewardsFreeSpinData,
-      };
-    }
-
-
-    const createAction = await createCampaign(data);
+  handleSubmit = async (data) => {
+    const createAction = await this.props.createCampaign(data);
 
     if (!createAction.error) {
       this.context.router.push(`/bonus-campaigns/view/${createAction.payload.campaignUUID}/settings`);
@@ -116,8 +81,9 @@ class Settings extends Component {
     if (!createAction.error) {
       this.context.router.push(`/bonus-campaigns/view/${createAction.payload.campaignUUID}/settings`);
     }
-  };
 
+    return createAction;
+  };
 
   render() {
     const {
@@ -138,6 +104,7 @@ class Settings extends Component {
       change,
       paymentMethods,
       fetchPaymentMethods,
+      createFreeSpinTemplate,
     } = this.props;
 
     return (
@@ -161,6 +128,7 @@ class Settings extends Component {
         locale={locale}
         currencies={currencies}
         change={change}
+        createFreeSpinTemplate={createFreeSpinTemplate}
       />
     );
   }

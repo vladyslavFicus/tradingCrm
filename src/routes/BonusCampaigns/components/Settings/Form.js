@@ -3,7 +3,7 @@ import { Field, reduxForm, getFormValues, getFormMeta } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import _ from 'lodash';
+import { get, isEmpty, isEqual } from 'lodash';
 import {
   InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField,
 } from '../../../../components/ReduxForm';
@@ -28,8 +28,8 @@ import LinkedCampaign from './LinkedCampaign';
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
 const getCustomValueFieldTypes = (fulfillment) => {
-  const isAbsolute = _.get(fulfillment, fulfillmentNodeTypes.profileCompleted)
-    || _.get(fulfillment, fulfillmentNodeTypes.noFulfillments);
+  const isAbsolute = get(fulfillment, fulfillmentNodeTypes.profileCompleted)
+    || get(fulfillment, fulfillmentNodeTypes.noFulfillments);
 
   return isAbsolute
     ? [customValueFieldTypes.ABSOLUTE]
@@ -112,9 +112,9 @@ class Form extends Component {
     const { currentValues, change } = this.props;
     const { currentValues: nextValues } = nextProps;
 
-    if (!_.isEqual(currentValues.fulfillments, nextValues.fulfillments)) {
-      const isNoFulfilment = _.get(nextValues.fulfillments, fulfillmentNodeTypes.noFulfillments);
-      const isAbsolute = _.get(nextValues.fulfillments, fulfillmentNodeTypes.profileCompleted)
+    if (!isEqual(currentValues.fulfillments, nextValues.fulfillments)) {
+      const isNoFulfilment = get(nextValues.fulfillments, fulfillmentNodeTypes.noFulfillments);
+      const isAbsolute = get(nextValues.fulfillments, fulfillmentNodeTypes.profileCompleted)
         || isNoFulfilment;
 
       if (isAbsolute) {
@@ -228,7 +228,7 @@ class Form extends Component {
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfillments);
     const isOptInDisabled = disabled || currentValues.targetType === targetTypes.ALL
-      || _.get(currentValues.fulfillments, fulfillmentNodeTypes.noFulfillments);
+      || get(currentValues.fulfillments, fulfillmentNodeTypes.noFulfillments);
 
     return (
       <form className="form-horizontal campaign-settings" onSubmit={handleSubmit(onSubmit)}>
@@ -575,7 +575,7 @@ export default connect((state) => {
   return {
     currentValues,
     meta: getFormMeta(FORM_NAME)(state),
-    fulfillmentExist: currentValues && !_.isEmpty(currentValues.fulfillments),
+    fulfillmentExist: currentValues && !isEmpty(currentValues.fulfillments),
     currency: 'EUR',
   };
 })(SettingsForm);

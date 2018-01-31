@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
-import _ from 'lodash';
-import Settings from '../../../../../components/Settings';
+import SettingsForm from '../../../../../components/Settings';
 import PropTypes from '../../../../../../../constants/propTypes';
 import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
 import { mapResponseErrorToField } from '../constants';
@@ -76,43 +75,9 @@ class View extends Component {
   };
 
 
-  handleSubmit = async (formData) => {
-    let data = { ...formData };
-
-    const { params, updateCampaign, createFreeSpinTemplate } = this.props;
-
-    const rewardsFreeSpin = _.get(data, 'rewards.freeSpin');
-    if (rewardsFreeSpin) {
-      let rewardsFreeSpinData = {};
-
-      if (rewardsFreeSpin.templateUUID) {
-        rewardsFreeSpinData = rewardsFreeSpin;
-      } else {
-        const createAction = await createFreeSpinTemplate({
-          claimable: false,
-          ...rewardsFreeSpin,
-        });
-
-        if (createAction && !createAction.error) {
-          rewardsFreeSpinData = createAction.payload;
-        } else {
-          throw new SubmissionError({
-            rewards: {
-              freeSpin: {
-                name: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.NAME_ALREADY_EXIST'),
-              },
-            },
-          });
-        }
-      }
-
-      data = {
-        ...data,
-        ...rewardsFreeSpinData,
-      };
-    }
-
-    const updateAction = await updateCampaign(params.id, data);
+  handleSubmit = async (data) => {
+    const { updateCampaign, params: { id } } = this.props;
+    const updateAction = await updateCampaign(id, data);
 
     if (updateAction) {
       this.context.addNotification({
@@ -141,7 +106,6 @@ class View extends Component {
     return updateAction;
   };
 
-
   render() {
     const {
       bonusCampaign,
@@ -163,10 +127,12 @@ class View extends Component {
       fetchCampaigns,
       fetchCampaign,
       change,
+      createFreeSpinTemplate,
     } = this.props;
 
     return (
-      <Settings
+      <SettingsForm
+        createFreeSpinTemplate={createFreeSpinTemplate}
         fetchGames={fetchGames}
         fetchPaymentMethods={fetchPaymentMethods}
         paymentMethods={paymentMethods}
