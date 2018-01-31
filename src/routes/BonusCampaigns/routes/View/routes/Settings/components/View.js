@@ -104,23 +104,19 @@ class View extends Component {
 
   pollingFreeSpinTemplate = null;
 
-  startPollingFreeSpinTemplate = (uuid) => {
-    const promise = new Promise((resolve) => {
-      this.pollingFreeSpinTemplate = setInterval(async () => {
-        const action = await this.props.fetchFreeSpinTemplate(uuid);
+  startPollingFreeSpinTemplate = (uuid) => new Promise((resolve) => {
+    this.pollingFreeSpinTemplate = setInterval(async () => {
+      const action = await this.props.fetchFreeSpinTemplate(uuid);
 
-        if (action && !action.error) {
-          const { status } = action.payload;
-          if (status === freeSpinTemplateStatuses.CREATED) {
-            this.stopPollingFreeSpinTemplate();
-            resolve();
-          }
+      if (action && !action.error) {
+        const { status } = action.payload;
+        if (status === freeSpinTemplateStatuses.CREATED) {
+          this.stopPollingFreeSpinTemplate();
+          resolve();
         }
-      }, POLLING_FREE_SPIN_TEMPLATE_INTERVAL);
-    });
-
-    return promise;
-  };
+      }
+    }, POLLING_FREE_SPIN_TEMPLATE_INTERVAL);
+  });
 
   stopPollingFreeSpinTemplate = () => {
     clearInterval(this.pollingFreeSpinTemplate);
