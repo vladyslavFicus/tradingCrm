@@ -23,7 +23,6 @@ class SignInForm extends Component {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
     submitting: PropTypes.bool,
-    pristine: PropTypes.bool,
     error: PropTypes.string,
   };
   static defaultProps = {

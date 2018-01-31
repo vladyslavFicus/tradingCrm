@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
+import PropTypes from '../../../constants/propTypes';
 import SignInForm from './SignInForm';
-import SignInBrands from './SignInBrands';
-import SignInDepartments from './SignInDepartments';
-import Preloader from './Preloader';
-import PropTypes from '../propTypes';
+import Preloader from '../../../components/Preloader';
+import { Brands, Departments } from '../../../components/Brands';
+import Copyrights from '../../../components/Copyrights';
 
 class SignIn extends Component {
   static propTypes = {
@@ -21,6 +21,7 @@ class SignIn extends Component {
     selectBrand: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     changeDepartment: PropTypes.func.isRequired,
+    setDepartmentsByBrand: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
     fetchAuthorities: PropTypes.func.isRequired,
     brand: PropTypes.brand,
@@ -112,13 +113,14 @@ class SignIn extends Component {
       }
     }
 
-    this.props.selectBrand(brand);
+    return this.props.selectBrand(brand);
   };
 
   handleSelectDepartment = async (brand, department, requestToken = null, requestUuid = null) => {
     const {
       changeDepartment,
-      data: { token: dataToken, uuid: dataUuid },
+      data: { token: dataToken, uuid: dataUuid, departmentsByBrand },
+      setDepartmentsByBrand,
       fetchAuthorities,
       fetchProfile,
       reset,
@@ -136,6 +138,7 @@ class SignIn extends Component {
       if (action) {
         if (!action.error) {
           await Promise.all([
+            setDepartmentsByBrand(departmentsByBrand),
             fetchProfile(uuid, action.payload.token),
             fetchAuthorities(uuid, action.payload.token),
           ]);
@@ -160,6 +163,7 @@ class SignIn extends Component {
       location.query && location.query.returnUrl
       && !/sign\-in/.test(location.query.returnUrl)
       && !/logout/.test(location.query.returnUrl)
+      && !/brands/.test(location.query.returnUrl)
     ) {
       nextUrl = location.query.returnUrl;
     }
@@ -178,7 +182,7 @@ class SignIn extends Component {
     } = this.props;
 
     return (
-      <div className="form-page-container" style={{ height: '100%' }}>
+      <div className="form-page-container">
         <Preloader show={loading} />
         <div className="wrapper">
           <div className="form-page">
@@ -191,7 +195,7 @@ class SignIn extends Component {
               onSubmit={this.handleSubmit}
             />
 
-            <SignInBrands
+            <Brands
               logged={logged}
               activeBrand={brand}
               username={fullName}
@@ -199,7 +203,7 @@ class SignIn extends Component {
               onSelect={this.handleSelectBrand}
             />
 
-            <SignInDepartments
+            <Departments
               logged={logged && !!brand}
               brand={brand}
               canGoBack={brands.length > 1}
@@ -211,7 +215,7 @@ class SignIn extends Component {
           </div>
         </div>
 
-        <div className="form-page__copyright">Copyright © {(new Date()).getFullYear()} by Newage</div>
+        <Copyrights />
       </div>
     );
   }

@@ -1,10 +1,25 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import SignInDepartmentItem from './SignInDepartmentItem';
-import PropTypes from '../propTypes';
-import Greeting from '../../../components/Greeting';
+import PropTypes from '../../constants/propTypes';
+import Greeting from '../Greeting';
+import DepartmentItem from './DepartmentItem';
 
-class SignInDepartments extends Component {
+class Departments extends Component {
+  static propTypes = {
+    logged: PropTypes.bool.isRequired,
+    departments: PropTypes.arrayOf(PropTypes.department).isRequired,
+    onSelect: PropTypes.func.isRequired,
+    onBackClick: PropTypes.func.isRequired,
+    canGoBack: PropTypes.bool,
+    username: PropTypes.string,
+    brand: PropTypes.brand,
+  };
+  static defaultProps = {
+    canGoBack: false,
+    username: null,
+    brand: null,
+  };
+
   state = { step: 0, departments: [] };
 
   componentWillReceiveProps(nextProps) {
@@ -39,7 +54,11 @@ class SignInDepartments extends Component {
   render() {
     const { step, departments } = this.state;
     const { onSelect, onBackClick, canGoBack, username, brand } = this.props;
-    if (!step)  return null;
+
+    if (!step) {
+      return null;
+    }
+
     const className = classNames('form-page__department', {
       fadeOutDown: step === 0,
       fadeInUp: step > 0,
@@ -73,7 +92,7 @@ class SignInDepartments extends Component {
         </div>
         <div className="form-page__department_block">
           {departments.map(department => (
-            <SignInDepartmentItem key={department.name} {...department} onClick={() => onSelect(department)} />
+            <DepartmentItem key={department.name} {...department} onClick={() => onSelect(department)} />
           ))}
         </div>
       </div>
@@ -81,19 +100,4 @@ class SignInDepartments extends Component {
   }
 }
 
-SignInDepartments.propTypes = {
-  logged: PropTypes.bool.isRequired,
-  departments: PropTypes.arrayOf(PropTypes.department).isRequired,
-  onSelect: PropTypes.func.isRequired,
-  onBackClick: PropTypes.func.isRequired,
-  canGoBack: PropTypes.bool,
-  username: PropTypes.string,
-  brand: PropTypes.brand,
-};
-SignInDepartments.defaultProps = {
-  canGoBack: false,
-  username: null,
-  brand: null,
-};
-
-export default SignInDepartments;
+export default Departments;

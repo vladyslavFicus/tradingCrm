@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 
-const SignInDepartmentItem = ({ name, role, image, onClick, id }) => (
+const DepartmentItem = ({ name, role, image, onClick, id }) => (
   <div className="department-item" onClick={onClick}>
     <div>
       <img src={image} alt={`${I18n.t(name)} / ${I18n.t(role)}`} id={id} />
@@ -17,16 +17,15 @@ const SignInDepartmentItem = ({ name, role, image, onClick, id }) => (
     </div>
   </div>
 );
-SignInDepartmentItem.propTypes = {
+DepartmentItem.propTypes = {
   name: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   id: PropTypes.string,
 };
-
-SignInDepartmentItem.defaultProps = {
+DepartmentItem.defaultProps = {
   id: '',
 };
 
-export default SignInDepartmentItem;
+export default DepartmentItem;

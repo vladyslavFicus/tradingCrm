@@ -8,6 +8,7 @@ const mapActionCreators = {
   selectBrand: signInActionCreators.selectBrand,
   reset: signInActionCreators.reset,
   changeDepartment: authActionCreators.changeDepartment,
+  setDepartmentsByBrand: authActionCreators.setDepartmentsByBrand,
   fetchProfile: authActionCreators.fetchProfile,
   fetchAuthorities: authActionCreators.fetchAuthorities,
 };
