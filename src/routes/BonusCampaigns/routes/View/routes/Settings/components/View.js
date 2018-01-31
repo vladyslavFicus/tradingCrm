@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
 import _ from 'lodash';
-import Settings from '../../../../../components/BonusCampaign/Settings';
+import Settings from '../../../../../components/Settings';
 import PropTypes from '../../../../../../../constants/propTypes';
 
 const modalInitialState = {
@@ -53,12 +53,15 @@ class View extends Component {
     change: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
+    paymentMethods: PropTypes.array.isRequired,
+    fetchPaymentMethods: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     games: [],
     providers: [],
     templates: [],
+    paymentMethods: [],
   };
 
   static contextTypes = {
@@ -150,9 +153,11 @@ class View extends Component {
       games,
       providers,
       templates,
+      paymentMethods,
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
+      fetchPaymentMethods,
       fetchCampaigns,
       fetchCampaign,
       change,
@@ -161,6 +166,8 @@ class View extends Component {
     return (
       <Settings
         fetchGames={fetchGames}
+        fetchPaymentMethods={fetchPaymentMethods}
+        paymentMethods={paymentMethods}
         fetchFreeSpinTemplates={fetchFreeSpinTemplates}
         fetchFreeSpinTemplate={fetchFreeSpinTemplate}
         templates={templates}

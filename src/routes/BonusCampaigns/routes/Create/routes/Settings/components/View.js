@@ -5,7 +5,7 @@ import _ from 'lodash';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { mapResponseErrorToField } from '../constants';
 import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
-import Settings from '../../../../../components/BonusCampaign/Settings';
+import Settings from '../../../../../components/Settings';
 import { statuses } from '../../../../../../../constants/bonus-campaigns';
 
 class View extends Component {

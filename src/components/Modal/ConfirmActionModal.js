@@ -19,7 +19,7 @@ class ConfirmActionModal extends Component {
     modalTitle: 'Confirm action',
     actionText: 'Do you really want to confirm this action?',
     submitButtonLabel: I18n.t('COMMON.BUTTONS.CONFIRM'),
-    fullName: null,
+    fullName: '',
     uuid: null,
     additionalText: null,
   };
