@@ -25,11 +25,12 @@ export default store => next => (action) => {
 
     if (triggerActions.start.indexOf(action.type) > -1) {
       let auth = action.payload;
+
       if (action.type === REHYDRATE) {
         auth = action.payload.auth;
       }
 
-      if (auth.token) {
+      if (auth && auth.token) {
         const tokenData = jwtDecode(auth.token);
 
         if (window.app.brandId !== tokenData.brandId) {

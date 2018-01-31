@@ -54,8 +54,8 @@ const initialState = {
     firstName: null,
     lastName: null,
     uuid: null,
-    permissions: null,
-    departmentsByBrand: null,
+    permissions: [],
+    departmentsByBrand: {},
   },
 };
 const actionHandlers = {
@@ -76,12 +76,8 @@ const actionHandlers = {
       const departments = Object.keys(brandDepartments);
       newState.brand = newState.brands[0];
 
-      if (!departments.length) {
+      if (departments.length < 2) {
         return newState;
-      }
-
-      if (departments.length === 1) {
-        return state;
       }
 
       newState.departments = departments.map(mapDepartments(brandDepartments));

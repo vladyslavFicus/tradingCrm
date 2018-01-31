@@ -131,6 +131,10 @@ class SignIn extends Component {
     this.setState({ loading: true, logged: false }, async () => {
       const action = await changeDepartment(department, brand, token);
 
+      if (action && !action.error) {
+        setDepartmentsByBrand(departmentsByBrand);
+      }
+
       this.resetStateTimeout = setTimeout(() => this.setState({ loading: false }, () => {
         reset();
       }), 2000);
@@ -138,18 +142,13 @@ class SignIn extends Component {
       if (action) {
         if (!action.error) {
           await Promise.all([
-            setDepartmentsByBrand(departmentsByBrand),
             fetchProfile(uuid, action.payload.token),
             fetchAuthorities(uuid, action.payload.token),
           ]);
 
           this.redirectToNextPage();
         } else {
-          throw new SubmissionError({
-            _error: action.payload.response.error
-              ? action.payload.response.error
-              : action.payload.message,
-          });
+          throw new SubmissionError({ _error: action.payload.response.error || action.payload.message });
         }
       }
     });
