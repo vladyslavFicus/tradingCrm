@@ -109,7 +109,7 @@ class View extends Component {
         const action = await this.props.fetchFreeSpinTemplate(uuid);
 
         if (action && !action.error) {
-          const status = action.payload.status;
+          const { status } = action.payload;
           if (status === freeSpinTemplateStatuses.CREATED) {
             this.stopPollingFreeSpinTemplate();
             resolve();
