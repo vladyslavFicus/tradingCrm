@@ -98,10 +98,9 @@ export default (values, params) => {
 
   if (rewardsBonus && !rewardsFreeSpins) {
     rules.rewards.bonus.campaignRatio = {
-      value: ['numeric', 'customTypeValue.value'],
+      value: ['numeric', 'customTypeValue.value', 'required'],
       type: [`in:${allowedCustomValueTypes.join()}`],
     };
-    rules.rewards.bonus.campaignRatio.value.push('required');
     rules.rewards.bonus.wagerWinMultiplier.push('required');
     rules.rewards.bonus.bonusLifetime.push('required');
     rules.rewards.bonus.moneyTypePriority.push('required');
