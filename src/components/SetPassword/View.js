@@ -47,7 +47,7 @@ class View extends Component {
     }
 
     return (
-      <div className="form-page-container" style={{ height: '100%' }}>
+      <div className="form-page-container">
         <div className="wrapper">
           <div className="form-page">
             <div className="form-page__logo">

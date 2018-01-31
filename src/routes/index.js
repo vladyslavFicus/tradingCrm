@@ -25,6 +25,7 @@ import LogoutRoute from './Logout';
 import ReportsRoute from './Reports';
 import SettingsRoute from './Settings';
 import CountriesRoute from './Countries';
+import BrandsRoute from './Brands';
 
 export default store => ({
   component: CoreLayout,
@@ -37,6 +38,12 @@ export default store => ({
         ResetPasswordRoute(store),
       ],
     },
+    onEnterStack({
+      component: BlackLayout,
+      childRoutes: [
+        BrandsRoute(store),
+      ],
+    }, requireAuth(store)),
     {
       component: BaseLayout,
       childRoutes: [
