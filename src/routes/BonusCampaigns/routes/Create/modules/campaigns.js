@@ -1,8 +1,8 @@
-import createRequestAction from '../../../../../../../utils/createRequestAction';
-import { sourceActionCreators } from '../../../../../../../redux/modules/bonusCampaigns';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import { sourceActionCreators } from '../../../../../redux/modules/bonusCampaigns';
 import {
   statuses as bonusCampaignStatuses,
-} from '../../../../../../../constants/bonus-campaigns';
+} from '../../../../../constants/bonus-campaigns';
 
 const KEY = 'bonus-campaign/view/fetch-campaigns';
 const FETCH_CAMPAIGNS = createRequestAction(`${KEY}/fetch-campaigns`);
