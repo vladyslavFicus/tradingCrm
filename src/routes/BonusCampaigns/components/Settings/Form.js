@@ -332,7 +332,6 @@ class Form extends Component {
                   <Field
                     utc
                     name="startDate"
-                    placeholder={attributeLabels.startDate}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('endDate')}
                     position="vertical"
@@ -342,7 +341,6 @@ class Form extends Component {
                   <Field
                     utc
                     name="endDate"
-                    placeholder={attributeLabels.endDate}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('startDate')}
                     position="vertical"
