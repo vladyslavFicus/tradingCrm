@@ -1,8 +1,8 @@
 import { CALL_API } from 'redux-api-middleware';
-import createReducer from '../../../../../../../utils/createReducer';
-import createRequestAction from '../../../../../../../utils/createRequestAction';
-import buildQueryString from '../../../../../../../utils/buildQueryString';
-import parseNumbersRange from '../../../../../../../utils/parseNumbersRange';
+import createReducer from '../../../../../utils/createReducer';
+import createRequestAction from '../../../../../utils/createRequestAction';
+import buildQueryString from '../../../../../utils/buildQueryString';
+import parseNumbersRange from '../../../../../utils/parseNumbersRange';
 
 const KEY = 'bonus-campaign/view/settings';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);

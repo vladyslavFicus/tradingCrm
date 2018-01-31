@@ -44,7 +44,7 @@ const Information = () => (
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.MULTIPLAYER')}: </strong>
-                {0}
+                0
               </div>
               <div>
                 <strong>{I18n.t('BONUS_CAMPAIGNS.VIEW.DETAILS.LABEL.LIFE_TIME')}:</strong>{' '}

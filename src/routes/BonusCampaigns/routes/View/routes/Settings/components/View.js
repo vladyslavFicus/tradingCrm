@@ -4,6 +4,7 @@ import { SubmissionError } from 'redux-form';
 import _ from 'lodash';
 import Settings from '../../../../../components/Settings';
 import PropTypes from '../../../../../../../constants/propTypes';
+import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
 
 const modalInitialState = {
   name: null,

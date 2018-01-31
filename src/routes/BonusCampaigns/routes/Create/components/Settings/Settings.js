@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
 import _ from 'lodash';
-import PropTypes from '../../../../../../../constants/propTypes';
-import { mapResponseErrorToField } from '../constants';
-import recognizeFieldError from '../../../../../../../utils/recognizeFieldError';
-import Settings from '../../../../../components/Settings';
-import { statuses } from '../../../../../../../constants/bonus-campaigns';
+import PropTypes from '../../../../../../constants/propTypes';
+import { mapResponseErrorToField } from '../../constants';
+import recognizeFieldError from '../../../../../../utils/recognizeFieldError';
+import SettingsForm from '../../../../components/Settings';
+import { statuses } from '../../../../../../constants/bonus-campaigns';
 
-class View extends Component {
+class Settings extends Component {
   static propTypes = {
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     locale: PropTypes.string.isRequired,
@@ -29,6 +29,8 @@ class View extends Component {
     change: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
+    paymentMethods: PropTypes.array.isRequired,
+    fetchPaymentMethods: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -134,11 +136,15 @@ class View extends Component {
       fetchCampaigns,
       fetchCampaign,
       change,
+      paymentMethods,
+      fetchPaymentMethods,
     } = this.props;
 
     return (
-      <Settings
+      <SettingsForm
         fetchGames={fetchGames}
+        fetchPaymentMethods={fetchPaymentMethods}
+        paymentMethods={paymentMethods}
         fetchFreeSpinTemplates={fetchFreeSpinTemplates}
         fetchFreeSpinTemplate={fetchFreeSpinTemplate}
         templates={templates}
@@ -160,4 +166,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default Settings;

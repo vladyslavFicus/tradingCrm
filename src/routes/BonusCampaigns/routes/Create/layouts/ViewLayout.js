@@ -1,57 +1,13 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { Collapse } from 'reactstrap';
-import Tabs from '../../../../../components/Tabs';
-import PropTypes from '../../../../../constants/propTypes';
 import Header from '../components/Header';
 import Information from '../components/Information';
-import ConfirmActionModal from '../../../../../components/Modal/ConfirmActionModal';
-
-const REMOVE_PLAYERS = 'remove-players-modal';
-const modalInitialState = {
-  name: null,
-  params: {},
-};
-const CREATE_PAGE_TABS = [
-  { label: 'Settings', url: '/bonus-campaigns/create/settings' },
-  { label: 'Feed', url: '/bonus-campaigns/create/feed' },
-];
+import Settings from '../components/Settings';
 
 class ViewLayout extends Component {
-  static propTypes = {
-    location: PropTypes.object,
-    children: PropTypes.node,
-  };
-  static defaultProps = {
-    availableStatusActions: [],
-  };
-  static contextTypes = {
-    addNotification: PropTypes.func.isRequired,
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
   state = {
     informationShown: true,
-    modal: { ...modalInitialState },
-  };
-
-  handleOpenModal = (name, params) => {
-    this.setState({
-      modal: {
-        name,
-        params,
-      },
-    });
-  };
-
-  handleCloseModal = (cb) => {
-    this.setState({ modal: { ...modalInitialState } }, () => {
-      if (typeof cb === 'function') {
-        cb();
-      }
-    });
   };
 
   handleToggleInformationBlock = () => {
@@ -59,11 +15,7 @@ class ViewLayout extends Component {
   };
 
   render() {
-    const { informationShown, modal } = this.state;
-    const {
-      location,
-      children,
-    } = this.props;
+    const { informationShown } = this.state;
 
     return (
       <div className="layout layout_not-iframe">
@@ -91,22 +43,16 @@ class ViewLayout extends Component {
 
         <div className="layout-content">
           <div className="nav-tabs-horizontal">
-            <Tabs
-              items={CREATE_PAGE_TABS}
-              location={location}
-            />
-            {children}
+            <ul className="nav nav-tabs">
+              <li className="nav-item">
+                <span className="nav-link active">
+                  {I18n.t('BONUS_CAMPAIGNS.VIEW_TABS.SETTINGS')}
+                </span>
+              </li>
+            </ul>
+            <Settings />
           </div>
         </div>
-        {
-          modal.name === REMOVE_PLAYERS &&
-          <ConfirmActionModal
-            onSubmit={this.handleRemovePlayers}
-            onClose={this.handleCloseModal}
-            modalTitle={I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.BUTTON')}
-            actionText={I18n.t('BONUS_CAMPAIGNS.REMOVE_PLAYERS.MODAL_TEXT')}
-          />
-        }
       </div>
     );
   }
