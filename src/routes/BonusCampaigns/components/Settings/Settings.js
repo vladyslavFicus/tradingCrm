@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
-import { SubmissionError } from 'redux-form';
+import { SubmissionError, change as formChange } from 'redux-form';
 import { get } from 'lodash';
 import Form from './Form';
 import { statuses } from '../../../../constants/bonus-campaigns';
@@ -60,6 +60,7 @@ class Settings extends Component {
     fetchPaymentMethods: PropTypes.func.isRequired,
     createFreeSpinTemplate: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
+    form: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -164,16 +165,22 @@ class Settings extends Component {
   };
 
   handleSubmitLinkedCampaign = async (data) => {
-    const { fetchCampaign, change } = this.props;
+    const { fetchCampaign } = this.props;
 
     const action = await fetchCampaign(data.campaignUuid);
     if (action && !action.error) {
       this.setLinkedCampaignData(action.payload);
     }
 
-    change('linkedCampaignUUID', data.campaignUuid);
+    this.change('linkedCampaignUUID', data.campaignUuid);
     this.handleCloseModal(CHOOSE_CAMPAIGN_MODAL);
   };
+
+  change = (field, value) => {
+    const { form } = this.props;
+
+    formChange(form, field, value);
+  }
 
   handleSubmit = async (formData) => {
     const { createFreeSpinTemplate, handleSubmit } = this.props;

@@ -51,7 +51,6 @@ class View extends Component {
     providers: PropTypes.array,
     templates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
-    change: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
@@ -126,7 +125,6 @@ class View extends Component {
       fetchPaymentMethods,
       fetchCampaigns,
       fetchCampaign,
-      change,
       createFreeSpinTemplate,
     } = this.props;
 
@@ -151,8 +149,8 @@ class View extends Component {
         bonusCampaign={bonusCampaign}
         bonusCampaignForm={bonusCampaignForm}
         locale={locale}
+        form="bonusCampaignUpdate"
         currencies={currencies}
-        change={change}
       />
     );
   }
