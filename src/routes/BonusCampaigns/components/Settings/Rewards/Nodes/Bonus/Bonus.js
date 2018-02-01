@@ -8,6 +8,7 @@ import {
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from './constants';
 import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../constants/bonus-campaigns';
+import { customValueFieldTypes } from '../../../../../../../constants/form';
 
 class Bonus extends Component {
   static propTypes = {
@@ -23,6 +24,17 @@ class Bonus extends Component {
     limits: true,
     errors: {},
   };
+
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
+  };
+
+  componentDidMount() {
+    const { _reduxForm: { autofill } } = this.context;
+
+    autofill(this.buildFieldName('claimable'), false);
+    autofill(this.buildFieldName('campaignRatio.type'), customValueFieldTypes.PERCENTAGE);
+  }
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
 

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import classNames from 'classnames';
+import { get } from 'lodash';
 import renderLabel from '../../utils/renderLabel';
 import { customValueFieldTypesLabels } from '../../constants/form';
 
@@ -16,15 +17,18 @@ const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors } })
     typeValues,
   } = props;
 
+  const typeError = get(errors, `${basename}.type`);
+  const valueError = get(errors, `${basename}.value`);
+
   const classList = {
     formGroup: classNames('form-group', {
-      'has-danger': errors[basename] && (!!errors[basename].value || !!errors[basename].type),
+      'has-danger': !!valueError || !!typeError,
     }),
     valueInput: classNames('form-control', valueInputClassName, {
-      'has-danger': errors[basename] && !!errors[basename].value,
+      'has-danger': !!valueError,
     }),
     typeInput: classNames('form-control', typeInputClassName, {
-      'has-danger': errors[basename] && !!errors[basename].type,
+      'has-danger': !!typeError,
     }),
   };
 
