@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
-import { InputField, SelectField } from '../../../../../../../components/ReduxForm';
+import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
 import { FORM_NAME } from '../../../Form';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import renderLabel from '../../../../../../../utils/renderLabel';
@@ -119,8 +119,7 @@ class FreeSpin extends Component {
     }
   };
 
-  handleChangeTemplate = (e) => {
-    const templateUUID = e.target.value;
+  handleChangeTemplate = (_, templateUUID) => {
     this.setField('templateUUID', templateUUID);
 
     this.loadTemplateData(templateUUID);
@@ -251,13 +250,12 @@ class FreeSpin extends Component {
                   name={this.buildFieldName('templateUUID')}
                   label={I18n.t(attributeLabels.template)}
                   labelClassName="form-label"
-                  position="vertical"
-                  component={SelectField}
+                  component={NasSelectField}
                   showErrorMessage={false}
-                  onChange={this.handleChangeTemplate}
+                  position="vertical"
                   disabled={customTemplate}
+                  onChange={this.handleChangeTemplate}
                 >
-                  <option value="">{I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CHOOSE_TEMPLATE')}</option>
                   {templates.map(item => (
                     <option key={item.uuid} value={item.uuid}>
                       {item.name}
@@ -265,7 +263,7 @@ class FreeSpin extends Component {
                   ))}
                 </Field>
               </div>
-              <div className="form-group first-deposit">
+              <div className="form-group first-deposit col-md-4">
                 <label>
                   <input
                     type="checkbox"
