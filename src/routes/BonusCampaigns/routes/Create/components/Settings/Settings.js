@@ -26,7 +26,6 @@ class Settings extends Component {
     providers: PropTypes.array,
     templates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
-    change: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
@@ -100,7 +99,6 @@ class Settings extends Component {
       fetchGames,
       fetchCampaigns,
       fetchCampaign,
-      change,
       paymentMethods,
       fetchPaymentMethods,
       createFreeSpinTemplate,
@@ -125,8 +123,8 @@ class Settings extends Component {
         revert={revert}
         bonusCampaign={this.bonusCampaign}
         locale={locale}
+        form="bonusCampaignCreate"
         currencies={currencies}
-        change={change}
         createFreeSpinTemplate={createFreeSpinTemplate}
       />
     );
