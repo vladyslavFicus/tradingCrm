@@ -560,10 +560,7 @@ class Form extends Component {
   }
 }
 
-export const FORM_NAME = 'updateBonusCampaignSettings';
-
 const SettingsForm = reduxForm({
-  form: FORM_NAME,
   enableReinitialize: true,
   validate: values => validator(values, {
     allowedCustomValueTypes: getCustomValueFieldTypes(values),
@@ -571,12 +568,12 @@ const SettingsForm = reduxForm({
   }),
 })(Form);
 
-export default connect((state) => {
-  const currentValues = getFormValues(FORM_NAME)(state);
+export default connect((state, { form }) => {
+  const currentValues = getFormValues(form)(state);
 
   return {
     currentValues,
-    meta: getFormMeta(FORM_NAME)(state),
+    meta: getFormMeta(form)(state),
     fulfillmentExist: currentValues && !isEmpty(currentValues.fulfillments),
     currency: 'EUR',
   };
