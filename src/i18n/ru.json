@@ -431,7 +431,9 @@
         }
       },
       "ADD_TO_CAMPAIGN_BUTTON": "+ Добавить в Кампанию",
-      "ADD_PROMO_CODE_BUTTON": "+ Добавить промо-код"
+      "ADD_PROMO_CODE_BUTTON": "+ Добавить промо-код",
+      "UNTARGET": "Отвязать",
+      "OPT_IN": "Opt-in"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -1398,7 +1400,12 @@
       "MODAL_TEXT": "Вы собираетесь удалить всех игроков из цели этой кампании.",
       "SUCCESS_NOTIFICATION": "Все игроки были успешно удалены",
       "ERROR_NOTIFICATION": "Не удалось удалить всех игроков"
-    }
+    },
+    "VIEW_TABS": {
+      "SETTINGS": "Настройки"
+    },
+    "NEW_CAMPAIGN": "Новая кампания",
+    "SAVE_NEW_CAMPAIGN": "Сохранить новую кампанию"
   },
   "BONUS_CAMPAIGN_STATUS": {
     "CHANGE_DATE": "в %{date}",
