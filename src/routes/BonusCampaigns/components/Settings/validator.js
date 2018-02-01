@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import { attributeLabels, optInPeriods } from './constants';
 import {
@@ -73,7 +73,7 @@ export default (values, params) => {
     rules.linkedCampaignUUID.push('required');
   }
 
-  const fulfillmentDeposit = _.get(values, 'fulfillments.deposit');
+  const fulfillmentDeposit = get(values, 'fulfillments.deposit');
   if (fulfillmentDeposit) {
     const minAmount = fulfillmentDeposit.minAmount;
 
@@ -83,18 +83,18 @@ export default (values, params) => {
     rules.fulfillments.deposit.lockAmountStrategy.push('required');
   }
 
-  const conversionPrize = _.get(values, 'conversionPrize.value');
+  const conversionPrize = get(values, 'conversionPrize.value');
   if (conversionPrize && !isNaN(parseFloat(conversionPrize).toFixed(2))) {
     rules.capping.value.push('greaterThan:conversionPrize.value');
   }
 
-  const capping = _.get(values, 'capping.value');
+  const capping = get(values, 'capping.value');
   if (capping && !isNaN(parseFloat(capping).toFixed(2))) {
     rules.conversionPrize.value.push('lessThan:capping.value');
   }
 
-  const rewardsBonus = _.get(values, 'rewards.bonus');
-  const rewardsFreeSpins = _.get(values, 'rewards.freeSpin');
+  const rewardsBonus = get(values, 'rewards.bonus');
+  const rewardsFreeSpins = get(values, 'rewards.freeSpin');
 
   if (rewardsBonus && !rewardsFreeSpins) {
     rules.rewards.bonus.campaignRatio = {

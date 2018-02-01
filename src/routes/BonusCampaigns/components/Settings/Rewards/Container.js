@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import { difference } from 'lodash';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
 import { nodeTypes, nodeTypesLabels } from './constants';
@@ -53,7 +53,7 @@ class Container extends Component {
 
   handleRefreshActiveNodes = () => {
     const { change, activeNodes } = this.props;
-    const availableNodes = _.difference(ALL_NODES, activeNodes);
+    const availableNodes = difference(ALL_NODES, activeNodes);
 
     change(nodeGroupTypes.rewards, {});
     if (availableNodes.length > 0) {
@@ -118,7 +118,7 @@ class Container extends Component {
   render() {
     const { disabled, activeNodes } = this.props;
     const { selectedNode } = this.state;
-    const availableNodes = _.difference(ALL_NODES, activeNodes);
+    const availableNodes = difference(ALL_NODES, activeNodes);
 
     return (
       <div className="col-lg-6 padding-bottom-30">

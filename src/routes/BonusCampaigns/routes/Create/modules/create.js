@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import _ from 'lodash';
+import { get } from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import {
@@ -64,7 +64,7 @@ function createCampaign(data) {
       endpointParams.capping = null;
     }
 
-    const fulfillmentDeposit = _.get(endpointParams, 'fulfillments.deposit');
+    const fulfillmentDeposit = get(endpointParams, 'fulfillments.deposit');
     if (fulfillmentDeposit) {
       endpointParams = {
         ...endpointParams,
@@ -73,7 +73,7 @@ function createCampaign(data) {
       };
     }
 
-    const fulfillmentProfileCompleted = _.get(endpointParams, 'fulfillments.profileCompleted');
+    const fulfillmentProfileCompleted = get(endpointParams, 'fulfillments.profileCompleted');
     if (fulfillmentProfileCompleted) {
       endpointParams = {
         ...endpointParams,
@@ -81,7 +81,7 @@ function createCampaign(data) {
       };
     }
 
-    const fulfillmentNoFulfillments = _.get(endpointParams, 'fulfillments.noFulfillments');
+    const fulfillmentNoFulfillments = get(endpointParams, 'fulfillments.noFulfillments');
     if (fulfillmentNoFulfillments) {
       endpointParams = {
         ...endpointParams,
@@ -89,7 +89,7 @@ function createCampaign(data) {
       };
     }
 
-    const rewardBonus = _.get(endpointParams, 'rewards.bonus');
+    const rewardBonus = get(endpointParams, 'rewards.bonus');
 
     if (rewardBonus) {
       endpointParams = {
@@ -103,7 +103,7 @@ function createCampaign(data) {
       };
     }
 
-    const rewardFreeSpin = _.get(endpointParams, 'rewards.freeSpin');
+    const rewardFreeSpin = get(endpointParams, 'rewards.freeSpin');
 
     if (rewardFreeSpin) {
       endpointParams.campaignType = rewardTypes.FREE_SPIN;

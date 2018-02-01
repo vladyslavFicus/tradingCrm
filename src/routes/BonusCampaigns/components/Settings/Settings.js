@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
+import { SubmissionError } from 'redux-form';
+import { get } from 'lodash';
 import Form from './Form';
 import { statuses } from '../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../constants/propTypes';
+import { statuses as freeSpinTemplateStatuses } from '../../../../constants/free-spin-template';
 import CurrencyCalculationModal from '../../components/CurrencyCalculationModal';
 import AddToCampaignModal from '../../../../components/AddToCampaignModal';
 import { customValueFieldTypes } from '../../../../constants/form';
 
 const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
 const CHOOSE_CAMPAIGN_MODAL = 'choose-campaign-modal';
+const POLLING_FREE_SPIN_TEMPLATE_INTERVAL = 1000;
 const modalInitialState = {
   name: null,
   params: {},
@@ -54,6 +58,7 @@ class Settings extends Component {
     fetchCampaign: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     fetchPaymentMethods: PropTypes.func.isRequired,
+    createFreeSpinTemplate: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
   };
 
@@ -63,10 +68,10 @@ class Settings extends Component {
     templates: [],
     bonusCampaignForm: {
       capping: {
-        type: customValueFieldTypes.PERCENTAGE,
+        type: customValueFieldTypes.ABSOLUTE,
       },
       conversionPrize: {
-        type: customValueFieldTypes.PERCENTAGE,
+        type: customValueFieldTypes.ABSOLUTE,
       },
     },
   };
@@ -92,7 +97,34 @@ class Settings extends Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.pollingFreeSpinTemplate) {
+      this.stopPollingFreeSpinTemplate();
+    }
+  }
+
   setLinkedCampaignData = linkedCampaign => this.setState({ linkedCampaign });
+
+  pollingFreeSpinTemplate = null;
+
+  startPollingFreeSpinTemplate = uuid => new Promise((resolve) => {
+    this.pollingFreeSpinTemplate = setInterval(async () => {
+      const action = await this.props.fetchFreeSpinTemplate(uuid);
+
+      if (action && !action.error) {
+        const { status } = action.payload;
+        if (status === freeSpinTemplateStatuses.CREATED) {
+          this.stopPollingFreeSpinTemplate();
+          resolve();
+        }
+      }
+    }, POLLING_FREE_SPIN_TEMPLATE_INTERVAL);
+  });
+
+  stopPollingFreeSpinTemplate = () => {
+    clearInterval(this.pollingFreeSpinTemplate);
+    this.pollingFreeSpinTemplate = null;
+  };
 
   handleCurrencyAmountModalOpen = (action) => {
     this.handleOpenModal(CURRENCY_AMOUNT_MODAL, {
@@ -143,6 +175,46 @@ class Settings extends Component {
     this.handleCloseModal(CHOOSE_CAMPAIGN_MODAL);
   };
 
+  handleSubmit = async (formData) => {
+    const { createFreeSpinTemplate, handleSubmit } = this.props;
+
+    let data = { ...formData };
+    const rewardsFreeSpin = get(data, 'rewards.freeSpin');
+
+    if (rewardsFreeSpin) {
+      let rewardsFreeSpinData = {};
+
+      if (rewardsFreeSpin.templateUUID) {
+        rewardsFreeSpinData = rewardsFreeSpin;
+      } else {
+        const createAction = await createFreeSpinTemplate({
+          claimable: false,
+          ...rewardsFreeSpin,
+        });
+
+        if (createAction && !createAction.error) {
+          rewardsFreeSpinData = createAction.payload;
+          await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
+        } else {
+          throw new SubmissionError({
+            rewards: {
+              freeSpin: {
+                name: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.NAME_ALREADY_EXIST'),
+              },
+            },
+          });
+        }
+      }
+
+      data = {
+        ...data,
+        ...rewardsFreeSpinData,
+      };
+    }
+
+    handleSubmit(data);
+  };
+
   render() {
     const { modal, linkedCampaign } = this.state;
     const {
@@ -160,7 +232,6 @@ class Settings extends Component {
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
-      handleSubmit,
       fetchPaymentMethods,
       paymentMethods,
     } = this.props;
@@ -176,7 +247,7 @@ class Settings extends Component {
           addNode={addNode}
           nodeGroups={nodeGroups}
           revert={revert}
-          onSubmit={handleSubmit}
+          onSubmit={this.handleSubmit}
           toggleModal={this.handleCurrencyAmountModalOpen}
           games={games}
           providers={providers}
