@@ -425,7 +425,9 @@
         }
       },
       "ADD_TO_CAMPAIGN_BUTTON": "+ Add to Campaign",
-      "ADD_PROMO_CODE_BUTTON": "+ Add promo code"
+      "ADD_PROMO_CODE_BUTTON": "+ Add promo code",
+      "UNTARGET": "Untarget",
+      "OPT_IN": "Opt-in"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -1389,7 +1391,12 @@
       "MODAL_TEXT": "You are about to remove all players from the target of this campaign.",
       "SUCCESS_NOTIFICATION": "All players were successfully removed",
       "ERROR_NOTIFICATION": "Failed to remove all players"
-    }
+    },
+    "VIEW_TABS": {
+      "SETTINGS": "Settings"
+    },
+    "NEW_CAMPAIGN": "New campaign",
+    "SAVE_NEW_CAMPAIGN": "Save new campaign"
   },
   "PROFILE": {
     "LAST_LOGIN": {

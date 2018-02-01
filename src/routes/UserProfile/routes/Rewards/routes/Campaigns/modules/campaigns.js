@@ -12,6 +12,7 @@ const ADD_PLAYER_TO_CAMPAIGN = createRequestAction(`${KEY}/add-player-to-campaig
 const ADD_PROMO_CODE_TO_PLAYER = createRequestAction(`${KEY}/add-promo-code-to-player`);
 const DECLINE_CAMPAIGN = createRequestAction(`${KEY}/decline-campaign`);
 const OPT_IN_CAMPAIGN = createRequestAction(`${KEY}/opt-in-campaign`);
+const UN_TARGET_CAMPAIGN = createRequestAction(`${KEY}/un-target-campaign`);
 
 const fetchCampaigns = (filters = {}) => sourceActionCreators.fetchCampaigns(FETCH_CAMPAIGNS)({
   ...filters,
@@ -68,7 +69,7 @@ function addPromoCodeToPlayer(playerUUID, promoCode) {
   };
 }
 
-function declineCampaign(id, playerUUID, returnToList = false) {
+function declineCampaign({ id, playerUUID, returnToList = false }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
     const optoutType = returnToList ? 'return_to_list' : 'ignore_campaign';
@@ -89,7 +90,7 @@ function declineCampaign(id, playerUUID, returnToList = false) {
   };
 }
 
-function optInCampaign(id, playerUUID) {
+function optInCampaign({ id, playerUUID }) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -109,6 +110,26 @@ function optInCampaign(id, playerUUID) {
   };
 }
 
+function unTargetCampaign({ id, playerUUID }) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/promotion/campaigns/${id}/players-list/${playerUUID}`,
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [UN_TARGET_CAMPAIGN.REQUEST, UN_TARGET_CAMPAIGN.SUCCESS, UN_TARGET_CAMPAIGN.FAILURE],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const actionTypes = {
   FETCH_CAMPAIGNS,
   ADD_PLAYER_TO_CAMPAIGN,
@@ -120,6 +141,7 @@ const actionCreators = {
   addPromoCodeToPlayer,
   declineCampaign,
   optInCampaign,
+  unTargetCampaign,
 };
 
 export {

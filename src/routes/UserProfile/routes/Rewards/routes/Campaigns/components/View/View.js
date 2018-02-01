@@ -11,6 +11,7 @@ import {
   fulfilmentTypesLabels,
   statuses as bonusCampaignStatuses,
   targetTypesLabels,
+  targetTypes,
 } from '../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../components/IframeLink';
 import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
@@ -22,8 +23,7 @@ import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../config/permissions';
 
-const CAMPAIGN_DECLINE_MODAL = 'campaign-decline-modal';
-const CAMPAIGN_OPT_IN_MODAL = 'campaign-opt-in-modal';
+const CAMPAIGN_ACTION_MODAL = 'campaign-action-modal';
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
 const ADD_PROMO_CODE_MODAL = 'add-promo-code-modal';
 const modalInitialState = {
@@ -38,6 +38,7 @@ class View extends Component {
     fetchPlayerCampaigns: PropTypes.func.isRequired,
     declineCampaign: PropTypes.func.isRequired,
     optInCampaign: PropTypes.func.isRequired,
+    unTargetCampaign: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     addPlayerToCampaign: PropTypes.func.isRequired,
     addPromoCodeToPlayer: PropTypes.func.isRequired,
@@ -95,14 +96,6 @@ class View extends Component {
     });
   };
 
-  handleDeclineClick = (uuid, returnToList = false) => {
-    this.handleOpenModal(CAMPAIGN_DECLINE_MODAL, { uuid, returnToList });
-  };
-
-  handleOptInClick = (uuid) => {
-    this.handleOpenModal(CAMPAIGN_OPT_IN_MODAL, { uuid });
-  };
-
   handleFiltersChanged = (filters = {}) => {
     this.setState({ filters, page: 0 }, this.handleRefresh);
   };
@@ -111,34 +104,16 @@ class View extends Component {
     this.setState({ filters: {}, page: 0 }, this.handleRefresh);
   };
 
-  handleDeclineCampaign = async () => {
-    const { modal: { params: { uuid, returnToList } } } = this.state;
+  handleActionClick = params => this.handleOpenModal(CAMPAIGN_ACTION_MODAL, params);
 
-    const {
-      declineCampaign,
-      params: { id: playerUUID },
-    } = this.props;
+  handleActionCampaign = async () => {
+    const { modal: { params: { action, ...params } } } = this.state;
+    const { params: { id: playerUUID } } = this.props;
 
-    const action = await declineCampaign(uuid, playerUUID, returnToList);
+    const actionResult = await action({ ...params, playerUUID });
     this.handleCloseModal();
 
-    if (action && !action.error) {
-      this.handleRefresh();
-    }
-  };
-
-  handleOptInCampaign = async () => {
-    const { modal: { params: { uuid } } } = this.state;
-
-    const {
-      optInCampaign,
-      params: { id: playerUUID },
-    } = this.props;
-
-    const action = await optInCampaign(uuid, playerUUID);
-    this.handleCloseModal();
-
-    if (action && !action.error) {
+    if (actionResult && !actionResult.error) {
       this.handleRefresh();
     }
   };
@@ -274,21 +249,31 @@ class View extends Component {
     </div>
   );
 
-  renderActions = (data) => {
-    if (data.state !== bonusCampaignStatuses.ACTIVE) {
+  renderActions = ({ state, optedIn, uuid, targetType }) => {
+    const {
+      declineCampaign,
+      optInCampaign,
+      unTargetCampaign,
+    } = this.props;
+
+    if (state !== bonusCampaignStatuses.ACTIVE) {
       return null;
     }
 
     return (
       <div className="text-center">
         {
-          data.optedIn ?
+          optedIn ?
             <div>
               <button
                 key="optOutButton"
                 type="button"
                 className="btn btn-danger margin-right-10"
-                onClick={() => this.handleDeclineClick(data.uuid, true)}
+                onClick={() => this.handleActionClick({
+                  action: declineCampaign,
+                  id: uuid,
+                  returnToList: true,
+                })}
               >
                 {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_OUT')}
               </button>
@@ -296,20 +281,42 @@ class View extends Component {
                 key="declineButton"
                 type="button"
                 className="btn btn-danger"
-                onClick={() => this.handleDeclineClick(data.uuid)}
+                onClick={() => this.handleActionClick({
+                  action: declineCampaign,
+                  id: uuid,
+                })}
               >
                 {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.DECLINE')}
               </button>
             </div>
             :
-            <button
-              key="optInButton"
-              type="button"
-              className="btn btn-success"
-              onClick={() => this.handleOptInClick(data.uuid)}
-            >
-              {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN')}
-            </button>
+            <div>
+              {
+                targetType !== targetTypes.ALL &&
+                <button
+                  key="unTargetButton"
+                  type="button"
+                  className="btn btn-danger margin-right-10"
+                  onClick={() => this.handleActionClick({
+                    action: unTargetCampaign,
+                    id: uuid,
+                  })}
+                >
+                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.UN_TARGET')}
+                </button>
+              }
+              <button
+                key="optInButton"
+                type="button"
+                className="btn btn-success"
+                onClick={() => this.handleActionClick({
+                  action: optInCampaign,
+                  id: uuid,
+                })}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.OPT_IN')}
+              </button>
+            </div>
         }
       </div>
     );
@@ -389,21 +396,14 @@ class View extends Component {
               name="actions"
               header=""
               render={this.renderActions}
-              headerStyle={{ width: '200px' }}
+              headerStyle={{ width: '240px' }}
             />
           </GridView>
         </div>
         {
-          modal.name === CAMPAIGN_DECLINE_MODAL &&
+          modal.name === CAMPAIGN_ACTION_MODAL &&
           <ConfirmActionModal
-            onSubmit={this.handleDeclineCampaign}
-            onClose={this.handleCloseModal}
-          />
-        }
-        {
-          modal.name === CAMPAIGN_OPT_IN_MODAL &&
-          <ConfirmActionModal
-            onSubmit={this.handleOptInCampaign}
+            onSubmit={this.handleActionCampaign}
             onClose={this.handleCloseModal}
           />
         }

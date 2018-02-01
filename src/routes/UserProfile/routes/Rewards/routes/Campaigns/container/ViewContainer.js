@@ -15,6 +15,7 @@ const mapActions = {
   fetchPlayerCampaigns: actionCreators.fetchPlayerCampaigns,
   declineCampaign: actionCreators.declineCampaign,
   optInCampaign: actionCreators.optInCampaign,
+  unTargetCampaign: actionCreators.unTargetCampaign,
   fetchCampaigns: actionCreators.fetchCampaigns,
   addPlayerToCampaign: actionCreators.addPlayerToCampaign,
   addPromoCodeToPlayer: actionCreators.addPromoCodeToPlayer,
