@@ -111,7 +111,7 @@ class View extends Component {
   renderFreeSpins = data => (
     <div className="font-weight-700">
       {
-        data.lines
+        data.lines || data.betLevel
           ? <span>{I18n.t('GAMES.GRID.FREE_SPINS_AVAILABLE')}</span>
           : <span>{I18n.t('GAMES.GRID.FREE_SPINS_UNAVAILABLE')}</span>
       }
