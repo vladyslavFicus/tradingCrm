@@ -53,33 +53,32 @@ class Settings extends Component {
   handleSubmit = async (data) => {
     const createAction = await this.props.createCampaign(data);
 
-    if (!createAction.error) {
-      this.context.router.push(`/bonus-campaigns/view/${createAction.payload.campaignUUID}/settings`);
-    }
-
-    this.context.addNotification({
-      level: createAction.error ? 'error' : 'success',
-      title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
-      message: `${I18n.t('COMMON.ACTIONS.ADDED')} ${createAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-        I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-    });
-
-    if (createAction.error && createAction.payload.response.fields_errors) {
-      const errors = Object.keys(createAction.payload.response.fields_errors).reduce((res, name) => ({
-        ...res,
-        [name]: I18n.t(createAction.payload.response.fields_errors[name].error),
-      }), {});
-      throw new SubmissionError(errors);
-    } else if (createAction.payload.response && createAction.payload.response.error) {
-      const fieldError = recognizeFieldError(createAction.payload.response.error, mapResponseErrorToField);
-      if (fieldError) {
-        throw new SubmissionError(fieldError);
+    if (createAction) {
+      if (createAction.error) {
+        if (createAction.payload.response.fields_errors) {
+          const errors = Object.keys(createAction.payload.response.fields_errors).reduce((res, name) => ({
+            ...res,
+            [name]: I18n.t(createAction.payload.response.fields_errors[name].error),
+          }), {});
+          throw new SubmissionError(errors);
+        } else if (createAction.payload.response && createAction.payload.response.error) {
+          const fieldError = recognizeFieldError(createAction.payload.response.error, mapResponseErrorToField);
+          if (fieldError) {
+            throw new SubmissionError(fieldError);
+          } else {
+            throw new SubmissionError({ __error: I18n.t(createAction.payload.response.error) });
+          }
+        }
       } else {
-        throw new SubmissionError({ __error: I18n.t(createAction.payload.response.error) });
+        this.context.router.push(`/bonus-campaigns/view/${createAction.payload.campaignUUID}/settings`);
       }
-    }
-    if (!createAction.error) {
-      this.context.router.push(`/bonus-campaigns/view/${createAction.payload.campaignUUID}/settings`);
+
+      this.context.addNotification({
+        level: createAction.error ? 'error' : 'success',
+        title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
+        message: `${I18n.t('COMMON.ACTIONS.ADDED')} ${createAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
     }
 
     return createAction;
