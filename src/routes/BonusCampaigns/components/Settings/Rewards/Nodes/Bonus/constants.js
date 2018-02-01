@@ -8,6 +8,8 @@ const attributeLabels = {
   multipliersType: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MULTIPLIERS_TYPE'),
   moneyPrior: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MONEY_TYPE_PRIOR'),
   lifeTime: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.LIFE_TIME'),
+  maxBet: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MAX_BET'),
+  maxGrantedAmount: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MAX_GRANTED_AMOUNT'),
 };
 
 const attributePlaceholders = {

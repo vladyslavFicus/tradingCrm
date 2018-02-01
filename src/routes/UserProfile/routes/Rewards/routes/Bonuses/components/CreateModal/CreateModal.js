@@ -153,6 +153,18 @@ class CreateModal extends Component {
                   ))}
                 </Field>
               </div>
+            </div><div className="row">
+              <div className="col-md-3">
+                <Field
+                  name="maxBet"
+                  label={I18n.t(attributeLabels.maxBet)}
+                  type="text"
+                  disabled={disabled}
+                  component={InputField}
+                  position="vertical"
+                  id="manual-bonus-modal-maxBet"
+                />
+              </div>
             </div>
             <div className="form-group row">
               <div className="col-md-12">
@@ -209,6 +221,7 @@ export default reduxForm({
       converted: 'required',
       wagered: 'required',
       currency: 'required',
+      maxBet: 'numeric',
       lockAmountStrategy: 'required',
     };
 

@@ -3,12 +3,14 @@
   "extends": [
     "standard",
     "standard-react",
-    "airbnb"
+    "airbnb",
+    "plugin:jsx-control-statements/recommended"
   ],
   "plugins": [
     "babel",
     "react",
-    "promise"
+    "promise",
+    "jsx-control-statements"
   ],
   "env": {
     "browser": true

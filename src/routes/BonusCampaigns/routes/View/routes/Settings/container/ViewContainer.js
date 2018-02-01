@@ -41,6 +41,8 @@ const mapRewardsToForm = (data) => {
       bonusLifetime: data.bonusLifetime,
       campaignRatio: data.campaignRatio,
       claimable: data.claimable,
+      maxBet: data.maxBet,
+      maxGrantedAmount: data.maxGrantedAmount,
     },
   };
 
@@ -84,6 +86,8 @@ const mapStateToProps = ({
       type: customValueFieldTypes.ABSOLUTE,
     },
     optIn: data.optIn,
+    maxBet: data.maxBet,
+    maxGrantedAmount: data.maxGrantedAmount,
     fulfilmentType: data.fulfilmentType,
     excludeCountries: data.excludeCountries,
     countries: data.countries || [],

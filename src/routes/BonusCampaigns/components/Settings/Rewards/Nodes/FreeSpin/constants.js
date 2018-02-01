@@ -15,6 +15,7 @@ const attributeLabels = {
   moneyPriority: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.MONEY_PRIORITY'),
   spinValue: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.SPIN_VALUE'),
   totalValue: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.TOTAL_VALUE'),
+  maxBet: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MAX_BET'),
 };
 
 const attributePlaceholders = {
