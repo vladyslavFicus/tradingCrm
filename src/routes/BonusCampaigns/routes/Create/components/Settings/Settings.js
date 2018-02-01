@@ -123,6 +123,7 @@ class Settings extends Component {
         revert={revert}
         bonusCampaign={this.bonusCampaign}
         locale={locale}
+        form="bonusCampaignCreate"
         currencies={currencies}
         createFreeSpinTemplate={createFreeSpinTemplate}
       />

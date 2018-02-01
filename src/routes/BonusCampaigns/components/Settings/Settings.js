@@ -240,6 +240,7 @@ class Settings extends Component {
       fetchFreeSpinTemplates,
       fetchGames,
       fetchPaymentMethods,
+      form,
       paymentMethods,
     } = this.props;
 
@@ -259,6 +260,7 @@ class Settings extends Component {
           games={games}
           providers={providers}
           templates={templates}
+          form={form}
           fetchFreeSpinTemplate={fetchFreeSpinTemplate}
           fetchFreeSpinTemplates={fetchFreeSpinTemplates}
           fetchGames={fetchGames}

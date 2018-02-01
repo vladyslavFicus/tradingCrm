@@ -90,6 +90,7 @@ class Form extends Component {
     locale: PropTypes.string.isRequired,
     paymentMethods: PropTypes.array,
     fetchPaymentMethods: PropTypes.func.isRequired,
+    form: PropTypes.string.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -223,6 +224,7 @@ class Form extends Component {
       linkedCampaign,
       locale,
       fetchPaymentMethods,
+      form,
       paymentMethods,
     } = this.props;
 
@@ -231,7 +233,7 @@ class Form extends Component {
       || get(currentValues.fulfillments, fulfillmentNodeTypes.noFulfillments);
 
     return (
-      <form className="form-horizontal campaign-settings" onSubmit={handleSubmit(onSubmit)}>
+      <form id={form} className="form-horizontal campaign-settings" onSubmit={handleSubmit(onSubmit)}>
         <div className="tab-header">
           <div className="tab-header__heading">
             {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
@@ -558,10 +560,7 @@ class Form extends Component {
   }
 }
 
-export const FORM_NAME = 'updateBonusCampaignSettings';
-
 const SettingsForm = reduxForm({
-  form: FORM_NAME,
   enableReinitialize: true,
   validate: values => validator(values, {
     allowedCustomValueTypes: getCustomValueFieldTypes(values),
@@ -569,12 +568,12 @@ const SettingsForm = reduxForm({
   }),
 })(Form);
 
-export default connect((state) => {
-  const currentValues = getFormValues(FORM_NAME)(state);
+export default connect((state, { form }) => {
+  const currentValues = getFormValues(form)(state);
 
   return {
     currentValues,
-    meta: getFormMeta(FORM_NAME)(state),
+    meta: getFormMeta(form)(state),
     fulfillmentExist: currentValues && !isEmpty(currentValues.fulfillments),
     currency: 'EUR',
   };

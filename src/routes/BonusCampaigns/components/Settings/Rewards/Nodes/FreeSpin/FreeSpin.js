@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { getFormValues, Field } from 'redux-form';
-import { connect } from 'react-redux';
+import { Field } from 'redux-form';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
 import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
-import { FORM_NAME } from '../../../Form';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import {
@@ -29,20 +27,6 @@ class FreeSpin extends Component {
     currency: PropTypes.string.isRequired,
     providers: PropTypes.array,
     templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
-    currentValues: PropTypes.shape({
-      aggregatorId: PropTypes.string,
-      betPerLine: PropTypes.number,
-      bonusLifeTime: PropTypes.number,
-      freeSpinsAmount: PropTypes.number,
-      gameId: PropTypes.string,
-      moneyTypePriority: PropTypes.string,
-      linesPerSpin: PropTypes.number,
-      claimable: PropTypes.bool,
-      multiplier: PropTypes.number,
-      name: PropTypes.string,
-      providerId: PropTypes.string,
-      templateUUID: PropTypes.string,
-    }),
   };
 
   static defaultProps = {
@@ -50,7 +34,10 @@ class FreeSpin extends Component {
     games: [],
     providers: [],
     templates: [],
-    currentValues: {},
+  };
+
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
   };
 
   state = {
@@ -60,8 +47,9 @@ class FreeSpin extends Component {
   };
 
   async componentDidMount() {
-    const { fetchGames, currentValues: { templateUUID }, fetchFreeSpinTemplates } = this.props;
-
+    const { fetchGames, fetchFreeSpinTemplates } = this.props;
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const templateUUID = get(rewards, 'freeSpin.templateUUID');
     const action = await fetchGames();
     await fetchFreeSpinTemplates({ status: freeSpinTemplate.CREATED });
     if (action && !action.error && templateUUID) {
@@ -152,7 +140,9 @@ class FreeSpin extends Component {
   };
 
   renderAdditionalFields = () => {
-    const { currentValues, currency } = this.props;
+    const { currency } = this.props;
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const currentValues = get(rewards, 'freeSpin', {});
     const { customTemplate } = this.state;
 
     if (!currentValues.aggregatorId) {
@@ -185,7 +175,9 @@ class FreeSpin extends Component {
   };
 
   renderPrice = () => {
-    const { currentValues, currency } = this.props;
+    const { currency } = this.props;
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const currentValues = get(rewards, 'freeSpin', {});
     const betPrice = currentValues && currentValues.betPerLine
       ? parseFloat(currentValues.betPerLine) : 0;
     const linesPerSpin = currentValues && currentValues.linesPerSpin
@@ -226,10 +218,12 @@ class FreeSpin extends Component {
       disabled,
       remove,
       providers,
-      currentValues,
       templates,
     } = this.props;
 
+
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const currentValues = get(rewards, 'freeSpin', {});
     const {
       currentLines,
       currentGames,
@@ -460,10 +454,4 @@ class FreeSpin extends Component {
   }
 }
 
-export default connect((state) => {
-  const currentValues = getFormValues(FORM_NAME)(state);
-
-  return {
-    currentValues: get(currentValues, 'rewards.freeSpin') || {},
-  };
-})(FreeSpin);
+export default FreeSpin;
