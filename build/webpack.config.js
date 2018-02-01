@@ -61,6 +61,7 @@ const config = {
             plugins: [
               'babel-plugin-transform-class-properties',
               'babel-plugin-syntax-dynamic-import',
+              'jsx-control-statements',
               [
                 'babel-plugin-transform-runtime',
                 {

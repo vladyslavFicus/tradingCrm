@@ -410,6 +410,18 @@ class FreeSpin extends Component {
               ))}
             </Field>
           </div>
+          <div className="form-row__small">
+            <Field
+              name={this.buildFieldName('maxBet')}
+              type="text"
+              placeholder="0"
+              label={I18n.t(attributeLabels.maxBet)}
+              component={InputField}
+              position="vertical"
+              disabled={disabled || !customTemplate}
+              iconRightClassName="nas nas-currencies_icon"
+            />
+          </div>
           <div className="form-row__small form-row_with-placeholder-right">
             <Field
               name={this.buildFieldName('bonusLifeTime')}
@@ -425,7 +437,6 @@ class FreeSpin extends Component {
             <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
           </div>
         </div>
-
         <div className="form-row">
           <div className="form-row__big">
             <div className="form-group">

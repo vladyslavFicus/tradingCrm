@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
+import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import {
   InputField, SelectField, CustomValueFieldVertical,
@@ -36,6 +37,15 @@ class Bonus extends Component {
     autofill(this.buildFieldName('campaignRatio.type'), customValueFieldTypes.PERCENTAGE);
   }
 
+  componentWillReceiveProps({ typeValues: nextTypeValues }) {
+    const { _reduxForm: { autofill } } = this.context;
+    const { typeValues } = this.props;
+
+    if (typeValues.length !== nextTypeValues.length) {
+      autofill(this.buildFieldName('campaignRatio.type'), nextTypeValues[0]);
+    }
+  }
+
   buildFieldName = name => `${this.props.nodePath}.${name}`;
 
   render() {
@@ -45,6 +55,10 @@ class Bonus extends Component {
       disabled,
       remove,
     } = this.props;
+
+
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const campaignRatioType = get(rewards, 'bonus.campaignRatio.type');
 
     return (
       <div className="add-campaign-container">
@@ -61,6 +75,22 @@ class Bonus extends Component {
               errors={errors}
             />
           </div>
+          <If condition={campaignRatioType === customValueFieldTypes.PERCENTAGE}>
+            <div className="form-row__big row">
+              <div className="col-md-8">
+                <Field
+                  name={this.buildFieldName('maxGrantedAmount')}
+                  type="text"
+                  placeholder="0"
+                  label={I18n.t(attributeLabels.maxGrantedAmount)}
+                  component={InputField}
+                  position="vertical"
+                  disabled={disabled}
+                  iconRightClassName="nas nas-currencies_icon"
+                />
+              </div>
+            </div>
+          </If>
         </div>
         <div className="form-row">
           <div className="form-row__small">
@@ -90,6 +120,20 @@ class Bonus extends Component {
                 </option>
               ))}
             </Field>
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-row__small">
+            <Field
+              name={this.buildFieldName('maxBet')}
+              type="text"
+              placeholder="0"
+              label={I18n.t(attributeLabels.maxBet)}
+              component={InputField}
+              position="vertical"
+              disabled={disabled}
+              iconRightClassName="nas nas-currencies_icon"
+            />
           </div>
           <div className="form-row__small form-row_with-placeholder-right">
             <Field
