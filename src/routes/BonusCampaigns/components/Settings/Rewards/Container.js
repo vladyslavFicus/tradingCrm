@@ -152,6 +152,7 @@ class Container extends Component {
             <button
               type="button"
               className="btn"
+              id="add-rewards"
               disabled={!selectedNode}
               onClick={this.handleAddNode}
             >

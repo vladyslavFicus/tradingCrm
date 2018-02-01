@@ -259,7 +259,7 @@ class Form extends Component {
             <div className="col-lg-7">
               <div>
                 <Field
-                  id="bonus-campaign-name"
+                  id={`${form}СampaignName`}
                   name="campaignName"
                   label={I18n.t(attributeLabels.campaignName)}
                   type="text"
@@ -279,6 +279,7 @@ class Form extends Component {
                 <div className="form-row__small">
                   <Field
                     name="currency"
+                    id={`${form}Currency`}
                     label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.BASE_CURRENCY')}
                     type="select"
                     component={SelectField}
@@ -295,7 +296,7 @@ class Form extends Component {
                 </div>
                 <div className="form-row__medium">
                   <CustomValueFieldVertical
-                    id="bonus-campaign-conversion-prize"
+                    id={`${form}ConversionPrize`}
                     basename={'conversionPrize'}
                     label={
                       <span>
@@ -312,6 +313,7 @@ class Form extends Component {
                 <div className="form-row__medium">
                   <CustomValueFieldVertical
                     basename={'capping'}
+                    id={`${form}Capping`}
                     label={
                       <span>
                         {I18n.t(attributeLabels.capping)}{' '}
@@ -334,6 +336,7 @@ class Form extends Component {
                   <Field
                     utc
                     name="startDate"
+                    id={`${form}StartDate`}
                     component={DateTimeField}
                     isValidDate={this.startDateValidator('endDate')}
                     position="vertical"
@@ -343,6 +346,7 @@ class Form extends Component {
                   <Field
                     utc
                     name="endDate"
+                    id={`${form}EndDate`}
                     component={DateTimeField}
                     isValidDate={this.endDateValidator('startDate')}
                     position="vertical"
@@ -382,6 +386,7 @@ class Form extends Component {
                 label={I18n.t(attributeLabels.targetType)}
                 type="select"
                 disabled={disabled}
+                id={`${form}TargetType`}
                 position="vertical"
                 component={SelectField}
                 onChange={this.handleChangeTargetType}
@@ -396,10 +401,10 @@ class Form extends Component {
             </div>
             <div className="filter-row__small">
               <Field
-                id="bonus-campaign-target-type"
                 name="optIn"
                 label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.TYPE')}
                 type="select"
+                id={`${form}TargetTypeOptIn`}
                 component={SelectField}
                 position="vertical"
                 disabled={isOptInDisabled}
@@ -421,6 +426,7 @@ class Form extends Component {
                     <div className="col-md-6">
                       <Field
                         name="optInPeriod"
+                        id={`${form}OptInPeriod`}
                         type="number"
                         placeholder=""
                         disabled={disabled}
@@ -431,6 +437,7 @@ class Form extends Component {
                     <div className="col-md-6">
                       <Field
                         name="optInPeriodTimeUnit"
+                        id={`${form}OptInPeriodTimeUnit`}
                         type="select"
                         component={SelectField}
                         position="vertical"

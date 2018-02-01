@@ -143,6 +143,7 @@ class Container extends Component {
             <button
               type="button"
               className="btn"
+              id="add-fulfillments"
               disabled={!selectedNode}
               onClick={this.handleAddNode}
             >
