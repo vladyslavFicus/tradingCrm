@@ -54,6 +54,13 @@ class Settings extends Component {
     const createAction = await this.props.createCampaign(data);
 
     if (createAction) {
+      this.context.addNotification({
+        level: createAction.error ? 'error' : 'success',
+        title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
+        message: `${I18n.t('COMMON.ACTIONS.ADDED')} ${createAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
+          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+      });
+
       if (createAction.error) {
         if (createAction.payload.response.fields_errors) {
           const errors = Object.keys(createAction.payload.response.fields_errors).reduce((res, name) => ({
@@ -72,13 +79,6 @@ class Settings extends Component {
       } else {
         this.context.router.push(`/bonus-campaigns/view/${createAction.payload.campaignUUID}/settings`);
       }
-
-      this.context.addNotification({
-        level: createAction.error ? 'error' : 'success',
-        title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
-        message: `${I18n.t('COMMON.ACTIONS.ADDED')} ${createAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
-      });
     }
 
     return createAction;
