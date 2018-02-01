@@ -56,8 +56,7 @@ class Settings extends Component {
       this.context.addNotification({
         level: createAction.error ? 'error' : 'success',
         title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.ADD_CAMPAIGN'),
-        message: `${I18n.t('COMMON.ACTIONS.ADDED')} ${createAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        message: I18n.t(`BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.${createAction.error ? 'UNSUCCESSFULLY' : 'SUCCESSFULLY'}`),
       });
 
       if (createAction.error) {

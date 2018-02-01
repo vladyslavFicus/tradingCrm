@@ -1177,6 +1177,8 @@
       "NOTIFICATIONS": {
         "UPDATE_TITLE": "Update bonus campaign",
         "ADD_PLAYERS": "Add players",
+        "UNSUCCESSFULLY": "Failed to save the сampaign",
+        "SUCCESSFULLY": "Сampaign saved successfully",
         "ADD_CAMPAIGN": "Add campaign",
         "CAMPAIGN_COPIED": "Campaign copied"
       },

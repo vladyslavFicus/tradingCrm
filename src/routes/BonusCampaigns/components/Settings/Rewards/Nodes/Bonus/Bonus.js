@@ -32,9 +32,10 @@ class Bonus extends Component {
 
   componentDidMount() {
     const { _reduxForm: { autofill } } = this.context;
+    const { typeValues } = this.props;
 
     autofill(this.buildFieldName('claimable'), false);
-    autofill(this.buildFieldName('campaignRatio.type'), customValueFieldTypes.PERCENTAGE);
+    autofill(this.buildFieldName('campaignRatio.type'), typeValues[0]);
   }
 
   componentWillReceiveProps({ typeValues: nextTypeValues }) {
