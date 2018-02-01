@@ -26,13 +26,9 @@ const initialState = {
       url: '/operators/list',
     },
     {
-      label: I18n.t('SIDEBAR.TOP_MENU.TRANSACTIONS'),
+      label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'),
       icon: 'fa fa-credit-card',
-      isOpen: false,
-      items: [
-        { label: I18n.t('SIDEBAR.TOP_MENU.PAYMENTS'), url: '/transactions/list' },
-        { label: I18n.t('SIDEBAR.TOP_MENU.OPEN_LOOP'), url: '/transactions/open-loops' },
-      ],
+      url: '/transactions/list',
     },
     {
       label: I18n.t('SIDEBAR.TOP_MENU.BONUS_CAMPAIGNS'),
