@@ -32,6 +32,10 @@ class Container extends Component {
     paymentMethods: [],
   };
 
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
+  };
+
   state = {
     selectedNode: null,
   };
@@ -108,6 +112,7 @@ class Container extends Component {
   render() {
     const { disabled, activeNodes } = this.props;
     const { selectedNode } = this.state;
+    const { _reduxForm: { form } } = this.context;
     const availableNodes = difference(ALL_NODES, activeNodes);
 
     return (
@@ -121,6 +126,7 @@ class Container extends Component {
             <div className="col-md-6">
               <SelectField
                 label=""
+                id={`${form}FullfilmentType`}
                 position="vertical"
                 labelClassName="no-label"
                 disabled={disabled}
