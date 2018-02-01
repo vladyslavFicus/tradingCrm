@@ -45,6 +45,7 @@ class Bonus extends Component {
       disabled,
       remove,
     } = this.props;
+    const { _reduxForm: { form } } = this.context;
 
     return (
       <div className="add-campaign-container">
@@ -55,6 +56,7 @@ class Bonus extends Component {
           <div className="form-row__big">
             <CustomValueFieldVertical
               disabled={disabled}
+              id={`${form}CampaignRatio`}
               basename={this.buildFieldName('campaignRatio')}
               label={I18n.t(attributeLabels.grant)}
               typeValues={typeValues}
@@ -67,6 +69,7 @@ class Bonus extends Component {
             <Field
               name={this.buildFieldName('wagerWinMultiplier')}
               type="text"
+              id={`${form}WagerWinMultiplier`}
               placeholder="0.00"
               label={I18n.t(attributeLabels.multiplier)}
               component={InputField}
@@ -78,6 +81,7 @@ class Bonus extends Component {
             <Field
               name={this.buildFieldName('moneyTypePriority')}
               type="text"
+              id={`${form}MoneyTypePriority`}
               label={I18n.t(attributeLabels.moneyPrior)}
               component={SelectField}
               position="vertical"
@@ -94,6 +98,7 @@ class Bonus extends Component {
           <div className="form-row__small form-row_with-placeholder-right">
             <Field
               name={this.buildFieldName('bonusLifetime')}
+              id={`${form}bonusLifetime`}
               type="text"
               placeholder="0"
               label={I18n.t(attributeLabels.lifeTime)}
