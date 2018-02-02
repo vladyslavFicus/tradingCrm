@@ -1362,7 +1362,7 @@
           "NOT_SET": "Не задано"
         },
         "MAX_BET": "Макс. ставка",
-        "MAX_GRANTED_AMOUNT": ""
+        "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов"
       },
       "FREE_SPIN": {
         "NAME_ALREADY_EXIST": "Имя уже существует",
