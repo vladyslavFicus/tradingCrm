@@ -141,7 +141,7 @@ class FreeSpin extends Component {
 
   renderAdditionalFields = () => {
     const { currency } = this.props;
-    const { _reduxForm: { values: { rewards } } } = this.context;
+    const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const { customTemplate } = this.state;
 
@@ -154,6 +154,7 @@ class FreeSpin extends Component {
         <Field
           name={this.buildFieldName('betPerLine')}
           type="number"
+          id={`${form}BetPerLine`}
           step="any"
           label={I18n.t(attributeLabels.betPerLine)}
           labelClassName="form-label"
@@ -222,7 +223,7 @@ class FreeSpin extends Component {
     } = this.props;
 
 
-    const { _reduxForm: { values: { rewards } } } = this.context;
+    const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const {
       currentLines,
@@ -242,6 +243,7 @@ class FreeSpin extends Component {
               <div className="form-group">
                 <Field
                   name={this.buildFieldName('templateUUID')}
+                  id={`${form}TemplateUUID`}
                   label={I18n.t(attributeLabels.template)}
                   labelClassName="form-label"
                   component={NasSelectField}
@@ -261,6 +263,7 @@ class FreeSpin extends Component {
                 <label>
                   <input
                     type="checkbox"
+                    id={`${form}CustomTemplate`}
                     onChange={this.toggleCustomTemplate}
                     checked={customTemplate}
                   /> Custom Template
@@ -275,6 +278,7 @@ class FreeSpin extends Component {
             <Field
               name={this.buildFieldName('name')}
               type="text"
+              id={`${form}Name`}
               placeholder=""
               showErrorMessage={false}
               label={I18n.t(attributeLabels.name)}
@@ -289,6 +293,7 @@ class FreeSpin extends Component {
           <div className="filter-row__medium">
             <Field
               name={this.buildFieldName('providerId')}
+              id={`${form}ProviderId`}
               label={I18n.t(attributeLabels.providerId)}
               labelClassName="form-label"
               position="vertical"
@@ -310,6 +315,7 @@ class FreeSpin extends Component {
             <Field
               name={this.buildFieldName('gameId')}
               label={I18n.t(attributeLabels.gameId)}
+              id={`${form}GameId`}
               labelClassName="form-label"
               position="vertical"
               component={SelectField}
@@ -334,6 +340,7 @@ class FreeSpin extends Component {
                 <Field
                   name={this.buildFieldName('freeSpinsAmount')}
                   type="number"
+                  id={`${form}FreeSpinsAmount`}
                   aplaceholder="0"
                   label={I18n.t(attributeLabels.freeSpins)}
                   component={InputField}
@@ -348,6 +355,7 @@ class FreeSpin extends Component {
               <div className="col-md-6">
                 <Field
                   name={this.buildFieldName('linesPerSpin')}
+                  id={`${form}LinesPerSpin`}
                   type="number"
                   label="lines per spin"
                   labelClassName="form-label"
@@ -383,6 +391,7 @@ class FreeSpin extends Component {
             <Field
               name={this.buildFieldName('multiplier')}
               type="number"
+              id={`${form}Multiplier`}
               placeholder="0"
               label={I18n.t(attributeLabels.wagering)}
               component={InputField}
@@ -396,6 +405,7 @@ class FreeSpin extends Component {
             <Field
               name={this.buildFieldName('moneyTypePriority')}
               type="text"
+              id={`${form}MoneyTypePriority`}
               label={I18n.t(attributeLabels.moneyPriority)}
               component={SelectField}
               position="vertical"
@@ -414,6 +424,7 @@ class FreeSpin extends Component {
             <Field
               name={this.buildFieldName('maxBet')}
               type="text"
+              id={`${form}MaxBet`}
               placeholder="0"
               label={I18n.t(attributeLabels.maxBet)}
               component={InputField}
@@ -425,6 +436,7 @@ class FreeSpin extends Component {
           <div className="form-row__small form-row_with-placeholder-right">
             <Field
               name={this.buildFieldName('bonusLifeTime')}
+              id={`${form}BonusLifeTime`}
               type="number"
               placeholder="0"
               label={I18n.t(attributeLabels.lifeTime)}
@@ -442,6 +454,7 @@ class FreeSpin extends Component {
             <div className="form-group">
               <Field
                 name={this.buildFieldName('claimable')}
+                id={`${form}Claimable`}
                 type="checkbox"
                 component="input"
                 disabled={disabled || !customTemplate}
