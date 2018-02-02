@@ -1350,8 +1350,8 @@
           "DAYS": "days",
           "NOT_SET": "Not set"
         },
-        "MAX_BET": "",
-        "MAX_GRANTED_AMOUNT": ""
+        "MAX_BET": "Max bet",
+        "MAX_GRANTED_AMOUNT": "Max granted amount"
       },
       "FREE_SPIN": {
         "NAME_ALREADY_EXIST": "Name already exist",
