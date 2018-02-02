@@ -47,15 +47,15 @@ export default (values, params) => {
       bonus: {
         wagerWinMultiplier: ['integer', 'max:999'],
         bonusLifetime: ['integer'],
-        maxBet: ['integer'],
-        maxGrantedAmount: ['integer'],
+        maxBet: ['numeric'],
+        maxGrantedAmount: ['numeric'],
         moneyTypePriority: [`in:${Object.keys(moneyTypeUsage).join()}`],
       },
       freeSpin: {
         name: ['string'],
         providerId: ['string'],
         gameId: ['string'],
-        maxBet: ['integer'],
+        maxBet: ['numeric'],
         aggregatorId: ['string'],
         moneyTypePriority: ['string'],
         freeSpinsAmount: ['integer', 'min:0'],
