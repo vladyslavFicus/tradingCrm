@@ -5,7 +5,7 @@ import { Field } from 'redux-form';
 import { get } from 'lodash';
 import { NasSelectField } from '../../../../../../../components/ReduxForm';
 
-class Deposit extends Component {
+class RestrictedPaymentMethods extends Component {
   static propTypes = {
     paymentMethods: PropTypes.array.isRequired,
     disabled: PropTypes.bool.isRequired,
@@ -59,4 +59,4 @@ class Deposit extends Component {
   }
 }
 
-export default Deposit;
+export default RestrictedPaymentMethods;
