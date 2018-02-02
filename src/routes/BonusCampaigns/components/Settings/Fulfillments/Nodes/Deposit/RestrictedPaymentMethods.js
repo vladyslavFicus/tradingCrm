@@ -44,7 +44,6 @@ class RestrictedPaymentMethods extends Component {
         label={label}
         component={NasSelectField}
         position="vertical"
-        disabled={disabled}
         multiple
       >
         {
