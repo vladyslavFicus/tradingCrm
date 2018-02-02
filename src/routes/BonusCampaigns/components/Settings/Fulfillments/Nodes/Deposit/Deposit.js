@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { Field } from 'redux-form';
-
-import { InputField, SelectField, NasSelectField } from '../../../../../../components/ReduxForm';
-import renderLabel from '../../../../../../utils/renderLabel';
-import { lockAmountStrategyLabels } from '../../../../../../constants/bonus-campaigns';
-import ordinalizeNumber from '../../../../../../utils/ordinalizeNumber';
+import { InputField, SelectField } from '../../../../../../../components/ReduxForm';
+import renderLabel from '../../../../../../../utils/renderLabel';
+import { lockAmountStrategyLabels } from '../../../../../../../constants/bonus-campaigns';
+import ordinalizeNumber from '../../../../../../../utils/ordinalizeNumber';
+import RestrictedPaymentMethods from './RestrictedPaymentMethods';
 
 class Deposit extends Component {
   static propTypes = {
@@ -119,22 +119,11 @@ class Deposit extends Component {
         <div className="form-row">
           <div className="filter-row__big">
             <div className="range-group">
-              <Field
+              <RestrictedPaymentMethods
                 name={this.buildFieldName('restrictedPaymentMethods')}
-                label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.RESTRICTED_PAYMENT_METHODS')}
-                component={NasSelectField}
-                position="vertical"
+                paymentMethods={paymentMethods}
                 disabled={disabled}
-                multiple
-              >
-                {
-                  paymentMethods.map(paymentMethod => (
-                    <option key={paymentMethod.uuid} value={paymentMethod.methodName.toUpperCase()}>
-                      {paymentMethod.methodName}
-                    </option>
-                  ))
-                }
-              </Field>
+              />
             </div>
           </div>
         </div>

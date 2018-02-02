@@ -300,7 +300,8 @@
           "WAGERED": "Wagered",
           "MONEY_TYPE_PRIORITY": "Приор. исп. денег",
           "LOCK_AMOUNT_STRATEGY": "Блок. вывода средств",
-          "CLAIMABLE": "Требовать подтверждения"
+          "CLAIMABLE": "Требовать подтверждения",
+          "MAX_BET": "Макс. ставка"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Заблокировать все средства",
@@ -432,8 +433,8 @@
       },
       "ADD_TO_CAMPAIGN_BUTTON": "+ Добавить в Кампанию",
       "ADD_PROMO_CODE_BUTTON": "+ Добавить промо-код",
-      "UNTARGET": "Отвязать",
-      "OPT_IN": "Opt-in"
+      "OPT_IN": "Opt-in",
+      "UN_TARGET": "Отвязать"
     },
     "FREE_SPINS": {
       "BONUS_SETTINGS": {
@@ -918,7 +919,7 @@
         "RFP": "Risk Fraud & Payment",
         "MARKETING": "Маркетинг",
         "ADMINISTRATION": "Администрация",
-        "BI": ""
+        "BI": "Бизнес аналитика"
       }
     },
     "BONUS_CAMPAIGNS": {
@@ -1258,7 +1259,8 @@
         "LOCK_AMOUNT_STRATEGY_LABEL": "Стратегия блок. денег",
         "PROMO_CODE": "Промо-код",
         "OPT_IN_PERIOD": "Opt-in период",
-        "CHOOSE_CAMPAIGN": "Выбрать кампанию"
+        "CHOOSE_CAMPAIGN": "Выбрать кампанию",
+        "EXCLUDED_COUNTRIES": "Исключенные страны"
       },
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
@@ -1358,7 +1360,9 @@
         "PLACEHOLDERS": {
           "DAYS": "дней",
           "NOT_SET": "Не задано"
-        }
+        },
+        "MAX_BET": "Макс. ставка",
+        "MAX_GRANTED_AMOUNT": ""
       },
       "FREE_SPIN": {
         "NAME_ALREADY_EXIST": "Имя уже существует",
