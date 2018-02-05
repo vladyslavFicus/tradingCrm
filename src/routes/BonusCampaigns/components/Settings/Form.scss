@@ -22,7 +22,6 @@
 
 .add-campaign {
   &-setting {
-    display: flex;
     justify-content: center;
     margin-top: 40px;
     .form-group {
@@ -71,16 +70,12 @@
 }
 
 .free-spin-card {
-  flex: 1 0 auto;
-  padding: 40px 5px;
+  display: flex;
+  flex-direction: column;
   background-color: #f3f9fe;
   text-align: center;
-  &:last-child {
-    margin-left: 5px;
-  }
-  &__wrapper {
-    display: flex;
-  }
+  height: 100%;
+  justify-content: center;
   &-values {
     font-family: ArialMT, Arial, sans-serif;
     font-size: 15px;
@@ -94,11 +89,6 @@
     font-size: 11px;
     color: #666;
   }
-}
-
-.form-group.first-deposit {
-  align-self: flex-end;
-  margin-left: 25px;
 }
 
 .linked-campaign {

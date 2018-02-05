@@ -3,19 +3,29 @@
 $selected-color: rgba(74,144,226,.1);
 
 .nasDateRangePicker {
+  width: 100%;
+  .DateRangePicker {
+    width: 100%;
+  }
   .DateRangePickerInput {
-    width: 280px;
+    width: 100%;
     border-radius: 3px;
   }
 
-  .DateInput {
-    &_fang {
-      height: 8px;
-    }
+  .DateRangePickerInput_calendarIcon {
+    padding: 0;
+    vertical-align: baseline;
+  }
 
-    &_input__focused {
-      border-bottom: 2px solid transparent;
-    }
+  .DateInput_input__small {
+    padding-top: 10px;
+    padding-bottom: 9px;
+    border-bottom: 0;
+    text-align: center;
+  }
+
+  .DateInput_fang {
+    height: 8px;
   }
 
   .DayPicker {
@@ -63,6 +73,8 @@ $selected-color: rgba(74,144,226,.1);
     border: solid 1px #cfcfcf;
     border-radius: 3px;
     box-shadow: 0 2px 23px 0 #ededed;
+    z-index: 0;
+    top: 52px !important;
   }
 
   .CalendarDay {
