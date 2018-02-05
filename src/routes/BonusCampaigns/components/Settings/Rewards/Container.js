@@ -112,6 +112,7 @@ class Container extends Component {
             fetchFreeSpinTemplate={fetchFreeSpinTemplate}
             fetchGames={fetchGames}
             fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+            disabled={disabled}
           />
         );
       default:

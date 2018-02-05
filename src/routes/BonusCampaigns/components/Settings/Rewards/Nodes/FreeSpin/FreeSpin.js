@@ -11,7 +11,6 @@ import {
   attributeLabels,
   attributePlaceholders,
 } from './constants';
-
 import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../constants/bonus-campaigns';
 
 const floatNormalize = v => (isNaN(parseFloat(v)) ? v : parseFloat(v));
@@ -140,7 +139,7 @@ class FreeSpin extends Component {
   };
 
   renderAdditionalFields = () => {
-    const { currency } = this.props;
+    const { currency, disabled } = this.props;
     const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const { customTemplate } = this.state;
@@ -163,6 +162,7 @@ class FreeSpin extends Component {
         placeholder={'0.00'}
         showErrorMessage={false}
         disabled={
+          disabled ||
           !currentValues ||
           !currentValues.providerId ||
           !currentValues.gameId ||
@@ -222,7 +222,6 @@ class FreeSpin extends Component {
       templates,
     } = this.props;
 
-
     const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const {
@@ -236,37 +235,40 @@ class FreeSpin extends Component {
         <div className="add-campaign-label">
           {I18n.t(attributeLabels.freeSpinReward)}
         </div>
-        <div className="row my-3">
-          <div className="col-8">
-            <Field
-              name={this.buildFieldName('templateUUID')}
-              id={`${form}TemplateUUID`}
-              label={I18n.t(attributeLabels.template)}
-              labelClassName="form-label"
-              component={NasSelectField}
-              showErrorMessage={false}
-              position="vertical"
-              disabled={customTemplate}
-              onChange={this.handleChangeTemplate}
-            >
-              {templates.map(item => (
-                <option key={item.uuid} value={item.uuid}>
-                  {item.name}
-                </option>
-              ))}
-            </Field>
+        {
+          !disabled &&
+          <div className="row my-3">
+            <div className="col-8">
+              <Field
+                name={this.buildFieldName('templateUUID')}
+                id={`${form}TemplateUUID`}
+                label={I18n.t(attributeLabels.template)}
+                labelClassName="form-label"
+                component={NasSelectField}
+                showErrorMessage={false}
+                position="vertical"
+                disabled={customTemplate}
+                onChange={this.handleChangeTemplate}
+              >
+                {templates.map(item => (
+                  <option key={item.uuid} value={item.uuid}>
+                    {item.name}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="col-4 align-self-end">
+              <label>
+                <input
+                  type="checkbox"
+                  id={`${form}CustomTemplate`}
+                  onChange={this.toggleCustomTemplate}
+                  checked={customTemplate}
+                /> Custom Template
+              </label>
+            </div>
           </div>
-          <div className="col-4 align-self-end">
-            <label>
-              <input
-                type="checkbox"
-                id={`${form}CustomTemplate`}
-                onChange={this.toggleCustomTemplate}
-                checked={customTemplate}
-              /> Custom Template
-            </label>
-          </div>
-        </div>
+        }
         <Field
           name={this.buildFieldName('name')}
           type="text"
