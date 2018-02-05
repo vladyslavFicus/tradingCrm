@@ -112,6 +112,7 @@ class Container extends Component {
             fetchFreeSpinTemplate={fetchFreeSpinTemplate}
             fetchGames={fetchGames}
             fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+            disabled={disabled}
           />
         );
       default:
@@ -132,8 +133,8 @@ class Container extends Component {
         )}
         {
           (availableNodes.length > 0 && !activeNodes.length) &&
-          <div className="add-campaign-setting col-md-12">
-            <div className="col-md-6">
+          <div className="row no-gutters add-campaign-setting">
+            <div className="col-5">
               <SelectField
                 label=""
                 id={`${form}RewardType`}
@@ -155,15 +156,18 @@ class Container extends Component {
                 }
               </SelectField>
             </div>
-            <button
-              type="button"
-              className="btn"
-              id="add-rewards"
-              disabled={!selectedNode}
-              onClick={this.handleAddNode}
-            >
-              {I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.ADD_REWARDS')}
-            </button>
+
+            <div className="col-auto">
+              <button
+                type="button"
+                className="btn"
+                id="add-rewards"
+                disabled={!selectedNode}
+                onClick={this.handleAddNode}
+              >
+                {I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.ADD_REWARDS')}
+              </button>
+            </div>
           </div>
         }
       </div>
