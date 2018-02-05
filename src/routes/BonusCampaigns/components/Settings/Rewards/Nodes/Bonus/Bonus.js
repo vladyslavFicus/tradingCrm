@@ -78,8 +78,7 @@ class Bonus extends Component {
               errors={errors}
             />
           </div>
-          {
-            campaignRatioType === customValueFieldTypes.PERCENTAGE &&
+          <If condition={campaignRatioType === customValueFieldTypes.PERCENTAGE}>
             <div className="col-3">
               <Field
                 name={this.buildFieldName('maxGrantedAmount')}
@@ -92,7 +91,7 @@ class Bonus extends Component {
                 iconRightClassName="nas nas-currencies_icon"
               />
             </div>
-          }
+          </If>
         </div>
         <div className="row">
           <div className="col-2">
