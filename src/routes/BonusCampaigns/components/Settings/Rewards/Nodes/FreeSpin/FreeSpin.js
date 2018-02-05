@@ -235,8 +235,7 @@ class FreeSpin extends Component {
         <div className="add-campaign-label">
           {I18n.t(attributeLabels.freeSpinReward)}
         </div>
-        {
-          !disabled &&
+        <If condition={!disabled}>
           <div className="row my-3">
             <div className="col-8">
               <Field
@@ -268,7 +267,7 @@ class FreeSpin extends Component {
               </label>
             </div>
           </div>
-        }
+        </If>
         <Field
           name={this.buildFieldName('name')}
           type="text"
