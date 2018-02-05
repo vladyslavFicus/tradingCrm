@@ -284,7 +284,6 @@ class FreeSpin extends Component {
               name={this.buildFieldName('providerId')}
               id={`${form}ProviderId`}
               label={I18n.t(attributeLabels.providerId)}
-              labelClassName="form-label"
               position="vertical"
               component={SelectField}
               showErrorMessage={false}
@@ -304,7 +303,6 @@ class FreeSpin extends Component {
               name={this.buildFieldName('gameId')}
               label={I18n.t(attributeLabels.gameId)}
               id={`${form}GameId`}
-              labelClassName="form-label"
               position="vertical"
               component={SelectField}
               showErrorMessage={false}
@@ -322,7 +320,7 @@ class FreeSpin extends Component {
         </div>
         <hr />
         <div className="row">
-          <div className="col-8">
+          <div className="col-7">
             <Field
               name={this.buildFieldName('freeSpinsAmount')}
               type="number"
@@ -368,7 +366,7 @@ class FreeSpin extends Component {
               </div>
             </div>
           </div>
-          <div className="col-4">
+          <div className="col-5">
             {this.renderPrice()}
           </div>
         </div>
