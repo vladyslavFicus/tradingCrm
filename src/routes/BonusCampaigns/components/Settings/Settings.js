@@ -53,7 +53,6 @@ class Settings extends Component {
     providers: PropTypes.array,
     templates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
-    change: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -180,7 +179,7 @@ class Settings extends Component {
     const { form } = this.props;
 
     formChange(form, field, value);
-  }
+  };
 
   handleSubmit = async (formData) => {
     const { createFreeSpinTemplate, handleSubmit } = this.props;
@@ -219,7 +218,7 @@ class Settings extends Component {
       };
     }
 
-    handleSubmit(data);
+    return handleSubmit(data);
   };
 
   render() {

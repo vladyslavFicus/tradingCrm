@@ -5,7 +5,7 @@ import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { get, isEmpty, isEqual } from 'lodash';
 import {
-  InputField, SelectField, DateTimeField, CustomValueFieldVertical, NasSelectField,
+  InputField, SelectField, DateTimeField, CustomValueFieldVertical,
 } from '../../../../components/ReduxForm';
 import PropTypes from '../../../../constants/propTypes';
 import {
@@ -24,6 +24,7 @@ import validator from './validator';
 import './Form.scss';
 import normalizePromoCode from '../../../../utils/normalizePromoCode';
 import LinkedCampaign from './LinkedCampaign';
+import Countries from './Countries';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -458,35 +459,9 @@ class Form extends Component {
               </div>
             }
             <div className="filter-row__medium">
-              {
-                currentValues.targetType === targetTypes.ALL &&
-                <Field
-                  name="countries"
-                  label={
-                    <span>
-                      {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.COUNTRIES')}
-                      <span className="label-action">
-                        <Field
-                          disabled={disabled}
-                          name="excludeCountries"
-                          type="checkbox"
-                          component="input"
-                        />
-                        {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
-                      </span>
-                    </span>
-                  }
-                  component={NasSelectField}
-                  position="vertical"
-                  disabled={disabled}
-                  multiple
-                >
-                  {Object
-                    .keys(countries)
-                    .map(key => <option key={key} value={key}>{countries[key]}</option>)
-                  }
-                </Field>
-              }
+              <Countries
+                disabled={disabled}
+              />
               {
                 currentValues.targetType === targetTypes.LINKED_CAMPAIGN &&
                 <button
