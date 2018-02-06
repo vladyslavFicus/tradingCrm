@@ -221,7 +221,6 @@ class FreeSpin extends Component {
       templates,
     } = this.props;
 
-
     const { _reduxForm: { values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const {
@@ -307,23 +306,25 @@ class FreeSpin extends Component {
           </div>
 
           <div className="filter-row__medium">
-            <Field
-              name={this.buildFieldName('gameId')}
-              label={I18n.t(attributeLabels.gameId)}
-              labelClassName="form-label"
-              position="vertical"
-              component={SelectField}
-              showErrorMessage={false}
-              disabled={!currentValues || !currentValues.providerId || !customTemplate}
-              onChange={e => this.handleChangeGame(e.target.value)}
-            >
-              <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
-              {currentGames.map(item => (
-                <option key={item.gameId} value={item.gameId}>
-                  {`${item.fullGameName} (${item.gameId})`}
-                </option>
-              ))}
-            </Field>
+            <If condition={currentGames.length}>
+              <Field
+                name={this.buildFieldName('gameId')}
+                label={I18n.t(attributeLabels.gameId)}
+                labelClassName="form-label"
+                position="vertical"
+                component={SelectField}
+                showErrorMessage={false}
+                disabled={!currentValues || !currentValues.providerId || !customTemplate}
+                onChange={e => this.handleChangeGame(e.target.value)}
+              >
+                <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME')}</option>
+                {currentGames.map(item => (
+                  <option key={item.gameId} value={item.gameId}>
+                    {`${item.fullGameName} (${item.gameId})`}
+                  </option>
+                ))}
+              </Field>
+            </If>
           </div>
         </div>
         <hr />
