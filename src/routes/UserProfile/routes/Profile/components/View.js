@@ -111,7 +111,8 @@ class View extends Component {
   async componentDidMount() {
     const kycReasonsAction = await this.props.fetchKycReasons();
 
-    console.info('kycReasonsAction', kycReasonsAction ? kycReasonsAction.payload : kycReasonsAction);
+    console.info('kycReasonsAction');
+    console.info(kycReasonsAction ? kycReasonsAction.payload : kycReasonsAction);
   }
 
   onManageKycNote = type => (data) => {
