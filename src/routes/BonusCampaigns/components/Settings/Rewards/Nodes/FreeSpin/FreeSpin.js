@@ -64,9 +64,13 @@ class FreeSpin extends Component {
     this.setField('providerId', providerId);
     this.setField('gameId', null);
 
+    const currentGames = this.props.games.filter(i => i.gameProviderId === providerId);
+    console.info(`Selected provider: ${providerId}`);
+    console.info(`Games count: ${currentGames.length}`);
+
     this.setState({
       currentLines: [],
-      currentGames: this.props.games.filter(i => i.gameProviderId === providerId),
+      currentGames,
     });
   };
 
