@@ -6,6 +6,13 @@ export default ({ getState }) => next => (action) => {
     return next(action);
   }
 
+  if (action.type === authActionTypes.LOGOUT.SUCCESS) {
+    window.reduxLocked = false;
+    window.reduxLockedQueue = [];
+
+    return next(action);
+  }
+
   if (window.reduxLocked) {
     if (isValidRSAA(action)) {
       const shouldPropagate = action[CALL_API].types.indexOf(authActionTypes.REFRESH_TOKEN.SUCCESS) > -1

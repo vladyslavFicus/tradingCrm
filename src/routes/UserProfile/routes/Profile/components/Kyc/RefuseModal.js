@@ -73,6 +73,11 @@ class RefuseModal extends Component {
     onEditNoteClick: PropTypes.func.isRequired,
     hidePopover: PropTypes.func.isRequired,
   };
+
+  componentDidMount() {
+    console.info(`reasons: ${JSON.stringify(this.props.reasons)}`);
+  }
+
   getNotePopoverParams = () => ({
     placement: 'bottom',
     onSubmit: this.handleSubmitNote,
