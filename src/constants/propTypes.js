@@ -514,5 +514,9 @@ PropTypes.department = PropTypes.shape({
   role: PropTypes.string,
   image: PropTypes.string.isRequired,
 });
+PropTypes.wageringFulfilmentEntity = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  amounts: PropTypes.arrayOf(PropTypes.price),
+});
 
 export default PropTypes;

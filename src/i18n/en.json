@@ -14,7 +14,8 @@
       "COUNTRIES": "Countries",
       "PLAYERS_SEARCH": "Players' search",
       "PLAYERS_KYC_REQUEST": "KYC requests",
-      "SETTINGS": "Settings"
+      "SETTINGS": "Settings",
+      "NEW_CAMPAIGNS": "New campaigns"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Support"
@@ -707,7 +708,8 @@
     "HOURS": "Hours",
     "DAYS": "Days",
     "WEEKS": "Weeks",
-    "NONE": "None"
+    "NONE": "None",
+    "REMOVE": "Remove"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1400,7 +1402,16 @@
       "SETTINGS": "Settings"
     },
     "NEW_CAMPAIGN": "New campaign",
-    "SAVE_NEW_CAMPAIGN": "Save new campaign"
+    "SAVE_NEW_CAMPAIGN": "Save new campaign",
+    "WAGERING_FULFILMENTS": {
+      "ADD": {
+        "ADD_BUTTON": "Add wagering fulfilment"
+      },
+      "LIST": {
+        "CREATE_BUTTON": "Create wagering fulfilment",
+        "TITLE": "Wagering fulfilment"
+      }
+    }
   },
   "PROFILE": {
     "LAST_LOGIN": {

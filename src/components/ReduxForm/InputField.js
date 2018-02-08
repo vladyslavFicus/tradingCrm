@@ -27,7 +27,7 @@ class InputField extends Component {
     disabled: PropTypes.bool,
     meta: PropTypes.shape({
       touched: PropTypes.bool,
-      error: PropTypes.string,
+      error: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     }).isRequired,
     iconLeftClassName: PropTypes.string,
     iconRightClassName: PropTypes.string,
