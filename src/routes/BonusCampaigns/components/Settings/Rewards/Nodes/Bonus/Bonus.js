@@ -158,7 +158,7 @@ class Bonus extends Component {
             type="checkbox"
             component="input"
             disabled={disabled}
-          /> Claimable
+          /> {I18n.t('COMMON.CLAIMABLE')}
         </div>
         {
           !disabled &&

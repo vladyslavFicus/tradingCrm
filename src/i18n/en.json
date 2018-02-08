@@ -707,7 +707,8 @@
     "HOURS": "Hours",
     "DAYS": "Days",
     "WEEKS": "Weeks",
-    "NONE": "None"
+    "NONE": "None",
+    "CLAIMABLE": "Claimable"
   },
   "FILES": {
     "UPLOAD_MODAL": {

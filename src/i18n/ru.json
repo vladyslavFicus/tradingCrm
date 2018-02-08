@@ -713,7 +713,8 @@
     "HOURS": "Часы",
     "DAYS": "Дни",
     "WEEKS": "Недели",
-    "NONE": "Ни одного"
+    "NONE": "Ни одного",
+    "CLAIMABLE": "Claimable"
   },
   "FILES": {
     "UPLOAD_MODAL": {

@@ -49,10 +49,61 @@ function fetchFreeSpinTemplate(type) {
   };
 }
 
+function createFreeSpinTemplate(type) {
+  return data => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: 'free_spin_template/templates',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function assignFreeSpinTemplate(type) {
+  return (uuid, data) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `free_spin_template/templates/${uuid}/assign`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
 
 const sourceActionCreators = {
   fetchFreeSpinTemplates,
   fetchFreeSpinTemplate,
+  createFreeSpinTemplate,
+  assignFreeSpinTemplate,
 };
 
 export {

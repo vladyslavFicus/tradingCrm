@@ -12,8 +12,7 @@ import {
   attributePlaceholders,
 } from './constants';
 import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../constants/bonus-campaigns';
-
-const floatNormalize = v => (isNaN(parseFloat(v)) ? v : parseFloat(v));
+import floatNormalize from '../../../../../../../utils/floatNormalize';
 
 class FreeSpin extends Component {
   static propTypes = {
@@ -448,7 +447,7 @@ class FreeSpin extends Component {
             type="checkbox"
             component="input"
             disabled={disabled || !customTemplate}
-          /> Claimable
+          /> {I18n.t('COMMON.CLAIMABLE')}
         </div>
         {
           !disabled &&
