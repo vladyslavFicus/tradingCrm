@@ -13,7 +13,7 @@ function fetchEntities() {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'wagering-fulfillment',
+        endpoint: 'wagering_fulfillment/wagering-fulfillment',
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -37,7 +37,7 @@ function createEntity(data) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'wagering-fulfillment',
+        endpoint: 'wagering_fulfillment/wagering-fulfillment',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -62,7 +62,7 @@ function deleteEntity(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `wagering-fulfillment/${uuid}`,
+        endpoint: `wagering_fulfillment/wagering-fulfillment/${uuid}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
@@ -81,41 +81,7 @@ function deleteEntity(uuid) {
 }
 
 const initialState = {
-  entities: [
-    {
-      uuid: 'WF-j789sdf-sdf',
-      amounts: [
-        {
-          currency: 'EUR',
-          amount: 12,
-        },
-        {
-          currency: 'USD',
-          amount: 14,
-        },
-        {
-          currency: 'RUB',
-          amount: 17,
-        },
-      ],
-    }, {
-      uuid: 'WF-24ad4ff-3234',
-      amounts: [
-        {
-          currency: 'EUR',
-          amount: 12,
-        },
-        {
-          currency: 'USD',
-          amount: 14,
-        },
-        {
-          currency: 'RUB',
-          amount: 17,
-        },
-      ],
-    },
-  ],
+  entities: [],
   error: null,
   isLoading: false,
   receivedAt: null,
@@ -130,19 +96,10 @@ const actionHandlers = {
   }),
   [FETCH_ENTITIES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    entities: {
-      ...state.entities,
-      ...payload,
-      content: payload.number === 0
-        ? payload.content
-        : [
-          ...state.entities.content,
-          ...payload.content,
-        ],
-    },
+    entities: payload,
     isLoading: false,
     receivedAt: endRequestTime,
-    noResults: payload.content.length === 0,
+    noResults: payload.length === 0,
   }),
   [FETCH_ENTITIES.FAILURE]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
