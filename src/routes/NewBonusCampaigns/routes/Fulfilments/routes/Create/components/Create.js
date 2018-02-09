@@ -36,7 +36,7 @@ class Create extends Component {
 
   handleChange = currency => (e) => {
     const { name, value } = e.target;
-    const fieldIndex = name.split('.')[0];
+    const [fieldIndex] = name.split('.');
 
     const currencyField = `${fieldIndex}.currency`;
     const currencyValue = value ? currency : '';
