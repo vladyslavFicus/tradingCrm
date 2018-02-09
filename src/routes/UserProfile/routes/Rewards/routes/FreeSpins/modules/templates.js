@@ -7,9 +7,13 @@ import {
 const KEY = 'bonus-campaign/view/settings';
 const FETCH_FREE_SPINS_TEMPLATES = createRequestAction(`${KEY}/fetch-free-spin-templates`);
 const FETCH_FREE_SPINS_TEMPLATE = createRequestAction(`${KEY}/fetch-free-spin-template`);
+const CREATE_FREE_SPINS_TEMPLATE = createRequestAction(`${KEY}/create-free-spin-template`);
+const ASSIGN_FREE_SPINS_TEMPLATE = createRequestAction(`${KEY}/assign-free-spin-template`);
 
 const fetchFreeSpinTemplates = freeSpinTemplatesActionCreators.fetchFreeSpinTemplates(FETCH_FREE_SPINS_TEMPLATES);
 const fetchFreeSpinTemplate = freeSpinTemplatesActionCreators.fetchFreeSpinTemplate(FETCH_FREE_SPINS_TEMPLATE);
+const createFreeSpinTemplate = freeSpinTemplatesActionCreators.createFreeSpinTemplate(CREATE_FREE_SPINS_TEMPLATE);
+const assignFreeSpinTemplate = freeSpinTemplatesActionCreators.assignFreeSpinTemplate(ASSIGN_FREE_SPINS_TEMPLATE);
 
 const initialState = {
   data: [],
@@ -47,6 +51,8 @@ const actionTypes = {
 const actionCreators = {
   fetchFreeSpinTemplates,
   fetchFreeSpinTemplate,
+  createFreeSpinTemplate,
+  assignFreeSpinTemplate,
 };
 
 export {
