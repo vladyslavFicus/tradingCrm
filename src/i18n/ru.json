@@ -14,7 +14,9 @@
       "COUNTRIES": "Страны",
       "PLAYERS_SEARCH": "Поиск игроков",
       "PLAYERS_KYC_REQUEST": "KYC запросы",
-      "SETTINGS": "Настройки"
+      "SETTINGS": "Настройки",
+      "NEW_CAMPAIGNS": "Новые кампании",
+      "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
@@ -714,6 +716,7 @@
     "DAYS": "Дни",
     "WEEKS": "Недели",
     "NONE": "Ни одного",
+    "REMOVE": "Удалить",
     "CLAIMABLE": "Claimable"
   },
   "FILES": {
@@ -1412,7 +1415,16 @@
       "SETTINGS": "Настройки"
     },
     "NEW_CAMPAIGN": "Новая кампания",
-    "SAVE_NEW_CAMPAIGN": "Сохранить новую кампанию"
+    "SAVE_NEW_CAMPAIGN": "Сохранить новую кампанию",
+    "WAGERING_FULFILMENTS": {
+      "ADD": {
+        "ADD_BUTTON": "Добавить wagering fulfilment"
+      },
+      "LIST": {
+        "CREATE_BUTTON": "Создать wagering fulfilment",
+        "TITLE": "Wagering fulfilment"
+      }
+    }
   },
   "BONUS_CAMPAIGN_STATUS": {
     "CHANGE_DATE": "в %{date}",

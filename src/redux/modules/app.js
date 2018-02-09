@@ -36,6 +36,14 @@ const initialState = {
       url: '/bonus-campaigns',
     },
     {
+      label: I18n.t('SIDEBAR.TOP_MENU.NEW_CAMPAIGNS'),
+      icon: 'fa fa-calendar-check-o ',
+      isOpen: false,
+      items: [
+        { label: I18n.t('SIDEBAR.TOP_MENU.NEW_CAMPAIGNS_FULFILLMENTS'), url: '/new-bonus-campaigns/fulfilments' },
+      ],
+    },
+    {
       label: I18n.t('SIDEBAR.TOP_MENU.SETTINGS'),
       icon: 'fa fa-gear',
       isOpen: false,

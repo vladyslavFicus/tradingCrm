@@ -8,7 +8,8 @@ import { InputField, DateTimeField, SelectField } from '../../../../../../../../
 import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
-import { attributeLabels, lockAmountStrategyLabels } from './constants';
+import { attributeLabels } from './constants';
+import { lockAmountStrategy, lockAmountStrategyLabels } from '../../../../../../../../constants/bonus-campaigns';
 
 class CreateModal extends Component {
   static propTypes = {
@@ -146,7 +147,7 @@ class CreateModal extends Component {
                   component={SelectField}
                   position="vertical"
                 >
-                  {Object.keys(lockAmountStrategyLabels).map(key => (
+                  {Object.keys(lockAmountStrategy).map(key => (
                     <option key={key} value={key}>
                       {renderLabel(key, lockAmountStrategyLabels)}
                     </option>
