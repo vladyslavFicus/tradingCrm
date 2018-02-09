@@ -15,7 +15,8 @@
       "PLAYERS_SEARCH": "Поиск игроков",
       "PLAYERS_KYC_REQUEST": "KYC запросы",
       "SETTINGS": "Настройки",
-      "NEW_CAMPAIGNS": "Новые кампании"
+      "NEW_CAMPAIGNS": "Новые кампании",
+      "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"
