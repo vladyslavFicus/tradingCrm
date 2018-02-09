@@ -31,6 +31,7 @@ const mapActions = {
   fetchFreeSpins: actionCreators.fetchFreeSpins,
   exportFreeSpins: actionCreators.exportFreeSpins,
   createFreeSpin: actionCreators.createFreeSpin,
+  createFreeSpinTemplate: actionCreators.createFreeSpinTemplate,
   fetchGames: actionCreators.fetchGames,
   resetAll: actionCreators.resetAll,
   manageNote: actionCreators.manageNote,
@@ -39,6 +40,7 @@ const mapActions = {
   cancelFreeSpin: actionCreators.cancelFreeSpin,
   fetchFreeSpinTemplates: actionCreators.fetchFreeSpinTemplates,
   fetchFreeSpinTemplate: actionCreators.fetchFreeSpinTemplate,
+  assignFreeSpinTemplate: actionCreators.assignFreeSpinTemplate,
 };
 
 export default connect(mapStateToProps, mapActions)(FreeSpinsView);

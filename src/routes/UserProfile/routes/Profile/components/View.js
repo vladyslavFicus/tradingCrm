@@ -108,8 +108,11 @@ class View extends Component {
     modal: { ...modalInitialState },
   };
 
-  componentDidMount() {
-    this.props.fetchKycReasons();
+  async componentDidMount() {
+    const kycReasonsAction = await this.props.fetchKycReasons();
+
+    console.info('kycReasonsAction');
+    console.info(kycReasonsAction ? JSON.stringify(kycReasonsAction.payload) : kycReasonsAction);
   }
 
   onManageKycNote = type => (data) => {

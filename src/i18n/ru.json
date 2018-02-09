@@ -715,7 +715,8 @@
     "DAYS": "Дни",
     "WEEKS": "Недели",
     "NONE": "Ни одного",
-    "REMOVE": "Удалить"
+    "REMOVE": "Удалить",
+    "CLAIMABLE": "Claimable"
   },
   "FILES": {
     "UPLOAD_MODAL": {

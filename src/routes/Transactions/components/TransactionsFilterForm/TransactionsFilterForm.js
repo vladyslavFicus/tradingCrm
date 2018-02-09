@@ -182,7 +182,7 @@ class TransactionsFilterForm extends Component {
                 </div>
               </div>
             </div>
-            <div className="filter-row__big">
+            <div className="filter-row__medium">
               <div className="form-group">
                 <label>{I18n.t(attributeLabels.creationDateRange)}</label>
                 <div className="range-group">

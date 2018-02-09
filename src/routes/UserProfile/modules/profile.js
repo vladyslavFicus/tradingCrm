@@ -5,7 +5,6 @@ import createRequestAction from '../../../utils/createRequestAction';
 import { actions, statuses as userStatuses } from '../../../constants/user';
 import { statuses as kycStatuses, categories as kycCategories } from '../../../constants/kyc';
 import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
-import config from '../../../config';
 
 const KEY = 'user-profile/view';
 const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);

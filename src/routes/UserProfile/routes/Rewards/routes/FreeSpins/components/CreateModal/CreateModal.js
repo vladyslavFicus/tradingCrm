@@ -16,6 +16,7 @@ import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { aggregators } from '../../constants';
 import MicrogamingAdditionalFields from './MicrogamingAdditionalFields';
 import NetentAdditionalFields from './NetentAdditionalFields';
+import floatNormalize from '../../../../../../../../utils/floatNormalize';
 
 class CreateModal extends Component {
   static propTypes = {
@@ -268,7 +269,8 @@ class CreateModal extends Component {
       <div className="col-md-4">
         <Field
           name="betPerLine"
-          type="text"
+          type="number"
+          normalize={floatNormalize}
           label={I18n.t(attributeLabels.betPerLine)}
           labelClassName="form-label"
           position="vertical"
@@ -465,10 +467,11 @@ class CreateModal extends Component {
               <div className="col-md-4">
                 <Field
                   name="freeSpinsAmount"
+                  type="number"
                   label={I18n.t(attributeLabels.freeSpinsAmount)}
                   labelClassName="form-label"
-                  type="text"
                   component={InputField}
+                  normalize={floatNormalize}
                   position="vertical"
                   showErrorMessage={false}
                 />
@@ -480,11 +483,11 @@ class CreateModal extends Component {
                 <div className="col-md-4">
                   <Field
                     name="linesPerSpin"
+                    type="number"
                     label={I18n.t(attributeLabels.linesPerSpin)}
                     labelClassName="form-label"
                     position="vertical"
                     component={SelectField}
-                    type="number"
                     normalize={v => parseInt(v)}
                     showErrorMessage={false}
                     disabled={
@@ -538,9 +541,10 @@ class CreateModal extends Component {
               <div className="col-md-3">
                 <Field
                   name="multiplier"
+                  type="number"
                   label={I18n.t(attributeLabels.multiplier)}
                   labelClassName="form-label"
-                  type="text"
+                  normalize={floatNormalize}
                   component={InputField}
                   position="vertical"
                   placeholder={''}
@@ -552,7 +556,8 @@ class CreateModal extends Component {
                   name="bonusLifeTime"
                   label={I18n.t(attributeLabels.bonusLifeTime)}
                   labelClassName="form-label"
-                  type="text"
+                  type="number"
+                  normalize={floatNormalize}
                   component={InputField}
                   position="vertical"
                   placeholder={''}
@@ -576,6 +581,13 @@ class CreateModal extends Component {
                   ))}
                 </Field>
               </div>
+            </div>
+            <div className="form-group">
+              <Field
+                name="claimable"
+                type="checkbox"
+                component="input"
+              /> {I18n.t('COMMON.CLAIMABLE')}
             </div>
             <div className="row">
               <div className="col-md-12 text-center">

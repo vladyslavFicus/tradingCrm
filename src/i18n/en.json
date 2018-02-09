@@ -709,7 +709,8 @@
     "DAYS": "Days",
     "WEEKS": "Weeks",
     "NONE": "None",
-    "REMOVE": "Remove"
+    "REMOVE": "Remove",
+    "CLAIMABLE": "Claimable"
   },
   "FILES": {
     "UPLOAD_MODAL": {
