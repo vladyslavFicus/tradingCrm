@@ -65,16 +65,17 @@ function processConfig() {
     .then((config) => {
       compileNginxConfig(projectConfig);
 
-      return _.merge(
-        config,
-        {
-          nas: {
-            brand: Object.assign({
-              api: { url: projectConfig.hrzn.api_url },
-            }, projectConfig.brand),
-          },
-        },
-      );
+      const brand = Object.assign({
+        api: { url: projectConfig.hrzn.api_url },
+      }, projectConfig.brand);
+
+      Object.keys(config.nas.brand).forEach((item) => {
+        if (['currencies', 'departments', 'roles', 'password', 'tags', 'locale'].indexOf(item) > -1) {
+          brand[item] = config.nas.brand[item];
+        }
+      });
+
+      return { nas: { brand } };
     });
 }
 
