@@ -19,6 +19,7 @@ import CancelModal from '../CancelModal';
 import ViewModal from '../ViewModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
 import FreeSpinGameInfo from '../FreeSpinGameInfo';
+import { aggregators } from '../../constants';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -57,6 +58,8 @@ class FreeSpinsView extends Component {
     locale: PropTypes.string.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
+    createFreeSpinTemplate: PropTypes.func.isRequired,
+    assignFreeSpinTemplate: PropTypes.func.isRequired,
     templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
   };
   static defaultProps = {
@@ -180,12 +183,38 @@ class FreeSpinsView extends Component {
   };
 
   handleSubmitNewFreeSpin = async (data) => {
+    const { aggregatorId, startDate, endDate } = data;
+
     const {
       createFreeSpin,
+      createFreeSpinTemplate,
+      assignFreeSpinTemplate,
       resetNote,
+      currency,
+      params: { id: playerUUID },
       list: { newEntityNote: unsavedNote },
     } = this.props;
-    const action = await createFreeSpin(data);
+
+    let action;
+    if (aggregatorId === aggregators.igromat) {
+      const { moduleId, clientId, ...freeSpinTemplateData } = data;
+      action = await createFreeSpinTemplate({
+        claimable: false,
+        ...freeSpinTemplateData,
+      });
+
+      if (action && !action.error) {
+        const { uuid } = action.payload;
+        await assignFreeSpinTemplate(uuid, {
+          playerUUID,
+          currency,
+          startDate,
+          endDate,
+        });
+      }
+    } else {
+      action = await createFreeSpin(data);
+    }
 
     if (action && action.error) {
       throw new SubmissionError({ _error: action.payload.response.error });
