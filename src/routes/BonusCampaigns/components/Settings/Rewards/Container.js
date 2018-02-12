@@ -127,13 +127,13 @@ class Container extends Component {
     const availableNodes = difference(ALL_NODES, activeNodes);
 
     return (
-      <div className="col-lg-6 padding-bottom-30">
+      <div className="col-6">
         {activeNodes.map(node =>
           <div key={node}>{this.renderNode(node)}</div>
         )}
         {
           (availableNodes.length > 0 && !activeNodes.length) &&
-          <div className="row no-gutters add-campaign-setting">
+          <div className="row no-gutters py-5 add-campaign-setting">
             <div className="col-5">
               <SelectField
                 label=""
@@ -156,7 +156,6 @@ class Container extends Component {
                 }
               </SelectField>
             </div>
-
             <div className="col-auto">
               <button
                 type="button"

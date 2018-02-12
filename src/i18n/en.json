@@ -860,6 +860,7 @@
         "BONUS_MONEY": "Bonus money first"
       },
       "LOCK_AMOUNT_STRATEGY": {
+        "LABEL": "Withdrawal lock",
         "LOCK_ALL": "Lock all money",
         "LOCK_PARTIAL": "Lock deposited amount"
       }

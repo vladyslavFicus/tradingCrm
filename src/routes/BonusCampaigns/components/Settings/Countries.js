@@ -48,30 +48,32 @@ class Countries extends Component {
     }
 
     return (
-      <Field
-        name="countries"
-        label={
-          <span>
-            {label}
-            <span className="label-action">
-              <Field
-                name="excludeCountries"
-                type="checkbox"
-                component="input"
-              />
-              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
+      <div className="col-3">
+        <Field
+          name="countries"
+          label={
+            <span>
+              {label}
+              <span className="label-action">
+                <Field
+                  name="excludeCountries"
+                  type="checkbox"
+                  component="input"
+                />
+                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
+              </span>
             </span>
-          </span>
-        }
-        component={NasSelectField}
-        position="vertical"
-        multiple
-      >
-        {Object
-          .keys(countryList)
-          .map(key => <option key={key} value={key}>{countryList[key]}</option>)
-        }
-      </Field>
+          }
+          component={NasSelectField}
+          position="vertical"
+          multiple
+        >
+          {Object
+            .keys(countryList)
+            .map(key => <option key={key} value={key}>{countryList[key]}</option>)
+          }
+        </Field>
+      </div>
     );
   }
 }

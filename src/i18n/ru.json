@@ -866,8 +866,9 @@
         "BONUS_MONEY": "Бонусные деньги"
       },
       "LOCK_AMOUNT_STRATEGY": {
+        "LABEL": "Блок вывода",
         "LOCK_ALL": "Заблокировать все средства",
-        "LOCK_PARTIAL": "Заблокировать сумму пополнения"
+        "LOCK_PARTIAL": "Заблокировать сумму депозита"
       }
     },
     "GAMING_ACTIVITY": {

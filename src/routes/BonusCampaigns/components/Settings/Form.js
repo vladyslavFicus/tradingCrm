@@ -234,103 +234,49 @@ class Form extends Component {
       || get(currentValues.fulfillments, fulfillmentNodeTypes.noFulfillments);
 
     return (
-      <form id={form} className="form-horizontal campaign-settings" onSubmit={handleSubmit(onSubmit)}>
-        <div className="tab-header">
-          <div className="tab-header__heading">
-            {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
+      <form id={form} className="campaign-settings" onSubmit={handleSubmit(onSubmit)}>
+        <div className="container-fluid">
+          <div className="row align-items-center">
+            <div className="col-md-6 text-truncate campaign-settings__title">
+              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
+            </div>
+            {
+              !(pristine || submitting) &&
+              <div className="col-md-6 text-md-right">
+                <button
+                  onClick={this.handleRevert}
+                  className="btn btn-default-outline text-uppercase margin-right-20"
+                  type="button"
+                >
+                  {I18n.t('COMMON.REVERT_CHANGES')}
+                </button>
+                <button className="btn btn-primary text-uppercase" type="submit" id="bonus-campaign-save-button">
+                  {I18n.t('COMMON.SAVE_CHANGES')}
+                </button>
+              </div>
+            }
           </div>
-          {!(pristine || submitting) &&
-          <div className="tab-header__actions">
-            <button
-              onClick={this.handleRevert}
-              className="btn btn-default-outline text-uppercase margin-right-20"
-              type="button"
-            >
-              {I18n.t('COMMON.REVERT_CHANGES')}
-            </button>
-            <button className="btn btn-primary text-uppercase" type="submit" id="bonus-campaign-save-button">
-              {I18n.t('COMMON.SAVE_CHANGES')}
-            </button>
-          </div>
-          }
-        </div>
-        <div className="campaign-settings-content">
           <hr />
           <div className="row">
-            <div className="col-lg-7">
-              <div>
-                <Field
-                  id={`${form}СampaignName`}
-                  name="campaignName"
-                  label={I18n.t(attributeLabels.campaignName)}
-                  type="text"
-                  component={InputField}
-                  position="vertical"
-                  disabled={disabled}
-                />
-                <div className="form-group__note">
-                  {
-                    currentValues && currentValues.campaignName
-                      ? currentValues.campaignName.length
-                      : 0
-                  }/{CAMPAIGN_NAME_MAX_LENGTH}
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-row__small">
-                  <Field
-                    name="currency"
-                    id={`${form}Currency`}
-                    label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.BASE_CURRENCY')}
-                    type="select"
-                    component={SelectField}
-                    position="vertical"
-                    disabled={disabled}
-                  >
-                    <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
-                    {currencies.map(item => (
-                      <option key={item} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="form-row__medium">
-                  <CustomValueFieldVertical
-                    id={`${form}ConversionPrize`}
-                    basename={'conversionPrize'}
-                    label={
-                      <span>
-                        {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
-                        <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                      </span>
-                    }
-                    typeValues={allowedCustomValueTypes}
-                    errors={this.getCustomValueFieldErrors('conversionPrize')}
-                    disabled={disabled}
-                    modalOpen={toggleModal}
-                  />
-                </div>
-                <div className="form-row__medium">
-                  <CustomValueFieldVertical
-                    basename={'capping'}
-                    id={`${form}Capping`}
-                    label={
-                      <span>
-                        {I18n.t(attributeLabels.capping)}{' '}
-                        <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                      </span>
-                    }
-                    typeValues={allowedCustomValueTypes}
-                    errors={this.getCustomValueFieldErrors('capping')}
-                    disabled={disabled}
-                    onClick={toggleModal}
-                    modalOpen={toggleModal}
-                  />
-                </div>
+            <div className="col-md-7">
+              <Field
+                id={`${form}СampaignName`}
+                name="campaignName"
+                label={I18n.t(attributeLabels.campaignName)}
+                type="text"
+                component={InputField}
+                position="vertical"
+                disabled={disabled}
+              />
+              <div className="form-group__note">
+                {
+                  currentValues && currentValues.campaignName
+                    ? currentValues.campaignName.length
+                    : 0
+                }/{CAMPAIGN_NAME_MAX_LENGTH}
               </div>
             </div>
-            <div className="col-lg-4">
+            <div className="col-md-4">
               <div className="form-group">
                 <label>{I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
                 <div className="range-group">
@@ -355,33 +301,73 @@ class Form extends Component {
                   />
                 </div>
               </div>
-              {
-                currentValues && currentValues.targetType === targetTypes.TARGET_LIST &&
-                <div className="form-row">
-                  <div className="form-row__big">
-                    <Field
-                      name="promoCode"
-                      type="text"
-                      label={I18n.t(attributeLabels.promoCode)}
-                      component={InputField}
-                      normalize={normalizePromoCode}
-                      position="vertical"
-                    />
-                  </div>
+            </div>
+          </div>
+          <div className="row mt-3">
+            <div className="col-md-7">
+              <div className="row">
+                <div className="col-2">
+                  <Field
+                    name="currency"
+                    id={`${form}Currency`}
+                    label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.BASE_CURRENCY')}
+                    type="select"
+                    component={SelectField}
+                    position="vertical"
+                    disabled={disabled}
+                  >
+                    <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
+                    {currencies.map(item => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </Field>
                 </div>
-              }
+                <div className="col-3">
+                  <CustomValueFieldVertical
+                    id={`${form}ConversionPrize`}
+                    basename={'conversionPrize'}
+                    label={
+                      <span>
+                        {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
+                        <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                      </span>
+                    }
+                    typeValues={allowedCustomValueTypes}
+                    errors={this.getCustomValueFieldErrors('conversionPrize')}
+                    disabled={disabled}
+                    modalOpen={toggleModal}
+                  />
+                </div>
+                <div className="col-3">
+                  <CustomValueFieldVertical
+                    basename={'capping'}
+                    id={`${form}Capping`}
+                    label={
+                      <span>
+                        {I18n.t(attributeLabels.capping)}{' '}
+                        <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                      </span>
+                    }
+                    typeValues={allowedCustomValueTypes}
+                    errors={this.getCustomValueFieldErrors('capping')}
+                    disabled={disabled}
+                    onClick={toggleModal}
+                    modalOpen={toggleModal}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div className="tab-header">
-          <div className="tab-header__heading">
+        <div className="container-fluid my-3">
+          <div className="text-truncate campaign-settings__title">
             {I18n.t('BONUS_CAMPAIGNS.SETTINGS.TARGET')}
           </div>
-        </div>
-        <div className="campaign-settings-content">
           <hr />
-          <div className="filter-row">
-            <div className="filter-row__small">
+          <div className="row">
+            <div className="col-2">
               <Field
                 name="targetType"
                 label={I18n.t(attributeLabels.targetType)}
@@ -400,7 +386,7 @@ class Form extends Component {
                 ))}
               </Field>
             </div>
-            <div className="filter-row__small">
+            <div className="col-1">
               <Field
                 name="optIn"
                 label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.TYPE')}
@@ -420,11 +406,11 @@ class Form extends Component {
             </div>
             {
               (currentValues.optIn === 'true' || currentValues.optIn === true) &&
-              <div className="filter-row__small">
+              <div className="col-2">
                 <div className="form-group">
                   <label>{I18n.t(attributeLabels.optInPeriod)}</label>
-                  <div className="row">
-                    <div className="col-md-6">
+                  <div className="form-row">
+                    <div className="col-4">
                       <Field
                         name="optInPeriod"
                         id={`${form}OptInPeriod`}
@@ -435,7 +421,7 @@ class Form extends Component {
                         position="vertical"
                       />
                     </div>
-                    <div className="col-md-6">
+                    <div className="col">
                       <Field
                         name="optInPeriodTimeUnit"
                         id={`${form}OptInPeriodTimeUnit`}
@@ -458,24 +444,35 @@ class Form extends Component {
                 </div>
               </div>
             }
-            <div className="filter-row__medium">
-              <Countries
-                disabled={disabled}
-              />
-              {
-                currentValues.targetType === targetTypes.LINKED_CAMPAIGN &&
+            {
+              currentValues && currentValues.targetType === targetTypes.TARGET_LIST &&
+              <div className="col-2">
+                <Field
+                  name="promoCode"
+                  type="text"
+                  label={I18n.t(attributeLabels.promoCode)}
+                  component={InputField}
+                  normalize={normalizePromoCode}
+                  position="vertical"
+                />
+              </div>
+            }
+            <Countries disabled={disabled} />
+            {
+              currentValues.targetType === targetTypes.LINKED_CAMPAIGN &&
+              <div className="col-2 align-self-center">
                 <button
                   onClick={handleClickChooseCampaign}
-                  className="btn btn-default-outline text-uppercase margin-top-20"
+                  className="btn btn-default-outline text-uppercase w-100"
                   type="button"
                 >
                   {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CHOOSE_CAMPAIGN')}
                 </button>
-              }
-            </div>
+              </div>
+            }
           </div>
           <div className="row">
-            <div className="col-lg-6">
+            <div className="col-md-6">
               <Field
                 name="linkedCampaignUUID"
                 hidden="hidden"
@@ -491,25 +488,17 @@ class Form extends Component {
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-lg-6">
-            <div className="tab-header">
-              <div className="tab-header__heading">
-                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENTS')}
-              </div>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-6 text-truncate campaign-settings__title">
+              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENTS')}
+            </div>
+            <div className="col-6 text-truncate campaign-settings__title">
+              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.REWARDS')}
             </div>
           </div>
-          <div className="col-lg-6">
-            <div className="tab-header pl-0">
-              <div className="tab-header__heading">
-                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.REWARDS')}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="campaign-settings-content">
           <hr />
-          <div className="row padding-bottom-30">
+          <div className="row">
             <Fulfillments
               locale={locale}
               disabled={disabled}
