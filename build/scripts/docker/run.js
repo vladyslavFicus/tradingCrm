@@ -1,5 +1,6 @@
 const process = require('process');
 const fs = require('fs');
+const fetch = require('isomorphic-fetch');
 const ymlReader = require('yamljs');
 const _ = require('lodash');
 const fetchZookeeperConfig = require('./fetch-zookeeper-config');
@@ -40,13 +41,25 @@ function processError(error) {
   });
 }
 
-function compileNginxConfig(environmentConfig) {
+function fetchHealth(apiUrl) {
+  return fetch(`${apiUrl}/health`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  }).then(response => response.json());
+}
+
+async function compileNginxConfig(environmentConfig) {
   let config = fs.readFileSync('/opt/docker/nginx.conf.tpl', { encoding: 'UTF-8' });
+  const health = await fetchHealth(environmentConfig.hrzn.api_url);
 
   const params = {
     logstashUrl: environmentConfig.logstash
       ? environmentConfig.logstash.url
       : '',
+    version: health && health.version ? health.version : '',
   };
 
   if (config) {
