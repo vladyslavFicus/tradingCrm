@@ -304,60 +304,56 @@ class Form extends Component {
             </div>
           </div>
           <div className="row mt-3">
-            <div className="col-md-7">
-              <div className="row">
-                <div className="col-2">
-                  <Field
-                    name="currency"
-                    id={`${form}Currency`}
-                    label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.BASE_CURRENCY')}
-                    type="select"
-                    component={SelectField}
-                    position="vertical"
-                    disabled={disabled}
-                  >
-                    <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
-                    {currencies.map(item => (
-                      <option key={item} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </Field>
-                </div>
-                <div className="col-3">
-                  <CustomValueFieldVertical
-                    id={`${form}ConversionPrize`}
-                    basename={'conversionPrize'}
-                    label={
-                      <span>
-                        {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
-                        <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                      </span>
-                    }
-                    typeValues={allowedCustomValueTypes}
-                    errors={this.getCustomValueFieldErrors('conversionPrize')}
-                    disabled={disabled}
-                    modalOpen={toggleModal}
-                  />
-                </div>
-                <div className="col-3">
-                  <CustomValueFieldVertical
-                    basename={'capping'}
-                    id={`${form}Capping`}
-                    label={
-                      <span>
-                        {I18n.t(attributeLabels.capping)}{' '}
-                        <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                      </span>
-                    }
-                    typeValues={allowedCustomValueTypes}
-                    errors={this.getCustomValueFieldErrors('capping')}
-                    disabled={disabled}
-                    onClick={toggleModal}
-                    modalOpen={toggleModal}
-                  />
-                </div>
-              </div>
+            <div className="col-3 col-xl-2">
+              <Field
+                name="currency"
+                id={`${form}Currency`}
+                label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.BASE_CURRENCY')}
+                type="select"
+                component={SelectField}
+                position="vertical"
+                disabled={disabled}
+              >
+                <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
+                {currencies.map(item => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="col-3">
+              <CustomValueFieldVertical
+                id={`${form}ConversionPrize`}
+                basename={'conversionPrize'}
+                label={
+                  <span>
+                    {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
+                    <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                  </span>
+                }
+                typeValues={allowedCustomValueTypes}
+                errors={this.getCustomValueFieldErrors('conversionPrize')}
+                disabled={disabled}
+                modalOpen={toggleModal}
+              />
+            </div>
+            <div className="col-3">
+              <CustomValueFieldVertical
+                basename={'capping'}
+                id={`${form}Capping`}
+                label={
+                  <span>
+                    {I18n.t(attributeLabels.capping)}{' '}
+                    <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                  </span>
+                }
+                typeValues={allowedCustomValueTypes}
+                errors={this.getCustomValueFieldErrors('capping')}
+                disabled={disabled}
+                onClick={toggleModal}
+                modalOpen={toggleModal}
+              />
             </div>
           </div>
         </div>
@@ -367,7 +363,7 @@ class Form extends Component {
           </div>
           <hr />
           <div className="row">
-            <div className="col-2">
+            <div className="col-3">
               <Field
                 name="targetType"
                 label={I18n.t(attributeLabels.targetType)}
@@ -386,10 +382,22 @@ class Form extends Component {
                 ))}
               </Field>
             </div>
-            <div className="col-1">
+            {
+              currentValues.targetType === targetTypes.LINKED_CAMPAIGN &&
+              <div className="col-auto pl-0 align-self-center">
+                <button
+                  onClick={handleClickChooseCampaign}
+                  className="btn btn-default-outline text-uppercase w-100"
+                  type="button"
+                >
+                  {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CHOOSE_CAMPAIGN')}
+                </button>
+              </div>
+            }
+            <div className="col-3">
               <Field
                 name="optIn"
-                label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.TYPE')}
+                label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.OPT_IN')}
                 type="select"
                 id={`${form}TargetTypeOptIn`}
                 component={SelectField}
@@ -406,7 +414,7 @@ class Form extends Component {
             </div>
             {
               (currentValues.optIn === 'true' || currentValues.optIn === true) &&
-              <div className="col-2">
+              <div className="col-3">
                 <div className="form-group">
                   <label>{I18n.t(attributeLabels.optInPeriod)}</label>
                   <div className="form-row">
@@ -454,22 +462,11 @@ class Form extends Component {
                   component={InputField}
                   normalize={normalizePromoCode}
                   position="vertical"
+                  disabled={disabled}
                 />
               </div>
             }
             <Countries disabled={disabled} />
-            {
-              currentValues.targetType === targetTypes.LINKED_CAMPAIGN &&
-              <div className="col-2 align-self-center">
-                <button
-                  onClick={handleClickChooseCampaign}
-                  className="btn btn-default-outline text-uppercase w-100"
-                  type="button"
-                >
-                  {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CHOOSE_CAMPAIGN')}
-                </button>
-              </div>
-            }
           </div>
           <div className="row">
             <div className="col-md-6">

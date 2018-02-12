@@ -34,21 +34,23 @@ class Countries extends Component {
 
     if (disabled) {
       return (
-        <div className="form-group">
-          <label>{label}</label>
-          <div className="select-disabled-container">
-            {
-              countries.length
-                ? countries.map(countryCode => countryList[countryCode]).join(', ')
-                : I18n.t('COMMON.NONE')
-            }
+        <div className="col-6">
+          <div className="form-group">
+            <label>{label}</label>
+            <div className="select-disabled-container">
+              {
+                countries.length
+                  ? countries.map(countryCode => countryList[countryCode]).join(', ')
+                  : I18n.t('COMMON.NONE')
+              }
+            </div>
           </div>
         </div>
       );
     }
 
     return (
-      <div className="col-3">
+      <div className="col-6">
         <Field
           name="countries"
           label={

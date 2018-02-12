@@ -278,7 +278,7 @@
     "BONUS": {
       "MODAL_CREATE": {
         "TITLE": "Manual bonus",
-        "CHOOSE_CURRENCY": "-- Choose currency --",
+        "CHOOSE_CURRENCY": "-- Choose --",
         "LABELS": {
           "PLAYER_UUID": "Player UUID",
           "LABEL": "Name",
@@ -1244,7 +1244,7 @@
         "DESCRIPTION": "Description",
         "BASE_CURRENCY": "Base currency",
         "MIN_PRIZE": "Min. prize",
-        "TYPE": "Type",
+        "OPT_IN_REQUIRED": "Opt-in required",
         "AFFILIATES": "Affiliates",
         "EXCLUDE": "Exclude",
         "COUNTRIES": "Countries",
@@ -1256,8 +1256,8 @@
         "CHOOSE_CAMPAIGN": "Choose campaign",
         "EXCLUDED_COUNTRIES": "Excluded countries"
       },
-      "CHOOSE_CURRENCY": "-- Choose currency --",
-      "CHOOSE_TARGET_TYPE": "-- Choose target type --",
+      "CHOOSE_CURRENCY": "-- Choose --",
+      "CHOOSE_TARGET_TYPE": "-- Choose --",
       "TARGET": "Target",
       "CAMPAIGN_SETTINGS": "Campaign settings",
       "FULFILLMENTS": "Fulfillments",

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Field } from 'redux-form';
 import { difference } from 'lodash';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
@@ -135,16 +136,16 @@ class Container extends Component {
           (availableNodes.length > 0 && !activeNodes.length) &&
           <div className="row no-gutters py-5 add-campaign-setting">
             <div className="col-5">
-              <SelectField
-                label=""
+              <Field
+                name="r"
                 id={`${form}RewardType`}
                 position="vertical"
-                labelClassName="no-label"
                 disabled={disabled}
                 input={{
                   value: selectedNode,
                   onChange: e => this.handleSelectNode(e.target.value),
                 }}
+                component={SelectField}
               >
                 <option value="">{I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.SELECT_REWARDS')}</option>
                 {
@@ -154,7 +155,7 @@ class Container extends Component {
                     </option>
                   ))
                 }
-              </SelectField>
+              </Field>
             </div>
             <div className="col-auto">
               <button

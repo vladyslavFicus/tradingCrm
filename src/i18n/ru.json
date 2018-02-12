@@ -6,7 +6,7 @@
       "PAYMENTS": "Платежи",
       "TRANSACTIONS": "Транзакции",
       "PAYMENT_METHODS": "Платежные методы",
-      "BONUS_CAMPAIGNS": "Бонусные программы",
+      "BONUS_CAMPAIGNS": "Бонусные кампании",
       "PLAYER_LIABILITY": "Обязательства",
       "REVENUE": "Доход",
       "OPEN_LOOP": "Open loop",
@@ -849,7 +849,7 @@
       "TARGET_TYPES": {
         "ALL": "Все игроки",
         "TARGET_LIST": "Выбранные игроки",
-        "LINKED_CAMPAIGN": "Сязанная кампания"
+        "LINKED_CAMPAIGN": "Связанная кампания"
       },
       "STATUS_ACTIONS": {
         "ACTIVATE_CAMPAIGN": "Активировать кампанию",
@@ -1239,7 +1239,7 @@
     "SETTINGS": {
       "LABEL": {
         "CAMPAIGN_NAME": "Название кампании (Внутреннее)",
-        "TARGET_TYPE": "Тип",
+        "TARGET_TYPE": "Тип таргета",
         "CURRENCY": "Валюта",
         "CAPPING": "Capping",
         "CAMPAIGN_RATIO": "Коэффициент",
@@ -1255,7 +1255,7 @@
         "DESCRIPTION": "Описание",
         "BASE_CURRENCY": "Базовая валюта",
         "MIN_PRIZE": "Мин. приз",
-        "TYPE": "Тип",
+        "OPT_IN_REQUIRED": "Opt-in обязателен",
         "AFFILIATES": "Филиалы",
         "EXCLUDE": "Исключить",
         "COUNTRIES": "Страны",
@@ -1267,9 +1267,9 @@
         "CHOOSE_CAMPAIGN": "Выбрать кампанию",
         "EXCLUDED_COUNTRIES": "Исключенные страны"
       },
-      "CHOOSE_CURRENCY": "-- Выберите валюту --",
-      "CHOOSE_TARGET_TYPE": "-- Выберите тип --",
-      "TARGET": "Тип",
+      "CHOOSE_CURRENCY": "-- Выбрать --",
+      "CHOOSE_TARGET_TYPE": "-- Выбрать --",
+      "TARGET": "Таргет",
       "CAMPAIGN_SETTINGS": "Настройки кампании",
       "FULFILLMENTS": "Фулфилменты",
       "REWARDS": "Вознаграждения",
@@ -1372,7 +1372,7 @@
       "FREE_SPIN": {
         "NAME_ALREADY_EXIST": "Имя уже существует",
         "ADD_REWARDS": "Добавить награду",
-        "SELECT_REWARDS": "Выбрать награду",
+        "SELECT_REWARDS": "-- Выбрать награду --",
         "BET_PER_LINE": "Бет за линию",
         "CHOOSE_TEMPLATE": "-- Выбрать шаблон --",
         "TEMPLATE": "Шаблон",

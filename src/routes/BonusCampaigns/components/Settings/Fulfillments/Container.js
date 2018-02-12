@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { difference } from 'lodash';
 import { SelectField } from '../../../../../components/ReduxForm';
@@ -124,16 +125,16 @@ class Container extends Component {
           (availableNodes.length > 0 && !activeNodes.length) &&
           <div className="row no-gutters py-5 add-campaign-setting">
             <div className="col-5">
-              <SelectField
-                label=""
+              <Field
+                name="f"
                 id={`${form}FullfilmentType`}
                 position="vertical"
-                labelClassName="no-label"
                 disabled={disabled}
                 input={{
                   value: selectedNode,
                   onChange: e => this.handleSelectNode(e.target.value),
                 }}
+                component={SelectField}
               >
                 <option value="">{I18n.t(attributeLabels.selectFulfillment)}</option>
                 {
@@ -143,7 +144,7 @@ class Container extends Component {
                     </option>
                   ))
                 }
-              </SelectField>
+              </Field>
             </div>
             <div className="col-auto">
               <button
