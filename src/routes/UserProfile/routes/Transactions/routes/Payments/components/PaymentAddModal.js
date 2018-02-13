@@ -211,56 +211,58 @@ class PaymentAddModal extends Component {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
-            {
-              error &&
-              <div className="alert alert-warning">
-                {I18n.t(error)}
-              </div>
-            }
-            <div className="row">
-              <div className="col-md-4">
-                <Field
-                  name="type"
-                  type="text"
-                  label={attributeLabels.type}
-                  showErrorMessage={false}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-                  {filteredPaymentTypes.map(type => (
-                    <option key={type} value={type}>
-                      {paymentTypesLabels[type]}
-                    </option>
-                  ))}
-                </Field>
-              </div>
+            <div className="container-fluid">
+              {
+                error &&
+                <div className="alert alert-warning">
+                  {I18n.t(error)}
+                </div>
+              }
+              <div className="row">
+                <div className="col-md-4">
+                  <Field
+                    name="type"
+                    type="text"
+                    label={attributeLabels.type}
+                    showErrorMessage={false}
+                    component={SelectField}
+                    position="vertical"
+                  >
+                    <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+                    {filteredPaymentTypes.map(type => (
+                      <option key={type} value={type}>
+                        {paymentTypesLabels[type]}
+                      </option>
+                    ))}
+                  </Field>
+                </div>
 
-              <div className="col-md-3">
-                <Field
-                  name="amount"
-                  label={attributeLabels.amount}
-                  type="text"
-                  placeholder="0.00"
-                  inputAddon={<Currency code={playerProfile.currencyCode} />}
-                  currencyCode={playerProfile.currencyCode}
-                  showErrorMessage={false}
-                  position="vertical"
-                  component={InputField}
+                <div className="col-md-3">
+                  <Field
+                    name="amount"
+                    label={attributeLabels.amount}
+                    type="text"
+                    placeholder="0.00"
+                    inputAddon={<Currency code={playerProfile.currencyCode} />}
+                    currencyCode={playerProfile.currencyCode}
+                    showErrorMessage={false}
+                    position="vertical"
+                    component={InputField}
+                  />
+                </div>
+
+                {this.renderPaymentAccountField()}
+              </div>
+              <div className="row">
+                {this.renderInfoBlock()}
+              </div>
+              <div className="text-center">
+                <NoteButton
+                  id="add-transaction-item-note-button"
+                  note={note}
+                  onClick={this.handleNoteClick}
                 />
               </div>
-
-              {this.renderPaymentAccountField()}
-            </div>
-            <div className="row">
-              {this.renderInfoBlock()}
-            </div>
-            <div className="text-center">
-              <NoteButton
-                id="add-transaction-item-note-button"
-                note={note}
-                onClick={this.handleNoteClick}
-              />
             </div>
           </ModalBody>
           <ModalFooter>
