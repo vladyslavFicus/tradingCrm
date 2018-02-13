@@ -10,6 +10,7 @@ import apiUrl from '../redux/middlewares/apiUrl';
 import authMiddleware from '../redux/middlewares/auth';
 import apiToken from '../redux/middlewares/apiToken';
 import apiErrors from '../redux/middlewares/apiErrors';
+import apiVersion from '../redux/middlewares/apiVersion';
 import requestTime from '../redux/middlewares/requestTime';
 import catcher from '../redux/middlewares/catcher';
 import { actionCreators as locationActionCreators } from '../redux/modules/location';
@@ -36,6 +37,7 @@ export default (initialState = {}, onComplete) => {
     unauthorized(config.middlewares.unauthorized),
     authMiddleware,
     apiErrors,
+    apiVersion,
     requestTime
   );
 

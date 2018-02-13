@@ -2,7 +2,6 @@ import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
 import { getDialCodeByDigits } from 'bc-countries';
-import config, { getBrand } from '../../config';
 import buildQueryString from '../../utils/buildQueryString';
 import { statuses as kycStatuses } from '../../constants/kyc';
 
