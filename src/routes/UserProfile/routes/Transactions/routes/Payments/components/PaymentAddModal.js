@@ -264,29 +264,31 @@ class PaymentAddModal extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <div className="row">
-              <div className="col-sm-6 text-muted font-size-12 text-left">
-                <span className="font-weight-700">
-                  {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ATTENTION_UNDONE_ACTION_LABEL')}
-                </span>
-                {': '}
-                {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ATTENTION_UNDONE_ACTION')}
-              </div>
-              <div className="col-sm-6 text-right">
-                <button
-                  type="reset"
-                  className="btn btn-default-outline text-uppercase"
-                  onClick={onClose}
-                >
-                  {I18n.t('COMMON.CANCEL')}
-                </button>
-                <button
-                  disabled={pristine || submitting || invalid}
-                  type="submit"
-                  className="btn btn-primary text-uppercase margin-left-5"
-                >
-                  {I18n.t('COMMON.CONFIRM')}
-                </button>
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col text-muted font-size-12 text-left">
+                  <span className="font-weight-700">
+                    {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ATTENTION_UNDONE_ACTION_LABEL')}
+                  </span>
+                  {': '}
+                  {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.ATTENTION_UNDONE_ACTION')}
+                </div>
+                <div className="col">
+                  <button
+                    type="reset"
+                    className="btn btn-default-outline text-uppercase"
+                    onClick={onClose}
+                  >
+                    {I18n.t('COMMON.CANCEL')}
+                  </button>
+                  <button
+                    disabled={pristine || submitting || invalid}
+                    type="submit"
+                    className="btn btn-primary text-uppercase margin-left-5"
+                  >
+                    {I18n.t('COMMON.CONFIRM')}
+                  </button>
+                </div>
               </div>
             </div>
           </ModalFooter>
