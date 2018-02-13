@@ -249,7 +249,7 @@ class Settings extends Component {
           locale={locale}
           currencies={currencies}
           disabled={bonusCampaign.state !== statuses.DRAFT}
-          initialValues={bonusCampaignForm}
+          initialValues={{ optIn: true, ...bonusCampaignForm }}
           removeNode={removeNode}
           addNode={addNode}
           nodeGroups={nodeGroups}

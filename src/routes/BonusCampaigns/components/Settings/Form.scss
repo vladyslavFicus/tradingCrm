@@ -1,10 +1,14 @@
 .campaign-settings {
-  .tab-header {
-    padding-bottom: 0;
+  padding: 30px 15px 15px;
+  &__title {
+    font-size: 20px;
   }
-  &-content {
-    padding-right: 25px;
-    padding-left: 25px;
+  .form-row {
+    margin-right: -5px;
+    margin-left: -5px;
+    .form-group {
+      margin-bottom: 0;
+    }
   }
   .nas-currencies_icon {
     top: 10px;
@@ -23,7 +27,6 @@
 .add-campaign {
   &-setting {
     justify-content: center;
-    margin-top: 40px;
     .form-group {
       margin-right: 10px;
       margin-bottom: 0;
@@ -32,20 +35,12 @@
   &-container {
     position: relative;
     margin-bottom: 20px;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
     background-color: #f2f2f2;
     color: #333;
-    .form-row {
-      margin-top: 10px;
-    }
-    .filter-row {
-      margin-top: 10px;
-    }
-    .form-group {
-      margin-bottom: 0;
-    }
     input[type="checkbox"] {
       margin-right: 2px;
       vertical-align: middle;
@@ -57,16 +52,10 @@
     color: #333;
   }
   &-remove {
-    position: absolute;
-    top: 3px;
-    right: 5px;
+    padding: 0;
     font-size: 24px;
     font-weight: 300;
   }
-}
-
-.no-label {
-  display: none;
 }
 
 .free-spin-card {

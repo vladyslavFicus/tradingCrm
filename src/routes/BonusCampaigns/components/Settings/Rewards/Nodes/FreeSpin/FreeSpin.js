@@ -234,12 +234,26 @@ class FreeSpin extends Component {
     } = this.state;
 
     return (
-      <div className="add-campaign-container">
-        <div className="add-campaign-label">
-          {I18n.t(attributeLabels.freeSpinReward)}
+      <div className="container-fluid add-campaign-container">
+        <div className="row align-items-center">
+          <div className="col text-truncate add-campaign-label">
+            {I18n.t(attributeLabels.freeSpinReward)}
+          </div>
+          {
+            !disabled &&
+            <div className="col-auto text-right">
+              <button
+                type="button"
+                onClick={remove}
+                className="btn-transparent add-campaign-remove"
+              >
+                &times;
+              </button>
+            </div>
+          }
         </div>
         <If condition={!disabled}>
-          <div className="row my-3">
+          <div className="row">
             <div className="col-8">
               <Field
                 name={this.buildFieldName('templateUUID')}
@@ -259,7 +273,7 @@ class FreeSpin extends Component {
                 ))}
               </Field>
             </div>
-            <div className="col-4 align-self-end">
+            <div className="col-4 align-self-center">
               <label>
                 <input
                   type="checkbox"
@@ -282,7 +296,7 @@ class FreeSpin extends Component {
           position="vertical"
           disabled={!customTemplate}
         />
-        <div className="row margin-top-15">
+        <div className="row">
           <div className="col-6">
             <Field
               name={this.buildFieldName('providerId')}
@@ -302,8 +316,8 @@ class FreeSpin extends Component {
               ))}
             </Field>
           </div>
-          <div className="col-6">
-            <If condition={currentGames.length}>
+          <If condition={currentGames.length}>
+            <div className="col-6">
               <Field
                 name={this.buildFieldName('gameId')}
                 label={I18n.t(attributeLabels.gameId)}
@@ -321,8 +335,8 @@ class FreeSpin extends Component {
                   </option>
                 ))}
               </Field>
-            </If>
-          </div>
+            </div>
+          </If>
         </div>
         <hr />
         <div className="row">
@@ -377,8 +391,8 @@ class FreeSpin extends Component {
           </div>
         </div>
         <hr />
-        <div className="form-row my-3">
-          <div className="form-row__small">
+        <div className="row">
+          <div className="col">
             <Field
               name={this.buildFieldName('multiplier')}
               type="number"
@@ -392,7 +406,7 @@ class FreeSpin extends Component {
               showErrorMessage={false}
             />
           </div>
-          <div className="form-row__medium">
+          <div className="col">
             <Field
               name={this.buildFieldName('moneyTypePriority')}
               type="text"
@@ -411,7 +425,7 @@ class FreeSpin extends Component {
               ))}
             </Field>
           </div>
-          <div className="form-row__small">
+          <div className="col">
             <Field
               name={this.buildFieldName('maxBet')}
               type="text"
@@ -424,7 +438,7 @@ class FreeSpin extends Component {
               iconRightClassName="nas nas-currencies_icon"
             />
           </div>
-          <div className="form-row__small form-row_with-placeholder-right">
+          <div className="col form-row_with-placeholder-right">
             <Field
               name={this.buildFieldName('bonusLifeTime')}
               id={`${form}BonusLifeTime`}
@@ -449,16 +463,6 @@ class FreeSpin extends Component {
             disabled={disabled || !customTemplate}
           /> {I18n.t('COMMON.CLAIMABLE')}
         </div>
-        {
-          !disabled &&
-          <button
-            type="button"
-            onClick={remove}
-            className="btn-transparent add-campaign-remove"
-          >
-            &times;
-          </button>
-        }
       </div>
     );
   }

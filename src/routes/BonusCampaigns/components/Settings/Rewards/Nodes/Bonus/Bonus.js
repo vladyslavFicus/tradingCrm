@@ -63,12 +63,26 @@ class Bonus extends Component {
     const campaignRatioType = get(rewards, 'bonus.campaignRatio.type');
 
     return (
-      <div className="add-campaign-container">
-        <div className="add-campaign-label">
-          {I18n.t(attributeLabels.bonusReward)}
+      <div className="container-fluid add-campaign-container">
+        <div className="row align-items-center">
+          <div className="col text-truncate add-campaign-label">
+            {I18n.t(attributeLabels.bonusReward)}
+          </div>
+          {
+            !disabled &&
+            <div className="col-auto text-right">
+              <button
+                type="button"
+                onClick={remove}
+                className="btn-transparent add-campaign-remove"
+              >
+                &times;
+              </button>
+            </div>
+          }
         </div>
-        <div className="row my-3">
-          <div className="col-6">
+        <div className="row">
+          <div className="col-7">
             <CustomValueFieldVertical
               disabled={disabled}
               id={`${form}CampaignRatio`}
@@ -78,8 +92,9 @@ class Bonus extends Component {
               errors={errors}
             />
           </div>
-          <If condition={campaignRatioType === customValueFieldTypes.PERCENTAGE}>
-            <div className="col-3">
+          {
+            campaignRatioType === customValueFieldTypes.PERCENTAGE &&
+            <div className="col-5">
               <Field
                 name={this.buildFieldName('maxGrantedAmount')}
                 type="text"
@@ -91,10 +106,10 @@ class Bonus extends Component {
                 iconRightClassName="nas nas-currencies_icon"
               />
             </div>
-          </If>
+          }
         </div>
         <div className="row">
-          <div className="col-2">
+          <div className="col-4">
             <Field
               name={this.buildFieldName('wagerWinMultiplier')}
               type="text"
@@ -106,7 +121,7 @@ class Bonus extends Component {
               disabled={disabled}
             />
           </div>
-          <div className="col-4">
+          <div className="col-5">
             <Field
               name={this.buildFieldName('moneyTypePriority')}
               type="text"
@@ -125,8 +140,8 @@ class Bonus extends Component {
             </Field>
           </div>
         </div>
-        <div className="row my-3">
-          <div className="col-2">
+        <div className="row">
+          <div className="col-4">
             <Field
               name={this.buildFieldName('maxBet')}
               type="text"
@@ -138,7 +153,7 @@ class Bonus extends Component {
               iconRightClassName="nas nas-currencies_icon"
             />
           </div>
-          <div className="col-2 form-row_with-placeholder-right">
+          <div className="col-4 form-row_with-placeholder-right">
             <Field
               name={this.buildFieldName('bonusLifetime')}
               id={`${form}bonusLifetime`}
@@ -160,16 +175,6 @@ class Bonus extends Component {
             disabled={disabled}
           /> {I18n.t('COMMON.CLAIMABLE')}
         </div>
-        {
-          !disabled &&
-          <button
-            type="button"
-            onClick={remove}
-            className="btn-transparent add-campaign-remove"
-          >
-            &times;
-          </button>
-        }
       </div>
     );
   }

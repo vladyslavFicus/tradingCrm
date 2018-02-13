@@ -107,7 +107,7 @@ const customValueFieldTypesByFulfilmentType = {
 };
 
 const optInSelect = {
-  true: I18n.t('COMMON.OPT_IN'),
+  true: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.OPT_IN_REQUIRED'),
   false: I18n.t('COMMON.NON_OPT_IN'),
 };
 

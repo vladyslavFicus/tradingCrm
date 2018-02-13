@@ -19,9 +19,20 @@ class ProfileCompleted extends Component {
 
   render() {
     return (
-      <div className="add-campaign-container">
-        <div className="add-campaign-label">
-          {I18n.t(nodeTypesLabels[nodeTypes.profileCompleted])}
+      <div className="container-fluid add-campaign-container">
+        <div className="row align-items-center">
+          <div className="col text-truncate add-campaign-label">
+            {I18n.t(nodeTypesLabels[nodeTypes.profileCompleted])}
+          </div>
+          <div className="col-auto text-right">
+            <button
+              className="btn-transparent add-campaign-remove"
+              type="button"
+              onClick={this.props.remove}
+            >
+              &times;
+            </button>
+          </div>
         </div>
         <Field
           name={this.buildFieldName('profileCompleted')}
@@ -29,13 +40,6 @@ class ProfileCompleted extends Component {
           type="checkbox"
           hidden
         />
-        <button
-          className="btn-transparent add-campaign-remove"
-          type="button"
-          onClick={this.props.remove}
-        >
-          &times;
-        </button>
       </div>
     );
   }

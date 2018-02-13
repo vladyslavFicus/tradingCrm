@@ -34,44 +34,48 @@ class Countries extends Component {
 
     if (disabled) {
       return (
-        <div className="form-group">
-          <label>{label}</label>
-          <div className="select-disabled-container">
-            {
-              countries.length
-                ? countries.map(countryCode => countryList[countryCode]).join(', ')
-                : I18n.t('COMMON.NONE')
-            }
+        <div className="col-6">
+          <div className="form-group">
+            <label>{label}</label>
+            <div className="select-disabled-container">
+              {
+                countries.length
+                  ? countries.map(countryCode => countryList[countryCode]).join(', ')
+                  : I18n.t('COMMON.NONE')
+              }
+            </div>
           </div>
         </div>
       );
     }
 
     return (
-      <Field
-        name="countries"
-        label={
-          <span>
-            {label}
-            <span className="label-action">
-              <Field
-                name="excludeCountries"
-                type="checkbox"
-                component="input"
-              />
-              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
+      <div className="col-6">
+        <Field
+          name="countries"
+          label={
+            <span>
+              {label}
+              <span className="label-action">
+                <Field
+                  name="excludeCountries"
+                  type="checkbox"
+                  component="input"
+                />
+                {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.EXCLUDE')}
+              </span>
             </span>
-          </span>
-        }
-        component={NasSelectField}
-        position="vertical"
-        multiple
-      >
-        {Object
-          .keys(countryList)
-          .map(key => <option key={key} value={key}>{countryList[key]}</option>)
-        }
-      </Field>
+          }
+          component={NasSelectField}
+          position="vertical"
+          multiple
+        >
+          {Object
+            .keys(countryList)
+            .map(key => <option key={key} value={key}>{countryList[key]}</option>)
+          }
+        </Field>
+      </div>
     );
   }
 }
