@@ -18,8 +18,6 @@ server {
     proxy_pass http://gateway/;
   }
 
-  #x-version: {{version}}
-
   location /health {
     try_files /../health.json =503;
   }
