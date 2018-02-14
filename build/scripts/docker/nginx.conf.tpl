@@ -5,8 +5,11 @@ server {
   set $current_hrzn_version "{{version}}";
 
   location /api/ {
+    if ($request_method = 'OPTIONS') {
+      return 200;
+    }
 
-    if ($request_method != "OPTIONS" && $http_x_hrzn_version != $current_hrzn_version) {
+    if ($http_x_hrzn_version != $current_hrzn_version) {
       return 426;
     }
 
