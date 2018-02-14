@@ -1626,5 +1626,11 @@
       "THIS_YEAR": "This year",
       "TITLE": "Range presets"
     }
+  },
+  "MODALS": {
+    "NEW_API_VERSION": {
+      "TITLE": "Update your client version",
+      "MESSAGE": "To update your client version, please confirm this action"
+    }
   }
 }

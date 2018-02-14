@@ -2,7 +2,14 @@ server {
   server_name _;
   root /opt/build;
 
+  set $current_hrzn_version "{{version}}";
+
   location /api/ {
+
+    if ($http_x_hrzn_version != $current_hrzn_version) {
+      return 426;
+    }
+
     resolver 127.0.0.11;
     proxy_set_header X-NginX-Proxy true;
     proxy_set_header X-Real-IP $remote_addr;

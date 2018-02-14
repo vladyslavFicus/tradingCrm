@@ -1,5 +1,6 @@
 const process = require('process');
 const fs = require('fs');
+const fetch = require('isomorphic-fetch');
 const ymlReader = require('yamljs');
 const _ = require('lodash');
 const fetchZookeeperConfig = require('./fetch-zookeeper-config');
@@ -40,13 +41,26 @@ function processError(error) {
   });
 }
 
-function compileNginxConfig(environmentConfig) {
+function fetchHealth(apiUrl) {
+  return fetch(`${apiUrl}/health`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  }).then(response => response.json());
+}
+
+async function compileNginxConfig(environmentConfig) {
   let config = fs.readFileSync('/opt/docker/nginx.conf.tpl', { encoding: 'UTF-8' });
+  const health = await fetchHealth(environmentConfig.hrzn.api_url);
+  const version = health && health.version ? health.version : '';
 
   const params = {
     logstashUrl: environmentConfig.logstash
       ? environmentConfig.logstash.url
       : '',
+    version,
   };
 
   if (config) {
@@ -56,27 +70,30 @@ function compileNginxConfig(environmentConfig) {
   }
 
   fs.writeFileSync(NGINX_CONF_OUTPUT, config);
+
+  return params;
 }
 
-function processConfig() {
+async function processConfig() {
   const projectConfig = ymlReader.load(`/${APP_NAME}/lib/etc/application-${NAS_PROJECT}.yml`);
 
-  return fetchZookeeperConfig({ projectConfig })
-    .then((config) => {
-      compileNginxConfig(projectConfig);
+  const config = await fetchZookeeperConfig({ projectConfig });
+  const nginxConfig = await compileNginxConfig(projectConfig);
 
-      const brand = Object.assign({
-        api: { url: projectConfig.hrzn.api_url },
-      }, projectConfig.brand);
+  const brand = Object.assign({
+    api: {
+      url: projectConfig.hrzn.api_url,
+      version: nginxConfig && nginxConfig.version ? nginxConfig.version : '',
+    },
+  }, projectConfig.brand);
 
-      Object.keys(config.nas.brand).forEach((item) => {
-        if (['currencies', 'departments', 'roles', 'password', 'tags', 'locale'].indexOf(item) > -1) {
-          brand[item] = config.nas.brand[item];
-        }
-      });
+  Object.keys(config.nas.brand).forEach((item) => {
+    if (['currencies', 'departments', 'roles', 'password', 'tags', 'locale'].indexOf(item) > -1) {
+      brand[item] = config.nas.brand[item];
+    }
+  });
 
-      return { nas: { brand } };
-    });
+  return { nas: { brand } };
 }
 
 function saveConfig(config) {

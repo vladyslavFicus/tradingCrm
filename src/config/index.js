@@ -40,6 +40,7 @@ const config = _.merge({
   nas: {
     brand: {
       api: {
+        version: '',
         url: '',
       },
       departments: [],
@@ -156,6 +157,10 @@ function getErrorApiUrl() {
   return '/log';
 }
 
+function getApiVersion() {
+  return config.nas.brand.api.version;
+}
+
 function getAvailableLanguages() {
   return config.nas.brand.locale.languages || [];
 }
@@ -191,6 +196,7 @@ export {
   getLimitPeriods,
   getAvailableLanguages,
   getVersion,
+  getApiVersion,
   getDomain,
 };
 

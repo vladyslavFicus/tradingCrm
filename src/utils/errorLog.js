@@ -1,5 +1,5 @@
 import keyMirror from 'keymirror';
-import config, { getErrorApiUrl, getBrand, getVersion } from '../config';
+import config, { getErrorApiUrl, getVersion } from '../config';
 import Storage from '../utils/storage';
 
 const errorTypes = keyMirror({
