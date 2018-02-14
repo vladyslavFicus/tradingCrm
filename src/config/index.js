@@ -158,7 +158,7 @@ function getErrorApiUrl() {
 }
 
 function getApiVersion() {
-  return config.nas.brand.api.version;
+  return window.nas.nas.brand.api.version || config.nas.brand.api.version;
 }
 
 function getAvailableLanguages() {
