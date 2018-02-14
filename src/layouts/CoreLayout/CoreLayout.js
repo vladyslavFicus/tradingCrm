@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { I18n } from 'react-redux-i18n';
 import NotificationContainer from 'react-notification-system';
 import PropTypes from '../../constants/propTypes';
 import { actionCreators as windowActionCreators, actionTypes as windowActionTypes } from '../../redux/modules/window';
 import DebugPanel from '../../components/DebugPanel';
+import { types as modalsTypes } from '../../constants/modals';
+import ConfirmActionModal from '../../components/Modal/ConfirmActionModal';
+import { actionCreators as modalActionCreators } from '../../redux/modules/modal';
 
 class CoreLayout extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    modal: PropTypes.shape({
+      name: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+      params: PropTypes.object,
+    }).isRequired,
   };
   static childContextTypes = {
     addNotification: PropTypes.func.isRequired,
@@ -50,9 +60,11 @@ class CoreLayout extends Component {
     }
   };
 
+  handleReloadPage = () => location.reload();
+
   render() {
     const { isFrameVersion } = this.state;
-    const { children } = this.props;
+    const { children, modal, closeModal } = this.props;
 
     return (
       <div style={{ height: '100%' }}>
@@ -76,9 +88,22 @@ class CoreLayout extends Component {
             }}
           />
         }
+        {
+          modal && modal.name === modalsTypes.NEW_API_VERSION &&
+          <ConfirmActionModal
+            onSubmit={this.handleReloadPage}
+            onClose={closeModal}
+            modalTitle={I18n.t('MODALS.NEW_API_VERSION.TITLE')}
+            actionText={I18n.t('MODALS.NEW_API_VERSION.MESSAGE')}
+          />
+        }
       </div>
     );
   }
 }
 
-export default CoreLayout;
+export default connect(state => ({
+  modal: state.modal,
+}), {
+  closeModal: modalActionCreators.close,
+})(CoreLayout);
