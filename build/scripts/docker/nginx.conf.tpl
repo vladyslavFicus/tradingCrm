@@ -5,12 +5,18 @@ server {
   set $current_hrzn_version "{{version}}";
 
   location /api/ {
-    if ($request_method = 'OPTIONS') {
-      return 200;
-    }
+
+    set $need_upgrade 0;
 
     if ($http_x_hrzn_version != $current_hrzn_version) {
-      return 426;
+        set $need_upgrade 1;
+        if ($request_method = OPTIONS) {
+            set $need_upgrade 0;
+        }
+    }
+    
+    if ($need_upgrade = 1) {
+        return 426;
     }
 
     resolver 127.0.0.11;
