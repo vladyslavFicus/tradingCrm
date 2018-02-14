@@ -20,7 +20,8 @@ import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
 import MyProfileSidebar from '../../components/MyProfileSidebar';
 import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
-import withModals from '../WithModals';
+import { types as modalsTypes } from '../../constants/modals';
+import ConfirmActionModal from '../../components/Modal/ConfirmActionModal';
 import './NewLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -89,6 +90,11 @@ class NewLayout extends Component {
     toggleMenuTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.number,
+    closeModal: PropTypes.func.isRequired,
+    modal: PropTypes.shape({
+      name: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+      params: PropTypes.object,
+    }).isRequired,
   };
   static defaultProps = {
     permissions: [],
@@ -334,6 +340,8 @@ class NewLayout extends Component {
     this.props.setIsShowScrollTop(shouldScrollShow);
   };
 
+  handleReloadPage = () => location.reload();
+
   render() {
     const { popover, miniProfilePopover, isOpenProfile } = this.state;
     const {
@@ -349,6 +357,8 @@ class NewLayout extends Component {
       user,
       toggleMenuTab,
       menuItemClick,
+      modal,
+      closeModal,
     } = this.props;
 
     return (
@@ -421,6 +431,16 @@ class NewLayout extends Component {
           />
         }
 
+        {
+          modal && modal.name === modalsTypes.NEW_API_VERSION &&
+          <ConfirmActionModal
+            onSubmit={this.handleReloadPage}
+            onClose={closeModal}
+            modalTitle={I18n.t('MODALS.NEW_API_VERSION.TITLE')}
+            actionText={I18n.t('MODALS.NEW_API_VERSION.MESSAGE')}
+          />
+        }
+
       </div>
     );
   }
@@ -454,4 +474,4 @@ export default connect(mapStateToProps, {
   menuItemClick: appActionCreators.menuItemClick,
   updateOperatorProfile: authActionCreators.updateProfile,
   closeModal: modalActionCreators.close,
-})(withModals(NewLayout));
+})(NewLayout);
