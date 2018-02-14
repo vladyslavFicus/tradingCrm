@@ -40,7 +40,7 @@ const config = _.merge({
   nas: {
     brand: {
       api: {
-        version: '',
+        version: 'latest',
         url: '',
       },
       departments: [],
