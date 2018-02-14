@@ -6,7 +6,7 @@ server {
 
   location /api/ {
 
-    if ($http_x_hrzn_version != $current_hrzn_version) {
+    if ($request_method !~* "OPTIONS" && $http_x_hrzn_version != $current_hrzn_version) {
       return 426;
     }
 
