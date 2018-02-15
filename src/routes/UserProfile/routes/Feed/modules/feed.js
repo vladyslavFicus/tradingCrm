@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import moment from 'moment';
 import _ from 'lodash';
-import { getApiRoot } from '../../../../../config';
+import { getApiRoot, getApiVersion } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../utils/createRequestAction';
@@ -69,6 +69,7 @@ function exportFeed(playerUUID, filters = { page: 0 }) {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
+        'X-HRZN-Version': getApiVersion(),
       },
     });
 

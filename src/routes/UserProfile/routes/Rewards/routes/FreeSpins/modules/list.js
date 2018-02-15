@@ -6,7 +6,7 @@ import createRequestAction from '../../../../../../../utils/createRequestAction'
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../../../constants/note';
-import { getApiRoot } from '../../../../../../../config';
+import { getApiRoot, getApiVersion } from '../../../../../../../config';
 import downloadBlob from '../../../../../../../utils/downloadBlob';
 import { aggregators } from '../constants';
 
@@ -144,6 +144,7 @@ function exportFreeSpins(filters = {}) {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
+        'X-HRZN-Version': getApiVersion(),
       },
     });
 

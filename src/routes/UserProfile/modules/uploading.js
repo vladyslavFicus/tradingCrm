@@ -3,7 +3,7 @@ import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import buildFormData from '../../../utils/buildFormData';
 import asyncFileUpload from '../../../utils/asyncFileUpload';
-import { getApiRoot } from '../../../config';
+import { getApiRoot, getApiVersion } from '../../../config';
 
 const KEY = 'user/profile/uploading';
 const UPLOAD_FILE = createRequestAction(`${KEY}/upload-file`);
@@ -46,6 +46,7 @@ function uploadFile(file, errors, targetUuid) {
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
+          'X-HRZN-Version': getApiVersion(),
         },
         body: buildFormData(formParams),
         onprogress: (e) => {

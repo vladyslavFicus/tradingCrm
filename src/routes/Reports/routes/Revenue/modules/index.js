@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
-import { getApiRoot } from '../../../../../config';
+import { getApiRoot, getApiVersion } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import downloadBlob from '../../../../../utils/downloadBlob';
@@ -107,6 +107,7 @@ function downloadReport(filters, fileName = 'revenue.csv') {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'text/csv',
+        'X-HRZN-Version': getApiVersion(),
       },
     })
       .then(

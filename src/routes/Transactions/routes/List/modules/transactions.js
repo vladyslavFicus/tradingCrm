@@ -7,7 +7,7 @@ import buildQueryString from '../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
 import { sourceActionCreators as paymentSourceActionCreators } from '../../../../../redux/modules/payment';
 import { targetTypes } from '../../../../../constants/note';
-import { getApiRoot } from '../../../../../config';
+import { getApiRoot, getApiVersion } from '../../../../../config';
 import downloadBlob from '../../../../../utils/downloadBlob';
 
 const KEY = 'transactions/transactions';
@@ -109,6 +109,7 @@ function exportEntities(filters = {}) {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
+        'X-HRZN-Version': getApiVersion(),
       },
     });
 
