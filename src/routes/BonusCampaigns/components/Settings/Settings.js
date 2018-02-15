@@ -60,6 +60,7 @@ class Settings extends Component {
     createFreeSpinTemplate: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
     form: PropTypes.string.isRequired,
+    baseCurrency: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -182,12 +183,27 @@ class Settings extends Component {
   };
 
   handleSubmit = async (formData) => {
-    const { createFreeSpinTemplate, handleSubmit } = this.props;
+    const {
+      createFreeSpinTemplate,
+      handleSubmit,
+      baseCurrency,
+    } = this.props;
 
     let data = { ...formData };
-    const rewardsFreeSpin = get(data, 'rewards.freeSpin');
+    let rewardsFreeSpin = get(data, 'rewards.freeSpin');
 
     if (rewardsFreeSpin) {
+      rewardsFreeSpin = {
+        ...rewardsFreeSpin,
+        betPerLineAmounts: [
+          {
+            amount: rewardsFreeSpin.betPerLine,
+            currency: baseCurrency,
+          },
+        ],
+      };
+      delete rewardsFreeSpin.betPerLine;
+
       let rewardsFreeSpinData = {};
 
       if (rewardsFreeSpin.templateUUID) {
@@ -227,6 +243,7 @@ class Settings extends Component {
       bonusCampaign,
       bonusCampaignForm,
       currencies,
+      baseCurrency,
       locale,
       revert,
       nodeGroups,
@@ -248,6 +265,7 @@ class Settings extends Component {
         <Form
           locale={locale}
           currencies={currencies}
+          baseCurrency={baseCurrency}
           disabled={bonusCampaign.state !== statuses.DRAFT}
           initialValues={{ optIn: true, ...bonusCampaignForm }}
           removeNode={removeNode}

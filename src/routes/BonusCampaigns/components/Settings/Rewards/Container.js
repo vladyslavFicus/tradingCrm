@@ -27,7 +27,7 @@ class Container extends Component {
     games: PropTypes.array,
     providers: PropTypes.array,
     templates: PropTypes.array,
-    currency: PropTypes.string.isRequired,
+    baseCurrency: PropTypes.string.isRequired,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchGames: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
@@ -80,7 +80,7 @@ class Container extends Component {
       providers,
       change,
       templates,
-      currency,
+      baseCurrency,
       fetchFreeSpinTemplate,
       fetchGames,
       fetchFreeSpinTemplates,
@@ -109,7 +109,7 @@ class Container extends Component {
             providers={providers}
             change={change}
             templates={templates}
-            currency={currency}
+            baseCurrency={baseCurrency}
             fetchFreeSpinTemplate={fetchFreeSpinTemplate}
             fetchGames={fetchGames}
             fetchFreeSpinTemplates={fetchFreeSpinTemplates}

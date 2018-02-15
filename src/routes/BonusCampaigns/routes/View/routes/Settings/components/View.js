@@ -55,6 +55,7 @@ class View extends Component {
     fetchCampaign: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
     fetchPaymentMethods: PropTypes.func.isRequired,
+    baseCurrency: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -126,6 +127,7 @@ class View extends Component {
       fetchCampaigns,
       fetchCampaign,
       createFreeSpinTemplate,
+      baseCurrency,
     } = this.props;
 
     return (
@@ -151,6 +153,7 @@ class View extends Component {
         locale={locale}
         form="bonusCampaignUpdate"
         currencies={currencies}
+        baseCurrency={baseCurrency}
       />
     );
   }
