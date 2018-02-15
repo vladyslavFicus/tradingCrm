@@ -1,9 +1,10 @@
 import moment from 'moment';
 import _ from 'lodash';
+import fetch from '../../../../../utils/fetch';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
-import { getApiRoot, getApiVersion } from '../../../../../config';
+import { getApiRoot } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
 import shallowEqual from '../../../../../utils/shallowEqual';
@@ -57,27 +58,30 @@ function exportEntities(filters = {}) {
     const { auth: { token, logged } } = getState();
 
     if (!logged) {
-      return dispatch({ type: EXPORT_ENTITIES.FAILED });
+      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true });
     }
 
     const queryString = buildQueryString(
       _.omitBy({ page: 0, ...filters }, val => !val)
     );
 
-    const response = await fetch(`${getApiRoot()}/profile/profiles?${queryString}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'text/csv',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-        'X-HRZN-Version': getApiVersion(),
-      },
-    });
+    try {
+      const response = await fetch(`${getApiRoot()}/profile/profiles?${queryString}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'text/csv',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const blobData = await response.blob();
-    downloadBlob(`users-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+      const blobData = await response.blob();
+      downloadBlob(`users-export-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
-    return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+      return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+    } catch (payload) {
+      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true, payload });
+    }
   };
 }
 

@@ -1,9 +1,10 @@
 import { v4 } from 'uuid';
+import fetch from '../../../../../utils/fetch';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildFormData from '../../../../../utils/buildFormData';
 import downloadBlob from '../../../../../utils/downloadBlob';
-import { getApiRoot, getApiVersion } from '../../../../../config';
+import { getApiRoot } from '../../../../../config';
 import asyncFileUpload from '../../../../../utils/asyncFileUpload';
 
 const KEY = 'games/list/files';
@@ -37,7 +38,6 @@ function uploadFile(file, errors = []) {
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
-          'X-HRZN-Version': getApiVersion(),
         },
         body: buildFormData({ file }),
         onprogress: (e) => {
@@ -55,7 +55,7 @@ function uploadFile(file, errors = []) {
         payload: response,
       });
     } catch (e) {
-      return dispatch({ type: UPLOAD_FILE.FAILURE, meta: { id }, payload: e.message });
+      return dispatch({ type: UPLOAD_FILE.FAILURE, error: true, meta: { id }, payload: e.message });
     }
   };
 }
@@ -77,9 +77,10 @@ function downloadFile(name = 'games.csv') {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
-        'X-HRZN-Version': getApiVersion(),
       },
     });
+
+    console.log(response);
 
     const blobData = await response.blob();
     downloadBlob(name, blobData);

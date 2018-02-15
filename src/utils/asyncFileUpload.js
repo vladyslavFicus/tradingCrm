@@ -1,4 +1,5 @@
 import parseJSON from './parseJson';
+import { getApiVersion } from '../config';
 
 export default (url, options) => {
   const xhr = new XMLHttpRequest();
@@ -28,6 +29,7 @@ export default (url, options) => {
           xhr.setRequestHeader(key, options.headers[key]);
         });
       }
+      xhr.setRequestHeader('X-HRZN-Version', getApiVersion());
       xhr.send(options.body || null);
     }),
     abort: () => xhr.abort(),
