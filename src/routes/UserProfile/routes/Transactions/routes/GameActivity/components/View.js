@@ -105,19 +105,20 @@ class View extends Component {
     return (
       <div>
         <div className="font-weight-700">
-          {
-            data.gameId && games[data.gameId]
-              ? games[data.gameId]
-              : data.gameId
-          }
+          <Choose>
+            <When condition={data.internalGameId}>
+              {games[data.internalGameId] || data.internalGameId}
+            </When>
+            <When condition={data.gameId}>
+              {games[data.gameId] || data.gameId}
+            </When>
+          </Choose>
         </div>
-        <div className="font-size-11 text-uppercase">
-          {
-            data.gameProviderId && providers[data.gameProviderId]
-              ? providers[data.gameProviderId]
-              : data.gameProviderId
-          }
-        </div>
+        <If condition={data.gameProviderId}>
+          <div className="font-size-11 text-uppercase">
+            {providers[data.gameProviderId] || data.gameProviderId}
+          </div>
+        </If>
       </div>
     );
   };
