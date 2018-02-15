@@ -1,5 +1,5 @@
 import keyMirror from 'keymirror';
-import config, { getErrorApiUrl, getVersion } from '../config';
+import config, { getApiVersion, getErrorApiUrl, getVersion } from '../config';
 import Storage from '../utils/storage';
 
 const errorTypes = keyMirror({
@@ -34,6 +34,7 @@ const sendError = (params) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      'X-HRZN-Version': getApiVersion(),
     },
     body: JSON.stringify(body),
   });

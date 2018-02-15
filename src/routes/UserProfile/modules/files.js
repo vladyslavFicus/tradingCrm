@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import { getApiRoot } from '../../../config';
+import { getApiRoot, getApiVersion } from '../../../config';
 import { actions, categories } from '../../../constants/files';
 import { sourceActionCreators as filesSourceActionCreators } from '../../../redux/modules/files';
 import createReducer from '../../../utils/createReducer';
@@ -53,6 +53,7 @@ function uploadProfileFile(playerUUID, type, file) {
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
+        'X-HRZN-Version': getApiVersion(),
       },
       body: buildFormData({
         file,
@@ -92,6 +93,7 @@ function downloadFile(data) {
         Accept: data.type,
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
+        'X-HRZN-Version': getApiVersion(),
       },
     });
 

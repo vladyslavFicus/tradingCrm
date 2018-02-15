@@ -3,7 +3,7 @@ import _ from 'lodash';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
-import { getApiRoot } from '../../../../../config';
+import { getApiRoot, getApiVersion } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
 import shallowEqual from '../../../../../utils/shallowEqual';
@@ -70,6 +70,7 @@ function exportEntities(filters = {}) {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
+        'X-HRZN-Version': getApiVersion(),
       },
     });
 

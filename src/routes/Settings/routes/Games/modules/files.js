@@ -3,7 +3,7 @@ import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildFormData from '../../../../../utils/buildFormData';
 import downloadBlob from '../../../../../utils/downloadBlob';
-import { getApiRoot } from '../../../../../config';
+import { getApiRoot, getApiVersion } from '../../../../../config';
 import asyncFileUpload from '../../../../../utils/asyncFileUpload';
 
 const KEY = 'games/list/files';
@@ -37,6 +37,7 @@ function uploadFile(file, errors = []) {
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
+          'X-HRZN-Version': getApiVersion(),
         },
         body: buildFormData({ file }),
         onprogress: (e) => {
@@ -76,6 +77,7 @@ function downloadFile(name = 'games.csv') {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
+        'X-HRZN-Version': getApiVersion(),
       },
     });
 

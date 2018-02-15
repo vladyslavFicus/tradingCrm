@@ -2,7 +2,7 @@ import { CALL_API } from 'redux-api-middleware';
 import { omitBy } from 'lodash';
 import moment from 'moment';
 import { statuses, statusesReasons } from '../../../../../constants/bonus-campaigns';
-import { getApiRoot } from '../../../../../config';
+import { getApiRoot, getApiVersion } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../utils/buildQueryString';
@@ -89,6 +89,7 @@ function exportEntities(filters = {}) {
         Accept: 'text/csv',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
+        'X-HRZN-Version': getApiVersion(),
       },
     });
 

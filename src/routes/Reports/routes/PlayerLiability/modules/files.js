@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
-import { getApiRoot } from '../../../../../config';
+import { getApiRoot, getApiVersion } from '../../../../../config';
 import downloadBlob from '../../../../../utils/downloadBlob';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../utils/createRequestAction';
@@ -85,6 +85,7 @@ function downloadReportFile(file) {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/zip',
+        'X-HRZN-Version': getApiVersion(),
       },
     })
       .then(resp => resp.blob())
