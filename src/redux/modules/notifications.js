@@ -4,22 +4,26 @@ const ADD = 'notifications/add';
 const REMOVE = 'notifications/remove';
 const initialState = [];
 const actionHandlers = {
-  [ADD]: (state, { type, message, id }) => [
+  [ADD]: (state, { payload }) => [
     ...state,
-    { type, message, id },
+    payload,
   ],
-  [REMOVE]: (state, { id }) => state.filter(item => item.id !== id),
+  [REMOVE]: (state, { payload: { id } }) => state.filter(item => item.id !== id),
 };
 
-function add() {
+function add(payload) {
   return {
     type: ADD,
+    payload,
   };
 }
 
-function remove() {
+function remove(id) {
   return {
     type: REMOVE,
+    payload: {
+      id,
+    },
   };
 }
 
