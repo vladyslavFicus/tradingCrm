@@ -22,7 +22,6 @@ import {
 import ChangePasswordModal from '../../../components/ChangePasswordModal';
 import ShareLinkModal from '../components/ShareLinkModal';
 import ConfirmActionModal from '../../../components/Modal/ConfirmActionModal';
-import { getApiVersion } from '../../../config';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -569,7 +568,6 @@ class ProfileLayout extends Component {
           Accept: type,
           'Content-Type': 'application/json',
           Authorization: `Bearer ${this.props.auth.token}`,
-          'X-HRZN-Version': getApiVersion(),
         },
       }),
     }];
