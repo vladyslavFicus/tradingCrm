@@ -72,7 +72,7 @@ const config = _.merge({
     url: '',
   },
   middlewares: {
-    unauthorized: [401, 403],
+    unauthorized: [401],
     persist: {
       whitelist: ['auth', 'userPanels', 'language', 'settings', 'dynamicFilters'],
       keyPrefix: 'nas:',

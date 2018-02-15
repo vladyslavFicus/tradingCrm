@@ -645,6 +645,10 @@
         "TITLE": "Copied",
         "MESSAGE": "Full UUID has been copied to clipboard"
       },
+      "PERMISSION_DENIED": {
+        "TITLE": "Error",
+        "MESSAGE": "Permission denied"
+      },
       "COPY_FULL_IP": {
         "MESSAGE": "IP address has been copied to clipboard"
       },
