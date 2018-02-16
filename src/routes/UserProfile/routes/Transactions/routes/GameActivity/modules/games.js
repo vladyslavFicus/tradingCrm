@@ -6,10 +6,10 @@ import buildQueryString from '../../../../../../../utils/buildQueryString';
 const KEY = 'user/game-activity/games';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
 
-const mapGames = items => items.reduce((result, item) => ({
+const mapGames = items => items.reduce((result, item) => [
   ...result,
-  [item.gameId]: item.fullGameName,
-}), {});
+  { gameId: item.gameId, internalGameId: item.internalGameId, fullGameName: item.fullGameName },
+], []);
 
 function fetchGames() {
   return (dispatch, getState) => {
@@ -32,7 +32,7 @@ function fetchGames() {
 }
 
 const initialState = {
-  entities: {},
+  entities: [],
   error: null,
   isLoading: false,
   receivedAt: null,
