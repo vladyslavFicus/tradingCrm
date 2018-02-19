@@ -10,6 +10,7 @@ import app from '../redux/modules/app';
 import settings from '../redux/modules/settings';
 import options from '../redux/modules/options';
 import modal from '../redux/modules/modal';
+import notifications from '../redux/modules/notifications';
 import dynamicFilters from '../components/DynamicFilters/reduxModule';
 
 export const makeRootReducer = asyncReducers => combineReducers({
@@ -21,6 +22,7 @@ export const makeRootReducer = asyncReducers => combineReducers({
   app,
   settings,
   options,
+  notifications,
   modal,
   form: formReducer,
   i18n: i18nReducer,

@@ -16,7 +16,9 @@ class View extends Component {
   static propTypes = {
     activity: PropTypes.pageableState(PropTypes.gamingActivityEntity).isRequired,
     games: PropTypes.shape({
-      entities: PropTypes.object.isRequired,
+      entities: PropTypes.arrayOf(PropTypes.shape({
+
+      })).isRequired,
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number.isRequired,
     }).isRequired,
@@ -101,23 +103,22 @@ class View extends Component {
 
   renderGame = (data) => {
     const { games: { entities: games }, providers } = this.props;
+    const game = games.find(item => item.internalGameId === data.internalGameId || item.gameId === data.gameId);
 
     return (
       <div>
         <div className="font-weight-700">
-          {
-            data.gameId && games[data.gameId]
-              ? games[data.gameId]
-              : data.gameId
-          }
+          <Choose>
+            <When condition={game}>{game.fullGameName}</When>
+            <When condition={data.internalGameId}>{data.internalGameId}</When>
+            <When condition={data.gameId}>{data.gameId}</When>
+          </Choose>
         </div>
-        <div className="font-size-11 text-uppercase">
-          {
-            data.gameProviderId && providers[data.gameProviderId]
-              ? providers[data.gameProviderId]
-              : data.gameProviderId
-          }
-        </div>
+        <If condition={data.gameProviderId}>
+          <div className="font-size-11 text-uppercase">
+            {providers[data.gameProviderId] || data.gameProviderId}
+          </div>
+        </If>
       </div>
     );
   };

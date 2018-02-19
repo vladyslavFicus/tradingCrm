@@ -58,24 +58,28 @@ function exportGameActivity(playerUUID, filters = { page: 0 }) {
     const { auth: { token, logged } } = getState();
 
     if (!logged) {
-      return dispatch({ type: EXPORT_ACTIVITY.FAILED });
+      return dispatch({ type: EXPORT_ACTIVITY.FAILURE, error: true });
     }
 
     const queryString = buildQueryString(_.omitBy(mapListArrayValues(filters, arrayedFilters), val => !val));
     const requestUrl = `${getApiRoot()}/gaming_activity/gaming/activity/${playerUUID}?${queryString}`;
-    const response = await fetch(requestUrl, {
-      method: 'GET',
-      headers: {
-        Accept: 'text/csv',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const response = await fetch(requestUrl, {
+        method: 'GET',
+        headers: {
+          Accept: 'text/csv',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const blobData = await response.blob();
-    downloadBlob(`player-game-activity-${playerUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+      const blobData = await response.blob();
+      downloadBlob(`player-game-activity-${playerUUID}-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
-    return dispatch({ type: EXPORT_ACTIVITY.SUCCESS });
+      return dispatch({ type: EXPORT_ACTIVITY.SUCCESS });
+    } catch (payload) {
+      return dispatch({ type: EXPORT_ACTIVITY.FAILURE, error: true, payload });
+    }
   };
 }
 

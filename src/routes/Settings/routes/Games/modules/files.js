@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import fetch from '../../../../../utils/fetch';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildFormData from '../../../../../utils/buildFormData';
@@ -54,7 +55,7 @@ function uploadFile(file, errors = []) {
         payload: response,
       });
     } catch (e) {
-      return dispatch({ type: UPLOAD_FILE.FAILURE, meta: { id }, payload: e.message });
+      return dispatch({ type: UPLOAD_FILE.FAILURE, error: true, meta: { id }, payload: e.message });
     }
   };
 }
@@ -78,6 +79,8 @@ function downloadFile(name = 'games.csv') {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    console.log(response);
 
     const blobData = await response.blob();
     downloadBlob(name, blobData);

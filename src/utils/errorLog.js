@@ -1,4 +1,5 @@
 import keyMirror from 'keymirror';
+import fetch from '../utils/fetch';
 import config, { getErrorApiUrl, getVersion } from '../config';
 import Storage from '../utils/storage';
 

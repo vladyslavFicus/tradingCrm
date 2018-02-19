@@ -1,6 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import { omitBy } from 'lodash';
 import moment from 'moment';
+import fetch from '../../../../../utils/fetch';
 import { statuses, statusesReasons } from '../../../../../constants/bonus-campaigns';
 import { getApiRoot } from '../../../../../config';
 import createReducer from '../../../../../utils/createReducer';
@@ -67,7 +68,7 @@ function exportEntities(filters = {}) {
     const { auth: { token, logged } } = getState();
 
     if (!logged) {
-      return dispatch({ type: EXPORT_ENTITIES.FAILED });
+      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true });
     }
 
     const queryParams = { orderByPriority: true, ...filters, page: undefined };
@@ -83,19 +84,23 @@ function exportEntities(filters = {}) {
       omitBy(queryParams, val => !val),
     );
 
-    const response = await fetch(`${getApiRoot()}/promotion/campaigns?${queryString}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'text/csv',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const response = await fetch(`${getApiRoot()}/promotion/campaigns?${queryString}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'text/csv',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const blobData = await response.blob();
-    downloadBlob(`bonus-campaigns-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
+      const blobData = await response.blob();
+      downloadBlob(`bonus-campaigns-${moment().format('YYYY-MM-DD-HH-mm-ss')}.csv`, blobData);
 
-    return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+      return dispatch({ type: EXPORT_ENTITIES.SUCCESS });
+    } catch (payload) {
+      return dispatch({ type: EXPORT_ENTITIES.FAILURE, error: true, payload });
+    }
   };
 }
 

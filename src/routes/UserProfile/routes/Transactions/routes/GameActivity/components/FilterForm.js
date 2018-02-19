@@ -32,7 +32,11 @@ class FilterForm extends Component {
     aggregators: PropTypes.array.isRequired,
     providers: PropTypes.array.isRequired,
     games: PropTypes.array.isRequired,
-    gamesList: PropTypes.object.isRequired,
+    gamesList: PropTypes.arrayOf(PropTypes.shape({
+      gameId: PropTypes.string.isRequired,
+      internalGameId: PropTypes.string.isRequired,
+      fullGameName: PropTypes.string.isRequired,
+    })).isRequired,
     currentValues: PropTypes.object,
   };
   static defaultProps = {
@@ -126,11 +130,16 @@ class FilterForm extends Component {
                 position="vertical"
               >
                 <option value="">{I18n.t('COMMON.ANY')}</option>
-                {games.map(item => (
-                  <option key={item} value={item}>
-                    {gamesList[item] || item}
-                  </option>
-                ))}
+                {games.map((item) => {
+                  const game = gamesList
+                    .find(i => i.internalGameId === item || i.gameId === item);
+
+                  return (
+                    <option key={item} value={item}>
+                      {game ? game.fullGameName : item}
+                    </option>
+                  );
+                })}
               </Field>
             </div>
             <div className="filter-row__small">

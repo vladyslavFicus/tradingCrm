@@ -1,4 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
+import fetch from '../../../../../utils/fetch';
 import createReducer from '../../../../../utils/createReducer';
 import { getApiRoot } from '../../../../../config';
 import downloadBlob from '../../../../../utils/downloadBlob';

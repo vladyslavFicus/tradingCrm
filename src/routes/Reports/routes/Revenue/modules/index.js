@@ -1,6 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
+import fetch from '../../../../../utils/fetch';
 import createReducer from '../../../../../utils/createReducer';
-import { getApiRoot } from '../../../../../config';
+import { getApiRoot, getApiVersion } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import downloadBlob from '../../../../../utils/downloadBlob';
@@ -117,8 +118,7 @@ function downloadReport(filters, fileName = 'revenue.csv') {
 
           return resp.blob();
         },
-
-        (err) => dispatch({ type: DOWNLOAD_REPORT.FAILURE, error: true, payload: err })
+        payload => dispatch({ type: DOWNLOAD_REPORT.FAILURE, error: true, payload })
       )
       .then(
         (blob) => {
@@ -126,8 +126,7 @@ function downloadReport(filters, fileName = 'revenue.csv') {
 
           return dispatch({ type: DOWNLOAD_REPORT.SUCCESS });
         },
-
-        (err) => dispatch({ type: DOWNLOAD_REPORT.FAILURE, error: true, payload: err })
+        payload => dispatch({ type: DOWNLOAD_REPORT.FAILURE, error: true, payload })
       );
   };
 }
