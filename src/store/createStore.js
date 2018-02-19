@@ -28,13 +28,16 @@ export default (initialState = {}, onComplete) => {
     apiToken,
   ];
 
+  middleware.push(
+    apiMiddleware,
+    unauthorized(config.middlewares.unauthorized),
+  );
+
   if (window.isFrame) {
     middleware.push(require('../redux/middlewares/window').default);
   }
 
   middleware.push(
-    apiMiddleware,
-    unauthorized(config.middlewares.unauthorized),
     authMiddleware,
     apiErrors,
     apiVersion,
