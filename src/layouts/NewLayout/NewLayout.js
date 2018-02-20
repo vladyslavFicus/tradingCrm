@@ -86,7 +86,7 @@ class NewLayout extends Component {
     setIsShowScrollTop: PropTypes.func.isRequired,
     toggleMenuTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
-    activePanelIndex: PropTypes.number,
+    activePanelIndex: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   };
   static defaultProps = {
     permissions: [],
@@ -424,17 +424,32 @@ class NewLayout extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  app: state.app,
-  settings: state.settings,
-  user: state.auth,
-  permissions: state.permissions.data,
-  activeUserPanel: state.userPanels.items[state.userPanels.activeIndex] || null,
-  userPanels: state.userPanels.items,
-  activePanelIndex: state.userPanels.activeIndex,
-  locale: state.i18n.locale,
-  languages: getAvailableLanguages(),
-});
+const mapStateToProps = ({
+  userPanels,
+  auth,
+  app,
+  permissions: { data: permissions },
+  i18n: { locale },
+  settings,
+}) => {
+  const userPanelsByManager = userPanels.items.filter(
+    p => p.auth.brandId === auth.brandId && p.auth.uuid === auth.uuid
+  );
+
+  const activeUserPanel = userPanels.items.find(p => p.uuid === userPanels.activeIndex);
+
+  return {
+    app,
+    settings,
+    user: auth,
+    permissions,
+    activeUserPanel: activeUserPanel || null,
+    userPanels: userPanelsByManager,
+    activePanelIndex: userPanels.activeIndex,
+    locale,
+    languages: getAvailableLanguages(),
+  };
+};
 
 export default connect(mapStateToProps, {
   changeDepartment: authActionCreators.changeDepartment,

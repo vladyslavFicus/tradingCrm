@@ -23,10 +23,16 @@ class GridPlayerInfo extends Component {
     clickable: true,
   };
 
-  handleClick = () => {
-    const { onPlayerClick, profile } = this.props;
+  handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-    onPlayerClick(profile);
+    const { onPlayerClick, profile, auth } = this.props;
+
+    onPlayerClick({
+      ...profile,
+      auth,
+    });
   };
 
   render() {

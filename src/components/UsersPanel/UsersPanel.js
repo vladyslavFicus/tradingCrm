@@ -39,11 +39,10 @@ class UsersPanel extends Component {
       return null;
     }
 
-    const activeIndex = items.indexOf(active);
     const blockClassName = classNames('users-panel', { 'users-panel-opened': !!active });
     const footerClassName = classNames('users-panel-footer', {
       'with-border': !!active,
-      [`with-border-${items[activeIndex] && items[activeIndex].color ? items[activeIndex].color : undefined}`]: !!active,
+      [`with-border-${active && active.color ? active.color : undefined}`]: !!active,
     });
 
     return (
@@ -73,13 +72,13 @@ class UsersPanel extends Component {
           })}
         </div>
         <div className={footerClassName}>
-          {items.map((item, index) => (
+          {items.map(item => (
             <UsersPanelItem
               active={active && active.uuid === item.uuid}
               key={item.uuid}
               {...item}
-              onClick={() => onItemClick(active && active.uuid === item.uuid ? null : index)}
-              onRemoveClick={() => onRemove(index)}
+              onClick={() => onItemClick(active && active.uuid === item.uuid ? null : item.uuid)}
+              onRemoveClick={() => onRemove(item.uuid)}
             />
           ))}
 

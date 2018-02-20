@@ -93,6 +93,7 @@ class List extends Component {
     <GridPlayerInfo
       fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
       profile={data}
+      auth={this.props.auth}
     />
   );
 

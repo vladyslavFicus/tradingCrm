@@ -9,12 +9,14 @@ const mapStateToProps = ({
   usersList: list,
   i18n: { locale },
   options: { data: { currencyCodes } },
+  auth: { brandId, uuid },
 }) => ({
   list,
   locale,
   tags: config.tags || [],
   currencies: currencyCodes,
   countries,
+  auth: { brandId, uuid },
 });
 
 const mapActions = {
