@@ -11,13 +11,6 @@ def lastCommitMessage() {
 
 def service = 'backoffice'
 
-def commitMessage = lastCommitMessage()
-
-def thisJobParams = [skipTest: commitMessage.contains("[skip test]") ?: params.skipTest,
-                     skipDeploy: commitMessage.contains("[skip deploy]") ?: params.skipDeploy]
-
-def isBuildDocker = env.BRANCH_NAME == 'master' && !thisJobParams.skipDeploy
-
 properties([
     buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
     parameters([
@@ -30,6 +23,13 @@ node('build') {
     stage('checkout') {
         checkout scm
     }
+
+    def commitMessage = lastCommitMessage()
+
+    def thisJobParams = [skipTest: commitMessage.contains("[skip test]") ?: params.skipTest,
+                     skipDeploy: commitMessage.contains("[skip deploy]") ?: params.skipDeploy]
+
+    def isBuildDocker = env.BRANCH_NAME == 'master' && !thisJobParams.skipDeploy
 
     docker.image('kkarczmarczyk/node-yarn:6.7').inside('-v /home/jenkins:/home/jenkins') {
         stage('test') {
