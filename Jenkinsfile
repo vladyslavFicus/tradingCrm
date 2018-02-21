@@ -8,6 +8,7 @@ def lastCommitMessage() {
     return ""
 }
 
+
 def service = 'backoffice'
 
 def commitMessage = lastCommitMessage()
