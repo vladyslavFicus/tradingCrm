@@ -118,12 +118,6 @@ const durationUnits = keyMirror({
 const statusActions = {
   [statuses.INACTIVE]: [
     {
-      action: actions.BLOCK,
-      label: 'Block',
-      reasons,
-      permission: permissions.USER_PROFILE.BLOCK,
-    },
-    {
       action: actions.SUSPEND,
       label: 'Self Exclusion',
       reasons: selfExclusionReasons,
