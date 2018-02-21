@@ -76,7 +76,7 @@ class Form extends Component {
     games: PropTypes.arrayOf(PropTypes.gameEntity),
     providers: PropTypes.array,
     templates: PropTypes.array,
-    currency: PropTypes.string.isRequired,
+    baseCurrency: PropTypes.string.isRequired,
     fetchGames: PropTypes.func.isRequired,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
@@ -217,7 +217,7 @@ class Form extends Component {
       games,
       providers,
       templates,
-      currency,
+      baseCurrency,
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
@@ -516,7 +516,7 @@ class Form extends Component {
               games={games}
               providers={providers}
               templates={templates}
-              currency={currency}
+              baseCurrency={baseCurrency}
               fetchFreeSpinTemplate={fetchFreeSpinTemplate}
               fetchGames={fetchGames}
               fetchFreeSpinTemplates={fetchFreeSpinTemplates}
@@ -543,6 +543,5 @@ export default connect((state, { form }) => {
     currentValues,
     meta: getFormMeta(form)(state),
     fulfillmentExist: currentValues && !isEmpty(currentValues.fulfillments),
-    currency: 'EUR',
   };
 })(SettingsForm);

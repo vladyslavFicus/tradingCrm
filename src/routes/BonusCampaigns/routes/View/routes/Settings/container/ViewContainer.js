@@ -65,7 +65,7 @@ const mapStateToProps = ({
     templates: { data: templates },
     payments: { list: paymentMethods },
   },
-  options: { data: { currencyCodes } },
+  options: { data: { currencyCodes, baseCurrency } },
   i18n: { locale },
 }) => {
   let bonusCampaignForm = {
@@ -105,6 +105,7 @@ const mapStateToProps = ({
     bonusCampaignForm,
     nodeGroups,
     currencies: currencyCodes,
+    baseCurrency,
     games,
     providers,
     templates,

@@ -22,7 +22,7 @@ class FreeSpin extends Component {
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     games: PropTypes.array,
     disabled: PropTypes.bool,
-    currency: PropTypes.string.isRequired,
+    baseCurrency: PropTypes.string.isRequired,
     providers: PropTypes.array,
     templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
   };
@@ -87,9 +87,15 @@ class FreeSpin extends Component {
         moneyTypePriority,
         bonusLifeTime,
         claimable,
-        betPerLine,
+        betPerLineAmounts,
         linesPerSpin,
       } = action.payload;
+
+      let { betPerLine } = action.payload;
+
+      if (!betPerLine && Array.isArray(betPerLineAmounts) && betPerLineAmounts.length) {
+        [{ amount: betPerLine }] = betPerLineAmounts;
+      }
 
       this.handleChangeProvider(providerId);
       this.handleChangeGame(gameId);
@@ -142,7 +148,7 @@ class FreeSpin extends Component {
   };
 
   renderAdditionalFields = () => {
-    const { currency, disabled } = this.props;
+    const { baseCurrency, disabled } = this.props;
     const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const { customTemplate } = this.state;
@@ -171,13 +177,13 @@ class FreeSpin extends Component {
           !currentValues.gameId ||
           !customTemplate
         }
-        inputAddon={<Currency code={currency} />}
+        inputAddon={<Currency code={baseCurrency} />}
       />
     );
   };
 
   renderPrice = () => {
-    const { currency } = this.props;
+    const { baseCurrency: currency } = this.props;
     const { _reduxForm: { values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const betPrice = currentValues && currentValues.betPerLine

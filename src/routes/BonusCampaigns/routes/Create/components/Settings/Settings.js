@@ -30,6 +30,7 @@ class Settings extends Component {
     fetchCampaign: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
     fetchPaymentMethods: PropTypes.func.isRequired,
+    baseCurrency: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -101,6 +102,7 @@ class Settings extends Component {
       paymentMethods,
       fetchPaymentMethods,
       createFreeSpinTemplate,
+      baseCurrency,
     } = this.props;
 
     return (
@@ -125,6 +127,7 @@ class Settings extends Component {
         form="bonusCampaignCreate"
         currencies={currencies}
         createFreeSpinTemplate={createFreeSpinTemplate}
+        baseCurrency={baseCurrency}
       />
     );
   }
