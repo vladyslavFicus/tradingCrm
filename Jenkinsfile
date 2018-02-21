@@ -1,11 +1,10 @@
 @NonCPS
-def lastCommitMessage() {
+def lastCommit() {
     def changeLogSets = currentBuild.changeSets
-    println("#### ${changeLogSets}")
     if (changeLogSets.size() > 0 && changeLogSets.last().items.size() > 0) {
-        println("@@@@ ${changeLogSets.last().items.last().commitId}")
+        return changeLogSets.last().items.last()
     }
-    return ""
+    return null
 }
 
 
@@ -24,10 +23,12 @@ node('build') {
         checkout scm
     }
 
-    def commitMessage = lastCommitMessage()
+    def lastCommit = lastCommit()
 
-    def thisJobParams = [skipTest: commitMessage.contains("[skip test]") ?: params.skipTest,
-                     skipDeploy: commitMessage.contains("[skip deploy]") ?: params.skipDeploy]
+    def lastCommitMessage = lastCommit?.msg ?: ""
+
+    def thisJobParams = [skipTest: lastCommitMessage.contains("[skip test]") ?: params.skipTest,
+                     skipDeploy: lastCommitMessage.contains("[skip deploy]") ?: params.skipDeploy]
 
     def isBuildDocker = env.BRANCH_NAME == 'master' && !thisJobParams.skipDeploy
 
@@ -52,7 +53,7 @@ node('build') {
             sh """docker build --label "org.label-schema.name=${service}" \
 --label "org.label-schema.vendor=New Age Solutions" \
 --label "org.label-schema.schema-version=1.0" \
---label "org.label-schema.vcs-ref=123" \
+--label "org.label-schema.vcs-ref=${lastCommit.commitId}" \
 -t devregistry.newage.io/hrzn/${service}:latest .
 """
         }
