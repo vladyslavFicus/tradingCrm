@@ -23,10 +23,10 @@ node('build') {
         checkout scm
     }
 
-    def (lastCommitMessage, lastCommitId) = lastCommit()
+    def lastCommit = lastCommit()
 
-    def thisJobParams = [skipTest: lastCommitMessage.contains("[skip test]") ?: params.skipTest,
-                     skipDeploy: lastCommitMessage.contains("[skip deploy]") ?: params.skipDeploy]
+    def thisJobParams = [skipTest: lastCommit[0].contains("[skip test]") ?: params.skipTest,
+                     skipDeploy: lastCommit[0].contains("[skip deploy]") ?: params.skipDeploy]
 
     def isBuildDocker = env.BRANCH_NAME == 'master' && !thisJobParams.skipDeploy
 
@@ -51,7 +51,7 @@ node('build') {
             sh """docker build --label "org.label-schema.name=${service}" \
 --label "org.label-schema.vendor=New Age Solutions" \
 --label "org.label-schema.schema-version=1.0" \
---label "org.label-schema.vcs-ref=${lastCommitId}" \
+--label "org.label-schema.vcs-ref=${lastCommit[1]}" \
 -t devregistry.newage.io/hrzn/${service}:latest .
 """
         }
