@@ -72,10 +72,10 @@ const actionHandlers = {
     activeIndex: state.activeIndex !== action.payload ? action.payload : null,
   }),
   [ADD]: (state, action) => {
-    const panelsByManager = state.items.filter(userTab =>
-      userTab.auth &&
-      userTab.auth.brandId === action.payload.auth.brandId &&
-      userTab.auth.uuid === action.payload.auth.uuid
+    const panelsByManager = state.items.filter(panel =>
+      panel.auth &&
+      panel.auth.brandId === action.payload.auth.brandId &&
+      panel.auth.uuid === action.payload.auth.uuid
     );
 
     if (panelsByManager.length >= 5) {
