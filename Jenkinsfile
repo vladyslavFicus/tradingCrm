@@ -47,11 +47,12 @@ node('build') {
 
     stage('assemble') {
         if (isBuildDocker) {
-            sh "docker build --label "org.label-schema.name=${service}" \
+            sh """docker build --label "org.label-schema.name=${service}" \
 --label "org.label-schema.vendor=New Age Solutions" \
 --label "org.label-schema.schema-version=1.0" \
 --label "org.label-schema.vcs-ref=123" \
--t devregistry.newage.io/hrzn/${service}:latest ."
+-t devregistry.newage.io/hrzn/${service}:latest .
+"""
         }
     }
     
