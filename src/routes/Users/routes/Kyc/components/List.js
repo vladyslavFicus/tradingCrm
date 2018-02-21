@@ -27,6 +27,10 @@ class List extends Component {
     filterValues: PropTypes.object.isRequired,
     reset: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    auth: PropTypes.shape({
+      brandId: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
+    }).isRequired,
   };
   static defaultProps = {
     filterValues: {},
@@ -98,6 +102,7 @@ class List extends Component {
     <GridPlayerInfo
       profile={data}
       fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
+      auth={this.props.auth}
     />
   );
 

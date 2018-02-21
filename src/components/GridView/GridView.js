@@ -25,6 +25,10 @@ class GridView extends Component {
     lazyLoad: PropTypes.bool,
     locale: PropTypes.string,
     showNoResults: PropTypes.bool,
+    auth: PropTypes.shape({
+      brandId: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
+    }),
   };
   static defaultProps = {
     tableClassName: null,
@@ -40,6 +44,7 @@ class GridView extends Component {
     rowClassName: null,
     lazyLoad: false,
     showNoResults: false,
+    auth: {},
   };
 
   state = {
@@ -183,7 +188,7 @@ class GridView extends Component {
   };
 
   renderRow = (key, columns, data) => {
-    const { onRowClick } = this.props;
+    const { onRowClick, auth } = this.props;
 
     return (
       <tr
@@ -191,7 +196,7 @@ class GridView extends Component {
         className={this.getRowClassName(data)}
         onClick={() => {
           if (typeof onRowClick === 'function') {
-            onRowClick(data);
+            onRowClick({ ...data, auth });
           }
         }}
       >

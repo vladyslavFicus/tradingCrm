@@ -53,6 +53,10 @@ class View extends Component {
     }).isRequired,
     exportEntities: PropTypes.func.isRequired,
     fetchPlayerMiniProfile: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+      brandId: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
+    }).isRequired,
   };
   static contextTypes = {
     notes: PropTypes.shape({
@@ -197,6 +201,7 @@ class View extends Component {
           profile={data.playerProfile}
           id={`transaction-${data.paymentId}`}
           fetchPlayerProfile={this.props.fetchPlayerMiniProfile}
+          auth={this.props.auth}
         />
       )
       : <Uuid uuid={data.playerUUID} uuidPrefix={data.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null} />
