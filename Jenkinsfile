@@ -1,7 +1,10 @@
 @NonCPS
 def lastCommitMessage() {
     def changeLogSets = currentBuild.changeSets
-    changeLogSets.size() > 0 && changeLogSets.last().items.size() > 0 ? changeLogSets.last().items.last().msg : ""
+    if (changeLogSets.size() > 0 && changeLogSets.last().items.size() > 0) {
+        println("@@@@ ${changeLogSets.last().items.last().commitId}")
+    }
+    return ""
 }
 
 def service = 'backoffice'
@@ -44,7 +47,11 @@ node('build') {
 
     stage('assemble') {
         if (isBuildDocker) {
-            sh "docker build -t devregistry.newage.io/hrzn/${service}:latest ."
+            sh "docker build --label "org.label-schema.name=${service}" \
+--label "org.label-schema.vendor=New Age Solutions" \
+--label "org.label-schema.schema-version=1.0" \
+--label "org.label-schema.vcs-ref=123" \
+-t devregistry.newage.io/hrzn/${service}:latest ."
         }
     }
     
