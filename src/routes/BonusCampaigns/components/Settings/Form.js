@@ -110,27 +110,6 @@ class Form extends Component {
     paymentMethods: [],
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { currentValues, change } = this.props;
-    const { currentValues: nextValues } = nextProps;
-
-    if (!isEqual(currentValues.fulfillments, nextValues.fulfillments)) {
-      const isNoFulfilment = get(nextValues.fulfillments, fulfillmentNodeTypes.noFulfillments);
-      const isAbsolute = get(nextValues.fulfillments, fulfillmentNodeTypes.profileCompleted)
-        || isNoFulfilment;
-
-      if (isAbsolute) {
-        ['campaignRatio', 'capping', 'conversionPrize'].forEach((field) => {
-          change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
-        });
-      }
-
-      if (isNoFulfilment) {
-        change('optIn', true);
-      }
-    }
-  }
-
   componentWillUnmount() {
     this.props.revert();
   }
@@ -173,7 +152,26 @@ class Form extends Component {
   };
 
   handleRemoveNode = nodeGroup => node => this.props.removeNode(nodeGroup, node);
-  handleAddNode = nodeGroup => node => this.props.addNode(nodeGroup, node);
+
+  handleAddNode = nodeGroup => (node) => {
+    const { change, addNode } = this.props;
+
+    if (nodeGroup === nodeGroupTypes.fulfillments) {
+      const isNoFulfilment = fulfillmentNodeTypes.noFulfillments;
+      const isProfileCompleted = fulfillmentNodeTypes.profileCompleted;
+
+      if (isNoFulfilment) {
+        change('optIn', true);
+      }
+
+      if (isNoFulfilment || isProfileCompleted) {
+        ['capping', 'conversionPrize'].forEach((field) => {
+          change(`${field}.type`, customValueFieldTypes.ABSOLUTE);
+        });
+      }
+    }
+    addNode(nodeGroup, node);
+  };
 
   handleChangeTargetType = (e) => {
     const targetType = e.target.value;
