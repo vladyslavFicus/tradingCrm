@@ -433,7 +433,7 @@ const mapStateToProps = ({
   settings,
 }) => {
   const userPanelsByManager = userPanels.items.filter(
-    p => p.auth.brandId === auth.brandId && p.auth.uuid === auth.uuid
+    userTab => userTab.auth.brandId === auth.brandId && userTab.auth.uuid === auth.uuid
   );
 
   const activeUserPanel = userPanels.items.find(p => p.uuid === userPanels.activeIndex);

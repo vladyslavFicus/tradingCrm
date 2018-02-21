@@ -15,6 +15,10 @@ class GridPlayerInfo extends Component {
     mainInfoClassName: PropTypes.string,
     clickable: PropTypes.bool,
     onPlayerClick: PropTypes.func.isRequired,
+    auth: PropTypes.shape({
+      brandId: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
+    }).isRequired,
   };
   static defaultProps = {
     id: null,

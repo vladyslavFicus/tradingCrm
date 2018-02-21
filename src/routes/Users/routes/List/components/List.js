@@ -34,6 +34,10 @@ class List extends Component {
     })).isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     countries: PropTypes.object.isRequired,
+    auth: PropTypes.shape({
+      brandId: PropTypes.string.isRequired,
+      uuid: PropTypes.string.isRequired,
+    }).isRequired,
   };
   static contextTypes = {
     miniProfile: PropTypes.shape({
@@ -194,6 +198,7 @@ class List extends Component {
             locale={locale}
             showNoResults={noResults}
             onRowClick={onPlayerClick}
+            auth={this.props.auth}
           >
             <GridColumn
               name="id"
