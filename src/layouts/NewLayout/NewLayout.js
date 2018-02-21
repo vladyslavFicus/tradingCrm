@@ -75,6 +75,7 @@ class NewLayout extends Component {
     changeDepartment: PropTypes.func.isRequired,
     activeUserPanel: PropTypes.userPanelItem,
     userPanels: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
+    userPanelsByManager: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
     addPanel: PropTypes.func.isRequired,
     removePanel: PropTypes.func.isRequired,
     resetPanels: PropTypes.func.isRequired,
@@ -171,6 +172,14 @@ class NewLayout extends Component {
 
   componentWillMount() {
     window.addEventListener('scroll', this.handleScrollWindow);
+  }
+
+  componentDidMount() {
+    const { userPanels, resetPanels } = this.props;
+
+    if (userPanels.some(panel => !panel.auth)) {
+      resetPanels();
+    }
   }
 
   componentWillUnmount() {
@@ -337,7 +346,7 @@ class NewLayout extends Component {
     const {
       children,
       router,
-      userPanels,
+      userPanelsByManager: userPanels,
       activeUserPanel,
       removePanel,
       onLocaleChange,
@@ -432,8 +441,10 @@ const mapStateToProps = ({
   i18n: { locale },
   settings,
 }) => {
-  const userPanelsByManager = userPanels.items.filter(
-    userTab => userTab.auth.brandId === auth.brandId && userTab.auth.uuid === auth.uuid
+  const userPanelsByManager = userPanels.items.filter(userTab =>
+    userTab.auth &&
+    userTab.auth.brandId === auth.brandId &&
+    userTab.auth.uuid === auth.uuid
   );
 
   const activeUserPanel = userPanels.items.find(p => p.uuid === userPanels.activeIndex);
@@ -443,8 +454,9 @@ const mapStateToProps = ({
     settings,
     user: auth,
     permissions,
+    userPanels: userPanels.items,
+    userPanelsByManager,
     activeUserPanel: activeUserPanel || null,
-    userPanels: userPanelsByManager,
     activePanelIndex: userPanels.activeIndex,
     locale,
     languages: getAvailableLanguages(),

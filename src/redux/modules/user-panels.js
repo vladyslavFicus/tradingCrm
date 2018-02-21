@@ -73,8 +73,9 @@ const actionHandlers = {
   }),
   [ADD]: (state, action) => {
     const userTabs = state.items.filter(userTab =>
+      userTab.auth &&
       userTab.auth.brandId === action.payload.auth.brandId &&
-      userTab.auth.uuid === action.payload.auth.uuid,
+      userTab.auth.uuid === action.payload.auth.uuid
     );
 
     if (userTabs.length >= 5) {
