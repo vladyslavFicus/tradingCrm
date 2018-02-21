@@ -1,7 +1,7 @@
 @NonCPS
 def lastCommitMessage() {
     def changeLogSets = currentBuild.changeSets
-    println(changeLogSets)
+    println("#### ${changeLogSets}")
     if (changeLogSets.size() > 0 && changeLogSets.last().items.size() > 0) {
         println("@@@@ ${changeLogSets.last().items.last().commitId}")
     }
