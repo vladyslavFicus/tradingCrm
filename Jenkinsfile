@@ -30,7 +30,7 @@ node('build') {
         stage('test') {
             if (!thisJobParams.skipTest) {
                 try {
-                    sh "env HOME=/home/jenkins && yarn && yarn test:jenkins"
+                    sh "export HOME=/home/jenkins && yarn && yarn test:jenkins"
                 } catch (Exception e) {
                     throw e
                 } finally {
@@ -38,7 +38,7 @@ node('build') {
                 }
             }
 
-            sh 'env HOME=/home/jenkins yarn build'
+            sh 'export HOME=/home/jenkins yarn build'
         }
     }
 
