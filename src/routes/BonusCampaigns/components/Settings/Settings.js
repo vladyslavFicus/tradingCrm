@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import { SubmissionError, change as formChange } from 'redux-form';
+import { SubmissionError, change } from 'redux-form';
 import { get } from 'lodash';
 import Form from './Form';
 import { statuses } from '../../../../constants/bonus-campaigns';
@@ -61,6 +62,7 @@ class Settings extends Component {
     paymentMethods: PropTypes.array.isRequired,
     form: PropTypes.string.isRequired,
     baseCurrency: PropTypes.string.isRequired,
+    changeForm: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -165,21 +167,15 @@ class Settings extends Component {
   };
 
   handleSubmitLinkedCampaign = async (data) => {
-    const { fetchCampaign } = this.props;
+    const { fetchCampaign, changeForm } = this.props;
 
     const action = await fetchCampaign(data.campaignUuid);
     if (action && !action.error) {
       this.setLinkedCampaignData(action.payload);
     }
 
-    this.change('linkedCampaignUUID', data.campaignUuid);
+    changeForm('linkedCampaignUUID', data.campaignUuid);
     this.handleCloseModal(CHOOSE_CAMPAIGN_MODAL);
-  };
-
-  change = (field, value) => {
-    const { form } = this.props;
-
-    formChange(form, field, value);
   };
 
   handleSubmit = async (formData) => {
@@ -308,4 +304,7 @@ class Settings extends Component {
   }
 }
 
-export default Settings;
+export default connect(null, (dispatch, { form }) => ({
+  changeForm: (field, value) => dispatch(change(form, field, value)),
+})
+)(Settings);

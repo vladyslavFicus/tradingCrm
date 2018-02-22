@@ -75,6 +75,7 @@ class NewLayout extends Component {
     changeDepartment: PropTypes.func.isRequired,
     activeUserPanel: PropTypes.userPanelItem,
     userPanels: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
+    userPanelsByManager: PropTypes.arrayOf(PropTypes.userPanelItem).isRequired,
     addPanel: PropTypes.func.isRequired,
     removePanel: PropTypes.func.isRequired,
     resetPanels: PropTypes.func.isRequired,
@@ -86,7 +87,7 @@ class NewLayout extends Component {
     setIsShowScrollTop: PropTypes.func.isRequired,
     toggleMenuTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
-    activePanelIndex: PropTypes.number,
+    activePanelIndex: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   };
   static defaultProps = {
     permissions: [],
@@ -171,6 +172,14 @@ class NewLayout extends Component {
 
   componentWillMount() {
     window.addEventListener('scroll', this.handleScrollWindow);
+  }
+
+  componentDidMount() {
+    const { userPanels, resetPanels } = this.props;
+
+    if (userPanels.some(panel => !panel.auth)) {
+      resetPanels();
+    }
   }
 
   componentWillUnmount() {
@@ -337,7 +346,7 @@ class NewLayout extends Component {
     const {
       children,
       router,
-      userPanels,
+      userPanelsByManager: userPanels,
       activeUserPanel,
       removePanel,
       onLocaleChange,
@@ -424,17 +433,35 @@ class NewLayout extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  app: state.app,
-  settings: state.settings,
-  user: state.auth,
-  permissions: state.permissions.data,
-  activeUserPanel: state.userPanels.items[state.userPanels.activeIndex] || null,
-  userPanels: state.userPanels.items,
-  activePanelIndex: state.userPanels.activeIndex,
-  locale: state.i18n.locale,
-  languages: getAvailableLanguages(),
-});
+const mapStateToProps = ({
+  userPanels,
+  auth,
+  app,
+  permissions: { data: permissions },
+  i18n: { locale },
+  settings,
+}) => {
+  const userPanelsByManager = userPanels.items.filter(userTab =>
+    userTab.auth &&
+    userTab.auth.brandId === auth.brandId &&
+    userTab.auth.uuid === auth.uuid
+  );
+
+  const activeUserPanel = userPanels.items.find(p => p.uuid === userPanels.activeIndex);
+
+  return {
+    app,
+    settings,
+    user: auth,
+    permissions,
+    userPanels: userPanels.items,
+    userPanelsByManager,
+    activeUserPanel: activeUserPanel || null,
+    activePanelIndex: userPanels.activeIndex,
+    locale,
+    languages: getAvailableLanguages(),
+  };
+};
 
 export default connect(mapStateToProps, {
   changeDepartment: authActionCreators.changeDepartment,

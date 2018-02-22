@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import createReducer from '../../../../../utils/createReducer';
-import { getBrand } from '../../../../../config';
 
 const KEY = 'operator/authorities';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);

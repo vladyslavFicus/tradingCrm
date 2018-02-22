@@ -1,7 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../utils/buildQueryString';
-import { getBrand } from '../../../../../config';
 
 const KEY = 'operators';
 const CREATE_OPERATOR = createRequestAction(`${KEY}/create-operator`);
