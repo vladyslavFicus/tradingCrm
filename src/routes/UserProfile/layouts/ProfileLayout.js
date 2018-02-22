@@ -118,6 +118,7 @@ class ProfileLayout extends Component {
     locale: PropTypes.string.isRequired,
     saveFiles: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
+    changePassword: PropTypes.func.isRequired,
   };
   static defaultProps = {
     availableTags: [],
@@ -457,49 +458,11 @@ class ProfileLayout extends Component {
     return action;
   };
 
-  handleSubmitNewPassword = async (data) => {
-    const {
-      resetPassword,
-      resetPasswordConfirm,
-      fetchResetPasswordToken,
-      profile: { data: playerProfile },
-      params: { id: playerUUID },
-    } = this.props;
+  handleSubmitNewPassword = async ({ password }) => {
+    const { changePassword, params: { id: playerUUID } } = this.props;
 
-    if (!playerProfile.email) {
-      this.context.addNotification({
-        level: 'error',
-        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.NO_EMAIL.TITLE'),
-        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.NO_EMAIL.MESSAGE'),
-      });
-    }
-
-    const resetPasswordAction = await resetPassword(playerUUID, false);
-
-    if (!resetPasswordAction || resetPasswordAction.error) {
-      return this.context.addNotification({
-        level: 'error',
-        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
-        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
-      });
-    }
-
-    const fetchResetPasswordTokenAction = await fetchResetPasswordToken(playerProfile.playerUUID);
-
-    if (!fetchResetPasswordTokenAction || fetchResetPasswordTokenAction.error) {
-      return this.context.addNotification({
-        level: 'error',
-        title: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE'),
-        message: I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE'),
-      });
-    }
-
-    const resetPasswordConfirmAction = await resetPasswordConfirm({
-      ...data,
-      token: fetchResetPasswordTokenAction.payload,
-    });
-
-    const hasError = !resetPasswordConfirmAction || !!resetPasswordConfirmAction.error;
+    const action = await changePassword(playerUUID, password);
+    const hasError = !action || !!action.error;
 
     this.context.addNotification({
       level: hasError ? 'error' : 'success',

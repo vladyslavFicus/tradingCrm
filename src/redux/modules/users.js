@@ -170,30 +170,6 @@ function passwordResetConfirm(type) {
   });
 }
 
-function fetchResetPasswordToken(type) {
-  return playerUUID => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `auth/password/reset-token?playerUUID=${playerUUID}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'text/html',
-        },
-        types: [
-          type.REQUEST,
-          { type: type.SUCCESS, payload: (action, state, res) => res.text() },
-          type.FAILURE,
-        ],
-        bailout: !logged || !token,
-      },
-    });
-  };
-}
-
 function profileActivateRequest(type) {
   return uuid => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -312,7 +288,6 @@ const actionCreators = {
   passwordResetRequest,
   passwordResetConfirm,
   profileActivateRequest,
-  fetchResetPasswordToken,
 };
 
 export {
