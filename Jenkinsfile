@@ -32,9 +32,15 @@ node('build') {
 
     docker.image('kkarczmarczyk/node-yarn:6.7').inside('-v /home/jenkins:/home/jenkins') {
         stage('test') {
+            sh """export HOME=/home/jenkins
+yarn            
+"""
+
             if (!thisJobParams.skipTest) {
                 try {
-                    sh "export HOME=/home/jenkins && yarn && yarn test:jenkins"
+                    sh """export HOME=/home/jenkins
+yarn test:jenkins
+"""
                 } catch (Exception e) {
                     throw e
                 } finally {
@@ -42,16 +48,21 @@ node('build') {
                 }
             }
 
-            sh 'export HOME=/home/jenkins yarn build'
+            sh """export HOME=/home/jenkins 
+yarn build
+"""
         }
     }
 
     stage('assemble') {
+        println "@@@@ ${isBuildDocker}"
         if (isBuildDocker) {
+            def commitId = sh(script: 'git rev-parse HEAD', returnStdout: true)
+            println "@@@@ ${commitId}"
             sh """docker build --label "org.label-schema.name=${service}" \
 --label "org.label-schema.vendor=New Age Solutions" \
 --label "org.label-schema.schema-version=1.0" \
---label "org.label-schema.vcs-ref=${lastCommit[1]}" \
+--label "org.label-schema.vcs-ref=${commitId}" \
 -t devregistry.newage.io/hrzn/${service}:latest .
 """
         }
