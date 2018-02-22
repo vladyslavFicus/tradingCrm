@@ -42,7 +42,10 @@ node('build') {
                 }
             }
 
-            sh 'export HOME=/home/jenkins yarn build'
+            sh """export HOME=/home/jenkins 
+yarn clean
+yarn build
+"""
         }
     }
 
