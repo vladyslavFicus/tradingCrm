@@ -56,6 +56,7 @@ yarn build
     stage('assemble') {
         if (isBuildDocker) {
             def commitId = sh(script: 'git rev-parse HEAD', returnStdout: true)
+            println "@@@@ ${commitId}"
             sh """docker build --label "org.label-schema.name=${service}" \
 --label "org.label-schema.vendor=New Age Solutions" \
 --label "org.label-schema.schema-version=1.0" \
