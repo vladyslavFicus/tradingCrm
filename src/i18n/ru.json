@@ -1381,6 +1381,7 @@
         "CHOOSE_TEMPLATE": "-- Выбрать шаблон --",
         "TEMPLATE": "Шаблон",
         "PRIZE": "Приз",
+        "CREATION_ERROR": "Ошибка создания фри спина",
         "WAGERING": "Wagering",
         "CAPPING": "Capping",
         "MONEY_PRIORITY": "Приоритет",
