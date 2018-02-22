@@ -55,6 +55,7 @@ yarn build
     }
 
     stage('assemble') {
+        println "@@@@ ${isBuildDocker}"
         if (isBuildDocker) {
             def commitId = sh(script: 'git rev-parse HEAD', returnStdout: true)
             println "@@@@ ${commitId}"
