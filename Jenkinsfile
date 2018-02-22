@@ -58,7 +58,7 @@ yarn build
             sh """docker build --label "org.label-schema.name=${service}" \
 --label "org.label-schema.vendor=New Age Solutions" \
 --label "org.label-schema.schema-version=1.0" \
---label "org.label-schema.vcs-ref=\$(git rev-parse HEAD)" \
+--label "org.label-schema.vcs-ref=\\$(git rev-parse HEAD)" \
 -t devregistry.newage.io/hrzn/${service}:latest .
 """
         }
