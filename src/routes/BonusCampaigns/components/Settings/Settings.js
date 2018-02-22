@@ -111,12 +111,21 @@ class Settings extends Component {
   pollingFreeSpinTemplate = null;
 
   startPollingFreeSpinTemplate = uuid => new Promise((resolve) => {
+    const { addNotification } = this.context;
+
     this.pollingFreeSpinTemplate = setInterval(async () => {
       const action = await this.props.fetchFreeSpinTemplate(uuid);
 
       if (action && !action.error) {
         const { status } = action.payload;
         if (status === freeSpinTemplateStatuses.CREATED) {
+          this.stopPollingFreeSpinTemplate();
+          resolve();
+        } else if (status === freeSpinTemplateStatuses.FAILED) {
+          addNotification({
+            level: 'error',
+            title: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR'),
+          });
           this.stopPollingFreeSpinTemplate();
           resolve();
         }
