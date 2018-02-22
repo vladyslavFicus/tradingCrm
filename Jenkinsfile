@@ -35,11 +35,13 @@ node('build') {
             sh """export HOME=/home/jenkins
 yarn clean
 yarn            
-            """
+"""
+
             if (!thisJobParams.skipTest) {
                 try {
                     sh """export HOME=/home/jenkins
-yarn test:jenkins"
+yarn test:jenkins
+"""
                 } catch (Exception e) {
                     throw e
                 } finally {
