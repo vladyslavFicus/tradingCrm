@@ -18,6 +18,7 @@ const RESET_PASSWORD_REQUEST = createRequestAction(`${KEY}/reset-password-reques
 const RESET_PASSWORD_CONFIRM = createRequestAction(`${KEY}/reset-password-confirm`);
 const FETCH_RESET_PASSWORD_TOKEN = createRequestAction(`${KEY}/fetch-reset-password-token`);
 const ACTIVATE_PROFILE = createRequestAction(`${KEY}/activate-profile`);
+const CHANGE_PASSWORD = createRequestAction(`${KEY}/change-password`);
 
 const SUSPEND_PROFILE = createRequestAction(`${KEY}/suspend-profile`);
 const PROLONG_PROFILE = createRequestAction(`${KEY}/prolong-profile`);
@@ -103,8 +104,32 @@ const initialState = {
 const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
 const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD_REQUEST);
 const resetPasswordConfirm = usersActionCreators.passwordResetConfirm(RESET_PASSWORD_CONFIRM);
-const fetchResetPasswordToken = usersActionCreators.fetchResetPasswordToken(FETCH_RESET_PASSWORD_TOKEN);
 const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
+
+function changePassword(uuid, password) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `auth/credentials/${uuid}/password`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ password }),
+        types: [
+          CHANGE_PASSWORD.REQUEST,
+          CHANGE_PASSWORD.SUCCESS,
+          CHANGE_PASSWORD.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
 
 function updateProfile(uuid, data) {
   return (dispatch, getState) => {
@@ -958,7 +983,6 @@ const actionCreators = {
   updateEmail,
   resetPassword,
   resetPasswordConfirm,
-  fetchResetPasswordToken,
   activateProfile,
   updateSubscription,
   changeStatus,
@@ -970,6 +994,7 @@ const actionCreators = {
   manageKycNote,
   resetNote,
   fetchKycReasons,
+  changePassword,
 };
 
 export {
