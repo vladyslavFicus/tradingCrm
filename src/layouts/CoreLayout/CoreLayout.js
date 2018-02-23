@@ -84,7 +84,7 @@ class CoreLayout extends Component {
     }
   };
 
-  handleReloadPage = () => location.reload();
+  handleReloadPage = () => location.reload(true);
 
   render() {
     const { isFrameVersion } = this.state;
