@@ -15,7 +15,6 @@ import {
 } from '../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../components/IframeLink';
 import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
 import AddToCampaignModal from '../../../../../../../../components/AddToCampaignModal';
@@ -46,6 +45,7 @@ class View extends Component {
       id: PropTypes.string,
     }).isRequired,
     locale: PropTypes.string.isRequired,
+    subTabRoutes: PropTypes.subTabRoutes.isRequired,
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -324,7 +324,14 @@ class View extends Component {
 
   render() {
     const { filters, modal } = this.state;
-    const { list: { entities, noResults }, profile, locale } = this.props;
+
+    const {
+      list: { entities, noResults },
+      profile,
+      locale,
+      subTabRoutes,
+    } = this.props;
+
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (

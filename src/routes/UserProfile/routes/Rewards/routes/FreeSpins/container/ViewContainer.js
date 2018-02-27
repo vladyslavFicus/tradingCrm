@@ -2,31 +2,31 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
 import FreeSpinsView from '../components/FreeSpinsView';
 import config from '../../../../../../../config';
+import { routes as subTabRoutes } from '../../../constants';
+import { filterItems as filterAvailableItems } from '../../../../../../../utils/permissions';
 
-const mapStateToProps = (state) => {
-  const {
-    userBonusFreeSpinsList: {
-      list,
-      filters,
-      games: { games, providers },
-      templates: { data: templates },
-    },
-    profile: { profile },
-    i18n: { locale },
-    options: { data: { baseCurrency } },
-  } = state;
-
-  return {
-    filters,
+const mapStateToProps = ({
+  userBonusFreeSpinsList: {
     list,
-    games,
-    templates,
-    providers,
-    locale,
-    currency: profile.data.currencyCode || baseCurrency,
-    cancelReasons: config.modules.freeSpin.cancelReasons,
-  };
-};
+    filters,
+    games: { games, providers },
+    templates: { data: templates },
+  },
+  profile: { profile },
+  i18n: { locale },
+  options: { data: { baseCurrency } },
+  permissions: { data: currentPermissions },
+}) => ({
+  filters,
+  list,
+  games,
+  templates,
+  providers,
+  locale,
+  currency: profile.data.currencyCode || baseCurrency,
+  cancelReasons: config.modules.freeSpin.cancelReasons,
+  subTabRoutes: filterAvailableItems(subTabRoutes, currentPermissions),
+});
 const mapActions = {
   fetchFreeSpins: actionCreators.fetchFreeSpins,
   exportFreeSpins: actionCreators.exportFreeSpins,

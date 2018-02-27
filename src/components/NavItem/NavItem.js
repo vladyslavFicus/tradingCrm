@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
 import { Link } from 'react-router';
 import { TimelineLite, Power1 } from 'gsap';
-import Permissions from '../../utils/permissions';
 import SubNav from '../SubNav';
 import PropTypes from '../../constants/propTypes';
 
@@ -20,10 +19,6 @@ class NavItem extends Component {
     index: PropTypes.number.isRequired,
     isSidebarOpen: PropTypes.bool.isRequired,
   };
-  static contextTypes = {
-    permissions: PropTypes.array.isRequired,
-    location: PropTypes.object.isRequired,
-  };
   static defaultProps = {
     isOpen: null,
     onToggleTab: null,
@@ -33,23 +28,17 @@ class NavItem extends Component {
   };
 
   componentDidMount() {
-    const { items } = this.props;
-
-    if (items.length) {
-      const tl = new TimelineLite({ paused: true });
-
-      const submenuDomNode = findDOMNode(this.submenu);
-
-      tl.fromTo(submenuDomNode, 0.15, { height: 0 }, { height: submenuDomNode.scrollHeight, ease: Power1.easeOut })
-        .fromTo(this.icon, 0.15, { rotation: 0 }, { rotation: 180 }, 0)
-        .fromTo(submenuDomNode, 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
-
-      this.tl = tl;
+    if (this.props.items.length) {
+      this.initAnimation();
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { isOpen, isSidebarOpen } = this.props;
+    const { isOpen, isSidebarOpen, items } = this.props;
+
+    if (prevProps.items.length !== items.length) {
+      this.initAnimation();
+    }
 
     if (this.submenu) {
       if ((isOpen && isSidebarOpen) && (!prevProps.isOpen || prevProps.isSidebarOpen === false)) {
@@ -59,6 +48,17 @@ class NavItem extends Component {
       }
     }
   }
+
+  initAnimation = () => {
+    const tl = new TimelineLite({ paused: true });
+    const submenuDomNode = findDOMNode(this.submenu);
+
+    tl.fromTo(submenuDomNode, 0.15, { height: 0 }, { height: submenuDomNode.scrollHeight, ease: Power1.easeOut })
+      .fromTo(this.icon, 0.15, { rotation: 0 }, { rotation: 180 }, 0)
+      .fromTo(submenuDomNode, 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
+
+    this.tl = tl;
+  };
 
   render() {
     const {
@@ -71,26 +71,10 @@ class NavItem extends Component {
       onMenuItemClick,
     } = this.props;
 
-    const { permissions: currentPermissions } = this.context;
-    const withSubmenu = items && items.length > 0;
-    let subMenu = [];
+    const withSubmenu = items.length > 0;
 
     if (!label || (!url && !withSubmenu)) {
       return null;
-    }
-
-    if (withSubmenu) {
-      subMenu = items.reduce((result, item) => {
-        if (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions)) {
-          result.push(item);
-        }
-
-        return result;
-      }, []);
-
-      if (!subMenu.length) {
-        return null;
-      }
     }
 
     return (
@@ -128,7 +112,7 @@ class NavItem extends Component {
           withSubmenu &&
           <SubNav
             ref={node => this.submenu = node}
-            items={subMenu}
+            items={items}
             onMenuItemClick={onMenuItemClick}
           />
         }

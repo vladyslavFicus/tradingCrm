@@ -7,7 +7,6 @@ import Tabs from '../../../components/Tabs';
 import Modal from '../../../components/Modal';
 import Header from '../components/Header';
 import NotePopover from '../../../components/NotePopover';
-import { userProfileTabs } from '../../../config/menu';
 import { targetTypes } from '../../../constants/note';
 import Information from '../components/Information';
 import PropTypes from '../../../constants/propTypes';
@@ -119,6 +118,7 @@ class ProfileLayout extends Component {
     saveFiles: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
     changePassword: PropTypes.func.isRequired,
+    userProfileTabs: PropTypes.array.isRequired, // improve this props (arrayOf)
   };
   static defaultProps = {
     availableTags: [],
@@ -128,6 +128,7 @@ class ProfileLayout extends Component {
   };
   static contextTypes = {
     addNotification: PropTypes.func.isRequired,
+    permissions: PropTypes.array.isRequired,
   };
   static childContextTypes = {
     onAddNote: PropTypes.func.isRequired,
@@ -586,6 +587,7 @@ class ProfileLayout extends Component {
       manageNote,
       config,
       locale,
+      userProfileTabs,
     } = this.props;
 
     return (

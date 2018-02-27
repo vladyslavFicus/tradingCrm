@@ -12,7 +12,6 @@ import { statuses } from '../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../constants/note';
 import Uuid from '../../../../../../../../components/Uuid';
 import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../../constants';
 import BonusGridFilter from '../BonusGridFilter';
 import ViewModal from '../ViewModal';
 import BonusType from '../BonusType';
@@ -38,6 +37,7 @@ class View extends Component {
     fetchActiveBonus: PropTypes.func.isRequired,
     acceptBonus: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    subTabRoutes: PropTypes.subTabRoutes.isRequired,
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -280,6 +280,7 @@ class View extends Component {
       list: { entities, noResults },
       playerProfile: { data: playerProfile },
       locale,
+      subTabRoutes,
     } = this.props;
 
     return (

@@ -8,7 +8,6 @@ import GridView, { GridColumn } from '../../../../../../../../components/GridVie
 import { targetTypes } from '../../../../../../../../constants/note';
 import { statuses, actions } from '../../../../../../../../constants/free-spin';
 import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../../constants';
 import Amount from '../../../../../../../../components/Amount';
 import FreeSpinStatus from '../../../../../../../../components/FreeSpinStatus';
 import NoteButton from '../../../../../../../../components/NoteButton';
@@ -61,6 +60,7 @@ class FreeSpinsView extends Component {
     createFreeSpinTemplate: PropTypes.func.isRequired,
     assignFreeSpinTemplate: PropTypes.func.isRequired,
     templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
+    subTabRoutes: PropTypes.subTabRoutes.isRequired,
   };
   static defaultProps = {
     templates: [],
@@ -331,6 +331,7 @@ class FreeSpinsView extends Component {
       fetchFreeSpinTemplates,
       fetchFreeSpinTemplate,
       templates,
+      subTabRoutes,
     } = this.props;
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 

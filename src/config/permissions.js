@@ -22,6 +22,8 @@ export default {
     PROLONG: 'profile;PUT;/profiles/{playerUUID}/suspend/prolong',
     REMOVE: 'profile;PUT;/profiles/{playerUUID}/resume',
     PROFILE_VIEW: 'profile;GET;/profiles/{playerUUID}',
+    PROFILE_DEVICES_VIEW: 'profile;GET;/profiles/{playerUUID}/devices',
+    PROFILES_LIST: 'profile;GET;/profiles',
     ADD_TO_CAMPAIGN: 'promotion;PUT;/campaigns/{id}/players-list/{playerUUID}',
     ADD_PROMO_CODE_TO_PLAYER: 'promotion;PUT;/campaigns/{playerUUID}/by-promo-code/{promoCode}',
     ADD_TAG: 'profile;POST;/profiles/{playerUUID}/tags',
@@ -42,6 +44,7 @@ export default {
     UPDATE_EMAIL: 'profile;PUT;/profiles/{playerUUID}/email',
     VIEW_FILES: 'profile;GET;/files/{playerUUID}',
     VIEW_FILE: 'profile;GET;/kyc/download/{fileId}',
+    KYC_LIST: 'profile;GET;/kyc/requests',
     UPLOAD_FILE: 'profile;POST;/files',
     VERIFY_FILE: 'profile;PUT;files/{uuid}/status/verify',
     REFUSE_FILE: 'profile;DELETE;files/{uuid}/status/refuse',
@@ -49,10 +52,44 @@ export default {
     VERIFY_PHONE: 'profile;POST;/verification/{playerUUID}/phone',
     VERIFY_EMAIL: 'profile;POST;/verification/{playerUUID}',
   },
+  PAYMENT: {
+    PLAYER_LIMITS_LIST: 'payment;GET;/limits/{playerUUID}',
+    PLAYER_ACCOUNT_LIST: 'payment;GET;/accounts/{playerUUID}',
+    PAYMENT_METHODS_LIST: 'payment;GET;/methods',
+    ACCOUNT_LOCK: 'payment;PUT;/accounts/{paymentAccountUUID}/lock',
+  },
+  PROMOTION: {
+    LIST: 'promotion;GET;/campaigns',
+    PLAYER_CAMPAIGN_ACTIVE_LIST: 'promotion;GET;/campaigns/{playerUUID}/active',
+    PLAYER_CAMPAIGN_AVAILABLE_LIST: 'promotion;GET;/campaigns/{playerUUID}/available',
+  },
+  WAGERING_FULFILLMENT: {
+    LIST: 'wagering_fulfillment;GET;/wagering-fulfillment',
+  },
+  GAME_INFO: {
+    GAME_LIST: 'game_info;GET;/public/games',
+  },
   PAYMENTS: {
+    PLAYER_PAYMENTS_LIST: 'payment;GET;/payments/{playerUUID}',
+    LIST: 'payment;GET;/payments',
     APPROVE_WITHDRAW: 'payment;POST;/payments/{playerUUID}/{paymentId}/approve',
     REFUSE_WITHDRAW: 'payment;POST;/payments/{playerUUID}/{paymentId}/refuse',
     CHARGEBACK_DEPOSIT: 'payment;POST;/payments/{playerUUID}/{paymentId}/chargeback',
+  },
+  NOTE: {
+    NOTES_LIST: 'note;GET;/notes',
+  },
+  AUDIT: {
+    PLAYER_AUDIT_LOGS: 'audit;GET;/audit/logs/{playerUUID}',
+  },
+  BONUS: {
+    PLAYER_BONUSES_LIST: 'bonus;GET;/bonuses/{playerUUID}',
+  },
+  GAMING_ACTIVITY: {
+    PLAYER_GAMING_ACTIVITY: 'gaming_activity;GET;/gaming/activity/{playerUUID}',
+  },
+  FREE_SPIN: {
+    PLAYER_FREE_SPIN_LIST: 'free_spin;GET;/free-spins/{playerUUID}',
   },
   NOTES: {
     ADD_NOTE: 'note;POST;/notes',

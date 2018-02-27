@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
-import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../components/GridView';
 import {
@@ -21,8 +20,6 @@ import { UncontrolledTooltip } from '../../../../../../../components/Reactstrap/
 import renderLabel from '../../../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../../../components/GridPaymentAmount';
-import SubTabNavigation from '../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../constants';
 import IpFlag from '../../../../../../../components/IpFlag';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
@@ -369,17 +366,6 @@ class View extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <SubTabNavigation links={subTabRoutes} />
-            <div className="tab-header__actions">
-              <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
-                + Add transaction
-              </button>
-            </div>
-          </div>
-        </Sticky>
-
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}
           onReset={this.handleFilterReset}

@@ -2,21 +2,22 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
 import { actionCreators as profileActionCreators } from '../../../../../modules/profile';
 import List from '../components/View';
+import { routes as subTabRoutes } from '../../../constants';
+import { filterItems as filterAvailableItems } from '../../../../../../../utils/permissions';
 
-const mapStateToProps = (state) => {
-  const {
-    profile: { profile },
-    userBonusesList: { list, bonus },
-    i18n: { locale },
-  } = state;
+const mapStateToProps = ({
+  profile: { profile },
+  userBonusesList: { list, bonus },
+  i18n: { locale },
+  permissions: { data: currentPermissions },
+}) => ({
+  list,
+  playerProfile: profile,
+  bonus,
+  locale,
+  subTabRoutes: filterAvailableItems(subTabRoutes, currentPermissions),
+});
 
-  return ({
-    list,
-    playerProfile: profile,
-    bonus,
-    locale,
-  });
-};
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
   createBonus: actionCreators.createBonus,

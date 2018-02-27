@@ -1,21 +1,60 @@
 import permissions from './permissions';
+import Permissions, { CONDITIONS } from '../utils/permissions';
 
 const userProfileTabs = [
   {
     label: 'Profile',
     url: '/users/:id/profile',
-    permissions: [
-      permissions.USER_PROFILE.PROFILE_VIEW,
-    ],
+    permissions: new Permissions(permissions.USER_PROFILE.PROFILE_VIEW),
   },
-  { label: 'Transactions', url: '/users/:id/transactions' },
-  { label: 'Rewards', url: '/users/:id/rewards' },
-  { label: 'Payment acc.', url: '/users/:id/paymentAccounts' },
-  { label: 'Limits', url: '/users/:id/limits' },
-  { label: 'Files', url: '/users/:id/files' },
-  { label: 'Devices', url: '/users/:id/devices' },
-  { label: 'Notes', url: '/users/:id/notes' },
-  { label: 'Feed', url: '/users/:id/feed' },
+  {
+    label: 'Transactions',
+    url: '/users/:id/transactions',
+    permissions: new Permissions([
+      permissions.PAYMENTS.PLAYER_PAYMENTS_LIST,
+      permissions.GAMING_ACTIVITY.PLAYER_GAMING_ACTIVITY,
+    ], CONDITIONS.OR),
+  },
+  {
+    label: 'Rewards',
+    url: '/users/:id/rewards',
+    permissions: new Permissions([
+      permissions.BONUS.PLAYER_BONUSES_LIST,
+      permissions.FREE_SPIN.PLAYER_FREE_SPIN_LIST,
+      permissions.PROMOTION.PLAYER_CAMPAIGN_ACTIVE_LIST,
+      permissions.PROMOTION.PLAYER_CAMPAIGN_AVAILABLE_LIST,
+    ], CONDITIONS.OR),
+  },
+  {
+    label: 'Payment acc.',
+    url: '/users/:id/paymentAccounts',
+    permissions: new Permissions(permissions.PAYMENT.PLAYER_ACCOUNT_LIST),
+  },
+  {
+    label: 'Limits',
+    url: '/users/:id/limits',
+    permissions: new Permissions(permissions.PAYMENT.PLAYER_LIMITS_LIST),
+  },
+  {
+    label: 'Files',
+    url: '/users/:id/files',
+    permissions: new Permissions(permissions.USER_PROFILE.VIEW_FILES),
+  },
+  {
+    label: 'Devices',
+    url: '/users/:id/devices',
+    permissions: new Permissions(permissions.USER_PROFILE.PROFILE_DEVICES_VIEW),
+  },
+  {
+    label: 'Notes',
+    url: '/users/:id/notes',
+    permissions: new Permissions(permissions.NOTE.NOTES_LIST),
+  },
+  {
+    label: 'Feed',
+    url: '/users/:id/feed',
+    permissions: new Permissions(permissions.AUDIT.PLAYER_AUDIT_LOGS),
+  },
 ];
 
 const bonusCampaignTabs = [

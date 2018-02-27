@@ -518,5 +518,10 @@ PropTypes.wageringFulfilmentEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   amounts: PropTypes.arrayOf(PropTypes.price),
 });
+PropTypes.subTabRoutes = PropTypes.arrayOf(PropTypes.shape({
+  url: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  permissions: PropTypes.object.isRequired,
+}));
 
 export default PropTypes;

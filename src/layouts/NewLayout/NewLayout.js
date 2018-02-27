@@ -88,6 +88,7 @@ class NewLayout extends Component {
     toggleMenuTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    initSidebar: PropTypes.func.isRequired,
   };
   static defaultProps = {
     permissions: [],
@@ -171,15 +172,13 @@ class NewLayout extends Component {
   }
 
   componentWillMount() {
-    window.addEventListener('scroll', this.handleScrollWindow);
-  }
-
-  componentDidMount() {
     const { userPanels, resetPanels } = this.props;
 
     if (userPanels.some(panel => !panel.auth)) {
       resetPanels();
     }
+
+    window.addEventListener('scroll', this.handleScrollWindow);
   }
 
   componentWillUnmount() {
@@ -213,13 +212,11 @@ class NewLayout extends Component {
     }
   };
 
-  onToggleProfile = () => {
-    this.setState({ isOpenProfile: !this.state.isOpenProfile });
-  };
+  onToggleProfile = () => this.setState({ isOpenProfile: !this.state.isOpenProfile });
 
-  setNoteChangedCallback = (cb) => {
-    this.setState({ noteChangedCallback: cb });
-  };
+  setNoteChangedCallback = cb => this.setState({ noteChangedCallback: cb });
+
+  initSidebar = () => this.props.initSidebar(this.props.permissions);
 
   handleScrollWindow = () => {
     const { app: { showScrollToTop }, setIsShowScrollTop } = this.props;
@@ -369,6 +366,7 @@ class NewLayout extends Component {
         />
 
         <Sidebar
+          init={this.initSidebar}
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}
           menuItemClick={menuItemClick}
@@ -476,5 +474,6 @@ export default connect(mapStateToProps, {
   setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
   toggleMenuTab: appActionCreators.toggleMenuTab,
   menuItemClick: appActionCreators.menuItemClick,
+  initSidebar: appActionCreators.initSidebar,
   updateOperatorProfile: authActionCreators.updateProfile,
 })(NewLayout);

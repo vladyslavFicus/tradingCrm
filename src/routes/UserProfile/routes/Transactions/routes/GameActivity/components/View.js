@@ -10,7 +10,6 @@ import Uuid from '../../../../../../../components/Uuid';
 import FilterForm from './FilterForm';
 import GameRoundType from './GameRoundType/GameRoundType';
 import SubTabNavigation from '../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../constants';
 
 class View extends Component {
   static propTypes = {
@@ -218,7 +217,7 @@ class View extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
+        {/*<Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
           <div className="tab-header">
             <div className="tab-header__heading">
               <SubTabNavigation links={subTabRoutes} />
@@ -229,7 +228,7 @@ class View extends Component {
               </button>
             </div>
           </div>
-        </Sticky>
+        </Sticky>*/}
 
         <FilterForm
           providers={providers}
