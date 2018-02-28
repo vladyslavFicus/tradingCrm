@@ -485,7 +485,9 @@
       "MANUAL_FREE_SPIN_BUTTON": "+ Добавить free spin",
       "NOTIFICATIONS": {
         "CANCEL_FREE_SPIN_ERROR": "Не удалось отменить free spins"
-      }
+      },
+      "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
+      "BONUS_TEMPLATE": "Бонус шаблон"
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
@@ -1459,6 +1461,9 @@
     "payment": {
       "method": {
         "inactive": "Платежный метод неактивен"
+      },
+      "withdrawable": {
+        "limit": "Превышение суммы"
       }
     },
     "profile": {
