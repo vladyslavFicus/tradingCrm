@@ -13,7 +13,6 @@ class BackToTop extends Component {
 
   state = {
     isVisible: false,
-    isHidden: false,
   };
 
   componentDidMount() {
@@ -29,9 +28,9 @@ class BackToTop extends Component {
       document.documentElement.scrollTop > document.documentElement.clientHeight ||
       document.body.scrollTop > document.body.clientHeight
     ) {
-      this.setState({ isVisible: true, isHidden: false });
+      this.setState({ isVisible: true });
     } else {
-      this.setState({ isVisible: false, isHidden: true });
+      this.setState({ isVisible: false });
     }
   };
 
@@ -42,14 +41,14 @@ class BackToTop extends Component {
 
   render() {
     const { positionChange } = this.props;
-    const { isVisible, isHidden } = this.state;
+    const { isVisible } = this.state;
 
     return (
       <button
         className={classNames(
           'fa fa-caret-up back-to-top',
           { 'rolled-in': isVisible },
-          { 'rolled-out': isHidden },
+          { 'rolled-out': !isVisible },
           { positionChange },
         )}
         onClick={this.scrollToTop}
