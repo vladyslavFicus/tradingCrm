@@ -12,7 +12,7 @@ import Amount, { Currency } from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
 import { targetTypes } from '../../../../../../../../constants/note';
 import renderLabel from '../../../../../../../../utils/renderLabel';
-import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
+import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { aggregators } from '../../constants';
 import MicrogamingAdditionalFields from './MicrogamingAdditionalFields';
 import NetentAdditionalFields from './NetentAdditionalFields';
@@ -221,7 +221,7 @@ class CreateModal extends Component {
       delete data.linesPerSpin;
     }
 
-    return onSubmit(data);
+    onSubmit(data);
   };
 
   handleSubmitNote = (data) => {
@@ -574,7 +574,7 @@ class CreateModal extends Component {
                   component={SelectField}
                   position="vertical"
                 >
-                  {Object.keys(moneyTypeUsage).map(key => (
+                  {Object.keys(moneyTypeUsageLabels).map(key => (
                     <option key={key} value={key}>
                       {renderLabel(key, moneyTypeUsageLabels)}
                     </option>

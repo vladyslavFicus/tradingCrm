@@ -18,10 +18,8 @@ import CreateModal from '../CreateModal';
 import CancelModal from '../CancelModal';
 import ViewModal from '../ViewModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
-import recognizeFieldError from '../../../../../../../../utils/recognizeFieldError';
 import FreeSpinGameInfo from '../FreeSpinGameInfo';
-import { aggregators, mapResponseErrorToField } from '../../constants';
-import { moneyTypeUsage } from '../../../../../../../../constants/bonus';
+import { aggregators } from '../../constants';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -180,7 +178,6 @@ class FreeSpinsView extends Component {
       initialValues: {
         currencyCode: this.props.currency,
         playerUUID: this.props.params.id,
-        moneyTypePriority: moneyTypeUsage.REAL_MONEY_FIRST,
       },
     });
   };
@@ -200,16 +197,10 @@ class FreeSpinsView extends Component {
 
     let action;
     if (aggregatorId === aggregators.igromat) {
-      const { moduleId, clientId, betPerLine, ...freeSpinTemplateData } = data;
+      const { moduleId, clientId, ...freeSpinTemplateData } = data;
       action = await createFreeSpinTemplate({
         claimable: false,
         ...freeSpinTemplateData,
-        betPerLineAmounts: [
-          {
-            amount: betPerLine,
-            currency,
-          },
-        ],
       });
 
       if (action && !action.error) {
@@ -220,21 +211,6 @@ class FreeSpinsView extends Component {
           startDate,
           endDate,
         });
-      } else if (action.error && action.payload.response) {
-        if (action.payload.response.fields_errors) {
-          const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
-            ...res,
-            [name]: I18n.t(action.payload.response.fields_errors[name].error),
-          }), {});
-          throw new SubmissionError(errors);
-        } else if (action.payload.response.error) {
-          const fieldError = recognizeFieldError(action.payload.response.error, mapResponseErrorToField);
-          if (fieldError) {
-            throw new SubmissionError(fieldError);
-          } else {
-            throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
-          }
-        }
       }
     } else {
       action = await createFreeSpin(data);
