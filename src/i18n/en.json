@@ -479,9 +479,7 @@
       "MANUAL_FREE_SPIN_BUTTON": "+ Manual free spin",
       "NOTIFICATIONS": {
         "CANCEL_FREE_SPIN_ERROR": "Failed to cancel free spins"
-      },
-      "FREE_SPIN_TEMPLATE": "Free spin template",
-      "BONUS_TEMPLATE": "Bonus template"
+      }
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
@@ -1446,9 +1444,6 @@
     "payment": {
       "method": {
         "inactive": "Payment method inactive"
-      },
-      "withdrawable": {
-        "limit": "Exceeded withdrawable amount"
       }
     },
     "profile": {
