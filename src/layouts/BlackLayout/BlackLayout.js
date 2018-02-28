@@ -14,11 +14,7 @@ class BlackLayout extends Component {
   render() {
     const { children } = this.props;
 
-    return (
-      <div style={{ height: '100%' }}>
-        {children}
-      </div>
-    );
+    return children;
   }
 }
 

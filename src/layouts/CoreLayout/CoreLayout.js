@@ -91,7 +91,7 @@ class CoreLayout extends Component {
     const { children, modal, closeModal } = this.props;
 
     return (
-      <div style={{ height: '100%' }}>
+      <div>
         {children}
 
         {window.showDebugPanel && <DebugPanel />}

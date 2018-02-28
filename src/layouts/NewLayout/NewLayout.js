@@ -19,6 +19,7 @@ import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
 import MyProfileSidebar from '../../components/MyProfileSidebar';
 import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
+import BackToTop from '../../components/BackToTop';
 import './NewLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -44,7 +45,6 @@ class NewLayout extends Component {
       uuid: PropTypes.string,
     }).isRequired,
     app: PropTypes.shape({
-      showScrollToTop: PropTypes.bool.isRequired,
       sidebarTopMenu: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string.isRequired,
         icon: PropTypes.string.isRequired,
@@ -231,20 +231,6 @@ class NewLayout extends Component {
     }
   };
 
-  handleScrollToTop = () => {
-    const { activePanelIndex } = this.props;
-    const frames = document.querySelectorAll('iframe.user-panel-content-frame');
-    const currentFrame = frames[activePanelIndex];
-
-    if (activePanelIndex !== null && currentFrame) {
-      currentFrame
-        .contentWindow
-        .postMessage(JSON.stringify(windowActionCreators.scrollToTop()), window.location.origin);
-    } else {
-      window.scrollTo(0, 0);
-    }
-  };
-
   handleAddNoteClick = (target, item, params = {}) => {
     this.setState({
       popover: {
@@ -351,7 +337,7 @@ class NewLayout extends Component {
       removePanel,
       onLocaleChange,
       languages,
-      app: { showScrollToTop, isInitializedScroll, sidebarTopMenu, sidebarBottomMenu },
+      app: { sidebarTopMenu, sidebarBottomMenu },
       locale,
       user,
       toggleMenuTab,
@@ -396,19 +382,7 @@ class NewLayout extends Component {
           onClose={this.handleCloseTabs}
         />
 
-        <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
-          <button
-            className={
-              classNames('floating-buttons__circle', {
-                rollIn: showScrollToTop,
-                rollOut: isInitializedScroll && !showScrollToTop,
-              })
-            }
-            onClick={this.handleScrollToTop}
-          >
-            <i className="fa fa-caret-up" />
-          </button>
-        </div>
+        <BackToTop positionChange={userPanels.length > 0} />
 
         {
           popover.name === NOTE_POPOVER &&
