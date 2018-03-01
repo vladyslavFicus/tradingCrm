@@ -155,8 +155,8 @@ class Bonus extends Component {
           </div>
           <div className="col-4 form-row_with-placeholder-right">
             <Field
-              name={this.buildFieldName('bonusLifetime')}
-              id={`${form}bonusLifetime`}
+              name={this.buildFieldName('bonusLifeTime')}
+              id={`${form}bonusLifeTime`}
               type="text"
               placeholder="0"
               label={I18n.t(attributeLabels.lifeTime)}

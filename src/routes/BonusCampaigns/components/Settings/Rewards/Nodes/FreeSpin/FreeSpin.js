@@ -109,7 +109,7 @@ class FreeSpin extends Component {
       this.setField('betPerLine', betPerLine);
       this.setField('linesPerSpin', linesPerSpin);
 
-      change('rewards.bonus.bonusLifetime', bonusLifeTime);
+      change('rewards.bonus.bonusLifeTime', bonusLifeTime);
       change('rewards.bonus.claimable', claimable);
       change('rewards.bonus.wagerWinMultiplier', multiplier);
     }

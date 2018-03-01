@@ -38,7 +38,7 @@ const mapRewardsToForm = (data) => {
     bonus: {
       wagerWinMultiplier: data.wagerWinMultiplier,
       moneyTypePriority: data.moneyTypePriority,
-      bonusLifetime: data.bonusLifetime,
+      bonusLifeTime: data.bonusLifeTime,
       campaignRatio: data.campaignRatio,
       claimable: data.claimable,
       maxBet: data.maxBet,
