@@ -30,7 +30,7 @@ class Settings extends Component {
       endDate: PropTypes.bonusCampaignEntity.endDate,
       wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
       promoCode: PropTypes.bonusCampaignEntity.promoCode,
-      bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
+      bonusLifeTime: PropTypes.bonusCampaignEntity.bonusLifeTime,
       campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,
@@ -52,23 +52,27 @@ class Settings extends Component {
     }).isRequired,
     games: PropTypes.array,
     providers: PropTypes.array,
-    templates: PropTypes.array,
+    freeSpinTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     fetchPaymentMethods: PropTypes.func.isRequired,
     createFreeSpinTemplate: PropTypes.func.isRequired,
+    createBonusTemplate: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
     form: PropTypes.string.isRequired,
     baseCurrency: PropTypes.string.isRequired,
     changeForm: PropTypes.func.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
   };
 
   static defaultProps = {
     games: [],
     providers: [],
-    templates: [],
+    freeSpinTemplates: [],
     bonusCampaignForm: {
       capping: {
         type: customValueFieldTypes.ABSOLUTE,
@@ -77,6 +81,7 @@ class Settings extends Component {
         type: customValueFieldTypes.ABSOLUTE,
       },
     },
+    bonusTemplates: [],
   };
 
   static contextTypes = {
@@ -190,6 +195,7 @@ class Settings extends Component {
   handleSubmit = async (formData) => {
     const {
       createFreeSpinTemplate,
+      createBonusTemplate,
       handleSubmit,
       baseCurrency,
     } = this.props;
@@ -208,6 +214,73 @@ class Settings extends Component {
         ],
       };
       delete rewardsFreeSpin.betPerLine;
+
+      let bonus = get(rewardsFreeSpin, 'bonus');
+      if (bonus) {
+        if (bonus.templateUUID) {
+          rewardsFreeSpin.bonusTemplateUUID = bonus.templateUUID;
+        } else {
+          if (bonus.maxBet) {
+            bonus.maxBet = {
+              currencies: [{
+                amount: bonus.maxBet,
+                currency: baseCurrency,
+              }],
+            };
+          }
+
+          if (bonus.maxGrantAmount && bonus.grantRatio && bonus.grantRatio.type === 'PERCENTAGE') {
+            bonus = {
+              ...bonus,
+              maxGrantAmount: {
+                currencies: [{
+                  amount: bonus.maxGrantAmount,
+                  currency: baseCurrency,
+                }],
+              },
+            };
+          } else {
+            delete bonus.maxGrantAmount;
+          }
+
+          if (bonus.grantRatio) {
+            let grantValue = {};
+
+            if (bonus.grantRatio.type === 'ABSOLUTE') {
+              grantValue = {
+                value: {
+                  currencies: [{
+                    amount: bonus.grantRatio.value,
+                    currency: baseCurrency,
+                  }],
+                },
+              };
+            } else if (bonus.grantRatio.type === 'PERCENTAGE') {
+              grantValue = {
+                percentage: bonus.grantRatio.value,
+              };
+            }
+
+            bonus = {
+              ...bonus,
+              grantRatio: {
+                ratioType: bonus.grantRatio.type,
+                ...grantValue,
+              },
+            };
+          }
+
+          const action = await createBonusTemplate({
+            claimable: false,
+            ...bonus,
+          });
+
+          if (action && !action.error) {
+            const bonusTemplateUUID = action.payload.templateUUID;
+            rewardsFreeSpin.bonusTemplateUUID = bonusTemplateUUID;
+          }
+        }
+      }
 
       let rewardsFreeSpinData = {};
 
@@ -239,6 +312,7 @@ class Settings extends Component {
       };
     }
 
+    console.log('data', data) ;
     return handleSubmit(data);
   };
 
@@ -256,9 +330,12 @@ class Settings extends Component {
       addNode,
       games,
       providers,
-      templates,
+      freeSpinTemplates,
+      bonusTemplates,
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
       fetchGames,
       fetchPaymentMethods,
       form,
@@ -281,10 +358,13 @@ class Settings extends Component {
           toggleModal={this.handleCurrencyAmountModalOpen}
           games={games}
           providers={providers}
-          templates={templates}
+          freeSpinTemplates={freeSpinTemplates}
+          bonusTemplates={bonusTemplates}
           form={form}
           fetchFreeSpinTemplate={fetchFreeSpinTemplate}
           fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+          fetchBonusTemplates={fetchBonusTemplates}
+          fetchBonusTemplate={fetchBonusTemplate}
           fetchGames={fetchGames}
           handleClickChooseCampaign={this.handleClickChooseCampaign}
           linkedCampaign={linkedCampaign}

@@ -1,9 +1,9 @@
 import { CALL_API } from 'redux-api-middleware';
-import createReducer from '../../../../../utils/createReducer';
-import createRequestAction from '../../../../../utils/createRequestAction';
+import createReducer from '../../../../../../../utils/createReducer';
+import createRequestAction from '../../../../../../../utils/createRequestAction';
 import {
   sourceActionCreators as freeSpinTemplatesActionCreators,
-} from '../../../../../redux/modules/freeSpinTemplates';
+} from '../../../../../../../redux/modules/freeSpinTemplates';
 
 const KEY = 'bonus-campaign/view/settings';
 const CREATE_FREE_SPIN_TEMPLATE = createRequestAction(`${KEY}/create-free-spin-template`);
@@ -37,7 +37,7 @@ function createFreeSpinTemplate(data) {
               if (contentType && ~contentType.indexOf('json')) {
                 return res.json().then(json => ({
                   templateUUID: json.uuid,
-                  bonusLifetime: json.bonusLifeTime,
+                  bonusLifeTime: json.bonusLifeTime,
                   claimable: json.claimable,
                   wagerWinMultiplier: json.multiplier,
                 }));

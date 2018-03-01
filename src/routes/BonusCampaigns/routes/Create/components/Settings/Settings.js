@@ -24,19 +24,24 @@ class Settings extends Component {
     }).isRequired,
     games: PropTypes.array,
     providers: PropTypes.array,
-    templates: PropTypes.array,
+    freeSpinTemplates: PropTypes.array,
+    bonusTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
     fetchPaymentMethods: PropTypes.func.isRequired,
     baseCurrency: PropTypes.string.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    createBonusTemplate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     games: [],
     providers: [],
-    templates: [],
+    freeSpinTemplates: [],
+    bonusTemplates: [],
   };
 
   static contextTypes = {
@@ -93,7 +98,8 @@ class Settings extends Component {
       addNode,
       games,
       providers,
-      templates,
+      freeSpinTemplates,
+      bonusTemplates,
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
@@ -102,7 +108,10 @@ class Settings extends Component {
       paymentMethods,
       fetchPaymentMethods,
       createFreeSpinTemplate,
+      createBonusTemplate,
       baseCurrency,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
     } = this.props;
 
     return (
@@ -111,8 +120,11 @@ class Settings extends Component {
         fetchPaymentMethods={fetchPaymentMethods}
         paymentMethods={paymentMethods}
         fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+        fetchBonusTemplates={fetchBonusTemplates}
+        fetchBonusTemplate={fetchBonusTemplate}
         fetchFreeSpinTemplate={fetchFreeSpinTemplate}
-        templates={templates}
+        freeSpinTemplates={freeSpinTemplates}
+        bonusTemplates={bonusTemplates}
         providers={providers}
         games={games}
         fetchCampaigns={fetchCampaigns}
@@ -127,6 +139,7 @@ class Settings extends Component {
         form="bonusCampaignCreate"
         currencies={currencies}
         createFreeSpinTemplate={createFreeSpinTemplate}
+        createBonusTemplate={createBonusTemplate}
         baseCurrency={baseCurrency}
       />
     );

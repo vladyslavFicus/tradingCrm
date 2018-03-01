@@ -1,25 +1,26 @@
 import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
+
 import {
-  sourceActionCreators as freeSpinTemplatesActionCreators,
-} from '../../../../../../../redux/modules/freeSpinTemplates';
+  sourceActionCreators as bonusTemplatesActionCreators,
+} from '../../../../../../../redux/modules/bonusTemplates';
 
 const KEY = 'bonus-campaign/view/settings';
-const CREATE_FREE_SPIN_TEMPLATE = createRequestAction(`${KEY}/create-free-spin-template`);
-const FETCH_FREE_SPINS_TEMPLATES = createRequestAction(`${KEY}/fetch-free-spin-templates`);
-const FETCH_FREE_SPINS_TEMPLATE = createRequestAction(`${KEY}/fetch-free-spin-template`);
+const FETCH_BONUS_TEMPLATES = createRequestAction(`${KEY}/fetch-bonus-templates`);
+const FETCH_BONUS_TEMPLATE = createRequestAction(`${KEY}/fetch-bonus-template`);
+const CREATE_BONUS_TEMPLATE = createRequestAction(`${KEY}/create-bonus-template`);
 
-const fetchFreeSpinTemplates = freeSpinTemplatesActionCreators.fetchFreeSpinTemplates(FETCH_FREE_SPINS_TEMPLATES);
-const fetchFreeSpinTemplate = freeSpinTemplatesActionCreators.fetchFreeSpinTemplate(FETCH_FREE_SPINS_TEMPLATE);
+const fetchBonusTemplates = bonusTemplatesActionCreators.fetchBonusTemplates(FETCH_BONUS_TEMPLATES);
+const fetchBonusTemplate = bonusTemplatesActionCreators.fetchBonusTemplate(FETCH_BONUS_TEMPLATE);
 
-function createFreeSpinTemplate(data) {
+function createBonusTemplate(data) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'free_spin_template/templates',
+        endpoint: 'bonus_template/templates',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -28,23 +29,20 @@ function createFreeSpinTemplate(data) {
         },
         body: JSON.stringify(data),
         types: [
-          CREATE_FREE_SPIN_TEMPLATE.REQUEST,
+          CREATE_BONUS_TEMPLATE.REQUEST,
           {
-            type: CREATE_FREE_SPIN_TEMPLATE.SUCCESS,
+            type: CREATE_BONUS_TEMPLATE.SUCCESS,
             payload: (action, state, res) => {
               const contentType = res.headers.get('Content-Type');
 
               if (contentType && ~contentType.indexOf('json')) {
                 return res.json().then(json => ({
                   templateUUID: json.uuid,
-                  bonusLifetime: json.bonusLifeTime,
-                  claimable: json.claimable,
-                  wagerWinMultiplier: json.multiplier,
                 }));
               }
             },
           },
-          CREATE_FREE_SPIN_TEMPLATE.FAILURE,
+          CREATE_BONUS_TEMPLATE.FAILURE,
         ],
         bailout: !logged,
       },
@@ -60,12 +58,12 @@ const initialState = {
 };
 
 const actionHandlers = {
-  [FETCH_FREE_SPINS_TEMPLATES.REQUEST]: state => ({
+  [FETCH_BONUS_TEMPLATES.REQUEST]: state => ({
     ...state,
     isLoading: true,
     error: null,
   }),
-  [FETCH_FREE_SPINS_TEMPLATES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
+  [FETCH_BONUS_TEMPLATES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
     data: payload.map(i => ({
       uuid: i.uuid,
@@ -74,7 +72,7 @@ const actionHandlers = {
     isLoading: false,
     receivedAt: endRequestTime,
   }),
-  [FETCH_FREE_SPINS_TEMPLATES.FAILURE]: (state, action) => ({
+  [FETCH_BONUS_TEMPLATES.FAILURE]: (state, action) => ({
     ...state,
     isLoading: false,
     error: action.payload,
@@ -82,13 +80,13 @@ const actionHandlers = {
 };
 
 const actionTypes = {
-  CREATE_FREE_SPIN_TEMPLATE,
-  FETCH_FREE_SPINS_TEMPLATES,
+  CREATE_BONUS_TEMPLATE,
+  FETCH_BONUS_TEMPLATES,
 };
 const actionCreators = {
-  fetchFreeSpinTemplates,
-  createFreeSpinTemplate,
-  fetchFreeSpinTemplate,
+  createBonusTemplate,
+  fetchBonusTemplates,
+  fetchBonusTemplate,
 };
 
 export {

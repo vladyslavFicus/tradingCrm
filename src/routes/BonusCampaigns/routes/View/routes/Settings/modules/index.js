@@ -6,11 +6,17 @@ import games, {
   initialState as gamesInitialState,
 } from './games';
 
-import templates, {
-  actionCreators as templatesActionCreators,
-  actionTypes as templatesActionTypes,
-  initialState as templatesInitialState,
-} from './templates';
+import freeSpinTemplates, {
+  actionCreators as freeSpinTemplatesActionCreators,
+  actionTypes as freeSpinTemplatesActionTypes,
+  initialState as freeSpinTemplatesInitialState,
+} from './freeSpinTemplates';
+
+import bonusTemplates, {
+  actionCreators as bonusTemplatesActionCreators,
+  actionTypes as bonusTemplatesActionTypes,
+  initialState as bonusTemplatesInitialState,
+} from './bonusTemplates';
 
 import payments, {
   actionCreators as paymentsActionCreators,
@@ -20,19 +26,22 @@ import payments, {
 
 const actionCreators = {
   ...gamesActionCreators,
-  ...templatesActionCreators,
+  ...freeSpinTemplatesActionCreators,
   ...paymentsActionCreators,
+  ...bonusTemplatesActionCreators,
 };
 
 const actionTypes = {
   ...gamesActionTypes,
-  ...templatesActionTypes,
+  ...freeSpinTemplatesActionTypes,
   ...paymentsActionTypes,
+  ...bonusTemplatesActionTypes,
 };
 
 const initialState = {
   games: gamesInitialState,
-  templates: templatesInitialState,
+  freeSpinTemplates: freeSpinTemplatesInitialState,
+  bonusTemplates: bonusTemplatesInitialState,
   payments: paymentsInitialState,
 };
 
@@ -44,7 +53,8 @@ export {
 
 export default combineReducers({
   games,
-  templates,
+  freeSpinTemplates,
   payments,
+  bonusTemplates,
 });
 

@@ -46,7 +46,7 @@ export default (values, params) => {
     rewards: {
       bonus: {
         wagerWinMultiplier: ['integer', 'max:999'],
-        bonusLifetime: ['integer'],
+        bonusLifeTime: ['integer'],
         maxBet: ['numeric'],
         maxGrantedAmount: ['numeric'],
         moneyTypePriority: [`in:${Object.keys(moneyTypeUsage).join()}`],
@@ -63,6 +63,22 @@ export default (values, params) => {
         betPerLine: ['numeric', 'min:0'],
         bonusLifeTime: ['integer', 'min:1', 'max:230'],
         multiplier: ['integer', 'min:1', 'max:500'],
+        bonus: {
+          name: ['string'],
+          bonusLifeTime: ['integer'],
+          maxGrantedAmount: ['numeric'],
+          moneyTypePriority: [`in:${Object.keys(moneyTypeUsage).join()}`],
+          lockAmountStrategy: ['string'],
+          maxGrantAmount: ['numeric'],
+          grantRatio: {
+            type: ['string'],
+            value: ['numeric'],
+          },
+          wageringRequirement: {
+            type: ['string'],
+            value: ['numeric'],
+          },
+        },
       },
     },
   };
@@ -105,7 +121,7 @@ export default (values, params) => {
       type: [`in:${allowedCustomValueTypes.join()}`],
     };
     rules.rewards.bonus.wagerWinMultiplier.push('required');
-    rules.rewards.bonus.bonusLifetime.push('required');
+    rules.rewards.bonus.bonusLifeTime.push('required');
     rules.rewards.bonus.moneyTypePriority.push('required');
   }
 
@@ -113,6 +129,20 @@ export default (values, params) => {
     ['name', 'providerId', 'gameId', 'aggregatorId', 'freeSpinsAmount', 'linesPerSpin',
       'betPerLine', 'bonusLifeTime', 'multiplier', 'moneyTypePriority',
     ].map(field => rules.rewards.freeSpin[field].push('required'));
+  }
+
+  const freeSpinBonus = get(values, 'rewards.freeSpin.bonus');
+
+  if (freeSpinBonus) {
+    ['name', 'bonusLifeTime', 'moneyTypePriority', 'lockAmountStrategy']
+      .map(field => rules.rewards.freeSpin.bonus[field].push('required'));
+
+    if (freeSpinBonus.grantRatio && freeSpinBonus.grantRatio.type === 'PERCENTAGE') {
+      rules.rewards.freeSpin.bonus.maxGrantAmount.push('required');
+    }
+
+    rules.rewards.freeSpin.bonus.wageringRequirement.value.push('required');
+    rules.rewards.freeSpin.bonus.grantRatio.value.push('required');
   }
 
   return createValidator(rules, translateLabels(attributeLabels), false)(values);

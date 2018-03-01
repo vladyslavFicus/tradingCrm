@@ -63,6 +63,7 @@
       }
     ],
     "no-return-assign": "off",
-    "radix": 0
+    "radix": 0,
+    "react/jsx-no-undef": [2, { "allowGlobals": true }]
   }
 }
