@@ -229,7 +229,11 @@ class Settings extends Component {
             };
           }
 
-          if (bonus.maxGrantAmount && bonus.grantRatio && bonus.grantRatio.type === 'PERCENTAGE') {
+          if (
+            bonus.maxGrantAmount &&
+            bonus.grantRatio &&
+            bonus.grantRatio.type === customValueFieldTypes.PERCENTAGE
+          ) {
             bonus = {
               ...bonus,
               maxGrantAmount: {
@@ -246,7 +250,7 @@ class Settings extends Component {
           if (bonus.grantRatio) {
             let grantValue = {};
 
-            if (bonus.grantRatio.type === 'ABSOLUTE') {
+            if (bonus.grantRatio.type === customValueFieldTypes.ABSOLUTE) {
               grantValue = {
                 value: {
                   currencies: [{
@@ -255,7 +259,7 @@ class Settings extends Component {
                   }],
                 },
               };
-            } else if (bonus.grantRatio.type === 'PERCENTAGE') {
+            } else if (bonus.grantRatio.type === customValueFieldTypes.PERCENTAGE) {
               grantValue = {
                 percentage: bonus.grantRatio.value,
               };
@@ -312,7 +316,6 @@ class Settings extends Component {
       };
     }
 
-    console.log('data', data) ;
     return handleSubmit(data);
   };
 

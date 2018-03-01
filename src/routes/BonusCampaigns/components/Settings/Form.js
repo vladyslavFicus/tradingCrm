@@ -92,7 +92,7 @@ class Form extends Component {
     paymentMethods: PropTypes.array,
     fetchPaymentMethods: PropTypes.func.isRequired,
     form: PropTypes.string.isRequired,
-    fetchBonusTemplates: PropTypes.array.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
   };

@@ -145,11 +145,6 @@ class FreeSpin extends Component {
         claimable,
       } = action.payload;
 
-      console.log('loadBonusTemplateData', action.payload);
-      //console.log('action.payload', action.payload);
-      //console.log('get', get(action.payload, 'grantRatio.value.currencies[0].amount', ''));
-      //console.log('maxBet', get(action.payload, 'maxBet.currencies[0].amount', ''));
-
       this.setField('bonus.templateUUID', uuid);
       this.setField('bonus.name', name);
       this.setField('bonus.moneyTypePriority', moneyTypePriority);

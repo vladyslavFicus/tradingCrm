@@ -7,6 +7,7 @@ import {
   lockAmountStrategy,
   moneyTypeUsage,
 } from '../../../../constants/bonus-campaigns';
+import { customValueFieldTypes } from '../../../../constants/form';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -137,7 +138,7 @@ export default (values, params) => {
     ['name', 'bonusLifeTime', 'moneyTypePriority', 'lockAmountStrategy']
       .map(field => rules.rewards.freeSpin.bonus[field].push('required'));
 
-    if (freeSpinBonus.grantRatio && freeSpinBonus.grantRatio.type === 'PERCENTAGE') {
+    if (freeSpinBonus.grantRatio && freeSpinBonus.grantRatio.type === customValueFieldTypes.PERCENTAGE) {
       rules.rewards.freeSpin.bonus.maxGrantAmount.push('required');
     }
 

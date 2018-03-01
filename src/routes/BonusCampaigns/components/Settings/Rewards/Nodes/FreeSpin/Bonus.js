@@ -16,6 +16,7 @@ import {
   moneyTypeUsage,
   moneyTypeUsageLabels,
 } from '../../../../../../../constants/bonus-campaigns';
+import { wageringRequirementTypes } from './constants';
 
 class Bonus extends Component {
   static propTypes = {
@@ -26,6 +27,7 @@ class Bonus extends Component {
     remove: PropTypes.func,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     change: PropTypes.func.isRequired,
+    handleChangeBonusTemplateData: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -203,10 +205,8 @@ class Bonus extends Component {
               }}
             >
               {
-                ['ABSOLUTE', 'BONUS', 'DEPOSIT', 'BONUS_PLUS_DEPOSIT'].map(key =>
-                  (
-                    <option key={key} value={key}>{key}</option>
-                  )
+                Object.keys(wageringRequirementTypes).map(key =>
+                  <option key={key} value={key}>{key}</option>
                 )
               }
             </CustomValueFieldVertical>
