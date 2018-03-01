@@ -56,7 +56,7 @@ class Form extends Component {
       endDate: PropTypes.bonusCampaignEntity.endDate,
       wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
       promoCode: PropTypes.bonusCampaignEntity.promoCode,
-      bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
+      bonusLifeTime: PropTypes.bonusCampaignEntity.bonusLifeTime,
       campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,

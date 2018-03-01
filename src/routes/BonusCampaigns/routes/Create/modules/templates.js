@@ -37,7 +37,7 @@ function createFreeSpinTemplate(data) {
               if (contentType && ~contentType.indexOf('json')) {
                 return res.json().then(json => ({
                   templateUUID: json.uuid,
-                  bonusLifetime: json.bonusLifeTime,
+                  bonusLifeTime: json.bonusLifeTime,
                   claimable: json.claimable,
                   wagerWinMultiplier: json.multiplier,
                 }));

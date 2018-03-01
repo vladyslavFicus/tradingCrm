@@ -46,7 +46,7 @@ export default (values, params) => {
     rewards: {
       bonus: {
         wagerWinMultiplier: ['integer', 'max:999'],
-        bonusLifetime: ['integer'],
+        bonusLifeTime: ['integer'],
         maxBet: ['numeric'],
         maxGrantedAmount: ['numeric'],
         moneyTypePriority: [`in:${Object.keys(moneyTypeUsage).join()}`],
@@ -105,7 +105,7 @@ export default (values, params) => {
       type: [`in:${allowedCustomValueTypes.join()}`],
     };
     rules.rewards.bonus.wagerWinMultiplier.push('required');
-    rules.rewards.bonus.bonusLifetime.push('required');
+    rules.rewards.bonus.bonusLifeTime.push('required');
     rules.rewards.bonus.moneyTypePriority.push('required');
   }
 
