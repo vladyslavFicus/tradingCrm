@@ -3,7 +3,7 @@ import { Field, reduxForm, getFormValues, getFormMeta } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import { get, isEmpty, isEqual } from 'lodash';
+import { get, isEmpty } from 'lodash';
 import {
   InputField, SelectField, DateTimeField, CustomValueFieldVertical,
 } from '../../../../components/ReduxForm';
@@ -75,7 +75,7 @@ class Form extends Component {
     }).isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity),
     providers: PropTypes.array,
-    templates: PropTypes.array,
+    freeSpinTemplates: PropTypes.array,
     baseCurrency: PropTypes.string.isRequired,
     fetchGames: PropTypes.func.isRequired,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
@@ -92,6 +92,9 @@ class Form extends Component {
     paymentMethods: PropTypes.array,
     fetchPaymentMethods: PropTypes.func.isRequired,
     form: PropTypes.string.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
   };
   static defaultProps = {
     handleSubmit: null,
@@ -105,7 +108,7 @@ class Form extends Component {
     errors: {},
     games: [],
     providers: [],
-    templates: [],
+    freeSpinTemplates: [],
     linkedCampaign: null,
     paymentMethods: [],
   };
@@ -214,9 +217,12 @@ class Form extends Component {
       toggleModal,
       games,
       providers,
-      templates,
+      freeSpinTemplates,
+      bonusTemplates,
       baseCurrency,
       fetchFreeSpinTemplate,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
       handleClickChooseCampaign,
@@ -513,9 +519,12 @@ class Form extends Component {
               add={this.handleAddNode(nodeGroupTypes.rewards)}
               games={games}
               providers={providers}
-              templates={templates}
+              freeSpinTemplates={freeSpinTemplates}
+              bonusTemplates={bonusTemplates}
               baseCurrency={baseCurrency}
               fetchFreeSpinTemplate={fetchFreeSpinTemplate}
+              fetchBonusTemplates={fetchBonusTemplates}
+              fetchBonusTemplate={fetchBonusTemplate}
               fetchGames={fetchGames}
               fetchFreeSpinTemplates={fetchFreeSpinTemplates}
             />

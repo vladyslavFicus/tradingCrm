@@ -415,6 +415,10 @@ PropTypes.freeSpinListEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 });
+PropTypes.bonusTemplateListEntity = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});
 PropTypes.gameEntity = PropTypes.shape({
   aggregatorId: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired,

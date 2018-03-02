@@ -15,6 +15,8 @@ const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors } })
     valueInputClassName,
     typeInputClassName,
     typeValues,
+    children,
+    valueFieldProps,
   } = props;
 
   const typeError = get(errors, `${basename}.type`);
@@ -47,6 +49,7 @@ const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors } })
             component="input"
             type="text"
             className={classList.valueInput}
+            {...valueFieldProps}
           />
         </div>
         <div className="col">
@@ -57,13 +60,16 @@ const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors } })
             component="select"
             disabled={disabled}
           >
-            {typeValues.map(key =>
-              (
-                <option key={key} value={key}>
-                  {renderLabel(key, customValueFieldTypesLabels)}
-                </option>
-              )
-            )}
+            {
+              children ||
+                typeValues.map(key =>
+                  (
+                    <option key={key} value={key}>
+                      {renderLabel(key, customValueFieldTypesLabels)}
+                    </option>
+                  )
+                )
+            }
           </Field>
         </div>
       </div>
@@ -77,22 +83,27 @@ const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors } })
   );
 };
 
+CustomValueFieldVertical.propTypes = {
+  id: PropTypes.string,
+  basename: PropTypes.string.isRequired,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+  typeValues: PropTypes.array,
+  valueInputClassName: PropTypes.string,
+  typeInputClassName: PropTypes.string,
+  disabled: PropTypes.bool,
+  valueFieldProps: PropTypes.object,
+  children: PropTypes.node,
+};
+
 CustomValueFieldVertical.defaultProps = {
   valueInputClassName: '',
   typeInputClassName: '',
   errors: {},
   disabled: false,
   id: null,
-};
-
-CustomValueFieldVertical.propTypes = {
-  id: PropTypes.string,
-  basename: PropTypes.string.isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  typeValues: PropTypes.array.isRequired,
-  valueInputClassName: PropTypes.string,
-  typeInputClassName: PropTypes.string,
-  disabled: PropTypes.bool,
+  typeValues: {},
+  valueFieldProps: {},
+  children: null,
 };
 
 CustomValueFieldVertical.contextTypes = {

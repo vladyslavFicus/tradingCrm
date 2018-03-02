@@ -13,6 +13,7 @@ import {
 } from './constants';
 import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../constants/bonus-campaigns';
 import floatNormalize from '../../../../../../../utils/floatNormalize';
+import Bonus from './Bonus';
 
 class FreeSpin extends Component {
   static propTypes = {
@@ -24,14 +25,19 @@ class FreeSpin extends Component {
     disabled: PropTypes.bool,
     baseCurrency: PropTypes.string.isRequired,
     providers: PropTypes.array,
-    templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
+    freeSpinTemplates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
+    typeValues: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
     disabled: false,
     games: [],
     providers: [],
-    templates: [],
+    freeSpinTemplates: [],
+    bonusTemplates: [],
+    typeValues: [],
   };
 
   static contextTypes = {
@@ -45,11 +51,13 @@ class FreeSpin extends Component {
   };
 
   async componentDidMount() {
-    const { fetchGames, fetchFreeSpinTemplates } = this.props;
+    const { fetchGames, fetchFreeSpinTemplates, fetchBonusTemplates } = this.props;
+
     const { _reduxForm: { values: { rewards } } } = this.context;
     const templateUUID = get(rewards, 'freeSpin.templateUUID');
     const action = await fetchGames();
     await fetchFreeSpinTemplates({ status: freeSpinTemplate.CREATED });
+    await fetchBonusTemplates({ status: freeSpinTemplate.CREATED }); // use other const
     if (action && !action.error && templateUUID) {
       this.loadTemplateData(templateUUID);
     }
@@ -89,6 +97,7 @@ class FreeSpin extends Component {
         claimable,
         betPerLineAmounts,
         linesPerSpin,
+        bonusTemplateUUID,
       } = action.payload;
 
       let { betPerLine } = action.payload;
@@ -112,13 +121,63 @@ class FreeSpin extends Component {
       change('rewards.bonus.bonusLifeTime', bonusLifeTime);
       change('rewards.bonus.claimable', claimable);
       change('rewards.bonus.wagerWinMultiplier', multiplier);
+
+      if (bonusTemplateUUID) {
+        this.loadBonusTemplateData(bonusTemplateUUID);
+      } else {
+        this.resetBonusTemplateData();
+      }
     }
+  };
+
+  loadBonusTemplateData = async (bonusTemplateUUID) => {
+    const action = await this.props.fetchBonusTemplate(bonusTemplateUUID);
+
+    if (action && !action.error) {
+      const {
+        uuid,
+        name,
+        moneyTypePriority,
+        lockAmountStrategy,
+        bonusLifeTime,
+        grantRatio,
+        wageringRequirement,
+        claimable,
+      } = action.payload;
+
+      this.setField('bonus.templateUUID', uuid);
+      this.setField('bonus.name', name);
+      this.setField('bonus.moneyTypePriority', moneyTypePriority);
+      this.setField('bonus.lockAmountStrategy', lockAmountStrategy);
+      this.setField('bonus.maxBet', get(action.payload, 'maxBet.currencies[0].amount', ''));
+      this.setField('bonus.bonusLifeTime', bonusLifeTime);
+      this.setField('bonus.grantRatio.type', grantRatio.ratioType);
+      this.setField('bonus.grantRatio.value', get(action.payload, 'grantRatio.value.currencies[0].amount', ''));
+      this.setField('bonus.wageringRequirement', wageringRequirement);
+      this.setField('bonus.claimable', claimable);
+    }
+  };
+
+  resetBonusTemplateData = () => {
+    [
+      'bonus.templateUUID', 'bonus.name', 'bonus.moneyTypePriority',
+      'bonus.lockAmountStrategy', 'bonus.maxBet', 'bonus.bonusLifeTime',
+      'bonus.grantRatio.type', 'bonus.grantRatio.value', 'bonus.wageringRequirement', 'bonus.claimable',
+    ].forEach((field) => {
+      this.setField(field, '');
+    });
   };
 
   handleChangeTemplate = (_, templateUUID) => {
     this.setField('templateUUID', templateUUID);
 
     this.loadTemplateData(templateUUID);
+  };
+
+  handleChangeBonusTemplateData = (_, bonusTemplateUUID) => {
+    this.setField('bonus.templateUUID', bonusTemplateUUID);
+
+    this.loadBonusTemplateData(bonusTemplateUUID);
   };
 
   handleChangeGame = (gameId) => {
@@ -228,7 +287,11 @@ class FreeSpin extends Component {
       disabled,
       remove,
       providers,
-      templates,
+      freeSpinTemplates,
+      bonusTemplates,
+      typeValues,
+      change,
+      nodePath,
     } = this.props;
 
     const { _reduxForm: { form, values: { rewards } } } = this.context;
@@ -272,7 +335,7 @@ class FreeSpin extends Component {
                 disabled={customTemplate}
                 onChange={this.handleChangeTemplate}
               >
-                {templates.map(item => (
+                {freeSpinTemplates.map(item => (
                   <option key={item.uuid} value={item.uuid}>
                     {item.name}
                   </option>
@@ -469,6 +532,20 @@ class FreeSpin extends Component {
             disabled={disabled || !customTemplate}
           /> {I18n.t('COMMON.CLAIMABLE')}
         </div>
+        {
+          (customTemplate || (!customTemplate && get(currentValues, 'bonus.templateUUID', false))) &&
+          <div>
+            <hr />
+            <Bonus
+              disabled={disabled || !customTemplate}
+              typeValues={typeValues}
+              nodePath={`${nodePath}.bonus`}
+              change={change}
+              bonusTemplates={bonusTemplates}
+              handleChangeBonusTemplateData={this.handleChangeBonusTemplateData}
+            />
+          </div>
+        }
       </div>
     );
   }

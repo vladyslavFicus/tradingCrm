@@ -5,7 +5,7 @@ import {
   sourceActionCreators as freeSpinTemplatesActionCreators,
 } from '../../../../../redux/modules/freeSpinTemplates';
 
-const KEY = 'bonus-campaign/view/settings';
+const KEY = 'bonus-campaign/create/settings';
 const CREATE_FREE_SPIN_TEMPLATE = createRequestAction(`${KEY}/create-free-spin-template`);
 const FETCH_FREE_SPINS_TEMPLATES = createRequestAction(`${KEY}/fetch-free-spin-templates`);
 const FETCH_FREE_SPINS_TEMPLATE = createRequestAction(`${KEY}/fetch-free-spin-template`);
