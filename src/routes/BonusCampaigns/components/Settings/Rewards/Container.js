@@ -34,6 +34,7 @@ class Container extends Component {
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
@@ -91,6 +92,7 @@ class Container extends Component {
       fetchBonusTemplates,
       fetchBonusTemplate,
       bonusTemplates,
+      currencies,
     } = this.props;
 
     const bonusNodePath = `${nodeGroupTypes.rewards}.${nodeTypes.bonus}`;
@@ -100,6 +102,7 @@ class Container extends Component {
       case nodeTypes.bonus:
         return (
           <BonusNode
+            currencies={currencies}
             disabled={disabled}
             typeValues={allowedCustomValueTypes}
             remove={() => this.handleRemoveNode(nodeTypes.bonus)}
@@ -109,6 +112,7 @@ class Container extends Component {
       case nodeTypes.freeSpin:
         return (
           <FreeSpinNode
+            currencies={currencies}
             typeValues={allowedCustomValueTypes}
             remove={() => this.handleRemoveNode(nodeTypes.freeSpin)}
             nodePath={freeSpinNodePath}

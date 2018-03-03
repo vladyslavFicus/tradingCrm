@@ -1373,7 +1373,12 @@
           "NOT_SET": "Не задано"
         },
         "MAX_BET": "Макс. ставка",
-        "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов"
+        "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
+        "NAME": "Название",
+        "TEMPLATE": "Шаблон",
+        "WAGERING_REQUIREMENT": "Wagering requirement",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
+        "CAPPING": "Capping"
       },
       "FREE_SPIN": {
         "NAME_ALREADY_EXIST": "Имя уже существует",

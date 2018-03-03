@@ -18,6 +18,7 @@ class Bonus extends Component {
     errors: PropTypes.object,
     disabled: PropTypes.bool,
     remove: PropTypes.func.isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
@@ -55,6 +56,7 @@ class Bonus extends Component {
       errors,
       disabled,
       remove,
+      currencies,
     } = this.props;
     const { _reduxForm: { form } } = this.context;
 
@@ -81,6 +83,56 @@ class Bonus extends Component {
             </div>
           }
         </div>
+        <div className="row">
+          <div className="col-md-6">
+            <Field
+              name="currency"
+              label={I18n.t('COMMON.CURRENCY')}
+              type="select"
+              component={SelectField}
+              position="vertical"
+              disabled={disabled}
+            >
+              <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
+              {currencies.map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Field>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-6">
+            <CustomValueFieldVertical
+              id={`${form}ConversionPrize`}
+              basename={'conversionPrize'}
+              label={
+                <span>
+                  {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
+                  <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                </span>
+              }
+              typeValues={typeValues}
+              disabled={disabled}
+            />
+          </div>
+          <div className="col-md-6">
+            <CustomValueFieldVertical
+              basename={'capping'}
+              id={`${form}Capping`}
+              label={
+                <span>
+                  {I18n.t(attributeLabels.capping)}{' '}
+                  <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                </span>
+              }
+              typeValues={typeValues}
+              disabled={disabled}
+            />
+          </div>
+        </div>
+        <hr />
         <div className="row">
           <div className="col-7">
             <CustomValueFieldVertical

@@ -1362,7 +1362,12 @@
           "NOT_SET": "Not set"
         },
         "MAX_BET": "Max bet",
-        "MAX_GRANTED_AMOUNT": "Max granted amount"
+        "MAX_GRANTED_AMOUNT": "Max granted amount",
+        "NAME": "Name",
+        "TEMPLATE": "Template",
+        "WAGERING_REQUIREMENT": "Wagering requirement",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
+        "CAPPING": "Capping"
       },
       "FREE_SPIN": {
         "NAME_ALREADY_EXIST": "Name already exist",
