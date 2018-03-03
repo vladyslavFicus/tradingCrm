@@ -15,6 +15,7 @@ const attributeLabels = {
   template: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.TEMPLATE'),
   wageringRequirement: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.WAGERING_REQUIREMENT'),
   lockAmountStrategy: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.LOCK_AMOUNT_STRATEGY'),
+  capping: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.CAPPING'),
 };
 
 const attributePlaceholders = {

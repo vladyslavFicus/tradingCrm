@@ -116,23 +116,14 @@ class Settings extends Component {
   pollingFreeSpinTemplate = null;
 
   startPollingFreeSpinTemplate = uuid => new Promise((resolve) => {
-    const { addNotification } = this.context;
-
     this.pollingFreeSpinTemplate = setInterval(async () => {
       const action = await this.props.fetchFreeSpinTemplate(uuid);
 
       if (action && !action.error) {
         const { status } = action.payload;
-        if (status === freeSpinTemplateStatuses.CREATED) {
+        if (status === freeSpinTemplateStatuses.CREATED || status === freeSpinTemplateStatuses.FAILED) {
           this.stopPollingFreeSpinTemplate();
-          resolve();
-        } else if (status === freeSpinTemplateStatuses.FAILED) {
-          addNotification({
-            level: 'error',
-            title: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR'),
-          });
-          this.stopPollingFreeSpinTemplate();
-          resolve();
+          resolve({ success: status === freeSpinTemplateStatuses.CREATED });
         }
       }
     }, POLLING_FREE_SPIN_TEMPLATE_INTERVAL);
@@ -197,8 +188,9 @@ class Settings extends Component {
       createFreeSpinTemplate,
       createBonusTemplate,
       handleSubmit,
-      baseCurrency,
     } = this.props;
+
+    const { currency } = formData;
 
     let data = { ...formData };
     let rewardsFreeSpin = get(data, 'rewards.freeSpin');
@@ -209,7 +201,7 @@ class Settings extends Component {
         betPerLineAmounts: [
           {
             amount: rewardsFreeSpin.betPerLine,
-            currency: baseCurrency,
+            currency,
           },
         ],
       };
@@ -217,6 +209,13 @@ class Settings extends Component {
 
       let bonus = get(rewardsFreeSpin, 'bonus');
       if (bonus) {
+        data = {
+          ...data,
+          claimable: get(bonus, 'claimable', false),
+          wagerWinMultiplier: bonus.wageringRequirement.value,
+          bonusLifeTime: bonus.bonusLifeTime,
+        };
+
         if (bonus.templateUUID) {
           rewardsFreeSpin.bonusTemplateUUID = bonus.templateUUID;
         } else {
@@ -224,7 +223,7 @@ class Settings extends Component {
             bonus.maxBet = {
               currencies: [{
                 amount: bonus.maxBet,
-                currency: baseCurrency,
+                currency,
               }],
             };
           }
@@ -239,7 +238,7 @@ class Settings extends Component {
               maxGrantAmount: {
                 currencies: [{
                   amount: bonus.maxGrantAmount,
-                  currency: baseCurrency,
+                  currency,
                 }],
               },
             };
@@ -255,7 +254,7 @@ class Settings extends Component {
                 value: {
                   currencies: [{
                     amount: bonus.grantRatio.value,
-                    currency: baseCurrency,
+                    currency,
                   }],
                 },
               };
@@ -291,14 +290,18 @@ class Settings extends Component {
       if (rewardsFreeSpin.templateUUID) {
         rewardsFreeSpinData = rewardsFreeSpin;
       } else {
-        const createAction = await createFreeSpinTemplate({
-          claimable: false,
-          ...rewardsFreeSpin,
-        });
+        const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
 
         if (createAction && !createAction.error) {
-          rewardsFreeSpinData = createAction.payload;
-          await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
+          rewardsFreeSpinData.templateUUID = createAction.payload.uuid;
+          const polling = await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
+          if (!polling.success) {
+            this.context.addNotification({
+              level: 'error',
+              title: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR'),
+            });
+            throw new SubmissionError({ __error: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR') });
+          }
         } else {
           throw new SubmissionError({
             rewards: {

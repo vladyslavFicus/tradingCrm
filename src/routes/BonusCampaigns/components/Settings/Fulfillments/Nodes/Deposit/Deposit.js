@@ -17,6 +17,7 @@ class Deposit extends Component {
     locale: PropTypes.string.isRequired,
     fetchPaymentMethods: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
@@ -37,6 +38,7 @@ class Deposit extends Component {
       disabled,
       locale,
       paymentMethods,
+      currencies,
     } = this.props;
 
     return (
@@ -57,6 +59,25 @@ class Deposit extends Component {
               </button>
             </div>
           }
+        </div>
+        <div className="row">
+          <div className="col-6">
+            <Field
+              name="currency"
+              label={I18n.t('COMMON.CURRENCY')}
+              type="select"
+              component={SelectField}
+              position="vertical"
+              disabled={disabled}
+            >
+              <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
+              {currencies.map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Field>
+          </div>
         </div>
         <div className="row">
           <div className="col-6 form-group">

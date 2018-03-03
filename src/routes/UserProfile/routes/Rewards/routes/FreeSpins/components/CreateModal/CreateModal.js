@@ -657,7 +657,7 @@ const CreateModalReduxForm = reduxForm({
     }
 
     if (values.aggregatorId === aggregators.microgaming) {
-      rules.approxeBetValue = ['required', 'numeric', 'min:1'];
+      rules.approxeBetValue = ['required', 'numeric'];
     } else {
       rules.betPerLine = ['required', 'numeric', 'max:1000'];
       rules.linesPerSpin = ['required', 'integer'];

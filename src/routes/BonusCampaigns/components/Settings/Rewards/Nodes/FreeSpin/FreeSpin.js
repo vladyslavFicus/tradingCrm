@@ -6,12 +6,7 @@ import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
 import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
 import Amount, { Currency } from '../../../../../../../components/Amount';
-import renderLabel from '../../../../../../../utils/renderLabel';
-import {
-  attributeLabels,
-  attributePlaceholders,
-} from './constants';
-import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../constants/bonus-campaigns';
+import { attributeLabels } from './constants';
 import floatNormalize from '../../../../../../../utils/floatNormalize';
 import Bonus from './Bonus';
 
@@ -29,6 +24,7 @@ class FreeSpin extends Component {
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     typeValues: PropTypes.arrayOf(PropTypes.string),
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
@@ -82,7 +78,7 @@ class FreeSpin extends Component {
   };
 
   loadTemplateData = async (templateUUID) => {
-    const { fetchFreeSpinTemplate, change } = this.props;
+    const { fetchFreeSpinTemplate } = this.props;
 
     const action = await fetchFreeSpinTemplate(templateUUID);
     if (action && !action.error) {
@@ -91,10 +87,6 @@ class FreeSpin extends Component {
         providerId,
         gameId,
         freeSpinsAmount,
-        multiplier,
-        moneyTypePriority,
-        bonusLifeTime,
-        claimable,
         betPerLineAmounts,
         linesPerSpin,
         bonusTemplateUUID,
@@ -111,16 +103,8 @@ class FreeSpin extends Component {
 
       this.setField('name', name);
       this.setField('freeSpinsAmount', freeSpinsAmount);
-      this.setField('multiplier', multiplier);
-      this.setField('moneyTypePriority', moneyTypePriority);
-      this.setField('bonusLifeTime', bonusLifeTime);
-      this.setField('claimable', claimable);
       this.setField('betPerLine', betPerLine);
       this.setField('linesPerSpin', linesPerSpin);
-
-      change('rewards.bonus.bonusLifeTime', bonusLifeTime);
-      change('rewards.bonus.claimable', claimable);
-      change('rewards.bonus.wagerWinMultiplier', multiplier);
 
       if (bonusTemplateUUID) {
         this.loadBonusTemplateData(bonusTemplateUUID);
@@ -292,6 +276,7 @@ class FreeSpin extends Component {
       typeValues,
       change,
       nodePath,
+      currencies,
     } = this.props;
 
     const { _reduxForm: { form, values: { rewards } } } = this.context;
@@ -321,6 +306,27 @@ class FreeSpin extends Component {
             </div>
           }
         </div>
+
+        <div className="row">
+          <div className="col-md-6">
+            <Field
+              name="currency"
+              label={I18n.t('COMMON.CURRENCY')}
+              type="select"
+              component={SelectField}
+              position="vertical"
+              disabled={disabled}
+            >
+              <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
+              {currencies.map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Field>
+          </div>
+        </div>
+
         <If condition={!disabled}>
           <div className="row">
             <div className="col-8">
@@ -458,79 +464,6 @@ class FreeSpin extends Component {
           <div className="col-5">
             {this.renderPrice()}
           </div>
-        </div>
-        <hr />
-        <div className="row">
-          <div className="col">
-            <Field
-              name={this.buildFieldName('multiplier')}
-              type="number"
-              id={`${form}Multiplier`}
-              placeholder="0"
-              label={I18n.t(attributeLabels.wagering)}
-              component={InputField}
-              normalize={floatNormalize}
-              position="vertical"
-              disabled={disabled || !customTemplate}
-              showErrorMessage={false}
-            />
-          </div>
-          <div className="col">
-            <Field
-              name={this.buildFieldName('moneyTypePriority')}
-              type="text"
-              id={`${form}MoneyTypePriority`}
-              label={I18n.t(attributeLabels.moneyPriority)}
-              component={SelectField}
-              position="vertical"
-              disabled={disabled || !customTemplate}
-              showErrorMessage={false}
-            >
-              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-              {Object.keys(moneyTypeUsage).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, moneyTypeUsageLabels)}
-                </option>
-              ))}
-            </Field>
-          </div>
-          <div className="col">
-            <Field
-              name={this.buildFieldName('maxBet')}
-              type="text"
-              id={`${form}MaxBet`}
-              placeholder="0"
-              label={I18n.t(attributeLabels.maxBet)}
-              component={InputField}
-              position="vertical"
-              disabled={disabled || !customTemplate}
-              iconRightClassName="nas nas-currencies_icon"
-            />
-          </div>
-          <div className="col form-row_with-placeholder-right">
-            <Field
-              name={this.buildFieldName('bonusLifeTime')}
-              id={`${form}BonusLifeTime`}
-              type="number"
-              placeholder="0"
-              label={I18n.t(attributeLabels.lifeTime)}
-              component={InputField}
-              normalize={floatNormalize}
-              position="vertical"
-              disabled={disabled || !customTemplate}
-              showErrorMessage={false}
-            />
-            <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-          </div>
-        </div>
-        <div className="form-group">
-          <Field
-            name={this.buildFieldName('claimable')}
-            id={`${form}Claimable`}
-            type="checkbox"
-            component="input"
-            disabled={disabled || !customTemplate}
-          /> {I18n.t('COMMON.CLAIMABLE')}
         </div>
         {
           (customTemplate || (!customTemplate && get(currentValues, 'bonus.templateUUID', false))) &&
