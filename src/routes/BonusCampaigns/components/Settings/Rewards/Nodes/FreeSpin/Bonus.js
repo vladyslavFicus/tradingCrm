@@ -49,8 +49,8 @@ class Bonus extends Component {
   componentDidMount() {
     const { _reduxForm: { autofill } } = this.context;
 
-    autofill(this.buildFieldName('grantRatio.type'), customValueFieldTypes.ABSOLUTE);
-    autofill(this.buildFieldName('wageringRequirement.type'), customValueFieldTypes.ABSOLUTE);
+    autofill(this.buildFieldName('grantRatio.type'), typeValues[0]);
+    autofill(this.buildFieldName('wageringRequirement.type'), typeValues[0]);
   }
 
   componentWillReceiveProps({ typeValues: nextTypeValues }) {
@@ -140,7 +140,7 @@ class Bonus extends Component {
               <label>
                 <input
                   type="checkbox"
-                  id={`${form}CustomTemplate`}
+                  id={`${form}BonusCustomTemplate`}
                   onChange={this.toggleCustomTemplate}
                   checked={customTemplate}
                 /> Custom Template
@@ -154,7 +154,7 @@ class Bonus extends Component {
             <Field
               name={this.buildFieldName('name')}
               type="text"
-              id={`${form}Name`}
+              id={`${form}BonusName`}
               placeholder=""
               showErrorMessage={false}
               label={I18n.t(attributeLabels.name)}
@@ -169,7 +169,7 @@ class Bonus extends Component {
           <div className="col-7">
             <CustomValueFieldVertical
               disabled={disabled || !customTemplate}
-              id={`${form}GrantRatio`}
+              id={`${form}BonusGrantRatio`}
               basename={this.buildFieldName('grantRatio')}
               label={I18n.t(attributeLabels.grant)}
               typeValues={typeValues}
@@ -202,7 +202,7 @@ class Bonus extends Component {
           <div className="col-12">
             <CustomValueFieldVertical
               disabled={disabled || !customTemplate}
-              id={`${form}wageringRequirement`}
+              id={`${form}BonusWageringRequirement`}
               basename={this.buildFieldName('wageringRequirement')}
               label={I18n.t(attributeLabels.wageringRequirement)}
               errors={errors}
@@ -225,7 +225,7 @@ class Bonus extends Component {
             <Field
               name={this.buildFieldName('moneyTypePriority')}
               type="text"
-              id={`${form}MoneyTypePriority`}
+              id={`${form}BonusMoneyTypePriority`}
               label={I18n.t(attributeLabels.moneyPrior)}
               component={SelectField}
               position="vertical"
@@ -242,6 +242,7 @@ class Bonus extends Component {
           <div className="col-6">
             <Field
               name={this.buildFieldName('lockAmountStrategy')}
+              id={`${form}BonusLockAmountStrategy`}
               label={I18n.t(attributeLabels.lockAmountStrategy)}
               type="select"
               component={SelectField}
@@ -262,6 +263,7 @@ class Bonus extends Component {
           <div className="col-6">
             <Field
               name={this.buildFieldName('maxBet')}
+              id={`${form}BonusMaxBet`}
               placeholder="0"
               label={I18n.t(attributeLabels.maxBet)}
               component={InputField}
@@ -275,7 +277,7 @@ class Bonus extends Component {
           <div className="col-6 form-row_with-placeholder-right">
             <Field
               name={this.buildFieldName('bonusLifeTime')}
-              id={`${form}bonusLifeTime`}
+              id={`${form}BonusLifeTime`}
               type="number"
               placeholder="0"
               normalize={floatNormalize}
