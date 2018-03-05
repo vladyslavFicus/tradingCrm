@@ -1,6 +1,31 @@
 import { CALL_API } from 'redux-api-middleware';
 import buildQueryString from '../../utils/buildQueryString';
 
+function createBonusTemplate(type) {
+  return data => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: 'bonus_template/templates',
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 function fetchBonusTemplates(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -52,6 +77,7 @@ function fetchBonusTemplate(type) {
 const sourceActionCreators = {
   fetchBonusTemplates,
   fetchBonusTemplate,
+  createBonusTemplate,
 };
 
 export {

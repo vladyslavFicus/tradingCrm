@@ -284,8 +284,7 @@ class Settings extends Component {
           });
 
           if (action && !action.error) {
-            const bonusTemplateUUID = action.payload.templateUUID;
-            rewardsFreeSpin.bonusTemplateUUID = bonusTemplateUUID;
+            rewardsFreeSpin.bonusTemplateUUID = action.payload.uuid;
           } else if (action.payload.response && action.payload.response.error) {
             const fieldErrors = recognizeFieldError(action.payload.response.error, mapResponseErrorToField);
             if (fieldErrors) {
@@ -311,8 +310,7 @@ class Settings extends Component {
         const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
 
         if (createAction && !createAction.error) {
-          console.log('templateUUID', createAction.payload.templateUUID);
-          rewardsFreeSpinData.templateUUID = createAction.payload.templateUUID;
+          rewardsFreeSpinData.templateUUID = createAction.payload.uuid;
           const polling = await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
           if (!polling.success) {
             this.context.addNotification({

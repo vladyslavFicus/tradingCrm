@@ -1,4 +1,3 @@
-import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 
@@ -13,42 +12,7 @@ const CREATE_BONUS_TEMPLATE = createRequestAction(`${KEY}/create-bonus-template`
 
 const fetchBonusTemplates = bonusTemplatesActionCreators.fetchBonusTemplates(FETCH_BONUS_TEMPLATES);
 const fetchBonusTemplate = bonusTemplatesActionCreators.fetchBonusTemplate(FETCH_BONUS_TEMPLATE);
-
-function createBonusTemplate(data) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: 'bonus_template/templates',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(data),
-        types: [
-          CREATE_BONUS_TEMPLATE.REQUEST,
-          {
-            type: CREATE_BONUS_TEMPLATE.SUCCESS,
-            payload: (action, state, res) => {
-              const contentType = res.headers.get('Content-Type');
-
-              if (contentType && ~contentType.indexOf('json')) {
-                return res.json().then(json => ({
-                  templateUUID: json.uuid,
-                }));
-              }
-            },
-          },
-          CREATE_BONUS_TEMPLATE.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
+const createBonusTemplate = bonusTemplatesActionCreators.createBonusTemplate(CREATE_BONUS_TEMPLATE);
 
 const initialState = {
   data: [],
