@@ -63,8 +63,8 @@ const nodeGroupTypes = keyMirror({
 });
 
 export {
-  attributeLabels,
   nodeGroupTypes,
+  attributeLabels,
   attributePlaceholders,
   optInPeriods,
   optInPeriodsLabels,

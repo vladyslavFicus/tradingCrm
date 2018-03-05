@@ -8,8 +8,8 @@ import {
 } from '../../../../../../../components/ReduxForm';
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from '../Bonus/constants';
-import { customValueFieldTypes } from '../../../../../../../constants/form';
 import floatNormalize from '../../../../../../../utils/floatNormalize';
+import { customValueFieldTypes } from '../../../../../../../constants/form';
 import {
   lockAmountStrategy,
   lockAmountStrategyLabels,
