@@ -717,7 +717,8 @@
     "WEEKS": "Weeks",
     "NONE": "None",
     "REMOVE": "Remove",
-    "CLAIMABLE": "Claimable"
+    "CLAIMABLE": "Claimable",
+    "CURRENCY": "Currency"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1392,6 +1393,9 @@
           "DAYS": "days",
           "NOT_SET": "Not set"
         }
+      },
+      "BONUS_TEMPLATE": {
+        "CREATION_ERROR": "Bonus template creation error"
       }
     },
     "CURRENCY_CALC_MODAL": {
@@ -1473,7 +1477,7 @@
         }
       }
     },
-    "template" : {
+    "template": {
       "name": {
         "already-exists": "Name already exist"
       }

@@ -723,7 +723,8 @@
     "WEEKS": "Недели",
     "NONE": "Ни одного",
     "REMOVE": "Удалить",
-    "CLAIMABLE": "Claimable"
+    "CLAIMABLE": "Claimable",
+    "CURRENCY": "Валюта"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1403,6 +1404,9 @@
           "DAYS": "дней",
           "NOT_SET": "Не задано"
         }
+      },
+      "BONUS_TEMPLATE": {
+        "CREATION_ERROR": "Ошибка создания бонус шаблона"
       }
     },
     "CURRENCY_CALC_MODAL": {
@@ -1488,7 +1492,7 @@
         }
       }
     },
-    "template" : {
+    "template": {
       "name": {
         "already-exists": "Имя уже существует"
       }
