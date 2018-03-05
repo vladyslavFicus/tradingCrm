@@ -1381,7 +1381,6 @@
         "CAPPING": "Capping"
       },
       "FREE_SPIN": {
-        "NAME_ALREADY_EXIST": "Имя уже существует",
         "ADD_REWARDS": "Добавить награду",
         "SELECT_REWARDS": "-- Выбрать награду --",
         "BET_PER_LINE": "Бет за линию",
@@ -1487,6 +1486,11 @@
         "activate": {
           "notAllow": "Не разрешено"
         }
+      }
+    },
+    "template" : {
+      "name": {
+        "already-exists": "Имя уже существует"
       }
     }
   },

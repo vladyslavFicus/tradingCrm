@@ -10,6 +10,8 @@ import { statuses as freeSpinTemplateStatuses } from '../../../../constants/free
 import CurrencyCalculationModal from '../../components/CurrencyCalculationModal';
 import AddToCampaignModal from '../../../../components/AddToCampaignModal';
 import { customValueFieldTypes } from '../../../../constants/form';
+import recognizeFieldError from '../../../../utils/recognizeFieldError';
+import { mapResponseErrorToField } from './constants';
 
 const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
 const CHOOSE_CAMPAIGN_MODAL = 'choose-campaign-modal';
@@ -305,14 +307,23 @@ class Settings extends Component {
             });
             throw new SubmissionError({ __error: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR') });
           }
-        } else {
-          throw new SubmissionError({
-            rewards: {
-              freeSpin: {
-                name: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.NAME_ALREADY_EXIST'),
+        } else if (Object.keys(createAction.payload.response.fields_errors).length) {
+          const errors = Object.keys(createAction.payload.response.fields_errors).reduce((res, name) => ({
+            ...res,
+            [name]: I18n.t(createAction.payload.response.fields_errors[name].error),
+          }), {});
+          throw new SubmissionError(errors);
+        } else if (createAction.payload.response && createAction.payload.response.error) {
+          const fieldErrors = recognizeFieldError(createAction.payload.response.error, mapResponseErrorToField);
+          if (fieldErrors) {
+            throw new SubmissionError({
+              rewards: {
+                freeSpin: fieldErrors,
               },
-            },
-          });
+            });
+          } else {
+            throw new SubmissionError({ __error: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR') });
+          }
         }
       }
 

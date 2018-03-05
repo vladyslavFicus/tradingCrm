@@ -47,6 +47,7 @@ const optInPeriods = keyMirror({
 
 const mapResponseErrorToField = {
   'promo-code': 'promoCode',
+  'already-exists': 'name',
 };
 
 const optInPeriodsLabels = {
