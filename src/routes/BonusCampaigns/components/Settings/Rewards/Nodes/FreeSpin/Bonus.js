@@ -157,7 +157,6 @@ class Bonus extends Component {
               type="text"
               id={`${form}BonusName`}
               placeholder=""
-              showErrorMessage={false}
               label={I18n.t(attributeLabels.name)}
               component={InputField}
               position="vertical"
