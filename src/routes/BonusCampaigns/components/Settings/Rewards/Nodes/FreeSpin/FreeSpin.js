@@ -5,10 +5,10 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
 import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
-import Amount, { Currency } from '../../../../../../../components/Amount';
 import { attributeLabels } from './constants';
+import Amount, { Currency } from '../../../../../../../components/Amount';
+import { customValueFieldTypes } from '../../../../../../../constants/form';
 import floatNormalize from '../../../../../../../utils/floatNormalize';
-import { customValueFieldTypes } from '../../../../../../../constants/form'
 import Bonus from './Bonus';
 
 class FreeSpin extends Component {

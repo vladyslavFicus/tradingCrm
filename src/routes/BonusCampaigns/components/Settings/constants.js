@@ -66,8 +66,8 @@ export {
   attributeLabels,
   nodeGroupTypes,
   attributePlaceholders,
-  optInPeriods,
   optInPeriodsLabels,
+  optInPeriods,
   mapResponseErrorToField,
 };
 
