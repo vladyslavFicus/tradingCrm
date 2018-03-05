@@ -46,6 +46,13 @@ class Bonus extends Component {
     customTemplate: false,
   };
 
+  componentDidMount() {
+    const { _reduxForm: { autofill } } = this.context;
+
+    autofill(this.buildFieldName('grantRatio.type'), customValueFieldTypes.ABSOLUTE);
+    autofill(this.buildFieldName('wageringRequirement.type'), customValueFieldTypes.ABSOLUTE);
+  }
+
   componentWillReceiveProps({ typeValues: nextTypeValues }) {
     const { _reduxForm: { autofill } } = this.context;
     const { typeValues } = this.props;
@@ -241,6 +248,7 @@ class Bonus extends Component {
               position="vertical"
               disabled={disabled || !customTemplate}
             >
+              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
               {Object.keys(lockAmountStrategy).map(key => (
                 <option key={key} value={key}>
                   {renderLabel(key, lockAmountStrategyLabels)}

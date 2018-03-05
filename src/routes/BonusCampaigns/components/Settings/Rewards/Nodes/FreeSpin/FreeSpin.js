@@ -8,6 +8,7 @@ import { InputField, SelectField, NasSelectField } from '../../../../../../../co
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { attributeLabels } from './constants';
 import floatNormalize from '../../../../../../../utils/floatNormalize';
+import { customValueFieldTypes } from '../../../../../../../constants/form'
 import Bonus from './Bonus';
 
 class FreeSpin extends Component {
@@ -127,6 +128,7 @@ class FreeSpin extends Component {
         grantRatio,
         wageringRequirement,
         claimable,
+        maxGrantAmount,
       } = action.payload;
 
       this.setField('bonus.templateUUID', uuid);
@@ -136,7 +138,17 @@ class FreeSpin extends Component {
       this.setField('bonus.maxBet', get(action.payload, 'maxBet.currencies[0].amount', ''));
       this.setField('bonus.bonusLifeTime', bonusLifeTime);
       this.setField('bonus.grantRatio.type', grantRatio.ratioType);
-      this.setField('bonus.grantRatio.value', get(action.payload, 'grantRatio.value.currencies[0].amount', ''));
+
+      if (grantRatio.ratioType === customValueFieldTypes.ABSOLUTE) {
+        this.setField('bonus.grantRatio.value', get(action.payload, 'grantRatio.value.currencies[0].amount', ''));
+      } else if (grantRatio.ratioType === customValueFieldTypes.PERCENTAGE) {
+        this.setField('bonus.grantRatio.value', get(action.payload, 'grantRatio.percentage', ''));
+      }
+
+      if (maxGrantAmount) {
+        this.setField('bonus.maxGrantAmount', get(action.payload, 'maxGrantAmount.currencies[0].amount', ''));
+      }
+
       this.setField('bonus.wageringRequirement', wageringRequirement);
       this.setField('bonus.claimable', claimable);
     }

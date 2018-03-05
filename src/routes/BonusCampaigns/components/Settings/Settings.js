@@ -220,11 +220,14 @@ class Settings extends Component {
           rewardsFreeSpin.bonusTemplateUUID = bonus.templateUUID;
         } else {
           if (bonus.maxBet) {
-            bonus.maxBet = {
-              currencies: [{
-                amount: bonus.maxBet,
-                currency,
-              }],
+            bonus = {
+              ...bonus,
+              maxBet: {
+                currencies: [{
+                  amount: bonus.maxBet,
+                  currency,
+                }],
+              },
             };
           }
 
@@ -293,7 +296,7 @@ class Settings extends Component {
         const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
 
         if (createAction && !createAction.error) {
-          rewardsFreeSpinData.templateUUID = createAction.payload.uuid;
+          rewardsFreeSpinData.templateUUID = createAction.payload.templateUUID;
           const polling = await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
           if (!polling.success) {
             this.context.addNotification({
