@@ -8,8 +8,8 @@ import { statuses } from '../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../constants/propTypes';
 import { statuses as freeSpinTemplateStatuses } from '../../../../constants/free-spin-template';
 import CurrencyCalculationModal from '../../components/CurrencyCalculationModal';
-import AddToCampaignModal from '../../../../components/AddToCampaignModal';
 import recognizeFieldError from '../../../../utils/recognizeFieldError';
+import AddToCampaignModal from '../../../../components/AddToCampaignModal';
 import { customValueFieldTypes } from '../../../../constants/form';
 import { mapResponseErrorToField } from './constants';
 
@@ -298,6 +298,7 @@ class Settings extends Component {
         const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
 
         if (createAction && !createAction.error) {
+          console.log('templateUUID', createAction.payload.templateUUID);
           rewardsFreeSpinData.templateUUID = createAction.payload.templateUUID;
           const polling = await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
           if (!polling.success) {
