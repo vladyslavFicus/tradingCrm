@@ -48,6 +48,7 @@ class Bonus extends Component {
 
   componentDidMount() {
     const { _reduxForm: { autofill } } = this.context;
+    const { typeValues } = this.props;
 
     autofill(this.buildFieldName('grantRatio.type'), typeValues[0]);
     autofill(this.buildFieldName('wageringRequirement.type'), typeValues[0]);
