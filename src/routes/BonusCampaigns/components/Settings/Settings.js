@@ -286,6 +286,19 @@ class Settings extends Component {
           if (action && !action.error) {
             const bonusTemplateUUID = action.payload.templateUUID;
             rewardsFreeSpin.bonusTemplateUUID = bonusTemplateUUID;
+          } else if (action.payload.response && action.payload.response.error) {
+            const fieldErrors = recognizeFieldError(action.payload.response.error, mapResponseErrorToField);
+            if (fieldErrors) {
+              throw new SubmissionError({
+                rewards: {
+                  freeSpin: {
+                    bonus: fieldErrors,
+                  },
+                },
+              });
+            } else {
+              throw new SubmissionError({ __error: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS_TEMPLATE.CREATION_ERROR') });
+            }
           }
         }
       }
