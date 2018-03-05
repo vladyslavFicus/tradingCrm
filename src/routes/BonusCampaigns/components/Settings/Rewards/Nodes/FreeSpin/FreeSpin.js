@@ -7,8 +7,8 @@ import { statuses as freeSpinTemplate } from '../../../../../../../constants/fre
 import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { attributeLabels } from './constants';
-import { customValueFieldTypes } from '../../../../../../../constants/form';
 import floatNormalize from '../../../../../../../utils/floatNormalize';
+import { customValueFieldTypes } from '../../../../../../../constants/form'
 import Bonus from './Bonus';
 
 class FreeSpin extends Component {

@@ -9,8 +9,8 @@ import PropTypes from '../../../../constants/propTypes';
 import { statuses as freeSpinTemplateStatuses } from '../../../../constants/free-spin-template';
 import CurrencyCalculationModal from '../../components/CurrencyCalculationModal';
 import AddToCampaignModal from '../../../../components/AddToCampaignModal';
-import recognizeFieldError from '../../../../utils/recognizeFieldError';
 import { customValueFieldTypes } from '../../../../constants/form';
+import recognizeFieldError from '../../../../utils/recognizeFieldError';
 import { mapResponseErrorToField } from './constants';
 
 const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
