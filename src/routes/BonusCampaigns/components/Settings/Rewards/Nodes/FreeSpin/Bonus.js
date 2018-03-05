@@ -22,7 +22,6 @@ class Bonus extends Component {
   static propTypes = {
     typeValues: PropTypes.array.isRequired,
     nodePath: PropTypes.string.isRequired,
-    errors: PropTypes.object,
     disabled: PropTypes.bool,
     remove: PropTypes.func,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
@@ -33,7 +32,6 @@ class Bonus extends Component {
   static defaultProps = {
     disabled: false,
     limits: true,
-    errors: {},
     remove: null,
     bonusTemplates: [],
   };
@@ -83,7 +81,6 @@ class Bonus extends Component {
   render() {
     const {
       typeValues,
-      errors,
       disabled,
       remove,
       nodePath,
@@ -173,7 +170,6 @@ class Bonus extends Component {
               basename={this.buildFieldName('grantRatio')}
               label={I18n.t(attributeLabels.grant)}
               typeValues={typeValues}
-              errors={errors}
               valueFieldProps={{
                 type: 'number',
                 normalize: floatNormalize,
@@ -205,7 +201,6 @@ class Bonus extends Component {
               id={`${form}BonusWageringRequirement`}
               basename={this.buildFieldName('wageringRequirement')}
               label={I18n.t(attributeLabels.wageringRequirement)}
-              errors={errors}
               valueFieldProps={{
                 type: 'number',
                 normalize: floatNormalize,

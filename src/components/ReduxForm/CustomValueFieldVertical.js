@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import renderLabel from '../../utils/renderLabel';
 import { customValueFieldTypesLabels } from '../../constants/form';
 
-const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors } }) => {
+const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors, meta } }) => {
   const {
     id,
     basename,
@@ -19,8 +19,8 @@ const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors } })
     valueFieldProps,
   } = props;
 
-  const typeError = get(errors, `${basename}.type`);
-  const valueError = get(errors, `${basename}.value`);
+  const typeError = get(errors, `${basename}.type`) && get(meta, `${basename}.type.touched`);
+  const valueError = get(errors, `${basename}.value`) && get(meta, `${basename}.value.touched`);
 
   const classList = {
     formGroup: classNames('form-group', {

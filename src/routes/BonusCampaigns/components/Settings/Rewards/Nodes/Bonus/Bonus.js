@@ -15,7 +15,6 @@ class Bonus extends Component {
   static propTypes = {
     typeValues: PropTypes.array.isRequired,
     nodePath: PropTypes.string.isRequired,
-    errors: PropTypes.object,
     disabled: PropTypes.bool,
     remove: PropTypes.func.isRequired,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -24,7 +23,6 @@ class Bonus extends Component {
   static defaultProps = {
     disabled: false,
     limits: true,
-    errors: {},
   };
 
   static contextTypes = {
@@ -53,13 +51,11 @@ class Bonus extends Component {
   render() {
     const {
       typeValues,
-      errors,
       disabled,
       remove,
       currencies,
     } = this.props;
     const { _reduxForm: { form } } = this.context;
-
 
     const { _reduxForm: { values: { rewards } } } = this.context;
     const campaignRatioType = get(rewards, 'bonus.campaignRatio.type');
@@ -141,7 +137,6 @@ class Bonus extends Component {
               basename={this.buildFieldName('campaignRatio')}
               label={I18n.t(attributeLabels.grant)}
               typeValues={typeValues}
-              errors={errors}
             />
           </div>
           {
