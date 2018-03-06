@@ -74,10 +74,36 @@ function fetchBonusTemplate(type) {
   };
 }
 
+function assignBonusTemplate(type) {
+  return (uuid, data) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `bonus_template/templates/${uuid}/assign`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const sourceActionCreators = {
   fetchBonusTemplates,
   fetchBonusTemplate,
   createBonusTemplate,
+  assignBonusTemplate,
 };
 
 export {

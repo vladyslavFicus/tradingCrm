@@ -20,7 +20,13 @@ const attributeLabels = {
   lockAmountStrategy: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.LOCK_AMOUNT_STRATEGY'),
   claimable: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.CLAIMABLE'),
   maxBet: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.MAX_BET'),
-
+  name: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.NAME'),
+  maxGrantAmount: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.MAX_GRANTED_AMOUNT'),
+  wageringRequirement: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.WAGERING_REQUIREMENT'),
+  moneyPriority: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.MONEY_TYPE_PRIORITY'),
+  lifeTime: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.LIFE_TIME'),
+  useTemplate: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.USE_TEMPLATE'),
+  template: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.TEMPLATE'),
 };
 
 const lockAmountStrategyLabels = {
@@ -28,7 +34,12 @@ const lockAmountStrategyLabels = {
   [lockAmountStrategy.LOCK_PARTIAL]: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LOCK_AMOUNT_STRATEGY.LOCK_PARTIAL'),
 };
 
+const mapResponseErrorToField = {
+  'already-exists': 'name',
+};
+
 export {
   attributeLabels,
   lockAmountStrategyLabels,
+  mapResponseErrorToField,
 };

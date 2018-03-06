@@ -4,12 +4,10 @@ import createRequestAction from '../../../../../../../utils/createRequestAction'
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../../../redux/modules/note';
 import { targetTypes } from '../../../../../../../constants/note';
-import { types as bonusTypes } from '../../../../../../../constants/bonus';
 
 const KEY = 'user/bonuses/list';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 const FETCH_NOTES = createRequestAction(`${KEY}/fetch-notes`);
-const CREATE_BONUS = createRequestAction(`${KEY}/create`);
 
 const fetchNotes = noteSourceActionCreators.fetchNotesByType(FETCH_NOTES);
 const mapEntities = async (dispatch, pageable) => {
@@ -96,31 +94,6 @@ function fetchEntities(filters = {}) {
   };
 }
 
-function createBonus(data) {
-  return (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: 'bonus/bonuses',
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ ...data, bonusType: bonusTypes.Manual, optIn: data.optIn || false }),
-        types: [
-          CREATE_BONUS.REQUEST,
-          CREATE_BONUS.SUCCESS,
-          CREATE_BONUS.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
 const initialState = {
   entities: {
     first: false,
@@ -177,7 +150,6 @@ const actionTypes = {
 const actionCreators = {
   fetchEntities,
   fetchNotes,
-  createBonus,
 };
 
 export {

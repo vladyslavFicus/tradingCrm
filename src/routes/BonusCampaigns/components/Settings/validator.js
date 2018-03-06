@@ -63,7 +63,6 @@ export default (values, params) => {
         bonus: {
           name: ['string'],
           bonusLifeTime: ['integer', 'min:1', 'max:230'],
-          maxGrantedAmount: ['numeric'],
           moneyTypePriority: [`in:${Object.keys(moneyTypeUsage).join()}`],
           lockAmountStrategy: ['string'],
           maxGrantAmount: ['numeric'],
