@@ -39,8 +39,8 @@ const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors, met
       <label>
         {label}
       </label>
-      <div className="form-row">
-        <div className="col-4">
+      <div className="row no-gutters">
+        <div className="col-4 pr-3">
           <Field
             id={`${id}Value`}
             name={`${basename}.value`}

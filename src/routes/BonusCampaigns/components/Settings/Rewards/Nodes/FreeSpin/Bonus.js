@@ -188,7 +188,6 @@ class Bonus extends Component {
                 component={InputField}
                 position="vertical"
                 disabled={disabled || !customTemplate}
-                iconRightClassName="nas nas-currencies_icon"
               />
             </div>
           }
@@ -264,7 +263,6 @@ class Bonus extends Component {
               component={InputField}
               position="vertical"
               disabled={disabled || !customTemplate}
-              iconRightClassName="nas nas-currencies_icon"
               type="number"
               normalize={floatNormalize}
             />

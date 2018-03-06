@@ -10,18 +10,26 @@ import list, {
   actionTypes as listActionTypes,
   initialState as listInitialState,
 } from './list';
+import templates, {
+  initialState as templatesInitialState,
+  actionTypes as templatesActionTypes,
+  actionCreators as templatesActionCreators,
+} from './templates';
 
 const actionCreators = {
   ...listActionCreators,
   ...bonusActionCreators,
+  ...templatesActionCreators,
 };
 const actionTypes = {
   ...listActionTypes,
   ...bonusActionTypes,
+  ...templatesActionTypes,
 };
 const initialState = {
   ...listInitialState,
   ...bonusInitialState,
+  ...templatesInitialState,
 };
 
 export {
@@ -32,4 +40,5 @@ export {
 export default combineReducers({
   list,
   bonus,
+  templates,
 });
