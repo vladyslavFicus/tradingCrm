@@ -16,7 +16,7 @@ import {
   lockAmountStrategyLabels,
   moneyTypeUsage,
 } from '../../../../../../../../constants/bonus-campaigns';
-import Currency from '../../../../../../../../components/Amount/Currency';
+import { Currency } from '../../../../../../../../components/Amount';
 import findCurrencyAmount from '../../utils/findCurrencyAmount';
 
 const FORM_ID = 'manual-bonus-modal';
@@ -79,11 +79,12 @@ class CreateModal extends Component {
       if (grantAmount) {
         change('grantRatio', grantAmount);
       }
+
       if (maxBetAmount) {
         change('maxBet', maxBetAmount);
       }
 
-      if (wageringRequirement && wageringRequirement.ratioType === 'ABSOLUTE') {
+      if (wageringRequirement && wageringRequirement.ratioType === customValueFieldTypes.ABSOLUTE) {
         const wageringRequirementAmount = findCurrencyAmount(get(wageringRequirement, 'value.currencies'), currency);
 
         if (wageringRequirementAmount) {
@@ -198,7 +199,7 @@ class CreateModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-12">
+              <div className="col-12">
                 <Field
                   name="name"
                   type="text"
@@ -213,7 +214,7 @@ class CreateModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="grantRatio"
                   placeholder="0"
@@ -231,7 +232,7 @@ class CreateModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-4">
                 <Field
                   name="wageringRequirement"
                   placeholder="0"
@@ -246,7 +247,7 @@ class CreateModal extends Component {
                   id={`${FORM_ID}-amount-to-wage`}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <Field
                   name="capping"
                   label={I18n.t(attributeLabels.capping)}
@@ -259,7 +260,7 @@ class CreateModal extends Component {
                   id={`${FORM_ID}-capping`}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-4">
                 <Field
                   name="prize"
                   label={I18n.t(attributeLabels.prize)}
@@ -275,7 +276,7 @@ class CreateModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="moneyTypePriority"
                   type="text"
@@ -292,7 +293,7 @@ class CreateModal extends Component {
                   ))}
                 </Field>
               </div>
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="lockAmountStrategy"
                   label={I18n.t(attributeLabels.lockAmountStrategy)}
@@ -312,7 +313,7 @@ class CreateModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="maxBet"
                   placeholder="0"
@@ -327,7 +328,7 @@ class CreateModal extends Component {
                   id={`${FORM_ID}-max-bet`}
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="bonusLifeTime"
                   type="number"
@@ -343,7 +344,7 @@ class CreateModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="claimable"
                   type="checkbox"
@@ -366,7 +367,7 @@ class CreateModal extends Component {
               type="submit"
               className="btn btn-primary"
               disabled={pristine || submitting || invalid}
-              id="manual-bonus-modal-save-button"
+              id={`${FORM_ID}-save-button`}
             >
               {I18n.t('COMMON.SAVE')}
             </button>
