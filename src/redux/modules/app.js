@@ -1,15 +1,11 @@
 import createReducer from '../../utils/createReducer';
 import I18n from '../../utils/fake-i18n';
-import { actionTypes as windowActionTypes } from './window';
 
 const KEY = 'app';
-const SET_SCROLL_TO_TOP = `${KEY}/set-scroll-to-top`;
 const TOGGLE_MENU_TAB = `${KEY}/toggle-menu-tab`;
 const MENU_ITEM_CLICK = `${KEY}/menu-item-click`;
 
 const initialState = {
-  showScrollToTop: false,
-  isInitializedScroll: false,
   sidebarTopMenu: [
     {
       label: I18n.t('SIDEBAR.TOP_MENU.PLAYERS'),
@@ -58,13 +54,6 @@ const initialState = {
   ],
 };
 
-function setIsShowScrollTop(payload) {
-  return {
-    type: SET_SCROLL_TO_TOP,
-    payload,
-  };
-}
-
 function toggleMenuTab(index) {
   return {
     type: TOGGLE_MENU_TAB,
@@ -79,26 +68,14 @@ function menuItemClick() {
 }
 
 const actionCreators = {
-  setIsShowScrollTop,
   toggleMenuTab,
   menuItemClick,
 };
 const actionTypes = {
-  SET_SCROLL_TO_TOP,
   TOGGLE_MENU_TAB,
   MENU_ITEM_CLICK,
 };
 const actionHandlers = {
-  [SET_SCROLL_TO_TOP]: (state, action) => ({
-    ...state,
-    showScrollToTop: action.payload,
-    isInitializedScroll: state.isInitializedScroll || action.payload,
-  }),
-  [windowActionTypes.SHOW_SCROLL_TO_TOP]: (state, action) => ({
-    ...state,
-    showScrollToTop: action.payload,
-    isInitializedScroll: state.isInitializedScroll || action.payload,
-  }),
   [TOGGLE_MENU_TAB]: (state, action) => {
     const newSidebarTopMenu = [...state.sidebarTopMenu];
     const index = action.payload;

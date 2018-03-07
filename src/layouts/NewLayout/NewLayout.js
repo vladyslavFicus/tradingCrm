@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import classNames from 'classnames';
 import _ from 'lodash';
 import { getAvailableLanguages } from '../../config';
 import PropTypes from '../../constants/propTypes';
@@ -11,7 +10,6 @@ import { actionCreators as languageActionCreators } from '../../redux/modules/la
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
 import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
 import { actionCreators as appActionCreators } from '../../redux/modules/app';
-import { actionCreators as windowActionCreators } from '../../redux/modules/window';
 import NotePopover from '../../components/NotePopover';
 import MiniProfilePopover from '../../components/MiniProfilePopover';
 import Navbar from '../../components/Navbar';
@@ -84,7 +82,6 @@ class NewLayout extends Component {
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     updateOperatorProfile: PropTypes.func.isRequired,
-    setIsShowScrollTop: PropTypes.func.isRequired,
     toggleMenuTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -170,20 +167,12 @@ class NewLayout extends Component {
     };
   }
 
-  componentWillMount() {
-    window.addEventListener('scroll', this.handleScrollWindow);
-  }
-
   componentDidMount() {
     const { userPanels, resetPanels } = this.props;
 
     if (userPanels.some(panel => !panel.auth)) {
       resetPanels();
     }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScrollWindow);
   }
 
   onProfileSubmit = async ({ language, ...nextData }) => {
@@ -219,16 +208,6 @@ class NewLayout extends Component {
 
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
-  };
-
-  handleScrollWindow = () => {
-    const { app: { showScrollToTop }, setIsShowScrollTop } = this.props;
-
-    if (document.body.scrollTop > 100 && !showScrollToTop) {
-      setIsShowScrollTop(true);
-    } else if (showScrollToTop && document.body.scrollTop < 100) {
-      setIsShowScrollTop(false);
-    }
   };
 
   handleAddNoteClick = (target, item, params = {}) => {
@@ -321,10 +300,7 @@ class NewLayout extends Component {
   };
 
   handleUserPanelClick = (index) => {
-    const shouldScrollShow = !!index || document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
-
     this.props.setActivePanel(index);
-    this.props.setIsShowScrollTop(shouldScrollShow);
   };
 
   render() {
@@ -447,7 +423,6 @@ export default connect(mapStateToProps, {
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
-  setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
   toggleMenuTab: appActionCreators.toggleMenuTab,
   menuItemClick: appActionCreators.menuItemClick,
   updateOperatorProfile: authActionCreators.updateProfile,
