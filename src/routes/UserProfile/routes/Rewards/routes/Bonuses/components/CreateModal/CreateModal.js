@@ -19,7 +19,6 @@ import {
 import Currency from '../../../../../../../../components/Amount/Currency';
 import findCurrencyAmount from '../../utils/findCurrencyAmount';
 
-
 const FORM_ID = 'manual-bonus-modal';
 
 class CreateModal extends Component {
