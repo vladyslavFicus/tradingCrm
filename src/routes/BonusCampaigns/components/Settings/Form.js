@@ -126,16 +126,6 @@ class Form extends Component {
     return {};
   };
 
-  startDateValidator = toAttribute => (current) => {
-    const { currentValues } = this.props;
-
-    return currentValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
-      currentValues[toAttribute]
-        ? current.isSameOrBefore(moment(currentValues[toAttribute]))
-        : true
-    );
-  };
-
   endDateValidator = fromAttribute => (current) => {
     const { currentValues } = this.props;
 
@@ -285,7 +275,7 @@ class Form extends Component {
                     name="startDate"
                     id={`${form}StartDate`}
                     component={DateTimeField}
-                    isValidDate={this.startDateValidator('endDate')}
+                    isValidDate={() => true}
                     position="vertical"
                     disabled={disabled}
                   />
