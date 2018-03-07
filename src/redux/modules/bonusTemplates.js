@@ -40,7 +40,7 @@ function fetchBonusTemplates(type) {
           Authorization: `Bearer ${token}`,
         },
         types: [
-          type.REQUEST,
+          { type: type.REQUEST, payload: filters },
           type.SUCCESS,
           type.FAILURE,
         ],

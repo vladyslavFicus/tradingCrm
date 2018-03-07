@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { InputField, SelectField, CustomValueFieldVertical } from '../../../../../../../../components/ReduxForm';
+import { InputField, SelectField, NasSelectField } from '../../../../../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
@@ -16,7 +16,10 @@ import {
   lockAmountStrategyLabels,
   moneyTypeUsage,
 } from '../../../../../../../../constants/bonus-campaigns';
-import { wageringRequirementTypes } from '../../../../../../../../constants/bonus-template';
+import { Currency } from '../../../../../../../../components/Amount';
+import findCurrencyAmount from '../../utils/findCurrencyAmount';
+
+const FORM_NAME = 'manual-bonus-modal';
 
 class CreateModal extends Component {
   static propTypes = {
@@ -30,6 +33,7 @@ class CreateModal extends Component {
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     templates: PropTypes.array,
+    currency: PropTypes.string.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -39,27 +43,27 @@ class CreateModal extends Component {
   };
 
   state = {
-    useTemplate: false,
+    customTemplate: true,
   };
 
   componentDidMount() {
-    this.props.fetchBonusTemplates();
+    this.props.fetchBonusTemplates({ currency: this.props.currency });
   }
 
-  handleChangeTemplate = (e) => {
-    const templateUUID = e.target.value;
-    this.props.change('templateUUID', templateUUID);
+  handleChangeTemplate = (_, value) => {
+    this.props.change('templateUUID', value);
 
-    this.loadTemplateData(templateUUID);
+    return this.loadTemplateData(value);
   };
 
   loadTemplateData = async (templateUUID) => {
-    const { fetchBonusTemplate, change } = this.props;
+    const { fetchBonusTemplate, change, currency } = this.props;
     const action = await fetchBonusTemplate(templateUUID);
 
     if (action && !action.error) {
       const {
         name,
+        grantRatio,
         wageringRequirement,
         moneyTypePriority,
         lockAmountStrategyValue,
@@ -69,18 +73,25 @@ class CreateModal extends Component {
       } = action.payload;
 
       change('name', name);
-      change('grantRatio', get(action.payload, 'grantRatio.value.currencies[0].amount'));
+      const grantAmount = findCurrencyAmount(get(grantRatio, 'value.currencies'), currency);
+      const maxBetAmount = findCurrencyAmount(get(maxBet, 'currencies'));
 
-      if (wageringRequirement) {
-        const value = wageringRequirement.ratioType === 'ABSOLUTE'
-          ? get(wageringRequirement, 'value.currencies[0].amount')
-          : get(wageringRequirement, 'percentage');
-
-        change('wageringRequirement.type', wageringRequirement.ratioType);
-        change('wageringRequirement.value', value);
+      if (grantAmount) {
+        change('grantRatio', grantAmount);
       }
 
-      change('maxBet', get(maxBet, 'currencies[0].amount', ''));
+      if (maxBetAmount) {
+        change('maxBet', maxBetAmount);
+      }
+
+      if (wageringRequirement && wageringRequirement.ratioType === customValueFieldTypes.ABSOLUTE) {
+        const wageringRequirementAmount = findCurrencyAmount(get(wageringRequirement, 'value.currencies'), currency);
+
+        if (wageringRequirementAmount) {
+          change('wageringRequirement', wageringRequirementAmount);
+        }
+      }
+
       change('moneyTypePriority', moneyTypePriority);
       change('lockAmountStrategy', lockAmountStrategyValue);
       change('bonusLifeTime', bonusLifeTime);
@@ -88,7 +99,7 @@ class CreateModal extends Component {
     }
   };
 
-  toggleUseTemplate = (e) => {
+  toggleCustomTemplate = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
 
@@ -96,12 +107,42 @@ class CreateModal extends Component {
       this.props.change('templateUUID', '');
     }
 
-    this.setState({
-      useTemplate: value,
-    });
+    this.setState({ customTemplate: value });
   };
 
-  handleSubmit = data => this.props.onSubmit(this.state.useTemplate, data);
+  handleSubmit = (data) => {
+    const { currency, onSubmit } = this.props;
+    const formData = { ...data };
+
+    if (this.state.customTemplate) {
+      delete formData.templateUUID;
+    }
+
+    if (data.maxBet) {
+      formData.maxBet = {
+        currencies: [{
+          amount: data.maxBet,
+          currency,
+        }],
+      };
+    }
+
+    ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
+      if (data[key]) {
+        formData[key] = {
+          value: {
+            currencies: [{
+              amount: data[key],
+              currency,
+            }],
+          },
+          ratioType: customValueFieldTypes.ABSOLUTE,
+        };
+      }
+    });
+
+    return onSubmit(this.state.customTemplate, formData);
+  };
 
   render() {
     const {
@@ -111,9 +152,10 @@ class CreateModal extends Component {
       submitting,
       invalid,
       templates,
+      currency,
     } = this.props;
 
-    const { useTemplate } = this.state;
+    const { customTemplate } = this.state;
 
     return (
       <Modal className="create-bonus-modal" toggle={onClose} isOpen>
@@ -123,18 +165,18 @@ class CreateModal extends Component {
           </ModalHeader>
           <ModalBody>
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="templateUUID"
                   label={I18n.t(attributeLabels.template)}
                   labelClassName="form-label"
                   position="vertical"
-                  component={SelectField}
+                  component={NasSelectField}
                   showErrorMessage={false}
                   onChange={this.handleChangeTemplate}
-                  disabled={!useTemplate}
+                  disabled={customTemplate}
+                  placeholder={I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CHOOSE_TEMPLATE')}
                 >
-                  <option value="">{I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CHOOSE_TEMPLATE')}</option>
                   {templates.map(item => (
                     <option key={item.uuid} value={item.uuid}>
                       {item.name}
@@ -142,21 +184,20 @@ class CreateModal extends Component {
                   ))}
                 </Field>
               </div>
-              <div className="col-md-6">
-                <div className="form-group margin-top-15">
-                  <label>
-                    <input
-                      type="checkbox"
-                      onChange={this.toggleUseTemplate}
-                      checked={useTemplate}
-                    /> {I18n.t(attributeLabels.useTemplate)}
-                  </label>
-                </div>
+              <div className="col-4 align-self-center">
+                <label>
+                  <input
+                    type="checkbox"
+                    onChange={this.toggleCustomTemplate}
+                    checked={customTemplate}
+                    id={`${FORM_NAME}-custom-template`}
+                  /> {I18n.t(attributeLabels.customTemplate)}
+                </label>
               </div>
             </div>
 
             <div className="row">
-              <div className="col-md-12">
+              <div className="col-12">
                 <Field
                   name="name"
                   type="text"
@@ -164,55 +205,84 @@ class CreateModal extends Component {
                   label={I18n.t(attributeLabels.name)}
                   component={InputField}
                   position="vertical"
-                  disabled={useTemplate}
+                  disabled={!customTemplate}
+                  id={`${FORM_NAME}-name`}
                 />
               </div>
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="grantRatio"
                   placeholder="0"
                   label={I18n.t(attributeLabels.grantedAmount)}
                   component={InputField}
+                  inputAddon={<Currency code={currency} />}
+                  inputAddonPosition="left"
                   position="vertical"
                   type="number"
                   normalize={floatNormalize}
-                  disabled={useTemplate}
+                  disabled={!customTemplate}
+                  id={`${FORM_NAME}-granted-amount`}
                 />
               </div>
             </div>
 
             <div className="row">
-              <div className="col-md-12">
-                <CustomValueFieldVertical
-                  basename="wageringRequirement"
+              <div className="col-4">
+                <Field
+                  name="wageringRequirement"
+                  placeholder="0"
                   label={I18n.t(attributeLabels.wageringRequirement)}
-                  valueFieldProps={{
-                    type: 'number',
-                    normalize: floatNormalize,
-                  }}
-                  disabled={useTemplate}
-                >
-                  {
-                    Object.keys(wageringRequirementTypes).map(key =>
-                      <option key={key} value={key}>{key}</option>
-                    )
-                  }
-                </CustomValueFieldVertical>
+                  component={InputField}
+                  inputAddon={<Currency code={currency} />}
+                  inputAddonPosition="left"
+                  position="vertical"
+                  type="number"
+                  normalize={floatNormalize}
+                  disabled={!customTemplate}
+                  id={`${FORM_NAME}-amount-to-wage`}
+                />
+              </div>
+              <div className="col-4">
+                <Field
+                  name="capping"
+                  label={I18n.t(attributeLabels.capping)}
+                  type="text"
+                  disabled={!customTemplate}
+                  component={InputField}
+                  inputAddon={<Currency code={currency} />}
+                  inputAddonPosition="left"
+                  position="vertical"
+                  id={`${FORM_NAME}-capping`}
+                />
+              </div>
+              <div className="col-4">
+                <Field
+                  name="prize"
+                  label={I18n.t(attributeLabels.prize)}
+                  type="text"
+                  disabled={!customTemplate}
+                  component={InputField}
+                  inputAddon={<Currency code={currency} />}
+                  inputAddonPosition="left"
+                  position="vertical"
+                  id={`${FORM_NAME}-prize`}
+                />
               </div>
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="moneyTypePriority"
                   type="text"
                   label="Money type priority"
                   component={SelectField}
                   position="vertical"
-                  disabled={useTemplate}
+                  disabled={!customTemplate}
+                  id={`${FORM_NAME}-money-type-priority`}
                 >
                   {Object.keys(moneyTypeUsage).map(key => (
                     <option key={key} value={key}>
@@ -221,14 +291,15 @@ class CreateModal extends Component {
                   ))}
                 </Field>
               </div>
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="lockAmountStrategy"
                   label={I18n.t(attributeLabels.lockAmountStrategy)}
                   type="select"
                   component={SelectField}
                   position="vertical"
-                  disabled={useTemplate}
+                  disabled={!customTemplate}
+                  id={`${FORM_NAME}-lock-strategy`}
                 >
                   {Object.keys(lockAmountStrategy).map(key => (
                     <option key={key} value={key}>
@@ -240,19 +311,22 @@ class CreateModal extends Component {
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="maxBet"
                   placeholder="0"
                   label={I18n.t(attributeLabels.maxBet)}
                   component={InputField}
+                  inputAddon={<Currency code={currency} />}
+                  inputAddonPosition="left"
                   position="vertical"
                   type="number"
                   normalize={floatNormalize}
-                  disabled={useTemplate}
+                  disabled={!customTemplate}
+                  id={`${FORM_NAME}-max-bet`}
                 />
               </div>
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="bonusLifeTime"
                   type="number"
@@ -261,18 +335,19 @@ class CreateModal extends Component {
                   label={I18n.t(attributeLabels.lifeTime)}
                   component={InputField}
                   position="vertical"
-                  disabled={useTemplate}
+                  disabled={!customTemplate}
+                  id={`${FORM_NAME}-bonus-life-time`}
                 />
               </div>
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-6">
                 <Field
                   name="claimable"
                   type="checkbox"
                   component="input"
-                  disabled={useTemplate}
+                  disabled={!customTemplate}
                 /> {I18n.t('COMMON.CLAIMABLE')}
               </div>
             </div>
@@ -290,7 +365,7 @@ class CreateModal extends Component {
               type="submit"
               className="btn btn-primary"
               disabled={pristine || submitting || invalid}
-              id="manual-bonus-modal-save-button"
+              id={`${FORM_NAME}-save-button`}
             >
               {I18n.t('COMMON.SAVE')}
             </button>
@@ -301,19 +376,11 @@ class CreateModal extends Component {
   }
 }
 
-const FORM_NAME = 'bonusManage';
-
 export default reduxForm({
   form: FORM_NAME,
   initialValues: {
     moneyTypePriority: moneyTypeUsage.REAL_MONEY_FIRST,
     claimable: false,
-    grantRatio: {
-      type: customValueFieldTypes.ABSOLUTE,
-    },
-    wageringRequirement: {
-      type: customValueFieldTypes.ABSOLUTE,
-    },
     lockAmountStrategy: lockAmountStrategy.LOCK_ALL,
   },
   validate: (values) => {
@@ -323,11 +390,26 @@ export default reduxForm({
       moneyTypePriority: ['string', 'required'],
       lockAmountStrategy: ['string', 'required'],
       grantRatio: ['numeric', 'required'],
-      wageringRequirement: {
-        type: ['string', 'required'],
-        value: ['numeric', 'required'],
-      },
+      prize: ['numeric', 'min:0'],
+      capping: ['numeric', 'min:0'],
+      wageringRequirement: ['numeric', 'required'],
     };
+
+    if (values.prize) {
+      const value = parseFloat(values.prize).toFixed(2);
+
+      if (!isNaN(value)) {
+        rules.capping.push('greaterThan:prize');
+      }
+    }
+
+    if (values.capping) {
+      const value = parseFloat(values.capping).toFixed(2);
+
+      if (!isNaN(value)) {
+        rules.prize.push('lessThan:capping');
+      }
+    }
 
     return createValidator(rules, translateLabels(attributeLabels), false)(values);
   },

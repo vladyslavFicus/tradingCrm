@@ -515,7 +515,7 @@
           "BET_LEVEL": "Уровень ставки",
           "COIN_VALUE_LEVEL": "Уровень стоимости монет",
           "APPROXE_BET_VALUE": "Прим. значение ставки",
-          "USE_TEMPLATE": "Использовать шаблон",
+          "CUSTOM_TEMPLATE": "Новый шаблон",
           "TEMPLATE": "Шаблон"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
