@@ -18,7 +18,7 @@ class DateTimeField extends Component {
       name: PropTypes.string,
       value: PropTypes.any,
     }).isRequired,
-    isValidDate: PropTypes.func,
+    isValidDate: PropTypes.func.isRequired,
     label: PropTypes.string,
     labelAddon: PropTypes.any,
     labelClassName: PropTypes.string,
@@ -55,7 +55,6 @@ class DateTimeField extends Component {
     showErrorMessage: true,
     closeOnSelect: true,
     withTime: false,
-    isValidDate: null,
   };
 
   constructor(props) {

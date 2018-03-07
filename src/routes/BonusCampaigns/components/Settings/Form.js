@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Field, reduxForm, getFormValues, getFormMeta } from 'redux-form';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
 import { get, isEmpty } from 'lodash';
 import { InputField, SelectField, DateTimeField } from '../../../../components/ReduxForm';
@@ -123,6 +124,16 @@ class Form extends Component {
     }
 
     return {};
+  };
+
+  endDateValidator = fromAttribute => (current) => {
+    const { currentValues } = this.props;
+
+    return currentValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
+      currentValues[fromAttribute]
+        ? current.isSameOrAfter(moment(currentValues[fromAttribute]))
+        : true
+    );
   };
 
   handleRevert = () => {
@@ -264,6 +275,7 @@ class Form extends Component {
                     name="startDate"
                     id={`${form}StartDate`}
                     component={DateTimeField}
+                    isValidDate={() => true}
                     position="vertical"
                     disabled={disabled}
                   />
@@ -273,6 +285,7 @@ class Form extends Component {
                     name="endDate"
                     id={`${form}EndDate`}
                     component={DateTimeField}
+                    isValidDate={this.endDateValidator('startDate')}
                     position="vertical"
                     disabled={disabled}
                   />
