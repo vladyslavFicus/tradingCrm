@@ -509,7 +509,7 @@
           "BET_LEVEL": "Bet level",
           "COIN_VALUE_LEVEL": "Coin value level",
           "APPROXE_BET_VALUE": "Approx. bet value",
-          "USE_TEMPLATE": "Use template",
+          "CUSTOM_TEMPLATE": "Custom template",
           "TEMPLATE": "Template"
         },
         "FREE_SPIN_VALUE": "Free spin value",

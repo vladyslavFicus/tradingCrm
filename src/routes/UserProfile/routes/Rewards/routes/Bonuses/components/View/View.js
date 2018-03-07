@@ -19,8 +19,6 @@ import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
 import CreateModal from '../CreateModal/CreateModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
-import { wageringRequirementTypes } from '../../../../../../../../constants/bonus-template';
-import { customValueFieldTypes } from '../../../../../../../../constants/form';
 import { mapResponseErrorToField } from '../CreateModal/constants';
 import recognizeFieldError from '../../../../../../../../utils/recognizeFieldError';
 
@@ -192,7 +190,7 @@ class View extends Component {
     this.handleModalOpen(MODAL_CREATE);
   };
 
-  handleSubmitManualBonus = async (useTemplate, formData) => {
+  handleSubmitManualBonus = async (isCustomTemplate, formData) => {
     const {
       playerProfile: {
         data: {
@@ -203,60 +201,10 @@ class View extends Component {
       assignBonusTemplate,
     } = this.props;
 
-    let bonusTemplateUUID = null;
+    let bonusTemplateUUID = !isCustomTemplate ? formData.templateUUID : null;
 
-    if (useTemplate) {
-      bonusTemplateUUID = formData.templateUUID;
-    } else {
-      const data = { ...formData };
-      delete data.templateUUID;
-
-      if (data.maxBet) {
-        data.maxBet = {
-          currencies: [{
-            amount: data.maxBet,
-            currency,
-          }],
-        };
-      }
-
-      if (data.grantRatio) {
-        data.grantRatio = {
-          ratioType: customValueFieldTypes.ABSOLUTE,
-          value: {
-            currencies: [{
-              amount: data.grantRatio,
-              currency,
-            }],
-          },
-        };
-      }
-
-      if (data.wageringRequirement) {
-        let wageringValue = {};
-
-        if (data.wageringRequirement.type === wageringRequirementTypes.ABSOLUTE) {
-          wageringValue = {
-            value: {
-              currencies: [{
-                amount: data.wageringRequirement.value,
-                currency,
-              }],
-            },
-          };
-        } else {
-          wageringValue = {
-            percentage: data.wageringRequirement.value,
-          };
-        }
-
-        data.wageringRequirement = {
-          ratioType: data.wageringRequirement.type,
-          ...wageringValue,
-        };
-      }
-
-      const action = await this.props.createBonusTemplate(data);
+    if (isCustomTemplate) {
+      const action = await this.props.createBonusTemplate(formData);
 
       if (action && !action.error) {
         bonusTemplateUUID = action.payload.uuid;
@@ -269,6 +217,7 @@ class View extends Component {
           throw new SubmissionError(errors);
         } else if (action.payload.response.error) {
           const fieldError = recognizeFieldError(action.payload.response.error, mapResponseErrorToField);
+
           if (fieldError) {
             throw new SubmissionError(fieldError);
           } else {
@@ -278,15 +227,19 @@ class View extends Component {
       }
     }
 
-    await assignBonusTemplate(bonusTemplateUUID, {
-      playerUUID,
-      currency,
-      grantedAmount: formData.grantRatio,
-    });
+    const grantedAmount = formData.grantRatio.value.currencies.find(c => c.currency === currency);
 
-    this.handleModalClose(this.handleRefresh);
+    if (grantedAmount) {
+      const assignBonusTemplateAction = await assignBonusTemplate(bonusTemplateUUID, {
+        playerUUID,
+        currency,
+        grantedAmount: grantedAmount.amount,
+      });
 
-    return action;
+      this.handleModalClose(this.handleRefresh);
+
+      return assignBonusTemplateAction;
+    }
   };
 
   renderMainInfo = data => (
@@ -468,6 +421,7 @@ class View extends Component {
             fetchBonusTemplates={fetchBonusTemplates}
             fetchBonusTemplate={fetchBonusTemplate}
             templates={templates}
+            currency={playerProfile.currencyCode}
           />
         }
         {

@@ -4,7 +4,7 @@ import {
   sourceActionCreators as bonusTemplatesActionCreators,
 } from '../../../../../../../redux/modules/bonusTemplates';
 
-import { customValueFieldTypes } from '../../../../../../../constants/form'
+import { customValueFieldTypes } from '../../../../../../../constants/form';
 
 const KEY = 'user-bonus';
 const FETCH_BONUS_TEMPLATES = createRequestAction(`${KEY}/fetch-bonus-templates`);
@@ -20,23 +20,27 @@ const assignBonusTemplate = bonusTemplatesActionCreators.assignBonusTemplate(ASS
 
 const initialState = {
   data: [],
+  currency: null,
   isLoading: false,
   error: null,
   receivedAt: null,
 };
 
 const actionHandlers = {
-  [FETCH_BONUS_TEMPLATES.REQUEST]: state => ({
+  [FETCH_BONUS_TEMPLATES.REQUEST]: (state, action) => ({
     ...state,
+    currency: action.payload.currency,
     isLoading: true,
     error: null,
   }),
   [FETCH_BONUS_TEMPLATES.SUCCESS]: (state, { payload, meta: { endRequestTime } }) => ({
     ...state,
-    data: payload.filter(i => i.grantRatio.ratioType === customValueFieldTypes.ABSOLUTE).map(i => ({
-      uuid: i.uuid,
-      name: i.name,
-    })),
+    data: payload
+      .filter(i => (
+        i.grantRatio.ratioType === customValueFieldTypes.ABSOLUTE
+        && i.grantRatio.value.currencies.some(c => c.currency === state.currency)
+      ))
+      .map(i => ({ uuid: i.uuid, name: i.name })),
     isLoading: false,
     receivedAt: endRequestTime,
   }),

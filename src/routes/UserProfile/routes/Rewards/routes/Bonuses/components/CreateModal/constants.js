@@ -25,13 +25,8 @@ const attributeLabels = {
   wageringRequirement: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.WAGERING_REQUIREMENT'),
   moneyPriority: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.MONEY_TYPE_PRIORITY'),
   lifeTime: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.LIFE_TIME'),
-  useTemplate: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.USE_TEMPLATE'),
+  customTemplate: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.CUSTOM_TEMPLATE'),
   template: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LABELS.TEMPLATE'),
-};
-
-const lockAmountStrategyLabels = {
-  [lockAmountStrategy.LOCK_ALL]: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LOCK_AMOUNT_STRATEGY.LOCK_ALL'),
-  [lockAmountStrategy.LOCK_PARTIAL]: I18n.t('PLAYER_PROFILE.BONUS.MODAL_CREATE.LOCK_AMOUNT_STRATEGY.LOCK_PARTIAL'),
 };
 
 const mapResponseErrorToField = {
@@ -40,6 +35,5 @@ const mapResponseErrorToField = {
 
 export {
   attributeLabels,
-  lockAmountStrategyLabels,
   mapResponseErrorToField,
 };
