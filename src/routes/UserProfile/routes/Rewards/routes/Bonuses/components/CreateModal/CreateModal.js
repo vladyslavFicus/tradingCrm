@@ -139,8 +139,6 @@ class CreateModal extends Component {
           };
         }
       });
-
-      return onSubmit(this.state.customTemplate, formData);
     }
 
     return onSubmit(this.state.customTemplate, formData);
