@@ -116,30 +116,30 @@ class CreateModal extends Component {
 
     if (this.state.customTemplate) {
       delete formData.templateUUID;
+    }
 
-      if (data.maxBet) {
-        formData.maxBet = {
-          currencies: [{
-            amount: data.maxBet,
-            currency,
-          }],
+    if (data.maxBet) {
+      formData.maxBet = {
+        currencies: [{
+          amount: data.maxBet,
+          currency,
+        }],
+      };
+    }
+
+    ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
+      if (data[key]) {
+        formData[key] = {
+          value: {
+            currencies: [{
+              amount: data[key],
+              currency,
+            }],
+          },
+          ratioType: customValueFieldTypes.ABSOLUTE,
         };
       }
-
-      ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
-        if (data[key]) {
-          formData[key] = {
-            value: {
-              currencies: [{
-                amount: data[key],
-                currency,
-              }],
-            },
-            ratioType: customValueFieldTypes.ABSOLUTE,
-          };
-        }
-      });
-    }
+    });
 
     return onSubmit(this.state.customTemplate, formData);
   };

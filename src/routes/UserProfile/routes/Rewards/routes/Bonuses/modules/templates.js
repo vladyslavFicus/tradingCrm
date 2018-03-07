@@ -27,9 +27,9 @@ const initialState = {
 };
 
 const actionHandlers = {
-  [FETCH_BONUS_TEMPLATES.REQUEST]: (state, action) => ({
+  [FETCH_BONUS_TEMPLATES.REQUEST]: (state, { payload }) => ({
     ...state,
-    currency: action.payload.currency,
+    currency: payload.currency,
     isLoading: true,
     error: null,
   }),
@@ -37,7 +37,9 @@ const actionHandlers = {
     ...state,
     data: payload
       .filter(i => (
-        i.grantRatio.ratioType === customValueFieldTypes.ABSOLUTE
+        i.grantRatio
+        && i.grantRatio.ratioType === customValueFieldTypes.ABSOLUTE
+        && i.grantRatio.value && Array.isArray(i.grantRatio.value.currencies)
         && i.grantRatio.value.currencies.some(c => c.currency === state.currency)
       ))
       .map(i => ({ uuid: i.uuid, name: i.name })),
