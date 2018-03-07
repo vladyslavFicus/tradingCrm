@@ -19,7 +19,7 @@ import {
 import { Currency } from '../../../../../../../../components/Amount';
 import findCurrencyAmount from '../../utils/findCurrencyAmount';
 
-const FORM_ID = 'manual-bonus-modal';
+const FORM_NAME = 'manual-bonus-modal';
 
 class CreateModal extends Component {
   static propTypes = {
@@ -192,7 +192,7 @@ class CreateModal extends Component {
                     type="checkbox"
                     onChange={this.toggleCustomTemplate}
                     checked={customTemplate}
-                    id={`${FORM_ID}-custom-template`}
+                    id={`${FORM_NAME}-custom-template`}
                   /> {I18n.t(attributeLabels.customTemplate)}
                 </label>
               </div>
@@ -208,7 +208,7 @@ class CreateModal extends Component {
                   component={InputField}
                   position="vertical"
                   disabled={!customTemplate}
-                  id={`${FORM_ID}-name`}
+                  id={`${FORM_NAME}-name`}
                 />
               </div>
             </div>
@@ -226,7 +226,7 @@ class CreateModal extends Component {
                   type="number"
                   normalize={floatNormalize}
                   disabled={!customTemplate}
-                  id={`${FORM_ID}-granted-amount`}
+                  id={`${FORM_NAME}-granted-amount`}
                 />
               </div>
             </div>
@@ -244,7 +244,7 @@ class CreateModal extends Component {
                   type="number"
                   normalize={floatNormalize}
                   disabled={!customTemplate}
-                  id={`${FORM_ID}-amount-to-wage`}
+                  id={`${FORM_NAME}-amount-to-wage`}
                 />
               </div>
               <div className="col-4">
@@ -257,7 +257,7 @@ class CreateModal extends Component {
                   inputAddon={<Currency code={currency} />}
                   inputAddonPosition="left"
                   position="vertical"
-                  id={`${FORM_ID}-capping`}
+                  id={`${FORM_NAME}-capping`}
                 />
               </div>
               <div className="col-4">
@@ -270,7 +270,7 @@ class CreateModal extends Component {
                   inputAddon={<Currency code={currency} />}
                   inputAddonPosition="left"
                   position="vertical"
-                  id={`${FORM_ID}-prize`}
+                  id={`${FORM_NAME}-prize`}
                 />
               </div>
             </div>
@@ -284,7 +284,7 @@ class CreateModal extends Component {
                   component={SelectField}
                   position="vertical"
                   disabled={!customTemplate}
-                  id={`${FORM_ID}-money-type-priority`}
+                  id={`${FORM_NAME}-money-type-priority`}
                 >
                   {Object.keys(moneyTypeUsage).map(key => (
                     <option key={key} value={key}>
@@ -301,7 +301,7 @@ class CreateModal extends Component {
                   component={SelectField}
                   position="vertical"
                   disabled={!customTemplate}
-                  id={`${FORM_ID}-lock-strategy`}
+                  id={`${FORM_NAME}-lock-strategy`}
                 >
                   {Object.keys(lockAmountStrategy).map(key => (
                     <option key={key} value={key}>
@@ -325,7 +325,7 @@ class CreateModal extends Component {
                   type="number"
                   normalize={floatNormalize}
                   disabled={!customTemplate}
-                  id={`${FORM_ID}-max-bet`}
+                  id={`${FORM_NAME}-max-bet`}
                 />
               </div>
               <div className="col-6">
@@ -338,7 +338,7 @@ class CreateModal extends Component {
                   component={InputField}
                   position="vertical"
                   disabled={!customTemplate}
-                  id={`${FORM_ID}-bonus-life-time`}
+                  id={`${FORM_NAME}-bonus-life-time`}
                 />
               </div>
             </div>
@@ -367,7 +367,7 @@ class CreateModal extends Component {
               type="submit"
               className="btn btn-primary"
               disabled={pristine || submitting || invalid}
-              id={`${FORM_ID}-save-button`}
+              id={`${FORM_NAME}-save-button`}
             >
               {I18n.t('COMMON.SAVE')}
             </button>
@@ -377,8 +377,6 @@ class CreateModal extends Component {
     );
   }
 }
-
-const FORM_NAME = 'bonusManage';
 
 export default reduxForm({
   form: FORM_NAME,
