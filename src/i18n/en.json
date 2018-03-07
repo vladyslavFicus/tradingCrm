@@ -717,7 +717,8 @@
     "WEEKS": "Weeks",
     "NONE": "None",
     "REMOVE": "Remove",
-    "CLAIMABLE": "Claimable"
+    "CLAIMABLE": "Claimable",
+    "CURRENCY": "Currency"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1362,10 +1363,14 @@
           "NOT_SET": "Not set"
         },
         "MAX_BET": "Max bet",
-        "MAX_GRANTED_AMOUNT": "Max granted amount"
+        "MAX_GRANTED_AMOUNT": "Max granted amount",
+        "NAME": "Name",
+        "TEMPLATE": "Template",
+        "WAGERING_REQUIREMENT": "Wagering requirement",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
+        "CAPPING": "Capping"
       },
       "FREE_SPIN": {
-        "NAME_ALREADY_EXIST": "Name already exist",
         "ADD_REWARDS": "Add rewards",
         "SELECT_REWARDS": "Select rewards",
         "BET_PER_LINE": "Bet per line",
@@ -1388,6 +1393,9 @@
           "DAYS": "days",
           "NOT_SET": "Not set"
         }
+      },
+      "BONUS_TEMPLATE": {
+        "CREATION_ERROR": "Bonus template creation error"
       }
     },
     "CURRENCY_CALC_MODAL": {
@@ -1467,6 +1475,11 @@
         "activate": {
           "notAllow": "Not allow"
         }
+      }
+    },
+    "template": {
+      "name": {
+        "already-exists": "Name already exist"
       }
     }
   },

@@ -19,7 +19,10 @@ import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
 import CreateModal from '../CreateModal/CreateModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
-import { lockAmountStrategy } from '../../../../../../../../constants/bonus-campaigns';
+import { wageringRequirementTypes } from '../../../../../../../../constants/bonus-template';
+import { customValueFieldTypes } from '../../../../../../../../constants/form';
+import { mapResponseErrorToField } from '../CreateModal/constants';
+import recognizeFieldError from '../../../../../../../../utils/recognizeFieldError';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -30,14 +33,21 @@ class View extends Component {
     list: PropTypes.pageableState(PropTypes.bonusEntity).isRequired,
     playerProfile: PropTypes.shape({ data: PropTypes.userProfile }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
-    createBonus: PropTypes.func.isRequired,
+    createBonusTemplate: PropTypes.func.isRequired,
     cancelBonus: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
     fetchActiveBonus: PropTypes.func.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    assignBonusTemplate: PropTypes.func.isRequired,
     acceptBonus: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    templates: PropTypes.array,
+  };
+  static defaultProps = {
+    templates: [],
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -182,12 +192,97 @@ class View extends Component {
     this.handleModalOpen(MODAL_CREATE);
   };
 
-  handleSubmitManualBonus = async (data) => {
-    const action = await this.props.createBonus(data);
+  handleSubmitManualBonus = async (useTemplate, formData) => {
+    const {
+      playerProfile: {
+        data: {
+          currencyCode: currency,
+        },
+      },
+      params: { id: playerUUID },
+      assignBonusTemplate,
+    } = this.props;
 
-    if (!action || action.error) {
-      throw new SubmissionError({ _error: I18n.t('PLAYER_PROFILE.BONUS.MANUAL_CREATION_FAILURE') });
+    let bonusTemplateUUID = null;
+
+    if (useTemplate) {
+      bonusTemplateUUID = formData.templateUUID;
+    } else {
+      const data = { ...formData };
+      delete data.templateUUID;
+
+      if (data.maxBet) {
+        data.maxBet = {
+          currencies: [{
+            amount: data.maxBet,
+            currency,
+          }],
+        };
+      }
+
+      if (data.grantRatio) {
+        data.grantRatio = {
+          ratioType: customValueFieldTypes.ABSOLUTE,
+          value: {
+            currencies: [{
+              amount: data.grantRatio,
+              currency,
+            }],
+          },
+        };
+      }
+
+      if (data.wageringRequirement) {
+        let wageringValue = {};
+
+        if (data.wageringRequirement.type === wageringRequirementTypes.ABSOLUTE) {
+          wageringValue = {
+            value: {
+              currencies: [{
+                amount: data.wageringRequirement.value,
+                currency,
+              }],
+            },
+          };
+        } else {
+          wageringValue = {
+            percentage: data.wageringRequirement.value,
+          };
+        }
+
+        data.wageringRequirement = {
+          ratioType: data.wageringRequirement.type,
+          ...wageringValue,
+        };
+      }
+
+      const action = await this.props.createBonusTemplate(data);
+
+      if (action && !action.error) {
+        bonusTemplateUUID = action.payload.uuid;
+      } else if (action.error && action.payload.response) {
+        if (Object.keys(action.payload.response.fields_errors).length) {
+          const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
+            ...res,
+            [name]: I18n.t(action.payload.response.fields_errors[name].error),
+          }), {});
+          throw new SubmissionError(errors);
+        } else if (action.payload.response.error) {
+          const fieldError = recognizeFieldError(action.payload.response.error, mapResponseErrorToField);
+          if (fieldError) {
+            throw new SubmissionError(fieldError);
+          } else {
+            throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
+          }
+        }
+      }
     }
+
+    await assignBonusTemplate(bonusTemplateUUID, {
+      playerUUID,
+      currency,
+      grantedAmount: formData.grantRatio,
+    });
 
     this.handleModalClose(this.handleRefresh);
 
@@ -280,6 +375,9 @@ class View extends Component {
       list: { entities, noResults },
       playerProfile: { data: playerProfile },
       locale,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
+      templates,
     } = this.props;
 
     return (
@@ -365,15 +463,11 @@ class View extends Component {
         {
           modal.name === MODAL_CREATE &&
           <CreateModal
-            initialValues={{
-              playerUUID: playerProfile.playerUUID,
-              state: 'INACTIVE',
-              currency: playerProfile.currencyCode,
-              lockAmountStrategy: lockAmountStrategy.LOCK_ALL,
-              claimable: false,
-            }}
             onSubmit={this.handleSubmitManualBonus}
             onClose={this.handleModalClose}
+            fetchBonusTemplates={fetchBonusTemplates}
+            fetchBonusTemplate={fetchBonusTemplate}
+            templates={templates}
           />
         }
         {

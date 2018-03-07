@@ -6,7 +6,11 @@ import List from '../components/View';
 const mapStateToProps = (state) => {
   const {
     profile: { profile },
-    userBonusesList: { list, bonus },
+    userBonusesList: {
+      list,
+      bonus,
+      templates: { data: templates },
+    },
     i18n: { locale },
   } = state;
 
@@ -14,12 +18,16 @@ const mapStateToProps = (state) => {
     list,
     playerProfile: profile,
     bonus,
+    templates,
     locale,
   });
 };
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
-  createBonus: actionCreators.createBonus,
+  createBonusTemplate: actionCreators.createBonusTemplate,
+  fetchBonusTemplates: actionCreators.fetchBonusTemplates,
+  fetchBonusTemplate: actionCreators.fetchBonusTemplate,
+  assignBonusTemplate: actionCreators.assignBonusTemplate,
   acceptBonus: actionCreators.acceptBonus,
   cancelBonus: actionCreators.cancelBonus,
   fetchActiveBonus: actionCreators.fetchActiveBonus,

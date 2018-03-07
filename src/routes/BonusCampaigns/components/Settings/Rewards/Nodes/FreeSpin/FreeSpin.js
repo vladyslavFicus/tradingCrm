@@ -5,14 +5,11 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
 import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
+import { attributeLabels } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
-import renderLabel from '../../../../../../../utils/renderLabel';
-import {
-  attributeLabels,
-  attributePlaceholders,
-} from './constants';
-import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../constants/bonus-campaigns';
+import { customValueFieldTypes } from '../../../../../../../constants/form';
 import floatNormalize from '../../../../../../../utils/floatNormalize';
+import Bonus from './Bonus';
 
 class FreeSpin extends Component {
   static propTypes = {
@@ -24,14 +21,20 @@ class FreeSpin extends Component {
     disabled: PropTypes.bool,
     baseCurrency: PropTypes.string.isRequired,
     providers: PropTypes.array,
-    templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
+    freeSpinTemplates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
+    typeValues: PropTypes.arrayOf(PropTypes.string),
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
     disabled: false,
     games: [],
     providers: [],
-    templates: [],
+    freeSpinTemplates: [],
+    bonusTemplates: [],
+    typeValues: [],
   };
 
   static contextTypes = {
@@ -45,11 +48,13 @@ class FreeSpin extends Component {
   };
 
   async componentDidMount() {
-    const { fetchGames, fetchFreeSpinTemplates } = this.props;
+    const { fetchGames, fetchFreeSpinTemplates, fetchBonusTemplates } = this.props;
+
     const { _reduxForm: { values: { rewards } } } = this.context;
     const templateUUID = get(rewards, 'freeSpin.templateUUID');
     const action = await fetchGames();
     await fetchFreeSpinTemplates({ status: freeSpinTemplate.CREATED });
+    await fetchBonusTemplates({ status: freeSpinTemplate.CREATED }); // use other const
     if (action && !action.error && templateUUID) {
       this.loadTemplateData(templateUUID);
     }
@@ -74,7 +79,7 @@ class FreeSpin extends Component {
   };
 
   loadTemplateData = async (templateUUID) => {
-    const { fetchFreeSpinTemplate, change } = this.props;
+    const { fetchFreeSpinTemplate } = this.props;
 
     const action = await fetchFreeSpinTemplate(templateUUID);
     if (action && !action.error) {
@@ -83,12 +88,9 @@ class FreeSpin extends Component {
         providerId,
         gameId,
         freeSpinsAmount,
-        multiplier,
-        moneyTypePriority,
-        bonusLifeTime,
-        claimable,
         betPerLineAmounts,
         linesPerSpin,
+        bonusTemplateUUID,
       } = action.payload;
 
       let { betPerLine } = action.payload;
@@ -102,23 +104,76 @@ class FreeSpin extends Component {
 
       this.setField('name', name);
       this.setField('freeSpinsAmount', freeSpinsAmount);
-      this.setField('multiplier', multiplier);
-      this.setField('moneyTypePriority', moneyTypePriority);
-      this.setField('bonusLifeTime', bonusLifeTime);
-      this.setField('claimable', claimable);
       this.setField('betPerLine', betPerLine);
       this.setField('linesPerSpin', linesPerSpin);
 
-      change('rewards.bonus.bonusLifeTime', bonusLifeTime);
-      change('rewards.bonus.claimable', claimable);
-      change('rewards.bonus.wagerWinMultiplier', multiplier);
+      if (bonusTemplateUUID) {
+        this.loadBonusTemplateData(bonusTemplateUUID);
+      } else {
+        this.resetBonusTemplateData();
+      }
     }
+  };
+
+  loadBonusTemplateData = async (bonusTemplateUUID) => {
+    const action = await this.props.fetchBonusTemplate(bonusTemplateUUID);
+
+    if (action && !action.error) {
+      const {
+        uuid,
+        name,
+        moneyTypePriority,
+        lockAmountStrategy,
+        bonusLifeTime,
+        grantRatio,
+        wageringRequirement,
+        claimable,
+        maxGrantAmount,
+      } = action.payload;
+
+      this.setField('bonus.templateUUID', uuid);
+      this.setField('bonus.name', name);
+      this.setField('bonus.moneyTypePriority', moneyTypePriority);
+      this.setField('bonus.lockAmountStrategy', lockAmountStrategy);
+      this.setField('bonus.maxBet', get(action.payload, 'maxBet.currencies[0].amount', ''));
+      this.setField('bonus.bonusLifeTime', bonusLifeTime);
+      this.setField('bonus.grantRatio.type', grantRatio.ratioType);
+
+      if (grantRatio.ratioType === customValueFieldTypes.ABSOLUTE) {
+        this.setField('bonus.grantRatio.value', get(action.payload, 'grantRatio.value.currencies[0].amount', ''));
+      } else if (grantRatio.ratioType === customValueFieldTypes.PERCENTAGE) {
+        this.setField('bonus.grantRatio.value', get(action.payload, 'grantRatio.percentage', ''));
+      }
+
+      if (maxGrantAmount) {
+        this.setField('bonus.maxGrantAmount', get(action.payload, 'maxGrantAmount.currencies[0].amount', ''));
+      }
+
+      this.setField('bonus.wageringRequirement', wageringRequirement);
+      this.setField('bonus.claimable', claimable);
+    }
+  };
+
+  resetBonusTemplateData = () => {
+    [
+      'bonus.templateUUID', 'bonus.name', 'bonus.moneyTypePriority',
+      'bonus.lockAmountStrategy', 'bonus.maxBet', 'bonus.bonusLifeTime',
+      'bonus.grantRatio.type', 'bonus.grantRatio.value', 'bonus.wageringRequirement', 'bonus.claimable',
+    ].forEach((field) => {
+      this.setField(field, '');
+    });
   };
 
   handleChangeTemplate = (_, templateUUID) => {
     this.setField('templateUUID', templateUUID);
 
     this.loadTemplateData(templateUUID);
+  };
+
+  handleChangeBonusTemplateData = (_, bonusTemplateUUID) => {
+    this.setField('bonus.templateUUID', bonusTemplateUUID);
+
+    this.loadBonusTemplateData(bonusTemplateUUID);
   };
 
   handleChangeGame = (gameId) => {
@@ -228,7 +283,12 @@ class FreeSpin extends Component {
       disabled,
       remove,
       providers,
-      templates,
+      freeSpinTemplates,
+      bonusTemplates,
+      typeValues,
+      change,
+      nodePath,
+      currencies,
     } = this.props;
 
     const { _reduxForm: { form, values: { rewards } } } = this.context;
@@ -258,6 +318,27 @@ class FreeSpin extends Component {
             </div>
           }
         </div>
+
+        <div className="row">
+          <div className="col-md-6">
+            <Field
+              name="currency"
+              label={I18n.t('COMMON.CURRENCY')}
+              type="select"
+              component={SelectField}
+              position="vertical"
+              disabled={disabled}
+            >
+              <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
+              {currencies.map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Field>
+          </div>
+        </div>
+
         <If condition={!disabled}>
           <div className="row">
             <div className="col-8">
@@ -272,7 +353,7 @@ class FreeSpin extends Component {
                 disabled={customTemplate}
                 onChange={this.handleChangeTemplate}
               >
-                {templates.map(item => (
+                {freeSpinTemplates.map(item => (
                   <option key={item.uuid} value={item.uuid}>
                     {item.name}
                   </option>
@@ -296,7 +377,6 @@ class FreeSpin extends Component {
           type="text"
           id={`${form}Name`}
           placeholder=""
-          showErrorMessage={false}
           label={I18n.t(attributeLabels.name)}
           component={InputField}
           position="vertical"
@@ -396,79 +476,20 @@ class FreeSpin extends Component {
             {this.renderPrice()}
           </div>
         </div>
-        <hr />
-        <div className="row">
-          <div className="col">
-            <Field
-              name={this.buildFieldName('multiplier')}
-              type="number"
-              id={`${form}Multiplier`}
-              placeholder="0"
-              label={I18n.t(attributeLabels.wagering)}
-              component={InputField}
-              normalize={floatNormalize}
-              position="vertical"
+        {
+          (customTemplate || (!customTemplate && get(currentValues, 'bonus.templateUUID', false))) &&
+          <div>
+            <hr />
+            <Bonus
               disabled={disabled || !customTemplate}
-              showErrorMessage={false}
+              typeValues={typeValues}
+              nodePath={`${nodePath}.bonus`}
+              change={change}
+              bonusTemplates={bonusTemplates}
+              handleChangeBonusTemplateData={this.handleChangeBonusTemplateData}
             />
           </div>
-          <div className="col">
-            <Field
-              name={this.buildFieldName('moneyTypePriority')}
-              type="text"
-              id={`${form}MoneyTypePriority`}
-              label={I18n.t(attributeLabels.moneyPriority)}
-              component={SelectField}
-              position="vertical"
-              disabled={disabled || !customTemplate}
-              showErrorMessage={false}
-            >
-              <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-              {Object.keys(moneyTypeUsage).map(key => (
-                <option key={key} value={key}>
-                  {renderLabel(key, moneyTypeUsageLabels)}
-                </option>
-              ))}
-            </Field>
-          </div>
-          <div className="col">
-            <Field
-              name={this.buildFieldName('maxBet')}
-              type="text"
-              id={`${form}MaxBet`}
-              placeholder="0"
-              label={I18n.t(attributeLabels.maxBet)}
-              component={InputField}
-              position="vertical"
-              disabled={disabled || !customTemplate}
-              iconRightClassName="nas nas-currencies_icon"
-            />
-          </div>
-          <div className="col form-row_with-placeholder-right">
-            <Field
-              name={this.buildFieldName('bonusLifeTime')}
-              id={`${form}BonusLifeTime`}
-              type="number"
-              placeholder="0"
-              label={I18n.t(attributeLabels.lifeTime)}
-              component={InputField}
-              normalize={floatNormalize}
-              position="vertical"
-              disabled={disabled || !customTemplate}
-              showErrorMessage={false}
-            />
-            <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
-          </div>
-        </div>
-        <div className="form-group">
-          <Field
-            name={this.buildFieldName('claimable')}
-            id={`${form}Claimable`}
-            type="checkbox"
-            component="input"
-            disabled={disabled || !customTemplate}
-          /> {I18n.t('COMMON.CLAIMABLE')}
-        </div>
+        }
       </div>
     );
   }

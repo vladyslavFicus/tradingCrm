@@ -7,6 +7,7 @@ import {
   lockAmountStrategy,
   moneyTypeUsage,
 } from '../../../../constants/bonus-campaigns';
+import { customValueFieldTypes } from '../../../../constants/form';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -55,14 +56,25 @@ export default (values, params) => {
         name: ['string'],
         providerId: ['string'],
         gameId: ['string'],
-        maxBet: ['numeric'],
         aggregatorId: ['string'],
-        moneyTypePriority: ['string'],
         freeSpinsAmount: ['integer', 'min:0'],
         linesPerSpin: ['integer'],
         betPerLine: ['numeric', 'min:0'],
-        bonusLifeTime: ['integer', 'min:1', 'max:230'],
-        multiplier: ['integer', 'min:1', 'max:500'],
+        bonus: {
+          name: ['string'],
+          bonusLifeTime: ['integer', 'min:1', 'max:230'],
+          moneyTypePriority: [`in:${Object.keys(moneyTypeUsage).join()}`],
+          lockAmountStrategy: ['string'],
+          maxGrantAmount: ['numeric'],
+          grantRatio: {
+            type: ['string'],
+            value: ['numeric'],
+          },
+          wageringRequirement: {
+            type: ['string'],
+            value: ['numeric', 'min:1', 'max:500'],
+          },
+        },
       },
     },
   };
@@ -110,9 +122,22 @@ export default (values, params) => {
   }
 
   if (rewardsFreeSpins && !rewardsFreeSpins.templateUUID) {
-    ['name', 'providerId', 'gameId', 'aggregatorId', 'freeSpinsAmount', 'linesPerSpin',
-      'betPerLine', 'bonusLifeTime', 'multiplier', 'moneyTypePriority',
-    ].map(field => rules.rewards.freeSpin[field].push('required'));
+    ['name', 'providerId', 'gameId', 'aggregatorId', 'freeSpinsAmount', 'linesPerSpin', 'betPerLine']
+      .map(field => rules.rewards.freeSpin[field].push('required'));
+  }
+
+  const freeSpinBonus = get(values, 'rewards.freeSpin.bonus');
+
+  if (freeSpinBonus) {
+    ['name', 'bonusLifeTime', 'moneyTypePriority', 'lockAmountStrategy']
+      .map(field => rules.rewards.freeSpin.bonus[field].push('required'));
+
+    if (freeSpinBonus.grantRatio && freeSpinBonus.grantRatio.type === customValueFieldTypes.PERCENTAGE) {
+      rules.rewards.freeSpin.bonus.maxGrantAmount.push('required');
+    }
+
+    rules.rewards.freeSpin.bonus.wageringRequirement.value.push('required');
+    rules.rewards.freeSpin.bonus.grantRatio.value.push('required');
   }
 
   return createValidator(rules, translateLabels(attributeLabels), false)(values);

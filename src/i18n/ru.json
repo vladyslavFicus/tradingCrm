@@ -723,7 +723,8 @@
     "WEEKS": "Недели",
     "NONE": "Ни одного",
     "REMOVE": "Удалить",
-    "CLAIMABLE": "Claimable"
+    "CLAIMABLE": "Claimable",
+    "CURRENCY": "Валюта"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1373,10 +1374,14 @@
           "NOT_SET": "Не задано"
         },
         "MAX_BET": "Макс. ставка",
-        "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов"
+        "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
+        "NAME": "Название",
+        "TEMPLATE": "Шаблон",
+        "WAGERING_REQUIREMENT": "Wagering requirement",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
+        "CAPPING": "Capping"
       },
       "FREE_SPIN": {
-        "NAME_ALREADY_EXIST": "Имя уже существует",
         "ADD_REWARDS": "Добавить награду",
         "SELECT_REWARDS": "-- Выбрать награду --",
         "BET_PER_LINE": "Бет за линию",
@@ -1399,6 +1404,9 @@
           "DAYS": "дней",
           "NOT_SET": "Не задано"
         }
+      },
+      "BONUS_TEMPLATE": {
+        "CREATION_ERROR": "Ошибка создания бонус шаблона"
       }
     },
     "CURRENCY_CALC_MODAL": {
@@ -1482,6 +1490,11 @@
         "activate": {
           "notAllow": "Не разрешено"
         }
+      }
+    },
+    "template": {
+      "name": {
+        "already-exists": "Имя уже существует"
       }
     }
   },

@@ -1,3 +1,4 @@
+import keyMirror from 'keymirror';
 import I18n from '../../../../../../../utils/fake-i18n';
 
 const attributeLabels = {
@@ -23,8 +24,15 @@ const attributePlaceholders = {
   notSet: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.PLACEHOLDERS.NOT_SET'),
 };
 
+const wageringRequirementTypes = keyMirror({
+  ABSOLUTE: null,
+  BONUS: null,
+  DEPOSIT: null,
+  BONUS_PLUS_DEPOSIT: null,
+});
+
 export {
   attributeLabels,
   attributePlaceholders,
+  wageringRequirementTypes,
 };
-

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { difference } from 'lodash';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
+import PropTypes from '../../../../../constants/propTypes';
 import { nodeTypes, nodeTypesLabels } from './constants';
 import { Bonus as BonusNode, FreeSpin as FreeSpinNode } from './Nodes';
 import { SelectField } from '../../../../../components/ReduxForm';
@@ -26,11 +26,15 @@ class Container extends Component {
     remove: PropTypes.func.isRequired,
     games: PropTypes.array,
     providers: PropTypes.array,
-    templates: PropTypes.array,
+    freeSpinTemplates: PropTypes.array,
     baseCurrency: PropTypes.string.isRequired,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchGames: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
@@ -38,7 +42,8 @@ class Container extends Component {
     activeNodes: [],
     games: [],
     providers: [],
-    templates: [],
+    freeSpinTemplates: [],
+    bonusTemplates: [],
   };
 
   static contextTypes = {
@@ -79,11 +84,15 @@ class Container extends Component {
       games,
       providers,
       change,
-      templates,
+      freeSpinTemplates,
       baseCurrency,
       fetchFreeSpinTemplate,
       fetchGames,
       fetchFreeSpinTemplates,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
+      bonusTemplates,
+      currencies,
     } = this.props;
 
     const bonusNodePath = `${nodeGroupTypes.rewards}.${nodeTypes.bonus}`;
@@ -93,6 +102,7 @@ class Container extends Component {
       case nodeTypes.bonus:
         return (
           <BonusNode
+            currencies={currencies}
             disabled={disabled}
             typeValues={allowedCustomValueTypes}
             remove={() => this.handleRemoveNode(nodeTypes.bonus)}
@@ -102,17 +112,21 @@ class Container extends Component {
       case nodeTypes.freeSpin:
         return (
           <FreeSpinNode
+            currencies={currencies}
             typeValues={allowedCustomValueTypes}
             remove={() => this.handleRemoveNode(nodeTypes.freeSpin)}
             nodePath={freeSpinNodePath}
             games={games}
             providers={providers}
             change={change}
-            templates={templates}
+            freeSpinTemplates={freeSpinTemplates}
+            bonusTemplates={bonusTemplates}
             baseCurrency={baseCurrency}
             fetchFreeSpinTemplate={fetchFreeSpinTemplate}
             fetchGames={fetchGames}
             fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+            fetchBonusTemplates={fetchBonusTemplates}
+            fetchBonusTemplate={fetchBonusTemplate}
             disabled={disabled}
           />
         );
