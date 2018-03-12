@@ -345,7 +345,8 @@
           "START_DATE": "Дата старта",
           "END_DATE": "Дата конца"
         }
-      }
+      },
+      "PERMIT_BONUS_CONVERSION": "Подтвердить конвертацию"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {

@@ -301,7 +301,7 @@
           "NAME": "Name",
           "MAX_GRANTED_AMOUNT": "Max granted amount",
           "WAGERING_REQUIREMENT": "Wagering requirement",
-          "LIFE_TIME": "Lifetime",
+          "LIFE_TIME": "Life time",
           "CUSTOM_TEMPLATE": "Custom template",
           "TEMPLATE": "Template"
         },
@@ -339,7 +339,8 @@
           "START_DATE": "Start date",
           "END_DATE": "End date"
         }
-      }
+      },
+      "PERMIT_BONUS_CONVERSION": "Permit conversion"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
