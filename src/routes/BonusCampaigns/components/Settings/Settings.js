@@ -254,22 +254,16 @@ class Settings extends Component {
           ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
             if (bonus[key]) {
               if (bonus[key].value) {
-                let value = {};
-
-                if (bonus[key].type === customValueFieldTypes.ABSOLUTE) {
-                  value = {
-                    value: {
-                      currencies: [{
-                        amount: bonus[key].value,
-                        currency,
-                      }],
-                    },
-                  };
-                } else {
-                  value = {
-                    percentage: bonus[key].value,
-                  };
-                }
+                const value = bonus[key].type === customValueFieldTypes.ABSOLUTE ? {
+                  value: {
+                    currencies: [{
+                      amount: bonus[key].value,
+                      currency,
+                    }],
+                  },
+                } : {
+                  percentage: bonus[key].value,
+                };
 
                 bonus = {
                   ...bonus,

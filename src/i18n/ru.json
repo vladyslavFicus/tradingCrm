@@ -306,7 +306,7 @@
           "MAX_BET": "Макс. ставка",
           "NAME": "Название",
           "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
-          "WAGERING_REQUIREMENT": "",
+          "WAGERING_REQUIREMENT": "Условия отыгрыша",
           "LIFE_TIME": "Время жизни",
           "CUSTOM_TEMPLATE": "Новый шаблон",
           "TEMPLATE": "Шаблон"
