@@ -143,8 +143,8 @@ class FreeSpin extends Component {
       ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
         const type = `bonus.${key}.type`;
         const value = `bonus.${key}.value`;
-
         const field = action.payload[key];
+
         if (field) {
           this.setField(type, field.ratioType);
 
