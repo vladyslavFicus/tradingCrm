@@ -142,23 +142,23 @@ class View extends Component {
       }
     }
 
-    if ([statuses.INACTIVE, statuses.IN_PROGRESS].indexOf(data.state) > -1) {
-      actions.push({
-        children: I18n.t('PLAYER_PROFILE.BONUS.CANCEL_BONUS'),
-        onClick: this.handleCancelBonus.bind(null, data.bonusUUID),
-        className: 'btn btn-danger text-uppercase',
-        id: `${data.bonusUUID}-cancel-button`,
-      });
-    }
-
     const wageredAmount = get(data, 'wagered.amount', 0);
     const amountToWage = get(data, 'amountToWage.amount', 0);
     if (data.state === statuses.IN_PROGRESS && wageredAmount > amountToWage) {
       actions.push({
         children: I18n.t('PLAYER_PROFILE.BONUS.PERMIT_BONUS_CONVERSION'),
         onClick: this.handlePermitBonusConversion.bind(null, data.bonusUUID),
-        className: 'btn btn-success text-uppercase',
+        className: 'btn btn-default-outline text-uppercase',
         id: `${data.bonusUUID}-permit-bonus-conversion-button`,
+      });
+    }
+
+    if ([statuses.INACTIVE, statuses.IN_PROGRESS].indexOf(data.state) > -1) {
+      actions.push({
+        children: I18n.t('PLAYER_PROFILE.BONUS.CANCEL_BONUS'),
+        onClick: this.handleCancelBonus.bind(null, data.bonusUUID),
+        className: 'btn btn-danger text-uppercase',
+        id: `${data.bonusUUID}-cancel-button`,
       });
     }
 
