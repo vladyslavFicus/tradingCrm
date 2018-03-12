@@ -16,6 +16,7 @@ const attributeLabels = {
   wageringRequirement: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.WAGERING_REQUIREMENT'),
   lockAmountStrategy: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.LOCK_AMOUNT_STRATEGY'),
   capping: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.CAPPING'),
+  prize: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.PRIZE'),
 };
 
 const attributePlaceholders = {

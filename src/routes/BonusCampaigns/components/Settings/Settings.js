@@ -251,32 +251,32 @@ class Settings extends Component {
             delete bonus.maxGrantAmount;
           }
 
-          if (bonus.grantRatio) {
-            let grantValue = {};
+          ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
+            if (bonus[key]) {
+              if (bonus[key].value) {
+                const value = bonus[key].type === customValueFieldTypes.ABSOLUTE ? {
+                  value: {
+                    currencies: [{
+                      amount: bonus[key].value,
+                      currency,
+                    }],
+                  },
+                } : {
+                  percentage: bonus[key].value,
+                };
 
-            if (bonus.grantRatio.type === customValueFieldTypes.ABSOLUTE) {
-              grantValue = {
-                value: {
-                  currencies: [{
-                    amount: bonus.grantRatio.value,
-                    currency,
-                  }],
-                },
-              };
-            } else if (bonus.grantRatio.type === customValueFieldTypes.PERCENTAGE) {
-              grantValue = {
-                percentage: bonus.grantRatio.value,
-              };
+                bonus = {
+                  ...bonus,
+                  [key]: {
+                    ratioType: bonus[key].type,
+                    ...value,
+                  },
+                };
+              } else {
+                delete bonus[key];
+              }
             }
-
-            bonus = {
-              ...bonus,
-              grantRatio: {
-                ratioType: bonus.grantRatio.type,
-                ...grantValue,
-              },
-            };
-          }
+          });
 
           const action = await createBonusTemplate({
             claimable: false,

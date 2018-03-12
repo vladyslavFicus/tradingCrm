@@ -1376,7 +1376,8 @@
         "TEMPLATE": "Template",
         "WAGERING_REQUIREMENT": "Wagering requirement",
         "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
-        "CAPPING": "Capping"
+        "CAPPING": "Capping",
+        "PRIZE": "Prize"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Add rewards",
