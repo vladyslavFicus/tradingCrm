@@ -7,6 +7,7 @@ const KEY = 'user-bonus';
 const FETCH_ACTIVE_BONUS = createRequestAction(`${KEY}/fetch-active-bonus`);
 const ACCEPT_BONUS = createRequestAction(`${KEY}/accept-bonus`);
 const CANCEL_BONUS = createRequestAction(`${KEY}/cancel-bonus`);
+const PERMIT_CONVERSION_BONUS = createRequestAction(`${KEY}/permit-conversion-bonus`);
 
 function fetchActiveBonus(playerUUID) {
   return (dispatch, getState) => {
@@ -76,6 +77,30 @@ function cancelBonus(bonusUUID, playerUUID) {
   };
 }
 
+function permitConversionBonus(bonusUUID, playerUUID) {
+  return (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `bonus/bonuses/${playerUUID}/${bonusUUID}/permit-conversion`,
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          PERMIT_CONVERSION_BONUS.REQUEST,
+          PERMIT_CONVERSION_BONUS.SUCCESS,
+          PERMIT_CONVERSION_BONUS.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
 const actionHandlers = {
   [FETCH_ACTIVE_BONUS.REQUEST]: state => ({
     ...state,
@@ -113,11 +138,13 @@ const actionTypes = {
   FETCH_ACTIVE_BONUS,
   ACCEPT_BONUS,
   CANCEL_BONUS,
+  PERMIT_CONVERSION_BONUS,
 };
 const actionCreators = {
   fetchActiveBonus,
   acceptBonus,
   cancelBonus,
+  permitConversionBonus,
 };
 
 export {

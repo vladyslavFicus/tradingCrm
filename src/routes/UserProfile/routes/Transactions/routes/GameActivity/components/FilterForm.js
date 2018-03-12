@@ -53,17 +53,23 @@ class FilterForm extends Component {
   startDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.endDate
-      ? current.isSameOrBefore(moment(currentValues.endDate))
-      : true;
+    if (currentValues && currentValues.endDate) {
+      return current.isSameOrAfter(moment(currentValues.endDate).subtract(2, 'w'))
+        && current.isSameOrBefore(moment(currentValues.endDate));
+    }
+
+    return true;
   };
 
   endDateValidator = (current) => {
     const { currentValues } = this.props;
 
-    return currentValues && currentValues.startDate
-      ? current.isSameOrAfter(moment(currentValues.startDate))
-      : true;
+    if (currentValues && currentValues.startDate) {
+      return current.isSameOrBefore(moment(currentValues.startDate).add(2, 'w'))
+        && current.isSameOrAfter(moment(currentValues.startDate));
+    }
+
+    return current.isSameOrBefore();
   };
 
   render() {
@@ -178,6 +184,8 @@ class FilterForm extends Component {
                 <div className="range-group">
                   <Field
                     utc
+                    withTime
+                    timePresets
                     name="startDate"
                     placeholder={I18n.t(filterFormAttributeLabels.startDate)}
                     component={DateTimeField}
@@ -187,6 +195,8 @@ class FilterForm extends Component {
                   <span className="range-group__separator">-</span>
                   <Field
                     utc
+                    withTime
+                    timePresets
                     name="endDate"
                     placeholder={I18n.t(filterFormAttributeLabels.endDate)}
                     component={DateTimeField}

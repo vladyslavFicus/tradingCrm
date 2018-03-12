@@ -339,7 +339,8 @@
           "START_DATE": "Дата старта",
           "END_DATE": "Дата конца"
         }
-      }
+      },
+      "PERMIT_CONVERSION_BONUS": "Подтвердить конвертацию"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -516,7 +517,8 @@
           "COIN_VALUE_LEVEL": "Уровень стоимости монет",
           "APPROXE_BET_VALUE": "Прим. значение ставки",
           "CUSTOM_TEMPLATE": "Новый шаблон",
-          "TEMPLATE": "Шаблон"
+          "TEMPLATE": "Шаблон",
+          "USE_TEMPLATE": "Использовать шаблон"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
         "TOTAL_VALUE": "Сумма spin",

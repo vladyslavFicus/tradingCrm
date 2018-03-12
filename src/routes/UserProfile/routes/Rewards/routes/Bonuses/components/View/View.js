@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import Sticky from 'react-stickynode';
+import get from 'lodash/get';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
@@ -33,6 +34,7 @@ class View extends Component {
     fetchEntities: PropTypes.func.isRequired,
     createBonusTemplate: PropTypes.func.isRequired,
     cancelBonus: PropTypes.func.isRequired,
+    permitConversionBonus: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
@@ -149,6 +151,17 @@ class View extends Component {
       });
     }
 
+    const wageredAmount = get(data, 'wagered.amount', 0);
+    const amountToWage = get(data, 'amountToWage.amount', 0);
+    if (data.state === statuses.IN_PROGRESS && wageredAmount > amountToWage) {
+      actions.push({
+        children: I18n.t('PLAYER_PROFILE.BONUS.PERMIT_CONVERSION_BONUS'),
+        onClick: this.handlePermitConversionBonus.bind(null, data.bonusUUID),
+        className: 'btn btn-success text-uppercase',
+        id: `${data.bonusUUID}-permit-button`,
+      });
+    }
+
     this.handleModalOpen(MODAL_VIEW, {
       item: data,
       actions,
@@ -181,6 +194,13 @@ class View extends Component {
 
   handleCancelBonus = (bonusUUID) => {
     this.props.cancelBonus(bonusUUID, this.props.params.id)
+      .then(() => {
+        this.handleModalClose(this.handleRefresh);
+      });
+  };
+
+  handlePermitConversionBonus = (bonusUUID) => {
+    this.props.permitConversionBonus(bonusUUID, this.props.params.id)
       .then(() => {
         this.handleModalClose(this.handleRefresh);
       });
