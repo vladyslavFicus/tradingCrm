@@ -50,6 +50,8 @@ class Bonus extends Component {
 
     autofill(this.buildFieldName('grantRatio.type'), typeValues[0]);
     autofill(this.buildFieldName('wageringRequirement.type'), typeValues[0]);
+    autofill(this.buildFieldName('capping.type'), typeValues[0]);
+    autofill(this.buildFieldName('prize.type'), typeValues[0]);
   }
 
   componentWillReceiveProps({ typeValues: nextTypeValues }) {
@@ -58,6 +60,9 @@ class Bonus extends Component {
 
     if (typeValues.length !== nextTypeValues.length) {
       autofill(this.buildFieldName('grantRatio.type'), nextTypeValues[0]);
+      autofill(this.buildFieldName('wageringRequirement.type'), nextTypeValues[0]);
+      autofill(this.buildFieldName('capping.type'), nextTypeValues[0]);
+      autofill(this.buildFieldName('prize.type'), nextTypeValues[0]);
     }
   }
 
@@ -282,6 +287,36 @@ class Bonus extends Component {
             <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
           </div>
         </div>
+
+        <div className="row">
+          <div className="col-6">
+            <CustomValueFieldVertical
+              disabled={disabled || !customTemplate}
+              id={`${form}Capping`}
+              basename={this.buildFieldName('capping')}
+              label={I18n.t(attributeLabels.capping)}
+              typeValues={typeValues}
+              valueFieldProps={{
+                type: 'number',
+                normalize: floatNormalize,
+              }}
+            />
+          </div>
+          <div className="col-6">
+            <CustomValueFieldVertical
+              disabled={disabled || !customTemplate}
+              id={`${form}Prize`}
+              basename={this.buildFieldName('prize')}
+              label={I18n.t(attributeLabels.prize)}
+              typeValues={typeValues}
+              valueFieldProps={{
+                type: 'number',
+                normalize: floatNormalize,
+              }}
+            />
+          </div>
+        </div>
+
         <div className="form-group">
           <Field
             name={this.buildFieldName('claimable')}

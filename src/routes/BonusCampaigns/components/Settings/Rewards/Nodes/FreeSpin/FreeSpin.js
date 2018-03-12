@@ -125,8 +125,6 @@ class FreeSpin extends Component {
         moneyTypePriority,
         lockAmountStrategy,
         bonusLifeTime,
-        grantRatio,
-        wageringRequirement,
         claimable,
         maxGrantAmount,
       } = action.payload;
@@ -137,19 +135,25 @@ class FreeSpin extends Component {
       this.setField('bonus.lockAmountStrategy', lockAmountStrategy);
       this.setField('bonus.maxBet', get(action.payload, 'maxBet.currencies[0].amount', ''));
       this.setField('bonus.bonusLifeTime', bonusLifeTime);
-      this.setField('bonus.grantRatio.type', grantRatio.ratioType);
-
-      if (grantRatio.ratioType === customValueFieldTypes.ABSOLUTE) {
-        this.setField('bonus.grantRatio.value', get(action.payload, 'grantRatio.value.currencies[0].amount', ''));
-      } else if (grantRatio.ratioType === customValueFieldTypes.PERCENTAGE) {
-        this.setField('bonus.grantRatio.value', get(action.payload, 'grantRatio.percentage', ''));
-      }
 
       if (maxGrantAmount) {
         this.setField('bonus.maxGrantAmount', get(action.payload, 'maxGrantAmount.currencies[0].amount', ''));
       }
 
-      this.setField('bonus.wageringRequirement', wageringRequirement);
+      ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
+        const type = `bonus.${key}.type`;
+        const value = `bonus.${key}.value`;
+        const field = action.payload[key];
+
+        this.setField(type, field.ratioType);
+
+        const formatValue = field.ratioType === customValueFieldTypes.ABSOLUTE
+          ? get(field, 'value.currencies[0].amount', '')
+          : get(field, 'percentage', '');
+
+        this.setField(value, formatValue);
+      });
+
       this.setField('bonus.claimable', claimable);
     }
   };

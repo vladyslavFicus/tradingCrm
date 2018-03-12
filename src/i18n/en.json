@@ -297,7 +297,13 @@
           "MONEY_TYPE_PRIORITY": "Wagering",
           "LOCK_AMOUNT_STRATEGY": "Withdrawal lock",
           "CLAIMABLE": "Claimable",
-          "MAX_BET": "Max Bet"
+          "MAX_BET": "Max Bet",
+          "NAME": "Name",
+          "MAX_GRANTED_AMOUNT": "Max granted amount",
+          "WAGERING_REQUIREMENT": "Wagering requirement",
+          "LIFE_TIME": "Lifetime",
+          "CUSTOM_TEMPLATE": "Custom template",
+          "TEMPLATE": "Template"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Lock all",
@@ -510,7 +516,8 @@
           "COIN_VALUE_LEVEL": "Coin value level",
           "APPROXE_BET_VALUE": "Approx. bet value",
           "CUSTOM_TEMPLATE": "Custom template",
-          "TEMPLATE": "Template"
+          "TEMPLATE": "Template",
+          "USE_TEMPLATE": "Use template"
         },
         "FREE_SPIN_VALUE": "Free spin value",
         "TOTAL_VALUE": "Total value",
@@ -1368,7 +1375,8 @@
         "TEMPLATE": "Template",
         "WAGERING_REQUIREMENT": "Wagering requirement",
         "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
-        "CAPPING": "Capping"
+        "CAPPING": "Capping",
+        "PRIZE": "Prize"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Add rewards",

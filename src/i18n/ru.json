@@ -303,7 +303,13 @@
           "MONEY_TYPE_PRIORITY": "Приор. исп. денег",
           "LOCK_AMOUNT_STRATEGY": "Блок. вывода средств",
           "CLAIMABLE": "Требовать подтверждения",
-          "MAX_BET": "Макс. ставка"
+          "MAX_BET": "Макс. ставка",
+          "NAME": "Название",
+          "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
+          "WAGERING_REQUIREMENT": "",
+          "LIFE_TIME": "Время жизни",
+          "CUSTOM_TEMPLATE": "Новый шаблон",
+          "TEMPLATE": "Шаблон"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Заблокировать все средства",
@@ -516,7 +522,8 @@
           "COIN_VALUE_LEVEL": "Уровень стоимости монет",
           "APPROXE_BET_VALUE": "Прим. значение ставки",
           "CUSTOM_TEMPLATE": "Новый шаблон",
-          "TEMPLATE": "Шаблон"
+          "TEMPLATE": "Шаблон",
+          "USE_TEMPLATE": "Использовать шаблон"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
         "TOTAL_VALUE": "Сумма spin",
@@ -1379,7 +1386,8 @@
         "TEMPLATE": "Шаблон",
         "WAGERING_REQUIREMENT": "Wagering requirement",
         "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
-        "CAPPING": "Capping"
+        "CAPPING": "Capping",
+        "PRIZE": "Приз"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Добавить награду",
