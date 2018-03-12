@@ -319,7 +319,7 @@ class Settings extends Component {
             });
             throw new SubmissionError({ __error: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR') });
           }
-        } else if (Object.keys(createAction.payload.response.fields_errors).length) {
+        } else if (get(createAction, 'payload.response.fields_errors', false)) {
           const errors = Object.keys(createAction.payload.response.fields_errors).reduce((res, name) => ({
             ...res,
             [name]: I18n.t(createAction.payload.response.fields_errors[name].error),

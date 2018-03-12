@@ -232,7 +232,7 @@ class View extends Component {
       if (action && !action.error) {
         bonusTemplateUUID = action.payload.uuid;
       } else if (action.error && action.payload.response) {
-        if (Object.keys(action.payload.response.fields_errors).length) {
+        if (get(action, 'payload.response.fields_errors', false)) {
           const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
             ...res,
             [name]: I18n.t(action.payload.response.fields_errors[name].error),

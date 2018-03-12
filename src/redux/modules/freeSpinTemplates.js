@@ -7,7 +7,7 @@ function fetchFreeSpinTemplates(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates?${buildQueryString(filters)}`,
+        endpoint: `free_spin_template/templates/igromat?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -31,7 +31,7 @@ function fetchFreeSpinTemplate(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates/${uuid}`,
+        endpoint: `free_spin_template/templates/igromat/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -55,7 +55,7 @@ function createFreeSpinTemplate(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'free_spin_template/templates',
+        endpoint: 'free_spin_template/templates/igromat',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -80,7 +80,7 @@ function assignFreeSpinTemplate(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates/${uuid}/assign`,
+        endpoint: `free_spin_template/templates/igromat/${uuid}/assign`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
