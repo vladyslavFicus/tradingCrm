@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import Sticky from 'react-stickynode';
-import get from 'lodash/get';
+import { get } from 'lodash';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
@@ -199,11 +199,14 @@ class View extends Component {
       });
   };
 
-  handlePermitBonusConversion = (bonusUUID) => {
-    this.props.permitBonusConversion(bonusUUID, this.props.params.id)
-      .then(() => {
-        this.handleModalClose(this.handleRefresh);
-      });
+  handlePermitBonusConversion = async (bonusUUID) => {
+    const { params: { id: playerUUID }, permitBonusConversion } = this.props;
+
+    const action = await permitBonusConversion(bonusUUID, playerUUID);
+
+    this.handleModalClose(this.handleRefresh);
+
+    return action;
   };
 
   handleCreateManualBonusClick = () => {
