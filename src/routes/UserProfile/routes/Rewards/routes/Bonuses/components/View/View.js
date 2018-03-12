@@ -34,7 +34,7 @@ class View extends Component {
     fetchEntities: PropTypes.func.isRequired,
     createBonusTemplate: PropTypes.func.isRequired,
     cancelBonus: PropTypes.func.isRequired,
-    permitConversionBonus: PropTypes.func.isRequired,
+    permitBonusConversion: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
@@ -155,10 +155,10 @@ class View extends Component {
     const amountToWage = get(data, 'amountToWage.amount', 0);
     if (data.state === statuses.IN_PROGRESS && wageredAmount > amountToWage) {
       actions.push({
-        children: I18n.t('PLAYER_PROFILE.BONUS.PERMIT_CONVERSION_BONUS'),
-        onClick: this.handlePermitConversionBonus.bind(null, data.bonusUUID),
+        children: I18n.t('PLAYER_PROFILE.BONUS.PERMIT_BONUS_CONVERSION'),
+        onClick: this.handlePermitBonusConversion.bind(null, data.bonusUUID),
         className: 'btn btn-success text-uppercase',
-        id: `${data.bonusUUID}-permit-button`,
+        id: `${data.bonusUUID}-permit-bonus-conversion-button`,
       });
     }
 
@@ -199,8 +199,8 @@ class View extends Component {
       });
   };
 
-  handlePermitConversionBonus = (bonusUUID) => {
-    this.props.permitConversionBonus(bonusUUID, this.props.params.id)
+  handlePermitBonusConversion = (bonusUUID) => {
+    this.props.permitBonusConversion(bonusUUID, this.props.params.id)
       .then(() => {
         this.handleModalClose(this.handleRefresh);
       });

@@ -340,7 +340,7 @@
           "END_DATE": "Дата конца"
         }
       },
-      "PERMIT_CONVERSION_BONUS": "Подтвердить конвертацию"
+      "PERMIT_BONUS_CONVERSION": "Подтвердить конвертацию"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {

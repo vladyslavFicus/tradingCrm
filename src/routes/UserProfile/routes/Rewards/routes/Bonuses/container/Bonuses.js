@@ -30,7 +30,7 @@ const mapActions = {
   assignBonusTemplate: actionCreators.assignBonusTemplate,
   acceptBonus: actionCreators.acceptBonus,
   cancelBonus: actionCreators.cancelBonus,
-  permitConversionBonus: actionCreators.permitConversionBonus,
+  permitBonusConversion: actionCreators.permitBonusConversion,
   fetchActiveBonus: actionCreators.fetchActiveBonus,
   fetchProfile: profileActionCreators.fetchProfile,
 };

@@ -7,7 +7,7 @@ const KEY = 'user-bonus';
 const FETCH_ACTIVE_BONUS = createRequestAction(`${KEY}/fetch-active-bonus`);
 const ACCEPT_BONUS = createRequestAction(`${KEY}/accept-bonus`);
 const CANCEL_BONUS = createRequestAction(`${KEY}/cancel-bonus`);
-const PERMIT_CONVERSION_BONUS = createRequestAction(`${KEY}/permit-conversion-bonus`);
+const PERMIT_BONUS_CONVERSION = createRequestAction(`${KEY}/permit-bonus-conversion`);
 
 function fetchActiveBonus(playerUUID) {
   return (dispatch, getState) => {
@@ -77,7 +77,7 @@ function cancelBonus(bonusUUID, playerUUID) {
   };
 }
 
-function permitConversionBonus(bonusUUID, playerUUID) {
+function permitBonusConversion(bonusUUID, playerUUID) {
   return (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -91,9 +91,9 @@ function permitConversionBonus(bonusUUID, playerUUID) {
           Authorization: `Bearer ${token}`,
         },
         types: [
-          PERMIT_CONVERSION_BONUS.REQUEST,
-          PERMIT_CONVERSION_BONUS.SUCCESS,
-          PERMIT_CONVERSION_BONUS.FAILURE,
+          PERMIT_BONUS_CONVERSION.REQUEST,
+          PERMIT_BONUS_CONVERSION.SUCCESS,
+          PERMIT_BONUS_CONVERSION.FAILURE,
         ],
         bailout: !logged,
       },
@@ -138,13 +138,13 @@ const actionTypes = {
   FETCH_ACTIVE_BONUS,
   ACCEPT_BONUS,
   CANCEL_BONUS,
-  PERMIT_CONVERSION_BONUS,
+  PERMIT_BONUS_CONVERSION,
 };
 const actionCreators = {
   fetchActiveBonus,
   acceptBonus,
   cancelBonus,
-  permitConversionBonus,
+  permitBonusConversion,
 };
 
 export {

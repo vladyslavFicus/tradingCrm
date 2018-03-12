@@ -340,7 +340,7 @@
           "END_DATE": "End date"
         }
       },
-      "PERMIT_CONVERSION_BONUS": "Permit conversion"
+      "PERMIT_BONUS_CONVERSION": "Permit conversion"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
