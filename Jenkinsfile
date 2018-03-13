@@ -33,7 +33,7 @@ node('build') {
     docker.image('kkarczmarczyk/node-yarn:6.7').inside('-v /home/jenkins:/home/jenkins') {
         stage('test') {
             sh """export HOME=/home/jenkins
-yarn            
+yarn
 """
 
             if (!thisJobParams.skipTest) {
@@ -47,10 +47,12 @@ yarn test:jenkins
                     junit testResults: "tests/test-results.xml"
                 }
             }
+        }
 
-            sh """export HOME=/home/jenkins 
-yarn build
-"""
+        stage('build') {
+            sh """export HOME=/home/jenkins
+              yarn build
+            """
         }
     }
 
@@ -67,7 +69,7 @@ yarn build
 """
         }
     }
-    
+
     stage('upload') {
         if (isBuildDocker) {
             sh "docker push devregistry.newage.io/hrzn/${service}:latest"
