@@ -1,0 +1,12 @@
+.rdt.left-side {
+  .rdtPicker {
+    right: 0;
+    left: 0;
+
+    &:after {
+      border-bottom-color: #5A90DC;
+      right: 0;
+      left: 3px;
+    }
+  }
+}

@@ -3,25 +3,44 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, getFormValues } from 'redux-form';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import { createValidator } from '../../../../../../../utils/validator';
-import renderLabel from '../../../../../../../utils/renderLabel';
-import PropTypes from '../../../../../../../constants/propTypes';
-import { moneyTypeLabels } from '../../../../../../../constants/gaming-activity';
-import { InputField, SelectField, DateTimeField } from '../../../../../../../components/ReduxForm';
-import filterFormAttributeLabels from '../constants';
+import { createValidator } from '../../../../../../../../utils/validator';
+import renderLabel from '../../../../../../../../utils/renderLabel';
+import PropTypes from '../../../../../../../../constants/propTypes';
+import { moneyTypeLabels } from '../../../../../../../../constants/gaming-activity';
+import { InputField, SelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
+import filterFormAttributeLabels from '../../constants';
+import { startDateValidator, endDateValidator } from '../../utils';
+import './FilterForm.scss';
 
 const FORM_NAME = 'userGameActivityFilter';
-const validate = createValidator({
-  keyword: 'string',
-  aggregators: ['string'],
-  providers: ['string'],
-  games: ['string'],
-  gameTypes: ['string'],
-  betTypes: ['string', `in:${Object.keys(moneyTypeLabels).join()}`],
-  winTypes: ['string', `in:${Object.keys(moneyTypeLabels).join()}`],
-  startDate: ['regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/'],
-  endDate: ['regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/'],
-}, filterFormAttributeLabels, false);
+const validate = (values) => {
+  const rules = {
+    keyword: 'string',
+    aggregators: ['string'],
+    providers: ['string'],
+    games: ['string'],
+    gameTypes: ['string'],
+    betTypes: ['string', `in:${Object.keys(moneyTypeLabels).join()}`],
+    winTypes: ['string', `in:${Object.keys(moneyTypeLabels).join()}`],
+    startDate: ['regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/'],
+    endDate: ['regex:/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$/'],
+  };
+
+  const errors = createValidator(rules, filterFormAttributeLabels, false)(values);
+
+  if (values.startDate && !startDateValidator(values)(moment(values.startDate))) {
+    errors.startDate = I18n.t('ERRORS.DATE.INVALID_DATE', {
+      attributeName: I18n.t(filterFormAttributeLabels.startDate),
+    });
+  }
+  if (values.endDate && !endDateValidator(values)(moment(values.endDate))) {
+    errors.endDate = I18n.t('ERRORS.DATE.INVALID_DATE', {
+      attributeName: I18n.t(filterFormAttributeLabels.endDate),
+    });
+  }
+
+  return errors;
+};
 
 class FilterForm extends Component {
   static propTypes = {
@@ -50,28 +69,6 @@ class FilterForm extends Component {
     this.props.onSubmit();
   };
 
-  startDateValidator = (current) => {
-    const { currentValues } = this.props;
-
-    if (currentValues && currentValues.endDate) {
-      return current.isSameOrAfter(moment(currentValues.endDate).subtract(2, 'w'))
-        && current.isSameOrBefore(moment(currentValues.endDate));
-    }
-
-    return true;
-  };
-
-  endDateValidator = (current) => {
-    const { currentValues } = this.props;
-
-    if (currentValues && currentValues.startDate) {
-      return current.isSameOrBefore(moment(currentValues.startDate).add(2, 'w'))
-        && current.isSameOrAfter(moment(currentValues.startDate));
-    }
-
-    return current.isSameOrBefore();
-  };
-
   render() {
     const {
       games,
@@ -81,6 +78,7 @@ class FilterForm extends Component {
       submitting,
       handleSubmit,
       onSubmit,
+      currentValues,
     } = this.props;
 
     return (
@@ -189,8 +187,10 @@ class FilterForm extends Component {
                     name="startDate"
                     placeholder={I18n.t(filterFormAttributeLabels.startDate)}
                     component={DateTimeField}
-                    isValidDate={this.startDateValidator}
+                    isValidDate={startDateValidator(currentValues)}
                     position="vertical"
+                    showErrorMessage={false}
+                    pickerClassName="left-side"
                   />
                   <span className="range-group__separator">-</span>
                   <Field
@@ -200,8 +200,9 @@ class FilterForm extends Component {
                     name="endDate"
                     placeholder={I18n.t(filterFormAttributeLabels.endDate)}
                     component={DateTimeField}
-                    isValidDate={this.endDateValidator}
+                    isValidDate={endDateValidator(currentValues)}
                     position="vertical"
+                    showErrorMessage={false}
                   />
                 </div>
               </div>

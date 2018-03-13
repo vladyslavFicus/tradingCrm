@@ -259,6 +259,12 @@
         "BONUS_ROUND_CARD": "Карта",
         "BONUS_ROUND_FREESPIN": "Бонус раунд фриспин",
         "ADJUSTMENT": "Подгонка"
+      },
+      "NOTIFICATIONS": {
+        "INVALID_DATE_RANGE": {
+          "TITLE": "Диапазон дат превышен",
+          "MESSAGE": "Максимальный диапазон дат - 14 дней"
+        }
       }
     },
     "MARKETING": {
@@ -1127,6 +1133,9 @@
     "FILE": {
       "INVALID_FILE_EXTENSION": "Некорректное расширение файла",
       "INVALID_FILE_SIZE": "Некорректное размер файла"
+    },
+    "DATE": {
+      "INVALID_DATE": "\"%{attributeName}\" некорректная"
     }
   },
   "COUNTRIES": {

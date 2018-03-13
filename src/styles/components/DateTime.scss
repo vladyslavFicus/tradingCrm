@@ -1,6 +1,7 @@
 .rdt {
   position: relative;
 }
+
 .rdtPicker {
   display: none;
   position: absolute;
@@ -9,12 +10,14 @@
   margin-top: 1px;
   z-index: 99999 !important;
   background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
   border: 1px solid #f9f9f9;
 }
+
 .rdtOpen .rdtPicker {
   display: block;
 }
+
 .rdtStatic .rdtPicker {
   box-shadow: none;
   position: static;
@@ -28,14 +31,17 @@
   width: 100%;
   margin: 0;
 }
+
 .rdtPicker td,
 .rdtPicker th {
   text-align: center;
   height: 28px;
 }
+
 .rdtPicker td {
   cursor: pointer;
 }
+
 .rdtPicker td.rdtDay:hover,
 .rdtPicker td.rdtHour:hover,
 .rdtPicker td.rdtMinute:hover,
@@ -44,13 +50,16 @@
   background: #eee;
   cursor: pointer;
 }
+
 .rdtPicker td.rdtOld,
 .rdtPicker td.rdtNew {
   color: #999;
 }
+
 .rdtPicker td.rdtToday {
   position: relative;
 }
+
 .rdtPicker td.rdtToday:before {
   content: '';
   display: inline-block;
@@ -61,15 +70,18 @@
   bottom: 4px;
   right: 4px;
 }
+
 .rdtPicker td.rdtActive,
 .rdtPicker td.rdtActive:hover {
   background-color: #428bca;
   color: #fff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
+
 .rdtPicker td.rdtActive.rdtToday:before {
   border-bottom-color: #fff;
 }
+
 .rdtPicker td.rdtDisabled,
 .rdtPicker td.rdtDisabled:hover {
   background: none;
@@ -80,22 +92,27 @@
 .rdtPicker td span.rdtOld {
   color: #999;
 }
+
 .rdtPicker td span.rdtDisabled,
 .rdtPicker td span.rdtDisabled:hover {
   background: none;
   color: #999;
   cursor: not-allowed;
 }
+
 .rdtPicker th {
   border-bottom: 1px solid #f9f9f9;
 }
+
 .rdtPicker .dow {
   width: 14.2857%;
   border-bottom: none;
 }
+
 .rdtPicker th.rdtSwitch {
   width: 100px;
 }
+
 .rdtPicker th.rdtNext,
 .rdtPicker th.rdtPrev {
   font-size: 21px;
@@ -106,10 +123,10 @@
 .rdtNext span {
   display: block;
   -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none;   /* Chrome/Safari/Opera */
-  -khtml-user-select: none;    /* Konqueror */
-  -moz-user-select: none;      /* Firefox */
-  -ms-user-select: none;       /* Internet Explorer/Edge */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
 }
 
@@ -119,9 +136,11 @@
   color: #999;
   cursor: not-allowed;
 }
+
 .rdtPicker thead tr:first-child th {
   cursor: pointer;
 }
+
 .rdtPicker thead tr:first-child th:hover {
   background: #eeeeee;
 }
@@ -145,6 +164,7 @@ td.rdtYear {
   width: 25%;
   cursor: pointer;
 }
+
 td.rdtMonth:hover,
 td.rdtYear:hover {
   background: #eee;
@@ -178,12 +198,13 @@ td.rdtYear:hover {
   display: block;
 
   -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none;   /* Chrome/Safari/Opera */
-  -khtml-user-select: none;    /* Konqueror */
-  -moz-user-select: none;      /* Firefox */
-  -ms-user-select: none;       /* Internet Explorer/Edge */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
 }
+
 .rdtCounter .rdtCount {
   height: 30%;
   border-radius: 3px;
@@ -243,7 +264,12 @@ td.rdtYear:hover {
         &.active {
           border-color: transparent;
           color: #fff;
-          background-image: linear-gradient(270deg,#25bdee,#4a90e2);
+          background-image: linear-gradient(270deg, #25bdee, #4a90e2);
+        }
+
+        &.rdtDisabled {
+          color: #999;
+          cursor: not-allowed;
         }
       }
     }
