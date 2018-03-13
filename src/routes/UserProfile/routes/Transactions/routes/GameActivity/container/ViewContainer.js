@@ -6,7 +6,7 @@ import { actionCreators } from '../modules';
 import config from '../../../../../../../config';
 import { withNotifications } from '../../../../../../../components/HighOrder';
 
-const mapStateToProps = ({
+const mapStateToProps = state => ({
   userGamingActivity,
   userTransactionsSubTabs: { tabs: subTabRoutes },
   i18n,
