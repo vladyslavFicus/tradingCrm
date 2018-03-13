@@ -76,8 +76,6 @@ const sidebarTopMenu = [
 ];
 
 const initialState = {
-  showScrollToTop: false,
-  isInitializedScroll: false,
   sidebarTopMenu: [],
   sidebarBottomMenu: [
     { label: I18n.t('SIDEBAR.BOTTOM_MENU.SUPPORT'), icon: 'fa fa-life-ring', url: '#' },
