@@ -81,9 +81,7 @@ class Permissions {
   getCompiled = () => this.__permissions;
 }
 
-const filterItems = (items, permissions) => items.filter(
-  i => !(i.permissions instanceof Permissions) || i.permissions.check(permissions)
-);
-
-export { CONDITIONS, filterItems };
+export {
+  CONDITIONS,
+};
 export default Permissions;

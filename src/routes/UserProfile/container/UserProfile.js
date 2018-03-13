@@ -4,7 +4,7 @@ import { actionCreators as filesActionCreators } from '../modules/files';
 import ProfileLayout from '../layouts/ProfileLayout';
 import config, { getAvailableTags } from '../../../config';
 import { statusActions } from '../../../constants/user';
-import Permissions, { filterItems } from '../../../utils/permissions';
+import Permissions from '../../../utils/permissions';
 import { userProfileTabs } from '../../../config/menu';
 
 const mapStateToProps = (state) => {
@@ -66,7 +66,9 @@ const mapStateToProps = (state) => {
     playerLimits,
     uploading,
     uploadModalInitialValues,
-    userProfileTabs: filterItems(userProfileTabs, currentPermissions),
+    userProfileTabs: userProfileTabs.filter(
+      i => !(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions)
+    ),
     locale,
     config: config.player,
   };

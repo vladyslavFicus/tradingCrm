@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
 import FreeSpinsView from '../components/FreeSpinsView';
 import config from '../../../../../../../config';
-import { routes as subTabRoutes } from '../../../constants';
-import { filterItems as filterAvailableItems } from '../../../../../../../utils/permissions';
 
 const mapStateToProps = ({
   userBonusFreeSpinsList: {
@@ -15,7 +13,7 @@ const mapStateToProps = ({
   profile: { profile },
   i18n: { locale },
   options: { data: { baseCurrency } },
-  permissions: { data: currentPermissions },
+  userRewardsSubTabs: { tabs: subTabRoutes },
 }) => ({
   filters,
   list,
@@ -25,7 +23,7 @@ const mapStateToProps = ({
   locale,
   currency: profile.data.currencyCode || baseCurrency,
   cancelReasons: config.modules.freeSpin.cancelReasons,
-  subTabRoutes: filterAvailableItems(subTabRoutes, currentPermissions),
+  subTabRoutes,
 });
 const mapActions = {
   fetchFreeSpins: actionCreators.fetchFreeSpins,

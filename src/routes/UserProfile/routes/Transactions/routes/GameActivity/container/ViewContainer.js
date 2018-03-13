@@ -5,9 +5,11 @@ import config from '../../../../../../../config';
 
 const mapStateToProps = ({
   userGamingActivity,
+  userTransactionsSubTabs: { tabs: subTabRoutes },
   i18n,
 }) => ({
   ...userGamingActivity,
+  subTabRoutes,
   ...i18n,
   providers: config.providers,
 });

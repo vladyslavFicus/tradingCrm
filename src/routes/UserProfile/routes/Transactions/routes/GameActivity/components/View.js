@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
-import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../components/GridView';
 import Amount from '../../../../../../../components/Amount';
 import Uuid from '../../../../../../../components/Uuid';
 import FilterForm from './FilterForm';
 import GameRoundType from './GameRoundType/GameRoundType';
-import SubTabNavigation from '../../../../../../../components/SubTabNavigation';
+import StickyNavigation from '../../../../../components/StickyNavigation';
 
 class View extends Component {
   static propTypes = {
@@ -37,6 +36,7 @@ class View extends Component {
     fetchGameActivity: PropTypes.func.isRequired,
     exportGameActivity: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -213,22 +213,20 @@ class View extends Component {
       },
       games: { entities: gamesList },
       locale,
+      subTabRoutes,
     } = this.props;
 
     return (
       <div>
-        {/*<Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <div className="tab-header__heading">
-              <SubTabNavigation links={subTabRoutes} />
-            </div>
-            <div className="tab-header__actions">
-              <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
-                {I18n.t('COMMON.EXPORT')}
-              </button>
-            </div>
-          </div>
-        </Sticky>*/}
+        <StickyNavigation links={subTabRoutes}>
+          <button
+            disabled={exporting}
+            className="btn btn-sm btn-default-outline"
+            onClick={this.handleExportClick}
+          >
+            {I18n.t('COMMON.EXPORT')}
+          </button>
+        </StickyNavigation>
 
         <FilterForm
           providers={providers}

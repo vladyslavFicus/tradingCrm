@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError } from 'redux-form';
-import Sticky from 'react-stickynode';
 import FreeSpinMainInfo from '../FreeSpinMainInfo';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import { targetTypes } from '../../../../../../../../constants/note';
 import { statuses, actions } from '../../../../../../../../constants/free-spin';
-import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
 import Amount from '../../../../../../../../components/Amount';
 import FreeSpinStatus from '../../../../../../../../components/FreeSpinStatus';
 import NoteButton from '../../../../../../../../components/NoteButton';
@@ -21,6 +19,7 @@ import recognizeFieldError from '../../../../../../../../utils/recognizeFieldErr
 import FreeSpinGameInfo from '../FreeSpinGameInfo';
 import { aggregators, mapResponseErrorToField } from '../../constants';
 import { moneyTypeUsage } from '../../../../../../../../constants/bonus';
+import StickyNavigation from '../../../../../../components/StickyNavigation';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -62,7 +61,7 @@ class FreeSpinsView extends Component {
     createFreeSpinTemplate: PropTypes.func.isRequired,
     assignFreeSpinTemplate: PropTypes.func.isRequired,
     templates: PropTypes.arrayOf(PropTypes.freeSpinListEntity),
-    subTabRoutes: PropTypes.subTabRoutes.isRequired,
+    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
   };
   static defaultProps = {
     templates: [],
@@ -361,26 +360,23 @@ class FreeSpinsView extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <SubTabNavigation links={subTabRoutes} />
-            <div className="tab-header__actions">
-              <button
-                disabled={exporting || !allowActions}
-                className="btn btn-default-outline btn-sm"
-                onClick={this.handleExportButtonClick}
-              >
-                {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
-              </button>
-              <button
-                className="btn btn-primary-outline margin-left-15 btn-sm"
-                onClick={this.handleCreateButtonClick}
-              >
-                {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
-              </button>
-            </div>
+        <StickyNavigation links={subTabRoutes}>
+          <div>
+            <button
+              disabled={exporting || !allowActions}
+              className="btn btn-default-outline btn-sm"
+              onClick={this.handleExportButtonClick}
+            >
+              {I18n.t('PLAYER_PROFILE.FREE_SPINS.EXPORT_BUTTON')}
+            </button>
+            <button
+              className="btn btn-primary-outline margin-left-15 btn-sm"
+              onClick={this.handleCreateButtonClick}
+            >
+              {I18n.t('PLAYER_PROFILE.FREE_SPINS.MANUAL_FREE_SPIN_BUTTON')}
+            </button>
           </div>
-        </Sticky>
+        </StickyNavigation>
 
         <FreeSpinsFilterForm
           providers={providersFilterValues}

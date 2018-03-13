@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import { actionCreators } from '../modules';
 import { actionCreators as profileActionCreators } from '../../../../../modules/profile';
 import List from '../components/View';
-import { routes as subTabRoutes } from '../../../constants';
-import { filterItems as filterAvailableItems } from '../../../../../../../utils/permissions';
 
 const mapStateToProps = ({
   profile: { profile },
@@ -13,14 +11,14 @@ const mapStateToProps = ({
     templates: { data: templates },
   },
   i18n: { locale },
-  permissions: { data: currentPermissions },
+  userRewardsSubTabs: { tabs: subTabRoutes },
 }) => ({
   list,
   playerProfile: profile,
   bonus,
   templates,
   locale,
-  subTabRoutes: filterAvailableItems(subTabRoutes, currentPermissions),
+  subTabRoutes,
 });
 
 const mapActions = {

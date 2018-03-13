@@ -1,21 +1,25 @@
-import createReducer from '../../../../../utils/createReducer';
-import { filterItems as filterAvailableItems } from '../../../../../utils/permissions';
-import { routes as subTabRoutes } from '../constants';
+import createReducer from '../../../utils/createReducer';
+import Permissions from '../../../utils/permissions';
 
 const KEY = 'user-transactions-tab';
 const INIT_SUB_TABS = `${KEY}/init-subtabs`;
 
-function initSubTabs(userPermissions) {
+function initSubTabs(userPermissions, routes) {
   return {
     type: INIT_SUB_TABS,
-    payload: userPermissions,
+    payload: {
+      userPermissions,
+      routes,
+    },
   };
 }
 
 const actionHandlers = {
-  [INIT_SUB_TABS]: (state, { payload: userPermissions }) => ({
+  [INIT_SUB_TABS]: (state, { payload: { userPermissions, routes } }) => ({
     ...state,
-    tabs: filterAvailableItems(subTabRoutes, userPermissions),
+    tabs: routes.filter(
+      i => !(i.permissions instanceof Permissions) || i.permissions.check(userPermissions)
+    ),
   }),
 };
 const initialState = {
