@@ -13,6 +13,7 @@ class DateTimeField extends Component {
   static propTypes = {
     id: PropTypes.string,
     className: PropTypes.string,
+    pickerClassName: PropTypes.string,
     input: PropTypes.shape({
       onChange: PropTypes.func.isRequired,
       name: PropTypes.string,
@@ -44,6 +45,7 @@ class DateTimeField extends Component {
     labelAddon: null,
     labelClassName: 'form-control-label',
     className: 'form-group',
+    pickerClassName: '',
     dateFormat: 'DD.MM.YYYY',
     timeFormat: 'HH:mm',
     position: 'horizontal',
@@ -120,6 +122,7 @@ class DateTimeField extends Component {
       id,
       disabled,
       placeholder,
+      pickerClassName,
       isValidDate,
       dateFormat,
       timeFormat,
@@ -132,6 +135,7 @@ class DateTimeField extends Component {
 
     let inputField = (
       <DateTime
+        className={pickerClassName}
         dateFormat={dateFormat}
         timeFormat={timeFormat}
         onChange={this.handleChange}

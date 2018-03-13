@@ -1127,6 +1127,9 @@
     "FILE": {
       "INVALID_FILE_EXTENSION": "Некорректное расширение файла",
       "INVALID_FILE_SIZE": "Некорректное размер файла"
+    },
+    "DATE": {
+      "INVALID_DATE": "\"%{attributeName}\" некорректная"
     }
   },
   "COUNTRIES": {

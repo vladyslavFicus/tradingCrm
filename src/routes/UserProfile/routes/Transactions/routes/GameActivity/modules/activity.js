@@ -68,7 +68,7 @@ function exportGameActivity(playerUUID, filters = { page: 0 }) {
       const response = await fetch(requestUrl, {
         method: 'GET',
         headers: {
-          Accept: 'text/csv',
+          Accept: 'text/csv, application/json',
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },

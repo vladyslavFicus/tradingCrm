@@ -1117,6 +1117,9 @@
     "FILE": {
       "INVALID_FILE_EXTENSION": "Invalid file extension",
       "INVALID_FILE_SIZE": "Invalid file size"
+    },
+    "DATE": {
+      "INVALID_DATE": "\"%{attributeName}\" is invalid"
     }
   },
   "COUNTRIES": {
