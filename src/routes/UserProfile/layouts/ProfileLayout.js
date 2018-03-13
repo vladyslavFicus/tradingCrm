@@ -115,7 +115,7 @@ class ProfileLayout extends Component {
     saveFiles: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
     changePassword: PropTypes.func.isRequired,
-    userProfileTabs: PropTypes.array.isRequired, // improve this props (arrayOf)
+    userProfileTabs: PropTypes.array.isRequired,
   };
   static defaultProps = {
     availableTags: [],
