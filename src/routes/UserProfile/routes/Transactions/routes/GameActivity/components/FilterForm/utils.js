@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const startDateValidator = currentValues => (current) => {
   const valid = current.isSameOrBefore();
 
