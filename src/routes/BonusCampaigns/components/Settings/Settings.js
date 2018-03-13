@@ -8,8 +8,10 @@ import { statuses } from '../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../constants/propTypes';
 import { statuses as freeSpinTemplateStatuses } from '../../../../constants/free-spin-template';
 import CurrencyCalculationModal from '../../components/CurrencyCalculationModal';
+import recognizeFieldError from '../../../../utils/recognizeFieldError';
 import AddToCampaignModal from '../../../../components/AddToCampaignModal';
 import { customValueFieldTypes } from '../../../../constants/form';
+import { mapResponseErrorToField } from './constants';
 
 const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
 const CHOOSE_CAMPAIGN_MODAL = 'choose-campaign-modal';
@@ -30,7 +32,7 @@ class Settings extends Component {
       endDate: PropTypes.bonusCampaignEntity.endDate,
       wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
       promoCode: PropTypes.bonusCampaignEntity.promoCode,
-      bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
+      bonusLifeTime: PropTypes.bonusCampaignEntity.bonusLifeTime,
       campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,
@@ -52,23 +54,27 @@ class Settings extends Component {
     }).isRequired,
     games: PropTypes.array,
     providers: PropTypes.array,
-    templates: PropTypes.array,
+    freeSpinTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     fetchPaymentMethods: PropTypes.func.isRequired,
     createFreeSpinTemplate: PropTypes.func.isRequired,
+    createBonusTemplate: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
     form: PropTypes.string.isRequired,
     baseCurrency: PropTypes.string.isRequired,
     changeForm: PropTypes.func.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
   };
 
   static defaultProps = {
     games: [],
     providers: [],
-    templates: [],
+    freeSpinTemplates: [],
     bonusCampaignForm: {
       capping: {
         type: customValueFieldTypes.ABSOLUTE,
@@ -77,6 +83,7 @@ class Settings extends Component {
         type: customValueFieldTypes.ABSOLUTE,
       },
     },
+    bonusTemplates: [],
   };
 
   static contextTypes = {
@@ -111,23 +118,14 @@ class Settings extends Component {
   pollingFreeSpinTemplate = null;
 
   startPollingFreeSpinTemplate = uuid => new Promise((resolve) => {
-    const { addNotification } = this.context;
-
     this.pollingFreeSpinTemplate = setInterval(async () => {
       const action = await this.props.fetchFreeSpinTemplate(uuid);
 
       if (action && !action.error) {
         const { status } = action.payload;
-        if (status === freeSpinTemplateStatuses.CREATED) {
+        if (status === freeSpinTemplateStatuses.CREATED || status === freeSpinTemplateStatuses.FAILED) {
           this.stopPollingFreeSpinTemplate();
-          resolve();
-        } else if (status === freeSpinTemplateStatuses.FAILED) {
-          addNotification({
-            level: 'error',
-            title: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR'),
-          });
-          this.stopPollingFreeSpinTemplate();
-          resolve();
+          resolve({ success: status === freeSpinTemplateStatuses.CREATED });
         }
       }
     }, POLLING_FREE_SPIN_TEMPLATE_INTERVAL);
@@ -190,9 +188,11 @@ class Settings extends Component {
   handleSubmit = async (formData) => {
     const {
       createFreeSpinTemplate,
+      createBonusTemplate,
       handleSubmit,
-      baseCurrency,
     } = this.props;
+
+    const { currency } = formData;
 
     let data = { ...formData };
     let rewardsFreeSpin = get(data, 'rewards.freeSpin');
@@ -203,33 +203,139 @@ class Settings extends Component {
         betPerLineAmounts: [
           {
             amount: rewardsFreeSpin.betPerLine,
-            currency: baseCurrency,
+            currency,
           },
         ],
       };
       delete rewardsFreeSpin.betPerLine;
+
+      let bonus = get(rewardsFreeSpin, 'bonus');
+      if (bonus) {
+        data = {
+          ...data,
+          claimable: get(bonus, 'claimable', false),
+          wagerWinMultiplier: bonus.wageringRequirement.value,
+          bonusLifeTime: bonus.bonusLifeTime,
+        };
+
+        if (bonus.templateUUID) {
+          rewardsFreeSpin.bonusTemplateUUID = bonus.templateUUID;
+        } else {
+          if (bonus.maxBet) {
+            bonus = {
+              ...bonus,
+              maxBet: {
+                currencies: [{
+                  amount: bonus.maxBet,
+                  currency,
+                }],
+              },
+            };
+          }
+
+          if (
+            bonus.maxGrantAmount &&
+            bonus.grantRatio &&
+            bonus.grantRatio.type === customValueFieldTypes.PERCENTAGE
+          ) {
+            bonus = {
+              ...bonus,
+              maxGrantAmount: {
+                currencies: [{
+                  amount: bonus.maxGrantAmount,
+                  currency,
+                }],
+              },
+            };
+          } else {
+            delete bonus.maxGrantAmount;
+          }
+
+          ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
+            if (bonus[key]) {
+              if (bonus[key].value) {
+                const value = bonus[key].type === customValueFieldTypes.ABSOLUTE ? {
+                  value: {
+                    currencies: [{
+                      amount: bonus[key].value,
+                      currency,
+                    }],
+                  },
+                } : {
+                  percentage: bonus[key].value,
+                };
+
+                bonus = {
+                  ...bonus,
+                  [key]: {
+                    ratioType: bonus[key].type,
+                    ...value,
+                  },
+                };
+              } else {
+                delete bonus[key];
+              }
+            }
+          });
+
+          const action = await createBonusTemplate({
+            claimable: false,
+            ...bonus,
+          });
+
+          if (action && !action.error) {
+            rewardsFreeSpin.bonusTemplateUUID = action.payload.uuid;
+          } else if (action.payload.response && action.payload.response.error) {
+            const fieldErrors = recognizeFieldError(action.payload.response.error, mapResponseErrorToField);
+            if (fieldErrors) {
+              throw new SubmissionError({
+                rewards: {
+                  freeSpin: {
+                    bonus: fieldErrors,
+                  },
+                },
+              });
+            } else {
+              throw new SubmissionError({ __error: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS_TEMPLATE.CREATION_ERROR') });
+            }
+          }
+        }
+      }
 
       let rewardsFreeSpinData = {};
 
       if (rewardsFreeSpin.templateUUID) {
         rewardsFreeSpinData = rewardsFreeSpin;
       } else {
-        const createAction = await createFreeSpinTemplate({
-          claimable: false,
-          ...rewardsFreeSpin,
-        });
+        const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
 
         if (createAction && !createAction.error) {
-          rewardsFreeSpinData = createAction.payload;
-          await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
-        } else {
-          throw new SubmissionError({
-            rewards: {
-              freeSpin: {
-                name: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.NAME_ALREADY_EXIST'),
+          rewardsFreeSpinData.templateUUID = createAction.payload.uuid;
+          const polling = await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
+          if (!polling.success) {
+            this.context.addNotification({
+              level: 'error',
+              title: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR'),
+            });
+            throw new SubmissionError({ __error: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR') });
+          }
+        } else if (get(createAction, 'payload.response.fields_errors', false)) {
+          const errors = Object.keys(createAction.payload.response.fields_errors).reduce((res, name) => ({
+            ...res,
+            [name]: I18n.t(createAction.payload.response.fields_errors[name].error),
+          }), {});
+          throw new SubmissionError(errors);
+        } else if (createAction.payload.response && createAction.payload.response.error) {
+          const fieldErrors = recognizeFieldError(createAction.payload.response.error, mapResponseErrorToField);
+          if (fieldErrors) {
+            throw new SubmissionError({
+              rewards: {
+                freeSpin: fieldErrors,
               },
-            },
-          });
+            });
+          } else {
+            throw new SubmissionError({ __error: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.CREATION_ERROR') });
+          }
         }
       }
 
@@ -256,9 +362,12 @@ class Settings extends Component {
       addNode,
       games,
       providers,
-      templates,
+      freeSpinTemplates,
+      bonusTemplates,
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
       fetchGames,
       fetchPaymentMethods,
       form,
@@ -281,10 +390,13 @@ class Settings extends Component {
           toggleModal={this.handleCurrencyAmountModalOpen}
           games={games}
           providers={providers}
-          templates={templates}
+          freeSpinTemplates={freeSpinTemplates}
+          bonusTemplates={bonusTemplates}
           form={form}
           fetchFreeSpinTemplate={fetchFreeSpinTemplate}
           fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+          fetchBonusTemplates={fetchBonusTemplates}
+          fetchBonusTemplate={fetchBonusTemplate}
           fetchGames={fetchGames}
           handleClickChooseCampaign={this.handleClickChooseCampaign}
           linkedCampaign={linkedCampaign}

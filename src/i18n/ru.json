@@ -303,7 +303,13 @@
           "MONEY_TYPE_PRIORITY": "Приор. исп. денег",
           "LOCK_AMOUNT_STRATEGY": "Блок. вывода средств",
           "CLAIMABLE": "Требовать подтверждения",
-          "MAX_BET": "Макс. ставка"
+          "MAX_BET": "Макс. ставка",
+          "NAME": "Название",
+          "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
+          "WAGERING_REQUIREMENT": "Условия отыгрыша",
+          "LIFE_TIME": "Время жизни",
+          "CUSTOM_TEMPLATE": "Новый шаблон",
+          "TEMPLATE": "Шаблон"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Заблокировать все средства",
@@ -339,7 +345,8 @@
           "START_DATE": "Дата старта",
           "END_DATE": "Дата конца"
         }
-      }
+      },
+      "PERMIT_BONUS_CONVERSION": "Подтвердить конвертацию"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -485,7 +492,9 @@
       "MANUAL_FREE_SPIN_BUTTON": "+ Добавить free spin",
       "NOTIFICATIONS": {
         "CANCEL_FREE_SPIN_ERROR": "Не удалось отменить free spins"
-      }
+      },
+      "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
+      "BONUS_TEMPLATE": "Бонус шаблон"
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
@@ -513,8 +522,9 @@
           "BET_LEVEL": "Уровень ставки",
           "COIN_VALUE_LEVEL": "Уровень стоимости монет",
           "APPROXE_BET_VALUE": "Прим. значение ставки",
-          "USE_TEMPLATE": "Использовать шаблон",
-          "TEMPLATE": "Шаблон"
+          "CUSTOM_TEMPLATE": "Новый шаблон",
+          "TEMPLATE": "Шаблон",
+          "USE_TEMPLATE": "Использовать шаблон"
         },
         "FREE_SPIN_VALUE": "Стоимость spin",
         "TOTAL_VALUE": "Сумма spin",
@@ -721,7 +731,8 @@
     "WEEKS": "Недели",
     "NONE": "Ни одного",
     "REMOVE": "Удалить",
-    "CLAIMABLE": "Claimable"
+    "CLAIMABLE": "Claimable",
+    "CURRENCY": "Валюта"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1371,10 +1382,15 @@
           "NOT_SET": "Не задано"
         },
         "MAX_BET": "Макс. ставка",
-        "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов"
+        "MAX_GRANTED_AMOUNT": "Макс. сумма бонусов",
+        "NAME": "Название",
+        "TEMPLATE": "Шаблон",
+        "WAGERING_REQUIREMENT": "Wagering requirement",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
+        "CAPPING": "Capping",
+        "PRIZE": "Приз"
       },
       "FREE_SPIN": {
-        "NAME_ALREADY_EXIST": "Имя уже существует",
         "ADD_REWARDS": "Добавить награду",
         "SELECT_REWARDS": "-- Выбрать награду --",
         "BET_PER_LINE": "Бет за линию",
@@ -1397,6 +1413,9 @@
           "DAYS": "дней",
           "NOT_SET": "Не задано"
         }
+      },
+      "BONUS_TEMPLATE": {
+        "CREATION_ERROR": "Ошибка создания бонус шаблона"
       }
     },
     "CURRENCY_CALC_MODAL": {
@@ -1459,6 +1478,9 @@
     "payment": {
       "method": {
         "inactive": "Платежный метод неактивен"
+      },
+      "withdrawable": {
+        "limit": "Превышение суммы"
       }
     },
     "profile": {
@@ -1477,6 +1499,11 @@
         "activate": {
           "notAllow": "Не разрешено"
         }
+      }
+    },
+    "template": {
+      "name": {
+        "already-exists": "Имя уже существует"
       }
     }
   },

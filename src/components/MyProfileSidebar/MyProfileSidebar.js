@@ -7,6 +7,7 @@ import PropTypes from '../../constants/propTypes';
 import { InputField, SelectField } from '../ReduxForm';
 import { createValidator } from '../../utils/validator';
 import { attributeLabels } from './constants';
+import './MyProfileSidebar.scss';
 
 export const formName = 'my-profile-side-bar';
 

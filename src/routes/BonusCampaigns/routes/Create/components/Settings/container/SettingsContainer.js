@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import Settings from '../Settings';
 import { actionCreators } from '../../../modules';
-import { actionCreators as templateActionCreators } from '../../../modules/templates';
+import { actionCreators as templateActionCreators } from '../../../modules/freeSpinTemplates';
+import { actionCreators as bonusTemplateActionCreators } from '../../../modules/bonusTemplates';
 import { actionCreators as gamesActionCreators } from '../../../modules/games';
 import { actionCreators as campaignsActionCreators } from '../../../modules/campaigns';
 import { actionCreators as paymentsActionCreators } from '../../../modules/payments';
@@ -10,7 +11,8 @@ const mapStateToProps = ({
   bonusCampaignCreate: {
     create: { data, nodeGroups },
     games: { games, providers },
-    templates: { data: templates },
+    freeSpinTemplates: { data: freeSpinTemplates },
+    bonusTemplates: { data: bonusTemplates },
     payments: { list: paymentMethods },
   },
   options: { data: { currencyCodes, baseCurrency } },
@@ -22,7 +24,8 @@ const mapStateToProps = ({
   baseCurrency,
   games,
   providers,
-  templates,
+  freeSpinTemplates,
+  bonusTemplates,
   locale,
   paymentMethods,
 });
@@ -35,6 +38,9 @@ const mapActions = {
   createFreeSpinTemplate: templateActionCreators.createFreeSpinTemplate,
   fetchFreeSpinTemplates: templateActionCreators.fetchFreeSpinTemplates,
   fetchFreeSpinTemplate: templateActionCreators.fetchFreeSpinTemplate,
+  createBonusTemplate: bonusTemplateActionCreators.createBonusTemplate,
+  fetchBonusTemplates: bonusTemplateActionCreators.fetchBonusTemplates,
+  fetchBonusTemplate: bonusTemplateActionCreators.fetchBonusTemplate,
   fetchGames: gamesActionCreators.fetchGames,
   fetchCampaigns: campaignsActionCreators.fetchCampaigns,
   fetchCampaign: campaignsActionCreators.fetchCampaign,

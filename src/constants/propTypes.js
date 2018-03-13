@@ -120,7 +120,7 @@ PropTypes.limitEntity = PropTypes.shape({
 PropTypes.bonusEntity = PropTypes.shape({
   amountToWage: PropTypes.price,
   balance: PropTypes.price,
-  bonusLifetime: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+  bonusLifeTime: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
   bonusType: PropTypes.string,
   bonusUUID: PropTypes.string,
   campaignUUID: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -352,7 +352,7 @@ PropTypes.customValue = PropTypes.shape({
 });
 PropTypes.bonusCampaignEntity = PropTypes.shape({
   authorUUID: PropTypes.string,
-  bonusLifetime: PropTypes.number,
+  bonusLifeTime: PropTypes.number,
   campaignName: PropTypes.string,
   campaignRatio: PropTypes.customValue,
   uuid: PropTypes.string,
@@ -412,6 +412,10 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   winning: PropTypes.price.isRequired,
 });
 PropTypes.freeSpinListEntity = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+});
+PropTypes.bonusTemplateListEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 });

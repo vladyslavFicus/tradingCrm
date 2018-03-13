@@ -22,7 +22,7 @@ class View extends Component {
       endDate: PropTypes.bonusCampaignEntity.endDate,
       wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
       promoCode: PropTypes.bonusCampaignEntity.promoCode,
-      bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
+      bonusLifeTime: PropTypes.bonusCampaignEntity.bonusLifeTime,
       campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,
@@ -42,6 +42,7 @@ class View extends Component {
     addNode: PropTypes.func.isRequired,
     fetchGames: PropTypes.func.isRequired,
     createFreeSpinTemplate: PropTypes.func.isRequired,
+    createBonusTemplate: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
     nodeGroups: PropTypes.shape({
       fulfillments: PropTypes.array.isRequired,
@@ -49,20 +50,24 @@ class View extends Component {
     }).isRequired,
     games: PropTypes.array,
     providers: PropTypes.array,
-    templates: PropTypes.array,
+    freeSpinTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
     fetchCampaign: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
     fetchPaymentMethods: PropTypes.func.isRequired,
     baseCurrency: PropTypes.string.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
   };
 
   static defaultProps = {
     games: [],
     providers: [],
-    templates: [],
+    freeSpinTemplates: [],
     paymentMethods: [],
+    bonusTemplates: [],
   };
 
   static contextTypes = {
@@ -118,27 +123,35 @@ class View extends Component {
       addNode,
       games,
       providers,
-      templates,
+      freeSpinTemplates,
+      bonusTemplates,
       paymentMethods,
       fetchFreeSpinTemplate,
       fetchFreeSpinTemplates,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
       fetchGames,
       fetchPaymentMethods,
       fetchCampaigns,
       fetchCampaign,
       createFreeSpinTemplate,
+      createBonusTemplate,
       baseCurrency,
     } = this.props;
 
     return (
       <SettingsForm
         createFreeSpinTemplate={createFreeSpinTemplate}
+        createBonusTemplate={createBonusTemplate}
         fetchGames={fetchGames}
         fetchPaymentMethods={fetchPaymentMethods}
         paymentMethods={paymentMethods}
         fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+        fetchBonusTemplates={fetchBonusTemplates}
+        fetchBonusTemplate={fetchBonusTemplate}
         fetchFreeSpinTemplate={fetchFreeSpinTemplate}
-        templates={templates}
+        freeSpinTemplates={freeSpinTemplates}
+        bonusTemplates={bonusTemplates}
         providers={providers}
         games={games}
         fetchCampaigns={fetchCampaigns}

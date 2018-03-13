@@ -30,7 +30,7 @@ const attributeLabels = {
   'rewards.bonus.campaignRatio.value': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.CAMPAIGN_RATIO.VALUE'),
   'rewards.bonus.campaignRatio.type': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.CAMPAIGN_RATIO.TYPE'),
   'rewards.bonus.wagerWinMultiplier': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MULTIPLIER'),
-  'rewards.bonus.bonusLifetime ': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.BONUS_LIFE_TIME'),
+  'rewards.bonus.bonusLifeTime ': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.BONUS_LIFE_TIME'),
   'rewards.bonus.moneyTypePriority ': I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MONEY_TYPE_PRIORITY'),
 };
 
@@ -47,6 +47,7 @@ const optInPeriods = keyMirror({
 
 const mapResponseErrorToField = {
   'promo-code': 'promoCode',
+  'already-exists': 'name',
 };
 
 const optInPeriodsLabels = {
@@ -65,8 +66,8 @@ export {
   attributeLabels,
   nodeGroupTypes,
   attributePlaceholders,
-  optInPeriods,
   optInPeriodsLabels,
+  optInPeriods,
   mapResponseErrorToField,
 };
 

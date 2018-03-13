@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { SubmissionError } from 'redux-form';
 import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
-import classNames from 'classnames';
 import _ from 'lodash';
 import { getAvailableLanguages } from '../../config';
 import PropTypes from '../../constants/propTypes';
@@ -11,7 +10,6 @@ import { actionCreators as languageActionCreators } from '../../redux/modules/la
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
 import { actionCreators as userPanelsActionCreators } from '../../redux/modules/user-panels';
 import { actionCreators as appActionCreators } from '../../redux/modules/app';
-import { actionCreators as windowActionCreators } from '../../redux/modules/window';
 import NotePopover from '../../components/NotePopover';
 import MiniProfilePopover from '../../components/MiniProfilePopover';
 import Navbar from '../../components/Navbar';
@@ -19,6 +17,7 @@ import Sidebar from '../../components/Sidebar';
 import UsersPanel from '../../components/UsersPanel';
 import MyProfileSidebar from '../../components/MyProfileSidebar';
 import parserErrorsFromServer from '../../utils/parseErrorsFromServer';
+import BackToTop from '../../components/BackToTop';
 import './NewLayout.scss';
 
 const NOTE_POPOVER = 'note-popover';
@@ -44,7 +43,6 @@ class NewLayout extends Component {
       uuid: PropTypes.string,
     }).isRequired,
     app: PropTypes.shape({
-      showScrollToTop: PropTypes.bool.isRequired,
       sidebarTopMenu: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string.isRequired,
         icon: PropTypes.string.isRequired,
@@ -84,7 +82,6 @@ class NewLayout extends Component {
     editNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     updateOperatorProfile: PropTypes.func.isRequired,
-    setIsShowScrollTop: PropTypes.func.isRequired,
     toggleMenuTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
@@ -177,12 +174,6 @@ class NewLayout extends Component {
     if (userPanels.some(panel => !panel.auth)) {
       resetPanels();
     }
-
-    window.addEventListener('scroll', this.handleScrollWindow);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScrollWindow);
   }
 
   onProfileSubmit = async ({ language, ...nextData }) => {
@@ -217,30 +208,6 @@ class NewLayout extends Component {
   setNoteChangedCallback = cb => this.setState({ noteChangedCallback: cb });
 
   initSidebar = () => this.props.initSidebar(this.props.permissions);
-
-  handleScrollWindow = () => {
-    const { app: { showScrollToTop }, setIsShowScrollTop } = this.props;
-
-    if (document.body.scrollTop > 100 && !showScrollToTop) {
-      setIsShowScrollTop(true);
-    } else if (showScrollToTop && document.body.scrollTop < 100) {
-      setIsShowScrollTop(false);
-    }
-  };
-
-  handleScrollToTop = () => {
-    const { activePanelIndex } = this.props;
-    const frames = document.querySelectorAll('iframe.user-panel-content-frame');
-    const currentFrame = frames[activePanelIndex];
-
-    if (activePanelIndex !== null && currentFrame) {
-      currentFrame
-        .contentWindow
-        .postMessage(JSON.stringify(windowActionCreators.scrollToTop()), window.location.origin);
-    } else {
-      window.scrollTo(0, 0);
-    }
-  };
 
   handleAddNoteClick = (target, item, params = {}) => {
     this.setState({
@@ -332,10 +299,7 @@ class NewLayout extends Component {
   };
 
   handleUserPanelClick = (index) => {
-    const shouldScrollShow = !!index || document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
-
     this.props.setActivePanel(index);
-    this.props.setIsShowScrollTop(shouldScrollShow);
   };
 
   render() {
@@ -348,7 +312,7 @@ class NewLayout extends Component {
       removePanel,
       onLocaleChange,
       languages,
-      app: { showScrollToTop, isInitializedScroll, sidebarTopMenu, sidebarBottomMenu },
+      app: { sidebarTopMenu, sidebarBottomMenu },
       locale,
       user,
       toggleMenuTab,
@@ -394,19 +358,7 @@ class NewLayout extends Component {
           onClose={this.handleCloseTabs}
         />
 
-        <div className={classNames('floating-buttons', { 'bottom-60': userPanels.length > 0 })}>
-          <button
-            className={
-              classNames('floating-buttons__circle', {
-                rollIn: showScrollToTop,
-                rollOut: isInitializedScroll && !showScrollToTop,
-              })
-            }
-            onClick={this.handleScrollToTop}
-          >
-            <i className="fa fa-caret-up" />
-          </button>
-        </div>
+        <BackToTop positionChange={userPanels.length > 0} />
 
         {
           popover.name === NOTE_POPOVER &&
@@ -471,7 +423,6 @@ export default connect(mapStateToProps, {
   editNote: noteActionCreators.editNote,
   deleteNote: noteActionCreators.deleteNote,
   onLocaleChange: languageActionCreators.setLocale,
-  setIsShowScrollTop: appActionCreators.setIsShowScrollTop,
   toggleMenuTab: appActionCreators.toggleMenuTab,
   menuItemClick: appActionCreators.menuItemClick,
   initSidebar: appActionCreators.initSidebar,

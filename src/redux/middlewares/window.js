@@ -1,7 +1,5 @@
 import { actionTypes as profileActionTypes } from '../../routes/UserProfile/modules/profile';
 import { actionCreators as windowActionCreators } from '../modules/window';
-import { actionTypes as userPanelsActionTypes } from '../modules/user-panels';
-import { actionCreators as appActionCreators } from '../modules/app';
 
 const config = {
   [profileActionTypes.FETCH_PROFILE.SUCCESS]: ({ payload }) => windowActionCreators.viewPlayerProfile({
@@ -20,7 +18,6 @@ const config = {
       ? windowActionCreators.closeProfileTab(meta.uuid)
       : undefined
   ),
-  [userPanelsActionTypes.SET_ACTIVE]: payload => appActionCreators.setIsShowScrollTop(!!payload),
 };
 
 const allowedActions = Object.keys(config);

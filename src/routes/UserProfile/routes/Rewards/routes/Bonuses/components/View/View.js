@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import Sticky from 'react-stickynode';
+import { get } from 'lodash';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
@@ -18,7 +19,8 @@ import BonusType from '../BonusType';
 import BonusStatus from '../BonusStatus';
 import CreateModal from '../CreateModal/CreateModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
-import { lockAmountStrategy } from '../../../../../../../../constants/bonus-campaigns';
+import { mapResponseErrorToField } from '../CreateModal/constants';
+import recognizeFieldError from '../../../../../../../../utils/recognizeFieldError';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -29,15 +31,23 @@ class View extends Component {
     list: PropTypes.pageableState(PropTypes.bonusEntity).isRequired,
     playerProfile: PropTypes.shape({ data: PropTypes.userProfile }).isRequired,
     fetchEntities: PropTypes.func.isRequired,
-    createBonus: PropTypes.func.isRequired,
+    createBonusTemplate: PropTypes.func.isRequired,
     cancelBonus: PropTypes.func.isRequired,
+    permitBonusConversion: PropTypes.func.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string,
     }).isRequired,
     fetchActiveBonus: PropTypes.func.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    assignBonusTemplate: PropTypes.func.isRequired,
     acceptBonus: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     subTabRoutes: PropTypes.subTabRoutes.isRequired,
+    templates: PropTypes.array,
+  };
+  static defaultProps = {
+    templates: [],
   };
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
@@ -132,6 +142,17 @@ class View extends Component {
       }
     }
 
+    const wageredAmount = get(data, 'wagered.amount', 0);
+    const amountToWage = get(data, 'amountToWage.amount', 0);
+    if (data.state === statuses.IN_PROGRESS && wageredAmount > amountToWage) {
+      actions.push({
+        children: I18n.t('PLAYER_PROFILE.BONUS.PERMIT_BONUS_CONVERSION'),
+        onClick: this.handlePermitBonusConversion.bind(null, data.bonusUUID),
+        className: 'btn btn-default-outline text-uppercase',
+        id: `${data.bonusUUID}-permit-bonus-conversion-button`,
+      });
+    }
+
     if ([statuses.INACTIVE, statuses.IN_PROGRESS].indexOf(data.state) > -1) {
       actions.push({
         children: I18n.t('PLAYER_PROFILE.BONUS.CANCEL_BONUS'),
@@ -178,20 +199,70 @@ class View extends Component {
       });
   };
 
-  handleCreateManualBonusClick = () => {
-    this.handleModalOpen(MODAL_CREATE);
-  };
+  handlePermitBonusConversion = async (bonusUUID) => {
+    const { params: { id: playerUUID }, permitBonusConversion } = this.props;
 
-  handleSubmitManualBonus = async (data) => {
-    const action = await this.props.createBonus(data);
-
-    if (!action || action.error) {
-      throw new SubmissionError({ _error: I18n.t('PLAYER_PROFILE.BONUS.MANUAL_CREATION_FAILURE') });
-    }
+    const action = await permitBonusConversion(bonusUUID, playerUUID);
 
     this.handleModalClose(this.handleRefresh);
 
     return action;
+  };
+
+  handleCreateManualBonusClick = () => {
+    this.handleModalOpen(MODAL_CREATE);
+  };
+
+  handleSubmitManualBonus = async (isCustomTemplate, formData) => {
+    const {
+      playerProfile: {
+        data: {
+          currencyCode: currency,
+        },
+      },
+      params: { id: playerUUID },
+      assignBonusTemplate,
+    } = this.props;
+
+    let bonusTemplateUUID = !isCustomTemplate ? formData.templateUUID : null;
+
+    if (isCustomTemplate) {
+      const action = await this.props.createBonusTemplate(formData);
+
+      if (action && !action.error) {
+        bonusTemplateUUID = action.payload.uuid;
+      } else if (action.error && action.payload.response) {
+        if (get(action, 'payload.response.fields_errors', false)) {
+          const errors = Object.keys(action.payload.response.fields_errors).reduce((res, name) => ({
+            ...res,
+            [name]: I18n.t(action.payload.response.fields_errors[name].error),
+          }), {});
+          throw new SubmissionError(errors);
+        } else if (action.payload.response.error) {
+          const fieldError = recognizeFieldError(action.payload.response.error, mapResponseErrorToField);
+
+          if (fieldError) {
+            throw new SubmissionError(fieldError);
+          } else {
+            throw new SubmissionError({ __error: I18n.t(action.payload.response.error) });
+          }
+        }
+      }
+    }
+
+    const grantedAmount = formData.grantRatio.value.currencies.find(c => c.currency === currency);
+
+    if (grantedAmount) {
+      const assignBonusTemplateAction = await assignBonusTemplate(bonusTemplateUUID, {
+        playerUUID,
+        currency,
+        grantedAmount: grantedAmount.amount,
+      });
+
+      this.handleModalClose(this.handleRefresh);
+
+      return assignBonusTemplateAction;
+    }
   };
 
   renderMainInfo = data => (
@@ -281,6 +352,9 @@ class View extends Component {
       playerProfile: { data: playerProfile },
       locale,
       subTabRoutes,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
+      templates,
     } = this.props;
 
     return (
@@ -366,15 +440,12 @@ class View extends Component {
         {
           modal.name === MODAL_CREATE &&
           <CreateModal
-            initialValues={{
-              playerUUID: playerProfile.playerUUID,
-              state: 'INACTIVE',
-              currency: playerProfile.currencyCode,
-              lockAmountStrategy: lockAmountStrategy.LOCK_ALL,
-              claimable: false,
-            }}
             onSubmit={this.handleSubmitManualBonus}
             onClose={this.handleModalClose}
+            fetchBonusTemplates={fetchBonusTemplates}
+            fetchBonusTemplate={fetchBonusTemplate}
+            templates={templates}
+            currency={playerProfile.currencyCode}
           />
         }
         {

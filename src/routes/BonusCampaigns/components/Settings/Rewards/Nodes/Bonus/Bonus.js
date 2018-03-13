@@ -15,15 +15,14 @@ class Bonus extends Component {
   static propTypes = {
     typeValues: PropTypes.array.isRequired,
     nodePath: PropTypes.string.isRequired,
-    errors: PropTypes.object,
     disabled: PropTypes.bool,
     remove: PropTypes.func.isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
     disabled: false,
     limits: true,
-    errors: {},
   };
 
   static contextTypes = {
@@ -52,12 +51,11 @@ class Bonus extends Component {
   render() {
     const {
       typeValues,
-      errors,
       disabled,
       remove,
+      currencies,
     } = this.props;
     const { _reduxForm: { form } } = this.context;
-
 
     const { _reduxForm: { values: { rewards } } } = this.context;
     const campaignRatioType = get(rewards, 'bonus.campaignRatio.type');
@@ -82,6 +80,56 @@ class Bonus extends Component {
           }
         </div>
         <div className="row">
+          <div className="col-md-6">
+            <Field
+              name="currency"
+              label={I18n.t('COMMON.CURRENCY')}
+              type="select"
+              component={SelectField}
+              position="vertical"
+              disabled={disabled}
+            >
+              <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
+              {currencies.map(item => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </Field>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-6">
+            <CustomValueFieldVertical
+              id={`${form}ConversionPrize`}
+              basename={'conversionPrize'}
+              label={
+                <span>
+                  {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
+                  <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                </span>
+              }
+              typeValues={typeValues}
+              disabled={disabled}
+            />
+          </div>
+          <div className="col-md-6">
+            <CustomValueFieldVertical
+              basename={'capping'}
+              id={`${form}Capping`}
+              label={
+                <span>
+                  {I18n.t(attributeLabels.capping)}{' '}
+                  <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
+                </span>
+              }
+              typeValues={typeValues}
+              disabled={disabled}
+            />
+          </div>
+        </div>
+        <hr />
+        <div className="row">
           <div className="col-7">
             <CustomValueFieldVertical
               disabled={disabled}
@@ -89,7 +137,6 @@ class Bonus extends Component {
               basename={this.buildFieldName('campaignRatio')}
               label={I18n.t(attributeLabels.grant)}
               typeValues={typeValues}
-              errors={errors}
             />
           </div>
           {
@@ -155,8 +202,8 @@ class Bonus extends Component {
           </div>
           <div className="col-4 form-row_with-placeholder-right">
             <Field
-              name={this.buildFieldName('bonusLifetime')}
-              id={`${form}bonusLifetime`}
+              name={this.buildFieldName('bonusLifeTime')}
+              id={`${form}bonusLifeTime`}
               type="text"
               placeholder="0"
               label={I18n.t(attributeLabels.lifeTime)}

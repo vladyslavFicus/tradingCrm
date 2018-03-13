@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ImageViewer from 'react-images';
-import _ from 'lodash';
 import { Collapse } from 'reactstrap';
 import { I18n } from 'react-redux-i18n';
 import Tabs from '../../../components/Tabs';
@@ -12,15 +11,13 @@ import Information from '../components/Information';
 import PropTypes from '../../../constants/propTypes';
 import getFileBlobUrl from '../../../utils/getFileBlobUrl';
 import {
-  actionCreators as windowActionCreators,
-} from '../../../redux/modules/window';
-import {
   UploadModal as UploadFileModal,
   DeleteModal as DeleteFileModal,
 } from '../../../components/Files';
 import ChangePasswordModal from '../../../components/ChangePasswordModal';
 import ShareLinkModal from '../components/ShareLinkModal';
 import ConfirmActionModal from '../../../components/Modal/ConfirmActionModal';
+import BackToTop from '../../../components/BackToTop';
 
 const NOTE_POPOVER = 'note-popover';
 const popoverInitialState = {
@@ -171,17 +168,8 @@ class ProfileLayout extends Component {
     };
   }
 
-  componentWillMount() {
-    window.addEventListener('scroll', this.handleScrollWindow);
-  }
-
   componentDidMount() {
     this.handleLoadAdditionalProfileData();
-  }
-
-  componentWillUnmount() {
-    document.body.classList.remove('user-profile-layout');
-    window.removeEventListener('scroll', this.handleScrollWindow);
   }
 
   setNoteChangedCallback = (cb) => {
@@ -195,18 +183,6 @@ class ProfileLayout extends Component {
   cacheChildrenComponent = (component) => {
     this.children = component;
   };
-
-  isShowScrollTop = () => document.body.scrollTop > 100 || document.documentElement.scrollTop > 100;
-
-  handleScrollWindow = _.debounce(() => {
-    if (window.isFrame) {
-      if (this.isShowScrollTop()) {
-        window.dispatchAction(windowActionCreators.showScrollToTop(true));
-      } else if (!this.isShowScrollTop()) {
-        window.dispatchAction(windowActionCreators.showScrollToTop(false));
-      }
-    }
-  }, 300);
 
   handleLoadProfile = (needForceUpdate = false) => {
     const {
@@ -619,7 +595,6 @@ class ProfileLayout extends Component {
             onChangePasswordClick={this.handleChangePasswordClick}
             onShareProfileClick={this.handleShareProfileClick}
           />
-
           <div className="hide-details-block">
             <div className="hide-details-block_divider" />
             <button
@@ -630,7 +605,6 @@ class ProfileLayout extends Component {
             </button>
             <div className="hide-details-block_divider" />
           </div>
-
           <Collapse isOpen={informationShown}>
             <Information
               data={playerProfile}
@@ -715,7 +689,6 @@ class ProfileLayout extends Component {
             playerUUID={playerProfile.playerUUID}
           />
         }
-
         {
           modal.name === MODAL_RESET_PASSWORD &&
           <ConfirmActionModal
@@ -728,13 +701,13 @@ class ProfileLayout extends Component {
             submitButtonLabel={I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.BUTTON_ACTION')}
           />
         }
-
         <ImageViewer
           backdropClosesModal
           showImageCount={false}
           {...imageViewerState}
           onClose={this.handleCloseImageViewer}
         />
+        <BackToTop />
       </div>
     );
   }

@@ -7,22 +7,31 @@ import { filterItems as filterAvailableItems } from '../../../../../../../utils/
 
 const mapStateToProps = ({
   profile: { profile },
-  userBonusesList: { list, bonus },
+  userBonusesList: {
+    list,
+    bonus,
+    templates: { data: templates },
+  },
   i18n: { locale },
   permissions: { data: currentPermissions },
 }) => ({
   list,
   playerProfile: profile,
   bonus,
+  templates,
   locale,
   subTabRoutes: filterAvailableItems(subTabRoutes, currentPermissions),
 });
 
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
-  createBonus: actionCreators.createBonus,
+  createBonusTemplate: actionCreators.createBonusTemplate,
+  fetchBonusTemplates: actionCreators.fetchBonusTemplates,
+  fetchBonusTemplate: actionCreators.fetchBonusTemplate,
+  assignBonusTemplate: actionCreators.assignBonusTemplate,
   acceptBonus: actionCreators.acceptBonus,
   cancelBonus: actionCreators.cancelBonus,
+  permitBonusConversion: actionCreators.permitBonusConversion,
   fetchActiveBonus: actionCreators.fetchActiveBonus,
   fetchProfile: profileActionCreators.fetchProfile,
 };

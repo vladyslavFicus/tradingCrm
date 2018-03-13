@@ -297,7 +297,13 @@
           "MONEY_TYPE_PRIORITY": "Wagering",
           "LOCK_AMOUNT_STRATEGY": "Withdrawal lock",
           "CLAIMABLE": "Claimable",
-          "MAX_BET": "Max Bet"
+          "MAX_BET": "Max Bet",
+          "NAME": "Name",
+          "MAX_GRANTED_AMOUNT": "Max granted amount",
+          "WAGERING_REQUIREMENT": "Wagering requirement",
+          "LIFE_TIME": "Life time",
+          "CUSTOM_TEMPLATE": "Custom template",
+          "TEMPLATE": "Template"
         },
         "LOCK_AMOUNT_STRATEGY": {
           "LOCK_ALL": "Lock all",
@@ -333,7 +339,8 @@
           "START_DATE": "Start date",
           "END_DATE": "End date"
         }
-      }
+      },
+      "PERMIT_BONUS_CONVERSION": "Permit conversion"
     },
     "NOTIFICATIONS": {
       "COPY_FULL_UUID": {
@@ -479,7 +486,9 @@
       "MANUAL_FREE_SPIN_BUTTON": "+ Manual free spin",
       "NOTIFICATIONS": {
         "CANCEL_FREE_SPIN_ERROR": "Failed to cancel free spins"
-      }
+      },
+      "FREE_SPIN_TEMPLATE": "Free spin template",
+      "BONUS_TEMPLATE": "Bonus template"
     },
     "FREE_SPIN": {
       "MODAL_CREATE": {
@@ -507,8 +516,9 @@
           "BET_LEVEL": "Bet level",
           "COIN_VALUE_LEVEL": "Coin value level",
           "APPROXE_BET_VALUE": "Approx. bet value",
-          "USE_TEMPLATE": "Use template",
-          "TEMPLATE": "Template"
+          "CUSTOM_TEMPLATE": "Custom template",
+          "TEMPLATE": "Template",
+          "USE_TEMPLATE": "Use template"
         },
         "FREE_SPIN_VALUE": "Free spin value",
         "TOTAL_VALUE": "Total value",
@@ -715,7 +725,8 @@
     "WEEKS": "Weeks",
     "NONE": "None",
     "REMOVE": "Remove",
-    "CLAIMABLE": "Claimable"
+    "CLAIMABLE": "Claimable",
+    "CURRENCY": "Currency"
   },
   "FILES": {
     "UPLOAD_MODAL": {
@@ -1360,10 +1371,15 @@
           "NOT_SET": "Not set"
         },
         "MAX_BET": "Max bet",
-        "MAX_GRANTED_AMOUNT": "Max granted amount"
+        "MAX_GRANTED_AMOUNT": "Max granted amount",
+        "NAME": "Name",
+        "TEMPLATE": "Template",
+        "WAGERING_REQUIREMENT": "Wagering requirement",
+        "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
+        "CAPPING": "Capping",
+        "PRIZE": "Prize"
       },
       "FREE_SPIN": {
-        "NAME_ALREADY_EXIST": "Name already exist",
         "ADD_REWARDS": "Add rewards",
         "SELECT_REWARDS": "Select rewards",
         "BET_PER_LINE": "Bet per line",
@@ -1386,6 +1402,9 @@
           "DAYS": "days",
           "NOT_SET": "Not set"
         }
+      },
+      "BONUS_TEMPLATE": {
+        "CREATION_ERROR": "Bonus template creation error"
       }
     },
     "CURRENCY_CALC_MODAL": {
@@ -1444,6 +1463,9 @@
     "payment": {
       "method": {
         "inactive": "Payment method inactive"
+      },
+      "withdrawable": {
+        "limit": "Exceeded withdrawable amount"
       }
     },
     "profile": {
@@ -1462,6 +1484,11 @@
         "activate": {
           "notAllow": "Not allow"
         }
+      }
+    },
+    "template": {
+      "name": {
+        "already-exists": "Name already exist"
       }
     }
   },

@@ -3,10 +3,8 @@ import { Field, reduxForm, getFormValues, getFormMeta } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
-import { get, isEmpty, isEqual } from 'lodash';
-import {
-  InputField, SelectField, DateTimeField, CustomValueFieldVertical,
-} from '../../../../components/ReduxForm';
+import { get, isEmpty } from 'lodash';
+import { InputField, SelectField, DateTimeField } from '../../../../components/ReduxForm';
 import PropTypes from '../../../../constants/propTypes';
 import {
   targetTypes,
@@ -56,7 +54,7 @@ class Form extends Component {
       endDate: PropTypes.bonusCampaignEntity.endDate,
       wagerWinMultiplier: PropTypes.bonusCampaignEntity.wagerWinMultiplier,
       promoCode: PropTypes.bonusCampaignEntity.promoCode,
-      bonusLifetime: PropTypes.bonusCampaignEntity.bonusLifetime,
+      bonusLifeTime: PropTypes.bonusCampaignEntity.bonusLifeTime,
       campaignRatio: PropTypes.bonusCampaignEntity.campaignRatio,
       conversionPrize: PropTypes.bonusCampaignEntity.conversionPrize,
       capping: PropTypes.bonusCampaignEntity.capping,
@@ -65,7 +63,6 @@ class Form extends Component {
       excludeCountries: PropTypes.bonusCampaignEntity.excludeCountries,
     }),
     disabled: PropTypes.bool,
-    toggleModal: PropTypes.func.isRequired,
     revert: PropTypes.func.isRequired,
     removeNode: PropTypes.func.isRequired,
     addNode: PropTypes.func.isRequired,
@@ -75,7 +72,7 @@ class Form extends Component {
     }).isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity),
     providers: PropTypes.array,
-    templates: PropTypes.array,
+    freeSpinTemplates: PropTypes.array,
     baseCurrency: PropTypes.string.isRequired,
     fetchGames: PropTypes.func.isRequired,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
@@ -92,6 +89,9 @@ class Form extends Component {
     paymentMethods: PropTypes.array,
     fetchPaymentMethods: PropTypes.func.isRequired,
     form: PropTypes.string.isRequired,
+    fetchBonusTemplates: PropTypes.func.isRequired,
+    fetchBonusTemplate: PropTypes.func.isRequired,
+    bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
   };
   static defaultProps = {
     handleSubmit: null,
@@ -105,7 +105,7 @@ class Form extends Component {
     errors: {},
     games: [],
     providers: [],
-    templates: [],
+    freeSpinTemplates: [],
     linkedCampaign: null,
     paymentMethods: [],
   };
@@ -124,16 +124,6 @@ class Form extends Component {
     }
 
     return {};
-  };
-
-  startDateValidator = toAttribute => (current) => {
-    const { currentValues } = this.props;
-
-    return currentValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
-      currentValues[toAttribute]
-        ? current.isSameOrBefore(moment(currentValues[toAttribute]))
-        : true
-    );
   };
 
   endDateValidator = fromAttribute => (current) => {
@@ -157,8 +147,8 @@ class Form extends Component {
     const { change, addNode } = this.props;
 
     if (nodeGroup === nodeGroupTypes.fulfillments) {
-      const isNoFulfilment = fulfillmentNodeTypes.noFulfillments;
-      const isProfileCompleted = fulfillmentNodeTypes.profileCompleted;
+      const isNoFulfilment = node === fulfillmentNodeTypes.noFulfillments;
+      const isProfileCompleted = node === fulfillmentNodeTypes.profileCompleted;
 
       if (isNoFulfilment) {
         change('optIn', true);
@@ -211,12 +201,14 @@ class Form extends Component {
       change,
       nodeGroups,
       disabled,
-      toggleModal,
       games,
       providers,
-      templates,
+      freeSpinTemplates,
+      bonusTemplates,
       baseCurrency,
       fetchFreeSpinTemplate,
+      fetchBonusTemplates,
+      fetchBonusTemplate,
       fetchFreeSpinTemplates,
       fetchGames,
       handleClickChooseCampaign,
@@ -283,7 +275,7 @@ class Form extends Component {
                     name="startDate"
                     id={`${form}StartDate`}
                     component={DateTimeField}
-                    isValidDate={this.startDateValidator('endDate')}
+                    isValidDate={() => true}
                     position="vertical"
                     disabled={disabled}
                   />
@@ -299,59 +291,6 @@ class Form extends Component {
                   />
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="row mt-3">
-            <div className="col-3 col-xl-2">
-              <Field
-                name="currency"
-                id={`${form}Currency`}
-                label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.BASE_CURRENCY')}
-                type="select"
-                component={SelectField}
-                position="vertical"
-                disabled={disabled}
-              >
-                <option value="">{I18n.t('BONUS_CAMPAIGNS.SETTINGS.CHOOSE_CURRENCY')}</option>
-                {currencies.map(item => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </Field>
-            </div>
-            <div className="col-3">
-              <CustomValueFieldVertical
-                id={`${form}ConversionPrize`}
-                basename={'conversionPrize'}
-                label={
-                  <span>
-                    {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
-                    <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                  </span>
-                }
-                typeValues={allowedCustomValueTypes}
-                errors={this.getCustomValueFieldErrors('conversionPrize')}
-                disabled={disabled}
-                modalOpen={toggleModal}
-              />
-            </div>
-            <div className="col-3">
-              <CustomValueFieldVertical
-                basename={'capping'}
-                id={`${form}Capping`}
-                label={
-                  <span>
-                    {I18n.t(attributeLabels.capping)}{' '}
-                    <span className="label-additional">{I18n.t('COMMON.OPTIONAL')}</span>
-                  </span>
-                }
-                typeValues={allowedCustomValueTypes}
-                errors={this.getCustomValueFieldErrors('capping')}
-                disabled={disabled}
-                onClick={toggleModal}
-                modalOpen={toggleModal}
-              />
             </div>
           </div>
         </div>
@@ -503,9 +442,11 @@ class Form extends Component {
               add={this.handleAddNode(nodeGroupTypes.fulfillments)}
               fetchPaymentMethods={fetchPaymentMethods}
               paymentMethods={paymentMethods}
+              currencies={currencies}
             />
             <Rewards
               disabled={disabled}
+              currencies={currencies}
               change={change}
               activeNodes={nodeGroups.rewards}
               allowedCustomValueTypes={allowedCustomValueTypes}
@@ -513,9 +454,12 @@ class Form extends Component {
               add={this.handleAddNode(nodeGroupTypes.rewards)}
               games={games}
               providers={providers}
-              templates={templates}
+              freeSpinTemplates={freeSpinTemplates}
+              bonusTemplates={bonusTemplates}
               baseCurrency={baseCurrency}
               fetchFreeSpinTemplate={fetchFreeSpinTemplate}
+              fetchBonusTemplates={fetchBonusTemplates}
+              fetchBonusTemplate={fetchBonusTemplate}
               fetchGames={fetchGames}
               fetchFreeSpinTemplates={fetchFreeSpinTemplates}
             />

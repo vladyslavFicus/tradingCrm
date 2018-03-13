@@ -7,6 +7,7 @@ import {
   lockAmountStrategy,
   moneyTypeUsage,
 } from '../../../../constants/bonus-campaigns';
+import { customValueFieldTypes } from '../../../../constants/form';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -46,7 +47,7 @@ export default (values, params) => {
     rewards: {
       bonus: {
         wagerWinMultiplier: ['integer', 'max:999'],
-        bonusLifetime: ['integer'],
+        bonusLifeTime: ['integer'],
         maxBet: ['numeric'],
         maxGrantedAmount: ['numeric'],
         moneyTypePriority: [`in:${Object.keys(moneyTypeUsage).join()}`],
@@ -55,14 +56,33 @@ export default (values, params) => {
         name: ['string'],
         providerId: ['string'],
         gameId: ['string'],
-        maxBet: ['numeric'],
         aggregatorId: ['string'],
-        moneyTypePriority: ['string'],
         freeSpinsAmount: ['integer', 'min:0'],
         linesPerSpin: ['integer'],
         betPerLine: ['numeric', 'min:0'],
-        bonusLifeTime: ['integer', 'min:1', 'max:230'],
-        multiplier: ['integer', 'min:1', 'max:500'],
+        bonus: {
+          name: ['string'],
+          bonusLifeTime: ['integer', 'min:1', 'max:230'],
+          moneyTypePriority: [`in:${Object.keys(moneyTypeUsage).join()}`],
+          lockAmountStrategy: ['string'],
+          maxGrantAmount: ['numeric'],
+          grantRatio: {
+            type: ['string'],
+            value: ['numeric'],
+          },
+          wageringRequirement: {
+            type: ['string'],
+            value: ['numeric', 'min:1', 'max:500'],
+          },
+          capping: {
+            type: ['string'],
+            value: ['numeric', 'min:0'],
+          },
+          prize: {
+            type: ['string'],
+            value: ['numeric', 'min:0'],
+          },
+        },
       },
     },
   };
@@ -86,16 +106,6 @@ export default (values, params) => {
     rules.fulfillments.deposit.lockAmountStrategy.push('required');
   }
 
-  const conversionPrize = get(values, 'conversionPrize.value');
-  if (conversionPrize && !isNaN(parseFloat(conversionPrize).toFixed(2))) {
-    rules.capping.value.push('greaterThan:conversionPrize.value');
-  }
-
-  const capping = get(values, 'capping.value');
-  if (capping && !isNaN(parseFloat(capping).toFixed(2))) {
-    rules.conversionPrize.value.push('lessThan:capping.value');
-  }
-
   const rewardsBonus = get(values, 'rewards.bonus');
   const rewardsFreeSpins = get(values, 'rewards.freeSpin');
 
@@ -105,14 +115,37 @@ export default (values, params) => {
       type: [`in:${allowedCustomValueTypes.join()}`],
     };
     rules.rewards.bonus.wagerWinMultiplier.push('required');
-    rules.rewards.bonus.bonusLifetime.push('required');
+    rules.rewards.bonus.bonusLifeTime.push('required');
     rules.rewards.bonus.moneyTypePriority.push('required');
   }
 
   if (rewardsFreeSpins && !rewardsFreeSpins.templateUUID) {
-    ['name', 'providerId', 'gameId', 'aggregatorId', 'freeSpinsAmount', 'linesPerSpin',
-      'betPerLine', 'bonusLifeTime', 'multiplier', 'moneyTypePriority',
-    ].map(field => rules.rewards.freeSpin[field].push('required'));
+    ['name', 'providerId', 'gameId', 'aggregatorId', 'freeSpinsAmount', 'linesPerSpin', 'betPerLine']
+      .map(field => rules.rewards.freeSpin[field].push('required'));
+  }
+
+  const freeSpinBonus = get(values, 'rewards.freeSpin.bonus');
+
+  if (freeSpinBonus) {
+    ['name', 'bonusLifeTime', 'moneyTypePriority', 'lockAmountStrategy']
+      .map(field => rules.rewards.freeSpin.bonus[field].push('required'));
+
+    if (freeSpinBonus.grantRatio && freeSpinBonus.grantRatio.type === customValueFieldTypes.PERCENTAGE) {
+      rules.rewards.freeSpin.bonus.maxGrantAmount.push('required');
+    }
+
+    rules.rewards.freeSpin.bonus.wageringRequirement.value.push('required');
+    rules.rewards.freeSpin.bonus.grantRatio.value.push('required');
+
+    const prize = get(freeSpinBonus, 'prize.value');
+    if (prize && !isNaN(parseFloat(prize).toFixed(2))) {
+      rules.rewards.freeSpin.bonus.capping.value.push('greaterThan:rewards.freeSpin.bonus.prize.value');
+    }
+
+    const capping = get(freeSpinBonus, 'capping.value');
+    if (capping && !isNaN(parseFloat(capping).toFixed(2))) {
+      rules.rewards.freeSpin.bonus.prize.value.push('lessThan:rewards.freeSpin.bonus.capping.value');
+    }
   }
 
   return createValidator(rules, translateLabels(attributeLabels), false)(values);

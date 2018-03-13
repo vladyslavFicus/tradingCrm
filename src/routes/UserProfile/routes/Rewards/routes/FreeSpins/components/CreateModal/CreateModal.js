@@ -12,7 +12,7 @@ import Amount, { Currency } from '../../../../../../../../components/Amount';
 import NoteButton from '../../../../../../../../components/NoteButton';
 import { targetTypes } from '../../../../../../../../constants/note';
 import renderLabel from '../../../../../../../../utils/renderLabel';
-import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
+import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { aggregators } from '../../constants';
 import MicrogamingAdditionalFields from './MicrogamingAdditionalFields';
 import NetentAdditionalFields from './NetentAdditionalFields';
@@ -221,7 +221,7 @@ class CreateModal extends Component {
       delete data.linesPerSpin;
     }
 
-    onSubmit(data);
+    return onSubmit(data);
   };
 
   handleSubmitNote = (data) => {
@@ -574,7 +574,7 @@ class CreateModal extends Component {
                   component={SelectField}
                   position="vertical"
                 >
-                  {Object.keys(moneyTypeUsageLabels).map(key => (
+                  {Object.keys(moneyTypeUsage).map(key => (
                     <option key={key} value={key}>
                       {renderLabel(key, moneyTypeUsageLabels)}
                     </option>
@@ -657,7 +657,7 @@ const CreateModalReduxForm = reduxForm({
     }
 
     if (values.aggregatorId === aggregators.microgaming) {
-      rules.approxeBetValue = ['required', 'numeric', 'min:1'];
+      rules.approxeBetValue = ['required', 'numeric'];
     } else {
       rules.betPerLine = ['required', 'numeric', 'max:1000'];
       rules.linesPerSpin = ['required', 'integer'];
