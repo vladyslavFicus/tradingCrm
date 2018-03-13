@@ -9,7 +9,7 @@ import PropTypes from '../../../../../../../../constants/propTypes';
 import { moneyTypeLabels } from '../../../../../../../../constants/gaming-activity';
 import { InputField, SelectField, DateTimeField } from '../../../../../../../../components/ReduxForm';
 import filterFormAttributeLabels from '../../constants';
-import { startDateValidator, endDateValidator } from './utils';
+import { startDateValidator, endDateValidator } from '../../utils';
 import './FilterForm.scss';
 
 const FORM_NAME = 'userGameActivityFilter';

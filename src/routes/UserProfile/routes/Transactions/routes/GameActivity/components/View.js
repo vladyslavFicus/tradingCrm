@@ -16,9 +16,7 @@ class View extends Component {
   static propTypes = {
     activity: PropTypes.pageableState(PropTypes.gamingActivityEntity).isRequired,
     games: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.shape({
-
-      })).isRequired,
+      entities: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number.isRequired,
     }).isRequired,
@@ -38,6 +36,8 @@ class View extends Component {
     fetchGameActivity: PropTypes.func.isRequired,
     exportGameActivity: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    filterErrors: PropTypes.objectOf(PropTypes.string).isRequired,
+    notify: PropTypes.func.isRequired,
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -78,10 +78,20 @@ class View extends Component {
   };
 
   handleExportClick = () => {
-    this.props.exportGameActivity(this.props.params.id, {
-      ...this.state.filters,
-      page: this.state.page,
-    });
+    const { filterErrors, notify } = this.props;
+
+    if (filterErrors.startDate && filterErrors.endDate) {
+      notify({
+        level: 'error',
+        title: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.NOTIFICATIONS.INVALID_DATE_RANGE.TITLE'),
+        message: I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.NOTIFICATIONS.INVALID_DATE_RANGE.MESSAGE'),
+      });
+    } else {
+      this.props.exportGameActivity(this.props.params.id, {
+        ...this.state.filters,
+        page: this.state.page,
+      });
+    }
   };
 
   renderGameRound = data => (
@@ -224,7 +234,11 @@ class View extends Component {
               <SubTabNavigation links={subTabRoutes} />
             </div>
             <div className="tab-header__actions">
-              <button disabled={exporting} className="btn btn-sm btn-default-outline" onClick={this.handleExportClick}>
+              <button
+                disabled={exporting}
+                className="btn btn-sm btn-default-outline"
+                onClick={this.handleExportClick}
+              >
                 {I18n.t('COMMON.EXPORT')}
               </button>
             </div>

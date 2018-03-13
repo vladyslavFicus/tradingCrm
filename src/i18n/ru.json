@@ -259,6 +259,12 @@
         "BONUS_ROUND_CARD": "Карта",
         "BONUS_ROUND_FREESPIN": "Бонус раунд фриспин",
         "ADJUSTMENT": "Подгонка"
+      },
+      "NOTIFICATIONS": {
+        "INVALID_DATE_RANGE": {
+          "TITLE": "Диапазон дат превышен",
+          "MESSAGE": "Максимальный диапазон дат - 14 дней"
+        }
       }
     },
     "MARKETING": {

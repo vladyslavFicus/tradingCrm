@@ -253,6 +253,12 @@
         "BONUS_ROUND_CARD": "Card",
         "BONUS_ROUND_FREESPIN": "Bonus round freespin",
         "ADJUSTMENT": "Adjustment"
+      },
+      "NOTIFICATIONS": {
+        "INVALID_DATE_RANGE": {
+          "TITLE": "Too wide date range",
+          "MESSAGE": "The maximum date range of 14 days is exceeded"
+        }
       }
     },
     "MARKETING": {
