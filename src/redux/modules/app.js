@@ -45,9 +45,7 @@ const actionTypes = {
 const actionHandlers = {
   [INIT_SIDEBAR]: (state, { payload: currentPermissions }) => {
     const permissionMenu = sidebarTopMenu.reduce((result, item) => {
-      if (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions)) {
-        result.push(item);
-      } else if (item.items) {
+      if (item.items) {
         const subItems = item.items.filter(
           i => !(i.permissions instanceof Permissions) || i.permissions.check(currentPermissions)
         );
@@ -58,6 +56,8 @@ const actionHandlers = {
             items: subItems,
           });
         }
+      } else if (!(item.permissions instanceof Permissions) || item.permissions.check(currentPermissions)) {
+        result.push(item);
       }
 
       return result;
