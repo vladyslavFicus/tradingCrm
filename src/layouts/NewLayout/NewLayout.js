@@ -211,7 +211,9 @@ class NewLayout extends Component {
     this.setState({ noteChangedCallback: cb });
   };
 
-  initSidebar = () => this.props.initSidebar(this.props.permissions);
+  initSidebar = () => {
+    this.props.initSidebar(this.props.permissions);
+  };
 
   handleAddNoteClick = (target, item, params = {}) => {
     this.setState({
