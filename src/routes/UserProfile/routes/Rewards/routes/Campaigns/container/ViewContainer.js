@@ -6,10 +6,12 @@ const mapStateToProps = ({
   profile: { profile: { data: profile } },
   playerBonusCampaignsList: { list },
   i18n: { locale },
+  userRewardsSubTabs: { tabs: subTabRoutes },
 }) => ({
   list,
   locale,
   profile,
+  subTabRoutes,
 });
 const mapActions = {
   fetchPlayerCampaigns: actionCreators.fetchPlayerCampaigns,

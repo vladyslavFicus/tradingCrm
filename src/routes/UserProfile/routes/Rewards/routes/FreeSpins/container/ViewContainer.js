@@ -3,30 +3,28 @@ import { actionCreators } from '../modules';
 import FreeSpinsView from '../components/FreeSpinsView';
 import config from '../../../../../../../config';
 
-const mapStateToProps = (state) => {
-  const {
-    userBonusFreeSpinsList: {
-      list,
-      filters,
-      games: { games, providers },
-      templates: { data: templates },
-    },
-    profile: { profile },
-    i18n: { locale },
-    options: { data: { baseCurrency } },
-  } = state;
-
-  return {
-    filters,
+const mapStateToProps = ({
+  userBonusFreeSpinsList: {
     list,
-    games,
-    templates,
-    providers,
-    locale,
-    currency: profile.data.currencyCode || baseCurrency,
-    cancelReasons: config.modules.freeSpin.cancelReasons,
-  };
-};
+    filters,
+    games: { games, providers },
+    templates: { data: templates },
+  },
+  profile: { profile },
+  i18n: { locale },
+  options: { data: { baseCurrency } },
+  userRewardsSubTabs: { tabs: subTabRoutes },
+}) => ({
+  filters,
+  list,
+  games,
+  templates,
+  providers,
+  locale,
+  currency: profile.data.currencyCode || baseCurrency,
+  cancelReasons: config.modules.freeSpin.cancelReasons,
+  subTabRoutes,
+});
 const mapActions = {
   fetchFreeSpins: actionCreators.fetchFreeSpins,
   exportFreeSpins: actionCreators.exportFreeSpins,

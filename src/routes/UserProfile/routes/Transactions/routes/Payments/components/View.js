@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
-import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../components/GridView';
 import {
@@ -21,9 +20,8 @@ import { UncontrolledTooltip } from '../../../../../../../components/Reactstrap/
 import renderLabel from '../../../../../../../utils/renderLabel';
 import GridPaymentInfo from '../../../../../../../components/GridPaymentInfo';
 import GridPaymentAmount from '../../../../../../../components/GridPaymentAmount';
-import SubTabNavigation from '../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../constants';
 import IpFlag from '../../../../../../../components/IpFlag';
+import StickyNavigation from '../../../../../components/StickyNavigation';
 
 const MODAL_PAYMENT_DETAIL = 'payment-detail';
 const MODAL_PAYMENT_ACTION_REASON = 'payment-action-reason';
@@ -73,6 +71,7 @@ class View extends Component {
       receivedAt: PropTypes.number,
     }).isRequired,
     locale: PropTypes.string.isRequired,
+    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
   };
   static defaultProps = {
     newPaymentNote: null,
@@ -365,20 +364,16 @@ class View extends Component {
       playerProfile,
       playerLimits,
       locale,
+      subTabRoutes,
     } = this.props;
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <SubTabNavigation links={subTabRoutes} />
-            <div className="tab-header__actions">
-              <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
-                + Add transaction
-              </button>
-            </div>
-          </div>
-        </Sticky>
+        <StickyNavigation links={subTabRoutes}>
+          <button className="btn btn-sm btn-primary-outline" onClick={this.handleOpenAddPaymentModal}>
+            + Add transaction
+          </button>
+        </StickyNavigation>
 
         <TransactionsFilterForm
           onSubmit={this.handleFiltersChanged}

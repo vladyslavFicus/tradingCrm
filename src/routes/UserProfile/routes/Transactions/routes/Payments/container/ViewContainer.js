@@ -4,12 +4,18 @@ import { actionCreators as viewActionCreators } from '../modules';
 import { paymentActions, chargebackReasons, rejectReasons } from '../../../../../../../constants/payment';
 import { actionCreators as locationActionCreators } from '../../../../../../../redux/modules/location';
 
-const mapStateToProps = ({ userTransactions, profile: { profile, playerLimits }, i18n: { locale } }) => ({
+const mapStateToProps = ({
+  userTransactions,
+  profile: { profile, playerLimits },
+  userTransactionsSubTabs: { tabs: subTabRoutes },
+  i18n: { locale },
+}) => ({
   ...userTransactions,
   locale,
   currencyCode: profile.data.currencyCode,
   playerProfile: profile.data,
   playerLimits,
+  subTabRoutes,
   paymentActionReasons: {
     [paymentActions.REJECT]: rejectReasons,
     [paymentActions.CHARGEBACK]: chargebackReasons,

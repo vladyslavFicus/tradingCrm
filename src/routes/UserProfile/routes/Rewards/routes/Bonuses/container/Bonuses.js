@@ -3,25 +3,24 @@ import { actionCreators } from '../modules';
 import { actionCreators as profileActionCreators } from '../../../../../modules/profile';
 import List from '../components/View';
 
-const mapStateToProps = (state) => {
-  const {
-    profile: { profile },
-    userBonusesList: {
-      list,
-      bonus,
-      templates: { data: templates },
-    },
-    i18n: { locale },
-  } = state;
-
-  return ({
+const mapStateToProps = ({
+  profile: { profile },
+  userBonusesList: {
     list,
-    playerProfile: profile,
     bonus,
-    templates,
-    locale,
-  });
-};
+    templates: { data: templates },
+  },
+  i18n: { locale },
+  userRewardsSubTabs: { tabs: subTabRoutes },
+}) => ({
+  list,
+  playerProfile: profile,
+  bonus,
+  templates,
+  locale,
+  subTabRoutes,
+});
+
 const mapActions = {
   fetchEntities: actionCreators.fetchEntities,
   createBonusTemplate: actionCreators.createBonusTemplate,

@@ -7,8 +7,13 @@ import config from '../../../../../../../config';
 import { withNotifications } from '../../../../../../../components/HighOrder';
 
 const mapStateToProps = state => ({
-  ...state.userGamingActivity,
-  ...state.i18n,
+  userGamingActivity,
+  userTransactionsSubTabs: { tabs: subTabRoutes },
+  i18n,
+}) => ({
+  ...userGamingActivity,
+  subTabRoutes,
+  ...i18n,
   providers: config.providers,
   filterErrors: getFormSyncErrors('userGameActivityFilter')(state),
 });

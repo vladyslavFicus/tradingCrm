@@ -85,6 +85,7 @@ class NewLayout extends Component {
     toggleMenuTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
     activePanelIndex: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    initSidebar: PropTypes.func.isRequired,
   };
   static defaultProps = {
     permissions: [],
@@ -167,7 +168,7 @@ class NewLayout extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { userPanels, resetPanels } = this.props;
 
     if (userPanels.some(panel => !panel.auth)) {
@@ -208,6 +209,10 @@ class NewLayout extends Component {
 
   setNoteChangedCallback = (cb) => {
     this.setState({ noteChangedCallback: cb });
+  };
+
+  initSidebar = () => {
+    this.props.initSidebar(this.props.permissions);
   };
 
   handleAddNoteClick = (target, item, params = {}) => {
@@ -331,6 +336,7 @@ class NewLayout extends Component {
         />
 
         <Sidebar
+          init={this.initSidebar}
           topMenu={sidebarTopMenu}
           bottomMenu={sidebarBottomMenu}
           menuItemClick={menuItemClick}
@@ -425,5 +431,6 @@ export default connect(mapStateToProps, {
   onLocaleChange: languageActionCreators.setLocale,
   toggleMenuTab: appActionCreators.toggleMenuTab,
   menuItemClick: appActionCreators.menuItemClick,
+  initSidebar: appActionCreators.initSidebar,
   updateOperatorProfile: authActionCreators.updateProfile,
 })(NewLayout);

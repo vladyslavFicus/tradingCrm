@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { SubmissionError } from 'redux-form';
-import Sticky from 'react-stickynode';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import GridView, { GridColumn } from '../../../../../../../../components/GridView';
 import Uuid from '../../../../../../../../components/Uuid';
@@ -14,14 +13,13 @@ import {
   targetTypes,
 } from '../../../../../../../../constants/bonus-campaigns';
 import IframeLink from '../../../../../../../../components/IframeLink';
-import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../../constants';
 import CampaignsFilterForm from '../CampaignsFilterForm';
 import ConfirmActionModal from '../../../../../../../../components/Modal/ConfirmActionModal';
 import AddToCampaignModal from '../../../../../../../../components/AddToCampaignModal';
 import AddPromoCodeModal from '../AddPromoCodeModal';
 import PermissionContent from '../../../../../../../../components/PermissionContent';
 import permissions from '../../../../../../../../config/permissions';
+import StickyNavigation from '../../../../../../components/StickyNavigation';
 
 const CAMPAIGN_ACTION_MODAL = 'campaign-action-modal';
 const ADD_TO_CAMPAIGN_MODAL = 'add-to-campaign-modal';
@@ -46,6 +44,7 @@ class View extends Component {
       id: PropTypes.string,
     }).isRequired,
     locale: PropTypes.string.isRequired,
+    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
   };
   static contextTypes = {
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -324,34 +323,38 @@ class View extends Component {
 
   render() {
     const { filters, modal } = this.state;
-    const { list: { entities, noResults }, profile, locale } = this.props;
+
+    const {
+      list: { entities, noResults },
+      profile,
+      locale,
+      subTabRoutes,
+    } = this.props;
+
     const allowActions = Object.keys(filters).filter(i => filters[i]).length > 0;
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <SubTabNavigation links={subTabRoutes} />
-            <div className="tab-header__actions">
-              <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
-                <button
-                  className="btn btn-primary-outline margin-left-15 btn-sm"
-                  onClick={this.handleAddToCampaignClick}
-                >
-                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
-                </button>
-              </PermissionContent>
-              <PermissionContent permissions={permissions.USER_PROFILE.ADD_PROMO_CODE_TO_PLAYER}>
-                <button
-                  className="btn btn-primary-outline margin-left-15 btn-sm"
-                  onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
-                >
-                  {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
-                </button>
-              </PermissionContent>
-            </div>
+        <StickyNavigation links={subTabRoutes}>
+          <div>
+            <PermissionContent permissions={permissions.USER_PROFILE.ADD_TO_CAMPAIGN}>
+              <button
+                className="btn btn-primary-outline margin-left-15 btn-sm"
+                onClick={this.handleAddToCampaignClick}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_TO_CAMPAIGN_BUTTON')}
+              </button>
+            </PermissionContent>
+            <PermissionContent permissions={permissions.USER_PROFILE.ADD_PROMO_CODE_TO_PLAYER}>
+              <button
+                className="btn btn-primary-outline margin-left-15 btn-sm"
+                onClick={() => this.handleOpenModal(ADD_PROMO_CODE_MODAL)}
+              >
+                {I18n.t('PLAYER_PROFILE.BONUS_CAMPAIGNS.ADD_PROMO_CODE_BUTTON')}
+              </button>
+            </PermissionContent>
           </div>
-        </Sticky>
+        </StickyNavigation>
 
         <CampaignsFilterForm
           onSubmit={this.handleFiltersChanged}

@@ -6,25 +6,26 @@ import './SubTabNavigation.scss';
 
 const SubTabNavigation = ({ params: { id }, links }) => (
   <div className="sub-tab-nav">
-    {Object.keys(links).map((url, index) => (
-      <span key={url}>
+    {links.map((item, index) => (
+      <span key={item.url}>
         {index > 0 && ' / '}
         <Link
           className="sub-tab-nav__link"
-          to={url.replace(/:id/, id)}
+          to={item.url.replace(/:id/, id)}
           activeClassName="sub-tab-nav__link_active"
         >
-          {I18n.t(links[url])}
+          {I18n.t(item.label)}
         </Link>
       </span>
     ))}
   </div>
 );
+
 SubTabNavigation.propTypes = {
   params: PropTypes.shape({
     id: PropTypes.string.isRequired,
   }).isRequired,
-  links: PropTypes.object.isRequired,
+  links: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
 };
 
 export default withRouter(SubTabNavigation);

@@ -11,6 +11,7 @@ class Sidebar extends Component {
     bottomMenu: PropTypes.arrayOf(PropTypes.navItem).isRequired,
     onToggleTab: PropTypes.func.isRequired,
     menuItemClick: PropTypes.func.isRequired,
+    init: PropTypes.func.isRequired,
   };
 
   state = {
@@ -18,19 +19,25 @@ class Sidebar extends Component {
   };
 
   componentDidMount() {
-    const { sidebar } = this;
-    this.props.menuItemClick();
+    const { init, menuItemClick } = this.props;
+
+    init();
+    menuItemClick();
 
     const tl = new TimelineLite({ paused: true });
-
-    tl.fromTo(sidebar, 0.15, { width: '60px' }, { width: '240px', ease: Power1.easeOut })
-      .fromTo('.nav-link__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
+    tl.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px', ease: Power1.easeOut });
 
     this.tl = tl;
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { isOpen } = this.state;
+    const { topMenu } = this.props;
+
+    if (topMenu.length && !this.navLinkAnimated) {
+      this.navLinkAnimated = true;
+      this.tl.fromTo('.nav-link__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
+    }
 
     if (!prevState.isOpen && isOpen) {
       this.tl.play();
@@ -44,6 +51,8 @@ class Sidebar extends Component {
       isOpen: false,
     }, this.props.menuItemClick);
   };
+
+  navLinkAnimated = false;
 
   open = () => {
     if (!this.state.isOpen) {

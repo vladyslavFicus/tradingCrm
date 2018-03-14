@@ -395,7 +395,6 @@ PropTypes.freeSpinEntity = PropTypes.shape({
   gameId: PropTypes.string.isRequired,
   gameName: PropTypes.string,
   linesPerSpin: PropTypes.number.isRequired,
-  multiplier: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   playerUUID: PropTypes.string.isRequired,
   prize: PropTypes.price,
@@ -521,6 +520,11 @@ PropTypes.department = PropTypes.shape({
 PropTypes.wageringFulfilmentEntity = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   amounts: PropTypes.arrayOf(PropTypes.price),
+});
+PropTypes.subTabRouteEntity = PropTypes.shape({
+  url: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  permissions: PropTypes.object.isRequired,
 });
 
 export default PropTypes;

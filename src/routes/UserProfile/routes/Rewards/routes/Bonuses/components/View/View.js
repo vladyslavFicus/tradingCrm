@@ -3,7 +3,6 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { SubmissionError } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import Sticky from 'react-stickynode';
 import { get } from 'lodash';
 import PropTypes from '../../../../../../../../constants/propTypes';
 import Amount from '../../../../../../../../components/Amount';
@@ -12,8 +11,6 @@ import GridView, { GridColumn } from '../../../../../../../../components/GridVie
 import { statuses } from '../../../../../../../../constants/bonus';
 import { targetTypes } from '../../../../../../../../constants/note';
 import Uuid from '../../../../../../../../components/Uuid';
-import SubTabNavigation from '../../../../../../../../components/SubTabNavigation';
-import { routes as subTabRoutes } from '../../../../constants';
 import BonusGridFilter from '../BonusGridFilter';
 import ViewModal from '../ViewModal';
 import BonusType from '../BonusType';
@@ -22,6 +19,7 @@ import CreateModal from '../CreateModal/CreateModal';
 import shallowEqual from '../../../../../../../../utils/shallowEqual';
 import { mapResponseErrorToField } from '../CreateModal/constants';
 import recognizeFieldError from '../../../../../../../../utils/recognizeFieldError';
+import StickyNavigation from '../../../../../../components/StickyNavigation';
 
 const modalInitialState = { name: null, params: {} };
 const MODAL_CREATE = 'create-modal';
@@ -44,6 +42,7 @@ class View extends Component {
     assignBonusTemplate: PropTypes.func.isRequired,
     acceptBonus: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    subTabRoutes: PropTypes.arrayOf(PropTypes.subTabRouteEntity).isRequired,
     templates: PropTypes.array,
   };
   static defaultProps = {
@@ -351,6 +350,7 @@ class View extends Component {
       list: { entities, noResults },
       playerProfile: { data: playerProfile },
       locale,
+      subTabRoutes,
       fetchBonusTemplates,
       fetchBonusTemplate,
       templates,
@@ -358,20 +358,15 @@ class View extends Component {
 
     return (
       <div>
-        <Sticky top=".panel-heading-row" bottomBoundary={0} innerZ="2">
-          <div className="tab-header">
-            <SubTabNavigation links={subTabRoutes} />
-            <div className="tab-header__actions">
-              <button
-                className="btn btn-sm btn-primary-outline"
-                onClick={this.handleCreateManualBonusClick}
-                id="add-manual-bonus-button"
-              >
-                {I18n.t('PLAYER_PROFILE.BONUS.MANUAL_BONUS_BUTTON')}
-              </button>
-            </div>
-          </div>
-        </Sticky>
+        <StickyNavigation links={subTabRoutes}>
+          <button
+            className="btn btn-sm btn-primary-outline"
+            onClick={this.handleCreateManualBonusClick}
+            id="add-manual-bonus-button"
+          >
+            {I18n.t('PLAYER_PROFILE.BONUS.MANUAL_BONUS_BUTTON')}
+          </button>
+        </StickyNavigation>
 
         <BonusGridFilter
           onSubmit={this.handleFiltersChanged}
