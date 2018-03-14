@@ -13,9 +13,6 @@ class Sidebar extends Component {
     menuItemClick: PropTypes.func.isRequired,
     init: PropTypes.func.isRequired,
   };
-  static contextTypes = {
-    permissions: PropTypes.array.isRequired,
-  };
 
   state = {
     isOpen: false,

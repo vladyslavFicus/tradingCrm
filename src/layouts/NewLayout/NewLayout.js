@@ -203,9 +203,13 @@ class NewLayout extends Component {
     }
   };
 
-  onToggleProfile = () => this.setState({ isOpenProfile: !this.state.isOpenProfile });
+  onToggleProfile = () => {
+    this.setState({ isOpenProfile: !this.state.isOpenProfile });
+  };
 
-  setNoteChangedCallback = cb => this.setState({ noteChangedCallback: cb });
+  setNoteChangedCallback = (cb) => {
+    this.setState({ noteChangedCallback: cb });
+  };
 
   initSidebar = () => this.props.initSidebar(this.props.permissions);
 
