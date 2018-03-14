@@ -13,7 +13,7 @@ function fetchEntities() {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'wagering_fulfillment/wagering-fulfillment',
+        endpoint: 'wagering_fulfillment/',
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -37,7 +37,7 @@ function createEntity(data) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'wagering_fulfillment/wagering-fulfillment',
+        endpoint: 'wagering_fulfillment/',
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -62,7 +62,7 @@ function deleteEntity(uuid) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `wagering_fulfillment/wagering-fulfillment/${uuid}`,
+        endpoint: `wagering_fulfillment/${uuid}`,
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
