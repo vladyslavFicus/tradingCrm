@@ -12,4 +12,10 @@ export default store => ({
 
     cb();
   },
+
+  getComponent(nextState, cb) {
+    require.ensure([], (require) => {
+      cb(null, require('./components/PermissionDenied').default);
+    }, 'methods-list');
+  },
 });

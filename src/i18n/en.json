@@ -1673,5 +1673,11 @@
       "TITLE": "Update your client version",
       "MESSAGE": "To update your client version, please confirm this action"
     }
+  },
+  "DASHBOARD": {
+    "PERMISSION_DENIED": {
+      "TITLE": "Permission denied",
+      "REASON": "You do not have permission to access this section"
+    }
   }
 }

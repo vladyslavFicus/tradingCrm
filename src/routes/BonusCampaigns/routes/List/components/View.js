@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import moment from 'moment';
 import { Link } from 'react-router';
-import { SubmissionError } from 'redux-form';
 import BonusCampaignsFilterForm from './BonusCampaignsFilterForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Card, { Title, Content } from '../../../../../components/Card';
@@ -18,7 +17,6 @@ import BonusCampaignStatus from '../../../../../components/BonusCampaignStatus';
 import Uuid from '../../../../../components/Uuid';
 import { types as miniProfileTypes } from '../../../../../constants/miniProfile';
 import MiniProfile from '../../../../../components/MiniProfile';
-
 
 class View extends Component {
   static propTypes = {
