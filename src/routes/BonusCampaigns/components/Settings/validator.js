@@ -135,6 +135,7 @@ export default (values, params) => {
     }
 
     rules.rewards.freeSpin.bonus.wageringRequirement.value.push('required');
+    rules.rewards.freeSpin.bonus.wageringRequirement.type.push('required');
     rules.rewards.freeSpin.bonus.grantRatio.value.push('required');
 
     const prize = get(freeSpinBonus, 'prize.value');
