@@ -4,7 +4,9 @@ import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { InputField, SelectField, NasSelectField } from '../../../../../../../../components/ReduxForm';
+import {
+  InputField, SelectField, NasSelectField, CustomValueFieldVertical,
+} from '../../../../../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../../../../../utils/validator';
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
@@ -84,6 +86,22 @@ class CreateModal extends Component {
         change('maxBet', maxBetAmount);
       }
 
+      ['capping', 'prize'].forEach((key) => {
+        const type = `${key}.type`;
+        const value = `${key}.value`;
+        const field = action.payload[key];
+
+        if (field) {
+          change(type, field.ratioType);
+
+          const formatValue = field.ratioType === customValueFieldTypes.ABSOLUTE
+            ? get(field, 'value.currencies[0].amount', '')
+            : get(field, 'percentage', '');
+
+          change(value, formatValue);
+        }
+      });
+
       if (wageringRequirement && wageringRequirement.ratioType === customValueFieldTypes.ABSOLUTE) {
         const wageringRequirementAmount = findCurrencyAmount(get(wageringRequirement, 'value.currencies'), currency);
 
@@ -127,7 +145,7 @@ class CreateModal extends Component {
       };
     }
 
-    ['wageringRequirement', 'grantRatio', 'capping', 'prize'].forEach((key) => {
+    ['wageringRequirement', 'grantRatio'].forEach((key) => {
       if (data[key]) {
         formData[key] = {
           value: {
@@ -138,6 +156,28 @@ class CreateModal extends Component {
           },
           ratioType: customValueFieldTypes.ABSOLUTE,
         };
+      }
+    });
+
+    ['capping', 'prize'].forEach((key) => {
+      if (data[key] && data[key].value) {
+        const value = formData[key].type === customValueFieldTypes.ABSOLUTE ? {
+          value: {
+            currencies: [{
+              amount: formData[key].value,
+              currency,
+            }],
+          },
+        } : {
+          percentage: formData[key].value,
+        };
+
+        formData[key] = {
+          ratioType: formData[key].type,
+          ...value,
+        };
+      } else {
+        delete formData[key];
       }
     });
 
@@ -223,14 +263,10 @@ class CreateModal extends Component {
                   position="vertical"
                   type="number"
                   normalize={floatNormalize}
-                  disabled={!customTemplate}
                   id={`${FORM_NAME}-granted-amount`}
                 />
               </div>
-            </div>
-
-            <div className="row">
-              <div className="col-4">
+              <div className="col-6">
                 <Field
                   name="wageringRequirement"
                   placeholder="0"
@@ -245,30 +281,33 @@ class CreateModal extends Component {
                   id={`${FORM_NAME}-amount-to-wage`}
                 />
               </div>
-              <div className="col-4">
-                <Field
-                  name="capping"
-                  label={I18n.t(attributeLabels.capping)}
-                  type="text"
+            </div>
+
+            <div className="row">
+              <div className="col-6">
+                <CustomValueFieldVertical
                   disabled={!customTemplate}
-                  component={InputField}
-                  inputAddon={<Currency code={currency} />}
-                  inputAddonPosition="left"
-                  position="vertical"
                   id={`${FORM_NAME}-capping`}
+                  basename="capping"
+                  label={I18n.t(attributeLabels.capping)}
+                  typeValues={Object.keys(customValueFieldTypes)}
+                  valueFieldProps={{
+                    type: 'number',
+                    normalize: floatNormalize,
+                  }}
                 />
               </div>
-              <div className="col-4">
-                <Field
-                  name="prize"
-                  label={I18n.t(attributeLabels.prize)}
-                  type="text"
+              <div className="col-6">
+                <CustomValueFieldVertical
                   disabled={!customTemplate}
-                  component={InputField}
-                  inputAddon={<Currency code={currency} />}
-                  inputAddonPosition="left"
-                  position="vertical"
                   id={`${FORM_NAME}-prize`}
+                  basename="prize"
+                  label={I18n.t(attributeLabels.prize)}
+                  typeValues={Object.keys(customValueFieldTypes)}
+                  valueFieldProps={{
+                    type: 'number',
+                    normalize: floatNormalize,
+                  }}
                 />
               </div>
             </div>
@@ -382,6 +421,12 @@ export default reduxForm({
     moneyTypePriority: moneyTypeUsage.REAL_MONEY_FIRST,
     claimable: false,
     lockAmountStrategy: lockAmountStrategy.LOCK_ALL,
+    capping: {
+      type: customValueFieldTypes.ABSOLUTE,
+    },
+    prize: {
+      type: customValueFieldTypes.ABSOLUTE,
+    },
   },
   validate: (values) => {
     const rules = {
