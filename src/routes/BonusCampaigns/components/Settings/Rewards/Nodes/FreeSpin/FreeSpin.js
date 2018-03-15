@@ -53,8 +53,8 @@ class FreeSpin extends Component {
     const { _reduxForm: { values: { rewards } } } = this.context;
     const templateUUID = get(rewards, 'freeSpin.templateUUID');
     const action = await fetchGames();
-    await fetchFreeSpinTemplates({ status: freeSpinTemplate.CREATED });
-    await fetchBonusTemplates({ status: freeSpinTemplate.CREATED }); // use other const
+    await fetchFreeSpinTemplates({ status: freeSpinTemplate.CREATED }, true);
+    await fetchBonusTemplates({ status: freeSpinTemplate.CREATED }, true);
     if (action && !action.error && templateUUID) {
       this.loadTemplateData(templateUUID);
     }
@@ -153,6 +153,8 @@ class FreeSpin extends Component {
             : get(field, 'percentage', '');
 
           this.setField(value, formatValue);
+        } else {
+          this.setField(`bonus.${key}`, '');
         }
       });
 

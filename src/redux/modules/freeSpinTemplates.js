@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import buildQueryString from '../../utils/buildQueryString';
 
-function fetchFreeSpinTemplates(type) {
+function fetchFullFreeSpinTemplates(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
@@ -22,6 +22,39 @@ function fetchFreeSpinTemplates(type) {
         bailout: !logged,
       },
     });
+  };
+}
+
+function fetchShortFreeSpinTemplates(type) {
+  return (filters = {}) => (dispatch, getState) => {
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `free_spin_template/templates/igromat/short?${buildQueryString(filters)}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function fetchFreeSpinTemplates(type) {
+  return (filters, short = false) => (dispatch) => {
+    if (short) {
+      return dispatch(fetchShortFreeSpinTemplates(type)(filters));
+    }
+    return dispatch(fetchFullFreeSpinTemplates(type)(filters));
   };
 }
 
