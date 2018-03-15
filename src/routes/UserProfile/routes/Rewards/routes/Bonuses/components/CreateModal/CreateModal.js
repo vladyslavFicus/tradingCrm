@@ -435,25 +435,25 @@ export default reduxForm({
       moneyTypePriority: ['string', 'required'],
       lockAmountStrategy: ['string', 'required'],
       grantRatio: ['numeric', 'required'],
-      prize: ['numeric', 'min:0'],
-      capping: ['numeric', 'min:0'],
+      capping: {
+        type: ['string'],
+        value: ['numeric', 'min:0'],
+      },
+      prize: {
+        type: ['string'],
+        value: ['numeric', 'min:0'],
+      },
       wageringRequirement: ['numeric', 'required'],
     };
 
-    if (values.prize) {
-      const value = parseFloat(values.prize).toFixed(2);
-
-      if (!isNaN(value)) {
-        rules.capping.push('greaterThan:prize');
-      }
+    const prize = get(values, 'prize.value');
+    if (prize && !isNaN(parseFloat(prize).toFixed(2))) {
+      rules.capping.value.push('greaterThan:prize.value');
     }
 
-    if (values.capping) {
-      const value = parseFloat(values.capping).toFixed(2);
-
-      if (!isNaN(value)) {
-        rules.prize.push('lessThan:capping');
-      }
+    const capping = get(values, 'capping.value');
+    if (capping && !isNaN(parseFloat(capping).toFixed(2))) {
+      rules.prize.value.push('lessThan:capping.value');
     }
 
     return createValidator(rules, translateLabels(attributeLabels), false)(values);
