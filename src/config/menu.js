@@ -114,7 +114,6 @@ const sidebarTopMenu = [
       {
         label: I18n.t('SIDEBAR.TOP_MENU.GAMES'),
         url: '/settings/games',
-        permissions: new Permissions(permissions.GAME_INFO.GAME_LIST),
       },
       {
         label: I18n.t('SIDEBAR.TOP_MENU.PAYMENT_METHODS'),
