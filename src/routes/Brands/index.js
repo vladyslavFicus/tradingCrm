@@ -1,4 +1,4 @@
-export default (store) => ({
+export default store => ({
   path: 'brands',
   onEnter(nextState, replace, cb) {
     const { auth: { departmentsByBrand } } = store.getState();
