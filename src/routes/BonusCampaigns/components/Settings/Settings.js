@@ -210,7 +210,6 @@ class Settings extends Component {
       }
 
       let bonus = get(rewardsFreeSpin, 'bonus');
-      delete rewardsFreeSpin.bonus;
       if (bonus) {
         data = {
           ...data,
