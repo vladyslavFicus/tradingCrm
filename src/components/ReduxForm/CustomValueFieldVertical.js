@@ -4,7 +4,7 @@ import { Field } from 'redux-form';
 import classNames from 'classnames';
 import { get } from 'lodash';
 import renderLabel from '../../utils/renderLabel';
-import { customValueFieldTypesLabels } from '../../constants/form';
+import { customValueFieldTypesLabels, customValueFieldTypes } from '../../constants/form';
 
 const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors, meta } }) => {
   const {
@@ -101,7 +101,7 @@ CustomValueFieldVertical.defaultProps = {
   errors: {},
   disabled: false,
   id: null,
-  typeValues: [],
+  typeValues: Object.keys(customValueFieldTypes),
   valueFieldProps: {},
   children: null,
 };

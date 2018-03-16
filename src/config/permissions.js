@@ -67,7 +67,7 @@ export default {
     LIST: 'wagering_fulfillment;GET;/',
   },
   GAME_INFO: {
-    GAME_LIST: 'game_info;GET;/public/games',
+    GET_GAME_LIST_CSV: 'game_info;GET;/games',
   },
   PAYMENTS: {
     PLAYER_PAYMENTS_LIST: 'payment;GET;/payments/{playerUUID}',

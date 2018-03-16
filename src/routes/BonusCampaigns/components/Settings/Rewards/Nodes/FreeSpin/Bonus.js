@@ -20,7 +20,6 @@ import { wageringRequirementTypes } from './constants';
 
 class Bonus extends Component {
   static propTypes = {
-    typeValues: PropTypes.array.isRequired,
     nodePath: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
     remove: PropTypes.func,
@@ -46,24 +45,11 @@ class Bonus extends Component {
 
   componentDidMount() {
     const { _reduxForm: { autofill } } = this.context;
-    const { typeValues } = this.props;
 
-    autofill(this.buildFieldName('grantRatio.type'), typeValues[0]);
-    autofill(this.buildFieldName('wageringRequirement.type'), typeValues[0]);
-    autofill(this.buildFieldName('capping.type'), typeValues[0]);
-    autofill(this.buildFieldName('prize.type'), typeValues[0]);
-  }
-
-  componentWillReceiveProps({ typeValues: nextTypeValues }) {
-    const { _reduxForm: { autofill } } = this.context;
-    const { typeValues } = this.props;
-
-    if (typeValues.length !== nextTypeValues.length) {
-      autofill(this.buildFieldName('grantRatio.type'), nextTypeValues[0]);
-      autofill(this.buildFieldName('wageringRequirement.type'), nextTypeValues[0]);
-      autofill(this.buildFieldName('capping.type'), nextTypeValues[0]);
-      autofill(this.buildFieldName('prize.type'), nextTypeValues[0]);
-    }
+    autofill(this.buildFieldName('grantRatio.type'), customValueFieldTypes.ABSOLUTE);
+    autofill(this.buildFieldName('wageringRequirement.type'), customValueFieldTypes.ABSOLUTE);
+    autofill(this.buildFieldName('capping.type'), customValueFieldTypes.ABSOLUTE);
+    autofill(this.buildFieldName('prize.type'), customValueFieldTypes.ABSOLUTE);
   }
 
   setField = (field, value = '') => this.props.change(this.buildFieldName(field), value);
@@ -85,7 +71,6 @@ class Bonus extends Component {
 
   render() {
     const {
-      typeValues,
       disabled,
       remove,
       nodePath,
@@ -174,7 +159,6 @@ class Bonus extends Component {
               id={`${form}BonusGrantRatio`}
               basename={this.buildFieldName('grantRatio')}
               label={I18n.t(attributeLabels.grant)}
-              typeValues={typeValues}
               valueFieldProps={{
                 type: 'number',
                 normalize: floatNormalize,
@@ -295,7 +279,6 @@ class Bonus extends Component {
               id={`${form}Capping`}
               basename={this.buildFieldName('capping')}
               label={I18n.t(attributeLabels.capping)}
-              typeValues={typeValues}
               valueFieldProps={{
                 type: 'number',
                 normalize: floatNormalize,
@@ -308,7 +291,6 @@ class Bonus extends Component {
               id={`${form}Prize`}
               basename={this.buildFieldName('prize')}
               label={I18n.t(attributeLabels.prize)}
-              typeValues={typeValues}
               valueFieldProps={{
                 type: 'number',
                 normalize: floatNormalize,
