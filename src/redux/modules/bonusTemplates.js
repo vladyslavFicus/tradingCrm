@@ -50,12 +50,9 @@ function fetchShortBonusTemplates(type) {
 }
 
 function fetchBonusTemplates(type) {
-  return (filters, short = false) => (dispatch) => {
-    if (short) {
-      return dispatch(fetchShortBonusTemplates(type)(filters));
-    }
-    return dispatch(fetchFullBonusTemplates(type)(filters));
-  };
+  return (filters, short = false) => dispatch => short
+    ? dispatch(fetchShortBonusTemplates(type)(filters))
+    : dispatch(fetchFullBonusTemplates(type)(filters));
 }
 
 function createBonusTemplate(type) {

@@ -50,12 +50,9 @@ function fetchShortFreeSpinTemplates(type) {
 }
 
 function fetchFreeSpinTemplates(type) {
-  return (filters, short = false) => (dispatch) => {
-    if (short) {
-      return dispatch(fetchShortFreeSpinTemplates(type)(filters));
-    }
-    return dispatch(fetchFullFreeSpinTemplates(type)(filters));
-  };
+  return (filters, short = false) => dispatch => short
+    ? dispatch(fetchShortFreeSpinTemplates(type)(filters))
+    : dispatch(fetchFullFreeSpinTemplates(type)(filters));
 }
 
 function fetchFreeSpinTemplate(type) {
