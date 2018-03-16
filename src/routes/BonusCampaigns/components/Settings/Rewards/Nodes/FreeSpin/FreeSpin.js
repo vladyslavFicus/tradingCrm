@@ -202,11 +202,9 @@ class FreeSpin extends Component {
       this.setField('aggregatorId', game.aggregatorId);
       this.setField('gameId', game.gameId);
 
-      this.setField('count', '');
-      this.setField('lifeTime', '');
-      this.setField('freeSpinsAmount', '');
-      this.setField('betPerLine', '');
-      this.setField('linesPerSpin', '');
+      ['count', 'lifeTime', 'freeSpinsAmount', 'betPerLine', 'linesPerSpin'].forEach((key) => {
+        this.setField(key, '');
+      });
 
       this.setState({
         currentLines: game.lines,
