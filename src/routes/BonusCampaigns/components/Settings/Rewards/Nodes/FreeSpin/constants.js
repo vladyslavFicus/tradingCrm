@@ -17,6 +17,7 @@ const attributeLabels = {
   spinValue: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.SPIN_VALUE'),
   totalValue: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.TOTAL_VALUE'),
   maxBet: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MAX_BET'),
+  count: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.COUNT'),
 };
 
 const attributePlaceholders = {

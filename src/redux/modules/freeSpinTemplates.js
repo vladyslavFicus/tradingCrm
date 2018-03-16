@@ -84,11 +84,12 @@ function fetchFreeSpinTemplate(type) {
 
 function createFreeSpinTemplate(type) {
   return data => (dispatch, getState) => {
+    const { aggregatorId } = data;
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'free_spin_template/templates/igromat',
+        endpoint: `free_spin_template/templates/${aggregatorId}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',

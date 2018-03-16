@@ -60,6 +60,8 @@ export default (values, params) => {
         freeSpinsAmount: ['integer', 'min:0'],
         linesPerSpin: ['integer'],
         betPerLine: ['numeric', 'min:0'],
+        count: ['numeric'],
+        lifeTime: ['numeric'],
         bonus: {
           name: ['string'],
           bonusLifeTime: ['integer', 'min:1', 'max:230'],
@@ -120,7 +122,10 @@ export default (values, params) => {
   }
 
   if (rewardsFreeSpins && !rewardsFreeSpins.templateUUID) {
-    ['name', 'providerId', 'gameId', 'aggregatorId', 'freeSpinsAmount', 'linesPerSpin', 'betPerLine']
+    [
+      'name', 'providerId', 'gameId', 'aggregatorId',
+      'freeSpinsAmount', 'linesPerSpin', 'betPerLine', 'count', 'lifeTime',
+    ]
       .map(field => rules.rewards.freeSpin[field].push('required'));
   }
 

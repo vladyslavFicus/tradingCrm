@@ -198,18 +198,21 @@ class Settings extends Component {
     let rewardsFreeSpin = get(data, 'rewards.freeSpin');
 
     if (rewardsFreeSpin) {
-      rewardsFreeSpin = {
-        ...rewardsFreeSpin,
-        betPerLineAmounts: [
-          {
-            amount: rewardsFreeSpin.betPerLine,
-            currency,
-          },
-        ],
-      };
-      delete rewardsFreeSpin.betPerLine;
+      if (rewardsFreeSpin.betPerLine) {
+        rewardsFreeSpin = {
+          ...rewardsFreeSpin,
+          betPerLineAmounts: [
+            {
+              amount: rewardsFreeSpin.betPerLine,
+              currency,
+            },
+          ],
+        };
+        delete rewardsFreeSpin.betPerLine;
+      }
 
       let bonus = get(rewardsFreeSpin, 'bonus');
+      delete rewardsFreeSpin.bonus;
       if (bonus) {
         data = {
           ...data,

@@ -101,7 +101,7 @@ CustomValueFieldVertical.defaultProps = {
   errors: {},
   disabled: false,
   id: null,
-  typeValues: {},
+  typeValues: [],
   valueFieldProps: {},
   children: null,
 };

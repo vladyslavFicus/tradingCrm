@@ -8,6 +8,7 @@ const aggregators = keyMirror({
   igromat: null,
   microgaming: null,
   netent: null,
+  softgamings: null,
 });
 
 export {
