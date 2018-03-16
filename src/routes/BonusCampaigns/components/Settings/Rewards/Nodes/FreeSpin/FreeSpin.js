@@ -488,7 +488,6 @@ class FreeSpin extends Component {
             <hr />
             <Bonus
               disabled={disabled || !customTemplate}
-              typeValues={typeValues}
               nodePath={`${nodePath}.bonus`}
               change={change}
               bonusTemplates={bonusTemplates}
