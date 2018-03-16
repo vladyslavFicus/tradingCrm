@@ -61,7 +61,7 @@ const mapRewardsToForm = (data) => {
 const mapStateToProps = ({
   bonusCampaignView: { data, nodeGroups },
   bonusCampaignSettings: {
-    games: { games, providers },
+    games: { games },
     freeSpinTemplates: { data: freeSpinTemplates },
     bonusTemplates: { data: bonusTemplates },
     payments: { list: paymentMethods },
@@ -108,7 +108,6 @@ const mapStateToProps = ({
     currencies: currencyCodes,
     baseCurrency,
     games,
-    providers,
     freeSpinTemplates,
     bonusTemplates,
     paymentMethods,

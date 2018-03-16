@@ -53,7 +53,6 @@ class Settings extends Component {
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.array,
-    providers: PropTypes.array,
     freeSpinTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
@@ -73,7 +72,6 @@ class Settings extends Component {
 
   static defaultProps = {
     games: [],
-    providers: [],
     freeSpinTemplates: [],
     bonusCampaignForm: {
       capping: {
@@ -364,7 +362,6 @@ class Settings extends Component {
       removeNode,
       addNode,
       games,
-      providers,
       freeSpinTemplates,
       bonusTemplates,
       fetchFreeSpinTemplate,
@@ -392,7 +389,6 @@ class Settings extends Component {
           onSubmit={this.handleSubmit}
           toggleModal={this.handleCurrencyAmountModalOpen}
           games={games}
-          providers={providers}
           freeSpinTemplates={freeSpinTemplates}
           bonusTemplates={bonusTemplates}
           form={form}

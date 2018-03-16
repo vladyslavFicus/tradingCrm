@@ -25,7 +25,6 @@ class Container extends Component {
     add: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired,
     games: PropTypes.array,
-    providers: PropTypes.array,
     freeSpinTemplates: PropTypes.array,
     baseCurrency: PropTypes.string.isRequired,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
@@ -41,7 +40,6 @@ class Container extends Component {
     disabled: false,
     activeNodes: [],
     games: [],
-    providers: [],
     freeSpinTemplates: [],
     bonusTemplates: [],
   };
@@ -82,7 +80,6 @@ class Container extends Component {
       allowedCustomValueTypes,
       disabled,
       games,
-      providers,
       change,
       freeSpinTemplates,
       baseCurrency,
@@ -117,7 +114,6 @@ class Container extends Component {
             remove={() => this.handleRemoveNode(nodeTypes.freeSpin)}
             nodePath={freeSpinNodePath}
             games={games}
-            providers={providers}
             change={change}
             freeSpinTemplates={freeSpinTemplates}
             bonusTemplates={bonusTemplates}

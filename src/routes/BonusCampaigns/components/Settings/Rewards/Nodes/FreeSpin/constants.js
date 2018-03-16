@@ -4,6 +4,7 @@ import I18n from '../../../../../../../utils/fake-i18n';
 const attributeLabels = {
   lifeTime: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.LIFE_TIME'),
   providerId: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.PROVIDER'),
+  aggregatorId: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.AGGREGATOR'),
   gameId: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.GAMES'),
   name: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.NAME'),
   freeSpins: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.FREE_SPINS'),
@@ -32,8 +33,14 @@ const wageringRequirementTypes = keyMirror({
   BONUS_PLUS_DEPOSIT: null,
 });
 
+const aggregatorsMap = {
+  igromat: ['novomatic', 'igrosoft'],
+  softgamings: ['betsoft', 'amaticdirect', 'habanero', 'netent'],
+};
+
 export {
   attributeLabels,
   attributePlaceholders,
   wageringRequirementTypes,
+  aggregatorsMap,
 };
