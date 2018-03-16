@@ -28,7 +28,7 @@ export default (values, params) => {
       value: ['numeric', 'customTypeValue.value'],
       type: [`in:${allowedCustomValueTypes.join()}`],
     },
-    optInPeriod: ['numeric', 'min:0'],
+    optInPeriod: ['numeric', 'min:1'],
     optInPeriodTimeUnit: [`in:${Object.keys(optInPeriods).join()}`],
     linkedCampaignUUID: ['string'],
     conversionPrize: {
@@ -72,7 +72,7 @@ export default (values, params) => {
           },
           wageringRequirement: {
             type: ['string'],
-            value: ['numeric', 'min:1', 'max:500'],
+            value: ['numeric', 'min:1', 'max:1000000'],
           },
           capping: {
             type: ['string'],
