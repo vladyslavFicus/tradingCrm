@@ -28,7 +28,6 @@ function fetchGames() {
 }
 
 const initialState = {
-  providers: ['novomatic', 'igrosoft'],
   games: [],
   isLoading: false,
   error: null,

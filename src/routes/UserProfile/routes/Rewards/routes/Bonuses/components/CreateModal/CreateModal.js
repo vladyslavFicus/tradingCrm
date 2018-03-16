@@ -12,7 +12,7 @@ import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { customValueFieldTypes } from '../../../../../../../../constants/form';
 import { attributeLabels } from './constants';
-import floatNormalize from '../../../../../../../../utils/floatNormalize';
+import { floatNormalize } from '../../../../../../../../utils/inputNormalize';
 import {
   lockAmountStrategy,
   lockAmountStrategyLabels,

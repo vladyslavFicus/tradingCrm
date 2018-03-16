@@ -9,7 +9,7 @@ import {
 import renderLabel from '../../../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from '../Bonus/constants';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
-import floatNormalize from '../../../../../../../utils/floatNormalize';
+import { floatNormalize } from '../../../../../../../utils/inputNormalize';
 import {
   lockAmountStrategy,
   lockAmountStrategyLabels,

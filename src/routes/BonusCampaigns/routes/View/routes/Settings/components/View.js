@@ -49,7 +49,6 @@ class View extends Component {
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.array,
-    providers: PropTypes.array,
     freeSpinTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
     fetchCampaigns: PropTypes.func.isRequired,
@@ -64,7 +63,6 @@ class View extends Component {
 
   static defaultProps = {
     games: [],
-    providers: [],
     freeSpinTemplates: [],
     paymentMethods: [],
     bonusTemplates: [],
@@ -122,7 +120,6 @@ class View extends Component {
       removeNode,
       addNode,
       games,
-      providers,
       freeSpinTemplates,
       bonusTemplates,
       paymentMethods,
@@ -152,7 +149,6 @@ class View extends Component {
         fetchFreeSpinTemplate={fetchFreeSpinTemplate}
         freeSpinTemplates={freeSpinTemplates}
         bonusTemplates={bonusTemplates}
-        providers={providers}
         games={games}
         fetchCampaigns={fetchCampaigns}
         fetchCampaign={fetchCampaign}

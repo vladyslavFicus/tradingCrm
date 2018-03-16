@@ -10,7 +10,7 @@ import { actionCreators as paymentsActionCreators } from '../../../modules/payme
 const mapStateToProps = ({
   bonusCampaignCreate: {
     create: { data, nodeGroups },
-    games: { games, providers },
+    games: { games },
     freeSpinTemplates: { data: freeSpinTemplates },
     bonusTemplates: { data: bonusTemplates },
     payments: { list: paymentMethods },
@@ -23,7 +23,6 @@ const mapStateToProps = ({
   currencies: currencyCodes,
   baseCurrency,
   games,
-  providers,
   freeSpinTemplates,
   bonusTemplates,
   locale,

@@ -16,7 +16,7 @@ import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../../../../co
 import { aggregators } from '../../constants';
 import MicrogamingAdditionalFields from './MicrogamingAdditionalFields';
 import NetentAdditionalFields from './NetentAdditionalFields';
-import floatNormalize from '../../../../../../../../utils/floatNormalize';
+import { floatNormalize } from '../../../../../../../../utils/inputNormalize';
 
 class CreateModal extends Component {
   static propTypes = {

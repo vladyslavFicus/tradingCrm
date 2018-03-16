@@ -4,7 +4,7 @@ import { I18n } from 'react-redux-i18n';
 import { Field, reduxForm } from 'redux-form';
 import { createValidator } from '../../../../../../../utils/validator';
 import { InputField } from '../../../../../../../components/ReduxForm';
-import floatNormalize from '../../../../../../../utils/floatNormalize';
+import { floatNormalize } from '../../../../../../../utils/inputNormalize';
 
 class Create extends Component {
   static propTypes = {

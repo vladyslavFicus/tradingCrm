@@ -23,7 +23,6 @@ class Settings extends Component {
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.array,
-    providers: PropTypes.array,
     freeSpinTemplates: PropTypes.array,
     bonusTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
@@ -39,7 +38,6 @@ class Settings extends Component {
 
   static defaultProps = {
     games: [],
-    providers: [],
     freeSpinTemplates: [],
     bonusTemplates: [],
   };
@@ -97,7 +95,6 @@ class Settings extends Component {
       removeNode,
       addNode,
       games,
-      providers,
       freeSpinTemplates,
       bonusTemplates,
       fetchFreeSpinTemplate,
@@ -125,7 +122,6 @@ class Settings extends Component {
         fetchFreeSpinTemplate={fetchFreeSpinTemplate}
         freeSpinTemplates={freeSpinTemplates}
         bonusTemplates={bonusTemplates}
-        providers={providers}
         games={games}
         fetchCampaigns={fetchCampaigns}
         fetchCampaign={fetchCampaign}
