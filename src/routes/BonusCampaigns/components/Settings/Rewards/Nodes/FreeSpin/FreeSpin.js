@@ -222,6 +222,13 @@ class FreeSpin extends Component {
     }
   };
 
+  get gameData() {
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const currentValues = get(rewards, 'freeSpin', {});
+
+    return this.state.currentGames.find(i => i.gameId === currentValues.gameId);
+  }
+
   toggleCustomTemplate = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -411,6 +418,7 @@ class FreeSpin extends Component {
       currentGames,
       customTemplate,
     } = this.state;
+    const gameData = this.gameData;
 
     const availableProviders = currentValues.aggregatorId ? aggregatorsMap[currentValues.aggregatorId] : [];
 
@@ -571,7 +579,7 @@ class FreeSpin extends Component {
                 name={this.buildFieldName('gameType')}
                 label={I18n.t(attributeLabels.gameType)}
                 id={`${form}gameType`}
-                disabled={currentValues.gameType && currentValues.gameType !== GAME_TYPES.DESKTOP_AND_MOBILE}
+                disabled={gameData && gameData.gameInfoType !== GAME_TYPES.DESKTOP_AND_MOBILE}
                 position="vertical"
                 component={SelectField}
               >
