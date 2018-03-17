@@ -215,7 +215,6 @@ class FreeSpin extends Component {
 
     if (game) {
       this.setField('gameId', game.gameId);
-
       this.setField('gameType', game.gameInfoType);
       this.setState({
         currentLines: game.lines,
