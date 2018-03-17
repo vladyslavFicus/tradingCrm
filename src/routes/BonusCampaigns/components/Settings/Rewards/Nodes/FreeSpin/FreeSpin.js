@@ -564,8 +564,7 @@ class FreeSpin extends Component {
             customTemplate &&
             currentValues.aggregatorId === 'softgamings' &&
             HARDCODED_PROVIDERS.indexOf(currentValues.providerId) !== -1 &&
-            currentValues.gameId
-          }
+            currentValues.gameId}
           >
             <div className="col-6">
               <Field

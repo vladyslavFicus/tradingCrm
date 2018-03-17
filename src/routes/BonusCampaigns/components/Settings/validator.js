@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import { attributeLabels, optInPeriods } from './constants';
+import { HARDCODED_PROVIDERS } from './Rewards/Nodes/FreeSpin/constants';
 import {
   targetTypes,
   targetTypesLabels,
@@ -122,7 +123,10 @@ export default (values, params) => {
   }
 
   if (rewardsFreeSpins && !rewardsFreeSpins.templateUUID) {
-    if (values.rewards.freeSpin.providerId === 'netent') {
+    if (
+      values.rewards.freeSpin.aggregatorId === 'softgamings' &&
+      HARDCODED_PROVIDERS.indexOf(values.rewards.freeSpin.providerId) !== -1
+    ) {
       rules.rewards.freeSpin.gameType = ['required'];
     }
 
