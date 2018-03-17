@@ -27,11 +27,11 @@ const attributePlaceholders = {
   notSet: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.PLACEHOLDERS.NOT_SET'),
 };
 
-const GAME_TYPES = {
-  DESKTOP: 'DESKTOP',
-  MOBILE: 'MOBILE',
-  DESKTOP_AND_MOBILE: 'DESKTOP_AND_MOBILE',
-};
+const GAME_TYPES = keyMirror({
+  DESKTOP: null,
+  MOBILE: null,
+  DESKTOP_AND_MOBILE: null,
+});
 
 const HARDCODED_PROVIDERS = [
   'netent',
