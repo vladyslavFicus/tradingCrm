@@ -1,51 +1,48 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, reduxForm, getFormValues } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField } from '../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import renderLabel from '../../../../utils/renderLabel';
 import { attributeLabels } from './constants';
 import { departmentsLabels, rolesLabels } from '../../../../constants/operators';
-import shallowEqual from '../../../../utils/shallowEqual';
+import { withReduxFormValues } from '../../../../components/HighOrder';
 
 class CreateOperatorModal extends Component {
   static propTypes = {
     onCloseModal: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    autofill: PropTypes.func,
+    change: PropTypes.func,
     departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
     isOpen: PropTypes.bool.isRequired,
-    currentValues: PropTypes.shape({
+    formValues: PropTypes.shape({
       department: PropTypes.string,
       role: PropTypes.string,
-      isOpen: false,
     }),
   };
   static defaultProps = {
     pristine: false,
     submitting: false,
     valid: false,
-    currentValues: {},
-    autofill: null,
+    formValues: {},
+    change: null,
   };
 
   handleChangeDepartment = (e) => {
-    const { departmentsRoles, autofill } = this.props;
+    const { departmentsRoles, change } = this.props;
     const roles = departmentsRoles[e.target.value];
 
     if (roles.length > 0) {
-      autofill('role', roles[0]);
+      change('role', roles[0]);
     }
   };
-
-  handleSubmit = data => this.props.onSubmit(data);
 
   render() {
     const {
@@ -57,7 +54,7 @@ class CreateOperatorModal extends Component {
       valid,
       onCloseModal,
       isOpen,
-      currentValues,
+      formValues,
     } = this.props;
 
     return (
@@ -140,9 +137,9 @@ class CreateOperatorModal extends Component {
                   label={I18n.t(attributeLabels.role)}
                   component={SelectField}
                   position="vertical"
-                  disabled={!currentValues}
+                  disabled={!formValues}
                 >
-                  {currentValues.department && departmentsRoles[currentValues.department].map(value => (
+                  {formValues.department && departmentsRoles[formValues.department].map(value => (
                     <option key={value} value={value}>
                       {renderLabel(value, rolesLabels)}
                     </option>
@@ -202,9 +199,7 @@ class CreateOperatorModal extends Component {
   }
 }
 
-export default connect(state => ({
-  currentValues: getFormValues('operatorCreateForm')(state),
-}))(
+export default compose(
   reduxForm({
     form: 'operatorCreateForm',
     validate: createValidator({
@@ -215,5 +210,6 @@ export default connect(state => ({
       department: 'required',
       role: 'required',
     }, translateLabels(attributeLabels), false),
-  })(CreateOperatorModal),
-);
+  }),
+  withReduxFormValues,
+)(CreateOperatorModal);
