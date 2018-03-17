@@ -37,6 +37,7 @@
     "phantomjs-polyfill": "^0.0.2",
     "promise": "^8.0.1",
     "prop-types": "15.5.10",
+    "qs": "^6.5.1",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.2",
     "react-copy-to-clipboard": "^5.0.0",

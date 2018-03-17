@@ -5,7 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
 import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
-import { attributeLabels, aggregatorsMap } from './constants';
+import { attributeLabels, aggregatorsMap, GAME_TYPES, HARDCODED_PROVIDERS } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNormalize';
@@ -215,7 +215,7 @@ class FreeSpin extends Component {
 
     if (game) {
       this.setField('gameId', game.gameId);
-
+      this.setField('gameType', game.gameInfoType);
       this.setState({
         currentLines: game.lines,
       });
@@ -560,6 +560,31 @@ class FreeSpin extends Component {
               ))}
             </Field>
           </div>
+          <If condition={
+            customTemplate &&
+            currentValues.aggregatorId === 'softgamings' &&
+            HARDCODED_PROVIDERS.indexOf(currentValues.providerId) !== -1 &&
+            currentValues.gameId}
+          >
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('gameType')}
+                label={I18n.t(attributeLabels.gameType)}
+                id={`${form}gameType`}
+                disabled={currentValues.gameType && currentValues.gameType !== GAME_TYPES.DESKTOP_AND_MOBILE}
+                position="vertical"
+                component={SelectField}
+              >
+                <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME_TYPE')}</option>
+                <option value={GAME_TYPES.DESKTOP}>
+                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.DESKTOP')}
+                </option>
+                <option value={GAME_TYPES.MOBILE}>
+                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.MOBILE')}
+                </option>
+              </Field>
+            </div>
+          </If>
         </div>
         {this.renderAdditionalFields()}
         {

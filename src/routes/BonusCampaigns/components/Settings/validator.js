@@ -1,6 +1,7 @@
 import { get } from 'lodash';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import { attributeLabels, optInPeriods } from './constants';
+import { HARDCODED_PROVIDERS } from './Rewards/Nodes/FreeSpin/constants';
 import {
   targetTypes,
   targetTypesLabels,
@@ -122,6 +123,13 @@ export default (values, params) => {
   }
 
   if (rewardsFreeSpins && !rewardsFreeSpins.templateUUID) {
+    if (
+      rewardsFreeSpins.aggregatorId === 'softgamings' &&
+      HARDCODED_PROVIDERS.indexOf(rewardsFreeSpins.providerId) !== -1
+    ) {
+      rules.rewards.freeSpin.gameType = ['required'];
+    }
+
     [
       'name', 'providerId', 'gameId', 'aggregatorId',
       'freeSpinsAmount', 'linesPerSpin', 'betPerLine', 'count', 'lifeTime',

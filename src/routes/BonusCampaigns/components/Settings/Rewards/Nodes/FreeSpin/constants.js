@@ -6,6 +6,7 @@ const attributeLabels = {
   providerId: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.PROVIDER'),
   aggregatorId: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.AGGREGATOR'),
   gameId: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.GAMES'),
+  gameType: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.GAME_TYPE'),
   name: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.NAME'),
   freeSpins: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.FREE_SPINS'),
   freeSpinReward: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.FREE_SPIN_REWARD'),
@@ -26,6 +27,19 @@ const attributePlaceholders = {
   notSet: I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.PLACEHOLDERS.NOT_SET'),
 };
 
+const GAME_TYPES = keyMirror({
+  DESKTOP: null,
+  MOBILE: null,
+  DESKTOP_AND_MOBILE: null,
+});
+
+const HARDCODED_PROVIDERS = [
+  'netent',
+  'betsoft',
+  'amaticdirect',
+  'habanero',
+];
+
 const wageringRequirementTypes = keyMirror({
   ABSOLUTE: null,
   BONUS: null,
@@ -43,4 +57,6 @@ export {
   attributePlaceholders,
   wageringRequirementTypes,
   aggregatorsMap,
+  GAME_TYPES,
+  HARDCODED_PROVIDERS,
 };
