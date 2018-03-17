@@ -8,28 +8,24 @@ import { InputField, SelectField } from '../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import renderLabel from '../../../../utils/renderLabel';
 import { attributeLabels } from './constants';
-import { departments, departmentsLabels, roles, rolesLabels } from '../../../../constants/operators';
+import { departmentsLabels, rolesLabels } from '../../../../constants/operators';
+import shallowEqual from '../../../../utils/shallowEqual';
 
 class CreateOperatorModal extends Component {
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    availableDepartments: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })).isRequired,
-    availableRoles: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })).isRequired,
+    autofill: PropTypes.func,
+    departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
-    change: PropTypes.func,
+    isOpen: PropTypes.bool.isRequired,
     currentValues: PropTypes.shape({
       department: PropTypes.string,
       role: PropTypes.string,
+      isOpen: false,
     }),
   };
   static defaultProps = {
@@ -37,12 +33,15 @@ class CreateOperatorModal extends Component {
     submitting: false,
     valid: false,
     currentValues: {},
-    change: null,
+    autofill: null,
   };
 
   handleChangeDepartment = (e) => {
-    if (e.target.value === departments.ADMINISTRATION) {
-      this.props.change('role', roles.ROLE4);
+    const { departmentsRoles, autofill } = this.props;
+    const roles = departmentsRoles[e.target.value];
+
+    if (roles.length > 0) {
+      autofill('role', roles[0]);
     }
   };
 
@@ -52,18 +51,18 @@ class CreateOperatorModal extends Component {
     const {
       handleSubmit,
       onSubmit,
-      availableDepartments,
+      departmentsRoles,
       pristine,
       submitting,
       valid,
-      availableRoles,
-      onClose,
+      onCloseModal,
+      isOpen,
       currentValues,
     } = this.props;
 
     return (
-      <Modal className="create-operator-modal" toggle={onClose} isOpen>
-        <ModalHeader toggle={onClose}>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.TITLE')}</ModalHeader>
+      <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
+        <ModalHeader toggle={onCloseModal}>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.TITLE')}</ModalHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
@@ -127,9 +126,9 @@ class CreateOperatorModal extends Component {
                   position="vertical"
                   onChange={this.handleChangeDepartment}
                 >
-                  {availableDepartments.map(({ label, value }) => (
+                  {Object.keys(departmentsRoles).map(value => (
                     <option key={value} value={value}>
-                      {renderLabel(label, departmentsLabels)}
+                      {renderLabel(value, departmentsLabels)}
                     </option>
                   ))}
                 </Field>
@@ -141,11 +140,11 @@ class CreateOperatorModal extends Component {
                   label={I18n.t(attributeLabels.role)}
                   component={SelectField}
                   position="vertical"
-                  disabled={!currentValues || (currentValues.department === departments.ADMINISTRATION)}
+                  disabled={!currentValues}
                 >
-                  {availableRoles.map(({ label, value }) => (
+                  {currentValues.department && departmentsRoles[currentValues.department].map(value => (
                     <option key={value} value={value}>
-                      {renderLabel(label, rolesLabels)}
+                      {renderLabel(value, rolesLabels)}
                     </option>
                   ))}
                 </Field>
@@ -181,7 +180,7 @@ class CreateOperatorModal extends Component {
                 <button
                   type="reset"
                   className="btn btn-default-outline"
-                  onClick={onClose}
+                  onClick={onCloseModal}
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </button>

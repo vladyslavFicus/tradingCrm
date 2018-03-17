@@ -1637,6 +1637,24 @@
           "PHONE": "Телефон"
         }
       }
+    },
+    "NOTIFICATIONS": {
+      "DELETE_AUTHORITY_ERROR": {
+        "TITLE": "Ошибка при удалении",
+        "MESSAGE": "При удалении департамента произошла ошибка"
+      },
+      "GET_AUTHORITIES_ERROR": {
+        "TITLE": "Ошибка загрузки",
+        "MESSAGE": "При загрузки департаментов и ролей произошла ошибка"
+      },
+      "GET_OPERATORS_AUTHORITIES_ERROR": {
+        "TITLE": "Ощибка загрузки",
+        "MESSAGE": "При загрузки департаментов и ролей оператора произошла ошибка"
+      },
+      "ADD_AUTHORITY_ERROR": {
+        "TITLE": "Ошибка добавления",
+        "MESSAGE": "При добавлении департамента произошла ошибка"
+      }
     }
   },
   "PAYMENT_METHOD_LIMIT_POPOVER": {

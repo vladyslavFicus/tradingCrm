@@ -7,10 +7,7 @@ import { InputField, SelectField, DateRangePicker } from '../../../../../compone
 import { createValidator, translateLabels } from '../../../../../utils/validator';
 import { attributeLabels } from '../constants';
 import { statusesLabels, statuses } from '../../../../../constants/operators';
-import config from '../../../../../config';
 import countries from '../../../../../utils/countryList';
-
-const { availableDepartments: departments, availableRoles: roles } = config;
 
 class OperatorGridFilter extends Component {
   static propTypes = {
@@ -159,8 +156,6 @@ export default reduxForm({
     keyword: 'string',
     country: ['string', `in:${Object.keys(countries).join()}`],
     status: ['string', `in:${Object.keys(statuses).join()}`],
-    department: ['string', `in:${departments.map(role => role.value).join()}`],
-    role: ['string', `in:${roles.map(role => role.value).join()}`],
     registrationDateFrom: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
     registrationDateTo: 'regex:/^\\d{4}-\\d{2}-\\d{2}$/',
   }, translateLabels(attributeLabels), false),

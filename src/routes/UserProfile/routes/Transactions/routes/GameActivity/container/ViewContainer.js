@@ -14,7 +14,6 @@ const mapStateToProps = state => ({
   ...userGamingActivity,
   subTabRoutes,
   ...i18n,
-  providers: config.providers,
   filterErrors: getFormSyncErrors('userGameActivityFilter')(state),
 });
 

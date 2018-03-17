@@ -2,14 +2,7 @@ import _ from 'lodash';
 
 const config = _.merge({
   version: __APP_VERSION__,
-  availableDepartments: [],
-  availableRoles: [],
   availableTags: [],
-  providers: {
-    stakelogic: 'Stakelogic',
-    netent: 'Netent',
-    igromat: 'Igromat',
-  },
   components: {
     Currency: {
       currencies: {},
@@ -43,9 +36,7 @@ const config = _.merge({
         version: 'latest',
         url: '',
       },
-      departments: [],
       tags: {},
-      roles: [],
       currencies: {
         base: 'EUR',
         supported: [],
@@ -103,22 +94,6 @@ if (config.nas.validation && config.nas.brand) {
   if (config.nas.brand.password.pattern) {
     config.nas.validation.password = new RegExp(config.nas.brand.password.pattern, 'g');
   }
-}
-
-if (config.nas.brand.departments) {
-  config.availableDepartments = config.nas.brand.departments;
-  config.availableDepartments.splice(config.availableDepartments.indexOf('PLAYER'), 1);
-  config.availableDepartments = config.availableDepartments.map(item => ({
-    value: item,
-    label: item,
-  }));
-}
-
-if (config.nas.brand.roles) {
-  config.availableRoles = config.nas.brand.roles.map(item => ({
-    value: item,
-    label: item,
-  }));
 }
 
 if (config.nas.brand.tags && config.nas.brand.tags.priorities) {
