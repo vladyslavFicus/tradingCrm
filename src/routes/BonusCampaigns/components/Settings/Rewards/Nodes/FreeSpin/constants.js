@@ -33,6 +33,13 @@ const GAME_TYPES = {
   DESKTOP_AND_MOBILE: 'DESKTOP_AND_MOBILE',
 };
 
+const HARDCODED_PROVIDERS = [
+  'netent',
+  'betsoft',
+  'amaticdirect',
+  'habanero',
+];
+
 const wageringRequirementTypes = keyMirror({
   ABSOLUTE: null,
   BONUS: null,
@@ -51,4 +58,5 @@ export {
   wageringRequirementTypes,
   aggregatorsMap,
   GAME_TYPES,
+  HARDCODED_PROVIDERS,
 };

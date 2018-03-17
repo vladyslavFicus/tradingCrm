@@ -5,7 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
 import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
-import { attributeLabels, aggregatorsMap, GAME_TYPES } from './constants';
+import { attributeLabels, aggregatorsMap, GAME_TYPES, HARDCODED_PROVIDERS } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNormalize';
@@ -560,7 +560,13 @@ class FreeSpin extends Component {
               ))}
             </Field>
           </div>
-          <If condition={customTemplate && currentValues.providerId === 'netent' && currentValues.gameId}>
+          <If condition={
+            customTemplate &&
+            currentValues.aggregatorId === 'softgamings' &&
+            HARDCODED_PROVIDERS.indexOf(currentValues.providerId) !== -1 &&
+            currentValues.gameId
+          }
+          >
             <div className="col-6">
               <Field
                 name={this.buildFieldName('gameType')}

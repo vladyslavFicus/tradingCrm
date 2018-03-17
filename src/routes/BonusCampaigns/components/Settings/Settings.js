@@ -13,7 +13,7 @@ import recognizeFieldError from '../../../../utils/recognizeFieldError';
 import AddToCampaignModal from '../../../../components/AddToCampaignModal';
 import { customValueFieldTypes } from '../../../../constants/form';
 import { mapResponseErrorToField } from './constants';
-import { GAME_TYPES } from './Rewards/Nodes/FreeSpin/constants';
+import { GAME_TYPES, HARDCODED_PROVIDERS } from './Rewards/Nodes/FreeSpin/constants';
 
 const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
 const CHOOSE_CAMPAIGN_MODAL = 'choose-campaign-modal';
@@ -312,15 +312,22 @@ class Settings extends Component {
       } else {
         const { gameId, gameType, ...freeSpin } = rewardsFreeSpin;
 
-        if (!rewardsFreeSpin.templateUUID && freeSpin.providerId === 'netent') {
+        if (
+          !rewardsFreeSpin.templateUUID &&
+           freeSpin.aggregatorId === 'softgamings' &&
+           HARDCODED_PROVIDERS.indexOf(freeSpin.providerId) !== -1
+        ) {
           const gameData = games.find(i => i.gameId === gameId);
-          const { pageCode, mobilePageCode } = parse(gameData.startGameUrl, { ignoreQueryPrefix: true });
-          const newGameId = gameType === GAME_TYPES.DESKTOP ? pageCode : mobilePageCode;
 
-          rewardsFreeSpin = {
-            ...freeSpin,
-            gameId: newGameId,
-          };
+          if (gameData) {
+            const { pageCode, mobilePageCode } = parse(gameData.startGameUrl, { ignoreQueryPrefix: true });
+            const newGameId = gameType === GAME_TYPES.DESKTOP ? pageCode : mobilePageCode;
+
+            rewardsFreeSpin = {
+              ...freeSpin,
+              gameId: newGameId,
+            };
+          }
         }
         const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
 
