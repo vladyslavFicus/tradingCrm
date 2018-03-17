@@ -1625,8 +1625,8 @@
     },
     "NOTIFICATIONS": {
       "DELETE_AUTHORITY_ERROR": {
-        "TITLE": "Failure on deleting",
-        "MESSAGE": "Deleting of department has failed"
+        "TITLE": "Failure on removing",
+        "MESSAGE": "Removing of department has failed"
       },
       "GET_AUTHORITIES_ERROR": {
         "TITLE": "Loading failure",
