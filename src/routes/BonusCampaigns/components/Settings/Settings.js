@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { I18n } from 'react-redux-i18n';
 import { SubmissionError, change } from 'redux-form';
 import { get } from 'lodash';
-import { parse } from 'qs';
 import Form from './Form';
 import { statuses } from '../../../../constants/bonus-campaigns';
 import PropTypes from '../../../../constants/propTypes';
@@ -13,7 +12,6 @@ import recognizeFieldError from '../../../../utils/recognizeFieldError';
 import AddToCampaignModal from '../../../../components/AddToCampaignModal';
 import { customValueFieldTypes } from '../../../../constants/form';
 import { mapResponseErrorToField } from './constants';
-import { GAME_TYPES, HARDCODED_PROVIDERS } from './Rewards/Nodes/FreeSpin/constants';
 
 const CURRENCY_AMOUNT_MODAL = 'currency-amount-modal';
 const CHOOSE_CAMPAIGN_MODAL = 'choose-campaign-modal';
@@ -310,25 +308,6 @@ class Settings extends Component {
       if (rewardsFreeSpin.templateUUID) {
         rewardsFreeSpinData = rewardsFreeSpin;
       } else {
-        const { gameId, gameType, ...freeSpin } = rewardsFreeSpin;
-
-        if (
-          !rewardsFreeSpin.templateUUID &&
-           freeSpin.aggregatorId === 'softgamings' &&
-           HARDCODED_PROVIDERS.indexOf(freeSpin.providerId) !== -1
-        ) {
-          const gameData = games.find(i => i.gameId === gameId);
-
-          if (gameData) {
-            const { pageCode, mobilePageCode } = parse(gameData.startGameUrl, { ignoreQueryPrefix: true });
-            const newGameId = gameType === GAME_TYPES.DESKTOP ? pageCode : mobilePageCode;
-
-            rewardsFreeSpin = {
-              ...freeSpin,
-              gameId: newGameId,
-            };
-          }
-        }
         const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
 
         if (createAction && !createAction.error) {
@@ -446,6 +425,6 @@ class Settings extends Component {
 }
 
 export default connect(null, (dispatch, { form }) => ({
-  changeForm: (field, value) => dispatch(change(form, field, value)),
-})
+    changeForm: (field, value) => dispatch(change(form, field, value)),
+  })
 )(Settings);

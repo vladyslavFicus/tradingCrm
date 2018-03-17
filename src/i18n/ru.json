@@ -541,7 +541,9 @@
         "TOTAL_VALUE": "Сумма spin",
         "CHOOSE_COIN_SIZE": "-- Выберите --",
         "CHOOSE_NUMBER_OF_COINS": "-- Выберите --",
-        "BUTTON": "Создать Free-spin"
+        "BUTTON": "Создать Free-spin",
+        "CHOOSE_PAGE_CODE": "-- Выберите --",
+        "CHOOSE_AGGREGATOR": "-- Выберите --"
       },
       "MODAL_CANCEL": {
         "CUSTOM_REASON_OPTION": "Другая причина",
@@ -1402,7 +1404,9 @@
         "WAGERING_REQUIREMENT": "Wagering requirement",
         "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
         "CAPPING": "Capping",
-        "PRIZE": "Приз"
+        "PRIZE": "Приз",
+        "COUNT": "Кол-во",
+        "PAGE_CODE": "Код страницы"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Добавить награду",
@@ -1427,7 +1431,8 @@
         "PLACEHOLDERS": {
           "DAYS": "дней",
           "NOT_SET": "Не задано"
-        }
+        },
+        "AGGREGATOR": "Агрегатор"
       },
       "BONUS_TEMPLATE": {
         "CREATION_ERROR": "Ошибка создания бонус шаблона"
