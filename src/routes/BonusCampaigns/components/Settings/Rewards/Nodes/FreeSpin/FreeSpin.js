@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
+import { parse } from 'qs';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
 import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
-import { attributeLabels, aggregatorsMap, GAME_TYPES, HARDCODED_PROVIDERS } from './constants';
+import { attributeLabels, aggregatorsMap, GAME_TYPES } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNormalize';
@@ -86,12 +87,8 @@ class FreeSpin extends Component {
     this.setField('aggregatorId', aggregatorId);
     [
       'providerId', 'gameId',
-      'count', 'expirationDate', 'freeSpinsAmount', 'betPerLine', 'linesPerSpin',
+      'count', 'freeSpinsAmount', 'betPerLine', 'linesPerSpin',
     ].forEach(key => this.setField(key));
-
-    if (aggregatorId === aggregators.softgamings) {
-      this.setField('expirationDate', '2018-12-20T00:00:00');
-    }
   };
 
   loadTemplateData = async (templateUUID) => {
@@ -109,7 +106,7 @@ class FreeSpin extends Component {
         linesPerSpin,
         bonusTemplateUUID,
         count,
-        expirationDate,
+        pageCode,
       } = action.payload;
 
       let { betPerLine } = action.payload;
@@ -126,7 +123,7 @@ class FreeSpin extends Component {
 
       if (aggregatorId === aggregators.softgamings) {
         this.setField('count', count);
-        this.setField('expirationDate', expirationDate);
+        this.setField('pageCode', pageCode);
       } else {
         this.setField('freeSpinsAmount', freeSpinsAmount);
         this.setField('betPerLine', betPerLine);
@@ -215,12 +212,37 @@ class FreeSpin extends Component {
 
     if (game) {
       this.setField('gameId', game.gameId);
-      this.setField('gameType', game.gameInfoType);
+
       this.setState({
         currentLines: game.lines,
       });
     }
   };
+
+  get pageCodes() {
+    const gameData = this.gameData;
+    const pageCodes = [];
+
+    if (gameData) {
+      const { pageCode, mobilePageCode } = parse(this.gameData.startGameUrl, { ignoreQueryPrefix: true });
+
+      if (pageCode) {
+        pageCodes.push({
+          label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.MOBILE',
+          value: pageCode,
+        });
+      }
+
+      if (mobilePageCode) {
+        pageCodes.push({
+          label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.DESKTOP',
+          value: mobilePageCode,
+        });
+      }
+    }
+
+    return pageCodes;
+  }
 
   get gameData() {
     const { _reduxForm: { values: { rewards } } } = this.context;
@@ -247,6 +269,7 @@ class FreeSpin extends Component {
     const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const { customTemplate, currentLines } = this.state;
+    const gameData = this.gameData;
 
     if (!currentValues.aggregatorId) {
       return null;
@@ -272,10 +295,16 @@ class FreeSpin extends Component {
             </div>
             <div className="col-6">
               <Field
-                name={this.buildFieldName('expirationDate')}
-                component="input"
-                hidden
-              />
+                name={this.buildFieldName('pageCode')}
+                id={`${form}PageCode`}
+                label={I18n.t(attributeLabels.pageCode)}
+                component={SelectField}
+                position="vertical"
+                disabled={!customTemplate || !gameData || gameData.gameInfoType !== GAME_TYPES.DESKTOP_AND_MOBILE}
+              >
+                <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_PAGE_CODE')}</option>
+                {this.pageCodes.map(item => <option key={item.value} value={item.value}>{I18n.t(item.label)}</option>)}
+              </Field>
             </div>
           </div>
         </div>
@@ -418,7 +447,6 @@ class FreeSpin extends Component {
       currentGames,
       customTemplate,
     } = this.state;
-    const gameData = this.gameData;
 
     const availableProviders = currentValues.aggregatorId ? aggregatorsMap[currentValues.aggregatorId] : [];
 
@@ -568,31 +596,6 @@ class FreeSpin extends Component {
               ))}
             </Field>
           </div>
-          <If condition={
-            customTemplate &&
-            currentValues.aggregatorId === 'softgamings' &&
-            HARDCODED_PROVIDERS.indexOf(currentValues.providerId) !== -1 &&
-            currentValues.gameId}
-          >
-            <div className="col-6">
-              <Field
-                name={this.buildFieldName('gameType')}
-                label={I18n.t(attributeLabels.gameType)}
-                id={`${form}gameType`}
-                disabled={gameData && gameData.gameInfoType !== GAME_TYPES.DESKTOP_AND_MOBILE}
-                position="vertical"
-                component={SelectField}
-              >
-                <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_GAME_TYPE')}</option>
-                <option value={GAME_TYPES.DESKTOP}>
-                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.DESKTOP')}
-                </option>
-                <option value={GAME_TYPES.MOBILE}>
-                  {I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.MOBILE')}
-                </option>
-              </Field>
-            </div>
-          </If>
         </div>
         {this.renderAdditionalFields()}
         {

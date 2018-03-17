@@ -127,7 +127,7 @@ export default (values, params) => {
       rewardsFreeSpins.aggregatorId === 'softgamings' &&
       HARDCODED_PROVIDERS.indexOf(rewardsFreeSpins.providerId) !== -1
     ) {
-      rules.rewards.freeSpin.gameType = ['required'];
+      rules.rewards.freeSpin.pageCode = ['required'];
     }
 
     [

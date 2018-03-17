@@ -535,7 +535,9 @@
         "TOTAL_VALUE": "Total value",
         "CHOOSE_COIN_SIZE": "-- Choose --",
         "CHOOSE_NUMBER_OF_COINS": "-- Choose --",
-        "BUTTON": "Create Free-spin"
+        "BUTTON": "Create Free-spin",
+        "CHOOSE_PAGE_CODE": "-- Choose --",
+        "CHOOSE_AGGREGATOR": "-- Choose --"
       },
       "MODAL_CANCEL": {
         "CUSTOM_REASON_OPTION": "Other",
@@ -1391,7 +1393,9 @@
         "WAGERING_REQUIREMENT": "Wagering requirement",
         "LOCK_AMOUNT_STRATEGY": "Lock amount strategy",
         "CAPPING": "Capping",
-        "PRIZE": "Prize"
+        "PRIZE": "Prize",
+        "COUNT": "Count",
+        "PAGE_CODE": "Page code"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Add rewards",
@@ -1416,7 +1420,8 @@
         "PLACEHOLDERS": {
           "DAYS": "days",
           "NOT_SET": "Not set"
-        }
+        },
+        "AGGREGATOR": "Aggregator"
       },
       "BONUS_TEMPLATE": {
         "CREATION_ERROR": "Bonus template creation error"
