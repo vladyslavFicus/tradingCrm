@@ -501,7 +501,12 @@
         "TITLE": "Create free spin",
         "CHOOSE_PROVIDER": "-- Choose --",
         "CHOOSE_GAME": "-- Choose --",
+        "CHOOSE_GAME_TYPE": "-- Choose --",
         "CHOOSE_LINES_PER_SPIN": "-- Choose --",
+        "GAME_TYPES": {
+          "MOBILE": "Mobile",
+          "DESKTOP": "Desktop"
+        },
         "ATTRIBUTES_LABELS": {
           "NAME": "Name",
           "START_DATE": "Start date",
@@ -1406,6 +1411,7 @@
         "NAME": "Title",
         "PROVIDER": "Providers",
         "GAMES": "Games",
+        "GAME_TYPE": "Game type",
         "LIFE_TIME": "Lifetime",
         "PLACEHOLDERS": {
           "DAYS": "days",

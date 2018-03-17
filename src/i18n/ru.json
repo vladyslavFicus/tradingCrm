@@ -507,7 +507,12 @@
         "TITLE": "Добавление free spin",
         "CHOOSE_PROVIDER": "-- Выберите --",
         "CHOOSE_GAME": "-- Выберите --",
+        "CHOOSE_GAME_TYPE": "-- Выберите --",
         "CHOOSE_LINES_PER_SPIN": "-- Выберите --",
+        "GAME_TYPES": {
+          "MOBILE": "Мобильная",
+          "DESKTOP": "Десктопная"
+        },
         "ATTRIBUTES_LABELS": {
           "NAME": "Название",
           "START_DATE": "Дата начала",
@@ -1417,6 +1422,7 @@
         "NAME": "Название",
         "PROVIDER": "Провайдеры",
         "GAMES": "Игры",
+        "GAME_TYPE": "Тип игры",
         "LIFE_TIME": "Длительность",
         "PLACEHOLDERS": {
           "DAYS": "дней",
