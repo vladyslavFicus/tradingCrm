@@ -122,6 +122,10 @@ export default (values, params) => {
   }
 
   if (rewardsFreeSpins && !rewardsFreeSpins.templateUUID) {
+    if (values.rewards.freeSpin.providerId === 'netent') {
+      rules.rewards.freeSpin.gameType = ['required'];
+    }
+
     [
       'name', 'providerId', 'gameId', 'aggregatorId',
       'freeSpinsAmount', 'linesPerSpin', 'betPerLine', 'count', 'lifeTime',
