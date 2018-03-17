@@ -124,8 +124,8 @@ export default (values, params) => {
 
   if (rewardsFreeSpins && !rewardsFreeSpins.templateUUID) {
     if (
-      values.rewards.freeSpin.aggregatorId === 'softgamings' &&
-      HARDCODED_PROVIDERS.indexOf(values.rewards.freeSpin.providerId) !== -1
+      rewardsFreeSpins.aggregatorId === 'softgamings' &&
+      HARDCODED_PROVIDERS.indexOf(rewardsFreeSpins.providerId) !== -1
     ) {
       rules.rewards.freeSpin.gameType = ['required'];
     }
