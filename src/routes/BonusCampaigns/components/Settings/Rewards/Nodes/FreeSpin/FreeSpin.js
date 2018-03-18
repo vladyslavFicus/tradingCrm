@@ -228,14 +228,14 @@ class FreeSpin extends Component {
 
       if (pageCode) {
         pageCodes.push({
-          label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.MOBILE',
+          label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.DESKTOP',
           value: pageCode,
         });
       }
 
       if (mobilePageCode) {
         pageCodes.push({
-          label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.DESKTOP',
+          label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.MOBILE',
           value: mobilePageCode,
         });
       }
