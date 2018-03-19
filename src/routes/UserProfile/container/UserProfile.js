@@ -6,6 +6,7 @@ import config, { getAvailableTags } from '../../../config';
 import { statusActions } from '../../../constants/user';
 import Permissions from '../../../utils/permissions';
 import { userProfileTabs } from '../../../config/menu';
+import 
 
 const mapStateToProps = (state) => {
   const {

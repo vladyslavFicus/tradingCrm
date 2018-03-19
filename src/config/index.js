@@ -140,6 +140,10 @@ function getAvailableLanguages() {
   return config.nas.brand.locale.languages || [];
 }
 
+function getGraphQLRoot() {
+  return config.graphqlRoot;
+}
+
 function getLogo() {
   const brands = ['redbox', 'slottica', 'loki', 'vulcanprestige'];
   let brandId = _.get(window, 'app.brandId');
@@ -173,6 +177,7 @@ export {
   getVersion,
   getApiVersion,
   getDomain,
+  getGraphQLRoot,
 };
 
 export default config;

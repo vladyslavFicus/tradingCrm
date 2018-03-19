@@ -168,10 +168,6 @@ config.module.rules.push({
 });
 config.plugins.push(extractStyles);
 
-// Graphql
-// ------------------------------------
-config.module.rules.push({ test: /\.graphql?$/, loader: 'webpack-graphql-loader' });
-
 // Images
 // ------------------------------------
 config.module.rules.push({

@@ -15,8 +15,8 @@ class AppContainer extends Component {
     const { routes: containerRoutes, store } = this.props;
 
     return (
-      <ApolloProvider>
-        <Provider store={store}>
+      <Provider store={store}>
+        <ApolloProvider>
           <Router
             history={browserHistory}
             render={applyRouterMiddleware(useScroll((prevRouterProps, { routes, location }) => {
@@ -29,8 +29,8 @@ class AppContainer extends Component {
           >
             {containerRoutes}
           </Router>
-        </Provider>
-      </ApolloProvider>
+        </ApolloProvider>
+      </Provider>
     );
   }
 }
