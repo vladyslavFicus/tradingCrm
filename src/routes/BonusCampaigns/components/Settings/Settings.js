@@ -263,7 +263,9 @@ class Settings extends Component {
                     }],
                   },
                 } : {
-                  percentage: bonus[key].value,
+                  percentage: key === 'wageringRequirement' ?
+                    bonus[key].value / 100 :
+                    bonus[key].value,
                 };
 
                 bonus = {
@@ -425,6 +427,6 @@ class Settings extends Component {
 }
 
 export default connect(null, (dispatch, { form }) => ({
-    changeForm: (field, value) => dispatch(change(form, field, value)),
-  })
+  changeForm: (field, value) => dispatch(change(form, field, value)),
+})
 )(Settings);
