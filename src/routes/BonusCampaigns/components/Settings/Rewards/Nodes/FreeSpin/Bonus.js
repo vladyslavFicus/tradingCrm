@@ -17,6 +17,7 @@ import {
   moneyTypeUsageLabels,
 } from '../../../../../../../constants/bonus-campaigns';
 import { wageringRequirementTypes } from './constants';
+import Uuid from '../../../../../../../components/Uuid';
 
 class Bonus extends Component {
   static propTypes = {
@@ -82,6 +83,7 @@ class Bonus extends Component {
     const { _reduxForm: { form, values } } = this.context;
 
     const grantRatioType = get(values, `${nodePath}.grantRatio.type`);
+    const currentUuid = get(values, 'rewards.freeSpin.bonus.templateUUID', false);
 
     return (
       <div>
@@ -110,7 +112,6 @@ class Bonus extends Component {
                 name={this.buildFieldName('templateUUID')}
                 id={`${form}TemplateUUID`}
                 label={I18n.t(attributeLabels.template)}
-                labelClassName="form-label"
                 component={NasSelectField}
                 showErrorMessage={false}
                 position="vertical"
@@ -123,8 +124,17 @@ class Bonus extends Component {
                   </option>
                 ))}
               </Field>
+              <If condition={currentUuid}>
+                <div className="form-group__note mb-2">
+                  <Uuid
+                    uuid={currentUuid}
+                    uuidPartsCount={4}
+                    length={22}
+                  />
+                </div>
+              </If>
             </div>
-            <div className="col-4 align-self-center">
+            <div className="col-4 margin-top-40">
               <label>
                 <input
                   type="checkbox"
@@ -182,26 +192,22 @@ class Bonus extends Component {
           }
         </div>
 
-        <div className="row">
-          <div className="col-12">
-            <CustomValueFieldVertical
-              disabled={disabled || !customTemplate}
-              id={`${form}BonusWageringRequirement`}
-              basename={this.buildFieldName('wageringRequirement')}
-              label={I18n.t(attributeLabels.wageringRequirement)}
-              valueFieldProps={{
-                type: 'number',
-                normalize: floatNormalize,
-              }}
-            >
-              {
-                Object.keys(wageringRequirementTypes).map(key =>
-                  <option key={key} value={key}>{key}</option>
-                )
-              }
-            </CustomValueFieldVertical>
-          </div>
-        </div>
+        <CustomValueFieldVertical
+          disabled={disabled || !customTemplate}
+          id={`${form}BonusWageringRequirement`}
+          basename={this.buildFieldName('wageringRequirement')}
+          label={I18n.t(attributeLabels.wageringRequirement)}
+          valueFieldProps={{
+            type: 'number',
+            normalize: floatNormalize,
+          }}
+        >
+          {
+            Object.keys(wageringRequirementTypes).map(key =>
+              <option key={key} value={key}>{key}</option>
+            )
+          }
+        </CustomValueFieldVertical>
 
         <div className="row">
           <div className="col-6">

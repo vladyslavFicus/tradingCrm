@@ -12,6 +12,7 @@ import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNormalize';
 import Bonus from './Bonus';
 import { aggregators } from '../../../../../../../routes/UserProfile/routes/Rewards/routes/FreeSpins/constants';
+import Uuid from '../../../../../../../components/Uuid';
 
 class FreeSpin extends Component {
   static propTypes = {
@@ -449,6 +450,7 @@ class FreeSpin extends Component {
     } = this.state;
 
     const availableProviders = currentValues.aggregatorId ? aggregatorsMap[currentValues.aggregatorId] : [];
+    const currentUuid = get(currentValues, 'templateUUID', false);
 
     return (
       <div className="container-fluid add-campaign-container">
@@ -469,7 +471,6 @@ class FreeSpin extends Component {
             </div>
           }
         </div>
-
         <div className="row">
           <div className="col-md-6">
             <Field
@@ -489,7 +490,6 @@ class FreeSpin extends Component {
             </Field>
           </div>
         </div>
-
         <If condition={!disabled}>
           <div className="row">
             <div className="col-8">
@@ -497,7 +497,6 @@ class FreeSpin extends Component {
                 name={this.buildFieldName('templateUUID')}
                 id={`${form}TemplateUUID`}
                 label={I18n.t(attributeLabels.template)}
-                labelClassName="form-label"
                 component={NasSelectField}
                 showErrorMessage={false}
                 position="vertical"
@@ -510,8 +509,17 @@ class FreeSpin extends Component {
                   </option>
                 ))}
               </Field>
+              <If condition={!customTemplate && currentUuid}>
+                <div className="form-group__note mb-2">
+                  <Uuid
+                    uuid={currentUuid}
+                    uuidPartsCount={4}
+                    length={22}
+                  />
+                </div>
+              </If>
             </div>
-            <div className="col-4 align-self-center">
+            <div className="col-4 margin-top-40">
               <label>
                 <input
                   type="checkbox"
@@ -576,7 +584,6 @@ class FreeSpin extends Component {
             </div>
           }
         </div>
-
         <div className="row">
           <div className="col-6">
             <Field
@@ -598,19 +605,16 @@ class FreeSpin extends Component {
           </div>
         </div>
         {this.renderAdditionalFields()}
-        {
-          (customTemplate || (!customTemplate && get(currentValues, 'bonus.templateUUID', false))) &&
-          <div>
-            <hr />
-            <Bonus
-              disabled={disabled || !customTemplate}
-              nodePath={`${nodePath}.bonus`}
-              change={change}
-              bonusTemplates={bonusTemplates}
-              handleChangeBonusTemplateData={this.handleChangeBonusTemplateData}
-            />
-          </div>
-        }
+        <If condition={customTemplate || (!customTemplate && get(currentValues, 'bonus.templateUUID', false))}>
+          <hr />
+          <Bonus
+            disabled={disabled || !customTemplate}
+            nodePath={`${nodePath}.bonus`}
+            change={change}
+            bonusTemplates={bonusTemplates}
+            handleChangeBonusTemplateData={this.handleChangeBonusTemplateData}
+          />
+        </If>
       </div>
     );
   }
