@@ -1,0 +1,18 @@
+query Options($brandId: String!) {
+  api {
+    profile {
+      signUp {
+        options(brandId: $brandId) {
+          geoLocation {
+            currencyCode
+          }
+          post {
+            passwordPattern
+          }
+        }
+      }
+    }
+
+  }
+}
+
