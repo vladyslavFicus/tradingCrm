@@ -71,7 +71,7 @@ class FreeSpin extends Component {
     this.setField('gameId', null);
     const currentValues = get(rewards, 'freeSpin', {});
 
-    if (currentValues.aggregatorId === aggregators.softgamings && providerId === 'netent') {
+    if (currentValues.aggregatorId === aggregators.softgamings && providerId !== 'netent') {
       this.setField('betLevel', 1);
     }
 
@@ -319,7 +319,7 @@ class FreeSpin extends Component {
                 type="number"
                 id={`${form}betLevel`}
                 placeholder="0"
-                disabled={!customTemplate || currentValues.providerId === 'netent'}
+                disabled={!customTemplate || currentValues.providerId !== 'netent'}
                 label={I18n.t(attributeLabels.betLevel)}
                 component={InputField}
                 normalize={intNormalize}
