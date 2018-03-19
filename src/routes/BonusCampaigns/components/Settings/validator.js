@@ -128,6 +128,7 @@ export default (values, params) => {
       HARDCODED_PROVIDERS.indexOf(rewardsFreeSpins.providerId) !== -1
     ) {
       rules.rewards.freeSpin.pageCode = ['required'];
+      rules.rewards.freeSpin.betLevel = ['required', 'min:1', 'max:5'];
     }
 
     [

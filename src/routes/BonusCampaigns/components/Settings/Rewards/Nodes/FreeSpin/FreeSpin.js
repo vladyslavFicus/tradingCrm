@@ -71,6 +71,10 @@ class FreeSpin extends Component {
     this.setField('gameId', null);
     const currentValues = get(rewards, 'freeSpin', {});
 
+    if (currentValues.aggregatorId === aggregators.softgamings && providerId === 'netent') {
+      this.setField('betLevel', 1);
+    }
+
     const currentGames = this.props.games.filter(
       i => i.gameProviderId === providerId && i.aggregatorId === currentValues.aggregatorId
     );
@@ -85,8 +89,9 @@ class FreeSpin extends Component {
 
   handleChangeAggregator = (aggregatorId) => {
     this.setField('aggregatorId', aggregatorId);
+
     [
-      'providerId', 'gameId',
+      'providerId', 'gameId', 'betLevel',
       'count', 'freeSpinsAmount', 'betPerLine', 'linesPerSpin',
     ].forEach(key => this.setField(key));
   };
@@ -305,6 +310,21 @@ class FreeSpin extends Component {
                 <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_PAGE_CODE')}</option>
                 {this.pageCodes.map(item => <option key={item.value} value={item.value}>{I18n.t(item.label)}</option>)}
               </Field>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('betLevel')}
+                type="number"
+                id={`${form}betLevel`}
+                placeholder="0"
+                disabled={!customTemplate || currentValues.providerId === 'netent'}
+                label={I18n.t(attributeLabels.betLevel)}
+                component={InputField}
+                normalize={intNormalize}
+                position="vertical"
+              />
             </div>
           </div>
         </div>
