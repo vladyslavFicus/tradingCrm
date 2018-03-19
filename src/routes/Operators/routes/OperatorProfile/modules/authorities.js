@@ -52,8 +52,7 @@ function addAuthority(operatorUUID, data) {
         ],
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchAuthority(operatorUUID)));
+    });
   };
 }
 
@@ -82,8 +81,7 @@ function deleteAuthority(operatorUUID, department, role) {
         ],
         bailout: !logged,
       },
-    })
-      .then(() => dispatch(fetchAuthority(operatorUUID)));
+    });
   };
 }
 

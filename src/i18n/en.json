@@ -1633,6 +1633,24 @@
           "PHONE": "Phone"
         }
       }
+    },
+    "NOTIFICATIONS": {
+      "DELETE_AUTHORITY_ERROR": {
+        "TITLE": "Failure on removing",
+        "MESSAGE": "Removing of department has failed"
+      },
+      "GET_AUTHORITIES_ERROR": {
+        "TITLE": "Loading failure",
+        "MESSAGE": "Departments and roles loading has failed"
+      },
+      "GET_OPERATORS_AUTHORITIES_ERROR": {
+        "TITLE": "Loading failure",
+        "MESSAGE": "Operator’s departments and roles loading has failed"
+      },
+      "ADD_AUTHORITY_ERROR": {
+        "TITLE": "Failure on adding",
+        "MESSAGE": "Adding of department has failed"
+      }
     }
   },
   "PAYMENT_METHOD_LIMIT_POPOVER": {

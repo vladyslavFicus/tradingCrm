@@ -29,44 +29,91 @@ class View extends Component {
     fetchAuthority: PropTypes.func.isRequired,
     deleteAuthority: PropTypes.func.isRequired,
     addAuthority: PropTypes.func.isRequired,
+    fetchAuthoritiesOptions: PropTypes.func.isRequired,
     authorities: PropTypes.oneOfType([PropTypes.authorityEntity, PropTypes.object]),
-    departments: PropTypes.arrayOf(PropTypes.dropDownOption),
-    roles: PropTypes.arrayOf(PropTypes.dropDownOption),
+    departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
   };
   static defaultProps = {
     authorities: [],
-    departments: [],
-    roles: [],
   };
+
+  componentDidMount() {
+    this.props.fetchAuthoritiesOptions();
+  }
 
   handleSubmit = data => this.props.updateProfile(this.props.params.id, data);
 
-  handleFetchAuthority = () => {
-    this.props.fetchAuthority(this.props.params.id);
+  handleDeleteAuthority = async (department, role) => {
+    const { params: { id: operatorUUID }, fetchAuthority, deleteAuthority, notify } = this.props;
+    const deleteAuthorityAction = await deleteAuthority(operatorUUID, department, role);
+
+    if (deleteAuthorityAction.error) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.DELETE_AUTHORITY_ERROR.MESSAGE'),
+      });
+
+      return deleteAuthorityAction;
+    }
+
+    const fetchAuthorityAction = await fetchAuthority(operatorUUID);
+
+    if (fetchAuthorityAction.error) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.GET_AUTHORITIES_ERROR.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.GET_AUTHORITIES_ERROR.MESSAGE'),
+      });
+
+      return fetchAuthorityAction;
+    }
+
+    return fetchAuthorityAction;
   };
 
-  handleDeleteAuthority = (department, role) => {
-    this.props.deleteAuthority(this.props.params.id, department, role);
-  };
+  handleAddAuthority = async (data) => {
+    const { params: { id: operatorUUID }, fetchAuthority, addAuthority, notify } = this.props;
 
-  handleAddAuthority = data => (
-    this.props.addAuthority(this.props.params.id, data)
-  );
+    const addAuthorityAction = await addAuthority(operatorUUID, data);
+
+    if (addAuthorityAction.error) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.ADD_AUTHORITY_ERROR.MESSAGE'),
+      });
+
+      return addAuthorityAction;
+    }
+
+    const fetchAuthorityAction = await fetchAuthority(operatorUUID);
+
+    if (fetchAuthorityAction.error) {
+      notify({
+        level: 'error',
+        title: I18n.t('OPERATORS.NOTIFICATIONS.GET_OPERATORS_AUTHORITIES_ERROR.TITLE'),
+        message: I18n.t('OPERATORS.NOTIFICATIONS.GET_OPERATORS_AUTHORITIES_ERROR.MESSAGE'),
+      });
+
+      return fetchAuthorityAction;
+    }
+
+    return fetchAuthorityAction;
+  };
 
   render() {
     const {
       profile: { data: profile, receivedAt: profileLoaded },
       authorities: { data: authorities },
-      roles,
-      departments,
+      departmentsRoles,
     } = this.props;
 
     return (
       <Content>
         <Card>
           <Content>
-            {
-              !!profileLoaded &&
+            <If condition={profileLoaded}>
               <PersonalForm
                 initialValues={{
                   firstName: profile.firstName,
@@ -77,7 +124,7 @@ class View extends Component {
                 }}
                 onSubmit={this.handleSubmit}
               />
-            }
+            </If>
           </Content>
         </Card>
         <PermissionContent permissions={manageDepartmentsPermissions}>
@@ -104,11 +151,9 @@ class View extends Component {
                 ))
               }
               <DepartmentsForm
-                onFetch={this.handleFetchAuthority}
                 onSubmit={this.handleAddAuthority}
                 authorities={authorities}
-                departments={departments}
-                roles={roles}
+                departmentsRoles={departmentsRoles}
               />
             </Content>
           </Card>

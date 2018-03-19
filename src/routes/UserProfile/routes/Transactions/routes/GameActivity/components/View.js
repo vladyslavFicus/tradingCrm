@@ -27,7 +27,6 @@ class View extends Component {
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number.isRequired,
     }).isRequired,
-    providers: PropTypes.object.isRequired,
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
@@ -111,7 +110,7 @@ class View extends Component {
   );
 
   renderGame = (data) => {
-    const { games: { entities: games }, providers } = this.props;
+    const { games: { entities: games } } = this.props;
     const game = games.find(item => item.internalGameId === data.internalGameId || item.gameId === data.gameId);
 
     return (
@@ -125,7 +124,7 @@ class View extends Component {
         </div>
         <If condition={data.gameProviderId}>
           <div className="font-size-11 text-uppercase">
-            {providers[data.gameProviderId] || data.gameProviderId}
+            {data.gameProviderId}
           </div>
         </If>
       </div>

@@ -6,36 +6,30 @@ const statuses = keyMirror({
   ACTIVE: null,
   CLOSED: null,
 });
-
 const actions = keyMirror({
   ACTIVE: null,
   CLOSED: null,
 });
-
 const statusesLabels = {
   [statuses.INACTIVE]: 'Inactive',
   [statuses.ACTIVE]: 'Active',
   [statuses.CLOSED]: 'Closed',
 };
-
 const statusColorNames = {
   [statuses.ACTIVE]: 'color-success',
   [statuses.INACTIVE]: 'color-default',
   [statuses.CLOSED]: 'color-danger',
 };
-
 const closeReasons = {
   'OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION':
     I18n.t('OPERATOR_PROFILE.CLOSE_REASONS.PENDING_INVESTIGATION'),
   'OPERATOR_PROFILE.CLOSE_REASONS.TERMINATED':
     I18n.t('OPERATOR_PROFILE.CLOSE_REASONS.TERMINATED'),
 };
-
 const activeReasons = {
   'OPERATOR_PROFILE.ACTIVATE_REASONS.ACTIVATE':
     I18n.t('OPERATOR_PROFILE.ACTIVATE_REASONS.ACTIVATE'),
 };
-
 const statusActions = {
   [statuses.ACTIVE]: [
     {
@@ -52,7 +46,6 @@ const statusActions = {
     },
   ],
 };
-
 const departments = keyMirror({
   CS: null,
   RFP: null,

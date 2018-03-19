@@ -1,8 +1,9 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../utils/buildQueryString';
+import createReducer from '../../../../../utils/createReducer';
 
-const KEY = 'operators';
+const KEY = 'operators/list';
 const CREATE_OPERATOR = createRequestAction(`${KEY}/create-operator`);
 const FETCH_ENTITIES = createRequestAction(`${KEY}/entities`);
 
@@ -62,6 +63,24 @@ function fetchEntities(filters = {}) {
   };
 }
 
+const initialState = {
+  entities: {
+    first: null,
+    last: null,
+    number: null,
+    numberOfElements: null,
+    size: null,
+    sort: null,
+    totalElements: null,
+    totalPages: null,
+    content: [],
+  },
+  filters: {},
+  isLoading: false,
+  error: null,
+  receivedAt: null,
+  noResults: false,
+};
 const actionHandlers = {
   [FETCH_ENTITIES.REQUEST]: (state, action) => ({
     ...state,
@@ -93,40 +112,18 @@ const actionHandlers = {
     receivedAt: endRequestTime,
   }),
 };
-
-const initialState = {
-  entities: {
-    first: null,
-    last: null,
-    number: null,
-    numberOfElements: null,
-    size: null,
-    sort: null,
-    totalElements: null,
-    totalPages: null,
-    content: [],
-  },
-  filters: {},
-  isLoading: false,
-  error: null,
-  receivedAt: null,
-  noResults: false,
-};
-function reducer(state = initialState, action) {
-  const handler = actionHandlers[action.type];
-
-  return handler ? handler(state, action) : state;
-}
-
 const actionTypes = {
   FETCH_ENTITIES,
 };
-
 const actionCreators = {
   fetchEntities,
   createOperator,
 };
 
-export { actionCreators, actionTypes, initialState };
+export {
+  actionCreators,
+  actionTypes,
+  initialState,
+};
 
-export default reducer;
+export default createReducer(initialState, actionHandlers);

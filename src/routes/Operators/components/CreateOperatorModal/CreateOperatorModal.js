@@ -1,33 +1,28 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Field, reduxForm, getFormValues } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { InputField, SelectField } from '../../../../components/ReduxForm';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import renderLabel from '../../../../utils/renderLabel';
 import { attributeLabels } from './constants';
-import { departments, departmentsLabels, roles, rolesLabels } from '../../../../constants/operators';
+import { departmentsLabels, rolesLabels } from '../../../../constants/operators';
+import { withReduxFormValues } from '../../../../components/HighOrder';
 
 class CreateOperatorModal extends Component {
   static propTypes = {
-    onClose: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    availableDepartments: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })).isRequired,
-    availableRoles: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string,
-    })).isRequired,
+    change: PropTypes.func,
+    departmentsRoles: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     valid: PropTypes.bool,
-    change: PropTypes.func,
-    currentValues: PropTypes.shape({
+    isOpen: PropTypes.bool.isRequired,
+    formValues: PropTypes.shape({
       department: PropTypes.string,
       role: PropTypes.string,
     }),
@@ -36,34 +31,35 @@ class CreateOperatorModal extends Component {
     pristine: false,
     submitting: false,
     valid: false,
-    currentValues: {},
+    formValues: {},
     change: null,
   };
 
   handleChangeDepartment = (e) => {
-    if (e.target.value === departments.ADMINISTRATION) {
-      this.props.change('role', roles.ROLE4);
+    const { departmentsRoles, change } = this.props;
+    const roles = departmentsRoles[e.target.value];
+
+    if (roles.length > 0) {
+      change('role', roles[0]);
     }
   };
-
-  handleSubmit = data => this.props.onSubmit(data);
 
   render() {
     const {
       handleSubmit,
       onSubmit,
-      availableDepartments,
+      departmentsRoles,
       pristine,
       submitting,
       valid,
-      availableRoles,
-      onClose,
-      currentValues,
+      onCloseModal,
+      isOpen,
+      formValues,
     } = this.props;
 
     return (
-      <Modal className="create-operator-modal" toggle={onClose} isOpen>
-        <ModalHeader toggle={onClose}>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.TITLE')}</ModalHeader>
+      <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
+        <ModalHeader toggle={onCloseModal}>{I18n.t('OPERATORS.MODALS.NEW_OPERATOR.TITLE')}</ModalHeader>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody>
@@ -127,9 +123,9 @@ class CreateOperatorModal extends Component {
                   position="vertical"
                   onChange={this.handleChangeDepartment}
                 >
-                  {availableDepartments.map(({ label, value }) => (
+                  {Object.keys(departmentsRoles).map(value => (
                     <option key={value} value={value}>
-                      {renderLabel(label, departmentsLabels)}
+                      {renderLabel(value, departmentsLabels)}
                     </option>
                   ))}
                 </Field>
@@ -141,11 +137,11 @@ class CreateOperatorModal extends Component {
                   label={I18n.t(attributeLabels.role)}
                   component={SelectField}
                   position="vertical"
-                  disabled={!currentValues || (currentValues.department === departments.ADMINISTRATION)}
+                  disabled={!formValues}
                 >
-                  {availableRoles.map(({ label, value }) => (
+                  {formValues.department && departmentsRoles[formValues.department].map(value => (
                     <option key={value} value={value}>
-                      {renderLabel(label, rolesLabels)}
+                      {renderLabel(value, rolesLabels)}
                     </option>
                   ))}
                 </Field>
@@ -181,7 +177,7 @@ class CreateOperatorModal extends Component {
                 <button
                   type="reset"
                   className="btn btn-default-outline"
-                  onClick={onClose}
+                  onClick={onCloseModal}
                 >
                   {I18n.t('COMMON.BUTTONS.CANCEL')}
                 </button>
@@ -203,9 +199,7 @@ class CreateOperatorModal extends Component {
   }
 }
 
-export default connect(state => ({
-  currentValues: getFormValues('operatorCreateForm')(state),
-}))(
+export default compose(
   reduxForm({
     form: 'operatorCreateForm',
     validate: createValidator({
@@ -216,5 +210,6 @@ export default connect(state => ({
       department: 'required',
       role: 'required',
     }, translateLabels(attributeLabels), false),
-  })(CreateOperatorModal),
-);
+  }),
+  withReduxFormValues,
+)(CreateOperatorModal);

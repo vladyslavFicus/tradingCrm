@@ -3,6 +3,7 @@ import { reducer as formReducer } from 'redux-form';
 import { i18nReducer } from 'react-redux-i18n';
 import location from '../redux/modules/location';
 import auth from '../redux/modules/auth';
+import authorities from '../redux/modules/authorities';
 import permissions from '../redux/modules/permissions';
 import userPanels from '../redux/modules/user-panels';
 import language from '../redux/modules/language';
@@ -16,6 +17,7 @@ import dynamicFilters from '../components/DynamicFilters/reduxModule';
 export const makeRootReducer = asyncReducers => combineReducers({
   location,
   auth,
+  authorities,
   permissions,
   userPanels,
   language,
