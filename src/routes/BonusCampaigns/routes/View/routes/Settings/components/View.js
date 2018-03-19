@@ -86,8 +86,7 @@ class View extends Component {
       this.context.addNotification({
         level: updateAction.error ? 'error' : 'success',
         title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${updateAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        message: I18n.t(`BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.${updateAction.error ? 'UNSUCCESSFULLY' : 'SUCCESSFULLY'}`),
       });
 
       if (updateAction.error && updateAction.payload.response.fields_errors) {

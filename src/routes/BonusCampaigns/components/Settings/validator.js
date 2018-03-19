@@ -75,7 +75,7 @@ export default (values, params) => {
           },
           wageringRequirement: {
             type: ['string'],
-            value: ['numeric', 'min:1', 'max:1000000'],
+            value: ['numeric', 'max:1000000'],
           },
           capping: {
             type: ['string'],
@@ -145,6 +145,12 @@ export default (values, params) => {
 
     if (freeSpinBonus.grantRatio && freeSpinBonus.grantRatio.type === customValueFieldTypes.PERCENTAGE) {
       rules.rewards.freeSpin.bonus.maxGrantAmount.push('required');
+    }
+
+    if (freeSpinBonus.wageringRequirement.type !== customValueFieldTypes.ABSOLUTE) {
+      rules.rewards.freeSpin.bonus.wageringRequirement.value.push('min:100');
+    } else {
+      rules.rewards.freeSpin.bonus.wageringRequirement.value.push('min:1');
     }
 
     rules.rewards.freeSpin.bonus.wageringRequirement.value.push('required');
