@@ -148,7 +148,8 @@ export default (values, params) => {
       rules.rewards.freeSpin.bonus.maxGrantAmount.push('required');
     }
 
-    if (freeSpinBonus.wageringRequirement.type !== customValueFieldTypes.ABSOLUTE) {
+    const freeSpinBonusType = get(freeSpinBonus, 'wageringRequirement.type');
+    if (freeSpinBonusType !== customValueFieldTypes.ABSOLUTE) {
       rules.rewards.freeSpin.bonus.wageringRequirement.value.push('min:100');
     } else {
       rules.rewards.freeSpin.bonus.wageringRequirement.value.push('min:1');
