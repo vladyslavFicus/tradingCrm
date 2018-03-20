@@ -90,7 +90,7 @@ async function processConfig() {
   }, projectConfig.brand);
 
   Object.keys(config.nas.brand).forEach((item) => {
-    if (['currencies', 'departments', 'roles', 'password', 'tags', 'locale'].indexOf(item) > -1) {
+    if (['currencies', 'password', 'tags', 'locale'].indexOf(item) > -1) {
       brand[item] = config.nas.brand[item];
     }
   });
