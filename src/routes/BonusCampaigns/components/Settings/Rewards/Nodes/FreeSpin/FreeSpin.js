@@ -238,18 +238,6 @@ class FreeSpin extends Component {
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
 
-  handleToggleCustomTemplate = () => {
-    const { customTemplate, onToggleFreeSpinCustomTemplate } = this.props;
-    const { _reduxForm: { values: { rewards } } } = this.context;
-    const currentValues = get(rewards, 'freeSpin', {});
-
-    if (!customTemplate) {
-      this.setField('templateUUID');
-    }
-
-    onToggleFreeSpinCustomTemplate(currentValues.templateUUID);
-  };
-
   handleChangeProvider = (providerId) => {
     const { _reduxForm: { values: { rewards } } } = this.context;
 
@@ -475,6 +463,7 @@ class FreeSpin extends Component {
       customTemplate,
       bonusCustomTemplate,
       onToggleBonusCustomTemplate,
+      onToggleFreeSpinCustomTemplate,
     } = this.props;
 
     const { _reduxForm: { form, values: { rewards } } } = this.context;
@@ -549,7 +538,7 @@ class FreeSpin extends Component {
                 <input
                   type="checkbox"
                   id={`${form}CustomTemplate`}
-                  onChange={this.handleToggleCustomTemplate}
+                  onChange={onToggleFreeSpinCustomTemplate}
                   checked={customTemplate}
                 /> Custom Template
               </label>
