@@ -240,7 +240,7 @@ class CreateModal extends Component {
                 </div>
               </If>
             </div>
-            <div className="col-4 margin-top-40">
+            <div className="col-6 margin-top-40">
               <label>
                 <input
                   type="checkbox"
@@ -252,20 +252,16 @@ class CreateModal extends Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-12">
-              <Field
-                name="name"
-                type="text"
-                placeholder=""
-                label={I18n.t(attributeLabels.name)}
-                component={InputField}
-                position="vertical"
-                disabled={!customTemplate}
-                id={`${FORM_NAME}-name`}
-              />
-            </div>
-          </div>
+          <Field
+            name="name"
+            type="text"
+            placeholder=""
+            label={I18n.t(attributeLabels.name)}
+            component={InputField}
+            position="vertical"
+            disabled={!customTemplate}
+            id={`${FORM_NAME}-name`}
+          />
 
           <div className="row">
             <div className="col-6">
@@ -396,16 +392,14 @@ class CreateModal extends Component {
             </div>
           </div>
 
-          <div className="row">
-            <div className="col-6">
-              <Field
-                name="claimable"
-                type="checkbox"
-                component="input"
-                disabled={!customTemplate}
-              /> {I18n.t('COMMON.CLAIMABLE')}
-            </div>
-          </div>
+          <label>
+            <Field
+              name="claimable"
+              type="checkbox"
+              component="input"
+              disabled={!customTemplate}
+            /> {I18n.t('COMMON.CLAIMABLE')}
+          </label>
         </ModalBody>
         <ModalFooter>
           <button
