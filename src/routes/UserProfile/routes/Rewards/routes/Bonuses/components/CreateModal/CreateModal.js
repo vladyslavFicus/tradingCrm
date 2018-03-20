@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm, getFormValues } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
@@ -430,7 +431,8 @@ class CreateModal extends Component {
   }
 }
 
-export default connect(state => ({ currentValues: getFormValues(FORM_NAME)(state) }))(
+export default compose(
+  connect(state => ({ currentValues: getFormValues(FORM_NAME)(state) })),
   reduxForm({
     form: FORM_NAME,
     initialValues: {
@@ -474,5 +476,5 @@ export default connect(state => ({ currentValues: getFormValues(FORM_NAME)(state
 
       return createValidator(rules, translateLabels(attributeLabels), false)(values);
     },
-  })(CreateModal),
-);
+  })
+)(CreateModal);
