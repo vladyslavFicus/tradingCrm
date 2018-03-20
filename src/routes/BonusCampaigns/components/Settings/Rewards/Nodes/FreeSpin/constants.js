@@ -21,6 +21,7 @@ const attributeLabels = {
   maxBet: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MAX_BET'),
   count: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.COUNT'),
   pageCode: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.PAGE_CODE'),
+  betLevel: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.BET_LEVEL'),
 };
 
 const attributePlaceholders = {

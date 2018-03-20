@@ -23,6 +23,8 @@ const defaultHealth = {
   config: { status: STATUS.DOWN },
 };
 
+const INDEX_HTML_PATH = '/opt/build/index.html';
+
 /**
  * ==================
  *  Utils
@@ -112,6 +114,20 @@ if (!NAS_PROJECT) {
   throw new Error('"NAS_PROJECT" is required environment variable');
 }
 
+const readConfigSrcPath = () => {
+  const indexHtml = fs.readFileSync(INDEX_HTML_PATH).toString();
+  const re = new RegExp('(config.js.*?)"');
+  return indexHtml.match(re)[1];
+};
+
+const writeRandomConfigSrcPath = () => {
+  let result = fs.readFileSync(INDEX_HTML_PATH).toString();
+
+  result = result.replace(readConfigSrcPath(), `config.js?${Math.random().toString(36).slice(2)}`);
+
+  fs.writeFileSync(INDEX_HTML_PATH, result);
+};
+
 processConfig()
   .then(config => saveConfig(config).then(() => {
     const health = Object.assign({}, defaultHealth);
@@ -122,6 +138,8 @@ processConfig()
       health.status = STATUS.UP;
 
       log('health', health);
+
+      writeRandomConfigSrcPath();
 
       return saveHealth(health);
     }

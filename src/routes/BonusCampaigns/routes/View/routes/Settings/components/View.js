@@ -41,7 +41,9 @@ class View extends Component {
     removeNode: PropTypes.func.isRequired,
     addNode: PropTypes.func.isRequired,
     fetchGames: PropTypes.func.isRequired,
+    addFreeSpinTemplate: PropTypes.func.isRequired,
     createFreeSpinTemplate: PropTypes.func.isRequired,
+    addBonusTemplate: PropTypes.func.isRequired,
     createBonusTemplate: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
     nodeGroups: PropTypes.shape({
@@ -77,7 +79,6 @@ class View extends Component {
     linkedCampaign: null,
   };
 
-
   handleSubmit = async (data) => {
     const { updateCampaign, params: { id } } = this.props;
     const updateAction = await updateCampaign(id, data);
@@ -86,8 +87,7 @@ class View extends Component {
       this.context.addNotification({
         level: updateAction.error ? 'error' : 'success',
         title: I18n.t('BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.UPDATE_TITLE'),
-        message: `${I18n.t('COMMON.ACTIONS.UPDATED')} ${updateAction.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') :
-          I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`,
+        message: I18n.t(`BONUS_CAMPAIGNS.VIEW.NOTIFICATIONS.${updateAction.error ? 'UNSUCCESSFULLY' : 'SUCCESSFULLY'}`),
       });
 
       if (updateAction.error && updateAction.payload.response.fields_errors) {
@@ -131,14 +131,18 @@ class View extends Component {
       fetchPaymentMethods,
       fetchCampaigns,
       fetchCampaign,
+      addFreeSpinTemplate,
       createFreeSpinTemplate,
+      addBonusTemplate,
       createBonusTemplate,
       baseCurrency,
     } = this.props;
 
     return (
       <SettingsForm
+        addFreeSpinTemplate={addFreeSpinTemplate}
         createFreeSpinTemplate={createFreeSpinTemplate}
+        addBonusTemplate={addBonusTemplate}
         createBonusTemplate={createBonusTemplate}
         fetchGames={fetchGames}
         fetchPaymentMethods={fetchPaymentMethods}

@@ -59,7 +59,9 @@ class Settings extends Component {
     fetchCampaign: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     fetchPaymentMethods: PropTypes.func.isRequired,
+    addFreeSpinTemplate: PropTypes.func.isRequired,
     createFreeSpinTemplate: PropTypes.func.isRequired,
+    addBonusTemplate: PropTypes.func.isRequired,
     createBonusTemplate: PropTypes.func.isRequired,
     paymentMethods: PropTypes.array.isRequired,
     form: PropTypes.string.isRequired,
@@ -91,6 +93,8 @@ class Settings extends Component {
   state = {
     modal: { ...modalInitialState },
     linkedCampaign: null,
+    customFreeSpinTemplate: false,
+    customBonusTemplate: false,
   };
 
   async componentDidMount() {
@@ -134,6 +138,8 @@ class Settings extends Component {
     this.pollingFreeSpinTemplate = null;
   };
 
+  prepareWageringWinMultiplier = ({ value }) => Math.min(value / 100, 500);
+
   handleCurrencyAmountModalOpen = (action) => {
     this.handleOpenModal(CURRENCY_AMOUNT_MODAL, {
       initialValues: {
@@ -160,6 +166,27 @@ class Settings extends Component {
       }
     });
   };
+
+  handleToggleCustomTemplate = name => (current) => {
+    const { changeForm } = this.props;
+    let nextValue = false;
+
+    if (!current) {
+      if (name === 'customFreeSpinTemplate') {
+        changeForm('rewards.freeSpin.templateUUID', this.state[name]);
+      } else if (name === 'customBonusTemplate') {
+        changeForm('rewards.freeSpin.bonus.templateUUID', this.state[name]);
+      }
+    } else {
+      nextValue = current;
+    }
+
+    this.setState({ [name]: nextValue });
+  };
+
+  handleToggleFreeSpinTemplate = this.handleToggleCustomTemplate('customFreeSpinTemplate');
+
+  handleToggleBonusTemplate = this.handleToggleCustomTemplate('customBonusTemplate');
 
   handleClickChooseCampaign = async () => {
     const action = await this.props.fetchCampaigns();
@@ -188,7 +215,9 @@ class Settings extends Component {
       createFreeSpinTemplate,
       createBonusTemplate,
       handleSubmit,
-      games,
+      changeForm,
+      addFreeSpinTemplate,
+      addBonusTemplate,
     } = this.props;
 
     const { currency } = formData;
@@ -215,7 +244,7 @@ class Settings extends Component {
         data = {
           ...data,
           claimable: get(bonus, 'claimable', false),
-          wagerWinMultiplier: bonus.wageringRequirement.value,
+          wagerWinMultiplier: this.prepareWageringWinMultiplier(bonus.wageringRequirement),
           bonusLifeTime: bonus.bonusLifeTime,
         };
 
@@ -263,7 +292,7 @@ class Settings extends Component {
                     }],
                   },
                 } : {
-                  percentage: bonus[key].value,
+                  percentage: key === bonus[key].value,
                 };
 
                 bonus = {
@@ -285,9 +314,14 @@ class Settings extends Component {
           });
 
           if (action && !action.error) {
+            this.handleToggleBonusTemplate();
             rewardsFreeSpin.bonusTemplateUUID = action.payload.uuid;
+            addBonusTemplate(bonus.name, rewardsFreeSpin.bonusTemplateUUID);
+            changeForm('rewards.freeSpin.bonusTemplateUUID', rewardsFreeSpin.bonusTemplateUUID);
+            changeForm('rewards.freeSpin.bonus.templateUUID', rewardsFreeSpin.bonusTemplateUUID);
           } else if (action.payload.response && action.payload.response.error) {
             const fieldErrors = recognizeFieldError(action.payload.response.error, mapResponseErrorToField);
+
             if (fieldErrors) {
               throw new SubmissionError({
                 rewards: {
@@ -311,8 +345,13 @@ class Settings extends Component {
         const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
 
         if (createAction && !createAction.error) {
+          this.handleToggleFreeSpinTemplate();
           rewardsFreeSpinData.templateUUID = createAction.payload.uuid;
+          addFreeSpinTemplate(rewardsFreeSpin.name, rewardsFreeSpinData.templateUUID);
+          changeForm('rewards.freeSpin.templateUUID', rewardsFreeSpinData.templateUUID);
+
           const polling = await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
+
           if (!polling.success) {
             this.context.addNotification({
               level: 'error',
@@ -325,9 +364,11 @@ class Settings extends Component {
             ...res,
             [name]: I18n.t(createAction.payload.response.fields_errors[name].error),
           }), {});
+
           throw new SubmissionError(errors);
         } else if (createAction.payload.response && createAction.payload.response.error) {
           const fieldErrors = recognizeFieldError(createAction.payload.response.error, mapResponseErrorToField);
+
           if (fieldErrors) {
             throw new SubmissionError({
               rewards: {
@@ -350,7 +391,12 @@ class Settings extends Component {
   };
 
   render() {
-    const { modal, linkedCampaign } = this.state;
+    const {
+      modal,
+      linkedCampaign,
+      customFreeSpinTemplate,
+      customBonusTemplate,
+    } = this.state;
     const {
       bonusCampaign,
       bonusCampaignForm,
@@ -401,6 +447,10 @@ class Settings extends Component {
           linkedCampaign={linkedCampaign}
           fetchPaymentMethods={fetchPaymentMethods}
           paymentMethods={paymentMethods}
+          freeSpinCustomTemplate={customFreeSpinTemplate}
+          onToggleFreeSpinCustomTemplate={this.handleToggleFreeSpinTemplate}
+          bonusCustomTemplate={customBonusTemplate}
+          onToggleBonusCustomTemplate={this.handleToggleBonusTemplate}
         />
         {
           modal.name === CURRENCY_AMOUNT_MODAL &&
@@ -425,6 +475,5 @@ class Settings extends Component {
 }
 
 export default connect(null, (dispatch, { form }) => ({
-    changeForm: (field, value) => dispatch(change(form, field, value)),
-  })
-)(Settings);
+  changeForm: (field, value) => dispatch(change(form, field, value)),
+}))(Settings);

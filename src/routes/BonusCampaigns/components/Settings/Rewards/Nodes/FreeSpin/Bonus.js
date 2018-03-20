@@ -27,6 +27,8 @@ class Bonus extends Component {
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     change: PropTypes.func.isRequired,
     handleChangeBonusTemplateData: PropTypes.func.isRequired,
+    customTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
+    onToggleCustomTemplate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -38,10 +40,6 @@ class Bonus extends Component {
 
   static contextTypes = {
     _reduxForm: PropTypes.object,
-  };
-
-  state = {
-    customTemplate: false,
   };
 
   componentDidMount() {
@@ -57,17 +55,16 @@ class Bonus extends Component {
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
 
-  toggleCustomTemplate = (e) => {
-    const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+  handleToggleCustomTemplate = () => {
+    const { customTemplate, onToggleCustomTemplate } = this.props;
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const currentValues = get(rewards, 'freeSpin.bonus', {});
 
-    if (value) {
+    if (!customTemplate) {
       this.setField('templateUUID');
     }
 
-    this.setState({
-      customTemplate: value,
-    });
+    onToggleCustomTemplate(currentValues.templateUUID);
   };
 
   render() {
@@ -77,9 +74,9 @@ class Bonus extends Component {
       nodePath,
       bonusTemplates,
       handleChangeBonusTemplateData,
+      customTemplate,
     } = this.props;
 
-    const { customTemplate } = this.state;
     const { _reduxForm: { form, values } } = this.context;
 
     const grantRatioType = get(values, `${nodePath}.grantRatio.type`);
@@ -139,8 +136,8 @@ class Bonus extends Component {
                 <input
                   type="checkbox"
                   id={`${form}BonusCustomTemplate`}
-                  onChange={this.toggleCustomTemplate}
-                  checked={customTemplate}
+                  onChange={this.handleToggleCustomTemplate}
+                  checked={!!customTemplate}
                 /> Custom Template
               </label>
             </div>

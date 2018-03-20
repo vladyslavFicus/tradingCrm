@@ -12,11 +12,11 @@ import { customValueFieldTypes } from '../../../../constants/form';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
-export default (values, params) => {
+export default (values, props) => {
   const {
     allowedCustomValueTypes,
     countries,
-  } = params;
+  } = props;
 
   const rules = {
     campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
@@ -75,7 +75,7 @@ export default (values, params) => {
           },
           wageringRequirement: {
             type: ['string'],
-            value: ['numeric', 'min:1', 'max:1000000'],
+            value: ['numeric', 'max:1000000'],
           },
           capping: {
             type: ['string'],
@@ -89,7 +89,6 @@ export default (values, params) => {
       },
     },
   };
-
 
   if (values.optInPeriod) {
     rules.optInPeriodTimeUnit.push('required');
@@ -128,6 +127,7 @@ export default (values, params) => {
       HARDCODED_PROVIDERS.indexOf(rewardsFreeSpins.providerId) !== -1
     ) {
       rules.rewards.freeSpin.pageCode = ['required'];
+      rules.rewards.freeSpin.betLevel = ['required', 'min:1', 'max:5'];
     }
 
     [
@@ -145,6 +145,13 @@ export default (values, params) => {
 
     if (freeSpinBonus.grantRatio && freeSpinBonus.grantRatio.type === customValueFieldTypes.PERCENTAGE) {
       rules.rewards.freeSpin.bonus.maxGrantAmount.push('required');
+    }
+
+    const freeSpinBonusType = get(freeSpinBonus, 'wageringRequirement.type');
+    if (freeSpinBonusType !== customValueFieldTypes.ABSOLUTE) {
+      rules.rewards.freeSpin.bonus.wageringRequirement.value.push('min:100');
+    } else {
+      rules.rewards.freeSpin.bonus.wageringRequirement.value.push('min:1');
     }
 
     rules.rewards.freeSpin.bonus.wageringRequirement.value.push('required');

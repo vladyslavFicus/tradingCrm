@@ -1395,7 +1395,8 @@
         "CAPPING": "Capping",
         "PRIZE": "Prize",
         "COUNT": "Count",
-        "PAGE_CODE": "Page code"
+        "PAGE_CODE": "Page code",
+        "BET_LEVEL": "Bet level"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Add rewards",
