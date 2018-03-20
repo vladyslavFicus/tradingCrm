@@ -141,7 +141,7 @@ function getAvailableLanguages() {
 }
 
 function getGraphQLRoot() {
-  return config.graphqlRoot;
+  return config.nas.graphqlRoot;
 }
 
 function getLogo() {

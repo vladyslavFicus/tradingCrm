@@ -547,6 +547,7 @@ class ProfileLayout extends Component {
     const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
     const {
       profile: { data: playerProfile, receivedAt, isLoading, error },
+      playerProfile: { playerProfile: profile, loading },
       children,
       params,
       lastIp,
@@ -569,51 +570,53 @@ class ProfileLayout extends Component {
     return (
       <div className="layout">
         <div className="layout-info">
-          <Header
-            playerProfile={playerProfile}
-            locale={locale}
-            lastIp={lastIp}
-            accumulatedBalances={accumulatedBalances}
-            availableStatuses={availableStatuses}
-            onStatusChange={changeStatus}
-            availableTags={availableTags}
-            currentTags={currentTags}
-            playerLimits={{
-              state: playerLimits,
-              actions: { onChange: this.handleChangePlayerLimitState },
-              unlockLogin: this.handleUnlockLogin,
-            }}
-            isLoadingProfile={isLoading}
-            addTag={this.handleAddTag}
-            deleteTag={this.handleDeleteTag}
-            onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
-            onResetPasswordClick={this.handleResetPasswordClick}
-            onProfileActivateClick={this.handleProfileActivateClick}
-            onPlayerLimitChange={this.handleChangePlayerLimitState}
-            onRefreshClick={() => this.handleLoadProfile(true)}
-            loaded={!!receivedAt && !error}
-            onChangePasswordClick={this.handleChangePasswordClick}
-            onShareProfileClick={this.handleShareProfileClick}
-          />
-          <div className="hide-details-block">
-            <div className="hide-details-block_divider" />
-            <button
-              className="hide-details-block_text btn-transparent"
-              onClick={this.handleToggleInformationBlock}
-            >
-              {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
-            </button>
-            <div className="hide-details-block_divider" />
-          </div>
-          <Collapse isOpen={informationShown}>
-            <Information
-              data={playerProfile}
-              ips={playerProfile.signInIps}
-              updateSubscription={this.handleUpdateSubscription}
-              onEditNoteClick={this.handleEditNoteClick}
-              notes={notes}
+          <If condition={!loading}>
+            <Header
+              playerProfile={profile.data}
+              locale={locale}
+              lastIp={lastIp}
+              accumulatedBalances={accumulatedBalances}
+              availableStatuses={availableStatuses}
+              onStatusChange={changeStatus}
+              availableTags={availableTags}
+              currentTags={currentTags}
+              playerLimits={{
+                state: playerLimits,
+                actions: { onChange: this.handleChangePlayerLimitState },
+                unlockLogin: this.handleUnlockLogin,
+              }}
+              isLoadingProfile={isLoading}
+              addTag={this.handleAddTag}
+              deleteTag={this.handleDeleteTag}
+              onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
+              onResetPasswordClick={this.handleResetPasswordClick}
+              onProfileActivateClick={this.handleProfileActivateClick}
+              onPlayerLimitChange={this.handleChangePlayerLimitState}
+              onRefreshClick={() => this.handleLoadProfile(true)}
+              loaded={!!receivedAt && !error}
+              onChangePasswordClick={this.handleChangePasswordClick}
+              onShareProfileClick={this.handleShareProfileClick}
             />
-          </Collapse>
+            <div className="hide-details-block">
+              <div className="hide-details-block_divider" />
+              <button
+                className="hide-details-block_text btn-transparent"
+                onClick={this.handleToggleInformationBlock}
+              >
+                {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
+              </button>
+              <div className="hide-details-block_divider" />
+            </div>
+            <Collapse isOpen={informationShown}>
+              <Information
+                data={profile.data}
+                ips={profile.data.signInIps}
+                updateSubscription={this.handleUpdateSubscription}
+                onEditNoteClick={this.handleEditNoteClick}
+                notes={notes}
+              />
+            </Collapse>
+          </If>
         </div>
         <div className="layout-content">
           <div className="nav-tabs-horizontal">

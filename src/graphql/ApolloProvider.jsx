@@ -7,7 +7,7 @@ import { BatchHttpLink } from 'apollo-link-batch-http';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { getBrandId, getGraphQLRoot } from '../config';
+import { getGraphQLRoot } from '../config';
 
 const __DEV__ = process.env.NODE_ENV === 'development';
 
@@ -51,7 +51,6 @@ class ApolloProvider extends PureComponent {
       return {
         headers: {
           ...headers,
-          'X-BRAND-ID': getBrandId(),
           authorization: token ? `Bearer ${token}` : undefined,
         },
       };

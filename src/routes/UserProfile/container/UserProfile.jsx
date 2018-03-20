@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import { actionCreators } from '../modules';
 import { actionCreators as filesActionCreators } from '../modules/files';
 import ProfileLayout from '../layouts/ProfileLayout';
@@ -6,7 +7,8 @@ import config, { getAvailableTags } from '../../../config';
 import { statusActions } from '../../../constants/user';
 import Permissions from '../../../utils/permissions';
 import { userProfileTabs } from '../../../config/menu';
-import 
+import { profileQuery } from '.././../../graphql/queries/profileQuery';
+import { notesQuery } from '.././../../graphql/queries/notesQuery';
 
 const mapStateToProps = (state) => {
   const {
@@ -102,4 +104,22 @@ const mapActions = {
   fetchBalances: actionCreators.fetchBalances,
 };
 
-export default connect(mapStateToProps, mapActions)(ProfileLayout);
+export default compose(
+  connect(mapStateToProps, mapActions),
+  graphql(profileQuery, {
+    options: ({ profile: { data: { playerUUID } } }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'playerProfile',
+  }),
+  graphql(notesQuery, {
+    options: ({ profile: { data: { playerUUID } } }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'noteList',
+  }),
+)(ProfileLayout);

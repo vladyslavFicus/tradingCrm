@@ -21,6 +21,11 @@ if (project.env === 'development') {
   if (process.env.API_ROOT) {
     _.set(appConfig, 'nas.brand.api.url', process.env.API_ROOT);
   }
+
+  if (process.env.GRAPHQL_ROOT) {
+    _.set(appConfig, 'nas.graphqlRoot', process.env.GRAPHQL_ROOT);
+  }
+
   if (process.env.BRAND_ID) {
     _.set(appConfig, 'nas.brand.name', process.env.BRAND_ID);
   }

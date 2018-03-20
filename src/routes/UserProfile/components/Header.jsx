@@ -125,6 +125,16 @@ class Header extends Component {
 
   render() {
     const {
+      playerProfile: {
+        firstName,
+        username,
+        languageCode,
+        lastName,
+        profileStatusReason,
+        profileStatus,
+        playerUUID,
+        registrationDate,
+      },
       playerProfile,
       availableStatuses,
       accumulatedBalances,
@@ -144,6 +154,7 @@ class Header extends Component {
       onShareProfileClick,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
+    const fullName = `${firstName} ${lastName}`;
 
     return (
       <div>
@@ -152,24 +163,24 @@ class Header extends Component {
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
                 <div className="panel-heading-row__info-title">
-                  {playerProfile.fullName || I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
+                  {fullName || I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
                   {' '}
-                  ({playerProfile.age || '?'})
+                  ({'age' || '?'})
                   {' '}
-                  {playerProfile.kycCompleted && <i className="fa fa-check text-success" />}
+                  {'kycCompleted' && <i className="fa fa-check text-success" />}
                 </div>
                 <div className="panel-heading-row__info-ids">
-                  {playerProfile.username}
+                  {username}
                   {' - '}
                   {
-                    !!playerProfile.playerUUID &&
+                    !!playerUUID &&
                     <Uuid
-                      uuid={playerProfile.playerUUID}
-                      uuidPrefix={playerProfile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+                      uuid={playerUUID}
+                      uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
                     />
                   }
                   {' - '}
-                  {playerProfile.languageCode}
+                  {languageCode}
                 </div>
               </div>
             </HeaderPlayerPlaceholder>
@@ -210,7 +221,7 @@ class Header extends Component {
                     onClick: onProfileActivateClick,
                     visible: (
                       sendActivationLinkPermission.check(currentPermissions)
-                      && playerProfile.profileStatus === statuses.INACTIVE
+                      && profileStatus === statuses.INACTIVE
                     ),
                   },
                   {
@@ -231,11 +242,8 @@ class Header extends Component {
           <div className="header-block header-block_account">
             <PlayerStatus
               locale={locale}
-              status={playerProfile.profileStatus}
-              reason={playerProfile.profileStatusReason}
-              statusDate={playerProfile.profileStatusDate}
-              statusAuthor={playerProfile.profileStatusAuthor}
-              endDate={playerProfile.suspendEndDate}
+              status={profileStatus}
+              reason={profileStatusReason}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
             />
@@ -268,10 +276,10 @@ class Header extends Component {
           <div className="header-block">
             <div className="header-block-title">Registered</div>
             <div className="header-block-middle">
-              {moment.utc(playerProfile.registrationDate).local().fromNow()}
+              {moment.utc(registrationDate).local().fromNow()}
             </div>
             <div className="header-block-small">
-              on {moment.utc(playerProfile.registrationDate).local().format('DD.MM.YYYY')}</div>
+              on {moment.utc(registrationDate).local().format('DD.MM.YYYY')}</div>
           </div>
         </div>
       </div>
