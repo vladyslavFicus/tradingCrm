@@ -89,9 +89,9 @@ class Form extends Component {
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
-    freeSpinCustomTemplate: PropTypes.bool.isRequired,
+    freeSpinCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleFreeSpinCustomTemplate: PropTypes.func.isRequired,
-    bonusCustomTemplate: PropTypes.bool.isRequired,
+    bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleBonusCustomTemplate: PropTypes.func.isRequired,
   };
   static defaultProps = {

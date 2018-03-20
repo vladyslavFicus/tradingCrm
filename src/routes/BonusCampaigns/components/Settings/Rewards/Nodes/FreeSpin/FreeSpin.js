@@ -27,9 +27,9 @@ class FreeSpin extends Component {
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     typeValues: PropTypes.arrayOf(PropTypes.string),
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    customTemplate: PropTypes.bool.isRequired,
+    customTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleFreeSpinCustomTemplate: PropTypes.func.isRequired,
-    bonusCustomTemplate: PropTypes.bool.isRequired,
+    bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleBonusCustomTemplate: PropTypes.func.isRequired,
   };
 
@@ -237,6 +237,18 @@ class FreeSpin extends Component {
   };
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
+
+  handleToggleCustomTemplate = () => {
+    const { customTemplate, onToggleFreeSpinCustomTemplate } = this.props;
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const currentValues = get(rewards, 'freeSpin', {});
+
+    if (!customTemplate) {
+      this.setField('templateUUID');
+    }
+
+    onToggleFreeSpinCustomTemplate(currentValues.templateUUID);
+  };
 
   handleChangeProvider = (providerId) => {
     const { _reduxForm: { values: { rewards } } } = this.context;
@@ -461,7 +473,6 @@ class FreeSpin extends Component {
       nodePath,
       currencies,
       customTemplate,
-      onToggleFreeSpinCustomTemplate,
       bonusCustomTemplate,
       onToggleBonusCustomTemplate,
     } = this.props;
@@ -523,7 +534,7 @@ class FreeSpin extends Component {
                 component={NasSelectField}
                 showErrorMessage={false}
                 position="vertical"
-                disabled={customTemplate}
+                disabled={!!customTemplate}
                 onChange={this.handleChangeTemplate}
               >
                 {freeSpinTemplates.map(item => (
@@ -538,7 +549,7 @@ class FreeSpin extends Component {
                 <input
                   type="checkbox"
                   id={`${form}CustomTemplate`}
-                  onChange={onToggleFreeSpinCustomTemplate}
+                  onChange={this.handleToggleCustomTemplate}
                   checked={customTemplate}
                 /> Custom Template
               </label>
