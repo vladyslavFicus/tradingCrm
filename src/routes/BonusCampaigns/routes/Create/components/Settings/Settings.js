@@ -17,6 +17,7 @@ class Settings extends Component {
     fetchGames: PropTypes.func.isRequired,
     createCampaign: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
+    addFreeSpinTemplate: PropTypes.func.isRequired,
     createFreeSpinTemplate: PropTypes.func.isRequired,
     nodeGroups: PropTypes.shape({
       fulfillments: PropTypes.array.isRequired,
@@ -33,6 +34,7 @@ class Settings extends Component {
     baseCurrency: PropTypes.string.isRequired,
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
+    addBonusTemplate: PropTypes.func.isRequired,
     createBonusTemplate: PropTypes.func.isRequired,
   };
 
@@ -104,7 +106,9 @@ class Settings extends Component {
       fetchCampaign,
       paymentMethods,
       fetchPaymentMethods,
+      addFreeSpinTemplate,
       createFreeSpinTemplate,
+      addBonusTemplate,
       createBonusTemplate,
       baseCurrency,
       fetchBonusTemplates,
@@ -134,7 +138,9 @@ class Settings extends Component {
         locale={locale}
         form="bonusCampaignCreate"
         currencies={currencies}
+        addFreeSpinTemplate={addFreeSpinTemplate}
         createFreeSpinTemplate={createFreeSpinTemplate}
+        addBonusTemplate={addBonusTemplate}
         createBonusTemplate={createBonusTemplate}
         baseCurrency={baseCurrency}
       />

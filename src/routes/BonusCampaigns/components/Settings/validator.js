@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import { attributeLabels, optInPeriods } from './constants';
-import { HARDCODED_PROVIDERS } from './Rewards/Nodes/FreeSpin/constants';
+import { GAME_TYPES, HARDCODED_PROVIDERS } from './Rewards/Nodes/FreeSpin/constants';
 import {
   targetTypes,
   targetTypesLabels,
@@ -12,11 +12,11 @@ import { customValueFieldTypes } from '../../../../constants/form';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
-export default (values, params) => {
+export default (values, props) => {
   const {
     allowedCustomValueTypes,
     countries,
-  } = params;
+  } = props;
 
   const rules = {
     campaignName: ['required', 'string', `max:${CAMPAIGN_NAME_MAX_LENGTH}`],
@@ -89,7 +89,6 @@ export default (values, params) => {
       },
     },
   };
-
 
   if (values.optInPeriod) {
     rules.optInPeriodTimeUnit.push('required');

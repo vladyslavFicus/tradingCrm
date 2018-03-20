@@ -27,6 +27,10 @@ class FreeSpin extends Component {
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     typeValues: PropTypes.arrayOf(PropTypes.string),
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    customTemplate: PropTypes.bool.isRequired,
+    onToggleFreeSpinCustomTemplate: PropTypes.func.isRequired,
+    bonusCustomTemplate: PropTypes.bool.isRequired,
+    onToggleBonusCustomTemplate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -44,7 +48,6 @@ class FreeSpin extends Component {
   state = {
     currentLines: [],
     currentGames: [],
-    customTemplate: false,
   };
 
   async componentDidMount() {
@@ -55,46 +58,45 @@ class FreeSpin extends Component {
     const action = await fetchGames();
     await fetchFreeSpinTemplates({ status: freeSpinTemplate.CREATED }, true);
     await fetchBonusTemplates({ status: freeSpinTemplate.CREATED }, true);
+
     if (action && !action.error && templateUUID) {
       this.loadTemplateData(templateUUID);
     }
   }
 
-  setField = (field, value = '') => this.props.change(this.buildFieldName(field), value);
+  get pageCodes() {
+    const gameData = this.gameData;
+    const pageCodes = [];
 
-  buildFieldName = name => `${this.props.nodePath}.${name}`;
+    if (gameData) {
+      const { pageCode, mobilePageCode } = parse(this.gameData.startGameUrl, { ignoreQueryPrefix: true });
 
-  handleChangeProvider = (providerId) => {
-    const { _reduxForm: { values: { rewards } } } = this.context;
+      if (pageCode) {
+        pageCodes.push({
+          label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.DESKTOP',
+          value: pageCode,
+        });
+      }
 
-    this.setField('providerId', providerId);
-    this.setField('gameId', null);
-    const currentValues = get(rewards, 'freeSpin', {});
-
-    if (currentValues.aggregatorId === aggregators.softgamings && providerId !== 'netent') {
-      this.setField('betLevel', 1);
+      if (mobilePageCode) {
+        pageCodes.push({
+          label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.MOBILE',
+          value: mobilePageCode,
+        });
+      }
     }
 
-    const currentGames = this.props.games.filter(
-      i => i.gameProviderId === providerId && i.aggregatorId === currentValues.aggregatorId
-    );
-    console.info(`Selected provider: ${providerId}`);
-    console.info(`Games count: ${currentGames.length}`);
+    return pageCodes;
+  }
 
-    this.setState({
-      currentLines: [],
-      currentGames,
-    });
-  };
+  get gameData() {
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const currentValues = get(rewards, 'freeSpin', {});
 
-  handleChangeAggregator = (aggregatorId) => {
-    this.setField('aggregatorId', aggregatorId);
+    return this.state.currentGames.find(i => i.gameId === currentValues.gameId);
+  }
 
-    [
-      'providerId', 'gameId', 'betLevel',
-      'count', 'freeSpinsAmount', 'betPerLine', 'linesPerSpin',
-    ].forEach(key => this.setField(key));
-  };
+  setField = (field, value = '') => this.props.change(this.buildFieldName(field), value);
 
   loadTemplateData = async (templateUUID) => {
     const { fetchFreeSpinTemplate } = this.props;
@@ -203,13 +205,13 @@ class FreeSpin extends Component {
   handleChangeTemplate = (_, templateUUID) => {
     this.setField('templateUUID', templateUUID);
 
-    this.loadTemplateData(templateUUID);
+    return this.loadTemplateData(templateUUID);
   };
 
   handleChangeBonusTemplateData = (_, bonusTemplateUUID) => {
     this.setField('bonus.templateUUID', bonusTemplateUUID);
 
-    this.loadBonusTemplateData(bonusTemplateUUID);
+    return this.loadBonusTemplateData(bonusTemplateUUID);
   };
 
   handleChangeGame = (gameId) => {
@@ -218,62 +220,61 @@ class FreeSpin extends Component {
     if (game) {
       this.setField('gameId', game.gameId);
 
+      if (game.aggregatorId === aggregators.softgamings && game.gameInfoType !== GAME_TYPES.DESKTOP_AND_MOBILE) {
+        const { pageCode, mobilePageCode } = parse(game.startGameUrl, { ignoreQueryPrefix: true });
+
+        if (game.gameInfoType === GAME_TYPES.DESKTOP) {
+          this.setField('pageCode', pageCode);
+        } else {
+          this.setField('pageCode', mobilePageCode);
+        }
+      }
+
       this.setState({
         currentLines: game.lines,
       });
     }
   };
 
-  get pageCodes() {
-    const gameData = this.gameData;
-    const pageCodes = [];
+  buildFieldName = name => `${this.props.nodePath}.${name}`;
 
-    if (gameData) {
-      const { pageCode, mobilePageCode } = parse(this.gameData.startGameUrl, { ignoreQueryPrefix: true });
-
-      if (pageCode) {
-        pageCodes.push({
-          label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.DESKTOP',
-          value: pageCode,
-        });
-      }
-
-      if (mobilePageCode) {
-        pageCodes.push({
-          label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.MOBILE',
-          value: mobilePageCode,
-        });
-      }
-    }
-
-    return pageCodes;
-  }
-
-  get gameData() {
+  handleChangeProvider = (providerId) => {
     const { _reduxForm: { values: { rewards } } } = this.context;
+
+    this.setField('providerId', providerId);
+    this.setField('gameId', null);
     const currentValues = get(rewards, 'freeSpin', {});
 
-    return this.state.currentGames.find(i => i.gameId === currentValues.gameId);
-  }
-
-  toggleCustomTemplate = (e) => {
-    const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-
-    if (value) {
-      this.setField('templateUUID');
+    if (currentValues.aggregatorId === aggregators.softgamings && providerId !== 'netent') {
+      this.setField('betLevel', 1);
     }
 
+    const currentGames = this.props.games.filter(
+      i => i.gameProviderId === providerId && i.aggregatorId === currentValues.aggregatorId
+    );
+    console.info(`Selected provider: ${providerId}`);
+    console.info(`Games count: ${currentGames.length}`);
+
     this.setState({
-      customTemplate: value,
+      currentLines: [],
+      currentGames,
     });
   };
 
+  handleChangeAggregator = (aggregatorId) => {
+    this.setField('aggregatorId', aggregatorId);
+
+    [
+      'providerId', 'gameId', 'betLevel',
+      'count', 'freeSpinsAmount', 'betPerLine', 'linesPerSpin',
+    ].forEach(key => this.setField(key));
+  };
+
   renderAdditionalFields = () => {
-    const { baseCurrency, disabled } = this.props;
+    const { baseCurrency, disabled, customTemplate } = this.props;
     const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
-    const { customTemplate, currentLines } = this.state;
+    const { currentLines } = this.state;
     const gameData = this.gameData;
 
     if (!currentValues.aggregatorId) {
@@ -459,14 +460,15 @@ class FreeSpin extends Component {
       change,
       nodePath,
       currencies,
+      customTemplate,
+      onToggleFreeSpinCustomTemplate,
+      bonusCustomTemplate,
+      onToggleBonusCustomTemplate,
     } = this.props;
 
     const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
-    const {
-      currentGames,
-      customTemplate,
-    } = this.state;
+    const { currentGames } = this.state;
 
     const availableProviders = currentValues.aggregatorId ? aggregatorsMap[currentValues.aggregatorId] : [];
 
@@ -536,7 +538,7 @@ class FreeSpin extends Component {
                 <input
                   type="checkbox"
                   id={`${form}CustomTemplate`}
-                  onChange={this.toggleCustomTemplate}
+                  onChange={onToggleFreeSpinCustomTemplate}
                   checked={customTemplate}
                 /> Custom Template
               </label>
@@ -628,6 +630,8 @@ class FreeSpin extends Component {
               change={change}
               bonusTemplates={bonusTemplates}
               handleChangeBonusTemplateData={this.handleChangeBonusTemplateData}
+              customTemplate={bonusCustomTemplate}
+              onToggleCustomTemplate={onToggleBonusCustomTemplate}
             />
           </div>
         }

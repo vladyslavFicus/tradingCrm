@@ -34,6 +34,10 @@ class Container extends Component {
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    freeSpinCustomTemplate: PropTypes.bool.isRequired,
+    onToggleFreeSpinCustomTemplate: PropTypes.func.isRequired,
+    bonusCustomTemplate: PropTypes.bool.isRequired,
+    onToggleBonusCustomTemplate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -90,6 +94,10 @@ class Container extends Component {
       fetchBonusTemplate,
       bonusTemplates,
       currencies,
+      freeSpinCustomTemplate,
+      onToggleFreeSpinCustomTemplate,
+      bonusCustomTemplate,
+      onToggleBonusCustomTemplate,
     } = this.props;
 
     const bonusNodePath = `${nodeGroupTypes.rewards}.${nodeTypes.bonus}`;
@@ -124,6 +132,10 @@ class Container extends Component {
             fetchBonusTemplates={fetchBonusTemplates}
             fetchBonusTemplate={fetchBonusTemplate}
             disabled={disabled}
+            customTemplate={freeSpinCustomTemplate}
+            onToggleFreeSpinCustomTemplate={onToggleFreeSpinCustomTemplate}
+            bonusCustomTemplate={bonusCustomTemplate}
+            onToggleBonusCustomTemplate={onToggleBonusCustomTemplate}
           />
         );
       default:

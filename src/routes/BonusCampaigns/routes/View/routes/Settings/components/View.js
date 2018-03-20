@@ -41,7 +41,9 @@ class View extends Component {
     removeNode: PropTypes.func.isRequired,
     addNode: PropTypes.func.isRequired,
     fetchGames: PropTypes.func.isRequired,
+    addFreeSpinTemplate: PropTypes.func.isRequired,
     createFreeSpinTemplate: PropTypes.func.isRequired,
+    addBonusTemplate: PropTypes.func.isRequired,
     createBonusTemplate: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
     nodeGroups: PropTypes.shape({
@@ -76,7 +78,6 @@ class View extends Component {
     modal: { ...modalInitialState },
     linkedCampaign: null,
   };
-
 
   handleSubmit = async (data) => {
     const { updateCampaign, params: { id } } = this.props;
@@ -130,14 +131,18 @@ class View extends Component {
       fetchPaymentMethods,
       fetchCampaigns,
       fetchCampaign,
+      addFreeSpinTemplate,
       createFreeSpinTemplate,
+      addBonusTemplate,
       createBonusTemplate,
       baseCurrency,
     } = this.props;
 
     return (
       <SettingsForm
+        addFreeSpinTemplate={addFreeSpinTemplate}
         createFreeSpinTemplate={createFreeSpinTemplate}
+        addBonusTemplate={addBonusTemplate}
         createBonusTemplate={createBonusTemplate}
         fetchGames={fetchGames}
         fetchPaymentMethods={fetchPaymentMethods}
