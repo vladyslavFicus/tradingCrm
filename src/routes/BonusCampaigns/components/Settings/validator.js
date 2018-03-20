@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import { createValidator, translateLabels } from '../../../../utils/validator';
 import { attributeLabels, optInPeriods } from './constants';
-import { GAME_TYPES, HARDCODED_PROVIDERS } from './Rewards/Nodes/FreeSpin/constants';
+import { HARDCODED_PROVIDERS } from './Rewards/Nodes/FreeSpin/constants';
 import {
   targetTypes,
   targetTypesLabels,
