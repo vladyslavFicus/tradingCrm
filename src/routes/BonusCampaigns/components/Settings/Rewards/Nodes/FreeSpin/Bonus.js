@@ -26,6 +26,8 @@ class Bonus extends Component {
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     change: PropTypes.func.isRequired,
     handleChangeBonusTemplateData: PropTypes.func.isRequired,
+    customTemplate: PropTypes.bool.isRequired,
+    onToggleCustomTemplate: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -37,10 +39,6 @@ class Bonus extends Component {
 
   static contextTypes = {
     _reduxForm: PropTypes.object,
-  };
-
-  state = {
-    customTemplate: false,
   };
 
   componentDidMount() {
@@ -56,19 +54,6 @@ class Bonus extends Component {
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
 
-  toggleCustomTemplate = (e) => {
-    const target = e.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-
-    if (value) {
-      this.setField('templateUUID');
-    }
-
-    this.setState({
-      customTemplate: value,
-    });
-  };
-
   render() {
     const {
       disabled,
@@ -76,9 +61,10 @@ class Bonus extends Component {
       nodePath,
       bonusTemplates,
       handleChangeBonusTemplateData,
+      customTemplate,
+      onToggleCustomTemplate,
     } = this.props;
 
-    const { customTemplate } = this.state;
     const { _reduxForm: { form, values } } = this.context;
 
     const grantRatioType = get(values, `${nodePath}.grantRatio.type`);
@@ -129,7 +115,7 @@ class Bonus extends Component {
                 <input
                   type="checkbox"
                   id={`${form}BonusCustomTemplate`}
-                  onChange={this.toggleCustomTemplate}
+                  onChange={onToggleCustomTemplate}
                   checked={customTemplate}
                 /> Custom Template
               </label>
