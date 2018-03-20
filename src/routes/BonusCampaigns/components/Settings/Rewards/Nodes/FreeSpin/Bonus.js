@@ -125,8 +125,8 @@ class Bonus extends Component {
                 <div className="form-group__note mb-2">
                   <Uuid
                     uuid={currentUuid}
-                    uuidPartsCount={4}
-                    length={22}
+                    uuidPartsCount={3}
+                    length={18}
                   />
                 </div>
               </If>

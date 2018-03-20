@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { Field, reduxForm, getFormValues } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import {
   InputField, SelectField, NasSelectField, CustomValueFieldVertical,
@@ -23,6 +22,7 @@ import {
 import { Currency } from '../../../../../../../../components/Amount';
 import findCurrencyAmount from '../../utils/findCurrencyAmount';
 import Uuid from '../../../../../../../../components/Uuid';
+import { withReduxFormValues } from '../../../../../../../../components/HighOrder';
 
 const FORM_NAME = 'manual-bonus-modal';
 
@@ -39,14 +39,14 @@ class CreateModal extends Component {
     fetchBonusTemplate: PropTypes.func.isRequired,
     templates: PropTypes.array,
     currency: PropTypes.string.isRequired,
-    currentValues: PropTypes.object,
+    formValues: PropTypes.object,
   };
   static defaultProps = {
     handleSubmit: null,
     pristine: false,
     submitting: false,
     templates: [],
-    currentValues: {},
+    formValues: {},
   };
 
   state = {
@@ -198,12 +198,12 @@ class CreateModal extends Component {
       invalid,
       templates,
       currency,
-      currentValues,
+      formValues,
     } = this.props;
 
     const { customTemplate } = this.state;
 
-    const currentUuid = get(currentValues, 'templateUUID', false);
+    const currentUuid = get(formValues, 'templateUUID', false);
 
     return (
       <Modal className="create-bonus-modal" toggle={onClose} isOpen>
@@ -432,7 +432,6 @@ class CreateModal extends Component {
 }
 
 export default compose(
-  connect(state => ({ currentValues: getFormValues(FORM_NAME)(state) })),
   reduxForm({
     form: FORM_NAME,
     initialValues: {
@@ -476,5 +475,6 @@ export default compose(
 
       return createValidator(rules, translateLabels(attributeLabels), false)(values);
     },
-  })
+  }),
+  withReduxFormValues,
 )(CreateModal);
