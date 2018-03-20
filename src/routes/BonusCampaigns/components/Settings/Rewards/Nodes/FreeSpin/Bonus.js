@@ -26,7 +26,7 @@ class Bonus extends Component {
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     change: PropTypes.func.isRequired,
     handleChangeBonusTemplateData: PropTypes.func.isRequired,
-    customTemplate: PropTypes.bool.isRequired,
+    customTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleCustomTemplate: PropTypes.func.isRequired,
   };
 
@@ -54,6 +54,18 @@ class Bonus extends Component {
 
   buildFieldName = name => `${this.props.nodePath}.${name}`;
 
+  handleToggleCustomTemplate = () => {
+    const { customTemplate, onToggleCustomTemplate } = this.props;
+    const { _reduxForm: { values: { rewards } } } = this.context;
+    const currentValues = get(rewards, 'freeSpin.bonus', {});
+
+    if (!customTemplate) {
+      this.setField('templateUUID');
+    }
+
+    onToggleCustomTemplate(currentValues.templateUUID);
+  };
+
   render() {
     const {
       disabled,
@@ -62,7 +74,6 @@ class Bonus extends Component {
       bonusTemplates,
       handleChangeBonusTemplateData,
       customTemplate,
-      onToggleCustomTemplate,
     } = this.props;
 
     const { _reduxForm: { form, values } } = this.context;
@@ -115,8 +126,8 @@ class Bonus extends Component {
                 <input
                   type="checkbox"
                   id={`${form}BonusCustomTemplate`}
-                  onChange={onToggleCustomTemplate}
-                  checked={customTemplate}
+                  onChange={this.handleToggleCustomTemplate}
+                  checked={!!customTemplate}
                 /> Custom Template
               </label>
             </div>

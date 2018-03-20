@@ -167,8 +167,21 @@ class Settings extends Component {
     });
   };
 
-  handleToggleCustomTemplate = name => () => {
-    this.setState({ [name]: !this.state[name] });
+  handleToggleCustomTemplate = name => (current) => {
+    const { changeForm } = this.props;
+    let nextValue = false;
+
+    if (!current) {
+      if (name === 'customFreeSpinTemplate') {
+        changeForm('rewards.freeSpin.templateUUID', this.state[name]);
+      } else if (name === 'customBonusTemplate') {
+        changeForm('rewards.freeSpin.bonus.templateUUID', this.state[name]);
+      }
+    } else {
+      nextValue = current;
+    }
+
+    this.setState({ [name]: nextValue });
   };
 
   handleToggleFreeSpinTemplate = this.handleToggleCustomTemplate('customFreeSpinTemplate');
