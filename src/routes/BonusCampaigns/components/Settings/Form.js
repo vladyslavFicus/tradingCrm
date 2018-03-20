@@ -221,7 +221,7 @@ class Form extends Component {
               {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
             </div>
             {
-              !(pristine || submitting) &&
+              !(pristine || submitting || disabled) &&
               <div className="col-md-6 text-md-right">
                 <button
                   onClick={this.handleRevert}
