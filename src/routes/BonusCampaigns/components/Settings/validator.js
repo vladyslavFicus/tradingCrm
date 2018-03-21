@@ -121,7 +121,7 @@ export default (values, props) => {
     rules.rewards.bonus.moneyTypePriority.push('required');
   }
 
-  if (rewardsFreeSpins && !rewardsFreeSpins.templateUUID) {
+  if (rewardsFreeSpins) {
     if (
       rewardsFreeSpins.aggregatorId === 'softgamings' &&
       HARDCODED_PROVIDERS.indexOf(rewardsFreeSpins.providerId) !== -1
