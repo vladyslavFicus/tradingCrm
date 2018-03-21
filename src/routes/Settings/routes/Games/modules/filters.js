@@ -5,7 +5,7 @@ const initialState = {
   data: {
     withLines,
     type,
-    gameProvider,
+    gameProvider: Object.keys(gameProvider),
   },
   error: null,
   isLoading: false,

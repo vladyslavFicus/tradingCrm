@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { SelectField, NasSelectField } from '../../../../../components/ReduxForm';
+import { SelectField } from '../../../../../components/ReduxForm';
 import { createValidator } from '../../../../../utils/validator';
 import attributeLabels from '../constants';
 import { typeLabels, gameProviderLabels, withLinesLabels } from '../../../../../constants/games';
@@ -15,7 +15,7 @@ class GamesGridFilter extends Component {
     onSubmit: PropTypes.func.isRequired,
     withLines: PropTypes.object.isRequired,
     type: PropTypes.object.isRequired,
-    gameProvider: PropTypes.object.isRequired,
+    gameProvider: PropTypes.arrayOf(PropTypes.string).isRequired,
     reset: PropTypes.func,
     onReset: PropTypes.func.isRequired,
   };
@@ -53,8 +53,8 @@ class GamesGridFilter extends Component {
                 position="vertical"
               >
                 <option value="">{I18n.t('COMMON.ANY')}</option>
-                {Object.keys(gameProvider).map(item => (
-                  <option key={item} value={gameProvider[item]}>
+                {gameProvider.map(item => (
+                  <option key={item} value={item}>
                     {renderLabel(item, gameProviderLabels)}
                   </option>
                 ))}

@@ -34,7 +34,7 @@ class View extends Component {
       data: PropTypes.shape({
         withLines: PropTypes.object.isRequired,
         type: PropTypes.object.isRequired,
-        gameProvider: PropTypes.object.isRequired,
+        gameProvider: PropTypes.arrayOf(PropTypes.string).isRequired,
       }).isRequired,
     }).isRequired,
   };
@@ -110,11 +110,14 @@ class View extends Component {
 
   renderFreeSpins = data => (
     <div className="font-weight-700">
-      {
-        data.lines || data.betLevel
-          ? <span>{I18n.t('GAMES.GRID.FREE_SPINS_AVAILABLE')}</span>
-          : <span>{I18n.t('GAMES.GRID.FREE_SPINS_UNAVAILABLE')}</span>
-      }
+      <Choose>
+        <When condition={data.freeSpinSupported}>
+          {I18n.t('GAMES.GRID.FREE_SPINS_AVAILABLE')}
+        </When>
+        <Otherwise>
+          {I18n.t('GAMES.GRID.FREE_SPINS_UNAVAILABLE')}
+        </Otherwise>
+      </Choose>
     </div>
   );
 
