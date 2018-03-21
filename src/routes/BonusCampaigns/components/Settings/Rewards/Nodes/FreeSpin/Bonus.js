@@ -50,21 +50,7 @@ class Bonus extends Component {
     autofill(this.buildFieldName('prize.type'), customValueFieldTypes.ABSOLUTE);
   }
 
-  setField = (field, value = '') => this.props.change(this.buildFieldName(field), value);
-
   buildFieldName = name => `${this.props.nodePath}.${name}`;
-
-  handleToggleCustomTemplate = () => {
-    const { customTemplate, onToggleCustomTemplate } = this.props;
-    const { _reduxForm: { values: { rewards } } } = this.context;
-    const currentValues = get(rewards, 'freeSpin.bonus', {});
-
-    if (!customTemplate) {
-      this.setField('templateUUID');
-    }
-
-    onToggleCustomTemplate(currentValues.templateUUID);
-  };
 
   render() {
     const {
@@ -74,6 +60,7 @@ class Bonus extends Component {
       bonusTemplates,
       handleChangeBonusTemplateData,
       customTemplate,
+      onToggleCustomTemplate,
     } = this.props;
 
     const { _reduxForm: { form, values } } = this.context;
@@ -126,7 +113,7 @@ class Bonus extends Component {
                 <input
                   type="checkbox"
                   id={`${form}BonusCustomTemplate`}
-                  onChange={this.handleToggleCustomTemplate}
+                  onChange={onToggleCustomTemplate}
                   checked={!!customTemplate}
                 /> Custom Template
               </label>

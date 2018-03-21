@@ -167,21 +167,8 @@ class Settings extends Component {
     });
   };
 
-  handleToggleCustomTemplate = name => (current) => {
-    const { changeForm } = this.props;
-    let nextValue = false;
-
-    if (!current) {
-      if (name === 'customFreeSpinTemplate') {
-        changeForm('rewards.freeSpin.templateUUID', this.state[name]);
-      } else if (name === 'customBonusTemplate') {
-        changeForm('rewards.freeSpin.bonus.templateUUID', this.state[name]);
-      }
-    } else {
-      nextValue = current;
-    }
-
-    this.setState({ [name]: nextValue });
+  handleToggleCustomTemplate = name => () => {
+    this.setState({ [name]: !this.state[name] });
   };
 
   handleToggleFreeSpinTemplate = this.handleToggleCustomTemplate('customFreeSpinTemplate');
@@ -220,6 +207,11 @@ class Settings extends Component {
       addBonusTemplate,
     } = this.props;
 
+    const {
+      customFreeSpinTemplate,
+      customBonusTemplate,
+    } = this.state;
+
     const { currency } = formData;
 
     let data = { ...formData };
@@ -248,7 +240,7 @@ class Settings extends Component {
           bonusLifeTime: bonus.bonusLifeTime,
         };
 
-        if (bonus.templateUUID) {
+        if (bonus.templateUUID && !customBonusTemplate) {
           rewardsFreeSpin.bonusTemplateUUID = bonus.templateUUID;
         } else {
           if (bonus.maxBet) {
@@ -292,7 +284,7 @@ class Settings extends Component {
                     }],
                   },
                 } : {
-                  percentage: key === bonus[key].value,
+                  percentage: bonus[key].value,
                 };
 
                 bonus = {
@@ -339,7 +331,7 @@ class Settings extends Component {
 
       let rewardsFreeSpinData = {};
 
-      if (rewardsFreeSpin.templateUUID) {
+      if (rewardsFreeSpin.templateUUID && !customFreeSpinTemplate) {
         rewardsFreeSpinData = rewardsFreeSpin;
       } else {
         const createAction = await createFreeSpinTemplate(rewardsFreeSpin);
