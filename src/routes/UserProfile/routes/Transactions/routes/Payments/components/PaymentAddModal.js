@@ -210,56 +210,54 @@ class PaymentAddModal extends Component {
         <ModalHeader toggle={onClose}>
           {I18n.t('PLAYER_PROFILE.TRANSACTIONS.MODAL_CREATE.TITLE')}
         </ModalHeader>
-        <ModalBody>
-          <form id="new-transaction" className="container-fluid" onSubmit={handleSubmit(onSubmit)}>
-            {
-              error &&
-              <div className="alert alert-warning">
-                {I18n.t(error)}
-              </div>
-            }
-            <div className="row">
-              <div className="col-4">
-                <Field
-                  name="type"
-                  type="text"
-                  label={attributeLabels.type}
-                  showErrorMessage={false}
-                  component={SelectField}
-                  position="vertical"
-                >
-                  <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
-                  {filteredPaymentTypes.map(type => (
-                    <option key={type} value={type}>
-                      {paymentTypesLabels[type]}
-                    </option>
-                  ))}
-                </Field>
-              </div>
-              <div className="col-3">
-                <Field
-                  name="amount"
-                  label={attributeLabels.amount}
-                  type="text"
-                  placeholder="0.00"
-                  inputAddon={<Currency code={playerProfile.currencyCode} />}
-                  currencyCode={playerProfile.currencyCode}
-                  showErrorMessage={false}
-                  position="vertical"
-                  component={InputField}
-                />
-              </div>
-              {this.renderPaymentAccountField()}
+        <ModalBody tag="form" id="new-transaction" className="container-fluid" onSubmit={handleSubmit(onSubmit)}>
+          {
+            error &&
+            <div className="alert alert-warning">
+              {I18n.t(error)}
             </div>
-            {this.renderInfoBlock()}
-            <div className="text-center">
-              <NoteButton
-                id="add-transaction-item-note-button"
-                note={note}
-                onClick={this.handleNoteClick}
+          }
+          <div className="row">
+            <div className="col-4">
+              <Field
+                name="type"
+                type="text"
+                label={attributeLabels.type}
+                showErrorMessage={false}
+                component={SelectField}
+                position="vertical"
+              >
+                <option value="">{I18n.t('COMMON.SELECT_OPTION.DEFAULT')}</option>
+                {filteredPaymentTypes.map(type => (
+                  <option key={type} value={type}>
+                    {paymentTypesLabels[type]}
+                  </option>
+                ))}
+              </Field>
+            </div>
+            <div className="col-3">
+              <Field
+                name="amount"
+                label={attributeLabels.amount}
+                type="text"
+                placeholder="0.00"
+                inputAddon={<Currency code={playerProfile.currencyCode} />}
+                currencyCode={playerProfile.currencyCode}
+                showErrorMessage={false}
+                position="vertical"
+                component={InputField}
               />
             </div>
-          </form>
+            {this.renderPaymentAccountField()}
+          </div>
+          {this.renderInfoBlock()}
+          <div className="text-center">
+            <NoteButton
+              id="add-transaction-item-note-button"
+              note={note}
+              onClick={this.handleNoteClick}
+            />
+          </div>
         </ModalBody>
         <ModalFooter>
           <div className="container-fluid">
