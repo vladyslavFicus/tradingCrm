@@ -132,6 +132,7 @@ const mapActions = {
   fetchCampaigns: campaignsActionCreators.fetchCampaigns,
   fetchCampaign: campaignsActionCreators.fetchCampaign,
   fetchPaymentMethods: paymentsActionCreators.fetchPaymentMethods,
+  resetAllNodes: actionCreators.resetAllNodes,
 };
 
 export default connect(mapStateToProps, mapActions)(View);

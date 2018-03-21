@@ -109,10 +109,6 @@ class Form extends Component {
     bonusTemplates: [],
   };
 
-  componentWillUnmount() {
-    this.props.revert();
-  }
-
   endDateValidator = fromAttribute => (current) => {
     const { currentValues } = this.props;
 
