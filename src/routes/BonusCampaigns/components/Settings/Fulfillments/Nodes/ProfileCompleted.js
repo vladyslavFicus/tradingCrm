@@ -30,8 +30,7 @@ class ProfileCompleted extends Component {
           <div className="col text-truncate add-campaign-label">
             {I18n.t(nodeTypesLabels[nodeTypes.profileCompleted])}
           </div>
-          {
-            !disabled &&
+          <If condition={!disabled}>
             <div className="col-auto text-right">
               <button
                 className="btn-transparent add-campaign-remove"
@@ -41,7 +40,7 @@ class ProfileCompleted extends Component {
                 &times;
               </button>
             </div>
-          }
+          </If>
         </div>
         <Field
           name={this.buildFieldName('profileCompleted')}

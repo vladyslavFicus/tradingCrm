@@ -114,6 +114,7 @@ class Settings extends Component {
     if (this.pollingFreeSpinTemplate) {
       this.stopPollingFreeSpinTemplate();
     }
+
     this.props.resetAllNodes();
   }
 
