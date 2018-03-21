@@ -61,7 +61,6 @@ class View extends Component {
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
-    resetAllNodes: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -137,7 +136,6 @@ class View extends Component {
       addBonusTemplate,
       createBonusTemplate,
       baseCurrency,
-      resetAllNodes,
     } = this.props;
 
     return (
@@ -169,7 +167,6 @@ class View extends Component {
         form="bonusCampaignUpdate"
         currencies={currencies}
         baseCurrency={baseCurrency}
-        resetAllNodes={resetAllNodes}
       />
     );
   }

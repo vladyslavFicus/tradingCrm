@@ -52,6 +52,10 @@ class Settings extends Component {
     }).isRequired,
   };
 
+  componentWillMount() {
+    this.props.resetAllNodes();
+  }
+
   bonusCampaign = {
     state: statuses.DRAFT,
   };
@@ -114,7 +118,6 @@ class Settings extends Component {
       baseCurrency,
       fetchBonusTemplates,
       fetchBonusTemplate,
-      resetAllNodes,
     } = this.props;
 
     return (
@@ -145,7 +148,6 @@ class Settings extends Component {
         addBonusTemplate={addBonusTemplate}
         createBonusTemplate={createBonusTemplate}
         baseCurrency={baseCurrency}
-        resetAllNodes={resetAllNodes}
       />
     );
   }
