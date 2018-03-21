@@ -163,12 +163,14 @@ function addNode(nodeGroup, node) {
   };
 }
 
+const initialNodeGroups = {
+  [nodeGroupTypes.fulfillments]: [],
+  [nodeGroupTypes.rewards]: [],
+};
+
 const initialState = {
   data: {},
-  nodeGroups: {
-    [nodeGroupTypes.fulfillments]: [],
-    [nodeGroupTypes.rewards]: [],
-  },
+  nodeGroups: { ...initialNodeGroups },
   error: null,
   isLoading: false,
   receivedAt: null,
@@ -208,7 +210,10 @@ const actionHandlers = {
       [action.nodeGroup]: deleteFromArray(state.nodeGroups[action.nodeGroup], action.node),
     },
   }),
-  [RESET_ALL_NODES]: () => ({ ...initialState }),
+  [RESET_ALL_NODES]: state => ({
+    ...state,
+    nodeGroups: { ...initialNodeGroups },
+  }),
   [ADD_NODE]: (state, action) => ({
     ...state,
     nodeGroups: {
