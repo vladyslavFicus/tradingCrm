@@ -25,6 +25,7 @@ const UPLOAD_PLAYERS_FILE = createRequestAction(`${KEY}/upload-file`);
 const REMOVE_PLAYERS = createRequestAction(`${KEY}/remove-players`);
 const REVERT = `${KEY}/revert-form`;
 const REMOVE_NODE = `${KEY}/remove-node`;
+const RESET_ALL_NODES = `${KEY}/reset-all-nodes`;
 const ADD_NODE = `${KEY}/add-fulfillment-node`;
 
 const fetchCampaign = bonusCampaignActionCreators.fetchCampaign(FETCH_CAMPAIGN);
@@ -299,6 +300,12 @@ function removeNode(nodeGroup, node) {
   };
 }
 
+function resetAllNodes() {
+  return {
+    type: RESET_ALL_NODES,
+  };
+}
+
 function addNode(nodeGroup, node) {
   return {
     type: ADD_NODE,
@@ -306,6 +313,17 @@ function addNode(nodeGroup, node) {
     node,
   };
 }
+
+const initialState = {
+  data: {},
+  nodeGroups: {
+    [nodeGroupTypes.fulfillments]: [],
+    [nodeGroupTypes.rewards]: [],
+  },
+  error: null,
+  isLoading: false,
+  receivedAt: null,
+};
 
 const actionHandlers = {
   [CAMPAIGN_UPDATE.REQUEST]: state => ({
@@ -373,6 +391,7 @@ const actionHandlers = {
       [action.nodeGroup]: deleteFromArray(state.nodeGroups[action.nodeGroup], action.node),
     },
   }),
+  [RESET_ALL_NODES]: () => ({ ...initialState }),
   [ADD_NODE]: (state, action) => ({
     ...state,
     nodeGroups: {
@@ -392,16 +411,6 @@ const actionHandlers = {
     },
   }),
 };
-const initialState = {
-  data: {},
-  nodeGroups: {
-    [nodeGroupTypes.fulfillments]: [],
-    [nodeGroupTypes.rewards]: [],
-  },
-  error: null,
-  isLoading: false,
-  receivedAt: null,
-};
 const actionTypes = {
   CAMPAIGN_UPDATE,
   FETCH_CAMPAIGN,
@@ -409,6 +418,7 @@ const actionTypes = {
   CAMPAIGN_CLONE,
   REMOVE_PLAYERS,
   REVERT,
+  RESET_ALL_NODES,
 };
 const actionCreators = {
   fetchCampaign,
@@ -420,6 +430,7 @@ const actionCreators = {
   revert,
   removeNode,
   addNode,
+  resetAllNodes,
 };
 
 export {

@@ -36,6 +36,7 @@ class Settings extends Component {
     fetchBonusTemplate: PropTypes.func.isRequired,
     addBonusTemplate: PropTypes.func.isRequired,
     createBonusTemplate: PropTypes.func.isRequired,
+    resetAllNodes: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -113,6 +114,7 @@ class Settings extends Component {
       baseCurrency,
       fetchBonusTemplates,
       fetchBonusTemplate,
+      resetAllNodes,
     } = this.props;
 
     return (
@@ -143,6 +145,7 @@ class Settings extends Component {
         addBonusTemplate={addBonusTemplate}
         createBonusTemplate={createBonusTemplate}
         baseCurrency={baseCurrency}
+        resetAllNodes={resetAllNodes}
       />
     );
   }

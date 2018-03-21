@@ -70,6 +70,7 @@ class Settings extends Component {
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
+    resetAllNodes: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -113,6 +114,7 @@ class Settings extends Component {
     if (this.pollingFreeSpinTemplate) {
       this.stopPollingFreeSpinTemplate();
     }
+    this.props.resetAllNodes();
   }
 
   setLinkedCampaignData = linkedCampaign => this.setState({ linkedCampaign });
@@ -292,7 +294,7 @@ class Settings extends Component {
                     }],
                   },
                 } : {
-                  percentage: key === bonus[key].value,
+                  percentage: bonus[key].value,
                 };
 
                 bonus = {
