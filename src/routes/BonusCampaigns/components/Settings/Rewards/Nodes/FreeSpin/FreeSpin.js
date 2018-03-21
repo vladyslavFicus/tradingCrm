@@ -114,6 +114,7 @@ class FreeSpin extends Component {
         bonusTemplateUUID,
         count,
         pageCode,
+        betLevel,
       } = action.payload;
 
       let { betPerLine } = action.payload;
@@ -131,6 +132,7 @@ class FreeSpin extends Component {
       if (aggregatorId === aggregators.softgamings) {
         this.setField('count', count);
         this.setField('pageCode', pageCode);
+        this.setField('betLevel', betLevel);
       } else {
         this.setField('freeSpinsAmount', freeSpinsAmount);
         this.setField('betPerLine', betPerLine);
