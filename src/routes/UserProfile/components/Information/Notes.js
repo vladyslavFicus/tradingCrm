@@ -56,7 +56,7 @@ class Notes extends Component {
   renderItemId = item => <Uuid uuid={item.targetUUID} uuidPrefix={entitiesPrefixes[item.targetType]} />;
 
   render() {
-    const { notes: { entities: notesEntities } } = this.props;
+    const { notes } = this.props;
 
     return (
       <div className="account-details__pinned-notes">
@@ -65,7 +65,7 @@ class Notes extends Component {
         </span>
         <Card>
           <Content>
-            {notesEntities.content.map(this.renderItem)}
+            {notes.content.map(this.renderItem)}
           </Content>
         </Card>
       </div>

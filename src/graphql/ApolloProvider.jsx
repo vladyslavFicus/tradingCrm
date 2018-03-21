@@ -56,11 +56,22 @@ class ApolloProvider extends PureComponent {
       };
     });
 
+    const cache = new InMemoryCache({
+      dataIdFromObject: (object) => {
+        switch (object.__typename) {
+          case 'PlayerProfile':
+            return object.playerUUID ?
+              `${object.__typename}:${object.playerUUID}` :
+              null;
+          default:
+            return object.uuid ? `${object.__typename}:${object.uuid}` : null;
+        }
+      },
+    });
+
     return new ApolloClient({
       link: from([errorLink, authLink, httpLink]),
-      cache: new InMemoryCache({
-        dataIdFromObject: object => object.PK_ID || null,
-      }),
+      cache,
       connectToDevTools: __DEV__,
     });
   }

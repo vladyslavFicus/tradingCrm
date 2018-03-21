@@ -32,11 +32,6 @@ class Header extends Component {
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
     lastIp: PropTypes.ipEntity,
-    accumulatedBalances: PropTypes.shape({
-      real: PropTypes.price,
-      bonus: PropTypes.price,
-      total: PropTypes.price,
-    }).isRequired,
     availableStatuses: PropTypes.array,
     availableTags: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -96,11 +91,11 @@ class Header extends Component {
   };
 
   getRealWithBonusBalance = () => {
-    const { accumulatedBalances: { real, bonus } } = this.props;
+    const { playerProfile: { bonusBalance, realMoneyBalance } } = this.props;
 
     return (
       <div className="header-block-small">
-        RM <Amount {...real} /> + BM <Amount {...bonus} />
+        RM <Amount {...realMoneyBalance} /> + BM <Amount {...bonusBalance} />
       </div>
     );
   };
@@ -130,14 +125,17 @@ class Header extends Component {
         username,
         languageCode,
         lastName,
+        withdrawableAmount,
         profileStatusReason,
         profileStatus,
+        totalBalance,
+        accumulated,
+        birthDate,
         playerUUID,
         registrationDate,
       },
       playerProfile,
       availableStatuses,
-      accumulatedBalances,
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
@@ -165,7 +163,7 @@ class Header extends Component {
                 <div className="panel-heading-row__info-title">
                   {fullName || I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
                   {' '}
-                  ({'age' || '?'})
+                  ({birthDate ? moment.utc().year() - moment.utc(birthDate).year() : '?'})
                   {' '}
                   {'kycCompleted' && <i className="fa fa-check text-success" />}
                 </div>
@@ -254,12 +252,12 @@ class Header extends Component {
                 <div className="dropdown-tab">
                   <div className="header-block-title">Balance</div>
                   <div className="header-block-middle">
-                    <Amount {...accumulatedBalances.total} amountId="player-total-balance-amount" />
+                    <Amount {...totalBalance} amountId="player-total-balance-amount" />
                   </div>
                   {this.getRealWithBonusBalance()}
                 </div>
               }
-              accumulatedBalances={accumulatedBalances}
+              accumulatedBalances={{ withdrawableAmount, ...accumulated }}
             />
           </div>
           <PermissionContent permissions={playerLimitsPermission} permissionsCondition={CONDITIONS.OR}>

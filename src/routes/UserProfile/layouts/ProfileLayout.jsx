@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import ImageViewer from 'react-images';
 import { Collapse } from 'reactstrap';
+import get from 'lodash/get';
 import { I18n } from 'react-redux-i18n';
 import Tabs from '../../../components/Tabs';
 import Modal from '../../../components/Modal';
+import Permissions from '../../../utils/permissions';
+import { actions as walletActions } from '../../../constants/wallet';
+import { actions as statusActions, statusActions as userStatuses } from '../../../constants/user';
 import Header from '../components/Header';
 import NotePopover from '../../../components/NotePopover';
 import { targetTypes } from '../../../constants/note';
@@ -51,7 +55,7 @@ class ProfileLayout extends Component {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-    notes: PropTypes.pageableState(PropTypes.noteEntity).isRequired,
+    notes: PropTypes.object.isRequired,
     lastIp: PropTypes.ipEntity,
     location: PropTypes.object.isRequired,
     config: PropTypes.shape({
@@ -63,30 +67,22 @@ class ProfileLayout extends Component {
     auth: PropTypes.shape({
       token: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
     }).isRequired,
-    availableTags: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-      priority: PropTypes.string.isRequired,
-    })),
-    currentTags: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })),
     addTag: PropTypes.func.isRequired,
-    deleteTag: PropTypes.func.isRequired,
-    availableStatuses: PropTypes.arrayOf(PropTypes.object),
-    accumulatedBalances: PropTypes.object.isRequired,
+    removeTag: PropTypes.func.isRequired,
     fetchProfile: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
-    changeStatus: PropTypes.func.isRequired,
     fetchNotes: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
-    editNote: PropTypes.func.isRequired,
-    deleteNote: PropTypes.func.isRequired,
-    resetPassword: PropTypes.func.isRequired,
+    updateNote: PropTypes.func.isRequired,
+    unlockPayment: PropTypes.func.isRequired,
+    lockPayment: PropTypes.func.isRequired,
     activateProfile: PropTypes.func.isRequired,
     checkLock: PropTypes.func.isRequired,
+    playerProfile: PropTypes.shape({
+      playerProfile: PropTypes.shape({
+        loading: PropTypes.bool,
+      }),
+    }).isRequired,
     playerLimits: PropTypes.shape({
       entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
       deposit: PropTypes.shape({
@@ -101,26 +97,25 @@ class ProfileLayout extends Component {
       isLoading: PropTypes.bool.isRequired,
       receivedAt: PropTypes.number,
     }).isRequired,
-    playerLimitAction: PropTypes.func.isRequired,
     uploadModalInitialValues: PropTypes.object.isRequired,
     cancelFile: PropTypes.func.isRequired,
     resetUploading: PropTypes.func.isRequired,
     uploading: PropTypes.object.isRequired,
     fetchFiles: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
-    manageNote: PropTypes.func.isRequired,
-    fetchBalances: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     saveFiles: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
     changePassword: PropTypes.func.isRequired,
+    blockMutation: PropTypes.func.isRequired,
+    unblockMutation: PropTypes.func.isRequired,
+    suspendProlong: PropTypes.func.isRequired,
+    suspendMutation: PropTypes.func.isRequired,
+    resumeMutation: PropTypes.func.isRequired,
     userProfileTabs: PropTypes.array.isRequired,
   };
   static defaultProps = {
-    availableTags: [],
-    currentTags: [],
-    availableStatuses: [],
     lastIp: null,
   };
   static contextTypes = {
@@ -133,7 +128,6 @@ class ProfileLayout extends Component {
     onAddNoteClick: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
-    refreshPinnedNotes: PropTypes.func.isRequired,
     hidePopover: PropTypes.func.isRequired,
     onUploadFileClick: PropTypes.func.isRequired,
     setFileChangedCallback: PropTypes.func.isRequired,
@@ -154,11 +148,10 @@ class ProfileLayout extends Component {
   getChildContext() {
     return {
       onAddNote: this.props.addNote,
-      onEditNote: this.props.editNote,
+      onEditNote: this.props.updateNote,
       onAddNoteClick: this.handleAddNoteClick,
       onEditNoteClick: this.handleEditNoteClick,
       setNoteChangedCallback: this.setNoteChangedCallback,
-      refreshPinnedNotes: this.handleRefreshPinnedNotes,
       hidePopover: this.handlePopoverHide,
       onUploadFileClick: this.handleUploadFileClick,
       setFileChangedCallback: this.setFileChangedCallback,
@@ -170,6 +163,25 @@ class ProfileLayout extends Component {
 
   componentDidMount() {
     this.handleLoadAdditionalProfileData();
+  }
+  get availableStatuses() {
+    const { playerProfile: { playerProfile: profile } } = this.props;
+
+    return userStatuses[profile.data.profileStatus]
+      .filter(action => (new Permissions([action.permission]))
+        .check(this.context.permissions));
+  }
+
+  get availableTags() {
+    const { playerProfile: { playerProfile: { data: { tags } } }, availableTagsByDepartment } = this.props;
+    const selectedTags = tags
+      ? tags.map(option => `${option.priority}/${option.tag}`)
+      : [];
+
+    return selectedTags && availableTagsByDepartment
+      ? availableTagsByDepartment
+        .filter(option => selectedTags.indexOf(`${option.priority}/${option.value}`) === -1)
+      : [];
   }
 
   setNoteChangedCallback = (cb) => {
@@ -210,11 +222,9 @@ class ProfileLayout extends Component {
       fetchNotes,
       checkLock,
       fetchFiles,
-      fetchBalances,
     } = this.props;
 
     return fetchNotes({ playerUUID: params.id, pinned: true })
-      .then(() => fetchBalances(params.id))
       .then(() => fetchFiles(params.id))
       .then(() => checkLock(params.id, { size: 999 }));
   };
@@ -360,42 +370,33 @@ class ProfileLayout extends Component {
     });
   };
 
-  handleDeleteNoteClick = (item) => {
+  handleDeleteNoteClick = async (item) => {
+    const { removeNote } = this.props;
     const { noteChangedCallback } = this.state;
 
-    return new Promise(resolve => this.props.deleteNote(item.uuid)
-      .then(() => {
-        this.handlePopoverHide();
+    await removeNote({ variables: { uuid: item.uuid } });
+    this.handlePopoverHide();
 
-        this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
-        if (typeof noteChangedCallback === 'function') {
-          noteChangedCallback();
-        }
-
-        return resolve();
-      }));
+    if (typeof noteChangedCallback === 'function') {
+      noteChangedCallback();
+    }
   };
 
-  handleRefreshPinnedNotes = () => {
-    this.props.fetchNotes({ playerUUID: this.props.params.id, pinned: true });
-  };
-
-  handleSubmitNote = (data) => {
+  handleSubmitNote = async (data) => {
+    const { updateNote, addNote } = this.props;
     const { noteChangedCallback } = this.state;
 
-    return new Promise((resolve) => {
-      if (data.uuid) {
-        return resolve(this.props.editNote(data.uuid, data));
-      }
-      return resolve(this.props.addNote(data));
-    }).then(() => {
-      this.handlePopoverHide();
-      this.handleRefreshPinnedNotes();
+    if (data.uuid) {
+      return updateNote({ variables: { ...data } });
+    }
 
-      if (typeof noteChangedCallback === 'function') {
-        noteChangedCallback();
-      }
-    });
+    await addNote({ variables: { ...data } });
+
+    this.handlePopoverHide();
+
+    if (typeof noteChangedCallback === 'function') {
+      noteChangedCallback();
+    }
   };
 
   handlePopoverHide = () => {
@@ -408,15 +409,13 @@ class ProfileLayout extends Component {
 
   handleResetPassword = async () => {
     const {
-      resetPassword,
-      params: {
-        id: playerUUID,
-      },
+      passwordResetRequest,
     } = this.props;
 
-    const action = await resetPassword(playerUUID);
+    const response = await passwordResetRequest();
+    const success = get(response, 'data.profile.passwordResetRequest.success');
 
-    if (action && !action.error) {
+    if (success) {
       this.context.addNotification({
         level: 'success',
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
@@ -431,27 +430,25 @@ class ProfileLayout extends Component {
         message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.ERROR_NOTIFICATION_TEXT'),
       });
     }
-
-    return action;
   };
 
   handleSubmitNewPassword = async ({ password }) => {
-    const { changePassword, params: { id: playerUUID } } = this.props;
+    const { changePassword } = this.props;
 
-    const action = await changePassword(playerUUID, password);
-    const hasError = !action || !!action.error;
+    const response = await changePassword({ variables: { password } });
+    const success = get(response, 'data.profile.changePassword.success');
 
     this.context.addNotification({
-      level: hasError ? 'error' : 'success',
-      title: hasError
+      level: !success ? 'error' : 'success',
+      title: !success
         ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE')
         : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.TITLE'),
-      message: hasError
+      message: !success
         ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.MESSAGE')
         : I18n.t('PLAYER_PROFILE.NOTIFICATIONS.SUCCESS_SET_NEW_PASSWORD.MESSAGE'),
     });
 
-    if (!hasError) {
+    if (success) {
       this.handleCloseModal();
     }
   };
@@ -481,23 +478,27 @@ class ProfileLayout extends Component {
   };
 
   handleAddTag = (tag, priority) => {
-    this.props.addTag(this.props.params.id, tag, priority);
+    this.props.addTag({ variables: { tag, priority } });
   };
 
   handleDeleteTag = (id) => {
-    this.props.deleteTag(this.props.params.id, id);
+    this.props.removeTag({ variables: { id: parseInt(id, 10) } });
   };
 
-  handleChangePlayerLimitState = (data) => {
-    this.props.playerLimitAction({ ...data, playerUUID: this.props.params.id });
+  handleChangePlayerLimitState = ({ action, ...data }) => {
+    if (walletActions.LOCK === action) {
+      this.props.lockPayment({ variables: { ...data, playerUUID: this.props.params.id } });
+    } else {
+      this.props.unlockPayment({ variables: { ...data, playerUUID: this.props.params.id } });
+    }
   };
 
   handleUnlockLogin = () => this.props.unlockLogin(this.props.params.id);
 
-  handleUpdateSubscription = async (data, updatedSubscription) => {
+  handleUpdateSubscription = async (data) => {
     const { params: { id: playerUUID }, updateSubscription } = this.props;
 
-    return updateSubscription(playerUUID, data, updatedSubscription);
+    return updateSubscription({ variables: { playerUUID, ...data } });
   };
 
   showImages = async (url, type, options = {}) => {
@@ -543,6 +544,28 @@ class ProfileLayout extends Component {
     this.handleOpenModal(MODAL_SHARE_PROFILE);
   };
 
+  handleChangeStatus = ({ action, ...data }) => {
+    const {
+      blockMutation,
+      unblockMutation,
+      suspendProlong,
+      suspendMutation,
+      resumeMutation,
+    } = this.props;
+
+    if (action === statusActions.BLOCK) {
+      blockMutation({ variables: data });
+    } else if (action === statusActions.UNBLOCK) {
+      unblockMutation({ variables: data });
+    } else if (action === statusActions.REMOVE) {
+      resumeMutation({ variables: data });
+    } else if (action === statusActions.SUSPEND) {
+      suspendMutation({ variables: data });
+    } else if (action === statusActions.PROLONG) {
+      suspendProlong({ variables: data });
+    }
+  };
+
   render() {
     const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
     const {
@@ -550,19 +573,13 @@ class ProfileLayout extends Component {
       playerProfile: { playerProfile: profile, loading },
       children,
       params,
-      lastIp,
       location,
-      availableTags,
-      currentTags,
-      availableStatuses,
-      accumulatedBalances,
-      changeStatus,
-      notes,
+      notes: { notes, loading: notesLoading },
       playerLimits,
       uploading,
       uploadModalInitialValues,
-      manageNote,
       config,
+      updateNote,
       locale,
       userProfileTabs,
     } = this.props;
@@ -570,16 +587,19 @@ class ProfileLayout extends Component {
     return (
       <div className="layout">
         <div className="layout-info">
-          <If condition={!loading}>
+          <If condition={!loading && !notesLoading}>
             <Header
               playerProfile={profile.data}
               locale={locale}
-              lastIp={lastIp}
-              accumulatedBalances={accumulatedBalances}
-              availableStatuses={availableStatuses}
-              onStatusChange={changeStatus}
-              availableTags={availableTags}
-              currentTags={currentTags}
+              lastIp={
+                profile.data.signInIps.length > 0
+                  ? profile.data.signInIps[0]
+                  : null
+              }
+              availableStatuses={this.availableStatuses}
+              onStatusChange={this.handleChangeStatus}
+              availableTags={this.availableTags}
+              currentTags={profile.data.tags.map(({ tag, ...data }) => ({ label: tag, value: tag, ...data }))}
               playerLimits={{
                 state: playerLimits,
                 actions: { onChange: this.handleChangePlayerLimitState },
@@ -648,7 +668,7 @@ class ProfileLayout extends Component {
             uploadFile={this.props.uploadFile}
             onCancelFile={this.handleUploadingFileDelete}
             onSubmit={this.handleSubmitUploadModal}
-            onManageNote={manageNote}
+            onManageNote={updateNote}
             maxFileSize={config.files.maxSize}
             allowedFileTypes={config.files.types}
           />

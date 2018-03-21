@@ -38,21 +38,19 @@ class Additional extends Component {
 
   handleSwitch = name => async (value) => {
     const { initialValues, updateSubscription } = this.props;
-    const action = await updateSubscription({ ...initialValues, [name]: value }, name);
-
-    if (action) {
-      const message = `${I18n.t(marketingTypes[name])}
+    const { data: { profile: { updateSubscription: response } } } = await updateSubscription({ ...initialValues, [name]: value }, name);
+    const message = `${I18n.t(marketingTypes[name])}
           ${value ? I18n.t('COMMON.ACTIONS.ON') : I18n.t('COMMON.ACTIONS.OFF')}
-          ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`;
+          ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`;
 
-      this.context.addNotification({
-        level: action.error ? 'error' : 'success',
-        title: I18n.t('PLAYER_PROFILE.MARKETING.TITLE'),
-        message,
-      });
-    }
+    this.context.addNotification({
+      level: response.error ? 'error' : 'success',
+      title: I18n.t('PLAYER_PROFILE.MARKETING.TITLE'),
+      message,
+    });
 
-    return action;
+
+    return response;
   };
 
   render() {

@@ -23,15 +23,6 @@ class PlayerLimits extends Component {
   static propTypes = {
     profile: PropTypes.userProfile.isRequired,
     limits: PropTypes.shape({
-      entities: PropTypes.arrayOf(PropTypes.playerLimitEntity).isRequired,
-      deposit: PropTypes.shape({
-        locked: PropTypes.bool.isRequired,
-        canUnlock: PropTypes.bool.isRequired,
-      }).isRequired,
-      withdraw: PropTypes.shape({
-        locked: PropTypes.bool.isRequired,
-        canUnlock: PropTypes.bool.isRequired,
-      }).isRequired,
       login: PropTypes.shape({
         lock: PropTypes.bool.isRequired,
         lockExpirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -98,6 +89,19 @@ class PlayerLimits extends Component {
     this.handleOpenModal(PLAYER_LOGIN_LIMIT_MODAL);
   };
 
+  isPaymentLocked= (type) => {
+    const { profile: { locks: { payment } } } = this.props;
+
+    return payment.findIndex(i => i.type === type) !== -1;
+  }
+
+  canLocked= (type) => {
+    const { profile: { locks: { payment: payments } } } = this.props;
+    const payment = payments.find(i => i.type === type) || {};
+
+    return !!payment.canUnlock;
+  }
+
   renderStatus = (label, locked) => {
     const className = locked
       ? 'header-block_player-limits-tab_status_is-locked'
@@ -112,9 +116,18 @@ class PlayerLimits extends Component {
     );
   };
 
+
   render() {
     const { dropDownOpen, modal } = this.state;
-    const { limits: { entities, deposit, withdraw, login }, profile } = this.props;
+    const {
+      profile: {
+        locks: {
+          login,
+        },
+        ...profile
+      },
+    } = this.props;
+    const { profile: { locks: { payment } } } = this.props;
     const className = classNames('dropdown-highlight cursor-pointer', {
       'dropdown-open': dropDownOpen,
     });
@@ -126,12 +139,12 @@ class PlayerLimits extends Component {
             <div className="header-block-title">Locks</div>
             <PermissionContent permissions={permissions.USER_PROFILE.GET_PAYMENT_LOCKS}>
               <div>
-                {this.renderStatus('Deposit', deposit.locked)}
-                {this.renderStatus('Withdrawal', withdraw.locked)}
+                {this.renderStatus('Deposit', this.isPaymentLocked('DEPOSIT'))}
+                {this.renderStatus('Withdrawal', this.isPaymentLocked('WITHDRAW'))}
               </div>
             </PermissionContent>
             <PermissionContent permissions={permissions.USER_PROFILE.GET_LOGIN_LOCK}>
-              {this.renderStatus('Login', login.lock)}
+              {this.renderStatus('Login', login.locked)}
             </PermissionContent>
           </div>
 
@@ -140,32 +153,32 @@ class PlayerLimits extends Component {
               <PermissionContent permissions={permissions.USER_PROFILE.LOCK_DEPOSIT}>
                 <PlayerLimitButton
                   className="btn btn-danger-outline margin-right-10"
-                  canUnlock={deposit.canUnlock}
+                  canUnlock={this.canLocked('DEPOSIT')}
                   label="deposit"
                   onClick={() => this.handleActionClick(
                     types.DEPOSIT,
-                    deposit.canUnlock ? actions.UNLOCK : actions.LOCK
+                    this.canLocked('DEPOSIT') ? actions.UNLOCK : actions.LOCK
                   )}
                 />
               </PermissionContent>
               <PermissionContent permissions={permissions.USER_PROFILE.LOCK_WITHDRAW}>
                 <PlayerLimitButton
                   className="btn btn-danger-outline"
-                  canUnlock={withdraw.canUnlock}
+                  canUnlock={this.canLocked('WITHDRAW')}
                   label="withdrawal"
                   onClick={() => this.handleActionClick(
                     types.WITHDRAW,
-                    withdraw.canUnlock ? actions.UNLOCK : actions.LOCK
+                    this.canLocked('WITHDRAW') ? actions.UNLOCK : actions.LOCK
                   )}
                 />
               </PermissionContent>
             </div>
             {
-              (entities.length > 0 || login.lock) &&
+              (payment.length > 0 || login.locked) &&
               <div className="limits-info">
                 <PermissionContent permissions={permissions.USER_PROFILE.GET_PAYMENT_LOCKS}>
                   <div className="limits-info_container locks-container">
-                    {entities.map(limit => (
+                    {payment.map(limit => (
                       <PlayerLimit
                         key={limit.id}
                         label={limit.type}
@@ -179,15 +192,15 @@ class PlayerLimits extends Component {
                 </PermissionContent>
                 <PermissionContent permissions={permissions.USER_PROFILE.GET_LOGIN_LOCK}>
                   {
-                    login.lock &&
+                    login.locked &&
                     <div className="limits-info_container">
                       <PlayerLimit
                         label="Login"
-                        reason={I18n.t(login.lockReason)}
+                        reason={I18n.t(login.reason)}
                         unlockButtonLabel="Login"
                         unlockButtonClassName="btn btn-danger-outline limits-info_tab-button"
                         onUnlockButtonClick={this.handleUnlockLoginClick}
-                        endDate={login.lockExpirationDate}
+                        endDate={login.expirationDate}
                         profileStatus={profile.profileStatus}
                       />
                     </div>

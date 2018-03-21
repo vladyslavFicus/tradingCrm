@@ -98,7 +98,6 @@ class View extends Component {
     addNotification: PropTypes.func.isRequired,
     showImages: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
-    refreshPinnedNotes: PropTypes.func.isRequired,
   };
   static defaultProps = {
     canUpdateProfile: false,
@@ -194,7 +193,7 @@ class View extends Component {
           message,
         });
       } else if (unsavedNote) {
-        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
+        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
         if (unsavedNote.pinned) {
           this.context.refreshPinnedNotes();
         }
@@ -233,7 +232,7 @@ class View extends Component {
 
     if (action && !action.error) {
       if (unsavedNote) {
-        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
+        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
         if (unsavedNote.pinned) {
           this.context.refreshPinnedNotes();
         }
@@ -257,7 +256,7 @@ class View extends Component {
 
     if (action && !action.error) {
       if (unsavedNote) {
-        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
+        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
         if (unsavedNote.pinned) {
           this.context.refreshPinnedNotes();
         }
@@ -279,7 +278,7 @@ class View extends Component {
 
     if (action && !action.error) {
       if (unsavedNote) {
-        this.context.onAddNote({ ...unsavedNote, targetUUID: playerUUID });
+        this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
         if (unsavedNote.pinned) {
           this.context.refreshPinnedNotes();
         }
