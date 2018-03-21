@@ -27,21 +27,24 @@ class FreeSpinMainInfo extends Component {
           {freeSpin.name}
         </div>
         <div className="font-size-11">
-          <Uuid uuid={freeSpin.uuid} /> {' '}
-          {I18n.t('COMMON.AUTHOR_BY')} {' '} <Uuid uuid={freeSpin.authorUUID} />
+          <Uuid uuidPartsCount={3} length={18} uuid={freeSpin.uuid} />
+          <span className="mx-1">
+            {I18n.t('COMMON.AUTHOR_BY')}
+          </span>
+          <Uuid uuid={freeSpin.authorUUID} />
         </div>
         {
           freeSpin.freeSpinTemplateUUID &&
           <div className="font-size-11">
             {I18n.t('PLAYER_PROFILE.FREE_SPINS.FREE_SPIN_TEMPLATE')} {' - '}
-            <Uuid uuidPartsCount={4} length={24} uuid={freeSpin.freeSpinTemplateUUID} />
+            <Uuid uuidPartsCount={4} length={22} uuid={freeSpin.freeSpinTemplateUUID} />
           </div>
         }
         {
           freeSpin.bonusTemplateUUID &&
           <div className="font-size-11">
             {I18n.t('PLAYER_PROFILE.FREE_SPINS.BONUS_TEMPLATE')} {' - '}
-            <Uuid uuidPartsCount={3} length={24} uuid={freeSpin.bonusTemplateUUID} />
+            <Uuid uuidPartsCount={3} length={18} uuid={freeSpin.bonusTemplateUUID} />
           </div>
         }
       </div>
