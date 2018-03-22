@@ -24,6 +24,7 @@ class Settings extends Component {
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.array,
+    aggregators: PropTypes.object.isRequired,
     freeSpinTemplates: PropTypes.array,
     bonusTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
@@ -37,6 +38,7 @@ class Settings extends Component {
     addBonusTemplate: PropTypes.func.isRequired,
     createBonusTemplate: PropTypes.func.isRequired,
     resetAllNodes: PropTypes.func.isRequired,
+    fetchGameAggregators: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -118,6 +120,8 @@ class Settings extends Component {
       baseCurrency,
       fetchBonusTemplates,
       fetchBonusTemplate,
+      fetchGameAggregators,
+      aggregators,
     } = this.props;
 
     return (
@@ -132,6 +136,7 @@ class Settings extends Component {
         freeSpinTemplates={freeSpinTemplates}
         bonusTemplates={bonusTemplates}
         games={games}
+        aggregators={aggregators}
         fetchCampaigns={fetchCampaigns}
         fetchCampaign={fetchCampaign}
         handleSubmit={this.handleSubmit}
@@ -148,6 +153,7 @@ class Settings extends Component {
         addBonusTemplate={addBonusTemplate}
         createBonusTemplate={createBonusTemplate}
         baseCurrency={baseCurrency}
+        fetchGameAggregators={fetchGameAggregators}
       />
     );
   }

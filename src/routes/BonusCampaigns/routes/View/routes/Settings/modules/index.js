@@ -24,11 +24,18 @@ import payments, {
   initialState as paymentsInitialState,
 } from './payments';
 
+import options, {
+  actionCreators as optionsActionCreators,
+  actionTypes as optionsActionTypes,
+  initialState as optionsInitialState,
+} from './options';
+
 const actionCreators = {
   ...gamesActionCreators,
   ...freeSpinTemplatesActionCreators,
   ...paymentsActionCreators,
   ...bonusTemplatesActionCreators,
+  ...optionsActionCreators,
 };
 
 const actionTypes = {
@@ -36,6 +43,7 @@ const actionTypes = {
   ...freeSpinTemplatesActionTypes,
   ...paymentsActionTypes,
   ...bonusTemplatesActionTypes,
+  ...optionsActionTypes,
 };
 
 const initialState = {
@@ -43,6 +51,7 @@ const initialState = {
   freeSpinTemplates: freeSpinTemplatesInitialState,
   bonusTemplates: bonusTemplatesInitialState,
   payments: paymentsInitialState,
+  options: optionsInitialState,
 };
 
 export {
@@ -56,5 +65,6 @@ export default combineReducers({
   freeSpinTemplates,
   payments,
   bonusTemplates,
+  options,
 });
 

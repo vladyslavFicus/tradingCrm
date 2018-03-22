@@ -18,7 +18,7 @@ import { actionCreators as languageActionCreators } from '../redux/modules/langu
 import unauthorized from '../redux/middlewares/unauthorized';
 import config from '../config';
 import translations from '../i18n';
-import { actionCreators as permissionsActionCreators } from '../redux/modules/permissions';
+import { actionCreators as permissionsActionCreators } from '../redux/modules/auth/permissions';
 
 export default (initialState = {}, onComplete) => {
   const middleware = [

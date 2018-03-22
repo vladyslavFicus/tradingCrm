@@ -1,8 +1,8 @@
 import { CALL_API } from 'redux-api-middleware';
 import countryListLib from 'country-list';
 import _ from 'lodash';
-import createReducer from '../../utils/createReducer';
-import createRequestAction from '../../utils/createRequestAction';
+import createReducer from '../../../utils/createReducer';
+import createRequestAction from '../../../utils/createRequestAction';
 
 function formatPhoneCode(phone) {
   return phone.replace(/[-\s]/g, '');

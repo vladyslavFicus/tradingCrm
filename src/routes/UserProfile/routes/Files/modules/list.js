@@ -3,7 +3,7 @@ import createRequestAction from '../../../../../utils/createRequestAction';
 import { targetTypes } from '../../../../../constants/note';
 import { actions as filesActions } from '../../../../../constants/files';
 import { sourceActionCreators as noteSourceActionCreators } from '../../../../../redux/modules/note';
-import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/files';
+import { sourceActionCreators as filesSourceActionCreators } from '../../../../../redux/modules/profile/files';
 
 const KEY = 'user/files/files';
 const FETCH_FILES = createRequestAction(`${KEY}/fetch-files`);

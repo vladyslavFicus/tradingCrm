@@ -3,7 +3,7 @@ import _ from 'lodash';
 import fetch from '../../../../../utils/fetch';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { actionCreators as usersActionCreators } from '../../../../../redux/modules/users';
+import { actionCreators as profileActionCreators } from '../../../../../redux/modules/profile';
 import { getApiRoot } from '../../../../../config';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
@@ -40,12 +40,12 @@ function mapProfile(item) {
         (item.realMoneyBalance ? item.realMoneyBalance.amount : 0)
         + (item.bonusBalance ? item.bonusBalance.amount : 0)
       ),
-      currency: item.currency || emptyBalance.currency
+      currency: item.currency || emptyBalance.currency,
     } : emptyBalance,
   };
 }
 
-const fetchESEntities = usersActionCreators.fetchESEntities(FETCH_ENTITIES);
+const fetchESEntities = profileActionCreators.fetchESEntities(FETCH_ENTITIES);
 
 function reset() {
   return {

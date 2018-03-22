@@ -12,7 +12,7 @@ import { nodeTypes as fulfillmentNodeTypes } from '../../../components/Settings/
 import { nodeTypes as rewardNodeTypes } from '../../../components/Settings/Rewards/constants';
 import deleteFromArray from '../../../../../utils/deleteFromArray';
 
-const KEY = 'campaign';
+const KEY = 'bonus-campaign/create';
 const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
 const REVERT = `${KEY}/revert-form`;
 const REMOVE_NODE = `${KEY}/remove-node`;

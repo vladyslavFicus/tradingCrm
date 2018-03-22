@@ -1,8 +1,8 @@
 import { CALL_API } from 'redux-api-middleware';
-import createReducer from '../../utils/createReducer';
-import createRequestAction from '../../utils/createRequestAction';
-import { actionTypes as authActionTypes } from './auth';
-import timestamp from '../../utils/timestamp';
+import createReducer from '../../../utils/createReducer';
+import createRequestAction from '../../../utils/createRequestAction';
+import { actionTypes as authActionTypes } from './index';
+import timestamp from '../../../utils/timestamp';
 
 const KEY = 'permissions';
 const FETCH_PERMISSIONS = createRequestAction(`${KEY}/fetch-permissions`);

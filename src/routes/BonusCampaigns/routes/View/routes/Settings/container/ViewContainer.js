@@ -65,6 +65,7 @@ const mapStateToProps = ({
     freeSpinTemplates: { data: freeSpinTemplates },
     bonusTemplates: { data: bonusTemplates },
     payments: { list: paymentMethods },
+    options: { data: aggregators },
   },
   options: { data: { currencyCodes, baseCurrency } },
   i18n: { locale },
@@ -111,6 +112,7 @@ const mapStateToProps = ({
     freeSpinTemplates,
     bonusTemplates,
     paymentMethods,
+    aggregators,
     locale,
   };
 };
@@ -129,6 +131,7 @@ const mapActions = {
   fetchFreeSpinTemplate: settingsActionCreators.fetchFreeSpinTemplate,
   fetchBonusTemplate: settingsActionCreators.fetchBonusTemplate,
   fetchGames: settingsActionCreators.fetchGames,
+  fetchGameAggregators: settingsActionCreators.fetchGameAggregators,
   fetchCampaigns: campaignsActionCreators.fetchCampaigns,
   fetchCampaign: campaignsActionCreators.fetchCampaign,
   fetchPaymentMethods: paymentsActionCreators.fetchPaymentMethods,
