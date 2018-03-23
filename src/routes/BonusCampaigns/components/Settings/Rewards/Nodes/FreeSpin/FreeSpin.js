@@ -64,8 +64,9 @@ class FreeSpin extends Component {
     const { _reduxForm: { values: { rewards } } } = this.context;
     const templateUUID = get(rewards, 'freeSpin.templateUUID');
     const action = await fetchGames();
-    await fetchGameAggregators();
+
     await fetchFreeSpinTemplates({ status: freeSpinTemplate.CREATED }, true);
+    await fetchGameAggregators();
     await fetchBonusTemplates({ status: freeSpinTemplate.CREATED }, true);
 
     if (action && !action.error && templateUUID) {
