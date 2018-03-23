@@ -8,10 +8,7 @@ const FETCH_GAME_AGGREGATORS = createRequestAction(`${KEY}/fetch-game-aggregator
 const fetchGameAggregators = sourceActionCreators.fetchGameAggregators(FETCH_GAME_AGGREGATORS);
 
 const initialState = {
-  data: {
-    igromat: ['novomatic', 'igrosoft'],
-    softgamings: ['betsoft', 'amaticdirect', 'habanero', 'netent'],
-  },
+  data: {},
   error: null,
   isLoading: false,
   receivedAt: null,
