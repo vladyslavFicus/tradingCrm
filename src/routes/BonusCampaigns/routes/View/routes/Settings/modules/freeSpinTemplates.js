@@ -59,10 +59,8 @@ const actionHandlers = {
     };
   },
   [optionsActionTypes.FETCH_GAME_AGGREGATORS.SUCCESS]: (state, { payload }) => {
-    const availableAggregators = Object.keys(payload);
-
     const availableFreeSpinTemplates = state.data.filter(
-      i => availableAggregators.indexOf(i.aggregatorId) > -1
+      i => get(payload, i.aggregatorId, []).indexOf(i.providerId) > -1
     );
 
     return {
