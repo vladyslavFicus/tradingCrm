@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
-import { actions as filesActions } from '../../constants/files';
-import buildQueryString from '../../utils/buildQueryString';
+import { actions as filesActions } from '../../../constants/files';
+import buildQueryString from '../../../utils/buildQueryString';
 
 function fetchFiles(type) {
   return (playerUUID, filters = { page: 0 }) => (dispatch, getState) => {

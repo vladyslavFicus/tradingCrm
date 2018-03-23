@@ -8,7 +8,7 @@ import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
 import buildQueryString from '../../../../../utils/buildQueryString';
 import downloadBlob from '../../../../../utils/downloadBlob';
-import { sourceActionCreators } from '../../../../../redux/modules/bonusCampaigns';
+import { sourceActionCreators } from '../../../../../redux/modules/campaigns';
 
 const KEY = 'bonusCampaigns/campaigns';
 const FETCH_ENTITIES = createRequestAction(`${KEY}/fetch-entities`);

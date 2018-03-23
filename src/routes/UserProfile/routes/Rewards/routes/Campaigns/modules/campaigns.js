@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
-import { sourceActionCreators } from '../../../../../../../redux/modules/bonusCampaigns';
+import { sourceActionCreators } from '../../../../../../../redux/modules/campaigns';
 import {
   statuses as bonusCampaignStatuses,
   targetTypes as campaignTargetTypes,

@@ -2,7 +2,7 @@ import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import {
   sourceActionCreators as freeSpinTemplatesActionCreators,
-} from '../../../../../../../redux/modules/freeSpinTemplates';
+} from '../../../../../../../redux/modules/campaigns/freeSpinTemplates';
 
 const KEY = 'bonus-campaign/view/settings';
 const FETCH_FREE_SPINS_TEMPLATES = createRequestAction(`${KEY}/fetch-free-spin-templates`);

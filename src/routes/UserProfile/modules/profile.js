@@ -4,7 +4,8 @@ import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import { actions, statuses as userStatuses } from '../../../constants/user';
 import { statuses as kycStatuses, categories as kycCategories } from '../../../constants/kyc';
-import { actionCreators as usersActionCreators } from '../../../redux/modules/users';
+import { actionCreators as profileActionCreators } from '../../../redux/modules/profile';
+import { actionCreators as authActionCreators } from '../../../redux/modules/auth';
 
 const KEY = 'user-profile/view';
 const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
@@ -101,10 +102,11 @@ const initialState = {
   },
 };
 
-const fetchProfile = usersActionCreators.fetchProfile(FETCH_PROFILE);
-const resetPassword = usersActionCreators.passwordResetRequest(RESET_PASSWORD_REQUEST);
-const resetPasswordConfirm = usersActionCreators.passwordResetConfirm(RESET_PASSWORD_CONFIRM);
-const activateProfile = usersActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
+const fetchProfile = profileActionCreators.fetchProfile(FETCH_PROFILE);
+const activateProfile = profileActionCreators.profileActivateRequest(ACTIVATE_PROFILE);
+
+const resetPassword = authActionCreators.passwordResetRequest(RESET_PASSWORD_REQUEST);
+const resetPasswordConfirm = authActionCreators.passwordResetConfirm(RESET_PASSWORD_CONFIRM);
 
 function changePassword(uuid, password) {
   return (dispatch, getState) => {

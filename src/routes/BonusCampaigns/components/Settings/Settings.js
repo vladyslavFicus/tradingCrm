@@ -70,6 +70,8 @@ class Settings extends Component {
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
+    fetchGameAggregators: PropTypes.func.isRequired,
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
   };
 
   static defaultProps = {
@@ -84,6 +86,7 @@ class Settings extends Component {
       },
     },
     bonusTemplates: [],
+    aggregators: {},
   };
 
   static contextTypes = {
@@ -412,6 +415,8 @@ class Settings extends Component {
       fetchPaymentMethods,
       form,
       paymentMethods,
+      fetchGameAggregators,
+      aggregators,
     } = this.props;
 
     return (
@@ -429,6 +434,7 @@ class Settings extends Component {
           onSubmit={this.handleSubmit}
           toggleModal={this.handleCurrencyAmountModalOpen}
           games={games}
+          aggregators={aggregators}
           freeSpinTemplates={freeSpinTemplates}
           bonusTemplates={bonusTemplates}
           form={form}
@@ -445,6 +451,7 @@ class Settings extends Component {
           onToggleFreeSpinCustomTemplate={this.handleToggleFreeSpinTemplate}
           bonusCustomTemplate={customBonusTemplate}
           onToggleBonusCustomTemplate={this.handleToggleBonusTemplate}
+          fetchGameAggregators={fetchGameAggregators}
         />
         {
           modal.name === CURRENCY_AMOUNT_MODAL &&

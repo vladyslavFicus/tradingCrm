@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import buildQueryString from '../../utils/buildQueryString';
+import buildQueryString from '../../../utils/buildQueryString';
 
 function fetchEntities(type) {
   return (uuid, filters = {}) => (dispatch, getState) => {

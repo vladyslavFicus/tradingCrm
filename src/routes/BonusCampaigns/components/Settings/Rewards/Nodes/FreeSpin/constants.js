@@ -49,16 +49,10 @@ const wageringRequirementTypes = keyMirror({
   BONUS_PLUS_DEPOSIT: null,
 });
 
-const aggregatorsMap = {
-  igromat: ['novomatic', 'igrosoft'],
-  softgamings: ['betsoft', 'amaticdirect', 'habanero', 'netent'],
-};
-
 export {
   attributeLabels,
   attributePlaceholders,
   wageringRequirementTypes,
-  aggregatorsMap,
   GAME_TYPES,
   HARDCODED_PROVIDERS,
 };

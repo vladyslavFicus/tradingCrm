@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
-import createReducer from '../../utils/createReducer';
-import createRequestAction from '../../utils/createRequestAction';
+import createReducer from '../../../utils/createReducer';
+import createRequestAction from '../../../utils/createRequestAction';
 
 const KEY = 'authorities';
 const ADD_AUTHORITY = createRequestAction(`${KEY}/add-authority`);

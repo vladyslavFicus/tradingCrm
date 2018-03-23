@@ -69,6 +69,7 @@ class Form extends Component {
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity),
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     freeSpinTemplates: PropTypes.array,
     baseCurrency: PropTypes.string.isRequired,
     fetchGames: PropTypes.func.isRequired,
@@ -93,6 +94,7 @@ class Form extends Component {
     onToggleFreeSpinCustomTemplate: PropTypes.func.isRequired,
     bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleBonusCustomTemplate: PropTypes.func.isRequired,
+    fetchGameAggregators: PropTypes.func.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
@@ -107,6 +109,7 @@ class Form extends Component {
     linkedCampaign: null,
     paymentMethods: [],
     bonusTemplates: [],
+    aggregators: {},
   };
 
   endDateValidator = fromAttribute => (current) => {
@@ -185,6 +188,7 @@ class Form extends Component {
       nodeGroups,
       disabled,
       games,
+      aggregators,
       freeSpinTemplates,
       bonusTemplates,
       baseCurrency,
@@ -203,6 +207,7 @@ class Form extends Component {
       onToggleFreeSpinCustomTemplate,
       bonusCustomTemplate,
       onToggleBonusCustomTemplate,
+      fetchGameAggregators,
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfillments);
@@ -439,6 +444,7 @@ class Form extends Component {
               remove={this.handleRemoveNode(nodeGroupTypes.rewards)}
               add={this.handleAddNode(nodeGroupTypes.rewards)}
               games={games}
+              aggregators={aggregators}
               freeSpinTemplates={freeSpinTemplates}
               bonusTemplates={bonusTemplates}
               baseCurrency={baseCurrency}
@@ -451,6 +457,7 @@ class Form extends Component {
               fetchFreeSpinTemplates={fetchFreeSpinTemplates}
               bonusCustomTemplate={bonusCustomTemplate}
               onToggleBonusCustomTemplate={onToggleBonusCustomTemplate}
+              fetchGameAggregators={fetchGameAggregators}
             />
           </div>
         </div>

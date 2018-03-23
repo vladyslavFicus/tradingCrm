@@ -2,7 +2,7 @@ import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import {
   sourceActionCreators as bonusTemplatesActionCreators,
-} from '../../../../../../../redux/modules/bonusTemplates';
+} from '../../../../../../../redux/modules/campaigns/bonusTemplates';
 
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 

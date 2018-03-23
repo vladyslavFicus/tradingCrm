@@ -1,10 +1,10 @@
 import { CALL_API } from 'redux-api-middleware';
 import jwtDecode from 'jwt-decode';
-import createReducer from '../../utils/createReducer';
-import createRequestAction from '../../utils/createRequestAction';
-import { sourceActionCreators as operatorSourceActionCreators } from './operator';
-import getFingerprint from '../../utils/fingerPrint';
-import { actionCreators as optionsActionCreators } from './options';
+import createReducer from '../../../utils/createReducer';
+import createRequestAction from '../../../utils/createRequestAction';
+import { sourceActionCreators as operatorSourceActionCreators } from '../operator';
+import getFingerprint from '../../../utils/fingerPrint';
+import { actionCreators as optionsActionCreators } from '../profile/options';
 
 const KEY = 'auth';
 const SIGN_IN = createRequestAction(`${KEY}/sign-in`);
@@ -112,6 +112,49 @@ function resetPasswordConfirm(type) {
   return ({ password, repeatPassword, token }) => dispatch => dispatch({
     [CALL_API]: {
       endpoint: '/auth/password/reset',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password, repeatPassword, token }),
+      types: [
+        type.REQUEST,
+        type.SUCCESS,
+        type.FAILURE,
+      ],
+    },
+  });
+}
+
+function passwordResetRequest(type) {
+  return (uuid, sendEmail = true) => (dispatch, getState) => {
+    const { auth: { token, logged, brandId } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `auth/password/${brandId}/${uuid}/reset/request${sendEmail ? '' : '?send-mail=false'}`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function passwordResetConfirm(type) {
+  return (password, repeatPassword, token) => ({
+    [CALL_API]: {
+      endpoint: 'auth/password/reset',
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -242,6 +285,8 @@ const actionCreators = {
   resetPasswordConfirm,
   updateProfile,
   setDepartmentsByBrand,
+  passwordResetRequest,
+  passwordResetConfirm,
 };
 
 export {

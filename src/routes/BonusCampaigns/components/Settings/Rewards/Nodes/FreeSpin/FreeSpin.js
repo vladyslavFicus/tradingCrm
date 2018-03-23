@@ -6,7 +6,7 @@ import { parse } from 'qs';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
 import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
-import { attributeLabels, aggregatorsMap, GAME_TYPES } from './constants';
+import { attributeLabels, GAME_TYPES } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNormalize';
@@ -32,6 +32,8 @@ class FreeSpin extends Component {
     onToggleFreeSpinCustomTemplate: PropTypes.func.isRequired,
     bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleBonusCustomTemplate: PropTypes.func.isRequired,
+    fetchGameAggregators: PropTypes.func.isRequired,
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
   };
 
   static defaultProps = {
@@ -40,6 +42,7 @@ class FreeSpin extends Component {
     freeSpinTemplates: [],
     bonusTemplates: [],
     typeValues: [],
+    aggregators: {},
   };
 
   static contextTypes = {
@@ -52,12 +55,19 @@ class FreeSpin extends Component {
   };
 
   async componentDidMount() {
-    const { fetchGames, fetchFreeSpinTemplates, fetchBonusTemplates } = this.props;
+    const {
+      fetchGames,
+      fetchFreeSpinTemplates,
+      fetchBonusTemplates,
+      fetchGameAggregators,
+    } = this.props;
 
     const { _reduxForm: { values: { rewards } } } = this.context;
     const templateUUID = get(rewards, 'freeSpin.templateUUID');
     const action = await fetchGames();
+
     await fetchFreeSpinTemplates({ status: freeSpinTemplate.CREATED }, true);
+    await fetchGameAggregators();
     await fetchBonusTemplates({ status: freeSpinTemplate.CREATED }, true);
 
     if (action && !action.error && templateUUID) {
@@ -79,7 +89,7 @@ class FreeSpin extends Component {
         });
       }
 
-      if (mobilePageCode) {
+      if (mobilePageCode && pageCode !== mobilePageCode) {
         pageCodes.push({
           label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.MOBILE',
           value: mobilePageCode,
@@ -128,7 +138,7 @@ class FreeSpin extends Component {
 
       this.handleChangeAggregator(aggregatorId);
       this.handleChangeProvider(providerId);
-      this.setField('gameId', gameId);
+      this.handleChangeGame(gameId);
 
       if (aggregatorId === aggregators.softgamings) {
         this.setField('count', count);
@@ -467,13 +477,14 @@ class FreeSpin extends Component {
       bonusCustomTemplate,
       onToggleBonusCustomTemplate,
       onToggleFreeSpinCustomTemplate,
+      aggregators: aggregatorsMap,
     } = this.props;
 
     const { _reduxForm: { form, values: { rewards } } } = this.context;
     const currentValues = get(rewards, 'freeSpin', {});
     const { currentGames } = this.state;
 
-    const availableProviders = currentValues.aggregatorId ? aggregatorsMap[currentValues.aggregatorId] : [];
+    const availableProviders = get(aggregatorsMap, currentValues.aggregatorId, []);
     const currentUuid = get(currentValues, 'templateUUID', false);
 
     return (

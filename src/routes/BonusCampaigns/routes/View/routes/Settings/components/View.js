@@ -61,6 +61,8 @@ class View extends Component {
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
+    fetchGameAggregators: PropTypes.func.isRequired,
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
   };
 
   static defaultProps = {
@@ -68,6 +70,7 @@ class View extends Component {
     freeSpinTemplates: [],
     paymentMethods: [],
     bonusTemplates: [],
+    aggregators: {},
   };
 
   static contextTypes = {
@@ -120,6 +123,7 @@ class View extends Component {
       removeNode,
       addNode,
       games,
+      aggregators,
       freeSpinTemplates,
       bonusTemplates,
       paymentMethods,
@@ -136,6 +140,7 @@ class View extends Component {
       addBonusTemplate,
       createBonusTemplate,
       baseCurrency,
+      fetchGameAggregators,
     } = this.props;
 
     return (
@@ -154,6 +159,7 @@ class View extends Component {
         freeSpinTemplates={freeSpinTemplates}
         bonusTemplates={bonusTemplates}
         games={games}
+        aggregators={aggregators}
         fetchCampaigns={fetchCampaigns}
         fetchCampaign={fetchCampaign}
         handleSubmit={this.handleSubmit}
@@ -167,6 +173,7 @@ class View extends Component {
         form="bonusCampaignUpdate"
         currencies={currencies}
         baseCurrency={baseCurrency}
+        fetchGameAggregators={fetchGameAggregators}
       />
     );
   }
