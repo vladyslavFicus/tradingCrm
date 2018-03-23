@@ -3,8 +3,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import DateTime from 'react-datetime';
-import '../../styles/components/DateTime.scss';
-import FieldLabel from './FieldLabel';
+import './DateTimeField.scss';
+import FieldLabel from '../FieldLabel';
 
 const ISO_FORMAT_DATE = 'YYYY-MM-DD';
 const ISO_FORMAT_TIME = 'HH:mm:ss';
@@ -38,6 +38,7 @@ class DateTimeField extends Component {
     showErrorMessage: PropTypes.bool,
     closeOnSelect: PropTypes.bool,
     withTime: PropTypes.bool,
+    timePresets: PropTypes.bool,
   };
   static defaultProps = {
     id: null,
@@ -57,6 +58,7 @@ class DateTimeField extends Component {
     showErrorMessage: true,
     closeOnSelect: true,
     withTime: false,
+    timePresets: false,
   };
 
   constructor(props) {
