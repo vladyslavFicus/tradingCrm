@@ -69,7 +69,7 @@ class Form extends Component {
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity),
-    aggregators: PropTypes.object.isRequired,
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     freeSpinTemplates: PropTypes.array,
     baseCurrency: PropTypes.string.isRequired,
     fetchGames: PropTypes.func.isRequired,
@@ -109,6 +109,7 @@ class Form extends Component {
     linkedCampaign: null,
     paymentMethods: [],
     bonusTemplates: [],
+    aggregators: {},
   };
 
   endDateValidator = fromAttribute => (current) => {

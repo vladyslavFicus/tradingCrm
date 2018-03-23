@@ -152,7 +152,7 @@ function passwordResetRequest(type) {
 }
 
 function passwordResetConfirm(type) {
-  return ({ password, repeatPassword, token }) => dispatch => dispatch({
+  return (password, repeatPassword, token) => ({
     [CALL_API]: {
       endpoint: 'auth/password/reset',
       method: 'POST',

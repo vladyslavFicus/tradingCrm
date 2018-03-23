@@ -33,7 +33,7 @@ class FreeSpin extends Component {
     bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleBonusCustomTemplate: PropTypes.func.isRequired,
     fetchGameAggregators: PropTypes.func.isRequired,
-    aggregators: PropTypes.object.isRequired,
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
   };
 
   static defaultProps = {
@@ -42,6 +42,7 @@ class FreeSpin extends Component {
     freeSpinTemplates: [],
     bonusTemplates: [],
     typeValues: [],
+    aggregators: {},
   };
 
   static contextTypes = {
@@ -88,7 +89,7 @@ class FreeSpin extends Component {
         });
       }
 
-      if (mobilePageCode) {
+      if (mobilePageCode && pageCode !== mobilePageCode) {
         pageCodes.push({
           label: 'PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.GAME_TYPES.MOBILE',
           value: mobilePageCode,
@@ -137,7 +138,7 @@ class FreeSpin extends Component {
 
       this.handleChangeAggregator(aggregatorId);
       this.handleChangeProvider(providerId);
-      this.setField('gameId', gameId);
+      this.handleChangeGame(gameId);
 
       if (aggregatorId === aggregators.softgamings) {
         this.setField('count', count);
@@ -483,7 +484,7 @@ class FreeSpin extends Component {
     const currentValues = get(rewards, 'freeSpin', {});
     const { currentGames } = this.state;
 
-    const availableProviders = currentValues.aggregatorId ? get(aggregatorsMap, currentValues.aggregatorId, []) : [];
+    const availableProviders = get(aggregatorsMap, currentValues.aggregatorId, []);
     const currentUuid = get(currentValues, 'templateUUID', false);
 
     return (

@@ -24,7 +24,7 @@ class Settings extends Component {
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.array,
-    aggregators: PropTypes.object.isRequired,
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     freeSpinTemplates: PropTypes.array,
     bonusTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
@@ -45,6 +45,7 @@ class Settings extends Component {
     games: [],
     freeSpinTemplates: [],
     bonusTemplates: [],
+    aggregators: {},
   };
 
   static contextTypes = {

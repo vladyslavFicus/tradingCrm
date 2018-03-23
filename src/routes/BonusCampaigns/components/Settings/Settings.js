@@ -71,7 +71,7 @@ class Settings extends Component {
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     fetchGameAggregators: PropTypes.func.isRequired,
-    aggregators: PropTypes.object.isRequired,
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
   };
 
   static defaultProps = {
@@ -86,6 +86,7 @@ class Settings extends Component {
       },
     },
     bonusTemplates: [],
+    aggregators: {},
   };
 
   static contextTypes = {
