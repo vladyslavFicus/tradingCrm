@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import createReducer from '../../../../../../../utils/createReducer';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import {
