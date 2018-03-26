@@ -12,11 +12,12 @@ import { nodeTypes as fulfillmentNodeTypes } from '../../../components/Settings/
 import { nodeTypes as rewardNodeTypes } from '../../../components/Settings/Rewards/constants';
 import deleteFromArray from '../../../../../utils/deleteFromArray';
 
-const KEY = 'campaign';
+const KEY = 'bonus-campaign/create';
 const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
 const REVERT = `${KEY}/revert-form`;
 const REMOVE_NODE = `${KEY}/remove-node`;
 const ADD_NODE = `${KEY}/add-fulfillment-node`;
+const RESET_ALL_NODES = `${KEY}/reset-all-nodes`;
 const CREATE_CAMPAIGN = createRequestAction(`${KEY}/create-campaign`);
 
 function mapFulfillmentNode(fulfilmentType) {
@@ -148,6 +149,12 @@ function removeNode(nodeGroup, node) {
   };
 }
 
+function resetAllNodes() {
+  return {
+    type: RESET_ALL_NODES,
+  };
+}
+
 function addNode(nodeGroup, node) {
   return {
     type: ADD_NODE,
@@ -155,6 +162,19 @@ function addNode(nodeGroup, node) {
     node,
   };
 }
+
+const initialNodeGroups = {
+  [nodeGroupTypes.fulfillments]: [],
+  [nodeGroupTypes.rewards]: [],
+};
+
+const initialState = {
+  data: {},
+  nodeGroups: { ...initialNodeGroups },
+  error: null,
+  isLoading: false,
+  receivedAt: null,
+};
 
 const actionHandlers = {
   [FETCH_CAMPAIGN.REQUEST]: state => ({
@@ -190,6 +210,10 @@ const actionHandlers = {
       [action.nodeGroup]: deleteFromArray(state.nodeGroups[action.nodeGroup], action.node),
     },
   }),
+  [RESET_ALL_NODES]: state => ({
+    ...state,
+    nodeGroups: { ...initialNodeGroups },
+  }),
   [ADD_NODE]: (state, action) => ({
     ...state,
     nodeGroups: {
@@ -209,25 +233,17 @@ const actionHandlers = {
     },
   }),
 };
-const initialState = {
-  data: {},
-  nodeGroups: {
-    [nodeGroupTypes.fulfillments]: [],
-    [nodeGroupTypes.rewards]: [],
-  },
-  error: null,
-  isLoading: false,
-  receivedAt: null,
-};
 const actionTypes = {
   FETCH_CAMPAIGN,
   REVERT,
+  RESET_ALL_NODES,
 };
 const actionCreators = {
   createCampaign,
   revert,
   removeNode,
   addNode,
+  resetAllNodes,
 };
 
 export {

@@ -1,13 +1,12 @@
-import { CALL_API } from 'redux-api-middleware';
 import createReducer from '../../../../../utils/createReducer';
 import createRequestAction from '../../../../../utils/createRequestAction';
-import { actionCreators as playerActionCreators } from '../../../../../redux/modules/users';
+import { actionCreators as profileActionCreators } from '../../../../../redux/modules/profile';
 
 const KEY = 'transactions/players';
 const FETCH_PROFILE = createRequestAction(`${KEY}/fetch-profile`);
 const RESET_PLAYERS_PROFILES = `${KEY}/reset`;
 
-const fetchPlayerProfile = playerActionCreators.fetchProfile(FETCH_PROFILE);
+const fetchPlayerProfile = profileActionCreators.fetchProfile(FETCH_PROFILE);
 
 function resetPlayerProfiles() {
   return { type: RESET_PLAYERS_PROFILES };

@@ -70,7 +70,6 @@ class ProfileLayout extends Component {
     addTag: PropTypes.func.isRequired,
     removeTag: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
-    fetchNotes: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
     updateNote: PropTypes.func.isRequired,
     unlockPayment: PropTypes.func.isRequired,

@@ -1,7 +1,7 @@
 import { CALL_API } from 'redux-api-middleware';
 import { omitBy } from 'lodash';
-import { statuses, statusesReasons } from '../../constants/bonus-campaigns';
-import buildQueryString from '../../utils/buildQueryString';
+import { statuses, statusesReasons } from '../../../constants/bonus-campaigns';
+import buildQueryString from '../../../utils/buildQueryString';
 
 function fetchCampaigns(type) {
   return (filters = {}) => (dispatch, getState) => {

@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { get } from 'lodash';
 import View from '../components/View';
 import { actionCreators } from '../../../modules';
-import { actionCreators as authoritiesActionCreators } from '../../../../../../../redux/modules/authorities';
+import { actionCreators as authoritiesActionCreators } from '../../../../../../../redux/modules/auth/authorities';
 import { withNotifications } from '../../../../../../../components/HighOrder';
 
 const mapStateToProps = ({ operatorProfile: { view, authorities }, authorities: { data: authoritiesData } }) => ({

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { getFormValues } from 'redux-form';
 import { actionCreators } from '../modules/list';
-import { actionCreators as authoritiesActionCreators } from '../../../../../redux/modules/authorities';
+import { actionCreators as authoritiesActionCreators } from '../../../../../redux/modules/auth/authorities';
 import { actionCreators as miniProfileActionCreators } from '../../../../../redux/modules/miniProfile';
 import List from '../components/List';
 import { withModals, withNotifications } from '../../../../../components/HighOrder';

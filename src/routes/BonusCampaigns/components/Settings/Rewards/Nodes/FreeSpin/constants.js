@@ -21,6 +21,7 @@ const attributeLabels = {
   maxBet: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.MAX_BET'),
   count: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.COUNT'),
   pageCode: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.PAGE_CODE'),
+  betLevel: I18n.t('BONUS_CAMPAIGNS.REWARDS.BONUS.BET_LEVEL'),
 };
 
 const attributePlaceholders = {
@@ -48,16 +49,10 @@ const wageringRequirementTypes = keyMirror({
   BONUS_PLUS_DEPOSIT: null,
 });
 
-const aggregatorsMap = {
-  igromat: ['novomatic', 'igrosoft'],
-  softgamings: ['betsoft', 'amaticdirect', 'habanero', 'netent'],
-};
-
 export {
   attributeLabels,
   attributePlaceholders,
   wageringRequirementTypes,
-  aggregatorsMap,
   GAME_TYPES,
   HARDCODED_PROVIDERS,
 };

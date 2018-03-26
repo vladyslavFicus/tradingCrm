@@ -13,10 +13,10 @@ import buildFormData from '../../../../../utils/buildFormData';
 import { nodeGroupTypes } from '../../../components/Settings/constants';
 import { nodeTypes as fulfillmentNodeTypes } from '../../../components/Settings/Fulfillments/constants';
 import { nodeTypes as rewardNodeTypes } from '../../../components/Settings/Rewards/constants';
-import { sourceActionCreators as bonusCampaignActionCreators } from '../../../../../redux/modules/bonusCampaigns';
+import { sourceActionCreators as bonusCampaignActionCreators } from '../../../../../redux/modules/campaigns';
 import deleteFromArray from '../../../../../utils/deleteFromArray';
 
-const KEY = 'campaign';
+const KEY = 'campaign/view';
 const CAMPAIGN_UPDATE = createRequestAction(`${KEY}/campaign-update`);
 const CAMPAIGN_CLONE = createRequestAction(`${KEY}/campaign-clone`);
 const FETCH_CAMPAIGN = createRequestAction(`${KEY}/campaign-fetch`);
@@ -307,6 +307,17 @@ function addNode(nodeGroup, node) {
   };
 }
 
+const initialState = {
+  data: {},
+  nodeGroups: {
+    [nodeGroupTypes.fulfillments]: [],
+    [nodeGroupTypes.rewards]: [],
+  },
+  error: null,
+  isLoading: false,
+  receivedAt: null,
+};
+
 const actionHandlers = {
   [CAMPAIGN_UPDATE.REQUEST]: state => ({
     ...state,
@@ -391,16 +402,6 @@ const actionHandlers = {
       [nodeGroupTypes.rewards]: [mapRewardNode(state.data.campaignType)],
     },
   }),
-};
-const initialState = {
-  data: {},
-  nodeGroups: {
-    [nodeGroupTypes.fulfillments]: [],
-    [nodeGroupTypes.rewards]: [],
-  },
-  error: null,
-  isLoading: false,
-  receivedAt: null,
 };
 const actionTypes = {
   CAMPAIGN_UPDATE,

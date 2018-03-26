@@ -1406,7 +1406,8 @@
         "CAPPING": "Capping",
         "PRIZE": "Приз",
         "COUNT": "Кол-во",
-        "PAGE_CODE": "Код страницы"
+        "PAGE_CODE": "Код страницы",
+        "BET_LEVEL": "Уровень ставки"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Добавить награду",

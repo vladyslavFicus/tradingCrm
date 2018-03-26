@@ -34,6 +34,12 @@ class Container extends Component {
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    freeSpinCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
+    onToggleFreeSpinCustomTemplate: PropTypes.func.isRequired,
+    bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
+    onToggleBonusCustomTemplate: PropTypes.func.isRequired,
+    fetchGameAggregators: PropTypes.func.isRequired,
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
   };
 
   static defaultProps = {
@@ -42,6 +48,7 @@ class Container extends Component {
     games: [],
     freeSpinTemplates: [],
     bonusTemplates: [],
+    aggregators: {},
   };
 
   static contextTypes = {
@@ -80,6 +87,7 @@ class Container extends Component {
       allowedCustomValueTypes,
       disabled,
       games,
+      aggregators,
       change,
       freeSpinTemplates,
       baseCurrency,
@@ -90,6 +98,11 @@ class Container extends Component {
       fetchBonusTemplate,
       bonusTemplates,
       currencies,
+      freeSpinCustomTemplate,
+      onToggleFreeSpinCustomTemplate,
+      bonusCustomTemplate,
+      onToggleBonusCustomTemplate,
+      fetchGameAggregators,
     } = this.props;
 
     const bonusNodePath = `${nodeGroupTypes.rewards}.${nodeTypes.bonus}`;
@@ -114,6 +127,7 @@ class Container extends Component {
             remove={() => this.handleRemoveNode(nodeTypes.freeSpin)}
             nodePath={freeSpinNodePath}
             games={games}
+            aggregators={aggregators}
             change={change}
             freeSpinTemplates={freeSpinTemplates}
             bonusTemplates={bonusTemplates}
@@ -124,6 +138,11 @@ class Container extends Component {
             fetchBonusTemplates={fetchBonusTemplates}
             fetchBonusTemplate={fetchBonusTemplate}
             disabled={disabled}
+            customTemplate={freeSpinCustomTemplate}
+            onToggleFreeSpinCustomTemplate={onToggleFreeSpinCustomTemplate}
+            bonusCustomTemplate={bonusCustomTemplate}
+            onToggleBonusCustomTemplate={onToggleBonusCustomTemplate}
+            fetchGameAggregators={fetchGameAggregators}
           />
         );
       default:

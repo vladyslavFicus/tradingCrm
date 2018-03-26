@@ -4,7 +4,7 @@ import createRequestAction from '../../../../../../../utils/createRequestAction'
 import buildQueryString from '../../../../../../../utils/buildQueryString';
 import parseNumbersRange from '../../../../../../../utils/parseNumbersRange';
 
-const KEY = 'bonus-campaign/view/settings';
+const KEY = 'bonus-campaign/view/games';
 const FETCH_GAMES = createRequestAction(`${KEY}/fetch-games`);
 
 function fetchGames() {

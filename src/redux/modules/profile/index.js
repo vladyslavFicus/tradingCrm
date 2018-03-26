@@ -2,8 +2,8 @@ import { CALL_API } from 'redux-api-middleware';
 import _ from 'lodash';
 import moment from 'moment';
 import { getDialCodeByDigits } from 'bc-countries';
-import buildQueryString from '../../utils/buildQueryString';
-import { statuses as kycStatuses } from '../../constants/kyc';
+import buildQueryString from '../../../utils/buildQueryString';
+import { statuses as kycStatuses } from '../../../constants/kyc';
 
 const emptyBalance = {
   amount: 0,
@@ -127,49 +127,6 @@ function fetchProfile(type) {
   };
 }
 
-function passwordResetRequest(type) {
-  return (uuid, sendEmail = true) => (dispatch, getState) => {
-    const { auth: { token, logged, brandId } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `auth/password/${brandId}/${uuid}/reset/request${sendEmail ? '' : '?send-mail=false'}`,
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          type.REQUEST,
-          type.SUCCESS,
-          type.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function passwordResetConfirm(type) {
-  return ({ password, repeatPassword, token }) => dispatch => dispatch({
-    [CALL_API]: {
-      endpoint: 'auth/password/reset',
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ password, repeatPassword, token }),
-      types: [
-        type.REQUEST,
-        type.SUCCESS,
-        type.FAILURE,
-      ],
-    },
-  });
-}
-
 function profileActivateRequest(type) {
   return uuid => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
@@ -285,8 +242,6 @@ const actionCreators = {
   fetchEntities,
   fetchESEntities,
   updateProfile,
-  passwordResetRequest,
-  passwordResetConfirm,
   profileActivateRequest,
 };
 

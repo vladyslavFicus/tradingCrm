@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, reduxForm, getFormValues, getFormMeta } from 'redux-form';
+import { Field, reduxForm, getFormValues } from 'redux-form';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { I18n } from 'react-redux-i18n';
@@ -43,8 +43,6 @@ class Form extends Component {
     submitting: PropTypes.bool,
     reset: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
-    errors: PropTypes.object,
-    meta: PropTypes.object,
     currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     currentValues: PropTypes.shape({
       campaignName: PropTypes.bonusCampaignEntity.campaignName,
@@ -71,6 +69,7 @@ class Form extends Component {
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity),
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     freeSpinTemplates: PropTypes.array,
     baseCurrency: PropTypes.string.isRequired,
     fetchGames: PropTypes.func.isRequired,
@@ -91,38 +90,26 @@ class Form extends Component {
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
+    freeSpinCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
+    onToggleFreeSpinCustomTemplate: PropTypes.func.isRequired,
+    bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
+    onToggleBonusCustomTemplate: PropTypes.func.isRequired,
+    fetchGameAggregators: PropTypes.func.isRequired,
   };
   static defaultProps = {
     handleSubmit: null,
     currentValues: {},
     disabled: false,
-    meta: {},
     submitting: false,
     pristine: false,
     valid: false,
     fulfillmentExist: false,
-    errors: {},
     games: [],
     freeSpinTemplates: [],
     linkedCampaign: null,
     paymentMethods: [],
     bonusTemplates: [],
-  };
-
-  componentWillUnmount() {
-    this.props.revert();
-  }
-
-  getCustomValueFieldErrors = (name) => {
-    const { errors, meta } = this.props;
-
-    if (meta && meta[name]) {
-      if ((meta[name].value && meta[name].value.touched) || (meta[name].type && meta[name].type.touched)) {
-        return errors;
-      }
-    }
-
-    return {};
+    aggregators: {},
   };
 
   endDateValidator = fromAttribute => (current) => {
@@ -201,6 +188,7 @@ class Form extends Component {
       nodeGroups,
       disabled,
       games,
+      aggregators,
       freeSpinTemplates,
       bonusTemplates,
       baseCurrency,
@@ -215,6 +203,11 @@ class Form extends Component {
       fetchPaymentMethods,
       form,
       paymentMethods,
+      freeSpinCustomTemplate,
+      onToggleFreeSpinCustomTemplate,
+      bonusCustomTemplate,
+      onToggleBonusCustomTemplate,
+      fetchGameAggregators,
     } = this.props;
 
     const allowedCustomValueTypes = getCustomValueFieldTypes(currentValues.fulfillments);
@@ -229,7 +222,7 @@ class Form extends Component {
               {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
             </div>
             {
-              !(pristine || submitting) &&
+              !(pristine || submitting || disabled) &&
               <div className="col-md-6 text-md-right">
                 <button
                   onClick={this.handleRevert}
@@ -451,6 +444,7 @@ class Form extends Component {
               remove={this.handleRemoveNode(nodeGroupTypes.rewards)}
               add={this.handleAddNode(nodeGroupTypes.rewards)}
               games={games}
+              aggregators={aggregators}
               freeSpinTemplates={freeSpinTemplates}
               bonusTemplates={bonusTemplates}
               baseCurrency={baseCurrency}
@@ -458,7 +452,12 @@ class Form extends Component {
               fetchBonusTemplates={fetchBonusTemplates}
               fetchBonusTemplate={fetchBonusTemplate}
               fetchGames={fetchGames}
+              freeSpinCustomTemplate={freeSpinCustomTemplate}
+              onToggleFreeSpinCustomTemplate={onToggleFreeSpinCustomTemplate}
               fetchFreeSpinTemplates={fetchFreeSpinTemplates}
+              bonusCustomTemplate={bonusCustomTemplate}
+              onToggleBonusCustomTemplate={onToggleBonusCustomTemplate}
+              fetchGameAggregators={fetchGameAggregators}
             />
           </div>
         </div>
@@ -480,7 +479,6 @@ export default connect((state, { form }) => {
 
   return {
     currentValues,
-    meta: getFormMeta(form)(state),
     fulfillmentExist: currentValues && !isEmpty(currentValues.fulfillments),
   };
 })(SettingsForm);

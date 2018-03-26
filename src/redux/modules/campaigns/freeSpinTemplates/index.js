@@ -1,13 +1,13 @@
 import { CALL_API } from 'redux-api-middleware';
-import buildQueryString from '../../utils/buildQueryString';
+import buildQueryString from '../../../../utils/buildQueryString';
 
-function fetchFullBonusTemplates(type) {
+function fetchFullFreeSpinTemplates(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus_template/templates?${buildQueryString(filters)}`,
+        endpoint: `free_spin_template/templates/igromat?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -15,7 +15,7 @@ function fetchFullBonusTemplates(type) {
           Authorization: `Bearer ${token}`,
         },
         types: [
-          { type: type.REQUEST, payload: filters },
+          type.REQUEST,
           type.SUCCESS,
           type.FAILURE,
         ],
@@ -25,13 +25,13 @@ function fetchFullBonusTemplates(type) {
   };
 }
 
-function fetchShortBonusTemplates(type) {
+function fetchShortFreeSpinTemplates(type) {
   return (filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus_template/templates/short?${buildQueryString(filters)}`,
+        endpoint: `free_spin_template/templates/igromat/short?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -39,7 +39,7 @@ function fetchShortBonusTemplates(type) {
           Authorization: `Bearer ${token}`,
         },
         types: [
-          { type: type.REQUEST, payload: filters },
+          type.REQUEST,
           type.SUCCESS,
           type.FAILURE,
         ],
@@ -49,19 +49,44 @@ function fetchShortBonusTemplates(type) {
   };
 }
 
-function fetchBonusTemplates(type) {
+function fetchFreeSpinTemplates(type) {
   return (filters, short = false) => dispatch => short
-    ? dispatch(fetchShortBonusTemplates(type)(filters))
-    : dispatch(fetchFullBonusTemplates(type)(filters));
+    ? dispatch(fetchShortFreeSpinTemplates(type)(filters))
+    : dispatch(fetchFullFreeSpinTemplates(type)(filters));
 }
 
-function createBonusTemplate(type) {
-  return data => (dispatch, getState) => {
+function fetchFreeSpinTemplate(type) {
+  return uuid => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: 'bonus_template/templates',
+        endpoint: `free_spin_template/templates/igromat/${uuid}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        types: [
+          type.REQUEST,
+          type.SUCCESS,
+          type.FAILURE,
+        ],
+        bailout: !logged,
+      },
+    });
+  };
+}
+
+function createFreeSpinTemplate(type) {
+  return data => (dispatch, getState) => {
+    const { aggregatorId } = data;
+    const { auth: { token, logged } } = getState();
+
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `free_spin_template/templates/${aggregatorId}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -80,37 +105,13 @@ function createBonusTemplate(type) {
   };
 }
 
-function fetchBonusTemplate(type) {
-  return uuid => (dispatch, getState) => {
-    const { auth: { token, logged } } = getState();
-
-    return dispatch({
-      [CALL_API]: {
-        endpoint: `bonus_template/templates/${uuid}`,
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        types: [
-          type.REQUEST,
-          type.SUCCESS,
-          type.FAILURE,
-        ],
-        bailout: !logged,
-      },
-    });
-  };
-}
-
-function assignBonusTemplate(type) {
+function assignFreeSpinTemplate(type) {
   return (uuid, data) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `bonus_template/templates/${uuid}/assign`,
+        endpoint: `free_spin_template/templates/igromat/${uuid}/assign`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -130,10 +131,10 @@ function assignBonusTemplate(type) {
 }
 
 const sourceActionCreators = {
-  fetchBonusTemplates,
-  fetchBonusTemplate,
-  createBonusTemplate,
-  assignBonusTemplate,
+  fetchFreeSpinTemplates,
+  fetchFreeSpinTemplate,
+  createFreeSpinTemplate,
+  assignFreeSpinTemplate,
 };
 
 export {

@@ -17,12 +17,14 @@ class Settings extends Component {
     fetchGames: PropTypes.func.isRequired,
     createCampaign: PropTypes.func.isRequired,
     fetchFreeSpinTemplates: PropTypes.func.isRequired,
+    addFreeSpinTemplate: PropTypes.func.isRequired,
     createFreeSpinTemplate: PropTypes.func.isRequired,
     nodeGroups: PropTypes.shape({
       fulfillments: PropTypes.array.isRequired,
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.array,
+    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
     freeSpinTemplates: PropTypes.array,
     bonusTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,
@@ -33,13 +35,17 @@ class Settings extends Component {
     baseCurrency: PropTypes.string.isRequired,
     fetchBonusTemplates: PropTypes.func.isRequired,
     fetchBonusTemplate: PropTypes.func.isRequired,
+    addBonusTemplate: PropTypes.func.isRequired,
     createBonusTemplate: PropTypes.func.isRequired,
+    resetAllNodes: PropTypes.func.isRequired,
+    fetchGameAggregators: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     games: [],
     freeSpinTemplates: [],
     bonusTemplates: [],
+    aggregators: {},
   };
 
   static contextTypes = {
@@ -48,6 +54,10 @@ class Settings extends Component {
       push: PropTypes.func.isRequired,
     }).isRequired,
   };
+
+  componentWillMount() {
+    this.props.resetAllNodes();
+  }
 
   bonusCampaign = {
     state: statuses.DRAFT,
@@ -104,11 +114,15 @@ class Settings extends Component {
       fetchCampaign,
       paymentMethods,
       fetchPaymentMethods,
+      addFreeSpinTemplate,
       createFreeSpinTemplate,
+      addBonusTemplate,
       createBonusTemplate,
       baseCurrency,
       fetchBonusTemplates,
       fetchBonusTemplate,
+      fetchGameAggregators,
+      aggregators,
     } = this.props;
 
     return (
@@ -123,6 +137,7 @@ class Settings extends Component {
         freeSpinTemplates={freeSpinTemplates}
         bonusTemplates={bonusTemplates}
         games={games}
+        aggregators={aggregators}
         fetchCampaigns={fetchCampaigns}
         fetchCampaign={fetchCampaign}
         handleSubmit={this.handleSubmit}
@@ -134,9 +149,12 @@ class Settings extends Component {
         locale={locale}
         form="bonusCampaignCreate"
         currencies={currencies}
+        addFreeSpinTemplate={addFreeSpinTemplate}
         createFreeSpinTemplate={createFreeSpinTemplate}
+        addBonusTemplate={addBonusTemplate}
         createBonusTemplate={createBonusTemplate}
         baseCurrency={baseCurrency}
+        fetchGameAggregators={fetchGameAggregators}
       />
     );
   }

@@ -14,6 +14,7 @@ const mapStateToProps = ({
     freeSpinTemplates: { data: freeSpinTemplates },
     bonusTemplates: { data: bonusTemplates },
     payments: { list: paymentMethods },
+    options: { data: aggregators },
   },
   options: { data: { currencyCodes, baseCurrency } },
   i18n: { locale },
@@ -27,6 +28,7 @@ const mapStateToProps = ({
   bonusTemplates,
   locale,
   paymentMethods,
+  aggregators,
 });
 
 const mapActions = {
@@ -34,9 +36,11 @@ const mapActions = {
   revert: actionCreators.revert,
   removeNode: actionCreators.removeNode,
   addNode: actionCreators.addNode,
+  addFreeSpinTemplate: templateActionCreators.addFreeSpinTemplate,
   createFreeSpinTemplate: templateActionCreators.createFreeSpinTemplate,
   fetchFreeSpinTemplates: templateActionCreators.fetchFreeSpinTemplates,
   fetchFreeSpinTemplate: templateActionCreators.fetchFreeSpinTemplate,
+  addBonusTemplate: bonusTemplateActionCreators.addBonusTemplate,
   createBonusTemplate: bonusTemplateActionCreators.createBonusTemplate,
   fetchBonusTemplates: bonusTemplateActionCreators.fetchBonusTemplates,
   fetchBonusTemplate: bonusTemplateActionCreators.fetchBonusTemplate,
@@ -44,6 +48,8 @@ const mapActions = {
   fetchCampaigns: campaignsActionCreators.fetchCampaigns,
   fetchCampaign: campaignsActionCreators.fetchCampaign,
   fetchPaymentMethods: paymentsActionCreators.fetchPaymentMethods,
+  resetAllNodes: actionCreators.resetAllNodes,
+  fetchGameAggregators: actionCreators.fetchGameAggregators,
 };
 
 export default connect(mapStateToProps, mapActions)(Settings);
