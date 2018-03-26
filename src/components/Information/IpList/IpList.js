@@ -29,27 +29,25 @@ class IpList extends Component {
         <span className="account-details__label">{label}</span>
         <Card>
           <Content>
-            <If condition={ips && ips.length}>
-              {
-                ips.map(item => (
-                  <div className="ip-container" key={item.ip}>
-                    <i
-                      className={`fs-icon fs-${item.country.toLowerCase()}`}
-                      style={{ marginRight: 10 }}
-                    />
-                    <CopyToClipboard
-                      text={item.ip}
-                      notify={notify}
-                      notificationLevel={notificationLevel}
-                      notificationTitle={notificationTitle}
-                      notificationMessage={notificationMessage}
-                    >
-                      <span>{item.ip}</span>
-                    </CopyToClipboard>
-                  </div>
-                ))
-              }
-            </If>
+            {
+              ips.map(item => (
+                <div className="ip-container" key={item.ip}>
+                  <i
+                    className={`fs-icon fs-${item.country.toLowerCase()}`}
+                    style={{ marginRight: 10 }}
+                  />
+                  <CopyToClipboard
+                    text={item.ip}
+                    notify={notify}
+                    notificationLevel={notificationLevel}
+                    notificationTitle={notificationTitle}
+                    notificationMessage={notificationMessage}
+                  >
+                    <span>{item.ip}</span>
+                  </CopyToClipboard>
+                </div>
+              ))
+            }
           </Content>
         </Card>
       </div>
