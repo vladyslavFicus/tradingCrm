@@ -33,7 +33,6 @@ const unlockMutation = gql`mutation unlock($playerUUID: String!, $reason: String
   }
 }`;
 
-
 export {
   lockMutation,
   unlockMutation,

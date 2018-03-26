@@ -23,7 +23,6 @@ const addTagMutation = gql`mutation addTag(
   }
 }`;
 
-
 const removeTagMutation = gql`mutation removeTag(
   $playerUUID: String!,
   $id: ID!

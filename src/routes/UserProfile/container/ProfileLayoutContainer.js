@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import update from 'react-addons-update';
 import { actionCreators } from '../modules';
+import { withNotifications } from '../../../components/HighOrder';
 import { actionCreators as filesActionCreators } from '../modules/files';
 import ProfileLayout from '../layouts/ProfileLayout';
 import config, { getAvailableTags } from '../../../config';
@@ -69,8 +70,6 @@ const mapStateToProps = (state) => {
 const mapActions = {
   changePassword: actionCreators.changePassword,
   activateProfile: actionCreators.activateProfile,
-  checkLock: actionCreators.checkLock,
-  unlockLogin: actionCreators.unlockLogin,
   uploadFile: actionCreators.uploadFile,
   cancelFile: actionCreators.cancelFile,
   resetUploading: actionCreators.resetUploading,
@@ -273,4 +272,5 @@ export default compose(
     }),
     name: 'notes',
   }),
+  withNotifications,
 )(ProfileLayout);

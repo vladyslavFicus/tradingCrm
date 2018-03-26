@@ -21,17 +21,18 @@ const modalInitialState = {
 
 class PlayerLimits extends Component {
   static propTypes = {
-    profile: PropTypes.object,
-    limits: PropTypes.shape({
-      login: PropTypes.shape({
-        lock: PropTypes.bool.isRequired,
-        lockExpirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-        lockReason: PropTypes.string,
-      }).isRequired,
-      error: PropTypes.object,
-      isLoading: PropTypes.bool.isRequired,
-      receivedAt: PropTypes.number,
-    }).isRequired,
+    profile: PropTypes.shape({
+      locks: PropTypes.shape({
+        payment: PropTypes.arrayOf(PropTypes.shape({
+          type: PropTypes.string,
+        })),
+        login: PropTypes.shape({
+          lock: PropTypes.bool,
+          expirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+          reason: PropTypes.string,
+        }),
+      }),
+    }),
     onChange: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
   };
@@ -93,7 +94,7 @@ class PlayerLimits extends Component {
     this.handleOpenModal(PLAYER_LOGIN_LIMIT_MODAL);
   };
 
-  isPaymentLocked= (type) => {
+  isPaymentLocked = (type) => {
     const { profile: { locks: { payment } } } = this.props;
 
     return payment.findIndex(i => i.type === type) !== -1;

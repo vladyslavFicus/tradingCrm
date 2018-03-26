@@ -9,7 +9,13 @@ import Card, { Content } from '../../../../components/Card';
 
 class Notes extends Component {
   static propTypes = {
-    notes: PropTypes.object.isRequired,
+    notes: PropTypes.shape({
+      content: PropTypes.arrayOf(PropTypes.shape({
+        author: PropTypes.string,
+        lastEditorUUID: PropTypes.string,
+        targetUUID: PropTypes.string,
+      })),
+    }).isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
   };
 

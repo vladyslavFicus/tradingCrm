@@ -18,7 +18,7 @@ class View extends Component {
   static propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
-    }),
+    }).isRequired,
     list: PropTypes.arrayOf(PropTypes.limitEntity),
     fetchEntities: PropTypes.func.isRequired,
     cancelLimit: PropTypes.func.isRequired,

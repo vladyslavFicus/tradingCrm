@@ -30,7 +30,6 @@ class ApolloProvider extends PureComponent {
     isError: false,
   };
 
-
   createClient() {
     const httpLink = new BatchHttpLink({ uri: getGraphQLRoot(), batchInterval: 50 });
     const errorLink = onError(({ graphQLErrors, response, networkError }) => {
@@ -63,8 +62,12 @@ class ApolloProvider extends PureComponent {
             return object.playerUUID ?
               `${object.__typename}:${object.playerUUID}` :
               null;
+          case 'Note':
+            return object.uuid ?
+              `${object.__typename}:${object.uuid}` :
+              null;
           default:
-            return object.uuid ? `${object.__typename}:${object.uuid}` : null;
+            return object._id ? `${object.__typename}:${object._id}` : null;
         }
       },
     });

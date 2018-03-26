@@ -10,7 +10,6 @@ const updateNoteMutation = gql`mutation updateNote(
     $targetType: String!,
     $uuid: String!,
     $targetUUID: String!,
-
 ) {
   note {
     update(
@@ -49,7 +48,6 @@ const addNoteMutation = gql`mutation addNote(
   $playerUUID: String!,
   $targetType: String!,
   $targetUUID: String!,
-
 ) {
   note {
     add(
@@ -80,7 +78,6 @@ const addNoteMutation = gql`mutation addNote(
   }
 }`;
 
-
 const removeNoteMutation = gql`mutation removeNote(
   $uuid: String!,
 ) {
@@ -99,20 +96,22 @@ const removeNoteMutation = gql`mutation removeNote(
 }`;
 
 const removeNote = (proxy, variables, uuid) => {
-  const { notes: { content }, notes } = proxy.readQuery({ query: notesQuery, variables });
-  const selectedIndex = content.findIndex(({ uuid: noteUuid }) => noteUuid === uuid);
-  const updatedNotes = update(notes, {
-    content: { $splice: [[selectedIndex, 1]] },
-  });
-
-  proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
+  try {
+    const { notes: { content }, notes } = proxy.readQuery({ query: notesQuery, variables });
+    const selectedIndex = content.findIndex(({ uuid: noteUuid }) => noteUuid === uuid);
+    const updatedNotes = update(notes, {
+      content: { $splice: [[selectedIndex, 1]] },
+    });
+    proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const removeNotes = (proxy, playerUUID, uuid) => {
   removeNote(proxy, { playerUUID, pinned: true }, uuid);
   removeNote(proxy, { playerUUID }, uuid);
 };
-
 
 export {
   updateNoteMutation,

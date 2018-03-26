@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import isEmpty from 'lodash/isEmpty';
 import { I18n } from 'react-redux-i18n';
 import Sticky from 'react-stickynode';
 import NotesGridFilter from './NotesGridFilter';
@@ -11,16 +12,21 @@ import Uuid from '../../../../../components/Uuid';
 
 class View extends Component {
   static propTypes = {
-    view: PropTypes.pageableState(PropTypes.noteEntity),
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
+    notes: PropTypes.shape({
+      refetch: PropTypes.isRequired,
+      loading: PropTypes.bool.isRequired,
+      notes: PropTypes.shape({
+        content: PropTypes.arrayOf(PropTypes.shape({
+          author: PropTypes.string,
+          lastEditorUUID: PropTypes.string,
+          targetUUID: PropTypes.string,
+        })),
+      }).isRequired,
+    }).isRequired,
     noteTypes: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
-    fetchEntities: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    isLoading: PropTypes.bool,
   };
   static defaultProps = {
     isLoading: false,
@@ -43,7 +49,6 @@ class View extends Component {
   }
 
   componentDidMount() {
-    this.handleRefresh();
     this.context.setNoteChangedCallback(this.handleNoteChanged);
   }
 
@@ -59,11 +64,14 @@ class View extends Component {
   };
 
   handleRefresh = () => {
-    this.props.fetchEntities({
+    this.props.notes.refetch({
+      searchValue: undefined,
+      targetType: undefined,
+      from: undefined,
+      to: undefined,
       ...this.state.filters,
       page: this.state.page,
       size: this.state.size,
-      playerUUID: this.props.params.id,
     });
   };
 
@@ -72,7 +80,7 @@ class View extends Component {
   };
 
   handlePageChanged = (page) => {
-    if (!this.props.isLoading) {
+    if (!this.props.notes.loading) {
       this.setState({ page: page - 1 }, () => this.handleRefresh());
     }
   };
@@ -145,9 +153,10 @@ class View extends Component {
 
   render() {
     const {
-      view: {
-        entities: { content, number, totalPages },
-        noResults,
+
+      notes: {
+        notes,
+        loading,
       },
       noteTypes: {
         data: availableTypes,
@@ -169,17 +178,19 @@ class View extends Component {
         />
 
         <div className="tab-content">
-          <ListView
-            dataSource={content}
-            itemClassName="note-item"
-            onPageChange={this.handlePageChanged}
-            render={this.renderItem}
-            activePage={number + 1}
-            totalPages={totalPages}
-            lazyLoad
-            locale={locale}
-            showNoResults={noResults}
-          />
+          <If condition={!loading}>
+            <ListView
+              dataSource={notes.content || []}
+              itemClassName="note-item"
+              onPageChange={this.handlePageChanged}
+              render={this.renderItem}
+              activePage={notes.number + 1}
+              totalPages={notes.totalPages}
+              lazyLoad
+              locale={locale}
+              showNoResults={!loading && !notes.content.length}
+            />
+          </If>
         </div>
       </div>
     );

@@ -25,7 +25,6 @@ const updateSubscription = gql`mutation updateSubscription(
   }
 }`;
 
-
 const blockMutation = gql`mutation block(
   $playerUUID: String!,
   $reason: String!,

@@ -28,7 +28,31 @@ const playerLimitsPermission = [
 
 class Header extends Component {
   static propTypes = {
-    playerProfile: PropTypes.object,
+    playerProfile: PropTypes.shape({
+      address: PropTypes.string,
+      affiliateId: PropTypes.string,
+      birthDate: PropTypes.string,
+      btag: PropTypes.string,
+      city: PropTypes.string,
+      completed: PropTypes.bool,
+      country: PropTypes.string,
+      email: PropTypes.string,
+      firstName: PropTypes.string,
+      gender: PropTypes.string,
+      profileVerified: PropTypes.bool,
+      languageCode: PropTypes.string,
+      lastName: PropTypes.string,
+      marketingMail: PropTypes.bool,
+      marketingNews: PropTypes.bool,
+      marketingSMS: PropTypes.bool,
+      phoneNumber: PropTypes.string,
+      phoneNumberVerified: PropTypes.bool,
+      postCode: PropTypes.string,
+      login: PropTypes.string,
+      username: PropTypes.string,
+      playerUUID: PropTypes.string,
+      signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
+    }),
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
     lastIp: PropTypes.ipEntity,
@@ -128,6 +152,7 @@ class Header extends Component {
   render() {
     const {
       playerProfile: {
+        age,
         firstName,
         username,
         languageCode,
@@ -135,9 +160,9 @@ class Header extends Component {
         withdrawableAmount,
         profileStatusReason,
         profileStatus,
+        profileVerified,
         totalBalance,
         accumulated,
-        birthDate,
         playerUUID,
         registrationDate,
       },
@@ -159,7 +184,7 @@ class Header extends Component {
       onShareProfileClick,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
-    const fullName = `${firstName} ${lastName}`;
+    const fullName = [firstName, lastName].filter(i => i).join(' ');
 
     return (
       <div>
@@ -170,15 +195,15 @@ class Header extends Component {
                 <div className="panel-heading-row__info-title">
                   {fullName || I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
                   {' '}
-                  ({birthDate ? moment.utc().year() - moment.utc(birthDate).year() : '?'})
+                  ({age || '?'})
                   {' '}
-                  {'kycCompleted' && <i className="fa fa-check text-success" />}
+                  {profileVerified && <i className="fa fa-check text-success" />}
                 </div>
                 <div className="panel-heading-row__info-ids">
                   {username}
                   {' - '}
                   {
-                    !!playerUUID &&
+                    playerUUID &&
                     <Uuid
                       uuid={playerUUID}
                       uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}

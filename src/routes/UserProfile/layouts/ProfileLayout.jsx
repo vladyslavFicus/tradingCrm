@@ -46,6 +46,7 @@ const imageViewerInitialState = {
 
 class ProfileLayout extends Component {
   static propTypes = {
+    notify: PropTypes.func.isRequired,
     profile: PropTypes.shape({
       data: PropTypes.userProfile.isRequired,
       error: PropTypes.any,
@@ -55,7 +56,16 @@ class ProfileLayout extends Component {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
-    notes: PropTypes.object.isRequired,
+    notes: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      notes: PropTypes.shape({
+        content: PropTypes.arrayOf(PropTypes.shape({
+          author: PropTypes.string,
+          lastEditorUUID: PropTypes.string,
+          targetUUID: PropTypes.string,
+        })),
+      }),
+    }).isRequired,
     lastIp: PropTypes.ipEntity,
     location: PropTypes.object.isRequired,
     config: PropTypes.shape({
@@ -75,7 +85,6 @@ class ProfileLayout extends Component {
     unlockPayment: PropTypes.func.isRequired,
     lockPayment: PropTypes.func.isRequired,
     activateProfile: PropTypes.func.isRequired,
-    checkLock: PropTypes.func.isRequired,
     playerProfile: PropTypes.shape({
       playerProfile: PropTypes.shape({
         loading: PropTypes.bool,
@@ -101,7 +110,6 @@ class ProfileLayout extends Component {
     uploading: PropTypes.object.isRequired,
     fetchFiles: PropTypes.func.isRequired,
     uploadFile: PropTypes.func.isRequired,
-    unlockLogin: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     saveFiles: PropTypes.func.isRequired,
     deleteFile: PropTypes.func.isRequired,
@@ -117,7 +125,6 @@ class ProfileLayout extends Component {
     lastIp: null,
   };
   static contextTypes = {
-    addNotification: PropTypes.func.isRequired,
     permissions: PropTypes.array.isRequired,
   };
   static childContextTypes = {
@@ -206,11 +213,14 @@ class ProfileLayout extends Component {
       profile,
       playerProfile,
       notes,
+      fetchFiles,
+      params,
     } = this.props;
 
     if (!profile.isLoading) {
       await playerProfile.refetch();
       await notes.refetch();
+      await fetchFiles(params.id);
 
       if (needForceUpdate &&
         this.children &&
@@ -302,10 +312,6 @@ class ProfileLayout extends Component {
 
         return false;
       }));
-    }
-
-    if (hasPinnedNotes) {
-      this.handleRefreshPinnedNotes();
     }
 
     this.handleResetUploading();
@@ -401,6 +407,7 @@ class ProfileLayout extends Component {
 
   handleResetPassword = async () => {
     const {
+      notify,
       passwordResetRequest,
     } = this.props;
 
@@ -408,7 +415,7 @@ class ProfileLayout extends Component {
     const success = get(response, 'data.profile.passwordResetRequest.success');
 
     if (success) {
-      this.context.addNotification({
+      notify({
         level: 'success',
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
         message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.SUCCESS_NOTIFICATION_TEXT'),
@@ -416,7 +423,7 @@ class ProfileLayout extends Component {
 
       this.handleCloseModal();
     } else {
-      this.context.addNotification({
+      notify({
         level: 'error',
         title: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.NOTIFICATION_TITLE'),
         message: I18n.t('PLAYER_PROFILE.PROFILE.RESET_PASSWORD_MODAL.ERROR_NOTIFICATION_TEXT'),
@@ -425,12 +432,12 @@ class ProfileLayout extends Component {
   };
 
   handleSubmitNewPassword = async ({ password }) => {
-    const { changePassword } = this.props;
+    const { changePassword, notify } = this.props;
 
     const response = await changePassword({ variables: { password } });
     const success = get(response, 'data.profile.changePassword.success');
 
-    this.context.addNotification({
+    notify({
       level: !success ? 'error' : 'success',
       title: !success
         ? I18n.t('PLAYER_PROFILE.NOTIFICATIONS.ERROR_SET_NEW_PASSWORD.TITLE')

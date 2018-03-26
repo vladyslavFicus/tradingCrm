@@ -1,4 +1,3 @@
-
 import gql from 'graphql-tag';
 
 const profileQuery = gql`query profileData($playerUUID: String!){
@@ -39,6 +38,8 @@ const profileQuery = gql`query profileData($playerUUID: String!){
         amount
         currency
       }
+      age
+      profileVerified
       currency
       firstName
       username

@@ -194,9 +194,6 @@ class View extends Component {
         });
       } else if (unsavedNote) {
         this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
       }
     }
 
@@ -233,9 +230,6 @@ class View extends Component {
     if (action && !action.error) {
       if (unsavedNote) {
         this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
       }
     }
 
@@ -257,9 +251,6 @@ class View extends Component {
     if (action && !action.error) {
       if (unsavedNote) {
         this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
       }
     }
 
@@ -279,9 +270,6 @@ class View extends Component {
     if (action && !action.error) {
       if (unsavedNote) {
         this.context.onAddNote({ variables: { ...unsavedNote, targetUUID: playerUUID } });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
       }
     }
 

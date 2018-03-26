@@ -83,7 +83,27 @@ const Personal = (props) => {
 };
 
 Personal.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.shape({
+    address: PropTypes.string,
+    affiliateId: PropTypes.string,
+    birthDate: PropTypes.string,
+    btag: PropTypes.string,
+    city: PropTypes.string,
+    completed: PropTypes.bool,
+    country: PropTypes.string,
+    email: PropTypes.string,
+    gender: PropTypes.string,
+    kycPersonalStatus: PropTypes.string,
+    profileVerified: PropTypes.bool,
+    languageCode: PropTypes.string,
+    kycAddressStatus: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    phoneNumberVerified: PropTypes.bool,
+    postCode: PropTypes.string,
+    login: PropTypes.string,
+    username: PropTypes.string,
+    playerUUID: PropTypes.string,
+  }),
 };
 
 Personal.defaultProps = {

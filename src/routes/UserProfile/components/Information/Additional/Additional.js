@@ -6,6 +6,7 @@ import Switch from '../../../../../components/Forms/Switch';
 import { marketingTypes } from './constants';
 import { statuses } from '../../../../../constants/user';
 import Card, { Content } from '../../../../../components/Card';
+import { withNotifications } from '../../../../../components/HighOrder';
 import Permissions from '../../../../../utils/permissions';
 import permissions from '../../../../../config/permissions';
 
@@ -33,17 +34,20 @@ class Additional extends Component {
   };
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-    addNotification: PropTypes.func.isRequired,
   };
 
   handleSwitch = name => async (value) => {
-    const { initialValues, updateSubscription } = this.props;
-    const { data: { profile: { updateSubscription: response } } } = await updateSubscription({ ...initialValues, [name]: value }, name);
+    const { initialValues, updateSubscription, notify } = this.props;
+    const {
+      data: {
+        profile: { updateSubscription: response },
+      },
+    } = await updateSubscription({ ...initialValues, [name]: value }, name);
     const message = `${I18n.t(marketingTypes[name])}
           ${value ? I18n.t('COMMON.ACTIONS.ON') : I18n.t('COMMON.ACTIONS.OFF')}
           ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`;
 
-    this.context.addNotification({
+    notify({
       level: response.error ? 'error' : 'success',
       title: I18n.t('PLAYER_PROFILE.MARKETING.TITLE'),
       message,
@@ -121,5 +125,5 @@ class Additional extends Component {
   }
 }
 
-export default Additional;
+export default withNotifications(Additional);
 
