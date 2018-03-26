@@ -93,7 +93,7 @@ async function processConfig() {
     }
   });
 
-  return { nas: { brand } };
+  return { nas: { brand, graphqlRoot: `${projectConfig.hrzn.api_url}/graphql/gql` } };
 }
 
 function saveConfig(config) {
