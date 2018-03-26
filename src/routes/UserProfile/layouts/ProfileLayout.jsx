@@ -592,14 +592,17 @@ class ProfileLayout extends Component {
               playerProfile={profile.data}
               locale={locale}
               lastIp={
-                profile.data.signInIps.length > 0
+                profile.data.signInIps && profile.data.signInIps.length > 0
                   ? profile.data.signInIps[0]
                   : null
               }
               availableStatuses={this.availableStatuses}
               onStatusChange={this.handleChangeStatus}
               availableTags={this.availableTags}
-              currentTags={profile.data.tags.map(({ tag, ...data }) => ({ label: tag, value: tag, ...data }))}
+              currentTags={profile.data.tags ?
+                profile.data.tags.map(({ tag, ...data }) => ({ label: tag, value: tag, ...data })) :
+                []
+              }
               playerLimits={{
                 state: playerLimits,
                 actions: { onChange: this.handleChangePlayerLimitState },
