@@ -9,18 +9,10 @@ import Card, { Content } from '../../../../components/Card';
 
 class Notes extends Component {
   static propTypes = {
-    notes: PropTypes.shape({
-      entities: PropTypes.shape({
-        content: PropTypes.array,
-      }),
-      isLoading: PropTypes.bool,
-    }),
+    notes: PropTypes.object.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    notes: { entities: { content: [] }, isLoading: false },
-  };
 
   renderItem = item => (
     <PopoverButton
@@ -63,11 +55,13 @@ class Notes extends Component {
         <span className="account-details__label">
           {I18n.t('PLAYER_PROFILE.PINNED_NOTES.TITLE')}
         </span>
-        <Card>
-          <Content>
-            {notes.content.map(this.renderItem)}
-          </Content>
-        </Card>
+        <If condition={notes.content}>
+          <Card>
+            <Content>
+              { notes.content.map(this.renderItem)}
+            </Content>
+          </Card>
+        </If>
       </div>
     );
   }

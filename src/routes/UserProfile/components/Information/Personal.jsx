@@ -83,7 +83,10 @@ const Personal = (props) => {
 };
 
 Personal.propTypes = {
-  data: PropTypes.userProfile.isRequired,
+  data: PropTypes.object,
 };
 
+Personal.defaultProps = {
+  data: {},
+};
 export default Personal;

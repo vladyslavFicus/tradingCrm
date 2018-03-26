@@ -21,7 +21,7 @@ const modalInitialState = {
 
 class PlayerLimits extends Component {
   static propTypes = {
-    profile: PropTypes.userProfile.isRequired,
+    profile: PropTypes.object,
     limits: PropTypes.shape({
       login: PropTypes.shape({
         lock: PropTypes.bool.isRequired,
@@ -34,6 +34,10 @@ class PlayerLimits extends Component {
     }).isRequired,
     onChange: PropTypes.func.isRequired,
     unlockLogin: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    profile: {},
   };
 
   state = {
@@ -119,15 +123,13 @@ class PlayerLimits extends Component {
 
   render() {
     const { dropDownOpen, modal } = this.state;
-    const {
-      profile: {
-        locks: {
-          login,
-        },
-        ...profile
-      },
-    } = this.props;
-    const { profile: { locks: { payment } } } = this.props;
+    const { profile } = this.props;
+
+    if (!profile.locks) {
+      return null;
+    }
+
+    const { locks: { payment, login } } = profile;
     const className = classNames('dropdown-highlight cursor-pointer', {
       'dropdown-open': dropDownOpen,
     });

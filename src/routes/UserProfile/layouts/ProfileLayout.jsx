@@ -165,15 +165,25 @@ class ProfileLayout extends Component {
     this.handleLoadAdditionalProfileData();
   }
   get availableStatuses() {
-    const { playerProfile: { playerProfile: profile } } = this.props;
+    const { playerProfile: { playerProfile } } = this.props;
 
-    return userStatuses[profile.data.profileStatus]
+    if (!playerProfile) {
+      return [];
+    }
+
+    return userStatuses[playerProfile.data.profileStatus]
       .filter(action => (new Permissions([action.permission]))
         .check(this.context.permissions));
   }
 
   get availableTags() {
-    const { playerProfile: { playerProfile: { data: { tags } } }, availableTagsByDepartment } = this.props;
+    const { playerProfile: { playerProfile }, availableTagsByDepartment } = this.props;
+
+    if (!playerProfile) {
+      return [];
+    }
+
+    const { data: { tags } } = playerProfile;
     const selectedTags = tags
       ? tags.map(option => `${option.priority}/${option.tag}`)
       : [];
@@ -569,12 +579,11 @@ class ProfileLayout extends Component {
   render() {
     const { modal, popover, informationShown, imageViewer: imageViewerState } = this.state;
     const {
-      profile: { data: playerProfile, receivedAt, isLoading, error },
-      playerProfile: { playerProfile: profile, loading },
+      playerProfile: { playerProfile, loading },
       children,
       params,
       location,
-      notes: { notes, loading: notesLoading },
+      notes: { notes },
       playerLimits,
       uploading,
       uploadModalInitialValues,
@@ -584,62 +593,62 @@ class ProfileLayout extends Component {
       userProfileTabs,
     } = this.props;
 
+    const profile = playerProfile ? playerProfile.data : undefined;
+
     return (
       <div className="layout">
         <div className="layout-info">
-          <If condition={!loading && !notesLoading}>
-            <Header
-              playerProfile={profile.data}
-              locale={locale}
-              lastIp={
-                profile.data.signInIps && profile.data.signInIps.length > 0
-                  ? profile.data.signInIps[0]
-                  : null
-              }
-              availableStatuses={this.availableStatuses}
-              onStatusChange={this.handleChangeStatus}
-              availableTags={this.availableTags}
-              currentTags={profile.data.tags ?
-                profile.data.tags.map(({ tag, ...data }) => ({ label: tag, value: tag, ...data })) :
-                []
-              }
-              playerLimits={{
-                state: playerLimits,
-                actions: { onChange: this.handleChangePlayerLimitState },
-                unlockLogin: this.handleUnlockLogin,
-              }}
-              isLoadingProfile={isLoading}
-              addTag={this.handleAddTag}
-              deleteTag={this.handleDeleteTag}
-              onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
-              onResetPasswordClick={this.handleResetPasswordClick}
-              onProfileActivateClick={this.handleProfileActivateClick}
-              onPlayerLimitChange={this.handleChangePlayerLimitState}
-              onRefreshClick={() => this.handleLoadProfile(true)}
-              loaded={!!receivedAt && !error}
-              onChangePasswordClick={this.handleChangePasswordClick}
-              onShareProfileClick={this.handleShareProfileClick}
+          <Header
+            playerProfile={profile}
+            locale={locale}
+            lastIp={
+              profile && profile.signInIps && profile.signInIps.length > 0
+                ? profile.signInIps[0]
+                : null
+            }
+            availableStatuses={this.availableStatuses}
+            onStatusChange={this.handleChangeStatus}
+            availableTags={this.availableTags}
+            currentTags={profile && profile.tags ?
+              profile.tags.map(({ tag, ...data }) => ({ label: tag, value: tag, ...data })) :
+              []
+            }
+            playerLimits={{
+              state: playerLimits,
+              actions: { onChange: this.handleChangePlayerLimitState },
+              unlockLogin: this.handleUnlockLogin,
+            }}
+            isLoadingProfile={loading}
+            addTag={this.handleAddTag}
+            deleteTag={this.handleDeleteTag}
+            onAddNoteClick={this.handleAddNoteClick(params.id, targetTypes.PROFILE)}
+            onResetPasswordClick={this.handleResetPasswordClick}
+            onProfileActivateClick={this.handleProfileActivateClick}
+            onPlayerLimitChange={this.handleChangePlayerLimitState}
+            onRefreshClick={() => this.handleLoadProfile(true)}
+            loaded={!loading}
+            onChangePasswordClick={this.handleChangePasswordClick}
+            onShareProfileClick={this.handleShareProfileClick}
+          />
+          <div className="hide-details-block">
+            <div className="hide-details-block_divider" />
+            <button
+              className="hide-details-block_text btn-transparent"
+              onClick={this.handleToggleInformationBlock}
+            >
+              {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
+            </button>
+            <div className="hide-details-block_divider" />
+          </div>
+          <Collapse isOpen={informationShown}>
+            <Information
+              data={profile}
+              ips={profile ? profile.signInIps : []}
+              updateSubscription={this.handleUpdateSubscription}
+              onEditNoteClick={this.handleEditNoteClick}
+              notes={notes}
             />
-            <div className="hide-details-block">
-              <div className="hide-details-block_divider" />
-              <button
-                className="hide-details-block_text btn-transparent"
-                onClick={this.handleToggleInformationBlock}
-              >
-                {informationShown ? I18n.t('COMMON.DETAILS_COLLAPSE.HIDE') : I18n.t('COMMON.DETAILS_COLLAPSE.SHOW')}
-              </button>
-              <div className="hide-details-block_divider" />
-            </div>
-            <Collapse isOpen={informationShown}>
-              <Information
-                data={profile.data}
-                ips={profile.data.signInIps}
-                updateSubscription={this.handleUpdateSubscription}
-                onEditNoteClick={this.handleEditNoteClick}
-                notes={notes}
-              />
-            </Collapse>
-          </If>
+          </Collapse>
         </div>
         <div className="layout-content">
           <div className="nav-tabs-horizontal">

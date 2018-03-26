@@ -79,7 +79,7 @@ class Additional extends Component {
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_SMS]}
+                    active={initialValues[SUBSCRIPTION_TYPE_SMS] || false}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
                     disabled={disabled}
                   />
@@ -93,7 +93,7 @@ class Additional extends Component {
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
+                    active={initialValues[SUBSCRIPTION_TYPE_NEWS] || false}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
                     disabled={disabled}
                   />
@@ -107,7 +107,7 @@ class Additional extends Component {
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
+                    active={initialValues[SUBSCRIPTION_TYPE_MAIL] || false}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
                     disabled={disabled}
                   />

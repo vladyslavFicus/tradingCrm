@@ -28,7 +28,7 @@ const playerLimitsPermission = [
 
 class Header extends Component {
   static propTypes = {
-    playerProfile: PropTypes.userProfile.isRequired,
+    playerProfile: PropTypes.object,
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
     lastIp: PropTypes.ipEntity,
@@ -77,8 +77,10 @@ class Header extends Component {
     onChangePasswordClick: PropTypes.func.isRequired,
     onShareProfileClick: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     lastIp: null,
+    playerProfile: {},
     availableTags: [],
     currentTags: [],
     availableStatuses: [],
@@ -86,12 +88,17 @@ class Header extends Component {
     profileStatusDate: null,
     profileStatusAuthor: null,
   };
+
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   getRealWithBonusBalance = () => {
-    const { playerProfile: { bonusBalance, realMoneyBalance } } = this.props;
+    const { playerProfile: { bonusBalance, playerUUID, realMoneyBalance } } = this.props;
+
+    if (!playerUUID) {
+      return null;
+    }
 
     return (
       <div className="header-block-small">
@@ -247,18 +254,20 @@ class Header extends Component {
             />
           </div>
           <div className="header-block header-block_balance" id="player-profile-balance-block">
-            <Balances
-              label={
-                <div className="dropdown-tab">
-                  <div className="header-block-title">Balance</div>
-                  <div className="header-block-middle">
-                    <Amount {...totalBalance} amountId="player-total-balance-amount" />
+            <If condition={playerUUID}>
+              <Balances
+                label={
+                  <div className="dropdown-tab">
+                    <div className="header-block-title">Balance</div>
+                    <div className="header-block-middle">
+                      <Amount {...totalBalance} amountId="player-total-balance-amount" />
+                    </div>
+                    {this.getRealWithBonusBalance()}
                   </div>
-                  {this.getRealWithBonusBalance()}
-                </div>
-              }
-              accumulatedBalances={{ withdrawableAmount, ...accumulated }}
-            />
+                }
+                accumulatedBalances={{ withdrawableAmount, ...accumulated }}
+              />
+            </If>
           </div>
           <PermissionContent permissions={playerLimitsPermission} permissionsCondition={CONDITIONS.OR}>
             <div className="header-block header-block_player-limits">
