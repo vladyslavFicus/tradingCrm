@@ -67,8 +67,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapActions = {
-  fetchProfile: actionCreators.fetchProfile,
-  fetchNotes: actionCreators.fetchNotes,
   changePassword: actionCreators.changePassword,
   activateProfile: actionCreators.activateProfile,
   checkLock: actionCreators.checkLock,

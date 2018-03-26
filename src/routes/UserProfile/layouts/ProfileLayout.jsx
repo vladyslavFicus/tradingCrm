@@ -69,7 +69,6 @@ class ProfileLayout extends Component {
     }).isRequired,
     addTag: PropTypes.func.isRequired,
     removeTag: PropTypes.func.isRequired,
-    fetchProfile: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
     fetchNotes: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
@@ -161,9 +160,6 @@ class ProfileLayout extends Component {
     };
   }
 
-  componentDidMount() {
-    this.handleLoadAdditionalProfileData();
-  }
   get availableStatuses() {
     const { playerProfile: { playerProfile } } = this.props;
 
@@ -206,38 +202,25 @@ class ProfileLayout extends Component {
     this.children = component;
   };
 
-  handleLoadProfile = (needForceUpdate = false) => {
+  handleLoadProfile = async (needForceUpdate = false) => {
     const {
       profile,
-      fetchProfile,
-      params,
+      playerProfile,
+      notes,
     } = this.props;
 
     if (!profile.isLoading) {
-      fetchProfile(params.id)
-        .then(this.handleLoadAdditionalProfileData)
-        .then(() => {
-          if (needForceUpdate &&
-            this.children &&
-            typeof this.children.handleRefresh === 'function') {
-            this.children.handleRefresh();
-          }
-        });
+      await playerProfile.refetch();
+      await notes.refetch();
+
+      if (needForceUpdate &&
+        this.children &&
+        typeof this.children.handleRefresh === 'function') {
+        this.children.handleRefresh();
+      }
     }
   };
 
-  handleLoadAdditionalProfileData = () => {
-    const {
-      params,
-      fetchNotes,
-      checkLock,
-      fetchFiles,
-    } = this.props;
-
-    return fetchNotes({ playerUUID: params.id, pinned: true })
-      .then(() => fetchFiles(params.id))
-      .then(() => checkLock(params.id, { size: 999 }));
-  };
 
   handleOpenModal = (name, params) => {
     this.setState({
