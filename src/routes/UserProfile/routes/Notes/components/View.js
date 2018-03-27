@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import isEmpty from 'lodash/isEmpty';
 import { I18n } from 'react-redux-i18n';
 import Sticky from 'react-stickynode';
 import NotesGridFilter from './NotesGridFilter';

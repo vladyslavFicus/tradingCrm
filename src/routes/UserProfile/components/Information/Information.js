@@ -20,7 +20,7 @@ class Information extends Component {
   static defaultProps = {
     data: {},
     notes: {},
-  }
+  };
 
   render() {
     const {

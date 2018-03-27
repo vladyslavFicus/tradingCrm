@@ -65,13 +65,29 @@ class View extends Component {
   };
 
   handleCreateLimit = async (params) => {
-    const { setLimit, fetchEntities, params: { id } } = this.props;
+    const {
+      setLimit,
+      fetchEntities,
+      params: {
+        id,
+      },
+      realBaseCurrency: {
+        playerProfile: {
+          data: {
+            realMoneyBalance: {
+              currency: currencyCode,
+            },
+          },
+        },
+      },
+    } = this.props;
     const { type, period, amount } = params;
 
     const duration = period.split(' ');
     const data = {
       duration: duration.shift(),
       durationUnit: duration.shift(),
+      currencyCode,
     };
 
     if ([limitTypes.WAGER, limitTypes.LOSS, limitTypes.DEPOSIT].indexOf(type) > -1) {

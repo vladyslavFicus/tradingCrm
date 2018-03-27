@@ -151,6 +151,7 @@ class Header extends Component {
 
   render() {
     const {
+      locks,
       playerProfile: {
         age,
         firstName,
@@ -298,6 +299,7 @@ class Header extends Component {
             <div className="header-block header-block_player-limits">
               <PlayerLimits
                 profile={playerProfile}
+                locks={locks}
                 limits={playerLimits.state}
                 unlockLogin={playerLimits.unlockLogin}
                 onChange={onPlayerLimitChange}

@@ -142,7 +142,6 @@ function setPlayingSessionLimit(playerUUID, type, data) {
   return (dispatch, getState) => {
     const {
       auth: { token, logged, brandId },
-      profile: { accumulatedBalances: { data: { real: { currency: currencyCode } } } },
     } = getState();
 
     return dispatch({
@@ -154,10 +153,7 @@ function setPlayingSessionLimit(playerUUID, type, data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          ...data,
-          currencyCode,
-        }),
+        body: JSON.stringify(data),
         types: [SET_LIMIT.REQUEST, SET_LIMIT.SUCCESS, SET_LIMIT.FAILURE],
         bailout: !logged,
       },
@@ -169,7 +165,6 @@ function setDepositLimit(playerUUID, data) {
   return (dispatch, getState) => {
     const {
       auth: { token, logged },
-      profile: { accumulatedBalances: { data: { real: { currency: currencyCode } } } },
     } = getState();
 
     return dispatch({
@@ -181,10 +176,7 @@ function setDepositLimit(playerUUID, data) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          ...data,
-          currencyCode,
-        }),
+        body: JSON.stringify(data),
         types: [SET_LIMIT.REQUEST, SET_LIMIT.SUCCESS, SET_LIMIT.FAILURE],
         bailout: !logged,
       },

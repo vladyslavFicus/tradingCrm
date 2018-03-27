@@ -19,7 +19,6 @@ class Notes extends Component {
     onEditNoteClick: PropTypes.func.isRequired,
   };
 
-
   renderItem = item => (
     <PopoverButton
       className="panel"

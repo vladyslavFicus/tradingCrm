@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import uniqBy from 'lodash/uniqBy';
 import { InputField, TextAreaField, NasSelectField } from '../../../../../components/ReduxForm';
 import PropTypes from '../../../../../constants/propTypes';
 import { createValidator } from '../../../../../utils/validator';
@@ -12,7 +13,7 @@ const attributeLabels = {
   address: 'Full Address',
 };
 
-class AddressForm extends Component {
+class AddressForm extends PureComponent {
   static propTypes = {
     handleSubmit: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
@@ -76,7 +77,7 @@ class AddressForm extends Component {
                 disabled={disabled}
               >
                 {
-                  countries.map(item =>
+                  uniqBy(countries, 'countryCode').map(item =>
                     (
                       <option key={`${item.countryCode}-${item.phoneCode}`} value={item.countryCode}>
                         {item.countryName}

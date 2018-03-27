@@ -26,8 +26,8 @@ class GridView extends Component {
     locale: PropTypes.string,
     showNoResults: PropTypes.bool,
     auth: PropTypes.shape({
-      brandId: PropTypes.string.isRequired,
-      uuid: PropTypes.string.isRequired,
+      brandId: PropTypes.string,
+      uuid: PropTypes.string,
     }),
   };
   static defaultProps = {

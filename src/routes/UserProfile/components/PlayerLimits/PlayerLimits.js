@@ -22,15 +22,16 @@ const modalInitialState = {
 class PlayerLimits extends Component {
   static propTypes = {
     profile: PropTypes.shape({
-      locks: PropTypes.shape({
-        payment: PropTypes.arrayOf(PropTypes.shape({
-          type: PropTypes.string,
-        })),
-        login: PropTypes.shape({
-          lock: PropTypes.bool,
-          expirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-          reason: PropTypes.string,
-        }),
+      profileStatus: PropTypes.string,
+    }),
+    locks: PropTypes.shape({
+      payment: PropTypes.arrayOf(PropTypes.shape({
+        type: PropTypes.string,
+      })),
+      login: PropTypes.shape({
+        lock: PropTypes.bool,
+        expirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        reason: PropTypes.string,
       }),
     }),
     onChange: PropTypes.func.isRequired,
@@ -39,6 +40,7 @@ class PlayerLimits extends Component {
 
   static defaultProps = {
     profile: {},
+    locks: null,
   };
 
   state = {
@@ -95,13 +97,13 @@ class PlayerLimits extends Component {
   };
 
   isPaymentLocked = (type) => {
-    const { profile: { locks: { payment } } } = this.props;
+    const { locks: { payment } } = this.props;
 
     return payment.findIndex(i => i.type === type) !== -1;
   }
 
-  canLocked= (type) => {
-    const { profile: { locks: { payment: payments } } } = this.props;
+  canLocked = (type) => {
+    const { locks: { payment: payments } } = this.props;
     const payment = payments.find(i => i.type === type) || {};
 
     return !!payment.canUnlock;
@@ -124,13 +126,13 @@ class PlayerLimits extends Component {
 
   render() {
     const { dropDownOpen, modal } = this.state;
-    const { profile } = this.props;
+    const { profile, locks } = this.props;
 
-    if (!profile.locks) {
+    if (!locks) {
       return null;
     }
 
-    const { locks: { payment, login } } = profile;
+    const { payment, login } = locks;
     const className = classNames('dropdown-highlight cursor-pointer', {
       'dropdown-open': dropDownOpen,
     });

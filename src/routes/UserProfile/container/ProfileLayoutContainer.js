@@ -9,6 +9,7 @@ import config, { getAvailableTags } from '../../../config';
 import Permissions from '../../../utils/permissions';
 import { userProfileTabs } from '../../../config/menu';
 import { profileQuery } from '.././../../graphql/queries/profile';
+import { locksQuery } from '.././../../graphql/queries/payment';
 import { notesQuery } from '.././../../graphql/queries/notes';
 import {
   updateSubscription,
@@ -83,6 +84,14 @@ export default compose(
   connect(mapStateToProps, mapActions),
   graphql(blockMutation, {
     name: 'blockMutation',
+  }),
+  graphql(locksQuery, {
+    name: 'locks',
+    options: ({ params: { id: playerUUID } }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
   }),
   graphql(suspendMutation, {
     name: 'suspendMutation',
@@ -177,23 +186,19 @@ export default compose(
     options: ({ params: { id: playerUUID } }) => ({
       update: (proxy, { data: { payment: { unlock: { data: { id } } } } }) => {
         const {
-          playerProfile: {
-            data: {
-              locks: {
-                payment,
-              },
-            },
+          paymentLocks: {
+            payment,
           },
-          playerProfile,
-        } = proxy.readQuery({ query: profileQuery, variables: { playerUUID } });
+          paymentLocks,
+        } = proxy.readQuery({ query: locksQuery, variables: { playerUUID } });
 
         if (payment) {
           const selectedIndex = payment.findIndex(({ id: paymentId }) => id === paymentId);
-          const updatedProfile = update(playerProfile, {
-            data: { locks: { payment: { $splice: [[selectedIndex, 1]] } } },
+          const updatedLocks = update(paymentLocks, {
+            payment: { $splice: [[selectedIndex, 1]] },
           });
 
-          proxy.writeQuery({ query: profileQuery, variables: { playerUUID }, data: { playerProfile: updatedProfile } });
+          proxy.writeQuery({ query: locksQuery, variables: { playerUUID }, data: { paymentLocks: updatedLocks } });
         }
       },
     }),
@@ -204,20 +209,16 @@ export default compose(
       update: (proxy, { data: { payment: { lock: { data, error } } } }) => {
         if (!error) {
           const {
-            playerProfile: {
-              data: {
-                locks: {
-                  payment,
-                },
-              },
+            paymentLocks: {
+              payment,
             },
-            playerProfile,
-          } = proxy.readQuery({ query: profileQuery, variables: { playerUUID } });
-          const updatedProfile = update(playerProfile, {
-            data: { locks: { payment: payment ? { $push: [data] } : { $set: [data] } } },
+            paymentLocks,
+          } = proxy.readQuery({ query: locksQuery, variables: { playerUUID } });
+          const updatedLocks = update(paymentLocks, {
+            payment: payment ? { $push: [data] } : { $set: [data] },
           });
 
-          proxy.writeQuery({ query: profileQuery, variables: { playerUUID }, data: { playerProfile: updatedProfile } });
+          proxy.writeQuery({ query: locksQuery, variables: { playerUUID }, data: { paymentLocks: updatedLocks } });
         }
       },
     }),

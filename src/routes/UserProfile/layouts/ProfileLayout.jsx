@@ -46,6 +46,18 @@ const imageViewerInitialState = {
 
 class ProfileLayout extends Component {
   static propTypes = {
+    locks: PropTypes.shape({
+      paymentLimits: PropTypes.shape({
+        payment: PropTypes.arrayOf(PropTypes.shape({
+          type: PropTypes.string,
+        })),
+        login: PropTypes.shape({
+          lock: PropTypes.bool,
+          expirationDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+          reason: PropTypes.string,
+        }),
+      }),
+    }).isRequired,
     notify: PropTypes.func.isRequired,
     profile: PropTypes.shape({
       data: PropTypes.userProfile.isRequired,
@@ -186,9 +198,7 @@ class ProfileLayout extends Component {
     }
 
     const { data: { tags } } = playerProfile;
-    const selectedTags = tags
-      ? tags.map(option => `${option.priority}/${option.tag}`)
-      : [];
+    const selectedTags = tags.map(option => `${option.priority}/${option.tag}`);
 
     return selectedTags && availableTagsByDepartment
       ? availableTagsByDepartment
@@ -543,26 +553,37 @@ class ProfileLayout extends Component {
     this.handleOpenModal(MODAL_SHARE_PROFILE);
   };
 
-  handleChangeStatus = ({ action, ...data }) => {
+  handleChangeStatus = async ({ action, ...data }) => {
     const {
       blockMutation,
       unblockMutation,
       suspendProlong,
       suspendMutation,
       resumeMutation,
+      locks,
     } = this.props;
 
-    if (action === statusActions.BLOCK) {
-      blockMutation({ variables: data });
-    } else if (action === statusActions.UNBLOCK) {
-      unblockMutation({ variables: data });
-    } else if (action === statusActions.REMOVE) {
-      resumeMutation({ variables: data });
-    } else if (action === statusActions.SUSPEND) {
-      suspendMutation({ variables: data });
-    } else if (action === statusActions.PROLONG) {
-      suspendProlong({ variables: data });
+    switch (action) {
+      case statusActions.BLOCK:
+        await blockMutation({ variables: data });
+        break;
+      case statusActions.UNBLOCK:
+        await unblockMutation({ variables: data });
+        break;
+      case statusActions.REMOVE:
+        await resumeMutation({ variables: data });
+        break;
+      case statusActions.SUSPEND:
+        await suspendMutation({ variables: data });
+        break;
+      case statusActions.PROLONG:
+        await suspendProlong({ variables: data });
+        break;
+      default:
+        break;
     }
+
+    locks.refetch();
   };
 
   render() {
@@ -578,11 +599,13 @@ class ProfileLayout extends Component {
       uploadModalInitialValues,
       config,
       updateNote,
+      locks,
       locale,
       userProfileTabs,
     } = this.props;
 
-    const profile = playerProfile ? playerProfile.data : undefined;
+    const profile = get(playerProfile, 'data');
+    const playerLocks = get(locks, 'paymentLocks');
 
     return (
       <div className="layout">
@@ -590,11 +613,8 @@ class ProfileLayout extends Component {
           <Header
             playerProfile={profile}
             locale={locale}
-            lastIp={
-              profile && profile.signInIps && profile.signInIps.length > 0
-                ? profile.signInIps[0]
-                : null
-            }
+            locks={playerLocks}
+            lastIp={get(profile, 'signInIps.0')}
             availableStatuses={this.availableStatuses}
             onStatusChange={this.handleChangeStatus}
             availableTags={this.availableTags}
@@ -632,7 +652,7 @@ class ProfileLayout extends Component {
           <Collapse isOpen={informationShown}>
             <Information
               data={profile}
-              ips={profile ? profile.signInIps : []}
+              ips={get(profile, 'signInIps', [])}
               updateSubscription={this.handleUpdateSubscription}
               onEditNoteClick={this.handleEditNoteClick}
               notes={notes}

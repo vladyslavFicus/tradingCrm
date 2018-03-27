@@ -55,23 +55,6 @@ const profileQuery = gql`query profileData($playerUUID: String!){
       marketingMail
       marketingNews
       marketingSMS
-      locks {
-        payment {
-          type
-          author
-          canUnlock
-          authorUUID
-          id
-          playerUUID
-          reason
-          startLock
-        }
-        login {
-          locked
-          expirationDate
-          reason
-        }
-      }
       tags {
         id
         priority
@@ -101,7 +84,21 @@ const profileQuery = gql`query profileData($playerUUID: String!){
   }
 }`;
 
+const realBaseCurrencyQuery = gql`query profileData($playerUUID: String!){
+  playerProfile(playerUUID: $playerUUID) {
+    data {
+      realMoneyBalance {
+        currency
+      }
+    }
+    error {
+      error
+    }
+  }
+}`;
+
 export {
   profileQuery,
+  realBaseCurrencyQuery,
 };
 
