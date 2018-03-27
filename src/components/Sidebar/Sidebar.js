@@ -24,10 +24,10 @@ class Sidebar extends Component {
     init();
     menuItemClick();
 
-    const tl = new TimelineLite({ paused: true });
-    tl.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px', ease: Power1.easeOut });
+    const sidebarAnimation = new TimelineLite({ paused: true });
+    sidebarAnimation.fromTo(this.sidebar, 0.15, { width: '60px' }, { width: '240px', ease: Power1.easeOut });
 
-    this.tl = tl;
+    this.sidebarAnimation = sidebarAnimation;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -36,13 +36,13 @@ class Sidebar extends Component {
 
     if (topMenu.length && !this.navLinkAnimated) {
       this.navLinkAnimated = true;
-      this.tl.fromTo('.nav-link__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
+      this.sidebarAnimation.fromTo('.nav-link__label', 0.15, { autoAlpha: 0 }, { autoAlpha: 1 });
     }
 
     if (!prevState.isOpen && isOpen) {
-      this.tl.play();
+      this.sidebarAnimation.play();
     } else if (prevState.isOpen && !isOpen) {
-      this.tl.reverse();
+      this.sidebarAnimation.reverse();
     }
   }
 
