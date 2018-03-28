@@ -6,6 +6,7 @@ import Switch from '../../../../../components/Forms/Switch';
 import { marketingTypes } from './constants';
 import { statuses } from '../../../../../constants/user';
 import Card, { Content } from '../../../../../components/Card';
+import { withNotifications } from '../../../../../components/HighOrder';
 import Permissions from '../../../../../utils/permissions';
 import permissions from '../../../../../config/permissions';
 
@@ -33,26 +34,27 @@ class Additional extends Component {
   };
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
-    addNotification: PropTypes.func.isRequired,
   };
 
   handleSwitch = name => async (value) => {
-    const { initialValues, updateSubscription } = this.props;
-    const action = await updateSubscription({ ...initialValues, [name]: value }, name);
-
-    if (action) {
-      const message = `${I18n.t(marketingTypes[name])}
+    const { initialValues, updateSubscription, notify } = this.props;
+    const {
+      data: {
+        profile: { updateSubscription: response },
+      },
+    } = await updateSubscription({ ...initialValues, [name]: value }, name);
+    const message = `${I18n.t(marketingTypes[name])}
           ${value ? I18n.t('COMMON.ACTIONS.ON') : I18n.t('COMMON.ACTIONS.OFF')}
-          ${action.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`;
+          ${response.error ? I18n.t('COMMON.ACTIONS.UNSUCCESSFULLY') : I18n.t('COMMON.ACTIONS.SUCCESSFULLY')}`;
 
-      this.context.addNotification({
-        level: action.error ? 'error' : 'success',
-        title: I18n.t('PLAYER_PROFILE.MARKETING.TITLE'),
-        message,
-      });
-    }
+    notify({
+      level: response.error ? 'error' : 'success',
+      title: I18n.t('PLAYER_PROFILE.MARKETING.TITLE'),
+      message,
+    });
 
-    return action;
+
+    return response;
   };
 
   render() {
@@ -81,7 +83,7 @@ class Additional extends Component {
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_SMS]}
+                    active={initialValues[SUBSCRIPTION_TYPE_SMS] || false}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_SMS)}
                     disabled={disabled}
                   />
@@ -95,7 +97,7 @@ class Additional extends Component {
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_NEWS]}
+                    active={initialValues[SUBSCRIPTION_TYPE_NEWS] || false}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_NEWS)}
                     disabled={disabled}
                   />
@@ -109,7 +111,7 @@ class Additional extends Component {
                 </div>
                 <div className="col-sm-4 text-right">
                   <Switch
-                    active={initialValues[SUBSCRIPTION_TYPE_MAIL]}
+                    active={initialValues[SUBSCRIPTION_TYPE_MAIL] || false}
                     handleSwitch={this.handleSwitch(SUBSCRIPTION_TYPE_MAIL)}
                     disabled={disabled}
                   />
@@ -123,5 +125,5 @@ class Additional extends Component {
   }
 }
 
-export default Additional;
+export default withNotifications(Additional);
 

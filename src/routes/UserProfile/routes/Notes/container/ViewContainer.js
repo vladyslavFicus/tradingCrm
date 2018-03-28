@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import View from '../components/View';
-import { actionCreators } from '../modules';
+import { notesQuery } from '.././../../../../graphql/queries/notes';
 
 const mapStateToProps = ({ userNotes: { view, noteTypes }, i18n: { locale } }) => ({
   view,
@@ -8,8 +9,14 @@ const mapStateToProps = ({ userNotes: { view, noteTypes }, i18n: { locale } }) =
   locale,
 });
 
-const mapActions = {
-  fetchEntities: actionCreators.fetchEntities,
-};
-
-export default connect(mapStateToProps, mapActions)(View);
+export default compose(
+  connect(mapStateToProps),
+  graphql(notesQuery, {
+    options: ({ params: { id: playerUUID } }) => ({
+      variables: {
+        playerUUID,
+      },
+    }),
+    name: 'notes',
+  })
+)(View);

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { applyRouterMiddleware, browserHistory, Router } from 'react-router';
 import { useScroll } from 'react-router-scroll';
 import { Provider } from 'react-redux';
+import ApolloProvider from '../graphql/ApolloProvider';
 
 class AppContainer extends Component {
   static propTypes = {
@@ -15,17 +16,20 @@ class AppContainer extends Component {
 
     return (
       <Provider store={store}>
-        <Router
-          history={browserHistory}
-          children={containerRoutes}
-          render={applyRouterMiddleware(useScroll((prevRouterProps, { routes, location }) => {
-            if (routes.some(route => route.ignoreScrollBehavior)) {
-              return false;
-            }
+        <ApolloProvider>
+          <Router
+            history={browserHistory}
+            render={applyRouterMiddleware(useScroll((prevRouterProps, { routes, location }) => {
+              if (routes.some(route => route.ignoreScrollBehavior)) {
+                return false;
+              }
 
-            return prevRouterProps && location.pathname !== prevRouterProps.location.pathname;
-          }))}
-        />
+              return prevRouterProps && location.pathname !== prevRouterProps.location.pathname;
+            }))}
+          >
+            {containerRoutes}
+          </Router>
+        </ApolloProvider>
       </Provider>
     );
   }

@@ -28,15 +28,34 @@ const playerLimitsPermission = [
 
 class Header extends Component {
   static propTypes = {
-    playerProfile: PropTypes.userProfile.isRequired,
+    playerProfile: PropTypes.shape({
+      address: PropTypes.string,
+      affiliateId: PropTypes.string,
+      birthDate: PropTypes.string,
+      btag: PropTypes.string,
+      city: PropTypes.string,
+      completed: PropTypes.bool,
+      country: PropTypes.string,
+      email: PropTypes.string,
+      firstName: PropTypes.string,
+      gender: PropTypes.string,
+      profileVerified: PropTypes.bool,
+      languageCode: PropTypes.string,
+      lastName: PropTypes.string,
+      marketingMail: PropTypes.bool,
+      marketingNews: PropTypes.bool,
+      marketingSMS: PropTypes.bool,
+      phoneNumber: PropTypes.string,
+      phoneNumberVerified: PropTypes.bool,
+      postCode: PropTypes.string,
+      login: PropTypes.string,
+      username: PropTypes.string,
+      playerUUID: PropTypes.string,
+      signInIps: PropTypes.arrayOf(PropTypes.ipEntity),
+    }),
     onRefreshClick: PropTypes.func.isRequired,
     isLoadingProfile: PropTypes.bool.isRequired,
     lastIp: PropTypes.ipEntity,
-    accumulatedBalances: PropTypes.shape({
-      real: PropTypes.price,
-      bonus: PropTypes.price,
-      total: PropTypes.price,
-    }).isRequired,
     availableStatuses: PropTypes.array,
     availableTags: PropTypes.arrayOf(PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -82,8 +101,10 @@ class Header extends Component {
     onChangePasswordClick: PropTypes.func.isRequired,
     onShareProfileClick: PropTypes.func.isRequired,
   };
+
   static defaultProps = {
     lastIp: null,
+    playerProfile: {},
     availableTags: [],
     currentTags: [],
     availableStatuses: [],
@@ -91,16 +112,21 @@ class Header extends Component {
     profileStatusDate: null,
     profileStatusAuthor: null,
   };
+
   static contextTypes = {
     permissions: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   getRealWithBonusBalance = () => {
-    const { accumulatedBalances: { real, bonus } } = this.props;
+    const { playerProfile: { bonusBalance, playerUUID, realMoneyBalance } } = this.props;
+
+    if (!playerUUID) {
+      return null;
+    }
 
     return (
       <div className="header-block-small">
-        RM <Amount {...real} /> + BM <Amount {...bonus} />
+        RM <Amount {...realMoneyBalance} /> + BM <Amount {...bonusBalance} />
       </div>
     );
   };
@@ -125,9 +151,24 @@ class Header extends Component {
 
   render() {
     const {
+      locks,
+      playerProfile: {
+        age,
+        firstName,
+        username,
+        languageCode,
+        lastName,
+        withdrawableAmount,
+        profileStatusReason,
+        profileStatus,
+        profileVerified,
+        totalBalance,
+        accumulated,
+        playerUUID,
+        registrationDate,
+      },
       playerProfile,
       availableStatuses,
-      accumulatedBalances,
       onAddNoteClick,
       onResetPasswordClick,
       onProfileActivateClick,
@@ -144,6 +185,7 @@ class Header extends Component {
       onShareProfileClick,
     } = this.props;
     const { permissions: currentPermissions } = this.context;
+    const fullName = [firstName, lastName].filter(i => i).join(' ');
 
     return (
       <div>
@@ -152,24 +194,24 @@ class Header extends Component {
             <HeaderPlayerPlaceholder ready={loaded}>
               <div className="panel-heading-row__info">
                 <div className="panel-heading-row__info-title">
-                  {playerProfile.fullName || I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
+                  {fullName || I18n.t('PLAYER_PROFILE.PROFILE.HEADER.NO_FULLNAME')}
                   {' '}
-                  ({playerProfile.age || '?'})
+                  ({age || '?'})
                   {' '}
-                  {playerProfile.kycCompleted && <i className="fa fa-check text-success" />}
+                  {profileVerified && <i className="fa fa-check text-success" />}
                 </div>
                 <div className="panel-heading-row__info-ids">
-                  {playerProfile.username}
+                  {username}
                   {' - '}
                   {
-                    !!playerProfile.playerUUID &&
+                    playerUUID &&
                     <Uuid
-                      uuid={playerProfile.playerUUID}
-                      uuidPrefix={playerProfile.playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
+                      uuid={playerUUID}
+                      uuidPrefix={playerUUID.indexOf('PLAYER') === -1 ? 'PL' : null}
                     />
                   }
                   {' - '}
-                  {playerProfile.languageCode}
+                  {languageCode}
                 </div>
               </div>
             </HeaderPlayerPlaceholder>
@@ -210,7 +252,7 @@ class Header extends Component {
                     onClick: onProfileActivateClick,
                     visible: (
                       sendActivationLinkPermission.check(currentPermissions)
-                      && playerProfile.profileStatus === statuses.INACTIVE
+                      && profileStatus === statuses.INACTIVE
                     ),
                   },
                   {
@@ -231,33 +273,33 @@ class Header extends Component {
           <div className="header-block header-block_account">
             <PlayerStatus
               locale={locale}
-              status={playerProfile.profileStatus}
-              reason={playerProfile.profileStatusReason}
-              statusDate={playerProfile.profileStatusDate}
-              statusAuthor={playerProfile.profileStatusAuthor}
-              endDate={playerProfile.suspendEndDate}
+              status={profileStatus}
+              reason={profileStatusReason}
               onChange={this.handleStatusChange}
               availableStatuses={availableStatuses}
             />
           </div>
           <div className="header-block header-block_balance" id="player-profile-balance-block">
-            <Balances
-              label={
-                <div className="dropdown-tab">
-                  <div className="header-block-title">Balance</div>
-                  <div className="header-block-middle">
-                    <Amount {...accumulatedBalances.total} amountId="player-total-balance-amount" />
+            <If condition={playerUUID}>
+              <Balances
+                label={
+                  <div className="dropdown-tab">
+                    <div className="header-block-title">Balance</div>
+                    <div className="header-block-middle">
+                      <Amount {...totalBalance} amountId="player-total-balance-amount" />
+                    </div>
+                    {this.getRealWithBonusBalance()}
                   </div>
-                  {this.getRealWithBonusBalance()}
-                </div>
-              }
-              accumulatedBalances={accumulatedBalances}
-            />
+                }
+                accumulatedBalances={{ withdrawableAmount, ...accumulated }}
+              />
+            </If>
           </div>
           <PermissionContent permissions={playerLimitsPermission} permissionsCondition={CONDITIONS.OR}>
             <div className="header-block header-block_player-limits">
               <PlayerLimits
                 profile={playerProfile}
+                locks={locks}
                 limits={playerLimits.state}
                 unlockLogin={playerLimits.unlockLogin}
                 onChange={onPlayerLimitChange}
@@ -268,10 +310,10 @@ class Header extends Component {
           <div className="header-block">
             <div className="header-block-title">Registered</div>
             <div className="header-block-middle">
-              {moment.utc(playerProfile.registrationDate).local().fromNow()}
+              {moment.utc(registrationDate).local().fromNow()}
             </div>
             <div className="header-block-small">
-              on {moment.utc(playerProfile.registrationDate).local().format('DD.MM.YYYY')}</div>
+              on {moment.utc(registrationDate).local().format('DD.MM.YYYY')}</div>
           </div>
         </div>
       </div>

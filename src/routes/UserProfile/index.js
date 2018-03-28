@@ -56,7 +56,7 @@ export default store => ({
       })
       .then((action) => {
         if (action && !action.error) {
-          return import(/* webpackChunkName: "playerProfileRoute" */ './container/UserProfile');
+          return import(/* webpackChunkName: "playerProfileRoute" */ './container/ProfileLayoutContainer');
         }
 
         return import(/* webpackChunkName: "notFoundRoute" */ '../NotFound/container/Container');

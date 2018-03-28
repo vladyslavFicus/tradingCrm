@@ -80,7 +80,6 @@ class View extends Component {
   static contextTypes = {
     onAddNoteClick: PropTypes.func.isRequired,
     onAddNote: PropTypes.func.isRequired,
-    refreshPinnedNotes: PropTypes.func.isRequired,
     onEditNoteClick: PropTypes.func.isRequired,
     setNoteChangedCallback: PropTypes.func.isRequired,
     cacheChildrenComponent: PropTypes.func.isRequired,
@@ -200,9 +199,6 @@ class View extends Component {
     } else {
       if (unsavedNote) {
         await this.context.onAddNote({ ...unsavedNote, targetUUID: action.payload.paymentId });
-        if (unsavedNote.pinned) {
-          this.context.refreshPinnedNotes();
-        }
       }
 
       resetNote();

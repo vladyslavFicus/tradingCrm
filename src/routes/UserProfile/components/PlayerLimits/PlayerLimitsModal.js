@@ -15,7 +15,7 @@ class PlayerLimitsModal extends Component {
     profile: PropTypes.userProfile.isRequired,
     action: PropTypes.oneOf(Object.keys(actions)).isRequired,
     type: PropTypes.oneOf(Object.keys(types)).isRequired,
-    reasons: PropTypes.arrayOf(PropTypes.string).isRequired,
+    reasons: PropTypes.object.isRequired,
     title: PropTypes.string.isRequired,
     onHide: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
