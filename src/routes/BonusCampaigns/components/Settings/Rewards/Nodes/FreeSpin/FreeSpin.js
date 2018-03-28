@@ -351,6 +351,85 @@ class FreeSpin extends Component {
       );
     }
 
+    if (currentValues.aggregatorId === aggregators.oryx) {
+      return (
+        <div>
+          <hr />
+          <div className="row">
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('count')}
+                type="number"
+                id={`${form}Count`}
+                placeholder="0"
+                label={I18n.t(attributeLabels.count)}
+                component={InputField}
+                normalize={intNormalize}
+                position="vertical"
+                disabled={!customTemplate}
+              />
+            </div>
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('expirationDate')}
+                type="text"
+                id={`${form}expirationDate`}
+                placeholder="0"
+                label={I18n.t(attributeLabels.expirationDate)}
+                component={InputField}
+                position="vertical"
+                disabled={!customTemplate}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('betMultiplier')}
+                type="number"
+                id={`${form}betMultiplier`}
+                placeholder="0"
+                normalize={intNormalize}
+                label={I18n.t(attributeLabels.betMultiplier)}
+                component={InputField}
+                position="vertical"
+                disabled={!customTemplate}
+              />
+            </div>
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('coinSize')}
+                type="number"
+                id={`${form}coinSize`}
+                placeholder="0"
+                normalize={intNormalize}
+                label={I18n.t(attributeLabels.coinSize)}
+                component={InputField}
+                position="vertical"
+                disabled={!customTemplate}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('rhfpBet')}
+                type="number"
+                id={`${form}rhfpBet`}
+                placeholder="0"
+                normalize={intNormalize}
+                label={I18n.t(attributeLabels.rhfpBet)}
+                component={InputField}
+                position="vertical"
+                disabled={!customTemplate}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+
     return (
       <div>
         <hr />
