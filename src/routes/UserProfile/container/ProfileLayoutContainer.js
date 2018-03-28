@@ -27,6 +27,8 @@ import {
   removeNoteMutation,
   addNoteMutation,
   removeNotes,
+  removeNote,
+  addNote,
 } from '.././../../graphql/mutations/note';
 import { removeTagMutation, addTagMutation } from '.././../../graphql/mutations/tag';
 
@@ -124,6 +126,20 @@ export default compose(
   }),
   graphql(updateNoteMutation, {
     name: 'updateNote',
+    options: ({ profile: { data: { playerUUID } } }) => ({
+      update: (proxy, { data: { note: { update: { data: { uuid, pinned }, data } } } }) => {
+        const { notes: { content } } = proxy.readQuery({ query: notesQuery, variables: { playerUUID, pinned: true } });
+        const selectedNote = content.find(({ uuid: noteUuid }) => noteUuid === uuid);
+
+        if (selectedNote && !pinned) {
+          removeNote(proxy, { playerUUID, pinned: true }, uuid);
+        }
+
+        if (!selectedNote && pinned) {
+          addNote(proxy, { playerUUID, pinned: true }, data);
+        }
+      },
+    }),
   }),
   graphql(addTagMutation, {
     name: 'addTag',

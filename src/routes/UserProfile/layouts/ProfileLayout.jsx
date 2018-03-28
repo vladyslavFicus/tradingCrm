@@ -395,7 +395,11 @@ class ProfileLayout extends Component {
     const { noteChangedCallback } = this.state;
 
     if (data.uuid) {
-      return updateNote({ variables: { ...data } });
+      const updatedNote = await updateNote({ variables: { ...data } });
+
+      this.handlePopoverHide();
+
+      return updatedNote;
     }
 
     await addNote({ variables: { ...data } });

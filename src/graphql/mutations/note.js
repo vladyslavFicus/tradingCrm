@@ -95,6 +95,18 @@ const removeNoteMutation = gql`mutation removeNote(
   }
 }`;
 
+const addNote = (proxy, variables, data) => {
+  try {
+    const { notes } = proxy.readQuery({ query: notesQuery, variables });
+    const updatedNotes = update(notes, {
+      content: { $push: [data] },
+    });
+    proxy.writeQuery({ query: notesQuery, variables, data: { notes: updatedNotes } });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const removeNote = (proxy, variables, uuid) => {
   try {
     const { notes: { content }, notes } = proxy.readQuery({ query: notesQuery, variables });
@@ -118,4 +130,6 @@ export {
   addNoteMutation,
   removeNoteMutation,
   removeNotes,
+  removeNote,
+  addNote,
 };
