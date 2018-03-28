@@ -10,6 +10,8 @@ import { attributeLabels, GAME_TYPES } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNormalize';
+import { parseRange } from '../../../../../../../utils/parseNumbersRange';
+import normalizeNumber from '../../../../../../../utils/normalizeNumber';
 import Bonus from './Bonus';
 import { aggregators } from '../../../../../../../routes/UserProfile/routes/Rewards/routes/FreeSpins/constants';
 import Uuid from '../../../../../../../components/Uuid';
@@ -295,6 +297,8 @@ class FreeSpin extends Component {
     }
 
     if (currentValues.aggregatorId === aggregators.softgamings) {
+      const betLevels = parseRange(gameData && gameData.betLevel ? gameData.betLevel : '1');
+
       return (
         <div>
           <hr />
@@ -330,15 +334,17 @@ class FreeSpin extends Component {
             <div className="col-6">
               <Field
                 name={this.buildFieldName('betLevel')}
-                type="number"
                 id={`${form}betLevel`}
-                placeholder="0"
-                disabled={!customTemplate || currentValues.providerId !== 'netent'}
                 label={I18n.t(attributeLabels.betLevel)}
-                component={InputField}
-                normalize={intNormalize}
+                type="select"
+                parse={normalizeNumber}
+                component={SelectField}
                 position="vertical"
-              />
+                disabled={!customTemplate || betLevels.length === 1}
+              >
+                {betLevels
+                  .map(item => <option key={item} value={item}>{item}</option>)}
+              </Field>
             </div>
           </div>
         </div>

@@ -123,11 +123,10 @@ export default (values, props) => {
 
   if (rewardsFreeSpins) {
     if (
-      rewardsFreeSpins.aggregatorId === 'softgamings' &&
-      HARDCODED_PROVIDERS.indexOf(rewardsFreeSpins.providerId) !== -1
+      rewardsFreeSpins.aggregatorId === 'softgamings'
     ) {
       rules.rewards.freeSpin.pageCode = ['required'];
-      rules.rewards.freeSpin.betLevel = ['required', 'min:1', 'max:5'];
+      rules.rewards.freeSpin.betLevel = ['required', 'integer'];
     }
 
     [
