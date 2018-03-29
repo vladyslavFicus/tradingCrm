@@ -1396,7 +1396,11 @@
         "PRIZE": "Prize",
         "COUNT": "Count",
         "PAGE_CODE": "Page code",
-        "BET_LEVEL": "Bet level"
+        "BET_LEVEL": "Bet level",
+        "EXPIRATION_DATE": "",
+        "BET_MULTIPLAYER": "",
+        "COIN_SIZE": "",
+        "RHFP_BET": ""
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Add rewards",

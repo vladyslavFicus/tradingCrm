@@ -1407,7 +1407,11 @@
         "PRIZE": "Приз",
         "COUNT": "Кол-во",
         "PAGE_CODE": "Код страницы",
-        "BET_LEVEL": "Уровень ставки"
+        "BET_LEVEL": "Уровень ставки",
+        "EXPIRATION_DATE": "",
+        "BET_MULTIPLAYER": "",
+        "COIN_SIZE": "",
+        "RHFP_BET": ""
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Добавить награду",
