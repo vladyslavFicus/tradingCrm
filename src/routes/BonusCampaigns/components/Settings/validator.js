@@ -59,6 +59,7 @@ export default (values, props) => {
         gameId: ['string'],
         aggregatorId: ['string'],
         freeSpinsAmount: ['integer', 'min:0'],
+        freeSpinLifeTime: ['integer', 'min:0', 'required'],
         linesPerSpin: ['integer'],
         betPerLine: ['numeric', 'min:0'],
         count: ['numeric'],

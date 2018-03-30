@@ -1397,10 +1397,9 @@
         "COUNT": "Count",
         "PAGE_CODE": "Page code",
         "BET_LEVEL": "Bet level",
-        "EXPIRATION_DATE": "",
-        "BET_MULTIPLAYER": "",
-        "COIN_SIZE": "",
-        "RHFP_BET": ""
+        "COIN_SIZE": "Coin size",
+        "RHFP_BET": "Rhfp bet",
+        "BET_MULTIPLIER": "Bet multiplier"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Add rewards",
@@ -1430,7 +1429,8 @@
       },
       "BONUS_TEMPLATE": {
         "CREATION_ERROR": "Bonus template creation error"
-      }
+      },
+      "FREE_SPIN_LIFE_TIME": "Free spin life time"
     },
     "CURRENCY_CALC_MODAL": {
       "HEADER": "Value in different currencies",
