@@ -16,7 +16,8 @@
       "PLAYERS_KYC_REQUEST": "KYC запросы",
       "SETTINGS": "Настройки",
       "NEW_CAMPAIGNS": "Новые кампании",
-      "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments"
+      "NEW_CAMPAIGNS_FULFILLMENTS": "Fulfillments",
+      "CAMPAIGNS": "Поиск кампаний"
     },
     "BOTTOM_MENU": {
       "SUPPORT": "Поддержка"

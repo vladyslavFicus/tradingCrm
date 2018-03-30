@@ -381,6 +381,12 @@ PropTypes.bonusCampaignEntity = PropTypes.shape({
   targetType: PropTypes.string,
   wagerWinMultiplier: PropTypes.number,
 });
+PropTypes.newBonusCampaignEntity = PropTypes.shape({
+  uuid: PropTypes.string,
+  state: PropTypes.string,
+  name: PropTypes.string,
+  authorUUID: PropTypes.string,
+});
 PropTypes.freeSpinEntity = PropTypes.shape({
   aggregatorId: PropTypes.string.isRequired,
   authorUUID: PropTypes.string.isRequired,

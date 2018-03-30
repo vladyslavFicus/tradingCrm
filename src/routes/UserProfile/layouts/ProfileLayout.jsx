@@ -240,7 +240,6 @@ class ProfileLayout extends Component {
     }
   };
 
-
   handleOpenModal = (name, params) => {
     this.setState({
       modal: {
