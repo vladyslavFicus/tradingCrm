@@ -5,13 +5,13 @@ import { I18n } from 'react-redux-i18n';
 import { parse } from 'qs';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
-import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
+import { InputField, SelectField, NasSelectField, DateTimeField } from '../../../../../../../components/ReduxForm';
 import { attributeLabels, GAME_TYPES } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
 import { floatNormalize, intNormalize } from '../../../../../../../utils/inputNormalize';
-import { parseRange } from '../../../../../../../utils/parseNumbersRange';
 import normalizeNumber from '../../../../../../../utils/normalizeNumber';
+import { attributePlaceholders } from '../Bonus/constants';
 import Bonus from './Bonus';
 import { aggregators } from '../../../../../../../routes/UserProfile/routes/Rewards/routes/FreeSpins/constants';
 import Uuid from '../../../../../../../components/Uuid';
@@ -125,9 +125,13 @@ class FreeSpin extends Component {
         betPerLineAmounts,
         linesPerSpin,
         bonusTemplateUUID,
+        coinSize,
         count,
+        betMultiplier,
         pageCode,
         betLevel,
+        freeSpinLifeTime,
+        rhfpBet,
       } = action.payload;
 
       let { betPerLine } = action.payload;
@@ -141,6 +145,16 @@ class FreeSpin extends Component {
       this.handleChangeAggregator(aggregatorId);
       this.handleChangeProvider(providerId);
       this.handleChangeGame(gameId);
+
+      if (freeSpinLifeTime) {
+        this.setField('freeSpinLifeTime', freeSpinLifeTime);
+      }
+      if (aggregatorId === aggregators.oryx) {
+        this.setField('count', count);
+        this.setField('betMultiplier', betMultiplier);
+        this.setField('coinSize', coinSize);
+        this.setField('rhfpBet', rhfpBet);
+      }
 
       if (aggregatorId === aggregators.softgamings) {
         this.setField('count', count);
@@ -264,6 +278,10 @@ class FreeSpin extends Component {
       this.setField('betLevel', 1);
     }
 
+    if (currentValues.aggregatorId === aggregators.oryx) {
+      this.setField('coinSize', 1);
+    }
+
     const currentGames = this.props.games.filter(
       i => i.gameProviderId === providerId && i.aggregatorId === currentValues.aggregatorId
     );
@@ -280,7 +298,8 @@ class FreeSpin extends Component {
     this.setField('aggregatorId', aggregatorId);
 
     [
-      'providerId', 'gameId', 'betLevel',
+      'providerId', 'gameId', 'betLevel', 'rhfpBet',
+      'coinSize', 'betMultiplier', 'freeSpinLifeTime',
       'count', 'freeSpinsAmount', 'betPerLine', 'linesPerSpin',
     ].forEach(key => this.setField(key));
   };
@@ -297,7 +316,7 @@ class FreeSpin extends Component {
     }
 
     if (currentValues.aggregatorId === aggregators.softgamings) {
-      const betLevels = parseRange(gameData && gameData.betLevel ? gameData.betLevel : '1');
+      const betLevels = get(gameData, 'betLevels', []).length > 1 ? gameData.betLevels : [1];
 
       return (
         <div>
@@ -351,23 +370,127 @@ class FreeSpin extends Component {
       );
     }
 
+    if (currentValues.aggregatorId === aggregators.oryx) {
+      const coinSizes = get(gameData, 'coinSizes', []).length > 1 ? gameData.coinSizes : [1];
+
+      return (
+        <div>
+          <hr />
+          <div className="row">
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('count')}
+                type="number"
+                id={`${form}count`}
+                placeholder="0"
+                label={I18n.t(attributeLabels.freeSpins)}
+                component={InputField}
+                normalize={floatNormalize}
+                position="vertical"
+                disabled={!customTemplate}
+                showErrorMessage={false}
+              />
+            </div>
+            <div className="form-row_with-placeholder-right col-6">
+              <Field
+                name={this.buildFieldName('freeSpinLifeTime')}
+                id={`${form}freeSpinLifeTime`}
+                type="text"
+                placeholder="0"
+                normalize={intNormalize}
+                label={I18n.t(attributeLabels.freeSpinLifeTime)}
+                component={InputField}
+                position="vertical"
+                disabled={!customTemplate}
+              />
+              <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('betMultiplier')}
+                type="number"
+                id={`${form}betMultiplier`}
+                placeholder="0"
+                normalize={intNormalize}
+                label={I18n.t(attributeLabels.betMultiplier)}
+                component={InputField}
+                position="vertical"
+                disabled={!customTemplate}
+              />
+            </div>
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('coinSize')}
+                id={`${form}coinSize`}
+                label={I18n.t(attributeLabels.coinSize)}
+                type="select"
+                parse={normalizeNumber}
+                component={SelectField}
+                position="vertical"
+                disabled={!customTemplate || coinSizes.length === 1}
+              >
+                {coinSizes
+                  .map(item => <option key={item} value={item}>{item}</option>)}
+              </Field>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <Field
+                name={this.buildFieldName('rhfpBet')}
+                type="number"
+                id={`${form}rhfpBet`}
+                placeholder="0"
+                normalize={intNormalize}
+                label={I18n.t(attributeLabels.rhfpBet)}
+                component={InputField}
+                position="vertical"
+                disabled={!customTemplate}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+
     return (
       <div>
         <hr />
         <div className="row">
           <div className="col-7">
-            <Field
-              name={this.buildFieldName('freeSpinsAmount')}
-              type="number"
-              id={`${form}FreeSpinsAmount`}
-              aplaceholder="0"
-              label={I18n.t(attributeLabels.freeSpins)}
-              component={InputField}
-              normalize={floatNormalize}
-              position="vertical"
-              disabled={!customTemplate}
-              showErrorMessage={false}
-            />
+            <div className="row">
+              <div className="col-6">
+                <Field
+                  name={this.buildFieldName('freeSpinsAmount')}
+                  type="number"
+                  id={`${form}FreeSpinsAmount`}
+                  placeholder="0"
+                  label={I18n.t(attributeLabels.freeSpins)}
+                  component={InputField}
+                  normalize={floatNormalize}
+                  position="vertical"
+                  disabled={!customTemplate}
+                  showErrorMessage={false}
+                />
+              </div>
+              <div className="form-row_with-placeholder-right col-6">
+                <Field
+                  name={this.buildFieldName('freeSpinLifeTime')}
+                  id={`${form}freeSpinLifeTime`}
+                  type="text"
+                  placeholder="0"
+                  normalize={intNormalize}
+                  label={I18n.t(attributeLabels.freeSpinLifeTime)}
+                  component={InputField}
+                  position="vertical"
+                  disabled={disabled}
+                />
+                <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
+              </div>
+            </div>
             <div className="row margin-top-15">
               <div className="col-6">
                 <Field
