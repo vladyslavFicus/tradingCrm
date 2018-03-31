@@ -731,14 +731,14 @@ class ProfileLayout extends Component {
           />
         }
         {
-          modal.name === MODAL_SHARE_PROFILE &&
+          modal.name === MODAL_SHARE_PROFILE && playerProfile &&
           <ShareLinkModal
             onClose={this.handleCloseModal}
             playerUUID={playerProfile.playerUUID}
           />
         }
         {
-          modal.name === MODAL_RESET_PASSWORD &&
+          modal.name === MODAL_RESET_PASSWORD && playerProfile &&
           <ConfirmActionModal
             onSubmit={this.handleResetPassword}
             onClose={this.handleCloseModal}
