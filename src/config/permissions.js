@@ -63,6 +63,9 @@ export default {
     PLAYER_CAMPAIGN_ACTIVE_LIST: 'promotion;GET;/campaigns/{playerUUID}/active',
     PLAYER_CAMPAIGN_AVAILABLE_LIST: 'promotion;GET;/campaigns/{playerUUID}/available',
   },
+  CAMPAIGNS: {
+    LIST: 'campaign;GET;/campaigns',
+  },
   WAGERING_FULFILLMENT: {
     LIST: 'wagering_fulfillment;GET;/',
   },
