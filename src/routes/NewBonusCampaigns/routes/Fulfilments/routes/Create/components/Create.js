@@ -30,7 +30,7 @@ class Create extends Component {
     const action = await this.props.createEntity(data);
 
     if (action && !action.error) {
-      this.context.router.push('/new-bonus-campaigns/fulfilments');
+      this.context.router.push('/campaigns/fulfilments');
     }
   };
 

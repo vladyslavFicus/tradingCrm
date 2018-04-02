@@ -18,7 +18,7 @@ class ChangeStatusModal extends Component {
     campaign: PropTypes.bonusCampaignEntity.isRequired,
     action: PropTypes.string,
     reasons: PropTypes.object,
-    onHide: PropTypes.func.isRequired,
+    onCloseModal: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     customReason: PropTypes.bool,
@@ -29,6 +29,7 @@ class ChangeStatusModal extends Component {
     }).isRequired,
     className: PropTypes.string,
     invalid: PropTypes.bool.isRequired,
+    isOpen: PropTypes.bool.isRequired,
   };
   static defaultProps = {
     action: '',
@@ -50,27 +51,25 @@ class ChangeStatusModal extends Component {
   };
 
   renderReasonsSelect = (reasons, customReason = false) => (
-    <div className="form-group">
-      <Field
-        name="reason"
-        label={I18n.t(attributeLabels.reason)}
-        component={SelectField}
-        position="vertical"
-      >
-        <option value="">{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
-        {Object.keys(reasons).map(key => (
-          <option key={key} value={key}>
-            {I18n.t(reasons[key])}
-          </option>
-        ))}
-        {
-          customReason &&
-          <option value="custom">
-            {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_OPTION')}
-          </option>
-        }
-      </Field>
-    </div>
+    <Field
+      name="reason"
+      label={I18n.t(attributeLabels.reason)}
+      component={SelectField}
+      position="vertical"
+    >
+      <option value="">{I18n.t('COMMON.SELECT_OPTION.REASON')}</option>
+      {Object.keys(reasons).map(key => (
+        <option key={key} value={key}>
+          {I18n.t(reasons[key])}
+        </option>
+      ))}
+      {
+        customReason &&
+        <option value="custom">
+          {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CUSTOM_REASON_OPTION')}
+        </option>
+      }
+    </Field>
   );
 
   render() {
@@ -78,20 +77,21 @@ class ChangeStatusModal extends Component {
       action,
       submitButtonLabel,
       reasons,
-      onHide,
+      onCloseModal,
       onSubmit,
       handleSubmit,
       customReason,
       currentValues,
       campaign,
       className,
+      isOpen,
       invalid,
     } = this.props;
 
     return (
-      <Modal isOpen toggle={onHide} className={className}>
+      <Modal isOpen={isOpen} toggle={onCloseModal} className={className}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ModalHeader toggle={onHide}>
+          <ModalHeader toggle={onCloseModal}>
             {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.TITLE')}
           </ModalHeader>
           <ModalBody>
@@ -123,7 +123,7 @@ class ChangeStatusModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <button className="btn btn-default-outline mr-auto" onClick={onHide}>
+            <button className="btn btn-default-outline mr-auto" onClick={onCloseModal}>
               {I18n.t('BONUS_CAMPAIGNS.CHANGE_STATUS_MODAL.CANCEL_BUTTON')}
             </button>
             <button
@@ -160,5 +160,6 @@ export default connect(state => ({
 
       return createValidator(rules, translateLabels(attributeLabels), false)(data);
     },
+    enableReinitialize: true,
   })(ChangeStatusModal)
 );

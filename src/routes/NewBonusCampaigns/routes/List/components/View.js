@@ -20,7 +20,7 @@ class View extends Component {
 
   renderCampaign = data => (
     <div>
-      <Link to={`/new-bonus-campaigns/view/${data.uuid}/settings`} className="font-weight-700">{data.name}</Link>
+      <Link to={`/campaigns/view/${data.uuid}/settings`} className="font-weight-700">{data.name}</Link>
       <div className="font-size-11">
         <Uuid length={20} uuid={data.uuid} uuidPrefix="CA" />
       </div>
@@ -86,6 +86,7 @@ class View extends Component {
             activePage={campaigns.number + 1}
             totalPages={campaigns.totalPages}
             showNoResults={false}
+            lazyLoad
           >
             <GridColumn
               name="campaign"

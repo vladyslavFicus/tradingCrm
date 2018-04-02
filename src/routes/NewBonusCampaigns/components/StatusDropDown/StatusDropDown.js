@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { Dropdown, DropdownMenu, DropdownItem } from 'reactstrap';
 import classNames from 'classnames';
 import { I18n } from 'react-redux-i18n';
@@ -6,13 +7,10 @@ import PropTypes from '../../../../constants/propTypes';
 import ChangeStatusModal from '../ChangeStatusModal';
 import { statuses } from '../../../../constants/bonus-campaigns';
 import BonusCampaignStatus from '../../../../components/BonusCampaignStatus';
+import { withModals } from '../../../../components/HighOrder';
 
 const initialState = {
   dropDownOpen: false,
-  modal: {
-    show: false,
-    params: {},
-  },
 };
 
 class StatusDropDown extends Component {
@@ -20,6 +18,12 @@ class StatusDropDown extends Component {
     campaign: PropTypes.bonusCampaignEntity.isRequired,
     availableStatusActions: PropTypes.array,
     onChange: PropTypes.func.isRequired,
+    modals: PropTypes.shape({
+      changeStatusModal: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+        hide: PropTypes.func.isRequired,
+      }),
+    }).isRequired,
   };
   static defaultProps = {
     availableStatusActions: [],
@@ -34,38 +38,29 @@ class StatusDropDown extends Component {
   };
 
   handleStatusClick = (action) => {
-    this.setState({
-      modal: {
-        show: true,
-        params: {
-          initialValues: {
-            action: action.action,
-            reasons: action.reasons,
-          },
-          ...action,
-        },
-      },
-    });
-  };
+    const { campaign, modals } = this.props;
 
-  handleModalHide = (e, callback) => {
-    this.setState({
-      modal: { ...initialState.modal },
-    }, () => {
-      if (typeof callback === 'function') {
-        callback();
-      }
+    modals.changeStatusModal.show({
+      campaign,
+      onSubmit: this.handleSubmit,
+      initialValues: {
+        action: action.action,
+        reasons: action.reasons,
+      },
+      ...action,
     });
   };
 
   handleSubmit = ({ reason, action }) => {
-    const { onChange, campaign: { uuid } } = this.props;
+    const { onChange, campaign: { uuid }, modals } = this.props;
 
-    this.handleModalHide(null, () => onChange({
+    modals.changeStatusModal.hide();
+
+    onChange({
       id: uuid,
       reason,
       action,
-    }));
+    });
   };
 
   renderDropDown = (label, availableStatuses, dropDownOpen) => (
@@ -89,7 +84,7 @@ class StatusDropDown extends Component {
   );
 
   render() {
-    const { dropDownOpen, modal } = this.state;
+    const { dropDownOpen } = this.state;
     const { campaign, availableStatusActions } = this.props;
     const dropDownClassName = classNames('dropdown-highlight', {
       'cursor-pointer': status !== statuses.SUSPENDED && status !== statuses.INACTIVE,
@@ -115,21 +110,13 @@ class StatusDropDown extends Component {
         {
           availableStatusActions.length === 0
             ? label
-            : this.renderDropDown(label, availableStatusActions, dropDownOpen, modal)
-        }
-
-        {
-          availableStatusActions.length > 0 && modal.show &&
-          <ChangeStatusModal
-            {...modal.params}
-            campaign={campaign}
-            onSubmit={this.handleSubmit}
-            onHide={this.handleModalHide}
-          />
+            : this.renderDropDown(label, availableStatusActions, dropDownOpen)
         }
       </div>
     );
   }
 }
 
-export default StatusDropDown;
+export default compose(
+  withModals({ changeStatusModal: ChangeStatusModal }),
+)(StatusDropDown);

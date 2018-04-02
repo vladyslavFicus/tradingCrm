@@ -101,12 +101,12 @@ const sidebarTopMenu = [
     items: [
       {
         label: I18n.t('SIDEBAR.TOP_MENU.NEW_CAMPAIGNS_FULFILLMENTS'),
-        url: '/new-bonus-campaigns/fulfilments',
+        url: '/campaigns/fulfilments',
         permissions: new Permissions(permissions.WAGERING_FULFILLMENT.LIST),
       },
       {
         label: I18n.t('SIDEBAR.TOP_MENU.CAMPAIGNS'),
-        url: '/new-bonus-campaigns',
+        url: '/campaigns',
         permissions: new Permissions(permissions.CAMPAIGNS.LIST),
       },
     ],
@@ -139,7 +139,7 @@ const bonusCampaignTabs = [
   { label: 'Feed', url: '/bonus-campaigns/view/:id/feed' },
 ];
 const newBonusCampaignTabs = [
-  { label: 'Settings', url: '/new-bonus-campaigns/view/:id/settings' },
+  { label: 'Settings', url: '/campaigns/view/:id/settings' },
 ];
 const operatorProfileTabs = [
   { label: 'Profile', url: '/operators/:id/profile' },

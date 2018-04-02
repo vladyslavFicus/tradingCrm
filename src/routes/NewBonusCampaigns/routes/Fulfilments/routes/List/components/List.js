@@ -64,7 +64,7 @@ class List extends Component {
           </span>
           <Link
             className="btn btn-primary-outline"
-            to="/new-bonus-campaigns/fulfilments/create"
+            to="/campaigns/fulfilments/create"
           >
             {I18n.t('BONUS_CAMPAIGNS.WAGERING_FULFILMENTS.LIST.CREATE_BUTTON')}
           </Link>
