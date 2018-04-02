@@ -36,12 +36,19 @@ class ListView extends Component {
   };
 
   shouldComponentUpdate(nextProps) {
-    if (!this.props.lazyLoad) {
+    const {
+      lazyLoad,
+      dataSource,
+      locale,
+      showNoResults,
+    } = this.props;
+
+    if (!lazyLoad) {
       return true;
     }
 
-    return !shallowEqual(nextProps.dataSource, this.props.dataSource)
-      || (nextProps.locale !== this.props.locale) || nextProps.showNoResults !== this.props.showNoResults;
+    return !shallowEqual(nextProps.dataSource, dataSource)
+      || (nextProps.locale !== locale) || nextProps.showNoResults !== showNoResults;
   }
 
   onFiltersChanged() {
@@ -49,10 +56,12 @@ class ListView extends Component {
   }
 
   handlePageChange = (eventKey) => {
-    const { onPageChange } = this.props;
+    const { totalPages, activePage, onPageChange } = this.props;
 
     if (typeof onPageChange === 'function') {
-      onPageChange(eventKey, this.state.filters);
+      if (totalPages > activePage) {
+        onPageChange(eventKey, this.state.filters);
+      }
     }
   };
 
@@ -117,7 +126,11 @@ class ListView extends Component {
   }
 
   render() {
-    const { showNoResults, locale } = this.props;
+    const {
+      showNoResults,
+      locale,
+      lazyLoad,
+    } = this.props;
 
     if (showNoResults) {
       return <NotFoundContent locale={locale} />;
@@ -126,7 +139,7 @@ class ListView extends Component {
     return (
       <div>
         {this.renderItems()}
-        {!this.props.lazyLoad && this.renderPagination()}
+        {!lazyLoad && this.renderPagination()}
       </div>
     );
   }
