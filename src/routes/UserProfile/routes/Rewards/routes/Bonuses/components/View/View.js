@@ -143,7 +143,7 @@ class View extends Component {
 
     const wageredAmount = get(data, 'wagered.amount', 0);
     const amountToWage = get(data, 'amountToWage.amount', 0);
-    if (data.state === statuses.IN_PROGRESS && wageredAmount > amountToWage) {
+    if (data.state === statuses.IN_PROGRESS && wageredAmount >= amountToWage) {
       actions.push({
         children: I18n.t('PLAYER_PROFILE.BONUS.PERMIT_BONUS_CONVERSION'),
         onClick: this.handlePermitBonusConversion.bind(null, data.bonusUUID),
