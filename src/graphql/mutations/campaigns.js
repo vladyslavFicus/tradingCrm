@@ -40,7 +40,34 @@ const cancelMutation = gql`mutation cancel(
   }
 }`;
 
+const updateMutation = gql`mutation update(
+  $uuid: String!,
+  $name: String!,
+  $wageringFulfillments: [String]!,
+  $rewards: [String]!
+) {
+  campaign {
+    update(
+      uuid: $uuid,
+      name: $name,
+      wageringFulfillments: $wageringFulfillments,
+      rewards: $rewards, 
+    ) {
+      data {
+        _id,
+        name,
+        wageringFulfillments,
+        rewards,
+      }
+      error {
+        error
+      }
+    }
+  }
+}`;
+
 export {
   activateMutation,
   cancelMutation,
+  updateMutation,
 };
