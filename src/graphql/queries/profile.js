@@ -77,7 +77,6 @@ const profileQuery = gql`query profileData($playerUUID: String!){
         sessionStart
         browserAgent
         ip
-        brandId
         sessionId
         uuid
       }
