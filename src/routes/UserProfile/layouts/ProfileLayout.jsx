@@ -490,7 +490,7 @@ class ProfileLayout extends Component {
   };
 
   handleAddTag = (tag, priority) => {
-    this.props.addTag({ variables: { tag, priority } });
+    this.props.addTag({ tag, priority });
   };
 
   handleDeleteTag = (id) => {
