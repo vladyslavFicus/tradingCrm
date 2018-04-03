@@ -143,6 +143,28 @@ export default compose(
   }),
   graphql(addTagMutation, {
     name: 'addTag',
+    props: ({ ownProps: { params: { id: playerUUID } }, addTag }) => ({
+      addTag({ priority, tag }) {
+        return addTag({
+          variables: { playerUUID, priority, tag },
+          optimisticResponse: {
+            tag: {
+              __typename: 'TagMutation',
+              add: {
+                __typename: 'addTag',
+                error: null,
+                data: {
+                  priority,
+                  id: null,
+                  tag,
+                  __typename: 'Tag',
+                },
+              },
+            },
+          },
+        });
+      },
+    }),
     options: ({ params: { id: playerUUID } }) => ({
       variables: {
         playerUUID,
@@ -158,7 +180,7 @@ export default compose(
             playerProfile,
           } = proxy.readQuery({ query: profileQuery, variables: { playerUUID } });
           const updatedProfile = update(playerProfile, {
-            data: { tags: tags ? { $push: [data] } : { $set: [data] } },
+            data: { tags: { $push: [data] } },
           });
 
           proxy.writeQuery({ query: profileQuery, variables: { playerUUID }, data: { playerProfile: updatedProfile } });
