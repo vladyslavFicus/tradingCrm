@@ -27,7 +27,9 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       state,
       excludeCountries,
       authorUUID,
-      creationDate
+      creationDate,
+      rewards,
+      wageringFulfillments,
     }
   }
 }`;
