@@ -9,6 +9,7 @@ import Uuid from '../../../../../../../components/Uuid';
 import FilterForm from './FilterForm';
 import GameRoundType from './GameRoundType/GameRoundType';
 import StickyNavigation from '../../../../../components/StickyNavigation';
+import './View.scss';
 
 class View extends Component {
   static propTypes = {
@@ -157,7 +158,7 @@ class View extends Component {
 
     if (data[real] && data[real].amount && data[bonus] && data[bonus].amount) {
       sources = (
-        <div>
+        <div className="game-activity__amount">
           <div className="font-size-11 color-primary">
             RM <Amount {...data[real]} />
           </div>
@@ -168,13 +169,13 @@ class View extends Component {
       );
     } else if (data[real] && data[real].amount) {
       sources = (
-        <div className="font-size-11 color-primary">
+        <div className="game-activity__amount font-size-11 color-primary">
           RM
         </div>
       );
     } else if (data[bonus] && data[bonus].amount) {
       sources = (
-        <div className="font-size-11 color-danger">
+        <div className="game-activity__amount font-size-11 color-danger">
           BM
         </div>
       );
@@ -182,7 +183,7 @@ class View extends Component {
 
     return (
       <div>
-        <Amount {...data[total]} className="font-weight-700" tag="div" />
+        <Amount {...data[total]} className="game-activity__amount font-weight-700" tag="div" />
         {sources}
       </div>
     );
@@ -192,6 +193,15 @@ class View extends Component {
     <div>
       {this.renderAmount('totalBetAmount', 'realBetAmount', 'bonusBetAmount')(data)}
       <GameRoundType gameRound={data} />
+    </div>
+  );
+
+  renderWinAmount = data => (
+    <div>
+      {this.renderAmount('totalWinAmount', 'realWinAmount', 'bonusWinAmount')(data)}
+      <If condition={data.jackpot}>
+        <span className="game-activity__jackpot">{I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.JACKPOT')}</span>
+      </If>
     </div>
   );
 
@@ -252,7 +262,7 @@ class View extends Component {
             activePage={entities.number + 1}
             totalPages={entities.totalPages}
             lazyLoad
-            rowClassName={data => classNames({ 'round-rollback-row': data.rollback })}
+            rowClassName={data => classNames({ 'round-rollback-row': data.rollback, 'game-activity__row--jackpot': data.jackpot })}
             locale={locale}
             showNoResults={noResults}
           >
@@ -284,7 +294,7 @@ class View extends Component {
             <GridColumn
               name="winAmount"
               header={I18n.t('PLAYER_PROFILE.GAME_ACTIVITY.GRID_VIEW.WIN_AMOUNT')}
-              render={this.renderAmount('totalWinAmount', 'realWinAmount', 'bonusWinAmount')}
+              render={this.renderWinAmount}
             />
             <GridColumn
               name="winDate"
