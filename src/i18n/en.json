@@ -234,6 +234,7 @@
       "PENDING_STATUS": "Pending",
       "TITLE": "Game Activity",
       "GRID_VIEW": {
+        "JACKPOT": "Jackpot",
         "GAME_ROUND": "Game round",
         "GAME": "Game",
         "BET_DATE": "Bet date",

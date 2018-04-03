@@ -240,6 +240,7 @@
       "PENDING_STATUS": "Ожидает",
       "TITLE": "Игровая активность",
       "GRID_VIEW": {
+        "JACKPOT": "Джекпот",
         "GAME_ROUND": "Раунд",
         "GAME": "Игра",
         "BET_DATE": "Дата ставки",
