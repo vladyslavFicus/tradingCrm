@@ -46,20 +46,22 @@ class ProfileTags extends PureComponent {
   };
 
   renderTags = tags => tags.map(tag => (
-    <div key={tag.id} className="btn-group tag-group">
+    <div key={`${tag.priority}${tag.label}${tag.id}`} className="btn-group tag-group">
       <span className={`tag-arrow tag-arrow-${tagClassNames[tag.priority]}`} />
       <span className={`btn btn-xs ${valueClassNames[tag.priority]}`}>
         {tag.value}
       </span>
-      <PermissionContent permissions={permissions.USER_PROFILE.DELETE_TAG}>
-        <button
-          type="button"
-          className={`btn btn-xs ${valueClassNames[tag.priority]} btn-del`}
-          onClick={() => this.props.onDelete(tag)}
-        >
+      <If condition={tag.id}>
+        <PermissionContent permissions={permissions.USER_PROFILE.DELETE_TAG}>
+          <button
+            type="button"
+            className={`btn btn-xs ${valueClassNames[tag.priority]} btn-del`}
+            onClick={() => this.props.onDelete(tag)}
+          >
           &times;
-        </button>
-      </PermissionContent>
+          </button>
+        </PermissionContent>
+      </If>
     </div>
   ));
 
@@ -106,7 +108,7 @@ ProfileTags.propTypes = {
     priority: PropTypes.string.isRequired,
   })),
   value: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })),

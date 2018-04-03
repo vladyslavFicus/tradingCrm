@@ -63,7 +63,7 @@ class Header extends Component {
       priority: PropTypes.string.isRequired,
     })),
     currentTags: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.number,
       label: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired,
     })),
