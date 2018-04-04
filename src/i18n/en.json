@@ -1401,7 +1401,8 @@
         "BET_LEVEL": "Bet level",
         "COIN_SIZE": "Coin size",
         "RHFP_BET": "Rhfp bet",
-        "BET_MULTIPLIER": "Bet multiplier"
+        "BET_MULTIPLIER": "Bet multiplier",
+        "COMMENT": "Comment"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Add rewards",
