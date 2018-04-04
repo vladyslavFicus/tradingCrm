@@ -29,6 +29,7 @@ class View extends Component {
     clearAll: PropTypes.func.isRequired,
     resetServerGames: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    getFilterProviders: PropTypes.func.isRequired,
     resetGames: PropTypes.func.isRequired,
     filters: PropTypes.shape({
       data: PropTypes.shape({
@@ -46,6 +47,7 @@ class View extends Component {
 
   componentDidMount() {
     this.handleRefresh();
+    this.props.getFilterProviders();
   }
 
   componentWillUnmount() {
