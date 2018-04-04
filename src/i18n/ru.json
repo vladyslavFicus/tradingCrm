@@ -1413,7 +1413,8 @@
         "BET_MULTIPLAYER": "Множитель ставок",
         "COIN_SIZE": "Размер монеты",
         "RHFP_BET": "Rhfp bet",
-        "BET_MULTIPLIER": "Множитель ставок"
+        "BET_MULTIPLIER": "Множитель ставок",
+        "COMMENT": "Комментарий"
       },
       "FREE_SPIN": {
         "ADD_REWARDS": "Добавить награду",
