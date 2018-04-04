@@ -126,7 +126,6 @@ class FreeSpin extends Component {
         linesPerSpin,
         bonusTemplateUUID,
         coinSize,
-        count,
         betMultiplier,
         pageCode,
         comment,
@@ -152,7 +151,7 @@ class FreeSpin extends Component {
       }
 
       if (aggregatorId === aggregators.oryx) {
-        this.setField('count', count);
+        this.setField('freeSpinsAmount', freeSpinsAmount);
         this.setField('betMultiplier', betMultiplier);
         this.setField('coinSize', coinSize);
         this.setField('rhfpBet', rhfpBet);
@@ -166,7 +165,7 @@ class FreeSpin extends Component {
       }
 
       if (aggregatorId === aggregators.softgamings) {
-        this.setField('count', count);
+        this.setField('freeSpinsAmount', freeSpinsAmount);
         this.setField('pageCode', pageCode);
         this.setField('betLevel', betLevel);
       } else {
@@ -310,7 +309,7 @@ class FreeSpin extends Component {
     [
       'providerId', 'gameId', 'betLevel', 'rhfpBet',
       'coinSize', 'betMultiplier', 'freeSpinLifeTime', 'comment',
-      'count', 'freeSpinsAmount', 'betPerLine', 'linesPerSpin',
+      'freeSpinsAmount', 'betPerLine', 'linesPerSpin',
     ].forEach(key => this.setField(key));
   };
 
@@ -336,11 +335,11 @@ class FreeSpin extends Component {
           <div className="row">
             <div className="col-6">
               <Field
-                name={this.buildFieldName('count')}
+                name={this.buildFieldName('freeSpinsAmount')}
                 type="number"
                 id={`${form}Count`}
                 placeholder="0"
-                label={I18n.t(attributeLabels.count)}
+                label={I18n.t(attributeLabels.freeSpinsAmount)}
                 component={InputField}
                 normalize={intNormalize}
                 position="vertical"
@@ -391,36 +390,18 @@ class FreeSpin extends Component {
           <hr />
           <div className="row">
             <div className="col-6">
-              <Choose>
-                <When condition={currentValues.aggregatorId === aggregators.oryx}>
-                  <Field
-                    name={this.buildFieldName('count')}
-                    type="number"
-                    id={`${form}count`}
-                    placeholder="0"
-                    label={I18n.t(attributeLabels.freeSpins)}
-                    component={InputField}
-                    normalize={floatNormalize}
-                    position="vertical"
-                    disabled={!customTemplate}
-                    showErrorMessage={false}
-                  />
-                </When>
-                <Otherwise>
-                  <Field
-                    name={this.buildFieldName('freeSpinsAmount')}
-                    type="number"
-                    id={`${form}freeSpinsAmount`}
-                    placeholder="0"
-                    label={I18n.t(attributeLabels.freeSpins)}
-                    component={InputField}
-                    normalize={floatNormalize}
-                    position="vertical"
-                    disabled={!customTemplate}
-                    showErrorMessage={false}
-                  />
-                </Otherwise>
-              </Choose>
+              <Field
+                name={this.buildFieldName('freeSpinsAmount')}
+                type="number"
+                id={`${form}freeSpinsAmount`}
+                placeholder="0"
+                label={I18n.t(attributeLabels.freeSpins)}
+                component={InputField}
+                normalize={floatNormalize}
+                position="vertical"
+                disabled={!customTemplate}
+                showErrorMessage={false}
+              />
             </div>
             <div className="form-row_with-placeholder-right col-6">
               <Field
