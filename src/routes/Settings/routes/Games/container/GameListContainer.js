@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import View from '../components/View';
+import GameList from '../components/GameList';
 import { actionCreators } from '../modules';
 
 const mapStateToProps = (state) => {
@@ -19,6 +19,7 @@ const mapActions = {
   fetchGames: actionCreators.fetchGames,
   resetServerGames: actionCreators.resetServerGames,
   resetGames: actionCreators.resetGames,
+  getFilterProviders: actionCreators.fetchGameProviders,
 };
 
-export default connect(mapStateToProps, mapActions)(View);
+export default connect(mapStateToProps, mapActions)(GameList);
