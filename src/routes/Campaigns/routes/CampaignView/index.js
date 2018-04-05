@@ -4,7 +4,7 @@ export default store => ({
   path: 'view/:id',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      cb(null, require('./container/ViewContainer').default);
+      cb(null, require('./container/CampaignViewContainer').default);
     }, 'new-bonus-campaign-list');
   },
   childRoutes: [

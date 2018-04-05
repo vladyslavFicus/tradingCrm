@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import Tabs from '../../../../../components/Tabs';
-import { newBonusCampaignTabs } from '../../../../../config/menu';
-import PropTypes from '../../../../../constants/propTypes';
-import Header from '../components/Header';
+import React, { PureComponent } from 'react';
+import Tabs from '../../../../components/Tabs';
+import { newBonusCampaignTabs } from '../../../../config/menu';
+import PropTypes from '../../../../constants/propTypes';
+import Header from './components/Header';
 
-class ViewLayout extends Component {
+class CampaignView extends PureComponent {
   static propTypes = {
     activateMutation: PropTypes.func.isRequired,
     cancelMutation: PropTypes.func.isRequired,
@@ -65,4 +65,4 @@ class ViewLayout extends Component {
   }
 }
 
-export default ViewLayout;
+export default CampaignView;
