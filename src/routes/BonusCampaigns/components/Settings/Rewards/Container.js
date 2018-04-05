@@ -3,6 +3,7 @@ import { Field } from 'redux-form';
 import { difference } from 'lodash';
 import keyMirror from 'keymirror';
 import { I18n } from 'react-redux-i18n';
+import { withRouter } from 'react-router';
 import PropTypes from '../../../../../constants/propTypes';
 import { nodeTypes, nodeTypesLabels } from './constants';
 import { Bonus as BonusNode, FreeSpin as FreeSpinNode } from './Nodes';
@@ -19,6 +20,9 @@ const ALL_NODES = [nodeTypes.bonus, nodeTypes.freeSpin];
 class Container extends Component {
   static propTypes = {
     disabled: PropTypes.bool,
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
     activeNodes: PropTypes.array,
     change: PropTypes.func.isRequired,
     allowedCustomValueTypes: PropTypes.array.isRequired,
@@ -49,6 +53,10 @@ class Container extends Component {
     freeSpinTemplates: [],
     bonusTemplates: [],
     aggregators: {},
+  };
+
+  static defaultProps = {
+    params: {},
   };
 
   static contextTypes = {
@@ -103,6 +111,9 @@ class Container extends Component {
       bonusCustomTemplate,
       onToggleBonusCustomTemplate,
       fetchGameAggregators,
+      params: {
+        id: campaignId,
+      },
     } = this.props;
 
     const bonusNodePath = `${nodeGroupTypes.rewards}.${nodeTypes.bonus}`;
@@ -122,6 +133,7 @@ class Container extends Component {
       case nodeTypes.freeSpin:
         return (
           <FreeSpinNode
+            key={campaignId || 'freeSpinTempalte'}
             currencies={currencies}
             typeValues={allowedCustomValueTypes}
             remove={() => this.handleRemoveNode(nodeTypes.freeSpin)}
@@ -204,4 +216,4 @@ class Container extends Component {
   }
 }
 
-export default Container;
+export default withRouter(Container);
