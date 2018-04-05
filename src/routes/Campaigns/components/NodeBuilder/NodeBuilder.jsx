@@ -45,7 +45,7 @@ class NodeBuilder extends Component {
   handleRemoveNode = (id) => {
     const { nodes } = this.state;
 
-    this.setState({ nodes: nodes.filter(({ id: noteId }) => id !== noteId) });
+    this.setState({ nodes: nodes.filter(({ id: nodeId }) => id !== nodeId) });
   };
 
   render() {
