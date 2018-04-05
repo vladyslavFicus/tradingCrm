@@ -30,6 +30,18 @@ class Bonus extends Component {
             </div>
           </div>
           <div className="row">
+            <div className="col-md-8">
+              <Field
+                name="name"
+                type="text"
+                placeholder=""
+                label={I18n.t(attributeLabels.name)}
+                component={InputField}
+                position="vertical"
+              />
+            </div>
+          </div>
+          <div className="row">
             <div className="col-md-6">
               <CustomValueFieldVertical
                 basename={'conversionPrize'}
