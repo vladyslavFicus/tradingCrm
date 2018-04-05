@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import PropTypes from '../../../../../../constants/propTypes';
-import Form from '../../components/Form';
+import Form from '../../../../components/Form';
 
 class SettingsView extends Component {
   static propTypes = {
