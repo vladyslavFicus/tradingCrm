@@ -31,6 +31,7 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       rewards,
       wageringFulfillments,
       bonuses {
+        _id,
         name,
         moneyTypePriority,
         claimable,
@@ -40,6 +41,7 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
         brandId,
       },
       freeSpins {
+        _id,
         aggregatorId,
         bonusTemplateUUID,
         brandId,
