@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { InputField } from '../../../../../../../components/ReduxForm';
-import { attributeLabels } from './constants';
-import { withReduxFormValues } from '../../../../../../../components/HighOrder';
+import { InputField } from '../../../../../../components/ReduxForm';
+import { attributeLabels } from '../../constants';
+import { withReduxFormValues } from '../../../../../../components/HighOrder';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
