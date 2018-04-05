@@ -10,5 +10,5 @@ export function parseRange(config) {
 export default (config) => {
   const items = config.split(';');
 
-  return items.reduce((res, item) => [...res, parseRange(item)], []);
+  return items.reduce((res, item) => [...res, ...parseRange(item)], []);
 };
