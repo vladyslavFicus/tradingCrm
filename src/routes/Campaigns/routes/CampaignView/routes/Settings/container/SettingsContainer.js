@@ -1,9 +1,11 @@
 import { graphql, compose } from 'react-apollo';
 import { campaignQuery } from '.././../../../../../../graphql/queries/campaigns';
 import { updateMutation } from '.././../../../../../../graphql/mutations/campaigns';
-import ViewLayout from '../components/View';
+import { withNotifications } from '../../../../../../../components/HighOrder';
+import SettingsView from '../components/SettingsView';
 
 export default compose(
+  withNotifications,
   graphql(campaignQuery, {
     options: ({ params: { id: campaignUUID } }) => ({
       fetchPolicy: 'cache-and-network',
@@ -16,4 +18,4 @@ export default compose(
   graphql(updateMutation, {
     name: 'updateCampaign',
   }),
-)(ViewLayout);
+)(SettingsView);

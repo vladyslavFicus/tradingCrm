@@ -3,9 +3,8 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import PropTypes from '../../../../../../../constants/propTypes';
 import Form from './Form';
-import { withNotifications } from '../../../../../../../components/HighOrder';
 
-class View extends Component {
+class SettingsView extends Component {
   static propTypes = {
     campaign: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -67,4 +66,4 @@ class View extends Component {
   }
 }
 
-export default withNotifications(View);
+export default SettingsView;

@@ -2,7 +2,7 @@ import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { campaignQuery } from '.././../../../../graphql/queries/campaigns';
 import { activateMutation, cancelMutation } from '.././../../../../graphql/mutations/campaigns';
-import ViewLayout from '../layouts/ViewLayout';
+import CampaignView from '../CampaignView';
 
 const mapStateToProps = ({ i18n: { locale } }) => ({ locale });
 
@@ -22,4 +22,4 @@ export default compose(
   graphql(cancelMutation, {
     name: 'cancelMutation',
   })
-)(ViewLayout);
+)(CampaignView);
