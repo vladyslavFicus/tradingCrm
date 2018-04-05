@@ -5,7 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import { parse } from 'qs';
 import PropTypes from '../../../../../../../constants/propTypes';
 import { statuses as freeSpinTemplate } from '../../../../../../../constants/free-spin-template';
-import { InputField, SelectField, NasSelectField, DateTimeField } from '../../../../../../../components/ReduxForm';
+import { InputField, SelectField, NasSelectField } from '../../../../../../../components/ReduxForm';
 import { attributeLabels, GAME_TYPES } from './constants';
 import Amount, { Currency } from '../../../../../../../components/Amount';
 import { customValueFieldTypes } from '../../../../../../../constants/form';
