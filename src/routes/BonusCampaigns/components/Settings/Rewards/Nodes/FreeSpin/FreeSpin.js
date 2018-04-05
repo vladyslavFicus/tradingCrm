@@ -339,7 +339,7 @@ class FreeSpin extends Component {
                 type="number"
                 id={`${form}Count`}
                 placeholder="0"
-                label={I18n.t(attributeLabels.freeSpinsAmount)}
+                label={I18n.t(attributeLabels.freeSpins)}
                 component={InputField}
                 normalize={intNormalize}
                 position="vertical"
