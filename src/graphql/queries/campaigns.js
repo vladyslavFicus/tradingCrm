@@ -30,6 +30,28 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       creationDate,
       rewards,
       wageringFulfillments,
+      bonuses {
+        name,
+        moneyTypePriority,
+        claimable,
+        uuid,
+        lockAmountStrategy,
+        bonusLifeTime,
+        brandId,
+      },
+      freeSpins {
+        aggregatorId,
+        bonusTemplateUUID,
+        brandId,
+        gameId,
+        name,
+        pageCode,
+        status,
+        uuid,
+        betLevel,
+        freeSpinLifeTime,
+        freeSpinsAmount,
+      }
     }
   }
 }`;
