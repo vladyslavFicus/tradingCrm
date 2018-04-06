@@ -376,6 +376,20 @@ class FreeSpin extends Component {
                   .map(item => <option key={item} value={item}>{item}</option>)}
               </Field>
             </div>
+            <div className="form-row_with-placeholder-right col-6">
+              <Field
+                name={this.buildFieldName('freeSpinLifeTime')}
+                id={`${form}freeSpinLifeTime`}
+                type="text"
+                placeholder="0"
+                normalize={intNormalize}
+                label={I18n.t(attributeLabels.freeSpinLifeTime)}
+                component={InputField}
+                position="vertical"
+                disabled={!customTemplate}
+              />
+              <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
+            </div>
           </div>
         </div>
       );
