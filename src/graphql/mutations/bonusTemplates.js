@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const addBonusTemplateMutation = gql`mutation addBonus(
+const addBonusMutation = gql`mutation addBonus(
   $name: String!,
   $bonusLifeTime: Float!,
   $moneyTypePriority: String!,
@@ -57,5 +57,5 @@ const addBonusTemplateMutation = gql`mutation addBonus(
 }`;
 
 export {
-  addBonusTemplateMutation,
+  addBonusMutation,
 };
