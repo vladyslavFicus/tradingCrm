@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
@@ -14,7 +14,7 @@ import {
   lockAmountStrategyLabels,
 } from '../../../../../constants/bonus-campaigns';
 
-class Bonus extends Component {
+class BonusForm extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -205,4 +205,4 @@ class Bonus extends Component {
 
 export default reduxForm({
   form: 'addRewardsBonus',
-})(Bonus);
+})(BonusForm);
