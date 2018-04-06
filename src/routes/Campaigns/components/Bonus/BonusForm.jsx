@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import {
   InputField, SelectField, CustomValueFieldVertical,
-} from '../../../../../components/ReduxForm';
-import renderLabel from '../../../../../utils/renderLabel';
+} from '../../../../components/ReduxForm';
+import renderLabel from '../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders } from './constants';
-import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../../constants/bonus-campaigns';
+import { moneyTypeUsage, moneyTypeUsageLabels } from '../../../../constants/bonus-campaigns';
 
-class Bonus extends Component {
+class BonusForm extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -141,4 +141,4 @@ class Bonus extends Component {
 
 export default reduxForm({
   form: 'addRewardsBonus',
-})(Bonus);
+})(BonusForm);
