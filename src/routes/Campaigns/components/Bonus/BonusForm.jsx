@@ -4,15 +4,15 @@ import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import {
   InputField, SelectField, CustomValueFieldVertical,
-} from '../../../../../components/ReduxForm';
-import renderLabel from '../../../../../utils/renderLabel';
+} from '../../../../components/ReduxForm';
+import renderLabel from '../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from './constants';
 import {
   moneyTypeUsage,
   moneyTypeUsageLabels,
   lockAmountStrategy,
   lockAmountStrategyLabels,
-} from '../../../../../constants/bonus-campaigns';
+} from '../../../../constants/bonus-campaigns';
 
 class BonusForm extends PureComponent {
   static propTypes = {
