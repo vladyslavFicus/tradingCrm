@@ -9,6 +9,7 @@ class NodeBuilder extends Component {
     options: PropTypes.arrayOf(
       PropTypes.shape({
         type: PropTypes.string.isRequired,
+        component: PropTypes.func.isRequired,
         items: PropTypes.arrayOf(
           PropTypes.shape({
             uuid: PropTypes.string.isRequired,
@@ -24,6 +25,8 @@ class NodeBuilder extends Component {
     super(props, context);
 
     this.state = {
+      components: props.options
+        .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {}),
       nodes: props.options
         .reduce((acc, curr) => [
           ...acc,
@@ -49,7 +52,7 @@ class NodeBuilder extends Component {
   };
 
   render() {
-    const { nodes, selectedNode } = this.state;
+    const { nodes, selectedNode, components } = this.state;
     const { types, typeLabels } = this.props;
 
     return (
@@ -69,8 +72,10 @@ class NodeBuilder extends Component {
                 &times;
                 </button>
               </div>
-
             </div>
+            {React.createElement(components[node.type], {
+              data: node,
+            })}
           </div>
         </For>
         <div className="row no-gutters py-5 add-campaign-setting">

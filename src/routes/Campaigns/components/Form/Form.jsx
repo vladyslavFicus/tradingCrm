@@ -7,6 +7,8 @@ import { InputField } from '../../../../components/ReduxForm';
 import { attributeLabels, rewardTypes, rewardTypesLabels } from '../../constants';
 import { withReduxFormValues } from '../../../../components/HighOrder';
 import NodeBuilder from '../NodeBuilder';
+import { BonusView } from '../Bonus';
+import { FreeSpinView } from '../FreeSpin';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -107,8 +109,8 @@ class Form extends Component {
           </div>
           <NodeBuilder
             options={[
-              { type: rewardTypes.BONUS, items: bonuses },
-              { type: rewardTypes.FREE_SPIN, items: freeSpins },
+              { type: rewardTypes.BONUS, items: bonuses, component: BonusView },
+              { type: rewardTypes.FREE_SPIN, items: freeSpins, component: FreeSpinView },
             ]}
             typeLabels={rewardTypesLabels}
             types={Object.keys(rewardTypes)}
