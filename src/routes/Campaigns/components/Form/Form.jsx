@@ -4,8 +4,9 @@ import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { InputField } from '../../../../components/ReduxForm';
-import { attributeLabels } from '../../constants';
+import { attributeLabels, rewardTypes, rewardTypesLabels } from '../../constants';
 import { withReduxFormValues } from '../../../../components/HighOrder';
+import NodeBuilder from '../NodeBuilder';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -17,8 +18,13 @@ class Form extends Component {
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
-    disabled: PropTypes.bool,
     form: PropTypes.string.isRequired,
+    freeSpins: PropTypes.arrayOf(PropTypes.shape({
+      uuid: PropTypes.string,
+    })),
+    bonuses: PropTypes.arrayOf(PropTypes.shape({
+      uuid: PropTypes.string,
+    })),
     currentValues: PropTypes.shape({
       name: PropTypes.string,
     }),
@@ -26,10 +32,11 @@ class Form extends Component {
 
   static defaultProps = {
     handleSubmit: null,
+    freeSpins: [],
+    bonuses: [],
     pristine: false,
     submitting: false,
     currentValues: {},
-    disabled: false,
   };
 
   handleRevert = () => {
@@ -43,8 +50,9 @@ class Form extends Component {
       pristine,
       submitting,
       currentValues,
-      disabled,
       form,
+      freeSpins,
+      bonuses,
     } = this.props;
 
     return (
@@ -55,16 +63,22 @@ class Form extends Component {
               {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
             </div>
             {
-              !(pristine || submitting || disabled) &&
+              !pristine &&
               <div className="col-md-6 text-md-right">
                 <button
+                  disabled={submitting}
                   onClick={this.handleRevert}
                   className="btn btn-default-outline text-uppercase margin-right-20"
                   type="button"
                 >
                   {I18n.t('COMMON.REVERT_CHANGES')}
                 </button>
-                <button className="btn btn-primary text-uppercase" type="submit" id="bonus-campaign-save-button">
+                <button
+                  disabled={submitting}
+                  className="btn btn-primary text-uppercase"
+                  type="submit"
+                  id="bonus-campaign-save-button"
+                >
                   {I18n.t('COMMON.SAVE_CHANGES')}
                 </button>
               </div>
@@ -80,7 +94,7 @@ class Form extends Component {
                 type="text"
                 component={InputField}
                 position="vertical"
-                disabled={disabled}
+                disabled={submitting}
               />
               <div className="form-group__note">
                 {
@@ -91,6 +105,14 @@ class Form extends Component {
               </div>
             </div>
           </div>
+          <NodeBuilder
+            options={[
+              { type: rewardTypes.BONUS, items: bonuses },
+              { type: rewardTypes.FREE_SPIN, items: freeSpins },
+            ]}
+            typeLabels={rewardTypesLabels}
+            types={Object.keys(rewardTypes)}
+          />
         </div>
       </form>
     );

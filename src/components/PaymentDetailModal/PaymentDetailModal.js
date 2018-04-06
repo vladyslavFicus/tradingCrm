@@ -31,11 +31,12 @@ class PaymentDetailModal extends Component {
     onChangePaymentStatus: PropTypes.func.isRequired,
     onAskReason: PropTypes.func.isRequired,
     payment: PropTypes.paymentEntity.isRequired,
-    playerProfile: PropTypes.userProfile.isRequired,
+    playerProfile: PropTypes.userProfile,
   };
   static defaultProps = {
     className: '',
     onNoteClick: null,
+    playerProfile: null,
   };
 
   handleApproveClick = () => {
