@@ -1,7 +1,7 @@
-import BonusForm from './BonusForm';
+import CreateBonusModal from './CreateBonusModal';
 import BonusView from './BonusView';
 
 export {
-  BonusForm,
+  CreateBonusModal,
   BonusView,
 };
