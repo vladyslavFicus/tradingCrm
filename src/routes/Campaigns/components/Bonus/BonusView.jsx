@@ -17,6 +17,7 @@ class BonusView extends PureComponent {
     }).isRequired,
     uuid: PropTypes.string.isRequired,
   };
+
   handleSubmitBonusForm = async (formData) => {
     const {
       addBonus,
