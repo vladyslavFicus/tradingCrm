@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "apollo-cache-inmemory": "^1.1.9",
-    "apollo-client": "^2.0.4",
+    "apollo-client": "2.0.4",
     "apollo-client-preset": "^1.0.5",
     "apollo-link": "^1.0.7",
     "apollo-link-batch-http": "^1.0.4",
