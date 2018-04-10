@@ -7779,10 +7779,19 @@ send@0.16.2:
     range-parser "~1.2.0"
     statuses "~1.4.0"
 
-sentry-release@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/sentry-release/-/sentry-release-1.0.2.tgz#d1cb51101db774b415bf77e007d3a9d2ac0a5561"
+sentry-release@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/sentry-release/-/sentry-release-1.0.5.tgz#1f0fe7b5366116073f3e40203e4a55121f4c8b01"
   dependencies:
+    babel-cli "^6.5.1"
+    babel-core "^6.3.17"
+    babel-loader "^6.2.0"
+    babel-plugin-transform-runtime "^6.3.13"
+    babel-polyfill "^6.9.0"
+    babel-preset-es2015 "^6.3.13"
+    babel-preset-stage-0 "^6.3.13"
+    babel-register "^6.3.13"
+    babel-runtime "^6.3.19"
     form-data "^2.3.2"
     node-fetch "^2.1.2"
 
