@@ -31,11 +31,14 @@ node('build') {
     def isBuildDocker = env.BRANCH_NAME == 'master' && !thisJobParams.skipDeploy
 
     docker.image('kkarczmarczyk/node-yarn:6.7').inside('-v /home/jenkins:/home/jenkins') {
-        stage('test') {
-            sh """export HOME=/home/jenkins
-yarn
-"""
+        stage('install dependencies') {
+            sh """
+              export HOME=/home/jenkins
+              yarn
+            """
+        }
 
+        stage('test') {
             if (!thisJobParams.skipTest) {
                 try {
                     sh """export HOME=/home/jenkins
