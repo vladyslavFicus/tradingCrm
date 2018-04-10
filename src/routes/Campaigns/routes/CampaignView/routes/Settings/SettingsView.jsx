@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import PropTypes from '../../../../../../constants/propTypes';
 import Form from '../../../../components/Form';
 
-class SettingsView extends Component {
+class SettingsView extends PureComponent {
   static propTypes = {
     campaign: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -60,9 +60,7 @@ class SettingsView extends Component {
     return (
       <div>
         <Form
-          initialValues={{
-            name,
-          }}
+          initialValues={{ name }}
           bonuses={bonuses}
           freeSpinTemplateUuids={freeSpinTemplateUuids}
           bonusTemplateUuids={bonusTemplateUuids}

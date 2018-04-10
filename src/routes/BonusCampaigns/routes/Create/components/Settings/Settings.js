@@ -24,7 +24,10 @@ class Settings extends Component {
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.array,
-    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+    aggregators: PropTypes.shape({
+      fields: PropTypes.arrayOf(PropTypes.string),
+      providers: PropTypes.arrayOf(PropTypes.string),
+    }),
     freeSpinTemplates: PropTypes.array,
     bonusTemplates: PropTypes.array,
     fetchFreeSpinTemplate: PropTypes.func.isRequired,

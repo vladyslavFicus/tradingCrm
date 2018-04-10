@@ -1,3 +1,3 @@
-import NodeBuilder from './NodeBuilder';
+import NodeBuilderWrapper from './NodeBuilderWrapper';
 
-export default NodeBuilder;
+export default NodeBuilderWrapper;

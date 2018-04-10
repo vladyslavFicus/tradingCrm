@@ -62,7 +62,10 @@ class View extends Component {
     fetchBonusTemplate: PropTypes.func.isRequired,
     bonusTemplates: PropTypes.arrayOf(PropTypes.bonusTemplateListEntity),
     fetchGameAggregators: PropTypes.func.isRequired,
-    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+    aggregators: PropTypes.shape({
+      fields: PropTypes.arrayOf(PropTypes.string),
+      providers: PropTypes.arrayOf(PropTypes.string),
+    }),
   };
 
   static defaultProps = {

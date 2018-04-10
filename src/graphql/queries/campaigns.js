@@ -49,9 +49,25 @@ const freeSpinTemplatesQuery = gql`query freeSpinTemplates {
   }
 }`;
 
+const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggregatorId: String!) {
+  freeSpinTemplate(uuid: $uuid, aggregatorId: $aggregatorId) {
+    data {
+      aggregatorId
+      name
+      uuid
+      providerId
+      status
+    }
+    error {
+      error
+    }
+  }
+}`;
+
 
 export {
   freeSpinTemplatesQuery,
+  freeSpinTemplateQuery,
   campaignsQuery,
   campaignQuery,
 };
