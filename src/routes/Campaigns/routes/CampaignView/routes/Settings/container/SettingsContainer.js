@@ -8,7 +8,6 @@ export default compose(
   withNotifications,
   graphql(campaignQuery, {
     options: ({ params: { id: campaignUUID } }) => ({
-      fetchPolicy: 'cache-and-network',
       variables: {
         campaignUUID,
       },
