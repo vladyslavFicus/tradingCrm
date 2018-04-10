@@ -55,7 +55,17 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
       aggregatorId
       name
       uuid
+      gameId
       providerId
+      freeSpinLifeTime
+      coinSize
+      linesPerSpin
+      betMultiplier
+      rhfpBet
+      comment
+      freeSpinsAmount
+      betLevel
+      pageCode
       status
     }
     error {

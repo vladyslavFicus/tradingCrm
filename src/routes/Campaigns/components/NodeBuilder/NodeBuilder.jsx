@@ -15,6 +15,7 @@ class NodeBuilder extends Component {
         items: PropTypes.arrayOf(PropTypes.string).isRequired,
       }).isRequired,
     ).isRequired,
+    fields: PropTypes.object.isRequired,
     types: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeLabels: PropTypes.object.isRequired,
   };
@@ -52,9 +53,10 @@ class NodeBuilder extends Component {
     this.setState({ nodes: [...nodes, { type: selectedNode, id: `${selectedNode}-${moment.utc().unix()}` }] });
   };
 
-  handleRemoveNode = (id) => {
+  handleRemoveNode = (id, index) => {
     const { nodes } = this.state;
 
+    this.props.fields.remove(index);
     this.setState({ nodes: nodes.filter(({ id: nodeId }) => id !== nodeId) });
   };
 
@@ -73,7 +75,7 @@ class NodeBuilder extends Component {
               <div className="col-auto text-right">
                 <button
                   type="button"
-                  onClick={() => this.handleRemoveNode(node.id)}
+                  onClick={() => this.handleRemoveNode(node.id, index)}
                   className="btn-transparent add-campaign-remove"
                 >
                 &times;
