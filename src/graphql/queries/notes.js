@@ -26,6 +26,7 @@ const notesQuery = gql`query notes(
     page
     totalElements
     number
+    last
     content {
       content
       uuid

@@ -1,7 +1,13 @@
 import gql from 'graphql-tag';
 
-const campaignsQuery = gql`query campaigns{
-  campaigns{
+const campaignsQuery = gql`query campaigns(
+  $size: Int,
+  $page: Int,
+  ){
+  campaigns(
+    size: $size,
+    page: $page,
+    ){
     number,
     page,
     totalElements,

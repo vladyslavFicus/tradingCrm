@@ -18,6 +18,7 @@ class ListView extends Component {
     itemClassName: PropTypes.string,
     locale: PropTypes.string.isRequired,
     showNoResults: PropTypes.bool,
+    last: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -29,6 +30,7 @@ class ListView extends Component {
     activePage: 0,
     totalPages: null,
     itemClassName: '',
+    last: true,
   };
 
   state = {
@@ -56,12 +58,17 @@ class ListView extends Component {
   }
 
   handlePageChange = (eventKey) => {
-    const { totalPages, activePage, onPageChange } = this.props;
+    const {
+      totalPages,
+      activePage,
+      onPageChange,
+      last,
+    } = this.props;
 
-    if (typeof onPageChange === 'function') {
-      if (totalPages > activePage) {
-        onPageChange(eventKey, this.state.filters);
-      }
+    const hasMore = totalPages && activePage ? totalPages > activePage : !last;
+
+    if (typeof onPageChange === 'function' && hasMore) {
+      onPageChange(eventKey, this.state.filters);
     }
   };
 
@@ -71,15 +78,17 @@ class ListView extends Component {
       lazyLoad,
       totalPages,
       activePage,
+      last,
     } = this.props;
 
     const items = dataSource.map((data, key) => this.renderItem(key, data));
+    const hasMore = totalPages && activePage ? totalPages > activePage : !last;
 
     return lazyLoad ?
       <InfiniteScroll
         loadMore={() => this.handlePageChange(activePage + 1)}
         element="div"
-        hasMore={totalPages > activePage}
+        hasMore={hasMore}
       >
         {items}
       </InfiniteScroll> : <div>{items}</div>;
