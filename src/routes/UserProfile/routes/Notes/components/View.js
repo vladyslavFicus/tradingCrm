@@ -12,8 +12,9 @@ import Uuid from '../../../../../components/Uuid';
 class View extends Component {
   static propTypes = {
     notes: PropTypes.shape({
-      refetch: PropTypes.isRequired,
+      refetch: PropTypes.func.isRequired,
       loading: PropTypes.bool.isRequired,
+      loadMoreNotes: PropTypes.func.isRequired,
       notes: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.shape({
           author: PropTypes.string,
@@ -78,9 +79,16 @@ class View extends Component {
     this.setState({ filters, page: 0 }, () => this.handleRefresh());
   };
 
-  handlePageChanged = (page) => {
-    if (!this.props.notes.loading) {
-      this.setState({ page: page - 1 }, () => this.handleRefresh());
+  handlePageChanged = () => {
+    const {
+      notes: {
+        loading,
+        loadMoreNotes,
+      },
+    } = this.props;
+
+    if (!loading) {
+      loadMoreNotes();
     }
   };
 
@@ -152,16 +160,16 @@ class View extends Component {
 
   render() {
     const {
-
-      notes: {
-        notes,
-        loading,
-      },
+      notes: { notes, loading },
       noteTypes: {
         data: availableTypes,
       },
       locale,
     } = this.props;
+
+    if (!notes) {
+      return null;
+    }
 
     return (
       <div>
@@ -177,19 +185,18 @@ class View extends Component {
         />
 
         <div className="tab-content">
-          <If condition={!loading}>
-            <ListView
-              dataSource={notes.content || []}
-              itemClassName="note-item"
-              onPageChange={this.handlePageChanged}
-              render={this.renderItem}
-              activePage={notes.number + 1}
-              totalPages={notes.totalPages}
-              lazyLoad
-              locale={locale}
-              showNoResults={!loading && !notes.content.length}
-            />
-          </If>
+          <ListView
+            dataSource={notes.content}
+            itemClassName="note-item"
+            onPageChange={this.handlePageChanged}
+            render={this.renderItem}
+            activePage={notes.number + 1}
+            totalPages={notes.totalPages}
+            last={notes.last}
+            lazyLoad
+            locale={locale}
+            showNoResults={!loading && !notes.content.length}
+          />
         </div>
       </div>
     );

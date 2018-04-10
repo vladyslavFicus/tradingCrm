@@ -1,7 +1,13 @@
 import gql from 'graphql-tag';
 
-const campaignsQuery = gql`query campaigns{
-  campaigns{
+const campaignsQuery = gql`query campaigns(
+  $size: Int,
+  $page: Int,
+  ){
+  campaigns(
+    size: $size,
+    page: $page,
+    ){
     number,
     page,
     totalElements,
@@ -49,9 +55,25 @@ const freeSpinTemplatesQuery = gql`query freeSpinTemplates {
   }
 }`;
 
+const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggregatorId: String!) {
+  freeSpinTemplate(uuid: $uuid, aggregatorId: $aggregatorId) {
+    data {
+      aggregatorId
+      name
+      uuid
+      providerId
+      status
+    }
+    error {
+      error
+    }
+  }
+}`;
+
 
 export {
   freeSpinTemplatesQuery,
+  freeSpinTemplateQuery,
   campaignsQuery,
   campaignQuery,
 };

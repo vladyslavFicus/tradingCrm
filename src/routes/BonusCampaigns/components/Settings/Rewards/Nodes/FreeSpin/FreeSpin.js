@@ -35,7 +35,10 @@ class FreeSpin extends Component {
     bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleBonusCustomTemplate: PropTypes.func.isRequired,
     fetchGameAggregators: PropTypes.func.isRequired,
-    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+    aggregators: PropTypes.shape({
+      fields: PropTypes.arrayOf(PropTypes.string),
+      providers: PropTypes.arrayOf(PropTypes.string),
+    }),
   };
 
   static defaultProps = {
@@ -670,7 +673,7 @@ class FreeSpin extends Component {
     const currentValues = get(rewards, 'freeSpin', {});
     const { currentGames } = this.state;
 
-    const availableProviders = get(aggregatorsMap, currentValues.aggregatorId, []);
+    const availableProviders = get(aggregatorsMap, `${currentValues.aggregatorId}.providers`, []);
     const currentUuid = get(currentValues, 'templateUUID', false);
 
     return (

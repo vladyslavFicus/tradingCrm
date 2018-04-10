@@ -12,10 +12,25 @@ class View extends Component {
   static propTypes = {
     locale: PropTypes.string.isRequired,
     campaigns: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      loadMoreCampaigns: PropTypes.func.isRequired,
       campaigns: PropTypes.shape({
         content: PropTypes.arrayOf(PropTypes.newBonusCampaignEntity),
       }),
     }).isRequired,
+  };
+
+  handlePageChanged = () => {
+    const {
+      campaigns: {
+        loadMoreCampaigns,
+        loading,
+      },
+    } = this.props;
+
+    if (!loading) {
+      loadMoreCampaigns();
+    }
   };
 
   renderCampaign = data => (
@@ -86,6 +101,7 @@ class View extends Component {
             activePage={campaigns.number + 1}
             totalPages={campaigns.totalPages}
             showNoResults={false}
+            last={campaigns.last}
             lazyLoad
           >
             <GridColumn

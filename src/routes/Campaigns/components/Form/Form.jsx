@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { InputField } from '../../../../components/ReduxForm';
 import { attributeLabels, rewardTypes, rewardTypesLabels } from '../../constants';
-import { withReduxFormValues } from '../../../../components/HighOrder';
 import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Bonus';
 import { FreeSpinView } from '../FreeSpin';
@@ -105,6 +103,7 @@ class Form extends Component {
           </div>
         </div>
         <NodeBuilder
+          name="rewards"
           options={[
             { type: rewardTypes.BONUS, items: bonusTemplateUuids, component: BonusView },
             { type: rewardTypes.FREE_SPIN, items: freeSpinTemplateUuids, component: FreeSpinView },
@@ -117,9 +116,4 @@ class Form extends Component {
   }
 }
 
-export default compose(
-  reduxForm({
-    enableReinitialize: true,
-  }),
-  withReduxFormValues
-)(Form);
+export default reduxForm({ keepDirtyOnReinitialize: true })(Form);

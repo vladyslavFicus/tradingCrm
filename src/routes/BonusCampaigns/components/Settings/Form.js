@@ -69,7 +69,10 @@ class Form extends Component {
       rewards: PropTypes.array.isRequired,
     }).isRequired,
     games: PropTypes.arrayOf(PropTypes.gameEntity),
-    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+    aggregators: PropTypes.shape({
+      fields: PropTypes.arrayOf(PropTypes.string),
+      providers: PropTypes.arrayOf(PropTypes.string),
+    }),
     freeSpinTemplates: PropTypes.array,
     baseCurrency: PropTypes.string.isRequired,
     fetchGames: PropTypes.func.isRequired,

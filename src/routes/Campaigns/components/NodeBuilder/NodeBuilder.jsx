@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
+import { get } from 'lodash';
 import moment from 'moment';
 import { SelectField } from '../../../../components/ReduxForm';
 
 class NodeBuilder extends Component {
   static propTypes = {
+    name: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(
       PropTypes.shape({
         type: PropTypes.string.isRequired,
@@ -31,6 +33,15 @@ class NodeBuilder extends Component {
     };
   }
 
+  componentDidMount() {
+    const { nodes } = this.state;
+    const { fields } = this.props;
+
+    nodes
+      .filter(({ uuid }) => uuid)
+      .forEach(({ uuid }) => fields.push({ uuid }));
+  }
+
   handleSelectNode = (e) => {
     this.setState({ selectedNode: e.target.value });
   };
@@ -49,11 +60,11 @@ class NodeBuilder extends Component {
 
   render() {
     const { nodes, selectedNode, components } = this.state;
-    const { types, typeLabels } = this.props;
+    const { types, fields, typeLabels, name } = this.props;
 
     return (
       <div className="col-6">
-        <For each="node" of={nodes}>
+        <For each="node" index="index" of={nodes}>
           <div key={node.id} className="container-fluid add-campaign-container">
             <div className="row align-items-center">
               <div className="col text-truncate add-campaign-label">
@@ -71,7 +82,8 @@ class NodeBuilder extends Component {
             </div>
             {React.createElement(components[node.type], {
               id: node.id,
-              uuid: node.uuid,
+              name: `${name}[${index}]`,
+              uuid: get(fields.get(index), 'uuid', ''),
             })}
           </div>
         </For>
