@@ -21,21 +21,17 @@ class Form extends Component {
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     form: PropTypes.string.isRequired,
-    freeSpins: PropTypes.arrayOf(PropTypes.shape({
-      uuid: PropTypes.string,
-    })),
-    bonuses: PropTypes.arrayOf(PropTypes.shape({
-      uuid: PropTypes.string,
-    })),
     currentValues: PropTypes.shape({
       name: PropTypes.string,
     }),
+    freeSpinTemplateUuids: PropTypes.arrayOf(PropTypes.string),
+    bonusTemplateUuids: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
     handleSubmit: null,
-    freeSpins: [],
-    bonuses: [],
+    freeSpinTemplateUuids: [],
+    bonusTemplateUuids: [],
     pristine: false,
     submitting: false,
     currentValues: {},
@@ -53,8 +49,8 @@ class Form extends Component {
       submitting,
       currentValues,
       form,
-      freeSpins,
-      bonuses,
+      freeSpinTemplateUuids,
+      bonusTemplateUuids,
     } = this.props;
 
     return (
@@ -109,8 +105,8 @@ class Form extends Component {
           </div>
           <NodeBuilder
             options={[
-              { type: rewardTypes.BONUS, items: bonuses, component: BonusView },
-              { type: rewardTypes.FREE_SPIN, items: freeSpins, component: FreeSpinView },
+              { type: rewardTypes.BONUS, items: freeSpinTemplateUuids, component: BonusView },
+              { type: rewardTypes.FREE_SPIN, items: bonusTemplateUuids, component: FreeSpinView },
             ]}
             typeLabels={rewardTypesLabels}
             types={Object.keys(rewardTypes)}

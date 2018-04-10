@@ -50,7 +50,8 @@ class SettingsView extends Component {
           data: {
             name,
             bonuses,
-            freeSpins,
+            freeSpinTemplateUuids,
+            bonusTemplateUuids,
           },
         },
       },
@@ -63,7 +64,8 @@ class SettingsView extends Component {
             name,
           }}
           bonuses={bonuses}
-          freeSpins={freeSpins}
+          freeSpinTemplateUuids={freeSpinTemplateUuids}
+          bonusTemplateUuids={bonusTemplateUuids}
           form="settings"
           onSubmit={this.handleUpdateCampaign}
         />
