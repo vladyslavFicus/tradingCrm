@@ -15,7 +15,7 @@ server {
     if ($request_method = OPTIONS) {
         set $need_upgrade 0;
     }
-    
+
     if ($need_upgrade = 1) {
         return 426;
     }
