@@ -156,7 +156,7 @@
     "react-test-renderer": "^15.6.1",
     "redbox-react": "^1.5.0",
     "rimraf": "^2.6.1",
-    "sentry-release": "^1.0.5",
+    "sentry-release": "^1.0.7",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
     "style-loader": "^0.18.2",
