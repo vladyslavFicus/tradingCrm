@@ -2,12 +2,12 @@ import { CALL_API } from 'redux-api-middleware';
 import buildQueryString from '../../../../utils/buildQueryString';
 
 function fetchFullFreeSpinTemplates(type) {
-  return (filters = {}) => (dispatch, getState) => {
+  return (aggregatorId, filters = {}) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates?${buildQueryString(filters)}`,
+        endpoint: `free_spin_template/templates/${aggregatorId}?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -106,12 +106,12 @@ function createFreeSpinTemplate(type) {
 }
 
 function assignFreeSpinTemplate(type) {
-  return (uuid, aggregatorID, data) => (dispatch, getState) => {
+  return (uuid, aggregatorId, data) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates/${aggregatorID}/${uuid}/assign`,
+        endpoint: `free_spin_template/templates/${aggregatorId}/${uuid}/assign`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
