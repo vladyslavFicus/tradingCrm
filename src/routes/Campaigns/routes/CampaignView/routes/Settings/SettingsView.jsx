@@ -50,22 +50,24 @@ class SettingsView extends Component {
           data: {
             name,
             bonuses,
-            freeSpins
+            freeSpins,
           },
         },
       },
     } = this.props;
 
     return (
-      <Form
-        initialValues={{
-          name,
-        }}
-        bonuses={bonuses}
-        freeSpins={freeSpins}
-        form="settings"
-        onSubmit={this.handleUpdateCampaign}
-      />
+      <div>
+        <Form
+          initialValues={{
+            name,
+          }}
+          bonuses={bonuses}
+          freeSpins={freeSpins}
+          form="settings"
+          onSubmit={this.handleUpdateCampaign}
+        />
+      </div>
     );
   }
 }
