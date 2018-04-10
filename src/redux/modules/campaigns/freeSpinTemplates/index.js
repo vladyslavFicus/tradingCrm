@@ -7,7 +7,7 @@ function fetchFullFreeSpinTemplates(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates/igromat?${buildQueryString(filters)}`,
+        endpoint: `free_spin_template/templates?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -31,7 +31,7 @@ function fetchShortFreeSpinTemplates(type) {
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates/igromat/short?${buildQueryString(filters)}`,
+        endpoint: `free_spin_template/templates/short?${buildQueryString(filters)}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -56,12 +56,12 @@ function fetchFreeSpinTemplates(type) {
 }
 
 function fetchFreeSpinTemplate(type) {
-  return uuid => (dispatch, getState) => {
+  return (uuid, aggregatorId) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates/igromat/${uuid}`,
+        endpoint: `free_spin_template/templates/${aggregatorId}/${uuid}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -106,12 +106,12 @@ function createFreeSpinTemplate(type) {
 }
 
 function assignFreeSpinTemplate(type) {
-  return (uuid, data) => (dispatch, getState) => {
+  return (uuid, aggregatorID, data) => (dispatch, getState) => {
     const { auth: { token, logged } } = getState();
 
     return dispatch({
       [CALL_API]: {
-        endpoint: `free_spin_template/templates/igromat/${uuid}/assign`,
+        endpoint: `free_spin_template/templates/${aggregatorID}/${uuid}/assign`,
         method: 'POST',
         headers: {
           Accept: 'application/json',

@@ -115,9 +115,15 @@ class FreeSpin extends Component {
   setField = (field, value = '') => this.props.change(this.buildFieldName(field), value);
 
   loadTemplateData = async (templateUUID) => {
-    const { fetchFreeSpinTemplate } = this.props;
+    const { fetchFreeSpinTemplate, freeSpinTemplates } = this.props;
 
-    const action = await fetchFreeSpinTemplate(templateUUID);
+    const template = freeSpinTemplates.find(i => i.uuid === templateUUID);
+
+    if (!template) {
+      return null;
+    }
+
+    const action = await fetchFreeSpinTemplate(templateUUID, template.aggregatorId);
     if (action && !action.error) {
       const {
         name,
