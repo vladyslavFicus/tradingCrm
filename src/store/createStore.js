@@ -69,6 +69,21 @@ export default (initialState = {}, onComplete) => {
     )
   );
 
+  store.subscribe(() => {
+    const { auth, language, settings } = store.getState();
+
+    Raven.setExtraContext({ language });
+    Raven.setExtraContext({ settings });
+
+    if (auth.logged) {
+      Raven.setExtraContext({
+        uuid: auth.uuid,
+        brandId: auth.brandId,
+        department: auth.department,
+      });
+    }
+  });
+
   const persist = persistStore(store, config.middlewares.persist, async () => {
     const { auth: { logged, token } } = store.getState();
     let { language } = store.getState();

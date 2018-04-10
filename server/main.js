@@ -8,6 +8,8 @@ const project = require('../project.config');
 const compress = require('compression');
 const proxy = require('express-http-proxy');
 
+logger.info(`App version: ${project.globals.__APP_VERSION__}`);
+
 const app = express();
 app.use(compress());
 
@@ -17,6 +19,8 @@ app.use(compress());
 if (project.env === 'development') {
   const compiler = webpack(webpackConfig);
   const appConfig = require('./application.config');
+
+  appConfig.version = project.globals.__APP_VERSION__;
 
   if (process.env.API_ROOT) {
     _.set(appConfig, 'nas.brand.api.url', process.env.API_ROOT);

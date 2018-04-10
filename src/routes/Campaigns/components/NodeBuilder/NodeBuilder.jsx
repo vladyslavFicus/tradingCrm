@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
+import { get } from 'lodash';
 import moment from 'moment';
 import { SelectField } from '../../../../components/ReduxForm';
 
@@ -17,7 +18,6 @@ class NodeBuilder extends Component {
     types: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeLabels: PropTypes.object.isRequired,
   };
-
 
   constructor(props, context) {
     super(props, context);
@@ -60,7 +60,7 @@ class NodeBuilder extends Component {
 
   render() {
     const { nodes, selectedNode, components } = this.state;
-    const { types, typeLabels, name } = this.props;
+    const { types, fields, typeLabels, name } = this.props;
 
     return (
       <div className="col-6">
@@ -83,7 +83,7 @@ class NodeBuilder extends Component {
             {React.createElement(components[node.type], {
               id: node.id,
               name: `${name}[${index}]`,
-              uuid: node.uuid,
+              uuid: get(fields.get(index), 'uuid', ''),
             })}
           </div>
         </For>

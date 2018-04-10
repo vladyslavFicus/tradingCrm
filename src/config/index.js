@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 const config = _.merge({
-  version: __APP_VERSION__,
   availableTags: [],
   components: {
     Currency: {

@@ -13,7 +13,8 @@
     "test:watch": "npm test -- --watch",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "i18n": "i18n-parser --config=./build/i18n.json"
+    "i18n": "i18n-parser --config=./build/i18n.json",
+    "sentry-release": "node build/scripts/sentry-release"
   },
   "author": "nassoft",
   "license": "MIT",
@@ -155,6 +156,7 @@
     "react-test-renderer": "^15.6.1",
     "redbox-react": "^1.5.0",
     "rimraf": "^2.6.1",
+    "sentry-release": "^1.0.2",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
     "style-loader": "^0.18.2",
