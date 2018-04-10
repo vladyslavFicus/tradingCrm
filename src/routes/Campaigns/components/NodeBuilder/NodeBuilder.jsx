@@ -70,6 +70,7 @@ class NodeBuilder extends Component {
               </div>
             </div>
             {React.createElement(components[node.type], {
+              id: node.id,
               uuid: node.uuid,
             })}
           </div>
