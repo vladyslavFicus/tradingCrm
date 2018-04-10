@@ -50,9 +50,17 @@ yarn test:jenkins
         }
 
         stage('build') {
-            sh """export HOME=/home/jenkins
+            sh """
+              export HOME=/home/jenkins
               yarn build
             """
+        }
+
+        stage('sentry release') {
+            sh '''
+                export HOME=/home/jenkins
+                yarn sentry-release
+            '''
         }
     }
 
