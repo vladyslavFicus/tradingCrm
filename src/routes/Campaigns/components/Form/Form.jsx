@@ -54,7 +54,7 @@ class Form extends Component {
     } = this.props;
 
     return (
-      <form id={form} className="campaign-settings" onSubmit={handleSubmit(onSubmit)}>
+      <form id={form} onSubmit={handleSubmit(onSubmit)} className="campaign-settings">
         <div className="container-fluid">
           <div className="row align-items-center">
             <div className="col-md-6 text-truncate campaign-settings__title">
@@ -103,15 +103,15 @@ class Form extends Component {
               </div>
             </div>
           </div>
-          <NodeBuilder
-            options={[
-              { type: rewardTypes.BONUS, items: freeSpinTemplateUuids, component: BonusView },
-              { type: rewardTypes.FREE_SPIN, items: bonusTemplateUuids, component: FreeSpinView },
-            ]}
-            typeLabels={rewardTypesLabels}
-            types={Object.keys(rewardTypes)}
-          />
         </div>
+        <NodeBuilder
+          options={[
+            { type: rewardTypes.BONUS, items: bonusTemplateUuids, component: BonusView },
+            { type: rewardTypes.FREE_SPIN, items: freeSpinTemplateUuids, component: FreeSpinView },
+          ]}
+          typeLabels={rewardTypesLabels}
+          types={Object.keys(rewardTypes)}
+        />
       </form>
     );
   }

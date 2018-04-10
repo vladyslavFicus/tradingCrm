@@ -39,7 +39,19 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
   }
 }`;
 
+const freeSpinTemplatesQuery = gql`query freeSpinTemplates {
+  freeSpinTemplates {
+    aggregatorId
+    name
+    uuid
+    providerId
+    status
+  }
+}`;
+
+
 export {
+  freeSpinTemplatesQuery,
   campaignsQuery,
   campaignQuery,
 };
