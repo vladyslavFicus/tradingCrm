@@ -10,11 +10,7 @@ class NodeBuilder extends Component {
       PropTypes.shape({
         type: PropTypes.string.isRequired,
         component: PropTypes.func.isRequired,
-        items: PropTypes.arrayOf(
-          PropTypes.shape({
-            uuid: PropTypes.string.isRequired,
-          }).isRequired,
-        ).isRequired,
+        items: PropTypes.arrayOf(PropTypes.string).isRequired,
       }).isRequired,
     ).isRequired,
     types: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -30,7 +26,7 @@ class NodeBuilder extends Component {
       nodes: props.options
         .reduce((acc, curr) => [
           ...acc,
-          ...curr.items.map(({ uuid }) => ({ type: curr.type, uuid, id: uuid })),
+          ...curr.items.map(uuid => ({ type: curr.type, uuid, id: uuid })),
         ], []),
     };
   }
