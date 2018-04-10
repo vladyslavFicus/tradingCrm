@@ -43,7 +43,10 @@ class Container extends Component {
     bonusCustomTemplate: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
     onToggleBonusCustomTemplate: PropTypes.func.isRequired,
     fetchGameAggregators: PropTypes.func.isRequired,
-    aggregators: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+    aggregators: PropTypes.shape({
+      fields: PropTypes.arrayOf(PropTypes.string),
+      providers: PropTypes.arrayOf(PropTypes.string),
+    }),
   };
 
   static defaultProps = {

@@ -4,7 +4,7 @@ import { NasSelectField } from '../../../../../components/ReduxForm';
 
 export default class FreeSpinView extends PureComponent {
   render() {
-    const { uuid, id, freeSpinTemplates: { freeSpinTemplates } } = this.props;
+    const { uuid, freeSpinTemplates: { freeSpinTemplates }, name } = this.props;
     const fsTemplates = freeSpinTemplates || [];
 
     return (
@@ -12,14 +12,12 @@ export default class FreeSpinView extends PureComponent {
         <div className="row">
           <div className="col-8">
             <Field
-              name={`${id}TemplateUUID`}
-              id={'templateUUID'}
-              value={uuid || freeSpinTemplates[0]}
+              name={`${name}.uuid`}
+              id={`${name}-uuid`}
               label={'tempalte'}
               component={NasSelectField}
               showErrorMessage={false}
               position="vertical"
-              onChange={this.handleChangeTemplate}
             >
               {fsTemplates.map(item => (
                 <option key={item.uuid} value={item.uuid}>
