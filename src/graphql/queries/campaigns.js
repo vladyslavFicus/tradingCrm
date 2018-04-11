@@ -35,9 +35,10 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       authorUUID,
       creationDate,
       rewards,
-      wageringFulfillments,
+      fulfillments,
       freeSpinTemplateUuids,
       bonusTemplateUuids,
+      wageringUuids,
     }
     error {
       error
@@ -100,6 +101,20 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
   }
 }`;
 
+const wageringQuery = gql`query wagering($uuid: String!) {
+  wagering(uuid: $uuid) {
+    data {
+      uuid
+      amounts {
+        amount,
+        currency
+      }
+    }
+    error {
+      error
+    }
+  }
+}`;
 
 export {
   freeSpinTemplatesQuery,
@@ -108,4 +123,5 @@ export {
   campaignQuery,
   shortBonusTemplatesQuery,
   bonusTemplateQuery,
+  wageringQuery,
 };
