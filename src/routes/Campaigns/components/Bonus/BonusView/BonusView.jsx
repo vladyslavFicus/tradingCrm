@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field } from 'redux-form';
 import { TextRow } from 'react-placeholder/lib/placeholders';
@@ -10,6 +11,7 @@ import Placeholder from '../../../../../components/Placeholder';
 class BonusView extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
     shortBonusTemplates: PropTypes.shape({
       bonusTemplates: PropTypes.arrayOf(PropTypes.shape({
         uuid: PropTypes.string,
@@ -110,17 +112,18 @@ class BonusView extends PureComponent {
 
   render() {
     const {
+      uuid,
       name,
       shortBonusTemplates: {
         shortBonusTemplates,
       },
       bonusTemplate,
+      bonusTemplate: {
+        loading,
+      },
     } = this.props;
 
-    if (!shortBonusTemplates) {
-      return null;
-    }
-
+    const bonusTemplates = shortBonusTemplates || [];
     const template = get(bonusTemplate, 'bonusTemplate.data', {});
 
     return (
@@ -135,7 +138,7 @@ class BonusView extends PureComponent {
               showErrorMessage={false}
               position="vertical"
             >
-              {shortBonusTemplates.map(item => (
+              {bonusTemplates.map(item => (
                 <option key={item.uuid} value={item.uuid}>
                   {item.name}
                 </option>
@@ -147,65 +150,67 @@ class BonusView extends PureComponent {
               type="button"
               onClick={this.handleOpenCreateModal}
             >
-              Add
+              {I18n.t('COMMON.BUTTON.ADD')}
             </button>
           </div>
         </div>
-        <Placeholder
-          ready={!!template.uuid}
-          className={null}
-          customPlaceholder={(
+        <If condition={uuid}>
+          <Placeholder
+            ready={!loading}
+            className={null}
+            customPlaceholder={(
+              <div>
+                <TextRow className="animated-background" style={{ width: '80%', height: '20px' }} />
+                <TextRow className="animated-background" style={{ width: '80%', height: '12px' }} />
+              </div>
+            )}
+          >
             <div>
-              <TextRow className="animated-background" style={{ width: '80%', height: '20px' }} />
-              <TextRow className="animated-background" style={{ width: '80%', height: '12px' }} />
-            </div>
-          )}
-        >
-          <div>
-            <div className="row">
-              <div className="col-4 bonus-template__item">
-                <div className="bonus-template">uuid</div>
-                <div>
-                  <div className="bonus-template">{template.uuid}</div>
+              <div className="row">
+                <div className="col-4 bonus-template__item">
+                  <div className="bonus-template">uuid</div>
+                  <div>
+                    <div className="bonus-template">{template.uuid}</div>
+                  </div>
+                </div>
+                <div className="col-4 bonus-template__item">
+                  <div className="bonus-template">Name</div>
+                  <div>
+                    <div className="bonus-template">{template.name}</div>
+                  </div>
                 </div>
               </div>
-              <div className="col-4 bonus-template__item">
-                <div className="bonus-template">Name</div>
-                <div>
-                  <div className="bonus-template">{template.name}</div>
+              <div className="row">
+                <div className="col-4 bonus-template__item">
+                  <div className="bonus-template">moneyTypePriority</div>
+                  <div>
+                    <div className="bonus-template">{template.moneyTypePriority}</div>
+                  </div>
+                </div>
+                <div className="col-4 bonus-template__item">
+                  <div className="bonus-template">claimable</div>
+                  <div>
+                    <div className="bonus-template">{template.claimable}</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-4 bonus-template__item">
-                <div className="bonus-template">moneyTypePriority</div>
-                <div>
-                  <div className="bonus-template">{template.moneyTypePriority}</div>
+              <div className="row">
+                <div className="col-4 bonus-template__item">
+                  <div className="bonus-template">lockAmountStrategy</div>
+                  <div>
+                    <div className="bonus-template">{template.lockAmountStrategy}</div>
+                  </div>
                 </div>
-              </div>
-              <div className="col-4 bonus-template__item">
-                <div className="bonus-template">claimable</div>
-                <div>
-                  <div className="bonus-template">{template.claimable}</div>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-4 bonus-template__item">
-                <div className="bonus-template">lockAmountStrategy</div>
-                <div>
-                  <div className="bonus-template">{template.lockAmountStrategy}</div>
-                </div>
-              </div>
-              <div className="col-4 bonus-template__item">
-                <div className="bonus-template">bonusLifeTime</div>
-                <div>
-                  <div className="bonus-template">{template.bonusLifeTime}</div>
+                <div className="col-4 bonus-template__item">
+                  <div className="bonus-template">bonusLifeTime</div>
+                  <div>
+                    <div className="bonus-template">{template.bonusLifeTime}</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Placeholder>
+          </Placeholder>
+        </If>
       </div>
     );
   }
