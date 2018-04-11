@@ -67,7 +67,10 @@ const bonusTemplateQuery = gql`query bonusTemplate($uuid: String!) {
     data {
      name
      uuid,
-     moneyTypePriority
+     moneyTypePriority,
+     claimable,
+     lockAmountStrategy,
+     bonusLifeTime
     }
   }
 }`;
