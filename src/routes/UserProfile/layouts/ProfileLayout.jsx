@@ -131,7 +131,9 @@ class ProfileLayout extends Component {
     suspendProlong: PropTypes.func.isRequired,
     suspendMutation: PropTypes.func.isRequired,
     resumeMutation: PropTypes.func.isRequired,
+    unlockLogin: PropTypes.func.isRequired,
     userProfileTabs: PropTypes.array.isRequired,
+    availableTagsByDepartment: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.string)).isRequired,
   };
   static defaultProps = {
     lastIp: null,
@@ -505,7 +507,7 @@ class ProfileLayout extends Component {
     }
   };
 
-  handleUnlockLogin = () => this.props.unlockLogin(this.props.params.id);
+  handleUnlockLogin = () => this.props.unlockLogin({ variables: { playerUUID: this.props.params.id } });
 
   handleUpdateSubscription = async (data) => {
     const { params: { id: playerUUID }, updateSubscription } = this.props;
@@ -608,7 +610,7 @@ class ProfileLayout extends Component {
     } = this.props;
 
     const profile = get(playerProfile, 'data');
-    const playerLocks = get(locks, 'paymentLocks');
+    const playerProfileLocks = get(locks, 'playerProfileLocks');
 
     return (
       <div className="layout">
@@ -616,7 +618,7 @@ class ProfileLayout extends Component {
           <Header
             playerProfile={profile}
             locale={locale}
-            locks={playerLocks}
+            locks={playerProfileLocks}
             lastIp={get(profile, 'signInIps.0')}
             availableStatuses={this.availableStatuses}
             onStatusChange={this.handleChangeStatus}
