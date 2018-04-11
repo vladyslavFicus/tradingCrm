@@ -2,7 +2,6 @@ import { graphql, compose } from 'react-apollo';
 import { freeSpinTemplatesQuery, freeSpinTemplateQuery } from '.././../../../../graphql/queries/campaigns';
 import FreeSpinView from './FreeSpinView';
 import FreeSpinCreateModal from '../FreeSpinCreateModal';
-
 import { withModals } from '../../../../../components/HighOrder';
 
 export default compose(

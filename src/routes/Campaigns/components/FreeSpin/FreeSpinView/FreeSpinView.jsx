@@ -36,13 +36,13 @@ export default class FreeSpinView extends PureComponent {
 
   handleSave = () => {
     console.log('saved');
-  }
+  };
 
   handleOpenModal = () => {
     const { modals: { createFreeSpin } } = this.props;
 
     createFreeSpin.show({ onSave: this.handleSave });
-  }
+  };
 
   render() {
     const {
