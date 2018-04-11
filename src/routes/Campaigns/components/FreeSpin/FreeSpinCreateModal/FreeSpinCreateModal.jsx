@@ -13,6 +13,9 @@ class FreeSpinCreateModal extends PureComponent {
   static propTypes = {
     onSave: PropTypes.func,
     handleSubmit: PropTypes.func.isRequired,
+    freeSpinOptions: PropTypes.shape({
+      freeSpinOptions: PropTypes.object,
+    }).isRequired,
     optionCurrencies: PropTypes.shape({
       options: PropTypes.shape({
         signUp: PropTypes.shape({
@@ -30,6 +33,10 @@ class FreeSpinCreateModal extends PureComponent {
     onSave: null,
   };
 
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
+  };
+
   handleSubmit = (data) => {
     console.log('submit');
   };
@@ -39,12 +46,18 @@ class FreeSpinCreateModal extends PureComponent {
       handleSubmit,
       onCloseModal,
       isOpen,
+      freeSpinOptions: {
+        freeSpinOptions,
+      },
       optionCurrencies: {
         options,
       },
     } = this.props;
+    const { _reduxForm: { values: { aggregatorId } } } = this.context;
 
     const currencies = get(options, 'signUp.post.currency.list', []);
+    const aggregatorOptions = freeSpinOptions || { };
+    const providers = get(aggregatorOptions, `[${aggregatorId}].providers`, []);
 
     return (
       <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
@@ -79,6 +92,42 @@ class FreeSpinCreateModal extends PureComponent {
               component={InputField}
               position="vertical"
             />
+            <div className="row">
+              <div className="col-4">
+                <Field
+                  name="aggregatorId"
+                  id={'aggregatorId'}
+                  label="Aggregator id"
+                  position="vertical"
+                  component={SelectField}
+                  showErrorMessage={false}
+                >
+                  <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_AGGREGATOR')}</option>
+                  {Object.keys(aggregatorOptions).map(item => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+              <div className="col-4">
+                <Field
+                  name="providerId"
+                  id={'providerId'}
+                  label="Provider id"
+                  position="vertical"
+                  component={SelectField}
+                  showErrorMessage={false}
+                >
+                  <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_PROVIDER')}</option>
+                  {providers.map(item => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </Field>
+              </div>
+            </div>
           </ModalBody>
           <ModalFooter>
             <div className="row">

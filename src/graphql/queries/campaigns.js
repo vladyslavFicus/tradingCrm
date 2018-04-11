@@ -101,6 +101,11 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
 }`;
 
 
+const freeSpinTemplateOptionsQuery = gql`query freeSpinOptions {
+  freeSpinOptions
+}`;
+
+
 export {
   freeSpinTemplatesQuery,
   freeSpinTemplateQuery,
@@ -108,4 +113,5 @@ export {
   campaignQuery,
   shortBonusTemplatesQuery,
   bonusTemplateQuery,
+  freeSpinTemplateOptionsQuery,
 };
