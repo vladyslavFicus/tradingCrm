@@ -125,9 +125,9 @@ class Settings extends Component {
 
   pollingFreeSpinTemplate = null;
 
-  startPollingFreeSpinTemplate = uuid => new Promise((resolve) => {
+  startPollingFreeSpinTemplate = (uuid, aggregatorId) => new Promise((resolve) => {
     this.pollingFreeSpinTemplate = setInterval(async () => {
-      const action = await this.props.fetchFreeSpinTemplate(uuid);
+      const action = await this.props.fetchFreeSpinTemplate(uuid, aggregatorId);
 
       if (action && !action.error) {
         const { status } = action.payload;
@@ -344,11 +344,13 @@ class Settings extends Component {
 
         if (createAction && !createAction.error) {
           this.handleToggleFreeSpinTemplate();
-          rewardsFreeSpinData.templateUUID = createAction.payload.uuid;
-          addFreeSpinTemplate(rewardsFreeSpin.name, rewardsFreeSpinData.templateUUID);
-          changeForm('rewards.freeSpin.templateUUID', rewardsFreeSpinData.templateUUID);
+          const { uuid, aggregatorId } = createAction.payload;
 
-          const polling = await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID);
+          rewardsFreeSpinData.templateUUID = uuid;
+          addFreeSpinTemplate(rewardsFreeSpin.name, uuid);
+          changeForm('rewards.freeSpin.templateUUID', uuid);
+
+          const polling = await this.startPollingFreeSpinTemplate(rewardsFreeSpinData.templateUUID, aggregatorId);
 
           if (!polling.success) {
             this.context.addNotification({
