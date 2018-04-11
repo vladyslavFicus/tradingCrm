@@ -100,14 +100,14 @@ class PlayerLimits extends Component {
     const { locks: { payment } } = this.props;
 
     return payment.findIndex(i => i.type === type) !== -1;
-  }
+  };
 
   canLocked = (type) => {
     const { locks: { payment: payments } } = this.props;
     const payment = payments.find(i => i.type === type) || {};
 
     return !!payment.canUnlock;
-  }
+  };
 
   renderStatus = (label, locked) => {
     const className = locked
@@ -122,7 +122,6 @@ class PlayerLimits extends Component {
       </div>
     );
   };
-
 
   render() {
     const { dropDownOpen, modal } = this.state;

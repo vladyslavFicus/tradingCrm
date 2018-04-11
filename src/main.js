@@ -33,6 +33,7 @@ if (window) {
     }
 
     sendError(error);
+    Raven.captureException(e);
   });
 
   window.dispatchAction = (action) => {
