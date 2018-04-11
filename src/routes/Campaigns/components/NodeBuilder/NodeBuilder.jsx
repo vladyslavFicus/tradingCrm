@@ -48,9 +48,17 @@ class NodeBuilder extends Component {
   };
 
   handleAddNode = () => {
+    const { fields: { length: nodesLength } } = this.props;
     const { nodes, selectedNode } = this.state;
 
-    this.setState({ nodes: [...nodes, { type: selectedNode, id: `${selectedNode}-${moment.utc().unix()}` }] });
+    this.setState({
+      nodes: [
+        ...nodes, {
+          type: selectedNode,
+          id: `${selectedNode}-${nodesLength - 1}-${moment.utc().unix()}`,
+        },
+      ],
+    });
   };
 
   handleRemoveNode = (id, index) => {
