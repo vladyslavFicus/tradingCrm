@@ -1,8 +1,16 @@
 import { compose, graphql } from 'react-apollo';
-import { reduxForm } from 'redux-form';
+import { reduxForm, getFormValues } from 'redux-form';
+import { connect } from 'react-redux';
+import update from 'react-addons-update';
 import { getBrandId } from '../../../../../config';
 import { currencyQuery } from '../../../../../graphql/queries/options';
-import { freeSpinTemplateOptionsQuery } from '../../../../../graphql/queries/campaigns';
+import {
+  freeSpinTemplateOptionsQuery,
+  shortBonusTemplatesQuery,
+  freeSpinTemplateMutation,
+  freeSpinTemplatesQuery,
+} from '../../../../../graphql/queries/campaigns';
+import { gameListQuery } from '../../../../../graphql/queries/games';
 import FreeSpinCreateModal from './FreeSpinCreateModal';
 
 const FORM_NAME = 'addFreeSpinTemplate';
@@ -14,12 +22,61 @@ export default compose(
   graphql(currencyQuery, {
     name: 'optionCurrencies',
     options: {
+      fetchPolicy: 'network-only',
       variables: {
         brandId: getBrandId(),
       },
     },
   }),
+  connect((state) => {
+    const { aggregatorId, providerId, gameId, ...currentValues } = getFormValues(FORM_NAME)(state) || {};
+
+    return {
+      aggregatorId,
+      providerId,
+      gameId,
+      currentValues,
+    };
+  }),
+  graphql(gameListQuery, {
+    name: 'games',
+    skip: ({ aggregatorId, providerId }) => !providerId || !aggregatorId,
+    options: ({ providerId, aggregatorId }) => ({
+      variables: {
+        page: 0,
+        size: 9999,
+        brandId: getBrandId(),
+        gameProvider: providerId,
+        aggregator: aggregatorId,
+      },
+    }),
+  }),
   graphql(freeSpinTemplateOptionsQuery, {
     name: 'freeSpinOptions',
+  }),
+  graphql(shortBonusTemplatesQuery, {
+    name: 'shortBonusTemplates',
+  }),
+  graphql(freeSpinTemplateMutation, {
+    name: 'addFreeSpinTemplate',
+    options: {
+      update: (proxy, { data: { freeSpinTemplate: { add: { error, data } } } }) => {
+        if (error) {
+          return;
+        }
+
+        const { freeSpinTemplates } = proxy.readQuery({ query: freeSpinTemplatesQuery });
+        const updatedfreeSpinTemplates = update(freeSpinTemplates, {
+          $push: [data],
+        });
+
+        proxy.writeQuery({
+          query: freeSpinTemplatesQuery,
+          data: {
+            freeSpinTemplates: updatedfreeSpinTemplates,
+          },
+        });
+      },
+    },
   }),
 )(FreeSpinCreateModal);

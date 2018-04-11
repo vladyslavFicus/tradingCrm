@@ -10,6 +10,7 @@ export default compose(
   connect(mapStateToProps),
   graphql(campaignQuery, {
     options: ({ params: { id: campaignUUID } }) => ({
+      fetchPolicy: 'network-only',
       variables: {
         campaignUUID,
       },

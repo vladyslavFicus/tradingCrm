@@ -61,6 +61,12 @@ class NodeBuilder extends Component {
     });
   };
 
+  handleChangeUUID = (index, uuid) => {
+    const { fields: { insert } } = this.props;
+
+    insert(index, { uuid });
+  };
+
   handleRemoveNode = (id, index) => {
     const { nodes } = this.state;
 
@@ -92,6 +98,8 @@ class NodeBuilder extends Component {
             </div>
             {React.createElement(components[node.type], {
               id: node.id,
+              index,
+              onChangeUUID: this.handleChangeUUID,
               name: `${name}[${index}]`,
               uuid: get(fields.get(index), 'uuid', ''),
             })}
