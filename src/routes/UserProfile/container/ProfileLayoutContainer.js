@@ -8,8 +8,7 @@ import ProfileLayout from '../layouts/ProfileLayout';
 import config, { getAvailableTags } from '../../../config';
 import Permissions from '../../../utils/permissions';
 import { userProfileTabs } from '../../../config/menu';
-import { profileQuery } from '.././../../graphql/queries/profile';
-import { locksQuery } from '.././../../graphql/queries/payment';
+import { profileQuery, locksQuery } from '.././../../graphql/queries/profile';
 import { notesQuery } from '.././../../graphql/queries/notes';
 import {
   updateSubscription,
@@ -22,6 +21,7 @@ import {
   changePassword,
 } from '.././../../graphql/mutations/profile';
 import { lockMutation, unlockMutation } from '.././../../graphql/mutations/payment';
+import { unlockLoginMutation } from '.././../../graphql/mutations/auth';
 import {
   updateNoteMutation,
   removeNoteMutation,
@@ -172,11 +172,6 @@ export default compose(
       update: (proxy, { data: { tag: { add: { data, error } } } }) => {
         if (!error) {
           const {
-            playerProfile: {
-              data: {
-                tags,
-              },
-            },
             playerProfile,
           } = proxy.readQuery({ query: profileQuery, variables: { playerUUID } });
           const updatedProfile = update(playerProfile, {
@@ -224,19 +219,23 @@ export default compose(
     options: ({ params: { id: playerUUID } }) => ({
       update: (proxy, { data: { payment: { unlock: { data: { id } } } } }) => {
         const {
-          paymentLocks: {
+          playerProfileLocks: {
             payment,
           },
-          paymentLocks,
+          playerProfileLocks,
         } = proxy.readQuery({ query: locksQuery, variables: { playerUUID } });
 
         if (payment) {
           const selectedIndex = payment.findIndex(({ id: paymentId }) => id === paymentId);
-          const updatedLocks = update(paymentLocks, {
+          const updatedLocks = update(playerProfileLocks, {
             payment: { $splice: [[selectedIndex, 1]] },
           });
 
-          proxy.writeQuery({ query: locksQuery, variables: { playerUUID }, data: { paymentLocks: updatedLocks } });
+          proxy.writeQuery({
+            query: locksQuery,
+            variables: { playerUUID },
+            data: { playerProfileLocks: updatedLocks },
+          });
         }
       },
     }),
@@ -247,16 +246,49 @@ export default compose(
       update: (proxy, { data: { payment: { lock: { data, error } } } }) => {
         if (!error) {
           const {
-            paymentLocks: {
+            playerProfileLocks: {
               payment,
             },
-            paymentLocks,
+            playerProfileLocks,
           } = proxy.readQuery({ query: locksQuery, variables: { playerUUID } });
-          const updatedLocks = update(paymentLocks, {
+          const updatedLocks = update(playerProfileLocks, {
             payment: payment ? { $push: [data] } : { $set: [data] },
           });
 
-          proxy.writeQuery({ query: locksQuery, variables: { playerUUID }, data: { paymentLocks: updatedLocks } });
+          proxy.writeQuery({
+            query: locksQuery,
+            variables: { playerUUID },
+            data: { playerProfileLocks: updatedLocks },
+          });
+        }
+      },
+    }),
+  }),
+  graphql(unlockLoginMutation, {
+    name: 'unlockLogin',
+    options: ({ params: { id: playerUUID } }) => ({
+      update: (proxy, { data: { auth: { unlockLogin: { data: { success } } } } }) => {
+        const {
+          playerProfileLocks: {
+            login,
+          },
+          playerProfileLocks,
+        } = proxy.readQuery({ query: locksQuery, variables: { playerUUID } });
+
+        if (login && success) {
+          const updatedLocks = update(playerProfileLocks, {
+            login: {
+              locked: { $set: false },
+              expirationDate: { $set: null },
+              reason: { $set: null },
+            },
+          });
+
+          proxy.writeQuery({
+            query: locksQuery,
+            variables: { playerUUID },
+            data: { playerProfileLocks: updatedLocks },
+          });
         }
       },
     }),
@@ -273,8 +305,7 @@ export default compose(
           playerUUID,
           pinned: true,
         },
-      },
-      {
+      }, {
         query: notesQuery,
         variables: {
           playerUUID,
@@ -290,7 +321,6 @@ export default compose(
       },
     }),
   }),
-
   graphql(updateSubscription, {
     name: 'updateSubscription',
   }),

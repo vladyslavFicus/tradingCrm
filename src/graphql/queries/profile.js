@@ -88,6 +88,26 @@ const profileQuery = gql`query profileData($playerUUID: String!){
   }
 }`;
 
+const locksQuery = gql`query locksQuery($playerUUID: String!){
+  playerProfileLocks(playerUUID: $playerUUID) {
+    payment {
+      type
+      author
+      canUnlock
+      authorUUID
+      id
+      playerUUID
+      reason
+      startLock
+    }
+    login {
+      locked
+      expirationDate
+      reason
+    }
+  }
+}`;
+
 const realBaseCurrencyQuery = gql`query profileData($playerUUID: String!){
   playerProfile(playerUUID: $playerUUID) {
     data {
@@ -103,6 +123,7 @@ const realBaseCurrencyQuery = gql`query profileData($playerUUID: String!){
 
 export {
   profileQuery,
+  locksQuery,
   realBaseCurrencyQuery,
 };
 
