@@ -166,8 +166,12 @@ function getDomain() {
   return `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}`;
 }
 
+function getBrandId() {
+  return window.app.brandId;
+}
 export {
   getApiRoot,
+  getBrandId,
   getErrorApiUrl,
   getLogo,
   getAvailableTags,

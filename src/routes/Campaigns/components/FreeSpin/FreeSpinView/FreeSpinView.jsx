@@ -15,6 +15,11 @@ export default class FreeSpinView extends PureComponent {
         uuid: PropTypes.string,
       })),
     }).isRequired,
+    modals: PropTypes.shape({
+      createFreeSpin: PropTypes.shape({
+        show: PropTypes.func.isRequired,
+      }).isRequired,
+    }).isRequired,
     freeSpinTemplate: PropTypes.shape({
       freeSpinTemplate: PropTypes.shape({
         data: PropTypes.shape({
@@ -29,6 +34,16 @@ export default class FreeSpinView extends PureComponent {
     freeSpinTemplate: {},
   };
 
+  handleSave = () => {
+    console.log('saved');
+  };
+
+  handleOpenModal = () => {
+    const { modals: { createFreeSpin } } = this.props;
+
+    createFreeSpin.show({ onSave: this.handleSave });
+  };
+
   render() {
     const {
       uuid,
@@ -37,6 +52,7 @@ export default class FreeSpinView extends PureComponent {
       },
       name,
       freeSpinTemplate: {
+        loading,
         freeSpinTemplate,
       },
     } = this.props;
@@ -63,10 +79,20 @@ export default class FreeSpinView extends PureComponent {
               ))}
             </Field>
           </div>
+          <div className="col-md-4">
+            <button
+              className="btn btn-primary text-uppercase margin-top-20"
+              type="button"
+              onClick={this.handleOpenModal}
+              id="bonus-campaign-save-button"
+            >
+              Add free spin tempate
+            </button>
+          </div>
         </div>
         <If condition={uuid}>
           <Placeholder
-            ready={!!fsTemplate.uuid}
+            ready={!loading}
             className={null}
             customPlaceholder={(
               <div>
