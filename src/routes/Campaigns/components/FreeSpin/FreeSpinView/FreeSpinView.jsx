@@ -40,6 +40,7 @@ export default class FreeSpinView extends PureComponent {
         freeSpinTemplate,
       },
     } = this.props;
+
     const fsTemplates = freeSpinTemplates || [];
     const fsTemplate = get(freeSpinTemplate, 'data', {});
 
