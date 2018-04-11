@@ -55,6 +55,23 @@ const freeSpinTemplatesQuery = gql`query freeSpinTemplates {
   }
 }`;
 
+const shortBonusTemplatesQuery = gql`query shortBonusTemplates {
+  shortBonusTemplates {
+    name
+    uuid
+  }
+}`;
+
+const bonusTemplateQuery = gql`query bonusTemplate($uuid: String!) {
+  bonusTemplate(uuid: $uuid) {
+    data {
+     name
+     uuid,
+     moneyTypePriority
+    }
+  }
+}`;
+
 const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggregatorId: String!) {
   freeSpinTemplate(uuid: $uuid, aggregatorId: $aggregatorId) {
     data {
@@ -86,4 +103,6 @@ export {
   freeSpinTemplateQuery,
   campaignsQuery,
   campaignQuery,
+  shortBonusTemplatesQuery,
+  bonusTemplateQuery,
 };
