@@ -176,6 +176,34 @@ class BonusView extends PureComponent {
                 </div>
               </div>
             </div>
+            <div className="row">
+              <div className="col-4 bonus-template__item">
+                <div className="bonus-template">moneyTypePriority</div>
+                <div>
+                  <div className="bonus-template">{template.moneyTypePriority}</div>
+                </div>
+              </div>
+              <div className="col-4 bonus-template__item">
+                <div className="bonus-template">claimable</div>
+                <div>
+                  <div className="bonus-template">{template.claimable}</div>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-4 bonus-template__item">
+                <div className="bonus-template">lockAmountStrategy</div>
+                <div>
+                  <div className="bonus-template">{template.lockAmountStrategy}</div>
+                </div>
+              </div>
+              <div className="col-4 bonus-template__item">
+                <div className="bonus-template">bonusLifeTime</div>
+                <div>
+                  <div className="bonus-template">{template.bonusLifeTime}</div>
+                </div>
+              </div>
+            </div>
           </div>
         </Placeholder>
       </div>
