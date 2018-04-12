@@ -16,8 +16,8 @@ const currencySettings = {
   [currencyCodes.RUB]: { symbol: '₽', symbolOnLeft: true },
   [currencyCodes.UAH]: { symbol: '₴', symbolOnLeft: true },
   [currencyCodes.GBP]: { symbol: '£', symbolOnLeft: true },
-  [currencyCodes.SEK]: { symbol: 'kr', symbolOnLeft: false },
-  [currencyCodes.NOK]: { symbol: 'kr', symbolOnLeft: false },
+  [currencyCodes.SEK]: { symbol: 'SEK', symbolOnLeft: false },
+  [currencyCodes.NOK]: { symbol: 'NOK', symbolOnLeft: false },
 };
 
 export {
