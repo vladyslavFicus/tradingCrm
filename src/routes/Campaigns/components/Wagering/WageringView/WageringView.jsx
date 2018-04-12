@@ -88,7 +88,7 @@ class WageringView extends PureComponent {
             <MultiCurrencyValue
               baseName={`${name}amounts`}
               baseCurrency={baseCurrency}
-              currencies={currencies.filter(c => c !== baseCurrency)}
+              secondaryCurrencies={currencies.filter(c => c !== baseCurrency)}
             />
           </When>
         </Choose>

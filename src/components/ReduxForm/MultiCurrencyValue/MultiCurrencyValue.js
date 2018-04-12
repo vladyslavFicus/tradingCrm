@@ -7,7 +7,7 @@ import MultiCurrencyField from './MultiCurrencyField';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
-    currencies: PropTypes.array,
+    secondaryCurrencies: PropTypes.array,
     baseCurrency: PropTypes.string,
     baseName: PropTypes.string,
     modals: PropTypes.shape({
@@ -19,7 +19,7 @@ class MultiCurrencyValue extends Component {
   };
 
   static defaultProps = {
-    currencies: [],
+    secondaryCurrencies: [],
     baseCurrency: '',
     baseName: 'amounts',
   };
@@ -60,13 +60,13 @@ class MultiCurrencyValue extends Component {
     const {
       modals,
       baseCurrency,
-      currencies,
+      secondaryCurrencies,
     } = this.props;
 
     modals.multiCurrencyModal.show({
       onSubmit: this.handleSubmitMultiCurrencyForm,
       baseCurrency,
-      currencies,
+      secondaryCurrencies,
       initialValues: {
         amounts: [this.state],
       },

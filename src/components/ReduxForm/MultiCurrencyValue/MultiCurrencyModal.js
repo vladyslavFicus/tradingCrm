@@ -10,7 +10,7 @@ class MultiCurrencyModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    secondaryCurrencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     baseCurrency: PropTypes.string.isRequired,
@@ -40,7 +40,7 @@ class MultiCurrencyModal extends PureComponent {
       handleSubmit,
       onCloseModal,
       isOpen,
-      currencies,
+      secondaryCurrencies,
       baseCurrency,
     } = this.props;
 
@@ -54,7 +54,7 @@ class MultiCurrencyModal extends PureComponent {
           <ModalBody>
             <div>
               { this.renderField(baseCurrency) }
-              {currencies.map((currency, index) => this.renderField(currency, index + 1))}
+              {secondaryCurrencies.map((currency, index) => this.renderField(currency, index + 1))}
             </div>
           </ModalBody>
 
@@ -80,12 +80,12 @@ class MultiCurrencyModal extends PureComponent {
 export default reduxForm({
   enableReinitialize: true,
   form: 'multiCurrencyModal',
-  validate: (values, { currencies }) => {
+  validate: (values, { secondaryCurrencies }) => {
     const rules = {};
 
-    currencies.forEach((_, i) => {
+    for (let i = 0; i < secondaryCurrencies.length + 1; i += 1) {
       rules[`amounts[${i}].amount`] = ['numeric', 'min: 0'];
-    });
+    }
 
     return createValidator(rules, false)(values);
   },
