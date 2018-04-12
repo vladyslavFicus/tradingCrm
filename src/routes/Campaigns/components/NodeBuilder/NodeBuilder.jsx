@@ -40,15 +40,6 @@ class NodeBuilder extends Component {
     };
   }
 
-  componentDidMount() {
-    const { nodes } = this.state;
-    const { fields } = this.props;
-
-    nodes
-      .filter(({ uuid }) => uuid)
-      .forEach(({ uuid }) => fields.push({ uuid }));
-  }
-
   handleSelectNode = (e) => {
     this.setState({ selectedNode: e.target.value });
   };
