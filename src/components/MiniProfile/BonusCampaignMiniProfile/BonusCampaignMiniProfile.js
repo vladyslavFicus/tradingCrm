@@ -7,6 +7,7 @@ import {
   statuses,
   statusesLabels,
   targetTypesLabels,
+  rewardTypesLabels,
   fulfilmentTypesLabels,
 } from '../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../constants/form';
@@ -35,6 +36,7 @@ const BonusCampaignMiniProfile = (props) => {
       statusChangedAuthorUUID,
       totalOptInPlayers,
       totalSelectedPlayers,
+      campaignType,
     },
   } = props;
 
@@ -127,19 +129,17 @@ const BonusCampaignMiniProfile = (props) => {
           <div className="info-block-label">{I18n.t('MINI_PROFILE.REWARD')}</div>
           <div className="info-block-content">
             <div className="info-block-heading">
-              {I18n.t('MINI_PROFILE.BONUS')}
+              {renderLabel(campaignType, rewardTypesLabels)}
             </div>
             <div className="info-block-description">
-              {
-                campaignRatio.type === customValueFieldTypes.ABSOLUTE &&
-                <Amount amount={campaignRatio.value} currency={currency} />
-              }
-              {
-                campaignRatio.type === customValueFieldTypes.PERCENTAGE &&
-                <span>
+              <If condition={campaignRatio}>
+                <If condition={campaignRatio.type === customValueFieldTypes.ABSOLUTE}>
+                  <Amount amount={campaignRatio.value} currency={currency} />
+                </If>
+                <If condition={campaignRatio.type === customValueFieldTypes.PERCENTAGE}>
                   {`${campaignRatio.value} %`}
-                </span>
-              }
+                </If>
+              </If>
             </div>
           </div>
         </div>

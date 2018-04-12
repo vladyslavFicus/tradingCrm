@@ -99,6 +99,10 @@ const fulfilmentTypesLabels = {
   [fulfilmentTypes.PROFILE_COMPLETED]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.PROFILE_COMPLETED'),
   [fulfilmentTypes.WITHOUT_FULFILMENT]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.CAMPAIGN_TYPE.WITHOUT_FULFILMENT'),
 };
+const rewardTypesLabels = {
+  [rewardTypes.BONUS]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.REWARD_TYPE.BONUS'),
+  [rewardTypes.FREE_SPIN]: I18n.t('CONSTANTS.BONUS_CAMPAIGN.REWARD_TYPE.FREE_SPIN'),
+};
 
 const customValueFieldTypesByFulfilmentType = {
   [fulfilmentTypes.DEPOSIT]: [customValueFieldTypes.PERCENTAGE, customValueFieldTypes.ABSOLUTE],
@@ -126,6 +130,7 @@ export {
   statusesClassNames,
   fulfilmentTypes,
   rewardTypes,
+  rewardTypesLabels,
   fulfilmentTypesLabels,
   targetTypes,
   targetTypesLabels,

@@ -893,6 +893,10 @@
         "LABEL": "Withdrawal lock",
         "LOCK_ALL": "Lock all money",
         "LOCK_PARTIAL": "Lock deposited amount"
+      },
+      "REWARD_TYPE": {
+        "BONUS": "Bonus",
+        "FREE_SPIN": "Free-spin"
       }
     },
     "GAMING_ACTIVITY": {
