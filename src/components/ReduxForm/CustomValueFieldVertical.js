@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import renderLabel from '../../utils/renderLabel';
 import { customValueFieldTypesLabels, customValueFieldTypes } from '../../constants/form';
 
-const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors, meta } }) => {
+const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors, meta, submitFailed } }) => {
   const {
     id,
     basename,
@@ -19,8 +19,8 @@ const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors, met
     valueFieldProps,
   } = props;
 
-  const typeError = get(errors, `${basename}.type`) && get(meta, `${basename}.type.touched`);
-  const valueError = get(errors, `${basename}.value`) && get(meta, `${basename}.value.touched`);
+  const typeError = get(errors, `${basename}.type`) && (get(meta, `${basename}.type.touched`) || submitFailed);
+  const valueError = get(errors, `${basename}.value`) && (get(meta, `${basename}.value.touched`) || submitFailed);
 
   const classList = {
     formGroup: classNames('form-group', {
@@ -62,23 +62,29 @@ const CustomValueFieldVertical = (props, { _reduxForm: { syncErrors: errors, met
           >
             {
               children ||
-                typeValues.map(key =>
-                  (
-                    <option key={key} value={key}>
-                      {renderLabel(key, customValueFieldTypesLabels)}
-                    </option>
-                  )
+              typeValues.map(key =>
+                (
+                  <option key={key} value={key}>
+                    {renderLabel(key, customValueFieldTypesLabels)}
+                  </option>
                 )
+              )
             }
           </Field>
         </div>
       </div>
-      {!!errors[`${basename}.value`] && <div className="form-control-feedback">
-        {errors[`${basename}.value`]}
-      </div>}
-      {!!errors[`${basename}.type`] && <div className="form-control-feedback">
-        {errors[`${basename}.type`]}
-      </div>}
+      {
+        !!errors[`${basename}.value`] &&
+        <div className="form-control-feedback">
+          {errors[`${basename}.value`]}
+        </div>
+      }
+      {
+        !!errors[`${basename}.type`] &&
+        <div className="form-control-feedback">
+          {errors[`${basename}.type`]}
+        </div>
+      }
     </div>
   );
 };
