@@ -114,7 +114,7 @@ class Form extends Component {
         </div>
         <div className="row">
           <NodeBuilder
-            name="fulfilments"
+            name="fulfillments"
             className="col-6"
             options={[
               { type: fulfilmentTypes.WAGERING, items: wageringUuids, component: WageringView },
