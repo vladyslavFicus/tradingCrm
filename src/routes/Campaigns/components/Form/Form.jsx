@@ -3,10 +3,17 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { InputField } from '../../../../components/ReduxForm';
-import { attributeLabels, rewardTypes, rewardTypesLabels } from '../../constants';
+import {
+  attributeLabels,
+  rewardTypes,
+  rewardTypesLabels,
+  fulfilmentTypes,
+  fulfilmentTypesLabels,
+} from '../../constants';
 import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Bonus';
 import { FreeSpinView } from '../FreeSpin';
+import { WageringView } from '../Wagering';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -24,12 +31,14 @@ class Form extends Component {
     }),
     freeSpinTemplateUuids: PropTypes.arrayOf(PropTypes.string),
     bonusTemplateUuids: PropTypes.arrayOf(PropTypes.string),
+    wageringUuids: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
     handleSubmit: null,
     freeSpinTemplateUuids: [],
     bonusTemplateUuids: [],
+    wageringUuids: [],
     pristine: false,
     submitting: false,
     currentValues: {},
@@ -49,6 +58,7 @@ class Form extends Component {
       form,
       freeSpinTemplateUuids,
       bonusTemplateUuids,
+      wageringUuids,
     } = this.props;
 
     return (
@@ -102,6 +112,14 @@ class Form extends Component {
             </div>
           </div>
         </div>
+        <NodeBuilder
+          name="fulfilments"
+          options={[
+            { type: fulfilmentTypes.WAGERING, items: wageringUuids, component: WageringView },
+          ]}
+          typeLabels={fulfilmentTypesLabels}
+          types={Object.keys(fulfilmentTypes)}
+        />
         <NodeBuilder
           name="rewards"
           options={[

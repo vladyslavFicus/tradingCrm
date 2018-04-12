@@ -30,7 +30,7 @@ class SettingsView extends PureComponent {
         ...formData,
         uuid: data.uuid,
         rewards: data.rewards,
-        wageringFulfillments: data.wageringFulfillments,
+        fulfillments: data.fulfillments,
       },
     });
 
@@ -52,6 +52,7 @@ class SettingsView extends PureComponent {
             bonuses,
             freeSpinTemplateUuids,
             bonusTemplateUuids,
+            wageringUuids,
           },
         },
       },
@@ -64,6 +65,7 @@ class SettingsView extends PureComponent {
           bonuses={bonuses}
           freeSpinTemplateUuids={freeSpinTemplateUuids}
           bonusTemplateUuids={bonusTemplateUuids}
+          wageringUuids={wageringUuids}
           form="settings"
           onSubmit={this.handleUpdateCampaign}
         />

@@ -143,12 +143,13 @@ class BonusView extends PureComponent {
               ))}
             </Field>
           </div>
-          <div className="col-4">
+          <div className="col-md-4">
             <button
+              className="btn btn-primary text-uppercase margin-top-20"
               type="button"
               onClick={this.handleOpenCreateModal}
             >
-              {I18n.t('COMMON.BUTTON.ADD')}
+              Add bonus template
             </button>
           </div>
         </div>

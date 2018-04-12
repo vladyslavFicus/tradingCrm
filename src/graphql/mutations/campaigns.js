@@ -43,20 +43,20 @@ const cancelMutation = gql`mutation cancel(
 const updateMutation = gql`mutation update(
   $uuid: String!,
   $name: String!,
-  $wageringFulfillments: [String]!,
+  $fulfillments: [String]!,
   $rewards: [String]!
 ) {
   campaign {
     update(
       uuid: $uuid,
       name: $name,
-      wageringFulfillments: $wageringFulfillments,
+      fulfillments: $fulfillments,
       rewards: $rewards, 
     ) {
       data {
         _id,
         name,
-        wageringFulfillments,
+        fulfillments,
         rewards,
       }
       error {

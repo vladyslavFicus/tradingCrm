@@ -84,9 +84,8 @@ export default class FreeSpinView extends PureComponent {
               className="btn btn-primary text-uppercase margin-top-20"
               type="button"
               onClick={this.handleOpenModal}
-              id="bonus-campaign-save-button"
             >
-              Add free spin tempate
+              Add free spin template
             </button>
           </div>
         </div>
