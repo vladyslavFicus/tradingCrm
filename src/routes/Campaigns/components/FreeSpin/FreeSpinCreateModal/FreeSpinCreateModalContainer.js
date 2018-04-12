@@ -12,13 +12,11 @@ import {
 } from '../../../../../graphql/queries/campaigns';
 import { gameListQuery } from '../../../../../graphql/queries/games';
 import FreeSpinCreateModal from './FreeSpinCreateModal';
+import validator from './validator';
 
 const FORM_NAME = 'addFreeSpinTemplate';
 
 export default compose(
-  reduxForm({
-    form: FORM_NAME,
-  }),
   graphql(currencyQuery, {
     name: 'optionCurrencies',
     options: {
@@ -53,6 +51,9 @@ export default compose(
   }),
   graphql(freeSpinTemplateOptionsQuery, {
     name: 'freeSpinOptions',
+    options: {
+      fetchPolicy: 'network-only',
+    },
   }),
   graphql(shortBonusTemplatesQuery, {
     name: 'shortBonusTemplates',
@@ -78,5 +79,9 @@ export default compose(
         });
       },
     },
+  }),
+  reduxForm({
+    form: FORM_NAME,
+    validate: validator,
   }),
 )(FreeSpinCreateModal);

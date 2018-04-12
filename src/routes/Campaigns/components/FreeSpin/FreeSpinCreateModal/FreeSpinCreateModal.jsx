@@ -273,6 +273,7 @@ class FreeSpinCreateModal extends Component {
                   id="providerId"
                   label={I18n.t(attributeLabels.providerId)}
                   position="vertical"
+                  disabled={!providers.length}
                   component={SelectField}
                   showErrorMessage={false}
                   onChange={this.handleChangeProvider}
@@ -290,6 +291,7 @@ class FreeSpinCreateModal extends Component {
                   name="gameId"
                   label={I18n.t(attributeLabels.gameId)}
                   id="gameId"
+                  disabled={!gameList.length}
                   position="vertical"
                   component={SelectField}
                 >
