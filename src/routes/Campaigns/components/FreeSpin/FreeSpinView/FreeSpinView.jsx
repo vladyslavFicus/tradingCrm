@@ -10,6 +10,8 @@ export default class FreeSpinView extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
+    onChangeUUID: PropTypes.func.isRequired,
     freeSpinTemplates: PropTypes.shape({
       freeSpinTemplates: PropTypes.arrayOf(PropTypes.shape({
         uuid: PropTypes.string,
@@ -34,8 +36,13 @@ export default class FreeSpinView extends PureComponent {
     freeSpinTemplate: {},
   };
 
-  handleSave = () => {
-    console.log('saved');
+  static contextTypes = {
+    _reduxForm: PropTypes.object,
+    fields: PropTypes.object,
+  };
+
+  handleSave = (uuid) => {
+    this.props.onChangeUUID(this.props.index, uuid);
   };
 
   handleOpenModal = () => {

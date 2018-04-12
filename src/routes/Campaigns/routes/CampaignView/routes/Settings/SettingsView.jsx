@@ -6,6 +6,8 @@ import Form from '../../../../components/Form';
 
 class SettingsView extends PureComponent {
   static propTypes = {
+    updateCampaign: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     campaign: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       campaign: PropTypes.shape({
@@ -29,8 +31,8 @@ class SettingsView extends PureComponent {
       variables: {
         ...formData,
         uuid: data.uuid,
-        rewards: data.rewards,
-        fulfillments: data.fulfillments,
+        rewards: formData.rewards.map(({ uuid }) => uuid),
+        fulfillments: formData.fulfillments.map(({ uuid }) => uuid),
       },
     });
 
@@ -57,19 +59,21 @@ class SettingsView extends PureComponent {
         },
       },
     } = this.props;
+    const fulfillments = wageringUuids
+      .map(uuid => ({ uuid }));
+    const rewards = [...bonusTemplateUuids, ...freeSpinTemplateUuids]
+      .map(uuid => ({ uuid }));
 
     return (
-      <div>
-        <Form
-          initialValues={{ name }}
-          bonuses={bonuses}
-          freeSpinTemplateUuids={freeSpinTemplateUuids}
-          bonusTemplateUuids={bonusTemplateUuids}
-          wageringUuids={wageringUuids}
-          form="settings"
-          onSubmit={this.handleUpdateCampaign}
-        />
-      </div>
+      <Form
+        initialValues={{ name, fulfillments, rewards }}
+        bonuses={bonuses}
+        freeSpinTemplateUuids={freeSpinTemplateUuids}
+        bonusTemplateUuids={bonusTemplateUuids}
+        wageringUuids={wageringUuids}
+        form="settings"
+        onSubmit={this.handleUpdateCampaign}
+      />
     );
   }
 }

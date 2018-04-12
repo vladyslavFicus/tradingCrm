@@ -14,6 +14,7 @@ import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Bonus';
 import { FreeSpinView } from '../FreeSpin';
 import { WageringView } from '../Wagering';
+import { createValidator } from '../../../../utils/validator';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -112,26 +113,35 @@ class Form extends Component {
             </div>
           </div>
         </div>
-        <NodeBuilder
-          name="fulfilments"
-          options={[
-            { type: fulfilmentTypes.WAGERING, items: wageringUuids, component: WageringView },
-          ]}
-          typeLabels={fulfilmentTypesLabels}
-          types={Object.keys(fulfilmentTypes)}
-        />
-        <NodeBuilder
-          name="rewards"
-          options={[
-            { type: rewardTypes.BONUS, items: bonusTemplateUuids, component: BonusView },
-            { type: rewardTypes.FREE_SPIN, items: freeSpinTemplateUuids, component: FreeSpinView },
-          ]}
-          typeLabels={rewardTypesLabels}
-          types={Object.keys(rewardTypes)}
-        />
+        <div className="row">
+          <NodeBuilder
+            name="fulfillments"
+            className="col-6"
+            options={[
+              { type: fulfilmentTypes.WAGERING, items: wageringUuids, component: WageringView },
+            ]}
+            typeLabels={fulfilmentTypesLabels}
+            types={Object.keys(fulfilmentTypes)}
+          />
+          <NodeBuilder
+            name="rewards"
+            className="col-6"
+            options={[
+              { type: rewardTypes.BONUS, items: bonusTemplateUuids, component: BonusView },
+              { type: rewardTypes.FREE_SPIN, items: freeSpinTemplateUuids, component: FreeSpinView },
+            ]}
+            typeLabels={rewardTypesLabels}
+            types={Object.keys(rewardTypes)}
+          />
+        </div>
       </form>
     );
   }
 }
 
-export default reduxForm({ keepDirtyOnReinitialize: true })(Form);
+export default reduxForm({
+  keepDirtyOnReinitialize: true,
+  validate: createValidator({
+    name: ['required', 'string'],
+  }, attributeLabels, false),
+})(Form);

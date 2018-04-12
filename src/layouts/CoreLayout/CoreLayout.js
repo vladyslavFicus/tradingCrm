@@ -9,6 +9,7 @@ import DebugPanel from '../../components/DebugPanel';
 import { types as modalsTypes } from '../../constants/modals';
 import ConfirmActionModal from '../../components/Modal/ConfirmActionModal';
 import { actionCreators as modalActionCreators } from '../../redux/modules/modal';
+import parseJson from '../../utils/parseJson';
 
 class CoreLayout extends Component {
   static propTypes = {
@@ -47,10 +48,11 @@ class CoreLayout extends Component {
       window.addEventListener('message', ({ data, origin }) => {
         if (origin === window.location.origin) {
           if (typeof data === 'string') {
-            const action = JSON.parse(data);
+            const action = parseJson(data, null);
 
             if (
-              action.type === windowActionTypes.NOTIFICATION && this.notificationNode
+              action
+              && action.type === windowActionTypes.NOTIFICATION && this.notificationNode
               && this.notificationNode.addNotification
             ) {
               this.notificationNode.addNotification(action.payload);
@@ -73,6 +75,7 @@ class CoreLayout extends Component {
       });
     }
   }
+
   handleNotify = (params) => {
     const defaultParams = { position: 'br' };
     const mergedParams = { ...defaultParams, ...params };

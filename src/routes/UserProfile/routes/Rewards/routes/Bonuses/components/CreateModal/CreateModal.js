@@ -12,7 +12,7 @@ import { createValidator, translateLabels } from '../../../../../../../../utils/
 import renderLabel from '../../../../../../../../utils/renderLabel';
 import { moneyTypeUsageLabels } from '../../../../../../../../constants/bonus';
 import { customValueFieldTypes } from '../../../../../../../../constants/form';
-import { attributeLabels } from './constants';
+import { attributeLabels, wageringRequirementCustomValueFieldTypesLabels } from './constants';
 import { floatNormalize } from '../../../../../../../../utils/inputNormalize';
 import {
   lockAmountStrategy,
@@ -71,7 +71,6 @@ class CreateModal extends Component {
       const {
         name,
         grantRatio,
-        wageringRequirement,
         moneyTypePriority,
         lockAmountStrategyValue,
         maxBet,
@@ -81,7 +80,7 @@ class CreateModal extends Component {
 
       change('name', name);
       const grantAmount = findCurrencyAmount(get(grantRatio, 'value.currencies'), currency);
-      const maxBetAmount = findCurrencyAmount(get(maxBet, 'currencies'));
+      const maxBetAmount = findCurrencyAmount(get(maxBet, 'currencies'), currency);
 
       if (grantAmount) {
         change('grantRatio', grantAmount);
@@ -91,7 +90,7 @@ class CreateModal extends Component {
         change('maxBet', maxBetAmount);
       }
 
-      ['capping', 'prize'].forEach((key) => {
+      ['wageringRequirement', 'capping', 'prize'].forEach((key) => {
         const type = `${key}.type`;
         const value = `${key}.value`;
         const field = action.payload[key];
@@ -100,20 +99,12 @@ class CreateModal extends Component {
           change(type, field.ratioType);
 
           const formatValue = field.ratioType === customValueFieldTypes.ABSOLUTE
-            ? get(field, 'value.currencies[0].amount', '')
+            ? findCurrencyAmount(get(field, 'value.currencies'), currency)
             : get(field, 'percentage', '');
 
           change(value, formatValue);
         }
       });
-
-      if (wageringRequirement && wageringRequirement.ratioType === customValueFieldTypes.ABSOLUTE) {
-        const wageringRequirementAmount = findCurrencyAmount(get(wageringRequirement, 'value.currencies'), currency);
-
-        if (wageringRequirementAmount) {
-          change('wageringRequirement', wageringRequirementAmount);
-        }
-      }
 
       change('moneyTypePriority', moneyTypePriority);
       change('lockAmountStrategy', lockAmountStrategyValue);
@@ -150,7 +141,7 @@ class CreateModal extends Component {
       };
     }
 
-    ['wageringRequirement', 'grantRatio'].forEach((key) => {
+    ['grantRatio'].forEach((key) => {
       if (data[key]) {
         formData[key] = {
           value: {
@@ -164,7 +155,7 @@ class CreateModal extends Component {
       }
     });
 
-    ['capping', 'prize'].forEach((key) => {
+    ['wageringRequirement', 'capping', 'prize'].forEach((key) => {
       if (data[key] && data[key].value) {
         const value = formData[key].type === customValueFieldTypes.ABSOLUTE ? {
           value: {
@@ -279,19 +270,22 @@ class CreateModal extends Component {
               />
             </div>
             <div className="col-6">
-              <Field
-                name="wageringRequirement"
-                placeholder="0"
-                label={I18n.t(attributeLabels.wageringRequirement)}
-                component={InputField}
-                inputAddon={<Currency code={currency} />}
-                inputAddonPosition="left"
-                position="vertical"
-                type="number"
-                normalize={floatNormalize}
+              <CustomValueFieldVertical
                 disabled={!customTemplate}
                 id={`${FORM_NAME}-amount-to-wage`}
-              />
+                basename="wageringRequirement"
+                label={I18n.t(attributeLabels.wageringRequirement)}
+                valueFieldProps={{
+                  type: 'number',
+                  normalize: floatNormalize,
+                }}
+              >
+                {Object.keys(wageringRequirementCustomValueFieldTypesLabels).map(item => (
+                  <option key={item} value={item}>
+                    {renderLabel(item, wageringRequirementCustomValueFieldTypesLabels)}
+                  </option>
+                ))}
+              </CustomValueFieldVertical>
             </div>
           </div>
 
@@ -413,7 +407,7 @@ class CreateModal extends Component {
           <button
             type="submit"
             className="btn btn-primary"
-            disabled={pristine || submitting || invalid}
+            disabled={pristine || submitting}
             id={`${FORM_NAME}-save-button`}
             form="create-manual-modal"
           >
@@ -432,6 +426,9 @@ export default compose(
       moneyTypePriority: moneyTypeUsage.REAL_MONEY_FIRST,
       claimable: false,
       lockAmountStrategy: lockAmountStrategy.LOCK_ALL,
+      wageringRequirement: {
+        type: customValueFieldTypes.ABSOLUTE,
+      },
       capping: {
         type: customValueFieldTypes.ABSOLUTE,
       },
@@ -454,7 +451,10 @@ export default compose(
           type: ['string'],
           value: ['numeric', 'min:0'],
         },
-        wageringRequirement: ['numeric', 'required'],
+        wageringRequirement: {
+          type: ['string'],
+          value: ['required', 'numeric', 'min:0'],
+        },
       };
 
       const prize = get(values, 'prize.value');

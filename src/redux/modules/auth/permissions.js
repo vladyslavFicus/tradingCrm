@@ -3,6 +3,7 @@ import createReducer from '../../../utils/createReducer';
 import createRequestAction from '../../../utils/createRequestAction';
 import { actionTypes as authActionTypes } from './index';
 import timestamp from '../../../utils/timestamp';
+import parseJson from '../../../utils/parseJson';
 
 const KEY = 'permissions';
 const FETCH_PERMISSIONS = createRequestAction(`${KEY}/fetch-permissions`);
@@ -46,7 +47,7 @@ function successSignInReducer(state, action) {
     ...state,
     data: (
       typeof permissions === 'string'
-        ? JSON.parse(permissions)
+        ? parseJson(permissions, [])
         : permissions
     ).map(item => `${item.serviceName};${item.httpMethod};${item.urlPattern}`),
   };

@@ -8,6 +8,7 @@ import buildQueryString from '../../../../../../../utils/buildQueryString';
 import createRequestAction from '../../../../../../../utils/createRequestAction';
 import shallowEqual from '../../../../../../../utils/shallowEqual';
 import downloadBlob from '../../../../../../../utils/downloadBlob';
+import parseJson from '../../../../../../../utils/parseJson';
 
 const KEY = 'operator/feed/feed';
 const FETCH_FEED = createRequestAction(`${KEY}/fetch-feed`);
@@ -93,7 +94,7 @@ function exportFeed(operatorUUID, filters = { page: 0 }) {
 
 const mapAuditEntities = entities => entities.map((entity) => {
   if (typeof entity.details === 'string') {
-    const details = JSON.parse(entity.details);
+    const details = parseJson(entity.details);
 
     if (Object.keys(details)) {
       rangeAttributes.forEach((rangeAttribute) => {

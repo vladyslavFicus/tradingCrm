@@ -1,5 +1,7 @@
+import parseJson from '../../utils/parseJson';
+
 function getActualState(defaultValue = null) {
-  const storedState = JSON.parse(window.localStorage.getItem('nas:auth'));
+  const storedState = parseJson(window.localStorage.getItem('nas:auth'));
 
   return storedState && storedState.token ? storedState.token : defaultValue;
 }

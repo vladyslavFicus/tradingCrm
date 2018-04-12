@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import moment from 'moment';
+import classNames from 'classnames';
 import { SelectField } from '../../../../components/ReduxForm';
 
 class NodeBuilder extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
+    className: PropTypes.string,
     options: PropTypes.arrayOf(
       PropTypes.shape({
         type: PropTypes.string.isRequired,
@@ -18,6 +20,10 @@ class NodeBuilder extends Component {
     fields: PropTypes.object.isRequired,
     types: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeLabels: PropTypes.object.isRequired,
+  };
+
+  static defaultProps = {
+    className: '',
   };
 
   constructor(props, context) {
@@ -32,15 +38,6 @@ class NodeBuilder extends Component {
           ...curr.items.map(uuid => ({ type: curr.type, uuid, id: uuid })),
         ], []),
     };
-  }
-
-  componentDidMount() {
-    const { nodes } = this.state;
-    const { fields } = this.props;
-
-    nodes
-      .filter(({ uuid }) => uuid)
-      .forEach(({ uuid }) => fields.push({ uuid }));
   }
 
   handleSelectNode = (e) => {
@@ -61,6 +58,12 @@ class NodeBuilder extends Component {
     });
   };
 
+  handleChangeUUID = (index, uuid) => {
+    const { fields: { insert } } = this.props;
+
+    insert(index, { uuid });
+  };
+
   handleRemoveNode = (id, index) => {
     const { nodes } = this.state;
 
@@ -70,10 +73,10 @@ class NodeBuilder extends Component {
 
   render() {
     const { nodes, selectedNode, components } = this.state;
-    const { types, fields, typeLabels, name } = this.props;
+    const { types, fields, typeLabels, name, className } = this.props;
 
     return (
-      <div className="col-6">
+      <div className={classNames(className)}>
         <For each="node" index="index" of={nodes}>
           <div key={node.id} className="container-fluid add-campaign-container">
             <div className="row align-items-center">
@@ -92,6 +95,8 @@ class NodeBuilder extends Component {
             </div>
             {React.createElement(components[node.type], {
               id: node.id,
+              index,
+              onChangeUUID: this.handleChangeUUID,
               name: `${name}[${index}]`,
               uuid: get(fields.get(index), 'uuid', ''),
             })}

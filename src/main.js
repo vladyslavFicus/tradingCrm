@@ -32,8 +32,11 @@ if (window) {
       error.stack = `\n${stack}`;
     }
 
+    if (window.Raven) {
+      window.Raven.captureException(e);
+    }
+
     sendError(error);
-    Raven.captureException(e);
   });
 
   window.dispatchAction = (action) => {
