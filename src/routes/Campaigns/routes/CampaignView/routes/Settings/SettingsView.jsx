@@ -57,11 +57,15 @@ class SettingsView extends PureComponent {
         },
       },
     } = this.props;
+    const fulfilments = wageringUuids
+      .map(uuid => ({ uuid }));
+    const rewards = [...bonusTemplateUuids, ...freeSpinTemplateUuids]
+      .map(uuid => ({ uuid }));
 
     return (
       <div>
         <Form
-          initialValues={{ name }}
+          initialValues={{ name, fulfilments, rewards }}
           bonuses={bonuses}
           freeSpinTemplateUuids={freeSpinTemplateUuids}
           bonusTemplateUuids={bonusTemplateUuids}
