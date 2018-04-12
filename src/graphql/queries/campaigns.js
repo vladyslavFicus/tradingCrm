@@ -35,7 +35,6 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       authorUUID,
       creationDate,
       rewards,
-      fulfillments,
       freeSpinTemplateUuids,
       bonusTemplateUuids,
       wageringUuids,
