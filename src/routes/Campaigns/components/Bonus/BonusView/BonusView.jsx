@@ -25,7 +25,7 @@ class BonusView extends PureComponent {
           name: PropTypes.string,
         }),
       }),
-    }).isRequired,
+    }),
     modals: PropTypes.shape({
       createOperator: PropTypes.shape({
         show: PropTypes.func.isRequired,
@@ -34,6 +34,10 @@ class BonusView extends PureComponent {
     }).isRequired,
     addBonus: PropTypes.func.isRequired,
   };
+
+  static defaultProps = {
+    bonusTemplate: {},
+  }
 
   handleSubmitBonusForm = async (formData) => {
     const {

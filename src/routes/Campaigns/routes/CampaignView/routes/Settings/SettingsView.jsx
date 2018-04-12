@@ -6,6 +6,8 @@ import Form from '../../../../components/Form';
 
 class SettingsView extends PureComponent {
   static propTypes = {
+    updateCampaign: PropTypes.func.isRequired,
+    notify: PropTypes.func.isRequired,
     campaign: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       campaign: PropTypes.shape({
@@ -63,17 +65,15 @@ class SettingsView extends PureComponent {
       .map(uuid => ({ uuid }));
 
     return (
-      <div>
-        <Form
-          initialValues={{ name, fulfillments, rewards }}
-          bonuses={bonuses}
-          freeSpinTemplateUuids={freeSpinTemplateUuids}
-          bonusTemplateUuids={bonusTemplateUuids}
-          wageringUuids={wageringUuids}
-          form="settings"
-          onSubmit={this.handleUpdateCampaign}
-        />
-      </div>
+      <Form
+        initialValues={{ name, fulfillments, rewards }}
+        bonuses={bonuses}
+        freeSpinTemplateUuids={freeSpinTemplateUuids}
+        bonusTemplateUuids={bonusTemplateUuids}
+        wageringUuids={wageringUuids}
+        form="settings"
+        onSubmit={this.handleUpdateCampaign}
+      />
     );
   }
 }
