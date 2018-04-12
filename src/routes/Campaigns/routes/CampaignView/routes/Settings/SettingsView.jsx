@@ -29,8 +29,8 @@ class SettingsView extends PureComponent {
       variables: {
         ...formData,
         uuid: data.uuid,
-        rewards: data.rewards,
-        fulfillments: data.fulfillments,
+        rewards: formData.rewards.map(({ uuid }) => uuid),
+        fulfillments: formData.fulfillments.map(({ uuid }) => uuid),
       },
     });
 

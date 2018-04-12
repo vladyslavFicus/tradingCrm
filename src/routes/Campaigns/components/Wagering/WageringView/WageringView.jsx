@@ -41,7 +41,7 @@ class WageringView extends PureComponent {
             <div>
               <If condition={data.amounts}>
                 <For each="amount" index="index" of={data.amounts}>
-                  <div className="row">
+                  <div key={index} className="row">
                     <div className="col-4 bonus-template__item">
                       <div className="bonus-template">currency</div>
                       <div>
