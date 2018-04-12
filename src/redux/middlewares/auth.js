@@ -38,6 +38,12 @@ export default store => next => (action) => {
         }
       }
 
+      if (window.Raven) {
+        window.Raven.setUserContext({
+          uuid: auth.uuid,
+        });
+      }
+
       const isAuthRehydrate = !!action.payload.language;
       if (auth && auth.uuid && auth.token && isAuthRehydrate) {
         store.dispatch(authActionCreators.fetchProfile(auth.uuid, auth.token));

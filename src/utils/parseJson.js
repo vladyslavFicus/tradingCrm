@@ -1,7 +1,11 @@
-export default function (data) {
+export default function (data, defaultValue = {}) {
   try {
     return JSON.parse(data);
   } catch (e) {
-    return {};
+    if (window.Raven) {
+      window.Raven.captureException(e);
+    }
+
+    return defaultValue;
   }
 }

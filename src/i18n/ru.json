@@ -899,6 +899,10 @@
         "LABEL": "Блок вывода",
         "LOCK_ALL": "Заблокировать все средства",
         "LOCK_PARTIAL": "Заблокировать сумму депозита"
+      },
+      "REWARD_TYPE": {
+        "BONUS": "Бонус",
+        "FREE_SPIN": "Free-spin"
       }
     },
     "GAMING_ACTIVITY": {
