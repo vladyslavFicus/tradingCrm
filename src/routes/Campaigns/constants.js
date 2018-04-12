@@ -10,15 +10,25 @@ const rewardTypes = keyMirror({
   FREE_SPIN: null,
 });
 
+const fulfilmentTypes = keyMirror({
+  WAGERING: null,
+});
+
 const rewardTypesLabels = {
   [rewardTypes.BONUS]: 'Bonus',
   [rewardTypes.FREE_SPIN]: 'Free spin',
 };
 
+const fulfilmentTypesLabels = {
+  [fulfilmentTypes.WAGERING]: 'Wagering',
+};
+
 export {
   attributeLabels,
   rewardTypes,
+  fulfilmentTypes,
   rewardTypesLabels,
+  fulfilmentTypesLabels,
 };
 
 export default attributeLabels;

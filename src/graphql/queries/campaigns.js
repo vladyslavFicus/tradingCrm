@@ -35,9 +35,10 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       authorUUID,
       creationDate,
       rewards,
-      wageringFulfillments,
+      fulfillments,
       freeSpinTemplateUuids,
       bonusTemplateUuids,
+      wageringUuids,
     }
     error {
       error
@@ -112,6 +113,7 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
   $freeSpinsAmount: Int!
   $linesPerSpin: Int
   $rhfpBet: Int
+  $pageCode: String
   $betLevel: Int
   $betPerLineAmounts: [InputMoney]
   $bonusTemplateUUID: String
@@ -132,6 +134,7 @@ const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
     betLevel: $betLevel,
     betPerLineAmounts: $betPerLineAmounts
     bonusTemplateUUID: $bonusTemplateUUID
+    pageCode: $pageCode
     ) {
       data {
         aggregatorId
@@ -152,6 +155,20 @@ const freeSpinTemplateOptionsQuery = gql`query freeSpinOptions {
   freeSpinOptions
 }`;
 
+const wageringQuery = gql`query wagering($uuid: String!) {
+  wagering(uuid: $uuid) {
+    data {
+      uuid
+      amounts {
+        amount,
+        currency
+      }
+    }
+    error {
+      error
+    }
+  }
+}`;
 
 export {
   freeSpinTemplatesQuery,
@@ -162,4 +179,5 @@ export {
   bonusTemplateQuery,
   freeSpinTemplateOptionsQuery,
   freeSpinTemplateMutation,
+  wageringQuery,
 };

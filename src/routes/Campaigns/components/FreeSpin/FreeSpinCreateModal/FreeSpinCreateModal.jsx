@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { floatNormalize, intNormalize } from '../../../../../utils/inputNormalize';
 import normalizeNumber from '../../../../../utils/normalizeNumber';
+import { attributeLabels, attributePlaceholders } from '../constants';
 import Amount, { Currency } from '../../../../../components/Amount';
 import {
   SelectField,
@@ -18,6 +19,13 @@ import './FreeSpinCreateModal.scss';
 class FreeSpinCreateModal extends Component {
   static propTypes = {
     reset: PropTypes.func.isRequired,
+    shortBonusTemplates: PropTypes.shape({
+      shortBonusTemplates: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+        })
+      ),
+    }).isRequired,
     currentValues: PropTypes.object.isRequired,
     onSave: PropTypes.func,
     gameId: PropTypes.string,
@@ -44,10 +52,13 @@ class FreeSpinCreateModal extends Component {
           fullGameName: PropTypes.string,
           coinSizes: PropTypes.arrayOf(PropTypes.number),
           betLevels: PropTypes.arrayOf(PropTypes.number),
+          pageCodes: PropTypes.arrayOf(PropTypes.shape({
+            value: PropTypes.string,
+            label: PropTypes.string,
+          })),
         })),
       }),
     }),
-    onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
   };
 
@@ -86,6 +97,7 @@ class FreeSpinCreateModal extends Component {
       baseCurrency: get(options, 'signUp.post.currency.base', ''),
     };
   }
+
   get aggregatorOptions() {
     const {
       freeSpinOptions: {
@@ -93,14 +105,13 @@ class FreeSpinCreateModal extends Component {
       },
     } = this.props;
 
-    return freeSpinOptions || { };
+    return freeSpinOptions || {};
   }
 
   setField = (field, value = '') => this.context._reduxForm.autofill(field, value);
 
   handleChangeProvider = () => {
-    const { aggregatorOptions } = this;
-    const fields = get(aggregatorOptions, `[${this.props.aggregatorId}].fields`);
+    const fields = get(this.aggregatorOptions, `[${this.props.aggregatorId}].fields`);
     this.setField('gameId', null);
 
     if (fields.indexOf('betLevel') !== -1) {
@@ -111,7 +122,6 @@ class FreeSpinCreateModal extends Component {
       this.setField('coinSize', 1);
     }
   };
-
 
   handleSubmit = async ({ betPerLine, currency, ...data }) => {
     const { addFreeSpinTemplate, onSave, onCloseModal, reset } = this.props;
@@ -171,14 +181,14 @@ class FreeSpinCreateModal extends Component {
           <div className="free-spin-card">
             <div className="free-spin-card-values"><Amount {...spinValue} /></div>
             <div className="free-spin-card-values">{spinValue.currency}</div>
-            <div className="free-spin-card-label">{I18n.t('CAMPAIGNS.FREE_SPIN.SPIN_VALUE')}</div>
+            <div className="free-spin-card-label">{I18n.t(attributeLabels.spinValue)}</div>
           </div>
         </div>
         <div className="col-6">
           <div className="free-spin-card">
             <div className="free-spin-card-values"><Amount {...totalValue} /></div>
             <div className="free-spin-card-values">{totalValue.currency}</div>
-            <div className="free-spin-card-label">{I18n.t('CAMPAIGNS.FREE_SPIN.TOTAL_VALUE')}</div>
+            <div className="free-spin-card-label">{I18n.t(attributeLabels.totalValue)}</div>
           </div>
         </div>
       </div>
@@ -243,13 +253,13 @@ class FreeSpinCreateModal extends Component {
               <div className="col-4">
                 <Field
                   name="aggregatorId"
-                  id={'aggregatorId'}
-                  label="Aggregator id"
+                  id="aggregatorId"
+                  label={I18n.t(attributeLabels.aggregatorId)}
                   position="vertical"
                   component={SelectField}
                   showErrorMessage={false}
                 >
-                  <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_AGGREGATOR')}</option>
+                  <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_AGGREGATOR')}</option>
                   {Object.keys(aggregatorOptions).map(item => (
                     <option key={item} value={item}>
                       {item}
@@ -261,13 +271,13 @@ class FreeSpinCreateModal extends Component {
                 <Field
                   name="providerId"
                   id="providerId"
-                  label="Provider id"
+                  label={I18n.t(attributeLabels.providerId)}
                   position="vertical"
                   component={SelectField}
                   showErrorMessage={false}
                   onChange={this.handleChangeProvider}
                 >
-                  <option value="">{I18n.t('PLAYER_PROFILE.FREE_SPIN.MODAL_CREATE.CHOOSE_PROVIDER')}</option>
+                  <option value="">{I18n.t('CAMPAIGNS.FREE_SPIN.CHOOSE_PROVIDER')}</option>
                   {providers.map(item => (
                     <option key={item} value={item}>
                       {item}
@@ -278,7 +288,7 @@ class FreeSpinCreateModal extends Component {
               <div className="col-4">
                 <Field
                   name="gameId"
-                  label="Game Id"
+                  label={I18n.t(attributeLabels.gameId)}
                   id="gameId"
                   position="vertical"
                   component={SelectField}
@@ -300,9 +310,9 @@ class FreeSpinCreateModal extends Component {
                       <Field
                         name="freeSpinsAmount"
                         type="number"
-                        id={'freeSpinsAmount'}
+                        id="freeSpinsAmount"
                         placeholder="0"
-                        label={'freeSpins'}
+                        label={I18n.t(attributeLabels.freeSpins)}
                         component={InputField}
                         normalize={floatNormalize}
                         position="vertical"
@@ -312,15 +322,15 @@ class FreeSpinCreateModal extends Component {
                     <div className="form-row_with-placeholder-right col-6">
                       <Field
                         name="freeSpinLifeTime"
-                        id={'freeSpinLifeTime'}
+                        id="freeSpinLifeTime"
                         type="text"
                         placeholder="0"
                         normalize={intNormalize}
-                        label="freeSpinLifeTime"
+                        label={I18n.t(attributeLabels.freeSpinLifeTime)}
                         component={InputField}
                         position="vertical"
                       />
-                      <span className="right-placeholder">days</span>
+                      <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
                     </div>
                   </div>
                   <div className="row">
@@ -331,7 +341,7 @@ class FreeSpinCreateModal extends Component {
                           type="number"
                           id="betPerLine"
                           step="any"
-                          label="betPerLine"
+                          label={I18n.t(attributeLabels.betPerLine)}
                           labelClassName="form-label"
                           position="vertical"
                           component={InputField}
@@ -348,7 +358,7 @@ class FreeSpinCreateModal extends Component {
                           name="linesPerSpin"
                           id="linesPerSpin"
                           type="number"
-                          label="lines per spin"
+                          label={I18n.t(attributeLabels.linesPerSpin)}
                           labelClassName="form-label"
                           position="vertical"
                           component={SelectField}
@@ -377,7 +387,7 @@ class FreeSpinCreateModal extends Component {
                     <Field
                       name="betLevel"
                       id="betLevel"
-                      label="betLevel"
+                      label={I18n.t(attributeLabels.betLevel)}
                       type="select"
                       parse={normalizeNumber}
                       component={SelectField}
@@ -394,7 +404,7 @@ class FreeSpinCreateModal extends Component {
                     <Field
                       name="coinSize"
                       id="coinSize"
-                      label="coinSize"
+                      label={I18n.t(attributeLabels.coinSize)}
                       type="select"
                       parse={normalizeNumber}
                       component={SelectField}
@@ -411,7 +421,7 @@ class FreeSpinCreateModal extends Component {
                     <Field
                       name="pageCode"
                       id="pageCode"
-                      label="pageCode"
+                      label={I18n.t(attributeLabels.pageCode)}
                       type="select"
                       component={SelectField}
                       position="vertical"
@@ -429,7 +439,7 @@ class FreeSpinCreateModal extends Component {
                       type="number"
                       id="betMultiplier"
                       step="any"
-                      label="betMultiplier"
+                      label={I18n.t(attributeLabels.betMultiplier)}
                       labelClassName="form-label"
                       position="vertical"
                       component={InputField}
@@ -446,7 +456,7 @@ class FreeSpinCreateModal extends Component {
                       id="rhfpBet"
                       placeholder="0"
                       normalize={intNormalize}
-                      label="rhfpBet"
+                      label={I18n.t(attributeLabels.rhfpBet)}
                       component={InputField}
                       position="vertical"
                     />
@@ -459,7 +469,7 @@ class FreeSpinCreateModal extends Component {
                       type="text"
                       id="comment"
                       placeholder=""
-                      label="comment"
+                      label={I18n.t(attributeLabels.comment)}
                       component={InputField}
                       position="vertical"
                     />
@@ -470,7 +480,7 @@ class FreeSpinCreateModal extends Component {
                 <Field
                   name="bonusTemplateUUID"
                   id="bonusTemplateUUID"
-                  label="Bonus templates"
+                  label={I18n.t(attributeLabels.bonusTemplate)}
                   component={NasSelectField}
                   showErrorMessage={false}
                   position="vertical"
@@ -492,7 +502,7 @@ class FreeSpinCreateModal extends Component {
                   className="btn btn-primary ml-2"
                   id="create-new-operator-submit-button"
                 >
-                  Save
+                  {I18n.t('COMMON.SAVE')}
                 </button>
               </div>
             </div>

@@ -1716,5 +1716,37 @@
       "TITLE": "Permission denied",
       "REASON": "You do not have permission to access this section"
     }
+  },
+  "CAMPAIGNS": {
+    "FREE_SPIN": {
+      "PROVIDER": "Provider",
+      "AGGREGATOR": "Aggregator",
+      "GAMES": "Games",
+      "GAME_TYPE": "Game type",
+      "NAME": "Name",
+      "FREE_SPINS": "Free spins",
+      "FREE_SPIN_REWARD": "Free spin reward",
+      "BET_PER_LINE": "Bet per line",
+      "FREE_SPIN_LIFE_TIME": "Free spin life time",
+      "PRIZE": "Prize",
+      "SPIN_VALUE": "Spin value",
+      "TOTAL_VALUE": "Total value",
+      "LINES_PER_SPIN": "Lines per spin",
+      "BET_LEVEL": "Bet level",
+      "COIN_SIZE": "Coin size",
+      "PAGE_CODE": "Page code",
+      "COMMENT": "Comment",
+      "BET_MULTIPLIER": "Bet multiplier",
+      "RHFP_BET": "Rhfp bet",
+      "BONUS_TEMPLATE": "Bonus template",
+      "PLACEHOLDERS": {
+        "DAYS": "Days"
+      },
+      "HEADER": "Free spin template",
+      "CHOOSE_CURRENCY": "-- Choose currency--",
+      "CHOOSE_AGGREGATOR": "-- Choose aggregator--",
+      "CHOOSE_PROVIDER": "-- Choose provider--",
+      "CHOOSE_PAGE_CODE": "-- Choose page code--"
+    }
   }
 }
