@@ -14,6 +14,7 @@ import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Bonus';
 import { FreeSpinView } from '../FreeSpin';
 import { WageringView } from '../Wagering';
+import { createValidator } from '../../../../utils/validator';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -138,4 +139,9 @@ class Form extends Component {
   }
 }
 
-export default reduxForm({ keepDirtyOnReinitialize: true })(Form);
+export default reduxForm({
+  keepDirtyOnReinitialize: true,
+  validate: createValidator({
+    name: ['required', 'string'],
+  }, attributeLabels, false),
+})(Form);

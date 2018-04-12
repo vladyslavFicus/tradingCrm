@@ -56,14 +56,35 @@ const updateMutation = gql`mutation update(
       data {
         _id
         name
-        fulfillments
         bonusTemplateUuids
         wageringUuids
         freeSpinTemplateUuids
-        rewards
       }
       error {
         error
+      }
+    }
+  }
+}`;
+
+const createMutation = gql`mutation create(
+  $name: String!,
+  $fulfillments: [String]!,
+  $rewards: [String]!
+) {
+  campaign {
+    create(
+      name: $name,
+      fulfillments: $fulfillments,
+      rewards: $rewards,
+    ) {
+      data {
+        _id
+        uuid
+      }
+      error {
+        error
+        fields_errors
       }
     }
   }
@@ -124,4 +145,5 @@ export {
   cancelMutation,
   freeSpinTemplateMutation,
   updateMutation,
+  createMutation,
 };

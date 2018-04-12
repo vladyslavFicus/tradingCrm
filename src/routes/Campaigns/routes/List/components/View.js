@@ -91,6 +91,12 @@ class View extends Component {
           <span className="font-size-20 mr-auto" id="campaigns-page-title">
             {I18n.t('BONUS_CAMPAIGNS.TITLE')}
           </span>
+          <Link
+            className="btn btn-primary-outline"
+            to="/campaigns/create"
+          >
+            {I18n.t('BONUS_CAMPAIGNS.BUTTON_CREATE_CAMPAIGN')}
+          </Link>
         </Title>
 
         <Content>
