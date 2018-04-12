@@ -7,9 +7,9 @@ import { currencyQuery } from '../../../../../graphql/queries/options';
 import {
   freeSpinTemplateOptionsQuery,
   shortBonusTemplatesQuery,
-  freeSpinTemplateMutation,
   freeSpinTemplatesQuery,
 } from '../../../../../graphql/queries/campaigns';
+import { freeSpinTemplateMutation } from '../../../../../graphql/mutations/campaigns';
 import { gameListQuery } from '../../../../../graphql/queries/games';
 import FreeSpinCreateModal from './FreeSpinCreateModal';
 import validator from './validator';
