@@ -101,6 +101,60 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
   }
 }`;
 
+const freeSpinTemplateMutation = gql`mutation freeSpinTemplateMutation(
+  $name: String!,
+  $aggregatorId: String!
+  $providerId: String!
+  $gameId: String!
+  $comment: String
+  $betMultiplier: Int
+  $coinSize: Int
+  $freeSpinLifeTime: Int!
+  $freeSpinsAmount: Int!
+  $linesPerSpin: Int
+  $rhfpBet: Int
+  $pageCode: String
+  $betLevel: Int
+  $betPerLineAmounts: [InputMoney]
+  $bonusTemplateUUID: String
+  ) {
+  freeSpinTemplate {
+    add (
+    name: $name,
+    aggregatorId: $aggregatorId,
+    providerId: $providerId,
+    gameId: $gameId,
+    comment: $comment,
+    betMultiplier: $betMultiplier,
+    coinSize: $coinSize,
+    freeSpinLifeTime: $freeSpinLifeTime,
+    freeSpinsAmount: $freeSpinsAmount,
+    linesPerSpin: $linesPerSpin,
+    rhfpBet: $rhfpBet,
+    betLevel: $betLevel,
+    betPerLineAmounts: $betPerLineAmounts
+    bonusTemplateUUID: $bonusTemplateUUID
+    pageCode: $pageCode
+    ) {
+      data {
+        aggregatorId
+        providerId
+        name
+        status
+        uuid
+      }
+      error {
+        error
+        fields_errors
+      }
+    }
+  }
+}`;
+
+const freeSpinTemplateOptionsQuery = gql`query freeSpinOptions {
+  freeSpinOptions
+}`;
+
 const wageringQuery = gql`query wagering($uuid: String!) {
   wagering(uuid: $uuid) {
     data {
@@ -123,5 +177,7 @@ export {
   campaignQuery,
   shortBonusTemplatesQuery,
   bonusTemplateQuery,
+  freeSpinTemplateOptionsQuery,
+  freeSpinTemplateMutation,
   wageringQuery,
 };

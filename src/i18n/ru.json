@@ -1736,5 +1736,37 @@
       "TITLE": "Доступ запрещен",
       "REASON": "У вас нет разрешения на доступ к этому разделу"
     }
+  },
+  "CAMPAIGNS": {
+    "FREE_SPIN": {
+      "PROVIDER": "Провайдер",
+      "AGGREGATOR": "Агрегатор",
+      "GAMES": "Игры",
+      "GAME_TYPE": "Тип игры",
+      "NAME": "Название",
+      "FREE_SPINS": "Фри спины",
+      "FREE_SPIN_REWARD": "Фри спин",
+      "BET_PER_LINE": "Бет за линию",
+      "FREE_SPIN_LIFE_TIME": "Время жизни спина",
+      "PRIZE": "Приз",
+      "SPIN_VALUE": "Стоимость спина",
+      "TOTAL_VALUE": "Общее значение",
+      "LINES_PER_SPIN": "Линий в спине",
+      "BET_LEVEL": "Уровень ставки",
+      "COIN_SIZE": "Размер монеты",
+      "PAGE_CODE": "Код страницы",
+      "COMMENT": "Комментарий",
+      "BET_MULTIPLIER": "Множитель ставок",
+      "RHFP_BET": "Rhfp ставка",
+      "BONUS_TEMPLATE": "Бонус шаблон",
+      "PLACEHOLDERS": {
+        "DAYS": "Дни"
+      },
+      "HEADER": "Шаблон фри спина",
+      "CHOOSE_CURRENCY": "-- Выберите валюту --",
+      "CHOOSE_AGGREGATOR": "-- Выберите агрегатора--",
+      "CHOOSE_PROVIDER": "-- Выберите провайдера--",
+      "CHOOSE_PAGE_CODE": "-- Выберите код страницы--"
+    }
   }
 }

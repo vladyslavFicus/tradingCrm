@@ -112,23 +112,27 @@ class Form extends Component {
             </div>
           </div>
         </div>
-        <NodeBuilder
-          name="fulfilments"
-          options={[
-            { type: fulfilmentTypes.WAGERING, items: wageringUuids, component: WageringView },
-          ]}
-          typeLabels={fulfilmentTypesLabels}
-          types={Object.keys(fulfilmentTypes)}
-        />
-        <NodeBuilder
-          name="rewards"
-          options={[
-            { type: rewardTypes.BONUS, items: bonusTemplateUuids, component: BonusView },
-            { type: rewardTypes.FREE_SPIN, items: freeSpinTemplateUuids, component: FreeSpinView },
-          ]}
-          typeLabels={rewardTypesLabels}
-          types={Object.keys(rewardTypes)}
-        />
+        <div className="row">
+          <NodeBuilder
+            name="fulfilments"
+            className="col-6"
+            options={[
+              { type: fulfilmentTypes.WAGERING, items: wageringUuids, component: WageringView },
+            ]}
+            typeLabels={fulfilmentTypesLabels}
+            types={Object.keys(fulfilmentTypes)}
+          />
+          <NodeBuilder
+            name="rewards"
+            className="col-6"
+            options={[
+              { type: rewardTypes.BONUS, items: bonusTemplateUuids, component: BonusView },
+              { type: rewardTypes.FREE_SPIN, items: freeSpinTemplateUuids, component: FreeSpinView },
+            ]}
+            typeLabels={rewardTypesLabels}
+            types={Object.keys(rewardTypes)}
+          />
+        </div>
       </form>
     );
   }
