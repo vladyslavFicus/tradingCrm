@@ -1,8 +1,7 @@
 import { compose } from 'redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withModals } from '../../../components/HighOrder';
-import MultiCurrencyModal from './MultiCurrencyModal';
+import { withMultiCurrencyModal } from '../../../components/HighOrder';
 import MultiCurrencyField from './MultiCurrencyField';
 
 class MultiCurrencyValue extends Component {
@@ -99,5 +98,5 @@ class MultiCurrencyValue extends Component {
 }
 
 export default compose(
-  withModals({ multiCurrencyModal: MultiCurrencyModal }),
+  withMultiCurrencyModal,
 )(MultiCurrencyValue);

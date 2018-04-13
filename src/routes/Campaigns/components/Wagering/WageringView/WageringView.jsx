@@ -57,9 +57,7 @@ class WageringView extends PureComponent {
               ready={!loading}
               className={null}
               customPlaceholder={(
-                <div>
-                  <TextRow className="animated-background" style={{ width: '80%', height: '20px' }} />
-                </div>
+                <TextRow className="animated-background" style={{ width: '80%', height: '20px' }} />
               )}
             >
               <div>
@@ -68,15 +66,11 @@ class WageringView extends PureComponent {
                     <div key={amount.currency} className="row">
                       <div className="col-4 bonus-template__item">
                         <div className="bonus-template">currency</div>
-                        <div>
-                          {amount.currency}
-                        </div>
+                        {amount.currency}
                       </div>
                       <div className="col-4 bonus-template__item">
                         <div className="bonus-template">amount</div>
-                        <div>
-                          {amount.amount}
-                        </div>
+                        {amount.amount}
                       </div>
                     </div>
                   </For>
@@ -84,13 +78,13 @@ class WageringView extends PureComponent {
               </div>
             </Placeholder>
           </When>
-          <When condition={!uuid}>
+          <Otherwise>
             <MultiCurrencyValue
               baseName={`${name}amounts`}
               baseCurrency={baseCurrency}
               secondaryCurrencies={currencies.filter(c => c !== baseCurrency)}
             />
-          </When>
+          </Otherwise>
         </Choose>
       </div>
     );

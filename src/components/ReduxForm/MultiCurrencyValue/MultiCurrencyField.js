@@ -24,8 +24,6 @@ const MultiCurrencyField = ({ label, currency, name, onChange }) => (
   </div>
 );
 
-export default MultiCurrencyField;
-
 MultiCurrencyField.propTypes = {
   label: PropTypes.string,
   currency: PropTypes.string.isRequired,
@@ -36,3 +34,5 @@ MultiCurrencyField.propTypes = {
 MultiCurrencyField.defaultProps = {
   label: '',
 };
+
+export default MultiCurrencyField;

@@ -52,10 +52,8 @@ class MultiCurrencyModal extends PureComponent {
 
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalBody>
-            <div>
-              { this.renderField(baseCurrency) }
-              {secondaryCurrencies.map((currency, index) => this.renderField(currency, index + 1))}
-            </div>
+            {this.renderField(baseCurrency)}
+            {secondaryCurrencies.map((currency, index) => this.renderField(currency, index + 1))}
           </ModalBody>
 
           <ModalFooter>
@@ -64,7 +62,6 @@ class MultiCurrencyModal extends PureComponent {
                 <button
                   type="submit"
                   className="btn btn-primary ml-2"
-                  id="create-new-operator-submit-button"
                 >
                   Submit
                 </button>

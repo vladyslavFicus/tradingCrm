@@ -7,7 +7,6 @@ const currencyQuery = gql`query signUpOptions($brandId: String!) {
         currency {
           base,
           list
-          base
         }
       }
     }
