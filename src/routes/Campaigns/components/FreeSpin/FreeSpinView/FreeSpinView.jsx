@@ -9,7 +9,7 @@ import Placeholder from '../../../../../components/Placeholder';
 export default class FreeSpinView extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    uuid: PropTypes.string.isRequired,
+    uuid: PropTypes.string,
     index: PropTypes.number.isRequired,
     onChangeUUID: PropTypes.func.isRequired,
     freeSpinTemplates: PropTypes.shape({
@@ -35,6 +35,7 @@ export default class FreeSpinView extends PureComponent {
 
   static defaultProps = {
     freeSpinTemplate: {},
+    uuid: null,
     disabled: false,
   };
 

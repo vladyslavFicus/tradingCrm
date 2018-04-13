@@ -4,10 +4,12 @@ import { get } from 'lodash';
 import PropTypes from '../../../../constants/propTypes';
 import Header from './components/Header';
 import Form from '../../components/Form';
+import asyncForEach from '../../../../utils/asyncForEach';
 
 class CampaignCreate extends PureComponent {
   static propTypes = {
     notify: PropTypes.func.isRequired,
+    addWageringFulfillment: PropTypes.func.isRequired,
     createCampaign: PropTypes.func.isRequired,
   };
 
@@ -21,13 +23,28 @@ class CampaignCreate extends PureComponent {
     const {
       createCampaign,
       notify,
+      addWageringFulfillment,
     } = this.props;
+
+    const fulfillments = [];
+
+    await asyncForEach(formData.fulfillments, async (fulfillment) => {
+      const waggeringResponse = await addWageringFulfillment({
+        variables: fulfillment,
+      });
+
+      const uuid = get(waggeringResponse, 'data.wageringFulfillment.add.data.uuid');
+
+      if (uuid) {
+        fulfillments.push(uuid);
+      }
+    });
 
     const action = await createCampaign({
       variables: {
         ...formData,
         rewards: formData.rewards.map(({ uuid }) => uuid),
-        fulfillments: formData.fulfillments.map(({ uuid }) => uuid),
+        fulfillments,
       },
     });
 

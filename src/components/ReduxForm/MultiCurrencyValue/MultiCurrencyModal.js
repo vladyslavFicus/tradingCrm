@@ -29,6 +29,7 @@ class MultiCurrencyModal extends PureComponent {
 
   renderField = (currency, index = 0) => (
     <MultiCurrencyField
+      key={index}
       name={`amounts[${index}]`}
       currency={currency}
       onChange={this.handleChange(currency, index)}

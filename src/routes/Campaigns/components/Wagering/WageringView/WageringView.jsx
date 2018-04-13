@@ -7,7 +7,7 @@ import Placeholder from '../../../../../components/Placeholder';
 
 class WageringView extends PureComponent {
   static propTypes = {
-    uuid: PropTypes.string.isRequired,
+    uuid: PropTypes.string,
     name: PropTypes.string.isRequired,
     optionCurrencies: PropTypes.shape({
       options: PropTypes.shape({
@@ -31,6 +31,7 @@ class WageringView extends PureComponent {
 
   static defaultProps = {
     wagering: {},
+    uuid: null,
   };
 
   render() {
