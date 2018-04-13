@@ -11,7 +11,7 @@ import Placeholder from '../../../../../components/Placeholder';
 class BonusView extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    uuid: PropTypes.string.isRequired,
+    uuid: PropTypes.string,
     shortBonusTemplates: PropTypes.shape({
       bonusTemplates: PropTypes.arrayOf(PropTypes.shape({
         uuid: PropTypes.string,
@@ -37,6 +37,7 @@ class BonusView extends PureComponent {
   };
 
   static defaultProps = {
+    uuid: null,
     bonusTemplate: {},
     disabled: false,
   }

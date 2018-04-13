@@ -4,11 +4,13 @@ import { get } from 'lodash';
 import PropTypes from '../../../../../../constants/propTypes';
 import Form from '../../../../components/Form';
 import { statuses } from '../../../../../../constants/bonus-campaigns';
+import asyncForEach from '../../../../../../utils/asyncForEach';
 
 class SettingsView extends PureComponent {
   static propTypes = {
     updateCampaign: PropTypes.func.isRequired,
     notify: PropTypes.func.isRequired,
+    addWageringFulfillment: PropTypes.func.isRequired,
     campaign: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       campaign: PropTypes.shape({
@@ -21,6 +23,7 @@ class SettingsView extends PureComponent {
     const {
       updateCampaign,
       notify,
+      addWageringFulfillment,
       campaign: {
         campaign: {
           data,
@@ -28,12 +31,29 @@ class SettingsView extends PureComponent {
       },
     } = this.props;
 
+    const fulfillments = formData.fulfillments
+      .filter(({ uuid }) => uuid)
+      .map(({ uuid }) => uuid);
+    const newFulfillments = formData.fulfillments.filter(({ uuid }) => !uuid);
+
+    await asyncForEach(newFulfillments, async (fulfillment) => {
+      const waggeringResponse = await addWageringFulfillment({
+        variables: fulfillment,
+      });
+
+      const uuid = get(waggeringResponse, 'data.wageringFulfillment.add.data.uuid');
+
+      if (uuid) {
+        fulfillments.push(uuid);
+      }
+    });
+
     const action = await updateCampaign({
       variables: {
         ...formData,
         uuid: data.uuid,
         rewards: formData.rewards.map(({ uuid }) => uuid),
-        fulfillments: formData.fulfillments.map(({ uuid }) => uuid),
+        fulfillments,
       },
     });
 
