@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
@@ -6,9 +6,10 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { SelectField } from '../../../../components/ReduxForm';
 
-class NodeBuilder extends Component {
+class NodeBuilder extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
     className: PropTypes.string,
     options: PropTypes.arrayOf(
       PropTypes.shape({
@@ -24,20 +25,31 @@ class NodeBuilder extends Component {
 
   static defaultProps = {
     className: '',
+    disabled: false,
   };
 
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      components: props.options
+  static norimilizeState(options) {
+    return {
+      components: options
         .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {}),
-      nodes: props.options
+      nodes: options
         .reduce((acc, curr) => [
           ...acc,
           ...curr.items.map(uuid => ({ type: curr.type, uuid, id: uuid })),
         ], []),
     };
+  }
+
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = NodeBuilder.norimilizeState(props.options);
+  }
+
+  componentWillReceiveProps({ disabled, options }) {
+    if (disabled && !this.props.disabled) {
+      this.setState(NodeBuilder.norimilizeState(options));
+    }
   }
 
   handleSelectNode = (e) => {
@@ -73,7 +85,7 @@ class NodeBuilder extends Component {
 
   render() {
     const { nodes, selectedNode, components } = this.state;
-    const { types, fields, typeLabels, name, className } = this.props;
+    const { types, fields, typeLabels, name, className, disabled } = this.props;
 
     return (
       <div className={classNames(className)}>
@@ -83,57 +95,62 @@ class NodeBuilder extends Component {
               <div className="col text-truncate add-campaign-label">
                 {I18n.t(typeLabels[node.type])}
               </div>
-              <div className="col-auto text-right">
-                <button
-                  type="button"
-                  onClick={() => this.handleRemoveNode(node.id, index)}
-                  className="btn-transparent add-campaign-remove"
-                >
+              <If condition={!disabled}>
+                <div className="col-auto text-right">
+                  <button
+                    type="button"
+                    onClick={() => this.handleRemoveNode(node.id, index)}
+                    className="btn-transparent add-campaign-remove"
+                  >
                 &times;
-                </button>
-              </div>
+                  </button>
+                </div>
+              </If>
             </div>
             {React.createElement(components[node.type], {
               id: node.id,
               index,
+              disabled,
               onChangeUUID: this.handleChangeUUID,
               name: `${name}[${index}]`,
               uuid: get(fields.get(index), 'uuid', ''),
             })}
           </div>
         </For>
-        <div className="row no-gutters py-5 add-campaign-setting">
-          <div className="col-5">
-            <SelectField
-              position="vertical"
-              input={{
-                value: selectedNode,
-                onChange: this.handleSelectNode,
-              }}
-              component={SelectField}
-            >
-              <option value="">{I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.SELECT_REWARDS')}</option>
-              {
-                types.map(type => (
-                  <option key={type} value={type}>
-                    {I18n.t(typeLabels[type])}
-                  </option>
-                ))
-              }
-            </SelectField>
+        <If condition={!disabled}>
+          <div className="row no-gutters py-5 add-campaign-setting">
+            <div className="col-5">
+              <SelectField
+                position="vertical"
+                input={{
+                  value: selectedNode,
+                  onChange: this.handleSelectNode,
+                }}
+                component={SelectField}
+              >
+                <option value="">{I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.SELECT_REWARDS')}</option>
+                {
+                  types.map(type => (
+                    <option key={type} value={type}>
+                      {I18n.t(typeLabels[type])}
+                    </option>
+                  ))
+                }
+              </SelectField>
+            </div>
+            <div className="col-auto">
+              <button
+                type="button"
+                className="btn"
+                id="add-rewards"
+                disabled={!selectedNode}
+                onClick={this.handleAddNode}
+              >
+                {I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.ADD_REWARDS')}
+              </button>
+            </div>
           </div>
-          <div className="col-auto">
-            <button
-              type="button"
-              className="btn"
-              id="add-rewards"
-              disabled={!selectedNode}
-              onClick={this.handleAddNode}
-            >
-              {I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.ADD_REWARDS')}
-            </button>
-          </div>
-        </div>
+        </If>
       </div>
 
     );

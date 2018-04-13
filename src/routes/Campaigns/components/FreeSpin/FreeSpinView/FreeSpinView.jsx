@@ -30,10 +30,12 @@ export default class FreeSpinView extends PureComponent {
         }),
       }),
     }),
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
     freeSpinTemplate: {},
+    disabled: false,
   };
 
   static contextTypes = {
@@ -62,6 +64,7 @@ export default class FreeSpinView extends PureComponent {
         loading,
         freeSpinTemplate,
       },
+      disabled,
     } = this.props;
 
     const fsTemplates = freeSpinTemplates || [];
@@ -74,6 +77,7 @@ export default class FreeSpinView extends PureComponent {
             <Field
               name={`${name}.uuid`}
               id={`${name}-uuid`}
+              disabled={disabled}
               label="Free-spin template"
               component={NasSelectField}
               showErrorMessage={false}
@@ -86,15 +90,17 @@ export default class FreeSpinView extends PureComponent {
               ))}
             </Field>
           </div>
-          <div className="col-md-4">
-            <button
-              className="btn btn-primary text-uppercase margin-top-20"
-              type="button"
-              onClick={this.handleOpenModal}
-            >
+          <If condition={!disabled}>
+            <div className="col-md-4">
+              <button
+                className="btn btn-primary text-uppercase margin-top-20"
+                type="button"
+                onClick={this.handleOpenModal}
+              >
               Add free spin template
-            </button>
-          </div>
+              </button>
+            </div>
+          </If>
         </div>
         <If condition={uuid}>
           <Placeholder

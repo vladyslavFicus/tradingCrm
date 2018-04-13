@@ -33,10 +33,12 @@ class BonusView extends PureComponent {
       }),
     }).isRequired,
     addBonus: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
     bonusTemplate: {},
+    disabled: false,
   }
 
   handleSubmitBonusForm = async (formData) => {
@@ -117,6 +119,7 @@ class BonusView extends PureComponent {
   render() {
     const {
       uuid,
+      disabled,
       name,
       shortBonusTemplates: {
         shortBonusTemplates,
@@ -135,6 +138,7 @@ class BonusView extends PureComponent {
             <Field
               name={`${name}.uuid`}
               id={`${name}-uuid`}
+              disabled={disabled}
               label="Bonus templates"
               component={NasSelectField}
               showErrorMessage={false}
@@ -147,15 +151,17 @@ class BonusView extends PureComponent {
               ))}
             </Field>
           </div>
-          <div className="col-md-4">
-            <button
-              className="btn btn-primary text-uppercase margin-top-20"
-              type="button"
-              onClick={this.handleOpenCreateModal}
-            >
+          <If condition={!disabled}>
+            <div className="col-md-4">
+              <button
+                className="btn btn-primary text-uppercase margin-top-20"
+                type="button"
+                onClick={this.handleOpenCreateModal}
+              >
               Add bonus template
-            </button>
-          </div>
+              </button>
+            </div>
+          </If>
         </div>
         <If condition={uuid}>
           <Placeholder
