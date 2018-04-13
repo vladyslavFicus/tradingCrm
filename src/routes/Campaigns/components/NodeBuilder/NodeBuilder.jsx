@@ -33,10 +33,10 @@ class NodeBuilder extends PureComponent {
     this.props.fields.push({ type: this.state.type });
   };
 
-  handleChangeUUID = (index, uuid) => {
+  handleChangeUUID = (index, uuid, type) => {
     const { fields: { insert } } = this.props;
 
-    insert(index, { uuid });
+    insert(index, { uuid, type });
   };
 
   handleRemoveNode = (index) => {
@@ -68,9 +68,8 @@ class NodeBuilder extends PureComponent {
               </If>
             </div>
             {React.createElement(components[field.type], {
-              index,
               disabled,
-              onChangeUUID: this.handleChangeUUID,
+              onChangeUUID: uuid => this.handleChangeUUID(index, uuid, field.type),
               name: `${name}[${index}]`,
               uuid: field.uuid,
             })}
