@@ -1,11 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import { Field } from 'redux-form';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { NasSelectField } from '../../../../../components/ReduxForm';
 import Placeholder from '../../../../../components/Placeholder';
+import Amount from '../../../../../components/Amount';
+import Uuid from '../../../../../components/Uuid';
+import { customValueFieldTypes } from '../../../../../constants/form';
+import './BonusView.scss';
 
 class BonusView extends PureComponent {
   static propTypes = {
@@ -43,7 +46,7 @@ class BonusView extends PureComponent {
     name: '',
     bonusTemplate: {},
     disabled: false,
-  }
+  };
 
   handleOpenCreateModal = () => {
     const { modals, onChangeUUID } = this.props;
@@ -118,46 +121,102 @@ class BonusView extends PureComponent {
               </div>
             )}
           >
-            <div>
+            <div className="col-md-12">
+
               <div className="row">
-                <div className="col-4 bonus-template__item">
-                  <div className="bonus-template">uuid</div>
-                  <div>
-                    <div className="bonus-template">{template.uuid}</div>
+                <div className="col-6">
+                  <div className="font-weight-700">
+                    {template.name}
                   </div>
-                </div>
-                <div className="col-4 bonus-template__item">
-                  <div className="bonus-template">Name</div>
-                  <div>
-                    <div className="bonus-template">{template.name}</div>
+                  <div className="small">
+                    <Uuid
+                      length={16}
+                      uuidPartsCount={3}
+                      uuid={template.uuid}
+                      uuidPrefix="BT"
+                    />
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-4 bonus-template__item">
-                  <div className="bonus-template">moneyTypePriority</div>
-                  <div>
-                    <div className="bonus-template">{template.moneyTypePriority}</div>
-                  </div>
-                </div>
-                <div className="col-4 bonus-template__item">
-                  <div className="bonus-template">claimable</div>
-                  <div>
-                    <div className="bonus-template">{template.claimable}</div>
+
+              <div className="row row-top">
+                <div className="col-4">
+                  <div>Grant Amount</div>
+                  <div className="font-weight-700">
+                    {
+                      template.grantRatioAbsolute
+                        ? <Amount {...template.grantRatioAbsolute[0]} />
+                        : `${template.grantRatioPercentage}%`
+                    }
                   </div>
                 </div>
               </div>
+
               <div className="row">
-                <div className="col-4 bonus-template__item">
-                  <div className="bonus-template">lockAmountStrategy</div>
-                  <div>
-                    <div className="bonus-template">{template.lockAmountStrategy}</div>
+                <div className="col-4">
+                  <div>Prize</div>
+                  <div className="font-weight-700">
+                    {
+                      template.prizeAbsolute
+                        ? <Amount {...template.prizeAbsolute[0]} />
+                        : `${template.prizePercentage}%`
+                    }
                   </div>
                 </div>
-                <div className="col-4 bonus-template__item">
-                  <div className="bonus-template">bonusLifeTime</div>
-                  <div>
-                    <div className="bonus-template">{template.bonusLifeTime}</div>
+                <div className="col-4">
+                  <div>Capping</div>
+                  <div className="font-weight-700">
+                    {
+                      template.cappingAbsolute
+                        ? <Amount {...template.cappingAbsolute[0]} />
+                        : `${template.cappingPercentage}%`
+                    }
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div>moneyTypePriority</div>
+                  <div className="font-weight-700">
+                    {template.moneyTypePriority}
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-4">
+                  <div>wageringRequirement</div>
+                  <div className="font-weight-700">
+                    {
+                      template.wageringRequirementType === customValueFieldTypes.ABSOLUTE
+                        ? <Amount {...template.wageringRequirementAbsolute[0]} />
+                        : `${template.wageringRequirementPercentage}%`
+                    }
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div>lockAmountStrategy</div>
+                  <div className="font-weight-700">
+                    {template.lockAmountStrategy}
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div>Bonus Life time</div>
+                  <div className="font-weight-700">
+                    {template.bonusLifeTime}
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-4">
+                  <div>Max bet</div>
+                  <div className="font-weight-700">
+                    {template.maxBet && <Amount {...template.maxBet[0]} />}
+                  </div>
+                </div>
+                <div className="col-4">
+                  <div>Claimable</div>
+                  <div className="font-weight-700">
+                    {template.claimable ? 'Yes' : 'No'}
                   </div>
                 </div>
               </div>
