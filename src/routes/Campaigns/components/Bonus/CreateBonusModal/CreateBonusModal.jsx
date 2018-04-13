@@ -331,6 +331,9 @@ class CreateBonusModal extends PureComponent {
 export default compose(
   reduxForm({
     form: 'addRewardsBonus',
+    initialValues: {
+      claimable: false,
+    },
   }),
   withReduxFormValues,
 )(CreateBonusModal);
