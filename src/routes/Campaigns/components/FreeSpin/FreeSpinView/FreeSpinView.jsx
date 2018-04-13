@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { NasSelectField } from '../../../../../components/ReduxForm';
 import Placeholder from '../../../../../components/Placeholder';
+import BonusView from '../../Bonus/BonusView';
 
 export default class FreeSpinView extends PureComponent {
   static propTypes = {
@@ -220,6 +221,9 @@ export default class FreeSpinView extends PureComponent {
                   </div>
                 </If>
               </div>
+              <If condition={fsTemplate.bonusTemplateUUID}>
+                <BonusView uuid={fsTemplate.bonusTemplateUUID} isView />
+              </If>
             </div>
           </Placeholder>
         </If>

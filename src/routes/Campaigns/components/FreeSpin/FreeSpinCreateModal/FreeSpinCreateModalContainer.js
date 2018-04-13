@@ -6,7 +6,6 @@ import { getBrandId } from '../../../../../config';
 import { currencyQuery } from '../../../../../graphql/queries/options';
 import {
   freeSpinTemplateOptionsQuery,
-  shortBonusTemplatesQuery,
   freeSpinTemplatesQuery,
 } from '../../../../../graphql/queries/campaigns';
 import { freeSpinTemplateMutation } from '../../../../../graphql/mutations/campaigns';
@@ -54,9 +53,6 @@ export default compose(
     options: {
       fetchPolicy: 'network-only',
     },
-  }),
-  graphql(shortBonusTemplatesQuery, {
-    name: 'shortBonusTemplates',
   }),
   graphql(freeSpinTemplateMutation, {
     name: 'addFreeSpinTemplate',

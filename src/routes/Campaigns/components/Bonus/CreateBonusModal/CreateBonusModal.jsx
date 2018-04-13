@@ -23,6 +23,7 @@ class CreateBonusModal extends PureComponent {
     handleSubmit: PropTypes.func.isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    destroy: PropTypes.func.isRequired,
     optionCurrencies: PropTypes.shape({
       options: PropTypes.shape({
         signUp: PropTypes.shape({
@@ -45,7 +46,7 @@ class CreateBonusModal extends PureComponent {
       notify,
       onSave,
       onCloseModal,
-      reset,
+      destroy,
     } = this.props;
 
     const data = {
@@ -113,7 +114,7 @@ class CreateBonusModal extends PureComponent {
       }
 
       onCloseModal();
-      reset();
+      destroy();
     }
   };
 

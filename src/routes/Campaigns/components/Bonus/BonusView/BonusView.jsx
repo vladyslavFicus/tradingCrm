@@ -9,7 +9,7 @@ import Placeholder from '../../../../../components/Placeholder';
 
 class BonusView extends PureComponent {
   static propTypes = {
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     uuid: PropTypes.string,
     shortBonusTemplates: PropTypes.shape({
       bonusTemplates: PropTypes.arrayOf(PropTypes.shape({
@@ -25,7 +25,7 @@ class BonusView extends PureComponent {
         }),
       }),
     }),
-    onChangeUUID: PropTypes.func.isRequired,
+    onChangeUUID: PropTypes.func,
     modals: PropTypes.shape({
       createOperator: PropTypes.shape({
         show: PropTypes.func.isRequired,
@@ -33,10 +33,14 @@ class BonusView extends PureComponent {
       }),
     }).isRequired,
     disabled: PropTypes.bool,
+    isView: PropTypes.bool,
   };
 
   static defaultProps = {
     uuid: null,
+    onChangeUUID: null,
+    isView: false,
+    name: '',
     bonusTemplate: {},
     disabled: false,
   }
@@ -50,6 +54,7 @@ class BonusView extends PureComponent {
   render() {
     const {
       uuid,
+      isView,
       disabled,
       name,
       shortBonusTemplates: {
@@ -61,28 +66,36 @@ class BonusView extends PureComponent {
     const bonusTemplates = shortBonusTemplates || [];
     const template = get(bonusTemplate, 'bonusTemplate.data', {});
     const loading = get(bonusTemplate, 'loading', true);
+    const initialBonusTemplates = bonusTemplates.find(item => item.uuid === uuid);
 
     return (
       <div className="bonus-template">
         <div className="row">
           <div className="col-8">
-            <Field
-              name={`${name}.uuid`}
-              id={`${name}-uuid`}
-              disabled={disabled}
-              label="Bonus templates"
-              component={NasSelectField}
-              showErrorMessage={false}
-              position="vertical"
-            >
-              {bonusTemplates.map(item => (
-                <option key={item.uuid} value={item.uuid}>
-                  {item.name}
-                </option>
-              ))}
-            </Field>
+            <Choose>
+              <When condition={!isView}>
+                <Field
+                  name={`${name}.uuid`}
+                  id={`${name}-uuid`}
+                  disabled={disabled}
+                  label="Bonus templates"
+                  component={NasSelectField}
+                  showErrorMessage={false}
+                  position="vertical"
+                >
+                  {bonusTemplates.map(item => (
+                    <option key={item.uuid} value={item.uuid}>
+                      {item.name}
+                    </option>
+                  ))}
+                </Field>
+              </When>
+              <Otherwise>
+                {initialBonusTemplates ? initialBonusTemplates.name : ''}
+              </Otherwise>
+            </Choose>
           </div>
-          <If condition={!disabled}>
+          <If condition={!disabled && !isView}>
             <div className="col-md-4">
               <button
                 className="btn btn-primary text-uppercase margin-top-20"
