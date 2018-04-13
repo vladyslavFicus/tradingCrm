@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
-import moment from 'moment';
 import classNames from 'classnames';
 import { SelectField } from '../../../../components/ReduxForm';
 
@@ -11,13 +10,7 @@ class NodeBuilder extends PureComponent {
     name: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
     className: PropTypes.string,
-    options: PropTypes.arrayOf(
-      PropTypes.shape({
-        type: PropTypes.string.isRequired,
-        component: PropTypes.func.isRequired,
-        items: PropTypes.arrayOf(PropTypes.string).isRequired,
-      }).isRequired,
-    ).isRequired,
+    components: PropTypes.object.isRequired,
     fields: PropTypes.object.isRequired,
     types: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeLabels: PropTypes.object.isRequired,
@@ -28,46 +21,16 @@ class NodeBuilder extends PureComponent {
     disabled: false,
   };
 
-  static norimilizeState(options) {
-    return {
-      components: options
-        .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {}),
-      nodes: options
-        .reduce((acc, curr) => [
-          ...acc,
-          ...curr.items.map(uuid => ({ type: curr.type, uuid, id: uuid })),
-        ], []),
-    };
-  }
-
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = NodeBuilder.norimilizeState(props.options);
-  }
-
-  componentWillReceiveProps({ disabled, options }) {
-    if (disabled && !this.props.disabled) {
-      this.setState(NodeBuilder.norimilizeState(options));
-    }
+  state = {
+    type: this.props.types[0],
   }
 
   handleSelectNode = (e) => {
-    this.setState({ selectedNode: e.target.value });
+    this.setState({ type: e.target.value });
   };
 
   handleAddNode = () => {
-    const { fields: { length: nodesLength } } = this.props;
-    const { nodes, selectedNode } = this.state;
-
-    this.setState({
-      nodes: [
-        ...nodes, {
-          type: selectedNode,
-          id: `${selectedNode}-${nodesLength - 1}-${moment.utc().unix()}`,
-        },
-      ],
-    });
+    this.props.fields.push({ type: this.state.type });
   };
 
   handleChangeUUID = (index, uuid) => {
@@ -76,30 +39,27 @@ class NodeBuilder extends PureComponent {
     insert(index, { uuid });
   };
 
-  handleRemoveNode = (id, index) => {
-    const { nodes } = this.state;
-
+  handleRemoveNode = (index) => {
     this.props.fields.remove(index);
-    this.setState({ nodes: nodes.filter(({ id: nodeId }) => id !== nodeId) });
   };
 
   render() {
-    const { nodes, selectedNode, components } = this.state;
-    const { types, fields, typeLabels, name, className, disabled } = this.props;
+    const { type } = this.state;
+    const { types, fields, typeLabels, name, className, disabled, components } = this.props;
 
     return (
       <div className={classNames(className)}>
-        <For each="node" index="index" of={nodes}>
-          <div key={node.id} className="container-fluid add-campaign-container">
+        <For each="field" index="index" of={fields.getAll()}>
+          <div key={index} className="container-fluid add-campaign-container">
             <div className="row align-items-center">
               <div className="col text-truncate add-campaign-label">
-                {I18n.t(typeLabels[node.type])}
+                {I18n.t(typeLabels[field.type])}
               </div>
               <If condition={!disabled}>
                 <div className="col-auto text-right">
                   <button
                     type="button"
-                    onClick={() => this.handleRemoveNode(node.id, index)}
+                    onClick={() => this.handleRemoveNode(index)}
                     className="btn-transparent add-campaign-remove"
                   >
                 &times;
@@ -107,13 +67,12 @@ class NodeBuilder extends PureComponent {
                 </div>
               </If>
             </div>
-            {React.createElement(components[node.type], {
-              id: node.id,
+            {React.createElement(components[field.type], {
               index,
               disabled,
               onChangeUUID: this.handleChangeUUID,
               name: `${name}[${index}]`,
-              uuid: get(fields.get(index), 'uuid', ''),
+              uuid: field.uuid,
             })}
           </div>
         </For>
@@ -123,16 +82,16 @@ class NodeBuilder extends PureComponent {
               <SelectField
                 position="vertical"
                 input={{
-                  value: selectedNode,
+                  value: type,
                   onChange: this.handleSelectNode,
                 }}
                 component={SelectField}
               >
                 <option value="">{I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.SELECT_REWARDS')}</option>
                 {
-                  types.map(type => (
-                    <option key={type} value={type}>
-                      {I18n.t(typeLabels[type])}
+                  types.map(option => (
+                    <option key={option} value={option}>
+                      {I18n.t(typeLabels[option])}
                     </option>
                   ))
                 }
@@ -143,7 +102,7 @@ class NodeBuilder extends PureComponent {
                 type="button"
                 className="btn"
                 id="add-rewards"
-                disabled={!selectedNode}
+                disabled={!type}
                 onClick={this.handleAddNode}
               >
                 {I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.ADD_REWARDS')}

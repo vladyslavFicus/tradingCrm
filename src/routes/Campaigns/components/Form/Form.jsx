@@ -30,18 +30,12 @@ class Form extends Component {
     currentValues: PropTypes.shape({
       name: PropTypes.string,
     }),
-    freeSpinTemplateUuids: PropTypes.arrayOf(PropTypes.string),
-    bonusTemplateUuids: PropTypes.arrayOf(PropTypes.string),
-    wageringUuids: PropTypes.arrayOf(PropTypes.string),
     disabled: PropTypes.bool,
   };
 
   static defaultProps = {
     disabled: false,
     handleSubmit: null,
-    freeSpinTemplateUuids: [],
-    bonusTemplateUuids: [],
-    wageringUuids: [],
     pristine: false,
     submitting: false,
     currentValues: {},
@@ -61,9 +55,6 @@ class Form extends Component {
       submitting,
       currentValues,
       form,
-      freeSpinTemplateUuids,
-      bonusTemplateUuids,
-      wageringUuids,
       reset,
       disabled,
     } = this.props;
@@ -124,9 +115,9 @@ class Form extends Component {
             name="fulfillments"
             disabled={disabled}
             className="col-6"
-            options={[
-              { type: fulfilmentTypes.WAGERING, items: wageringUuids, component: WageringView },
-            ]}
+            components={{
+              [fulfilmentTypes.WAGERING]: WageringView,
+            }}
             typeLabels={fulfilmentTypesLabels}
             types={Object.keys(fulfilmentTypes)}
           />
@@ -134,10 +125,10 @@ class Form extends Component {
             name="rewards"
             disabled={disabled}
             className="col-6"
-            options={[
-              { type: rewardTypes.BONUS, items: bonusTemplateUuids, component: BonusView },
-              { type: rewardTypes.FREE_SPIN, items: freeSpinTemplateUuids, component: FreeSpinView },
-            ]}
+            components={{
+              [rewardTypes.BONUS]: BonusView,
+              [rewardTypes.FREE_SPIN]: FreeSpinView,
+            }}
             typeLabels={rewardTypesLabels}
             types={Object.keys(rewardTypes)}
           />
@@ -148,7 +139,7 @@ class Form extends Component {
 }
 
 export default reduxForm({
-  keepDirtyOnReinitialize: true,
+  enableReinitialize: true,
   validate: createValidator({
     name: ['required', 'string'],
   }, attributeLabels, false),
