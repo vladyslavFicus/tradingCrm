@@ -8,6 +8,8 @@ import { currencyQuery } from '../../../../../graphql/queries/options';
 import { shortBonusTemplatesQuery } from '../../../../../graphql/queries/campaigns';
 import CreateBonusModal from './CreateBonusModal';
 import { createValidator } from '../../../../../utils/validator';
+import { wageringRequirementTypes } from '../constants';
+import { customValueFieldTypes } from '../../../../../constants/form';
 
 export default compose(
   withNotifications,
@@ -47,9 +49,24 @@ export default compose(
     shouldError: ({ props }) => !props.touched,
     validate: createValidator({
       name: ['required', 'string'],
+      currency: ['required', 'string'],
+      lockAmountStrategy: ['required', 'string'],
+      moneyTypePriority: ['required', 'string'],
+      wagerWinMultiplier: ['required', 'numeric'],
+      maxBet: ['required', 'string'],
+      bonusLifeTime: ['required', 'integer'],
     }, {}, false),
     initialValues: {
       claimable: false,
+      prize: {
+        type: customValueFieldTypes.ABSOLUTE,
+      },
+      capping: {
+        type: customValueFieldTypes.ABSOLUTE,
+      },
+      wageringRequirement: {
+        type: Object.keys(wageringRequirementTypes)[0],
+      },
     },
   }),
   withReduxFormValues,

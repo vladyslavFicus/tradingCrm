@@ -58,7 +58,7 @@ class CreateBonusModal extends PureComponent {
     const data = {
       name: formData.name,
       lockAmountStrategy: formData.lockAmountStrategy,
-      claimable: formData.claimable,
+      claimable: !!formData.claimable,
       bonusLifeTime: formData.bonusLifeTime,
       moneyTypePriority: formData.moneyTypePriority,
     };
@@ -89,8 +89,7 @@ class CreateBonusModal extends PureComponent {
 
     if (formData.wageringRequirement) {
       if (
-        !formData.wageringRequirement.type ||
-        formData.wageringRequirement.type === customValueFieldTypes.PERCENTAGE
+        formData.wageringRequirement.type !== customValueFieldTypes.PERCENTAGE
       ) {
         data.wageringRequirementAbsolute = [{
           amount: formData.wageringRequirement.value,
