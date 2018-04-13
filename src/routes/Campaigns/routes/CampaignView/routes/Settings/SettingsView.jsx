@@ -3,6 +3,7 @@ import { I18n } from 'react-redux-i18n';
 import { get } from 'lodash';
 import PropTypes from '../../../../../../constants/propTypes';
 import Form from '../../../../components/Form';
+import { statuses } from '../../../../../../constants/bonus-campaigns';
 
 class SettingsView extends PureComponent {
   static propTypes = {
@@ -51,6 +52,7 @@ class SettingsView extends PureComponent {
         campaign: {
           data: {
             name,
+            state,
             bonuses,
             freeSpinTemplateUuids,
             bonusTemplateUuids,
@@ -66,6 +68,7 @@ class SettingsView extends PureComponent {
 
     return (
       <Form
+        disabled={state !== statuses.DRAFT}
         initialValues={{ name, fulfillments, rewards }}
         bonuses={bonuses}
         freeSpinTemplateUuids={freeSpinTemplateUuids}

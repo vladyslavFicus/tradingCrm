@@ -33,9 +33,11 @@ class Form extends Component {
     freeSpinTemplateUuids: PropTypes.arrayOf(PropTypes.string),
     bonusTemplateUuids: PropTypes.arrayOf(PropTypes.string),
     wageringUuids: PropTypes.arrayOf(PropTypes.string),
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
+    disabled: false,
     handleSubmit: null,
     freeSpinTemplateUuids: [],
     bonusTemplateUuids: [],
@@ -45,9 +47,11 @@ class Form extends Component {
     currentValues: {},
   };
 
-  handleRevert = () => {
-    this.props.reset();
-  };
+  componentWillReceiveProps({ disabled }) {
+    if (disabled && !this.props.disabled) {
+      this.props.reset();
+    }
+  }
 
   render() {
     const {
@@ -60,6 +64,8 @@ class Form extends Component {
       freeSpinTemplateUuids,
       bonusTemplateUuids,
       wageringUuids,
+      reset,
+      disabled,
     } = this.props;
 
     return (
@@ -74,7 +80,7 @@ class Form extends Component {
               <div className="col-md-6 text-md-right">
                 <button
                   disabled={submitting}
-                  onClick={this.handleRevert}
+                  onClick={reset}
                   className="btn btn-default-outline text-uppercase margin-right-20"
                   type="button"
                 >
@@ -97,11 +103,11 @@ class Form extends Component {
               <Field
                 id={`${form}Name`}
                 name="name"
+                disabled={disabled || submitting}
                 label={I18n.t(attributeLabels.campaignName)}
                 type="text"
                 component={InputField}
                 position="vertical"
-                disabled={submitting}
               />
               <div className="form-group__note">
                 {
@@ -116,6 +122,7 @@ class Form extends Component {
         <div className="row">
           <NodeBuilder
             name="fulfillments"
+            disabled={disabled}
             className="col-6"
             options={[
               { type: fulfilmentTypes.WAGERING, items: wageringUuids, component: WageringView },
@@ -125,6 +132,7 @@ class Form extends Component {
           />
           <NodeBuilder
             name="rewards"
+            disabled={disabled}
             className="col-6"
             options={[
               { type: rewardTypes.BONUS, items: bonusTemplateUuids, component: BonusView },
