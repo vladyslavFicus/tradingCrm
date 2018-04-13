@@ -15,8 +15,7 @@ export default compose(
         uuid,
       },
     }),
-    skip: ({ uuid }) => !
-    uuid,
+    skip: ({ uuid }) => !uuid,
     name: 'bonusTemplate',
   }),
 )(BonusView);

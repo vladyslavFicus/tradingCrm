@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
-import { compose } from 'redux';
 import { get } from 'lodash';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
@@ -17,7 +16,6 @@ import {
   lockAmountStrategyLabels,
 } from '../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../constants/form';
-import { withReduxFormValues } from '../../../../../components/HighOrder';
 
 class CreateBonusModal extends PureComponent {
   static propTypes = {
@@ -329,12 +327,4 @@ class CreateBonusModal extends PureComponent {
   }
 }
 
-export default compose(
-  reduxForm({
-    form: 'addRewardsBonus',
-    initialValues: {
-      claimable: false,
-    },
-  }),
-  withReduxFormValues,
-)(CreateBonusModal);
+export default CreateBonusModal;

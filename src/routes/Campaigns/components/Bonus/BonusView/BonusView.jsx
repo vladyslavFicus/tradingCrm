@@ -36,13 +36,13 @@ class BonusView extends PureComponent {
       }),
     }).isRequired,
     disabled: PropTypes.bool,
-    isView: PropTypes.bool,
+    isViewMode: PropTypes.bool,
   };
 
   static defaultProps = {
     uuid: null,
     onChangeUUID: null,
-    isView: false,
+    isViewMode: false,
     name: '',
     bonusTemplate: {},
     disabled: false,
@@ -57,7 +57,7 @@ class BonusView extends PureComponent {
   render() {
     const {
       uuid,
-      isView,
+      isViewMode,
       disabled,
       name,
       shortBonusTemplates: {
@@ -76,7 +76,7 @@ class BonusView extends PureComponent {
         <div className="row">
           <div className="col-8">
             <Choose>
-              <When condition={!isView}>
+              <When condition={!isViewMode}>
                 <Field
                   name={`${name}.uuid`}
                   id={`${name}-uuid`}
@@ -98,7 +98,7 @@ class BonusView extends PureComponent {
               </Otherwise>
             </Choose>
           </div>
-          <If condition={!disabled && !isView}>
+          <If condition={!disabled && !isViewMode}>
             <div className="col-md-4">
               <button
                 className="btn btn-primary text-uppercase margin-top-20"
@@ -129,12 +129,14 @@ class BonusView extends PureComponent {
                     {template.name}
                   </div>
                   <div className="small">
-                    <Uuid
-                      length={16}
-                      uuidPartsCount={3}
-                      uuid={template.uuid}
-                      uuidPrefix="BT"
-                    />
+                    <If condition={template.uuid}>
+                      <Uuid
+                        length={16}
+                        uuidPartsCount={3}
+                        uuid={template.uuid}
+                        uuidPrefix="BT"
+                      />
+                    </If>
                   </div>
                 </div>
               </div>

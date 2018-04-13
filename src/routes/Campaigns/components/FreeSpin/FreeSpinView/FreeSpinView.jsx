@@ -222,7 +222,7 @@ export default class FreeSpinView extends PureComponent {
                 </If>
               </div>
               <If condition={fsTemplate.bonusTemplateUUID}>
-                <BonusView uuid={fsTemplate.bonusTemplateUUID} isView />
+                <BonusView uuid={fsTemplate.bonusTemplateUUID} isViewMode />
               </If>
             </div>
           </Placeholder>
