@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import { compose } from 'redux';
+import { get } from 'lodash';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
@@ -14,6 +16,8 @@ import {
   lockAmountStrategy,
   lockAmountStrategyLabels,
 } from '../../../../constants/bonus-campaigns';
+import { withReduxFormValues } from '../../../../components/HighOrder';
+import { customValueFieldTypes } from '../../../../constants/form';
 
 class CreateBonusModal extends PureComponent {
   static propTypes = {
@@ -31,7 +35,10 @@ class CreateBonusModal extends PureComponent {
       onCloseModal,
       isOpen,
       currencies,
+      formValues,
     } = this.props;
+
+    const grantRatioType = get(formValues, 'grantRatio.type');
 
     return (
       <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
@@ -101,6 +108,19 @@ class CreateBonusModal extends PureComponent {
                   label={I18n.t(attributeLabels.grant)}
                 />
               </div>
+              <If condition={grantRatioType === customValueFieldTypes.PERCENTAGE}>
+                <div className="col-5">
+                  <Field
+                    name="maxGrantedAmount"
+                    type="text"
+                    placeholder="0"
+                    label="maxGrantedAmount"
+                    component={InputField}
+                    position="vertical"
+                    iconRightClassName="nas nas-currencies_icon"
+                  />
+                </div>
+              </If>
             </div>
             <div className="row">
               <div className="col-7">
@@ -215,6 +235,9 @@ class CreateBonusModal extends PureComponent {
   }
 }
 
-export default reduxForm({
-  form: 'addRewardsBonus',
-})(CreateBonusModal);
+export default compose(
+  reduxForm({
+    form: 'addRewardsBonus',
+  }),
+  withReduxFormValues,
+)(CreateBonusModal);
