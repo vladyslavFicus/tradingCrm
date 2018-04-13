@@ -40,6 +40,12 @@ class CreateBonusModal extends PureComponent {
     onSave: null,
   };
 
+  componentWillReceiveProps({ isOpen }) {
+    if (this.props.isOpen && !isOpen) {
+      this.props.destroy();
+    }
+  }
+
   handleSubmitBonusForm = async (formData) => {
     const {
       addBonus,

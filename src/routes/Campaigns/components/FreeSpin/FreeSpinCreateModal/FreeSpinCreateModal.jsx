@@ -66,6 +66,12 @@ class FreeSpinCreateModal extends Component {
     _reduxForm: PropTypes.object,
   };
 
+  componentWillReceiveProps({ isOpen }) {
+    if (this.props.isOpen && !isOpen) {
+      this.props.destroy();
+    }
+  }
+
   get gameData() {
     const { gameId, games } = this.props;
     const gameList = get(games, 'games.content', []);
@@ -213,7 +219,7 @@ class FreeSpinCreateModal extends Component {
     return (
       <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>{I18n.t('CAMPAIGNS.FREE_SPIN.HEADER')}</ModalHeader>
-        <form onSubmit={handleSubmit(this.handleSubmit)}>
+        <form id="fs-form" onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalBody>
             <div className="row">
               <div className="col-md-6">
@@ -483,6 +489,7 @@ class FreeSpinCreateModal extends Component {
                   type="submit"
                   className="btn btn-primary ml-2"
                   id="create-new-operator-submit-button"
+                  form="fs-form"
                 >
                   {I18n.t('COMMON.SAVE')}
                 </button>

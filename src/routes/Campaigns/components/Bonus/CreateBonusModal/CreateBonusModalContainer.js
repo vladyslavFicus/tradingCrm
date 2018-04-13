@@ -7,6 +7,7 @@ import { addBonusMutation } from '.././../../../../graphql/mutations/bonusTempla
 import { currencyQuery } from '../../../../../graphql/queries/options';
 import { shortBonusTemplatesQuery } from '../../../../../graphql/queries/campaigns';
 import CreateBonusModal from './CreateBonusModal';
+import { createValidator } from '../../../../../utils/validator';
 
 export default compose(
   withNotifications,
@@ -43,6 +44,10 @@ export default compose(
   }),
   reduxForm({
     form: 'addRewardsBonus',
+    shouldError: ({ props }) => !props.touched,
+    validate: createValidator({
+      name: ['required', 'string'],
+    }, {}, false),
     initialValues: {
       claimable: false,
     },

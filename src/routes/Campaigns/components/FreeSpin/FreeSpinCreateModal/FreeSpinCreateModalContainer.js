@@ -16,15 +16,6 @@ import validator from './validator';
 const FORM_NAME = 'addFreeSpinTemplate';
 
 export default compose(
-  graphql(currencyQuery, {
-    name: 'optionCurrencies',
-    options: {
-      fetchPolicy: 'network-only',
-      variables: {
-        brandId: getBrandId(),
-      },
-    },
-  }),
   connect((state) => {
     const { aggregatorId, providerId, gameId, ...currentValues } = getFormValues(FORM_NAME)(state) || {};
 
@@ -34,6 +25,15 @@ export default compose(
       gameId,
       currentValues,
     };
+  }),
+  graphql(currencyQuery, {
+    name: 'optionCurrencies',
+    options: {
+      fetchPolicy: 'network-only',
+      variables: {
+        brandId: getBrandId(),
+      },
+    },
   }),
   graphql(gameListQuery, {
     name: 'games',
@@ -78,6 +78,7 @@ export default compose(
   }),
   reduxForm({
     form: FORM_NAME,
+    shouldError: ({ props }) => !props.touched,
     validate: validator,
   }),
 )(FreeSpinCreateModal);

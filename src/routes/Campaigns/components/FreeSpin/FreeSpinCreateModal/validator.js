@@ -9,6 +9,7 @@ export default (values, {
   },
 }) => {
   const fields = get(freeSpinOptions, `[${aggregatorId}].fields`, []);
+
   let rules = {
     freeSpinsAmount: ['integer', 'min:0', 'required'],
     freeSpinLifeTime: ['integer', 'min:0', 'required'],
