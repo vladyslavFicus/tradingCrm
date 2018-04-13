@@ -1,43 +1,139 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Field, reduxForm } from 'redux-form';
+import { Field } from 'redux-form';
+import { get } from 'lodash';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
   InputField, SelectField, CustomValueFieldVertical,
-} from '../../../../components/ReduxForm';
-import renderLabel from '../../../../utils/renderLabel';
-import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from './constants';
+} from '../../../../../components/ReduxForm';
+import renderLabel from '../../../../../utils/renderLabel';
+import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from '../constants';
 import {
   moneyTypeUsage,
   moneyTypeUsageLabels,
   lockAmountStrategy,
   lockAmountStrategyLabels,
-} from '../../../../constants/bonus-campaigns';
+} from '../../../../../constants/bonus-campaigns';
+import { customValueFieldTypes } from '../../../../../constants/form';
 
 class CreateBonusModal extends PureComponent {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+    addBonus: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
+    optionCurrencies: PropTypes.shape({
+      options: PropTypes.shape({
+        signUp: PropTypes.shape({
+          currency: PropTypes.shape({
+            list: PropTypes.arrayOf(PropTypes.string),
+          }),
+        }),
+      }),
+    }).isRequired,
+    onSave: PropTypes.func,
+  };
+
+  static defaultProps = {
+    onSave: null,
+  };
+
+  handleSubmitBonusForm = async (formData) => {
+    const {
+      addBonus,
+      notify,
+      onSave,
+      onCloseModal,
+      reset,
+    } = this.props;
+
+    const data = {
+      name: formData.name,
+      lockAmountStrategy: formData.lockAmountStrategy,
+      claimable: formData.claimable,
+      bonusLifeTime: formData.bonusLifeTime,
+      moneyTypePriority: formData.moneyTypePriority,
+    };
+
+    const currency = formData.currency;
+
+    ['grantRatio', 'capping', 'prize'].forEach((key) => {
+      if (formData[key] && formData[key].value) {
+        if (formData[key].type !== customValueFieldTypes.PERCENTAGE) {
+          data[`${key}Absolute`] = [{
+            amount: formData[key].value,
+            currency,
+          }];
+        } else {
+          data[`${key}Percentage`] = formData[key].value;
+        }
+      }
+    });
+
+    ['maxBet', 'maxGrantAmount'].forEach((key) => {
+      if (formData[key]) {
+        data[key] = [{
+          amount: formData[key],
+          currency,
+        }];
+      }
+    });
+
+    if (formData.wageringRequirement) {
+      if (
+        !formData.wageringRequirement.type ||
+        formData.wageringRequirement.type === customValueFieldTypes.PERCENTAGE
+      ) {
+        data.wageringRequirementAbsolute = [{
+          amount: formData.wageringRequirement.value,
+          currency,
+        }];
+      } else {
+        data.wageringRequirementPercentage = formData.wageringRequirement.value;
+      }
+
+      data.wageringRequirementType = formData.wageringRequirement.type || customValueFieldTypes.ABSOLUTE;
+    }
+
+    const action = await addBonus({ variables: data });
+    const error = get(action, 'data.bonusTemplate.add.error');
+
+    notify({
+      level: error ? 'error' : 'success',
+      title: 'Title',
+      message: 'Message',
+    });
+
+    if (!error) {
+      const uuid = get(action, 'data.bonusTemplate.add.data.uuid');
+
+      if (onSave) {
+        onSave(uuid);
+      }
+
+      onCloseModal();
+      reset();
+    }
   };
 
   render() {
     const {
-      onSubmit,
       handleSubmit,
       onCloseModal,
       isOpen,
-      currencies,
+      optionCurrencies: {
+        options,
+      },
     } = this.props;
+
+    const currencies = get(options, 'signUp.post.currency.list', []);
 
     return (
       <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>Modal header</ModalHeader>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(this.handleSubmitBonusForm)}>
           <ModalBody>
             <div className="row">
               <div className="col-md-6">
@@ -215,6 +311,4 @@ class CreateBonusModal extends PureComponent {
   }
 }
 
-export default reduxForm({
-  form: 'addRewardsBonus',
-})(CreateBonusModal);
+export default CreateBonusModal;

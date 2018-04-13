@@ -6,16 +6,16 @@ const addBonusMutation = gql`mutation addBonus(
   $moneyTypePriority: String!,
   $claimable: Boolean,
   $lockAmountStrategy: String!,
-  
+
   $maxBet: [InputMoney],
   $maxGrantAmount: [InputMoney],
-  
+
   $prizeAbsolute: [InputMoney],
   $prizePercentage: Float,
 
   $cappingAbsolute: [InputMoney],
   $cappingPercentage: Float,
-  
+
   $grantRatioAbsolute: [InputMoney],
   $grantRatioPercentage: Float,
 
@@ -32,25 +32,27 @@ const addBonusMutation = gql`mutation addBonus(
       maxBet: $maxBet,
       lockAmountStrategy: $lockAmountStrategy,
       maxGrantAmount: $maxGrantAmount,
-      
+
       prizeAbsolute: $prizeAbsolute,
       prizePercentage: $prizePercentage,
-      
+
       cappingAbsolute: $cappingAbsolute,
       cappingPercentage: $cappingPercentage,
-      
+
       grantRatioAbsolute: $grantRatioAbsolute,
       grantRatioPercentage: $grantRatioPercentage,
-      
+
       wageringRequirementType: $wageringRequirementType,
       wageringRequirementAbsolute: $wageringRequirementAbsolute,
       wageringRequirementPercentage: $wageringRequirementPercentage,
       ) {
       data {
         uuid
+        name
       }
       error {
         error
+        fields_errors
       }
     }
   }

@@ -10,7 +10,6 @@ export default class FreeSpinView extends PureComponent {
   static propTypes = {
     name: PropTypes.string.isRequired,
     uuid: PropTypes.string,
-    index: PropTypes.number.isRequired,
     onChangeUUID: PropTypes.func.isRequired,
     freeSpinTemplates: PropTypes.shape({
       freeSpinTemplates: PropTypes.arrayOf(PropTypes.shape({
@@ -34,7 +33,9 @@ export default class FreeSpinView extends PureComponent {
   };
 
   static defaultProps = {
-    freeSpinTemplate: {},
+    freeSpinTemplate: {
+      loading: true,
+    },
     uuid: null,
     disabled: false,
   };
@@ -44,14 +45,10 @@ export default class FreeSpinView extends PureComponent {
     fields: PropTypes.object,
   };
 
-  handleSave = (uuid) => {
-    this.props.onChangeUUID(this.props.index, uuid);
-  };
-
   handleOpenModal = () => {
-    const { modals: { createFreeSpin } } = this.props;
+    const { modals: { createFreeSpin }, onChangeUUID } = this.props;
 
-    createFreeSpin.show({ onSave: this.handleSave });
+    createFreeSpin.show({ onSave: onChangeUUID });
   };
 
   render() {

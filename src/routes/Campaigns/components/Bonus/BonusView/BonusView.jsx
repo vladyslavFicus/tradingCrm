@@ -5,7 +5,6 @@ import { get } from 'lodash';
 import { Field } from 'redux-form';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { NasSelectField } from '../../../../../components/ReduxForm';
-import { customValueFieldTypes } from '../../../../../constants/form';
 import Placeholder from '../../../../../components/Placeholder';
 
 class BonusView extends PureComponent {
@@ -26,13 +25,13 @@ class BonusView extends PureComponent {
         }),
       }),
     }),
+    onChangeUUID: PropTypes.func.isRequired,
     modals: PropTypes.shape({
       createOperator: PropTypes.shape({
         show: PropTypes.func.isRequired,
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
-    addBonus: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
   };
 
@@ -42,79 +41,10 @@ class BonusView extends PureComponent {
     disabled: false,
   }
 
-  handleSubmitBonusForm = async (formData) => {
-    const {
-      addBonus,
-      notify,
-      modals,
-    } = this.props;
-
-    const data = {
-      name: formData.name,
-      lockAmountStrategy: formData.lockAmountStrategy,
-      claimable: formData.claimable,
-      bonusLifeTime: formData.bonusLifeTime,
-      moneyTypePriority: formData.moneyTypePriority,
-    };
-
-    const currency = formData.currency;
-
-    ['grantRatio', 'capping', 'prize'].forEach((key) => {
-      if (formData[key] && formData[key].value) {
-        if (formData[key].type === customValueFieldTypes.ABSOLUTE) {
-          data[`${key}Absolute`] = [{
-            amount: formData[key].value,
-            currency,
-          }];
-        } else {
-          data[`${key}Percentage`] = formData[key].value;
-        }
-      }
-    });
-
-    ['maxBet', 'maxGrantAmount'].forEach((key) => {
-      if (formData[key]) {
-        data[key] = [{
-          amount: formData[key],
-          currency,
-        }];
-      }
-    });
-
-    if (formData.wageringRequirement && formData.wageringRequirement.type) {
-      if (formData.wageringRequirement.type === customValueFieldTypes.ABSOLUTE) {
-        data.wageringRequirementAbsolute = [{
-          amount: formData.wageringRequirement.value,
-          currency,
-        }];
-      } else {
-        data.wageringRequirementPercentage = formData.wageringRequirement.value;
-      }
-
-      data.wageringRequirementType = formData.wageringRequirement.type;
-    }
-
-    const action = await addBonus({ variables: data });
-    const error = get(action, 'data.bonusTemplate.add.error');
-
-    notify({
-      level: error ? 'error' : 'success',
-      title: 'Title',
-      message: 'Message',
-    });
-
-    if (!error) {
-      const uuid = get(action, 'data.bonusTemplate.add.data.uuid');
-
-      console.info('ADDED BONUS TPL WITH UUID', uuid);
-      modals.createBonus.hide();
-    }
-  };
-
   handleOpenCreateModal = () => {
-    const { modals } = this.props;
+    const { modals, onChangeUUID } = this.props;
 
-    modals.createBonus.show({ currencies: ['EUR'], onSubmit: this.handleSubmitBonusForm });
+    modals.createBonus.show({ onSave: onChangeUUID });
   };
 
   render() {
