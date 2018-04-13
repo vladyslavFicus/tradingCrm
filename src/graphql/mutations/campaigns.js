@@ -56,9 +56,14 @@ const updateMutation = gql`mutation update(
       data {
         _id
         name
-        bonusTemplateUuids
-        wageringUuids
-        freeSpinTemplateUuids
+        rewards {
+          type
+          uuid
+        }
+        fulfillments {
+          type
+          uuid
+        }
       }
       error {
         error

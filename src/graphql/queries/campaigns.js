@@ -27,17 +27,21 @@ const campaignsQuery = gql`query campaigns(
 const campaignQuery = gql`query campaign($campaignUUID: String!){
   campaign(campaignUUID: $campaignUUID){
     data {
-      _id,
-      uuid,
-      name,
-      state,
-      excludeCountries,
-      authorUUID,
-      creationDate,
-      rewards,
-      freeSpinTemplateUuids,
-      bonusTemplateUuids,
-      wageringUuids,
+      _id
+      uuid
+      name
+      state
+      excludeCountries
+      authorUUID
+      creationDate
+      rewards {
+        type
+        uuid
+      }
+      fulfillments {
+        type
+        uuid
+      }
     }
     error {
       error

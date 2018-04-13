@@ -53,27 +53,22 @@ class SettingsView extends PureComponent {
           data: {
             name,
             state,
-            bonuses,
-            freeSpinTemplateUuids,
-            bonusTemplateUuids,
-            wageringUuids,
+            fulfillments,
+            rewards,
           },
         },
       },
     } = this.props;
-    const fulfillments = wageringUuids
-      .map(uuid => ({ uuid }));
-    const rewards = [...bonusTemplateUuids, ...freeSpinTemplateUuids]
-      .map(uuid => ({ uuid }));
 
     return (
       <Form
         disabled={state !== statuses.DRAFT}
-        initialValues={{ name, fulfillments, rewards }}
-        bonuses={bonuses}
-        freeSpinTemplateUuids={freeSpinTemplateUuids}
-        bonusTemplateUuids={bonusTemplateUuids}
-        wageringUuids={wageringUuids}
+        initialValues={{
+          name,
+          fulfillments,
+          rewards,
+        }}
+        fulfillments={fulfillments}
         form="settings"
         onSubmit={this.handleUpdateCampaign}
       />
