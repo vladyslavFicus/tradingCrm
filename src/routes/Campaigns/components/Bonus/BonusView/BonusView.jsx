@@ -7,6 +7,7 @@ import { NasSelectField } from '../../../../../components/ReduxForm';
 import Placeholder from '../../../../../components/Placeholder';
 import Amount from '../../../../../components/Amount';
 import Uuid from '../../../../../components/Uuid';
+import { customValueFieldTypes } from '../../../../../constants/form';
 import './BonusView.scss';
 
 class BonusView extends PureComponent {
@@ -172,7 +173,7 @@ class BonusView extends PureComponent {
                   <div>wageringRequirement</div>
                   <div className="font-weight-700">
                     {
-                      template.wageringRequirementType === 'ABSOLUTE'
+                      template.wageringRequirementType === customValueFieldTypes.ABSOLUTE
                         ? <Amount {...template.wageringRequirementAbsolute[0]} />
                         : `${template.wageringRequirementPercentage}%`
                     }
