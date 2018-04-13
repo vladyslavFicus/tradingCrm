@@ -74,7 +74,32 @@ const bonusTemplateQuery = gql`query bonusTemplate($uuid: String!) {
      moneyTypePriority,
      claimable,
      lockAmountStrategy,
-     bonusLifeTime
+     bonusLifeTime,
+     prizePercentage,
+     prizeAbsolute {
+      amount,
+      currency,
+     },
+     cappingPercentage,
+     cappingAbsolute {
+      amount,
+      currency,
+     },
+     grantRatioPercentage,
+     grantRatioAbsolute{
+      amount,
+      currency,
+     },
+     maxBet{
+      amount,
+      currency,
+     },
+     wageringRequirementType,
+     wageringRequirementPercentage,
+     wageringRequirementAbsolute{
+      amount,
+      currency,
+     }
     }
   }
 }`;

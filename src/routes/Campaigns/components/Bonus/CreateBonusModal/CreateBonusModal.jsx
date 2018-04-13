@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { compose } from 'redux';
 import { get } from 'lodash';
+import PropTypes from 'prop-types';
+import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
@@ -16,6 +17,7 @@ import {
   lockAmountStrategyLabels,
 } from '../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../constants/form';
+import { withReduxFormValues } from '../../../../../components/HighOrder';
 
 class CreateBonusModal extends PureComponent {
   static propTypes = {
@@ -125,9 +127,11 @@ class CreateBonusModal extends PureComponent {
       optionCurrencies: {
         options,
       },
+      formValues,
     } = this.props;
 
     const currencies = get(options, 'signUp.post.currency.list', []);
+    const grantRatioType = get(formValues, 'grantRatio.type');
 
     return (
       <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
@@ -197,6 +201,19 @@ class CreateBonusModal extends PureComponent {
                   label={I18n.t(attributeLabels.grant)}
                 />
               </div>
+              <If condition={grantRatioType === customValueFieldTypes.PERCENTAGE}>
+                <div className="col-5">
+                  <Field
+                    name="maxGrantedAmount"
+                    type="text"
+                    placeholder="0"
+                    label="maxGrantedAmount"
+                    component={InputField}
+                    position="vertical"
+                    iconRightClassName="nas nas-currencies_icon"
+                  />
+                </div>
+              </If>
             </div>
             <div className="row">
               <div className="col-7">
@@ -311,4 +328,9 @@ class CreateBonusModal extends PureComponent {
   }
 }
 
-export default CreateBonusModal;
+export default compose(
+  reduxForm({
+    form: 'addRewardsBonus',
+  }),
+  withReduxFormValues,
+)(CreateBonusModal);
