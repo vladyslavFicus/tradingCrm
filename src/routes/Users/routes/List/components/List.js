@@ -148,11 +148,14 @@ class List extends Component {
     </div>
   );
 
+  handlePlayerClick = (data) => {
+    this.props.onPlayerClick({ ...data, auth: this.props.auth });
+  };
+
   render() {
     const {
       list: { entities, exporting, noResults },
       locale,
-      onPlayerClick,
       tags,
       currencies,
       countries,
@@ -197,8 +200,7 @@ class List extends Component {
             lazyLoad
             locale={locale}
             showNoResults={noResults}
-            onRowClick={onPlayerClick}
-            auth={this.props.auth}
+            onRowClick={this.handlePlayerClick}
           >
             <GridColumn
               name="id"
