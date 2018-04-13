@@ -116,6 +116,7 @@ const freeSpinTemplateQuery = gql`query freeSpinTemplate($uuid: String!, $aggreg
       coinSize
       linesPerSpin
       betMultiplier
+      bonusTemplateUUID
       rhfpBet
       comment
       freeSpinsAmount

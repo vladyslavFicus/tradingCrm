@@ -2,7 +2,7 @@ import { graphql, compose } from 'react-apollo';
 import update from 'react-addons-update';
 import { reduxForm } from 'redux-form';
 import { getBrandId } from '../../../../../config';
-import { withNotifications } from '../../../../../components/HighOrder';
+import { withNotifications, withReduxFormValues } from '../../../../../components/HighOrder';
 import { addBonusMutation } from '.././../../../../graphql/mutations/bonusTemplates';
 import { currencyQuery } from '../../../../../graphql/queries/options';
 import { shortBonusTemplatesQuery } from '../../../../../graphql/queries/campaigns';
@@ -43,5 +43,9 @@ export default compose(
   }),
   reduxForm({
     form: 'addRewardsBonus',
-  })
+    initialValues: {
+      claimable: false,
+    },
+  }),
+  withReduxFormValues,
 )(CreateBonusModal);

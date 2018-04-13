@@ -9,23 +9,16 @@ import { floatNormalize, intNormalize } from '../../../../../utils/inputNormaliz
 import normalizeNumber from '../../../../../utils/normalizeNumber';
 import { attributeLabels, attributePlaceholders } from '../constants';
 import Amount, { Currency } from '../../../../../components/Amount';
+import BonusView from '../../Bonus/BonusView';
 import {
   SelectField,
-  NasSelectField,
   InputField,
 } from '../../../../../components/ReduxForm';
 import './FreeSpinCreateModal.scss';
 
 class FreeSpinCreateModal extends Component {
   static propTypes = {
-    reset: PropTypes.func.isRequired,
-    shortBonusTemplates: PropTypes.shape({
-      shortBonusTemplates: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string,
-        })
-      ),
-    }).isRequired,
+    destroy: PropTypes.func.isRequired,
     currentValues: PropTypes.object.isRequired,
     onSave: PropTypes.func,
     gameId: PropTypes.string,
@@ -123,9 +116,13 @@ class FreeSpinCreateModal extends Component {
     }
   };
 
-  handleSubmit = async ({ betPerLine, currency, ...data }) => {
-    const { addFreeSpinTemplate, onSave, onCloseModal, reset } = this.props;
-    const variables = { ...data };
+  handleChangeBonusUUID = (uuid) => {
+    this.setField('bonusTemplateUUID.uuid', uuid);
+  }
+
+  handleSubmit = async ({ betPerLine, currency, bonusTemplateUUID: { uuid: bonusTemplateUUID }, ...data }) => {
+    const { addFreeSpinTemplate, onSave, onCloseModal, destroy } = this.props;
+    const variables = { ...data, bonusTemplateUUID };
 
     if (betPerLine) {
       variables.betPerLineAmounts = [
@@ -152,7 +149,7 @@ class FreeSpinCreateModal extends Component {
     }
 
     onCloseModal();
-    reset();
+    destroy();
   };
 
   renderPrice = () => {
@@ -201,9 +198,6 @@ class FreeSpinCreateModal extends Component {
       onCloseModal,
       isOpen,
       aggregatorId,
-      shortBonusTemplates: {
-        shortBonusTemplates,
-      },
       games,
     } = this.props;
     const { currencies, baseCurrency } = this.currency;
@@ -215,7 +209,6 @@ class FreeSpinCreateModal extends Component {
     const showPriceWidget = fields &&
       fields.indexOf('linesPerSpin') !== -1 &&
       fields.indexOf('betPerLineAmounts') !== -1;
-    const bonusTemplates = shortBonusTemplates || [];
 
     return (
       <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
@@ -479,20 +472,7 @@ class FreeSpinCreateModal extends Component {
                 </If>
               </div>
               <If condition={fields.indexOf('bonusTemplateUUID') !== -1} >
-                <Field
-                  name="bonusTemplateUUID"
-                  id="bonusTemplateUUID"
-                  label={I18n.t(attributeLabels.bonusTemplate)}
-                  component={NasSelectField}
-                  showErrorMessage={false}
-                  position="vertical"
-                >
-                  {bonusTemplates.map(item => (
-                    <option key={item.uuid} value={item.uuid}>
-                      {item.name}
-                    </option>
-                  ))}
-                </Field>
+                <BonusView onChangeUUID={this.handleChangeBonusUUID} name="bonusTemplateUUID" />
               </If>
             </If>
           </ModalBody>
