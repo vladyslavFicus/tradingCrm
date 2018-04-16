@@ -5,6 +5,8 @@ import PropTypes from '../../../../../../constants/propTypes';
 import Form from '../../../../components/Form';
 import { statuses } from '../../../../../../constants/bonus-campaigns';
 import asyncForEach from '../../../../../../utils/asyncForEach';
+import Permissions from '../../../../../../utils/permissions';
+import permissions from '../../../../../../config/permissions';
 
 class SettingsView extends PureComponent {
   static propTypes = {
@@ -17,6 +19,10 @@ class SettingsView extends PureComponent {
         data: PropTypes.newBonusCampaignEntity.isRequired,
       }),
     }).isRequired,
+  };
+
+  static contextTypes = {
+    permissions: PropTypes.array.isRequired,
   };
 
   handleUpdateCampaign = async (formData) => {
@@ -79,10 +85,13 @@ class SettingsView extends PureComponent {
         },
       },
     } = this.props;
+    const { permissions: currentPermissions } = this.context;
+    const disabled = !new Permissions(permissions.CAMPAIGNS.UPDATE)
+      .check(currentPermissions) || state !== statuses.DRAFT;
 
     return (
       <Form
-        disabled={state !== statuses.DRAFT}
+        disabled={disabled}
         initialValues={{
           name,
           fulfillments,
