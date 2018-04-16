@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, FormSection } from 'redux-form';
 import renderLabel from '../../utils/renderLabel';
-import {
-  InputField,
-  SelectField,
-} from '../../components/ReduxForm';
+import { InputField, SelectField } from '../../components/ReduxForm';
 import { customValueFieldTypesLabels, customValueFieldTypes } from '../../constants/form';
 
 const CustomValueFieldVertical = (props) => {
@@ -21,15 +18,10 @@ const CustomValueFieldVertical = (props) => {
   } = props;
 
   return (
-    <FormSection
-      name={name}
-      className="form-group"
-    >
-      <label>
-        {label}
-      </label>
+    <FormSection name={name} className="form-group">
+      <label>{label}</label>
       <div className="row no-gutters">
-        <div className="col-4 pr-3">
+        <div className="col-4 pr-2">
           <Field
             id={`${id}Value`}
             name="value"
@@ -38,6 +30,7 @@ const CustomValueFieldVertical = (props) => {
             placeholder={typeof label === 'string' ? label : null}
             component={InputField}
             type="text"
+            position="vertical"
             {...valueFieldProps}
           />
         </div>
@@ -49,6 +42,7 @@ const CustomValueFieldVertical = (props) => {
             showErrorMessage={false}
             component={SelectField}
             disabled={disabled}
+            position="vertical"
           >
             {
               children ||
@@ -63,18 +57,16 @@ const CustomValueFieldVertical = (props) => {
           </Field>
         </div>
       </div>
-      {
-        (touched && error && error.value) &&
+      <If condition={touched && error && error.value}>
         <div className="form-control-feedback">
           {error.value}
         </div>
-      }
-      {
-        (touched && error && error.type) &&
+      </If>
+      <If condition={touched && error && error.type}>
         <div className="form-control-feedback">
           {error.type}
         </div>
-      }
+      </If>
     </FormSection>
   );
 };
@@ -96,7 +88,6 @@ CustomValueFieldVertical.propTypes = {
   }),
   children: PropTypes.node,
 };
-
 CustomValueFieldVertical.defaultProps = {
   valueInputClassName: '',
   typeInputClassName: '',
