@@ -47,6 +47,7 @@ export default compose(
   reduxForm({
     form: 'addRewardsBonus',
     shouldError: ({ props }) => !props.touched,
+    enableReinitialize: true,
     validate: createValidator({
       name: ['required', 'string'],
       currency: ['required', 'string'],
@@ -54,11 +55,30 @@ export default compose(
       moneyTypePriority: ['required', 'string'],
       wagerWinMultiplier: ['required', 'numeric'],
       maxBet: ['required', 'string'],
+      prize: {
+        value: ['numeric'],
+        type: ['required', 'string'],
+      },
+      grantRatio: {
+        value: ['required', 'numeric'],
+        type: ['required', 'string'],
+      },
+      wageringRequirement: {
+        value: ['required', 'numeric'],
+        type: ['required', 'string'],
+      },
+      capping: {
+        value: ['numeric'],
+        type: ['required', 'string'],
+      },
       bonusLifeTime: ['required', 'integer'],
     }, {}, false),
     initialValues: {
       claimable: false,
       prize: {
+        type: customValueFieldTypes.ABSOLUTE,
+      },
+      grantRatio: {
         type: customValueFieldTypes.ABSOLUTE,
       },
       capping: {

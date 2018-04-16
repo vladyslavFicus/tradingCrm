@@ -148,10 +148,11 @@ class Bonus extends Component {
 
         <div className="row">
           <div className="col-7">
-            <CustomValueFieldVertical
+            <Field
+              component={CustomValueFieldVertical}
               disabled={disabled || !customTemplate}
               id={`${form}BonusGrantRatio`}
-              basename={this.buildFieldName('grantRatio')}
+              name={this.buildFieldName('grantRatio')}
               label={I18n.t(attributeLabels.grant)}
               valueFieldProps={{
                 type: 'number',
@@ -175,11 +176,11 @@ class Bonus extends Component {
             </div>
           }
         </div>
-
-        <CustomValueFieldVertical
+        <Field
           disabled={disabled || !customTemplate}
           id={`${form}BonusWageringRequirement`}
-          basename={this.buildFieldName('wageringRequirement')}
+          component={CustomValueFieldVertical}
+          name={this.buildFieldName('wageringRequirement')}
           label={I18n.t(attributeLabels.wageringRequirement)}
           valueFieldProps={{
             type: 'number',
@@ -191,8 +192,7 @@ class Bonus extends Component {
               <option key={key} value={key}>{key}</option>
             )
           }
-        </CustomValueFieldVertical>
-
+        </Field>
         <div className="row">
           <div className="col-6">
             <Field
@@ -231,7 +231,6 @@ class Bonus extends Component {
             </Field>
           </div>
         </div>
-
         <div className="row">
           <div className="col-6">
             <Field
@@ -261,34 +260,34 @@ class Bonus extends Component {
             <span className="right-placeholder">{I18n.t(attributePlaceholders.days)}</span>
           </div>
         </div>
-
         <div className="row">
           <div className="col-6">
-            <CustomValueFieldVertical
+            <Field
               disabled={disabled || !customTemplate}
               id={`${form}Capping`}
-              basename={this.buildFieldName('capping')}
+              name={this.buildFieldName('capping')}
               label={I18n.t(attributeLabels.capping)}
               valueFieldProps={{
                 type: 'number',
                 normalize: floatNormalize,
               }}
+              component={CustomValueFieldVertical}
             />
           </div>
           <div className="col-6">
-            <CustomValueFieldVertical
+            <Field
               disabled={disabled || !customTemplate}
               id={`${form}Prize`}
-              basename={this.buildFieldName('prize')}
+              name={this.buildFieldName('prize')}
               label={I18n.t(attributeLabels.prize)}
               valueFieldProps={{
                 type: 'number',
                 normalize: floatNormalize,
               }}
+              component={CustomValueFieldVertical}
             />
           </div>
         </div>
-
         <div className="form-group">
           <Field
             name={this.buildFieldName('claimable')}

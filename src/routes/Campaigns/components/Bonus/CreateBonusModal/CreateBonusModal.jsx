@@ -175,8 +175,9 @@ class CreateBonusModal extends PureComponent {
             </div>
             <div className="row">
               <div className="col-md-6">
-                <CustomValueFieldVertical
-                  basename={'prize'}
+                <Field
+                  component={CustomValueFieldVertical}
+                  name="prize"
                   label={
                     <span>
                       {I18n.t('CAMPAIGNS.SETTINGS.REWARDS.BONUS.LABEL.MIN_PRIZE')}{' '}
@@ -186,8 +187,9 @@ class CreateBonusModal extends PureComponent {
                 />
               </div>
               <div className="col-md-6">
-                <CustomValueFieldVertical
-                  basename={'capping'}
+                <Field
+                  component={CustomValueFieldVertical}
+                  name="capping"
                   label={
                     <span>
                       {I18n.t(attributeLabels.capping)}{' '}
@@ -200,8 +202,9 @@ class CreateBonusModal extends PureComponent {
             <hr />
             <div className="row">
               <div className="col-7">
-                <CustomValueFieldVertical
-                  basename="grantRatio"
+                <Field
+                  component={CustomValueFieldVertical}
+                  name="grantRatio"
                   label={I18n.t(attributeLabels.grant)}
                 />
               </div>
@@ -221,8 +224,9 @@ class CreateBonusModal extends PureComponent {
             </div>
             <div className="row">
               <div className="col-7">
-                <CustomValueFieldVertical
-                  basename="wageringRequirement"
+                <Field
+                  component={CustomValueFieldVertical}
+                  name="wageringRequirement"
                   label={I18n.t(attributeLabels.wageringRequirement)}
                 >
                   {
@@ -230,7 +234,7 @@ class CreateBonusModal extends PureComponent {
                       <option key={key} value={key}>{key}</option>
                     )
                   }
-                </CustomValueFieldVertical>
+                </Field>
               </div>
             </div>
             <div className="row">
