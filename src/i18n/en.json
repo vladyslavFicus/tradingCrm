@@ -1755,7 +1755,6 @@
   },
   "MULTI_CURRENCY_MODAL": {
     "TITLE": "Value in different currencies",
-    "MIN_DEPOSIT": "Min. deposit",
     "CUSTOMIZED": "Customized"
   }
 }

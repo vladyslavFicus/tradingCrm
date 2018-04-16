@@ -17,6 +17,11 @@ class MultiCurrencyModal extends PureComponent {
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     baseCurrency: PropTypes.string.isRequired,
+    label: PropTypes.string,
+  };
+
+  static defaultProps = {
+    label: '',
   };
 
   handleChange = (currency, index) => ({ target: { value } }) => {
@@ -46,6 +51,7 @@ class MultiCurrencyModal extends PureComponent {
       isOpen,
       currencies,
       baseCurrency,
+      label,
     } = this.props;
 
     const secondaryCurrencies = currencies.filter(c => c !== baseCurrency);
@@ -60,7 +66,7 @@ class MultiCurrencyModal extends PureComponent {
           <ModalBody>
             <div className="currency-calc-modal__input">
               <div className="currency-calc-modal__input-label">
-                {I18n.t(attributeLabels.minDeposit)}
+                {label}
               </div>
               <div className="currency-calc-modal__input-wrapper">
                 <div className="currency-calc-modal__input-currency">
@@ -82,7 +88,7 @@ class MultiCurrencyModal extends PureComponent {
                 <tbody>
                   {
                     secondaryCurrencies.map((currency, index) => (
-                      <tr>
+                      <tr key={currency}>
                         <td className="currency-calc-modal__output-content">{currency}</td>
                         <td>{this.renderField(currency, index + 1)}</td>
                       </tr>

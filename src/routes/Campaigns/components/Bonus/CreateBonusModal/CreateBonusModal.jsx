@@ -16,6 +16,7 @@ import {
   lockAmountStrategyLabels,
 } from '../../../../../constants/bonus-campaigns';
 import { customValueFieldTypes } from '../../../../../constants/form';
+import { attributeLabels as modalAttributeLabels } from './constants';
 
 class CreateBonusModal extends PureComponent {
   static propTypes = {
@@ -140,7 +141,7 @@ class CreateBonusModal extends PureComponent {
 
     return (
       <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
-        <ModalHeader toggle={onCloseModal}>Modal header</ModalHeader>
+        <ModalHeader toggle={onCloseModal}>{I18n.t(modalAttributeLabels.title)}</ModalHeader>
 
         <form onSubmit={handleSubmit(this.handleSubmitBonusForm)}>
           <ModalBody>
