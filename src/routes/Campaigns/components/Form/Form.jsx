@@ -5,7 +5,7 @@ import { I18n } from 'react-redux-i18n';
 import { InputField } from '../../../../components/ReduxForm';
 import {
   attributeLabels,
-  rewardTypes,
+  rewardTemplateTypes,
   rewardTypesLabels,
   fulfilmentTypes,
   fulfilmentTypesLabels,
@@ -15,6 +15,8 @@ import { BonusView } from '../Bonus';
 import { FreeSpinView } from '../FreeSpin';
 import { WageringView } from '../Wagering';
 import { createValidator } from '../../../../utils/validator';
+import Permissions from '../../../../utils/permissions';
+import permissions from '../../../../config/permissions';
 import './Form.scss';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
@@ -41,10 +43,23 @@ class Form extends Component {
     currentValues: {},
   };
 
+  static contextTypes = {
+    permissions: PropTypes.array.isRequired,
+  };
+
   componentWillReceiveProps({ disabled }) {
     if (disabled && !this.props.disabled) {
       this.props.reset();
     }
+  }
+
+  getAllowedNodes = (items, prefix = '') => {
+    const { permissions: currentPermissions } = this.context;
+
+    return items.filter(({ type }) =>
+      new Permissions(permissions[`${type}${prefix}`].CREATE &&
+       permissions[`${type}${prefix}`].VIEW).check(currentPermissions))
+      .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {});
   }
 
   render() {
@@ -115,22 +130,28 @@ class Form extends Component {
             name="fulfillments"
             disabled={disabled}
             className="col-6"
-            components={{
-              [fulfilmentTypes.WAGERING]: WageringView,
-            }}
+            nodeSelectLabel="CAMPAIGNS.SELECT_FULFILLMENT"
+            nodeButtonLabel="CAMPAIGNS.ADD_FULFILLMENT"
+            components={
+              this.getAllowedNodes([
+                { type: fulfilmentTypes.WAGERING, component: WageringView },
+              ], '_FULFILLMENT')
+            }
             typeLabels={fulfilmentTypesLabels}
-            types={Object.keys(fulfilmentTypes)}
           />
           <NodeBuilder
             name="rewards"
             disabled={disabled}
             className="col-6"
-            components={{
-              [rewardTypes.BONUS]: BonusView,
-              [rewardTypes.FREE_SPIN]: FreeSpinView,
-            }}
+            nodeSelectLabel="CAMPAIGNS.SELECT_REWARD"
+            nodeButtonLabel="CAMPAIGNS.ADD_REWARD"
+            components={
+              this.getAllowedNodes([
+                { type: rewardTemplateTypes.BONUS, component: BonusView },
+                { type: rewardTemplateTypes.FREE_SPIN, component: FreeSpinView },
+              ], '_TEMPLATE')
+            }
             typeLabels={rewardTypesLabels}
-            types={Object.keys(rewardTypes)}
           />
         </div>
       </form>

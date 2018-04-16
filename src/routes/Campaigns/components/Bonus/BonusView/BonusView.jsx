@@ -153,26 +153,40 @@ class BonusView extends PureComponent {
                   </div>
                 </div>
               </div>
-
               <div className="row">
                 <div className="col-4">
                   <div>Prize</div>
                   <div className="font-weight-700">
-                    {
-                      template.prizeAbsolute
-                        ? <Amount {...template.prizeAbsolute[0]} />
-                        : `${template.prizePercentage}%`
-                    }
+                    <Choose>
+                      <When condition={template.prizeAbsolute || template.prizePercentage !== null}>
+                        {
+                          template.prizeAbsolute
+                            ? <Amount {...template.prizeAbsolute[0]} />
+                            : `${template.prizePercentage}%`
+                        }
+                      </When>
+                      <Otherwise>
+                        -
+                      </Otherwise>
+                    </Choose>
                   </div>
                 </div>
                 <div className="col-4">
                   <div>Capping</div>
                   <div className="font-weight-700">
-                    {
-                      template.cappingAbsolute
-                        ? <Amount {...template.cappingAbsolute[0]} />
-                        : `${template.cappingPercentage}%`
-                    }
+                    <Choose>
+                      <When condition={template.cappingAbsolute || template.cappingAbsolute !== null}>
+                        {
+                          template.cappingAbsolute
+                            ? <Amount {...template.cappingAbsolute[0]} />
+                            : `${template.cappingPercentage}%`
+                        }
+                      </When>
+                      <Otherwise>
+                        -
+                      </Otherwise>
+                    </Choose>
+
                   </div>
                 </div>
                 <div className="col-4">

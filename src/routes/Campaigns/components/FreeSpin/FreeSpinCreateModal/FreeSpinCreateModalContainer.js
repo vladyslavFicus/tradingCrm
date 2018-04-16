@@ -17,11 +17,18 @@ const FORM_NAME = 'addFreeSpinTemplate';
 
 export default compose(
   connect((state) => {
-    const { aggregatorId, providerId, gameId, ...currentValues } = getFormValues(FORM_NAME)(state) || {};
+    const {
+      aggregatorId,
+      providerId,
+      gameId,
+      bonusTemplateUUID,
+      ...currentValues
+    } = getFormValues(FORM_NAME)(state) || {};
 
     return {
       aggregatorId,
       providerId,
+      bonusTemplateUUID,
       gameId,
       currentValues,
     };
