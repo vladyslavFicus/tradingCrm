@@ -4,17 +4,20 @@ import { Field } from 'redux-form';
 import { InputField } from '../../../components/ReduxForm';
 import { floatNormalize } from '../../../utils/inputNormalize';
 
-const MultiCurrencyField = ({ label, currency, name, onChange }) => (
-  <div key={`${name}-${currency}`}>
+const MultiCurrencyField = ({ label, name, onChange, iconRightClassName, onIconClick }) => (
+  <div>
     <Field
       name={`${name}.amount`}
-      type="number"
+      label={label}
+      type="text"
       normalize={floatNormalize}
-      label={label || currency}
       component={InputField}
       placeholder="0.0"
       position="vertical"
       onChange={onChange}
+      className={iconRightClassName ? 'form-group' : ''}
+      iconRightClassName={iconRightClassName}
+      onIconClick={onIconClick}
     />
     <Field
       name={`${name}.currency`}
@@ -26,13 +29,17 @@ const MultiCurrencyField = ({ label, currency, name, onChange }) => (
 
 MultiCurrencyField.propTypes = {
   label: PropTypes.string,
-  currency: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
+  onIconClick: PropTypes.func,
+  iconRightClassName: PropTypes.string,
 };
 
 MultiCurrencyField.defaultProps = {
   label: '',
+  onIconClick: null,
+  onChange: null,
+  iconRightClassName: '',
 };
 
 export default MultiCurrencyField;

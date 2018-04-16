@@ -1,16 +1,19 @@
 import React, { PureComponent } from 'react';
+import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { createValidator } from '../../../utils/validator';
 import MultiCurrencyField from './MultiCurrencyField';
+import attributeLabels from './constants';
+import './MultiCurrencyModal.scss';
 
 class MultiCurrencyModal extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    secondaryCurrencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     baseCurrency: PropTypes.string.isRequired,
@@ -41,33 +44,61 @@ class MultiCurrencyModal extends PureComponent {
       handleSubmit,
       onCloseModal,
       isOpen,
-      secondaryCurrencies,
+      currencies,
       baseCurrency,
     } = this.props;
 
-    return (
-      <Modal toggle={onCloseModal} isOpen={isOpen}>
-        <ModalHeader toggle={onCloseModal}>
-          Value in different currencies
-        </ModalHeader>
+    const secondaryCurrencies = currencies.filter(c => c !== baseCurrency);
 
+    return (
+      <Modal toggle={onCloseModal} isOpen={isOpen} className="currency-calc-modal">
+        <ModalHeader toggle={onCloseModal}>
+          <i className="nas nas-currencies_icon" />
+          <span className="currency-calc-modal-header">{I18n.t(attributeLabels.title)}</span>
+        </ModalHeader>
         <form onSubmit={handleSubmit(this.handleSubmit)}>
           <ModalBody>
-            {this.renderField(baseCurrency)}
-            {secondaryCurrencies.map((currency, index) => this.renderField(currency, index + 1))}
-          </ModalBody>
-
-          <ModalFooter>
-            <div className="row">
-              <div className="col-7">
-                <button
-                  type="submit"
-                  className="btn btn-primary ml-2"
-                >
-                  Submit
-                </button>
+            <div className="currency-calc-modal__input">
+              <div className="currency-calc-modal__input-label">
+                {I18n.t(attributeLabels.minDeposit)}
+              </div>
+              <div className="currency-calc-modal__input-wrapper">
+                <div className="currency-calc-modal__input-currency">
+                  {baseCurrency}
+                </div>
+                <div className="currency-calc-modal__input-input">
+                  {this.renderField(baseCurrency)}
+                </div>
               </div>
             </div>
+            <div className="currency-calc-modal__output">
+              <table className="table table-responsive">
+                <thead>
+                  <tr>
+                    <th className="currency-calc-modal__output-header">{I18n.t('COMMON.CURRENCY')}</th>
+                    <th className="currency-calc-modal__output-header">{I18n.t(attributeLabels.customized)}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    secondaryCurrencies.map((currency, index) => (
+                      <tr>
+                        <td className="currency-calc-modal__output-content">{currency}</td>
+                        <td>{this.renderField(currency, index + 1)}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <button className="btn btn-default-outline margin-right-10" onClick={onCloseModal}>
+              {I18n.t('COMMON.BUTTONS.CANCEL')}
+            </button>
+            <button className="btn btn-primary" type="submit">
+              {I18n.t('COMMON.BUTTONS.CONFIRM')}
+            </button>
           </ModalFooter>
         </form>
       </Modal>
@@ -78,10 +109,10 @@ class MultiCurrencyModal extends PureComponent {
 export default reduxForm({
   enableReinitialize: true,
   form: 'multiCurrencyModal',
-  validate: (values, { secondaryCurrencies }) => {
+  validate: (values, { currencies }) => {
     const rules = {};
 
-    for (let i = 0; i < secondaryCurrencies.length + 1; i += 1) {
+    for (let i = 0; i < currencies.length; i += 1) {
       rules[`amounts[${i}].amount`] = ['numeric', 'min: 0'];
     }
 

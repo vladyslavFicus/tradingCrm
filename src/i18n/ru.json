@@ -1768,5 +1768,10 @@
       "CHOOSE_PROVIDER": "-- Выберите провайдера--",
       "CHOOSE_PAGE_CODE": "-- Выберите код страницы--"
     }
+  },
+  "MULTI_CURRENCY_MODAL": {
+    "TITLE": "Value in different currencies",
+    "MIN_DEPOSIT": "Мин. депозит",
+    "CUSTOMIZED": "Подобранное значение"
   }
 }

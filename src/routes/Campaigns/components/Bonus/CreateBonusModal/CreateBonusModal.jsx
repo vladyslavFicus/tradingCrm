@@ -5,7 +5,7 @@ import { Field } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {
-  InputField, SelectField, CustomValueFieldVertical,
+  InputField, SelectField, CustomValueFieldVertical, MultiCurrencyValue,
 } from '../../../../../components/ReduxForm';
 import renderLabel from '../../../../../utils/renderLabel';
 import { attributeLabels, attributePlaceholders, wageringRequirementTypes } from '../constants';
@@ -135,6 +135,7 @@ class CreateBonusModal extends PureComponent {
     } = this.props;
 
     const currencies = get(options, 'signUp.post.currency.list', []);
+    const baseCurrency = get(options, 'signUp.post.currency.base', '');
     const grantRatioType = get(formValues, 'grantRatio.type');
 
     return (
@@ -207,14 +208,11 @@ class CreateBonusModal extends PureComponent {
               </div>
               <If condition={grantRatioType === customValueFieldTypes.PERCENTAGE}>
                 <div className="col-5">
-                  <Field
-                    name="maxGrantedAmount"
-                    type="text"
-                    placeholder="0"
-                    label="maxGrantedAmount"
-                    component={InputField}
-                    position="vertical"
-                    iconRightClassName="nas nas-currencies_icon"
+                  <MultiCurrencyValue
+                    label={I18n.t(attributeLabels.maxGrantedAmount)}
+                    baseName="maxGrantedAmount"
+                    baseCurrency={baseCurrency}
+                    currencies={currencies}
                   />
                 </div>
               </If>

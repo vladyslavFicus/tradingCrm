@@ -6,7 +6,7 @@ import MultiCurrencyField from './MultiCurrencyField';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
-    secondaryCurrencies: PropTypes.array,
+    currencies: PropTypes.array,
     baseCurrency: PropTypes.string,
     baseName: PropTypes.string,
     modals: PropTypes.shape({
@@ -15,12 +15,14 @@ class MultiCurrencyValue extends Component {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
+    label: PropTypes.string,
   };
 
   static defaultProps = {
-    secondaryCurrencies: [],
+    currencies: [],
     baseCurrency: '',
     baseName: 'amounts',
+    label: 'Amount',
   };
 
   static contextTypes = {
@@ -59,13 +61,13 @@ class MultiCurrencyValue extends Component {
     const {
       modals,
       baseCurrency,
-      secondaryCurrencies,
+      currencies,
     } = this.props;
 
     modals.multiCurrencyModal.show({
       onSubmit: this.handleSubmitMultiCurrencyForm,
       baseCurrency,
-      secondaryCurrencies,
+      currencies,
       initialValues: {
         amounts: [this.state],
       },
@@ -76,22 +78,19 @@ class MultiCurrencyValue extends Component {
     const {
       baseName,
       baseCurrency,
+      label,
     } = this.props;
 
     return (
       <div>
         <MultiCurrencyField
           name={`${baseName}[0]`}
-          label={`Base currency ${baseCurrency}`}
+          label={label}
           currency={baseCurrency}
           onChange={this.handleChangeBaseCurrencyAmount}
+          iconRightClassName="nas nas-currencies_icon"
+          onIconClick={this.handleOpenModal}
         />
-        <button
-          type="button"
-          onClick={this.handleOpenModal}
-        >
-          Open popup with other currencies
-        </button>
       </div>
     );
   }
