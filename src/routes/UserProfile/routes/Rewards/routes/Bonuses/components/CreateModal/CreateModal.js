@@ -270,50 +270,53 @@ class CreateModal extends Component {
               />
             </div>
             <div className="col-6">
-              <CustomValueFieldVertical
+              <Field
                 disabled={!customTemplate}
                 id={`${FORM_NAME}-amount-to-wage`}
-                basename="wageringRequirement"
+                name="wageringRequirement"
                 label={I18n.t(attributeLabels.wageringRequirement)}
                 valueFieldProps={{
                   type: 'number',
                   normalize: floatNormalize,
                 }}
+                component={CustomValueFieldVertical}
               >
                 {Object.keys(wageringRequirementCustomValueFieldTypesLabels).map(item => (
                   <option key={item} value={item}>
                     {renderLabel(item, wageringRequirementCustomValueFieldTypesLabels)}
                   </option>
                 ))}
-              </CustomValueFieldVertical>
+              </Field>
             </div>
           </div>
 
           <div className="row">
             <div className="col-6">
-              <CustomValueFieldVertical
+              <Field
                 disabled={!customTemplate}
                 id={`${FORM_NAME}-capping`}
-                basename="capping"
+                name="capping"
                 label={I18n.t(attributeLabels.capping)}
                 typeValues={Object.keys(customValueFieldTypes)}
                 valueFieldProps={{
                   type: 'number',
                   normalize: floatNormalize,
                 }}
+                component={CustomValueFieldVertical}
               />
             </div>
             <div className="col-6">
-              <CustomValueFieldVertical
+              <Field
                 disabled={!customTemplate}
                 id={`${FORM_NAME}-prize`}
-                basename="prize"
+                name="prize"
                 label={I18n.t(attributeLabels.prize)}
                 typeValues={Object.keys(customValueFieldTypes)}
                 valueFieldProps={{
                   type: 'number',
                   normalize: floatNormalize,
                 }}
+                component={CustomValueFieldVertical}
               />
             </div>
           </div>
