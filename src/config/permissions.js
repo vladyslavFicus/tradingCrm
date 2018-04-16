@@ -71,6 +71,12 @@ export default {
   },
   WAGERING_FULFILLMENT: {
     LIST: 'wagering_fulfillment;GET;/',
+    VIEW: 'wagering_fulfillment;GET;/{uuid}',
+    CREATE: 'wagering_fulfillment;POST;/',
+  },
+  DEPOSIT_FULFILLMENT: {
+    VIEW: 'deposit_fulfillment;GET;/{uuid}',
+    CREATE: 'deposit_fulfillment;POST;/',
   },
   GAME_INFO: {
     GET_GAME_LIST_CSV: 'game_info;GET;/games',
@@ -90,6 +96,14 @@ export default {
   },
   BONUS: {
     PLAYER_BONUSES_LIST: 'bonus;GET;/bonuses/{playerUUID}',
+  },
+  BONUS_TEMPLATE: {
+    VIEW: 'bonus_template;GET;/templates/{uuid}',
+    CREATE: 'bonus_template;POST;/templates',
+  },
+  FREE_SPIN_TEMPLATE: {
+    VIEW: 'free_spin_template;GET;/templates/{aggregatorId}/{uuid}',
+    CREATE: 'free_spin_template;POST;/templates/{aggregatorId}',
   },
   GAMING_ACTIVITY: {
     PLAYER_GAMING_ACTIVITY: 'gaming_activity;GET;/gaming/activity/{playerUUID}',

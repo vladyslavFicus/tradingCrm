@@ -63,7 +63,6 @@ class CampaignCreate extends PureComponent {
     }
   };
 
-
   render() {
     return (
       <div className="layout layout_not-iframe">

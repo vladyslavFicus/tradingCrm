@@ -1738,6 +1738,11 @@
     }
   },
   "CAMPAIGNS": {
+    "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
+    "BONUS_TEMPLATE": "Бонус шаблон",
+    "WAGERING_FULFILLMENT" :"Фулфилмент ставок",
+    "SELECT_REWARD": "-- Выбрать награду --",
+    "SELECT_FULFILLMENT": "-- Выбрать условие --",
     "FREE_SPIN": {
       "PROVIDER": "Провайдер",
       "AGGREGATOR": "Агрегатор",

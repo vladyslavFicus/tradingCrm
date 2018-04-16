@@ -2,30 +2,31 @@ import keyMirror from 'keymirror';
 import I18n from '../../utils/fake-i18n';
 
 const attributeLabels = {
-  campaignName: I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_NAME'),
+  campaignName: I18n.t('CAMPAIGNS.CAMPAIGN_NAME'),
 };
 
-const rewardTypes = keyMirror({
+const rewardTemplateTypes = keyMirror({
   BONUS: null,
   FREE_SPIN: null,
 });
 
 const fulfilmentTypes = keyMirror({
   WAGERING: null,
+  DEPOSIT: null,
 });
 
 const rewardTypesLabels = {
-  [rewardTypes.BONUS]: 'Bonus',
-  [rewardTypes.FREE_SPIN]: 'Free spin',
+  [rewardTemplateTypes.BONUS]: 'CAMPAIGNS.BONUS_TEMPLATE',
+  [rewardTemplateTypes.FREE_SPIN]: 'CAMPAIGNS.FREE_SPIN_TEMPLATE',
 };
 
 const fulfilmentTypesLabels = {
-  [fulfilmentTypes.WAGERING]: 'Wagering',
+  [fulfilmentTypes.WAGERING]: 'CAMPAIGNS.WAGERING_FULFILLMENT',
 };
 
 export {
   attributeLabels,
-  rewardTypes,
+  rewardTemplateTypes,
   fulfilmentTypes,
   rewardTypesLabels,
   fulfilmentTypesLabels,
