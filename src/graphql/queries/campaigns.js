@@ -14,12 +14,14 @@ const campaignsQuery = gql`query campaigns(
     size,
     last,
     content {
-      _id,
-      uuid,
-      name,
-      state,
-      authorUUID,
+      _id
+      uuid
+      name
+      state
+      authorUUID
       creationDate
+      startDate
+      endDate
     }
   }
 }`;
@@ -34,6 +36,8 @@ const campaignQuery = gql`query campaign($campaignUUID: String!){
       excludeCountries
       authorUUID
       creationDate
+      startDate
+      endDate
       rewards {
         type
         uuid

@@ -41,17 +41,21 @@ const cancelMutation = gql`mutation cancel(
 }`;
 
 const updateMutation = gql`mutation update(
-  $uuid: String!,
-  $name: String!,
-  $fulfillments: [String]!,
+  $uuid: String!
+  $name: String!
+  $fulfillments: [String]!
   $rewards: [String]!
+  $startDate: String
+  $endDate: String
 ) {
   campaign {
     update(
-      uuid: $uuid,
-      name: $name,
-      fulfillments: $fulfillments,
-      rewards: $rewards,
+      uuid: $uuid
+      name: $name
+      fulfillments: $fulfillments
+      rewards: $rewards
+      startDate: $startDate
+      endDate: $endDate
     ) {
       data {
         _id
@@ -64,6 +68,8 @@ const updateMutation = gql`mutation update(
           type
           uuid
         }
+        startDate
+        endDate
       }
       error {
         error
