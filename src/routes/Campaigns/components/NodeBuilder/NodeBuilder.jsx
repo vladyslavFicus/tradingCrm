@@ -21,7 +21,7 @@ class NodeBuilder extends PureComponent {
     disabled: false,
   };
 
-  state= {
+  state = {
     type: '',
   };
 
@@ -73,7 +73,7 @@ class NodeBuilder extends PureComponent {
                     onClick={() => this.handleRemoveNode(index)}
                     className="btn-transparent add-campaign-remove"
                   >
-                &times;
+                    &times;
                   </button>
                 </div>
               </If>

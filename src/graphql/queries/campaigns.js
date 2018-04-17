@@ -149,6 +149,27 @@ const wageringQuery = gql`query wagering($uuid: String!) {
   }
 }`;
 
+const depositFulfillmentQuery = gql`query depositFulfillment($uuid: String!) {
+  depositFulfillment(uuid: $uuid) {
+    data {
+      uuid
+      numDeposit
+      minAmount {
+        amount
+        currency
+      }
+      maxAmount {
+        amount
+        currency
+      }
+      excludedPaymentMethods
+    }
+    error {
+      error
+    }
+  }
+}`;
+
 export {
   freeSpinTemplatesQuery,
   freeSpinTemplateQuery,
@@ -158,4 +179,5 @@ export {
   bonusTemplateQuery,
   freeSpinTemplateOptionsQuery,
   wageringQuery,
+  depositFulfillmentQuery,
 };

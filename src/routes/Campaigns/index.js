@@ -1,7 +1,7 @@
 import FulfilmentsRoute from './routes/Fulfilments';
 import ListRoute from './routes/List';
-import CampaignViewRoute from './routes/CampaignView';
-import CampaignCreate from './routes/CampaignCreate';
+import CampaignViewRoute from './routes/View';
+import CampaignCreateRoute from './routes/Create';
 
 export default store => ({
   path: '/campaigns',
@@ -9,6 +9,6 @@ export default store => ({
   childRoutes: [
     CampaignViewRoute(store),
     FulfilmentsRoute(store),
-    CampaignCreate(store),
+    CampaignCreateRoute(store),
   ],
 });
