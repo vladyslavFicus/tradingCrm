@@ -84,7 +84,7 @@ class WageringView extends PureComponent {
           <Otherwise>
             <MultiCurrencyValue
               label={I18n.t(attributeLabels.amountToWager)}
-              baseName={`${name}amounts`}
+              baseName={`${name}.amounts`}
               baseCurrency={baseCurrency}
               currencies={currencies}
             />

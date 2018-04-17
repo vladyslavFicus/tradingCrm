@@ -140,7 +140,7 @@ class CreateBonusModal extends PureComponent {
     const grantRatioType = get(formValues, 'grantRatio.type');
 
     return (
-      <Modal className="create-operator-modal" toggle={onCloseModal} isOpen={isOpen}>
+      <Modal toggle={onCloseModal} isOpen={isOpen}>
         <ModalHeader toggle={onCloseModal}>{I18n.t(modalAttributeLabels.title)}</ModalHeader>
 
         <form onSubmit={handleSubmit(this.handleSubmitBonusForm)}>

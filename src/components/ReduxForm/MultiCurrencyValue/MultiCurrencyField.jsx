@@ -4,20 +4,18 @@ import { Field } from 'redux-form';
 import { InputField } from '../../../components/ReduxForm';
 import { floatNormalize } from '../../../utils/inputNormalize';
 
-const MultiCurrencyField = ({ label, name, onChange, iconRightClassName, onIconClick }) => (
+const MultiCurrencyField = ({ label, name, ...rest }) => (
   <div>
     <Field
       name={`${name}.amount`}
       label={label}
-      type="text"
+      type="number"
       normalize={floatNormalize}
       component={InputField}
+      inputClassName="form-control disable-number-arrows"
       placeholder="0.0"
       position="vertical"
-      onChange={onChange}
-      className={iconRightClassName ? 'form-group' : ''}
-      iconRightClassName={iconRightClassName}
-      onIconClick={onIconClick}
+      {...rest}
     />
     <Field
       name={`${name}.currency`}

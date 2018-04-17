@@ -60,7 +60,7 @@ class Form extends Component {
       new Permissions(permissions[`${type}${prefix}`].CREATE &&
        permissions[`${type}${prefix}`].VIEW).check(currentPermissions))
       .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {});
-  }
+  };
 
   render() {
     const {
