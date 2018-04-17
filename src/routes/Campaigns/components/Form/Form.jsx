@@ -75,57 +75,54 @@ class Form extends Component {
     } = this.props;
 
     return (
-      <form id={form} onSubmit={handleSubmit(onSubmit)} className="campaign-settings">
-        <div className="container-fluid">
-          <div className="row align-items-center">
-            <div className="col-md-6 text-truncate campaign-settings__title">
-              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
-            </div>
-            {
-              !pristine &&
-              <div className="col-md-6 text-md-right">
-                <button
-                  disabled={submitting}
-                  onClick={reset}
-                  className="btn btn-default-outline text-uppercase margin-right-20"
-                  type="button"
-                >
-                  {I18n.t('COMMON.REVERT_CHANGES')}
-                </button>
-                <button
-                  disabled={submitting}
-                  className="btn btn-primary text-uppercase"
-                  type="submit"
-                  id="bonus-campaign-save-button"
-                >
-                  {I18n.t('COMMON.SAVE_CHANGES')}
-                </button>
-              </div>
-            }
+      <form id={form} onSubmit={handleSubmit(onSubmit)} className="container-fluid campaigns-form">
+        <div className="row">
+          <div className="col-auto campaigns-form__title">
+            {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
           </div>
-          <hr />
-          <div className="row">
-            <div className="col-md-7">
-              <Field
-                id={`${form}Name`}
-                name="name"
-                disabled={disabled || submitting}
-                label={I18n.t(attributeLabels.campaignName)}
-                type="text"
-                component={InputField}
-                position="vertical"
-              />
-              <div className="form-group__note">
-                {
-                  currentValues && currentValues.name
-                    ? currentValues.name.length
-                    : 0
-                }/{CAMPAIGN_NAME_MAX_LENGTH}
-              </div>
+          <If condition={!pristine}>
+            <div className="col-auto ml-auto">
+              <button
+                disabled={submitting}
+                onClick={reset}
+                className="btn btn-default-outline text-uppercase mr-3"
+                type="button"
+              >
+                {I18n.t('COMMON.REVERT_CHANGES')}
+              </button>
+              <button
+                disabled={submitting}
+                className="btn btn-primary text-uppercase"
+                type="submit"
+                id="bonus-campaign-save-button"
+              >
+                {I18n.t('COMMON.SAVE_CHANGES')}
+              </button>
+            </div>
+          </If>
+        </div>
+        <hr />
+        <div className="row">
+          <div className="col-md-7">
+            <Field
+              id={`${form}Name`}
+              name="name"
+              disabled={disabled || submitting}
+              label={I18n.t(attributeLabels.campaignName)}
+              type="text"
+              component={InputField}
+              position="vertical"
+            />
+            <div className="form-group__note">
+              {
+                currentValues && currentValues.name
+                  ? currentValues.name.length
+                  : 0
+              }/{CAMPAIGN_NAME_MAX_LENGTH}
             </div>
           </div>
         </div>
-        <div className="row">
+        <div className="row mt-2">
           <NodeBuilder
             name="fulfillments"
             disabled={disabled}

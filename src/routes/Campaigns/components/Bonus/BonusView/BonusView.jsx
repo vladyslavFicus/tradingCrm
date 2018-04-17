@@ -8,7 +8,6 @@ import Placeholder from '../../../../../components/Placeholder';
 import Amount from '../../../../../components/Amount';
 import Uuid from '../../../../../components/Uuid';
 import { customValueFieldTypes } from '../../../../../constants/form';
-import './BonusView.scss';
 
 class BonusView extends PureComponent {
   static propTypes = {
@@ -72,7 +71,7 @@ class BonusView extends PureComponent {
     const initialBonusTemplates = bonusTemplates.find(item => item.uuid === uuid);
 
     return (
-      <div className="bonus-template">
+      <div className="campaigns-template">
         <div className="row">
           <div className="col-8">
             <Choose>
@@ -92,6 +91,16 @@ class BonusView extends PureComponent {
                     </option>
                   ))}
                 </Field>
+                <If condition={template.uuid}>
+                  <div className="form-group__note">
+                    <Uuid
+                      length={16}
+                      uuidPartsCount={3}
+                      uuid={template.uuid}
+                      uuidPrefix="BT"
+                    />
+                  </div>
+                </If>
               </When>
               <Otherwise>
                 {initialBonusTemplates ? initialBonusTemplates.name : ''}
@@ -99,7 +108,7 @@ class BonusView extends PureComponent {
             </Choose>
           </div>
           <If condition={!disabled && !isViewMode}>
-            <div className="col-md-4">
+            <div className="col-auto">
               <button
                 className="btn btn-primary text-uppercase margin-top-20"
                 type="button"
@@ -121,49 +130,36 @@ class BonusView extends PureComponent {
               </div>
             )}
           >
-            <div className="col-md-12">
-
-              <div className="row">
-                <div className="col-6">
-                  <div className="font-weight-700">
-                    {template.name}
-                  </div>
-                  <div className="small">
-                    <If condition={template.uuid}>
-                      <Uuid
-                        length={16}
-                        uuidPartsCount={3}
-                        uuid={template.uuid}
-                        uuidPrefix="BT"
-                      />
-                    </If>
+            <div>
+              <div className="row no-gutters mt-3 campaigns-template__bordered-block">
+                <div className="col-4">
+                  Grant Amount
+                  <div className="campaigns-template__value">
+                    <Choose>
+                      <When condition={template.grantRatioAbsolute}>
+                        <Amount {...template.grantRatioAbsolute[0]} />
+                      </When>
+                      <Otherwise>
+                        {template.grantRatioPercentage}%
+                      </Otherwise>
+                    </Choose>
                   </div>
                 </div>
               </div>
-
-              <div className="row row-top">
+              <div className="row no-gutters my-3">
                 <div className="col-4">
-                  <div>Grant Amount</div>
-                  <div className="font-weight-700">
-                    {
-                      template.grantRatioAbsolute
-                        ? <Amount {...template.grantRatioAbsolute[0]} />
-                        : `${template.grantRatioPercentage}%`
-                    }
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-4">
-                  <div>Prize</div>
-                  <div className="font-weight-700">
+                  Prize
+                  <div className="campaigns-template__value">
                     <Choose>
                       <When condition={template.prizeAbsolute || template.prizePercentage !== null}>
-                        {
-                          template.prizeAbsolute
-                            ? <Amount {...template.prizeAbsolute[0]} />
-                            : `${template.prizePercentage}%`
-                        }
+                        <Choose>
+                          <When condition={template.prizeAbsolute}>
+                            <Amount {...template.prizeAbsolute[0]} />
+                          </When>
+                          <Otherwise>
+                            {template.prizePercentage}%
+                          </Otherwise>
+                        </Choose>
                       </When>
                       <Otherwise>
                         -
@@ -172,75 +168,84 @@ class BonusView extends PureComponent {
                   </div>
                 </div>
                 <div className="col-4">
-                  <div>Capping</div>
-                  <div className="font-weight-700">
+                  Capping
+                  <div className="campaigns-template__value">
                     <Choose>
                       <When condition={template.cappingAbsolute || template.cappingPercentage !== null}>
-                        {
-                          template.cappingAbsolute
-                            ? <Amount {...template.cappingAbsolute[0]} />
-                            : `${template.cappingPercentage}%`
-                        }
+                        <Choose>
+                          <When condition={template.cappingAbsolute}>
+                            <Amount {...template.cappingAbsolute[0]} />
+                          </When>
+                          <Otherwise>
+                            {template.cappingPercentage}%
+                          </Otherwise>
+                        </Choose>
                       </When>
                       <Otherwise>
                         -
                       </Otherwise>
                     </Choose>
-
                   </div>
                 </div>
                 <div className="col-4">
-                  <div>moneyTypePriority</div>
-                  <div className="font-weight-700">
+                  Money type priority
+                  <div className="campaigns-template__value">
                     {template.moneyTypePriority}
                   </div>
                 </div>
               </div>
-
-              <div className="row">
+              <div className="row no-gutters">
                 <div className="col-4">
-                  <div>wageringRequirement</div>
-                  <div className="font-weight-700">
+                  Wagering
+                  <div className="campaigns-template__value">
                     <Choose>
                       <When condition={template.wageringRequirementAbsolute || template.wageringRequirementPercentage !== null}>
-                        {
-                          template.wageringRequirementType === customValueFieldTypes.ABSOLUTE
-                            ? <Amount {...template.wageringRequirementAbsolute[0]} />
-                            : `${template.wageringRequirementPercentage}%`
-                        }
+                        <Choose>
+                          <When condition={template.wageringRequirementType === customValueFieldTypes.ABSOLUTE}>
+                            <Amount {...template.wageringRequirementAbsolute[0]} />
+                          </When>
+                          <Otherwise>
+                            {template.wageringRequirementPercentage}%
+                          </Otherwise>
+                        </Choose>
                       </When>
                       <Otherwise>
                         -
                       </Otherwise>
                     </Choose>
-
                   </div>
                 </div>
                 <div className="col-4">
-                  <div>lockAmountStrategy</div>
-                  <div className="font-weight-700">
+                  Withdrawal lock
+                  <div className="campaigns-template__value">
                     {template.lockAmountStrategy}
                   </div>
                 </div>
                 <div className="col-4">
-                  <div>Bonus Life time</div>
-                  <div className="font-weight-700">
+                  Bonus Life time
+                  <div className="campaigns-template__value">
                     {template.bonusLifeTime}
                   </div>
                 </div>
               </div>
-
-              <div className="row">
+              <div className="row no-gutters my-3">
                 <div className="col-4">
-                  <div>Max bet</div>
-                  <div className="font-weight-700">
+                  Max bet
+                  <div className="campaigns-template__value">
                     {template.maxBet && <Amount {...template.maxBet[0]} />}
                   </div>
                 </div>
                 <div className="col-4">
-                  <div>Claimable</div>
-                  <div className="font-weight-700">
-                    {template.claimable ? 'Yes' : 'No'}
+                  Claimable
+                  <div className="campaigns-template__value">
+                    <Choose>
+                      <When condition={template.claimable}>
+                        Yes
+                      </When>
+                      <Otherwise>
+                        No
+                      </Otherwise>
+                    </Choose>
                   </div>
                 </div>
               </div>

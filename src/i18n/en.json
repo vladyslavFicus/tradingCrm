@@ -1722,6 +1722,7 @@
     }
   },
   "CAMPAIGNS": {
+    "CAMPAIGN_NAME": "Campaign name",
     "FREE_SPIN_TEMPLATE": "Free spin template",
     "BONUS_TEMPLATE": "Bonus template",
     "WAGERING_FULFILLMENT" :"Wagering fulfillment",
