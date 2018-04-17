@@ -1740,7 +1740,7 @@
   "CAMPAIGNS": {
     "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
     "BONUS_TEMPLATE": "Бонус шаблон",
-    "WAGERING_FULFILLMENT": "Фулфилмент ставок",
+    "WAGERING_FULFILLMENT" :"Фулфилмент ставок",
     "SELECT_REWARD": "-- Выбрать награду --",
     "SELECT_FULFILLMENT": "-- Выбрать условие --",
     "FREE_SPIN": {
@@ -1771,42 +1771,7 @@
       "CHOOSE_CURRENCY": "-- Выберите валюту --",
       "CHOOSE_AGGREGATOR": "-- Выберите агрегатора--",
       "CHOOSE_PROVIDER": "-- Выберите провайдера--",
-      "CHOOSE_PAGE_CODE": "-- Выберите код страницы--",
-      "WAGERING": "",
-      "CAPPING": "",
-      "MONEY_PRIORITY": ""
-    },
-    "CAMPAIGN_NAME": "",
-    "SETTINGS": {
-      "LABEL": {
-        "CAMPAIGN_PERIOD": ""
-      },
-      "REWARDS": {
-        "BONUS": {
-          "LABEL": {
-            "NAME": "",
-            "BONUS_REWARD": "",
-            "GRANT": "",
-            "CAPPING": "",
-            "MULTIPLIER": "",
-            "MONEY_TYPE_PRIOR": "",
-            "MAX_BET": "",
-            "LIFE_TIME": "",
-            "WAGERING_REQUIREMENT": "",
-            "LOCK_AMOUNT_STRATEGY": "",
-            "PLACEHOLDERS": {
-              "DAYS": "",
-              "NOT_SET": ""
-            },
-            "MIN_PRIZE": ""
-          }
-        }
-      }
-    },
-    "REWARDS": {
-      "FREE_SPIN": {
-        "LIFE_TIME": ""
-      }
+      "CHOOSE_PAGE_CODE": "-- Выберите код страницы--"
     }
   },
   "MULTI_CURRENCY_MODAL": {

@@ -81,6 +81,8 @@ class SettingsView extends PureComponent {
             state,
             fulfillments,
             rewards,
+            startDate,
+            endDate,
           },
         },
       },
@@ -96,6 +98,8 @@ class SettingsView extends PureComponent {
           name,
           fulfillments,
           rewards,
+          startDate,
+          endDate,
         }}
         fulfillments={fulfillments}
         form="settings"
