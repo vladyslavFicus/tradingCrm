@@ -175,7 +175,7 @@ class BonusView extends PureComponent {
                   <div>Capping</div>
                   <div className="font-weight-700">
                     <Choose>
-                      <When condition={template.cappingAbsolute || template.cappingAbsolute !== null}>
+                      <When condition={template.cappingAbsolute || template.cappingPercentage !== null}>
                         {
                           template.cappingAbsolute
                             ? <Amount {...template.cappingAbsolute[0]} />
@@ -201,11 +201,19 @@ class BonusView extends PureComponent {
                 <div className="col-4">
                   <div>wageringRequirement</div>
                   <div className="font-weight-700">
-                    {
-                      template.wageringRequirementType === customValueFieldTypes.ABSOLUTE
-                        ? <Amount {...template.wageringRequirementAbsolute[0]} />
-                        : `${template.wageringRequirementPercentage}%`
-                    }
+                    <Choose>
+                      <When condition={template.wageringRequirementAbsolute || template.wageringRequirementPercentage !== null}>
+                        {
+                          template.wageringRequirementType === customValueFieldTypes.ABSOLUTE
+                            ? <Amount {...template.wageringRequirementAbsolute[0]} />
+                            : `${template.wageringRequirementPercentage}%`
+                        }
+                      </When>
+                      <Otherwise>
+                        -
+                      </Otherwise>
+                    </Choose>
+
                   </div>
                 </div>
                 <div className="col-4">
