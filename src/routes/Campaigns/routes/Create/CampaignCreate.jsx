@@ -5,11 +5,13 @@ import PropTypes from '../../../../constants/propTypes';
 import Header from './components/Header';
 import Form from '../../components/Form';
 import asyncForEach from '../../../../utils/asyncForEach';
+import { fulfilmentTypes as fulfillmentTypes } from '../../constants';
 
 class CampaignCreate extends PureComponent {
   static propTypes = {
     notify: PropTypes.func.isRequired,
     addWageringFulfillment: PropTypes.func.isRequired,
+    addDepositFulfillment: PropTypes.func.isRequired,
     createCampaign: PropTypes.func.isRequired,
   };
 
@@ -24,16 +26,25 @@ class CampaignCreate extends PureComponent {
       createCampaign,
       notify,
       addWageringFulfillment,
+      addDepositFulfillment,
     } = this.props;
 
     const fulfillments = [];
 
     await asyncForEach(formData.fulfillments, async (fulfillment) => {
-      const waggeringResponse = await addWageringFulfillment({
-        variables: fulfillment,
-      });
+      let uuid = null;
 
-      const uuid = get(waggeringResponse, 'data.wageringFulfillment.add.data.uuid');
+      if (fulfillment.type === fulfillmentTypes.WAGERING) {
+        const response = await addWageringFulfillment({
+          variables: fulfillment,
+        });
+        uuid = get(response, 'data.wageringFulfillment.add.data.uuid');
+      } else if (fulfillment.type === fulfillmentTypes.DEPOSIT) {
+        const response = await addDepositFulfillment({
+          variables: fulfillment,
+        });
+        uuid = get(response, 'data.depositFulfillment.add.data.uuid');
+      }
 
       if (uuid) {
         fulfillments.push(uuid);

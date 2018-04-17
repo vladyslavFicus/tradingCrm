@@ -2,7 +2,7 @@ import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import { campaignQuery } from '.././../../../../graphql/queries/campaigns';
 import { activateMutation, cancelMutation } from '.././../../../../graphql/mutations/campaigns';
-import CampaignView from '../CampaignView';
+import CampaignView from '../components/CampaignView';
 
 const mapStateToProps = ({ i18n: { locale } }) => ({ locale });
 

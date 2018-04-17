@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import Tabs from '../../../../components/Tabs';
-import { newBonusCampaignTabs } from '../../../../config/menu';
-import PropTypes from '../../../../constants/propTypes';
-import Header from './components/Header';
+import React, { Component } from 'react';
+import Tabs from '../../../../../components/Tabs';
+import { newBonusCampaignTabs } from '../../../../../config/menu';
+import PropTypes from '../../../../../constants/propTypes';
+import Header from './Header';
 
-class CampaignView extends PureComponent {
+class CampaignView extends Component {
   static propTypes = {
     activateMutation: PropTypes.func.isRequired,
     cancelMutation: PropTypes.func.isRequired,

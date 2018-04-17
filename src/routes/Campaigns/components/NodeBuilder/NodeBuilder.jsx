@@ -23,7 +23,7 @@ class NodeBuilder extends PureComponent {
 
   state = {
     type: this.props.types[0],
-  }
+  };
 
   handleSelectNode = (e) => {
     this.setState({ type: e.target.value });
@@ -63,7 +63,7 @@ class NodeBuilder extends PureComponent {
                     onClick={() => this.handleRemoveNode(index)}
                     className="btn-transparent add-campaign-remove"
                   >
-                &times;
+                    &times;
                   </button>
                 </div>
               </If>

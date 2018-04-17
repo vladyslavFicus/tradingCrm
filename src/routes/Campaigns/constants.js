@@ -12,6 +12,7 @@ const rewardTypes = keyMirror({
 
 const fulfilmentTypes = keyMirror({
   WAGERING: null,
+  DEPOSIT: null,
 });
 
 const rewardTypesLabels = {
@@ -21,6 +22,7 @@ const rewardTypesLabels = {
 
 const fulfilmentTypesLabels = {
   [fulfilmentTypes.WAGERING]: 'Wagering',
+  [fulfilmentTypes.DEPOSIT]: 'Deposit',
 };
 
 export {

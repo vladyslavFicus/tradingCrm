@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
-import { TextRow } from 'react-placeholder/lib/placeholders';
 import { MultiCurrencyValue } from '../../../../../components/ReduxForm';
 import PropTypes from '../../../../../constants/propTypes';
-import Placeholder from '../../../../../components/Placeholder';
+import Placeholder, { DefaultLoadingPlaceholder } from '../../../../../components/Placeholder';
 
 class WageringView extends PureComponent {
   static propTypes = {
@@ -57,9 +56,7 @@ class WageringView extends PureComponent {
             <Placeholder
               ready={!loading}
               className={null}
-              customPlaceholder={(
-                <TextRow className="animated-background" style={{ width: '80%', height: '20px' }} />
-              )}
+              customPlaceholder={<DefaultLoadingPlaceholder />}
             >
               <div>
                 <If condition={data.amounts}>

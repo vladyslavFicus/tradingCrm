@@ -3,6 +3,6 @@ export default () => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       cb(null, require('./container/CampaignCreateContainer').default);
-    }, 'new-bonus-campaign-list');
+    }, 'new-bonus-campaign-create');
   },
 });

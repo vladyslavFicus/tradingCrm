@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
+import { isEqual } from 'lodash';
 import { InputField } from '../../../../components/ReduxForm';
 import {
   attributeLabels,
@@ -14,35 +16,54 @@ import NodeBuilder from '../NodeBuilder';
 import { BonusView } from '../Bonus';
 import { FreeSpinView } from '../FreeSpin';
 import { WageringView } from '../Wagering';
+import DepositFulfillmentView from '../DepositFulfillmentView';
 import { createValidator } from '../../../../utils/validator';
 import './Form.scss';
+import withReduxFormValues from '../../../../components/HighOrder/withReduxFormValues';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
 class Form extends Component {
   static propTypes = {
+    change: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func,
     pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     form: PropTypes.string.isRequired,
-    currentValues: PropTypes.shape({
+    formValues: PropTypes.shape({
       name: PropTypes.string,
     }),
     disabled: PropTypes.bool,
   };
-
   static defaultProps = {
     disabled: false,
     handleSubmit: null,
     pristine: false,
     submitting: false,
-    currentValues: {},
+    formValues: {},
   };
 
-  componentWillReceiveProps({ disabled }) {
-    if (disabled && !this.props.disabled) {
+  componentWillReceiveProps({ disabled: nextDisabled, formValues: nextFormValues }) {
+    const { disabled, formValues, change } = this.props;
+
+    if (!isEqual(formValues.fulfillments, nextFormValues.fulfillments)) {
+      nextFormValues.fulfillments.forEach((fulfillment, index) => {
+        if (fulfillment.uuid) {
+          const prevFulfillment = formValues.fulfillments[index];
+          const isSameObject = (
+            !!prevFulfillment && Object.keys(prevFulfillment).length === Object.keys(fulfillment).length
+          );
+
+          if (isSameObject && !isEqual(prevFulfillment, fulfillment)) {
+            change(`fulfillments[${index}].uuid`, null);
+          }
+        }
+      });
+    }
+
+    if (nextDisabled && !disabled) {
       this.props.reset();
     }
   }
@@ -53,7 +74,7 @@ class Form extends Component {
       onSubmit,
       pristine,
       submitting,
-      currentValues,
+      formValues,
       form,
       reset,
       disabled,
@@ -102,8 +123,8 @@ class Form extends Component {
               />
               <div className="form-group__note">
                 {
-                  currentValues && currentValues.name
-                    ? currentValues.name.length
+                  formValues && formValues.name
+                    ? formValues.name.length
                     : 0
                 }/{CAMPAIGN_NAME_MAX_LENGTH}
               </div>
@@ -117,6 +138,7 @@ class Form extends Component {
             className="col-6"
             components={{
               [fulfilmentTypes.WAGERING]: WageringView,
+              [fulfilmentTypes.DEPOSIT]: DepositFulfillmentView,
             }}
             typeLabels={fulfilmentTypesLabels}
             types={Object.keys(fulfilmentTypes)}
@@ -138,9 +160,12 @@ class Form extends Component {
   }
 }
 
-export default reduxForm({
-  enableReinitialize: true,
-  validate: createValidator({
-    name: ['required', 'string'],
-  }, attributeLabels, false),
-})(Form);
+export default compose(
+  reduxForm({
+    enableReinitialize: true,
+    validate: createValidator({
+      name: ['required', 'string'],
+    }, attributeLabels, false),
+  }),
+  withReduxFormValues,
+)(Form);
