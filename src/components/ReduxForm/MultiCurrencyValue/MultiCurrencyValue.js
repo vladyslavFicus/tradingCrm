@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withMultiCurrencyModal } from '../../../components/HighOrder';
 import MultiCurrencyField from './MultiCurrencyField';
+import { floatNormalize } from '../../../utils/inputNormalize';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
@@ -49,7 +50,7 @@ class MultiCurrencyValue extends Component {
   handleChangeBaseCurrencyAmount = ({ target: { value } }) => {
     const currencies = this.state.currencies;
     currencies[0] = {
-      amount: value,
+      amount: floatNormalize(value),
       currency: this.props.baseCurrency,
     };
 
