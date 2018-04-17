@@ -6,7 +6,7 @@ import { get } from 'lodash';
 import { NasSelectField } from '../../../../components/ReduxForm';
 
 const ExcludedPaymentMethods = ({ paymentMethods, disabled, name }, { _reduxForm: { values: formValues } }) => {
-  const label = I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.RESTRICTED_PAYMENT_METHODS');
+  const label = I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.RESTRICTED_PAYMENT_METHODS');
   const excludedPaymentMethods = get(formValues, 'excludedPaymentMethods', []);
 
   return (

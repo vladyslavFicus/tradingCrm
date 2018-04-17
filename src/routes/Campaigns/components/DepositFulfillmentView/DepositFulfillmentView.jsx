@@ -92,7 +92,6 @@ class DepositFulfillmentView extends Component {
 
     const currencies = get(optionCurrencies, 'options.signUp.post.currency.list', []);
     const baseCurrency = get(optionCurrencies, 'options.signUp.post.currency.base', '');
-    const secondaryCurrencies = currencies.filter(currency => currency !== baseCurrency);
     const paymentMethods = get(paymentMethodsData, 'paymentMethods.data', []);
 
     return (
@@ -104,18 +103,18 @@ class DepositFulfillmentView extends Component {
         <div>
           <div className="row">
             <div className="col-6 form-group">
-              <label>{I18n.t('BONUS_CAMPAIGNS.FULFILLMENTS.DEPOSIT_AMOUNT_RANGE')}</label>
+              <label>{I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.DEPOSIT_AMOUNT_RANGE')}</label>
               <div className="range-group">
                 <MultiCurrencyValue
                   baseName={`${name}.minAmount`}
                   baseCurrency={baseCurrency}
-                  secondaryCurrencies={secondaryCurrencies}
+                  currencies={currencies}
                 />
                 <span className="range-group__separator">-</span>
                 <MultiCurrencyValue
                   baseName={`${name}.maxAmount`}
                   baseCurrency={baseCurrency}
-                  secondaryCurrencies={secondaryCurrencies}
+                  currencies={currencies}
                 />
               </div>
             </div>
@@ -128,14 +127,14 @@ class DepositFulfillmentView extends Component {
                 component={SelectField}
                 position="vertical"
                 disabled={disabled}
-                label={I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.DEPOSIT_NUMBER_LABEL')}
+                label={I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.DEPOSIT_NUMBER_LABEL')}
               >
-                <option value="">Any deposit</option>
+                <option value="">{I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.SELECT_DEPOSIT_NUMBER')}</option>
                 {[...new Array(10)].map((_, i) => (
                   <option key={i} value={i + 1}>
                     {`
                     ${ordinalizeNumber(i + 1, locale)}
-                    ${I18n.t('BONUS_CAMPAIGNS.SETTINGS.FULFILLMENT.DEPOSIT.NUMBER_OPTION')}
+                    ${I18n.t('CAMPAIGNS.SETTINGS.FULFILLMENTS.DEPOSIT.NUMBER_OPTION')}
                   `}
                   </option>
                 ))}

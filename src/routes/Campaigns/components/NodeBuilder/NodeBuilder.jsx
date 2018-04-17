@@ -21,7 +21,7 @@ class NodeBuilder extends PureComponent {
     disabled: false,
   };
 
-  state= {
+  state = {
     type: '',
   };
 
