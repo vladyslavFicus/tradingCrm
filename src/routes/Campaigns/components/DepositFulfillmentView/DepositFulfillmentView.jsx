@@ -70,10 +70,33 @@ class DepositFulfillmentView extends Component {
       if (data) {
         const { _reduxForm: { autofill } } = this.context;
 
-        autofill(`${name}.minAmount`, data.minAmount);
-        autofill(`${name}.maxAmount`, data.maxAmount);
-        autofill(`${name}.numDeposit`, data.numDeposit);
-        autofill(`${name}.excludedPaymentMethods`, data.excludedPaymentMethods);
+        Object.keys(data).forEach((key) => {
+          let nextData = data[key];
+
+          if (key !== '__typename') {
+            if (typeof nextData === 'object' && nextData !== null) {
+              if (!Array.isArray(nextData)) {
+                nextData = { ...nextData };
+
+                nextData[key].__typename = undefined;
+              } else {
+                nextData = nextData.map((item) => {
+                  let nextItem = item;
+
+                  if (typeof nextItem === 'object' && nextItem !== null) {
+                    nextItem = { ...nextItem };
+
+                    nextItem.__typename = undefined;
+                  }
+
+                  return nextItem;
+                });
+              }
+            }
+
+            autofill(`${name}.${key}`, nextData);
+          }
+        });
       }
     }
   }
