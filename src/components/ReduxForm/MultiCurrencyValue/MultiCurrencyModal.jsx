@@ -24,6 +24,12 @@ class MultiCurrencyModal extends PureComponent {
     label: '',
   };
 
+  componentWillReceiveProps({ isOpen }) {
+    if (this.props.isOpen && !isOpen) {
+      this.props.destroy();
+    }
+  }
+
   handleChange = (currency, index) => ({ target: { value } }) => {
     const currencyFieldName = `amounts[${index}].currency`;
     const currencyCode = value ? currency : '';
