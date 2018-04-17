@@ -5,8 +5,12 @@ const currencyQuery = gql`query signUpOptions($brandId: String!) {
     signUp(brandId: $brandId) {
       post {
         currency {
-          base,
+          base
           list
+          rates {
+            amount
+            currency
+          }
         }
       }
     }
