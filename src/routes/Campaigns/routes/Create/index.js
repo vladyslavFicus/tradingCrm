@@ -12,6 +12,6 @@ export default store => ({
       }
 
       cb(null, require('./container/CampaignCreateContainer').default);
-    }, 'new-bonus-campaign-create');
+    }, 'campaign-create');
   },
 });
