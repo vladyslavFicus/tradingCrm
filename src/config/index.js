@@ -152,7 +152,7 @@ function getLogo() {
   }
 
   if (brands.indexOf(brandId) > -1) {
-    return `/img/brand/logo/${brandId}${'.svg' || '.jpg'}`;
+    return `/img/brand/logo/${brandId}.svg`;
   }
 
   return '/img/logoNewAge.png';
