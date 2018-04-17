@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
 import { I18n } from 'react-redux-i18n';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { get } from 'lodash';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { createValidator } from '../../../utils/validator';
-import MultiCurrencyField from './MultiCurrencyField';
+import MultiCurrencyField from '../MultiCurrencyValue/MultiCurrencyField';
 import attributeLabels from './constants';
 import './MultiCurrencyModal.scss';
 
@@ -13,15 +12,24 @@ class MultiCurrencyModal extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    optionCurrencies: PropTypes.shape({
+      options: PropTypes.shape({
+        signUp: PropTypes.shape({
+          currency: PropTypes.shape({
+            list: PropTypes.arrayOf(PropTypes.string),
+          }),
+        }),
+      }),
+    }),
     onCloseModal: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
-    baseCurrency: PropTypes.string.isRequired,
+    destroy: PropTypes.func.isRequired,
     label: PropTypes.string,
   };
 
   static defaultProps = {
     label: '',
+    optionCurrencies: { options: {} },
   };
 
   componentWillReceiveProps({ isOpen }) {
@@ -43,7 +51,7 @@ class MultiCurrencyModal extends PureComponent {
 
   renderField = (currency, index = 0) => (
     <MultiCurrencyField
-      key={index}
+      key={currency}
       name={`amounts[${index}]`}
       currency={currency}
       onChange={this.handleChange(currency, index)}
@@ -55,12 +63,16 @@ class MultiCurrencyModal extends PureComponent {
       handleSubmit,
       onCloseModal,
       isOpen,
-      currencies,
-      baseCurrency,
+      optionCurrencies: {
+        refetch,
+        options,
+      },
       label,
+      formValues,
     } = this.props;
-
-    const secondaryCurrencies = currencies.filter(c => c !== baseCurrency);
+    const secondaryCurrencies = get(options, 'signUp.post.currency.rates', []);
+    const baseCurrency = get(options, 'signUp.post.currency.base', '');
+    const baseCurrencyValue = get(formValues, 'amounts[0].amount', 0);
 
     return (
       <Modal toggle={onCloseModal} isOpen={isOpen} className="currency-calc-modal">
@@ -75,12 +87,22 @@ class MultiCurrencyModal extends PureComponent {
                 {label}
               </div>
               <div className="currency-calc-modal__input-wrapper">
-                <div className="currency-calc-modal__input-currency">
-                  {baseCurrency}
-                </div>
-                <div className="currency-calc-modal__input-input">
-                  {this.renderField(baseCurrency)}
-                </div>
+                <If condition={baseCurrency}>
+                  <div className="currency-calc-modal__input-currency">
+                    {baseCurrency}
+                  </div>
+                  <div className="currency-calc-modal__input-input">
+                    {this.renderField(baseCurrency)}
+                  </div>
+                  <div className="currency-calc-modal__input-button">
+                    <button type="button" onClick={() => refetch()} className="btn btn-primary-outline">
+                      {I18n.t(attributeLabels.recalc)}
+                    </button>
+                    <div className="currency-calc-modal__input-warning">
+                      {I18n.t(attributeLabels.recalcWarning)}
+                    </div>
+                  </div>
+                </If>
               </div>
             </div>
             <div className="currency-calc-modal__output">
@@ -88,14 +110,18 @@ class MultiCurrencyModal extends PureComponent {
                 <thead>
                   <tr>
                     <th className="currency-calc-modal__output-header">{I18n.t('COMMON.CURRENCY')}</th>
+                    <th className="currency-calc-modal__output-header">{I18n.t(attributeLabels.rate)}</th>
+                    <th className="currency-calc-modal__output-header">{I18n.t(attributeLabels.calculated)}</th>
                     <th className="currency-calc-modal__output-header">{I18n.t(attributeLabels.customized)}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
-                    secondaryCurrencies.map((currency, index) => (
+                    secondaryCurrencies.map(({ currency, amount }, index) => (
                       <tr key={currency}>
-                        <td className="currency-calc-modal__output-content">{currency}</td>
+                        <td className="currency-calc-modal__output-content"><b>{currency}</b></td>
+                        <td className="currency-calc-modal__output-content">{amount}</td>
+                        <td className="currency-calc-modal__output-content">{(amount * baseCurrencyValue).toFixed(2)}</td>
                         <td>{this.renderField(currency, index + 1)}</td>
                       </tr>
                     ))
@@ -118,16 +144,4 @@ class MultiCurrencyModal extends PureComponent {
   }
 }
 
-export default reduxForm({
-  enableReinitialize: true,
-  form: 'multiCurrencyModal',
-  validate: (values, { currencies }) => {
-    const rules = {};
-
-    for (let i = 0; i < currencies.length; i += 1) {
-      rules[`amounts[${i}].amount`] = ['numeric', 'min: 0'];
-    }
-
-    return createValidator(rules, false)(values);
-  },
-})(MultiCurrencyModal);
+export default MultiCurrencyModal;
