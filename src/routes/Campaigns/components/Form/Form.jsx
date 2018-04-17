@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import { I18n } from 'react-redux-i18n';
-import { isEqual } from 'lodash';
+import { get, isEqual } from 'lodash';
 import { InputField } from '../../../../components/ReduxForm';
 import {
   attributeLabels,
@@ -78,7 +78,7 @@ class Form extends Component {
 
     return items.filter(({ type }) =>
       new Permissions(permissions[`${type}${prefix}`].CREATE &&
-       permissions[`${type}${prefix}`].VIEW).check(currentPermissions))
+        permissions[`${type}${prefix}`].VIEW).check(currentPermissions))
       .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {});
   };
 
@@ -183,9 +183,27 @@ class Form extends Component {
 export default compose(
   reduxForm({
     enableReinitialize: true,
-    validate: createValidator({
-      name: ['required', 'string'],
-    }, attributeLabels, false),
+    validate: (values) => {
+      const rules = {
+        name: ['required', 'string'],
+      };
+
+      const fulfillments = get(values, 'fulfillments', []);
+
+      if (fulfillments.length > 0) {
+        rules.fulfillments = {};
+      }
+
+      fulfillments.forEach((fulfillment, index) => {
+        if (fulfillment.type === fulfilmentTypes.DEPOSIT) {
+          rules.fulfillments[index] = {
+            numDeposit: ['required'],
+          };
+        }
+      });
+
+      return createValidator(rules, attributeLabels, false)(values);
+    },
   }),
   withReduxFormValues,
 )(Form);
