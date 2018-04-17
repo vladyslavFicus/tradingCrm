@@ -22,7 +22,7 @@ import { createValidator } from '../../../../utils/validator';
 import Permissions from '../../../../utils/permissions';
 import permissions from '../../../../config/permissions';
 import './Form.scss';
-import withReduxFormValues from '../../../../components/HighOrder/withReduxFormValues';
+import { withReduxFormValues } from '../../../../components/HighOrder';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -49,16 +49,6 @@ class Form extends Component {
     pristine: false,
     submitting: false,
     formValues: {},
-  };
-
-  endDateValidator = fromAttribute => (current) => {
-    const { formValues } = this.props;
-
-    return formValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
-        formValues[fromAttribute]
-          ? current.isSameOrAfter(moment(formValues[fromAttribute]))
-          : true
-      );
   };
 
   componentWillReceiveProps({ disabled: nextDisabled, formValues: nextFormValues }) {
@@ -93,6 +83,16 @@ class Form extends Component {
       .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {});
   };
 
+  endDateValidator = fromAttribute => (current) => {
+    const { formValues } = this.props;
+
+    return formValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
+      formValues[fromAttribute]
+        ? current.isSameOrAfter(moment(formValues[fromAttribute]))
+        : true
+    );
+  };
+
   render() {
     const {
       handleSubmit,
@@ -106,81 +106,78 @@ class Form extends Component {
     } = this.props;
 
     return (
-      <form id={form} onSubmit={handleSubmit(onSubmit)} className="campaign-settings">
-        <div className="container-fluid">
-          <div className="row align-items-center">
-            <div className="col-md-6 text-truncate campaign-settings__title">
-              {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
-            </div>
-            {
-              !pristine &&
-              <div className="col-md-6 text-md-right">
-                <button
-                  disabled={submitting}
-                  onClick={reset}
-                  className="btn btn-default-outline text-uppercase margin-right-20"
-                  type="button"
-                >
-                  {I18n.t('COMMON.REVERT_CHANGES')}
-                </button>
-                <button
-                  disabled={submitting}
-                  className="btn btn-primary text-uppercase"
-                  type="submit"
-                  id="bonus-campaign-save-button"
-                >
-                  {I18n.t('COMMON.SAVE_CHANGES')}
-                </button>
-              </div>
-            }
+      <form id={form} onSubmit={handleSubmit(onSubmit)} className="container-fluid campaigns-form">
+        <div className="row">
+          <div className="col-auto campaigns-form__title">
+            {I18n.t('BONUS_CAMPAIGNS.SETTINGS.CAMPAIGN_SETTINGS')}
           </div>
-          <hr />
-          <div className="row">
-            <div className="col-md-6">
-              <Field
-                id={`${form}Name`}
-                name="name"
-                disabled={disabled || submitting}
-                label={I18n.t(attributeLabels.campaignName)}
-                type="text"
-                component={InputField}
-                position="vertical"
-              />
-              <div className="form-group__note">
-                {
-                  formValues && formValues.name
-                    ? formValues.name.length
-                    : 0
-                }/{CAMPAIGN_NAME_MAX_LENGTH}
-              </div>
+          <If condition={!pristine}>
+            <div className="col-auto ml-auto">
+              <button
+                disabled={submitting}
+                onClick={reset}
+                className="btn btn-default-outline text-uppercase mr-3"
+                type="button"
+              >
+                {I18n.t('COMMON.REVERT_CHANGES')}
+              </button>
+              <button
+                disabled={submitting}
+                className="btn btn-primary text-uppercase"
+                type="submit"
+                id="bonus-campaign-save-button"
+              >
+                {I18n.t('COMMON.SAVE_CHANGES')}
+              </button>
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label>{I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
-                <div className="range-group">
-                  <Field
-                    utc
-                    name="startDate"
-                    component={DateTimeField}
-                    isValidDate={() => true}
-                    position="vertical"
-                    disabled={disabled}
-                  />
-                  <span className="range-group__separator">-</span>
-                  <Field
-                    utc
-                    name="endDate"
-                    component={DateTimeField}
-                    isValidDate={this.endDateValidator('startDate')}
-                    position="vertical"
-                    disabled={disabled}
-                  />
-                </div>
+          </If>
+        </div>
+        <hr />
+        <div className="row">
+          <div className="col-md-6">
+            <Field
+              id={`${form}Name`}
+              name="name"
+              disabled={disabled || submitting}
+              label={I18n.t(attributeLabels.campaignName)}
+              type="text"
+              component={InputField}
+              position="vertical"
+            />
+            <div className="form-group__note">
+              {
+                formValues && formValues.name
+                  ? formValues.name.length
+                  : 0
+              }/{CAMPAIGN_NAME_MAX_LENGTH}
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="form-group">
+              <label>{I18n.t('CAMPAIGNS.SETTINGS.LABEL.CAMPAIGN_PERIOD')}</label>
+              <div className="range-group">
+                <Field
+                  utc
+                  name="startDate"
+                  component={DateTimeField}
+                  isValidDate={() => true}
+                  position="vertical"
+                  disabled={disabled}
+                />
+                <span className="range-group__separator">-</span>
+                <Field
+                  utc
+                  name="endDate"
+                  component={DateTimeField}
+                  isValidDate={this.endDateValidator('startDate')}
+                  position="vertical"
+                  disabled={disabled}
+                />
               </div>
             </div>
           </div>
         </div>
-        <div className="row">
+        <div className="row mt-2">
           <NodeBuilder
             name="fulfillments"
             disabled={disabled}

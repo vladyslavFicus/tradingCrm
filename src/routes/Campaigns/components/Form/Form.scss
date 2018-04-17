@@ -1,14 +1,20 @@
-.campaign-settings {
-  padding: 30px 15px 15px;
+.campaigns-form {
+  padding: 30px 30px 15px;
   &__title {
     font-size: 20px;
   }
-  .form-row {
-    margin-right: -5px;
-    margin-left: -5px;
-    .form-group {
-      margin-bottom: 0;
-    }
+}
+
+.campaigns-template {
+  font-size: 14px;
+  &__bordered-block {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-top: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+  }
+  &__value {
+    font-weight: 700;
   }
 }
 
@@ -49,6 +55,7 @@
 .free-spin-card {
   display: flex;
   flex-direction: column;
+  min-height: 104px;
   padding-right: 5px;
   padding-left: 5px;
   background-color: #f3f9fe;

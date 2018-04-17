@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import get from 'lodash/get';
+import { get } from 'lodash';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { NasSelectField } from '../../../../../components/ReduxForm';
 import Placeholder from '../../../../../components/Placeholder';
 import BonusView from '../../Bonus/BonusView';
+import Uuid from '../../../../../components/Uuid';
 
 export default class FreeSpinView extends PureComponent {
   static propTypes = {
@@ -70,7 +71,7 @@ export default class FreeSpinView extends PureComponent {
     const fsTemplate = get(freeSpinTemplate, 'data', {});
 
     return (
-      <div className="free-spin-template">
+      <div className="campaigns-template">
         <div className="row">
           <div className="col-8">
             <Field
@@ -88,15 +89,25 @@ export default class FreeSpinView extends PureComponent {
                 </option>
               ))}
             </Field>
+            <If condition={fsTemplate.uuid}>
+              <div className="form-group__note">
+                <Uuid
+                  length={16}
+                  uuidPartsCount={4}
+                  uuid={fsTemplate.uuid}
+                  uuidPrefix="FS"
+                />
+              </div>
+            </If>
           </div>
           <If condition={!disabled}>
-            <div className="col-md-4">
+            <div className="col-auto">
               <button
                 className="btn btn-primary text-uppercase margin-top-20"
                 type="button"
                 onClick={this.handleOpenModal}
               >
-              Add free spin template
+                Add free spin template
               </button>
             </div>
           </If>
@@ -117,110 +128,136 @@ export default class FreeSpinView extends PureComponent {
             )}
           >
             <div>
-              <div className="row">
-                <div className="col-4 free-spin-template__item">
-                  <div className="free-spin-template">Provider</div>
-                  <div>
-                    <div className="free-spin-template">{fsTemplate.providerId}</div>
+              <div className="row no-gutters mt-3 campaigns-template__bordered-block">
+                <div className="col-4">
+                  Provider
+                  <div className="campaigns-template__value">
+                    {fsTemplate.providerId}
                   </div>
                 </div>
-                <div className="col-4 free-spin-template__item">
-                  <div className="free-spin-template">Game</div>
-                  <div>
-                    <div className="free-spin-template">{fsTemplate.gameId}</div>
+                <div className="col-4">
+                  Game
+                  <div className="campaigns-template__value">
+                    {fsTemplate.gameId}
                   </div>
                 </div>
-                <div className="col-4 free-spin-template__item">
-                  <div className="free-spin-template">status</div>
-                  <div>
-                    <div className="free-spin-template">{fsTemplate.status}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-4 free-spin-template__item">
-                  <div className="free-spin-template">Free-spins</div>
-                  <div>
-                    <div className="free-spin-template">{fsTemplate.freeSpinsAmount}</div>
-                  </div>
-                </div>
-                <div className="col-4 free-spin-template__item">
-                  <div className="free-spin-template">Life Time</div>
-                  <div>
-                    <div className="free-spin-template">{fsTemplate.freeSpinLifeTime}</div>
+                <div className="col-4">
+                  status
+                  <div className="campaigns-template__value">
+                    {fsTemplate.status}
                   </div>
                 </div>
               </div>
-              <div className="row">
+              <div className="row no-gutters my-3">
+                <div className="col-7">
+                  <div className="row">
+                    <div className="col">
+                      Free-spins
+                      <div className="campaigns-template__value">
+                        {fsTemplate.freeSpinsAmount}
+                      </div>
+                    </div>
+                    <div className="col">
+                      Life Time
+                      <div className="campaigns-template__value">
+                        {fsTemplate.freeSpinLifeTime}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-5">
+                  <div className="row no-gutters">
+                    <div className="col-6 pr-2">
+                      <div className="free-spin-card">
+                        <div className="free-spin-card-values">Props</div>
+                        <div className="free-spin-card-values">Props</div>
+                        <div className="free-spin-card-label">spinValue</div>
+                      </div>
+                    </div>
+                    <div className="col-6">
+                      <div className="free-spin-card">
+                        <div className="free-spin-card-values">Props</div>
+                        <div className="free-spin-card-values">Props</div>
+                        <div className="free-spin-card-label">totalValue</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row no-gutters">
                 <If condition={fsTemplate.linesPerSpin}>
-                  <div className="col-4 free-spin-template__item">
-                    <div className="free-spin-template">lines per spin</div>
-                    <div>
-                      <div className="free-spin-template">{fsTemplate.linesPerSpin}</div>
+                  <div className="col-4">
+                    lines per spin
+                    <div className="campaigns-template__value">
+                      {fsTemplate.linesPerSpin}
                     </div>
                   </div>
                 </If>
                 <If condition={fsTemplate.betPerLine}>
-                  <div className="col-4 free-spin-template__item">
-                    <div className="free-spin-template">Bet per line</div>
-                    <div>
-                      <div className="free-spin-template">{fsTemplate.betPerLine}</div>
+                  <div className="col-4">
+                    Bet per line
+                    <div className="campaigns-template__value">
+                      {fsTemplate.betPerLine}
                     </div>
                   </div>
                 </If>
               </div>
-              <div className="row">
-                <If condition={fsTemplate.coinSize}>
-                  <div className="col-4 free-spin-template__item">
-                    <div className="free-spin-template">Coin size</div>
-                    <div>
-                      <div className="free-spin-template">{fsTemplate.coinSize}</div>
+              <If condition={fsTemplate.coinSize || fsTemplate.betLevel || fsTemplate.pageCode}>
+                <div className="row no-gutters my-3">
+                  <If condition={fsTemplate.coinSize}>
+                    <div className="col-4">
+                      Coin size
+                      <div className="campaigns-template__value">
+                        {fsTemplate.coinSize}
+                      </div>
                     </div>
-                  </div>
-                </If>
-                <If condition={fsTemplate.betLevel}>
-                  <div className="col-4 free-spin-template__item">
-                    <div className="free-spin-template">Bet level</div>
-                    <div>
-                      <div className="free-spin-template">{fsTemplate.betLevel}</div>
+                  </If>
+                  <If condition={fsTemplate.betLevel}>
+                    <div className="col-4">
+                      Bet level
+                      <div className="campaigns-template__value">
+                        {fsTemplate.betLevel}
+                      </div>
                     </div>
-                  </div>
-                </If>
-                <If condition={fsTemplate.pageCode}>
-                  <div className="col-4 free-spin-template__item">
-                    <div className="free-spin-template">Page code</div>
-                    <div>
-                      <div className="free-spin-template">{fsTemplate.pageCode}</div>
+                  </If>
+                  <If condition={fsTemplate.pageCode}>
+                    <div className="col-4">
+                      Page code
+                      <div className="campaigns-template__value">
+                        {fsTemplate.pageCode}
+                      </div>
                     </div>
-                  </div>
-                </If>
-              </div>
-              <div className="row">
-                <If condition={fsTemplate.betMultiplier}>
-                  <div className="col-4 free-spin-template__item">
-                    <div className="free-spin-template">Bet Per Line</div>
-                    <div>
-                      <div className="free-spin-template">{fsTemplate.betMultiplier}</div>
+                  </If>
+                </div>
+              </If>
+              <If condition={fsTemplate.betMultiplier || fsTemplate.rhfpBet || fsTemplate.comment}>
+                <div className="row no-gutters">
+                  <If condition={fsTemplate.betMultiplier}>
+                    <div className="col-4">
+                      Bet Per Line
+                      <div className="campaigns-template__value">
+                        {fsTemplate.betMultiplier}
+                      </div>
                     </div>
-                  </div>
-                </If>
-                <If condition={fsTemplate.rhfpBet}>
-                  <div className="col-4 free-spin-template__item">
-                    <div className="free-spin-template">Bet level</div>
-                    <div>
-                      <div className="free-spin-template">{fsTemplate.rhfpBet}</div>
+                  </If>
+                  <If condition={fsTemplate.rhfpBet}>
+                    <div className="col-4">
+                      Bet level
+                      <div className="campaigns-template__value">
+                        {fsTemplate.rhfpBet}
+                      </div>
                     </div>
-                  </div>
-                </If>
-                <If condition={fsTemplate.comment}>
-                  <div className="col-4 free-spin-template__item">
-                    <div className="free-spin-template">Comment</div>
-                    <div>
-                      <div className="free-spin-template">{fsTemplate.comment}</div>
+                  </If>
+                  <If condition={fsTemplate.comment}>
+                    <div className="col-4">
+                      Comment
+                      <div className="campaigns-template__value">
+                        {fsTemplate.comment}
+                      </div>
                     </div>
-                  </div>
-                </If>
-              </div>
+                  </If>
+                </div>
+              </If>
               <If condition={fsTemplate.bonusTemplateUUID}>
                 <BonusView uuid={fsTemplate.bonusTemplateUUID} isViewMode />
               </If>

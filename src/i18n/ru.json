@@ -1738,6 +1738,7 @@
     }
   },
   "CAMPAIGNS": {
+    "CAMPAIGN_NAME": "Название кампании",
     "FREE_SPIN_TEMPLATE": "Фри-спин шаблон",
     "BONUS_TEMPLATE": "Бонус шаблон",
     "WAGERING_FULFILLMENT": "Фулфилмент ставок",

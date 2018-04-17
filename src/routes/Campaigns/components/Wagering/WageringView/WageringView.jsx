@@ -52,42 +52,44 @@ class WageringView extends PureComponent {
     const baseCurrency = get(options, 'signUp.post.currency.base', '');
 
     return (
-      <div>
-        <Choose>
-          <When condition={uuid}>
-            <Placeholder
-              ready={!loading}
-              className={null}
-              customPlaceholder={<DefaultLoadingPlaceholder />}
-            >
-              <div>
-                <If condition={data.amounts}>
-                  <For each="amount" index="index" of={data.amounts}>
-                    <div key={amount.currency} className="row">
-                      <div className="col-4 bonus-template__item">
-                        <div className="bonus-template">currency</div>
+      <Choose>
+        <When condition={uuid}>
+          <Placeholder
+            ready={!loading}
+            className={null}
+            customPlaceholder={<DefaultLoadingPlaceholder />}
+          >
+            <div className="campaigns-template">
+              <If condition={data.amounts}>
+                <For each="amount" index="index" of={data.amounts}>
+                  <div key={amount.currency} className="row">
+                    <div className="col-4">
+                      currency
+                      <div className="campaigns-template__value">
                         {amount.currency}
                       </div>
-                      <div className="col-4 bonus-template__item">
-                        <div className="bonus-template">amount</div>
+                    </div>
+                    <div className="col-4">
+                      amount
+                      <div className="campaigns-template__value">
                         {amount.amount}
                       </div>
                     </div>
-                  </For>
-                </If>
-              </div>
-            </Placeholder>
-          </When>
-          <Otherwise>
-            <MultiCurrencyValue
-              label={I18n.t(attributeLabels.amountToWager)}
-              baseName={`${name}.amounts`}
-              baseCurrency={baseCurrency}
-              currencies={currencies}
-            />
-          </Otherwise>
-        </Choose>
-      </div>
+                  </div>
+                </For>
+              </If>
+            </div>
+          </Placeholder>
+        </When>
+        <Otherwise>
+          <MultiCurrencyValue
+            label={I18n.t(attributeLabels.amountToWager)}
+            baseName={`${name}.amounts`}
+            baseCurrency={baseCurrency}
+            currencies={currencies}
+          />
+        </Otherwise>
+      </Choose>
     );
   }
 }
