@@ -22,7 +22,7 @@ import { createValidator } from '../../../../utils/validator';
 import Permissions from '../../../../utils/permissions';
 import permissions from '../../../../config/permissions';
 import './Form.scss';
-import withReduxFormValues from '../../../../components/HighOrder/withReduxFormValues';
+import { withReduxFormValues } from '../../../../components/HighOrder';
 
 const CAMPAIGN_NAME_MAX_LENGTH = 100;
 
@@ -49,16 +49,6 @@ class Form extends Component {
     pristine: false,
     submitting: false,
     formValues: {},
-  };
-
-  endDateValidator = fromAttribute => (current) => {
-    const { formValues } = this.props;
-
-    return formValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
-        formValues[fromAttribute]
-          ? current.isSameOrAfter(moment(formValues[fromAttribute]))
-          : true
-      );
   };
 
   componentWillReceiveProps({ disabled: nextDisabled, formValues: nextFormValues }) {
@@ -91,6 +81,16 @@ class Form extends Component {
       new Permissions(permissions[`${type}${prefix}`].CREATE &&
         permissions[`${type}${prefix}`].VIEW).check(currentPermissions))
       .reduce((acc, { type, component }) => ({ ...acc, [type]: component }), {});
+  };
+
+  endDateValidator = fromAttribute => (current) => {
+    const { formValues } = this.props;
+
+    return formValues && current.isSameOrAfter(moment().subtract(1, 'd')) && (
+      formValues[fromAttribute]
+        ? current.isSameOrAfter(moment(formValues[fromAttribute]))
+        : true
+    );
   };
 
   render() {
