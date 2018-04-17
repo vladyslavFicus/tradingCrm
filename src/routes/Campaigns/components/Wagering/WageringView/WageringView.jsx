@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import { get } from 'lodash';
+import { I18n } from 'react-redux-i18n';
 import { TextRow } from 'react-placeholder/lib/placeholders';
 import { MultiCurrencyValue } from '../../../../../components/ReduxForm';
 import PropTypes from '../../../../../constants/propTypes';
 import Placeholder from '../../../../../components/Placeholder';
+import { attributeLabels } from '../constants';
 
 class WageringView extends PureComponent {
   static propTypes = {
@@ -81,9 +83,10 @@ class WageringView extends PureComponent {
           </When>
           <Otherwise>
             <MultiCurrencyValue
-              baseName={`${name}amounts`}
+              label={I18n.t(attributeLabels.amountToWager)}
+              baseName={`${name}.amounts`}
               baseCurrency={baseCurrency}
-              secondaryCurrencies={currencies.filter(c => c !== baseCurrency)}
+              currencies={currencies}
             />
           </Otherwise>
         </Choose>
