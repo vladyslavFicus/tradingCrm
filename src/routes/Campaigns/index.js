@@ -9,6 +9,6 @@ export default store => ({
   childRoutes: [
     CampaignViewRoute(store),
     FulfilmentsRoute(store),
-    CampaignCreateRoute(),
+    CampaignCreateRoute(store),
   ],
 });

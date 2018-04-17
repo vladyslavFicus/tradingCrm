@@ -100,9 +100,10 @@ class Bonus extends Component {
         </div>
         <div className="row">
           <div className="col-md-6">
-            <CustomValueFieldVertical
+            <Field
               id={`${form}ConversionPrize`}
-              basename={'conversionPrize'}
+              component={CustomValueFieldVertical}
+              name="conversionPrize"
               label={
                 <span>
                   {I18n.t('BONUS_CAMPAIGNS.SETTINGS.LABEL.MIN_PRIZE')}{' '}
@@ -114,9 +115,10 @@ class Bonus extends Component {
             />
           </div>
           <div className="col-md-6">
-            <CustomValueFieldVertical
-              basename={'capping'}
+            <Field
               id={`${form}Capping`}
+              component={CustomValueFieldVertical}
+              name="capping"
               label={
                 <span>
                   {I18n.t(attributeLabels.capping)}{' '}
@@ -131,12 +133,13 @@ class Bonus extends Component {
         <hr />
         <div className="row">
           <div className="col-7">
-            <CustomValueFieldVertical
+            <Field
               disabled={disabled}
               id={`${form}CampaignRatio`}
-              basename={this.buildFieldName('campaignRatio')}
+              name={this.buildFieldName('campaignRatio')}
               label={I18n.t(attributeLabels.grant)}
               typeValues={typeValues}
+              component={CustomValueFieldVertical}
             />
           </div>
           {

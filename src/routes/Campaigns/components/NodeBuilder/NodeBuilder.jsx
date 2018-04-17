@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { I18n } from 'react-redux-i18n';
-import { get } from 'lodash';
 import classNames from 'classnames';
 import { SelectField } from '../../../../components/ReduxForm';
 
@@ -10,9 +9,10 @@ class NodeBuilder extends PureComponent {
     name: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
     className: PropTypes.string,
+    nodeSelectLabel: PropTypes.string.isRequired,
+    nodeButtonLabel: PropTypes.string.isRequired,
     components: PropTypes.object.isRequired,
     fields: PropTypes.object.isRequired,
-    types: PropTypes.arrayOf(PropTypes.string).isRequired,
     typeLabels: PropTypes.object.isRequired,
   };
 
@@ -21,8 +21,8 @@ class NodeBuilder extends PureComponent {
     disabled: false,
   };
 
-  state = {
-    type: this.props.types[0],
+  state= {
+    type: '',
   };
 
   handleSelectNode = (e) => {
@@ -46,7 +46,17 @@ class NodeBuilder extends PureComponent {
 
   render() {
     const { type } = this.state;
-    const { types, fields, typeLabels, name, className, disabled, components } = this.props;
+    const {
+      fields,
+      nodeSelectLabel,
+      nodeButtonLabel,
+      typeLabels,
+      name,
+      className,
+      disabled,
+      components,
+    } = this.props;
+    const types = Object.keys(components);
 
     return (
       <div className={classNames(className)}>
@@ -76,7 +86,7 @@ class NodeBuilder extends PureComponent {
             })}
           </div>
         </For>
-        <If condition={!disabled}>
+        <If condition={!disabled && types.length}>
           <div className="row no-gutters py-5 add-campaign-setting">
             <div className="col-5">
               <SelectField
@@ -87,7 +97,7 @@ class NodeBuilder extends PureComponent {
                 }}
                 component={SelectField}
               >
-                <option value="">{I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.SELECT_REWARDS')}</option>
+                <option value="">{I18n.t(nodeSelectLabel)}</option>
                 {
                   types.map(option => (
                     <option key={option} value={option}>
@@ -105,7 +115,7 @@ class NodeBuilder extends PureComponent {
                 disabled={!type}
                 onClick={this.handleAddNode}
               >
-                {I18n.t('BONUS_CAMPAIGNS.REWARDS.FREE_SPIN.ADD_REWARDS')}
+                {I18n.t(nodeButtonLabel)}
               </button>
             </div>
           </div>

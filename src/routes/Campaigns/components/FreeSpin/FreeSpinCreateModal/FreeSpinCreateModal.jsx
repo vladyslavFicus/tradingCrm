@@ -53,12 +53,14 @@ class FreeSpinCreateModal extends Component {
       }),
     }),
     isOpen: PropTypes.bool.isRequired,
+    bonusTemplateUUID: PropTypes.object,
   };
 
   static defaultProps = {
     onSave: null,
     games: {},
     gameId: '',
+    bonusTemplateUUID: {},
     aggregatorId: '',
   };
 
@@ -203,6 +205,7 @@ class FreeSpinCreateModal extends Component {
       handleSubmit,
       onCloseModal,
       isOpen,
+      bonusTemplateUUID,
       aggregatorId,
       games,
     } = this.props;
@@ -478,7 +481,11 @@ class FreeSpinCreateModal extends Component {
                 </If>
               </div>
               <If condition={fields.indexOf('bonusTemplateUUID') !== -1} >
-                <BonusView onChangeUUID={this.handleChangeBonusUUID} name="bonusTemplateUUID" />
+                <BonusView
+                  onChangeUUID={this.handleChangeBonusUUID}
+                  uuid={bonusTemplateUUID.uuid}
+                  name="bonusTemplateUUID"
+                />
               </If>
             </If>
           </ModalBody>

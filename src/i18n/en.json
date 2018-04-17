@@ -1722,6 +1722,11 @@
     }
   },
   "CAMPAIGNS": {
+    "FREE_SPIN_TEMPLATE": "Free spin template",
+    "BONUS_TEMPLATE": "Bonus template",
+    "WAGERING_FULFILLMENT" :"Wagering fulfillment",
+    "SELECT_REWARD": "-- Select reward --",
+    "SELECT_FULFILLMENT": "-- Select fulfillment --",
     "FREE_SPIN": {
       "PROVIDER": "Provider",
       "AGGREGATOR": "Aggregator",
