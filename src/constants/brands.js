@@ -7,6 +7,7 @@ const brands = keyMirror({
   redbox: null,
   slottica: null,
   loki: null,
+  vulcanneon: null,
 });
 const departments = keyMirror({
   ADMINISTRATION: null,
@@ -42,6 +43,10 @@ const brandsConfig = {
   [brands.slottica]: {
     name: 'Slottica',
     image: { src: '/img/slottica_brand_logo.svg', style: { width: '160px' } },
+  },
+  [brands.vulcanneon]: {
+    name: 'Vulcan neon',
+    image: { src: '/img/vulcanneon_brand_logo.jpg' },
   },
 };
 const departmentsConfig = {

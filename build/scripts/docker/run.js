@@ -104,6 +104,7 @@ async function processConfig() {
       options: {
         release: APP_VERSION,
         environment: APP_VERSION === 'dev' ? 'development' : NAS_PROJECT,
+        tags: { platformVersion: nginxConfig.version },
       },
     },
   };

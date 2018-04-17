@@ -1757,5 +1757,9 @@
       "CHOOSE_PROVIDER": "-- Choose provider--",
       "CHOOSE_PAGE_CODE": "-- Choose page code--"
     }
+  },
+  "MULTI_CURRENCY_MODAL": {
+    "TITLE": "Value in different currencies",
+    "CUSTOMIZED": "Customized"
   }
 }

@@ -51,7 +51,12 @@ const profileQuery = gql`query profileData($playerUUID: String!){
       email
       registrationDate
       affiliateId
+      suspendEndDate
+      profileStatusAuthor
+      profileStatusComment
+      profileStatusPermanent
       profileStatusReason
+      profileStatusDate
       profileStatus
       gender
       playerUUID

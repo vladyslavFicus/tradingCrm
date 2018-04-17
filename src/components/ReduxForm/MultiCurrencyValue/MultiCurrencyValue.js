@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withMultiCurrencyModal } from '../../../components/HighOrder';
 import MultiCurrencyField from './MultiCurrencyField';
+import { floatNormalize } from '../../../utils/inputNormalize';
 
 class MultiCurrencyValue extends Component {
   static propTypes = {
-    secondaryCurrencies: PropTypes.array,
+    currencies: PropTypes.arrayOf(PropTypes.string),
     baseCurrency: PropTypes.string,
     baseName: PropTypes.string,
     modals: PropTypes.shape({
@@ -15,12 +16,14 @@ class MultiCurrencyValue extends Component {
         hide: PropTypes.func.isRequired,
       }),
     }).isRequired,
+    label: PropTypes.string,
   };
 
   static defaultProps = {
-    secondaryCurrencies: [],
+    currencies: [],
     baseCurrency: '',
     baseName: 'amounts',
+    label: 'Amount',
   };
 
   static contextTypes = {
@@ -28,46 +31,53 @@ class MultiCurrencyValue extends Component {
   };
 
   state = {
-    amount: 0,
-    currency: this.props.baseCurrency,
+    currencies: [{
+      amount: 0,
+      currency: this.props.baseCurrency,
+    }],
   };
 
-  change = (field, value) => {
+  setFields = (currencies) => {
     const { _reduxForm: { autofill } } = this.context;
-    autofill(field, value);
-  };
-
-  handleChangeBaseCurrencyAmount = ({ target: { value: amount } }) => {
-    const { baseName, baseCurrency } = this.props;
-
-    const baseCurrencyField = `${baseName}[0].currency`;
-    const baseCurrencyValue = amount ? baseCurrency : '';
 
     this.setState({
-      amount: parseFloat(amount),
-    }, this.change(baseCurrencyField, baseCurrencyValue));
+      currencies,
+    }, () => {
+      autofill(this.props.baseName, this.state.currencies);
+    });
   };
 
-  handleSubmitMultiCurrencyForm = (data) => {
-    const { baseName, modals } = this.props;
+  handleChangeBaseCurrencyAmount = ({ target: { value } }) => {
+    const currencies = this.state.currencies;
+    currencies[0] = {
+      amount: floatNormalize(value),
+      currency: this.props.baseCurrency,
+    };
 
-    this.change(baseName, data);
-    modals.multiCurrencyModal.hide();
+    this.setFields(currencies);
+  };
+
+  handleSubmitMultiCurrencyForm = (currencies) => {
+    this.setFields(currencies);
+
+    this.props.modals.multiCurrencyModal.hide();
   };
 
   handleOpenModal = () => {
     const {
       modals,
       baseCurrency,
-      secondaryCurrencies,
+      currencies,
+      label,
     } = this.props;
 
     modals.multiCurrencyModal.show({
       onSubmit: this.handleSubmitMultiCurrencyForm,
       baseCurrency,
-      secondaryCurrencies,
+      currencies,
+      label,
       initialValues: {
-        amounts: [this.state],
+        amounts: this.state.currencies,
       },
     });
   };
@@ -76,23 +86,18 @@ class MultiCurrencyValue extends Component {
     const {
       baseName,
       baseCurrency,
+      label,
     } = this.props;
 
     return (
-      <div>
-        <MultiCurrencyField
-          name={`${baseName}[0]`}
-          label={`Base currency ${baseCurrency}`}
-          currency={baseCurrency}
-          onChange={this.handleChangeBaseCurrencyAmount}
-        />
-        <button
-          type="button"
-          onClick={this.handleOpenModal}
-        >
-          Open popup with other currencies
-        </button>
-      </div>
+      <MultiCurrencyField
+        name={`${baseName}[0]`}
+        label={label}
+        currency={baseCurrency}
+        onChange={this.handleChangeBaseCurrencyAmount}
+        iconRightClassName="nas nas-currencies_icon"
+        onIconClick={this.handleOpenModal}
+      />
     );
   }
 }
