@@ -7,7 +7,7 @@ import _ from 'lodash';
 import { getAvailableLanguages } from '../../config';
 import PropTypes from '../../constants/propTypes';
 import { withModals } from '../../components/HighOrder';
-import MultiCurrencyModal from '../../components/ReduxForm/MultiCurrencyValue/MultiCurrencyModal';
+import MultiCurrencyModal from '../../components/ReduxForm/MultiCurrencyModal';
 import { actionCreators as authActionCreators } from '../../redux/modules/auth';
 import { actionCreators as languageActionCreators } from '../../redux/modules/language';
 import { actionCreators as noteActionCreators } from '../../redux/modules/note';
